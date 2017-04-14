@@ -101,8 +101,6 @@ signals:
     void deleteGroup(const QDomDocument &);
     void unGroup(CollapsibleGroup *);
     void groupRenamed(CollapsibleGroup *);
-
 };
 
 #endif
-

@@ -21,13 +21,12 @@
 #ifndef DOCUNDOSTACK_H
 #define DOCUNDOSTACK_H
 
-
 #include <QUndoCommand>
 
 class QUndoGroup;
 class QUndoCommand;
 
-class DocUndoStack: public QUndoStack
+class DocUndoStack : public QUndoStack
 {
     Q_OBJECT
 public:

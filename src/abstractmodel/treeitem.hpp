@@ -25,7 +25,6 @@
 #include <QList>
 #include <QVariant>
 
-
 /* @brief This class is a generic class to represent items of a tree-like model
  */
 
@@ -38,13 +37,13 @@ public:
      @param model Pointer to the model to which this elem belongs to
      @param parentItem address of the parent if the child is not orphan
     */
-    explicit TreeItem(const QList<QVariant> &data, AbstractTreeModel* model, TreeItem *parentItem = nullptr);
+    explicit TreeItem(const QList<QVariant> &data, AbstractTreeModel *model, TreeItem *parentItem = nullptr);
     virtual ~TreeItem();
 
     /* @brief Creates a child of the current item
        @param data: List of data elements (columns) to init the child with.
     */
-    TreeItem* appendChild(const QList<QVariant> &data);
+    TreeItem *appendChild(const QList<QVariant> &data);
 
     /* @brief Appends an already created child
        Useful for example if the child should be a subclass of TreeItem
@@ -89,7 +88,7 @@ public:
     int depth() const;
 
 protected:
-    QList<TreeItem*> m_childItems;
+    QList<TreeItem *> m_childItems;
     QList<QVariant> m_itemData;
     TreeItem *m_parentItem;
 

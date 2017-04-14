@@ -26,8 +26,8 @@ public:
     WaveformGenerator();
     ~WaveformGenerator();
 
-    QImage calculateWaveform(const QSize &waveformSize, const QImage &image, WaveformGenerator::PaintMode paintMode,
-                             bool drawAxis, const WaveformGenerator::Rec rec, uint accelFactor = 1);
+    QImage calculateWaveform(const QSize &waveformSize, const QImage &image, WaveformGenerator::PaintMode paintMode, bool drawAxis,
+                             const WaveformGenerator::Rec rec, uint accelFactor = 1);
 };
 
 #endif // WAVEFORMGENERATOR_H

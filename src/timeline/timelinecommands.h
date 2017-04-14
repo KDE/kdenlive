@@ -23,10 +23,10 @@
 #ifndef TIMELINECOMMANDS_H
 #define TIMELINECOMMANDS_H
 
-#include <QUndoCommand>
-#include <QDomElement>
 #include "definitions.h"
 #include "effectslist/effectslist.h"
+#include <QDomElement>
+#include <QUndoCommand>
 class GenTime;
 class CustomTrackView;
 class Timeline;
@@ -37,6 +37,7 @@ public:
     AddEffectCommand(CustomTrackView *view, const int track, const GenTime &pos, const QDomElement &effect, bool doIt, QUndoCommand *parent = nullptr);
     void undo() override;
     void redo() override;
+
 private:
     CustomTrackView *m_view;
     int m_track;
@@ -60,9 +61,11 @@ public:
      * refresh is executed separately
      * @param parent The parent command
      * */
-    AddTimelineClipCommand(CustomTrackView *view, const QString &clipId, const ItemInfo &info, const EffectsList &effects, PlaylistState::ClipState state, bool doIt, bool doRemove, bool refreshMonitor, QUndoCommand *parent = nullptr);
+    AddTimelineClipCommand(CustomTrackView *view, const QString &clipId, const ItemInfo &info, const EffectsList &effects, PlaylistState::ClipState state,
+                           bool doIt, bool doRemove, bool refreshMonitor, QUndoCommand *parent = nullptr);
     void undo() override;
     void redo() override;
+
 private:
     CustomTrackView *m_view;
     QString m_clipId;
@@ -80,6 +83,7 @@ public:
     AddTrackCommand(CustomTrackView *view, int ix, const TrackInfo &info, bool addTrack, QUndoCommand *parent = nullptr);
     void undo() override;
     void redo() override;
+
 private:
     CustomTrackView *m_view;
     int m_ix;
@@ -90,9 +94,11 @@ private:
 class AddTransitionCommand : public QUndoCommand
 {
 public:
-    AddTransitionCommand(CustomTrackView *view, const ItemInfo &info, int transitiontrack, const QDomElement &params, bool remove, bool doIt, QUndoCommand *parent = nullptr);
+    AddTransitionCommand(CustomTrackView *view, const ItemInfo &info, int transitiontrack, const QDomElement &params, bool remove, bool doIt,
+                         QUndoCommand *parent = nullptr);
     void undo() override;
     void redo() override;
+
 private:
     CustomTrackView *m_view;
     ItemInfo m_info;
@@ -106,9 +112,11 @@ private:
 class ChangeClipTypeCommand : public QUndoCommand
 {
 public:
-    ChangeClipTypeCommand(CustomTrackView *view, const ItemInfo &info, PlaylistState::ClipState state, PlaylistState::ClipState originalState, QUndoCommand *parent = nullptr);
+    ChangeClipTypeCommand(CustomTrackView *view, const ItemInfo &info, PlaylistState::ClipState state, PlaylistState::ClipState originalState,
+                          QUndoCommand *parent = nullptr);
     void undo() override;
     void redo() override;
+
 private:
     CustomTrackView *m_view;
     ItemInfo m_info;
@@ -119,9 +127,11 @@ private:
 class ChangeEffectStateCommand : public QUndoCommand
 {
 public:
-    ChangeEffectStateCommand(CustomTrackView *view, const int track, const GenTime &pos, const QList<int> &effectIndexes, bool disable, bool refreshEffectStack, bool doIt, QUndoCommand *parent = nullptr);
+    ChangeEffectStateCommand(CustomTrackView *view, const int track, const GenTime &pos, const QList<int> &effectIndexes, bool disable, bool refreshEffectStack,
+                             bool doIt, QUndoCommand *parent = nullptr);
     void undo() override;
     void redo() override;
+
 private:
     CustomTrackView *m_view;
     const int m_track;
@@ -135,9 +145,11 @@ private:
 class ChangeSpeedCommand : public QUndoCommand
 {
 public:
-    ChangeSpeedCommand(CustomTrackView *view, const ItemInfo &info, const ItemInfo &speedIndependantInfo, PlaylistState::ClipState state, double new_speed, int old_strobe, int new_strobe, const QString &clipId, QUndoCommand *parent = nullptr);
+    ChangeSpeedCommand(CustomTrackView *view, const ItemInfo &info, const ItemInfo &speedIndependantInfo, PlaylistState::ClipState state, double new_speed,
+                       int old_strobe, int new_strobe, const QString &clipId, QUndoCommand *parent = nullptr);
     void undo() override;
     void redo() override;
+
 private:
     CustomTrackView *m_view;
     ItemInfo m_clipInfo;
@@ -152,9 +164,11 @@ private:
 class ConfigTracksCommand : public QUndoCommand
 {
 public:
-    ConfigTracksCommand(Timeline *timeline, int track, const QString &oldName, const QString &newName, int oldState = -1, int newState = -1, QUndoCommand *parent = nullptr);
+    ConfigTracksCommand(Timeline *timeline, int track, const QString &oldName, const QString &newName, int oldState = -1, int newState = -1,
+                        QUndoCommand *parent = nullptr);
     void undo() override;
     void redo() override;
+
 private:
     Timeline *m_timeline;
     int m_ix;
@@ -167,11 +181,13 @@ private:
 class EditEffectCommand : public QUndoCommand
 {
 public:
-    EditEffectCommand(CustomTrackView *view, const int track, const GenTime &pos, const QDomElement &oldeffect, const QDomElement &effect, int stackPos, bool refreshEffectStack, bool doIt, bool refreshMonitor, QUndoCommand *parent = nullptr);
+    EditEffectCommand(CustomTrackView *view, const int track, const GenTime &pos, const QDomElement &oldeffect, const QDomElement &effect, int stackPos,
+                      bool refreshEffectStack, bool doIt, bool refreshMonitor, QUndoCommand *parent = nullptr);
     int id() const override;
     bool mergeWith(const QUndoCommand *command) override;
     void undo() override;
     void redo() override;
+
 private:
     CustomTrackView *m_view;
     const int m_track;
@@ -188,9 +204,11 @@ private:
 class EditGuideCommand : public QUndoCommand
 {
 public:
-    EditGuideCommand(CustomTrackView *view, const GenTime &oldPos, const QString &oldcomment, const GenTime &pos, const QString &comment, bool doIt, QUndoCommand *parent = nullptr);
+    EditGuideCommand(CustomTrackView *view, const GenTime &oldPos, const QString &oldcomment, const GenTime &pos, const QString &comment, bool doIt,
+                     QUndoCommand *parent = nullptr);
     void undo() override;
     void redo() override;
+
 private:
     CustomTrackView *m_view;
     QString m_oldcomment;
@@ -203,11 +221,13 @@ private:
 class EditTransitionCommand : public QUndoCommand
 {
 public:
-    EditTransitionCommand(CustomTrackView *view, const int track, const GenTime &pos, const QDomElement &oldeffect, const QDomElement &effect, bool doIt, QUndoCommand *parent = nullptr);
+    EditTransitionCommand(CustomTrackView *view, const int track, const GenTime &pos, const QDomElement &oldeffect, const QDomElement &effect, bool doIt,
+                          QUndoCommand *parent = nullptr);
     int id() const override;
     bool mergeWith(const QUndoCommand *command) override;
     void undo() override;
     void redo() override;
+
 private:
     CustomTrackView *m_view;
     const int m_track;
@@ -220,7 +240,8 @@ private:
 class GroupClipsCommand : public QUndoCommand
 {
 public:
-    GroupClipsCommand(CustomTrackView *view, const QList<ItemInfo> &clipInfos, const QList<ItemInfo> &transitionInfos, bool group, bool doIt = true, QUndoCommand *parent = nullptr);
+    GroupClipsCommand(CustomTrackView *view, const QList<ItemInfo> &clipInfos, const QList<ItemInfo> &transitionInfos, bool group, bool doIt = true,
+                      QUndoCommand *parent = nullptr);
     void undo() override;
     void redo() override;
 
@@ -235,9 +256,11 @@ private:
 class InsertSpaceCommand : public QUndoCommand
 {
 public:
-    InsertSpaceCommand(CustomTrackView *view, const QList<ItemInfo> &clipsToMove, const QList<ItemInfo> &transToMove, int track, const GenTime &duration, bool doIt, QUndoCommand *parent = nullptr);
+    InsertSpaceCommand(CustomTrackView *view, const QList<ItemInfo> &clipsToMove, const QList<ItemInfo> &transToMove, int track, const GenTime &duration,
+                       bool doIt, QUndoCommand *parent = nullptr);
     void undo() override;
     void redo() override;
+
 private:
     CustomTrackView *m_view;
     QList<ItemInfo> m_clipsToMove;
@@ -250,9 +273,11 @@ private:
 class AddSpaceCommand : public QUndoCommand
 {
 public:
-    AddSpaceCommand(CustomTrackView *view, const ItemInfo &spaceInfo, const QList<ItemInfo> &excludeList, bool doIt, QUndoCommand *parent = nullptr, bool trackonly = false);
+    AddSpaceCommand(CustomTrackView *view, const ItemInfo &spaceInfo, const QList<ItemInfo> &excludeList, bool doIt, QUndoCommand *parent = nullptr,
+                    bool trackonly = false);
     void undo() override;
     void redo() override;
+
 private:
     CustomTrackView *m_view;
     ItemInfo m_spaceInfo;
@@ -267,6 +292,7 @@ public:
     LockTrackCommand(CustomTrackView *view, int ix, bool lock, QUndoCommand *parent = nullptr);
     void undo() override;
     void redo() override;
+
 private:
     CustomTrackView *m_view;
     int m_ix;
@@ -279,6 +305,7 @@ public:
     MoveClipCommand(CustomTrackView *view, const ItemInfo &start, const ItemInfo &end, bool alreadyMoved, bool doIt, QUndoCommand *parent = nullptr);
     void undo() override;
     void redo() override;
+
 private:
     CustomTrackView *m_view;
     const ItemInfo m_startPos;
@@ -297,6 +324,7 @@ public:
     bool mergeWith(const QUndoCommand *command) override;
     void undo() override;
     void redo() override;
+
 private:
     CustomTrackView *m_view;
     int m_track;
@@ -308,9 +336,11 @@ private:
 class MoveGroupCommand : public QUndoCommand
 {
 public:
-    MoveGroupCommand(CustomTrackView *view, const QList<ItemInfo> &startClip, const QList<ItemInfo> &startTransition, const GenTime &offset, const int trackOffset, bool alreadyMoved, bool doIt, QUndoCommand *parent = nullptr);
+    MoveGroupCommand(CustomTrackView *view, const QList<ItemInfo> &startClip, const QList<ItemInfo> &startTransition, const GenTime &offset,
+                     const int trackOffset, bool alreadyMoved, bool doIt, QUndoCommand *parent = nullptr);
     void undo() override;
     void redo() override;
+
 private:
     CustomTrackView *m_view;
     const QList<ItemInfo> m_startClip;
@@ -327,6 +357,7 @@ public:
     MoveTransitionCommand(CustomTrackView *view, const ItemInfo &start, const ItemInfo &end, bool doIt, bool refresh, QUndoCommand *parent = nullptr);
     void undo() override;
     void redo() override;
+
 private:
     CustomTrackView *m_view;
     ItemInfo m_startPos;
@@ -338,9 +369,11 @@ private:
 class RazorClipCommand : public QUndoCommand
 {
 public:
-    RazorClipCommand(CustomTrackView *view, const ItemInfo &info, const EffectsList &stack, const GenTime &cutTime, bool doIt = true, QUndoCommand *parent = nullptr);
+    RazorClipCommand(CustomTrackView *view, const ItemInfo &info, const EffectsList &stack, const GenTime &cutTime, bool doIt = true,
+                     QUndoCommand *parent = nullptr);
     void undo() override;
     void redo() override;
+
 private:
     CustomTrackView *m_view;
     ItemInfo m_info;
@@ -352,9 +385,11 @@ private:
 class RazorTransitionCommand : public QUndoCommand
 {
 public:
-    RazorTransitionCommand(CustomTrackView *view, const ItemInfo &info, const QDomElement &params, const GenTime &cutTime, bool doIt = true, QUndoCommand *parent = nullptr);
+    RazorTransitionCommand(CustomTrackView *view, const ItemInfo &info, const QDomElement &params, const GenTime &cutTime, bool doIt = true,
+                           QUndoCommand *parent = nullptr);
     void undo() override;
     void redo() override;
+
 private:
     CustomTrackView *m_view;
     ItemInfo m_info;
@@ -367,7 +402,8 @@ private:
 class RazorGroupCommand : public QUndoCommand
 {
 public:
-    RazorGroupCommand(CustomTrackView *view, QList<ItemInfo> clips1, QList<ItemInfo> transitions1, QList<ItemInfo> clipsCut, QList<ItemInfo> transitionsCut, QList<ItemInfo> clips2, QList<ItemInfo> transitions2, GenTime cutPos, QUndoCommand * parent = nullptr);
+    RazorGroupCommand(CustomTrackView *view, QList<ItemInfo> clips1, QList<ItemInfo> transitions1, QList<ItemInfo> clipsCut, QList<ItemInfo> transitionsCut,
+QList<ItemInfo> clips2, QList<ItemInfo> transitions2, GenTime cutPos, QUndoCommand * parent = nullptr);
     virtual void undo();
     virtual void redo();
 private:
@@ -387,6 +423,7 @@ public:
     RebuildGroupCommand(CustomTrackView *view, int childTrack, const GenTime &childPos, QUndoCommand *parent = nullptr);
     void undo() override;
     void redo() override;
+
 private:
     CustomTrackView *m_view;
     int m_childTrack;
@@ -401,6 +438,7 @@ public:
     void undo() override;
     void redo() override;
     void updateRange(const QList<ItemInfo> &info);
+
 private:
     CustomTrackView *m_view;
     QList<ItemInfo> m_info;
@@ -414,6 +452,7 @@ public:
     ResizeClipCommand(CustomTrackView *view, const ItemInfo &start, const ItemInfo &end, bool doIt, bool dontWorry, QUndoCommand *parent = nullptr);
     void undo() override;
     void redo() override;
+
 private:
     CustomTrackView *m_view;
     ItemInfo m_startPos;
@@ -428,6 +467,7 @@ public:
     SplitAudioCommand(CustomTrackView *view, const int track, const int destTrack, const GenTime &pos, QUndoCommand *parent = nullptr);
     void undo() override;
     void redo() override;
+
 private:
     CustomTrackView *m_view;
     const GenTime m_pos;
@@ -440,9 +480,11 @@ private:
 class ChangeTrackStateCommand : public QUndoCommand
 {
 public:
-    ChangeTrackStateCommand(Timeline *timeline, const int track, bool changeAudio, bool changeVideo, bool hideAudio, bool hideVideo, QUndoCommand *parent = nullptr);
+    ChangeTrackStateCommand(Timeline *timeline, const int track, bool changeAudio, bool changeVideo, bool hideAudio, bool hideVideo,
+                            QUndoCommand *parent = nullptr);
     void undo() override;
     void redo() override;
+
 private:
     Timeline *m_timeline;
     const int m_track;
@@ -453,4 +495,3 @@ private:
 };
 
 #endif
-

@@ -20,30 +20,30 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QDockWidget>
-#include <QUndoView>
-#include <QEvent>
-#include <QShortcut>
-#include <QMap>
-#include <QString>
-#include <QImage>
 #include <QDBusAbstractAdaptor>
+#include <QDockWidget>
+#include <QEvent>
+#include <QImage>
+#include <QMap>
+#include <QShortcut>
+#include <QString>
+#include <QUndoView>
 
+#include <KActionCategory>
+#include <KColorSchemeManager>
+#include <KSelectAction>
 #include <KXmlGuiWindow>
 #include <QTabWidget>
 #include <kautosavefile.h>
-#include <KActionCategory>
-#include <KSelectAction>
-#include <KColorSchemeManager>
 
-#include "kdenlive_debug.h"
-#include "kdenlivecore_export.h"
-#include "effectslist/effectslist.h"
-#include "gentime.h"
 #include "bin/bin.h"
 #include "definitions.h"
-#include "statusbarmessagelabel.h"
 #include "dvdwizard/dvdwizard.h"
+#include "effectslist/effectslist.h"
+#include "gentime.h"
+#include "kdenlive_debug.h"
+#include "kdenlivecore_export.h"
+#include "statusbarmessagelabel.h"
 #include "stopmotion/stopmotion.h"
 
 class KdenliveDoc;
@@ -58,13 +58,11 @@ class Render;
 class Transition;
 class KIconLoader;
 
-
 class /*KDENLIVECORE_EXPORT*/ MainWindow : public KXmlGuiWindow
 {
     Q_OBJECT
 
 public:
-
     explicit MainWindow(QWidget *parent = nullptr);
     /** @brief Initialises the main window.
      * @param MltPath (optional) path to MLT environment
@@ -89,8 +87,8 @@ public:
     /** @brief Adds an action to the action collection and stores the name. */
     void addAction(const QString &name, QAction *action);
     /** @brief Adds an action to the action collection and stores the name. */
-    QAction *addAction(const QString &name, const QString &text, const QObject *receiver,
-                       const char *member, const QIcon &icon = QIcon(), const QKeySequence &shortcut = QKeySequence());
+    QAction *addAction(const QString &name, const QString &text, const QObject *receiver, const char *member, const QIcon &icon = QIcon(),
+                       const QKeySequence &shortcut = QKeySequence());
 
     /**
      * @brief Adds a new dock widget to this window.
@@ -136,7 +134,6 @@ protected:
     void saveNewToolbarConfig() override;
 
 private:
-
     /** @brief Sets up all the actions and attaches them to the collection. */
     void setupActions();
 
@@ -191,7 +188,7 @@ private:
 
     RenderWidget *m_renderWidget;
     StatusBarMessageLabel *m_messageLabel;
-    QList<QAction *>m_transitions;
+    QList<QAction *> m_transitions;
     QAction *m_buttonAudioThumbs;
     QAction *m_buttonVideoThumbs;
     QAction *m_buttonShowMarkers;
@@ -389,7 +386,7 @@ private slots:
     void slotUnGroupClips();
     void slotEditItemDuration();
     void slotClipInProjectTree();
-    //void slotClipToProjectTree();
+    // void slotClipToProjectTree();
     void slotSplitAudio();
     void slotSetAudioAlignReference();
     void slotAlignAudio();

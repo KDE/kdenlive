@@ -26,8 +26,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "definitions.h"
 #include "gentime.h"
 
-#include "mlt++/MltProperties.h"
 #include "mlt++/MltAnimation.h"
+#include "mlt++/MltProperties.h"
 
 class QAction;
 
@@ -42,14 +42,7 @@ class KeyframeView : public QObject
     Q_OBJECT
 
 public:
-
-    enum KEYFRAMETYPE {
-        NoKeyframe = 0,
-        SimpleKeyframe,
-        NormalKeyframe,
-        GeometryKeyframe,
-        AnimatedKeyframe
-    };
+    enum KEYFRAMETYPE { NoKeyframe = 0, SimpleKeyframe, NormalKeyframe, GeometryKeyframe, AnimatedKeyframe };
 
     explicit KeyframeView(int handleSize, QObject *parent = nullptr);
     virtual ~KeyframeView();
@@ -126,7 +119,8 @@ private:
     QPointF keyframeMap(const QRectF &br, int frame, double value);
     QPointF keyframePoint(const QRectF &br, int index);
     QPointF keyframePoint(const QRectF &br, int frame, double value, double factor, double min, double max);
-    struct ParameterInfo {
+    struct ParameterInfo
+    {
         double factor;
         double min;
         double max;

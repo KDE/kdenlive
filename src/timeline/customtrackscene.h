@@ -26,11 +26,11 @@
 #ifndef CUSTOMTRACKSCENE_H
 #define CUSTOMTRACKSCENE_H
 
-#include <QList>
 #include <QGraphicsScene>
+#include <QList>
 
-#include "gentime.h"
 #include "definitions.h"
+#include "gentime.h"
 
 class Timeline;
 class MltVideoProfile;
@@ -62,4 +62,3 @@ private:
 };
 
 #endif
-

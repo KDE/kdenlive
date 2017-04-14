@@ -20,12 +20,11 @@
 #ifndef PARAMETERCONTAINER_H
 #define PARAMETERCONTAINER_H
 
-
+#include "definitions.h"
+#include <QDomElement>
 #include <QLabel>
 #include <QSpinBox>
-#include <QDomElement>
 #include <QVBoxLayout>
-#include "definitions.h"
 
 class GeometryWidget;
 class AnimationWidget;
@@ -33,19 +32,13 @@ class Monitor;
 class DraggableLabel;
 class KeyframeEdit;
 
-namespace Mlt
-{
+namespace Mlt {
 }
 
-enum EFFECTMODE {
-    EMPTY = 0,
-    TIMELINE_CLIP,
-    TIMELINE_TRACK,
-    MASTER_CLIP,
-    TIMELINE_TRANSITION
-};
+enum EFFECTMODE { EMPTY = 0, TIMELINE_CLIP, TIMELINE_TRACK, MASTER_CLIP, TIMELINE_TRANSITION };
 
-struct EffectMetaInfo {
+struct EffectMetaInfo
+{
     Monitor *monitor;
     QPoint frameSize;
     double stretchFactor;
@@ -54,7 +47,8 @@ struct EffectMetaInfo {
 
 enum WIPE_DIRECTON { UP = 0, DOWN = 1, LEFT = 2, RIGHT = 3, CENTER = 4 };
 
-struct wipeInfo {
+struct wipeInfo
+{
     WIPE_DIRECTON start;
     WIPE_DIRECTON end;
     int startTransparency;
@@ -157,4 +151,3 @@ signals:
 };
 
 #endif
-

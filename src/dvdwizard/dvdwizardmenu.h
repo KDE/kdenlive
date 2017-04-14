@@ -23,12 +23,12 @@
 #include "dvdwizardvob.h"
 #include "ui_dvdwizardmenu_ui.h"
 
-#include <QWizardPage>
-#include <QGraphicsScene>
-#include <QGraphicsTextItem>
+#include <QDomElement>
 #include <QGraphicsPixmapItem>
 #include <QGraphicsRectItem>
-#include <QDomElement>
+#include <QGraphicsScene>
+#include <QGraphicsTextItem>
+#include <QWizardPage>
 
 #include <KMessageWidget>
 
@@ -40,10 +40,12 @@ public:
     void setProfile(int width, int height);
     int gridSize() const;
     void setGridSize(int gridSize);
+
 private:
     int m_width;
     int m_height;
     int m_gridSize;
+
 protected:
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
     void drawForeground(QPainter *painter, const QRectF &rect) override;
@@ -74,10 +76,12 @@ public:
     bool backMenu() const;
     int type() const override;
     void setBackMenu(bool back);
+
 private:
     int m_target;
     QString m_command;
     bool m_backToMenu;
+
 protected:
     QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
 };
@@ -138,4 +142,3 @@ private slots:
 };
 
 #endif
-

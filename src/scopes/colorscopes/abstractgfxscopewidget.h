@@ -11,9 +11,9 @@
 #ifndef ABSTRACTGFXSCOPEWIDGET_H
 #define ABSTRACTGFXSCOPEWIDGET_H
 
-#include <QtCore>
-#include <QtCore/QString>
 #include <QWidget>
+#include <QtCore/QString>
+#include <QtCore>
 
 #include "../abstractscopewidget.h"
 
@@ -55,7 +55,6 @@ protected slots:
 
 signals:
     void signalFrameRequest(const QString &widgetName);
-
 };
 
 #endif // ABSTRACTGFXSCOPEWIDGET_H

@@ -20,11 +20,11 @@
 #ifndef DOCUMENTVALIDATOR_H
 #define DOCUMENTVALIDATOR_H
 
-#include <QDomDocument>
 #include <QColor>
+#include <QDomDocument>
 
-#include <QUrl>
 #include <QMap>
+#include <QUrl>
 
 class QScriptValue;
 

@@ -20,8 +20,8 @@
 #ifndef EFFECTBASKET_H
 #define EFFECTBASKET_H
 
-#include <QListWidget>
 #include <QDomElement>
+#include <QListWidget>
 
 class EffectsListView;
 
@@ -51,7 +51,6 @@ private slots:
 
 signals:
     void addEffect(const QDomElement &);
-
 };
 
 #endif

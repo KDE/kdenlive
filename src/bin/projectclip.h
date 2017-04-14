@@ -29,9 +29,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "mltcontroller/clipcontroller.h"
 #include "timeline2/model/timelinemodel.hpp"
 
-#include <QUrl>
-#include <QMutex>
 #include <QFuture>
+#include <QMutex>
+#include <QUrl>
 #include <memory>
 
 class ProjectFolder;
@@ -41,8 +41,7 @@ class ClipPropertiesController;
 class ProjectSubClip;
 class QUndoCommand;
 
-namespace Mlt
-{
+namespace Mlt {
 class Producer;
 class Properties;
 }
@@ -61,18 +60,18 @@ public:
     /**
      * @brief Constructor; used when loading a project and the producer is already available.
      */
-    ProjectClip(const QString &id, const QIcon &thumb, ProjectItemModel* model, std::shared_ptr<Mlt::Producer> producer, ProjectFolder *parent);
+    ProjectClip(const QString &id, const QIcon &thumb, ProjectItemModel *model, std::shared_ptr<Mlt::Producer> producer, ProjectFolder *parent);
     /**
      * @brief Constructor.
      * @param description element describing the clip; the "id" attribute and "resource" property are used
      */
-    ProjectClip(const QDomElement &description, const QIcon &thumb,ProjectItemModel* model,  ProjectFolder *parent);
+    ProjectClip(const QDomElement &description, const QIcon &thumb, ProjectItemModel *model, ProjectFolder *parent);
     virtual ~ProjectClip();
 
     void reloadProducer(bool refreshOnly = false);
 
     /** @brief Returns a unique hash identifier used to store clip thumbnails. */
-    //virtual void hash() = 0;
+    // virtual void hash() = 0;
 
     /** @brief Returns this if @param id matches the clip's id or nullptr otherwise. */
     ProjectClip *clip(const QString &id) override;
@@ -101,7 +100,6 @@ public:
     /** @brief Returns the clip's url. */
     const QString url() const;
 
-
     /** @brief Returns the clip's duration. */
     GenTime duration() const;
     int frameDuration() const;
@@ -116,7 +114,7 @@ public:
 
     QDomElement toXml(QDomDocument &document, bool includeMeta = false) override;
 
-    //QVariant getData(DataType type) const override;
+    // QVariant getData(DataType type) const override;
 
     /** @brief Sets thumbnail for this clip. */
     void setThumbnail(const QImage &);
@@ -204,8 +202,7 @@ protected:
     /** @brief This is a call-back called by a ClipModel when it is deleted
         @param clipId id of the deleted clip
     */
-    void deregisterTimelineClip( int clipId);
-
+    void deregisterTimelineClip(int clipId);
 
 public slots:
     void updateAudioThumbnail(const QVariantList &audioLevels);
@@ -231,15 +228,15 @@ private:
     QMutex m_thumbMutex;
     QMutex m_intraThumbMutex;
     QMutex m_audioMutex;
-    QFuture <void> m_thumbThread;
+    QFuture<void> m_thumbThread;
     QList<int> m_requestedThumbs;
-    QFuture <void> m_intraThread;
+    QFuture<void> m_intraThread;
     QList<int> m_intraThumbs;
     const QString geometryWithOffset(const QString &data, int offset);
     void doExtractImage();
     void doExtractIntra();
 
-    std::map<int, std::weak_ptr<TimelineModel> > m_registeredClips;
+    std::map<int, std::weak_ptr<TimelineModel>> m_registeredClips;
 
 private slots:
     void updateFfmpegProgress();

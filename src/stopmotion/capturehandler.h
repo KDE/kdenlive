@@ -20,8 +20,8 @@
 #ifndef CAPTUREHANDLER_H
 #define CAPTUREHANDLER_H
 
-#include <QWidget>
 #include <QObject>
+#include <QWidget>
 
 class CaptureHandler : public QObject
 {

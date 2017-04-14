@@ -20,9 +20,9 @@
 #ifndef RENDERJOB_H
 #define RENDERJOB_H
 
-#include <QProcess>
-#include <QObject>
 #include <QDBusInterface>
+#include <QObject>
+#include <QProcess>
 #include <QTime>
 // Testing
 #include <QTemporaryFile>
@@ -33,7 +33,8 @@ class RenderJob : public QObject
     Q_OBJECT
 
 public:
-    RenderJob(bool erase, bool usekuiserver, int pid, const QString &renderer, const QString &profile, const QString &rendermodule, const QString &player, const QString &scenelist, const QString &dest, const QStringList &preargs, const QStringList &args, int in = -1, int out = -1);
+    RenderJob(bool erase, bool usekuiserver, int pid, const QString &renderer, const QString &profile, const QString &rendermodule, const QString &player,
+              const QString &scenelist, const QString &dest, const QStringList &preargs, const QStringList &args, int in = -1, int out = -1);
     ~RenderJob();
     void setLocale(const QString &locale);
 

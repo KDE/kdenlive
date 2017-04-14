@@ -56,4 +56,3 @@ private:
 };
 
 #endif // CLIP_H
-

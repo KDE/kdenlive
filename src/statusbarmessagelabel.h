@@ -24,13 +24,13 @@
 #ifndef STATUSBARMESSAGELABEL_H
 #define STATUSBARMESSAGELABEL_H
 
-#include <QList>
-#include <QWidget>
-#include <QTimer>
-#include <QSemaphore>
-#include <QLabel>
 #include <QColor>
+#include <QLabel>
+#include <QList>
 #include <QPropertyAnimation>
+#include <QSemaphore>
+#include <QTimer>
+#include <QWidget>
 
 #include <definitions.h>
 
@@ -40,7 +40,7 @@ class QPaintEvent;
 class QResizeEvent;
 class QProgressBar;
 
-class FlashLabel: public QWidget
+class FlashLabel : public QWidget
 {
     Q_PROPERTY(QColor color READ color WRITE setColor)
     Q_OBJECT
@@ -54,7 +54,8 @@ public:
 /**
   Queue-able message item holding all important information
   */
-struct StatusBarMessageItem {
+struct StatusBarMessageItem
+{
 
     QString text;
     MessageType type;
@@ -62,18 +63,14 @@ struct StatusBarMessageItem {
     bool confirmed; ///< MLT errors need to be confirmed.
 
     /// \return true if the error still needs to be confirmed
-    bool needsConfirmation() const
+    bool needsConfirmation() const { return (type == MltError && !confirmed); }
+
+    StatusBarMessageItem(const QString &messageText = QString(), MessageType messageType = DefaultMessage, int timeoutMS = 0)
+        : text(messageText), type(messageType), timeoutMillis(timeoutMS), confirmed(false)
     {
-        return (type == MltError && !confirmed);
     }
 
-    StatusBarMessageItem(const QString &messageText = QString(), MessageType messageType = DefaultMessage, int timeoutMS = 0) :
-        text(messageText), type(messageType), timeoutMillis(timeoutMS), confirmed(false) {}
-
-    bool operator ==(const StatusBarMessageItem &other) const
-    {
-        return type == other.type && text == other.text;
-    }
+    bool operator==(const StatusBarMessageItem &other) const { return type == other.type && text == other.text; }
 };
 
 /**
@@ -94,7 +91,7 @@ public:
     void updatePalette();
 
 protected:
-    //void paintEvent(QPaintEvent* event);
+    // void paintEvent(QPaintEvent* event);
     void mousePressEvent(QMouseEvent *) override;
 
     /** @see QWidget::resizeEvent() */

@@ -30,18 +30,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <KMessageWidget>
 
-#include <QWidget>
 #include <QApplication>
-#include <QStyledItemDelegate>
-#include <QPainter>
-#include <QDomElement>
-#include <QPushButton>
-#include <QUrl>
-#include <QListView>
-#include <QFuture>
-#include <QMutex>
-#include <QLineEdit>
 #include <QDir>
+#include <QDomElement>
+#include <QFuture>
+#include <QLineEdit>
+#include <QListView>
+#include <QMutex>
+#include <QPainter>
+#include <QPushButton>
+#include <QStyledItemDelegate>
+#include <QUrl>
+#include <QWidget>
 
 class KdenliveDoc;
 class QVBoxLayout;
@@ -66,12 +66,11 @@ class BinItemDelegate;
 class BinMessageWidget;
 class SmallJobLabel;
 
-namespace Mlt
-{
+namespace Mlt {
 class Producer;
 }
 
-class MyListView: public QListView
+class MyListView : public QListView
 {
     Q_OBJECT
 public:
@@ -83,13 +82,14 @@ signals:
     void focusView();
 };
 
-class MyTreeView: public QTreeView
+class MyTreeView : public QTreeView
 {
     Q_OBJECT
     Q_PROPERTY(bool editing READ isEditing WRITE setEditing)
 public:
     explicit MyTreeView(QWidget *parent = nullptr);
     void setEditing(bool edit);
+
 protected:
     void mousePressEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
@@ -110,7 +110,7 @@ signals:
     void focusView();
 };
 
-class BinMessageWidget: public KMessageWidget
+class BinMessageWidget : public KMessageWidget
 {
     Q_OBJECT
 public:
@@ -124,19 +124,16 @@ signals:
     void messageClosing();
 };
 
-class SmallJobLabel: public QPushButton
+class SmallJobLabel : public QPushButton
 {
     Q_OBJECT
 public:
     explicit SmallJobLabel(QWidget *parent = nullptr);
     static const QString getStyleSheet(const QPalette &p);
     void setAction(QAction *action);
+
 private:
-    enum ItemRole {
-        NameRole = Qt::UserRole,
-        DurationRole,
-        UsageRole
-    };
+    enum ItemRole { NameRole = Qt::UserRole, DurationRole, UsageRole };
 
     QTimeLine *m_timeLine;
     QAction *m_action;
@@ -163,7 +160,6 @@ signals:
     void showClearButton(bool);
 };
 
-
 /**
  * @class Bin
  * @brief The bin widget takes care of both item model and view upon project opening.
@@ -174,7 +170,7 @@ class Bin : public QWidget
     Q_OBJECT
 
     /** @brief Defines the view types (icon view, tree view,...)  */
-    enum BinViewType {BinTreeView, BinIconView };
+    enum BinViewType { BinTreeView, BinIconView };
 
 public:
     explicit Bin(QWidget *parent = nullptr);
@@ -347,7 +343,8 @@ private slots:
     void slotInitView(QAction *action);
 
     /** @brief Update status for clip jobs  */
-    void slotUpdateJobStatus(const QString &, int, int, const QString &label = QString(), const QString &actionName = QString(), const QString &details = QString());
+    void slotUpdateJobStatus(const QString &, int, int, const QString &label = QString(), const QString &actionName = QString(),
+                             const QString &details = QString());
     void slotSetIconSize(int size);
     void selectProxyModel(const QModelIndex &id);
     void autoSelect();
@@ -416,7 +413,8 @@ public slots:
     void slotEditClipCommand(const QString &id, const QMap<QString, QString> &oldProps, const QMap<QString, QString> &newProps);
     void slotCancelRunningJob(const QString &id, const QMap<QString, QString> &newProps);
     /** @brief Start a filter job requested by a filter applied in timeline */
-    void slotStartFilterJob(const ItemInfo &info, const QString &id, QMap<QString, QString> &filterParams, QMap<QString, QString> &consumerParams, QMap<QString, QString> &extraParams);
+    void slotStartFilterJob(const ItemInfo &info, const QString &id, QMap<QString, QString> &filterParams, QMap<QString, QString> &consumerParams,
+                            QMap<QString, QString> &extraParams);
     /** @brief Add a sub clip */
     void slotAddClipCut(const QString &id, int in, int out);
     /** @brief Open current clip in an external editing application */
@@ -436,7 +434,7 @@ public slots:
     /** @brief Pass some important properties to timeline track producers. */
     void updateTimelineProducers(const QString &id, const QMap<QString, QString> &passProperties);
     /** @brief Add effect to active Bin clip (used when double clicking an effect in list). */
-    void slotEffectDropped(QString id, const QString& effectID);
+    void slotEffectDropped(QString id, const QString &effectID);
     /** @brief Request current frame from project monitor.
      *  @param clipId is the id of a clip we want to hide from screenshot
      *  @param request true to start capture process, false to end it. It is necessary to emit a false after image is received
@@ -546,7 +544,7 @@ signals:
     /** @brief Request that the current effect stack is hidden */
     void requestHideEffectStack();
     /** @brief Request that the given clip is displayed in the clip monitor */
-    void requestClipShow(ProjectClip*);
+    void requestClipShow(ProjectClip *);
     void displayBinMessage(const QString &, KMessageWidget::MessageType);
     void displayMessage(const QString &, int, MessageType);
     void requesteInvalidRemoval(const QString &, const QString &, const QString &);
@@ -562,7 +560,6 @@ signals:
     void refreshPanel(const QString &id);
     /** @brief A clip audio data was updated, request refresh. */
     void refreshAudioThumbs(const QString &id);
-
 };
 
 #endif

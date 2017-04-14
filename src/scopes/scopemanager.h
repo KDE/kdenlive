@@ -31,7 +31,8 @@ class ScopeManager : public QObject
 {
     Q_OBJECT
 
-    struct GfxScopeData {
+    struct GfxScopeData
+    {
         AbstractGfxScopeWidget *scope;
         bool singleFrameRequested;
         GfxScopeData()
@@ -41,7 +42,8 @@ class ScopeManager : public QObject
         }
     };
 
-    struct AudioScopeData {
+    struct AudioScopeData
+    {
         AbstractAudioScopeWidget *scope;
         bool singleFrameRequested;
         AudioScopeData()

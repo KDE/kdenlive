@@ -19,8 +19,8 @@
 
 #include <QDomElement>
 
-#include "ui_transitionsettings_ui.h"
 #include "definitions.h"
+#include "ui_transitionsettings_ui.h"
 
 class Timecode;
 class Transition;

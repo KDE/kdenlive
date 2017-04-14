@@ -41,7 +41,7 @@ public:
      * @param description element describing the folder and its children
      * @param parent parent folder
      */
-    explicit ProjectFolderUp(ProjectItemModel* model, AbstractProjectItem *parent);
+    explicit ProjectFolderUp(ProjectItemModel *model, AbstractProjectItem *parent);
 
     ~ProjectFolderUp();
 

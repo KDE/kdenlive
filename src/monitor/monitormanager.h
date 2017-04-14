@@ -30,8 +30,7 @@ class KdenliveDoc;
 class BinController;
 class KDualAction;
 
-namespace Mlt
-{
+namespace Mlt {
 class Profile;
 }
 
@@ -124,7 +123,7 @@ private:
     Monitor *m_projectMonitor;
     Timecode m_timecode;
     AbstractMonitor *m_activeMonitor;
-    QList<AbstractMonitor *>m_monitorsList;
+    QList<AbstractMonitor *> m_monitorsList;
     KDualAction *m_muteAction;
 
 signals:

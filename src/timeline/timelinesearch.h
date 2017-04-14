@@ -11,8 +11,8 @@ the Free Software Foundation, either version 3 of the License, or
 #ifndef TIMELINESEARCH_H
 #define TIMELINESEARCH_H
 
-#include <QTimer>
 #include <QTime>
+#include <QTimer>
 
 class QAction;
 class QKeyEvent;

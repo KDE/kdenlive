@@ -20,15 +20,15 @@
 #ifndef EFFECTSLISTVIEW_H
 #define EFFECTSLISTVIEW_H
 
-#include "ui_effectlist_ui.h"
 #include "gentime.h"
+#include "ui_effectlist_ui.h"
 
 #include <KTreeWidgetSearchLine>
 
-#include <QToolButton>
-#include <QDragEnterEvent>
 #include <QDomDocument>
+#include <QDragEnterEvent>
 #include <QMimeData>
+#include <QToolButton>
 
 class EffectsList;
 class EffectsListWidget;
@@ -77,20 +77,21 @@ public:
         setCheckable(true);
         setAutoRaise(true);
     }
+
 protected:
-    void dragEnterEvent(QDragEnterEvent *event) override {
-        if (event->mimeData()->hasFormat(QStringLiteral("kdenlive/effectslist")))
-        {
+    void dragEnterEvent(QDragEnterEvent *event) override
+    {
+        if (event->mimeData()->hasFormat(QStringLiteral("kdenlive/effectslist"))) {
             event->accept();
         }
     }
-    void dropEvent(QDropEvent *event) override {
+    void dropEvent(QDropEvent *event) override
+    {
         const QString effects = QString::fromUtf8(event->mimeData()->data(QStringLiteral("kdenlive/effectslist")));
         QDomDocument doc;
         doc.setContent(effects, true);
         QString id = doc.documentElement().attribute(QStringLiteral("id"));
-        if (id.isEmpty())
-        {
+        if (id.isEmpty()) {
             id = doc.documentElement().attribute(QStringLiteral("tag"));
         }
         emit addEffectToFavorites(id);
@@ -110,17 +111,14 @@ class EffectsListView : public QWidget, public Ui::EffectList_UI
     Q_OBJECT
 
 public:
-    enum LISTMODE {
-        EffectMode = 0,
-        TransitionMode = 1
-    };
+    enum LISTMODE { EffectMode = 0, TransitionMode = 1 };
 
     explicit EffectsListView(LISTMODE mode = EffectMode, QWidget *parent = nullptr);
 
     /** @brief Re-initializes the list of effects. */
     void reloadEffectList(QMenu *effectsMenu, KActionCategory *effectActions);
     QMenu *getEffectsMenu();
-    //void slotAddEffect(GenTime pos, int track, QString name);
+    // void slotAddEffect(GenTime pos, int track, QString name);
 
     /** @brief Palette was changed, update styles. */
     void updatePalette();

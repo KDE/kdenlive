@@ -24,8 +24,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "definitions.h"
 
-#include <QWidget>
 #include <QDir>
+#include <QWidget>
 
 class KdenliveDoc;
 class KJob;
@@ -62,9 +62,9 @@ private:
 class TreeWidgetItem : public QTreeWidgetItem
 {
 public:
-    TreeWidgetItem(QTreeWidget *parent): QTreeWidgetItem(parent) {}
+    TreeWidgetItem(QTreeWidget *parent) : QTreeWidgetItem(parent) {}
 private:
-    bool operator<(const QTreeWidgetItem &other)const override
+    bool operator<(const QTreeWidgetItem &other) const override
     {
         int column = treeWidget()->sortColumn();
         switch (column) {

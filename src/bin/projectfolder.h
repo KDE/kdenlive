@@ -43,10 +43,10 @@ public:
      * @param description element describing the folder and its children
      * @param parent parent folder
      */
-    ProjectFolder(const QString &id, const QString &name, ProjectItemModel* model, ProjectFolder *parent = 0);
+    ProjectFolder(const QString &id, const QString &name, ProjectItemModel *model, ProjectFolder *parent = 0);
 
     /** @brief Creates an empty root folder. */
-    explicit ProjectFolder(ProjectItemModel* model);
+    explicit ProjectFolder(ProjectItemModel *model);
 
     ~ProjectFolder();
 
@@ -80,7 +80,6 @@ public:
     bool rename(const QString &name, int column) override;
     /** @brief Returns a list of all children and sub-children clips. */
     QList<ProjectClip *> childClips();
-
 };
 
 #endif

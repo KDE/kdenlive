@@ -20,10 +20,10 @@
 #ifndef SPACERDIALOG_H
 #define SPACERDIALOG_H
 
-#include "ui_spacerdialog_ui.h"
+#include "definitions.h"
 #include "timecode.h"
 #include "timecodedisplay.h"
-#include "definitions.h"
+#include "ui_spacerdialog_ui.h"
 
 /**
  * @class SpacerDialog
@@ -45,4 +45,3 @@ private:
 };
 
 #endif
-

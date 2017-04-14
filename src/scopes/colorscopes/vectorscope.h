@@ -11,8 +11,8 @@
 #ifndef VECTORSCOPE_H
 #define VECTORSCOPE_H
 
-#include "ui_vectorscope_ui.h"
 #include "abstractgfxscopewidget.h"
+#include "ui_vectorscope_ui.h"
 
 class ColorTools;
 

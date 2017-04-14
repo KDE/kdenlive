@@ -34,30 +34,29 @@
 #ifndef RENDERER_H
 #define RENDERER_H
 
-#include "gentime.h"
 #include "definitions.h"
-#include "monitor/abstractmonitor.h"
+#include "gentime.h"
 #include "mltcontroller/effectscontroller.h"
+#include "monitor/abstractmonitor.h"
 #include <mlt/framework/mlt_types.h>
 
 #include <QUrl>
 
-#include <QtXml/qdom.h>
-#include <QString>
-#include <QMap>
-#include <QList>
 #include <QEvent>
+#include <QList>
+#include <QMap>
 #include <QMutex>
 #include <QSemaphore>
+#include <QString>
 #include <QTimer>
+#include <QtXml/qdom.h>
 
 class KComboBox;
 class BinController;
 class ClipController;
 class GLWidget;
 
-namespace Mlt
-{
+namespace Mlt {
 class Consumer;
 class Playlist;
 class Properties;
@@ -73,29 +72,22 @@ class Event;
 class MltErrorEvent : public QEvent
 {
 public:
-    explicit MltErrorEvent(const QString &message)
-        : QEvent(QEvent::User),
-          m_message(message)
-    {
+    explicit MltErrorEvent(const QString &message) : QEvent(QEvent::User), m_message(message) {}
 
-    }
-
-    QString message() const
-    {
-        return m_message;
-    }
+    QString message() const { return m_message; }
 
 private:
     QString m_message;
 };
 
-class Render: public AbstractRender
+class Render : public AbstractRender
 {
-Q_OBJECT public:
+    Q_OBJECT public :
 
-    enum FailStates { OK = 0,
-                      APP_NOEXIST
-                    };
+        enum FailStates {
+            OK = 0,
+            APP_NOEXIST
+        };
     /** @brief Build a MLT Renderer
      *  @param rendererName A unique identifier for this renderer
      *  @param winid The parent widget identifier (required for SDL display). Set to 0 for OpenGL rendering
@@ -187,13 +179,14 @@ Q_OBJECT public:
      */
     void mltCheckLength(Mlt::Tractor *tractor);
     Mlt::Producer *getSlowmotionProducer(const QString &url);
-    void mltInsertSpace(const QMap<int, int> &trackClipStartList, const QMap<int, int> &trackTransitionStartList, int track, const GenTime &duration, const GenTime &timeOffset);
+    void mltInsertSpace(const QMap<int, int> &trackClipStartList, const QMap<int, int> &trackTransitionStartList, int track, const GenTime &duration,
+                        const GenTime &timeOffset);
     int mltGetSpaceLength(const GenTime &pos, int track, bool fromBlankStart);
     bool mltResizeClipCrop(const ItemInfo &info, GenTime newCropStart);
 
     QList<TransitionInfo> mltInsertTrack(int ix, const QString &name, bool videoTrack);
 
-    //const QList<Mlt::Producer *> producersList();
+    // const QList<Mlt::Producer *> producersList();
     void setDropFrames(bool show);
     /** @brief Sets an MLT consumer property. */
     void setConsumerProperty(const QString &name, const QString &value);
@@ -253,7 +246,6 @@ Q_OBJECT public:
     void silentSeek(int time);
 
 private:
-
     /** @brief The name of this renderer.
      *
      * Useful to identify the renderers by what they do - e.g. background
@@ -291,7 +283,7 @@ private:
 
     /** @brief Build the MLT Consumer object with initial settings.
      *  @param profileName The MLT profile to use for the consumer */
-    //void buildConsumer();
+    // void buildConsumer();
     /** @brief Restore normal mode */
     void resetZoneMode();
     void fillSlowMotionProducers();

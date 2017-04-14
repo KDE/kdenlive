@@ -19,14 +19,13 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-
 #ifndef LISTPARAMETERWIDGET_H
 #define LISTPARAMETERWIDGET_H
 
-#include <QWidget>
-#include <QVariant>
-#include "ui_listparamwidget_ui.h"
 #include "abstractparamwidget.h"
+#include "ui_listparamwidget_ui.h"
+#include <QVariant>
+#include <QWidget>
 
 /** @brief This class represents a parameter that requires
            the user to choose a value from a list
@@ -35,13 +34,12 @@ class ListParamWidget : public AbstractParamWidget, public Ui::ListParamWidget_U
 {
     Q_OBJECT
 public:
-
     /** @brief Constructor for the widgetComment
         @param name String containing the name of the parameter
         @param comment Optional string containing the comment associated to the parameter
         @param parent Parent widget
     */
-    ListParamWidget(const QString& name, const QString& comment = QString(), QWidget *parent = nullptr);
+    ListParamWidget(const QString &name, const QString &comment = QString(), QWidget *parent = nullptr);
 
     /** @brief Set the index of the current displayed element
         @param index Integer holding the index of the target element (0-indexed)
@@ -51,7 +49,7 @@ public:
     /** @brief Set the text currently displayed on the list
         @param text String containing the text of the element to show
     */
-    void setCurrentText(const QString& text);
+    void setCurrentText(const QString &text);
 
     /** @brief Add an item to the list.
         @param text String to be displayed in the list
@@ -68,7 +66,7 @@ public:
     /** @brief Set the size of the icons shown in the list
         @param size Target size of the icon
     */
-    void setIconSize(const QSize& size);
+    void setIconSize(const QSize &size);
 
     /** @brief Returns the current value of the parameter
      */
@@ -78,6 +76,5 @@ public slots:
     /** @brief Toggle the comments on or off    */
     void slotShowComment(bool);
 };
-
 
 #endif

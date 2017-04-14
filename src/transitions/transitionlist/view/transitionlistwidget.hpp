@@ -27,7 +27,6 @@
 /* @brief This class is a widget that display the list of available effects
  */
 
-
 class TransitionListWidget : public AssetListWidget
 {
     Q_OBJECT
@@ -37,9 +36,7 @@ public:
 
     /*@brief Return mime type used for drag and drop. It will be kdenlive/composition
      or kdenlive/transition*/
-    Q_INVOKABLE QString getMimeType(const QString& assetId) const override;
+    Q_INVOKABLE QString getMimeType(const QString &assetId) const override;
 };
 
 #endif
-
-

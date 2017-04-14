@@ -26,14 +26,14 @@
 #ifndef TRACKVIEW_H
 #define TRACKVIEW_H
 
-#include "timeline/customtrackscene.h"
-#include "effectslist/effectslist.h"
-#include "ui_timeline_ui.h"
 #include "definitions.h"
+#include "effectslist/effectslist.h"
+#include "timeline/customtrackscene.h"
+#include "ui_timeline_ui.h"
 
-#include <QGraphicsScene>
-#include <QGraphicsLineItem>
 #include <QDomElement>
+#include <QGraphicsLineItem>
+#include <QGraphicsScene>
 
 #include <mlt++/Mlt.h>
 
@@ -62,7 +62,7 @@ class Timeline : public QWidget, public Ui::TimeLine_UI
 
 public:
     explicit Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, const QList<QAction *> &rulerActions, bool *ok, QWidget *parent = nullptr);
-    virtual ~ Timeline();
+    virtual ~Timeline();
 
     /** @brief is multitrack view (split screen for tracks) enabled */
     bool multitrackView;
@@ -135,7 +135,8 @@ public:
      *  Returns -1 if track is shorter, 0 if not blank and > 0 for blank length */
     int getTrackSpaceLength(int trackIndex, int pos, bool fromBlankStart);
     void updateClipProperties(const QString &id, const QMap<QString, QString> &properties);
-    int changeClipSpeed(const ItemInfo &info, const ItemInfo &speedIndependantInfo, PlaylistState::ClipState state, double speed, int strobe, Mlt::Producer *originalProd, bool removeEffect = false);
+    int changeClipSpeed(const ItemInfo &info, const ItemInfo &speedIndependantInfo, PlaylistState::ClipState state, double speed, int strobe,
+                        Mlt::Producer *originalProd, bool removeEffect = false);
     /** @brief Set an effect's XML accordingly to MLT::filter values. */
     static void setParam(ProfileInfo info, QDomElement param, const QString &value);
     int getTracks();
@@ -186,7 +187,7 @@ public:
     void startPreviewRender();
     /** @brief Toggle current project's compositing mode. */
     void switchComposite(int mode);
-    /** @brief Temporarily hide a clip if it is at cursor position so that we can extract an image. 
+    /** @brief Temporarily hide a clip if it is at cursor position so that we can extract an image.
      *  @returns true if a track was temporarily hidden
     */
     bool hideClip(const QString &id, bool hide);

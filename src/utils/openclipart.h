@@ -46,8 +46,6 @@ public slots:
 
 private slots:
     void slotShowResults(KJob *job);
-
 };
 
 #endif
-

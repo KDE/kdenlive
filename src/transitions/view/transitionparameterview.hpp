@@ -22,8 +22,8 @@
 #ifndef TRANSITIONPARAMETERVIEW_H
 #define TRANSITIONPARAMETERVIEW_H
 
-#include <QQuickWidget>
 #include "assets/model/assetparametermodel.hpp"
+#include <QQuickWidget>
 
 /* @brief This class is the view of the properties of a transition
 
@@ -37,7 +37,8 @@ public:
     TransitionParameterView(QWidget *parent = nullptr);
 
     /* @brief Set the current model to be displayed */
-    void setModel(const std::shared_ptr<AssetParameterModel>& model);
+    void setModel(const std::shared_ptr<AssetParameterModel> &model);
+
 protected:
     std::shared_ptr<AssetParameterModel> m_model;
 };

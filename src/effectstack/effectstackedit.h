@@ -23,10 +23,10 @@
 #include "definitions.h"
 #include "timecode.h"
 
-#include <QWidget>
 #include <QDomElement>
 #include <QMap>
 #include <QScrollArea>
+#include <QWidget>
 
 class Monitor;
 

@@ -20,14 +20,14 @@
 #ifndef DOCUMENTCHECKER_H
 #define DOCUMENTCHECKER_H
 
-#include "ui_missingclips_ui.h"
 #include "definitions.h"
+#include "ui_missingclips_ui.h"
 
 #include <QDir>
-#include <QUrl>
 #include <QDomElement>
+#include <QUrl>
 
-class DocumentChecker: public QObject
+class DocumentChecker : public QObject
 {
     Q_OBJECT
 
@@ -61,7 +61,7 @@ private:
     QDomDocument m_doc;
     Ui::MissingClips_UI m_ui;
     QDialog *m_dialog;
-    QPair <QString, QString>m_rootReplacement;
+    QPair<QString, QString> m_rootReplacement;
     QString searchPathRecursively(const QDir &dir, const QString &fileName, ClipType type = Unknown) const;
     QString searchFileRecursively(const QDir &dir, const QString &matchSize, const QString &matchHash, const QString &fileName) const;
     void checkStatus();
@@ -79,4 +79,3 @@ private:
 };
 
 #endif
-

@@ -20,10 +20,10 @@
 #ifndef DVDWIZARDCHAPTERS_H
 #define DVDWIZARDCHAPTERS_H
 
-#include "ui_dvdwizardchapters_ui.h"
 #include "dvdwizardvob.h"
 #include "monitor/monitor.h"
 #include "monitor/monitormanager.h"
+#include "ui_dvdwizardchapters_ui.h"
 
 #include <QWizardPage>
 
@@ -62,4 +62,3 @@ private slots:
 };
 
 #endif
-

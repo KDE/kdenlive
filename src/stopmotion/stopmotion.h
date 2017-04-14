@@ -18,14 +18,14 @@
 #ifndef STOPMOTION_H
 #define STOPMOTION_H
 
-#include "ui_stopmotion_ui.h"
 #include "definitions.h"
+#include "ui_stopmotion_ui.h"
 
-#include <QUrl>
-#include <QLabel>
-#include <QFuture>
-#include <QTimer>
 #include "monitor/abstractmonitor.h"
+#include <QFuture>
+#include <QLabel>
+#include <QTimer>
+#include <QUrl>
 
 class MltDeviceCapture;
 class MonitorManager;
@@ -85,12 +85,11 @@ class StopmotionWidget : public QDialog, public Ui::Stopmotion_UI
     Q_OBJECT
 
 public:
-
     /** @brief Build the stopmotion dialog.
      * @param projectFolder The current project folder, where captured files will be stored.
      * @param actions The actions for this widget that can have a keyboard shortcut.
      * @param parent (optional) parent widget */
-    StopmotionWidget(MonitorManager *manager, const QUrl &projectFolder, const QList< QAction * > &actions, QWidget *parent = nullptr);
+    StopmotionWidget(MonitorManager *manager, const QUrl &projectFolder, const QList<QAction *> &actions, QWidget *parent = nullptr);
     virtual ~StopmotionWidget();
 
 protected:

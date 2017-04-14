@@ -33,10 +33,10 @@
 #include "definitions.h"
 #include "ui_recmonitor_ui.h"
 
-#include <QTimer>
-#include <QProcess>
 #include <QDateTime>
 #include <QIcon>
+#include <QProcess>
+#include <QTimer>
 #include <QUrl>
 
 #include <KComboBox>
@@ -58,12 +58,7 @@ public:
 
     AbstractRender *abstractRender() override;
     void analyseFrames(bool analyze);
-    enum CaptureDevice {
-        Firewire = 0,
-        Video4Linux = 1,
-        ScreenBag = 2,
-        BlackMagic = 3
-    };
+    enum CaptureDevice { Firewire = 0, Video4Linux = 1, ScreenBag = 2, BlackMagic = 3 };
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
@@ -133,7 +128,7 @@ private slots:
     void slotRewind();
     void slotForward();
     void slotDisconnect();
-    //void slotStartGrab(const QRect &rect);
+    // void slotStartGrab(const QRect &rect);
     void slotConfigure();
     void slotReadProcessInfo();
     void slotUpdateFreeSpace();

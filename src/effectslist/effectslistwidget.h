@@ -20,8 +20,8 @@
 #ifndef EFFECTSLISTWIDGET_H
 #define EFFECTSLISTWIDGET_H
 
-#include <QTreeWidget>
 #include <QDomElement>
+#include <QTreeWidget>
 
 #include <KActionCategory>
 
@@ -66,7 +66,8 @@ private:
      * @param current name of selected effect before reload; if an effect name matches this one it will become selected
      * @param found will be set to true if an effect name matches current
      */
-    void loadEffects(const EffectsList *effectlist, QTreeWidgetItem *defaultFolder, const QList<QTreeWidgetItem *> *folders, int type, const QString &current, bool *found);
+    void loadEffects(const EffectsList *effectlist, QTreeWidgetItem *defaultFolder, const QList<QTreeWidgetItem *> *folders, int type, const QString &current,
+                     bool *found);
     QIcon generateIcon(int size, const QString &name, QDomElement info);
 
 private slots:

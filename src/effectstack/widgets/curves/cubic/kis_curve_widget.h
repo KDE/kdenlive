@@ -23,9 +23,9 @@
 
 #include <QWidget>
 
+#include "colortools.h"
 #include "effectstack/widgets/curves/abstractcurvewidget.h"
 #include "kis_cubic_curve.h"
-#include "colortools.h"
 
 class QEvent;
 class QMouseEvent;
@@ -62,20 +62,14 @@ public:
 
     virtual ~KisCurveWidget();
 
-
-
     QSize sizeHint() const override;
 
-
 protected:
-
     void paintEvent(QPaintEvent *) override;
     void mousePressEvent(QMouseEvent *e) override;
     void mouseMoveEvent(QMouseEvent *e) override;
+
 public:
-
-
-
     /**
      * Handy function that creates new point in the middle
      * of the curve and sets focus on the m_intIn field,
@@ -83,10 +77,9 @@ public:
      */
     void addPointInTheMiddle();
 
-    void setCurve(KisCubicCurve&& curve);
+    void setCurve(KisCubicCurve &&curve);
 
     QList<QPointF> getPoints() const override;
-
 
 private:
     double io2sp(int x) const;
@@ -105,12 +98,9 @@ private:
     bool m_guideVisible;
     QColor m_colorGuide;
 
-
-
     /* Working range of them */
     int m_inOutMin;
     int m_inOutMax;
-
 };
 
 #endif /* KIS_CURVE_WIDGET_H */

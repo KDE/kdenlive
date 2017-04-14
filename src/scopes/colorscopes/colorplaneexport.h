@@ -16,9 +16,9 @@
 #ifndef COLORPLANEEXPORT_H
 #define COLORPLANEEXPORT_H
 
-#include <QDialog>
-#include "ui_colorplaneexport_ui.h"
 #include "colortools.h"
+#include "ui_colorplaneexport_ui.h"
+#include <QDialog>
 
 class ColorPlaneExport_UI;
 

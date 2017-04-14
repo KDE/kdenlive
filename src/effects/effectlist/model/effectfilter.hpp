@@ -22,9 +22,9 @@
 #ifndef EFFECTFILTER_H
 #define EFFECTFILTER_H
 
+#include "assets/assetlist/model/assetfilter.hpp"
 #include <QSortFilterProxyModel>
 #include <memory>
-#include "assets/assetlist/model/assetfilter.hpp"
 
 /* @brief This class is used as a proxy model to filter the effect tree based on given criterion (name, type).
    It simply adds a filter of type
@@ -43,7 +43,7 @@ public:
     void setFilterType(bool enabled, EffectType type);
 
 protected:
-    bool filterType(TreeItem* item) const;
+    bool filterType(TreeItem *item) const;
     bool applyAll(TreeItem *item) const override;
 
     bool m_type_enabled;

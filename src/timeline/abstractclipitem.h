@@ -21,12 +21,12 @@
 #ifndef ABSTRACTCLIPITEM_H
 #define ABSTRACTCLIPITEM_H
 
-#include "keyframeview.h"
 #include "definitions.h"
 #include "gentime.h"
+#include "keyframeview.h"
 
-#include "mlt++/MltProperties.h"
 #include "mlt++/MltAnimation.h"
+#include "mlt++/MltProperties.h"
 
 #include <QGraphicsRectItem>
 #include <QGraphicsWidget>
@@ -42,9 +42,8 @@ class AbstractClipItem : public QObject, public QGraphicsRectItem
     Q_PROPERTY(qreal opacity READ opacity WRITE setOpacity)
 
 public:
-
     AbstractClipItem(const ItemInfo &info, const QRectF &rect, double fps);
-    virtual ~ AbstractClipItem();
+    virtual ~AbstractClipItem();
     ItemInfo info() const;
     CustomTrackScene *projectScene();
     void updateRectGeometry();

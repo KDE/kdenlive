@@ -22,16 +22,15 @@
 #ifndef ASSETLISTWIDGET_H
 #define ASSETLISTWIDGET_H
 
+#include "../model/assetfilter.hpp"
+#include "../model/assettreemodel.hpp"
+#include "assets/assetlist/view/qmltypes/asseticonprovider.hpp"
+#include "effects/effectsrepository.hpp"
 #include <QQuickWidget>
 #include <memory>
-#include "effects/effectsrepository.hpp"
-#include "../model/assettreemodel.hpp"
-#include "../model/assetfilter.hpp"
-#include "assets/assetlist/view/qmltypes/asseticonprovider.hpp"
 
 /* @brief This class is a generic widget that display the list of available assets
  */
-
 
 class AssetListWidget : public QQuickWidget
 {
@@ -41,19 +40,20 @@ public:
     AssetListWidget(QWidget *parent = Q_NULLPTR);
 
     /* @brief Returns the name of the asset given its model index */
-    Q_INVOKABLE QString getName(const QModelIndex& index) const;
+    Q_INVOKABLE QString getName(const QModelIndex &index) const;
 
     /* @brief Returns the description of the asset given its model index */
-    Q_INVOKABLE QString getDescription(const QModelIndex& index) const;
+    Q_INVOKABLE QString getDescription(const QModelIndex &index) const;
 
     /* @brief Sets the pattern against which the assets' names are filtered */
-    Q_INVOKABLE void setFilterName(const QString& pattern);
+    Q_INVOKABLE void setFilterName(const QString &pattern);
 
     /*@brief Return mime type used for drag and drop. It can be kdenlive/effect,
       kdenlive/composition or kdenlive/transition*/
-    virtual QString getMimeType(const QString& assetId) const = 0;
+    virtual QString getMimeType(const QString &assetId) const = 0;
 
     Q_INVOKABLE QVariantMap getMimeData(const QString &assetId) const;
+
 protected:
     void setup();
     std::unique_ptr<AssetTreeModel> m_model;
@@ -65,5 +65,3 @@ signals:
 };
 
 #endif
-
-

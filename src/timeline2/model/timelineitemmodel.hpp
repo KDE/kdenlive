@@ -22,13 +22,13 @@
 #ifndef TIMELINEITEMMODEL_H
 #define TIMELINEITEMMODEL_H
 
-#include "undohelper.hpp"
 #include "timelinemodel.hpp"
-
+#include "undohelper.hpp"
 
 /* @brief This class is the thin wrapper around the TimelineModel that provides interface for the QML.
 
-   It derives from AbstractItemModel to provide the model to the QML interface. An itemModel is organized with row and columns that contain the data. It can be hierarchical, meaning that a given index (row,column) can contain another level of rows and column.
+   It derives from AbstractItemModel to provide the model to the QML interface. An itemModel is organized with row and columns that contain the data. It can be
+   hierarchical, meaning that a given index (row,column) can contain another level of rows and column.
    Our organization is as follows: at the top level, each row contains a track. These rows are in the same order as in the actual timeline.
    Then each of this row contains itself sub-rows that correspond to the clips.
    Here the order of these sub-rows is unrelated to the chronological order of the clips,
@@ -37,14 +37,15 @@
    The id order has been choosed because it is consistant with a valid ordering of the clips.
    The columns are never used, so the data is always in column 0
 
-   An ModelIndex in the ItemModel consists of a row number, a column number, and a parent index. In our case, tracks have always an empty parent, and the clip have a track index as parent.
-   A ModelIndex can also store one additional integer, and we exploit this feature to store the unique ID of the object it corresponds to. 
+   An ModelIndex in the ItemModel consists of a row number, a column number, and a parent index. In our case, tracks have always an empty parent, and the clip
+   have a track index as parent.
+   A ModelIndex can also store one additional integer, and we exploit this feature to store the unique ID of the object it corresponds to.
 
 */
 
 class TimelineItemModel : public TimelineModel
 {
-Q_OBJECT
+    Q_OBJECT
 
 public:
     /* @brief construct a timeline object and returns a pointer to the created object
@@ -52,21 +53,21 @@ public:
      */
     static std::shared_ptr<TimelineItemModel> construct(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack);
 
-    friend bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel>& timeline, Mlt::Tractor mlt_timeline);
+    friend bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, Mlt::Tractor mlt_timeline);
+
 protected:
     /* @brief this constructor should not be called. Call the static construct instead
      */
     TimelineItemModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack);
 
 public:
-
     ~TimelineItemModel();
-    int rowCount(const QModelIndex & parent = QModelIndex()) const override;
+    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     QHash<int, QByteArray> roleNames() const override;
     QModelIndex index(int row, int column = 0, const QModelIndex &parent = QModelIndex()) const override;
-    //QModelIndex makeIndex(int trackIndex, int clipIndex) const;
+    // QModelIndex makeIndex(int trackIndex, int clipIndex) const;
     /* @brief Creates an index based on the ID of the clip*/
     QModelIndex makeClipIndexFromID(int clipId) const override;
     /* @brief Creates an index based on the ID of the compoition*/
@@ -75,14 +76,13 @@ public:
     QModelIndex makeTrackIndexFromID(int trackId) const override;
     QModelIndex parent(const QModelIndex &index) const override;
     Q_INVOKABLE void setTrackProperty(int tid, const QString &name, const QString &value);
-    void notifyChange(const QModelIndex& topleft, const QModelIndex& bottomright, bool start, bool duration, bool updateThumb) override;
-    void notifyChange(const QModelIndex& topleft, const QModelIndex& bottomright, QVector<int> roles) override;
+    void notifyChange(const QModelIndex &topleft, const QModelIndex &bottomright, bool start, bool duration, bool updateThumb) override;
+    void notifyChange(const QModelIndex &topleft, const QModelIndex &bottomright, QVector<int> roles) override;
 
-    virtual void _beginRemoveRows(const QModelIndex&, int , int) override;
-    virtual void _beginInsertRows(const QModelIndex&, int , int) override;
+    virtual void _beginRemoveRows(const QModelIndex &, int, int) override;
+    virtual void _beginInsertRows(const QModelIndex &, int, int) override;
     virtual void _endRemoveRows() override;
     virtual void _endInsertRows() override;
     virtual void _resetView() override;
 };
 #endif
-

@@ -30,19 +30,19 @@
 
 #include "definitions.h"
 
-#include <QTreeWidget>
-#include <QDir>
-#include <QTimer>
-#include <QStyledItemDelegate>
 #include <QApplication>
-#include <QPainter>
+#include <QDir>
 #include <QMutex>
+#include <QPainter>
+#include <QStyledItemDelegate>
+#include <QTimer>
+#include <QTreeWidget>
 
-#include <KMessageWidget>
-#include <KIOCore/KFileItem>
-#include <KIO/PreviewJob>
 #include <KIO/ListJob>
+#include <KIO/PreviewJob>
 #include <KIOCore/KCoreDirLister>
+#include <KIOCore/KFileItem>
+#include <KMessageWidget>
 
 class ProjectManager;
 class KJob;
@@ -54,12 +54,10 @@ class QToolBar;
  * @brief This class is responsible for drawing items in the QTreeView.
  */
 
-class LibraryItemDelegate: public QStyledItemDelegate
+class LibraryItemDelegate : public QStyledItemDelegate
 {
 public:
-    explicit LibraryItemDelegate(QObject *parent = nullptr): QStyledItemDelegate(parent)
-    {
-    }
+    explicit LibraryItemDelegate(QObject *parent = nullptr) : QStyledItemDelegate(parent) {}
 
     void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const override
     {
@@ -103,7 +101,7 @@ public:
             initStyleOption(&opt, index);
             QStyle *style = opt.widget ? opt.widget->style() : QApplication::style();
             const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
-            //QRect r = QStyle::alignedRect(opt.direction, Qt::AlignVCenter | Qt::AlignLeft, opt.decorationSize, r1);
+            // QRect r = QStyle::alignedRect(opt.direction, Qt::AlignVCenter | Qt::AlignLeft, opt.decorationSize, r1);
 
             style->drawPrimitive(QStyle::PE_PanelItemViewItem, &opt, painter, opt.widget);
             if (option.state & QStyle::State_Selected) {

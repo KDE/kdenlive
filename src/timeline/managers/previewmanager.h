@@ -23,15 +23,14 @@
 #include "definitions.h"
 
 #include <QDir>
+#include <QFuture>
 #include <QMutex>
 #include <QTimer>
-#include <QFuture>
 
 class KdenliveDoc;
 class CustomRuler;
 
-namespace Mlt
-{
+namespace Mlt {
 class Tractor;
 class Playlist;
 }
@@ -99,7 +98,7 @@ private:
     bool m_initialized;
     bool m_abortPreview;
     QList<int> m_waitingThumbs;
-    QFuture <void> m_previewThread;
+    QFuture<void> m_previewThread;
     /** @brief: After an undo/redo, if we have preview history, use it. */
     void reloadChunks(const QList<int> &chunks);
 
@@ -126,4 +125,3 @@ signals:
 };
 
 #endif
-

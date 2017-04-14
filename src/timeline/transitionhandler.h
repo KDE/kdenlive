@@ -41,11 +41,13 @@ public:
     void plantTransition(Mlt::Transition &tr, int a_track, int b_track);
     void plantTransition(Mlt::Field *field, Mlt::Transition &tr, int a_track, int b_track);
     void cloneProperties(Mlt::Properties &dest, Mlt::Properties &source);
-    void updateTransition(const QString &oldTag, const QString &tag, int a_track, int b_track, GenTime in, GenTime out, const QDomElement &xml, bool force = false);
+    void updateTransition(const QString &oldTag, const QString &tag, int a_track, int b_track, GenTime in, GenTime out, const QDomElement &xml,
+                          bool force = false);
     void updateTransitionParams(const QString &type, int a_track, int b_track, GenTime in, GenTime out, const QDomElement &xml);
     bool deleteTransition(const QString &tag, int a_track, int b_track, GenTime in, GenTime out, const QDomElement &xml, bool refresh = true);
     void deleteTrackTransitions(int ix);
-    bool moveTransition(const QString &type, int startTrack,  int newTrack, int newTransitionTrack, GenTime oldIn, GenTime oldOut, GenTime newIn, GenTime newOut);
+    bool moveTransition(const QString &type, int startTrack, int newTrack, int newTransitionTrack, GenTime oldIn, GenTime oldOut, GenTime newIn,
+                        GenTime newOut);
     QList<TransitionInfo> mltInsertTrack(int ix, const QString &name, bool videoTrack);
     void duplicateTransitionOnPlaylist(int in, int out, const QString &tag, const QDomElement &xml, int a_track, int b_track, Mlt::Field *field);
     /** @brief Get a transition with tag name. */

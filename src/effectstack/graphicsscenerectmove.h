@@ -21,22 +21,24 @@
 #ifndef GRAPHICSSCENERECTMOVE_H
 #define GRAPHICSSCENERECTMOVE_H
 
-#include <QGraphicsScene>
-#include <QGraphicsTextItem>
-#include <QGraphicsSvgItem>
 #include <QGraphicsEffect>
+#include <QGraphicsScene>
+#include <QGraphicsSvgItem>
+#include <QGraphicsTextItem>
 
-enum resizeModes {NoResize = 0, TopLeft, BottomLeft, TopRight, BottomRight, Left, Right, Up, Down};
+enum resizeModes { NoResize = 0, TopLeft, BottomLeft, TopRight, BottomRight, Left, Right, Up, Down };
 enum TITLETOOL { TITLE_SELECT = 0, TITLE_RECTANGLE = 1, TITLE_TEXT = 2, TITLE_IMAGE = 3 };
 
-class MyQGraphicsEffect: public QGraphicsEffect
+class MyQGraphicsEffect : public QGraphicsEffect
 {
 public:
     explicit MyQGraphicsEffect(QObject *parent = nullptr);
     void setOffset(int xOffset, int yOffset, int blur);
     void setShadow(const QImage &image);
+
 protected:
     void draw(QPainter *painter) override;
+
 private:
     int m_xOffset;
     int m_yOffset;
@@ -44,7 +46,7 @@ private:
     QImage m_shadow;
 };
 
-class MyTextItem: public QGraphicsTextItem
+class MyTextItem : public QGraphicsTextItem
 {
     Q_OBJECT
 public:
@@ -81,34 +83,38 @@ public slots:
     void updateGeometry();
 };
 
-class MyRectItem: public QGraphicsRectItem
+class MyRectItem : public QGraphicsRectItem
 {
 public:
     explicit MyRectItem(QGraphicsItem *parent = nullptr);
     void setRect(const QRectF &rectangle);
+
 protected:
     QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
+
 private:
     QRectF m_rect;
 };
 
-class MyPixmapItem: public QGraphicsPixmapItem
+class MyPixmapItem : public QGraphicsPixmapItem
 {
 public:
     MyPixmapItem(const QPixmap &pixmap, QGraphicsItem *parent = nullptr);
+
 protected:
     QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
 };
 
-class MySvgItem: public QGraphicsSvgItem
+class MySvgItem : public QGraphicsSvgItem
 {
 public:
     MySvgItem(const QString &fileName = QString(), QGraphicsItem *parent = nullptr);
+
 protected:
     QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
 };
 
-class GraphicsSceneRectMove: public QGraphicsScene
+class GraphicsSceneRectMove : public QGraphicsScene
 {
     Q_OBJECT
 public:

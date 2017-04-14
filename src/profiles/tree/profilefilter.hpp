@@ -55,8 +55,8 @@ protected:
     bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override;
 
 private:
-    bool filterInterlaced(std::unique_ptr<ProfileModel>& ptr) const;
-    bool filterFps(std::unique_ptr<ProfileModel>& ptr) const;
+    bool filterInterlaced(std::unique_ptr<ProfileModel> &ptr) const;
+    bool filterFps(std::unique_ptr<ProfileModel> &ptr) const;
 
     bool m_interlaced_enabled;
     bool m_interlaced_value;

@@ -24,8 +24,7 @@
 
 class QGraphicsView;
 
-namespace Mlt
-{
+namespace Mlt {
 class Geometry;
 }
 
@@ -45,7 +44,7 @@ public:
     QRectF boundingRect() const override;
 
 protected:
-    //virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);
+    // virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
     void hoverMoveEvent(QGraphicsSceneHoverEvent *event) override;

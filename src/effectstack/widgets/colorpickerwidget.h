@@ -20,8 +20,8 @@
 #ifndef COLORPICKERWIDGET_H
 #define COLORPICKERWIDGET_H
 
-#include <QWidget>
 #include <QFrame>
+#include <QWidget>
 
 class QFrame;
 #ifdef Q_WS_X11

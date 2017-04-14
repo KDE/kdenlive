@@ -35,7 +35,6 @@ public:
     explicit EffectTreeModel(const QString &categoryFile, QObject *parent = 0);
 
 protected:
-
 };
 
 #endif

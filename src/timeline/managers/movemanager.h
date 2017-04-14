@@ -22,8 +22,8 @@
 
 #include "abstracttoolmanager.h"
 
-#include <QTimer>
 #include <QPoint>
+#include <QTimer>
 
 class TransitionHandler;
 
@@ -56,4 +56,3 @@ private slots:
 };
 
 #endif
-

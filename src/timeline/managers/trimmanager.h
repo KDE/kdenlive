@@ -24,8 +24,7 @@
 
 class ClipItem;
 class Render;
-namespace Mlt
-{
+namespace Mlt {
 class Playlist;
 }
 
@@ -72,4 +71,3 @@ signals:
 };
 
 #endif
-

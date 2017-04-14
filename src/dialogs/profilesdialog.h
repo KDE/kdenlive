@@ -36,7 +36,7 @@ public:
     explicit ProfilesDialog(const QString &profilePath, bool, QWidget *parent = nullptr);
 
     void fillList(const QString &selectedProfile = QString());
-    static QMap< QString, QString > getSettingsFromFile(const QString &path);
+    static QMap<QString, QString> getSettingsFromFile(const QString &path);
     /** @brief Create profile from xml in MLT project file */
     static MltVideoProfile getVideoProfileFromXml(const QDomElement &element);
     static MltVideoProfile getVideoProfile(const QString &name);
@@ -107,4 +107,3 @@ private:
 };
 
 #endif
-

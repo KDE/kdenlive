@@ -22,8 +22,8 @@
 
 #include "definitions.h"
 
-#include <QUndoCommand>
 #include <QPoint>
+#include <QUndoCommand>
 
 class ProjectList;
 class ProjectClip;
@@ -34,6 +34,7 @@ public:
     AddClipCutCommand(ProjectList *list, const QString &id, int in, int out, const QString &desc, bool newItem, bool remove, QUndoCommand *parent = nullptr);
     void undo() override;
     void redo() override;
+
 private:
     ProjectList *m_list;
     QString m_id;
@@ -50,6 +51,7 @@ public:
     AddFolderCommand(ProjectList *view, const QString &folderName, const QString &clipId, bool doIt, QUndoCommand *parent = nullptr);
     void undo() override;
     void redo() override;
+
 private:
     ProjectList *m_view;
     QString m_name;
@@ -60,9 +62,11 @@ private:
 class EditClipCutCommand : public QUndoCommand
 {
 public:
-    EditClipCutCommand(ProjectList *list, const QString &id, const QPoint &oldZone, const QPoint &newZone, const QString &oldComment, const QString &newComment, bool doIt, QUndoCommand *parent = nullptr);
+    EditClipCutCommand(ProjectList *list, const QString &id, const QPoint &oldZone, const QPoint &newZone, const QString &oldComment, const QString &newComment,
+                       bool doIt, QUndoCommand *parent = nullptr);
     void undo() override;
     void redo() override;
+
 private:
     ProjectList *m_list;
     QString m_id;
@@ -76,9 +80,11 @@ private:
 class EditFolderCommand : public QUndoCommand
 {
 public:
-    EditFolderCommand(ProjectList *view, const QString &newfolderName, const QString &oldfolderName, const QString &clipId, bool doIt, QUndoCommand *parent = nullptr);
+    EditFolderCommand(ProjectList *view, const QString &newfolderName, const QString &oldfolderName, const QString &clipId, bool doIt,
+                      QUndoCommand *parent = nullptr);
     void undo() override;
     void redo() override;
+
 private:
     ProjectList *m_view;
     QString m_name;
@@ -93,6 +99,7 @@ public:
     AddMarkerCommand(ProjectClip *clip, QList<CommentedTime> &oldMarkers, QList<CommentedTime> &newMarkers, QUndoCommand *parent = nullptr);
     void undo() override;
     void redo() override;
+
 private:
     ProjectClip *m_clip;
     QList<CommentedTime> m_oldMarkers;
@@ -100,4 +107,3 @@ private:
 };
 
 #endif
-

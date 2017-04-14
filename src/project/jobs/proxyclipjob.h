@@ -33,7 +33,7 @@ class ProxyJob : public AbstractClipJob
 
 public:
     ProxyJob(ClipType cType, const QString &id, const QStringList &parameters, QTemporaryFile *playlist);
-    virtual ~ ProxyJob();
+    virtual ~ProxyJob();
     const QString destination() const override;
     void startJob() override;
     stringMap cancelProperties() override;

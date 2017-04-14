@@ -22,9 +22,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef PROGRESSBUTTON_H
 #define PROGRESSBUTTON_H
 
-#include <QToolButton>
 #include <QElapsedTimer>
 #include <QStyleOptionToolButton>
+#include <QToolButton>
 
 class QAction;
 
@@ -34,7 +34,7 @@ class QAction;
  *
  */
 
-class ProgressButton: public QToolButton
+class ProgressButton : public QToolButton
 {
     Q_PROPERTY(int progress READ progress WRITE setProgress)
     Q_OBJECT

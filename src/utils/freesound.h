@@ -50,7 +50,7 @@ public slots:
 private slots:
     void slotShowResults(KJob *job);
     void slotParseResults(KJob *job);
-    void slotPreviewFinished(int  exitCode, QProcess::ExitStatus exitStatus);
+    void slotPreviewFinished(int exitCode, QProcess::ExitStatus exitStatus);
     void slotPreviewErrored(QProcess::ProcessError error);
 
 private:
@@ -63,4 +63,3 @@ signals:
 };
 
 #endif
-

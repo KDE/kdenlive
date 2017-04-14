@@ -39,9 +39,7 @@ public:
      * @param tc Timecode object to define time format
      * @param comment (optional) A comment explaining the parameter. Will be shown in a tooltip.
      * @param parent (optional) Parent Widget */
-    explicit PositionWidget(const QString &name, int pos, int min, int max,
-                          const Timecode &tc, const QString &comment = QString(),
-                          QWidget *parent = nullptr);
+    explicit PositionWidget(const QString &name, int pos, int min, int max, const Timecode &tc, const QString &comment = QString(), QWidget *parent = nullptr);
     ~PositionWidget();
     /** @brief get current position
      */
@@ -65,13 +63,13 @@ public slots:
     void setRange(int min, int max, bool absolute = false);
 
     void slotShowComment(bool show) override;
+
 private:
     TimecodeDisplay *m_display;
     QSlider *m_slider;
 
 private slots:
     void slotUpdatePosition();
-
 };
 
 #endif

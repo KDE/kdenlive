@@ -17,21 +17,14 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include <QMouseEvent>
 #include <QKeyEvent>
+#include <QMouseEvent>
 #include <QResizeEvent>
 
-template<typename Curve_t>
-AbstractCurveWidget<Curve_t>::AbstractCurveWidget(QWidget *parent):
-    __dummy_AbstractCurveWidget(parent)
-    , m_zoomLevel(0)
-    , m_gridLines(3)
-    , m_pixmapCache(nullptr)
-    , m_pixmapIsDirty(true)
-    , m_currentPointIndex(-1)
-    , m_maxPoints(1000000)
-    , m_state(State_t::NORMAL)
-    , m_grabRadius(10)
+template <typename Curve_t>
+AbstractCurveWidget<Curve_t>::AbstractCurveWidget(QWidget *parent)
+    : __dummy_AbstractCurveWidget(parent), m_zoomLevel(0), m_gridLines(3), m_pixmapCache(nullptr), m_pixmapIsDirty(true), m_currentPointIndex(-1),
+      m_maxPoints(1000000), m_state(State_t::NORMAL), m_grabRadius(10)
 {
     setMouseTracking(true);
     setAutoFillBackground(false);
@@ -39,13 +32,12 @@ AbstractCurveWidget<Curve_t>::AbstractCurveWidget(QWidget *parent):
     setMinimumSize(150, 150);
     setMaximumSize(500, 500);
     QSizePolicy sp(QSizePolicy::Preferred, QSizePolicy::Preferred);
-    sp.setHeightForWidth(true); //force widget to have a height dependent on width;
+    sp.setHeightForWidth(true); // force widget to have a height dependent on width;
     setSizePolicy(sp);
     setFocusPolicy(Qt::StrongFocus);
 }
 
-template<typename Curve_t>
-void AbstractCurveWidget<Curve_t>::paintBackground(QPainter *p)
+template <typename Curve_t> void AbstractCurveWidget<Curve_t>::paintBackground(QPainter *p)
 {
     /*
      * Zoom
@@ -75,7 +67,7 @@ void AbstractCurveWidget<Curve_t>::paintBackground(QPainter *p)
         p->drawPixmap(0, 0, *m_pixmapCache);
     }
 
-    //select color of the grid, depending on whether we have a palette or not
+    // select color of the grid, depending on whether we have a palette or not
     if (!m_pixmap.isNull()) {
         p->setPen(QPen(palette().mid().color(), 1, Qt::SolidLine));
     } else {
@@ -86,7 +78,6 @@ void AbstractCurveWidget<Curve_t>::paintBackground(QPainter *p)
         bg.setHsl(h, s, l, a);
         p->setPen(QPen(bg, 1, Qt::SolidLine));
     }
-
 
     /*
      * Borders
@@ -113,52 +104,45 @@ void AbstractCurveWidget<Curve_t>::paintBackground(QPainter *p)
     p->drawLine(QLineF(0, m_wHeight, m_wWidth, 0));
 }
 
-template<typename Curve_t>
-void AbstractCurveWidget<Curve_t>::setMaxPoints(int max)
+template <typename Curve_t> void AbstractCurveWidget<Curve_t>::setMaxPoints(int max)
 {
     Q_ASSERT(max >= 2);
     m_maxPoints = max;
 }
 
-template<typename Curve_t>
-void AbstractCurveWidget<Curve_t>::setPixmap(const QPixmap &pix)
+template <typename Curve_t> void AbstractCurveWidget<Curve_t>::setPixmap(const QPixmap &pix)
 {
     m_pixmap = pix;
     m_pixmapIsDirty = true;
     update();
 }
 
-template<typename Curve_t>
-int AbstractCurveWidget<Curve_t>::gridLines() const
+template <typename Curve_t> int AbstractCurveWidget<Curve_t>::gridLines() const
 {
     return m_gridLines;
 }
 
-template<typename Curve_t>
-void AbstractCurveWidget<Curve_t>::setGridLines(int lines)
+template <typename Curve_t> void AbstractCurveWidget<Curve_t>::setGridLines(int lines)
 {
     m_gridLines = qBound(0, lines, 8);
     update();
 }
 
-template<typename Curve_t>
-void AbstractCurveWidget<Curve_t>::slotZoomIn()
+template <typename Curve_t> void AbstractCurveWidget<Curve_t>::slotZoomIn()
 {
     m_zoomLevel = qMax(m_zoomLevel - 1, 0);
     m_pixmapIsDirty = true;
     update();
 }
 
-template<typename Curve_t>
-void AbstractCurveWidget<Curve_t>::slotZoomOut()
+template <typename Curve_t> void AbstractCurveWidget<Curve_t>::slotZoomOut()
 {
     m_zoomLevel = qMin(m_zoomLevel + 1, 3);
     m_pixmapIsDirty = true;
     update();
 }
 
-template<typename Curve_t>
-void AbstractCurveWidget<Curve_t>::setFromString(const QString & str)
+template <typename Curve_t> void AbstractCurveWidget<Curve_t>::setFromString(const QString &str)
 {
     m_curve.fromString(str);
     m_currentPointIndex = -1;
@@ -167,8 +151,7 @@ void AbstractCurveWidget<Curve_t>::setFromString(const QString & str)
     update();
 }
 
-template<typename Curve_t>
-void AbstractCurveWidget<Curve_t>::reset()
+template <typename Curve_t> void AbstractCurveWidget<Curve_t>::reset()
 {
     setFromString(Curve_t().toString());
     m_currentPointIndex = -1;
@@ -177,20 +160,17 @@ void AbstractCurveWidget<Curve_t>::reset()
     update();
 }
 
-template<typename Curve_t>
-QString AbstractCurveWidget<Curve_t>::toString()
+template <typename Curve_t> QString AbstractCurveWidget<Curve_t>::toString()
 {
     return m_curve.toString();
 }
 
-template<typename Curve_t>
-void AbstractCurveWidget<Curve_t>::updateCurrentPoint(const Point_t &p, bool final)
+template <typename Curve_t> void AbstractCurveWidget<Curve_t>::updateCurrentPoint(const Point_t &p, bool final)
 {
     if (m_currentPointIndex >= 0) {
         m_curve.setPoint(m_currentPointIndex, p);
         // during validation the point might have changed
-        emit currentPoint(m_curve.getPoint(m_currentPointIndex),
-                          isCurrentPointExtremal());
+        emit currentPoint(m_curve.getPoint(m_currentPointIndex), isCurrentPointExtremal());
         if (final) {
             emit modified();
         }
@@ -198,8 +178,7 @@ void AbstractCurveWidget<Curve_t>::updateCurrentPoint(const Point_t &p, bool fin
     }
 }
 
-template<typename Curve_t>
-typename AbstractCurveWidget<Curve_t>::Point_t AbstractCurveWidget<Curve_t>::getCurrentPoint()
+template <typename Curve_t> typename AbstractCurveWidget<Curve_t>::Point_t AbstractCurveWidget<Curve_t>::getCurrentPoint()
 {
     if (m_currentPointIndex >= 0) {
         return m_curve.getPoint(m_currentPointIndex);
@@ -208,22 +187,17 @@ typename AbstractCurveWidget<Curve_t>::Point_t AbstractCurveWidget<Curve_t>::get
     }
 }
 
-template<typename Curve_t>
-bool AbstractCurveWidget<Curve_t>::isCurrentPointExtremal()
+template <typename Curve_t> bool AbstractCurveWidget<Curve_t>::isCurrentPointExtremal()
 {
-    return m_currentPointIndex == 0 ||
-        m_currentPointIndex == m_curve.points().size()-1;
+    return m_currentPointIndex == 0 || m_currentPointIndex == m_curve.points().size() - 1;
 }
 
-template<typename Curve_t>
-void AbstractCurveWidget<Curve_t>::slotDeleteCurrentPoint()
+template <typename Curve_t> void AbstractCurveWidget<Curve_t>::slotDeleteCurrentPoint()
 {
-    if(m_currentPointIndex > 0 &&
-       m_currentPointIndex < m_curve.points().size()-1) {
+    if (m_currentPointIndex > 0 && m_currentPointIndex < m_curve.points().size() - 1) {
         m_curve.removePoint(m_currentPointIndex);
         m_currentPointIndex--;
-        emit currentPoint(m_curve.getPoint(m_currentPointIndex),
-                          isCurrentPointExtremal());
+        emit currentPoint(m_curve.getPoint(m_currentPointIndex), isCurrentPointExtremal());
         update();
         emit modified();
         setCursor(Qt::ArrowCursor);
@@ -231,22 +205,18 @@ void AbstractCurveWidget<Curve_t>::slotDeleteCurrentPoint()
     }
 }
 
-
-template<typename Curve_t>
-void AbstractCurveWidget<Curve_t>::resizeEvent(QResizeEvent *e)
+template <typename Curve_t> void AbstractCurveWidget<Curve_t>::resizeEvent(QResizeEvent *e)
 {
     m_pixmapIsDirty = true;
     QWidget::resizeEvent(e);
 }
 
-template<typename Curve_t>
-void AbstractCurveWidget<Curve_t>::leaveEvent(QEvent *event)
+template <typename Curve_t> void AbstractCurveWidget<Curve_t>::leaveEvent(QEvent *event)
 {
     QWidget::leaveEvent(event);
 }
 
-template<typename Curve_t>
-void AbstractCurveWidget<Curve_t>::mouseReleaseEvent(QMouseEvent *event)
+template <typename Curve_t> void AbstractCurveWidget<Curve_t>::mouseReleaseEvent(QMouseEvent *event)
 {
     if (event->button() != Qt::LeftButton) {
         return;
@@ -258,8 +228,7 @@ void AbstractCurveWidget<Curve_t>::mouseReleaseEvent(QMouseEvent *event)
     emit modified();
 }
 
-template<typename Curve_t>
-void AbstractCurveWidget<Curve_t>::keyPressEvent(QKeyEvent *e)
+template <typename Curve_t> void AbstractCurveWidget<Curve_t>::keyPressEvent(QKeyEvent *e)
 {
     if (e->key() == Qt::Key_Delete || e->key() == Qt::Key_Backspace) {
         slotDeleteCurrentPoint();
@@ -268,8 +237,7 @@ void AbstractCurveWidget<Curve_t>::keyPressEvent(QKeyEvent *e)
     }
 }
 
-template<typename Curve_t>
-int AbstractCurveWidget<Curve_t>::heightForWidth(int w) const
+template <typename Curve_t> int AbstractCurveWidget<Curve_t>::heightForWidth(int w) const
 {
     return w;
 }

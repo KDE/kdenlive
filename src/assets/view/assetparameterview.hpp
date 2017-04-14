@@ -22,8 +22,8 @@
 #ifndef ASSETPARAMETERVIEW_H
 #define ASSETPARAMETERVIEW_H
 
-#include <QQuickWidget>
 #include "../model/assetparametermodel.hpp"
+#include <QQuickWidget>
 
 /* @brief This class is the view for a list of parameters.
 
@@ -39,8 +39,9 @@ public:
 
     /* @brief Set the current transition to be displayed */
     void showTransitionParams(std::shared_ptr<AssetParameterModel> model);
+
 protected:
-    TransitionParameterView* m_transitionProperties;
+    TransitionParameterView *m_transitionProperties;
 };
 
 #endif

@@ -11,13 +11,13 @@ the Free Software Foundation, either version 3 of the License, or
 #ifndef PROJECTMANAGER_H
 #define PROJECTMANAGER_H
 
-#include <QObject>
-#include <QUrl>
-#include <QTimer>
-#include <QTime>
-#include <QDir>
-#include <KRecentFilesAction>
 #include "kdenlivecore_export.h"
+#include <KRecentFilesAction>
+#include <QDir>
+#include <QObject>
+#include <QTime>
+#include <QTimer>
+#include <QUrl>
 
 #include "doc/docundostack.hpp"
 #include "timeline/timeline.h"
@@ -138,8 +138,7 @@ private slots:
 
 signals:
     void docOpened(KdenliveDoc *document);
-//     void projectOpened(Project *project);
-
+    //     void projectOpened(Project *project);
 
 protected:
     void updateTimeline(Mlt::Tractor tractor);
@@ -153,7 +152,7 @@ private:
     bool checkForBackupFile(const QUrl &url);
 
     KdenliveDoc *m_project;
-    Timeline *m_trackView; //TODO delete this
+    Timeline *m_trackView; // TODO delete this
     TimelineWidget *m_timelineWidget;
     bool m_timelineWidgetLoaded;
     QTime m_lastSave;

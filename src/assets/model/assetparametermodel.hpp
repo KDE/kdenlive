@@ -22,22 +22,23 @@
 #ifndef ASSETPARAMETERMODEL_H
 #define ASSETPARAMETERMODEL_H
 
+#include "core.h"
+#include "definitions.h"
+#include "klocalizedstring.h"
 #include <QAbstractListModel>
 #include <QDomElement>
 #include <unordered_map>
-#include "klocalizedstring.h"
-#include "core.h"
-#include "definitions.h"
 
-#include <mlt++/MltProperties.h>
 #include <memory>
+#include <mlt++/MltProperties.h>
 
 /* @brief This class is the model for a list of parameters.
-   The behaviour of a transition or an effect is typically  controlled by several parameters. This class exposes this parameters as a list that can be rendered using the relevant widgets.
+   The behaviour of a transition or an effect is typically  controlled by several parameters. This class exposes this parameters as a list that can be rendered
+   using the relevant widgets.
 
  */
 
-enum class ParamType{
+enum class ParamType {
     Double,
     List,
     Bool,
@@ -65,47 +66,39 @@ class AssetParameterModel : public QAbstractListModel
 public:
     explicit AssetParameterModel(Mlt::Properties *asset, const QDomElement &assetXml, const QString &assetId, QObject *parent = nullptr);
     virtual ~AssetParameterModel();
-    enum {
-        NameRole = Qt::UserRole + 1,
-        TypeRole,
-        CommentRole,
-        MinRole,
-        MaxRole,
-        DefaultRole,
-        SuffixRole,
-        DecimalsRole
-    };
+    enum { NameRole = Qt::UserRole + 1, TypeRole, CommentRole, MinRole, MaxRole, DefaultRole, SuffixRole, DecimalsRole };
 
     /* @brief Returns the id of the asset represented by this object */
     QString getAssetId() const;
 
     /* @brief Set the parameter with given name to the given value
      */
-    void setParameter(const QString& name, const QString& value);
+    void setParameter(const QString &name, const QString &value);
 
     /* @brief Return all the parameters as pairs (parameter name, parameter value) */
-    QVector<QPair<QString, QVariant> > getAllParameters() const;
+    QVector<QPair<QString, QVariant>> getAllParameters() const;
 
     /* @brief Sets the value of a list of parameters
        @param params contains the pairs (parameter name, parameter value)
      */
-    void setParameters(const QVector<QPair<QString, QVariant> >& params);
+    void setParameters(const QVector<QPair<QString, QVariant>> &params);
 
     QVariant data(const QModelIndex &index, int role) const override;
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 
 protected:
     /* @brief Helper function to retrieve the type of a parameter given the string corresponding to it*/
-    static ParamType paramTypeFromStr(const QString & type);
+    static ParamType paramTypeFromStr(const QString &type);
 
     /* @brief Helper function to get a double attribute from a dom element, given its name.
        The function additionally parses following keywords:
        - %width and %height that are replaced with profile's height and width.
        If keywords are found, mathematical operations are supported. For example "%width -1" is a valid value.
     */
-    static double parseDoubleAttribute(const QString& attribute, const QDomElement& element);
+    static double parseDoubleAttribute(const QString &attribute, const QDomElement &element);
 
-    struct ParamRow{
+    struct ParamRow
+    {
         ParamType type;
         QDomElement xml;
         QVariant value;
@@ -113,9 +106,9 @@ protected:
 
     QDomElement m_xml;
     QString m_assetId;
-    std::unordered_map<QString, ParamRow > m_params; //Store all parameters by name
-    std::unordered_map<QString, QVariant > m_fixedParams; //We store values of fixed parameters aside
-    QVector<QString> m_rows; // We store the params name in order of parsing
+    std::unordered_map<QString, ParamRow> m_params;      // Store all parameters by name
+    std::unordered_map<QString, QVariant> m_fixedParams; // We store values of fixed parameters aside
+    QVector<QString> m_rows;                             // We store the params name in order of parsing
 
     std::unique_ptr<Mlt::Properties> m_asset;
 };

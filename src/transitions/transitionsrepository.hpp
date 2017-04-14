@@ -22,55 +22,46 @@
 #ifndef TRANSITIONSREPOSITORY_H
 #define TRANSITIONSREPOSITORY_H
 
-#include <memory>
-#include <mutex>
-#include "definitions.h"
 #include "assets/abstractassetsrepository.hpp"
 #include "assets/model/assetparametermodel.hpp"
+#include "definitions.h"
+#include <memory>
+#include <mutex>
 
 /** @brief This class stores all the transitions that can be added by the user.
  * You can query any transitions based on its name.
  * Note that this class is a Singleton
  */
 
-enum class TransitionType {
-    AudioComposition,
-    VideoComposition,
-    AudioTransition,
-    VideoTransition
-};
+enum class TransitionType { AudioComposition, VideoComposition, AudioTransition, VideoTransition };
 Q_DECLARE_METATYPE(TransitionType)
-
 
 class TransitionsRepository : public AbstractAssetsRepository<TransitionType>
 {
 
 public:
-
-    //Returns the instance of the Singleton
-    static std::unique_ptr<TransitionsRepository>& get();
+    // Returns the instance of the Singleton
+    static std::unique_ptr<TransitionsRepository> &get();
 
     /* @brief Creates and return an instance of a transition given its id.
        A raw pointer is returned, the caller is responsible for memory management.
     */
-    Mlt::Transition *getTransition(const QString& transitionId) const;
-
+    Mlt::Transition *getTransition(const QString &transitionId) const;
 
     /* @brief returns true if the transition corresponding to @transitionId is a composition*/
-    bool isComposition(const QString& transitionId) const;
+    bool isComposition(const QString &transitionId) const;
 
 protected:
     // Constructor is protected because class is a Singleton
     TransitionsRepository();
 
-
     /* Retrieves the list of all available effects from Mlt*/
-    Mlt::Properties* retrieveListFromMlt() override;
+    Mlt::Properties *retrieveListFromMlt() override;
 
     /* @brief Retrieves additional info about effects from a custom XML file
        The resulting assets are stored in customAssets
      */
-    void parseCustomAssetFile(const QString& file_name, std::unordered_map<QString, Info>& customAssets) const override;
+    void parseCustomAssetFile(const QString &file_name, std::unordered_map<QString, Info> &customAssets) const override;
 
     /* @brief Returns the paths where the custom transitions' descriptions are stored */
     QStringList assetDirs() const override;
@@ -78,19 +69,16 @@ protected:
     /* @brief Returns the path to the transitions' blacklist*/
     QString assetBlackListPath() const override;
 
-    void parseType(QScopedPointer<Mlt::Properties>& metadata, Info & res) override;
+    void parseType(QScopedPointer<Mlt::Properties> &metadata, Info &res) override;
 
     /* @brief Returns the metadata associated with the given asset*/
-    Mlt::Properties* getMetadata(const QString& assetId) override;
-
+    Mlt::Properties *getMetadata(const QString &assetId) override;
 
     /* @brief Returns all transitions that can be represented as Single Track Transitions*/
     static QSet<QString> getSingleTrackTransitions();
 
     static std::unique_ptr<TransitionsRepository> instance;
-    static std::once_flag m_onceFlag; //flag to create the repository only once;
-
+    static std::once_flag m_onceFlag; // flag to create the repository only once;
 };
-
 
 #endif

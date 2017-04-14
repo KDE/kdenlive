@@ -22,11 +22,11 @@
 #ifndef TIMELINEWIDGET_H
 #define TIMELINEWIDGET_H
 
+#include "assets/assetlist/model/assetfilter.hpp"
+#include "assets/assetlist/model/assettreemodel.hpp"
 #include "mltcontroller/bincontroller.h"
 #include "timeline2/model/timelineitemmodel.hpp"
 #include <QQuickWidget>
-#include "assets/assetlist/model/assettreemodel.hpp"
-#include "assets/assetlist/model/assetfilter.hpp"
 
 class ThumbnailProvider;
 class KActionCollection;
@@ -53,13 +53,14 @@ class TimelineWidget : public QQuickWidget
     Q_PROPERTY(bool showAudioThumbnails READ showAudioThumbnails NOTIFY showAudioThumbnailsChanged)
 
 public:
-    TimelineWidget(KActionCollection *actionCollection, std::shared_ptr<BinController> binController, std::weak_ptr<DocUndoStack> undoStack, QWidget *parent = Q_NULLPTR);
+    TimelineWidget(KActionCollection *actionCollection, std::shared_ptr<BinController> binController, std::weak_ptr<DocUndoStack> undoStack,
+                   QWidget *parent = Q_NULLPTR);
     /* @brief Sets the list of currently selected clips
        @param selection is the list of id's
        @param trackIndex is current clip's track
        @param isMultitrack is true if we want to select the whole tractor (currently unused)
      */
-    void setSelection(const QList<int>& selection = QList<int>(), int trackIndex = -1, bool isMultitrack = false);
+    void setSelection(const QList<int> &selection = QList<int>(), int trackIndex = -1, bool isMultitrack = false);
     /* @brief Get the list of currenly selected clip id's
      */
     QList<int> selection() const;
@@ -95,7 +96,7 @@ public:
        @param logUndo if set to false, no undo object is stored
        @return the id of the inserted clip
      */
-    Q_INVOKABLE int insertClip(int tid, int position, const QString& xml, bool logUndo);
+    Q_INVOKABLE int insertClip(int tid, int position, const QString &xml, bool logUndo);
 
     /* @brief Request inserting a new composition in timeline (dragged from compositions list)
        @param tid is the destination track
@@ -104,7 +105,7 @@ public:
        @param logUndo if set to false, no undo object is stored
        @return the id of the inserted composition
     */
-    Q_INVOKABLE int insertComposition(int tid, int position, const QString& transitionId, bool logUndo);
+    Q_INVOKABLE int insertComposition(int tid, int position, const QString &transitionId, bool logUndo);
 
     /* @brief Request deletion of the currently selected clips
      */
@@ -173,7 +174,8 @@ private:
     std::shared_ptr<TimelineItemModel> m_model;
     KActionCollection *m_actionCollection;
     std::shared_ptr<BinController> m_binController;
-    struct Selection {
+    struct Selection
+    {
         QList<int> selectedClips;
         int selectedTrack;
         bool isMultitrackSelected;
@@ -192,7 +194,7 @@ private:
 
 signals:
     void selectionChanged();
-    void selected(Mlt::Producer* producer);
+    void selected(Mlt::Producer *producer);
     void trackHeightChanged();
     void scaleFactorChanged();
     void durationChanged();
@@ -215,5 +217,3 @@ signals:
 };
 
 #endif
-
-

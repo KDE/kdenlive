@@ -35,8 +35,7 @@ class ProjectClip;
  *  allowing creation of all clip types.
  */
 
-namespace ClipCreationDialog
-{
+namespace ClipCreationDialog {
 
 QStringList getExtensions();
 void createColorClip(KdenliveDoc *doc, const QStringList &groupInfo, Bin *bin);
@@ -45,11 +44,11 @@ void createClipFromXml(KdenliveDoc *doc, QDomElement &xml, const QStringList &gr
 void createSlideshowClip(KdenliveDoc *doc, const QStringList &groupInfo, Bin *bin);
 void createTitleClip(KdenliveDoc *doc, const QStringList &groupInfo, const QString &templatePath, Bin *bin);
 void createTitleTemplateClip(KdenliveDoc *doc, const QStringList &groupInfo, Bin *bin);
-void createClipsCommand(KdenliveDoc *doc, const QList<QUrl> &urls, const QStringList &groupInfo, Bin *bin, const QMap<QString, QString> &data = QMap<QString, QString>());
+void createClipsCommand(KdenliveDoc *doc, const QList<QUrl> &urls, const QStringList &groupInfo, Bin *bin,
+                        const QMap<QString, QString> &data = QMap<QString, QString>());
 void createClipsCommand(Bin *bin, const QDomElement &producer, const QString &id, QUndoCommand *command);
 void createClipsCommand(KdenliveDoc *doc, const QStringList &groupInfo, Bin *bin);
 void addXmlProperties(QDomElement &producer, QMap<QString, QString> &properties);
 }
 
 #endif
-

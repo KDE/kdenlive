@@ -19,8 +19,8 @@
 #define InitEffects_H
 
 #include <QDomDocument>
-#include <QStringList>
 #include <QMap>
+#include <QStringList>
 #include <memory>
 #include <mlt++/Mlt.h>
 
@@ -33,7 +33,6 @@ class EffectsList;
 class initEffects
 {
 public:
-
     /** @brief Fills the effects and transitions lists.
      * @ref fillTransitionsList
      * @ref parseEffectFile
@@ -63,17 +62,9 @@ public:
      * @param tag parameter tag
      * @param type parameter type (string, double, bool, etc.)
      * @return element with the parameter information */
-    static QDomElement quickParameterFill(QDomDocument &doc,
-                                          const QString &name,
-                                          const QString &tag,
-                                          const QString &type,
-                                          const QString &def = QString(),
-                                          const QString &min = QString(),
-                                          const QString &max = QString(),
-                                          const QString &list = QString(),
-                                          const QString &listdisplaynames = QString(),
-                                          const QString &factor = QString(),
-                                          const QString &opacity = QString());
+    static QDomElement quickParameterFill(QDomDocument &doc, const QString &name, const QString &tag, const QString &type, const QString &def = QString(),
+                                          const QString &min = QString(), const QString &max = QString(), const QString &list = QString(),
+                                          const QString &listdisplaynames = QString(), const QString &factor = QString(), const QString &opacity = QString());
 
     /** @brief Parses a file to record information about one or more effects.
      * @param customEffectList list of custom effect
@@ -83,13 +74,11 @@ public:
      * @param filtersList list of filters in the MLT repository
      * @param producersList list of producers in the MLT repository
      * @param repository MLT repository */
-    static void parseEffectFile(EffectsList *customEffectList,
-                                EffectsList *audioEffectList,
-                                EffectsList *videoEffectList,
-                                const QString &name, const QStringList &filtersList,
-                                const QStringList &producersList,
-                                std::unique_ptr<Mlt::Repository> &repository, const QMap<QString, QString> &effectDescriptions);
-    static void parseTransitionFile(EffectsList *transitionList, const QString &name, std::unique_ptr<Mlt::Repository> &repository, const QStringList &installedTransitions, const QMap<QString, QString> &effectDescriptions);
+    static void parseEffectFile(EffectsList *customEffectList, EffectsList *audioEffectList, EffectsList *videoEffectList, const QString &name,
+                                const QStringList &filtersList, const QStringList &producersList, std::unique_ptr<Mlt::Repository> &repository,
+                                const QMap<QString, QString> &effectDescriptions);
+    static void parseTransitionFile(EffectsList *transitionList, const QString &name, std::unique_ptr<Mlt::Repository> &repository,
+                                    const QStringList &installedTransitions, const QMap<QString, QString> &effectDescriptions);
 
     /** @brief Reloads information about custom effects. */
     static void parseCustomEffectsFile();

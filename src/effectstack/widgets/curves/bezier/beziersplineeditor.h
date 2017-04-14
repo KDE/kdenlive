@@ -20,9 +20,9 @@
 #define BEZIERSPLINEEDITOR_H
 
 #include "bpoint.h"
+#include "colortools.h"
 #include "cubicbezierspline.h"
 #include "effectstack/widgets/curves/abstractcurvewidget.h"
-#include "colortools.h"
 
 #include <QWidget>
 
@@ -35,13 +35,12 @@ public:
     explicit BezierSplineEditor(QWidget *parent = nullptr);
     ~BezierSplineEditor();
 
-
     /** @brief Sets the property showAllHandles to @param show.
      *
      * showAllHandles: Whether to show only handles for the selected point for all points.
      */
     void setShowAllHandles(bool show);
-    QList<BPoint> getPoints() const override ;
+    QList<BPoint> getPoints() const override;
 
 public slots:
 
@@ -70,7 +69,6 @@ private:
      *
      * If no point is near enough -1 is returned. */
     int nearestPointInRange(const QPointF &p, int wWidth, int wHeight, BPoint::PointType *sel);
-
 };
 
 #endif

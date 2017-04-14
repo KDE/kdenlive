@@ -46,8 +46,10 @@ public:
      * @param operationMode Will be set to under mouse operation if applicable
      * @param abort Will be set to true if an operation matched and the items list should not be tested for further operation modes
      **/
-    static void checkOperation(QGraphicsItem *item, CustomTrackView *view, QMouseEvent *event, AbstractGroupItem *group, OperationType &operationMode, OperationType moveOperation);
+    static void checkOperation(QGraphicsItem *item, CustomTrackView *view, QMouseEvent *event, AbstractGroupItem *group, OperationType &operationMode,
+                               OperationType moveOperation);
     void initTool(double trackHeight) override;
+
 private:
     Qt::KeyboardModifiers m_modifiers;
     bool m_dragMoved;

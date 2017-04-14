@@ -20,18 +20,18 @@
 #ifndef KDENLIVESETTINGSDIALOG_H
 #define KDENLIVESETTINGSDIALOG_H
 
-#include <QMap>
 #include <KConfigDialog>
 #include <KProcess>
+#include <QMap>
 
-#include "ui_configmisc_ui.h"
-#include "ui_configenv_ui.h"
-#include "ui_configtimeline_ui.h"
 #include "ui_configcapture_ui.h"
+#include "ui_configenv_ui.h"
 #include "ui_configjogshuttle_ui.h"
-#include "ui_configsdl_ui.h"
-#include "ui_configtranscode_ui.h"
+#include "ui_configmisc_ui.h"
 #include "ui_configproject_ui.h"
+#include "ui_configsdl_ui.h"
+#include "ui_configtimeline_ui.h"
+#include "ui_configtranscode_ui.h"
 
 class ProfileWidget;
 
@@ -128,4 +128,3 @@ signals:
 };
 
 #endif
-

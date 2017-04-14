@@ -45,7 +45,6 @@ class ThemeManager : public QObject
     Q_OBJECT
 
 public:
-
     ~ThemeManager();
     static ThemeManager *instance();
 
@@ -71,16 +70,14 @@ private Q_SLOTS:
     void slotConfigColors();
 
 private:
-
     ThemeManager();
 
-    void    populateThemeMenu();
+    void populateThemeMenu();
     QPixmap createSchemePreviewIcon(const KSharedConfigPtr &config) const;
     QString currentKDEdefaultTheme() const;
-    void    updateCurrentKDEdefaultThemePreview();
+    void updateCurrentKDEdefaultThemePreview();
 
 private:
-
     friend class ThemeManagerCreator;
 
     class Private;

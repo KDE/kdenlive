@@ -23,8 +23,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef PROJECTITEMMODEL_H
 #define PROJECTITEMMODEL_H
 
-#include <QSize>
 #include "abstractmodel/abstracttreemodel.hpp"
+#include <QSize>
 
 class AbstractProjectItem;
 class ProjectClip;
@@ -41,19 +41,19 @@ class ProjectItemModel : public AbstractTreeModel
     Q_OBJECT
 
 public:
-    explicit ProjectItemModel(Bin* bin, QObject *parent);
+    explicit ProjectItemModel(Bin *bin, QObject *parent);
     ~ProjectItemModel();
 
     /** @brief Returns a clip from the hierarchy, given its id
      */
-    ProjectClip *getClipByBinID(const QString& binId);
+    ProjectClip *getClipByBinID(const QString &binId);
 
     /** @brief Gets a folder by its id. If none is found, the root is returned
      */
     ProjectFolder *getFolderByBinId(const QString &binId);
 
     /** @brief Returns some info about the folder containing the given index */
-    QStringList getEnclosingFolderInfo(const QModelIndex& index) const;
+    QStringList getEnclosingFolderInfo(const QModelIndex &index) const;
 
     /** @brief Deletes all element and start a fresh model */
     void clean();
@@ -94,7 +94,7 @@ private:
     Bin *m_bin;
 
 signals:
-    //TODO
+    // TODO
     void markersNeedUpdate(const QString &id, const QList<int> &);
     void itemDropped(const QStringList &, const QModelIndex &);
     void itemDropped(const QList<QUrl> &, const QModelIndex &);

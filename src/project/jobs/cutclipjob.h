@@ -42,13 +42,13 @@ public:
      *  @param parameters StringList that should contain: destination file << source file << in point (optional) << out point (optional)
      * */
     CutClipJob(ClipType cType, const QString &id, const QStringList &parameters);
-    virtual ~ CutClipJob();
+    virtual ~CutClipJob();
     const QString destination() const override;
     void startJob() override;
     stringMap cancelProperties() override;
     const QString statusMessage() override;
     bool isExclusive() override;
-    static QHash<ProjectClip *, AbstractClipJob *> prepareTranscodeJob(double fps, const QList<ProjectClip *> &ids,  const QStringList &parameters);
+    static QHash<ProjectClip *, AbstractClipJob *> prepareTranscodeJob(double fps, const QList<ProjectClip *> &ids, const QStringList &parameters);
     static QHash<ProjectClip *, AbstractClipJob *> prepareCutClipJob(double fps, double originalFps, ProjectClip *clip);
     static QHash<ProjectClip *, AbstractClipJob *> prepareAnalyseJob(double fps, const QList<ProjectClip *> &clips, const QStringList &parameters);
     static QList<ProjectClip *> filterClips(const QList<ProjectClip *> &clips, const QStringList &params);

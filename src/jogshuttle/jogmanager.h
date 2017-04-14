@@ -35,7 +35,6 @@ private slots:
 private:
     JogShuttle *m_shuttle;
     JogShuttleAction *m_shuttleAction;
-
 };
 
 #endif

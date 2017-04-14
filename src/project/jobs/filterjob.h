@@ -21,8 +21,8 @@
 #ifndef FILTERJOB
 #define FILTERJOB
 
-#include <QList>
 #include <QHash>
+#include <QList>
 #include <QStringList>
 
 class ProjectClip;

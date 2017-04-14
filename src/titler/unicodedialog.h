@@ -38,7 +38,6 @@ class UnicodeWidget : public QWidget, public Ui::UnicodeWidget_UI
 {
     Q_OBJECT
 public:
-
     explicit UnicodeWidget(UnicodeDialog::InputMethod inputMeth, QWidget *parent = nullptr);
     ~UnicodeWidget();
 

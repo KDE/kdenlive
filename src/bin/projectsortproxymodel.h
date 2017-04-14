@@ -22,8 +22,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef PROJECTSORTPROXYMODEL_H
 #define PROJECTSORTPROXYMODEL_H
 
-#include <QSortFilterProxyModel>
 #include <QCollator>
+#include <QSortFilterProxyModel>
 
 class QItemSelectionModel;
 

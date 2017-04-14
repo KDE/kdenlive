@@ -30,8 +30,8 @@
 
 #include "definitions.h"
 
-#include <QUrl>
 #include <QProcess>
+#include <QUrl>
 
 class Monitor;
 class QAction;
@@ -39,8 +39,7 @@ class QToolBar;
 class QComboBox;
 class QCheckBox;
 
-namespace Mlt
-{
+namespace Mlt {
 class Producer;
 }
 
@@ -93,7 +92,7 @@ private slots:
 
 signals:
     void addClipToProject(const QUrl &);
-    void warningMessage(const QString&, int timeout = 5000, const QList<QAction *> &actions = QList<QAction *>());
+    void warningMessage(const QString &, int timeout = 5000, const QList<QAction *> &actions = QList<QAction *>());
 };
 
 #endif

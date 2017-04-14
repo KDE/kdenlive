@@ -58,7 +58,6 @@ private:
     bool isHUDDependingOnInput() const override;
     bool isScopeDependingOnInput() const override;
     bool isBackgroundDependingOnInput() const override;
-
 };
 
 #endif // WAVEFORM_H

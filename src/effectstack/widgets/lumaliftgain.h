@@ -20,9 +20,9 @@
 #ifndef LUMALIFTGAINWIDGET_H
 #define LUMALIFTGAINWIDGET_H
 
-#include <QWidget>
 #include <QDomNodeList>
 #include <QLocale>
+#include <QWidget>
 
 class ColorWheel;
 

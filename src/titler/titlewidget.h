@@ -18,11 +18,11 @@
 #ifndef TITLEWIDGET_H
 #define TITLEWIDGET_H
 
-#include "ui_titlewidget_ui.h"
-#include "titler/titledocument.h"
 #include "effectstack/graphicsscenerectmove.h"
-#include "titler/unicodedialog.h"
 #include "timecode.h"
+#include "titler/titledocument.h"
+#include "titler/unicodedialog.h"
+#include "ui_titlewidget_ui.h"
 
 #include <QMap>
 #include <QSignalMapper>
@@ -61,7 +61,6 @@ class TitleWidget : public QDialog, public Ui::TitleWidget_UI
     Q_OBJECT
 
 public:
-
     /** @brief Draws the dialog and loads a title document (if any).
      * @param url title document to load
      * @param tc timecode of the project
@@ -95,7 +94,6 @@ protected:
     void keyPressEvent(QKeyEvent *e) override;
 
 private:
-
     /** @brief Rectangle describing the animation start viewport. */
     QGraphicsRectItem *m_startViewport;
 
@@ -107,7 +105,7 @@ private:
 
     /** @brief Initialises the animation properties (viewport size, etc.). */
     void initAnimation();
-    QMap<QGraphicsItem *, Transform > m_transformations;
+    QMap<QGraphicsItem *, Transform> m_transformations;
     TitleDocument m_titledocument;
     QGraphicsRectItem *m_frameBorder;
     QGraphicsRectItem *m_frameBackground;

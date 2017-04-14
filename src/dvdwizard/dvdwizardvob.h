@@ -21,22 +21,23 @@
 #define DVDWIZARDVOB_H
 
 #include "ui_dvdwizardvob_ui.h"
-#include <kcapacitybar.h>
 #include <QUrl>
+#include <kcapacitybar.h>
 
 #include <KMessageWidget>
 
-#include <QWizardPage>
-#include <QStyledItemDelegate>
-#include <QPainter>
-#include <QTreeWidget>
 #include <QDragEnterEvent>
 #include <QDropEvent>
+#include <QPainter>
 #include <QProcess>
+#include <QStyledItemDelegate>
+#include <QTreeWidget>
+#include <QWizardPage>
 
 enum DVDFORMAT { PAL, PAL_WIDE, NTSC, NTSC_WIDE };
 
-struct TranscodeJobInfo {
+struct TranscodeJobInfo
+{
     QString filename;
     QString params;
     QStringList postParams;
@@ -65,8 +66,7 @@ class DvdViewDelegate : public QStyledItemDelegate
 public:
     explicit DvdViewDelegate(QWidget *parent) : QStyledItemDelegate(parent) {}
 
-    void paint(QPainter *painter, const QStyleOptionViewItem &option,
-               const QModelIndex &index) const override
+    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override
     {
         if (index.column() == 0) {
             painter->save();
@@ -156,4 +156,3 @@ private slots:
 };
 
 #endif
-

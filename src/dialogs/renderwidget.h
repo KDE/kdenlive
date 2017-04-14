@@ -22,8 +22,8 @@
 
 #include <KMessageWidget>
 
-#include <QPushButton>
 #include <QPainter>
+#include <QPushButton>
 #include <QStyledItemDelegate>
 
 #include "definitions.h"
@@ -39,8 +39,7 @@ class RenderViewDelegate : public QStyledItemDelegate
 public:
     explicit RenderViewDelegate(QWidget *parent) : QStyledItemDelegate(parent) {}
 
-    void paint(QPainter *painter, const QStyleOptionViewItem &option,
-               const QModelIndex &index) const override
+    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override
     {
         if (index.column() == 1) {
             painter->save();
@@ -53,7 +52,7 @@ public:
             font.setBold(true);
             painter->setFont(font);
             QRect r1 = option.rect;
-            r1.adjust(0, textMargin, 0, - textMargin);
+            r1.adjust(0, textMargin, 0, -textMargin);
             int mid = (int)((r1.height() / 2));
             r1.setBottom(r1.y() + mid);
             QRect bounding;
@@ -91,7 +90,7 @@ public:
     }
 };
 
-class RenderJobItem: public QTreeWidgetItem
+class RenderJobItem : public QTreeWidgetItem
 {
 public:
     explicit RenderJobItem(QTreeWidget *parent, const QStringList &strings, int type = QTreeWidgetItem::Type);
@@ -134,11 +133,7 @@ public:
     bool proxyRendering();
     /** @brief Returns true if the stem audio export checkbox is set. */
     bool isStemAudioExportEnabled() const;
-    enum RenderError {
-        CompositeError = 0,
-        ProfileError = 1,
-        ProxyWarning = 2
-    };
+    enum RenderError { CompositeError = 0, ProfileError = 1, ProxyWarning = 2 };
 
     /** @brief Display warning message in render widget. */
     void errorMessage(RenderError type, const QString &message);
@@ -148,10 +143,8 @@ protected:
     void keyPressEvent(QKeyEvent *e) override;
 
 public slots:
-    void slotExport(bool scriptExport, int zoneIn, int zoneOut,
-                    const QMap<QString, QString> &metadata,
-                    const QList<QString> &playlistPaths, const QList<QString> &trackNames,
-                    const QString &scriptPath, bool exportAudio);
+    void slotExport(bool scriptExport, int zoneIn, int zoneOut, const QMap<QString, QString> &metadata, const QList<QString> &playlistPaths,
+                    const QList<QString> &trackNames, const QString &scriptPath, bool exportAudio);
     void slotAbortCurrentJob();
     void slotPrepareExport(bool scriptExport = false, const QString &scriptPath = QString());
 
@@ -207,7 +200,7 @@ private:
     bool m_blockProcessing;
     QString m_renderer;
     KMessageWidget *m_infoMessage;
-    QMap<int, QString>m_errorMessages;
+    QMap<int, QString> m_errorMessages;
 
     void parseMltPresets();
     void parseProfiles(const QString &selectedProfile = QString());
@@ -233,4 +226,3 @@ signals:
 };
 
 #endif
-

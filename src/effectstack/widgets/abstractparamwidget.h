@@ -19,14 +19,13 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-
 #ifndef ABSTRACTPARAMWIDGET_H
 #define ABSTRACTPARAMWIDGET_H
 
-#include <QWidget>
+#include <QDebug>
 #include <QLabel>
 #include <QPoint>
-#include <QDebug>
+#include <QWidget>
 
 /** @brief Base class of all the widgets representing a parameter of an effect
 
@@ -36,7 +35,7 @@ class AbstractParamWidget : public QWidget
     Q_OBJECT
 public:
     AbstractParamWidget() = delete;
-    AbstractParamWidget(QWidget* w):QWidget(w){}
+    AbstractParamWidget(QWidget *w) : QWidget(w) {}
     virtual ~AbstractParamWidget(){};
 
     /** @brief Factory method to construct a parameter widget given its xml representation
@@ -44,7 +43,7 @@ public:
         @param parent Optional parent of the widget
         TODO
     */
-    //static AbstractParamWidget* construct(const QDomElement& content, QWidget* parent = nullptr);
+    // static AbstractParamWidget* construct(const QDomElement& content, QWidget* parent = nullptr);
 
 signals:
     /** @brief Signal sent when the parameters hold by the widgets are modified
@@ -58,11 +57,7 @@ signals:
 public slots:
     /** @brief Toggle the comments on or off
      */
-    virtual void slotShowComment(bool){
-        qDebug()<<"DEBUG: show_comment not correctly overriden";
-    }
-
+    virtual void slotShowComment(bool) { qDebug() << "DEBUG: show_comment not correctly overriden"; }
 };
-
 
 #endif

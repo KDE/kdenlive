@@ -28,7 +28,7 @@
 class BPoint
 {
 public:
-    enum class PointType{H1=0, P=1, H2=2};
+    enum class PointType { H1 = 0, P = 1, H2 = 2 };
     /** @brief Sets the point to -1, -1 to mark it as unusable (until point + handles have proper values) */
     BPoint();
     /** @brief Sets up according to the params. Linking detecting is done using autoSetLinked(). */
@@ -59,14 +59,14 @@ public:
     /** @brief Toggles the link of the handles to @param linked*/
     void setHandlesLinked(bool linked);
 
-/** handle 1 */
+    /** handle 1 */
     QPointF h1;
-/** point */
+    /** point */
     QPointF p;
-/** handle 2 */
+    /** handle 2 */
     QPointF h2;
     /** handles are linked to achieve a natural locking spline => PH1 = -r*PH2 ; a line can be drawn through h1, p, h2 */
-    bool handlesLinked; 
+    bool handlesLinked;
 };
 
 #endif

@@ -12,8 +12,8 @@
 #define AUDIOSPECTRUM_H
 
 #include "abstractaudioscopewidget.h"
-#include "lib/external/kiss_fft/tools/kiss_fftr.h"
 #include "lib/audio/fftTools.h"
+#include "lib/external/kiss_fft/tools/kiss_fftr.h"
 #include "ui_audiospectrum_ui.h"
 
 // Enables debugging
@@ -22,8 +22,8 @@
 // Show overmodulation
 #define DETECT_OVERMODULATION
 
-#include <QVector>
 #include <QHash>
+#include <QVector>
 
 class AudioSpectrum_UI;
 
@@ -49,7 +49,8 @@ protected:
     ///// Implemented methods /////
     QRect scopeRect() override;
     QImage renderHUD(uint accelerationFactor) override;
-    QImage renderAudioScope(uint accelerationFactor, const audioShortVector &audioFrame, const int freq, const int num_channels, const int num_samples, const int newData) override;
+    QImage renderAudioScope(uint accelerationFactor, const audioShortVector &audioFrame, const int freq, const int num_channels, const int num_samples,
+                            const int newData) override;
     QImage renderBackground(uint accelerationFactor) override;
     void readConfig() override;
     void writeConfig();
@@ -93,7 +94,6 @@ private:
 
 private slots:
     void slotResetMaxFreq();
-
 };
 
 #endif // AUDIOSPECTRUM_H

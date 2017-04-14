@@ -24,8 +24,7 @@
 
 #include "timecode.h"
 
-namespace Mlt
-{
+namespace Mlt {
 }
 
 class AnimKeyframeRuler : public QWidget
@@ -50,11 +49,11 @@ protected:
 
 private:
     /** @brief Holds a list of frame positions for the keyframes. */
-    QVector <int> m_keyframes;
+    QVector<int> m_keyframes;
     /** @brief Holds the keyframe type (linear, discrete, smooth) for each keyframes. */
-    QVector <int> m_keyframeTypes;
+    QVector<int> m_keyframeTypes;
     /** @brief Holds the keyframe relativity (relative to start, to end, percent) for each keyframes. */
-    //QVector <int> m_keyframeRelatives;
+    // QVector <int> m_keyframeRelatives;
     int m_position;
     int m_size;
     double m_scale;

@@ -24,8 +24,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "definitions.h"
 
-#include <mlt++/Mlt.h>
 #include <QString>
+#include <mlt++/Mlt.h>
 
 /**)
  * @class EffectInfo
@@ -55,7 +55,7 @@ class EffectParameter
 {
 public:
     EffectParameter(const QString &name, const QString &value);
-    QString name()   const;
+    QString name() const;
     QString value() const;
     void setValue(const QString &value);
 
@@ -71,7 +71,7 @@ private:
  * @author Jean-Baptiste Mardelle
  */
 
-class EffectsParameterList: public QList< EffectParameter >
+class EffectsParameterList : public QList<EffectParameter>
 {
 public:
     EffectsParameterList();
@@ -86,8 +86,7 @@ public:
  * @brief Provides convenience methods to manage effects and convert between MLT's Filter format and Kdenlive's internal formats (xml or lists).
  */
 
-namespace EffectsController
-{
+namespace EffectsController {
 /** @brief Gets the effect parameters that will be passed to Mlt. */
 EffectsParameterList getEffectArgs(const ProfileInfo &info, const QDomElement &effect);
 
@@ -110,7 +109,8 @@ void initEffect(const ItemInfo &info, ProfileInfo pInfo, const EffectsList &list
 const QString adjustKeyframes(const QString &keyframes, int oldIn, int newIn, int newEnd, ProfileInfo pInfo);
 EffectsParameterList addEffect(const ProfileInfo &info, const QDomElement &effect);
 
-/** @brief Keyframe frame numbers are relative to clip's crop start. So when saving an effect, remove clip cropstart from keyframe numbers so that when we apply effect on another clip, frame numbers are applied relative to the new clip's crop start. */
+/** @brief Keyframe frame numbers are relative to clip's crop start. So when saving an effect, remove clip cropstart from keyframe numbers so that when we apply
+ * effect on another clip, frame numbers are applied relative to the new clip's crop start. */
 void offsetKeyframes(int in, const QDomElement &effect);
 }
 

@@ -26,12 +26,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "definitions.h"
 #include "effects/effectstack/model/effectstackmodel.hpp"
 
-#include <mlt++/Mlt.h>
-#include <QString>
-#include <QObject>
-#include <QMutex>
 #include <QDateTime>
 #include <QDir>
+#include <QMutex>
+#include <QObject>
+#include <QString>
+#include <mlt++/Mlt.h>
 
 class QPixmap;
 class BinController;
@@ -54,8 +54,7 @@ public:
        * @param bincontroller reference to the bincontroller
        * @param producer producer to create reference to
        */
-    static std::shared_ptr<ClipController> construct(const std::shared_ptr<BinController>& bincontroller, std::shared_ptr<Mlt::Producer> producer);
-
+    static std::shared_ptr<ClipController> construct(const std::shared_ptr<BinController> &bincontroller, std::shared_ptr<Mlt::Producer> producer);
 
 protected:
     /**
@@ -82,7 +81,7 @@ public:
     QDateTime date;
 
     /** @brief Replaces the master producer and (TODO) the track producers with an updated producer, for example a proxy */
-    void updateProducer(const std::shared_ptr<Mlt::Producer>& producer);
+    void updateProducer(const std::shared_ptr<Mlt::Producer> &producer);
 
     void getProducerXML(QDomDocument &document, bool includeMeta = false);
 
@@ -161,19 +160,20 @@ public:
     /** @brief Get a clone of master producer for a specific track. Retrieve it if it already exists
      *  in our list, otherwise we create it.
      *  Deprecated, track logic should be handled in timeline/track.cpp */
-    Q_DECL_DEPRECATED Mlt::Producer *getTrackProducer(const QString    &trackName, PlaylistState::ClipState clipState = PlaylistState::Original, double speed = 1.0);
+    Q_DECL_DEPRECATED Mlt::Producer *getTrackProducer(const QString &trackName, PlaylistState::ClipState clipState = PlaylistState::Original,
+                                                      double speed = 1.0);
 
     /** @brief Sets the master producer for this clip when we build the controller without master clip. */
-    void addMasterProducer(const std::shared_ptr<Mlt::Producer>& producer);
+    void addMasterProducer(const std::shared_ptr<Mlt::Producer> &producer);
 
-    QList< CommentedTime > commentedSnapMarkers() const;
+    QList<CommentedTime> commentedSnapMarkers() const;
     GenTime findNextSnapMarker(const GenTime &currTime);
     GenTime findPreviousSnapMarker(const GenTime &currTime);
     QString deleteSnapMarker(const GenTime &time);
     void editSnapMarker(const GenTime &time, const QString &comment);
     void addSnapMarker(const CommentedTime &marker);
     void loadSnapMarker(const QString &seconds, const QString &hash);
-    QList< GenTime > snapMarkers() const;
+    QList<GenTime> snapMarkers() const;
     QString markerComment(const GenTime &t) const;
     QStringList markerComments(const GenTime &start, const GenTime &end) const;
     CommentedTime markerAt(const GenTime &t) const;
@@ -210,7 +210,6 @@ public:
     /** @brief Save an xml playlist of current clip with in/out points as zone.x()/y() */
     void saveZone(QPoint zone, const QDir &dir);
 
-
     /* @brief This is the producer that serves as a placeholder while a clip is being loaded. It is created in Core at startup */
     static std::shared_ptr<Mlt::Producer> mediaUnavailable;
 
@@ -218,7 +217,7 @@ public:
     std::shared_ptr<EffectStackModel> getEffectStack() const;
 
     /** @brief Append an effect to this producer's effect list */
-    void addEffect(const QString& effectId);
+    void addEffect(const QString &effectId);
 
 protected:
     std::shared_ptr<Mlt::Producer> m_masterProducer;
@@ -233,10 +232,10 @@ protected:
     bool m_hasLimitedDuration;
     std::weak_ptr<BinController> m_binController;
     /** @brief A list of snap markers; these markers are added to a clips snap-to points, and are displayed as necessary. */
-    QList< CommentedTime > m_snapMarkers;
+    QList<CommentedTime> m_snapMarkers;
     QMutex m_effectMutex;
     void getInfoForProducer();
-    //void rebuildEffectList(ProfileInfo info);
+    // void rebuildEffectList(ProfileInfo info);
     std::shared_ptr<EffectStackModel> m_effectStack;
 };
 

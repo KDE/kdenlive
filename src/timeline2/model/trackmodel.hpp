@@ -22,12 +22,12 @@
 #ifndef TRACKMODEL_H
 #define TRACKMODEL_H
 
-#include <memory>
+#include "undohelper.hpp"
 #include <QSharedPointer>
-#include <unordered_map>
+#include <memory>
 #include <mlt++/MltPlaylist.h>
 #include <mlt++/MltTractor.h>
-#include "undohelper.hpp"
+#include <unordered_map>
 
 class TimelineModel;
 class ClipModel;
@@ -35,7 +35,8 @@ class CompositionModel;
 
 /* @brief This class represents a Track object, as viewed by the backend.
    To allow same track transitions, a Track object corresponds to two Mlt::Playlist, between which we can switch when required by the transitions.
-   In general, the Gui associated with it will send modification queries (such as resize or move), and this class authorize them or not depending on the validity of the modifications
+   In general, the Gui associated with it will send modification queries (such as resize or move), and this class authorize them or not depending on the
+   validity of the modifications
 */
 class TrackModel
 {
@@ -48,16 +49,18 @@ public:
     friend class TimelineItemModel;
     friend class ClipModel;
     friend class CompositionModel;
+
 private:
     /* This constructor is private, call the static construct instead */
     TrackModel(std::weak_ptr<TimelineModel> parent, int id = -1);
+
 public:
     /* @brief Creates a track, which references itself to the parent
        Returns the (unique) id of the created track
        @param id Requested id of the track. Automatic if id = -1
        @param pos is the optional position of the track. If left to -1, it will be added at the end
      */
-    static int construct(const std::weak_ptr<TimelineModel>& parent, int id = -1, int pos = -1);
+    static int construct(const std::weak_ptr<TimelineModel> &parent, int id = -1, int pos = -1);
 
     /* @brief returns the number of clips */
     int getClipsCount();
@@ -70,7 +73,7 @@ public:
 
     /* Implicit conversion operator to access the underlying producer
      */
-    operator Mlt::Producer&(){ return m_track;}
+    operator Mlt::Producer &() { return m_track; }
 
     // TODO make protected
     QVariant getProperty(const QString &name);
@@ -96,7 +99,7 @@ protected:
        @param undo Lambda function containing the current undo stack. Will be updated with current operation
        @param redo Lambda function containing the current redo queue. Will be updated with current operation
     */
-    bool requestClipInsertion(int clipId, int position, bool updateView,  Fun& undo, Fun& redo);
+    bool requestClipInsertion(int clipId, int position, bool updateView, Fun &undo, Fun &redo);
     /* @brief This function returns a lambda that performs the requested operation */
     Fun requestClipInsertion_lambda(int clipId, int position, bool updateView);
 
@@ -108,7 +111,7 @@ protected:
        @param undo Lambda function containing the current undo stack. Will be updated with current operation
        @param redo Lambda function containing the current redo queue. Will be updated with current operation
     */
-    bool requestClipDeletion(int clipId, bool updateView, Fun& undo, Fun& redo);
+    bool requestClipDeletion(int clipId, bool updateView, Fun &undo, Fun &redo);
     /* @brief This function returns a lambda that performs the requested operation */
     Fun requestClipDeletion_lambda(int clipId, bool updateView);
 
@@ -122,11 +125,11 @@ protected:
        @param undo Lambda function containing the current undo stack. Will be updated with current operation
        @param redo Lambda function containing the current redo queue. Will be updated with current operation
     */
-    bool requestCompositionInsertion(int compoId, int position, bool updateView,  Fun& undo, Fun& redo);
+    bool requestCompositionInsertion(int compoId, int position, bool updateView, Fun &undo, Fun &redo);
     /* @brief This function returns a lambda that performs the requested operation */
     Fun requestCompositionInsertion_lambda(int compoId, int position, bool updateView);
 
-    bool requestCompositionDeletion(int compoId, bool updateView, Fun& undo, Fun& redo);
+    bool requestCompositionDeletion(int compoId, bool updateView, Fun &undo, Fun &redo);
     Fun requestCompositionDeletion_lambda(int compoId, bool updateView);
     Fun requestCompositionResize_lambda(int compoId, int in, int out = -1);
 
@@ -183,7 +186,7 @@ public slots:
 
 private:
     std::weak_ptr<TimelineModel> m_parent;
-    int m_id; //this is the creation id of the track, used for book-keeping
+    int m_id; // this is the creation id of the track, used for book-keeping
 
     // We fake two playlists to allow same track transitions.
     Mlt::Tractor m_track;
@@ -191,14 +194,13 @@ private:
 
     int m_currentInsertionOrder;
 
-
-    std::map<int, std::shared_ptr<ClipModel>> m_allClips; /*this is important to keep an
-                                                            ordered structure to store the clips, since we use their ids order as row order*/
+    std::map<int, std::shared_ptr<ClipModel>> m_allClips;               /*this is important to keep an
+                                                                            ordered structure to store the clips, since we use their ids order as row order*/
     std::map<int, std::shared_ptr<CompositionModel>> m_allCompositions; /*this is important to keep an
-                                                                          ordered structure to store the clips, since we use their ids order as row order*/
+                                                                            ordered structure to store the clips, since we use their ids order as row order*/
 
-    std::map<int, int> m_compoPos; //We store the positions of the compositions. In Melt, the compositions are not inserted at the track level, but we keep those positions here to check for moves and resize
-
+    std::map<int, int> m_compoPos; // We store the positions of the compositions. In Melt, the compositions are not inserted at the track level, but we keep
+                                   // those positions here to check for moves and resize
 };
 
 #endif

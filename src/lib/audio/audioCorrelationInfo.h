@@ -50,7 +50,6 @@ private:
 
     qint64 *m_correlationVector;
     qint64 m_max;
-
 };
 
 #endif // AUDIOCORRELATIONINFO_H

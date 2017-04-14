@@ -22,10 +22,9 @@
 #ifndef PROFILEMODEL_H
 #define PROFILEMODEL_H
 
-#include <memory>
-#include <QString>
 #include "mlt++/MltProfile.h"
-
+#include <QString>
+#include <memory>
 
 /** @brief This is a wrapper around Mlt::Profile to be used by the rest of kdenlive.
  *  It has implicit conversion to Mlt::Profile so you can use it directly in calls to Mlt backend.
@@ -40,9 +39,9 @@ public:
 
     /* @brief Constructs a profile using the path to the profile description
      */
-    ProfileModel(const QString& path);
+    ProfileModel(const QString &path);
 
-    bool is_valid( ) const;
+    bool is_valid() const;
     QString description() const;
     int frame_rate_num() const;
     int frame_rate_den() const;
@@ -65,9 +64,8 @@ public:
     bool operator==(const ProfileModel &other) const;
     bool operator!=(const ProfileModel &other) const;
 
-
     /* @brief get underlying profile. Use with caution*/
-   Mlt::Profile &profile() {return *m_profile.get();};
+    Mlt::Profile &profile() { return *m_profile.get(); };
 
 protected:
     QString m_path;
@@ -75,8 +73,6 @@ protected:
     QString m_description;
 
     std::unique_ptr<Mlt::Profile> m_profile;
-
 };
-
 
 #endif

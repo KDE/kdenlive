@@ -38,15 +38,7 @@ class AbstractToolManager : public QObject
     Q_OBJECT
 
 public:
-    enum ToolManagerType {
-        TrimType = 0,
-        SpacerType,
-        MoveType,
-        ResizeType,
-        RazorType,
-        SelectType,
-        GuideType
-    };
+    enum ToolManagerType { TrimType = 0, SpacerType, MoveType, ResizeType, RazorType, SelectType, GuideType };
     explicit AbstractToolManager(ToolManagerType type, CustomTrackView *view, std::shared_ptr<DocUndoStack> commandStack);
     virtual bool mousePress(QMouseEvent *event, const ItemInfo &info = ItemInfo(), const QList<QGraphicsItem *> &list = QList<QGraphicsItem *>()) = 0;
     virtual bool mouseMove(QMouseEvent *event, int pos = 0, int track = -1);

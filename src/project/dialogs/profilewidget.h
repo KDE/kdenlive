@@ -45,7 +45,7 @@ class ProfileWidget : public QWidget
 public:
     explicit ProfileWidget(QWidget *parent = nullptr);
     ~ProfileWidget();
-    void loadProfile(const QString& profile);
+    void loadProfile(const QString &profile);
     const QString selectedProfile() const;
 
 private:
@@ -58,10 +58,9 @@ private:
     QComboBox *fpsFilt;
     QComboBox *scanningFilt;
 
-
     QTreeView *m_treeView;
     ProfileTreeModel *m_treeModel;
-    ProfileFilter* m_filter;
+    ProfileFilter *m_filter;
 
     QTextEdit *m_descriptionPanel;
 
@@ -73,17 +72,16 @@ private:
     /* @brief Fill the description of the profile.
        @param profile_path is the path to the profile
     */
-    void fillDescriptionPanel(const QString& profile_path);
+    void fillDescriptionPanel(const QString &profile_path);
 
     /** @brief Select the profile with given path. Returns true on success */
-    bool trySelectProfile(const QString& profile);
+    bool trySelectProfile(const QString &profile);
 
     /** @brief Slot to be called whenever filtering changes */
     void slotFilterChanged();
 
 signals:
     void profileChanged();
-
 };
 
 #endif

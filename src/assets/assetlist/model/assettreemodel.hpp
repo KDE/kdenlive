@@ -33,25 +33,20 @@ class AssetTreeModel : public AbstractTreeModel
 public:
     explicit AssetTreeModel(QObject *parent = 0);
 
-    enum {
-        IdRole = Qt::UserRole + 1,
-        NameRole
-    };
+    enum { IdRole = Qt::UserRole + 1, NameRole };
 
-    //Helper function to retrieve name
-    QString getName(const QModelIndex& index) const;
-    //Helper function to retrieve description
-    QString getDescription(const QModelIndex& index) const;
+    // Helper function to retrieve name
+    QString getName(const QModelIndex &index) const;
+    // Helper function to retrieve description
+    QString getDescription(const QModelIndex &index) const;
     QHash<int, QByteArray> roleNames() const override;
     QVariant data(const QModelIndex &index, int role) const override;
-    QList <QModelIndex> getChildrenIndexes();
-
+    QList<QModelIndex> getChildrenIndexes();
 
     // for convenience, we store the column of each data field
     static int nameCol, idCol, favCol, typeCol;
 
 protected:
-
 };
 
 #endif

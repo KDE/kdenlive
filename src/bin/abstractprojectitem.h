@@ -26,8 +26,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "abstractmodel/treeitem.hpp"
 #include "project/jobs/abstractclipjob.h"
 
-#include <QObject>
 #include <QDateTime>
+#include <QObject>
 
 class ProjectClip;
 class ProjectFolder;
@@ -48,13 +48,7 @@ class AbstractProjectItem : public TreeItem
     Q_OBJECT
 
 public:
-
-    enum PROJECTITEMTYPE {
-        FolderUpItem = 0,
-        FolderItem = 1,
-        ClipItem = 2,
-        SubClipItem = 3
-    };
+    enum PROJECTITEMTYPE { FolderUpItem = 0, FolderItem = 1, ClipItem = 2, SubClipItem = 3 };
 
     /**
      * @brief Constructor.
@@ -131,12 +125,7 @@ public:
         ClipStatus
     };
 
-    enum CLIPSTATUS {
-        StatusReady = 0,
-        StatusMissing,
-        StatusWaiting,
-        StatusDeleting
-    };
+    enum CLIPSTATUS { StatusReady = 0, StatusMissing, StatusWaiting, StatusDeleting };
 
     void setClipStatus(AbstractProjectItem::CLIPSTATUS status);
     AbstractProjectItem::CLIPSTATUS clipStatus() const;

@@ -33,7 +33,7 @@ public:
 public slots:
     void slotSetPosition(int pos);
     void slotRemoveKeyframe(int pos);
-    void slotAddKeyframe(int pos = - 1, int select = false);
+    void slotAddKeyframe(int pos = -1, int select = false);
     void slotAddRemove();
     void slotGoToNext();
     void slotGoToPrev();

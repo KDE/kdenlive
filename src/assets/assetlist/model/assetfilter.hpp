@@ -22,9 +22,9 @@
 #ifndef ASSETFILTER_H
 #define ASSETFILTER_H
 
+#include "effects/effectsrepository.hpp"
 #include <QSortFilterProxyModel>
 #include <memory>
-#include "effects/effectsrepository.hpp"
 
 /* @brief This class is used as a proxy model to filter an asset list based on given criterion (name, ...)
  */
@@ -40,17 +40,16 @@ public:
        @param enabled whether to enable this filter
        @param pattern to match against effects' names
     */
-    void setFilterName(bool enabled, const QString& pattern);
+    void setFilterName(bool enabled, const QString &pattern);
 
     /** @brief Returns true if the ModelIndex in the source model is visible after filtering
      */
     bool isVisible(const QModelIndex &sourceIndex);
 
-
 protected:
     bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override;
 
-    bool filterName(TreeItem* item) const;
+    bool filterName(TreeItem *item) const;
     /* @brief Apply all filter and returns true if the object should be kept after filtering */
     virtual bool applyAll(TreeItem *item) const;
 

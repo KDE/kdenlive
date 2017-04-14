@@ -19,13 +19,12 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-
 #ifndef BOOLPARAMWIDGET_H
 #define BOOLPARAMWIDGET_H
 
-#include <QWidget>
-#include "ui_boolparamwidget_ui.h"
 #include "abstractparamwidget.h"
+#include "ui_boolparamwidget_ui.h"
+#include <QWidget>
 
 /** @brief This class represents a parameter that requires
            the user to choose tick a checkbox
@@ -34,15 +33,13 @@ class BoolParamWidget : public AbstractParamWidget, public Ui::BoolParamWidget_U
 {
     Q_OBJECT
 public:
-
     /** @brief Constructor for the widgetComment
         @param name String containing the name of the parameter
         @param comment Optional string containing the comment associated to the parameter
         @param checked Boolean indicating wether the checkbox should initially be checked
         @param parent Parent widget
     */
-    BoolParamWidget(const QString& name, const QString& comment = QString(), bool checked = false, QWidget *parent = nullptr);
-
+    BoolParamWidget(const QString &name, const QString &comment = QString(), bool checked = false, QWidget *parent = nullptr);
 
     /** @brief Returns the current value of the parameter
      */
@@ -52,6 +49,5 @@ public slots:
     /** @brief Toggle the comments on or off    */
     void slotShowComment(bool);
 };
-
 
 #endif

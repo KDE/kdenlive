@@ -26,7 +26,7 @@
 
 #include "jogaction.h"
 
-class JogShuttleConfig: public QObject
+class JogShuttleConfig : public QObject
 {
     Q_OBJECT
 public:

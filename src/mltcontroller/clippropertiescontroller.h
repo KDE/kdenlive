@@ -25,8 +25,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "definitions.h"
 #include "timecode.h"
 
-#include <mlt++/Mlt.h>
 #include <QString>
+#include <mlt++/Mlt.h>
 
 class ClipController;
 class QMimeData;
@@ -68,7 +68,7 @@ public slots:
     void slotFillAnalysisData();
 
 private slots:
-    void slotColorModified(const QColor& newcolor);
+    void slotColorModified(const QColor &newcolor);
     void slotDurationChanged(int duration);
     void slotEnableForce(int state);
     void slotValueChanged(double);

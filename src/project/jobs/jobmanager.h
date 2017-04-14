@@ -22,12 +22,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef JOBMANAGER
 #define JOBMANAGER
 
-#include "definitions.h"
 #include "abstractclipjob.h"
+#include "definitions.h"
 
-#include <QObject>
-#include <QMutex>
 #include <QFutureSynchronizer>
+#include <QMutex>
+#include <QObject>
 
 class AbstractClipJob;
 class Bin;
@@ -66,7 +66,8 @@ public:
      *  @param consumerParams the parameters for the MLT consumer
      *  @param extraParams parameters that will tell the job what to do when finished
      */
-    void prepareJobFromTimeline(ProjectClip *clip, const QMap<QString, QString> &producerParams, const QMap<QString, QString> &filterParams, const QMap<QString, QString> &consumerParams, const QMap<QString, QString> &extraParams);
+    void prepareJobFromTimeline(ProjectClip *clip, const QMap<QString, QString> &producerParams, const QMap<QString, QString> &filterParams,
+                                const QMap<QString, QString> &consumerParams, const QMap<QString, QString> &extraParams);
 
     /** @brief Get ready to process selected job
      *  @param clips the list of selected clips
@@ -125,11 +126,11 @@ private:
 signals:
     void addClip(const QString &, int folderId);
     void processLog(const QString &, int, int, const QString & = QString());
-    void updateJobStatus(const QString &, int, int, const QString &label = QString(), const QString &actionName = QString(), const QString &details = QString());
+    void updateJobStatus(const QString &, int, int, const QString &label = QString(), const QString &actionName = QString(),
+                         const QString &details = QString());
     void gotFilterJobResults(const QString &, int, int, stringMap, stringMap);
     void jobCount(int);
     void checkJobProcess();
 };
 
 #endif
-

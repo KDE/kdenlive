@@ -27,14 +27,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <mlt++/Mlt.h>
 
-namespace Mlt
-{
+namespace Mlt {
 class Producer;
 class Frame;
 }
 
-namespace KThumb
-{
+namespace KThumb {
 QPixmap getImage(const QUrl &url, int width, int height = -1);
 QPixmap getImage(const QUrl &url, int frame, int width, int height = -1);
 QImage getFrame(Mlt::Producer *producer, int framepos, int displayWidth, int height);

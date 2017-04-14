@@ -55,7 +55,7 @@ public:
        Note that you cannot remove ignored points.
        @param points list of point to ignore
      */
-    void ignore(const std::vector<int>& pts);
+    void ignore(const std::vector<int> &pts);
 
     /* @brief Revert ignoring
      */
@@ -71,9 +71,10 @@ public:
     int proposeSize(int in, int out, int size, bool right, int maxSnapDist);
 
 private:
-    std::map<int, int> m_snaps; //This represents the snappoints internally. The keys are the positions and the values are the number of elements at this position. Note that it is important that the datastructure is ordered. QMap is NOT ordered, and therefore not suitable.
+    std::map<int, int> m_snaps; // This represents the snappoints internally. The keys are the positions and the values are the number of elements at this
+                                // position. Note that it is important that the datastructure is ordered. QMap is NOT ordered, and therefore not suitable.
 
-    std::vector<int > m_ignore;
+    std::vector<int> m_ignore;
 };
 
 #endif

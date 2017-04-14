@@ -20,17 +20,17 @@
 #ifndef CLIPMANAGER_H
 #define CLIPMANAGER_H
 
-#include <QtXml/qdom.h>
-#include <QObject>
-#include <QMutex>
 #include <QFuture>
+#include <QMutex>
+#include <QObject>
+#include <QtXml/qdom.h>
 
-#include <QUrl>
 #include <KIO/CopyJob>
+#include <QUrl>
 #include <kimagecache.h>
 
-#include "gentime.h"
 #include "definitions.h"
+#include "gentime.h"
 
 class KdenliveDoc;
 class AbstractGroupItem;
@@ -40,20 +40,16 @@ class SolidVolumeInfo
 {
 
 public:
-    QString path; // mount path of volume, with trailing slash
-    QString uuid; // UUID as from Solid
-    QString label; // volume label (think of CDs)
+    QString path;     // mount path of volume, with trailing slash
+    QString uuid;     // UUID as from Solid
+    QString label;    // volume label (think of CDs)
     bool isRemovable; // may be removed
     bool isMounted;
 
-    bool isNull() const
-    {
-        return path.isNull();
-    }
+    bool isNull() const { return path.isNull(); }
 };
 
-namespace Mlt
-{
+namespace Mlt {
 }
 
 /**
@@ -61,12 +57,12 @@ namespace Mlt
  * @brief Takes care of clip operations that might affect timeline and bin
  */
 
-class ClipManager: public QObject
+class ClipManager : public QObject
 {
-Q_OBJECT public:
+    Q_OBJECT public :
 
-    explicit ClipManager(KdenliveDoc *doc);
-    virtual ~ ClipManager();
+        explicit ClipManager(KdenliveDoc *doc);
+    virtual ~ClipManager();
 
     void slotAddTextTemplateClip(const QString &titleName, const QUrl &path, const QString &group, const QString &groupId);
     void doDeleteClips(const QStringList &clipIds, const QStringList &folderIds, const QStringList &subClipIds, QUndoCommand *deleteCommand, bool execute);
@@ -94,7 +90,7 @@ private slots:
     /** @brief Clip has been copied, add it now. */
     void slotAddCopiedClip(KIO::Job *, const QUrl &, const QUrl &dst);
 
-private:   // Private attributes
+private: // Private attributes
     /** @brief the list of groups in the document */
     QList<AbstractGroupItem *> m_groupsList;
     QMap<QString, QString> m_folderList;
@@ -119,7 +115,7 @@ private:   // Private attributes
     /** @brief The id of currently processed clip for audio thumbs creation. */
     QString m_processingAudioThumbId;
     /** @brief The list of removable drives. */
-    QVector <SolidVolumeInfo> m_removableVolumes;
+    QVector<SolidVolumeInfo> m_removableVolumes;
     QMutex m_groupsMutex;
 
     QPoint m_projectTreeThumbSize;

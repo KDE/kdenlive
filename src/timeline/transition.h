@@ -25,13 +25,13 @@
 #define TRANSITION_H
 
 #include "abstractclipitem.h"
-#include "gentime.h"
 #include "definitions.h"
+#include "gentime.h"
 
-#include <QString>
-#include <QGraphicsRectItem>
 #include <QDomElement>
+#include <QGraphicsRectItem>
 #include <QMap>
+#include <QString>
 
 class ClipItem;
 
@@ -39,12 +39,9 @@ class Transition : public AbstractClipItem
 {
     Q_OBJECT
 public:
-
     Transition(const ItemInfo &info, int transitiontrack, double fps, const QDomElement &params = QDomElement(), bool automaticTransition = false);
     virtual ~Transition();
-    void paint(QPainter *painter,
-               const QStyleOptionGraphicsItem *option,
-               QWidget *widget) override;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     int type() const override;
 
     /** @brief Returns an XML representation of this transition. */
@@ -58,7 +55,7 @@ public:
     void updateKeyframes(const QDomElement &effect) override;
     static int itemHeight();
     static int itemOffset();
-    //const QMap< QString, QString > transitionParameters() const;
+    // const QMap< QString, QString > transitionParameters() const;
     void setTransitionParameters(const QDomElement &params);
     void setTransitionTrack(int track);
 
@@ -96,7 +93,6 @@ private:
     QDomElement m_parameters;
 
     int m_transitionTrack;
-
 };
 
 #endif

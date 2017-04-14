@@ -22,20 +22,21 @@
 #ifndef COMPOSITIONMODEL_H
 #define COMPOSITIONMODEL_H
 
-#include <memory>
-#include <QObject>
-#include "undohelper.hpp"
 #include "assets/model/assetparametermodel.hpp"
 #include "moveableItem.hpp"
+#include "undohelper.hpp"
+#include <QObject>
+#include <memory>
 
-namespace Mlt{
-    class Transition;
+namespace Mlt {
+class Transition;
 }
 class TimelineModel;
 class TrackModel;
 
 /* @brief This class represents a Composition object, as viewed by the backend.
-   In general, the Gui associated with it will send modification queries (such as resize or move), and this class authorize them or not depending on the validity of the modifications
+   In general, the Gui associated with it will send modification queries (such as resize or move), and this class authorize them or not depending on the
+   validity of the modifications
 */
 class CompositionModel : public AssetParameterModel, public MoveableItem<Mlt::Transition>
 {
@@ -43,7 +44,7 @@ class CompositionModel : public AssetParameterModel, public MoveableItem<Mlt::Tr
 
 protected:
     /* This constructor is not meant to be called, call the static construct instead */
-    CompositionModel(std::weak_ptr<TimelineModel> parent, Mlt::Transition* transition, int id, const QDomElement &transitionXml, const QString &transitionId);
+    CompositionModel(std::weak_ptr<TimelineModel> parent, Mlt::Transition *transition, int id, const QDomElement &transitionXml, const QString &transitionId);
 
 public:
     /* @brief Creates a composition, which then registers itself to the parent timeline
@@ -52,7 +53,7 @@ public:
        @param transitionId is the id of the transition to be inserted
        @param id Requested id of the clip. Automatic if -1
     */
-    static int construct(const std::weak_ptr<TimelineModel>& parent, const QString &transitionId, int id = -1);
+    static int construct(const std::weak_ptr<TimelineModel> &parent, const QString &transitionId, int id = -1);
 
     friend class TrackModel;
     friend class TimelineModel;
@@ -61,7 +62,8 @@ public:
      */
     int getPlaytime() const override;
 
-    /* @brief Returns the id of the second track involved in the composition (a_track in mlt's vocabulary, the b_track beeing the track where the composition is inserted)
+    /* @brief Returns the id of the second track involved in the composition (a_track in mlt's vocabulary, the b_track beeing the track where the composition is
+       inserted)
        Important: this function returns a kdenlive id, you cannot use it directly in Mlt functions. Use timelinemodel::getTrackPosition to retrieve mlt's index
      */
     int getATrack() const;
@@ -85,11 +87,9 @@ protected:
        @param undo Lambda function containing the current undo stack. Will be updated with current operation
        @param redo Lambda function containing the current redo queue. Will be updated with current operation
     */
-    bool requestResize(int size, bool right, Fun& undo, Fun& redo);
-
+    bool requestResize(int size, bool right, Fun &undo, Fun &redo);
 
     int m_atrack;
-
 };
 
 #endif

@@ -89,12 +89,7 @@ public:
     void disableBinEffects(bool disable);
     void disableTimelineEffects(bool disable);
 
-    enum STACKSTATUS {
-        NORMALSTATUS = 0,
-        DISABLEBIN = 1,
-        DISABLETIMELINE = 2,
-        DISABLEALL = 3
-    };
+    enum STACKSTATUS { NORMALSTATUS = 0, DISABLEBIN = 1, DISABLETIMELINE = 2, DISABLEALL = 3 };
 
 protected:
     void mouseMoveEvent(QMouseEvent *event) override;
@@ -263,7 +258,7 @@ signals:
     /**  Parameters for an effect changed, update the filter in timeline */
     void updateEffect(ClipItem *, int, const QDomElement &, const QDomElement &, int, bool);
     /**  Parameters for an effect changed, update the filter in timeline */
-    void updateMasterEffect(QString, const QDomElement &, const QDomElement &, int ix,bool refreshStack = false);
+    void updateMasterEffect(QString, const QDomElement &, const QDomElement &, int ix, bool refreshStack = false);
     /** An effect in stack was moved, we need to regenerate
         all effects for this clip in the playlist */
     void refreshEffectStack(ClipItem *);

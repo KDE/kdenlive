@@ -26,11 +26,11 @@
 #ifndef CUSTOMRULER_H
 #define CUSTOMRULER_H
 
-#include <QWidget>
 #include <QPair>
+#include <QWidget>
 
-#include "timeline/customtrackview.h"
 #include "timecode.h"
+#include "timeline/customtrackview.h"
 
 enum RULER_MOVE { RULER_CURSOR = 0, RULER_START = 1, RULER_MIDDLE = 2, RULER_END = 3 };
 enum MOUSE_MOVE { NO_MOVE = 0, HORIZONTAL_MOVE = 1, VERTICAL_MOVE = 2 };
@@ -53,7 +53,7 @@ public:
     void activateZone();
     bool updatePreview(int frame, bool rendered = true, bool refresh = false);
     /** @brief Returns a list of rendered timeline preview chunks */
-    const QPair <QStringList, QStringList> previewChunks() const;
+    const QPair<QStringList, QStringList> previewChunks() const;
     /** @brief Returns a list of clean timeline preview chunks (that have been created) */
     const QList<int> getProcessedChunks() const;
     /** @brief Returns a list of dirty timeline preview chunks (that need to be generated) */

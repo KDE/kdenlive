@@ -26,31 +26,26 @@
 #include <QString>
 #include <QVector>
 
-
 /** @brief This static class provides helper functions to manipulate Dom objects easily
  */
-
-
 
 class Xml
 {
 
 public:
-
     Xml() = delete;
 
-
     /* @brief Returns the content of a given tag within the current DomElement.
-       For example, if your @param element looks like <html><title>foo</title><head>bar</head></html>, passing @tagName = "title" will return foo, and @tagName = "head" returns bar
+       For example, if your @param element looks like <html><title>foo</title><head>bar</head></html>, passing @tagName = "title" will return foo, and @tagName
+       = "head" returns bar
        Returns empty string if tag is not found.
     */
-    static QString getSubTagContent(const QDomElement& element, const QString& tagName);
+    static QString getSubTagContent(const QDomElement &element, const QString &tagName);
 
     /* @brief Returns the direct children of given @element whose tag name matches given @paam tagName
        This is an alternative to QDomElement::elementsByTagName which returns also non-direct children
     */
-    static QVector<QDomNode> getDirectChildrenByTagName(const QDomElement& element, const QString& tagName);
+    static QVector<QDomNode> getDirectChildrenByTagName(const QDomElement &element, const QString &tagName);
 };
-
 
 #endif

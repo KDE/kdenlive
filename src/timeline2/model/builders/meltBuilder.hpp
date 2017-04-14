@@ -21,7 +21,7 @@
 
 #ifndef MELTBUILDER_H
 #define MELTBUILDER_H
-#include<memory>
+#include <memory>
 #include <mlt++/MltTractor.h>
 
 class TimelineItemModel;
@@ -29,7 +29,6 @@ class TimelineItemModel;
 /** @brief This function can be used to construct a TimelineModel object from a Mlt object hierarchy
  */
 
-bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel>& timeline, Mlt::Tractor mlt_timeline);
-
+bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, Mlt::Tractor mlt_timeline);
 
 #endif

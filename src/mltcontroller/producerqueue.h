@@ -25,15 +25,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "definitions.h"
 #include "mltcontroller/bincontroller.h"
 
+#include <QFuture>
 #include <QMutex>
 #include <memory>
-#include <QFuture>
 
 class ClipController;
 class BinController;
 
-namespace Mlt
-{
+namespace Mlt {
 class Producer;
 }
 
@@ -64,7 +63,7 @@ private:
     QList<requestClipInfo> m_requestList;
     /** @brief The ids of the clips that are currently being loaded for info query */
     QStringList m_processingClipId;
-    QFuture <void> m_infoThread;
+    QFuture<void> m_infoThread;
     std::shared_ptr<BinController> m_binController;
     ClipType getTypeForService(const QString &id, const QString &path) const;
     /** @brief Pass xml values to an MLT producer at build time */

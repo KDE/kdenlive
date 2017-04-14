@@ -22,14 +22,14 @@
 
 #include "ui_archivewidget_ui.h"
 
-#include <kio/global.h>
 #include <KIO/CopyJob>
 #include <QTemporaryFile>
+#include <kio/global.h>
 
 #include <QDialog>
+#include <QDomDocument>
 #include <QFuture>
 #include <QList>
-#include <QDomDocument>
 #include <memory>
 
 class KJob;
@@ -49,7 +49,8 @@ class ArchiveWidget : public QDialog, public Ui::ArchiveWidget_UI
     Q_OBJECT
 
 public:
-    ArchiveWidget(const QString &projectName, const QDomDocument &doc, const QList<std::shared_ptr<ClipController>> &list, const QStringList &luma_list, QWidget *parent = nullptr);
+    ArchiveWidget(const QString &projectName, const QDomDocument &doc, const QList<std::shared_ptr<ClipController>> &list, const QStringList &luma_list,
+                  QWidget *parent = nullptr);
     // Constructor for extracting widget
     explicit ArchiveWidget(const QUrl &url, QWidget *parent = nullptr);
     ~ArchiveWidget();
@@ -114,4 +115,3 @@ signals:
 };
 
 #endif
-

@@ -28,8 +28,7 @@
 class Monitor;
 class SplineItem;
 class SimpleKeyframeWidget;
-namespace Mlt
-{
+namespace Mlt {
 class Filter;
 }
 
@@ -64,7 +63,7 @@ signals:
 private:
     SimpleKeyframeWidget *m_keyframeWidget;
     Monitor *m_monitor;
-    //MonitorScene *m_scene;
+    // MonitorScene *m_scene;
     QVariant m_data;
     SplineItem *m_item;
     int m_in;

@@ -20,14 +20,14 @@
 #ifndef DVDWIZARD_H
 #define DVDWIZARD_H
 
-#include "dvdwizard/dvdwizardvob.h"
-#include "dvdwizard/dvdwizardmenu.h"
 #include "dvdwizard/dvdwizardchapters.h"
-#include "ui_dvdwizardstatus_ui.h"
+#include "dvdwizard/dvdwizardmenu.h"
+#include "dvdwizard/dvdwizardvob.h"
 #include "ui_dvdwizardchapters_ui.h"
+#include "ui_dvdwizardstatus_ui.h"
 
-#include <QWizard>
 #include <QProcess>
+#include <QWizard>
 
 #include <QTemporaryFile>
 
@@ -69,7 +69,8 @@ private:
     void cleanup();
     void errorMessage(const QString &text);
     void infoMessage(const QString &text);
-    void processDvdauthor(const QString &menuMovieUrl = QString(), const stringRectMap &buttons = stringRectMap(), const QStringList &buttonsTarget = QStringList());
+    void processDvdauthor(const QString &menuMovieUrl = QString(), const stringRectMap &buttons = stringRectMap(),
+                          const QStringList &buttonsTarget = QStringList());
 
 private slots:
     void slotPageChanged(int page);
@@ -88,4 +89,3 @@ private slots:
 };
 
 #endif
-

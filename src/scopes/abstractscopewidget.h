@@ -11,10 +11,10 @@
 #ifndef ABSTRACTSCOPEWIDGET_H
 #define ABSTRACTSCOPEWIDGET_H
 
-#include <QWidget>
-#include <QSemaphore>
 #include <QFuture>
 #include <QMenu>
+#include <QSemaphore>
+#include <QWidget>
 /**
   \brief Abstract class for audio/colour scopes (receive data and paint it).
 
@@ -237,7 +237,6 @@ signals:
     void requestAutoRefresh(bool);
 
 private:
-
     /** Counts the number of data frames that have been rendered in the active monitor.
         The frame number will be reset when the calculation starts for the current data set. */
     QAtomicInt m_newHUDFrames;
@@ -297,7 +296,6 @@ protected slots:
 
     /** Resets the acceleration factors to 1 when realtime rendering is disabled. */
     void slotResetRealtimeFactor(bool realtimeChecked);
-
 };
 
 #endif // ABSTRACTSCOPEWIDGET_H

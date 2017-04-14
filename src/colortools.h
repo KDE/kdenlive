@@ -24,10 +24,8 @@ class ColorTools : public QObject
 public:
     explicit ColorTools(QObject *parent = nullptr);
 
-    //enum ColorsRGB { COL_R, COL_G, COL_B, COL_Luma, COL_A, COL_RGB };
-    enum class ColorsRGB{
-        R,G,B,Luma,A,RGB
-            };
+    // enum ColorsRGB { COL_R, COL_G, COL_B, COL_Luma, COL_A, COL_RGB };
+    enum class ColorsRGB { R, G, B, Luma, A, RGB };
 
     enum ComponentsHSV { COM_H, COM_S, COM_V };
 
@@ -87,8 +85,8 @@ public:
       For shear == true, the image will be sheared such that the x axis goes through (0,0) and (1,1). offsetY can additionally
       shift the whole x axis vertically.
       */
-    static QImage hsvCurvePlane(const QSize &size, const QColor &baseColor,
-                                const ComponentsHSV &xVariant, const ComponentsHSV &yVariant, bool shear = false, const float offsetY = 0);
+    static QImage hsvCurvePlane(const QSize &size, const QColor &baseColor, const ComponentsHSV &xVariant, const ComponentsHSV &yVariant, bool shear = false,
+                                const float offsetY = 0);
 
 signals:
     void signalYuvWheelCalculationFinished();

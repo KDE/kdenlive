@@ -54,14 +54,15 @@ public:
     explicit Track(int index, const QList<QAction *> &actions, Mlt::Playlist &playlist, TrackType trackType, int height, QWidget *parent = nullptr);
     ~Track();
 
-    struct SlowmoInfo {
+    struct SlowmoInfo
+    {
         double speed;
         int strobe;
         PlaylistState::ClipState state;
         QString toString(const QLocale &locale)
         {
             QStringList str;
-            str << locale.toString(speed) << QString::number(strobe) << QString::number((int) state);
+            str << locale.toString(speed) << QString::number(strobe) << QString::number((int)state);
             return str.join(QLatin1Char(':'));
         }
         void readFromString(const QString &str, const QLocale &locale)
@@ -71,7 +72,7 @@ public:
             if (str.count(QLatin1Char(':')) == 1) {
                 state = PlaylistState::Original;
             } else {
-                state = (PlaylistState::ClipState) str.section(QLatin1Char(':'), 2, 2).toInt();
+                state = (PlaylistState::ClipState)str.section(QLatin1Char(':'), 2, 2).toInt();
             }
         }
     };
@@ -147,13 +148,14 @@ public:
      * @param t is the clip time in playlist
      * @param prod is the replacement clip
      * @return true if success */
-    bool replace(qreal t, Mlt::Producer *prod, PlaylistState::ClipState state = PlaylistState::Original, PlaylistState::ClipState originalState = PlaylistState::Original);
+    bool replace(qreal t, Mlt::Producer *prod, PlaylistState::ClipState state = PlaylistState::Original,
+                 PlaylistState::ClipState originalState = PlaylistState::Original);
     /** @brief look for a clip having a given property value
      * @param name is the property name
      * @param value is the searched value
      * @param startindex is a playlist index to start the search from
      * @return pointer to the first matching producer */
-    //Mlt::Producer &find(const QByteArray &name, const QByteArray &value, int startindex = 0);
+    // Mlt::Producer &find(const QByteArray &name, const QByteArray &value, int startindex = 0);
     /** @brief get a producer clone for the track and pick an extract
      * MLT (libav*) can't mix audio of a clip with itself, so we duplicate the producer for each track
      * @param parent is the source media
@@ -171,7 +173,8 @@ public:
     * "speed" is the current speed.
     * If removeEffect is true, we revert to original avformat producer
     */
-    int changeClipSpeed(const ItemInfo &info, const ItemInfo &speedIndependantInfo, PlaylistState::ClipState state, double speed, int strobe, Mlt::Producer *prod, const QString &id, Mlt::Properties passProps, bool removeEffect = false);
+    int changeClipSpeed(const ItemInfo &info, const ItemInfo &speedIndependantInfo, PlaylistState::ClipState state, double speed, int strobe,
+                        Mlt::Producer *prod, const QString &id, Mlt::Properties passProps, bool removeEffect = false);
     Mlt::Producer *buildSlowMoProducer(Mlt::Properties passProps, const QString &url, const QString &id, Track::SlowmoInfo info);
     /** @brief Returns true if there is a clip with audio on this track */
     bool hasAudio();
@@ -209,7 +212,7 @@ public:
     bool moveTrackEffect(int oldPos, int newPos);
     QList<QPoint> visibleClips();
     bool resize_in_out(int pos, int in, int out);
-    /** @brief temporarily hide the track if it contains the clip id at position pos 
+    /** @brief temporarily hide the track if it contains the clip id at position pos
      *  @returns true if the track was hidden
      **/
     bool hideClip(int pos, const QString &id, bool hide);

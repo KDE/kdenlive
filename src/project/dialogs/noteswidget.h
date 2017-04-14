@@ -48,4 +48,3 @@ signals:
 };
 
 #endif
-

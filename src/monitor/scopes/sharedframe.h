@@ -69,6 +69,7 @@ public:
     int get_audio_frequency() const;
     int get_audio_samples() const;
     const int16_t *get_audio() const;
+
 private:
     QExplicitlySharedDataPointer<FrameData> d;
 };

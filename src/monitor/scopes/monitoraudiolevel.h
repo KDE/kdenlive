@@ -25,8 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "scopewidget.h"
 #include <QWidget>
 
-namespace Mlt
-{
+namespace Mlt {
 class Profile;
 class Filter;
 }
@@ -50,8 +49,8 @@ private:
     Mlt::Filter *m_filter;
     int m_height;
     QPixmap m_pixmap;
-    QVector <int> m_peaks;
-    QVector <int> m_values;
+    QVector<int> m_peaks;
+    QVector<int> m_values;
     int m_channelHeight;
     int m_channelDistance;
     int m_channelFillHeight;
@@ -59,7 +58,7 @@ private:
     void refreshScope(const QSize &size, bool full) override;
 
 private slots:
-    void setAudioValues(const QVector <int> &values);
+    void setAudioValues(const QVector<int> &values);
 };
 
 #endif

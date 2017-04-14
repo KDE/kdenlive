@@ -37,13 +37,15 @@
 #ifndef OAUTH2_H
 #define OAUTH2_H
 
-#include <QString>
-#include <QObject>
 #include <QNetworkReply>
+#include <QObject>
+#include <QString>
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
-static QString OAuth2_strClientSecret = QStringLiteral("441d88374716e7a3503997151e4780566f007313");  //obtained when ttguy registered the kdenlive application with freesound
-#endif /* DOXYGEN_SHOULD_SKIP_THIS ^^^ don't make this any more public than it is. This preprocessing directive makes the Doxygen documention ignore this line */
+static QString OAuth2_strClientSecret =
+    QStringLiteral("441d88374716e7a3503997151e4780566f007313"); // obtained when ttguy registered the kdenlive application with freesound
+#endif /* DOXYGEN_SHOULD_SKIP_THIS ^^^ don't make this any more public than it is. This preprocessing directive makes the Doxygen documention ignore this line \
+          */
 
 #ifdef QT5_USE_WEBKIT
 
@@ -116,9 +118,10 @@ private slots:
     void SlotAuthCodeObtained();
     void SlotCanceled();
     void SlotDownloadHQPreview();
+
 private:
     QString m_strAuthorizationCode;
-    QString  m_strAccessToken;
+    QString m_strAccessToken;
     QString m_strEndPoint;
 
     QString m_strClientID;

@@ -26,8 +26,8 @@
 #define SPECTROGRAM_H
 
 #include "abstractaudioscopewidget.h"
-#include "ui_spectrogram_ui.h"
 #include "lib/audio/fftTools.h"
+#include "ui_spectrogram_ui.h"
 
 class Spectrogram_UI;
 class Spectrogram : public AbstractAudioScopeWidget
@@ -44,7 +44,8 @@ protected:
     ///// Implemented methods /////
     QRect scopeRect() override;
     QImage renderHUD(uint accelerationFactor) override;
-    QImage renderAudioScope(uint accelerationFactor, const audioShortVector &audioFrame, const int freq, const int num_channels, const int num_samples, const int newData) override;
+    QImage renderAudioScope(uint accelerationFactor, const audioShortVector &audioFrame, const int freq, const int num_channels, const int num_samples,
+                            const int newData) override;
     QImage renderBackground(uint accelerationFactor) override;
     bool isHUDDependingOnInput() const override;
     bool isScopeDependingOnInput() const override;
@@ -62,7 +63,7 @@ private:
     QAction *m_aTrackMouse;
     QAction *m_aHighlightPeaks;
 
-    QList<QVector<float> > m_fftHistory;
+    QList<QVector<float>> m_fftHistory;
     QImage m_fftHistoryImg;
 
     int m_dBmin;
@@ -78,7 +79,6 @@ private:
 
 private slots:
     void slotResetMaxFreq();
-
 };
 
 #endif // SPECTROGRAM_H

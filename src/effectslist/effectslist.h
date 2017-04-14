@@ -27,12 +27,11 @@
 
 #include <QDomDocument>
 
-namespace Kdenlive
-{
+namespace Kdenlive {
 enum EFFECTTYPE { simpleEffect, groupEffect };
 }
 
-class EffectsList: public QDomDocument
+class EffectsList : public QDomDocument
 {
 public:
     explicit EffectsList(bool indexRequired = false);

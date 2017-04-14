@@ -29,12 +29,7 @@ class SmallRuler : public QWidget
 {
     Q_OBJECT
 
-    enum controls {
-        CONTROL_NONE,
-        CONTROL_HEAD,
-        CONTROL_IN,
-        CONTROL_OUT
-    };
+    enum controls { CONTROL_NONE, CONTROL_HEAD, CONTROL_IN, CONTROL_OUT };
 
 public:
     explicit SmallRuler(Monitor *manager, Render *render, QWidget *parent = nullptr);
@@ -43,7 +38,7 @@ public:
     void setZoneStart();
     void setZoneEnd(bool discardLastFrame = false);
     QPoint zone() const;
-    void setMarkers(const QList< CommentedTime > &list);
+    void setMarkers(const QList<CommentedTime> &list);
     QString markerAt(GenTime pos);
     void updatePalette();
     void refreshRuler();

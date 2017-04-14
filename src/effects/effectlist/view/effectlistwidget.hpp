@@ -27,7 +27,6 @@
 /* @brief This class is a widget that display the list of available effects
  */
 
-
 class EffectFilter;
 class EffectTreeModel;
 class EffectListWidget : public AssetListWidget
@@ -37,12 +36,10 @@ class EffectListWidget : public AssetListWidget
 public:
     EffectListWidget(QWidget *parent = Q_NULLPTR);
 
-    Q_INVOKABLE void setFilterType(const QString& type);
+    Q_INVOKABLE void setFilterType(const QString &type);
 
     /*@brief Return mime type used for drag and drop. It will be kdenlive/effect*/
-    Q_INVOKABLE QString getMimeType(const QString& assetId) const override;
+    Q_INVOKABLE QString getMimeType(const QString &assetId) const override;
 };
 
 #endif
-
-

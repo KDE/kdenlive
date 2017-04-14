@@ -22,13 +22,13 @@
 #ifndef CLIPMODEL_H
 #define CLIPMODEL_H
 
-#include <memory>
-#include <QObject>
-#include "undohelper.hpp"
 #include "moveableItem.hpp"
+#include "undohelper.hpp"
+#include <QObject>
+#include <memory>
 
-namespace Mlt{
-    class Producer;
+namespace Mlt {
+class Producer;
 }
 class TimelineModel;
 class TrackModel;
@@ -36,7 +36,8 @@ class EffectStackModel;
 class ProjectClip;
 
 /* @brief This class represents a Clip object, as viewed by the backend.
-   In general, the Gui associated with it will send modification queries (such as resize or move), and this class authorize them or not depending on the validity of the modifications
+   In general, the Gui associated with it will send modification queries (such as resize or move), and this class authorize them or not depending on the
+   validity of the modifications
 */
 class ClipModel : public MoveableItem<Mlt::Producer>
 {
@@ -55,7 +56,7 @@ public:
        @param producer is the producer to be inserted
        @param id Requested id of the clip. Automatic if -1
     */
-    static int construct(const std::weak_ptr<TimelineModel>& parent, const QString &binClipId, int id = -1);
+    static int construct(const std::weak_ptr<TimelineModel> &parent, const QString &binClipId, int id = -1);
 
     /* @brief returns a property of the clip, or from it's parent if it's a cut
      */
@@ -72,8 +73,8 @@ public:
     friend class TrackModel;
     friend class TimelineModel;
     friend class TimelineItemModel;
-protected:
 
+protected:
     Mlt::Producer *service() const override;
 
     /* @brief Performs a resize of the given clip.
@@ -85,7 +86,7 @@ protected:
        @param undo Lambda function containing the current undo stack. Will be updated with current operation
        @param redo Lambda function containing the current redo queue. Will be updated with current operation
     */
-    bool requestResize(int size, bool right, Fun& undo, Fun& redo) override;
+    bool requestResize(int size, bool right, Fun &undo, Fun &redo) override;
 
     /* @brief This function change the global (timeline-wise) enabled state of the effects
     */
@@ -97,7 +98,6 @@ protected:
     /** @brief Checks whether the current producers is limitless and set m_endlessResize acordingly */
     void checkLimitless();
 
-
     bool hasAudio() const;
     bool isAudioOnly() const;
 
@@ -106,10 +106,9 @@ protected:
 
     std::shared_ptr<EffectStackModel> m_effectStack;
 
-    QString m_binClipId; //This is the Id of the bin clip this clip corresponds to.
+    QString m_binClipId; // This is the Id of the bin clip this clip corresponds to.
 
     bool m_endlessResize; // Whether this clip can be freely resized
-
 };
 
 #endif

@@ -42,7 +42,6 @@ class KoSliderCombo : public QComboBox
     Q_OBJECT
 
 public:
-
     /**
      * Constructor for the widget, where value is set to 0
      *
@@ -98,7 +97,7 @@ public:
     qreal value() const;
 
     QSize minimumSizeHint() const override; ///< reimplemented from KComboBox
-    QSize sizeHint() const override; ///< reimplemented from KComboBox
+    QSize sizeHint() const override;        ///< reimplemented from KComboBox
 
 public slots:
 
@@ -120,12 +119,12 @@ signals:
     void valueChanged(qreal value, bool final);
 
 protected:
-    void paintEvent(QPaintEvent *) override; ///< reimplemented from KComboBox
-    void hideEvent(QHideEvent *) override; ///< reimplemented from KComboBox
-    void changeEvent(QEvent *e) override; ///< reimplemented from KComboBox
+    void paintEvent(QPaintEvent *) override;       ///< reimplemented from KComboBox
+    void hideEvent(QHideEvent *) override;         ///< reimplemented from KComboBox
+    void changeEvent(QEvent *e) override;          ///< reimplemented from KComboBox
     void mousePressEvent(QMouseEvent *e) override; ///< reimplemented from KComboBox
-    void keyPressEvent(QKeyEvent *e) override; ///< reimplemented from KComboBox
-    void wheelEvent(QWheelEvent *e) override; ///< reimplemented from KComboBox
+    void keyPressEvent(QKeyEvent *e) override;     ///< reimplemented from KComboBox
+    void wheelEvent(QWheelEvent *e) override;      ///< reimplemented from KComboBox
 
 private:
     Q_PRIVATE_SLOT(d, void sliderValueChanged(int value))

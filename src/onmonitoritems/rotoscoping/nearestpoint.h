@@ -23,9 +23,8 @@ from "Graphics Gems", Academic Press, 1990
 
 #include "graphicsgems.h"
 
-extern "C"
-{
-    Point2 NearestPointOnCurve(Point2 P, Point2 *V, double *tOut);
+extern "C" {
+Point2 NearestPointOnCurve(Point2 P, Point2 *V, double *tOut);
 }
 
 #endif

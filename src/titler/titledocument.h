@@ -17,11 +17,11 @@
 #ifndef TITLEDOCUMENT_H
 #define TITLEDOCUMENT_H
 
-#include <QDomDocument>
-#include <QUrl>
 #include <QColor>
+#include <QDomDocument>
 #include <QRectF>
 #include <QTransform>
+#include <QUrl>
 #include <QVariant>
 
 class QGraphicsScene;
@@ -33,14 +33,7 @@ class TitleDocument
 
 public:
     TitleDocument();
-    enum TitleProperties {
-        OutlineWidth = 101,
-        OutlineColor,
-        LineSpacing,
-        Gradient,
-        RotateFactor,
-        ZoomFactor
-    };
+    enum TitleProperties { OutlineWidth = 101, OutlineColor, LineSpacing, Gradient, RotateFactor, ZoomFactor };
     void setScene(QGraphicsScene *scene, int width, int height);
     bool saveDocument(const QUrl &url, QGraphicsRectItem *startv, QGraphicsRectItem *endv, int duration, bool embed_images = false);
     QDomDocument xml(QGraphicsRectItem *startv, QGraphicsRectItem *endv, bool embed_images = false);
@@ -53,8 +46,8 @@ public:
     /** \brief Extract embedded images in project titles folder. */
     static const QString extractBase64Image(const QString &titlePath, const QString &data);
 
-    enum ItemOrigin {OriginXLeft = 0, OriginYTop = 1};
-    enum AxisPosition {AxisDefault = 0, AxisInverted = 1};
+    enum ItemOrigin { OriginXLeft = 0, OriginYTop = 1 };
+    enum AxisPosition { AxisDefault = 0, AxisInverted = 1 };
 
 private:
     QGraphicsScene *m_scene;
@@ -71,4 +64,3 @@ private:
 };
 
 #endif
-

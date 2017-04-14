@@ -20,10 +20,10 @@
 #ifndef COLLAPSIBLEEFFECT_H
 #define COLLAPSIBLEEFFECT_H
 
-#include "parametercontainer.h"
 #include "abstractcollapsiblewidget.h"
-#include "timecode.h"
 #include "mltcontroller/effectscontroller.h"
+#include "parametercontainer.h"
+#include "timecode.h"
 
 #include <QDomElement>
 
@@ -42,7 +42,8 @@ class CollapsibleEffect : public AbstractCollapsibleWidget
     Q_OBJECT
 
 public:
-    explicit CollapsibleEffect(const QDomElement &effect, const QDomElement &original_effect, const ItemInfo &info, EffectMetaInfo *metaInfo, bool canMoveUp, bool lastEffect, QWidget *parent = nullptr);
+    explicit CollapsibleEffect(const QDomElement &effect, const QDomElement &original_effect, const ItemInfo &info, EffectMetaInfo *metaInfo, bool canMoveUp,
+                               bool lastEffect, QWidget *parent = nullptr);
     ~CollapsibleEffect();
     QLabel *title;
 
@@ -161,4 +162,3 @@ signals:
 };
 
 #endif
-

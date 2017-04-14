@@ -33,15 +33,14 @@ class EffectItemModel : public TreeItem, public AssetParameterModel
 {
 
 public:
-
     /* This construct an effect of the given id
        @param is a ptr to the model this item belongs to. This is required to send update signals
      */
-    static EffectItemModel* construct(const QString & effectId, EffectStackModel *stack);
+    static EffectItemModel *construct(const QString &effectId, EffectStackModel *stack);
 
     /* @brief This function plants the effect into the given service in last position
      */
-    void plant(const std::weak_ptr<Mlt::Service>& service);
+    void plant(const std::weak_ptr<Mlt::Service> &service);
 
     /* @brief This function change the individual enabled state of the effect */
     void setEnabled(bool enabled);
@@ -60,11 +59,8 @@ protected:
     /* @brief Toogles the mlt effect according to the current activation state*/
     void updateEnable();
 
-
     bool m_enabled;
     bool m_timelineEffectsEnabled;
-
-
 };
 
 #endif

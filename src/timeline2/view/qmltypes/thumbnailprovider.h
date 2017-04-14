@@ -19,11 +19,11 @@
 #ifndef THUMBNAILPROVIDER_H
 #define THUMBNAILPROVIDER_H
 
+#include <KImageCache>
+#include <QCache>
 #include <QQuickImageProvider>
 #include <mlt++/MltProducer.h>
 #include <mlt++/MltProfile.h>
-#include <KImageCache>
-#include <QCache>
 
 class ThumbnailProvider : public QQuickImageProvider
 {
@@ -34,12 +34,11 @@ public:
     void resetProject();
 
 private:
-    QString cacheKey(Mlt::Properties& properties, const QString& service,
-                     const QString& resource, const QString& hash, int frameNumber);
-    QImage makeThumbnail(Mlt::Producer *, int frameNumber, const QSize& requestedSize);
+    QString cacheKey(Mlt::Properties &properties, const QString &service, const QString &resource, const QString &hash, int frameNumber);
+    QImage makeThumbnail(Mlt::Producer *, int frameNumber, const QSize &requestedSize);
     Mlt::Profile m_profile;
     KImageCache *m_cache;
-    QCache <int, Mlt::Producer> m_producers;
+    QCache<int, Mlt::Producer> m_producers;
 };
 
 #endif // THUMBNAILPROVIDER_H

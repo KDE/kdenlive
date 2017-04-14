@@ -24,25 +24,22 @@
 
 #include <stdint.h>
 
+#include <QImage>
 #include <QObject>
 #include <QWidget>
-#include <QImage>
 
 class MonitorManager;
 
-class AbstractRender: public QObject
+class AbstractRender : public QObject
 {
-Q_OBJECT public:
+    Q_OBJECT public :
 
-    /** @brief Build an abstract MLT Renderer
-     *  @param name A unique identifier for this renderer
-     *  @param winid The parent widget identifier (required for SDL display). Set to 0 for OpenGL rendering
-     *  @param profile The MLT profile used for the renderer (default one will be used if empty). */
-    explicit AbstractRender(Kdenlive::MonitorId name, QWidget *parent = nullptr)
-        : QObject(parent),
-          sendFrameForAnalysis(false),
-          analyseAudio(false),
-          m_id(name)
+        /** @brief Build an abstract MLT Renderer
+         *  @param name A unique identifier for this renderer
+         *  @param winid The parent widget identifier (required for SDL display). Set to 0 for OpenGL rendering
+         *  @param profile The MLT profile used for the renderer (default one will be used if empty). */
+        explicit AbstractRender(Kdenlive::MonitorId name, QWidget *parent = nullptr)
+        : QObject(parent), sendFrameForAnalysis(false), analyseAudio(false), m_id(name)
     {
     }
 
@@ -55,10 +52,7 @@ Q_OBJECT public:
     /** @brief This property is used to decide if the renderer should send audio data for monitoring. */
     bool analyseAudio;
 
-    Kdenlive::MonitorId id() const
-    {
-        return m_id;
-    }
+    Kdenlive::MonitorId id() const { return m_id; }
 
     /** @brief Someone needs us to send again a frame. */
     virtual void sendFrameUpdate() = 0;
@@ -81,10 +75,7 @@ class AbstractMonitor : public QWidget
     Q_OBJECT
 public:
     AbstractMonitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *parent = nullptr);
-    Kdenlive::MonitorId id()
-    {
-        return m_id;
-    }
+    Kdenlive::MonitorId id() { return m_id; }
     virtual ~AbstractMonitor();
     virtual AbstractRender *abstractRender() = 0;
     bool isActive() const;

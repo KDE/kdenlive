@@ -22,13 +22,13 @@
 #ifndef ANIMATIONWIDGET_H
 #define ANIMATIONWIDGET_H
 
-#include <QWidget>
 #include <QList>
+#include <QWidget>
 
-#include "timecodedisplay.h"
 #include "abstractparamwidget.h"
-#include "mlt++/MltProperties.h"
 #include "mlt++/MltAnimation.h"
+#include "mlt++/MltProperties.h"
+#include "timecodedisplay.h"
 
 class AnimKeyframeRuler;
 class Monitor;
@@ -43,7 +43,8 @@ class AnimationWidget : public AbstractParamWidget
 {
     Q_OBJECT
 public:
-    explicit AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int max, int effectIn, const QString &effectId, const QDomElement &xml, QWidget *parent = nullptr);
+    explicit AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int max, int effectIn, const QString &effectId, const QDomElement &xml,
+                             QWidget *parent = nullptr);
     virtual ~AnimationWidget();
     void updateTimecodeFormat();
     void addParameter(const QDomElement &e);

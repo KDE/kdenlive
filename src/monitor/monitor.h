@@ -21,16 +21,16 @@
 #define MONITOR_H
 
 #include "abstractmonitor.h"
+#include "definitions.h"
+#include "effectslist/effectslist.h"
 #include "gentime.h"
 #include "renderer.h"
-#include "definitions.h"
-#include "timecodedisplay.h"
 #include "scopes/sharedframe.h"
-#include "effectslist/effectslist.h"
+#include "timecodedisplay.h"
 
 #include <QDomElement>
-#include <QToolBar>
 #include <QElapsedTimer>
+#include <QToolBar>
 
 class SmallRuler;
 class ClipController;
@@ -195,7 +195,7 @@ private:
     Mlt::Producer *m_splitProducer;
     int m_length;
     bool m_dragStarted;
-    //TODO: Move capture stuff in own class
+    // TODO: Move capture stuff in own class
     RecManager *m_recManager;
     /** @brief The widget showing current time position **/
     TimecodeDisplay *m_timePos;
@@ -279,7 +279,7 @@ private slots:
 
 public slots:
     void slotOpenDvdFile(const QString &);
-    //void slotSetClipProducer(DocClipBase *clip, QPoint zone = QPoint(), bool forceUpdate = false, int position = -1);
+    // void slotSetClipProducer(DocClipBase *clip, QPoint zone = QPoint(), bool forceUpdate = false, int position = -1);
     void updateClipProducer(Mlt::Producer *prod);
     void updateClipProducer(const QString &playlist);
     void slotOpenClip(ClipController *controller, int in = -1, int out = -1);
@@ -298,7 +298,7 @@ public slots:
     void slotRewind(double speed = 0);
     void slotRewindOneFrame(int diff = 1);
     void slotForwardOneFrame(int diff = 1);
-    //void saveSceneList(const QString &path, const QDomElement &info = QDomElement());
+    // void saveSceneList(const QString &path, const QDomElement &info = QDomElement());
     void slotStart();
     void slotEnd();
     void slotSetZoneStart();

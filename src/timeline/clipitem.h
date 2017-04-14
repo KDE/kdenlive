@@ -21,22 +21,21 @@
 #define CLIPITEM_H
 
 #include "abstractclipitem.h"
-#include "gentime.h"
 #include "effectslist/effectslist.h"
+#include "gentime.h"
 #include "mltcontroller/effectscontroller.h"
 
-#include <QTimeLine>
-#include <QGraphicsRectItem>
 #include <QDomElement>
 #include <QFutureSynchronizer>
+#include <QGraphicsRectItem>
 #include <QGraphicsSceneMouseEvent>
+#include <QTimeLine>
 #include <QTimer>
 
 class Transition;
 class ProjectClip;
 
-namespace Mlt
-{
+namespace Mlt {
 class Producer;
 class Profile;
 }
@@ -47,10 +46,8 @@ class ClipItem : public AbstractClipItem
 
 public:
     ClipItem(ProjectClip *clip, const ItemInfo &info, double fps, double speed, int strobe, int frame_width, bool generateThumbs = true);
-    virtual ~ ClipItem();
-    void paint(QPainter *painter,
-               const QStyleOptionGraphicsItem *option,
-               QWidget *) override;
+    virtual ~ClipItem();
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *) override;
     int type() const override;
     void resizeStart(int posx, bool size = true, bool emitChange = true) override;
     void resizeEnd(int posx, bool emitChange = true) override;
@@ -176,7 +173,7 @@ public:
      * @param trackSpecific (default = true) Whether to return general producer for a specific track.
      * @return Fitting producer
      * Which producer is returned depends on the type of this clip (audioonly, videoonly, normal) */
-    //Mlt::Producer *getProducer(int track, bool trackSpecific = true);
+    // Mlt::Producer *getProducer(int track, bool trackSpecific = true);
     void resetFrameWidth(int width);
     /** @brief Clip is about to be deleted, block thumbs. */
     void stopThumbs();
@@ -201,8 +198,8 @@ protected:
     void dragLeaveEvent(QGraphicsSceneDragDropEvent *event) override;
     void dragMoveEvent(QGraphicsSceneDragDropEvent *event) override;
     void dropEvent(QGraphicsSceneDragDropEvent *event) override;
-    //virtual void hoverEnterEvent(QGraphicsSceneHoverEvent *);
-    //virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent *);
+    // virtual void hoverEnterEvent(QGraphicsSceneHoverEvent *);
+    // virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent *);
     QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
 
 private:
@@ -227,7 +224,7 @@ private:
     QTimeLine *m_timeLine;
     bool m_startThumbRequested;
     bool m_endThumbRequested;
-    //bool m_hover;
+    // bool m_hover;
     double m_speed;
     int m_strobe;
 

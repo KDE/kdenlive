@@ -37,6 +37,7 @@ public:
     bool isMoveTimeline() const;
     bool isNewPoints() const;
     void replot(const QString &name = QString());
+
 private:
     KPlotPoint *m_movepoint;
     int m_activeIndexPlot;
@@ -50,6 +51,7 @@ private:
     QDomElement m_itemParameter;
     int m_max_y, m_min_y;
     QString m_paramName;
+
 protected:
     void mouseMoveEvent(QMouseEvent *event);
     void mousePressEvent(QMouseEvent *event);
@@ -59,7 +61,6 @@ signals:
     void parameterChanged(const QDomElement &);
     void updateFrame(int);
     void parameterList(const QStringList &);
-
 };
 
 #endif

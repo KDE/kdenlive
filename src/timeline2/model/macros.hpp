@@ -22,39 +22,38 @@
 #ifndef MACROS_H
 #define MACROS_H
 
-//This convenience macro adds lock/unlock ability to a given lambda function
-#define LOCK_IN_LAMBDA(lambda)          \
-    lambda = [this, lambda]() {         \
-        m_lock.lockForWrite();          \
-        bool res_lambda = lambda();     \
-        m_lock.unlock();                \
-        return res_lambda;              \
+// This convenience macro adds lock/unlock ability to a given lambda function
+#define LOCK_IN_LAMBDA(lambda)                                                                                                                                 \
+    lambda = [this, lambda]() {                                                                                                                                \
+        m_lock.lockForWrite();                                                                                                                                 \
+        bool res_lambda = lambda();                                                                                                                            \
+        m_lock.unlock();                                                                                                                                       \
+        return res_lambda;                                                                                                                                     \
     };
 
 /*This convenience macro locks the mutex for reading.
 Note that it might happen that a thread is executing a write operation that requires
 reading a Read-protected property. In that case, we try to write lock it first (this will be granted since the lock is recursive)
 */
-#define READ_LOCK()                                                     \
-    std::unique_ptr<QReadLocker> rlocker(new QReadLocker(nullptr));     \
-    std::unique_ptr<QWriteLocker> wlocker(new QWriteLocker(nullptr));   \
-    if (m_lock.tryLockForWrite()) {                                     \
-    /*we yield ownership of the lock to the WriteLocker*/               \
-        m_lock.unlock();                                                \
-        wlocker.reset(new QWriteLocker(&m_lock));                       \
-    } else {                                                            \
-        rlocker.reset(new QReadLocker(&m_lock));                        \
+#define READ_LOCK()                                                                                                                                            \
+    std::unique_ptr<QReadLocker> rlocker(new QReadLocker(nullptr));                                                                                            \
+    std::unique_ptr<QWriteLocker> wlocker(new QWriteLocker(nullptr));                                                                                          \
+    if (m_lock.tryLockForWrite()) {                                                                                                                            \
+        /*we yield ownership of the lock to the WriteLocker*/                                                                                                  \
+        m_lock.unlock();                                                                                                                                       \
+        wlocker.reset(new QWriteLocker(&m_lock));                                                                                                              \
+    } else {                                                                                                                                                   \
+        rlocker.reset(new QReadLocker(&m_lock));                                                                                                               \
     }
 
-#define PUSH_UNDO(undo, redo, text)                                     \
-    LOCK_IN_LAMBDA(undo)                                                \
-    LOCK_IN_LAMBDA(redo)                                                \
-    if (auto ptr = m_undoStack.lock()) {                                \
-        ptr->push(new FunctionalUndoCommand(undo, redo, text));         \
-    } else {                                                            \
-        qDebug() << "ERROR : unable to access undo stack";              \
-        Q_ASSERT(false);                                                \
+#define PUSH_UNDO(undo, redo, text)                                                                                                                            \
+    LOCK_IN_LAMBDA(undo)                                                                                                                                       \
+    LOCK_IN_LAMBDA(redo)                                                                                                                                       \
+    if (auto ptr = m_undoStack.lock()) {                                                                                                                       \
+        ptr->push(new FunctionalUndoCommand(undo, redo, text));                                                                                                \
+    } else {                                                                                                                                                   \
+        qDebug() << "ERROR : unable to access undo stack";                                                                                                     \
+        Q_ASSERT(false);                                                                                                                                       \
     }
-
 
 #endif

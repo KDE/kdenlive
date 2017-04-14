@@ -19,11 +19,11 @@
 #ifndef DRAGVALUE_H
 #define DRAGVALUE_H
 
-#include <QWidget>
-#include <kselectaction.h>
-#include <QSpinBox>
 #include <QDoubleSpinBox>
 #include <QProgressBar>
+#include <QSpinBox>
+#include <QWidget>
+#include <kselectaction.h>
 
 class QAction;
 class QMenu;
@@ -38,11 +38,11 @@ public:
     void setStep(double step);
 
 protected:
-    //virtual void mouseDoubleClickEvent(QMouseEvent * event);
+    // virtual void mouseDoubleClickEvent(QMouseEvent * event);
     void mousePressEvent(QMouseEvent *event) override;
     void mouseReleaseEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
-    //virtual void paintEvent(QPaintEvent *event);
+    // virtual void paintEvent(QPaintEvent *event);
     void wheelEvent(QWheelEvent *event) override;
     void focusInEvent(QFocusEvent *e) override;
     void focusOutEvent(QFocusEvent *e) override;
@@ -83,7 +83,8 @@ public:
     * @param suffix The suffix that will be displayed in the spinbox (for example '%')
     * @param showSlider If disabled, user can still drag on the label but no progress bar is shown
     */
-    explicit DragValue(const QString &label, double defaultValue, int decimals, double min = 0, double max = 100, int id = -1, const QString &suffix = QString(), bool showSlider = true, QWidget *parent = nullptr);
+    explicit DragValue(const QString &label, double defaultValue, int decimals, double min = 0, double max = 100, int id = -1,
+                       const QString &suffix = QString(), bool showSlider = true, QWidget *parent = nullptr);
     virtual ~DragValue();
 
     /** @brief Returns the precision = number of decimals */
@@ -135,9 +136,9 @@ protected:
     /** @brief Forwards tab focus to lineedit since it is disabled. */
     void focusInEvent(QFocusEvent *e) override;
     void focusOutEvent(QFocusEvent *e) override;
-    //virtual void keyPressEvent(QKeyEvent *e);
-    //virtual void wheelEvent(QWheelEvent *e);
-    //virtual void paintEvent( QPaintEvent * event );
+    // virtual void keyPressEvent(QKeyEvent *e);
+    // virtual void wheelEvent(QWheelEvent *e);
+    // virtual void paintEvent( QPaintEvent * event );
 
 private slots:
 

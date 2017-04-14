@@ -22,16 +22,14 @@
 
 #include <mlt++/Mlt.h>
 
+#include "clipcontroller.h"
+#include "definitions.h"
+#include <QDir>
 #include <QString>
 #include <QStringList>
-#include <QDir>
 #include <memory>
-#include "definitions.h"
-#include "clipcontroller.h"
 
-
-namespace Mlt
-{
+namespace Mlt {
 class Playlist;
 class Profile;
 }
@@ -55,26 +53,27 @@ public:
     Mlt::Profile *profile();
 
     /** @brief Returns the project's fps. */
-    //TODO Depracate: We should access profile's settings only through profilerepository
+    // TODO Depracate: We should access profile's settings only through profilerepository
     double fps() const;
 
     /** @brief Returns the project's dar. */
-    //TODO Depracate: We should access profile's settings only through profilerepository
+    // TODO Depracate: We should access profile's settings only through profilerepository
     double dar() const;
 
     /** @brief Returns the service for the Bin's playlist, used to make sure MLT will save it correctly in its XML. */
     mlt_service service();
 
     friend class ClipController;
+
 protected:
     /** @brief Add a new clip producer to the project.
         This is protected because it should be called only by the ClipController itself upon creation
      * @param id The clip's id
      * @param producer The MLT producer for this clip
      * */
-    void addClipToBin(const QString &id, const std::shared_ptr<ClipController>& controller);
-public:
+    void addClipToBin(const QString &id, const std::shared_ptr<ClipController> &controller);
 
+public:
     /** @brief Store a timeline producer in clip list for later re-use
      * @param id The clip's id
      * @param producer The MLT producer for this clip
@@ -129,7 +128,7 @@ public:
     /** @brief Returns the clip data as rendered by MLT's XML consumer, used to duplicate a clip
      * @param producer The clip's original producer
      */
-    static QString getProducerXML(const std::shared_ptr<Mlt::Producer>& producer, bool includeMeta = false);
+    static QString getProducerXML(const std::shared_ptr<Mlt::Producer> &producer, bool includeMeta = false);
 
     /** @brief Returns the clip data as rendered by MLT's XML consumer
      * @param id The clip's original id
@@ -140,12 +139,12 @@ public:
     Mlt::Producer *cloneProducer(Mlt::Producer &original);
 
     std::shared_ptr<ClipController> getController(const QString &id);
-    const QList<std::shared_ptr<ClipController> > getControllerList() const;
-    void replaceBinPlaylistClip(const QString &id, const std::shared_ptr<Mlt::Producer>& producer);
+    const QList<std::shared_ptr<ClipController>> getControllerList() const;
+    void replaceBinPlaylistClip(const QString &id, const std::shared_ptr<Mlt::Producer> &producer);
 
     /** @brief Get the list of ids whose clip have the resource indicated by @param url */
     const QStringList getBinIdsByResource(const QFileInfo &url) const;
-    void replaceProducer(const QString &id, const std::shared_ptr<Mlt::Producer>& producer);
+    void replaceProducer(const QString &id, const std::shared_ptr<Mlt::Producer> &producer);
     void storeMarker(const QString &markerId, const QString &markerHash);
     QMap<double, QString> takeGuidesData();
 
@@ -194,7 +193,7 @@ private:
     void duplicateFilters(Mlt::Producer original, Mlt::Producer clone);
 
     /** @brief This list holds all producer controllers for the playlist, indexed by id */
-    QMap<QString, std::shared_ptr<ClipController> > m_clipList;
+    QMap<QString, std::shared_ptr<ClipController>> m_clipList;
 
     /** @brief This list holds all extra controllers (slowmotion, video only, ... that are in timeline, indexed by id */
     QMap<QString, Mlt::Producer *> m_extraClipList;
@@ -206,12 +205,11 @@ private:
     void removeBinPlaylistClip(const QString &id);
 
     /** @brief Duplicate effects from stored producer */
-    void pasteEffects(const QString &id, const std::shared_ptr<Mlt::Producer>& producer);
-
+    void pasteEffects(const QString &id, const std::shared_ptr<Mlt::Producer> &producer);
 
 signals:
     void loadFolders(const QMap<QString, QString> &);
-    void loadThumb(const QString &, const QImage&, bool);
+    void loadThumb(const QString &, const QImage &, bool);
     void createThumb(const QDomElement &, const QString &, int);
     void requestAudioThumb(const QString &);
     void abortAudioThumbs();

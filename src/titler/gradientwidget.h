@@ -35,7 +35,6 @@ class GradientWidget : public QDialog, public Ui::GradientEdit_UI
     Q_OBJECT
 
 public:
-
     /** @brief Draws the dialog and loads a title document (if any).
      * @param url title document to load
      * @param tc timecode of the project

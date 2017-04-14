@@ -28,8 +28,7 @@
 
 class ClipController;
 
-namespace Mlt
-{
+namespace Mlt {
 }
 
 /**
@@ -63,4 +62,3 @@ signals:
 };
 
 #endif
-

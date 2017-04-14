@@ -22,9 +22,9 @@
 #ifndef ASSETICONPROVIDER_H
 #define ASSETICONPROVIDER_H
 
-#include <QQuickImageProvider>
 #include <KImageCache>
 #include <QCache>
+#include <QQuickImageProvider>
 #include <memory>
 
 class AssetIconProvider : public QQuickImageProvider
@@ -34,10 +34,10 @@ public:
     QImage requestImage(const QString &id, QSize *size, const QSize &requestedSize);
 
 private:
-    QImage makeIcon(const QString &effectId, const QString &effectName, const QSize& size);
+    QImage makeIcon(const QString &effectId, const QString &effectName, const QSize &size);
     std::unique_ptr<KImageCache> m_cache;
 
     bool m_effect;
 };
 
-#endif 
+#endif

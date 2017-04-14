@@ -11,11 +11,11 @@ the Free Software Foundation, either version 3 of the License, or
 #ifndef CORE_H
 #define CORE_H
 
-#include <memory>
-#include <QTabWidget>
-#include <QObject>
-#include <QUrl>
 #include "kdenlivecore_export.h"
+#include <QObject>
+#include <QTabWidget>
+#include <QUrl>
+#include <memory>
 
 class MainWindow;
 class ProjectManager;
@@ -27,9 +27,8 @@ class ProducerQueue;
 class MltConnection;
 class ProfileModel;
 
-namespace Mlt
-{
-    class Repository;
+namespace Mlt {
+class Repository;
 }
 
 #define EXIT_RESTART (42)
@@ -48,10 +47,10 @@ class /*KDENLIVECORE_EXPORT*/ Core : public QObject
     Q_OBJECT
 
 public:
-    Core(const Core&) = delete;
-    Core& operator=( const Core& ) = delete;
-    Core(Core&&) = delete;
-    Core& operator=(Core&&) = delete;
+    Core(const Core &) = delete;
+    Core &operator=(const Core &) = delete;
+    Core(Core &&) = delete;
+    Core &operator=(Core &&) = delete;
 
     virtual ~Core();
 
@@ -71,7 +70,7 @@ public:
     void initGUI(const QUrl &Url);
 
     /** @brief Returns a pointer to the singleton object. */
-    static std::unique_ptr<Core>& self();
+    static std::unique_ptr<Core> &self();
 
     /** @brief Returns a pointer to the main window. */
     MainWindow *window();
@@ -94,11 +93,10 @@ public:
     void addTimeline(QWidget *timeline, const QString &name);
 
     /** @brief Returns a pointer to MLT's repository */
-    std::unique_ptr<Mlt::Repository>& getMltRepository();
-
+    std::unique_ptr<Mlt::Repository> &getMltRepository();
 
     /** @brief Returns a pointer to the current profile */
-    std::unique_ptr<ProfileModel>& getCurrentProfile() const;
+    std::unique_ptr<ProfileModel> &getCurrentProfile() const;
 
     /** @brief Returns Display Aspect Ratio of current profile */
     int getCurrentDar() const;

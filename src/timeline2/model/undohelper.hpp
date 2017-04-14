@@ -23,44 +23,43 @@
 #define UNDOHELPER_H
 #include <functional>
 
-using Fun = std::function<bool (void)>;
-
-
+using Fun = std::function<bool(void)>;
 
 /* @brief This macro takes as parameter one atomic operation and its reverse, and update
    the undo and redo functional stacks/queue accordingly
 */
-#define UPDATE_UNDO_REDO(operation, reverse, undo, redo)  \
-    undo = [reverse, undo]() {                            \
-        bool v = reverse();                               \
-        return undo() && v;                               \
-    };                                                    \
-    redo = [operation, redo]() {                          \
-        bool v = redo();                                  \
-        return operation() && v;                          \
+#define UPDATE_UNDO_REDO(operation, reverse, undo, redo)                                                                                                       \
+    undo = [reverse, undo]() {                                                                                                                                 \
+        bool v = reverse();                                                                                                                                    \
+        return undo() && v;                                                                                                                                    \
+    };                                                                                                                                                         \
+    redo = [operation, redo]() {                                                                                                                               \
+        bool v = redo();                                                                                                                                       \
+        return operation() && v;                                                                                                                               \
     };
 
 /* @brief this macro executes an operation after a given lambda
  */
-#define PUSH_LAMBDA(operation, lambda)                    \
-    lambda = [lambda, operation]() {                      \
-        bool v = lambda();                                \
-        return operation() && v;                          \
+#define PUSH_LAMBDA(operation, lambda)                                                                                                                         \
+    lambda = [lambda, operation]() {                                                                                                                           \
+        bool v = lambda();                                                                                                                                     \
+        return operation() && v;                                                                                                                               \
     };
 
 #include <QUndoCommand>
 
-
 /*@brief this is a generic class that takes fonctors as undo and redo actions. It just executes them when required by Qt
   Note that QUndoStack actually executes redo() when we push the undoCommand to the stack
-  This is bad for us because we execute the command as we construct the undo Function. So to prevent it to be executed twice, there is a small hack in this command that prevent redoing if it has not been undone before.
+  This is bad for us because we execute the command as we construct the undo Function. So to prevent it to be executed twice, there is a small hack in this
+  command that prevent redoing if it has not been undone before.
  */
 class FunctionalUndoCommand : public QUndoCommand
 {
 public:
-    FunctionalUndoCommand(const Fun& undo, const Fun& redo, QString text, QUndoCommand *parent = nullptr);
+    FunctionalUndoCommand(const Fun &undo, const Fun &redo, QString text, QUndoCommand *parent = nullptr);
     void undo() override;
     void redo() override;
+
 private:
     Fun m_undo, m_redo;
     bool m_undone;

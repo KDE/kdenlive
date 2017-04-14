@@ -26,17 +26,16 @@
 #ifndef MLTDEVICECAPTURE_H
 #define MLTDEVICECAPTURE_H
 
-#include "gentime.h"
 #include "definitions.h"
+#include "gentime.h"
 #include "monitor/abstractmonitor.h"
 
 #include <mlt/framework/mlt_types.h>
 
-#include <QTimer>
 #include <QMutex>
+#include <QTimer>
 
-namespace Mlt
-{
+namespace Mlt {
 class Consumer;
 class Frame;
 class Event;
@@ -44,13 +43,14 @@ class Producer;
 class Profile;
 }
 
-class MltDeviceCapture: public AbstractRender
+class MltDeviceCapture : public AbstractRender
 {
-Q_OBJECT public:
+    Q_OBJECT public :
 
-    enum FailStates { OK = 0,
-                      APP_NOEXIST
-                    };
+        enum FailStates {
+            OK = 0,
+            APP_NOEXIST
+        };
     /** @brief Build a MLT Renderer
      *  @param winid The parent widget identifier (required for SDL display). Set to 0 for OpenGL rendering
      *  @param profile The MLT profile used for the capture (default one will be used if empty). */

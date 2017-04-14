@@ -25,23 +25,23 @@
 #ifndef KDENLIVEDOC_H
 #define KDENLIVEDOC_H
 
-#include <memory>
-#include <QtXml/qdom.h>
-#include <QMap>
-#include <QList>
 #include <QDir>
+#include <QList>
+#include <QMap>
 #include <QObject>
 #include <QTimer>
 #include <QUrl>
+#include <QtXml/qdom.h>
+#include <memory>
 
-#include <kautosavefile.h>
 #include <KDirWatch>
+#include <kautosavefile.h>
 
-#include "gentime.h"
-#include "timecode.h"
 #include "definitions.h"
-#include "timeline/guide.h"
+#include "gentime.h"
 #include "mltcontroller/effectscontroller.h"
+#include "timecode.h"
+#include "timeline/guide.h"
 
 class Render;
 class ClipManager;
@@ -57,17 +57,17 @@ class QTimer;
 class QUndoCommand;
 class DocUndoStack;
 
-namespace Mlt
-{
+namespace Mlt {
 class Profile;
 }
 
-class KdenliveDoc: public QObject
+class KdenliveDoc : public QObject
 {
     Q_OBJECT
 public:
-
-    KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap<QString, QString> &properties, const QMap<QString, QString> &metadata, const QPoint &tracks, Render *render, NotesPlugin *notes, bool *openBackup, MainWindow *parent = nullptr);
+    KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap<QString, QString> &properties,
+                const QMap<QString, QString> &metadata, const QPoint &tracks, Render *render, NotesPlugin *notes, bool *openBackup,
+                MainWindow *parent = nullptr);
     ~KdenliveDoc();
     /** @brief Get current document's producer. */
     Mlt::Producer *getProjectProducer();
@@ -261,4 +261,3 @@ signals:
 };
 
 #endif
-

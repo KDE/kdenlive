@@ -21,13 +21,13 @@
 #ifndef RESOURCEWIDGET_H
 #define RESOURCEWIDGET_H
 
-#include "ui_freesound_ui.h"
 #include "abstractservice.h"
 #include "definitions.h"
+#include "ui_freesound_ui.h"
 
 #include <QDialog>
-#include <kio/jobclasses.h>
 #include <QNetworkReply>
+#include <kio/jobclasses.h>
 
 class QAction;
 class QNetworkConfigurationManager;
@@ -97,7 +97,7 @@ private:
     void parseLicense(const QString &);
     QString GetSaveFileNameAndPathS(const QString &path, const QString &ext);
     QString m_folder;
-    QString  mSaveLocation;
+    QString mSaveLocation;
     AbstractService *m_currentService;
     OnlineItemInfo m_currentInfo;
     QAction *m_autoPlay;
@@ -114,4 +114,3 @@ signals:
 };
 
 #endif
-

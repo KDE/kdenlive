@@ -20,31 +20,22 @@
 #ifndef DEFINITIONS_H
 #define DEFINITIONS_H
 
-#include "gentime.h"
 #include "effectslist/effectslist.h"
+#include "gentime.h"
 
 #include "kdenlive_debug.h"
 
-#include <QTreeWidgetItem>
-#include <QString>
 #include <QHash>
+#include <QString>
+#include <QTreeWidgetItem>
 
 const int MAXCLIPDURATION = 15000;
 
-namespace Kdenlive
-{
+namespace Kdenlive {
 
-enum MonitorId {
-    NoMonitor = 0x01,
-    ClipMonitor = 0x02,
-    ProjectMonitor = 0x04,
-    RecordMonitor = 0x08,
-    StopMotionMonitor = 0x10,
-    DvdMonitor = 0x20
-};
+enum MonitorId { NoMonitor = 0x01, ClipMonitor = 0x02, ProjectMonitor = 0x04, RecordMonitor = 0x08, StopMotionMonitor = 0x10, DvdMonitor = 0x20 };
 
 const int DefaultThumbHeight = 100;
-
 }
 
 enum OperationType {
@@ -70,25 +61,13 @@ enum OperationType {
     ZoomTimeline
 };
 
-namespace PlaylistState
-{
+namespace PlaylistState {
 
-enum ClipState {
-    Original = 0,
-    VideoOnly = 1,
-    AudioOnly = 2,
-    Disabled = 3
-};
-
+enum ClipState { Original = 0, VideoOnly = 1, AudioOnly = 2, Disabled = 3 };
 }
 
-namespace TimelineMode
-{
-enum EditMode {
-    NormalEdit = 0,
-    OverwriteEdit = 1,
-    InsertEdit = 2
-};
+namespace TimelineMode {
+enum EditMode { NormalEdit = 0, OverwriteEdit = 1, InsertEdit = 2 };
 }
 
 enum ClipType {
@@ -107,24 +86,11 @@ enum ClipType {
     QText
 };
 
-enum ProjectItemType {
-    ProjectClipType = QTreeWidgetItem::UserType,
-    ProjectFoldeType,
-    ProjectSubclipType
-};
+enum ProjectItemType { ProjectClipType = QTreeWidgetItem::UserType, ProjectFoldeType, ProjectSubclipType };
 
-enum GraphicsRectItem {
-    AVWidget = 70000,
-    LabelWidget,
-    TransitionWidget,
-    GroupWidget
-};
+enum GraphicsRectItem { AVWidget = 70000, LabelWidget, TransitionWidget, GroupWidget };
 
-enum ProjectTool {
-    SelectTool = 0,
-    RazorTool = 1,
-    SpacerTool = 2
-};
+enum ProjectTool { SelectTool = 0, RazorTool = 1, SpacerTool = 2 };
 
 enum MonitorSceneType {
     MonitorSceneNone = 0,
@@ -136,47 +102,15 @@ enum MonitorSceneType {
     MonitorSceneRipple
 };
 
+enum MessageType { DefaultMessage, ProcessingJobMessage, OperationCompletedMessage, InformationMessage, ErrorMessage, MltError };
 
-enum MessageType {
-    DefaultMessage,
-    ProcessingJobMessage,
-    OperationCompletedMessage,
-    InformationMessage,
-    ErrorMessage,
-    MltError
-};
+enum TrackType { AudioTrack = 0, VideoTrack = 1 };
 
-enum TrackType {
-    AudioTrack = 0,
-    VideoTrack = 1
-};
+enum ClipJobStatus { NoJob = 0, JobWaiting = -1, JobWorking = -2, JobDone = -3, JobCrashed = -4, JobAborted = -5 };
 
-enum ClipJobStatus {
-    NoJob = 0,
-    JobWaiting = -1,
-    JobWorking = -2,
-    JobDone = -3,
-    JobCrashed = -4,
-    JobAborted = -5
-};
+enum CacheType { SystemCacheRoot = -1, CacheRoot = 0, CacheBase = 1, CachePreview = 2, CacheProxy = 3, CacheAudio = 4, CacheThumbs = 5 };
 
-enum CacheType {
-    SystemCacheRoot = -1,
-    CacheRoot = 0,
-    CacheBase = 1,
-    CachePreview = 2,
-    CacheProxy = 3,
-    CacheAudio = 4,
-    CacheThumbs = 5
-};
-
-enum TrimMode {
-    NormalTrim,
-    RippleTrim,
-    RollingTrim,
-    SlipTrim,
-    SlideTrim
-};
+enum TrimMode { NormalTrim, RippleTrim, RollingTrim, SlipTrim, SlideTrim };
 
 class TrackInfo
 {
@@ -189,34 +123,27 @@ public:
     bool isLocked;
     int duration;
     EffectsList effectsList;
-    TrackInfo() :
-        type(VideoTrack),
-        isMute(0),
-        isBlind(0),
-        isLocked(0),
-        duration(0),
-        effectsList(true) {}
+    TrackInfo() : type(VideoTrack), isMute(0), isBlind(0), isLocked(0), duration(0), effectsList(true) {}
 };
 
-struct ProfileInfo {
+struct ProfileInfo
+{
     QSize profileSize;
     double profileFps;
 };
 
-struct requestClipInfo {
+struct requestClipInfo
+{
     QDomElement xml;
     QString clipId;
     int imageHeight;
     bool replaceProducer;
 
-    bool operator==(const requestClipInfo &a) const
-    {
-        return clipId == a.clipId;
-    }
+    bool operator==(const requestClipInfo &a) const { return clipId == a.clipId; }
 };
 
 typedef QMap<QString, QString> stringMap;
-typedef QMap<int, QMap<int, QByteArray> > audioByteArray;
+typedef QMap<int, QMap<int, QByteArray>> audioByteArray;
 typedef QVector<qint16> audioShortVector;
 
 class ItemInfo
@@ -233,10 +160,7 @@ public:
     /** Track number */
     int track;
     ItemInfo() : track(0) {}
-    bool isValid() const
-    {
-        return startPos != endPos;
-    }
+    bool isValid() const { return startPos != endPos; }
     bool contains(GenTime pos) const
     {
         if (startPos == endPos) {
@@ -244,10 +168,7 @@ public:
         }
         return (pos <= endPos && pos >= startPos);
     }
-    bool operator==(const ItemInfo &a) const
-    {
-        return startPos == a.startPos && endPos == a.endPos && track == a.track && cropStart == a.cropStart;
-    }
+    bool operator==(const ItemInfo &a) const { return startPos == a.startPos && endPos == a.endPos && track == a.track && cropStart == a.cropStart; }
 };
 
 class TransitionInfo
@@ -263,10 +184,7 @@ public:
     int a_track;
     /** Does the user request for a special a_track */
     bool forceTrack;
-    TransitionInfo() :
-        b_track(0),
-        a_track(0),
-        forceTrack(0) {}
+    TransitionInfo() : b_track(0), a_track(0), forceTrack(0) {}
 };
 
 class MltVideoProfile
@@ -333,20 +251,15 @@ private:
     int type;
 };
 
-QDebug operator << (QDebug qd, const ItemInfo &info);
-QDebug operator << (QDebug qd, const MltVideoProfile &profile);
+QDebug operator<<(QDebug qd, const ItemInfo &info);
+QDebug operator<<(QDebug qd, const MltVideoProfile &profile);
 
-//we provide hash function for qstring
+// we provide hash function for qstring
 namespace std {
-    template <>
-    struct hash<QString>
-    {
-        std::size_t operator()(const QString& k) const
-        {
-            return qHash(k);
-        }
-    };
-
+template <> struct hash<QString>
+{
+    std::size_t operator()(const QString &k) const { return qHash(k); }
+};
 }
 
 #endif

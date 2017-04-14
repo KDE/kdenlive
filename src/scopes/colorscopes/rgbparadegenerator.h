@@ -23,8 +23,8 @@ public:
     enum PaintMode { PaintMode_RGB, PaintMode_White };
 
     RGBParadeGenerator();
-    QImage calculateRGBParade(const QSize &paradeSize, const QImage &image, const RGBParadeGenerator::PaintMode paintMode,
-                              bool drawAxis, bool drawGradientRef, uint accelFactor = 1);
+    QImage calculateRGBParade(const QSize &paradeSize, const QImage &image, const RGBParadeGenerator::PaintMode paintMode, bool drawAxis, bool drawGradientRef,
+                              uint accelFactor = 1);
 
     static const QColor colHighlight;
     static const QColor colLight;

@@ -56,7 +56,7 @@ private:
     int m_hoverKeyframe;
     QColor m_selected;
     QColor m_keyframe;
-    QList<Mlt::Geometry *>m_extraGeometries;
+    QList<Mlt::Geometry *> m_extraGeometries;
     int m_seekPosition;
     int m_offset;
 

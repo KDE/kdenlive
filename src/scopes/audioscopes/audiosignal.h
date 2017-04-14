@@ -26,7 +26,7 @@
 #include <QList>
 #include <QTimer>
 
-#include  <QWidget>
+#include <QWidget>
 
 #include <stdint.h>
 
@@ -42,24 +42,13 @@ public:
     QRect scopeRect() override;
     QImage renderHUD(uint accelerationFactor) override;
     QImage renderBackground(uint accelerationFactor) override;
-    QImage renderAudioScope(uint accelerationFactor, const audioShortVector &audioFrame, const int, const int num_channels, const int samples, const int) override;
+    QImage renderAudioScope(uint accelerationFactor, const audioShortVector &audioFrame, const int, const int num_channels, const int samples,
+                            const int) override;
 
-    QString widgetName() const override
-    {
-        return QStringLiteral("audioSignal");
-    }
-    bool isHUDDependingOnInput() const override
-    {
-        return false;
-    }
-    bool isScopeDependingOnInput() const override
-    {
-        return true;
-    }
-    bool isBackgroundDependingOnInput() const override
-    {
-        return false;
-    }
+    QString widgetName() const override { return QStringLiteral("audioSignal"); }
+    bool isHUDDependingOnInput() const override { return false; }
+    bool isScopeDependingOnInput() const override { return true; }
+    bool isBackgroundDependingOnInput() const override { return false; }
 
 private:
     double valueToPixel(double in);
@@ -75,7 +64,6 @@ private slots:
 
 signals:
     void updateAudioMonitoring();
-
 };
 
 #endif

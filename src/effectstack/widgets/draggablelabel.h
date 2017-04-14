@@ -19,29 +19,29 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-
 #ifndef DRAGGABLELABEL_H
 #define DRAGGABLELABEL_H
 
-#include <QWidget>
 #include <QLabel>
 #include <QPoint>
+#include <QWidget>
 
 class DraggableLabel : public QLabel
 {
     Q_OBJECT
 public:
     explicit DraggableLabel(const QString &text, QWidget *parent = nullptr);
+
 protected:
     void mousePressEvent(QMouseEvent *ev);
     void mouseReleaseEvent(QMouseEvent *ev);
     void mouseMoveEvent(QMouseEvent *ev);
 signals:
     void startDrag(const QString &);
+
 private:
     QPoint m_clickStart;
     bool m_dragStarted;
 };
-
 
 #endif

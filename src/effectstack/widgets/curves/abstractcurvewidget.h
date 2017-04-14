@@ -19,21 +19,17 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-
 #ifndef ABSTRACTCURVEWIDGET_H
 #define ABSTRACTCURVEWIDGET_H
 
+#include "bezier/bpoint.h"
 #include <QWidget>
 #include <memory>
-#include "bezier/bpoint.h"
 
 #include <QPainter>
 
 /** State of a point being moved */
-enum class State_t {
-  NORMAL,
-  DRAG
-};
+enum class State_t { NORMAL, DRAG };
 
 /** This class is a workaround to be able to use templating in the actual class
     Note that Qt doesn't support templated signals, so we have to define a signal for
@@ -43,7 +39,7 @@ class __dummy_AbstractCurveWidget : public QWidget
 {
     Q_OBJECT
 public:
-    __dummy_AbstractCurveWidget(QWidget* parent) : QWidget(parent) {}
+    __dummy_AbstractCurveWidget(QWidget *parent) : QWidget(parent) {}
 
 signals:
     /**
@@ -69,8 +65,7 @@ public slots:
 /** @brief Base class of all the widgets representing a curve of points
 
  */
-template<typename Curve_t>
-class AbstractCurveWidget : public __dummy_AbstractCurveWidget
+template <typename Curve_t> class AbstractCurveWidget : public __dummy_AbstractCurveWidget
 {
 public:
     typedef typename Curve_t::Point_t Point_t;
@@ -80,11 +75,9 @@ public:
     */
     AbstractCurveWidget(QWidget *parent = nullptr);
 
-
     /** @brief Returns whether the points are controlled with additional handles
      */
-    virtual bool hasHandles(){ return false; }
-
+    virtual bool hasHandles() { return false; }
 
     /** @brief Sets the maximal number of points of the curve
      */
@@ -128,8 +121,9 @@ public:
     void slotDeleteCurrentPoint();
     void slotZoomIn();
     void slotZoomOut();
+
 protected:
-    void paintBackground(QPainter * p);
+    void paintBackground(QPainter *p);
     int heightForWidth(int w) const override;
     void resizeEvent(QResizeEvent *event) override;
     void leaveEvent(QEvent *) override;

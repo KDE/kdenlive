@@ -47,7 +47,6 @@ private:
     QImage renderGfxScope(uint accelerationFactor, const QImage &) override;
     QImage renderBackground(uint accelerationFactor) override;
     Ui::Histogram_UI *ui;
-
 };
 
 #endif // HISTOGRAM_H

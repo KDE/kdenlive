@@ -22,22 +22,20 @@
 #ifndef MOVEABLEITEM_H
 #define MOVEABLEITEM_H
 
-#include <memory>
-#include <QObject>
-#include "undohelper.hpp"
 #include "timelinemodel.hpp"
 #include "trackmodel.hpp"
+#include "undohelper.hpp"
+#include <QObject>
+#include <memory>
 
 /* @brief This is the base class for objects that can move, for example clips and compositions
 */
-template<typename Service>
-class MoveableItem
+template <typename Service> class MoveableItem
 {
     MoveableItem() = delete;
 
 protected:
-
-    virtual ~MoveableItem(){}
+    virtual ~MoveableItem() {}
 
 public:
     MoveableItem(std::weak_ptr<TimelineModel> parent, int id = -1);
@@ -68,7 +66,7 @@ public:
     friend class TimelineModel;
     /* Implicit conversion operator to access the underlying producer
      */
-    operator Service&(){ return *service();}
+    operator Service &() { return *service(); }
 
     /* Returns true if the underlying producer is valid
      */
@@ -79,9 +77,8 @@ public:
     virtual const QString getProperty(const QString &name) const = 0;
 
 protected:
-
     /* @brief Returns a pointer to the service. It may be used but do NOT store it*/
-    virtual Service* service() const = 0;
+    virtual Service *service() const = 0;
 
     /* @brief Performs a resize of the given item.
        Returns true if the operation succeeded, and otherwise nothing is modified
@@ -92,8 +89,7 @@ protected:
        @param undo Lambda function containing the current undo stack. Will be updated with current operation
        @param redo Lambda function containing the current redo queue. Will be updated with current operation
     */
-    virtual bool requestResize(int size, bool right, Fun& undo, Fun& redo) = 0;
-
+    virtual bool requestResize(int size, bool right, Fun &undo, Fun &redo) = 0;
 
     /* Updates the stored position of the item
       This function is meant to be called by the trackmodel, not directly by the user.
@@ -112,7 +108,7 @@ protected:
 
 protected:
     std::weak_ptr<TimelineModel> m_parent;
-    int m_id; //this is the creation id of the item, used for book-keeping
+    int m_id; // this is the creation id of the item, used for book-keeping
     int m_position;
     int m_currentTrackId;
 };

@@ -21,10 +21,10 @@
 #define GENERATORS_H
 
 #include <QDialog>
+#include <QDomElement>
+#include <QMenu>
 #include <QPair>
 #include <QPixmap>
-#include <QMenu>
-#include <QDomElement>
 
 /**
  * @class Generators
@@ -32,8 +32,7 @@
  *
  */
 
-namespace Mlt
-{
+namespace Mlt {
 class Producer;
 }
 
@@ -52,7 +51,7 @@ public:
     virtual ~Generators();
 
     static void getGenerators(const QStringList &producers, QMenu *menu);
-    static QPair <QString, QString> parseGenerator(const QString &path, const QStringList &producers);
+    static QPair<QString, QString> parseGenerator(const QString &path, const QStringList &producers);
     QUrl getSavedClip(QString path = QString());
 
     void resizeEvent(QResizeEvent *event) override;

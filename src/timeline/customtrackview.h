@@ -22,17 +22,17 @@
 
 #include <KColorScheme>
 
-#include <QGraphicsView>
 #include <QGraphicsItemAnimation>
-#include <QTimeLine>
+#include <QGraphicsView>
 #include <QMenu>
 #include <QMutex>
+#include <QTimeLine>
 #include <QWaitCondition>
 
 #include "doc/kdenlivedoc.h"
-#include "timeline/guide.h"
 #include "effectslist/effectslist.h"
 #include "timeline/customtrackscene.h"
+#include "timeline/guide.h"
 #include "timeline/managers/abstracttoolmanager.h"
 
 class Timeline;
@@ -50,7 +50,7 @@ class CustomTrackView : public QGraphicsView
 
 public:
     CustomTrackView(KdenliveDoc *doc, Timeline *timeline, CustomTrackScene *projectscene, QWidget *parent = nullptr);
-    virtual ~ CustomTrackView();
+    virtual ~CustomTrackView();
 
     void mousePressEvent(QMouseEvent *event) override;
     void mouseReleaseEvent(QMouseEvent *event) override;
@@ -69,7 +69,8 @@ public:
       For example, attempting to move a clip to t = -1 s will actually move it to t = 0 s.
       */
     bool moveClip(const ItemInfo &start, const ItemInfo &end, bool refresh, bool alreadyMoved, ItemInfo *out_actualEnd = nullptr);
-    void moveGroup(QList<ItemInfo> startClip, QList<ItemInfo> startTransition, const GenTime &offset, const int trackOffset, bool alreadyMoved, bool reverseMove);
+    void moveGroup(QList<ItemInfo> startClip, QList<ItemInfo> startTransition, const GenTime &offset, const int trackOffset, bool alreadyMoved,
+                   bool reverseMove);
     /** move transition, startPos = (old start, old end), endPos = (new start, new end) */
     void moveTransition(const ItemInfo &start, const ItemInfo &end, bool refresh);
     void resizeClip(const ItemInfo &start, const ItemInfo &end, bool dontWorry = false);
@@ -90,13 +91,14 @@ public:
     void slotAddGroupEffect(const QDomElement &effect, AbstractGroupItem *group, AbstractClipItem *dropTarget = nullptr);
     void addEffect(int track, GenTime pos, const QDomElement &effect);
     void deleteEffect(int track, const GenTime &pos, const QDomElement &effect);
-    void updateEffect(int track, GenTime pos, const QDomElement &insertedEffect, bool refreshEffectStack = false, bool replaceEffect = false, bool refreshMonitor = true);
+    void updateEffect(int track, GenTime pos, const QDomElement &insertedEffect, bool refreshEffectStack = false, bool replaceEffect = false,
+                      bool refreshMonitor = true);
     /** @brief Enable / disable a list of effects */
     void updateEffectState(int track, GenTime pos, const QList<int> &effectIndexes, bool disable, bool updateEffectStack);
     void moveEffect(int track, const GenTime &pos, const QList<int> &oldPos, const QList<int> &newPos);
     void addTransition(const ItemInfo &transitionInfo, int endTrack, const QDomElement &params, bool refresh);
     void deleteTransition(const ItemInfo &transitionInfo, int endTrack, const QDomElement &params, bool refresh);
-    void updateTransition(int track, const GenTime &pos,  const QDomElement &oldTransition, const QDomElement &transition, bool updateTransitionWidget);
+    void updateTransition(int track, const GenTime &pos, const QDomElement &oldTransition, const QDomElement &transition, bool updateTransitionWidget);
     void activateMonitor();
     int duration() const;
     void deleteSelectedClips();
@@ -119,7 +121,8 @@ public:
     QList<ItemInfo> findId(const QString &clipId);
     void clipStart();
     void clipEnd();
-    void doChangeClipSpeed(const ItemInfo &info, const ItemInfo &speedIndependantInfo, PlaylistState::ClipState state, const double speed, int strobe, const QString &id, bool removeEffect = false);
+    void doChangeClipSpeed(const ItemInfo &info, const ItemInfo &speedIndependantInfo, PlaylistState::ClipState state, const double speed, int strobe,
+                           const QString &id, bool removeEffect = false);
     /** @brief Every command added to the undo stack automatically triggers a document change event.
      *  This function should only be called when changing a document setting or another function that
      *  is not integrated in the undo / redo system */
@@ -147,7 +150,8 @@ public:
     *
     * Makes sure no clip on track to lock is selected. */
     void lockTrack(int ix, bool lock, bool requestUpdate = true);
-    void groupClips(bool group = true, QList<QGraphicsItem *> itemList = QList<QGraphicsItem *>(), bool forceLock = false, QUndoCommand *command = nullptr, bool doIt = true);
+    void groupClips(bool group = true, QList<QGraphicsItem *> itemList = QList<QGraphicsItem *>(), bool forceLock = false, QUndoCommand *command = nullptr,
+                    bool doIt = true);
     void doGroupClips(const QList<ItemInfo> &clipInfos, const QList<ItemInfo> &transitionInfos, bool group);
     void loadGroups(const QDomNodeList &groups);
 
@@ -396,10 +400,11 @@ public slots:
     * @param selected The currently selected clip if any
     * @param offsetList The list of points that should also snap (for example when movin a clip, start and end points should snap
     * @param skipSelectedItems if true, the selected item start and end points will not be added to snap list */
-    void updateSnapPoints(AbstractClipItem *selected, const QList<GenTime>& offsetList = QList<GenTime> (), bool skipSelectedItems = false);
+    void updateSnapPoints(AbstractClipItem *selected, const QList<GenTime> &offsetList = QList<GenTime>(), bool skipSelectedItems = false);
 
     void slotAddEffect(ClipItem *clip, const QDomElement &effect, int track = -1);
-    void slotImportClipKeyframes(GraphicsRectItem type, const ItemInfo &info, const QDomElement &xml, QMap<QString, QString> keyframes = QMap<QString, QString>());
+    void slotImportClipKeyframes(GraphicsRectItem type, const ItemInfo &info, const QDomElement &xml,
+                                 QMap<QString, QString> keyframes = QMap<QString, QString>());
 
     /** @brief Move playhead to mouse curser position if defined key is pressed */
     void slotAlignPlayheadToMousePos();
@@ -418,7 +423,7 @@ public slots:
 
 protected:
     void drawBackground(QPainter *painter, const QRectF &rect) override;
-    //virtual void drawForeground ( QPainter * painter, const QRectF & rect );
+    // virtual void drawForeground ( QPainter * painter, const QRectF & rect );
     void dragEnterEvent(QDragEnterEvent *event) override;
     void dragMoveEvent(QDragMoveEvent *event) override;
     void dragLeaveEvent(QDragLeaveEvent *event) override;
@@ -523,7 +528,8 @@ private:
     void updatePositionEffects(ClipItem *item, const ItemInfo &info, bool standalone = true);
     bool insertDropClips(const QMimeData *mimeData, const QPoint &pos);
     bool canBePastedTo(const QList<ItemInfo> &infoList, int type) const;
-    bool canBePasted(const QList<AbstractClipItem *> &items, GenTime offset, int trackOffset, QList<AbstractClipItem *>excluded = QList<AbstractClipItem *>()) const;
+    bool canBePasted(const QList<AbstractClipItem *> &items, GenTime offset, int trackOffset,
+                     QList<AbstractClipItem *> excluded = QList<AbstractClipItem *>()) const;
     ClipItem *getClipUnderCursor() const;
     AbstractClipItem *getMainActiveClip() const;
     /** Get available space for clip move (min and max free positions) */
@@ -623,4 +629,3 @@ signals:
 };
 
 #endif
-

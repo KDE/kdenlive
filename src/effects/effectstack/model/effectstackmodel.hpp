@@ -34,13 +34,12 @@ class EffectStackModel : public AbstractTreeModel
 {
 
 public:
-
     /* @brief Constructs an effect stack and returns a shared ptr to the constucted object
        @param service is the mlt object on which we will plant the effects */
     static std::shared_ptr<EffectStackModel> construct(std::weak_ptr<Mlt::Service> service);
 
     /* @brief Add an effect at the bottom of the stack */
-    void appendEffect(const QString& effectId);
+    void appendEffect(const QString &effectId);
 
     EffectStackModel(std::weak_ptr<Mlt::Service> service);
 
@@ -52,7 +51,6 @@ protected:
     std::weak_ptr<Mlt::Service> m_service;
 
     bool m_timelineEffectsEnabled;
-
 };
 
 #endif

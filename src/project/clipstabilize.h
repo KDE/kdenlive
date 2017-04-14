@@ -21,8 +21,8 @@
 #ifndef CLIPSTABILIZE_H
 #define CLIPSTABILIZE_H
 
-#include "ui_clipstabilize_ui.h"
 #include "timecode.h"
+#include "ui_clipstabilize_ui.h"
 #include <QUrl>
 
 class ClipStabilize : public QDialog, public Ui::ClipStabilize_UI
@@ -52,7 +52,7 @@ private slots:
 private:
     QString m_filtername;
     QStringList m_urls;
-    QHash<QString, QHash<QString, QString> > m_ui_params;
+    QHash<QString, QHash<QString, QString>> m_ui_params;
     QVBoxLayout *vbox;
     void fillParameters(QStringList);
     QMap<QString, QString> m_fixedParams;
@@ -63,4 +63,3 @@ signals:
 };
 
 #endif
-

@@ -20,15 +20,15 @@
 #ifndef WIZARD_H
 #define WIZARD_H
 
-#include <QWizard>
 #include <QVBoxLayout>
+#include <QWizard>
 #include <QWizardPage>
 
-#include "ui_wizardstandard_ui.h"
-#include "ui_wizardextra_ui.h"
-#include "ui_wizardcheck_ui.h"
-#include "ui_wizardmltcheck_ui.h"
 #include "ui_wizardcapture_ui.h"
+#include "ui_wizardcheck_ui.h"
+#include "ui_wizardextra_ui.h"
+#include "ui_wizardmltcheck_ui.h"
+#include "ui_wizardstandard_ui.h"
 
 class KMessageWidget;
 
@@ -85,4 +85,3 @@ private slots:
 };
 
 #endif
-

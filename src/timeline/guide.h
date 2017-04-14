@@ -23,8 +23,8 @@
 #include <QGraphicsLineItem>
 #include <QPen>
 
-#include "gentime.h"
 #include "definitions.h"
+#include "gentime.h"
 
 #define GUIDEITEM 8000
 

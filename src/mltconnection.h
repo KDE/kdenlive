@@ -11,12 +11,12 @@ the Free Software Foundation, either version 3 of the License, or
 #ifndef MLTCONNECTION_H
 #define MLTCONNECTION_H
 
-#include <memory>
 #include <QString>
+#include <memory>
 
 namespace Mlt {
-    class Repository;
- }
+class Repository;
+}
 
 /**
  * @class MltConnection
@@ -34,10 +34,9 @@ public:
     MltConnection(const QString &mltPath);
 
     /* @brief Returns a pointer to the MLT Repository*/
-    std::unique_ptr<Mlt::Repository>& getMltRepository();
+    std::unique_ptr<Mlt::Repository> &getMltRepository();
 
 protected:
-
     /** @brief Locates the MLT environment.
      * @param mltPath (optional) path to MLT environment
      *
@@ -54,7 +53,6 @@ protected:
 
     /** @brief The MLT repository, useful for filter/producer requests */
     std::unique_ptr<Mlt::Repository> m_repository;
-
 };
 
 #endif

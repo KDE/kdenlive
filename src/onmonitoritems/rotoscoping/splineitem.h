@@ -36,7 +36,7 @@ public:
     int type() const override;
 
     bool editing() const;
-    void initSpline(QGraphicsScene *scene, const QList< BPoint > &points);
+    void initSpline(QGraphicsScene *scene, const QList<BPoint> &points);
     void updateSpline(bool editing = false);
     QList<BPoint> getPoints() const;
     void setPoints(const QList<BPoint> &points);

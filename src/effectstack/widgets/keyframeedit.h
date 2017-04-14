@@ -20,26 +20,23 @@
 
 #include "effectstack/keyframehelper.h"
 
-#include "ui_keyframeeditor_ui.h"
-#include "definitions.h"
 #include "abstractparamwidget.h"
+#include "definitions.h"
+#include "ui_keyframeeditor_ui.h"
 
-#include <QWidget>
+#include <QAbstractItemView>
 #include <QDomElement>
 #include <QItemDelegate>
-#include <QAbstractItemView>
 #include <QSpinBox>
+#include <QWidget>
 
 class PositionWidget;
 
-class KeyItemDelegate: public QItemDelegate
+class KeyItemDelegate : public QItemDelegate
 {
     Q_OBJECT
 public:
-    KeyItemDelegate(int min, int max, QAbstractItemView *parent = nullptr)
-        : QItemDelegate(parent), m_min(min), m_max(max)
-    {
-    }
+    KeyItemDelegate(int min, int max, QAbstractItemView *parent = nullptr) : QItemDelegate(parent), m_min(min), m_max(max) {}
 
     QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const override
     {
@@ -56,7 +53,7 @@ public:
     void setEditorData(QWidget *editor, const QModelIndex &index) const override
     {
         if (index.column() == 1) {
-            QSpinBox *spin = qobject_cast< QSpinBox * >(editor);
+            QSpinBox *spin = qobject_cast<QSpinBox *>(editor);
             spin->setRange(m_min, m_max);
             spin->setValue(index.model()->data(index).toInt());
         } else {
@@ -67,13 +64,13 @@ public:
 private slots:
     void commitAndCloseEditor()
     {
-        QSpinBox *spin = qobject_cast< QSpinBox * >(sender());
+        QSpinBox *spin = qobject_cast<QSpinBox *>(sender());
         emit closeEditor(spin);
     }
 
     void commitEditorData()
     {
-        QSpinBox *spin = qobject_cast< QSpinBox * >(sender());
+        QSpinBox *spin = qobject_cast<QSpinBox *>(sender());
         emit commitData(spin);
     }
 
@@ -161,4 +158,3 @@ signals:
 };
 
 #endif
-

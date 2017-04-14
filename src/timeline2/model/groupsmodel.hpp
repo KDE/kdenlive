@@ -22,10 +22,10 @@
 #ifndef GROUPMODEL_H
 #define GROUPMODEL_H
 
+#include "undohelper.hpp"
+#include <memory>
 #include <unordered_map>
 #include <unordered_set>
-#include <memory>
-#include "undohelper.hpp"
 
 class TimelineItemModel;
 
@@ -46,11 +46,11 @@ public:
        @param redo Lambda function containing the current redo queue. Will be updated with current operation
        Returns the id of the new group, or -1 on error.
     */
-    int groupItems(const std::unordered_set<int>& ids, Fun &undo, Fun& redo);
+    int groupItems(const std::unordered_set<int> &ids, Fun &undo, Fun &redo);
+
 protected:
     /* Lambda version */
-    Fun groupItems_lambda(int gid, const std::unordered_set<int>& ids);
-
+    Fun groupItems_lambda(int gid, const std::unordered_set<int> &ids);
 
 public:
     /* Deletes the topmost group containing given element
@@ -60,7 +60,7 @@ public:
        @param undo Lambda function containing the current undo stack. Will be updated with current operation
        @param redo Lambda function containing the current redo queue. Will be updated with current operation
      */
-    bool ungroupItem(int id, Fun& undo, Fun& redo);
+    bool ungroupItem(int id, Fun &undo, Fun &redo);
 
     /* @brief Create a groupItem in the hierarchy. Initially it is not part of a group
        @param id id of the groupItem
@@ -106,7 +106,6 @@ public:
      */
     std::unordered_set<int> getDirectChildren(int id) const;
 
-
 protected:
     /* @brief Destruct a groupItem in the hierarchy.
        All its children will become their own roots
@@ -116,7 +115,7 @@ protected:
        @param undo Lambda function containing the current undo stack. Will be updated with current operation
        @param redo Lambda function containing the current redo queue. Will be updated with current operation
     */
-    bool destructGroupItem(int id, bool deleteOrphan, Fun& undo, Fun& redo);
+    bool destructGroupItem(int id, bool deleteOrphan, Fun &undo, Fun &redo);
     /* Lambda version */
     Fun destructGroupItem_lambda(int id);
 
@@ -130,15 +129,14 @@ protected:
        @param id of the groupItem
     */
     void removeFromGroup(int id);
-private:
 
+private:
     std::weak_ptr<TimelineItemModel> m_parent;
 
-    std::unordered_map<int, int> m_upLink; //edges toward parent
-    std::unordered_map<int, std::unordered_set<int>> m_downLink; //edges toward children
+    std::unordered_map<int, int> m_upLink;                       // edges toward parent
+    std::unordered_map<int, std::unordered_set<int>> m_downLink; // edges toward children
 
-    std::unordered_set<int> m_groupIds; //this keeps track of "real" groups (non-leaf elements)
-
+    std::unordered_set<int> m_groupIds; // this keeps track of "real" groups (non-leaf elements)
 };
 
 #endif

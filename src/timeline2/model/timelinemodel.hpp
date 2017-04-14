@@ -22,17 +22,16 @@
 #ifndef TIMELINEMODEL_H
 #define TIMELINEMODEL_H
 
+#include "undohelper.hpp"
+#include <QAbstractItemModel>
+#include <QReadWriteLock>
 #include <memory>
-#include <vector>
+#include <mlt++/MltTractor.h>
 #include <unordered_map>
 #include <unordered_set>
-#include <mlt++/MltTractor.h>
-#include "undohelper.hpp"
-#include <QReadWriteLock>
-#include <QAbstractItemModel>
+#include <vector>
 
-
-#define LOGGING 1 //If set to 1, we log the actions requested to the timeline as a reproducer script
+#define LOGGING 1 // If set to 1, we log the actions requested to the timeline as a reproducer script
 #ifdef LOGGING
 #include <fstream>
 #endif
@@ -46,19 +45,27 @@ class SnapModel;
 class TimelineItemModel;
 
 /* @brief This class represents a Timeline object, as viewed by the backend.
-   In general, the Gui associated with it will send modification queries (such as resize or move), and this class authorize them or not depending on the validity of the modifications.
+   In general, the Gui associated with it will send modification queries (such as resize or move), and this class authorize them or not depending on the
+   validity of the modifications.
 
-   This class also serves to keep track of all objects. It holds pointers to all tracks and clips, and gives them unique IDs on creation. These Ids are used in any interactions with the objects and have nothing to do with Melt IDs.
+   This class also serves to keep track of all objects. It holds pointers to all tracks and clips, and gives them unique IDs on creation. These Ids are used in
+   any interactions with the objects and have nothing to do with Melt IDs.
 
-   This is the entry point for any modifications that has to be made on an element. The dataflow beyond this entry point may vary, for example when the user request a clip resize, the call is deferred to the clip itself, that check if there is enough data to extend by the requested amount, compute the new in and out, and then asks the track if there is enough room for extension. To avoid any confusion on which function to call first, rembember to always call the version in timeline. This is also required to generate the Undo/Redo operators
+   This is the entry point for any modifications that has to be made on an element. The dataflow beyond this entry point may vary, for example when the user
+   request a clip resize, the call is deferred to the clip itself, that check if there is enough data to extend by the requested amount, compute the new in and
+   out, and then asks the track if there is enough room for extension. To avoid any confusion on which function to call first, rembember to always call the
+   version in timeline. This is also required to generate the Undo/Redo operators
 
    Generally speaking, we don't check ahead of time if an action is going to succeed or not before applying it.
    We just apply it naively, and if it fails at some point, we use the undo operator that we are constructing on the fly to revert what we have done so far.
-   For example, when we move a group of clips, we apply the move operation to all the clips inside this group (in the right order). If none fails, we are good, otherwise we revert what we've already done.
-   This kind of behaviour frees us from the burden of simulating the actions before actually applying theme. This is a good thing because this simulation step would be very sensitive to corruptions and small discrepancies, which we try to avoid at all cost.
+   For example, when we move a group of clips, we apply the move operation to all the clips inside this group (in the right order). If none fails, we are good,
+   otherwise we revert what we've already done.
+   This kind of behaviour frees us from the burden of simulating the actions before actually applying theme. This is a good thing because this simulation step
+   would be very sensitive to corruptions and small discrepancies, which we try to avoid at all cost.
 
 
-   It derives from AbstractItemModel (indirectly through TimelineItemModel) to provide the model to the QML interface. An itemModel is organized with row and columns that contain the data. It can be hierarchical, meaning that a given index (row,column) can contain another level of rows and column.
+   It derives from AbstractItemModel (indirectly through TimelineItemModel) to provide the model to the QML interface. An itemModel is organized with row and
+   columns that contain the data. It can be hierarchical, meaning that a given index (row,column) can contain another level of rows and column.
    Our organization is as follows: at the top level, each row contains a track. These rows are in the same order as in the actual timeline.
    Then each of this row contains itself sub-rows that correspond to the clips.
    Here the order of these sub-rows is unrelated to the chronological order of the clips,
@@ -67,8 +74,9 @@ class TimelineItemModel;
    The id order has been choosed because it is consistant with a valid ordering of the clips.
    The columns are never used, so the data is always in column 0
 
-   An ModelIndex in the ItemModel consists of a row number, a column number, and a parent index. In our case, tracks have always an empty parent, and the clip have a track index as parent.
-   A ModelIndex can also store one additional integer, and we exploit this feature to store the unique ID of the object it corresponds to. 
+   An ModelIndex in the ItemModel consists of a row number, a column number, and a parent index. In our case, tracks have always an empty parent, and the clip
+   have a track index as parent.
+   A ModelIndex can also store one additional integer, and we exploit this feature to store the unique ID of the object it corresponds to.
 
 */
 class TimelineModel : public QAbstractItemModel, public std::enable_shared_from_this<TimelineModel>
@@ -82,7 +90,7 @@ protected:
 
 public:
     friend class TrackModel;
-    template<typename T> friend class MoveableItem;
+    template <typename T> friend class MoveableItem;
     friend class ClipModel;
     friend class CompositionModel;
     friend class GroupsModel;
@@ -90,36 +98,36 @@ public:
     /// Two level model: tracks and clips on track
     enum {
         NameRole = Qt::UserRole + 1,
-        ResourceRole,    /// clip only
-        ServiceRole,     /// clip only
-        IsBlankRole,     /// clip only
-        StartRole,       /// clip only
-        BinIdRole,       /// clip only
-        MarkersRole,     /// clip only
+        ResourceRole, /// clip only
+        ServiceRole,  /// clip only
+        IsBlankRole,  /// clip only
+        StartRole,    /// clip only
+        BinIdRole,    /// clip only
+        MarkersRole,  /// clip only
         DurationRole,
-        InPointRole,     /// clip only
-        OutPointRole,    /// clip only
-        FramerateRole,   /// clip only
-        GroupedRole,     /// clip only
-        HasAudio,        /// clip only
-        IsMuteRole,      /// track only
-        IsHiddenRole,    /// track only
+        InPointRole,   /// clip only
+        OutPointRole,  /// clip only
+        FramerateRole, /// clip only
+        GroupedRole,   /// clip only
+        HasAudio,      /// clip only
+        IsMuteRole,    /// track only
+        IsHiddenRole,  /// track only
         IsAudioRole,
-        AudioLevelsRole, /// clip only
-        IsCompositeRole, /// track only
-        IsLockedRole,    /// track only
-        HeightRole,      /// track only
-        FadeInRole,      /// clip only
-        FadeOutRole,     /// clip only
-        IsCompositionRole,/// clip only
-        FileHashRole,    /// clip only
-        SpeedRole,       /// clip only
-        ItemATrack,      /// composition only
+        AudioLevelsRole,   /// clip only
+        IsCompositeRole,   /// track only
+        IsLockedRole,      /// track only
+        HeightRole,        /// track only
+        FadeInRole,        /// clip only
+        FadeOutRole,       /// clip only
+        IsCompositionRole, /// clip only
+        FileHashRole,      /// clip only
+        SpeedRole,         /// clip only
+        ItemATrack,        /// composition only
         ItemIdRole
     };
 
     virtual ~TimelineModel();
-    Mlt::Tractor* tractor() const { return m_tractor.get(); }
+    Mlt::Tractor *tractor() const { return m_tractor.get(); }
     Mlt::Profile *getProfile();
 
     /* @brief returns the number of tracks */
@@ -214,8 +222,8 @@ protected:
     /* Same function, but accumulates undo and redo, and doesn't check for group*/
     bool requestClipMove(int clipId, int trackId, int position, bool updateView, Fun &undo, Fun &redo);
     bool requestCompositionMove(int transid, int trackId, int position, bool updateView, Fun &undo, Fun &redo);
-public:
 
+public:
     /* @brief Given an intended move, try to suggest a more valid one (accounting for snaps and missing UI calls)
        @param clipId id of the clip to move
        @param trackId id of the target track
@@ -234,7 +242,7 @@ public:
     */
     bool requestClipInsertion(const QString &binClipId, int trackId, int position, int &id, bool logUndo = true);
     /* Same function, but accumulates undo and redo*/
-    bool requestClipInsertion(const QString &binClipId, int trackId, int position, int &id, Fun& undo, Fun& redo);
+    bool requestClipInsertion(const QString &binClipId, int trackId, int position, int &id, Fun &undo, Fun &redo);
 
     /* @brief Deletes the given clip or composition from the timeline
        This action is undoable
@@ -246,7 +254,7 @@ public:
     Q_INVOKABLE bool requestItemDeletion(int clipId, bool logUndo = true);
     /* Same function, but accumulates undo and redo, and doesn't check for group*/
     bool requestClipDeletion(int clipId, Fun &undo, Fun &redo);
-    bool requestCompositionDeletion(int compositionId, Fun& undo, Fun& redo);
+    bool requestCompositionDeletion(int compositionId, Fun &undo, Fun &redo);
 
     /* @brief Move a group to a specific position
        This action is undoable
@@ -289,7 +297,7 @@ public:
     bool requestItemResizeToPos(int itemId, int position, bool right);
 
     /* Same function, but accumulates undo and redo and doesn't deal with snapping*/
-    bool requestItemResize(int itemId, int size, bool right, bool logUndo, Fun& undo, Fun& redo);
+    bool requestItemResize(int itemId, int size, bool right, bool logUndo, Fun &undo, Fun &redo);
 
     /* @brief Similar to requestClipResize but takes a delta instead of absolute size
        This action is undoable
@@ -309,7 +317,7 @@ public:
        Typically, ids would be ids of clips, but for convenience, some of them can be ids of groups as well.
        @param ids Set of ids to group
     */
-    bool requestClipsGroup(const std::unordered_set<int>& ids);
+    bool requestClipsGroup(const std::unordered_set<int> &ids);
 
     /* @brief Destruct the topmost group containing clip
        This action is undoable
@@ -318,7 +326,7 @@ public:
     */
     bool requestClipUngroup(int id);
     /* Same function, but accumulates undo and redo*/
-    bool requestClipUngroup(int id, Fun& undo, Fun& redo);
+    bool requestClipUngroup(int id, Fun &undo, Fun &redo);
 
     /* @brief Create a track at given position
        This action is undoable
@@ -326,9 +334,9 @@ public:
        @param Requested position (order). If set to -1, the track is inserted last.
        @param id is a return parameter that holds the id of the resulting track (-1 on failure)
     */
-    bool requestTrackInsertion(int pos, int& id);
+    bool requestTrackInsertion(int pos, int &id);
     /* Same function, but accumulates undo and redo*/
-    bool requestTrackInsertion(int pos, int& id, Fun& undo, Fun& redo);
+    bool requestTrackInsertion(int pos, int &id, Fun &undo, Fun &redo);
 
     /* @brief Delete track with given id
        This also deletes all the clips contained in the track.
@@ -338,7 +346,7 @@ public:
     */
     bool requestTrackDeletion(int trackId);
     /* Same function, but accumulates undo and redo*/
-    bool requestTrackDeletion(int trackId, Fun& undo, Fun& redo);
+    bool requestTrackDeletion(int trackId, Fun &undo, Fun &redo);
 
     /* @brief Get project duration
        Returns the duration in frames
@@ -353,7 +361,7 @@ public:
 
     /* @brief Removes all the elements on the timeline (tracks and clips)
      */
-    bool requestReset(Fun& undo, Fun& redo);
+    bool requestReset(Fun &undo, Fun &redo);
     /* @brief Updates the current the pointer to the current undo_stack
        Must be called for example when the doc change
     */
@@ -365,7 +373,7 @@ public:
        @param pts snap points to ignore (for example currently moved clip)
        @returns best snap position or -1 if no snap point is near
      */
-    int requestBestSnapPos(int pos, int length, const std::vector<int>& pts = std::vector<int>());
+    int requestBestSnapPos(int pos, int length, const std::vector<int> &pts = std::vector<int>());
 
     /* @brief Requests the next snapped point
        @param pos is the current position
@@ -387,9 +395,9 @@ public:
        @param id return parameter of the id of the inserted composition
        @param logUndo if set to false, no undo object is stored
     */
-    bool requestCompositionInsertion(const QString& transitionId, int trackId, int position, int length, int &id, bool logUndo = true);
+    bool requestCompositionInsertion(const QString &transitionId, int trackId, int position, int length, int &id, bool logUndo = true);
     /* Same function, but accumulates undo and redo*/
-    bool requestCompositionInsertion(const QString& transitionId, int trackId, int position, int length, int &id, Fun& undo, Fun& redo);
+    bool requestCompositionInsertion(const QString &transitionId, int trackId, int position, int length, int &id, Fun &undo, Fun &redo);
 
     /* @brief This function change the global (timeline-wise) enabled state of the effects
        It disables/enables track and clip effects (recursively)
@@ -404,11 +412,11 @@ protected:
 
     /* @brief Register a new clip. This is a call-back meant to be called from ClipModel
     */
-    void registerClip(const std::shared_ptr<ClipModel>& clip);
+    void registerClip(const std::shared_ptr<ClipModel> &clip);
 
     /* @brief Register a new composition. This is a call-back meant to be called from CompositionModel
     */
-    void registerComposition(const std::shared_ptr<CompositionModel>& composition);
+    void registerComposition(const std::shared_ptr<CompositionModel> &composition);
 
     /* @brief Register a new group. This is a call-back meant to be called from GroupsModel
      */
@@ -479,18 +487,20 @@ protected:
 
     std::list<std::shared_ptr<TrackModel>> m_allTracks;
 
-    std::unordered_map<int, std::list<std::shared_ptr<TrackModel>>::iterator> m_iteratorTable; //this logs the iterator associated which each track id. This allows easy access of a track based on its id.
+    std::unordered_map<int, std::list<std::shared_ptr<TrackModel>>::iterator>
+        m_iteratorTable; // this logs the iterator associated which each track id. This allows easy access of a track based on its id.
 
-    std::unordered_map<int, std::shared_ptr<ClipModel>> m_allClips; //the keys are the clip id, and the values are the corresponding pointers
+    std::unordered_map<int, std::shared_ptr<ClipModel>> m_allClips; // the keys are the clip id, and the values are the corresponding pointers
 
-    std::unordered_map<int, std::shared_ptr<CompositionModel>> m_allCompositions; //the keys are the composition id, and the values are the corresponding pointers
+    std::unordered_map<int, std::shared_ptr<CompositionModel>>
+        m_allCompositions; // the keys are the composition id, and the values are the corresponding pointers
 
-    static int next_id;//next valid id to assign
+    static int next_id; // next valid id to assign
 
     std::unique_ptr<GroupsModel> m_groups;
     std::unique_ptr<SnapModel> m_snaps;
 
-    std::unordered_set<int> m_allGroups; //ids of all the groups
+    std::unordered_set<int> m_allGroups; // ids of all the groups
 
     std::weak_ptr<DocUndoStack> m_undoStack;
 
@@ -499,24 +509,23 @@ protected:
     // The black track producer. It's length / out should always be adjusted to the projects's length
     std::unique_ptr<Mlt::Producer> m_blackClip;
 
-    mutable QReadWriteLock m_lock; //This is a lock that ensures safety in case of concurrent access
+    mutable QReadWriteLock m_lock; // This is a lock that ensures safety in case of concurrent access
 
-    std::ofstream m_logFile; //this is a temporary debug member to help reproduce issues
+    std::ofstream m_logFile; // this is a temporary debug member to help reproduce issues
 
     bool m_timelineEffectsEnabled;
 
-    //what follows are some virtual function that corresponds to the QML. They are implemented in TimelineItemModel
+    // what follows are some virtual function that corresponds to the QML. They are implemented in TimelineItemModel
 protected:
-    virtual void _beginRemoveRows(const QModelIndex&, int , int) = 0;
-    virtual void _beginInsertRows(const QModelIndex&, int , int) = 0;
+    virtual void _beginRemoveRows(const QModelIndex &, int, int) = 0;
+    virtual void _beginInsertRows(const QModelIndex &, int, int) = 0;
     virtual void _endRemoveRows() = 0;
     virtual void _endInsertRows() = 0;
-    virtual void notifyChange(const QModelIndex& topleft, const QModelIndex& bottomright, bool start, bool duration, bool updateThumb) = 0;
-    virtual void notifyChange(const QModelIndex& topleft, const QModelIndex& bottomright, QVector<int>) = 0;
+    virtual void notifyChange(const QModelIndex &topleft, const QModelIndex &bottomright, bool start, bool duration, bool updateThumb) = 0;
+    virtual void notifyChange(const QModelIndex &topleft, const QModelIndex &bottomright, QVector<int>) = 0;
     virtual QModelIndex makeClipIndexFromID(int) const = 0;
     virtual QModelIndex makeCompositionIndexFromID(int) const = 0;
     virtual QModelIndex makeTrackIndexFromID(int) const = 0;
     virtual void _resetView() = 0;
 };
 #endif
-

@@ -41,8 +41,7 @@
 #include <QString>
 #include <QUrl>
 
-namespace Ui
-{
+namespace Ui {
 class LoginDialog;
 }
 
@@ -50,7 +49,8 @@ class LoginDialog;
   \brief This is the dialog that is used to login to freesound
  \details It contains a QWebView object to display the freesound web page. I did try using a QTextBrowser
  for this purpose but it responds to the URL that is used to connect with
- "No document for https://www.freesound.org/apiv2/oauth2/authorize/?client_id=3duhagdr874c&redirect_uri=https://www.freesound.org/home/app_permissions/permission_granted/&response_type=code"
+ "No document for
+ https://www.freesound.org/apiv2/oauth2/authorize/?client_id=3duhagdr874c&redirect_uri=https://www.freesound.org/home/app_permissions/permission_granted/&response_type=code"
  The use of QWebView adds a dependancy on the KF5WebKit to kdenlive. Need install libkf5webkit5-dev package on ubuntu
  */
 class LoginDialog : public QDialog

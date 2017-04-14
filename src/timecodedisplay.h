@@ -20,8 +20,8 @@
 #ifndef TIMECODEDISPLAY_H
 #define TIMECODEDISPLAY_H
 
-#include "timecode.h"
 #include "gentime.h"
+#include "timecode.h"
 
 #include <QAbstractSpinBox>
 
@@ -124,7 +124,6 @@ protected:
     void enterEvent(QEvent *e) override;
     void leaveEvent(QEvent *e) override;
     QAbstractSpinBox::StepEnabled stepEnabled() const override;
-
 };
 
 #endif

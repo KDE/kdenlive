@@ -20,18 +20,20 @@
 #ifndef BINCOMMANDS_H
 #define BINCOMMANDS_H
 
-#include <QUndoCommand>
 #include <QDomElement>
 #include <QMap>
+#include <QUndoCommand>
 
 class Bin;
 
 class AddBinFolderCommand : public QUndoCommand
 {
 public:
-    explicit AddBinFolderCommand(Bin *bin, const QString &id, const QString &name, const QString &parentId, bool remove = false, QUndoCommand *parent = nullptr);
+    explicit AddBinFolderCommand(Bin *bin, const QString &id, const QString &name, const QString &parentId, bool remove = false,
+                                 QUndoCommand *parent = nullptr);
     void undo() override;
     void redo() override;
+
 private:
     Bin *m_bin;
     QString m_id;
@@ -46,6 +48,7 @@ public:
     explicit MoveBinClipCommand(Bin *bin, const QString &clipId, const QString &oldParentId, const QString &newParentId, QUndoCommand *parent = nullptr);
     void undo() override;
     void redo() override;
+
 private:
     Bin *m_bin;
     QString m_clipId;
@@ -59,6 +62,7 @@ public:
     explicit MoveBinFolderCommand(Bin *bin, const QString &clipId, const QString &oldParentId, const QString &newParentId, QUndoCommand *parent = nullptr);
     void undo() override;
     void redo() override;
+
 private:
     Bin *m_bin;
     QString m_clipId;
@@ -72,6 +76,7 @@ public:
     explicit RenameBinFolderCommand(Bin *bin, const QString &folderId, const QString &newName, const QString &oldName, QUndoCommand *parent = nullptr);
     void undo() override;
     void redo() override;
+
 private:
     Bin *m_bin;
     QString m_clipId;
@@ -79,13 +84,14 @@ private:
     QString m_newName;
 };
 
-
 class RenameBinSubClipCommand : public QUndoCommand
 {
 public:
-    explicit RenameBinSubClipCommand(Bin *bin, const QString &clipId, const QString &newName, const QString &oldName, int in, int out, QUndoCommand *parent = nullptr);
+    explicit RenameBinSubClipCommand(Bin *bin, const QString &clipId, const QString &newName, const QString &oldName, int in, int out,
+                                     QUndoCommand *parent = nullptr);
     void undo() override;
     void redo() override;
+
 private:
     Bin *m_bin;
     QString m_clipId;
@@ -101,6 +107,7 @@ public:
     explicit AddBinClipCutCommand(Bin *bin, const QString &clipId, int in, int out, bool add, QUndoCommand *parent = nullptr);
     void undo() override;
     void redo() override;
+
 private:
     Bin *m_bin;
     QString m_clipId;
@@ -112,15 +119,18 @@ private:
 class EditClipCommand : public QUndoCommand
 {
 public:
-    EditClipCommand(Bin *bin, const QString &id, const QMap<QString, QString> &oldparams, const QMap<QString, QString> &newparams, bool doIt, QUndoCommand *parent = nullptr);
+    EditClipCommand(Bin *bin, const QString &id, const QMap<QString, QString> &oldparams, const QMap<QString, QString> &newparams, bool doIt,
+                    QUndoCommand *parent = nullptr);
     void undo() override;
     void redo() override;
+
 private:
     Bin *m_bin;
     QMap<QString, QString> m_oldparams;
     QMap<QString, QString> m_newparams;
     QString m_id;
-    /** @brief Should this command be executed on first redo ? TODO: we should refactor the code to get rid of this and always execute actions through the command system.
+    /** @brief Should this command be executed on first redo ? TODO: we should refactor the code to get rid of this and always execute actions through the
+     *command system.
      *. */
     bool m_doIt;
     /** @brief This value is true is this is the first time we execute the command, false otherwise. This allows us to refresh the properties panel
@@ -134,6 +144,7 @@ public:
     AddClipCommand(Bin *bin, const QDomElement &xml, const QString &id, bool doIt, QUndoCommand *parent = nullptr);
     void undo() override;
     void redo() override;
+
 private:
     Bin *m_bin;
     QDomElement m_xml;
@@ -142,4 +153,3 @@ private:
 };
 
 #endif
-

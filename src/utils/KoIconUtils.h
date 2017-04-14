@@ -22,12 +22,11 @@
 
 #include "kdenlivesettings.h"
 #include "kxmlgui_version.h"
-#include <QIcon>
 #include <KIconEngine>
 #include <KIconLoader>
+#include <QIcon>
 
-namespace KoIconUtils
-{
+namespace KoIconUtils {
 #if KXMLGUI_VERSION_MINOR > 22 || KXMLGUI_VERSION_MAJOR > 5
 inline QIcon themedIcon(const QString &name)
 {

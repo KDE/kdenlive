@@ -31,12 +31,11 @@
 #include "scopewidget.h"
 #include "sharedframe.h"
 
-#include <QWidget>
-#include <QVector>
 #include <QPixmap>
+#include <QVector>
+#include <QWidget>
 
-namespace Mlt
-{
+namespace Mlt {
 class Filter;
 }
 
@@ -86,7 +85,7 @@ private:
     MonitorManager *m_manager;
     Mlt::Filter *m_filter;
     AudioGraphWidget *m_graphWidget;
-    //EqualizerWidget *m_equalizer;
+    // EqualizerWidget *m_equalizer;
     void processSpectrum();
     void refreshScope(const QSize &size, bool full) override;
 

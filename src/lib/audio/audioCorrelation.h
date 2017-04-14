@@ -43,10 +43,8 @@ public:
       Correlates the two vectors envMain and envSub.
       \c correlation must be a pre-allocated vector of size sizeMain+sizeSub+1.
       */
-    static void correlate(const qint64 *envMain, int sizeMain,
-                          const qint64 *envSub, int sizeSub,
-                          qint64 *correlation,
-                          qint64 *out_max = nullptr);
+    static void correlate(const qint64 *envMain, int sizeMain, const qint64 *envSub, int sizeSub, qint64 *correlation, qint64 *out_max = nullptr);
+
 private:
     AudioEnvelope *m_mainTrackEnvelope;
 
