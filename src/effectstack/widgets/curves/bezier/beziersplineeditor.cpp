@@ -16,21 +16,17 @@
  *   along with Kdenlive.  If not, see <http://www.gnu.org/licenses/>.     *
  ***************************************************************************/
 
-#include "cubicbezierspline.h"
 #include "beziersplineeditor.h"
+#include "cubicbezierspline.h"
 #include "kdenlivesettings.h"
 
 #include "complex"
 
-#include <QPainter>
 #include <QMouseEvent>
+#include <QPainter>
 
-BezierSplineEditor::BezierSplineEditor(QWidget *parent) :
-    AbstractCurveWidget(parent)
-    , m_showAllHandles(true)
-    , m_currentPointType(BPoint::PointType::P)
-    , m_grabOffsetX(0)
-    , m_grabOffsetY(0)
+BezierSplineEditor::BezierSplineEditor(QWidget *parent)
+    : AbstractCurveWidget(parent), m_showAllHandles(true), m_currentPointType(BPoint::PointType::P), m_grabOffsetX(0), m_grabOffsetY(0)
 {
     m_curve = CubicBezierSpline();
 }
@@ -38,9 +34,6 @@ BezierSplineEditor::BezierSplineEditor(QWidget *parent) :
 BezierSplineEditor::~BezierSplineEditor()
 {
 }
-
-
-
 
 void BezierSplineEditor::paintEvent(QPaintEvent *event)
 {
@@ -95,8 +88,7 @@ void BezierSplineEditor::paintEvent(QPaintEvent *event)
             }
         }
 
-        p.drawEllipse(QRectF(point.p.x() - 3,
-                             point.p.y() - 3, 6, 6));
+        p.drawEllipse(QRectF(point.p.x() - 3, point.p.y() - 3, 6, 6));
         if (i != 0 && (i == m_currentPointIndex || m_showAllHandles)) {
             p.drawConvexPolygon(handle.translated(point.h1.x(), point.h1.y()));
         }
@@ -109,7 +101,6 @@ void BezierSplineEditor::paintEvent(QPaintEvent *event)
         }
     }
 }
-
 
 void BezierSplineEditor::mousePressEvent(QMouseEvent *event)
 {
@@ -130,7 +121,8 @@ void BezierSplineEditor::mousePressEvent(QMouseEvent *event)
         m_currentPointIndex = closestPointIndex;
         slotDeleteCurrentPoint();
         return;
-    } if (event->button() != Qt::LeftButton) {
+    }
+    if (event->button() != Qt::LeftButton) {
         return;
     }
 
@@ -166,7 +158,6 @@ void BezierSplineEditor::mousePressEvent(QMouseEvent *event)
     emit modified();
     update();
 }
-
 
 void BezierSplineEditor::mouseMoveEvent(QMouseEvent *event)
 {
@@ -295,7 +286,6 @@ void BezierSplineEditor::mouseDoubleClickEvent(QMouseEvent * /*event*/)
     }
 }
 
-
 int BezierSplineEditor::nearestPointInRange(const QPointF &p, int wWidth, int wHeight, BPoint::PointType *sel)
 {
 
@@ -303,10 +293,7 @@ int BezierSplineEditor::nearestPointInRange(const QPointF &p, int wWidth, int wH
     int nearestIndex = nearest.first;
     BPoint::PointType pointType = nearest.second;
 
-    if (nearestIndex >= 0 &&
-        (nearestIndex == m_currentPointIndex ||
-         pointType == BPoint::PointType::P ||
-         m_showAllHandles)) {
+    if (nearestIndex >= 0 && (nearestIndex == m_currentPointIndex || pointType == BPoint::PointType::P || m_showAllHandles)) {
         // a point was found and it is not a hidden handle
         BPoint point = m_curve.getPoint(nearestIndex);
         double dx = (p.x() - point[(int)pointType].x()) * wWidth;
@@ -320,9 +307,6 @@ int BezierSplineEditor::nearestPointInRange(const QPointF &p, int wWidth, int wH
     return -1;
 }
 
-
-
-
 void BezierSplineEditor::setShowAllHandles(bool show)
 {
     if (m_showAllHandles != show) {
@@ -335,4 +319,3 @@ QList<BPoint> BezierSplineEditor::getPoints() const
 {
     return m_curve.getPoints();
 }
-

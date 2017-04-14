@@ -23,10 +23,9 @@
 #include <QGridLayout>
 #include <QRadioButton>
 
-DoubleParameterWidget::DoubleParameterWidget(const QString &name, double value, double min, double max, double defaultValue, const QString &comment, int id, const QString &suffix, int decimals, bool showRadiobutton, QWidget *parent)
-    : AbstractParamWidget(parent)
-    , factor(1)
-    , m_radio(nullptr)
+DoubleParameterWidget::DoubleParameterWidget(const QString &name, double value, double min, double max, double defaultValue, const QString &comment, int id,
+                                             const QString &suffix, int decimals, bool showRadiobutton, QWidget *parent)
+    : AbstractParamWidget(parent), factor(1), m_radio(nullptr)
 {
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
     auto *layout = new QGridLayout(this);
@@ -48,10 +47,8 @@ DoubleParameterWidget::DoubleParameterWidget(const QString &name, double value, 
     connect(m_dragVal, &DragValue::valueChanged, this, &DoubleParameterWidget::slotSetValue);
     connect(m_dragVal, &DragValue::inTimeline, this, &DoubleParameterWidget::setInTimeline);
 
-    //connect the signal of the derived class to the signal of the base class
-    connect(this, &DoubleParameterWidget::valueChanged,
-            [this](double){ emit qobject_cast<AbstractParamWidget*>(this)->valueChanged();});
-
+    // connect the signal of the derived class to the signal of the base class
+    connect(this, &DoubleParameterWidget::valueChanged, [this](double) { emit qobject_cast<AbstractParamWidget *>(this)->valueChanged(); });
 }
 
 bool DoubleParameterWidget::hasEditFocus() const
@@ -129,4 +126,3 @@ void DoubleParameterWidget::slotShowComment(bool show)
 {
     Q_UNUSED(show)
 }
-

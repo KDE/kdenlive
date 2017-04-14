@@ -19,8 +19,8 @@
  ***************************************************************************/
 
 #include "meltjob.h"
-#include "kdenlivesettings.h"
 #include "doc/kdenlivedoc.h"
+#include "kdenlivesettings.h"
 
 #include <klocalizedstring.h>
 
@@ -29,21 +29,13 @@
 static void consumer_frame_render(mlt_consumer, MeltJob *self, mlt_frame frame_ptr)
 {
     Mlt::Frame frame(frame_ptr);
-    self->emitFrameNumber((int) frame.get_position());
+    self->emitFrameNumber((int)frame.get_position());
 }
 
-MeltJob::MeltJob(ClipType cType, const QString &id, const QMap<QString, QString> &producerParams, const QMap<QString, QString> &filterParams, const QMap<QString, QString> &consumerParams,  const QMap<QString, QString> &extraParams)
-    : AbstractClipJob(MLTJOB, cType, id),
-      addClipToProject(0),
-      m_consumer(nullptr),
-      m_producer(nullptr),
-      m_profile(nullptr),
-      m_filter(nullptr),
-      m_showFrameEvent(nullptr),
-      m_producerParams(producerParams),
-      m_filterParams(filterParams),
-      m_consumerParams(consumerParams),
-      m_length(0),
+MeltJob::MeltJob(ClipType cType, const QString &id, const QMap<QString, QString> &producerParams, const QMap<QString, QString> &filterParams,
+                 const QMap<QString, QString> &consumerParams, const QMap<QString, QString> &extraParams)
+    : AbstractClipJob(MLTJOB, cType, id), addClipToProject(0), m_consumer(nullptr), m_producer(nullptr), m_profile(nullptr), m_filter(nullptr),
+      m_showFrameEvent(nullptr), m_producerParams(producerParams), m_filterParams(filterParams), m_consumerParams(consumerParams), m_length(0),
       m_extra(extraParams)
 {
     m_jobStatus = JobWaiting;
@@ -112,7 +104,7 @@ void MeltJob::startJob()
     double fps = projectProfile->fps();
     int fps_num = projectProfile->frame_rate_num();
     int fps_den = projectProfile->frame_rate_den();
-    Mlt::Producer *producer = new Mlt::Producer(*m_profile,  m_url.toUtf8().constData());
+    Mlt::Producer *producer = new Mlt::Producer(*m_profile, m_url.toUtf8().constData());
     if ((producer != nullptr) && producerProfile) {
         m_profile->from_producer(*producer);
         m_profile->set_explicit(1);
@@ -122,7 +114,7 @@ void MeltJob::startJob()
         delete producer;
         // Force same fps as projec profile or the resulting .mlt will not load in our project
         m_profile->set_frame_rate(fps_num, fps_den);
-        producer = new Mlt::Producer(*m_profile,  m_url.toUtf8().constData());
+        producer = new Mlt::Producer(*m_profile, m_url.toUtf8().constData());
     }
     if (producerProfile) {
         delete projectProfile;
@@ -130,7 +122,7 @@ void MeltJob::startJob()
 
     if ((producer == nullptr) || !producer->is_valid()) {
         // Clip was removed or something went wrong, Notify user?
-        //m_errorMessage.append(i18n("Invalid clip"));
+        // m_errorMessage.append(i18n("Invalid clip"));
         setStatus(JobCrashed);
         return;
     }
@@ -219,7 +211,7 @@ void MeltJob::startJob()
     if (m_filter) {
         m_producer->attach(*m_filter);
     }
-    m_showFrameEvent = m_consumer->listen("consumer-frame-render", this, (mlt_listener) consumer_frame_render);
+    m_showFrameEvent = m_consumer->listen("consumer-frame-render", this, (mlt_listener)consumer_frame_render);
     m_producer->set_speed(1);
     m_consumer->run();
 
@@ -286,4 +278,3 @@ void MeltJob::setStatus(ClipJobStatus status)
         m_consumer->stop();
     }
 }
-

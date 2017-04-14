@@ -19,15 +19,13 @@
 #include "bpointitem.h"
 #include "splineitem.h"
 
-#include <QPainter>
-#include <QGraphicsSceneMouseEvent>
 #include <QCursor>
 #include <QGraphicsScene>
+#include <QGraphicsSceneMouseEvent>
 #include <QGraphicsView>
+#include <QPainter>
 
-BPointItem::BPointItem(const BPoint &point, QGraphicsItem *parent) :
-    QAbstractGraphicsShapeItem(parent),
-    m_selection(-1)
+BPointItem::BPointItem(const BPoint &point, QGraphicsItem *parent) : QAbstractGraphicsShapeItem(parent), m_selection(-1)
 {
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
 
@@ -91,8 +89,7 @@ void BPointItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
 
     painter->drawConvexPolygon(handle.translated(m_point.h1.x(), m_point.h1.y()));
     painter->drawConvexPolygon(handle.translated(m_point.h2.x(), m_point.h2.y()));
-    painter->drawEllipse(QRectF(m_point.p.x() - handleSizeHalf,
-                                m_point.p.y() - handleSizeHalf, handleSize, handleSize));
+    painter->drawEllipse(QRectF(m_point.p.x() - handleSizeHalf, m_point.p.y() - handleSizeHalf, handleSize, handleSize));
 }
 
 int BPointItem::getSelection(const QPointF &pos)

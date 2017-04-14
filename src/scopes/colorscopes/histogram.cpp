@@ -12,12 +12,11 @@
 #include "histogramgenerator.h"
 #include <QTime>
 
-#include <KSharedConfig>
-#include <KConfigGroup>
 #include "klocalizedstring.h"
+#include <KConfigGroup>
+#include <KSharedConfig>
 
-Histogram::Histogram(QWidget *parent) :
-    AbstractGfxScopeWidget(false, parent)
+Histogram::Histogram(QWidget *parent) : AbstractGfxScopeWidget(false, parent)
 {
     ui = new Ui::Histogram_UI();
     ui->setupUi(this);
@@ -111,7 +110,8 @@ bool Histogram::isBackgroundDependingOnInput() const
 
 QRect Histogram::scopeRect()
 {
-    //qCDebug(KDENLIVE_LOG) << "According to the spacer, the top left point is " << ui->verticalSpacer->geometry().x() << '/' << ui->verticalSpacer->geometry().y();
+    // qCDebug(KDENLIVE_LOG) << "According to the spacer, the top left point is " << ui->verticalSpacer->geometry().x() << '/' <<
+    // ui->verticalSpacer->geometry().y();
     QPoint topleft(offset, offset + ui->verticalSpacer->geometry().y());
     return QRect(topleft, this->rect().size() - QSize(topleft.x() + offset, topleft.y() + offset));
 }
@@ -125,16 +125,14 @@ QImage Histogram::renderGfxScope(uint accelFactor, const QImage &qimage)
 {
     QTime start = QTime::currentTime();
     start.start();
-    const int componentFlags = (ui->cbY->isChecked() ? 1 : 0) * HistogramGenerator::ComponentY
-                               | (ui->cbS->isChecked() ? 1 : 0) * HistogramGenerator::ComponentSum
-                               | (ui->cbR->isChecked() ? 1 : 0) * HistogramGenerator::ComponentR
-                               | (ui->cbG->isChecked() ? 1 : 0) * HistogramGenerator::ComponentG
-                               | (ui->cbB->isChecked() ? 1 : 0) * HistogramGenerator::ComponentB;
+    const int componentFlags =
+        (ui->cbY->isChecked() ? 1 : 0) * HistogramGenerator::ComponentY | (ui->cbS->isChecked() ? 1 : 0) * HistogramGenerator::ComponentSum |
+        (ui->cbR->isChecked() ? 1 : 0) * HistogramGenerator::ComponentR | (ui->cbG->isChecked() ? 1 : 0) * HistogramGenerator::ComponentG |
+        (ui->cbB->isChecked() ? 1 : 0) * HistogramGenerator::ComponentB;
 
     HistogramGenerator::Rec rec = m_aRec601->isChecked() ? HistogramGenerator::Rec_601 : HistogramGenerator::Rec_709;
 
-    QImage histogram = m_histogramGenerator->calculateHistogram(m_scopeRect.size(), qimage, componentFlags,
-                       rec, m_aUnscaled->isChecked(), accelFactor);
+    QImage histogram = m_histogramGenerator->calculateHistogram(m_scopeRect.size(), qimage, componentFlags, rec, m_aUnscaled->isChecked(), accelFactor);
 
     emit signalScopeRenderingFinished(start.elapsed(), accelFactor);
     return histogram;
@@ -144,4 +142,3 @@ QImage Histogram::renderBackground(uint)
     emit signalBackgroundRenderingFinished(0, 1);
     return QImage();
 }
-

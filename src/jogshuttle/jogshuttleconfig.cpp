@@ -19,10 +19,10 @@
 
 #include "jogshuttleconfig.h"
 
-#include <vector>
-#include <string>
-#include <sstream>
 #include <cstdio>
+#include <sstream>
+#include <string>
+#include <vector>
 
 #include <stdlib.h>
 
@@ -50,14 +50,14 @@ QStringList JogShuttleConfig::actionMap(const QString &actionsConfig)
         }
         // skip the 'button' prefix
         int button_id = parts[0].midRef(BUTTON_PREFIX.length()).toInt();
-        //fprintf(stderr, " - Handling map key='%s' (ID=%d), value='%s'\n", parts[0].data().toLatin1(), button_id, parts[1].data().toLatin1()); // DBG
+        // fprintf(stderr, " - Handling map key='%s' (ID=%d), value='%s'\n", parts[0].data().toLatin1(), button_id, parts[1].data().toLatin1()); // DBG
         while (actionMap.size() <= button_id) {
             actionMap << QString();
         }
         actionMap[button_id] = parts[1];
     }
 
-    //for (int i = 0; i < actionMap.size(); ++i) fprintf(stderr, "button #%d -> action '%s'\n", i, actionMap[i].data().toLatin1());  //DBG
+    // for (int i = 0; i < actionMap.size(); ++i) fprintf(stderr, "button #%d -> action '%s'\n", i, actionMap[i].data().toLatin1());  //DBG
     return actionMap;
 }
 

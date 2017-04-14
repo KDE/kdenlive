@@ -20,24 +20,20 @@
  ***************************************************************************/
 
 #include "assetparametermodel.hpp"
-#include <QString>
-#include <QLocale>
-#include <QDebug>
-#include <QScriptEngine>
 #include "profiles/profilemodel.hpp"
+#include <QDebug>
+#include <QLocale>
+#include <QScriptEngine>
+#include <QString>
 
-
-AssetParameterModel::AssetParameterModel(Mlt::Properties *asset, const QDomElement &assetXml, const QString& assetId, QObject *parent)
-    : QAbstractListModel(parent)
-    , m_xml(assetXml)
-    , m_assetId(assetId)
-    , m_asset(asset)
+AssetParameterModel::AssetParameterModel(Mlt::Properties *asset, const QDomElement &assetXml, const QString &assetId, QObject *parent)
+    : QAbstractListModel(parent), m_xml(assetXml), m_assetId(assetId), m_asset(asset)
 {
     Q_ASSERT(asset->is_valid());
     QDomNodeList nodeList = m_xml.elementsByTagName(QStringLiteral("parameter"));
 
     bool needsLocaleConversion = false;
-    QChar separator, oldSeparator ;
+    QChar separator, oldSeparator;
     // Check locale
     if (m_xml.hasAttribute(QStringLiteral("LC_NUMERIC"))) {
         QLocale locale = QLocale(m_xml.attribute(QStringLiteral("LC_NUMERIC")));
@@ -51,7 +47,7 @@ AssetParameterModel::AssetParameterModel(Mlt::Properties *asset, const QDomEleme
     for (int i = 0; i < nodeList.count(); ++i) {
         QDomElement currentParameter = nodeList.item(i).toElement();
 
-        //Convert parameters if we need to
+        // Convert parameters if we need to
         if (needsLocaleConversion) {
             QDomNamedNodeMap attrs = currentParameter.attributes();
             for (int k = 0; k < attrs.count(); ++k) {
@@ -79,7 +75,7 @@ AssetParameterModel::AssetParameterModel(Mlt::Properties *asset, const QDomEleme
         }
         setParameter(name, value);
         if (isFixed) {
-            //fixed parameters are not displayed so we don't store them.
+            // fixed parameters are not displayed so we don't store them.
             continue;
         }
         ParamRow currentRow;
@@ -91,7 +87,7 @@ AssetParameterModel::AssetParameterModel(Mlt::Properties *asset, const QDomEleme
     }
 }
 
-void AssetParameterModel::setParameter(const QString& name, const QString& value)
+void AssetParameterModel::setParameter(const QString &name, const QString &value)
 {
     Q_ASSERT(m_asset->is_valid());
     QLocale locale;
@@ -132,7 +128,7 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
     case Qt::EditRole:
     case NameRole:
         return paramName;
-    case CommentRole:{
+    case CommentRole: {
         QDomElement commentElem = element.firstChildElement(QStringLiteral("comment"));
         QString comment;
         if (!commentElem.isNull()) {
@@ -150,28 +146,24 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
         return element.attribute(QStringLiteral("suffix"));
     case DecimalsRole:
         return element.attribute(QStringLiteral("decimals"));
-
     }
     return QVariant();
 }
 
-
 int AssetParameterModel::rowCount(const QModelIndex &parent) const
 {
-    qDebug() << "===================================================== Requested rowCount"
-             << parent << m_rows.size();
-    if (parent.isValid())
-        return 0;
+    qDebug() << "===================================================== Requested rowCount" << parent << m_rows.size();
+    if (parent.isValid()) return 0;
     return m_rows.size();
 }
 
-
-//static
-ParamType AssetParameterModel::paramTypeFromStr(const QString & type)
+// static
+ParamType AssetParameterModel::paramTypeFromStr(const QString &type)
 {
     if (type == QLatin1String("double") || type == QLatin1String("constant")) {
         return ParamType::Double;
-    } if (type == QLatin1String("list")) {
+    }
+    if (type == QLatin1String("list")) {
         return ParamType::List;
     } else if (type == QLatin1String("bool")) {
         return ParamType::Bool;
@@ -208,13 +200,12 @@ ParamType AssetParameterModel::paramTypeFromStr(const QString & type)
     } else if (type == QLatin1String("readonly")) {
         return ParamType::Readonly;
     }
-    qDebug() << "WARNING: Unknown type :"<<type;
+    qDebug() << "WARNING: Unknown type :" << type;
     return ParamType::Double;
 }
 
-
 // static
-double AssetParameterModel::parseDoubleAttribute(const QString& attribute, const QDomElement& element)
+double AssetParameterModel::parseDoubleAttribute(const QString &attribute, const QDomElement &element)
 {
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
@@ -230,9 +221,9 @@ double AssetParameterModel::parseDoubleAttribute(const QString& attribute, const
         sEngine.globalObject().setProperty(QStringLiteral("width"), width);
         sEngine.globalObject().setProperty(QStringLiteral("height"), height);
         return sEngine.evaluate(content.remove('%')).toNumber();
-    } 
-        return locale.toDouble(content);
-    
+    }
+    return locale.toDouble(content);
+
     return -1;
 }
 
@@ -241,23 +232,23 @@ QString AssetParameterModel::getAssetId() const
     return m_assetId;
 }
 
-QVector<QPair<QString, QVariant> > AssetParameterModel::getAllParameters() const
+QVector<QPair<QString, QVariant>> AssetParameterModel::getAllParameters() const
 {
-    QVector<QPair<QString, QVariant> > res;
+    QVector<QPair<QString, QVariant>> res;
     res.reserve((int)m_fixedParams.size() + (int)m_params.size());
-    for (const auto& fixed : m_fixedParams) {
+    for (const auto &fixed : m_fixedParams) {
         res.push_back(QPair<QString, QVariant>(fixed.first, fixed.second));
     }
 
-    for (const auto& param : m_params) {
+    for (const auto &param : m_params) {
         res.push_back(QPair<QString, QVariant>(param.first, param.second.value));
     }
     return res;
 }
 
-void AssetParameterModel::setParameters(const QVector<QPair<QString, QVariant> >& params)
+void AssetParameterModel::setParameters(const QVector<QPair<QString, QVariant>> &params)
 {
-    for (const auto& param : params) {
+    for (const auto &param : params) {
         setParameter(param.first, param.second.toString());
     }
 }

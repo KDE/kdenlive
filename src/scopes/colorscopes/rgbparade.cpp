@@ -14,12 +14,11 @@
 #include <QRect>
 #include <QTime>
 
-#include <KSharedConfig>
 #include "klocalizedstring.h"
 #include <KConfigGroup>
+#include <KSharedConfig>
 
-RGBParade::RGBParade(QWidget *parent) :
-    AbstractGfxScopeWidget(true, parent)
+RGBParade::RGBParade(QWidget *parent) : AbstractGfxScopeWidget(true, parent)
 {
     ui = new Ui::RGBParade_UI();
     ui->setupUi(this);
@@ -131,8 +130,8 @@ QImage RGBParade::renderGfxScope(uint accelerationFactor, const QImage &qimage)
     start.start();
 
     int paintmode = ui->paintMode->itemData(ui->paintMode->currentIndex()).toInt();
-    QImage parade = m_rgbParadeGenerator->calculateRGBParade(m_scopeRect.size(), qimage, (RGBParadeGenerator::PaintMode) paintmode,
-                    m_aAxis->isChecked(), m_aGradRef->isChecked(), accelerationFactor);
+    QImage parade = m_rgbParadeGenerator->calculateRGBParade(m_scopeRect.size(), qimage, (RGBParadeGenerator::PaintMode)paintmode, m_aAxis->isChecked(),
+                                                             m_aGradRef->isChecked(), accelerationFactor);
     emit signalScopeRenderingFinished(start.elapsed(), accelerationFactor);
     return parade;
 }
@@ -156,4 +155,3 @@ bool RGBParade::isBackgroundDependingOnInput() const
 {
     return false;
 }
-

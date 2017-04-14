@@ -24,9 +24,7 @@
 #include "effectmanager.h"
 #include <mlt++/Mlt.h>
 
-EffectManager::EffectManager(Mlt::Service &producer, QObject *parent)
-    : QObject(parent),
-      m_producer(producer)
+EffectManager::EffectManager(Mlt::Service &producer, QObject *parent) : QObject(parent), m_producer(producer)
 {
 }
 
@@ -139,7 +137,7 @@ bool EffectManager::addEffect(const EffectsParameterList &params, int duration)
 bool EffectManager::doAddFilter(EffectsParameterList params, int duration)
 {
     // create filter
-    QString tag =  params.paramValue(QStringLiteral("tag"));
+    QString tag = params.paramValue(QStringLiteral("tag"));
     QLocale locale;
     ////qCDebug(KDENLIVE_LOG) << " / / INSERTING EFFECT: " << tag << ", REGI: " << region;
     QString kfr = params.paramValue(QStringLiteral("keyframes"));
@@ -148,7 +146,7 @@ bool EffectManager::doAddFilter(EffectsParameterList params, int duration)
         char *starttag = qstrdup(params.paramValue(QStringLiteral("starttag"), QStringLiteral("start")).toUtf8().constData());
         char *endtag = qstrdup(params.paramValue(QStringLiteral("endtag"), QStringLiteral("end")).toUtf8().constData());
         ////qCDebug(KDENLIVE_LOG) << "// ADDING KEYFRAME TAGS: " << starttag << ", " << endtag;
-        //double max = params.paramValue("max").toDouble();
+        // double max = params.paramValue("max").toDouble();
         double min = params.paramValue(QStringLiteral("min")).toDouble();
         double factor = params.paramValue(QStringLiteral("factor"), QStringLiteral("1")).toDouble();
         double paramOffset = params.paramValue(QStringLiteral("offset"), QStringLiteral("0")).toDouble();
@@ -177,11 +175,12 @@ bool EffectManager::doAddFilter(EffectsParameterList params, int duration)
             } else {
                 delete[] starttag;
                 delete[] endtag;
-                //qCDebug(KDENLIVE_LOG) << "filter is nullptr";
+                // qCDebug(KDENLIVE_LOG) << "filter is nullptr";
                 m_producer.unlock();
                 return false;
             }
-        } else for (int i = 0; i < keyFrames.size() - 1; ++i) {
+        } else
+            for (int i = 0; i < keyFrames.size() - 1; ++i) {
                 Mlt::Filter *filter = new Mlt::Filter(*m_producer.profile(), qstrdup(tag.toUtf8().constData()));
                 if ((filter != nullptr) && filter->is_valid()) {
                     filter->set("kdenlive_id", qstrdup(params.paramValue(QStringLiteral("id")).toUtf8().constData()));
@@ -212,7 +211,7 @@ bool EffectManager::doAddFilter(EffectsParameterList params, int duration)
                 } else {
                     delete[] starttag;
                     delete[] endtag;
-                    //qCDebug(KDENLIVE_LOG) << "filter is nullptr";
+                    // qCDebug(KDENLIVE_LOG) << "filter is nullptr";
                     m_producer.unlock();
                     return false;
                 }
@@ -226,14 +225,14 @@ bool EffectManager::doAddFilter(EffectsParameterList params, int duration)
         if ((filter != nullptr) && filter->is_valid()) {
             filter->set("kdenlive_id", qstrdup(params.paramValue(QStringLiteral("id")).toUtf8().constData()));
         } else {
-            //qCDebug(KDENLIVE_LOG) << "filter is nullptr";
+            // qCDebug(KDENLIVE_LOG) << "filter is nullptr";
             m_producer.unlock();
             return false;
         }
         params.removeParam(QStringLiteral("kdenlive_id"));
         if (params.paramValue(QStringLiteral("kdenlive:sync_in_out")) == QLatin1String("1")) {
             // This effect must sync in / out with parent clip
-            //params.removeParam(QStringLiteral("_sync_in_out"));
+            // params.removeParam(QStringLiteral("_sync_in_out"));
             filter->set_in_and_out(m_producer.get_int("in"), m_producer.get_int("out"));
         }
 
@@ -266,9 +265,10 @@ bool EffectManager::doAddFilter(EffectsParameterList params, int duration)
 bool EffectManager::editEffect(const EffectsParameterList &params, int duration, bool replaceEffect)
 {
     int index = params.paramValue(QStringLiteral("kdenlive_ix")).toInt();
-    QString tag =  params.paramValue(QStringLiteral("tag"));
+    QString tag = params.paramValue(QStringLiteral("tag"));
 
-    if (!params.paramValue(QStringLiteral("keyframes")).isEmpty() || replaceEffect || tag.startsWith(QLatin1String("ladspa")) || tag == QLatin1String("sox") || tag == QLatin1String("autotrack_rectangle")) {
+    if (!params.paramValue(QStringLiteral("keyframes")).isEmpty() || replaceEffect || tag.startsWith(QLatin1String("ladspa")) || tag == QLatin1String("sox") ||
+        tag == QLatin1String("autotrack_rectangle")) {
         // This is a keyframe effect, to edit it, we remove it and re-add it.
         if (removeEffect(index, false)) {
             return addEffect(params, duration);
@@ -323,7 +323,7 @@ bool EffectManager::editEffect(const EffectsParameterList &params, int duration,
     if (params.hasParam(QStringLiteral("kdenlive:sync_in_out"))) {
         if (params.paramValue(QStringLiteral("kdenlive:sync_in_out")) == QLatin1String("1")) {
             // This effect must sync in / out with parent clip
-            //params.removeParam(QStringLiteral("sync_in_out"));
+            // params.removeParam(QStringLiteral("sync_in_out"));
             filter->set_in_and_out(m_producer.get_int("in"), m_producer.get_int("out"));
         } else {
             // Reset in/out properties
@@ -381,20 +381,20 @@ bool EffectManager::enableEffects(const QList<int> &effectIndexes, bool disable,
     Mlt::Filter *filter = m_producer.filter(ct);
     while (filter != nullptr) {
         if (effectIndexes.isEmpty() || effectIndexes.contains(filter->get_int("kdenlive_ix"))) {
-            //m_producer.lock();
+            // m_producer.lock();
             if (rememberState) {
                 if (disable && filter->get_int("disable") == 0) {
                     filter->set("auto_disable", 1);
-                    filter->set("disable", (int) disable);
+                    filter->set("disable", (int)disable);
                 } else if (!disable && filter->get_int("auto_disable") == 1) {
-                    filter->set("disable", (char *) nullptr);
-                    filter->set("auto_disable", (char *) nullptr);
+                    filter->set("disable", (char *)nullptr);
+                    filter->set("auto_disable", (char *)nullptr);
                 }
             } else {
-                filter->set("disable", (int) disable);
+                filter->set("disable", (int)disable);
             }
             success = true;
-            //m_producer.unlock();
+            // m_producer.unlock();
         }
         delete filter;
         ct++;
@@ -468,6 +468,6 @@ bool EffectManager::moveEffect(int oldPos, int newPos)
         m_producer.attach(*(filtersList.at(i)));
     }
     qDeleteAll(toDelete);
-    //TODO: check for success
+    // TODO: check for success
     return true;
 }

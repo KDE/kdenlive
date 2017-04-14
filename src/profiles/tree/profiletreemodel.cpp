@@ -20,72 +20,75 @@
  ***************************************************************************/
 
 #include "profiletreemodel.hpp"
-#include "utils/KoIconUtils.h"
-#include "../profilerepository.hpp"
 #include "../profilemodel.hpp"
+#include "../profilerepository.hpp"
 #include "abstractmodel/treeitem.hpp"
-#include <vector>
+#include "utils/KoIconUtils.h"
+#include <KLocalizedString>
 #include <QVector>
 #include <array>
-#include <KLocalizedString>
+#include <vector>
 
-
-
-ProfileTreeModel::ProfileTreeModel(QObject *parent)
-    : AbstractTreeModel(parent)
+ProfileTreeModel::ProfileTreeModel(QObject *parent) : AbstractTreeModel(parent)
 {
     QList<QVariant> rootData;
-    rootData << "Description" << "Path" << "Height" << "Width" << "display_aspect_num"
-             << "display_aspect_den" <<  "sample_aspect_ratio" << "fps" << "colorspace";
+    rootData << "Description"
+             << "Path"
+             << "Height"
+             << "Width"
+             << "display_aspect_num"
+             << "display_aspect_den"
+             << "sample_aspect_ratio"
+             << "fps"
+             << "colorspace";
     rootItem = new TreeItem(rootData, this);
 
     ProfileRepository::get()->refresh();
-    QVector<QPair<QString, QString> > profiles = ProfileRepository::get()->getAllProfiles();
+    QVector<QPair<QString, QString>> profiles = ProfileRepository::get()->getAllProfiles();
 
-    constexpr size_t nbCrit = 3; //number of criterion we check for profile classification
+    constexpr size_t nbCrit = 3; // number of criterion we check for profile classification
 
-    //helper lambda that creates a profile category with the given name
-    auto createCat = [&](const QString& name){
-        return rootItem->appendChild(QList<QVariant>{name});
-    };
+    // helper lambda that creates a profile category with the given name
+    auto createCat = [&](const QString &name) { return rootItem->appendChild(QList<QVariant>{name}); };
 
-    //We define the filters as a vector of pairs. The first element correspond to the tree item holding matching profiles, and the array correspond to the filter itself
-    std::vector<std::pair<TreeItem*, std::array<QVariant, nbCrit> > > filters{
+    // We define the filters as a vector of pairs. The first element correspond to the tree item holding matching profiles, and the array correspond to the
+    // filter itself
+    std::vector<std::pair<TreeItem *, std::array<QVariant, nbCrit>>> filters{
         {createCat(i18n("5K (Wide 2160)")), {{5120, 2160, -1}}},
         {createCat(i18n("4K UHD 2160")), {{3840, 2160, -1}}},
         {createCat(i18n("4K DCI 2160")), {{4096, 2160, -1}}},
         {createCat(i18n("2.5K QHD 1440")), {{-1, 1440, -1}}},
         {createCat(i18n("Full HD 1080")), {{1920, 1080, -1}}},
         {createCat(i18n("HD 720")), {{-1, 720, -1}}},
-        {createCat(i18n("SD/DVD")), {{720, QVariant::fromValue(QPair<int,int>{480, 576}), 4}}},
-        {createCat(i18n("SD/DVD Widescreen")), {{720, QVariant::fromValue(QPair<int,int>{480, 576}), 16}}},
+        {createCat(i18n("SD/DVD")), {{720, QVariant::fromValue(QPair<int, int>{480, 576}), 4}}},
+        {createCat(i18n("SD/DVD Widescreen")), {{720, QVariant::fromValue(QPair<int, int>{480, 576}), 16}}},
     };
 
     auto customCat = createCat(i18n("Custom"));
 
-    //We define lambdas that controls how a given field should be filtered
-    std::array<std::function<bool(QVariant, std::unique_ptr<ProfileModel>&)>, nbCrit> filtLambdas;
-    filtLambdas[0] = [](QVariant width, std::unique_ptr<ProfileModel>& ptr){return width==-1 || ptr->width() == width;};
-    filtLambdas[1] = [](QVariant height, std::unique_ptr<ProfileModel>& ptr){
+    // We define lambdas that controls how a given field should be filtered
+    std::array<std::function<bool(QVariant, std::unique_ptr<ProfileModel> &)>, nbCrit> filtLambdas;
+    filtLambdas[0] = [](QVariant width, std::unique_ptr<ProfileModel> &ptr) { return width == -1 || ptr->width() == width; };
+    filtLambdas[1] = [](QVariant height, std::unique_ptr<ProfileModel> &ptr) {
         if (height.canConvert<int>()) {
-            return height.toInt()==-1 || ptr->height() == height.toInt();
-        } 
-            QPair<int, int> valid_values = height.value<QPair<int, int>>();
-            return ptr->height() == valid_values.first || ptr->height() == valid_values.second;
-        };
-    filtLambdas[2] = [](QVariant display_aspect_num, std::unique_ptr<ProfileModel>& ptr){return display_aspect_num==-1 || ptr->display_aspect_num() == display_aspect_num;};
+            return height.toInt() == -1 || ptr->height() == height.toInt();
+        }
+        QPair<int, int> valid_values = height.value<QPair<int, int>>();
+        return ptr->height() == valid_values.first || ptr->height() == valid_values.second;
+    };
+    filtLambdas[2] = [](QVariant display_aspect_num, std::unique_ptr<ProfileModel> &ptr) {
+        return display_aspect_num == -1 || ptr->display_aspect_num() == display_aspect_num;
+    };
 
-
-    for (const auto & profile : profiles) {
+    for (const auto &profile : profiles) {
         bool foundMatch = false;
-        //we get a pointer to the profilemodel
-        std::unique_ptr<ProfileModel> & ptr = ProfileRepository::get()->getProfile(profile.second);
+        // we get a pointer to the profilemodel
+        std::unique_ptr<ProfileModel> &ptr = ProfileRepository::get()->getProfile(profile.second);
         // we create the data list corresponding to this profile
         QList<QVariant> data;
-        data << profile.first << profile.second << ptr->height() << ptr->width()
-             << ptr->display_aspect_num() << ptr->display_aspect_den() << ptr->sar()
+        data << profile.first << profile.second << ptr->height() << ptr->width() << ptr->display_aspect_num() << ptr->display_aspect_den() << ptr->sar()
              << ptr->fps() << ProfileRepository::getColorspaceDescription(ptr->colorspace());
-        for (const auto & filter : filters) {
+        for (const auto &filter : filters) {
             bool matching = true;
             for (size_t i = 0; i < nbCrit && matching; ++i) {
                 matching = filtLambdas[i](filter.second[i], ptr);
@@ -103,20 +106,18 @@ ProfileTreeModel::ProfileTreeModel(QObject *parent)
     }
 }
 
-
 QVariant ProfileTreeModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid()) {
         return QVariant();
     }
 
-    TreeItem *item = static_cast<TreeItem*>(index.internalPointer());
-    if(role == Qt::DecorationRole) {
+    TreeItem *item = static_cast<TreeItem *>(index.internalPointer());
+    if (role == Qt::DecorationRole) {
         if (item->depth() == 1) {
             return KoIconUtils::themedIcon(QStringLiteral("folder"));
-        } 
-            return KoIconUtils::themedIcon(QStringLiteral("file"));
-        
+        }
+        return KoIconUtils::themedIcon(QStringLiteral("file"));
     }
 
     if (role != Qt::DisplayRole) {
@@ -125,11 +126,11 @@ QVariant ProfileTreeModel::data(const QModelIndex &index, int role) const
     return item->dataColumn(index.column());
 }
 
-//static
-QString ProfileTreeModel::getProfile(const QModelIndex& index)
+// static
+QString ProfileTreeModel::getProfile(const QModelIndex &index)
 {
     if (index.isValid()) {
-        TreeItem *item = static_cast<TreeItem*>(index.internalPointer());
+        TreeItem *item = static_cast<TreeItem *>(index.internalPointer());
         if (item->depth() == 2) {
             return item->dataColumn(1).toString();
         }
@@ -137,7 +138,7 @@ QString ProfileTreeModel::getProfile(const QModelIndex& index)
     return QString();
 }
 
-QModelIndex ProfileTreeModel::findProfile(const QString& profile)
+QModelIndex ProfileTreeModel::findProfile(const QString &profile)
 {
     // we iterate over categories
     for (int i = 0; i < rootItem->childCount(); ++i) {
@@ -145,14 +146,12 @@ QModelIndex ProfileTreeModel::findProfile(const QString& profile)
         TreeItem *category = rootItem->child(i);
         for (int j = 0; j < category->childCount(); ++j) {
             // we retrieve profile path
-            TreeItem* child = category->child(j);
+            TreeItem *child = category->child(j);
             QString path = child->dataColumn(1).toString();
             if (path == profile) {
                 return createIndex(j, 0, child);
             }
         }
-
     }
     return QModelIndex();
-
 }

@@ -18,19 +18,17 @@
  ***************************************************************************/
 
 #include "effectbasket.h"
-#include "kdenlivesettings.h"
-#include "effectslistwidget.h"
 #include "effectslistview.h"
+#include "effectslistwidget.h"
+#include "kdenlivesettings.h"
 
 #include <klocalizedstring.h>
 
+#include <QDomDocument>
 #include <QListWidget>
 #include <QMimeData>
-#include <QDomDocument>
 
-EffectBasket::EffectBasket(EffectsListView *effectList) :
-    QListWidget(effectList)
-    , m_effectList(effectList)
+EffectBasket::EffectBasket(EffectsListView *effectList) : QListWidget(effectList), m_effectList(effectList)
 {
     setFrameStyle(QFrame::NoFrame);
     setSelectionMode(QAbstractItemView::SingleSelection);
@@ -78,4 +76,3 @@ void EffectBasket::slotAddEffect(QListWidgetItem *item)
     QDomElement effect = EffectsListWidget::itemEffect(type, info);
     emit addEffect(effect);
 }
-

@@ -9,19 +9,18 @@ the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 */
 
-#include "mlt_config.h"
 #include "mltconnection.h"
-#include "kdenlivesettings.h"
 #include "core.h"
+#include "kdenlivesettings.h"
 #include "mainwindow.h"
-#include <config-kdenlive.h>
+#include "mlt_config.h"
 #include <KUrlRequesterDialog>
+#include <config-kdenlive.h>
 #include <klocalizedstring.h>
 
-
+#include "kdenlive_debug.h"
 #include <QFile>
 #include <QStandardPaths>
-#include "kdenlive_debug.h"
 
 int MltConnection::instanceCounter = 0;
 MltConnection::MltConnection(const QString &mltPath)
@@ -32,7 +31,7 @@ MltConnection::MltConnection(const QString &mltPath)
         return;
     }
     // Disable VDPAU that crashes in multithread environment.
-    //TODO: make configurable
+    // TODO: make configurable
     setenv("MLT_NO_VDPAU", "1", 1);
     m_repository = std::unique_ptr<Mlt::Repository>(Mlt::Factory::init());
     locateMeltAndProfilesPath(mltPath);
@@ -61,7 +60,8 @@ void MltConnection::locateMeltAndProfilesPath(const QString &mltPath)
     if (profilePath.isEmpty() || !QFile::exists(profilePath)) profilePath = qgetenv("MLT_PREFIX") + QStringLiteral("/share/mlt/profiles/");
     if (profilePath.isEmpty() || !QFile::exists(profilePath)) profilePath = KdenliveSettings::mltpath();
     // build-time definition
-    if ((profilePath.isEmpty() || !QFile::exists(profilePath)) && !QStringLiteral(MLT_DATADIR).isEmpty()) profilePath = QStringLiteral(MLT_DATADIR) + QStringLiteral("/profiles/"); 
+    if ((profilePath.isEmpty() || !QFile::exists(profilePath)) && !QStringLiteral(MLT_DATADIR).isEmpty())
+        profilePath = QStringLiteral(MLT_DATADIR) + QStringLiteral("/profiles/");
     KdenliveSettings::setMltpath(profilePath);
 
 #ifdef Q_OS_WIN
@@ -84,9 +84,8 @@ void MltConnection::locateMeltAndProfilesPath(const QString &mltPath)
 
     if (meltPath.isEmpty()) {
         // Cannot find the MLT melt renderer, ask for location
-        QScopedPointer<KUrlRequesterDialog> getUrl(new KUrlRequesterDialog(QUrl(),
-                                                                     i18n("Cannot find the melt program required for rendering (part of MLT)"),
-                                                                     pCore->window()));
+        QScopedPointer<KUrlRequesterDialog> getUrl(
+            new KUrlRequesterDialog(QUrl(), i18n("Cannot find the melt program required for rendering (part of MLT)"), pCore->window()));
         if (getUrl->exec() == QDialog::Rejected) {
             ::exit(0);
         } else {
@@ -108,7 +107,7 @@ void MltConnection::locateMeltAndProfilesPath(const QString &mltPath)
     if (profilesList.isEmpty()) {
         // Cannot find MLT path, try finding melt
         if (!meltPath.isEmpty()) {
-            if(meltPath.contains(QLatin1Char('/'))) {
+            if (meltPath.contains(QLatin1Char('/'))) {
 #ifdef Q_OS_WIN
                 profilePath = meltPath.section(QLatin1Char('/'), 0, -2) + QStringLiteral("/share/mlt/profiles/");
 #else
@@ -122,9 +121,8 @@ void MltConnection::locateMeltAndProfilesPath(const QString &mltPath)
         }
         if (profilesList.isEmpty()) {
             // Cannot find the MLT profiles, ask for location
-            QScopedPointer<KUrlRequesterDialog> getUrl(new KUrlRequesterDialog(QUrl::fromLocalFile(profilePath),
-                                                                               i18n("Cannot find your MLT profiles, please give the path"),
-                                                                               pCore->window()));
+            QScopedPointer<KUrlRequesterDialog> getUrl(
+                new KUrlRequesterDialog(QUrl::fromLocalFile(profilePath), i18n("Cannot find your MLT profiles, please give the path"), pCore->window()));
             getUrl->urlRequester()->setMode(KFile::Directory);
             if (getUrl->exec() == QDialog::Rejected) {
                 ::exit(0);
@@ -146,7 +144,7 @@ void MltConnection::locateMeltAndProfilesPath(const QString &mltPath)
     }
 }
 
-std::unique_ptr<Mlt::Repository>& MltConnection::getMltRepository()
+std::unique_ptr<Mlt::Repository> &MltConnection::getMltRepository()
 {
     return m_repository;
 }

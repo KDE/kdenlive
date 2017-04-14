@@ -9,8 +9,8 @@
  ***************************************************************************/
 
 #include "colorplaneexport.h"
-#include <KMessageBox>
 #include "klocalizedstring.h"
+#include <KMessageBox>
 //#define DEBUG_CTE
 #ifdef DEBUG_CTE
 #include "kdenlive_debug.h"
@@ -18,8 +18,7 @@
 
 const QString EXTENSION_PNG = QStringLiteral(".png");
 
-ColorPlaneExport::ColorPlaneExport(QWidget *parent) :
-    QDialog(parent)
+ColorPlaneExport::ColorPlaneExport(QWidget *parent) : QDialog(parent)
 {
     setupUi(this);
 
@@ -116,7 +115,7 @@ void ColorPlaneExport::slotUpdateDisplays()
         break;
     }
 
-    lblSize->setText(i18n("%1 px", tResX->text().toInt()*tResY->text().toInt()));
+    lblSize->setText(i18n("%1 px", tResX->text().toInt() * tResY->text().toInt()));
 }
 
 void ColorPlaneExport::slotValidate()
@@ -149,13 +148,14 @@ void ColorPlaneExport::slotValidate()
 void ColorPlaneExport::slotExportPlane()
 {
 #ifdef DEBUG_CPE
-    qCDebug(KDENLIVE_LOG) << "Exporting plane now to " <<  kurlrequester->text();
+    qCDebug(KDENLIVE_LOG) << "Exporting plane now to " << kurlrequester->text();
 #endif
     QString lower = kurlrequester->text().toLower();
 #ifdef DEBUG_CPE
     qCDebug(KDENLIVE_LOG) << "Lower: " << lower;
 #endif
-    if (!lower.endsWith(QLatin1String(".png")) && !lower.endsWith(QLatin1String(".jpg")) && !lower.endsWith(QLatin1String(".tif")) && !lower.endsWith(QLatin1String(".tiff"))) {
+    if (!lower.endsWith(QLatin1String(".png")) && !lower.endsWith(QLatin1String(".jpg")) && !lower.endsWith(QLatin1String(".tif")) &&
+        !lower.endsWith(QLatin1String(".tiff"))) {
         if (KMessageBox::questionYesNo(this, i18n("File has no extension. Add extension (%1)?", EXTENSION_PNG)) == KMessageBox::Yes) {
             kurlrequester->setUrl(QUrl(kurlrequester->text() + QStringLiteral(".png")));
         }
@@ -268,4 +268,3 @@ void ColorPlaneExport::slotColormodeChanged()
     this->update();
     slotUpdateDisplays();
 }
-

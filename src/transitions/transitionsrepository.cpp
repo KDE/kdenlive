@@ -22,43 +22,40 @@
 #include "transitionsrepository.hpp"
 #include "core.h"
 #include "xml/xml.hpp"
-#include <QFile>
 #include <QDir>
+#include <QFile>
 #include <QStandardPaths>
 #include <QTextStream>
 
-#include <mlt++/Mlt.h>
 #include "profiles/profilemodel.hpp"
+#include <mlt++/Mlt.h>
 
 std::unique_ptr<TransitionsRepository> TransitionsRepository::instance;
 std::once_flag TransitionsRepository::m_onceFlag;
 
-TransitionsRepository::TransitionsRepository()
-    : AbstractAssetsRepository<TransitionType>()
+TransitionsRepository::TransitionsRepository() : AbstractAssetsRepository<TransitionType>()
 {
     init();
 }
 
-
-Mlt::Properties* TransitionsRepository::retrieveListFromMlt()
+Mlt::Properties *TransitionsRepository::retrieveListFromMlt()
 {
     return pCore->getMltRepository()->transitions();
 }
 
-
-Mlt::Properties* TransitionsRepository::getMetadata(const QString& assetId)
+Mlt::Properties *TransitionsRepository::getMetadata(const QString &assetId)
 {
     return pCore->getMltRepository()->metadata(transition_type, assetId.toLatin1().data());
 }
 
-void TransitionsRepository::parseCustomAssetFile(const QString& file_name, std::unordered_map<QString, Info>& customAssets) const
+void TransitionsRepository::parseCustomAssetFile(const QString &file_name, std::unordered_map<QString, Info> &customAssets) const
 {
     QFile file(file_name);
     QDomDocument doc;
     doc.setContent(&file, false);
     file.close();
     QDomElement base = doc.documentElement();
-    QDomNodeList transitions  = doc.elementsByTagName(QStringLiteral("transition"));
+    QDomNodeList transitions = doc.elementsByTagName(QStringLiteral("transition"));
 
     int nbr_transition = transitions.count();
     if (nbr_transition == 0) {
@@ -78,7 +75,7 @@ void TransitionsRepository::parseCustomAssetFile(const QString& file_name, std::
         }
 
         if (customAssets.count(result.id) > 0) {
-            qDebug() << "Warning: duplicate custom definition of transition"<<result.id<<"found. Only last one will be considered";
+            qDebug() << "Warning: duplicate custom definition of transition" << result.id << "found. Only last one will be considered";
         }
 
         result.xml = currentNode.toElement();
@@ -86,10 +83,9 @@ void TransitionsRepository::parseCustomAssetFile(const QString& file_name, std::
     }
 }
 
-
-std::unique_ptr<TransitionsRepository> & TransitionsRepository::get()
+std::unique_ptr<TransitionsRepository> &TransitionsRepository::get()
 {
-    std::call_once(m_onceFlag, []{instance.reset(new TransitionsRepository());});
+    std::call_once(m_onceFlag, [] { instance.reset(new TransitionsRepository()); });
     return instance;
 }
 
@@ -98,10 +94,10 @@ QStringList TransitionsRepository::assetDirs() const
     return QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("transitions"), QStandardPaths::LocateDirectory);
 }
 
-void TransitionsRepository::parseType(QScopedPointer<Mlt::Properties>& metadata, Info & res)
+void TransitionsRepository::parseType(QScopedPointer<Mlt::Properties> &metadata, Info &res)
 {
 
-    Mlt::Properties tags((mlt_properties) metadata->get_data("tags"));
+    Mlt::Properties tags((mlt_properties)metadata->get_data("tags"));
     bool audio = QString(tags.get(0)) == QLatin1String("Audio");
 
     if (getSingleTrackTransitions().contains(res.id)) {
@@ -116,14 +112,12 @@ void TransitionsRepository::parseType(QScopedPointer<Mlt::Properties>& metadata,
         } else {
             res.type = TransitionType::VideoComposition;
         }
-
     }
 }
 
-
 QSet<QString> TransitionsRepository::getSingleTrackTransitions()
 {
-    return {QStringLiteral("composite"),QStringLiteral("dissolve")};
+    return {QStringLiteral("composite"), QStringLiteral("dissolve")};
 }
 
 QString TransitionsRepository::assetBlackListPath() const
@@ -131,20 +125,16 @@ QString TransitionsRepository::assetBlackListPath() const
     return QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("blacklisted_transitions.txt"));
 }
 
-Mlt::Transition *TransitionsRepository::getTransition(const QString& transitionId) const
+Mlt::Transition *TransitionsRepository::getTransition(const QString &transitionId) const
 {
     Q_ASSERT(exists(transitionId));
     QString service_name = m_assets.at(transitionId).mltId;
     // We create the Mlt element from its name
-    Mlt::Transition *transition = new Mlt::Transition(
-        pCore->getCurrentProfile()->profile(),
-        service_name.toLatin1().constData(),
-        nullptr
-        );
+    Mlt::Transition *transition = new Mlt::Transition(pCore->getCurrentProfile()->profile(), service_name.toLatin1().constData(), nullptr);
     return transition;
 }
 
-bool TransitionsRepository::isComposition(const QString& transitionId) const
+bool TransitionsRepository::isComposition(const QString &transitionId) const
 {
     auto type = getType(transitionId);
     return type == TransitionType::AudioComposition || type == TransitionType::VideoComposition;

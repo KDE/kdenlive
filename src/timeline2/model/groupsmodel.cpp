@@ -25,14 +25,13 @@
 #include <QModelIndex>
 #include <queue>
 
-GroupsModel::GroupsModel(std::weak_ptr<TimelineItemModel> parent) :
-    m_parent(parent)
+GroupsModel::GroupsModel(std::weak_ptr<TimelineItemModel> parent) : m_parent(parent)
 {
 }
 
-Fun GroupsModel::groupItems_lambda(int gid, const std::unordered_set<int>& ids)
+Fun GroupsModel::groupItems_lambda(int gid, const std::unordered_set<int> &ids)
 {
-    return [gid, ids, this](){
+    return [gid, ids, this]() {
         createGroupItem(gid);
 
         Q_ASSERT(m_groupIds.count(gid) == 0);
@@ -46,8 +45,7 @@ Fun GroupsModel::groupItems_lambda(int gid, const std::unordered_set<int>& ids)
             Q_ASSERT(false);
         }
         std::unordered_set<int> roots;
-        std::transform(ids.begin(), ids.end(), std::inserter(roots, roots.begin()),
-                       [&](int id){return getRootId(id);});
+        std::transform(ids.begin(), ids.end(), std::inserter(roots, roots.begin()), [&](int id) { return getRootId(id); });
         for (int id : roots) {
             setGroup(getRootId(id), gid);
             if (ptr->isClip(id)) {
@@ -59,7 +57,7 @@ Fun GroupsModel::groupItems_lambda(int gid, const std::unordered_set<int>& ids)
     };
 }
 
-int GroupsModel::groupItems(const std::unordered_set<int>& ids, Fun &undo, Fun &redo)
+int GroupsModel::groupItems(const std::unordered_set<int> &ids, Fun &undo, Fun &redo)
 {
     Q_ASSERT(!ids.empty());
     if (ids.size() == 1) {
@@ -76,11 +74,11 @@ int GroupsModel::groupItems(const std::unordered_set<int>& ids, Fun &undo, Fun &
     return -1;
 }
 
-bool GroupsModel::ungroupItem(int id, Fun& undo, Fun& redo)
+bool GroupsModel::ungroupItem(int id, Fun &undo, Fun &redo)
 {
     int gid = getRootId(id);
     if (m_groupIds.count(gid) == 0) {
-        //element is not part of a group
+        // element is not part of a group
         return false;
     }
 
@@ -100,7 +98,7 @@ Fun GroupsModel::destructGroupItem_lambda(int id)
     return [this, id]() {
         auto ptr = m_parent.lock();
         if (m_groupIds.count(id) > 0) {
-            if(ptr) {
+            if (ptr) {
                 ptr->deregisterGroup(id);
                 m_groupIds.erase(id);
             } else {
@@ -146,7 +144,7 @@ bool GroupsModel::destructGroupItem(int id)
 
 int GroupsModel::getRootId(int id) const
 {
-    std::unordered_set<int> seen; //we store visited ids to detect cycles
+    std::unordered_set<int> seen; // we store visited ids to detect cycles
     int father = -1;
     do {
         Q_ASSERT(m_upLink.count(id) > 0);
@@ -156,7 +154,7 @@ int GroupsModel::getRootId(int id) const
         if (father != -1) {
             id = father;
         }
-    } while(father != -1);
+    } while (father != -1);
     return id;
 }
 
@@ -181,7 +179,7 @@ std::unordered_set<int> GroupsModel::getSubtree(int id) const
     while (!queue.empty()) {
         int current = queue.front();
         queue.pop();
-        for (const int& child : m_downLink.at(current)) {
+        for (const int &child : m_downLink.at(current)) {
             result.insert(child);
             queue.push(child);
         }
@@ -197,7 +195,7 @@ std::unordered_set<int> GroupsModel::getLeaves(int id) const
     while (!queue.empty()) {
         int current = queue.front();
         queue.pop();
-        for (const int& child : m_downLink.at(current)) {
+        for (const int &child : m_downLink.at(current)) {
             queue.push(child);
         }
         if (m_downLink.at(current).empty()) {

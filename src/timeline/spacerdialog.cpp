@@ -22,14 +22,12 @@
 #include "doc/kthumb.h"
 #include "kdenlivesettings.h"
 
-#include <QWheelEvent>
 #include <QFontDatabase>
+#include <QWheelEvent>
 
 #include "klocalizedstring.h"
 
-SpacerDialog::SpacerDialog(const GenTime &duration, const Timecode &tc, int track, const QList<TrackInfo> &tracks, QWidget *parent) :
-    QDialog(parent),
-    m_in(tc)
+SpacerDialog::SpacerDialog(const GenTime &duration, const Timecode &tc, int track, const QList<TrackInfo> &tracks, QWidget *parent) : QDialog(parent), m_in(tc)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
@@ -41,8 +39,7 @@ SpacerDialog::SpacerDialog(const GenTime &duration, const Timecode &tc, int trac
     track_number->addItem(i18n("All tracks"), -1);
     for (int i = tracks.count() - 1; i > 0; i--) {
         TrackInfo info = tracks.at(i);
-        track_number->addItem(info.type == VideoTrack ? videoIcon : audioIcon,
-                              info.trackName.isEmpty() ? QString::number(i) : info.trackName, i);
+        track_number->addItem(info.type == VideoTrack ? videoIcon : audioIcon, info.trackName.isEmpty() ? QString::number(i) : info.trackName, i);
     }
     track_number->setCurrentIndex(track == 0 ? 0 : tracks.count() - track);
 
@@ -58,4 +55,3 @@ int SpacerDialog::selectedTrack() const
 {
     return track_number->currentData().toInt();
 }
-

@@ -17,8 +17,8 @@
  ***************************************************************************/
 
 #include "cubicbezierspline.h"
-#include <QStringList>
 #include <QLocale>
+#include <QStringList>
 #include <QVector>
 #include <math.h>
 
@@ -74,9 +74,9 @@ QString CubicBezierSpline::toString() const
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
     foreach (const BPoint &p, m_points) {
-        spline << QStringLiteral("%1;%2#%3;%4#%5;%6").arg(locale.toString(p.h1.x()), locale.toString(p.h1.y()),
-                locale.toString(p.p.x()), locale.toString(p.p.y()),
-                locale.toString(p.h2.x()), locale.toString(p.h2.y()));
+        spline << QStringLiteral("%1;%2#%3;%4#%5;%6")
+                      .arg(locale.toString(p.h1.x()), locale.toString(p.h1.y()), locale.toString(p.p.x()), locale.toString(p.p.y()), locale.toString(p.h2.x()),
+                           locale.toString(p.h2.y()));
     }
     return spline.join(QLatin1Char('|'));
 }
@@ -109,11 +109,11 @@ int CubicBezierSpline::addPoint(const BPoint &point)
 
 int CubicBezierSpline::addPoint(const QPointF &point)
 {
-    //Check if point is in range
+    // Check if point is in range
     if (point.x() < m_points[0].p.x() || point.x() > m_points.back().p.x()) {
         return -1;
     }
-    //first we find by dichotomy the previous and next points on the curve
+    // first we find by dichotomy the previous and next points on the curve
     int prev = 0, next = m_points.size() - 1;
     while (prev < next - 1) {
         int mid = (prev + next) / 2;
@@ -124,11 +124,11 @@ int CubicBezierSpline::addPoint(const QPointF &point)
         }
     }
 
-    //compute vector between adjacent points
+    // compute vector between adjacent points
     QPointF vec = m_points[next].p - m_points[prev].p;
-    //normalize
+    // normalize
     vec /= 10. * sqrt(vec.x() * vec.x() + vec.y() * vec.y());
-    //add resulting point
+    // add resulting point
     return addPoint(BPoint(point - vec, point, point + vec));
 }
 
@@ -179,7 +179,6 @@ int CubicBezierSpline::indexOf(const BPoint &p)
     return -1;
 }
 
-
 int CubicBezierSpline::count() const
 {
     return m_points.size();
@@ -190,7 +189,7 @@ QList<BPoint> CubicBezierSpline::getPoints() const
     return m_points;
 }
 
-std::pair<int, BPoint::PointType> CubicBezierSpline::closestPoint(const QPointF& p) const
+std::pair<int, BPoint::PointType> CubicBezierSpline::closestPoint(const QPointF &p) const
 {
     double nearestDistanceSquared = 1e100;
     BPoint::PointType selectedPoint = BPoint::PointType::P;
@@ -198,7 +197,7 @@ std::pair<int, BPoint::PointType> CubicBezierSpline::closestPoint(const QPointF&
     int i = 0;
 
     // find out distance using the Pythagorean theorem
-    for(const auto& point : m_points) {
+    for (const auto &point : m_points) {
         for (int j = 0; j < 3; ++j) {
             double dx = point[j].x() - p.x();
             double dy = point[j].y() - p.y();

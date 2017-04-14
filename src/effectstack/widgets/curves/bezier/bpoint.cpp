@@ -20,18 +20,11 @@
 
 #include <QLineF>
 
-BPoint::BPoint() :
-    h1(-1, -1),
-    p(-1, -1),
-    h2(-1, -1),
-    handlesLinked(true)
+BPoint::BPoint() : h1(-1, -1), p(-1, -1), h2(-1, -1), handlesLinked(true)
 {
 }
 
-BPoint::BPoint(const QPointF &handle1, const QPointF &point, const QPointF &handle2) :
-    h1(handle1),
-    p(point),
-    h2(handle2)
+BPoint::BPoint(const QPointF &handle1, const QPointF &point, const QPointF &handle2) : h1(handle1), p(point), h2(handle2)
 {
     autoSetLinked();
 }
@@ -48,9 +41,7 @@ const QPointF &BPoint::operator[](int i) const
 
 bool BPoint::operator==(const BPoint &point) const
 {
-    return point.h1 == h1 &&
-        point.p  == p  &&
-        point.h2 == h2;
+    return point.h1 == h1 && point.p == p && point.h2 == h2;
 }
 
 void BPoint::setP(const QPointF &point, bool updateHandles)
@@ -97,7 +88,7 @@ void BPoint::setHandlesLinked(bool linked)
 {
     handlesLinked = linked;
     if (linked) {
-        //we force recomputing one of the handles
+        // we force recomputing one of the handles
         setH1(h1);
     }
 }

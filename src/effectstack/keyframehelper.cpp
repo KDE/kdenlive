@@ -19,31 +19,23 @@
 
 #include "keyframehelper.h"
 
-#include "kdenlivesettings.h"
 #include "definitions.h"
+#include "kdenlivesettings.h"
 
-#include <QFontDatabase>
 #include <KColorScheme>
+#include <QFontDatabase>
 
-#include <QMouseEvent>
 #include <QApplication>
+#include <QMouseEvent>
 #include <QPainter>
 
 const int margin = 5;
 
 #define SEEK_INACTIVE (-1)
 
-KeyframeHelper::KeyframeHelper(QWidget *parent) :
-    QWidget(parent)
-    , frameLength(1)
-    , m_geom(nullptr)
-    , m_position(0)
-    , m_scale(0)
-    , m_movingKeyframe(false)
-    , m_movingItem()
-    , m_hoverKeyframe(-1)
-    , m_seekPosition(SEEK_INACTIVE)
-    , m_offset(0)
+KeyframeHelper::KeyframeHelper(QWidget *parent)
+    : QWidget(parent), frameLength(1), m_geom(nullptr), m_position(0), m_scale(0), m_movingKeyframe(false), m_movingItem(), m_hoverKeyframe(-1),
+      m_seekPosition(SEEK_INACTIVE), m_offset(0)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setMouseTracking(true);
@@ -72,7 +64,7 @@ void KeyframeHelper::mousePressEvent(QMouseEvent *event)
         int mousePos = qMax((int)(xPos / m_scale), 0) + m_offset;
         Mlt::GeometryItem item;
         if (m_geom->next_key(&item, mousePos) == 0) {
-            if (qAbs((item.frame() - m_offset)* m_scale - xPos) < headOffset) {
+            if (qAbs((item.frame() - m_offset) * m_scale - xPos) < headOffset) {
                 m_movingItem.x(item.x());
                 m_movingItem.y(item.y());
                 m_movingItem.w(item.w());
@@ -223,7 +215,8 @@ void KeyframeHelper::mouseReleaseEvent(QMouseEvent *event)
         m_movingKeyframe = false;
         emit keyframeMoved(m_position);
         return;
-    } if (!m_dragStart.isNull()) {
+    }
+    if (!m_dragStart.isNull()) {
         m_seekPosition = m_movingItem.frame();
         m_dragStart = QPoint();
         emit requestSeek(m_seekPosition);
@@ -348,4 +341,3 @@ void KeyframeHelper::addGeometry(Mlt::Geometry *geom)
 {
     m_extraGeometries.append(geom);
 }
-

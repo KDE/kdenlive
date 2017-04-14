@@ -19,13 +19,12 @@
 
 #include "noteswidget.h"
 
-#include <klocalizedstring.h>
 #include "kdenlive_debug.h"
 #include <QMenu>
 #include <QMouseEvent>
+#include <klocalizedstring.h>
 
-NotesWidget::NotesWidget(QWidget *parent) :
-    QTextEdit(parent)
+NotesWidget::NotesWidget(QWidget *parent) : QTextEdit(parent)
 {
     setContextMenuPolicy(Qt::CustomContextMenu);
     connect(this, &NotesWidget::customContextMenuRequested, this, &NotesWidget::slotFillNotesMenu);
@@ -65,8 +64,7 @@ void NotesWidget::mousePressEvent(QMouseEvent *e)
         QTextEdit::mousePressEvent(e);
         return;
     }
-    //qCDebug(KDENLIVE_LOG)<<"+++++++++\nCLICKED NACHOR: "<<anchor;
+    // qCDebug(KDENLIVE_LOG)<<"+++++++++\nCLICKED NACHOR: "<<anchor;
     emit seekProject(anchor.toInt());
     e->setAccepted(true);
 }
-

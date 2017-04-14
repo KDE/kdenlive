@@ -20,25 +20,24 @@
 #include "collapsiblegroup.h"
 #include "utils/KoIconUtils.h"
 
-#include <QMenu>
-#include <QVBoxLayout>
-#include <QInputDialog>
+#include "kdenlive_debug.h"
+#include <QDir>
 #include <QDragEnterEvent>
 #include <QDropEvent>
-#include <QMutexLocker>
-#include <QDir>
-#include "kdenlive_debug.h"
 #include <QFontDatabase>
-#include <QStandardPaths>
+#include <QInputDialog>
+#include <QMenu>
 #include <QMimeData>
+#include <QMutexLocker>
+#include <QStandardPaths>
+#include <QVBoxLayout>
 
-#include <klocalizedstring.h>
-#include <KMessageBox>
 #include <KColorScheme>
 #include <KDualAction>
+#include <KMessageBox>
+#include <klocalizedstring.h>
 
-MyEditableLabel::MyEditableLabel(QWidget *parent):
-    QLineEdit(parent)
+MyEditableLabel::MyEditableLabel(QWidget *parent) : QLineEdit(parent)
 {
     setFrame(false);
     setReadOnly(true);
@@ -52,15 +51,14 @@ void MyEditableLabel::mouseDoubleClickEvent(QMouseEvent *e)
     e->accept();
 }
 
-CollapsibleGroup::CollapsibleGroup(int ix, bool firstGroup, bool lastGroup, const EffectInfo &info, QWidget *parent) :
-    AbstractCollapsibleWidget(parent)
+CollapsibleGroup::CollapsibleGroup(int ix, bool firstGroup, bool lastGroup, const EffectInfo &info, QWidget *parent) : AbstractCollapsibleWidget(parent)
 {
     m_info.groupIndex = ix;
-    m_subWidgets = QList<CollapsibleEffect *> ();
+    m_subWidgets = QList<CollapsibleEffect *>();
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     frame->setObjectName(QStringLiteral("framegroup"));
     decoframe->setObjectName(QStringLiteral("decoframegroup"));
-    QHBoxLayout *l = static_cast <QHBoxLayout *>(frame->layout());
+    QHBoxLayout *l = static_cast<QHBoxLayout *>(frame->layout());
     m_title = new MyEditableLabel(this);
     l->insertWidget(2, m_title);
     m_title->setText(info.groupName.isEmpty() ? i18n("Effect Group") : info.groupName);
@@ -102,7 +100,6 @@ CollapsibleGroup::CollapsibleGroup(int ix, bool firstGroup, bool lastGroup, cons
     connect(buttonUp, &QAbstractButton::clicked, this, &CollapsibleGroup::slotEffectUp);
     connect(buttonDown, &QAbstractButton::clicked, this, &CollapsibleGroup::slotEffectDown);
     connect(buttonDel, &QAbstractButton::clicked, this, &CollapsibleGroup::slotDeleteGroup);
-
 }
 
 CollapsibleGroup::~CollapsibleGroup()
@@ -204,7 +201,6 @@ void CollapsibleGroup::slotSaveGroup()
         // Saved effect group should have a group index of -1
         info.groupIndex = -1;
         eff.setAttribute(QStringLiteral("kdenlive_info"), info.toString());
-
     }
 
     base.setAttribute(QStringLiteral("name"), name);
@@ -325,7 +321,7 @@ void CollapsibleGroup::dragEnterEvent(QDragEnterEvent *event)
     }
 }
 
-void CollapsibleGroup::dragLeaveEvent(QDragLeaveEvent */*event*/)
+void CollapsibleGroup::dragLeaveEvent(QDragLeaveEvent * /*event*/)
 {
     frame->setProperty("target", false);
     frame->setStyleSheet(frame->styleSheet());
@@ -336,7 +332,7 @@ void CollapsibleGroup::dropEvent(QDropEvent *event)
     frame->setProperty("target", false);
     frame->setStyleSheet(frame->styleSheet());
     const QString effects = QString::fromUtf8(event->mimeData()->data(QStringLiteral("kdenlive/effectslist")));
-    //event->acceptProposedAction();
+    // event->acceptProposedAction();
     QDomDocument doc;
     doc.setContent(effects, true);
     QDomElement e = doc.documentElement();
@@ -369,7 +365,7 @@ void CollapsibleGroup::dropEvent(QDropEvent *event)
             for (int i = 0; i < m_subWidgets.count(); ++i) {
                 currentEffectIndexes << m_subWidgets.at(i)->effectIndex();
             }
-            //qCDebug(KDENLIVE_LOG)<<"PASTING: "<<pastedEffectIndexes<<" TO "<<currentEffectIndexes;
+            // qCDebug(KDENLIVE_LOG)<<"PASTING: "<<pastedEffectIndexes<<" TO "<<currentEffectIndexes;
             if (pastedEffectIndexes.at(0) < currentEffectIndexes.at(0)) {
                 // Pasting group after current one:
                 emit moveEffect(pastedEffectIndexes, currentEffectIndexes.last(), pasteInfo.groupIndex, pasteInfo.groupName);
@@ -395,7 +391,7 @@ void CollapsibleGroup::dropEvent(QDropEvent *event)
         return;
     }
     int new_index = m_subWidgets.last()->effectIndex();
-    emit moveEffect(QList<int> () << ix, new_index, m_info.groupIndex, m_title->text());
+    emit moveEffect(QList<int>() << ix, new_index, m_info.groupIndex, m_title->text());
     event->setDropAction(Qt::MoveAction);
     event->accept();
 }
@@ -442,4 +438,3 @@ void CollapsibleGroup::adjustEffects()
         }
     }
 }
-

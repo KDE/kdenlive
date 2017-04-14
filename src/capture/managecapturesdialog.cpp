@@ -21,18 +21,17 @@
 #include "doc/kthumb.h"
 
 #include "kdenlive_debug.h"
-#include <QFontDatabase>
-#include <KFileItem>
 #include "klocalizedstring.h"
+#include <KFileItem>
+#include <QFontDatabase>
 
-#include <QTreeWidgetItem>
 #include <QFile>
 #include <QIcon>
 #include <QPixmap>
 #include <QTimer>
+#include <QTreeWidgetItem>
 
-ManageCapturesDialog::ManageCapturesDialog(const QList<QUrl> &files, QWidget *parent)
-    : QDialog(parent)
+ManageCapturesDialog::ManageCapturesDialog(const QList<QUrl> &files, QWidget *parent) : QDialog(parent)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_view.setupUi(this);
@@ -75,13 +74,13 @@ void ManageCapturesDialog::slotCheckItemIcon()
     const int count = m_view.treeWidget->topLevelItemCount();
     while (ct < count) {
         QTreeWidgetItem *item = m_view.treeWidget->topLevelItem(ct);
-        //QTreeWidgetItem *item = m_view.treeWidget->currentItem();
+        // QTreeWidgetItem *item = m_view.treeWidget->currentItem();
         if (item->icon(0).isNull()) {
             QPixmap p = KThumb::getImage(QUrl(item->data(0, Qt::UserRole).toString()), 0, 70, 50);
             item->setIcon(0, QIcon(p));
             m_view.treeWidget->resizeColumnToContents(0);
             repaint();
-            //QTimer::singleShot(400, this, SLOT(slotCheckItemIcon()));
+            // QTimer::singleShot(400, this, SLOT(slotCheckItemIcon()));
         }
         ct++;
     }
@@ -110,8 +109,8 @@ void ManageCapturesDialog::slotDeleteCurrent()
     }
     const int i = m_view.treeWidget->indexOfTopLevelItem(item);
     m_view.treeWidget->takeTopLevelItem(i);
-    //qCDebug(KDENLIVE_LOG) << "DELETING FILE: " << item->text(0);
-    //KIO::NetAccess::del(QUrl(item->text(0)), this);
+    // qCDebug(KDENLIVE_LOG) << "DELETING FILE: " << item->text(0);
+    // KIO::NetAccess::del(QUrl(item->text(0)), this);
     if (!QFile::remove(item->data(0, Qt::UserRole).toString())) {
         qCDebug(KDENLIVE_LOG) << "// ERRor removing file " << item->data(0, Qt::UserRole).toString();
     }
@@ -147,4 +146,3 @@ QList<QUrl> ManageCapturesDialog::importFiles() const
     }
     return result;
 }
-

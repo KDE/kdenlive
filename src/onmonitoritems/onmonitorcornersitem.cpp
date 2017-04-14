@@ -22,18 +22,14 @@
 
 #include <algorithm>
 
+#include <QCursor>
 #include <QGraphicsSceneMouseEvent>
+#include <QGraphicsView>
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
-#include <QCursor>
-#include <QGraphicsView>
 
-OnMonitorCornersItem::OnMonitorCornersItem(QGraphicsItem *parent) :
-    QGraphicsPolygonItem(parent)
-    , m_mode(NoAction)
-    , m_selectedCorner(-1)
-    , m_modified(false)
-    , m_view(nullptr)
+OnMonitorCornersItem::OnMonitorCornersItem(QGraphicsItem *parent)
+    : QGraphicsPolygonItem(parent), m_mode(NoAction), m_selectedCorner(-1), m_modified(false), m_view(nullptr)
 {
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
 
@@ -172,7 +168,7 @@ void OnMonitorCornersItem::paint(QPainter *painter, const QStyleOptionGraphicsIt
     double baseSize = 1 / painter->worldTransform().m11();
     painter->setRenderHint(QPainter::Antialiasing);
     painter->setBrush(QBrush(isEnabled() ? Qt::yellow : Qt::red));
-    double handleSize = 4  * baseSize;
+    double handleSize = 4 * baseSize;
     for (int i = 0; i < 4; ++i) {
         painter->drawEllipse(polygon().at(i), handleSize, handleSize);
     }
@@ -272,8 +268,6 @@ bool OnMonitorCornersItem::getView()
     if ((scene() != nullptr) && !scene()->views().isEmpty()) {
         m_view = scene()->views().first();
         return true;
-    } 
-        return false;
-    
+    }
+    return false;
 }
-

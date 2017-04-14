@@ -20,14 +20,16 @@
 #include "timecodedisplay.h"
 #include "kdenlivesettings.h"
 
-#include <QMouseEvent>
-#include <QLineEdit>
-#include <QStyle>
 #include <QFontDatabase>
+#include <QLineEdit>
+#include <QMouseEvent>
+#include <QStyle>
 
 #include <KColorScheme>
 
-MyValidator::MyValidator(QObject *parent) : QValidator(parent) {}
+MyValidator::MyValidator(QObject *parent) : QValidator(parent)
+{
+}
 
 void MyValidator::fixup(QString &str) const
 {
@@ -43,12 +45,7 @@ QValidator::State MyValidator::validate(QString &str, int &) const
 }
 
 TimecodeDisplay::TimecodeDisplay(const Timecode &t, QWidget *parent)
-    : QAbstractSpinBox(parent),
-      m_timecode(t),
-      m_frametimecode(false),
-      m_minimum(0),
-      m_maximum(-1),
-      m_value(0)
+    : QAbstractSpinBox(parent), m_timecode(t), m_frametimecode(false), m_minimum(0), m_maximum(-1), m_value(0)
 {
     QFont ft = QFontDatabase::systemFont(QFontDatabase::FixedFont);
     lineEdit()->setFont(ft);
@@ -57,11 +54,12 @@ TimecodeDisplay::TimecodeDisplay(const Timecode &t, QWidget *parent)
     QFontMetrics fm(ft);
     setFrame(false);
     QPalette palette;
-    palette.setColor(QPalette::Base, Qt::transparent);//palette.window().color());
+    palette.setColor(QPalette::Base, Qt::transparent); // palette.window().color());
     setPalette(palette);
     setTimeCodeFormat(KdenliveSettings::frametimecode(), true);
     setValue(m_minimum);
-    setMinimumWidth(fm.width(QStringLiteral("88:88:88:88")) + contentsMargins().right() + contentsMargins().left() + frameSize().width() - lineEdit()->contentsRect().width() + QStyle::PM_SpinBoxFrameWidth + 6);
+    setMinimumWidth(fm.width(QStringLiteral("88:88:88:88")) + contentsMargins().right() + contentsMargins().left() + frameSize().width() -
+                    lineEdit()->contentsRect().width() + QStyle::PM_SpinBoxFrameWidth + 6);
 
     setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Maximum);
     setAccelerated(true);
@@ -217,7 +215,7 @@ void TimecodeDisplay::setValue(int value)
 
 void TimecodeDisplay::setValue(const GenTime &value)
 {
-    setValue((int) value.frames(m_timecode.fps()));
+    setValue((int)value.frames(m_timecode.fps()));
 }
 
 void TimecodeDisplay::sendTimecode(bool send)
@@ -244,4 +242,3 @@ const QString TimecodeDisplay::displayText() const
 {
     return lineEdit()->displayText();
 }
-

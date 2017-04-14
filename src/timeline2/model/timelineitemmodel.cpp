@@ -19,24 +19,22 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-
 #include "timelineitemmodel.hpp"
 
-#include "trackmodel.hpp"
 #include "clipmodel.hpp"
 #include "compositionmodel.hpp"
-#include "groupsmodel.hpp"
 #include "doc/docundostack.hpp"
-#include <mlt++/MltTractor.h>
-#include <mlt++/MltProfile.h>
-#include <mlt++/MltTransition.h>
+#include "groupsmodel.hpp"
+#include "macros.hpp"
+#include "trackmodel.hpp"
 #include <QDebug>
 #include <QFileInfo>
+#include <mlt++/MltProfile.h>
+#include <mlt++/MltTractor.h>
+#include <mlt++/MltTransition.h>
 #include <utility>
-#include "macros.hpp"
 
-TimelineItemModel::TimelineItemModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack) :
-    TimelineModel(profile, undo_stack)
+TimelineItemModel::TimelineItemModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack) : TimelineModel(profile, undo_stack)
 {
 }
 
@@ -85,14 +83,14 @@ QModelIndex TimelineItemModel::makeClipIndexFromID(int clipId) const
 {
     Q_ASSERT(m_allClips.count(clipId) > 0);
     int trackId = m_allClips.at(clipId)->getCurrentTrackId();
-    return index(getTrackById_const(trackId)->getRowfromClip(clipId), 0, makeTrackIndexFromID(trackId) );
+    return index(getTrackById_const(trackId)->getRowfromClip(clipId), 0, makeTrackIndexFromID(trackId));
 }
 
 QModelIndex TimelineItemModel::makeCompositionIndexFromID(int compoId) const
 {
     Q_ASSERT(m_allCompositions.count(compoId) > 0);
     int trackId = m_allCompositions.at(compoId)->getCurrentTrackId();
-    return index(getTrackById_const(trackId)->getRowfromComposition(compoId), 0, makeTrackIndexFromID(trackId) );
+    return index(getTrackById_const(trackId)->getRowfromComposition(compoId), 0, makeTrackIndexFromID(trackId));
 }
 
 QModelIndex TimelineItemModel::makeTrackIndexFromID(int trackId) const
@@ -114,16 +112,16 @@ QModelIndex TimelineItemModel::parent(const QModelIndex &index) const
     const int id = static_cast<int>(index.internalId());
     if (!index.isValid() || isTrack(id)) {
         return QModelIndex();
-    } if(isClip(id)) {
+    }
+    if (isClip(id)) {
         const int trackId = getClipTrackId(id);
         return makeTrackIndexFromID(trackId);
-    } else if(isComposition(id)) {
+    } else if (isComposition(id)) {
         const int trackId = getCompositionTrackId(id);
         return makeTrackIndexFromID(trackId);
     }
     return QModelIndex();
 }
-
 
 int TimelineItemModel::rowCount(const QModelIndex &parent) const
 {
@@ -131,8 +129,8 @@ int TimelineItemModel::rowCount(const QModelIndex &parent) const
     if (parent.isValid()) {
         const int id = (int)parent.internalId();
         if (isClip(id) || isComposition(id) || !isTrack(id)) {
-            //clips don't have children
-            //if it is not a track and not a clip, it is something invalid
+            // clips don't have children
+            // if it is not a track and not a clip, it is something invalid
             return 0;
         }
         return getTrackClipsCount(id) + getTrackCompositionsCount(id);
@@ -190,14 +188,14 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
     if (role == ItemIdRole) {
         return id;
     }
-    //qDebug() << "REQUESTING DATA "<<roleNames()[role]<<index;
+    // qDebug() << "REQUESTING DATA "<<roleNames()[role]<<index;
     if (isClip(id)) {
-        std::shared_ptr<ClipModel>clip = m_allClips.at(id);
+        std::shared_ptr<ClipModel> clip = m_allClips.at(id);
         // Get data for a clip
         switch (role) {
-        //TODO
+        // TODO
         case NameRole:
-        case Qt::DisplayRole:{
+        case Qt::DisplayRole: {
             QString result = clip->getProperty("kdenlive:clipname");
             if (result.isEmpty()) {
                 result = clip->getProperty("resource");
@@ -222,8 +220,8 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             return clip->getProperty("mlt_service");
             break;
         case AudioLevelsRole:
-            //TODO: get data from bin clip when interface is ready
-            //return QVariant::fromValue(pCore->bin()->audioFrameCache(clip->getProperty("kdenlive:id")));
+            // TODO: get data from bin clip when interface is ready
+            // return QVariant::fromValue(pCore->bin()->audioFrameCache(clip->getProperty("kdenlive:id")));
             return QVariant();
         case HasAudio:
             return clip->hasAudio();
@@ -231,7 +229,7 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             return clip->isAudioOnly();
         case MarkersRole: {
             QVariantList markersList;
-            //markersList << QStringLiteral("10") << QStringLiteral("Marker 1") << QStringLiteral("50") << QStringLiteral("M2");
+            // markersList << QStringLiteral("10") << QStringLiteral("Marker 1") << QStringLiteral("50") << QStringLiteral("M2");
             return markersList;
         }
         case StartRole:
@@ -249,73 +247,73 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
         default:
             break;
         }
-    } else if(isTrack(id)) {
+    } else if (isTrack(id)) {
         // qDebug() << "DATA REQUESTED FOR TRACK "<< id;
         switch (role) {
-            case NameRole:
-            case Qt::DisplayRole: {
-                QString tName = getTrackById_const(id)->getProperty("kdenlive:track_name").toString();
-                return tName;
-            }
-            case DurationRole:
-                // qDebug() << "DATA yielding duration" << m_tractor->get_playtime();
-                return m_tractor->get_playtime();
-            case IsMuteRole:
-                // qDebug() << "DATA yielding mute" << 0;
-                return getTrackById_const(id)->getProperty("hide").toInt() & 2;
-            case IsHiddenRole:
-                return getTrackById_const(id)->getProperty("hide").toInt() & 1;
-            case IsAudioRole:
-                return getTrackById_const(id)->getProperty("kdenlive:audio_track").toInt() == 1;
-            case IsLockedRole:
-                return getTrackById_const(id)->getProperty("kdenlive:locked_track").toInt() == 1;
-            case HeightRole: {
-                int height = getTrackById_const(id)->getProperty("kdenlive:trackheight").toInt();
-                // qDebug() << "DATA yielding height" << height;
-                return (height > 0 ? height : 60);
-            }
-            case IsCompositeRole: {
-                return Qt::Unchecked;
-            }
-            default:
-                break;
+        case NameRole:
+        case Qt::DisplayRole: {
+            QString tName = getTrackById_const(id)->getProperty("kdenlive:track_name").toString();
+            return tName;
         }
-    } else if(isComposition(id)) {
-        std::shared_ptr<CompositionModel>compo = m_allCompositions.at(id);
+        case DurationRole:
+            // qDebug() << "DATA yielding duration" << m_tractor->get_playtime();
+            return m_tractor->get_playtime();
+        case IsMuteRole:
+            // qDebug() << "DATA yielding mute" << 0;
+            return getTrackById_const(id)->getProperty("hide").toInt() & 2;
+        case IsHiddenRole:
+            return getTrackById_const(id)->getProperty("hide").toInt() & 1;
+        case IsAudioRole:
+            return getTrackById_const(id)->getProperty("kdenlive:audio_track").toInt() == 1;
+        case IsLockedRole:
+            return getTrackById_const(id)->getProperty("kdenlive:locked_track").toInt() == 1;
+        case HeightRole: {
+            int height = getTrackById_const(id)->getProperty("kdenlive:trackheight").toInt();
+            // qDebug() << "DATA yielding height" << height;
+            return (height > 0 ? height : 60);
+        }
+        case IsCompositeRole: {
+            return Qt::Unchecked;
+        }
+        default:
+            break;
+        }
+    } else if (isComposition(id)) {
+        std::shared_ptr<CompositionModel> compo = m_allCompositions.at(id);
         switch (role) {
-            case NameRole:
-            case Qt::DisplayRole:
-            case ResourceRole:
-            case ServiceRole:
-                return compo->getProperty("mlt_service");
-                break;
-            case IsBlankRole: //probably useless
-                return false;
-            case StartRole:
-                return compo->getPosition();
-            case DurationRole:
-                return compo->getPlaytime();
-            case GroupedRole:
-                return false; //m_groups->isInGroup(id);
-            case InPointRole:
-                return 0;
-            case OutPointRole:
-                return 100;
-            case BinIdRole:
-                return 5;
-            case ItemATrack:
-                return compo->getATrack();
-            case MarkersRole: {
-                QVariantList markersList;
-                return markersList;
-            }
-            case IsCompositionRole:
-                return true;
-            default:
-                break;
+        case NameRole:
+        case Qt::DisplayRole:
+        case ResourceRole:
+        case ServiceRole:
+            return compo->getProperty("mlt_service");
+            break;
+        case IsBlankRole: // probably useless
+            return false;
+        case StartRole:
+            return compo->getPosition();
+        case DurationRole:
+            return compo->getPlaytime();
+        case GroupedRole:
+            return false; // m_groups->isInGroup(id);
+        case InPointRole:
+            return 0;
+        case OutPointRole:
+            return 100;
+        case BinIdRole:
+            return 5;
+        case ItemATrack:
+            return compo->getATrack();
+        case MarkersRole: {
+            QVariantList markersList;
+            return markersList;
+        }
+        case IsCompositionRole:
+            return true;
+        default:
+            break;
         }
     } else {
-        qDebug() << "UNKNOWN DATA requested "<<index<<roleNames()[role];
+        qDebug() << "UNKNOWN DATA requested " << index << roleNames()[role];
     }
     return QVariant();
 }
@@ -338,7 +336,7 @@ void TimelineItemModel::setTrackProperty(int trackId, const QString &name, const
     }
 }
 
-void TimelineItemModel::notifyChange(const QModelIndex& topleft, const QModelIndex& bottomright, bool start, bool duration, bool updateThumb)
+void TimelineItemModel::notifyChange(const QModelIndex &topleft, const QModelIndex &bottomright, bool start, bool duration, bool updateThumb)
 {
     QVector<int> roles;
     if (start) {
@@ -356,17 +354,17 @@ void TimelineItemModel::notifyChange(const QModelIndex& topleft, const QModelInd
     emit dataChanged(topleft, bottomright, roles);
 }
 
-void TimelineItemModel::notifyChange(const QModelIndex& topleft, const QModelIndex& bottomright, QVector<int> roles)
+void TimelineItemModel::notifyChange(const QModelIndex &topleft, const QModelIndex &bottomright, QVector<int> roles)
 {
     emit dataChanged(topleft, bottomright, roles);
 }
 
-void TimelineItemModel::_beginRemoveRows(const QModelIndex& i, int j, int k)
+void TimelineItemModel::_beginRemoveRows(const QModelIndex &i, int j, int k)
 {
     // qDebug()<<"FORWARDING beginRemoveRows"<<i<<j<<k;
     beginRemoveRows(i, j, k);
 }
-void TimelineItemModel::_beginInsertRows(const QModelIndex& i, int j, int k)
+void TimelineItemModel::_beginInsertRows(const QModelIndex &i, int j, int k)
 {
     // qDebug()<<"FORWARDING beginInsertRows"<<i<<j<<k;
     beginInsertRows(i, j, k);

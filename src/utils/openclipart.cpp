@@ -20,13 +20,12 @@
 
 #include "openclipart.h"
 
-#include <QListWidget>
 #include <QDomDocument>
+#include <QListWidget>
 
 #include <kio/job.h>
 
-OpenClipArt::OpenClipArt(QListWidget *listWidget, QObject *parent) :
-    AbstractService(listWidget, parent)
+OpenClipArt::OpenClipArt(QListWidget *listWidget, QObject *parent) : AbstractService(listWidget, parent)
 {
     serviceType = OPENCLIPART;
 }
@@ -128,4 +127,3 @@ QString OpenClipArt::getDefaultDownloadName(QListWidgetItem *item)
     path.append('.' + url.section(QLatin1Char('.'), -1));
     return path;
 }
-

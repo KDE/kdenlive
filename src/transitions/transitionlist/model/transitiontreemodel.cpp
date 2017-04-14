@@ -20,29 +20,31 @@
  ***************************************************************************/
 
 #include "transitiontreemodel.hpp"
-#include "transitions/transitionsrepository.hpp"
 #include "abstractmodel/treeitem.hpp"
+#include "transitions/transitionsrepository.hpp"
 #include <KLocalizedString>
 
 #include <QDebug>
 
-TransitionTreeModel::TransitionTreeModel(bool flat, QObject *parent)
-    : AssetTreeModel(parent)
+TransitionTreeModel::TransitionTreeModel(bool flat, QObject *parent) : AssetTreeModel(parent)
 {
     QList<QVariant> rootData;
-    rootData << "Name" << "ID" << "Type" << "isFav";
-    rootItem = new TreeItem(rootData, static_cast<AbstractTreeModel*>(this));
+    rootData << "Name"
+             << "ID"
+             << "Type"
+             << "isFav";
+    rootItem = new TreeItem(rootData, static_cast<AbstractTreeModel *>(this));
 
-    //We create categories, if requested
+    // We create categories, if requested
     TreeItem *compoCategory, *transCategory;
     if (!flat) {
         compoCategory = rootItem->appendChild(QList<QVariant>{i18n("Compositions"), QStringLiteral("root")});
         transCategory = rootItem->appendChild(QList<QVariant>{i18n("Transitions"), QStringLiteral("root")});
     }
 
-    //We parse transitions
+    // We parse transitions
     auto allTransitions = TransitionsRepository::get()->getNames();
-    for (const auto& transition : allTransitions) {
+    for (const auto &transition : allTransitions) {
         TreeItem *targetCategory = compoCategory;
         TransitionType type = TransitionsRepository::get()->getType(transition.first);
         if (type == TransitionType::AudioTransition || type == TransitionType::VideoTransition) {
@@ -55,10 +57,9 @@ TransitionTreeModel::TransitionTreeModel(bool flat, QObject *parent)
         // we create the data list corresponding to this transition
         QList<QVariant> data;
         bool isFav = TransitionsRepository::get()->isFavorite(transition.first);
-        qDebug()<<transition.second << transition.first << "in "<<targetCategory->dataColumn(0).toString();
+        qDebug() << transition.second << transition.first << "in " << targetCategory->dataColumn(0).toString();
         data << transition.second << transition.first << QVariant::fromValue(type) << isFav;
 
         targetCategory->appendChild(data);
     }
 }
-

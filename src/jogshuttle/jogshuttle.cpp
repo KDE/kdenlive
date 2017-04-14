@@ -23,11 +23,11 @@
 #include "kdenlive_debug.h"
 
 #include <QApplication>
-#include <QEvent>
 #include <QDir>
+#include <QEvent>
 
-#include <string.h>
 #include <errno.h>
+#include <string.h>
 #include <sys/select.h>
 // according to earlier standards
 #include <sys/time.h>
@@ -39,10 +39,7 @@ const QEvent::Type MediaCtrlEvent::Key = (QEvent::Type)QEvent::registerEventType
 const QEvent::Type MediaCtrlEvent::Jog = (QEvent::Type)QEvent::registerEventType();
 const QEvent::Type MediaCtrlEvent::Shuttle = (QEvent::Type)QEvent::registerEventType();
 
-ShuttleThread::ShuttleThread(const QString &device, QObject *parent) :
-    m_device(device),
-    m_parent(parent),
-    m_isRunning(false)
+ShuttleThread::ShuttleThread(const QString &device, QObject *parent) : m_device(device), m_parent(parent), m_isRunning(false)
 {
 }
 
@@ -76,7 +73,7 @@ void ShuttleThread::run()
         FD_ZERO(&readset);
         FD_SET(mc.fd, &readset);
         // reinit the timeout structure
-        timeout.tv_sec  = 0;
+        timeout.tv_sec = 0;
         timeout.tv_usec = 400000;
         // do select in blocked mode and wake up after timeout
         // for stop_me evaluation
@@ -120,8 +117,7 @@ void ShuttleThread::handleEvent(const media_ctrl_event &ev)
 void ShuttleThread::key(const media_ctrl_event &ev)
 {
     if (ev.value == KEY_PRESS) {
-        QApplication::postEvent(m_parent,
-                                new MediaCtrlEvent(MediaCtrlEvent::Key, ev.index + 1));
+        QApplication::postEvent(m_parent, new MediaCtrlEvent(MediaCtrlEvent::Key, ev.index + 1));
     }
 }
 
@@ -130,22 +126,18 @@ void ShuttleThread::shuttle(const media_ctrl_event &ev)
     int value = ev.value / 2;
 
     if (value > MaxShuttleRange || value < -MaxShuttleRange) {
-        //qCDebug(KDENLIVE_LOG) << "Jog shuttle value is out of range: " << MaxShuttleRange;
+        // qCDebug(KDENLIVE_LOG) << "Jog shuttle value is out of range: " << MaxShuttleRange;
         return;
     }
-    QApplication::postEvent(m_parent,
-                            new MediaCtrlEvent(MediaCtrlEvent::Shuttle, value));
+    QApplication::postEvent(m_parent, new MediaCtrlEvent(MediaCtrlEvent::Shuttle, value));
 }
 
 void ShuttleThread::jog(const media_ctrl_event &ev)
 {
-    QApplication::postEvent(m_parent,
-                            new MediaCtrlEvent(MediaCtrlEvent::Jog, ev.value));
+    QApplication::postEvent(m_parent, new MediaCtrlEvent(MediaCtrlEvent::Jog, ev.value));
 }
 
-JogShuttle::JogShuttle(const QString &device, QObject *parent) :
-    QObject(parent),
-    m_shuttleProcess(device, this)
+JogShuttle::JogShuttle(const QString &device, QObject *parent) : QObject(parent), m_shuttleProcess(device, this)
 {
     m_shuttleProcess.start();
 }
@@ -212,14 +204,14 @@ DeviceMap JogShuttle::enumerateDevices(const QString &devPath)
     for (const QString &fileName : fileList) {
         QString devFullPath = devDir.absoluteFilePath(fileName);
         QString fileLink = JogShuttle::canonicalDevice(devFullPath);
-        //qCDebug(KDENLIVE_LOG) << QString(" [%1] ").arg(fileName);
-        //qCDebug(KDENLIVE_LOG) << QString(" [%1] ").arg(fileLink);
+        // qCDebug(KDENLIVE_LOG) << QString(" [%1] ").arg(fileName);
+        // qCDebug(KDENLIVE_LOG) << QString(" [%1] ").arg(fileLink);
 
         media_ctrl mc;
         media_ctrl_open_dev(&mc, (char *)fileLink.toUtf8().data());
         if (mc.fd > 0 && (mc.device != nullptr)) {
             devs.insert(QString(mc.device->name), devFullPath);
-            qCDebug(KDENLIVE_LOG) <<  QStringLiteral(" [keys-count=%1] ").arg(media_ctrl_get_keys_count(&mc));
+            qCDebug(KDENLIVE_LOG) << QStringLiteral(" [keys-count=%1] ").arg(media_ctrl_get_keys_count(&mc));
         }
         media_ctrl_close(&mc);
     }
@@ -240,4 +232,3 @@ int JogShuttle::keysCount(const QString &devPath)
 
     return keysCount;
 }
-

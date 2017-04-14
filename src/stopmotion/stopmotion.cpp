@@ -19,13 +19,13 @@
 #ifdef USE_V4L
 #include "capture/v4lcapture.h"
 #endif
-#include "project/dialogs/slideshowclip.h"
-#include "dialogs/profilesdialog.h"
 #include "capture/mltdevicecapture.h"
-#include "monitor/recmonitor.h"
-#include "monitor/monitormanager.h"
-#include "ui_smconfig_ui.h"
+#include "dialogs/profilesdialog.h"
 #include "kdenlivesettings.h"
+#include "monitor/monitormanager.h"
+#include "monitor/recmonitor.h"
+#include "project/dialogs/slideshowclip.h"
+#include "ui_smconfig_ui.h"
 
 #include "kdenlive_debug.h"
 #include <QFontDatabase>
@@ -33,18 +33,17 @@
 #include <KMessageBox>
 #include <KNotification>
 
-#include <QInputDialog>
-#include <QVBoxLayout>
-#include <QTimer>
-#include <QPainter>
 #include <QAction>
-#include <QWheelEvent>
+#include <QInputDialog>
 #include <QMenu>
-#include <QtConcurrent>
+#include <QPainter>
 #include <QStandardPaths>
+#include <QTimer>
+#include <QVBoxLayout>
+#include <QWheelEvent>
+#include <QtConcurrent>
 
-MyLabel::MyLabel(QWidget *parent) :
-    QLabel(parent)
+MyLabel::MyLabel(QWidget *parent) : QLabel(parent)
 {
 }
 
@@ -53,7 +52,7 @@ void MyLabel::setImage(const QImage &img)
     m_img = img;
 }
 
-//virtual
+// virtual
 void MyLabel::wheelEvent(QWheelEvent *event)
 {
     if (event->delta() > 0) {
@@ -63,13 +62,13 @@ void MyLabel::wheelEvent(QWheelEvent *event)
     }
 }
 
-//virtual
+// virtual
 void MyLabel::mousePressEvent(QMouseEvent *)
 {
     emit switchToLive();
 }
 
-//virtual
+// virtual
 void MyLabel::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
@@ -77,7 +76,7 @@ void MyLabel::paintEvent(QPaintEvent *event)
     QRect r(0, 0, width(), height());
     QPainter p(this);
     p.fillRect(r, QColor(KdenliveSettings::window_background()));
-    double aspect_ratio = (double) m_img.width() / m_img.height();
+    double aspect_ratio = (double)m_img.width() / m_img.height();
     int pictureHeight = height();
     int pictureWidth = width();
     int calculatedWidth = aspect_ratio * height();
@@ -89,13 +88,13 @@ void MyLabel::paintEvent(QPaintEvent *event)
             pictureWidth = height() * aspect_ratio;
         }
     }
-    p.drawImage(QRect((width() - pictureWidth) / 2, (height() - pictureHeight) / 2, pictureWidth, pictureHeight), m_img, QRect(0, 0, m_img.width(), m_img.height()));
+    p.drawImage(QRect((width() - pictureWidth) / 2, (height() - pictureHeight) / 2, pictureWidth, pictureHeight), m_img,
+                QRect(0, 0, m_img.width(), m_img.height()));
     p.end();
 }
 
-StopmotionMonitor::StopmotionMonitor(MonitorManager *manager, QWidget *parent) :
-    AbstractMonitor(Kdenlive::StopMotionMonitor, manager, parent),
-    m_captureDevice(nullptr)
+StopmotionMonitor::StopmotionMonitor(MonitorManager *manager, QWidget *parent)
+    : AbstractMonitor(Kdenlive::StopMotionMonitor, manager, parent), m_captureDevice(nullptr)
 {
 }
 
@@ -147,19 +146,12 @@ void StopmotionMonitor::slotMouseSeek(int /*eventDelta*/, int /*fast*/)
 {
 }
 
-StopmotionWidget::StopmotionWidget(MonitorManager *manager, const QUrl &projectFolder, const QList<QAction *> &actions, QWidget *parent) :
-    QDialog(parent)
-    , Ui::Stopmotion_UI()
-    , m_projectFolder(projectFolder)
-    , m_captureDevice(nullptr)
-    , m_sequenceFrame(0)
-    , m_animatedIndex(-1)
-    , m_animate(false)
-    , m_manager(manager)
-    , m_monitor(new StopmotionMonitor(manager, this))
+StopmotionWidget::StopmotionWidget(MonitorManager *manager, const QUrl &projectFolder, const QList<QAction *> &actions, QWidget *parent)
+    : QDialog(parent), Ui::Stopmotion_UI(), m_projectFolder(projectFolder), m_captureDevice(nullptr), m_sequenceFrame(0), m_animatedIndex(-1), m_animate(false),
+      m_manager(manager), m_monitor(new StopmotionMonitor(manager, this))
 {
-    //setAttribute(Qt::WA_DeleteOnClose);
-    //HACK: the monitor widget is hidden, it is just used to control the capturedevice from monitormanager
+    // setAttribute(Qt::WA_DeleteOnClose);
+    // HACK: the monitor widget is hidden, it is just used to control the capturedevice from monitormanager
     m_monitor->setHidden(true);
     connect(m_monitor, &StopmotionMonitor::stopCapture, this, &StopmotionWidget::slotStopCapture);
     m_manager->appendMonitor(m_monitor);
@@ -170,7 +162,7 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, const QUrl &projectF
 
     QAction *mirror = new QAction(i18n("Mirror display"), this);
     mirror->setCheckable(true);
-    //mirror->setChecked(KdenliveSettings::analyse_stopmotion());
+    // mirror->setChecked(KdenliveSettings::analyse_stopmotion());
     connect(mirror, &QAction::triggered, this, &StopmotionWidget::slotSwitchMirror);
 
     addActions(actions);
@@ -202,7 +194,7 @@ StopmotionWidget::StopmotionWidget(MonitorManager *manager, const QUrl &projectF
     m_showOverlay = actions.at(2);
     connect(m_showOverlay, &QAction::triggered, this, &StopmotionWidget::slotShowOverlay);
     overlay_button->setDefaultAction(m_showOverlay);
-    //confMenu->addAction(m_showOverlay);
+    // confMenu->addAction(m_showOverlay);
 
     m_effectIndex = KdenliveSettings::stopmotioneffect();
     QMenu *effectsMenu = new QMenu(i18n("Overlay effect"));
@@ -417,7 +409,8 @@ void StopmotionWidget::slotUpdateDeviceHandler()
     if (data == "v4l") {
     #ifdef USE_V4L
         m_bmCapture = new V4lCaptureHandler(m_layout);
-        m_bmCapture->setDevice(capture_device->itemData(capture_device->currentIndex(), Qt::UserRole + 1).toString(), capture_device->itemData(capture_device->currentIndex(), Qt::UserRole + 2).toString());
+        m_bmCapture->setDevice(capture_device->itemData(capture_device->currentIndex(), Qt::UserRole + 1).toString(),
+    capture_device->itemData(capture_device->currentIndex(), Qt::UserRole + 2).toString());
     #endif
     } else {
         m_bmCapture = new BmdCaptureHandler(m_layout);
@@ -439,7 +432,7 @@ void StopmotionWidget::parseExistingSequences()
     QDir dir(m_projectFolder.toLocalFile());
     QStringList filters;
     filters << QStringLiteral("*_0000.png");
-    //dir.setNameFilters(filters);
+    // dir.setNameFilters(filters);
     QStringList sequences = dir.entryList(filters, QDir::Files, QDir::Name);
     ////qCDebug(KDENLIVE_LOG)<<"PF: "<<<<", sm: "<<sequences;
     foreach (const QString &sequencename, sequences) {
@@ -477,7 +470,11 @@ void StopmotionWidget::slotLive(bool isOn)
             profile = ProfilesDialog::getVideoProfile(profilePath);
             service = QStringLiteral("avformat-novalidate");
             QString devicePath = capture_device->itemData(capture_device->currentIndex(), Qt::UserRole + 1).toString();
-            resource = QStringLiteral("video4linux2:%1?width:%2&amp;height:%3&amp;frame_rate:%4").arg(devicePath).arg(profile.width).arg(profile.height).arg((double) profile.frame_rate_num / profile.frame_rate_den);
+            resource = QStringLiteral("video4linux2:%1?width:%2&amp;height:%3&amp;frame_rate:%4")
+                           .arg(devicePath)
+                           .arg(profile.width)
+                           .arg(profile.height)
+                           .arg((double)profile.frame_rate_num / profile.frame_rate_den);
         } else {
             // Decklink capture
             profilePath = KdenliveSettings::current_profile();
@@ -503,7 +500,8 @@ void StopmotionWidget::slotLive(bool isOn)
             }
             capture_button->setEnabled(true);
             live_button->setChecked(true);
-            log_box->insertItem(-1, i18n("Playing %1x%2 (%3 fps)", profile.width, profile.height, locale.toString((double)profile.frame_rate_num/profile.frame_rate_den).rightJustified(2, '0')));
+            log_box->insertItem(-1, i18n("Playing %1x%2 (%3 fps)", profile.width, profile.height,
+            locale.toString((double)profile.frame_rate_num/profile.frame_rate_den).rightJustified(2, '0')));
             log_box->setCurrentIndex(0);
             }
             else {
@@ -519,8 +517,8 @@ void StopmotionWidget::slotLive(bool isOn)
             m_captureDevice->stop();
             log_box->insertItem(-1, i18n("Stopped"));
             log_box->setCurrentIndex(0);
-            //delete m_captureDevice;
-            //m_captureDevice = nullptr;
+            // delete m_captureDevice;
+            // m_captureDevice = nullptr;
         }
     }
 
@@ -598,7 +596,6 @@ void StopmotionWidget::slotUpdateOverlay()
         break;
     default:
         break;
-
     }
     m_captureDevice->setOverlayEffect(tag, params);
 }
@@ -648,7 +645,7 @@ void StopmotionWidget::slotCaptureFrame()
         m_sequenceName = sequence_name->currentText();
         m_sequenceFrame = 0;
     }
-    //capture_button->setEnabled(false);
+    // capture_button->setEnabled(false);
     if (m_intervalTimer.isActive()) {
         // stop interval capture
         m_intervalTimer.stop();
@@ -688,7 +685,6 @@ void StopmotionWidget::slotNewThumb(const QString &path)
     if (!m_future.isRunning()) {
         m_future = QtConcurrent::run(this, &StopmotionWidget::slotPrepareThumbs);
     }
-
 }
 
 void StopmotionWidget::slotPrepareThumbs()
@@ -698,7 +694,6 @@ void StopmotionWidget::slotPrepareThumbs()
     }
     QString path = m_filesList.takeFirst();
     emit doCreateThumbs(QImage(path), SlideshowClip::getFrameNumberFromPath(QUrl::fromLocalFile(path)));
-
 }
 
 void StopmotionWidget::slotCreateThumbs(const QImage &img, int ix)
@@ -733,12 +728,13 @@ QString StopmotionWidget::getPathForFrame(int ix, QString seqName)
     if (seqName.isEmpty()) {
         seqName = m_sequenceName;
     }
-    return m_projectFolder.toLocalFile() + QDir::separator() + seqName + QLatin1Char('_') + QString::number(ix).rightJustified(4, '0', false) + QStringLiteral(".png");
+    return m_projectFolder.toLocalFile() + QDir::separator() + seqName + QLatin1Char('_') + QString::number(ix).rightJustified(4, '0', false) +
+           QStringLiteral(".png");
 }
 
 void StopmotionWidget::slotShowFrame(const QString &path)
 {
-    //slotLive(false);
+    // slotLive(false);
     QImage img(path);
     capture_button->setEnabled(false);
     slotLive(false);
@@ -753,7 +749,7 @@ void StopmotionWidget::slotShowSelectedFrame()
 {
     QListWidgetItem *item = frame_list->currentItem();
     if (item) {
-        //int ix = item->data(Qt::UserRole).toInt();
+        // int ix = item->data(Qt::UserRole).toInt();
         slotShowFrame(item->toolTip());
     }
 }
@@ -827,7 +823,6 @@ void StopmotionWidget::slotAnimate()
     }
     m_animate = false;
     preview_button->setChecked(false);
-
 }
 
 void StopmotionWidget::slotSeekFrame(bool forward)
@@ -877,7 +872,7 @@ void StopmotionWidget::slotSwitchAnalyse(bool isOn)
 
 void StopmotionWidget::slotSwitchMirror(bool isOn)
 {
-    //KdenliveSettings::setAnalyse_stopmotion(isOn);
+    // KdenliveSettings::setAnalyse_stopmotion(isOn);
     if (m_captureDevice) {
         m_captureDevice->mirror(isOn);
     }
@@ -887,8 +882,10 @@ const QString StopmotionWidget::createProducer(const MltVideoProfile &profile, c
 {
     Q_UNUSED(profile)
 
-    QString playlist = QStringLiteral("<mlt title=\"capture\"><producer id=\"producer0\" in=\"0\" out=\"99999\"><property name=\"mlt_type\">producer</property><property name=\"length\">100000</property><property name=\"eof\">pause</property><property name=\"resource\">")
-            + resource + QStringLiteral("</property><property name=\"mlt_service\">") + service + QStringLiteral("</property></producer>");
+    QString playlist =
+        QStringLiteral("<mlt title=\"capture\"><producer id=\"producer0\" in=\"0\" out=\"99999\"><property name=\"mlt_type\">producer</property><property "
+                       "name=\"length\">100000</property><property name=\"eof\">pause</property><property name=\"resource\">") +
+        resource + QStringLiteral("</property><property name=\"mlt_service\">") + service + QStringLiteral("</property></producer>");
 
     // overlay track
     playlist.append(QStringLiteral("<playlist id=\"playlist0\"></playlist>"));
@@ -903,4 +900,3 @@ const QString StopmotionWidget::createProducer(const MltVideoProfile &profile, c
 
     return playlist;
 }
-

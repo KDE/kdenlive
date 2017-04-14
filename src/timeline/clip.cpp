@@ -22,12 +22,11 @@
  */
 
 #include "clip.h"
-#include <mlt++/Mlt.h>
-#include <QDomDocument>
 #include <QDebug>
+#include <QDomDocument>
+#include <mlt++/Mlt.h>
 
-Clip::Clip(Mlt::Producer &producer) : QObject(),
-    m_producer(producer)
+Clip::Clip(Mlt::Producer &producer) : QObject(), m_producer(producer)
 {
 }
 
@@ -152,8 +151,8 @@ void Clip::disableEffects(bool disable)
                 filter->set("disable", 1);
                 filter->set("auto_disable", 1);
             } else if (!disable && filter->get_int("auto_disable") == 1) {
-                filter->set("disable", (char *) nullptr);
-                filter->set("auto_disable", (char *) nullptr);
+                filter->set("disable", (char *)nullptr);
+                filter->set("auto_disable", (char *)nullptr);
             }
         }
         ct++;
@@ -186,7 +185,7 @@ const QByteArray Clip::xml()
 Mlt::Producer *Clip::clone()
 {
     QByteArray prodXml = xml();
-    //HACK: currently the MLT xml producer, when parsing a <profile>, does change the global profile accordingly.
+    // HACK: currently the MLT xml producer, when parsing a <profile>, does change the global profile accordingly.
     // causing crash on threaded calls. To avoid this, we discard the profile info from our xml
     QDomDocument doc;
     doc.setContent(prodXml, true);

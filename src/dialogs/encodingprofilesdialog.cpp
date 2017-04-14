@@ -23,14 +23,12 @@
 #include "utils/KoIconUtils.h"
 
 #include "klocalizedstring.h"
-#include <QVBoxLayout>
 #include <QLineEdit>
 #include <QPlainTextEdit>
 #include <QStandardPaths>
+#include <QVBoxLayout>
 
-EncodingProfilesDialog::EncodingProfilesDialog(int profileType, QWidget *parent) :
-    QDialog(parent),
-    m_configGroup(nullptr)
+EncodingProfilesDialog::EncodingProfilesDialog(int profileType, QWidget *parent) : QDialog(parent), m_configGroup(nullptr)
 {
     setupUi(this);
     setWindowTitle(i18n("Manage Encoding Profiles"));
@@ -88,13 +86,13 @@ void EncodingProfilesDialog::slotLoadProfiles()
 
     delete m_configGroup;
     m_configGroup = new KConfigGroup(m_configFile, group);
-    QMap< QString, QString > values = m_configGroup->entryMap();
+    QMap<QString, QString> values = m_configGroup->entryMap();
     QMapIterator<QString, QString> i(values);
     while (i.hasNext()) {
         i.next();
         auto *item = new QListWidgetItem(i.key(), profile_list);
         item->setData(Qt::UserRole, i.value());
-        //cout << i.key() << ": " << i.value() << endl;
+        // cout << i.key() << ": " << i.value() << endl;
     }
     profile_list->blockSignals(false);
     profile_list->setCurrentRow(0);
@@ -189,4 +187,3 @@ void EncodingProfilesDialog::slotEditProfile()
     }
     delete d;
 }
-

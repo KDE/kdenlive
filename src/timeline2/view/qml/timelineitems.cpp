@@ -1,19 +1,14 @@
 
 
-
-#include <QQuickPaintedItem>
 #include <QPainter>
-#include <QPalette>
 #include <QPainterPath>
-
+#include <QPalette>
+#include <QQuickPaintedItem>
 
 class TimelineTriangle : public QQuickPaintedItem
 {
 public:
-    TimelineTriangle()
-    {
-        setAntialiasing(QPainter::Antialiasing != 0u);
-    }
+    TimelineTriangle() { setAntialiasing(QPainter::Antialiasing != 0u); }
     void paint(QPainter *painter) override
     {
         QPainterPath path;
@@ -55,19 +50,16 @@ public:
     void paint(QPainter *painter) override
     {
         QVariantList data = m_audioLevels.toList();
-        if (data.isEmpty())
-            return;
+        if (data.isEmpty()) return;
 
         const qreal indicesPrPixel = qreal(m_outPoint - m_inPoint) / width();
 
         QPainterPath path;
         path.moveTo(-1, height());
         int i = 0;
-        for (; i < width(); ++i)
-        {
+        for (; i < width(); ++i) {
             int idx = m_inPoint + int(i * indicesPrPixel);
-            if (idx + 1 >= data.length())
-                break;
+            if (idx + 1 >= data.length()) break;
             qreal level = qMax(data.at(idx).toReal(), data.at(idx + 1).toReal()) / 256;
             path.lineTo(i, height() - level * height());
         }

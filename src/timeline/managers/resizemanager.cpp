@@ -18,13 +18,13 @@
  ***************************************************************************/
 
 #include "resizemanager.h"
-#include "kdenlivesettings.h"
-#include "timeline/customtrackview.h"
-#include "timeline/clipitem.h"
-#include "timeline/transition.h"
-#include "timeline/timelinecommands.h"
-#include "timeline/abstractgroupitem.h"
 #include "doc/docundostack.hpp"
+#include "kdenlivesettings.h"
+#include "timeline/abstractgroupitem.h"
+#include "timeline/clipitem.h"
+#include "timeline/customtrackview.h"
+#include "timeline/timelinecommands.h"
+#include "timeline/transition.h"
 
 #include <KLocalizedString>
 
@@ -46,7 +46,7 @@ bool ResizeManager::mousePress(QMouseEvent *event, const ItemInfo &info, const Q
     m_startInfos.clear();
     if (dragItem->type() == AVWidget && (dragItem->parentItem() != nullptr)) {
         // Store start infos
-        AbstractGroupItem *parent = static_cast <AbstractGroupItem *>(dragItem->parentItem());
+        AbstractGroupItem *parent = static_cast<AbstractGroupItem *>(dragItem->parentItem());
         if (parent) {
             QList<QGraphicsItem *> items = parent->childItems();
             for (int i = 0; i < items.count(); ++i) {
@@ -66,7 +66,7 @@ bool ResizeManager::mouseMove(QMouseEvent *event, int pos, int)
     if (event->buttons() & Qt::LeftButton != 0u) {
         AbstractClipItem *dragItem = m_view->dragItem();
         if (!(m_controlModifier & Qt::ControlModifier) && dragItem->type() == AVWidget && (dragItem->parentItem() != nullptr)) {
-            AbstractGroupItem *parent = static_cast <AbstractGroupItem *>(dragItem->parentItem());
+            AbstractGroupItem *parent = static_cast<AbstractGroupItem *>(dragItem->parentItem());
             if (parent) {
                 if (m_view->operationMode() == ResizeStart) {
                     parent->resizeStart(snappedPos);
@@ -99,7 +99,7 @@ void ResizeManager::mouseRelease(QMouseEvent *, GenTime pos)
             if (dragItem->startPos() != m_dragItemInfo.startPos) {
                 // resize start
                 if (/*!(m_controlModifier & Qt::ControlModifier) &&*/ dragItem->type() == AVWidget && (dragItem->parentItem() != nullptr)) {
-                    AbstractGroupItem *parent = static_cast <AbstractGroupItem *>(dragItem->parentItem());
+                    AbstractGroupItem *parent = static_cast<AbstractGroupItem *>(dragItem->parentItem());
                     if (parent) {
                         auto *resizeCommand = new QUndoCommand();
                         resizeCommand->setText(i18n("Resize group"));
@@ -166,8 +166,8 @@ void ResizeManager::mouseRelease(QMouseEvent *, GenTime pos)
         } else if (m_view->operationMode() == ResizeEnd) {
             dragItem->setProperty("resizingEnd", QVariant());
             if (dragItem->endPos() != m_dragItemInfo.endPos) {
-                if (!(m_controlModifier & Qt::ControlModifier)  && dragItem->type() == AVWidget && (dragItem->parentItem() != nullptr)) {
-                    AbstractGroupItem *parent = static_cast <AbstractGroupItem *>(dragItem->parentItem());
+                if (!(m_controlModifier & Qt::ControlModifier) && dragItem->type() == AVWidget && (dragItem->parentItem() != nullptr)) {
+                    AbstractGroupItem *parent = static_cast<AbstractGroupItem *>(dragItem->parentItem());
                     if (parent) {
                         auto *resizeCommand = new QUndoCommand();
                         resizeCommand->setText(i18n("Resize group"));
@@ -224,4 +224,3 @@ void ResizeManager::mouseRelease(QMouseEvent *, GenTime pos)
     m_view->setCursor(Qt::OpenHandCursor);
     m_view->setOperationMode(None);
 }
-

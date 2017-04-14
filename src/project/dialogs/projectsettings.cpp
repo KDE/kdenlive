@@ -19,36 +19,36 @@
 
 #include "projectsettings.h"
 
-#include "kdenlivesettings.h"
-#include "core.h"
-#include "doc/kdenlivedoc.h"
-#include "utils/KoIconUtils.h"
-#include "titler/titlewidget.h"
-#include "effectslist/effectslist.h"
-#include "dialogs/profilesdialog.h"
-#include "dialogs/encodingprofilesdialog.h"
-#include "mltcontroller/clipcontroller.h"
-#include "mltcontroller/bincontroller.h"
-#include "project/dialogs/temporarydata.h"
-#include "project/dialogs/profilewidget.h"
 #include "bin/bin.h"
+#include "core.h"
+#include "dialogs/encodingprofilesdialog.h"
+#include "dialogs/profilesdialog.h"
+#include "doc/kdenlivedoc.h"
+#include "effectslist/effectslist.h"
+#include "kdenlivesettings.h"
+#include "mltcontroller/bincontroller.h"
+#include "mltcontroller/clipcontroller.h"
+#include "project/dialogs/profilewidget.h"
+#include "project/dialogs/temporarydata.h"
+#include "titler/titlewidget.h"
+#include "utils/KoIconUtils.h"
 
-#include <KMessageBox>
 #include "kdenlive_debug.h"
+#include <KIO/FileCopyJob>
+#include <KMessageBox>
 #include <kio/directorysizejob.h>
 #include <klocalizedstring.h>
-#include <KIO/FileCopyJob>
 
-#include <QTemporaryFile>
 #include <QDir>
-#include <kmessagebox.h>
 #include <QFileDialog>
 #include <QInputDialog>
+#include <QTemporaryFile>
+#include <kmessagebox.h>
 
-class NoEditDelegate: public QStyledItemDelegate
+class NoEditDelegate : public QStyledItemDelegate
 {
 public:
-    NoEditDelegate(QObject *parent = nullptr): QStyledItemDelegate(parent) {}
+    NoEditDelegate(QObject *parent = nullptr) : QStyledItemDelegate(parent) {}
     QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const override
     {
         Q_UNUSED(parent);
@@ -58,10 +58,9 @@ public:
     }
 };
 
-ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metadata, const QStringList &lumas, int videotracks, int audiotracks, const QString &/*projectPath*/, bool readOnlyTracks, bool savedProject, QWidget *parent) :
-    QDialog(parent)
-    , m_savedProject(savedProject)
-    , m_lumas(lumas)
+ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metadata, const QStringList &lumas, int videotracks, int audiotracks,
+                                 const QString & /*projectPath*/, bool readOnlyTracks, bool savedProject, QWidget *parent)
+    : QDialog(parent), m_savedProject(savedProject), m_lumas(lumas)
 {
     setupUi(this);
     tabWidget->setTabBarAutoHide(true);
@@ -75,7 +74,7 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
     project_folder->setMode(KFile::Directory);
 
     m_buttonOk = buttonBox->button(QDialogButtonBox::Ok);
-    //buttonOk->setEnabled(false);
+    // buttonOk->setEnabled(false);
     audio_thumbs->setChecked(KdenliveSettings::audiothumbnails());
     video_thumbs->setChecked(KdenliveSettings::videothumbnails());
     audio_tracks->setValue(audiotracks);
@@ -239,7 +238,7 @@ void ProjectSettings::slotEditMetadata(QTreeWidgetItem *item, int)
 void ProjectSettings::slotDeleteUnused()
 {
     QStringList toDelete;
-    //TODO
+    // TODO
     /*
     QList<DocClipBase*> list = m_projectList->documentClipList();
     for (int i = 0; i < list.count(); ++i) {
@@ -261,12 +260,14 @@ void ProjectSettings::slotDeleteUnused()
 
     if (toDelete.count() == 0) {
         // No physical url to delete, we only remove unused clips from project (color clips for example have no physical url)
-        if (KMessageBox::warningContinueCancel(this, i18n("This will remove all unused clips from your project."), i18n("Clean up project")) == KMessageBox::Cancel) return;
+        if (KMessageBox::warningContinueCancel(this, i18n("This will remove all unused clips from your project."), i18n("Clean up project")) ==
+    KMessageBox::Cancel) return;
         m_projectList->cleanup();
         slotUpdateFiles();
         return;
     }
-    if (KMessageBox::warningYesNoList(this, i18n("This will remove the following files from your hard drive.\nThis action cannot be undone, only use if you know what you are doing.\nAre you sure you want to continue?"), toDelete, i18n("Delete unused clips")) != KMessageBox::Yes) return;
+    if (KMessageBox::warningYesNoList(this, i18n("This will remove the following files from your hard drive.\nThis action cannot be undone, only use if you know
+    what you are doing.\nAre you sure you want to continue?"), toDelete, i18n("Delete unused clips")) != KMessageBox::Yes) return;
     m_projectList->trashUnusedClips();
     slotUpdateFiles();
     */
@@ -281,7 +282,7 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
     if (cacheOnly) {
         return;
     }
-    QList<std::shared_ptr<ClipController >> list = pCore->binController()->getControllerList();
+    QList<std::shared_ptr<ClipController>> list = pCore->binController()->getControllerList();
     files_list->clear();
 
     // List all files that are used in the project. That also means:
@@ -318,7 +319,7 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
     }
 
     for (int i = 0; i < list.count(); ++i) {
-        const std::shared_ptr<ClipController>& clip = list.at(i);
+        const std::shared_ptr<ClipController> &clip = list.at(i);
         if (clip->clipType() == Color) {
             // ignore color clips in list, there is no real file
             continue;
@@ -331,7 +332,7 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
             }
             continue;
         } else if (!clip->clipUrl().isEmpty()) {
-            //allFiles.append(clip->fileURL().path());
+            // allFiles.append(clip->fileURL().path());
             switch (clip->clipType()) {
             case Text:
                 new QTreeWidgetItem(texts, QStringList() << clip->clipUrl());
@@ -411,13 +412,18 @@ void ProjectSettings::accept()
     if (!params.isEmpty()) {
         if (params.section(QLatin1Char(';'), 0, 0) != m_previewparams || params.section(QLatin1Char(';'), 1, 1) != m_previewextension) {
             // Timeline preview settings changed, warn
-            if (KMessageBox::warningContinueCancel(this, i18n("You changed the timeline preview profile. This will remove all existing timeline previews for this project.\n Are you sure you want to proceed?"), i18n("Confirm profile change")) == KMessageBox::Cancel) {
+            if (KMessageBox::warningContinueCancel(this, i18n("You changed the timeline preview profile. This will remove all existing timeline previews for "
+                                                              "this project.\n Are you sure you want to proceed?"),
+                                                   i18n("Confirm profile change")) == KMessageBox::Cancel) {
                 return;
             }
         }
     }
     if (!m_savedProject && selectedProfile() != KdenliveSettings::current_profile()) {
-        if (KMessageBox::warningContinueCancel(this, i18n("Changing the profile of your project cannot be undone.\nIt is recommended to save your project before attempting this operation that might cause some corruption in transitions.\n Are you sure you want to proceed?"), i18n("Confirm profile change")) == KMessageBox::Cancel) {
+        if (KMessageBox::warningContinueCancel(
+                this, i18n("Changing the profile of your project cannot be undone.\nIt is recommended to save your project before attempting this operation "
+                           "that might cause some corruption in transitions.\n Are you sure you want to proceed?"),
+                i18n("Confirm profile change")) == KMessageBox::Cancel) {
             return;
         }
     }
@@ -499,7 +505,7 @@ QString ProjectSettings::proxyExtension() const
     return params.section(QLatin1Char(';'), 1, 1);
 }
 
-//static
+// static
 QStringList ProjectSettings::extractPlaylistUrls(const QString &path)
 {
     QStringList urls;
@@ -539,7 +545,7 @@ QStringList ProjectSettings::extractPlaylistUrls(const QString &path)
                     urls << url;
                 }
                 if (url.endsWith(QLatin1String(".mlt")) || url.endsWith(QLatin1String(".kdenlive"))) {
-                    //TODO: Do something to avoid infinite loops if 2 files reference themselves...
+                    // TODO: Do something to avoid infinite loops if 2 files reference themselves...
                     urls << extractPlaylistUrls(url);
                 }
             }
@@ -562,7 +568,7 @@ QStringList ProjectSettings::extractPlaylistUrls(const QString &path)
     return urls;
 }
 
-//static
+// static
 QStringList ProjectSettings::extractSlideshowUrls(const QString &url)
 {
     QStringList urls;
@@ -585,7 +591,7 @@ QStringList ProjectSettings::extractSlideshowUrls(const QString &url)
         QRegExp rx(regexp);
         int count = 0;
         const QStringList result = dir.entryList(QDir::Files);
-        for (const QString &p: result) {
+        for (const QString &p : result) {
             if (rx.exactMatch(p)) {
                 count++;
             }
@@ -602,8 +608,8 @@ void ProjectSettings::slotExportToText()
         return;
     }
     QString text;
-    text.append(i18n("Project folder: %1",  project_folder->url().toLocalFile()) + '\n');
-    text.append(i18n("Project profile: %1",  m_pw->selectedProfile()) + '\n');
+    text.append(i18n("Project folder: %1", project_folder->url().toLocalFile()) + '\n');
+    text.append(i18n("Project profile: %1", m_pw->selectedProfile()) + '\n');
     text.append(i18n("Total clips: %1 (%2 used in timeline).", files_count->text(), used_count->text()) + "\n\n");
     for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
         if (files_list->topLevelItem(i)->childCount() > 0) {

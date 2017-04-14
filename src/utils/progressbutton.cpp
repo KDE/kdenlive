@@ -21,13 +21,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "progressbutton.h"
 
-#include <klocalizedstring.h>
 #include <QAction>
 #include <QPainter>
+#include <klocalizedstring.h>
 
-ProgressButton::ProgressButton(const QString &text, double max, QWidget *parent) : QToolButton(parent)
-    , m_defaultAction(nullptr)
-    , m_max(max)
+ProgressButton::ProgressButton(const QString &text, double max, QWidget *parent) : QToolButton(parent), m_defaultAction(nullptr), m_max(max)
 {
     setPopupMode(MenuButtonPopup);
     m_progress = width() - 6;
@@ -62,11 +60,11 @@ void ProgressButton::setProgress(int progress)
         // calculate remaining time
         qint64 ms = m_timer.elapsed() * (m_max / progress - 1);
         if (ms < 60000)
-            // xgettext:no-c-format
+        // xgettext:no-c-format
         {
             remaining = i18nc("s as seconds", "%1s", ms / 1000);
         } else if (ms < 3600000)
-            // xgettext:no-c-format
+        // xgettext:no-c-format
         {
             remaining = i18nc("m as minutes", "%1m", ms / 60000);
         } else {

@@ -24,11 +24,8 @@
 
 #include <QWheelEvent>
 
-ClipDurationDialog::ClipDurationDialog(AbstractClipItem *clip, const Timecode &tc, const GenTime &min, const GenTime &max, QWidget *parent):
-    QDialog(parent),
-    m_clip(clip),
-    m_min(min),
-    m_max(max)
+ClipDurationDialog::ClipDurationDialog(AbstractClipItem *clip, const Timecode &tc, const GenTime &min, const GenTime &max, QWidget *parent)
+    : QDialog(parent), m_clip(clip), m_min(min), m_max(max)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
@@ -45,7 +42,7 @@ ClipDurationDialog::ClipDurationDialog(AbstractClipItem *clip, const Timecode &t
 
     bool allowCrop = true;
     if (clip->type() == AVWidget) {
-        ClipItem *item = static_cast <ClipItem *>(clip);
+        ClipItem *item = static_cast<ClipItem *>(clip);
         const int t = item->clipType();
         if (t == Color || t == Image || t == Text) {
             allowCrop = false;
@@ -55,8 +52,7 @@ ClipDurationDialog::ClipDurationDialog(AbstractClipItem *clip, const Timecode &t
     if (!allowCrop || clip->type() == TransitionWidget) {
         m_cropStart->setHidden(true);
         crop_label->hide();
-        m_cropEnd->setHidden(true),
-                  end_label->hide();
+        m_cropEnd->setHidden(true), end_label->hide();
     }
 
     m_crop = m_clip->cropStart();
@@ -66,10 +62,10 @@ ClipDurationDialog::ClipDurationDialog(AbstractClipItem *clip, const Timecode &t
     m_cropStart->setValue(m_clip->cropStart());
     m_cropEnd->setValue(m_clip->maxDuration() - m_clip->cropDuration() - m_clip->cropStart());
 
-    connect(m_pos,       &TimecodeDisplay::timeCodeEditingFinished, this, &ClipDurationDialog::slotCheckStart);
-    connect(m_dur,       &TimecodeDisplay::timeCodeEditingFinished, this, &ClipDurationDialog::slotCheckDuration);
+    connect(m_pos, &TimecodeDisplay::timeCodeEditingFinished, this, &ClipDurationDialog::slotCheckStart);
+    connect(m_dur, &TimecodeDisplay::timeCodeEditingFinished, this, &ClipDurationDialog::slotCheckDuration);
     connect(m_cropStart, &TimecodeDisplay::timeCodeEditingFinished, this, &ClipDurationDialog::slotCheckCrop);
-    connect(m_cropEnd,   &TimecodeDisplay::timeCodeEditingFinished, this, &ClipDurationDialog::slotCheckEnd);
+    connect(m_cropEnd, &TimecodeDisplay::timeCodeEditingFinished, this, &ClipDurationDialog::slotCheckEnd);
 
     adjustSize();
 }
@@ -171,4 +167,3 @@ GenTime ClipDurationDialog::duration() const
 {
     return m_dur->gentime();
 }
-

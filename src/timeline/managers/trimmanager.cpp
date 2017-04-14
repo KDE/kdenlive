@@ -18,24 +18,19 @@
  ***************************************************************************/
 
 #include "trimmanager.h"
-#include "kdenlivesettings.h"
-#include "timeline/customtrackview.h"
-#include "timeline/clipitem.h"
 #include "doc/docundostack.hpp"
+#include "kdenlivesettings.h"
 #include "renderer.h"
+#include "timeline/clipitem.h"
+#include "timeline/customtrackview.h"
 
 #include <KLocalizedString>
 #include <QStandardPaths>
 #include <mlt++/MltPlaylist.h>
 
-TrimManager::TrimManager(CustomTrackView *view, std::shared_ptr<DocUndoStack> commandStack) : AbstractToolManager(TrimType, view, commandStack)
-    , m_firstClip(nullptr)
-    , m_secondClip(nullptr)
-    , m_trimMode(NormalTrim)
-    , m_rippleIndex(0)
-    , m_trimPlaylist(nullptr)
-    , trimChanged(false)
-    , m_render(nullptr)
+TrimManager::TrimManager(CustomTrackView *view, std::shared_ptr<DocUndoStack> commandStack)
+    : AbstractToolManager(TrimType, view, commandStack), m_firstClip(nullptr), m_secondClip(nullptr), m_trimMode(NormalTrim), m_rippleIndex(0),
+      m_trimPlaylist(nullptr), trimChanged(false), m_render(nullptr)
 {
 }
 
@@ -72,7 +67,7 @@ void TrimManager::mouseRelease(QMouseEvent *, GenTime)
 bool TrimManager::enterTrimMode(const ItemInfo &info, bool trimStart)
 {
     m_view->loadMonitorScene(MonitorSceneRipple, true);
-    m_view->setQmlProperty(QStringLiteral("trimmode"), (int) m_trimMode);
+    m_view->setQmlProperty(QStringLiteral("trimmode"), (int)m_trimMode);
     if (m_trimMode == RollingTrim || m_trimMode == RippleTrim) {
         if (trimStart) {
             m_firstClip = m_view->getClipItemAtEnd(info.startPos, info.track);
@@ -96,9 +91,9 @@ bool TrimManager::enterTrimMode(const ItemInfo &info, bool trimStart)
         }
         m_firstInfo = m_firstClip->info();
         m_secondInfo = m_secondClip->info();
-        if (m_trimMode == RollingTrim)  {
+        if (m_trimMode == RollingTrim) {
             m_view->setOperationMode(trimStart ? RollingStart : RollingEnd);
-        } else if (m_trimMode == RippleTrim)  {
+        } else if (m_trimMode == RippleTrim) {
             m_view->setOperationMode(trimStart ? RippleStart : RippleEnd);
         }
         m_view->trimMode(true, m_secondInfo.startPos.frames(m_view->fps()));
@@ -168,7 +163,7 @@ void TrimManager::moveRoll(bool forward, int pos)
         m_firstClip->resizeEnd(pos, false);
         m_secondClip->resizeStart(pos, true, false);
     }
-    //m_view->seekCursorPos(pos);
+    // m_view->seekCursorPos(pos);
     KdenliveSettings::setSnaptopoints(snap);
     trimChanged = true;
 }
@@ -191,7 +186,7 @@ void TrimManager::endTrim()
         } else {
             m_view->finishRipple(m_firstClip, m_firstInfo, (m_firstClip->endPos() - m_firstInfo.endPos).frames(m_view->fps()), false);
         }
-        //TODO: integrate in undo/redo framework
+        // TODO: integrate in undo/redo framework
         return;
     }
     if (m_view->operationMode() == RollingStart || m_view->operationMode() == RollingEnd) {

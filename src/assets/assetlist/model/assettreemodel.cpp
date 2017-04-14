@@ -20,20 +20,18 @@
  ***************************************************************************/
 
 #include "assettreemodel.hpp"
+#include "abstractmodel/treeitem.hpp"
 #include "effects/effectsrepository.hpp"
 #include "transitions/transitionsrepository.hpp"
-#include "abstractmodel/treeitem.hpp"
 
 int AssetTreeModel::nameCol = 0;
 int AssetTreeModel::idCol = 1;
 int AssetTreeModel::typeCol = 2;
 int AssetTreeModel::favCol = 3;
 
-AssetTreeModel::AssetTreeModel(QObject *parent)
-    : AbstractTreeModel(parent)
+AssetTreeModel::AssetTreeModel(QObject *parent) : AbstractTreeModel(parent)
 {
 }
-
 
 QHash<int, QByteArray> AssetTreeModel::roleNames() const
 {
@@ -43,39 +41,36 @@ QHash<int, QByteArray> AssetTreeModel::roleNames() const
     return roles;
 }
 
-QString AssetTreeModel::getName(const QModelIndex& index) const
+QString AssetTreeModel::getName(const QModelIndex &index) const
 {
     if (!index.isValid()) {
         return QString();
     }
-    TreeItem *item = static_cast<TreeItem*>(index.internalPointer());
+    TreeItem *item = static_cast<TreeItem *>(index.internalPointer());
     if (item->depth() == 1) {
         return item->dataColumn(0).toString();
-    } 
-        return item->dataColumn(AssetTreeModel::nameCol).toString();
-    
+    }
+    return item->dataColumn(AssetTreeModel::nameCol).toString();
 }
 
-QString AssetTreeModel::getDescription(const QModelIndex& index) const
+QString AssetTreeModel::getDescription(const QModelIndex &index) const
 {
     if (!index.isValid()) {
         return QString();
     }
-    TreeItem *item = static_cast<TreeItem*>(index.internalPointer());
+    TreeItem *item = static_cast<TreeItem *>(index.internalPointer());
     if (item->depth() == 1) {
         return QString();
-    } 
-        auto id = item->dataColumn(AssetTreeModel::idCol).toString();
-        if (EffectsRepository::get()->exists(id)){
-            return EffectsRepository::get()->getDescription(id);
-        }
-        if (TransitionsRepository::get()->exists(id)){
-            return TransitionsRepository::get()->getDescription(id);
-        }
-        return QString();
-    
+    }
+    auto id = item->dataColumn(AssetTreeModel::idCol).toString();
+    if (EffectsRepository::get()->exists(id)) {
+        return EffectsRepository::get()->getDescription(id);
+    }
+    if (TransitionsRepository::get()->exists(id)) {
+        return TransitionsRepository::get()->getDescription(id);
+    }
+    return QString();
 }
-
 
 QVariant AssetTreeModel::data(const QModelIndex &index, int role) const
 {
@@ -83,8 +78,8 @@ QVariant AssetTreeModel::data(const QModelIndex &index, int role) const
         return QVariant();
     }
 
-    TreeItem *item = static_cast<TreeItem*>(index.internalPointer());
-    if(role == IdRole) {
+    TreeItem *item = static_cast<TreeItem *>(index.internalPointer());
+    if (role == IdRole) {
         return item->dataColumn(AssetTreeModel::idCol);
     }
 
@@ -94,12 +89,12 @@ QVariant AssetTreeModel::data(const QModelIndex &index, int role) const
     return item->dataColumn(index.column());
 }
 
-QList <QModelIndex> AssetTreeModel::getChildrenIndexes()
+QList<QModelIndex> AssetTreeModel::getChildrenIndexes()
 {
-    QList <QModelIndex> indexes;
-    for(int i = 0; i != rootItem->childCount(); ++i) {
+    QList<QModelIndex> indexes;
+    for (int i = 0; i != rootItem->childCount(); ++i) {
         TreeItem *child = rootItem->child(i);
-        indexes << createIndex(i,0, child);
+        indexes << createIndex(i, 0, child);
     }
 
     return indexes;

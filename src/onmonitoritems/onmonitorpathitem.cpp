@@ -20,20 +20,16 @@
 #include "onmonitorpathitem.h"
 #include "kdenlivesettings.h"
 
+#include <QApplication>
+#include <QCursor>
 #include <QGraphicsSceneMouseEvent>
+#include <QGraphicsView>
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
-#include <QCursor>
-#include <QGraphicsView>
-#include <QApplication>
 
 #include <mlt++/Mlt.h>
 
-OnMonitorPathItem::OnMonitorPathItem(QGraphicsItem *parent) :
-    QGraphicsPathItem(parent),
-    m_modified(false),
-    m_view(nullptr),
-    m_activePoint(-1)
+OnMonitorPathItem::OnMonitorPathItem(QGraphicsItem *parent) : QGraphicsPathItem(parent), m_modified(false), m_view(nullptr), m_activePoint(-1)
 {
     setFlags(QGraphicsItem::ItemIsMovable);
 
@@ -85,7 +81,7 @@ void OnMonitorPathItem::rebuildShape()
 
 void OnMonitorPathItem::getMode(const QPointF &pos)
 {
-    double dist  = 8;
+    double dist = 8;
     if (getView()) {
         dist /= m_view->matrix().m11();
     }
@@ -175,7 +171,7 @@ void OnMonitorPathItem::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
 
 void OnMonitorPathItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    //Q_UNUSED(widget)
+    // Q_UNUSED(widget)
     QGraphicsPathItem::paint(painter, option, widget);
 
     double w = 6;
@@ -201,8 +197,6 @@ bool OnMonitorPathItem::getView()
     if ((scene() != nullptr) && !scene()->views().isEmpty()) {
         m_view = scene()->views().first();
         return true;
-    } 
-        return false;
-    
+    }
+    return false;
 }
-

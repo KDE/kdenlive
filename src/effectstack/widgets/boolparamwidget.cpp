@@ -19,34 +19,30 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-
 #include "boolparamwidget.h"
 
-
-BoolParamWidget::BoolParamWidget(const QString& name, const QString& comment, bool checked, QWidget* parent)
-    : AbstractParamWidget(parent)
+BoolParamWidget::BoolParamWidget(const QString &name, const QString &comment, bool checked, QWidget *parent) : AbstractParamWidget(parent)
 {
     setupUi(this);
 
-    //setup the comment
+    // setup the comment
     setToolTip(comment);
     m_labelComment->setText(comment);
     m_widgetComment->setHidden(true);
 
-    //setup the name
+    // setup the name
     m_labelName->setText(name);
 
-    //set check state
+    // set check state
     m_checkBox->setChecked(checked);
 
-    //emit the signal of the base class when appropriate
-    connect(this->m_checkBox, &QCheckBox::stateChanged,
-            [this](int){ emit qobject_cast<AbstractParamWidget*>(this)->valueChanged();});
+    // emit the signal of the base class when appropriate
+    connect(this->m_checkBox, &QCheckBox::stateChanged, [this](int) { emit qobject_cast<AbstractParamWidget *>(this)->valueChanged(); });
 }
 
 void BoolParamWidget::slotShowComment(bool show)
 {
-    if(!m_labelComment->text().isEmpty()){
+    if (!m_labelComment->text().isEmpty()) {
         m_widgetComment->setVisible(show);
     }
 }

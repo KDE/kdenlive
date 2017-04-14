@@ -10,10 +10,7 @@
 
 #include "audioCorrelationInfo.h"
 
-AudioCorrelationInfo::AudioCorrelationInfo(int mainSize, int subSize) :
-    m_mainSize(mainSize),
-    m_subSize(subSize),
-    m_max(-1)
+AudioCorrelationInfo::AudioCorrelationInfo(int mainSize, int subSize) : m_mainSize(mainSize), m_subSize(subSize), m_max(-1)
 {
     m_correlationVector = new qint64[m_mainSize + m_subSize + 1];
 }

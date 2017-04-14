@@ -17,23 +17,20 @@
 
 #include "positionwidget.h"
 
-#include "timecodedisplay.h"
 #include "kdenlivesettings.h"
+#include "timecodedisplay.h"
 
+#include <QHBoxLayout>
 #include <QLabel>
 #include <QSlider>
-#include <QHBoxLayout>
 
-PositionWidget::PositionWidget(const QString &name, int pos, int min, int max,
-                           const Timecode &tc, const QString &comment,
-                           QWidget *parent) :
-    AbstractParamWidget(parent)
+PositionWidget::PositionWidget(const QString &name, int pos, int min, int max, const Timecode &tc, const QString &comment, QWidget *parent)
+    : AbstractParamWidget(parent)
 {
     auto *layout = new QHBoxLayout(this);
     QLabel *label = new QLabel(name, this);
     m_slider = new QSlider(Qt::Horizontal, this);
-    m_slider->setSizePolicy(QSizePolicy(QSizePolicy::MinimumExpanding,
-                                        QSizePolicy::Preferred));
+    m_slider->setSizePolicy(QSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred));
     m_slider->setRange(min, max);
 
     m_display = new TimecodeDisplay(tc, this);
@@ -47,10 +44,8 @@ PositionWidget::PositionWidget(const QString &name, int pos, int min, int max,
     m_slider->setValue(pos);
     m_display->setValue(pos);
     connect(m_slider, SIGNAL(valueChanged(int)), m_display, SLOT(setValue(int)));
-    connect(m_slider, &QAbstractSlider::valueChanged,
-            this,     &PositionWidget::valueChanged);
-    connect(m_display, &TimecodeDisplay::timeCodeEditingFinished,
-            this,      &PositionWidget::slotUpdatePosition);
+    connect(m_slider, &QAbstractSlider::valueChanged, this, &PositionWidget::valueChanged);
+    connect(m_display, &TimecodeDisplay::timeCodeEditingFinished, this, &PositionWidget::slotUpdatePosition);
 
     setToolTip(comment);
 }
@@ -97,7 +92,6 @@ bool PositionWidget::isValid() const
 {
     return m_slider->minimum() != m_slider->maximum();
 }
-
 
 void PositionWidget::slotShowComment(bool show)
 {

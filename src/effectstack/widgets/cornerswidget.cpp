@@ -18,24 +18,23 @@
  ***************************************************************************/
 
 #include "cornerswidget.h"
-#include "utils/KoIconUtils.h"
-#include "renderer.h"
 #include "kdenlivesettings.h"
 #include "monitor/monitor.h"
 #include "onmonitoritems/onmonitorcornersitem.h"
+#include "renderer.h"
+#include "utils/KoIconUtils.h"
 
-#include <QGraphicsView>
 #include "klocalizedstring.h"
+#include <QGraphicsView>
 
 inline int lerp(const int a, const int b, double t)
 {
     return a + (b - a) * t;
 }
 
-CornersWidget::CornersWidget(Monitor *monitor, const QDomElement &e, int minFrame, int maxFrame, int pos, const Timecode &tc, int activeKeyframe, QWidget *parent) :
-    KeyframeEdit(e, minFrame, maxFrame, tc, activeKeyframe, parent),
-    m_monitor(monitor),
-    m_pos(pos)
+CornersWidget::CornersWidget(Monitor *monitor, const QDomElement &e, int minFrame, int maxFrame, int pos, const Timecode &tc, int activeKeyframe,
+                             QWidget *parent)
+    : KeyframeEdit(e, minFrame, maxFrame, tc, activeKeyframe, parent), m_monitor(monitor), m_pos(pos)
 {
     m_monitor->slotShowEffectScene(MonitorSceneCorners);
     connect(m_monitor, &Monitor::effectPointsChanged, this, &CornersWidget::slotUpdateGeometry);
@@ -55,7 +54,7 @@ void CornersWidget::setFrameSize(const QPoint &size, double stretch)
         m_monitor->setQmlProperty(QStringLiteral("sourcedar"), 0);
     } else {
         // show bars indicating source clip aspect ratio
-        m_monitor->setQmlProperty(QStringLiteral("sourcedar"), (double) size.x() * stretch / size.y());
+        m_monitor->setQmlProperty(QStringLiteral("sourcedar"), (double)size.x() * stretch / size.y());
     }
 }
 
@@ -93,7 +92,7 @@ void CornersWidget::slotUpdateItem()
 
     qreal position = (m_pos - getPos(keyframeOld->row())) / (qreal)(getPos(keyframe->row()) - getPos(keyframeOld->row()) + 1);
 
-    if (keyframeOld  == keyframe) {
+    if (keyframeOld == keyframe) {
         points = pointsNext;
     } else {
         points.reserve(4);
@@ -102,8 +101,8 @@ void CornersWidget::slotUpdateItem()
         }
     }
 
-    //m_item->setPolygon(QPolygonF() << points.at(0) << points.at(1) << points.at(2) << points.at(3));
-    //m_monitor->setUpEffectGeometry(QPolygonF() << points.at(0) << points.at(1) << points.at(2) << points.at(3));
+    // m_item->setPolygon(QPolygonF() << points.at(0) << points.at(1) << points.at(2) << points.at(3));
+    // m_monitor->setUpEffectGeometry(QPolygonF() << points.at(0) << points.at(1) << points.at(2) << points.at(3));
     m_monitor->setUpEffectGeometry(QRect(), points);
     bool enable = getPos(keyframe->row()) - m_min == m_pos || keyframe_list->rowCount() == 1;
     m_monitor->setEffectKeyframe(enable);
@@ -158,13 +157,13 @@ QVariantList CornersWidget::getPoints(QTableWidgetItem *keyframe)
 void CornersWidget::slotShowLines(bool show)
 {
     KdenliveSettings::setOnmonitoreffects_cornersshowlines(show);
-    //m_item->update();
+    // m_item->update();
 }
 
 void CornersWidget::slotShowControls(bool show)
 {
     KdenliveSettings::setOnmonitoreffects_cornersshowcontrols(show);
-    //m_item->update();
+    // m_item->update();
 }
 
 void CornersWidget::slotSyncPosition(int relTimelinePos)
@@ -224,7 +223,8 @@ void CornersWidget::slotInsertKeyframe()
             val += 2000;
             keyframe_list->setItem(row, i, new QTableWidgetItem(QString::number((int)val)));
         } else {
-            keyframe_list->setItem(row, i, new QTableWidgetItem(QString::number(lerp(keyframe_list->item(keyframeOld->row(), i)->text().toInt(), keyframe_list->item(keyframe->row(), i)->text().toInt(), pos))));
+            keyframe_list->setItem(row, i, new QTableWidgetItem(QString::number(lerp(keyframe_list->item(keyframeOld->row(), i)->text().toInt(),
+                                                                                     keyframe_list->item(keyframe->row(), i)->text().toInt(), pos))));
         }
     }
 
@@ -241,4 +241,3 @@ void CornersWidget::slotPrepareKeyframe()
 {
     slotAddKeyframe(m_pos);
 }
-

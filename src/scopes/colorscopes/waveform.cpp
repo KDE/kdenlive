@@ -11,20 +11,18 @@
 #include "waveform.h"
 #include "waveformgenerator.h"
 // For reading out the project resolution
-#include "kdenlivesettings.h"
 #include "dialogs/profilesdialog.h"
+#include "kdenlivesettings.h"
 
 #include "klocalizedstring.h"
+#include <KSharedConfig>
 #include <QPainter>
 #include <QPoint>
-#include <KSharedConfig>
 
 const QSize Waveform::m_textWidth(35, 0);
 const int Waveform::m_paddingBottom(20);
 
-Waveform::Waveform(QWidget *parent) :
-    AbstractGfxScopeWidget(true, parent)
-    , ui(nullptr)
+Waveform::Waveform(QWidget *parent) : AbstractGfxScopeWidget(true, parent), ui(nullptr)
 {
     ui = new Ui::Waveform_UI();
     ui->setupUi(this);
@@ -120,8 +118,8 @@ QImage Waveform::renderHUD(uint)
     QPainter davinci(&hud);
     davinci.setPen(penLight);
 
-    QMap< QString, QString > values = ProfilesDialog::getSettingsFromFile(KdenliveSettings::current_profile());
-//    qCDebug(KDENLIVE_LOG) << values.value("width");
+    QMap<QString, QString> values = ProfilesDialog::getSettingsFromFile(KdenliveSettings::current_profile());
+    //    qCDebug(KDENLIVE_LOG) << values.value("width");
 
     const int rightX = scopeRect().width() - m_textWidth.width() + 3;
     const int x = m_mousePos.x() - scopeRect().x();
@@ -169,7 +167,6 @@ QImage Waveform::renderHUD(uint)
                 }
             }
         }
-
     }
     davinci.drawText(rightX, scopeRect().height() - m_paddingBottom, QStringLiteral("0"));
     davinci.drawText(rightX, 10, QStringLiteral("255"));
@@ -186,7 +183,7 @@ QImage Waveform::renderGfxScope(uint accelFactor, const QImage &qimage)
     const int paintmode = ui->paintMode->itemData(ui->paintMode->currentIndex()).toInt();
     WaveformGenerator::Rec rec = m_aRec601->isChecked() ? WaveformGenerator::Rec_601 : WaveformGenerator::Rec_709;
     QImage wave = m_waveformGenerator->calculateWaveform(scopeRect().size() - m_textWidth - QSize(0, m_paddingBottom), qimage,
-                  (WaveformGenerator::PaintMode) paintmode, true, rec, accelFactor);
+                                                         (WaveformGenerator::PaintMode)paintmode, true, rec, accelFactor);
 
     emit signalScopeRenderingFinished(start.elapsed(), 1);
     return wave;
@@ -197,4 +194,3 @@ QImage Waveform::renderBackground(uint)
     emit signalBackgroundRenderingFinished(0, 1);
     return QImage();
 }
-

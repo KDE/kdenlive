@@ -24,15 +24,9 @@
 
 #include <klocalizedstring.h>
 
-AddClipCutCommand::AddClipCutCommand(ProjectList *list, const QString &id, int in, int out, const QString &desc, bool newItem, bool remove, QUndoCommand *parent) :
-    QUndoCommand(parent),
-    m_list(list),
-    m_id(id),
-    m_in(in),
-    m_out(out),
-    m_desc(desc),
-    m_newItem(newItem),
-    m_remove(remove)
+AddClipCutCommand::AddClipCutCommand(ProjectList *list, const QString &id, int in, int out, const QString &desc, bool newItem, bool remove,
+                                     QUndoCommand *parent)
+    : QUndoCommand(parent), m_list(list), m_id(id), m_in(in), m_out(out), m_desc(desc), m_newItem(newItem), m_remove(remove)
 {
     setText(i18n("Add clip cut"));
 }
@@ -60,12 +54,8 @@ void AddClipCutCommand::redo()
         m_list->addClipCut(m_id, m_in, m_out, m_desc, m_newItem);*/
 }
 
-AddFolderCommand::AddFolderCommand(ProjectList *view, const QString &folderName, const QString &clipId, bool doIt, QUndoCommand *parent) :
-    QUndoCommand(parent),
-    m_view(view),
-    m_name(folderName),
-    m_id(clipId),
-    m_doIt(doIt)
+AddFolderCommand::AddFolderCommand(ProjectList *view, const QString &folderName, const QString &clipId, bool doIt, QUndoCommand *parent)
+    : QUndoCommand(parent), m_view(view), m_name(folderName), m_id(clipId), m_doIt(doIt)
 {
     if (doIt) {
         setText(i18n("Add folder"));
@@ -94,15 +84,9 @@ void AddFolderCommand::redo()
         m_view->slotAddFolder(m_name, m_id, true);*/
 }
 
-EditClipCutCommand::EditClipCutCommand(ProjectList *list, const QString &id, const QPoint &oldZone, const QPoint &newZone, const QString &oldComment, const QString &newComment, bool doIt, QUndoCommand *parent) :
-    QUndoCommand(parent),
-    m_list(list),
-    m_id(id),
-    m_oldZone(oldZone),
-    m_newZone(newZone),
-    m_oldComment(oldComment),
-    m_newComment(newComment),
-    m_doIt(doIt)
+EditClipCutCommand::EditClipCutCommand(ProjectList *list, const QString &id, const QPoint &oldZone, const QPoint &newZone, const QString &oldComment,
+                                       const QString &newComment, bool doIt, QUndoCommand *parent)
+    : QUndoCommand(parent), m_list(list), m_id(id), m_oldZone(oldZone), m_newZone(newZone), m_oldComment(oldComment), m_newComment(newComment), m_doIt(doIt)
 {
     setText(i18n("Edit clip cut"));
 }
@@ -116,7 +100,7 @@ void EditClipCutCommand::undo()
     Q_UNUSED(m_oldComment)
     Q_UNUSED(m_newComment)
     Q_UNUSED(m_doIt)
-    //m_list->doUpdateClipCut(m_id, m_newZone, m_oldZone, m_oldComment);
+    // m_list->doUpdateClipCut(m_id, m_newZone, m_oldZone, m_oldComment);
 }
 // virtual
 void EditClipCutCommand::redo()
@@ -125,13 +109,9 @@ void EditClipCutCommand::redo()
         m_list->doUpdateClipCut(m_id, m_oldZone, m_newZone, m_newComment); */
 }
 
-EditFolderCommand::EditFolderCommand(ProjectList *view, const QString &newfolderName, const QString &oldfolderName, const QString &clipId, bool doIt, QUndoCommand *parent) :
-    QUndoCommand(parent),
-    m_view(view),
-    m_name(newfolderName),
-    m_oldname(oldfolderName),
-    m_id(clipId),
-    m_doIt(doIt)
+EditFolderCommand::EditFolderCommand(ProjectList *view, const QString &newfolderName, const QString &oldfolderName, const QString &clipId, bool doIt,
+                                     QUndoCommand *parent)
+    : QUndoCommand(parent), m_view(view), m_name(newfolderName), m_oldname(oldfolderName), m_id(clipId), m_doIt(doIt)
 {
     setText(i18n("Rename folder"));
 }
@@ -143,19 +123,16 @@ void EditFolderCommand::undo()
     Q_UNUSED(m_oldname)
     Q_UNUSED(m_id)
     Q_UNUSED(m_doIt)
-    //m_view->slotAddFolder(m_oldname, m_id, false, true);
+    // m_view->slotAddFolder(m_oldname, m_id, false, true);
 }
 // virtual
 void EditFolderCommand::redo()
 {
-    //if (m_doIt) m_view->slotAddFolder(m_name, m_id, false, true);
+    // if (m_doIt) m_view->slotAddFolder(m_name, m_id, false, true);
 }
 
-AddMarkerCommand::AddMarkerCommand(ProjectClip *clip, QList<CommentedTime> &oldMarkers, QList<CommentedTime> &newMarkers, QUndoCommand *parent) :
-    QUndoCommand(parent),
-    m_clip(clip),
-    m_oldMarkers(oldMarkers),
-    m_newMarkers(newMarkers)
+AddMarkerCommand::AddMarkerCommand(ProjectClip *clip, QList<CommentedTime> &oldMarkers, QList<CommentedTime> &newMarkers, QUndoCommand *parent)
+    : QUndoCommand(parent), m_clip(clip), m_oldMarkers(oldMarkers), m_newMarkers(newMarkers)
 {
     if (m_newMarkers.isEmpty()) {
         return;

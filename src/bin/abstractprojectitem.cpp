@@ -21,42 +21,23 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "abstractprojectitem.h"
-#include "projectitemmodel.h"
 #include "bin.h"
+#include "projectitemmodel.h"
 
 #include <QDomElement>
-#include <QVariant>
 #include <QPainter>
+#include <QVariant>
 
-AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QString &id, ProjectItemModel* model, AbstractProjectItem *parent) :
-    TreeItem(QList<QVariant>(), static_cast<AbstractTreeModel*>(model), (TreeItem*)parent)
-    , m_name()
-    , m_description()
-    , m_thumbnail(QIcon())
-    , m_date()
-    , m_id(id)
-    , m_usage(0)
-    , m_clipStatus(StatusReady)
-    , m_jobType(AbstractClipJob::NOJOBTYPE)
-    , m_jobProgress(0)
-    , m_itemType(type)
-    , m_isCurrent(false)
+AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QString &id, ProjectItemModel *model, AbstractProjectItem *parent)
+    : TreeItem(QList<QVariant>(), static_cast<AbstractTreeModel *>(model), (TreeItem *)parent), m_name(), m_description(), m_thumbnail(QIcon()), m_date(),
+      m_id(id), m_usage(0), m_clipStatus(StatusReady), m_jobType(AbstractClipJob::NOJOBTYPE), m_jobProgress(0), m_itemType(type), m_isCurrent(false)
 {
 }
 
-AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QDomElement &description,ProjectItemModel* model,  AbstractProjectItem *parent) :
-    TreeItem(QList<QVariant>(), static_cast<AbstractTreeModel*>(model), (TreeItem*)parent)
-    , m_name()
-    , m_description()
-    , m_thumbnail(QIcon())
-    , m_date()
-    , m_id(description.attribute(QStringLiteral("id")))
-    , m_usage(0)
-    , m_clipStatus(StatusReady)
-    , m_jobType(AbstractClipJob::NOJOBTYPE)
-    , m_jobProgress(0)
-    , m_itemType(type)
-    , m_isCurrent(false)
+AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QDomElement &description, ProjectItemModel *model, AbstractProjectItem *parent)
+    : TreeItem(QList<QVariant>(), static_cast<AbstractTreeModel *>(model), (TreeItem *)parent), m_name(), m_description(), m_thumbnail(QIcon()), m_date(),
+      m_id(description.attribute(QStringLiteral("id"))), m_usage(0), m_clipStatus(StatusReady), m_jobType(AbstractClipJob::NOJOBTYPE), m_jobProgress(0),
+      m_itemType(type), m_isCurrent(false)
 {
 }
 
@@ -74,13 +55,13 @@ bool AbstractProjectItem::operator==(const AbstractProjectItem *projectItem) con
 
 AbstractProjectItem *AbstractProjectItem::parent() const
 {
-    return static_cast<AbstractProjectItem*>(m_parentItem);
+    return static_cast<AbstractProjectItem *>(m_parentItem);
 }
 
 void AbstractProjectItem::setRefCount(uint count)
 {
     m_usage = count;
-    static_cast<ProjectItemModel*>(m_model)->bin()->emitItemUpdated(this);
+    static_cast<ProjectItemModel *>(m_model)->bin()->emitItemUpdated(this);
 }
 
 uint AbstractProjectItem::refCount() const
@@ -91,13 +72,13 @@ uint AbstractProjectItem::refCount() const
 void AbstractProjectItem::addRef()
 {
     m_usage++;
-    static_cast<ProjectItemModel*>(m_model)->bin()->emitItemUpdated(this);
+    static_cast<ProjectItemModel *>(m_model)->bin()->emitItemUpdated(this);
 }
 
 void AbstractProjectItem::removeRef()
 {
     m_usage--;
-    static_cast<ProjectItemModel*>(m_model)->bin()->emitItemUpdated(this);
+    static_cast<ProjectItemModel *>(m_model)->bin()->emitItemUpdated(this);
 }
 
 const QString &AbstractProjectItem::clipId() const
@@ -118,8 +99,6 @@ QPixmap AbstractProjectItem::roundedPixmap(const QPixmap &source)
     p.end();
     return pix;
 }
-
-
 
 AbstractProjectItem::PROJECTITEMTYPE AbstractProjectItem::itemType() const
 {
@@ -220,14 +199,13 @@ AbstractProjectItem::CLIPSTATUS AbstractProjectItem::clipStatus() const
     return m_clipStatus;
 }
 
-
 AbstractProjectItem *AbstractProjectItem::getEnclosingFolder(bool strict) const
 {
     if (!strict && itemType() == AbstractProjectItem::FolderItem) {
-        return const_cast<AbstractProjectItem*>(this);
+        return const_cast<AbstractProjectItem *>(this);
     }
     if (m_parentItem) {
-        return static_cast<AbstractProjectItem*>(m_parentItem)->getEnclosingFolder(false);
+        return static_cast<AbstractProjectItem *>(m_parentItem)->getEnclosingFolder(false);
     }
     return nullptr;
 }

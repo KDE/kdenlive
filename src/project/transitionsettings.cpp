@@ -17,24 +17,21 @@
 
 #include "transitionsettings.h"
 #include "core.h"
-#include "kdenlivesettings.h"
-#include "mainwindow.h"
-#include "timeline/transition.h"
-#include "timeline/transitionhandler.h"
+#include "doc/kdenlivedoc.h"
 #include "effectslist/effectslist.h"
 #include "effectstack/effectstackedit.h"
+#include "kdenlivesettings.h"
+#include "mainwindow.h"
 #include "project/projectmanager.h"
-#include "doc/kdenlivedoc.h"
+#include "timeline/transition.h"
+#include "timeline/transitionhandler.h"
 #include "utils/KoIconUtils.h"
 
 #include "klocalizedstring.h"
 
 #include <QMimeData>
 
-TransitionSettings::TransitionSettings(Monitor *monitor, QWidget *parent) :
-    QWidget(parent),
-    m_usedTransition(nullptr),
-    m_autoTrackTransition(0)
+TransitionSettings::TransitionSettings(Monitor *monitor, QWidget *parent) : QWidget(parent), m_usedTransition(nullptr), m_autoTrackTransition(0)
 {
     setupUi(this);
     auto *vbox1 = new QVBoxLayout(frame);
@@ -128,9 +125,9 @@ void TransitionSettings::dropEvent(QDropEvent *event)
 
 void TransitionSettings::updateProjectFormat()
 {
-    //TODO REFAC: get tracks list
-    //m_tracks = pCore->projectManager()->currentTimeline()->getTracksInfo();
-    //updateTrackList();
+    // TODO REFAC: get tracks list
+    // m_tracks = pCore->projectManager()->currentTimeline()->getTracksInfo();
+    // updateTrackList();
 }
 
 void TransitionSettings::updateTimecodeFormat()
@@ -152,8 +149,7 @@ void TransitionSettings::updateTrackList()
     QIcon audioIcon = QIcon::fromTheme(QStringLiteral("kdenlive-show-audio"));
     for (int i = limit; i > 0; i--) {
         transitionTrack->addItem(m_tracks.at(i).type == VideoTrack ? videoIcon : audioIcon,
-                                 m_tracks.at(i).trackName.isEmpty() ? QString::number(i) : m_tracks.at(i).trackName,
-                                 i);
+                                 m_tracks.at(i).trackName.isEmpty() ? QString::number(i) : m_tracks.at(i).trackName, i);
     }
     transitionTrack->addItem(i18n("Black"), 0);
     transitionTrack->setCurrentIndex(transitionTrack->findData(current));
@@ -175,7 +171,7 @@ void TransitionSettings::slotTransitionChanged(bool reinit, bool updateCurrent)
         }
     } else if (!updateCurrent) {
         // Transition changed, update parameters dialog
-        //slotUpdateEffectParams(e, e);
+        // slotUpdateEffectParams(e, e);
         m_effectEdit->transferParamDesc(e, m_usedTransition->info(), false);
     } else {
         // Same transition, we just want to update the parameters value
@@ -249,7 +245,8 @@ void TransitionSettings::slotTransitionItemSelected(Transition *t, int nextTrack
             connect(m_effectEdit->monitor(), &Monitor::renderPosition, this, &TransitionSettings::slotRenderPos, Qt::UniqueConnection);
         }
         return;
-    } if (update) {
+    }
+    if (update) {
         return;
     }
     if (t) {
@@ -289,7 +286,7 @@ void TransitionSettings::slotUpdateEffectParams(const QDomElement &oldparam, con
     if (m_usedTransition) {
         m_usedTransition->setTransitionParameters(param);
     }
-    //oldparam must be also first given to Transition and then return the toXML()
+    // oldparam must be also first given to Transition and then return the toXML()
     if (oldparam != param) {
         emit transitionUpdated(m_usedTransition, oldparam);
     }
@@ -326,7 +323,8 @@ void TransitionSettings::slotCheckMonitorPosition(int renderPos)
     }
     MonitorSceneType sceneType = m_effectEdit->needsMonitorEffectScene();
     if (sceneType != MonitorSceneDefault) {
-        if (renderPos >= m_usedTransition->startPos().frames(KdenliveSettings::project_fps()) && renderPos < m_usedTransition->endPos().frames(KdenliveSettings::project_fps())) {
+        if (renderPos >= m_usedTransition->startPos().frames(KdenliveSettings::project_fps()) &&
+            renderPos < m_usedTransition->endPos().frames(KdenliveSettings::project_fps())) {
             if (!m_effectEdit->monitor()->effectSceneDisplayed(sceneType)) {
                 m_effectEdit->monitor()->slotShowEffectScene(sceneType);
                 m_effectEdit->initEffectScene(renderPos - m_usedTransition->startPos().frames(KdenliveSettings::project_fps()));
@@ -349,4 +347,3 @@ void TransitionSettings::updatePalette()
     // We need to reset current stylesheet if we want to change the palette!
     m_effectEdit->updatePalette();
 }
-

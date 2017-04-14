@@ -10,25 +10,25 @@
 
 #include "vectorscope.h"
 #include "colorplaneexport.h"
-#include "vectorscopegenerator.h"
 #include "colortools.h"
+#include "vectorscopegenerator.h"
 
-#include "klocalizedstring.h"
-#include <QAction>
 #include "kdenlive_debug.h"
-#include <QPainter>
-#include <KSharedConfig>
+#include "klocalizedstring.h"
 #include <KConfigGroup>
+#include <KSharedConfig>
+#include <QAction>
+#include <QPainter>
 #include <QTime>
 
 const float P75 = .75;
 
-const QPointF YUV_R(-.147,  .615);
+const QPointF YUV_R(-.147, .615);
 const QPointF YUV_G(-.289, -.515);
 const QPointF YUV_B(.437, -.100);
 const QPointF YUV_Cy(.147, -.615);
-const QPointF YUV_Mg(.289,  .515);
-const QPointF YUV_Yl(-.437,  .100);
+const QPointF YUV_Mg(.289, .515);
+const QPointF YUV_Yl(-.437, .100);
 
 const QPointF YPbPr_R(-.169, .5);
 const QPointF YPbPr_G(-.331, -.419);
@@ -37,9 +37,7 @@ const QPointF YPbPr_Cy(.169, -.5);
 const QPointF YPbPr_Mg(.331, .419);
 const QPointF YPbPr_Yl(-.5, .081);
 
-Vectorscope::Vectorscope(QWidget *parent) :
-    AbstractGfxScopeWidget(true, parent),
-    m_gain(1)
+Vectorscope::Vectorscope(QWidget *parent) : AbstractGfxScopeWidget(true, parent), m_gain(1)
 {
     ui = new Ui::Vectorscope_UI();
     ui->setupUi(this);
@@ -227,12 +225,12 @@ QImage Vectorscope::renderHUD(uint)
         QPoint widgetCenterPoint = m_scopeRect.topLeft() + m_centerPoint;
 
         int dx = -widgetCenterPoint.x() + m_mousePos.x();
-        int dy =  widgetCenterPoint.y() - m_mousePos.y();
+        int dy = widgetCenterPoint.y() - m_mousePos.y();
 
         QPoint reference = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(1, 0));
 
         float r = sqrt(dx * dx + dy * dy);
-        float percent = (float) 100 * r / VectorscopeGenerator::scaling / m_gain / (reference.x() - widgetCenterPoint.x());
+        float percent = (float)100 * r / VectorscopeGenerator::scaling / m_gain / (reference.x() - widgetCenterPoint.x());
 
         switch (ui->backgroundMode->itemData(ui->backgroundMode->currentIndex()).toInt()) {
         case BG_NONE:
@@ -253,7 +251,7 @@ QImage Vectorscope::renderHUD(uint)
         float angle = copysign(acos(dx / r) * 180 / M_PI, dy);
         davinci.drawText(QPoint(10, m_scopeRect.height()), i18n("%1°", locale.toString(angle, 'f', 1)));
 
-//        m_circleEnabled = false;
+        //        m_circleEnabled = false;
     } else {
         hud = QImage(0, 0, QImage::Format_ARGB32);
     }
@@ -270,14 +268,11 @@ QImage Vectorscope::renderGfxScope(uint accelerationFactor, const QImage &qimage
         qCDebug(KDENLIVE_LOG) << "Scope size not known yet. Aborting.";
     } else {
 
-        VectorscopeGenerator::ColorSpace colorSpace = m_aColorSpace_YPbPr->isChecked() ?
-                VectorscopeGenerator::ColorSpace_YPbPr : VectorscopeGenerator::ColorSpace_YUV;
-        VectorscopeGenerator::PaintMode paintMode = (VectorscopeGenerator::PaintMode) ui->paintMode->itemData(ui->paintMode->currentIndex()).toInt();
-        scope = m_vectorscopeGenerator->calculateVectorscope(m_scopeRect.size(),
-                qimage,
-                m_gain, paintMode, colorSpace,
-                m_aAxisEnabled->isChecked(), accelerationFactor);
-
+        VectorscopeGenerator::ColorSpace colorSpace =
+            m_aColorSpace_YPbPr->isChecked() ? VectorscopeGenerator::ColorSpace_YPbPr : VectorscopeGenerator::ColorSpace_YUV;
+        VectorscopeGenerator::PaintMode paintMode = (VectorscopeGenerator::PaintMode)ui->paintMode->itemData(ui->paintMode->currentIndex()).toInt();
+        scope = m_vectorscopeGenerator->calculateVectorscope(m_scopeRect.size(), qimage, m_gain, paintMode, colorSpace, m_aAxisEnabled->isChecked(),
+                                                             accelerationFactor);
     }
 
     unsigned int mseconds = start.msecsTo(QTime::currentTime());
@@ -304,15 +299,15 @@ QImage Vectorscope::renderBackground(uint)
     QImage colorPlane;
     switch (ui->backgroundMode->itemData(ui->backgroundMode->currentIndex()).toInt()) {
     case BG_YUV:
-        colorPlane = m_colorTools->yuvColorWheel(m_scopeRect.size(), (unsigned char) 128, 1 / VectorscopeGenerator::scaling, false, true);
+        colorPlane = m_colorTools->yuvColorWheel(m_scopeRect.size(), (unsigned char)128, 1 / VectorscopeGenerator::scaling, false, true);
         davinci.drawImage(0, 0, colorPlane);
         break;
     case BG_CHROMA:
-        colorPlane = m_colorTools->yuvColorWheel(m_scopeRect.size(), (unsigned char) 255, 1 / VectorscopeGenerator::scaling, true, true);
+        colorPlane = m_colorTools->yuvColorWheel(m_scopeRect.size(), (unsigned char)255, 1 / VectorscopeGenerator::scaling, true, true);
         davinci.drawImage(0, 0, colorPlane);
         break;
     case BG_YPbPr:
-        colorPlane = m_colorTools->yPbPrColorWheel(m_scopeRect.size(), (unsigned char) 128, 1 / VectorscopeGenerator::scaling, true);
+        colorPlane = m_colorTools->yPbPrColorWheel(m_scopeRect.size(), (unsigned char)128, 1 / VectorscopeGenerator::scaling, true);
         davinci.drawImage(0, 0, colorPlane);
         break;
     }
@@ -362,7 +357,6 @@ QImage Vectorscope::renderBackground(uint)
         davinci.drawLine(vinciPoint, vinciPoint2);
         davinci.setPen(penThick);
         davinci.drawText(vinciPoint - QPoint(-7, 2), QStringLiteral("Q"));
-
     }
 
     // Draw the vectorscope circle
@@ -431,8 +425,10 @@ QImage Vectorscope::renderBackground(uint)
 
     // Draw axis
     if (m_aAxisEnabled->isChecked()) {
-        davinci.drawLine(m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(0, -.9)), m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(0, .9)));
-        davinci.drawLine(m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(-.9, 0)), m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(.9, 0)));
+        davinci.drawLine(m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(0, -.9)),
+                         m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(0, .9)));
+        davinci.drawLine(m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(-.9, 0)),
+                         m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(.9, 0)));
     }
 
     // Draw center point
@@ -553,4 +549,3 @@ void Vectorscope::slotColorSpaceChanged()
     }
     forceUpdate();
 }
-

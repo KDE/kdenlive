@@ -14,12 +14,8 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QString>
 #include <cstdlib>
 
-AudioStreamInfo::AudioStreamInfo(Mlt::Producer *producer, int audioStreamIndex) :
-    m_audioStreamIndex(audioStreamIndex)
-    , m_ffmpegAudioIndex(0)
-    , m_samplingRate(48000)
-    , m_channels(2)
-    , m_bitRate(0)
+AudioStreamInfo::AudioStreamInfo(Mlt::Producer *producer, int audioStreamIndex)
+    : m_audioStreamIndex(audioStreamIndex), m_ffmpegAudioIndex(0), m_samplingRate(48000), m_channels(2), m_bitRate(0)
 {
     if (audioStreamIndex > -1) {
         QByteArray key;
@@ -81,8 +77,6 @@ int AudioStreamInfo::ffmpeg_audio_index() const
 
 void AudioStreamInfo::dumpInfo() const
 {
-    qCDebug(KDENLIVE_LOG) << "Info for audio stream " << m_audioStreamIndex
-                          << "\n\tChannels: " << m_channels
-                          << "\n\tSampling rate: " << m_samplingRate
+    qCDebug(KDENLIVE_LOG) << "Info for audio stream " << m_audioStreamIndex << "\n\tChannels: " << m_channels << "\n\tSampling rate: " << m_samplingRate
                           << "\n\tBit rate: " << m_bitRate;
 }

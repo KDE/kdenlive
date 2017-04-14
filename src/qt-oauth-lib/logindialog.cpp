@@ -40,9 +40,7 @@
 #include "kdenlive_debug.h"
 #include <QWebView>
 
-LoginDialog::LoginDialog(QWidget *parent)
-    : QDialog(parent),
-      ui(new Ui::LoginDialog)
+LoginDialog::LoginDialog(QWidget *parent) : QDialog(parent), ui(new Ui::LoginDialog)
 {
     ui->setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose);
@@ -50,7 +48,8 @@ LoginDialog::LoginDialog(QWidget *parent)
 
     connect(ui->CancelButton, &QPushButton::clicked, this, &LoginDialog::slotRejected);
     connect(ui->GetHQpreview, &QPushButton::clicked, this, &LoginDialog::slotGetHQPreview);
-    ui->FreeSoundLoginLabel->setText(i18n("Enter your freesound account details to download the highest quality version of this file. Or use the High Quality preview file instead (no freesound account required)."));
+    ui->FreeSoundLoginLabel->setText(i18n("Enter your freesound account details to download the highest quality version of this file. Or use the High Quality "
+                                          "preview file instead (no freesound account required)."));
     // ui->textBrowser
     connect(ui->webView, &QWebView::urlChanged, this, &LoginDialog::urlChanged);
 }
@@ -80,7 +79,7 @@ void LoginDialog::slotRejected()
  */
 void LoginDialog::urlChanged(const QUrl &url)
 {
-    //qCDebug(KDENLIVE_LOG) << "URL =" << url;
+    // qCDebug(KDENLIVE_LOG) << "URL =" << url;
     const QString str = url.toString();
     const int posCode = str.indexOf(QLatin1String("&code="));
     const int posErr = str.indexOf(QLatin1String("&error="));

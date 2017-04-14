@@ -24,23 +24,19 @@
 
 #include <QDebug>
 #include <utility>
-AssetParameterView::AssetParameterView(QWidget *parent)
-    : QWidget(parent)
+AssetParameterView::AssetParameterView(QWidget *parent) : QWidget(parent)
 {
     m_transitionProperties = new TransitionParameterView(this);
     m_transitionProperties->setVisible(false);
 }
 
-
-
 void AssetParameterView::showTransitionParams(std::shared_ptr<AssetParameterModel> model)
 {
     m_transitionProperties->setVisible(true);
     m_transitionProperties->setModel(std::move(model));
-    qDebug() <<"====================================================================="
-             << "current size "<<m_transitionProperties->size() << size()
-             << m_transitionProperties->sizeHint();
+    qDebug() << "====================================================================="
+             << "current size " << m_transitionProperties->size() << size() << m_transitionProperties->sizeHint();
 
-    //This is a hack, TODO fix it
-    m_transitionProperties->resize(QSize(400,400));
+    // This is a hack, TODO fix it
+    m_transitionProperties->resize(QSize(400, 400));
 }

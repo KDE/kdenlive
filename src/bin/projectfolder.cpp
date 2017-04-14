@@ -21,16 +21,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "projectfolder.h"
+#include "bin.h"
 #include "projectclip.h"
 #include "projectitemmodel.h"
-#include "bin.h"
 #include "utils/KoIconUtils.h"
 
-#include <QDomElement>
 #include <KLocalizedString>
+#include <QDomElement>
 
-ProjectFolder::ProjectFolder(const QString &id, const QString &name, ProjectItemModel* model, ProjectFolder *parent) :
-    AbstractProjectItem(AbstractProjectItem::FolderItem, id, model, parent)
+ProjectFolder::ProjectFolder(const QString &id, const QString &name, ProjectItemModel *model, ProjectFolder *parent)
+    : AbstractProjectItem(AbstractProjectItem::FolderItem, id, model, parent)
 {
     m_name = name;
     m_clipStatus = StatusReady;
@@ -38,8 +38,7 @@ ProjectFolder::ProjectFolder(const QString &id, const QString &name, ProjectItem
     changeParent(parent);
 }
 
-ProjectFolder::ProjectFolder(ProjectItemModel* model) :
-    AbstractProjectItem(AbstractProjectItem::FolderItem, QString::number(-1),  model)
+ProjectFolder::ProjectFolder(ProjectItemModel *model) : AbstractProjectItem(AbstractProjectItem::FolderItem, QString::number(-1), model)
 {
     m_name = QStringLiteral("root");
     changeParent(nullptr);
@@ -58,7 +57,7 @@ void ProjectFolder::setCurrent(bool current, bool notify)
 ProjectClip *ProjectFolder::clip(const QString &id)
 {
     for (int i = 0; i < childCount(); ++i) {
-        ProjectClip *clip = static_cast<AbstractProjectItem*>(child(i))->clip(id);
+        ProjectClip *clip = static_cast<AbstractProjectItem *>(child(i))->clip(id);
         if (clip) {
             return clip;
         }
@@ -70,7 +69,7 @@ QList<ProjectClip *> ProjectFolder::childClips()
 {
     QList<ProjectClip *> allChildren;
     for (int i = 0; i < childCount(); ++i) {
-        AbstractProjectItem *childItem = static_cast<AbstractProjectItem*>(child(i));
+        AbstractProjectItem *childItem = static_cast<AbstractProjectItem *>(child(i));
         if (childItem->itemType() == ClipItem) {
             allChildren << static_cast<ProjectClip *>(childItem);
         } else if (childItem->itemType() == FolderItem) {
@@ -91,7 +90,7 @@ ProjectFolder *ProjectFolder::folder(const QString &id)
         return this;
     }
     for (int i = 0; i < childCount(); ++i) {
-        ProjectFolder *folderItem = static_cast<AbstractProjectItem*>(child(i))->folder(id);
+        ProjectFolder *folderItem = static_cast<AbstractProjectItem *>(child(i))->folder(id);
         if (folderItem) {
             return folderItem;
         }
@@ -105,7 +104,7 @@ ProjectClip *ProjectFolder::clipAt(int index)
         return nullptr;
     }
     for (int i = 0; i < childCount(); ++i) {
-        ProjectClip *clip = static_cast<AbstractProjectItem*>(child(i))->clipAt(index);
+        ProjectClip *clip = static_cast<AbstractProjectItem *>(child(i))->clipAt(index);
         if (clip) {
             return clip;
         }
@@ -116,18 +115,17 @@ ProjectClip *ProjectFolder::clipAt(int index)
 void ProjectFolder::disableEffects(bool disable)
 {
     for (int i = 0; i < childCount(); ++i) {
-        AbstractProjectItem *item = static_cast<AbstractProjectItem*>(child(i));
+        AbstractProjectItem *item = static_cast<AbstractProjectItem *>(child(i));
         item->disableEffects(disable);
     }
 }
-
 
 QDomElement ProjectFolder::toXml(QDomDocument &document, bool)
 {
     QDomElement folder = document.createElement(QStringLiteral("folder"));
     folder.setAttribute(QStringLiteral("name"), name());
     for (int i = 0; i < childCount(); ++i) {
-        folder.appendChild(static_cast<AbstractProjectItem*>(child(i))->toXml(document));
+        folder.appendChild(static_cast<AbstractProjectItem *>(child(i))->toXml(document));
     }
     return folder;
 }
@@ -139,7 +137,6 @@ bool ProjectFolder::rename(const QString &name, int column)
         return false;
     }
     // Rename folder
-    static_cast<ProjectItemModel*>(m_model)->bin()->renameFolderCommand(m_id, name, m_name);
+    static_cast<ProjectItemModel *>(m_model)->bin()->renameFolderCommand(m_id, name, m_name);
     return true;
 }
-

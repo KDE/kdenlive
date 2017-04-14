@@ -24,17 +24,15 @@
 
 static const char *kPlaylistTrackId = "main bin";
 
-BinController::BinController(const QString &profileName) :
-    QObject()
+BinController::BinController(const QString &profileName) : QObject()
 {
-    //resetProfile(profileName.isEmpty() ? KdenliveSettings::current_profile() : profileName);
+    // resetProfile(profileName.isEmpty() ? KdenliveSettings::current_profile() : profileName);
 }
 
 BinController::~BinController()
 {
     destroyBin();
 }
-
 
 Mlt::Profile *BinController::profile()
 {
@@ -119,7 +117,7 @@ void BinController::initializeBin(Mlt::Playlist playlist)
         if (id.contains(QLatin1Char('_'))) {
             // This is a track producer
             QString mainId = id.section(QLatin1Char('_'), 0, 0);
-            //QString track = id.section(QStringLiteral("_"), 1, 1);
+            // QString track = id.section(QStringLiteral("_"), 1, 1);
             if (m_clipList.contains(mainId)) {
                 // The controller for this track producer already exists
             } else {
@@ -127,7 +125,7 @@ void BinController::initializeBin(Mlt::Playlist playlist)
                 ClipController::construct(shared_from_this(), ClipController::mediaUnavailable);
             }
         } else {
-            //Controller was already added by a track producer, add master now
+            // Controller was already added by a track producer, add master now
             if (m_clipList.contains(id)) {
                 m_clipList[id]->addMasterProducer(producer);
             } else {
@@ -173,11 +171,11 @@ QMap<double, QString> BinController::takeGuidesData()
         guidesData.insert(time, guidesProperties.get(i));
         // Clear bin data
         QString propertyName = "kdenlive:guide." + QString(guidesProperties.get_name(i));
-        m_binPlaylist->set(propertyName.toUtf8().constData(), (char *) nullptr);
+        m_binPlaylist->set(propertyName.toUtf8().constData(), (char *)nullptr);
     }
     return guidesData;
 }
-//TODO REFACTOR: DELETE
+// TODO REFACTOR: DELETE
 void BinController::createIfNeeded(Mlt::Profile *profile)
 {
     if (m_binPlaylist.get()) {
@@ -190,9 +188,9 @@ void BinController::createIfNeeded(Mlt::Profile *profile)
 void BinController::loadBinPlaylist(Mlt::Tractor &tractor)
 {
     destroyBin();
-    Mlt::Properties retainList((mlt_properties) tractor.get_data("xml_retain"));
+    Mlt::Properties retainList((mlt_properties)tractor.get_data("xml_retain"));
     if (retainList.is_valid() && (retainList.get_data(binPlaylistId().toUtf8().constData()) != nullptr)) {
-        Mlt::Playlist playlist((mlt_playlist) retainList.get_data(binPlaylistId().toUtf8().constData()));
+        Mlt::Playlist playlist((mlt_playlist)retainList.get_data(binPlaylistId().toUtf8().constData()));
         if (playlist.is_valid() && playlist.type() == playlist_type) {
             // Load bin clips
             initializeBin(playlist);
@@ -216,12 +214,12 @@ void BinController::slotStoreFolder(const QString &folderId, const QString &pare
     if (!oldParentId.isEmpty()) {
         // Folder was moved, remove old reference
         QString oldPropertyName = "kdenlive:folder." + oldParentId + QLatin1Char('.') + folderId;
-        m_binPlaylist->set(oldPropertyName.toUtf8().constData(), (char *) nullptr);
+        m_binPlaylist->set(oldPropertyName.toUtf8().constData(), (char *)nullptr);
     }
     QString propertyName = "kdenlive:folder." + parentId + QLatin1Char('.') + folderId;
     if (folderName.isEmpty()) {
         // Remove this folder info
-        m_binPlaylist->set(propertyName.toUtf8().constData(), (char *) nullptr);
+        m_binPlaylist->set(propertyName.toUtf8().constData(), (char *)nullptr);
     } else {
         m_binPlaylist->set(propertyName.toUtf8().constData(), folderName.toUtf8().constData());
     }
@@ -232,7 +230,7 @@ void BinController::storeMarker(const QString &markerId, const QString &markerHa
     QString propertyName = "kdenlive:marker." + markerId;
     if (markerHash.isEmpty()) {
         // Remove this marker
-        m_binPlaylist->set(propertyName.toUtf8().constData(), (char *) nullptr);
+        m_binPlaylist->set(propertyName.toUtf8().constData(), (char *)nullptr);
     } else {
         m_binPlaylist->set(propertyName.toUtf8().constData(), markerHash.toUtf8().constData());
     }
@@ -253,7 +251,7 @@ int BinController::clipCount() const
     return m_clipList.size();
 }
 
-void BinController::replaceProducer(const QString &id, const std::shared_ptr<Mlt::Producer>& producer)
+void BinController::replaceProducer(const QString &id, const std::shared_ptr<Mlt::Producer> &producer)
 {
     if (!m_clipList.contains(id)) {
         qCDebug(KDENLIVE_LOG) << " / // error controller not found, crashing";
@@ -274,7 +272,7 @@ void BinController::replaceProducer(const QString &id, const std::shared_ptr<Mlt
     emit replaceTimelineProducer(id);
 }
 
-void BinController::addClipToBin(const QString &id, const std::shared_ptr<ClipController>& controller) // Mlt::Producer &producer)
+void BinController::addClipToBin(const QString &id, const std::shared_ptr<ClipController> &controller) // Mlt::Producer &producer)
 {
     /** Test: we can use filters on clips in the bin this way
     Mlt::Filter f(*m_mltProfile, "sepia");
@@ -287,23 +285,23 @@ void BinController::addClipToBin(const QString &id, const std::shared_ptr<ClipCo
         // There is something wrong, we should not be recreating an existing controller!
         qDebug() << "Error: creating bin clip with existing id";
         // we are replacing a producer
-        //TODO: replace it in timeline
+        // TODO: replace it in timeline
         /*ClipController *c2 = m_clipList.value(id);
         c2->updateProducer(id, &controller->originalProducer());
         controller->originalProducer().set("id", id.toUtf8().constData());*/
-        //removeBinClip(id);
+        // removeBinClip(id);
     } else {
         m_clipList.insert(id, controller);
     }
 }
 
-void BinController::replaceBinPlaylistClip(const QString &id, const std::shared_ptr<Mlt::Producer>& producer)
+void BinController::replaceBinPlaylistClip(const QString &id, const std::shared_ptr<Mlt::Producer> &producer)
 {
     removeBinPlaylistClip(id);
     m_binPlaylist->append(*producer.get());
 }
 
-void BinController::pasteEffects(const QString &id, const std::shared_ptr<Mlt::Producer>& producer)
+void BinController::pasteEffects(const QString &id, const std::shared_ptr<Mlt::Producer> &producer)
 {
     int size = m_binPlaylist->count();
     for (int i = 0; i < size; i++) {
@@ -320,7 +318,7 @@ void BinController::removeBinPlaylistClip(const QString &id)
 {
     int size = m_binPlaylist->count();
     for (int i = 0; i < size; i++) {
-        QScopedPointer<Mlt::Producer>prod(m_binPlaylist->get_clip(i));
+        QScopedPointer<Mlt::Producer> prod(m_binPlaylist->get_clip(i));
         QString prodId = prod->parent().get("id");
         if (prodId == id) {
             m_binPlaylist->remove(i);
@@ -439,8 +437,8 @@ QString BinController::xmlFromId(const QString &id)
     return str;
 }
 
-//static
-QString BinController::getProducerXML(const std::shared_ptr<Mlt::Producer>& producer, bool includeMeta)
+// static
+QString BinController::getProducerXML(const std::shared_ptr<Mlt::Producer> &producer, bool includeMeta)
 {
     Mlt::Consumer c(*producer->profile(), "xml", "string");
     Mlt::Service s(producer->get_service());
@@ -469,7 +467,7 @@ QString BinController::getProducerXML(const std::shared_ptr<Mlt::Producer>& prod
 std::shared_ptr<ClipController> BinController::getController(const QString &id)
 {
     if (!m_clipList.contains(id)) {
-        qDebug() << "Error: invalid bin clip requested"<<id;
+        qDebug() << "Error: invalid bin clip requested" << id;
         Q_ASSERT(false);
     }
     return m_clipList.value(id);
@@ -507,7 +505,7 @@ void BinController::checkThumbnails(const QDir &thumbFolder)
         i.next();
         std::shared_ptr<ClipController> ctrl = i.value();
         if (ctrl->clipType() == Audio) {
-            //no thumbnails for audio clip
+            // no thumbnails for audio clip
             continue;
         }
         bool foundFile = false;
@@ -619,7 +617,7 @@ QMap<QString, QString> BinController::getProxies()
             continue;
         }
         QString proxy = prod->parent().get("kdenlive:proxy");
-	if (proxy.length() > 2) {
+        if (proxy.length() > 2) {
             if (QFileInfo(proxy).isRelative()) {
                 proxy.prepend(m_documentRoot);
             }
@@ -632,4 +630,3 @@ QMap<QString, QString> BinController::getProxies()
     }
     return proxies;
 }
-

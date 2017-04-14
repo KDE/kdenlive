@@ -20,24 +20,21 @@
  ***************************************************************************/
 
 #include "assetfilter.hpp"
-#include "assettreemodel.hpp"
 #include "abstractmodel/treeitem.hpp"
+#include "assettreemodel.hpp"
 
-AssetFilter::AssetFilter(QObject *parent)
-    : QSortFilterProxyModel(parent)
-    , m_name_enabled(false)
+AssetFilter::AssetFilter(QObject *parent) : QSortFilterProxyModel(parent), m_name_enabled(false)
 {
 }
 
-void AssetFilter::setFilterName(bool enabled, const QString& pattern)
+void AssetFilter::setFilterName(bool enabled, const QString &pattern)
 {
     m_name_enabled = enabled;
     m_name_value = pattern;
     invalidateFilter();
 }
 
-
-bool AssetFilter::filterName(TreeItem* item) const
+bool AssetFilter::filterName(TreeItem *item) const
 {
     if (!m_name_enabled) {
         return true;
@@ -52,10 +49,10 @@ bool AssetFilter::filterName(TreeItem* item) const
 bool AssetFilter::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
 {
     QModelIndex row = sourceModel()->index(sourceRow, 0, sourceParent);
-    TreeItem *item = static_cast<TreeItem*>(row.internalPointer());
+    TreeItem *item = static_cast<TreeItem *>(row.internalPointer());
 
     if (item->dataColumn(AssetTreeModel::idCol) == QStringLiteral("root")) {
-        //In that case, we have a category. We hide it if it does not have children.
+        // In that case, we have a category. We hide it if it does not have children.
         QModelIndex category = sourceModel()->index(sourceRow, 0, sourceParent);
         bool accepted = false;
         for (int i = 0; i < sourceModel()->rowCount(category) && !accepted; ++i) {
@@ -72,8 +69,7 @@ bool AssetFilter::isVisible(const QModelIndex &sourceIndex)
     return filterAcceptsRow(sourceIndex.row(), parent);
 }
 
-bool AssetFilter::applyAll(TreeItem* item) const
+bool AssetFilter::applyAll(TreeItem *item) const
 {
     return filterName(item);
 }
-

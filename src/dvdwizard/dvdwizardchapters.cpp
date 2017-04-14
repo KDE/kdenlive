@@ -19,11 +19,8 @@
 
 #include "dvdwizardchapters.h"
 
-DvdWizardChapters::DvdWizardChapters(MonitorManager *manager, DVDFORMAT format, QWidget *parent) :
-    QWizardPage(parent),
-    m_format(format),
-    m_monitor(nullptr),
-    m_manager(manager)
+DvdWizardChapters::DvdWizardChapters(MonitorManager *manager, DVDFORMAT format, QWidget *parent)
+    : QWizardPage(parent), m_format(format), m_monitor(nullptr), m_manager(manager)
 
 {
     m_view.setupUi(this);
@@ -77,7 +74,7 @@ void DvdWizardChapters::slotUpdateChaptersList()
     m_view.chapters_list->addItems(chaptersString);
     updateMonitorMarkers();
     m_monitor->refreshMonitorIfActive();
-    //bool modified = m_view.vob_list->itemData(m_view.vob_list->currentIndex(), Qt::UserRole + 2).toInt();
+    // bool modified = m_view.vob_list->itemData(m_view.vob_list->currentIndex(), Qt::UserRole + 2).toInt();
 }
 
 void DvdWizardChapters::slotAddChapter()
@@ -86,9 +83,9 @@ void DvdWizardChapters::slotAddChapter()
     QStringList currentChaps = m_view.vob_list->itemData(m_view.vob_list->currentIndex(), Qt::UserRole + 1).toStringList();
     if (currentChaps.contains(QString::number(pos))) {
         return;
-    } 
-        currentChaps.append(QString::number(pos));
-    
+    }
+    currentChaps.append(QString::number(pos));
+
     QList<int> chapterTimes;
     chapterTimes.reserve(currentChaps.count());
     for (int i = 0; i < currentChaps.count(); ++i) {
@@ -154,9 +151,9 @@ void DvdWizardChapters::slotGoToChapter()
 void DvdWizardChapters::createMonitor(DVDFORMAT format)
 {
     if (m_monitor == nullptr) {
-        //TODO: allow monitor with different profile for DVD
+        // TODO: allow monitor with different profile for DVD
         QString profile = DvdWizardVob::getDvdProfile(format);
-        m_monitor = new Monitor(Kdenlive::DvdMonitor, m_manager/*, profile*/, this);
+        m_monitor = new Monitor(Kdenlive::DvdMonitor, m_manager /*, profile*/, this);
         m_monitor->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
         m_view.video_frame->layout()->addWidget(m_monitor);
         m_manager->appendMonitor(m_monitor);
@@ -235,7 +232,8 @@ QStringList DvdWizardChapters::selectedTargets() const
         }
         QStringList chapters = m_view.vob_list->itemData(i, Qt::UserRole + 1).toStringList();
         for (int j = 0; j < chapters.count(); ++j) {
-            result.append(QStringLiteral("jump title ") + QString::number(i + 1).rightJustified(2, '0') + QStringLiteral(" chapter ") + QString::number(j + 1).rightJustified(2, '0'));
+            result.append(QStringLiteral("jump title ") + QString::number(i + 1).rightJustified(2, '0') + QStringLiteral(" chapter ") +
+                          QString::number(j + 1).rightJustified(2, '0'));
         }
     }
     return result;
@@ -266,4 +264,3 @@ void DvdWizardChapters::slotEnableChapters(int state)
         slotUpdateChaptersList();
     }
 }
-

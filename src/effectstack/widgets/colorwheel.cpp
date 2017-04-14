@@ -22,14 +22,7 @@
 #include <qmath.h>
 
 ColorWheel::ColorWheel(const QString &id, const QString &name, const QColor &color, QWidget *parent)
-    : QWidget(parent)
-    , m_id(id)
-    , m_isMouseDown(false)
-    , m_margin(5)
-    , m_color(color)
-    , m_isInWheel(false)
-    , m_isInSquare(false)
-    , m_name(name)
+    : QWidget(parent), m_id(id), m_isMouseDown(false), m_margin(5), m_color(color), m_isInWheel(false), m_isInSquare(false), m_name(name)
 {
     QFontInfo info(font());
     m_unitSize = info.pixelSize();
@@ -58,7 +51,7 @@ int ColorWheel::wheelSize() const
 
 QColor ColorWheel::colorForPoint(const QPoint &point)
 {
-    if (! m_image.valid(point)) {
+    if (!m_image.valid(point)) {
         return QColor();
     }
     if (m_isInWheel) {
@@ -165,28 +158,31 @@ void ColorWheel::resizeEvent(QResizeEvent *event)
 QString ColorWheel::getParamValues()
 {
     if (m_id == QLatin1String("gamma")) {
-        return QString::number(m_color.redF() * 2, 'g', 2) + QLatin1Char(',') + QString::number(m_color.greenF() * 2, 'g', 2) + QLatin1Char(',') + QString::number(m_color.blueF() * 2, 'g', 2);
-    } if (m_id == QLatin1String("gain")) {
-        return QString::number(m_color.redF() * 4, 'g', 2) + QLatin1Char(',') + QString::number(m_color.greenF() * 4, 'g', 2) + QLatin1Char(',') + QString::number(m_color.blueF() * 4, 'g', 2);
+        return QString::number(m_color.redF() * 2, 'g', 2) + QLatin1Char(',') + QString::number(m_color.greenF() * 2, 'g', 2) + QLatin1Char(',') +
+               QString::number(m_color.blueF() * 2, 'g', 2);
+    }
+    if (m_id == QLatin1String("gain")) {
+        return QString::number(m_color.redF() * 4, 'g', 2) + QLatin1Char(',') + QString::number(m_color.greenF() * 4, 'g', 2) + QLatin1Char(',') +
+               QString::number(m_color.blueF() * 4, 'g', 2);
     }
     // default (lift)
-    return QString::number(m_color.redF(), 'g', 2) + QLatin1Char(',') + QString::number(m_color.greenF(), 'g', 2) + QLatin1Char(',') + QString::number(m_color.blueF(), 'g', 2);
-
+    return QString::number(m_color.redF(), 'g', 2) + QLatin1Char(',') + QString::number(m_color.greenF(), 'g', 2) + QLatin1Char(',') +
+           QString::number(m_color.blueF(), 'g', 2);
 }
 
 void ColorWheel::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event)
     QPainter painter(this);
-//    QStyleOption opt;
-//    opt.init(this);
+    //    QStyleOption opt;
+    //    opt.init(this);
     painter.setRenderHint(QPainter::Antialiasing);
     painter.drawImage(0, 0, m_image);
-    //painter.drawRect(0, 0, width(), height());
+    // painter.drawRect(0, 0, width(), height());
     painter.drawText(m_margin, wheelSize() + m_unitSize - m_margin, m_name + QLatin1Char(' ') + getParamValues());
     drawWheelDot(painter);
     drawSliderBar(painter);
-//    style()->drawPrimitive(QStyle::PE_Widget, &opt, &painter, this);
+    //    style()->drawPrimitive(QStyle::PE_Widget, &opt, &painter, this);
 }
 
 void ColorWheel::drawWheel()
@@ -254,7 +250,7 @@ void ColorWheel::drawWheelDot(QPainter &painter)
     painter.translate(r, r);
     painter.rotate(360.0 - m_color.hue());
     painter.rotate(-105);
-//    r -= margin;
+    //    r -= margin;
     painter.drawEllipse(QPointF(m_color.saturationF() * r, 0.0), 4, 4);
     painter.resetTransform();
 }

@@ -26,8 +26,7 @@
 
 #include <QQmlContext>
 
-TransitionListWidget::TransitionListWidget(QWidget *parent)
-    : AssetListWidget(parent)
+TransitionListWidget::TransitionListWidget(QWidget *parent) : AssetListWidget(parent)
 {
 
     m_model.reset(new TransitionTreeModel(false, this));
@@ -46,11 +45,10 @@ TransitionListWidget::TransitionListWidget(QWidget *parent)
     setup();
 }
 
-QString TransitionListWidget::getMimeType(const QString& assetId) const
+QString TransitionListWidget::getMimeType(const QString &assetId) const
 {
     if (TransitionsRepository::get()->isComposition(assetId)) {
         return QStringLiteral("kdenlive/composition");
-    } 
-        return QStringLiteral("kdenlive/transition");
-    
+    }
+    return QStringLiteral("kdenlive/transition");
 }

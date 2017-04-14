@@ -27,8 +27,7 @@
 static const double GAMMA_FACTOR = 2.0;
 static const double GAIN_FACTOR = 4.0;
 
-LumaLiftGain::LumaLiftGain(const QDomNodeList &nodes, QWidget *parent) :
-    QWidget(parent)
+LumaLiftGain::LumaLiftGain(const QDomNodeList &nodes, QWidget *parent) : QWidget(parent)
 {
     auto *flowLayout = new FlowLayout(this, 2, 2, 2);
     /*QVBoxLayout *layout = new QVBoxLayout(this);
@@ -45,14 +44,10 @@ LumaLiftGain::LumaLiftGain(const QDomNodeList &nodes, QWidget *parent) :
         values.insert(pa.attribute(QStringLiteral("name")), val);
     }
 
-    QColor lift = QColor::fromRgbF(values.value(QStringLiteral("lift_r")),
-                                   values.value(QStringLiteral("lift_g")),
-                                   values.value(QStringLiteral("lift_b")));
-    QColor gamma = QColor::fromRgbF(values.value(QStringLiteral("gamma_r")) / GAMMA_FACTOR,
-                                    values.value(QStringLiteral("gamma_g")) / GAMMA_FACTOR,
+    QColor lift = QColor::fromRgbF(values.value(QStringLiteral("lift_r")), values.value(QStringLiteral("lift_g")), values.value(QStringLiteral("lift_b")));
+    QColor gamma = QColor::fromRgbF(values.value(QStringLiteral("gamma_r")) / GAMMA_FACTOR, values.value(QStringLiteral("gamma_g")) / GAMMA_FACTOR,
                                     values.value(QStringLiteral("gamma_b")) / GAMMA_FACTOR);
-    QColor gain = QColor::fromRgbF(values.value(QStringLiteral("gain_r")) / GAIN_FACTOR,
-                                   values.value(QStringLiteral("gain_g")) / GAIN_FACTOR,
+    QColor gain = QColor::fromRgbF(values.value(QStringLiteral("gain_r")) / GAIN_FACTOR, values.value(QStringLiteral("gain_g")) / GAIN_FACTOR,
                                    values.value(QStringLiteral("gain_b")) / GAIN_FACTOR);
 
     m_lift = new ColorWheel(QStringLiteral("lift"), i18n("Lift"), lift, this);
@@ -101,8 +96,8 @@ void LumaLiftGain::updateEffect(QDomElement &effect)
             continue;
         }
         if (values.contains(pa.attribute(QStringLiteral("name")))) {
-            pa.setAttribute(QStringLiteral("value"), (int)(values.value(pa.attribute(QStringLiteral("name"))) * m_locale.toDouble(pa.attribute(QStringLiteral("factor"), QStringLiteral("1")))));
+            pa.setAttribute(QStringLiteral("value"), (int)(values.value(pa.attribute(QStringLiteral("name"))) *
+                                                           m_locale.toDouble(pa.attribute(QStringLiteral("factor"), QStringLiteral("1")))));
         }
     }
 }
-

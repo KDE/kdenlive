@@ -19,34 +19,25 @@
 
 #include "animkeyframeruler.h"
 
-#include "kdenlivesettings.h"
 #include "definitions.h"
+#include "kdenlivesettings.h"
 
 #include "mlt++/MltAnimation.h"
 
-#include <QFontDatabase>
 #include <KColorScheme>
+#include <QFontDatabase>
 
-#include <QPainter>
-#include <QMouseEvent>
 #include <QApplication>
+#include <QMouseEvent>
+#include <QPainter>
 
 const int margin = 5;
 
 #define SEEK_INACTIVE (-1)
 
-AnimKeyframeRuler::AnimKeyframeRuler(int min, int max, QWidget *parent) :
-    QWidget(parent)
-    , frameLength(max - min)
-    , m_position(0)
-    , m_scale(0)
-    , m_movingKeyframe(false)
-    , m_movingKeyframePos(-1)
-    , m_movingKeyframeType(mlt_keyframe_linear)
-    , m_hoverKeyframe(-1)
-    , m_selectedKeyframe(-1)
-    , m_seekPosition(SEEK_INACTIVE)
-    , m_attachedToEnd(-2)
+AnimKeyframeRuler::AnimKeyframeRuler(int min, int max, QWidget *parent)
+    : QWidget(parent), frameLength(max - min), m_position(0), m_scale(0), m_movingKeyframe(false), m_movingKeyframePos(-1),
+      m_movingKeyframeType(mlt_keyframe_linear), m_hoverKeyframe(-1), m_selectedKeyframe(-1), m_seekPosition(SEEK_INACTIVE), m_attachedToEnd(-2)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setMouseTracking(true);
@@ -85,7 +76,7 @@ void AnimKeyframeRuler::mousePressEvent(QMouseEvent *event)
             if (kfrPos * m_scale - xPos > headOffset) {
                 break;
             }
-            if (qAbs(kfrPos * m_scale - xPos) <  headOffset) {
+            if (qAbs(kfrPos * m_scale - xPos) < headOffset) {
                 m_hoverKeyframe = kfrPos;
                 setCursor(Qt::PointingHandCursor);
                 event->accept();
@@ -144,7 +135,7 @@ void AnimKeyframeRuler::mouseMoveEvent(QMouseEvent *event)
                 if (kfrPos * m_scale - xPos > headOffset) {
                     break;
                 }
-                if (qAbs(kfrPos * m_scale - xPos) <  headOffset) {
+                if (qAbs(kfrPos * m_scale - xPos) < headOffset) {
                     m_hoverKeyframe = kfrPos;
                     setCursor(Qt::PointingHandCursor);
                     update();
@@ -203,7 +194,7 @@ void AnimKeyframeRuler::mouseDoubleClickEvent(QMouseEvent *event)
             if (kfrPos * m_scale - xPos > headOffset) {
                 break;
             }
-            if (qAbs(kfrPos * m_scale - xPos) <  headOffset) {
+            if (qAbs(kfrPos * m_scale - xPos) < headOffset) {
                 // There is already a keyframe close to mouse click
                 emit removeKeyframe(kfrPos);
                 return;
@@ -277,7 +268,7 @@ void AnimKeyframeRuler::paintEvent(QPaintEvent *e)
     QPolygon polygon;
     p.setPen(palette().text().color());
     for (int i = 0; i < m_keyframes.count(); i++) {
-        int pos  = m_keyframes.at(i);
+        int pos = m_keyframes.at(i);
         // draw keyframes
         if (pos == m_selectedKeyframe) {
             p.setBrush(Qt::red);
@@ -285,12 +276,12 @@ void AnimKeyframeRuler::paintEvent(QPaintEvent *e)
             // active keyframe
             p.setBrush(m_selected);
         } else {
-            //p.setBrush(m_keyframeRelatives.at(i) >= 0 ? palette().text() : Qt::yellow);
+            // p.setBrush(m_keyframeRelatives.at(i) >= 0 ? palette().text() : Qt::yellow);
             p.setBrush(palette().text());
         }
         int scaledPos = margin + pos * m_scale;
         p.drawLine(scaledPos, headOffset, scaledPos, m_size);
-        mlt_keyframe_type type = (mlt_keyframe_type) m_keyframeTypes.at(i);
+        mlt_keyframe_type type = (mlt_keyframe_type)m_keyframeTypes.at(i);
         switch (type) {
         case mlt_keyframe_discrete:
             p.drawRect(scaledPos - headOffset / 2, 0, headOffset, headOffset);
@@ -309,7 +300,7 @@ void AnimKeyframeRuler::paintEvent(QPaintEvent *e)
         int scaledPos = margin + (int)(m_movingKeyframePos * m_scale);
         // draw keyframes
         p.drawLine(scaledPos, headOffset, scaledPos, m_size);
-        switch ((int) m_movingKeyframeType) {
+        switch ((int)m_movingKeyframeType) {
         case mlt_keyframe_discrete:
             p.drawRect(scaledPos - headOffset / 2, 0, headOffset, headOffset);
             break;
@@ -366,4 +357,3 @@ void AnimKeyframeRuler::setValue(const int pos)
     }
     update();
 }
-

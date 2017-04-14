@@ -21,8 +21,8 @@
 
 #include "kdenlivesettings.h"
 
-#include <KColorScheme>
 #include "klocalizedstring.h"
+#include <KColorScheme>
 
 #include <QMouseEvent>
 #include <QPainter>
@@ -32,17 +32,9 @@
 // Width of a letter, used for cursor width
 static int FONT_WIDTH;
 
-SmallRuler::SmallRuler(Monitor *monitor, Render *render, QWidget *parent) :
-    QWidget(parent)
-    , m_cursorFramePosition(0)
-    , m_maxval(2)
-    , m_offset(0)
-    , m_monitor(monitor)
-    , m_render(render)
-    , m_lastSeekPosition(SEEK_INACTIVE)
-    , m_hoverZone(-1)
-    , m_activeControl(CONTROL_NONE)
-    , m_scale(1)
+SmallRuler::SmallRuler(Monitor *monitor, Render *render, QWidget *parent)
+    : QWidget(parent), m_cursorFramePosition(0), m_maxval(2), m_offset(0), m_monitor(monitor), m_render(render), m_lastSeekPosition(SEEK_INACTIVE),
+      m_hoverZone(-1), m_activeControl(CONTROL_NONE), m_scale(1)
 {
     QFontMetricsF fontMetrics(font());
     // Define size variables
@@ -59,7 +51,7 @@ void SmallRuler::adjustScale(int maximum, int offset)
 {
     m_maxval = maximum;
     m_offset = offset;
-    m_scale = (double) width() / (double) maximum;
+    m_scale = (double)width() / (double)maximum;
     if (m_scale == 0) {
         m_scale = 1;
     }
@@ -216,13 +208,13 @@ void SmallRuler::mouseMoveEvent(QMouseEvent *event)
                 update();
             }
             return;
-        } 
-            if (m_hoverZone != -1) {
-                setCursor(Qt::ArrowCursor);
-                m_hoverZone = -1;
-                update();
-            }
-        
+        }
+        if (m_hoverZone != -1) {
+            setCursor(Qt::ArrowCursor);
+            m_hoverZone = -1;
+            update();
+        }
+
         for (int i = 0; i < m_markers.count(); ++i) {
             if (qAbs((pos - m_markers.at(i).time().frames(m_monitor->fps())) * m_scale) < 4) {
                 // We are on a marker
@@ -265,7 +257,7 @@ bool SmallRuler::slotNewValue(int value)
     return true;
 }
 
-//virtual
+// virtual
 void SmallRuler::resizeEvent(QResizeEvent *)
 {
     adjustScale(m_maxval, m_offset);
@@ -275,7 +267,7 @@ void SmallRuler::updatePixmap()
 {
     m_pixmap = QPixmap(width(), height());
     m_lastSeekPosition = SEEK_INACTIVE;
-    m_pixmap.fill(Qt::transparent);//palette().alternateBase().color());
+    m_pixmap.fill(Qt::transparent); // palette().alternateBase().color());
     QPainter p(&m_pixmap);
     p.fillRect(0, 0, width(), m_rulerHeight, palette().midlight().color());
     p.setPen(palette().dark().color());
@@ -318,21 +310,18 @@ void SmallRuler::paintEvent(QPaintEvent *event)
     p.drawPixmap(QPointF(), m_pixmap);
     QPolygon pointer(3);
     int cursorPos = (m_cursorFramePosition - m_offset) * m_scale;
-    pointer.setPoints(3,
-                      cursorPos - FONT_WIDTH, m_rulerHeight,
-                      cursorPos + FONT_WIDTH, m_rulerHeight,
-                      cursorPos, FONT_WIDTH);
+    pointer.setPoints(3, cursorPos - FONT_WIDTH, m_rulerHeight, cursorPos + FONT_WIDTH, m_rulerHeight, cursorPos, FONT_WIDTH);
     p.setBrush(palette().text().color());
     // Draw zone
     if (m_zoneStart != m_zoneEnd) {
         QPen pen;
         pen.setBrush(palette().text());
-        //pen.setWidth(2);
+        // pen.setWidth(2);
         QPen activePen;
         QColor select = palette().highlight().color();
         select.setAlpha(100);
         activePen.setBrush(palette().highlight());
-        //activePen.setWidth(2);
+        // activePen.setWidth(2);
         p.setPen(pen);
         const int zoneStart = (int)((m_zoneStart - m_offset) * m_scale);
         const int zoneEnd = (int)((m_zoneEnd - m_offset) * m_scale);
@@ -394,4 +383,3 @@ void SmallRuler::updatePalette()
 {
     updatePixmap();
 }
-

@@ -19,21 +19,21 @@
 
 #include "razormanager.h"
 #include "../clipitem.h"
-#include "timeline/customtrackview.h"
-#include "timeline/clipitem.h"
+#include "doc/docundostack.hpp"
 #include "timeline/abstractgroupitem.h"
+#include "timeline/clipitem.h"
+#include "timeline/customtrackview.h"
 #include "timeline/timelinecommands.h"
 #include "utils/KoIconUtils.h"
-#include "doc/docundostack.hpp"
 
-#include <QMouseEvent>
-#include <QIcon>
 #include <QGraphicsItem>
 #include <QGraphicsLineItem>
+#include <QIcon>
+#include <QMouseEvent>
 #include <klocalizedstring.h>
 
-RazorManager::RazorManager(CustomTrackView *view, std::shared_ptr<DocUndoStack> commandStack) : AbstractToolManager(RazorType, view, commandStack)
-    , m_cutLine(nullptr)
+RazorManager::RazorManager(CustomTrackView *view, std::shared_ptr<DocUndoStack> commandStack)
+    : AbstractToolManager(RazorType, view, commandStack), m_cutLine(nullptr)
 {
     QIcon razorIcon = KoIconUtils::themedIcon(QStringLiteral("edit-cut"));
     m_cursor = QCursor(razorIcon.pixmap(32, 32));
@@ -114,14 +114,15 @@ void RazorManager::mouseRelease(QMouseEvent *, GenTime pos)
     m_view->setOperationMode(None);
 }
 
-//static
+// static
 void RazorManager::checkOperation(QGraphicsItem *item, CustomTrackView *view, QMouseEvent *event, int eventPos, OperationType &operationMode, bool &abort)
 {
     if ((item != nullptr) && event->buttons() == Qt::NoButton && operationMode != ZoomTimeline) {
         // razor tool over a clip, display current frame in monitor
         if (event->modifiers() == Qt::ShiftModifier && item->type() == AVWidget) {
-            ClipItem *clip = static_cast <ClipItem *>(item);
-            QMetaObject::invokeMethod(view, "showClipFrame", Qt::QueuedConnection, Q_ARG(QString, clip->getBinId()), Q_ARG(int, eventPos - (clip->startPos() - clip->cropStart()).frames(view->fps())));
+            ClipItem *clip = static_cast<ClipItem *>(item);
+            QMetaObject::invokeMethod(view, "showClipFrame", Qt::QueuedConnection, Q_ARG(QString, clip->getBinId()),
+                                      Q_ARG(int, eventPos - (clip->startPos() - clip->cropStart()).frames(view->fps())));
         }
         event->accept();
         abort = true;

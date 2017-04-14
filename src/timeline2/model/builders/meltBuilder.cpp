@@ -20,43 +20,44 @@
  ***************************************************************************/
 
 #include "meltBuilder.hpp"
-#include "../undohelper.hpp"
 #include "../timelineitemmodel.hpp"
 #include "../timelinemodel.hpp"
 #include "../trackmodel.hpp"
+#include "../undohelper.hpp"
+#include <QDebug>
+#include <QSet>
 #include <mlt++/MltPlaylist.h>
 #include <mlt++/MltProducer.h>
 #include <mlt++/MltTransition.h>
-#include <QDebug>
-#include <QSet>
 
-bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel>& timeline, int tid, Mlt::Tractor& track, Fun& undo, Fun& redo);
-bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel>& timeline, int tid, Mlt::Playlist& track, Fun& undo, Fun& redo);
+bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, int tid, Mlt::Tractor &track, Fun &undo, Fun &redo);
+bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, int tid, Mlt::Playlist &track, Fun &undo, Fun &redo);
 
-bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel>& timeline, Mlt::Tractor tractor)
+bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, Mlt::Tractor tractor)
 {
-    Fun undo = [](){return true;};
-    Fun redo = [](){return true;};
-    //First, we destruct the previous tracks
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    // First, we destruct the previous tracks
     timeline->requestReset(undo, redo);
 
-    QSet<QString> reserved_names {QLatin1String("playlistmain"),  QLatin1String("timeline_preview"), QLatin1String("overlay_track"), QLatin1String("black_track")};
+    QSet<QString> reserved_names{QLatin1String("playlistmain"), QLatin1String("timeline_preview"), QLatin1String("overlay_track"),
+                                 QLatin1String("black_track")};
 
     bool ok = true;
-    qDebug() << "//////////////////////\nTrying to construct"<<tractor.count()<<"tracks.\n////////////////////////////////7";
+    qDebug() << "//////////////////////\nTrying to construct" << tractor.count() << "tracks.\n////////////////////////////////7";
     for (int i = 0; i < tractor.count() && ok; i++) {
         std::unique_ptr<Mlt::Producer> track(tractor.track(i));
         QString playlist_name = track->get("id");
         if (reserved_names.contains(playlist_name)) {
             continue;
         }
-        switch(track->type()) {
+        switch (track->type()) {
         case producer_type:
-            //TODO check that it is the black track, and otherwise log an error
+            // TODO check that it is the black track, and otherwise log an error
             qDebug() << "SUSPICIOUS: we weren't expecting a producer when parsing the timeline";
             break;
         case tractor_type: {
-            //that is a double track
+            // that is a double track
             int tid;
             ok = timeline->requestTrackInsertion(-1, tid, undo, redo);
             Mlt::Tractor local_tractor(*track);
@@ -64,13 +65,13 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel>& timelin
             break;
         }
         case playlist_type: {
-            //that is a single track
-            qDebug()<<"Adding track: "<<track->get("id");
+            // that is a single track
+            qDebug() << "Adding track: " << track->get("id");
             int tid;
             ok = timeline->requestTrackInsertion(-1, tid, undo, redo);
             timeline->setTrackProperty(tid, "kdenlive:trackheight", "100");
 #ifdef LOGGING
-            timeline->m_logFile << "timeline->requestTrackInsertion(-1, dummy_id ); " <<std::endl;
+            timeline->m_logFile << "timeline->requestTrackInsertion(-1, dummy_id ); " << std::endl;
 #endif
             Mlt::Playlist local_playlist(*track);
             ok = ok && constructTrackFromMelt(timeline, tid, local_playlist, undo, redo);
@@ -94,32 +95,33 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel>& timelin
     QScopedPointer<Mlt::Service> service(tractor.producer());
     while ((service != nullptr) && service->is_valid()) {
         if (service->type() == transition_type) {
-            Mlt::Transition t((mlt_transition) service->get_service());
+            Mlt::Transition t((mlt_transition)service->get_service());
             int compoId;
             QString id(t.get("mlt_service"));
-            qDebug()<<"////////// BUILD TRANS ON TK: "<<t.get_b_track() << "id: "<<id;
-            //ok = timeline->requestCompositionInsertion(id, t.get_b_track(), t.get_in(), compoId, undo, redo);
+            qDebug() << "////////// BUILD TRANS ON TK: " << t.get_b_track() << "id: " << id;
+            // ok = timeline->requestCompositionInsertion(id, t.get_b_track(), t.get_in(), compoId, undo, redo);
             if (!ok) {
-                qDebug() << "ERROR : failed to insert composition in track "<<t.get_b_track()<<", position"<<t.get_in();
+                qDebug() << "ERROR : failed to insert composition in track " << t.get_b_track() << ", position" << t.get_in();
                 break;
             } else {
-                qDebug() << "Inserted composition in track "<<t.get_b_track()<<", position"<<t.get_in();
+                qDebug() << "Inserted composition in track " << t.get_b_track() << ", position" << t.get_in();
             }
         }
         service.reset(service->producer());
     }
 
     if (!ok) {
-        //TODO log error
+        // TODO log error
         undo();
         return false;
     }
     return true;
 }
 
-bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel>& timeline, int tid, Mlt::Tractor& track, Fun& undo, Fun& redo) {
+bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, int tid, Mlt::Tractor &track, Fun &undo, Fun &redo)
+{
     if (track.count() != 2) {
-        //we expect a tractor with two tracks (a "fake" track)
+        // we expect a tractor with two tracks (a "fake" track)
         qDebug() << "ERROR : wrong number of subtracks";
         return false;
     }
@@ -144,30 +146,31 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel>& timeline, 
     return true;
 }
 
-bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel>& timeline, int tid, Mlt::Playlist& track, Fun& undo, Fun& redo) {
-    for (int i = 0; i < track.count(); i++ ) {
+bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, int tid, Mlt::Playlist &track, Fun &undo, Fun &redo)
+{
+    for (int i = 0; i < track.count(); i++) {
         if (track.is_blank(i)) {
             continue;
         }
         std::shared_ptr<Mlt::Producer> clip(track.get_clip(i));
         int position = track.clip_start(i);
-        switch(clip->type()){
+        switch (clip->type()) {
         case unknown_type:
         case producer_type: {
             int cid;
-            //bool ok = timeline->requestClipInsertion(clip, tid, position, cid, undo, redo);
-            //TODO find bin clip id from here to create the timelineclip
+            // bool ok = timeline->requestClipInsertion(clip, tid, position, cid, undo, redo);
+            // TODO find bin clip id from here to create the timelineclip
             bool ok = false;
             if (!ok) {
-                qDebug() << "ERROR : failed to insert clip in track"<<tid<<"position"<<position;
+                qDebug() << "ERROR : failed to insert clip in track" << tid << "position" << position;
                 return false;
-            } 
-                qDebug() << "Inserted clip in track"<<tid<<"at "<<position;
-            
+            }
+            qDebug() << "Inserted clip in track" << tid << "at " << position;
+
             break;
         }
         case tractor_type: {
-            //TODO This is a nested timeline
+            // TODO This is a nested timeline
             qDebug() << "NOT_IMPLEMENTED: code for parsing nested timeline is not there yet.";
             break;
         }
@@ -179,4 +182,3 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel>& timeline, 
     }
     return true;
 }
-

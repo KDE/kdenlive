@@ -21,20 +21,18 @@
 #include "compositionmodel.hpp"
 #include "timelinemodel.hpp"
 #include "trackmodel.hpp"
-#include "undohelper.hpp"
-#include <mlt++/MltTransition.h>
-#include <QDebug>
 #include "transitions/transitionsrepository.hpp"
+#include "undohelper.hpp"
+#include <QDebug>
+#include <mlt++/MltTransition.h>
 
-
-CompositionModel::CompositionModel(std::weak_ptr<TimelineModel> parent, Mlt::Transition* transition, int id, const QDomElement &transitionXml, const QString &transitionId) :
-    AssetParameterModel(transition, transitionXml, transitionId)
-    , MoveableItem<Mlt::Transition>(parent, id)
-    , m_atrack(-1)
+CompositionModel::CompositionModel(std::weak_ptr<TimelineModel> parent, Mlt::Transition *transition, int id, const QDomElement &transitionXml,
+                                   const QString &transitionId)
+    : AssetParameterModel(transition, transitionXml, transitionId), MoveableItem<Mlt::Transition>(parent, id), m_atrack(-1)
 {
 }
 
-int CompositionModel::construct(const std::weak_ptr<TimelineModel>& parent, const QString &transitionId, int id)
+int CompositionModel::construct(const std::weak_ptr<TimelineModel> &parent, const QString &transitionId, int id)
 {
     auto xml = TransitionsRepository::get()->getXml(transitionId);
     Mlt::Transition *transition = TransitionsRepository::get()->getTransition(transitionId);
@@ -51,13 +49,13 @@ int CompositionModel::construct(const std::weak_ptr<TimelineModel>& parent, cons
     return id;
 }
 
-bool CompositionModel::requestResize(int size, bool right, Fun& undo, Fun& redo)
+bool CompositionModel::requestResize(int size, bool right, Fun &undo, Fun &redo)
 {
     if (size <= 0) {
         return false;
     }
     int delta = getPlaytime() - size;
-    qDebug() << "compo request resize "<<size<<right <<delta;
+    qDebug() << "compo request resize " << size << right << delta;
     int in = getIn();
     int out = getOut();
     int old_in = in, old_out = out;
@@ -66,14 +64,14 @@ bool CompositionModel::requestResize(int size, bool right, Fun& undo, Fun& redo)
     } else {
         in += delta;
     }
-    //if the in becomes negative, we add the necessary length in out.
+    // if the in becomes negative, we add the necessary length in out.
     if (in < 0) {
         out = out - in;
         in = 0;
     }
 
-    std::function<bool (void)> track_operation = [](){return true;};
-    std::function<bool (void)> track_reverse = [](){return true;};
+    std::function<bool(void)> track_operation = []() { return true; };
+    std::function<bool(void)> track_reverse = []() { return true; };
     if (m_currentTrackId != -1) {
         if (auto ptr = m_parent.lock()) {
             track_operation = ptr->getTrackById(m_currentTrackId)->requestCompositionResize_lambda(m_id, in, out);
@@ -113,10 +111,9 @@ const QString CompositionModel::getProperty(const QString &name) const
     return QString::fromUtf8(service()->get(name.toUtf8().constData()));
 }
 
-
-Mlt::Transition* CompositionModel::service() const
+Mlt::Transition *CompositionModel::service() const
 {
-    return static_cast<Mlt::Transition*>(m_asset.get());
+    return static_cast<Mlt::Transition *>(m_asset.get());
 }
 
 int CompositionModel::getPlaytime() const
@@ -131,6 +128,6 @@ int CompositionModel::getATrack() const
 
 void CompositionModel::setATrack(int trackId)
 {
-    Q_ASSERT(trackId != getCurrentTrackId()); //can't compose with same track
+    Q_ASSERT(trackId != getCurrentTrackId()); // can't compose with same track
     m_atrack = trackId;
 }

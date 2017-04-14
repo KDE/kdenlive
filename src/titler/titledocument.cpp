@@ -18,37 +18,37 @@
 #include "titledocument.h"
 #include "gradientwidget.h"
 
+#include "effectstack/graphicsscenerectmove.h"
 #include "kdenlivesettings.h"
 #include "timecode.h"
-#include "effectstack/graphicsscenerectmove.h"
 
+#include <KIO/FileCopyJob>
 #include <KLocalizedString>
 #include <KMessageBox>
-#include <KIO/FileCopyJob>
 
 #include "kdenlive_debug.h"
-#include <QTemporaryFile>
-#include <QDir>
 #include <QApplication>
-#include <QGraphicsScene>
+#include <QCryptographicHash>
+#include <QDir>
 #include <QDomElement>
+#include <QFile>
+#include <QFontInfo>
 #include <QGraphicsItem>
 #include <QGraphicsRectItem>
-#include <QGraphicsTextItem>
+#include <QGraphicsScene>
 #include <QGraphicsSvgItem>
-#include <QCryptographicHash>
+#include <QGraphicsTextItem>
 #include <QSvgRenderer>
-#include <QFontInfo>
-#include <QFile>
+#include <QTemporaryFile>
 #include <QTextCursor>
 #include <locale>
 #ifdef Q_OS_MAC
 #include <xlocale.h>
 #endif
 
-#include <QGraphicsEffect>
 #include <QGraphicsBlurEffect>
 #include <QGraphicsDropShadowEffect>
+#include <QGraphicsEffect>
 
 QByteArray fileToByteArray(const QString &filename)
 {
@@ -108,7 +108,7 @@ int TitleDocument::base64ToUrl(QGraphicsItem *item, QDomElement &content, bool e
     return 0;
 }
 
-//static
+// static
 const QString TitleDocument::extractBase64Image(const QString &titlePath, const QString &data)
 {
     QString filename = titlePath + QString(QCryptographicHash::hash(data.toLatin1(), QCryptographicHash::Md5).toHex().append(".titlepart"));
@@ -130,7 +130,7 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem *startv, QGraphicsRectItem *en
     QDomElement main = doc.createElement(QStringLiteral("kdenlivetitle"));
     main.setAttribute(QStringLiteral("width"), m_width);
     main.setAttribute(QStringLiteral("height"), m_height);
-    // Save locale
+// Save locale
 #ifndef Q_OS_MAC
     const char *locale = setlocale(LC_NUMERIC, nullptr);
 #else
@@ -185,7 +185,7 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem *startv, QGraphicsRectItem *en
             if (t->toPlainText().simplified().isEmpty()) {
                 continue;
             }
-            //content.appendChild(doc.createTextNode(((QGraphicsTextItem*)item)->toHtml()));
+            // content.appendChild(doc.createTextNode(((QGraphicsTextItem*)item)->toHtml()));
             content.appendChild(doc.createTextNode(t->toPlainText()));
             font = t->font();
             content.setAttribute(QStringLiteral("font"), font.family());
@@ -255,7 +255,7 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem *startv, QGraphicsRectItem *en
                 content.setAttribute(QStringLiteral("kdenlive-axis-y-inverted"), t->data(OriginYTop).toInt());
             }
             if (t->textWidth() != -1) {
-                content.setAttribute(QStringLiteral("alignment"), (int) t->alignment());
+                content.setAttribute(QStringLiteral("alignment"), (int)t->alignment());
             }
 
             content.setAttribute(QStringLiteral("shadow"), t->shadowInfo().join(QLatin1Char(';')));
@@ -275,13 +275,19 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem *startv, QGraphicsRectItem *en
         }
         if (!item->data(TitleDocument::RotateFactor).isNull()) {
             QList<QVariant> rotlist = item->data(TitleDocument::RotateFactor).toList();
-            tr.setAttribute(QStringLiteral("rotation"), QStringLiteral("%1,%2,%3").arg(rotlist[0].toDouble()).arg(rotlist[1].toDouble()).arg(rotlist[2].toDouble()));
+            tr.setAttribute(QStringLiteral("rotation"),
+                            QStringLiteral("%1,%2,%3").arg(rotlist[0].toDouble()).arg(rotlist[1].toDouble()).arg(rotlist[2].toDouble()));
         }
-        tr.appendChild(doc.createTextNode(
-                           QStringLiteral("%1,%2,%3,%4,%5,%6,%7,%8,%9").arg(
-                               transform.m11()).arg(transform.m12()).arg(transform.m13()).arg(transform.m21()).arg(transform.m22()).arg(transform.m23()).arg(transform.m31()).arg(transform.m32()).arg(transform.m33())
-                       )
-                      );
+        tr.appendChild(doc.createTextNode(QStringLiteral("%1,%2,%3,%4,%5,%6,%7,%8,%9")
+                                              .arg(transform.m11())
+                                              .arg(transform.m12())
+                                              .arg(transform.m13())
+                                              .arg(transform.m21())
+                                              .arg(transform.m22())
+                                              .arg(transform.m23())
+                                              .arg(transform.m31())
+                                              .arg(transform.m32())
+                                              .arg(transform.m33())));
         e.setAttribute(QStringLiteral("z-index"), item->zValue());
         pos.appendChild(tr);
         e.appendChild(pos);
@@ -359,13 +365,13 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QGraphicsRectItem *start
 {
     m_projectPath = projectpath;
     QDomNodeList titles = doc.elementsByTagName(QStringLiteral("kdenlivetitle"));
-    //TODO: Check if the opened title size is equal to project size, otherwise warn user and rescale
+    // TODO: Check if the opened title size is equal to project size, otherwise warn user and rescale
     if (doc.documentElement().hasAttribute(QStringLiteral("width")) && doc.documentElement().hasAttribute(QStringLiteral("height"))) {
         int doc_width = doc.documentElement().attribute(QStringLiteral("width")).toInt();
         int doc_height = doc.documentElement().attribute(QStringLiteral("height")).toInt();
         if (doc_width != m_width || doc_height != m_height) {
             KMessageBox::information(QApplication::activeWindow(), i18n("This title clip was created with a different frame size."), i18n("Title Profile"));
-            //TODO: convert using QTransform
+            // TODO: convert using QTransform
             m_width = doc_width;
             m_height = doc_height;
         }
@@ -394,7 +400,7 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QGraphicsRectItem *start
         for (int i = 0; i < items.count(); ++i) {
             QGraphicsItem *gitem = nullptr;
             QDomNode itemNode = items.item(i);
-            //qCDebug(KDENLIVE_LOG) << items.item(i).attributes().namedItem("type").nodeValue();
+            // qCDebug(KDENLIVE_LOG) << items.item(i).attributes().namedItem("type").nodeValue();
             int zValue = itemNode.attributes().namedItem(QStringLiteral("z-index")).nodeValue().toInt();
             double xPosition = itemNode.namedItem(QStringLiteral("position")).attributes().namedItem(QStringLiteral("x")).nodeValue().toDouble();
             if (zValue > -1000) {
@@ -410,12 +416,15 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QGraphicsRectItem *start
                         // New: Font weight (QFont::)
                         font.setWeight(txtProperties.namedItem(QStringLiteral("font-weight")).nodeValue().toInt());
                     }
-                    //font.setBold(txtProperties.namedItem("font-bold").nodeValue().toInt());
+                    // font.setBold(txtProperties.namedItem("font-bold").nodeValue().toInt());
                     font.setItalic(txtProperties.namedItem(QStringLiteral("font-italic")).nodeValue().toInt() != 0);
                     font.setUnderline(txtProperties.namedItem(QStringLiteral("font-underline")).nodeValue().toInt() != 0);
                     // Older Kdenlive version did not store pixel size but point size
                     if (txtProperties.namedItem(QStringLiteral("font-pixel-size")).isNull()) {
-                        KMessageBox::information(QApplication::activeWindow(), i18n("Some of your text clips were saved with size in points, which means different sizes on different displays. They will be converted to pixel size, making them portable, but you could have to adjust their size."), i18n("Text Clips Updated"));
+                        KMessageBox::information(QApplication::activeWindow(), i18n("Some of your text clips were saved with size in points, which means "
+                                                                                    "different sizes on different displays. They will be converted to pixel "
+                                                                                    "size, making them portable, but you could have to adjust their size."),
+                                                 i18n("Text Clips Updated"));
                         QFont f2;
                         f2.setPointSize(txtProperties.namedItem(QStringLiteral("font-size")).nodeValue().toInt());
                         font.setPixelSize(QFontInfo(f2).pixelSize());
@@ -434,12 +443,9 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QGraphicsRectItem *start
                     if (txtProperties.namedItem(QStringLiteral("font-outline")).nodeValue().toDouble() > 0.0) {
                         txt->setData(TitleDocument::OutlineWidth, txtProperties.namedItem(QStringLiteral("font-outline")).nodeValue().toDouble());
                         txt->setData(TitleDocument::OutlineColor, stringToColor(txtProperties.namedItem(QStringLiteral("font-outline-color")).nodeValue()));
-                        cformat.setTextOutline(
-                            QPen(QColor(stringToColor(txtProperties.namedItem(QStringLiteral("font-outline-color")).nodeValue())),
-                                 txtProperties.namedItem(QStringLiteral("font-outline")).nodeValue().toDouble(),
-                                 Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin)
-                        );
-
+                        cformat.setTextOutline(QPen(QColor(stringToColor(txtProperties.namedItem(QStringLiteral("font-outline-color")).nodeValue())),
+                                                    txtProperties.namedItem(QStringLiteral("font-outline")).nodeValue().toDouble(), Qt::SolidLine, Qt::RoundCap,
+                                                    Qt::RoundJoin));
                     }
                     if (!txtProperties.namedItem(QStringLiteral("line-spacing")).isNull()) {
                         int lineSpacing = txtProperties.namedItem(QStringLiteral("line-spacing")).nodeValue().toInt();
@@ -461,7 +467,7 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QGraphicsRectItem *start
                     }
 
                     if (!txtProperties.namedItem(QStringLiteral("alignment")).isNull()) {
-                        txt->setAlignment((Qt::Alignment) txtProperties.namedItem(QStringLiteral("alignment")).nodeValue().toInt());
+                        txt->setAlignment((Qt::Alignment)txtProperties.namedItem(QStringLiteral("alignment")).nodeValue().toInt());
                     }
 
                     if (!txtProperties.namedItem(QStringLiteral("kdenlive-axis-x-inverted")).isNull()) {
@@ -478,7 +484,8 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QGraphicsRectItem *start
 
                     // Effects
                     if (!txtProperties.namedItem(QStringLiteral("typewriter")).isNull()) {
-                        QStringList effData = QStringList() << QStringLiteral("typewriter") << txtProperties.namedItem(QStringLiteral("typewriter")).nodeValue();
+                        QStringList effData = QStringList() << QStringLiteral("typewriter")
+                                                            << txtProperties.namedItem(QStringLiteral("typewriter")).nodeValue();
                         txt->setData(100, effData);
                     }
                     if (txt->toPlainText() == QLatin1String("%s")) {
@@ -549,8 +556,8 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QGraphicsRectItem *start
                         rec = new MySvgItem();
                         QSvgRenderer *renderer = new QSvgRenderer(QByteArray::fromBase64(base64.toLatin1()), rec);
                         rec->setSharedRenderer(renderer);
-                        //QString elem=rec->elementId();
-                        //QRectF bounds = renderer->boundsOnElement(elem);
+                        // QString elem=rec->elementId();
+                        // QRectF bounds = renderer->boundsOnElement(elem);
                     }
                     if (rec) {
                         m_scene->addItem(rec);
@@ -562,10 +569,9 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QGraphicsRectItem *start
                     }
                 }
             }
-            //pos and transform
+            // pos and transform
             if (gitem) {
-                QPointF p(xPosition,
-                          itemNode.namedItem(QStringLiteral("position")).attributes().namedItem(QStringLiteral("y")).nodeValue().toDouble());
+                QPointF p(xPosition, itemNode.namedItem(QStringLiteral("position")).attributes().namedItem(QStringLiteral("y")).nodeValue().toDouble());
                 gitem->setPos(p);
                 QDomElement trans = itemNode.namedItem(QStringLiteral("position")).firstChild().toElement();
                 gitem->setTransform(stringToTransform(trans.firstChild().nodeValue()));
@@ -601,9 +607,9 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QGraphicsRectItem *start
             }
 
             if (itemNode.nodeName() == QLatin1String("background")) {
-                //qCDebug(KDENLIVE_LOG) << items.item(i).attributes().namedItem("color").nodeValue();
+                // qCDebug(KDENLIVE_LOG) << items.item(i).attributes().namedItem("color").nodeValue();
                 QColor color = QColor(stringToColor(itemNode.attributes().namedItem(QStringLiteral("color")).nodeValue()));
-                //color.setAlpha(itemNode.attributes().namedItem("alpha").nodeValue().toInt());
+                // color.setAlpha(itemNode.attributes().namedItem("alpha").nodeValue().toInt());
                 QList<QGraphicsItem *> items = m_scene->items();
                 for (int i = 0; i < items.size(); ++i) {
                     if (items.at(i)->zValue() == -1100) {
@@ -666,11 +672,8 @@ QTransform TitleDocument::stringToTransform(const QString &s)
     if (l.size() < 9) {
         return QTransform();
     }
-    return QTransform(
-               l.at(0).toDouble(), l.at(1).toDouble(), l.at(2).toDouble(),
-               l.at(3).toDouble(), l.at(4).toDouble(), l.at(5).toDouble(),
-               l.at(6).toDouble(), l.at(7).toDouble(), l.at(8).toDouble()
-           );
+    return QTransform(l.at(0).toDouble(), l.at(1).toDouble(), l.at(2).toDouble(), l.at(3).toDouble(), l.at(4).toDouble(), l.at(5).toDouble(),
+                      l.at(6).toDouble(), l.at(7).toDouble(), l.at(8).toDouble());
 }
 
 QList<QVariant> TitleDocument::stringToList(const QString &s)
@@ -691,4 +694,3 @@ int TitleDocument::frameHeight() const
 {
     return m_height;
 }
-

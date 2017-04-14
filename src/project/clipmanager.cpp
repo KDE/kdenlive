@@ -18,45 +18,39 @@
  ***************************************************************************/
 
 #include "clipmanager.h"
-#include "mltcontroller/clipcontroller.h"
-#include "kdenlivesettings.h"
-#include "doc/kthumb.h"
+#include "bin/bin.h"
 #include "bin/bincommands.h"
-#include "doc/kdenlivedoc.h"
+#include "core.h"
+#include "dialogs/slideshowclip.h"
 #include "doc/docundostack.hpp"
+#include "doc/kdenlivedoc.h"
+#include "doc/kthumb.h"
+#include "kdenlivesettings.h"
+#include "mltcontroller/bincontroller.h"
+#include "mltcontroller/clipcontroller.h"
 #include "project/projectmanager.h"
+#include "renderer.h"
 #include "timeline/abstractclipitem.h"
 #include "timeline/abstractgroupitem.h"
 #include "titler/titledocument.h"
-#include "mltcontroller/bincontroller.h"
-#include "renderer.h"
-#include "dialogs/slideshowclip.h"
-#include "core.h"
-#include "bin/bin.h"
 
 #include <mlt++/Mlt.h>
 
 #include <KIO/JobUiDelegate>
 #include <KIO/MkdirJob>
+#include <KJobWidgets/KJobWidgets>
+#include <klocalizedstring.h>
 #include <solid/device.h>
 #include <solid/storageaccess.h>
 #include <solid/storagedrive.h>
 #include <solid/storagevolume.h>
-#include <klocalizedstring.h>
-#include <KJobWidgets/KJobWidgets>
 
-#include <QGraphicsItemGroup>
-#include <QtConcurrent>
 #include <QApplication>
 #include <QCheckBox>
+#include <QGraphicsItemGroup>
+#include <QtConcurrent>
 
-ClipManager::ClipManager(KdenliveDoc *doc) :
-    QObject(),
-    m_audioThumbsQueue(),
-    m_doc(doc),
-    m_abortThumb(false),
-    m_closing(false),
-    m_abortAudioThumb(false)
+ClipManager::ClipManager(KdenliveDoc *doc) : QObject(), m_audioThumbsQueue(), m_doc(doc), m_abortThumb(false), m_closing(false), m_abortAudioThumb(false)
 {
     KImageCache::deleteCache(QStringLiteral("kdenlive-thumbs"));
     pixmapCache = new KImageCache(QStringLiteral("kdenlive-thumbs"), 10000000);
@@ -148,20 +142,20 @@ void ClipManager::slotGetThumbs()
         m_processingThumbId = i.key();
         QList<int> values = m_requestedThumbs.values(m_processingThumbId);
         m_requestedThumbs.remove(m_processingThumbId);
-        //TODO int thumbType = 0; // 0 = timeline thumb, 1 = project clip zone thumb, 2 = clip properties thumb
+        // TODO int thumbType = 0; // 0 = timeline thumb, 1 = project clip zone thumb, 2 = clip properties thumb
         if (m_processingThumbId.startsWith(QLatin1String("?"))) {
             // if id starts with ?, it means the request comes from a clip property widget
-            //TODO thumbType = 2;
+            // TODO thumbType = 2;
             m_processingThumbId.remove(0, 1);
         }
         if (m_processingThumbId.startsWith(QLatin1String("#"))) {
             // if id starts with #, it means the request comes from project tree
-            //TODO thumbType = 1;
+            // TODO thumbType = 1;
             m_processingThumbId.remove(0, 1);
         }
         m_thumbsMutex.unlock();
         qSort(values);
-        //TODO
+        // TODO
         /*
         DocClipBase *clip = getClipById(m_processingThumbId);
         if (!clip) continue;
@@ -206,7 +200,7 @@ void ClipManager::deleteProjectItems(const QStringList &clipIds, const QStringLi
     } else {
         deleteCommand->setText(i18np("Delete clip", "Delete clips", clipIds.count()));
     }
-    //TODO REFAC: delete clips from timeline
+    // TODO REFAC: delete clips from timeline
     if (pCore->projectManager()->currentTimeline()) {
         // Remove clips from timeline
         if (!clipIds.isEmpty()) {
@@ -219,7 +213,8 @@ void ClipManager::deleteProjectItems(const QStringList &clipIds, const QStringLi
     doDeleteClips(clipIds, folderIds, subClipIds, deleteCommand, execute);
 }
 
-void ClipManager::doDeleteClips(const QStringList &clipIds, const QStringList &folderIds, const QStringList &subClipIds, QUndoCommand *deleteCommand, bool execute)
+void ClipManager::doDeleteClips(const QStringList &clipIds, const QStringList &folderIds, const QStringList &subClipIds, QUndoCommand *deleteCommand,
+                                bool execute)
 {
     for (int i = 0; i < clipIds.size(); ++i) {
         QString xml = pCore->binController()->xmlFromId(clipIds.at(i));
@@ -259,7 +254,7 @@ void ClipManager::slotAddTextTemplateClip(const QString &titleName, const QUrl &
         prod.setAttribute(QStringLiteral("groupname"), group);
         prod.setAttribute(QStringLiteral("groupid"), groupId);
     }
-    prod.setAttribute(QStringLiteral("type"), (int) Text);
+    prod.setAttribute(QStringLiteral("type"), (int)Text);
     prod.setAttribute(QStringLiteral("transparency"), QStringLiteral("1"));
     prod.setAttribute(QStringLiteral("in"), QStringLiteral("0"));
 
@@ -326,7 +321,7 @@ QString ClipManager::groupsXml()
         QList<QGraphicsItem *> children = m_groupsList.at(i)->childItems();
         for (int j = 0; j < children.count(); ++j) {
             if (children.at(j)->type() == AVWidget || children.at(j)->type() == TransitionWidget) {
-                AbstractClipItem *item = static_cast <AbstractClipItem *>(children.at(j));
+                AbstractClipItem *item = static_cast<AbstractClipItem *>(children.at(j));
                 ItemInfo info = item->info();
                 if (item->type() == AVWidget) {
                     QDomElement clip = doc.createElement(QStringLiteral("clipitem"));
@@ -371,18 +366,18 @@ void ClipManager::slotClipAvailable(const QString &path)
 
 bool ClipManager::isOnRemovableDevice(const QUrl &url)
 {
-    //SolidVolumeInfo volume;
+    // SolidVolumeInfo volume;
     QString path = url.adjusted(QUrl::StripTrailingSlash).toLocalFile();
     int volumeMatch = 0;
 
-    //FIXME: Network shares! Here we get only the volume of the mount path...
+    // FIXME: Network shares! Here we get only the volume of the mount path...
     // This is probably not really clean. But Solid does not help us.
     foreach (const SolidVolumeInfo &v, m_removableVolumes) {
         if (v.isMounted && !v.path.isEmpty() && path.startsWith(v.path)) {
             int length = v.path.length();
             if (length > volumeMatch) {
                 volumeMatch = v.path.length();
-                //volume = v;
+                // volume = v;
             }
         }
     }
@@ -400,4 +395,3 @@ void ClipManager::projectTreeThumbReady(const QString &id, int frame, const QIma
         emit thumbReady(id, frame, img);
     }
 }
-

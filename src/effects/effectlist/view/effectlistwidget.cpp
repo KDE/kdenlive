@@ -20,15 +20,14 @@
  ***************************************************************************/
 
 #include "effectlistwidget.hpp"
-#include "../model/effecttreemodel.hpp"
 #include "../model/effectfilter.hpp"
+#include "../model/effecttreemodel.hpp"
 #include "assets/assetlist/view/qmltypes/asseticonprovider.hpp"
 
-#include <QStandardPaths>
 #include <QQmlContext>
+#include <QStandardPaths>
 
-EffectListWidget::EffectListWidget(QWidget *parent)
-    : AssetListWidget(parent)
+EffectListWidget::EffectListWidget(QWidget *parent) : AssetListWidget(parent)
 {
 
     QString effectCategory = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("kdenliveeffectscategory.rc"));
@@ -48,22 +47,20 @@ EffectListWidget::EffectListWidget(QWidget *parent)
     setup();
 }
 
-void EffectListWidget::setFilterType(const QString& type)
+void EffectListWidget::setFilterType(const QString &type)
 {
     if (type == "video") {
-        static_cast<EffectFilter*>(m_proxyModel.get())->setFilterType(true, EffectType::Video);
+        static_cast<EffectFilter *>(m_proxyModel.get())->setFilterType(true, EffectType::Video);
     } else if (type == "audio") {
-        static_cast<EffectFilter*>(m_proxyModel.get())->setFilterType(true, EffectType::Audio);
+        static_cast<EffectFilter *>(m_proxyModel.get())->setFilterType(true, EffectType::Audio);
     } else if (type == "custom") {
-        static_cast<EffectFilter*>(m_proxyModel.get())->setFilterType(true, EffectType::Custom);
+        static_cast<EffectFilter *>(m_proxyModel.get())->setFilterType(true, EffectType::Custom);
     } else {
-        static_cast<EffectFilter*>(m_proxyModel.get())->setFilterType(false, EffectType::Video);
+        static_cast<EffectFilter *>(m_proxyModel.get())->setFilterType(false, EffectType::Video);
     }
 }
 
-
-
-QString EffectListWidget::getMimeType(const QString& assetId) const
+QString EffectListWidget::getMimeType(const QString &assetId) const
 {
     Q_UNUSED(assetId);
     return QStringLiteral("kdenlive/effect");

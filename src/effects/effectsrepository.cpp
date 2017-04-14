@@ -22,36 +22,33 @@
 #include "effectsrepository.hpp"
 #include "core.h"
 #include "xml/xml.hpp"
-#include <QFile>
 #include <QDir>
+#include <QFile>
 #include <QStandardPaths>
 #include <QTextStream>
 
-#include <mlt++/Mlt.h>
 #include "profiles/profilemodel.hpp"
+#include <mlt++/Mlt.h>
 
 std::unique_ptr<EffectsRepository> EffectsRepository::instance;
 std::once_flag EffectsRepository::m_onceFlag;
 
-EffectsRepository::EffectsRepository()
-    : AbstractAssetsRepository<EffectType>()
+EffectsRepository::EffectsRepository() : AbstractAssetsRepository<EffectType>()
 {
     init();
 }
 
-
-Mlt::Properties* EffectsRepository::retrieveListFromMlt()
+Mlt::Properties *EffectsRepository::retrieveListFromMlt()
 {
     return pCore->getMltRepository()->filters();
 }
 
-Mlt::Properties* EffectsRepository::getMetadata(const QString& effectId)
+Mlt::Properties *EffectsRepository::getMetadata(const QString &effectId)
 {
     return pCore->getMltRepository()->metadata(filter_type, effectId.toLatin1().data());
 }
 
-
-void EffectsRepository::parseCustomAssetFile(const QString& file_name, std::unordered_map<QString, Info>& customAssets) const
+void EffectsRepository::parseCustomAssetFile(const QString &file_name, std::unordered_map<QString, Info> &customAssets) const
 {
     QFile file(file_name);
     QDomDocument doc;
@@ -59,7 +56,7 @@ void EffectsRepository::parseCustomAssetFile(const QString& file_name, std::unor
     file.close();
     QDomElement base = doc.documentElement();
     if (base.tagName() == QLatin1String("effectgroup")) {
-        //in that case we have a custom effect
+        // in that case we have a custom effect
         Info info;
         info.xml = base;
         info.type = EffectType::Custom;
@@ -71,13 +68,13 @@ void EffectsRepository::parseCustomAssetFile(const QString& file_name, std::unor
         info.id = id;
         info.mltId = tag;
         if (customAssets.count(id) > 0) {
-            qDebug() << "Error: conflicting effect name"<<id;
+            qDebug() << "Error: conflicting effect name" << id;
         } else {
             customAssets[id] = info;
         }
         return;
     }
-    QDomNodeList effects  = doc.elementsByTagName(QStringLiteral("effect"));
+    QDomNodeList effects = doc.elementsByTagName(QStringLiteral("effect"));
 
     int nbr_effect = effects.count();
     if (nbr_effect == 0) {
@@ -98,7 +95,7 @@ void EffectsRepository::parseCustomAssetFile(const QString& file_name, std::unor
         }
 
         if (customAssets.count(result.id) > 0) {
-            qDebug() << "Warning: duplicate custom definition of effect"<<result.id<<"found. Only last one will be considered";
+            qDebug() << "Warning: duplicate custom definition of effect" << result.id << "found. Only last one will be considered";
         }
 
         result.xml = currentEffect;
@@ -114,14 +111,12 @@ void EffectsRepository::parseCustomAssetFile(const QString& file_name, std::unor
         }
 
         customAssets[result.id] = result;
-
     }
 }
 
-
-std::unique_ptr<EffectsRepository> & EffectsRepository::get()
+std::unique_ptr<EffectsRepository> &EffectsRepository::get()
 {
-    std::call_once(m_onceFlag, []{instance.reset(new EffectsRepository());});
+    std::call_once(m_onceFlag, [] { instance.reset(new EffectsRepository()); });
     return instance;
 }
 
@@ -130,11 +125,11 @@ QStringList EffectsRepository::assetDirs() const
     return QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("effects"), QStandardPaths::LocateDirectory);
 }
 
-void EffectsRepository::parseType(QScopedPointer<Mlt::Properties>& metadata, Info & res)
+void EffectsRepository::parseType(QScopedPointer<Mlt::Properties> &metadata, Info &res)
 {
     res.type = EffectType::Video;
 
-    Mlt::Properties tags((mlt_properties) metadata->get_data("tags"));
+    Mlt::Properties tags((mlt_properties)metadata->get_data("tags"));
     if (QString(tags.get(0)) == QLatin1String("Audio")) {
         res.type = EffectType::Audio;
     }
@@ -145,15 +140,11 @@ QString EffectsRepository::assetBlackListPath() const
     return QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("blacklisted_effects.txt"));
 }
 
-Mlt::Filter *EffectsRepository::getEffect(const QString& effectId) const
+Mlt::Filter *EffectsRepository::getEffect(const QString &effectId) const
 {
     Q_ASSERT(exists(effectId));
     QString service_name = m_assets.at(effectId).mltId;
     // We create the Mlt element from its name
-    Mlt::Filter *filter = new Mlt::Filter(
-        pCore->getCurrentProfile()->profile(),
-        service_name.toLatin1().constData(),
-        nullptr
-        );
+    Mlt::Filter *filter = new Mlt::Filter(pCore->getCurrentProfile()->profile(), service_name.toLatin1().constData(), nullptr);
     return filter;
 }

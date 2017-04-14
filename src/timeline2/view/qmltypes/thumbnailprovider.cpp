@@ -19,21 +19,20 @@
 #include "thumbnailprovider.h"
 #include "core.h"
 
-#include <QQuickImageProvider>
 #include <QCryptographicHash>
 #include <QDebug>
-#include <mlt++/MltProfile.h>
+#include <QQuickImageProvider>
 #include <mlt++/MltFilter.h>
+#include <mlt++/MltProfile.h>
 
 ThumbnailProvider::ThumbnailProvider()
-    : QQuickImageProvider(QQmlImageProviderBase::Image, QQmlImageProviderBase::ForceAsynchronousImageLoading)
-    , m_profile("atsc_720p_60")
+    : QQuickImageProvider(QQmlImageProviderBase::Image, QQmlImageProviderBase::ForceAsynchronousImageLoading), m_profile("atsc_720p_60")
 {
     KImageCache::deleteCache(QStringLiteral("kdenlive-timeline-thumbs"));
     m_cache = new KImageCache(QStringLiteral("kdenlive-timeline-thumbs"), 10000000);
     m_cache->clear();
     m_cache->setEvictionPolicy(KSharedDataCache::EvictOldest);
-    //TODO: get profile from current active project
+    // TODO: get profile from current active project
     m_profile.set_height(180);
     m_profile.set_width(320);
     m_producers.setMaxCost(6);
@@ -62,14 +61,14 @@ QImage ThumbnailProvider::requestImage(const QString &id, QSize *size, const QSi
         QString resource = id.section('/', 2);
         int frameNumber = id.mid(index + 1).toInt();
 
-        //TODO: get profile from pCore
-        //frameNumber = qRound(frameNumber / pCore->profile().fps() * m_profile.fps());
+        // TODO: get profile from pCore
+        // frameNumber = qRound(frameNumber / pCore->profile().fps() * m_profile.fps());
 
         resource = resource.left(resource.lastIndexOf('#'));
-        //properties.set("_profile", m_profile.get_profile(), 0);
+        // properties.set("_profile", m_profile.get_profile(), 0);
 
-        //QString key = cacheKey(properties, service, resource, hash, frameNumber);
-        //result = getCachedThumbnail(key);
+        // QString key = cacheKey(properties, service, resource, hash, frameNumber);
+        // result = getCachedThumbnail(key);
         const QString key = QString::number(hash) + "#" + QString::number(frameNumber);
         if (!m_cache->findImage(key, &result)) {
             if (service == "avformat-novalidate")
@@ -90,21 +89,19 @@ QImage ThumbnailProvider::requestImage(const QString &id, QSize *size, const QSi
                 m_producers.insert(hash, producer);
             }
             if ((producer != nullptr) && producer->is_valid()) {
-                //result = KThumb::getFrame(producer, frameNumber, 0, 0);
+                // result = KThumb::getFrame(producer, frameNumber, 0, 0);
                 result = makeThumbnail(producer, frameNumber, requestedSize);
                 m_cache->insertImage(key, result);
             } else {
-                qDebug()<<"INVALID PRODUCER; "<<service<<" / "<<resource;
+                qDebug() << "INVALID PRODUCER; " << service << " / " << resource;
             }
         }
-        if (size)
-            *size = result.size();
+        if (size) *size = result.size();
     }
     return result;
 }
 
-QString ThumbnailProvider::cacheKey(Mlt::Properties& properties, const QString& service,
-                                    const QString& resource, const QString& hash, int frameNumber)
+QString ThumbnailProvider::cacheKey(Mlt::Properties &properties, const QString &service, const QString &resource, const QString &hash, int frameNumber)
 {
     QString time = properties.frames_to_time(frameNumber, mlt_time_clock);
     // Reduce the precision to centiseconds to increase chance for cache hit
@@ -112,10 +109,7 @@ QString ThumbnailProvider::cacheKey(Mlt::Properties& properties, const QString& 
     time = time.left(time.size() - 1);
     QString key;
     if (hash.isEmpty()) {
-        key = QString("%1 %2 %3")
-                .arg(service)
-                .arg(resource)
-                .arg(time);
+        key = QString("%1 %2 %3").arg(service).arg(resource).arg(time);
         QCryptographicHash hash2(QCryptographicHash::Sha1);
         hash2.addData(key.toUtf8());
         key = hash2.result().toHex();
@@ -125,7 +119,7 @@ QString ThumbnailProvider::cacheKey(Mlt::Properties& properties, const QString& 
     return key;
 }
 
-QImage ThumbnailProvider::makeThumbnail(Mlt::Producer *producer, int frameNumber, const QSize& requestedSize)
+QImage ThumbnailProvider::makeThumbnail(Mlt::Producer *producer, int frameNumber, const QSize &requestedSize)
 {
     producer->seek(frameNumber);
     Mlt::Frame *frame = producer->get_frame();

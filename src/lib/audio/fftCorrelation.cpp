@@ -10,8 +10,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include "fftCorrelation.h"
 
-extern "C"
-{
+extern "C" {
 #include "../external/kiss_fft/tools/kiss_fftr.h"
 }
 
@@ -19,9 +18,7 @@ extern "C"
 #include <QTime>
 #include <algorithm>
 
-void FFTCorrelation::correlate(const qint64 *left, const int leftSize,
-                               const qint64 *right, const int rightSize,
-                               qint64 *out_correlated)
+void FFTCorrelation::correlate(const qint64 *left, const int leftSize, const qint64 *right, const int rightSize, qint64 *out_correlated)
 {
     float correlatedFloat[leftSize + rightSize + 1];
     correlate(left, leftSize, right, rightSize, correlatedFloat);
@@ -34,9 +31,7 @@ void FFTCorrelation::correlate(const qint64 *left, const int leftSize,
     }
 }
 
-void FFTCorrelation::correlate(const qint64 *left, const int leftSize,
-                               const qint64 *right, const int rightSize,
-                               float *out_correlated)
+void FFTCorrelation::correlate(const qint64 *left, const int leftSize, const qint64 *right, const int rightSize, float *out_correlated)
 {
     QTime t;
     t.start();
@@ -76,9 +71,7 @@ void FFTCorrelation::correlate(const qint64 *left, const int leftSize,
     qCDebug(KDENLIVE_LOG) << "Correlation (FFT based) computed in " << t.elapsed() << " ms.";
 }
 
-void FFTCorrelation::convolve(const float *left, const int leftSize,
-                              const float *right, const int rightSize,
-                              float *out_convolved)
+void FFTCorrelation::convolve(const float *left, const int leftSize, const float *right, const int rightSize, float *out_convolved)
 {
     QTime time;
     time.start();

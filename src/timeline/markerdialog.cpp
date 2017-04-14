@@ -19,22 +19,20 @@
 
 #include "markerdialog.h"
 
+#include "core.h"
 #include "doc/kthumb.h"
 #include "kdenlivesettings.h"
 #include "mltcontroller/clipcontroller.h"
-#include "core.h"
 
-#include <QWheelEvent>
 #include "kdenlive_debug.h"
-#include <QTimer>
 #include <QFontDatabase>
+#include <QTimer>
+#include <QWheelEvent>
 
 #include "klocalizedstring.h"
 
 MarkerDialog::MarkerDialog(ClipController *clip, const CommentedTime &t, const Timecode &tc, const QString &caption, QWidget *parent)
-    : QDialog(parent)
-    , m_clip(clip)
-    , m_dar(4.0 / 3.0)
+    : QDialog(parent), m_clip(clip), m_dar(4.0 / 3.0)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
@@ -75,13 +73,13 @@ MarkerDialog::MarkerDialog(ClipController *clip, const CommentedTime &t, const T
         case Text:
         case QText:
             m_previewTimer->start();
-            //p = m_clip->pixmap(m_in->getValue(), width, height);
+            // p = m_clip->pixmap(m_in->getValue(), width, height);
             break;
         case Color:
             colour = colour.replace(0, 2, QLatin1Char('#'));
             p.fill(QColor(colour.left(7)));
             break;
-        //UNKNOWN, AUDIO, VIRTUAL:
+        // UNKNOWN, AUDIO, VIRTUAL:
         default:
             p.fill(Qt::black);
         }
@@ -134,4 +132,3 @@ CommentedTime MarkerDialog::newMarker()
     KdenliveSettings::setDefault_marker_type(marker_type->currentIndex());
     return CommentedTime(m_in->gentime(), marker_comment->text(), marker_type->currentIndex());
 }
-

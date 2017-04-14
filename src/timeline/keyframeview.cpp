@@ -20,26 +20,16 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <QPainter>
-#include <QAction>
 #include "klocalizedstring.h"
+#include <QAction>
+#include <QPainter>
 
 #include "keyframeview.h"
 #include "mltcontroller/effectscontroller.h"
 
-KeyframeView::KeyframeView(int handleSize, QObject *parent) : QObject(parent)
-    , activeKeyframe(-1)
-    , originalKeyframe(-1)
-    , attachToEnd(-2)
-    , duration(0)
-    , m_keyframeType(KEYFRAMETYPE::NoKeyframe)
-    , m_keyframeDefault(0)
-    , m_keyframeMin(0)
-    , m_keyframeMax(1)
-    , m_keyframeFactor(1)
-    , m_handleSize(handleSize)
-    , m_useOffset(false)
-    , m_offset(0)
+KeyframeView::KeyframeView(int handleSize, QObject *parent)
+    : QObject(parent), activeKeyframe(-1), originalKeyframe(-1), attachToEnd(-2), duration(0), m_keyframeType(KEYFRAMETYPE::NoKeyframe), m_keyframeDefault(0),
+      m_keyframeMin(0), m_keyframeMax(1), m_keyframeFactor(1), m_handleSize(handleSize), m_useOffset(false), m_offset(0)
 {
 }
 
@@ -66,13 +56,13 @@ QPointF KeyframeView::keyframeMap(const QRectF &br, int frame, double value)
 QPointF KeyframeView::keyframePoint(const QRectF &br, int index)
 {
     int frame = m_keyAnim.key_get_frame(index);
-    return keyframeMap(br, frame < 0 ? frame + duration + m_offset : frame + m_offset, m_keyProperties.anim_get_double(m_inTimeline.toUtf8().constData(), frame, duration - m_offset));
+    return keyframeMap(br, frame < 0 ? frame + duration + m_offset : frame + m_offset,
+                       m_keyProperties.anim_get_double(m_inTimeline.toUtf8().constData(), frame, duration - m_offset));
 }
 
 QPointF KeyframeView::keyframePoint(const QRectF &br, int frame, double value, double factor, double min, double max)
 {
-    return QPointF(br.x() + br.width() * frame / duration,
-                   br.bottom() - br.height() * (value * factor - min) / (max - min));
+    return QPointF(br.x() + br.width() * frame / duration, br.bottom() - br.height() * (value * factor - min) / (max - min));
 }
 
 void KeyframeView::drawKeyFrames(const QRectF &br, int length, bool active, QPainter *painter, const QTransform &transformation)
@@ -81,7 +71,7 @@ void KeyframeView::drawKeyFrames(const QRectF &br, int length, bool active, QPai
         return;
     }
     duration = length;
-    //m_keyAnim.set_length(length);
+    // m_keyAnim.set_length(length);
     painter->save();
     QPointF h(m_handleSize, m_handleSize);
 
@@ -122,7 +112,7 @@ void KeyframeView::drawKeyFrames(const QRectF &br, int length, bool active, QPai
         // Draw zone where keyframes are attached to end
         if (attachToEnd > -2) {
             QRectF negZone = br;
-            negZone.setLeft(br.x() + br.width() * attachToEnd / (double) duration);
+            negZone.setLeft(br.x() + br.width() * attachToEnd / (double)duration);
             QColor neg(Qt::darkYellow);
             neg.setAlpha(190);
             painter->fillRect(QRectF(transformation.map(negZone.topLeft()), transformation.map(negZone.bottomRight())), neg);
@@ -181,7 +171,7 @@ void KeyframeView::drawKeyFrames(const QRectF &br, int length, bool active, QPai
                 frame = drawAnim.key_get_frame(i + 1);
                 value = m_keyProperties.anim_get_double(paramName.toUtf8().constData(), frame, duration - m_offset);
                 QPointF end = keyframePoint(br, frame + m_offset, value, info.factor, info.min, info.max);
-                //QPointF end = keyframePoint(br, i + 1);
+                // QPointF end = keyframePoint(br, i + 1);
                 switch (drawAnim.key_get_type(i)) {
                 case mlt_keyframe_discrete:
                     path.lineTo(end.x(), start.y());
@@ -197,11 +187,11 @@ void KeyframeView::drawKeyFrames(const QRectF &br, int length, bool active, QPai
                     frame = drawAnim.key_get_frame(qMin(i + 2, drawAnim.key_count() - 1));
                     value = m_keyProperties.anim_get_double(paramName.toUtf8().constData(), frame, duration - m_offset);
                     QPointF post = keyframePoint(br, frame + m_offset, value, info.factor, info.min, info.max);
-                    QPointF c1 = (end - pre) / 6.0; // + start
+                    QPointF c1 = (end - pre) / 6.0;    // + start
                     QPointF c2 = (start - post) / 6.0; // + end
                     double mid = (end.x() - start.x()) / 2;
-                    if (c1.x() >  mid) {
-                        c1 = c1 * mid / c1.x();    // scale down tangent vector to not go beyond middle
+                    if (c1.x() > mid) {
+                        c1 = c1 * mid / c1.x(); // scale down tangent vector to not go beyond middle
                     }
                     if (c2.x() < -mid) {
                         c2 = c2 * -mid / c2.x();
@@ -249,7 +239,8 @@ void KeyframeView::drawKeyFrames(const QRectF &br, int length, bool active, QPai
     painter->restore();
 }
 
-void KeyframeView::drawKeyFrameChannels(const QRectF &br, int in, int out, QPainter *painter, const QList<QPoint> &maximas, int limitKeyframes, const QColor &textColor)
+void KeyframeView::drawKeyFrameChannels(const QRectF &br, int in, int out, QPainter *painter, const QList<QPoint> &maximas, int limitKeyframes,
+                                        const QColor &textColor)
 {
     double frameFactor = (double)(out - in) / br.width();
     int offset = 1;
@@ -280,7 +271,8 @@ void KeyframeView::drawKeyFrameChannels(const QRectF &br, int in, int out, QPain
     if (xDist > 0) {
         painter->fillRect(txtRect.x(), txtRect.top() + rectSize / 2, rectSize, rectSize, cX);
         txtRect.setX(txtRect.x() + rectSize * 2);
-        painter->drawText(txtRect, 0, i18nc("X as in x coordinate", "X") + QStringLiteral(" (%1-%2)").arg(maximas.at(0).x()).arg(maximas.at(0).y()), &drawnText);
+        painter->drawText(txtRect, 0, i18nc("X as in x coordinate", "X") + QStringLiteral(" (%1-%2)").arg(maximas.at(0).x()).arg(maximas.at(0).y()),
+                          &drawnText);
     }
     if (yDist > 0) {
         if (drawnText.isValid()) {
@@ -288,7 +280,8 @@ void KeyframeView::drawKeyFrameChannels(const QRectF &br, int in, int out, QPain
         }
         painter->fillRect(txtRect.x(), txtRect.top() + rectSize / 2, rectSize, rectSize, cY);
         txtRect.setX(txtRect.x() + rectSize * 2);
-        painter->drawText(txtRect, 0, i18nc("Y as in y coordinate", "Y") + QStringLiteral(" (%1-%2)").arg(maximas.at(1).x()).arg(maximas.at(1).y()), &drawnText);
+        painter->drawText(txtRect, 0, i18nc("Y as in y coordinate", "Y") + QStringLiteral(" (%1-%2)").arg(maximas.at(1).x()).arg(maximas.at(1).y()),
+                          &drawnText);
     }
     if (wDist > 0) {
         if (drawnText.isValid()) {
@@ -450,11 +443,12 @@ QString KeyframeView::getSingleAnimation(int ix, int in, int out, int offset, in
         }
     }
     QString result = anim.serialize_cut();
-    m_keyProperties.set("kdenlive_import", (char *) nullptr);
+    m_keyProperties.set("kdenlive_import", (char *)nullptr);
     return result;
 }
 
-QString KeyframeView::getOffsetAnimation(int in, int out, int offset, int limitKeyframes, ProfileInfo profile, bool allowAnimation, bool positionOnly, QPoint rectOffset)
+QString KeyframeView::getOffsetAnimation(int in, int out, int offset, int limitKeyframes, ProfileInfo profile, bool allowAnimation, bool positionOnly,
+                                         QPoint rectOffset)
 {
     m_keyProperties.set("kdenlive_import", "");
     int newduration = out - in + offset;
@@ -464,8 +458,8 @@ QString KeyframeView::getOffsetAnimation(int in, int out, int offset, int limitK
     Mlt::Animation anim = m_keyProperties.get_animation("kdenlive_import");
     mlt_keyframe_type kftype = (limitKeyframes > 0 && allowAnimation) ? mlt_keyframe_smooth : mlt_keyframe_linear;
     mlt_rect rect = m_keyProperties.anim_get_rect(m_inTimeline.toUtf8().constData(), in, duration);
-    rect.x = (int) rect.x;
-    rect.y = (int) rect.y;
+    rect.x = (int)rect.x;
+    rect.y = (int)rect.y;
     if (positionOnly) {
         rect.x -= rectOffset.x();
         rect.y -= rectOffset.y();
@@ -478,8 +472,8 @@ QString KeyframeView::getOffsetAnimation(int in, int out, int offset, int limitK
         int step = (out - in) / limitKeyframes;
         for (int i = step; i < out; i += step) {
             rect = m_keyProperties.anim_get_rect(m_inTimeline.toUtf8().constData(), in + i, duration);
-            rect.x = (int) rect.x;
-            rect.y = (int) rect.y;
+            rect.x = (int)rect.x;
+            rect.y = (int)rect.y;
             if (positionOnly) {
                 rect.x -= rectOffset.x();
                 rect.y -= rectOffset.y();
@@ -494,8 +488,8 @@ QString KeyframeView::getOffsetAnimation(int in, int out, int offset, int limitK
         for (int i = 0; i < m_keyAnim.key_count(); ++i) {
             m_keyAnim.key_get(i, pos, kftype);
             rect = m_keyProperties.anim_get_rect(m_inTimeline.toUtf8().constData(), pos, duration);
-            rect.x = (int) rect.x;
-            rect.y = (int) rect.y;
+            rect.x = (int)rect.x;
+            rect.y = (int)rect.y;
             if (positionOnly) {
                 rect.x -= rectOffset.x();
                 rect.y -= rectOffset.y();
@@ -507,7 +501,7 @@ QString KeyframeView::getOffsetAnimation(int in, int out, int offset, int limitK
         }
     }
     QString result = anim.serialize_cut();
-    m_keyProperties.set("kdenlive_import", (char *) nullptr);
+    m_keyProperties.set("kdenlive_import", (char *)nullptr);
     return result;
 }
 
@@ -530,7 +524,7 @@ int KeyframeView::mouseOverKeyFrames(const QRectF &br, QPointF pos, double scale
             p.setY(br.bottom() - br.height() / 2);
         }
         if ((pos - p).manhattanLength() <= m_handleSize / 2) {
-            //TODO
+            // TODO
             /*setToolTip(QLatin1Char('[') + QString::number((GenTime(key, m_fps) - cropStart()).seconds(), 'f', 2)
                        + i18n("seconds") + QStringLiteral(", ") + QString::number(value, 'f', 1) + ']');*/
             activeKeyframe = key;
@@ -543,7 +537,7 @@ int KeyframeView::mouseOverKeyFrames(const QRectF &br, QPointF pos, double scale
             break;
         }
     }
-    //setToolTip(QString());
+    // setToolTip(QString());
     activeKeyframe = -1;
     if (previousEdit != activeKeyframe) {
         updateKeyframes();
@@ -563,7 +557,8 @@ void KeyframeView::updateKeyFramePos(const QRectF &br, int frame, const double y
     }
     int prev = m_keyAnim.key_count() <= 1 || m_keyAnim.key_get_frame(0) == activeKeyframe ? 0 : m_keyAnim.previous_key(activeKeyframe - 1) + 1;
     prev = qMax(prev, -m_offset);
-    int next = m_keyAnim.key_count() <= 1 || m_keyAnim.key_get_frame(m_keyAnim.key_count() - 1) == activeKeyframe ? duration - m_offset - 1 :  m_keyAnim.next_key(activeKeyframe + 1) - 1;
+    int next = m_keyAnim.key_count() <= 1 || m_keyAnim.key_get_frame(m_keyAnim.key_count() - 1) == activeKeyframe ? duration - m_offset - 1
+                                                                                                                  : m_keyAnim.next_key(activeKeyframe + 1) - 1;
     if (next < 0) {
         next += duration;
     }
@@ -758,7 +753,7 @@ void KeyframeView::editKeyframeType(int type)
     if (m_keyAnim.is_key(activeKeyframe)) {
         // This is a keyframe
         double val = m_keyProperties.anim_get_double(m_inTimeline.toUtf8().constData(), activeKeyframe, duration - m_offset);
-        m_keyProperties.anim_set(m_inTimeline.toUtf8().constData(), val, activeKeyframe, duration - m_offset, (mlt_keyframe_type) type);
+        m_keyProperties.anim_set(m_inTimeline.toUtf8().constData(), val, activeKeyframe, duration - m_offset, (mlt_keyframe_type)type);
     }
 }
 
@@ -875,14 +870,15 @@ bool KeyframeView::loadKeyframes(const QLocale &locale, const QDomElement &effec
     // reset existing properties
     int max = m_keyProperties.count();
     for (int i = max - 1; i >= 0; i--) {
-        m_keyProperties.set(m_keyProperties.get_name(i), (char *) nullptr);
+        m_keyProperties.set(m_keyProperties.get_name(i), (char *)nullptr);
     }
     attachToEnd = -2;
     m_useOffset = effect.attribute(QStringLiteral("kdenlive:sync_in_out")) != QLatin1String("1");
     m_offset = effect.attribute(QStringLiteral("in")).toInt() - cropStart;
     QDomNodeList params = effect.elementsByTagName(QStringLiteral("parameter"));
     QStringList keyframeTypes;
-    keyframeTypes << QStringLiteral("keyframe") << QStringLiteral("simplekeyframe") << QStringLiteral("geometry") << QStringLiteral("animatedrect") << QStringLiteral("animated");
+    keyframeTypes << QStringLiteral("keyframe") << QStringLiteral("simplekeyframe") << QStringLiteral("geometry") << QStringLiteral("animatedrect")
+                  << QStringLiteral("animated");
     for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
         if (e.isNull()) {
@@ -967,12 +963,12 @@ void KeyframeView::setOffset(int frames)
             activeKeyframe -= frames;
         }
         m_offset -= frames;
-        m_keyProperties.anim_set(m_inTimeline.toUtf8().constData(), value, - m_offset, duration - m_offset, type);
-        //addKeyframe(-m_offset, value, type);
+        m_keyProperties.anim_set(m_inTimeline.toUtf8().constData(), value, -m_offset, duration - m_offset, type);
+        // addKeyframe(-m_offset, value, type);
     } else {
         m_offset -= frames;
     }
-    //double value = m_keyProperties.anim_get_double(m_inTimeline.toUtf8().constData(), 0, duration - m_offset);
+    // double value = m_keyProperties.anim_get_double(m_inTimeline.toUtf8().constData(), 0, duration - m_offset);
     //}
 }
 
@@ -1012,12 +1008,12 @@ void KeyframeView::reset()
     m_notInTimeline.clear();
     int max = m_keyProperties.count();
     for (int i = max - 1; i >= 0; i--) {
-        m_keyProperties.set(m_keyProperties.get_name(i), (char *) nullptr);
+        m_keyProperties.set(m_keyProperties.get_name(i), (char *)nullptr);
     }
     emit updateKeyframes();
 }
 
-//static
+// static
 QString KeyframeView::cutAnimation(const QString &animation, int start, int duration, int fullduration, bool doCut)
 {
     Mlt::Properties props;
@@ -1043,7 +1039,7 @@ QString KeyframeView::cutAnimation(const QString &animation, int start, int dura
     return anim.serialize_cut(start, start + duration);
 }
 
-//static
+// static
 const QString KeyframeView::addBorderKeyframes(const QString &animation, int start, int duration)
 {
     bool modified = false;
@@ -1071,7 +1067,7 @@ const QString KeyframeView::addBorderKeyframes(const QString &animation, int sta
     return animation;
 }
 
-//static
+// static
 QString KeyframeView::switchAnimation(const QString &animation, int newPos, int oldPos, int newDuration, int oldDuration, bool isRect)
 {
     Mlt::Properties props;
@@ -1091,7 +1087,7 @@ QString KeyframeView::switchAnimation(const QString &animation, int newPos, int 
         }
     }
     return anim.serialize_cut();
-    //return anim.serialize_cut(start, start + duration);
+    // return anim.serialize_cut(start, start + duration);
 }
 
 /*
@@ -1104,10 +1100,10 @@ void KeyframeView::updateAnimatedKeyframes(QDomElement effect, int paramIndex, I
             int oldPos = m_keyAnim.key_get_frame(i);
             int newPos = oldPos + offset;
             m_keyAnim.remove(oldPos);
-            m_keyProperties.anim_set(m_inTimeline.toUtf8().constData(), m_keyProperties.anim_get_double(m_inTimeline.toUtf8().constData(), oldPos), newPos, 0, m_keyAnim.keyframe_type(i));
+            m_keyProperties.anim_set(m_inTimeline.toUtf8().constData(), m_keyProperties.anim_get_double(m_inTimeline.toUtf8().constData(), oldPos), newPos, 0,
+m_keyAnim.keyframe_type(i));
         }
     }
     QString result = m_keyAnim.serialize_cut();
     param.setAttribute("value", result);
 }*/
-

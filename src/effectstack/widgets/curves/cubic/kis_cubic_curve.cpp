@@ -20,14 +20,13 @@
 
 #include "kis_cubic_curve.h"
 
-#include <QPointF>
 #include <QList>
+#include <QLocale>
+#include <QPointF>
 #include <QSharedData>
 #include <QStringList>
-#include <QLocale>
 
-template <typename T>
-class KisTridiagonalSystem
+template <typename T> class KisTridiagonalSystem
 {
     /*
      * e.g.
@@ -39,15 +38,10 @@ class KisTridiagonalSystem
      */
 
 public:
-
     /**
      * @return - vector that is storing x[]
      */
-    static
-    QVector<T> calculate(QList<T> &a,
-                         QList<T> &b,
-                         QList<T> &c,
-                         QList<T> &f)
+    static QVector<T> calculate(QList<T> &a, QList<T> &b, QList<T> &c, QList<T> &f)
     {
         QVector<T> x;
         QVector<T> alpha;
@@ -56,9 +50,7 @@ public:
         int i;
         int size = b.size();
 
-        Q_ASSERT(a.size() == size - 1 &&
-                 c.size() == size - 1 &&
-                 f.size() == size);
+        Q_ASSERT(a.size() == size - 1 && c.size() == size - 1 && f.size() == size);
 
         x.resize(size);
 
@@ -79,20 +71,15 @@ public:
         beta.resize(size);
 
         alpha[1] = -c[0] / b[0];
-        beta[1] =  f[0] / b[0];
+        beta[1] = f[0] / b[0];
 
         for (i = 1; i < size - 1; ++i) {
-            alpha[i + 1] = -c[i] /
-                           (a[i - 1] * alpha[i] + b[i]);
+            alpha[i + 1] = -c[i] / (a[i - 1] * alpha[i] + b[i]);
 
-            beta[i + 1] = (f[i] - a[i - 1] * beta[i])
-                          /
-                          (a[i - 1] * alpha[i] + b[i]);
+            beta[i + 1] = (f[i] - a[i - 1] * beta[i]) / (a[i - 1] * alpha[i] + b[i]);
         }
 
-        x.last() = (f.last() - a.last() * beta.last())
-                   /
-                   (b.last() + a.last() * alpha.last());
+        x.last() = (f.last() - a.last() * beta.last()) / (b.last() + a.last() * alpha.last());
 
         for (i = size - 2; i >= 0; --i) {
             x[i] = alpha[i + 1] * x[i + 1] + beta[i + 1];
@@ -102,8 +89,7 @@ public:
     }
 };
 
-template <typename T_point, typename T>
-class KisCubicSpline
+template <typename T_point, typename T> class KisCubicSpline
 {
     /**
      *  s[i](x)=a[i] +
@@ -128,11 +114,7 @@ protected:
 
 public:
     KisCubicSpline() : m_begin(0), m_end(0), m_intervals(0) {}
-    explicit KisCubicSpline(const QList<T_point> &a) : m_begin(0), m_end(0),
-        m_intervals(0)
-    {
-        createSpline(a);
-    }
+    explicit KisCubicSpline(const QList<T_point> &a) : m_begin(0), m_end(0), m_intervals(0) { createSpline(a); }
 
     /**
      * Create new spline and precalculate some values
@@ -164,9 +146,9 @@ public:
         QList<T> tri_a; /* equals to @tri_c */
 
         for (i = 0; i < intervals - 1; ++i) {
-            tri_b.append(2.*(m_h[i] + m_h[i + 1]));
+            tri_b.append(2. * (m_h[i] + m_h[i + 1]));
 
-            tri_f.append(6.*((m_a[i + 2] - m_a[i + 1]) / m_h[i + 1] - (m_a[i + 1] - m_a[i]) / m_h[i]));
+            tri_f.append(6. * ((m_a[i + 2] - m_a[i + 1]) / m_h[i + 1] - (m_a[i + 1] - m_a[i]) / m_h[i]));
         }
         for (i = 1; i < intervals - 1; ++i) {
             tri_a.append(m_h[i]);
@@ -184,7 +166,7 @@ public:
         }
 
         for (i = 0; i < intervals; ++i) {
-            m_b[i] = -0.5 * (m_c[i] * m_h[i])  - (1 / 6.0) * (m_d[i] * m_h[i] * m_h[i]) + (m_a[i + 1] - m_a[i]) / m_h[i];
+            m_b[i] = -0.5 * (m_c[i] * m_h[i]) - (1 / 6.0) * (m_d[i] * m_h[i] * m_h[i]) + (m_a[i + 1] - m_a[i]) / m_h[i];
         }
     }
 
@@ -196,24 +178,14 @@ public:
         T x0;
         int i = findRegion(x, x0);
         /* TODO: check for asm equivalent */
-        return m_a[i] +
-               m_b[i] * (x - x0) +
-               0.5 * m_c[i] * (x - x0) * (x - x0) +
-               (1 / 6.0) * m_d[i] * (x - x0) * (x - x0) * (x - x0);
+        return m_a[i] + m_b[i] * (x - x0) + 0.5 * m_c[i] * (x - x0) * (x - x0) + (1 / 6.0) * m_d[i] * (x - x0) * (x - x0) * (x - x0);
     }
 
-    T begin() const
-    {
-        return m_begin;
-    }
+    T begin() const { return m_begin; }
 
-    T end() const
-    {
-        return m_end;
-    }
+    T end() const { return m_end; }
 
 protected:
-
     /**
      * findRegion - Searches for the region containing @x
      * @x0 - out parameter, containing beginning of the region
@@ -248,11 +220,9 @@ static bool pointLessThan(const QPointF &a, const QPointF &b)
     return a.x() < b.x();
 }
 
-struct KisCubicCurve::Data : public QSharedData {
-    Data()
-    {
-        init();
-    }
+struct KisCubicCurve::Data : public QSharedData
+{
+    Data() { init(); }
     Data(const Data &data) : QSharedData()
     {
         init();
@@ -264,9 +234,7 @@ struct KisCubicCurve::Data : public QSharedData {
         validU16Transfer = false;
         validFTransfer = false;
     }
-    ~Data()
-    {
-    }
+    ~Data() {}
     mutable KisCubicSpline<QPointF, qreal> spline;
     QList<QPointF> points;
     mutable bool validSpline;
@@ -278,8 +246,7 @@ struct KisCubicCurve::Data : public QSharedData {
     void keepSorted();
     qreal value(qreal x);
     void invalidate();
-    template<typename _T_, typename _T2_>
-    void updateTransfer(QVector<_T_> *transfer, bool &valid, _T2_ min, _T2_ max, int size);
+    template <typename _T_, typename _T2_> void updateTransfer(QVector<_T_> *transfer, bool &valid, _T2_ min, _T2_ max, int size);
 };
 
 void KisCubicCurve::Data::updateSpline()
@@ -314,8 +281,7 @@ qreal KisCubicCurve::Data::value(qreal x)
     return qBound((qreal)0.0, y, (qreal)1.0);
 }
 
-template<typename _T_, typename _T2_>
-void KisCubicCurve::Data::updateTransfer(QVector<_T_> *transfer, bool &valid, _T2_ min, _T2_ max, int size)
+template <typename _T_, typename _T2_> void KisCubicCurve::Data::updateTransfer(QVector<_T_> *transfer, bool &valid, _T2_ min, _T2_ max, int size)
 {
     if (!valid || transfer->size() != size) {
         if (transfer->size() != size) {
@@ -332,7 +298,8 @@ void KisCubicCurve::Data::updateTransfer(QVector<_T_> *transfer, bool &valid, _T
     }
 }
 
-struct KisCubicCurve::Private {
+struct KisCubicCurve::Private
+{
     QSharedDataPointer<Data> data;
 };
 
@@ -450,7 +417,6 @@ void KisCubicCurve::fromString(const QString &string)
     }
     setPoints(points);
 }
-
 
 int KisCubicCurve::count() const
 {

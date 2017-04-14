@@ -26,13 +26,8 @@
 
 #include <klocalizedstring.h>
 
-AddEffectCommand::AddEffectCommand(CustomTrackView *view, const int track, const GenTime &pos, const QDomElement &effect, bool doIt, QUndoCommand *parent) :
-    QUndoCommand(parent),
-    m_view(view),
-    m_track(track),
-    m_effect(effect),
-    m_pos(pos),
-    m_doIt(doIt)
+AddEffectCommand::AddEffectCommand(CustomTrackView *view, const int track, const GenTime &pos, const QDomElement &effect, bool doIt, QUndoCommand *parent)
+    : QUndoCommand(parent), m_view(view), m_track(track), m_effect(effect), m_pos(pos), m_doIt(doIt)
 {
     QString effectName;
     QDomElement namenode = m_effect.firstChildElement(QStringLiteral("name"));
@@ -66,16 +61,10 @@ void AddEffectCommand::redo()
     }
 }
 
-AddTimelineClipCommand::AddTimelineClipCommand(CustomTrackView *view, const QString &clipId, const ItemInfo &info, const EffectsList &effects, PlaylistState::ClipState state, bool doIt, bool doRemove, bool refreshMonitor, QUndoCommand *parent) :
-    QUndoCommand(parent),
-    m_view(view),
-    m_clipId(clipId),
-    m_clipInfo(info),
-    m_effects(effects),
-    m_state(state),
-    m_doIt(doIt),
-    m_remove(doRemove),
-    m_refresh(refreshMonitor)
+AddTimelineClipCommand::AddTimelineClipCommand(CustomTrackView *view, const QString &clipId, const ItemInfo &info, const EffectsList &effects,
+                                               PlaylistState::ClipState state, bool doIt, bool doRemove, bool refreshMonitor, QUndoCommand *parent)
+    : QUndoCommand(parent), m_view(view), m_clipId(clipId), m_clipInfo(info), m_effects(effects), m_state(state), m_doIt(doIt), m_remove(doRemove),
+      m_refresh(refreshMonitor)
 {
     if (!m_remove) {
         setText(i18n("Add timeline clip"));
@@ -105,12 +94,8 @@ void AddTimelineClipCommand::redo()
     m_doIt = true;
 }
 
-AddTrackCommand::AddTrackCommand(CustomTrackView *view, int ix, const TrackInfo &info, bool addTrack, QUndoCommand *parent) :
-    QUndoCommand(parent),
-    m_view(view),
-    m_ix(ix),
-    m_addTrack(addTrack),
-    m_info(info)
+AddTrackCommand::AddTrackCommand(CustomTrackView *view, int ix, const TrackInfo &info, bool addTrack, QUndoCommand *parent)
+    : QUndoCommand(parent), m_view(view), m_ix(ix), m_addTrack(addTrack), m_info(info)
 {
     if (addTrack) {
         setText(i18n("Add track"));
@@ -137,14 +122,9 @@ void AddTrackCommand::redo()
     }
 }
 
-AddTransitionCommand::AddTransitionCommand(CustomTrackView *view, const ItemInfo &info, int transitiontrack, const QDomElement &params, bool remove, bool doIt, QUndoCommand *parent) :
-    QUndoCommand(parent),
-    m_view(view),
-    m_info(info),
-    m_params(params),
-    m_track(transitiontrack),
-    m_doIt(doIt),
-    m_remove(remove)
+AddTransitionCommand::AddTransitionCommand(CustomTrackView *view, const ItemInfo &info, int transitiontrack, const QDomElement &params, bool remove, bool doIt,
+                                           QUndoCommand *parent)
+    : QUndoCommand(parent), m_view(view), m_info(info), m_params(params), m_track(transitiontrack), m_doIt(doIt), m_remove(remove)
 {
     if (m_remove) {
         setText(i18n("Delete transition from clip"));
@@ -180,12 +160,9 @@ void AddTransitionCommand::redo()
     m_doIt = true;
 }
 
-ChangeClipTypeCommand::ChangeClipTypeCommand(CustomTrackView *view, const ItemInfo &info, PlaylistState::ClipState state, PlaylistState::ClipState originalState, QUndoCommand *parent) :
-    QUndoCommand(parent),
-    m_view(view),
-    m_info(info),
-    m_state(state),
-    m_originalState(originalState)
+ChangeClipTypeCommand::ChangeClipTypeCommand(CustomTrackView *view, const ItemInfo &info, PlaylistState::ClipState state,
+                                             PlaylistState::ClipState originalState, QUndoCommand *parent)
+    : QUndoCommand(parent), m_view(view), m_info(info), m_state(state), m_originalState(originalState)
 {
     setText(i18n("Change clip type"));
 }
@@ -200,15 +177,10 @@ void ChangeClipTypeCommand::redo()
     m_view->doChangeClipType(m_info, m_state);
 }
 
-ChangeEffectStateCommand::ChangeEffectStateCommand(CustomTrackView *view, const int track, const GenTime &pos, const QList<int> &effectIndexes, bool disable, bool refreshEffectStack, bool doIt, QUndoCommand *parent) :
-    QUndoCommand(parent),
-    m_view(view),
-    m_track(track),
-    m_effectIndexes(effectIndexes),
-    m_pos(pos),
-    m_disable(disable),
-    m_doIt(doIt),
-    m_refreshEffectStack(refreshEffectStack)
+ChangeEffectStateCommand::ChangeEffectStateCommand(CustomTrackView *view, const int track, const GenTime &pos, const QList<int> &effectIndexes, bool disable,
+                                                   bool refreshEffectStack, bool doIt, QUndoCommand *parent)
+    : QUndoCommand(parent), m_view(view), m_track(track), m_effectIndexes(effectIndexes), m_pos(pos), m_disable(disable), m_doIt(doIt),
+      m_refreshEffectStack(refreshEffectStack)
 {
     if (disable) {
         setText(i18np("Disable effect", "Disable effects", effectIndexes.count()));
@@ -231,16 +203,10 @@ void ChangeEffectStateCommand::redo()
     m_refreshEffectStack = true;
 }
 
-ChangeSpeedCommand::ChangeSpeedCommand(CustomTrackView *view, const ItemInfo &info, const ItemInfo &speedIndependantInfo, PlaylistState::ClipState state, double new_speed, int old_strobe, int new_strobe, const QString &clipId, QUndoCommand *parent) :
-    QUndoCommand(parent),
-    m_view(view),
-    m_clipInfo(info),
-    m_speedIndependantInfo(speedIndependantInfo),
-    m_state(state),
-    m_clipId(clipId),
-    m_new_speed(new_speed),
-    m_old_strobe(old_strobe),
-    m_new_strobe(new_strobe)
+ChangeSpeedCommand::ChangeSpeedCommand(CustomTrackView *view, const ItemInfo &info, const ItemInfo &speedIndependantInfo, PlaylistState::ClipState state,
+                                       double new_speed, int old_strobe, int new_strobe, const QString &clipId, QUndoCommand *parent)
+    : QUndoCommand(parent), m_view(view), m_clipInfo(info), m_speedIndependantInfo(speedIndependantInfo), m_state(state), m_clipId(clipId),
+      m_new_speed(new_speed), m_old_strobe(old_strobe), m_new_strobe(new_strobe)
 {
     setText(i18n("Adjust clip length"));
 }
@@ -255,14 +221,9 @@ void ChangeSpeedCommand::redo()
     m_view->doChangeClipSpeed(m_clipInfo, m_speedIndependantInfo, m_state, m_new_speed, m_new_strobe, m_clipId);
 }
 
-ConfigTracksCommand::ConfigTracksCommand(Timeline *timeline, int track, const QString &oldName, const QString &newName, int oldState, int newState, QUndoCommand *parent) :
-    QUndoCommand(parent),
-    m_timeline(timeline),
-    m_ix(track),
-    m_oldName(oldName),
-    m_newName(newName),
-    m_oldState(oldState),
-    m_newState(newState)
+ConfigTracksCommand::ConfigTracksCommand(Timeline *timeline, int track, const QString &oldName, const QString &newName, int oldState, int newState,
+                                         QUndoCommand *parent)
+    : QUndoCommand(parent), m_timeline(timeline), m_ix(track), m_oldName(oldName), m_newName(newName), m_oldState(oldState), m_newState(newState)
 {
     setText(i18n("Configure Tracks"));
 }
@@ -287,18 +248,10 @@ void ConfigTracksCommand::redo()
     }
 }
 
-EditEffectCommand::EditEffectCommand(CustomTrackView *view, const int track, const GenTime &pos, const QDomElement &oldeffect, const QDomElement &effect, int stackPos, bool refreshEffectStack, bool doIt, bool refreshMonitor, QUndoCommand *parent) :
-    QUndoCommand(parent),
-    m_view(view),
-    m_track(track),
-    m_oldeffect(oldeffect),
-    m_effect(effect),
-    m_pos(pos),
-    m_stackPos(stackPos),
-    m_doIt(doIt),
-    m_refreshEffectStack(refreshEffectStack),
-    m_replaceEffect(false),
-    m_refreshMonitor(refreshMonitor)
+EditEffectCommand::EditEffectCommand(CustomTrackView *view, const int track, const GenTime &pos, const QDomElement &oldeffect, const QDomElement &effect,
+                                     int stackPos, bool refreshEffectStack, bool doIt, bool refreshMonitor, QUndoCommand *parent)
+    : QUndoCommand(parent), m_view(view), m_track(track), m_oldeffect(oldeffect), m_effect(effect), m_pos(pos), m_stackPos(stackPos), m_doIt(doIt),
+      m_refreshEffectStack(refreshEffectStack), m_replaceEffect(false), m_refreshMonitor(refreshMonitor)
 {
     QString effectName;
     QDomElement namenode = effect.firstChildElement(QStringLiteral("name"));
@@ -355,14 +308,9 @@ void EditEffectCommand::redo()
     m_refreshEffectStack = true;
 }
 
-EditGuideCommand::EditGuideCommand(CustomTrackView *view, const GenTime &oldPos, const QString &oldcomment, const GenTime &pos, const QString &comment, bool doIt, QUndoCommand *parent) :
-    QUndoCommand(parent),
-    m_view(view),
-    m_oldcomment(oldcomment),
-    m_comment(comment),
-    m_oldPos(oldPos),
-    m_pos(pos),
-    m_doIt(doIt)
+EditGuideCommand::EditGuideCommand(CustomTrackView *view, const GenTime &oldPos, const QString &oldcomment, const GenTime &pos, const QString &comment,
+                                   bool doIt, QUndoCommand *parent)
+    : QUndoCommand(parent), m_view(view), m_oldcomment(oldcomment), m_comment(comment), m_oldPos(oldPos), m_pos(pos), m_doIt(doIt)
 {
     if (m_oldcomment.isEmpty()) {
         setText(i18n("Add guide"));
@@ -389,13 +337,9 @@ void EditGuideCommand::redo()
     m_doIt = true;
 }
 
-EditTransitionCommand::EditTransitionCommand(CustomTrackView *view, const int track, const GenTime &pos, const QDomElement &oldeffect, const QDomElement &effect, bool doIt, QUndoCommand *parent) :
-    QUndoCommand(parent),
-    m_view(view),
-    m_track(track),
-    m_oldeffect(oldeffect),
-    m_pos(pos),
-    m_doIt(doIt)
+EditTransitionCommand::EditTransitionCommand(CustomTrackView *view, const int track, const GenTime &pos, const QDomElement &oldeffect,
+                                             const QDomElement &effect, bool doIt, QUndoCommand *parent)
+    : QUndoCommand(parent), m_view(view), m_track(track), m_oldeffect(oldeffect), m_pos(pos), m_doIt(doIt)
 {
     m_effect = effect.cloneNode().toElement();
     QString effectName;
@@ -439,13 +383,9 @@ void EditTransitionCommand::redo()
     m_doIt = true;
 }
 
-GroupClipsCommand::GroupClipsCommand(CustomTrackView *view, const QList<ItemInfo> &clipInfos, const QList<ItemInfo> &transitionInfos, bool group, bool doIt, QUndoCommand *parent) :
-    QUndoCommand(parent),
-    m_view(view),
-    m_clips(clipInfos),
-    m_transitions(transitionInfos),
-    m_group(group),
-    m_doIt(doIt)
+GroupClipsCommand::GroupClipsCommand(CustomTrackView *view, const QList<ItemInfo> &clipInfos, const QList<ItemInfo> &transitionInfos, bool group, bool doIt,
+                                     QUndoCommand *parent)
+    : QUndoCommand(parent), m_view(view), m_clips(clipInfos), m_transitions(transitionInfos), m_group(group), m_doIt(doIt)
 {
     if (m_group) {
         setText(i18n("Group clips"));
@@ -467,13 +407,9 @@ void GroupClipsCommand::redo()
     m_doIt = true;
 }
 
-AddSpaceCommand::AddSpaceCommand(CustomTrackView *view, const ItemInfo &spaceInfo, const QList<ItemInfo> &excludeList, bool doIt, QUndoCommand *parent, bool trackonly) :
-    QUndoCommand(parent),
-    m_view(view),
-    m_spaceInfo(spaceInfo),
-    m_excludeList(excludeList),
-    m_doIt(doIt),
-    m_trackOnly(trackonly)
+AddSpaceCommand::AddSpaceCommand(CustomTrackView *view, const ItemInfo &spaceInfo, const QList<ItemInfo> &excludeList, bool doIt, QUndoCommand *parent,
+                                 bool trackonly)
+    : QUndoCommand(parent), m_view(view), m_spaceInfo(spaceInfo), m_excludeList(excludeList), m_doIt(doIt), m_trackOnly(trackonly)
 {
 }
 
@@ -492,14 +428,9 @@ void AddSpaceCommand::redo()
     m_excludeList.clear();
 }
 
-InsertSpaceCommand::InsertSpaceCommand(CustomTrackView *view, const QList<ItemInfo> &clipsToMove, const QList<ItemInfo> &transToMove, int track, const GenTime &duration, bool doIt, QUndoCommand *parent) :
-    QUndoCommand(parent),
-    m_view(view),
-    m_clipsToMove(clipsToMove),
-    m_transToMove(transToMove),
-    m_duration(duration),
-    m_track(track),
-    m_doIt(doIt)
+InsertSpaceCommand::InsertSpaceCommand(CustomTrackView *view, const QList<ItemInfo> &clipsToMove, const QList<ItemInfo> &transToMove, int track,
+                                       const GenTime &duration, bool doIt, QUndoCommand *parent)
+    : QUndoCommand(parent), m_view(view), m_clipsToMove(clipsToMove), m_transToMove(transToMove), m_duration(duration), m_track(track), m_doIt(doIt)
 {
     if (duration > GenTime()) {
         setText(i18n("Insert space"));
@@ -521,11 +452,7 @@ void InsertSpaceCommand::redo()
     m_doIt = true;
 }
 
-LockTrackCommand::LockTrackCommand(CustomTrackView *view, int ix, bool lock, QUndoCommand *parent) :
-    QUndoCommand(parent),
-    m_view(view),
-    m_ix(ix),
-    m_lock(lock)
+LockTrackCommand::LockTrackCommand(CustomTrackView *view, int ix, bool lock, QUndoCommand *parent) : QUndoCommand(parent), m_view(view), m_ix(ix), m_lock(lock)
 {
     if (lock) {
         setText(i18n("Lock track"));
@@ -545,13 +472,7 @@ void LockTrackCommand::redo()
 }
 
 MoveClipCommand::MoveClipCommand(CustomTrackView *view, const ItemInfo &start, const ItemInfo &end, bool alreadyMoved, bool doIt, QUndoCommand *parent)
-    : QUndoCommand(parent),
-      m_view(view),
-      m_startPos(start),
-      m_endPos(end),
-      m_doIt(doIt),
-      m_success(true),
-      m_alreadyMoved(alreadyMoved)
+    : QUndoCommand(parent), m_view(view), m_startPos(start), m_endPos(end), m_doIt(doIt), m_success(true), m_alreadyMoved(alreadyMoved)
 {
     setText(i18n("Move clip"));
     if (parent) {
@@ -582,12 +503,8 @@ void MoveClipCommand::redo()
     m_alreadyMoved = false;
 }
 
-MoveEffectCommand::MoveEffectCommand(CustomTrackView *view, const int track, const GenTime &pos, const QList<int> &oldPos, int newPos, QUndoCommand *parent) :
-    QUndoCommand(parent),
-    m_view(view),
-    m_track(track),
-    m_oldindex(oldPos),
-    m_pos(pos)
+MoveEffectCommand::MoveEffectCommand(CustomTrackView *view, const int track, const GenTime &pos, const QList<int> &oldPos, int newPos, QUndoCommand *parent)
+    : QUndoCommand(parent), m_view(view), m_track(track), m_oldindex(oldPos), m_pos(pos)
 {
     m_newindex.reserve(m_oldindex.count());
     for (int i = 0; i < m_oldindex.count(); ++i) {
@@ -617,15 +534,10 @@ void MoveEffectCommand::redo()
     m_view->moveEffect(m_track, m_pos, m_oldindex, m_newindex);
 }
 
-MoveGroupCommand::MoveGroupCommand(CustomTrackView *view, const QList<ItemInfo> &startClip, const QList<ItemInfo> &startTransition, const GenTime &offset, const int trackOffset, bool alreadyMoved, bool doIt, QUndoCommand *parent) :
-    QUndoCommand(parent),
-    m_view(view),
-    m_startClip(startClip),
-    m_startTransition(startTransition),
-    m_offset(offset),
-    m_trackOffset(trackOffset),
-    m_alreadyMoved(alreadyMoved),
-    m_doIt(doIt)
+MoveGroupCommand::MoveGroupCommand(CustomTrackView *view, const QList<ItemInfo> &startClip, const QList<ItemInfo> &startTransition, const GenTime &offset,
+                                   const int trackOffset, bool alreadyMoved, bool doIt, QUndoCommand *parent)
+    : QUndoCommand(parent), m_view(view), m_startClip(startClip), m_startTransition(startTransition), m_offset(offset), m_trackOffset(trackOffset),
+      m_alreadyMoved(alreadyMoved), m_doIt(doIt)
 {
     setText(i18n("Move group"));
 }
@@ -633,7 +545,7 @@ MoveGroupCommand::MoveGroupCommand(CustomTrackView *view, const QList<ItemInfo> 
 void MoveGroupCommand::undo()
 {
     m_doIt = true;
-    m_view->moveGroup(m_startClip, m_startTransition, GenTime() - m_offset, - m_trackOffset, false, true);
+    m_view->moveGroup(m_startClip, m_startTransition, GenTime() - m_offset, -m_trackOffset, false, true);
 }
 // virtual
 void MoveGroupCommand::redo()
@@ -645,13 +557,8 @@ void MoveGroupCommand::redo()
     m_alreadyMoved = false;
 }
 
-MoveTransitionCommand::MoveTransitionCommand(CustomTrackView *view, const ItemInfo &start, const ItemInfo &end, bool doIt, bool refresh, QUndoCommand *parent) :
-    QUndoCommand(parent),
-    m_view(view),
-    m_startPos(start),
-    m_endPos(end),
-    m_doIt(doIt),
-    m_refresh(refresh)
+MoveTransitionCommand::MoveTransitionCommand(CustomTrackView *view, const ItemInfo &start, const ItemInfo &end, bool doIt, bool refresh, QUndoCommand *parent)
+    : QUndoCommand(parent), m_view(view), m_startPos(start), m_endPos(end), m_doIt(doIt), m_refresh(refresh)
 {
     setText(i18n("Move transition"));
 }
@@ -670,12 +577,9 @@ void MoveTransitionCommand::redo()
     m_doIt = true;
 }
 
-RazorClipCommand::RazorClipCommand(CustomTrackView *view, const ItemInfo &info, const EffectsList &stack, const GenTime &cutTime, bool doIt, QUndoCommand *parent) :
-    QUndoCommand(parent),
-    m_view(view),
-    m_info(info),
-    m_cutTime(cutTime),
-    m_doIt(doIt)
+RazorClipCommand::RazorClipCommand(CustomTrackView *view, const ItemInfo &info, const EffectsList &stack, const GenTime &cutTime, bool doIt,
+                                   QUndoCommand *parent)
+    : QUndoCommand(parent), m_view(view), m_info(info), m_cutTime(cutTime), m_doIt(doIt)
 {
     m_originalStack.clone(stack);
     setText(i18n("Razor clip"));
@@ -694,12 +598,9 @@ void RazorClipCommand::redo()
     m_doIt = true;
 }
 
-RazorTransitionCommand::RazorTransitionCommand(CustomTrackView *view, const ItemInfo &info, const QDomElement &params, const GenTime &cutTime, bool doIt, QUndoCommand *parent) :
-    QUndoCommand(parent),
-    m_view(view),
-    m_info(info),
-    m_cutTime(cutTime),
-    m_doIt(doIt)
+RazorTransitionCommand::RazorTransitionCommand(CustomTrackView *view, const ItemInfo &info, const QDomElement &params, const GenTime &cutTime, bool doIt,
+                                               QUndoCommand *parent)
+    : QUndoCommand(parent), m_view(view), m_info(info), m_cutTime(cutTime), m_doIt(doIt)
 {
     m_originalParams = params.cloneNode(true).toElement();
     setText(i18n("Razor clip"));
@@ -719,7 +620,8 @@ void RazorTransitionCommand::redo()
 }
 
 /*
-RazorGroupCommand::RazorGroupCommand(CustomTrackView *view, QList<ItemInfo> clips1, QList<ItemInfo> transitions1, QList<ItemInfo> clipsCut, QList<ItemInfo> transitionsCut, QList<ItemInfo> clips2, QList<ItemInfo> transitions2, GenTime cutPos, QUndoCommand * parent) :
+RazorGroupCommand::RazorGroupCommand(CustomTrackView *view, QList<ItemInfo> clips1, QList<ItemInfo> transitions1, QList<ItemInfo> clipsCut, QList<ItemInfo>
+transitionsCut, QList<ItemInfo> clips2, QList<ItemInfo> transitions2, GenTime cutPos, QUndoCommand * parent) :
     QUndoCommand(parent),
     m_view(view),
     m_clips1(clips1),
@@ -743,11 +645,8 @@ void RazorGroupCommand::redo()
     m_view->slotRazorGroup(m_clips1, m_transitions1, m_clipsCut, m_transitionsCut, m_clips2, m_transitions2, m_cutPos, true);
 }
 */
-RebuildGroupCommand::RebuildGroupCommand(CustomTrackView *view, int childTrack, const GenTime &childPos, QUndoCommand *parent) :
-    QUndoCommand(parent),
-    m_view(view),
-    m_childTrack(childTrack),
-    m_childPos(childPos)
+RebuildGroupCommand::RebuildGroupCommand(CustomTrackView *view, int childTrack, const GenTime &childPos, QUndoCommand *parent)
+    : QUndoCommand(parent), m_view(view), m_childTrack(childTrack), m_childPos(childPos)
 {
     setText(i18n("Rebuild Group"));
 }
@@ -762,21 +661,13 @@ void RebuildGroupCommand::redo()
     m_view->rebuildGroup(m_childTrack, m_childPos);
 }
 
-RefreshMonitorCommand::RefreshMonitorCommand(CustomTrackView *view, const QList<ItemInfo> &info, bool execute, bool refreshOnUndo, QUndoCommand *parent) :
-    QUndoCommand(parent),
-    m_view(view),
-    m_info(info),
-    m_exec(execute),
-    m_execOnUndo(refreshOnUndo)
+RefreshMonitorCommand::RefreshMonitorCommand(CustomTrackView *view, const QList<ItemInfo> &info, bool execute, bool refreshOnUndo, QUndoCommand *parent)
+    : QUndoCommand(parent), m_view(view), m_info(info), m_exec(execute), m_execOnUndo(refreshOnUndo)
 {
 }
 
-RefreshMonitorCommand::RefreshMonitorCommand(CustomTrackView *view, const ItemInfo &info, bool execute, bool refreshOnUndo, QUndoCommand *parent) :
-    QUndoCommand(parent),
-    m_view(view),
-    m_info(QList<ItemInfo>() << info),
-    m_exec(execute),
-    m_execOnUndo(refreshOnUndo)
+RefreshMonitorCommand::RefreshMonitorCommand(CustomTrackView *view, const ItemInfo &info, bool execute, bool refreshOnUndo, QUndoCommand *parent)
+    : QUndoCommand(parent), m_view(view), m_info(QList<ItemInfo>() << info), m_exec(execute), m_execOnUndo(refreshOnUndo)
 {
 }
 
@@ -802,13 +693,8 @@ void RefreshMonitorCommand::updateRange(const QList<ItemInfo> &info)
     m_info = info;
 }
 
-ResizeClipCommand::ResizeClipCommand(CustomTrackView *view, const ItemInfo &start, const ItemInfo &end, bool doIt, bool dontWorry, QUndoCommand *parent) :
-    QUndoCommand(parent),
-    m_view(view),
-    m_startPos(start),
-    m_endPos(end),
-    m_doIt(doIt),
-    m_dontWorry(dontWorry)
+ResizeClipCommand::ResizeClipCommand(CustomTrackView *view, const ItemInfo &start, const ItemInfo &end, bool doIt, bool dontWorry, QUndoCommand *parent)
+    : QUndoCommand(parent), m_view(view), m_startPos(start), m_endPos(end), m_doIt(doIt), m_dontWorry(dontWorry)
 {
     setText(i18n("Resize clip"));
 }
@@ -826,13 +712,8 @@ void ResizeClipCommand::redo()
     m_doIt = true;
 }
 
-SplitAudioCommand::SplitAudioCommand(CustomTrackView *view, const int track, int destTrack, const GenTime &pos, QUndoCommand *parent) :
-    QUndoCommand(parent),
-    m_view(view),
-    m_pos(pos),
-    m_track(track),
-    m_destTrack(destTrack),
-    m_success(false)
+SplitAudioCommand::SplitAudioCommand(CustomTrackView *view, const int track, int destTrack, const GenTime &pos, QUndoCommand *parent)
+    : QUndoCommand(parent), m_view(view), m_pos(pos), m_track(track), m_destTrack(destTrack), m_success(false)
 {
     setText(i18n("Split audio"));
 }
@@ -849,14 +730,9 @@ void SplitAudioCommand::redo()
     m_success = m_view->doSplitAudio(m_pos, m_track, m_destTrack, true);
 }
 
-ChangeTrackStateCommand::ChangeTrackStateCommand(Timeline *timeline, const int track, bool changeAudio, bool changeVideo, bool hideAudio, bool hideVideo, QUndoCommand *parent) :
-    QUndoCommand(parent)
-    , m_timeline(timeline)
-    , m_track(track)
-    , m_audio(changeAudio)
-    , m_video(changeVideo)
-    , m_hideAudio(hideAudio)
-    , m_hideVideo(hideVideo)
+ChangeTrackStateCommand::ChangeTrackStateCommand(Timeline *timeline, const int track, bool changeAudio, bool changeVideo, bool hideAudio, bool hideVideo,
+                                                 QUndoCommand *parent)
+    : QUndoCommand(parent), m_timeline(timeline), m_track(track), m_audio(changeAudio), m_video(changeVideo), m_hideAudio(hideAudio), m_hideVideo(hideVideo)
 {
     setText(i18n("Change track state"));
 }
@@ -880,4 +756,3 @@ void ChangeTrackStateCommand::redo()
         m_timeline->doSwitchTrackVideo(m_track, m_hideVideo);
     }
 }
-

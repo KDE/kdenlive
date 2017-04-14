@@ -20,50 +20,60 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "clipcreationdialog.h"
-#include "kdenlive_debug.h"
-#include "kdenlivesettings.h"
-#include "doc/kdenlivedoc.h"
-#include "doc/docundostack.hpp"
 #include "bin/bin.h"
 #include "bin/bincommands.h"
 #include "bin/projectclip.h"
-#include "ui_colorclip_ui.h"
-#include "ui_qtextclip_ui.h"
+#include "doc/docundostack.hpp"
+#include "doc/kdenlivedoc.h"
+#include "kdenlive_debug.h"
+#include "kdenlivesettings.h"
+#include "project/dialogs/slideshowclip.h"
 #include "timecodedisplay.h"
 #include "titler/titlewidget.h"
 #include "titletemplatedialog.h"
-#include "project/dialogs/slideshowclip.h"
+#include "ui_colorclip_ui.h"
+#include "ui_qtextclip_ui.h"
 
+#include "klocalizedstring.h"
+#include <KFileWidget>
 #include <KMessageBox>
 #include <KRecentDirs>
-#include <KFileWidget>
 #include <KWindowConfig>
-#include "klocalizedstring.h"
 
-#include <QDir>
-#include <QWindow>
-#include <QUndoCommand>
-#include <QStandardPaths>
-#include <QPushButton>
 #include "kdenlive_debug.h"
 #include <QDialog>
-#include <QPointer>
+#include <QDir>
 #include <QMimeDatabase>
+#include <QPointer>
+#include <QPushButton>
+#include <QStandardPaths>
+#include <QUndoCommand>
+#include <QWindow>
 
 // static
 QStringList ClipCreationDialog::getExtensions()
 {
     // Build list of mime types
-    QStringList mimeTypes = QStringList() << QStringLiteral("application/x-kdenlive") << QStringLiteral("application/x-kdenlivetitle") << QStringLiteral("video/mlt-playlist") << QStringLiteral("text/plain");
+    QStringList mimeTypes = QStringList() << QStringLiteral("application/x-kdenlive") << QStringLiteral("application/x-kdenlivetitle")
+                                          << QStringLiteral("video/mlt-playlist") << QStringLiteral("text/plain");
 
     // Video mimes
-    mimeTypes <<  QStringLiteral("video/x-flv") << QStringLiteral("application/vnd.rn-realmedia") << QStringLiteral("video/x-dv") << QStringLiteral("video/dv") << QStringLiteral("video/x-msvideo") << QStringLiteral("video/x-matroska") << QStringLiteral("video/mpeg") << QStringLiteral("video/ogg") << QStringLiteral("video/x-ms-wmv") << QStringLiteral("video/mp4") << QStringLiteral("video/quicktime") << QStringLiteral("video/webm") << QStringLiteral("video/3gpp") << QStringLiteral("video/mp2t");
+    mimeTypes << QStringLiteral("video/x-flv") << QStringLiteral("application/vnd.rn-realmedia") << QStringLiteral("video/x-dv") << QStringLiteral("video/dv")
+              << QStringLiteral("video/x-msvideo") << QStringLiteral("video/x-matroska") << QStringLiteral("video/mpeg") << QStringLiteral("video/ogg")
+              << QStringLiteral("video/x-ms-wmv") << QStringLiteral("video/mp4") << QStringLiteral("video/quicktime") << QStringLiteral("video/webm")
+              << QStringLiteral("video/3gpp") << QStringLiteral("video/mp2t");
 
     // Audio mimes
-    mimeTypes << QStringLiteral("audio/x-flac") << QStringLiteral("audio/x-matroska") << QStringLiteral("audio/mp4") << QStringLiteral("audio/mpeg") << QStringLiteral("audio/x-mp3") << QStringLiteral("audio/ogg") << QStringLiteral("audio/x-wav") << QStringLiteral("audio/x-aiff") << QStringLiteral("audio/aiff") << QStringLiteral("application/ogg") << QStringLiteral("application/mxf") << QStringLiteral("application/x-shockwave-flash") << QStringLiteral("audio/ac3");
+    mimeTypes << QStringLiteral("audio/x-flac") << QStringLiteral("audio/x-matroska") << QStringLiteral("audio/mp4") << QStringLiteral("audio/mpeg")
+              << QStringLiteral("audio/x-mp3") << QStringLiteral("audio/ogg") << QStringLiteral("audio/x-wav") << QStringLiteral("audio/x-aiff")
+              << QStringLiteral("audio/aiff") << QStringLiteral("application/ogg") << QStringLiteral("application/mxf")
+              << QStringLiteral("application/x-shockwave-flash") << QStringLiteral("audio/ac3");
 
     // Image mimes
-    mimeTypes << QStringLiteral("image/gif") << QStringLiteral("image/jpeg") << QStringLiteral("image/png") << QStringLiteral("image/x-tga") << QStringLiteral("image/x-bmp") << QStringLiteral("image/svg+xml") << QStringLiteral("image/tiff") << QStringLiteral("image/x-xcf") << QStringLiteral("image/x-xcf-gimp") << QStringLiteral("image/x-vnd.adobe.photoshop") << QStringLiteral("image/x-pcx") << QStringLiteral("image/x-exr") << QStringLiteral("image/x-portable-pixmap") << QStringLiteral("application/x-krita");
+    mimeTypes << QStringLiteral("image/gif") << QStringLiteral("image/jpeg") << QStringLiteral("image/png") << QStringLiteral("image/x-tga")
+              << QStringLiteral("image/x-bmp") << QStringLiteral("image/svg+xml") << QStringLiteral("image/tiff") << QStringLiteral("image/x-xcf")
+              << QStringLiteral("image/x-xcf-gimp") << QStringLiteral("image/x-vnd.adobe.photoshop") << QStringLiteral("image/x-pcx")
+              << QStringLiteral("image/x-exr") << QStringLiteral("image/x-portable-pixmap") << QStringLiteral("application/x-krita");
 
     QMimeDatabase db;
     QStringList allExtensions;
@@ -84,8 +94,8 @@ QStringList ClipCreationDialog::getExtensions()
             } else if (!ext.contains(QLatin1Char('.'))) {
                 allExtensions << QStringLiteral("*.") + ext;
             } else {
-                //Unrecognized format
-                qCDebug(KDENLIVE_LOG)<<"Unrecognized custom format: "<<ext;
+                // Unrecognized format
+                qCDebug(KDENLIVE_LOG) << "Unrecognized custom format: " << ext;
             }
         }
     }
@@ -93,10 +103,10 @@ QStringList ClipCreationDialog::getExtensions()
     return allExtensions;
 }
 
-//static
+// static
 void ClipCreationDialog::createClipFromXml(KdenliveDoc *doc, QDomElement &xml, const QStringList &groupInfo, Bin *bin)
 {
-    //FIXME?
+    // FIXME?
     Q_UNUSED(groupInfo)
 
     uint id = bin->getFreeClipId();
@@ -105,7 +115,7 @@ void ClipCreationDialog::createClipFromXml(KdenliveDoc *doc, QDomElement &xml, c
     doc->commandStack()->push(command);
 }
 
-//static
+// static
 void ClipCreationDialog::createColorClip(KdenliveDoc *doc, const QStringList &groupInfo, Bin *bin)
 {
     QPointer<QDialog> dia = new QDialog(bin);
@@ -127,12 +137,12 @@ void ClipCreationDialog::createColorClip(KdenliveDoc *doc, const QStringList &gr
         QDomDocument xml;
         QDomElement prod = xml.createElement(QStringLiteral("producer"));
         xml.appendChild(prod);
-        prod.setAttribute(QStringLiteral("type"), (int) Color);
+        prod.setAttribute(QStringLiteral("type"), (int)Color);
         uint id = bin->getFreeClipId();
         prod.setAttribute(QStringLiteral("id"), QString::number(id));
         prod.setAttribute(QStringLiteral("in"), QStringLiteral("0"));
         prod.setAttribute(QStringLiteral("length"), doc->getFramePos(doc->timecode().getTimecode(t->gentime())));
-        QMap <QString, QString> properties;
+        QMap<QString, QString> properties;
         properties.insert(QStringLiteral("resource"), color);
         properties.insert(QStringLiteral("kdenlive:clipname"), dia_ui.clip_name->text());
         properties.insert(QStringLiteral("mlt_service"), QStringLiteral("color"));
@@ -184,11 +194,11 @@ void ClipCreationDialog::createQTextClip(KdenliveDoc *doc, const QStringList &gr
         dia_ui.duration->setText(titleConfig.readEntry(QStringLiteral("title_duration")));
     }
     if (dia->exec() == QDialog::Accepted) {
-        //KdenliveSettings::setColorclipcolor(color);
+        // KdenliveSettings::setColorclipcolor(color);
         QDomDocument xml;
         QDomElement prod = xml.createElement(QStringLiteral("producer"));
         xml.appendChild(prod);
-        prod.setAttribute(QStringLiteral("type"), (int) QText);
+        prod.setAttribute(QStringLiteral("type"), (int)QText);
         uint id = bin->getFreeClipId();
         prod.setAttribute(QStringLiteral("id"), QString::number(id));
 
@@ -204,8 +214,8 @@ void ClipCreationDialog::createQTextClip(KdenliveDoc *doc, const QStringList &gr
         properties.insert(QStringLiteral("mlt_service"), QStringLiteral("qtext"));
         properties.insert(QStringLiteral("out"), QString::number(doc->timecode().getFrameCount(dia_ui.duration->text())));
         properties.insert(QStringLiteral("length"), dia_ui.duration->text());
-        //properties.insert(QStringLiteral("scale"), QStringLiteral("off"));
-        //properties.insert(QStringLiteral("fill"), QStringLiteral("0"));
+        // properties.insert(QStringLiteral("scale"), QStringLiteral("off"));
+        // properties.insert(QStringLiteral("fill"), QStringLiteral("0"));
         properties.insert(QStringLiteral("text"), dia_ui.text->document()->toPlainText());
         properties.insert(QStringLiteral("fgcolour"), dia_ui.fgColor->color().name(QColor::HexArgb));
         properties.insert(QStringLiteral("bgcolour"), dia_ui.bgColor->color().name(QColor::HexArgb));
@@ -239,7 +249,7 @@ void ClipCreationDialog::createQTextClip(KdenliveDoc *doc, const QStringList &gr
     delete dia;
 }
 
-//static
+// static
 void ClipCreationDialog::createSlideshowClip(KdenliveDoc *doc, const QStringList &groupInfo, Bin *bin)
 {
     QPointer<SlideshowClip> dia = new SlideshowClip(doc->timecode(), KRecentDirs::dir(QStringLiteral(":KdenliveSlideShowFolder")), nullptr, bin);
@@ -252,7 +262,7 @@ void ClipCreationDialog::createSlideshowClip(KdenliveDoc *doc, const QStringList
         xml.appendChild(prod);
         prod.setAttribute(QStringLiteral("in"), QStringLiteral("0"));
         prod.setAttribute(QStringLiteral("out"), QString::number(doc->getFramePos(dia->clipDuration()) * dia->imageCount() - 1));
-        prod.setAttribute(QStringLiteral("type"), (int) SlideShow);
+        prod.setAttribute(QStringLiteral("type"), (int)SlideShow);
         QMap<QString, QString> properties;
         properties.insert(QStringLiteral("kdenlive:clipname"), dia->clipName());
         properties.insert(QStringLiteral("resource"), dia->selectedPath());
@@ -287,7 +297,7 @@ void ClipCreationDialog::createTitleClip(KdenliveDoc *doc, const QStringList &gr
         QDomDocument xml;
         QDomElement prod = xml.createElement(QStringLiteral("producer"));
         xml.appendChild(prod);
-        //prod.setAttribute("resource", imagePath);
+        // prod.setAttribute("resource", imagePath);
         uint id = bin->getFreeClipId();
         prod.setAttribute(QStringLiteral("id"), QString::number(id));
 
@@ -298,7 +308,7 @@ void ClipCreationDialog::createTitleClip(KdenliveDoc *doc, const QStringList &gr
             properties.insert(QStringLiteral("kdenlive:folderid"), groupInfo.at(0));
         }
         addXmlProperties(prod, properties);
-        prod.setAttribute(QStringLiteral("type"), (int) Text);
+        prod.setAttribute(QStringLiteral("type"), (int)Text);
         prod.setAttribute(QStringLiteral("transparency"), QStringLiteral("1"));
         prod.setAttribute(QStringLiteral("in"), QStringLiteral("0"));
         prod.setAttribute(QStringLiteral("out"), dia_ui->duration() - 1);
@@ -329,7 +339,7 @@ void ClipCreationDialog::createTitleTemplateClip(KdenliveDoc *doc, const QString
         addXmlProperties(prod, properties);
         uint id = bin->getFreeClipId();
         prod.setAttribute(QStringLiteral("id"), QString::number(id));
-        prod.setAttribute(QStringLiteral("type"), (int) TextTemplate);
+        prod.setAttribute(QStringLiteral("type"), (int)TextTemplate);
         prod.setAttribute(QStringLiteral("transparency"), QStringLiteral("1"));
         prod.setAttribute(QStringLiteral("in"), QStringLiteral("0"));
         prod.setAttribute(QStringLiteral("templatetext"), dia->selectedText());
@@ -372,21 +382,25 @@ void ClipCreationDialog::addXmlProperties(QDomElement &producer, QMap<QString, Q
     }
 }
 
-void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QList<QUrl> &urls, const QStringList &groupInfo, Bin *bin, const QMap<QString, QString> &data)
+void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QList<QUrl> &urls, const QStringList &groupInfo, Bin *bin,
+                                            const QMap<QString, QString> &data)
 {
     auto *addClips = new QUndoCommand();
 
-    //TODO: check files on removable volume
+    // TODO: check files on removable volume
     /*listRemovableVolumes();
     foreach(const QUrl &file, urls) {
         if (QFile::exists(file.path())) {
             //TODO check for duplicates
             if (!data.contains("bypassDuplicate") && !getClipByResource(file.path()).empty()) {
-                if (KMessageBox::warningContinueCancel(QApplication::activeWindow(), i18n("Clip <b>%1</b><br />already exists in project, what do you want to do?", file.path()), i18n("Clip already exists")) == KMessageBox::Cancel)
+                if (KMessageBox::warningContinueCancel(QApplication::activeWindow(), i18n("Clip <b>%1</b><br />already exists in project, what do you want to
+    do?", file.path()), i18n("Clip already exists")) == KMessageBox::Cancel)
                     continue;
             }
             if (isOnRemovableDevice(file) && !isOnRemovableDevice(m_doc->projectFolder())) {
-                int answer = KMessageBox::warningYesNoCancel(QApplication::activeWindow(), i18n("Clip <b>%1</b><br /> is on a removable device, will not be available when device is unplugged", file.path()), i18n("File on a Removable Device"), KGuiItem(i18n("Copy file to project folder")), KGuiItem(i18n("Continue")), KStandardGuiItem::cancel(), QString("copyFilesToProjectFolder"));
+                int answer = KMessageBox::warningYesNoCancel(QApplication::activeWindow(), i18n("Clip <b>%1</b><br /> is on a removable device, will not be
+    available when device is unplugged", file.path()), i18n("File on a Removable Device"), KGuiItem(i18n("Copy file to project folder")),
+    KGuiItem(i18n("Continue")), KStandardGuiItem::cancel(), QString("copyFilesToProjectFolder"));
 
                 if (answer == KMessageBox::Cancel) continue;
                 else if (answer == KMessageBox::Yes) {
@@ -411,7 +425,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QList<QUrl> 
                 }
             }*/
 
-    //TODO check folders
+    // TODO check folders
     /*QList< QList<QUrl> > foldersList;
     QMimeDatabase db;
     foreach(const QUrl & file, list) {
@@ -452,7 +466,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QList<QUrl> 
         QMimeDatabase db;
         QMimeType type = db.mimeTypeForUrl(file);
         if (type.name().startsWith(QLatin1String("image/"))) {
-            prod.setAttribute(QStringLiteral("type"), (int) Image);
+            prod.setAttribute(QStringLiteral("type"), (int)Image);
             prod.setAttribute(QStringLiteral("in"), 0);
             prod.setAttribute(QStringLiteral("length"), doc->getFramePos(KdenliveSettings::image_duration()));
             if (KdenliveSettings::autoimagetransparency()) {
@@ -464,7 +478,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QList<QUrl> 
             QFile txtfile(file.toLocalFile());
             if (txtfile.open(QIODevice::ReadOnly) && txtdoc.setContent(&txtfile)) {
                 txtfile.close();
-                prod.setAttribute(QStringLiteral("type"), (int) Text);
+                prod.setAttribute(QStringLiteral("type"), (int)Text);
                 // extract embedded images
                 QDomNodeList items = txtdoc.elementsByTagName(QStringLiteral("content"));
                 for (int i = 0; i < items.count(); ++i) {
@@ -527,7 +541,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QStringList 
     if (clipFolder.isEmpty()) {
         clipFolder = QDir::homePath();
     }
-    QDialog *dlg = new QDialog((QWidget *) doc->parent());
+    QDialog *dlg = new QDialog((QWidget *)doc->parent());
     KFileWidget *fileWidget = new KFileWidget(QUrl::fromLocalFile(clipFolder), dlg);
     auto *layout = new QVBoxLayout;
     layout->addWidget(fileWidget);
@@ -555,7 +569,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QStringList 
         }
         if (b->isChecked() && list.count() == 1) {
             // Check for image sequence
-            const QUrl& url = list.at(0);
+            const QUrl &url = list.at(0);
             QString fileName = url.fileName().section(QLatin1Char('.'), 0, -2);
             if (fileName.at(fileName.size() - 1).isDigit()) {
                 KFileItem item(url);
@@ -585,7 +599,8 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QStringList 
                         properties.insert(QStringLiteral("loop"), QString::number(0));
                         properties.insert(QStringLiteral("crop"), QString::number(0));
                         properties.insert(QStringLiteral("fade"), QString::number(0));
-                        properties.insert(QStringLiteral("luma_duration"), QString::number(doc->getFramePos(doc->timecode().getTimecodeFromFrames(int(ceil(doc->timecode().fps()))))));
+                        properties.insert(QStringLiteral("luma_duration"),
+                                          QString::number(doc->getFramePos(doc->timecode().getTimecodeFromFrames(int(ceil(doc->timecode().fps()))))));
                         if (!groupInfo.isEmpty()) {
                             properties.insert(QStringLiteral("kdenlive:folderid"), groupInfo.at(0));
                         }
@@ -615,4 +630,3 @@ void ClipCreationDialog::createClipsCommand(Bin *bin, const QDomElement &produce
 {
     new AddClipCommand(bin, producer, id, true, command);
 }
-

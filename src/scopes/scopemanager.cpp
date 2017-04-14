@@ -9,30 +9,28 @@
  ***************************************************************************/
 
 #include "scopemanager.h"
-#include "definitions.h"
-#include "kdenlivesettings.h"
-#include "core.h"
-#include "mainwindow.h"
-#include "monitor/monitormanager.h"
-#include "colorscopes/vectorscope.h"
-#include "colorscopes/waveform.h"
-#include "colorscopes/rgbparade.h"
-#include "colorscopes/histogram.h"
 #include "audioscopes/audiosignal.h"
 #include "audioscopes/audiospectrum.h"
 #include "audioscopes/spectrogram.h"
+#include "colorscopes/histogram.h"
+#include "colorscopes/rgbparade.h"
+#include "colorscopes/vectorscope.h"
+#include "colorscopes/waveform.h"
+#include "core.h"
+#include "definitions.h"
+#include "kdenlivesettings.h"
+#include "mainwindow.h"
+#include "monitor/monitormanager.h"
 
-#include <QDockWidget>
 #include "klocalizedstring.h"
+#include <QDockWidget>
 
 //#define DEBUG_SM
 #ifdef DEBUG_SM
 #include <QtCore/QDebug>
 #endif
 
-ScopeManager::ScopeManager(QObject *parent) :
-    QObject(parent),
-    m_lastConnectedRenderer(nullptr)
+ScopeManager::ScopeManager(QObject *parent) : QObject(parent), m_lastConnectedRenderer(nullptr)
 {
     m_signalMapper = new QSignalMapper(this);
 
@@ -58,7 +56,7 @@ bool ScopeManager::addScope(AbstractAudioScopeWidget *audioScope, QDockWidget *a
         }
     }
     if (exists == 0) {
-        // Add scope to the list, set up signal/slot connections
+// Add scope to the list, set up signal/slot connections
 #ifdef DEBUG_SM
         qCDebug(KDENLIVE_LOG) << "Adding scope to scope manager: " << audioScope->widgetName();
 #endif
@@ -154,7 +152,7 @@ void ScopeManager::slotDistributeFrame(const QImage &image)
             }
         }
     }
-    //checkActiveColourScopes();
+    // checkActiveColourScopes();
 }
 
 void ScopeManager::slotScopeReady()
@@ -212,10 +210,8 @@ void ScopeManager::slotUpdateActiveRenderer()
 
     // Connect new renderer
     if (m_lastConnectedRenderer != nullptr) {
-        connect(m_lastConnectedRenderer, &AbstractRender::frameUpdated,
-                this, &ScopeManager::slotDistributeFrame, Qt::UniqueConnection);
-        connect(m_lastConnectedRenderer, &AbstractRender::audioSamplesSignal,
-                this, &ScopeManager::slotDistributeAudio, Qt::UniqueConnection);
+        connect(m_lastConnectedRenderer, &AbstractRender::frameUpdated, this, &ScopeManager::slotDistributeFrame, Qt::UniqueConnection);
+        connect(m_lastConnectedRenderer, &AbstractRender::audioSamplesSignal, this, &ScopeManager::slotDistributeAudio, Qt::UniqueConnection);
 
 #ifdef DEBUG_SM
         qCDebug(KDENLIVE_LOG) << "Renderer connected to ScopeManager: " << m_lastConnectedRenderer->id();
@@ -309,10 +305,10 @@ void ScopeManager::checkActiveColourScopes()
 
 void ScopeManager::createScopes()
 {
-    createScopeDock(new Vectorscope(pCore->window()),   i18n("Vectorscope"), QStringLiteral("vectorscope"));
-    createScopeDock(new Waveform(pCore->window()),      i18n("Waveform"), QStringLiteral("waveform"));
-    createScopeDock(new RGBParade(pCore->window()),     i18n("RGB Parade"), QStringLiteral("rgb_parade"));
-    createScopeDock(new Histogram(pCore->window()),     i18n("Histogram"), QStringLiteral("histogram"));
+    createScopeDock(new Vectorscope(pCore->window()), i18n("Vectorscope"), QStringLiteral("vectorscope"));
+    createScopeDock(new Waveform(pCore->window()), i18n("Waveform"), QStringLiteral("waveform"));
+    createScopeDock(new RGBParade(pCore->window()), i18n("RGB Parade"), QStringLiteral("rgb_parade"));
+    createScopeDock(new Histogram(pCore->window()), i18n("Histogram"), QStringLiteral("histogram"));
     // Deprecated scopes
     // createScopeDock(new Spectrogram(pCore->window()),   i18n("Spectrogram"));
     // createScopeDock(new AudioSignal(pCore->window()),   i18n("Audio Signal"));
@@ -328,4 +324,3 @@ template <class T> void ScopeManager::createScopeDock(T *scopeWidget, const QStr
     // actual state will be restored by session management
     dock->close();
 }
-

@@ -22,57 +22,42 @@
 #include "utils/KoIconUtils.h"
 
 #include "kdenlive_debug.h"
-#include <QVBoxLayout>
-#include <QApplication>
-#include <QToolBar>
-#include <QDomElement>
-#include <QMenu>
-#include <QStandardPaths>
-#include <QComboBox>
-#include <QDir>
-#include <QCheckBox>
-#include <QDialogButtonBox>
-#include <QClipboard>
-#include <QLineEdit>
-#include <QDialog>
-#include <KDualAction>
 #include <KConfig>
 #include <KConfigGroup>
+#include <KDualAction>
 #include <KSelectAction>
+#include <QApplication>
+#include <QCheckBox>
+#include <QClipboard>
+#include <QComboBox>
+#include <QDialog>
+#include <QDialogButtonBox>
+#include <QDir>
+#include <QDomElement>
+#include <QLineEdit>
+#include <QMenu>
+#include <QStandardPaths>
+#include <QToolBar>
+#include <QVBoxLayout>
 #include <klocalizedstring.h>
 
 #include "mlt++/MltAnimation.h"
 
+#include "../animkeyframeruler.h"
 #include "animationwidget.h"
 #include "doubleparameterwidget.h"
-#include "monitor/monitor.h"
-#include "timeline/keyframeview.h"
-#include "timecodedisplay.h"
-#include "kdenlivesettings.h"
-#include "effectstack/parametercontainer.h"
 #include "effectstack/dragvalue.h"
-#include "../animkeyframeruler.h"
+#include "effectstack/parametercontainer.h"
+#include "kdenlivesettings.h"
+#include "monitor/monitor.h"
+#include "timecodedisplay.h"
+#include "timeline/keyframeview.h"
 
-AnimationWidget::AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int max, int effectIn, const QString &effectId, const QDomElement &xml, QWidget *parent) :
-    AbstractParamWidget(parent)
-    , m_monitor(info->monitor)
-    , m_frameSize(info->frameSize)
-    , m_timePos(new TimecodeDisplay(info->monitor->timecode(), this))
-    , m_active(false)
-    , m_clipPos(clipPos)
-    , m_inPoint(min)
-    , m_outPoint(max + 1)
-    , m_editedKeyframe(-1)
-    , m_attachedToEnd(-2)
-    , m_xml(xml)
-    , m_effectId(effectId)
-    , m_spinX(nullptr)
-    , m_spinY(nullptr)
-    , m_spinWidth(nullptr)
-    , m_spinHeight(nullptr)
-    , m_spinSize(nullptr)
-    , m_spinOpacity(nullptr)
-    , m_offset(effectIn - min)
+AnimationWidget::AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int max, int effectIn, const QString &effectId, const QDomElement &xml,
+                                 QWidget *parent)
+    : AbstractParamWidget(parent), m_monitor(info->monitor), m_frameSize(info->frameSize), m_timePos(new TimecodeDisplay(info->monitor->timecode(), this)),
+      m_active(false), m_clipPos(clipPos), m_inPoint(min), m_outPoint(max + 1), m_editedKeyframe(-1), m_attachedToEnd(-2), m_xml(xml), m_effectId(effectId),
+      m_spinX(nullptr), m_spinY(nullptr), m_spinWidth(nullptr), m_spinHeight(nullptr), m_spinSize(nullptr), m_spinOpacity(nullptr), m_offset(effectIn - min)
 {
     setAcceptDrops(true);
     auto *vbox2 = new QVBoxLayout(this);
@@ -116,15 +101,15 @@ AnimationWidget::AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int
     // Keyframe type widget
     m_selectType = new KSelectAction(KoIconUtils::themedIcon(QStringLiteral("keyframes")), i18n("Keyframe interpolation"), this);
     QAction *discrete = new QAction(KoIconUtils::themedIcon(QStringLiteral("discrete")), i18n("Discrete"), this);
-    discrete->setData((int) mlt_keyframe_discrete);
+    discrete->setData((int)mlt_keyframe_discrete);
     discrete->setCheckable(true);
     m_selectType->addAction(discrete);
     QAction *linear = new QAction(KoIconUtils::themedIcon(QStringLiteral("linear")), i18n("Linear"), this);
-    linear->setData((int) mlt_keyframe_linear);
+    linear->setData((int)mlt_keyframe_linear);
     linear->setCheckable(true);
     m_selectType->addAction(linear);
     QAction *curve = new QAction(KoIconUtils::themedIcon(QStringLiteral("smooth")), i18n("Smooth"), this);
-    curve->setData((int) mlt_keyframe_smooth);
+    curve->setData((int)mlt_keyframe_smooth);
     curve->setCheckable(true);
     m_selectType->addAction(curve);
     m_selectType->setCurrentAction(linear);
@@ -132,15 +117,15 @@ AnimationWidget::AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int
 
     KSelectAction *defaultInterp = new KSelectAction(KoIconUtils::themedIcon(QStringLiteral("keyframes")), i18n("Default interpolation"), this);
     discrete = new QAction(KoIconUtils::themedIcon(QStringLiteral("discrete")), i18n("Discrete"), this);
-    discrete->setData((int) mlt_keyframe_discrete);
+    discrete->setData((int)mlt_keyframe_discrete);
     discrete->setCheckable(true);
     defaultInterp->addAction(discrete);
     linear = new QAction(KoIconUtils::themedIcon(QStringLiteral("linear")), i18n("Linear"), this);
-    linear->setData((int) mlt_keyframe_linear);
+    linear->setData((int)mlt_keyframe_linear);
     linear->setCheckable(true);
     defaultInterp->addAction(linear);
     curve = new QAction(KoIconUtils::themedIcon(QStringLiteral("smooth")), i18n("Smooth"), this);
-    curve->setData((int) mlt_keyframe_smooth);
+    curve->setData((int)mlt_keyframe_smooth);
     curve->setCheckable(true);
     defaultInterp->addAction(curve);
     switch (KdenliveSettings::defaultkeyframeinterp()) {
@@ -233,7 +218,7 @@ void AnimationWidget::finishSetup()
     rebuildKeyframes();
 }
 
-//static
+// static
 QString AnimationWidget::getDefaultKeyframes(int start, const QString &defaultValue, bool linearOnly)
 {
     QString keyframes = QString::number(start);
@@ -299,15 +284,15 @@ void AnimationWidget::doAddKeyframe(int pos, QString paramName, bool directUpdat
     }
     pos -= m_offset;
     // Try to get previous key's type
-    mlt_keyframe_type type = (mlt_keyframe_type) KdenliveSettings::defaultkeyframeinterp();
+    mlt_keyframe_type type = (mlt_keyframe_type)KdenliveSettings::defaultkeyframeinterp();
     if (m_animController.key_count() > 1) {
         int previous = m_animController.previous_key(pos);
         if (m_animController.is_key(previous)) {
-            type =  m_animController.keyframe_type(previous);
+            type = m_animController.keyframe_type(previous);
         } else {
             int next = m_animController.next_key(pos);
             if (m_animController.is_key(next)) {
-                type =  m_animController.keyframe_type(next);
+                type = m_animController.keyframe_type(next);
             }
         }
     }
@@ -425,7 +410,7 @@ void AnimationWidget::moveKeyframe(int oldPos, int newPos)
     }
     QStringList paramNames = m_doubleWidgets.keys();
     for (int i = 0; i < paramNames.count(); i++) {
-        const QString& param = paramNames.at(i);
+        const QString &param = paramNames.at(i);
         m_animController = m_animProperties.get_animation(param.toUtf8().constData());
         double val = m_animProperties.anim_get_double(param.toUtf8().constData(), oldPos - m_offset, m_outPoint);
         m_animController.remove(oldPos - m_offset);
@@ -455,7 +440,7 @@ void AnimationWidget::rebuildKeyframes()
             frame += m_offset;
             if (frame >= 0) {
                 keyframes << frame;
-                types << (count > 1 ? (int) type : mlt_keyframe_linear);
+                types << (count > 1 ? (int)type : mlt_keyframe_linear);
             }
         }
     }
@@ -474,7 +459,7 @@ void AnimationWidget::updateToolbar()
     if (m_animController.is_key(pos)) {
         QList<QAction *> types = m_selectType->actions();
         for (int j = 0; j < types.count(); j++) {
-            if (types.at(j)->data().toInt() == (int) m_animController.keyframe_type(pos)) {
+            if (types.at(j)->data().toInt() == (int)m_animController.keyframe_type(pos)) {
                 m_selectType->setCurrentAction(types.at(j));
                 break;
             }
@@ -567,7 +552,7 @@ void AnimationWidget::updateSlider(int pos)
                 mlt_keyframe_type currentType = m_animController.keyframe_type(pos);
                 QList<QAction *> types = m_selectType->actions();
                 for (int j = 0; j < types.count(); j++) {
-                    if ((mlt_keyframe_type) types.at(j)->data().toInt() == currentType) {
+                    if ((mlt_keyframe_type)types.at(j)->data().toInt() == currentType) {
                         m_selectType->setCurrentAction(types.at(j));
                         break;
                     }
@@ -651,7 +636,7 @@ void AnimationWidget::updateRect(int pos)
         mlt_keyframe_type currentType = m_animController.keyframe_type(pos);
         QList<QAction *> types = m_selectType->actions();
         for (int i = 0; i < types.count(); i++) {
-            if ((mlt_keyframe_type) types.at(i)->data().toInt() == currentType) {
+            if ((mlt_keyframe_type)types.at(i)->data().toInt() == currentType) {
                 m_selectType->setCurrentAction(types.at(i));
                 break;
             }
@@ -683,10 +668,10 @@ void AnimationWidget::slotEditKeyframeType(QAction *action)
     if (m_animController.is_key(pos)) {
         if (m_rectParameter == m_inTimeline) {
             mlt_rect rect = m_animProperties.anim_get_rect(m_inTimeline.toUtf8().constData(), pos, m_outPoint);
-            m_animProperties.anim_set(m_inTimeline.toUtf8().constData(), rect, pos, m_outPoint, (mlt_keyframe_type) action->data().toInt());
+            m_animProperties.anim_set(m_inTimeline.toUtf8().constData(), rect, pos, m_outPoint, (mlt_keyframe_type)action->data().toInt());
         } else {
             double val = m_animProperties.anim_get_double(m_inTimeline.toUtf8().constData(), pos, m_outPoint);
-            m_animProperties.anim_set(m_inTimeline.toUtf8().constData(), val, pos, m_outPoint, (mlt_keyframe_type) action->data().toInt());
+            m_animProperties.anim_set(m_inTimeline.toUtf8().constData(), val, pos, m_outPoint, (mlt_keyframe_type)action->data().toInt());
         }
         /* This is a keyframe, edit for all parameters
         QStringList paramNames = m_doubleWidgets.keys();
@@ -753,14 +738,16 @@ void AnimationWidget::buildSliderWidget(const QString &paramTag, const QDomEleme
     int index = m_params.count() - 1;
 
     double factor = e.hasAttribute(QStringLiteral("factor")) ? locale.toDouble(e.attribute(QStringLiteral("factor"))) : 1;
-    DoubleParameterWidget *doubleparam = new DoubleParameterWidget(paramName, 0,
-            e.attribute(QStringLiteral("min")).toDouble(), e.attribute(QStringLiteral("max")).toDouble(),
-            e.attribute(QStringLiteral("default")).toDouble() * factor, comment, index, e.attribute(QStringLiteral("suffix")), e.attribute(QStringLiteral("decimals")).toInt(), true, this);
+    DoubleParameterWidget *doubleparam =
+        new DoubleParameterWidget(paramName, 0, e.attribute(QStringLiteral("min")).toDouble(), e.attribute(QStringLiteral("max")).toDouble(),
+                                  e.attribute(QStringLiteral("default")).toDouble() * factor, comment, index, e.attribute(QStringLiteral("suffix")),
+                                  e.attribute(QStringLiteral("decimals")).toInt(), true, this);
     doubleparam->setObjectName(paramTag);
     doubleparam->factor = factor;
     connect(doubleparam, &DoubleParameterWidget::valueChanged, this, &AnimationWidget::slotAdjustKeyframeValue);
     layout()->addWidget(doubleparam);
-    if ((!e.hasAttribute(QStringLiteral("intimeline")) || e.attribute(QStringLiteral("intimeline")) == QLatin1String("1")) && !e.hasAttribute(QStringLiteral("notintimeline"))) {
+    if ((!e.hasAttribute(QStringLiteral("intimeline")) || e.attribute(QStringLiteral("intimeline")) == QLatin1String("1")) &&
+        !e.hasAttribute(QStringLiteral("notintimeline"))) {
         doubleparam->setInTimelineProperty(true);
         doubleparam->setChecked(true);
         m_inTimeline = paramTag;
@@ -931,17 +918,18 @@ void AnimationWidget::slotAdjustKeyframeValue(double value)
     m_animController = m_animProperties.get_animation(m_inTimeline.toUtf8().constData());
 
     int pos = m_ruler->position() - m_offset;
-    mlt_keyframe_type type = m_selectType->isEnabled() ? (mlt_keyframe_type) m_selectType->currentAction()->data().toInt() : (mlt_keyframe_type) KdenliveSettings::defaultkeyframeinterp();
+    mlt_keyframe_type type = m_selectType->isEnabled() ? (mlt_keyframe_type)m_selectType->currentAction()->data().toInt()
+                                                       : (mlt_keyframe_type)KdenliveSettings::defaultkeyframeinterp();
     if (m_animController.is_key(pos)) {
         // This is a keyframe
-        type =  m_animController.keyframe_type(pos);
+        type = m_animController.keyframe_type(pos);
         m_animProperties.anim_set(m_inTimeline.toUtf8().constData(), value / slider->factor, pos, m_outPoint, type);
         emit valueChanged();
     } else if (m_animController.key_count() <= 1) {
         pos = m_animController.key_get_frame(0);
         if (pos >= 0) {
             if (m_animController.is_key(pos)) {
-                type =  m_animController.keyframe_type(pos);
+                type = m_animController.keyframe_type(pos);
             }
             m_animProperties.anim_set(m_inTimeline.toUtf8().constData(), value / slider->factor, pos, m_outPoint, type);
             emit valueChanged();
@@ -980,13 +968,15 @@ void AnimationWidget::slotAdjustRectKeyframeValue()
     m_spinSize->blockSignals(false);
     if (m_animController.is_key(pos)) {
         // This is a keyframe
-        m_animProperties.anim_set(m_rectParameter.toUtf8().constData(), rect, pos, m_outPoint, (mlt_keyframe_type) m_selectType->currentAction()->data().toInt());
-	emit valueChanged();
+        m_animProperties.anim_set(m_rectParameter.toUtf8().constData(), rect, pos, m_outPoint,
+                                  (mlt_keyframe_type)m_selectType->currentAction()->data().toInt());
+        emit valueChanged();
         setupMonitor(QRect(rect.x, rect.y, rect.w, rect.h));
     } else if (m_animController.key_count() <= 1) {
         pos = m_animController.key_get_frame(0);
         if (pos >= 0) {
-            m_animProperties.anim_set(m_rectParameter.toUtf8().constData(), rect, pos, m_outPoint, (mlt_keyframe_type) m_selectType->currentAction()->data().toInt());
+            m_animProperties.anim_set(m_rectParameter.toUtf8().constData(), rect, pos, m_outPoint,
+                                      (mlt_keyframe_type)m_selectType->currentAction()->data().toInt());
             emit valueChanged();
             setupMonitor(QRect(rect.x, rect.y, rect.w, rect.h));
         }
@@ -1306,7 +1296,8 @@ void AnimationWidget::connectMonitor(bool activate)
         double ratio = (double)m_spinWidth->value() / m_spinHeight->value();
         if (m_frameSize.x() != m_monitor->render->frameRenderWidth() || m_frameSize.y() != m_monitor->render->renderHeight()) {
             // Source frame size different than project frame size, enable original size option accordingly
-            bool isOriginalSize = qAbs((double)m_frameSize.x()/m_frameSize.y() - ratio) < qAbs((double)m_monitor->render->frameRenderWidth()/m_monitor->render->renderHeight() - ratio);
+            bool isOriginalSize = qAbs((double)m_frameSize.x() / m_frameSize.y() - ratio) <
+                                  qAbs((double)m_monitor->render->frameRenderWidth() / m_monitor->render->renderHeight() - ratio);
             if (isOriginalSize) {
                 m_originalSize->blockSignals(true);
                 m_originalSize->setChecked(true);
@@ -1314,7 +1305,9 @@ void AnimationWidget::connectMonitor(bool activate)
             }
         }
         if (KdenliveSettings::lock_ratio()) {
-            m_monitor->setEffectSceneProperty(QStringLiteral("lockratio"), m_originalSize->isChecked() ? (double)m_frameSize.x() / m_frameSize.y() : (double)m_monitor->render->frameRenderWidth() / m_monitor->render->renderHeight());
+            m_monitor->setEffectSceneProperty(QStringLiteral("lockratio"),
+                                              m_originalSize->isChecked() ? (double)m_frameSize.x() / m_frameSize.y()
+                                                                          : (double)m_monitor->render->frameRenderWidth() / m_monitor->render->renderHeight());
         }
     } else {
         disconnect(m_monitor, &Monitor::effectChanged, this, &AnimationWidget::slotUpdateGeometryRect);
@@ -1385,7 +1378,7 @@ void AnimationWidget::reload(const QString &tag, const QString &data)
     QLocale locale;
     m_animController = m_animProperties.get_animation(tag.toUtf8().constData());
     for (int i = 0; i < paramNames.count(); i++) {
-        const QString& currentParam = paramNames.at(i);
+        const QString &currentParam = paramNames.at(i);
         if (currentParam == tag) {
             continue;
         }
@@ -1448,7 +1441,9 @@ void AnimationWidget::slotAdjustToSource()
     m_spinHeight->blockSignals(false);
     slotAdjustRectKeyframeValue();
     if (KdenliveSettings::lock_ratio()) {
-        m_monitor->setEffectSceneProperty(QStringLiteral("lockratio"), m_originalSize->isChecked() ? (double)m_frameSize.x() / m_frameSize.y() : (double)m_monitor->render->frameRenderWidth() / m_monitor->render->renderHeight());
+        m_monitor->setEffectSceneProperty(QStringLiteral("lockratio"), m_originalSize->isChecked()
+                                                                           ? (double)m_frameSize.x() / m_frameSize.y()
+                                                                           : (double)m_monitor->render->frameRenderWidth() / m_monitor->render->renderHeight());
     }
 }
 
@@ -1460,7 +1455,7 @@ void AnimationWidget::slotAdjustToFrameSize()
     m_spinHeight->blockSignals(true);
     if (sourceDar > monitorDar) {
         // Fit to width
-        double factor = (double) m_monitor->render->frameRenderWidth() / m_frameSize.x() * m_monitor->render->sar();
+        double factor = (double)m_monitor->render->frameRenderWidth() / m_frameSize.x() * m_monitor->render->sar();
         m_spinHeight->setValue((int)(m_frameSize.y() * factor + 0.5));
         m_spinWidth->setValue(m_monitor->render->frameRenderWidth());
         // Center
@@ -1469,7 +1464,7 @@ void AnimationWidget::slotAdjustToFrameSize()
         m_spinY->blockSignals(false);
     } else {
         // Fit to height
-        double factor = (double) m_monitor->render->renderHeight() / m_frameSize.y();
+        double factor = (double)m_monitor->render->renderHeight() / m_frameSize.y();
         m_spinHeight->setValue(m_monitor->render->renderHeight());
         m_spinWidth->setValue((int)(m_frameSize.x() / m_monitor->render->sar() * factor + 0.5));
         // Center
@@ -1484,7 +1479,7 @@ void AnimationWidget::slotAdjustToFrameSize()
 
 void AnimationWidget::slotFitToWidth()
 {
-    double factor = (double) m_monitor->render->frameRenderWidth() / m_frameSize.x() * m_monitor->render->sar();
+    double factor = (double)m_monitor->render->frameRenderWidth() / m_frameSize.x() * m_monitor->render->sar();
     m_spinWidth->blockSignals(true);
     m_spinHeight->blockSignals(true);
     m_spinHeight->setValue((int)(m_frameSize.y() * factor + 0.5));
@@ -1496,7 +1491,7 @@ void AnimationWidget::slotFitToWidth()
 
 void AnimationWidget::slotFitToHeight()
 {
-    double factor = (double) m_monitor->render->renderHeight() / m_frameSize.y();
+    double factor = (double)m_monitor->render->renderHeight() / m_frameSize.y();
     m_spinWidth->blockSignals(true);
     m_spinHeight->blockSignals(true);
     m_spinHeight->setValue(m_monitor->render->renderHeight());
@@ -1561,10 +1556,12 @@ void AnimationWidget::slotImportKeyframes()
 
 void AnimationWidget::slotLockRatio()
 {
-    QAction *lockRatio = qobject_cast<QAction*> (QObject::sender());
+    QAction *lockRatio = qobject_cast<QAction *>(QObject::sender());
     KdenliveSettings::setLock_ratio(lockRatio->isChecked());
     if (lockRatio->isChecked()) {
-        m_monitor->setEffectSceneProperty(QStringLiteral("lockratio"), m_originalSize->isChecked() ? (double)m_frameSize.x() / m_frameSize.y() : (double)m_monitor->render->frameRenderWidth() / m_monitor->render->renderHeight());
+        m_monitor->setEffectSceneProperty(QStringLiteral("lockratio"), m_originalSize->isChecked()
+                                                                           ? (double)m_frameSize.x() / m_frameSize.y()
+                                                                           : (double)m_monitor->render->frameRenderWidth() / m_monitor->render->renderHeight());
     } else {
         m_monitor->setEffectSceneProperty(QStringLiteral("lockratio"), -1);
     }
@@ -1575,9 +1572,9 @@ void AnimationWidget::slotAdjustRectWidth()
     if (KdenliveSettings::lock_ratio()) {
         m_spinHeight->blockSignals(true);
         if (m_originalSize->isChecked()) {
-            m_spinHeight->setValue((int) (m_spinWidth->value() * m_frameSize.y() / m_frameSize.x() + 0.5));
+            m_spinHeight->setValue((int)(m_spinWidth->value() * m_frameSize.y() / m_frameSize.x() + 0.5));
         } else {
-            m_spinHeight->setValue((int) (m_spinWidth->value() * m_monitor->render->renderHeight() / m_monitor->render->frameRenderWidth() + 0.5));
+            m_spinHeight->setValue((int)(m_spinWidth->value() * m_monitor->render->renderHeight() / m_monitor->render->frameRenderWidth() + 0.5));
         }
         m_spinHeight->blockSignals(false);
     }
@@ -1589,9 +1586,9 @@ void AnimationWidget::slotAdjustRectHeight()
     if (KdenliveSettings::lock_ratio()) {
         m_spinWidth->blockSignals(true);
         if (m_originalSize->isChecked()) {
-            m_spinWidth->setValue((int) (m_spinHeight->value() * m_frameSize.x() / m_frameSize.y() + 0.5));
+            m_spinWidth->setValue((int)(m_spinHeight->value() * m_frameSize.x() / m_frameSize.y() + 0.5));
         } else {
-            m_spinWidth->setValue((int) (m_spinHeight->value() * m_monitor->render->frameRenderWidth() / m_monitor->render->renderHeight() + 0.5));
+            m_spinWidth->setValue((int)(m_spinHeight->value() * m_monitor->render->frameRenderWidth() / m_monitor->render->renderHeight() + 0.5));
         }
         m_spinWidth->blockSignals(false);
     }

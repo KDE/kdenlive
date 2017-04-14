@@ -20,14 +20,14 @@
  ***************************************************************************/
 
 #include "docundostack.hpp"
-#include <QUndoGroup>
 #include <QUndoCommand>
+#include <QUndoGroup>
 
 DocUndoStack::DocUndoStack(QUndoGroup *parent) : QUndoStack(parent)
 {
 }
 
-//TODO: custom undostack everywhere do that
+// TODO: custom undostack everywhere do that
 void DocUndoStack::push(QUndoCommand *cmd)
 {
     if (index() < count()) {

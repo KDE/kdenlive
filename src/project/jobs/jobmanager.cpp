@@ -20,28 +20,26 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "jobmanager.h"
-#include "kdenlivesettings.h"
-#include "doc/kdenlivedoc.h"
 #include "abstractclipjob.h"
-#include "proxyclipjob.h"
-#include "cutclipjob.h"
-#include "bin/projectclip.h"
-#include "project/clipstabilize.h"
-#include "meltjob.h"
-#include "filterjob.h"
 #include "bin/bin.h"
+#include "bin/projectclip.h"
+#include "cutclipjob.h"
+#include "doc/kdenlivedoc.h"
+#include "filterjob.h"
+#include "kdenlivesettings.h"
+#include "meltjob.h"
 #include "mlt++/Mlt.h"
+#include "project/clipstabilize.h"
+#include "proxyclipjob.h"
 
 #include "kdenlive_debug.h"
 #include <QtConcurrent>
 
+#include "ui_scenecutdialog_ui.h"
 #include <KMessageWidget>
 #include <klocalizedstring.h>
-#include "ui_scenecutdialog_ui.h"
 
-JobManager::JobManager(Bin *bin): QObject()
-    , m_bin(bin)
-    , m_abortAllJobs(false)
+JobManager::JobManager(Bin *bin) : QObject(), m_bin(bin), m_abortAllJobs(false)
 {
     connect(this, &JobManager::processLog, this, &JobManager::slotProcessLog);
     connect(this, &JobManager::checkJobProcess, this, &JobManager::slotCheckJobProcess);
@@ -64,7 +62,7 @@ JobManager::~JobManager()
 void JobManager::slotProcessLog(const QString &id, int progress, int type, const QString &message)
 {
     ProjectClip *item = m_bin->getBinClip(id);
-    item->setJobStatus((AbstractClipJob::JOBTYPE) type, JobWorking, progress, message);
+    item->setJobStatus((AbstractClipJob::JOBTYPE)type, JobWorking, progress, message);
 }
 
 QStringList JobManager::getPendingJobs(const QString &id)
@@ -112,7 +110,7 @@ void JobManager::slotCheckJobProcess()
 {
     if (!m_jobThreads.futures().isEmpty()) {
         // Remove inactive threads
-        QList<QFuture<void> > futures = m_jobThreads.futures();
+        QList<QFuture<void>> futures = m_jobThreads.futures();
         m_jobThreads.clearFutures();
         for (int i = 0; i < futures.count(); ++i)
             if (!futures.at(i).isFinished()) {
@@ -127,7 +125,7 @@ void JobManager::slotCheckJobProcess()
     int count = 0;
     for (int i = 0; i < m_jobList.count(); ++i) {
         if (m_jobList.at(i)->status() == JobWorking || m_jobList.at(i)->status() == JobWaiting) {
-            count ++;
+            count++;
         } else {
             // remove finished jobs
             AbstractClipJob *job = m_jobList.takeAt(i);
@@ -147,7 +145,7 @@ void JobManager::updateJobCount()
     int count = 0;
     for (int i = 0; i < m_jobList.count(); ++i) {
         if (m_jobList.at(i)->status() == JobWaiting || m_jobList.at(i)->status() == JobWorking) {
-            count ++;
+            count++;
         }
     }
     // Set jobs count
@@ -213,12 +211,13 @@ void JobManager::slotProcessJobs()
         connect(job, &AbstractClipJob::cancelRunningJob, m_bin, &Bin::slotCancelRunningJob);
 
         if (job->jobType == AbstractClipJob::MLTJOB || job->jobType == AbstractClipJob::ANALYSECLIPJOB) {
-            connect(job, SIGNAL(gotFilterJobResults(QString, int, int, stringMap, stringMap)), this, SIGNAL(gotFilterJobResults(QString, int, int, stringMap, stringMap)));
+            connect(job, SIGNAL(gotFilterJobResults(QString, int, int, stringMap, stringMap)), this,
+                    SIGNAL(gotFilterJobResults(QString, int, int, stringMap, stringMap)));
         }
         job->startJob();
         if (job->status() == JobDone) {
             emit updateJobStatus(job->clipId(), job->jobType, JobDone);
-            //TODO: replace with more generic clip replacement framework
+            // TODO: replace with more generic clip replacement framework
             if (job->jobType == AbstractClipJob::PROXYJOB) {
                 m_bin->gotProxy(job->clipId(), destination);
             } else if (job->addClipToProject() > -100) {
@@ -234,18 +233,20 @@ void JobManager::slotProcessJobs()
 
 QList<ProjectClip *> JobManager::filterClips(const QList<ProjectClip *> &clips, AbstractClipJob::JOBTYPE jobType, const QStringList &params)
 {
-    //TODO: filter depending on clip type
+    // TODO: filter depending on clip type
     if (jobType == AbstractClipJob::TRANSCODEJOB || jobType == AbstractClipJob::CUTJOB) {
         return CutClipJob::filterClips(clips, params);
-    } if (jobType == AbstractClipJob::FILTERCLIPJOB) {
+    }
+    if (jobType == AbstractClipJob::FILTERCLIPJOB) {
         return FilterJob::filterClips(clips, params);
     } else if (jobType == AbstractClipJob::PROXYJOB) {
         return ProxyJob::filterClips(clips);
     }
-    return QList<ProjectClip *> ();
+    return QList<ProjectClip *>();
 }
 
-void JobManager::prepareJobFromTimeline(ProjectClip *clip, const QMap<QString, QString> &producerParams, const QMap<QString, QString> &filterParams, const QMap<QString, QString> &consumerParams, const QMap<QString, QString> &extraParams)
+void JobManager::prepareJobFromTimeline(ProjectClip *clip, const QMap<QString, QString> &producerParams, const QMap<QString, QString> &filterParams,
+                                        const QMap<QString, QString> &consumerParams, const QMap<QString, QString> &extraParams)
 {
     auto *job = new MeltJob(clip->clipType(), clip->AbstractProjectItem::clipId(), producerParams, filterParams, consumerParams, extraParams);
     job->description = i18n("Filter %1", extraParams.value(QStringLiteral("finalfilter")));
@@ -254,7 +255,7 @@ void JobManager::prepareJobFromTimeline(ProjectClip *clip, const QMap<QString, Q
 
 void JobManager::prepareJobs(const QList<ProjectClip *> &clips, double fps, AbstractClipJob::JOBTYPE jobType, const QStringList &params)
 {
-    //TODO filter clips
+    // TODO filter clips
     QList<ProjectClip *> matching = filterClips(clips, jobType, params);
     if (matching.isEmpty()) {
         m_bin->doDisplayMessage(i18n("No valid clip to process"), KMessageWidget::Information);
@@ -335,7 +336,7 @@ void JobManager::slotCancelJobs()
     m_jobThreads.waitForFinished();
     m_jobThreads.clearFutures();
 
-    //TODO: undo job cancelation ? not sure it's necessary
+    // TODO: undo job cancelation ? not sure it's necessary
     /*QUndoCommand *command = new QUndoCommand();
     command->setText(i18np("Cancel job", "Cancel jobs", m_jobList.count()));
     m_jobMutex.lock();
@@ -361,4 +362,3 @@ void JobManager::slotCancelJobs()
     m_abortAllJobs = false;
     emit jobCount(0);
 }
-

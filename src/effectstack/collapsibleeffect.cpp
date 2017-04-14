@@ -18,42 +18,37 @@
  ***************************************************************************/
 
 #include "collapsibleeffect.h"
+#include "dialogs/clipcreationdialog.h"
 #include "effectslist/effectslist.h"
 #include "kdenlivesettings.h"
 #include "mltcontroller/effectscontroller.h"
 #include "utils/KoIconUtils.h"
-#include "dialogs/clipcreationdialog.h"
 
-#include <QInputDialog>
-#include <QDialog>
-#include <QMenu>
-#include <QVBoxLayout>
-#include <QLabel>
-#include <QProgressBar>
-#include <QWheelEvent>
-#include <QFontDatabase>
-#include <QFileDialog>
 #include "kdenlive_debug.h"
-#include <QStandardPaths>
-#include <QPainter>
-#include <QTimeLine>
+#include <QDialog>
+#include <QFileDialog>
+#include <QFontDatabase>
+#include <QInputDialog>
+#include <QLabel>
+#include <QMenu>
 #include <QMimeData>
+#include <QPainter>
+#include <QProgressBar>
+#include <QStandardPaths>
+#include <QTimeLine>
+#include <QVBoxLayout>
+#include <QWheelEvent>
 
-#include <KRecentDirs>
 #include <KComboBox>
-#include <klocalizedstring.h>
-#include <KMessageBox>
 #include <KDualAction>
+#include <KMessageBox>
+#include <KRecentDirs>
+#include <klocalizedstring.h>
 
-CollapsibleEffect::CollapsibleEffect(const QDomElement &effect, const QDomElement &original_effect, const ItemInfo &info, EffectMetaInfo *metaInfo, bool canMoveUp, bool lastEffect, QWidget *parent) :
-    AbstractCollapsibleWidget(parent),
-    m_paramWidget(nullptr),
-    m_effect(effect),
-    m_itemInfo(info),
-    m_original_effect(original_effect),
-    m_isMovable(true),
-    m_animation(nullptr),
-    m_regionEffect(false)
+CollapsibleEffect::CollapsibleEffect(const QDomElement &effect, const QDomElement &original_effect, const ItemInfo &info, EffectMetaInfo *metaInfo,
+                                     bool canMoveUp, bool lastEffect, QWidget *parent)
+    : AbstractCollapsibleWidget(parent), m_paramWidget(nullptr), m_effect(effect), m_itemInfo(info), m_original_effect(original_effect), m_isMovable(true),
+      m_animation(nullptr), m_regionEffect(false)
 {
     if (m_effect.attribute(QStringLiteral("tag")) == QLatin1String("region")) {
         m_regionEffect = true;
@@ -61,7 +56,7 @@ CollapsibleEffect::CollapsibleEffect(const QDomElement &effect, const QDomElemen
     }
     filterWheelEvent = true;
     m_info.fromString(effect.attribute(QStringLiteral("kdenlive_info")));
-    //setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    // setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     buttonUp->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-up")));
     QSize iconSize = buttonUp->iconSize();
     buttonUp->setMaximumSize(iconSize);
@@ -89,14 +84,14 @@ CollapsibleEffect::CollapsibleEffect(const QDomElement &effect, const QDomElemen
 
     /*buttonReset->setIcon(KoIconUtils::themedIcon("view-refresh"));
     buttonReset->setToolTip(i18n("Reset effect"));*/
-    //checkAll->setToolTip(i18n("Enable/Disable all effects"));
-    //buttonShowComments->setIcon(KoIconUtils::themedIcon("help-about"));
-    //buttonShowComments->setToolTip(i18n("Show additional information for the parameters"));
+    // checkAll->setToolTip(i18n("Enable/Disable all effects"));
+    // buttonShowComments->setIcon(KoIconUtils::themedIcon("help-about"));
+    // buttonShowComments->setToolTip(i18n("Show additional information for the parameters"));
     m_menu = new QMenu(this);
     m_menu->addAction(KoIconUtils::themedIcon(QStringLiteral("view-refresh")), i18n("Reset Effect"), this, SLOT(slotResetEffect()));
     m_menu->addAction(KoIconUtils::themedIcon(QStringLiteral("document-save")), i18n("Save Effect"), this, SLOT(slotSaveEffect()));
 
-    QHBoxLayout *l = static_cast <QHBoxLayout *>(frame->layout());
+    QHBoxLayout *l = static_cast<QHBoxLayout *>(frame->layout());
     m_colorIcon = new QLabel(this);
     l->insertWidget(0, m_colorIcon);
     m_colorIcon->setMinimumSize(iconSize);
@@ -114,7 +109,7 @@ CollapsibleEffect::CollapsibleEffect(const QDomElement &effect, const QDomElemen
     QDomElement namenode = m_effect.firstChildElement(QStringLiteral("name"));
     if (namenode.isNull()) {
         // Warning, broken effect?
-        //qCDebug(KDENLIVE_LOG)<<"// Could not create effect";
+        // qCDebug(KDENLIVE_LOG)<<"// Could not create effect";
         return;
     }
     QString effectname = namenode.text().isEmpty() ? QString() : i18n(namenode.text().toUtf8().data());
@@ -182,12 +177,12 @@ CollapsibleEffect::CollapsibleEffect(const QDomElement &effect, const QDomElemen
         cb->installEventFilter(this);
         cb->setFocusPolicy(Qt::StrongFocus);
     }
-    m_animation = new QTimeLine(200, this); //duration matches to match kmessagewidget
+    m_animation = new QTimeLine(200, this); // duration matches to match kmessagewidget
     connect(m_animation, &QTimeLine::valueChanged, this, &CollapsibleEffect::setWidgetHeight);
     connect(m_animation, &QTimeLine::stateChanged, this, [this](QTimeLine::State state) {
         if (state == QTimeLine::NotRunning) {
-            //when collapsed hide contents to save resources and more importantly get it out the focus chain
-            //slotShow(widgetFrame->height() > 0);
+            // when collapsed hide contents to save resources and more importantly get it out the focus chain
+            // slotShow(widgetFrame->height() > 0);
             widgetFrame->setVisible(widgetFrame->height() > 0);
         }
     });
@@ -213,7 +208,8 @@ void CollapsibleEffect::slotCreateGroup()
 void CollapsibleEffect::slotCreateRegion()
 {
     QString allExtensions = ClipCreationDialog::getExtensions().join(QLatin1Char(' '));
-    const QString dialogFilter = allExtensions + QLatin1Char(' ') + QLatin1Char('|') + i18n("All Supported Files") + QStringLiteral("\n* ") + QLatin1Char('|') + i18n("All Files");
+    const QString dialogFilter =
+        allExtensions + QLatin1Char(' ') + QLatin1Char('|') + i18n("All Supported Files") + QStringLiteral("\n* ") + QLatin1Char('|') + i18n("All Files");
     QString clipFolder = KRecentDirs::dir(QStringLiteral(":KdenliveClipFolder"));
     if (clipFolder.isEmpty()) {
         clipFolder = QDir::homePath();
@@ -249,28 +245,25 @@ bool CollapsibleEffect::eventFilter(QObject *o, QEvent *e)
             if (qobject_cast<QAbstractSpinBox *>(o)->focusPolicy() == Qt::WheelFocus) {
                 e->accept();
                 return false;
-            } 
-                e->ignore();
-                return true;
-            
+            }
+            e->ignore();
+            return true;
         }
         if (qobject_cast<KComboBox *>(o)) {
             if (qobject_cast<KComboBox *>(o)->focusPolicy() == Qt::WheelFocus) {
                 e->accept();
                 return false;
-            } 
-                e->ignore();
-                return true;
-            
+            }
+            e->ignore();
+            return true;
         }
         if (qobject_cast<QProgressBar *>(o)) {
             if (qobject_cast<QProgressBar *>(o)->focusPolicy() == Qt::WheelFocus) {
                 e->accept();
                 return false;
-            } 
-                e->ignore();
-                return true;
-            
+            }
+            e->ignore();
+            return true;
         }
     }
     return QWidget::eventFilter(o, e);
@@ -379,9 +372,10 @@ void CollapsibleEffect::slotSaveEffect()
         dir.mkpath(QStringLiteral("."));
     }
 
-    if (dir.exists(name + QStringLiteral(".xml"))) if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", name + QStringLiteral(".xml"))) == KMessageBox::No) {
-        return;
-    }
+    if (dir.exists(name + QStringLiteral(".xml")))
+        if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", name + QStringLiteral(".xml"))) == KMessageBox::No) {
+            return;
+        }
 
     QDomDocument doc;
     QDomElement effect = m_effect.cloneNode().toElement();
@@ -534,8 +528,8 @@ void CollapsibleEffect::setupWidget(const ItemInfo &info, EffectMetaInfo *metaIn
 
     if (m_effect.attribute(QStringLiteral("tag")) == QLatin1String("region")) {
         m_regionEffect = true;
-        QDomNodeList effects =  m_effect.elementsByTagName(QStringLiteral("effect"));
-        QDomNodeList origin_effects =  m_original_effect.elementsByTagName(QStringLiteral("effect"));
+        QDomNodeList effects = m_effect.elementsByTagName(QStringLiteral("effect"));
+        QDomNodeList origin_effects = m_original_effect.elementsByTagName(QStringLiteral("effect"));
         m_paramWidget = new ParameterContainer(m_effect, info, metaInfo, widgetFrame);
         QWidget *container = new QWidget(widgetFrame);
         QVBoxLayout *vbox = static_cast<QVBoxLayout *>(widgetFrame->layout());
@@ -546,12 +540,13 @@ void CollapsibleEffect::setupWidget(const ItemInfo &info, EffectMetaInfo *metaIn
             if (i == 0 || effects.at(i - 1).toElement().attribute(QStringLiteral("id")) == QLatin1String("speed")) {
                 canMoveUp = false;
             }
-            CollapsibleEffect *coll = new CollapsibleEffect(effects.at(i).toElement(), origin_effects.at(i).toElement(), info, metaInfo, canMoveUp, i == effects.count() - 1, container);
+            CollapsibleEffect *coll = new CollapsibleEffect(effects.at(i).toElement(), origin_effects.at(i).toElement(), info, metaInfo, canMoveUp,
+                                                            i == effects.count() - 1, container);
             m_subParamWidgets.append(coll);
             connect(coll, &CollapsibleEffect::parameterChanged, this, &CollapsibleEffect::slotUpdateRegionEffectParams);
-            //container = new QWidget(widgetFrame);
+            // container = new QWidget(widgetFrame);
             vbox->addWidget(coll);
-            //p = new ParameterContainer(effects.at(i).toElement(), info, isEffect, container);
+            // p = new ParameterContainer(effects.at(i).toElement(), info, isEffect, container);
         }
     } else {
         m_paramWidget = new ParameterContainer(m_effect, info, metaInfo, widgetFrame);
@@ -567,7 +562,6 @@ void CollapsibleEffect::setupWidget(const ItemInfo &info, EffectMetaInfo *metaIn
     if (collapseButton->isEnabled() && m_info.isCollapsed) {
         widgetFrame->setVisible(false);
         collapseButton->setArrowType(Qt::RightArrow);
-
     }
     connect(m_paramWidget, &ParameterContainer::parameterChanged, this, &CollapsibleEffect::parameterChanged);
 
@@ -603,9 +597,9 @@ void CollapsibleEffect::updateTimecodeFormat()
     }
 }
 
-void CollapsibleEffect::slotUpdateRegionEffectParams(const QDomElement &/*old*/, const QDomElement &/*e*/, int /*ix*/)
+void CollapsibleEffect::slotUpdateRegionEffectParams(const QDomElement & /*old*/, const QDomElement & /*e*/, int /*ix*/)
 {
-    //qCDebug(KDENLIVE_LOG)<<"// EMIT CHANGE SUBEFFECT.....:";
+    // qCDebug(KDENLIVE_LOG)<<"// EMIT CHANGE SUBEFFECT.....:";
     emit parameterChanged(m_original_effect, m_effect, effectIndex());
 }
 
@@ -620,7 +614,8 @@ void CollapsibleEffect::dragEnterEvent(QDragEnterEvent *event)
         frame->setProperty("target", true);
         frame->setStyleSheet(frame->styleSheet());
         event->acceptProposedAction();
-    } else if (m_paramWidget->doesAcceptDrops() && event->mimeData()->hasFormat(QStringLiteral("kdenlive/geometry")) && event->source()->objectName() != QStringLiteral("ParameterContainer")) {
+    } else if (m_paramWidget->doesAcceptDrops() && event->mimeData()->hasFormat(QStringLiteral("kdenlive/geometry")) &&
+               event->source()->objectName() != QStringLiteral("ParameterContainer")) {
         event->setDropAction(Qt::CopyAction);
         event->setAccepted(true);
     } else {
@@ -628,7 +623,7 @@ void CollapsibleEffect::dragEnterEvent(QDragEnterEvent *event)
     }
 }
 
-void CollapsibleEffect::dragLeaveEvent(QDragLeaveEvent */*event*/)
+void CollapsibleEffect::dragLeaveEvent(QDragLeaveEvent * /*event*/)
 {
     frame->setProperty("target", false);
     frame->setStyleSheet(frame->styleSheet());
@@ -662,7 +657,7 @@ void CollapsibleEffect::dropEvent(QDropEvent *event)
     frame->setProperty("target", false);
     frame->setStyleSheet(frame->styleSheet());
     const QString effects = QString::fromUtf8(event->mimeData()->data(QStringLiteral("kdenlive/effectslist")));
-    //event->acceptProposedAction();
+    // event->acceptProposedAction();
     QDomDocument doc;
     doc.setContent(effects, true);
     QDomElement e = doc.documentElement();
@@ -698,7 +693,6 @@ void CollapsibleEffect::dropEvent(QDropEvent *event)
                 // group effect dropped from effect list
                 if (m_info.groupIndex > -1) {
                     // TODO: Should we merge groups??
-
                 }
                 emit addEffect(e);
             }
@@ -715,7 +709,7 @@ void CollapsibleEffect::dropEvent(QDropEvent *event)
         emit addEffect(e);
         return;
     }
-    emit moveEffect(QList<int> () << ix, currentEffectIx, m_info.groupIndex, m_info.groupName);
+    emit moveEffect(QList<int>() << ix, currentEffectIx, m_info.groupIndex, m_info.groupName);
     event->setDropAction(Qt::MoveAction);
     event->accept();
 }
@@ -730,9 +724,8 @@ MonitorSceneType CollapsibleEffect::needsMonitorEffectScene() const
 {
     if ((m_paramWidget != nullptr) && !m_enabledButton->isActive()) {
         return m_paramWidget->needsMonitorEffectScene();
-    } 
-        return MonitorSceneDefault;
-    
+    }
+    return MonitorSceneDefault;
 }
 
 void CollapsibleEffect::setRange(int inPoint, int outPoint)

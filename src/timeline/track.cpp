@@ -10,32 +10,28 @@
  * accepted by the membership of KDE e.V. (or its successor approved
  * by the membership of KDE e.V.), which shall act as a proxy
  * defined in Section 14 of version 3 of the license.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  */
 
 #include "track.h"
-#include "headertrack.h"
-#include "kdenlivesettings.h"
 #include "clip.h"
 #include "effectmanager.h"
+#include "headertrack.h"
+#include "kdenlivesettings.h"
 
 #include "kdenlive_debug.h"
 #include <math.h>
 
-Track::Track(int index, const QList<QAction *> &actions, Mlt::Playlist &playlist, TrackType trackType, int height, QWidget *parent) :
-    effectsList(EffectsList(true)),
-    type(trackType),
-    trackHeader(nullptr),
-    m_index(index),
-    m_playlist(playlist)
+Track::Track(int index, const QList<QAction *> &actions, Mlt::Playlist &playlist, TrackType trackType, int height, QWidget *parent)
+    : effectsList(EffectsList(true)), type(trackType), trackHeader(nullptr), m_index(index), m_playlist(playlist)
 {
     QString playlist_name = playlist.get("id");
     if (playlist_name != QLatin1String("black_track")) {
@@ -50,7 +46,7 @@ Track::~Track()
 
 // members access
 
-Mlt::Playlist & Track::playlist()
+Mlt::Playlist &Track::playlist()
 {
     return m_playlist;
 }
@@ -65,7 +61,8 @@ int Track::frame(qreal t)
     return round(t * fps());
 }
 
-qreal Track::length() {
+qreal Track::length()
+{
     return m_playlist.get_playtime() / fps();
 }
 
@@ -85,8 +82,7 @@ bool Track::add(qreal t, Mlt::Producer *parent, qreal tcut, qreal dtcut, Playlis
     } else if (duplicate && state != PlaylistState::VideoOnly) {
         QScopedPointer<Mlt::Producer> newProd(clipProducer(parent, state));
         cut = newProd->cut(frame(tcut), frame(dtcut) - 1);
-    }
-    else {
+    } else {
         cut = parent->cut(frame(tcut), frame(dtcut) - 1);
     }
     if (parent->is_cut()) {
@@ -119,23 +115,23 @@ bool Track::move(qreal start, qreal end, TimelineMode::EditMode mode)
     int clipIndex = m_playlist.get_clip_index_at(pos);
     bool durationChanged = false;
     if (clipIndex == m_playlist.count() - 1) {
-	durationChanged = true;
+        durationChanged = true;
     }
-    QScopedPointer <Mlt::Producer> clipProducer(m_playlist.replace_with_blank(clipIndex));
+    QScopedPointer<Mlt::Producer> clipProducer(m_playlist.replace_with_blank(clipIndex));
     if (!clipProducer || clipProducer->is_blank()) {
-        qCDebug(KDENLIVE_LOG) << "// Cannot get clip at index: "<<clipIndex<<" / "<< start;
+        qCDebug(KDENLIVE_LOG) << "// Cannot get clip at index: " << clipIndex << " / " << start;
         m_playlist.unlock();
         return false;
     }
     m_playlist.consolidate_blanks();
     if (end >= m_playlist.get_playtime()) {
-	// Clip is inserted at the end of track, duration change event handled in doAdd()
-	durationChanged = false;
+        // Clip is inserted at the end of track, duration change event handled in doAdd()
+        durationChanged = false;
     }
     bool result = doAdd(end, clipProducer.data(), mode);
     m_playlist.unlock();
     if (durationChanged) {
-	emit newTrackDuration(m_playlist.get_playtime());
+        emit newTrackDuration(m_playlist.get_playtime());
     }
     return result;
 }
@@ -153,7 +149,7 @@ bool Track::del(qreal t, bool checkDuration)
     int pos = frame(t);
     int ix = m_playlist.get_clip_index_at(pos);
     if (ix == m_playlist.count() - 1) {
-	durationChanged = true;
+        durationChanged = true;
     }
     Mlt::Producer *clip = m_playlist.replace_with_blank(ix);
     if (clip) {
@@ -189,7 +185,7 @@ bool Track::resize(qreal t, qreal dt, bool end)
     QScopedPointer<Mlt::Producer> clip(m_playlist.get_clip(index));
     if (clip == nullptr || clip->is_blank()) {
         qWarning("Can't resize clip at %f", t);
-	m_playlist.unlock();
+        m_playlist.unlock();
         return false;
     }
 
@@ -204,8 +200,11 @@ bool Track::resize(qreal t, qreal dt, bool end)
         in += length;
     }
 
-    //image or color clips are not bounded
-    if (in < 0) {out -= in; in = 0;}
+    // image or color clips are not bounded
+    if (in < 0) {
+        out -= in;
+        in = 0;
+    }
     if (clip->get_length() < out + 1) {
         clip->parent().set("length", out + 2);
         clip->parent().set("out", out + 1);
@@ -218,7 +217,7 @@ bool Track::resize(qreal t, qreal dt, bool end)
         return false;
     }
 
-    //adjust adjacent blank
+    // adjust adjacent blank
     if (end) {
         ++index;
         if (index > m_playlist.count() - 1) {
@@ -259,7 +258,7 @@ bool Track::cut(qreal t)
     m_playlist.lock();
     int index = m_playlist.get_clip_index_at(pos);
     if (m_playlist.is_blank(index)) {
-	qCDebug(KDENLIVE_LOG)<<" - - --Warning, clip is blank at: "<<index;
+        qCDebug(KDENLIVE_LOG) << " - - --Warning, clip is blank at: " << index;
         m_playlist.unlock();
         return false;
     }
@@ -271,9 +270,9 @@ bool Track::cut(qreal t)
     m_playlist.unlock();
     QScopedPointer<Mlt::Producer> clip1(m_playlist.get_clip(index));
     QScopedPointer<Mlt::Producer> clip2(m_playlist.get_clip(index + 1));
-    qCDebug(KDENLIVE_LOG)<<"CLIP CUT ID: "<<clip1->get("id")<<" / "<<clip1->parent().get("id");
-    Clip (*clip2).addEffects(*clip1, true);
-    for(int i = 0; i < clip1->filter_count(); ++i) {
+    qCDebug(KDENLIVE_LOG) << "CLIP CUT ID: " << clip1->get("id") << " / " << clip1->parent().get("id");
+    Clip(*clip2).addEffects(*clip1, true);
+    for (int i = 0; i < clip1->filter_count(); ++i) {
         QString effectId = clip1->filter(i)->get("kdenlive_id");
         if (effectId == "fadeout" || effectId == "fade_to_black") {
             Mlt::Filter *f = clip1->filter(i);
@@ -283,7 +282,7 @@ bool Track::cut(qreal t)
         }
     }
     // adjust filters in/out
-    Clip (*clip1).adjustEffectsLength();
+    Clip(*clip1).adjustEffectsLength();
     return true;
 }
 
@@ -304,15 +303,16 @@ void Track::replaceId(const QString &id)
     QString idForAudioTrack = id + QLatin1Char('_') + m_playlist.get("id") + QStringLiteral("_audio");
     QString idForVideoTrack = id + QStringLiteral("_video");
     QString idForTrack = id + QLatin1Char('_') + m_playlist.get("id");
-    //TODO: slowmotion
+    // TODO: slowmotion
     for (int i = 0; i < m_playlist.count(); i++) {
         if (m_playlist.is_blank(i)) continue;
         QScopedPointer<Mlt::Producer> p(m_playlist.get_clip(i));
         QString current = p->parent().get("id");
-	if (current == id || current == idForTrack || current == idForAudioTrack || current == idForVideoTrack || current.startsWith("slowmotion:" + id + QLatin1Char(':'))) {
-        current.prepend(QLatin1Char('#'));
-	    p->parent().set("id", current.toUtf8().constData());
-	}
+        if (current == id || current == idForTrack || current == idForAudioTrack || current == idForVideoTrack ||
+            current.startsWith("slowmotion:" + id + QLatin1Char(':'))) {
+            current.prepend(QLatin1Char('#'));
+            p->parent().set("id", current.toUtf8().constData());
+        }
     }
 }
 
@@ -324,11 +324,11 @@ QList<Track::SlowmoInfo> Track::getSlowmotionInfos(const QString &id)
         if (m_playlist.is_blank(i)) continue;
         QScopedPointer<Mlt::Producer> p(m_playlist.get_clip(i));
         QString current = p->parent().get("id");
-    if (!current.startsWith(QLatin1Char('#'))) {
-	    continue;
-	}
-	current.remove(0, 1);
-	if (current.startsWith("slowmotion:" + id + QLatin1Char(':'))) {
+        if (!current.startsWith(QLatin1Char('#'))) {
+            continue;
+        }
+        current.remove(0, 1);
+        if (current.startsWith("slowmotion:" + id + QLatin1Char(':'))) {
             Track::SlowmoInfo info;
             info.readFromString(current.section(QLatin1Char(':'), 2), locale);
             list << info;
@@ -337,7 +337,8 @@ QList<Track::SlowmoInfo> Track::getSlowmotionInfos(const QString &id)
     return list;
 }
 
-QList<ItemInfo> Track::replaceAll(const QString &id, Mlt::Producer *original, Mlt::Producer *videoOnlyProducer, const QMap<QString, Mlt::Producer *> &newSlowMos)
+QList<ItemInfo> Track::replaceAll(const QString &id, Mlt::Producer *original, Mlt::Producer *videoOnlyProducer,
+                                  const QMap<QString, Mlt::Producer *> &newSlowMos)
 {
     QString idForAudioTrack;
     QString idForVideoTrack;
@@ -358,7 +359,8 @@ QList<ItemInfo> Track::replaceAll(const QString &id, Mlt::Producer *original, Ml
         QScopedPointer<Mlt::Producer> p(m_playlist.get_clip(i));
         QString current = p->parent().get("id");
         if (current == id) {
-            if (((tkState & 1) != 0) || (QString(p->parent().get("mlt_service")).contains(QStringLiteral("avformat")) && p->parent().get_int("video_index") == -1)) {
+            if (((tkState & 1) != 0) ||
+                (QString(p->parent().get("mlt_service")).contains(QStringLiteral("avformat")) && p->parent().get_int("video_index") == -1)) {
                 // Video is hidden, nothing visible
                 continue;
             }
@@ -370,37 +372,36 @@ QList<ItemInfo> Track::replaceAll(const QString &id, Mlt::Producer *original, Ml
             replaced << cInfo;
             continue;
         }
-    if (!current.startsWith(QLatin1Char('#'))) {
-	    continue;
-	}
-	current.remove(0, 1);
+        if (!current.startsWith(QLatin1Char('#'))) {
+            continue;
+        }
+        current.remove(0, 1);
         Mlt::Producer *cut = nullptr;
-	if (current.startsWith("slowmotion:" + id + QLatin1Char(':'))) {
-	      // Slowmotion producer, just update resource
-          Mlt::Producer *slowProd = newSlowMos.value(current.section(QLatin1Char(':'), 2));
-	      if ((slowProd == nullptr) || !slowProd->is_valid()) {
-		    qCDebug(KDENLIVE_LOG)<<"/// WARNING, couldn't find replacement slowmo for "<<id;
-		    continue;
-	      }
-	      cut = slowProd->cut(p->get_in(), p->get_out());
-	}
+        if (current.startsWith("slowmotion:" + id + QLatin1Char(':'))) {
+            // Slowmotion producer, just update resource
+            Mlt::Producer *slowProd = newSlowMos.value(current.section(QLatin1Char(':'), 2));
+            if ((slowProd == nullptr) || !slowProd->is_valid()) {
+                qCDebug(KDENLIVE_LOG) << "/// WARNING, couldn't find replacement slowmo for " << id;
+                continue;
+            }
+            cut = slowProd->cut(p->get_in(), p->get_out());
+        }
         if ((cut == nullptr) && idForAudioTrack.isEmpty()) {
             if (current == idForTrack) {
                 // No duplication required
                 cut = original->cut(p->get_in(), p->get_out());
-            }
-            else if (!idForTrack.contains(QLatin1Char('_')) && idForTrack == current.section(QLatin1Char('_'), 0, 0)) {
+            } else if (!idForTrack.contains(QLatin1Char('_')) && idForTrack == current.section(QLatin1Char('_'), 0, 0)) {
                 // Unproxying a slideshow
                 cut = original->cut(p->get_in(), p->get_out());
             } else {
-		continue;
-	    }
+                continue;
+            }
         }
         if ((cut == nullptr) && p->parent().get_int("audio_index") == -1 && current == id) {
-	        // No audio - no duplication required
-                cut = original->cut(p->get_in(), p->get_out());
-	}
-        else if ((cut == nullptr) && ((current == idForTrack) || (!current.contains(QLatin1Char('_')) && current == idForTrack.section(QLatin1Char('_'), 0, 0)))) {
+            // No audio - no duplication required
+            cut = original->cut(p->get_in(), p->get_out());
+        } else if ((cut == nullptr) &&
+                   ((current == idForTrack) || (!current.contains(QLatin1Char('_')) && current == idForTrack.section(QLatin1Char('_'), 0, 0)))) {
             // Use duplicate
             if (trackProducer == nullptr) {
                 if (idForTrack.contains(QLatin1Char('_'))) {
@@ -409,14 +410,12 @@ QList<ItemInfo> Track::replaceAll(const QString &id, Mlt::Producer *original, Ml
                 }
             }
             cut = trackProducer->cut(p->get_in(), p->get_out());
-        }
-        else if ((cut == nullptr) && current == idForAudioTrack) {
+        } else if ((cut == nullptr) && current == idForAudioTrack) {
             if (audioTrackProducer == nullptr) {
                 audioTrackProducer = clipProducer(original, PlaylistState::AudioOnly, true);
             }
             cut = audioTrackProducer->cut(p->get_in(), p->get_out());
-        }
-        else if ((cut == nullptr) && current == idForVideoTrack) {
+        } else if ((cut == nullptr) && current == idForVideoTrack) {
             cut = videoOnlyProducer->cut(p->get_in(), p->get_out());
         }
         if (cut) {
@@ -428,7 +427,8 @@ QList<ItemInfo> Track::replaceAll(const QString &id, Mlt::Producer *original, Ml
             m_playlist.insert(*cut, i);
             m_playlist.consolidate_blanks();
             delete cut;
-            if (((tkState & 1) != 0) || (QString(p->parent().get("mlt_service")).contains(QStringLiteral("avformat")) && p->parent().get_int("video_index") == -1)) {
+            if (((tkState & 1) != 0) ||
+                (QString(p->parent().get("mlt_service")).contains(QStringLiteral("avformat")) && p->parent().get_int("video_index") == -1)) {
                 // Video is hidden for this track, nothing visible
                 continue;
             }
@@ -441,21 +441,22 @@ QList<ItemInfo> Track::replaceAll(const QString &id, Mlt::Producer *original, Ml
     return replaced;
 }
 
-//TODO: cut: checkSlowMotionProducer
-bool Track::replace(qreal t, Mlt::Producer *prod, PlaylistState::ClipState state, PlaylistState::ClipState originalState) {
+// TODO: cut: checkSlowMotionProducer
+bool Track::replace(qreal t, Mlt::Producer *prod, PlaylistState::ClipState state, PlaylistState::ClipState originalState)
+{
     m_playlist.lock();
     int index = m_playlist.get_clip_index_at(frame(t));
     Mlt::Producer *cut;
-    QScopedPointer <Mlt::Producer> orig(m_playlist.replace_with_blank(index));
+    QScopedPointer<Mlt::Producer> orig(m_playlist.replace_with_blank(index));
     QString service = prod->get("mlt_service");
     if (state == PlaylistState::Disabled) {
         QScopedPointer<Mlt::Producer> prodCopy(Clip(*prod).clone());
         // Reset id to let MLT give a new one
-        prodCopy->set("id", (char*)nullptr);
+        prodCopy->set("id", (char *)nullptr);
         prodCopy->set("video_index", -1);
         prodCopy->set("audio_index", -1);
         prodCopy->set("kdenlive:binid", prod->get("id"));
-        prodCopy->set("kdenlive:clipstate", (int) originalState);
+        prodCopy->set("kdenlive:clipstate", (int)originalState);
         cut = prodCopy->cut(orig->get_in(), orig->get_out());
     } else if (state != PlaylistState::VideoOnly && service != QLatin1String("timewarp")) {
         // Get track duplicate
@@ -488,20 +489,18 @@ void Track::updateEffects(const QString &id, Mlt::Producer *original)
     for (int i = 0; i < m_playlist.count(); i++) {
         if (m_playlist.is_blank(i)) continue;
         QScopedPointer<Mlt::Producer> p(m_playlist.get_clip(i));
-	Mlt::Producer origin = p->parent();
+        Mlt::Producer origin = p->parent();
         QString current = origin.get("id");
-	if (current.startsWith(QLatin1String("slowmotion:"))) {
+        if (current.startsWith(QLatin1String("slowmotion:"))) {
             if (current.section(QLatin1Char(':'), 1, 1) == id) {
-		Clip(origin).replaceEffects(*original);
+                Clip(origin).replaceEffects(*original);
             }
-	}
-	else if (current == id) {
+        } else if (current == id) {
             // we are directly using original producer, no need to update effects
             continue;
-	}
-    else if (current.section(QLatin1Char('_'), 0, 0) == id) {
+        } else if (current.section(QLatin1Char('_'), 0, 0) == id) {
             Clip(origin).replaceEffects(*original);
-	}
+        }
     }
 }
 
@@ -516,7 +515,8 @@ void Track::updateEffects(const QString &id, Mlt::Producer *original)
     return Mlt::0;
 }*/
 
-Mlt::Producer *Track::clipProducer(Mlt::Producer *parent, PlaylistState::ClipState state, bool forceCreation) {
+Mlt::Producer *Track::clipProducer(Mlt::Producer *parent, PlaylistState::ClipState state, bool forceCreation)
+{
     QString service = parent->parent().get("mlt_service");
     QString originalId = parent->parent().get("id");
     if (!needsDuplicate(service) || state == PlaylistState::VideoOnly || originalId.endsWith(QLatin1String("_video"))) {
@@ -545,7 +545,7 @@ Mlt::Producer *Track::clipProducer(Mlt::Producer *parent, PlaylistState::ClipSta
     return prod;
 }
 
-bool Track::hasAudio() 
+bool Track::hasAudio()
 {
     for (int i = 0; i < m_playlist.count(); i++) {
         if (m_playlist.is_blank(i)) continue;
@@ -582,7 +582,7 @@ TrackInfo Track::info()
 {
     TrackInfo info;
     info.trackName = m_playlist.get("kdenlive:track_name");
-    info.isLocked= (m_playlist.get_int("kdenlive:locked_track") != 0);
+    info.isLocked = (m_playlist.get_int("kdenlive:locked_track") != 0);
     int currentState = m_playlist.parent().get_int("hide");
     info.isMute = ((currentState & 2) != 0);
     info.isBlind = ((currentState & 1) != 0);
@@ -599,10 +599,12 @@ void Track::setInfo(const TrackInfo &info)
     m_playlist.set("kdenlive:locked_track", info.isLocked ? 1 : 0);
     int state = 0;
     if (info.isMute) {
-        if (info.isBlind) state = 3;
-        else state = 2;
-    }
-    else if (info.isBlind) state = 1;
+        if (info.isBlind)
+            state = 3;
+        else
+            state = 2;
+    } else if (info.isBlind)
+        state = 1;
     m_playlist.parent().set("hide", state);
     type = info.type;
     trackHeader->updateStatus(info);
@@ -658,26 +660,26 @@ Mlt::Producer *Track::buildSlowMoProducer(Mlt::Properties passProps, const QStri
     QLocale locale;
     Mlt::Producer *prod = new Mlt::Producer(*m_playlist.profile(), nullptr, ("timewarp:" + url).toUtf8().constData());
     if (!prod->is_valid()) {
-	qCDebug(KDENLIVE_LOG)<<"++++ FAILED TO CREATE SLOWMO PROD";
-	return nullptr;
+        qCDebug(KDENLIVE_LOG) << "++++ FAILED TO CREATE SLOWMO PROD";
+        return nullptr;
     }
     QString producerid = "slowmotion:" + id + QLatin1Char(':') + info.toString(locale);
     prod->set("id", producerid.toUtf8().constData());
 
     // copy producer props
     for (int i = 0; i < passProps.count(); i++) {
-	prod->set(passProps.get_name(i), passProps.get(i)); 
+        prod->set(passProps.get_name(i), passProps.get(i));
     }
     // set clip state
-    switch ((int) info.state) {
-        case PlaylistState::VideoOnly:
-            prod->set("audio_index", -1);
-            break;
-        case PlaylistState::AudioOnly:
-            prod->set("video_index", -1);
-            break;
-        default:
-            break;
+    switch ((int)info.state) {
+    case PlaylistState::VideoOnly:
+        prod->set("audio_index", -1);
+        break;
+    case PlaylistState::AudioOnly:
+        prod->set("video_index", -1);
+        break;
+    default:
+        break;
     }
     QString slowmoId = info.toString(locale);
     slowmoId.append(prod->get("warp_resource"));
@@ -685,9 +687,10 @@ Mlt::Producer *Track::buildSlowMoProducer(Mlt::Properties passProps, const QStri
     return prod;
 }
 
-int Track::changeClipSpeed(const ItemInfo &info, const ItemInfo &speedIndependantInfo, PlaylistState::ClipState state, double speed, int strobe, Mlt::Producer *prod, const QString &id, Mlt::Properties passProps, bool removeEffect)
+int Track::changeClipSpeed(const ItemInfo &info, const ItemInfo &speedIndependantInfo, PlaylistState::ClipState state, double speed, int strobe,
+                           Mlt::Producer *prod, const QString &id, Mlt::Properties passProps, bool removeEffect)
 {
-    //TODO: invalidate preview rendering
+    // TODO: invalidate preview rendering
     int newLength = 0;
     int startPos = info.startPos.frames(fps());
     int clipIndex = m_playlist.get_clip_index_at(startPos);
@@ -695,20 +698,20 @@ int Track::changeClipSpeed(const ItemInfo &info, const ItemInfo &speedIndependan
     m_playlist.lock();
     QScopedPointer<Mlt::Producer> original(m_playlist.get_clip(clipIndex));
     if (original == nullptr) {
-        qCDebug(KDENLIVE_LOG)<<"// No clip to apply effect";
+        qCDebug(KDENLIVE_LOG) << "// No clip to apply effect";
         m_playlist.unlock();
         return -1;
     }
     if (!original->is_valid() || original->is_blank()) {
         // invalid clip
-        qCDebug(KDENLIVE_LOG)<<"// Invalid clip to apply effect";
+        qCDebug(KDENLIVE_LOG) << "// Invalid clip to apply effect";
         m_playlist.unlock();
         return -1;
     }
     Mlt::Producer clipparent = original->parent();
     if (!clipparent.is_valid() || clipparent.is_blank()) {
         // invalid clip
-        qCDebug(KDENLIVE_LOG)<<"// Invalid parent to apply effect";
+        qCDebug(KDENLIVE_LOG) << "// Invalid parent to apply effect";
         m_playlist.unlock();
         return -1;
     }
@@ -727,75 +730,76 @@ int Track::changeClipSpeed(const ItemInfo &info, const ItemInfo &speedIndependan
     slowInfo.strobe = strobe;
     slowInfo.state = state;
     if (serv.contains(QStringLiteral("avformat"))) {
-	if (speed != 1.0 || strobe > 1) {
-	    if ((prod == nullptr) || !prod->is_valid()) {
-		prod = buildSlowMoProducer(passProps, url, id, slowInfo);
+        if (speed != 1.0 || strobe > 1) {
+            if ((prod == nullptr) || !prod->is_valid()) {
+                prod = buildSlowMoProducer(passProps, url, id, slowInfo);
                 if (prod == nullptr) {
                     // error, abort
-                    qCDebug(KDENLIVE_LOG)<<"++++ FAILED TO CREATE SLOWMO PROD";
+                    qCDebug(KDENLIVE_LOG) << "++++ FAILED TO CREATE SLOWMO PROD";
                     m_playlist.unlock();
                     return -1;
                 }
-	    }
-	    QScopedPointer <Mlt::Producer> clip(m_playlist.replace_with_blank(clipIndex));
-	    m_playlist.consolidate_blanks(0);
+            }
+            QScopedPointer<Mlt::Producer> clip(m_playlist.replace_with_blank(clipIndex));
+            m_playlist.consolidate_blanks(0);
 
-	    // Check that the blank space is long enough for our new duration
-	    clipIndex = m_playlist.get_clip_index_at(startPos);
-	    int blankEnd = m_playlist.clip_start(clipIndex) + m_playlist.clip_length(clipIndex);
-	    Mlt::Producer *cut;
-	    if (clipIndex + 1 < m_playlist.count() && (startPos + clipLength / speed > blankEnd)) {
-		GenTime maxLength = GenTime(blankEnd, fps()) - info.startPos;
-		cut = prod->cut((int)(info.cropStart.frames(fps()) / speed), (int)(info.cropStart.frames(fps()) / speed + maxLength.frames(fps()) - 1));
-	    } else cut = prod->cut((int)(info.cropStart.frames(fps()) / speed), (int)((info.cropStart.frames(fps()) + clipLength) / speed - 1));
+            // Check that the blank space is long enough for our new duration
+            clipIndex = m_playlist.get_clip_index_at(startPos);
+            int blankEnd = m_playlist.clip_start(clipIndex) + m_playlist.clip_length(clipIndex);
+            Mlt::Producer *cut;
+            if (clipIndex + 1 < m_playlist.count() && (startPos + clipLength / speed > blankEnd)) {
+                GenTime maxLength = GenTime(blankEnd, fps()) - info.startPos;
+                cut = prod->cut((int)(info.cropStart.frames(fps()) / speed), (int)(info.cropStart.frames(fps()) / speed + maxLength.frames(fps()) - 1));
+            } else
+                cut = prod->cut((int)(info.cropStart.frames(fps()) / speed), (int)((info.cropStart.frames(fps()) + clipLength) / speed - 1));
 
-	    // move all effects to the correct producer
-	    Clip(*cut).addEffects(*clip);
-	    m_playlist.insert_at(startPos, cut, 1);
-	    delete cut;
-	    clipIndex = m_playlist.get_clip_index_at(startPos);
-	    newLength = m_playlist.clip_length(clipIndex);
-	} else if (speed == 1.0 && strobe < 2) {
-	    QScopedPointer <Mlt::Producer> clip(m_playlist.replace_with_blank(clipIndex));
-	    m_playlist.consolidate_blanks(0);
+            // move all effects to the correct producer
+            Clip(*cut).addEffects(*clip);
+            m_playlist.insert_at(startPos, cut, 1);
+            delete cut;
+            clipIndex = m_playlist.get_clip_index_at(startPos);
+            newLength = m_playlist.clip_length(clipIndex);
+        } else if (speed == 1.0 && strobe < 2) {
+            QScopedPointer<Mlt::Producer> clip(m_playlist.replace_with_blank(clipIndex));
+            m_playlist.consolidate_blanks(0);
 
-	    // Check that the blank space is long enough for our new duration
-	    clipIndex = m_playlist.get_clip_index_at(startPos);
-	    int blankEnd = m_playlist.clip_start(clipIndex) + m_playlist.clip_length(clipIndex);
+            // Check that the blank space is long enough for our new duration
+            clipIndex = m_playlist.get_clip_index_at(startPos);
+            int blankEnd = m_playlist.clip_start(clipIndex) + m_playlist.clip_length(clipIndex);
 
-	    Mlt::Producer *cut;
-	
-	    if ((prod == nullptr) || !prod->is_valid()) {
-		prod = buildSlowMoProducer(passProps, url, id, slowInfo);
+            Mlt::Producer *cut;
+
+            if ((prod == nullptr) || !prod->is_valid()) {
+                prod = buildSlowMoProducer(passProps, url, id, slowInfo);
                 if (prod == nullptr) {
                     // error, abort
-                    qCDebug(KDENLIVE_LOG)<<"++++ FAILED TO CREATE SLOWMO PROD";
+                    qCDebug(KDENLIVE_LOG) << "++++ FAILED TO CREATE SLOWMO PROD";
                     m_playlist.unlock();
                     return -1;
                 }
             }
 
-	    int originalStart = (int)(speedIndependantInfo.cropStart.frames(fps()));
-	    if (clipIndex + 1 < m_playlist.count() && (info.startPos + speedIndependantInfo.cropDuration).frames(fps()) > blankEnd) {
-		GenTime maxLength = GenTime(blankEnd, fps()) - info.startPos;
-		cut = prod->cut(originalStart, (int)(originalStart + maxLength.frames(fps()) - 1));
-	    } else {
-		cut = prod->cut(originalStart, (int)(originalStart + speedIndependantInfo.cropDuration.frames(fps())) - 1);
-	    }
+            int originalStart = (int)(speedIndependantInfo.cropStart.frames(fps()));
+            if (clipIndex + 1 < m_playlist.count() && (info.startPos + speedIndependantInfo.cropDuration).frames(fps()) > blankEnd) {
+                GenTime maxLength = GenTime(blankEnd, fps()) - info.startPos;
+                cut = prod->cut(originalStart, (int)(originalStart + maxLength.frames(fps()) - 1));
+            } else {
+                cut = prod->cut(originalStart, (int)(originalStart + speedIndependantInfo.cropDuration.frames(fps())) - 1);
+            }
 
-	    // move all effects to the correct producer
-	    Clip(*cut).addEffects(*clip);
-	    m_playlist.insert_at(startPos, cut, 1);
-	    delete cut;
-	    clipIndex = m_playlist.get_clip_index_at(startPos);
-	    newLength = m_playlist.clip_length(clipIndex);
-	}
+            // move all effects to the correct producer
+            Clip(*cut).addEffects(*clip);
+            m_playlist.insert_at(startPos, cut, 1);
+            delete cut;
+            clipIndex = m_playlist.get_clip_index_at(startPos);
+            newLength = m_playlist.clip_length(clipIndex);
+        }
     } else if (serv == QLatin1String("timewarp")) {
         if ((prod == nullptr) || !prod->is_valid()) {
             prod = buildSlowMoProducer(passProps, url, id, slowInfo);
             if (prod == nullptr) {
                 // error, abort
-                qCDebug(KDENLIVE_LOG)<<"++++ FAILED TO CREATE SLOWMO PROD";
+                qCDebug(KDENLIVE_LOG) << "++++ FAILED TO CREATE SLOWMO PROD";
                 m_playlist.unlock();
                 return -1;
             }
@@ -803,18 +807,18 @@ int Track::changeClipSpeed(const ItemInfo &info, const ItemInfo &speedIndependan
         if (removeEffect) {
             prod = clipProducer(prod, state);
         }
-        QScopedPointer <Mlt::Producer> clip(m_playlist.replace_with_blank(clipIndex));
+        QScopedPointer<Mlt::Producer> clip(m_playlist.replace_with_blank(clipIndex));
         m_playlist.consolidate_blanks(0);
         int duration;
         int originalStart;
         if (speed == 1.0) {
-          duration = speedIndependantInfo.cropDuration.frames(fps());
-          originalStart = speedIndependantInfo.cropStart.frames(fps());
+            duration = speedIndependantInfo.cropDuration.frames(fps());
+            originalStart = speedIndependantInfo.cropStart.frames(fps());
         } else {
-          duration = qMax(2, qAbs((int) (speedIndependantInfo.cropDuration.frames(fps()) / speed + 0.5)));
-          originalStart = (int)(speedIndependantInfo.cropStart.frames(fps()) / speed + 0.5);
+            duration = qMax(2, qAbs((int)(speedIndependantInfo.cropDuration.frames(fps()) / speed + 0.5)));
+            originalStart = (int)(speedIndependantInfo.cropStart.frames(fps()) / speed + 0.5);
         }
-        //qCDebug(KDENLIVE_LOG)<<"/ / /UPDATE SPEED: "<<speed<<", "<<speedIndependantInfo.cropStart.frames(fps())<<":"<<originalStart;
+        // qCDebug(KDENLIVE_LOG)<<"/ / /UPDATE SPEED: "<<speed<<", "<<speedIndependantInfo.cropStart.frames(fps())<<":"<<originalStart;
         // Check that the blank space is long enough for our new duration
         clipIndex = m_playlist.get_clip_index_at(startPos);
 
@@ -827,17 +831,16 @@ int Track::changeClipSpeed(const ItemInfo &info, const ItemInfo &speedIndependan
             }
         }
         // Last clip in playlist, no duration limit
-	cut = prod->cut(originalStart, outPos);
+        cut = prod->cut(originalStart, outPos);
         // move all effects to the correct producer
         Clip(*cut).addEffects(*clip);
         m_playlist.insert_at(startPos, cut, 1);
         delete cut;
         clipIndex = m_playlist.get_clip_index_at(startPos);
         newLength = m_playlist.clip_length(clipIndex);
-        if (removeEffect)
-            delete prod;
+        if (removeEffect) delete prod;
     }
-    //Do not delete prod, it is now stored in the slowmotion producers list
+    // Do not delete prod, it is now stored in the slowmotion producers list
     m_playlist.unlock();
     if (clipIndex + 1 == m_playlist.count()) {
         // We changed the speed of last clip in playlist, check track length
@@ -850,7 +853,6 @@ int Track::index() const
 {
     return m_index;
 }
-
 
 int Track::spaceLength(int pos, bool fromBlankStart)
 {
@@ -867,7 +869,7 @@ int Track::spaceLength(int pos, bool fromBlankStart)
 void Track::disableEffects(bool disable)
 {
     // Disable track effects
-    enableTrackEffects(QList<int> (), disable, true);
+    enableTrackEffects(QList<int>(), disable, true);
     // Disable timeline clip effects
     for (int i = 0; i < m_playlist.count(); i++) {
         QScopedPointer<Mlt::Producer> original(m_playlist.get_clip(i));
@@ -993,7 +995,7 @@ QList<QPoint> Track::visibleClips()
 
         // get producer, check if it has video
         // TODO: playlist::clip_info(i, info) crashes on MLT < 6.6.0, so use variant until MLT 6.6.x is required
-        QScopedPointer <Mlt::ClipInfo>info(m_playlist.clip_info(i));
+        QScopedPointer<Mlt::ClipInfo> info(m_playlist.clip_info(i));
         Mlt::Producer *clip = info->producer;
         QString service = clip->get("mlt_service");
         if (service.contains(QStringLiteral("avformat"))) {
@@ -1016,8 +1018,7 @@ QList<QPoint> Track::visibleClips()
             current.setY(cStart + length);
         }
     }
-    if (!current.isNull())
-        clips << current;
+    if (!current.isNull()) clips << current;
     return clips;
 }
 
@@ -1039,23 +1040,23 @@ bool Track::hideClip(int pos, const QString &id, bool hide)
     if (current == id) {
         if (!hide) {
             m_playlist.parent().set("hide", m_playlist.parent().get_int("_autohide"));
-            m_playlist.parent().set("_autohide", (char *) nullptr);
+            m_playlist.parent().set("_autohide", (char *)nullptr);
             return true;
         }
         int currentState = m_playlist.parent().get_int("hide");
         int newState;
         switch (currentState) {
-            case 3:
-            case 1:
-                // Track is already blinded, nothing to do
-                return false;
-            case 2:
-                // Track is mutes, hide completely
-                newState = 3;
-                break;
-            default:
-                newState = 1;
-                break;
+        case 3:
+        case 1:
+            // Track is already blinded, nothing to do
+            return false;
+        case 2:
+            // Track is mutes, hide completely
+            newState = 3;
+            break;
+        default:
+            newState = 1;
+            break;
         }
         m_playlist.parent().set("hide", newState);
         m_playlist.parent().set("_autohide", currentState);

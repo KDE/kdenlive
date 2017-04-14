@@ -23,17 +23,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "projectitemmodel.h"
 #include "abstractprojectitem.h"
 #include "projectclip.h"
-#include "projectsubclip.h"
 #include "projectfolder.h"
+#include "projectsubclip.h"
 
-#include <qvarlengtharray.h>
 #include <KLocalizedString>
 #include <QIcon>
 #include <QMimeData>
+#include <qvarlengtharray.h>
 
-ProjectItemModel::ProjectItemModel(Bin *bin, QObject *parent) :
-    AbstractTreeModel(parent)
-    , m_bin(bin)
+ProjectItemModel::ProjectItemModel(Bin *bin, QObject *parent) : AbstractTreeModel(parent), m_bin(bin)
 {
     rootItem = new ProjectFolder(this);
 }
@@ -85,17 +83,16 @@ QVariant ProjectItemModel::data(const QModelIndex &index, int role) const
             qDebug() << "ERROR: invalid icon found";
         }
         return icon;
-    } 
-        AbstractProjectItem *item = static_cast<AbstractProjectItem *>(index.internalPointer());
-        return item->getData((AbstractProjectItem::DataType) role);
-    
+    }
+    AbstractProjectItem *item = static_cast<AbstractProjectItem *>(index.internalPointer());
+    return item->getData((AbstractProjectItem::DataType)role);
 }
 
 bool ProjectItemModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     AbstractProjectItem *item = static_cast<AbstractProjectItem *>(index.internalPointer());
     if (item->rename(value.toString(), index.column())) {
-        emit dataChanged(index, index, QVector<int> () << role);
+        emit dataChanged(index, index, QVector<int>() << role);
         return true;
     }
     // Item name was not changed
@@ -190,14 +187,12 @@ QVariant ProjectItemModel::headerData(int section, Qt::Orientation orientation, 
     return QAbstractItemModel::headerData(section, orientation, role);
 }
 
-
 int ProjectItemModel::columnCount(const QModelIndex &parent) const
 {
     if (parent.isValid()) {
         return static_cast<AbstractProjectItem *>(parent.internalPointer())->supportedDataCount();
-    } 
-        return static_cast<ProjectFolder*>(rootItem)->supportedDataCount();
-    
+    }
+    return static_cast<ProjectFolder *>(rootItem)->supportedDataCount();
 }
 
 // cppcheck-suppress unusedFunction
@@ -209,7 +204,8 @@ Qt::DropActions ProjectItemModel::supportedDropActions() const
 QStringList ProjectItemModel::mimeTypes() const
 {
     QStringList types;
-    types << QStringLiteral("kdenlive/producerslist") << QStringLiteral("text/uri-list") << QStringLiteral("kdenlive/clip") << QStringLiteral("kdenlive/effectslist");
+    types << QStringLiteral("kdenlive/producerslist") << QStringLiteral("text/uri-list") << QStringLiteral("kdenlive/clip")
+          << QStringLiteral("kdenlive/effectslist");
     return types;
 }
 
@@ -242,31 +238,30 @@ QMimeData *ProjectItemModel::mimeData(const QModelIndexList &indices) const
     if (!list.isEmpty()) {
         QByteArray data;
         data.append(list.join(QLatin1Char(';')).toUtf8());
-        mimeData->setData(QStringLiteral("kdenlive/producerslist"),  data);
-        qDebug()<<"/// CLI DURATION: "<<duration;
+        mimeData->setData(QStringLiteral("kdenlive/producerslist"), data);
+        qDebug() << "/// CLI DURATION: " << duration;
         mimeData->setText(QString::number(duration));
     }
     return mimeData;
 }
 
-
 void ProjectItemModel::onItemUpdated(AbstractProjectItem *item)
 {
-    auto index = getIndexFromItem(static_cast<TreeItem*>(item));
+    auto index = getIndexFromItem(static_cast<TreeItem *>(item));
     emit dataChanged(index, index);
 }
 
-ProjectClip *ProjectItemModel::getClipByBinID(const QString& binId)
+ProjectClip *ProjectItemModel::getClipByBinID(const QString &binId)
 {
-    return static_cast<AbstractProjectItem*>(rootItem)->clip(binId);
+    return static_cast<AbstractProjectItem *>(rootItem)->clip(binId);
 }
 
-ProjectFolder *ProjectItemModel::getFolderByBinId(const QString& binId)
+ProjectFolder *ProjectItemModel::getFolderByBinId(const QString &binId)
 {
-    return static_cast<AbstractProjectItem*>(rootItem)->folder(binId);
+    return static_cast<AbstractProjectItem *>(rootItem)->folder(binId);
 }
 
-QStringList ProjectItemModel::getEnclosingFolderInfo(const QModelIndex& index) const
+QStringList ProjectItemModel::getEnclosingFolderInfo(const QModelIndex &index) const
 {
     QStringList noInfo;
     noInfo << QString::number(-1);
@@ -279,13 +274,11 @@ QStringList ProjectItemModel::getEnclosingFolderInfo(const QModelIndex& index) c
     auto folder = currentItem->getEnclosingFolder(true);
     if ((folder == nullptr) || folder == rootItem) {
         return noInfo;
-    } 
-        QStringList folderInfo;
-        folderInfo << currentItem->clipId();
-        folderInfo << currentItem->name();
-        return folderInfo;
-    
-
+    }
+    QStringList folderInfo;
+    folderInfo << currentItem->clipId();
+    folderInfo << currentItem->name();
+    return folderInfo;
 }
 
 void ProjectItemModel::clean()
@@ -294,10 +287,9 @@ void ProjectItemModel::clean()
     rootItem = new ProjectFolder(this);
 }
 
-
 ProjectFolder *ProjectItemModel::getRootFolder() const
 {
-    return static_cast<ProjectFolder*>(rootItem);
+    return static_cast<ProjectFolder *>(rootItem);
 }
 
 Bin *ProjectItemModel::bin() const

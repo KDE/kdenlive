@@ -21,26 +21,24 @@
 
 #include "utils/KoIconUtils.h"
 
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QDialogButtonBox>
-#include <QLabel>
-#include <QComboBox>
 #include <QCheckBox>
-#include <QSpinBox>
+#include <QComboBox>
+#include <QDialogButtonBox>
+#include <QHBoxLayout>
+#include <QLabel>
 #include <QPainter>
+#include <QSpinBox>
+#include <QVBoxLayout>
 
 #include "klocalizedstring.h"
 
-#include "keyframeimport.h"
 #include "effectstack/widgets/positionwidget.h"
+#include "keyframeimport.h"
 #include "timeline/keyframeview.h"
 
-KeyframeImport::KeyframeImport(const ItemInfo &srcInfo, const ItemInfo &dstInfo, const QMap<QString, QString> &data, const Timecode &tc, const QDomElement &xml, const ProfileInfo &profile, QWidget *parent) :
-    QDialog(parent)
-    , m_xml(xml)
-    , m_profile(profile)
-    , m_supportsAnim(false)
+KeyframeImport::KeyframeImport(const ItemInfo &srcInfo, const ItemInfo &dstInfo, const QMap<QString, QString> &data, const Timecode &tc, const QDomElement &xml,
+                               const ProfileInfo &profile, QWidget *parent)
+    : QDialog(parent), m_xml(xml), m_profile(profile), m_supportsAnim(false)
 {
     auto *lay = new QVBoxLayout(this);
     auto *l1 = new QHBoxLayout;
@@ -73,16 +71,12 @@ KeyframeImport::KeyframeImport(const ItemInfo &srcInfo, const ItemInfo &dstInfo,
     } else {
         reference = dstInfo;
     }
-    m_inPoint = new PositionWidget(i18n("In"), reference.cropStart.frames(tc.fps()),
-                                   reference.cropStart.frames(tc.fps()),
-                                   (reference.cropStart + reference.cropDuration).frames(tc.fps()),
-                                   tc, "", this);
+    m_inPoint = new PositionWidget(i18n("In"), reference.cropStart.frames(tc.fps()), reference.cropStart.frames(tc.fps()),
+                                   (reference.cropStart + reference.cropDuration).frames(tc.fps()), tc, "", this);
     connect(m_inPoint, &PositionWidget::valueChanged, this, &KeyframeImport::updateDisplay);
     lay->addWidget(m_inPoint);
-    m_outPoint = new PositionWidget(i18n("Out"),
-                                    (reference.cropStart + reference.cropDuration).frames(tc.fps()),
-                                    reference.cropStart.frames(tc.fps()), (reference.cropStart + reference.cropDuration).frames(tc.fps()),
-                                    tc, "", this);
+    m_outPoint = new PositionWidget(i18n("Out"), (reference.cropStart + reference.cropDuration).frames(tc.fps()), reference.cropStart.frames(tc.fps()),
+                                    (reference.cropStart + reference.cropDuration).frames(tc.fps()), tc, "", this);
     connect(m_outPoint, &PositionWidget::valueChanged, this, &KeyframeImport::updateDisplay);
     lay->addWidget(m_outPoint);
 
@@ -294,7 +288,8 @@ void KeyframeImport::updateRange()
             rangeText = i18n("Source range %1 to %2", qMin(0, m_maximas.at(3).x()), qMax(profileHeight, m_maximas.at(3).y()));
             break;
         default:
-            rangeText = i18n("Source range: (%1-%2), (%3-%4)", qMin(0, m_maximas.at(0).x()), qMax(profileWidth, m_maximas.at(0).y()), qMin(0, m_maximas.at(1).x()), qMax(profileHeight, m_maximas.at(1).y()));
+            rangeText = i18n("Source range: (%1-%2), (%3-%4)", qMin(0, m_maximas.at(0).x()), qMax(profileWidth, m_maximas.at(0).y()),
+                             qMin(0, m_maximas.at(1).x()), qMax(profileHeight, m_maximas.at(1).y()));
             break;
         }
     }
@@ -328,7 +323,7 @@ void KeyframeImport::updateDestinationRange()
             }
         }
     } else {
-        //TODO
+        // TODO
         m_destMin.setRange(0, m_profile.profileSize.width());
         m_destMax.setRange(0, m_profile.profileSize.width());
         m_destMin.setEnabled(false);
@@ -394,7 +389,8 @@ void KeyframeImport::updateDisplay()
             }
         }
     }
-    m_keyframeView->drawKeyFrameChannels(pix.rect(), m_inPoint->getPosition(), m_outPoint->getPosition(), painter, maximas, m_limitKeyframes->isChecked() ? m_limitNumber->value() : 0, palette().text().color());
+    m_keyframeView->drawKeyFrameChannels(pix.rect(), m_inPoint->getPosition(), m_outPoint->getPosition(), painter, maximas,
+                                         m_limitKeyframes->isChecked() ? m_limitNumber->value() : 0, palette().text().color());
     painter->end();
     m_previewLabel->setPixmap(pix);
 }
@@ -415,7 +411,8 @@ QString KeyframeImport::selectedData() const
             // Height maximas
             maximas = QPoint(qMin(m_maximas.at(ix).x(), 0), qMax(m_maximas.at(ix).y(), m_profile.profileSize.height()));
         }
-        return m_keyframeView->getSingleAnimation(ix, m_inPoint->getPosition(), m_outPoint->getPosition(), m_offsetPoint->getPosition(), m_limitKeyframes->isChecked() ? m_limitNumber->value() : 0, maximas, m_destMin.value(), m_destMax.value());
+        return m_keyframeView->getSingleAnimation(ix, m_inPoint->getPosition(), m_outPoint->getPosition(), m_offsetPoint->getPosition(),
+                                                  m_limitKeyframes->isChecked() ? m_limitNumber->value() : 0, maximas, m_destMin.value(), m_destMax.value());
     }
     // Geometry target
     int pos = m_sourceCombo->currentData().toInt();
@@ -431,7 +428,8 @@ QString KeyframeImport::selectedData() const
     default:
         break;
     }
-    return m_keyframeView->getOffsetAnimation(m_inPoint->getPosition(), m_outPoint->getPosition(), m_offsetPoint->getPosition(), m_limitKeyframes->isChecked() ? m_limitNumber->value() : 0, m_profile, m_supportsAnim, pos == 11, rectOffset);
+    return m_keyframeView->getOffsetAnimation(m_inPoint->getPosition(), m_outPoint->getPosition(), m_offsetPoint->getPosition(),
+                                              m_limitKeyframes->isChecked() ? m_limitNumber->value() : 0, m_profile, m_supportsAnim, pos == 11, rectOffset);
 }
 
 QString KeyframeImport::selectedTarget() const

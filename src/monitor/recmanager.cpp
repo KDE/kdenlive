@@ -20,29 +20,25 @@
  ***************************************************************************/
 
 #include "recmanager.h"
-#include "monitor.h"
-#include "kdenlivesettings.h"
-#include "capture/mltdevicecapture.h"
 #include "capture/managecapturesdialog.h"
+#include "capture/mltdevicecapture.h"
 #include "dialogs/profilesdialog.h"
+#include "kdenlivesettings.h"
+#include "monitor.h"
 #include "utils/KoIconUtils.h"
 
-#include <KMessageBox>
 #include "klocalizedstring.h"
+#include <KMessageBox>
 
 #include <QComboBox>
-#include <QToolBar>
 #include <QDesktopWidget>
-#include <QStandardPaths>
 #include <QDir>
 #include <QFile>
+#include <QStandardPaths>
+#include <QToolBar>
 
-RecManager::RecManager(Monitor *parent) :
-    QObject(parent)
-    , m_monitor(parent)
-    , m_captureProcess(nullptr)
-    , m_recToolbar(new QToolBar(parent))
-    , m_screenCombo(nullptr)
+RecManager::RecManager(Monitor *parent)
+    : QObject(parent), m_monitor(parent), m_captureProcess(nullptr), m_recToolbar(new QToolBar(parent)), m_screenCombo(nullptr)
 {
     m_playAction = m_recToolbar->addAction(KoIconUtils::themedIcon(QStringLiteral("media-playback-start")), i18n("Preview"));
     m_playAction->setCheckable(true);
@@ -77,8 +73,8 @@ RecManager::RecManager(Monitor *parent) :
     spacer->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     m_recToolbar->addWidget(spacer);
     m_device_selector = new QComboBox(parent);
-    //TODO: re-implement firewire / decklink capture
-    //m_device_selector->addItems(QStringList() << i18n("Firewire") << i18n("Webcam") << i18n("Screen Grab") << i18n("Blackmagic Decklink"));
+    // TODO: re-implement firewire / decklink capture
+    // m_device_selector->addItems(QStringList() << i18n("Firewire") << i18n("Webcam") << i18n("Screen Grab") << i18n("Blackmagic Decklink"));
     m_device_selector->addItem(i18n("Webcam"), Video4Linux);
     m_device_selector->addItem(i18n("Screen Grab"), ScreenGrab);
     int selectedCapture = m_device_selector->findData(KdenliveSettings::defaultcapture());
@@ -175,12 +171,12 @@ void RecManager::slotRecord(bool record)
                     int format = endParam.indexOf(QStringLiteral(" f="));
                     int cutPosition = -1;
                     if (vcodec > -1) {
-                        if (format  > -1) {
+                        if (format > -1) {
                             cutPosition = qMin(vcodec, format);
                         } else {
                             cutPosition = vcodec;
                         }
-                    } else if (format  > -1) {
+                    } else if (format > -1) {
                         cutPosition = format;
                     } else {
                         // nothing interesting in end params
@@ -272,8 +268,10 @@ void RecManager::slotRecord(bool record)
         captureSize.append(QLatin1Char('+') + QString::number(screenSize.left()) + QLatin1Char('.') + QString::number(screenSize.top()));
     } else {
         // Region capture
-        captureArgs << QStringLiteral("-s") << QString::number(KdenliveSettings::grab_width()) + QLatin1Char('x') + QString::number(KdenliveSettings::grab_height());
-        captureSize.append(QLatin1Char('+') + QString::number(KdenliveSettings::grab_offsetx()) + QLatin1Char(',') + QString::number(KdenliveSettings::grab_offsety()));
+        captureArgs << QStringLiteral("-s")
+                    << QString::number(KdenliveSettings::grab_width()) + QLatin1Char('x') + QString::number(KdenliveSettings::grab_height());
+        captureSize.append(QLatin1Char('+') + QString::number(KdenliveSettings::grab_offsetx()) + QLatin1Char(',') +
+                           QString::number(KdenliveSettings::grab_offsety()));
     }
     // fps
     captureArgs << QStringLiteral("-r") << QString::number(KdenliveSettings::grab_fps());
@@ -290,7 +288,7 @@ void RecManager::slotRecord(bool record)
     if (!m_captureProcess->waitForStarted()) {
         // Problem launching capture app
         emit warningMessage(i18n("Failed to start the capture application:\n%1", KdenliveSettings::ffmpegpath()));
-        //delete m_captureProcess;
+        // delete m_captureProcess;
     }
 }
 
@@ -386,7 +384,9 @@ Mlt::Producer *RecManager::createV4lProducer()
     }
     if (m_recAudio->isChecked() && (prod != nullptr) && prod->is_valid()) {
         // Add audio track
-        Mlt::Producer *audio = new Mlt::Producer(*vidProfile, QStringLiteral("alsa:%1?channels=%2").arg(KdenliveSettings::v4l_alsadevicename()).arg(KdenliveSettings::alsachannels()).toUtf8().constData());
+        Mlt::Producer *audio = new Mlt::Producer(
+            *vidProfile,
+            QStringLiteral("alsa:%1?channels=%2").arg(KdenliveSettings::v4l_alsadevicename()).arg(KdenliveSettings::alsachannels()).toUtf8().constData());
         audio->set("mlt_service", "avformat-novalidate");
         audio->set("audio_index", 0);
         audio->set("video_index", -1);
@@ -422,7 +422,9 @@ void RecManager::slotPreview(bool preview)
        bool isXml;
        producer = getV4lXmlPlaylist(profile, &isXml);
 
-       //producer = QString("avformat-novalidate:video4linux2:%1?width:%2&height:%3&frame_rate:%4").arg(KdenliveSettings::video4vdevice()).arg(profile.width).arg(profile.height).arg((double) profile.frame_rate_num / profile.frame_rate_den);
+       //producer =
+    QString("avformat-novalidate:video4linux2:%1?width:%2&height:%3&frame_rate:%4").arg(KdenliveSettings::video4vdevice()).arg(profile.width).arg(profile.height).arg((double)
+    profile.frame_rate_num / profile.frame_rate_den);
        if (!m_captureDevice->slotStartPreview(producer, isXml)) {
            // v4l capture failed to start
            video_frame->setText(i18n("Failed to start Video4Linux,\ncheck your parameters..."));

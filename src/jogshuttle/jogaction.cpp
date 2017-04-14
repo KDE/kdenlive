@@ -21,13 +21,13 @@
 #include "core.h"
 #include "monitor/monitormanager.h"
 
+#include "kdenlive_debug.h"
+#include <klocalizedstring.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <klocalizedstring.h>
-#include "kdenlive_debug.h"
 
 // TODO(fleury): this should probably be a user configuration parameter (at least the max speed).
-//const double SPEEDS[] = {0.0, 0.5, 1.0, 2.0, 4.0, 8.0, 16.0, 32.0};
+// const double SPEEDS[] = {0.0, 0.5, 1.0, 2.0, 4.0, 8.0, 16.0, 32.0};
 const double SPEEDS[] = {0.0, 1.0, 2.0, 4.0, 5.0, 8.0, 16.0, 60.0};
 const size_t SPEEDS_SIZE = sizeof(SPEEDS) / sizeof(double);
 
@@ -71,10 +71,9 @@ void JogShuttleAction::slotButton(int button_id)
 {
     if (button_id >= m_actionMap.size() || m_actionMap[button_id].isEmpty()) {
         // TODO(fleury): Shoudl this go to the status bar to inform the user ?
-        //qCDebug(KDENLIVE_LOG) << "No action applied for button: " << button_id;
+        // qCDebug(KDENLIVE_LOG) << "No action applied for button: " << button_id;
         return;
     }
     ////qCDebug(KDENLIVE_LOG) << "Shuttle button =" << button_id << ": action=" << m_actionMap[button_id];
     emit action(m_actionMap[button_id]);
 }
-

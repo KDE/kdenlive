@@ -19,22 +19,17 @@
 
 #include "previewmanager.h"
 #include "../customruler.h"
-#include "kdenlivesettings.h"
-#include "doc/kdenlivedoc.h"
 #include "doc/docundostack.hpp"
+#include "doc/kdenlivedoc.h"
+#include "kdenlivesettings.h"
 
 #include <KLocalizedString>
-#include <QtConcurrent>
-#include <QStandardPaths>
 #include <QProcess>
+#include <QStandardPaths>
+#include <QtConcurrent>
 
-PreviewManager::PreviewManager(KdenliveDoc *doc, CustomRuler *ruler, Mlt::Tractor *tractor) : QObject()
-    , m_doc(doc)
-    , m_ruler(ruler)
-    , m_tractor(tractor)
-    , m_previewTrack(nullptr)
-    , m_initialized(false)
-    , m_abortPreview(false)
+PreviewManager::PreviewManager(KdenliveDoc *doc, CustomRuler *ruler, Mlt::Tractor *tractor)
+    : QObject(), m_doc(doc), m_ruler(ruler), m_tractor(tractor), m_previewTrack(nullptr), m_initialized(false), m_abortPreview(false)
 {
     m_previewGatherTimer.setSingleShot(true);
     m_previewGatherTimer.setInterval(200);
@@ -47,7 +42,8 @@ PreviewManager::~PreviewManager()
         if (m_undoDir.dirName() == QLatin1String("undo")) {
             m_undoDir.removeRecursively();
         }
-        if ((m_doc->url().isEmpty() && m_cacheDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot).isEmpty()) || m_cacheDir.entryList(QDir::AllEntries | QDir::NoDotAndDotDot).isEmpty()) {
+        if ((m_doc->url().isEmpty() && m_cacheDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot).isEmpty()) ||
+            m_cacheDir.entryList(QDir::AllEntries | QDir::NoDotAndDotDot).isEmpty()) {
             if (m_cacheDir.dirName() == QLatin1String("preview")) {
                 m_cacheDir.removeRecursively();
             }
@@ -72,7 +68,8 @@ bool PreviewManager::initialize()
         m_doc->displayMessage(i18n("Cannot create folder %1", m_cacheDir.absolutePath()), ErrorMessage);
         return false;
     }
-    if (m_cacheDir.dirName() != QLatin1String("preview") || m_cacheDir == QDir() || (!m_cacheDir.exists(QStringLiteral("undo")) && !m_cacheDir.mkdir(QStringLiteral("undo"))) || !m_cacheDir.absolutePath().contains(documentId)) {
+    if (m_cacheDir.dirName() != QLatin1String("preview") || m_cacheDir == QDir() ||
+        (!m_cacheDir.exists(QStringLiteral("undo")) && !m_cacheDir.mkdir(QStringLiteral("undo"))) || !m_cacheDir.absolutePath().contains(documentId)) {
         m_doc->displayMessage(i18n("Something is wrong with cache folder %1", m_cacheDir.absolutePath()), ErrorMessage);
         return false;
     }
@@ -290,12 +287,7 @@ void PreviewManager::doCleanupOldPreviews()
     // Use QCollator to do a natural sorting so that 10 is after 2
     QCollator collator;
     collator.setNumericMode(true);
-    std::sort(
-        dirs.begin(),
-        dirs.end(),
-    [&collator](const QString & file1, const QString & file2) {
-        return collator.compare(file1, file2) < 0;
-    });
+    std::sort(dirs.begin(), dirs.end(), [&collator](const QString &file1, const QString &file2) { return collator.compare(file1, file2) < 0; });
     bool ok;
     while (dirs.count() > 5) {
         QDir tmp = m_undoDir;
@@ -340,7 +332,7 @@ void PreviewManager::addPreviewRange(bool add)
     int endChunk = rintl(p.y() / chunkSize);
     QList<int> frames;
     for (int i = startChunk; i <= endChunk; i++) {
-        frames << i *chunkSize;
+        frames << i * chunkSize;
     }
     QList<int> toProcess = m_ruler->addChunks(frames, add);
     if (toProcess.isEmpty()) {
@@ -461,7 +453,7 @@ void PreviewManager::doPreviewRender(const QString &scene)
             break;
         }
     }
-    //QFile::remove(scene);
+    // QFile::remove(scene);
     m_abortPreview = false;
 }
 
@@ -558,7 +550,10 @@ void PreviewManager::gotPreviewRender(int frame, const QString &file, int progre
     if (file.isEmpty() || progress < 0) {
         m_doc->previewProgress(progress);
         if (progress < 0) {
-            m_doc->displayMessage(i18n("Preview rendering failed, check your parameters. %1Show details...%2", QString("<a href=\"" + QString::fromLatin1(QUrl::toPercentEncoding(file)) + QStringLiteral("\">")), QStringLiteral("</a>")), MltError);
+            m_doc->displayMessage(i18n("Preview rendering failed, check your parameters. %1Show details...%2",
+                                       QString("<a href=\"" + QString::fromLatin1(QUrl::toPercentEncoding(file)) + QStringLiteral("\">")),
+                                       QStringLiteral("</a>")),
+                                  MltError);
         }
         return;
     }

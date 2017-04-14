@@ -20,20 +20,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "projectsubclip.h"
+#include "bin.h"
 #include "projectclip.h"
 #include "projectitemmodel.h"
-#include "bin.h"
 
-#include <QDomElement>
 #include <KLocalizedString>
+#include <QDomElement>
 
 class ClipController;
 
-ProjectSubClip::ProjectSubClip(ProjectClip *parent, ProjectItemModel* model, int in, int out, const QString &timecode, const QString &name) :
-    AbstractProjectItem(AbstractProjectItem::SubClipItem, parent->AbstractProjectItem::clipId(), model, parent)
-    , m_masterClip(parent)
-    , m_in(in)
-    , m_out(out)
+ProjectSubClip::ProjectSubClip(ProjectClip *parent, ProjectItemModel *model, int in, int out, const QString &timecode, const QString &name)
+    : AbstractProjectItem(AbstractProjectItem::SubClipItem, parent->AbstractProjectItem::clipId(), model, parent), m_masterClip(parent), m_in(in), m_out(out)
 {
     QPixmap pix(64, 36);
     pix.fill(Qt::lightGray);
@@ -47,7 +44,7 @@ ProjectSubClip::ProjectSubClip(ProjectClip *parent, ProjectItemModel* model, int
     changeParent(parent);
     m_duration = timecode;
     // Save subclip in MLT
-    parent->setProducerProperty("kdenlive:clipzone." + m_name, QString::number(in) + QLatin1Char(';') +  QString::number(out));
+    parent->setProducerProperty("kdenlive:clipzone." + m_name, QString::number(in) + QLatin1Char(';') + QString::number(out));
     connect(parent, &ProjectClip::thumbReady, this, &ProjectSubClip::gotThumb);
 }
 
@@ -94,7 +91,7 @@ void ProjectSubClip::disableEffects(bool)
 
 GenTime ProjectSubClip::duration() const
 {
-    //TODO
+    // TODO
     return GenTime();
 }
 
@@ -130,7 +127,7 @@ void ProjectSubClip::setCurrent(bool current, bool notify)
 {
     Q_UNUSED(notify)
     if (current) {
-        static_cast<ProjectItemModel*>(m_model)->bin()->openProducer(static_cast<ClipController*>(m_masterClip), m_in, m_out);
+        static_cast<ProjectItemModel *>(m_model)->bin()->openProducer(static_cast<ClipController *>(m_masterClip), m_in, m_out);
     }
 }
 
@@ -138,7 +135,7 @@ void ProjectSubClip::setThumbnail(const QImage &img)
 {
     QPixmap thumb = roundedPixmap(QPixmap::fromImage(img));
     m_thumbnail = QIcon(thumb);
-    static_cast<ProjectItemModel*>(m_model)->bin()->emitItemUpdated(this);
+    static_cast<ProjectItemModel *>(m_model)->bin()->emitItemUpdated(this);
 }
 
 bool ProjectSubClip::rename(const QString &name, int column)
@@ -148,7 +145,6 @@ bool ProjectSubClip::rename(const QString &name, int column)
         return false;
     }
     // Rename folder
-    static_cast<ProjectItemModel*>(m_model)->bin()->renameSubClipCommand(m_id, name, m_name, m_in, m_out);
+    static_cast<ProjectItemModel *>(m_model)->bin()->renameSubClipCommand(m_id, name, m_name, m_in, m_out);
     return true;
 }
-

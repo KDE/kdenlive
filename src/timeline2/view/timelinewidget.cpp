@@ -21,36 +21,33 @@
 
 #include "timelinewidget.h"
 #include "../model/builders/meltBuilder.hpp"
-#include "qml/timelineitems.h"
+#include "bin/bin.h"
+#include "core.h"
 #include "doc/docundostack.hpp"
 #include "kdenlivesettings.h"
-#include "core.h"
-#include "qmltypes/thumbnailprovider.h"
-#include "bin/bin.h"
 #include "profiles/profilemodel.hpp"
+#include "qml/timelineitems.h"
+#include "qmltypes/thumbnailprovider.h"
 #include "transitions/transitionlist/model/transitiontreemodel.hpp"
 
 #include <KActionCollection>
 #include <KDeclarative/KDeclarative>
 // #include <QUrl>
-#include <QQuickItem>
+#include <QAction>
 #include <QQmlContext>
 #include <QQmlEngine>
-#include <QAction>
+#include <QQuickItem>
 #include <QSortFilterProxyModel>
 #include <utility>
 
-const int TimelineWidget::comboScale[] = { 1, 2, 5, 10, 25, 50, 125, 250, 500, 750, 1500, 3000, 6000, 12000};
+const int TimelineWidget::comboScale[] = {1, 2, 5, 10, 25, 50, 125, 250, 500, 750, 1500, 3000, 6000, 12000};
 
 int TimelineWidget::m_duration = 0;
 
-TimelineWidget::TimelineWidget(KActionCollection *actionCollection, std::shared_ptr<BinController> binController, std::weak_ptr<DocUndoStack> undoStack, QWidget *parent)
-    : QQuickWidget(parent)
-    , m_model(TimelineItemModel::construct(&pCore->getCurrentProfile()->profile(), undoStack))
-    , m_actionCollection(actionCollection)
-    , m_binController(binController)
-    , m_position(0)
-    , m_scale(3.0)
+TimelineWidget::TimelineWidget(KActionCollection *actionCollection, std::shared_ptr<BinController> binController, std::weak_ptr<DocUndoStack> undoStack,
+                               QWidget *parent)
+    : QQuickWidget(parent), m_model(TimelineItemModel::construct(&pCore->getCurrentProfile()->profile(), undoStack)), m_actionCollection(actionCollection),
+      m_binController(binController), m_position(0), m_scale(3.0)
 {
     registerTimelineItems();
     auto *proxyModel = new QSortFilterProxyModel(this);
@@ -79,14 +76,12 @@ TimelineWidget::TimelineWidget(KActionCollection *actionCollection, std::shared_
     m_thumbnailer = new ThumbnailProvider;
     engine()->addImageProvider(QStringLiteral("thumbnail"), m_thumbnailer);
     setFocusPolicy(Qt::StrongFocus);
-    //connect(&*m_model, SIGNAL(seeked(int)), this, SLOT(onSeeked(int)));
+    // connect(&*m_model, SIGNAL(seeked(int)), this, SLOT(onSeeked(int)));
 }
 
-void TimelineWidget::setSelection(const QList<int>& newSelection, int trackIndex, bool isMultitrack)
+void TimelineWidget::setSelection(const QList<int> &newSelection, int trackIndex, bool isMultitrack)
 {
-    if (newSelection != selection()
-            || trackIndex != m_selection.selectedTrack
-            || isMultitrack != m_selection.isMultitrackSelected) {
+    if (newSelection != selection() || trackIndex != m_selection.selectedTrack || isMultitrack != m_selection.isMultitrackSelected) {
         qDebug() << "Changing selection to" << newSelection << " trackIndex" << trackIndex << "isMultitrack" << isMultitrack;
         m_selection.selectedClips = newSelection;
         m_selection.selectedTrack = trackIndex;
@@ -141,8 +136,7 @@ void TimelineWidget::checkDuration()
 
 QList<int> TimelineWidget::selection() const
 {
-    if (!rootObject())
-        return QList<int>();
+    if (!rootObject()) return QList<int>();
     return m_selection.selectedClips;
 }
 
@@ -180,7 +174,7 @@ void TimelineWidget::selectMultitrack()
 {
     setSelection(QList<int>(), -1, true);
     QMetaObject::invokeMethod(rootObject(), "selectMultitrack");
-    //emit selected(m_model.tractor());
+    // emit selected(m_model.tractor());
 }
 
 bool TimelineWidget::snap()
@@ -198,8 +192,7 @@ bool TimelineWidget::scrub()
     return false;
 }
 
-
-int TimelineWidget::insertClip(int tid, int position, const QString& data_str, bool logUndo)
+int TimelineWidget::insertClip(int tid, int position, const QString &data_str, bool logUndo)
 {
     int id;
     if (!m_model->requestClipInsertion(data_str, tid, position, id, logUndo)) {
@@ -208,7 +201,7 @@ int TimelineWidget::insertClip(int tid, int position, const QString& data_str, b
     return id;
 }
 
-int TimelineWidget::insertComposition(int tid, int position, const QString& transitionId, bool logUndo)
+int TimelineWidget::insertComposition(int tid, int position, const QString &transitionId, bool logUndo)
 {
     int id;
     if (!m_model->requestCompositionInsertion(transitionId, tid, position, 100, id, logUndo)) {
@@ -220,10 +213,10 @@ int TimelineWidget::insertComposition(int tid, int position, const QString& tran
 void TimelineWidget::deleteSelectedClips()
 {
     if (m_selection.selectedClips.isEmpty()) {
-        qDebug()<<" * * *NO selection, aborting";
+        qDebug() << " * * *NO selection, aborting";
         return;
     }
-    foreach(int cid, m_selection.selectedClips) {
+    foreach (int cid, m_selection.selectedClips) {
         m_model->requestItemDeletion(cid);
     }
 }
@@ -261,7 +254,7 @@ void TimelineWidget::onSeeked(int position)
 Mlt::Producer *TimelineWidget::producer()
 {
     auto *prod = new Mlt::Producer(m_model->tractor());
-    qDebug()<<"*** TIMELINE LENGTH: "<<prod->get_playtime()<<" / "<<m_model->tractor()->get_length();
+    qDebug() << "*** TIMELINE LENGTH: " << prod->get_playtime() << " / " << m_model->tractor()->get_length();
     return prod;
 }
 
@@ -293,10 +286,10 @@ void TimelineWidget::wheelEvent(QWheelEvent *event)
 {
     if (event->modifiers() & Qt::ControlModifier != 0u) {
         if (event->delta() > 0) {
-                emit zoomIn(true);
-            } else {
-                emit zoomOut(true);
-            }
+            emit zoomIn(true);
+        } else {
+            emit zoomOut(true);
+        }
     } else {
         QQuickWidget::wheelEvent(event);
     }
@@ -324,12 +317,12 @@ bool TimelineWidget::showWaveforms() const
 
 void TimelineWidget::addTrack(int tid)
 {
-    qDebug()<<"Adding track: "<<tid;
+    qDebug() << "Adding track: " << tid;
 }
 
 void TimelineWidget::deleteTrack(int tid)
 {
-    qDebug()<<"Deleting track: "<<tid;
+    qDebug() << "Deleting track: " << tid;
 }
 
 int TimelineWidget::requestBestSnapPos(int pos, int duration)
@@ -350,7 +343,7 @@ void TimelineWidget::gotoPreviousSnap()
 void TimelineWidget::groupSelection()
 {
     std::unordered_set<int> clips;
-    for(int id : m_selection.selectedClips) {
+    for (int id : m_selection.selectedClips) {
         clips.insert(id);
     }
     m_model->requestClipsGroup(clips);
@@ -368,7 +361,7 @@ void TimelineWidget::setInPoint()
         cursorPos = m_position;
     }
     if (!m_selection.selectedClips.isEmpty()) {
-        for(int id : m_selection.selectedClips) {
+        for (int id : m_selection.selectedClips) {
             m_model->requestItemResizeToPos(id, cursorPos, false);
         }
     }
@@ -381,7 +374,7 @@ void TimelineWidget::setOutPoint()
         cursorPos = m_position;
     }
     if (!m_selection.selectedClips.isEmpty()) {
-        for(int id : m_selection.selectedClips) {
+        for (int id : m_selection.selectedClips) {
             m_model->requestItemResizeToPos(id, cursorPos, true);
         }
     }

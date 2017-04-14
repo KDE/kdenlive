@@ -19,17 +19,17 @@
  ***************************************************************************/
 
 #include "filterjob.h"
-#include "meltjob.h"
-#include "kdenlivesettings.h"
-#include "doc/kdenlivedoc.h"
 #include "bin/projectclip.h"
+#include "doc/kdenlivedoc.h"
+#include "kdenlivesettings.h"
+#include "meltjob.h"
 #include "project/clipstabilize.h"
 #include "project/dialogs/clipspeed.h"
 #include "ui_scenecutdialog_ui.h"
 
+#include <KMessageBox>
 #include <QUrl>
 #include <klocalizedstring.h>
-#include <KMessageBox>
 #include <mlt++/Mlt.h>
 
 // static
@@ -65,19 +65,21 @@ QHash<ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(const QList<Projec
     for (int i = 0; i < clips.count(); i++) {
         sources << clips.at(i)->url();
     }
-    const QString& filterName = parameters.first();
+    const QString &filterName = parameters.first();
     if (filterName == QLatin1String("timewarp")) {
-        QMap<QString, QString> producerParams = QMap<QString, QString> ();
-        QMap<QString, QString> filterParams = QMap<QString, QString> ();
-        QMap<QString, QString> consumerParams = QMap<QString, QString> ();
-        QMap<QString, QString> extraParams = QMap<QString, QString> ();
+        QMap<QString, QString> producerParams = QMap<QString, QString>();
+        QMap<QString, QString> filterParams = QMap<QString, QString>();
+        QMap<QString, QString> consumerParams = QMap<QString, QString>();
+        QMap<QString, QString> extraParams = QMap<QString, QString>();
         producerParams.insert(QStringLiteral("in"), QStringLiteral("0"));
         producerParams.insert(QStringLiteral("out"), QStringLiteral("-1"));
         extraParams.insert(QStringLiteral("projecttreefilter"), QStringLiteral("1"));
         // Reverse clip using project profile since playlists can only be included with same fps
         // extraParams.insert(QStringLiteral("producer_profile"), QStringLiteral("1"));
         bool multipleSelection = clips.count() > 1;
-        QPointer<ClipSpeed> d = new ClipSpeed(clips.count() == 1 ? QUrl::fromLocalFile(sources.first() + QStringLiteral(".mlt")) : QUrl::fromLocalFile(sources.first()).adjusted(QUrl::RemoveFilename), multipleSelection, QApplication::activeWindow());
+        QPointer<ClipSpeed> d = new ClipSpeed(clips.count() == 1 ? QUrl::fromLocalFile(sources.first() + QStringLiteral(".mlt"))
+                                                                 : QUrl::fromLocalFile(sources.first()).adjusted(QUrl::RemoveFilename),
+                                              multipleSelection, QApplication::activeWindow());
         if (d->exec() == QDialog::Accepted) {
             QLocale locale;
             QString speedString = QStringLiteral("timewarp:%1:").arg(locale.toString(d->speed() / 100));
@@ -95,7 +97,8 @@ QHash<ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(const QList<Projec
                     destination = d->selectedUrl().toLocalFile();
                 }
                 if (QFile::exists(destination)) {
-                    if (KMessageBox::questionYesNo(QApplication::activeWindow(), i18n("File %1 already exists.\nDo you want to overwrite it?", destination)) != KMessageBox::Yes) {
+                    if (KMessageBox::questionYesNo(QApplication::activeWindow(), i18n("File %1 already exists.\nDo you want to overwrite it?", destination)) !=
+                        KMessageBox::Yes) {
                         continue;
                     }
                 }
@@ -109,7 +112,8 @@ QHash<ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(const QList<Projec
         }
         delete d;
         return jobs;
-    } if (filterName == QLatin1String("motion_est")) {
+    }
+    if (filterName == QLatin1String("motion_est")) {
         // Show config dialog
         QPointer<QDialog> d = new QDialog(QApplication::activeWindow());
         Ui::SceneCutDialog_UI ui;
@@ -125,9 +129,9 @@ QHash<ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(const QList<Projec
             return jobs;
         }
         // Autosplit filter
-        QMap<QString, QString> producerParams = QMap<QString, QString> ();
-        QMap<QString, QString> filterParams = QMap<QString, QString> ();
-        QMap<QString, QString> consumerParams = QMap<QString, QString> ();
+        QMap<QString, QString> producerParams = QMap<QString, QString>();
+        QMap<QString, QString> filterParams = QMap<QString, QString>();
+        QMap<QString, QString> consumerParams = QMap<QString, QString>();
 
         // Producer params
         // None
@@ -246,7 +250,7 @@ QHash<ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(const QList<Projec
                 // Append a 'filename' parameter for saving vidstab data
                 filterParams.insert(QStringLiteral("filename"), trffile.toLocalFile());
                 auto *job = new MeltJob(clip->clipType(), clip->AbstractProjectItem::clipId(), producerParams, filterParams, consumerParams, extraParams);
-                job->setAddClipToProject(d->autoAddClip() ?  clip->parent()->AbstractProjectItem::clipId().toInt() : -100);
+                job->setAddClipToProject(d->autoAddClip() ? clip->parent()->AbstractProjectItem::clipId().toInt() : -100);
                 job->description = d->desc();
                 jobs.insert(clip, job);
             }

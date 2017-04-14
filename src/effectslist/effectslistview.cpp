@@ -20,16 +20,16 @@
 #include "effectslistview.h"
 #include "effectslist.h"
 #include "effectslistwidget.h"
-#include "utils/KoIconUtils.h"
 #include "kdenlivesettings.h"
+#include "utils/KoIconUtils.h"
 
 #include "kdenlive_debug.h"
 #include <klocalizedstring.h>
 
-#include <QMenu>
 #include <QDir>
-#include <QStandardPaths>
 #include <QListWidget>
+#include <QMenu>
+#include <QStandardPaths>
 
 TreeEventEater::TreeEventEater(QObject *parent) : QObject(parent)
 {
@@ -65,15 +65,13 @@ bool MyTreeWidgetSearchLine::itemMatches(const QTreeWidgetItem *item, const QStr
     return false;
 }
 
-EffectsListView::EffectsListView(LISTMODE mode, QWidget *parent) :
-    QWidget(parent)
-    , m_mode(mode)
+EffectsListView::EffectsListView(LISTMODE mode, QWidget *parent) : QWidget(parent), m_mode(mode)
 {
     setupUi(this);
     m_contextMenu = new QMenu(this);
     m_effectsList = new EffectsListWidget();
     m_search_effect = new MyTreeWidgetSearchLine();
-    //m_effectsList->setStyleSheet(customStyleSheet());
+    // m_effectsList->setStyleSheet(customStyleSheet());
     auto *lyr = new QVBoxLayout(effectlistframe);
     lyr->addWidget(m_search_effect);
     lyr->addWidget(m_effectsList);
@@ -101,7 +99,8 @@ EffectsListView::EffectsListView(LISTMODE mode, QWidget *parent) :
     }
 
     m_contextMenu->addAction(KoIconUtils::themedIcon(QStringLiteral("list-add")), i18n("Add Effect to Selected Clip"), this, SLOT(slotEffectSelected()));
-    m_favoriteAction = m_contextMenu->addAction(KoIconUtils::themedIcon(QStringLiteral("favorite")), i18n("Add Effect to Favorites"), this, SLOT(slotAddToFavorites()));
+    m_favoriteAction =
+        m_contextMenu->addAction(KoIconUtils::themedIcon(QStringLiteral("favorite")), i18n("Add Effect to Favorites"), this, SLOT(slotAddToFavorites()));
     m_removeAction = m_contextMenu->addAction(KoIconUtils::themedIcon(QStringLiteral("edit-delete")), i18n("Delete effect"), this, SLOT(slotRemoveEffect()));
 
     m_effectsFavorites = new MyDropButton(this);
@@ -276,7 +275,8 @@ void EffectsListView::filterList()
             m_search_effect->updateSearch(currentSearch);
         }
         return;
-    } if (pos == EffectsList::EFFECT_FAVORITES) {
+    }
+    if (pos == EffectsList::EFFECT_FAVORITES) {
         m_removeAction->setText(i18n("Remove from favorites"));
 
         // Find favorites;
@@ -330,7 +330,7 @@ void EffectsListView::filterList()
     if (m_effectsList->indentation() == 0) {
         m_effectsList->setIndentation(10);
     }
-    //m_search_effect->setVisible(true);
+    // m_search_effect->setVisible(true);
     for (int i = 0; i < m_effectsList->topLevelItemCount(); ++i) {
         QTreeWidgetItem *folder = m_effectsList->topLevelItem(i);
         bool hideFolder = true;
@@ -394,7 +394,8 @@ void EffectsListView::slotUpdateInfo()
 
 void EffectsListView::reloadEffectList(QMenu *effectsMenu, KActionCategory *effectActions)
 {
-    QString effectCategory = m_mode == EffectMode ? QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("kdenliveeffectscategory.rc")) : QString();
+    QString effectCategory =
+        m_mode == EffectMode ? QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("kdenliveeffectscategory.rc")) : QString();
     m_effectsList->initList(effectsMenu, effectActions, effectCategory, m_mode == TransitionMode);
     filterList();
 }
@@ -460,7 +461,7 @@ void EffectsListView::slotRemoveEffect()
         file.close();
         QDomNodeList effects = doc.elementsByTagName(QStringLiteral("effect"));
         if (effects.count() != 1) {
-            //qCDebug(KDENLIVE_LOG) << "More than one effect in file " << itemName << ", NOT SUPPORTED YET";
+            // qCDebug(KDENLIVE_LOG) << "More than one effect in file " << itemName << ", NOT SUPPORTED YET";
         } else {
             QDomElement e = effects.item(0).toElement();
             if (e.attribute(QStringLiteral("id")) == effectId) {
@@ -528,6 +529,5 @@ void EffectsListView::updatePalette()
     // We need to reset current stylesheet if we want to change the palette!
     m_effectsList->setStyleSheet(QString());
     m_effectsList->updatePalette();
-    //m_effectsList->setStyleSheet(customStyleSheet());
+    // m_effectsList->setStyleSheet(customStyleSheet());
 }
-

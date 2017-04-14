@@ -18,30 +18,25 @@
  ***************************************************************************/
 
 #include "headertrack.h"
-#include "track.h"
-#include "kdenlivesettings.h"
-#include "utils/KoIconUtils.h"
 #include "effectslist/effectslist.h"
+#include "kdenlivesettings.h"
+#include "track.h"
+#include "utils/KoIconUtils.h"
 
-#include <klocalizedstring.h>
-#include <KDualAction>
 #include <KColorScheme>
+#include <KDualAction>
+#include <klocalizedstring.h>
 
 #include "kdenlive_debug.h"
-#include <QMouseEvent>
-#include <QWidget>
 #include <QAction>
-#include <QToolBar>
 #include <QDomDocument>
 #include <QMimeData>
+#include <QMouseEvent>
+#include <QToolBar>
+#include <QWidget>
 
-HeaderTrack::HeaderTrack(const TrackInfo &info, const QList<QAction *> &actions, Track *parent, int height, QWidget *parentWidget) :
-    QWidget(parentWidget),
-    isTarget(false),
-    m_type(info.type),
-    m_parentTrack(parent),
-    m_isSelected(false),
-    m_switchVideo(nullptr)
+HeaderTrack::HeaderTrack(const TrackInfo &info, const QList<QAction *> &actions, Track *parent, int height, QWidget *parentWidget)
+    : QWidget(parentWidget), isTarget(false), m_type(info.type), m_parentTrack(parent), m_isSelected(false), m_switchVideo(nullptr)
 {
     setupUi(this);
     setFocusPolicy(Qt::ClickFocus);
@@ -103,7 +98,7 @@ HeaderTrack::HeaderTrack(const TrackInfo &info, const QList<QAction *> &actions,
 
 HeaderTrack::~HeaderTrack()
 {
-    //qCDebug(KDENLIVE_LOG)<<" - --DEL TK HEAD: "<<m_name;
+    // qCDebug(KDENLIVE_LOG)<<" - --DEL TK HEAD: "<<m_name;
 }
 
 bool HeaderTrack::eventFilter(QObject *obj, QEvent *event)
@@ -179,7 +174,7 @@ void HeaderTrack::mouseDoubleClickEvent(QMouseEvent *event)
     QWidget::mouseDoubleClickEvent(event);
 }
 
-//virtual
+// virtual
 void HeaderTrack::dropEvent(QDropEvent *event)
 {
     const QString effects = QString::fromUtf8(event->mimeData()->data(QStringLiteral("kdenlive/effectslist")));
@@ -200,7 +195,7 @@ void HeaderTrack::dropEvent(QDropEvent *event)
     emit addTrackEffect(e, m_parentTrack->index());
 }
 
-//virtual
+// virtual
 void HeaderTrack::dragEnterEvent(QDragEnterEvent *event)
 {
     if (m_switchLock->isActive()) {
@@ -248,7 +243,7 @@ void HeaderTrack::adjustSize(int height)
             button_layout->addWidget(m_tb);
         }
     }
-    //m_tb->setHidden(smallTracks);
+    // m_tb->setHidden(smallTracks);
     setFixedHeight(height);
 }
 
@@ -350,4 +345,3 @@ void HeaderTrack::refreshPalette()
     setPalette(pal);
     updateLed();
 }
-

@@ -10,8 +10,8 @@
 
 #include "fftTools.h"
 
-#include <math.h>
 #include <iostream>
+#include <math.h>
 
 #include <QString>
 
@@ -24,9 +24,7 @@
 #include <fstream>
 #endif
 
-FFTTools::FFTTools() :
-    m_fftCfgs(),
-    m_windowFunctions()
+FFTTools::FFTTools() : m_fftCfgs(), m_windowFunctions()
 {
 }
 FFTTools::~FFTTools()
@@ -111,8 +109,8 @@ const QVector<float> FFTTools::window(const WindowType windowType, const int siz
     return QVector<float>();
 }
 
-void FFTTools::fftNormalized(const audioShortVector &audioFrame, const uint channel, const uint numChannels, float *freqSpectrum,
-                             const WindowType windowType, const uint windowSize, const float param)
+void FFTTools::fftNormalized(const audioShortVector &audioFrame, const uint channel, const uint numChannels, float *freqSpectrum, const WindowType windowType,
+                             const uint windowSize, const float param)
 {
 #ifdef DEBUG_FFTTOOLS
     QTime start = QTime::currentTime();
@@ -179,9 +177,9 @@ void FFTTools::fftNormalized(const audioShortVector &audioFrame, const uint chan
         // does not do noticeable worse than keeping it outside (perhaps the branch predictor
         // is good enough), so it remains in there for better readability.
         if (windowType != FFTTools::Window_Rect) {
-            data[i] = (float) audioFrame.data()[i * numChannels + channel] / 32767.0f * window[i];
+            data[i] = (float)audioFrame.data()[i * numChannels + channel] / 32767.0f * window[i];
         } else {
-            data[i] = (float) audioFrame.data()[i * numChannels + channel] / 32767.0f;
+            data[i] = (float)audioFrame.data()[i * numChannels + channel] / 32767.0f;
         }
     }
 
@@ -193,7 +191,10 @@ void FFTTools::fftNormalized(const audioShortVector &audioFrame, const uint chan
     for (uint i = 0; i < windowSize / 2; ++i) {
         // Logarithmic scale: 20 * log ( 2 * magnitude / N ) with magnitude = sqrt(r² + i²)
         // with N = FFT size (after FFT, 1/2 window size)
-        freqSpectrum[i] = 20 * log(pow(pow(fabs(freqData[i].r * windowScaleFactor), 2) + pow(fabs(freqData[i].i * windowScaleFactor), 2), .5) / ((float)windowSize / 2.0f)) / log(10);;
+        freqSpectrum[i] =
+            20 * log(pow(pow(fabs(freqData[i].r * windowScaleFactor), 2) + pow(fabs(freqData[i].i * windowScaleFactor), 2), .5) / ((float)windowSize / 2.0f)) /
+            log(10);
+        ;
     }
 
 #ifdef DEBUG_FFTTOOLS
@@ -251,8 +252,8 @@ const QVector<float> FFTTools::interpolatePeakPreserving(const QVector<float> &i
             // xi: floor(x)
 
             // Transform [0,targetSize-1] to [left,right]
-            x = ((float) i) / (targetSize - 1) * (right - left) + left;
-            xi = (int) floor(x);
+            x = ((float)i) / (targetSize - 1) * (right - left) + left;
+            xi = (int)floor(x);
 
             if (x > in.size() - 1) {
                 // This may happen if right > in.size()-1; Fill the rest of the vector
@@ -261,14 +262,13 @@ const QVector<float> FFTTools::interpolatePeakPreserving(const QVector<float> &i
             }
 
             // Use linear interpolation in order to get smoother display
-            if (xi == 0 || xi == (uint) in.size() - 1) {
+            if (xi == 0 || xi == (uint)in.size() - 1) {
                 // ... except if we are at the left or right border of the input sigal.
                 // Special case here since we consider previous and future values as well for
                 // the actual interpolation (not possible here).
                 out[i] = in[xi];
             } else {
-                if (in[xi] > in[xi + 1]
-                        && x_prev < xi) {
+                if (in[xi] > in[xi + 1] && x_prev < xi) {
                     // This is a hack to preserve peaks.
                     // Consider f = {0, 100, 0}
                     //          x = {0.5,  1.5}
@@ -277,8 +277,7 @@ const QVector<float> FFTTools::interpolatePeakPreserving(const QVector<float> &i
                     // (x is the first after the peak if the previous x was smaller than floor(x).)
                     out[i] = in[xi];
                 } else {
-                    out[i] = (xi + 1 - x) * in[xi]
-                             + (x - xi)   * in[xi + 1];
+                    out[i] = (xi + 1 - x) * in[xi] + (x - xi) * in[xi + 1];
                 }
             }
             x_prev = x;
@@ -292,19 +291,19 @@ const QVector<float> FFTTools::interpolatePeakPreserving(const QVector<float> &i
             // x:  right bound
             // xi: floor(x)
             x = ((float)(i + 1)) / (targetSize - 1) * (right - left) + left;
-            xi = (int) floor(x);
+            xi = (int)floor(x);
             int points = 0;
 
             out[i] = fill;
 
-            for (; src < xi && src < (uint) in.size(); ++src) {
+            for (; src < xi && src < (uint)in.size(); ++src) {
                 if (out[i] < in[src]) {
                     out[i] = in[src];
                 }
                 points++;
             }
 
-//             xi_prev = xi;
+            //             xi_prev = xi;
         }
     }
     // Fill the rest of the vector if the right border exceeds the input vector.

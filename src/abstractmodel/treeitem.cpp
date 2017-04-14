@@ -22,7 +22,7 @@
 #include "treeitem.hpp"
 #include "abstracttreemodel.hpp"
 
-TreeItem::TreeItem(const QList<QVariant> &data, AbstractTreeModel* model, TreeItem *parent)
+TreeItem::TreeItem(const QList<QVariant> &data, AbstractTreeModel *model, TreeItem *parent)
 {
     m_parentItem = parent;
     m_itemData = data;
@@ -35,7 +35,7 @@ TreeItem::~TreeItem()
     qDeleteAll(m_childItems);
 }
 
-TreeItem* TreeItem::appendChild(const QList<QVariant> &data)
+TreeItem *TreeItem::appendChild(const QList<QVariant> &data)
 {
     m_model->notifyRowAboutToAppend(this);
     auto *child = new TreeItem(data, m_model, this);
@@ -101,8 +101,7 @@ TreeItem *TreeItem::parentItem()
 
 int TreeItem::row() const
 {
-    if (m_parentItem)
-        return m_parentItem->m_childItems.indexOf(const_cast<TreeItem*>(this));
+    if (m_parentItem) return m_parentItem->m_childItems.indexOf(const_cast<TreeItem *>(this));
 
     return -1;
 }
@@ -111,4 +110,3 @@ int TreeItem::depth() const
 {
     return m_depth;
 }
-

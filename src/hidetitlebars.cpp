@@ -11,12 +11,11 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include "hidetitlebars.h"
 #include "core.h"
-#include "mainwindow.h"
 #include "kdenlivesettings.h"
+#include "mainwindow.h"
 #include <klocalizedstring.h>
 
-HideTitleBars::HideTitleBars(QObject *parent) :
-    QObject(parent)
+HideTitleBars::HideTitleBars(QObject *parent) : QObject(parent)
 {
     m_switchAction = new QAction(i18n("Show Title Bars"), this);
     m_switchAction->setCheckable(true);
@@ -91,4 +90,3 @@ void HideTitleBars::slotSwitchTitleBars()
 {
     m_switchAction->trigger();
 }
-

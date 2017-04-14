@@ -20,14 +20,14 @@
 #include "colorpickerwidget.h"
 #include "utils/KoIconUtils.h"
 
-#include <QMouseEvent>
-#include <QHBoxLayout>
-#include <QToolButton>
-#include <QScreen>
+#include <QApplication>
 #include <QDesktopWidget>
 #include <QFrame>
-#include <QApplication>
+#include <QHBoxLayout>
+#include <QMouseEvent>
+#include <QScreen>
 #include <QTimer>
+#include <QToolButton>
 #include <klocalizedstring.h>
 
 #ifdef Q_WS_X11
@@ -35,8 +35,7 @@
 #include <fixx11h.h>
 #endif
 
-MyFrame::MyFrame(QWidget *parent) :
-    QFrame(parent)
+MyFrame::MyFrame(QWidget *parent) : QFrame(parent)
 {
     setFrameStyle(QFrame::Box | QFrame::Plain);
     setWindowOpacity(0.5);
@@ -52,9 +51,7 @@ void MyFrame::hideEvent(QHideEvent *event)
     QTimer::singleShot(250, this, &MyFrame::getColor);
 }
 
-ColorPickerWidget::ColorPickerWidget(QWidget *parent) :
-    QWidget(parent),
-    m_filterActive(false)
+ColorPickerWidget::ColorPickerWidget(QWidget *parent) : QWidget(parent), m_filterActive(false)
 {
 #ifdef Q_WS_X11
     m_image = nullptr;
@@ -65,7 +62,9 @@ ColorPickerWidget::ColorPickerWidget(QWidget *parent) :
 
     auto *button = new QToolButton(this);
     button->setIcon(KoIconUtils::themedIcon(QStringLiteral("color-picker")));
-    button->setToolTip(QStringLiteral("<p>") + i18n("Pick a color on the screen. By pressing the mouse button and then moving your mouse you can select a section of the screen from which to get an average color.") + QStringLiteral("</p>"));
+    button->setToolTip(QStringLiteral("<p>") + i18n("Pick a color on the screen. By pressing the mouse button and then moving your mouse you can select a "
+                                                    "section of the screen from which to get an average color.") +
+                       QStringLiteral("</p>"));
     button->setAutoRaise(true);
     connect(button, &QAbstractButton::clicked, this, &ColorPickerWidget::slotSetupEventFilter);
 
@@ -95,11 +94,10 @@ void ColorPickerWidget::slotGetAverageColor()
     int sumG = 0;
     int sumB = 0;
 
-
-    /*
-     Only getting the image once for the whole rect
-     results in a vast speed improvement.
-    */
+/*
+ Only getting the image once for the whole rect
+ results in a vast speed improvement.
+*/
 #ifdef Q_WS_X11
     Window root = RootWindow(QX11Info::display(), QX11Info::appScreen());
     m_image = XGetImage(QX11Info::display(), root, m_grabRect.x(), m_grabRect.y(), m_grabRect.width(), m_grabRect.height(), -1, ZPixmap);
@@ -117,14 +115,12 @@ void ColorPickerWidget::slotGetAverageColor()
             sumG += color.green();
             sumB += color.blue();
         }
-
     }
 
 #ifdef Q_WS_X11
     XDestroyImage(m_image);
     m_image = nullptr;
 #endif
-
 
     emit colorPicked(QColor(sumR / numPixel, sumG / numPixel, sumB / numPixel));
     emit disableCurrentFilter(false);
@@ -209,7 +205,6 @@ bool ColorPickerWidget::eventFilter(QObject *object, QEvent *event)
         return true;
     }
     return QObject::eventFilter(object, event);
-
 }
 
 QColor ColorPickerWidget::grabColor(const QPoint &p, bool destroyImage)
@@ -238,9 +233,7 @@ QColor ColorPickerWidget::grabColor(const QPoint &p, bool destroyImage)
     XColor xcol;
     xcol.pixel = xpixel;
     xcol.flags = DoRed | DoGreen | DoBlue;
-    XQueryColor(QX11Info::display(),
-                DefaultColormap(QX11Info::display(), QX11Info::appScreen()),
-                &xcol);
+    XQueryColor(QX11Info::display(), DefaultColormap(QX11Info::display(), QX11Info::appScreen()), &xcol);
     return QColor::fromRgbF(xcol.red / 65535.0, xcol.green / 65535.0, xcol.blue / 65535.0);
 #else
     Q_UNUSED(destroyImage)
@@ -251,12 +244,11 @@ QColor ColorPickerWidget::grabColor(const QPoint &p, bool destroyImage)
             QPixmap pm = currentScreen->grabWindow(0, p.x(), p.y(), 1, 1);
             QImage i = pm.toImage();
             return i.pixel(0, 0);
-        } 
-            return qRgb(0, 0, 0);
-        
+        }
+        return qRgb(0, 0, 0);
+
     } else {
         return m_image.pixel(p.x(), p.y());
     }
 #endif
 }
-

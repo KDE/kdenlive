@@ -22,14 +22,13 @@
 #include "asseticonprovider.hpp"
 #include "effects/effectsrepository.hpp"
 #include "transitions/transitionsrepository.hpp"
+#include "utils/KoIconUtils.h"
 #include <QDebug>
+#include <QFont>
 #include <QIcon>
 #include <QPainter>
-#include <QFont>
-#include "utils/KoIconUtils.h"
 
-AssetIconProvider::AssetIconProvider(bool effect)
-    : QQuickImageProvider(QQmlImageProviderBase::Image, QQmlImageProviderBase::ForceAsynchronousImageLoading)
+AssetIconProvider::AssetIconProvider(bool effect) : QQuickImageProvider(QQmlImageProviderBase::Image, QQmlImageProviderBase::ForceAsynchronousImageLoading)
 {
     m_effect = effect;
 }
@@ -38,15 +37,15 @@ QImage AssetIconProvider::requestImage(const QString &id, QSize *size, const QSi
 {
     QImage result;
 
-    if (id == QStringLiteral("root") || id.isEmpty()){
-        QPixmap pix(30,30);
+    if (id == QStringLiteral("root") || id.isEmpty()) {
+        QPixmap pix(30, 30);
         return pix.toImage();
     }
 
     if (m_effect && EffectsRepository::get()->exists(id)) {
         if (EffectsRepository::get()->getType(id) == EffectType::Custom) {
             QIcon folder_icon = KoIconUtils::themedIcon(QStringLiteral("folder"));
-            result = folder_icon.pixmap(30,30).toImage();
+            result = folder_icon.pixmap(30, 30).toImage();
         } else {
             QString name = EffectsRepository::get()->getName(id);
             result = makeIcon(id, name, requestedSize);
@@ -61,16 +60,15 @@ QImage AssetIconProvider::requestImage(const QString &id, QSize *size, const QSi
             *size = result.size();
         }
     } else {
-        qDebug() << "Asset not found "<<id;
+        qDebug() << "Asset not found " << id;
     }
     return result;
 }
 
-
-QImage AssetIconProvider::makeIcon(const QString &effectId, const QString &effectName, const QSize& size)
+QImage AssetIconProvider::makeIcon(const QString &effectId, const QString &effectName, const QSize &size)
 {
     Q_UNUSED(size);
-    QPixmap pix(30,30);
+    QPixmap pix(30, 30);
     if (effectName.isEmpty()) {
         pix.fill(Qt::red);
         return pix.toImage();

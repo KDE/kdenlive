@@ -35,7 +35,7 @@ QDomElement EffectsList::getEffectByName(const QString &name) const
     QString effectName;
     QDomNodeList effects = m_baseElement.childNodes();
     for (int i = 0; i < effects.count(); ++i) {
-        QDomElement effect =  effects.at(i).toElement();
+        QDomElement effect = effects.at(i).toElement();
         QDomElement namenode = effect.firstChildElement(QStringLiteral("name"));
         if (!namenode.isNull()) {
             effectName = i18n(namenode.text().toUtf8().data());
@@ -44,7 +44,8 @@ QDomElement EffectsList::getEffectByName(const QString &name) const
             QDomNodeList params = effect.elementsByTagName(QStringLiteral("parameter"));
             for (int i = 0; i < params.count(); ++i) {
                 QDomElement e = params.item(i).toElement();
-                if (!e.hasAttribute(QStringLiteral("value")) && e.attribute(QStringLiteral("type")) != QLatin1String("animatedrect") && e.attribute(QStringLiteral("paramlist")) != QLatin1String("%lumaPaths")) {
+                if (!e.hasAttribute(QStringLiteral("value")) && e.attribute(QStringLiteral("type")) != QLatin1String("animatedrect") &&
+                    e.attribute(QStringLiteral("paramlist")) != QLatin1String("%lumaPaths")) {
                     e.setAttribute(QStringLiteral("value"), e.attribute(QStringLiteral("default")));
                 }
             }
@@ -62,7 +63,7 @@ QDomElement EffectsList::getEffectByTag(const QString &tag, const QString &id) c
         return QDomElement();
     }
     for (int i = 0; i < effects.count(); ++i) {
-        QDomElement effect =  effects.at(i).toElement();
+        QDomElement effect = effects.at(i).toElement();
         if (!id.isEmpty()) {
             if (effect.attribute(QStringLiteral("id")) == id) {
                 if (effect.tagName() == QLatin1String("effectgroup")) {
@@ -87,7 +88,7 @@ QDomElement EffectsList::effectById(const QString &id) const
 {
     QDomNodeList effects = m_baseElement.childNodes();
     for (int i = 0; i < effects.count(); ++i) {
-        QDomElement effect =  effects.at(i).toElement();
+        QDomElement effect = effects.at(i).toElement();
         if (!id.isEmpty() && effect.attribute(QStringLiteral("id")) == id) {
             return effect;
         }
@@ -99,7 +100,7 @@ bool EffectsList::hasTransition(const QString &tag) const
 {
     QDomNodeList trans = m_baseElement.childNodes();
     for (int i = 0; i < trans.count(); ++i) {
-        QDomElement effect =  trans.at(i).toElement();
+        QDomElement effect = trans.at(i).toElement();
         if (effect.attribute(QStringLiteral("tag")) == tag) {
             return true;
         }
@@ -111,7 +112,7 @@ int EffectsList::hasEffect(const QString &tag, const QString &id) const
 {
     QDomNodeList effects = m_baseElement.childNodes();
     for (int i = 0; i < effects.count(); ++i) {
-        QDomElement effect =  effects.at(i).toElement();
+        QDomElement effect = effects.at(i).toElement();
         if (!id.isEmpty()) {
             if (effect.attribute(QStringLiteral("id")) == id) {
                 return effect.attribute(QStringLiteral("kdenlive_ix")).toInt();
@@ -163,7 +164,7 @@ QStringList EffectsList::effectNames() const
     QStringList list;
     QDomNodeList effects = m_baseElement.childNodes();
     for (int i = 0; i < effects.count(); ++i) {
-        QDomElement effect =  effects.at(i).toElement();
+        QDomElement effect = effects.at(i).toElement();
         QDomElement namenode = effect.firstChildElement(QStringLiteral("name"));
         if (!namenode.isNull()) {
             list.append(i18n(namenode.text().toUtf8().data()));
@@ -405,7 +406,7 @@ QDomElement EffectsList::insert(const QDomElement &effect)
         ix = effects.count();
         result = m_baseElement.appendChild(importNode(effect, true)).toElement();
     } else {
-        QDomElement listeffect =  effects.at(ix - 1).toElement();
+        QDomElement listeffect = effects.at(ix - 1).toElement();
         result = m_baseElement.insertBefore(importNode(effect, true), listeffect).toElement();
     }
     if (m_useIndex && ix > 0) {
@@ -417,7 +418,7 @@ QDomElement EffectsList::insert(const QDomElement &effect)
 void EffectsList::updateIndexes(const QDomNodeList &effects, int startIndex)
 {
     for (int i = startIndex; i < effects.count(); ++i) {
-        QDomElement listeffect =  effects.at(i).toElement();
+        QDomElement listeffect = effects.at(i).toElement();
         listeffect.setAttribute(QStringLiteral("kdenlive_ix"), i + 1);
     }
 }
@@ -428,8 +429,8 @@ bool EffectsList::enableEffects(const QList<int> &indexes, bool disable)
     QDomNodeList effects = m_baseElement.childNodes();
     QDomElement effect;
     for (int i = 0; i < indexes.count(); ++i) {
-        effect =  effectFromIndex(effects, indexes.at(i));
-        effect.setAttribute(QStringLiteral("disable"), (int) disable);
+        effect = effectFromIndex(effects, indexes.at(i));
+        effect.setAttribute(QStringLiteral("disable"), (int)disable);
         if (effect.attribute(QStringLiteral("type")) != QLatin1String("audio")) {
             monitorRefresh = true;
         }

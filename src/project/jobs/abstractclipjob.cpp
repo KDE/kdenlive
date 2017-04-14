@@ -19,18 +19,11 @@
  ***************************************************************************/
 
 #include "abstractclipjob.h"
-#include "kdenlivesettings.h"
 #include "doc/kdenlivedoc.h"
+#include "kdenlivesettings.h"
 
-AbstractClipJob::AbstractClipJob(JOBTYPE type, ClipType cType, const QString &id, QObject *parent) :
-    QObject(parent),
-    clipType(cType),
-    jobType(type),
-    replaceClip(false),
-    m_jobStatus(NoJob),
-    m_clipId(id),
-    m_addClipToProject(-100),
-    m_jobProcess(nullptr)
+AbstractClipJob::AbstractClipJob(JOBTYPE type, ClipType cType, const QString &id, QObject *parent)
+    : QObject(parent), clipType(cType), jobType(type), replaceClip(false), m_jobStatus(NoJob), m_clipId(id), m_addClipToProject(-100), m_jobProcess(nullptr)
 {
 }
 
@@ -100,4 +93,3 @@ bool AbstractClipJob::isExclusive()
 {
     return true;
 }
-

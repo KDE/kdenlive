@@ -24,19 +24,19 @@
 #include "statusbarmessagelabel.h"
 #include "kdenlivesettings.h"
 
+#include <KNotification>
 #include <kcolorscheme.h>
 #include <kiconloader.h>
-#include <KNotification>
 #include <klocalizedstring.h>
 
-#include <QPushButton>
-#include <QPixmap>
-#include <QLabel>
-#include <QProgressBar>
-#include <QMouseEvent>
-#include <QHBoxLayout>
 #include <QDialog>
 #include <QDialogButtonBox>
+#include <QHBoxLayout>
+#include <QLabel>
+#include <QMouseEvent>
+#include <QPixmap>
+#include <QProgressBar>
+#include <QPushButton>
 #include <QTextEdit>
 
 FlashLabel::FlashLabel(QWidget *parent) : QWidget(parent)
@@ -61,10 +61,7 @@ QColor FlashLabel::color() const
     return palette().window().color();
 }
 
-StatusBarMessageLabel::StatusBarMessageLabel(QWidget *parent) :
-    FlashLabel(parent),
-    m_minTextHeight(-1),
-    m_queueSemaphore(1)
+StatusBarMessageLabel::StatusBarMessageLabel(QWidget *parent) : FlashLabel(parent), m_minTextHeight(-1), m_queueSemaphore(1)
 {
     setMinimumHeight(KIconLoader::SizeSmall);
     auto *lay = new QHBoxLayout(this);
@@ -160,7 +157,6 @@ void StatusBarMessageLabel::setMessage(const QString &text, MessageType type, in
             if (m_queueTimer.elapsed() >= m_currentMessage.timeoutMillis) {
                 m_queueTimer.start(0);
             }
-
         }
     }
     m_queueSemaphore.release();
@@ -192,7 +188,6 @@ bool StatusBarMessageLabel::slotMessageTimeout()
             m_label->setText(m_currentMessage.text);
             m_messageQueue.removeFirst();
             newMessage = true;
-
         }
     }
 
@@ -208,11 +203,11 @@ bool StatusBarMessageLabel::slotMessageTimeout()
             // If we only have the default message left to show in the queue,
             // keep the current one for a little longer.
             m_queueTimer.start(m_currentMessage.timeoutMillis + 4000 * static_cast<int>(m_messageQueue.at(0).type == DefaultMessage));
-
         }
     }
 
-    QColor bgColor = KStatefulBrush(KColorScheme::Window, KColorScheme::NegativeBackground, KSharedConfig::openConfig(KdenliveSettings::colortheme())).brush(this).color();
+    QColor bgColor =
+        KStatefulBrush(KColorScheme::Window, KColorScheme::NegativeBackground, KSharedConfig::openConfig(KdenliveSettings::colortheme())).brush(this).color();
     const char *iconName = nullptr;
     if (m_animation.state() == QAbstractAnimation::Running) {
         m_animation.stop();

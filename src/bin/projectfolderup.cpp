@@ -23,11 +23,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "projectclip.h"
 #include "utils/KoIconUtils.h"
 
-#include <QDomElement>
 #include <KLocalizedString>
+#include <QDomElement>
 
-ProjectFolderUp::ProjectFolderUp(ProjectItemModel* model, AbstractProjectItem *parent) :
-    AbstractProjectItem(AbstractProjectItem::FolderUpItem, QString(), model, parent)
+ProjectFolderUp::ProjectFolderUp(ProjectItemModel *model, AbstractProjectItem *parent)
+    : AbstractProjectItem(AbstractProjectItem::FolderUpItem, QString(), model, parent)
 {
     m_thumbnail = KoIconUtils::themedIcon(QStringLiteral("go-previous"));
     m_name = i18n("Back");

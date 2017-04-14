@@ -19,27 +19,29 @@
 #ifndef GLWIDGET_H
 #define GLWIDGET_H
 
-#include <QSemaphore>
-#include <QQuickView>
+#include <QMutex>
+#include <QOffscreenSurface>
+#include <QOpenGLContext>
+#include <QOpenGLFramebufferObject>
 #include <QOpenGLFunctions>
 #include <QOpenGLShaderProgram>
-#include <QOpenGLFramebufferObject>
-#include <QOpenGLContext>
-#include <QOffscreenSurface>
-#include <QMutex>
-#include <QThread>
+#include <QQuickView>
 #include <QRect>
+#include <QSemaphore>
+#include <QThread>
 
-#include "scopes/sharedframe.h"
 #include "definitions.h"
+#include "scopes/sharedframe.h"
 
 class QOpenGLFunctions_3_2_Core;
-//class QmlFilter;
-//class QmlMetadata;
+// class QmlFilter;
+// class QmlMetadata;
 
-namespace Mlt
-{
+namespace Mlt {
 class Filter;
+class Producer;
+class Consumer;
+class Profile;
 }
 
 class RenderThread;
@@ -71,32 +73,14 @@ public:
      * @return A string describing the playlist */
     const QString sceneList(const QString &root);
 
-    int displayWidth() const
-    {
-        return m_rect.width();
-    }
+    int displayWidth() const { return m_rect.width(); }
     void updateAudioForAnalysis();
-    int displayHeight() const
-    {
-        return m_rect.height();
-    }
+    int displayHeight() const { return m_rect.height(); }
 
-    QObject *videoWidget()
-    {
-        return this;
-    }
-    Mlt::Filter *glslManager() const
-    {
-        return m_glslManager;
-    }
-    QRect rect() const
-    {
-        return m_rect;
-    }
-    QRect effectRect() const
-    {
-        return m_effectRect;
-    }
+    QObject *videoWidget() { return this; }
+    Mlt::Filter *glslManager() const { return m_glslManager; }
+    QRect rect() const { return m_rect; }
+    QRect effectRect() const { return m_effectRect; }
     float zoom() const;
     float scale() const;
     QPoint offset() const;
@@ -152,7 +136,7 @@ signals:
     void switchFullScreen(bool minimizeOnly = false);
     void mouseSeek(int eventDelta, int modifiers);
     void startDrag();
-    void analyseFrame(const QImage&);
+    void analyseFrame(const QImage &);
     void audioSamplesSignal(const audioShortVector &, int, int, int);
     void showContextMenu(const QPoint &);
     void lockMonitor(bool);
@@ -243,14 +227,8 @@ class FrameRenderer : public QThread
 public:
     explicit FrameRenderer(QOpenGLContext *shareContext, QSurface *surface);
     ~FrameRenderer();
-    QSemaphore *semaphore()
-    {
-        return &m_semaphore;
-    }
-    QOpenGLContext *context() const
-    {
-        return m_context;
-    }
+    QSemaphore *semaphore() { return &m_semaphore; }
+    QOpenGLContext *context() const { return m_context; }
     void clearFrame();
     Q_INVOKABLE void showFrame(Mlt::Frame frame);
     Q_INVOKABLE void showGLFrame(Mlt::Frame frame);

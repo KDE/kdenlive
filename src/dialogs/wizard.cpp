@@ -18,32 +18,32 @@
  ***************************************************************************/
 
 #include "wizard.h"
-#include "profilesdialog.h"
-#include "utils/KoIconUtils.h"
 #include "kdenlivesettings.h"
+#include "profilesdialog.h"
 #include "renderer.h"
+#include "utils/KoIconUtils.h"
 #include "utils/thememanager.h"
 #ifdef USE_V4L
 #include "capture/v4lcapture.h"
 #endif
 #include <config-kdenlive.h>
 
-#include <mlt++/Mlt.h>
 #include <framework/mlt_version.h>
+#include <mlt++/Mlt.h>
 
-#include <klocalizedstring.h>
+#include <KMessageWidget>
 #include <KProcess>
 #include <KRun>
-#include <KMessageWidget>
+#include <klocalizedstring.h>
 
-#include <QLabel>
-#include <QMimeType>
-#include <QFile>
-#include <QXmlStreamWriter>
-#include <QTimer>
-#include <QStandardPaths>
-#include <QMimeDatabase>
 #include "kdenlive_debug.h"
+#include <QFile>
+#include <QLabel>
+#include <QMimeDatabase>
+#include <QMimeType>
+#include <QStandardPaths>
+#include <QTimer>
+#include <QXmlStreamWriter>
 
 // Recommended MLT version
 const int mltVersionMajor = MLT_MIN_MAJOR_VERSION;
@@ -55,9 +55,9 @@ static const char kdenlive_version[] = KDENLIVE_VERSION;
 static QStringList acodecsList;
 static QStringList vcodecsList;
 
-MyWizardPage::MyWizardPage(QWidget *parent) : QWizardPage(parent)
-    , m_isComplete(false)
-{}
+MyWizardPage::MyWizardPage(QWidget *parent) : QWizardPage(parent), m_isComplete(false)
+{
+}
 
 void MyWizardPage::setComplete(bool complete)
 {
@@ -69,10 +69,7 @@ bool MyWizardPage::isComplete() const
     return m_isComplete;
 }
 
-Wizard::Wizard(bool autoClose, QWidget *parent) :
-    QWizard(parent),
-    m_systemCheckIsOk(false),
-    m_brokenModule(false)
+Wizard::Wizard(bool autoClose, QWidget *parent) : QWizard(parent), m_systemCheckIsOk(false), m_brokenModule(false)
 {
     // Check color theme
     ThemeManager::instance()->initDarkTheme();
@@ -80,7 +77,7 @@ Wizard::Wizard(bool autoClose, QWidget *parent) :
     int logoHeight = fontMetrics().height() * 2.5;
     setWizardStyle(QWizard::ModernStyle);
     setOption(QWizard::NoBackButtonOnLastPage, true);
-    //setOption(QWizard::ExtendedWatermarkPixmap, false);
+    // setOption(QWizard::ExtendedWatermarkPixmap, false);
     m_page = new MyWizardPage(this);
     m_page->setTitle(i18n("Welcome to Kdenlive %1", QString(kdenlive_version)));
     m_page->setSubTitle(i18n("Using MLT %1", mlt_version_get_string()));
@@ -111,15 +108,14 @@ Wizard::Wizard(bool autoClose, QWidget *parent) :
         if (autoClose) {
             QTimer::singleShot(0, this, &QDialog::accept);
             return;
-        } 
-            auto *lab = new KMessageWidget(this);
-            lab->setText(i18n("Codecs have been updated, everything seems fine."));
-            lab->setMessageType(KMessageWidget::Positive);
-            lab->setCloseButtonVisible(false);
-            m_startLayout->addWidget(lab);
-            setOption(QWizard::NoCancelButton, true);
-            return;
-        
+        }
+        auto *lab = new KMessageWidget(this);
+        lab->setText(i18n("Codecs have been updated, everything seems fine."));
+        lab->setMessageType(KMessageWidget::Positive);
+        lab->setCloseButtonVisible(false);
+        m_startLayout->addWidget(lab);
+        setOption(QWizard::NoCancelButton, true);
+        return;
     }
     if (!m_errors.isEmpty()) {
         auto *errorLabel = new KMessageWidget(this);
@@ -157,70 +153,70 @@ Wizard::Wizard(bool autoClose, QWidget *parent) :
         m_startLayout->addWidget(errorLabel);
         errorLabel->show();
     }
-    // build profiles lists
-    /*QMap<QString, QString> profilesInfo = ProfilesDialog::getProfilesInfo();
-    QMap<QString, QString>::const_iterator i = profilesInfo.constBegin();
-    while (i != profilesInfo.constEnd()) {
-        QMap< QString, QString > profileData = ProfilesDialog::getSettingsFromFile(i.key());
-        if (profileData.value(QStringLiteral("width")) == QLatin1String("720")) m_dvProfiles.insert(i.value(), i.key());
-        else if (profileData.value(QStringLiteral("width")).toInt() >= 1080) m_hdvProfiles.insert(i.value(), i.key());
-        else m_otherProfiles.insert(i.value(), i.key());
-        ++i;
-    }
+// build profiles lists
+/*QMap<QString, QString> profilesInfo = ProfilesDialog::getProfilesInfo();
+QMap<QString, QString>::const_iterator i = profilesInfo.constBegin();
+while (i != profilesInfo.constEnd()) {
+    QMap< QString, QString > profileData = ProfilesDialog::getSettingsFromFile(i.key());
+    if (profileData.value(QStringLiteral("width")) == QLatin1String("720")) m_dvProfiles.insert(i.value(), i.key());
+    else if (profileData.value(QStringLiteral("width")).toInt() >= 1080) m_hdvProfiles.insert(i.value(), i.key());
+    else m_otherProfiles.insert(i.value(), i.key());
+    ++i;
+}
 
-    m_standard.button_all->setChecked(true);
-    connect(m_standard.button_all, SIGNAL(toggled(bool)), this, SLOT(slotCheckStandard()));
-    connect(m_standard.button_hdv, SIGNAL(toggled(bool)), this, SLOT(slotCheckStandard()));
-    connect(m_standard.button_dv, SIGNAL(toggled(bool)), this, SLOT(slotCheckStandard()));
-    slotCheckStandard();
-    connect(m_standard.profiles_list, SIGNAL(itemSelectionChanged()), this, SLOT(slotCheckSelectedItem()));
+m_standard.button_all->setChecked(true);
+connect(m_standard.button_all, SIGNAL(toggled(bool)), this, SLOT(slotCheckStandard()));
+connect(m_standard.button_hdv, SIGNAL(toggled(bool)), this, SLOT(slotCheckStandard()));
+connect(m_standard.button_dv, SIGNAL(toggled(bool)), this, SLOT(slotCheckStandard()));
+slotCheckStandard();
+connect(m_standard.profiles_list, SIGNAL(itemSelectionChanged()), this, SLOT(slotCheckSelectedItem()));
 
-    // select default profile
-    if (!KdenliveSettings::default_profile().isEmpty()) {
-        for (int i = 0; i < m_standard.profiles_list->count(); ++i) {
-            if (m_standard.profiles_list->item(i)->data(Qt::UserRole).toString() == KdenliveSettings::default_profile()) {
-                m_standard.profiles_list->setCurrentRow(i);
-                m_standard.profiles_list->scrollToItem(m_standard.profiles_list->currentItem());
-                break;
-            }
+// select default profile
+if (!KdenliveSettings::default_profile().isEmpty()) {
+    for (int i = 0; i < m_standard.profiles_list->count(); ++i) {
+        if (m_standard.profiles_list->item(i)->data(Qt::UserRole).toString() == KdenliveSettings::default_profile()) {
+            m_standard.profiles_list->setCurrentRow(i);
+            m_standard.profiles_list->scrollToItem(m_standard.profiles_list->currentItem());
+            break;
         }
     }
+}
 
-    setPage(2, page2);
+setPage(2, page2);
 
-    QWizardPage *page3 = new QWizardPage;
-    page3->setTitle(i18n("Additional Settings"));
-    m_extra.setupUi(page3);
-    m_extra.projectfolder->setMode(KFile::Directory);
-    m_extra.projectfolder->setUrl(QUrl(KdenliveSettings::defaultprojectfolder()));
-    m_extra.videothumbs->setChecked(KdenliveSettings::videothumbnails());
-    m_extra.audiothumbs->setChecked(KdenliveSettings::audiothumbnails());
-    m_extra.autosave->setChecked(KdenliveSettings::crashrecovery());
-    connect(m_extra.videothumbs, SIGNAL(stateChanged(int)), this, SLOT(slotCheckThumbs()));
-    connect(m_extra.audiothumbs, SIGNAL(stateChanged(int)), this, SLOT(slotCheckThumbs()));
-    slotCheckThumbs();
-    addPage(page3);*/
+QWizardPage *page3 = new QWizardPage;
+page3->setTitle(i18n("Additional Settings"));
+m_extra.setupUi(page3);
+m_extra.projectfolder->setMode(KFile::Directory);
+m_extra.projectfolder->setUrl(QUrl(KdenliveSettings::defaultprojectfolder()));
+m_extra.videothumbs->setChecked(KdenliveSettings::videothumbnails());
+m_extra.audiothumbs->setChecked(KdenliveSettings::audiothumbnails());
+m_extra.autosave->setChecked(KdenliveSettings::crashrecovery());
+connect(m_extra.videothumbs, SIGNAL(stateChanged(int)), this, SLOT(slotCheckThumbs()));
+connect(m_extra.audiothumbs, SIGNAL(stateChanged(int)), this, SLOT(slotCheckThumbs()));
+slotCheckThumbs();
+addPage(page3);*/
 
 #ifndef Q_WS_MAC
-    /*QWizardPage *page6 = new QWizardPage;
-    page6->setTitle(i18n("Capture device"));
-    m_capture.setupUi(page6);
-    bool found_decklink = Render::getBlackMagicDeviceList(m_capture.decklink_devices);
-    KdenliveSettings::setDecklink_device_found(found_decklink);
-    if (found_decklink) m_capture.decklink_status->setText(i18n("Default Blackmagic Decklink card:"));
-    else m_capture.decklink_status->setText(i18n("No Blackmagic Decklink device found"));
-    connect(m_capture.decklink_devices, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateDecklinkDevice(int)));
-    connect(m_capture.button_reload, SIGNAL(clicked()), this, SLOT(slotDetectWebcam()));
-    connect(m_capture.v4l_devices, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateCaptureParameters()));
-    connect(m_capture.v4l_formats, SIGNAL(currentIndexChanged(int)), this, SLOT(slotSaveCaptureFormat()));
-    m_capture.button_reload->setIcon(QIcon::fromTheme(QStringLiteral("view-refresh")));*/
+/*QWizardPage *page6 = new QWizardPage;
+page6->setTitle(i18n("Capture device"));
+m_capture.setupUi(page6);
+bool found_decklink = Render::getBlackMagicDeviceList(m_capture.decklink_devices);
+KdenliveSettings::setDecklink_device_found(found_decklink);
+if (found_decklink) m_capture.decklink_status->setText(i18n("Default Blackmagic Decklink card:"));
+else m_capture.decklink_status->setText(i18n("No Blackmagic Decklink device found"));
+connect(m_capture.decklink_devices, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateDecklinkDevice(int)));
+connect(m_capture.button_reload, SIGNAL(clicked()), this, SLOT(slotDetectWebcam()));
+connect(m_capture.v4l_devices, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateCaptureParameters()));
+connect(m_capture.v4l_formats, SIGNAL(currentIndexChanged(int)), this, SLOT(slotSaveCaptureFormat()));
+m_capture.button_reload->setIcon(QIcon::fromTheme(QStringLiteral("view-refresh")));*/
 
 #endif
 
-    //listViewDelegate = new WizardDelegate(treeWidget);
-    //m_check.programList->setItemDelegate(listViewDelegate);
-    //slotDetectWebcam();
-    //QTimer::singleShot(500, this, SLOT(slotCheckMlt()));
+    // listViewDelegate = new WizardDelegate(treeWidget);
+    // m_check.programList->setItemDelegate(listViewDelegate);
+    // slotDetectWebcam();
+    // QTimer::singleShot(500, this, SLOT(slotCheckMlt()));
 }
 
 void Wizard::slotDetectWebcam()
@@ -282,7 +278,10 @@ void Wizard::slotUpdateCaptureParameters()
 
     if (dir.exists(QStringLiteral("video4linux"))) {
         MltVideoProfile profileInfo = ProfilesDialog::getVideoProfile(dir.absoluteFilePath(QStringLiteral("video4linux")));
-        m_capture.v4l_formats->addItem(i18n("Current settings (%1x%2, %3/%4fps)", profileInfo.width, profileInfo.height, profileInfo.frame_rate_num, profileInfo.frame_rate_den), QStringList() << QStringLiteral("unknown") << QString::number(profileInfo.width) << QString::number(profileInfo.height) << QString::number(profileInfo.frame_rate_num) << QString::number(profileInfo.frame_rate_den));
+        m_capture.v4l_formats->addItem(
+            i18n("Current settings (%1x%2, %3/%4fps)", profileInfo.width, profileInfo.height, profileInfo.frame_rate_num, profileInfo.frame_rate_den),
+            QStringList() << QStringLiteral("unknown") << QString::number(profileInfo.width) << QString::number(profileInfo.height)
+                          << QString::number(profileInfo.frame_rate_num) << QString::number(profileInfo.frame_rate_den));
     }
     QStringList pixelformats = formats.split('>', QString::SkipEmptyParts);
     QString itemSize;
@@ -296,9 +295,12 @@ void Wizard::slotUpdateCaptureParameters()
             itemSize = sizes.at(j).section(QLatin1Char('='), 0, 0);
             itemRates = sizes.at(j).section(QLatin1Char('='), 1, 1).split(QLatin1Char(','), QString::SkipEmptyParts);
             for (int k = 0; k < itemRates.count(); ++k) {
-                QString formatDescription = QLatin1Char('[') + format + QStringLiteral("] ") + itemSize + QStringLiteral(" (") + itemRates.at(k) + QLatin1Char(')');
+                QString formatDescription =
+                    QLatin1Char('[') + format + QStringLiteral("] ") + itemSize + QStringLiteral(" (") + itemRates.at(k) + QLatin1Char(')');
                 if (m_capture.v4l_formats->findText(formatDescription) == -1) {
-                    m_capture.v4l_formats->addItem(formatDescription, QStringList() << format << itemSize.section('x', 0, 0) << itemSize.section('x', 1, 1) << itemRates.at(k).section(QLatin1Char('/'), 0, 0) << itemRates.at(k).section(QLatin1Char('/'), 1, 1));
+                    m_capture.v4l_formats->addItem(formatDescription, QStringList() << format << itemSize.section('x', 0, 0) << itemSize.section('x', 1, 1)
+                                                                                    << itemRates.at(k).section(QLatin1Char('/'), 0, 0)
+                                                                                    << itemRates.at(k).section(QLatin1Char('/'), 1, 1));
                 }
             }
         }
@@ -320,7 +322,10 @@ void Wizard::slotUpdateCaptureParameters()
             profileInfo.progressive = 1;
             profileInfo.colorspace = 601;
             ProfilesDialog::saveProfile(profileInfo, dir.absoluteFilePath(QStringLiteral("video4linux")));
-            m_capture.v4l_formats->addItem(i18n("Default settings (%1x%2, %3/%4fps)", profileInfo.width, profileInfo.height, profileInfo.frame_rate_num, profileInfo.frame_rate_den), QStringList() << QStringLiteral("unknown") << QString::number(profileInfo.width) << QString::number(profileInfo.height) << QString::number(profileInfo.frame_rate_num) << QString::number(profileInfo.frame_rate_den));
+            m_capture.v4l_formats->addItem(
+                i18n("Default settings (%1x%2, %3/%4fps)", profileInfo.width, profileInfo.height, profileInfo.frame_rate_num, profileInfo.frame_rate_den),
+                QStringList() << QStringLiteral("unknown") << QString::number(profileInfo.width) << QString::number(profileInfo.height)
+                              << QString::number(profileInfo.frame_rate_num) << QString::number(profileInfo.frame_rate_den));
         }
     }
     m_capture.v4l_formats->blockSignals(false);
@@ -337,7 +342,8 @@ void Wizard::checkMltComponents()
         int mltVersion = (mltVersionMajor << 16) + (mltVersionMinor << 8) + mltVersionRevision;
         int runningVersion = mlt_version_get_int();
         if (runningVersion < mltVersion) {
-            m_errors.append(i18n("<li>Unsupported MLT version<br/>Please <b>upgrade</b> to %1.%2.%3</li>", mltVersionMajor, mltVersionMinor, mltVersionRevision));
+            m_errors.append(
+                i18n("<li>Unsupported MLT version<br/>Please <b>upgrade</b> to %1.%2.%3</li>", mltVersionMajor, mltVersionMinor, mltVersionRevision));
             m_systemCheckIsOk = false;
         }
         // Retrieve the list of available transitions.
@@ -363,7 +369,8 @@ void Wizard::checkMltComponents()
         delete filters;
         if (!hasFrei0r) {
             // Frei0r effects not found
-            m_warnings.append(i18n("<li>Missing package: <b>Frei0r</b> effects (frei0r-plugins)<br/>provides many effects and transitions. Install recommended</li>"));
+            m_warnings.append(
+                i18n("<li>Missing package: <b>Frei0r</b> effects (frei0r-plugins)<br/>provides many effects and transitions. Install recommended</li>"));
         }
 
         // Check that we have the breeze icon theme installed
@@ -378,7 +385,8 @@ void Wizard::checkMltComponents()
         }
         if (!hasBreeze) {
             // Breeze icons not found
-            m_warnings.append(i18n("<li>Missing package: <b>Breeze</b> icons (breeze-icon-theme)<br/>provides many icons used in Kdenlive. Install recommended</li>"));
+            m_warnings.append(
+                i18n("<li>Missing package: <b>Breeze</b> icons (breeze-icon-theme)<br/>provides many icons used in Kdenlive. Install recommended</li>"));
         }
 
         Mlt::Properties *consumers = repository->consumers();
@@ -408,11 +416,11 @@ void Wizard::checkMltComponents()
             consumer->set("acodec", "list");
             consumer->set("f", "list");
             consumer->start();
-            Mlt::Properties vcodecs((mlt_properties) consumer->get_data("vcodec"));
+            Mlt::Properties vcodecs((mlt_properties)consumer->get_data("vcodec"));
             for (int i = 0; i < vcodecs.count(); ++i) {
                 vcodecsList << QString(vcodecs.get(i));
             }
-            Mlt::Properties acodecs((mlt_properties) consumer->get_data("acodec"));
+            Mlt::Properties acodecs((mlt_properties)consumer->get_data("acodec"));
             for (int i = 0; i < acodecs.count(); ++i) {
                 acodecsList << QString(acodecs.get(i));
             }
@@ -442,7 +450,7 @@ void Wizard::checkMltComponents()
     if (!m_systemCheckIsOk || m_brokenModule) {
         // Something is wrong with install
         if (!m_systemCheckIsOk) {
-            //WARN
+            // WARN
         }
     } else {
         // OK
@@ -505,7 +513,7 @@ void Wizard::checkMissingCodecs()
     }
     requiredACodecs.removeDuplicates();
     requiredVCodecs.removeDuplicates();
-    if (replaceVorbisCodec)  {
+    if (replaceVorbisCodec) {
         int ix = requiredACodecs.indexOf(QStringLiteral("vorbis"));
         if (ix > -1) {
             requiredACodecs.replace(ix, QStringLiteral("libvorbis"));
@@ -584,7 +592,7 @@ void Wizard::slotCheckPrograms()
         KdenliveSettings::setFfprobepath(probepath);
     }
 
-// Deprecated
+    // Deprecated
     /*
     #ifndef Q_WS_MAC
         item = new QTreeWidgetItem(m_treeWidget, QStringList() << QString() << i18n("dvgrab"));
@@ -667,13 +675,13 @@ void Wizard::installExtraMimes(const QString &baseName, const QStringList &globs
                 extensions << glob;
             }
         }
-        //qCDebug(KDENLIVE_LOG) << "EXTS: " << extensions;
+        // qCDebug(KDENLIVE_LOG) << "EXTS: " << extensions;
         QDir mimeDir(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QStringLiteral("/mime/packages/"));
         if (!mimeDir.exists()) {
             mimeDir.mkpath(QStringLiteral("."));
         }
         QString packageFileName = mimeDir.absoluteFilePath(mimefile + QStringLiteral(".xml"));
-        //qCDebug(KDENLIVE_LOG) << "INSTALLING NEW MIME TO: " << packageFileName;
+        // qCDebug(KDENLIVE_LOG) << "INSTALLING NEW MIME TO: " << packageFileName;
         QFile packageFile(packageFileName);
         if (!packageFile.open(QIODevice::WriteOnly)) {
             qCCritical(KDENLIVE_LOG) << "Couldn't open" << packageFileName << "for writing";
@@ -710,7 +718,7 @@ void Wizard::installExtraMimes(const QString &baseName, const QStringList &globs
 void Wizard::runUpdateMimeDatabase()
 {
     const QString localPackageDir = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QStringLiteral("/mime/");
-    //Q_ASSERT(!localPackageDir.isEmpty());
+    // Q_ASSERT(!localPackageDir.isEmpty());
     KProcess proc;
     proc << QStringLiteral("update-mime-database");
     proc << localPackageDir;
@@ -749,16 +757,20 @@ void Wizard::slotCheckStandard()
             auto *item = new QListWidgetItem(i.key(), m_standard.profiles_list);
             item->setData(Qt::UserRole, i.value());
         }
-        //m_standard.profiles_list->sortItems();
+        // m_standard.profiles_list->sortItems();
     }
 
     for (int i = 0; i < m_standard.profiles_list->count(); ++i) {
         QListWidgetItem *item = m_standard.profiles_list->item(i);
 
-        QMap< QString, QString > values = ProfilesDialog::getSettingsFromFile(item->data(Qt::UserRole).toString());
-        const QString infoString = ("<strong>" + i18n("Frame size:") + QStringLiteral(" </strong>%1x%2<br /><strong>") + i18n("Frame rate:") + QStringLiteral(" </strong>%3/%4<br /><strong>")
-                                    + i18n("Pixel aspect ratio:") + QStringLiteral("</strong>%5/%6<br /><strong>") + i18n("Display aspect ratio:")
-                                    + QStringLiteral(" </strong>%7/%8")).arg(values.value(QStringLiteral("width")), values.value(QStringLiteral("height")), values.value(QStringLiteral("frame_rate_num")), values.value(QStringLiteral("frame_rate_den")), values.value(QStringLiteral("sample_aspect_num")), values.value(QStringLiteral("sample_aspect_den")), values.value(QStringLiteral("display_aspect_num")), values.value(QStringLiteral("display_aspect_den")));
+        QMap<QString, QString> values = ProfilesDialog::getSettingsFromFile(item->data(Qt::UserRole).toString());
+        const QString infoString = ("<strong>" + i18n("Frame size:") + QStringLiteral(" </strong>%1x%2<br /><strong>") + i18n("Frame rate:") +
+                                    QStringLiteral(" </strong>%3/%4<br /><strong>") + i18n("Pixel aspect ratio:") +
+                                    QStringLiteral("</strong>%5/%6<br /><strong>") + i18n("Display aspect ratio:") + QStringLiteral(" </strong>%7/%8"))
+                                       .arg(values.value(QStringLiteral("width")), values.value(QStringLiteral("height")),
+                                            values.value(QStringLiteral("frame_rate_num")), values.value(QStringLiteral("frame_rate_den")),
+                                            values.value(QStringLiteral("sample_aspect_num")), values.value(QStringLiteral("sample_aspect_den")),
+                                            values.value(QStringLiteral("display_aspect_num")), values.value(QStringLiteral("display_aspect_den")));
         item->setToolTip(infoString);
     }
 
@@ -774,11 +786,12 @@ void Wizard::slotCheckSelectedItem()
 
 void Wizard::adjustSettings()
 {
-    //if (m_extra.installmimes->isChecked()) {
+    // if (m_extra.installmimes->isChecked()) {
     {
         QStringList globs;
 
-        globs << QStringLiteral("*.mts") << QStringLiteral("*.m2t") << QStringLiteral("*.mod") << QStringLiteral("*.ts") << QStringLiteral("*.m2ts") << QStringLiteral("*.m2v");
+        globs << QStringLiteral("*.mts") << QStringLiteral("*.m2t") << QStringLiteral("*.mod") << QStringLiteral("*.ts") << QStringLiteral("*.m2ts")
+              << QStringLiteral("*.m2v");
         installExtraMimes(QStringLiteral("video/mpeg"), globs);
         globs.clear();
         globs << QStringLiteral("*.dv");
@@ -859,4 +872,3 @@ void Wizard::slotUpdateDecklinkDevice(int captureCard)
 {
     KdenliveSettings::setDecklink_capturedevice(captureCard);
 }
-

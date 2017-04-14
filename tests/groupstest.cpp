@@ -1,14 +1,14 @@
 #include "catch.hpp"
-#include <unordered_set>
 #include <iostream>
+#include <unordered_set>
 #define private public
 #define protected public
-#include "timeline2/model/groupsmodel.hpp"
-#include "timeline2/model/timelinemodel.hpp"
-#include "timeline2/model/timelineitemmodel.hpp"
-#include "timeline2/model/clipmodel.hpp"
-#include "timeline2/model/trackmodel.hpp"
 #include "doc/docundostack.hpp"
+#include "timeline2/model/clipmodel.hpp"
+#include "timeline2/model/groupsmodel.hpp"
+#include "timeline2/model/timelineitemmodel.hpp"
+#include "timeline2/model/timelinemodel.hpp"
+#include "timeline2/model/trackmodel.hpp"
 #include <mlt++/MltProducer.h>
 #include <mlt++/MltProfile.h>
 

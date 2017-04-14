@@ -20,28 +20,24 @@
  **************************************************************************/
 
 #include "profilemodel.hpp"
-#include <mlt++/MltProfile.h>
 #include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
 #include <KLocalizedString>
+#include <mlt++/MltProfile.h>
 
-#include <QFile>
 #include <QDir>
+#include <QFile>
 
-ProfileModel::ProfileModel(const QString& path):
-    m_path(path)
-    , m_invalid(false)
+ProfileModel::ProfileModel(const QString &path) : m_path(path), m_invalid(false)
 {
     if (!QFile::exists(path) && path.contains(QLatin1Char('/'))) {
-        qCWarning(KDENLIVE_LOG) << "WARNING, COULD NOT FIND PROFILE " << path
-                              << ". We will default to DV_PAL profile";
+        qCWarning(KDENLIVE_LOG) << "WARNING, COULD NOT FIND PROFILE " << path << ". We will default to DV_PAL profile";
         m_invalid = true;
     }
     if (!path.contains(QLatin1Char('/'))) {
         QDir mltDir(KdenliveSettings::mltpath());
         if (!mltDir.exists(path)) {
-            qCWarning(KDENLIVE_LOG) << "WARNING, COULD NOT FIND MLT PROFILE " << path
-                                    << ". We will default to DV_PAL profile";
+            qCWarning(KDENLIVE_LOG) << "WARNING, COULD NOT FIND MLT PROFILE " << path << ". We will default to DV_PAL profile";
             m_invalid = true;
         }
     }
@@ -49,7 +45,7 @@ ProfileModel::ProfileModel(const QString& path):
     m_description = QString(m_profile->description());
 }
 
-bool ProfileModel::is_valid( ) const
+bool ProfileModel::is_valid() const
 {
     return (!m_invalid) && m_profile->is_valid();
 }
@@ -129,22 +125,17 @@ int ProfileModel::colorspace() const
     return m_profile->colorspace();
 }
 
-
 bool ProfileModel::operator==(const ProfileModel &other) const
 {
-    if (!description().isEmpty() && other.description()  == description()) {
+    if (!description().isEmpty() && other.description() == description()) {
         return true;
     }
     int fps = frame_rate_num() * 100 / frame_rate_den();
     int sar = sample_aspect_num() * 100 / sample_aspect_den();
     int dar = display_aspect_num() * 100 / display_aspect_den();
-    return      other.frame_rate_num() * 100 / other.frame_rate_den() == fps &&
-        other.width() == width() &&
-        other.height() == height() &&
-        other.progressive() == progressive() &&
-        other.sample_aspect_num() * 100 / other.sample_aspect_den() == sar &&
-        other.display_aspect_num() * 100 / other.display_aspect_den() == dar &&
-        other.colorspace() == colorspace();
+    return other.frame_rate_num() * 100 / other.frame_rate_den() == fps && other.width() == width() && other.height() == height() &&
+           other.progressive() == progressive() && other.sample_aspect_num() * 100 / other.sample_aspect_den() == sar &&
+           other.display_aspect_num() * 100 / other.display_aspect_den() == dar && other.colorspace() == colorspace();
 }
 
 QString ProfileModel::path() const
@@ -154,7 +145,7 @@ QString ProfileModel::path() const
 
 QString ProfileModel::colorspaceDescription() const
 {
-    //TODO: should the descriptions be translated?
+    // TODO: should the descriptions be translated?
     switch (colorspace()) {
     case 601:
         return QStringLiteral("ITU-R 601");

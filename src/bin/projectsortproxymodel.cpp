@@ -24,8 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QItemSelectionModel>
 
-ProjectSortProxyModel::ProjectSortProxyModel(QObject *parent)
-    : QSortFilterProxyModel(parent)
+ProjectSortProxyModel::ProjectSortProxyModel(QObject *parent) : QSortFilterProxyModel(parent)
 {
     m_collator.setNumericMode(true);
     m_selection = new QItemSelectionModel(this);
@@ -34,18 +33,16 @@ ProjectSortProxyModel::ProjectSortProxyModel(QObject *parent)
 }
 
 // Responsible for item sorting!
-bool ProjectSortProxyModel::filterAcceptsRow(int sourceRow,
-        const QModelIndex &sourceParent) const
+bool ProjectSortProxyModel::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
 {
     if (filterAcceptsRowItself(sourceRow, sourceParent)) {
         return true;
     }
-    //accept if any of the children is accepted on it's own merits
+    // accept if any of the children is accepted on it's own merits
     return hasAcceptedChildren(sourceRow, sourceParent);
 }
 
-bool ProjectSortProxyModel::filterAcceptsRowItself(int sourceRow,
-        const QModelIndex &sourceParent) const
+bool ProjectSortProxyModel::filterAcceptsRowItself(int sourceRow, const QModelIndex &sourceParent) const
 {
     int cols = sourceModel()->columnCount();
     for (int i = 0; i < cols; i++) {
@@ -69,7 +66,7 @@ bool ProjectSortProxyModel::hasAcceptedChildren(int sourceRow, const QModelIndex
         return false;
     }
 
-    //check if there are children
+    // check if there are children
     int childCount = item.model()->rowCount(item);
     if (childCount == 0) {
         return false;
@@ -79,7 +76,7 @@ bool ProjectSortProxyModel::hasAcceptedChildren(int sourceRow, const QModelIndex
         if (filterAcceptsRowItself(i, item)) {
             return true;
         }
-        //recursive call -> NOTICE that this is depth-first searching, you're probably better off with breadth first search...
+        // recursive call -> NOTICE that this is depth-first searching, you're probably better off with breadth first search...
         if (hasAcceptedChildren(i, item)) {
             return true;
         }
@@ -138,4 +135,3 @@ void ProjectSortProxyModel::slotDataChanged(const QModelIndex &ix1, const QModel
 {
     emit dataChanged(ix1, ix2);
 }
-

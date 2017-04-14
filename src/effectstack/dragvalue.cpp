@@ -24,27 +24,21 @@
 
 #include <math.h>
 
-#include <QHBoxLayout>
-#include <QMouseEvent>
-#include <QFocusEvent>
-#include <QWheelEvent>
-#include <QApplication>
-#include <QMenu>
 #include <QAction>
+#include <QApplication>
+#include <QFocusEvent>
+#include <QHBoxLayout>
+#include <QMenu>
+#include <QMouseEvent>
+#include <QWheelEvent>
 
-#include <klocalizedstring.h>
 #include <QFontDatabase>
 #include <QStyle>
+#include <klocalizedstring.h>
 
-DragValue::DragValue(const QString &label, double defaultValue, int decimals, double min, double max, int id, const QString &suffix, bool showSlider, QWidget *parent) :
-    QWidget(parent),
-    m_maximum(max),
-    m_minimum(min),
-    m_decimals(decimals),
-    m_default(defaultValue),
-    m_id(id),
-    m_intEdit(nullptr),
-    m_doubleEdit(nullptr)
+DragValue::DragValue(const QString &label, double defaultValue, int decimals, double min, double max, int id, const QString &suffix, bool showSlider,
+                     QWidget *parent)
+    : QWidget(parent), m_maximum(max), m_minimum(min), m_decimals(decimals), m_default(defaultValue), m_id(id), m_intEdit(nullptr), m_doubleEdit(nullptr)
 {
     if (showSlider) {
         setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
@@ -73,8 +67,8 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         m_intEdit->setButtonSymbols(QAbstractSpinBox::NoButtons);
         m_intEdit->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
         m_intEdit->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
-        m_intEdit->setRange((int) m_minimum, (int)m_maximum);
-        m_intEdit->setValue((int) m_default);
+        m_intEdit->setRange((int)m_minimum, (int)m_maximum);
+        m_intEdit->setValue((int)m_default);
         l->addWidget(m_intEdit);
         connect(m_intEdit, SIGNAL(valueChanged(int)), this, SLOT(slotSetValue(int)));
         connect(m_intEdit, &QAbstractSpinBox::editingFinished, this, &DragValue::slotEditingFinished);
@@ -147,8 +141,8 @@ DragValue::~DragValue()
     delete m_doubleEdit;
     delete m_menu;
     delete m_label;
-    //delete m_scale;
-    //delete m_directUpdate;
+    // delete m_scale;
+    // delete m_directUpdate;
 }
 
 bool DragValue::hasEditFocus() const
@@ -161,9 +155,8 @@ int DragValue::spinSize()
 {
     if (m_intEdit) {
         return m_intEdit->sizeHint().width();
-    } 
-        return m_doubleEdit->sizeHint().width();
-    
+    }
+    return m_doubleEdit->sizeHint().width();
 }
 
 void DragValue::setSpinSize(int width)
@@ -199,9 +192,8 @@ qreal DragValue::value() const
 {
     if (m_intEdit) {
         return m_intEdit->value();
-    } 
-        return m_doubleEdit->value();
-    
+    }
+    return m_doubleEdit->value();
 }
 
 void DragValue::setMaximum(qreal max)
@@ -254,7 +246,7 @@ void DragValue::slotReset()
         m_intEdit->blockSignals(true);
         m_intEdit->setValue(m_default);
         m_intEdit->blockSignals(false);
-        emit valueChanged((int) m_default, true);
+        emit valueChanged((int)m_default, true);
     } else {
         m_doubleEdit->blockSignals(true);
         m_doubleEdit->setValue(m_default);
@@ -290,9 +282,9 @@ void DragValue::setValue(double value, bool final)
     m_label->setProgressValue((value - m_minimum) / (m_maximum - m_minimum) * m_label->maximum());
     if (m_intEdit) {
         m_intEdit->blockSignals(true);
-        m_intEdit->setValue((int) value);
+        m_intEdit->setValue((int)value);
         m_intEdit->blockSignals(false);
-        emit valueChanged((int) value, final);
+        emit valueChanged((int)value, final);
     } else {
         m_doubleEdit->blockSignals(true);
         m_doubleEdit->setValue(value);
@@ -337,7 +329,7 @@ void DragValue::slotEditingFinished()
         m_intEdit->clearFocus();
         m_intEdit->blockSignals(false);
         if (!KdenliveSettings::dragvalue_directupdate()) {
-            emit valueChanged((double) value, true);
+            emit valueChanged((double)value, true);
         }
     } else {
         double value = m_doubleEdit->value();
@@ -390,12 +382,9 @@ void DragValue::setInTimelineProperty(bool intimeline)
     }
 }
 
-CustomLabel::CustomLabel(const QString &label, bool showSlider, int range, QWidget *parent) :
-    QProgressBar(parent),
-    m_dragMode(false),
-    m_showSlider(showSlider),
-    m_step(10.0)
-    //m_precision(pow(10, precision)),
+CustomLabel::CustomLabel(const QString &label, bool showSlider, int range, QWidget *parent)
+    : QProgressBar(parent), m_dragMode(false), m_showSlider(showSlider), m_step(10.0)
+// m_precision(pow(10, precision)),
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setFormat(QLatin1Char(' ') + label);
@@ -455,7 +444,7 @@ void CustomLabel::mouseMoveEvent(QMouseEvent *e)
                     setNewValue(nv, KdenliveSettings::dragvalue_directupdate());
                 }
             } else {
-                double nv = minimum() + ((double) maximum() - minimum()) / width() * e->pos().x();
+                double nv = minimum() + ((double)maximum() - minimum()) / width() * e->pos().x();
                 if (nv != value()) {
                     setNewValue(nv, KdenliveSettings::dragvalue_directupdate());
                 }
@@ -484,7 +473,7 @@ void CustomLabel::mouseReleaseEvent(QMouseEvent *e)
         m_dragLastPosition = m_dragStartPosition;
         e->accept();
     } else if (m_showSlider) {
-        setNewValue((double) maximum() * e->pos().x() / width(), true);
+        setNewValue((double)maximum() * e->pos().x() / width(), true);
         m_dragLastPosition = m_dragStartPosition;
         e->accept();
     }
@@ -548,4 +537,3 @@ void CustomLabel::focusOutEvent(QFocusEvent *)
 {
     setFocusPolicy(Qt::StrongFocus);
 }
-

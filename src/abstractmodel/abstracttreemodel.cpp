@@ -22,9 +22,7 @@
 #include "abstracttreemodel.hpp"
 #include "treeitem.hpp"
 
-
-AbstractTreeModel::AbstractTreeModel(QObject *parent)
-    : QAbstractItemModel(parent)
+AbstractTreeModel::AbstractTreeModel(QObject *parent) : QAbstractItemModel(parent)
 {
     rootItem = new TreeItem(QList<QVariant>(), this);
 }
@@ -36,10 +34,9 @@ AbstractTreeModel::~AbstractTreeModel()
 
 int AbstractTreeModel::columnCount(const QModelIndex &parent) const
 {
-    if (parent.isValid())
-        return static_cast<TreeItem*>(parent.internalPointer())->columnCount();
-    
-        return rootItem->columnCount();
+    if (parent.isValid()) return static_cast<TreeItem *>(parent.internalPointer())->columnCount();
+
+    return rootItem->columnCount();
 }
 
 QVariant AbstractTreeModel::data(const QModelIndex &index, int role) const
@@ -51,7 +48,7 @@ QVariant AbstractTreeModel::data(const QModelIndex &index, int role) const
     if (role != Qt::DisplayRole) {
         return QVariant();
     }
-    TreeItem *item = static_cast<TreeItem*>(index.internalPointer());
+    TreeItem *item = static_cast<TreeItem *>(index.internalPointer());
     return item->dataColumn(index.column());
 }
 
@@ -60,7 +57,7 @@ Qt::ItemFlags AbstractTreeModel::flags(const QModelIndex &index) const
     const auto flags = QAbstractItemModel::flags(index);
 
     if (index.isValid()) {
-        TreeItem *item = static_cast<TreeItem*>(index.internalPointer());
+        TreeItem *item = static_cast<TreeItem *>(index.internalPointer());
         if (item->depth() == 1) {
             return flags & ~Qt::ItemIsSelectable;
         }
@@ -68,61 +65,51 @@ Qt::ItemFlags AbstractTreeModel::flags(const QModelIndex &index) const
     return flags;
 }
 
-QVariant AbstractTreeModel::headerData(int section, Qt::Orientation orientation,
-                               int role) const
+QVariant AbstractTreeModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
-    if (orientation == Qt::Horizontal && role == Qt::DisplayRole)
-        return rootItem->dataColumn(section);
+    if (orientation == Qt::Horizontal && role == Qt::DisplayRole) return rootItem->dataColumn(section);
 
     return QVariant();
 }
 
-QModelIndex AbstractTreeModel::index(int row, int column, const QModelIndex &parent)
-            const
+QModelIndex AbstractTreeModel::index(int row, int column, const QModelIndex &parent) const
 {
-    if (!hasIndex(row, column, parent))
-        return QModelIndex();
+    if (!hasIndex(row, column, parent)) return QModelIndex();
 
     TreeItem *parentItem;
 
     if (!parent.isValid())
         parentItem = rootItem;
     else
-        parentItem = static_cast<TreeItem*>(parent.internalPointer());
-
+        parentItem = static_cast<TreeItem *>(parent.internalPointer());
 
     TreeItem *childItem = parentItem->child(row);
-    if (childItem)
-        return createIndex(row, column, childItem);
-    
-        return QModelIndex();
+    if (childItem) return createIndex(row, column, childItem);
+
+    return QModelIndex();
 }
 
 QModelIndex AbstractTreeModel::parent(const QModelIndex &index) const
 {
-    if (!index.isValid())
-        return QModelIndex();
+    if (!index.isValid()) return QModelIndex();
 
-    TreeItem *childItem = static_cast<TreeItem*>(index.internalPointer());
+    TreeItem *childItem = static_cast<TreeItem *>(index.internalPointer());
     TreeItem *parentItem = childItem->parentItem();
 
-    if (parentItem == rootItem)
-        return QModelIndex();
+    if (parentItem == rootItem) return QModelIndex();
 
     return createIndex(parentItem->row(), 0, parentItem);
 }
 
-
 int AbstractTreeModel::rowCount(const QModelIndex &parent) const
 {
     TreeItem *parentItem;
-    if (parent.column() > 0)
-        return 0;
+    if (parent.column() > 0) return 0;
 
     if (!parent.isValid())
         parentItem = rootItem;
     else
-        parentItem = static_cast<TreeItem*>(parent.internalPointer());
+        parentItem = static_cast<TreeItem *>(parent.internalPointer());
 
     return parentItem->childCount();
 }

@@ -1,13 +1,14 @@
 #include "catch.hpp"
-#include <unordered_set>
-#include <iostream>
 #include "timeline2/model/snapmodel.hpp"
+#include <iostream>
+#include <unordered_set>
 
 TEST_CASE("Snap points model test", "[SnapModel]")
 {
     SnapModel snap;
 
-    SECTION("Basic test") {
+    SECTION("Basic test")
+    {
         // empty
         REQUIRE(snap.getClosestPoint(0) == -1);
         REQUIRE(snap.getClosestPoint(10) == -1);
@@ -71,8 +72,8 @@ TEST_CASE("Snap points model test", "[SnapModel]")
         REQUIRE(snap.getClosestPoint(999) == -1);
     }
 
-
-    SECTION("Snappoint Ignoring") {
+    SECTION("Snappoint Ignoring")
+    {
         REQUIRE(snap.getClosestPoint(0) == -1);
         REQUIRE(snap.getClosestPoint(10) == -1);
 
@@ -122,5 +123,4 @@ TEST_CASE("Snap points model test", "[SnapModel]")
         REQUIRE(snap.getClosestPoint(9) == 15);
         REQUIRE(snap.getClosestPoint(999) == 15);
     }
-
 }

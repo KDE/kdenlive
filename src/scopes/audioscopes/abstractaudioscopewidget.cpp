@@ -10,8 +10,8 @@
 
 #include "abstractaudioscopewidget.h"
 
-#include "renderer.h"
 #include "monitor/monitor.h"
+#include "renderer.h"
 
 // Uncomment for debugging
 //#define DEBUG_AASW
@@ -20,13 +20,8 @@
 #include "kdenlive_debug.h"
 #endif
 
-AbstractAudioScopeWidget::AbstractAudioScopeWidget(bool trackMouse, QWidget *parent) :
-    AbstractScopeWidget(trackMouse, parent),
-    m_freq(0),
-    m_nChannels(0),
-    m_nSamples(0),
-    m_audioFrame(),
-    m_newData(0)
+AbstractAudioScopeWidget::AbstractAudioScopeWidget(bool trackMouse, QWidget *parent)
+    : AbstractScopeWidget(trackMouse, parent), m_freq(0), m_nChannels(0), m_nSamples(0), m_audioFrame(), m_newData(0)
 {
 }
 
@@ -59,4 +54,3 @@ QImage AbstractAudioScopeWidget::renderScope(uint accelerationFactor)
 #ifdef DEBUG_AASW
 #undef DEBUG_AASW
 #endif
-

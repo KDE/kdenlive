@@ -12,16 +12,15 @@ the Free Software Foundation, either version 3 of the License, or
 #include "layoutmanagement.h"
 #include "core.h"
 #include "mainwindow.h"
-#include <QMenu>
 #include <QInputDialog>
+#include <QMenu>
 
 #include <KConfigGroup>
-#include <KXMLGUIFactory>
 #include <KSharedConfig>
+#include <KXMLGUIFactory>
 #include <klocalizedstring.h>
 
-LayoutManagement::LayoutManagement(QObject *parent) :
-    QObject(parent)
+LayoutManagement::LayoutManagement(QObject *parent) : QObject(parent)
 {
     // Prepare layout actions
     KActionCategory *layoutActions = new KActionCategory(i18n("Layouts"), pCore->window()->actionCollection());
@@ -101,7 +100,7 @@ void LayoutManagement::slotSaveLayout(QAction *action)
     int layoutId = originallayoutName.section(QLatin1Char('_'), -1).toInt();
 
     QString layoutName = QInputDialog::getText(pCore->window(), i18n("Save Layout"), i18n("Layout name:"), QLineEdit::Normal,
-                         originallayoutName.section(QLatin1Char('_'), 0, -2));
+                                               originallayoutName.section(QLatin1Char('_'), 0, -2));
     if (layoutName.isEmpty()) {
         return;
     }
@@ -124,4 +123,3 @@ void LayoutManagement::slotOnGUISetupDone()
 
     initializeLayouts();
 }
-

@@ -20,34 +20,29 @@
  ***************************************************************************/
 
 #include "effectitemmodel.hpp"
-#include "effectstackmodel.hpp"
 #include "effects/effectsrepository.hpp"
-
+#include "effectstackmodel.hpp"
 
 EffectItemModel::EffectItemModel(const QList<QVariant> &data, Mlt::Properties *effect, const QDomElement &xml, const QString &effectId, EffectStackModel *stack)
-    : TreeItem(data, static_cast<AbstractTreeModel*>(stack))
-    , AssetParameterModel(effect, xml, effectId)
-    , m_enabled(true)
-    , m_timelineEffectsEnabled(true)
+    : TreeItem(data, static_cast<AbstractTreeModel *>(stack)), AssetParameterModel(effect, xml, effectId), m_enabled(true), m_timelineEffectsEnabled(true)
 {
 }
 
-//static
-EffectItemModel* EffectItemModel::construct(const QString & effectId, EffectStackModel *stack)
+// static
+EffectItemModel *EffectItemModel::construct(const QString &effectId, EffectStackModel *stack)
 {
     Q_ASSERT(EffectsRepository::get()->exists(effectId));
     QDomElement xml = EffectsRepository::get()->getXml(effectId);
 
     Mlt::Properties *effect = EffectsRepository::get()->getEffect(effectId);
- 
+
     QList<QVariant> data;
-    data << EffectsRepository::get()->getName(effectId)
-         << effectId;
+    data << EffectsRepository::get()->getName(effectId) << effectId;
 
     return new EffectItemModel(data, effect, xml, effectId, stack);
 }
 
-void EffectItemModel::plant(const std::weak_ptr<Mlt::Service>& service)
+void EffectItemModel::plant(const std::weak_ptr<Mlt::Service> &service)
 {
     if (auto ptr = service.lock()) {
         int ret = ptr->attach(filter());
@@ -58,9 +53,9 @@ void EffectItemModel::plant(const std::weak_ptr<Mlt::Service>& service)
     }
 }
 
-Mlt::Filter& EffectItemModel::filter() const
+Mlt::Filter &EffectItemModel::filter() const
 {
-    return *static_cast<Mlt::Filter*>(m_asset.get());
+    return *static_cast<Mlt::Filter *>(m_asset.get());
 }
 
 void EffectItemModel::setEnabled(bool enabled)

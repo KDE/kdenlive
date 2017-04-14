@@ -19,36 +19,36 @@
  ***************************************************************************/
 
 #include "timeline.h"
-#include "track.h"
+#include "bin/projectclip.h"
 #include "clip.h"
-#include "renderer.h"
-#include "headertrack.h"
 #include "clipitem.h"
-#include "transition.h"
-#include "transitionhandler.h"
-#include "timelinecommands.h"
 #include "customruler.h"
 #include "customtrackview.h"
 #include "dialogs/profilesdialog.h"
-#include "mltcontroller/clipcontroller.h"
-#include "bin/projectclip.h"
+#include "doc/docundostack.hpp"
+#include "doc/kdenlivedoc.h"
+#include "effectslist/initeffects.h"
+#include "headertrack.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
-#include "doc/kdenlivedoc.h"
-#include "doc/docundostack.hpp"
-#include "utils/KoIconUtils.h"
-#include "project/clipmanager.h"
-#include "effectslist/initeffects.h"
-#include "mltcontroller/effectscontroller.h"
 #include "managers/previewmanager.h"
 #include "managers/trimmanager.h"
+#include "mltcontroller/clipcontroller.h"
+#include "mltcontroller/effectscontroller.h"
+#include "project/clipmanager.h"
+#include "renderer.h"
+#include "timelinecommands.h"
+#include "track.h"
+#include "transition.h"
+#include "transitionhandler.h"
+#include "utils/KoIconUtils.h"
 
-#include <QScrollBar>
-#include <QLocale>
 #include <KDualAction>
+#include <QLocale>
+#include <QScrollBar>
 
-#include <KMessageBox>
 #include <KIO/FileCopyJob>
+#include <KMessageBox>
 #include <klocalizedstring.h>
 
 ScrollEventEater::ScrollEventEater(QObject *parent) : QObject(parent)
@@ -67,18 +67,9 @@ bool ScrollEventEater::eventFilter(QObject *obj, QEvent *event)
     return QObject::eventFilter(obj, event);
 }
 
-Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, const QList<QAction *> &rulerActions, bool *ok, QWidget *parent) :
-    QWidget(parent),
-    multitrackView(false)
-    , videoTarget(-1)
-    , audioTarget(-1)
-    , m_hasOverlayTrack(false)
-    , m_overlayTrack(nullptr)
-    , m_scale(1.0)
-    , m_doc(doc)
-    , m_verticalZoom(1)
-    , m_timelinePreview(nullptr)
-    , m_usePreview(false)
+Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, const QList<QAction *> &rulerActions, bool *ok, QWidget *parent)
+    : QWidget(parent), multitrackView(false), videoTarget(-1), audioTarget(-1), m_hasOverlayTrack(false), m_overlayTrack(nullptr), m_scale(1.0), m_doc(doc),
+      m_verticalZoom(1), m_timelinePreview(nullptr), m_usePreview(false)
 {
     m_trackActions << actions;
     setupUi(this);
@@ -95,7 +86,7 @@ Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, const QLis
     Mlt::Service s(m_doc->renderer()->getProducer()->parent().get_service());
     m_tractor = new Mlt::Tractor(s);
 
-    //TODO: The following lines allow to add an overlay subtitle from an ASS subtitle file
+    // TODO: The following lines allow to add an overlay subtitle from an ASS subtitle file
     /*Mlt::Filter f(*(s.profile()), "avfilter.ass");
     f.set("av.f", "/path/to/test.ass");
     f.set("in", 500);
@@ -135,7 +126,7 @@ Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, const QLis
     sizeLayout->addWidget(butLarge);
 
     auto *enableZone = new QToolButton(this);
-    KDualAction *ac = (KDualAction *) m_doc->getAction(QStringLiteral("use_timeline_zone_in_edit"));
+    KDualAction *ac = (KDualAction *)m_doc->getAction(QStringLiteral("use_timeline_zone_in_edit"));
     enableZone->setAutoRaise(true);
     ac->setActive(KdenliveSettings::useTimelineZoneToEdit());
     enableZone->setDefaultAction(ac);
@@ -215,10 +206,10 @@ QMap<QString, QString> Timeline::documentProperties()
     QMap<QString, QString> props = m_doc->documentProperties();
     props.insert(QStringLiteral("audiotargettrack"), QString::number(audioTarget));
     props.insert(QStringLiteral("videotargettrack"), QString::number(videoTarget));
-    QPair <QStringList, QStringList> chunks = m_ruler->previewChunks();
+    QPair<QStringList, QStringList> chunks = m_ruler->previewChunks();
     props.insert(QStringLiteral("previewchunks"), chunks.first.join(QLatin1Char(',')));
     props.insert(QStringLiteral("dirtypreviewchunks"), chunks.second.join(QLatin1Char(',')));
-    props.insert(QStringLiteral("disablepreview"), QString::number((int) m_disablePreview->isChecked()));
+    props.insert(QStringLiteral("disablepreview"), QString::number((int)m_disablePreview->isChecked()));
     return props;
 }
 
@@ -291,7 +282,7 @@ int Timeline::getTracks()
     int duration = 1;
     qDeleteAll<>(m_tracks);
     m_tracks.clear();
-    QVBoxLayout *headerLayout = qobject_cast< QVBoxLayout * >(headers_container->layout());
+    QVBoxLayout *headerLayout = qobject_cast<QVBoxLayout *>(headers_container->layout());
     QLayoutItem *child;
     while ((child = headerLayout->takeAt(0)) != nullptr) {
         delete child;
@@ -300,7 +291,8 @@ int Timeline::getTracks()
     for (int i = 0; i < m_tractor->count(); ++i) {
         QScopedPointer<Mlt::Producer> track(m_tractor->track(i));
         QString playlist_name = track->get("id");
-        if (playlist_name == QLatin1String("black_track") || playlist_name == QLatin1String("timeline_preview") || playlist_name == QLatin1String("overlay_track")) {
+        if (playlist_name == QLatin1String("black_track") || playlist_name == QLatin1String("timeline_preview") ||
+            playlist_name == QLatin1String("overlay_track")) {
             continue;
         }
         clipsCount += track->count();
@@ -314,7 +306,8 @@ int Timeline::getTracks()
     for (int i = 0; i < m_tractor->count(); ++i) {
         QScopedPointer<Mlt::Producer> track(m_tractor->track(i));
         QString playlist_name = track->get("id");
-        if (playlist_name == QLatin1String("playlistmain") || playlist_name == QLatin1String("timeline_preview") || playlist_name == QLatin1String("overlay_track")) {
+        if (playlist_name == QLatin1String("playlistmain") || playlist_name == QLatin1String("timeline_preview") ||
+            playlist_name == QLatin1String("overlay_track")) {
             continue;
         }
         bool isBackgroundBlackTrack = playlist_name == QLatin1String("black_track");
@@ -392,7 +385,7 @@ void Timeline::getTransitions()
         if (QString(prop.get("mlt_type")) != QLatin1String("transition")) {
             break;
         }
-        //skip automatic mix
+        // skip automatic mix
         if (prop.get_int("internal_added") == 237) {
             QString trans = prop.get("mlt_service");
             if (trans == QLatin1String("qtblend") || trans == QLatin1String("movit.overlay") || trans == QLatin1String("frei0r.cairoblend")) {
@@ -415,7 +408,7 @@ void Timeline::getTransitions()
             prop.set("kdenlive_id", "slide");
         }
         QDomElement base = MainWindow::transitions.getEffectByTag(prop.get("mlt_service"), prop.get("kdenlive_id")).cloneNode().toElement();
-        //check invalid parameters
+        // check invalid parameters
         if (a_track > m_tractor->count() - 1) {
             m_documentErrors.append(i18n("Transition %1 had an invalid track: %2 > %3", prop.get("id"), a_track, m_tractor->count() - 1) + QLatin1Char('\n'));
             prop.set("a_track", m_tractor->count() - 1);
@@ -424,11 +417,9 @@ void Timeline::getTransitions()
             m_documentErrors.append(i18n("Transition %1 had an invalid track: %2 > %3", prop.get("id"), b_track, m_tractor->count() - 1) + QLatin1Char('\n'));
             prop.set("b_track", m_tractor->count() - 1);
         }
-        if (a_track == b_track || b_track <= 0
-                || transitionInfo.startPos >= transitionInfo.endPos
-                || base.isNull()
-                //|| !m_trackview->canBePastedTo(transitionInfo, TransitionWidget)
-           ) {
+        if (a_track == b_track || b_track <= 0 || transitionInfo.startPos >= transitionInfo.endPos || base.isNull()
+            //|| !m_trackview->canBePastedTo(transitionInfo, TransitionWidget)
+            ) {
             // invalid transition, remove it
             m_documentErrors.append(i18n("Removed invalid transition: %1", prop.get("id")) + QLatin1Char('\n'));
             mlt_service broken = service;
@@ -438,7 +429,8 @@ void Timeline::getTransitions()
         } else {
             // Check there is no other transition at that place
             double startY = m_trackview->getPositionFromTrack(transitionInfo.track) + 1 + KdenliveSettings::trackheight() / 2;
-            QRectF r(transitionInfo.startPos.frames(fps), startY, (transitionInfo.endPos - transitionInfo.startPos).frames(fps), KdenliveSettings::trackheight() / 2);
+            QRectF r(transitionInfo.startPos.frames(fps), startY, (transitionInfo.endPos - transitionInfo.startPos).frames(fps),
+                     KdenliveSettings::trackheight() / 2);
             QList<QGraphicsItem *> selection = m_scene->items(r);
             bool transitionAccepted = true;
             for (int i = 0; i < selection.count(); ++i) {
@@ -471,7 +463,8 @@ void Timeline::getTransitions()
                 }
                 Transition *tr = new Transition(transitionInfo, a_track, fps, base, QString(prop.get("automatic")) == QLatin1String("1"));
                 connect(tr, &AbstractClipItem::selectItem, m_trackview, &CustomTrackView::slotSelectItem);
-                tr->setPos(transitionInfo.startPos.frames(fps), KdenliveSettings::trackheight() * (visibleTracksCount() - transitionInfo.track) + 1 + tr->itemOffset());
+                tr->setPos(transitionInfo.startPos.frames(fps),
+                           KdenliveSettings::trackheight() * (visibleTracksCount() - transitionInfo.track) + 1 + tr->itemOffset());
                 if (QString(prop.get("force_track")) == QLatin1String("1")) {
                     tr->setForcedTrack(true, a_track);
                 }
@@ -541,7 +534,7 @@ void Timeline::adjustDouble(QDomElement &e, const QString &value)
 
 void Timeline::parseDocument(const QDomDocument &doc)
 {
-    //int cursorPos = 0;
+    // int cursorPos = 0;
     m_documentErrors.clear();
     m_replacementProducerIds.clear();
 
@@ -578,7 +571,9 @@ void Timeline::parseDocument(const QDomDocument &doc)
         }
         QString message;
         if (mlt.hasAttribute(QStringLiteral("upgraded"))) {
-            message = i18n("Your project file was upgraded to the latest Kdenlive document version.\nTo make sure you don't lose data, a backup copy called %1 was created.", backupFile);
+            message = i18n("Your project file was upgraded to the latest Kdenlive document version.\nTo make sure you don't lose data, a backup copy called %1 "
+                           "was created.",
+                           backupFile);
         } else {
             message = i18n("Your project file was modified by Kdenlive.\nTo make sure you don't lose data, a backup copy called %1 was created.", backupFile);
         }
@@ -587,7 +582,9 @@ void Timeline::parseDocument(const QDomDocument &doc)
         if (copyjob->exec()) {
             KMessageBox::information(this, message);
         } else {
-            KMessageBox::information(this, i18n("Your project file was upgraded to the latest Kdenlive document version, but it was not possible to create the backup copy %1.", backupFile));
+            KMessageBox::information(
+                this, i18n("Your project file was upgraded to the latest Kdenlive document version, but it was not possible to create the backup copy %1.",
+                           backupFile));
         }
     }
 }
@@ -610,7 +607,7 @@ void Timeline::moveCursorPos(int pos)
 void Timeline::slotChangeZoom(int horizontal, int vertical, bool zoomOnMouse)
 {
     m_ruler->setPixelPerMark(horizontal);
-    m_scale = (double) m_trackview->getFrameWidth() / m_ruler->comboScale[horizontal];
+    m_scale = (double)m_trackview->getFrameWidth() / m_ruler->comboScale[horizontal];
 
     if (vertical == -1) {
         // user called zoom
@@ -890,7 +887,10 @@ void Timeline::updatePalette()
     KColorScheme scheme(p.currentColorGroup(), KColorScheme::View, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
     QColor col = scheme.background().color();
     QColor col2 = scheme.foreground().color();
-    headers_container->setStyleSheet(QStringLiteral("QLineEdit { background-color: transparent;color: %1;} QLineEdit:hover{ background-color: %2;} QLineEdit:focus { background-color: %2;} ").arg(col2.name(), col.name()));
+    headers_container->setStyleSheet(
+        QStringLiteral(
+            "QLineEdit { background-color: transparent;color: %1;} QLineEdit:hover{ background-color: %2;} QLineEdit:focus { background-color: %2;} ")
+            .arg(col2.name(), col.name()));
     m_trackview->updatePalette();
     if (!m_tracks.isEmpty()) {
         int ix = m_trackview->selectedTrack();
@@ -1010,7 +1010,7 @@ int Timeline::loadTrack(int ix, int offset, Mlt::Playlist &playlist, int start, 
             continue;
         }
         // TODO: playlist::clip_info(i, info) crashes on MLT < 6.6.0, so use variant until MLT 6.6.x is required
-        QScopedPointer <Mlt::ClipInfo>info(playlist.clip_info(i));
+        QScopedPointer<Mlt::ClipInfo> info(playlist.clip_info(i));
         Mlt::Producer *clip = info->cut;
         // Found a clip
         QString idString = info->producer->get("id");
@@ -1041,7 +1041,7 @@ int Timeline::loadTrack(int ix, int offset, Mlt::Playlist &playlist, int start, 
             if (slowInfo.strobe == 0) {
                 slowInfo.strobe = 1;
             }
-            slowInfo.state = (PlaylistState::ClipState) idString.section(QLatin1Char(':'), 4, 4).toInt();
+            slowInfo.state = (PlaylistState::ClipState)idString.section(QLatin1Char(':'), 4, 4).toInt();
             // Slowmotion producer, store it for reuse
             auto *parentProd = new Mlt::Producer(clip->parent());
             QString url = parentProd->get("warp_resource");
@@ -1056,11 +1056,11 @@ int Timeline::loadTrack(int ix, int offset, Mlt::Playlist &playlist, int start, 
             // Is this a disabled clip
             id = info->producer->get("kdenlive:binid");
             binclip = m_doc->getBinClip(id);
-            originalState = (PlaylistState::ClipState) info->producer->get_int("kdenlive:clipstate");
+            originalState = (PlaylistState::ClipState)info->producer->get_int("kdenlive:clipstate");
         }
         if (binclip == nullptr) {
             // Warning, unknown clip found, timeline corruption!!
-            //TODO: fix this
+            // TODO: fix this
             qCDebug(KDENLIVE_LOG) << "* * * * *UNKNOWN CLIP, WE ARE DEAD: " << id;
             continue;
         }
@@ -1073,11 +1073,11 @@ int Timeline::loadTrack(int ix, int offset, Mlt::Playlist &playlist, int start, 
         clipinfo.cropStart = GenTime(info->frame_in, fps);
         clipinfo.cropDuration = GenTime(info->frame_count, fps);
         clipinfo.track = ix;
-        //qCDebug(KDENLIVE_LOG)<<"// Loading clip: "<<clipinfo.startPos.frames(25)<<" / "<<clipinfo.endPos.frames(25)<<"\n++++++++++++++++++++++++";
+        // qCDebug(KDENLIVE_LOG)<<"// Loading clip: "<<clipinfo.startPos.frames(25)<<" / "<<clipinfo.endPos.frames(25)<<"\n++++++++++++++++++++++++";
         auto *item = new ClipItem(binclip, clipinfo, fps, slowInfo.speed, slowInfo.strobe, m_trackview->getFrameWidth(), true);
         connect(item, &AbstractClipItem::selectItem, m_trackview, &CustomTrackView::slotSelectItem);
         item->setPos(clipinfo.startPos.frames(fps), KdenliveSettings::trackheight() * (visibleTracksCount() - clipinfo.track) + 1 + item->itemOffset());
-        //qCDebug(KDENLIVE_LOG)<<" * * Loaded clip on tk: "<<clipinfo.track<< ", POS: "<<clipinfo.startPos.frames(fps);
+        // qCDebug(KDENLIVE_LOG)<<" * * Loaded clip on tk: "<<clipinfo.track<< ", POS: "<<clipinfo.startPos.frames(fps);
         item->updateState(idString, info->producer->get_int("audio_index"), info->producer->get_int("video_index"), originalState);
         m_scene->addItem(item);
         if (locked) {
@@ -1137,8 +1137,8 @@ void Timeline::getEffects(Mlt::Service &service, ClipItem *clip, int track)
         }
 
         if (effect->get_out() != 0) { // no keyframes but in/out points
-            //EffectsList::setParameter(currenteffect, QStringLiteral("in"),  effect->get("in"));
-            //EffectsList::setParameter(currenteffect, QStringLiteral("out"),  effect->get("out"));
+            // EffectsList::setParameter(currenteffect, QStringLiteral("in"),  effect->get("in"));
+            // EffectsList::setParameter(currenteffect, QStringLiteral("out"),  effect->get("out"));
             currenteffect.setAttribute(QStringLiteral("in"), effect->get_in());
             currenteffect.setAttribute(QStringLiteral("out"), effect->get_out());
         }
@@ -1173,14 +1173,16 @@ QString Timeline::getKeyframes(Mlt::Service service, int &ix, const QDomElement 
     // retrieve keyframes
     QScopedPointer<Mlt::Filter> effect(service.filter(ix));
     int effectNb = effect->get_int("kdenlive_ix");
-    QString keyframes = QString::number(effect->get_in()) + QLatin1Char('=') + locale.toString(offset + fact * effect->get_double(starttag.toUtf8().constData())) + QLatin1Char(';');
+    QString keyframes = QString::number(effect->get_in()) + QLatin1Char('=') +
+                        locale.toString(offset + fact * effect->get_double(starttag.toUtf8().constData())) + QLatin1Char(';');
     for (; ix < service.filter_count(); ++ix) {
         QScopedPointer<Mlt::Filter> eff2(service.filter(ix));
         if (eff2->get_int("kdenlive_ix") != effectNb) {
             break;
         }
         if (eff2->get_in() < eff2->get_out()) {
-            keyframes.append(QString::number(eff2->get_out()) + QLatin1Char('=') + locale.toString(offset + fact * eff2->get_double(endtag.toUtf8().constData())) + QLatin1Char(';'));
+            keyframes.append(QString::number(eff2->get_out()) + QLatin1Char('=') +
+                             locale.toString(offset + fact * eff2->get_double(endtag.toUtf8().constData())) + QLatin1Char(';'));
         }
     }
     --ix;
@@ -1194,7 +1196,7 @@ void Timeline::getSubfilters(Mlt::Filter *effect, QDomElement &currenteffect)
         if (effect->get(name.toUtf8().constData()) == nullptr) {
             break;
         }
-        //identify effect
+        // identify effect
         QString tag = effect->get(name.append(QStringLiteral(".tag")).toUtf8().constData());
         QString id = effect->get(name.append(QLatin1String(".kdenlive_id")).toUtf8().constData());
         QDomElement subclipeffect = getEffectByTag(tag, id);
@@ -1202,10 +1204,10 @@ void Timeline::getSubfilters(Mlt::Filter *effect, QDomElement &currenteffect)
             qCWarning(KDENLIVE_LOG) << "Region sub-effect not found";
             continue;
         }
-        //load effect
+        // load effect
         subclipeffect = subclipeffect.cloneNode().toElement();
         subclipeffect.setAttribute(QStringLiteral("region_ix"), i);
-        //get effect parameters (prefixed by subfilter name)
+        // get effect parameters (prefixed by subfilter name)
         QDomNodeList params = subclipeffect.elementsByTagName(QStringLiteral("parameter"));
         ProfileInfo info = m_doc->getProfileInfo();
         for (int j = 0; j < params.count(); ++j) {
@@ -1216,12 +1218,12 @@ void Timeline::getSubfilters(Mlt::Filter *effect, QDomElement &currenteffect)
     }
 }
 
-//static
+// static
 void Timeline::setParam(ProfileInfo info, QDomElement param, const QString &value)
 {
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
-    //get Kdenlive scaling parameters
+    // get Kdenlive scaling parameters
     double offset = locale.toDouble(param.attribute(QStringLiteral("offset"), QStringLiteral("0")));
     double fact;
     QString factor = param.attribute(QStringLiteral("factor"), QStringLiteral("1"));
@@ -1230,7 +1232,7 @@ void Timeline::setParam(ProfileInfo info, QDomElement param, const QString &valu
     } else {
         fact = locale.toDouble(factor);
     }
-    //adjust parameter if necessary
+    // adjust parameter if necessary
     QString type = param.attribute(QStringLiteral("type"));
     if (type == QLatin1String("simplekeyframe")) {
         QStringList kfrs = value.split(QLatin1Char(';'));
@@ -1422,7 +1424,8 @@ bool Timeline::moveClip(int startTrack, qreal startPos, int endTrack, qreal endP
     }
     sourceTrack->playlist().unlock();
     Track *destTrack = track(endTrack);
-    bool success = destTrack->add(endPos, clipProducer, GenTime(clipProducer->get_in(), destTrack->fps()).seconds(), GenTime(clipProducer->get_out() + 1, destTrack->fps()).seconds(), state, duplicate, mode);
+    bool success = destTrack->add(endPos, clipProducer, GenTime(clipProducer->get_in(), destTrack->fps()).seconds(),
+                                  GenTime(clipProducer->get_out() + 1, destTrack->fps()).seconds(), state, duplicate, mode);
     delete clipProducer;
     return success;
 }
@@ -1463,8 +1466,8 @@ void Timeline::addTrackEffect(int trackIndex, QDomElement effect, bool addToPlay
             // Effect has a keyframe type parameter, we need to set the values
             if (e.attribute(QStringLiteral("keyframes")).isEmpty()) {
                 e.setAttribute(QStringLiteral("keyframes"), "0:" + def + QLatin1Char(';'));
-                //qCDebug(KDENLIVE_LOG) << "///// EFFECT KEYFRAMES INITED: " << e.attribute("keyframes");
-                //break;
+                // qCDebug(KDENLIVE_LOG) << "///// EFFECT KEYFRAMES INITED: " << e.attribute("keyframes");
+                // break;
             }
         }
 
@@ -1518,7 +1521,7 @@ void Timeline::setTrackEffect(int trackIndex, int effectIndex, QDomElement effec
     Track *sourceTrack = track(trackIndex);
     int max = sourceTrack->effectsList.count();
     if (effectIndex <= 0 || effectIndex > (max) || effect.isNull()) {
-        //qCDebug(KDENLIVE_LOG) << "Invalid effect index: " << effectIndex;
+        // qCDebug(KDENLIVE_LOG) << "Invalid effect index: " << effectIndex;
         return;
     }
     sourceTrack->effectsList.removeAt(effect.attribute(QStringLiteral("kdenlive_ix")).toInt());
@@ -1542,7 +1545,7 @@ bool Timeline::enableTrackEffects(int trackIndex, const QList<int> &effectIndexe
     for (int i = 0; i < effectIndexes.count(); ++i) {
         effect = list.itemFromIndex(effectIndexes.at(i));
         if (!effect.isNull()) {
-            effect.setAttribute(QStringLiteral("disable"), (int) disable);
+            effect.setAttribute(QStringLiteral("disable"), (int)disable);
             if (effect.attribute(QStringLiteral("type")) != QLatin1String("audio")) {
                 hasVideoEffect = true;
             }
@@ -1632,7 +1635,8 @@ void Timeline::updateClipProperties(const QString &id, const QMap<QString, QStri
     }
 }
 
-int Timeline::changeClipSpeed(const ItemInfo &info, const ItemInfo &speedIndependantInfo, PlaylistState::ClipState state, double speed, int strobe, Mlt::Producer *originalProd, bool removeEffect)
+int Timeline::changeClipSpeed(const ItemInfo &info, const ItemInfo &speedIndependantInfo, PlaylistState::ClipState state, double speed, int strobe,
+                              Mlt::Producer *originalProd, bool removeEffect)
 {
     QLocale locale;
     QString url = QString::fromUtf8(originalProd->get("resource"));
@@ -1641,7 +1645,7 @@ int Timeline::changeClipSpeed(const ItemInfo &info, const ItemInfo &speedIndepen
     slowInfo.strobe = strobe;
     slowInfo.state = state;
     url.prepend(slowInfo.toString(locale));
-    //if (strobe > 1) url.append("&strobe=" + QString::number(strobe));
+    // if (strobe > 1) url.append("&strobe=" + QString::number(strobe));
     Mlt::Producer *prod;
     if (removeEffect) {
         // We want to remove framebuffer producer, so pass original
@@ -1651,7 +1655,7 @@ int Timeline::changeClipSpeed(const ItemInfo &info, const ItemInfo &speedIndepen
         prod = m_doc->renderer()->getSlowmotionProducer(url);
     }
     QString id = originalProd->get("id");
-    id = id.section(QLatin1Char('_'), 0,  0);
+    id = id.section(QLatin1Char('_'), 0, 0);
     Mlt::Properties passProperties;
     Mlt::Properties original(originalProd->get_properties());
     passProperties.pass_list(original, ClipController::getPassPropertiesList(false));
@@ -1673,7 +1677,7 @@ void Timeline::duplicateClipOnPlaylist(int tk, qreal startPos, int offset, Mlt::
     // Clip effects must be moved from clip to the playlist entry, so first delete them from parent clip
     Clip(*cln).deleteEffects();
     cln->set_in_and_out(clipProducer->get_in(), clipProducer->get_out());
-    Mlt::Playlist trackPlaylist((mlt_playlist) prod->get_service());
+    Mlt::Playlist trackPlaylist((mlt_playlist)prod->get_service());
     trackPlaylist.lock();
 
     int newIdx = trackPlaylist.insert_at(pos - offset, cln, 1);
@@ -1856,7 +1860,7 @@ bool Timeline::createRippleWindow(int tk, int startPos, OperationType /*mode*/)
     if (rolling) {
         secondStart -= secondClip->get_in();
     } else {
-        //cln2->set_in_and_out(secondClip->get_in(), secondClip->get_out());
+        // cln2->set_in_and_out(secondClip->get_in(), secondClip->get_out());
         qCDebug(KDENLIVE_LOG) << "* * *INIT RIPPLE; CLP START: " << secondClip->get_in();
     }
     int rippleStart = playlist.clip_start(clipIndex - 1);
@@ -1988,7 +1992,8 @@ void Timeline::loadPreviewRender()
             return;
         }
         m_timelinePreview->buildPreviewTrack();
-        m_timelinePreview->loadChunks(chunks.split(QLatin1Char(','), QString::SkipEmptyParts), dirty.split(QLatin1Char(','), QString::SkipEmptyParts), documentDate);
+        m_timelinePreview->loadChunks(chunks.split(QLatin1Char(','), QString::SkipEmptyParts), dirty.split(QLatin1Char(','), QString::SkipEmptyParts),
+                                      documentDate);
         m_usePreview = true;
     } else {
         m_ruler->hidePreview(true);
@@ -2040,7 +2045,7 @@ void Timeline::initializePreview()
     } else {
         m_timelinePreview = new PreviewManager(m_doc, m_ruler, m_tractor);
         if (!m_timelinePreview->initialize()) {
-            //TODO warn user
+            // TODO warn user
             m_ruler->hidePreview(true);
             delete m_timelinePreview;
             m_timelinePreview = nullptr;
@@ -2090,7 +2095,7 @@ void Timeline::disablePreview(bool disable)
                 m_timelinePreview->reconnectTrack();
                 m_tractor->unlock();
             }
-            QPair <QStringList, QStringList> chunks = m_ruler->previewChunks();
+            QPair<QStringList, QStringList> chunks = m_ruler->previewChunks();
             m_timelinePreview->loadChunks(chunks.first, chunks.second, QDateTime());
             m_ruler->hidePreview(false);
             m_usePreview = true;

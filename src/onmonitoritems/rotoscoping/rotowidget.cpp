@@ -20,13 +20,13 @@
 #include "bpointitem.h"
 #include "splineitem.h"
 
-#include "renderer.h"
-#include "monitor/monitor.h"
-#include "simplekeyframes/simplekeyframewidget.h"
 #include "kdenlivesettings.h"
+#include "monitor/monitor.h"
+#include "renderer.h"
+#include "simplekeyframes/simplekeyframewidget.h"
 
-#include <mlt++/Mlt.h>
 #include <math.h>
+#include <mlt++/Mlt.h>
 
 #include <QJsonDocument>
 #include <QVBoxLayout>
@@ -41,13 +41,10 @@ void tracking_finished(mlt_service *owner, RotoWidget *self, char *data)
     }
 }
 
-//TODO: port to new qml monitor edit
-RotoWidget::RotoWidget(const QByteArray &data, Monitor *monitor, const ItemInfo &info, const Timecode &t, QWidget *parent) :
-    QWidget(parent),
-    m_monitor(monitor),
-    m_in(info.cropStart.frames(KdenliveSettings::project_fps())),
-    m_out((info.cropStart + info.cropDuration).frames(KdenliveSettings::project_fps()) - 1),
-    m_filter(nullptr)
+// TODO: port to new qml monitor edit
+RotoWidget::RotoWidget(const QByteArray &data, Monitor *monitor, const ItemInfo &info, const Timecode &t, QWidget *parent)
+    : QWidget(parent), m_monitor(monitor), m_in(info.cropStart.frames(KdenliveSettings::project_fps())),
+      m_out((info.cropStart + info.cropDuration).frames(KdenliveSettings::project_fps()) - 1), m_filter(nullptr)
 {
     Q_UNUSED(data)
 
@@ -55,9 +52,9 @@ RotoWidget::RotoWidget(const QByteArray &data, Monitor *monitor, const ItemInfo 
     m_keyframeWidget = new SimpleKeyframeWidget(t, m_out - m_in, this);
     l->addWidget(m_keyframeWidget);
     connect(m_monitor, SIGNAL(effectPointsChanged(QVariantList)), this, SLOT(slotUpdateDataPoints(QVariantList)));
-    //MonitorEditWidget *edit = nullptr; //monitor->getEffectEdit();
-    //m_scene = nullptr;//edit->getScene();
-    //m_scene->cleanup();
+    // MonitorEditWidget *edit = nullptr; //monitor->getEffectEdit();
+    // m_scene = nullptr;//edit->getScene();
+    // m_scene->cleanup();
 
     // TODO: port to qml monitor scene
     /*m_item = new SplineItem(QList<BPoint>(), nullptr, m_scene);
@@ -200,7 +197,7 @@ void RotoWidget::slotPositionChanged(int pos, bool seek)
             if (p != m_item->getPoints())
                 m_item->setPoints(p);
             m_item->setEnabled(pos == keyframe2);*/
-            //m_scene->setEnabled(pos == keyframe2);
+            // m_scene->setEnabled(pos == keyframe2);
         }
     } else {
         p = getPoints(-1);
@@ -210,7 +207,7 @@ void RotoWidget::slotPositionChanged(int pos, bool seek)
         /*if (p != m_item->getPoints())
             m_item->setPoints(p);
         m_item->setEnabled(true);*/
-        //m_scene->setEnabled(true);
+        // m_scene->setEnabled(true);
     }
     QVariantList centerPoints;
     QVariantList controlPoints;
@@ -299,7 +296,8 @@ void RotoWidget::slotMoveKeyframe(int oldPos, int newPos)
 {
     if (m_data.canConvert(QVariant::Map)) {
         QMap<QString, QVariant> map = m_data.toMap();
-        map[QString::number(newPos + m_in).rightJustified(log10((double)m_out) + 1, '0')] = map.take(QString::number(oldPos + m_in).rightJustified(log10((double)m_out) + 1, '0'));
+        map[QString::number(newPos + m_in).rightJustified(log10((double)m_out) + 1, '0')] =
+            map.take(QString::number(oldPos + m_in).rightJustified(log10((double)m_out) + 1, '0'));
         m_data = QVariant(map);
     }
 
@@ -354,7 +352,7 @@ void RotoWidget::setupTrackingListen(const ItemInfo &info)
         Mlt::Service service(m_monitor->render->getProducer()->parent().get_service());
         Mlt::Tractor tractor(service);
         Mlt::Producer trackProducer(tractor.track(info.track));
-        Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
+        Mlt::Playlist trackPlaylist((mlt_playlist)trackProducer.get_service());
         clip = trackPlaylist.get_clip_at((int)info.startPos.frames(KdenliveSettings::project_fps()));
     }
 
@@ -412,7 +410,8 @@ static QVariant interpolate(int position, int in, int out, QVariant *splineIn, Q
         QList<QVariant> p;
         for (int j = 0; j < 3; ++j) {
             QPointF middle = QLineF(QPointF(p1.at(j).toList().at(0).toDouble(), p1.at(j).toList().at(1).toDouble()),
-                                    QPointF(p2.at(j).toList().at(0).toDouble(), p2.at(j).toList().at(1).toDouble())).pointAt(relPos);
+                                    QPointF(p2.at(j).toList().at(0).toDouble(), p2.at(j).toList().at(1).toDouble()))
+                                 .pointAt(relPos);
             p.append(QVariant(QList<QVariant>() << QVariant(middle.x()) << QVariant(middle.y())));
         }
         keyframe.append(QVariant(p));
@@ -497,4 +496,3 @@ bool adjustRotoDuration(QByteArray *data, int in, int out)
 
     return startFound || endFound;
 }
-

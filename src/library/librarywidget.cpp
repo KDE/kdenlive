@@ -20,30 +20,26 @@
  ***************************************************************************/
 
 #include "librarywidget.h"
-#include "project/projectmanager.h"
-#include "utils/KoIconUtils.h"
 #include "doc/kthumb.h"
 #include "kdenlivesettings.h"
+#include "project/projectmanager.h"
+#include "utils/KoIconUtils.h"
 
-#include <QVBoxLayout>
-#include <QStandardPaths>
-#include <QTreeWidgetItem>
-#include <QInputDialog>
 #include <QAction>
-#include <QMimeData>
 #include <QDropEvent>
-#include <QToolBar>
+#include <QInputDialog>
+#include <QMimeData>
 #include <QProgressBar>
+#include <QStandardPaths>
+#include <QToolBar>
+#include <QTreeWidgetItem>
+#include <QVBoxLayout>
 
-#include <klocalizedstring.h>
-#include <KMessageBox>
 #include <KIO/FileCopyJob>
+#include <KMessageBox>
+#include <klocalizedstring.h>
 
-enum LibraryItem {
-    PlayList,
-    Clip,
-    Folder
-};
+enum LibraryItem { PlayList, Clip, Folder };
 
 LibraryTree::LibraryTree(QWidget *parent) : QTreeWidget(parent)
 {
@@ -56,7 +52,7 @@ LibraryTree::LibraryTree(QWidget *parent) : QTreeWidget(parent)
     viewport()->setAcceptDrops(true);
 }
 
-//virtual
+// virtual
 QMimeData *LibraryTree::mimeData(const QList<QTreeWidgetItem *> list) const
 {
     QList<QUrl> urls;
@@ -126,7 +122,7 @@ void LibraryTree::mousePressEvent(QMouseEvent *event)
 
 void LibraryTree::dropEvent(QDropEvent *event)
 {
-    //QTreeWidget::dropEvent(event);
+    // QTreeWidget::dropEvent(event);
     const QMimeData *qMimeData = event->mimeData();
     QTreeWidgetItem *dropped = this->itemAt(event->pos());
     QString dest;
@@ -160,9 +156,7 @@ void LibraryTree::dropEvent(QDropEvent *event)
     event->accept();
 }
 
-LibraryWidget::LibraryWidget(ProjectManager *manager, QWidget *parent) : QWidget(parent)
-    , m_manager(manager)
-    , m_previewJob(nullptr)
+LibraryWidget::LibraryWidget(ProjectManager *manager, QWidget *parent) : QWidget(parent), m_manager(manager), m_previewJob(nullptr)
 {
     auto *lay = new QVBoxLayout(this);
     m_libraryTree = new LibraryTree(this);
@@ -272,7 +266,7 @@ void LibraryWidget::slotAddToLibrary()
         return;
     }
     if (m_directory.exists(name + QStringLiteral(".mlt"))) {
-        //TODO: warn and ask for overwrite / rename
+        // TODO: warn and ask for overwrite / rename
     }
     QString fullPath = m_directory.absoluteFilePath(name + QStringLiteral(".mlt"));
     m_manager->slotSaveSelection(fullPath);
@@ -331,7 +325,8 @@ void LibraryWidget::slotDeleteFromLibrary()
         }
         const QStringList fileList = dir.entryList(QDir::Files | QDir::Dirs | QDir::NoDotAndDotDot);
         if (!fileList.isEmpty()) {
-            if (KMessageBox::warningContinueCancel(this, i18n("This will delete the folder %1, including all playlists in it.\nThis cannot be undone", path)) != KMessageBox::Continue) {
+            if (KMessageBox::warningContinueCancel(this, i18n("This will delete the folder %1, including all playlists in it.\nThis cannot be undone", path)) !=
+                KMessageBox::Continue) {
                 return;
             }
         }
@@ -402,7 +397,7 @@ void LibraryWidget::slotMoveData(const QList<QUrl> &urls, QString dest)
     if (urls.isEmpty()) {
         return;
     }
-    if (dest .isEmpty()) {
+    if (dest.isEmpty()) {
         // moving to library's root
         dest = m_directory.absolutePath();
     }
@@ -428,7 +423,7 @@ void LibraryWidget::slotSaveSequence(const QStringList &info, QString dest)
     if (info.isEmpty()) {
         return;
     }
-    if (dest .isEmpty()) {
+    if (dest.isEmpty()) {
         // moving to library's root
         dest = m_directory.absolutePath();
     }
@@ -448,12 +443,12 @@ void LibraryWidget::slotItemEdited(QTreeWidgetItem *item, int column)
         QDir dir(item->data(0, Qt::UserRole).toString());
         dir.cdUp();
         dir.rename(item->data(0, Qt::UserRole).toString(), item->text(0));
-        //item->setData(0, Qt::UserRole, dir.absoluteFilePath(item->text(0)));
+        // item->setData(0, Qt::UserRole, dir.absoluteFilePath(item->text(0)));
     } else {
         QString oldPath = item->data(0, Qt::UserRole).toString();
         QDir dir(QUrl::fromLocalFile(oldPath).adjusted(QUrl::RemoveFilename).toLocalFile());
         dir.rename(oldPath, item->text(0));
-        //item->setData(0, Qt::UserRole, dir.absoluteFilePath(item->text(0)));
+        // item->setData(0, Qt::UserRole, dir.absoluteFilePath(item->text(0)));
     }
 }
 
@@ -602,13 +597,13 @@ void LibraryWidget::slotItemsAdded(const QUrl &url, const KFileItemList &list)
         treeItem->setData(0, Qt::UserRole, fileUrl.toLocalFile());
         treeItem->setData(0, Qt::UserRole + 1, fitem.timeString());
         if (fitem.isDir()) {
-            treeItem->setData(0, Qt::UserRole + 2, (int) LibraryItem::Folder);
+            treeItem->setData(0, Qt::UserRole + 2, (int)LibraryItem::Folder);
             m_folders << treeItem;
             m_coreLister->openUrl(fileUrl, KCoreDirLister::Keep);
         } else if (name.endsWith(QLatin1String(".mlt")) || name.endsWith(QLatin1String(".kdenlive"))) {
-            treeItem->setData(0, Qt::UserRole + 2, (int) LibraryItem::PlayList);
+            treeItem->setData(0, Qt::UserRole + 2, (int)LibraryItem::PlayList);
         } else {
-            treeItem->setData(0, Qt::UserRole + 2, (int) LibraryItem::Clip);
+            treeItem->setData(0, Qt::UserRole + 2, (int)LibraryItem::Clip);
         }
         treeItem->setData(0, Qt::DecorationRole, KoIconUtils::themedIcon(fitem.iconName()));
         treeItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | Qt::ItemIsEditable);
@@ -627,4 +622,3 @@ void LibraryWidget::slotClearAll()
     m_libraryTree->clear();
     m_libraryTree->blockSignals(false);
 }
-

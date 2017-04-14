@@ -19,21 +19,18 @@
  ***************************************************************************/
 
 #include "clipstabilize.h"
-#include "effectstack/widgets/doubleparameterwidget.h"
 #include "effectstack/effectstackview2.h"
+#include "effectstack/widgets/doubleparameterwidget.h"
 #include "effectstack/widgets/positionwidget.h"
 
-#include <mlt++/Mlt.h>
 #include "kdenlivesettings.h"
-#include <QFontDatabase>
 #include <KMessageBox>
+#include <QFontDatabase>
 #include <klocalizedstring.h>
+#include <mlt++/Mlt.h>
 
-ClipStabilize::ClipStabilize(const QStringList &urls, const QString &filterName, int out, QWidget *parent) :
-    QDialog(parent),
-    m_filtername(filterName),
-    m_urls(urls),
-    vbox(nullptr)
+ClipStabilize::ClipStabilize(const QStringList &urls, const QString &filterName, int out, QWidget *parent)
+    : QDialog(parent), m_filtername(filterName), m_urls(urls), vbox(nullptr)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
@@ -58,19 +55,19 @@ ClipStabilize::ClipStabilize(const QStringList &urls, const QString &filterName,
     if (m_filtername == QLatin1String("vidstab") || m_filtername == QLatin1String("videostab2")) {
         m_fixedParams.insert(QStringLiteral("algo"), QStringLiteral("1"));
         m_fixedParams.insert(QStringLiteral("relative"), QStringLiteral("1"));
-        fillParameters(QStringList()
-                       << QStringLiteral("accuracy,type,int,value,8,min,1,max,10,tooltip,Accuracy of Shakiness detection")
-                       << QStringLiteral("shakiness,type,int,value,4,min,1,max,10,tooltip,How shaky is the Video")
-                       << QStringLiteral("stepsize,type,int,value,6,min,0,max,100,tooltip,Stepsize of Detection process minimum around")
-                       << QStringLiteral("mincontrast,type,double,value,0.3,min,0,max,1,factor,1,decimals,2,tooltip,Below this Contrast Field is discarded")
-                       << QStringLiteral("smoothing,type,int,value,10,min,0,max,100,tooltip,number of frames for lowpass filtering")
-                       << QStringLiteral("maxshift,type,int,value,-1,min,-1,max,1000,tooltip,max number of pixels to shift")
-                       << QStringLiteral("maxangle,type,double,value,-1,min,-1,max,3.14,decimals,2,tooltip,max angle to rotate (in rad)")
-                       << QStringLiteral("crop,type,bool,value,0,min,0,max,1,tooltip,0 = keep border  1 = black background")
-                       << QStringLiteral("zoom,type,int,value,0,min,-500,max,500,tooltip,additional zoom during transform")
-                       << QStringLiteral("optzoom,type,bool,value,1,min,0,max,1,tooltip,use optimal zoom (calulated from transforms)")
-                       << QStringLiteral("sharpen,type,double,value,0.8,min,0,max,1,decimals,1,tooltip,sharpen transformed image")
-                       << QStringLiteral("tripod,type,position,value,0,min,0,max,100000,tooltip,reference frame"));
+        fillParameters(
+            QStringList() << QStringLiteral("accuracy,type,int,value,8,min,1,max,10,tooltip,Accuracy of Shakiness detection")
+                          << QStringLiteral("shakiness,type,int,value,4,min,1,max,10,tooltip,How shaky is the Video")
+                          << QStringLiteral("stepsize,type,int,value,6,min,0,max,100,tooltip,Stepsize of Detection process minimum around")
+                          << QStringLiteral("mincontrast,type,double,value,0.3,min,0,max,1,factor,1,decimals,2,tooltip,Below this Contrast Field is discarded")
+                          << QStringLiteral("smoothing,type,int,value,10,min,0,max,100,tooltip,number of frames for lowpass filtering")
+                          << QStringLiteral("maxshift,type,int,value,-1,min,-1,max,1000,tooltip,max number of pixels to shift")
+                          << QStringLiteral("maxangle,type,double,value,-1,min,-1,max,3.14,decimals,2,tooltip,max angle to rotate (in rad)")
+                          << QStringLiteral("crop,type,bool,value,0,min,0,max,1,tooltip,0 = keep border  1 = black background")
+                          << QStringLiteral("zoom,type,int,value,0,min,-500,max,500,tooltip,additional zoom during transform")
+                          << QStringLiteral("optzoom,type,bool,value,1,min,0,max,1,tooltip,use optimal zoom (calulated from transforms)")
+                          << QStringLiteral("sharpen,type,double,value,0.8,min,0,max,1,decimals,1,tooltip,sharpen transformed image")
+                          << QStringLiteral("tripod,type,position,value,0,min,0,max,100000,tooltip,reference frame"));
     } else if (m_filtername == QLatin1String("videostab")) {
         fillParameters(QStringList(QStringLiteral("shutterangle,type,int,value,0,min,0,max,180,tooltip,Angle that Images could be maximum rotated")));
     }
@@ -78,23 +75,19 @@ ClipStabilize::ClipStabilize(const QStringList &urls, const QString &filterName,
     connect(buttonBox->button(QDialogButtonBox::Ok), &QPushButton::clicked, this, &ClipStabilize::slotValidate);
 
     vbox = new QVBoxLayout(optionsbox);
-    QHashIterator<QString, QHash<QString, QString> > hi(m_ui_params);
+    QHashIterator<QString, QHash<QString, QString>> hi(m_ui_params);
     m_tc.setFormat(KdenliveSettings::project_fps());
     while (hi.hasNext()) {
         hi.next();
         QHash<QString, QString> val = hi.value();
         if (val[QStringLiteral("type")] == QLatin1String("int") || val[QStringLiteral("type")] == QLatin1String("double")) {
-            DoubleParameterWidget *dbl = new DoubleParameterWidget(hi.key()/*name*/,
-                    val[QStringLiteral("value")].toDouble(),
-                    val[QStringLiteral("min")].toDouble(),
-                    val[QStringLiteral("max")].toDouble(),
-                    val[QStringLiteral("value")].toDouble(),/*default*/
-                    QString(),/*comment*/
-                    0/*id*/,
-                    QString(),/*suffix*/
-                    val[QStringLiteral("decimals")] != QString() ? val[QStringLiteral("decimals")].toInt() : 0,
-                    false,/*showRadioBtn*/
-                    this);
+            DoubleParameterWidget *dbl =
+                new DoubleParameterWidget(hi.key() /*name*/, val[QStringLiteral("value")].toDouble(), val[QStringLiteral("min")].toDouble(),
+                                          val[QStringLiteral("max")].toDouble(), val[QStringLiteral("value")].toDouble(),                    /*default*/
+                                          QString(),                                                                                         /*comment*/
+                                          0 /*id*/, QString(),                                                                               /*suffix*/
+                                          val[QStringLiteral("decimals")] != QString() ? val[QStringLiteral("decimals")].toInt() : 0, false, /*showRadioBtn*/
+                                          this);
             dbl->setObjectName(hi.key());
             dbl->setToolTip(val[QStringLiteral("tooltip")]);
             connect(dbl, &DoubleParameterWidget::valueChanged, this, &ClipStabilize::slotUpdateParams);
@@ -111,8 +104,7 @@ ClipStabilize::ClipStabilize(const QStringList &urls, const QString &filterName,
             posedit->setToolTip(val[QStringLiteral("tooltip")]);
             posedit->setObjectName(hi.key());
             vbox->addWidget(posedit);
-            connect(posedit, &PositionWidget::valueChanged,
-                    this, &ClipStabilize::slotUpdateParams);
+            connect(posedit, &PositionWidget::valueChanged, this, &ClipStabilize::slotUpdateParams);
         }
     }
     adjustSize();
@@ -142,7 +134,7 @@ QMap<QString, QString> ClipStabilize::filterParams() const
         params.insert(i.key(), i.value());
     }
 
-    QHashIterator <QString, QHash<QString, QString> > it(m_ui_params);
+    QHashIterator<QString, QHash<QString, QString>> it(m_ui_params);
     while (it.hasNext()) {
         it.next();
         params.insert(it.key(), it.value().value(QStringLiteral("value")));
@@ -216,14 +208,14 @@ void ClipStabilize::fillParameters(QStringList lst)
             m_ui_params[name][valname] = val;
         }
     }
-
 }
 
 void ClipStabilize::slotValidate()
 {
     if (m_urls.count() == 1) {
         if (QFile::exists(dest_url->url().toLocalFile())) {
-            if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", dest_url->url().toLocalFile())) == KMessageBox::No) {
+            if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", dest_url->url().toLocalFile())) ==
+                KMessageBox::No) {
                 return;
             }
         }
@@ -236,11 +228,11 @@ void ClipStabilize::slotValidate()
             }
         }
         if (!existingFiles.isEmpty()) {
-            if (KMessageBox::warningContinueCancelList(this, i18n("The stabilize job will overwrite the following files:"), existingFiles) ==  KMessageBox::Cancel) {
+            if (KMessageBox::warningContinueCancelList(this, i18n("The stabilize job will overwrite the following files:"), existingFiles) ==
+                KMessageBox::Cancel) {
                 return;
             }
         }
     }
     accept();
 }
-

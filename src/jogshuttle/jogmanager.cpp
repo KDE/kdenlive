@@ -9,17 +9,14 @@ the Free Software Foundation, either version 3 of the License, or
 */
 
 #include "jogmanager.h"
-#include "jogshuttle.h"
+#include "core.h"
 #include "jogaction.h"
+#include "jogshuttle.h"
 #include "jogshuttleconfig.h"
 #include "kdenlivesettings.h"
-#include "core.h"
 #include "mainwindow.h"
 
-JogManager::JogManager(QObject *parent) :
-    QObject(parent),
-    m_shuttle(nullptr),
-    m_shuttleAction(nullptr)
+JogManager::JogManager(QObject *parent) : QObject(parent), m_shuttle(nullptr), m_shuttleAction(nullptr)
 {
     slotConfigurationChanged();
 
@@ -50,4 +47,3 @@ void JogManager::slotDoAction(const QString &actionName)
     }
     action->trigger();
 }
-

@@ -18,26 +18,24 @@
 #include "effectstackedit.h"
 #include "effectstackview2.h"
 
-#include "monitor/monitor.h"
 #include "effectslist/effectslist.h"
 #include "kdenlivesettings.h"
+#include "monitor/monitor.h"
 
 #include <KComboBox>
 
-#include <QVBoxLayout>
-#include <QPushButton>
 #include <QCheckBox>
+#include <QProgressBar>
+#include <QPushButton>
 #include <QScrollArea>
 #include <QScrollBar>
-#include <QProgressBar>
+#include <QVBoxLayout>
 #include <QWheelEvent>
 
 // For QDomNode debugging (output into files); leaving here as sample code.
 //#define DEBUG_ESE
 
-EffectStackEdit::EffectStackEdit(Monitor *monitor, QWidget *parent) :
-    QScrollArea(parent),
-    m_paramWidget(nullptr)
+EffectStackEdit::EffectStackEdit(Monitor *monitor, QWidget *parent) : QScrollArea(parent), m_paramWidget(nullptr)
 {
     m_baseWidget = new QWidget(this);
     m_metaInfo.monitor = monitor;
@@ -107,28 +105,25 @@ bool EffectStackEdit::eventFilter(QObject *o, QEvent *e)
             if (qobject_cast<QAbstractSpinBox *>(o)->focusPolicy() == Qt::WheelFocus) {
                 e->accept();
                 return false;
-            } 
-                e->ignore();
-                return true;
-            
+            }
+            e->ignore();
+            return true;
         }
         if (qobject_cast<KComboBox *>(o)) {
             if (qobject_cast<KComboBox *>(o)->focusPolicy() == Qt::WheelFocus) {
                 e->accept();
                 return false;
-            } 
-                e->ignore();
-                return true;
-            
+            }
+            e->ignore();
+            return true;
         }
         if (qobject_cast<QProgressBar *>(o)) {
             if (qobject_cast<QProgressBar *>(o)->focusPolicy() == Qt::WheelFocus) {
                 e->accept();
                 return false;
-            } 
-                e->ignore();
-                return true;
-            
+            }
+            e->ignore();
+            return true;
         }
     }
     return QWidget::eventFilter(o, e);

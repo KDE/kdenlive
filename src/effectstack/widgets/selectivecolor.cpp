@@ -24,8 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <KLocalizedString>
 
-SelectiveColor::SelectiveColor(const QDomElement &effect, QWidget *parent) :
-    QWidget(parent)
+SelectiveColor::SelectiveColor(const QDomElement &effect, QWidget *parent) : QWidget(parent)
 {
     setupUi(this);
     QDomNodeList namenode = effect.elementsByTagName(QStringLiteral("parameter"));
@@ -88,7 +87,7 @@ void SelectiveColor::updateValues()
     spin_cyan->setValue(0);
     QStringList vals = values.at(1).split(QLatin1Char(' '));
     switch (vals.count()) {
-    case 4 :
+    case 4:
         spin_black->setValue(vals.at(3).toDouble() * 100);
     case 3:
         spin_yell->setValue(vals.at(2).toDouble() * 100);
@@ -152,4 +151,3 @@ void SelectiveColor::updateEffect(QDomElement &effect)
         }
     }
 }
-

@@ -20,18 +20,14 @@
 #include "onmonitorrectitem.h"
 #include "kdenlivesettings.h"
 
+#include <QCursor>
 #include <QGraphicsSceneMouseEvent>
+#include <QGraphicsView>
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
-#include <QCursor>
-#include <QGraphicsView>
 
-OnMonitorRectItem::OnMonitorRectItem(const QRectF &rect, double dar, QGraphicsItem *parent) :
-    QGraphicsRectItem(rect, parent)
-    , m_dar(dar)
-    , m_mode(NoAction)
-    , m_modified(false)
-    , m_view(nullptr)
+OnMonitorRectItem::OnMonitorRectItem(const QRectF &rect, double dar, QGraphicsItem *parent)
+    : QGraphicsRectItem(rect, parent), m_dar(dar), m_mode(NoAction), m_modified(false), m_view(nullptr)
 {
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
 
@@ -68,7 +64,8 @@ rectActions OnMonitorRectItem::getMode(const QPointF &pos)
     // Check for collisions between the mouse and the borders
     if (mouseArea.contains(pol.at(0))) {
         return ResizeTopLeft;
-    } if (mouseArea.contains(pol.at(2))) {
+    }
+    if (mouseArea.contains(pol.at(2))) {
         return ResizeBottomRight;
     } else if (mouseArea.contains(pol.at(1))) {
         return ResizeTopRight;
@@ -262,7 +259,7 @@ void OnMonitorRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
     Q_UNUSED(option)
 
     painter->setPen(pen());
-    //painter->setClipRect(option->rect);
+    // painter->setClipRect(option->rect);
     const QRectF r = rect();
     painter->drawRect(r);
     QRectF handle = painter->worldTransform().inverted().mapRect(QRectF(0, 0, 6, 6));
@@ -292,8 +289,6 @@ bool OnMonitorRectItem::getView()
     if ((scene() != nullptr) && !scene()->views().isEmpty()) {
         m_view = scene()->views().first();
         return true;
-    } 
-        return false;
-    
+    }
+    return false;
 }
-

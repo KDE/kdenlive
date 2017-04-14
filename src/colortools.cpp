@@ -10,16 +10,15 @@
 
 #include "colortools.h"
 
-#include <math.h>
 #include <QColor>
+#include <math.h>
 
 //#define DEBUG_CT
 #ifdef DEBUG_CT
 #include "kdenlive_debug.h"
 #endif
 
-ColorTools::ColorTools(QObject *parent)
-    : QObject(parent)
+ColorTools::ColorTools(QObject *parent) : QObject(parent)
 {
 }
 
@@ -43,11 +42,11 @@ QImage ColorTools::yuvColorWheel(const QSize &size, const unsigned char &Y, cons
 
     for (int u = 0; u < w; ++u) {
         // Transform u from {0,...,w} to [-1,1]
-        double du = (double) 2 * u / (w - 1) - 1;
+        double du = (double)2 * u / (w - 1) - 1;
         du = scaling * du;
 
         for (int v = 0; v < h; ++v) {
-            dv = (double) 2 * v / (h - 1) - 1;
+            dv = (double)2 * v / (h - 1) - 1;
             dv = scaling * dv;
 
             if (circleOnly) {
@@ -159,12 +158,10 @@ QImage ColorTools::yuvVerticalPlane(const QSize &size, const float &angle, const
             }
 
             plane.setPixel(uv, (h - y - 1), qRgba(dr, dg, db, 255));
-
         }
     }
 
     return plane;
-
 }
 
 QImage ColorTools::rgbCurvePlane(const QSize &size, const ColorTools::ColorsRGB &color, float scaling, const QRgb &background)
@@ -207,7 +204,6 @@ QImage ColorTools::rgbCurvePlane(const QSize &size, const ColorTools::ColorsRGB 
             } else {
                 plane.setPixel(x, (h - y - 1), qRgb(dcol, dcol, dcol));
             }
-
         }
     }
     return plane;
@@ -246,7 +242,6 @@ QImage ColorTools::rgbCurveLine(const QSize &size, const ColorTools::ColorsRGB &
             } else {
                 plane.setPixel(x, (h - y - 1), qRgb(dcol, dcol, dcol));
             }
-
         }
     }
     return plane;
@@ -273,11 +268,11 @@ QImage ColorTools::yPbPrColorWheel(const QSize &size, const unsigned char &Y, co
 
     for (int b = 0; b < w; ++b) {
         // Transform pB from {0,...,w} to [-0.5,0.5]
-        double dpB = (double) b / (w - 1) - .5;
+        double dpB = (double)b / (w - 1) - .5;
         dpB = scaling * dpB;
 
         for (int r = 0; r < h; ++r) {
-            dpR = (double) r / (h - 1) - .5;
+            dpR = (double)r / (h - 1) - .5;
             dpR = scaling * dpR;
 
             if (circleOnly) {
@@ -349,22 +344,20 @@ QImage ColorTools::hsvHueShiftPlane(const QSize &size, const uint &S, const uint
         float hue = x / (size.width() - 1.0) * 359;
         for (int y = 0; y < size.height(); ++y) {
             huediff = (1.0f - y / (size.height() - 1.0)) * hueValues + MIN;
-//            qCDebug(KDENLIVE_LOG) << "hue: " << hue << ", huediff: " << huediff;
+            //            qCDebug(KDENLIVE_LOG) << "hue: " << hue << ", huediff: " << huediff;
 
             newhue = hue + huediff + 360; // Avoid negative numbers. Rest (>360) will be mapped correctly.
 
             col.setHsv(newhue, S, V);
             plane.setPixel(x, y, col.rgba());
-
         }
     }
 
     return plane;
-
 }
 
-QImage ColorTools::hsvCurvePlane(const QSize &size, const QColor &baseColor,
-                                 const ComponentsHSV &xVariant, const ComponentsHSV &yVariant, bool shear, const float offsetY)
+QImage ColorTools::hsvCurvePlane(const QSize &size, const QColor &baseColor, const ComponentsHSV &xVariant, const ComponentsHSV &yVariant, bool shear,
+                                 const float offsetY)
 {
     Q_ASSERT(size.width() > 0);
     Q_ASSERT(size.height() > 0);
@@ -436,6 +429,4 @@ QImage ColorTools::hsvCurvePlane(const QSize &size, const QColor &baseColor,
     }
 
     return plane;
-
 }
-

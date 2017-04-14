@@ -20,22 +20,22 @@
 #include "documentchecker.h"
 #include "kthumb.h"
 
-#include "titler/titlewidget.h"
 #include "kdenlivesettings.h"
+#include "titler/titlewidget.h"
 #include "utils/KoIconUtils.h"
 
-#include <KUrlRequesterDialog>
 #include <KMessageBox>
-#include <klocalizedstring.h>
 #include <KRecentDirs>
+#include <KUrlRequesterDialog>
+#include <klocalizedstring.h>
 
 #include "kdenlive_debug.h"
-#include <QFontDatabase>
-#include <QTreeWidgetItem>
+#include <QCryptographicHash>
 #include <QFile>
 #include <QFileDialog>
-#include <QCryptographicHash>
+#include <QFontDatabase>
 #include <QStandardPaths>
+#include <QTreeWidgetItem>
 
 const int hashRole = Qt::UserRole;
 const int sizeRole = Qt::UserRole + 1;
@@ -57,8 +57,7 @@ const int LUMAPLACEHOLDER = 12;
 
 enum TITLECLIPTYPE { TITLE_IMAGE_ELEMENT = 20, TITLE_FONT_ELEMENT = 21 };
 
-DocumentChecker::DocumentChecker(const QUrl &url, const QDomDocument &doc):
-    m_url(url), m_doc(doc), m_dialog(nullptr)
+DocumentChecker::DocumentChecker(const QUrl &url, const QDomDocument &doc) : m_url(url), m_doc(doc), m_dialog(nullptr)
 {
 }
 
@@ -76,8 +75,7 @@ bool DocumentChecker::hasErrorInClips()
             baseElement.setAttribute(QStringLiteral("root"), root);
             root = QDir::cleanPath(root) + QDir::separator();
             m_rootReplacement.second = root;
-        }
-        else {
+        } else {
             root = QDir::cleanPath(root) + QDir::separator();
         }
     }
@@ -91,16 +89,17 @@ bool DocumentChecker::hasErrorInClips()
             if (documentid.isEmpty()) {
                 // invalid document id, recreate one
                 documentid = QString::number(QDateTime::currentMSecsSinceEpoch());
-                //TODO: Warn on invalid doc id
+                // TODO: Warn on invalid doc id
                 EffectsList::setProperty(playlists.at(i).toElement(), QStringLiteral("kdenlive:docproperties.documentid"), documentid);
             }
             storageFolder = EffectsList::property(playlists.at(i).toElement(), QStringLiteral("kdenlive:docproperties.storagefolder"));
             if (!storageFolder.isEmpty() && QFileInfo(storageFolder).isRelative()) {
                 storageFolder.prepend(root);
             }
-            if (!storageFolder.isEmpty() && !QFile::exists(storageFolder) && projectDir.exists( documentid)) {
+            if (!storageFolder.isEmpty() && !QFile::exists(storageFolder) && projectDir.exists(documentid)) {
                 storageFolder = projectDir.absolutePath();
-                EffectsList::setProperty(playlists.at(i).toElement(), QStringLiteral("kdenlive:docproperties.storagefolder"), projectDir.absoluteFilePath(documentid));
+                EffectsList::setProperty(playlists.at(i).toElement(), QStringLiteral("kdenlive:docproperties.storagefolder"),
+                                         projectDir.absoluteFilePath(documentid));
                 m_doc.documentElement().setAttribute(QStringLiteral("modified"), QStringLiteral("1"));
             }
             break;
@@ -125,7 +124,8 @@ bool DocumentChecker::hasErrorInClips()
     max = documentProducers.count();
     QStringList verifiedPaths;
     QStringList serviceToCheck;
-    serviceToCheck << QStringLiteral("kdenlivetitle") << QStringLiteral("qimage") << QStringLiteral("pixbuf") << QStringLiteral("timewarp") << QStringLiteral("framebuffer") << QStringLiteral("xml");
+    serviceToCheck << QStringLiteral("kdenlivetitle") << QStringLiteral("qimage") << QStringLiteral("pixbuf") << QStringLiteral("timewarp")
+                   << QStringLiteral("framebuffer") << QStringLiteral("xml");
     for (int i = 0; i < max; ++i) {
         QDomElement e = documentProducers.item(i).toElement();
         QString service = EffectsList::property(e, QStringLiteral("mlt_service"));
@@ -133,12 +133,12 @@ bool DocumentChecker::hasErrorInClips()
             continue;
         }
         if (service == QLatin1String("qtext")) {
-            checkMissingImagesAndFonts(QStringList(), QStringList(EffectsList::property(e, QStringLiteral("family"))),
-                                       e.attribute(QStringLiteral("id")), e.attribute(QStringLiteral("name")));
+            checkMissingImagesAndFonts(QStringList(), QStringList(EffectsList::property(e, QStringLiteral("family"))), e.attribute(QStringLiteral("id")),
+                                       e.attribute(QStringLiteral("name")));
             continue;
         }
         if (service == QLatin1String("kdenlivetitle")) {
-            //TODO: Check is clip template is missing (xmltemplate) or hash changed
+            // TODO: Check is clip template is missing (xmltemplate) or hash changed
             QString xml = EffectsList::property(e, QStringLiteral("xmldata"));
             QStringList images = TitleWidget::extractImageList(xml);
             QStringList fonts = TitleWidget::extractFontList(xml);
@@ -150,10 +150,10 @@ bool DocumentChecker::hasErrorInClips()
             continue;
         }
         if (service == QLatin1String("timewarp")) {
-            //slowmotion clip, trim speed info
+            // slowmotion clip, trim speed info
             resource = EffectsList::property(e, QStringLiteral("warp_resource"));
         } else if (service == QLatin1String("framebuffer")) {
-            //slowmotion clip, trim speed info
+            // slowmotion clip, trim speed info
             resource = resource.section(QLatin1Char('?'), 0, 0);
         }
 
@@ -179,7 +179,8 @@ bool DocumentChecker::hasErrorInClips()
                     QDir dir(storageFolder + QStringLiteral("/proxy/"));
                     if (dir.exists(QFileInfo(proxy).fileName())) {
                         QString updatedPath = dir.absoluteFilePath(QFileInfo(proxy).fileName());
-                        fixProxyClip(e.attribute(QStringLiteral("id")), EffectsList::property(e, QStringLiteral("kdenlive:proxy")), updatedPath, documentProducers);
+                        fixProxyClip(e.attribute(QStringLiteral("id")), EffectsList::property(e, QStringLiteral("kdenlive:proxy")), updatedPath,
+                                     documentProducers);
                         fixed = true;
                     }
                 }
@@ -255,7 +256,7 @@ bool DocumentChecker::hasErrorInClips()
                 continue;
             }
             if (filePath.endsWith(QLatin1String(".pgm"))) {
-                fixedLuma = filePath.section(QLatin1Char('.') , 0, -2) + QStringLiteral(".png");
+                fixedLuma = filePath.section(QLatin1Char('.'), 0, -2) + QStringLiteral(".png");
             } else if (filePath.endsWith(QLatin1String(".png"))) {
                 fixedLuma = filePath.section(QLatin1Char('.'), 0, -2) + QStringLiteral(".pgm");
             }
@@ -306,9 +307,11 @@ bool DocumentChecker::hasErrorInClips()
         ClipType type;
         int status = CLIPMISSING;
         const QString service = EffectsList::property(e, QStringLiteral("mlt_service"));
-        QString resource = service == QLatin1String("timewarp") ? EffectsList::property(e, QStringLiteral("warp_resource")) : EffectsList::property(e, QStringLiteral("resource"));
+        QString resource = service == QLatin1String("timewarp") ? EffectsList::property(e, QStringLiteral("warp_resource"))
+                                                                : EffectsList::property(e, QStringLiteral("resource"));
         bool slideshow = resource.contains(QStringLiteral("/.all.")) || resource.contains(QLatin1Char('?')) || resource.contains(QLatin1Char('%'));
-        if (service == QLatin1String("avformat") || service == QLatin1String("avformat-novalidate") || service == QLatin1String("framebuffer") || service == QLatin1String("timewarp")) {
+        if (service == QLatin1String("avformat") || service == QLatin1String("avformat-novalidate") || service == QLatin1String("framebuffer") ||
+            service == QLatin1String("timewarp")) {
             clipType = i18n("Video clip");
             type = AV;
         } else if (service == QLatin1String("qimage") || service == QLatin1String("pixbuf")) {
@@ -396,7 +399,9 @@ bool DocumentChecker::hasErrorInClips()
         if (!m_ui.infoLabel->text().isEmpty()) {
             m_ui.infoLabel->setText(m_ui.infoLabel->text() + QStringLiteral(". "));
         }
-        m_ui.infoLabel->setText(m_ui.infoLabel->text() + i18np("The project file contains a missing clip, you can still work with its proxy.", "The project file contains %1 missing clips, you can still work with their proxies.", missingSources.count()));
+        m_ui.infoLabel->setText(m_ui.infoLabel->text() + i18np("The project file contains a missing clip, you can still work with its proxy.",
+                                                               "The project file contains %1 missing clips, you can still work with their proxies.",
+                                                               missingSources.count()));
     }
 
     m_ui.removeSelected->setEnabled(!m_missingClips.isEmpty());
@@ -408,8 +413,9 @@ bool DocumentChecker::hasErrorInClips()
     if (max > 0) {
         QTreeWidgetItem *item = new QTreeWidgetItem(m_ui.treeWidget, QStringList() << i18n("Proxy clip"));
         item->setIcon(0, KoIconUtils::themedIcon(QStringLiteral("dialog-warning")));
-        item->setText(1, i18np("%1 missing proxy clip, will be recreated on project opening", "%1 missing proxy clips, will be recreated on project opening", max));
-        //item->setData(0, hashRole, e.attribute("file_hash"));
+        item->setText(
+            1, i18np("%1 missing proxy clip, will be recreated on project opening", "%1 missing proxy clips, will be recreated on project opening", max));
+        // item->setData(0, hashRole, e.attribute("file_hash"));
         item->setData(0, statusRole, PROXYMISSING);
         item->setToolTip(0, i18n("Missing proxy"));
     }
@@ -463,7 +469,7 @@ bool DocumentChecker::hasErrorInClips()
         QTreeWidgetItem *item = new QTreeWidgetItem(m_ui.treeWidget, QStringList() << i18n("Source clip"));
         item->setIcon(0, KoIconUtils::themedIcon(QStringLiteral("dialog-warning")));
         item->setText(1, i18n("%1 missing source clips, you can only use the proxies", max));
-        //item->setData(0, hashRole, e.attribute("file_hash"));
+        // item->setData(0, hashRole, e.attribute("file_hash"));
         item->setData(0, statusRole, SOURCEMISSING);
         item->setToolTip(0, i18n("Missing source clip"));
         for (int i = 0; i < max; ++i) {
@@ -473,13 +479,13 @@ bool DocumentChecker::hasErrorInClips()
             // Tell Kdenlive the source is missing
             e.setAttribute(QStringLiteral("_missingsource"), QStringLiteral("1"));
             QTreeWidgetItem *subitem = new QTreeWidgetItem(item, QStringList() << i18n("Source clip"));
-            //qCDebug(KDENLIVE_LOG)<<"// Adding missing source clip: "<<realPath;
+            // qCDebug(KDENLIVE_LOG)<<"// Adding missing source clip: "<<realPath;
             subitem->setIcon(0, KoIconUtils::themedIcon(QStringLiteral("dialog-close")));
             subitem->setText(1, realPath);
             subitem->setData(0, hashRole, EffectsList::property(e, QStringLiteral("kdenlive:file_hash")));
             subitem->setData(0, sizeRole, EffectsList::property(e, QStringLiteral("kdenlive:file_size")));
             subitem->setData(0, statusRole, CLIPMISSING);
-            //int t = e.attribute("type").toInt();
+            // int t = e.attribute("type").toInt();
             subitem->setData(0, typeRole, EffectsList::property(e, QStringLiteral("mlt_service")));
             subitem->setData(0, idRole, id);
         }
@@ -494,7 +500,7 @@ bool DocumentChecker::hasErrorInClips()
     connect(m_ui.removeSelected, &QAbstractButton::pressed, this, &DocumentChecker::slotDeleteSelected);
     connect(m_ui.treeWidget, &QTreeWidget::itemDoubleClicked, this, &DocumentChecker::slotEditItem);
     connect(m_ui.treeWidget, &QTreeWidget::itemSelectionChanged, this, &DocumentChecker::slotCheckButtons);
-    //adjustSize();
+    // adjustSize();
     if (m_ui.treeWidget->topLevelItem(0)) {
         m_ui.treeWidget->setCurrentItem(m_ui.treeWidget->topLevelItem(0));
     }
@@ -536,7 +542,7 @@ void DocumentChecker::setProperty(const QDomElement &effect, const QString &name
 
 void DocumentChecker::slotSearchClips()
 {
-    //QString clipFolder = KRecentDirs::dir(QStringLiteral(":KdenliveClipFolder"));
+    // QString clipFolder = KRecentDirs::dir(QStringLiteral(":KdenliveClipFolder"));
     QString clipFolder = m_url.adjusted(QUrl::RemoveFilename).toLocalFile();
     QString newpath = QFileDialog::getExistingDirectory(qApp->activeWindow(), i18n("Clips folder"), clipFolder);
     if (newpath.isEmpty()) {
@@ -545,14 +551,15 @@ void DocumentChecker::slotSearchClips()
     int ix = 0;
     bool fixed = false;
     m_ui.recursiveSearch->setChecked(true);
-    //TODO: make non modal
+    // TODO: make non modal
     QTreeWidgetItem *child = m_ui.treeWidget->topLevelItem(ix);
     QDir searchDir(newpath);
     while (child != nullptr) {
         if (child->data(0, statusRole).toInt() == SOURCEMISSING) {
             for (int j = 0; j < child->childCount(); ++j) {
                 QTreeWidgetItem *subchild = child->child(j);
-                QString clipPath = searchFileRecursively(searchDir, subchild->data(0, sizeRole).toString(), subchild->data(0, hashRole).toString(), subchild->text(1));
+                QString clipPath =
+                    searchFileRecursively(searchDir, subchild->data(0, sizeRole).toString(), subchild->data(0, hashRole).toString(), subchild->text(1));
                 if (!clipPath.isEmpty()) {
                     fixed = true;
                     subchild->setText(1, clipPath);
@@ -562,7 +569,7 @@ void DocumentChecker::slotSearchClips()
             }
         } else if (child->data(0, statusRole).toInt() == CLIPMISSING) {
             bool perfectMatch = true;
-            ClipType type = (ClipType) child->data(0, clipTypeRole).toInt();
+            ClipType type = (ClipType)child->data(0, clipTypeRole).toInt();
             QString clipPath;
             if (type != SlideShow) {
                 // Slideshows cannot be found with hash / size
@@ -575,7 +582,8 @@ void DocumentChecker::slotSearchClips()
             if (!clipPath.isEmpty()) {
                 fixed = true;
                 child->setText(1, clipPath);
-                child->setIcon(0, perfectMatch ? KoIconUtils::themedIcon(QStringLiteral("dialog-ok")) : KoIconUtils::themedIcon(QStringLiteral("dialog-warning")));
+                child->setIcon(0,
+                               perfectMatch ? KoIconUtils::themedIcon(QStringLiteral("dialog-ok")) : KoIconUtils::themedIcon(QStringLiteral("dialog-warning")));
                 child->setData(0, statusRole, CLIPOK);
             }
         } else if (child->data(0, statusRole).toInt() == LUMAMISSING) {
@@ -730,7 +738,7 @@ void DocumentChecker::slotEditItem(QTreeWidgetItem *item, int)
         return;
     }
     item->setText(1, url.toLocalFile());
-    ClipType type = (ClipType) item->data(0, clipTypeRole).toInt();
+    ClipType type = (ClipType)item->data(0, clipTypeRole).toInt();
     bool fixed = false;
     if (type == SlideShow && QFile::exists(url.adjusted(QUrl::RemoveFilename).toLocalFile())) {
         fixed = true;
@@ -779,7 +787,7 @@ void DocumentChecker::acceptDialog()
         ix++;
         child = m_ui.treeWidget->topLevelItem(ix);
     }
-    //QDialog::accept();
+    // QDialog::accept();
 }
 
 void DocumentChecker::fixProxyClip(const QString &id, const QString &oldUrl, const QString &newUrl, const QDomNodeList &producers)
@@ -798,7 +806,7 @@ void DocumentChecker::fixProxyClip(const QString &id, const QString &oldUrl, con
             QString resource = EffectsList::property(e, QStringLiteral("resource"));
             // TODO: Slowmmotion clips
             if (resource.contains(QRegExp(QStringLiteral("\\?[0-9]+\\.[0-9]+(&amp;strobe=[0-9]+)?$")))) {
-                //fixedResource.append(QLatin1Char('?') + resource.section(QLatin1Char('?'), -1));
+                // fixedResource.append(QLatin1Char('?') + resource.section(QLatin1Char('?'), -1));
             }
             if (resource == oldUrl) {
                 EffectsList::setProperty(e, QStringLiteral("resource"), newUrl);
@@ -815,7 +823,7 @@ void DocumentChecker::fixSourceClipItem(QTreeWidgetItem *child, const QDomNodeLi
 {
     QDomElement e, property;
     QDomNodeList properties;
-    //int t = child->data(0, typeRole).toInt();
+    // int t = child->data(0, typeRole).toInt();
     if (child->data(0, statusRole).toInt() == CLIPOK) {
         QString id = child->data(0, idRole).toString();
         for (int i = 0; i < producers.count(); ++i) {
@@ -885,7 +893,8 @@ void DocumentChecker::fixClipItem(QTreeWidgetItem *child, const QDomNodeList &pr
             }*/
             for (int i = 0; i < producers.count(); ++i) {
                 e = producers.item(i).toElement();
-                if (e.attribute(QStringLiteral("id")).section(QLatin1Char('_'), 0, 0) == id || e.attribute(QStringLiteral("id")).section(QLatin1Char(':'), 1, 1) == id || e.attribute(QStringLiteral("id")) == id) {
+                if (e.attribute(QStringLiteral("id")).section(QLatin1Char('_'), 0, 0) == id ||
+                    e.attribute(QStringLiteral("id")).section(QLatin1Char(':'), 1, 1) == id || e.attribute(QStringLiteral("id")) == id) {
                     // Fix clip
                     QString resource = getProperty(e, QStringLiteral("resource"));
                     QString service = getProperty(e, QStringLiteral("mlt_service"));
@@ -902,7 +911,7 @@ void DocumentChecker::fixClipItem(QTreeWidgetItem *child, const QDomNodeList &pr
             }
         }
     } else if (child->data(0, statusRole).toInt() == CLIPPLACEHOLDER && t != TITLE_FONT_ELEMENT && t != TITLE_IMAGE_ELEMENT) {
-        //QString id = child->data(0, idRole).toString();
+        // QString id = child->data(0, idRole).toString();
         /*for (int i = 0; i < infoproducers.count(); ++i) {
             e = infoproducers.item(i).toElement();
             if (e.attribute("id") == id) {
@@ -922,7 +931,7 @@ void DocumentChecker::fixClipItem(QTreeWidgetItem *child, const QDomNodeList &pr
             }
             if (!luma.isEmpty() && luma == child->data(0, idRole).toString()) {
                 setProperty(trans.at(i).toElement(), service == QLatin1String("luma") ? QStringLiteral("resource") : QStringLiteral("luma"), child->text(1));
-                //qCDebug(KDENLIVE_LOG) << "replace with; " << child->text(1);
+                // qCDebug(KDENLIVE_LOG) << "replace with; " << child->text(1);
             }
         }
     } else if (child->data(0, statusRole).toInt() == LUMAMISSING) {
@@ -978,7 +987,9 @@ void DocumentChecker::checkStatus()
 
 void DocumentChecker::slotDeleteSelected()
 {
-    if (KMessageBox::warningContinueCancel(m_dialog, i18np("This will remove the selected clip from this project", "This will remove the selected clips from this project", m_ui.treeWidget->selectedItems().count()), i18n("Remove clips")) == KMessageBox::Cancel) {
+    if (KMessageBox::warningContinueCancel(m_dialog, i18np("This will remove the selected clip from this project",
+                                                           "This will remove the selected clips from this project", m_ui.treeWidget->selectedItems().count()),
+                                           i18n("Remove clips")) == KMessageBox::Cancel) {
         return;
     }
     QStringList deletedIds;
@@ -1019,7 +1030,7 @@ void DocumentChecker::slotDeleteSelected()
     if (!deletedIds.isEmpty()) {
         QDomElement e;
         QDomNodeList producers = m_doc.elementsByTagName(QStringLiteral("producer"));
-        //QDomNodeList infoproducers = m_doc.elementsByTagName("kdenlive_producer");
+        // QDomNodeList infoproducers = m_doc.elementsByTagName("kdenlive_producer");
 
         QDomNode mlt = m_doc.elementsByTagName(QStringLiteral("mlt")).at(0);
         QDomNode kdenlivedoc = m_doc.elementsByTagName(QStringLiteral("kdenlivedoc")).at(0);
@@ -1036,7 +1047,8 @@ void DocumentChecker::slotDeleteSelected()
 
         for (int i = 0; i < producers.count(); ++i) {
             e = producers.item(i).toElement();
-            if (deletedIds.contains(e.attribute(QStringLiteral("id")).section(QLatin1Char('_'), 0, 0)) || deletedIds.contains(e.attribute(QStringLiteral("id")).section(QLatin1Char(':'), 1, 1).section(QLatin1Char('_'), 0, 0))) {
+            if (deletedIds.contains(e.attribute(QStringLiteral("id")).section(QLatin1Char('_'), 0, 0)) ||
+                deletedIds.contains(e.attribute(QStringLiteral("id")).section(QLatin1Char(':'), 1, 1).section(QLatin1Char('_'), 0, 0))) {
                 // Remove clip
                 mlt.removeChild(e);
                 --i;
@@ -1047,7 +1059,8 @@ void DocumentChecker::slotDeleteSelected()
             QDomNodeList entries = playlists.at(i).toElement().elementsByTagName(QStringLiteral("entry"));
             for (int j = 0; j < entries.count(); ++j) {
                 e = entries.item(j).toElement();
-                if (deletedIds.contains(e.attribute(QStringLiteral("producer")).section(QLatin1Char('_'), 0, 0)) || deletedIds.contains(e.attribute(QStringLiteral("producer")).section(QLatin1Char(':'), 1, 1).section(QLatin1Char('_'), 0, 0))) {
+                if (deletedIds.contains(e.attribute(QStringLiteral("producer")).section(QLatin1Char('_'), 0, 0)) ||
+                    deletedIds.contains(e.attribute(QStringLiteral("producer")).section(QLatin1Char(':'), 1, 1).section(QLatin1Char('_'), 0, 0))) {
                     // Replace clip with blank
                     while (e.childNodes().count() > 0) {
                         e.removeChild(e.firstChild());
@@ -1109,6 +1122,4 @@ void DocumentChecker::slotCheckButtons()
             m_ui.removeSelected->setEnabled(true);
         }
     }
-
 }
-

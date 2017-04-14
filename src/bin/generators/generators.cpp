@@ -19,29 +19,25 @@
 
 #include "generators.h"
 #include "doc/kthumb.h"
-#include "monitor/monitor.h"
 #include "effectstack/parametercontainer.h"
 #include "kdenlivesettings.h"
+#include "monitor/monitor.h"
 
-#include <QStandardPaths>
-#include <QDomDocument>
-#include <QDir>
-#include <QVBoxLayout>
-#include <QLabel>
 #include <QDialogButtonBox>
+#include <QDir>
+#include <QDomDocument>
 #include <QFileDialog>
+#include <QLabel>
+#include <QStandardPaths>
+#include <QVBoxLayout>
 
-#include <KRecentDirs>
-#include <KMessageBox>
-#include "kxmlgui_version.h"
 #include "klocalizedstring.h"
+#include "kxmlgui_version.h"
+#include <KMessageBox>
+#include <KRecentDirs>
 
-Generators::Generators(Monitor *monitor, const QString &path, QWidget *parent) :
-    QDialog(parent)
-    , m_producer(nullptr)
-    , m_timePos(nullptr)
-    , m_container(nullptr)
-    , m_preview(nullptr)
+Generators::Generators(Monitor *monitor, const QString &path, QWidget *parent)
+    : QDialog(parent), m_producer(nullptr), m_timePos(nullptr), m_container(nullptr), m_preview(nullptr)
 {
     QFile file(path);
     QDomDocument doc;
@@ -109,16 +105,17 @@ Generators::~Generators()
     delete m_timePos;
 }
 
-//static
+// static
 void Generators::getGenerators(const QStringList &producers, QMenu *menu)
 {
-    const QStringList generatorFolders = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("generators"), QStandardPaths::LocateDirectory);
+    const QStringList generatorFolders =
+        QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("generators"), QStandardPaths::LocateDirectory);
     const QStringList filters = QStringList() << QStringLiteral("*.xml");
     for (const QString &folder : generatorFolders) {
         QDir directory(folder);
         const QStringList filesnames = directory.entryList(filters, QDir::Files);
         for (const QString &fname : filesnames) {
-            QPair <QString, QString> result = parseGenerator(directory.absoluteFilePath(fname), producers);
+            QPair<QString, QString> result = parseGenerator(directory.absoluteFilePath(fname), producers);
             if (!result.first.isEmpty()) {
                 QAction *action = menu->addAction(result.first);
                 action->setData(result.second);
@@ -127,10 +124,10 @@ void Generators::getGenerators(const QStringList &producers, QMenu *menu)
     }
 }
 
-//static
-QPair <QString, QString> Generators::parseGenerator(const QString &path, const QStringList &producers)
+// static
+QPair<QString, QString> Generators::parseGenerator(const QString &path, const QStringList &producers)
 {
-    QPair <QString, QString>  result;
+    QPair<QString, QString> result;
     QDomDocument doc;
     QFile file(path);
     doc.setContent(&file, false);

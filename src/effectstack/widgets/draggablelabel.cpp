@@ -19,16 +19,12 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-
 #include "draggablelabel.h"
-#include <QMouseEvent>
-#include <QApplication>
 #include "klocalizedstring.h"
+#include <QApplication>
+#include <QMouseEvent>
 
-
-DraggableLabel::DraggableLabel(const QString &text, QWidget *parent):
-    QLabel(text, parent)
-    , m_dragStarted(false)
+DraggableLabel::DraggableLabel(const QString &text, QWidget *parent) : QLabel(text, parent), m_dragStarted(false)
 {
     setContextMenuPolicy(Qt::NoContextMenu);
     setToolTip(i18n("Click to copy data to clipboard"));
@@ -66,4 +62,3 @@ void DraggableLabel::mouseMoveEvent(QMouseEvent *ev)
         m_clickStart = QPoint();
     }
 }
-

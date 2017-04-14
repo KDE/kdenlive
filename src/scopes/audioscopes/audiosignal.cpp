@@ -24,7 +24,7 @@
 
 #include <math.h>
 
-AudioSignal::AudioSignal(QWidget *parent): AbstractAudioScopeWidget(false, parent)
+AudioSignal::AudioSignal(QWidget *parent) : AbstractAudioScopeWidget(false, parent)
 {
     setMinimumHeight(10);
     setMinimumWidth(10);
@@ -38,8 +38,7 @@ AudioSignal::~AudioSignal()
 {
 }
 
-QImage AudioSignal::renderAudioScope(uint, const audioShortVector &audioFrame,
-                                     const int, const int num_channels, const int samples, const int)
+QImage AudioSignal::renderAudioScope(uint, const audioShortVector &audioFrame, const int, const int num_channels, const int samples, const int)
 {
     QTime start = QTime::currentTime();
 
@@ -48,7 +47,7 @@ QImage AudioSignal::renderAudioScope(uint, const audioShortVector &audioFrame,
     QByteArray channels;
     for (int i = 0; i < num_channels; ++i) {
         long val = 0;
-        for (int s = 0; s < num_samples; s ++) {
+        for (int s = 0; s < num_samples; s++) {
             val += abs(audioFrame[i + s * num_channels] / 128);
         }
         channels.append(val / num_samples);
@@ -60,7 +59,7 @@ QImage AudioSignal::renderAudioScope(uint, const audioShortVector &audioFrame,
     }
     for (int chan = 0; chan < peeks.count(); chan++) {
         peekage[chan] = peekage[chan] + 1;
-        if (peeks.at(chan) < channels.at(chan) ||  peekage.at(chan) > 50) {
+        if (peeks.at(chan) < channels.at(chan) || peekage.at(chan) > 50) {
             peekage[chan] = 0;
             peeks[chan] = channels[chan];
         }
@@ -81,15 +80,15 @@ QImage AudioSignal::renderAudioScope(uint, const audioShortVector &audioFrame,
         dbsize = p.fontMetrics().width(QString().sprintf("%d", dbscale.at(dbscale.size() - 1)));
     }
     bool showdb = width() > (dbsize + 40);
-    //valpixel=1.0 for 127, 1.0+(1/40) for 1 short oversample, 1.0+(2/40) for longer oversample
+    // valpixel=1.0 for 127, 1.0+(1/40) for 1 short oversample, 1.0+(2/40) for longer oversample
     for (int i = 0; i < numchan; ++i) {
-        //int maxx= (unsigned char)channels[i] * (horiz ? width() : height() ) / 127;
+        // int maxx= (unsigned char)channels[i] * (horiz ? width() : height() ) / 127;
         double valpixel = valueToPixel((double)(unsigned char)channels[i] / 127.0);
-        int maxx =  height()  * valpixel;
-        int xdelta = height()   / 42;
+        int maxx = height() * valpixel;
+        int xdelta = height() / 42;
         int _y2 = (showdb ? width() - dbsize : width()) / numchan - 1;
         int _y1 = (showdb ? width() - dbsize : width()) * i / numchan;
-        int _x2 = maxx >  xdelta ? xdelta - 3 : maxx - 3;
+        int _x2 = maxx > xdelta ? xdelta - 3 : maxx - 3;
         if (horiz) {
             dbsize = 9;
             showdb = height() > (dbsize);
@@ -97,13 +96,13 @@ QImage AudioSignal::renderAudioScope(uint, const audioShortVector &audioFrame,
             xdelta = width() / 42;
             _y2 = (showdb ? height() - dbsize : height()) / numchan - 1;
             _y1 = (showdb ? height() - dbsize : height()) * i / numchan;
-            _x2 = maxx >  xdelta ? xdelta - 1 : maxx - 1;
+            _x2 = maxx > xdelta ? xdelta - 1 : maxx - 1;
         }
 
         for (int x = 0; x <= 42; ++x) {
             int _x1 = x * xdelta;
             QColor sig = Qt::green;
-            //value of actual painted digit
+            // value of actual painted digit
             double ival = (double)_x1 / (double)xdelta / 42.0;
             if (ival > 40.0 / 42.0) {
                 sig = Qt::red;
@@ -123,10 +122,9 @@ QImage AudioSignal::renderAudioScope(uint, const audioShortVector &audioFrame,
         }
         int xp = valueToPixel((double)peeks.at(i) / 127.0) * (horiz ? width() : height()) - 2;
         p.fillRect(horiz ? xp : _y1, horiz ? _y1 : height() - xdelta - xp, horiz ? 3 : _y2, horiz ? _y2 : 3, QBrush(Qt::gray, Qt::SolidPattern));
-
     }
     if (showdb) {
-        //draw db value at related pixel
+        // draw db value at related pixel
         for (int l = 0; l < dbscale.size(); l++) {
             if (!horiz) {
                 double xf = pow(10.0, (double)dbscale.at(l) / 20.0) * (double)height();
@@ -138,7 +136,7 @@ QImage AudioSignal::renderAudioScope(uint, const audioShortVector &audioFrame,
         }
     }
     p.end();
-    emit signalScopeRenderingFinished((uint) start.elapsed(), 1);
+    emit signalScopeRenderingFinished((uint)start.elapsed(), 1);
     return image;
 }
 
@@ -167,7 +165,7 @@ void AudioSignal::slotReceiveAudio(audioShortVector data, int, int num_channels,
         long val = 0;
         double over1 = 0.0;
         double over2 = 0.0;
-        for (int s = 0; s < num_samples; s ++) {
+        for (int s = 0; s < num_samples; s++) {
             int sample = abs(data[i + s * num_channels] / 128);
             val += sample;
             if (sample == 128) {
@@ -175,7 +173,7 @@ void AudioSignal::slotReceiveAudio(audioShortVector data, int, int num_channels,
             } else {
                 num_oversample = 0;
             }
-            //if 3 samples over max => 1 peak over 0 db (0db=40.0)
+            // if 3 samples over max => 1 peak over 0 db (0db=40.0)
             if (num_oversample > 3) {
                 over1 = 41.0 / 42.0 * 127;
             }
@@ -183,9 +181,8 @@ void AudioSignal::slotReceiveAudio(audioShortVector data, int, int num_channels,
             if (num_oversample > 10) {
                 over2 = 127;
             }
-
         }
-        //max amplitude = 40/42, 3to10  oversamples=41, more then 10 oversamples=42
+        // max amplitude = 40/42, 3to10  oversamples=41, more then 10 oversamples=42
         if (over2 > 0.0) {
             channels.append(over2);
         } else if (over1 > 0.0) {
@@ -214,7 +211,7 @@ void AudioSignal::showAudio(const QByteArray &arr)
     }
     for (int chan = 0; chan < peeks.count(); chan++) {
         peekage[chan] = peekage[chan] + 1;
-        if (peeks.at(chan) < arr.at(chan) ||  peekage.at(chan) > 50) {
+        if (peeks.at(chan) < arr.at(chan) || peekage.at(chan) > 50) {
             peekage[chan] = 0;
             peeks[chan] = arr[chan];
         }
@@ -224,7 +221,6 @@ void AudioSignal::showAudio(const QByteArray &arr)
 
 double AudioSignal::valueToPixel(double in)
 {
-    //in=0 -> return 0 (null length from max), in=127/127 return 1 (max length )
+    // in=0 -> return 0 (null length from max), in=127/127 return 1 (max length )
     return 1.0 - log10(in) / log10(1.0 / 127.0);
 }
-

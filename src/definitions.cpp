@@ -20,7 +20,7 @@
 #include "definitions.h"
 #include <klocalizedstring.h>
 
-QDebug operator << (QDebug qd, const ItemInfo &info)
+QDebug operator<<(QDebug qd, const ItemInfo &info)
 {
     qd << "ItemInfo " << &info;
     qd << "\tTrack" << info.track;
@@ -31,13 +31,12 @@ QDebug operator << (QDebug qd, const ItemInfo &info)
     return qd.maybeSpace();
 }
 
-QDebug operator << (QDebug qd, const MltVideoProfile &profile)
+QDebug operator<<(QDebug qd, const MltVideoProfile &profile)
 {
     qd << "Profile " << &profile;
     qd << "\tProfile fps num " << profile.frame_rate_num;
     qd << "\tProfile fps den " << profile.frame_rate_den;
-    qd << "\tProfile width " << profile.width,
-       qd << "\tProfile height " << profile.height;
+    qd << "\tProfile width " << profile.width, qd << "\tProfile height " << profile.height;
     qd << "\tProfile progressive " << profile.progressive;
     qd << "\tProfile sar num " << profile.sample_aspect_num;
     qd << "\tProfile sar den " << profile.sample_aspect_den;
@@ -48,31 +47,15 @@ QDebug operator << (QDebug qd, const MltVideoProfile &profile)
     return qd.maybeSpace();
 }
 
-MltVideoProfile::MltVideoProfile() :
-    frame_rate_num(0),
-    frame_rate_den(0),
-    width(0),
-    height(0),
-    progressive(0),
-    sample_aspect_num(0),
-    sample_aspect_den(0),
-    display_aspect_num(0),
-    display_aspect_den(0),
-    colorspace(0)
+MltVideoProfile::MltVideoProfile()
+    : frame_rate_num(0), frame_rate_den(0), width(0), height(0), progressive(0), sample_aspect_num(0), sample_aspect_den(0), display_aspect_num(0),
+      display_aspect_den(0), colorspace(0)
 {
 }
 
-MltVideoProfile::MltVideoProfile(const QVariantList &params) :
-    frame_rate_num(0),
-    frame_rate_den(0),
-    width(0),
-    height(0),
-    progressive(0),
-    sample_aspect_num(0),
-    sample_aspect_den(0),
-    display_aspect_num(0),
-    display_aspect_den(0),
-    colorspace(0)
+MltVideoProfile::MltVideoProfile(const QVariantList &params)
+    : frame_rate_num(0), frame_rate_den(0), width(0), height(0), progressive(0), sample_aspect_num(0), sample_aspect_den(0), display_aspect_num(0),
+      display_aspect_den(0), colorspace(0)
 {
     if (params.count() != 12) {
         qWarning("Trying to build a profile with incorrect param numbers");
@@ -94,19 +77,15 @@ MltVideoProfile::MltVideoProfile(const QVariantList &params) :
 
 bool MltVideoProfile::operator==(const MltVideoProfile &point) const
 {
-    if (!description.isEmpty() && point.description  == description) {
+    if (!description.isEmpty() && point.description == description) {
         return true;
     }
     int fps = frame_rate_num * 100 / frame_rate_den;
     int sar = sample_aspect_num * 100 / sample_aspect_den;
     int dar = display_aspect_num * 100 / display_aspect_den;
-    return      point.frame_rate_num * 100 / point.frame_rate_den == fps &&
-                point.width == width &&
-                point.height == height &&
-                point.progressive == progressive &&
-                point.sample_aspect_num * 100 / point.sample_aspect_den == sar &&
-                point.display_aspect_num * 100 / point.display_aspect_den == dar &&
-                point.colorspace == colorspace;
+    return point.frame_rate_num * 100 / point.frame_rate_den == fps && point.width == width && point.height == height && point.progressive == progressive &&
+           point.sample_aspect_num * 100 / point.sample_aspect_den == sar && point.display_aspect_num * 100 / point.display_aspect_den == dar &&
+           point.colorspace == colorspace;
 }
 
 bool MltVideoProfile::isCompatible(const MltVideoProfile &point) const
@@ -122,7 +101,8 @@ bool MltVideoProfile::isValid() const
 const QVariantList MltVideoProfile::toList() const
 {
     QVariantList result;
-    result << frame_rate_num << frame_rate_den << width << height << progressive << sample_aspect_num << sample_aspect_den << display_aspect_num << display_aspect_den << colorspace << path << description;
+    result << frame_rate_num << frame_rate_den << width << height << progressive << sample_aspect_num << sample_aspect_den << display_aspect_num
+           << display_aspect_den << colorspace << path << description;
     return result;
 }
 
@@ -167,13 +147,18 @@ bool MltVideoProfile::operator!=(const MltVideoProfile &other) const
     return !(*this == other);
 }
 
-CommentedTime::CommentedTime(): t(GenTime(0)), type(0) {}
+CommentedTime::CommentedTime() : t(GenTime(0)), type(0)
+{
+}
 
-CommentedTime::CommentedTime(const GenTime &time, const QString &comment, int markerType)
-    : t(time), c(comment), type(markerType) { }
+CommentedTime::CommentedTime(const GenTime &time, const QString &comment, int markerType) : t(time), c(comment), type(markerType)
+{
+}
 
 CommentedTime::CommentedTime(const QString &hash, const GenTime &time)
-    : t(time), c(hash.section(QLatin1Char(':'), 1)), type(hash.section(QLatin1Char(':'), 0, 0).toInt()) { }
+    : t(time), c(hash.section(QLatin1Char(':'), 1)), type(hash.section(QLatin1Char(':'), 0, 0).toInt())
+{
+}
 
 QString CommentedTime::comment() const
 {

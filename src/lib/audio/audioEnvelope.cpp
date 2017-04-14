@@ -17,18 +17,9 @@
 #include <QtConcurrent>
 #include <cmath>
 
-AudioEnvelope::AudioEnvelope(const QString &url, Mlt::Producer *producer, int offset, int length, int track, int startPos) :
-    m_envelope(nullptr),
-    m_offset(offset),
-    m_length(length),
-    m_track(track),
-    m_startpos(startPos),
-    m_envelopeSize(producer->get_length()),
-    m_envelopeMax(0),
-    m_envelopeMean(0),
-    m_envelopeStdDev(0),
-    m_envelopeStdDevCalculated(false),
-    m_envelopeIsNormalized(false)
+AudioEnvelope::AudioEnvelope(const QString &url, Mlt::Producer *producer, int offset, int length, int track, int startPos)
+    : m_envelope(nullptr), m_offset(offset), m_length(length), m_track(track), m_startpos(startPos), m_envelopeSize(producer->get_length()), m_envelopeMax(0),
+      m_envelopeMean(0), m_envelopeStdDev(0), m_envelopeStdDevCalculated(false), m_envelopeIsNormalized(false)
 {
     // make a copy of the producer to avoid audio playback issues
     QString path = QString::fromUtf8(producer->get("resource"));
@@ -107,8 +98,8 @@ void AudioEnvelope::loadEnvelope()
             m_envelopeMax = sum;
         }
 
-//        qCDebug(KDENLIVE_LOG) << position << '|' << m_producer->get_playtime()
-//                  << '-' << m_producer->get_in() << '+' << m_producer->get_out() << ' ';
+        //        qCDebug(KDENLIVE_LOG) << position << '|' << m_producer->get_playtime()
+        //                  << '-' << m_producer->get_in() << '+' << m_producer->get_out() << ' ';
 
         delete frame;
 
@@ -118,8 +109,7 @@ void AudioEnvelope::loadEnvelope()
         }
     }
     m_envelopeMean /= m_envelopeSize;
-    qCDebug(KDENLIVE_LOG) << "Calculating the envelope (" << m_envelopeSize << " frames) took "
-                          << t.elapsed() << " ms.";
+    qCDebug(KDENLIVE_LOG) << "Calculating the envelope (" << m_envelopeSize << " frames) took " << t.elapsed() << " ms.";
 }
 
 int AudioEnvelope::track() const
@@ -165,7 +155,6 @@ void AudioEnvelope::slotProcessEnveloppe()
         m_envelopeIsNormalized = true;
     }
     emit envelopeReady(this);
-
 }
 
 QImage AudioEnvelope::drawEnvelope()
@@ -196,12 +185,9 @@ void AudioEnvelope::dumpInfo() const
         qCDebug(KDENLIVE_LOG) << "Envelope not generated, no information available.";
     } else {
         qCDebug(KDENLIVE_LOG) << "Envelope info"
-                              << "\n* size = " << m_envelopeSize
-                              << "\n* max = " << m_envelopeMax
-                              << "\n* µ = " << m_envelopeMean;
+                              << "\n* size = " << m_envelopeSize << "\n* max = " << m_envelopeMax << "\n* µ = " << m_envelopeMean;
         if (m_envelopeStdDevCalculated) {
             qCDebug(KDENLIVE_LOG) << "* s = " << m_envelopeStdDev;
         }
     }
 }
-

@@ -20,8 +20,8 @@
 #include "choosecolorwidget.h"
 #include "colorpickerwidget.h"
 
-#include <QLabel>
 #include <QHBoxLayout>
+#include <QLabel>
 #include <QTextStream>
 
 #include <KColorButton>
@@ -35,10 +35,10 @@ static QColor stringToColor(QString strColor)
         if (strColor.length() == 10) {
             // 0xRRGGBBAA
             intval = strColor.toUInt(&ok, 16);
-            color.setRgb((intval >> 24) & 0xff,      // r
-                         (intval >> 16) & 0xff,     // g
-                         (intval >>  8) & 0xff,     // b
-                         (intval) & 0xff);          // a
+            color.setRgb((intval >> 24) & 0xff, // r
+                         (intval >> 16) & 0xff, // g
+                         (intval >> 8) & 0xff,  // b
+                         (intval)&0xff);        // a
         } else {
             // 0xRRGGBB, 0xRGB
             color.setNamedColor(strColor.replace(0, 2, QLatin1Char('#')));
@@ -48,10 +48,10 @@ static QColor stringToColor(QString strColor)
             // #AARRGGBB
             strColor = strColor.replace('#', QLatin1String("0x"));
             intval = strColor.toUInt(&ok, 16);
-            color.setRgb((intval >> 16) & 0xff,      // r
-                         (intval >>  8) & 0xff,     // g
-                         (intval) & 0xff,           // b
-                         (intval >> 24) & 0xff);    // a
+            color.setRgb((intval >> 16) & 0xff,  // r
+                         (intval >> 8) & 0xff,   // g
+                         (intval)&0xff,          // b
+                         (intval >> 24) & 0xff); // a
         } else if (strColor.length() == 8) {
             // 0xRRGGBB
             strColor = strColor.replace('#', QLatin1String("0x"));
@@ -74,7 +74,7 @@ static QString colorToString(const QColor &color, bool alpha)
     stream.setFieldWidth(2);
     stream.setFieldAlignment(QTextStream::AlignRight);
     stream.setPadChar('0');
-    stream <<  color.red() << color.green() << color.blue();
+    stream << color.red() << color.green() << color.blue();
     if (alpha) {
         stream << color.alpha();
     } else {
@@ -84,8 +84,8 @@ static QString colorToString(const QColor &color, bool alpha)
     return colorStr;
 }
 
-ChooseColorWidget::ChooseColorWidget(const QString &text, const QString &color, const QString &comment, bool alphaEnabled, QWidget *parent) :
-        AbstractParamWidget(parent)
+ChooseColorWidget::ChooseColorWidget(const QString &text, const QString &color, const QString &comment, bool alphaEnabled, QWidget *parent)
+    : AbstractParamWidget(parent)
 {
     auto *layout = new QHBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
@@ -102,7 +102,7 @@ ChooseColorWidget::ChooseColorWidget(const QString &text, const QString &color, 
     if (alphaEnabled) {
         m_button->setAlphaChannelEnabled(alphaEnabled);
     }
-//     m_button->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+    //     m_button->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
     auto *picker = new ColorPickerWidget(rightSide);
 
     layout->addWidget(label, 1);
@@ -115,11 +115,10 @@ ChooseColorWidget::ChooseColorWidget(const QString &text, const QString &color, 
     connect(picker, &ColorPickerWidget::disableCurrentFilter, this, &ChooseColorWidget::disableCurrentFilter);
     connect(m_button, SIGNAL(changed(QColor)), this, SIGNAL(modified(QColor)));
 
-    //connect the signal of the derived class to the signal of the base class
-    connect(this, &ChooseColorWidget::modified,
-            [this](const QColor&){ emit valueChanged();});
+    // connect the signal of the derived class to the signal of the base class
+    connect(this, &ChooseColorWidget::modified, [this](const QColor &) { emit valueChanged(); });
 
-    //setup comment
+    // setup comment
     setToolTip(comment);
 }
 

@@ -27,7 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QImage>
 #include <QPainter>
 
-//static
+// static
 QPixmap KThumb::getImage(const QUrl &url, int width, int height)
 {
     if (!url.isValid()) {
@@ -36,7 +36,7 @@ QPixmap KThumb::getImage(const QUrl &url, int width, int height)
     return getImage(url, 0, width, height);
 }
 
-//static
+// static
 QPixmap KThumb::getImage(const QUrl &url, int frame, int width, int height)
 {
     Mlt::Profile profile(KdenliveSettings::current_profile().toUtf8().constData());
@@ -63,7 +63,7 @@ QPixmap KThumb::getImage(const QUrl &url, int frame, int width, int height)
     return pix;
 }
 
-//static
+// static
 QImage KThumb::getFrame(Mlt::Producer *producer, int framepos, int displayWidth, int height)
 {
     if (producer == nullptr || !producer->is_valid()) {
@@ -84,7 +84,7 @@ QImage KThumb::getFrame(Mlt::Producer *producer, int framepos, int displayWidth,
     return p;
 }
 
-//static
+// static
 QImage KThumb::getFrame(Mlt::Producer &producer, int framepos, int displayWidth, int height)
 {
     if (!producer.is_valid()) {
@@ -99,7 +99,7 @@ QImage KThumb::getFrame(Mlt::Producer &producer, int framepos, int displayWidth,
     return p;
 }
 
-//static
+// static
 QImage KThumb::getFrame(Mlt::Frame *frame, int width, int height, bool forceRescale)
 {
     if (frame == nullptr || !frame->is_valid()) {
@@ -128,7 +128,7 @@ QImage KThumb::getFrame(Mlt::Frame *frame, int width, int height, bool forceResc
     return p;
 }
 
-//static
+// static
 uint KThumb::imageVariance(const QImage &image)
 {
     uint delta = 0;
@@ -152,7 +152,6 @@ uint KThumb::imageVariance(const QImage &image)
     }
     if (STEPS != 0u) {
         return delta / STEPS;
-    } 
-        return 0;
-    
+    }
+    return 0;
 }

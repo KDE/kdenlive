@@ -31,7 +31,7 @@ GenTime::GenTime(double seconds)
 
 GenTime::GenTime(int frames, double framesPerSecond)
 {
-    m_time = (double) frames / framesPerSecond;
+    m_time = (double)frames / framesPerSecond;
 }
 
 double GenTime::seconds() const

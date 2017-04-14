@@ -19,27 +19,27 @@
  ***************************************************************************/
 
 #include "cutclipjob.h"
-#include "kdenlivesettings.h"
 #include "bin/projectclip.h"
 #include "doc/kdenlivedoc.h"
+#include "kdenlivesettings.h"
 
 #include "ui_cutjobdialog_ui.h"
 
 #include <KMessageBox>
 #include <klocalizedstring.h>
 
-#include <QApplication>
 #include "kdenlive_debug.h"
+#include <QApplication>
 #include <QDialog>
-#include <QPointer>
-#include <QJsonObject>
 #include <QJsonArray>
 #include <QJsonDocument>
+#include <QJsonObject>
+#include <QPointer>
 
 CutClipJob::CutClipJob(ClipType cType, const QString &id, const QStringList &parameters) : AbstractClipJob(CUTJOB, cType, id)
 {
     m_jobStatus = JobWaiting;
-    jobType = (AbstractClipJob::JOBTYPE) parameters.at(0).toInt();
+    jobType = (AbstractClipJob::JOBTYPE)parameters.at(0).toInt();
     m_dest = parameters.at(1);
     m_src = parameters.at(2);
     switch (jobType) {
@@ -73,7 +73,7 @@ void CutClipJob::startJob()
     // Special case: playlist clips (.mlt or .kdenlive project files)
     if (clipType == AV || clipType == Audio || clipType == Video) {
         if (KdenliveSettings::ffmpegpath().isEmpty()) {
-            //FFmpeg not detected, cannot process the Job
+            // FFmpeg not detected, cannot process the Job
             m_errorMessage = i18n("Cannot process job. FFmpeg not found, please set path in Kdenlive's settings Environment");
             setStatus(JobCrashed);
             return;
@@ -82,7 +82,8 @@ void CutClipJob::startJob()
         QString exec;
         if (jobType == AbstractClipJob::ANALYSECLIPJOB) {
             // TODO: don't hardcode params
-            parameters << QStringLiteral("-select_streams") << QStringLiteral("v") << QStringLiteral("-show_frames") << QStringLiteral("-hide_banner") << QStringLiteral("-of") << QStringLiteral("json=c=1") << m_src;
+            parameters << QStringLiteral("-select_streams") << QStringLiteral("v") << QStringLiteral("-show_frames") << QStringLiteral("-hide_banner")
+                       << QStringLiteral("-of") << QStringLiteral("json=c=1") << m_src;
             exec = KdenliveSettings::ffprobepath();
         } else {
             parameters << QStringLiteral("-i") << m_src;
@@ -149,9 +150,9 @@ void CutClipJob::startJob()
         }
         delete m_jobProcess;
         return;
-    } 
-        m_errorMessage = i18n("Cannot process this clip type.");
-    
+    }
+    m_errorMessage = i18n("Cannot process this clip type.");
+
     setStatus(JobCrashed);
 }
 
@@ -166,7 +167,7 @@ void CutClipJob::processLogInfo()
     }
     int progress;
     // Parse FFmpeg output
-    //TODO: parsing progress info works with FFmpeg but not with libav
+    // TODO: parsing progress info works with FFmpeg but not with libav
     if (log.contains(QLatin1String("frame="))) {
         progress = log.section(QStringLiteral("frame="), 1, 1).simplified().section(QLatin1Char(' '), 0, 0).toInt();
         emit jobProgress(m_clipId, (int)(100.0 * progress / m_jobDuration), jobType);
@@ -176,7 +177,7 @@ void CutClipJob::processLogInfo()
             QStringList numbers = time.split(QLatin1Char(':'));
             progress = numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toDouble();
         } else {
-            progress = (int) time.toDouble();
+            progress = (int)time.toDouble();
         }
         emit jobProgress(m_clipId, (int)(100.0 * progress / m_jobDuration), jobType);
     }
@@ -341,7 +342,7 @@ QHash<ProjectClip *, AbstractClipJob *> CutClipJob::prepareCutClipJob(double fps
     delete d;
 
     QStringList jobParams;
-    jobParams << QString::number((int) AbstractClipJob::CUTJOB);
+    jobParams << QString::number((int)AbstractClipJob::CUTJOB);
     jobParams << dest << source << timeIn << timeOut << QString::number(duration);
     // parent folder, or -100 if we don't want to add clip to project
     jobParams << (KdenliveSettings::add_new_clip() ? clip->parent()->clipId() : QString::number(-100));
@@ -378,7 +379,8 @@ QHash<ProjectClip *, AbstractClipJob *> CutClipJob::prepareTranscodeJob(double f
         }
     }
     if (!existingFiles.isEmpty()) {
-        if (KMessageBox::warningContinueCancelList(QApplication::activeWindow(), i18n("The transcoding job will overwrite the following files:"), existingFiles) ==  KMessageBox::Cancel) {
+        if (KMessageBox::warningContinueCancelList(QApplication::activeWindow(), i18n("The transcoding job will overwrite the following files:"),
+                                                   existingFiles) == KMessageBox::Cancel) {
             return jobs;
         }
     }
@@ -411,7 +413,7 @@ QHash<ProjectClip *, AbstractClipJob *> CutClipJob::prepareTranscodeJob(double f
     KdenliveSettings::setAdd_new_clip(ui.add_clip->isChecked());
     for (int i = 0; i < clips.count(); i++) {
         ProjectClip *item = clips.at(i);
-        const QString& src = sources.at(i);
+        const QString &src = sources.at(i);
         QString dest;
         if (clips.count() > 1) {
             dest = destinations.at(i);
@@ -419,9 +421,9 @@ QHash<ProjectClip *, AbstractClipJob *> CutClipJob::prepareTranscodeJob(double f
             dest = ui.file_url->url().toLocalFile();
         }
         QStringList jobParams;
-        jobParams << QString::number((int) AbstractClipJob::TRANSCODEJOB);
+        jobParams << QString::number((int)AbstractClipJob::TRANSCODEJOB);
         jobParams << dest << src << QString() << QString();
-        jobParams << QString::number((int) item->duration().frames(fps));
+        jobParams << QString::number((int)item->duration().frames(fps));
         // parent folder, or -100 if we don't want to add clip to project
         jobParams << (KdenliveSettings::add_new_clip() ? item->parent()->AbstractProjectItem::clipId() : QString::number(-100));
         jobParams << params;
@@ -443,7 +445,7 @@ QHash<ProjectClip *, AbstractClipJob *> CutClipJob::prepareAnalyseJob(double fps
         QString source = clip->url();
         QStringList jobParams;
         int duration = clip->duration().frames(fps) * clip->getOriginalFps() / fps;
-        jobParams << QString::number((int) AbstractClipJob::ANALYSECLIPJOB) << QString() << source << QString::number(duration);
+        jobParams << QString::number((int)AbstractClipJob::ANALYSECLIPJOB) << QString() << source << QString::number(duration);
         auto *job = new CutClipJob(clip->clipType(), clip->AbstractProjectItem::clipId(), jobParams);
         jobs.insert(clip, job);
     }

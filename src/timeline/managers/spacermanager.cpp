@@ -17,18 +17,16 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #include "spacermanager.h"
-#include "timeline/customtrackview.h"
-#include "timeline/clipitem.h"
 #include "timeline/abstractgroupitem.h"
+#include "timeline/clipitem.h"
+#include "timeline/customtrackview.h"
 
-#include <QGraphicsItem>
 #include <QApplication>
+#include <QGraphicsItem>
 
-SpacerManager::SpacerManager(CustomTrackView *view, std::shared_ptr<DocUndoStack> commandStack) : AbstractToolManager(SpacerType, view, commandStack)
-    , m_track(0)
-    , m_dragMoved(false)
+SpacerManager::SpacerManager(CustomTrackView *view, std::shared_ptr<DocUndoStack> commandStack)
+    : AbstractToolManager(SpacerType, view, commandStack), m_track(0), m_dragMoved(false)
 {
 }
 
@@ -87,7 +85,7 @@ bool SpacerManager::mouseMove(QMouseEvent *event, int pos, int)
 
 void SpacerManager::mouseRelease(QMouseEvent *, GenTime pos)
 {
-    //GenTime timeOffset = pos - m_startPos;
+    // GenTime timeOffset = pos - m_startPos;
     Q_UNUSED(pos);
     if (!m_dragMoved || (m_view->selectionGroup() == nullptr)) {
         m_view->clearSelection();
@@ -96,4 +94,3 @@ void SpacerManager::mouseRelease(QMouseEvent *, GenTime pos)
     GenTime timeOffset = GenTime(m_view->selectionGroup()->sceneBoundingRect().left(), m_view->fps()) - m_startPos;
     m_view->completeSpaceOperation(m_track, timeOffset);
 }
-

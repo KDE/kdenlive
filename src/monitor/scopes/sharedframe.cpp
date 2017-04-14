@@ -20,27 +20,25 @@
 class FrameData : public QSharedData
 {
 public:
-    FrameData() : f((mlt_frame)nullptr) {}
+    FrameData() : f((mlt_frame) nullptr) {}
     explicit FrameData(Mlt::Frame &frame) : f(frame) {}
     ~FrameData() {}
 
     Mlt::Frame f;
+
 private:
     Q_DISABLE_COPY(FrameData)
 };
 
-SharedFrame::SharedFrame()
-    : d(nullptr)
+SharedFrame::SharedFrame() : d(nullptr)
 {
 }
 
-SharedFrame::SharedFrame(Mlt::Frame &frame)
-    : d(new FrameData(frame))
+SharedFrame::SharedFrame(Mlt::Frame &frame) : d(new FrameData(frame))
 {
 }
 
-SharedFrame::SharedFrame(const SharedFrame &other)
-    : d(other.d)
+SharedFrame::SharedFrame(const SharedFrame &other) : d(other.d)
 {
 }
 
@@ -78,9 +76,7 @@ Mlt::Frame SharedFrame::clone(bool audio, bool image, bool alpha) const
     data = d->f.get_data("audio", size);
     if (audio && (data != nullptr)) {
         if (size == 0) {
-            size = mlt_audio_format_size(get_audio_format(),
-                                         get_audio_samples(),
-                                         get_audio_channels());
+            size = mlt_audio_format_size(get_audio_format(), get_audio_samples(), get_audio_channels());
         }
         copy = mlt_pool_alloc(size);
         memcpy(copy, data, size);
@@ -96,10 +92,7 @@ Mlt::Frame SharedFrame::clone(bool audio, bool image, bool alpha) const
     data = d->f.get_data("image", size);
     if (image && (data != nullptr)) {
         if (size == 0) {
-            size = mlt_image_format_size(get_image_format(),
-                                         get_image_width(),
-                                         get_image_height(),
-                                         nullptr);
+            size = mlt_image_format_size(get_image_format(), get_image_width(), get_image_height(), nullptr);
         }
         copy = mlt_pool_alloc(size);
         memcpy(copy, data, size);

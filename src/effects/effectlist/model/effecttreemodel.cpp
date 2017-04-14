@@ -20,28 +20,29 @@
  ***************************************************************************/
 
 #include "effecttreemodel.hpp"
-#include "effects/effectsrepository.hpp"
 #include "abstractmodel/treeitem.hpp"
-#include <vector>
-#include <QVector>
-#include <array>
+#include "effects/effectsrepository.hpp"
 #include <KLocalizedString>
 #include <QDomDocument>
 #include <QFile>
-
+#include <QVector>
+#include <array>
+#include <vector>
 
 #include <QDebug>
 
-EffectTreeModel::EffectTreeModel(const QString &categoryFile, QObject *parent)
-    : AssetTreeModel(parent)
+EffectTreeModel::EffectTreeModel(const QString &categoryFile, QObject *parent) : AssetTreeModel(parent)
 {
     QList<QVariant> rootData;
-    rootData << "Name" << "ID" << "Type" << "isFav";
-    rootItem = new TreeItem(rootData, static_cast<AbstractTreeModel*>(this));
+    rootData << "Name"
+             << "ID"
+             << "Type"
+             << "isFav";
+    rootItem = new TreeItem(rootData, static_cast<AbstractTreeModel *>(this));
 
-    QHash<QString, TreeItem*> effectCategory; //category in which each effect should land.
+    QHash<QString, TreeItem *> effectCategory; // category in which each effect should land.
 
-    //We parse category file
+    // We parse category file
     if (!categoryFile.isEmpty()) {
         QDomDocument doc;
         QFile file(categoryFile);
@@ -54,19 +55,19 @@ EffectTreeModel::EffectTreeModel(const QString &categoryFile, QObject *parent)
             QStringList list = groups.at(i).toElement().attribute(QStringLiteral("list")).split(QLatin1Char(','), QString::SkipEmptyParts);
 
             TreeItem *groupItem = rootItem->appendChild(QList<QVariant>{groupName, QStringLiteral("root")});
-            for (const QString& effect : list){
+            for (const QString &effect : list) {
                 effectCategory[effect] = groupItem;
             }
         }
     }
 
-    //We also create "Misc" and "Custom" categories
+    // We also create "Misc" and "Custom" categories
     TreeItem *miscCategory = rootItem->appendChild(QList<QVariant>{i18n("Misc")});
     TreeItem *customCategory = rootItem->appendChild(QList<QVariant>{i18n("Custom")});
 
-    //We parse effects
+    // We parse effects
     auto allEffects = EffectsRepository::get()->getNames();
-    for (const auto& effect : allEffects) {
+    for (const auto &effect : allEffects) {
         TreeItem *targetCategory = miscCategory;
         EffectType type = EffectsRepository::get()->getType(effect.first);
         if (effectCategory.contains(effect.first)) {
@@ -80,10 +81,9 @@ EffectTreeModel::EffectTreeModel(const QString &categoryFile, QObject *parent)
         // we create the data list corresponding to this profile
         QList<QVariant> data;
         bool isFav = EffectsRepository::get()->isFavorite(effect.first);
-        qDebug()<<effect.second << effect.first << "in "<<targetCategory->dataColumn(0).toString();
+        qDebug() << effect.second << effect.first << "in " << targetCategory->dataColumn(0).toString();
         data << effect.second << effect.first << QVariant::fromValue(type) << isFav;
 
         targetCategory->appendChild(data);
     }
 }
-

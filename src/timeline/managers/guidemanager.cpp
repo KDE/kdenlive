@@ -18,16 +18,16 @@
  ***************************************************************************/
 
 #include "guidemanager.h"
+#include "doc/docundostack.hpp"
+#include "timeline/abstractclipitem.h"
 #include "timeline/customtrackview.h"
 #include "timeline/timelinecommands.h"
-#include "timeline/abstractclipitem.h"
-#include "doc/docundostack.hpp"
 
-#include <QMouseEvent>
 #include <QGraphicsItem>
+#include <QMouseEvent>
 
-GuideManager::GuideManager(CustomTrackView *view, std::shared_ptr<DocUndoStack> commandStack) : AbstractToolManager(GuideType, view, commandStack)
-    , m_dragGuide(nullptr)
+GuideManager::GuideManager(CustomTrackView *view, std::shared_ptr<DocUndoStack> commandStack)
+    : AbstractToolManager(GuideType, view, commandStack), m_dragGuide(nullptr)
 {
 }
 
@@ -80,8 +80,9 @@ void GuideManager::mouseRelease(QMouseEvent *, GenTime pos)
     Q_UNUSED(pos);
 }
 
-//static
-void GuideManager::checkOperation(const QList<QGraphicsItem *> &items, CustomTrackView *parent, QMouseEvent * /*event*/, OperationType &operationMode, bool &abort)
+// static
+void GuideManager::checkOperation(const QList<QGraphicsItem *> &items, CustomTrackView *parent, QMouseEvent * /*event*/, OperationType &operationMode,
+                                  bool &abort)
 {
     if (items.count() == 1 && items.at(0)->type() == GUIDEITEM) {
         operationMode = MoveGuide;

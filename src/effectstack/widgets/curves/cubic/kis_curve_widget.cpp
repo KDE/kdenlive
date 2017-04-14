@@ -28,30 +28,28 @@
 
 // Qt includes.
 
-#include <QPixmap>
-#include <QPainter>
-#include <QPoint>
-#include <QPen>
 #include <QEvent>
-#include <QRect>
 #include <QMouseEvent>
 #include <QPaintEvent>
+#include <QPainter>
+#include <QPen>
+#include <QPixmap>
+#include <QPoint>
+#include <QRect>
 
 #include <QSpinBox>
 
-#define bounds(x,a,b) (x<a ? a : (x>b ? b :x))
+#define bounds(x, a, b) (x < a ? a : (x > b ? b : x))
 #define MOUSE_AWAY_THRES 15
-#define POINT_AREA       1E-4
-#define CURVE_AREA       1E-4
+#define POINT_AREA 1E-4
+#define CURVE_AREA 1E-4
 
+// static bool pointLessThan(const QPointF &a, const QPointF &b);
 
-//static bool pointLessThan(const QPointF &a, const QPointF &b);
-
-KisCurveWidget::KisCurveWidget(QWidget *parent)
-    : AbstractCurveWidget(parent)
+KisCurveWidget::KisCurveWidget(QWidget *parent) : AbstractCurveWidget(parent)
 {
     setObjectName(QStringLiteral("KisCurveWidget"));
-    m_guideVisible   = false;
+    m_guideVisible = false;
 
     m_maxPoints = -1;
 
@@ -66,7 +64,6 @@ KisCurveWidget::KisCurveWidget(QWidget *parent)
     m_curve = KisCubicCurve();
     update();
     emit modified();
-
 }
 
 KisCurveWidget::~KisCurveWidget()
@@ -77,9 +74,6 @@ QSize KisCurveWidget::sizeHint() const
 {
     return QSize(500, 500);
 }
-
-
-
 
 void KisCurveWidget::addPointInTheMiddle()
 {
@@ -94,7 +88,6 @@ void KisCurveWidget::addPointInTheMiddle()
     update();
     emit modified();
 }
-
 
 void KisCurveWidget::paintEvent(QPaintEvent *)
 {
@@ -122,12 +115,10 @@ void KisCurveWidget::paintEvent(QPaintEvent *)
 
         if (i == m_currentPointIndex) {
             p.setPen(QPen(Qt::red, 3, Qt::SolidLine));
-            p.drawEllipse(QRectF(curveX * m_wWidth - 2,
-                                 m_wHeight - 2 - curveY * m_wHeight, 4, 4));
+            p.drawEllipse(QRectF(curveX * m_wWidth - 2, m_wHeight - 2 - curveY * m_wHeight, 4, 4));
         } else {
             p.setPen(QPen(Qt::red, 1, Qt::SolidLine));
-            p.drawEllipse(QRectF(curveX * m_wWidth - 3,
-                                 m_wHeight - 3 - curveY * m_wHeight, 6, 6));
+            p.drawEllipse(QRectF(curveX * m_wWidth - 3, m_wHeight - 3 - curveY * m_wHeight, 6, 6));
         }
     }
 }
@@ -200,10 +191,8 @@ void KisCurveWidget::mouseMoveEvent(QMouseEvent *e)
             setCursor(Qt::CrossCursor);
         }
     } else { // Else, drag the selected point
-        bool crossedHoriz = e->pos().x() - width() > MOUSE_AWAY_THRES ||
-                            e->pos().x() < -MOUSE_AWAY_THRES;
-        bool crossedVert =  e->pos().y() - height() > MOUSE_AWAY_THRES ||
-                            e->pos().y() < -MOUSE_AWAY_THRES;
+        bool crossedHoriz = e->pos().x() - width() > MOUSE_AWAY_THRES || e->pos().x() < -MOUSE_AWAY_THRES;
+        bool crossedVert = e->pos().y() - height() > MOUSE_AWAY_THRES || e->pos().y() < -MOUSE_AWAY_THRES;
 
         bool removePoint = (crossedHoriz || crossedVert);
 
@@ -214,8 +203,7 @@ void KisCurveWidget::mouseMoveEvent(QMouseEvent *e)
             m_draggedAwayPointIndex = -1;
         }
 
-        if (removePoint &&
-                (m_draggedAwayPointIndex >= 0)) {
+        if (removePoint && (m_draggedAwayPointIndex >= 0)) {
             return;
         }
 
@@ -265,7 +253,6 @@ void KisCurveWidget::mouseMoveEvent(QMouseEvent *e)
     }
 }
 
-
 double KisCurveWidget::io2sp(int x) const
 {
     int rangeLen = m_inOutMax - m_inOutMin;
@@ -284,9 +271,7 @@ bool KisCurveWidget::jumpOverExistingPoints(QPointF &pt, int skipIndex)
         if (m_curve.points().indexOf(it) == skipIndex) {
             continue;
         }
-        if (fabs(it.x() - pt.x()) < POINT_AREA)
-            pt.rx() = pt.x() >= it.x() ?
-                      it.x() + POINT_AREA : it.x() - POINT_AREA;
+        if (fabs(it.x() - pt.x()) < POINT_AREA) pt.rx() = pt.x() >= it.x() ? it.x() + POINT_AREA : it.x() - POINT_AREA;
     }
     return (pt.x() >= 0 && pt.x() <= 1.);
 }
@@ -298,10 +283,7 @@ int KisCurveWidget::nearestPointInRange(QPointF pt, int wWidth, int wHeight) con
     int i = 0;
 
     foreach (const QPointF &point, m_curve.points()) {
-        double distanceSquared = (pt.x() - point.x()) *
-                                 (pt.x() - point.x()) +
-                                 (pt.y() - point.y()) *
-                                 (pt.y() - point.y());
+        double distanceSquared = (pt.x() - point.x()) * (pt.x() - point.x()) + (pt.y() - point.y()) * (pt.y() - point.y());
 
         if (distanceSquared < nearestDistanceSquared) {
             nearestIndex = i;
@@ -320,7 +302,6 @@ int KisCurveWidget::nearestPointInRange(QPointF pt, int wWidth, int wHeight) con
 
     return -1;
 }
-
 
 // void KisCurveWidget::syncIOControls()
 // {
@@ -346,15 +327,12 @@ int KisCurveWidget::nearestPointInRange(QPointF pt, int wWidth, int wHeight) con
 //         /*FIXME: Ideally, these controls should hide away now */
 //     }
 // }
-void KisCurveWidget::setCurve(KisCubicCurve&& curve)
+void KisCurveWidget::setCurve(KisCubicCurve &&curve)
 {
     m_curve = std::move(curve);
 }
-
-
 
 QList<QPointF> KisCurveWidget::getPoints() const
 {
     return m_curve.points();
 }
-

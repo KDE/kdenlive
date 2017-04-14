@@ -21,13 +21,12 @@
 #include "timecodedisplay.h"
 #include "utils/KoIconUtils.h"
 
-#include <QToolButton>
 #include <QGridLayout>
+#include <QToolButton>
 
 #include <klocalizedstring.h>
 
-SimpleKeyframeWidget::SimpleKeyframeWidget(const Timecode &t, int duration, QWidget *parent) :
-    QWidget(parent)
+SimpleKeyframeWidget::SimpleKeyframeWidget(const Timecode &t, int duration, QWidget *parent) : QWidget(parent)
 {
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 
@@ -104,7 +103,7 @@ int SimpleKeyframeWidget::getPosition() const
     return m_time->getValue();
 }
 
-void SimpleKeyframeWidget::setKeyframes(const QList< int > &keyframes)
+void SimpleKeyframeWidget::setKeyframes(const QList<int> &keyframes)
 {
     m_timeline->setKeyframes(keyframes);
     setEnabled(true);
@@ -133,4 +132,3 @@ void SimpleKeyframeWidget::slotAtKeyframe(bool atKeyframe)
         m_buttonAddDelete->setToolTip(i18n("Add keyframe"));
     }
 }
-

@@ -19,27 +19,23 @@
 
 #include "monitormanager.h"
 #include "core.h"
-#include "renderer.h"
+#include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
-#include "doc/kdenlivedoc.h"
-#include "utils/KoIconUtils.h"
 #include "mltcontroller/bincontroller.h"
+#include "renderer.h"
+#include "utils/KoIconUtils.h"
 
 #include <mlt++/Mlt.h>
 
 #include "klocalizedstring.h"
 #include <KDualAction>
 
-#include <QObject>
 #include "kdenlive_debug.h"
+#include <QObject>
 
-MonitorManager::MonitorManager(QObject *parent) :
-    QObject(parent),
-    m_document(nullptr),
-    m_clipMonitor(nullptr),
-    m_projectMonitor(nullptr),
-    m_activeMonitor(nullptr)
+MonitorManager::MonitorManager(QObject *parent)
+    : QObject(parent), m_document(nullptr), m_clipMonitor(nullptr), m_projectMonitor(nullptr), m_activeMonitor(nullptr)
 {
     setupActions();
 }
@@ -342,7 +338,7 @@ void MonitorManager::slotSwitchFullscreen()
 QString MonitorManager::getProjectFolder() const
 {
     if (m_document == nullptr) {
-        //qCDebug(KDENLIVE_LOG)<<" + + +nullptr DOC!!";
+        // qCDebug(KDENLIVE_LOG)<<" + + +nullptr DOC!!";
         return QString();
     }
     return m_document->projectDataFolder() + QDir::separator();
@@ -350,7 +346,7 @@ QString MonitorManager::getProjectFolder() const
 
 BinController *MonitorManager::binController()
 {
-    //REFACTORING TODO delete this function
+    // REFACTORING TODO delete this function
     return pCore->binController().get();
 }
 
@@ -475,7 +471,7 @@ void MonitorManager::setupActions()
 
     QAction *markOut = new QAction(KoIconUtils::themedIcon(QStringLiteral("zone-out")), i18n("Set Zone Out"), this);
     markOut->setShortcut(Qt::Key_O);
-    pCore->window()-> addAction(QStringLiteral("mark_out"), markOut);
+    pCore->window()->addAction(QStringLiteral("mark_out"), markOut);
     connect(markOut, &QAction::triggered, this, &MonitorManager::slotSetOutPoint);
 }
 

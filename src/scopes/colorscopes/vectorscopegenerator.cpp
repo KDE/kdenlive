@@ -64,8 +64,8 @@ mRgb2YPbPr =                        r =
  */
 
 #include "vectorscopegenerator.h"
-#include <math.h>
 #include <QImage>
+#include <math.h>
 
 // The maximum distance from the center for any RGB color is 0.63, so
 // no need to make the circle bigger than required.
@@ -105,14 +105,12 @@ const float VectorscopeGenerator::scaling = 1 / .7;
  */
 QPoint VectorscopeGenerator::mapToCircle(const QSize &targetSize, const QPointF &point) const
 {
-    return QPoint((targetSize.width() - 1) * (point.x() + 1) / 2,
-                  (targetSize.height() - 1) * (1 - (point.y() + 1) / 2));
+    return QPoint((targetSize.width() - 1) * (point.x() + 1) / 2, (targetSize.height() - 1) * (1 - (point.y() + 1) / 2));
 }
 
 QImage VectorscopeGenerator::calculateVectorscope(const QSize &vectorscopeSize, const QImage &image, const float &gain,
-        const VectorscopeGenerator::PaintMode &paintMode,
-        const VectorscopeGenerator::ColorSpace &colorSpace,
-        bool, uint accelFactor) const
+                                                  const VectorscopeGenerator::PaintMode &paintMode, const VectorscopeGenerator::ColorSpace &colorSpace, bool,
+                                                  uint accelFactor) const
 {
     if (vectorscopeSize.width() <= 0 || vectorscopeSize.height() <= 0 || image.width() <= 0 || image.height() <= 0) {
         // Invalid size
@@ -134,11 +132,12 @@ QImage VectorscopeGenerator::calculateVectorscope(const QSize &vectorscopeSize, 
     const int stepsize = image.depth() / 8 * accelFactor;
 
     // Just an average for the number of image pixels per scope pixel.
-    // NOTE: byteCount() has to be replaced by (img.bytesPerLine()*img.height()) for Qt 4.5 to compile, see: http://doc.trolltech.org/4.6/qimage.html#bytesPerLine
-    double avgPxPerPx = (double) image.depth() / 8 * (image.bytesPerLine() * image.height()) / scope.size().width() / scope.size().height() / accelFactor;
+    // NOTE: byteCount() has to be replaced by (img.bytesPerLine()*img.height()) for Qt 4.5 to compile, see:
+    // http://doc.trolltech.org/4.6/qimage.html#bytesPerLine
+    double avgPxPerPx = (double)image.depth() / 8 * (image.bytesPerLine() * image.height()) / scope.size().width() / scope.size().height() / accelFactor;
 
-    for (int i = 0; i < (image.bytesPerLine()*image.height()); i += stepsize) {
-        QRgb *col = (QRgb *) bits;
+    for (int i = 0; i < (image.bytesPerLine() * image.height()); i += stepsize) {
+        QRgb *col = (QRgb *)bits;
 
         int r = qRed(*col);
         int g = qGreen(*col);
@@ -146,22 +145,21 @@ QImage VectorscopeGenerator::calculateVectorscope(const QSize &vectorscopeSize, 
 
         switch (colorSpace) {
         case VectorscopeGenerator::ColorSpace_YUV:
-//             y = (double)  0.001173 * r +0.002302 * g +0.0004471* b;
-            u = (double) - 0.0005781 * r - 0.001135 * g + 0.001713 * b;
-            v = (double)  0.002411 * r - 0.002019 * g - 0.0003921 * b;
+            //             y = (double)  0.001173 * r +0.002302 * g +0.0004471* b;
+            u = (double)-0.0005781 * r - 0.001135 * g + 0.001713 * b;
+            v = (double)0.002411 * r - 0.002019 * g - 0.0003921 * b;
             break;
         case VectorscopeGenerator::ColorSpace_YPbPr:
         default:
-//             y = (double)  0.001173 * r +0.002302 * g +0.0004471* b;
-            u = (double) - 0.0006671 * r - 0.001299 * g + 0.0019608 * b;
-            v = (double)  0.001961 * r - 0.001642 * g - 0.0003189 * b;
+            //             y = (double)  0.001173 * r +0.002302 * g +0.0004471* b;
+            u = (double)-0.0006671 * r - 0.001299 * g + 0.0019608 * b;
+            v = (double)0.001961 * r - 0.001642 * g - 0.0003189 * b;
             break;
         }
 
         pt = mapToCircle(vectorscopeSize, QPointF(SCALING * gain * u, SCALING * gain * v));
 
-        if (pt.x() >= scope.width() || pt.x() < 0
-                || pt.y() >= scope.height() || pt.y() < 0) {
+        if (pt.x() >= scope.width() || pt.x() < 0 || pt.y() >= scope.height() || pt.y() < 0) {
             // Point lies outside (because of scaling), don't plot it
 
         } else {
@@ -253,8 +251,9 @@ QImage VectorscopeGenerator::calculateVectorscope(const QSize &vectorscopeSize, 
                 break;
             case PaintMode_Green2:
                 px = scope.pixel(pt);
-                scope.setPixel(pt, qRgba(qRed(px) + ceil((255 - (float)qRed(px)) / (4 * avgPxPerPx)), 255,
-                                         qBlue(px) + ceil((255 - (float)qBlue(px)) / (avgPxPerPx)), qAlpha(px) + ceil((255 - (float)qAlpha(px)) / (avgPxPerPx))));
+                scope.setPixel(pt,
+                               qRgba(qRed(px) + ceil((255 - (float)qRed(px)) / (4 * avgPxPerPx)), 255,
+                                     qBlue(px) + ceil((255 - (float)qBlue(px)) / (avgPxPerPx)), qAlpha(px) + ceil((255 - (float)qAlpha(px)) / (avgPxPerPx))));
                 break;
             case PaintMode_Black:
                 px = scope.pixel(pt);
@@ -267,4 +266,3 @@ QImage VectorscopeGenerator::calculateVectorscope(const QSize &vectorscopeSize, 
     }
     return scope;
 }
-

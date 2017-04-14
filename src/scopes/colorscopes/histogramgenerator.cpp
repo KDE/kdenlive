@@ -10,18 +10,18 @@
 
 #include "histogramgenerator.h"
 
-#include <algorithm>
-#include <math.h>
+#include "klocalizedstring.h"
 #include <QImage>
 #include <QPainter>
-#include "klocalizedstring.h"
+#include <algorithm>
+#include <math.h>
 
 HistogramGenerator::HistogramGenerator()
 {
 }
 
-QImage HistogramGenerator::calculateHistogram(const QSize &paradeSize, const QImage &image, const int &components,
-        HistogramGenerator::Rec rec, bool unscaled, uint accelFactor) const
+QImage HistogramGenerator::calculateHistogram(const QSize &paradeSize, const QImage &image, const int &components, HistogramGenerator::Rec rec, bool unscaled,
+                                              uint accelFactor) const
 {
     if (paradeSize.height() <= 0 || paradeSize.width() <= 0 || image.width() <= 0 || image.height() <= 0) {
         return QImage();
@@ -123,8 +123,7 @@ QImage HistogramGenerator::calculateHistogram(const QSize &paradeSize, const QIm
     return histogram;
 }
 
-QImage HistogramGenerator::drawComponent(const int *y, const QSize &size, const float &scaling, const QColor &color,
-        bool unscaled, uint max) const
+QImage HistogramGenerator::drawComponent(const int *y, const QSize &size, const float &scaling, const QColor &color, bool unscaled, uint max) const
 {
     QImage component(max, size.height(), QImage::Format_ARGB32);
     component.fill(qRgba(0, 0, 0, 255));
@@ -148,13 +147,12 @@ QImage HistogramGenerator::drawComponent(const int *y, const QSize &size, const 
     }
     if (unscaled && size.width() >= component.width()) {
         return component;
-    } 
-        return component.scaled(size, Qt::IgnoreAspectRatio, Qt::FastTransformation);
-    
+    }
+    return component.scaled(size, Qt::IgnoreAspectRatio, Qt::FastTransformation);
 }
 
-void HistogramGenerator::drawComponentFull(QPainter *davinci, const int *y, const float &scaling, const QRect &rect,
-        const QColor &color, int textSpace, bool unscaled, uint max) const
+void HistogramGenerator::drawComponentFull(QPainter *davinci, const int *y, const float &scaling, const QRect &rect, const QColor &color, int textSpace,
+                                           bool unscaled, uint max) const
 {
     QImage component = drawComponent(y, rect.size() - QSize(0, textSpace), scaling, color, unscaled, max);
     davinci->drawImage(rect.topLeft(), component);
@@ -178,9 +176,9 @@ void HistogramGenerator::drawComponentFull(QPainter *davinci, const int *y, cons
     const int dist = 40;
     const int cw = component.width();
 
-    davinci->drawText(0,            textY, i18n("min"));
-    davinci->drawText(dist,         textY, QString::number(min, 'f', 0));
+    davinci->drawText(0, textY, i18n("min"));
+    davinci->drawText(dist, textY, QString::number(min, 'f', 0));
 
-    davinci->drawText(cw - dist - 30,   textY, i18n("max"));
-    davinci->drawText(cw - 30,        textY, QString::number(maxVal, 'f', 0));
+    davinci->drawText(cw - dist - 30, textY, i18n("max"));
+    davinci->drawText(cw - 30, textY, QString::number(maxVal, 'f', 0));
 }

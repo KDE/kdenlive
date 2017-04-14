@@ -18,11 +18,11 @@
 
 #include "splineitem.h"
 #include "bpointitem.h"
-#include "nearestpoint.h"
 #include "kdenlivesettings.h"
+#include "nearestpoint.h"
 
-#include <QGraphicsScene>
 #include <QCursor>
+#include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsView>
 
@@ -51,10 +51,7 @@ void deCasteljau(BPoint *p1, BPoint *p2, BPoint *res, double t)
     p2->h1 = cd;
 }
 
-SplineItem::SplineItem(const QList< BPoint > &points, QGraphicsItem *parent, QGraphicsScene *scene) :
-    QGraphicsPathItem(parent),
-    m_closed(true),
-    m_editing(false)
+SplineItem::SplineItem(const QList<BPoint> &points, QGraphicsItem *parent, QGraphicsScene *scene) : QGraphicsPathItem(parent), m_closed(true), m_editing(false)
 {
     QPen framepen(Qt::SolidLine);
     framepen.setColor(Qt::yellow);
@@ -65,7 +62,7 @@ SplineItem::SplineItem(const QList< BPoint > &points, QGraphicsItem *parent, QGr
     initSpline(scene, points);
 }
 
-void SplineItem::initSpline(QGraphicsScene *scene, const QList< BPoint > &points)
+void SplineItem::initSpline(QGraphicsScene *scene, const QList<BPoint> &points)
 {
     scene->addItem(this);
     setPoints(points);
@@ -110,13 +107,14 @@ QList<BPoint> SplineItem::getPoints() const
     return points;
 }
 
-void SplineItem::setPoints(const QList< BPoint > &points)
+void SplineItem::setPoints(const QList<BPoint> &points)
 {
     if (points.count() < 2) {
         m_closed = false;
         grabMouse();
         return;
-    } if (!m_closed) {
+    }
+    if (!m_closed) {
         ungrabMouse();
         m_closed = true;
     }
@@ -284,4 +282,3 @@ int SplineItem::getClosestPointOnCurve(const QPointF &point, double *tFinal)
     *tFinal = param;
     return curveSegment;
 }
-

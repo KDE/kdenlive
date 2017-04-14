@@ -22,19 +22,15 @@
 
 #include "kdenlivesettings.h"
 
-#include <QPen>
 #include <QBrush>
-#include <QStyleOptionGraphicsItem>
-#include <QGraphicsView>
-#include <QScrollBar>
 #include <QGraphicsItem>
+#include <QGraphicsView>
+#include <QPen>
+#include <QScrollBar>
+#include <QStyleOptionGraphicsItem>
 
-Guide::Guide(CustomTrackView *view, const GenTime &pos, const QString &label, double height) :
-    QGraphicsLineItem(),
-    m_position(pos),
-    m_label(label),
-    m_view(view),
-    m_pen(QPen())
+Guide::Guide(CustomTrackView *view, const GenTime &pos, const QString &label, double height)
+    : QGraphicsLineItem(), m_position(pos), m_label(label), m_view(view), m_pen(QPen())
 {
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIgnoresTransformations);
     setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
@@ -46,7 +42,7 @@ Guide::Guide(CustomTrackView *view, const GenTime &pos, const QString &label, do
     setPos(m_position.frames(m_view->fps()), 0);
     m_pen.setWidthF(0);
     m_pen.setColor(QColor(0, 0, 200, 180));
-    //m_pen.setCosmetic(true);
+    // m_pen.setCosmetic(true);
     setPen(m_pen);
     setZValue(999);
     setAcceptHoverEvents(true);
@@ -88,27 +84,27 @@ void Guide::updatePos()
     setPos(m_position.frames(m_view->fps()), 0);
 }
 
-//virtual
+// virtual
 int Guide::type() const
 {
     return GUIDEITEM;
 }
 
-//virtual
+// virtual
 void Guide::hoverEnterEvent(QGraphicsSceneHoverEvent *)
 {
     m_pen.setColor(QColor(200, 0, 0, 180));
     setPen(m_pen);
 }
 
-//virtual
+// virtual
 void Guide::hoverLeaveEvent(QGraphicsSceneHoverEvent *)
 {
     m_pen.setColor(QColor(0, 0, 200, 180));
     setPen(m_pen);
 }
 
-//virtual
+// virtual
 QVariant Guide::itemChange(GraphicsItemChange change, const QVariant &value)
 {
     if (change == ItemPositionChange && (scene() != nullptr)) {
@@ -156,7 +152,7 @@ QPainterPath Guide::shape() const
 }
 
 // virtual
-void Guide::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget */*w*/)
+void Guide::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget * /*w*/)
 {
     QGraphicsLineItem::paint(painter, option);
     if (KdenliveSettings::showmarkers() && (scene() != nullptr) && (scene()->views().count() != 0)) {
@@ -173,4 +169,3 @@ void Guide::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
         painter->drawText(txtBounding.adjusted(1, 0, 1, 0), Qt::AlignCenter, m_label);
     }
 }
-

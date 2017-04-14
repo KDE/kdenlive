@@ -25,9 +25,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <math.h>
 
-#include <QPainter>
-#include <QPaintEvent>
 #include <QFont>
+#include <QPaintEvent>
+#include <QPainter>
 
 const double log_factor = 1.0 / log10(1.0 / 127);
 
@@ -39,12 +39,8 @@ static inline double levelToDB(double dB)
     return 100 * (1.0 - log10(dB) * log_factor);
 }
 
-MonitorAudioLevel::MonitorAudioLevel(Mlt::Profile *profile, int height, QWidget *parent) : ScopeWidget(parent)
-    , audioChannels(2)
-    , m_height(height)
-    , m_channelHeight(height / 2)
-    , m_channelDistance(2)
-    , m_channelFillHeight(m_channelHeight)
+MonitorAudioLevel::MonitorAudioLevel(Mlt::Profile *profile, int height, QWidget *parent)
+    : ScopeWidget(parent), audioChannels(2), m_height(height), m_channelHeight(height / 2), m_channelDistance(2), m_channelFillHeight(m_channelHeight)
 {
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     m_filter = new Mlt::Filter(*profile, "audiolevel");
@@ -85,7 +81,7 @@ void MonitorAudioLevel::refreshScope(const QSize & /*size*/, bool /*full*/)
                 if (audioLevel == 0.0) {
                     levels << -100;
                 } else {
-                    levels << (int) levelToDB(audioLevel);
+                    levels << (int)levelToDB(audioLevel);
                 }
             }
             QMetaObject::invokeMethod(this, "setAudioValues", Qt::QueuedConnection, Q_ARG(const QVector<int> &, levels));
@@ -165,7 +161,7 @@ void MonitorAudioLevel::drawBackground(int channels)
             p.drawLine(xf, 0, xf, totalHeight - 1);
             xf -= labelWidth / 2;
             p.setPen(palette().text().color().rgb());
-            p.drawText((int) xf, y, label);
+            p.drawText((int)xf, y, label);
             prevX = xf;
         }
     }
@@ -202,7 +198,7 @@ void MonitorAudioLevel::setAudioValues(const QVector<int> &values)
         drawBackground(values.size());
     } else {
         for (int i = 0; i < m_values.size(); i++) {
-            m_peaks[i] --;
+            m_peaks[i]--;
             if (m_values.at(i) > m_peaks.at(i)) {
                 m_peaks[i] = m_values.at(i);
             }
@@ -249,4 +245,3 @@ void MonitorAudioLevel::paintEvent(QPaintEvent *pe)
         p.fillRect((50 + m_peaks.at(i)) / 150.0 * rect.width(), i * (m_channelHeight + m_channelDistance) + 1, 1, m_channelFillHeight, palette().text());
     }
 }
-

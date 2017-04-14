@@ -22,16 +22,16 @@
 #include "xml.hpp"
 #include <QDebug>
 
-//static
-QString Xml::getSubTagContent(const QDomElement& element, const QString& tagName)
+// static
+QString Xml::getSubTagContent(const QDomElement &element, const QString &tagName)
 {
     QVector<QDomNode> nodeList = getDirectChildrenByTagName(element, tagName);
     if (!nodeList.isEmpty()) {
         if (nodeList.size() > 1) {
             QString str;
             QTextStream stream(&str);
-            element.save(stream,4);
-            qDebug() << "Warning: "<<str<<"provides several "<<tagName<<". We keep only first one.";
+            element.save(stream, 4);
+            qDebug() << "Warning: " << str << "provides several " << tagName << ". We keep only first one.";
         }
         QString content = nodeList.at(0).toElement().text();
         return content;
@@ -39,8 +39,7 @@ QString Xml::getSubTagContent(const QDomElement& element, const QString& tagName
     return QString();
 }
 
-
-QVector<QDomNode> Xml::getDirectChildrenByTagName(const QDomElement& element, const QString& tagName)
+QVector<QDomNode> Xml::getDirectChildrenByTagName(const QDomElement &element, const QString &tagName)
 {
     auto children = element.childNodes();
     QVector<QDomNode> result;

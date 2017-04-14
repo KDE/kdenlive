@@ -18,25 +18,23 @@
  ***************************************************************************/
 
 #include "movemanager.h"
-#include "kdenlivesettings.h"
-#include "timeline/customtrackview.h"
-#include "timeline/clipitem.h"
-#include "timeline/transition.h"
-#include "timeline/timelinecommands.h"
-#include "timeline/abstractgroupitem.h"
-#include "timeline/transitionhandler.h"
 #include "doc/docundostack.hpp"
+#include "kdenlivesettings.h"
+#include "timeline/abstractgroupitem.h"
+#include "timeline/clipitem.h"
+#include "timeline/customtrackview.h"
+#include "timeline/timelinecommands.h"
+#include "timeline/transition.h"
+#include "timeline/transitionhandler.h"
 
 #include <KLocalizedString>
-#include <QScrollBar>
-#include <QFontMetrics>
 #include <QApplication>
+#include <QFontMetrics>
+#include <QScrollBar>
 
-MoveManager::MoveManager(TransitionHandler *handler, CustomTrackView *view, std::shared_ptr<DocUndoStack> commandStack) : AbstractToolManager(MoveType, view, commandStack)
-    , m_transitionHandler(handler)
-    , m_scrollOffset(0)
-    , m_scrollTrigger(QFontMetrics(view->font()).averageCharWidth() * 3)
-    , m_dragMoved(false)
+MoveManager::MoveManager(TransitionHandler *handler, CustomTrackView *view, std::shared_ptr<DocUndoStack> commandStack)
+    : AbstractToolManager(MoveType, view, commandStack), m_transitionHandler(handler), m_scrollOffset(0),
+      m_scrollTrigger(QFontMetrics(view->font()).averageCharWidth() * 3), m_dragMoved(false)
 {
     connect(&m_scrollTimer, &QTimer::timeout, this, &MoveManager::slotCheckMouseScrolling);
     m_scrollTimer.setInterval(100);
@@ -98,7 +96,7 @@ void MoveManager::mouseRelease(QMouseEvent *, GenTime pos)
     if (dragItem->parentItem() == nullptr) {
         // we are moving one clip, easy
         if (dragItem->type() == AVWidget && (m_dragItemInfo.startPos != info.startPos || m_dragItemInfo.track != info.track)) {
-            ClipItem *item = static_cast <ClipItem *>(dragItem);
+            ClipItem *item = static_cast<ClipItem *>(dragItem);
             bool success = true;
             if (success) {
                 auto *moveCommand = new QUndoCommand();
@@ -109,19 +107,20 @@ void MoveManager::mouseRelease(QMouseEvent *, GenTime pos)
                 QList<ItemInfo> excluded;
                 excluded << info;
                 item->setItemLocked(true);
-                //item->setEnabled(false);
+                // item->setEnabled(false);
                 ItemInfo initialClip = m_dragItemInfo;
                 if (m_view->sceneEditMode() == TimelineMode::InsertEdit) {
                     m_view->cutTimeline(info.startPos.frames(m_view->fps()), excluded, QList<ItemInfo>(), moveCommand, info.track);
                     new AddSpaceCommand(m_view, info, excluded, true, moveCommand, true);
                     bool isLastClip = m_view->isLastClip(info);
                     if (!isLastClip && info.track == m_dragItemInfo.track && info.startPos < m_dragItemInfo.startPos) {
-                        //remove offset to allow finding correct clip to move
+                        // remove offset to allow finding correct clip to move
                         initialClip.startPos += m_dragItemInfo.cropDuration;
                         initialClip.endPos += m_dragItemInfo.cropDuration;
                     }
                 } else if (m_view->sceneEditMode() == TimelineMode::OverwriteEdit) {
-                    m_view->extractZone(QPoint(info.startPos.frames(m_view->fps()), info.endPos.frames(m_view->fps())), false, excluded, moveCommand, info.track);
+                    m_view->extractZone(QPoint(info.startPos.frames(m_view->fps()), info.endPos.frames(m_view->fps())), false, excluded, moveCommand,
+                                        info.track);
                 }
                 bool isLocked = m_view->getTrackInfo(item->track()).isLocked;
                 new MoveClipCommand(m_view, initialClip, info, true, true, moveCommand);
@@ -137,8 +136,9 @@ void MoveManager::mouseRelease(QMouseEvent *, GenTime pos)
                     newStartTrInfo = startTrInfo;
                     newStartTrInfo.track = info.track;
                     newStartTrInfo.startPos = info.startPos;
-                    //newStartTrInfo.cropDuration = newStartTrInfo.endPos - info.startPos;
-                    if (m_dragItemInfo.track == info.track /*&& !item->baseClip()->isTransparent()*/ && (m_view->getClipItemAtEnd(newStartTrInfo.endPos, startTransition->transitionEndTrack()) != nullptr)) {
+                    // newStartTrInfo.cropDuration = newStartTrInfo.endPos - info.startPos;
+                    if (m_dragItemInfo.track == info.track /*&& !item->baseClip()->isTransparent()*/ &&
+                        (m_view->getClipItemAtEnd(newStartTrInfo.endPos, startTransition->transitionEndTrack()) != nullptr)) {
                         // transition matches clip end on lower track, resize it
                         newStartTrInfo.cropDuration = newStartTrInfo.endPos - newStartTrInfo.startPos;
                     } else {
@@ -157,8 +157,9 @@ void MoveManager::mouseRelease(QMouseEvent *, GenTime pos)
                         ItemInfo newTrInfo = trInfo;
                         newTrInfo.track = info.track;
                         newTrInfo.endPos = dragItem->endPos();
-                        //TODO
-                        if (m_dragItemInfo.track == info.track /*&& !item->baseClip()->isTransparent()*/ && (m_view->getClipItemAtStart(trInfo.startPos, tr->transitionEndTrack()) != nullptr)) {
+                        // TODO
+                        if (m_dragItemInfo.track == info.track /*&& !item->baseClip()->isTransparent()*/ &&
+                            (m_view->getClipItemAtStart(trInfo.startPos, tr->transitionEndTrack()) != nullptr)) {
                             // transition start should stay the same, duration changes
                             newTrInfo.cropDuration = newTrInfo.endPos - newTrInfo.startPos;
                         } else {
@@ -169,13 +170,17 @@ void MoveManager::mouseRelease(QMouseEvent *, GenTime pos)
                             moveEndTrans = true;
                             if (moveStartTrans) {
                                 // we have to move both transitions, remove the start one so that there is no collision
-                                new AddTransitionCommand(m_view, startTrInfo, startTransition->transitionEndTrack(), startTransition->toXML(), true, true, moveCommand);
+                                new AddTransitionCommand(m_view, startTrInfo, startTransition->transitionEndTrack(), startTransition->toXML(), true, true,
+                                                         moveCommand);
                             }
                             m_view->adjustTimelineTransitions(m_view->sceneEditMode(), tr, moveCommand);
                             if (tr->updateKeyframes(trInfo, newTrInfo)) {
                                 QDomElement old = tr->toXML();
                                 QDomElement xml = old.cloneNode().toElement();
-                                m_transitionHandler->updateTransition(xml.attribute(QStringLiteral("tag")), xml.attribute(QStringLiteral("tag")), xml.attribute(QStringLiteral("transition_btrack")).toInt(),  xml.attribute(QStringLiteral("transition_atrack")).toInt(), newTrInfo.startPos, newTrInfo.endPos, xml);
+                                m_transitionHandler->updateTransition(xml.attribute(QStringLiteral("tag")), xml.attribute(QStringLiteral("tag")),
+                                                                      xml.attribute(QStringLiteral("transition_btrack")).toInt(),
+                                                                      xml.attribute(QStringLiteral("transition_atrack")).toInt(), newTrInfo.startPos,
+                                                                      newTrInfo.endPos, xml);
                                 new EditTransitionCommand(m_view, tr->track(), tr->startPos(), old, xml, false, moveCommand);
                             }
                             new MoveTransitionCommand(m_view, trInfo, newTrInfo, true, false, moveCommand);
@@ -189,7 +194,10 @@ void MoveManager::mouseRelease(QMouseEvent *, GenTime pos)
                                 if (startTransition->updateKeyframes(startTrInfo, newStartTrInfo)) {
                                     QDomElement old = startTransition->toXML();
                                     QDomElement xml = startTransition->toXML();
-                                    m_transitionHandler->updateTransition(xml.attribute(QStringLiteral("tag")), xml.attribute(QStringLiteral("tag")), xml.attribute(QStringLiteral("transition_btrack")).toInt(),  xml.attribute(QStringLiteral("transition_atrack")).toInt(), newStartTrInfo.startPos, newStartTrInfo.endPos, xml);
+                                    m_transitionHandler->updateTransition(xml.attribute(QStringLiteral("tag")), xml.attribute(QStringLiteral("tag")),
+                                                                          xml.attribute(QStringLiteral("transition_btrack")).toInt(),
+                                                                          xml.attribute(QStringLiteral("transition_atrack")).toInt(), newStartTrInfo.startPos,
+                                                                          newStartTrInfo.endPos, xml);
                                 }
                                 new AddTransitionCommand(m_view, newStartTrInfo, transTrack, startTransition->toXML(), false, true, moveCommand);
                             }
@@ -202,7 +210,10 @@ void MoveManager::mouseRelease(QMouseEvent *, GenTime pos)
                     if (startTransition->updateKeyframes(startTrInfo, newStartTrInfo)) {
                         QDomElement old = startTransition->toXML();
                         QDomElement xml = old.cloneNode().toElement();
-                        m_transitionHandler->updateTransition(xml.attribute(QStringLiteral("tag")), xml.attribute(QStringLiteral("tag")), xml.attribute(QStringLiteral("transition_btrack")).toInt(),  xml.attribute(QStringLiteral("transition_atrack")).toInt(), newStartTrInfo.startPos, newStartTrInfo.endPos, xml);
+                        m_transitionHandler->updateTransition(xml.attribute(QStringLiteral("tag")), xml.attribute(QStringLiteral("tag")),
+                                                              xml.attribute(QStringLiteral("transition_btrack")).toInt(),
+                                                              xml.attribute(QStringLiteral("transition_atrack")).toInt(), newStartTrInfo.startPos,
+                                                              newStartTrInfo.endPos, xml);
                         new EditTransitionCommand(m_view, startTransition->track(), startTransition->startPos(), old, xml, false, moveCommand);
                     }
                     new MoveTransitionCommand(m_view, startTrInfo, newStartTrInfo, true, false, moveCommand);
@@ -225,7 +236,10 @@ void MoveManager::mouseRelease(QMouseEvent *, GenTime pos)
                             QDomElement old = tr->toXML();
                             if (tr->updateKeyframes(trInfo, newTrInfo)) {
                                 QDomElement xml = old.cloneNode().toElement();
-                                m_transitionHandler->updateTransition(xml.attribute(QStringLiteral("tag")), xml.attribute(QStringLiteral("tag")), xml.attribute(QStringLiteral("transition_btrack")).toInt(),  xml.attribute(QStringLiteral("transition_atrack")).toInt(), newTrInfo.startPos, newTrInfo.endPos, xml);
+                                m_transitionHandler->updateTransition(xml.attribute(QStringLiteral("tag")), xml.attribute(QStringLiteral("tag")),
+                                                                      xml.attribute(QStringLiteral("transition_btrack")).toInt(),
+                                                                      xml.attribute(QStringLiteral("transition_atrack")).toInt(), newTrInfo.startPos,
+                                                                      newTrInfo.endPos, xml);
                                 new EditTransitionCommand(m_view, tr->track(), tr->startPos(), old, xml, false, moveCommand);
                             }
                             new MoveTransitionCommand(m_view, trInfo, newTrInfo, true, false, moveCommand);
@@ -253,7 +267,10 @@ void MoveManager::mouseRelease(QMouseEvent *, GenTime pos)
                                 if (tr->updateKeyframes(trInfo, newTrInfo)) {
                                     QDomElement old = tr->toXML();
                                     QDomElement xml = old.cloneNode().toElement();
-                                    m_transitionHandler->updateTransition(xml.attribute(QStringLiteral("tag")), xml.attribute(QStringLiteral("tag")), xml.attribute(QStringLiteral("transition_btrack")).toInt(),  xml.attribute(QStringLiteral("transition_atrack")).toInt(), newTrInfo.startPos, newTrInfo.endPos, xml);
+                                    m_transitionHandler->updateTransition(xml.attribute(QStringLiteral("tag")), xml.attribute(QStringLiteral("tag")),
+                                                                          xml.attribute(QStringLiteral("transition_btrack")).toInt(),
+                                                                          xml.attribute(QStringLiteral("transition_atrack")).toInt(), newTrInfo.startPos,
+                                                                          newTrInfo.endPos, xml);
                                     new EditTransitionCommand(m_view, tr->track(), tr->startPos(), old, xml, false, moveCommand);
                                 }
                                 new MoveTransitionCommand(m_view, trInfo, newTrInfo, true, false, moveCommand);
@@ -282,17 +299,19 @@ void MoveManager::mouseRelease(QMouseEvent *, GenTime pos)
                 // undo last move and emit error message
                 bool snap = KdenliveSettings::snaptopoints();
                 KdenliveSettings::setSnaptopoints(false);
-                item->setPos((int) m_dragItemInfo.startPos.frames(m_view->fps()), m_view->getPositionFromTrack(m_dragItemInfo.track) + 1);
+                item->setPos((int)m_dragItemInfo.startPos.frames(m_view->fps()), m_view->getPositionFromTrack(m_dragItemInfo.track) + 1);
                 KdenliveSettings::setSnaptopoints(snap);
-                m_view->displayMessage(i18n("Cannot move clip to position %1", m_view->timecode().getTimecodeFromFrames(info.startPos.frames(m_view->fps()))), ErrorMessage);
+                m_view->displayMessage(i18n("Cannot move clip to position %1", m_view->timecode().getTimecodeFromFrames(info.startPos.frames(m_view->fps()))),
+                                       ErrorMessage);
             }
         } else if (dragItem->type() == TransitionWidget && (m_dragItemInfo.startPos != info.startPos || m_dragItemInfo.track != info.track)) {
-            Transition *transition = static_cast <Transition *>(dragItem);
+            Transition *transition = static_cast<Transition *>(dragItem);
             transition->updateTransitionEndTrack(m_view->getPreviousVideoTrack(dragItem->track()));
-            if (!m_transitionHandler->moveTransition(transition->transitionTag(), m_dragItemInfo.track, dragItem->track(), transition->transitionEndTrack(), m_dragItemInfo.startPos, m_dragItemInfo.endPos, info.startPos, info.endPos)) {
+            if (!m_transitionHandler->moveTransition(transition->transitionTag(), m_dragItemInfo.track, dragItem->track(), transition->transitionEndTrack(),
+                                                     m_dragItemInfo.startPos, m_dragItemInfo.endPos, info.startPos, info.endPos)) {
                 // Moving transition failed, revert to previous position
                 m_view->displayMessage(i18n("Cannot move transition"), ErrorMessage);
-                transition->setPos((int) m_dragItemInfo.startPos.frames(m_view->fps()), m_view->getPositionFromTrack(m_dragItemInfo.track) + 1);
+                transition->setPos((int)m_dragItemInfo.startPos.frames(m_view->fps()), m_view->getPositionFromTrack(m_dragItemInfo.track) + 1);
             } else {
                 auto *moveCommand = new QUndoCommand();
                 moveCommand->setText(i18n("Move transition"));
@@ -339,7 +358,7 @@ void MoveManager::mouseRelease(QMouseEvent *, GenTime pos)
             if (items.at(i)->type() != AVWidget && items.at(i)->type() != TransitionWidget) {
                 continue;
             }
-            AbstractClipItem *item = static_cast <AbstractClipItem *>(items.at(i));
+            AbstractClipItem *item = static_cast<AbstractClipItem *>(items.at(i));
             if (item->type() == AVWidget) {
                 clipsToMove.append(item->info());
                 updatedClipsToMove << item->info();
@@ -353,9 +372,9 @@ void MoveManager::mouseRelease(QMouseEvent *, GenTime pos)
             new AddSpaceCommand(m_view, cutInfo, clipsToMove, true, moveGroup, false);
             bool isLastClip = m_view->isLastClip(cutInfo);
             if (!isLastClip && cutInfo.track == m_dragItemInfo.track && cutInfo.startPos < m_dragItemInfo.startPos) {
-                //TODO: remove offset to allow finding correct clip to move
-                //initialClip.startPos += m_dragItemInfo.cropDuration;
-                //initialClip.endPos += m_dragItemInfo.cropDuration;
+                // TODO: remove offset to allow finding correct clip to move
+                // initialClip.startPos += m_dragItemInfo.cropDuration;
+                // initialClip.endPos += m_dragItemInfo.cropDuration;
             }
         } else if (m_view->sceneEditMode() == TimelineMode::OverwriteEdit) {
             m_view->extractZone(QPoint(cutInfo.startPos.frames(m_view->fps()), cutInfo.endPos.frames(m_view->fps())), false, updatedClipsToMove, moveGroup, -1);

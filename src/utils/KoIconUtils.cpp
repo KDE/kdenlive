@@ -18,16 +18,15 @@
 
 #include "KoIconUtils.h"
 
+#include "kdenlive_debug.h"
+#include <QApplication>
 #include <QIcon>
 #include <QPalette>
-#include <QApplication>
-#include "kdenlive_debug.h"
 
-#include <kiconloader.h>
 #include <kiconengine.h>
+#include <kiconloader.h>
 
-namespace KoIconUtils
-{
+namespace KoIconUtils {
 
 #if KXMLGUI_VERSION_MINOR > 22 || KXMLGUI_VERSION_MAJOR > 5
 // Returning QIcon::fromTheme directly from header file
@@ -53,7 +52,7 @@ QIcon themedIcon(const QString &name)
     if (KIconLoader::global()->iconPath(realName, KIconLoader::User, true).isEmpty()) {
         realName = name;
     }
-    //qCDebug(KDENLIVE_LOG)<<"-- LOADING ICON: "<<realName;
+    // qCDebug(KDENLIVE_LOG)<<"-- LOADING ICON: "<<realName;
     QIcon icon = QIcon(new KIconEngine(realName, KIconLoader::global()));
 
     // fallback
@@ -62,7 +61,6 @@ QIcon themedIcon(const QString &name)
     }
 
     return icon;
-
 }
 #endif
 }

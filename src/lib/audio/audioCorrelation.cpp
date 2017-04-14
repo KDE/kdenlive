@@ -11,14 +11,13 @@ the Free Software Foundation, either version 3 of the License, or
 #include "audioCorrelation.h"
 #include "fftCorrelation.h"
 
-#include "klocalizedstring.h"
 #include "kdenlive_debug.h"
+#include "klocalizedstring.h"
 #include <QTime>
 #include <cmath>
 #include <iostream>
 
-AudioCorrelation::AudioCorrelation(AudioEnvelope *mainTrackEnvelope) :
-    m_mainTrackEnvelope(mainTrackEnvelope)
+AudioCorrelation::AudioCorrelation(AudioEnvelope *mainTrackEnvelope) : m_mainTrackEnvelope(mainTrackEnvelope)
 {
     m_mainTrackEnvelope->normalizeEnvelope();
     connect(m_mainTrackEnvelope, &AudioEnvelope::envelopeReady, this, &AudioCorrelation::slotAnnounceEnvelope);
@@ -61,14 +60,9 @@ void AudioCorrelation::slotProcessChild(AudioEnvelope *envelope)
     qint64 max = 0;
 
     if (sizeSub > 200) {
-        FFTCorrelation::correlate(envMain, sizeMain,
-                                  envSub, sizeSub,
-                                  correlation);
+        FFTCorrelation::correlate(envMain, sizeMain, envSub, sizeSub, correlation);
     } else {
-        correlate(envMain, sizeMain,
-                  envSub, sizeSub,
-                  correlation,
-                  &max);
+        correlate(envMain, sizeMain, envSub, sizeSub, correlation, &max);
         info->setMax(max);
     }
 
@@ -100,10 +94,7 @@ AudioCorrelationInfo const *AudioCorrelation::info(int childIndex) const
     return m_correlations.at(childIndex);
 }
 
-void AudioCorrelation::correlate(const qint64 *envMain, int sizeMain,
-                                 const qint64 *envSub, int sizeSub,
-                                 qint64 *correlation,
-                                 qint64 *out_max)
+void AudioCorrelation::correlate(const qint64 *envMain, int sizeMain, const qint64 *envSub, int sizeSub, qint64 *correlation, qint64 *out_max)
 {
     Q_ASSERT(correlation != nullptr);
 
@@ -153,7 +144,6 @@ void AudioCorrelation::correlate(const qint64 *envMain, int sizeMain,
         if (sum > max) {
             max = sum;
         }
-
     }
     qCDebug(KDENLIVE_LOG) << "Correlation calculated. Time taken: " << t.elapsed() << " ms.";
 
@@ -161,4 +151,3 @@ void AudioCorrelation::correlate(const qint64 *envMain, int sizeMain,
         *out_max = max;
     }
 }
-

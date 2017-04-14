@@ -11,22 +11,23 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include "timelinesearch.h"
 #include "core.h"
+#include "customtrackview.h"
 #include "mainwindow.h"
 #include "project/projectmanager.h"
-#include "customtrackview.h"
 
 #include "klocalizedstring.h"
 #include <QStatusBar>
 
-TimelineSearch::TimelineSearch(QObject *parent) :
-    QObject(parent)
+TimelineSearch::TimelineSearch(QObject *parent) : QObject(parent)
 {
     connect(&m_searchTimer, &QTimer::timeout, this, &TimelineSearch::slotEndSearch);
     m_searchTimer.setSingleShot(true);
 
-    m_findAction = pCore->window()->addAction(QStringLiteral("project_find"), i18n("Find"), this, SLOT(slotInitSearch()), QIcon::fromTheme(QStringLiteral("edit-find")), Qt::Key_Slash);
+    m_findAction = pCore->window()->addAction(QStringLiteral("project_find"), i18n("Find"), this, SLOT(slotInitSearch()),
+                                              QIcon::fromTheme(QStringLiteral("edit-find")), Qt::Key_Slash);
 
-    m_findNextAction = pCore->window()->addAction(QStringLiteral("project_find_next"), i18n("Find Next"), this, SLOT(slotFindNext()), QIcon::fromTheme(QStringLiteral("go-next")), Qt::Key_F3);
+    m_findNextAction = pCore->window()->addAction(QStringLiteral("project_find_next"), i18n("Find Next"), this, SLOT(slotFindNext()),
+                                                  QIcon::fromTheme(QStringLiteral("go-next")), Qt::Key_F3);
     m_findNextAction->setEnabled(false);
 }
 
@@ -80,10 +81,8 @@ bool TimelineSearch::eventFilter(QObject *watched, QEvent *event)
 
         // Search, or pass event on if no search active or started
         return keyPressEvent(static_cast<QKeyEvent *>(event));
-
-    } 
-        return QObject::eventFilter(watched, event);
-    
+    }
+    return QObject::eventFilter(watched, event);
 }
 
 /**
@@ -115,4 +114,3 @@ bool TimelineSearch::keyPressEvent(QKeyEvent *keyEvent)
     keyEvent->accept();
     return true;
 }
-

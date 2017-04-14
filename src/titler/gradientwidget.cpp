@@ -21,19 +21,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "gradientwidget.h"
 
+#include <QLinearGradient>
 #include <QPainter>
 #include <QPixmap>
 #include <QtMath>
-#include <QLinearGradient>
 
-#include <KSharedConfig>
 #include <KConfigGroup>
+#include <KSharedConfig>
 
 #include "utils/KoIconUtils.h"
 
-GradientWidget::GradientWidget(const QMap<QString, QString> &gradients, int ix, QWidget *parent) :
-    QDialog(parent),
-    Ui::GradientEdit_UI()
+GradientWidget::GradientWidget(const QMap<QString, QString> &gradients, int ix, QWidget *parent) : QDialog(parent), Ui::GradientEdit_UI()
 {
     setupUi(this);
     updatePreview();
@@ -63,7 +61,8 @@ void GradientWidget::resizeEvent(QResizeEvent *event)
 QString GradientWidget::gradientToString() const
 {
     QStringList result;
-    result << color1->color().name(QColor::HexArgb) << color2->color().name(QColor::HexArgb) << QString::number(color1_pos->value()) << QString::number(color2_pos->value()) << QString::number(angle->value());
+    result << color1->color().name(QColor::HexArgb) << color2->color().name(QColor::HexArgb) << QString::number(color1_pos->value())
+           << QString::number(color2_pos->value()) << QString::number(angle->value());
     return result.join(QLatin1Char(';'));
 }
 
@@ -102,7 +101,7 @@ void GradientWidget::updatePreview()
         m_gradient.setStart(p.width() / 2, 0);
         m_gradient.setFinalStop(p.width() / 2 + (p.width() / 2) * qCos(qDegreesToRadians(ang)), p.height() * qSin(qDegreesToRadians(ang)));
     }
-    //qCDebug(KDENLIVE_LOG)<<"* * * ANGLE: "<<angle->value()<<" = "<<p.height() * tan(angle->value() * 3.1415926 / 180.0);
+    // qCDebug(KDENLIVE_LOG)<<"* * * ANGLE: "<<angle->value()<<" = "<<p.height() * tan(angle->value() * 3.1415926 / 180.0);
 
     QLinearGradient copy = m_gradient;
     QPointF gradStart = m_gradient.start() + QPointF(p.width() / 2, 0);
@@ -241,4 +240,3 @@ void GradientWidget::loadGradients(QMap<QString, QString> gradients)
         item->setFlags(Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled);
     }
 }
-

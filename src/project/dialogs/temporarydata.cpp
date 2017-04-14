@@ -23,27 +23,26 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "doc/kdenlivedoc.h"
 #include "utils/KoIconUtils.h"
 
-#include <KLocalizedString>
 #include <KIO/DirectorySizeJob>
+#include <KLocalizedString>
 #include <KMessageBox>
 
-#include <QVBoxLayout>
-#include <QGridLayout>
-#include <QTabWidget>
-#include <QPaintEvent>
-#include <QFontMetrics>
-#include <QPainter>
-#include <QLabel>
-#include <QStandardPaths>
-#include <QToolButton>
 #include <QDesktopServices>
-#include <QTreeWidget>
+#include <QFontMetrics>
+#include <QGridLayout>
+#include <QLabel>
+#include <QPaintEvent>
+#include <QPainter>
 #include <QPushButton>
+#include <QStandardPaths>
+#include <QTabWidget>
+#include <QToolButton>
+#include <QTreeWidget>
+#include <QVBoxLayout>
 
 static QList<QColor> chartColors;
 
-ChartWidget::ChartWidget(QWidget *parent) :
-    QWidget(parent)
+ChartWidget::ChartWidget(QWidget *parent) : QWidget(parent)
 {
     QFontMetrics ft(font());
     int minHeight = ft.height() * 6;
@@ -76,17 +75,14 @@ void ChartWidget::paintEvent(QPaintEvent *event)
         painter.setBrush(chartColors.at(ix));
         painter.drawPie(pieRect, previous, val * 16);
         previous = val * 16;
-        ix ++;
+        ix++;
     }
 }
 
-TemporaryData::TemporaryData(KdenliveDoc *doc, bool currentProjectOnly, QWidget *parent) :
-    QWidget(parent)
-    , m_doc(doc)
-    , m_globalPage(nullptr)
-    , m_globalDelete(nullptr)
+TemporaryData::TemporaryData(KdenliveDoc *doc, bool currentProjectOnly, QWidget *parent)
+    : QWidget(parent), m_doc(doc), m_globalPage(nullptr), m_globalDelete(nullptr)
 {
-    chartColors << QColor(Qt::darkRed) << QColor(Qt::darkBlue)  << QColor(Qt::darkGreen) << QColor(Qt::darkMagenta);
+    chartColors << QColor(Qt::darkRed) << QColor(Qt::darkBlue) << QColor(Qt::darkGreen) << QColor(Qt::darkMagenta);
     mCurrentSizes << 0 << 0 << 0 << 0;
     auto *lay = new QVBoxLayout;
 
@@ -359,7 +355,8 @@ void TemporaryData::deleteProxy()
     }
     dir.setNameFilters(m_proxies);
     QStringList files = dir.entryList(QDir::Files);
-    if (KMessageBox::warningContinueCancelList(this, i18n("Delete all project data in the cache proxy folder:\n%1", dir.absolutePath()), files) != KMessageBox::Continue) {
+    if (KMessageBox::warningContinueCancelList(this, i18n("Delete all project data in the cache proxy folder:\n%1", dir.absolutePath()), files) !=
+        KMessageBox::Continue) {
         return;
     }
     foreach (const QString &file, files) {
@@ -585,7 +582,8 @@ void TemporaryData::deleteSelected()
             folders << current->data(0, Qt::UserRole).toString();
         }
     }
-    if (KMessageBox::warningContinueCancelList(this, i18n("Delete the following cache folders from\n%1", m_globalDir.absolutePath()), folders) != KMessageBox::Continue) {
+    if (KMessageBox::warningContinueCancelList(this, i18n("Delete the following cache folders from\n%1", m_globalDir.absolutePath()), folders) !=
+        KMessageBox::Continue) {
         return;
     }
     const QString currentId = m_doc->getDocumentProperty(QStringLiteral("documentid"));

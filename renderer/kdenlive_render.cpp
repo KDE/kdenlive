@@ -17,14 +17,14 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include <stdio.h>
+#include "renderjob.h"
 #include <QCoreApplication>
-#include <QStringList>
+#include <QDebug>
 #include <QFileInfo>
 #include <QString>
+#include <QStringList>
 #include <QUrl>
-#include <QDebug>
-#include "renderjob.h"
+#include <stdio.h>
 
 int main(int argc, char **argv)
 {
@@ -115,11 +115,13 @@ int main(int argc, char **argv)
         for (int i = 0; i < args.count(); ++i) {
             if (args.at(i).startsWith(QLatin1String("meta.attr"))) {
                 QString data = args.at(i);
-                args.replace(i, data.section(QLatin1Char('='), 0, 0) + QStringLiteral("=\"") + QUrl::fromPercentEncoding(data.section(QLatin1Char('='), 1).toUtf8()) + QLatin1Char('\"'));
+                args.replace(i, data.section(QLatin1Char('='), 0, 0) + QStringLiteral("=\"") +
+                                    QUrl::fromPercentEncoding(data.section(QLatin1Char('='), 1).toUtf8()) + QLatin1Char('\"'));
             }
         }
 
-        qDebug() << "//STARTING RENDERING: " << erase << ',' << usekuiserver << ',' << render << ',' << profile << ',' << rendermodule << ',' << player << ',' << src << ',' << dest << ',' << preargs << ',' << args << ',' << in << ',' << out;
+        qDebug() << "//STARTING RENDERING: " << erase << ',' << usekuiserver << ',' << render << ',' << profile << ',' << rendermodule << ',' << player << ','
+                 << src << ',' << dest << ',' << preargs << ',' << args << ',' << in << ',' << out;
         auto *job = new RenderJob(doerase, usekuiserver, pid, render, profile, rendermodule, player, src, dest, preargs, args, in, out);
         if (!locale.isEmpty()) {
             job->setLocale(locale);
@@ -137,8 +139,10 @@ int main(int argc, char **argv)
         app.exec();
         delete dualjob;
     } else {
-        fprintf(stderr, "Kdenlive video renderer for MLT.\nUsage: "
-                "kdenlive_render [-erase] [-kuiserver] [-locale:LOCALE] [in=pos] [out=pos] [render] [profile] [rendermodule] [player] [src] [dest] [[arg1] [arg2] ...]\n"
+        fprintf(stderr,
+                "Kdenlive video renderer for MLT.\nUsage: "
+                "kdenlive_render [-erase] [-kuiserver] [-locale:LOCALE] [in=pos] [out=pos] [render] [profile] [rendermodule] [player] [src] [dest] [[arg1] "
+                "[arg2] ...]\n"
                 "  -erase: if that parameter is present, src file will be erased at the end\n"
                 "  -kuiserver: if that parameter is present, use KDE job tracker\n"
                 "  -locale:LOCALE : set a locale for rendering. For example, -locale:fr_FR.UTF-8 will use a french locale (comma as numeric separator)\n"
@@ -153,4 +157,3 @@ int main(int argc, char **argv)
                 "  args: space separated libavformat arguments\n");
     }
 }
-

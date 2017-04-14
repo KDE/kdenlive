@@ -19,25 +19,22 @@
 
 #include "profilesdialog.h"
 #include "kdenlivesettings.h"
-#include "utils/KoIconUtils.h"
 #include "profiles/profilerepository.hpp"
+#include "utils/KoIconUtils.h"
 
+#include "klocalizedstring.h"
 #include <KMessageBox>
 #include <KMessageWidget>
-#include "klocalizedstring.h"
 
-#include <QDir>
-#include <QCloseEvent>
-#include <QStandardPaths>
 #include "kdenlive_debug.h"
+#include <QCloseEvent>
+#include <QDir>
+#include <QStandardPaths>
 
-ProfilesDialog::ProfilesDialog(const QString &profileDescription, QWidget *parent) :
-    QDialog(parent),
-    m_profileIsModified(false),
-    m_isCustomProfile(false)
+ProfilesDialog::ProfilesDialog(const QString &profileDescription, QWidget *parent) : QDialog(parent), m_profileIsModified(false), m_isCustomProfile(false)
 {
 
-    //ask profile repository for a refresh
+    // ask profile repository for a refresh
     ProfileRepository::get()->refresh();
 
     m_view.setupUi(this);
@@ -87,11 +84,8 @@ ProfilesDialog::ProfilesDialog(const QString &profileDescription, QWidget *paren
     m_view.size_w->setSingleStep(8);
 }
 
-ProfilesDialog::ProfilesDialog(const QString &profilePath, bool, QWidget *parent) :
-    QDialog(parent),
-    m_profileIsModified(false),
-    m_isCustomProfile(true),
-    m_customProfilePath(profilePath)
+ProfilesDialog::ProfilesDialog(const QString &profilePath, bool, QWidget *parent)
+    : QDialog(parent), m_profileIsModified(false), m_isCustomProfile(true), m_customProfilePath(profilePath)
 {
     m_view.setupUi(this);
 
@@ -164,8 +158,8 @@ void ProfilesDialog::fillList(const QString &selectedProfile)
 {
     m_view.profiles_list->clear();
     // Retrieve the list from the repository
-    QVector<QPair<QString, QString> > profiles = ProfileRepository::get()->getAllProfiles();
-    for (const auto & p : profiles) {
+    QVector<QPair<QString, QString>> profiles = ProfileRepository::get()->getAllProfiles();
+    for (const auto &p : profiles) {
         m_view.profiles_list->addItem(p.first, p.second);
     }
 
@@ -257,7 +251,8 @@ bool ProfilesDialog::slotSaveProfile()
         // this profile name already exists
         const QString path = m_view.profiles_list->itemData(ix).toString();
         if (!path.contains(QLatin1Char('/'))) {
-            KMessageBox::sorry(this, i18n("A profile with same name already exists in MLT's default profiles, please choose another description for your custom profile."));
+            KMessageBox::sorry(
+                this, i18n("A profile with same name already exists in MLT's default profiles, please choose another description for your custom profile."));
             return false;
         }
         saveProfile(path);
@@ -268,7 +263,7 @@ bool ProfilesDialog::slotSaveProfile()
             dir.mkpath(QStringLiteral("."));
         }
         QString customName = QStringLiteral("customprofile");
-        QString profilePath =  dir.absoluteFilePath(customName + QString::number(i));
+        QString profilePath = dir.absoluteFilePath(customName + QString::number(i));
         while (QFile::exists(profilePath)) {
             ++i;
             profilePath = dir.absoluteFilePath(customName + QString::number(i));
@@ -289,7 +284,17 @@ void ProfilesDialog::saveProfile(const QString &path)
         return;
     }
     QTextStream out(&file);
-    out << "description=" << m_view.description->text() << '\n' << "frame_rate_num=" << m_view.frame_num->value() << '\n' << "frame_rate_den=" << m_view.frame_den->value() << '\n' << "width=" << m_view.size_w->value() << '\n' << "height=" << m_view.size_h->value() << '\n' << "progressive=" << static_cast<int>(m_view.progressive->isChecked()) << '\n' << "sample_aspect_num=" << m_view.aspect_num->value() << '\n' << "sample_aspect_den=" << m_view.aspect_den->value() << '\n' << "display_aspect_num=" << m_view.display_num->value() << '\n' << "display_aspect_den=" << m_view.display_den->value() << '\n' << "colorspace=" << m_view.colorspace->itemData(m_view.colorspace->currentIndex()).toInt() << '\n';
+    out << "description=" << m_view.description->text() << '\n'
+        << "frame_rate_num=" << m_view.frame_num->value() << '\n'
+        << "frame_rate_den=" << m_view.frame_den->value() << '\n'
+        << "width=" << m_view.size_w->value() << '\n'
+        << "height=" << m_view.size_h->value() << '\n'
+        << "progressive=" << static_cast<int>(m_view.progressive->isChecked()) << '\n'
+        << "sample_aspect_num=" << m_view.aspect_num->value() << '\n'
+        << "sample_aspect_den=" << m_view.aspect_den->value() << '\n'
+        << "display_aspect_num=" << m_view.display_num->value() << '\n'
+        << "display_aspect_den=" << m_view.display_den->value() << '\n'
+        << "colorspace=" << m_view.colorspace->itemData(m_view.colorspace->currentIndex()).toInt() << '\n';
     if (file.error() != QFile::NoError) {
         KMessageBox::error(this, i18n("Cannot write to file %1", path));
     }
@@ -354,13 +359,13 @@ MltVideoProfile ProfilesDialog::getVideoProfile(const QString &name)
 
     if (path.isEmpty() || !QFile::exists(path)) {
         if (name == QLatin1String("dv_pal")) {
-            //qCDebug(KDENLIVE_LOG) << "!!! WARNING, COULD NOT FIND DEFAULT MLT PROFILE";
+            // qCDebug(KDENLIVE_LOG) << "!!! WARNING, COULD NOT FIND DEFAULT MLT PROFILE";
             return result;
         }
         if (name == KdenliveSettings::default_profile()) {
             KdenliveSettings::setDefault_profile(QStringLiteral("dv_pal"));
         }
-        //qCDebug(KDENLIVE_LOG) << "// WARNING, COULD NOT FIND PROFILE " << name;
+        // qCDebug(KDENLIVE_LOG) << "// WARNING, COULD NOT FIND PROFILE " << name;
         return result;
     }
     return getProfileFromPath(path, name);
@@ -493,7 +498,7 @@ QList<MltVideoProfile> ProfilesDialog::profilesList()
     }
 
     // Check custom profiles
-    qDebug() << "searching custom in "<<QStandardPaths::AppDataLocation;
+    qDebug() << "searching custom in " << QStandardPaths::AppDataLocation;
     qDebug() << "name" << QStandardPaths::displayName(QStandardPaths::AppDataLocation);
     qDebug() << "loc" << QStandardPaths::standardLocations(QStandardPaths::AppDataLocation);
     QStringList customProfiles = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("profiles/"), QStandardPaths::LocateDirectory);
@@ -512,9 +517,8 @@ QList<MltVideoProfile> ProfilesDialog::profilesList()
     return list;
 }
 
-
 // static
-QMap< QString, QString > ProfilesDialog::getSettingsFromFile(const QString &path)
+QMap<QString, QString> ProfilesDialog::getSettingsFromFile(const QString &path)
 {
     QStringList profilesNames;
     QStringList profilesFiles;
@@ -525,11 +529,10 @@ QMap< QString, QString > ProfilesDialog::getSettingsFromFile(const QString &path
         // This is an MLT profile
         KConfig confFile(mltDir.absoluteFilePath(path), KConfig::SimpleConfig);
         return confFile.entryMap();
-    } 
-        // This is a custom profile
-        KConfig confFile(path, KConfig::SimpleConfig);
-        return confFile.entryMap();
-    
+    }
+    // This is a custom profile
+    KConfig confFile(path, KConfig::SimpleConfig);
+    return confFile.entryMap();
 }
 
 // static
@@ -542,7 +545,8 @@ bool ProfilesDialog::matchProfile(int width, int height, double fps, double par,
     } else {
         profileWidth = profile.width;
     }
-    return !width != profileWidth || height != profile.height || (fps > 0 && qAbs((double) profile.frame_rate_num / profile.frame_rate_den - fps) > 0.4) || (!isImage && par > 0 && qAbs((double) profile.sample_aspect_num / profile.sample_aspect_den - par) > 0.1);
+    return !width != profileWidth || height != profile.height || (fps > 0 && qAbs((double)profile.frame_rate_num / profile.frame_rate_den - fps) > 0.4) ||
+           (!isImage && par > 0 && qAbs((double)profile.sample_aspect_num / profile.sample_aspect_den - par) > 0.1);
 }
 
 // static
@@ -558,10 +562,11 @@ QMap<QString, QString> ProfilesDialog::getProfilesFromProperties(int width, int 
     profilesFiles = mltDir.entryList(profilesFilter, QDir::Files);
     for (int i = 0; i < profilesFiles.size(); ++i) {
         KConfig confFile(mltDir.absoluteFilePath(profilesFiles.at(i)), KConfig::SimpleConfig);
-        QMap< QString, QString > values = confFile.entryMap();
+        QMap<QString, QString> values = confFile.entryMap();
         int profileWidth;
         if (useDisplayWidth) {
-            profileWidth = values.value(QStringLiteral("height")).toInt() * values.value(QStringLiteral("display_aspect_num")).toInt() / values.value(QStringLiteral("display_aspect_den")).toInt();
+            profileWidth = values.value(QStringLiteral("height")).toInt() * values.value(QStringLiteral("display_aspect_num")).toInt() /
+                           values.value(QStringLiteral("display_aspect_den")).toInt();
         } else {
             profileWidth = values.value(QStringLiteral("width")).toInt();
         }
@@ -580,16 +585,18 @@ QMap<QString, QString> ProfilesDialog::getProfilesFromProperties(int width, int 
         QStringList profiles = QDir(customProfiles.at(i)).entryList(profilesFilter, QDir::Files);
         for (int j = 0; j < profiles.size(); ++j) {
             KConfig confFile(customProfiles.at(i) + profiles.at(j), KConfig::SimpleConfig);
-            QMap< QString, QString > values = confFile.entryMap();
+            QMap<QString, QString> values = confFile.entryMap();
             int profileWidth;
             if (useDisplayWidth) {
-                profileWidth = values.value(QStringLiteral("height")).toInt() * values.value(QStringLiteral("display_aspect_num")).toInt() / values.value(QStringLiteral("display_aspect_den")).toInt();
+                profileWidth = values.value(QStringLiteral("height")).toInt() * values.value(QStringLiteral("display_aspect_num")).toInt() /
+                               values.value(QStringLiteral("display_aspect_den")).toInt();
             } else {
                 profileWidth = values.value(QStringLiteral("width")).toInt();
             }
             if (profileWidth == width && values.value(QStringLiteral("height")).toInt() == height) {
                 double profile_fps = values.value(QStringLiteral("frame_rate_num")).toDouble() / values.value(QStringLiteral("frame_rate_den")).toDouble();
-                double profile_par = values.value(QStringLiteral("sample_aspect_num")).toDouble() / values.value(QStringLiteral("sample_aspect_den")).toDouble();
+                double profile_par =
+                    values.value(QStringLiteral("sample_aspect_num")).toDouble() / values.value(QStringLiteral("sample_aspect_den")).toDouble();
                 if ((fps <= 0 || qAbs(profile_fps - fps) < 0.5) && (par <= 0 || qAbs(profile_par - par) < 0.1)) {
                     result.insert(customProfiles.at(i) + profiles.at(j), values.value(QStringLiteral("description")));
                 }
@@ -609,7 +616,7 @@ void ProfilesDialog::saveProfile(MltVideoProfile &profile, QString profilePath)
             dir.mkpath(QStringLiteral("."));
         }
         QString customName = QStringLiteral("customprofile");
-        profilePath =  dir.absoluteFilePath(customName + QString::number(i));
+        profilePath = dir.absoluteFilePath(customName + QString::number(i));
         while (QFile::exists(profilePath)) {
             ++i;
             profilePath = dir.absoluteFilePath(customName + QString::number(i));
@@ -621,7 +628,17 @@ void ProfilesDialog::saveProfile(MltVideoProfile &profile, QString profilePath)
         return;
     }
     QTextStream out(&file);
-    out << "description=" << profile.description << '\n' << "frame_rate_num=" << profile.frame_rate_num << '\n' << "frame_rate_den=" << profile.frame_rate_den << '\n' << "width=" << profile.width << '\n' << "height=" << profile.height << '\n' << "progressive=" << static_cast<int>(profile.progressive) << '\n' << "sample_aspect_num=" << profile.sample_aspect_num << '\n' << "sample_aspect_den=" << profile.sample_aspect_den << '\n' << "display_aspect_num=" << profile.display_aspect_num << '\n' << "display_aspect_den=" << profile.display_aspect_den << '\n' << "colorspace=" << profile.colorspace << '\n';
+    out << "description=" << profile.description << '\n'
+        << "frame_rate_num=" << profile.frame_rate_num << '\n'
+        << "frame_rate_den=" << profile.frame_rate_den << '\n'
+        << "width=" << profile.width << '\n'
+        << "height=" << profile.height << '\n'
+        << "progressive=" << static_cast<int>(profile.progressive) << '\n'
+        << "sample_aspect_num=" << profile.sample_aspect_num << '\n'
+        << "sample_aspect_den=" << profile.sample_aspect_den << '\n'
+        << "display_aspect_num=" << profile.display_aspect_num << '\n'
+        << "display_aspect_den=" << profile.display_aspect_den << '\n'
+        << "colorspace=" << profile.colorspace << '\n';
     if (file.error() != QFile::NoError) {
         KMessageBox::error(nullptr, i18n("Cannot write to file %1", profilePath));
     }
@@ -648,7 +665,7 @@ void ProfilesDialog::slotUpdateDisplay(QString currentProfile)
     m_view.button_delete->setEnabled(m_isCustomProfile);
     m_view.properties->setEnabled(m_isCustomProfile);
     m_view.button_save->setEnabled(m_isCustomProfile);
-    QMap< QString, QString > values = ProfilesDialog::getSettingsFromFile(currentProfile);
+    QMap<QString, QString> values = ProfilesDialog::getSettingsFromFile(currentProfile);
     m_view.description->setText(values.value(QStringLiteral("description")));
     m_view.size_w->setValue(values.value(QStringLiteral("width")).toInt());
     m_view.size_h->setValue(values.value(QStringLiteral("height")).toInt());
@@ -660,9 +677,11 @@ void ProfilesDialog::slotUpdateDisplay(QString currentProfile)
     m_view.frame_den->setValue(values.value(QStringLiteral("frame_rate_den")).toInt());
     m_view.progressive->setChecked(values.value(QStringLiteral("progressive")).toInt() != 0);
     if (values.value(QStringLiteral("progressive")).toInt() != 0) {
-        m_view.fields->setText(locale.toString((double) values.value(QStringLiteral("frame_rate_num")).toInt() / values.value(QStringLiteral("frame_rate_den")).toInt(), 'f', 2));
+        m_view.fields->setText(
+            locale.toString((double)values.value(QStringLiteral("frame_rate_num")).toInt() / values.value(QStringLiteral("frame_rate_den")).toInt(), 'f', 2));
     } else {
-        m_view.fields->setText(locale.toString((double) 2 * values.value(QStringLiteral("frame_rate_num")).toInt() / values.value(QStringLiteral("frame_rate_den")).toInt(), 'f', 2));
+        m_view.fields->setText(locale.toString(
+            (double)2 * values.value(QStringLiteral("frame_rate_num")).toInt() / values.value(QStringLiteral("frame_rate_den")).toInt(), 'f', 2));
     }
 
     int colorix = m_view.colorspace->findData(values.value(QStringLiteral("colorspace")).toInt());
@@ -672,10 +691,10 @@ void ProfilesDialog::slotUpdateDisplay(QString currentProfile)
     m_profileIsModified = false;
 }
 
-//static
+// static
 QString ProfilesDialog::getColorspaceDescription(int colorspace)
 {
-    //TODO: should the descriptions be translated?
+    // TODO: should the descriptions be translated?
     switch (colorspace) {
     case 601:
         return QStringLiteral("ITU-R 601");
@@ -688,15 +707,15 @@ QString ProfilesDialog::getColorspaceDescription(int colorspace)
     }
 }
 
-//static
+// static
 int ProfilesDialog::getColorspaceFromDescription(const QString &description)
 {
-    //TODO: should the descriptions be translated?
+    // TODO: should the descriptions be translated?
     if (description == QLatin1String("SMPTE240M")) {
         return 240;
-    } if (description == QLatin1String("ITU-R 709")) {
+    }
+    if (description == QLatin1String("ITU-R 709")) {
         return 709;
     }
     return 601;
 }
-

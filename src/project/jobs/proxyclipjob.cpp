@@ -19,20 +19,18 @@
  ***************************************************************************/
 
 #include "proxyclipjob.h"
-#include "kdenlivesettings.h"
-#include "kdenlive_debug.h"
-#include "doc/kdenlivedoc.h"
-#include "bin/projectclip.h"
 #include "bin/bin.h"
+#include "bin/projectclip.h"
+#include "doc/kdenlivedoc.h"
+#include "kdenlive_debug.h"
+#include "kdenlivesettings.h"
 #include <QProcess>
 #include <QTemporaryFile>
 
 #include <klocalizedstring.h>
 
 ProxyJob::ProxyJob(ClipType cType, const QString &id, const QStringList &parameters, QTemporaryFile *playlist)
-    : AbstractClipJob(PROXYJOB, cType, id),
-      m_jobDuration(0),
-      m_isFfmpegJob(true)
+    : AbstractClipJob(PROXYJOB, cType, id), m_jobDuration(0), m_isFfmpegJob(true)
 {
     m_jobStatus = JobWaiting;
     description = i18n("proxy");
@@ -94,7 +92,7 @@ void ProxyJob::startJob()
 
         mltParameters.append(QStringLiteral("real_time=-%1").arg(KdenliveSettings::mltthreads()));
 
-        //TODO: currently, when rendering an xml file through melt, the display ration is lost, so we enforce it manualy
+        // TODO: currently, when rendering an xml file through melt, the display ration is lost, so we enforce it manualy
         mltParameters << QStringLiteral("aspect=") + QLocale().toString(display_ratio);
 
         // Ask for progress reporting
@@ -116,7 +114,7 @@ void ProxyJob::startJob()
 
         QImage proxy;
         // Images are scaled to profile size.
-        //TODO: Make it be configurable?
+        // TODO: Make it be configurable?
         if (i.width() > i.height()) {
             proxy = i.scaledToWidth(m_renderWidth);
         } else {
@@ -162,7 +160,7 @@ void ProxyJob::startJob()
     } else {
         m_isFfmpegJob = true;
         if (KdenliveSettings::ffmpegpath().isEmpty()) {
-            //FFmpeg not detected, cannot process the Job
+            // FFmpeg not detected, cannot process the Job
             m_errorMessage.prepend(i18n("Failed to create proxy. FFmpeg not found, please set path in Kdenlive's settings Environment"));
             setStatus(JobCrashed);
             return;
@@ -247,7 +245,7 @@ void ProxyJob::processLogInfo()
                 QStringList numbers = time.split(QLatin1Char(':'));
                 progress = numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toDouble();
             } else {
-                progress = (int) time.toDouble();
+                progress = (int)time.toDouble();
             }
             emit jobProgress(m_clipId, (int)(100.0 * progress / m_jobDuration), jobType);
         }
@@ -340,7 +338,7 @@ QHash<ProjectClip *, AbstractClipJob *> ProxyJob::prepareJob(Bin *bin, const QLi
         if (item->clipType() == SlideShow) {
             // we save a temporary .mlt clip for rendering
             QDomDocument doc;
-            //TODO FIXME what we will do with xml ?
+            // TODO FIXME what we will do with xml ?
             QDomElement xml = item->toXml(doc, false);
             playlist = new QTemporaryFile();
             playlist->setFileTemplate(playlist->fileTemplate() + QStringLiteral(".mlt"));
@@ -351,11 +349,11 @@ QHash<ProjectClip *, AbstractClipJob *> ProxyJob::prepareJob(Bin *bin, const QLi
                 playlist->close();
             }
         }
-        qCDebug(KDENLIVE_LOG)<<" * *PROXY PATH: "<<path<<", "<<sourcePath;
-        parameters << path << sourcePath << item->getProducerProperty(QStringLiteral("_exif_orientation")) << params << QString::number(renderSize.width()) << QString::number(renderSize.height());
+        qCDebug(KDENLIVE_LOG) << " * *PROXY PATH: " << path << ", " << sourcePath;
+        parameters << path << sourcePath << item->getProducerProperty(QStringLiteral("_exif_orientation")) << params << QString::number(renderSize.width())
+                   << QString::number(renderSize.height());
         auto *job = new ProxyJob(item->clipType(), id, parameters, playlist);
         jobs.insert(item, job);
     }
     return jobs;
 }
-

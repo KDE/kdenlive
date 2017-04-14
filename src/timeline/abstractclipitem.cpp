@@ -20,8 +20,8 @@
 
 #include "abstractclipitem.h"
 #include "customtrackscene.h"
-#include "kdenlivesettings.h"
 #include "customtrackview.h"
+#include "kdenlivesettings.h"
 
 #include "mlt++/Mlt.h"
 
@@ -32,15 +32,9 @@
 #include <QParallelAnimationGroup>
 #include <QPropertyAnimation>
 
-AbstractClipItem::AbstractClipItem(const ItemInfo &info, const QRectF &rect, double fps) :
-    QObject()
-    , QGraphicsRectItem(rect)
-    , m_info(info)
-    , m_visibleParam(0)
-    , m_selectedEffect(-1)
-    , m_fps(fps)
-    , m_isMainSelectedClip(false)
-    , m_keyframeView(QFontInfo(QApplication::font()).pixelSize() * 0.7, this)
+AbstractClipItem::AbstractClipItem(const ItemInfo &info, const QRectF &rect, double fps)
+    : QObject(), QGraphicsRectItem(rect), m_info(info), m_visibleParam(0), m_selectedEffect(-1), m_fps(fps), m_isMainSelectedClip(false),
+      m_keyframeView(QFontInfo(QApplication::font()).pixelSize() * 0.7, this)
 {
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
     setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
@@ -176,7 +170,7 @@ void AbstractClipItem::setCropStart(const GenTime &pos)
 void AbstractClipItem::updateItem(int track)
 {
     m_info.track = track;
-    m_info.startPos = GenTime((int) scenePos().x(), m_fps);
+    m_info.startPos = GenTime((int)scenePos().x(), m_fps);
     if (m_info.cropDuration > GenTime()) {
         m_info.endPos = m_info.startPos + m_info.cropDuration;
     }
@@ -278,7 +272,7 @@ double AbstractClipItem::fps() const
 void AbstractClipItem::updateFps(double fps)
 {
     m_fps = fps;
-    setPos((qreal) startPos().frames(m_fps), pos().y());
+    setPos((qreal)startPos().frames(m_fps), pos().y());
     updateRectGeometry();
 }
 
@@ -290,7 +284,7 @@ GenTime AbstractClipItem::maxDuration() const
 CustomTrackScene *AbstractClipItem::projectScene()
 {
     if (scene()) {
-        return static_cast <CustomTrackScene *>(scene());
+        return static_cast<CustomTrackScene *>(scene());
     }
     return nullptr;
 }
@@ -337,7 +331,7 @@ void AbstractClipItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 
 void AbstractClipItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
-    if (event->buttons() !=  Qt::LeftButton || (event->modifiers() & Qt::ControlModifier != 0u)) {
+    if (event->buttons() != Qt::LeftButton || (event->modifiers() & Qt::ControlModifier != 0u)) {
         // User want to do a rectangle selection, so ignore the event to pass it to the view
         event->ignore();
     } else {
@@ -462,10 +456,10 @@ void AbstractClipItem::insertKeyframe(ProfileInfo profile, QDomElement effect, i
                 if (f.attribute(QStringLiteral("type")) != QLatin1String("animated") && f.attribute(QStringLiteral("type")) != QLatin1String("animatedrect")) {
                     continue;
                 }
-                f.setAttribute(QStringLiteral("value"), m_keyframeView.serialize(f.attribute(QStringLiteral("name")), f.attribute(QStringLiteral("type")) == QLatin1String("animatedrect")));
+                f.setAttribute(QStringLiteral("value"), m_keyframeView.serialize(f.attribute(QStringLiteral("name")),
+                                                                                 f.attribute(QStringLiteral("type")) == QLatin1String("animatedrect")));
             }
-        } else if (e.attribute(QStringLiteral("type")) == QLatin1String("keyframe")
-                   || e.attribute(QStringLiteral("type")) == QLatin1String("simplekeyframe")) {
+        } else if (e.attribute(QStringLiteral("type")) == QLatin1String("keyframe") || e.attribute(QStringLiteral("type")) == QLatin1String("simplekeyframe")) {
             QString kfr = e.attribute(QStringLiteral("keyframes"));
             const QStringList keyframes = kfr.split(QLatin1Char(';'), QString::SkipEmptyParts);
             QStringList newkfr;
@@ -523,13 +517,16 @@ void AbstractClipItem::movedKeyframe(QDomElement effect, int newpos, int oldpos,
                 // inserting a keyframe touches all animated params
                 for (int j = 0; j < params.count(); ++j) {
                     QDomElement f = params.item(j).toElement();
-                    if (f.attribute(QStringLiteral("type")) != QLatin1String("animated") && f.attribute(QStringLiteral("type")) != QLatin1String("animatedrect")) {
+                    if (f.attribute(QStringLiteral("type")) != QLatin1String("animated") &&
+                        f.attribute(QStringLiteral("type")) != QLatin1String("animatedrect")) {
                         continue;
                     }
-                    f.setAttribute(QStringLiteral("value"), m_keyframeView.serialize(f.attribute(QStringLiteral("name")), f.attribute(QStringLiteral("type")) == QLatin1String("animatedrect")));
+                    f.setAttribute(QStringLiteral("value"), m_keyframeView.serialize(f.attribute(QStringLiteral("name")),
+                                                                                     f.attribute(QStringLiteral("type")) == QLatin1String("animatedrect")));
                 }
             }
-        } else if ((e.attribute(QStringLiteral("type")) == QLatin1String("keyframe") || e.attribute(QStringLiteral("type")) == QLatin1String("simplekeyframe"))) {
+        } else if ((e.attribute(QStringLiteral("type")) == QLatin1String("keyframe") ||
+                    e.attribute(QStringLiteral("type")) == QLatin1String("simplekeyframe"))) {
             QString kfr = e.attribute(QStringLiteral("keyframes"));
             const QStringList keyframes = kfr.split(QLatin1Char(';'), QString::SkipEmptyParts);
             QStringList newkfr;
@@ -606,7 +603,8 @@ void AbstractClipItem::removeKeyframe(QDomElement effect, int frame)
                 if (f.attribute(QStringLiteral("type")) != QLatin1String("animated") && f.attribute(QStringLiteral("type")) != QLatin1String("animatedrect")) {
                     continue;
                 }
-                f.setAttribute(QStringLiteral("value"), m_keyframeView.serialize(f.attribute(QStringLiteral("name")), f.attribute(QStringLiteral("type")) == QLatin1String("animatedrect")));
+                f.setAttribute(QStringLiteral("value"), m_keyframeView.serialize(f.attribute(QStringLiteral("name")),
+                                                                                 f.attribute(QStringLiteral("type")) == QLatin1String("animatedrect")));
             }
         }
     }
@@ -668,7 +666,8 @@ bool AbstractClipItem::switchKeyframes(QDomElement param, int in, int oldin, int
         animation = KeyframeView::switchAnimation(animation, in, oldin, out, oldout, param.attribute(QStringLiteral("type")) == QLatin1String("animatedrect"));
     }
     if (out != oldout) {
-        animation = KeyframeView::switchAnimation(animation, out, oldout, out, oldout, param.attribute(QStringLiteral("type")) == QLatin1String("animatedrect"));
+        animation =
+            KeyframeView::switchAnimation(animation, out, oldout, out, oldout, param.attribute(QStringLiteral("type")) == QLatin1String("animatedrect"));
     }
     if (animation != param.attribute(QStringLiteral("value"))) {
         param.setAttribute(QStringLiteral("value"), animation);
@@ -676,4 +675,3 @@ bool AbstractClipItem::switchKeyframes(QDomElement param, int in, int oldin, int
     }
     return false;
 }
-

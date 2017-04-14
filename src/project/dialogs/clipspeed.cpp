@@ -21,13 +21,12 @@
 #include "kdenlivesettings.h"
 #include "utils/KoIconUtils.h"
 
-#include <klocalizedstring.h>
 #include <QFontDatabase>
-#include <QStandardPaths>
 #include <QMenu>
+#include <QStandardPaths>
+#include <klocalizedstring.h>
 
-ClipSpeed::ClipSpeed(const QUrl &destination, bool isDirectory, QWidget *parent) :
-    QDialog(parent)
+ClipSpeed::ClipSpeed(const QUrl &destination, bool isDirectory, QWidget *parent) : QDialog(parent)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_view.setupUi(this);
@@ -59,7 +58,7 @@ ClipSpeed::ClipSpeed(const QUrl &destination, bool isDirectory, QWidget *parent)
 void ClipSpeed::slotUpdateSlider(double speed)
 {
     m_view.speedSlider->blockSignals(true);
-    m_view.speedSlider->setValue((int) speed);
+    m_view.speedSlider->setValue((int)speed);
     m_view.speedSlider->blockSignals(false);
     m_view.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(qAbs(speed) > 1e-6);
 }
@@ -67,7 +66,7 @@ void ClipSpeed::slotUpdateSlider(double speed)
 void ClipSpeed::slotUpdateSpeed(int speed)
 {
     m_view.speedSpin->blockSignals(true);
-    m_view.speedSpin->setValue((double) speed);
+    m_view.speedSpin->setValue((double)speed);
     m_view.speedSpin->blockSignals(false);
 }
 
@@ -84,7 +83,7 @@ void ClipSpeed::adjustSpeed(QAction *a)
     int speed = a->data().toInt();
     m_view.speedSlider->blockSignals(true);
     m_view.speedSpin->blockSignals(true);
-    m_view.speedSpin->setValue((double) speed);
+    m_view.speedSpin->setValue((double)speed);
     m_view.speedSlider->setValue(speed);
     m_view.speedSlider->blockSignals(false);
     m_view.speedSpin->blockSignals(false);
@@ -94,4 +93,3 @@ double ClipSpeed::speed() const
 {
     return m_view.speedSpin->value();
 }
-

@@ -20,12 +20,11 @@
  ***************************************************************************/
 
 #include "effectfilter.hpp"
-#include "effecttreemodel.hpp"
-#include "assets/assetlist/model/assettreemodel.hpp"
 #include "abstractmodel/treeitem.hpp"
+#include "assets/assetlist/model/assettreemodel.hpp"
+#include "effecttreemodel.hpp"
 
-EffectFilter::EffectFilter(QObject *parent)
-    : AssetFilter(parent)
+EffectFilter::EffectFilter(QObject *parent) : AssetFilter(parent)
 {
     m_type_enabled = false;
 }
@@ -37,8 +36,7 @@ void EffectFilter::setFilterType(bool enabled, EffectType type)
     invalidateFilter();
 }
 
-
-bool EffectFilter::filterType(TreeItem* item) const
+bool EffectFilter::filterType(TreeItem *item) const
 {
     if (!m_type_enabled) {
         return true;
@@ -47,7 +45,7 @@ bool EffectFilter::filterType(TreeItem* item) const
     return itemType == m_type_value;
 }
 
-bool EffectFilter::applyAll(TreeItem* item) const
+bool EffectFilter::applyAll(TreeItem *item) const
 {
     return filterName(item) && filterType(item);
 }

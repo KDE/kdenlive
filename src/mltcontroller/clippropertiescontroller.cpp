@@ -21,41 +21,41 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "clippropertiescontroller.h"
 #include "bincontroller.h"
-#include "timeline/markerdialog.h"
-#include "timecodedisplay.h"
 #include "clipcontroller.h"
-#include "kdenlivesettings.h"
-#include "effectstack/widgets/choosecolorwidget.h"
 #include "dialogs/profilesdialog.h"
+#include "effectstack/widgets/choosecolorwidget.h"
+#include "kdenlivesettings.h"
+#include "timecodedisplay.h"
+#include "timeline/markerdialog.h"
 #include "utils/KoIconUtils.h"
 
 #include <KLocalizedString>
 
 #ifdef KF5_USE_FILEMETADATA
-#include <KFileMetaData/Extractor>
 #include <KFileMetaData/ExtractionResult>
-#include <KFileMetaData/PropertyInfo>
+#include <KFileMetaData/Extractor>
 #include <KFileMetaData/ExtractorCollection>
+#include <KFileMetaData/PropertyInfo>
 #endif
 
 #include <KIO/Global>
 
-#include <QMimeDatabase>
-#include <QUrl>
 #include "kdenlive_debug.h"
-#include <QPixmap>
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QDoubleSpinBox>
-#include <QLabel>
-#include <QFile>
-#include <QProcess>
 #include <QCheckBox>
-#include <QFontDatabase>
-#include <QToolBar>
+#include <QDoubleSpinBox>
+#include <QFile>
 #include <QFileDialog>
+#include <QFontDatabase>
+#include <QHBoxLayout>
+#include <QLabel>
 #include <QMimeData>
+#include <QMimeDatabase>
+#include <QPixmap>
+#include <QProcess>
 #include <QTextEdit>
+#include <QToolBar>
+#include <QUrl>
+#include <QVBoxLayout>
 
 AnalysisTree::AnalysisTree(QWidget *parent) : QTreeWidget(parent)
 {
@@ -66,7 +66,7 @@ AnalysisTree::AnalysisTree(QWidget *parent) : QTreeWidget(parent)
     setDragEnabled(true);
 }
 
-//virtual
+// virtual
 QMimeData *AnalysisTree::mimeData(const QList<QTreeWidgetItem *> list) const
 {
     QString data;
@@ -85,8 +85,9 @@ class ExtractionResult : public KFileMetaData::ExtractionResult
 {
 public:
     ExtractionResult(const QString &filename, const QString &mimetype, QTreeWidget *tree)
-        : KFileMetaData::ExtractionResult(filename, mimetype, KFileMetaData::ExtractionResult::ExtractMetaData),
-          m_tree(tree) {}
+        : KFileMetaData::ExtractionResult(filename, mimetype, KFileMetaData::ExtractionResult::ExtractMetaData), m_tree(tree)
+    {
+    }
 
     void append(const QString & /*text*/) override {}
 
@@ -129,7 +130,8 @@ public:
                 int val = value.toInt();
                 if (property == KFileMetaData::Property::BitRate) {
                     // Adjust unit for bitrate
-                    new QTreeWidgetItem(m_tree, QStringList() << info.displayName() << QString::number(val / 1000) + QLatin1Char(' ') + i18nc("Kilobytes per seconds", "kb/s"));
+                    new QTreeWidgetItem(m_tree, QStringList() << info.displayName()
+                                                              << QString::number(val / 1000) + QLatin1Char(' ') + i18nc("Kilobytes per seconds", "kb/s"));
                 } else {
                     new QTreeWidgetItem(m_tree, QStringList() << info.displayName() << QString::number(val));
                 }
@@ -140,18 +142,15 @@ public:
             }
         }
     }
+
 private:
     QTreeWidget *m_tree;
 };
 #endif
 
-ClipPropertiesController::ClipPropertiesController(const Timecode &tc, ClipController *controller, QWidget *parent) : QWidget(parent)
-    , m_controller(controller)
-    , m_tc(tc)
-    , m_id(controller->clipId())
-    , m_type(controller->clipType())
-    , m_properties(controller->properties())
-    , m_textEdit(nullptr)
+ClipPropertiesController::ClipPropertiesController(const Timecode &tc, ClipController *controller, QWidget *parent)
+    : QWidget(parent), m_controller(controller), m_tc(tc), m_id(controller->clipId()), m_type(controller->clipType()), m_properties(controller->properties()),
+      m_textEdit(nullptr)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     auto *lay = new QVBoxLayout;
@@ -216,8 +215,8 @@ ClipPropertiesController::ClipPropertiesController(const Timecode &tc, ClipContr
     // Clip analysis
     auto *aBox = new QVBoxLayout;
     m_analysisTree = new AnalysisTree(this);
-    aBox ->addWidget(new QLabel(i18n("Analysis data")));
-    aBox ->addWidget(m_analysisTree);
+    aBox->addWidget(new QLabel(i18n("Analysis data")));
+    aBox->addWidget(m_analysisTree);
     auto *bar2 = new QToolBar;
     bar2->addAction(KoIconUtils::themedIcon(QStringLiteral("trash-empty")), i18n("Delete analysis"), this, SLOT(slotDeleteAnalysis()));
     bar2->addAction(KoIconUtils::themedIcon(QStringLiteral("document-save-as")), i18n("Export analysis"), this, SLOT(slotSaveAnalysis()));
@@ -281,7 +280,7 @@ ClipPropertiesController::ClipPropertiesController(const Timecode &tc, ClipContr
         mlt_color color = m_properties.get_color("resource");
         ChooseColorWidget *choosecolor = new ChooseColorWidget(i18n("Color"), QColor::fromRgb(color.r, color.g, color.b).name(), "", false, this);
         vbox->addWidget(choosecolor);
-        //connect(choosecolor, SIGNAL(displayMessage(QString,int)), this, SIGNAL(displayMessage(QString,int)));
+        // connect(choosecolor, SIGNAL(displayMessage(QString,int)), this, SIGNAL(displayMessage(QString,int)));
         connect(choosecolor, &ChooseColorWidget::modified, this, &ClipPropertiesController::slotColorModified);
         connect(this, SIGNAL(modified(QColor)), choosecolor, SLOT(slotColorModified(QColor)));
     } else if (m_type == Image) {
@@ -298,7 +297,7 @@ ClipPropertiesController::ClipPropertiesController(const Timecode &tc, ClipContr
     if (m_type == AV || m_type == Video || m_type == Image) {
         // Aspect ratio
         int force_ar_num = m_properties.get_int("force_aspect_num");
-        int force_ar_den  = m_properties.get_int("force_aspect_den");
+        int force_ar_den = m_properties.get_int("force_aspect_den");
         m_originalProperties.insert(QStringLiteral("force_aspect_den"), (force_ar_den == 0) ? QString() : QString::number(force_ar_den));
         m_originalProperties.insert(QStringLiteral("force_aspect_num"), (force_ar_num == 0) ? QString() : QString::number(force_ar_num));
         auto *hlay = new QHBoxLayout;
@@ -412,7 +411,7 @@ ClipPropertiesController::ClipPropertiesController(const Timecode &tc, ClipContr
         hlay->addWidget(combo);
         vbox->addLayout(hlay);
 
-        //Autorotate
+        // Autorotate
         QString autorotate = m_properties.get("autorotate");
         m_originalProperties.insert(QStringLiteral("autorotate"), autorotate);
         hlay = new QHBoxLayout;
@@ -423,7 +422,7 @@ ClipPropertiesController::ClipPropertiesController(const Timecode &tc, ClipContr
         hlay->addWidget(box);
         vbox->addLayout(hlay);
 
-        //Decoding threads
+        // Decoding threads
         QString threads = m_properties.get("threads");
         m_originalProperties.insert(QStringLiteral("threads"), threads);
         hlay = new QHBoxLayout;
@@ -440,7 +439,7 @@ ClipPropertiesController::ClipPropertiesController(const Timecode &tc, ClipContr
         hlay->addWidget(spinI);
         vbox->addLayout(hlay);
 
-        //Video index
+        // Video index
         QString vix = m_properties.get("video_index");
         m_originalProperties.insert(QStringLiteral("video_index"), vix);
         hlay = new QHBoxLayout;
@@ -457,7 +456,7 @@ ClipPropertiesController::ClipPropertiesController(const Timecode &tc, ClipContr
         hlay->addWidget(spinI);
         vbox->addLayout(hlay);
 
-        //Audio index
+        // Audio index
         QString aix = m_properties.get("audio_index");
         m_originalProperties.insert(QStringLiteral("audio_index"), aix);
         hlay = new QHBoxLayout;
@@ -503,7 +502,7 @@ ClipPropertiesController::ClipPropertiesController(const Timecode &tc, ClipContr
         hlay->addWidget(combo);
         vbox->addLayout(hlay);
 
-        //Full luma
+        // Full luma
         QString force_luma = m_properties.get("set.force_full_luma");
         m_originalProperties.insert(QStringLiteral("set.force_full_luma"), force_luma);
         hlay = new QHBoxLayout;
@@ -573,7 +572,7 @@ void ClipPropertiesController::slotReloadProperties()
     }
 }
 
-void ClipPropertiesController::slotColorModified(const QColor& newcolor)
+void ClipPropertiesController::slotColorModified(const QColor &newcolor)
 {
     QMap<QString, QString> properties;
     properties.insert(QStringLiteral("resource"), newcolor.name(QColor::HexArgb));
@@ -622,9 +621,10 @@ void ClipPropertiesController::slotEnableForce(int state)
             TimecodeDisplay *timePos = findChild<TimecodeDisplay *>(param + QStringLiteral("_value"));
             timePos->setValue(m_properties.get_int("kdenlive:original_length"));
             slotDurationChanged(m_properties.get_int("kdenlive:original_length"));
-            m_properties.set("kdenlive:original_length", (char *) nullptr);
+            m_properties.set("kdenlive:original_length", (char *)nullptr);
             return;
-        } if (param == QLatin1String("kdenlive:transparency")) {
+        }
+        if (param == QLatin1String("kdenlive:transparency")) {
             properties.insert(param, QString());
         } else if (param == QLatin1String("force_ar")) {
             properties.insert(QStringLiteral("force_aspect_den"), QString());
@@ -655,7 +655,7 @@ void ClipPropertiesController::slotEnableForce(int state)
                 return;
             }
             properties.insert(param, QString::number(spin->value()));
-        } else if (param == QLatin1String("force_colorspace")  || param == QLatin1String("force_progressive") || param == QLatin1String("force_tff")) {
+        } else if (param == QLatin1String("force_colorspace") || param == QLatin1String("force_progressive") || param == QLatin1String("force_tff")) {
             QComboBox *combo = findChild<QComboBox *>(param + QStringLiteral("_value"));
             if (!combo) {
                 return;
@@ -673,7 +673,7 @@ void ClipPropertiesController::slotEnableForce(int state)
             }
             properties.insert(QStringLiteral("force_aspect_den"), QString::number(spin2->value()));
             properties.insert(QStringLiteral("force_aspect_num"), QString::number(spin->value()));
-            properties.insert(QStringLiteral("force_aspect_ratio"), locale.toString((double) spin->value() / spin2->value()));
+            properties.insert(QStringLiteral("force_aspect_ratio"), locale.toString((double)spin->value() / spin2->value()));
         }
     }
     if (properties.isEmpty()) {
@@ -721,7 +721,7 @@ void ClipPropertiesController::slotAspectValueChanged(int)
     properties.insert(QStringLiteral("force_aspect_den"), QString::number(spin2->value()));
     properties.insert(QStringLiteral("force_aspect_num"), QString::number(spin->value()));
     QLocale locale;
-    properties.insert(QStringLiteral("force_aspect_ratio"), locale.toString((double) spin->value() / spin2->value()));
+    properties.insert(QStringLiteral("force_aspect_ratio"), locale.toString((double)spin->value() / spin2->value()));
     emit updateClipProperties(m_id, m_originalProperties, properties);
     m_originalProperties = properties;
 }
@@ -806,7 +806,7 @@ void ClipPropertiesController::fillProperties()
             } else {
                 int rate_den = m_controller->getProducerIntProperty(QStringLiteral("meta.media.frame_rate_den"));
                 if (rate_den > 0) {
-                    double fps = (double) m_controller->getProducerIntProperty(QStringLiteral("meta.media.frame_rate_num")) / rate_den;
+                    double fps = (double)m_controller->getProducerIntProperty(QStringLiteral("meta.media.frame_rate_num")) / rate_den;
                     propertyMap.append(QStringList() << i18n("Frame rate") << QString::number(fps, 'f', 2));
                 }
             }
@@ -814,7 +814,8 @@ void ClipPropertiesController::fillProperties()
             snprintf(property, sizeof(property), "meta.media.%d.codec.bit_rate", vindex);
             int bitrate = m_controller->getProducerIntProperty(property) / 1000;
             if (bitrate > 0) {
-                propertyMap.append(QStringList() << i18n("Video bitrate") << QString::number(bitrate) + QLatin1Char(' ') + i18nc("Kilobytes per seconds", "kb/s"));
+                propertyMap.append(QStringList() << i18n("Video bitrate")
+                                                 << QString::number(bitrate) + QLatin1Char(' ') + i18nc("Kilobytes per seconds", "kb/s"));
             }
 
             int scan = m_controller->getProducerIntProperty(QStringLiteral("meta.media.progressive"));
@@ -848,7 +849,8 @@ void ClipPropertiesController::fillProperties()
             snprintf(property, sizeof(property), "meta.media.%d.codec.bit_rate", default_audio);
             int bitrate = m_controller->getProducerIntProperty(property) / 1000;
             if (bitrate > 0) {
-                propertyMap.append(QStringList() << i18n("Audio bitrate") << QString::number(bitrate) + QLatin1Char(' ') + i18nc("Kilobytes per seconds", "kb/s"));
+                propertyMap.append(QStringList() << i18n("Audio bitrate")
+                                                 << QString::number(bitrate) + QLatin1Char(' ') + i18nc("Kilobytes per seconds", "kb/s"));
             }
         }
     }
@@ -856,9 +858,8 @@ void ClipPropertiesController::fillProperties()
     qint64 filesize = m_controller->getProducerInt64Property(QStringLiteral("kdenlive:file_size"));
     if (filesize > 0) {
         QLocale locale(QLocale::system()); // use the user's locale for getting proper separators!
-        propertyMap.append(QStringList()
-                           << i18n("File size")
-                           << KIO::convertSize(filesize) + QStringLiteral(" (") + locale.toString(filesize) + QLatin1Char(')'));
+        propertyMap.append(QStringList() << i18n("File size")
+                                         << KIO::convertSize(filesize) + QStringLiteral(" (") + locale.toString(filesize) + QLatin1Char(')'));
     }
 
     for (int i = 0; i < propertyMap.count(); i++) {
@@ -878,7 +879,7 @@ void ClipPropertiesController::slotFillMarkers()
         itemtext << time << markers.at(count).comment();
         auto *item = new QTreeWidgetItem(m_markerTree, itemtext);
         item->setData(0, Qt::DecorationRole, CommentedTime::markerColor(markers.at(count).markerType()));
-        item->setData(0, Qt::UserRole, QVariant((int) markers.at(count).time().frames(m_tc.fps())));
+        item->setData(0, Qt::UserRole, QVariant((int)markers.at(count).time().frames(m_tc.fps())));
     }
     m_markerTree->resizeColumnToContents(0);
 }
@@ -892,7 +893,7 @@ void ClipPropertiesController::slotSeekToMarker()
 
 void ClipPropertiesController::slotEditMarker()
 {
-    QList< CommentedTime > marks = m_controller->commentedSnapMarkers();
+    QList<CommentedTime> marks = m_controller->commentedSnapMarkers();
     int pos = m_markerTree->currentIndex().row();
     if (pos < 0 || pos > marks.count() - 1) {
         return;
@@ -908,8 +909,8 @@ void ClipPropertiesController::slotEditMarker()
 
 void ClipPropertiesController::slotDeleteMarker()
 {
-    QList< CommentedTime > marks = m_controller->commentedSnapMarkers();
-    QList< CommentedTime > toDelete;
+    QList<CommentedTime> marks = m_controller->commentedSnapMarkers();
+    QList<CommentedTime> toDelete;
     for (int i = 0; i < marks.count(); ++i) {
         if (m_markerTree->topLevelItem(i)->isSelected()) {
             CommentedTime marker = marks.at(i);
@@ -923,8 +924,7 @@ void ClipPropertiesController::slotDeleteMarker()
 void ClipPropertiesController::slotAddMarker()
 {
     CommentedTime marker(GenTime(m_controller->originalProducer()->position(), m_tc.fps()), i18n("Marker"));
-    QPointer<MarkerDialog> d = new MarkerDialog(m_controller, marker,
-            m_tc, i18n("Add Marker"), this);
+    QPointer<MarkerDialog> d = new MarkerDialog(m_controller, marker, m_tc, i18n("Add Marker"), this);
     if (d->exec() == QDialog::Accepted) {
         QList<CommentedTime> markers;
         markers << d->newMarker();
@@ -963,7 +963,7 @@ void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
         }
     } else if (KdenliveSettings::use_exiftool()) {
         QString url = m_controller->clipUrl();
-        //Check for Canon THM file
+        // Check for Canon THM file
         url = url.section(QLatin1Char('.'), 0, -2) + QStringLiteral(".THM");
         if (QFile::exists(url)) {
             // Read the exif metadata embedded in the THM file
@@ -989,7 +989,8 @@ void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
                         exif = new QTreeWidgetItem(tree, QStringList() << i18n("Exif") << QString());
                         exif->setExpanded(true);
                     }
-                    m_controller->setProducerProperty("kdenlive:meta.exiftool." + tag.section(QLatin1Char('='), 0, 0), tag.section(QLatin1Char('='), 1).simplified());
+                    m_controller->setProducerProperty("kdenlive:meta.exiftool." + tag.section(QLatin1Char('='), 0, 0),
+                                                      tag.section(QLatin1Char('='), 1).simplified());
                     new QTreeWidgetItem(exif, QStringList() << tag.section(QLatin1Char('='), 0, 0) << tag.section(QLatin1Char('='), 1).simplified());
                 }
             }
@@ -1020,7 +1021,8 @@ void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
                     }
                     if (m_type != Image) {
                         // Do not store image exif metadata in project file, would be too much noise
-                        m_controller->setProducerProperty("kdenlive:meta.exiftool." + tag.section(QLatin1Char('='), 0, 0), tag.section(QLatin1Char('='), 1).simplified());
+                        m_controller->setProducerProperty("kdenlive:meta.exiftool." + tag.section(QLatin1Char('='), 0, 0),
+                                                          tag.section(QLatin1Char('='), 1).simplified());
                     }
                     new QTreeWidgetItem(exif, QStringList() << tag.section(QLatin1Char('='), 0, 0) << tag.section(QLatin1Char('='), 1).simplified());
                 }
@@ -1057,21 +1059,23 @@ void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
                     if (line.startsWith(QLatin1String("CSV data"))) {
                         break;
                     }
-                    m_controller->setProducerProperty("kdenlive:meta.magiclantern." + line.section(QLatin1Char(':'), 0, 0).simplified(), line.section(QLatin1Char(':'), 1).simplified());
+                    m_controller->setProducerProperty("kdenlive:meta.magiclantern." + line.section(QLatin1Char(':'), 0, 0).simplified(),
+                                                      line.section(QLatin1Char(':'), 1).simplified());
                     if (!magicL) {
                         magicL = new QTreeWidgetItem(tree, QStringList() << i18n("Magic Lantern") << QString());
                         QIcon icon(QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("meta_magiclantern.png")));
                         magicL->setIcon(0, icon);
                         magicL->setExpanded(true);
                     }
-                    new QTreeWidgetItem(magicL, QStringList() << line.section(QLatin1Char(':'), 0, 0).simplified() << line.section(QLatin1Char(':'), 1).simplified());
+                    new QTreeWidgetItem(magicL, QStringList() << line.section(QLatin1Char(':'), 0, 0).simplified()
+                                                              << line.section(QLatin1Char(':'), 1).simplified());
                 }
             }
         }
 
-        //if (!meta.isEmpty())
-        //clip->setMetadata(meta, "Magic Lantern");
-        //clip->setProperty("magiclantern", "1");
+        // if (!meta.isEmpty())
+        // clip->setMetadata(meta, "Magic Lantern");
+        // clip->setProperty("magiclantern", "1");
     }
     tree->resizeColumnToContents(0);
 }
@@ -1100,7 +1104,8 @@ void ClipPropertiesController::slotDeleteAnalysis()
 
 void ClipPropertiesController::slotSaveAnalysis()
 {
-    const QString url = QFileDialog::getSaveFileName(this, i18n("Save Analysis Data"), QFileInfo(m_controller->clipUrl()).absolutePath(), i18n("Text File (*.txt)"));
+    const QString url =
+        QFileDialog::getSaveFileName(this, i18n("Save Analysis Data"), QFileInfo(m_controller->clipUrl()).absolutePath(), i18n("Text File (*.txt)"));
     if (url.isEmpty()) {
         return;
     }
@@ -1112,14 +1117,15 @@ void ClipPropertiesController::slotSaveAnalysis()
 
 void ClipPropertiesController::slotLoadAnalysis()
 {
-    const QString url = QFileDialog::getOpenFileName(this, i18n("Open Analysis Data"), QFileInfo(m_controller->clipUrl()).absolutePath(), i18n("Text File (*.txt)"));
+    const QString url =
+        QFileDialog::getOpenFileName(this, i18n("Open Analysis Data"), QFileInfo(m_controller->clipUrl()).absolutePath(), i18n("Text File (*.txt)"));
     if (url.isEmpty()) {
         return;
     }
     KSharedConfigPtr config = KSharedConfig::openConfig(url, KConfig::SimpleConfig);
     KConfigGroup transConfig(config, "Analysis");
     // read the entries
-    QMap< QString, QString > profiles = transConfig.entryMap();
+    QMap<QString, QString> profiles = transConfig.entryMap();
     QMapIterator<QString, QString> i(profiles);
     while (i.hasNext()) {
         i.next();
@@ -1134,4 +1140,3 @@ void ClipPropertiesController::slotTextChanged()
     emit updateClipProperties(m_id, m_originalProperties, properties);
     m_originalProperties = properties;
 }
-

@@ -19,9 +19,8 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 #include "snapmodel.hpp"
-#include <limits.h>
 #include <QDebug>
-
+#include <limits.h>
 
 SnapModel::SnapModel()
 {
@@ -93,7 +92,7 @@ int SnapModel::getPreviousPoint(int position)
     return (int)prev;
 }
 
-void SnapModel::ignore(const std::vector<int>& pts)
+void SnapModel::ignore(const std::vector<int> &pts)
 {
     for (int pt : pts) {
         removePoint(pt);
@@ -103,7 +102,7 @@ void SnapModel::ignore(const std::vector<int>& pts)
 
 void SnapModel::unIgnore()
 {
-    for (const auto& pt : m_ignore) {
+    for (const auto &pt : m_ignore) {
         addPoint(pt);
     }
     m_ignore.clear();
@@ -111,7 +110,7 @@ void SnapModel::unIgnore()
 
 int SnapModel::proposeSize(int in, int out, int size, bool right, int maxSnapDist)
 {
-    ignore({in,out});
+    ignore({in, out});
     int proposed_size = -1;
     if (right) {
         int target_pos = in + size - 1;
