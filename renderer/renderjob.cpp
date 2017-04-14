@@ -28,7 +28,7 @@
 class SleepThread : QThread
 {
 public:
-    void run() Q_DECL_OVERRIDE {}
+    void run() override {}
     static void msleep(unsigned long msecs)
     {
         QThread::msleep(msecs);

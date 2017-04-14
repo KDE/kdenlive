@@ -34,11 +34,11 @@ class ProxyJob : public AbstractClipJob
 public:
     ProxyJob(ClipType cType, const QString &id, const QStringList &parameters, QTemporaryFile *playlist);
     virtual ~ ProxyJob();
-    const QString destination() const Q_DECL_OVERRIDE;
-    void startJob() Q_DECL_OVERRIDE;
-    stringMap cancelProperties() Q_DECL_OVERRIDE;
-    const QString statusMessage() Q_DECL_OVERRIDE;
-    void processLogInfo() Q_DECL_OVERRIDE;
+    const QString destination() const override;
+    void startJob() override;
+    stringMap cancelProperties() override;
+    const QString statusMessage() override;
+    void processLogInfo() override;
     static QList<ProjectClip *> filterClips(const QList<ProjectClip *> &clips);
     static QHash<ProjectClip *, AbstractClipJob *> prepareJob(Bin *bin, const QList<ProjectClip *> &clips);
 

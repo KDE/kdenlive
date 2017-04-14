@@ -35,7 +35,7 @@ public slots:
 
 protected:
     /** @brief This is just a wrapper function, subclasses can use renderAudioScope. */
-    QImage renderScope(uint accelerationFactor) Q_DECL_OVERRIDE;
+    QImage renderScope(uint accelerationFactor) override;
 
     ///// Unimplemented Methods /////
     /** @brief Scope renderer. Must emit signalScopeRenderingFinished()

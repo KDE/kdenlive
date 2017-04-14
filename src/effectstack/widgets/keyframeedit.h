@@ -41,7 +41,7 @@ public:
     {
     }
 
-    QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const Q_DECL_OVERRIDE
+    QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const override
     {
         if (index.column() == 1) {
             QSpinBox *spin = new QSpinBox(parent);
@@ -53,7 +53,7 @@ public:
         }
     }
 
-    void setEditorData(QWidget *editor, const QModelIndex &index) const Q_DECL_OVERRIDE
+    void setEditorData(QWidget *editor, const QModelIndex &index) const override
     {
         if (index.column() == 1) {
             QSpinBox *spin = qobject_cast< QSpinBox * >(editor);

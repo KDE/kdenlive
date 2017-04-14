@@ -65,23 +65,23 @@ public:
     Bin *bin() const;
 
     /** @brief Returns item data depending on role requested */
-    QVariant data(const QModelIndex &index, int role) const Q_DECL_OVERRIDE;
+    QVariant data(const QModelIndex &index, int role) const override;
     /** @brief Called when user edits an item */
-    bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) Q_DECL_OVERRIDE;
+    bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
     /** @brief Allow selection and drag & drop */
-    Qt::ItemFlags flags(const QModelIndex &index) const Q_DECL_OVERRIDE;
+    Qt::ItemFlags flags(const QModelIndex &index) const override;
     /** @brief Returns column names in case we want to use columns in QTreeView */
-    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
+    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
     /** @brief Mandatory reimplementation from QAbstractItemModel */
-    int columnCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
+    int columnCount(const QModelIndex &parent = QModelIndex()) const override;
     /** @brief Returns the mimetype used for Drag actions */
-    QStringList mimeTypes() const Q_DECL_OVERRIDE;
+    QStringList mimeTypes() const override;
     /** @brief Create data that will be used for Drag events */
-    QMimeData *mimeData(const QModelIndexList &indices) const Q_DECL_OVERRIDE;
+    QMimeData *mimeData(const QModelIndexList &indices) const override;
     /** @brief Set size for thumbnails */
     void setIconSize(QSize s);
-    bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent) Q_DECL_OVERRIDE;
-    Qt::DropActions supportedDropActions() const Q_DECL_OVERRIDE;
+    bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent) override;
+    Qt::DropActions supportedDropActions() const override;
 
 public slots:
     /** @brief An item in the list was modified, notify */

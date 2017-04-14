@@ -39,24 +39,24 @@ public:
     /** @brief Used for checking whether audio data needs to be delivered */
     bool monitoringEnabled() const;
 
-    QRect scopeRect() Q_DECL_OVERRIDE;
-    QImage renderHUD(uint accelerationFactor) Q_DECL_OVERRIDE;
-    QImage renderBackground(uint accelerationFactor) Q_DECL_OVERRIDE;
-    QImage renderAudioScope(uint accelerationFactor, const audioShortVector &audioFrame, const int, const int num_channels, const int samples, const int) Q_DECL_OVERRIDE;
+    QRect scopeRect() override;
+    QImage renderHUD(uint accelerationFactor) override;
+    QImage renderBackground(uint accelerationFactor) override;
+    QImage renderAudioScope(uint accelerationFactor, const audioShortVector &audioFrame, const int, const int num_channels, const int samples, const int) override;
 
-    QString widgetName() const Q_DECL_OVERRIDE
+    QString widgetName() const override
     {
         return QStringLiteral("audioSignal");
     }
-    bool isHUDDependingOnInput() const Q_DECL_OVERRIDE
+    bool isHUDDependingOnInput() const override
     {
         return false;
     }
-    bool isScopeDependingOnInput() const Q_DECL_OVERRIDE
+    bool isScopeDependingOnInput() const override
     {
         return true;
     }
-    bool isBackgroundDependingOnInput() const Q_DECL_OVERRIDE
+    bool isBackgroundDependingOnInput() const override
     {
         return false;
     }

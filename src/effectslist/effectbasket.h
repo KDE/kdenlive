@@ -39,8 +39,8 @@ public:
     explicit EffectBasket(EffectsListView *effectList);
 
 protected:
-    QMimeData *mimeData(const QList<QListWidgetItem *> list) const Q_DECL_OVERRIDE;
-    void showEvent(QShowEvent *event) Q_DECL_OVERRIDE;
+    QMimeData *mimeData(const QList<QListWidgetItem *> list) const override;
+    void showEvent(QShowEvent *event) override;
 
 private:
     EffectsListView *m_effectList;

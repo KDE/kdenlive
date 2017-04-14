@@ -47,7 +47,7 @@ public:
     void setSegments(const QList<int> &segments);
 
 protected:
-    void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
+    void paintEvent(QPaintEvent *event) override;
 
 private:
     QList<int> m_segments;
@@ -64,7 +64,7 @@ class TreeWidgetItem : public QTreeWidgetItem
 public:
     TreeWidgetItem(QTreeWidget *parent): QTreeWidgetItem(parent) {}
 private:
-    bool operator<(const QTreeWidgetItem &other)const Q_DECL_OVERRIDE
+    bool operator<(const QTreeWidgetItem &other)const override
     {
         int column = treeWidget()->sortColumn();
         switch (column) {

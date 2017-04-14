@@ -38,16 +38,16 @@ class SelectManager : public AbstractToolManager
 
 public:
     explicit SelectManager(CustomTrackView *view, std::shared_ptr<DocUndoStack> commandStack);
-    bool mousePress(QMouseEvent *event, const ItemInfo &info = ItemInfo(), const QList<QGraphicsItem *> &list = QList<QGraphicsItem *>()) Q_DECL_OVERRIDE;
-    void mouseRelease(QMouseEvent *event, GenTime pos = GenTime()) Q_DECL_OVERRIDE;
-    bool mouseMove(QMouseEvent *event, int pos, int) Q_DECL_OVERRIDE;
+    bool mousePress(QMouseEvent *event, const ItemInfo &info = ItemInfo(), const QList<QGraphicsItem *> &list = QList<QGraphicsItem *>()) override;
+    void mouseRelease(QMouseEvent *event, GenTime pos = GenTime()) override;
+    bool mouseMove(QMouseEvent *event, int pos, int) override;
     /** @brief Check if a guide operation is applicable on items under mouse.
      * @param item The item under mouse
      * @param operationMode Will be set to under mouse operation if applicable
      * @param abort Will be set to true if an operation matched and the items list should not be tested for further operation modes
      **/
     static void checkOperation(QGraphicsItem *item, CustomTrackView *view, QMouseEvent *event, AbstractGroupItem *group, OperationType &operationMode, OperationType moveOperation);
-    void initTool(double trackHeight) Q_DECL_OVERRIDE;
+    void initTool(double trackHeight) override;
 private:
     Qt::KeyboardModifiers m_modifiers;
     bool m_dragMoved;

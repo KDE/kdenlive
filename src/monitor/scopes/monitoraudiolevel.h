@@ -43,8 +43,8 @@ public:
     void setVisibility(bool enable);
 
 protected:
-    void paintEvent(QPaintEvent *) Q_DECL_OVERRIDE;
-    void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
+    void paintEvent(QPaintEvent *) override;
+    void resizeEvent(QResizeEvent *event) override;
 
 private:
     Mlt::Filter *m_filter;
@@ -56,7 +56,7 @@ private:
     int m_channelDistance;
     int m_channelFillHeight;
     void drawBackground(int channels = 2);
-    void refreshScope(const QSize &size, bool full) Q_DECL_OVERRIDE;
+    void refreshScope(const QSize &size, bool full) override;
 
 private slots:
     void setAudioValues(const QVector <int> &values);

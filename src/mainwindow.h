@@ -119,21 +119,21 @@ protected:
      * @return false if the user presses "Cancel" on a confirmation dialog or
      *     the operation requested (starting waiting jobs or saving file) fails,
      *     true otherwise */
-    bool queryClose() Q_DECL_OVERRIDE;
-    void closeEvent(QCloseEvent *) Q_DECL_OVERRIDE;
+    bool queryClose() override;
+    void closeEvent(QCloseEvent *) override;
 
     /** @brief Reports a message in the status bar when an error occurs. */
-    void customEvent(QEvent *e) Q_DECL_OVERRIDE;
+    void customEvent(QEvent *e) override;
 
     /** @brief Stops the active monitor when the window gets hidden. */
-    void hideEvent(QHideEvent *e) Q_DECL_OVERRIDE;
+    void hideEvent(QHideEvent *e) override;
 
     /** @brief Saves the file and the window properties when saving the session. */
-    void saveProperties(KConfigGroup &config) Q_DECL_OVERRIDE;
+    void saveProperties(KConfigGroup &config) override;
 
     /** @brief Restores the window and the file when a session is loaded. */
-    void readProperties(const KConfigGroup &config) Q_DECL_OVERRIDE;
-    void saveNewToolbarConfig() Q_DECL_OVERRIDE;
+    void readProperties(const KConfigGroup &config) override;
+    void saveNewToolbarConfig() override;
 
 private:
 
@@ -223,7 +223,7 @@ private:
     /** @brief initialize startup values, return true if first run. */
     bool readOptions();
     void saveOptions();
-    bool event(QEvent *e) Q_DECL_OVERRIDE;
+    bool event(QEvent *e) override;
 
     void loadGenerators();
     /** @brief Instantiates a "Get Hot New Stuff" dialog.
@@ -263,7 +263,7 @@ public slots:
     /** @brief Reload project profile in config dialog if changed. */
     void slotRefreshProfiles();
     void updateDockTitleBars(bool isTopLevel = true);
-    void configureToolbars() Q_DECL_OVERRIDE;
+    void configureToolbars() override;
     /** @brief Decreases the timeline zoom level by 1. */
     void slotZoomIn(bool zoomOnMouse = false);
     /** @brief Increases the timeline zoom level by 1. */

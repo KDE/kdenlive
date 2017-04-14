@@ -43,7 +43,7 @@ private:
     QString m_text;
 
 protected:
-    void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
+    void resizeEvent(QResizeEvent *event) override;
 };
 
 class EffectSettings : public QWidget
@@ -61,7 +61,7 @@ public:
     QToolButton *effectCompare;
 
 protected:
-    void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
+    void resizeEvent(QResizeEvent *event) override;
 
 };
 

@@ -43,18 +43,18 @@ public:
     ~AudioSpectrum();
 
     // Implemented virtual methods
-    QString widgetName() const Q_DECL_OVERRIDE;
+    QString widgetName() const override;
 
 protected:
     ///// Implemented methods /////
-    QRect scopeRect() Q_DECL_OVERRIDE;
-    QImage renderHUD(uint accelerationFactor) Q_DECL_OVERRIDE;
-    QImage renderAudioScope(uint accelerationFactor, const audioShortVector &audioFrame, const int freq, const int num_channels, const int num_samples, const int newData) Q_DECL_OVERRIDE;
-    QImage renderBackground(uint accelerationFactor) Q_DECL_OVERRIDE;
-    void readConfig() Q_DECL_OVERRIDE;
+    QRect scopeRect() override;
+    QImage renderHUD(uint accelerationFactor) override;
+    QImage renderAudioScope(uint accelerationFactor, const audioShortVector &audioFrame, const int freq, const int num_channels, const int num_samples, const int newData) override;
+    QImage renderBackground(uint accelerationFactor) override;
+    void readConfig() override;
     void writeConfig();
 
-    void handleMouseDrag(const QPoint &movement, const RescaleDirection rescaleDirection, const Qt::KeyboardModifiers rescaleModifiers) Q_DECL_OVERRIDE;
+    void handleMouseDrag(const QPoint &movement, const RescaleDirection rescaleDirection, const Qt::KeyboardModifiers rescaleModifiers) override;
 
 private:
     Ui::AudioSpectrum_UI *ui;

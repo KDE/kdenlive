@@ -43,7 +43,7 @@ public:
      * @param render project renderer
      * @param parent (optional) parent widget */
     explicit GradientWidget(const QMap<QString, QString> &gradients = QMap<QString, QString>(), int ix = 0, QWidget *parent = nullptr);
-    void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
+    void resizeEvent(QResizeEvent *event) override;
     QString gradientToString() const;
     static QLinearGradient gradientFromString(const QString &str, int width, int height);
     QMap<QString, QString> gradients() const;

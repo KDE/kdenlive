@@ -40,9 +40,9 @@ class TrimManager : public AbstractToolManager
 
 public:
     explicit TrimManager(CustomTrackView *view, std::shared_ptr<DocUndoStack> commandStack);
-    bool mousePress(QMouseEvent *event, const ItemInfo &info = ItemInfo(), const QList<QGraphicsItem *> &list = QList<QGraphicsItem *>()) Q_DECL_OVERRIDE;
-    bool mouseMove(QMouseEvent *event, int pos, int track = -1) Q_DECL_OVERRIDE;
-    void mouseRelease(QMouseEvent *event, GenTime pos = GenTime()) Q_DECL_OVERRIDE;
+    bool mousePress(QMouseEvent *event, const ItemInfo &info = ItemInfo(), const QList<QGraphicsItem *> &list = QList<QGraphicsItem *>()) override;
+    bool mouseMove(QMouseEvent *event, int pos, int track = -1) override;
+    void mouseRelease(QMouseEvent *event, GenTime pos = GenTime()) override;
     bool enterTrimMode(const ItemInfo &info, bool trimStart);
     void moveRoll(bool forward, int pos = -1);
     void setTrimMode(TrimMode mode, const ItemInfo &info = ItemInfo(), bool fromStart = true);

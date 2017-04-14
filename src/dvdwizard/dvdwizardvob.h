@@ -49,10 +49,10 @@ public:
     explicit DvdTreeWidget(QWidget *parent);
 
 protected:
-    void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
-    void dropEvent(QDropEvent *event) Q_DECL_OVERRIDE;
-    void mouseDoubleClickEvent(QMouseEvent *) Q_DECL_OVERRIDE;
-    void dragMoveEvent(QDragMoveEvent *event) Q_DECL_OVERRIDE;
+    void dragEnterEvent(QDragEnterEvent *event) override;
+    void dropEvent(QDropEvent *event) override;
+    void mouseDoubleClickEvent(QMouseEvent *) override;
+    void dragMoveEvent(QDragMoveEvent *event) override;
 
 signals:
     void addNewClip();
@@ -66,7 +66,7 @@ public:
     explicit DvdViewDelegate(QWidget *parent) : QStyledItemDelegate(parent) {}
 
     void paint(QPainter *painter, const QStyleOptionViewItem &option,
-               const QModelIndex &index) const Q_DECL_OVERRIDE
+               const QModelIndex &index) const override
     {
         if (index.column() == 0) {
             painter->save();
@@ -121,7 +121,7 @@ public:
     void setUseIntroMovie(bool use);
     void updateChapters(const QMap<QString, QString> &chaptersdata);
     static QString getDvdProfile(DVDFORMAT format);
-    bool isComplete() const Q_DECL_OVERRIDE;
+    bool isComplete() const override;
 
 private:
     Ui::DvdWizardVob_UI m_view;

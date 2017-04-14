@@ -56,7 +56,7 @@ class ShuttleThread : public QThread
 public:
     ShuttleThread(const QString &device, QObject *parent);
     ~ShuttleThread();
-    void run() Q_DECL_OVERRIDE;
+    void run() override;
     QString device();
     void stop();
 
@@ -91,7 +91,7 @@ public:
     static int keysCount(const QString &devPath);
 
 protected:
-    void customEvent(QEvent *e) Q_DECL_OVERRIDE;
+    void customEvent(QEvent *e) override;
 
 private:
     ShuttleThread m_shuttleProcess;

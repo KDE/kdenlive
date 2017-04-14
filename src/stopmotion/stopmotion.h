@@ -39,9 +39,9 @@ public:
     void setImage(const QImage &img);
 
 protected:
-    void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
-    void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
-    void mousePressEvent(QMouseEvent *) Q_DECL_OVERRIDE;
+    void paintEvent(QPaintEvent *event) override;
+    void wheelEvent(QWheelEvent *event) override;
+    void mousePressEvent(QMouseEvent *) override;
 
 private:
     QImage m_img;
@@ -61,20 +61,20 @@ class StopmotionMonitor : public AbstractMonitor
 public:
     StopmotionMonitor(MonitorManager *manager, QWidget *parent);
     ~StopmotionMonitor();
-    AbstractRender *abstractRender() Q_DECL_OVERRIDE;
+    AbstractRender *abstractRender() override;
     Kdenlive::MonitorId id() const;
     void setRender(MltDeviceCapture *render);
-    void mute(bool, bool) Q_DECL_OVERRIDE;
+    void mute(bool, bool) override;
 
 private:
     MltDeviceCapture *m_captureDevice;
 
 public slots:
-    void stop() Q_DECL_OVERRIDE;
-    void start() Q_DECL_OVERRIDE;
-    void slotPlay() Q_DECL_OVERRIDE;
-    void slotMouseSeek(int eventDelta, int modifiers) Q_DECL_OVERRIDE;
-    void slotSwitchFullScreen(bool minimizeOnly = false) Q_DECL_OVERRIDE;
+    void stop() override;
+    void start() override;
+    void slotPlay() override;
+    void slotMouseSeek(int eventDelta, int modifiers) override;
+    void slotSwitchFullScreen(bool minimizeOnly = false) override;
 
 signals:
     void stopCapture();
@@ -94,7 +94,7 @@ public:
     virtual ~StopmotionWidget();
 
 protected:
-    void closeEvent(QCloseEvent *e) Q_DECL_OVERRIDE;
+    void closeEvent(QCloseEvent *e) override;
 
 private:
     /** @brief Current project folder (where the captured frames will be saved). */

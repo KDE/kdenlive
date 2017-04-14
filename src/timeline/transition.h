@@ -44,8 +44,8 @@ public:
     virtual ~Transition();
     void paint(QPainter *painter,
                const QStyleOptionGraphicsItem *option,
-               QWidget *widget) Q_DECL_OVERRIDE;
-    int type() const Q_DECL_OVERRIDE;
+               QWidget *widget) override;
+    int type() const override;
 
     /** @brief Returns an XML representation of this transition. */
     QDomElement toXML();
@@ -54,8 +54,8 @@ public:
     int transitionEndTrack() const;
     QString transitionTag() const;
     QStringList transitionInfo() const;
-    OperationType operationMode(const QPointF &pos, Qt::KeyboardModifiers modifiers) Q_DECL_OVERRIDE;
-    void updateKeyframes(const QDomElement &effect) Q_DECL_OVERRIDE;
+    OperationType operationMode(const QPointF &pos, Qt::KeyboardModifiers modifiers) override;
+    void updateKeyframes(const QDomElement &effect) override;
     static int itemHeight();
     static int itemOffset();
     //const QMap< QString, QString > transitionParameters() const;
@@ -79,11 +79,11 @@ public:
     bool checkKeyFrames(int width, int height, int previousDuration, int cutPos = -1);
 
 protected:
-    QVariant itemChange(GraphicsItemChange change, const QVariant &value) Q_DECL_OVERRIDE;
-    void dragEnterEvent(QGraphicsSceneDragDropEvent *event) Q_DECL_OVERRIDE;
-    void dragLeaveEvent(QGraphicsSceneDragDropEvent *event) Q_DECL_OVERRIDE;
-    void dragMoveEvent(QGraphicsSceneDragDropEvent *event) Q_DECL_OVERRIDE;
-    void dropEvent(QGraphicsSceneDragDropEvent *event) Q_DECL_OVERRIDE;
+    QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
+    void dragEnterEvent(QGraphicsSceneDragDropEvent *event) override;
+    void dragLeaveEvent(QGraphicsSceneDragDropEvent *event) override;
+    void dragMoveEvent(QGraphicsSceneDragDropEvent *event) override;
+    void dropEvent(QGraphicsSceneDragDropEvent *event) override;
 
 private:
     QString m_name;

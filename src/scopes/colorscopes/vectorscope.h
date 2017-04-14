@@ -34,18 +34,18 @@ public:
     explicit Vectorscope(QWidget *parent = nullptr);
     ~Vectorscope();
 
-    QString widgetName() const Q_DECL_OVERRIDE;
+    QString widgetName() const override;
 
 protected:
     ///// Implemented methods /////
-    QRect scopeRect() Q_DECL_OVERRIDE;
-    QImage renderHUD(uint accelerationFactor) Q_DECL_OVERRIDE;
-    QImage renderGfxScope(uint accelerationFactor, const QImage &) Q_DECL_OVERRIDE;
-    QImage renderBackground(uint accelerationFactor) Q_DECL_OVERRIDE;
-    bool isHUDDependingOnInput() const Q_DECL_OVERRIDE;
-    bool isScopeDependingOnInput() const Q_DECL_OVERRIDE;
-    bool isBackgroundDependingOnInput() const Q_DECL_OVERRIDE;
-    void readConfig() Q_DECL_OVERRIDE;
+    QRect scopeRect() override;
+    QImage renderHUD(uint accelerationFactor) override;
+    QImage renderGfxScope(uint accelerationFactor, const QImage &) override;
+    QImage renderBackground(uint accelerationFactor) override;
+    bool isHUDDependingOnInput() const override;
+    bool isScopeDependingOnInput() const override;
+    bool isBackgroundDependingOnInput() const override;
+    void readConfig() override;
 
     ///// Other /////
     void writeConfig();

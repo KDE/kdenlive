@@ -43,11 +43,11 @@ public:
      * */
     CutClipJob(ClipType cType, const QString &id, const QStringList &parameters);
     virtual ~ CutClipJob();
-    const QString destination() const Q_DECL_OVERRIDE;
-    void startJob() Q_DECL_OVERRIDE;
-    stringMap cancelProperties() Q_DECL_OVERRIDE;
-    const QString statusMessage() Q_DECL_OVERRIDE;
-    bool isExclusive() Q_DECL_OVERRIDE;
+    const QString destination() const override;
+    void startJob() override;
+    stringMap cancelProperties() override;
+    const QString statusMessage() override;
+    bool isExclusive() override;
     static QHash<ProjectClip *, AbstractClipJob *> prepareTranscodeJob(double fps, const QList<ProjectClip *> &ids,  const QStringList &parameters);
     static QHash<ProjectClip *, AbstractClipJob *> prepareCutClipJob(double fps, double originalFps, ProjectClip *clip);
     static QHash<ProjectClip *, AbstractClipJob *> prepareAnalyseJob(double fps, const QList<ProjectClip *> &clips, const QStringList &parameters);
@@ -61,7 +61,7 @@ private:
     QString m_cutExtraParams;
     int m_jobDuration;
 
-    void processLogInfo() Q_DECL_OVERRIDE;
+    void processLogInfo() override;
     void analyseLogInfo();
     void processAnalyseLog();
 

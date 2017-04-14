@@ -36,7 +36,7 @@ public:
     explicit MyEditableLabel(QWidget *parent = nullptr);
 
 protected:
-    void mouseDoubleClickEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
+    void mouseDoubleClickEvent(QMouseEvent *e) override;
 };
 
 /**)
@@ -53,9 +53,9 @@ public:
     CollapsibleGroup(int ix, bool firstGroup, bool lastGroup, const EffectInfo &info, QWidget *parent = nullptr);
     ~CollapsibleGroup();
     void updateTimecodeFormat();
-    void setActive(bool activate) Q_DECL_OVERRIDE;
+    void setActive(bool activate) override;
     int groupIndex() const;
-    bool isGroup() const Q_DECL_OVERRIDE;
+    bool isGroup() const override;
     QString infoString() const;
     bool isActive() const;
     void addGroupEffect(CollapsibleEffect *effect);
@@ -92,10 +92,10 @@ private:
     KDualAction *m_enabledButton;
 
 protected:
-    void mouseDoubleClickEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
-    void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
-    void dragLeaveEvent(QDragLeaveEvent *event) Q_DECL_OVERRIDE;
-    void dropEvent(QDropEvent *event) Q_DECL_OVERRIDE;
+    void mouseDoubleClickEvent(QMouseEvent *event) override;
+    void dragEnterEvent(QDragEnterEvent *event) override;
+    void dragLeaveEvent(QDragLeaveEvent *event) override;
+    void dropEvent(QDropEvent *event) override;
 
 signals:
     void deleteGroup(const QDomDocument &);

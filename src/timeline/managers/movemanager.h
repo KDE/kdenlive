@@ -38,9 +38,9 @@ class MoveManager : public AbstractToolManager
 
 public:
     explicit MoveManager(TransitionHandler *handler, CustomTrackView *view, std::shared_ptr<DocUndoStack> commandStack);
-    bool mousePress(QMouseEvent *event, const ItemInfo &info = ItemInfo(), const QList<QGraphicsItem *> &list = QList<QGraphicsItem *>()) Q_DECL_OVERRIDE;
-    void mouseRelease(QMouseEvent *event, GenTime pos = GenTime()) Q_DECL_OVERRIDE;
-    bool mouseMove(QMouseEvent *event, int pos, int) Q_DECL_OVERRIDE;
+    bool mousePress(QMouseEvent *event, const ItemInfo &info = ItemInfo(), const QList<QGraphicsItem *> &list = QList<QGraphicsItem *>()) override;
+    void mouseRelease(QMouseEvent *event, GenTime pos = GenTime()) override;
+    bool mouseMove(QMouseEvent *event, int pos, int) override;
 
 private:
     ItemInfo m_dragItemInfo;

@@ -122,9 +122,9 @@ public:
     int getCurrentPos() const;
 
 protected:
-    void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
-    void mouseDoubleClickEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
-    void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QMouseEvent *event) override;
+    void mouseDoubleClickEvent(QMouseEvent *event) override;
+    void wheelEvent(QWheelEvent *event) override;
 
 public slots:
     void setZoom(float zoom);
@@ -213,10 +213,10 @@ private slots:
     void onFrameDisplayed(const SharedFrame &frame);
 
 protected:
-    void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
-    void mousePressEvent(QMouseEvent *) Q_DECL_OVERRIDE;
-    void mouseMoveEvent(QMouseEvent *) Q_DECL_OVERRIDE;
-    void keyPressEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
+    void resizeEvent(QResizeEvent *event) override;
+    void mousePressEvent(QMouseEvent *) override;
+    void mouseMoveEvent(QMouseEvent *) override;
+    void keyPressEvent(QKeyEvent *event) override;
     void createShader();
 };
 
@@ -228,7 +228,7 @@ public:
     ~RenderThread();
 
 protected:
-    void run() Q_DECL_OVERRIDE;
+    void run() override;
 
 private:
     thread_function_t m_function;

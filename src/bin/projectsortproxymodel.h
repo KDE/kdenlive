@@ -53,9 +53,9 @@ private slots:
 protected:
     /** @brief Decide which items should be displayed depending on the search string  */
     // cppcheck-suppress unusedFunction
-    bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const Q_DECL_OVERRIDE;
+    bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override;
     /** @brief Reimplemented to show folders first  */
-    bool lessThan(const QModelIndex &left, const QModelIndex &right) const Q_DECL_OVERRIDE;
+    bool lessThan(const QModelIndex &left, const QModelIndex &right) const override;
     bool filterAcceptsRowItself(int source_row, const QModelIndex &source_parent) const;
     bool hasAcceptedChildren(int source_row, const QModelIndex &source_parent) const;
 

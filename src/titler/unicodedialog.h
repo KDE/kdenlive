@@ -48,7 +48,7 @@ public:
     void showLastUnicode();
 
 protected:
-    void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
+    void wheelEvent(QWheelEvent *event) override;
 
 private:
     enum Direction { Forward, Backward };

@@ -315,7 +315,7 @@ public:
     {
     }
 
-    void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const Q_DECL_OVERRIDE
+    void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const override
     {
         if (index.column() != 0) {
             return QStyledItemDelegate::updateEditorGeometry(editor, option, index);
@@ -343,7 +343,7 @@ public:
         editor->setGeometry(r2);
     }
 
-    QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const Q_DECL_OVERRIDE
+    QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override
     {
         QSize hint = QStyledItemDelegate::sizeHint(option, index);
         QString text = index.data(AbstractProjectItem::DataName).toString();
@@ -374,7 +374,7 @@ public:
         return QSize(qMax(textW, iconSize.width()) + 4, option.fontMetrics.lineSpacing() * 2 + 4);
     }
 
-    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const Q_DECL_OVERRIDE
+    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override
     {
         if (index.column() == 0 && !index.data().isNull()) {
             QRect r1 = option.rect;

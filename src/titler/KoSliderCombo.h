@@ -97,8 +97,8 @@ public:
     */
     qreal value() const;
 
-    QSize minimumSizeHint() const Q_DECL_OVERRIDE; ///< reimplemented from KComboBox
-    QSize sizeHint() const Q_DECL_OVERRIDE; ///< reimplemented from KComboBox
+    QSize minimumSizeHint() const override; ///< reimplemented from KComboBox
+    QSize sizeHint() const override; ///< reimplemented from KComboBox
 
 public slots:
 
@@ -120,12 +120,12 @@ signals:
     void valueChanged(qreal value, bool final);
 
 protected:
-    void paintEvent(QPaintEvent *) Q_DECL_OVERRIDE; ///< reimplemented from KComboBox
-    void hideEvent(QHideEvent *) Q_DECL_OVERRIDE; ///< reimplemented from KComboBox
-    void changeEvent(QEvent *e) Q_DECL_OVERRIDE; ///< reimplemented from KComboBox
-    void mousePressEvent(QMouseEvent *e) Q_DECL_OVERRIDE; ///< reimplemented from KComboBox
-    void keyPressEvent(QKeyEvent *e) Q_DECL_OVERRIDE; ///< reimplemented from KComboBox
-    void wheelEvent(QWheelEvent *e) Q_DECL_OVERRIDE; ///< reimplemented from KComboBox
+    void paintEvent(QPaintEvent *) override; ///< reimplemented from KComboBox
+    void hideEvent(QHideEvent *) override; ///< reimplemented from KComboBox
+    void changeEvent(QEvent *e) override; ///< reimplemented from KComboBox
+    void mousePressEvent(QMouseEvent *e) override; ///< reimplemented from KComboBox
+    void keyPressEvent(QKeyEvent *e) override; ///< reimplemented from KComboBox
+    void wheelEvent(QWheelEvent *e) override; ///< reimplemented from KComboBox
 
 private:
     Q_PRIVATE_SLOT(d, void sliderValueChanged(int value))

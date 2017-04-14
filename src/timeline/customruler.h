@@ -68,11 +68,11 @@ public:
     void hidePreview(bool hide);
 
 protected:
-    void paintEvent(QPaintEvent * /*e*/) Q_DECL_OVERRIDE;
-    void wheelEvent(QWheelEvent *e) Q_DECL_OVERRIDE;
-    void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
-    void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
-    void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void paintEvent(QPaintEvent * /*e*/) override;
+    void wheelEvent(QWheelEvent *e) override;
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
 
 private:
     Timecode m_timecode;

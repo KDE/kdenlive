@@ -68,7 +68,7 @@ private:
     QMap<QString, QString> m_simpleTargets;
 
 protected:
-    void resizeEvent(QResizeEvent *ev) Q_DECL_OVERRIDE;
+    void resizeEvent(QResizeEvent *ev) override;
 
 private slots:
     void updateDataDisplay();

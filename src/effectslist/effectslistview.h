@@ -43,7 +43,7 @@ public:
     explicit TreeEventEater(QObject *parent = nullptr);
 
 protected:
-    bool eventFilter(QObject *obj, QEvent *event) Q_DECL_OVERRIDE;
+    bool eventFilter(QObject *obj, QEvent *event) override;
 
 signals:
     void clearSearchLine();
@@ -56,7 +56,7 @@ public:
     explicit MyTreeWidgetSearchLine(QWidget *parent = nullptr);
 
 protected:
-    bool itemMatches(const QTreeWidgetItem *item, const QString &pattern) const Q_DECL_OVERRIDE;
+    bool itemMatches(const QTreeWidgetItem *item, const QString &pattern) const override;
 };
 
 /**
@@ -78,13 +78,13 @@ public:
         setAutoRaise(true);
     }
 protected:
-    void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE {
+    void dragEnterEvent(QDragEnterEvent *event) override {
         if (event->mimeData()->hasFormat(QStringLiteral("kdenlive/effectslist")))
         {
             event->accept();
         }
     }
-    void dropEvent(QDropEvent *event) Q_DECL_OVERRIDE {
+    void dropEvent(QDropEvent *event) override {
         const QString effects = QString::fromUtf8(event->mimeData()->data(QStringLiteral("kdenlive/effectslist")));
         QDomDocument doc;
         doc.setContent(effects, true);

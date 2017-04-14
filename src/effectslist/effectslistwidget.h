@@ -48,10 +48,10 @@ public:
     void resetFavorites();
 
 protected:
-    void dragMoveEvent(QDragMoveEvent *event) Q_DECL_OVERRIDE;
-    void contextMenuEvent(QContextMenuEvent *event) Q_DECL_OVERRIDE;
-    QMimeData *mimeData(const QList<QTreeWidgetItem *> list) const Q_DECL_OVERRIDE;
-    void keyPressEvent(QKeyEvent *e) Q_DECL_OVERRIDE;
+    void dragMoveEvent(QDragMoveEvent *event) override;
+    void contextMenuEvent(QContextMenuEvent *event) override;
+    QMimeData *mimeData(const QList<QTreeWidgetItem *> list) const override;
+    void keyPressEvent(QKeyEvent *e) override;
 
 private:
     QMenu *m_menu;

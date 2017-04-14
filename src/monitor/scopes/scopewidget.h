@@ -110,8 +110,8 @@ protected:
     */
     DataQueue<SharedFrame> m_queue;
 
-    void resizeEvent(QResizeEvent *) Q_DECL_OVERRIDE;
-    void changeEvent(QEvent *) Q_DECL_OVERRIDE;
+    void resizeEvent(QResizeEvent *) override;
+    void changeEvent(QEvent *) override;
 
 private:
     Q_INVOKABLE void onRefreshThreadComplete();

@@ -50,8 +50,8 @@ private:
     void updateTrackList();
 
 protected:
-    void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
-    void dropEvent(QDropEvent *event) Q_DECL_OVERRIDE;
+    void dragEnterEvent(QDragEnterEvent *event) override;
+    void dropEvent(QDropEvent *event) override;
 
 public slots:
     void slotTransitionItemSelected(Transition *t, int nextTrack, const QPoint &p, bool update);

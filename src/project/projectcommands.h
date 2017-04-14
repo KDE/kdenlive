@@ -32,8 +32,8 @@ class AddClipCutCommand : public QUndoCommand
 {
 public:
     AddClipCutCommand(ProjectList *list, const QString &id, int in, int out, const QString &desc, bool newItem, bool remove, QUndoCommand *parent = nullptr);
-    void undo() Q_DECL_OVERRIDE;
-    void redo() Q_DECL_OVERRIDE;
+    void undo() override;
+    void redo() override;
 private:
     ProjectList *m_list;
     QString m_id;
@@ -48,8 +48,8 @@ class AddFolderCommand : public QUndoCommand
 {
 public:
     AddFolderCommand(ProjectList *view, const QString &folderName, const QString &clipId, bool doIt, QUndoCommand *parent = nullptr);
-    void undo() Q_DECL_OVERRIDE;
-    void redo() Q_DECL_OVERRIDE;
+    void undo() override;
+    void redo() override;
 private:
     ProjectList *m_view;
     QString m_name;
@@ -61,8 +61,8 @@ class EditClipCutCommand : public QUndoCommand
 {
 public:
     EditClipCutCommand(ProjectList *list, const QString &id, const QPoint &oldZone, const QPoint &newZone, const QString &oldComment, const QString &newComment, bool doIt, QUndoCommand *parent = nullptr);
-    void undo() Q_DECL_OVERRIDE;
-    void redo() Q_DECL_OVERRIDE;
+    void undo() override;
+    void redo() override;
 private:
     ProjectList *m_list;
     QString m_id;
@@ -77,8 +77,8 @@ class EditFolderCommand : public QUndoCommand
 {
 public:
     EditFolderCommand(ProjectList *view, const QString &newfolderName, const QString &oldfolderName, const QString &clipId, bool doIt, QUndoCommand *parent = nullptr);
-    void undo() Q_DECL_OVERRIDE;
-    void redo() Q_DECL_OVERRIDE;
+    void undo() override;
+    void redo() override;
 private:
     ProjectList *m_view;
     QString m_name;
@@ -91,8 +91,8 @@ class AddMarkerCommand : public QUndoCommand
 {
 public:
     AddMarkerCommand(ProjectClip *clip, QList<CommentedTime> &oldMarkers, QList<CommentedTime> &newMarkers, QUndoCommand *parent = nullptr);
-    void undo() Q_DECL_OVERRIDE;
-    void redo() Q_DECL_OVERRIDE;
+    void undo() override;
+    void redo() override;
 private:
     ProjectClip *m_clip;
     QList<CommentedTime> m_oldMarkers;

@@ -201,7 +201,7 @@ Q_OBJECT public:
     void showAudio(Mlt::Frame &);
 
     QList<int> checkTrackSequence(int);
-    void sendFrameUpdate() Q_DECL_OVERRIDE;
+    void sendFrameUpdate() override;
 
     /** @brief Returns a pointer to the main producer. */
     Mlt::Producer *getProducer();

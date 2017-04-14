@@ -40,13 +40,13 @@ class RazorManager : public AbstractToolManager
 
 public:
     explicit RazorManager(CustomTrackView *view, std::shared_ptr<DocUndoStack> commandStack);
-    bool mousePress(QMouseEvent *event, const ItemInfo &info = ItemInfo(), const QList<QGraphicsItem *> &list = QList<QGraphicsItem *>()) Q_DECL_OVERRIDE;
-    bool mouseMove(QMouseEvent *event, int pos = 0, int track = -1) Q_DECL_OVERRIDE;
-    void mouseRelease(QMouseEvent *event, GenTime pos = GenTime()) Q_DECL_OVERRIDE;
-    void enterEvent(int pos, double trackHeight) Q_DECL_OVERRIDE;
-    void leaveEvent() Q_DECL_OVERRIDE;
-    void initTool(double trackHeight) Q_DECL_OVERRIDE;
-    void closeTool() Q_DECL_OVERRIDE;
+    bool mousePress(QMouseEvent *event, const ItemInfo &info = ItemInfo(), const QList<QGraphicsItem *> &list = QList<QGraphicsItem *>()) override;
+    bool mouseMove(QMouseEvent *event, int pos = 0, int track = -1) override;
+    void mouseRelease(QMouseEvent *event, GenTime pos = GenTime()) override;
+    void enterEvent(int pos, double trackHeight) override;
+    void leaveEvent() override;
+    void initTool(double trackHeight) override;
+    void closeTool() override;
     /** @brief Check if a guide operation is applicable on items under mouse.
      * @param items The list of items under mouse
      * @param operationMode Will be set to MoveGuide if applicable
@@ -56,7 +56,7 @@ public:
 
 public slots:
     void slotRefreshCutLine();
-    void updateTimelineItems() Q_DECL_OVERRIDE;
+    void updateTimelineItems() override;
 
 private:
     QGraphicsLineItem *m_cutLine;

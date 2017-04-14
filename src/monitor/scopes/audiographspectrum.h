@@ -61,8 +61,8 @@ public slots:
     void showAudio(const QVector<double> &bands);
 
 protected:
-    void paintEvent(QPaintEvent *pe) Q_DECL_OVERRIDE;
-    void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
+    void paintEvent(QPaintEvent *pe) override;
+    void resizeEvent(QResizeEvent *event) override;
 
 private:
     QVector<double> m_levels;
@@ -88,7 +88,7 @@ private:
     AudioGraphWidget *m_graphWidget;
     //EqualizerWidget *m_equalizer;
     void processSpectrum();
-    void refreshScope(const QSize &size, bool full) Q_DECL_OVERRIDE;
+    void refreshScope(const QSize &size, bool full) override;
 
 public slots:
     void refreshPixmap();

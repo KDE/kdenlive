@@ -114,9 +114,9 @@ protected:
     bool m_isMainSelectedClip;
     KeyframeView m_keyframeView;
 
-    void mousePressEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
-    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
-    void mouseMoveEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
+    void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
     int trackForPos(int position);
     int posForTrack(int track);
     bool resizeGeometries(QDomElement effect, int width, int height, int previousDuration, int start, int duration, int cropstart);

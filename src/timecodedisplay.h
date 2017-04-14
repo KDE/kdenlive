@@ -29,8 +29,8 @@ class MyValidator : public QValidator
 {
 public:
     explicit MyValidator(QObject *parent = nullptr);
-    void fixup(QString &str) const Q_DECL_OVERRIDE;
-    QValidator::State validate(QString &str, int &pos) const Q_DECL_OVERRIDE;
+    void fixup(QString &str) const override;
+    QValidator::State validate(QString &str, int &pos) const override;
 };
 
 /**
@@ -82,7 +82,7 @@ public:
      * @param t the new timecode */
     void updateTimeCode(const Timecode &t);
 
-    void stepBy(int steps) Q_DECL_OVERRIDE;
+    void stepBy(int steps) override;
 
     const QString displayText() const;
     /** @brief Send a signal every time the timecode changes. */
@@ -118,12 +118,12 @@ signals:
     void emitTimeCode(const QString &);
 
 protected:
-    void keyPressEvent(QKeyEvent *e) Q_DECL_OVERRIDE;
-    void mouseReleaseEvent(QMouseEvent *) Q_DECL_OVERRIDE;
-    void wheelEvent(QWheelEvent *e) Q_DECL_OVERRIDE;
-    void enterEvent(QEvent *e) Q_DECL_OVERRIDE;
-    void leaveEvent(QEvent *e) Q_DECL_OVERRIDE;
-    QAbstractSpinBox::StepEnabled stepEnabled() const Q_DECL_OVERRIDE;
+    void keyPressEvent(QKeyEvent *e) override;
+    void mouseReleaseEvent(QMouseEvent *) override;
+    void wheelEvent(QWheelEvent *e) override;
+    void enterEvent(QEvent *e) override;
+    void leaveEvent(QEvent *e) override;
+    QAbstractSpinBox::StepEnabled stepEnabled() const override;
 
 };
 

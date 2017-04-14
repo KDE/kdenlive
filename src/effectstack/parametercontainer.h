@@ -69,8 +69,8 @@ public:
     explicit MySpinBox(QWidget *parent = nullptr);
 
 protected:
-    void focusInEvent(QFocusEvent *) Q_DECL_OVERRIDE;
-    void focusOutEvent(QFocusEvent *) Q_DECL_OVERRIDE;
+    void focusInEvent(QFocusEvent *) override;
+    void focusOutEvent(QFocusEvent *) override;
 };
 
 class ParameterContainer : public QObject

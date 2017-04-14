@@ -53,7 +53,7 @@ public:
     explicit ScrollEventEater(QObject *parent = nullptr);
 
 protected:
-    bool eventFilter(QObject *obj, QEvent *event) Q_DECL_OVERRIDE;
+    bool eventFilter(QObject *obj, QEvent *event) override;
 };
 
 class Timeline : public QWidget, public Ui::TimeLine_UI

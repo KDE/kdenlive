@@ -36,9 +36,9 @@ protected:
         accelerationFactor hints how much faster than usual the calculation should be accomplished, if possible. */
     virtual QImage renderGfxScope(uint accelerationFactor, const QImage &) = 0;
 
-    QImage renderScope(uint accelerationFactor) Q_DECL_OVERRIDE;
+    QImage renderScope(uint accelerationFactor) override;
 
-    void mouseReleaseEvent(QMouseEvent *) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QMouseEvent *) override;
 
 private:
     QImage m_scopeImage;

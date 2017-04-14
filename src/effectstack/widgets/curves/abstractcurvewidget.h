@@ -130,11 +130,11 @@ public:
     void slotZoomOut();
 protected:
     void paintBackground(QPainter * p);
-    int heightForWidth(int w) const Q_DECL_OVERRIDE;
-    void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
-    void leaveEvent(QEvent *) Q_DECL_OVERRIDE;
-    void mouseReleaseEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
-    void keyPressEvent(QKeyEvent *) Q_DECL_OVERRIDE;
+    int heightForWidth(int w) const override;
+    void resizeEvent(QResizeEvent *event) override;
+    void leaveEvent(QEvent *) override;
+    void mouseReleaseEvent(QMouseEvent *e) override;
+    void keyPressEvent(QKeyEvent *) override;
     /**
        Utility function to check if current selected point is the first or the last
     */

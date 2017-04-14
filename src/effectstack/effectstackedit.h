@@ -48,7 +48,7 @@ public:
     bool effectNeedsSyncPosition() const;
     Monitor *monitor();
     /** @brief Install event filter so that scrolling with mouse wheel does not change parameter value. */
-    bool eventFilter(QObject *o, QEvent *e) Q_DECL_OVERRIDE;
+    bool eventFilter(QObject *o, QEvent *e) override;
     /** @brief Returns type of monitor scene requested by this transition. */
     MonitorSceneType needsMonitorEffectScene() const;
     /** @brief Set keyframes for this transition. */

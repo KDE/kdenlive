@@ -78,7 +78,7 @@ public:
     explicit MyListView(QWidget *parent = nullptr);
 
 protected:
-    void focusInEvent(QFocusEvent *event) Q_DECL_OVERRIDE;
+    void focusInEvent(QFocusEvent *event) override;
 signals:
     void focusView();
 };
@@ -91,14 +91,14 @@ public:
     explicit MyTreeView(QWidget *parent = nullptr);
     void setEditing(bool edit);
 protected:
-    void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
-    void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
-    void focusInEvent(QFocusEvent *event) Q_DECL_OVERRIDE;
-    void keyPressEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
+    void focusInEvent(QFocusEvent *event) override;
+    void keyPressEvent(QKeyEvent *event) override;
 
 protected slots:
-    void closeEditor(QWidget *editor, QAbstractItemDelegate::EndEditHint hint) Q_DECL_OVERRIDE;
-    void editorDestroyed(QObject *editor) Q_DECL_OVERRIDE;
+    void closeEditor(QWidget *editor, QAbstractItemDelegate::EndEditHint hint) override;
+    void editorDestroyed(QObject *editor) override;
 
 private:
     QPoint m_startPos;
@@ -118,7 +118,7 @@ public:
     BinMessageWidget(const QString &text, QWidget *parent = nullptr);
 
 protected:
-    bool event(QEvent *ev) Q_DECL_OVERRIDE;
+    bool event(QEvent *ev) override;
 
 signals:
     void messageClosing();
@@ -156,7 +156,7 @@ public:
     explicit LineEventEater(QObject *parent = nullptr);
 
 protected:
-    bool eventFilter(QObject *obj, QEvent *event) Q_DECL_OVERRIDE;
+    bool eventFilter(QObject *obj, QEvent *event) override;
 
 signals:
     void clearSearchLine();
@@ -456,8 +456,8 @@ public slots:
     void droppedUrls(const QList<QUrl> &urls, const QStringList &folderInfo = QStringList());
 
 protected:
-    void contextMenuEvent(QContextMenuEvent *event) Q_DECL_OVERRIDE;
-    bool eventFilter(QObject *obj, QEvent *event) Q_DECL_OVERRIDE;
+    void contextMenuEvent(QContextMenuEvent *event) override;
+    bool eventFilter(QObject *obj, QEvent *event) override;
 
 private:
     ProjectItemModel *m_itemModel;

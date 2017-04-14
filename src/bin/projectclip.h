@@ -75,14 +75,14 @@ public:
     //virtual void hash() = 0;
 
     /** @brief Returns this if @param id matches the clip's id or nullptr otherwise. */
-    ProjectClip *clip(const QString &id) Q_DECL_OVERRIDE;
+    ProjectClip *clip(const QString &id) override;
 
-    ProjectFolder *folder(const QString &id) Q_DECL_OVERRIDE;
+    ProjectFolder *folder(const QString &id) override;
 
     ProjectSubClip *getSubClip(int in, int out);
 
     /** @brief Returns this if @param ix matches the clip's index or nullptr otherwise. */
-    ProjectClip *clipAt(int ix) Q_DECL_OVERRIDE;
+    ProjectClip *clipAt(int ix) override;
 
     /** @brief Returns the clip type as defined in definitions.h */
     ClipType clipType() const;
@@ -90,7 +90,7 @@ public:
     /** @brief Check if clip has a parent folder with id id */
     bool hasParent(const QString &id) const;
     ClipPropertiesController *buildProperties(QWidget *parent);
-    QPoint zone() const Q_DECL_OVERRIDE;
+    QPoint zone() const override;
 
     /** @brief Returns true if we want to add an affine transition in timeline when dropping this clip. */
     bool isTransparent() const;
@@ -110,13 +110,13 @@ public:
     double getOriginalFps() const;
 
     /** @brief Calls AbstractProjectItem::setCurrent and sets the bin monitor to use the clip's producer. */
-    void setCurrent(bool current, bool notify = true) Q_DECL_OVERRIDE;
+    void setCurrent(bool current, bool notify = true) override;
 
-    bool rename(const QString &name, int column) Q_DECL_OVERRIDE;
+    bool rename(const QString &name, int column) override;
 
-    QDomElement toXml(QDomDocument &document, bool includeMeta = false) Q_DECL_OVERRIDE;
+    QDomElement toXml(QDomDocument &document, bool includeMeta = false) override;
 
-    //QVariant getData(DataType type) const Q_DECL_OVERRIDE;
+    //QVariant getData(DataType type) const override;
 
     /** @brief Sets thumbnail for this clip. */
     void setThumbnail(const QImage &);
@@ -144,7 +144,7 @@ public:
     /** @brief Get an XML property from MLT produced xml. */
     static QString getXmlProperty(const QDomElement &producer, const QString &propertyName, const QString &defaultValue = QString());
 
-    QString getToolTip() const Q_DECL_OVERRIDE;
+    QString getToolTip() const override;
 
     /** @brief The clip hash created from the clip's resource. */
     const QString hash();

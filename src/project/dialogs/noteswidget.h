@@ -36,8 +36,8 @@ public:
     ~NotesWidget();
 
 protected:
-    void mouseMoveEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
-    void mousePressEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
+    void mouseMoveEvent(QMouseEvent *e) override;
+    void mousePressEvent(QMouseEvent *e) override;
 
 private slots:
     void slotFillNotesMenu(const QPoint &pos);

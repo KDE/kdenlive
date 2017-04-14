@@ -35,7 +35,7 @@ class AbstractGroupItem : public QObject, public QGraphicsItemGroup
     Q_OBJECT
 public:
     explicit AbstractGroupItem(double fps);
-    int type() const Q_DECL_OVERRIDE;
+    int type() const override;
     CustomTrackScene *projectScene();
     void addItem(QGraphicsItem *item);
     void removeItem(QGraphicsItem *item);
@@ -62,14 +62,14 @@ public:
     QGraphicsItem *otherClip(QGraphicsItem *item);
 
 protected:
-    QVariant itemChange(GraphicsItemChange change, const QVariant &value) Q_DECL_OVERRIDE;
-    void paint(QPainter *, const QStyleOptionGraphicsItem *, QWidget *) Q_DECL_OVERRIDE;
-    void dragEnterEvent(QGraphicsSceneDragDropEvent *event) Q_DECL_OVERRIDE;
-    void dragLeaveEvent(QGraphicsSceneDragDropEvent *event) Q_DECL_OVERRIDE;
-    void dropEvent(QGraphicsSceneDragDropEvent *event) Q_DECL_OVERRIDE;
-    void mousePressEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
-    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
-    void mouseMoveEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
+    QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
+    void paint(QPainter *, const QStyleOptionGraphicsItem *, QWidget *) override;
+    void dragEnterEvent(QGraphicsSceneDragDropEvent *event) override;
+    void dragLeaveEvent(QGraphicsSceneDragDropEvent *event) override;
+    void dropEvent(QGraphicsSceneDragDropEvent *event) override;
+    void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
     int trackForPos(int position);
     int posForTrack(int track);
 

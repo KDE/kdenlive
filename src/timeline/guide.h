@@ -40,15 +40,15 @@ public:
     QString label() const;
     CommentedTime info() const;
     void updatePos();
-    int type() const Q_DECL_OVERRIDE;
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *w) Q_DECL_OVERRIDE;
-    QRectF boundingRect() const Q_DECL_OVERRIDE;
-    QPainterPath shape() const Q_DECL_OVERRIDE;
+    int type() const override;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *w) override;
+    QRectF boundingRect() const override;
+    QPainterPath shape() const override;
 
 protected:
-    void hoverEnterEvent(QGraphicsSceneHoverEvent *) Q_DECL_OVERRIDE;
-    void hoverLeaveEvent(QGraphicsSceneHoverEvent *) Q_DECL_OVERRIDE;
-    QVariant itemChange(GraphicsItemChange change, const QVariant &value) Q_DECL_OVERRIDE;
+    void hoverEnterEvent(QGraphicsSceneHoverEvent *) override;
+    void hoverLeaveEvent(QGraphicsSceneHoverEvent *) override;
+    QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
 
 private:
     GenTime m_position;
