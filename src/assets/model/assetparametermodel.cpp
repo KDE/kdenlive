@@ -20,6 +20,7 @@
  ***************************************************************************/
 
 #include "assetparametermodel.hpp"
+#include "core.h"
 #include "profiles/profilemodel.hpp"
 #include <QDebug>
 #include <QLocale>

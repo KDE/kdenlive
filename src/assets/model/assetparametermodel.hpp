@@ -22,7 +22,6 @@
 #ifndef ASSETPARAMETERMODEL_H
 #define ASSETPARAMETERMODEL_H
 
-#include "core.h"
 #include "definitions.h"
 #include "klocalizedstring.h"
 #include <QAbstractListModel>
