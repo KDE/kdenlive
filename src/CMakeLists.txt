@@ -109,7 +109,6 @@ add_subdirectory(monitor)
 add_subdirectory(timeline2)
 add_subdirectory(onmonitoritems)
 add_subdirectory(simplekeyframes)
-add_subdirectory(stopmotion)
 add_subdirectory(titler)
 add_subdirectory(utils)
 add_subdirectory(onmonitoritems/rotoscoping)
@@ -194,7 +193,6 @@ ki18n_wrap_ui(kdenlive_UIS
     ui/smconfig_ui.ui
     ui/spacerdialog_ui.ui
     ui/spectrogram_ui.ui
-    ui/stopmotion_ui.ui
     ui/templateclip_ui.ui
     ui/timeline_ui.ui
     ui/timelinebuttons_ui.ui

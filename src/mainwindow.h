@@ -44,7 +44,6 @@
 #include "kdenlive_debug.h"
 #include "kdenlivecore_export.h"
 #include "statusbarmessagelabel.h"
-#include "stopmotion/stopmotion.h"
 
 class KdenliveDoc;
 class EffectsListView;
@@ -52,7 +51,6 @@ class EffectStackView;
 class EffectStackView2;
 class AudioGraphSpectrum;
 class Monitor;
-class RecMonitor;
 class RenderWidget;
 class Render;
 class Transition;
@@ -100,7 +98,6 @@ public:
      */
     QDockWidget *addDock(const QString &title, const QString &objectName, QWidget *widget, Qt::DockWidgetArea area = Qt::TopDockWidgetArea);
 
-    StopmotionWidget *m_stopmotion;
     QUndoGroup *m_commandStack;
     EffectStackView2 *m_effectStack;
     QUndoView *m_undoView;
@@ -153,9 +150,6 @@ private:
     QDockWidget *m_projectMonitorDock;
     Monitor *m_projectMonitor;
 
-    QDockWidget *m_recMonitorDock;
-    RecMonitor *m_recMonitor;
-
     AudioGraphSpectrum *m_audioSpectrum;
 
     QDockWidget *m_undoViewDock;
@@ -173,9 +167,6 @@ private:
     QMenu *m_timelineContextMenu;
     QMenu *m_timelineContextClipMenu;
     QMenu *m_timelineContextTransitionMenu;
-
-    /** Actions used in the stopmotion widget */
-    KActionCategory *m_stopmotion_actions;
 
     /** Action names that can be used in the slotDoAction() slot, with their i18n() names */
     QStringList m_actionNames;
@@ -417,13 +408,8 @@ private slots:
     void slotInsertZoneToTree();
     void slotInsertZoneToTimeline();
 
-    /** @brief Update the capture folder if user asked a change. */
-    void slotUpdateCaptureFolder();
-
     /** @brief The monitor informs that it needs (or not) to have frames sent by the renderer. */
     void slotMonitorRequestRenderFrame(bool request);
-    /** @brief Open the stopmotion dialog. */
-    void slotOpenStopmotion();
     /** @brief Update project because the use of proxy clips was enabled / disabled. */
     void slotUpdateProxySettings();
     /** @brief Disable proxies for this project. */

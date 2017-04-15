@@ -30,6 +30,9 @@
 #include <QPainter>
 #include <QVBoxLayout>
 
+#include <KMessageWidget>
+#include <klocalizedstring.h>
+
 #include <math.h>
 
 #include <mlt++/Mlt.h>

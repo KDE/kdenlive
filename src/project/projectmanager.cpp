@@ -523,11 +523,6 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     }
     m_fileRevert->setEnabled(true);
 
-    // Recreate stopmotion widget on document change
-    if (pCore->window()->m_stopmotion) {
-        delete pCore->window()->m_stopmotion;
-        pCore->window()->m_stopmotion = nullptr;
-    }
     delete m_progressDialog;
     pCore->monitorManager()->resetDisplay();
     m_progressDialog = new QProgressDialog(pCore->window());

@@ -45,7 +45,6 @@
 #include "mltcontroller/producerqueue.h"
 #include "monitor/monitor.h"
 #include "monitor/monitormanager.h"
-#include "monitor/recmonitor.h"
 #include "monitor/scopes/audiographspectrum.h"
 #include "project/clipmanager.h"
 #include "project/cliptranscode.h"
@@ -146,14 +145,12 @@ static QString defaultStyle(const char *fallback = nullptr)
 
 MainWindow::MainWindow(QWidget *parent)
     : KXmlGuiWindow(parent)
-    , m_stopmotion(nullptr)
     , m_effectStack(nullptr)
     , m_exitCode(EXIT_SUCCESS)
     , m_effectList(nullptr)
     , m_transitionList(nullptr)
     , m_clipMonitor(nullptr)
     , m_projectMonitor(nullptr)
-    , m_recMonitor(nullptr)
     , m_renderWidget(nullptr)
     , m_messageLabel(nullptr)
     , m_themeInitialized(false)
@@ -293,14 +290,7 @@ void MainWindow::init()
     connect(m_loopClip, &QAction::triggered, m_projectMonitor, &Monitor::slotLoopClip);
     connect(m_projectMonitor, SIGNAL(updateGuide(int, QString)), this, SLOT(slotEditGuide(int, QString)));
 
-    /*
-        //TODO disabled until ported to qml
-        m_recMonitor = new RecMonitor(Kdenlive::RecordMonitor, pCore->monitorManager(), this);
-        connect(m_recMonitor, SIGNAL(addProjectClip(QUrl)), this, SLOT(slotAddProjectClip(QUrl)));
-        connect(m_recMonitor, SIGNAL(addProjectClipList(QList<QUrl>)), this, SLOT(slotAddProjectClipList(QList<QUrl>)));
-
-    */
-    pCore->monitorManager()->initMonitors(m_clipMonitor, m_projectMonitor, m_recMonitor);
+    pCore->monitorManager()->initMonitors(m_clipMonitor, m_projectMonitor);
     connect(m_clipMonitor, SIGNAL(addMasterEffect(QString, QDomElement)), pCore->bin(), SLOT(slotEffectDropped(QString, QDomElement)));
 
     // Audio spectrum scope
@@ -342,9 +332,6 @@ void MainWindow::init()
     // Add monitors here to keep them at the right of the window
     m_clipMonitorDock = addDock(i18n("Clip Monitor"), QStringLiteral("clip_monitor"), m_clipMonitor);
     m_projectMonitorDock = addDock(i18n("Project Monitor"), QStringLiteral("project_monitor"), m_projectMonitor);
-    if (m_recMonitor) {
-        m_recMonitorDock = addDock(i18n("Record Monitor"), QStringLiteral("record_monitor"), m_recMonitor);
-    }
 
     m_undoView = new QUndoView();
     m_undoView->setCleanIcon(KoIconUtils::themedIcon(QStringLiteral("edit-clear")));
@@ -373,24 +360,7 @@ void MainWindow::init()
     // tabifyDockWidget(m_effectListDock, m_effectStackDock);
 
     tabifyDockWidget(m_clipMonitorDock, m_projectMonitorDock);
-    if (m_recMonitor) {
-        tabifyDockWidget(m_clipMonitorDock, m_recMonitorDock);
-    }
     bool firstRun = readOptions();
-
-    QAction *action;
-    // Stop motion actions. Beware of the order, we MUST use the same order in stopmotion/stopmotion.cpp
-    m_stopmotion_actions = new KActionCategory(i18n("Stop Motion"), actionCollection());
-    action = new QAction(KoIconUtils::themedIcon(QStringLiteral("media-record")), i18n("Capture frame"), this);
-    // action->setShortcutContext(Qt::WidgetWithChildrenShortcut);
-    m_stopmotion_actions->addAction(QStringLiteral("stopmotion_capture"), action);
-    action = new QAction(i18n("Switch live / captured frame"), this);
-    // action->setShortcutContext(Qt::WidgetWithChildrenShortcut);
-    m_stopmotion_actions->addAction(QStringLiteral("stopmotion_switch"), action);
-    action = new QAction(KoIconUtils::themedIcon(QStringLiteral("edit-paste")), i18n("Show last frame over video"), this);
-    action->setCheckable(true);
-    action->setChecked(false);
-    m_stopmotion_actions->addAction(QStringLiteral("stopmotion_overlay"), action);
 
     // Monitor Record action
     addAction(QStringLiteral("switch_monitor_rec"), m_clipMonitor->recAction());
@@ -769,7 +739,6 @@ void MainWindow::slotReloadTheme()
 
 MainWindow::~MainWindow()
 {
-    delete m_stopmotion;
     delete m_audioSpectrum;
     m_effectStack->slotClipItemSelected(nullptr, m_projectMonitor);
     m_effectStack->slotTransitionItemSelected(nullptr, 0, QPoint(), false);
@@ -1620,8 +1589,6 @@ void MainWindow::setupActions()
     proxyClip->setCheckable(true);
     proxyClip->setChecked(false);
 
-    // TODO: port stopmotion to new Monitor code
-    // addAction("stopmotion", i18n("Stop Motion Capture"), this, SLOT(slotOpenStopmotion()), KoIconUtils::themedIcon("image-x-generic"));
     addAction(QStringLiteral("switch_track_lock"), i18n("Toggle Track Lock"), pCore->projectManager(), SLOT(slotSwitchTrackLock()), QIcon(),
               Qt::SHIFT + Qt::Key_L);
     addAction(QStringLiteral("switch_all_track_lock"), i18n("Toggle All Track Lock"), pCore->projectManager(), SLOT(slotSwitchAllTrackLock()), QIcon(),
@@ -1745,9 +1712,6 @@ void MainWindow::slotEditProjectSettings()
         // project->setProjectFolder(w->selectedFolder());
         pCore->projectManager()->currentTimeline()->updatePreviewSettings(w->selectedPreview());
         bool modified = false;
-        if (m_recMonitor) {
-            m_recMonitor->slotUpdateCaptureFolder(project->projectDataFolder() + QDir::separator());
-        }
         if (m_renderWidget) {
             m_renderWidget->setDocumentPath(project->projectDataFolder() + QDir::separator());
         }
@@ -2120,9 +2084,6 @@ void MainWindow::connectDocument()
     m_normalEditTool->setChecked(true);
     connect(m_projectMonitor, &Monitor::durationChanged, this, &MainWindow::slotUpdateProjectDuration);
     pCore->monitorManager()->setDocument(project);
-    if (m_recMonitor) {
-        m_recMonitor->slotUpdateCaptureFolder(project->projectDataFolder() + QDir::separator());
-    }
 
     // TOD REFAC: fix
     // trackView->updateProfile(1.0);
@@ -2170,10 +2131,6 @@ void MainWindow::slotPreferences(int page, int option)
      * cached, in which case you want to display the cached dialog
      * instead of creating another one
      */
-    if (m_stopmotion) {
-        m_stopmotion->slotLive(false);
-    }
-
     if (KConfigDialog::showDialog(QStringLiteral("settings"))) {
         KdenliveSettingsDialog *d = static_cast<KdenliveSettingsDialog *>(KConfigDialog::exists(QStringLiteral("settings")));
         if (page != -1) {
@@ -2203,10 +2160,6 @@ void MainWindow::slotPreferences(int page, int option)
     connect(dialog, &KdenliveSettingsDialog::restartKdenlive, this, &MainWindow::slotRestart);
     connect(dialog, &KdenliveSettingsDialog::updateLibraryFolder, pCore.get(), &Core::updateLibraryPath);
 
-    if (m_recMonitor) {
-        connect(dialog, &KdenliveSettingsDialog::updateCaptureFolder, this, &MainWindow::slotUpdateCaptureFolder);
-        connect(dialog, &KdenliveSettingsDialog::updateFullScreenGrab, m_recMonitor, &RecMonitor::slotUpdateFullScreenGrab);
-    }
     dialog->show();
     if (page != -1) {
         dialog->showPage(page, option);
@@ -2233,17 +2186,6 @@ void MainWindow::closeEvent(QCloseEvent *event)
     if (event->isAccepted()) {
         QApplication::exit(m_exitCode);
         return;
-    }
-}
-
-void MainWindow::slotUpdateCaptureFolder()
-{
-    if (m_recMonitor) {
-        if (pCore->projectManager()->current()) {
-            m_recMonitor->slotUpdateCaptureFolder(pCore->projectManager()->current()->projectDataFolder() + QDir::separator());
-        } else {
-            m_recMonitor->slotUpdateCaptureFolder(KdenliveSettings::defaultprojectfolder());
-        }
     }
 }
 
@@ -3832,25 +3774,6 @@ void MainWindow::slotMonitorRequestRenderFrame(bool request)
     if (!request) {
         m_projectMonitor->render->sendFrameForAnalysis = false;
     }
-}
-
-void MainWindow::slotOpenStopmotion()
-{
-    if (m_stopmotion == nullptr) {
-        // m_stopmotion = new StopmotionWidget(pCore->monitorManager(), pCore->projectManager()->current()->projectFolder(), m_stopmotion_actions->actions(),
-        // this);
-        // TODO
-        // connect(m_stopmotion, SIGNAL(addOrUpdateSequence(QString)), m_projectList, SLOT(slotAddOrUpdateSequence(QString)));
-        // for (int i = 0; i < m_gfxScopesList.count(); ++i) {
-        // Check if we need the renderer to send a new frame for update
-        /*if (!m_scopesList.at(i)->widget()->visibleRegion().isEmpty() && !(static_cast<AbstractScopeWidget
-         * *>(m_scopesList.at(i)->widget())->autoRefreshEnabled())) request = true;*/
-        // connect(m_stopmotion, SIGNAL(gotFrame(QImage)), static_cast<AbstractGfxScopeWidget *>(m_gfxScopesList.at(i)->widget()),
-        // SLOT(slotRenderZoneUpdated(QImage)));
-        // static_cast<AbstractScopeWidget *>(m_scopesList.at(i)->widget())->slotMonitorCapture();
-        //}
-    }
-    m_stopmotion->show();
 }
 
 void MainWindow::slotUpdateProxySettings()

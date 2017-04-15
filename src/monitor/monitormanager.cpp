@@ -59,7 +59,7 @@ QAction *MonitorManager::getAction(const QString &name)
     return pCore->window()->action(name.toLatin1());
 }
 
-void MonitorManager::initMonitors(Monitor *clipMonitor, Monitor *projectMonitor, RecMonitor *recMonitor)
+void MonitorManager::initMonitors(Monitor *clipMonitor, Monitor *projectMonitor)
 {
     m_clipMonitor = clipMonitor;
     m_projectMonitor = projectMonitor;
@@ -67,9 +67,6 @@ void MonitorManager::initMonitors(Monitor *clipMonitor, Monitor *projectMonitor,
     connect(m_projectMonitor->render, SIGNAL(activateMonitor(Kdenlive::MonitorId)), this, SLOT(activateMonitor(Kdenlive::MonitorId)));
     m_monitorsList.append(clipMonitor);
     m_monitorsList.append(projectMonitor);
-    if (recMonitor) {
-        m_monitorsList.append(recMonitor);
-    }
 }
 
 void MonitorManager::appendMonitor(AbstractMonitor *monitor)

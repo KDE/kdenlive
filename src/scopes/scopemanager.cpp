@@ -298,11 +298,6 @@ void ScopeManager::checkActiveColourScopes()
     if (monitor != nullptr) {
         monitor->sendFrameForAnalysis(imageStillRequested);
     }
-
-    RecMonitor *recMonitor = static_cast<RecMonitor *>(pCore->monitorManager()->monitor(Kdenlive::RecordMonitor));
-    if (recMonitor != nullptr) {
-        recMonitor->analyseFrames(imageStillRequested);
-    }
 }
 
 void ScopeManager::createScopes()

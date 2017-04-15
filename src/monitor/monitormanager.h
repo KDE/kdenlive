@@ -21,7 +21,6 @@
 #define MONITORMANAGER_H
 
 #include "monitor.h"
-#include "recmonitor.h"
 
 #include "timecode.h"
 #include <QDir>
@@ -40,7 +39,7 @@ class MonitorManager : public QObject
 
 public:
     explicit MonitorManager(QObject *parent = nullptr);
-    void initMonitors(Monitor *clipMonitor, Monitor *projectMonitor, RecMonitor *recMonitor);
+    void initMonitors(Monitor *clipMonitor, Monitor *projectMonitor);
     void appendMonitor(AbstractMonitor *monitor);
     void removeMonitor(AbstractMonitor *monitor);
     Timecode timecode() const;
