@@ -35,7 +35,13 @@ ClipModel::ClipModel(std::weak_ptr<TimelineModel> parent, std::shared_ptr<Mlt::P
     , m_effectStack(EffectStackModel::construct(m_producer))
     , m_binClipId(binClipId)
 {
-    checkLimitless();
+    m_producer->set("kdenlive:id", binClipId.toUtf8().constData());
+    ProjectClip *binClip = pCore->bin()->getBinClip(m_binClipId);
+    if (binClip) {
+        m_endlessResize = binClip->hasLimitedDuration();
+    } else {
+        m_endlessResize = false;
+    }
 }
 
 int ClipModel::construct(const std::weak_ptr<TimelineModel> &parent, const QString &binClipId, int id)
@@ -175,17 +181,19 @@ void ClipModel::refreshProducerFromBin()
     ProjectClip *binClip = pCore->bin()->getBinClip(m_binClipId);
     std::shared_ptr<Mlt::Producer> originalProducer = binClip->originalProducer();
     m_producer.reset(originalProducer->cut(in, out));
-    checkLimitless();
+    m_endlessResize = binClip->hasLimitedDuration();
 }
 
-// static
-QStringList ClipModel::limitlessProducers()
+QVariant ClipModel::getAudioWaveform()
 {
-    return {QStringLiteral("qimage"), QStringLiteral("pixbuf"), QStringLiteral("color"), QStringLiteral("kdenlivetitle")};
+    ProjectClip *binClip = pCore->bin()->getBinClip(m_binClipId);
+    if (binClip) {
+        return QVariant::fromValue(binClip->audioFrameCache);
+    }
+    return QVariant();
 }
 
-void ClipModel::checkLimitless()
+const QString &ClipModel::binId() const
 {
-    QString serv = m_producer->get("mlt_service");
-    m_endlessResize = limitlessProducers().contains(serv);
+    return m_binClipId;
 }

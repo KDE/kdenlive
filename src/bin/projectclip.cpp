@@ -59,8 +59,7 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, ProjectItemModel
     m_duration = getStringDuration();
     m_date = date;
     m_description = ClipController::description();
-    m_type = clipType();
-    if (m_type == Audio) {
+    if (m_clipType == Audio) {
         m_thumbnail = KoIconUtils::themedIcon(QStringLiteral("audio-x-generic"));
     } else {
         m_thumbnail = thumb;
@@ -75,17 +74,16 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, ProjectItemModel
 
 ProjectClip::ProjectClip(const QDomElement &description, const QIcon &thumb, ProjectItemModel *model, ProjectFolder *parent)
     : AbstractProjectItem(AbstractProjectItem::ClipItem, description, model, parent)
-    , ClipController(pCore->binController(), ClipController::mediaUnavailable)
+    , ClipController(pCore->binController())
     , m_abortAudioThumb(false)
-    , m_type(Unknown)
     , m_thumbsProducer(nullptr)
 {
     Q_ASSERT(description.hasAttribute(QStringLiteral("id")));
     m_clipStatus = StatusWaiting;
     m_thumbnail = thumb;
     if (description.hasAttribute(QStringLiteral("type"))) {
-        m_type = (ClipType)description.attribute(QStringLiteral("type")).toInt();
-        if (m_type == Audio) {
+        m_clipType = (ClipType)description.attribute(QStringLiteral("type")).toInt();
+        if (m_clipType == Audio) {
             m_thumbnail = KoIconUtils::themedIcon(QStringLiteral("audio-x-generic"));
         }
     }
@@ -160,7 +158,7 @@ bool ProjectClip::audioThumbCreated() const
 
 ClipType ProjectClip::clipType() const
 {
-    return m_type;
+    return m_clipType;
 }
 
 bool ProjectClip::hasParent(const QString &id) const
@@ -227,7 +225,7 @@ ProjectClip *ProjectClip::clipAt(int ix)
 
 bool ProjectClip::hasUrl() const
 {
-    if ((m_type != Color) && (m_type != Unknown)) {
+    if ((m_clipType != Color) && (m_clipType != Unknown)) {
         return (!clipUrl().isEmpty());
     }
     return false;
@@ -273,8 +271,8 @@ QDomElement ProjectClip::toXml(QDomDocument &document, bool includeMeta)
 {
     getProducerXML(document, includeMeta);
     QDomElement prod = document.documentElement().firstChildElement(QStringLiteral("producer"));
-    if (m_type != Unknown) {
-        prod.setAttribute(QStringLiteral("type"), (int)m_type);
+    if (m_clipType != Unknown) {
+        prod.setAttribute(QStringLiteral("type"), (int)m_clipType);
     }
     return prod;
 }
@@ -318,11 +316,8 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
     m_date = date;
     m_description = ClipController::description();
     m_temporaryUrl.clear();
-    if (m_type == Unknown) {
-        m_type = clipType();
-        if (m_type == Audio) {
-            m_thumbnail = KoIconUtils::themedIcon(QStringLiteral("audio-x-generic"));
-        }
+    if (m_clipType == Audio) {
+        m_thumbnail = KoIconUtils::themedIcon(QStringLiteral("audio-x-generic"));
     }
     m_duration = getStringDuration();
     m_clipStatus = StatusReady;
@@ -338,7 +333,7 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
 
 void ProjectClip::createAudioThumbs()
 {
-    if (KdenliveSettings::audiothumbnails() && (m_type == AV || m_type == Audio || m_type == Playlist)) {
+    if (KdenliveSettings::audiothumbnails() && (m_clipType == AV || m_clipType == Audio || m_clipType == Playlist)) {
         static_cast<ProjectItemModel *>(m_model)->bin()->requestAudioThumbs(m_id, duration().ms());
         emit updateJobStatus(AbstractClipJob::THUMBJOB, JobWaiting, 0);
     }
@@ -400,7 +395,7 @@ const QString ProjectClip::getFileHash()
 {
     QByteArray fileData;
     QByteArray fileHash;
-    switch (m_type) {
+    switch (m_clipType) {
     case SlideShow:
         fileData = clipUrl().toUtf8();
         fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
@@ -481,7 +476,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
     while (i.hasNext()) {
         i.next();
         setProducerProperty(i.key(), i.value());
-        if (m_type == SlideShow && keys.contains(i.key())) {
+        if (m_clipType == SlideShow && keys.contains(i.key())) {
             reload = true;
             refreshOnly = false;
         }
@@ -510,7 +505,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
     } else if (properties.contains(QStringLiteral("resource")) || properties.contains(QStringLiteral("templatetext")) ||
                properties.contains(QStringLiteral("autorotate"))) {
         // Clip resource changed, update thumbnail
-        if (m_type != Color) {
+        if (m_clipType != Color) {
             reloadProducer();
         } else {
             reload = true;
@@ -615,7 +610,7 @@ bool ProjectClip::rename(const QString &name, int column)
             return false;
         }
         // Rename clip
-        if (m_type == TextTemplate) {
+        if (m_clipType == TextTemplate) {
             oldProperites.insert(QStringLiteral("templatetext"), m_description);
             newProperites.insert(QStringLiteral("templatetext"), name);
         } else {
@@ -874,7 +869,7 @@ void ProjectClip::slotCreateAudioThumbs()
         return;
     }
     bool jobFinished = false;
-    if (KdenliveSettings::ffmpegaudiothumbnails() && m_type != Playlist) {
+    if (KdenliveSettings::ffmpegaudiothumbnails() && m_clipType != Playlist) {
         QStringList args;
         QList<QTemporaryFile *> channelFiles;
         for (int i = 0; i < channels; i++) {
@@ -1140,10 +1135,10 @@ void ProjectClip::updateFfmpegProgress()
 
 bool ProjectClip::isTransparent() const
 {
-    if (m_type == Text) {
+    if (m_clipType == Text) {
         return true;
     }
-    return m_type == Image && getProducerIntProperty(QStringLiteral("kdenlive:transparency")) == 1;
+    return m_clipType == Image && getProducerIntProperty(QStringLiteral("kdenlive:transparency")) == 1;
 }
 
 QStringList ProjectClip::updatedAnalysisData(const QString &name, const QString &data, int offset)
@@ -1220,7 +1215,7 @@ QImage ProjectClip::findCachedThumb(int pos)
 
 bool ProjectClip::isSplittable() const
 {
-    return (m_type == AV || m_type == Playlist);
+    return (m_clipType == AV || m_clipType == Playlist);
 }
 
 void ProjectClip::disableEffects(bool disable)

@@ -216,14 +216,12 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             return result;
         }
         case BinIdRole:
-            return clip->getProperty("kdenlive:id").toInt();
+            return clip->binId();
         case ServiceRole:
             return clip->getProperty("mlt_service");
             break;
         case AudioLevelsRole:
-            // TODO: get data from bin clip when interface is ready
-            // return QVariant::fromValue(pCore->bin()->audioFrameCache(clip->getProperty("kdenlive:id")));
-            return QVariant();
+            return clip->getAudioWaveform();
         case HasAudio:
             return clip->hasAudio();
         case IsAudioRole:

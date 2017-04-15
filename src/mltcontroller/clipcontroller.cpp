@@ -37,6 +37,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <utility>
 
 std::shared_ptr<Mlt::Producer> ClipController::mediaUnavailable;
+
 ClipController::ClipController(std::shared_ptr<BinController> bincontroller, std::shared_ptr<Mlt::Producer> producer)
     : selectedEffectIndex(1)
     , m_audioThumbCreated(false)
@@ -235,7 +236,7 @@ const QString ClipController::clipId()
     if (m_masterProducer == nullptr) {
         return QString();
     }
-    return getProducerProperty(QStringLiteral("id"));
+    return getProducerProperty(QStringLiteral("kdenlive:id"));
 }
 
 // static
@@ -263,6 +264,10 @@ QMap<QString, QString> ClipController::getPropertiesFromPrefix(const QString &pr
 void ClipController::updateProducer(const std::shared_ptr<Mlt::Producer> &producer)
 {
     // TODO replace all track producers
+    if (!m_properties) {
+        // producer has not been initialized
+        return addMasterProducer(producer);
+    }
 
     Mlt::Properties passProperties;
     // Keep track of necessary properties

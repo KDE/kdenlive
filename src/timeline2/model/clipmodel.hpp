@@ -67,8 +67,11 @@ public:
      */
     int getPlaytime() const override;
 
-    /** @brief Returns the list of producers that can have limitless resizes */
-    static QStringList limitlessProducers();
+    /** @brief Returns audio cache data from bin clip to display audio thumbs */
+    QVariant getAudioWaveform();
+
+    /** @brief Returns the bin clip's id */
+    const QString &binId() const;
 
     friend class TrackModel;
     friend class TimelineModel;
@@ -94,9 +97,6 @@ protected:
 
     /* @brief This functions should be called when the producer of the binClip changes, to allow refresh */
     void refreshProducerFromBin();
-
-    /** @brief Checks whether the current producers is limitless and set m_endlessResize acordingly */
-    void checkLimitless();
 
     bool hasAudio() const;
     bool isAudioOnly() const;

@@ -616,10 +616,10 @@ void ProducerQueue::processFileProperties()
             QList<int> video_list;
             for (int i = 0; i < streams; ++i) {
                 QByteArray propertyName = QStringLiteral("meta.media.%1.stream.type").arg(i).toLocal8Bit();
-                QString type = producer->get(propertyName.data());
-                if (type == QLatin1String("audio")) {
+                QString stype = producer->get(propertyName.data());
+                if (stype == QLatin1String("audio")) {
                     audio_list.append(i);
-                } else if (type == QLatin1String("video")) {
+                } else if (stype == QLatin1String("video")) {
                     video_list.append(i);
                 }
             }
@@ -772,10 +772,10 @@ void ProducerQueue::processFileProperties()
                     // Find maximum stream index values
                     for (int ix = 0; ix < producer->get_int("meta.media.nb_streams"); ++ix) {
                         snprintf(property, sizeof(property), "meta.media.%d.stream.type", ix);
-                        QString type = producer->get(property);
-                        if (type == QLatin1String("video")) {
+                        QString stype = producer->get(property);
+                        if (stype == QLatin1String("video")) {
                             video_max = ix;
-                        } else if (type == QLatin1String("audio")) {
+                        } else if (stype == QLatin1String("audio")) {
                             audio_max = ix;
                         }
                     }

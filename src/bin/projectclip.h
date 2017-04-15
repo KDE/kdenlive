@@ -222,7 +222,6 @@ private:
     const QString getFileHash();
     /** @brief Store clip url temporarily while the clip controller has not been created. */
     QString m_temporaryUrl;
-    ClipType m_type;
     Mlt::Producer *m_thumbsProducer;
     QMutex m_producerMutex;
     QMutex m_thumbMutex;
