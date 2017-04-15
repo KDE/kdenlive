@@ -181,7 +181,7 @@ void SimpleTimelineWidget::mousePressEvent(QMouseEvent *event)
 void SimpleTimelineWidget::mouseMoveEvent(QMouseEvent *event)
 {
     int pos = qBound(0, (int)(event->x() / m_scale), m_duration);
-    if (event->buttons() & Qt::LeftButton != 0u) {
+    if ((event->buttons() & Qt::LeftButton) != 0u) {
         if (m_currentKeyframe >= 0) {
             if (!m_keyframes.contains(pos)) {
                 // snap to position cursor

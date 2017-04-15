@@ -47,7 +47,7 @@ bool TrimManager::mousePress(QMouseEvent *, const ItemInfo &info, const QList<QG
 
 bool TrimManager::mouseMove(QMouseEvent *event, int pos, int)
 {
-    if (event->buttons() & Qt::LeftButton != 0u) {
+    if ((event->buttons() & Qt::LeftButton) != 0u) {
         if (!m_firstInfo.isValid() || !m_secondInfo.isValid()) {
             return false;
         }

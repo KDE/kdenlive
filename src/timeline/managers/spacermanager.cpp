@@ -40,7 +40,7 @@ bool SpacerManager::mousePress(QMouseEvent *event, const ItemInfo &info, const Q
     m_dragMoved = false;
     m_clickPoint = event->pos();
     QList<QGraphicsItem *> selection;
-    if (event->modifiers() & Qt::ControlModifier != 0u) {
+    if ((event->modifiers() & Qt::ControlModifier) != 0u) {
         // Ctrl + click, select all items on track after click position
         m_track = info.track;
         if (m_view->spaceToolSelectTrackOnly(info.track, selection) != 0) {
@@ -66,7 +66,7 @@ void SpacerManager::initTool(double)
 
 bool SpacerManager::mouseMove(QMouseEvent *event, int pos, int)
 {
-    if (event->buttons() & Qt::LeftButton != 0u) {
+    if ((event->buttons() & Qt::LeftButton) != 0u) {
         if (!m_dragMoved) {
             if ((m_clickPoint - event->pos()).manhattanLength() < QApplication::startDragDistance()) {
                 event->ignore();

@@ -563,22 +563,6 @@ void MainWindow::init()
     timelineRender->defineDefaultAction(showRender, showRender);
     timelineRender->setAutoRaise(true);
 
-    // m_timelineToolBar->addAction(toolButtonAction);
-
-    /*QWidget *sep = new QWidget(this);
-    sep->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
-    m_timelineToolBar->addWidget(sep);
-    m_timelineToolBar->addAction(m_buttonAutomaticSplitAudio);
-    m_timelineToolBar->addAction(m_buttonVideoThumbs);
-    m_timelineToolBar->addAction(m_buttonAudioThumbs);
-    m_timelineToolBar->addAction(m_buttonShowMarkers);
-    m_timelineToolBar->addAction(m_buttonSnap);
-    m_timelineToolBar->addSeparator();
-    m_timelineToolBar->addAction(m_buttonFitZoom);
-    m_timelineToolBar->addAction(m_zoomOut);
-    m_timelineToolBar->addWidget(m_zoomSlider);
-    m_timelineToolBar->addAction(m_zoomIn);*/
-
     // Populate encoding profiles
     KConfig conf(QStringLiteral("encodingprofiles.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
     if (KdenliveSettings::proxyparams().isEmpty() || KdenliveSettings::proxyextension().isEmpty()) {

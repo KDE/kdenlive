@@ -64,7 +64,7 @@ bool ResizeManager::mousePress(QMouseEvent *event, const ItemInfo &info, const Q
 bool ResizeManager::mouseMove(QMouseEvent *event, int pos, int)
 {
     double snappedPos = m_view->getSnapPointForPos(pos);
-    if (event->buttons() & Qt::LeftButton != 0u) {
+    if ((event->buttons() & Qt::LeftButton) != 0u) {
         AbstractClipItem *dragItem = m_view->dragItem();
         if (!(m_controlModifier & Qt::ControlModifier) && dragItem->type() == AVWidget && (dragItem->parentItem() != nullptr)) {
             AbstractGroupItem *parent = static_cast<AbstractGroupItem *>(dragItem->parentItem());

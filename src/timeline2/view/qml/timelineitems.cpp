@@ -8,7 +8,7 @@
 class TimelineTriangle : public QQuickPaintedItem
 {
 public:
-    TimelineTriangle() { setAntialiasing(QPainter::Antialiasing != 0u); }
+    TimelineTriangle() { setAntialiasing(true); }
     void paint(QPainter *painter) override
     {
         QPainterPath path;
@@ -43,7 +43,7 @@ class TimelineWaveform : public QQuickPaintedItem
 public:
     TimelineWaveform()
     {
-        setAntialiasing(QPainter::Antialiasing != 0u);
+        setAntialiasing(true);
         connect(this, SIGNAL(propertyChanged()), this, SLOT(update()));
     }
 

@@ -97,7 +97,7 @@ void OnMonitorCornersItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
      *   return;
     }*/
 
-    if (event->buttons() & Qt::LeftButton != 0u) {
+    if ((event->buttons() & Qt::LeftButton) != 0u) {
         QPointF mousePos = mapFromScene(event->scenePos());
         QPolygonF p = polygon();
         switch (m_mode) {

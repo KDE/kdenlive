@@ -1011,7 +1011,7 @@ OperationType ClipItem::operationMode(const QPointF &pos, Qt::KeyboardModifiers 
     }
     if ((pos.x() <= rect.width() / 2) && pos.x() < maximumOffset && (rect.height() - pos.y() > addtransitionOffset)) {
         // If we are in a group, allow resize only if all clips start at same position
-        if (modifiers & Qt::ControlModifier != 0u) {
+        if ((modifiers & Qt::ControlModifier) != 0u) {
             return ResizeStart;
         }
         if (parentItem()) {
@@ -1030,7 +1030,7 @@ OperationType ClipItem::operationMode(const QPointF &pos, Qt::KeyboardModifiers 
     } else if (qAbs((int)(pos.x() - (rect.width() - m_endFade))) < maximumOffset && qAbs((int)(pos.y())) < 10) {
         return FadeOut;
     } else if ((pos.x() >= rect.width() / 2) && (rect.width() - pos.x() < maximumOffset) && (rect.height() - pos.y() > addtransitionOffset)) {
-        if (modifiers & Qt::ControlModifier != 0u) {
+        if ((modifiers & Qt::ControlModifier) != 0u) {
             return ResizeEnd;
         }
         // If we are in a group, allow resize only if all clips end at same position

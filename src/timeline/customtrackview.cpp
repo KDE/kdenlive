@@ -639,7 +639,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent *event)
         QGraphicsView::mouseMoveEvent(event);
         return;
     }
-    if (event->buttons() & Qt::MidButton != 0u) {
+    if ((event->buttons() & Qt::MidButton) != 0u) {
         return;
     }
     if (m_moveOpMode == RubberSelection) {
@@ -1045,7 +1045,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent *event)
             itemSelected = true;
         }
 
-        if ((event->modifiers() & Qt::ControlModifier != 0u) && m_operationMode != ResizeEnd && m_operationMode != ResizeStart) {
+        if (((event->modifiers() & Qt::ControlModifier) != 0u) && m_operationMode != ResizeEnd && m_operationMode != ResizeStart) {
             // Handle ctrl click events
             resetSelectionGroup();
             m_dragItem->setSelected(selected);
@@ -4449,7 +4449,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent *event)
         return;
     }
 
-    if (event->modifiers() & Qt::ControlModifier != 0u) {
+    if ((event->modifiers() & Qt::ControlModifier) != 0u) {
         event->ignore();
     }
 

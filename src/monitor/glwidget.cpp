@@ -540,7 +540,7 @@ void GLWidget::slotZoomScene(double value)
 
 void GLWidget::wheelEvent(QWheelEvent *event)
 {
-    if ((event->modifiers() & Qt::ControlModifier != 0u) && (event->modifiers() & Qt::ShiftModifier != 0u)) {
+    if (((event->modifiers() & Qt::ControlModifier) != 0u) && ((event->modifiers() & Qt::ShiftModifier) != 0u)) {
         if (event->delta() > 0) {
             if (m_zoom == 1.0f) {
                 setZoom(2.0f);
@@ -627,7 +627,7 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
         return;
     }
     if ((event->button() & Qt::LeftButton) != 0u) {
-        if (event->modifiers() & Qt::ControlModifier != 0u) {
+        if ((event->modifiers() & Qt::ControlModifier) != 0u) {
             // Pan view
             m_panStart = event->pos();
             setCursor(Qt::ClosedHandCursor);

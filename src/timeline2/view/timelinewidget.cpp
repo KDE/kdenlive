@@ -288,7 +288,7 @@ void TimelineWidget::slotChangeZoom(int value, bool zoomOnMouse)
 
 void TimelineWidget::wheelEvent(QWheelEvent *event)
 {
-    if (event->modifiers() & Qt::ControlModifier != 0u) {
+    if ((event->modifiers() & Qt::ControlModifier) != 0u) {
         if (event->delta() > 0) {
             emit zoomIn(true);
         } else {

@@ -115,7 +115,7 @@ void MyTreeView::focusInEvent(QFocusEvent *event)
 void MyTreeView::mouseMoveEvent(QMouseEvent *event)
 {
     bool dragged = false;
-    if (event->buttons() & Qt::LeftButton != 0u) {
+    if ((event->buttons() & Qt::LeftButton) != 0u) {
         int distance = (event->pos() - m_startPos).manhattanLength();
         if (distance >= QApplication::startDragDistance()) {
             dragged = performDrag();

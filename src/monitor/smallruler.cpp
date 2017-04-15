@@ -183,7 +183,7 @@ void SmallRuler::prepareZoneUpdate()
 void SmallRuler::mouseMoveEvent(QMouseEvent *event)
 {
     const int pos = event->x() / m_scale + m_offset;
-    if (event->buttons() & Qt::LeftButton != 0u) {
+    if ((event->buttons() & Qt::LeftButton) != 0u) {
         if (m_activeControl == CONTROL_NONE) {
             return;
         }

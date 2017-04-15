@@ -46,7 +46,7 @@ bool SelectManager::mousePress(QMouseEvent *event, const ItemInfo &info, const Q
     m_modifiers = event->modifiers();
     m_dragMoved = false;
     m_clickPoint = event->pos();
-    if (m_modifiers & Qt::ShiftModifier != 0u) {
+    if ((m_modifiers & Qt::ShiftModifier) != 0u) {
         m_view->createRectangleSelection(event->modifiers());
         return true;
     }
@@ -85,7 +85,7 @@ bool SelectManager::mouseMove(QMouseEvent *event, int, int)
     if (mode == Seek) {
         return false;
     }
-    if (!m_dragMoved && (event->buttons() & Qt::LeftButton != 0u)) {
+    if (!m_dragMoved && ((event->buttons() & Qt::LeftButton) != 0u)) {
         if ((m_clickPoint - event->pos()).manhattanLength() < QApplication::startDragDistance()) {
             event->ignore();
             return true;

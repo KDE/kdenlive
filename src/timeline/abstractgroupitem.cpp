@@ -475,7 +475,7 @@ void AbstractGroupItem::dragLeaveEvent(QGraphicsSceneDragDropEvent *event)
 // virtual
 void AbstractGroupItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    if (event->modifiers() & Qt::ShiftModifier != 0u) {
+    if ((event->modifiers() & Qt::ShiftModifier) != 0u) {
         // User want to do a rectangle selection, so ignore the event to pass it to the view
         event->ignore();
     } else {
@@ -494,7 +494,7 @@ void AbstractGroupItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 // virtual
 void AbstractGroupItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
-    if (event->modifiers() & Qt::ControlModifier != 0u) {
+    if ((event->modifiers() & Qt::ControlModifier) != 0u) {
         // User want to do a rectangle selection, so ignore the event to pass it to the view
         event->ignore();
     } else {
@@ -504,7 +504,7 @@ void AbstractGroupItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 
 void AbstractGroupItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
-    if (event->buttons() != Qt::LeftButton || (event->modifiers() & Qt::ControlModifier != 0u)) {
+    if (event->buttons() != Qt::LeftButton || ((event->modifiers() & Qt::ControlModifier) != 0u)) {
         // User want to do a rectangle selection, so ignore the event to pass it to the view
         event->ignore();
     } else {

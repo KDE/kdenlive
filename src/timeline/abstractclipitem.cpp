@@ -316,7 +316,7 @@ bool AbstractClipItem::isItemLocked() const
 // virtual
 void AbstractClipItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    if (event->modifiers() & Qt::ShiftModifier != 0u) {
+    if ((event->modifiers() & Qt::ShiftModifier) != 0u) {
         // User want to do a rectangle selection, so ignore the event to pass it to the view
         event->ignore();
     } else {
@@ -327,7 +327,7 @@ void AbstractClipItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 // virtual
 void AbstractClipItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
-    if (event->modifiers() & Qt::ControlModifier != 0u) {
+    if ((event->modifiers() & Qt::ControlModifier) != 0u) {
         // User want to do a rectangle selection, so ignore the event to pass it to the view
         event->ignore();
     } else {
@@ -337,7 +337,7 @@ void AbstractClipItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 
 void AbstractClipItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
-    if (event->buttons() != Qt::LeftButton || (event->modifiers() & Qt::ControlModifier != 0u)) {
+    if (event->buttons() != Qt::LeftButton || ((event->modifiers() & Qt::ControlModifier) != 0u)) {
         // User want to do a rectangle selection, so ignore the event to pass it to the view
         event->ignore();
     } else {

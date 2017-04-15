@@ -106,7 +106,7 @@ void OnMonitorRectItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
      *   return;
     }*/
 
-    if (event->buttons() & Qt::LeftButton != 0u) {
+    if ((event->buttons() & Qt::LeftButton) != 0u) {
         QRectF r = rect().normalized();
         QPointF p = pos();
         QPointF mousePos = event->scenePos();

@@ -106,7 +106,7 @@ void OnMonitorPathItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
      *   return;
     }*/
 
-    if (m_activePoint >= 0 && (event->buttons() & Qt::LeftButton != 0u)) {
+    if (m_activePoint >= 0 && ((event->buttons() & Qt::LeftButton) != 0u)) {
         QPointF mousePos = event->pos();
         m_points[m_activePoint] = mousePos;
         rebuildShape();
