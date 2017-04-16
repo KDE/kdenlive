@@ -205,14 +205,15 @@ void ThemeManager::populateThemeMenu()
 
     updateCurrentKDEdefaultThemePreview();
     setCurrentTheme(theme);
+    if (!QStandardPaths::findExecutable(QStringLiteral("kcmshell5")).isEmpty()) {
+        d->themeMenuAction->addSeparator();
+        QAction *config = new QAction(i18n("Configuration..."), d->themeMenuAction);
+        config->setIcon(QIcon::fromTheme(QStringLiteral("preferences-desktop-theme")));
+        d->themeMenuAction->addAction(config);
 
-    d->themeMenuAction->addSeparator();
-    QAction *config = new QAction(i18n("Configuration..."), d->themeMenuAction);
-    config->setIcon(QIcon::fromTheme(QStringLiteral("preferences-desktop-theme")));
-    d->themeMenuAction->addAction(config);
-
-    connect(config, &QAction::triggered,
-            this, &ThemeManager::slotConfigColors);
+        connect(config, &QAction::triggered,
+                this, &ThemeManager::slotConfigColors);
+    }
 }
 
 void ThemeManager::slotConfigColors()
