@@ -893,3 +893,10 @@ void ProjectManager::updateTimeline(Mlt::Tractor tractor)
     m_timelineWidget->buildFromMelt(tractor);
     m_timelineWidget->setUndoStack(m_project->commandStack());
 }
+
+void ProjectManager::audioThumbFormatChanged()
+{
+    if (m_timelineWidget) {
+        m_timelineWidget->audioThumbFormatChanged();
+    }
+}

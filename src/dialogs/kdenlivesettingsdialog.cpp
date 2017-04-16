@@ -876,6 +876,11 @@ void KdenliveSettingsDialog::updateSettings()
         KdenliveSettings::setTabposition(m_configMisc.kcfg_tabposition->currentIndex());
     }
 
+    if (m_configTimeline.kcfg_displayallchannels->isChecked() != KdenliveSettings::displayallchannels()) {
+        KdenliveSettings::setDisplayallchannels(m_configTimeline.kcfg_displayallchannels->isChecked());
+        emit audioThumbFormatChanged();
+    }
+
     if (m_modified) {
         // The transcoding profiles were modified, save.
         m_modified = false;

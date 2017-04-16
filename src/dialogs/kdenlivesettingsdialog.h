@@ -125,6 +125,8 @@ signals:
     /** @brief A settings changed that requires a Kdenlive restart, trigger it */
     void restartKdenlive();
     void checkTabPosition();
+    /** @brief Switch between merged / separate channels for audio thumbs */
+    void audioThumbFormatChanged();
 };
 
 #endif

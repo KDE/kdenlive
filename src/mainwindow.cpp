@@ -2143,6 +2143,7 @@ void MainWindow::slotPreferences(int page, int option)
     connect(dialog, &KdenliveSettingsDialog::checkTabPosition, this, &MainWindow::slotCheckTabPosition);
     connect(dialog, &KdenliveSettingsDialog::restartKdenlive, this, &MainWindow::slotRestart);
     connect(dialog, &KdenliveSettingsDialog::updateLibraryFolder, pCore.get(), &Core::updateLibraryPath);
+    connect(dialog, &KdenliveSettingsDialog::audioThumbFormatChanged, pCore->projectManager(), &ProjectManager::audioThumbFormatChanged);
 
     dialog->show();
     if (page != -1) {
@@ -2214,7 +2215,7 @@ void MainWindow::slotSwitchAudioThumbs()
 {
     KdenliveSettings::setAudiothumbnails(!KdenliveSettings::audiothumbnails());
     pCore->binController()->checkAudioThumbs();
-    if (pCore->projectManager()->currentTimeline()) {
+    if (pCore->projectManager()->currentTimelineWidget()) {
         pCore->projectManager()->currentTimelineWidget()->showAudioThumbnailsChanged();
     }
     m_buttonAudioThumbs->setChecked(KdenliveSettings::audiothumbnails());

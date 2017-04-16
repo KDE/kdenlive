@@ -175,6 +175,7 @@ Rectangle {
                     width: Math.min(waveform.innerWidth, waveform.maxWidth)
                     height: waveform.height
                     fillColor: 'red'
+                    format: timeline.audioThumbFormat
                     property int channels: 2
                     inPoint: Math.round((clipRoot.inPoint + index * waveform.maxWidth / timeScale) * speed) * channels
                     outPoint: inPoint + Math.round(width / timeScale * speed) * channels
@@ -226,7 +227,7 @@ Rectangle {
                 anchors.fill: parent
                 Rectangle {
                     id: markerBase
-                    width: 1 // modelDa
+                    width: 1
                     height: parent.height
                     x: (markers[2 * modelData] - clipRoot.inPoint) * timeScale;
                     color: 'red'

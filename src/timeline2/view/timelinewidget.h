@@ -43,6 +43,7 @@ class TimelineWidget : public QQuickWidget
     /* @brief holds the current project duration
      */
     Q_PROPERTY(int duration READ duration NOTIFY durationChanged)
+    Q_PROPERTY(bool audioThumbFormat READ audioThumbFormat NOTIFY audioThumbFormatChanged)
     /* @brief holds the current timeline position
      */
     Q_PROPERTY(int position READ position WRITE setPosition NOTIFY positionChanged)
@@ -128,6 +129,7 @@ public:
      */
     bool showThumbnails() const;
     bool showAudioThumbnails() const;
+    bool audioThumbFormat() const;
     /* @brief Do we want to display audio thumbnails
      */
     Q_INVOKABLE bool showWaveforms() const;
@@ -197,6 +199,7 @@ signals:
     void selected(Mlt::Producer *producer);
     void trackHeightChanged();
     void scaleFactorChanged();
+    void audioThumbFormatChanged();
     void durationChanged();
     void positionChanged();
     void showThumbnailsChanged();

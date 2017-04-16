@@ -81,7 +81,6 @@ Rectangle {
     property int clipBeingMovedId: -1
     property real timeScale: timeline.scaleFactor
     property int trackHeight
-    //property alias ripple: toolbar.ripple
 
     //onCurrentTrackChanged: timeline.selection = []
     onTimeScaleChanged: {

@@ -314,6 +314,11 @@ bool TimelineWidget::showAudioThumbnails() const
     return KdenliveSettings::audiothumbnails();
 }
 
+bool TimelineWidget::audioThumbFormat() const
+{
+    return KdenliveSettings::displayallchannels();
+}
+
 bool TimelineWidget::showWaveforms() const
 {
     return KdenliveSettings::audiothumbnails();

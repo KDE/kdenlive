@@ -124,6 +124,9 @@ public slots:
     /** @brief Un/Set current track as target */
     void slotSwitchTrackTarget();
 
+    /** @brief Request repaint of audio thumbs */
+    void audioThumbFormatChanged();
+
 private slots:
     void slotRevert();
     /** @brief Open the project's backupdialog. */
