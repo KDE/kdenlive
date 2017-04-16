@@ -650,6 +650,10 @@ void MainWindow::init(const QString &MltPath, const QUrl &Url, const QString &cl
             KdenliveSettings::setDecklink_extension(data.section(QLatin1Char(';'), 1, 1));
         }
     }
+
+    if (!QDir(KdenliveSettings::currenttmpfolder()).isReadable())
+        KdenliveSettings::setCurrenttmpfolder(QStandardPaths::writableLocation(QStandardPaths::TempLocation));
+
     pCore->projectManager()->init(Url, clipsToLoad);
     QTimer::singleShot(0, pCore->projectManager(), &ProjectManager::slotLoadOnOpen);
     QTimer::singleShot(0, this, &MainWindow::GUISetupDone);
