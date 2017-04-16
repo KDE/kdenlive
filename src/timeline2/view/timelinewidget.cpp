@@ -51,6 +51,7 @@ TimelineWidget::TimelineWidget(KActionCollection *actionCollection, std::shared_
     , m_actionCollection(actionCollection)
     , m_binController(binController)
     , m_position(0)
+    , m_seekPosition(-1)
     , m_scale(3.0)
 {
     registerTimelineItems();
@@ -120,6 +121,10 @@ double TimelineWidget::scaleFactor() const
 
 void TimelineWidget::setScaleFactor(double scale)
 {
+    if (m_duration * scale < width() - 160) {
+        // Don't allow scaling less than full project's width
+        scale = (width() - 160.0) / m_duration;
+    }
     m_scale = scale;
     emit scaleFactorChanged();
 }
@@ -249,16 +254,25 @@ void TimelineWidget::setPosition(int position)
     emit seeked(position);
 }
 
+void TimelineWidget::setSeekPosition(int position)
+{
+    m_seekPosition = position;
+    emit seekPositionChanged();
+}
+
 void TimelineWidget::onSeeked(int position)
 {
     m_position = position;
     emit positionChanged();
+    if (m_seekPosition > -1 && position == m_seekPosition) {
+        m_seekPosition = -1;
+        emit seekPositionChanged();
+    }
 }
 
 Mlt::Producer *TimelineWidget::producer()
 {
     auto *prod = new Mlt::Producer(m_model->tractor());
-    qDebug() << "*** TIMELINE LENGTH: " << prod->get_playtime() << " / " << m_model->tractor()->get_length();
     return prod;
 }
 

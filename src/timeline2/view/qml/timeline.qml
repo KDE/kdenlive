@@ -71,7 +71,6 @@ Rectangle {
     property color selectedTrackColor: Qt.rgba(activePalette.highlight.r, activePalette.highlight.g, activePalette.highlight.b, 0.4)
     property alias trackCount: tracksRepeater.count
     property bool stopScrolling: false
-    property int seekPos: 0
     property int duration: timeline.duration
     property color shotcutBlue: Qt.rgba(23/255, 92/255, 118/255, 1.0)
     property int clipBeingDroppedId: -1
@@ -84,7 +83,7 @@ Rectangle {
 
     //onCurrentTrackChanged: timeline.selection = []
     onTimeScaleChanged: {
-        scrollView.flickableItem.contentX = Math.max(0, root.seekPos * timeline.scaleFactor - (scrollView.width / 2))
+        scrollView.flickableItem.contentX = Math.max(0, timeline.seekPosition * timeline.scaleFactor - (scrollView.width / 2))
         ruler.adjustStepSize()
     }
 
@@ -328,8 +327,8 @@ Rectangle {
             hoverEnabled: true
             acceptedButtons: Qt.RightButton | Qt.LeftButton
             onWheel: {
-                root.seekPos += (wheel.angleDelta.y > 0 ? 1 : -1)
-                timeline.position = root.seekPos
+                timeline.seekPosition = timeline.position + (wheel.angleDelta.y > 0 ? 1 : -1)
+                timeline.position = timeline.seekPosition
             }
             onClicked: {
                 if (mouse.button & Qt.RightButton) {
@@ -338,8 +337,8 @@ Rectangle {
                     menu.popup()
                 } else {
                     console.log("Position changed: ",timeline.position)
-                    root.seekPos = (scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor
-                    timeline.position = root.seekPos
+                    timeline.seekPosition = (scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor
+                    timeline.position = timeline.seekPosition
                 }
             }
             property bool scim: false
@@ -347,8 +346,8 @@ Rectangle {
             onExited: scim = false
             onPositionChanged: {
                 if (/*mouse.modifiers === Qt.ShiftModifier ||*/ mouse.buttons === Qt.LeftButton) {
-                    root.seekPos = (scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor
-                    timeline.position = root.seekPos
+                    timeline.seekPosition = (scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor
+                    timeline.position = timeline.seekPosition
                     scim = true
                 }
                 else
@@ -363,10 +362,10 @@ Rectangle {
                          && (timeline.position * timeline.scaleFactor >= 50)
                 onTriggered: {
                     if (parent.mouseX < 50)
-                        root.seekPos = timeline.position - 10
+                        timeline.seekPosition = timeline.position - 10
                     else
-                        root.seekPos = timeline.position + 10
-                    timeline.position = root.seekPos
+                        timeline.seekPosition = timeline.position + 10
+                    timeline.position = timeline.seekPosition1
                 }
             }
 
@@ -451,12 +450,12 @@ Rectangle {
             }
             Rectangle {
                 id: seekCursor
-                visible: timeline.position != root.seekPos
+                visible: timeline.seekPosition > -1
                 color: activePalette.highlight
                 width: 4
                 height: ruler.height
                 opacity: 0.5
-                x: root.seekPos * timeline.scaleFactor - scrollView.flickableItem.contentX
+                x: timeline.seekPosition * timeline.scaleFactor - scrollView.flickableItem.contentX
                 y: 0
             }
             TimelinePlayhead {

@@ -47,6 +47,7 @@ class TimelineWidget : public QQuickWidget
     /* @brief holds the current timeline position
      */
     Q_PROPERTY(int position READ position WRITE setPosition NOTIFY positionChanged)
+    Q_PROPERTY(int seekPosition READ seekPosition WRITE setSeekPosition NOTIFY seekPositionChanged)
     Q_PROPERTY(bool snap READ snap NOTIFY snapChanged)
     Q_PROPERTY(bool ripple READ ripple NOTIFY rippleChanged)
     Q_PROPERTY(bool scrub READ scrub NOTIFY scrubChanged)
@@ -82,10 +83,14 @@ public:
     /* @brief Returns the current cursor position (frame currently displayed by MLT)
      */
     Q_INVOKABLE int position() const { return m_position; }
+    /* @brief Returns the seek request position (-1 = no seek pending)
+     */
+    Q_INVOKABLE int seekPosition() const { return m_seekPosition; }
     /* @brief Request a seek operation
        @param position is the desired new timeline position
      */
     Q_INVOKABLE void setPosition(int position);
+    Q_INVOKABLE void setSeekPosition(int position);
     Q_INVOKABLE bool snap();
     Q_INVOKABLE bool ripple();
     Q_INVOKABLE bool scrub();
@@ -183,6 +188,7 @@ private:
         bool isMultitrackSelected;
     };
     int m_position;
+    int m_seekPosition;
     double m_scale;
     Selection m_selection;
     Selection m_savedSelection;
@@ -202,6 +208,7 @@ signals:
     void audioThumbFormatChanged();
     void durationChanged();
     void positionChanged();
+    void seekPositionChanged();
     void showThumbnailsChanged();
     void showAudioThumbnailsChanged();
     void snapChanged();
