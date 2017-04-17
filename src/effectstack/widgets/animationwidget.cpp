@@ -512,7 +512,7 @@ void AnimationWidget::slotPositionChanged(int pos, bool seek)
     m_next->setEnabled(pos < (m_outPoint - m_inPoint - 1));
 
     // scene ratio lock
-    if (m_spinWidth && m_spinWidth->isEnabled()) {
+    if ((m_spinWidth != nullptr) && m_spinWidth->isEnabled()) {
         double ratio = m_originalSize->isChecked() ? (double)m_frameSize.x() / m_frameSize.y()
                                                    : (double)m_monitor->render->frameRenderWidth() / m_monitor->render->renderHeight();
         bool lockRatio = m_spinHeight->value() == (int)(m_spinWidth->value() / ratio + 0.5);
@@ -812,7 +812,7 @@ void AnimationWidget::buildRectWidget(const QString &paramTag, const QDomElement
     m_lockRatio = new QAction(KoIconUtils::themedIcon(QStringLiteral("link")), i18n("Lock aspect ratio"), this);
     m_lockRatio->setCheckable(true);
     connect(m_lockRatio, &QAction::triggered, this, &AnimationWidget::slotLockRatio);
-    QToolButton *ratioButton = new QToolButton;
+    auto *ratioButton = new QToolButton;
     ratioButton->setDefaultAction(m_lockRatio);
     horLayout->addWidget(ratioButton);
 

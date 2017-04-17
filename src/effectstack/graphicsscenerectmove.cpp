@@ -208,7 +208,7 @@ void MyTextItem::updateGeometry(int, int, int)
 
 void MyTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *w)
 {
-    if (textInteractionFlags() & Qt::TextEditable != 0) {
+    if ((textInteractionFlags() & static_cast<int>((Qt::TextEditable) != 0)) != 0) {
         QGraphicsTextItem::paint(painter, option, w);
     } else {
         painter->setRenderHint(QPainter::Antialiasing);
@@ -335,7 +335,7 @@ void MyTextItem::updateGeometry()
     setAlignment(m_alignment);
     QPointF topRight = boundingRect().topRight();
 
-    if (m_alignment & Qt::AlignRight != 0) {
+    if ((m_alignment & static_cast<int>((Qt::AlignRight) != 0)) != 0) {
         setPos(pos() + (topRightPrev - topRight));
     }
 }
@@ -543,7 +543,7 @@ void GraphicsSceneRectMove::keyPressEvent(QKeyEvent *keyEvent)
     }
     if (m_selectedItem->type() == QGraphicsTextItem::Type) {
         MyTextItem *t = static_cast<MyTextItem *>(m_selectedItem);
-        if (t->textInteractionFlags() & Qt::TextEditorInteraction != 0) {
+        if ((t->textInteractionFlags() & static_cast<int>((Qt::TextEditorInteraction) != 0)) != 0) {
             QGraphicsScene::keyPressEvent(keyEvent);
             return;
         }
@@ -614,7 +614,7 @@ void GraphicsSceneRectMove::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *e)
         g = i.at(ix);
         ix++;
     }
-    if ((g != nullptr) && g->type() == QGraphicsTextItem::Type && (g->flags() & QGraphicsItem::ItemIsSelectable != 0)) {
+    if ((g != nullptr) && g->type() == QGraphicsTextItem::Type && (((g->flags() & static_cast<int>((QGraphicsItem::ItemIsSelectable) != 0))) != 0)) {
         m_selectedItem = g;
     } else {
         emit doubleClickEvent();
@@ -869,7 +869,7 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
             QGraphicsScene::mouseMoveEvent(e);
         } else if (m_selectedItem->type() == QGraphicsTextItem::Type) {
             MyTextItem *t = static_cast<MyTextItem *>(m_selectedItem);
-            if (t->textInteractionFlags() & Qt::TextEditorInteraction != 0) {
+            if ((t->textInteractionFlags() & static_cast<int>((Qt::TextEditorInteraction) != 0)) != 0) {
                 QGraphicsScene::mouseMoveEvent(e);
                 return;
             }

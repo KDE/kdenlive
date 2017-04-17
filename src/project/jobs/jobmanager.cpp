@@ -242,7 +242,8 @@ QList<ProjectClip *> JobManager::filterClips(const QList<ProjectClip *> &clips, 
     }
     if (jobType == AbstractClipJob::FILTERCLIPJOB) {
         return FilterJob::filterClips(clips, params);
-    } else if (jobType == AbstractClipJob::PROXYJOB) {
+    }
+    if (jobType == AbstractClipJob::PROXYJOB) {
         return ProxyJob::filterClips(clips);
     }
     return QList<ProjectClip *>();

@@ -71,7 +71,8 @@ rectActions OnMonitorRectItem::getMode(const QPointF &pos)
     }
     if (mouseArea.contains(pol.at(2))) {
         return ResizeBottomRight;
-    } else if (mouseArea.contains(pol.at(1))) {
+    }
+    if (mouseArea.contains(pol.at(1))) {
         return ResizeTopRight;
     } else if (mouseArea.contains(pol.at(3))) {
         return ResizeBottomLeft;

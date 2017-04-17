@@ -117,7 +117,8 @@ QModelIndex TimelineItemModel::parent(const QModelIndex &index) const
     if (isClip(id)) {
         const int trackId = getClipTrackId(id);
         return makeTrackIndexFromID(trackId);
-    } else if (isComposition(id)) {
+    }
+    if (isComposition(id)) {
         const int trackId = getCompositionTrackId(id);
         return makeTrackIndexFromID(trackId);
     }

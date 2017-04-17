@@ -249,9 +249,8 @@ QColor ColorPickerWidget::grabColor(const QPoint &p, bool destroyImage)
             return i.pixel(0, 0);
         }
         return qRgb(0, 0, 0);
-
-    } else {
-        return m_image.pixel(p.x(), p.y());
     }
+    return m_image.pixel(p.x(), p.y());
+
 #endif
 }

@@ -412,7 +412,7 @@ public:
             // QRect r = QStyle::alignedRect(opt.direction, Qt::AlignVCenter | Qt::AlignLeft, opt.decorationSize, r1);
 
             style->drawPrimitive(QStyle::PE_PanelItemViewItem, &opt, painter, opt.widget);
-            if (option.state & QStyle::State_Selected != 0) {
+            if ((option.state & static_cast<int>((QStyle::State_Selected) != 0)) != 0) {
                 painter->setPen(option.palette.highlightedText().color());
             } else {
                 painter->setPen(option.palette.text().color());
@@ -473,7 +473,8 @@ public:
                         painter->setBrush(Qt::darkGray);
                         if (jobProgress > 0) {
                             painter->drawRoundedRect(progress, 2, 2);
-                            painter->setBrush(option.state & QStyle::State_Selected != 0 ? option.palette.text() : option.palette.highlight());
+                            painter->setBrush((option.state & static_cast<int>((QStyle::State_Selected) != 0)) != 0 ? option.palette.text()
+                                                                                                                    : option.palette.highlight());
                             progress.setWidth((progressWidth - 2) * jobProgress / 100);
                             painter->drawRoundedRect(progress, 2, 2);
                         } else if (jobProgress == JobWaiting) {

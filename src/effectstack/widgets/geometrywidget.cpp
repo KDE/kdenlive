@@ -101,7 +101,7 @@ GeometryWidget::GeometryWidget(EffectMetaInfo *info, int clipPos, bool showRotat
     m_lockRatio = new QAction(KoIconUtils::themedIcon(QStringLiteral("link")), i18n("Lock aspect ratio"), this);
     m_lockRatio->setCheckable(true);
     connect(m_lockRatio, &QAction::triggered, this, &GeometryWidget::slotLockRatio);
-    QToolButton *ratioButton = new QToolButton;
+    auto *ratioButton = new QToolButton;
     ratioButton->setDefaultAction(m_lockRatio);
     m_ui.horizontalLayout->addWidget(ratioButton, 0, 3);
 

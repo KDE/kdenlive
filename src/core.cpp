@@ -176,7 +176,6 @@ void Core::initGUI(const QUrl &Url)
     m_mainWindow->show();
 }
 
-
 std::unique_ptr<Core> &Core::self()
 {
     if (!m_self) {

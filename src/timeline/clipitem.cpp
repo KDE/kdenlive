@@ -1027,7 +1027,8 @@ OperationType ClipItem::operationMode(const QPointF &pos, Qt::KeyboardModifiers 
             }
         }
         return ResizeStart;
-    } else if (qAbs((int)(pos.x() - (rect.width() - m_endFade))) < maximumOffset && qAbs((int)(pos.y())) < 10) {
+    }
+    if (qAbs((int)(pos.x() - (rect.width() - m_endFade))) < maximumOffset && qAbs((int)(pos.y())) < 10) {
         return FadeOut;
     } else if ((pos.x() >= rect.width() / 2) && (rect.width() - pos.x() < maximumOffset) && (rect.height() - pos.y() > addtransitionOffset)) {
         if ((modifiers & Qt::ControlModifier) != 0u) {

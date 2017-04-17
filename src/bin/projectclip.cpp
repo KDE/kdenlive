@@ -1176,11 +1176,9 @@ QStringList ProjectClip::updatedAnalysisData(const QString &name, const QString 
         }
         return QStringList() << QString("kdenlive:clipanalysis." + name + QString::number(i)) << geometryWithOffset(data, offset);
         // m_controller->setProperty("kdenlive:clipanalysis." + name + QLatin1Char(' ') + QString::number(i), geometryWithOffset(data, offset));
-
-    } else {
-        return QStringList() << QString("kdenlive:clipanalysis." + name) << geometryWithOffset(data, offset);
-        // m_controller->setProperty("kdenlive:clipanalysis." + name, geometryWithOffset(data, offset));
     }
+    return QStringList() << QString("kdenlive:clipanalysis." + name) << geometryWithOffset(data, offset);
+    // m_controller->setProperty("kdenlive:clipanalysis." + name, geometryWithOffset(data, offset));
 }
 
 QMap<QString, QString> ProjectClip::analysisData(bool withPrefix)

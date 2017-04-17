@@ -105,7 +105,8 @@ bool SelectManager::mouseMove(QMouseEvent *event, int, int)
         static_cast<ClipItem *>(dragItem)->setFadeOut(static_cast<int>(dragItem->endPos().frames(m_view->fps()) - mappedXPos));
         event->accept();
         return true;
-    } else if (mode == KeyFrame) {
+    }
+    if (mode == KeyFrame) {
         AbstractClipItem *dragItem = m_view->dragItem();
         double mappedXPos = m_view->mapToScene(event->pos()).x();
         GenTime keyFramePos = GenTime(mappedXPos, m_view->fps()) - dragItem->startPos();

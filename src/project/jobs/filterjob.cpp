@@ -202,7 +202,8 @@ QHash<ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(const QList<Projec
             jobs.insert(clip, job);
         }
         return jobs;
-    } else if (filterName == QLatin1String("vidstab") || filterName == QLatin1String("videostab2") || filterName == QLatin1String("videostab")) {
+    }
+    if (filterName == QLatin1String("vidstab") || filterName == QLatin1String("videostab2") || filterName == QLatin1String("videostab")) {
         // vidstab
         int out = 100000;
         if (clips.count() == 1) {

@@ -395,7 +395,7 @@ bool CustomTrackView::checkTrackHeight(bool force)
     }
     setSceneRect(0, 0, sceneRect().width(), m_tracksHeight * m_timeline->visibleTracksCount());
     double newHeight = m_tracksHeight * m_timeline->visibleTracksCount() * matrix().m22();
-    if (m_cursorLine->flags() & QGraphicsItem::ItemIgnoresTransformations != 0) {
+    if ((m_cursorLine->flags() & static_cast<int>((QGraphicsItem::ItemIgnoresTransformations) != 0)) != 0) {
         m_cursorLine->setLine(0, 0, 0, newHeight - 1);
     } else {
         m_cursorLine->setLine(0, 0, 0, m_tracksHeight * m_timeline->visibleTracksCount() - 1);
@@ -3794,7 +3794,7 @@ void CustomTrackView::reloadTimeline()
     for (int i = 0; i < m_guides.count(); ++i) {
         m_guides.at(i)->setLine(0, 0, 0, maxHeight - 1);
     }
-    if (m_cursorLine->flags() & QGraphicsItem::ItemIgnoresTransformations != 0) {
+    if ((m_cursorLine->flags() & static_cast<int>((QGraphicsItem::ItemIgnoresTransformations) != 0)) != 0) {
         m_cursorLine->setLine(0, 0, 0, maxHeight - 1);
     } else {
         m_cursorLine->setLine(0, 0, 0, m_tracksHeight * m_timeline->visibleTracksCount() - 1);

@@ -77,7 +77,7 @@ TimelineWidget::TimelineWidget(KActionCollection *actionCollection, std::shared_
 void TimelineWidget::setModel(std::shared_ptr<TimelineItemModel> model)
 {
     m_thumbnailer->resetProject();
-    m_model = model;
+    m_model = std::move(model);
 
     auto *proxyModel = new QSortFilterProxyModel(this);
     proxyModel->setSourceModel(m_model.get());
@@ -280,13 +280,11 @@ void TimelineWidget::onSeeked(int position)
     }
 }
 
-
 void TimelineWidget::mousePressEvent(QMouseEvent *event)
 {
     emit focusProjectMonitor();
     QQuickWidget::mousePressEvent(event);
 }
-
 
 void TimelineWidget::slotChangeZoom(int value, bool zoomOnMouse)
 {

@@ -97,11 +97,11 @@ QString ScriptGetVar(const QString varName)
 }
 #else
 const QLatin1String ScriptFormat(".sh");
-QString ScriptSetVar(const QString name, const QString value)
+QString ScriptSetVar(const QString &name, const QString &value)
 {
     return name + "=\"" + value + '\"';
 }
-QString ScriptGetVar(const QString varName)
+QString ScriptGetVar(const QString &varName)
 {
     return QString('$') + varName;
 }
