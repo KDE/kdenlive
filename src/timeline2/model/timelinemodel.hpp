@@ -128,6 +128,10 @@ public:
 
     virtual ~TimelineModel();
     Mlt::Tractor *tractor() const { return m_tractor.get(); }
+
+    /* @brief Returns the current tractor's producer, useful fo control seeking, playing, etc
+     */
+    Mlt::Producer *producer();
     Mlt::Profile *getProfile();
 
     /* @brief returns the number of tracks */
@@ -204,54 +208,45 @@ public:
     */
     Q_INVOKABLE bool requestClipMove(int clipId, int trackId, int position, bool updateView = true, bool logUndo = true);
 
-    /* @brief Move a composition to a specific position
-       This action is undoable
-       Returns true on success. If it fails, nothing is modified.
-       If the clip is not in inserted in a track yet, it gets inserted for the first time.
-       If the clip is in a group, the call is deferred to requestGroupMove
-       @param transid is the ID of the composition
-       @param trackId is the ID of the track
-    */
-    Q_INVOKABLE bool requestCompositionMove(int compoId, int trackId, int position, bool updateView = true, bool logUndo = true);
+    /* @brief Move a composition to a specific position This action is undoable
+       Returns true on success. If it fails, nothing is modified. If the clip is
+       not in inserted in a track yet, it gets inserted for the first time. If
+       the clip is in a group, the call is deferred to requestGroupMove @param
+       transid is the ID of the composition @param trackId is the ID of the
+       track */ Q_INVOKABLE bool
+    requestCompositionMove(int compoId, int trackId, int position, bool updateView = true, bool logUndo = true);
 
     Q_INVOKABLE int getCompositionPosition(int compoId) const;
     Q_INVOKABLE int suggestCompositionMove(int compoId, int trackId, int position);
     int getCompositionPlaytime(int compoId) const;
 
-protected:
-    /* Same function, but accumulates undo and redo, and doesn't check for group*/
+protected: /* Same function, but accumulates undo and redo, and doesn't check
+    for group*/
     bool requestClipMove(int clipId, int trackId, int position, bool updateView, Fun &undo, Fun &redo);
     bool requestCompositionMove(int transid, int trackId, int position, bool updateView, Fun &undo, Fun &redo);
 
-public:
-    /* @brief Given an intended move, try to suggest a more valid one (accounting for snaps and missing UI calls)
-       @param clipId id of the clip to move
-       @param trackId id of the target track
-       @param position target position of the clip
-     */
+public: /* @brief Given an intended move, try to suggest a more valid one
+    (accounting for snaps and missing UI calls) @param clipId id of the clip to
+    move @param trackId id of the target track @param position target position
+    of the clip */
     Q_INVOKABLE int suggestClipMove(int clipId, int trackId, int position);
 
-    /* @brief Request clip insertion at given position.
-       This action is undoable
-       Returns true on success. If it fails, nothing is modified.
-       @param binClipId id of the clip in the bin
-       @param track Id of the track where to insert
-       @param Requested position
-       @param ID return parameter of the id of the inserted clip
-       @param logUndo if set to false, no undo object is stored
-    */
-    bool requestClipInsertion(const QString &binClipId, int trackId, int position, int &id, bool logUndo = true);
-    /* Same function, but accumulates undo and redo*/
+    /* @brief Request clip insertion at given position. This action is undoable
+       Returns true on success. If it fails, nothing is modified. @param
+       binClipId id of the clip in the bin @param track Id of the track where to
+       insert @param Requested position @param ID return parameter of the id of
+       the inserted clip @param logUndo if set to false, no undo object is
+       stored */ bool
+    requestClipInsertion(const QString &binClipId, int trackId, int position, int &id, bool logUndo = true); /* Same function,
+                                                       but accumulates undo and redo*/
     bool requestClipInsertion(const QString &binClipId, int trackId, int position, int &id, Fun &undo, Fun &redo);
 
-    /* @brief Deletes the given clip or composition from the timeline
-       This action is undoable
-       Returns true on success. If it fails, nothing is modified.
-       If the clip/composition is in a group, the call is deferred to requestGroupDeletion
-       @param clipId is the ID of the clip/composition
-       @param logUndo if set to false, no undo object is stored
-    */
-    Q_INVOKABLE bool requestItemDeletion(int clipId, bool logUndo = true);
+    /* @brief Deletes the given clip or composition from the timeline This
+       action is undoable Returns true on success. If it fails, nothing is
+       modified. If the clip/composition is in a group, the call is deferred to
+       requestGroupDeletion @param clipId is the ID of the clip/composition
+       @param logUndo if set to false, no undo object is stored */ Q_INVOKABLE bool
+    requestItemDeletion(int clipId, bool logUndo = true);
     /* Same function, but accumulates undo and redo, and doesn't check for group*/
     bool requestClipDeletion(int clipId, Fun &undo, Fun &redo);
     bool requestCompositionDeletion(int compositionId, Fun &undo, Fun &redo);

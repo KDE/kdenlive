@@ -1,0 +1,67 @@
+/***************************************************************************
+ *   Copyright (C) 2017 by Nicolas Carion                                  *
+ *   This file is part of Kdenlive. See www.kdenlive.org.                  *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) version 3 or any later version accepted by the       *
+ *   membership of KDE e.V. (or its successor approved  by the membership  *
+ *   of KDE e.V.), which shall act as a proxy defined in Section 14 of     *
+ *   version 3 of the license.                                             *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
+ ***************************************************************************/
+
+#include "timelinetabs.hpp"
+#include "core.h"
+#include "mainwindow.h"
+#include "monitor/monitor.h"
+#include "monitor/monitormanager.h"
+#include "project/projectmanager.h"
+#include "timelinewidget.h"
+
+TimelineTabs::TimelineTabs(QWidget *parent)
+    : QTabWidget(parent)
+    , m_mainTimeline(new TimelineWidget(pCore->window()->actionCollection(), pCore->binController(), this))
+{
+    setTabBarAutoHide(true);
+    setTabsClosable(true);
+    addTab(m_mainTimeline, i18n("Main timeline"));
+    connectTimeline(m_mainTimeline);
+
+    // Resize to 0 the size of the close button of the main timeline, so that the user cannnot close it.
+    tabBar()->tabButton(0, QTabBar::RightSide)->resize(0, 0);
+}
+
+TimelineWidget *TimelineTabs::getMainTimeline() const
+{
+    return m_mainTimeline;
+}
+
+TimelineWidget *TimelineTabs::getCurrentTimeline() const
+{
+    return static_cast<TimelineWidget *>(currentWidget());
+}
+
+void TimelineTabs::connectTimeline(TimelineWidget *timeline)
+{
+    connect(pCore->monitorManager()->projectMonitor(), &Monitor::seekTimeline, timeline, &TimelineWidget::seek, Qt::DirectConnection);
+    connect(timeline, &TimelineWidget::seeked, pCore->monitorManager()->projectMonitor(), &Monitor::requestSeek, Qt::DirectConnection);
+    connect(pCore->monitorManager()->projectMonitor(), &Monitor::seekPosition, timeline, &TimelineWidget::onSeeked, Qt::DirectConnection);
+    connect(timeline, &TimelineWidget::focusProjectMonitor, pCore->monitorManager(), &MonitorManager::focusProjectMonitor);
+    connect(timeline, &TimelineWidget::zoomIn, pCore->window(), &MainWindow::slotZoomIn);
+    connect(timeline, &TimelineWidget::zoomOut, pCore->window(), &MainWindow::slotZoomOut);
+    connect(timeline, &TimelineWidget::durationChanged, pCore->projectManager(), &ProjectManager::adjustProjectDuration);
+
+    connect(this, &TimelineTabs::audioThumbFormatChanged, timeline, &TimelineWidget::audioThumbFormatChanged);
+    connect(this, &TimelineTabs::showThumbnailsChanged, timeline, &TimelineWidget::showThumbnailsChanged);
+    connect(this, &TimelineTabs::showAudioThumbnailsChanged, timeline, &TimelineWidget::showAudioThumbnailsChanged);
+    connect(this, &TimelineTabs::changeZoom, timeline, &TimelineWidget::slotChangeZoom);
+}

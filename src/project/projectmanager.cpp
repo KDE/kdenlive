@@ -26,6 +26,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "project/notesplugin.h"
 #include "timeline/customtrackview.h"
 #include "timeline/timeline.h"
+#include "timeline2/model/builders/meltBuilder.hpp"
 #include "timeline2/view/timelinewidget.h"
 #include "transitionsettings.h"
 #include "utils/KoIconUtils.h"
@@ -52,7 +53,6 @@ ProjectManager::ProjectManager(QObject *parent)
     , m_project(nullptr)
     , m_trackView(nullptr)
     , m_progressDialog(nullptr)
-    , m_timelineWidgetLoaded(false)
 {
     m_fileRevert = KStandardAction::revert(this, SLOT(slotRevert()), pCore->window()->actionCollection());
     m_fileRevert->setIcon(KoIconUtils::themedIcon(QStringLiteral("document-revert")));
@@ -120,9 +120,6 @@ void ProjectManager::init(const QUrl &projectUrl, const QString &clipList)
 
 void ProjectManager::newFile(bool showProjectSettings, bool force)
 {
-    if (!pCore->timelineTabs()->isEnabled() && !force) {
-        return;
-    }
     // fix mantis#3160
     QUrl startFile = QUrl::fromLocalFile(KdenliveSettings::defaultprojectfolder() + QStringLiteral("/_untitled.kdenlive"));
     if (checkForBackupFile(startFile)) {
@@ -194,7 +191,6 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
         documentMetadata = w->metadata();
         delete w;
     }
-    pCore->timelineTabs()->setEnabled(true);
     bool openBackup;
     m_notesPlugin->clear();
     KdenliveDoc *doc = new KdenliveDoc(QUrl(), projectFolder, pCore->window()->m_commandStack, profileName, documentProperties, documentMetadata, projectTracks,
@@ -520,9 +516,6 @@ void ProjectManager::openFile(const QUrl &url)
 void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
 {
     Q_ASSERT(m_project == nullptr);
-    if (!pCore->timelineTabs()->isEnabled()) {
-        return;
-    }
     m_fileRevert->setEnabled(true);
 
     delete m_progressDialog;
@@ -604,7 +597,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     m_trackView->setDuration(m_trackView->duration());*/
 
     pCore->window()->slotGotProgressInfo(QString(), 100);
-    pCore->monitorManager()->projectMonitor()->adjustRulerSize(m_timelineWidget->duration() - 1);
+    pCore->monitorManager()->projectMonitor()->adjustRulerSize(m_mainTimelineModel->duration() - 1);
     if (openBackup) {
         slotOpenBackup(url);
     }
@@ -615,7 +608,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
 
 void ProjectManager::adjustProjectDuration()
 {
-    pCore->monitorManager()->projectMonitor()->adjustRulerSize(m_timelineWidget->duration() - 1);
+    pCore->monitorManager()->projectMonitor()->adjustRulerSize(m_mainTimelineModel->duration() - 1);
 }
 
 void ProjectManager::slotRevert()
@@ -679,11 +672,6 @@ void ProjectManager::slotOpenBackup(const QUrl &url)
 Timeline *ProjectManager::currentTimeline()
 {
     return m_trackView;
-}
-
-TimelineWidget *ProjectManager::currentTimelineWidget()
-{
-    return m_timelineWidget;
 }
 
 KRecentFilesAction *ProjectManager::recentFilesAction()
@@ -877,21 +865,6 @@ void ProjectManager::slotMoveFinished(KJob *job)
 
 void ProjectManager::updateTimeline(Mlt::Tractor tractor)
 {
-    if (!m_timelineWidgetLoaded) {
-        m_timelineWidgetLoaded = true;
-        qDebug() << "CONSTRUCTING TIMELINEWIDGET";
-        m_timelineWidget = new TimelineWidget(pCore->window()->actionCollection(), pCore->binController(), pCore->window());
-        m_timelineWidget->setModel(TimelineItemModel::construct(&pCore->getCurrentProfile()->profile(), m_project->commandStack()));
-        pCore->addTimeline(m_timelineWidget, m_project->url().fileName());
-        connect(pCore->monitorManager()->projectMonitor(), &Monitor::seekTimeline, m_timelineWidget, &TimelineWidget::seek, Qt::DirectConnection);
-        connect(m_timelineWidget, &TimelineWidget::seeked, pCore->monitorManager()->projectMonitor(), &Monitor::requestSeek, Qt::DirectConnection);
-        connect(pCore->monitorManager()->projectMonitor(), &Monitor::seekPosition, m_timelineWidget, &TimelineWidget::onSeeked, Qt::DirectConnection);
-        connect(m_timelineWidget, &TimelineWidget::focusProjectMonitor, pCore->monitorManager(), &MonitorManager::focusProjectMonitor);
-        pCore->monitorManager()->projectMonitor()->setProducer(m_timelineWidget->producer());
-        connect(m_timelineWidget, &TimelineWidget::zoomIn, pCore->window(), &MainWindow::slotZoomIn);
-        connect(m_timelineWidget, &TimelineWidget::zoomOut, pCore->window(), &MainWindow::slotZoomOut);
-        connect(m_timelineWidget, &TimelineWidget::durationChanged, this, &ProjectManager::adjustProjectDuration);
-    }
     qDebug() << "FILLING TIMELINEWIDGET";
     pCore->binController()->loadBinPlaylist(tractor);
     const QStringList ids = pCore->binController()->getClipIds();
@@ -906,14 +879,11 @@ void ProjectManager::updateTimeline(Mlt::Tractor tractor)
         info.replaceProducer = true;
         pCore->bin()->slotProducerReady(info, pCore->binController()->getController(id).get());
     }
-    pCore->binController()->setBinPlaylist(m_timelineWidget->tractor());
-    m_timelineWidget->buildFromMelt(tractor);
-    m_timelineWidget->setUndoStack(m_project->commandStack());
+    pCore->binController()->setBinPlaylist(&tractor);
+    m_mainTimelineModel = TimelineItemModel::construct(&pCore->getCurrentProfile()->profile(), m_project->commandStack());
+    constructTimelineFromMelt(m_mainTimelineModel, tractor);
+    pCore->monitorManager()->projectMonitor()->setProducer(m_mainTimelineModel->producer());
+    pCore->window()->getMainTimeline()->setModel(m_mainTimelineModel);
+    m_mainTimelineModel->setUndoStack(m_project->commandStack());
 }
 
-void ProjectManager::audioThumbFormatChanged()
-{
-    if (m_timelineWidget) {
-        m_timelineWidget->audioThumbFormatChanged();
-    }
-}

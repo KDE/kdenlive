@@ -54,6 +54,8 @@ class Monitor;
 class RenderWidget;
 class Render;
 class Transition;
+class TimelineTabs;
+class TimelineWidget;
 class KIconLoader;
 
 class /*KDENLIVECORE_EXPORT*/ MainWindow : public KXmlGuiWindow
@@ -109,6 +111,9 @@ public:
     /** @brief Returns true if docked widget is tabbed with another widget from its object name */
     bool isTabbedWith(QDockWidget *widget, const QString &otherWidget);
 
+    /** @brief Returns a ptr to the main timeline widget of the project */
+    TimelineWidget *getMainTimeline() const;
+
 protected:
     /** @brief Closes the window.
      * @return false if the user presses "Cancel" on a confirmation dialog or
@@ -156,6 +161,8 @@ private:
 
     KSelectAction *m_timeFormatButton;
     KSelectAction *m_compositeAction;
+
+    TimelineTabs *m_timelineTabs;
 
     /** This list holds all the scopes used in Kdenlive, allowing to manage some global settings */
     QList<QDockWidget *> m_gfxScopesList;

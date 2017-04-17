@@ -25,6 +25,7 @@
 #include "core.h"
 #include "doc/docundostack.hpp"
 #include "kdenlivesettings.h"
+#include "mainwindow.h"
 #include "profiles/profilemodel.hpp"
 #include "qml/timelineitems.h"
 #include "qmltypes/thumbnailprovider.h"
@@ -75,6 +76,7 @@ TimelineWidget::TimelineWidget(KActionCollection *actionCollection, std::shared_
 
 void TimelineWidget::setModel(std::shared_ptr<TimelineItemModel> model)
 {
+    m_thumbnailer->resetProject();
     m_model = model;
 
     auto *proxyModel = new QSortFilterProxyModel(this);
@@ -88,6 +90,8 @@ void TimelineWidget::setModel(std::shared_ptr<TimelineItemModel> model)
     rootContext()->setContextProperty("transitionModel", m_transitionProxyModel.get());
     setSource(QUrl(QStringLiteral("qrc:/qml/timeline.qml")));
     setVisible(true);
+    checkDuration();
+    resize(QSize(4000, 4000));
 }
 
 void TimelineWidget::setSelection(const QList<int> &newSelection, int trackIndex, bool isMultitrack)
@@ -276,11 +280,6 @@ void TimelineWidget::onSeeked(int position)
     }
 }
 
-Mlt::Producer *TimelineWidget::producer()
-{
-    auto *prod = new Mlt::Producer(m_model->tractor());
-    return prod;
-}
 
 void TimelineWidget::mousePressEvent(QMouseEvent *event)
 {
@@ -288,18 +287,6 @@ void TimelineWidget::mousePressEvent(QMouseEvent *event)
     QQuickWidget::mousePressEvent(event);
 }
 
-void TimelineWidget::buildFromMelt(Mlt::Tractor tractor)
-{
-    qDebug() << "REQUESTING BUILD FROM MELT";
-    m_thumbnailer->resetProject();
-    constructTimelineFromMelt(m_model, tractor);
-    checkDuration();
-}
-
-void TimelineWidget::setUndoStack(std::weak_ptr<DocUndoStack> undo_stack)
-{
-    m_model->setUndoStack(std::move(undo_stack));
-}
 
 void TimelineWidget::slotChangeZoom(int value, bool zoomOnMouse)
 {

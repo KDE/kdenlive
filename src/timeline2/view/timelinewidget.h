@@ -124,15 +124,6 @@ public:
 
     Q_INVOKABLE void triggerAction(const QString &name);
 
-    /* @brief Returns the current tractor's producer, useful fo control seeking, playing, etc
-     */
-    Mlt::Producer *producer();
-    /* @brief Load a new project from a tractor
-     */
-    void buildFromMelt(Mlt::Tractor tractor);
-    /* @brief Define the undo stack for this timeline
-     */
-    void setUndoStack(std::weak_ptr<DocUndoStack> undo_stack);
     /* @brief Do we want to display video thumbnails
      */
     bool showThumbnails() const;

@@ -61,6 +61,7 @@
 #include "timeline/timeline.h"
 #include "timeline/timelinesearch.h"
 #include "timeline/track.h"
+#include "timeline2/view/timelinetabs.hpp"
 #include "timeline2/view/timelinewidget.h"
 #include "titler/titlewidget.h"
 #include "transitions/transitionlist/view/transitionlistwidget.hpp"
@@ -200,19 +201,6 @@ void MainWindow::init()
         stylesAction->addAction(a);
     }
     connect(stylesGroup, &QActionGroup::triggered, this, &MainWindow::slotChangeStyle);
-
-    // Color schemes
-    KActionMenu *themeAction = new KActionMenu(i18n("Theme"), this);
-    ThemeManager::instance()->setThemeMenuAction(themeAction);
-    ThemeManager::instance()->setCurrentTheme(KdenliveSettings::colortheme());
-    connect(ThemeManager::instance(), &ThemeManager::signalThemeChanged, this, &MainWindow::slotThemeChanged, Qt::DirectConnection);
-
-    if (!KdenliveSettings::widgetstyle().isEmpty() && QString::compare(desktopStyle, KdenliveSettings::widgetstyle(), Qt::CaseInsensitive) != 0) {
-        // User wants a custom widget style, init
-        doChangeStyle();
-    } else {
-        ThemeManager::instance()->slotChangePalette();
-    }
     // QIcon::setThemeSearchPaths(QStringList() <<QStringLiteral(":/icons/"));
 
     new RenderingAdaptor(this);
@@ -255,7 +243,6 @@ void MainWindow::init()
     fr->setMaximumHeight(1);
     fr->setLineWidth(1);
     ctnLay->addWidget(fr);
-    ctnLay->addWidget(pCore->timelineTabs());
     setCentralWidget(m_timelineToolBarContainer);
     setupActions();
 
@@ -292,6 +279,22 @@ void MainWindow::init()
 
     pCore->monitorManager()->initMonitors(m_clipMonitor, m_projectMonitor);
     connect(m_clipMonitor, SIGNAL(addMasterEffect(QString, QDomElement)), pCore->bin(), SLOT(slotEffectDropped(QString, QDomElement)));
+
+    m_timelineTabs = new TimelineTabs(this);
+    ctnLay->addWidget(m_timelineTabs);
+
+    // Color schemes
+    KActionMenu *themeAction = new KActionMenu(i18n("Theme"), this);
+    ThemeManager::instance()->setThemeMenuAction(themeAction);
+    ThemeManager::instance()->setCurrentTheme(KdenliveSettings::colortheme());
+    connect(ThemeManager::instance(), &ThemeManager::signalThemeChanged, this, &MainWindow::slotThemeChanged, Qt::DirectConnection);
+
+    if (!KdenliveSettings::widgetstyle().isEmpty() && QString::compare(desktopStyle, KdenliveSettings::widgetstyle(), Qt::CaseInsensitive) != 0) {
+        // User wants a custom widget style, init
+        doChangeStyle();
+    } else {
+        ThemeManager::instance()->slotChangePalette();
+    }
 
     // Audio spectrum scope
     m_audioSpectrum = new AudioGraphSpectrum(pCore->monitorManager());
@@ -653,9 +656,7 @@ void MainWindow::slotThemeChanged(const QString &theme)
     if (pCore->projectManager() && pCore->projectManager()->currentTimeline()) {
         pCore->projectManager()->currentTimeline()->updatePalette();
     }
-    if (pCore->timelineTabs()) {
-        pCore->timelineTabs()->setPalette(plt);
-    }
+    m_timelineTabs->setPalette(plt);
 
 #if KXMLGUI_VERSION_MINOR < 23 && KXMLGUI_VERSION_MAJOR == 5
     // Not required anymore with auto colored icons since KF5 5.23
@@ -2146,7 +2147,7 @@ void MainWindow::slotPreferences(int page, int option)
     connect(dialog, &KdenliveSettingsDialog::checkTabPosition, this, &MainWindow::slotCheckTabPosition);
     connect(dialog, &KdenliveSettingsDialog::restartKdenlive, this, &MainWindow::slotRestart);
     connect(dialog, &KdenliveSettingsDialog::updateLibraryFolder, pCore.get(), &Core::updateLibraryPath);
-    connect(dialog, &KdenliveSettingsDialog::audioThumbFormatChanged, pCore->projectManager(), &ProjectManager::audioThumbFormatChanged);
+    connect(dialog, &KdenliveSettingsDialog::audioThumbFormatChanged, m_timelineTabs, &TimelineTabs::audioThumbFormatChanged);
 
     dialog->show();
     if (page != -1) {
@@ -2208,9 +2209,7 @@ void MainWindow::slotSwitchSplitAudio(bool enable)
 void MainWindow::slotSwitchVideoThumbs()
 {
     KdenliveSettings::setVideothumbnails(!KdenliveSettings::videothumbnails());
-    if (pCore->projectManager()->currentTimelineWidget()) {
-        pCore->projectManager()->currentTimelineWidget()->showThumbnailsChanged();
-    }
+    m_timelineTabs->showThumbnailsChanged();
     m_buttonVideoThumbs->setChecked(KdenliveSettings::videothumbnails());
 }
 
@@ -2218,9 +2217,7 @@ void MainWindow::slotSwitchAudioThumbs()
 {
     KdenliveSettings::setAudiothumbnails(!KdenliveSettings::audiothumbnails());
     pCore->binController()->checkAudioThumbs();
-    if (pCore->projectManager()->currentTimelineWidget()) {
-        pCore->projectManager()->currentTimelineWidget()->showAudioThumbnailsChanged();
-    }
+    m_timelineTabs->showThumbnailsChanged();
     m_buttonAudioThumbs->setChecked(KdenliveSettings::audiothumbnails());
 }
 
@@ -2262,9 +2259,7 @@ void MainWindow::slotDeleteItem()
         }
 
         // effect stack has no focus
-        if (pCore->projectManager()->currentTimelineWidget()) {
-            pCore->projectManager()->currentTimelineWidget()->deleteSelectedClips();
-        }
+        m_timelineTabs->getCurrentTimeline()->deleteSelectedClips();
     }
 }
 
@@ -2767,9 +2762,7 @@ void MainWindow::slotSetZoom(int value, bool zoomOnMouse)
     if (pCore->projectManager()->currentTimeline()) {
         pCore->projectManager()->currentTimeline()->slotChangeZoom(value, -1, zoomOnMouse);
     }
-    if (pCore->projectManager()->currentTimelineWidget()) {
-        pCore->projectManager()->currentTimelineWidget()->slotChangeZoom(value, zoomOnMouse);
-    }
+    m_timelineTabs->changeZoom(value, zoomOnMouse);
     m_zoomOut->setEnabled(value < m_zoomSlider->maximum());
     m_zoomIn->setEnabled(value > m_zoomSlider->minimum());
     slotUpdateZoomSliderToolTip(value);
@@ -2835,9 +2828,7 @@ void MainWindow::slotActivateTransitionView(Transition *transition)
 void MainWindow::slotSnapRewind()
 {
     if (m_projectMonitor->isActive()) {
-        if (pCore->projectManager()->currentTimelineWidget()) {
-            pCore->projectManager()->currentTimelineWidget()->gotoPreviousSnap();
-        }
+        m_timelineTabs->getCurrentTimeline()->gotoPreviousSnap();
     } else {
         m_clipMonitor->slotSeekToPreviousSnap();
     }
@@ -2846,9 +2837,7 @@ void MainWindow::slotSnapRewind()
 void MainWindow::slotSnapForward()
 {
     if (m_projectMonitor->isActive()) {
-        if (pCore->projectManager()->currentTimelineWidget()) {
-            pCore->projectManager()->currentTimelineWidget()->gotoNextSnap();
-        }
+        m_timelineTabs->getCurrentTimeline()->gotoNextSnap();
     } else {
         m_clipMonitor->slotSeekToNextSnap();
     }
@@ -3074,16 +3063,12 @@ QString::number(zone.y()) << "-consumer" << "xml:" + url->url().path());
 
 void MainWindow::slotResizeItemStart()
 {
-    if (pCore->projectManager()->currentTimelineWidget()) {
-        pCore->projectManager()->currentTimelineWidget()->setInPoint();
-    }
+    m_timelineTabs->getCurrentTimeline()->setInPoint();
 }
 
 void MainWindow::slotResizeItemEnd()
 {
-    if (pCore->projectManager()->currentTimelineWidget()) {
-        pCore->projectManager()->currentTimelineWidget()->setOutPoint();
-    }
+    m_timelineTabs->getCurrentTimeline()->setOutPoint();
 }
 
 int MainWindow::getNewStuff(const QString &configFile)
@@ -4154,6 +4139,11 @@ void MainWindow::setTrimMode(const QString &mode)
         m_trimLabel->setText(mode);
         m_trimLabel->setVisible(!mode.isEmpty());
     }
+}
+
+TimelineWidget *MainWindow::getMainTimeline() const
+{
+    return m_timelineTabs->getMainTimeline();
 }
 
 #ifdef DEBUG_MAINW

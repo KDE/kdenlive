@@ -87,10 +87,6 @@ public:
     ProducerQueue *producerQueue();
     /** @brief Returns a pointer to the library. */
     LibraryWidget *library();
-    /** @brief Returns a pointer to the timeline. */
-    QWidget *timelineTabs();
-    /** @brief Add a new timeline tab. */
-    void addTimeline(QWidget *timeline, const QString &name);
 
     /** @brief Returns a pointer to MLT's repository */
     std::unique_ptr<Mlt::Repository> &getMltRepository();
@@ -118,7 +114,6 @@ private:
     ProducerQueue *m_producerQueue;
     Bin *m_binWidget;
     LibraryWidget *m_library;
-    QTabWidget *m_timelineTab;
 
     std::unique_ptr<MltConnection> m_mltConnection;
 

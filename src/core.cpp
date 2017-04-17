@@ -163,8 +163,6 @@ void Core::initGUI(const QUrl &Url)
     connect(m_producerQueue, SIGNAL(addClip(QString, QMap<QString, QString>)), m_binWidget, SLOT(slotAddUrl(QString, QMap<QString, QString>)));
     connect(m_binController.get(), SIGNAL(createThumb(QDomElement, QString, int)), m_producerQueue, SLOT(getFileProperties(QDomElement, QString, int)));
     connect(m_binWidget, &Bin::producerReady, m_producerQueue, &ProducerQueue::slotProcessingDone, Qt::DirectConnection);
-    m_timelineTab = new QTabWidget();
-    m_timelineTab->setTabBarAutoHide(true);
     // TODO
     /*connect(m_producerQueue, SIGNAL(removeInvalidProxy(QString,bool)), m_binWidget, SLOT(slotRemoveInvalidProxy(QString,bool)));*/
 
@@ -178,15 +176,6 @@ void Core::initGUI(const QUrl &Url)
     m_mainWindow->show();
 }
 
-QWidget *Core::timelineTabs()
-{
-    return m_timelineTab;
-}
-
-void Core::addTimeline(QWidget *timeline, const QString &name)
-{
-    m_timelineTab->addTab(timeline, name);
-}
 
 std::unique_ptr<Core> &Core::self()
 {

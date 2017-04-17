@@ -21,6 +21,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include "doc/docundostack.hpp"
 #include "timeline/timeline.h"
+#include "timeline2/model/timelineitemmodel.hpp"
 
 #include <memory>
 #include <unordered_map>
@@ -28,7 +29,6 @@ the Free Software Foundation, either version 3 of the License, or
 
 class Project;
 class KdenliveDoc;
-class TimelineWidget;
 class NotesPlugin;
 class QAction;
 class QUrl;
@@ -53,7 +53,6 @@ public:
     /** @brief Returns a pointer to the currently opened project. A project should always be open. */
     KdenliveDoc *current();
     Timeline *currentTimeline();
-    TimelineWidget *currentTimelineWidget();
 
     /** @brief Store command line args for later opening. */
     void init(const QUrl &projectUrl, const QString &clipList);
@@ -126,12 +125,11 @@ public slots:
     /** @brief Un/Set current track as target */
     void slotSwitchTrackTarget();
 
-    /** @brief Request repaint of audio thumbs */
-    void audioThumbFormatChanged();
-
     /** @brief Set the text for current project's notes */
     void setDocumentNotes(const QString &notes);
 
+    /** @brief Project's duration changed, adjust monitor, etc. */
+    void adjustProjectDuration();
 private slots:
     void slotRevert();
     /** @brief Open the project's backupdialog. */
@@ -141,8 +139,6 @@ private slots:
     /** @brief Report progress of folder move operation. */
     void slotMoveProgress(KJob *, unsigned long progress);
     void slotMoveFinished(KJob *job);
-    /** @brief Project's duration changed, adjust monitor, etc. */
-    void adjustProjectDuration();
 
 signals:
     void docOpened(KdenliveDoc *document);
@@ -161,8 +157,7 @@ private:
 
     KdenliveDoc *m_project;
     Timeline *m_trackView; // TODO delete this
-    TimelineWidget *m_timelineWidget;
-    bool m_timelineWidgetLoaded;
+    std::shared_ptr<TimelineItemModel> m_mainTimelineModel;
     QTime m_lastSave;
     QTimer m_autoSaveTimer;
     QUrl m_startUrl;

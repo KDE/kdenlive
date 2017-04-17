@@ -1390,3 +1390,9 @@ void TimelineModel::setTimelineEffectsEnabled(bool enabled)
 
     // TODO if we support track effects, they should be disabled here too
 }
+
+Mlt::Producer *TimelineModel::producer()
+{
+    auto *prod = new Mlt::Producer(tractor());
+    return prod;
+}
