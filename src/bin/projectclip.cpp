@@ -23,14 +23,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "projectclip.h"
 #include "bin.h"
 #include "core.h"
+#include "doc/docundostack.hpp"
+#include "doc/kdenlivedoc.h"
 #include "doc/kthumb.h"
 #include "kdenlivesettings.h"
 #include "lib/audio/audioStreamInfo.h"
 #include "mltcontroller/bincontroller.h"
 #include "mltcontroller/clipcontroller.h"
 #include "mltcontroller/clippropertiescontroller.h"
+#include "model/markerlistmodel.hpp"
 #include "profiles/profilemodel.hpp"
 #include "project/projectcommands.h"
+#include "project/projectmanager.h"
 #include "projectfolder.h"
 #include "projectitemmodel.h"
 #include "projectsubclip.h"
@@ -54,6 +58,7 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, ProjectItemModel
     , m_abortAudioThumb(false)
     , m_thumbsProducer(nullptr)
 {
+    m_markerModel = std::make_shared<MarkerListModel>(id, pCore->projectManager()->current()->commandStack());
     m_clipStatus = StatusReady;
     m_name = clipName();
     m_duration = getStringDuration();
@@ -1231,4 +1236,9 @@ void ProjectClip::deregisterTimelineClip(int clipId)
 {
     Q_ASSERT(m_registeredClips.count(clipId) > 0);
     m_registeredClips.erase(clipId);
+}
+
+std::shared_ptr<MarkerListModel> ProjectClip::getMarkerModel() const
+{
+    return m_markerModel;
 }

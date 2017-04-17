@@ -49,6 +49,7 @@ class MainWindow;
 class TrackInfo;
 class ProjectClip;
 class ClipController;
+class MarkerListModel;
 
 class QTextEdit;
 class QUndoGroup;
@@ -168,6 +169,9 @@ public:
     /** @brief Move project data files to new url */
     void moveProjectData(const QString &src, const QString &dest);
 
+    /** @brief Returns a pointer to the guide model */
+    std::shared_ptr<MarkerListModel> getGuideModel() const;
+
 private:
     QUrl m_url;
     QDomDocument m_document;
@@ -193,6 +197,7 @@ private:
     QList<int> m_undoChunks;
     QMap<QString, QString> m_documentProperties;
     QMap<QString, QString> m_documentMetadata;
+    std::shared_ptr<MarkerListModel> m_guideModel;
 
     QString searchFileRecursively(const QDir &dir, const QString &matchSize, const QString &matchHash) const;
 

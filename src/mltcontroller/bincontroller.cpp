@@ -18,6 +18,7 @@
  ***************************************************************************/
 
 #include "bincontroller.h"
+#include "bin/model/markerlistmodel.hpp"
 #include "clipcontroller.h"
 #include "kdenlivesettings.h"
 #include "timeline/clip.h"
@@ -549,7 +550,8 @@ void BinController::checkAudioThumbs()
     }
 }
 
-void BinController::saveDocumentProperties(const QMap<QString, QString> &props, const QMap<QString, QString> &metadata, const QMap<double, QString> &guidesData)
+void BinController::saveDocumentProperties(const QMap<QString, QString> &props, const QMap<QString, QString> &metadata,
+                                           std::shared_ptr<MarkerListModel> guideModel)
 {
     // Clear previous properites
     Mlt::Properties playlistProps(m_binPlaylist->get_properties());
@@ -589,12 +591,10 @@ void BinController::saveDocumentProperties(const QMap<QString, QString> &props, 
     }
 
     // Append guides
-    QMapIterator<double, QString> g(guidesData);
     QLocale locale;
-    while (g.hasNext()) {
-        g.next();
-        QString propertyName = "kdenlive:guide." + locale.toString(g.key());
-        playlistProps.set(propertyName.toUtf8().constData(), g.value().toUtf8().constData());
+    for (const auto &guide : *guideModel) {
+        QString propertyName = "kdenlive:guide." + locale.toString(guide.first.seconds());
+        playlistProps.set(propertyName.toUtf8().constData(), guide.second.toUtf8().constData());
     }
 }
 

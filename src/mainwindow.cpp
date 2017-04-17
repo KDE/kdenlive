@@ -3762,8 +3762,7 @@ void MainWindow::slotArchiveProject()
 {
     QList<std::shared_ptr<ClipController>> list = pCore->binController()->getControllerList();
     KdenliveDoc *doc = pCore->projectManager()->current();
-    pCore->binController()->saveDocumentProperties(pCore->projectManager()->currentTimeline()->documentProperties(), doc->metadata(),
-                                                   pCore->projectManager()->currentTimeline()->projectView()->guidesData());
+    pCore->binController()->saveDocumentProperties(pCore->projectManager()->currentTimeline()->documentProperties(), doc->metadata(), doc->getGuideModel());
     QDomDocument xmlDoc = doc->xmlSceneList(m_projectMonitor->sceneList(doc->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile()));
     QScopedPointer<ArchiveWidget> d(
         new ArchiveWidget(doc->url().fileName(), xmlDoc, list, pCore->projectManager()->currentTimeline()->projectView()->extractTransitionsLumas(), this));

@@ -34,11 +34,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QUrl>
 #include <memory>
 
-class ProjectFolder;
 class AudioStreamInfo;
-class QDomElement;
 class ClipPropertiesController;
+class MarkerListModel;
+class ProjectFolder;
 class ProjectSubClip;
+class QDomElement;
 class QUndoCommand;
 
 namespace Mlt {
@@ -216,6 +217,9 @@ public slots:
      * @param statusMessage The job info message */
     void setJobStatus(int jobType, int status, int progress = 0, const QString &statusMessage = QString());
 
+    /* @brief Returns the marker model associated with this clip */
+    std::shared_ptr<MarkerListModel> getMarkerModel() const;
+
 private:
     bool m_abortAudioThumb;
     /** @brief Generate and store file hash if not available. */
@@ -236,6 +240,8 @@ private:
     void doExtractIntra();
 
     std::map<int, std::weak_ptr<TimelineModel>> m_registeredClips;
+
+    std::shared_ptr<MarkerListModel> m_markerModel;
 
 private slots:
     void updateFfmpegProgress();

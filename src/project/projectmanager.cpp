@@ -746,8 +746,7 @@ QString ProjectManager::documentNotes() const
 void ProjectManager::prepareSave()
 {
     // TODO REFAC: save target tracks, preview chunks and guides
-    pCore->binController()->saveDocumentProperties(m_project->documentProperties(), m_project->metadata(),
-                                                   QMap<double, QString>() /*m_trackView->projectView()->guidesData()*/);
+    pCore->binController()->saveDocumentProperties(m_project->documentProperties(), m_project->metadata(), m_project->getGuideModel());
     pCore->binController()->saveProperty(QStringLiteral("kdenlive:documentnotes"), documentNotes());
     pCore->binController()->saveProperty(QStringLiteral("kdenlive:clipgroups"), m_project->groupsXml());
 }

@@ -29,6 +29,8 @@
 #include <QStringList>
 #include <memory>
 
+class MarkerListModel;
+
 namespace Mlt {
 class Playlist;
 class Profile;
@@ -158,7 +160,7 @@ public:
     void checkAudioThumbs();
 
     /** @brief Save document properties in MLT's bin playlist */
-    void saveDocumentProperties(const QMap<QString, QString> &props, const QMap<QString, QString> &metadata, const QMap<double, QString> &guidesData);
+    void saveDocumentProperties(const QMap<QString, QString> &props, const QMap<QString, QString> &metadata, std::shared_ptr<MarkerListModel> guideModel);
 
     /** @brief Save a property to main bin */
     void saveProperty(const QString &name, const QString &value);

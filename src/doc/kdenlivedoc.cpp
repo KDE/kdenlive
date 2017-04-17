@@ -20,6 +20,7 @@
 #include "kdenlivedoc.h"
 #include "bin/bin.h"
 #include "bin/bincommands.h"
+#include "bin/model/markerlistmodel.hpp"
 #include "bin/projectclip.h"
 #include "core.h"
 #include "dialogs/profilesdialog.h"
@@ -81,8 +82,10 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGro
     , m_modified(false)
     , m_projectFolder(projectFolder)
 {
-    // init m_profile struct
     m_commandStack = std::make_shared<DocUndoStack>(undoGroup);
+    m_guideModel.reset(new MarkerListModel(m_commandStack, this));
+
+    // init m_profile struct
     m_profile.frame_rate_num = 0;
     m_profile.frame_rate_den = 0;
     m_profile.width = 0;
@@ -1865,4 +1868,9 @@ int KdenliveDoc::compositingMode()
     }
     // Cairoblend or qtblend available
     return 1;
+}
+
+std::shared_ptr<MarkerListModel> KdenliveDoc::getGuideModel() const
+{
+    return m_guideModel;
 }

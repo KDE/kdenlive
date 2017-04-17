@@ -501,7 +501,7 @@ protected:
 
     Mlt::Profile *m_profile;
 
-    // The black track producer. It's length / out should always be adjusted to the projects's length
+    // The black track producer. Its length / out should always be adjusted to the projects's length
     std::unique_ptr<Mlt::Producer> m_blackClip;
 
     mutable QReadWriteLock m_lock; // This is a lock that ensures safety in case of concurrent access
