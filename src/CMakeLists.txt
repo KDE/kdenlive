@@ -140,6 +140,7 @@ list(APPEND kdenlive_SRCS
     hidetitlebars.cpp
     mltconnection.cpp
     core.cpp
+    undohelper.cpp
     )
 
 ecm_qt_declare_logging_category(kdenlive_SRCS HEADER kdenlive_debug.h IDENTIFIER KDENLIVE_LOG CATEGORY_NAME org.kde.multimedia.kdenlive)
