@@ -1619,7 +1619,6 @@ void GLWidget::switchPlay(bool play, double speed)
         m_consumer->set("refresh", 0);
         m_consumer->purge();
         m_producer->set_speed(0.0);
-        m_consumer->stop();
         m_consumer->set("buffer", 0);
         m_consumer->set("prefill", 0);
         m_consumer->set("real_time", -1);

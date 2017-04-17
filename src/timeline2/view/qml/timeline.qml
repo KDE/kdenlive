@@ -83,7 +83,7 @@ Rectangle {
 
     //onCurrentTrackChanged: timeline.selection = []
     onTimeScaleChanged: {
-        scrollView.flickableItem.contentX = Math.max(0, timeline.seekPosition * timeline.scaleFactor - (scrollView.width / 2))
+        scrollView.flickableItem.contentX = Math.max(0, (timeline.seekPosition > -1 ? timeline.seekPosition : timeline.position) * timeline.scaleFactor - (scrollView.width / 2))
         ruler.adjustStepSize()
     }
 

@@ -78,6 +78,7 @@ Rectangle {
         x = modelStart * timeScale;
         width = clipDuration * timeScale;
         labelRect.x = scrollX > modelStart * timeScale ? scrollX - modelStart * timeScale : 0
+        generateWaveform();
     }
     onScrollXChanged: {
         labelRect.x = scrollX > modelStart * timeScale ? scrollX - modelStart * timeScale : 0
@@ -100,7 +101,7 @@ Rectangle {
                 return '#' + clipResource.substring(2, 8)
             }
         }
-        return isAudio? '#8cc6c0' : '#416e8c'
+        return isAudio? '#445f5a' : '#416e8c'
         //root.shotcutBlue
     }
 
@@ -115,8 +116,9 @@ Rectangle {
         // This is needed to make the model have the correct count.
         // Model as a property expression is not working in all cases.
         waveformRepeater.model = Math.ceil(waveform.innerWidth / waveform.maxWidth)
-        for (var i = 0; i < waveformRepeater.count; i++)
+        for (var i = 0; i < waveformRepeater.count; i++) {
             waveformRepeater.itemAt(0).update()
+        }
     }
 
     function imagePath(time) {
@@ -161,11 +163,11 @@ Rectangle {
         Row {
             id: waveform
             visible: hasAudio && timeline.showAudioThumbnails
-            height: isAudio? parent.height : parent.height / 2
+            height: isAudio? parent.height - 1 : (parent.height - 1) / 2
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.bottom: parent.bottom
-            opacity: 0.7
+            anchors.bottomMargin: 1
             property int maxWidth: 10000
             property int innerWidth: clipRoot.width - clipRoot.border.width * 2
 
@@ -174,6 +176,7 @@ Rectangle {
                 TimelineWaveform {
                     width: Math.min(waveform.innerWidth, waveform.maxWidth)
                     height: waveform.height
+                    showItem: clipRoot.modelStart + (index * waveform.maxWidth / timeScale) < (scrollView.flickableItem.contentX + scrollView.width) / timeScale && clipRoot.modelStart + ((index * waveform.maxWidth + width) / timeScale) > scrollView.flickableItem.contentX / timeScale
                     fillColor: 'red'
                     format: timeline.audioThumbFormat
                     property int channels: 2

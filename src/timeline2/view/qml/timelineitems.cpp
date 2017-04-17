@@ -3,6 +3,7 @@
 #include <QPainter>
 #include <QPainterPath>
 #include <QPalette>
+#include <QLinearGradient>
 #include <QQuickPaintedItem>
 #include "kdenlivesettings.h"
 
@@ -41,27 +42,39 @@ class TimelineWaveform : public QQuickPaintedItem
     Q_PROPERTY(int inPoint MEMBER m_inPoint NOTIFY inPointChanged)
     Q_PROPERTY(int outPoint MEMBER m_outPoint NOTIFY outPointChanged)
     Q_PROPERTY(bool format MEMBER m_format NOTIFY propertyChanged)
+    Q_PROPERTY(bool showItem MEMBER m_showItem NOTIFY propertyChanged)
 
 public:
     TimelineWaveform()
     {
         setAntialiasing(true);
         connect(this, SIGNAL(propertyChanged()), this, SLOT(update()));
+        // Fill gradient
+        m_gradient.setStart(0, 0);
+        m_gradient.setFinalStop(0, height());
+        m_gradient.setColorAt(1, QColor(129,233,139));
+        m_gradient.setColorAt(0.4, QColor(129,233,139));
+        m_gradient.setColorAt(0.2, QColor(233,215,129));
+        m_gradient.setColorAt(0.1, QColor(255,0,0));
+        m_gradient.setSpread(QGradient::ReflectSpread);
     }
 
     void paint(QPainter *painter) override
     {
         QVariantList data = m_audioLevels.toList();
-        if (data.isEmpty()) return;
+        if (data.isEmpty() || !m_showItem) return;
 
         const qreal indicesPrPixel = qreal(m_outPoint - m_inPoint) / width();
         QPen pen = painter->pen();
         pen.setWidthF(0.5);
         pen.setColor(m_color.darker());
-        painter->setPen(pen);
-        painter->setBrush(QBrush(m_color.lighter()));
+        painter->setPen(Qt::NoPen);
+        //painter->setBrush(QBrush(m_color.lighter()));
 
         if (!KdenliveSettings::displayallchannels()) {
+            m_gradient.setFinalStop(0, height());
+            painter->setBrush(m_gradient);
+
             // Draw merged channels
             QPainterPath path;
             path.moveTo(-1, height());
@@ -75,6 +88,10 @@ public:
             path.lineTo(i, height());
             painter->drawPath(path);
         } else {
+            // Fill gradient
+            m_gradient.setFinalStop(0, height()/4);
+            painter->setBrush(m_gradient);
+
             // Draw separate channels
             QMap<int, QPainterPath> positiveChannelPaths;
             QMap<int, QPainterPath> negativeChannelPaths;
@@ -116,6 +133,8 @@ private:
     int m_outPoint;
     QColor m_color;
     bool m_format;
+    QLinearGradient m_gradient;
+    bool m_showItem;
 };
 
 void registerTimelineItems()
