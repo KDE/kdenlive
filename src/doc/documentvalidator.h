@@ -26,8 +26,6 @@
 #include <QUrl>
 #include <QMap>
 
-class QScriptValue;
-
 class DocumentValidator
 {
 
@@ -51,13 +49,6 @@ private:
     void checkOrphanedProducers();
     QStringList getInfoFromEffectName(const QString &oldName);
     QString colorToString(const QColor &c);
-    /*
-    /// @brief Updates effects that were created using a different version of the underlaying filter than the one installed.
-    void updateEffects();
-    /// @brief Updates the parameters according to the updateRules.
-    /// @see the related in README in effects/update
-    bool updateEffectParameters(const QDomNodeList &parameters, const QScriptValue *updateRules, const double serviceVersion, const double effectVersion);
-    */
     QString factorizeGeomValue(const QString &value, double factor);
     /** @brief Kdenlive <= 0.9.10 saved title clip item position/opacity with locale which was wrong, fix. */
     void fixTitleProducerLocale(QDomElement &producer);

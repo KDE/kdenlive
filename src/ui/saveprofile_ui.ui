@@ -142,7 +142,7 @@
    <item row="3" column="0" colspan="3">
     <widget class="QLabel" name="parametersLabel">
      <property name="text">
-      <string>Parameters (see &lt;a href=&quot;http://www.mltframework.org/bin/view/MLT/ConsumerAvformat&quot;&gt;MLT documentation&lt;/a&gt;)</string>
+      <string>Parameters (see &lt;a href=&quot;https://www.mltframework.org/plugins/ConsumerAvformat/&quot;&gt;MLT documentation&lt;/a&gt;)</string>
      </property>
      <property name="openExternalLinks">
       <bool>true</bool>

@@ -18,6 +18,7 @@ extern "C"
 #include "kdenlive_debug.h"
 #include <QTime>
 #include <algorithm>
+#include <vector>
 
 void FFTCorrelation::correlate(const qint64 *left, const int leftSize,
                                const qint64 *right, const int rightSize,
@@ -61,7 +62,7 @@ void FFTCorrelation::correlate(const qint64 *left, const int leftSize,
         }
     }
 
-    // One side needs to be reverted, since multiplication in frequency domain (fourier space)
+    // One side needs to be reversed, since multiplication in frequency domain (fourier space)
     // calculates the convolution: \sum l[x]r[N-x] and not the correlation: \sum l[x]r[x]
     for (int i = 0; i < leftSize; ++i) {
         leftF[i] = double(left[i]) / maxLeft;
@@ -97,30 +98,27 @@ void FFTCorrelation::convolve(const float *left, const int leftSize,
     while (size / 2 < largestSize) {
         size = size << 1;
     }
-
+    const int fft_size = size / 2 + 1;
     kiss_fftr_cfg fftConfig = kiss_fftr_alloc(size, false, nullptr, nullptr);
     kiss_fftr_cfg ifftConfig = kiss_fftr_alloc(size, true, nullptr, nullptr);
-    kiss_fft_cpx leftFFT[size / 2];
-    kiss_fft_cpx rightFFT[size / 2];
-    kiss_fft_cpx correlatedFFT[size / 2];
+    std::vector<kiss_fft_cpx> leftFFT(fft_size);
+    std::vector<kiss_fft_cpx> rightFFT(fft_size);
+    std::vector<kiss_fft_cpx> correlatedFFT(fft_size);
 
     // Fill in the data into our new vectors with padding
-    float *leftData = new float[size];
-    float *rightData = new float[size];
-    float *convolved = new float[size];
+    std::vector<float> leftData(size, 0);
+    std::vector<float> rightData(size, 0);
+    std::vector<float> convolved(size);
 
-    std::fill(leftData, leftData + size, 0);
-    std::fill(rightData, rightData + size, 0);
-
-    std::copy(left, left + leftSize, leftData);
-    std::copy(right, right + rightSize, rightData);
+    std::copy(left, left + leftSize, leftData.begin());
+    std::copy(right, right + rightSize, rightData.begin());
 
     // Fourier transformation of the vectors
-    kiss_fftr(fftConfig, leftData, leftFFT);
-    kiss_fftr(fftConfig, rightData, rightFFT);
+    kiss_fftr(fftConfig, &leftData[0], &leftFFT[0]);
+    kiss_fftr(fftConfig, &rightData[0], &rightFFT[0]);
 
     // Convolution in spacial domain is a multiplication in fourier domain. O(n).
-    for (int i = 0; i < size / 2; ++i) {
+    for (int i = 0; i < correlatedFFT.size(); ++i) {
         correlatedFFT[i].r = leftFFT[i].r * rightFFT[i].r - leftFFT[i].i * rightFFT[i].i;
         correlatedFFT[i].i = leftFFT[i].r * rightFFT[i].i + leftFFT[i].i * rightFFT[i].r;
     }
@@ -131,16 +129,12 @@ void FFTCorrelation::convolve(const float *left, const int leftSize,
     *out_convolved = 0;
     int out_size = leftSize + rightSize + 1;
 
-    kiss_fftri(ifftConfig, correlatedFFT, convolved);
-    std::copy(convolved, convolved + out_size - 1, out_convolved + 1);
+    kiss_fftri(ifftConfig, &correlatedFFT[0], &convolved[0]);
+    std::copy(convolved.begin(), convolved.begin() + out_size - 1, out_convolved + 1);
 
     // Finally some cleanup.
     kiss_fftr_free(fftConfig);
     kiss_fftr_free(ifftConfig);
-
-    delete[] leftData;
-    delete[] rightData;
-    delete[] convolved;
 
     qCDebug(KDENLIVE_LOG) << "FFT convolution computed. Time taken: " << time.elapsed() << " ms";
 }

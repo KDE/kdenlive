@@ -754,14 +754,12 @@ void Render::switchPlay(bool play, double speed)
         }
         m_mltProducer->set_speed(speed);
     } else {
-        m_mltConsumer->set("refresh", 0);
-        m_mltConsumer->purge();
-        m_mltProducer->set_speed(0.0);
-        m_mltConsumer->stop();
+        m_mltConsumer->set("real_time", -1);
         m_mltConsumer->set("buffer", 0);
         m_mltConsumer->set("prefill", 0);
-        m_mltConsumer->set("real_time", -1);
+        m_mltProducer->set_speed(0.0);
         m_mltProducer->seek(m_mltConsumer->position() + 1);
+        m_mltConsumer->purge();
     }
 }
 
@@ -1010,9 +1008,7 @@ bool Render::checkFrameNumber(int pos)
         }
     } else {
         m_isRefreshing = false;
-        if (m_mltProducer->get_speed() == 0) {
-            m_mltConsumer->purge();
-        } else if (m_isZoneMode) {
+        if (m_isZoneMode && m_mltProducer->get_speed() != 0) {
             if (pos >= m_mltProducer->get_int("out") - 1) {
                 if (m_isLoopMode) {
                     m_mltConsumer->purge();

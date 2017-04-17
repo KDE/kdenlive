@@ -45,7 +45,6 @@
 #include <QProcess>
 #include <QDBusConnectionInterface>
 #include <QThread>
-#include <QScriptEngine>
 #include <QKeyEvent>
 #include <QTimer>
 #include <QStandardPaths>
@@ -91,6 +90,16 @@ enum JOBSTATUS {
     FAILEDJOB,
     ABORTEDJOB
 };
+
+#ifdef Q_OS_WIN
+const QLatin1String ScriptFormat(".bat");
+QString ScriptSetVar(const QString name, const QString value) { return QString("set ") + name + "=" + value; }
+QString ScriptGetVar(const QString varName) { return QString('%') + varName + '%'; }
+#else
+const QLatin1String ScriptFormat(".sh");
+QString ScriptSetVar(const QString name, const QString value) { return name + "=\"" + value + '\"'; }
+QString ScriptGetVar(const QString varName) { return QString('$') + varName; }
+#endif
 
 static QStringList acodecsList;
 static QStringList vcodecsList;
@@ -1063,9 +1072,11 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
                 return;
             }
             QTextStream outStream(&file);
+#ifndef Q_OS_WIN
             outStream << "#! /bin/sh" << '\n' << '\n';
-            outStream << "RENDERER=" << '\"' + m_renderer + QLatin1Char('\"') << '\n';
-            outStream << "MELT=" << '\"' + KdenliveSettings::rendererpath() + QLatin1Char('\"') << "\n\n";
+#endif
+            outStream << ScriptSetVar("RENDERER", m_renderer) << '\n';
+            outStream << ScriptSetVar("MELT", KdenliveSettings::rendererpath()) << "\n\n";
         }
 
         QStringList overlayargs;
@@ -1081,12 +1092,13 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
         if (!scriptExport) {
             render_process_args << QStringLiteral("-erase");
         }
+#ifndef Q_OS_WIN
         if (KdenliveSettings::usekuiserver()) {
             render_process_args << QStringLiteral("-kuiserver");
         }
-
         // get process id
         render_process_args << QStringLiteral("-pid:%1").arg(QCoreApplication::applicationPid());
+#endif
 
         // Set locale for render process if required
         if (QLocale().decimalPoint() != QLocale::system().decimalPoint()) {
@@ -1168,7 +1180,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
         }
 
         if (scriptExport) {
-            render_process_args << QStringLiteral("$MELT");
+            render_process_args << ScriptGetVar("MELT");
         } else {
             render_process_args << KdenliveSettings::rendererpath();
         }
@@ -1255,14 +1267,6 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
 
         QStringList paramsList = renderArgs.split(' ', QString::SkipEmptyParts);
 
-        QScriptEngine sEngine;
-        sEngine.globalObject().setProperty(QStringLiteral("bitrate"), m_view.video->value());
-        sEngine.globalObject().setProperty(QStringLiteral("quality"), m_view.video->value());
-        sEngine.globalObject().setProperty(QStringLiteral("audiobitrate"), m_view.audio->value());
-        sEngine.globalObject().setProperty(QStringLiteral("audioquality"), m_view.audio->value());
-        sEngine.globalObject().setProperty(QStringLiteral("dar"), '@' + QString::number(profile->display_aspect_num()) + QLatin1Char('/') + QString::number(profile->display_aspect_den()));
-        sEngine.globalObject().setProperty(QStringLiteral("passes"), static_cast<int>(m_view.checkTwoPass->isChecked()) + 1);
-
         for (int i = 0; i < paramsList.count(); ++i) {
             QString paramName = paramsList.at(i).section(QLatin1Char('='), 0, -2);
             QString paramValue = paramsList.at(i).section(QLatin1Char('='), -1);
@@ -1272,19 +1276,35 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
             }
             // evaluate expression
             if (paramValue.startsWith(QLatin1Char('%'))) {
-                paramValue = sEngine.evaluate(paramValue.remove(0, 1)).toString();
+                if (paramValue.startsWith(QStringLiteral("%bitrate"))
+                 || paramValue == QStringLiteral("%quality")) {
+                    if (paramValue.contains("+'k'"))
+                        paramValue = QString::number(m_view.video->value()) + 'k';
+                    else
+                        paramValue = QString::number(m_view.video->value());
+                }
+                if (paramValue.startsWith(QStringLiteral("%audiobitrate"))
+                 || paramValue == QStringLiteral("%audioquality")) {
+                    if (paramValue.contains("+'k'"))
+                        paramValue = QString::number(m_view.audio->value()) + 'k';
+                    else
+                        paramValue = QString::number(m_view.audio->value());
+                }
+                if (paramValue == QStringLiteral("%dar"))
+                    paramValue =  '@' + QString::number(profile->display_aspect_num()) + QLatin1Char('/') + QString::number(profile->display_aspect_den());
+                if (paramValue == QStringLiteral("%passes"))
+                    paramValue = QString::number(static_cast<int>(m_view.checkTwoPass->isChecked()) + 1);
                 paramsList[i] = paramName + QLatin1Char('=') + paramValue;
             }
-            sEngine.globalObject().setProperty(paramName.toUtf8().constData(), paramValue);
         }
 
         if (resizeProfile && !KdenliveSettings::gpu_accel()) {
-            render_process_args << "consumer:" + (scriptExport ? "$SOURCE_" + QString::number(stemIdx) : QUrl::fromLocalFile(playlistPaths.at(stemIdx)).toEncoded());
+            render_process_args << "consumer:" + (scriptExport ? ScriptGetVar("SOURCE_" + QString::number(stemIdx)) : QUrl::fromLocalFile(playlistPaths.at(stemIdx)).toEncoded());
         } else {
-            render_process_args << (scriptExport ? "$SOURCE_" + QString::number(stemIdx) : QUrl::fromLocalFile(playlistPaths.at(stemIdx)).toEncoded());
+            render_process_args << (scriptExport ? ScriptGetVar("SOURCE_" + QString::number(stemIdx)) : QUrl::fromLocalFile(playlistPaths.at(stemIdx)).toEncoded());
         }
 
-        render_process_args << (scriptExport ? "$TARGET_" + QString::number(stemIdx) : QUrl::fromLocalFile(dest).toEncoded());
+        render_process_args << (scriptExport ? ScriptGetVar("TARGET_" + QString::number(stemIdx)) : QUrl::fromLocalFile(dest).toEncoded());
         if (KdenliveSettings::gpu_accel()) {
             render_process_args << QStringLiteral("glsl.=1");
         }
@@ -1294,10 +1314,10 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
             QTextStream outStream(&file);
             QString stemIdxStr(QString::number(stemIdx));
 
-            outStream << "SOURCE_" << stemIdxStr << "=" << '\"' + QUrl::fromLocalFile(playlistPaths.at(stemIdx)).toEncoded() + QLatin1Char('\"') << '\n';
-            outStream << "TARGET_" << stemIdxStr << "=" << '\"' + QUrl::fromLocalFile(dest).toEncoded() + QLatin1Char('\"') << '\n';
-            outStream << "PARAMETERS_" << stemIdxStr << "=" << '\"' + render_process_args.join(QLatin1Char(' ')) + QLatin1Char('\"') << '\n';
-            outStream << "$RENDERER $PARAMETERS_" << stemIdxStr << "\n\n";
+            outStream << ScriptSetVar("SOURCE_"     + stemIdxStr, QUrl::fromLocalFile(playlistPaths.at(stemIdx)).toEncoded()) << '\n';
+            outStream << ScriptSetVar("TARGET_"     + stemIdxStr, QUrl::fromLocalFile(dest).toEncoded()) << '\n';
+            outStream << ScriptSetVar("PARAMETERS_" + stemIdxStr, render_process_args.join(QLatin1Char(' '))) << '\n';
+            outStream << ScriptGetVar("RENDERER") + " " + ScriptGetVar("PARAMETERS_" + stemIdxStr) << "\n";
 
             if (stemIdx == (stemCount - 1)) {
                 if (file.error() != QFile::NoError) {
@@ -2284,13 +2304,12 @@ void RenderWidget::slotCLeanUpJobs()
 void RenderWidget::parseScriptFiles()
 {
     QStringList scriptsFilter;
-    scriptsFilter << QStringLiteral("*.sh");
+    scriptsFilter << QLatin1Char('*') + ScriptFormat;
     m_view.scripts_list->clear();
 
     QTreeWidgetItem *item;
     // List the project scripts
-    QDir directory(m_projectFolder);
-    directory.cd(QStringLiteral("scripts"));
+    QDir directory(m_projectFolder + QStringLiteral("scripts/"));
     QStringList scriptFiles = directory.entryList(scriptsFilter, QDir::Files);
     for (int i = 0; i < scriptFiles.size(); ++i) {
         QUrl scriptpath = QUrl::fromLocalFile(directory.absoluteFilePath(scriptFiles.at(i)));
@@ -2302,15 +2321,15 @@ void RenderWidget::parseScriptFiles()
             QTextStream stream(&file);
             while (!stream.atEnd()) {
                 QString line = stream.readLine();
-                if (line.startsWith(QLatin1String("TARGET_0="))) {
-                    target = line.section(QStringLiteral("TARGET_0=\""), 1);
-                    target = target.section(QLatin1Char('"'), 0, 0);
-                } else if (line.startsWith(QLatin1String("RENDERER="))) {
-                    renderer = line.section(QStringLiteral("RENDERER=\""), 1);
-                    renderer = renderer.section(QLatin1Char('"'), 0, 0);
-                } else if (line.startsWith(QLatin1String("MELT="))) {
-                    melt = line.section(QStringLiteral("MELT=\""), 1);
-                    melt = melt.section(QLatin1Char('"'), 0, 0);
+                if (line.contains(QLatin1String("TARGET_0="))) {
+                    target = line.section(QStringLiteral("TARGET_0="), 1);
+                    target = target.section(QLatin1Char('"'), 0, 0, QString::SectionSkipEmpty);
+                } else if (line.contains(QLatin1String("RENDERER="))) {
+                    renderer = line.section(QStringLiteral("RENDERER="), 1);
+                    renderer = renderer.section(QLatin1Char('"'), 0, 0, QString::SectionSkipEmpty);
+                } else if (line.contains(QLatin1String("MELT="))) {
+                    melt = line.section(QStringLiteral("MELT="), 1);
+                    melt = melt.section(QLatin1Char('"'), 0, 0, QString::SectionSkipEmpty);
                 }
             }
             file.close();
@@ -2551,7 +2570,7 @@ QString RenderWidget::getFreeScriptName(const QUrl &projectName, const QString &
     }
     while (path.isEmpty() || QFile::exists(path)) {
         ++ix;
-        path = scriptsFolder + prefix + fileName + QString::number(ix).rightJustified(3, '0', false) + QStringLiteral(".sh");
+        path = scriptsFolder + prefix + fileName + QString::number(ix).rightJustified(3, '0', false) + ScriptFormat;
     }
     return path;
 }
