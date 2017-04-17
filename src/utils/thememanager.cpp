@@ -207,8 +207,7 @@ void ThemeManager::populateThemeMenu()
         config->setIcon(QIcon::fromTheme(QStringLiteral("preferences-desktop-theme")));
         d->themeMenuAction->addAction(config);
 
-        connect(config, &QAction::triggered,
-                this, &ThemeManager::slotConfigColors);
+        connect(config, &QAction::triggered, this, &ThemeManager::slotConfigColors);
     }
 }
 

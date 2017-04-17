@@ -506,8 +506,9 @@ void GeometryWidget::slotPositionChanged(int pos, bool seek)
 
     // scene ratio lock
     if (m_ui.widgetGeometry->isEnabled()) {
-        double ratio = m_originalSize->isChecked() ? (double)m_frameSize.x() / m_frameSize.y() : (double)m_monitor->render->frameRenderWidth() / m_monitor->render->renderHeight();
-        bool lockRatio = m_spinHeight->value() == (int) (m_spinWidth->value() / ratio + 0.5);
+        double ratio = m_originalSize->isChecked() ? (double)m_frameSize.x() / m_frameSize.y()
+                                                   : (double)m_monitor->render->frameRenderWidth() / m_monitor->render->renderHeight();
+        bool lockRatio = m_spinHeight->value() == (int)(m_spinWidth->value() / ratio + 0.5);
         m_lockRatio->blockSignals(true);
         m_lockRatio->setChecked(lockRatio);
         m_lockRatio->blockSignals(false);
@@ -846,9 +847,9 @@ void GeometryWidget::slotSetWidth(double value)
     if (m_lockRatio->isChecked()) {
         m_spinHeight->blockSignals(true);
         if (m_originalSize->isChecked()) {
-            m_spinHeight->setValue((int) (value * m_frameSize.y() / m_frameSize.x() + 0.5));
+            m_spinHeight->setValue((int)(value * m_frameSize.y() / m_frameSize.x() + 0.5));
         } else {
-            m_spinHeight->setValue((int) (value * m_monitor->render->renderHeight() / m_monitor->render->frameRenderWidth() + 0.5));
+            m_spinHeight->setValue((int)(value * m_monitor->render->renderHeight() / m_monitor->render->frameRenderWidth() + 0.5));
         }
         m_spinHeight->blockSignals(false);
     }
@@ -862,9 +863,9 @@ void GeometryWidget::slotSetHeight(double value)
     if (m_lockRatio->isChecked()) {
         m_spinWidth->blockSignals(true);
         if (m_originalSize->isChecked()) {
-            m_spinWidth->setValue((int) (value * m_frameSize.x() / m_frameSize.y() + 0.5));
+            m_spinWidth->setValue((int)(value * m_frameSize.x() / m_frameSize.y() + 0.5));
         } else {
-            m_spinWidth->setValue((int) (value * m_monitor->render->frameRenderWidth() / m_monitor->render->renderHeight() + 0.5));
+            m_spinWidth->setValue((int)(value * m_monitor->render->frameRenderWidth() / m_monitor->render->renderHeight() + 0.5));
         }
         m_spinWidth->blockSignals(false);
     }
@@ -955,7 +956,9 @@ void GeometryWidget::setFrameSize(const QPoint &size)
         m_originalSize->setEnabled(true);
     }
     if (m_lockRatio->isChecked()) {
-        m_monitor->setEffectSceneProperty(QStringLiteral("lockratio"), m_originalSize->isChecked() ? (double)m_frameSize.x() / m_frameSize.y() : (double)m_monitor->render->frameRenderWidth() / m_monitor->render->renderHeight());
+        m_monitor->setEffectSceneProperty(QStringLiteral("lockratio"), m_originalSize->isChecked()
+                                                                           ? (double)m_frameSize.x() / m_frameSize.y()
+                                                                           : (double)m_monitor->render->frameRenderWidth() / m_monitor->render->renderHeight());
     } else {
         m_monitor->setEffectSceneProperty(QStringLiteral("lockratio"), -1);
     }
@@ -978,7 +981,9 @@ void GeometryWidget::slotAdjustToSource()
     m_spinHeight->blockSignals(false);
     updateMonitorGeometry();
     if (m_lockRatio->isChecked()) {
-        m_monitor->setEffectSceneProperty(QStringLiteral("lockratio"), m_originalSize->isChecked() ? (double)m_frameSize.x() / m_frameSize.y() : (double)m_monitor->render->frameRenderWidth() / m_monitor->render->renderHeight());
+        m_monitor->setEffectSceneProperty(QStringLiteral("lockratio"), m_originalSize->isChecked()
+                                                                           ? (double)m_frameSize.x() / m_frameSize.y()
+                                                                           : (double)m_monitor->render->frameRenderWidth() / m_monitor->render->renderHeight());
     }
 }
 
@@ -1202,9 +1207,11 @@ void GeometryWidget::slotUpdateRange(int inPoint, int outPoint)
 
 void GeometryWidget::slotLockRatio()
 {
-    QAction *lockRatio = qobject_cast<QAction*>(QObject::sender());
+    QAction *lockRatio = qobject_cast<QAction *>(QObject::sender());
     if (lockRatio->isChecked()) {
-        m_monitor->setEffectSceneProperty(QStringLiteral("lockratio"), m_originalSize->isChecked() ? (double)m_frameSize.x() / m_frameSize.y() : (double)m_monitor->render->frameRenderWidth() / m_monitor->render->renderHeight());
+        m_monitor->setEffectSceneProperty(QStringLiteral("lockratio"), m_originalSize->isChecked()
+                                                                           ? (double)m_frameSize.x() / m_frameSize.y()
+                                                                           : (double)m_monitor->render->frameRenderWidth() / m_monitor->render->renderHeight());
     } else {
         m_monitor->setEffectSceneProperty(QStringLiteral("lockratio"), -1);
     }

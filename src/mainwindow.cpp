@@ -619,7 +619,7 @@ void MainWindow::init()
     new JogManager(this);
 #endif
     scmanager->slotCheckActiveScopes();
-    //m_messageLabel->setMessage(QStringLiteral("This is a beta version. Always backup your data"), MltError);
+    // m_messageLabel->setMessage(QStringLiteral("This is a beta version. Always backup your data"), MltError);
 }
 
 void MainWindow::slotThemeChanged(const QString &theme)

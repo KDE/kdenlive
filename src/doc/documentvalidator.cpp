@@ -1836,7 +1836,6 @@ bool DocumentValidator::isModified() const
     return m_modified;
 }
 
-
 bool DocumentValidator::checkMovit()
 {
     QString playlist = m_doc.toString();

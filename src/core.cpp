@@ -101,7 +101,7 @@ void Core::initGUI(const QUrl &Url)
 {
     m_mainWindow = new MainWindow();
 
-    //load default profile and ask user to select one if not found.
+    // load default profile and ask user to select one if not found.
     m_profile = KdenliveSettings::default_profile();
     if (m_profile.isEmpty()) {
         m_profile = ProjectManager::getDefaultProjectFormat();

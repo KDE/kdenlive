@@ -87,12 +87,24 @@ enum JOBSTATUS { WAITINGJOB = 0, STARTINGJOB, RUNNINGJOB, FINISHEDJOB, FAILEDJOB
 
 #ifdef Q_OS_WIN
 const QLatin1String ScriptFormat(".bat");
-QString ScriptSetVar(const QString name, const QString value) { return QString("set ") + name + "=" + value; }
-QString ScriptGetVar(const QString varName) { return QString('%') + varName + '%'; }
+QString ScriptSetVar(const QString name, const QString value)
+{
+    return QString("set ") + name + "=" + value;
+}
+QString ScriptGetVar(const QString varName)
+{
+    return QString('%') + varName + '%';
+}
 #else
 const QLatin1String ScriptFormat(".sh");
-QString ScriptSetVar(const QString name, const QString value) { return name + "=\"" + value + '\"'; }
-QString ScriptGetVar(const QString varName) { return QString('$') + varName; }
+QString ScriptSetVar(const QString name, const QString value)
+{
+    return name + "=\"" + value + '\"';
+}
+QString ScriptGetVar(const QString varName)
+{
+    return QString('$') + varName;
+}
 #endif
 
 static QStringList acodecsList;
@@ -1198,8 +1210,8 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
                 render_process_args << parser.resultingArguments().join(QLatin1Char(' '));
             } else {
                 // no service found to play mime type
-                //TODO: inform user
-                //errorMessage(PlaybackError, i18n("No service found to play %1", mime.name()));
+                // TODO: inform user
+                // errorMessage(PlaybackError, i18n("No service found to play %1", mime.name()));
                 render_process_args << QStringLiteral("-");
             }
         } else {
@@ -1278,32 +1290,31 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
             }
             // evaluate expression
             if (paramValue.startsWith(QLatin1Char('%'))) {
-                if (paramValue.startsWith(QStringLiteral("%bitrate"))
-                 || paramValue == QStringLiteral("%quality")) {
+                if (paramValue.startsWith(QStringLiteral("%bitrate")) || paramValue == QStringLiteral("%quality")) {
                     if (paramValue.contains("+'k'"))
                         paramValue = QString::number(m_view.video->value()) + 'k';
                     else
                         paramValue = QString::number(m_view.video->value());
                 }
-                if (paramValue.startsWith(QStringLiteral("%audiobitrate"))
-                 || paramValue == QStringLiteral("%audioquality")) {
+                if (paramValue.startsWith(QStringLiteral("%audiobitrate")) || paramValue == QStringLiteral("%audioquality")) {
                     if (paramValue.contains("+'k'"))
                         paramValue = QString::number(m_view.audio->value()) + 'k';
                     else
                         paramValue = QString::number(m_view.audio->value());
                 }
                 if (paramValue == QStringLiteral("%dar"))
-                    paramValue =  '@' + QString::number(profile->display_aspect_num()) + QLatin1Char('/') + QString::number(profile->display_aspect_den());
-                if (paramValue == QStringLiteral("%passes"))
-                    paramValue = QString::number(static_cast<int>(m_view.checkTwoPass->isChecked()) + 1);
+                    paramValue = '@' + QString::number(profile->display_aspect_num()) + QLatin1Char('/') + QString::number(profile->display_aspect_den());
+                if (paramValue == QStringLiteral("%passes")) paramValue = QString::number(static_cast<int>(m_view.checkTwoPass->isChecked()) + 1);
                 paramsList[i] = paramName + QLatin1Char('=') + paramValue;
             }
         }
 
         if (resizeProfile && !KdenliveSettings::gpu_accel()) {
-            render_process_args << "consumer:" + (scriptExport ? ScriptGetVar("SOURCE_" + QString::number(stemIdx)) : QUrl::fromLocalFile(playlistPaths.at(stemIdx)).toEncoded());
+            render_process_args << "consumer:" + (scriptExport ? ScriptGetVar("SOURCE_" + QString::number(stemIdx))
+                                                               : QUrl::fromLocalFile(playlistPaths.at(stemIdx)).toEncoded());
         } else {
-            render_process_args << (scriptExport ? ScriptGetVar("SOURCE_" + QString::number(stemIdx)) : QUrl::fromLocalFile(playlistPaths.at(stemIdx)).toEncoded());
+            render_process_args << (scriptExport ? ScriptGetVar("SOURCE_" + QString::number(stemIdx))
+                                                 : QUrl::fromLocalFile(playlistPaths.at(stemIdx)).toEncoded());
         }
 
         render_process_args << (scriptExport ? ScriptGetVar("TARGET_" + QString::number(stemIdx)) : QUrl::fromLocalFile(dest).toEncoded());
@@ -1316,8 +1327,8 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
             QTextStream outStream(&file);
             QString stemIdxStr(QString::number(stemIdx));
 
-            outStream << ScriptSetVar("SOURCE_"     + stemIdxStr, QUrl::fromLocalFile(playlistPaths.at(stemIdx)).toEncoded()) << '\n';
-            outStream << ScriptSetVar("TARGET_"     + stemIdxStr, QUrl::fromLocalFile(dest).toEncoded()) << '\n';
+            outStream << ScriptSetVar("SOURCE_" + stemIdxStr, QUrl::fromLocalFile(playlistPaths.at(stemIdx)).toEncoded()) << '\n';
+            outStream << ScriptSetVar("TARGET_" + stemIdxStr, QUrl::fromLocalFile(dest).toEncoded()) << '\n';
             outStream << ScriptSetVar("PARAMETERS_" + stemIdxStr, render_process_args.join(QLatin1Char(' '))) << '\n';
             outStream << ScriptGetVar("RENDERER") + " " + ScriptGetVar("PARAMETERS_" + stemIdxStr) << "\n";
 

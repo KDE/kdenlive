@@ -1,11 +1,11 @@
 
 
+#include "kdenlivesettings.h"
+#include <QLinearGradient>
 #include <QPainter>
 #include <QPainterPath>
 #include <QPalette>
-#include <QLinearGradient>
 #include <QQuickPaintedItem>
-#include "kdenlivesettings.h"
 
 class TimelineTriangle : public QQuickPaintedItem
 {
@@ -52,10 +52,10 @@ public:
         // Fill gradient
         m_gradient.setStart(0, 0);
         m_gradient.setFinalStop(0, height());
-        m_gradient.setColorAt(1, QColor(129,233,139));
-        m_gradient.setColorAt(0.4, QColor(129,233,139));
-        m_gradient.setColorAt(0.2, QColor(233,215,129));
-        m_gradient.setColorAt(0.1, QColor(255,0,0));
+        m_gradient.setColorAt(1, QColor(129, 233, 139));
+        m_gradient.setColorAt(0.4, QColor(129, 233, 139));
+        m_gradient.setColorAt(0.2, QColor(233, 215, 129));
+        m_gradient.setColorAt(0.1, QColor(255, 0, 0));
         m_gradient.setSpread(QGradient::ReflectSpread);
     }
 
@@ -69,7 +69,7 @@ public:
         pen.setWidthF(0.5);
         pen.setColor(m_color.darker());
         painter->setPen(Qt::NoPen);
-        //painter->setBrush(QBrush(m_color.lighter()));
+        // painter->setBrush(QBrush(m_color.lighter()));
 
         if (!KdenliveSettings::displayallchannels()) {
             m_gradient.setFinalStop(0, height());
@@ -89,7 +89,7 @@ public:
             painter->drawPath(path);
         } else {
             // Fill gradient
-            m_gradient.setFinalStop(0, height()/4);
+            m_gradient.setFinalStop(0, height() / 4);
             painter->setBrush(m_gradient);
 
             // Draw separate channels

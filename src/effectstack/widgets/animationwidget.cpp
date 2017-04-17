@@ -513,8 +513,9 @@ void AnimationWidget::slotPositionChanged(int pos, bool seek)
 
     // scene ratio lock
     if (m_spinWidth && m_spinWidth->isEnabled()) {
-        double ratio = m_originalSize->isChecked() ? (double)m_frameSize.x() / m_frameSize.y() : (double)m_monitor->render->frameRenderWidth() / m_monitor->render->renderHeight();
-        bool lockRatio = m_spinHeight->value() == (int) (m_spinWidth->value() / ratio + 0.5);
+        double ratio = m_originalSize->isChecked() ? (double)m_frameSize.x() / m_frameSize.y()
+                                                   : (double)m_monitor->render->frameRenderWidth() / m_monitor->render->renderHeight();
+        bool lockRatio = m_spinHeight->value() == (int)(m_spinWidth->value() / ratio + 0.5);
         m_lockRatio->blockSignals(true);
         m_lockRatio->setChecked(lockRatio);
         m_lockRatio->blockSignals(false);
@@ -1462,7 +1463,9 @@ void AnimationWidget::slotAdjustToSource()
     m_spinHeight->blockSignals(false);
     slotAdjustRectKeyframeValue();
     if (m_lockRatio->isChecked()) {
-        m_monitor->setEffectSceneProperty(QStringLiteral("lockratio"), m_originalSize->isChecked() ? (double)m_frameSize.x() / m_frameSize.y() : (double)m_monitor->render->frameRenderWidth() / m_monitor->render->renderHeight());
+        m_monitor->setEffectSceneProperty(QStringLiteral("lockratio"), m_originalSize->isChecked()
+                                                                           ? (double)m_frameSize.x() / m_frameSize.y()
+                                                                           : (double)m_monitor->render->frameRenderWidth() / m_monitor->render->renderHeight());
     }
 }
 
@@ -1575,9 +1578,11 @@ void AnimationWidget::slotImportKeyframes()
 
 void AnimationWidget::slotLockRatio()
 {
-    QAction *lockRatio = qobject_cast<QAction*> (QObject::sender());
+    QAction *lockRatio = qobject_cast<QAction *>(QObject::sender());
     if (lockRatio->isChecked()) {
-        m_monitor->setEffectSceneProperty(QStringLiteral("lockratio"), m_originalSize->isChecked() ? (double)m_frameSize.x() / m_frameSize.y() : (double)m_monitor->render->frameRenderWidth() / m_monitor->render->renderHeight());
+        m_monitor->setEffectSceneProperty(QStringLiteral("lockratio"), m_originalSize->isChecked()
+                                                                           ? (double)m_frameSize.x() / m_frameSize.y()
+                                                                           : (double)m_monitor->render->frameRenderWidth() / m_monitor->render->renderHeight());
     } else {
         m_monitor->setEffectSceneProperty(QStringLiteral("lockratio"), -1);
     }

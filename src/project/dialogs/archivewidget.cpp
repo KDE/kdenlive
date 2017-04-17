@@ -454,7 +454,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap<QStrin
                 foreach (const QString &path, result) {
                     if (rx.exactMatch(path)) {
                         totalSize += QFileInfo(dir.absoluteFilePath(path)).size();
-                        slideImages <<  dir.absoluteFilePath(path);
+                        slideImages << dir.absoluteFilePath(path);
                     }
                 }
                 item->setData(0, Qt::UserRole + 1, slideImages);
@@ -706,7 +706,8 @@ bool ArchiveWidget::processProjectFile()
                 QUrl src = QUrl::fromLocalFile(item->text(0));
                 QUrl dest = QUrl::fromLocalFile(destFolder.absolutePath());
                 if (isSlideshow) {
-                    dest = QUrl::fromLocalFile(parentItem->data(0, Qt::UserRole).toString() + QLatin1Char('/') + item->data(0, Qt::UserRole).toString() + QLatin1Char('/') + src.fileName());
+                    dest = QUrl::fromLocalFile(parentItem->data(0, Qt::UserRole).toString() + QLatin1Char('/') + item->data(0, Qt::UserRole).toString() +
+                                               QLatin1Char('/') + src.fileName());
                 } else if (item->data(0, Qt::UserRole).isNull()) {
                     dest = QUrl::fromLocalFile(parentItem->data(0, Qt::UserRole).toString() + QLatin1Char('/') + src.fileName());
                 } else {
@@ -873,7 +874,8 @@ bool ArchiveWidget::processProjectFile()
 void ArchiveWidget::createArchive()
 {
     QString archiveName(archive_url->url().toLocalFile() + QDir::separator() + m_name + QStringLiteral(".tar.gz"));
-    if (QFile::exists(archiveName) && KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", archiveName)) == KMessageBox::No) {
+    if (QFile::exists(archiveName) &&
+        KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", archiveName)) == KMessageBox::No) {
         return;
     }
     QFileInfo dirInfo(archive_url->url().toLocalFile());

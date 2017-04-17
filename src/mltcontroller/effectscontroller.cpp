@@ -235,10 +235,10 @@ void EffectsController::adjustEffectParameters(EffectsParameterList &parameters,
 
 double EffectsController::getStringEval(const ProfileInfo &info, QString eval, const QPoint &frameSize)
 {
-    eval.replace(QLatin1String("%maxWidth"),  QString::number(info.profileSize.width() > frameSize.x() ? info.profileSize.width() : frameSize.x()))
+    eval.replace(QLatin1String("%maxWidth"), QString::number(info.profileSize.width() > frameSize.x() ? info.profileSize.width() : frameSize.x()))
         .replace(QLatin1String("%maxHeight"), QString::number(info.profileSize.height() > frameSize.y() ? info.profileSize.height() : frameSize.y()))
-        .replace(QLatin1String("%width"),     QString::number(info.profileSize.width()))
-        .replace(QLatin1String("%height"),    QString::number(info.profileSize.height()));
+        .replace(QLatin1String("%width"), QString::number(info.profileSize.width()))
+        .replace(QLatin1String("%height"), QString::number(info.profileSize.height()));
     Mlt::Properties p;
     p.set("eval", eval.toLatin1().constData());
     return p.get_double("eval");
@@ -280,7 +280,7 @@ void EffectsController::initTrackEffect(ProfileInfo pInfo, const QDomElement &ef
             } else {
                 e.setAttribute(QStringLiteral("value"), evaluatedValue);
             }
-        } else  if (!hasValue) {
+        } else if (!hasValue) {
             if (type == QLatin1String("animated")) {
                 e.setAttribute(QStringLiteral("value"), AnimationWidget::getDefaultKeyframes(0, e.attribute(QStringLiteral("default"))));
             } else if (type == QLatin1String("keyframe") || type == QLatin1String("simplekeyframe")) {

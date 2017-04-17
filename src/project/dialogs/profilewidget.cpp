@@ -175,7 +175,8 @@ void ProfileWidget::fillDescriptionPanel(const QString &profile_path)
         std::unique_ptr<ProfileModel> &profile = ProfileRepository::get()->getProfile(profile_path);
 
         description += i18n("<h5>Video Settings</h5>");
-        description += i18n("<p style='font-size:small'>Frame size: %1 x %2 (%3:%4)<br/>", profile->width(), profile->height(), profile->display_aspect_num(), profile->display_aspect_den());
+        description += i18n("<p style='font-size:small'>Frame size: %1 x %2 (%3:%4)<br/>", profile->width(), profile->height(), profile->display_aspect_num(),
+                            profile->display_aspect_den());
         description += i18n("Frame rate: %1 fps<br/>", profile->fps());
         description += i18n("Pixel Aspect Ratio: %1<br/>", profile->sar());
         description += i18n("Color Space: %1<br/>", profile->colorspaceDescription());

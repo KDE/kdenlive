@@ -36,8 +36,7 @@
 // include after QTimer to have C++ phtreads defined
 #include <mlt/framework/mlt_types.h>
 
-namespace Mlt
-{
+namespace Mlt {
 class Consumer;
 class Frame;
 class Event;
