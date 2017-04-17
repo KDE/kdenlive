@@ -71,8 +71,8 @@ AnalysisTree::AnalysisTree(QWidget *parent)
 QMimeData *AnalysisTree::mimeData(const QList<QTreeWidgetItem *> list) const
 {
     QString data;
-    foreach (QTreeWidgetItem *item, list) {
-        if (item->flags() & Qt::ItemIsDragEnabled != 0) {
+    for (QTreeWidgetItem *item : list) {
+        if (item->flags() & Qt::ItemIsDragEnabled) {
             data.append(item->text(1));
         }
     }

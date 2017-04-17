@@ -609,6 +609,9 @@ void MainWindow::init()
             KdenliveSettings::setDecklink_extension(data.section(QLatin1Char(';'), 1, 1));
         }
     }
+    if (!QDir(KdenliveSettings::currenttmpfolder()).isReadable())
+        KdenliveSettings::setCurrenttmpfolder(QStandardPaths::writableLocation(QStandardPaths::TempLocation));
+
     QTimer::singleShot(0, this, &MainWindow::GUISetupDone);
     connect(this, &MainWindow::reloadTheme, this, &MainWindow::slotReloadTheme, Qt::UniqueConnection);
 
@@ -616,7 +619,7 @@ void MainWindow::init()
     new JogManager(this);
 #endif
     scmanager->slotCheckActiveScopes();
-    m_messageLabel->setMessage(QStringLiteral("This is a beta version. Always backup your data"), MltError);
+    //m_messageLabel->setMessage(QStringLiteral("This is a beta version. Always backup your data"), MltError);
 }
 
 void MainWindow::slotThemeChanged(const QString &theme)

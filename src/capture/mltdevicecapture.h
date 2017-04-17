@@ -30,12 +30,14 @@
 #include "gentime.h"
 #include "monitor/abstractmonitor.h"
 
-#include <mlt/framework/mlt_types.h>
-
 #include <QMutex>
 #include <QTimer>
 
-namespace Mlt {
+// include after QTimer to have C++ phtreads defined
+#include <mlt/framework/mlt_types.h>
+
+namespace Mlt
+{
 class Consumer;
 class Frame;
 class Event;

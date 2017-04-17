@@ -441,8 +441,8 @@ QMimeData *EffectsListWidget::mimeData(const QList<QTreeWidgetItem *> list) cons
 {
     QDomDocument doc;
     bool transitionMode = false;
-    foreach (QTreeWidgetItem *item, list) {
-        if (item->flags() & Qt::ItemIsDragEnabled != 0) {
+    for (QTreeWidgetItem *item : list) {
+        if (item->flags() & Qt::ItemIsDragEnabled) {
             int type = item->data(0, TypeRole).toInt();
             if (type == EffectsList::TRANSITION_TYPE) {
                 transitionMode = true;

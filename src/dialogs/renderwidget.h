@@ -136,7 +136,7 @@ public:
     bool proxyRendering();
     /** @brief Returns true if the stem audio export checkbox is set. */
     bool isStemAudioExportEnabled() const;
-    enum RenderError { CompositeError = 0, ProfileError = 1, ProxyWarning = 2 };
+    enum RenderError { CompositeError = 0, ProfileError = 1, ProxyWarning = 2, PlaybackError = 3 };
 
     /** @brief Display warning message in render widget. */
     void errorMessage(RenderError type, const QString &message);

@@ -24,14 +24,14 @@ public:
     /**
       Computes the convolution between \c left and \c right.
       \c out_correlated must be a pre-allocated vector of size
-      \c leftSize + \c rightSize.
+      \c leftSize + \c rightSize + 1.
       */
     static void convolve(const float *left, const int leftSize, const float *right, const int rightSize, float *out_convolved);
 
     /**
       Computes the correlation between \c left and \c right.
       \c out_correlated must be a pre-allocated vector of size
-      \c leftSize + \c rightSize.
+      \c leftSize + \c rightSize + 1.
       */
     static void correlate(const qint64 *left, const int leftSize, const qint64 *right, const int rightSize, float *out_correlated);
 

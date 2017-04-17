@@ -1975,7 +1975,7 @@ bool ClipItem::updateNormalKeyframes(QDomElement parameter, const ItemInfo &oldI
 
     const QStringList data = parameter.attribute(QStringLiteral("keyframes")).split(QLatin1Char(';'), QString::SkipEmptyParts);
     QMap<int, double> keyframes;
-    foreach (const QString &keyframe, data) {
+    for (const QString &keyframe : data) {
         int keyframepos = keyframe.section(QLatin1Char('='), 0, 0).toInt();
         // if keyframe was at clip start, update it
         if (keyframepos == oldin) {

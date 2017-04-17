@@ -98,6 +98,7 @@ private:
     DragValue *m_spinSize;
     DragValue *m_spinOpacity;
     QAction *m_originalSize;
+    QAction *m_lockRatio;
     int m_offset;
     void parseKeyframes();
     void rebuildKeyframes();

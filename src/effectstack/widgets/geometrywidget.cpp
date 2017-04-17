@@ -98,12 +98,11 @@ GeometryWidget::GeometryWidget(EffectMetaInfo *info, int clipPos, bool showRotat
     m_ui.horizontalLayout->addWidget(m_spinWidth, 0, 2);
 
     // Lock ratio stuff
-    QAction *lockRatio = new QAction(KoIconUtils::themedIcon(QStringLiteral("link")), i18n("Lock aspect ratio"), this);
-    lockRatio->setCheckable(true);
-    lockRatio->setChecked(KdenliveSettings::lock_ratio());
-    connect(lockRatio, &QAction::triggered, this, &GeometryWidget::slotLockRatio);
-    auto *ratioButton = new QToolButton;
-    ratioButton->setDefaultAction(lockRatio);
+    m_lockRatio = new QAction(KoIconUtils::themedIcon(QStringLiteral("link")), i18n("Lock aspect ratio"), this);
+    m_lockRatio->setCheckable(true);
+    connect(m_lockRatio, &QAction::triggered, this, &GeometryWidget::slotLockRatio);
+    QToolButton *ratioButton = new QToolButton;
+    ratioButton->setDefaultAction(m_lockRatio);
     m_ui.horizontalLayout->addWidget(ratioButton, 0, 3);
 
     m_spinHeight = new DragValue(i18nc("Frame height", "H"), m_monitor->render->renderHeight(), 0, 1, 99000, -1, QString(), false, this);
@@ -504,6 +503,17 @@ void GeometryWidget::slotPositionChanged(int pos, bool seek)
     }
     m_monitor->setUpEffectGeometry(r, calculateCenters());
     slotUpdateProperties(r);
+
+    // scene ratio lock
+    if (m_ui.widgetGeometry->isEnabled()) {
+        double ratio = m_originalSize->isChecked() ? (double)m_frameSize.x() / m_frameSize.y() : (double)m_monitor->render->frameRenderWidth() / m_monitor->render->renderHeight();
+        bool lockRatio = m_spinHeight->value() == (int) (m_spinWidth->value() / ratio + 0.5);
+        m_lockRatio->blockSignals(true);
+        m_lockRatio->setChecked(lockRatio);
+        m_lockRatio->blockSignals(false);
+        m_monitor->setEffectSceneProperty(QStringLiteral("lockratio"), m_lockRatio->isChecked() ? ratio : -1);
+    }
+
     if (seek && KdenliveSettings::transitionfollowcursor()) {
         emit seekToPos(pos);
     }
@@ -523,18 +533,13 @@ void GeometryWidget::slotInitScene(int pos)
             m_originalSize->blockSignals(false);
         }
     }
-    // scene ratio lock
-    if (KdenliveSettings::lock_ratio()) {
-        m_monitor->setEffectSceneProperty(QStringLiteral("lockratio"), m_originalSize->isChecked()
-                                                                           ? (double)m_frameSize.x() / m_frameSize.y()
-                                                                           : (double)m_monitor->render->frameRenderWidth() / m_monitor->render->renderHeight());
-    }
 }
 
 void GeometryWidget::slotKeyframeMoved(int pos)
 {
     slotPositionChanged(pos);
     slotUpdateGeometry();
+
     QTimer::singleShot(100, this, &GeometryWidget::valueChanged);
 }
 
@@ -838,12 +843,12 @@ void GeometryWidget::slotSetY(double value)
 
 void GeometryWidget::slotSetWidth(double value)
 {
-    if (KdenliveSettings::lock_ratio()) {
+    if (m_lockRatio->isChecked()) {
         m_spinHeight->blockSignals(true);
         if (m_originalSize->isChecked()) {
-            m_spinHeight->setValue((int)(value * m_frameSize.y() / m_frameSize.x() + 0.5));
+            m_spinHeight->setValue((int) (value * m_frameSize.y() / m_frameSize.x() + 0.5));
         } else {
-            m_spinHeight->setValue((int)(value * m_monitor->render->renderHeight() / m_monitor->render->frameRenderWidth() + 0.5));
+            m_spinHeight->setValue((int) (value * m_monitor->render->renderHeight() / m_monitor->render->frameRenderWidth() + 0.5));
         }
         m_spinHeight->blockSignals(false);
     }
@@ -854,12 +859,12 @@ void GeometryWidget::slotSetWidth(double value)
 
 void GeometryWidget::slotSetHeight(double value)
 {
-    if (KdenliveSettings::lock_ratio()) {
+    if (m_lockRatio->isChecked()) {
         m_spinWidth->blockSignals(true);
         if (m_originalSize->isChecked()) {
-            m_spinWidth->setValue((int)(value * m_frameSize.x() / m_frameSize.y() + 0.5));
+            m_spinWidth->setValue((int) (value * m_frameSize.x() / m_frameSize.y() + 0.5));
         } else {
-            m_spinWidth->setValue((int)(value * m_monitor->render->frameRenderWidth() / m_monitor->render->renderHeight() + 0.5));
+            m_spinWidth->setValue((int) (value * m_monitor->render->frameRenderWidth() / m_monitor->render->renderHeight() + 0.5));
         }
         m_spinWidth->blockSignals(false);
     }
@@ -949,10 +954,8 @@ void GeometryWidget::setFrameSize(const QPoint &size)
     } else {
         m_originalSize->setEnabled(true);
     }
-    if (KdenliveSettings::lock_ratio()) {
-        m_monitor->setEffectSceneProperty(QStringLiteral("lockratio"), m_originalSize->isChecked()
-                                                                           ? (double)m_frameSize.x() / m_frameSize.y()
-                                                                           : (double)m_monitor->render->frameRenderWidth() / m_monitor->render->renderHeight());
+    if (m_lockRatio->isChecked()) {
+        m_monitor->setEffectSceneProperty(QStringLiteral("lockratio"), m_originalSize->isChecked() ? (double)m_frameSize.x() / m_frameSize.y() : (double)m_monitor->render->frameRenderWidth() / m_monitor->render->renderHeight());
     } else {
         m_monitor->setEffectSceneProperty(QStringLiteral("lockratio"), -1);
     }
@@ -974,10 +977,8 @@ void GeometryWidget::slotAdjustToSource()
     m_spinWidth->blockSignals(false);
     m_spinHeight->blockSignals(false);
     updateMonitorGeometry();
-    if (KdenliveSettings::lock_ratio()) {
-        m_monitor->setEffectSceneProperty(QStringLiteral("lockratio"), m_originalSize->isChecked()
-                                                                           ? (double)m_frameSize.x() / m_frameSize.y()
-                                                                           : (double)m_monitor->render->frameRenderWidth() / m_monitor->render->renderHeight());
+    if (m_lockRatio->isChecked()) {
+        m_monitor->setEffectSceneProperty(QStringLiteral("lockratio"), m_originalSize->isChecked() ? (double)m_frameSize.x() / m_frameSize.y() : (double)m_monitor->render->frameRenderWidth() / m_monitor->render->renderHeight());
     }
 }
 
@@ -1201,12 +1202,9 @@ void GeometryWidget::slotUpdateRange(int inPoint, int outPoint)
 
 void GeometryWidget::slotLockRatio()
 {
-    QAction *lockRatio = qobject_cast<QAction *>(QObject::sender());
-    KdenliveSettings::setLock_ratio(lockRatio->isChecked());
+    QAction *lockRatio = qobject_cast<QAction*>(QObject::sender());
     if (lockRatio->isChecked()) {
-        m_monitor->setEffectSceneProperty(QStringLiteral("lockratio"), m_originalSize->isChecked()
-                                                                           ? (double)m_frameSize.x() / m_frameSize.y()
-                                                                           : (double)m_monitor->render->frameRenderWidth() / m_monitor->render->renderHeight());
+        m_monitor->setEffectSceneProperty(QStringLiteral("lockratio"), m_originalSize->isChecked() ? (double)m_frameSize.x() / m_frameSize.y() : (double)m_monitor->render->frameRenderWidth() / m_monitor->render->renderHeight());
     } else {
         m_monitor->setEffectSceneProperty(QStringLiteral("lockratio"), -1);
     }

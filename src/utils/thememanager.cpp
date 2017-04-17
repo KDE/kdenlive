@@ -113,8 +113,8 @@ void ThemeManager::setCurrentTheme(const QString &filename)
         return;
     }
     QString name = d->themeMap.key(filename, d->defaultThemeName);
-    QList<QAction *> list = d->themeMenuActionGroup->actions();
-    foreach (QAction *const action, list) {
+    const QList<QAction *> list = d->themeMenuActionGroup->actions();
+    for (QAction *const action : list) {
         if (action->text().remove('&') == name) {
             action->setChecked(true);
             // slotChangePalette();
@@ -201,13 +201,15 @@ void ThemeManager::populateThemeMenu()
 
     updateCurrentKDEdefaultThemePreview();
     setCurrentTheme(theme);
+    if (!QStandardPaths::findExecutable(QStringLiteral("kcmshell5")).isEmpty()) {
+        d->themeMenuAction->addSeparator();
+        QAction *config = new QAction(i18n("Configuration..."), d->themeMenuAction);
+        config->setIcon(QIcon::fromTheme(QStringLiteral("preferences-desktop-theme")));
+        d->themeMenuAction->addAction(config);
 
-    d->themeMenuAction->addSeparator();
-    QAction *config = new QAction(i18n("Configuration..."), d->themeMenuAction);
-    config->setIcon(QIcon::fromTheme(QStringLiteral("preferences-desktop-theme")));
-    d->themeMenuAction->addAction(config);
-
-    connect(config, &QAction::triggered, this, &ThemeManager::slotConfigColors);
+        connect(config, &QAction::triggered,
+                this, &ThemeManager::slotConfigColors);
+    }
 }
 
 void ThemeManager::slotConfigColors()
@@ -222,9 +224,9 @@ void ThemeManager::slotConfigColors()
 
 void ThemeManager::updateCurrentKDEdefaultThemePreview()
 {
-    QList<QAction *> list = d->themeMenuActionGroup->actions();
+    const QList<QAction *> list = d->themeMenuActionGroup->actions();
 
-    foreach (QAction *const action, list) {
+    for (QAction *const action : list) {
         if (action->text().remove('&') == defaultThemeName()) {
             KSharedConfigPtr config = KSharedConfig::openConfig(d->themeMap.value(currentKDEdefaultTheme()));
             QIcon icon = createSchemePreviewIcon(config);

@@ -2753,7 +2753,7 @@ void Bin::slotExpandUrl(const ItemInfo &info, const QString &url, QUndoCommand *
         // So we use mlt service-specific hashes to identify duplicate producers.
         QString hash;
         QString mltService = EffectsList::property(prod, QStringLiteral("mlt_service"));
-        if (mltService == QLatin1String("pixbuf") || mltService == QLatin1String("kdenlivetitle") || mltService == QLatin1String("color") ||
+        if (mltService == QLatin1String("pixbuf")|| mltService == QLatin1String("qimage") || mltService == QLatin1String("kdenlivetitle") || mltService == QLatin1String("color") ||
             mltService == QLatin1String("colour")) {
             hash = mltService + QLatin1Char(':') + EffectsList::property(prod, QStringLiteral("kdenlive:clipname")) + QLatin1Char(':') +
                    EffectsList::property(prod, QStringLiteral("kdenlive:folderid")) + QLatin1Char(':');
@@ -2761,7 +2761,7 @@ void Bin::slotExpandUrl(const ItemInfo &info, const QString &url, QUndoCommand *
                 // Calculate hash based on title contents.
                 hash.append(
                     QString(QCryptographicHash::hash(EffectsList::property(prod, QStringLiteral("xmldata")).toUtf8(), QCryptographicHash::Md5).toHex()));
-            } else if (mltService == QLatin1String("pixbuf") || mltService == QLatin1String("color") || mltService == QLatin1String("colour")) {
+            } else if (mltService == QLatin1String("pixbuf") || mltService == QLatin1String("qimage") || mltService == QLatin1String("color") || mltService == QLatin1String("colour")) {
                 hash.append(EffectsList::property(prod, QStringLiteral("resource")));
             }
 
