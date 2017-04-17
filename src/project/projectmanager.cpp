@@ -18,6 +18,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "mltcontroller/bincontroller.h"
 #include "mltcontroller/producerqueue.h"
 #include "monitor/monitormanager.h"
+#include "profiles/profilemodel.hpp"
 #include "project/dialogs/archivewidget.h"
 #include "project/dialogs/backupwidget.h"
 #include "project/dialogs/projectsettings.h"
@@ -879,7 +880,8 @@ void ProjectManager::updateTimeline(Mlt::Tractor tractor)
     if (!m_timelineWidgetLoaded) {
         m_timelineWidgetLoaded = true;
         qDebug() << "CONSTRUCTING TIMELINEWIDGET";
-        m_timelineWidget = new TimelineWidget(pCore->window()->actionCollection(), pCore->binController(), m_project->commandStack(), pCore->window());
+        m_timelineWidget = new TimelineWidget(pCore->window()->actionCollection(), pCore->binController(), pCore->window());
+        m_timelineWidget->setModel(TimelineItemModel::construct(&pCore->getCurrentProfile()->profile(), m_project->commandStack()));
         pCore->addTimeline(m_timelineWidget, m_project->url().fileName());
         connect(pCore->monitorManager()->projectMonitor(), &Monitor::seekTimeline, m_timelineWidget, &TimelineWidget::seek, Qt::DirectConnection);
         connect(m_timelineWidget, &TimelineWidget::seeked, pCore->monitorManager()->projectMonitor(), &Monitor::requestSeek, Qt::DirectConnection);

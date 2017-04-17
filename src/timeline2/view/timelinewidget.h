@@ -55,8 +55,12 @@ class TimelineWidget : public QQuickWidget
     Q_PROPERTY(bool showAudioThumbnails READ showAudioThumbnails NOTIFY showAudioThumbnailsChanged)
 
 public:
-    TimelineWidget(KActionCollection *actionCollection, std::shared_ptr<BinController> binController, std::weak_ptr<DocUndoStack> undoStack,
-                   QWidget *parent = Q_NULLPTR);
+    TimelineWidget(KActionCollection *actionCollection, std::shared_ptr<BinController> binController, QWidget *parent = Q_NULLPTR);
+
+    /* @brief Sets the model shown by this widget */
+    void setModel(std::shared_ptr<TimelineItemModel> model);
+
+
     /* @brief Sets the list of currently selected clips
        @param selection is the list of id's
        @param trackIndex is current clip's track

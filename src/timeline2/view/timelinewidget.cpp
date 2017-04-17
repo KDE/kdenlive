@@ -44,10 +44,8 @@ const int TimelineWidget::comboScale[] = {1, 2, 5, 10, 25, 50, 125, 250, 500, 75
 
 int TimelineWidget::m_duration = 0;
 
-TimelineWidget::TimelineWidget(KActionCollection *actionCollection, std::shared_ptr<BinController> binController, std::weak_ptr<DocUndoStack> undoStack,
-                               QWidget *parent)
+TimelineWidget::TimelineWidget(KActionCollection *actionCollection, std::shared_ptr<BinController> binController, QWidget *parent)
     : QQuickWidget(parent)
-    , m_model(TimelineItemModel::construct(&pCore->getCurrentProfile()->profile(), undoStack))
     , m_actionCollection(actionCollection)
     , m_binController(binController)
     , m_position(0)
@@ -55,10 +53,6 @@ TimelineWidget::TimelineWidget(KActionCollection *actionCollection, std::shared_
     , m_scale(3.0)
 {
     registerTimelineItems();
-    auto *proxyModel = new QSortFilterProxyModel(this);
-    proxyModel->setSourceModel(m_model.get());
-    proxyModel->setSortRole(TimelineItemModel::ItemIdRole);
-    proxyModel->sort(0, Qt::DescendingOrder);
 
     m_transitionModel.reset(new TransitionTreeModel(true, this));
 
@@ -72,16 +66,29 @@ TimelineWidget::TimelineWidget(KActionCollection *actionCollection, std::shared_
     kdeclarative.initialize();
     kdeclarative.setupBindings();
     setResizeMode(QQuickWidget::SizeRootObjectToView);
+    m_thumbnailer = new ThumbnailProvider;
+    engine()->addImageProvider(QStringLiteral("thumbnail"), m_thumbnailer);
+    setFocusPolicy(Qt::StrongFocus);
+    setVisible(false);
+    // connect(&*m_model, SIGNAL(seeked(int)), this, SLOT(onSeeked(int)));
+}
+
+void TimelineWidget::setModel(std::shared_ptr<TimelineItemModel> model)
+{
+    m_model = model;
+
+    auto *proxyModel = new QSortFilterProxyModel(this);
+    proxyModel->setSourceModel(m_model.get());
+    proxyModel->setSortRole(TimelineItemModel::ItemIdRole);
+    proxyModel->sort(0, Qt::DescendingOrder);
+
     rootContext()->setContextProperty("multitrack", proxyModel);
     rootContext()->setContextProperty("controller", m_model.get());
     rootContext()->setContextProperty("timeline", this);
     rootContext()->setContextProperty("transitionModel", m_transitionProxyModel.get());
     setSource(QUrl(QStringLiteral("qrc:/qml/timeline.qml")));
+    setVisible(true);
 
-    m_thumbnailer = new ThumbnailProvider;
-    engine()->addImageProvider(QStringLiteral("thumbnail"), m_thumbnailer);
-    setFocusPolicy(Qt::StrongFocus);
-    // connect(&*m_model, SIGNAL(seeked(int)), this, SLOT(onSeeked(int)));
 }
 
 void TimelineWidget::setSelection(const QList<int> &newSelection, int trackIndex, bool isMultitrack)
