@@ -510,6 +510,8 @@ protected:
 
     bool m_timelineEffectsEnabled;
 
+    bool m_id; // id of the timeline itself
+
     // what follows are some virtual function that corresponds to the QML. They are implemented in TimelineItemModel
 protected:
     virtual void _beginRemoveRows(const QModelIndex &, int, int) = 0;

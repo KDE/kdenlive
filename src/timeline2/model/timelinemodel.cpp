@@ -54,6 +54,7 @@ TimelineModel::TimelineModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> 
     , m_blackClip(new Mlt::Producer(*profile, "color:black"))
     , m_lock(QReadWriteLock::Recursive)
     , m_timelineEffectsEnabled(true)
+    , m_id(getNextId())
 {
     // Create black background track
     m_blackClip->set("id", "black_track");
