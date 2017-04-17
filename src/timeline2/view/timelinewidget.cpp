@@ -88,7 +88,6 @@ void TimelineWidget::setModel(std::shared_ptr<TimelineItemModel> model)
     rootContext()->setContextProperty("transitionModel", m_transitionProxyModel.get());
     setSource(QUrl(QStringLiteral("qrc:/qml/timeline.qml")));
     setVisible(true);
-
 }
 
 void TimelineWidget::setSelection(const QList<int> &newSelection, int trackIndex, bool isMultitrack)

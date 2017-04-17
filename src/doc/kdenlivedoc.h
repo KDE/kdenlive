@@ -65,8 +65,7 @@ class KdenliveDoc : public QObject
     Q_OBJECT
 public:
     KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap<QString, QString> &properties,
-                const QMap<QString, QString> &metadata, const QPoint &tracks, Render *render, bool *openBackup,
-                MainWindow *parent = nullptr);
+                const QMap<QString, QString> &metadata, const QPoint &tracks, Render *render, bool *openBackup, MainWindow *parent = nullptr);
     ~KdenliveDoc();
     /** @brief Get current document's producer. */
     Mlt::Producer *getProjectProducer();

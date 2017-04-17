@@ -22,7 +22,6 @@
 #ifndef MACROS_H
 #define MACROS_H
 
-
 /*  This file contains a collection of macros that can be used in model related classes.
     The class only needs to have the following members:
     - std::weak_ptr<DocUndoStack> m_undoStack;  this is a pointer to the undoStack
@@ -30,8 +29,6 @@
 
     See for example TimelineModel.
 */
-
-
 
 // This convenience macro adds lock/unlock ability to a given lambda function
 #define LOCK_IN_LAMBDA(lambda)                                                                                                                                 \
@@ -56,7 +53,6 @@ reading a Read-protected property. In that case, we try to write lock it first (
     } else {                                                                                                                                                   \
         rlocker.reset(new QReadLocker(&m_lock));                                                                                                               \
     }
-
 
 /* @brief This macro takes some lambdas that represent undo/redo for an operation and the text (name) associated with this operation
    The lambdas are transformed to make sure they lock access to the class they operate on.

@@ -60,7 +60,6 @@ public:
     /* @brief Sets the model shown by this widget */
     void setModel(std::shared_ptr<TimelineItemModel> model);
 
-
     /* @brief Sets the list of currently selected clips
        @param selection is the list of id's
        @param trackIndex is current clip's track

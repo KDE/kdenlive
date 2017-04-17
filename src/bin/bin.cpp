@@ -3563,9 +3563,9 @@ void Bin::slotUpdateClipProperties(const QString &id, const QMap<QString, QStrin
 
 void Bin::updateTimelineProducers(const QString &id, const QMap<QString, QString> &passProperties)
 {
-    //TODO REFAC
-    //pCore->projectManager()->currentTimeline()->updateClipProperties(id, passProperties);
-    //m_doc->renderer()->updateSlowMotionProducers(id, passProperties);
+    // TODO REFAC
+    // pCore->projectManager()->currentTimeline()->updateClipProperties(id, passProperties);
+    // m_doc->renderer()->updateSlowMotionProducers(id, passProperties);
 }
 
 void Bin::showSlideshowWidget(ProjectClip *clip)
