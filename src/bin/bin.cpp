@@ -3412,7 +3412,7 @@ void Bin::showTitleWidget(ProjectClip *clip)
     QString path = clip->getProducerProperty(QStringLiteral("resource"));
     QDir titleFolder(m_doc->projectDataFolder() + QStringLiteral("/titles"));
     titleFolder.mkpath(QStringLiteral("."));
-    TitleWidget dia_ui(QUrl(), m_doc->timecode(), titleFolder.absolutePath(), pCore->monitorManager()->projectMonitor()->render, pCore->window());
+    TitleWidget dia_ui(QUrl(), m_doc->timecode(), titleFolder.absolutePath(), pCore->monitorManager()->projectMonitor(), pCore->window());
     connect(&dia_ui, &TitleWidget::requestBackgroundFrame, this, &Bin::slotGetCurrentProjectImage);
     QDomDocument doc;
     QString xmldata = clip->getProducerProperty(QStringLiteral("xmldata"));
@@ -3563,8 +3563,9 @@ void Bin::slotUpdateClipProperties(const QString &id, const QMap<QString, QStrin
 
 void Bin::updateTimelineProducers(const QString &id, const QMap<QString, QString> &passProperties)
 {
-    pCore->projectManager()->currentTimeline()->updateClipProperties(id, passProperties);
-    m_doc->renderer()->updateSlowMotionProducers(id, passProperties);
+    //TODO REFAC
+    //pCore->projectManager()->currentTimeline()->updateClipProperties(id, passProperties);
+    //m_doc->renderer()->updateSlowMotionProducers(id, passProperties);
 }
 
 void Bin::showSlideshowWidget(ProjectClip *clip)

@@ -72,6 +72,8 @@ public:
     void saveZone(const QStringList &info, const QDir &dir);
     /** @brief Move project data files to new url */
     void moveProjectData(const QString &src, const QString &dest);
+    /** @brief Retrieve current project's notes */
+    QString documentNotes() const;
 
 public slots:
     void newFile(bool showProjectSettings = true, bool force = false);
@@ -126,6 +128,9 @@ public slots:
 
     /** @brief Request repaint of audio thumbs */
     void audioThumbFormatChanged();
+
+    /** @brief Set the text for current project's notes */
+    void setDocumentNotes(const QString &notes);
 
 private slots:
     void slotRevert();

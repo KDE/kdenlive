@@ -374,6 +374,8 @@ signals:
     void removeSplitOverlay();
     void acceptRipple(bool);
     void switchTrimMode(int);
+    /** @brief Send a frame for analysis of title background display. */
+    void frameUpdated(const QImage &);
 };
 
 #endif

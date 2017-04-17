@@ -21,6 +21,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "project/dialogs/archivewidget.h"
 #include "project/dialogs/backupwidget.h"
 #include "project/dialogs/projectsettings.h"
+#include "project/dialogs/noteswidget.h"
 #include "project/notesplugin.h"
 #include "timeline/customtrackview.h"
 #include "timeline/timeline.h"
@@ -196,7 +197,7 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
     bool openBackup;
     m_notesPlugin->clear();
     KdenliveDoc *doc = new KdenliveDoc(QUrl(), projectFolder, pCore->window()->m_commandStack, profileName, documentProperties, documentMetadata, projectTracks,
-                                       pCore->monitorManager()->projectMonitor()->render, m_notesPlugin, &openBackup, pCore->window());
+                                       pCore->monitorManager()->projectMonitor()->render, &openBackup, pCore->window());
     doc->m_autosave = new KAutoSaveFile(startFile, doc);
     bool ok;
     pCore->bin()->setDocument(doc);
@@ -537,7 +538,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
         new KdenliveDoc(stale ? QUrl::fromLocalFile(stale->fileName()) : url, QString(), pCore->window()->m_commandStack,
                         KdenliveSettings::default_profile().isEmpty() ? KdenliveSettings::current_profile() : KdenliveSettings::default_profile(),
                         QMap<QString, QString>(), QMap<QString, QString>(), QPoint(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks()),
-                        pCore->monitorManager()->projectMonitor()->render, m_notesPlugin, &openBackup, pCore->window());
+                        pCore->monitorManager()->projectMonitor()->render, &openBackup, pCore->window());
     if (stale == nullptr) {
         stale = new KAutoSaveFile(url, doc);
         doc->m_autosave = stale;
@@ -739,12 +740,26 @@ QString ProjectManager::projectSceneList(const QString &outputFolder)
     return scene;
 }
 
+void ProjectManager::setDocumentNotes(const QString &notes)
+{
+    m_notesPlugin->widget()->setHtml(notes);
+}
+
+QString ProjectManager::documentNotes() const
+{
+    QString text = m_notesPlugin->widget()->toPlainText().simplified();
+    if (text.isEmpty()) {
+        return QString();
+    }
+    return m_notesPlugin->widget()->toHtml();
+}
+
 void ProjectManager::prepareSave()
 {
     // TODO REFAC: save target tracks, preview chunks and guides
     pCore->binController()->saveDocumentProperties(m_project->documentProperties(), m_project->metadata(),
                                                    QMap<double, QString>() /*m_trackView->projectView()->guidesData()*/);
-    pCore->binController()->saveProperty(QStringLiteral("kdenlive:documentnotes"), m_project->documentNotes());
+    pCore->binController()->saveProperty(QStringLiteral("kdenlive:documentnotes"), documentNotes());
     pCore->binController()->saveProperty(QStringLiteral("kdenlive:clipgroups"), m_project->groupsXml());
 }
 

@@ -20,7 +20,7 @@
 #include "doc/kthumb.h"
 #include "gradientwidget.h"
 #include "kdenlivesettings.h"
-#include "renderer.h"
+#include "monitor/monitor.h"
 #include "utils/KoIconUtils.h"
 
 #include <cmath>
@@ -65,7 +65,7 @@ const int BLUREFFECT = 1;
 const int SHADOWEFFECT = 2;
 const int TYPEWRITEREFFECT = 3;
 
-TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &projectTitlePath, Render *render, QWidget *parent)
+TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &projectTitlePath, Monitor *monitor, QWidget *parent)
     : QDialog(parent)
     , Ui::TitleWidget_UI()
     , m_startViewport(nullptr)
@@ -74,7 +74,7 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     , m_unicodeDialog(new UnicodeDialog(UnicodeDialog::InputHex))
     , m_projectTitlePath(projectTitlePath)
     , m_tc(tc)
-    , m_fps(render->fps())
+    , m_fps(monitor->fps())
 {
     setupUi(this);
     setMinimumSize(200, 200);
@@ -137,8 +137,9 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     rectLineWidth->setToolTip(i18n("Border width"));
 
     itemzoom->setSuffix(i18n("%"));
-    m_frameWidth = render->renderWidth();
-    m_frameHeight = render->renderHeight();
+    QSize profileSize = monitor->profileSize();
+    m_frameWidth = (int)(profileSize.height() * monitor->profile()->dar() + 0.5);
+    m_frameHeight = profileSize.height();
     showToolbars(TITLE_SELECT);
 
     splitter->setStretchFactor(0, 20);
@@ -178,14 +179,6 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     connect(gradients_rect_combo, SIGNAL(currentIndexChanged(int)), this, SLOT(rectChanged()));
     connect(rectLineWidth, SIGNAL(valueChanged(int)), this, SLOT(rectChanged()));
 
-    // Fill effects, NOT SUPPORTED in titler version 2
-    /*effect_list->addItem(i18n("None"), NOEFFECT);
-    if (render->getMltVersionInfo(QStringLiteral("kdenlivetitle")) > 1.0) {
-    // there was a bug in MLT's kdenlivetitle module version 1 that crashed on typewriter effect
-    effect_list->addItem(i18n("Typewriter"), TYPEWRITEREFFECT);
-    }
-    effect_list->addItem(i18n("Blur"), BLUREFFECT);*/
-
     connect(zValue, SIGNAL(valueChanged(int)), this, SLOT(zIndexChanged(int)));
     connect(itemzoom, SIGNAL(valueChanged(int)), this, SLOT(itemScaled(int)));
     connect(itemrotatex, SIGNAL(valueChanged(int)), this, SLOT(itemRotateX(int)));
@@ -204,7 +197,7 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     connect(origin_x_left, &QAbstractButton::clicked, this, &TitleWidget::slotOriginXClicked);
     connect(origin_y_top, &QAbstractButton::clicked, this, &TitleWidget::slotOriginYClicked);
 
-    connect(render, &AbstractRender::frameUpdated, this, &TitleWidget::slotGotBackground);
+    connect(monitor, &Monitor::frameUpdated, this, &TitleWidget::slotGotBackground);
 
     // Position and size
     m_signalMapper = new QSignalMapper(this);
@@ -482,17 +475,6 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     // mbd: load saved settings
     loadGradients();
     readChoices();
-
-    if (render->getMltVersionInfo(QStringLiteral("kdenlivetitle")) < 2.0) {
-        // Gradients and shadows are only supported since version 2, so disable
-        shadowBox->setEnabled(false);
-        gradient_color->setEnabled(false);
-        gradients_combo->setEnabled(false);
-        gradients_rect_combo->setEnabled(false);
-        gradient_rect->setEnabled(false);
-        edit_gradient->setEnabled(false);
-        edit_rect_gradient->setEnabled(false);
-    }
 
     // Hide effects not implemented
     tabWidget->removeTab(3);

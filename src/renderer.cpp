@@ -94,7 +94,6 @@ Render::Render(Kdenlive::MonitorId rendererName, BinController *binController, G
         connect(m_binController, &BinController::prepareTimelineReplacement, this, &Render::prepareTimelineReplacement, Qt::DirectConnection);
         connect(m_binController, &BinController::replaceTimelineProducer, this, &Render::replaceTimelineProducer, Qt::DirectConnection);
         connect(m_binController, &BinController::updateTimelineProducer, this, &Render::updateTimelineProducer);
-        connect(m_binController, &BinController::setDocumentNotes, this, &Render::setDocumentNotes);
     }
 }
 

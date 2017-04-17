@@ -35,8 +35,6 @@
 #include "mltcontroller/producerqueue.h"
 #include "profiles/profilemodel.hpp"
 #include "project/clipmanager.h"
-#include "project/dialogs/noteswidget.h"
-#include "project/notesplugin.h"
 #include "project/projectcommands.h"
 #include "renderer.h"
 #include "timeline/transitionhandler.h"
@@ -73,14 +71,13 @@ const double DOCUMENTVERSION = 0.96;
 
 KdenliveDoc::KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGroup *undoGroup, const QString &profileName,
                          const QMap<QString, QString> &properties, const QMap<QString, QString> &metadata, const QPoint &tracks, Render *render,
-                         NotesPlugin *notes, bool *openBackup, MainWindow *parent)
+                         bool *openBackup, MainWindow *parent)
     : QObject(parent)
     , m_autosave(nullptr)
     , m_url(url)
     , m_width(0)
     , m_height(0)
     , m_render(render)
-    , m_notesWidget(notes->widget())
     , m_modified(false)
     , m_projectFolder(projectFolder)
 {
@@ -102,7 +99,6 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGro
     bool success = false;
     connect(m_commandStack.get(), &QUndoStack::indexChanged, this, &KdenliveDoc::slotModified);
     connect(m_commandStack.get(), &DocUndoStack::invalidate, this, &KdenliveDoc::checkPreviewStack);
-    connect(m_render, &Render::setDocumentNotes, this, &KdenliveDoc::slotSetDocumentNotes);
     connect(pCore->producerQueue(), &ProducerQueue::switchProfile, this, &KdenliveDoc::switchProfile);
     // connect(m_commandStack, SIGNAL(cleanChanged(bool)), this, SLOT(setModified(bool)));
 
@@ -280,11 +276,6 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGro
     initCacheDirs();
 
     updateProjectFolderPlacesEntry();
-}
-
-void KdenliveDoc::slotSetDocumentNotes(const QString &notes)
-{
-    m_notesWidget->setHtml(notes);
 }
 
 KdenliveDoc::~KdenliveDoc()
@@ -699,15 +690,6 @@ QDomDocument KdenliveDoc::xmlSceneList(const QString &scene)
     // addedXml.appendChild(docmetadata);
 
     return sceneList;
-}
-
-QString KdenliveDoc::documentNotes() const
-{
-    QString text = m_notesWidget->toPlainText().simplified();
-    if (text.isEmpty()) {
-        return QString();
-    }
-    return m_notesWidget->toHtml();
 }
 
 bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene)

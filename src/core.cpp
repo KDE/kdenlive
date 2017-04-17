@@ -152,6 +152,7 @@ void Core::initGUI(const QUrl &Url)
     connect(m_binController.get(), &BinController::requestAudioThumb, m_binWidget, &Bin::slotCreateAudioThumb);
     connect(m_binController.get(), &BinController::abortAudioThumbs, m_binWidget, &Bin::abortAudioThumbs);
     connect(m_binController.get(), SIGNAL(loadThumb(QString, QImage, bool)), m_binWidget, SLOT(slotThumbnailReady(QString, QImage, bool)));
+    connect(m_binController.get(), &BinController::setDocumentNotes, m_projectManager, &ProjectManager::setDocumentNotes);
     m_monitorManager = new MonitorManager(this);
     // Producer queue, creating MLT::Producers on request
     m_producerQueue = new ProducerQueue(m_binController);

@@ -297,7 +297,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     connect(render, &Render::durationChanged, this, &Monitor::adjustRulerSize);
     connect(render, &Render::rendererStopped, this, &Monitor::rendererStopped);
     connect(render, &AbstractRender::scopesClear, m_glMonitor, &GLWidget::releaseAnalyse, Qt::DirectConnection);
-    connect(m_glMonitor, SIGNAL(analyseFrame(QImage)), render, SIGNAL(frameUpdated(QImage)));
+    connect(m_glMonitor, SIGNAL(analyseFrame(QImage)), this, SIGNAL(frameUpdated(QImage)));
     connect(m_glMonitor, &GLWidget::audioSamplesSignal, render, &AbstractRender::audioSamplesSignal);
 
     if (id != Kdenlive::ClipMonitor) {

@@ -47,7 +47,6 @@ class Render;
 class ClipManager;
 class MainWindow;
 class TrackInfo;
-class NotesPlugin;
 class ProjectClip;
 class ClipController;
 
@@ -66,7 +65,7 @@ class KdenliveDoc : public QObject
     Q_OBJECT
 public:
     KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap<QString, QString> &properties,
-                const QMap<QString, QString> &metadata, const QPoint &tracks, Render *render, NotesPlugin *notes, bool *openBackup,
+                const QMap<QString, QString> &metadata, const QPoint &tracks, Render *render, bool *openBackup,
                 MainWindow *parent = nullptr);
     ~KdenliveDoc();
     /** @brief Get current document's producer. */
@@ -142,7 +141,6 @@ public:
     bool useProxy() const;
     bool autoGenerateProxy(int width) const;
     bool autoGenerateImageProxy(int width) const;
-    QString documentNotes() const;
     /** @brief Saves effects embedded in project file. */
     void saveCustomEffects(const QDomNodeList &customeffects);
     void resetProfile();
@@ -183,7 +181,6 @@ private:
     int m_height;
     Timecode m_timecode;
     Render *m_render;
-    QTextEdit *m_notesWidget;
     std::shared_ptr<DocUndoStack> m_commandStack;
     ClipManager *m_clipManager;
     MltVideoProfile m_profile;
@@ -231,7 +228,6 @@ private slots:
     void slotClipMissing(const QString &path);
     void slotProcessModifiedClips();
     void slotModified();
-    void slotSetDocumentNotes(const QString &notes);
     void switchProfile(MltVideoProfile profile, const QString &id, const QDomElement &xml);
     void slotSwitchProfile();
     /** @brief Check if we did a new action invalidating more recent undo items. */

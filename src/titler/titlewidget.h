@@ -27,7 +27,7 @@
 #include <QMap>
 #include <QSignalMapper>
 
-class Render;
+class Monitor;
 
 class TitleTemplate
 {
@@ -67,7 +67,7 @@ public:
      * @param projectPath default path to save to or load from title documents
      * @param render project renderer
      * @param parent (optional) parent widget */
-    explicit TitleWidget(const QUrl &url, const Timecode &tc, const QString &projectTitlePath, Render *render, QWidget *parent = nullptr);
+    explicit TitleWidget(const QUrl &url, const Timecode &tc, const QString &projectTitlePath, Monitor *monitor, QWidget *parent = nullptr);
     virtual ~TitleWidget();
     QDomDocument xml();
     void setXml(const QDomDocument &doc, const QString &id = QString());
