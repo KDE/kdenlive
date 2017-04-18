@@ -2305,11 +2305,6 @@ const QString Bin::getDocumentProperty(const QString &key)
     return m_doc->getDocumentProperty(key);
 }
 
-const QSize Bin::getRenderSize()
-{
-    return m_doc->getRenderSize();
-}
-
 void Bin::slotUpdateJobStatus(const QString &id, int jobType, int status, const QString &label, const QString &actionName, const QString &details)
 {
     ProjectClip *clip = m_itemModel->getClipByBinID(id);
@@ -2463,7 +2458,7 @@ void Bin::startJob(const QString &id, AbstractClipJob::JOBTYPE type)
     if ((clip != nullptr) && !hasPendingJob(id, type)) {
         // Launch job
         const QList<ProjectClip *> clips = {clip};
-        m_jobManager->prepareJobs(clips, m_doc->fps(), type);
+        m_jobManager->prepareJobs(clips, pCore->getCurrentFps(), type);
     }
 }
 
@@ -2875,7 +2870,7 @@ void Bin::startClipJob(const QStringList &params)
     }
     AbstractClipJob::JOBTYPE jobType = (AbstractClipJob::JOBTYPE)paramData.takeFirst().toInt();
     QList<ProjectClip *> clips = selectedClips();
-    m_jobManager->prepareJobs(clips, m_doc->fps(), jobType, paramData);
+    m_jobManager->prepareJobs(clips, pCore->getCurrentFps(), jobType, paramData);
 }
 
 void Bin::slotCancelRunningJob(const QString &id, const QMap<QString, QString> &newProps)
@@ -2929,7 +2924,7 @@ void Bin::loadSubClips(const QString &id, const QMap<QString, QString> &dataMap)
     }
     QMapIterator<QString, QString> i(dataMap);
     QList<int> missingThumbs;
-    int maxFrame = clip->duration().frames(m_doc->fps()) - 1;
+    int maxFrame = clip->duration().frames(pCore->getCurrentFps()) - 1;
     while (i.hasNext()) {
         i.next();
         if (!i.value().contains(QLatin1Char(';'))) {
@@ -2963,7 +2958,7 @@ void Bin::addClipCut(const QString &id, int in, int out)
         return;
     }
     sub = new ProjectSubClip(clip, m_itemModel, in, out, m_doc->timecode().getDisplayTimecodeFromFrames(in, KdenliveSettings::frametimecode()));
-    QStringList markersComment = clip->markersText(GenTime(in, m_doc->fps()), GenTime(out, m_doc->fps()));
+    QStringList markersComment = clip->markersText(GenTime(in, pCore->getCurrentFps()), GenTime(out, pCore->getCurrentFps()));
     sub->setDescription(markersComment.join(QLatin1Char(';')));
     QList<int> missingThumbs;
     missingThumbs << in;
@@ -3000,9 +2995,9 @@ void Bin::slotStartFilterJob(const ItemInfo &info, const QString &id, QMap<QStri
     QMap<QString, QString> producerParams = QMap<QString, QString>();
     producerParams.insert(QStringLiteral("producer"), clip->url());
     if (info.cropDuration != GenTime()) {
-        producerParams.insert(QStringLiteral("in"), QString::number((int)info.cropStart.frames(m_doc->fps())));
-        producerParams.insert(QStringLiteral("out"), QString::number((int)(info.cropStart + info.cropDuration).frames(m_doc->fps())));
-        extraParams.insert(QStringLiteral("clipStartPos"), QString::number((int)info.startPos.frames(m_doc->fps())));
+        producerParams.insert(QStringLiteral("in"), QString::number((int)info.cropStart.frames(pCore->getCurrentFps())));
+        producerParams.insert(QStringLiteral("out"), QString::number((int)(info.cropStart + info.cropDuration).frames(pCore->getCurrentFps())));
+        extraParams.insert(QStringLiteral("clipStartPos"), QString::number((int)info.startPos.frames(pCore->getCurrentFps())));
         extraParams.insert(QStringLiteral("clipTrack"), QString::number(info.track));
     } else {
         // We want to process whole clip
@@ -3162,7 +3157,7 @@ void Bin::slotGotFilterJobResults(const QString &id, int startPos, int track, co
         bool simpleList = false;
         double sourceFps = clip->getOriginalFps();
         if (qAbs(sourceFps) < 1e-4) {
-            sourceFps = m_doc->fps();
+            sourceFps = pCore->getCurrentFps();
         }
         if (filterInfo.contains(QStringLiteral("simplelist"))) {
             // simple list
@@ -3170,7 +3165,7 @@ void Bin::slotGotFilterJobResults(const QString &id, int startPos, int track, co
         }
         foreach (const QString &pos, value) {
             if (simpleList) {
-                CommentedTime m(GenTime((int)(pos.toInt() * m_doc->fps() / sourceFps), m_doc->fps()), label + pos, markersType);
+                CommentedTime m(GenTime((int)(pos.toInt() * pCore->getCurrentFps() / sourceFps), pCore->getCurrentFps()), label + pos, markersType);
                 markersList << m;
                 index++;
                 continue;
@@ -3183,7 +3178,7 @@ void Bin::slotGotFilterJobResults(const QString &id, int startPos, int track, co
             if (newPos - cutPos < 24) {
                 continue;
             }
-            CommentedTime m(GenTime(newPos + offset, m_doc->fps()), label + QString::number(index), markersType);
+            CommentedTime m(GenTime(newPos + offset, pCore->getCurrentFps()), label + QString::number(index), markersType);
             markersList << m;
             index++;
             cutPos = newPos;
@@ -3428,7 +3423,7 @@ void Bin::showTitleWidget(ProjectClip *clip)
     if (dia_ui.exec() == QDialog::Accepted) {
         QMap<QString, QString> newprops;
         newprops.insert(QStringLiteral("xmldata"), dia_ui.xml().toString());
-        if (qAbs(dia_ui.duration() - clip->duration().frames(m_doc->fps())) > 1e-4) {
+        if (qAbs(dia_ui.duration() - clip->duration().frames(pCore->getCurrentFps())) > 1e-4) {
             // duration changed, we need to update duration
             newprops.insert(QStringLiteral("out"), QString::number(dia_ui.duration() - 1));
             int currentLength = clip->getProducerIntProperty(QStringLiteral("kdenlive:duration"));

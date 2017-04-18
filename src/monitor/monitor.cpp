@@ -2228,3 +2228,8 @@ void Monitor::setProducer(Mlt::Producer *producer)
 {
     m_glMonitor->setProducer(producer);
 }
+
+int Monitor::duration() const
+{
+    return m_length;
+}

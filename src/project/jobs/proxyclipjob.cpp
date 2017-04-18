@@ -20,6 +20,7 @@
 
 #include "proxyclipjob.h"
 #include "bin/bin.h"
+#include "core.h"
 #include "bin/projectclip.h"
 #include "doc/kdenlivedoc.h"
 #include "kdenlive_debug.h"
@@ -320,7 +321,7 @@ QList<ProjectClip *> ProxyJob::filterClips(const QList<ProjectClip *> &clips)
 QHash<ProjectClip *, AbstractClipJob *> ProxyJob::prepareJob(Bin *bin, const QList<ProjectClip *> &clips)
 {
     QHash<ProjectClip *, AbstractClipJob *> jobs;
-    QSize renderSize = bin->getRenderSize();
+    QSize renderSize = pCore->getCurrentFrameSize();
     QString params = bin->getDocumentProperty(QStringLiteral("proxyparams")).simplified();
     for (int i = 0; i < clips.count(); i++) {
         ProjectClip *item = clips.at(i);

@@ -194,7 +194,7 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
     bool openBackup;
     m_notesPlugin->clear();
     KdenliveDoc *doc = new KdenliveDoc(QUrl(), projectFolder, pCore->window()->m_commandStack, profileName, documentProperties, documentMetadata, projectTracks,
-                                       pCore->monitorManager()->projectMonitor()->render, &openBackup, pCore->window());
+                                       &openBackup, pCore->window());
     doc->m_autosave = new KAutoSaveFile(startFile, doc);
     bool ok;
     pCore->bin()->setDocument(doc);
@@ -532,7 +532,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
         new KdenliveDoc(stale ? QUrl::fromLocalFile(stale->fileName()) : url, QString(), pCore->window()->m_commandStack,
                         KdenliveSettings::default_profile().isEmpty() ? KdenliveSettings::current_profile() : KdenliveSettings::default_profile(),
                         QMap<QString, QString>(), QMap<QString, QString>(), QPoint(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks()),
-                        pCore->monitorManager()->projectMonitor()->render, &openBackup, pCore->window());
+                        &openBackup, pCore->window());
     if (stale == nullptr) {
         stale = new KAutoSaveFile(url, doc);
         doc->m_autosave = stale;
@@ -864,7 +864,6 @@ void ProjectManager::slotMoveFinished(KJob *job)
 
 void ProjectManager::updateTimeline(Mlt::Tractor tractor)
 {
-    qDebug() << "FILLING TIMELINEWIDGET";
     pCore->binController()->loadBinPlaylist(tractor);
     const QStringList ids = pCore->binController()->getClipIds();
     for (const QString &id : ids) {

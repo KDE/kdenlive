@@ -42,6 +42,7 @@
 #include "transition.h"
 #include "transitionhandler.h"
 #include "utils/KoIconUtils.h"
+#include "core.h"
 
 #include <KDualAction>
 #include <QLocale>
@@ -387,7 +388,7 @@ void Timeline::checkDuration()
 void Timeline::getTransitions()
 {
     int compositeMode = 0;
-    double fps = m_doc->fps();
+    double fps = pCore->getCurrentFps();
     mlt_service service = mlt_service_get_producer(m_tractor->get_service());
     QScopedPointer<Mlt::Field> field(m_tractor->field());
     while (service != nullptr) {
@@ -1000,8 +1001,8 @@ void Timeline::reloadTrack(const ItemInfo &info, bool includeLastFrame)
     }
     Mlt::Playlist pl = m_tracks.at(info.track)->playlist();
     // Remove current clips
-    int startIndex = pl.get_clip_index_at(info.startPos.frames(m_doc->fps()));
-    int endIndex = pl.get_clip_index_at(info.endPos.frames(m_doc->fps())) - (includeLastFrame ? 0 : 1);
+    int startIndex = pl.get_clip_index_at(info.startPos.frames(pCore->getCurrentFps()));
+    int endIndex = pl.get_clip_index_at(info.endPos.frames(pCore->getCurrentFps())) - (includeLastFrame ? 0 : 1);
     // Reload items
     loadTrack(info.track, 0, pl, startIndex, endIndex, false);
 }
@@ -1009,7 +1010,7 @@ void Timeline::reloadTrack(const ItemInfo &info, bool includeLastFrame)
 int Timeline::loadTrack(int ix, int offset, Mlt::Playlist &playlist, int start, int end, bool updateReferences)
 {
     // parse track
-    double fps = m_doc->fps();
+    double fps = pCore->getCurrentFps();
     if (end == -1) {
         end = playlist.count();
     }
@@ -1111,7 +1112,7 @@ void Timeline::loadGuides(const QMap<double, QString> &guidesData)
     while (i.hasNext()) {
         i.next();
         // Guide positions are stored in seconds. we need to make sure that the time matches a frame
-        const GenTime pos = GenTime(GenTime(i.key()).frames(m_doc->fps()), m_doc->fps());
+        const GenTime pos = GenTime(GenTime(i.key()).frames(pCore->getCurrentFps()), pCore->getCurrentFps());
         m_trackview->addGuide(pos, i.value(), true);
     }
 }
@@ -1609,7 +1610,7 @@ MltVideoProfile Timeline::mltProfile() const
 
 double Timeline::fps() const
 {
-    return m_doc->fps();
+    return pCore->getCurrentFps();
 }
 
 QPoint Timeline::getTracksCount()
@@ -1710,7 +1711,7 @@ int Timeline::getSpaceLength(const GenTime &pos, int tk, bool fromBlankStart)
     if (!sourceTrack) {
         return 0;
     }
-    int insertPos = pos.frames(m_doc->fps());
+    int insertPos = pos.frames(pCore->getCurrentFps());
     return sourceTrack->spaceLength(insertPos, fromBlankStart);
 }
 
@@ -1980,7 +1981,7 @@ void Timeline::invalidateRange(const ItemInfo &info)
         return;
     }
     if (info.isValid()) {
-        m_timelinePreview->invalidatePreview(info.startPos.frames(m_doc->fps()), info.endPos.frames(m_doc->fps()));
+        m_timelinePreview->invalidatePreview(info.startPos.frames(pCore->getCurrentFps()), info.endPos.frames(pCore->getCurrentFps()));
     } else {
         m_timelinePreview->invalidatePreview(0, m_trackview->duration());
     }

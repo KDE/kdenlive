@@ -1962,7 +1962,7 @@ void MainWindow::connectDocument()
     KdenliveDoc *project = pCore->projectManager()->current();
     connect(project, &KdenliveDoc::startAutoSave, pCore->projectManager(), &ProjectManager::slotStartAutoSave);
     connect(project, &KdenliveDoc::reloadEffects, this, &MainWindow::slotReloadEffects);
-    KdenliveSettings::setProject_fps(project->fps());
+    KdenliveSettings::setProject_fps(pCore->getCurrentFps());
     m_clipMonitorDock->raise();
     m_effectStack->transitionConfig()->updateProjectFormat();
 
@@ -2273,8 +2273,8 @@ void MainWindow::slotAddClipMarker()
         if (pCore->projectManager()->currentTimeline()) {
             ClipItem *item = pCore->projectManager()->currentTimeline()->projectView()->getActiveClipUnderCursor();
             if (item) {
-                pos = GenTime((int)((m_projectMonitor->position() - item->startPos() + item->cropStart()).frames(project->fps()) * item->speed() + 0.5),
-                              project->fps());
+                pos = GenTime((int)((m_projectMonitor->position() - item->startPos() + item->cropStart()).frames(pCore->getCurrentFps()) * item->speed() + 0.5),
+                              pCore->getCurrentFps());
                 clip = pCore->binController()->getController(item->getBinId()).get();
             }
         }
@@ -2293,7 +2293,7 @@ void MainWindow::slotAddClipMarker()
         pCore->bin()->slotAddClipMarker(id, QList<CommentedTime>() << d->newMarker());
         QString hash = clip->getClipHash();
         if (!hash.isEmpty()) {
-            project->cacheImage(hash + QLatin1Char('#') + QString::number(d->newMarker().time().frames(project->fps())), d->markerImage());
+            project->cacheImage(hash + QLatin1Char('#') + QString::number(d->newMarker().time().frames(pCore->getCurrentFps())), d->markerImage());
         }
     }
     delete d;
@@ -2387,7 +2387,7 @@ void MainWindow::slotEditClipMarker()
         QString hash = clip->getClipHash();
         if (!hash.isEmpty()) {
             pCore->projectManager()->current()->cacheImage(
-                hash + QLatin1Char('#') + QString::number(d->newMarker().time().frames(pCore->projectManager()->current()->fps())), d->markerImage());
+                hash + QLatin1Char('#') + QString::number(d->newMarker().time().frames(pCore->getCurrentFps())), d->markerImage());
         }
         if (d->newMarker().time() != pos) {
             // remove old marker
@@ -3440,20 +3440,20 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
         in = pCore->projectManager()->currentTimeline()->inPoint();
         out = pCore->projectManager()->currentTimeline()->outPoint();
     } else {
-        out = (int)GenTime(project->projectDuration()).frames(project->fps()) - 2;
+        out = (int)GenTime(project->projectDuration()).frames(pCore->getCurrentFps()) - 2;
     }
     QString playlistContent = pCore->projectManager()->projectSceneList(project->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile());
     if (!chapterFile.isEmpty()) {
         QDomDocument doc;
         QDomElement chapters = doc.createElement(QStringLiteral("chapters"));
-        chapters.setAttribute(QStringLiteral("fps"), project->fps());
+        chapters.setAttribute(QStringLiteral("fps"), pCore->getCurrentFps());
         doc.appendChild(chapters);
 
         QMap<double, QString> guidesData = pCore->projectManager()->currentTimeline()->projectView()->guidesData();
         QMapIterator<double, QString> g(guidesData);
         while (g.hasNext()) {
             g.next();
-            int time = (int)GenTime(g.key()).frames(project->fps());
+            int time = (int)GenTime(g.key()).frames(pCore->getCurrentFps());
             if (time >= in && time < out) {
                 if (zoneOnly) {
                     time = time - in;

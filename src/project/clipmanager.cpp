@@ -290,7 +290,7 @@ void ClipManager::slotAddTextTemplateClip(const QString &titleName, const QUrl &
 AbstractGroupItem *ClipManager::createGroup()
 {
     QMutexLocker lock(&m_groupsMutex);
-    auto *group = new AbstractGroupItem(m_doc->fps());
+    auto *group = new AbstractGroupItem(pCore->getCurrentFps());
     m_groupsList.append(group);
     return group;
 }
@@ -332,12 +332,12 @@ QString ClipManager::groupsXml()
                 if (item->type() == AVWidget) {
                     QDomElement clip = doc.createElement(QStringLiteral("clipitem"));
                     clip.setAttribute(QStringLiteral("track"), info.track);
-                    clip.setAttribute(QStringLiteral("position"), info.startPos.frames(m_doc->fps()));
+                    clip.setAttribute(QStringLiteral("position"), info.startPos.frames(pCore->getCurrentFps()));
                     group.appendChild(clip);
                 } else if (item->type() == TransitionWidget) {
                     QDomElement clip = doc.createElement(QStringLiteral("transitionitem"));
                     clip.setAttribute(QStringLiteral("track"), info.track);
-                    clip.setAttribute(QStringLiteral("position"), info.startPos.frames(m_doc->fps()));
+                    clip.setAttribute(QStringLiteral("position"), info.startPos.frames(pCore->getCurrentFps()));
                     group.appendChild(clip);
                 }
             }

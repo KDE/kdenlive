@@ -155,6 +155,8 @@ public:
     /** @brief Seeks timeline without refreshing if monitor is not active **/
     void silentSeek(int pos);
     void setProducer(Mlt::Producer *producer);
+    /** @brief Returns current monitor's duration in frames **/
+    int duration() const;
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;

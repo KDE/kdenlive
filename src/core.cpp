@@ -261,12 +261,22 @@ std::unique_ptr<ProfileModel> &Core::getCurrentProfile() const
     return ProfileRepository::get()->getProfile(profile);
 }
 
-int Core::getCurrentDar() const
+double Core::getCurrentDar() const
 {
     return getCurrentProfile()->dar();
 }
 
-int Core::getCurrentFps() const
+double Core::getCurrentFps() const
 {
     return getCurrentProfile()->fps();
+}
+
+QSize Core::getCurrentFrameDisplaySize() const
+{
+    return QSize((int)(getCurrentProfile()->height() * getCurrentDar() + 0.5), getCurrentProfile()->height());
+}
+
+QSize Core::getCurrentFrameSize() const
+{
+    return QSize(getCurrentProfile()->width(), getCurrentProfile()->height());
 }

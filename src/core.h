@@ -95,10 +95,15 @@ public:
     std::unique_ptr<ProfileModel> &getCurrentProfile() const;
 
     /** @brief Returns Display Aspect Ratio of current profile */
-    int getCurrentDar() const;
+    double getCurrentDar() const;
 
     /** @brief Returns frame rate of current profile */
-    int getCurrentFps() const;
+    double getCurrentFps() const;
+
+    /** @brief Returns the frame size (width x height) of current profile */
+    QSize getCurrentFrameSize() const;
+    /** @brief Returns the frame display size (width x height) of current profile */
+    QSize getCurrentFrameDisplaySize() const;
 
 private:
     explicit Core();

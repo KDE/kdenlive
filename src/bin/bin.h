@@ -231,9 +231,6 @@ public:
     /** @brief A proxy clip was just created, pass it to the responsible item  */
     void gotProxy(const QString &id, const QString &path);
 
-    /** @brief Get the document's renderer frame size  */
-    const QSize getRenderSize();
-
     /** @brief Give a number available for a clip id, used when adding a new clip to the project. Id must be unique */
     int getFreeClipId();
 

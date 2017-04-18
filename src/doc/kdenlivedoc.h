@@ -43,13 +43,13 @@
 #include "timecode.h"
 #include "timeline/guide.h"
 
-class Render;
 class ClipManager;
 class MainWindow;
 class TrackInfo;
 class ProjectClip;
 class ClipController;
 class MarkerListModel;
+class Render;
 
 class QTextEdit;
 class QUndoGroup;
@@ -66,7 +66,7 @@ class KdenliveDoc : public QObject
     Q_OBJECT
 public:
     KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap<QString, QString> &properties,
-                const QMap<QString, QString> &metadata, const QPoint &tracks, Render *render, bool *openBackup, MainWindow *parent = nullptr);
+                const QMap<QString, QString> &metadata, const QPoint &tracks, bool *openBackup, MainWindow *parent = nullptr);
     ~KdenliveDoc();
     /** @brief Get current document's producer. */
     Mlt::Producer *getProjectProducer();
@@ -79,7 +79,6 @@ public:
     Timecode timecode() const;
     QDomDocument toXml();
     std::shared_ptr<DocUndoStack> commandStack();
-    Render *renderer();
     ClipManager *clipManager();
     QString groupsXml() const;
 
@@ -132,8 +131,6 @@ public:
     const QMap<QString, QString> metadata() const;
     /** @brief Set the document metadata (author, copyright, ...) */
     void setMetadata(const QMap<QString, QString> &meta);
-    /** @brief Get frame size of the renderer (profile)*/
-    const QSize getRenderSize() const;
     /** @brief Add url to the file watcher so that we monitor changes */
     void watchFile(const QString &url);
     /** @brief Get all document properties that need to be saved */
@@ -172,6 +169,9 @@ public:
     /** @brief Returns a pointer to the guide model */
     std::shared_ptr<MarkerListModel> getGuideModel() const;
 
+    // TODO REFAC: delete */
+    Render *renderer();
+
 private:
     QUrl m_url;
     QDomDocument m_document;
@@ -183,7 +183,6 @@ private:
     int m_width;
     int m_height;
     Timecode m_timecode;
-    Render *m_render;
     std::shared_ptr<DocUndoStack> m_commandStack;
     ClipManager *m_clipManager;
     MltVideoProfile m_profile;
