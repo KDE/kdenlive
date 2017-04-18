@@ -172,11 +172,19 @@ void ProxyJob::startJob()
             // The noautorotate flag must be passed before input source
             parameters << QStringLiteral("-noautorotate");
         }
-        parameters << QStringLiteral("-i") << m_src;
+        if (m_proxyParams.contains(QLatin1String("-i "))) {
+            // we have some pre-filename parameters, filename will be inserted later
+        } else {
+            parameters << QStringLiteral("-i") << m_src;
+        }
         QString params = m_proxyParams;
         foreach (const QString &s, params.split(QLatin1Char(' '))) {
-            if (s != QLatin1String("-noautorotate")) {
-                parameters << s;
+            QString t = s.simplified();
+            if (t != QLatin1String("-noautorotate")) {
+                parameters << t;
+                if (t == QLatin1String("-i")) {
+                    parameters << m_src;
+                }
             }
         }
 

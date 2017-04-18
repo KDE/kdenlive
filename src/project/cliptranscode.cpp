@@ -52,13 +52,17 @@ ClipTranscode::ClipTranscode(const QStringList &urls, const QString &params, con
     auto_add->setChecked(KdenliveSettings::add_new_clip());
 
     if (m_urls.count() == 1) {
-        QString fileName = m_urls.first(); //.section(QLatin1Char('.'), 0, -1);
-        QString newFile = params.section(QLatin1Char(' '), -1).replace(QLatin1String("%1"), fileName);
-        QUrl dest = QUrl::fromLocalFile(newFile);
-        source_url->setUrl(QUrl::fromLocalFile(m_urls.first()));
+        QString fileName = m_urls.first();
+        source_url->setUrl(QUrl::fromLocalFile(fileName));
         dest_url->setMode(KFile::File);
-        dest_url->setUrl(dest);
-        dest_url->setMode(KFile::File); // OperationMode(KFileDialog::Saving);
+#if KXMLGUI_VERSION_MINOR > 32 || KXMLGUI_VERSION_MAJOR > 5
+        dest_url->setAcceptMode(QFileDialog::AcceptSave);
+#endif
+        if (!params.isEmpty()) {
+            QString newFile = params.section(QLatin1Char(' '), -1).replace(QLatin1String("%1"), fileName);
+            QUrl dest = QUrl::fromLocalFile(newFile);
+            dest_url->setUrl(dest);
+        }
         urls_list->setHidden(true);
         connect(source_url, SIGNAL(textChanged(QString)), this, SLOT(slotUpdateParams()));
     } else {
@@ -152,7 +156,11 @@ void ClipTranscode::slotStartTransCode()
     }
     QString extension = params.section(QStringLiteral("%1"), 1, 1).section(QLatin1Char(' '), 0, 0);
     QString s_url = source_url->url().toLocalFile();
-    parameters << QStringLiteral("-i") << s_url;
+    if (params.contains(QLatin1String("-i "))) {
+        // Filename must be inserted later
+    } else {
+        parameters << QStringLiteral("-i") << s_url;
+    }
     if (QFile::exists(destination + extension)) {
         if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", destination + extension)) == KMessageBox::No) {
             // Abort operation
@@ -177,6 +185,9 @@ void ClipTranscode::slotStartTransCode()
         } else if (!m_postParams.isEmpty() && s == QLatin1String("-vf")) {
             replaceVfParams = true;
             parameters << s;
+        } else if (s == QLatin1String("-i")) {
+            parameters << s;
+            parameters << s_url;
         } else {
             parameters << s;
         }

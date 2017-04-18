@@ -87,13 +87,18 @@ void CutClipJob::startJob()
                        << QStringLiteral("-of") << QStringLiteral("json=c=1") << m_src;
             exec = KdenliveSettings::ffprobepath();
         } else {
-            parameters << QStringLiteral("-i") << m_src;
+            if (!m_cutExtraParams.contains(QLatin1String("-i "))) {
+                parameters << QStringLiteral("-i") << m_src;
+            }
             if (!m_start.isEmpty()) {
                 parameters << QStringLiteral("-ss") << m_start << QStringLiteral("-t") << m_end;
             }
             if (!m_cutExtraParams.isEmpty()) {
                 foreach (const QString &s, m_cutExtraParams.split(QLatin1Char(' '))) {
                     parameters << s;
+                    if (s == QLatin1String("-i")) {
+                        parameters << m_src;
+                    }
                 }
             }
 
