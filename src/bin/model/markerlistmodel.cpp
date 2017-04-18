@@ -25,11 +25,14 @@
 #include "core.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
+#include "kdenlivesettings.h"
 #include "macros.hpp"
 #include "project/projectmanager.h"
 
 #include <QDebug>
 #include <klocalizedstring.h>
+
+std::array<QColor, 5> MarkerListModel::markerTypes = {Qt::red, Qt::blue, Qt::green, Qt::yellow, Qt::cyan};
 
 MarkerListModel::MarkerListModel(const QString &clipId, std::weak_ptr<DocUndoStack> undo_stack, QObject *parent)
     : QAbstractListModel(parent)
@@ -46,12 +49,14 @@ MarkerListModel::MarkerListModel(std::weak_ptr<DocUndoStack> undo_stack, QObject
 {
 }
 
-void MarkerListModel::addMarker(GenTime pos, const QString &comment)
+void MarkerListModel::addMarker(GenTime pos, const QString &comment, int type)
 {
     QWriteLocker locker(&m_lock);
+    if (type == -1) type = KdenliveSettings::default_marker_type();
+    Q_ASSERT(type >= 0 && type < markerTypes.size());
     if (m_markerList.count(pos) > 0) {
         // In this case we simply change the comment
-        QString oldComment = m_markerList[pos];
+        QString oldComment = m_markerList[pos].first;
         Fun undo = changeComment_lambda(pos, oldComment);
         Fun redo = changeComment_lambda(pos, comment);
         if (redo()) {
@@ -59,7 +64,7 @@ void MarkerListModel::addMarker(GenTime pos, const QString &comment)
         }
     } else {
         // In this case we create one
-        Fun redo = addMarker_lambda(pos, comment);
+        Fun redo = addMarker_lambda(pos, comment, type);
         Fun undo = deleteMarker_lambda(pos);
         if (redo()) {
             PUSH_UNDO(undo, redo, i18n("Add marker"));
@@ -71,8 +76,9 @@ void MarkerListModel::removeMarker(GenTime pos)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_markerList.count(pos) > 0);
-    QString oldComment = m_markerList[pos];
-    Fun undo = addMarker_lambda(pos, oldComment);
+    QString oldComment = m_markerList[pos].first;
+    int oldType = m_markerList[pos].second;
+    Fun undo = addMarker_lambda(pos, oldComment, oldType);
     Fun redo = deleteMarker_lambda(pos);
     if (redo()) {
         PUSH_UNDO(undo, redo, i18n("Delete marker"));
@@ -88,16 +94,16 @@ Fun MarkerListModel::changeComment_lambda(GenTime pos, const QString &comment)
         Q_ASSERT(model->m_markerList.count(pos) > 0);
         int row = static_cast<int>(std::distance(model->m_markerList.begin(), model->m_markerList.find(pos)));
         emit model->dataChanged(model->index(row), model->index(row));
-        model->m_markerList[pos] = comment;
+        model->m_markerList[pos].first = comment;
         return true;
     };
 }
 
-Fun MarkerListModel::addMarker_lambda(GenTime pos, const QString &comment)
+Fun MarkerListModel::addMarker_lambda(GenTime pos, const QString &comment, int type)
 {
     auto guide = m_guide;
     auto clipId = m_clipId;
-    return [guide, clipId, pos, comment]() {
+    return [guide, clipId, pos, comment, type]() {
         auto model = getModel(guide, clipId);
         Q_ASSERT(model->m_markerList.count(pos) == 0);
         // We determine the row of the newly added marker
@@ -107,7 +113,7 @@ Fun MarkerListModel::addMarker_lambda(GenTime pos, const QString &comment)
             insertionRow = static_cast<int>(std::distance(model->m_markerList.begin(), insertionIt));
         }
         model->beginInsertRows(QModelIndex(), insertionRow, insertionRow);
-        model->m_markerList[pos] = comment;
+        model->m_markerList[pos] = {comment, type};
         model->endInsertRows();
         return true;
     };
@@ -142,6 +148,7 @@ QHash<int, QByteArray> MarkerListModel::roleNames() const
     roles[CommentRole] = "comment";
     roles[PosRole] = "position";
     roles[FrameRole] = "frame";
+    roles[ColorRole] = "color";
     return roles;
 }
 
@@ -156,11 +163,13 @@ QVariant MarkerListModel::data(const QModelIndex &index, int role) const
     case Qt::DisplayRole:
     case Qt::EditRole:
     case CommentRole:
-        return it->second;
+        return it->second.first;
     case PosRole:
         return it->first.seconds();
     case FrameRole:
         return it->first.frames(pCore->getCurrentFps());
+    case ColorRole:
+        return markerTypes[it->second.second];
     }
     return QVariant();
 }

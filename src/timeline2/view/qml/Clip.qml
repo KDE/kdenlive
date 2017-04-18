@@ -233,7 +233,7 @@ Rectangle {
                     width: 1
                     height: parent.height
                     x: (model.frame - clipRoot.inPoint) * timeScale;
-                    color: 'red'
+                    color: model.color
                 }
                 Rectangle {
                     opacity: 0.7
@@ -244,7 +244,7 @@ Rectangle {
                     anchors {
                         bottom: parent.verticalCenter
                     }
-                    color: 'red'
+                    color: model.color
                 }
                 Text {
                     id: mlabel

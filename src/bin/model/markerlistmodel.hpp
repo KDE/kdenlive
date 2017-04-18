@@ -34,7 +34,7 @@
 class DocUndoStack;
 
 /* @brief This class is the model for a list of markers.
-   A marker is defined by a time and a comment string.
+   A marker is defined by a time, a type (the color used to represent it) and a comment string.
    We store them in a sorted fashion using a std::map
 
    A marker is essentially bound to a clip. We can also define guides, that are timeline-wise markers. For that, use the constructors without clipId
@@ -52,13 +52,20 @@ public:
     /* @brief Construct a guide list (bound to the timeline) */
     MarkerListModel(std::weak_ptr<DocUndoStack> undo_stack, QObject *parent = nullptr);
 
-    enum { CommentRole = Qt::UserRole + 1, PosRole, FrameRole };
+    enum { CommentRole = Qt::UserRole + 1, PosRole, FrameRole, ColorRole };
 
-    /* @brief Adds a marker at the given position. If there is already one, the comment will be overriden */
-    void addMarker(GenTime pos, const QString &comment);
+    /* @brief Adds a marker at the given position. If there is already one, the comment will be overriden
+       @param pos defines the position of the marker, relative to the clip
+       @param comment is the text associated with the marker
+       @param type is the type (color) associated with the marker. If -1 is passed, then the value is pulled from kdenlive's defaults
+     */
+    void addMarker(GenTime pos, const QString &comment, int type = -1);
 
     /* @brief Removes the marker at the given position. */
     void removeMarker(GenTime pos);
+
+    /** This describes the available markers type and their corresponding colors */
+    static std::array<QColor, 5> markerTypes;
 
     // Mandatory overloads
     QVariant data(const QModelIndex &index, int role) const override;
@@ -70,7 +77,7 @@ protected:
     Fun changeComment_lambda(GenTime pos, const QString &comment);
 
     /** @brief Helper function that generate a lambda to add given marker */
-    Fun addMarker_lambda(GenTime pos, const QString &comment);
+    Fun addMarker_lambda(GenTime pos, const QString &comment, int type);
 
     /** @brief Helper function that generate a lambda to remove given marker */
     Fun deleteMarker_lambda(GenTime pos);
@@ -86,7 +93,7 @@ private:
 
     mutable QReadWriteLock m_lock; // This is a lock that ensures safety in case of concurrent access
 
-    std::map<GenTime, QString> m_markerList;
+    std::map<GenTime, std::pair<QString, int>> m_markerList;
 
 public:
     // this is to enable for range loops

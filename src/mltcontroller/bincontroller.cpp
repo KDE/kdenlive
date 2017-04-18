@@ -594,7 +594,7 @@ void BinController::saveDocumentProperties(const QMap<QString, QString> &props, 
     QLocale locale;
     for (const auto &guide : *guideModel) {
         QString propertyName = "kdenlive:guide." + locale.toString(guide.first.seconds());
-        playlistProps.set(propertyName.toUtf8().constData(), guide.second.toUtf8().constData());
+        playlistProps.set(propertyName.toUtf8().constData(), guide.second.first.toUtf8().constData());
     }
 }
 

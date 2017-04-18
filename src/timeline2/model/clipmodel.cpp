@@ -29,6 +29,10 @@
 #include <QDebug>
 #include <mlt++/MltProducer.h>
 
+//this can be deleted
+#include "gentime.h"
+#include "bin/model/markerlistmodel.hpp"
+
 ClipModel::ClipModel(std::weak_ptr<TimelineModel> parent, std::shared_ptr<Mlt::Producer> prod, const QString &binClipId, int id)
     : MoveableItem<Mlt::Producer>(parent, id)
     , m_producer(prod)
@@ -42,6 +46,10 @@ ClipModel::ClipModel(std::weak_ptr<TimelineModel> parent, std::shared_ptr<Mlt::P
     } else {
         m_endlessResize = false;
     }
+    // TODO this is for testing purposes, remove.
+    binClip->getMarkerModel()->addMarker(GenTime(1.), "Test1");
+    binClip->getMarkerModel()->addMarker(GenTime(2.), "Test2", 2);
+    // END OF TESTS
 }
 
 int ClipModel::construct(const std::weak_ptr<TimelineModel> &parent, const QString &binClipId, int id)
