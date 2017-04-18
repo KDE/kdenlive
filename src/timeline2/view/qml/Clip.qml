@@ -38,7 +38,7 @@ Rectangle {
     property bool isComposition: false
     property bool grouped: false
     property var audioLevels
-    property var markers : []
+    property var markers
     property int fadeIn: 0
     property int fadeOut: 0
     property int binId: 0
@@ -224,7 +224,7 @@ Rectangle {
         }
 
         Repeater {
-            model: markers.length / 2
+            model: markers
             delegate:
             Item {
                 anchors.fill: parent
@@ -232,7 +232,7 @@ Rectangle {
                     id: markerBase
                     width: 1
                     height: parent.height
-                    x: (markers[2 * modelData] - clipRoot.inPoint) * timeScale;
+                    x: (model.frame - clipRoot.inPoint) * timeScale;
                     color: 'red'
                 }
                 Rectangle {
@@ -248,7 +248,7 @@ Rectangle {
                 }
                 Text {
                     id: mlabel
-                    text: markers[2 * modelData + 1]
+                    text: model.comment
                     font.pixelSize: root.baseUnit
                     x: markerBase.x
                     anchors {

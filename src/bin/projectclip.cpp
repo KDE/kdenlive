@@ -103,6 +103,7 @@ ProjectClip::ProjectClip(const QDomElement &description, const QIcon &thumb, Pro
     }
     connect(this, &ProjectClip::updateJobStatus, this, &ProjectClip::setJobStatus);
     connect(this, &ProjectClip::updateThumbProgress, static_cast<ProjectItemModel *>(m_model)->bin(), &Bin::doUpdateThumbsProgress);
+    m_markerModel = std::make_shared<MarkerListModel>(m_id, pCore->projectManager()->current()->commandStack());
 }
 
 ProjectClip::~ProjectClip()

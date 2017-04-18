@@ -52,7 +52,7 @@ public:
     /* @brief Construct a guide list (bound to the timeline) */
     MarkerListModel(std::weak_ptr<DocUndoStack> undo_stack, QObject *parent = nullptr);
 
-    enum { CommentRole = Qt::UserRole + 1, PosRole };
+    enum { CommentRole = Qt::UserRole + 1, PosRole, FrameRole };
 
     /* @brief Adds a marker at the given position. If there is already one, the comment will be overriden */
     void addMarker(GenTime pos, const QString &comment);
@@ -62,6 +62,7 @@ public:
 
     // Mandatory overloads
     QVariant data(const QModelIndex &index, int role) const override;
+    QHash<int, QByteArray> roleNames() const override;
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 
 protected:
@@ -92,5 +93,6 @@ public:
     auto begin() -> decltype(m_markerList.begin()) { return m_markerList.begin(); }
     auto end() -> decltype(m_markerList.end()) { return m_markerList.end(); }
 };
+Q_DECLARE_METATYPE(MarkerListModel *)
 
 #endif

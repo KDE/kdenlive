@@ -195,7 +195,7 @@ private:
     int m_currentInsertionOrder;
 
     std::map<int, std::shared_ptr<ClipModel>> m_allClips; /*this is important to keep an
-                                                                      ordered structure to store the clips, since we use their ids order as row order*/
+                                                                        ordered structure to store the clips, since we use their ids order as row order*/
     std::map<int, std::shared_ptr<CompositionModel>>
         m_allCompositions; /*this is important to keep an
                                    ordered structure to store the clips, since we use their ids order as row order*/

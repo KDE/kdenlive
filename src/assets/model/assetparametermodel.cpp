@@ -169,7 +169,8 @@ ParamType AssetParameterModel::paramTypeFromStr(const QString &type)
     }
     if (type == QLatin1String("list")) {
         return ParamType::List;
-    } else if (type == QLatin1String("bool")) {
+    }
+    if (type == QLatin1String("bool")) {
         return ParamType::Bool;
     } else if (type == QLatin1String("switch")) {
         return ParamType::Switch;

@@ -30,10 +30,11 @@
 namespace Mlt {
 class Producer;
 }
+class EffectStackModel;
+class MarkerListModel;
+class ProjectClip;
 class TimelineModel;
 class TrackModel;
-class EffectStackModel;
-class ProjectClip;
 
 /* @brief This class represents a Clip object, as viewed by the backend.
    In general, the Gui associated with it will send modification queries (such as resize or move), and this class authorize them or not depending on the
@@ -97,6 +98,9 @@ protected:
 
     /* @brief This functions should be called when the producer of the binClip changes, to allow refresh */
     void refreshProducerFromBin();
+
+    /** @brief Returns the marker model associated with this clip */
+    std::shared_ptr<MarkerListModel> getMarkerModel() const;
 
     bool hasAudio() const;
     bool isAudioOnly() const;

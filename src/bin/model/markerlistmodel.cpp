@@ -136,6 +136,15 @@ std::shared_ptr<MarkerListModel> MarkerListModel::getModel(bool guide, const QSt
     return pCore->bin()->getBinClip(clipId)->getMarkerModel();
 }
 
+QHash<int, QByteArray> MarkerListModel::roleNames() const
+{
+    QHash<int, QByteArray> roles;
+    roles[CommentRole] = "comment";
+    roles[PosRole] = "position";
+    roles[FrameRole] = "frame";
+    return roles;
+}
+
 QVariant MarkerListModel::data(const QModelIndex &index, int role) const
 {
     if (index.row() < 0 || index.row() >= static_cast<int>(m_markerList.size()) || !index.isValid()) {
@@ -150,6 +159,8 @@ QVariant MarkerListModel::data(const QModelIndex &index, int role) const
         return it->second;
     case PosRole:
         return it->first.seconds();
+    case FrameRole:
+        return it->first.frames(pCore->getCurrentFps());
     }
     return QVariant();
 }

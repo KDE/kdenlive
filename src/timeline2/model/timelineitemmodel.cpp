@@ -21,6 +21,7 @@
 
 #include "timelineitemmodel.hpp"
 
+#include "bin/model/markerlistmodel.hpp"
 #include "clipmodel.hpp"
 #include "compositionmodel.hpp"
 #include "doc/docundostack.hpp"
@@ -228,9 +229,7 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
         case IsAudioRole:
             return clip->isAudioOnly();
         case MarkersRole: {
-            QVariantList markersList;
-            // markersList << QStringLiteral("10") << QStringLiteral("Marker 1") << QStringLiteral("50") << QStringLiteral("M2");
-            return markersList;
+            return QVariant::fromValue<MarkerListModel *>(clip->getMarkerModel().get());
         }
         case StartRole:
             return clip->getPosition();

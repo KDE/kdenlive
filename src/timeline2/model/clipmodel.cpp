@@ -197,3 +197,8 @@ const QString &ClipModel::binId() const
 {
     return m_binClipId;
 }
+
+std::shared_ptr<MarkerListModel> ClipModel::getMarkerModel() const
+{
+    return pCore->bin()->getBinClip(m_binClipId)->getMarkerModel();
+}
