@@ -3345,7 +3345,7 @@ void MainWindow::slotTranscode(const QStringList &urls)
         m_messageLabel->setMessage(i18n("No clip to transcode"), ErrorMessage);
         return;
     }
-    qCDebug(KDENLIVE_LOG) << "// TRANSODINF FOLDER: " << pCore->bin()->getFolderInfo();
+    qCDebug(KDENLIVE_LOG) << "// TRANSODING FOLDER: " << pCore->bin()->getFolderInfo();
     ClipTranscode *d = new ClipTranscode(urls, params, QStringList(), desc, pCore->bin()->getFolderInfo());
     connect(d, &ClipTranscode::addClip, this, &MainWindow::slotAddProjectClip);
     d->show();

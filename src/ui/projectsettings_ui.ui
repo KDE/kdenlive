@@ -308,8 +308,6 @@
       <zorder>video_thumbs</zorder>
       <zorder>audio_thumbs</zorder>
       <zorder>enable_proxy</zorder>
-      <zorder></zorder>
-      <zorder>horizontalSpacer</zorder>
       <zorder>previewparams</zorder>
      </widget>
      <widget class="QWidget" name="tab_3">
