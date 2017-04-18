@@ -19,6 +19,7 @@
  ***************************************************************************/
 
 #include "filterjob.h"
+#include "bin/model/markerlistmodel.hpp"
 #include "bin/projectclip.h"
 #include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
@@ -119,9 +120,9 @@ QHash<ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(const QList<Projec
         Ui::SceneCutDialog_UI ui;
         ui.setupUi(d);
         // Set  up categories
-        for (int i = 0; i < 5; ++i) {
-            ui.marker_type->insertItem(i, i18n("Category %1", i));
-            ui.marker_type->setItemData(i, CommentedTime::markerColor(i), Qt::DecorationRole);
+        for (size_t i = 0; i < MarkerListModel::markerTypes.size(); ++i) {
+            ui.marker_type->insertItem((int)i, i18n("Category %1", i));
+            ui.marker_type->setItemData((int)i, MarkerListModel::markerTypes[i], Qt::DecorationRole);
         }
         ui.marker_type->setCurrentIndex(KdenliveSettings::default_marker_type());
         if (d->exec() != QDialog::Accepted) {
