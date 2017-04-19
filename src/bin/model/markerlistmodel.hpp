@@ -77,8 +77,8 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 
 protected:
-    /** @brief Helper function that generate a lambda to change comment of given marker */
-    Fun changeComment_lambda(GenTime pos, const QString &comment);
+    /** @brief Helper function that generate a lambda to change comment / type of given marker */
+    Fun changeComment_lambda(GenTime pos, const QString &comment, int type);
 
     /** @brief Helper function that generate a lambda to add given marker */
     Fun addMarker_lambda(GenTime pos, const QString &comment, int type);

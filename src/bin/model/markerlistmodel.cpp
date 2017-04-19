@@ -55,10 +55,11 @@ void MarkerListModel::addMarker(GenTime pos, const QString &comment, int type)
     if (type == -1) type = KdenliveSettings::default_marker_type();
     Q_ASSERT(type >= 0 && type < markerTypes.size());
     if (m_markerList.count(pos) > 0) {
-        // In this case we simply change the comment
+        // In this case we simply change the comment and type
         QString oldComment = m_markerList[pos].first;
-        Fun undo = changeComment_lambda(pos, oldComment);
-        Fun redo = changeComment_lambda(pos, comment);
+        int oldType = m_markerList[pos].second;
+        Fun undo = changeComment_lambda(pos, oldComment, oldType);
+        Fun redo = changeComment_lambda(pos, comment, type);
         if (redo()) {
             PUSH_UNDO(undo, redo, i18n("Rename marker"));
         }
@@ -85,16 +86,17 @@ void MarkerListModel::removeMarker(GenTime pos)
     }
 }
 
-Fun MarkerListModel::changeComment_lambda(GenTime pos, const QString &comment)
+Fun MarkerListModel::changeComment_lambda(GenTime pos, const QString &comment, int type)
 {
     auto guide = m_guide;
     auto clipId = m_clipId;
-    return [guide, clipId, pos, comment]() {
+    return [guide, clipId, pos, comment, type]() {
         auto model = getModel(guide, clipId);
         Q_ASSERT(model->m_markerList.count(pos) > 0);
         int row = static_cast<int>(std::distance(model->m_markerList.begin(), model->m_markerList.find(pos)));
-        emit model->dataChanged(model->index(row), model->index(row));
         model->m_markerList[pos].first = comment;
+        model->m_markerList[pos].second = type;
+        emit model->dataChanged(model->index(row), model->index(row), QVector<int>() << CommentRole << ColorRole);
         return true;
     };
 }

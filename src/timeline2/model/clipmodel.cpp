@@ -47,7 +47,7 @@ ClipModel::ClipModel(std::weak_ptr<TimelineModel> parent, std::shared_ptr<Mlt::P
         m_endlessResize = false;
     }
     // TODO this is for testing purposes, remove.
-    binClip->getMarkerModel()->addMarker(GenTime(1.), "Test1");
+    binClip->getMarkerModel()->addMarker(GenTime(1.), "Test1", 0);
     binClip->getMarkerModel()->addMarker(GenTime(2.), "Test2", 2);
     // END OF TESTS
 }

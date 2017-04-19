@@ -667,9 +667,9 @@ void ProjectClip::addMarkers(QList<CommentedTime> &markers)
 {
     for (int i = 0; i < markers.count(); ++i) {
         if (markers.at(i).markerType() < 0) {
-            deleteSnapMarker(markers.at(i).time());
+            m_markerModel->removeMarker(markers.at(i).time());
         } else {
-            addSnapMarker(markers.at(i));
+            m_markerModel->addMarker(markers.at(i).time(), markers.at(i).comment(), markers.at(i).markerType());
         }
     }
     // refresh markers in clip monitor

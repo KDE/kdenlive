@@ -403,7 +403,6 @@ void TimelineWidget::setOutPoint()
 
 void TimelineWidget::editMarker(const QString &cid, int frame)
 {
-    qDebug()<<" / / /REQUESTING MARKER: "<<cid<<" : "<<frame;
     ProjectClip *clip = pCore->bin()->getBinClip(cid);
     CommentedTime marker = clip->getMarker(GenTime(frame, pCore->getCurrentFps()));
     QPointer<MarkerDialog> d = new MarkerDialog(clip, marker, pCore->bin()->projectTimecode(), i18n("Edit Marker"), this);
