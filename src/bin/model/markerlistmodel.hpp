@@ -23,6 +23,7 @@
 #define MARKERLISTMODEL_H
 
 #include "gentime.h"
+#include "definitions.h"
 #include "undohelper.hpp"
 
 #include <QAbstractListModel>
@@ -66,6 +67,9 @@ public:
 
     /** This describes the available markers type and their corresponding colors */
     static std::array<QColor, 5> markerTypes;
+
+    /** Returns a marker data at given pos */
+    CommentedTime getMarker(const GenTime &pos) const;
 
     // Mandatory overloads
     QVariant data(const QModelIndex &index, int role) const override;

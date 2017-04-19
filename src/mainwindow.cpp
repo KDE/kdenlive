@@ -2224,9 +2224,7 @@ void MainWindow::slotSwitchAudioThumbs()
 void MainWindow::slotSwitchMarkersComments()
 {
     KdenliveSettings::setShowmarkers(!KdenliveSettings::showmarkers());
-    if (pCore->projectManager()->currentTimeline()) {
-        pCore->projectManager()->currentTimeline()->refresh();
-    }
+    getMainTimeline()->showMarkersChanged();
     m_buttonShowMarkers->setChecked(KdenliveSettings::showmarkers());
 }
 

@@ -179,3 +179,11 @@ int MarkerListModel::rowCount(const QModelIndex &parent) const
     if (parent.isValid()) return 0;
     return static_cast<int>(m_markerList.size());
 }
+
+CommentedTime MarkerListModel::getMarker(const GenTime &pos) const
+{
+    Q_ASSERT(m_markerList.count(pos) > 0);
+    CommentedTime t(pos, m_markerList.at(pos).first, m_markerList.at(pos).second);
+    return t;
+}
+

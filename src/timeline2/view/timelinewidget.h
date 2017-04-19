@@ -52,6 +52,7 @@ class TimelineWidget : public QQuickWidget
     Q_PROPERTY(bool ripple READ ripple NOTIFY rippleChanged)
     Q_PROPERTY(bool scrub READ scrub NOTIFY scrubChanged)
     Q_PROPERTY(bool showThumbnails READ showThumbnails NOTIFY showThumbnailsChanged)
+    Q_PROPERTY(bool showMarkers READ showMarkers NOTIFY showMarkersChanged)
     Q_PROPERTY(bool showAudioThumbnails READ showAudioThumbnails NOTIFY showAudioThumbnailsChanged)
 
 public:
@@ -128,6 +129,7 @@ public:
      */
     bool showThumbnails() const;
     bool showAudioThumbnails() const;
+    bool showMarkers() const;
     bool audioThumbFormat() const;
     /* @brief Do we want to display audio thumbnails
      */
@@ -144,6 +146,9 @@ public:
     /* @brief Ungroup selected items in timeline
      */
     Q_INVOKABLE void unGroupSelection(int cid);
+    /* @brief Ask for edit marker dialog
+     */
+    Q_INVOKABLE void editMarker(const QString &cid, int frame);
 
     /* @brief Seek to next snap point
      */
@@ -206,6 +211,7 @@ signals:
     void seekPositionChanged();
     void showThumbnailsChanged();
     void showAudioThumbnailsChanged();
+    void showMarkersChanged();
     void snapChanged();
     void rippleChanged();
     void scrubChanged();

@@ -192,6 +192,9 @@ public:
     /** @brief Returns true if this producer has audio and can be splitted on timeline*/
     bool isSplittable() const;
 
+    /** @brief Returns a marker data at given pos */
+    CommentedTime getMarker(const GenTime &pos) const;
+
 protected:
     friend class ClipModel;
     /** @brief This is a call-back called by a ClipModel when it is created

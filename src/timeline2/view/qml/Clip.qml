@@ -130,6 +130,63 @@ Rectangle {
     }
 
     onAudioLevelsChanged: generateWaveform()
+    MouseArea {
+        id: mouseArea
+        anchors.fill: parent
+        acceptedButtons: Qt.LeftButton
+        drag.target: parent
+        drag.axis: Drag.XAxis
+        property int startX
+        drag.smoothed: false
+
+        onPressed: {
+            root.stopScrolling = true
+            originalX = parent.x
+            originalTrackId = clipRoot.trackId
+            startX = parent.x
+            clipRoot.forceActiveFocus();
+            clipRoot.clicked(clipRoot, mouse.modifiers === Qt.ShiftModifier)
+        }
+        onPositionChanged: {
+            if (mouse.y < 0 || mouse.y > height) {
+                parent.draggedToTrack(clipRoot, mapToItem(null, 0, mouse.y).y)
+            } else {
+                parent.dragged(clipRoot, mouse)
+            }
+        }
+        onReleased: {
+            root.stopScrolling = false
+            parent.y = 0
+            var delta = parent.x - startX
+            if (Math.abs(delta) >= 1.0 || trackId !== originalTrackId) {
+                parent.moved(clipRoot)
+                originalX = parent.x
+                originalTrackId = trackId
+            } else {
+                parent.dropped(clipRoot)
+            }
+        }
+        onDoubleClicked: timeline.position = clipRoot.x / timeline.scaleFactor
+        onWheel: zoomByWheel(wheel)
+
+        MouseArea {
+            anchors.fill: parent
+            acceptedButtons: Qt.RightButton
+            propagateComposedEvents: true
+            cursorShape: (trimInMouseArea.drag.active || trimOutMouseArea.drag.active)? Qt.SizeHorCursor :
+                (fadeInMouseArea.drag.active || fadeOutMouseArea.drag.active)? Qt.PointingHandCursor :
+                drag.active? Qt.ClosedHandCursor : Qt.OpenHandCursor
+            onPressed: {
+                root.stopScrolling = true
+                clipRoot.forceActiveFocus();
+                if (!clipRoot.selected) {
+                    clipRoot.clicked(clipRoot, false)
+                }
+            }
+            onClicked: menu.show()
+        }
+    }
+    
     Item {
         // Clipping container
         anchors.fill: parent
@@ -225,6 +282,7 @@ Rectangle {
                     color: model.color
                 }
                 Rectangle {
+                    visible: mlabel.visible
                     opacity: 0.7
                     x: markerBase.x
                     radius: 2
@@ -234,9 +292,19 @@ Rectangle {
                         bottom: parent.verticalCenter
                     }
                     color: model.color
+                    MouseArea {
+                        z: 10
+                        anchors.fill: parent
+                        acceptedButtons: Qt.LeftButton
+                        cursorShape: Qt.PointingHandCursor
+                        hoverEnabled: true
+                        onDoubleClicked: timeline.editMarker(clipRoot.binId, model.frame)
+                        onClicked: timeline.position = (clipRoot.x + markerBase.x) / timeline.scaleFactor
+                    }
                 }
                 Text {
                     id: mlabel
+                    visible: timeline.showMarkers && parent.width > width * 1.5
                     text: model.comment
                     font.pixelSize: root.baseUnit
                     x: markerBase.x
@@ -279,62 +347,6 @@ Rectangle {
         }
     ]
 
-    MouseArea {
-        id: mouseArea
-        anchors.fill: parent
-        acceptedButtons: Qt.LeftButton
-        drag.target: parent
-        drag.axis: Drag.XAxis
-        property int startX
-        drag.smoothed: false
-
-        onPressed: {
-            root.stopScrolling = true
-            originalX = parent.x
-            originalTrackId = clipRoot.trackId
-            startX = parent.x
-            clipRoot.forceActiveFocus();
-            clipRoot.clicked(clipRoot, mouse.modifiers === Qt.ShiftModifier)
-        }
-        onPositionChanged: {
-            if (mouse.y < 0 || mouse.y > height) {
-                parent.draggedToTrack(clipRoot, mapToItem(null, 0, mouse.y).y)
-            } else {
-                parent.dragged(clipRoot, mouse)
-            }
-        }
-        onReleased: {
-            root.stopScrolling = false
-            parent.y = 0
-            var delta = parent.x - startX
-            if (Math.abs(delta) >= 1.0 || trackId !== originalTrackId) {
-                parent.moved(clipRoot)
-                originalX = parent.x
-                originalTrackId = trackId
-            } else {
-                parent.dropped(clipRoot)
-            }
-        }
-        onDoubleClicked: timeline.position = clipRoot.x / timeline.scaleFactor
-        onWheel: zoomByWheel(wheel)
-
-        MouseArea {
-            anchors.fill: parent
-            acceptedButtons: Qt.RightButton
-            propagateComposedEvents: true
-            cursorShape: (trimInMouseArea.drag.active || trimOutMouseArea.drag.active)? Qt.SizeHorCursor :
-                (fadeInMouseArea.drag.active || fadeOutMouseArea.drag.active)? Qt.PointingHandCursor :
-                drag.active? Qt.ClosedHandCursor : Qt.OpenHandCursor
-            onPressed: {
-                root.stopScrolling = true
-                clipRoot.forceActiveFocus();
-                if (!clipRoot.selected) {
-                    clipRoot.clicked(clipRoot, false)
-                }
-            }
-            onClicked: menu.show()
-        }
-    }
 
     TimelineTriangle {
         id: fadeInTriangle

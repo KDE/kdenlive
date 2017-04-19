@@ -24,6 +24,7 @@
 #include "bin/bin.h"
 #include "core.h"
 #include "doc/docundostack.hpp"
+#include "dialogs/markerdialog.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "profiles/profilemodel.hpp"
@@ -40,6 +41,7 @@
 #include <QQuickItem>
 #include <QSortFilterProxyModel>
 #include <utility>
+#include <bin/projectclip.h>
 
 const int TimelineWidget::comboScale[] = {1, 2, 5, 10, 25, 50, 125, 250, 500, 750, 1500, 3000, 6000, 12000};
 
@@ -319,6 +321,11 @@ bool TimelineWidget::showAudioThumbnails() const
     return KdenliveSettings::audiothumbnails();
 }
 
+bool TimelineWidget::showMarkers() const
+{
+    return KdenliveSettings::showmarkers();
+}
+
 bool TimelineWidget::audioThumbFormat() const
 {
     return KdenliveSettings::displayallchannels();
@@ -391,5 +398,18 @@ void TimelineWidget::setOutPoint()
         for (int id : m_selection.selectedClips) {
             m_model->requestItemResizeToPos(id, cursorPos, true);
         }
+    }
+}
+
+void TimelineWidget::editMarker(const QString &cid, int frame)
+{
+    qDebug()<<" / / /REQUESTING MARKER: "<<cid<<" : "<<frame;
+    ProjectClip *clip = pCore->bin()->getBinClip(cid);
+    CommentedTime marker = clip->getMarker(GenTime(frame, pCore->getCurrentFps()));
+    QPointer<MarkerDialog> d = new MarkerDialog(clip, marker, pCore->bin()->projectTimecode(), i18n("Edit Marker"), this);
+    if (d->exec() == QDialog::Accepted) {
+        QList<CommentedTime> markers;
+        markers << d->newMarker();
+        clip->addMarkers(markers);
     }
 }

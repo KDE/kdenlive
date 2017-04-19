@@ -678,6 +678,11 @@ void ProjectClip::addMarkers(QList<CommentedTime> &markers)
     emit refreshClipDisplay();
 }
 
+CommentedTime ProjectClip::getMarker(const GenTime &pos) const
+{
+    return m_markerModel->getMarker(pos);
+}
+
 /*QVariant ProjectClip::getData(DataType type) const
 {
     switch (type) {
