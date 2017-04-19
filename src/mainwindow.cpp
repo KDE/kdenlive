@@ -2217,7 +2217,7 @@ void MainWindow::slotSwitchAudioThumbs()
 {
     KdenliveSettings::setAudiothumbnails(!KdenliveSettings::audiothumbnails());
     pCore->binController()->checkAudioThumbs();
-    m_timelineTabs->showThumbnailsChanged();
+    m_timelineTabs->showAudioThumbnailsChanged();
     m_buttonAudioThumbs->setChecked(KdenliveSettings::audiothumbnails());
 }
 
@@ -3648,7 +3648,7 @@ void MainWindow::slotUpdateTimecodeFormat(int ix)
     m_effectStack->transitionConfig()->updateTimecodeFormat();
     m_effectStack->updateTimecodeFormat();
     pCore->bin()->updateTimecodeFormat();
-    pCore->projectManager()->currentTimeline()->updateRuler();
+    getMainTimeline()->frameFormatChanged();
     m_timeFormatButton->setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
 }
 

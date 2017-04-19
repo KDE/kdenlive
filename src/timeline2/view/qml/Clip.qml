@@ -107,7 +107,6 @@ Rectangle {
 
     function reparent(track) {
         parent = track
-        isAudio = track.isAudio
         height = track.height
         generateWaveform()
     }
@@ -139,6 +138,7 @@ Rectangle {
         Image {
             id: outThumbnail
             visible: timeline.showThumbnails && mltService != 'color' && !isAudio
+            opacity: trackRoot.isAudio || trackRoot.isHidden ? 0.2 : 1
             anchors.right: parent.right
             anchors.top: parent.top
             anchors.bottom: parent.bottom
@@ -151,6 +151,7 @@ Rectangle {
         Image {
             id: inThumbnail
             visible: timeline.showThumbnails && mltService != 'color' && !isAudio
+            opacity: trackRoot.isAudio || trackRoot.isHidden ? 0.2 : 1
             anchors.left: parent.left
             anchors.top: parent.top
             anchors.bottom: parent.bottom
@@ -162,8 +163,8 @@ Rectangle {
 
         Row {
             id: waveform
-            visible: hasAudio && timeline.showAudioThumbnails
-            height: isAudio? parent.height - 1 : (parent.height - 1) / 2
+            visible: hasAudio && timeline.showAudioThumbnails  && !trackRoot.isMute
+            height: isAudio || trackRoot.isAudio ? parent.height - 1 : (parent.height - 1) / 2
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.bottom: parent.bottom
@@ -185,18 +186,6 @@ Rectangle {
                     levels: audioLevels
                 }
             }
-        }
-
-        Rectangle {
-            // audio peak line
-            visible: hasAudio && timeline.showAudioThumbnails
-            height: 1
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: waveform.height * 0.9
-            color: Qt.darker(clipRoot.color)
-            opacity: 0.4
         }
 
         Rectangle {

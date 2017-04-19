@@ -196,6 +196,7 @@ private:
 
 signals:
     void selectionChanged();
+    void frameFormatChanged();
     void selected(Mlt::Producer *producer);
     void trackHeightChanged();
     void scaleFactorChanged();

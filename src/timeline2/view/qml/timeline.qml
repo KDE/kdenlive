@@ -533,6 +533,8 @@ Rectangle {
             timeScale: timeline.scaleFactor
             width: root.duration * timeScale
             isAudio: audio
+            isMute: mute
+            isHidden: hidden
             isCurrentTrack: currentTrack === index
             trackId: item
             selection: timeline.selection
@@ -621,6 +623,7 @@ Rectangle {
     Connections {
         target: timeline
         onPositionChanged: if (!stopScrolling) Logic.scrollIfNeeded()
+        onFrameFormatChanged: ruler.adjustFormat()
         /*onDragging: Logic.dragging(pos, duration)
         onDropped: Logic.dropped()
         onDropAccepted: Logic.acceptDrop(xml)*/

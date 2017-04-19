@@ -40,6 +40,11 @@ Rectangle {
         }
     }
 
+    function adjustFormat() {
+        labelSize = fontMetrics.tightBoundingRect(timeline.timecode(36000)).width
+        adjustStepSize()
+    }
+
     id: rulerTop
     enabled: false
     height: fontMetrics.font.pixelSize * 2

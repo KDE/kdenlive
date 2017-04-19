@@ -24,6 +24,8 @@ Column{
     property alias model: trackModel.model
     property alias rootIndex: trackModel.rootIndex
     property bool isAudio
+    property bool isMute
+    property bool isHidden
     property real timeScale: 1.0
     property bool isCurrentTrack: false
     property bool isLocked: false
