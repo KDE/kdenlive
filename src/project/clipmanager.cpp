@@ -378,7 +378,7 @@ bool ClipManager::isOnRemovableDevice(const QUrl &url)
 
     // FIXME: Network shares! Here we get only the volume of the mount path...
     // This is probably not really clean. But Solid does not help us.
-    foreach (const SolidVolumeInfo &v, m_removableVolumes) {
+    for (const SolidVolumeInfo &v : m_removableVolumes) {
         if (v.isMounted && !v.path.isEmpty() && path.startsWith(v.path)) {
             int length = v.path.length();
             if (length > volumeMatch) {

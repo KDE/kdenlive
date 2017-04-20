@@ -274,7 +274,7 @@ void DvdWizardVob::slotAddVobList(QList<QUrl> list)
             KRecentDirs::add(QStringLiteral(":KdenliveDvdFolder"), list.at(0).adjusted(QUrl::RemoveFilename).toLocalFile());
         }
     }
-    foreach (const QUrl &url, list) {
+    for (const QUrl &url : list) {
         slotAddVobFile(url, QString(), false);
     }
     slotCheckVobList();
@@ -743,7 +743,7 @@ void DvdWizardVob::processTranscoding()
 
     bool replaceVfParams = false;
     QStringList splitted = params.split(QLatin1Char(' '));
-    foreach (QString s, splitted) {
+    for (QString s : splitted) {
         if (replaceVfParams) {
             parameters << postParams.at(1);
             replaceVfParams = false;

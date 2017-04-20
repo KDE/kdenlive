@@ -307,7 +307,7 @@ void EffectStackView2::setupListView()
     if (view) {
         /*QList<CollapsibleEffect *> allChildren = view->findChildren<CollapsibleEffect *>();
         qCDebug(KDENLIVE_LOG)<<" * * *FOUND CHLD: "<<allChildren.count();
-        foreach(CollapsibleEffect *eff, allChildren) {
+        for (CollapsibleEffect *eff :  allChildren) {
             eff->setEnabled(false);
         }*/
         // delete view;
@@ -936,7 +936,7 @@ void EffectStackView2::slotResetEffect(int ix)
     effectLists[QStringLiteral("audio")] = &MainWindow::audioEffects;
     effectLists[QStringLiteral("video")] = &MainWindow::videoEffects;
     effectLists[QStringLiteral("custom")] = &MainWindow::customEffects;
-    foreach (const EffectsList *list, effectLists) {
+    for (const EffectsList *list : effectLists) {
         dom = list->getEffectByTag(QString(), effectId).cloneNode().toElement();
         if (!dom.isNull()) {
             break;

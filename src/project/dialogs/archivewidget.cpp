@@ -369,7 +369,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QStringList
                     directory.append(QLatin1Char('/'));
                 }
                 qint64 totalSize = 0;
-                foreach (const QString &path, result) {
+                for (const QString &path : result) {
                     if (rx.exactMatch(path)) {
                         totalSize += QFileInfo(directory + path).size();
                         slideImages << directory + path;
@@ -451,7 +451,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap<QStrin
                 QRegExp rx(regexp);
                 QStringList slideImages;
                 qint64 totalSize = 0;
-                foreach (const QString &path, result) {
+                for (const QString &path : result) {
                     if (rx.exactMatch(path)) {
                         totalSize += QFileInfo(dir.absoluteFilePath(path)).size();
                         slideImages << dir.absoluteFilePath(path);
@@ -885,7 +885,7 @@ void ArchiveWidget::createArchive()
     archive.open(QIODevice::WriteOnly);
 
     // Create folders
-    foreach (const QString &path, m_foldersList) {
+    for (const QString &path : m_foldersList) {
         archive.writeDir(path, user, group);
     }
 

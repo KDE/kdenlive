@@ -486,7 +486,7 @@ void Wizard::checkMissingCodecs()
     // can also override profiles installed by KNewStuff
     QStringList requiredACodecs;
     QStringList requiredVCodecs;
-    foreach (const QString &filename, profilesList) {
+    for (const QString &filename : profilesList) {
         QDomDocument doc;
         QFile file(filename);
         doc.setContent(&file, false);
@@ -660,7 +660,7 @@ void Wizard::installExtraMimes(const QString &baseName, const QStringList &globs
     QMimeType mime = db.mimeTypeForName(baseName);
     QStringList missingGlobs;
 
-    foreach (const QString &glob, globs) {
+    for (const QString &glob : globs) {
         QMimeType type = db.mimeTypeForFile(glob, QMimeDatabase::MatchExtension);
         QString mimeName = type.name();
         if (!mimeName.contains(QStringLiteral("audio")) && !mimeName.contains(QStringLiteral("video"))) {
@@ -675,7 +675,7 @@ void Wizard::installExtraMimes(const QString &baseName, const QStringList &globs
     } else {
         QStringList extensions = mime.globPatterns();
         QString comment = mime.comment();
-        foreach (const QString &glob, missingGlobs) {
+        for (const QString &glob : missingGlobs) {
             if (!extensions.contains(glob)) {
                 extensions << glob;
             }
@@ -708,7 +708,7 @@ void Wizard::installExtraMimes(const QString &baseName, const QStringList &globs
             writer.writeEndElement(); // comment
         }
 
-        foreach (const QString &pattern, extensions) {
+        for (const QString &pattern : extensions) {
             writer.writeStartElement(nsUri, QStringLiteral("glob"));
             writer.writeAttribute(QStringLiteral("pattern"), pattern);
             writer.writeEndElement(); // glob

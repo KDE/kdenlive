@@ -374,7 +374,7 @@ QString GeometryWidget::getExtraValue(const QString &name) const
         QStringList list = val.split(QLatin1Char(';'), QString::SkipEmptyParts);
         val.clear();
         val.append(list.takeFirst().section(QLatin1Char('/'), 0, 0));
-        foreach (const QString &value, list) {
+        for (const QString &value : list) {
             val.append(QLatin1Char(';') + value.section(QLatin1Char('/'), 0, 0));
         }
     }

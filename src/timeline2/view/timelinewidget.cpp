@@ -237,7 +237,7 @@ void TimelineWidget::deleteSelectedClips()
         qDebug() << " * * *NO selection, aborting";
         return;
     }
-    foreach (int cid, m_selection.selectedClips) {
+    for (int cid : m_selection.selectedClips) {
         m_model->requestItemDeletion(cid);
     }
 }

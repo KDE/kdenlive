@@ -438,7 +438,7 @@ void KdenliveSettingsDialog::setupJogshuttleBtns(const QString &device)
     // action_names, as the sorting may depend on the user-language.
     QStringList actions_map = JogShuttleConfig::actionMap(KdenliveSettings::shuttlebuttons());
     QMap<QString, int> action_pos;
-    foreach (const QString &action_id, actions_map) {
+    for (const QString &action_id : actions_map) {
         // This loop find out at what index is the string that would map to the action_id.
         for (int i = 0; i < action_names.size(); ++i) {
             if (mappable_actions[action_names.at(i)] == action_id) {
@@ -449,7 +449,7 @@ void KdenliveSettingsDialog::setupJogshuttleBtns(const QString &device)
     }
 
     int i = 0;
-    foreach (KComboBox *button, m_shuttle_buttons) {
+    for (KComboBox *button : m_shuttle_buttons) {
         button->addItems(action_names);
         connect(button, SIGNAL(activated(int)), this, SLOT(slotShuttleModified()));
         ++i;
@@ -686,7 +686,7 @@ void KdenliveSettingsDialog::updateWidgets()
     qSort(action_names);
     QStringList actions_map = JogShuttleConfig::actionMap(KdenliveSettings::shuttlebuttons());
     QMap<QString, int> action_pos;
-    foreach (const QString &action_id, actions_map) {
+    for (const QString &action_id : actions_map) {
         // This loop find out at what index is the string that would map to the action_id.
         for (int i = 0; i < action_names.size(); ++i) {
             if (m_mappable_actions[action_names[i]] == action_id) {
@@ -696,7 +696,7 @@ void KdenliveSettingsDialog::updateWidgets()
         }
     }
     int i = 0;
-    foreach (KComboBox *button, m_shuttle_buttons) {
+    for (KComboBox *button : m_shuttle_buttons) {
         ++i;
         if (i < actions_map.size()) {
             button->setCurrentIndex(action_pos[actions_map[i]]);
@@ -892,7 +892,7 @@ void KdenliveSettingsDialog::updateSettings()
 
     QStringList actions;
     actions << QStringLiteral("monitor_pause"); // the Job rest position action.
-    foreach (KComboBox *button, m_shuttle_buttons) {
+    for (KComboBox *button : m_shuttle_buttons) {
         actions << m_mappable_actions[button->currentText()];
     }
     QString maps = JogShuttleConfig::actionMap(actions);
@@ -1081,7 +1081,7 @@ void KdenliveSettingsDialog::slotShuttleModified()
 #ifdef USE_JOGSHUTTLE
     QStringList actions;
     actions << QStringLiteral("monitor_pause"); // the Job rest position action.
-    foreach (KComboBox *button, m_shuttle_buttons) {
+    for (KComboBox *button : m_shuttle_buttons) {
         actions << m_mappable_actions[button->currentText()];
     }
     QString maps = JogShuttleConfig::actionMap(actions);

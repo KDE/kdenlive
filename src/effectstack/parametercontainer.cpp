@@ -1209,7 +1209,7 @@ void ParameterContainer::slotStartFilterJobAction()
             EffectsList::setParameter(m_effect, resetParam, QString());
             emit parameterChanged(oldparam, m_effect, m_effect.attribute(QStringLiteral("kdenlive_ix")).toInt());
             // Re-enable locked parameters
-            foreach (QWidget *w, m_conditionalWidgets) {
+            for (QWidget *w : m_conditionalWidgets) {
                 if (w->property("revert").toInt() == 1) {
                     // This widget should only be displayed if we have a result, so hide
                     w->setVisible(false);

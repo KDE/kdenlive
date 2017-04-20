@@ -60,7 +60,7 @@ void HideTitleBars::slotShowTitleBars(bool show)
                 continue;
             } else {
                 bool hasVisibleDockSibling = false;
-                foreach (QDockWidget *sub, docked) {
+                for (QDockWidget *sub : docked) {
                     if (sub->toggleViewAction()->isChecked()) {
                         // we have another docked widget, so tabs are visible and can be used instead of title bars
                         hasVisibleDockSibling = true;

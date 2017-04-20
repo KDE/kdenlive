@@ -191,7 +191,7 @@ void MainWindow::init()
         defaultStyle->setChecked(true);
     }
 
-    foreach (const QString &style, availableStyles) {
+    for (const QString &style : availableStyles) {
         auto *a = new QAction(style, stylesGroup);
         a->setCheckable(true);
         a->setData(style);
@@ -389,7 +389,7 @@ void MainWindow::init()
     QList<KActionCollection *> collections = KActionCollection::allCollections();
     for (int i = 0; i < collections.count(); ++i) {
         KActionCollection *coll = collections.at(i);
-        foreach (QAction *tempAction, coll->actions()) {
+        for (QAction *tempAction : coll->actions()) {
             // find the shortcut pattern and delete (note the preceding space in the RegEx)
             QString strippedTooltip = tempAction->toolTip().remove(QRegExp(QStringLiteral("\\s\\(.*\\)")));
             // append shortcut if it exists for action
@@ -688,7 +688,7 @@ void MainWindow::slotThemeChanged(const QString &theme)
             pCore->projectManager()->currentTimeline()->refreshIcons();
         }
 
-        foreach (QAction *action, actionCollection()->actions()) {
+        for (QAction *action : actionCollection()->actions()) {
             QIcon icon = action->icon();
             if (icon.isNull()) {
                 continue;
@@ -2134,7 +2134,7 @@ void MainWindow::slotPreferences(int page, int option)
     QMap<QString, QString> actions;
     KActionCollection *collection = actionCollection();
     QRegExp ampEx("&{1,1}");
-    foreach (const QString &action_name, m_actionNames) {
+    for (const QString &action_name : m_actionNames) {
         QString action_text = collection->action(action_name)->text();
         action_text.remove(ampEx);
         actions[action_text] = action_name;
@@ -3076,7 +3076,7 @@ int MainWindow::getNewStuff(const QString &configFile)
     if (dialog->exec() != 0) {
         entries = dialog->changedEntries();
     }
-    foreach (const KNS3::Entry &entry, entries) {
+    for (const KNS3::Entry &entry : entries) {
         if (entry.status() == KNS3::Entry::Installed) {
             qCDebug(KDENLIVE_LOG) << "// Installed files: " << entry.installedFiles();
         }
@@ -3201,13 +3201,13 @@ void MainWindow::loadDockActions()
     // Sort actions
     QMap<QString, QAction *> sorted;
     QStringList sortedList;
-    foreach (QAction *a, list) {
+    for (QAction *a : list) {
         sorted.insert(a->text(), a);
         sortedList << a->text();
     }
     QList<QAction *> orderedList;
     sortedList.sort(Qt::CaseInsensitive);
-    foreach (const QString &text, sortedList) {
+    for (const QString &text : sortedList) {
         orderedList << sorted.value(text);
     }
     unplugActionList(QStringLiteral("dock_actions"));
@@ -3226,9 +3226,9 @@ void MainWindow::buildDynamicActions()
     Mlt::Profile profile;
     Mlt::Filter *filter;
 
-    foreach (const QString &stab, QStringList() << "vidstab"
-                                                << "videostab2"
-                                                << "videostab") {
+    for (const QString &stab : QStringList() << "vidstab"
+                                             << "videostab2"
+                                             << "videostab") {
         filter = Mlt::Factory::filter(profile, (char *)stab.toUtf8().constData());
         if ((filter != nullptr) && filter->is_valid()) {
             QAction *action = new QAction(i18n("Stabilize") + QStringLiteral(" (") + stab + QLatin1Char(')'), m_extraFactory->actionCollection());
@@ -3815,7 +3815,7 @@ void MainWindow::triggerKey(QKeyEvent *ev)
     QList<KActionCollection *> collections = KActionCollection::allCollections();
     for (int i = 0; i < collections.count(); ++i) {
         KActionCollection *coll = collections.at(i);
-        foreach (QAction *tempAction, coll->actions()) {
+        for (QAction *tempAction : coll->actions()) {
             if (tempAction->shortcuts().contains(seq)) {
                 // Trigger action
                 tempAction->trigger();
@@ -3844,7 +3844,7 @@ void MainWindow::slotUpdateMonitorOverlays(int id, int code)
         return;
     }
     QList<QAction *> actions = monitorOverlay->actions();
-    foreach (QAction *ac, actions) {
+    for (QAction *ac : actions) {
         int data = ac->data().toInt();
         if (data == 0x010) {
             ac->setEnabled(id == Kdenlive::ClipMonitor);
@@ -3908,7 +3908,7 @@ void MainWindow::updateDockTitleBars(bool isTopLevel)
             continue;
         }
         bool hasVisibleDockSibling = false;
-        foreach (QDockWidget *sub, docked) {
+        for (QDockWidget *sub : docked) {
             if (sub->toggleViewAction()->isChecked()) {
                 // we have another docked widget, so tabs are visible and can be used instead of title bars
                 hasVisibleDockSibling = true;

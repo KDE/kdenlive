@@ -94,7 +94,7 @@ void CutClipJob::startJob()
                 parameters << QStringLiteral("-ss") << m_start << QStringLiteral("-t") << m_end;
             }
             if (!m_cutExtraParams.isEmpty()) {
-                foreach (const QString &s, m_cutExtraParams.split(QLatin1Char(' '))) {
+                for (const QString &s : m_cutExtraParams.split(QLatin1Char(' '))) {
                     parameters << s;
                     if (s == QLatin1String("-i")) {
                         parameters << m_src;
@@ -477,7 +477,7 @@ void CutClipJob::processAnalyseLog()
     qSort(frames);
     QMap<QString, QString> jobResults;
     QStringList sortedFrames;
-    foreach (int frm, frames) {
+    for (int frm : frames) {
         sortedFrames << QString::number(frm);
     }
     jobResults.insert(QStringLiteral("i-frame"), sortedFrames.join(QLatin1Char(';')));

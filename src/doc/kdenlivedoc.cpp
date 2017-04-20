@@ -1407,7 +1407,7 @@ void KdenliveDoc::slotClipMissing(const QString &path)
     qCDebug(KDENLIVE_LOG) << "// CLIP: " << path << " WAS MISSING";
     QStringList ids = pCore->binController()->getBinIdsByResource(QFileInfo(path));
     // TODO handle missing clips by replacing producer with an invalid producer
-    /*foreach (const QString &id, ids) {
+    /*for (const QString &id :  ids) {
         emit missingClip(id);
     }*/
 }
@@ -1719,7 +1719,7 @@ void KdenliveDoc::selectPreviewProfile()
             }
         }
         bool rateFound = false;
-        foreach (const QString &arg, data) {
+        for (const QString &arg : data) {
             if (arg.startsWith(QStringLiteral("r="))) {
                 rateFound = true;
                 double fps = arg.section(QLatin1Char('='), 1).toDouble();

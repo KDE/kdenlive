@@ -516,7 +516,7 @@ void CustomRuler::paintEvent(QPaintEvent *e)
         QColor preview(Qt::green);
         preview.setAlpha(120);
         double chunkWidth = KdenliveSettings::timelinechunks() * m_factor;
-        foreach (int frame, m_renderingPreviews) {
+        for (int frame : m_renderingPreviews) {
             double xPos = frame * m_factor - m_offset;
             if (xPos + chunkWidth < paintRect.x() || xPos > paintRect.right()) {
                 continue;
@@ -526,7 +526,7 @@ void CustomRuler::paintEvent(QPaintEvent *e)
         }
         preview = QColor(200, 0, 0);
         preview.setAlpha(120);
-        foreach (int frame, m_dirtyRenderingPreviews) {
+        for (int frame : m_dirtyRenderingPreviews) {
             double xPos = frame * m_factor - m_offset;
             if (xPos + chunkWidth < paintRect.x() || xPos > paintRect.right()) {
                 continue;
@@ -567,7 +567,7 @@ bool CustomRuler::isUnderPreview(int start, int end)
     QList<int> allPreviews;
     allPreviews << m_renderingPreviews << m_dirtyRenderingPreviews;
     qSort(allPreviews);
-    foreach (int ix, allPreviews) {
+    for (int ix : allPreviews) {
         if (ix >= start && ix <= end) {
             return true;
         }
@@ -621,10 +621,10 @@ const QPair<QStringList, QStringList> CustomRuler::previewChunks() const
 {
     QStringList clean;
     QStringList dirty;
-    foreach (int frame, m_renderingPreviews) {
+    for (int frame : m_renderingPreviews) {
         clean << QString::number(frame);
     }
-    foreach (int frame, m_dirtyRenderingPreviews) {
+    for (int frame : m_dirtyRenderingPreviews) {
         dirty << QString::number(frame);
     }
     QPair<QStringList, QStringList> resultChunks;
@@ -660,7 +660,7 @@ QList<int> CustomRuler::addChunks(QList<int> chunks, bool add)
     qSort(chunks);
     QList<int> toProcess;
     if (add) {
-        foreach (int frame, chunks) {
+        for (int frame : chunks) {
             if (m_renderingPreviews.contains(frame)) {
                 // already rendered, ignore
                 continue;
@@ -673,7 +673,7 @@ QList<int> CustomRuler::addChunks(QList<int> chunks, bool add)
             toProcess << frame;
         }
     } else {
-        foreach (int frame, chunks) {
+        for (int frame : chunks) {
             if (m_renderingPreviews.removeAll(frame) > 0) {
                 // A preview file existed for this chunk, ask deletion
                 toProcess << frame;

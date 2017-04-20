@@ -225,7 +225,7 @@ void ClipStabilize::slotValidate()
     } else {
         QDir folder(dest_url->url().toLocalFile());
         QStringList existingFiles;
-        foreach (const QString &path, m_urls) {
+        for (const QString &path : m_urls) {
             if (folder.exists(path + QStringLiteral(".mlt"))) {
                 existingFiles.append(folder.absoluteFilePath(path + QStringLiteral(".mlt")));
             }

@@ -1067,7 +1067,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
 
         if (QFile::exists(dest)) {
             if (KMessageBox::warningYesNo(this, i18n("Output file already exists. Do you want to overwrite it?")) != KMessageBox::Yes) {
-                foreach (const QString &playlistFilePath, playlistPaths) {
+                for (const QString &playlistFilePath : playlistPaths) {
                     QFile playlistFile(playlistFilePath);
                     if (playlistFile.exists()) {
                         playlistFile.remove();
@@ -1822,7 +1822,7 @@ void RenderWidget::parseProfiles(const QString &selectedProfile)
     // We should parse customprofiles.xml in last position, so that user profiles
     // can also override profiles installed by KNewStuff
     fileList.removeAll(QStringLiteral("customprofiles.xml"));
-    foreach (const QString &filename, fileList) {
+    for (const QString &filename : fileList) {
         parseFile(directory.absoluteFilePath(filename), true);
     }
     if (QFile::exists(exportFolder + QStringLiteral("customprofiles.xml"))) {
@@ -1895,7 +1895,7 @@ void RenderWidget::parseMltPresets()
             groupItem->setExpanded(true);
         }
         QStringList profiles = root.entryList(QDir::Files, QDir::Name);
-        foreach (const QString &prof, profiles) {
+        for (const QString &prof : profiles) {
             QTreeWidgetItem *item = loadFromMltPreset(groupName, root.absoluteFilePath(prof), prof);
             if (!item) {
                 continue;

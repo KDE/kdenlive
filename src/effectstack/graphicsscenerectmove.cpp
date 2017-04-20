@@ -185,7 +185,7 @@ void MyTextItem::updateGeometry(int, int, int)
             }
         }*/
 
-        foreach (const QString &line, lines) {
+        for (const QString &line : lines) {
             QPainterPath linePath;
             linePath.addText(0, linePos, font(), line);
             linePos += lineSpacing;
@@ -554,32 +554,32 @@ void GraphicsSceneRectMove::keyPressEvent(QKeyEvent *keyEvent)
     }
     switch (keyEvent->key()) {
     case Qt::Key_Left:
-        foreach (QGraphicsItem *qgi, selectedItems()) {
+        for (QGraphicsItem *qgi : selectedItems()) {
             qgi->moveBy(-diff, 0);
         }
         emit itemMoved();
         break;
     case Qt::Key_Right:
-        foreach (QGraphicsItem *qgi, selectedItems()) {
+        for (QGraphicsItem *qgi : selectedItems()) {
             qgi->moveBy(diff, 0);
         }
         emit itemMoved();
         break;
     case Qt::Key_Up:
-        foreach (QGraphicsItem *qgi, selectedItems()) {
+        for (QGraphicsItem *qgi : selectedItems()) {
             qgi->moveBy(0, -diff);
         }
         emit itemMoved();
         break;
     case Qt::Key_Down:
-        foreach (QGraphicsItem *qgi, selectedItems()) {
+        for (QGraphicsItem *qgi : selectedItems()) {
             qgi->moveBy(0, diff);
         }
         emit itemMoved();
         break;
     case Qt::Key_Delete:
     case Qt::Key_Backspace:
-        foreach (QGraphicsItem *qgi, selectedItems()) {
+        for (QGraphicsItem *qgi : selectedItems()) {
             if (qgi->data(-1).toInt() == -1) {
                 continue;
             }
@@ -684,7 +684,7 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent *e)
             }
         }
         bool alreadySelected = false;
-        foreach (QGraphicsItem *g, list) {
+        for (QGraphicsItem *g : list) {
             // qDebug() << " - - CHECKING ITEM Z:" << g->zValue() << ", TYPE: " << g->type();
             // check is there is a selected item in list
             if (!(g->flags() & QGraphicsItem::ItemIsSelectable)) {
@@ -883,7 +883,7 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
         m_resizeMode = NoResize;
         bool itemFound = false;
         QList<QGraphicsItem *> list = items(QRectF(p, QSizeF(4, 4)).toRect());
-        foreach (const QGraphicsItem *g, list) {
+        for (const QGraphicsItem *g : list) {
             if (!(g->flags() & QGraphicsItem::ItemIsSelectable)) {
                 continue;
             }
@@ -1021,7 +1021,7 @@ void GraphicsSceneRectMove::setZoom(double s)
 void GraphicsSceneRectMove::setCursor(const QCursor &c)
 {
     const QList<QGraphicsView *> l = views();
-    foreach (QGraphicsView *v, l) {
+    for (QGraphicsView *v : l) {
         v->setCursor(c);
     }
 }

@@ -162,7 +162,7 @@ void ParameterPlotter::createParametersNew()
     if (!namenode.isEmpty()) {
         for (int i = 0; i < plotobjs.count(); ++i) {
             QList<KPlotPoint *> points = plotobjs.at(i)->points();
-            foreach (const KPlotPoint *o, points) {
+            for (const KPlotPoint *o : points) {
                 txtstr << (int)o->y();
                 break;//first no keyframes
             }
@@ -183,7 +183,7 @@ void ParameterPlotter::mouseMoveEvent(QMouseEvent *event)
     if (m_movepoint != NULL) {
         QList<KPlotPoint *> list =   pointsUnderPoint(event->pos() - QPoint(leftPadding(), topPadding()));
         int i = 0;
-        foreach (KPlotObject *o, plotObjects()) {
+        for (KPlotObject *o : plotObjects()) {
             QList<KPlotPoint *> points = o->points();
             for (int p = 0; p < points.size(); ++p) {
                 if (points[p] == m_movepoint && (m_activeIndexPlot == -1 || m_activeIndexPlot == i)) {
@@ -219,7 +219,7 @@ void ParameterPlotter::replot(const QString &name)
     bool drawAll = name.isEmpty() || name == QLatin1String("all");
     m_activeIndexPlot = -1;
 
-    foreach (KPlotObject *p, plotObjects()) {
+    for (KPlotObject *p : plotObjects()) {
         QString selectedName = QStringLiteral("none");
         if (i < m_parameterNameList.size()) {
             selectedName = m_parameterNameList[i];
@@ -255,7 +255,7 @@ void ParameterPlotter::mousePressEvent(QMouseEvent *event)
                 double newx = inPlot.x() * dataRect().width() / pixRect().width();
                 double newy = (height() - inPlot.y() - bottomPadding() - topPadding()) * dataRect().height() / pixRect().height();
                 bool inserted = false;
-                foreach (const KPlotPoint *pt, points) {
+                for (const KPlotPoint *pt : points) {
                     if (pt->x() > newx && !inserted) {
                         newpoints.append(QPointF(newx, newy));
                         inserted = true;
@@ -263,7 +263,7 @@ void ParameterPlotter::mousePressEvent(QMouseEvent *event)
                     newpoints.append(QPointF(pt->x(), pt->y()));
                 }
                 p->clearPoints();
-                foreach (const QPointF qf, newpoints) {
+                for (const QPointF qf : newpoints) {
                     p->addPoint(qf);
                 }
                 replacePlotObject(m_activeIndexPlot, p);

@@ -73,7 +73,7 @@ void AbstractGroupItem::setItemLocked(bool locked)
     setFlag(QGraphicsItem::ItemIsMovable, !locked);
     setFlag(QGraphicsItem::ItemIsSelectable, !locked);
 
-    foreach (QGraphicsItem *child, childItems()) {
+    for (QGraphicsItem *child : childItems()) {
         static_cast<AbstractClipItem *>(child)->setItemLocked(locked);
     }
 }
@@ -481,7 +481,7 @@ void AbstractGroupItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
     } else {
         QList<QGraphicsItem *> list = scene()->items(event->scenePos());
         // only allow group move if we click over an item in the group
-        foreach (const QGraphicsItem *item, list) {
+        for (const QGraphicsItem *item : list) {
             if (item->type() == TransitionWidget || item->type() == AVWidget) {
                 QGraphicsItem::mousePressEvent(event);
                 return;

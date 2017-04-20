@@ -105,7 +105,7 @@ QMap<QString, QString> TransitionHandler::getTransitionParamsFromXml(const QDomE
                 }
                 QStringList lumas = MainWindow::m_lumaFiles.value(lumaFolder);
                 bool found = false;
-                foreach (const QString &luma, lumas) {
+                for (const QString &luma : lumas) {
                     if (QUrl::fromLocalFile(luma).fileName() == defaultValue) {
                         map[name] = luma;
                         found = true;
@@ -667,7 +667,7 @@ void TransitionHandler::rebuildTransitions(int mode, const QList<int> &videoTrac
     } else {
         composite = compositeTransition();
     }
-    foreach (int track, videoTracks) {
+    for (int track : videoTracks) {
         Mlt::Transition transition(*m_tractor->profile(), composite.toUtf8().constData());
         transition.set("always_active", 1);
         transition.set("a_track", 0);

@@ -517,7 +517,7 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     // templateBox->setIconSize(QSize(60,60));
     templateBox->clear();
     templateBox->addItem(QString());
-    foreach (const TitleTemplate &t, titletemplates) {
+    for (const TitleTemplate &t : titletemplates) {
         templateBox->addItem(t.icon, t.name, t.file);
     }
     lastDocumentHash = QCryptographicHash::hash(xml().toString().toLatin1(), QCryptographicHash::Md5).toHex();
@@ -596,7 +596,7 @@ void TitleWidget::refreshTitleTemplates(const QString &projectPath)
     // project templates
     QDir dir(projectPath);
     QStringList templateFiles = dir.entryList(filters, QDir::Files);
-    foreach (const QString &fname, templateFiles) {
+    for (const QString &fname : templateFiles) {
         TitleTemplate t;
         t.name = fname;
         t.file = dir.absoluteFilePath(fname);
@@ -606,10 +606,10 @@ void TitleWidget::refreshTitleTemplates(const QString &projectPath)
 
     // system templates
     QStringList titleTemplates = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("titles/"), QStandardPaths::LocateDirectory);
-    foreach (const QString &folderpath, titleTemplates) {
+    for (const QString &folderpath : titleTemplates) {
         QDir folder(folderpath);
         QStringList filesnames = folder.entryList(filters, QDir::Files);
-        foreach (const QString &fname, filesnames) {
+        for (const QString &fname : filesnames) {
             TitleTemplate t;
             t.name = fname;
             t.file = folder.absoluteFilePath(fname);
@@ -633,7 +633,7 @@ void TitleWidget::templateIndexChanged(int index)
         // mbt 1607: Add property to distinguish between unchanged template titles and user titles.
         // Text of unchanged template titles should be selected when clicked.
         QList<QGraphicsItem *> list = graphicsView->scene()->items();
-        foreach (QGraphicsItem *qgItem, list) {
+        for (QGraphicsItem *qgItem : list) {
             if (qgItem->type() == TEXTITEM) {
                 MyTextItem *i = static_cast<MyTextItem *>(qgItem);
                 i->setProperty("isTemplate", "true");
@@ -718,7 +718,7 @@ void TitleWidget::slotImageTool()
     QList<QByteArray> supported = QImageReader::supportedImageFormats();
     QStringList mimeTypeFilters;
     QString allExtensions = i18n("All Images") + QStringLiteral(" (");
-    foreach (const QByteArray &mimeType, supported) {
+    for (const QByteArray &mimeType : supported) {
         mimeTypeFilters.append(i18n("%1 Image", QString(mimeType)) + QStringLiteral("( *.") + QString(mimeType) + QLatin1Char(')'));
         allExtensions.append(QStringLiteral("*.") + mimeType + QLatin1Char(' '));
     }
@@ -1029,7 +1029,7 @@ void TitleWidget::selectionChanged()
     // text input would only work for the text item that grabbed
     // the keyboard last.
     l = graphicsView->scene()->items();
-    foreach (QGraphicsItem *item, l) {
+    for (QGraphicsItem *item : l) {
         if (item->type() == TEXTITEM && !item->isSelected()) {
             MyTextItem *i = static_cast<MyTextItem *>(item);
             i->clearFocus();
@@ -1884,7 +1884,7 @@ void TitleWidget::saveTitle(QUrl url)
     QList<QGraphicsItem *> list = graphicsView->scene()->items();
     QGraphicsPixmapItem pix;
     int pixmapType = pix.type();
-    foreach (const QGraphicsItem *item, list) {
+    for (const QGraphicsItem *item : list) {
         if (item->type() == pixmapType && item != m_frameImage) {
             embed_image = true;
             break;
@@ -2300,7 +2300,7 @@ void TitleWidget::slotAddEffect(int /*ix*/)
             }
         } else // Hide the effects stack when more than one element is selected.
             effect_stack->setHidden(true);
-        foreach(QGraphicsItem * item, list) {
+        for (QGraphicsItem * item :  list) {
             switch (effect) {
             case NOEFFECT:
                 item->setData(100, QVariant());

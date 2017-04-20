@@ -77,7 +77,7 @@ QStringList ClipCreationDialog::getExtensions()
 
     QMimeDatabase db;
     QStringList allExtensions;
-    foreach (const QString &mimeType, mimeTypes) {
+    for (const QString &mimeType : mimeTypes) {
         QMimeType mime = db.mimeTypeForName(mimeType);
         if (mime.isValid()) {
             allExtensions.append(mime.globPatterns());
@@ -389,7 +389,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QList<QUrl> 
 
     // TODO: check files on removable volume
     /*listRemovableVolumes();
-    foreach(const QUrl &file, urls) {
+    for (const QUrl &file :  urls) {
         if (QFile::exists(file.path())) {
             //TODO check for duplicates
             if (!data.contains("bypassDuplicate") && !getClipByResource(file.path()).empty()) {
@@ -428,7 +428,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QList<QUrl> 
     // TODO check folders
     /*QList< QList<QUrl> > foldersList;
     QMimeDatabase db;
-    foreach(const QUrl & file, list) {
+    for (const QUrl & file :  list) {
         // Check there is no folder here
         QMimeType type = db.mimeTypeForUrl(file);
         if (type.inherits("inode/directory")) {
@@ -438,7 +438,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QList<QUrl> 
             QStringList result = dir.entryList(QDir::Files);
             QList<QUrl> folderFiles;
             folderFiles << file;
-            foreach(const QString & path, result) {
+            for (const QString & path :  result) {
                 // TODO: create folder command
                 folderFiles.append(QUrl::fromLocalFile(dir.absoluteFilePath(path)));
             }
@@ -446,7 +446,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QList<QUrl> 
         }
     }*/
 
-    foreach (const QUrl &file, urls) {
+    for (const QUrl &file : urls) {
         QDomDocument xml;
         QDomElement prod = xml.createElement(QStringLiteral("producer"));
         xml.appendChild(prod);

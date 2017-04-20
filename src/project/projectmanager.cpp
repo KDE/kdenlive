@@ -438,7 +438,7 @@ bool ProjectManager::checkForBackupFile(const QUrl &url)
     // Check if we can have a lock on one of the file,
     // meaning it is not handled by any Kdenlive instancce
     if (!staleFiles.isEmpty()) {
-        foreach (KAutoSaveFile *stale, staleFiles) {
+        for (KAutoSaveFile *stale : staleFiles) {
             if (stale->open(QIODevice::QIODevice::ReadWrite)) {
                 // Found orphaned autosave file
                 orphanedFile = stale;
@@ -459,7 +459,7 @@ bool ProjectManager::checkForBackupFile(const QUrl &url)
             return true;
         }
         // remove the stale files
-        foreach (KAutoSaveFile *stale, staleFiles) {
+        for (KAutoSaveFile *stale : staleFiles) {
             stale->open(QIODevice::ReadWrite);
             delete stale;
         }

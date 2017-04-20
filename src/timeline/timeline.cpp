@@ -1733,7 +1733,7 @@ void Timeline::refreshTrackActions()
     if (tracks > 3) {
         return;
     }
-    foreach (QAction *action, m_trackActions) {
+    for (QAction *action : m_trackActions) {
         if (action->data().toString() == QLatin1String("delete_track")) {
             action->setEnabled(tracks > 2);
         }

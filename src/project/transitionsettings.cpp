@@ -62,7 +62,7 @@ TransitionSettings::TransitionSettings(Monitor *monitor, QWidget *parent)
         transitionsList.append(transitionInfo);
     }
     ix = 0;
-    foreach (const QStringList &value, transitionsList) {
+    for (const QStringList &value : transitionsList) {
         QStringList list = value;
         if (!list.isEmpty()) {
             list.removeLast();

@@ -242,7 +242,7 @@ bool DocumentChecker::hasErrorInClips()
 
     QMap<QString, QString> autoFixLuma;
     // Check existence of luma files
-    foreach (const QString &lumafile, filesToCheck) {
+    for (const QString &lumafile : filesToCheck) {
         filePath = lumafile;
         if (QFileInfo(filePath).isRelative()) {
             filePath.prepend(root);
@@ -295,7 +295,7 @@ bool DocumentChecker::hasErrorInClips()
     m_dialog->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_ui.setupUi(m_dialog);
 
-    foreach (const QString &l, missingLumas) {
+    for (const QString &l : missingLumas) {
         QTreeWidgetItem *item = new QTreeWidgetItem(m_ui.treeWidget, QStringList() << i18n("Luma file") << l);
         item->setIcon(0, KoIconUtils::themedIcon(QStringLiteral("dialog-close")));
         item->setData(0, idRole, l);
@@ -379,7 +379,7 @@ bool DocumentChecker::hasErrorInClips()
         }
     }
 
-    foreach (const QString &font, m_missingFonts) {
+    for (const QString &font : m_missingFonts) {
         QString clipType = i18n("Title Font");
         QTreeWidgetItem *item = new QTreeWidgetItem(m_ui.treeWidget, QStringList() << clipType);
         item->setData(0, statusRole, CLIPPLACEHOLDER);
@@ -999,7 +999,7 @@ void DocumentChecker::slotDeleteSelected()
     QStringList deletedLumas;
     QDomNodeList playlists = m_doc.elementsByTagName(QStringLiteral("playlist"));
 
-    foreach (QTreeWidgetItem *child, m_ui.treeWidget->selectedItems()) {
+    for (QTreeWidgetItem *child : m_ui.treeWidget->selectedItems()) {
         int id = child->data(0, statusRole).toInt();
         if (id == CLIPMISSING) {
             deletedIds.append(child->data(0, idRole).toString());
@@ -1013,7 +1013,7 @@ void DocumentChecker::slotDeleteSelected()
     if (!deletedLumas.isEmpty()) {
         QDomElement e;
         QDomNodeList transitions = m_doc.elementsByTagName(QStringLiteral("transition"));
-        foreach (const QString &lumaPath, deletedLumas) {
+        for (const QString &lumaPath : deletedLumas) {
             for (int i = 0; i < transitions.count(); ++i) {
                 e = transitions.item(i).toElement();
                 QString service = EffectsList::property(e, QStringLiteral("mlt_service"));
@@ -1084,7 +1084,7 @@ void DocumentChecker::slotDeleteSelected()
 void DocumentChecker::checkMissingImagesAndFonts(const QStringList &images, const QStringList &fonts, const QString &id, const QString &baseClip)
 {
     QDomDocument doc;
-    foreach (const QString &img, images) {
+    for (const QString &img : images) {
         if (m_safeImages.contains(img)) {
             continue;
         }
@@ -1099,7 +1099,7 @@ void DocumentChecker::checkMissingImagesAndFonts(const QStringList &images, cons
             m_safeImages.append(img);
         }
     }
-    foreach (const QString &fontelement, fonts) {
+    for (const QString &fontelement : fonts) {
         if (m_safeFonts.contains(fontelement)) {
             continue;
         }

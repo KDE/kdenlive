@@ -141,7 +141,7 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem *startv, QGraphicsRectItem *en
     QTextCursor cur;
     QTextBlockFormat format;
 
-    foreach (QGraphicsItem *item, m_scene->items()) {
+    for (QGraphicsItem *item : m_scene->items()) {
         if (!(item->flags() & QGraphicsItem::ItemIsSelectable)) {
             continue;
         }

@@ -32,7 +32,7 @@ AudioInfo::AudioInfo(Mlt::Producer *producer)
 
 AudioInfo::~AudioInfo()
 {
-    foreach (AudioStreamInfo *info, m_list) {
+    for (AudioStreamInfo *info : m_list) {
         delete info;
     }
 }
@@ -52,7 +52,7 @@ AudioStreamInfo const *AudioInfo::info(int pos) const
 
 void AudioInfo::dumpInfo() const
 {
-    foreach (AudioStreamInfo *info, m_list) {
+    for (AudioStreamInfo *info : m_list) {
         info->dumpInfo();
     }
 }

@@ -1404,10 +1404,10 @@ GenTime CustomTrackView::groupSelectedItems(QList<QGraphicsItem *> selection, bo
 
     QRectF rectUnion;
     // Find top left position of selection
-    foreach (const QGraphicsItemGroup *value, groupsList) {
+    for (const QGraphicsItemGroup *value : groupsList) {
         rectUnion = rectUnion.united(value->sceneBoundingRect());
     }
-    foreach (const QGraphicsItem *value, itemsList) {
+    for (const QGraphicsItem *value : itemsList) {
         rectUnion = rectUnion.united(value->sceneBoundingRect());
     }
     bool snap = KdenliveSettings::snaptopoints();
@@ -1420,11 +1420,11 @@ GenTime CustomTrackView::groupSelectedItems(QList<QGraphicsItem *> selection, bo
         // newGroup->translate((int) -rectUnion.left(), (int) -rectUnion.top() + 1);
 
         // Check if we are trying to include a group in a group
-        foreach (QGraphicsItemGroup *value, groupsList) {
+        for (QGraphicsItemGroup *value : groupsList) {
             newGroup->addItem(value);
         }
 
-        foreach (QGraphicsItemGroup *value, groupsList) {
+        for (QGraphicsItemGroup *value : groupsList) {
             QList<QGraphicsItem *> children = value->childItems();
             for (int i = 0; i < children.count(); ++i) {
                 if (children.at(i)->type() == AVWidget || children.at(i)->type() == TransitionWidget) {
@@ -1439,7 +1439,7 @@ GenTime CustomTrackView::groupSelectedItems(QList<QGraphicsItem *> selection, bo
             scene()->destroyItemGroup(grp);
         }
 
-        foreach (QGraphicsItem *value, itemsList) {
+        for (QGraphicsItem *value : itemsList) {
             newGroup->addItem(value);
         }
         if (lockGroup) {
@@ -1459,10 +1459,10 @@ GenTime CustomTrackView::groupSelectedItems(QList<QGraphicsItem *> selection, bo
     m_selectionGroup->setTransform(QTransform::fromTranslate(-diff.x(), -diff.y()), true);
 
     scene()->addItem(m_selectionGroup);
-    foreach (QGraphicsItemGroup *value, groupsList) {
+    for (QGraphicsItemGroup *value : groupsList) {
         m_selectionGroup->addItem(value);
     }
-    foreach (QGraphicsItem *value, itemsList) {
+    for (QGraphicsItem *value : itemsList) {
         m_selectionGroup->addItem(value);
     }
     KdenliveSettings::setSnaptopoints(snap);
@@ -4060,7 +4060,7 @@ void CustomTrackView::slotRemoveSpace(bool multiTrack)
     }
     createGroupForSelectedItems(selection);
     QList<AbstractClipItem *> items;
-    foreach (QGraphicsItem *i, selection) {
+    for (QGraphicsItem *i : selection) {
         if (i->type() == AVWidget || i->type() == TransitionWidget) {
             items << (AbstractClipItem *)i;
         }
@@ -4154,7 +4154,7 @@ void CustomTrackView::insertTimelineSpace(GenTime startPos, GenTime duration, in
     if (!clipsToMove.isEmpty() || !transitionsToMove.isEmpty()) {
         insertSpace(clipsToMove, transitionsToMove, -1, duration, GenTime());
     }
-    foreach (AbstractClipItem *item, excludedItems) {
+    for (AbstractClipItem *item : excludedItems) {
         item->setItemLocked(false);
     }
 }
@@ -4254,7 +4254,7 @@ void CustomTrackView::insertSpace(const QList<ItemInfo> &clipsToMove, const QLis
     m_selectionMutex.unlock();
     resetSelectionGroup(false);
     // Rebuild groups after translate
-    foreach (AbstractGroupItem *grp, groupList) {
+    for (AbstractGroupItem *grp : groupList) {
         rebuildGroup(grp);
     }
     m_document->renderer()->mltInsertSpace(trackClipStartList, trackTransitionStartList, track, duration, offset);
@@ -7498,7 +7498,7 @@ void CustomTrackView::alignAudio()
     }
 
     QList<QGraphicsItem *> selection = scene()->selectedItems();
-    foreach (QGraphicsItem *item, selection) {
+    for (QGraphicsItem *item : selection) {
         if (item->type() == AVWidget) {
 
             ClipItem *clip = static_cast<ClipItem *>(item);
@@ -7735,14 +7735,14 @@ void CustomTrackView::disableClip()
     for (int i = 0; i < selection.count(); ++i) {
         if (selection.at(i)->type() == GroupWidget) {
             QList<QGraphicsItem *> children = selection.at(i)->childItems();
-            foreach (QGraphicsItem *item, children) {
+            for (QGraphicsItem *item : children) {
                 if (!selection.contains(item)) {
                     selection << item;
                 }
             }
         } else if ((selection.at(i)->parentItem() != nullptr) && !selection.contains(selection.at(i)->parentItem())) {
             QList<QGraphicsItem *> children = selection.at(i)->parentItem()->childItems();
-            foreach (QGraphicsItem *item, children) {
+            for (QGraphicsItem *item : children) {
                 if (!selection.contains(item)) {
                     selection << item;
                 }
@@ -9123,7 +9123,7 @@ bool CustomTrackView::rippleClip(ClipItem *clip, int diff)
     spaceToolSelectTrackOnly(clip->track(), selection, clip->endPos());
     createGroupForSelectedItems(selection);
     QList<AbstractClipItem *> items;
-    foreach (QGraphicsItem *item, selection) {
+    for (QGraphicsItem *item : selection) {
         if (item->type() == AVWidget || item->type() == TransitionWidget) {
             items << (AbstractClipItem *)item;
         }

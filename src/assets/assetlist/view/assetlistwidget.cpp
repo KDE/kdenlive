@@ -59,7 +59,7 @@ void AssetListWidget::setFilterName(const QString &pattern)
     m_proxyModel->setFilterName(!pattern.isEmpty(), pattern);
     if (!pattern.isEmpty()) {
         QVariantList mapped;
-        foreach (const QModelIndex &ix, m_model->getChildrenIndexes()) {
+        for (const QModelIndex &ix : m_model->getChildrenIndexes()) {
             mapped << m_proxyModel->mapFromSource(ix);
         }
         QMetaObject::invokeMethod(rootObject(), "expandNodes", Qt::QueuedConnection, Q_ARG(QVariant, mapped));

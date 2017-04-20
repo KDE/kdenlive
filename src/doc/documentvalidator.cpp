@@ -1740,7 +1740,7 @@ void DocumentValidator::updateProducerInfo(const QDomElement &prod, const QDomEl
         QString zoneData = source.attribute(QStringLiteral("cutzones"));
         QStringList zoneList = zoneData.split(QLatin1Char(';'));
         int ct = 1;
-        foreach (const QString &data, zoneList) {
+        for (const QString &data : zoneList) {
             QString zoneName = data.section(QLatin1Char('-'), 2);
             if (zoneName.isEmpty()) {
                 zoneName = i18n("Zone %1", ct++);

@@ -102,7 +102,7 @@ void RotoWidget::slotUpdateData(int pos, const QList<BPoint> &spline)
      * use the position of the on-monitor points to create a storable list
      */
     QList<QVariant> vlist;
-    foreach (const BPoint &point, spline) {
+    for (const BPoint &point : spline) {
         QList<QVariant> pl;
         for (int i = 0; i < 3; ++i) {
             pl << QVariant(QList<QVariant>() << QVariant(point[i].x() / width) << QVariant(point[i].y() / height));
@@ -244,7 +244,7 @@ QList<BPoint> RotoWidget::getPoints(int keyframe)
         data.removeFirst();
     }
 
-    foreach (const QVariant &bpoint, data) {
+    for (const QVariant &bpoint : data) {
         QList<QVariant> l = bpoint.toList();
         BPoint p;
         for (int i = 0; i < 3; ++i) {

@@ -195,7 +195,7 @@ void ThemeManager::populateThemeMenu()
     QStringList actionMapKeys = actionMap.keys();
     actionMapKeys.sort();
 
-    foreach (const QString &name, actionMapKeys) {
+    for (const QString &name : actionMapKeys) {
         d->themeMenuAction->addAction(actionMap.value(name));
     }
 

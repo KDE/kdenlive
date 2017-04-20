@@ -55,7 +55,7 @@ void LayoutManagement::initializeLayouts()
     QList<QAction *> saveActions = saveLayout->actions();
     for (int i = 1; i < 5; ++i) {
         // Rename the layouts actions
-        foreach (const QString &key, entries) {
+        for (const QString &key : entries) {
             if (key.endsWith(QStringLiteral("_%1").arg(i))) {
                 // Found previously saved layout
                 QString layoutName = key.section(QLatin1Char('_'), 0, -2);

@@ -68,7 +68,7 @@ void ChartWidget::paintEvent(QPaintEvent *event)
     const QRectF pieRect(5, 5, pieWidth, pieWidth);
     int ix = 0;
     int previous = 0;
-    foreach (int val, m_segments) {
+    for (int val : m_segments) {
         if (val == 0) {
             ix++;
             continue;
@@ -322,7 +322,7 @@ void TemporaryData::updateTotal()
         button->widget()->setEnabled(m_totalCurrent > 0);
     }
     QList<int> segments;
-    foreach (qulonglong size, mCurrentSizes) {
+    for (qulonglong size : mCurrentSizes) {
         if (m_totalCurrent == 0) {
             segments << 0;
         } else {
@@ -363,7 +363,7 @@ void TemporaryData::deleteProxy()
         KMessageBox::Continue) {
         return;
     }
-    foreach (const QString &file, files) {
+    for (const QString &file : files) {
         dir.remove(file);
     }
     emit disableProxies();
@@ -562,7 +562,7 @@ void TemporaryData::refreshGlobalPie()
 {
     QList<QTreeWidgetItem *> list = m_listWidget->selectedItems();
     qulonglong currentSize = 0;
-    foreach (QTreeWidgetItem *current, list) {
+    for (QTreeWidgetItem *current : list) {
         if (current) {
             currentSize += current->data(1, Qt::UserRole).toULongLong();
         }
@@ -581,7 +581,7 @@ void TemporaryData::deleteSelected()
 {
     QList<QTreeWidgetItem *> list = m_listWidget->selectedItems();
     QStringList folders;
-    foreach (QTreeWidgetItem *current, list) {
+    for (QTreeWidgetItem *current : list) {
         if (current) {
             folders << current->data(0, Qt::UserRole).toString();
         }
@@ -591,7 +591,7 @@ void TemporaryData::deleteSelected()
         return;
     }
     const QString currentId = m_doc->getDocumentProperty(QStringLiteral("documentid"));
-    foreach (const QString &folder, folders) {
+    for (const QString &folder : folders) {
         if (folder == currentId) {
             // Trying to delete current project's tmp folder. Do not delete, but clear it
             deleteCurrentCacheData();

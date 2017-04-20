@@ -69,7 +69,7 @@ void ProxyJob::startJob()
         }
 
         bool skipNext = false;
-        foreach (const QString &s, params) {
+        for (const QString &s : params) {
             QString t = s.simplified();
             if (skipNext) {
                 skipNext = false;
@@ -179,7 +179,7 @@ void ProxyJob::startJob()
             parameters << QStringLiteral("-i") << m_src;
         }
         QString params = m_proxyParams;
-        foreach (const QString &s, params.split(QLatin1Char(' '))) {
+        for (const QString &s : params.split(QLatin1Char(' '))) {
             QString t = s.simplified();
             if (t != QLatin1String("-noautorotate")) {
                 parameters << t;

@@ -104,7 +104,7 @@ void SplineItem::updateSpline(bool editing)
 QList<BPoint> SplineItem::getPoints() const
 {
     QList<BPoint> points;
-    foreach (QGraphicsItem *child, childItems()) {
+    for (QGraphicsItem *child : childItems()) {
         points << qgraphicsitem_cast<BPointItem *>(child)->getPoint();
     }
     return points;

@@ -135,7 +135,7 @@ void PreviewManager::loadChunks(const QStringList &previewChunks, QStringList di
     if (!dirtyChunks.isEmpty()) {
         QList<int> list;
         list.reserve(dirtyChunks.count());
-        foreach (const QString &i, dirtyChunks) {
+        for (const QString &i : dirtyChunks) {
             list << i.toInt();
         }
         m_ruler->addChunks(list, true);
@@ -224,7 +224,7 @@ void PreviewManager::invalidatePreviews(const QList<int> &chunks)
         int ix = stackIx - 1;
         m_undoDir.mkdir(QString::number(ix));
         bool foundPreviews = false;
-        foreach (int i, chunks) {
+        for (int i : chunks) {
             QString current = QStringLiteral("%1.%2").arg(i).arg(m_extension);
             if (m_cacheDir.rename(current, QStringLiteral("undo/%1/%2").arg(ix).arg(current))) {
                 foundPreviews = true;
@@ -246,7 +246,7 @@ void PreviewManager::invalidatePreviews(const QList<int> &chunks)
                 lastUndo = true;
                 bool foundPreviews = false;
                 m_undoDir.mkdir(QString::number(stackMax));
-                foreach (int i, chunks) {
+                for (int i : chunks) {
                     QString current = QStringLiteral("%1.%2").arg(i).arg(m_extension);
                     if (m_cacheDir.rename(current, QStringLiteral("undo/%1/%2").arg(stackMax).arg(current))) {
                         foundPreviews = true;
@@ -263,7 +263,7 @@ void PreviewManager::invalidatePreviews(const QList<int> &chunks)
             moveFile = false;
         }
         QList<int> foundChunks;
-        foreach (int i, chunks) {
+        for (int i : chunks) {
             QString cacheFileName = QStringLiteral("%1.%2").arg(i).arg(m_extension);
             if (!lastUndo) {
                 m_cacheDir.remove(cacheFileName);
@@ -312,7 +312,7 @@ void PreviewManager::clearPreviewRange()
     QList<int> toProcess = m_ruler->getProcessedChunks();
     m_tractor->lock();
     bool hasPreview = m_previewTrack != nullptr;
-    foreach (int ix, toProcess) {
+    for (int ix : toProcess) {
         m_cacheDir.remove(QStringLiteral("%1.%2").arg(ix).arg(m_extension));
         if (!hasPreview) {
             continue;
@@ -358,7 +358,7 @@ void PreviewManager::addPreviewRange(bool add)
         abortPreview();
         m_tractor->lock();
         bool hasPreview = m_previewTrack != nullptr;
-        foreach (int ix, toProcess) {
+        for (int ix : toProcess) {
             m_cacheDir.remove(QStringLiteral("%1.%2").arg(ix).arg(m_extension));
             if (!hasPreview) {
                 continue;
@@ -485,7 +485,7 @@ void PreviewManager::slotRemoveInvalidUndo(int ix)
     }
     QStringList dirs = m_undoDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
     bool ok;
-    foreach (const QString &dir, dirs) {
+    for (const QString &dir : dirs) {
         if (dir.toInt(&ok) >= ix && ok) {
             QDir tmp = m_undoDir;
             if (tmp.cd(dir)) {
@@ -532,7 +532,7 @@ void PreviewManager::reloadChunks(const QList<int> &chunks)
         return;
     }
     m_tractor->lock();
-    foreach (int ix, chunks) {
+    for (int ix : chunks) {
         if (m_previewTrack->is_blank_at(ix)) {
             const QString fileName = m_cacheDir.absoluteFilePath(QStringLiteral("%1.%2").arg(ix).arg(m_extension));
             Mlt::Producer prod(*m_tractor->profile(), nullptr, fileName.toUtf8().constData());

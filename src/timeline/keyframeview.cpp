@@ -139,7 +139,7 @@ void KeyframeView::drawKeyFrames(const QRectF &br, int length, bool active, QPai
     paramNames.removeAll(m_inTimeline);
     // Make sure edited param is painted last
     paramNames.append(m_inTimeline);
-    foreach (const QString &paramName, paramNames) {
+    for (const QString &paramName : paramNames) {
         if (m_notInTimeline.contains(paramName)) {
             continue;
         }
@@ -592,7 +592,7 @@ void KeyframeView::updateKeyFramePos(const QRectF &br, int frame, const double y
             paramNames << m_keyProperties.get_name(i);
         }
         paramNames.removeAll(m_inTimeline);
-        foreach (const QString &paramName, paramNames) {
+        for (const QString &paramName : paramNames) {
             ParameterInfo info = m_paramInfos.value(paramName);
             if (info.max == info.min) {
                 // this is probably an animated rect
@@ -653,7 +653,7 @@ void KeyframeView::addKeyframe(int frame, double value, mlt_keyframe_type type)
         paramNames << m_keyProperties.get_name(i);
     }
     paramNames.removeAll(m_inTimeline);
-    foreach (const QString &paramName, paramNames) {
+    for (const QString &paramName : paramNames) {
         ParameterInfo info = m_paramInfos.value(paramName);
         if (info.max == info.min) {
             // this is probably an animated rect
@@ -686,7 +686,7 @@ void KeyframeView::addDefaultKeyframe(ProfileInfo profile, int frame, mlt_keyfra
         paramNames << m_keyProperties.get_name(i);
     }
     paramNames.removeAll(m_inTimeline);
-    foreach (const QString &paramName, paramNames) {
+    for (const QString &paramName : paramNames) {
         ParameterInfo info = m_paramInfos.value(paramName);
         if (info.max == info.min) {
             // this is probably an animated rect
@@ -722,7 +722,7 @@ void KeyframeView::removeKeyframe(int frame)
         paramNames << m_keyProperties.get_name(i);
     }
     paramNames.removeAll(m_inTimeline);
-    foreach (const QString &paramName, paramNames) {
+    for (const QString &paramName : paramNames) {
         m_keyAnim = m_keyProperties.get_animation(paramName.toUtf8().constData());
         m_keyAnim.remove(frame);
     }

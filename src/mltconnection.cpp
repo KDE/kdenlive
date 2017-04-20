@@ -158,16 +158,16 @@ void MltConnection::refreshLumas()
     fileFilters << QStringLiteral("*.png") << QStringLiteral("*.pgm");
     QStringList customLumas = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("lumas"), QStandardPaths::LocateDirectory);
     customLumas.append(QString(mlt_environment("MLT_DATA")) + QStringLiteral("/lumas"));
-    foreach (const QString &folder, customLumas) {
+    for (const QString &folder : customLumas) {
         QDir topDir(folder);
         QStringList folders = topDir.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
-        foreach (const QString &f, folders) {
+        for (const QString &f : folders) {
             QDir dir(topDir.absoluteFilePath(f));
             QStringList filesnames = dir.entryList(fileFilters, QDir::Files);
             if (MainWindow::m_lumaFiles.contains(f)) {
                 imagefiles = MainWindow::m_lumaFiles.value(f);
             }
-            foreach (const QString &fname, filesnames) {
+            for (const QString &fname : filesnames) {
                 imagefiles.append(dir.absoluteFilePath(fname));
             }
             MainWindow::m_lumaFiles.insert(f, imagefiles);

@@ -318,7 +318,7 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
     others->setExpanded(true);
     int count = 0;
     QStringList allFonts;
-    foreach (const QString &file, m_lumas) {
+    for (const QString &file : m_lumas) {
         count++;
         new QTreeWidgetItem(images, QStringList() << file);
     }

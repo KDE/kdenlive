@@ -45,16 +45,16 @@ void initEffects::refreshLumas()
     fileFilters << QStringLiteral("*.png") << QStringLiteral("*.pgm");
     QStringList customLumas = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("lumas"), QStandardPaths::LocateDirectory);
     customLumas.append(QString(mlt_environment("MLT_DATA")) + QStringLiteral("/lumas"));
-    foreach (const QString &folder, customLumas) {
+    for (const QString &folder : customLumas) {
         QDir topDir(folder);
         QStringList folders = topDir.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
-        foreach (const QString &f, folders) {
+        for (const QString &f : folders) {
             QDir dir(topDir.absoluteFilePath(f));
             QStringList filesnames = dir.entryList(fileFilters, QDir::Files);
             if (MainWindow::m_lumaFiles.contains(f)) {
                 imagefiles = MainWindow::m_lumaFiles.value(f);
             }
-            foreach (const QString &fname, filesnames) {
+            for (const QString &fname : filesnames) {
                 imagefiles.append(dir.absoluteFilePath(fname));
             }
             MainWindow::m_lumaFiles.insert(f, imagefiles);
@@ -68,10 +68,10 @@ void initEffects::refreshLumas()
     filters << QStringLiteral("*.pgm") << QStringLiteral("*.png");
 
     QStringList customLumas = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("lumas"), QStandardPaths::LocateDirectory);
-    foreach(const QString & folder, customLumas) {
+    for (const QString & folder :  customLumas) {
         QDir directory(folder);
         QStringList filesnames = directory.entryList(filters, QDir::Files);
-        foreach(const QString & fname, filesnames) {
+        for (const QString & fname :  filesnames) {
             imagenamelist.append(fname);
             imagefiles.append(directory.absoluteFilePath(fname));
         }
@@ -81,7 +81,7 @@ void initEffects::refreshLumas()
     QUrl folder(QString(mlt_environment("MLT_DATA")) + QDir::separator() + "lumas" + QDir::separator() + QString(mlt_environment("MLT_NORMALISATION")));
     QDir lumafolder(folder.path());
     QStringList filesnames = lumafolder.entryList(filters, QDir::Files);
-    foreach(const QString & fname, filesnames) {
+    for (const QString & fname :  filesnames) {
         imagenamelist.append(fname);
         imagefiles.append(lumafolder.absoluteFilePath(fname));
     }
@@ -197,7 +197,7 @@ bool initEffects::parseEffectFiles(std::unique_ptr<Mlt::Repository> &repository,
 
     // Create structure holding all transitions descriptions so that if an XML file has no description, we take it from MLT
     QMap<QString, QString> transDescriptions;
-    foreach (const QString &transname, transitionsItemList) {
+    for (const QString &transname : transitionsItemList) {
         QDomDocument doc = createDescriptionFromMlt(repository, QStringLiteral("transitions"), transname);
         if (!doc.isNull()) {
             if (doc.elementsByTagName(QStringLiteral("description")).count() > 0) {
@@ -280,14 +280,14 @@ bool initEffects::parseEffectFiles(std::unique_ptr<Mlt::Repository> &repository,
         effectsMap.insert(effectInfo.firstChildElement(QStringLiteral("name")).text().toLower().toUtf8().data(), effectInfo);
     }
     MainWindow::transitions.clearList();
-    foreach (const QDomElement &effect, effectsMap) {
+    for (const QDomElement &effect : effectsMap) {
         MainWindow::transitions.append(effect);
     }
     effectsMap.clear();
 
     // Create structure holding all effects descriptions so that if an XML effect has no description, we take it from MLT
     QMap<QString, QString> effectDescriptions;
-    foreach (const QString &filtername, mltBlackList) {
+    for (const QString &filtername : mltBlackList) {
         QDomDocument doc = createDescriptionFromMlt(repository, QStringLiteral("filters"), filtername);
         if (!doc.isNull()) {
             if (doc.elementsByTagName(QStringLiteral("description")).count() > 0) {
@@ -305,7 +305,7 @@ bool initEffects::parseEffectFiles(std::unique_ptr<Mlt::Repository> &repository,
     }
 
     // Create effects from MLT
-    foreach (const QString &filtername, mltFiltersList) {
+    for (const QString &filtername : mltFiltersList) {
         QDomDocument doc = createDescriptionFromMlt(repository, QStringLiteral("filters"), filtername);
         // WARNING: TEMPORARY FIX for empty MLT effects descriptions - disable effects without parameters - jbm 09-06-2011
         if (!doc.isNull() && doc.elementsByTagName(QStringLiteral("parameter")).count() > 0) {
@@ -352,7 +352,7 @@ bool initEffects::parseEffectFiles(std::unique_ptr<Mlt::Repository> &repository,
         }
     }
     MainWindow::customEffects.clearList();
-    foreach (const QDomElement &effect, effectsMap) {
+    for (const QDomElement &effect : effectsMap) {
         MainWindow::customEffects.append(effect);
     }
     effectsMap.clear();
@@ -364,7 +364,7 @@ bool initEffects::parseEffectFiles(std::unique_ptr<Mlt::Repository> &repository,
         audioEffectsMap.insert(effectInfo.firstChildElement(QStringLiteral("name")).text().toLower().toUtf8().data(), effectInfo);
     }
     MainWindow::audioEffects.clearList();
-    foreach (const QDomElement &effect, audioEffectsMap) {
+    for (const QDomElement &effect : audioEffectsMap) {
         MainWindow::audioEffects.append(effect);
     }
 
@@ -375,7 +375,7 @@ bool initEffects::parseEffectFiles(std::unique_ptr<Mlt::Repository> &repository,
         videoEffectsMap.insert(effectInfo.firstChildElement(QStringLiteral("name")).text().toLower().toUtf8().data(), effectInfo);
     }
     MainWindow::videoEffects.clearList();
-    foreach (const QDomElement &effect, videoEffectsMap) {
+    for (const QDomElement &effect : videoEffectsMap) {
         MainWindow::videoEffects.append(effect);
     }
 
@@ -405,7 +405,7 @@ void initEffects::parseCustomEffectsFile()
     QDomNodeList effects;
     QDomElement e;
     int unknownGroupCount = 0;
-    foreach (const QString &filename, fileList) {
+    for (const QString &filename : fileList) {
         QString itemName = directory.absoluteFilePath(filename);
         QFile file(itemName);
         doc.setContent(&file, false);
@@ -425,7 +425,7 @@ void initEffects::parseCustomEffectsFile()
             qCDebug(KDENLIVE_LOG) << "Unsupported effect file: " << itemName;
         }
     }
-    foreach (const QDomElement &effect, effectsMap) {
+    for (const QDomElement &effect : effectsMap) {
         MainWindow::customEffects.append(effect);
     }
 }
@@ -699,7 +699,7 @@ void initEffects::fillTransitionsList(std::unique_ptr<Mlt::Repository> &reposito
     QStringList customTransitions;
     customTransitions << QStringLiteral("composite") << QStringLiteral("affine") << QStringLiteral("mix") << QStringLiteral("region");
 
-    foreach (const QString &name, names) {
+    for (const QString &name : names) {
         QDomDocument ret;
         QDomElement ktrans = ret.createElement(QStringLiteral("transition"));
         ret.appendChild(ktrans);
@@ -877,7 +877,7 @@ void initEffects::fillTransitionsList(std::unique_ptr<Mlt::Repository> &reposito
                 paramList.append(quickParameterFill(ret, i18n("Force Deinterlace Overlay"), QStringLiteral("composite.deinterlace"), QStringLiteral("bool"),
                                                     QStringLiteral("0"), QStringLiteral("0"), QStringLiteral("1")));
             }
-            foreach (const QDomElement &e, paramList) {
+            for (const QDomElement &e : paramList) {
                 ktrans.appendChild(e);
             }
         }

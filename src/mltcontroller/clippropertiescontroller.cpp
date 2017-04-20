@@ -760,7 +760,7 @@ void ClipPropertiesController::fillProperties()
     QMimeType mimeType;
 
     mimeType = mimeDatabase.mimeTypeForFile(m_controller->clipUrl());
-    foreach (KFileMetaData::Extractor *plugin, metaDataCollection.fetchExtractors(mimeType.name())) {
+    for (KFileMetaData::Extractor *plugin : metaDataCollection.fetchExtractors(mimeType.name())) {
         ExtractionResult extractionResult(m_controller->clipUrl(), mimeType.name(), m_propertiesTree);
         plugin->extract(&extractionResult);
     }
@@ -983,7 +983,7 @@ void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
             m_controller->setProducerProperty(QStringLiteral("kdenlive:exiftool"), 1);
             QTreeWidgetItem *exif = nullptr;
             QStringList list = res.split('\n');
-            foreach (const QString &tagline, list) {
+            for (const QString &tagline : list) {
                 if (tagline.startsWith(QLatin1String("-File")) || tagline.startsWith(QLatin1String("-ExifTool"))) {
                     continue;
                 }
@@ -1014,7 +1014,7 @@ void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
                 }
                 QTreeWidgetItem *exif = nullptr;
                 QStringList list = res.split('\n');
-                foreach (const QString &tagline, list) {
+                for (const QString &tagline : list) {
                     if (m_type != Image && !tagline.startsWith(QLatin1String("-H264"))) {
                         continue;
                     }

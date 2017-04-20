@@ -74,7 +74,7 @@ GenTime CustomTrackScene::previousSnapPoint(const GenTime &pos) const
 
 GenTime CustomTrackScene::nextSnapPoint(const GenTime &pos) const
 {
-    foreach (const GenTime &seekPoint, m_snapPoints) {
+    for (const GenTime &seekPoint : m_snapPoints) {
         if (seekPoint > pos) {
             return seekPoint;
         }

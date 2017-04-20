@@ -135,7 +135,7 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip
     folder.append(QStringLiteral("/lumas/PAL")); // TODO: cleanup the PAL / NTSC mess in luma files
     QDir lumafolder(folder);
     QStringList filesnames = lumafolder.entryList(filters, QDir::Files);
-    foreach (const QString &fname, filesnames) {
+    for (const QString &fname : filesnames) {
         QString filePath = lumafolder.absoluteFilePath(fname);
         m_view.luma_file->addItem(QIcon::fromTheme(filePath), fname, filePath);
     }
@@ -273,7 +273,7 @@ void SlideshowClip::parseFolder()
         QRegExp rx(regexp);
         QStringList entries;
         int ix;
-        foreach (const QString &p, result) {
+        for (const QString &p : result) {
             if (rx.exactMatch(p)) {
                 if (offset > 0) {
                     // make sure our image is in the range we want (> begin)
@@ -288,7 +288,7 @@ void SlideshowClip::parseFolder()
         }
         result = entries;
     }
-    foreach (const QString &p, result) {
+    for (const QString &p : result) {
         auto *item = new QListWidgetItem(unknownicon, p);
         item->setData(Qt::UserRole, dir.filePath(p));
         m_view.icon_list->addItem(item);

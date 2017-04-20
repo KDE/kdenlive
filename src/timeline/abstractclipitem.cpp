@@ -470,7 +470,7 @@ void AbstractClipItem::insertKeyframe(ProfileInfo profile, QDomElement effect, i
             const QStringList keyframes = kfr.split(QLatin1Char(';'), QString::SkipEmptyParts);
             QStringList newkfr;
             bool added = false;
-            foreach (const QString &str, keyframes) {
+            for (const QString &str : keyframes) {
                 int kpos = str.section(QLatin1Char('='), 0, 0).toInt();
                 double newval = locale.toDouble(str.section(QLatin1Char('='), 1, 1));
                 if (kpos < pos) {
@@ -536,7 +536,7 @@ void AbstractClipItem::movedKeyframe(QDomElement effect, int newpos, int oldpos,
             QString kfr = e.attribute(QStringLiteral("keyframes"));
             const QStringList keyframes = kfr.split(QLatin1Char(';'), QString::SkipEmptyParts);
             QStringList newkfr;
-            foreach (const QString &str, keyframes) {
+            for (const QString &str : keyframes) {
                 if (str.section(QLatin1Char('='), 0, 0).toInt() != oldpos) {
                     newkfr.append(str);
                 } else if (newpos != -1) {
@@ -595,7 +595,7 @@ void AbstractClipItem::removeKeyframe(QDomElement effect, int frame)
             QString kfr = e.attribute(QStringLiteral("value"));
             const QStringList keyframes = kfr.split(QLatin1Char(';'), QString::SkipEmptyParts);
             QStringList newkfr;
-            foreach (const QString &str, keyframes) {
+            for (const QString &str : keyframes) {
                 if (str.section(QLatin1Char('='), 0, 0).toInt() != frame) {
                     newkfr.append(str);
                 }
