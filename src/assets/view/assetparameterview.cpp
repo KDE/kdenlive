@@ -20,24 +20,38 @@
  ***************************************************************************/
 
 #include "assetparameterview.hpp"
-#include "transitions/view/transitionparameterview.hpp"
+
+#include "../model/assetparametermodel.hpp"
 
 #include <QDebug>
+#include <QLabel>
+#include <QVBoxLayout>
+
 #include <utility>
+
 AssetParameterView::AssetParameterView(QWidget *parent)
     : QWidget(parent)
 {
-    m_transitionProperties = new TransitionParameterView(this);
-    m_transitionProperties->setVisible(false);
+    m_lay = new QVBoxLayout(this);
+    m_lay->setContentsMargins(4, 0, 4, 0);
+    m_lay->setSpacing(2);
 }
 
-void AssetParameterView::showTransitionParams(std::shared_ptr<AssetParameterModel> model)
+void AssetParameterView::setModel(std::shared_ptr<AssetParameterModel> model)
 {
-    m_transitionProperties->setVisible(true);
-    m_transitionProperties->setModel(std::move(model));
-    qDebug() << "====================================================================="
-             << "current size " << m_transitionProperties->size() << size() << m_transitionProperties->sizeHint();
+    m_model = model;
 
-    // This is a hack, TODO fix it
-    m_transitionProperties->resize(QSize(400, 400));
+    // clear layout
+    QLayoutItem *child;
+    while ((child = m_lay->takeAt(0)) != nullptr) {
+        delete child;
+    }
+
+    for (int i = 0; i < model->rowCount(); ++i) {
+        QModelIndex index = model->index(i, 0);
+        QString name = model->data(index, Qt::DisplayRole).toString();
+        QLabel *label = new QLabel(name, this);
+        m_lay->addWidget(label);
+    }
+    m_lay->addStretch();
 }

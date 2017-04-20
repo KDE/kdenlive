@@ -126,12 +126,15 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
         return QVariant();
     }
     QString paramName = m_rows[index.row()];
+    Q_ASSERT(m_params.count(paramName) > 0);
     const QDomElement &element = m_params.at(paramName).xml;
     switch (role) {
     case Qt::DisplayRole:
     case Qt::EditRole:
     case NameRole:
         return paramName;
+    case TypeRole:
+        return QVariant::fromValue<ParamType>(m_params.at(paramName).type);
     case CommentRole: {
         QDomElement commentElem = element.firstChildElement(QStringLiteral("comment"));
         QString comment;

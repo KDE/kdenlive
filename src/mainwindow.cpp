@@ -314,7 +314,7 @@ void MainWindow::init()
     std::shared_ptr<AssetParameterModel> model = std::make_shared<AssetParameterModel>(trans, transxml, QStringLiteral("wipe"));
     auto *propertiesWidget = new AssetParameterView(this);
 
-    propertiesWidget->showTransitionParams(model);
+    propertiesWidget->setModel(model);
 
     qDebug() << "===================================================== creating listview" << model->rowCount();
     // m_effectStackDock = addDock(i18n("Properties"), QStringLiteral("effect_stack"), m_effectStack);

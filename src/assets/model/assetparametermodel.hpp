@@ -58,6 +58,7 @@ enum class ParamType {
     Filterjob,
     Readonly
 };
+Q_DECLARE_METATYPE(ParamType)
 class AssetParameterModel : public QAbstractListModel
 {
     Q_OBJECT

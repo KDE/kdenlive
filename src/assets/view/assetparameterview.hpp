@@ -22,14 +22,16 @@
 #ifndef ASSETPARAMETERVIEW_H
 #define ASSETPARAMETERVIEW_H
 
-#include "../model/assetparametermodel.hpp"
-#include <QQuickWidget>
+#include <QWidget>
+#include <memory>
 
 /* @brief This class is the view for a list of parameters.
 
  */
 
-class TransitionParameterView;
+class QVBoxLayout;
+class AssetParameterModel;
+
 class AssetParameterView : public QWidget
 {
     Q_OBJECT
@@ -37,11 +39,11 @@ class AssetParameterView : public QWidget
 public:
     AssetParameterView(QWidget *parent = nullptr);
 
-    /* @brief Set the current transition to be displayed */
-    void showTransitionParams(std::shared_ptr<AssetParameterModel> model);
+    void setModel(std::shared_ptr<AssetParameterModel> model);
 
 protected:
-    TransitionParameterView *m_transitionProperties;
+    QVBoxLayout *m_lay;
+    std::shared_ptr<AssetParameterModel> m_model;
 };
 
 #endif
