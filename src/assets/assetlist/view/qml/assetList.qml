@@ -120,6 +120,7 @@ Rectangle {
                     searchInput.focus = searchList.checked
                     if (!searchList.checked) {
                         searchInput.text = ''
+                        treeView.focus = true
                     }
                 }
             }
@@ -244,6 +245,11 @@ Rectangle {
                                 treeView.expand(styleData.index)
                             }
 
+                        }
+                    }
+                    onDoubleClicked: {
+                        if (isItem) {
+                            assetlist.activate(styleData.index)
                         }
                     }
                 }
