@@ -109,6 +109,21 @@ Rectangle {
                 color: "transparent"
             }
             ToolButton {
+                id: searchList
+                implicitWidth: 40
+                implicitHeight: 40
+                iconName: "edit-find"
+                checkable: true
+                tooltip: isEffectList ? i18n('Find effect') : i18n('Find composition')
+                onCheckedChanged: {
+                    searchInput.visible = searchList.checked
+                    searchInput.focus = searchList.checked
+                    if (!searchList.checked) {
+                        searchInput.text = ''
+                    }
+                }
+            }
+            ToolButton {
                 id: showDescription
                 implicitWidth: 40
                 implicitHeight: 40
@@ -127,14 +142,17 @@ Rectangle {
         TextField {
             id: searchInput
             Layout.fillWidth:true
+            visible: false
             Image {
                 id: clear
                 source: 'image://icon/edit-clear'
+                width: parent.height * 0.8
+                height: width
                 anchors { right: parent.right; rightMargin: 8; verticalCenter: parent.verticalCenter }
                 opacity: 0
                 MouseArea {
                     anchors.fill: parent
-                    onClicked: { searchInput.text = ''; searchInput.focus = true;  }
+                    onClicked: { searchInput.text = ''; searchInput.focus = true; searchList.checked = false; }
                 }
             }
             states: State {
