@@ -54,7 +54,7 @@ public:
 
     Q_INVOKABLE QVariantMap getMimeData(const QString &assetId) const;
 
-    Q_INVOKABLE void activate(const QModelIndex &ix) const;
+    Q_INVOKABLE void activate(const QModelIndex &ix);
 
 protected:
     void setup();
@@ -63,6 +63,7 @@ protected:
     std::unique_ptr<AssetIconProvider> m_assetIconProvider;
 
 signals:
+    void activateAsset(const QVariantMap data);
 };
 
 #endif

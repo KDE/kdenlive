@@ -165,6 +165,9 @@ public:
     /* @brief Return the project's tractor
      */
     Mlt::Tractor *tractor();
+    /* @brief Add an asset (effect, composition)
+     */
+    void addAsset(const QVariantMap data);
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;

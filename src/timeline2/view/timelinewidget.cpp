@@ -416,3 +416,14 @@ void TimelineWidget::editMarker(const QString &cid, int frame)
         clip->addMarkers(markers);
     }
 }
+
+void TimelineWidget::addAsset(const QVariantMap data)
+{
+    QString effect = data.value(QStringLiteral("kdenlive/effect")).toString();
+    if (!m_selection.selectedClips.isEmpty()) {
+        for (int id : m_selection.selectedClips) {
+            //TODO: manage effects in model
+            //m_model->addEffect(id, effect);
+        }
+    }
+}

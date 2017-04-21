@@ -892,3 +892,8 @@ void ProjectManager::updateTimeline(Mlt::Tractor tractor)
     pCore->window()->getMainTimeline()->setModel(m_mainTimelineModel);
     m_mainTimelineModel->setUndoStack(m_project->commandStack());
 }
+
+void ProjectManager::activateAsset(const QVariantMap data)
+{
+     pCore->window()->getMainTimeline()->addAsset(data);
+}

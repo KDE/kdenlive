@@ -324,6 +324,7 @@ void MainWindow::init()
     // m_effectListDock = addDock(i18n("Effects"), QStringLiteral("effect_list"), m_effectList);
 
     auto effectList = new EffectListWidget(this);
+    connect(effectList, &EffectListWidget::activateAsset, pCore->projectManager(), &ProjectManager::activateAsset);
     m_effectListDock = addDock(i18n("Effects"), QStringLiteral("effect_list"), effectList);
 
     m_transitionList = new EffectsListView(EffectsListView::TransitionMode);
