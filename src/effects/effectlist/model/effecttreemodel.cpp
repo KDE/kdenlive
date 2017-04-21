@@ -63,8 +63,8 @@ EffectTreeModel::EffectTreeModel(const QString &categoryFile, QObject *parent)
     }
 
     // We also create "Misc" and "Custom" categories
-    TreeItem *miscCategory = rootItem->appendChild(QList<QVariant>{i18n("Misc")});
-    TreeItem *customCategory = rootItem->appendChild(QList<QVariant>{i18n("Custom")});
+    TreeItem *miscCategory = rootItem->appendChild(QList<QVariant>{i18n("Misc"), QStringLiteral("root")});
+    TreeItem *customCategory = rootItem->appendChild(QList<QVariant>{i18n("Custom"), QStringLiteral("root")});
 
     // We parse effects
     auto allEffects = EffectsRepository::get()->getNames();

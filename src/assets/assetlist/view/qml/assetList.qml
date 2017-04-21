@@ -186,6 +186,7 @@ Rectangle {
             alternatingRowColors: false
             headerVisible: false
             backgroundVisible:false
+            property var selectedItem
             itemDelegate:    Rectangle {
                 id: assetDelegate
                 // These anchors are important to allow "copy" dragging
@@ -193,10 +194,10 @@ Rectangle {
                 anchors.right: parent ? parent.right : undefined
                 property bool isItem : styleData.value != "root" && styleData.value != ""
                 property string mimeType : isItem ? assetlist.getMimeType(styleData.value) : ""
+                property bool selected: false
 
-                width: text.implicitWidth + 20;
-                height: text.implicitHeight + 10
-                color:"transparent"
+                height: text.implicitHeight + 8
+                color: "transparent"
 
                 Drag.active: isItem ? dragArea.drag.active : false
                 Drag.dragType: Drag.Automatic
@@ -208,9 +209,14 @@ Rectangle {
 
                 Row {
                     anchors.fill:parent
+                    anchors.leftMargin: 2
+                    anchors.topMargin: 2
+                    anchors.bottomMargin: 2
                     spacing: 2
                     Image{
                         visible: assetDelegate.isItem
+                        height: parent.height
+                        width: height
                         source: 'image://asseticon/' + styleData.value
                     }
                     Label {
@@ -222,11 +228,16 @@ Rectangle {
                 MouseArea {
                     id: dragArea
                     anchors.fill: parent
-
+                    hoverEnabled: true
                     drag.target: parent
                     onPressed: {
                         if (isItem) {
                             assetDescription.text = assetlist.getDescription(styleData.index)
+                            if (treeView.selectedItem) {
+                                treeView.selectedItem.selected = false
+                            }
+                            parent.selected = true
+                            treeView.selectedItem = parent
                             parent.grabToImage(function(result) {
                                 parent.Drag.imageSource = result.url
                             })
@@ -241,6 +252,31 @@ Rectangle {
                         }
                     }
                 }
+                state:  'normal'
+                    states: [
+                        State {
+                            name: 'hover'
+                            when: dragArea.containsMouse
+                            PropertyChanges {
+                                target: assetDelegate
+                                color: Qt.darker(activePalette.highlight)
+                            }
+                        },
+                        State {
+                            name: 'selected'
+                            when: assetDelegate.selected
+                            PropertyChanges {
+                                target: assetDelegate
+                                color: activePalette.highlight
+                            }
+                        }
+                    ]
+                    transitions: [
+                        Transition {
+                            to: '*'
+                            ColorAnimation { target: assetDelegate; duration: 200 }
+                        }
+                    ]
             }
 
             TableViewColumn { role: "identifier"; title: "Name"; width: 700 }
