@@ -147,12 +147,14 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
         return parseDoubleAttribute(QStringLiteral("min"), element);
     case MaxRole:
         return parseDoubleAttribute(QStringLiteral("max"), element);
+    case DecimalsRole:
+        return (int)parseDoubleAttribute(QStringLiteral("decimals"), element);
     case DefaultRole:
-        return parseDoubleAttribute(QStringLiteral("default"), element);
+        return element.attribute(QStringLiteral("default"));
     case SuffixRole:
         return element.attribute(QStringLiteral("suffix"));
-    case DecimalsRole:
-        return element.attribute(QStringLiteral("decimals"));
+    case ValueRole:
+        return element.attribute(QStringLiteral("value")).isNull() ? element.attribute(QStringLiteral("default")) : element.attribute(QStringLiteral("value"));
     }
     return QVariant();
 }
@@ -259,4 +261,10 @@ void AssetParameterModel::setParameters(const QVector<QPair<QString, QVariant>> 
     for (const auto &param : params) {
         setParameter(param.first, param.second.toString());
     }
+}
+
+void AssetParameterModel::commitChanges(const QModelIndex &index, const QString &value)
+{
+    QString name = data(index, NameRole).toString();
+    setParameter(name, value);
 }

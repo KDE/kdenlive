@@ -67,7 +67,7 @@ class AssetParameterModel : public QAbstractListModel
 public:
     explicit AssetParameterModel(Mlt::Properties *asset, const QDomElement &assetXml, const QString &assetId, QObject *parent = nullptr);
     virtual ~AssetParameterModel();
-    enum { NameRole = Qt::UserRole + 1, TypeRole, CommentRole, MinRole, MaxRole, DefaultRole, SuffixRole, DecimalsRole };
+    enum { NameRole = Qt::UserRole + 1, TypeRole, CommentRole, MinRole, MaxRole, DefaultRole, SuffixRole, DecimalsRole, ValueRole };
 
     /* @brief Returns the id of the asset represented by this object */
     QString getAssetId() const;
@@ -83,6 +83,12 @@ public:
        @param params contains the pairs (parameter name, parameter value)
      */
     void setParameters(const QVector<QPair<QString, QVariant>> &params);
+
+    /* @brief Apply a change of parameter sent by the view
+       @param index is the index corresponding to the modified param
+       @param value is the new value of the parameter
+    */
+    void commitChanges(const QModelIndex &index, const QString &value);
 
     QVariant data(const QModelIndex &index, int role) const override;
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;

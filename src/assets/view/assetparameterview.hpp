@@ -22,6 +22,8 @@
 #ifndef ASSETPARAMETERVIEW_H
 #define ASSETPARAMETERVIEW_H
 
+#include <QModelIndex>
+#include <QVector>
 #include <QWidget>
 #include <memory>
 
@@ -30,6 +32,7 @@
  */
 
 class QVBoxLayout;
+class AbstractParamWidget;
 class AssetParameterModel;
 
 class AssetParameterView : public QWidget
@@ -39,11 +42,17 @@ class AssetParameterView : public QWidget
 public:
     AssetParameterView(QWidget *parent = nullptr);
 
+    /** Sets the model to be displayed by current view */
     void setModel(std::shared_ptr<AssetParameterModel> model);
 
 protected:
+    /** @brief This is a handler for the dataChanged slot of the model.
+        It basically instructs the widgets in the given range to be refreshed */
+    void refresh(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles);
+
     QVBoxLayout *m_lay;
     std::shared_ptr<AssetParameterModel> m_model;
+    std::vector<AbstractParamWidget *> m_widgets;
 };
 
 #endif
