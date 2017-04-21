@@ -149,6 +149,12 @@ public:
     /* @brief Ask for edit marker dialog
      */
     Q_INVOKABLE void editMarker(const QString &cid, int frame);
+    /* @brief Ask for edit timeline guide dialog
+     */
+    Q_INVOKABLE void editGuide(int frame);
+    /* @brief Add a timeline guide
+     */
+    Q_INVOKABLE void switchGuide(int frame);
 
     /* @brief Seek to next snap point
      */

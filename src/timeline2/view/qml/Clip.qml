@@ -186,7 +186,7 @@ Rectangle {
             onClicked: menu.show()
         }
     }
-    
+
     Item {
         // Clipping container
         anchors.fill: parent

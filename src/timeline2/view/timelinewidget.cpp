@@ -412,9 +412,45 @@ void TimelineWidget::editMarker(const QString &cid, int frame)
     QPointer<MarkerDialog> d = new MarkerDialog(clip, marker, pCore->bin()->projectTimecode(), i18n("Edit Marker"), this);
     if (d->exec() == QDialog::Accepted) {
         QList<CommentedTime> markers;
-        markers << d->newMarker();
+        CommentedTime newMarker = d->newMarker();
+        if (newMarker.time() != marker.time()) {
+            // marker was moved
+            marker.setMarkerType(-1);
+            markers << marker;
+        }
+        markers << newMarker;
         clip->addMarkers(markers);
     }
+}
+
+void TimelineWidget::editGuide(int frame)
+{
+    CommentedTime marker = pCore->projectManager()->current()->getGuideModel().get()->getMarker(GenTime(frame, pCore->getCurrentFps()));
+    QPointer<MarkerDialog> d = new MarkerDialog(nullptr, marker, pCore->bin()->projectTimecode(), i18n("Edit Marker"), this);
+    if (d->exec() == QDialog::Accepted) {
+        QList<CommentedTime> markers;
+        CommentedTime newMarker = d->newMarker();
+        if (newMarker.time() != marker.time()) {
+            // marker was moved
+            marker.setMarkerType(-1);
+            markers << marker;
+        }
+        markers << newMarker;
+        pCore->projectManager()->current()->addGuides(markers);
+    }
+}
+
+void TimelineWidget::switchGuide(int frame)
+{
+    CommentedTime marker = pCore->projectManager()->current()->getGuideModel().get()->getMarker(GenTime(frame, pCore->getCurrentFps()));
+    if (marker.time() == GenTime(0)) {
+        marker = CommentedTime(GenTime(frame, pCore->getCurrentFps()), i18n("guide"));
+    } else {
+        marker.setMarkerType(-1);
+    }
+    QList<CommentedTime> markers;
+    markers << marker;
+    pCore->projectManager()->current()->addGuides(markers);
 }
 
 void TimelineWidget::addAsset(const QVariantMap data)

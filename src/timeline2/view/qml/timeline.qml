@@ -215,6 +215,13 @@ Rectangle {
         property int clickedX
         property int clickedY
         MenuItem {
+            text: i18n('Add Guide')
+            onTriggered: {
+                var frame = Math.round((menu.clickedX + scrollView.flickableItem.contentX) / timeline.scaleFactor)
+                timeline.switchGuide(frame);
+            }
+        }
+        MenuItem {
             text: i18n('Add Audio Track')
             shortcut: 'Ctrl+U'
             onTriggered: timeline.addAudioTrack();
@@ -647,7 +654,7 @@ Rectangle {
                         acceptedButtons: Qt.LeftButton
                         cursorShape: Qt.PointingHandCursor
                         hoverEnabled: true
-                        //onDoubleClicked: timeline.editMarker(clipRoot.binId, model.frame)
+                        onDoubleClicked: timeline.editGuide(model.frame)
                         onClicked: timeline.position = guideBase.x / timeline.scaleFactor
                     }
                 }

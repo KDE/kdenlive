@@ -61,14 +61,14 @@ void MarkerListModel::addMarker(GenTime pos, const QString &comment, int type)
         Fun undo = changeComment_lambda(pos, oldComment, oldType);
         Fun redo = changeComment_lambda(pos, comment, type);
         if (redo()) {
-            PUSH_UNDO(undo, redo, i18n("Rename marker"));
+            PUSH_UNDO(undo, redo, m_guide ? i18n("Rename guide") : i18n("Rename marker"));
         }
     } else {
         // In this case we create one
         Fun redo = addMarker_lambda(pos, comment, type);
         Fun undo = deleteMarker_lambda(pos);
         if (redo()) {
-            PUSH_UNDO(undo, redo, i18n("Add marker"));
+            PUSH_UNDO(undo, redo, m_guide ? i18n("Add guide") : i18n("Add marker"));
         }
     }
 }
@@ -82,7 +82,7 @@ void MarkerListModel::removeMarker(GenTime pos)
     Fun undo = addMarker_lambda(pos, oldComment, oldType);
     Fun redo = deleteMarker_lambda(pos);
     if (redo()) {
-        PUSH_UNDO(undo, redo, i18n("Delete marker"));
+        PUSH_UNDO(undo, redo, m_guide ? i18n("Delete guide") : i18n("Delete marker"));
     }
 }
 
@@ -184,7 +184,10 @@ int MarkerListModel::rowCount(const QModelIndex &parent) const
 
 CommentedTime MarkerListModel::getMarker(const GenTime &pos) const
 {
-    Q_ASSERT(m_markerList.count(pos) > 0);
+    if (m_markerList.count(pos) <= 0) {
+        // return empty marker
+        return CommentedTime();
+    }
     CommentedTime t(pos, m_markerList.at(pos).first, m_markerList.at(pos).second);
     return t;
 }

@@ -169,6 +169,9 @@ public:
     /** @brief Returns a pointer to the guide model */
     std::shared_ptr<MarkerListModel> getGuideModel() const;
 
+    /** @brief Edit timeline guide */
+    void addGuides(QList<CommentedTime> &markers);
+
     // TODO REFAC: delete */
     Render *renderer();
 

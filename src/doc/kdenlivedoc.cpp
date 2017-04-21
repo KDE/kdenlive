@@ -1858,3 +1858,15 @@ std::shared_ptr<MarkerListModel> KdenliveDoc::getGuideModel() const
 {
     return m_guideModel;
 }
+
+void KdenliveDoc::addGuides(QList<CommentedTime> &markers)
+{
+    for (int i = 0; i < markers.count(); ++i) {
+        qDebug()<<"** *ADDING MARKERS: "<<markers.at(i).time().frames(25)<<", TYPE: "<<markers.at(i).markerType();
+        if (markers.at(i).markerType() < 0) {
+            m_guideModel->removeMarker(markers.at(i).time());
+        } else {
+            m_guideModel->addMarker(markers.at(i).time(), markers.at(i).comment(), markers.at(i).markerType());
+        }
+    }
+}
