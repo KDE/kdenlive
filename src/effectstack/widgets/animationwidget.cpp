@@ -45,17 +45,17 @@
 
 #include "../animkeyframeruler.h"
 #include "animationwidget.h"
-#include "doubleparameterwidget.h"
-#include "effectstack/dragvalue.h"
 #include "effectstack/parametercontainer.h"
 #include "kdenlivesettings.h"
 #include "monitor/monitor.h"
 #include "timecodedisplay.h"
 #include "timeline/keyframeview.h"
+#include "widgets/doublewidget.h"
+#include "widgets/dragvalue.h"
 
 AnimationWidget::AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int max, int effectIn, const QString &effectId, const QDomElement &xml,
                                  QWidget *parent)
-    : AbstractParamWidget(parent)
+    : QWidget(parent)
     , m_monitor(info->monitor)
     , m_frameSize(info->frameSize)
     , m_timePos(new TimecodeDisplay(info->monitor->timecode(), this))
@@ -224,11 +224,6 @@ void AnimationWidget::finishSetup()
 {
     // Load effect presets
     loadPresets();
-
-    // If only one animated parametes, hide radiobutton
-    if (m_doubleWidgets.count() == 1) {
-        m_doubleWidgets.first()->hideRadioButton();
-    }
 
     // Load keyframes
     rebuildKeyframes();
@@ -466,7 +461,7 @@ void AnimationWidget::rebuildKeyframes()
 void AnimationWidget::updateToolbar()
 {
     int pos = m_timePos->getValue();
-    QMapIterator<QString, DoubleParameterWidget *> i(m_doubleWidgets);
+    QMapIterator<QString, DoubleWidget *> i(m_doubleWidgets);
     while (i.hasNext()) {
         i.next();
         double val = m_animProperties.anim_get_double(i.key().toUtf8().constData(), pos, m_outPoint);
@@ -530,7 +525,7 @@ void AnimationWidget::slotPositionChanged(int pos, bool seek)
 void AnimationWidget::updateSlider(int pos)
 {
     m_endAttach->blockSignals(true);
-    QMapIterator<QString, DoubleParameterWidget *> i(m_doubleWidgets);
+    QMapIterator<QString, DoubleWidget *> i(m_doubleWidgets);
     while (i.hasNext()) {
         i.next();
         m_animController = m_animProperties.get_animation(i.key().toUtf8().constData());
@@ -766,23 +761,19 @@ void AnimationWidget::buildSliderWidget(const QString &paramTag, const QDomEleme
     int index = m_params.count() - 1;
 
     double factor = e.hasAttribute(QStringLiteral("factor")) ? locale.toDouble(e.attribute(QStringLiteral("factor"))) : 1;
-    DoubleParameterWidget *doubleparam =
-        new DoubleParameterWidget(paramName, 0, e.attribute(QStringLiteral("min")).toDouble(), e.attribute(QStringLiteral("max")).toDouble(),
-                                  e.attribute(QStringLiteral("default")).toDouble() * factor, comment, index, e.attribute(QStringLiteral("suffix")),
-                                  e.attribute(QStringLiteral("decimals")).toInt(), true, this);
+    DoubleWidget *doubleparam = new DoubleWidget(paramName, 0, e.attribute(QStringLiteral("min")).toDouble(), e.attribute(QStringLiteral("max")).toDouble(),
+                                                 e.attribute(QStringLiteral("default")).toDouble() * factor, comment, index,
+                                                 e.attribute(QStringLiteral("suffix")), e.attribute(QStringLiteral("decimals")).toInt(), this);
     doubleparam->setObjectName(paramTag);
     doubleparam->factor = factor;
-    connect(doubleparam, &DoubleParameterWidget::valueChanged, this, &AnimationWidget::slotAdjustKeyframeValue);
+    connect(doubleparam, &DoubleWidget::valueChanged, this, &AnimationWidget::slotAdjustKeyframeValue);
     layout()->addWidget(doubleparam);
     if ((!e.hasAttribute(QStringLiteral("intimeline")) || e.attribute(QStringLiteral("intimeline")) == QLatin1String("1")) &&
         !e.hasAttribute(QStringLiteral("notintimeline"))) {
-        doubleparam->setInTimelineProperty(true);
-        doubleparam->setChecked(true);
         m_inTimeline = paramTag;
         m_animController = m_animProperties.get_animation(m_inTimeline.toUtf8().constData());
     }
     m_doubleWidgets.insert(paramTag, doubleparam);
-    connect(doubleparam, &DoubleParameterWidget::displayInTimeline, this, &AnimationWidget::slotUpdateVisibleParameter);
 }
 
 void AnimationWidget::buildRectWidget(const QString &paramTag, const QDomElement &e)
@@ -920,13 +911,10 @@ void AnimationWidget::slotUpdateVisibleParameter(bool display)
     if (!display) {
         return;
     }
-    DoubleParameterWidget *slider = qobject_cast<DoubleParameterWidget *>(QObject::sender());
+    DoubleWidget *slider = qobject_cast<DoubleWidget *>(QObject::sender());
     if (slider) {
         if (slider->objectName() == m_inTimeline) {
             return;
-        }
-        if (m_doubleWidgets.value(m_inTimeline) != nullptr) {
-            m_doubleWidgets.value(m_inTimeline)->setChecked(false);
         }
         m_inTimeline = slider->objectName();
         m_animController = m_animProperties.get_animation(m_inTimeline.toUtf8().constData());
@@ -937,7 +925,7 @@ void AnimationWidget::slotUpdateVisibleParameter(bool display)
 
 void AnimationWidget::slotAdjustKeyframeValue(double value)
 {
-    DoubleParameterWidget *slider = qobject_cast<DoubleParameterWidget *>(QObject::sender());
+    DoubleWidget *slider = qobject_cast<DoubleWidget *>(QObject::sender());
     if (!slider) {
         return;
     }
@@ -1039,7 +1027,7 @@ const QMap<QString, QString> AnimationWidget::getAnimation()
         animationResults.insert(m_rectParameter, m_animController.serialize_cut());
     }
 
-    QMapIterator<QString, DoubleParameterWidget *> i(m_doubleWidgets);
+    QMapIterator<QString, DoubleWidget *> i(m_doubleWidgets);
     while (i.hasNext()) {
         i.next();
         m_animController = m_animProperties.get_animation(i.key().toUtf8().constData());
@@ -1362,7 +1350,7 @@ void AnimationWidget::offsetAnimation(int offset)
         m_animProperties.set(offsetAnimation.toUtf8().constData(), "");
     }
 
-    QMapIterator<QString, DoubleParameterWidget *> i(m_doubleWidgets);
+    QMapIterator<QString, DoubleWidget *> i(m_doubleWidgets);
     while (i.hasNext()) {
         i.next();
         m_animController = m_animProperties.get_animation(i.key().toUtf8().constData());
@@ -1389,11 +1377,6 @@ void AnimationWidget::reload(const QString &tag, const QString &data)
         m_animProperties.anim_get_int(tag.toUtf8().constData(), 0, m_outPoint);
         m_attachedToEnd = KeyframeView::checkNegatives(data, m_outPoint);
         m_inTimeline = tag;
-        QMapIterator<QString, DoubleParameterWidget *> i(m_doubleWidgets);
-        while (i.hasNext()) {
-            i.next();
-            i.value()->setChecked(i.key() == tag);
-        }
     }
     // Also add keyframes positions in other parameters
     QStringList paramNames = m_doubleWidgets.keys();

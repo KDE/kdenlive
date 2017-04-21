@@ -20,14 +20,13 @@
 
 #include "timecode.h"
 #include <QString>
-
-#include "abstractparamwidget.h"
+#include <QWidget>
 
 class QSlider;
 class TimecodeDisplay;
 
 /*@brief This class is used to display a parameter with time value */
-class PositionWidget : public AbstractParamWidget
+class PositionWidget : public QWidget
 {
     Q_OBJECT
 public:
@@ -62,7 +61,7 @@ public slots:
      */
     void setRange(int min, int max, bool absolute = false);
 
-    void slotShowComment(bool show) override;
+    void slotShowComment(bool show);
 
 private:
     TimecodeDisplay *m_display;
@@ -70,6 +69,9 @@ private:
 
 private slots:
     void slotUpdatePosition();
+
+signals:
+    void valueChanged();
 };
 
 #endif

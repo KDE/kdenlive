@@ -25,7 +25,6 @@
 #include <QList>
 #include <QWidget>
 
-#include "abstractparamwidget.h"
 #include "mlt++/MltAnimation.h"
 #include "mlt++/MltProperties.h"
 #include "timecodedisplay.h"
@@ -34,12 +33,12 @@ class AnimKeyframeRuler;
 class Monitor;
 class KDualAction;
 struct EffectMetaInfo;
-class DoubleParameterWidget;
+class DoubleWidget;
 class KSelectAction;
 class QComboBox;
 class DragValue;
 
-class AnimationWidget : public AbstractParamWidget
+class AnimationWidget : public QWidget
 {
     Q_OBJECT
 public:
@@ -90,7 +89,7 @@ private:
     KSelectAction *m_selectType;
     QAction *m_endAttach;
     QList<QDomElement> m_params;
-    QMap<QString, DoubleParameterWidget *> m_doubleWidgets;
+    QMap<QString, DoubleWidget *> m_doubleWidgets;
     DragValue *m_spinX;
     DragValue *m_spinY;
     DragValue *m_spinWidth;
@@ -172,6 +171,7 @@ signals:
     void seekToPos(int);
     /** @brief keyframes dropped / pasted on widget, import them. */
     void setKeyframes(const QString &);
+    void valueChanged();
 };
 
 #endif

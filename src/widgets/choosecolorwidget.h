@@ -20,7 +20,6 @@
 #ifndef CHOOSECOLORWIDGET_H
 #define CHOOSECOLORWIDGET_H
 
-#include "abstractparamwidget.h"
 #include <QWidget>
 
 class KColorButton;
@@ -32,7 +31,7 @@ class KColorButton;
  * @author Till Theato
  */
 
-class ChooseColorWidget : public AbstractParamWidget
+class ChooseColorWidget : public QWidget
 {
     Q_OBJECT
 public:
@@ -62,6 +61,9 @@ private slots:
 signals:
     /** @brief Emitted whenever a different color was chosen. */
     void modified(QColor = QColor());
+
+    void disableCurrentFilter(bool);
+    void valueChanged();
 };
 
 #endif

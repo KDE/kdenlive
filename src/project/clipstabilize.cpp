@@ -20,8 +20,8 @@
 
 #include "clipstabilize.h"
 #include "effectstack/effectstackview2.h"
-#include "effectstack/widgets/doubleparameterwidget.h"
-#include "effectstack/widgets/positionwidget.h"
+#include "widgets/doublewidget.h"
+#include "widgets/positionwidget.h"
 
 #include "kdenlivesettings.h"
 #include <KMessageBox>
@@ -84,16 +84,14 @@ ClipStabilize::ClipStabilize(const QStringList &urls, const QString &filterName,
         hi.next();
         QHash<QString, QString> val = hi.value();
         if (val[QStringLiteral("type")] == QLatin1String("int") || val[QStringLiteral("type")] == QLatin1String("double")) {
-            DoubleParameterWidget *dbl =
-                new DoubleParameterWidget(hi.key() /*name*/, val[QStringLiteral("value")].toDouble(), val[QStringLiteral("min")].toDouble(),
-                                          val[QStringLiteral("max")].toDouble(), val[QStringLiteral("value")].toDouble(),                    /*default*/
-                                          QString(),                                                                                         /*comment*/
-                                          0 /*id*/, QString(),                                                                               /*suffix*/
-                                          val[QStringLiteral("decimals")] != QString() ? val[QStringLiteral("decimals")].toInt() : 0, false, /*showRadioBtn*/
-                                          this);
+            DoubleWidget *dbl = new DoubleWidget(hi.key() /*name*/, val[QStringLiteral("value")].toDouble(), val[QStringLiteral("min")].toDouble(),
+                                                 val[QStringLiteral("max")].toDouble(), val[QStringLiteral("value")].toDouble(), /*default*/
+                                                 QString(),                                                                      /*comment*/
+                                                 0 /*id*/, QString(),                                                            /*suffix*/
+                                                 val[QStringLiteral("decimals")] != QString() ? val[QStringLiteral("decimals")].toInt() : 0, this);
             dbl->setObjectName(hi.key());
             dbl->setToolTip(val[QStringLiteral("tooltip")]);
-            connect(dbl, &DoubleParameterWidget::valueChanged, this, &ClipStabilize::slotUpdateParams);
+            connect(dbl, &DoubleWidget::valueChanged, this, &ClipStabilize::slotUpdateParams);
             vbox->addWidget(dbl);
         } else if (val[QStringLiteral("type")] == QLatin1String("bool")) {
             auto *ch = new QCheckBox(hi.key(), this);
@@ -176,7 +174,7 @@ void ClipStabilize::slotUpdateParams()
         QString name = w->objectName();
         if (!name.isEmpty() && m_ui_params.contains(name)) {
             if (m_ui_params[name][QStringLiteral("type")] == QLatin1String("int") || m_ui_params[name][QStringLiteral("type")] == QLatin1String("double")) {
-                DoubleParameterWidget *dbl = static_cast<DoubleParameterWidget *>(w);
+                DoubleWidget *dbl = static_cast<DoubleWidget *>(w);
                 m_ui_params[name][QStringLiteral("value")] = QString::number((double)(dbl->getValue()));
             } else if (m_ui_params[name][QStringLiteral("type")] == QLatin1String("bool")) {
                 QCheckBox *ch = (QCheckBox *)w;

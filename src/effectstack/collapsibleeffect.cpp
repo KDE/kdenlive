@@ -197,13 +197,15 @@ CollapsibleEffect::CollapsibleEffect(const QDomElement &effect, const QDomElemen
 CollapsibleEffect::~CollapsibleEffect()
 {
     delete m_animation;
-    delete m_paramWidget;
+    // delete m_paramWidget;
     delete m_menu;
 }
 
 void CollapsibleEffect::setWidgetHeight(qreal value)
 {
+    /*
     widgetFrame->setFixedHeight(m_paramWidget->contentHeight() * value);
+    */
 }
 
 void CollapsibleEffect::slotCreateGroup()
@@ -284,10 +286,12 @@ QDomElement CollapsibleEffect::effectForSave() const
 {
     QDomElement effect = m_effect.cloneNode().toElement();
     effect.removeAttribute(QStringLiteral("kdenlive_ix"));
+    /*
     if (m_paramWidget) {
         int in = m_paramWidget->range().x();
         EffectsController::offsetKeyframes(in, effect);
     }
+    */
     return effect;
 }
 
@@ -303,6 +307,7 @@ bool CollapsibleEffect::isEnabled() const
 
 void CollapsibleEffect::setActive(bool activate)
 {
+    /*
     decoframe->setProperty("active", activate);
     decoframe->setStyleSheet(decoframe->styleSheet());
     if (m_paramWidget) {
@@ -319,6 +324,7 @@ void CollapsibleEffect::setActive(bool activate)
         p.end();
         m_colorIcon->setPixmap(alpha);
     }
+    */
 }
 
 void CollapsibleEffect::mouseDoubleClickEvent(QMouseEvent *event)
@@ -390,10 +396,12 @@ void CollapsibleEffect::slotSaveEffect()
     effect.removeAttribute(QStringLiteral("kdenlive_ix"));
     effect.setAttribute(QStringLiteral("id"), name);
     effect.setAttribute(QStringLiteral("type"), QStringLiteral("custom"));
+    /*
     if (m_paramWidget) {
         int in = m_paramWidget->range().x();
         EffectsController::offsetKeyframes(in, effect);
     }
+    */
     QDomElement effectname = effect.firstChildElement(QStringLiteral("name"));
     effect.removeChild(effectname);
     effectname = doc.createElement(QStringLiteral("name"));
@@ -503,28 +511,35 @@ int CollapsibleEffect::effectIndex() const
 void CollapsibleEffect::updateWidget(const ItemInfo &info, const QDomElement &effect, EffectMetaInfo *metaInfo)
 {
     // cleanup
+    /*
     delete m_paramWidget;
     m_paramWidget = nullptr;
+    */
     m_effect = effect;
     setupWidget(info, metaInfo);
 }
 
 void CollapsibleEffect::updateFrameInfo()
 {
+    /*
     if (m_paramWidget) {
         m_paramWidget->refreshFrameInfo();
     }
+    */
 }
 
 void CollapsibleEffect::setActiveKeyframe(int kf)
 {
+    /*
     if (m_paramWidget) {
         m_paramWidget->setActiveKeyframe(kf);
     }
+    */
 }
 
 void CollapsibleEffect::setupWidget(const ItemInfo &info, EffectMetaInfo *metaInfo)
 {
+    /*
     if (m_effect.isNull()) {
         //         //qCDebug(KDENLIVE_LOG) << "// EMPTY EFFECT STACK";
         return;
@@ -577,6 +592,7 @@ void CollapsibleEffect::setupWidget(const ItemInfo &info, EffectMetaInfo *metaIn
     connect(m_paramWidget, &ParameterContainer::checkMonitorPosition, this, &CollapsibleEffect::checkMonitorPosition);
     connect(m_paramWidget, &ParameterContainer::seekTimeline, this, &CollapsibleEffect::seekTimeline);
     connect(m_paramWidget, &ParameterContainer::importClipKeyframes, this, &CollapsibleEffect::prepareImportClipKeyframes);
+    */
 }
 
 void CollapsibleEffect::slotDisableEffect(bool disable)
@@ -594,6 +610,7 @@ bool CollapsibleEffect::isGroup() const
 
 void CollapsibleEffect::updateTimecodeFormat()
 {
+    /*
     m_paramWidget->updateTimecodeFormat();
     if (!m_subParamWidgets.isEmpty()) {
         // we have a group
@@ -601,6 +618,7 @@ void CollapsibleEffect::updateTimecodeFormat()
             m_subParamWidgets.at(i)->updateTimecodeFormat();
         }
     }
+    */
 }
 
 void CollapsibleEffect::slotUpdateRegionEffectParams(const QDomElement & /*old*/, const QDomElement & /*e*/, int /*ix*/)
@@ -616,6 +634,7 @@ void CollapsibleEffect::slotSyncEffectsPos(int pos)
 
 void CollapsibleEffect::dragEnterEvent(QDragEnterEvent *event)
 {
+    /*
     if (event->mimeData()->hasFormat(QStringLiteral("kdenlive/effectslist"))) {
         frame->setProperty("target", true);
         frame->setStyleSheet(frame->styleSheet());
@@ -627,6 +646,7 @@ void CollapsibleEffect::dragEnterEvent(QDragEnterEvent *event)
     } else {
         QWidget::dragEnterEvent(event);
     }
+    */
 }
 
 void CollapsibleEffect::dragLeaveEvent(QDragLeaveEvent * /*event*/)
@@ -728,20 +748,26 @@ void CollapsibleEffect::adjustButtons(int ix, int max)
 
 MonitorSceneType CollapsibleEffect::needsMonitorEffectScene() const
 {
+    /*
     if ((m_paramWidget != nullptr) && !m_enabledButton->isActive()) {
         return m_paramWidget->needsMonitorEffectScene();
     }
+    */
     return MonitorSceneDefault;
 }
 
 void CollapsibleEffect::setRange(int inPoint, int outPoint)
 {
+    /*
     m_paramWidget->setRange(inPoint, outPoint);
+    */
 }
 
 void CollapsibleEffect::setKeyframes(const QString &tag, const QString &keyframes)
 {
+    /*
     m_paramWidget->setKeyframes(tag, keyframes);
+    */
 }
 
 bool CollapsibleEffect::isMovable() const

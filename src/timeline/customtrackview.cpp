@@ -8514,7 +8514,7 @@ void CustomTrackView::slotImportClipKeyframes(GraphicsRectItem type, const ItemI
         emit displayMessage(i18n("No keyframe data found in clip"), ErrorMessage);
         return;
     }
-    QPointer<KeyframeImport> import = new KeyframeImport(srcInfo, info, keyframes, m_document->timecode(), xml, m_document->getProfileInfo(), this);
+    /*QPointer<KeyframeImport> import = new KeyframeImport(srcInfo, info, keyframes, m_document->timecode(), xml, m_document->getProfileInfo(), this);
     if (import->exec() != QDialog::Accepted) {
         delete import;
         return;
@@ -8523,6 +8523,7 @@ void CustomTrackView::slotImportClipKeyframes(GraphicsRectItem type, const ItemI
     QString tag = import->selectedTarget();
     emit importKeyframes(type, tag, keyframeData);
     delete import;
+    */
 }
 
 void CustomTrackView::slotReplaceTimelineProducer(const QString &id)

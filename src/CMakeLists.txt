@@ -95,29 +95,30 @@ kconfig_add_kcfg_files(kdenlive_SRCS kdenlivesettings.kcfgc)
 
 add_subdirectory(abstractmodel)
 add_subdirectory(assets)
-add_subdirectory(effects)
-add_subdirectory(transitions)
-add_subdirectory(doc)
-add_subdirectory(project)
-add_subdirectory(timeline)
-add_subdirectory(effectstack)
-add_subdirectory(dialogs)
-add_subdirectory(effectslist)
-add_subdirectory(scopes)
-add_subdirectory(capture)
-add_subdirectory(dvdwizard)
-add_subdirectory(lib)
-add_subdirectory(monitor)
-add_subdirectory(timeline2)
-add_subdirectory(onmonitoritems)
-add_subdirectory(simplekeyframes)
-add_subdirectory(titler)
-add_subdirectory(utils)
-add_subdirectory(onmonitoritems/rotoscoping)
-add_subdirectory(mltcontroller)
 add_subdirectory(bin)
-add_subdirectory(qml)
+add_subdirectory(capture)
+add_subdirectory(dialogs)
+add_subdirectory(doc)
+add_subdirectory(dvdwizard)
+add_subdirectory(effects)
+add_subdirectory(effectslist)
+add_subdirectory(effectstack)
+add_subdirectory(lib)
+add_subdirectory(mltcontroller)
+add_subdirectory(monitor)
+add_subdirectory(onmonitoritems)
+add_subdirectory(onmonitoritems/rotoscoping)
 add_subdirectory(profiles)
+add_subdirectory(project)
+add_subdirectory(qml)
+add_subdirectory(scopes)
+add_subdirectory(simplekeyframes)
+add_subdirectory(timeline)
+add_subdirectory(timeline2)
+add_subdirectory(titler)
+add_subdirectory(transitions)
+add_subdirectory(utils)
+add_subdirectory(widgets)
 add_subdirectory(xml)
 
 if (Qt5WebKitWidgets_FOUND)
@@ -154,9 +155,10 @@ ki18n_wrap_ui(kdenlive_UIS
     ui/boolparamwidget_ui.ui
     ui/clipdurationdialog_ui.ui
     ui/clipproperties_ui.ui
+    ui/clipspeed_ui.ui
+    ui/clipstabilize_ui.ui
     ui/cliptranscode_ui.ui
     ui/collapsiblewidget_ui.ui
-    ui/clipstabilize_ui.ui
     ui/colorclip_ui.ui
     ui/colorplaneexport_ui.ui
     ui/configcapture_ui.ui
@@ -167,17 +169,21 @@ ki18n_wrap_ui(kdenlive_UIS
     ui/configsdl_ui.ui
     ui/configtimeline_ui.ui
     ui/configtranscode_ui.ui
+    ui/cutjobdialog_ui.ui
     ui/dvdwizardchapters_ui.ui
     ui/dvdwizardmenu_ui.ui
     ui/dvdwizardstatus_ui.ui
     ui/dvdwizardvob_ui.ui
     ui/effectlist_ui.ui
+    ui/fontval_ui.ui
     ui/freesound_ui.ui
     ui/geometrywidget_ui.ui
+    ui/gradientedit_ui.ui
     ui/histogram_ui.ui
     ui/keyframedialog_ui.ui
     ui/keyframeeditor_ui.ui
     ui/keyframewidget_ui.ui
+    ui/keywordval_ui.ui
     ui/listparamwidget_ui.ui
     ui/logindialog_ui.ui
     ui/managecaptures_ui.ui
@@ -192,6 +198,8 @@ ki18n_wrap_ui(kdenlive_UIS
     ui/renderwidget_ui.ui
     ui/rgbparade_ui.ui
     ui/saveprofile_ui.ui
+    ui/scenecutdialog_ui.ui
+    ui/selectivecolor_ui.ui
     ui/slideshowclip_ui.ui
     ui/smconfig_ui.ui
     ui/spacerdialog_ui.ui
@@ -213,13 +221,6 @@ ki18n_wrap_ui(kdenlive_UIS
     ui/wizardextra_ui.ui
     ui/wizardmltcheck_ui.ui
     ui/wizardstandard_ui.ui
-    ui/keywordval_ui.ui
-    ui/fontval_ui.ui
-    ui/cutjobdialog_ui.ui
-    ui/scenecutdialog_ui.ui
-    ui/gradientedit_ui.ui
-    ui/selectivecolor_ui.ui
-    ui/clipspeed_ui.ui
     )
 
 if(BUILD_JogShuttle)

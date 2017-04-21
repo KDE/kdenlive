@@ -17,24 +17,22 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#ifndef DOUBLEPARAMETERWIDGET_H
-#define DOUBLEPARAMETERWIDGET_H
+#ifndef DOUBLEWIDGET_H
+#define DOUBLEWIDGET_H
 
-#include "abstractparamwidget.h"
 #include <QWidget>
 
 class DragValue;
-class QRadioButton;
 
 /**
- * @class DoubleParameterWidget
+ * @class DoubleWidget
  * @brief Widget to choose a double parameter (for a effect) with the help of a slider and a spinbox.
  * @author Till Theato
  *
  * The widget does only handle integers, so the parameter has to be converted into the proper double range afterwards.
  */
 
-class DoubleParameterWidget : public AbstractParamWidget
+class DoubleWidget : public QWidget
 {
     Q_OBJECT
 public:
@@ -47,22 +45,18 @@ public:
     * @param comment A comment explaining the parameter. Will be shown in a tooltip.
     * @param suffix (optional) Suffix to display in spinbox
     * @param parent (optional) Parent Widget */
-    explicit DoubleParameterWidget(const QString &name, double value, double min, double max, double defaultValue, const QString &comment, int id,
-                                   const QString &suffix = QString(), int decimals = 0, bool showRadiobutton = false, QWidget *parent = nullptr);
-    ~DoubleParameterWidget();
+    explicit DoubleWidget(const QString &name, double value, double min, double max, double defaultValue, const QString &comment, int id,
+                          const QString &suffix = QString(), int decimals = 0, QWidget *parent = nullptr);
+    ~DoubleWidget();
 
     /** @brief The factor by which real param value is multiplicated to give the slider value. */
     double factor;
 
     /** @brief Gets the parameter's value. */
     double getValue();
-    /** @brief Set the inTimeline property to paint widget with other colors. */
-    void setInTimelineProperty(bool intimeline);
     /** @brief Returns minimum size for QSpinBox, used to set all spinboxes to the same width. */
     int spinSize();
     void setSpinSize(int width);
-    void setChecked(bool check);
-    void hideRadioButton();
     void enableEdit(bool enable);
     /** @brief Returns true if widget is currently being edited */
     bool hasEditFocus() const;
@@ -75,7 +69,7 @@ public slots:
     void slotReset();
 
     /** @brief Shows/Hides the comment label. */
-    void slotShowComment(bool show) override;
+    void slotShowComment(bool show);
 
 private slots:
 
@@ -83,14 +77,9 @@ private slots:
 
 private:
     DragValue *m_dragVal;
-    QRadioButton *m_radio;
 
 signals:
     void valueChanged(double);
-    /** @brief User wants to see this parameter in timeline (old way). */
-    void setInTimeline(int);
-    /** @brief User wants to see this parameter in timeline. */
-    void displayInTimeline(bool);
 };
 
 #endif

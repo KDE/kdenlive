@@ -4,28 +4,11 @@ set(kdenlive_SRCS
   effectstack/abstractcollapsiblewidget.cpp
   effectstack/collapsibleeffect.cpp
   effectstack/collapsiblegroup.cpp
-  effectstack/dragvalue.cpp
   effectstack/effectstackedit.cpp
   effectstack/effectstackview2.cpp
   effectstack/graphicsscenerectmove.cpp
   effectstack/keyframehelper.cpp
   effectstack/animkeyframeruler.cpp
-  effectstack/parametercontainer.cpp
-  effectstack/widgets/abstractparamwidget.h
   effectstack/widgets/animationwidget.cpp
-  effectstack/widgets/boolparamwidget.cpp
-  effectstack/widgets/choosecolorwidget.cpp
-  effectstack/widgets/colorpickerwidget.cpp
-  effectstack/widgets/colorwheel.cpp
-  effectstack/widgets/cornerswidget.cpp
-  effectstack/widgets/doubleparameterwidget.cpp
-  effectstack/widgets/draggablelabel.cpp
-  effectstack/widgets/geometrywidget.cpp
-  effectstack/widgets/keyframeedit.cpp
-  effectstack/widgets/keyframeimport.cpp
-  effectstack/widgets/listparamwidget.cpp
-  effectstack/widgets/lumaliftgain.cpp
-  effectstack/widgets/positionwidget.cpp
-  effectstack/widgets/selectivecolor.cpp
   PARENT_SCOPE)
 

@@ -85,7 +85,7 @@ static QString colorToString(const QColor &color, bool alpha)
 }
 
 ChooseColorWidget::ChooseColorWidget(const QString &text, const QString &color, const QString &comment, bool alphaEnabled, QWidget *parent)
-    : AbstractParamWidget(parent)
+    : QWidget(parent)
 {
     auto *layout = new QHBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);

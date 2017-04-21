@@ -66,9 +66,9 @@
 #include "titler/titlewidget.h"
 #include "transitions/transitionlist/view/transitionlistwidget.hpp"
 #include "transitions/transitionsrepository.hpp"
-#include "utils/progressbutton.h"
 #include "utils/resourcewidget.h"
 #include "utils/thememanager.h"
+#include "widgets/progressbutton.h"
 #include <config-kdenlive.h>
 
 #include "project/dialogs/temporarydata.h"

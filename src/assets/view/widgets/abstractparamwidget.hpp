@@ -26,10 +26,13 @@
 #include <QLabel>
 #include <QPoint>
 #include <QWidget>
+#include <memory>
 
-/** @brief Base class of all the widgets representing a parameter of an effect
+/** @brief Base class of all the widgets representing a parameter of an asset (effect or transition)
 
  */
+
+class AssetParameterModel;
 class AbstractParamWidget : public QWidget
 {
     Q_OBJECT
@@ -41,12 +44,12 @@ public:
     }
     virtual ~AbstractParamWidget(){};
 
-    /** @brief Factory method to construct a parameter widget given its xml representation
-        @param content XML representation of the widget
-        @param parent Optional parent of the widget
-        TODO
+    /** @brief Factory method to construct a parameter widget.
+        @param model Parameter model this parameter belongs to
+        @param index Index of the parameter in the given model
+        @param parent parent widget
     */
-    // static AbstractParamWidget* construct(const QDomElement& content, QWidget* parent = nullptr);
+    static AbstractParamWidget *construct(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent);
 
 signals:
     /** @brief Signal sent when the parameters hold by the widgets are modified
@@ -61,6 +64,10 @@ public slots:
     /** @brief Toggle the comments on or off
      */
     virtual void slotShowComment(bool) { qDebug() << "DEBUG: show_comment not correctly overriden"; }
+
+protected:
+    std::shared_ptr<AssetParameterModel> m_model;
+    QModelIndex m_index;
 };
 
 #endif

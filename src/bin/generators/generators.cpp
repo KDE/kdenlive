@@ -71,8 +71,11 @@ Generators::Generators(Monitor *monitor, const QString &path, QWidget *parent)
         ItemInfo info;
         EffectMetaInfo metaInfo;
         metaInfo.monitor = monitor;
+        // TODO refac look after this
+        /*
         m_container = new ParameterContainer(base, info, &metaInfo, frameWidget);
         connect(m_container, &ParameterContainer::parameterChanged, this, &Generators::updateProducer);
+        */
         lay->addStretch(10);
         QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
         connect(buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);

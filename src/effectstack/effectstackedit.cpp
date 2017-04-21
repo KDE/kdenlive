@@ -77,13 +77,16 @@ void EffectStackEdit::setFrameSize(const QPoint &p)
 
 void EffectStackEdit::updateTimecodeFormat()
 {
+    /*
     if (m_paramWidget) {
         m_paramWidget->updateTimecodeFormat();
     }
+    */
 }
 
 void EffectStackEdit::updateParameter(const QString &name, const QString &value)
 {
+    /*
     m_paramWidget->updateParameter(name, value);
 
     if (name == QLatin1String("disable")) {
@@ -92,6 +95,7 @@ void EffectStackEdit::updateParameter(const QString &name, const QString &value)
         setEnabled(enabled);
         emit effectStateChanged(enabled);
     }
+    */
 }
 
 bool EffectStackEdit::eventFilter(QObject *o, QEvent *e)
@@ -133,6 +137,7 @@ bool EffectStackEdit::eventFilter(QObject *o, QEvent *e)
 
 void EffectStackEdit::transferParamDesc(const QDomElement &d, const ItemInfo &info, bool /*isEffect*/)
 {
+    /*
     delete m_paramWidget;
     m_paramWidget = new ParameterContainer(d, info, &m_metaInfo, m_baseWidget);
     connect(m_paramWidget, &ParameterContainer::parameterChanged, this, &EffectStackEdit::parameterChanged);
@@ -158,6 +163,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement &d, const ItemInfo &in
         cb->setFocusPolicy(Qt::StrongFocus);
     }
     m_paramWidget->connectMonitor(true);
+    */
 }
 
 void EffectStackEdit::slotSyncEffectsPos(int pos)
@@ -172,26 +178,34 @@ void EffectStackEdit::initEffectScene(int pos)
 
 MonitorSceneType EffectStackEdit::needsMonitorEffectScene() const
 {
+    return MonitorSceneDefault;
+    /*
     if (!m_paramWidget) {
         return MonitorSceneDefault;
     }
     return m_paramWidget->needsMonitorEffectScene();
+    */
 }
 
 void EffectStackEdit::setKeyframes(const QString &tag, const QString &keyframes)
 {
+    /*
     if (!m_paramWidget) {
         return;
     }
     m_paramWidget->setKeyframes(tag, keyframes);
+    */
 }
 
 bool EffectStackEdit::doesAcceptDrops() const
 {
+    return false;
+    /*
     if (!m_paramWidget) {
         return false;
     }
     return m_paramWidget->doesAcceptDrops();
+    */
 }
 
 void EffectStackEdit::importKeyframes(const QString &kf)

@@ -23,11 +23,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "bincontroller.h"
 #include "clipcontroller.h"
 #include "dialogs/profilesdialog.h"
-#include "effectstack/widgets/choosecolorwidget.h"
 #include "kdenlivesettings.h"
 #include "timecodedisplay.h"
 #include "timeline/markerdialog.h"
 #include "utils/KoIconUtils.h"
+#include "widgets/choosecolorwidget.h"
 
 #include <KLocalizedString>
 

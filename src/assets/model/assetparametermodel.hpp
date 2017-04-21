@@ -34,6 +34,7 @@
 /* @brief This class is the model for a list of parameters.
    The behaviour of a transition or an effect is typically  controlled by several parameters. This class exposes this parameters as a list that can be rendered
    using the relevant widgets.
+   Note that internally parameters are not sorted in any ways, because some effects like sox need a precise order
 
  */
 
@@ -108,7 +109,7 @@ protected:
     QString m_assetId;
     std::unordered_map<QString, ParamRow> m_params;      // Store all parameters by name
     std::unordered_map<QString, QVariant> m_fixedParams; // We store values of fixed parameters aside
-    QVector<QString> m_rows;                             // We store the params name in order of parsing
+    QVector<QString> m_rows;                             // We store the params name in order of parsing. The order is important (cf some effects like sox)
 
     std::unique_ptr<Mlt::Properties> m_asset;
 };

@@ -25,7 +25,7 @@
 #include <QSlider>
 
 PositionWidget::PositionWidget(const QString &name, int pos, int min, int max, const Timecode &tc, const QString &comment, QWidget *parent)
-    : AbstractParamWidget(parent)
+    : QWidget(parent)
 {
     auto *layout = new QHBoxLayout(this);
     QLabel *label = new QLabel(name, this);
