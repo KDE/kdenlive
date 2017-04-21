@@ -23,6 +23,9 @@ the Free Software Foundation, either version 3 of the License, or
 #include "project/dialogs/backupwidget.h"
 #include "project/dialogs/noteswidget.h"
 #include "project/dialogs/projectsettings.h"
+// Temporary for testing
+#include "bin/model/markerlistmodel.hpp"
+
 #include "project/notesplugin.h"
 #include "timeline/customtrackview.h"
 #include "timeline/timeline.h"
@@ -880,6 +883,11 @@ void ProjectManager::updateTimeline(Mlt::Tractor tractor)
     pCore->binController()->setBinPlaylist(&tractor);
     m_mainTimelineModel = TimelineItemModel::construct(&pCore->getCurrentProfile()->profile(), m_project->commandStack());
     constructTimelineFromMelt(m_mainTimelineModel, tractor);
+
+    // TODO this is for testing purposes, remove.
+    m_project->getGuideModel()->addMarker(GenTime(10.), "Guide 1", 0);
+    m_project->getGuideModel()->addMarker(GenTime(15.), "Guide 2", 2);
+
     pCore->monitorManager()->projectMonitor()->setProducer(m_mainTimelineModel->producer());
     pCore->window()->getMainTimeline()->setModel(m_mainTimelineModel);
     m_mainTimelineModel->setUndoStack(m_project->commandStack());

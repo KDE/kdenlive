@@ -418,6 +418,7 @@ Rectangle {
                         Column {
                             id: tracksContainer
                             Repeater { id: tracksRepeater; model: trackDelegateModel }
+                            Repeater { id: guidesRepeater; model: guidesDelegateModel }
                         }
                     }
                 }
@@ -618,6 +619,49 @@ Rectangle {
             }
         }
     }
+
+
+    DelegateModel {
+        id: guidesDelegateModel
+        model: guidesModel
+            Item {
+                Rectangle {
+                    id: guideBase
+                    width: 1
+                    height: tracksContainer.height
+                    x: model.frame * timeScale;
+                    color: model.color
+                }
+                Rectangle {
+                    visible: mlabel.visible
+                    opacity: 0.7
+                    x: guideBase.x
+                    y: mlabel.y
+                    radius: 2
+                    width: mlabel.width + 4
+                    height: mlabel.height
+                    color: model.color
+                    MouseArea {
+                        z: 10
+                        anchors.fill: parent
+                        acceptedButtons: Qt.LeftButton
+                        cursorShape: Qt.PointingHandCursor
+                        hoverEnabled: true
+                        //onDoubleClicked: timeline.editMarker(clipRoot.binId, model.frame)
+                        onClicked: timeline.position = guideBase.x / timeline.scaleFactor
+                    }
+                }
+                Text {
+                    id: mlabel
+                    visible: timeline.showMarkers
+                    text: model.comment
+                    font.pixelSize: root.baseUnit
+                    x: guideBase.x + 2
+                    y: scrollView.flickableItem.contentY + 20
+                    color: 'white'
+                }
+            }
+        }
 
 
     Connections {

@@ -27,10 +27,14 @@
 #include "dialogs/markerdialog.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
+#include "project/projectmanager.h"
+#include "doc/kdenlivedoc.h"
 #include "profiles/profilemodel.hpp"
 #include "qml/timelineitems.h"
 #include "qmltypes/thumbnailprovider.h"
 #include "transitions/transitionlist/model/transitiontreemodel.hpp"
+#include "bin/projectclip.h"
+#include "bin/model/markerlistmodel.hpp"
 
 #include <KActionCollection>
 #include <KDeclarative/KDeclarative>
@@ -41,7 +45,6 @@
 #include <QQuickItem>
 #include <QSortFilterProxyModel>
 #include <utility>
-#include <bin/projectclip.h>
 
 const int TimelineWidget::comboScale[] = {1, 2, 5, 10, 25, 50, 125, 250, 500, 750, 1500, 3000, 6000, 12000};
 
@@ -90,6 +93,7 @@ void TimelineWidget::setModel(std::shared_ptr<TimelineItemModel> model)
     rootContext()->setContextProperty("controller", m_model.get());
     rootContext()->setContextProperty("timeline", this);
     rootContext()->setContextProperty("transitionModel", m_transitionProxyModel.get());
+    rootContext()->setContextProperty("guidesModel", pCore->projectManager()->current()->getGuideModel().get());
     setSource(QUrl(QStringLiteral("qrc:/qml/timeline.qml")));
     setVisible(true);
     checkDuration();
