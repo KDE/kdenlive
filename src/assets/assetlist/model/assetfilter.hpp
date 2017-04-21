@@ -45,6 +45,8 @@ public:
     /** @brief Returns true if the ModelIndex in the source model is visible after filtering
      */
     bool isVisible(const QModelIndex &sourceIndex);
+    Q_INVOKABLE QModelIndex getNextChild(const QModelIndex &current);
+    Q_INVOKABLE QModelIndex getPreviousChild(const QModelIndex &current);
 
 protected:
     bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override;

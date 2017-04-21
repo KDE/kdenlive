@@ -75,3 +75,51 @@ bool AssetFilter::applyAll(TreeItem *item) const
 {
     return filterName(item);
 }
+
+QModelIndex AssetFilter::getNextChild(const QModelIndex &current)
+{
+    QModelIndex nextItem = current.sibling(current.row() + 1, current.column());
+    if (!nextItem.isValid()) {
+        QModelIndex folder = index(current.parent().row() + 1, 0, QModelIndex());
+        if (!folder.isValid()) {
+            return current;
+        }
+        TreeItem *folderItem = static_cast<TreeItem *>(mapToSource(folder).internalPointer());
+        while (folder.isValid() && folderItem->childCount() == 0) {
+            folder = folder.sibling(folder.row() + 1, folder.column());
+            if (folder.isValid()) {
+                folderItem = static_cast<TreeItem *>(mapToSource(folder).internalPointer());
+            }
+        }
+        if (folder.isValid() && folderItem->childCount() > 0) {
+            return index(0, current.column(), folder);
+        } else {
+            nextItem = current;
+        }
+    }
+    return nextItem;
+}
+
+QModelIndex AssetFilter::getPreviousChild(const QModelIndex &current)
+{
+    QModelIndex nextItem = current.sibling(current.row() - 1, current.column());
+    if (!nextItem.isValid()) {
+        QModelIndex folder = index(current.parent().row() - 1, 0, QModelIndex());
+        if (!folder.isValid()) {
+            return current;
+        }
+        TreeItem *folderItem = static_cast<TreeItem *>(mapToSource(folder).internalPointer());
+        while (folder.isValid() && folderItem->childCount() == 0) {
+            folder = folder.sibling(folder.row() - 1, folder.column());
+            if (folder.isValid()) {
+                folderItem = static_cast<TreeItem *>(mapToSource(folder).internalPointer());
+            }
+        }
+        if (folder.isValid() && folderItem->childCount() > 0) {
+            return index(folderItem->childCount() - 1, current.column(), folder);
+        } else {
+            nextItem = current;
+        }
+    }
+    return nextItem;
+}

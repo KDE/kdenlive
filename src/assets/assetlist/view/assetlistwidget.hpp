@@ -54,11 +54,12 @@ public:
 
     Q_INVOKABLE QVariantMap getMimeData(const QString &assetId) const;
 
+    Q_INVOKABLE void activate(const QModelIndex &ix) const;
+
 protected:
     void setup();
     std::unique_ptr<AssetTreeModel> m_model;
     std::unique_ptr<AssetFilter> m_proxyModel;
-
     std::unique_ptr<AssetIconProvider> m_assetIconProvider;
 
 signals:

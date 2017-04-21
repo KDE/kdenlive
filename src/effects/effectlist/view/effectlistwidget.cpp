@@ -66,3 +66,4 @@ QString EffectListWidget::getMimeType(const QString &assetId) const
     Q_UNUSED(assetId);
     return QStringLiteral("kdenlive/effect");
 }
+

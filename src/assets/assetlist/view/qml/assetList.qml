@@ -19,7 +19,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-import QtQuick 2.6
+import QtQuick 2.7
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 1.5
 import QtQuick.Controls.Styles 1.4
@@ -186,16 +186,15 @@ Rectangle {
             alternatingRowColors: false
             headerVisible: false
             backgroundVisible:false
-            property var selectedItem
-            itemDelegate:    Rectangle {
+            selection: sel
+            selectionMode: SelectionMode.SingleSelection
+            itemDelegate: Rectangle {
                 id: assetDelegate
                 // These anchors are important to allow "copy" dragging
                 anchors.verticalCenter: parent ? parent.verticalCenter : undefined
                 anchors.right: parent ? parent.right : undefined
                 property bool isItem : styleData.value != "root" && styleData.value != ""
                 property string mimeType : isItem ? assetlist.getMimeType(styleData.value) : ""
-                property bool selected: false
-
                 height: text.implicitHeight + 8
                 color: "transparent"
 
@@ -233,14 +232,10 @@ Rectangle {
                     onPressed: {
                         if (isItem) {
                             assetDescription.text = assetlist.getDescription(styleData.index)
-                            if (treeView.selectedItem) {
-                                treeView.selectedItem.selected = false
-                            }
-                            parent.selected = true
-                            treeView.selectedItem = parent
                             parent.grabToImage(function(result) {
                                 parent.Drag.imageSource = result.url
                             })
+                            sel.setCurrentIndex(styleData.index, ItemSelectionModel.ClearAndSelect)
                             console.log(parent.Drag.keys)
                         } else {
                             if (treeView.isExpanded(styleData.index)) {
@@ -252,36 +247,21 @@ Rectangle {
                         }
                     }
                 }
-                state:  'normal'
-                    states: [
-                        State {
-                            name: 'hover'
-                            when: dragArea.containsMouse
-                            PropertyChanges {
-                                target: assetDelegate
-                                color: Qt.darker(activePalette.highlight)
-                            }
-                        },
-                        State {
-                            name: 'selected'
-                            when: assetDelegate.selected
-                            PropertyChanges {
-                                target: assetDelegate
-                                color: activePalette.highlight
-                            }
-                        }
-                    ]
-                    transitions: [
-                        Transition {
-                            to: '*'
-                            ColorAnimation { target: assetDelegate; duration: 200 }
-                        }
-                    ]
             }
 
-            TableViewColumn { role: "identifier"; title: "Name"; width: 700 }
+            TableViewColumn { role: "identifier"; title: "Name"; }
             model: assetListModel
-            selection: sel
+
+            Keys.onDownPressed: {
+                sel.setCurrentIndex(assetListModel.getNextChild(sel.currentIndex), ItemSelectionModel.ClearAndSelect)
+                treeView.expand(sel.currentIndex.parent)
+            }
+            Keys.onUpPressed: {
+                sel.setCurrentIndex(assetListModel.getPreviousChild(sel.currentIndex), ItemSelectionModel.ClearAndSelect)
+                treeView.expand(sel.currentIndex.parent)
+            }
+            Keys.onReturnPressed: assetlist.activate(sel.currentIndex)
+
         }
         TextArea {
             id: assetDescription
@@ -296,5 +276,4 @@ Rectangle {
 
         }
     }
-
 }

@@ -100,3 +100,5 @@ QList<QModelIndex> AssetTreeModel::getChildrenIndexes()
 
     return indexes;
 }
+
+
