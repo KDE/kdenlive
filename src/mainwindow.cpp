@@ -3226,9 +3226,7 @@ void MainWindow::buildDynamicActions()
     Mlt::Profile profile;
     Mlt::Filter *filter;
 
-    for (const QString &stab : QStringList() << "vidstab"
-                                             << "videostab2"
-                                             << "videostab") {
+    for (const QString &stab : {QStringLiteral("vidstab"), QStringLiteral("videostab2"), QStringLiteral("videostab")}) {
         filter = Mlt::Factory::filter(profile, (char *)stab.toUtf8().constData());
         if ((filter != nullptr) && filter->is_valid()) {
             QAction *action = new QAction(i18n("Stabilize") + QStringLiteral(" (") + stab + QLatin1Char(')'), m_extraFactory->actionCollection());
