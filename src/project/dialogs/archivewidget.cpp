@@ -782,8 +782,8 @@ bool ArchiveWidget::processProjectFile()
             QDomDocument titleXML;
             titleXML.setContent(src);
             QDomNodeList images = titleXML.documentElement().elementsByTagName(QLatin1String("item"));
-            for (int i = 0; i < images.count(); i++) {
-                QDomNode n = images.at(i);
+            for (int j = 0; j < images.count(); j++) {
+                QDomNode n = images.at(j);
                 QDomElement url = n.firstChildElement(QLatin1String("content"));
                 if (!url.isNull() && url.hasAttribute(QLatin1String("url"))) {
                     QUrl srcUrl = QUrl::fromLocalFile(url.attribute(QLatin1String("url")));

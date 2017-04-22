@@ -19,6 +19,7 @@
 
 #include "cliptranscode.h"
 #include "kdenlivesettings.h"
+#include "kxmlgui_version.h"
 
 #include <QFontDatabase>
 #include <QStandardPaths>

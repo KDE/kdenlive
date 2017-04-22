@@ -3319,8 +3319,8 @@ void MainWindow::buildDynamicActions()
     actionCollection()->addAction(showTimeline->text(), showTimeline);
 
     QList<QDockWidget *> docks = findChildren<QDockWidget *>();
-    for (int i = 0; i < docks.count(); ++i) {
-        QDockWidget *dock = docks.at(i);
+    for (int j = 0; j < docks.count(); ++j) {
+        QDockWidget *dock = docks.at(j);
         QAction *dockInformations = dock->toggleViewAction();
         if (!dockInformations) {
             continue;

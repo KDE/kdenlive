@@ -28,7 +28,6 @@
 #include "doc/kthumb.h"
 #include "kdenlivesettings.h"
 #include "mltcontroller/effectscontroller.h"
-#include "onmonitoritems/rotoscoping/rotowidget.h"
 #include "renderer.h"
 #include "utils/KoIconUtils.h"
 
@@ -1947,9 +1946,9 @@ QMap<int, QDomElement> ClipItem::adjustEffectsToDuration(const ItemInfo &oldInfo
                     effects[i] = effect.cloneNode().toElement();
                 }
                 QByteArray value = param.attribute(QStringLiteral("value")).toLatin1();
-                if (adjustRotoDuration(&value, cropStart().frames(m_fps), (cropStart() + cropDuration()).frames(m_fps) - 1)) {
+                /*if (adjustRotoDuration(&value, cropStart().frames(m_fps), (cropStart() + cropDuration()).frames(m_fps) - 1)) {
                     param.setAttribute(QStringLiteral("value"), QString::fromLatin1(value));
-                }
+                }*/
             }
         }
     }
