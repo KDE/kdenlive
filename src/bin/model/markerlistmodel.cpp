@@ -210,3 +210,9 @@ CommentedTime MarkerListModel::getMarker(const GenTime &pos) const
     return t;
 }
 
+bool MarkerListModel::hasMarker(int frame) const
+{
+    return m_markerList.count(GenTime(frame, pCore->getCurrentFps())) > 0;
+}
+
+

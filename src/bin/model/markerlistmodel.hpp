@@ -77,6 +77,8 @@ public:
     QVariant data(const QModelIndex &index, int role) const override;
     QHash<int, QByteArray> roleNames() const override;
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+    /** Returns true if a marker exists at given pos */
+    Q_INVOKABLE bool hasMarker(int frame) const;
 
     /** Adds a snap point at marker position */
     void addSnapPoint(GenTime pos);

@@ -215,10 +215,10 @@ Rectangle {
         property int clickedX
         property int clickedY
         MenuItem {
+            id: addGuideMenu
             text: i18n('Add Guide')
             onTriggered: {
-                var frame = Math.round((menu.clickedX + scrollView.flickableItem.contentX) / timeline.scaleFactor)
-                timeline.switchGuide(frame);
+                timeline.switchGuide(timeline.position);
             }
         }
         MenuItem {
@@ -237,6 +237,10 @@ Rectangle {
                     compositionFail.open()
                 }
             }
+        }
+        onAboutToShow: {
+            addGuideMenu.text = guidesModel.hasMarker(timeline.position) ? i18n('Remove Guide') : i18n('Add Guide')
+            console.log("pop menu")
         }
     }
     MessageDialog {
