@@ -222,6 +222,14 @@ Rectangle {
             }
         }
         MenuItem {
+            id: editGuideMenu
+            text: i18n('Edit Guide')
+            visible: false
+            onTriggered: {
+                timeline.editGuide(timeline.position);
+            }
+        }
+        MenuItem {
             text: i18n('Add Audio Track')
             shortcut: 'Ctrl+U'
             onTriggered: timeline.addAudioTrack();
@@ -239,7 +247,14 @@ Rectangle {
             }
         }
         onAboutToShow: {
-            addGuideMenu.text = guidesModel.hasMarker(timeline.position) ? i18n('Remove Guide') : i18n('Add Guide')
+            if (guidesModel.hasMarker(timeline.position)) {
+                // marker at timeline position
+                addGuideMenu.text = i18n('Remove Guide')
+                editGuideMenu.visible = true
+            } else {
+                addGuideMenu.text = i18n('Add Guide')
+                editGuideMenu.visible = false
+            }
             console.log("pop menu")
         }
     }
