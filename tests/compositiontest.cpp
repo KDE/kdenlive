@@ -10,11 +10,11 @@
 #include <mlt++/MltRepository.h>
 #define private public
 #define protected public
+#include "bin/model/markerlistmodel.hpp"
 #include "timeline2/model/clipmodel.hpp"
 #include "timeline2/model/compositionmodel.hpp"
 #include "timeline2/model/timelineitemmodel.hpp"
 #include "timeline2/model/timelinemodel.hpp"
-#include "timeline2/model/snapmodel.hpp"
 #include "timeline2/model/trackmodel.hpp"
 #include "transitions/transitionsrepository.hpp"
 
@@ -41,8 +41,8 @@ TEST_CASE("Basic creation/deletion of a composition", "[CompositionModel]")
     REQUIRE(mlt_transition->is_valid());
 
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::unique_ptr<SnapModel> snap(new SnapModel());
-    std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(new Mlt::Profile(), snap, undoStack);
+    std::shared_ptr<MarkerListModel> guideModel(new MarkerListModel(undoStack));
+    std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(new Mlt::Profile(), guideModel, undoStack);
 
     REQUIRE(timeline->getCompositionsCount() == 0);
     int id1 = CompositionModel::construct(timeline, aCompo);
@@ -66,8 +66,8 @@ TEST_CASE("Basic creation/deletion of a composition", "[CompositionModel]")
 TEST_CASE("Composition manipulation", "[CompositionModel]")
 {
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::unique_ptr<SnapModel> snap(new SnapModel());
-    std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(new Mlt::Profile(), snap, undoStack);
+    std::shared_ptr<MarkerListModel> guideModel(new MarkerListModel(undoStack));
+    std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(new Mlt::Profile(), guideModel, undoStack);
 
     int tid0 = TrackModel::construct(timeline);
     int tid1 = TrackModel::construct(timeline);

@@ -25,7 +25,6 @@
 #include "gentime.h"
 #include "definitions.h"
 #include "undohelper.hpp"
-#include "timeline2/model/snapmodel.hpp"
 
 #include <QAbstractListModel>
 #include <QReadWriteLock>
@@ -34,6 +33,7 @@
 #include <memory>
 
 class DocUndoStack;
+class SnapModel;
 
 
 /* @brief This class is the model for a list of markers.
@@ -53,7 +53,7 @@ public:
     explicit MarkerListModel(const QString &clipId, std::weak_ptr<DocUndoStack> undo_stack, QObject *parent = nullptr);
 
     /* @brief Construct a guide list (bound to the timeline) */
-    MarkerListModel(std::weak_ptr<DocUndoStack> undo_stack, std::unique_ptr<SnapModel> &snapModel, QObject *parent = nullptr);
+    MarkerListModel(std::weak_ptr<DocUndoStack> undo_stack, QObject *parent = nullptr);
 
     enum { CommentRole = Qt::UserRole + 1, PosRole, FrameRole, ColorRole };
 
@@ -67,24 +67,38 @@ public:
     /* @brief Removes the marker at the given position. */
     void removeMarker(GenTime pos);
 
-    /** This describes the available markers type and their corresponding colors */
+    /* @brief This describes the available markers type and their corresponding colors */
     static std::array<QColor, 5> markerTypes;
 
-    /** Returns a marker data at given pos */
+    /* @brief Returns a marker data at given pos */
     CommentedTime getMarker(const GenTime &pos) const;
+
+    /* @brief Returns true if a marker exists at given pos
+       Notice that add/remove queries are done in real time (gentime), but this request is made in frame
+     */
+    Q_INVOKABLE bool hasMarker(int frame) const;
+
+    /* @brief Registers a snapModel to the marker model.
+       This is intended to be used only for a guide model, so that the timelines can register their snapmodel to be updated when the guide moves.
+       The snap logic for clips is managed from the Timeline
+       Note that no deregistration is necessary, the weak_ptr will be discarded as soon as it becomes invalid.
+    */
+    void registerSnapModel(std::weak_ptr<SnapModel> snapModel);
 
     // Mandatory overloads
     QVariant data(const QModelIndex &index, int role) const override;
     QHash<int, QByteArray> roleNames() const override;
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
-    /** Returns true if a marker exists at given pos */
-    Q_INVOKABLE bool hasMarker(int frame) const;
-
-    /** Adds a snap point at marker position */
-    void addSnapPoint(GenTime pos);
-    void removeSnapPoint(GenTime pos);
 
 protected:
+    /* @brief Adds a snap point at marker position in the registered snap models
+     (those that are still valid)*/
+    void addSnapPoint(GenTime pos);
+
+    /* @brief Deletes a snap point at marker position in the registered snap models
+       (those that are still valid)*/
+    void removeSnapPoint(GenTime pos);
+
     /** @brief Helper function that generate a lambda to change comment / type of given marker */
     Fun changeComment_lambda(GenTime pos, const QString &comment, int type);
 
@@ -106,7 +120,7 @@ private:
     mutable QReadWriteLock m_lock; // This is a lock that ensures safety in case of concurrent access
 
     std::map<GenTime, std::pair<QString, int>> m_markerList;
-    std::unique_ptr<SnapModel> m_snaps;
+    std::vector<std::weak_ptr<SnapModel>> m_registeredSnaps;
 
 public:
     // this is to enable for range loops

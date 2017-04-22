@@ -28,26 +28,25 @@
 #include "kdenlivesettings.h"
 #include "macros.hpp"
 #include "project/projectmanager.h"
+#include "timeline2/model/snapmodel.hpp"
 
 #include <QDebug>
 #include <klocalizedstring.h>
 
-std::array<QColor, 5> MarkerListModel::markerTypes = {Qt::red, Qt::blue, Qt::green, Qt::yellow, Qt::cyan};
+std::array<QColor, 5> MarkerListModel::markerTypes = {{Qt::red, Qt::blue, Qt::green, Qt::yellow, Qt::cyan}};
 
 MarkerListModel::MarkerListModel(const QString &clipId, std::weak_ptr<DocUndoStack> undo_stack, QObject *parent)
     : QAbstractListModel(parent)
     , m_undoStack(std::move(undo_stack))
     , m_guide(false)
     , m_clipId(clipId)
-    , m_snaps(nullptr)
 {
 }
 
-MarkerListModel::MarkerListModel(std::weak_ptr<DocUndoStack> undo_stack, std::unique_ptr<SnapModel> &snapModel, QObject *parent)
+MarkerListModel::MarkerListModel(std::weak_ptr<DocUndoStack> undo_stack, QObject *parent)
     : QAbstractListModel(parent)
     , m_undoStack(std::move(undo_stack))
     , m_guide(true)
-    , m_snaps(snapModel.get())
 {
 }
 
@@ -55,7 +54,7 @@ void MarkerListModel::addMarker(GenTime pos, const QString &comment, int type)
 {
     QWriteLocker locker(&m_lock);
     if (type == -1) type = KdenliveSettings::default_marker_type();
-    Q_ASSERT(type >= 0 && type < markerTypes.size());
+    Q_ASSERT(type >= 0 && type < (int)markerTypes.size());
     if (m_markerList.count(pos) > 0) {
         // In this case we simply change the comment and type
         QString oldComment = m_markerList[pos].first;
@@ -160,16 +159,28 @@ QHash<int, QByteArray> MarkerListModel::roleNames() const
 
 void MarkerListModel::addSnapPoint(GenTime pos)
 {
-    if (m_snaps) {
-        m_snaps->addPoint(pos.frames(pCore->getCurrentFps()));
+    std::vector<std::weak_ptr<SnapModel>> validSnapModels;
+    for (const auto& snapModel : m_registeredSnaps) {
+        if (auto ptr = snapModel.lock()) {
+            validSnapModels.push_back(snapModel);
+            ptr->addPoint(pos.frames(pCore->getCurrentFps()));
+        }
     }
+    // Update the list of snapModel known to be valid
+    std::swap(m_registeredSnaps, validSnapModels);
 }
 
 void MarkerListModel::removeSnapPoint(GenTime pos)
 {
-    if (m_snaps) {
-        m_snaps->removePoint(pos.frames(pCore->getCurrentFps()));
+    std::vector<std::weak_ptr<SnapModel>> validSnapModels;
+    for (const auto& snapModel : m_registeredSnaps) {
+        if (auto ptr = snapModel.lock()) {
+            validSnapModels.push_back(snapModel);
+            ptr->removePoint(pos.frames(pCore->getCurrentFps()));
+        }
     }
+    // Update the list of snapModel known to be valid
+    std::swap(m_registeredSnaps, validSnapModels);
 }
 
 QVariant MarkerListModel::data(const QModelIndex &index, int role) const
@@ -189,7 +200,7 @@ QVariant MarkerListModel::data(const QModelIndex &index, int role) const
     case FrameRole:
         return it->first.frames(pCore->getCurrentFps());
     case ColorRole:
-        return markerTypes[it->second.second];
+        return markerTypes[(size_t)it->second.second];
     }
     return QVariant();
 }
@@ -216,3 +227,9 @@ bool MarkerListModel::hasMarker(int frame) const
 }
 
 
+
+void MarkerListModel::registerSnapModel(std::weak_ptr<SnapModel> snapModel)
+{
+    Q_ASSERT(m_guide);
+    m_registeredSnaps.push_back(snapModel);
+}
