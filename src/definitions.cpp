@@ -164,53 +164,53 @@ bool MltVideoProfile::operator!=(const MltVideoProfile &other) const
 }
 
 CommentedTime::CommentedTime()
-    : t(GenTime(0))
-    , type(0)
+    : m_time(GenTime(0))
+    , m_type(0)
 {
 }
 
 CommentedTime::CommentedTime(const GenTime &time, const QString &comment, int markerType)
-    : t(time)
-    , c(comment)
-    , type(markerType)
+    : m_time(time)
+    , m_comment(comment)
+    , m_type(markerType)
 {
 }
 
 CommentedTime::CommentedTime(const QString &hash, const GenTime &time)
-    : t(time)
-    , c(hash.section(QLatin1Char(':'), 1))
-    , type(hash.section(QLatin1Char(':'), 0, 0).toInt())
+    : m_time(time)
+    , m_comment(hash.section(QLatin1Char(':'), 1))
+    , m_type(hash.section(QLatin1Char(':'), 0, 0).toInt())
 {
 }
 
 QString CommentedTime::comment() const
 {
-    return (c.isEmpty() ? i18n("Marker") : c);
+    return (m_comment.isEmpty() ? i18n("Marker") : m_comment);
 }
 
 GenTime CommentedTime::time() const
 {
-    return t;
+    return m_time;
 }
 
 void CommentedTime::setComment(const QString &comm)
 {
-    c = comm;
+    m_comment = comm;
 }
 
 void CommentedTime::setMarkerType(int t)
 {
-    type = t;
+    m_type = t;
 }
 
 QString CommentedTime::hash() const
 {
-    return QString::number(type) + QLatin1Char(':') + (c.isEmpty() ? i18n("Marker") : c);
+    return QString::number(m_type) + QLatin1Char(':') + (m_comment.isEmpty() ? i18n("Marker") : m_comment);
 }
 
 int CommentedTime::markerType() const
 {
-    return type;
+    return m_type;
 }
 
 QColor CommentedTime::markerColor(int type)
@@ -236,30 +236,30 @@ QColor CommentedTime::markerColor(int type)
 
 bool CommentedTime::operator>(const CommentedTime &op) const
 {
-    return t > op.time();
+    return m_time > op.time();
 }
 
 bool CommentedTime::operator<(const CommentedTime &op) const
 {
-    return t < op.time();
+    return m_time < op.time();
 }
 
 bool CommentedTime::operator>=(const CommentedTime &op) const
 {
-    return t >= op.time();
+    return m_time >= op.time();
 }
 
 bool CommentedTime::operator<=(const CommentedTime &op) const
 {
-    return t <= op.time();
+    return m_time <= op.time();
 }
 
 bool CommentedTime::operator==(const CommentedTime &op) const
 {
-    return t == op.time();
+    return m_time == op.time();
 }
 
 bool CommentedTime::operator!=(const CommentedTime &op) const
 {
-    return t != op.time();
+    return m_time != op.time();
 }

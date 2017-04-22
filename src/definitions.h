@@ -262,9 +262,9 @@ public:
     bool operator!=(const CommentedTime &op) const;
 
 private:
-    GenTime t;
-    QString c;
-    int type;
+    GenTime m_time;
+    QString m_comment;
+    int m_type;
 };
 
 QDebug operator<<(QDebug qd, const ItemInfo &info);

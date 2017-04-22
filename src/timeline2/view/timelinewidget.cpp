@@ -69,7 +69,6 @@ TimelineWidget::TimelineWidget(KActionCollection *actionCollection, std::shared_
 
     KDeclarative::KDeclarative kdeclarative;
     kdeclarative.setDeclarativeEngine(engine());
-    kdeclarative.initialize();
     kdeclarative.setupBindings();
     setResizeMode(QQuickWidget::SizeRootObjectToView);
     m_thumbnailer = new ThumbnailProvider;
