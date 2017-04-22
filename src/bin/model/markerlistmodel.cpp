@@ -39,13 +39,15 @@ MarkerListModel::MarkerListModel(const QString &clipId, std::weak_ptr<DocUndoSta
     , m_undoStack(std::move(undo_stack))
     , m_guide(false)
     , m_clipId(clipId)
+    , m_snaps(nullptr)
 {
 }
 
-MarkerListModel::MarkerListModel(std::weak_ptr<DocUndoStack> undo_stack, QObject *parent)
+MarkerListModel::MarkerListModel(std::weak_ptr<DocUndoStack> undo_stack, std::unique_ptr<SnapModel> &snapModel, QObject *parent)
     : QAbstractListModel(parent)
     , m_undoStack(std::move(undo_stack))
     , m_guide(true)
+    , m_snaps(snapModel.get())
 {
 }
 
@@ -117,6 +119,7 @@ Fun MarkerListModel::addMarker_lambda(GenTime pos, const QString &comment, int t
         model->beginInsertRows(QModelIndex(), insertionRow, insertionRow);
         model->m_markerList[pos] = {comment, type};
         model->endInsertRows();
+        model->addSnapPoint(pos);
         return true;
     };
 }
@@ -132,6 +135,7 @@ Fun MarkerListModel::deleteMarker_lambda(GenTime pos)
         model->beginRemoveRows(QModelIndex(), row, row);
         model->m_markerList.erase(pos);
         model->endRemoveRows();
+        model->removeSnapPoint(pos);
         return true;
     };
 }
@@ -152,6 +156,20 @@ QHash<int, QByteArray> MarkerListModel::roleNames() const
     roles[FrameRole] = "frame";
     roles[ColorRole] = "color";
     return roles;
+}
+
+void MarkerListModel::addSnapPoint(GenTime pos)
+{
+    if (m_snaps) {
+        m_snaps->addPoint(pos.frames(pCore->getCurrentFps()));
+    }
+}
+
+void MarkerListModel::removeSnapPoint(GenTime pos)
+{
+    if (m_snaps) {
+        m_snaps->removePoint(pos.frames(pCore->getCurrentFps()));
+    }
 }
 
 QVariant MarkerListModel::data(const QModelIndex &index, int role) const

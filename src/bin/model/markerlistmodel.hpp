@@ -25,6 +25,7 @@
 #include "gentime.h"
 #include "definitions.h"
 #include "undohelper.hpp"
+#include "timeline2/model/snapmodel.hpp"
 
 #include <QAbstractListModel>
 #include <QReadWriteLock>
@@ -33,6 +34,7 @@
 #include <memory>
 
 class DocUndoStack;
+
 
 /* @brief This class is the model for a list of markers.
    A marker is defined by a time, a type (the color used to represent it) and a comment string.
@@ -51,7 +53,7 @@ public:
     explicit MarkerListModel(const QString &clipId, std::weak_ptr<DocUndoStack> undo_stack, QObject *parent = nullptr);
 
     /* @brief Construct a guide list (bound to the timeline) */
-    MarkerListModel(std::weak_ptr<DocUndoStack> undo_stack, QObject *parent = nullptr);
+    MarkerListModel(std::weak_ptr<DocUndoStack> undo_stack, std::unique_ptr<SnapModel> &snapModel, QObject *parent = nullptr);
 
     enum { CommentRole = Qt::UserRole + 1, PosRole, FrameRole, ColorRole };
 
@@ -76,6 +78,10 @@ public:
     QHash<int, QByteArray> roleNames() const override;
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 
+    /** Adds a snap point at marker position */
+    void addSnapPoint(GenTime pos);
+    void removeSnapPoint(GenTime pos);
+
 protected:
     /** @brief Helper function that generate a lambda to change comment / type of given marker */
     Fun changeComment_lambda(GenTime pos, const QString &comment, int type);
@@ -98,6 +104,7 @@ private:
     mutable QReadWriteLock m_lock; // This is a lock that ensures safety in case of concurrent access
 
     std::map<GenTime, std::pair<QString, int>> m_markerList;
+    std::unique_ptr<SnapModel> m_snaps;
 
 public:
     // this is to enable for range loops

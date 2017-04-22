@@ -32,6 +32,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "mltcontroller/clipcontroller.h"
 #include "mltcontroller/clippropertiescontroller.h"
 #include "model/markerlistmodel.hpp"
+#include "timeline2/model/snapmodel.hpp"
 #include "profiles/profilemodel.hpp"
 #include "project/projectcommands.h"
 #include "project/projectmanager.h"

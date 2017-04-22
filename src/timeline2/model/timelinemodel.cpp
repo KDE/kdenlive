@@ -45,10 +45,10 @@
 
 int TimelineModel::next_id = 0;
 
-TimelineModel::TimelineModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack)
+TimelineModel::TimelineModel(Mlt::Profile *profile, std::unique_ptr<SnapModel> &snapModel, std::weak_ptr<DocUndoStack> undo_stack)
     : QAbstractItemModel()
     , m_tractor(new Mlt::Tractor(*profile))
-    , m_snaps(new SnapModel())
+    , m_snaps(snapModel.get())
     , m_undoStack(undo_stack)
     , m_profile(profile)
     , m_blackClip(new Mlt::Producer(*profile, "color:black"))
@@ -1397,3 +1397,4 @@ Mlt::Producer *TimelineModel::producer()
     auto *prod = new Mlt::Producer(tractor());
     return prod;
 }
+

@@ -28,6 +28,7 @@
 #include "documentvalidator.h"
 #include "docundostack.hpp"
 #include "effectslist/initeffects.h"
+#include "timeline2/model/snapmodel.hpp"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "renderer.h"
@@ -80,9 +81,10 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGro
     , m_height(0)
     , m_modified(false)
     , m_projectFolder(projectFolder)
+    , m_snaps(new SnapModel())
 {
     m_commandStack = std::make_shared<DocUndoStack>(undoGroup);
-    m_guideModel.reset(new MarkerListModel(m_commandStack, this));
+    m_guideModel.reset(new MarkerListModel(m_commandStack, m_snaps, this));
 
     // init m_profile struct
     m_profile.frame_rate_num = 0;
@@ -1869,4 +1871,9 @@ void KdenliveDoc::addGuides(QList<CommentedTime> &markers)
             m_guideModel->addMarker(markers.at(i).time(), markers.at(i).comment(), markers.at(i).markerType());
         }
     }
+}
+
+std::unique_ptr<SnapModel> &KdenliveDoc::snapModel()
+{
+    return m_snaps;
 }

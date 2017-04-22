@@ -50,6 +50,7 @@ class ProjectClip;
 class ClipController;
 class MarkerListModel;
 class Render;
+class SnapModel;
 
 class QTextEdit;
 class QUndoGroup;
@@ -172,6 +173,9 @@ public:
     /** @brief Edit timeline guide */
     void addGuides(QList<CommentedTime> &markers);
 
+    /** @brief Returns a pointer to snap model */
+    std::unique_ptr<SnapModel> &snapModel();
+
     // TODO REFAC: delete */
     Render *renderer();
 
@@ -199,6 +203,7 @@ private:
     QList<int> m_undoChunks;
     QMap<QString, QString> m_documentProperties;
     QMap<QString, QString> m_documentMetadata;
+    std::unique_ptr<SnapModel> m_snaps;
     std::shared_ptr<MarkerListModel> m_guideModel;
 
     QString searchFileRecursively(const QDir &dir, const QString &matchSize, const QString &matchHash) const;

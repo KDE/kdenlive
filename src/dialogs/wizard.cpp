@@ -20,7 +20,6 @@
 #include "wizard.h"
 #include "kdenlivesettings.h"
 #include "profilesdialog.h"
-#include "renderer.h"
 #include "utils/KoIconUtils.h"
 #include "utils/thememanager.h"
 #ifdef USE_V4L

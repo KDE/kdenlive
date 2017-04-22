@@ -86,7 +86,7 @@ class TimelineModel : public QAbstractItemModel, public std::enable_shared_from_
 protected:
     /* @brief this constructor should not be called. Call the static construct instead
      */
-    TimelineModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack);
+    TimelineModel(Mlt::Profile *profile, std::unique_ptr<SnapModel> &snapModel, std::weak_ptr<DocUndoStack> undo_stack);
 
 public:
     friend class TrackModel;
@@ -476,6 +476,9 @@ protected:
 
     /* @brief Debugging function that checks consistency with Mlt objects */
     bool checkConsistency();
+
+    /* @brief Returns snap model */
+    std::unique_ptr<SnapModel> &getSnapModel();
 
 protected:
     std::unique_ptr<Mlt::Tractor> m_tractor;

@@ -35,14 +35,14 @@
 #include <mlt++/MltTransition.h>
 #include <utility>
 
-TimelineItemModel::TimelineItemModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack)
-    : TimelineModel(profile, undo_stack)
+TimelineItemModel::TimelineItemModel(Mlt::Profile *profile, std::unique_ptr<SnapModel> &snapModel, std::weak_ptr<DocUndoStack> undo_stack)
+    : TimelineModel(profile, snapModel, undo_stack)
 {
 }
 
-std::shared_ptr<TimelineItemModel> TimelineItemModel::construct(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack)
+std::shared_ptr<TimelineItemModel> TimelineItemModel::construct(Mlt::Profile *profile, std::unique_ptr<SnapModel> &snapModel, std::weak_ptr<DocUndoStack> undo_stack)
 {
-    std::shared_ptr<TimelineItemModel> ptr(new TimelineItemModel(profile, std::move(undo_stack)));
+    std::shared_ptr<TimelineItemModel> ptr(new TimelineItemModel(profile, snapModel, std::move(undo_stack)));
     ptr->m_groups = std::unique_ptr<GroupsModel>(new GroupsModel(ptr));
     return ptr;
 }
