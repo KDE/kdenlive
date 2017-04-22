@@ -40,6 +40,7 @@ MarkerListModel::MarkerListModel(const QString &clipId, std::weak_ptr<DocUndoSta
     , m_undoStack(std::move(undo_stack))
     , m_guide(false)
     , m_clipId(clipId)
+    , m_lock(QReadWriteLock::Recursive)
 {
 }
 
@@ -47,6 +48,7 @@ MarkerListModel::MarkerListModel(std::weak_ptr<DocUndoStack> undo_stack, QObject
     : QAbstractListModel(parent)
     , m_undoStack(std::move(undo_stack))
     , m_guide(true)
+    , m_lock(QReadWriteLock::Recursive)
 {
 }
 
@@ -185,6 +187,7 @@ void MarkerListModel::removeSnapPoint(GenTime pos)
 
 QVariant MarkerListModel::data(const QModelIndex &index, int role) const
 {
+    READ_LOCK();
     if (index.row() < 0 || index.row() >= static_cast<int>(m_markerList.size()) || !index.isValid()) {
         return QVariant();
     }
@@ -207,12 +210,14 @@ QVariant MarkerListModel::data(const QModelIndex &index, int role) const
 
 int MarkerListModel::rowCount(const QModelIndex &parent) const
 {
+    READ_LOCK();
     if (parent.isValid()) return 0;
     return static_cast<int>(m_markerList.size());
 }
 
 CommentedTime MarkerListModel::getMarker(const GenTime &pos) const
 {
+    READ_LOCK();
     if (m_markerList.count(pos) <= 0) {
         // return empty marker
         return CommentedTime();
@@ -223,6 +228,7 @@ CommentedTime MarkerListModel::getMarker(const GenTime &pos) const
 
 bool MarkerListModel::hasMarker(int frame) const
 {
+    READ_LOCK();
     return m_markerList.count(GenTime(frame, pCore->getCurrentFps())) > 0;
 }
 
@@ -230,6 +236,20 @@ bool MarkerListModel::hasMarker(int frame) const
 
 void MarkerListModel::registerSnapModel(std::weak_ptr<SnapModel> snapModel)
 {
+    READ_LOCK();
     Q_ASSERT(m_guide);
-    m_registeredSnaps.push_back(snapModel);
+    // make sure ptr is valid
+    if (auto ptr = snapModel.lock()) {
+        // ptr is valid, we store it
+        m_registeredSnaps.push_back(snapModel);
+
+        // we now add the already existing markers to the snap
+        for (const auto &marker : m_markerList) {
+            GenTime pos = marker.first;
+            ptr->addPoint(pos.frames(pCore->getCurrentFps()));
+        }
+    } else {
+        qDebug() << "Error: added snapmodel is null";
+        Q_ASSERT(false);
+    }
 }
