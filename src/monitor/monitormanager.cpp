@@ -117,6 +117,11 @@ void MonitorManager::focusProjectMonitor()
     activateMonitor(Kdenlive::ProjectMonitor);
 }
 
+void MonitorManager::refreshProjectMonitor()
+{
+    m_projectMonitor->refreshMonitorIfActive();
+}
+
 bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool forceRefresh)
 {
     if (m_clipMonitor == nullptr || m_projectMonitor == nullptr) {

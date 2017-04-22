@@ -109,6 +109,9 @@ GLWidget::GLWidget(int id, QObject *parent)
     setResizeMode(QQuickView::SizeRootObjectToView);
 
     m_monitorProfile = new Mlt::Profile();
+    m_refreshTimer.setSingleShot(true);
+    m_refreshTimer.setInterval(50);
+    connect(&m_refreshTimer, &QTimer::timeout, this, &GLWidget::refresh);
 
     if (KdenliveSettings::gpu_accel()) {
         m_glslManager = new Mlt::Filter(*m_monitorProfile, "glsl.manager");
@@ -580,6 +583,24 @@ void GLWidget::seek(int pos)
     } else {
         m_requestedSeekPosition = pos;
     }
+}
+
+void GLWidget::requestRefresh()
+{
+    if ((m_producer != nullptr) && (m_producer->get_speed() == 0)) {
+        m_refreshTimer.start();
+    }
+}
+
+void GLWidget::refresh()
+{
+    m_refreshTimer.stop();
+    QMutexLocker locker(&m_mutex);
+    if (m_consumer->is_stopped()) {
+        m_consumer->start();
+    }
+    m_consumer->purge();
+    m_consumer->set("refresh", 1);
 }
 
 bool GLWidget::checkFrameNumber(int pos)

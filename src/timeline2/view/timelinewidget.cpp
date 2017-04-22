@@ -462,3 +462,8 @@ void TimelineWidget::addAsset(const QVariantMap data)
         }
     }
 }
+
+void TimelineWidget::requestRefresh()
+{
+    pCore->requestMonitorRefresh();
+}

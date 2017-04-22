@@ -1320,8 +1320,8 @@ void Monitor::slotRefreshMonitor(bool visible)
 
 void Monitor::refreshMonitorIfActive()
 {
-    if (isActive() && (render != nullptr)) {
-        render->doRefresh();
+    if (isActive()) {
+        m_glMonitor->requestRefresh();
     }
 }
 

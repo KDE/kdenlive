@@ -480,6 +480,8 @@ protected:
     /* @brief Returns snap model */
     std::unique_ptr<SnapModel> &getSnapModel();
 
+    void checkRefresh(int start, int end) const;
+
 protected:
     std::unique_ptr<Mlt::Tractor> m_tractor;
 

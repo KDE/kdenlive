@@ -280,3 +280,8 @@ QSize Core::getCurrentFrameSize() const
 {
     return QSize(getCurrentProfile()->width(), getCurrentProfile()->height());
 }
+
+void Core::requestMonitorRefresh()
+{
+    m_monitorManager->refreshProjectMonitor();
+}

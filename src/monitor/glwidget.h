@@ -29,6 +29,7 @@
 #include <QRect>
 #include <QSemaphore>
 #include <QThread>
+#include <QTimer>
 
 #include "definitions.h"
 #include "scopes/sharedframe.h"
@@ -104,6 +105,8 @@ public:
     bool checkFrameNumber(int pos);
     /** @brief Return current timeline position */
     int getCurrentPos() const;
+    /** @brief Requests a monitor refresh */
+    void requestRefresh();
 
 protected:
     void mouseReleaseEvent(QMouseEvent *event) override;
@@ -172,6 +175,7 @@ private:
     int m_texCoordLocation;
     int m_colorspaceLocation;
     int m_textureLocation[3];
+    QTimer m_refreshTimer;
     float m_zoom;
     bool m_openGLSync;
     bool m_sendFrame;
@@ -195,6 +199,7 @@ private slots:
     void updateTexture(GLuint yName, GLuint uName, GLuint vName);
     void paintGL();
     void onFrameDisplayed(const SharedFrame &frame);
+    void refresh();
 
 protected:
     void resizeEvent(QResizeEvent *event) override;

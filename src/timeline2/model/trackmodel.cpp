@@ -105,6 +105,11 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
                 int clip_index = getRowfromClip(clip->getId());
                 ptr->_beginInsertRows(ptr->makeTrackIndexFromID(getId()), clip_index, clip_index);
                 ptr->_endInsertRows();
+                int state = m_track.get_int("hide");
+                if ((state == 0 || state == 2) && m_track.get_int("kdenlive:audio_track") != 1) {
+                    // only refresh monitor if not an audio track and not hidden
+                    ptr->checkRefresh(new_in, new_out);
+                }
             }
             return true;
         }
@@ -187,6 +192,11 @@ Fun TrackModel::requestClipDeletion_lambda(int clipId, bool updateView)
             if (auto ptr = m_parent.lock()) {
                 ptr->m_snaps->removePoint(old_in);
                 ptr->m_snaps->removePoint(old_out);
+                int state = m_track.get_int("hide");
+                if ((state == 0 || state == 2) && m_track.get_int("kdenlive:audio_track") != 1) {
+                    // only refresh monitor if not an audio track and not hidden
+                    ptr->checkRefresh(old_in, old_out);
+                }
             }
             return true;
         }

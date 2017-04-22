@@ -226,7 +226,10 @@ Rectangle {
                 visible: !isAudio
                 iconName: isHidden ? 'kdenlive-hide-video' : 'kdenlive-show-video'
                 iconSource: isHidden? 'qrc:///pics/kdenlive-hide-video.svgz' : 'qrc:///pics/kdenlive-show-video.svgz'
-                onClicked: controller.setTrackProperty(trackId, "hide", isHidden ? isMute ? '2' : '0' : isMute ? '3' : '1')
+                onClicked: {
+                    controller.setTrackProperty(trackId, "hide", isHidden ? isMute ? '2' : '0' : isMute ? '3' : '1')
+                    timeline.requestRefresh()
+                }
                 tooltip: isHidden? i18n('Show') : i18n('Hide')
             }
 

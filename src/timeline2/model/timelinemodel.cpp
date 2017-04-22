@@ -21,6 +21,7 @@
 
 #include "timelinemodel.hpp"
 #include "clipmodel.hpp"
+#include "core.h"
 #include "compositionmodel.hpp"
 #include "groupsmodel.hpp"
 #include "snapmodel.hpp"
@@ -1398,3 +1399,10 @@ Mlt::Producer *TimelineModel::producer()
     return prod;
 }
 
+void TimelineModel::checkRefresh(int start, int end) const
+{
+    int currentPos = tractor()->position();
+    if (currentPos > start && currentPos < end) {
+        pCore->requestMonitorRefresh();
+    }
+}

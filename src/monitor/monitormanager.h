@@ -93,6 +93,7 @@ public slots:
     void slotSetInPoint();
     void slotSetOutPoint();
     void focusProjectMonitor();
+    void refreshProjectMonitor();
 
     /** @brief Switch current monitor to fullscreen. */
     void slotSwitchFullscreen();

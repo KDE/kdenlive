@@ -132,6 +132,7 @@ public slots:
     void adjustProjectDuration();
     /** @brief Add an asset in timeline (effect, transition). */
     void activateAsset(const QVariantMap data);
+
 private slots:
     void slotRevert();
     /** @brief Open the project's backupdialog. */

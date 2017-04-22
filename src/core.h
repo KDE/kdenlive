@@ -104,6 +104,8 @@ public:
     QSize getCurrentFrameSize() const;
     /** @brief Returns the frame display size (width x height) of current profile */
     QSize getCurrentFrameDisplaySize() const;
+    /** @brief Request project monitor refresh */
+    void requestMonitorRefresh();
 
 private:
     explicit Core();
