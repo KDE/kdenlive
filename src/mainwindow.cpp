@@ -3651,7 +3651,7 @@ void MainWindow::slotUpdateTimecodeFormat(int ix)
 
 void MainWindow::slotRemoveFocus()
 {
-    pCore->projectManager()->currentTimeline()->setFocus();
+    getMainTimeline()->setFocus();
 }
 
 void MainWindow::slotShutdown()

@@ -40,6 +40,18 @@ Rectangle {
             treeView.expand(indexes[i]);
         }
     }
+    function rowPosition(model, index) {
+        var pos = 0;
+        for(var i = 0; i < index.parent.row; i++) {
+            var catIndex = model.getCategory(i);
+            if (treeView.isExpanded(catIndex)) {
+                pos += model.rowCount(catIndex);
+            }
+            pos ++;
+        }
+        pos += index.row + 2;
+        return pos;
+    }
 
     ColumnLayout {
         anchors.fill: parent
@@ -172,7 +184,27 @@ Rectangle {
                 }
             ]
             onTextChanged: {
+                var current = sel.currentIndex
                 assetlist.setFilterName(text)
+                sel.setCurrentIndex(assetListModel.firstVisibleItem(current), ItemSelectionModel.ClearAndSelect)
+                treeView.__listView.positionViewAtIndex(rowPosition(assetListModel, sel.currentIndex), ListView.Visible)
+            }
+            onEditingFinished: {
+                searchList.checked = false
+            }
+            Keys.onDownPressed: {
+                sel.setCurrentIndex(assetListModel.getNextChild(sel.currentIndex), ItemSelectionModel.ClearAndSelect)
+                treeView.expand(sel.currentIndex.parent)
+                treeView.__listView.positionViewAtIndex(rowPosition(assetListModel, sel.currentIndex), ListView.Visible)
+            }
+            Keys.onUpPressed: {
+                sel.setCurrentIndex(assetListModel.getPreviousChild(sel.currentIndex), ItemSelectionModel.ClearAndSelect)
+                treeView.expand(sel.currentIndex.parent)
+                treeView.__listView.positionViewAtIndex(rowPosition(assetListModel, sel.currentIndex), ListView.Visible)
+            }
+            Keys.onReturnPressed: {
+                assetlist.activate(sel.currentIndex)
+                searchList.checked = false
             }
         }
         ItemSelectionModel {
@@ -261,10 +293,12 @@ Rectangle {
             Keys.onDownPressed: {
                 sel.setCurrentIndex(assetListModel.getNextChild(sel.currentIndex), ItemSelectionModel.ClearAndSelect)
                 treeView.expand(sel.currentIndex.parent)
+                treeView.__listView.positionViewAtIndex(rowPosition(assetListModel, sel.currentIndex), ListView.Visible)
             }
             Keys.onUpPressed: {
                 sel.setCurrentIndex(assetListModel.getPreviousChild(sel.currentIndex), ItemSelectionModel.ClearAndSelect)
                 treeView.expand(sel.currentIndex.parent)
+                treeView.__listView.positionViewAtIndex(rowPosition(assetListModel, sel.currentIndex), ListView.Visible)
             }
             Keys.onReturnPressed: assetlist.activate(sel.currentIndex)
 

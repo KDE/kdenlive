@@ -34,6 +34,7 @@ void AssetFilter::setFilterName(bool enabled, const QString &pattern)
     m_name_enabled = enabled;
     m_name_value = pattern;
     invalidateFilter();
+    sort(0);
 }
 
 bool AssetFilter::filterName(TreeItem *item) const
@@ -84,14 +85,10 @@ QModelIndex AssetFilter::getNextChild(const QModelIndex &current)
         if (!folder.isValid()) {
             return current;
         }
-        TreeItem *folderItem = static_cast<TreeItem *>(mapToSource(folder).internalPointer());
-        while (folder.isValid() && folderItem->childCount() == 0) {
+        while (folder.isValid() && rowCount(folder) == 0) {
             folder = folder.sibling(folder.row() + 1, folder.column());
-            if (folder.isValid()) {
-                folderItem = static_cast<TreeItem *>(mapToSource(folder).internalPointer());
-            }
         }
-        if (folder.isValid() && folderItem->childCount() > 0) {
+        if (folder.isValid() && rowCount(folder) > 0) {
             return index(0, current.column(), folder);
         } else {
             nextItem = current;
@@ -108,18 +105,38 @@ QModelIndex AssetFilter::getPreviousChild(const QModelIndex &current)
         if (!folder.isValid()) {
             return current;
         }
-        TreeItem *folderItem = static_cast<TreeItem *>(mapToSource(folder).internalPointer());
-        while (folder.isValid() && folderItem->childCount() == 0) {
+        while (folder.isValid() && rowCount(folder) == 0) {
             folder = folder.sibling(folder.row() - 1, folder.column());
-            if (folder.isValid()) {
-                folderItem = static_cast<TreeItem *>(mapToSource(folder).internalPointer());
-            }
         }
-        if (folder.isValid() && folderItem->childCount() > 0) {
-            return index(folderItem->childCount() - 1, current.column(), folder);
+        if (folder.isValid() && rowCount(folder) > 0) {
+            return index(rowCount(folder) - 1, current.column(), folder);
         } else {
             nextItem = current;
         }
     }
     return nextItem;
+}
+
+QModelIndex AssetFilter::firstVisibleItem(const QModelIndex &current)
+{
+    if (current.isValid() && isVisible(mapToSource(current))) {
+        return current;
+    }
+    QModelIndex folder = index(0, 0, QModelIndex());
+    if (!folder.isValid()) {
+        return current;
+    }
+    while (folder.isValid() && rowCount(folder) == 0) {
+        folder = index(folder.row() + 1, 0, QModelIndex());
+    }
+    if (rowCount(folder) > 0) {
+        return index(0, 0, folder);
+    }
+    return current;
+}
+
+QModelIndex AssetFilter::getCategory(int catRow)
+{
+    QModelIndex cat = index(catRow, 0, QModelIndex());
+    return cat;
 }
