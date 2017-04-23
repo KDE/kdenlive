@@ -42,7 +42,7 @@ ClipModel::ClipModel(std::weak_ptr<TimelineModel> parent, std::shared_ptr<Mlt::P
     m_producer->set("kdenlive:id", binClipId.toUtf8().constData());
     ProjectClip *binClip = pCore->bin()->getBinClip(m_binClipId);
     if (binClip) {
-        m_endlessResize = binClip->hasLimitedDuration();
+        m_endlessResize = !binClip->hasLimitedDuration();
     } else {
         m_endlessResize = false;
     }
@@ -189,7 +189,7 @@ void ClipModel::refreshProducerFromBin()
     ProjectClip *binClip = pCore->bin()->getBinClip(m_binClipId);
     std::shared_ptr<Mlt::Producer> originalProducer = binClip->originalProducer();
     m_producer.reset(originalProducer->cut(in, out));
-    m_endlessResize = binClip->hasLimitedDuration();
+    m_endlessResize = !binClip->hasLimitedDuration();
 }
 
 QVariant ClipModel::getAudioWaveform()
