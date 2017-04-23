@@ -287,13 +287,22 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
     int target_clip = clip_loc.second;
     Q_ASSERT(target_clip < m_playlists[target_track].count());
     int size = out - in + 1;
+    int state = m_track.get_int("hide");
+    bool checkRefresh = false;
+    if ((state == 0 || state == 2) && m_track.get_int("kdenlive:audio_track") != 1) {
+        checkRefresh = true;
+    }
 
-    auto update_snaps = [old_in, old_out, this](int new_in, int new_out) {
+    auto update_snaps = [old_in, old_out, checkRefresh, this](int new_in, int new_out) {
         if (auto ptr = m_parent.lock()) {
             ptr->m_snaps->removePoint(old_in);
             ptr->m_snaps->removePoint(old_out);
             ptr->m_snaps->addPoint(new_in);
             ptr->m_snaps->addPoint(new_out);
+            if (checkRefresh) {
+                ptr->checkRefresh(old_in, old_out);
+                ptr->checkRefresh(new_in, new_out);
+            }
         } else {
             qDebug() << "Error : clip resize failed because parent timeline is not available anymore";
             Q_ASSERT(false);
@@ -574,6 +583,8 @@ Fun TrackModel::requestCompositionResize_lambda(int compoId, int in, int out)
             ptr->m_snaps->removePoint(old_out);
             ptr->m_snaps->addPoint(new_in);
             ptr->m_snaps->addPoint(new_out);
+            ptr->checkRefresh(old_in, old_out);
+            ptr->checkRefresh(new_in, new_out);
         } else {
             qDebug() << "Error : Composition resize failed because parent timeline is not available anymore";
             Q_ASSERT(false);
@@ -696,6 +707,7 @@ Fun TrackModel::requestCompositionInsertion_lambda(int compoId, int position, bo
                 }
                 ptr->m_snaps->addPoint(new_in);
                 ptr->m_snaps->addPoint(new_out);
+                ptr->checkRefresh(new_in, new_out);
                 m_compoPos[new_in] = composition->getId();
                 return true;
             }

@@ -469,6 +469,7 @@ bool TimelineModel::requestClipDeletion(int clipId, Fun &undo, Fun &redo)
     undo();
     return false;
 }
+
 bool TimelineModel::requestCompositionDeletion(int compositionId, Fun &undo, Fun &redo)
 {
     int trackId = getCompositionTrackId(compositionId);

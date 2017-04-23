@@ -245,8 +245,8 @@ public: /* @brief Given an intended move, try to suggest a more valid one
        action is undoable Returns true on success. If it fails, nothing is
        modified. If the clip/composition is in a group, the call is deferred to
        requestGroupDeletion @param clipId is the ID of the clip/composition
-       @param logUndo if set to false, no undo object is stored */ Q_INVOKABLE bool
-    requestItemDeletion(int clipId, bool logUndo = true);
+       @param logUndo if set to false, no undo object is stored */
+    Q_INVOKABLE bool requestItemDeletion(int clipId, bool logUndo = true);
     /* Same function, but accumulates undo and redo, and doesn't check for group*/
     bool requestClipDeletion(int clipId, Fun &undo, Fun &redo);
     bool requestCompositionDeletion(int compositionId, Fun &undo, Fun &redo);
