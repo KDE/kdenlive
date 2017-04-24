@@ -1078,6 +1078,7 @@ Fun TimelineModel::deregisterComposition_lambda(int compoId)
     return [this, compoId]() {
         Q_ASSERT(m_allCompositions.count(compoId) > 0);
         Q_ASSERT(!m_groups->isInGroup(compoId)); // composition must be ungrouped at this point
+        unplantComposition(compoId);
         m_allCompositions.erase(compoId);
         m_groups->destructGroupItem(compoId);
         return true;
