@@ -206,7 +206,7 @@ void MainWindow::init()
     new RenderingAdaptor(this);
     QString defaultProfile = KdenliveSettings::default_profile();
     KdenliveSettings::setCurrent_profile(defaultProfile.isEmpty() ? ProjectManager::getDefaultProjectFormat() : defaultProfile);
-    m_commandStack = new QUndoGroup(this);
+    m_commandStack = new QUndoGroup();
 
     // If using a custom profile, make sure the file exists or fallback to default
     if (KdenliveSettings::current_profile().startsWith(QLatin1Char('/')) && !QFile::exists(KdenliveSettings::current_profile())) {

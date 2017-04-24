@@ -21,6 +21,7 @@
 
 #include "assetlistwidget.hpp"
 #include "assets/assetlist/view/qmltypes/asseticonprovider.hpp"
+#include "kdenlivesettings.h"
 
 #include <KDeclarative/KDeclarative>
 #include <QQmlContext>
@@ -80,3 +81,14 @@ void AssetListWidget::activate(const QModelIndex &ix)
     emit activateAsset(data);
 }
 
+
+bool AssetListWidget::showDescription() const
+{
+    return KdenliveSettings::showeffectinfo();
+}
+
+void AssetListWidget::setShowDescription(bool show)
+{
+    KdenliveSettings::setShoweffectinfo(show);
+    emit showDescriptionChanged();
+}

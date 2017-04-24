@@ -142,13 +142,14 @@ Rectangle {
                 implicitHeight: 40
                 iconName: "help-about"
                 checkable:true
-                checked: true
                 tooltip: i18n('Show/hide description of the ') + assetType()
                 onCheckedChanged:{
+                    assetlist.showDescription = checked
                     if (!checked) {
                         assetDescription.visible = false
                     }
                 }
+                Component.onCompleted: checked = assetlist.showDescription
             }
 
         }

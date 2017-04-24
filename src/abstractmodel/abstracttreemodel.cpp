@@ -24,8 +24,8 @@
 
 AbstractTreeModel::AbstractTreeModel(QObject *parent)
     : QAbstractItemModel(parent)
+    , rootItem(new TreeItem(QList<QVariant>(), this))
 {
-    rootItem = new TreeItem(QList<QVariant>(), this);
 }
 
 AbstractTreeModel::~AbstractTreeModel()

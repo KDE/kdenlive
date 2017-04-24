@@ -35,6 +35,9 @@
 class AssetListWidget : public QQuickWidget
 {
     Q_OBJECT
+    /* @brief Should the descriptive info box be displayed
+     */
+    Q_PROPERTY(bool showDescription READ showDescription WRITE setShowDescription NOTIFY showDescriptionChanged)
 
 public:
     AssetListWidget(QWidget *parent = Q_NULLPTR);
@@ -55,6 +58,8 @@ public:
     Q_INVOKABLE QVariantMap getMimeData(const QString &assetId) const;
 
     Q_INVOKABLE void activate(const QModelIndex &ix);
+    Q_INVOKABLE bool showDescription() const;
+    Q_INVOKABLE void setShowDescription(bool);
 
 protected:
     void setup();
@@ -64,6 +69,7 @@ protected:
 
 signals:
     void activateAsset(const QVariantMap data);
+    void showDescriptionChanged();
 };
 
 #endif

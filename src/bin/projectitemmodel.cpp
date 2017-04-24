@@ -40,7 +40,6 @@ ProjectItemModel::ProjectItemModel(Bin *bin, QObject *parent)
 
 ProjectItemModel::~ProjectItemModel()
 {
-    delete rootItem;
 }
 
 int ProjectItemModel::mapToColumn(int column) const

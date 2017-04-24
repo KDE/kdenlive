@@ -705,7 +705,7 @@ Bin::Bin(QWidget *parent)
     m_propertiesPanel = new QScrollArea(this);
     m_propertiesPanel->setFrameShape(QFrame::NoFrame);
     // Info widget for failed jobs, other errors
-    m_infoMessage = new BinMessageWidget;
+    m_infoMessage = new BinMessageWidget(this);
     m_layout->addWidget(m_infoMessage);
     m_infoMessage->setCloseButtonVisible(false);
     connect(m_infoMessage, &KMessageWidget::linkActivated, this, &Bin::slotShowJobLog);
@@ -723,8 +723,6 @@ Bin::~Bin()
     m_proxyModel->selectionModel()->blockSignals(true);
     setEnabled(false);
     abortOperations();
-    delete m_infoMessage;
-    delete m_propertiesPanel;
 }
 
 QDockWidget *Bin::clipPropertiesDock()
