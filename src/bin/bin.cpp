@@ -627,7 +627,7 @@ Bin::Bin(QWidget *parent)
     pCore->window()->actionCollection()->addAction(QStringLiteral("bin_view_mode_icon"), iconViewAction);
 
     QAction *disableEffects = new QAction(i18n("Disable Bin Effects"), this);
-    connect(disableEffects, &QAction::triggered, this, &Bin::slotDisableEffects);
+    connect(disableEffects, &QAction::triggered, [this](bool disable) { this->setBinEffectsEnabled(!disable); });
     disableEffects->setIcon(KoIconUtils::themedIcon(QStringLiteral("favorite")));
     disableEffects->setData("disable_bin_effects");
     disableEffects->setCheckable(true);
@@ -1273,7 +1273,7 @@ void Bin::setDocument(KdenliveDoc *project)
     // connect(m_itemModel, SIGNAL(updateCurrentItem()), this, SLOT(autoSelect()));
     slotInitView(nullptr);
     bool binEffectsDisabled = getDocumentProperty(QStringLiteral("disablebineffects")).toInt() == 1;
-    setBinEffectsDisabledStatus(binEffectsDisabled);
+    setBinEffectsEnabled(!binEffectsDisabled);
     autoSelect();
 }
 
@@ -3599,25 +3599,19 @@ void Bin::showSlideshowWidget(ProjectClip *clip)
     delete dia;
 }
 
-void Bin::slotDisableEffects(bool disable)
-{
-    m_itemModel->getRootFolder()->disableEffects(disable);
-    pCore->projectManager()->disableBinEffects(disable);
-    m_monitor->refreshMonitorIfActive();
-}
-
-void Bin::setBinEffectsDisabledStatus(bool disabled)
+void Bin::setBinEffectsEnabled(bool enabled)
 {
     QAction *disableEffects = pCore->window()->actionCollection()->action(QStringLiteral("disable_bin_effects"));
     if (disableEffects) {
-        if (disabled == disableEffects->isChecked()) {
+        if (enabled == disableEffects->isChecked()) {
             return;
         }
         disableEffects->blockSignals(true);
-        disableEffects->setChecked(disabled);
+        disableEffects->setChecked(enabled);
         disableEffects->blockSignals(false);
     }
-    pCore->projectManager()->disableBinEffects(disabled);
+    m_itemModel->setBinEffectsEnabled(enabled);
+    pCore->projectManager()->disableBinEffects(!enabled);
 }
 
 void Bin::slotRenameItem()

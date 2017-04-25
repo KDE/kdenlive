@@ -262,6 +262,11 @@ ProjectFolder *ProjectItemModel::getFolderByBinId(const QString &binId)
     return static_cast<AbstractProjectItem *>(rootItem)->folder(binId);
 }
 
+void ProjectItemModel::setBinEffectsEnabled(bool enabled)
+{
+    return static_cast<AbstractProjectItem *>(rootItem)->setBinEffectsEnabled(enabled);
+}
+
 QStringList ProjectItemModel::getEnclosingFolderInfo(const QModelIndex &index) const
 {
     QStringList noInfo;

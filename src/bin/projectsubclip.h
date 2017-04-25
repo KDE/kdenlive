@@ -56,7 +56,7 @@ public:
     ProjectSubClip *subClip(int in, int out);
     ProjectClip *clipAt(int ix) override;
     /** @brief Recursively disable/enable bin effects. */
-    void disableEffects(bool disable) override;
+    void setBinEffectsEnabled(bool enabled) override;
     QDomElement toXml(QDomDocument &document, bool includeMeta = false) override;
 
     /** @brief Returns the clip's duration. */

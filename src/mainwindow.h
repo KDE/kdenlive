@@ -45,18 +45,19 @@
 #include "kdenlivecore_export.h"
 #include "statusbarmessagelabel.h"
 
-class KdenliveDoc;
-class EffectsListView;
-class EffectStackView;
-class EffectStackView2;
+class AssetPanel;
 class AudioGraphSpectrum;
+class EffectStackView2;
+class EffectStackView;
+class EffectsListView;
+class KIconLoader;
+class KdenliveDoc;
 class Monitor;
-class RenderWidget;
 class Render;
-class Transition;
+class RenderWidget;
 class TimelineTabs;
 class TimelineWidget;
-class KIconLoader;
+class Transition;
 
 class /*KDENLIVECORE_EXPORT*/ MainWindow : public KXmlGuiWindow
 {
@@ -101,7 +102,6 @@ public:
     QDockWidget *addDock(const QString &title, const QString &objectName, QWidget *widget, Qt::DockWidgetArea area = Qt::TopDockWidgetArea);
 
     QUndoGroup *m_commandStack;
-    EffectStackView2 *m_effectStack;
     QUndoView *m_undoView;
     /** @brief holds info about whether movit is available on this system */
     bool m_gpuAllowed;
@@ -113,6 +113,9 @@ public:
 
     /** @brief Returns a ptr to the main timeline widget of the project */
     TimelineWidget *getMainTimeline() const;
+
+    /** @brief clears the asset panel */
+    void clearAssetPanel();
 
 protected:
     /** @brief Closes the window.
@@ -147,6 +150,7 @@ private:
     QDockWidget *m_transitionListDock;
     EffectsListView *m_transitionList;
 
+    AssetPanel *m_assetPanel;
     QDockWidget *m_effectStackDock;
 
     QDockWidget *m_clipMonitorDock;
@@ -254,7 +258,6 @@ public slots:
 
     void slotPreferences(int page = -1, int option = -1);
     void connectDocument();
-    void slotTimelineClipSelected(ClipItem *item, bool reloadStack = true);
     /** @brief Reload project profile in config dialog if changed. */
     void slotRefreshProfiles();
     void updateDockTitleBars(bool isTopLevel = true);
@@ -336,8 +339,6 @@ private slots:
     void slotAddTransition(QAction *result);
     void slotAddProjectClip(const QUrl &url, const QStringList &folderInfo);
     void slotAddProjectClipList(const QList<QUrl> &urls);
-    void slotTrackSelected(int index, const TrackInfo &info, bool raise = true);
-    void slotActivateTransitionView(Transition *transition);
     void slotChangeTool(QAction *action);
     void slotChangeEdit(QAction *action);
     void slotSetTool(ProjectTool tool);
@@ -405,7 +406,6 @@ private slots:
     void slotRemoveFocus();
     void slotCleanProject();
     void slotShutdown();
-    void slotUpdateTrackInfo();
 
     void slotSwitchMonitors();
     void slotSwitchMonitorOverlay(QAction *);

@@ -1228,9 +1228,9 @@ bool ProjectClip::isSplittable() const
     return (m_clipType == AV || m_clipType == Playlist);
 }
 
-void ProjectClip::disableEffects(bool disable)
+void ProjectClip::setBinEffectsEnabled(bool enabled)
 {
-    ClipController::disableEffects(disable);
+    ClipController::setBinEffectsEnabled(enabled);
 }
 
 void ProjectClip::registerTimelineClip(std::weak_ptr<TimelineModel> timeline, int clipId)

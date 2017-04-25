@@ -111,11 +111,11 @@ ProjectClip *ProjectFolder::clipAt(int index)
     return nullptr;
 }
 
-void ProjectFolder::disableEffects(bool disable)
+void ProjectFolder::setBinEffectsEnabled(bool enabled)
 {
     for (int i = 0; i < childCount(); ++i) {
         AbstractProjectItem *item = static_cast<AbstractProjectItem *>(child(i));
-        item->disableEffects(disable);
+        item->setBinEffectsEnabled(enabled);
     }
 }
 

@@ -40,20 +40,10 @@ AssetParameterView::AssetParameterView(QWidget *parent)
 
 void AssetParameterView::setModel(std::shared_ptr<AssetParameterModel> model)
 {
-    if (m_model) {
-        // if a model is already there, we have to disconnect signals first
-        disconnect(m_model.get(), &AssetParameterModel::dataChanged, this, &AssetParameterView::refresh);
-    }
-
+    unsetModel();
     m_model = model;
     connect(m_model.get(), &AssetParameterModel::dataChanged, this, &AssetParameterView::refresh);
 
-    // clear layout
-    m_widgets.clear();
-    QLayoutItem *child;
-    while ((child = m_lay->takeAt(0)) != nullptr) {
-        delete child;
-    }
 
     for (int i = 0; i < model->rowCount(); ++i) {
         QModelIndex index = model->index(i, 0);
@@ -63,6 +53,24 @@ void AssetParameterView::setModel(std::shared_ptr<AssetParameterModel> model)
         m_widgets.push_back(w);
     }
     m_lay->addStretch();
+}
+
+void AssetParameterView::unsetModel()
+{
+    if (m_model) {
+        // if a model is already there, we have to disconnect signals first
+        disconnect(m_model.get(), &AssetParameterModel::dataChanged, this, &AssetParameterView::refresh);
+    }
+
+    // clear layout
+    m_widgets.clear();
+    QLayoutItem *child;
+    while ((child = m_lay->takeAt(0)) != nullptr) {
+        delete child;
+    }
+
+    // Release ownership of smart pointer
+    m_model.reset();
 }
 
 void AssetParameterView::refresh(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles)

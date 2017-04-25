@@ -19,43 +19,46 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-#ifndef ASSETPARAMETERVIEW_H
-#define ASSETPARAMETERVIEW_H
+#ifndef ASSETPANEL_H
+#define ASSETPANEL_H
 
-#include <QModelIndex>
-#include <QVector>
-#include <QWidget>
+#include <QScrollArea>
+#include <QVBoxLayout>
 #include <memory>
 
-/* @brief This class is the view for a list of parameters.
-
+/** @brief This class is the widget that provides interaction with the asset currently selected.
+    That is, it either displays an effectStack or the parameters of a transition
  */
 
-class QVBoxLayout;
-class AbstractParamWidget;
 class AssetParameterModel;
+class AssetParameterView;
+class EffectStackModel;
 
-class AssetParameterView : public QWidget
+class AssetPanel : public QScrollArea
 {
     Q_OBJECT
 
 public:
-    AssetParameterView(QWidget *parent = nullptr);
+    AssetPanel(QWidget *parent);
 
-    /** Sets the model to be displayed by current view */
-    void setModel(std::shared_ptr<AssetParameterModel> model);
+    /* @brief Shows the parameters of the given transition model */
+    void showTransition(std::shared_ptr<AssetParameterModel> transition_model);
 
-    /** Set the widget to display no model (this yield ownership on the smart-ptr)*/
-    void unsetModel();
+    /* @brief Shows the parameters of the given effect stack model */
+    void showEffectStack(std::shared_ptr<EffectStackModel> effectsModel);
+
+    /* @brief Clear the panel so that it doesn't display anything */
+    void clear();
+
+    /* @brief This method should be called when the style changes */
+    void updatePalette();
 
 protected:
-    /** @brief This is a handler for the dataChanged slot of the model.
-        It basically instructs the widgets in the given range to be refreshed */
-    void refresh(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles);
+    /** @brief Return the stylesheet used to display the panel (based on current palette). */
+    static const QString getStyleSheet();
 
     QVBoxLayout *m_lay;
-    std::shared_ptr<AssetParameterModel> m_model;
-    std::vector<AbstractParamWidget *> m_widgets;
+    AssetParameterView *m_transitionWidget;
 };
 
 #endif

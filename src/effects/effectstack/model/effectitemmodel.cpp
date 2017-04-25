@@ -27,7 +27,7 @@ EffectItemModel::EffectItemModel(const QList<QVariant> &data, Mlt::Properties *e
     : TreeItem(data, static_cast<AbstractTreeModel *>(stack))
     , AssetParameterModel(effect, xml, effectId)
     , m_enabled(true)
-    , m_timelineEffectsEnabled(true)
+    , m_effectStackEnabled(true)
 {
 }
 
@@ -67,15 +67,15 @@ void EffectItemModel::setEnabled(bool enabled)
     updateEnable();
 }
 
-void EffectItemModel::setTimelineEffectsEnabled(bool enabled)
+void EffectItemModel::setEffectStackEnabled(bool enabled)
 {
-    m_timelineEffectsEnabled = enabled;
+    m_effectStackEnabled = enabled;
     updateEnable();
 }
 
 bool EffectItemModel::isEnabled() const
 {
-    return m_enabled && m_timelineEffectsEnabled;
+    return m_enabled && m_effectStackEnabled;
 }
 
 void EffectItemModel::updateEnable()

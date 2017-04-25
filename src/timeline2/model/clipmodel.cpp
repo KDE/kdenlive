@@ -167,7 +167,7 @@ int ClipModel::getPlaytime() const
 
 void ClipModel::setTimelineEffectsEnabled(bool enabled)
 {
-    m_effectStack->setTimelineEffectsEnabled(enabled);
+    m_effectStack->setEffectStackEnabled(enabled);
 }
 
 bool ClipModel::hasAudio() const

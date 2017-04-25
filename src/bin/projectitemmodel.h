@@ -52,6 +52,10 @@ public:
      */
     ProjectFolder *getFolderByBinId(const QString &binId);
 
+    /** @brief This function change the global enabled state of the bin effects
+     */
+    void setBinEffectsEnabled(bool enabled);
+
     /** @brief Returns some info about the folder containing the given index */
     QStringList getEnclosingFolderInfo(const QModelIndex &index) const;
 

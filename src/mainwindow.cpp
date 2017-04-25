@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 #include "mainwindow.h"
-#include "assets/view/assetparameterview.hpp"
+#include "assets/assetpanel.hpp"
 #include "bin/generators/generators.h"
 #include "bin/projectclip.h"
 #include "core.h"
@@ -146,7 +146,7 @@ static QString defaultStyle(const char *fallback = nullptr)
 
 MainWindow::MainWindow(QWidget *parent)
     : KXmlGuiWindow(parent)
-    , m_effectStack(nullptr)
+    , m_assetPanel(nullptr)
     , m_exitCode(EXIT_SUCCESS)
     , m_effectList(nullptr)
     , m_transitionList(nullptr)
@@ -305,20 +305,18 @@ void MainWindow::init()
     spectrumDock->close();
 
     m_projectBinDock = addDock(i18n("Project Bin"), QStringLiteral("project_bin"), pCore->bin());
-    m_effectStack = new EffectStackView2(m_projectMonitor, this);
-    // TODO REFAC: remove, this is just a hack to avoid floating parentless widget
-    addDock("Properties_old", QStringLiteral("effect_stack2"), m_effectStack);
 
+    // TODO REFAC delete this
     auto trans = TransitionsRepository::get()->getTransition(QStringLiteral("wipe"));
     auto transxml = TransitionsRepository::get()->getXml(QStringLiteral("wipe"));
     std::shared_ptr<AssetParameterModel> model = std::make_shared<AssetParameterModel>(trans, transxml, QStringLiteral("wipe"));
-    auto *propertiesWidget = new AssetParameterView(this);
+    // END delete
 
-    propertiesWidget->setModel(model);
+    m_assetPanel = new AssetPanel(this);
 
-    qDebug() << "===================================================== creating listview" << model->rowCount();
-    // m_effectStackDock = addDock(i18n("Properties"), QStringLiteral("effect_stack"), m_effectStack);
-    m_effectStackDock = addDock(i18n("Properties"), QStringLiteral("effect_stack"), propertiesWidget);
+    m_assetPanel->showTransition(model);
+
+    m_effectStackDock = addDock(i18n("Properties"), QStringLiteral("effect_stack"), m_assetPanel);
 
     m_effectList = new EffectsListView();
     // m_effectListDock = addDock(i18n("Effects"), QStringLiteral("effect_list"), m_effectList);
@@ -635,9 +633,8 @@ void MainWindow::slotThemeChanged(const QString &theme)
     QPalette plt = palette();
 
     KdenliveSettings::setColortheme(theme);
-    if (m_effectStack) {
-        m_effectStack->updatePalette();
-        m_effectStack->transitionConfig()->updatePalette();
+    if (m_assetPanel) {
+        m_assetPanel->updatePalette();
     }
     if (m_effectList) {
         m_effectList->updatePalette();
@@ -676,14 +673,8 @@ void MainWindow::slotThemeChanged(const QString &theme)
         if (pCore->monitorManager()) {
             pCore->monitorManager()->refreshIcons();
         }
-        if (m_effectStack && m_effectStack->transitionConfig()) {
-            m_effectStack->transitionConfig()->refreshIcons();
-        }
         if (m_effectList) {
             m_effectList->refreshIcons();
-        }
-        if (m_effectStack) {
-            m_effectStack->refreshIcons();
         }
         if (pCore->projectManager() && pCore->projectManager()->currentTimeline()) {
             pCore->projectManager()->currentTimeline()->refreshIcons();
@@ -729,15 +720,12 @@ void MainWindow::slotReloadTheme()
 MainWindow::~MainWindow()
 {
     delete m_audioSpectrum;
-    m_effectStack->slotClipItemSelected(nullptr, m_projectMonitor);
-    m_effectStack->slotTransitionItemSelected(nullptr, 0, QPoint(), false);
     if (m_projectMonitor) {
         m_projectMonitor->stop();
     }
     if (m_clipMonitor) {
         m_clipMonitor->stop();
     }
-    delete m_effectStack;
     delete m_projectMonitor;
     delete m_clipMonitor;
     delete m_shortcutRemoveFocus;
@@ -847,6 +835,8 @@ void MainWindow::slotFullScreen()
 
 void MainWindow::slotAddEffect(const QDomElement &effect)
 {
+    // TODO refac : reimplement
+    /*
     if (effect.isNull()) {
         qCDebug(KDENLIVE_LOG) << "--- ERROR, TRYING TO APPEND nullptr EFFECT";
         return;
@@ -868,6 +858,7 @@ void MainWindow::slotAddEffect(const QDomElement &effect)
         // No clip selected
         m_messageLabel->setMessage(i18n("Select a clip if you want to apply an effect"), ErrorMessage);
     }
+    */
 }
 
 void MainWindow::slotUpdateClip(const QString &id, bool reload)
@@ -1965,7 +1956,6 @@ void MainWindow::connectDocument()
     connect(project, &KdenliveDoc::reloadEffects, this, &MainWindow::slotReloadEffects);
     KdenliveSettings::setProject_fps(pCore->getCurrentFps());
     m_clipMonitorDock->raise();
-    m_effectStack->transitionConfig()->updateProjectFormat();
 
     // TODO REFAC: reconnect to new timeline
     /*
@@ -2074,7 +2064,7 @@ void MainWindow::connectDocument()
     connect(m_projectMonitor, &Monitor::durationChanged, this, &MainWindow::slotUpdateProjectDuration);
     pCore->monitorManager()->setDocument(project);
 
-    // TOD REFAC: fix
+    // TODO REFAC: fix
     // trackView->updateProfile(1.0);
     // Init document zone
     // m_projectMonitor->slotZoneMoved(trackView->inPoint(), trackView->outPoint());
@@ -2251,7 +2241,8 @@ void MainWindow::slotDeleteItem()
         QWidget *widget = QApplication::focusWidget();
         while ((widget != nullptr) && widget != this) {
             if (widget == m_effectStackDock) {
-                m_effectStack->deleteCurrentEffect();
+                // TODO refac: reimplement
+                // m_effectStack->deleteCurrentEffect();
                 return;
             }
             widget = widget->parentWidget();
@@ -2454,9 +2445,6 @@ void MainWindow::slotInsertTrack()
         int ix = pCore->projectManager()->currentTimeline()->projectView()->selectedTrack();
         pCore->projectManager()->currentTimeline()->projectView()->slotInsertTrack(ix);
     }
-    if (pCore->projectManager()->current()) {
-        m_effectStack->transitionConfig()->updateProjectFormat();
-    }
 }
 
 void MainWindow::slotDeleteTrack()
@@ -2466,9 +2454,6 @@ void MainWindow::slotDeleteTrack()
         int ix = pCore->projectManager()->currentTimeline()->projectView()->selectedTrack();
         pCore->projectManager()->currentTimeline()->projectView()->slotDeleteTrack(ix);
     }
-    if (pCore->projectManager()->current()) {
-        m_effectStack->transitionConfig()->updateProjectFormat();
-    }
 }
 
 void MainWindow::slotConfigTrack()
@@ -2477,9 +2462,6 @@ void MainWindow::slotConfigTrack()
     if (pCore->projectManager()->currentTimeline()) {
         int ix = pCore->projectManager()->currentTimeline()->projectView()->selectedTrack();
         pCore->projectManager()->currentTimeline()->projectView()->slotConfigTracks(ix);
-    }
-    if (pCore->projectManager()->current()) {
-        m_effectStack->transitionConfig()->updateProjectFormat();
     }
 }
 
@@ -2797,30 +2779,6 @@ void MainWindow::customEvent(QEvent *e)
 {
     if (e->type() == QEvent::User) {
         m_messageLabel->setMessage(static_cast<MltErrorEvent *>(e)->message(), MltError);
-    }
-}
-
-void MainWindow::slotTimelineClipSelected(ClipItem *item, bool reloadStack)
-{
-    m_effectStack->slotClipItemSelected(item, m_projectMonitor, reloadStack);
-    m_projectMonitor->slotSetSelectedClip(item);
-    if (KdenliveSettings::raisepropsclips()) {
-        m_effectStack->raiseWindow(m_effectStackDock);
-    }
-}
-
-void MainWindow::slotTrackSelected(int index, const TrackInfo &info, bool raise)
-{
-    m_effectStack->slotTrackItemSelected(index, info, m_projectMonitor);
-    if (raise && KdenliveSettings::raisepropstracks()) {
-        m_effectStack->raiseWindow(m_effectStackDock);
-    }
-}
-
-void MainWindow::slotActivateTransitionView(Transition *transition)
-{
-    if ((transition != nullptr) && KdenliveSettings::raisepropstransitions()) {
-        m_effectStack->raiseWindow(m_effectStackDock);
     }
 }
 
@@ -3642,8 +3600,9 @@ void MainWindow::slotUpdateTimecodeFormat(int ix)
     KdenliveSettings::setFrametimecode(ix == 1);
     m_clipMonitor->updateTimecodeFormat();
     m_projectMonitor->updateTimecodeFormat();
-    m_effectStack->transitionConfig()->updateTimecodeFormat();
-    m_effectStack->updateTimecodeFormat();
+    // TODO refac: reimplement ?
+    // m_effectStack->transitionConfig()->updateTimecodeFormat();
+    // m_effectStack->updateTimecodeFormat();
     pCore->bin()->updateTimecodeFormat();
     getMainTimeline()->frameFormatChanged();
     m_timeFormatButton->setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
@@ -3669,10 +3628,6 @@ void MainWindow::slotShutdown()
     }
 }
 
-void MainWindow::slotUpdateTrackInfo()
-{
-    m_effectStack->transitionConfig()->updateProjectFormat();
-}
 
 void MainWindow::slotSwitchMonitors()
 {
@@ -3785,10 +3740,12 @@ void MainWindow::slotProcessImportKeyframes(GraphicsRectItem type, const QString
 {
     if (type == AVWidget) {
         // This data should be sent to the effect stack
-        m_effectStack->setKeyframes(tag, data);
+        // TODO REFAC reimplement
+        // m_effectStack->setKeyframes(tag, data);
     } else if (type == TransitionWidget) {
         // This data should be sent to the transition stack
-        m_effectStack->transitionConfig()->setKeyframes(tag, data);
+        // TODO REFAC reimplement
+        // m_effectStack->transitionConfig()->setKeyframes(tag, data);
     } else {
         // Error
     }
@@ -4140,6 +4097,11 @@ void MainWindow::setTrimMode(const QString &mode)
 TimelineWidget *MainWindow::getMainTimeline() const
 {
     return m_timelineTabs->getMainTimeline();
+}
+
+void MainWindow::clearAssetPanel()
+{
+    m_assetPanel->clear();
 }
 
 #ifdef DEBUG_MAINW

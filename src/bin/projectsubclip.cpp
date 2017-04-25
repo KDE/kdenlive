@@ -88,7 +88,7 @@ ProjectFolder *ProjectSubClip::folder(const QString &id)
     return nullptr;
 }
 
-void ProjectSubClip::disableEffects(bool)
+void ProjectSubClip::setBinEffectsEnabled(bool)
 {
 }
 

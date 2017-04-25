@@ -290,8 +290,10 @@ public:
     void emitMessage(const QString &, int, MessageType);
     void rebuildMenu();
     void refreshIcons();
-    /** @brief Update status of disable effects action (when loading a document). */
-    void setBinEffectsDisabledStatus(bool disabled);
+
+    /** @brief This function change the global enabled state of the bin effects
+     */
+    void setBinEffectsEnabled(bool enabled);
 
     void requestAudioThumbs(const QString &id, long duration);
     /** @brief Proxy status for the project changed, update. */
@@ -366,8 +368,6 @@ private slots:
     void slotZoomView(bool zoomIn);
     /** @brief Widget gained focus, make sure we display effects for master clip. */
     void slotGotFocus();
-    /** @brief Dis/Enable all bin effects. */
-    void slotDisableEffects(bool disable);
     /** @brief Rename a Bin Item. */
     void slotRenameItem();
     void slotCreateAudioThumbs();

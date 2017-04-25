@@ -45,8 +45,8 @@ public:
     /* @brief This function change the individual enabled state of the effect */
     void setEnabled(bool enabled);
 
-    /* @brief This function change the global (timeline-wise) enabled state of the effect */
-    void setTimelineEffectsEnabled(bool enabled);
+    /* @brief This function change the global (effectstack-wise) enabled state of the effect */
+    void setEffectStackEnabled(bool enabled);
 
     /* @brief Returns whether the effect is enabled */
     bool isEnabled() const;
@@ -60,7 +60,7 @@ protected:
     void updateEnable();
 
     bool m_enabled;
-    bool m_timelineEffectsEnabled;
+    bool m_effectStackEnabled;
 };
 
 #endif

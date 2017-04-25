@@ -67,7 +67,7 @@ public:
     ProjectClip *clipAt(int index) override;
 
     /** @brief Recursively disable/enable bin effects. */
-    void disableEffects(bool disable) override;
+    void setBinEffectsEnabled(bool enabled) override;
 
     /** @brief Returns an xml description of the folder. */
     QDomElement toXml(QDomDocument &document, bool includeMeta = false) override;

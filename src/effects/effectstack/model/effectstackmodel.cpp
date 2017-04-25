@@ -24,7 +24,7 @@
 EffectStackModel::EffectStackModel(std::weak_ptr<Mlt::Service> service)
     : AbstractTreeModel()
     , m_service(service)
-    , m_timelineEffectsEnabled(true)
+    , m_effectStackEnabled(true)
 {
 }
 
@@ -36,16 +36,16 @@ std::shared_ptr<EffectStackModel> EffectStackModel::construct(std::weak_ptr<Mlt:
 void EffectStackModel::appendEffect(const QString &effectId)
 {
     auto effect = EffectItemModel::construct(effectId, this);
-    effect->setTimelineEffectsEnabled(m_timelineEffectsEnabled);
+    effect->setEffectStackEnabled(m_effectStackEnabled);
     rootItem->appendChild(effect);
 }
 
-void EffectStackModel::setTimelineEffectsEnabled(bool enabled)
+void EffectStackModel::setEffectStackEnabled(bool enabled)
 {
-    m_timelineEffectsEnabled = enabled;
+    m_effectStackEnabled = enabled;
 
     // Recursively updates children states
     for (int i = 0; i < rootItem->childCount(); ++i) {
-        static_cast<EffectItemModel *>(rootItem->child(i))->setTimelineEffectsEnabled(enabled);
+        static_cast<EffectItemModel *>(rootItem->child(i))->setEffectStackEnabled(enabled);
     }
 }

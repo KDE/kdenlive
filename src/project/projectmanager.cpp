@@ -272,10 +272,8 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
         if (m_project) {
             pCore->producerQueue()->abortOperations();
             pCore->bin()->abortOperations();
-            pCore->window()->slotTimelineClipSelected(nullptr, false);
             pCore->monitorManager()->clipMonitor()->slotOpenClip(nullptr);
-            pCore->window()->m_effectStack->clear();
-            pCore->window()->m_effectStack->transitionConfig()->slotTransitionItemSelected(nullptr, 0, QPoint(), false);
+            pCore->window()->clearAssetPanel();
             delete m_trackView;
             m_trackView = nullptr;
             delete m_project;
@@ -775,7 +773,8 @@ void ProjectManager::disableBinEffects(bool disable)
             m_project->setDocumentProperty(QStringLiteral("disablebineffects"), QString());
         }
     }
-    pCore->window()->m_effectStack->disableBinEffects(disable);
+    pCore->monitorManager()->refreshProjectMonitor();
+    pCore->monitorManager()->refreshClipMonitor();
 }
 
 void ProjectManager::slotDisableTimelineEffects(bool disable)
@@ -786,8 +785,8 @@ void ProjectManager::slotDisableTimelineEffects(bool disable)
         m_project->setDocumentProperty(QStringLiteral("disabletimelineeffects"), QString());
     }
     m_trackView->disableTimelineEffects(disable);
-    pCore->window()->m_effectStack->disableTimelineEffects(disable);
-    pCore->monitorManager()->projectMonitor()->refreshMonitorIfActive();
+    m_mainTimelineModel->setTimelineEffectsEnabled(!disable);
+    pCore->monitorManager()->refreshProjectMonitor();
 }
 
 void ProjectManager::slotSwitchTrackLock()

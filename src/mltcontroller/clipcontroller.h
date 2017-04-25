@@ -24,13 +24,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define CLIPCONTROLLER_H
 
 #include "definitions.h"
-#include "effects/effectstack/model/effectstackmodel.hpp"
 
 #include <QDateTime>
 #include <QDir>
 #include <QMutex>
 #include <QObject>
 #include <QString>
+#include <memory>
 #include <mlt++/Mlt.h>
 
 class QPixmap;
@@ -198,7 +198,7 @@ public:
      * this method returns a list of properties that we want to keep when replacing a producer . */
     static const char *getPassPropertiesList(bool passLength = true);
     /** @brief Disable all Kdenlive effects on this clip */
-    void disableEffects(bool disable);
+    void setBinEffectsEnabled(bool enabled);
     /** @brief Create a Kdenlive EffectList xml data from an MLT service */
     static EffectsList xmlEffectList(Mlt::Profile *profile, Mlt::Service &service);
     /** @brief Returns the number of Kdenlive added effects for this bin clip */

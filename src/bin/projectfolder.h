@@ -63,7 +63,7 @@ public:
     ProjectFolder *folder(const QString &id) override;
 
     /** @brief Recursively disable/enable bin effects. */
-    void disableEffects(bool disable) override;
+    void setBinEffectsEnabled(bool enabled) override;
 
     /** @brief Calls AbstractProjectItem::setCurrent and blank the bin monitor. */
     void setCurrent(bool current, bool notify = true) override;

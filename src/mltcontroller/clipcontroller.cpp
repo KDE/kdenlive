@@ -858,38 +858,9 @@ bool ClipController::hasEffects() const
     return false;
 }
 
-void ClipController::disableEffects(bool disable)
+void ClipController::setBinEffectsEnabled(bool enabled)
 {
-    Mlt::Service service = m_masterProducer->parent();
-    bool changed = false;
-    for (int ix = 0; ix < service.filter_count(); ++ix) {
-        QScopedPointer<Mlt::Filter> effect(service.filter(ix));
-        QString id = effect->get("kdenlive_ix");
-        if (id.isEmpty()) {
-            continue;
-        }
-        int disabled = effect->get_int("disable");
-        if (disable) {
-            // we want to disable all kdenlive effects
-            if (disabled == 1) {
-                continue;
-            }
-            effect->set("disable", 1);
-            effect->set("auto_disable", 1);
-            changed = true;
-        } else {
-            // We want to re-enable effects
-            int auto_disable = effect->get_int("auto_disable");
-            if (auto_disable == 1) {
-                effect->set("disable", (char *)nullptr);
-                effect->set("auto_disable", (char *)nullptr);
-                changed = true;
-            }
-        }
-    }
-    if (changed) {
-        if (auto ptr = m_binController.lock()) ptr->updateTrackProducer(clipId());
-    }
+    m_effectStack->setEffectStackEnabled(enabled);
 }
 
 void ClipController::saveZone(QPoint zone, const QDir &dir)

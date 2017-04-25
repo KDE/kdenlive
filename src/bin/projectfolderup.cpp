@@ -67,7 +67,7 @@ ProjectClip *ProjectFolderUp::clipAt(int index)
     return nullptr;
 }
 
-void ProjectFolderUp::disableEffects(bool)
+void ProjectFolderUp::setBinEffectsEnabled(bool)
 {
 }
 

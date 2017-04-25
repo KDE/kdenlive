@@ -94,6 +94,7 @@ public slots:
     void slotSetOutPoint();
     void focusProjectMonitor();
     void refreshProjectMonitor();
+    void refreshClipMonitor();
 
     /** @brief Switch current monitor to fullscreen. */
     void slotSwitchFullscreen();

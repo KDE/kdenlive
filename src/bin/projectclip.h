@@ -25,7 +25,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "abstractprojectitem.h"
 #include "definitions.h"
-#include "effects/effectstack/model/effectstackmodel.hpp"
 #include "mltcontroller/clipcontroller.h"
 #include "timeline2/model/timelinemodel.hpp"
 
@@ -135,7 +134,7 @@ public:
     Mlt::Producer *thumbProducer();
 
     /** @brief Recursively disable/enable bin effects. */
-    void disableEffects(bool disable) override;
+    void setBinEffectsEnabled(bool enabled) override;
 
     /** @brief Set properties on this clip. TODO: should we store all in MLT or use extra m_properties ?. */
     void setProperties(const QMap<QString, QString> &properties, bool refreshPanel = false);

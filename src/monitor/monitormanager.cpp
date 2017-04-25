@@ -122,6 +122,11 @@ void MonitorManager::refreshProjectMonitor()
     m_projectMonitor->refreshMonitorIfActive();
 }
 
+void MonitorManager::refreshClipMonitor()
+{
+    m_clipMonitor->refreshMonitorIfActive();
+}
+
 bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool forceRefresh)
 {
     if (m_clipMonitor == nullptr || m_projectMonitor == nullptr) {
