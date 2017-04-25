@@ -314,6 +314,7 @@ void MainWindow::init()
 
     m_assetPanel = new AssetPanel(this);
 
+    connect(m_timelineTabs, &TimelineTabs::showTransitionModel, m_assetPanel, &AssetPanel::showTransition);
     m_assetPanel->showTransition(model);
 
     m_effectStackDock = addDock(i18n("Properties"), QStringLiteral("effect_stack"), m_assetPanel);

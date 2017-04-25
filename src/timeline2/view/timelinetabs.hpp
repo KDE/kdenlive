@@ -23,11 +23,13 @@
 #define TIMELINETABS_H
 
 #include <QTabWidget>
+#include <memory>
 
 /* @brief This is a class that extends QTabWidget to provide additional functionnality related to timeline tabs
  */
 
 class TimelineWidget;
+class AssetParameterModel;
 
 class TimelineTabs : public QTabWidget
 {
@@ -67,6 +69,8 @@ signals:
         This is an input signal, forwarded to the timelines
      */
     void changeZoom(int value, bool zoomOnMouse);
+    /* @brief Requests that a given parameter model is displayed in the asset panel */
+    void showTransitionModel(std::shared_ptr<AssetParameterModel>);
 
 private:
     TimelineWidget *m_mainTimeline;

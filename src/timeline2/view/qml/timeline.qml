@@ -572,6 +572,7 @@ Rectangle {
                 } else {
                     timeline.selection = [ clip.clipId ]
                 }
+                timeline.showAsset(clip.clipId)
                 //root.clipClicked()
             }
             onClipDragged: {

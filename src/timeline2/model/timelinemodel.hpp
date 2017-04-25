@@ -36,13 +36,14 @@
 #include <fstream>
 #endif
 
-class TrackModel;
+class AssetParameterModel;
 class ClipModel;
 class CompositionModel;
-class GroupsModel;
 class DocUndoStack;
+class GroupsModel;
 class SnapModel;
 class TimelineItemModel;
+class TrackModel;
 
 /* @brief This class represents a Timeline object, as viewed by the backend.
    In general, the Gui associated with it will send modification queries (such as resize or move), and this class authorize them or not depending on the
@@ -153,6 +154,21 @@ public:
 
     /* @brief Convenience function that calls either of the previous ones based on item type*/
     int getItemTrackId(int itemId) const;
+
+    /* @brief Helper function that returns true if the given ID corresponds to a clip */
+    bool isClip(int id) const;
+
+    /* @brief Helper function that returns true if the given ID corresponds to a composition */
+    bool isComposition(int id) const;
+
+    /* @brief Helper function that returns true if the given ID corresponds to a track */
+    bool isTrack(int id) const;
+
+    /* @brief Helper function that returns true if the given ID corresponds to a track */
+    bool isGroup(int id) const;
+
+    /* @brief Given a composition Id, returns its underlying parameter model */
+    std::shared_ptr<AssetParameterModel> getCompositionParameterModel(int compoId) const;
 
     /* @brief Returns the position of clip (-1 if it is not inserted)
        @param clipId Id of the clip to test
@@ -449,22 +465,6 @@ protected:
     /* @brief Returns next valid unique id to create an object
      */
     static int getNextId();
-
-    /* @brief Helper function that returns true if the given ID corresponds to a clip
-     */
-    bool isClip(int id) const;
-
-    /* @brief Helper function that returns true if the given ID corresponds to a composition
-     */
-    bool isComposition(int id) const;
-
-    /* @brief Helper function that returns true if the given ID corresponds to a track
-     */
-    bool isTrack(int id) const;
-
-    /* @brief Helper function that returns true if the given ID corresponds to a track
-     */
-    bool isGroup(int id) const;
 
     /* @brief unplant and the replant all the compositions in the correct order
        @param currentCompo is the id of a compo that have not yet been planted, if any. Otherwise send -1

@@ -20,6 +20,7 @@
  ***************************************************************************/
 
 #include "timelinetabs.hpp"
+#include "assets/model/assetparametermodel.hpp"
 #include "core.h"
 #include "mainwindow.h"
 #include "monitor/monitor.h"
@@ -64,4 +65,5 @@ void TimelineTabs::connectTimeline(TimelineWidget *timeline)
     connect(this, &TimelineTabs::showThumbnailsChanged, timeline, &TimelineWidget::showThumbnailsChanged);
     connect(this, &TimelineTabs::showAudioThumbnailsChanged, timeline, &TimelineWidget::showAudioThumbnailsChanged);
     connect(this, &TimelineTabs::changeZoom, timeline, &TimelineWidget::slotChangeZoom);
+    connect(timeline, &TimelineWidget::showTransitionModel, this, &TimelineTabs::showTransitionModel);
 }

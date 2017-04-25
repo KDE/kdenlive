@@ -28,6 +28,7 @@
 #include <KColorScheme>
 #include <KColorUtils>
 #include <QApplication>
+#include <QDebug>
 
 AssetPanel::AssetPanel(QWidget *parent)
     : QScrollArea(parent)
@@ -40,6 +41,7 @@ AssetPanel::AssetPanel(QWidget *parent)
 
 void AssetPanel::showTransition(std::shared_ptr<AssetParameterModel> transitionModel)
 {
+    qDebug() << "Show transition signal";
     clear();
     m_transitionWidget->setVisible(true);
     m_transitionWidget->setModel(transitionModel);
@@ -48,6 +50,7 @@ void AssetPanel::showTransition(std::shared_ptr<AssetParameterModel> transitionM
 void AssetPanel::showEffectStack(std::shared_ptr<EffectStackModel> effectsModel)
 {
     clear();
+    // TODO
 }
 
 void AssetPanel::clear()

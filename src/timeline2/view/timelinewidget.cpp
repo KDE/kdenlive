@@ -21,20 +21,21 @@
 
 #include "timelinewidget.h"
 #include "../model/builders/meltBuilder.hpp"
+#include "assets/model/assetparametermodel.hpp"
 #include "bin/bin.h"
+#include "bin/model/markerlistmodel.hpp"
+#include "bin/projectclip.h"
 #include "core.h"
-#include "doc/docundostack.hpp"
 #include "dialogs/markerdialog.h"
+#include "doc/docundostack.hpp"
+#include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
-#include "project/projectmanager.h"
-#include "doc/kdenlivedoc.h"
 #include "profiles/profilemodel.hpp"
+#include "project/projectmanager.h"
 #include "qml/timelineitems.h"
 #include "qmltypes/thumbnailprovider.h"
 #include "transitions/transitionlist/model/transitiontreemodel.hpp"
-#include "bin/projectclip.h"
-#include "bin/model/markerlistmodel.hpp"
 
 #include <KActionCollection>
 #include <KDeclarative/KDeclarative>
@@ -466,4 +467,13 @@ void TimelineWidget::addAsset(const QVariantMap data)
 void TimelineWidget::requestRefresh()
 {
     pCore->requestMonitorRefresh();
+}
+
+void TimelineWidget::showAsset(int id)
+{
+    qDebug() << "show asset" <<id;
+    if (m_model->isComposition(id)) {
+        qDebug() << "show asset compo" <<id;
+        emit showTransitionModel(m_model->getCompositionParameterModel(id));
+    }
 }

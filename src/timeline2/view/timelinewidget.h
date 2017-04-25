@@ -30,6 +30,7 @@
 
 class ThumbnailProvider;
 class KActionCollection;
+class AssetParameterModel;
 
 class TimelineWidget : public QQuickWidget
 {
@@ -159,6 +160,12 @@ public:
      */
     Q_INVOKABLE void requestRefresh();
 
+    /* @brief Show the asset of the given item in the AssetPanel
+       If the id corresponds to a clip, we show the corresponding effect stack
+       If the id corresponds to a composition, we show its properties
+    */
+    Q_INVOKABLE void showAsset(int id);
+
     /* @brief Seek to next snap point
      */
     void gotoNextSnap();
@@ -237,6 +244,9 @@ signals:
        @param zoomOnMouse is set to true if we want to center zoom on mouse, otherwise we center on timeline cursor position
      */
     void zoomOut(bool zoomOnMouse);
+
+    /* @brief Requests that a given parameter model is displayed in the asset panel */
+    void showTransitionModel(std::shared_ptr<AssetParameterModel>);
 };
 
 #endif

@@ -20,6 +20,7 @@
  ***************************************************************************/
 
 #include "timelinemodel.hpp"
+#include "assets/model/assetparametermodel.hpp"
 #include "clipmodel.hpp"
 #include "core.h"
 #include "compositionmodel.hpp"
@@ -1407,4 +1408,11 @@ void TimelineModel::checkRefresh(int start, int end) const
     if (currentPos > start && currentPos < end) {
         pCore->requestMonitorRefresh();
     }
+}
+
+std::shared_ptr<AssetParameterModel> TimelineModel::getCompositionParameterModel(int compoId) const
+{
+    READ_LOCK();
+    Q_ASSERT(isComposition(compoId));
+    return std::static_pointer_cast<AssetParameterModel>(m_allCompositions.at(compoId));
 }

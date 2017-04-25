@@ -40,6 +40,7 @@ AssetParameterView::AssetParameterView(QWidget *parent)
 
 void AssetParameterView::setModel(std::shared_ptr<AssetParameterModel> model)
 {
+    qDebug()<<"set model "<<model.get();
     unsetModel();
     m_model = model;
     connect(m_model.get(), &AssetParameterModel::dataChanged, this, &AssetParameterView::refresh);
