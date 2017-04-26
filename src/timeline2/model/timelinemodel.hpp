@@ -308,7 +308,7 @@ public: /* @brief Given an intended move, try to suggest a more valid one
     bool requestItemResizeToPos(int itemId, int position, bool right);
 
     /* Same function, but accumulates undo and redo and doesn't deal with snapping*/
-    bool requestItemResize(int itemId, int size, bool right, bool logUndo, Fun &undo, Fun &redo);
+    bool requestItemResize(int itemId, int size, bool right, bool logUndo, Fun &undo, Fun &redo, bool blockUndo = false);
 
     /* @brief Similar to requestClipResize but takes a delta instead of absolute size
        This action is undoable

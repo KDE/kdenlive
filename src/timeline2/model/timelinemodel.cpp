@@ -481,7 +481,10 @@ bool TimelineModel::requestCompositionDeletion(int compositionId, Fun &undo, Fun
             return false;
         }
     }
-    auto operation = deregisterComposition_lambda(compositionId);
+    auto operation = [compositionId, this]() {
+        unplantComposition(compositionId);
+        return deregisterComposition_lambda(compositionId);
+    };
     auto composition = m_allCompositions[compositionId];
     auto reverse = [this, composition]() {
         // We capture a shared_ptr to the composition, which means that as long as this undo object lives, the composition object is not deleted. To insert it
@@ -645,7 +648,7 @@ bool TimelineModel::requestItemResize(int itemId, int size, bool right, bool log
     return result;
 }
 
-bool TimelineModel::requestItemResize(int itemId, int size, bool right, bool logUndo, Fun &undo, Fun &redo)
+bool TimelineModel::requestItemResize(int itemId, int size, bool right, bool logUndo, Fun &undo, Fun &redo, bool blockUndo)
 {
     Fun update_model = [itemId, right, logUndo, this]() {
         if (getItemTrackId(itemId) != -1) {
@@ -665,7 +668,9 @@ bool TimelineModel::requestItemResize(int itemId, int size, bool right, bool log
         result = m_allCompositions[itemId]->requestResize(size, right, undo, redo);
     }
     if (result) {
-        PUSH_LAMBDA(update_model, undo);
+        if (!blockUndo) {
+            PUSH_LAMBDA(update_model, undo);
+        }
         PUSH_LAMBDA(update_model, redo);
         update_model();
     }
@@ -1061,7 +1066,7 @@ bool TimelineModel::requestCompositionInsertion(const QString &transitionId, int
     bool res = requestCompositionMove(compositionId, trackId, position, true, local_undo, local_redo);
     qDebug() << "trying to move" << trackId << "pos" << position << "succes " << res;
     if (res) {
-        res = requestItemResize(compositionId, length, true, true, local_undo, local_redo);
+        res = requestItemResize(compositionId, length, true, true, local_undo, local_redo, true);
         qDebug() << "trying to resize" << compositionId << "length" << length << "succes " << res;
     }
     if (!res) {
@@ -1079,7 +1084,6 @@ Fun TimelineModel::deregisterComposition_lambda(int compoId)
     return [this, compoId]() {
         Q_ASSERT(m_allCompositions.count(compoId) > 0);
         Q_ASSERT(!m_groups->isInGroup(compoId)); // composition must be ungrouped at this point
-        unplantComposition(compoId);
         m_allCompositions.erase(compoId);
         m_groups->destructGroupItem(compoId);
         return true;
