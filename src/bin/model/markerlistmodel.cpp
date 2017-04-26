@@ -237,7 +237,6 @@ bool MarkerListModel::hasMarker(int frame) const
 void MarkerListModel::registerSnapModel(std::weak_ptr<SnapModel> snapModel)
 {
     READ_LOCK();
-    Q_ASSERT(m_guide);
     // make sure ptr is valid
     if (auto ptr = snapModel.lock()) {
         // ptr is valid, we store it

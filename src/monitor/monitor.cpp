@@ -38,6 +38,7 @@
 #include "timeline/abstractclipitem.h"
 #include "timeline/clip.h"
 #include "timeline/transitionhandler.h"
+#include "timeline2/model/snapmodel.hpp"
 #include "utils/KoIconUtils.h"
 
 #include "klocalizedstring.h"
@@ -142,6 +143,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     , m_editMarker(nullptr)
     , m_forceSizeFactor(0)
     , m_lastMonitorSceneType(MonitorSceneDefault)
+    , m_snaps(new SnapModel())
 {
     auto *layout = new QVBoxLayout;
     layout->setContentsMargins(0, 0, 0, 0);
@@ -637,14 +639,14 @@ void Monitor::setMarkers(const QList<CommentedTime> &markers)
 void Monitor::slotSeekToPreviousSnap()
 {
     if (m_controller) {
-        slotSeek(getSnapForPos(true).frames(m_monitorManager->timecode().fps()));
+        m_glMonitor->seek(getSnapForPos(true).frames(m_monitorManager->timecode().fps()));
     }
 }
 
 void Monitor::slotSeekToNextSnap()
 {
     if (m_controller) {
-        slotSeek(getSnapForPos(false).frames(m_monitorManager->timecode().fps()));
+        m_glMonitor->seek(getSnapForPos(false).frames(m_monitorManager->timecode().fps()));
     }
 }
 
@@ -655,33 +657,12 @@ GenTime Monitor::position()
 
 GenTime Monitor::getSnapForPos(bool previous)
 {
-    QList<GenTime> snaps;
-    QList<GenTime> markers = m_controller->snapMarkers();
-    snaps.reserve(markers.size());
-    for (int i = 0; i < markers.size(); ++i) {
-        GenTime t = markers.at(i);
-        snaps.append(t);
-    }
     QPoint zone = m_ruler->zone();
-    snaps.append(GenTime(zone.x(), m_monitorManager->timecode().fps()));
-    snaps.append(GenTime(zone.y(), m_monitorManager->timecode().fps()));
-    snaps.append(GenTime());
-    snaps.append(m_controller->getPlaytime());
-    qSort(snaps);
-
-    const GenTime pos = render->seekPosition();
-    for (int i = 0; i < snaps.size(); ++i) {
-        if (previous && snaps.at(i) >= pos) {
-            if (i == 0) {
-                i = 1;
-            }
-            return snaps.at(i - 1);
-        }
-        if (!previous && snaps.at(i) > pos) {
-            return snaps.at(i);
-        }
-    }
-    return GenTime();
+    // TODO: move points with the zone
+    m_snaps->addPoint(zone.x());
+    m_snaps->addPoint(zone.y());
+    int frame = previous ? m_snaps->getPreviousPoint(m_glMonitor->getCurrentPos()) : m_snaps->getNextPoint(m_glMonitor->getCurrentPos());
+    return GenTime(frame, pCore->getCurrentFps());
 }
 
 void Monitor::slotZoneMoved(int start, int end)
@@ -964,11 +945,7 @@ void Monitor::slotMouseSeek(int eventDelta, int modifiers)
         if (eventDelta > 0) {
             delta = 0 - delta;
         }
-        if (render->requestedSeekPosition != SEEK_INACTIVE) {
-            slotSeek(render->requestedSeekPosition - delta);
-        } else {
-            slotSeek(render->seekFramePosition() - delta);
-        }
+        m_glMonitor->seek(m_glMonitor->getCurrentPos() - delta);
     } else if ((modifiers & Qt::AltModifier) != 0u) {
         if (eventDelta >= 0) {
             emit seekToNextSnap();
@@ -1232,15 +1209,13 @@ void Monitor::slotForward(double speed)
 void Monitor::slotRewindOneFrame(int diff)
 {
     slotActivateMonitor();
-    emit seekTimeline(m_glMonitor->getCurrentPos() - diff);
-    m_ruler->update();
+    m_glMonitor->seek(m_glMonitor->getCurrentPos() - diff);
 }
 
 void Monitor::slotForwardOneFrame(int diff)
 {
     slotActivateMonitor();
-    emit seekTimeline(m_glMonitor->getCurrentPos() + diff);
-    m_ruler->update();
+    m_glMonitor->seek(m_glMonitor->getCurrentPos() + diff);
 }
 
 void Monitor::seekCursor(int pos)
@@ -1416,6 +1391,9 @@ void Monitor::slotOpenClip(ProjectClip *controller, int in, int out)
         return;
     }
     m_controller = controller;
+    m_snaps.reset(new SnapModel());
+    m_controller->getMarkerModel()->registerSnapModel(m_snaps);
+    m_snaps->addPoint(m_controller->frameDuration());
     if (!m_glMonitor->isVisible()) {
         // Don't load clip if monitor is not active (disabled)
         return;

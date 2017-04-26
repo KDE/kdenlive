@@ -32,7 +32,12 @@
 #include <QElapsedTimer>
 #include <QToolBar>
 
+#include <memory>
+#include <unordered_set>
+
+
 class SmallRuler;
+class SnapModel;
 class ProjectClip;
 class AbstractClipItem;
 class Transition;
@@ -192,6 +197,7 @@ private:
     QWidget *m_videoWidget;
     /** @brief Manager for qml overlay for the QQuickView **/
     QmlManager *m_qmlManager;
+    std::shared_ptr<SnapModel> m_snaps;
 
     Mlt::Filter *m_splitEffect;
     Mlt::Producer *m_splitProducer;
