@@ -22,6 +22,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "projectitemmodel.h"
 #include "abstractprojectitem.h"
+#include "core.h"
+#include "doc/kdenlivedoc.h"
+#include "kdenlivesettings.h"
 #include "projectclip.h"
 #include "projectfolder.h"
 #include "projectsubclip.h"
@@ -254,7 +257,13 @@ void ProjectItemModel::onItemUpdated(AbstractProjectItem *item)
 
 ProjectClip *ProjectItemModel::getClipByBinID(const QString &binId)
 {
-    return static_cast<AbstractProjectItem *>(rootItem)->clip(binId);
+    if (binId.contains(QLatin1Char('_'))) {
+        return getClipByBinID(binId.section(QLatin1Char('_'), 0, 0));
+    }
+    if (!binId.isEmpty()) {
+        return static_cast<AbstractProjectItem *>(rootItem)->clip(binId);
+    }
+    return nullptr;
 }
 
 ProjectFolder *ProjectItemModel::getFolderByBinId(const QString &binId)
@@ -296,6 +305,36 @@ void ProjectItemModel::clean()
 ProjectFolder *ProjectItemModel::getRootFolder() const
 {
     return static_cast<ProjectFolder *>(rootItem);
+}
+
+void ProjectItemModel::loadSubClips(const QString &id, const QMap<QString, QString> &dataMap)
+{
+    ProjectClip *clip = getClipByBinID(id);
+    if (!clip) {
+        return;
+    }
+    QMapIterator<QString, QString> i(dataMap);
+    QList<int> missingThumbs;
+    int maxFrame = clip->duration().frames(pCore->getCurrentFps()) - 1;
+    while (i.hasNext()) {
+        i.next();
+        if (!i.value().contains(QLatin1Char(';'))) {
+            // Problem, the zone has no in/out points
+            continue;
+        }
+        int in = i.value().section(QLatin1Char(';'), 0, 0).toInt();
+        int out = i.value().section(QLatin1Char(';'), 1, 1).toInt();
+        if (maxFrame > 0) {
+            out = qMin(out, maxFrame);
+        }
+        missingThumbs << in;
+        // TODO remove access to doc here
+        new ProjectSubClip(clip, this, in, out, pCore->currentDoc()->timecode().getDisplayTimecodeFromFrames(in, KdenliveSettings::frametimecode()), i.key());
+    }
+    if (!missingThumbs.isEmpty()) {
+        // generate missing subclip thumbnails
+        clip->slotExtractImage(missingThumbs);
+    }
 }
 
 Bin *ProjectItemModel::bin() const

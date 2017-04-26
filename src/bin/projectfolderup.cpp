@@ -38,12 +38,6 @@ ProjectFolderUp::~ProjectFolderUp()
 {
 }
 
-void ProjectFolderUp::setCurrent(bool current, bool notify)
-{
-    Q_UNUSED(current)
-    Q_UNUSED(notify)
-}
-
 ProjectClip *ProjectFolderUp::clip(const QString &id)
 {
     Q_UNUSED(id)

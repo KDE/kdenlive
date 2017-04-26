@@ -17,15 +17,16 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QUrl>
 #include <memory>
 
-class MainWindow;
-class ProjectManager;
-class MonitorManager;
-class BinController;
 class Bin;
+class BinController;
+class KdenliveDoc;
 class LibraryWidget;
-class ProducerQueue;
+class MainWindow;
 class MltConnection;
+class MonitorManager;
+class ProducerQueue;
 class ProfileModel;
+class ProjectManager;
 
 namespace Mlt {
 class Repository;
@@ -77,6 +78,8 @@ public:
 
     /** @brief Returns a pointer to the project manager. */
     ProjectManager *projectManager();
+    /** @brief Returns a pointer to the project manager. */
+    KdenliveDoc *currentDoc();
     /** @brief Returns a pointer to the monitor manager. */
     MonitorManager *monitorManager();
     /** @brief Returns a pointer to the project bin controller. */

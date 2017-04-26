@@ -24,6 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define PROJECTITEMMODEL_H
 
 #include "abstractmodel/abstracttreemodel.hpp"
+#include "mltcontroller/bincontroller.h"
 #include <QSize>
 
 class AbstractProjectItem;
@@ -65,8 +66,15 @@ public:
     /** @brief Convenience method to access root folder */
     ProjectFolder *getRootFolder() const;
 
-    /** @brief Convenience method to acces the bin associated with this model*/
+    /** @brief Convenience method to access the bin associated with this model
+        TODO remove that.
+     */
     Bin *bin() const;
+
+    /** @brief Create the subclips defined in the parent clip.
+        @param id is the id of the parent clip
+        @param data is a definition of the subclips (keys are subclips' names, value are "in:out")*/
+    void loadSubClips(const QString &id, const QMap<QString, QString> &data);
 
     /** @brief Returns item data depending on role requested */
     QVariant data(const QModelIndex &index, int role) const override;
@@ -98,6 +106,12 @@ private:
     Bin *m_bin;
 
 signals:
+    void updateThumbProgress(long ms);
+    void abortAudioThumb(const QString &id, long duration);
+    void refreshAudioThumbs(const QString &id);
+    void reloadProducer(const QString &id, const QDomElement &xml);
+    void refreshPanel(const QString &id);
+    void requestAudioThumbs(const QString &id, long duration);
     // TODO
     void markersNeedUpdate(const QString &id, const QList<int> &);
     void itemDropped(const QStringList &, const QModelIndex &);

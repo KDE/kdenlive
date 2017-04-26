@@ -285,3 +285,8 @@ void Core::requestMonitorRefresh()
 {
     m_monitorManager->refreshProjectMonitor();
 }
+
+KdenliveDoc *Core::currentDoc()
+{
+    return m_projectManager->current();
+}

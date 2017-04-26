@@ -126,13 +126,6 @@ ProjectSubClip *ProjectSubClip::subClip(int in, int out)
     return nullptr;
 }
 
-void ProjectSubClip::setCurrent(bool current, bool notify)
-{
-    Q_UNUSED(notify)
-    if (current) {
-        static_cast<ProjectItemModel *>(m_model)->bin()->openProducer(m_masterClip, m_in, m_out);
-    }
-}
 
 void ProjectSubClip::setThumbnail(const QImage &img)
 {
@@ -150,4 +143,9 @@ bool ProjectSubClip::rename(const QString &name, int column)
     // Rename folder
     static_cast<ProjectItemModel *>(m_model)->bin()->renameSubClipCommand(m_id, name, m_name, m_in, m_out);
     return true;
+}
+
+ProjectClip *ProjectSubClip::getMasterClip() const
+{
+    return m_masterClip;
 }

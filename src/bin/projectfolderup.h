@@ -57,9 +57,6 @@ public:
      */
     ProjectFolder *folder(const QString &id) override;
 
-    /** @brief Calls AbstractProjectItem::setCurrent and blank the bin monitor. */
-    void setCurrent(bool current, bool notify = true) override;
-
     /**
      * @brief Returns the clip if it is a child (also indirect).
      * @param index index of the child which should be returned

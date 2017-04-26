@@ -73,8 +73,8 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, ProjectItemModel
     // Make sure we have a hash for this clip
     hash();
     connect(this, &ProjectClip::updateJobStatus, this, &ProjectClip::setJobStatus);
-    static_cast<ProjectItemModel *>(m_model)->bin()->loadSubClips(id, getPropertiesFromPrefix(QStringLiteral("kdenlive:clipzone.")));
-    connect(this, &ProjectClip::updateThumbProgress, static_cast<ProjectItemModel *>(m_model)->bin(), &Bin::doUpdateThumbsProgress);
+    static_cast<ProjectItemModel *>(m_model)->loadSubClips(id, getPropertiesFromPrefix(QStringLiteral("kdenlive:clipzone.")));
+    connect(this, &ProjectClip::updateThumbProgress, static_cast<ProjectItemModel *>(m_model), &ProjectItemModel::updateThumbProgress);
     createAudioThumbs();
 }
 
@@ -103,7 +103,7 @@ ProjectClip::ProjectClip(const QDomElement &description, const QIcon &thumb, Pro
         m_name = i18n("Untitled");
     }
     connect(this, &ProjectClip::updateJobStatus, this, &ProjectClip::setJobStatus);
-    connect(this, &ProjectClip::updateThumbProgress, static_cast<ProjectItemModel *>(m_model)->bin(), &Bin::doUpdateThumbsProgress);
+    connect(this, &ProjectClip::updateThumbProgress, static_cast<ProjectItemModel *>(m_model), &ProjectItemModel::updateThumbProgress);
     m_markerModel = std::make_shared<MarkerListModel>(m_id, pCore->projectManager()->current()->commandStack());
 }
 
@@ -111,7 +111,7 @@ ProjectClip::~ProjectClip()
 {
     // controller is deleted in bincontroller
     abortAudioThumbs();
-    static_cast<ProjectItemModel *>(m_model)->bin()->slotAbortAudioThumb(m_id, duration().ms());
+    emit static_cast<ProjectItemModel *>(m_model)->abortAudioThumb(m_id, duration().ms());
     QMutexLocker audioLock(&m_audioMutex);
     m_thumbMutex.lock();
     m_requestedThumbs.clear();
@@ -149,7 +149,7 @@ void ProjectClip::updateAudioThumbnail(const QVariantList &audioLevels)
 {
     audioFrameCache = audioLevels;
     m_audioThumbCreated = true;
-    static_cast<ProjectItemModel *>(m_model)->bin()->emitRefreshAudioThumbs(m_id);
+    emit static_cast<ProjectItemModel *>(m_model)->refreshAudioThumbs(m_id);
     emit gotAudioData();
 }
 
@@ -262,17 +262,9 @@ void ProjectClip::reloadProducer(bool refreshOnly)
         // set a special flag to request thumbnail only
         xml.setAttribute(QStringLiteral("refreshOnly"), QStringLiteral("1"));
     }
-    static_cast<ProjectItemModel *>(m_model)->bin()->reloadProducer(m_id, xml);
+    emit static_cast<ProjectItemModel *>(m_model)->reloadProducer(m_id, xml);
 }
 
-void ProjectClip::setCurrent(bool current, bool notify)
-{
-    Q_UNUSED(notify);
-    if (current) {
-        static_cast<ProjectItemModel *>(m_model)->bin()->openProducer(this);
-        static_cast<ProjectItemModel *>(m_model)->bin()->requestShowEffectStack(getEffectStack());
-    }
-}
 
 QDomElement ProjectClip::toXml(QDomDocument &document, bool includeMeta)
 {
@@ -302,7 +294,7 @@ void ProjectClip::setThumbnail(const QImage &img)
     }
     m_thumbnail = QIcon(thumb);
     emit thumbUpdated(img);
-    static_cast<ProjectItemModel *>(m_model)->bin()->emitItemUpdated(this);
+    static_cast<ProjectItemModel *>(m_model)->onItemUpdated(this);
 }
 
 QPixmap ProjectClip::thumbnail(int width, int height)
@@ -329,9 +321,9 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
     m_duration = getStringDuration();
     m_clipStatus = StatusReady;
     if (!hasProxy()) {
-        static_cast<ProjectItemModel *>(m_model)->bin()->emitRefreshPanel(m_id);
+        emit static_cast<ProjectItemModel *>(m_model)->refreshPanel(m_id);
     }
-    static_cast<ProjectItemModel *>(m_model)->bin()->emitItemUpdated(this);
+    static_cast<ProjectItemModel *>(m_model)->onItemUpdated(this);
     // Make sure we have a hash for this clip
     getFileHash();
     createAudioThumbs();
@@ -341,7 +333,7 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
 void ProjectClip::createAudioThumbs()
 {
     if (KdenliveSettings::audiothumbnails() && (m_clipType == AV || m_clipType == Audio || m_clipType == Playlist)) {
-        static_cast<ProjectItemModel *>(m_model)->bin()->requestAudioThumbs(m_id, duration().ms());
+        emit static_cast<ProjectItemModel *>(m_model)->requestAudioThumbs(m_id, duration().ms());
         emit updateJobStatus(AbstractClipJob::THUMBJOB, JobWaiting, 0);
     }
 }
@@ -470,7 +462,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
     QStringList timelineProperties;
     if (properties.contains(QStringLiteral("templatetext"))) {
         m_description = properties.value(QStringLiteral("templatetext"));
-        static_cast<ProjectItemModel *>(m_model)->bin()->emitItemUpdated(this);
+        static_cast<ProjectItemModel *>(m_model)->onItemUpdated(this);
         refreshPanel = true;
     }
     timelineProperties << QStringLiteral("force_aspect_ratio") << QStringLiteral("video_index") << QStringLiteral("audio_index")
@@ -526,13 +518,13 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
     }
     if (properties.contains(QStringLiteral("length")) || properties.contains(QStringLiteral("kdenlive:duration"))) {
         m_duration = getStringDuration();
-        static_cast<ProjectItemModel *>(m_model)->bin()->emitItemUpdated(this);
+        static_cast<ProjectItemModel *>(m_model)->onItemUpdated(this);
     }
 
     if (properties.contains(QStringLiteral("kdenlive:clipname"))) {
         m_name = properties.value(QStringLiteral("kdenlive:clipname"));
         refreshPanel = true;
-        static_cast<ProjectItemModel *>(m_model)->bin()->emitItemUpdated(this);
+        static_cast<ProjectItemModel *>(m_model)->onItemUpdated(this);
     }
     if (refreshPanel) {
         // Some of the clip properties have changed through a command, update properties panel
@@ -566,7 +558,7 @@ void ProjectClip::setJobStatus(int jobType, int status, int progress, const QStr
             static_cast<ProjectItemModel *>(m_model)->bin()->emitMessage(statusMessage, 100, OperationCompletedMessage);
         }
     }
-    static_cast<ProjectItemModel *>(m_model)->bin()->emitItemUpdated(this);
+    static_cast<ProjectItemModel *>(m_model)->onItemUpdated(this);
 }
 
 ClipPropertiesController *ProjectClip::buildProperties(QWidget *parent)

@@ -62,9 +62,6 @@ public:
     /** @brief Returns the clip's duration. */
     GenTime duration() const;
 
-    /** @brief Calls AbstractProjectItem::setCurrent and sets the bin monitor to use the clip's producer. */
-    void setCurrent(bool current, bool notify = true) override;
-
     /** @brief Sets thumbnail for this clip. */
     void setThumbnail(const QImage &);
 
@@ -73,6 +70,9 @@ public:
     QPoint zone() const override;
     QString getToolTip() const override;
     bool rename(const QString &name, int column) override;
+
+    /** @brief returns a pointer to the parent clip */
+    ProjectClip *getMasterClip() const;
 
 private:
     ProjectClip *m_masterClip;

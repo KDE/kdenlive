@@ -107,8 +107,6 @@ public:
     /** @brief Returns the original clip's fps. */
     double getOriginalFps() const;
 
-    /** @brief Calls AbstractProjectItem::setCurrent and sets the bin monitor to use the clip's producer. */
-    void setCurrent(bool current, bool notify = true) override;
 
     bool rename(const QString &name, int column) override;
 

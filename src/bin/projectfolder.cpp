@@ -47,12 +47,6 @@ ProjectFolder::~ProjectFolder()
 {
 }
 
-void ProjectFolder::setCurrent(bool current, bool notify)
-{
-    Q_UNUSED(notify);
-    Q_UNUSED(current)
-}
-
 ProjectClip *ProjectFolder::clip(const QString &id)
 {
     for (int i = 0; i < childCount(); ++i) {

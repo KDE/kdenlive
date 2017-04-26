@@ -65,9 +65,6 @@ public:
     /** @brief Recursively disable/enable bin effects. */
     void setBinEffectsEnabled(bool enabled) override;
 
-    /** @brief Calls AbstractProjectItem::setCurrent and blank the bin monitor. */
-    void setCurrent(bool current, bool notify = true) override;
-
     /**
      * @brief Returns the clip if it is a child (also indirect).
      * @param index index of the child which should be returned

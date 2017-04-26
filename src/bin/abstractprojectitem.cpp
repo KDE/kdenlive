@@ -80,7 +80,7 @@ AbstractProjectItem *AbstractProjectItem::parent() const
 void AbstractProjectItem::setRefCount(uint count)
 {
     m_usage = count;
-    static_cast<ProjectItemModel *>(m_model)->bin()->emitItemUpdated(this);
+    static_cast<ProjectItemModel *>(m_model)->onItemUpdated(this);
 }
 
 uint AbstractProjectItem::refCount() const
@@ -91,13 +91,13 @@ uint AbstractProjectItem::refCount() const
 void AbstractProjectItem::addRef()
 {
     m_usage++;
-    static_cast<ProjectItemModel *>(m_model)->bin()->emitItemUpdated(this);
+    static_cast<ProjectItemModel *>(m_model)->onItemUpdated(this);
 }
 
 void AbstractProjectItem::removeRef()
 {
     m_usage--;
-    static_cast<ProjectItemModel *>(m_model)->bin()->emitItemUpdated(this);
+    static_cast<ProjectItemModel *>(m_model)->onItemUpdated(this);
 }
 
 const QString &AbstractProjectItem::clipId() const

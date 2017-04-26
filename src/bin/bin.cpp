@@ -587,6 +587,13 @@ Bin::Bin(QWidget *parent)
     // Build item view model
     m_itemModel = new ProjectItemModel(this, this);
 
+    connect(m_itemModel, &ProjectItemModel::updateThumbProgress, this, &Bin::doUpdateThumbsProgress);
+    connect(m_itemModel, &ProjectItemModel::abortAudioThumb, this, &Bin::slotAbortAudioThumb);
+    connect(m_itemModel, &ProjectItemModel::refreshAudioThumbs, this, &Bin::refreshAudioThumbs);
+    connect(m_itemModel, &ProjectItemModel::reloadProducer, this, &Bin::reloadProducer);
+    connect(m_itemModel, &ProjectItemModel::refreshPanel, this, &Bin::refreshPanel);
+    connect(m_itemModel, &ProjectItemModel::requestAudioThumbs, this, &Bin::requestAudioThumbs);
+
     // Connect models
     m_proxyModel->setSourceModel(m_itemModel);
     connect(m_itemModel, SIGNAL(dataChanged(QModelIndex, QModelIndex)), m_proxyModel, SLOT(slotDataChanged(const QModelIndex &, const QModelIndex &)));
@@ -1568,7 +1575,7 @@ void Bin::selectProxyModel(const QModelIndex &id)
         AbstractProjectItem *currentItem = static_cast<AbstractProjectItem *>(m_proxyModel->mapToSource(id).internalPointer());
         if (currentItem) {
             // Set item as current so that it displays its content in clip monitor
-            currentItem->setCurrent(true);
+            setCurrent(currentItem);
             if (currentItem->itemType() == AbstractProjectItem::ClipItem) {
                 m_reloadAction->setEnabled(true);
                 m_locateAction->setEnabled(true);
@@ -2135,13 +2142,13 @@ void Bin::slotProducerReady(const requestClipInfo &info, ClipController *control
                 AbstractProjectItem *item = static_cast<AbstractProjectItem *>(m_proxyModel->mapToSource(ix).internalPointer());
                 if ((item != nullptr) && item->clipId() == info.clipId) {
                     // Item was selected, show it in monitor
-                    item->setCurrent(true);
+                    setCurrent(item);
                     break;
                 }
             }
         } else if (currentClip == info.clipId) {
             emit openClip(nullptr);
-            clip->setCurrent(true);
+            setCurrent(clip);
         }
     } else {
         // Clip not found, create it
@@ -2415,11 +2422,6 @@ void Bin::refreshClip(const QString &id)
     }
 }
 
-void Bin::emitRefreshAudioThumbs(const QString &id)
-{
-    emit refreshAudioThumbs(id);
-}
-
 void Bin::doRefreshAudioThumbs(const QString &id)
 {
     if (m_monitor->activeClipId() == id) {
@@ -2570,7 +2572,7 @@ void Bin::slotEffectDropped(const QString &effect, const QModelIndex &parent)
             m_proxyModel->selectionModel()->select(QItemSelection(m_proxyModel->mapFromSource(id), m_proxyModel->mapFromSource(id2)),
                                                    QItemSelectionModel::Select);
         }
-        parentItem->setCurrent(true);
+        setCurrent(parentItem);
         static_cast<ProjectClip *>(parentItem)->addEffect(effect);
     }
 }
@@ -2912,35 +2914,6 @@ void Bin::slotAddClipCut(const QString &id, int in, int out)
 {
     auto *command = new AddBinClipCutCommand(this, id, in, out, true);
     m_doc->commandStack()->push(command);
-}
-
-void Bin::loadSubClips(const QString &id, const QMap<QString, QString> &dataMap)
-{
-    ProjectClip *clip = getBinClip(id);
-    if (!clip) {
-        return;
-    }
-    QMapIterator<QString, QString> i(dataMap);
-    QList<int> missingThumbs;
-    int maxFrame = clip->duration().frames(pCore->getCurrentFps()) - 1;
-    while (i.hasNext()) {
-        i.next();
-        if (!i.value().contains(QLatin1Char(';'))) {
-            // Problem, the zone has no in/out points
-            continue;
-        }
-        int in = i.value().section(QLatin1Char(';'), 0, 0).toInt();
-        int out = i.value().section(QLatin1Char(';'), 1, 1).toInt();
-        if (maxFrame > 0) {
-            out = qMin(out, maxFrame);
-        }
-        missingThumbs << in;
-        new ProjectSubClip(clip, m_itemModel, in, out, m_doc->timecode().getDisplayTimecodeFromFrames(in, KdenliveSettings::frametimecode()), i.key());
-    }
-    if (!missingThumbs.isEmpty()) {
-        // generate missing subclip thumbnails
-        clip->slotExtractImage(missingThumbs);
-    }
 }
 
 void Bin::addClipCut(const QString &id, int in, int out)
@@ -3837,4 +3810,24 @@ QVariantList Bin::audioFrameCache(const QString &id)
         return clip->audioFrameCache;
     }
     return QVariantList();
+}
+
+void Bin::setCurrent(AbstractProjectItem *item)
+{
+    switch (item->itemType()) {
+    case AbstractProjectItem::ClipItem:
+        openProducer(static_cast<ProjectClip *>(item));
+        requestShowEffectStack(static_cast<ProjectClip *>(item)->getEffectStack());
+        break;
+    case AbstractProjectItem::SubClipItem: {
+        auto subClip = static_cast<ProjectSubClip *>(item);
+        QPoint zone = subClip->zone();
+        openProducer(subClip->getMasterClip(), zone.x(), zone.y());
+        break;
+    }
+    case AbstractProjectItem::FolderUpItem:
+    case AbstractProjectItem::FolderItem:
+    default:
+        break;
+    }
 }

@@ -257,8 +257,6 @@ public:
     void addClipCut(const QString &id, int in, int out);
     void removeClipCut(const QString &id, int in, int out);
 
-    /** @brief Create the subclips defined in the parent clip. */
-    void loadSubClips(const QString &id, const QMap<QString, QString> &data);
 
     /** @brief Set focus to the Bin view. */
     void focusBinView() const;
@@ -451,6 +449,11 @@ public slots:
     void droppedUrls(const QList<QUrl> &urls, const QStringList &folderInfo = QStringList());
 
 protected:
+    /* This function is called whenever an item is selected to propagate signals
+       (for ex request to show the clip in the monitor)
+    */
+    void setCurrent(AbstractProjectItem *item);
+
     void contextMenuEvent(QContextMenuEvent *event) override;
     bool eventFilter(QObject *obj, QEvent *event) override;
 
