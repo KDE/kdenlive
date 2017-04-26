@@ -23,18 +23,24 @@
 #include "effects/effectstack/model/effectstackmodel.cpp"
 #include "kdenlivesettings.h"
 #include "model/assetparametermodel.hpp"
+#include "transitions/transitionsrepository.hpp"
 #include "view/assetparameterview.hpp"
 
 #include <KColorScheme>
 #include <KColorUtils>
 #include <QApplication>
 #include <QDebug>
+#include <QLabel>
+#include <QVBoxLayout>
+#include <klocalizedstring.h>
 
 AssetPanel::AssetPanel(QWidget *parent)
     : QScrollArea(parent)
     , m_lay(new QVBoxLayout(this))
+    , m_assetTitle(new QLabel(this))
     , m_transitionWidget(new AssetParameterView(this))
 {
+    m_lay->addWidget(m_assetTitle);
     m_lay->addWidget(m_transitionWidget);
     m_transitionWidget->setVisible(false);
 }
@@ -43,6 +49,9 @@ void AssetPanel::showTransition(std::shared_ptr<AssetParameterModel> transitionM
 {
     qDebug() << "Show transition signal";
     clear();
+    QString transitionId = transitionModel->getAssetId();
+    QString transitionName = TransitionsRepository::get()->getName(transitionId);
+    m_assetTitle->setText(i18n("Properties of transition %1", transitionName));
     m_transitionWidget->setVisible(true);
     m_transitionWidget->setModel(transitionModel);
 }
@@ -57,6 +66,7 @@ void AssetPanel::clear()
 {
     m_transitionWidget->setVisible(false);
     m_transitionWidget->unsetModel();
+    m_assetTitle->setText(QString());
 }
 
 void AssetPanel::updatePalette()
