@@ -23,15 +23,15 @@
 #include <QApplication>
 #include <QOpenGLFunctions_3_2_Core>
 #include <QPainter>
-#include <QQuickItem>
 #include <QQmlContext>
+#include <QQuickItem>
 
 #include "core.h"
 #include "glwidget.h"
-#include "timeline2/view/qml/timelineitems.h"
 #include "kdenlivesettings.h"
 #include "mltcontroller/bincontroller.h"
 #include "qml/qmlaudiothumb.h"
+#include "timeline2/view/qml/timelineitems.h"
 #include <mlt++/Mlt.h>
 
 #ifndef GL_UNPACK_ROW_LENGTH
@@ -1674,7 +1674,7 @@ int GLWidget::getCurrentPos() const
 
 void GLWidget::setRulerInfo(int duration, int in, int out, std::shared_ptr<MarkerListModel> model)
 {
-    qDebug()<<" ** * SETTING Duration: "<<out<<" - "<<in;
+    qDebug() << " ** * SETTING Duration: " << out << " - " << in;
     rootObject()->setProperty("duration", duration);
     rootContext()->setContextProperty("markersModel", model.get());
 }

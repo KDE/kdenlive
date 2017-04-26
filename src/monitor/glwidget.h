@@ -31,9 +31,9 @@
 #include <QThread>
 #include <QTimer>
 
+#include "bin/model/markerlistmodel.hpp"
 #include "definitions.h"
 #include "scopes/sharedframe.h"
-#include "bin/model/markerlistmodel.hpp"
 
 class QOpenGLFunctions_3_2_Core;
 
@@ -267,19 +267,19 @@ public:
 class MonitorProxy : public QObject
 {
     Q_OBJECT
-    //Q_PROPERTY(int consumerPosition READ consumerPosition NOTIFY consumerPositionChanged)
+    // Q_PROPERTY(int consumerPosition READ consumerPosition NOTIFY consumerPositionChanged)
     Q_PROPERTY(int seekPosition READ seekPosition WRITE setSeekPosition NOTIFY seekPositionChanged)
 
 public:
-    MonitorProxy(GLWidget *parent) : QObject(parent)
-    , q(parent)
-    , m_seekPosition(-1)
+    MonitorProxy(GLWidget *parent)
+        : QObject(parent)
+        , q(parent)
+        , m_seekPosition(-1)
     {
     }
-    int seekPosition() const {
-        return m_seekPosition;
-    }
-    void setSeekPosition(int pos) {
+    int seekPosition() const { return m_seekPosition; }
+    void setSeekPosition(int pos)
+    {
         m_seekPosition = pos;
         emit seekPositionChanged();
     }
@@ -292,6 +292,5 @@ private:
     int m_position;
     int m_seekPosition;
 };
-
 
 #endif

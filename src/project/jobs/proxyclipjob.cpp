@@ -20,8 +20,8 @@
 
 #include "proxyclipjob.h"
 #include "bin/bin.h"
-#include "core.h"
 #include "bin/projectclip.h"
+#include "core.h"
 #include "doc/kdenlivedoc.h"
 #include "kdenlive_debug.h"
 #include "kdenlivesettings.h"

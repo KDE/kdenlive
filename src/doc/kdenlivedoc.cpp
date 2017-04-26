@@ -30,7 +30,6 @@
 #include "effectslist/initeffects.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
-#include "renderer.h"
 #include "mltcontroller/bincontroller.h"
 #include "mltcontroller/clipcontroller.h"
 #include "mltcontroller/effectscontroller.h"
@@ -38,6 +37,7 @@
 #include "profiles/profilemodel.hpp"
 #include "project/clipmanager.h"
 #include "project/projectcommands.h"
+#include "renderer.h"
 #include "timeline/transitionhandler.h"
 #include "titler/titlewidget.h"
 #include "utils/KoIconUtils.h"
@@ -71,8 +71,8 @@
 const double DOCUMENTVERSION = 0.96;
 
 KdenliveDoc::KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGroup *undoGroup, const QString &profileName,
-                         const QMap<QString, QString> &properties, const QMap<QString, QString> &metadata, const QPoint &tracks,
-                         bool *openBackup, MainWindow *parent)
+                         const QMap<QString, QString> &properties, const QMap<QString, QString> &metadata, const QPoint &tracks, bool *openBackup,
+                         MainWindow *parent)
     : QObject(parent)
     , m_autosave(nullptr)
     , m_url(url)
@@ -588,7 +588,8 @@ void KdenliveDoc::slotAutoSave()
             qCDebug(KDENLIVE_LOG) << "ERROR; CANNOT CREATE AUTOSAVE FILE";
         }
         // qCDebug(KDENLIVE_LOG) << "// AUTOSAVE FILE: " << m_autosave->fileName();
-        QDomDocument sceneList = xmlSceneList(pCore->monitorManager()->projectMonitor()->sceneList(m_url.adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile()));
+        QDomDocument sceneList =
+            xmlSceneList(pCore->monitorManager()->projectMonitor()->sceneList(m_url.adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile()));
         if (sceneList.isNull()) {
             // Make sure we don't save if scenelist is corrupted
             KMessageBox::error(QApplication::activeWindow(), i18n("Cannot write to file %1, scene list is corrupted.", m_autosave->fileName()));
@@ -1440,7 +1441,8 @@ QMap<QString, QString> KdenliveDoc::documentProperties()
                                     m_projectFolder + QLatin1Char('/') + m_documentProperties.value(QStringLiteral("documentid")));
     }
     m_documentProperties.insert(QStringLiteral("profile"), profilePath());
-    m_documentProperties.insert(QStringLiteral("position"), QString::number(pCore->monitorManager()->projectMonitor()->position().frames(pCore->getCurrentFps())));
+    m_documentProperties.insert(QStringLiteral("position"),
+                                QString::number(pCore->monitorManager()->projectMonitor()->position().frames(pCore->getCurrentFps())));
     if (!m_documentProperties.contains(QStringLiteral("decimalPoint"))) {
         m_documentProperties.insert(QStringLiteral("decimalPoint"), QLocale().decimalPoint());
     }
@@ -1759,8 +1761,8 @@ void KdenliveDoc::checkPreviewStack()
 
 void KdenliveDoc::saveMltPlaylist(const QString &fileName)
 {
-    //TODO REFAC
-    //m_render->preparePreviewRendering(fileName);
+    // TODO REFAC
+    // m_render->preparePreviewRendering(fileName);
 }
 
 void KdenliveDoc::initCacheDirs()
@@ -1862,7 +1864,7 @@ std::shared_ptr<MarkerListModel> KdenliveDoc::getGuideModel() const
 void KdenliveDoc::addGuides(QList<CommentedTime> &markers)
 {
     for (int i = 0; i < markers.count(); ++i) {
-        qDebug()<<"** *ADDING MARKERS: "<<markers.at(i).time().frames(25)<<", TYPE: "<<markers.at(i).markerType();
+        qDebug() << "** *ADDING MARKERS: " << markers.at(i).time().frames(25) << ", TYPE: " << markers.at(i).markerType();
         if (markers.at(i).markerType() < 0) {
             m_guideModel->removeMarker(markers.at(i).time());
         } else {
@@ -1870,4 +1872,3 @@ void KdenliveDoc::addGuides(QList<CommentedTime> &markers)
         }
     }
 }
-

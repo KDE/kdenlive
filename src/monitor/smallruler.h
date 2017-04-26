@@ -25,7 +25,6 @@
 #include <KColorScheme>
 #include <QWidget>
 
-
 class SmallRuler : public QWidget
 {
     Q_OBJECT

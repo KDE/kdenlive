@@ -35,7 +35,6 @@
 #include <memory>
 #include <unordered_set>
 
-
 class SmallRuler;
 class SnapModel;
 class ProjectClip;

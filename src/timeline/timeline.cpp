@@ -22,6 +22,7 @@
 #include "bin/projectclip.h"
 #include "clip.h"
 #include "clipitem.h"
+#include "core.h"
 #include "customruler.h"
 #include "customtrackview.h"
 #include "dialogs/profilesdialog.h"
@@ -42,7 +43,6 @@
 #include "transition.h"
 #include "transitionhandler.h"
 #include "utils/KoIconUtils.h"
-#include "core.h"
 
 #include <KDualAction>
 #include <QLocale>

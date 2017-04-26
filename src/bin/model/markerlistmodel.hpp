@@ -22,8 +22,8 @@
 #ifndef MARKERLISTMODEL_H
 #define MARKERLISTMODEL_H
 
-#include "gentime.h"
 #include "definitions.h"
+#include "gentime.h"
 #include "undohelper.hpp"
 
 #include <QAbstractListModel>
@@ -34,7 +34,6 @@
 
 class DocUndoStack;
 class SnapModel;
-
 
 /* @brief This class is the model for a list of markers.
    A marker is defined by a time, a type (the color used to represent it) and a comment string.
@@ -79,7 +78,8 @@ public:
     Q_INVOKABLE bool hasMarker(int frame) const;
 
     /* @brief Registers a snapModel to the marker model.
-       This is intended to be used for a guide model, so that the timelines can register their snapmodel to be updated when the guide moves. This is also used on the clip monitor to keep tracking the clip markers
+       This is intended to be used for a guide model, so that the timelines can register their snapmodel to be updated when the guide moves. This is also used
+       on the clip monitor to keep tracking the clip markers
        The snap logic for clips is managed from the Timeline
        Note that no deregistration is necessary, the weak_ptr will be discarded as soon as it becomes invalid.
     */

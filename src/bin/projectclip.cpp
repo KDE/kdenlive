@@ -32,7 +32,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "mltcontroller/clipcontroller.h"
 #include "mltcontroller/clippropertiescontroller.h"
 #include "model/markerlistmodel.hpp"
-#include "timeline2/model/snapmodel.hpp"
 #include "profiles/profilemodel.hpp"
 #include "project/projectcommands.h"
 #include "project/projectmanager.h"
@@ -41,6 +40,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "projectsubclip.h"
 #include "timecode.h"
 #include "timeline/clip.h"
+#include "timeline2/model/snapmodel.hpp"
 #include "utils/KoIconUtils.h"
 
 #include "kdenlive_debug.h"

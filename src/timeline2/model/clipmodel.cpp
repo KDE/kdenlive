@@ -29,9 +29,9 @@
 #include <QDebug>
 #include <mlt++/MltProducer.h>
 
-//this can be deleted
-#include "gentime.h"
+// this can be deleted
 #include "bin/model/markerlistmodel.hpp"
+#include "gentime.h"
 
 ClipModel::ClipModel(std::weak_ptr<TimelineModel> parent, std::shared_ptr<Mlt::Producer> prod, const QString &binClipId, int id)
     : MoveableItem<Mlt::Producer>(parent, id)

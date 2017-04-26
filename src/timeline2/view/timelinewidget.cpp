@@ -458,8 +458,8 @@ void TimelineWidget::addAsset(const QVariantMap data)
     QString effect = data.value(QStringLiteral("kdenlive/effect")).toString();
     if (!m_selection.selectedClips.isEmpty()) {
         for (int id : m_selection.selectedClips) {
-            //TODO: manage effects in model
-            //m_model->addEffect(id, effect);
+            // TODO: manage effects in model
+            // m_model->addEffect(id, effect);
         }
     }
 }
@@ -471,9 +471,9 @@ void TimelineWidget::requestRefresh()
 
 void TimelineWidget::showAsset(int id)
 {
-    qDebug() << "show asset" <<id;
+    qDebug() << "show asset" << id;
     if (m_model->isComposition(id)) {
-        qDebug() << "show asset compo" <<id;
+        qDebug() << "show asset compo" << id;
         emit showTransitionModel(m_model->getCompositionParameterModel(id));
     }
 }

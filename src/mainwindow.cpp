@@ -2377,8 +2377,8 @@ void MainWindow::slotEditClipMarker()
         pCore->bin()->slotAddClipMarker(id, QList<CommentedTime>() << d->newMarker());
         QString hash = clip->getClipHash();
         if (!hash.isEmpty()) {
-            pCore->projectManager()->current()->cacheImage(
-                hash + QLatin1Char('#') + QString::number(d->newMarker().time().frames(pCore->getCurrentFps())), d->markerImage());
+            pCore->projectManager()->current()->cacheImage(hash + QLatin1Char('#') + QString::number(d->newMarker().time().frames(pCore->getCurrentFps())),
+                                                           d->markerImage());
         }
         if (d->newMarker().time() != pos) {
             // remove old marker
@@ -3628,7 +3628,6 @@ void MainWindow::slotShutdown()
         smserver.call(QStringLiteral("Shutdown"));
     }
 }
-
 
 void MainWindow::slotSwitchMonitors()
 {

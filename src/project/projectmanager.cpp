@@ -529,11 +529,10 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     m_progressDialog->show();
     bool openBackup;
     m_notesPlugin->clear();
-    KdenliveDoc *doc =
-        new KdenliveDoc(stale ? QUrl::fromLocalFile(stale->fileName()) : url, QString(), pCore->window()->m_commandStack,
-                        KdenliveSettings::default_profile().isEmpty() ? KdenliveSettings::current_profile() : KdenliveSettings::default_profile(),
-                        QMap<QString, QString>(), QMap<QString, QString>(), QPoint(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks()),
-                        &openBackup, pCore->window());
+    KdenliveDoc *doc = new KdenliveDoc(
+        stale ? QUrl::fromLocalFile(stale->fileName()) : url, QString(), pCore->window()->m_commandStack,
+        KdenliveSettings::default_profile().isEmpty() ? KdenliveSettings::current_profile() : KdenliveSettings::default_profile(), QMap<QString, QString>(),
+        QMap<QString, QString>(), QPoint(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks()), &openBackup, pCore->window());
     if (stale == nullptr) {
         stale = new KAutoSaveFile(url, doc);
         doc->m_autosave = stale;
@@ -894,5 +893,5 @@ void ProjectManager::updateTimeline(Mlt::Tractor tractor)
 
 void ProjectManager::activateAsset(const QVariantMap data)
 {
-     pCore->window()->getMainTimeline()->addAsset(data);
+    pCore->window()->getMainTimeline()->addAsset(data);
 }

@@ -81,7 +81,6 @@ void AssetListWidget::activate(const QModelIndex &ix)
     emit activateAsset(data);
 }
 
-
 bool AssetListWidget::showDescription() const
 {
     return KdenliveSettings::showeffectinfo();
