@@ -481,12 +481,9 @@ bool TimelineModel::requestCompositionDeletion(int compositionId, Fun &undo, Fun
             return false;
         }
     }
-    auto operation = [compositionId, this]() {
-        unplantComposition(compositionId);
-        return deregisterComposition_lambda(compositionId);
-    };
+    Fun operation = deregisterComposition_lambda(compositionId);
     auto composition = m_allCompositions[compositionId];
-    auto reverse = [this, composition]() {
+    Fun reverse = [this, composition]() {
         // We capture a shared_ptr to the composition, which means that as long as this undo object lives, the composition object is not deleted. To insert it
         // back it is sufficient to register it.
         registerComposition(composition);
