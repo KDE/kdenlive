@@ -2177,16 +2177,16 @@ void Bin::slotOpenCurrent()
 {
     ProjectClip *currentItem = getFirstSelectedClip();
     if (currentItem) {
-        emit openClip(static_cast<ClipController *>(currentItem));
+        emit openClip(currentItem);
     }
 }
 
-void Bin::openProducer(ClipController *controller)
+void Bin::openProducer(ProjectClip *controller)
 {
     emit openClip(controller);
 }
 
-void Bin::openProducer(ClipController *controller, int in, int out)
+void Bin::openProducer(ProjectClip *controller, int in, int out)
 {
     emit openClip(controller, in, out);
 }

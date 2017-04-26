@@ -1,11 +1,15 @@
-import QtQuick.Controls 1.3
-import QtQuick.Controls.Styles 1.3
-import QtQuick 2.0
+import QtQuick.Controls 1.4
+import QtQuick.Controls.Styles 1.4
+import QtQuick.Window 2.2
+import Kdenlive.Controls 1.0
+import QtQuick 2.4
 import AudioThumb 1.0
 
 Item {
     id: root
     objectName: "root"
+
+    SystemPalette { id: activePalette }
 
     // default size, but scalable by user
     height: 300; width: 400
@@ -24,11 +28,30 @@ Item {
     property bool showAudiothumb
     property bool showToolbar: false
     property int displayFontSize
+    property int duration: 300
+    property bool mouseOverRuler: false
+    property int mouseRulerPos: 0
+    property int consumerPosition: -1
+    property double frameSize: 10
+    property double timeScale: 1
     onZoomChanged: {
         sceneToolBar.setZoom(root.zoom)
     }
     signal editCurrentMarker()
     signal toolBarChanged(bool doAccept)
+
+    onDurationChanged: {
+        timeScale = width / duration
+        if (duration < 200) {
+            frameSize = 5 * timeScale
+        } else if (duration < 2500) {
+            frameSize = 25 * timeScale
+        } else if (duration < 10000) {
+            frameSize = 50 * timeScale
+        } else {
+            frameSize = 100 * timeScale
+        }
+    }
 
     SceneToolBar {
         id: sceneToolBar
@@ -156,5 +179,115 @@ Item {
             }
         }
         font.pixelSize: root.displayFontSize
+    }
+
+    // Monitor ruler
+    Rectangle {
+        id: ruler
+        height: 20
+        anchors {
+            left: parent.left
+            right: parent.right
+            bottom: parent.bottom
+        }
+        color: activePalette.window
+
+        // frame ticks
+        Repeater {
+            model: ruler.width / frameSize + 2
+            Rectangle {
+                property int realPos: index
+                x: realPos * frameSize
+                anchors.bottom: ruler.bottom
+                height: (realPos % 4)? ((realPos % 2) ? 3 : 7) : 12
+                width: 1
+                color: activePalette.windowText
+                opacity: 0.5
+            }
+        }
+
+        // markers
+        Repeater {
+            model: markersModel
+            delegate:
+            Item {
+                anchors.fill: parent
+                Rectangle {
+                    id: markerBase
+                    width: 1
+                    height: parent.height
+                    x: (model.frame) * root.timeScale;
+                    color: model.color
+                }
+                Rectangle {
+                    visible: mlabel.visible
+                    opacity: 0.7
+                    x: markerBase.x
+                    radius: 2
+                    width: mlabel.width + 4
+                    height: mlabel.height
+                    anchors {
+                        bottom: parent.verticalCenter
+                    }
+                    color: model.color
+                    MouseArea {
+                        z: 10
+                        anchors.fill: parent
+                        acceptedButtons: Qt.LeftButton
+                        cursorShape: Qt.PointingHandCursor
+                        hoverEnabled: true
+                        //onDoubleClicked: timeline.editMarker(clipRoot.binId, model.frame)
+                        //onClicked: timeline.position = (clipRoot.x + markerBase.x) / timeline.scaleFactor
+                    }
+                }
+                Text {
+                    id: mlabel
+                    visible: mouseOverRuler && Math.abs(root.mouseRulerPos - markerBase.x) < 4
+                    text: model.comment
+                    font.pixelSize: root.baseUnit
+                    x: markerBase.x
+                    anchors {
+                        bottom: parent.verticalCenter
+                        topMargin: 2
+                        leftMargin: 2
+                    }
+                    color: 'white'
+                }
+            }
+        }
+        MouseArea {
+            anchors.fill: parent
+            hoverEnabled: true
+            onEntered: root.mouseOverRuler = true;
+            onExited: root.mouseOverRuler = false;
+            onPressed: {
+                controller.seekPosition = mouseX / root.timeScale;
+            }
+            onPositionChanged: {
+                root.mouseRulerPos = mouseX
+                if (pressed) {
+                    controller.seekPosition = mouseX / root.timeScale;
+                }
+            }
+        }
+        Rectangle {
+            id: seekCursor
+            visible: controller.seekPosition > -1
+            color: activePalette.highlight
+            width: 4
+            height: ruler.height
+            opacity: 0.5
+            x: controller.seekPosition * root.timeScale
+            y: 0
+        }
+
+        TimelinePlayhead {
+            id: playhead
+            visible: root.consumerPosition > -1
+            height: ruler.height * 0.5
+            width: ruler.height * 1
+            anchors.top: ruler.top
+            x: root.consumerPosition * root.timeScale - (width / 2)
+        }
     }
 }

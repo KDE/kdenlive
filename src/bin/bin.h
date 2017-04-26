@@ -194,8 +194,8 @@ public:
     Monitor *monitor();
 
     /** @brief Open a producer in the clip monitor */
-    void openProducer(ClipController *controller);
-    void openProducer(ClipController *controller, int in, int out);
+    void openProducer(ProjectClip *controller);
+    void openProducer(ProjectClip *controller, int in, int out);
 
     /** @brief Trigger deletion of an item */
     void deleteClip(const QString &id);
@@ -549,7 +549,7 @@ signals:
     void refreshPanelMarkers();
     /** @brief Analysis data changed, refresh panel. */
     void updateAnalysisData(const QString &);
-    void openClip(ClipController *c, int in = -1, int out = -1);
+    void openClip(ProjectClip *c, int in = -1, int out = -1);
     /** @brief Fill context menu with occurrences of this clip in timeline. */
     void findInTimeline(const QString &);
     void clipNameChanged(const QString &);

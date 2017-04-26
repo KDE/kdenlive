@@ -33,10 +33,9 @@
 
 #include "definitions.h"
 #include "scopes/sharedframe.h"
+#include "bin/model/markerlistmodel.hpp"
 
 class QOpenGLFunctions_3_2_Core;
-// class QmlFilter;
-// class QmlMetadata;
 
 namespace Mlt {
 class Filter;
@@ -47,6 +46,7 @@ class Profile;
 
 class RenderThread;
 class FrameRenderer;
+class MonitorProxy;
 
 typedef void *(*thread_function_t)(void *);
 
@@ -61,6 +61,7 @@ public:
     GLWidget(int id, QObject *parent = nullptr);
     ~GLWidget();
 
+    int requestedSeekPosition;
     void createThread(RenderThread **thread, thread_function_t function, void *data);
     void startGlsl();
     void stopGlsl();
@@ -101,12 +102,12 @@ public:
     void setAudioThumb(int channels = 0, const QVariantList &audioCache = QList<QVariant>());
     int droppedFrames() const;
     void resetDrops();
-    void seek(int pos);
     bool checkFrameNumber(int pos);
     /** @brief Return current timeline position */
     int getCurrentPos() const;
     /** @brief Requests a monitor refresh */
     void requestRefresh();
+    void setRulerInfo(int duration, int in, int out, std::shared_ptr<MarkerListModel> model);
 
 protected:
     void mouseReleaseEvent(QMouseEvent *event) override;
@@ -114,6 +115,8 @@ protected:
     void wheelEvent(QWheelEvent *event) override;
 
 public slots:
+    void seek(int pos);
+    void requestSeek();
     void setZoom(float zoom);
     void setOffsetX(int x, int max);
     void setOffsetY(int y, int max);
@@ -158,7 +161,6 @@ private:
     Mlt::Filter *m_glslManager;
     Mlt::Consumer *m_consumer;
     Mlt::Producer *m_producer;
-    int m_requestedSeekPosition;
     QSemaphore m_initSem;
     QSemaphore m_analyseSem;
     bool m_isInitialized;
@@ -185,6 +187,7 @@ private:
     QOffscreenSurface m_offscreenSurface;
     QOpenGLContext *m_shareContext;
     bool m_audioWaveDisplayed;
+    MonitorProxy *m_proxy;
     static void on_frame_show(mlt_consumer, void *self, mlt_frame frame);
     static void on_gl_frame_show(mlt_consumer, void *self, mlt_frame frame_ptr);
     static void on_gl_nosync_frame_show(mlt_consumer, void *self, mlt_frame frame_ptr);
@@ -260,5 +263,35 @@ public:
     QOpenGLFunctions_3_2_Core *m_gl32;
     bool sendAudioForAnalysis;
 };
+
+class MonitorProxy : public QObject
+{
+    Q_OBJECT
+    //Q_PROPERTY(int consumerPosition READ consumerPosition NOTIFY consumerPositionChanged)
+    Q_PROPERTY(int seekPosition READ seekPosition WRITE setSeekPosition NOTIFY seekPositionChanged)
+
+public:
+    MonitorProxy(GLWidget *parent) : QObject(parent)
+    , q(parent)
+    , m_seekPosition(-1)
+    {
+    }
+    int seekPosition() const {
+        return m_seekPosition;
+    }
+    void setSeekPosition(int pos) {
+        m_seekPosition = pos;
+        emit seekPositionChanged();
+    }
+
+signals:
+    void seekPositionChanged();
+
+private:
+    GLWidget *q;
+    int m_position;
+    int m_seekPosition;
+};
+
 
 #endif

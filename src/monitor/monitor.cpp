@@ -19,6 +19,7 @@
 
 #include "monitor.h"
 #include "bin/bin.h"
+#include "bin/projectclip.h"
 #include "core.h"
 #include "dialogs/profilesdialog.h"
 #include "doc/kdenlivedoc.h"
@@ -401,7 +402,7 @@ void Monitor::slotAddEffect(const QDomElement &effect)
 {
     if (m_id == Kdenlive::ClipMonitor) {
         if (m_controller) {
-            emit addMasterEffect(m_controller->clipId(), effect);
+            emit addMasterEffect(m_controller->AbstractProjectItem::clipId(), effect);
         }
     } else {
         emit addEffect(effect);
@@ -852,7 +853,7 @@ void Monitor::slotStartDrag()
     auto *mimeData = new QMimeData;
 
     QStringList list;
-    list.append(m_controller->clipId());
+    list.append(m_controller->AbstractProjectItem::clipId());
     QPoint p = m_ruler->zone();
     list.append(QString::number(p.x()));
     list.append(QString::number(p.y()));
@@ -894,7 +895,7 @@ void Monitor::mouseMoveEvent(QMouseEvent *event)
         auto *mimeData = new QMimeData;
         m_dragStarted = true;
         QStringList list;
-        list.append(m_controller->clipId());
+        list.append(m_controller->AbstractProjectItem::clipId());
         QPoint p = m_ruler->zone();
         list.append(QString::number(p.x()));
         list.append(QString::number(p.y()));
@@ -989,7 +990,7 @@ void Monitor::slotSetThumbFrame()
         return;
     }
     m_controller->setProducerProperty(QStringLiteral("kdenlive:thumbnailFrame"), (int)render->seekFramePosition());
-    emit refreshClipThumbnail(m_controller->clipId());
+    emit refreshClipThumbnail(m_controller->AbstractProjectItem::clipId());
 }
 
 void Monitor::slotExtractCurrentZone()
@@ -997,10 +998,10 @@ void Monitor::slotExtractCurrentZone()
     if (m_controller == nullptr) {
         return;
     }
-    emit extractZone(m_controller->clipId());
+    emit extractZone(m_controller->AbstractProjectItem::clipId());
 }
 
-ClipController *Monitor::currentController() const
+ProjectClip *Monitor::currentController() const
 {
     return m_controller;
 }
@@ -1409,7 +1410,7 @@ void Monitor::updateClipProducer(const QString &playlist)
     render->play(1.0);
 }
 
-void Monitor::slotOpenClip(ClipController *controller, int in, int out)
+void Monitor::slotOpenClip(ProjectClip *controller, int in, int out)
 {
     if (render == nullptr) {
         return;
@@ -1424,6 +1425,7 @@ void Monitor::slotOpenClip(ClipController *controller, int in, int out)
             // we are in record mode, don't display clip
             return;
         }
+        m_glMonitor->setRulerInfo(m_controller->frameDuration(), in, out, controller->getMarkerModel());
         updateMarkers();
         // Loading new clip / zone, stop if playing
         if (m_playAction->isActive()) {
@@ -1435,7 +1437,7 @@ void Monitor::slotOpenClip(ClipController *controller, int in, int out)
             setClipZone(QPoint(in, out));
         }
         m_audioMeterWidget->audioChannels = controller->audioInfo() ? controller->audioInfo()->channels() : 0;
-        emit requestAudioThumb(controller->clipId());
+        emit requestAudioThumb(controller->AbstractProjectItem::clipId());
         // hasEffects =  controller->hasEffects();
     } else {
         render->setProducer(nullptr, -1, isActive());
@@ -1448,7 +1450,7 @@ void Monitor::slotOpenClip(ClipController *controller, int in, int out)
 const QString Monitor::activeClipId()
 {
     if (m_controller) {
-        return m_controller->clipId();
+        return m_controller->AbstractProjectItem::clipId();
     }
     return QString();
 }
@@ -1786,7 +1788,7 @@ void Monitor::reloadProducer(const QString &id)
     if (!m_controller) {
         return;
     }
-    if (m_controller->clipId() == id) {
+    if (m_controller->AbstractProjectItem::clipId() == id) {
         slotOpenClip(m_controller);
     }
 }
@@ -2133,7 +2135,7 @@ void Monitor::slotEditInlineMarker()
                 return;
             }
             oldMarker.setComment(newComment);
-            emit updateClipMarker(m_controller->clipId(), QList<CommentedTime>() << oldMarker);
+            emit updateClipMarker(m_controller->AbstractProjectItem::clipId(), QList<CommentedTime>() << oldMarker);
         } else {
             // We are editing a timeline guide
             QString currentComment = m_ruler->markerAt(render->seekPosition());

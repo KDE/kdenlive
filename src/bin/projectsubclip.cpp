@@ -130,7 +130,7 @@ void ProjectSubClip::setCurrent(bool current, bool notify)
 {
     Q_UNUSED(notify)
     if (current) {
-        static_cast<ProjectItemModel *>(m_model)->bin()->openProducer(static_cast<ClipController *>(m_masterClip), m_in, m_out);
+        static_cast<ProjectItemModel *>(m_model)->bin()->openProducer(m_masterClip, m_in, m_out);
     }
 }
 

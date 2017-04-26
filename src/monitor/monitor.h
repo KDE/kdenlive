@@ -33,7 +33,7 @@
 #include <QToolBar>
 
 class SmallRuler;
-class ClipController;
+class ProjectClip;
 class AbstractClipItem;
 class Transition;
 class ClipItem;
@@ -96,7 +96,7 @@ public:
     void updateTimecodeFormat();
     void updateMarkers();
     /** @brief Controller for the clip currently displayed (only valid for clip monitor). */
-    ClipController *currentController() const;
+    ProjectClip *currentController() const;
     /** @brief Add clip markers to the ruler and context menu */
     void setMarkers(const QList<CommentedTime> &markers);
     /** @brief Add timeline guides to the ruler and context menu */
@@ -177,7 +177,7 @@ protected:
     virtual QStringList mimeTypes() const;
 
 private:
-    ClipController *m_controller;
+    ProjectClip *m_controller;
     /** @brief The QQuickView that handles our monitor display (video and qml overlay) **/
     GLWidget *m_glMonitor;
     /** @brief Container for our QQuickView monitor display (QQuickView needs to be embedded) **/
@@ -284,7 +284,7 @@ public slots:
     // void slotSetClipProducer(DocClipBase *clip, QPoint zone = QPoint(), bool forceUpdate = false, int position = -1);
     void updateClipProducer(Mlt::Producer *prod);
     void updateClipProducer(const QString &playlist);
-    void slotOpenClip(ClipController *controller, int in = -1, int out = -1);
+    void slotOpenClip(ProjectClip *controller, int in = -1, int out = -1);
     void slotRefreshMonitor(bool visible);
     void slotSeek(int pos);
     void stop() override;

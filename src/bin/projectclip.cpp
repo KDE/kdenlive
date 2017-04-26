@@ -269,7 +269,7 @@ void ProjectClip::setCurrent(bool current, bool notify)
 {
     Q_UNUSED(notify);
     if (current) {
-        static_cast<ProjectItemModel *>(m_model)->bin()->openProducer(static_cast<ClipController *>(this));
+        static_cast<ProjectItemModel *>(m_model)->bin()->openProducer(this);
         static_cast<ProjectItemModel *>(m_model)->bin()->requestShowEffectStack(getEffectStack());
     }
 }

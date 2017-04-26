@@ -24,9 +24,11 @@
 #include <QOpenGLFunctions_3_2_Core>
 #include <QPainter>
 #include <QQuickItem>
+#include <QQmlContext>
 
 #include "core.h"
 #include "glwidget.h"
+#include "timeline2/view/qml/timelineitems.h"
 #include "kdenlivesettings.h"
 #include "mltcontroller/bincontroller.h"
 #include "qml/qmlaudiothumb.h"
@@ -75,7 +77,6 @@ GLWidget::GLWidget(int id, QObject *parent)
     , m_glslManager(nullptr)
     , m_consumer(nullptr)
     , m_producer(nullptr)
-    , m_requestedSeekPosition(SEEK_INACTIVE)
     , m_initSem(0)
     , m_analyseSem(1)
     , m_isInitialized(false)
@@ -126,6 +127,10 @@ GLWidget::GLWidget(int id, QObject *parent)
     }
     connect(this, &QQuickWindow::sceneGraphInitialized, this, &GLWidget::initializeGL, Qt::DirectConnection);
     connect(this, &QQuickWindow::beforeRendering, this, &GLWidget::paintGL, Qt::DirectConnection);
+    registerTimelineItems();
+    m_proxy = new MonitorProxy(this);
+    connect(m_proxy, &MonitorProxy::seekPositionChanged, this, &GLWidget::requestSeek);
+    rootContext()->setContextProperty("controller", m_proxy);
 }
 
 GLWidget::~GLWidget()
@@ -567,11 +572,25 @@ void GLWidget::wheelEvent(QWheelEvent *event)
     event->accept();
 }
 
+void GLWidget::requestSeek()
+{
+    if (m_proxy->seekPosition() != SEEK_INACTIVE) {
+        if (m_producer->get_speed() != 0) {
+            m_consumer->purge();
+        }
+        m_producer->seek(m_proxy->seekPosition());
+        if (m_consumer->is_stopped()) {
+            m_consumer->start();
+        }
+        m_consumer->set("refresh", 1);
+    }
+}
+
 void GLWidget::seek(int pos)
 {
     // Testing puspose only
-    if (m_requestedSeekPosition == SEEK_INACTIVE) {
-        m_requestedSeekPosition = pos;
+    if (m_proxy->seekPosition() == SEEK_INACTIVE) {
+        m_proxy->setSeekPosition(pos);
         if (m_producer->get_speed() != 0) {
             m_consumer->purge();
         }
@@ -581,7 +600,7 @@ void GLWidget::seek(int pos)
         }
         m_consumer->set("refresh", 1);
     } else {
-        m_requestedSeekPosition = pos;
+        m_proxy->setSeekPosition(pos);
     }
 }
 
@@ -606,13 +625,14 @@ void GLWidget::refresh()
 bool GLWidget::checkFrameNumber(int pos)
 {
     emit seekPosition(pos);
-    if (pos == m_requestedSeekPosition) {
-        m_requestedSeekPosition = SEEK_INACTIVE;
+    rootObject()->setProperty("consumerPosition", pos);
+    if (pos == m_proxy->seekPosition()) {
+        m_proxy->setSeekPosition(SEEK_INACTIVE);
     }
-    if (m_requestedSeekPosition != SEEK_INACTIVE) {
+    if (m_proxy->seekPosition() != SEEK_INACTIVE) {
         double speed = m_producer->get_speed();
         m_producer->set_speed(0);
-        m_producer->seek(m_requestedSeekPosition);
+        m_producer->seek(m_proxy->seekPosition());
         if (speed == 0) {
             m_consumer->set("refresh", 1);
         } else {
@@ -1608,7 +1628,7 @@ void GLWidget::refreshSceneLayout()
 void GLWidget::switchPlay(bool play, double speed)
 {
     // QMutexLocker locker(&m_mutex);
-    m_requestedSeekPosition = SEEK_INACTIVE;
+    m_proxy->setSeekPosition(SEEK_INACTIVE);
     if ((m_producer == nullptr) || (m_consumer == nullptr)) {
         return;
     }
@@ -1649,5 +1669,12 @@ void GLWidget::switchPlay(bool play, double speed)
 
 int GLWidget::getCurrentPos() const
 {
-    return m_requestedSeekPosition == SEEK_INACTIVE ? m_consumer->position() : m_requestedSeekPosition;
+    return m_proxy->seekPosition() == SEEK_INACTIVE ? m_consumer->position() : m_proxy->seekPosition();
+}
+
+void GLWidget::setRulerInfo(int duration, int in, int out, std::shared_ptr<MarkerListModel> model)
+{
+    qDebug()<<" ** * SETTING Duration: "<<out<<" - "<<in;
+    rootObject()->setProperty("duration", duration);
+    rootContext()->setContextProperty("markersModel", model.get());
 }
