@@ -73,12 +73,6 @@ set_package_properties(OpenGL PROPERTIES
     TYPE RUNTIME
     PURPOSE "")
 
-set_package_properties(QtScript PROPERTIES
-    DESCRIPTION   "Qt module providing core scripting facilities"
-    URL "http://qt.nokia.com/products/qt"
-    TYPE RUNTIME
-    PURPOSE "")
-
 #if(APPLE)
 #  macro_log_feature(SDL_FOUND
 #    "SDL"
@@ -303,7 +297,7 @@ if (KF5_FILEMETADATA)
     target_link_libraries(kdenliveLib KF5::FileMetaData)
 endif()
 
-qt5_use_modules( kdenliveLib Script Widgets Concurrent Qml Quick QuickWidgets)
+qt5_use_modules( kdenliveLib Widgets Concurrent Qml Quick QuickWidgets)
 
 if (Qt5WebKitWidgets_FOUND)
     message(STATUS "Found Qt5 WebKitWidgets. You can use your Freesound.org credentials to download files")

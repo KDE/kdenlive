@@ -24,7 +24,6 @@
 #include "profiles/profilemodel.hpp"
 #include <QDebug>
 #include <QLocale>
-#include <QScriptEngine>
 #include <QString>
 
 AssetParameterModel::AssetParameterModel(Mlt::Properties *asset, const QDomElement &assetXml, const QString &assetId, QObject *parent)
@@ -223,15 +222,20 @@ double AssetParameterModel::parseDoubleAttribute(const QString &attribute, const
 
     QString content = element.attribute(attribute);
     if (content.contains(QLatin1Char('%'))) {
-        QScriptEngine sEngine;
         std::unique_ptr<ProfileModel> &profile = pCore->getCurrentProfile();
         int width = profile->width();
         int height = profile->height();
-        sEngine.globalObject().setProperty(QStringLiteral("maxWidth"), width);
-        sEngine.globalObject().setProperty(QStringLiteral("maxHeight"), height);
-        sEngine.globalObject().setProperty(QStringLiteral("width"), width);
-        sEngine.globalObject().setProperty(QStringLiteral("height"), height);
-        return sEngine.evaluate(content.remove('%')).toNumber();
+
+        // replace symbols in the double parameter
+        content.replace(QLatin1String("%maxWidth"),  QString::number(width))
+            .replace(QLatin1String("%maxHeight"), QString::number(height))
+            .replace(QLatin1String("%width"),     QString::number(width))
+            .replace(QLatin1String("%height"),    QString::number(height));
+
+        // Use a Mlt::Properties to parse mathematical operators
+        Mlt::Properties p;
+        p.set("eval", content.toLatin1().constData());
+        return p.get_double("eval");
     }
     return locale.toDouble(content);
 
