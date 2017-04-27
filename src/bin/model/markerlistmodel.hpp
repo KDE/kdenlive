@@ -62,7 +62,11 @@ public:
        @param type is the type (color) associated with the marker. If -1 is passed, then the value is pulled from kdenlive's defaults
      */
     void addMarker(GenTime pos, const QString &comment, int type = -1);
+protected:
+    /* @brief Same function but accumulates undo/redo */
+    bool addMarker(GenTime pos, const QString &comment, int type, Fun &undo, Fun &redo);
 
+public:
     /* @brief Removes the marker at the given position. */
     void removeMarker(GenTime pos);
 
@@ -84,6 +88,13 @@ public:
        Note that no deregistration is necessary, the weak_ptr will be discarded as soon as it becomes invalid.
     */
     void registerSnapModel(std::weak_ptr<SnapModel> snapModel);
+
+    /* @brief Imports a list of markers from json data
+       The data should be formated as follows:
+       [{"pos":0.2, "comment":"marker 1", "type":1}, {...}, ...]
+       return true on succes and logs undo object
+     */
+    bool importFromJson(const QString &data);
 
     // Mandatory overloads
     QVariant data(const QModelIndex &index, int role) const override;

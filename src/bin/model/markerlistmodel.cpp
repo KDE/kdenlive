@@ -31,6 +31,9 @@
 #include "timeline2/model/snapmodel.hpp"
 
 #include <QDebug>
+#include <QJsonDocument>
+#include <QJsonArray>
+#include <QJsonObject>
 #include <klocalizedstring.h>
 
 std::array<QColor, 5> MarkerListModel::markerTypes = {{Qt::red, Qt::blue, Qt::green, Qt::yellow, Qt::cyan}};
@@ -52,28 +55,46 @@ MarkerListModel::MarkerListModel(std::weak_ptr<DocUndoStack> undo_stack, QObject
 {
 }
 
-void MarkerListModel::addMarker(GenTime pos, const QString &comment, int type)
+bool MarkerListModel::addMarker(GenTime pos, const QString &comment, int type, Fun &undo, Fun &redo)
 {
-    QWriteLocker locker(&m_lock);
+    Fun local_undo = []() { return true; };
+    Fun local_redo = []() { return true; };
     if (type == -1) type = KdenliveSettings::default_marker_type();
     Q_ASSERT(type >= 0 && type < (int)markerTypes.size());
     if (m_markerList.count(pos) > 0) {
         // In this case we simply change the comment and type
         QString oldComment = m_markerList[pos].first;
         int oldType = m_markerList[pos].second;
-        Fun undo = changeComment_lambda(pos, oldComment, oldType);
-        Fun redo = changeComment_lambda(pos, comment, type);
-        if (redo()) {
-            PUSH_UNDO(undo, redo, m_guide ? i18n("Rename guide") : i18n("Rename marker"));
-        }
+        local_undo = changeComment_lambda(pos, oldComment, oldType);
+        local_redo = changeComment_lambda(pos, comment, type);
     } else {
         // In this case we create one
-        Fun redo = addMarker_lambda(pos, comment, type);
-        Fun undo = deleteMarker_lambda(pos);
-        if (redo()) {
+        local_redo = addMarker_lambda(pos, comment, type);
+        local_undo = deleteMarker_lambda(pos);
+    }
+    if (local_redo()) {
+        UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
+        return true;
+    }
+    return false;
+}
+
+void MarkerListModel::addMarker(GenTime pos, const QString &comment, int type)
+{
+    QWriteLocker locker(&m_lock);
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+
+    bool rename = (m_markerList.count(pos) > 0);
+    bool res = addMarker(pos, comment, type, undo, redo);
+    if (res) {
+        if (rename) {
+            PUSH_UNDO(undo, redo, m_guide ? i18n("Rename guide") : i18n("Rename marker"));
+        } else {
             PUSH_UNDO(undo, redo, m_guide ? i18n("Add guide") : i18n("Add marker"));
         }
     }
+
 }
 
 void MarkerListModel::removeMarker(GenTime pos)
@@ -232,8 +253,6 @@ bool MarkerListModel::hasMarker(int frame) const
     return m_markerList.count(GenTime(frame, pCore->getCurrentFps())) > 0;
 }
 
-
-
 void MarkerListModel::registerSnapModel(std::weak_ptr<SnapModel> snapModel)
 {
     READ_LOCK();
@@ -251,4 +270,44 @@ void MarkerListModel::registerSnapModel(std::weak_ptr<SnapModel> snapModel)
         qDebug() << "Error: added snapmodel is null";
         Q_ASSERT(false);
     }
+}
+
+bool MarkerListModel::importFromJson(const QString &data)
+{
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+
+    auto json = QJsonDocument::fromJson(data.toUtf8());
+    if (!json.isArray()) {
+        qDebug() << "Error : Json file should be an array";
+        return false;
+    }
+    auto list = json.array();
+    for (const auto &entry : list) {
+        if(!entry.isObject()) {
+            qDebug() << "Warning : Skipping invalid marker data";
+            continue;
+        }
+        auto entryObj = entry.toObject();
+        if (!entryObj.contains(QLatin1String("pos"))) {
+            qDebug() << "Warning : Skipping invalid marker data (does not contain position)";
+            continue;
+        }
+        double pos = entryObj[QLatin1String("pos")].toDouble();
+        QString comment = entryObj[QLatin1String("comment")].toString(i18n("Marker"));
+        int type = entryObj[QLatin1String("type")].toInt(0);
+        if (type < 0 || type >= (int)markerTypes.size()) {
+            qDebug() << "Warning : invalid type found:"<<type<<" Defaulting to 0";
+            type = 0;
+        }
+        bool res = addMarker(GenTime(pos), comment, type, undo, redo);
+        if (!res) {
+            bool undone = undo();
+            Q_ASSERT(undone);
+            return false;
+        }
+    }
+
+    PUSH_UNDO(undo, redo, m_guide ? i18n("Import guides") : i18n("Import markers"));
+    return true;
 }
