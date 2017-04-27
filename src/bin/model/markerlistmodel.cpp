@@ -31,8 +31,8 @@
 #include "timeline2/model/snapmodel.hpp"
 
 #include <QDebug>
-#include <QJsonDocument>
 #include <QJsonArray>
+#include <QJsonDocument>
 #include <QJsonObject>
 #include <klocalizedstring.h>
 
@@ -94,7 +94,6 @@ void MarkerListModel::addMarker(GenTime pos, const QString &comment, int type)
             PUSH_UNDO(undo, redo, m_guide ? i18n("Add guide") : i18n("Add marker"));
         }
     }
-
 }
 
 void MarkerListModel::removeMarker(GenTime pos)
@@ -183,7 +182,7 @@ QHash<int, QByteArray> MarkerListModel::roleNames() const
 void MarkerListModel::addSnapPoint(GenTime pos)
 {
     std::vector<std::weak_ptr<SnapModel>> validSnapModels;
-    for (const auto& snapModel : m_registeredSnaps) {
+    for (const auto &snapModel : m_registeredSnaps) {
         if (auto ptr = snapModel.lock()) {
             validSnapModels.push_back(snapModel);
             ptr->addPoint(pos.frames(pCore->getCurrentFps()));
@@ -196,7 +195,7 @@ void MarkerListModel::addSnapPoint(GenTime pos)
 void MarkerListModel::removeSnapPoint(GenTime pos)
 {
     std::vector<std::weak_ptr<SnapModel>> validSnapModels;
-    for (const auto& snapModel : m_registeredSnaps) {
+    for (const auto &snapModel : m_registeredSnaps) {
         if (auto ptr = snapModel.lock()) {
             validSnapModels.push_back(snapModel);
             ptr->removePoint(pos.frames(pCore->getCurrentFps()));
@@ -284,7 +283,7 @@ bool MarkerListModel::importFromJson(const QString &data)
     }
     auto list = json.array();
     for (const auto &entry : list) {
-        if(!entry.isObject()) {
+        if (!entry.isObject()) {
             qDebug() << "Warning : Skipping invalid marker data";
             continue;
         }
@@ -297,7 +296,7 @@ bool MarkerListModel::importFromJson(const QString &data)
         QString comment = entryObj[QLatin1String("comment")].toString(i18n("Marker"));
         int type = entryObj[QLatin1String("type")].toInt(0);
         if (type < 0 || type >= (int)markerTypes.size()) {
-            qDebug() << "Warning : invalid type found:"<<type<<" Defaulting to 0";
+            qDebug() << "Warning : invalid type found:" << type << " Defaulting to 0";
             type = 0;
         }
         bool res = addMarker(GenTime(pos), comment, type, undo, redo);

@@ -227,10 +227,10 @@ double AssetParameterModel::parseDoubleAttribute(const QString &attribute, const
         int height = profile->height();
 
         // replace symbols in the double parameter
-        content.replace(QLatin1String("%maxWidth"),  QString::number(width))
+        content.replace(QLatin1String("%maxWidth"), QString::number(width))
             .replace(QLatin1String("%maxHeight"), QString::number(height))
-            .replace(QLatin1String("%width"),     QString::number(width))
-            .replace(QLatin1String("%height"),    QString::number(height));
+            .replace(QLatin1String("%width"), QString::number(width))
+            .replace(QLatin1String("%height"), QString::number(height));
 
         // Use a Mlt::Properties to parse mathematical operators
         Mlt::Properties p;

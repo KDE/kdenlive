@@ -265,7 +265,6 @@ void ProjectClip::reloadProducer(bool refreshOnly)
     emit static_cast<ProjectItemModel *>(m_model)->reloadProducer(m_id, xml);
 }
 
-
 QDomElement ProjectClip::toXml(QDomDocument &document, bool includeMeta)
 {
     getProducerXML(document, includeMeta);

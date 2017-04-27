@@ -126,7 +126,6 @@ ProjectSubClip *ProjectSubClip::subClip(int in, int out)
     return nullptr;
 }
 
-
 void ProjectSubClip::setThumbnail(const QImage &img)
 {
     QPixmap thumb = roundedPixmap(QPixmap::fromImage(img));

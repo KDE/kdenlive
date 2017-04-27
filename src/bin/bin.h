@@ -257,7 +257,6 @@ public:
     void addClipCut(const QString &id, int in, int out);
     void removeClipCut(const QString &id, int in, int out);
 
-
     /** @brief Set focus to the Bin view. */
     void focusBinView() const;
     /** @brief Get a string list of all clip ids that are inside a folder defined by id. */

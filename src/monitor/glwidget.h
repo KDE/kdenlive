@@ -305,10 +305,7 @@ public:
         m_zoneOut = out;
         emit zoneChanged();
     }
-    QPoint zone() const
-    {
-        return QPoint(m_zoneIn, m_zoneOut);
-    }
+    QPoint zone() const { return QPoint(m_zoneIn, m_zoneOut); }
 signals:
     void seekPositionChanged();
     void zoneChanged();

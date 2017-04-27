@@ -107,7 +107,6 @@ public:
     /** @brief Returns the original clip's fps. */
     double getOriginalFps() const;
 
-
     bool rename(const QString &name, int column) override;
 
     QDomElement toXml(QDomDocument &document, bool includeMeta = false) override;
