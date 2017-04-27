@@ -1667,6 +1667,11 @@ void GLWidget::switchPlay(bool play, double speed)
     }
 }
 
+MonitorProxy *GLWidget::getControllerProxy()
+{
+    return m_proxy;
+}
+
 int GLWidget::getCurrentPos() const
 {
     return m_proxy->seekPosition() == SEEK_INACTIVE ? m_consumer->position() : m_proxy->seekPosition();
@@ -1674,7 +1679,6 @@ int GLWidget::getCurrentPos() const
 
 void GLWidget::setRulerInfo(int duration, int in, int out, std::shared_ptr<MarkerListModel> model)
 {
-    qDebug() << " ** * SETTING Duration: " << out << " - " << in;
     rootObject()->setProperty("duration", duration);
     rootContext()->setContextProperty("markersModel", model.get());
 }

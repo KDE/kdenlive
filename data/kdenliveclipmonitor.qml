@@ -270,6 +270,89 @@ Item {
                 }
             }
         }
+        // monitor zone
+        Rectangle {
+            id: zone
+            visible: controller.zoneOut > controller.zoneIn
+            color: activePalette.highlight
+            x: controller.zoneIn * root.timeScale
+            width: (controller.zoneOut - controller.zoneIn) * root.timeScale
+            anchors.bottom: parent.bottom
+            height: ruler.height / 2
+            opacity: 0.4
+
+            Rectangle {
+                id: trimIn
+                anchors.left: parent.left
+                anchors.leftMargin: 0
+                height: parent.height
+                width: 5
+                color: 'lawngreen'
+                opacity: 0
+                Drag.active: trimInMouseArea.drag.active
+                Drag.proposedAction: Qt.MoveAction
+
+                MouseArea {
+                    id: trimInMouseArea
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    cursorShape: Qt.SizeHorCursor
+                    drag.target: parent
+                    drag.axis: Drag.XAxis
+                    drag.smoothed: false
+
+                    onPressed: {
+                        parent.anchors.left = undefined
+                    }
+                    onReleased: {
+                        parent.anchors.left = zone.left
+                    }
+                    onPositionChanged: {
+                        if (mouse.buttons === Qt.LeftButton) {
+                            controller.zoneIn = controller.zoneIn + Math.round(trimIn.x / root.timeScale)
+                        }
+                    }
+                    onEntered: parent.opacity = 0.5
+                    onExited: parent.opacity = 0
+                }
+            }
+            Rectangle {
+                id: trimOut
+                anchors.right: parent.right
+                anchors.rightMargin: 0
+                height: parent.height
+                width: 5
+                color: 'darkred'
+                opacity: 0
+                Drag.active: trimOutMouseArea.drag.active
+                Drag.proposedAction: Qt.MoveAction
+
+                MouseArea {
+                    id: trimOutMouseArea
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    cursorShape: Qt.SizeHorCursor
+                    drag.target: parent
+                    drag.axis: Drag.XAxis
+                    drag.smoothed: false
+
+                    onPressed: {
+                        parent.anchors.right = undefined
+                    }
+                    onReleased: {
+                        parent.anchors.right = zone.right
+                    }
+                    onPositionChanged: {
+                        if (mouse.buttons === Qt.LeftButton) {
+                            controller.zoneOut = controller.zoneIn + Math.round((trimOut.x + trimOut.width) / root.timeScale)
+                        }
+                    }
+                    onEntered: parent.opacity = 0.5
+                    onExited: parent.opacity = 0
+                }
+            }
+        }
+
         Rectangle {
             id: seekCursor
             visible: controller.seekPosition > -1

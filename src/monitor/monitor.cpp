@@ -667,24 +667,23 @@ GenTime Monitor::getSnapForPos(bool previous)
 
 void Monitor::slotZoneMoved(int start, int end)
 {
-    m_ruler->setZone(start, end);
-    setClipZone(m_ruler->zone());
+    m_glMonitor->getControllerProxy()->setZone(start, end);
+    setClipZone(m_glMonitor->getControllerProxy()->zone());
     checkOverlay();
 }
 
 void Monitor::slotSetZoneStart()
 {
-    m_ruler->setZoneStart();
-    emit zoneUpdated(m_ruler->zone());
-    setClipZone(m_ruler->zone());
+    m_glMonitor->getControllerProxy()->setZoneIn(m_glMonitor->getCurrentPos());
+    setClipZone(m_glMonitor->getControllerProxy()->zone());
     checkOverlay();
 }
 
 void Monitor::slotSetZoneEnd(bool discardLastFrame)
 {
-    m_ruler->setZoneEnd(discardLastFrame);
-    emit zoneUpdated(m_ruler->zone());
-    setClipZone(m_ruler->zone());
+    int pos = m_glMonitor->getCurrentPos() - (discardLastFrame ? 1 : 0);
+    m_glMonitor->getControllerProxy()->setZoneOut(pos);
+    setClipZone(m_glMonitor->getControllerProxy()->zone());
     checkOverlay();
 }
 
@@ -835,7 +834,7 @@ void Monitor::slotStartDrag()
 
     QStringList list;
     list.append(m_controller->AbstractProjectItem::clipId());
-    QPoint p = m_ruler->zone();
+    QPoint p = m_glMonitor->getControllerProxy()->zone();
     list.append(QString::number(p.x()));
     list.append(QString::number(p.y()));
     QByteArray data;
@@ -877,7 +876,7 @@ void Monitor::mouseMoveEvent(QMouseEvent *event)
         m_dragStarted = true;
         QStringList list;
         list.append(m_controller->AbstractProjectItem::clipId());
-        QPoint p = m_ruler->zone();
+        QPoint p = m_glMonitor->getControllerProxy()->zone();
         list.append(QString::number(p.x()));
         list.append(QString::number(p.y()));
         QByteArray data;
@@ -1089,7 +1088,7 @@ void Monitor::checkOverlay(int pos)
     if (pos == -1) {
         pos = m_timePos->getValue();
     }
-    QPoint zone = m_ruler->zone();
+    QPoint zone = m_glMonitor->getControllerProxy()->zone();
     if (m_id == Kdenlive::ClipMonitor) {
         if (m_controller) {
             overlayText = m_controller->markerComment(GenTime(pos, m_monitorManager->timecode().fps()));
@@ -1132,12 +1131,12 @@ void Monitor::slotEnd()
 
 int Monitor::getZoneStart()
 {
-    return m_ruler->zone().x();
+    return m_glMonitor->getControllerProxy()->zoneIn();
 }
 
 int Monitor::getZoneEnd()
 {
-    return m_ruler->zone().y();
+    return m_glMonitor->getControllerProxy()->zoneOut();
 }
 
 void Monitor::slotZoneStart()

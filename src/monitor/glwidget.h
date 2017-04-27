@@ -108,6 +108,7 @@ public:
     /** @brief Requests a monitor refresh */
     void requestRefresh();
     void setRulerInfo(int duration, int in, int out, std::shared_ptr<MarkerListModel> model);
+    MonitorProxy *getControllerProxy();
 
 protected:
     void mouseReleaseEvent(QMouseEvent *event) override;
@@ -269,12 +270,15 @@ class MonitorProxy : public QObject
     Q_OBJECT
     // Q_PROPERTY(int consumerPosition READ consumerPosition NOTIFY consumerPositionChanged)
     Q_PROPERTY(int seekPosition READ seekPosition WRITE setSeekPosition NOTIFY seekPositionChanged)
-
+    Q_PROPERTY(int zoneIn READ zoneIn WRITE setZoneIn NOTIFY zoneChanged)
+    Q_PROPERTY(int zoneOut READ zoneOut WRITE setZoneOut NOTIFY zoneChanged)
 public:
     MonitorProxy(GLWidget *parent)
         : QObject(parent)
         , q(parent)
         , m_seekPosition(-1)
+        , m_zoneIn(0)
+        , m_zoneOut(-1)
     {
     }
     int seekPosition() const { return m_seekPosition; }
@@ -283,14 +287,38 @@ public:
         m_seekPosition = pos;
         emit seekPositionChanged();
     }
-
+    int zoneIn() const { return m_zoneIn; }
+    int zoneOut() const { return m_zoneOut; }
+    void setZoneIn(int pos)
+    {
+        m_zoneIn = pos;
+        emit zoneChanged();
+    }
+    void setZoneOut(int pos)
+    {
+        m_zoneOut = pos;
+        emit zoneChanged();
+    }
+    Q_INVOKABLE void setZone(int in, int out)
+    {
+        m_zoneIn = in;
+        m_zoneOut = out;
+        emit zoneChanged();
+    }
+    QPoint zone() const
+    {
+        return QPoint(m_zoneIn, m_zoneOut);
+    }
 signals:
     void seekPositionChanged();
+    void zoneChanged();
 
 private:
     GLWidget *q;
     int m_position;
     int m_seekPosition;
+    int m_zoneIn;
+    int m_zoneOut;
 };
 
 #endif
