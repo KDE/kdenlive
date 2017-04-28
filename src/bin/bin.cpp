@@ -3434,7 +3434,7 @@ void Bin::slotLoadClipMarkers(const QString &id)
     QList<CommentedTime> markersList;
     foreach (const QString &line, lines) {
         markerText.clear();
-        values = line.split('\t', QString::SkipEmptyParts);
+        values = line.split(QLatin1Char('\t'), QString::SkipEmptyParts);
         double time1 = values.at(0).toDouble(&ok);
         double time2 = -1;
         if (!ok) {

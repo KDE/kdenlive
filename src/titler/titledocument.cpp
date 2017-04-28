@@ -644,7 +644,7 @@ QString TitleDocument::rectFToString(const QRectF &c)
 QRectF TitleDocument::stringToRect(const QString &s)
 {
 
-    QStringList l = s.split(',');
+    QStringList l = s.split(QLatin1Char(','));
     if (l.size() < 4) {
         return QRectF();
     }
@@ -653,7 +653,7 @@ QRectF TitleDocument::stringToRect(const QString &s)
 
 QColor TitleDocument::stringToColor(const QString &s)
 {
-    QStringList l = s.split(',');
+    QStringList l = s.split(QLatin1Char(','));
     if (l.size() < 4) {
         return QColor();
     }
@@ -675,7 +675,7 @@ QTransform TitleDocument::stringToTransform(const QString &s)
 
 QList<QVariant> TitleDocument::stringToList(const QString &s)
 {
-    QStringList l = s.split(',');
+    QStringList l = s.split(QLatin1Char(','));
     if (l.size() < 3) {
         return QList<QVariant>();
     }

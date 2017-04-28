@@ -252,14 +252,14 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                     listitems = items.split(QLatin1Char(';'));
                     if (listitems.count() == 1) {
                         // probably custom effect created before change to ';' as separator
-                        listitems = pa.attribute(QStringLiteral("paramlist")).split(',');
+                        listitems = pa.attribute(QStringLiteral("paramlist")).split(QLatin1Char(','));
                     }
                     QDomElement list = pa.firstChildElement(QStringLiteral("paramlistdisplay"));
                     QStringList listitemsdisplay;
                     if (!list.isNull()) {
-                        listitemsdisplay = i18n(list.text().toUtf8().data()).split(',');
+                        listitemsdisplay = i18n(list.text().toUtf8().data()).split(QLatin1Char(','));
                     } else {
-                        listitemsdisplay = i18n(pa.attribute("paramlistdisplay").toUtf8().data()).split(',');
+                        listitemsdisplay = i18n(pa.attribute("paramlistdisplay").toUtf8().data()).split(QLatin1Char(','));
                     }
                     if (listitemsdisplay.count() != listitems.count()) {
                         listitemsdisplay = listitems;
