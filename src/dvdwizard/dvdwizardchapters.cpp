@@ -120,7 +120,8 @@ void DvdWizardChapters::updateMonitorMarkers()
     for (const QString &frame : chapters) {
         markers << CommentedTime(GenTime(frame.toInt(), m_tc.fps()), QString());
     }
-    m_monitor->setMarkers(markers);
+    //TODO: reimplement makers as model
+    //m_monitor->setMarkers(markers);
 }
 
 void DvdWizardChapters::slotRemoveChapter()

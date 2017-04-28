@@ -101,8 +101,6 @@ public:
     void updateMarkers();
     /** @brief Controller for the clip currently displayed (only valid for clip monitor). */
     ProjectClip *currentController() const;
-    /** @brief Add clip markers to the ruler and context menu */
-    void setMarkers(const QList<CommentedTime> &markers);
     /** @brief Add timeline guides to the ruler and context menu */
     void setGuides(const QMap<double, QString> &guides);
     void reloadProducer(const QString &id);
@@ -156,8 +154,6 @@ public:
     void activateSplit();
     /** @brief Clear monitor display **/
     void clearDisplay();
-    /** @brief Seeks timeline without refreshing if monitor is not active **/
-    void silentSeek(int pos);
     void setProducer(Mlt::Producer *producer);
     /** @brief Returns current monitor's duration in frames **/
     int duration() const;
@@ -245,14 +241,13 @@ private:
     void buildSplitEffect(Mlt::Producer *original, int pos);
 
 private slots:
-    void seekCursor(int pos);
-    void rendererStopped(int pos);
+    Q_DECL_DEPRECATED void seekCursor(int pos);
     void slotExtractCurrentFrame(QString frameName = QString(), bool addToProject = false);
     void slotExtractCurrentFrameToProject();
     void slotSetThumbFrame();
     void slotSaveZone();
     void slotSeek();
-    void setClipZone(const QPoint &pos);
+    void updateClipZone();
     void slotGoToMarker(QAction *action);
     void slotSetVolume(int volume);
     void slotEditMarker();
@@ -312,7 +307,7 @@ public slots:
     void slotSetZoneEnd(bool discardLastFrame = false);
     void slotZoneStart();
     void slotZoneEnd();
-    void slotZoneMoved(int start, int end);
+    void slotLoadClipZone(int start, int end);
     void slotSeekToNextSnap();
     void slotSeekToPreviousSnap();
     void adjustRulerSize(int length, int offset = 0);

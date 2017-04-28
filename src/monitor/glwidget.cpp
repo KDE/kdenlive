@@ -25,6 +25,8 @@
 #include <QPainter>
 #include <QQmlContext>
 #include <QQuickItem>
+#include <KMessageBox>
+#include <klocalizedstring.h>
 
 #include "core.h"
 #include "glwidget.h"
@@ -94,6 +96,8 @@ GLWidget::GLWidget(int id, QObject *parent)
     , m_zoom(1.0f)
     , m_openGLSync(false)
     , m_sendFrame(false)
+    , m_isZoneMode(false)
+    , m_isLoopMode(false)
     , m_offset(QPoint(0, 0))
     , m_shareContext(nullptr)
     , m_audioWaveDisplayed(false)
@@ -641,11 +645,11 @@ bool GLWidget::checkFrameNumber(int pos)
     } else {
         if (m_producer->get_speed() == 0) {
             m_consumer->purge();
-        } /*else if (m_isZoneMode) {
+        } else if (m_isZoneMode) {
             if (pos >= m_producer->get_int("out") - 1) {
                 if (m_isLoopMode) {
                     m_consumer->purge();
-                    m_producer->seek((int)(m_loopStart.frames(m_fps)));
+                    m_producer->seek(m_proxy->zoneIn());
                     m_producer->set_speed(1.0);
                     m_consumer->set("refresh", 1);
                 } else {
@@ -654,7 +658,7 @@ bool GLWidget::checkFrameNumber(int pos)
                     }
                 }
             }
-        }*/
+        }
     }
     return true;
 }
@@ -834,6 +838,7 @@ int GLWidget::setProducer(Mlt::Producer *producer)
 {
     int error = 0; // Controller::setProducer(producer, isMulti);
     m_producer = producer;
+    m_producer->set_speed(0);
     if (m_producer) {
         error = reconfigure();
         if (error == 0) {
@@ -1051,6 +1056,7 @@ int GLWidget::reconfigure(Mlt::Profile *profile)
     QString serviceName = property("mlt_service").toString();
     if (profile) {
         reloadProfile(*profile);
+        m_blackClip.reset(new Mlt::Producer(*profile, "color:black"));
     }
     if ((m_consumer == nullptr) || !m_consumer->is_valid() || strcmp(m_consumer->get("mlt_service"), "multi") == 0) {
         if (m_consumer) {
@@ -1628,13 +1634,14 @@ void GLWidget::refreshSceneLayout()
 void GLWidget::switchPlay(bool play, double speed)
 {
     // QMutexLocker locker(&m_mutex);
+    qDebug()<<"* * * *SWITCH PLAY: "<<play<<" = "<<speed;
     m_proxy->setSeekPosition(SEEK_INACTIVE);
     if ((m_producer == nullptr) || (m_consumer == nullptr)) {
         return;
     }
-    /*if (m_isZoneMode) {
+    if (m_isZoneMode) {
         resetZoneMode();
-    }*/
+    }
     if (play) {
         double currentSpeed = m_producer->get_speed();
         /*if (m_name == Kdenlive::ClipMonitor && m_consumer->position() == m_producer->get_out()) {
@@ -1656,7 +1663,7 @@ void GLWidget::switchPlay(bool play, double speed)
             m_consumer->purge();
         }
         m_producer->set_speed(speed);
-    } else {
+    } else if (m_producer->get_speed() != 0.) {
         m_consumer->set("refresh", 0);
         m_consumer->purge();
         m_producer->set_speed(0.0);
@@ -1665,6 +1672,56 @@ void GLWidget::switchPlay(bool play, double speed)
         m_consumer->set("real_time", -1);
         m_producer->seek(m_consumer->position() + 1);
     }
+}
+
+bool GLWidget::playZone(bool loop)
+{
+    if (!m_producer) {
+        return false;
+    }
+    m_proxy->setSeekPosition(SEEK_INACTIVE);
+    m_producer->seek(m_proxy->zoneIn());
+    m_producer->set_speed(0);
+    m_consumer->purge();
+    m_producer->set("out", m_proxy->zoneOut());
+    m_producer->set_speed(1.0);
+    if (m_consumer->is_stopped()) {
+        m_consumer->start();
+    }
+    m_consumer->set("refresh", 1);
+    m_isZoneMode = true;
+    m_isLoopMode = loop;
+    return true;
+}
+
+bool GLWidget::loopClip()
+{
+    if (!m_producer) {
+        return false;
+    }
+    m_proxy->setSeekPosition(SEEK_INACTIVE);
+    m_producer->seek(0);
+    m_producer->set_speed(0);
+    m_consumer->purge();
+    m_producer->set("out", m_producer->get_playtime());
+    m_producer->set_speed(1.0);
+    if (m_consumer->is_stopped()) {
+        m_consumer->start();
+    }
+    m_consumer->set("refresh", 1);
+    m_isZoneMode = true;
+    m_isLoopMode = true;
+    return true;
+}
+
+void GLWidget::resetZoneMode()
+{
+    if (!m_isZoneMode && !m_isLoopMode) {
+        return;
+    }
+    m_producer->set("out", m_producer->get_length());
+    m_isZoneMode = false;
+    m_isLoopMode = false;
 }
 
 MonitorProxy *GLWidget::getControllerProxy()
@@ -1681,4 +1738,98 @@ void GLWidget::setRulerInfo(int duration, int in, int out, std::shared_ptr<Marke
 {
     rootObject()->setProperty("duration", duration);
     rootContext()->setContextProperty("markersModel", model.get());
+}
+
+bool GLWidget::setProducer(Mlt::Producer *producer, int position, bool isActive)
+{
+    m_refreshTimer.stop();
+    m_proxy->setSeekPosition(SEEK_INACTIVE);
+    QMutexLocker locker(&m_mutex);
+    QString currentId;
+    int consumerPosition = 0;
+    if ((producer == nullptr) && (m_producer != nullptr) && m_producer->parent().get("id") == QLatin1String("black")) {
+        // Black clip already displayed no need to refresh
+        return true;
+    }
+    if (m_producer) {
+        currentId = m_producer->get("kdenlive:id");
+        m_producer->set_speed(0);
+        if (QString(m_producer->get("resource")) == QLatin1String("<tractor>")) {
+            // We need to make some cleanup
+            Mlt::Tractor trac(*m_producer);
+            for (int i = 0; i < trac.count(); i++) {
+                trac.set_track(*m_blackClip, i);
+            }
+        }
+        delete m_producer;
+        m_producer = nullptr;
+    }
+    if (m_consumer) {
+        if (!m_consumer->is_stopped()) {
+            isActive = true;
+            m_consumer->stop();
+        }
+        consumerPosition = m_consumer->position();
+    }
+    if ((producer == nullptr) || !producer->is_valid()) {
+        producer = m_blackClip->cut(0, 1);
+    }
+
+    if (position == -1 && producer->get("kdenlive:id") == currentId) {
+        position = consumerPosition;
+    }
+    if (position != -1) {
+        producer->seek(position);
+    }
+    setProducer(producer);
+
+    if (isActive) {
+        startConsumer();
+    }
+    //emit durationChanged(m_producer->get_length() - 1, m_producer->get_in());
+    position = m_producer->position();
+    rootObject()->setProperty("consumerPosition", position);
+    return true;
+}
+
+int GLWidget::rulerHeight() const
+{
+    return rootObject()->property("rulerHeight").toInt();
+}
+
+void GLWidget::startConsumer()
+{
+    if (m_consumer->is_stopped() && m_consumer->start() == -1) {
+        // ARGH CONSUMER BROKEN!!!!
+        KMessageBox::error(
+            qApp->activeWindow(),
+            i18n("Could not create the video preview window.\nThere is something wrong with your Kdenlive install or your driver settings, please fix it."));
+        if (m_displayEvent) {
+            delete m_displayEvent;
+        }
+        m_displayEvent = nullptr;
+        delete m_consumer;
+        m_consumer = nullptr;
+        return;
+    }
+    m_consumer->set("refresh", 1);
+}
+
+void GLWidget::stop()
+{
+    m_refreshTimer.stop();
+    m_proxy->setSeekPosition(SEEK_INACTIVE);
+    QMutexLocker locker(&m_mutex);
+    if (m_producer) {
+        if (m_isZoneMode) {
+            resetZoneMode();
+        }
+        m_producer->set_speed(0.0);
+    }
+    if (m_consumer) {
+        m_consumer->purge();
+        if (!m_consumer->is_stopped()) {
+            m_consumer->stop();
+        }
+    }
 }

@@ -34,7 +34,6 @@
 #include "qmlmanager.h"
 #include "recmanager.h"
 #include "scopes/monitoraudiolevel.h"
-#include "smallruler.h"
 #include "timeline/abstractclipitem.h"
 #include "timeline/clip.h"
 #include "timeline/transitionhandler.h"
@@ -290,24 +289,16 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
 
     render = new Render(m_id, m_monitorManager->binController(), m_glMonitor, this);
 
-    // Monitor ruler
-    m_ruler = new SmallRuler(this, render);
-    if (id == Kdenlive::DvdMonitor) {
-        m_ruler->setZone(-3, -2);
-    }
-    layout->addWidget(m_ruler);
-
-    connect(render, &Render::durationChanged, this, &Monitor::adjustRulerSize);
-    connect(render, &Render::rendererStopped, this, &Monitor::rendererStopped);
     connect(render, &AbstractRender::scopesClear, m_glMonitor, &GLWidget::releaseAnalyse, Qt::DirectConnection);
     connect(m_glMonitor, SIGNAL(analyseFrame(QImage)), this, SIGNAL(frameUpdated(QImage)));
     connect(m_glMonitor, &GLWidget::audioSamplesSignal, render, &AbstractRender::audioSamplesSignal);
 
     if (id != Kdenlive::ClipMonitor) {
-        connect(render, &Render::durationChanged, this, &Monitor::durationChanged);
-        connect(m_ruler, SIGNAL(zoneChanged(QPoint)), this, SIGNAL(zoneUpdated(QPoint)));
+        //TODO: reimplement
+        //connect(render, &Render::durationChanged, this, &Monitor::durationChanged);
+        //connect(m_ruler, SIGNAL(zoneChanged(QPoint)), this, SIGNAL(zoneUpdated(QPoint)));
     } else {
-        connect(m_ruler, SIGNAL(zoneChanged(QPoint)), this, SLOT(setClipZone(QPoint)));
+        connect(m_glMonitor->getControllerProxy(), SIGNAL(zoneChanged()), this, SLOT(updateClipZone()));
     }
 
     m_sceneVisibilityAction = new QAction(KoIconUtils::themedIcon(QStringLiteral("transform-crop")), i18n("Show/Hide edit mode"), this);
@@ -372,7 +363,6 @@ Monitor::~Monitor()
     delete m_glMonitor;
     delete m_videoWidget;
     delete m_glWidget;
-    delete m_ruler;
     delete m_timePos;
     delete render;
 }
@@ -564,13 +554,13 @@ void Monitor::slotForceSize(QAction *a)
         setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
         m_videoWidget->setMinimumSize(profileWidth, profileHeight);
         m_videoWidget->setMaximumSize(profileWidth, profileHeight);
-        setMinimumSize(QSize(profileWidth, profileHeight + m_toolbar->height() + m_ruler->height()));
+        setMinimumSize(QSize(profileWidth, profileHeight + m_toolbar->height() + m_glMonitor->rulerHeight()));
         break;
     default:
         // Free resize
         m_videoWidget->setMinimumSize(profileWidth, profileHeight);
         m_videoWidget->setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
-        setMinimumSize(QSize(profileWidth, profileHeight + m_toolbar->height() + m_ruler->height()));
+        setMinimumSize(QSize(profileWidth, profileHeight + m_toolbar->height() + m_glMonitor->rulerHeight()));
         setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
         break;
     }
@@ -606,7 +596,6 @@ void Monitor::updateMarkers()
                 go->setData(pos);
             }
         }
-        m_ruler->setMarkers(markers);
         m_markerMenu->setEnabled(!m_markerMenu->isEmpty());
         checkOverlay();
     }
@@ -614,6 +603,7 @@ void Monitor::updateMarkers()
 
 void Monitor::setGuides(const QMap<double, QString> &guides)
 {
+    //TODO: load guides model
     m_markerMenu->clear();
     QMapIterator<double, QString> i(guides);
     QList<CommentedTime> guidesList;
@@ -626,14 +616,9 @@ void Monitor::setGuides(const QMap<double, QString> &guides)
         QAction *go = m_markerMenu->addAction(position);
         go->setData(pos);
     }
-    m_ruler->setMarkers(guidesList);
+    //m_ruler->setMarkers(guidesList);
     m_markerMenu->setEnabled(!m_markerMenu->isEmpty());
     checkOverlay();
-}
-
-void Monitor::setMarkers(const QList<CommentedTime> &markers)
-{
-    m_ruler->setMarkers(markers);
 }
 
 void Monitor::slotSeekToPreviousSnap()
@@ -657,7 +642,7 @@ GenTime Monitor::position()
 
 GenTime Monitor::getSnapForPos(bool previous)
 {
-    QPoint zone = m_ruler->zone();
+    QPoint zone = m_glMonitor->getControllerProxy()->zone();
     // TODO: move points with the zone
     m_snaps->addPoint(zone.x());
     m_snaps->addPoint(zone.y());
@@ -665,17 +650,18 @@ GenTime Monitor::getSnapForPos(bool previous)
     return GenTime(frame, pCore->getCurrentFps());
 }
 
-void Monitor::slotZoneMoved(int start, int end)
+void Monitor::slotLoadClipZone(int start, int end)
 {
     m_glMonitor->getControllerProxy()->setZone(start, end);
-    setClipZone(m_glMonitor->getControllerProxy()->zone());
     checkOverlay();
 }
 
 void Monitor::slotSetZoneStart()
 {
     m_glMonitor->getControllerProxy()->setZoneIn(m_glMonitor->getCurrentPos());
-    setClipZone(m_glMonitor->getControllerProxy()->zone());
+    if (m_controller) {
+        m_controller->setZone(m_glMonitor->getControllerProxy()->zone());
+    }
     checkOverlay();
 }
 
@@ -683,7 +669,9 @@ void Monitor::slotSetZoneEnd(bool discardLastFrame)
 {
     int pos = m_glMonitor->getCurrentPos() - (discardLastFrame ? 1 : 0);
     m_glMonitor->getControllerProxy()->setZoneOut(pos);
-    setClipZone(m_glMonitor->getControllerProxy()->zone());
+    if (m_controller) {
+        m_controller->setZone(m_glMonitor->getControllerProxy()->zone());
+    }
     checkOverlay();
 }
 
@@ -1058,25 +1046,10 @@ void Monitor::slotSeek()
 
 void Monitor::slotSeek(int pos)
 {
-    if (render == nullptr) {
-        return;
-    }
     slotActivateMonitor();
-    render->seekToFrame(pos);
-    m_ruler->update();
+    m_glMonitor->getControllerProxy()->setSeekPosition(pos);
 }
 
-void Monitor::silentSeek(int pos)
-{
-    if (render == nullptr) {
-        return;
-    }
-    if (m_ruler->slotNewValue(pos)) {
-        m_timePos->setValue(pos);
-        render->silentSeek(pos);
-        render->rendererPosition(pos);
-    }
-}
 
 void Monitor::checkOverlay(int pos)
 {
@@ -1102,7 +1075,8 @@ void Monitor::checkOverlay(int pos)
         }
     } else if (m_id == Kdenlive::ProjectMonitor) {
         // Check for timeline guides
-        overlayText = m_ruler->markerAt(GenTime(pos, m_monitorManager->timecode().fps()));
+        //TODO load timeline guides as monitor markermodel
+        //overlayText = m_ruler->markerAt(GenTime(pos, m_monitorManager->timecode().fps()));
         if (overlayText.isEmpty()) {
             if (pos == zone.x()) {
                 overlayText = i18n("In Point");
@@ -1142,15 +1116,13 @@ int Monitor::getZoneEnd()
 void Monitor::slotZoneStart()
 {
     slotActivateMonitor();
-    render->play(0);
-    render->seekToFrame(m_ruler->zone().x());
+    m_glMonitor->getControllerProxy()->pauseAndSeek(m_glMonitor->getControllerProxy()->zoneIn());
 }
 
 void Monitor::slotZoneEnd()
 {
     slotActivateMonitor();
-    render->play(0);
-    render->seekToFrame(m_ruler->zone().y());
+    m_glMonitor->getControllerProxy()->pauseAndSeek(m_glMonitor->getControllerProxy()->zoneOut());
 }
 
 void Monitor::slotRewind(double speed)
@@ -1219,43 +1191,34 @@ void Monitor::slotForwardOneFrame(int diff)
 
 void Monitor::seekCursor(int pos)
 {
-    if (m_ruler->slotNewValue(pos)) {
+    // Deprecated shoud not be used, instead requestSeek
+    /*if (m_ruler->slotNewValue(pos)) {
         m_timePos->setValue(pos);
         checkOverlay(pos);
         if (m_id != Kdenlive::ClipMonitor) {
             emit renderPosition(pos);
         }
-    }
-}
-
-void Monitor::rendererStopped(int pos)
-{
-    if (m_ruler->slotNewValue(pos)) {
-        m_timePos->setValue(pos);
-        checkOverlay(pos);
-    }
-    m_playAction->setActive(false);
+    }*/
 }
 
 void Monitor::adjustRulerSize(int length, int offset)
 {
+    if (m_controller != nullptr) {
+        QPoint zone = m_controller->zone();
+        m_glMonitor->setRulerInfo(length, zone.x(), zone.y(), nullptr);
+    } else {
+        m_glMonitor->setRulerInfo(length, 0, 100, nullptr);
+    }
     if (length > 0) {
         m_length = length;
     }
-    m_ruler->adjustScale(m_length, offset);
-    m_timePos->setRange(offset, offset + length);
-    if (m_controller != nullptr) {
-        QPoint zone = m_controller->zone();
-        m_ruler->setZone(zone.x(), zone.y());
-    }
+    m_timePos->setRange(0, length);
 }
 
 void Monitor::stop()
 {
     m_playAction->setActive(false);
-    if (render) {
-        render->stop();
-    }
+    m_glMonitor->stop();
 }
 
 void Monitor::mute(bool mute, bool updateIconOnly)
@@ -1280,9 +1243,7 @@ void Monitor::start()
     if (!isVisible() || !isActive()) {
         return;
     }
-    if (render) {
-        render->startConsumer();
-    }
+    m_glMonitor->startConsumer();
 }
 
 void Monitor::slotRefreshMonitor(bool visible)
@@ -1324,20 +1285,13 @@ void Monitor::slotSwitchPlay()
 
 void Monitor::slotPlay()
 {
-    slotActivateMonitor();
-    m_playAction->setActive(!m_playAction->isActive());
-    m_glMonitor->switchPlay(m_playAction->isActive());
-    m_ruler->refreshRuler();
+    m_playAction->trigger();
 }
 
 void Monitor::slotPlayZone()
 {
-    if (render == nullptr) {
-        return;
-    }
     slotActivateMonitor();
-    QPoint p = m_ruler->zone();
-    bool ok = render->playZone(GenTime(p.x(), m_monitorManager->timecode().fps()), GenTime(p.y(), m_monitorManager->timecode().fps()));
+    bool ok = m_glMonitor->playZone();
     if (ok) {
         m_playAction->setActive(true);
     }
@@ -1345,59 +1299,47 @@ void Monitor::slotPlayZone()
 
 void Monitor::slotLoopZone()
 {
-    if (render == nullptr) {
-        return;
-    }
     slotActivateMonitor();
-    QPoint p = m_ruler->zone();
-    render->loopZone(GenTime(p.x(), m_monitorManager->timecode().fps()), GenTime(p.y(), m_monitorManager->timecode().fps()));
-    m_playAction->setActive(true);
+    bool ok = m_glMonitor->playZone(true);
+    if (ok) {
+        m_playAction->setActive(true);
+    }
 }
 
 void Monitor::slotLoopClip()
 {
-    if (render == nullptr || m_selectedClip == nullptr) {
-        return;
-    }
     slotActivateMonitor();
-    render->loopZone(m_selectedClip->startPos(), m_selectedClip->endPos());
-    m_playAction->setActive(true);
+    bool ok = m_glMonitor->loopClip();
+    if (ok) {
+        m_playAction->setActive(true);
+    }
 }
 
 void Monitor::updateClipProducer(Mlt::Producer *prod)
 {
-    if (render == nullptr) {
-        return;
-    }
-    if (render->setProducer(prod, -1, false)) {
+    if (m_glMonitor->setProducer(prod, -1, false)) {
         prod->set_speed(1.0);
     }
 }
 
 void Monitor::updateClipProducer(const QString &playlist)
 {
-    if (render == nullptr) {
-        return;
-    }
     Mlt::Producer *prod = new Mlt::Producer(*m_glMonitor->profile(), playlist.toUtf8().constData());
-    render->setProducer(prod, render->seekFramePosition(), true);
+    m_glMonitor->setProducer(prod, render->seekFramePosition(), true);
     render->play(1.0);
 }
 
 void Monitor::slotOpenClip(ProjectClip *controller, int in, int out)
 {
-    if (render == nullptr) {
-        return;
-    }
     m_controller = controller;
     m_snaps.reset(new SnapModel());
-    m_controller->getMarkerModel()->registerSnapModel(m_snaps);
-    m_snaps->addPoint(m_controller->frameDuration());
     if (!m_glMonitor->isVisible()) {
         // Don't load clip if monitor is not active (disabled)
         return;
     }
     if (controller) {
+        m_controller->getMarkerModel()->registerSnapModel(m_snaps);
+        m_snaps->addPoint(m_controller->frameDuration());
         if (m_recManager->toolbar()->isVisible()) {
             // we are in record mode, don't display clip
             return;
@@ -1408,16 +1350,12 @@ void Monitor::slotOpenClip(ProjectClip *controller, int in, int out)
         if (m_playAction->isActive()) {
             m_playAction->setActive(false);
         }
-        render->setProducer(m_controller->masterProducer(), in, isActive());
-        if (out > -1) {
-            m_ruler->setZone(in, out);
-            setClipZone(QPoint(in, out));
-        }
+        m_glMonitor->setProducer(m_controller->masterProducer(), in, isActive());
         m_audioMeterWidget->audioChannels = controller->audioInfo() ? controller->audioInfo()->channels() : 0;
         emit requestAudioThumb(controller->AbstractProjectItem::clipId());
         // hasEffects =  controller->hasEffects();
     } else {
-        render->setProducer(nullptr, -1, isActive());
+        m_glMonitor->setProducer(nullptr, -1, isActive());
         m_glMonitor->setAudioThumb();
         m_audioMeterWidget->audioChannels = 0;
     }
@@ -1443,7 +1381,8 @@ void Monitor::slotOpenDvdFile(const QString &file)
 
 void Monitor::slotSaveZone()
 {
-    render->saveZone(pCore->projectManager()->current()->projectDataFolder(), m_ruler->zone());
+    //TODO? or deprecate
+    //render->saveZone(pCore->projectManager()->current()->projectDataFolder(), m_ruler->zone());
 }
 
 void Monitor::setCustomProfile(const QString &profile, const Timecode &tc)
@@ -1487,12 +1426,12 @@ const QString Monitor::sceneList(const QString &root)
     return m_glMonitor->sceneList(root);
 }
 
-void Monitor::setClipZone(const QPoint &pos)
+void Monitor::updateClipZone()
 {
     if (m_controller == nullptr) {
         return;
     }
-    m_controller->setZone(pos);
+    m_controller->setZone(m_glMonitor->getControllerProxy()->zone());
 }
 
 void Monitor::switchDropFrames(bool drop)
@@ -1544,7 +1483,7 @@ QPoint Monitor::getZoneInfo() const
     if (m_controller == nullptr) {
         return QPoint();
     }
-    return m_ruler->zone();
+    return m_controller->zone();
 }
 
 void Monitor::slotSetSelectedClip(AbstractClipItem *item)
@@ -1722,12 +1661,11 @@ void Monitor::onFrameDisplayed(const SharedFrame &frame)
 {
     m_monitorManager->frameDisplayed(frame);
     int position = frame.get_position();
-    seekCursor(position);
     if (!m_glMonitor->checkFrameNumber(position)) {
         m_playAction->setActive(false);
-    } else if (position >= m_length) {
+    }/* else if (position >= m_length) {
         m_playAction->setActive(false);
-    }
+    }*/
 }
 
 void Monitor::checkDrops(int dropped)
@@ -1803,9 +1741,6 @@ void Monitor::setPalette(const QPalette &p)
         }
         QIcon newIcon = KoIconUtils::themedIcon(ic.name());
         m->setIcon(newIcon);
-    }
-    if (m_ruler) {
-        m_ruler->updatePalette();
     }
     m_audioMeterWidget->refreshPixmap();
 }
@@ -2115,13 +2050,14 @@ void Monitor::slotEditInlineMarker()
             emit updateClipMarker(m_controller->AbstractProjectItem::clipId(), QList<CommentedTime>() << oldMarker);
         } else {
             // We are editing a timeline guide
-            QString currentComment = m_ruler->markerAt(render->seekPosition());
+            // TODO
+            /*QString currentComment = m_ruler->markerAt(render->seekPosition());
             QString newComment = root->property("markerText").toString();
             if (newComment == currentComment) {
                 // No change
                 return;
             }
-            emit updateGuide(render->seekFramePosition(), newComment);
+            emit updateGuide(render->seekFramePosition(), newComment);*/
         }
     }
 }

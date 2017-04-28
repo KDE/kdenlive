@@ -34,6 +34,7 @@ Item {
     property int consumerPosition: -1
     property double frameSize: 10
     property double timeScale: 1
+    property int rulerHeight: 20
     onZoomChanged: {
         sceneToolBar.setZoom(root.zoom)
     }
@@ -184,7 +185,7 @@ Item {
     // Monitor ruler
     Rectangle {
         id: ruler
-        height: 20
+        height: root.rulerHeight
         anchors {
             left: parent.left
             right: parent.right

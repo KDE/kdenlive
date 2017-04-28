@@ -109,6 +109,12 @@ public:
     void requestRefresh();
     void setRulerInfo(int duration, int in, int out, std::shared_ptr<MarkerListModel> model);
     MonitorProxy *getControllerProxy();
+    bool playZone(bool loop = false);
+    bool loopClip();
+    bool setProducer(Mlt::Producer *producer, int position, bool isActive);
+    void startConsumer();
+    void stop();
+    int rulerHeight() const;
 
 protected:
     void mouseReleaseEvent(QMouseEvent *event) override;
@@ -182,6 +188,8 @@ private:
     float m_zoom;
     bool m_openGLSync;
     bool m_sendFrame;
+    bool m_isZoneMode;
+    bool m_isLoopMode;
     SharedFrame m_sharedFrame;
     QMutex m_mutex;
     QPoint m_offset;
@@ -189,6 +197,7 @@ private:
     QOpenGLContext *m_shareContext;
     bool m_audioWaveDisplayed;
     MonitorProxy *m_proxy;
+    QScopedPointer<Mlt::Producer> m_blackClip;
     static void on_frame_show(mlt_consumer, void *self, mlt_frame frame);
     static void on_gl_frame_show(mlt_consumer, void *self, mlt_frame frame_ptr);
     static void on_gl_nosync_frame_show(mlt_consumer, void *self, mlt_frame frame_ptr);
@@ -197,6 +206,7 @@ private:
     void adjustAudioOverlay(bool isAudio);
     QOpenGLFramebufferObject *m_fbo;
     void refreshSceneLayout();
+    void resetZoneMode();
 
 private slots:
     void resizeGL(int width, int height);
@@ -284,6 +294,12 @@ public:
     int seekPosition() const { return m_seekPosition; }
     void setSeekPosition(int pos)
     {
+        m_seekPosition = pos;
+        emit seekPositionChanged();
+    }
+    void pauseAndSeek(int pos)
+    {
+        q->switchPlay(false);
         m_seekPosition = pos;
         emit seekPositionChanged();
     }

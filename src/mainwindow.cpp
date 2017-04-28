@@ -2085,7 +2085,7 @@ void MainWindow::connectDocument()
 void MainWindow::slotZoneMoved(int start, int end)
 {
     pCore->projectManager()->current()->setZone(start, end);
-    m_projectMonitor->slotZoneMoved(start, end);
+    m_projectMonitor->slotLoadClipZone(start, end);
 }
 
 void MainWindow::slotGuidesUpdated()
@@ -2532,7 +2532,7 @@ void MainWindow::slotInsertClipInsert()
         QPoint binZone = m_clipMonitor->getZoneInfo();
         int pos = pCore->projectManager()->currentTimeline()->projectView()->insertZone(TimelineMode::InsertEdit, m_clipMonitor->activeClipId(), binZone);
         if (pos > 0) {
-            m_projectMonitor->silentSeek(pos);
+            m_projectMonitor->requestSeek(pos);
         }
     }
 }
