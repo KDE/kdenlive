@@ -23,23 +23,82 @@
 #define EFFECTLISTWIDGET_H
 
 #include "assets/assetlist/view/assetlistwidget.hpp"
+#include "kdenlivesettings.h"
+
 
 /* @brief This class is a widget that display the list of available effects
  */
 
 class EffectFilter;
 class EffectTreeModel;
+class EffectListWidgetProxy;
+
 class EffectListWidget : public AssetListWidget
 {
     Q_OBJECT
 
 public:
     EffectListWidget(QWidget *parent = Q_NULLPTR);
-
-    Q_INVOKABLE void setFilterType(const QString &type);
+    ~EffectListWidget();
+    void setFilterType(const QString &type);
 
     /*@brief Return mime type used for drag and drop. It will be kdenlive/effect*/
-    Q_INVOKABLE QString getMimeType(const QString &assetId) const override;
+    QString getMimeType(const QString &assetId) const override;
+
+private:
+    EffectListWidgetProxy *m_proxy;
+};
+
+//see https://bugreports.qt.io/browse/QTBUG-57714, don't expose a QWidget as a context property
+class EffectListWidgetProxy : public QObject
+{
+    Q_OBJECT
+    Q_PROPERTY(bool showDescription READ showDescription WRITE setShowDescription NOTIFY showDescriptionChanged)
+
+public:
+    EffectListWidgetProxy(EffectListWidget *parent) :
+    QObject(parent),
+        q(parent)
+    {
+    }
+    Q_INVOKABLE QString getName(const QModelIndex &index) const {
+        return q->getName(index);
+    }
+
+    Q_INVOKABLE QString getDescription(const QModelIndex &index) const {
+        return q->getDescription(index);
+    }
+    Q_INVOKABLE QVariantMap getMimeData(const QString &assetId) const {
+        return q->getMimeData(assetId);
+    }
+
+    Q_INVOKABLE void activate(const QModelIndex &ix) {
+        q->activate(ix);
+    }
+    Q_INVOKABLE void setFilterType(const QString &type) {
+        q->setFilterType(type);
+    }
+    Q_INVOKABLE void setFilterName(const QString &pattern) {
+        q->setFilterName(pattern);
+    }
+    Q_INVOKABLE QString getMimeType(const QString &assetId) const {
+        return q->getMimeType(assetId);
+    }
+    bool showDescription() const
+    {
+        return KdenliveSettings::showeffectinfo();
+    }
+
+    void setShowDescription(bool show)
+    {
+        KdenliveSettings::setShoweffectinfo(show);
+        emit showDescriptionChanged();
+    }
+signals:
+    void showDescriptionChanged();
+
+private:
+    EffectListWidget* q;
 };
 
 #endif

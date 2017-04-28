@@ -21,7 +21,6 @@
 
 #include "assetlistwidget.hpp"
 #include "assets/assetlist/view/qmltypes/asseticonprovider.hpp"
-#include "kdenlivesettings.h"
 
 #include <KDeclarative/KDeclarative>
 #include <QQmlContext>
@@ -30,17 +29,17 @@
 
 AssetListWidget::AssetListWidget(QWidget *parent)
     : QQuickWidget(parent)
-{
-}
-
-void AssetListWidget::setup()
+    , m_assetIconProvider(nullptr)
 {
     KDeclarative::KDeclarative kdeclarative;
     kdeclarative.setDeclarativeEngine(engine());
     kdeclarative.setupBindings();
+}
 
+void AssetListWidget::setup()
+{
     setResizeMode(QQuickWidget::SizeRootObjectToView);
-    engine()->addImageProvider(QStringLiteral("asseticon"), m_assetIconProvider.get());
+    engine()->addImageProvider(QStringLiteral("asseticon"), m_assetIconProvider);
     setSource(QUrl(QStringLiteral("qrc:/qml/assetList.qml")));
     setFocusPolicy(Qt::StrongFocus);
 }
@@ -81,13 +80,4 @@ void AssetListWidget::activate(const QModelIndex &ix)
     emit activateAsset(data);
 }
 
-bool AssetListWidget::showDescription() const
-{
-    return KdenliveSettings::showeffectinfo();
-}
 
-void AssetListWidget::setShowDescription(bool show)
-{
-    KdenliveSettings::setShoweffectinfo(show);
-    emit showDescriptionChanged();
-}

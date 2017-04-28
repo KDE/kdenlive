@@ -37,39 +37,36 @@ class AssetListWidget : public QQuickWidget
     Q_OBJECT
     /* @brief Should the descriptive info box be displayed
      */
-    Q_PROPERTY(bool showDescription READ showDescription WRITE setShowDescription NOTIFY showDescriptionChanged)
 
 public:
     AssetListWidget(QWidget *parent = Q_NULLPTR);
 
     /* @brief Returns the name of the asset given its model index */
-    Q_INVOKABLE QString getName(const QModelIndex &index) const;
+    QString getName(const QModelIndex &index) const;
 
     /* @brief Returns the description of the asset given its model index */
-    Q_INVOKABLE QString getDescription(const QModelIndex &index) const;
+    QString getDescription(const QModelIndex &index) const;
 
     /* @brief Sets the pattern against which the assets' names are filtered */
-    Q_INVOKABLE void setFilterName(const QString &pattern);
+    void setFilterName(const QString &pattern);
 
     /*@brief Return mime type used for drag and drop. It can be kdenlive/effect,
       kdenlive/composition or kdenlive/transition*/
     virtual QString getMimeType(const QString &assetId) const = 0;
 
-    Q_INVOKABLE QVariantMap getMimeData(const QString &assetId) const;
+    QVariantMap getMimeData(const QString &assetId) const;
 
-    Q_INVOKABLE void activate(const QModelIndex &ix);
-    Q_INVOKABLE bool showDescription() const;
-    Q_INVOKABLE void setShowDescription(bool);
+    void activate(const QModelIndex &ix);
 
 protected:
     void setup();
     std::unique_ptr<AssetTreeModel> m_model;
     std::unique_ptr<AssetFilter> m_proxyModel;
-    std::unique_ptr<AssetIconProvider> m_assetIconProvider;
+    // the QmlEngine takes ownership of the image provider
+    AssetIconProvider *m_assetIconProvider;
 
 signals:
     void activateAsset(const QVariantMap data);
-    void showDescriptionChanged();
 };
 
 #endif

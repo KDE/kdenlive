@@ -27,6 +27,7 @@
 #include "monitor/monitormanager.h"
 #include "project/projectmanager.h"
 #include "timelinewidget.h"
+#include "timelinecontroller.h"
 
 TimelineTabs::TimelineTabs(QWidget *parent)
     : QTabWidget(parent)
@@ -53,17 +54,17 @@ TimelineWidget *TimelineTabs::getCurrentTimeline() const
 
 void TimelineTabs::connectTimeline(TimelineWidget *timeline)
 {
-    connect(pCore->monitorManager()->projectMonitor(), &Monitor::seekTimeline, timeline, &TimelineWidget::seek, Qt::DirectConnection);
-    connect(timeline, &TimelineWidget::seeked, pCore->monitorManager()->projectMonitor(), &Monitor::requestSeek, Qt::DirectConnection);
-    connect(pCore->monitorManager()->projectMonitor(), &Monitor::seekPosition, timeline, &TimelineWidget::onSeeked, Qt::DirectConnection);
+    connect(pCore->monitorManager()->projectMonitor(), &Monitor::seekTimeline, timeline->controller(), &TimelineController::seek, Qt::DirectConnection);
+    connect(timeline->controller(), &TimelineController::seeked, pCore->monitorManager()->projectMonitor(), &Monitor::requestSeek, Qt::DirectConnection);
+    connect(pCore->monitorManager()->projectMonitor(), &Monitor::seekPosition, timeline->controller(), &TimelineController::onSeeked, Qt::DirectConnection);
     connect(timeline, &TimelineWidget::focusProjectMonitor, pCore->monitorManager(), &MonitorManager::focusProjectMonitor);
     connect(timeline, &TimelineWidget::zoomIn, pCore->window(), &MainWindow::slotZoomIn);
     connect(timeline, &TimelineWidget::zoomOut, pCore->window(), &MainWindow::slotZoomOut);
-    connect(timeline, &TimelineWidget::durationChanged, pCore->projectManager(), &ProjectManager::adjustProjectDuration);
+    connect(timeline->controller(), &TimelineController::durationChanged, pCore->projectManager(), &ProjectManager::adjustProjectDuration);
 
-    connect(this, &TimelineTabs::audioThumbFormatChanged, timeline, &TimelineWidget::audioThumbFormatChanged);
-    connect(this, &TimelineTabs::showThumbnailsChanged, timeline, &TimelineWidget::showThumbnailsChanged);
-    connect(this, &TimelineTabs::showAudioThumbnailsChanged, timeline, &TimelineWidget::showAudioThumbnailsChanged);
+    connect(this, &TimelineTabs::audioThumbFormatChanged, timeline->controller(), &TimelineController::audioThumbFormatChanged);
+    connect(this, &TimelineTabs::showThumbnailsChanged, timeline->controller(), &TimelineController::showThumbnailsChanged);
+    connect(this, &TimelineTabs::showAudioThumbnailsChanged, timeline->controller(), &TimelineController::showAudioThumbnailsChanged);
     connect(this, &TimelineTabs::changeZoom, timeline, &TimelineWidget::slotChangeZoom);
-    connect(timeline, &TimelineWidget::showTransitionModel, this, &TimelineTabs::showTransitionModel);
+    connect(timeline->controller(), &TimelineController::showTransitionModel, this, &TimelineTabs::showTransitionModel);
 }

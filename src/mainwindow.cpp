@@ -63,6 +63,7 @@
 #include "timeline/track.h"
 #include "timeline2/view/timelinetabs.hpp"
 #include "timeline2/view/timelinewidget.h"
+#include "timeline2/view/timelinecontroller.h"
 #include "titler/titlewidget.h"
 #include "transitions/transitionlist/view/transitionlistwidget.hpp"
 #include "transitions/transitionsrepository.hpp"
@@ -322,15 +323,15 @@ void MainWindow::init()
     m_effectList = new EffectsListView();
     // m_effectListDock = addDock(i18n("Effects"), QStringLiteral("effect_list"), m_effectList);
 
-    auto effectList = new EffectListWidget(this);
-    connect(effectList, &EffectListWidget::activateAsset, pCore->projectManager(), &ProjectManager::activateAsset);
-    m_effectListDock = addDock(i18n("Effects"), QStringLiteral("effect_list"), effectList);
+    m_effectList2 = new EffectListWidget(this);
+    connect(m_effectList2, &EffectListWidget::activateAsset, pCore->projectManager(), &ProjectManager::activateAsset);
+    m_effectListDock = addDock(i18n("Effects"), QStringLiteral("effect_list"), m_effectList2);
 
     m_transitionList = new EffectsListView(EffectsListView::TransitionMode);
-    auto transitionList = new TransitionListWidget(this);
+    m_transitionList2 = new TransitionListWidget(this);
     // m_transitionListDock = addDock(i18n("Transitions"), QStringLiteral("transition_list"), m_transitionList);
 
-    m_transitionListDock = addDock(i18n("Transitions"), QStringLiteral("transition_list"), transitionList);
+    m_transitionListDock = addDock(i18n("Transitions"), QStringLiteral("transition_list"), m_transitionList2);
 
     // Add monitors here to keep them at the right of the window
     m_clipMonitorDock = addDock(i18n("Clip Monitor"), QStringLiteral("clip_monitor"), m_clipMonitor);
@@ -733,8 +734,10 @@ MainWindow::~MainWindow()
     delete m_projectMonitor;
     delete m_clipMonitor;
     delete m_shortcutRemoveFocus;
+    delete m_effectList2;
+    delete m_transitionList2;
     qDeleteAll(m_transitions);
-    Mlt::Factory::close();
+    //Mlt::Factory::close();
 }
 
 // virtual
@@ -2219,7 +2222,7 @@ void MainWindow::slotSwitchAudioThumbs()
 void MainWindow::slotSwitchMarkersComments()
 {
     KdenliveSettings::setShowmarkers(!KdenliveSettings::showmarkers());
-    getMainTimeline()->showMarkersChanged();
+    getMainTimeline()->controller()->showMarkersChanged();
     m_buttonShowMarkers->setChecked(KdenliveSettings::showmarkers());
 }
 
@@ -2253,7 +2256,7 @@ void MainWindow::slotDeleteItem()
         }
 
         // effect stack has no focus
-        m_timelineTabs->getCurrentTimeline()->deleteSelectedClips();
+        m_timelineTabs->getCurrentTimeline()->controller()->deleteSelectedClips();
     }
 }
 
@@ -2789,7 +2792,7 @@ void MainWindow::customEvent(QEvent *e)
 void MainWindow::slotSnapRewind()
 {
     if (m_projectMonitor->isActive()) {
-        m_timelineTabs->getCurrentTimeline()->gotoPreviousSnap();
+        m_timelineTabs->getCurrentTimeline()->controller()->gotoPreviousSnap();
     } else {
         m_clipMonitor->slotSeekToPreviousSnap();
     }
@@ -2798,7 +2801,7 @@ void MainWindow::slotSnapRewind()
 void MainWindow::slotSnapForward()
 {
     if (m_projectMonitor->isActive()) {
-        m_timelineTabs->getCurrentTimeline()->gotoNextSnap();
+        m_timelineTabs->getCurrentTimeline()->controller()->gotoNextSnap();
     } else {
         m_clipMonitor->slotSeekToNextSnap();
     }
@@ -3024,12 +3027,12 @@ QString::number(zone.y()) << "-consumer" << "xml:" + url->url().path());
 
 void MainWindow::slotResizeItemStart()
 {
-    m_timelineTabs->getCurrentTimeline()->setInPoint();
+    m_timelineTabs->getCurrentTimeline()->controller()->setInPoint();
 }
 
 void MainWindow::slotResizeItemEnd()
 {
-    m_timelineTabs->getCurrentTimeline()->setOutPoint();
+    m_timelineTabs->getCurrentTimeline()->controller()->setOutPoint();
 }
 
 int MainWindow::getNewStuff(const QString &configFile)
@@ -3608,7 +3611,7 @@ void MainWindow::slotUpdateTimecodeFormat(int ix)
     // m_effectStack->transitionConfig()->updateTimecodeFormat();
     // m_effectStack->updateTimecodeFormat();
     pCore->bin()->updateTimecodeFormat();
-    getMainTimeline()->frameFormatChanged();
+    getMainTimeline()->controller()->frameFormatChanged();
     m_timeFormatButton->setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
 }
 

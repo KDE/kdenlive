@@ -37,13 +37,19 @@ TransitionListWidget::TransitionListWidget(QWidget *parent)
     m_proxyModel->setSortRole(AssetTreeModel::NameRole);
     m_proxyModel->sort(0, Qt::AscendingOrder);
 
-    rootContext()->setContextProperty("assetlist", this);
+    m_proxy = new TransitionListWidgetProxy(this);
+    rootContext()->setContextProperty("assetlist", m_proxy);
     rootContext()->setContextProperty("assetListModel", m_proxyModel.get());
     rootContext()->setContextProperty("isEffectList", false);
-
-    m_assetIconProvider.reset(new AssetIconProvider(false));
+    m_assetIconProvider = new AssetIconProvider(false);
 
     setup();
+}
+
+TransitionListWidget::~TransitionListWidget()
+{
+    delete m_proxy;
+    qDebug()<<" - - -Deleting transition list widget";
 }
 
 QString TransitionListWidget::getMimeType(const QString &assetId) const

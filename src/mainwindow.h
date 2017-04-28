@@ -48,6 +48,8 @@
 class AssetPanel;
 class AudioGraphSpectrum;
 class EffectStackView2;
+class EffectListWidget;
+class TransitionListWidget;
 class EffectStackView;
 class EffectsListView;
 class KIconLoader;
@@ -149,6 +151,8 @@ private:
     EffectsListView *m_effectList;
     QDockWidget *m_transitionListDock;
     EffectsListView *m_transitionList;
+    TransitionListWidget *m_transitionList2;
+    EffectListWidget *m_effectList2;
 
     AssetPanel *m_assetPanel;
     QDockWidget *m_effectStackDock;

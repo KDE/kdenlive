@@ -1,0 +1,227 @@
+/***************************************************************************
+ *   Copyright (C) 2017 by Jean-Baptiste Mardelle                                  *
+ *   This file is part of Kdenlive. See www.kdenlive.org.                  *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) version 3 or any later version accepted by the       *
+ *   membership of KDE e.V. (or its successor approved  by the membership  *
+ *   of KDE e.V.), which shall act as a proxy defined in Section 14 of     *
+ *   version 3 of the license.                                             *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
+ ***************************************************************************/
+
+#ifndef TIMELINECONTROLLER_H
+#define TIMELINECONTROLLER_H
+
+#include "timelinewidget.h"
+#include "timeline2/model/timelineitemmodel.hpp"
+
+
+//see https://bugreports.qt.io/browse/QTBUG-57714, don't expose a QWidget as a context property
+class TimelineController : public QObject
+{
+    Q_OBJECT
+    /* @brief holds a list of currently selected clips (list of clipId's)
+     */
+    Q_PROPERTY(QList<int> selection READ selection WRITE setSelection NOTIFY selectionChanged)
+    /* @brief holds the timeline zoom factor
+     */
+    Q_PROPERTY(double scaleFactor READ scaleFactor WRITE setScaleFactor NOTIFY scaleFactorChanged)
+    /* @brief holds the current project duration
+     */
+    Q_PROPERTY(int duration READ duration NOTIFY durationChanged)
+    Q_PROPERTY(bool audioThumbFormat READ audioThumbFormat NOTIFY audioThumbFormatChanged)
+    /* @brief holds the current timeline position
+     */
+    Q_PROPERTY(int position READ position WRITE setPosition NOTIFY positionChanged)
+    Q_PROPERTY(int seekPosition READ seekPosition WRITE setSeekPosition NOTIFY seekPositionChanged)
+    Q_PROPERTY(bool snap READ snap NOTIFY snapChanged)
+    Q_PROPERTY(bool ripple READ ripple NOTIFY rippleChanged)
+    Q_PROPERTY(bool scrub READ scrub NOTIFY scrubChanged)
+    Q_PROPERTY(bool showThumbnails READ showThumbnails NOTIFY showThumbnailsChanged)
+    Q_PROPERTY(bool showMarkers READ showMarkers NOTIFY showMarkersChanged)
+    Q_PROPERTY(bool showAudioThumbnails READ showAudioThumbnails NOTIFY showAudioThumbnailsChanged)
+
+public:
+    TimelineController(KActionCollection *actionCollection, TimelineWidget *parent);
+    void setModel(std::shared_ptr<TimelineItemModel> model);
+
+    Q_INVOKABLE bool isMultitrackSelected() const { return m_selection.isMultitrackSelected; }
+    Q_INVOKABLE int selectedTrack() const { return m_selection.selectedTrack; }
+    /* @brief Add a clip id to current selection
+     */
+    Q_INVOKABLE void addSelection(int newSelection);
+    /* @brief returns current timeline's zoom factor
+     */
+    Q_INVOKABLE double scaleFactor() const;
+    /* @brief set current timeline's zoom factor
+     */
+    Q_INVOKABLE void setScaleFactor(double scale);
+    /* @brief Returns the project's duration (tractor)
+     */
+    Q_INVOKABLE int duration() const;
+    /* @brief Returns the current cursor position (frame currently displayed by MLT)
+     */
+    Q_INVOKABLE int position() const { return m_position; }
+    /* @brief Returns the seek request position (-1 = no seek pending)
+     */
+    Q_INVOKABLE int seekPosition() const { return m_seekPosition; }
+    /* @brief Request a seek operation
+       @param position is the desired new timeline position
+     */
+    Q_INVOKABLE void setPosition(int position);
+    Q_INVOKABLE void setSeekPosition(int position);
+    Q_INVOKABLE bool snap();
+    Q_INVOKABLE bool ripple();
+    Q_INVOKABLE bool scrub();
+    Q_INVOKABLE QString timecode(int frames);
+    /* @brief Request inserting a new clip in timeline (dragged from bin or monitor)
+       @param tid is the destination track
+       @param position is the timeline position
+       @param xml is the data describing the dropped clip
+       @param logUndo if set to false, no undo object is stored
+       @return the id of the inserted clip
+     */
+    Q_INVOKABLE int insertClip(int tid, int position, const QString &xml, bool logUndo);
+
+    /* @brief Request inserting a new composition in timeline (dragged from compositions list)
+       @param tid is the destination track
+       @param position is the timeline position
+       @param transitionId is the data describing the dropped composition
+       @param logUndo if set to false, no undo object is stored
+       @return the id of the inserted composition
+    */
+    Q_INVOKABLE int insertComposition(int tid, int position, const QString &transitionId, bool logUndo);
+
+    /* @brief Request deletion of the currently selected clips
+     */
+    Q_INVOKABLE void deleteSelectedClips();
+
+    Q_INVOKABLE int requestBestSnapPos(int pos, int duration);
+
+    Q_INVOKABLE void triggerAction(const QString &name);
+
+    /* @brief Do we want to display video thumbnails
+     */
+    bool showThumbnails() const;
+    bool showAudioThumbnails() const;
+    bool showMarkers() const;
+    bool audioThumbFormat() const;
+    /* @brief Do we want to display audio thumbnails
+     */
+    Q_INVOKABLE bool showWaveforms() const;
+    /* @brief Insert a timeline track
+     */
+    Q_INVOKABLE void addTrack(int tid);
+    /* @brief Remove a timeline track
+     */
+    Q_INVOKABLE void deleteTrack(int tid);
+    /* @brief Group selected items in timeline
+     */
+    Q_INVOKABLE void groupSelection();
+    /* @brief Ungroup selected items in timeline
+     */
+    Q_INVOKABLE void unGroupSelection(int cid);
+    /* @brief Ask for edit marker dialog
+     */
+    Q_INVOKABLE void editMarker(const QString &cid, int frame);
+    /* @brief Ask for edit timeline guide dialog
+     */
+    Q_INVOKABLE void editGuide(int frame);
+    /* @brief Add a timeline guide
+     */
+    Q_INVOKABLE void switchGuide(int frame);
+    /* @brief Request monitor refresh
+     */
+    Q_INVOKABLE void requestRefresh();
+
+    /* @brief Show the asset of the given item in the AssetPanel
+       If the id corresponds to a clip, we show the corresponding effect stack
+       If the id corresponds to a composition, we show its properties
+    */
+    Q_INVOKABLE void showAsset(int id);
+
+    /* @brief Seek to next snap point
+     */
+    void gotoNextSnap();
+    /* @brief Seek to previous snap point
+     */
+    void gotoPreviousSnap();
+    /* @brief Set current item's start point to cursor position
+     */
+    void setInPoint();
+    /* @brief Set current item's end point to cursor position
+     */
+    void setOutPoint();
+    /* @brief Return the project's tractor
+     */
+    Mlt::Tractor *tractor();
+    /* @brief Sets the list of currently selected clips
+       @param selection is the list of id's
+       @param trackIndex is current clip's track
+       @param isMultitrack is true if we want to select the whole tractor (currently unused)
+     */
+    void setSelection(const QList<int> &selection = QList<int>(), int trackIndex = -1, bool isMultitrack = false);
+    /* @brief Get the list of currenly selected clip id's
+     */
+    QList<int> selection() const;
+    /* @brief Add an asset (effect, composition)
+     */
+    void addAsset(const QVariantMap data);
+    void checkDuration();
+
+public slots:
+    void selectMultitrack();
+    void seek(int position);
+    void onSeeked(int position);
+
+
+private:
+    TimelineWidget *q;
+    KActionCollection *m_actionCollection;
+    std::shared_ptr<TimelineItemModel> m_model;
+    struct Selection
+    {
+        QList<int> selectedClips;
+        int selectedTrack;
+        bool isMultitrackSelected;
+    };
+    int m_position;
+    int m_seekPosition;
+    double m_scale;
+    static int m_duration;
+    Selection m_selection;
+    Selection m_savedSelection;
+    void emitSelectedFromSelection();
+
+signals:
+    void selected(Mlt::Producer *producer);
+    void selectionChanged();
+    void frameFormatChanged();
+    void trackHeightChanged();
+    void scaleFactorChanged();
+    void audioThumbFormatChanged();
+    void durationChanged();
+    void positionChanged();
+    void seekPositionChanged();
+    void showThumbnailsChanged();
+    void showAudioThumbnailsChanged();
+    void showMarkersChanged();
+    void snapChanged();
+    void rippleChanged();
+    void scrubChanged();
+    void seeked(int position);
+    /* @brief Requests that a given parameter model is displayed in the asset panel */
+    void showTransitionModel(std::shared_ptr<AssetParameterModel>);
+};
+
+#endif

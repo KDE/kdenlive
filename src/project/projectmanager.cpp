@@ -31,6 +31,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "timeline/timeline.h"
 #include "timeline2/model/builders/meltBuilder.hpp"
 #include "timeline2/view/timelinewidget.h"
+#include "timeline2/view/timelinecontroller.h"
 #include "transitionsettings.h"
 #include "utils/KoIconUtils.h"
 
@@ -86,10 +87,7 @@ ProjectManager::ProjectManager(QObject *parent)
 
 ProjectManager::~ProjectManager()
 {
-    delete m_notesPlugin;
-
     delete m_trackView;
-    delete m_project;
 }
 
 void ProjectManager::slotLoadOnOpen()
@@ -893,5 +891,5 @@ void ProjectManager::updateTimeline(Mlt::Tractor tractor)
 
 void ProjectManager::activateAsset(const QVariantMap data)
 {
-    pCore->window()->getMainTimeline()->addAsset(data);
+    pCore->window()->getMainTimeline()->controller()->addAsset(data);
 }

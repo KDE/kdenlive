@@ -30,12 +30,6 @@ NotesPlugin::NotesPlugin(ProjectManager *projectManager)
     connect(projectManager, &ProjectManager::docOpened, this, &NotesPlugin::setProject);
 }
 
-NotesPlugin::~NotesPlugin()
-{
-    delete m_widget;
-    delete m_notesDock;
-}
-
 void NotesPlugin::setProject(KdenliveDoc *document)
 {
     connect(m_widget, &NotesWidget::seekProject, pCore->monitorManager()->projectMonitor()->render, &Render::seekToFrame);

@@ -38,14 +38,19 @@ EffectListWidget::EffectListWidget(QWidget *parent)
     m_proxyModel->setSourceModel(m_model.get());
     m_proxyModel->setSortRole(EffectTreeModel::NameRole);
     m_proxyModel->sort(0, Qt::AscendingOrder);
-
-    rootContext()->setContextProperty("assetlist", this);
+    m_proxy = new EffectListWidgetProxy(this);
+    rootContext()->setContextProperty("assetlist", m_proxy);
     rootContext()->setContextProperty("assetListModel", m_proxyModel.get());
     rootContext()->setContextProperty("isEffectList", true);
-
-    m_assetIconProvider.reset(new AssetIconProvider(true));
+    m_assetIconProvider = new AssetIconProvider(true);
 
     setup();
+}
+
+EffectListWidget::~EffectListWidget()
+{
+    delete m_proxy;
+    qDebug()<<" - - -Deleting effect list widget";
 }
 
 void EffectListWidget::setFilterType(const QString &type)

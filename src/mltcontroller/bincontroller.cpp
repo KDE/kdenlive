@@ -33,6 +33,7 @@ BinController::BinController(const QString &profileName)
 
 BinController::~BinController()
 {
+    qDebug()<<"/// delete bincontroller";
     destroyBin();
 }
 
