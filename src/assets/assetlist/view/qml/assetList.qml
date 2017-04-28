@@ -219,7 +219,6 @@ Rectangle {
             Layout.fillWidth: true
             alternatingRowColors: false
             headerVisible: false
-            backgroundVisible:false
             selection: sel
             selectionMode: SelectionMode.SingleSelection
             itemDelegate: Rectangle {

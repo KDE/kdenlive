@@ -116,6 +116,8 @@ GLWidget::GLWidget(int id, QObject *parent)
     m_monitorProfile = new Mlt::Profile();
     m_refreshTimer.setSingleShot(true);
     m_refreshTimer.setInterval(50);
+    m_blackClip.reset(new Mlt::Producer(*m_monitorProfile, "color:black"));
+    m_blackClip->set("kdenlive:id", "black");
     connect(&m_refreshTimer, &QTimer::timeout, this, &GLWidget::refresh);
 
     if (KdenliveSettings::gpu_accel()) {
@@ -1057,6 +1059,7 @@ int GLWidget::reconfigure(Mlt::Profile *profile)
     if (profile) {
         reloadProfile(*profile);
         m_blackClip.reset(new Mlt::Producer(*profile, "color:black"));
+        m_blackClip->set("kdenlive:id", "black");
     }
     if ((m_consumer == nullptr) || !m_consumer->is_valid() || strcmp(m_consumer->get("mlt_service"), "multi") == 0) {
         if (m_consumer) {
@@ -1748,7 +1751,7 @@ bool GLWidget::setProducer(Mlt::Producer *producer, int position, bool isActive)
     QMutexLocker locker(&m_mutex);
     QString currentId;
     int consumerPosition = 0;
-    if ((producer == nullptr) && (m_producer != nullptr) && m_producer->parent().get("id") == QLatin1String("black")) {
+    if ((producer == nullptr) && (m_producer != nullptr) && m_producer->parent().get("kdenlive:id") == QLatin1String("black")) {
         // Black clip already displayed no need to refresh
         return true;
     }
@@ -1773,7 +1776,7 @@ bool GLWidget::setProducer(Mlt::Producer *producer, int position, bool isActive)
         consumerPosition = m_consumer->position();
     }
     if ((producer == nullptr) || !producer->is_valid()) {
-        producer = m_blackClip->cut(0, 1);
+        producer = m_blackClip.data()->cut(0, 1);
     }
 
     if (position == -1 && producer->get("kdenlive:id") == currentId) {

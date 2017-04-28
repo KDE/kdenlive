@@ -629,9 +629,9 @@ void MainWindow::slotThemeChanged(const QString &theme)
 {
     disconnect(this, &MainWindow::reloadTheme, this, &MainWindow::slotReloadTheme);
     KSharedConfigPtr config = KSharedConfig::openConfig(theme);
-    setPalette(KColorScheme::createApplicationPalette(config));
-    qApp->setPalette(palette());
-    QPalette plt = palette();
+    QPalette plt = KColorScheme::createApplicationPalette(config);
+    setPalette(plt);
+    QGuiApplication::setPalette(plt);
 
     KdenliveSettings::setColortheme(theme);
     if (m_assetPanel) {
