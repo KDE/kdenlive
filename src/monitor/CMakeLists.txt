@@ -6,6 +6,5 @@ set(kdenlive_SRCS
   monitor/monitor.cpp
   monitor/monitormanager.cpp
   monitor/recmanager.cpp
-  monitor/smallruler.cpp
   monitor/qmlmanager.cpp
   PARENT_SCOPE)
