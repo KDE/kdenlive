@@ -371,7 +371,7 @@ void CollapsibleEffect::slotEffectDown()
 void CollapsibleEffect::slotSaveEffect()
 {
     QString name = QInputDialog::getText(this, i18n("Save Effect"), i18n("Name for saved effect: "));
-    if (name.isEmpty()) {
+    if (name.trimmed().isEmpty()) {
         return;
     }
     QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/"));
