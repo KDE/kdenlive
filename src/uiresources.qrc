@@ -3,15 +3,16 @@
     <file>kdenliveui.rc</file>
   </qresource>
   <qresource prefix="qml">
-    <file alias="kdenlivemonitor.qml">../data/kdenlivemonitor.qml</file>
-    <file alias="kdenliveclipmonitor.qml">../data/kdenliveclipmonitor.qml</file>
-    <file alias="kdenlivemonitoreffectscene.qml">../data/kdenlivemonitoreffectscene.qml</file>
-    <file alias="kdenlivemonitorcornerscene.qml">../data/kdenlivemonitorcornerscene.qml</file>
-    <file alias="kdenlivemonitorrotoscene.qml">../data/kdenlivemonitorrotoscene.qml</file>
-    <file alias="kdenlivemonitorsplit.qml">../data/kdenlivemonitorsplit.qml</file>
-    <file alias="kdenlivemonitorripple.qml">../data/kdenlivemonitorripple.qml</file>
-    <file alias="SceneToolBar.qml">../data/SceneToolBar.qml</file>
-    <file alias="EffectToolBar.qml">../data/EffectToolBar.qml</file>
+    <file alias="kdenlivemonitor.qml">monitor/view/kdenlivemonitor.qml</file>
+    <file alias="kdenliveclipmonitor.qml">monitor/view/kdenliveclipmonitor.qml</file>
+    <file alias="kdenlivemonitoreffectscene.qml">monitor/view/kdenlivemonitoreffectscene.qml</file>
+    <file alias="kdenlivemonitorcornerscene.qml">monitor/view/kdenlivemonitorcornerscene.qml</file>
+    <file alias="kdenlivemonitorrotoscene.qml">monitor/view/kdenlivemonitorrotoscene.qml</file>
+    <file alias="kdenlivemonitorsplit.qml">monitor/view/kdenlivemonitorsplit.qml</file>
+    <file alias="kdenlivemonitorripple.qml">monitor/view/kdenlivemonitorripple.qml</file>
+    <file alias="SceneToolBar.qml">monitor/view/SceneToolBar.qml</file>
+    <file alias="EffectToolBar.qml">monitor/view/EffectToolBar.qml</file>
+    <file alias="MonitorRuler.qml">monitor/view/MonitorRuler.qml</file>
     <file alias="timeline.qml">timeline2/view/qml/timeline.qml</file>
     <file alias="TrackHead.qml">timeline2/view/qml/TrackHead.qml</file>
     <file alias="Track.qml">timeline2/view/qml/Track.qml</file>

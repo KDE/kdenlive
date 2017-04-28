@@ -1,10 +1,15 @@
-import QtQuick.Controls 1.3
-import QtQuick.Controls.Styles 1.3
-import QtQuick 2.0
+import QtQuick.Controls 1.4
+import QtQuick.Controls.Styles 1.4
+import QtQuick.Window 2.2
+import Kdenlive.Controls 1.0
+import QtQuick 2.4
+import AudioThumb 1.0
 
 Item {
     id: root
     objectName: "root"
+
+    SystemPalette { id: activePalette }
 
     // default size, but scalable by user
     height: 300; width: 400
@@ -23,11 +28,31 @@ Item {
     property bool showAudiothumb
     property bool showToolbar: false
     property int displayFontSize
+    property int duration: 300
+    property bool mouseOverRuler: false
+    property int mouseRulerPos: 0
+    property int consumerPosition: -1
+    property double frameSize: 10
+    property double timeScale: 1
+    property int rulerHeight: 20
     onZoomChanged: {
         sceneToolBar.setZoom(root.zoom)
     }
     signal editCurrentMarker()
     signal toolBarChanged(bool doAccept)
+
+    onDurationChanged: {
+        timeScale = width / duration
+        if (duration < 200) {
+            frameSize = 5 * timeScale
+        } else if (duration < 2500) {
+            frameSize = 25 * timeScale
+        } else if (duration < 10000) {
+            frameSize = 50 * timeScale
+        } else {
+            frameSize = 100 * timeScale
+        }
+    }
 
     SceneToolBar {
         id: sceneToolBar
@@ -47,6 +72,7 @@ Item {
         height: root.profile.y * root.scaley
         anchors.centerIn: parent
         visible: root.showSafezone
+
         Rectangle {
             id: safezone
             objectName: "safezone"
@@ -67,6 +93,38 @@ Item {
         }
     }
 
+    QmlAudioThumb {
+        id: audioThumb
+        objectName: "audiothumb"
+        property bool stateVisible: true
+        anchors {
+            left: parent.left
+            bottom: parent.bottom
+        }
+        height: parent.height / 6
+        //font.pixelSize * 3
+        width: parent.width
+        visible: root.showAudiothumb
+
+        states: [
+            State { when: audioThumb.stateVisible;
+                    PropertyChanges {   target: audioThumb; opacity: 1.0    } },
+            State { when: !audioThumb.stateVisible;
+                    PropertyChanges {   target: audioThumb; opacity: 0.0    } }
+        ]
+        transitions: [ Transition {
+            NumberAnimation { property: "opacity"; duration: 500}
+        } ]
+
+        MouseArea {
+            hoverEnabled: true
+            onExited: audioThumb.stateVisible = false
+            onEntered: audioThumb.stateVisible = true
+            acceptedButtons: Qt.NoButton
+            anchors.fill: parent
+        }
+    }
+
     Text {
         id: timecode
         objectName: "timecode"
@@ -74,15 +132,14 @@ Item {
         style: Text.Outline; 
         styleColor: "black"
         text: root.timecode
-        visible: root.showTimecode
         font.pixelSize: root.displayFontSize
+        visible: root.showTimecode
         anchors {
             right: root.right
             bottom: root.bottom
             rightMargin: 4
         }
     }
-
     Text {
         id: fpsdropped
         objectName: "fpsdropped"
@@ -98,7 +155,6 @@ Item {
             rightMargin: 10
         }
     }
-
     TextField {
         id: marker
         objectName: "markertext"
@@ -114,15 +170,24 @@ Item {
             bottom: parent.bottom
         }
         visible: root.showMarkers && text != ""
-        maximumLength: 20
         text: root.markerText
+        maximumLength: 20
         style: TextFieldStyle {
             textColor: "white"
             background: Rectangle {
-                color: "#990000ff"
+                color: "#99ff0000"
                 width: marker.width
             }
         }
         font.pixelSize: root.displayFontSize
+    }
+    MonitorRuler {
+        id: clipMonitorRuler
+        anchors {
+            left: root.left
+            right: root.right
+            bottom: root.bottom
+        }
+        height: root.rulerHeight
     }
 }

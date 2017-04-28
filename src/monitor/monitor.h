@@ -35,7 +35,6 @@
 #include <memory>
 #include <unordered_set>
 
-class SmallRuler;
 class SnapModel;
 class ProjectClip;
 class AbstractClipItem;
@@ -186,8 +185,6 @@ private:
     QScrollBar *m_verticalScroll;
     /** @brief Scrollbar for our monitor view, used when zooming the monitor **/
     QScrollBar *m_horizontalScroll;
-    /** @brief The ruler widget displaying cursor position **/
-    SmallRuler *m_ruler;
     /** @brief Widget holding the window for the QQuickView **/
     QWidget *m_videoWidget;
     /** @brief Manager for qml overlay for the QQuickView **/
