@@ -1634,7 +1634,6 @@ void GLWidget::refreshSceneLayout()
 void GLWidget::switchPlay(bool play, double speed)
 {
     // QMutexLocker locker(&m_mutex);
-    qDebug()<<"* * * *SWITCH PLAY: "<<play<<" = "<<speed;
     m_proxy->setSeekPosition(SEEK_INACTIVE);
     if ((m_producer == nullptr) || (m_consumer == nullptr)) {
         return;
@@ -1734,10 +1733,12 @@ int GLWidget::getCurrentPos() const
     return m_proxy->seekPosition() == SEEK_INACTIVE ? m_consumer->position() : m_proxy->seekPosition();
 }
 
-void GLWidget::setRulerInfo(int duration, int in, int out, std::shared_ptr<MarkerListModel> model)
+void GLWidget::setRulerInfo(int duration, std::shared_ptr<MarkerListModel> model)
 {
     rootObject()->setProperty("duration", duration);
-    rootContext()->setContextProperty("markersModel", model.get());
+    if (model != nullptr) {
+        rootContext()->setContextProperty("markersModel", model.get());
+    }
 }
 
 bool GLWidget::setProducer(Mlt::Producer *producer, int position, bool isActive)

@@ -107,7 +107,7 @@ public:
     int getCurrentPos() const;
     /** @brief Requests a monitor refresh */
     void requestRefresh();
-    void setRulerInfo(int duration, int in, int out, std::shared_ptr<MarkerListModel> model);
+    void setRulerInfo(int duration, std::shared_ptr<MarkerListModel> model = nullptr);
     MonitorProxy *getControllerProxy();
     bool playZone(bool loop = false);
     bool loopClip();

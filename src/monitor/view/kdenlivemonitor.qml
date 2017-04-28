@@ -1,6 +1,6 @@
-import QtQuick.Controls 1.3
-import QtQuick.Controls.Styles 1.3
-import QtQuick 2.0
+import QtQuick.Controls 1.4
+import QtQuick.Controls.Styles 1.4
+import QtQuick 2.4
 
 Item {
     id: root
@@ -24,7 +24,7 @@ Item {
     property bool showSafezone
     property bool showAudiothumb
     property bool showToolbar: false
-    property int displayFontSize
+    property real baseUnit: fontMetrics.font.pointSize
     property int duration: 300
     property bool mouseOverRuler: false
     property int mouseRulerPos: 0
@@ -32,6 +32,13 @@ Item {
     property double frameSize: 10
     property double timeScale: 1
     property int rulerHeight: 20
+
+    FontMetrics {
+        id: fontMetrics
+        font.family: "Arial"
+    }
+
+
     onZoomChanged: {
         sceneToolBar.setZoom(root.zoom)
     }
@@ -97,7 +104,7 @@ Item {
         styleColor: "black"
         text: root.timecode
         visible: root.showTimecode
-        font.pixelSize: root.displayFontSize
+        font.pixelSize: root.baseUnit
         anchors {
             right: root.right
             bottom: root.bottom
@@ -113,7 +120,7 @@ Item {
         styleColor: "black"
         text: root.fps + "fps"
         visible: root.showFps
-        font.pixelSize: root.displayFontSize
+        font.pixelSize: root.baseUnit
         anchors {
             right: timecode.visible ? timecode.left : root.right
             bottom: root.bottom
@@ -145,7 +152,7 @@ Item {
                 width: marker.width
             }
         }
-        font.pixelSize: root.displayFontSize
+        font.pixelSize: root.baseUnit
     }
     MonitorRuler {
         id: clipMonitorRuler

@@ -1201,13 +1201,13 @@ void Monitor::seekCursor(int pos)
     }*/
 }
 
-void Monitor::adjustRulerSize(int length, int offset)
+void Monitor::adjustRulerSize(int length, std::shared_ptr<MarkerListModel> markerModel)
 {
     if (m_controller != nullptr) {
         QPoint zone = m_controller->zone();
-        m_glMonitor->setRulerInfo(length, zone.x(), zone.y(), nullptr);
+        m_glMonitor->setRulerInfo(length);
     } else {
-        m_glMonitor->setRulerInfo(length, 0, 100, nullptr);
+        m_glMonitor->setRulerInfo(length, markerModel);
     }
     if (length > 0) {
         m_length = length;
@@ -1344,7 +1344,7 @@ void Monitor::slotOpenClip(ProjectClip *controller, int in, int out)
             // we are in record mode, don't display clip
             return;
         }
-        m_glMonitor->setRulerInfo(m_controller->frameDuration(), in, out, controller->getMarkerModel());
+        m_glMonitor->setRulerInfo(m_controller->frameDuration(), controller->getMarkerModel());
         updateMarkers();
         // Loading new clip / zone, stop if playing
         if (m_playAction->isActive()) {
@@ -1881,8 +1881,6 @@ void Monitor::loadQmlScene(MonitorSceneType type)
                            m_glMonitor->zoom());
     QQuickItem *root = m_glMonitor->rootObject();
     root->setProperty("showToolbar", m_zoomVisibilityAction->isChecked());
-    QFontInfo info(font());
-    root->setProperty("displayFontSize", info.pixelSize() * 1.4);
     connectQmlToolbar(root);
     switch (type) {
     case MonitorSceneSplit:

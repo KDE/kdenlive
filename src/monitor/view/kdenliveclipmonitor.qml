@@ -27,7 +27,7 @@ Item {
     property bool showSafezone
     property bool showAudiothumb
     property bool showToolbar: false
-    property int displayFontSize
+    property real baseUnit: fontMetrics.font.pointSize
     property int duration: 300
     property bool mouseOverRuler: false
     property int mouseRulerPos: 0
@@ -35,6 +35,12 @@ Item {
     property double frameSize: 10
     property double timeScale: 1
     property int rulerHeight: 20
+
+    FontMetrics {
+        id: fontMetrics
+        font.family: "Arial"
+    }
+
     onZoomChanged: {
         sceneToolBar.setZoom(root.zoom)
     }
@@ -132,7 +138,7 @@ Item {
         style: Text.Outline; 
         styleColor: "black"
         text: root.timecode
-        font.pixelSize: root.displayFontSize
+        font.pixelSize: root.baseUnit
         visible: root.showTimecode
         anchors {
             right: root.right
@@ -148,7 +154,7 @@ Item {
         styleColor: "black"
         text: root.fps + "fps"
         visible: root.showFps
-        font.pixelSize: root.displayFontSize
+        font.pixelSize: root.baseUnit
         anchors {
             right: timecode.visible ? timecode.left : root.right
             bottom: root.bottom
@@ -179,7 +185,7 @@ Item {
                 width: marker.width
             }
         }
-        font.pixelSize: root.displayFontSize
+        font.pixelSize: root.baseUnit
     }
     MonitorRuler {
         id: clipMonitorRuler

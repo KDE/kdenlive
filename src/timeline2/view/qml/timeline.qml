@@ -391,7 +391,6 @@ Rectangle {
                         timeline.seekPosition = timeline.position - 10
                     else
                         timeline.seekPosition = timeline.position + 10
-                    timeline.position = timeline.seekPosition1
                 }
             }
 

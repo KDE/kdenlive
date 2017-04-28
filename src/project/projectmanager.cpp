@@ -597,7 +597,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     m_trackView->setDuration(m_trackView->duration());*/
 
     pCore->window()->slotGotProgressInfo(QString(), 100);
-    pCore->monitorManager()->projectMonitor()->adjustRulerSize(m_mainTimelineModel->duration() - 1);
+    pCore->monitorManager()->projectMonitor()->adjustRulerSize(m_mainTimelineModel->duration() - 1, m_project->getGuideModel());
     if (openBackup) {
         slotOpenBackup(url);
     }
@@ -608,7 +608,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
 
 void ProjectManager::adjustProjectDuration()
 {
-    pCore->monitorManager()->projectMonitor()->adjustRulerSize(m_mainTimelineModel->duration() - 1);
+    pCore->monitorManager()->projectMonitor()->adjustRulerSize(m_mainTimelineModel->duration() - 1, m_project->getGuideModel());
 }
 
 void ProjectManager::slotRevert()

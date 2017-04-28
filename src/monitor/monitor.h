@@ -26,6 +26,7 @@
 #include "gentime.h"
 #include "renderer.h"
 #include "scopes/sharedframe.h"
+#include "bin/model/markerlistmodel.hpp"
 #include "timecodedisplay.h"
 
 #include <QDomElement>
@@ -307,7 +308,7 @@ public slots:
     void slotLoadClipZone(int start, int end);
     void slotSeekToNextSnap();
     void slotSeekToPreviousSnap();
-    void adjustRulerSize(int length, int offset = 0);
+    void adjustRulerSize(int length, std::shared_ptr<MarkerListModel> markerModel = nullptr);
     void setTimePos(const QString &pos);
     QPoint getZoneInfo() const;
     /** @brief Display the on monitor effect scene (to adjust geometry over monitor). */
