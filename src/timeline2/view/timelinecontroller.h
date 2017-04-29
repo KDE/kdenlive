@@ -43,6 +43,8 @@ class TimelineController : public QObject
     /* @brief holds the current timeline position
      */
     Q_PROPERTY(int position READ position WRITE setPosition NOTIFY positionChanged)
+    Q_PROPERTY(int zoneIn READ zoneIn NOTIFY zoneChanged)
+    Q_PROPERTY(int zoneOut READ zoneOut NOTIFY zoneChanged)
     Q_PROPERTY(int seekPosition READ seekPosition WRITE setSeekPosition NOTIFY seekPositionChanged)
     Q_PROPERTY(bool snap READ snap NOTIFY snapChanged)
     Q_PROPERTY(bool ripple READ ripple NOTIFY rippleChanged)
@@ -52,8 +54,8 @@ class TimelineController : public QObject
     Q_PROPERTY(bool showAudioThumbnails READ showAudioThumbnails NOTIFY showAudioThumbnailsChanged)
 
 public:
-    TimelineController(KActionCollection *actionCollection, TimelineWidget *parent);
-    void setModel(std::shared_ptr<TimelineItemModel> model);
+    TimelineController(KActionCollection *actionCollection, QObject *parent);
+    void setModel(std::shared_ptr<TimelineItemModel> model, QQuickItem *root);
 
     Q_INVOKABLE bool isMultitrackSelected() const { return m_selection.isMultitrackSelected; }
     Q_INVOKABLE int selectedTrack() const { return m_selection.selectedTrack; }
@@ -75,6 +77,14 @@ public:
     /* @brief Returns the seek request position (-1 = no seek pending)
      */
     Q_INVOKABLE int seekPosition() const { return m_seekPosition; }
+    /* @brief Request a seek operation
+       @param position is the desired new timeline position
+     */
+    Q_INVOKABLE int zoneIn() const { return m_zone.x(); }
+    Q_INVOKABLE int zoneOut() const { return m_zone.y(); }
+    Q_INVOKABLE void setZoneIn(int inPoint);
+    Q_INVOKABLE void setZoneOut(int outPoint);
+    void setZone(const QPoint &zone);
     /* @brief Request a seek operation
        @param position is the desired new timeline position
      */
@@ -186,7 +196,7 @@ public slots:
 
 
 private:
-    TimelineWidget *q;
+    QQuickItem *m_root;
     KActionCollection *m_actionCollection;
     std::shared_ptr<TimelineItemModel> m_model;
     struct Selection
@@ -197,6 +207,7 @@ private:
     };
     int m_position;
     int m_seekPosition;
+    QPoint m_zone;
     double m_scale;
     static int m_duration;
     Selection m_selection;
@@ -220,6 +231,8 @@ signals:
     void rippleChanged();
     void scrubChanged();
     void seeked(int position);
+    void zoneChanged();
+    void zoneMoved(const QPoint &zone);
     /* @brief Requests that a given parameter model is displayed in the asset panel */
     void showTransitionModel(std::shared_ptr<AssetParameterModel>);
 };

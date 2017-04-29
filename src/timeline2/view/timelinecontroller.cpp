@@ -38,9 +38,9 @@
 
 int TimelineController::m_duration = 0;
 
-TimelineController::TimelineController(KActionCollection *actionCollection, TimelineWidget *parent) :
+TimelineController::TimelineController(KActionCollection *actionCollection, QObject *parent) :
     QObject(parent)
-    , q(parent)
+    , m_root(nullptr)
     , m_actionCollection(actionCollection)
     , m_position(0)
     , m_seekPosition(-1)
@@ -48,9 +48,10 @@ TimelineController::TimelineController(KActionCollection *actionCollection, Time
 {
 }
 
-void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
+void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model, QQuickItem *root)
 {
     m_model = std::move(model);
+    m_root = root;
 }
 
 Mlt::Tractor *TimelineController::tractor()
@@ -152,14 +153,14 @@ void TimelineController::emitSelectedFromSelection()
 
 QList<int> TimelineController::selection() const
 {
-    if (!q->rootObject()) return QList<int>();
+    if (!m_root) return QList<int>();
     return m_selection.selectedClips;
 }
 
 void TimelineController::selectMultitrack()
 {
     setSelection(QList<int>(), -1, true);
-    QMetaObject::invokeMethod(q->rootObject(), "selectMultitrack");
+    QMetaObject::invokeMethod(m_root, "selectMultitrack");
     // emit selected(m_model.tractor());
 }
 
@@ -285,7 +286,7 @@ void TimelineController::unGroupSelection(int cid)
 
 void TimelineController::setInPoint()
 {
-    int cursorPos = q->rootObject()->property("seekPos").toInt();
+    int cursorPos = m_root->property("seekPos").toInt();
     if (cursorPos < 0) {
         cursorPos = m_position;
     }
@@ -298,7 +299,7 @@ void TimelineController::setInPoint()
 
 void TimelineController::setOutPoint()
 {
-    int cursorPos = q->rootObject()->property("seekPos").toInt();
+    int cursorPos = m_root->property("seekPos").toInt();
     if (cursorPos < 0) {
         cursorPos = m_position;
     }
@@ -313,7 +314,7 @@ void TimelineController::editMarker(const QString &cid, int frame)
 {
     ProjectClip *clip = pCore->bin()->getBinClip(cid);
     CommentedTime marker = clip->getMarker(GenTime(frame, pCore->getCurrentFps()));
-    QPointer<MarkerDialog> d = new MarkerDialog(clip, marker, pCore->bin()->projectTimecode(), i18n("Edit Marker"), q);
+    QPointer<MarkerDialog> d = new MarkerDialog(clip, marker, pCore->bin()->projectTimecode(), i18n("Edit Marker"), qApp->activeWindow());
     if (d->exec() == QDialog::Accepted) {
         QList<CommentedTime> markers;
         CommentedTime newMarker = d->newMarker();
@@ -330,7 +331,7 @@ void TimelineController::editMarker(const QString &cid, int frame)
 void TimelineController::editGuide(int frame)
 {
     CommentedTime marker = pCore->projectManager()->current()->getGuideModel().get()->getMarker(GenTime(frame, pCore->getCurrentFps()));
-    QPointer<MarkerDialog> d = new MarkerDialog(nullptr, marker, pCore->bin()->projectTimecode(), i18n("Edit Marker"), q);
+    QPointer<MarkerDialog> d = new MarkerDialog(nullptr, marker, pCore->bin()->projectTimecode(), i18n("Edit Marker"), qApp->activeWindow());
     if (d->exec() == QDialog::Accepted) {
         QList<CommentedTime> markers;
         CommentedTime newMarker = d->newMarker();
@@ -384,7 +385,7 @@ void TimelineController::showAsset(int id)
 
 void TimelineController::seek(int position)
 {
-    q->rootObject()->setProperty("seekPos", position);
+    m_root->setProperty("seekPos", position);
     emit seeked(position);
 }
 
@@ -407,4 +408,22 @@ void TimelineController::onSeeked(int position)
         m_seekPosition = -1;
         emit seekPositionChanged();
     }
+}
+
+void TimelineController::setZone(const QPoint &zone)
+{
+    m_zone = zone;
+    emit zoneChanged();
+}
+
+void TimelineController::setZoneIn(int inPoint)
+{
+    m_zone.setX(inPoint);
+    emit zoneMoved(m_zone);
+}
+
+void TimelineController::setZoneOut(int outPoint)
+{
+    m_zone.setY(outPoint);
+    emit zoneMoved(m_zone);
 }

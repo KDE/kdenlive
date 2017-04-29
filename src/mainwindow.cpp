@@ -2091,7 +2091,8 @@ void MainWindow::connectDocument()
 void MainWindow::slotZoneMoved(int start, int end)
 {
     pCore->projectManager()->current()->setZone(start, end);
-    m_projectMonitor->slotLoadClipZone(start, end);
+    QPoint zone(start, end);
+    m_projectMonitor->slotLoadClipZone(zone);
 }
 
 void MainWindow::slotGuidesUpdated()

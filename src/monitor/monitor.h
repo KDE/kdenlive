@@ -276,6 +276,8 @@ private slots:
     void slotEnableSceneZoom(bool enable);
     /** @brief Pan monitor view */
     void panView(QPoint diff);
+    /** @brief Project monitor zone changed, inform timeline */
+    void updateTimelineClipZone();
 
 public slots:
     void slotOpenDvdFile(const QString &);
@@ -305,7 +307,7 @@ public slots:
     void slotSetZoneEnd(bool discardLastFrame = false);
     void slotZoneStart();
     void slotZoneEnd();
-    void slotLoadClipZone(int start, int end);
+    void slotLoadClipZone(const QPoint &zone);
     void slotSeekToNextSnap();
     void slotSeekToPreviousSnap();
     void adjustRulerSize(int length, std::shared_ptr<MarkerListModel> markerModel = nullptr);
@@ -339,6 +341,7 @@ signals:
     void durationChanged(int);
     void refreshClipThumbnail(const QString &);
     void zoneUpdated(const QPoint &);
+    void timelineZoneChanged();
     /** @brief  Editing transitions / effects over the monitor requires the renderer to send frames as QImage.
      *      This causes a major slowdown, so we only enable it if required */
     void requestFrameForAnalysis(bool);

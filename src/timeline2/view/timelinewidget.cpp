@@ -58,6 +58,7 @@ TimelineWidget::TimelineWidget(KActionCollection *actionCollection, std::shared_
     m_transitionProxyModel->setSortRole(AssetTreeModel::NameRole);
     m_transitionProxyModel->sort(0, Qt::AscendingOrder);
     m_proxy = new TimelineController(actionCollection, this);
+    connect(m_proxy, &TimelineController::zoneMoved, this, &TimelineWidget::zoneMoved);
     KDeclarative::KDeclarative kdeclarative;
     kdeclarative.setDeclarativeEngine(engine());
     kdeclarative.setupBindings();
@@ -77,7 +78,6 @@ TimelineWidget::~TimelineWidget()
 void TimelineWidget::setModel(std::shared_ptr<TimelineItemModel> model)
 {
     m_thumbnailer->resetProject();
-    m_proxy->setModel(model);
     auto *proxyModel = new QSortFilterProxyModel(this);
     proxyModel->setSourceModel(model.get());
     proxyModel->setSortRole(TimelineItemModel::ItemIdRole);
@@ -89,6 +89,7 @@ void TimelineWidget::setModel(std::shared_ptr<TimelineItemModel> model)
     rootContext()->setContextProperty("transitionModel", m_transitionProxyModel.get());
     rootContext()->setContextProperty("guidesModel", pCore->projectManager()->current()->getGuideModel().get());
     setSource(QUrl(QStringLiteral("qrc:/qml/timeline.qml")));
+    m_proxy->setModel(model, rootObject());
     setVisible(true);
     m_proxy->checkDuration();
     resize(QSize(4000, 4000));
@@ -130,3 +131,7 @@ TimelineController *TimelineWidget::controller()
     return m_proxy;
 }
 
+void TimelineWidget::zoneUpdated(const QPoint &zone)
+{
+    m_proxy->setZone(zone);
+}

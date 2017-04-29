@@ -296,7 +296,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     if (id != Kdenlive::ClipMonitor) {
         //TODO: reimplement
         //connect(render, &Render::durationChanged, this, &Monitor::durationChanged);
-        //connect(m_ruler, SIGNAL(zoneChanged(QPoint)), this, SIGNAL(zoneUpdated(QPoint)));
+        connect(m_glMonitor->getControllerProxy(), SIGNAL(zoneChanged()), this, SLOT(updateTimelineClipZone()));
     } else {
         connect(m_glMonitor->getControllerProxy(), SIGNAL(zoneChanged()), this, SLOT(updateClipZone()));
     }
@@ -650,9 +650,9 @@ GenTime Monitor::getSnapForPos(bool previous)
     return GenTime(frame, pCore->getCurrentFps());
 }
 
-void Monitor::slotLoadClipZone(int start, int end)
+void Monitor::slotLoadClipZone(const QPoint &zone)
 {
-    m_glMonitor->getControllerProxy()->setZone(start, end);
+    m_glMonitor->getControllerProxy()->setZone(zone.x(), zone.y());
     checkOverlay();
 }
 
@@ -661,6 +661,9 @@ void Monitor::slotSetZoneStart()
     m_glMonitor->getControllerProxy()->setZoneIn(m_glMonitor->getCurrentPos());
     if (m_controller) {
         m_controller->setZone(m_glMonitor->getControllerProxy()->zone());
+    } else {
+        // timeline
+        emit timelineZoneChanged();
     }
     checkOverlay();
 }
@@ -1432,6 +1435,11 @@ void Monitor::updateClipZone()
         return;
     }
     m_controller->setZone(m_glMonitor->getControllerProxy()->zone());
+}
+
+void Monitor::updateTimelineClipZone()
+{
+    emit zoneUpdated(m_glMonitor->getControllerProxy()->zone());
 }
 
 void Monitor::switchDropFrames(bool drop)

@@ -1400,7 +1400,7 @@ void Bin::selectClipById(const QString &clipId, int frame, const QPoint &zone)
             m_monitor->slotSeek(frame);
         }
         if (!zone.isNull()) {
-            m_monitor->slotLoadClipZone(zone.x(), zone.y());
+            m_monitor->slotLoadClipZone(zone);
         }
         return;
     }
@@ -1420,7 +1420,7 @@ void Bin::selectClipById(const QString &clipId, int frame, const QPoint &zone)
             m_monitor->slotSeek(frame);
         }
         if (!zone.isNull()) {
-            m_monitor->slotLoadClipZone(zone.x(), zone.y());
+            m_monitor->slotLoadClipZone(zone);
         }
     }
 }

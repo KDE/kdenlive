@@ -54,6 +54,7 @@ protected:
 
 public slots:
     void slotChangeZoom(int value, bool zoomOnMouse);
+    void zoneUpdated(const QPoint &zone);
 
 private:
     std::shared_ptr<BinController> m_binController;
@@ -73,6 +74,7 @@ signals:
        @param zoomOnMouse is set to true if we want to center zoom on mouse, otherwise we center on timeline cursor position
      */
     void zoomOut(bool zoomOnMouse);
+    void zoneMoved(const QPoint &zone);
 };
 
 
