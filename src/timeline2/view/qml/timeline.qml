@@ -371,7 +371,7 @@ Rectangle {
             onReleased: scim = false
             onExited: scim = false
             onPositionChanged: {
-                if (/*mouse.modifiers === Qt.ShiftModifier ||*/ mouse.buttons === Qt.LeftButton) {
+                if ( mouse.buttons === Qt.LeftButton) {
                     timeline.seekPosition = (scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor
                     timeline.position = timeline.seekPosition
                     scim = true
@@ -406,6 +406,75 @@ Rectangle {
                         id: ruler
                         width: root.duration * timeScale
                         index: index
+                    }
+                    Rectangle {
+                        id: zoneTrimIn
+                        x: ruler.rulerZone.x
+                        y: ruler.rulerZone.y
+                        height: ruler.rulerZone.height
+                        width: 5
+                        color: 'lawngreen'
+                        opacity: 0
+                        Drag.active: trimInMouseArea.drag.active
+                        Drag.proposedAction: Qt.MoveAction
+
+                        MouseArea {
+                            id: trimInMouseArea
+                            anchors.fill: zoneTrimIn
+                            hoverEnabled: true
+                            cursorShape: Qt.SizeHorCursor
+                            propagateComposedEvents: true
+                            drag.target: zoneTrimIn
+                            drag.axis: Drag.XAxis
+                            drag.smoothed: false
+
+                            onPositionChanged: {
+                                if (mouse.buttons === Qt.LeftButton) {
+                                    timeline.zoneIn = zoneTrimIn.x / timeScale
+                                }
+                            }
+                            onReleased: parent.opacity = 0
+                            onEntered: zoneTrimIn.opacity = 0.5
+                            onExited: {
+                                if (!pressed) {
+                                    zoneTrimIn.opacity = 0
+                                }
+                            }
+                        }
+                    }
+                    Rectangle {
+                        id: zoneTrimOut
+                        x: ruler.rulerZone.x + ruler.rulerZone.width - width
+                        y: ruler.rulerZone.y
+                        height: ruler.rulerZone.height
+                        width: 5
+                        color: 'darkred'
+                        opacity: 0
+                        Drag.active: trimOutMouseArea.drag.active
+                        Drag.proposedAction: Qt.MoveAction
+
+                        MouseArea {
+                            id: trimOutMouseArea
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            cursorShape: Qt.SizeHorCursor
+                            drag.target: parent
+                            drag.axis: Drag.XAxis
+                            drag.smoothed: false
+
+                            onPositionChanged: {
+                                if (mouse.buttons === Qt.LeftButton) {
+                                    timeline.zoneOut = (zoneTrimOut.x + zoneTrimOut.width) / timeScale
+                                }
+                            }
+                            onReleased: parent.opacity = 0
+                            onEntered: parent.opacity = 0.5
+                            onExited: {
+                                if (!pressed) {
+                                    parent.opacity = 0
+                                }
+                            }
+                        }
                     }
                 }
                 ScrollView {

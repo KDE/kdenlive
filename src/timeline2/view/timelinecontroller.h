@@ -43,8 +43,8 @@ class TimelineController : public QObject
     /* @brief holds the current timeline position
      */
     Q_PROPERTY(int position READ position WRITE setPosition NOTIFY positionChanged)
-    Q_PROPERTY(int zoneIn READ zoneIn NOTIFY zoneChanged)
-    Q_PROPERTY(int zoneOut READ zoneOut NOTIFY zoneChanged)
+    Q_PROPERTY(int zoneIn READ zoneIn WRITE setZoneIn NOTIFY zoneChanged)
+    Q_PROPERTY(int zoneOut READ zoneOut WRITE setZoneOut NOTIFY zoneChanged)
     Q_PROPERTY(int seekPosition READ seekPosition WRITE setSeekPosition NOTIFY seekPositionChanged)
     Q_PROPERTY(bool snap READ snap NOTIFY snapChanged)
     Q_PROPERTY(bool ripple READ ripple NOTIFY rippleChanged)
