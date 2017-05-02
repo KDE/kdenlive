@@ -68,7 +68,6 @@ bool MarkerListModel::addMarker(GenTime pos, const QString &comment, int type, F
         local_redo = changeComment_lambda(pos, comment, type);
     } else {
         // In this case we create one
-        qDebug() << "adding marker"<<comment<<type;
         local_redo = addMarker_lambda(pos, comment, type);
         local_undo = deleteMarker_lambda(pos);
     }
@@ -138,7 +137,6 @@ Fun MarkerListModel::addMarker_lambda(GenTime pos, const QString &comment, int t
             insertionRow = static_cast<int>(std::distance(model->m_markerList.begin(), insertionIt));
         }
         model->beginInsertRows(QModelIndex(), insertionRow, insertionRow);
-        qDebug() << "adding marker lambda"<<comment<<type;
         model->m_markerList[pos] = {comment, type};
         model->endInsertRows();
         model->addSnapPoint(pos);
