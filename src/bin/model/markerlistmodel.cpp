@@ -24,7 +24,6 @@
 #include "bin/projectclip.h"
 #include "core.h"
 #include "doc/docundostack.hpp"
-#include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
 #include "macros.hpp"
 #include "project/projectmanager.h"
@@ -69,6 +68,7 @@ bool MarkerListModel::addMarker(GenTime pos, const QString &comment, int type, F
         local_redo = changeComment_lambda(pos, comment, type);
     } else {
         // In this case we create one
+        qDebug() << "adding marker"<<comment<<type;
         local_redo = addMarker_lambda(pos, comment, type);
         local_undo = deleteMarker_lambda(pos);
     }
@@ -138,6 +138,7 @@ Fun MarkerListModel::addMarker_lambda(GenTime pos, const QString &comment, int t
             insertionRow = static_cast<int>(std::distance(model->m_markerList.begin(), insertionIt));
         }
         model->beginInsertRows(QModelIndex(), insertionRow, insertionRow);
+        qDebug() << "adding marker lambda"<<comment<<type;
         model->m_markerList[pos] = {comment, type};
         model->endInsertRows();
         model->addSnapPoint(pos);
@@ -164,7 +165,7 @@ Fun MarkerListModel::deleteMarker_lambda(GenTime pos)
 std::shared_ptr<MarkerListModel> MarkerListModel::getModel(bool guide, const QString &clipId)
 {
     if (guide) {
-        return pCore->projectManager()->current()->getGuideModel();
+        return pCore->projectManager()->getGuideModel();
     }
     return pCore->bin()->getBinClip(clipId)->getMarkerModel();
 }
@@ -224,6 +225,8 @@ QVariant MarkerListModel::data(const QModelIndex &index, int role) const
         return it->first.frames(pCore->getCurrentFps());
     case ColorRole:
         return markerTypes[(size_t)it->second.second];
+    case TypeRole:
+        return it->second.second;
     }
     return QVariant();
 }
@@ -309,4 +312,18 @@ bool MarkerListModel::importFromJson(const QString &data)
 
     PUSH_UNDO(undo, redo, m_guide ? i18n("Import guides") : i18n("Import markers"));
     return true;
+}
+
+QString MarkerListModel::toJson() const
+{
+    QJsonArray list;
+    for(const auto &marker : m_markerList) {
+        QJsonObject currentMarker;
+        currentMarker.insert(QLatin1String("pos"), QJsonValue(marker.first.seconds()));
+        currentMarker.insert(QLatin1String("comment"), QJsonValue(marker.second.first));
+        currentMarker.insert(QLatin1String("type"), QJsonValue(marker.second.second));
+        list.push_back(currentMarker);
+    }
+    QJsonDocument json(list);
+    return QString(json.toJson());
 }

@@ -54,7 +54,7 @@ public:
     /* @brief Construct a guide list (bound to the timeline) */
     MarkerListModel(std::weak_ptr<DocUndoStack> undo_stack, QObject *parent = nullptr);
 
-    enum { CommentRole = Qt::UserRole + 1, PosRole, FrameRole, ColorRole };
+    enum { CommentRole = Qt::UserRole + 1, PosRole, FrameRole, ColorRole, TypeRole };
 
     /* @brief Adds a marker at the given position. If there is already one, the comment will be overriden
        @param pos defines the position of the marker, relative to the clip
@@ -96,6 +96,9 @@ public:
        return true on succes and logs undo object
      */
     bool importFromJson(const QString &data);
+
+    /* @brief Exports the model to json using format above */
+    QString toJson() const;
 
     // Mandatory overloads
     QVariant data(const QModelIndex &index, int role) const override;

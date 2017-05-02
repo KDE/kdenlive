@@ -27,14 +27,15 @@ the Free Software Foundation, either version 3 of the License, or
 #include <unordered_map>
 #include <unordered_set>
 
-class Project;
-class KdenliveDoc;
-class NotesPlugin;
-class QAction;
-class QUrl;
-class QProgressDialog;
 class KAutoSaveFile;
 class KJob;
+class KdenliveDoc;
+class MarkerListModel;
+class NotesPlugin;
+class Project;
+class QAction;
+class QProgressDialog;
+class QUrl;
 
 /**
  * @class ProjectManager
@@ -73,6 +74,9 @@ public:
     void moveProjectData(const QString &src, const QString &dest);
     /** @brief Retrieve current project's notes */
     QString documentNotes() const;
+
+    /** @brief Retrieve the curren Guide Model */
+    virtual std::shared_ptr<MarkerListModel> getGuideModel();
 
 public slots:
     void newFile(bool showProjectSettings = true, bool force = false);

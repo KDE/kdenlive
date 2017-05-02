@@ -893,3 +893,8 @@ void ProjectManager::activateAsset(const QVariantMap data)
 {
     pCore->window()->getMainTimeline()->controller()->addAsset(data);
 }
+
+std::shared_ptr<MarkerListModel> ProjectManager::getGuideModel()
+{
+    return current()->getGuideModel();
+}
