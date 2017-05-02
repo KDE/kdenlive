@@ -94,8 +94,9 @@ public:
        The data should be formated as follows:
        [{"pos":0.2, "comment":"marker 1", "type":1}, {...}, ...]
        return true on succes and logs undo object
+       @param ignoreConflicts: if set to false, it aborts if the data contains a marker with same position but different comment and/or type. If set to true, such markers are overridden silently
      */
-    bool importFromJson(const QString &data);
+    bool importFromJson(const QString &data, bool ignoreConflicts);
 
     /* @brief Exports the model to json using format above */
     QString toJson() const;

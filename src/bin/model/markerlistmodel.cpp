@@ -175,6 +175,7 @@ QHash<int, QByteArray> MarkerListModel::roleNames() const
     roles[PosRole] = "position";
     roles[FrameRole] = "frame";
     roles[ColorRole] = "color";
+    roles[TypeRole] = "type";
     return roles;
 }
 
@@ -272,7 +273,7 @@ void MarkerListModel::registerSnapModel(std::weak_ptr<SnapModel> snapModel)
     }
 }
 
-bool MarkerListModel::importFromJson(const QString &data)
+bool MarkerListModel::importFromJson(const QString &data, bool ignoreConflicts)
 {
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
@@ -300,7 +301,14 @@ bool MarkerListModel::importFromJson(const QString &data)
             qDebug() << "Warning : invalid type found:" << type << " Defaulting to 0";
             type = 0;
         }
-        bool res = addMarker(GenTime(pos), comment, type, undo, redo);
+        bool res = true;
+        if (!ignoreConflicts && m_markerList.count(GenTime(pos)) > 0) {
+            // potential conflict found, checking
+            QString oldComment = m_markerList[GenTime(pos)].first;
+            int oldType = m_markerList[GenTime(pos)].second;
+            res = (oldComment == comment) && (type == oldType);
+        }
+        res = res && addMarker(GenTime(pos), comment, type, undo, redo);
         if (!res) {
             bool undone = undo();
             Q_ASSERT(undone);

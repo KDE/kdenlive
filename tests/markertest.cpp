@@ -5,6 +5,7 @@
 #include "fakeit.hpp"
 #include <QColor>
 #include <QString>
+#include <QDebug>
 #include <cmath>
 #include <iostream>
 #include <tuple>
@@ -110,5 +111,67 @@ TEST_CASE("Marker model", "[MarkerListModel]")
         checkMarkerList(model, list);
         auto state5 = list;
         checkStates(undoStack, model, {{}, state1, state2, state3, state4, state5});
+    }
+
+    SECTION("Json identity test") {
+        std::vector<Marker> list;
+        checkMarkerList(model, list);
+
+        // add markers
+        list.push_back(Marker(1.3, QLatin1String("test marker"), 3));
+        model->addMarker(GenTime(1.3), QLatin1String("test marker"), 3);
+        list.push_back(Marker(0.3, QLatin1String("test marker2"), 0));
+        model->addMarker(GenTime(0.3), QLatin1String("test marker2"), 0);
+        list.push_back(Marker(3, QLatin1String("test marker3"), 0));
+        model->addMarker(GenTime(3), QLatin1String("test marker3"), 0);
+        checkMarkerList(model, list);
+
+        // export
+        QString json = model->toJson();
+
+        // clean
+        model->removeMarker(GenTime(0.3));
+        model->removeMarker(GenTime(3));
+        model->removeMarker(GenTime(1.3));
+        checkMarkerList(model, {});
+
+        // Reimport
+        REQUIRE(model->importFromJson(json, false));
+        checkMarkerList(model, list);
+
+        // undo/redo
+        undoStack->undo();
+        checkMarkerList(model, {});
+        undoStack->redo();
+        checkMarkerList(model, list);
+
+        // now we try the same thing with non-empty model
+        undoStack->undo();
+        checkMarkerList(model, {});
+        // non - conflicting marker
+        list.push_back(Marker(5, QLatin1String("non conflicting"), 0));
+        std::vector<Marker> otherMarkers;
+        otherMarkers.push_back(Marker(5, QLatin1String("non conflicting"), 0));
+        model->addMarker(GenTime(5), QLatin1String("non conflicting"), 0);
+        REQUIRE(model->importFromJson(json, false));
+        checkMarkerList(model, list);
+        undoStack->undo();
+        checkMarkerList(model, otherMarkers);
+        undoStack->redo();
+        checkMarkerList(model, list);
+        undoStack->undo();
+
+        // conflicting marker
+        otherMarkers.push_back(Marker(1.3, QLatin1String("conflicting"), 1));
+        model->addMarker(GenTime(1.3), QLatin1String("conflicting"), 1);
+        checkMarkerList(model, otherMarkers);
+        REQUIRE_FALSE(model->importFromJson(json, false));
+        checkMarkerList(model, otherMarkers);
+        REQUIRE(model->importFromJson(json, true));
+        checkMarkerList(model, list);
+        undoStack->undo();
+        checkMarkerList(model, otherMarkers);
+        undoStack->redo();
+        checkMarkerList(model, list);
     }
 }
