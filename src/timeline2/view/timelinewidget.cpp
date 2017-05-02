@@ -88,8 +88,9 @@ void TimelineWidget::setModel(std::shared_ptr<TimelineItemModel> model)
     rootContext()->setContextProperty("timeline", m_proxy);
     rootContext()->setContextProperty("transitionModel", m_transitionProxyModel.get());
     rootContext()->setContextProperty("guidesModel", pCore->projectManager()->current()->getGuideModel().get());
+    m_proxy->setModel(model);
     setSource(QUrl(QStringLiteral("qrc:/qml/timeline.qml")));
-    m_proxy->setModel(model, rootObject());
+    m_proxy->setRoot(rootObject());
     setVisible(true);
     m_proxy->checkDuration();
     resize(QSize(4000, 4000));

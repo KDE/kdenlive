@@ -48,9 +48,13 @@ TimelineController::TimelineController(KActionCollection *actionCollection, QObj
 {
 }
 
-void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model, QQuickItem *root)
+void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
 {
     m_model = std::move(model);
+}
+
+void TimelineController::setRoot(QQuickItem *root)
+{
     m_root = root;
 }
 

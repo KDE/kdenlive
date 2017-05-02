@@ -55,7 +55,8 @@ class TimelineController : public QObject
 
 public:
     TimelineController(KActionCollection *actionCollection, QObject *parent);
-    void setModel(std::shared_ptr<TimelineItemModel> model, QQuickItem *root);
+    void setModel(std::shared_ptr<TimelineItemModel> model);
+    void setRoot(QQuickItem *root);
 
     Q_INVOKABLE bool isMultitrackSelected() const { return m_selection.isMultitrackSelected; }
     Q_INVOKABLE int selectedTrack() const { return m_selection.selectedTrack; }
