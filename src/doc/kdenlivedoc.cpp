@@ -310,25 +310,13 @@ Mlt::Producer *KdenliveDoc::getProjectProducer()
     return new Mlt::Producer(pCore->getCurrentProfile()->profile(), "xml-string", m_document.toString().toUtf8().constData());
 }
 
-int KdenliveDoc::setSceneList()
+void KdenliveDoc::loadThumbs()
 {
-    // m_render->resetProfile(m_profile);
-    pCore->bin()->isLoading = true;
-    pCore->producerQueue()->abortOperations();
-    /*if (m_render->setSceneList(m_document.toString(), m_documentProperties.value(QStringLiteral("position")).toInt()) == -1) {
-        // INVALID MLT Consumer, something is wrong
-        return -1;
-    }*/
-    pCore->bin()->isLoading = false;
-
     bool ok = false;
     QDir thumbsFolder = getCacheDir(CacheThumbs, &ok);
     if (ok) {
         pCore->binController()->checkThumbnails(thumbsFolder);
     }
-    m_documentProperties.remove(QStringLiteral("position"));
-    pCore->monitorManager()->activateMonitor(Kdenlive::ClipMonitor, true);
-    return 0;
 }
 
 QDomDocument KdenliveDoc::createEmptyDocument(int videotracks, int audiotracks)

@@ -89,11 +89,11 @@ Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, const QLis
     m_scene = new CustomTrackScene(this);
     m_trackview = new CustomTrackView(doc, this, m_scene, parent);
     setFocusProxy(m_trackview);
-    if (m_doc->setSceneList() == -1) {
+    /*if (m_doc->setSceneList() == -1) {
         *ok = false;
     } else {
         *ok = true;
-    }
+    }*/
     Mlt::Service s(m_doc->renderer()->getProducer()->parent().get_service());
     m_tractor = new Mlt::Tractor(s);
 

@@ -117,7 +117,6 @@ public:
     void setProjectFolder(const QUrl &url);
     void setZone(int start, int end);
     QPoint zone() const;
-    int setSceneList();
     void setDocumentProperty(const QString &name, const QString &value);
     const QString getDocumentProperty(const QString &name, const QString &defaultValue = QString()) const;
 
@@ -171,6 +170,8 @@ public:
 
     /** @brief Edit timeline guide */
     void addGuides(QList<CommentedTime> &markers);
+    /** @brief Load bin thumbnails after document opening */
+    void loadThumbs();
 
     // TODO REFAC: delete */
     Render *renderer();

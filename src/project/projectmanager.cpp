@@ -863,6 +863,7 @@ void ProjectManager::slotMoveFinished(KJob *job)
 
 void ProjectManager::updateTimeline(Mlt::Tractor tractor)
 {
+    pCore->producerQueue()->abortOperations();
     pCore->binController()->loadBinPlaylist(tractor);
     const QStringList ids = pCore->binController()->getClipIds();
     for (const QString &id : ids) {
@@ -883,6 +884,7 @@ void ProjectManager::updateTimeline(Mlt::Tractor tractor)
     // TODO this is for testing purposes, remove.
     m_project->getGuideModel()->addMarker(GenTime(10.), "Guide 1", 0);
     m_project->getGuideModel()->addMarker(GenTime(15.), "Guide 2", 2);
+    m_project->loadThumbs();
 
     pCore->monitorManager()->projectMonitor()->setProducer(m_mainTimelineModel->producer());
     pCore->window()->getMainTimeline()->setModel(m_mainTimelineModel);
