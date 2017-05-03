@@ -63,7 +63,6 @@ public:
 public slots:
     void slotReloadProperties();
     void slotRefreshTimeCode();
-    void slotFillMarkers();
     void slotFillMeta(QTreeWidget *tree);
     void slotFillAnalysisData();
 
@@ -103,7 +102,7 @@ private:
     QWidget *m_markersPage;
     QWidget *m_metaPage;
     QWidget *m_analysisPage;
-    QTreeWidget *m_markerTree;
+    QTreeView *m_markerTree;
     AnalysisTree *m_analysisTree;
     QTextEdit *m_textEdit;
     void fillProperties();

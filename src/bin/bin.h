@@ -414,8 +414,6 @@ public slots:
     /** @brief Open current clip in an external editing application */
     void slotOpenClip();
     void slotAddClipMarker(const QString &id, const QList<CommentedTime> &newMarker, QUndoCommand *groupCommand = nullptr);
-    void slotLoadClipMarkers(const QString &id);
-    void slotSaveClipMarkers(const QString &id);
     void slotDuplicateClip();
     void slotLocateClip();
     /** @brief Request audio thumbnail for clip with id */

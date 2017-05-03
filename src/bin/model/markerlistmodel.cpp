@@ -95,16 +95,49 @@ void MarkerListModel::addMarker(GenTime pos, const QString &comment, int type)
     }
 }
 
-void MarkerListModel::removeMarker(GenTime pos)
+bool MarkerListModel::removeMarker(GenTime pos, Fun &undo, Fun &redo)
 {
-    QWriteLocker locker(&m_lock);
     Q_ASSERT(m_markerList.count(pos) > 0);
     QString oldComment = m_markerList[pos].first;
     int oldType = m_markerList[pos].second;
-    Fun undo = addMarker_lambda(pos, oldComment, oldType);
-    Fun redo = deleteMarker_lambda(pos);
-    if (redo()) {
+    Fun local_undo = addMarker_lambda(pos, oldComment, oldType);
+    Fun local_redo = deleteMarker_lambda(pos);
+    if (local_redo()) {
+        UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
+        return true;
+    }
+    return false;
+}
+
+void MarkerListModel::removeMarker(GenTime pos)
+{
+    QWriteLocker locker(&m_lock);
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+
+    bool res = removeMarker(pos, undo, redo);
+    if (res) {
         PUSH_UNDO(undo, redo, m_guide ? i18n("Delete guide") : i18n("Delete marker"));
+    }
+}
+
+void MarkerListModel::editMarker(GenTime oldPos, GenTime pos, const QString &comment, int type)
+{
+    Q_ASSERT(m_markerList.count(oldPos) > 0);
+    QString oldComment = m_markerList[oldPos].first;
+    int oldType = m_markerList[oldPos].second;
+    if (oldPos == pos && oldComment == comment && oldType == type) return;
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    bool res = removeMarker(oldPos, undo, redo);
+    if (res) {
+        res = addMarker(pos, comment, type, undo, redo);
+    }
+    if (res) {
+        PUSH_UNDO(undo, redo, m_guide ? i18n("Edit guide") : i18n("Edit marker"));
+    } else {
+        bool undone = undo();
+        Q_ASSERT(undone);
     }
 }
 
@@ -221,8 +254,10 @@ QVariant MarkerListModel::data(const QModelIndex &index, int role) const
     case PosRole:
         return it->first.seconds();
     case FrameRole:
+    case Qt::UserRole:
         return it->first.frames(pCore->getCurrentFps());
     case ColorRole:
+    case Qt::DecorationRole:
         return markerTypes[(size_t)it->second.second];
     case TypeRole:
         return it->second.second;

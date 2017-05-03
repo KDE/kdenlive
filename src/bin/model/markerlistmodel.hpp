@@ -71,6 +71,19 @@ public:
     /* @brief Removes the marker at the given position. */
     void removeMarker(GenTime pos);
 
+protected:
+    /* @brief Same function but accumulates undo/redo */
+    bool removeMarker(GenTime pos, Fun &undo, Fun &redo);
+
+public:
+    /* @brief Edit a marker
+       @param oldPos is the old position of the marker
+       @param pos defines the new position of the marker, relative to the clip
+       @param comment is the text associated with the marker
+       @param type is the type (color) associated with the marker. If -1 is passed, then the value is pulled from kdenlive's defaults
+    */
+    void editMarker(GenTime oldPos, GenTime pos, const QString &comment, int type = -1);
+
     /* @brief This describes the available markers type and their corresponding colors */
     static std::array<QColor, 5> markerTypes;
 

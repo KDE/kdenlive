@@ -216,8 +216,6 @@ public slots:
      * @param statusMessage The job info message */
     void setJobStatus(int jobType, int status, int progress = 0, const QString &statusMessage = QString());
 
-    /* @brief Returns the marker model associated with this clip */
-    std::shared_ptr<MarkerListModel> getMarkerModel() const;
 
 private:
     bool m_abortAudioThumb;
@@ -240,7 +238,6 @@ private:
 
     std::map<int, std::weak_ptr<TimelineModel>> m_registeredClips;
 
-    std::shared_ptr<MarkerListModel> m_markerModel;
 
 private slots:
     void updateFfmpegProgress();

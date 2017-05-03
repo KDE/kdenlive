@@ -37,6 +37,7 @@ class QPixmap;
 class BinController;
 class AudioStreamInfo;
 class EffectStackModel;
+class MarkerListModel;
 
 /**
  * @class ClipController
@@ -166,6 +167,9 @@ public:
     /** @brief Sets the master producer for this clip when we build the controller without master clip. */
     void addMasterProducer(const std::shared_ptr<Mlt::Producer> &producer);
 
+    /* @brief Returns the marker model associated with this clip */
+    std::shared_ptr<MarkerListModel> getMarkerModel() const;
+
     QList<CommentedTime> commentedSnapMarkers() const;
     GenTime findNextSnapMarker(const GenTime &currTime);
     GenTime findPreviousSnapMarker(const GenTime &currTime);
@@ -237,6 +241,7 @@ protected:
     void getInfoForProducer();
     // void rebuildEffectList(ProfileInfo info);
     std::shared_ptr<EffectStackModel> m_effectStack;
+    std::shared_ptr<MarkerListModel> m_markerModel;
 };
 
 #endif

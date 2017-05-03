@@ -20,10 +20,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "clippropertiescontroller.h"
+#include "bin/model/markerlistmodel.hpp"
 #include "bincontroller.h"
 #include "clipcontroller.h"
+#include "core.h"
 #include "dialogs/profilesdialog.h"
+#include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
+#include "project/projectmanager.h"
 #include "timecodedisplay.h"
 #include "timeline/markerdialog.h"
 #include "utils/KoIconUtils.h"
@@ -41,6 +45,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KIO/Global>
 
 #include "kdenlive_debug.h"
+#include <KMessageBox>
 #include <QCheckBox>
 #include <QDoubleSpinBox>
 #include <QFile>
@@ -189,12 +194,12 @@ ClipPropertiesController::ClipPropertiesController(const Timecode &tc, ClipContr
 
     // Clip markers
     auto *mBox = new QVBoxLayout;
-    m_markerTree = new QTreeWidget;
+    m_markerTree = new QTreeView;
     m_markerTree->setRootIsDecorated(false);
-    m_markerTree->setColumnCount(2);
     m_markerTree->setAlternatingRowColors(true);
     m_markerTree->setHeaderHidden(true);
     m_markerTree->setSelectionMode(QAbstractItemView::ExtendedSelection);
+    m_markerTree->setModel(controller->getMarkerModel().get());
     mBox->addWidget(m_markerTree);
     auto *bar = new QToolBar;
     bar->addAction(KoIconUtils::themedIcon(QStringLiteral("document-new")), i18n("Add marker"), this, SLOT(slotAddMarker()));
@@ -204,7 +209,6 @@ ClipPropertiesController::ClipPropertiesController(const Timecode &tc, ClipContr
     bar->addAction(KoIconUtils::themedIcon(QStringLiteral("document-open")), i18n("Import markers"), this, SLOT(slotLoadMarkers()));
     mBox->addWidget(bar);
 
-    slotFillMarkers();
     m_markersPage->setLayout(mBox);
     connect(m_markerTree, &QAbstractItemView::doubleClicked, this, &ClipPropertiesController::slotSeekToMarker);
 
@@ -876,78 +880,104 @@ void ClipPropertiesController::fillProperties()
     m_propertiesTree->resizeColumnToContents(0);
 }
 
-void ClipPropertiesController::slotFillMarkers()
-{
-    m_markerTree->clear();
-    QList<CommentedTime> markers = m_controller->commentedSnapMarkers();
-    for (int count = 0; count < markers.count(); ++count) {
-        QString time = m_tc.getTimecode(markers.at(count).time());
-        QStringList itemtext;
-        itemtext << time << markers.at(count).comment();
-        auto *item = new QTreeWidgetItem(m_markerTree, itemtext);
-        item->setData(0, Qt::DecorationRole, CommentedTime::markerColor(markers.at(count).markerType()));
-        item->setData(0, Qt::UserRole, QVariant((int)markers.at(count).time().frames(m_tc.fps())));
-    }
-    m_markerTree->resizeColumnToContents(0);
-}
 
 void ClipPropertiesController::slotSeekToMarker()
 {
-    QTreeWidgetItem *item = m_markerTree->currentItem();
-    int time = item->data(0, Qt::UserRole).toInt();
-    emit seekToFrame(time);
+    auto markerModel = m_controller->getMarkerModel();
+    auto current = m_markerTree->currentIndex();
+    if (!current.isValid()) return;
+    GenTime pos(markerModel->data(current, MarkerListModel::PosRole).toDouble());
+    emit seekToFrame(pos.frames(pCore->getCurrentFps()));
 }
 
 void ClipPropertiesController::slotEditMarker()
 {
-    QList<CommentedTime> marks = m_controller->commentedSnapMarkers();
-    int pos = m_markerTree->currentIndex().row();
-    if (pos < 0 || pos > marks.count() - 1) {
-        return;
-    }
-    QPointer<MarkerDialog> d = new MarkerDialog(m_controller, marks.at(pos), m_tc, i18n("Edit Marker"), this);
+    auto markerModel = m_controller->getMarkerModel();
+    auto current = m_markerTree->currentIndex();
+    if (!current.isValid()) return;
+    GenTime pos(markerModel->data(current, MarkerListModel::PosRole).toDouble());
+    CommentedTime marker = markerModel->getMarker(pos);
+    QScopedPointer<MarkerDialog> d(new MarkerDialog(m_controller, marker, m_tc, i18n("Add Marker"), this));
     if (d->exec() == QDialog::Accepted) {
-        QList<CommentedTime> markers;
-        markers << d->newMarker();
-        emit addMarkers(m_id, markers);
+        marker = d->newMarker();
+        markerModel->editMarker(pos, marker.time(), marker.comment(), marker.markerType());
     }
-    delete d;
 }
 
 void ClipPropertiesController::slotDeleteMarker()
 {
-    QList<CommentedTime> marks = m_controller->commentedSnapMarkers();
-    QList<CommentedTime> toDelete;
-    for (int i = 0; i < marks.count(); ++i) {
-        if (m_markerTree->topLevelItem(i)->isSelected()) {
-            CommentedTime marker = marks.at(i);
-            marker.setMarkerType(-1);
-            toDelete << marker;
-        }
-    }
-    emit addMarkers(m_id, toDelete);
+    auto markerModel = m_controller->getMarkerModel();
+    auto current = m_markerTree->currentIndex();
+    if (!current.isValid()) return;
+    GenTime pos(markerModel->data(current, MarkerListModel::PosRole).toDouble());
+    markerModel->removeMarker(pos);
 }
 
 void ClipPropertiesController::slotAddMarker()
 {
     CommentedTime marker(GenTime(m_controller->originalProducer()->position(), m_tc.fps()), i18n("Marker"));
-    QPointer<MarkerDialog> d = new MarkerDialog(m_controller, marker, m_tc, i18n("Add Marker"), this);
+    QScopedPointer<MarkerDialog> d(new MarkerDialog(m_controller, marker, m_tc, i18n("Add Marker"), this));
     if (d->exec() == QDialog::Accepted) {
-        QList<CommentedTime> markers;
-        markers << d->newMarker();
-        emit addMarkers(m_id, markers);
+        marker = d->newMarker();
+        m_controller->getMarkerModel()->addMarker(marker.time(), marker.comment(), marker.markerType());
     }
-    delete d;
 }
 
 void ClipPropertiesController::slotSaveMarkers()
 {
+    QScopedPointer<QFileDialog> fd(new QFileDialog(this, i18n("Save Clip Markers"), pCore->projectManager()->current()->projectDataFolder()));
+    fd->setMimeTypeFilters(QStringList() << QStringLiteral("text/plain"));
+    fd->setFileMode(QFileDialog::AnyFile);
+    fd->setAcceptMode(QFileDialog::AcceptSave);
+    if (fd->exec() != QDialog::Accepted) {
+        return;
+    }
+    QStringList selection = fd->selectedFiles();
+    QString url;
+    if (!selection.isEmpty()) {
+        url = selection.first();
+    }
+    if (url.isEmpty()) {
+        return;
+    }
+    QFile file(url);
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        KMessageBox::error(this, i18n("Cannot open file %1", QUrl::fromLocalFile(url).fileName()));
+        return;
+    }
+    file.write(m_controller->getMarkerModel()->toJson().toUtf8());
+    file.close();
+
     emit saveMarkers(m_id);
 }
 
 void ClipPropertiesController::slotLoadMarkers()
 {
-    emit loadMarkers(m_id);
+    QScopedPointer<QFileDialog> fd(new QFileDialog(this, i18n("Load Clip Markers"), pCore->projectManager()->current()->projectDataFolder()));
+    fd->setMimeTypeFilters(QStringList() << QStringLiteral("text/plain"));
+    fd->setFileMode(QFileDialog::ExistingFile);
+    if (fd->exec() != QDialog::Accepted) {
+        return;
+    }
+    QStringList selection = fd->selectedFiles();
+    QString url;
+    if (!selection.isEmpty()) {
+        url = selection.first();
+    }
+    if (url.isEmpty()) {
+        return;
+    }
+    QFile file(url);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        KMessageBox::error(this, i18n("Cannot open file %1", QUrl::fromLocalFile(url).fileName()));
+        return;
+    }
+    QString fileContent = QString::fromUtf8(file.readAll());
+    file.close();
+    bool res = m_controller->getMarkerModel()->importFromJson(fileContent, false);
+    if (!res) {
+        KMessageBox::error(this, i18n("An error occurred while parsing the marker file"));
+    }
 }
 
 void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)

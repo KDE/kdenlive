@@ -2011,7 +2011,8 @@ void Bin::showClipProperties(ProjectClip *clip, bool forceRefresh)
     }
     ClipPropertiesController *panel = clip->buildProperties(m_propertiesPanel);
     connect(this, &Bin::refreshTimeCode, panel, &ClipPropertiesController::slotRefreshTimeCode);
-    connect(this, &Bin::refreshPanelMarkers, panel, &ClipPropertiesController::slotFillMarkers);
+    // TODO refac clean callers of refreshPanelMarkers
+    // connect(this, &Bin::refreshPanelMarkers, panel, &ClipPropertiesController::slotFillMarkers);
     connect(panel, SIGNAL(updateClipProperties(QString, QMap<QString, QString>, QMap<QString, QString>)), this,
             SLOT(slotEditClipCommand(QString, QMap<QString, QString>, QMap<QString, QString>)));
     connect(panel, SIGNAL(seekToFrame(int)), m_monitor, SLOT(slotSeek(int)));
@@ -2019,8 +2020,6 @@ void Bin::showClipProperties(ProjectClip *clip, bool forceRefresh)
     connect(panel, &ClipPropertiesController::editClip, this, &Bin::slotEditClip);
     connect(panel, SIGNAL(editAnalysis(QString, QString, QString)), this, SLOT(slotAddClipExtraData(QString, QString, QString)));
 
-    connect(panel, &ClipPropertiesController::loadMarkers, this, &Bin::slotLoadClipMarkers);
-    connect(panel, &ClipPropertiesController::saveMarkers, this, &Bin::slotSaveClipMarkers);
     lay->addWidget(panel);
 }
 
@@ -3181,151 +3180,7 @@ void Bin::slotAddClipMarker(const QString &id, const QList<CommentedTime> &newMa
     }
 }
 
-void Bin::slotLoadClipMarkers(const QString &id)
-{
-    auto *cbox = new KComboBox;
-    for (int i = 0; i < 5; ++i) {
-        cbox->insertItem(i, i18n("Category %1", i));
-        cbox->setItemData(i, CommentedTime::markerColor(i), Qt::DecorationRole);
-    }
-    cbox->setCurrentIndex(KdenliveSettings::default_marker_type());
-    // TODO KF5 how to add custom cbox to Qfiledialog
-    QScopedPointer<QFileDialog> fd(new QFileDialog(this, i18n("Load Clip Markers"), m_doc->projectDataFolder()));
-    fd->setMimeTypeFilters(QStringList() << QStringLiteral("text/plain"));
-    fd->setFileMode(QFileDialog::ExistingFile);
-    if (fd->exec() != QDialog::Accepted) {
-        return;
-    }
-    QStringList selection = fd->selectedFiles();
-    QString url;
-    if (!selection.isEmpty()) {
-        url = selection.first();
-    }
 
-    // QUrl url = KFileDialog::getOpenUrl(QUrl("kfiledialog:///projectfolder"), "text/plain", this, i18n("Load marker file"));
-    if (url.isEmpty()) {
-        return;
-    }
-    int category = cbox->currentIndex();
-    delete cbox;
-    QFile file(url);
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        emit displayBinMessage(i18n("Cannot open file %1", QUrl::fromLocalFile(url).fileName()), KMessageWidget::Warning);
-        return;
-    }
-    QString fileContent = QString::fromUtf8(file.readAll());
-    file.close();
-    QStringList lines = fileContent.split('\n', QString::SkipEmptyParts);
-    QStringList values;
-    bool ok;
-    auto *command = new QUndoCommand();
-    command->setText(QStringLiteral("Load markers"));
-    QString markerText;
-    QList<CommentedTime> markersList;
-    for (const QString &line : lines) {
-        markerText.clear();
-        values = line.split('\t', QString::SkipEmptyParts);
-        double time1 = values.at(0).toDouble(&ok);
-        double time2 = -1;
-        if (!ok) {
-            continue;
-        }
-        if (values.count() > 1) {
-            time2 = values.at(1).toDouble(&ok);
-            if (values.count() == 2) {
-                // Check if second value is a number or text
-                if (!ok) {
-                    time2 = -1;
-                    markerText = values.at(1);
-                } else {
-                    markerText = i18n("Marker");
-                }
-            } else {
-                // We assume 3 values per line: in out name
-                if (!ok) {
-                    // 2nd value is not a number, drop
-                } else {
-                    markerText = values.at(2);
-                }
-            }
-        }
-        if (!markerText.isEmpty()) {
-            // Marker found, add it
-            // TODO: allow user to set a marker category
-            CommentedTime marker1(GenTime(time1), markerText, category);
-            markersList << marker1;
-            if (time2 > 0 && qAbs(time2 - time1) < 1e-5) {
-                CommentedTime marker2(GenTime(time2), markerText, category);
-                markersList << marker2;
-            }
-        }
-    }
-    if (!markersList.isEmpty()) {
-        slotAddClipMarker(id, markersList, command);
-    }
-}
-
-void Bin::slotSaveClipMarkers(const QString &id)
-{
-    ProjectClip *clip = getBinClip(id);
-    if (!clip) {
-        return;
-    }
-    QList<CommentedTime> markers = clip->commentedSnapMarkers();
-    if (!markers.isEmpty()) {
-        // St  up categories
-        auto *cbox = new KComboBox;
-        cbox->insertItem(0, i18n("All categories"));
-        for (int i = 0; i < 5; ++i) {
-            cbox->insertItem(i + 1, i18n("Category %1", i));
-            cbox->setItemData(i + 1, CommentedTime::markerColor(i), Qt::DecorationRole);
-        }
-        cbox->setCurrentIndex(0);
-        // TODO KF5 how to add custom cbox to Qfiledialog
-        QScopedPointer<QFileDialog> fd(new QFileDialog(this, i18n("Save Clip Markers"), m_doc->projectDataFolder()));
-        fd->setMimeTypeFilters(QStringList() << QStringLiteral("text/plain"));
-        fd->setFileMode(QFileDialog::AnyFile);
-        fd->setAcceptMode(QFileDialog::AcceptSave);
-        if (fd->exec() != QDialog::Accepted) {
-            return;
-        }
-        QStringList selection = fd->selectedFiles();
-        QString url;
-        if (!selection.isEmpty()) {
-            url = selection.first();
-        }
-        // QString url = KFileDialog::getSaveFileName(QUrl("kfiledialog:///projectfolder"), "text/plain", this, i18n("Save markers"));
-        if (url.isEmpty()) {
-            return;
-        }
-
-        QString markerData;
-        int category = cbox->currentIndex() - 1;
-        for (int i = 0; i < markers.count(); ++i) {
-            if (category >= 0) {
-                // Save only the markers in selected category
-                if (markers.at(i).markerType() != category) {
-                    continue;
-                }
-            }
-            markerData.append(QString::number(markers.at(i).time().seconds()));
-            markerData.append("\t");
-            markerData.append(QString::number(markers.at(i).time().seconds()));
-            markerData.append("\t");
-            markerData.append(markers.at(i).comment());
-            markerData.append("\n");
-        }
-        delete cbox;
-
-        QFile file(url);
-        if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-            emit displayBinMessage(i18n("Cannot open file %1", url), KMessageWidget::Error);
-            return;
-        }
-        file.write(markerData.toUtf8());
-        file.close();
-    }
-}
 
 void Bin::deleteClipMarker(const QString &comment, const QString &id, const GenTime &position)
 {

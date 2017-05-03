@@ -21,6 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "clipcontroller.h"
+#include "bin/model/markerlistmodel.hpp"
 #include "bincontroller.h"
 #include "effects/effectstack/model/effectstackmodel.hpp"
 #include "lib/audio/audioStreamInfo.h"
@@ -888,4 +889,9 @@ std::shared_ptr<EffectStackModel> ClipController::getEffectStack() const
 void ClipController::addEffect(const QString &effectId)
 {
     m_effectStack->appendEffect(effectId);
+}
+
+std::shared_ptr<MarkerListModel> ClipController::getMarkerModel() const
+{
+    return m_markerModel;
 }

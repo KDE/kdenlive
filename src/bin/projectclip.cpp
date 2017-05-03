@@ -1236,7 +1236,3 @@ void ProjectClip::deregisterTimelineClip(int clipId)
     m_registeredClips.erase(clipId);
 }
 
-std::shared_ptr<MarkerListModel> ProjectClip::getMarkerModel() const
-{
-    return m_markerModel;
-}
