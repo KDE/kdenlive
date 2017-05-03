@@ -567,7 +567,6 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     m_trackView->loadGuides(pCore->binController()->takeGuidesData());
     connect(m_trackView->projectView(), SIGNAL(importPlaylistClips(ItemInfo, QString, QUndoCommand *)), pCore->bin(), SLOT(slotExpandUrl(ItemInfo, QString,
     QUndoCommand *)), Qt::DirectConnection);
-    pCore->window()->connectDocument();
     bool disabled = m_project->getDocumentProperty(QStringLiteral("disabletimelineeffects")) == QLatin1String("1");
     QAction *disableEffects = pCore->window()->actionCollection()->action(QStringLiteral("disable_timeline_effects"));
     if (disableEffects) {
@@ -580,6 +579,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     Mlt::Service s(*doc->getProjectProducer());
     Mlt::Tractor t(s);
     updateTimeline(t);
+    pCore->window()->connectDocument();
 
     emit docOpened(m_project);
 
