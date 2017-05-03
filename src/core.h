@@ -110,6 +110,9 @@ public:
     /** @brief Request project monitor refresh */
     void requestMonitorRefresh();
 
+    /** @brief This function must be called whenever the profile used changes */
+    void profileChanged();
+
 private:
     explicit Core();
     static std::unique_ptr<Core> m_self;

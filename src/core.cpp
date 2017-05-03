@@ -90,6 +90,7 @@ void Core::build(const QString &MltPath)
         m_self->m_profile = ProjectManager::getDefaultProjectFormat();
         KdenliveSettings::setDefault_profile(m_self->m_profile);
     }
+    m_self->profileChanged();
 
     // Init producer shown for unavailable media
     // TODO make it a more proper image, it currently causes a crash on exit
@@ -105,6 +106,7 @@ void Core::initGUI(const QUrl &Url)
     m_profile = KdenliveSettings::default_profile();
     if (m_profile.isEmpty()) {
         m_profile = ProjectManager::getDefaultProjectFormat();
+        profileChanged();
         KdenliveSettings::setDefault_profile(m_profile);
     }
 
@@ -138,6 +140,7 @@ void Core::initGUI(const QUrl &Url)
             m_profile = "dv_pal";
         }
         KdenliveSettings::setDefault_profile(m_profile);
+        profileChanged();
     }
 
     m_projectManager = new ProjectManager(this);
@@ -289,4 +292,9 @@ void Core::requestMonitorRefresh()
 KdenliveDoc *Core::currentDoc()
 {
     return m_projectManager->current();
+}
+
+void Core::profileChanged()
+{
+    GenTime::setFps(getCurrentFps());
 }

@@ -56,45 +56,44 @@ public:
      */
 
     /// Unary minus
-    GenTime operator-() { return GenTime(-m_time); }
+    GenTime operator-();
 
     /// Addition
-    GenTime &operator+=(GenTime op)
-    {
-        m_time += op.m_time;
-        return *this;
-    }
+    GenTime &operator+=(GenTime op);
 
     /// Subtraction
-    GenTime &operator-=(GenTime op)
-    {
-        m_time -= op.m_time;
-        return *this;
-    }
+    GenTime &operator-=(GenTime op);
 
     /** @brief Adds two GenTimes. */
-    GenTime operator+(GenTime op) const { return GenTime(m_time + op.m_time); }
+    GenTime operator+(GenTime op) const;
 
     /** @brief Subtracts one genTime from another. */
-    GenTime operator-(GenTime op) const { return GenTime(m_time - op.m_time); }
+    GenTime operator-(GenTime op) const;
 
     /** @brief Multiplies one GenTime by a double value, returning a GenTime. */
-    GenTime operator*(double op) const { return GenTime(m_time * op); }
+    GenTime operator*(double op) const;
 
     /** @brief Divides one GenTime by a double value, returning a GenTime. */
-    GenTime operator/(double op) const { return GenTime(m_time / op); }
+    GenTime operator/(double op) const;
 
-    bool operator<(GenTime op) const { return m_time + s_delta < op.m_time; }
+    /* All the comparison operators considers that two GenTime that differs by less
+    than one frame are equal.
+    The fps used to carry this computation must be set using the static function setFps
+    */
+    bool operator<(GenTime op) const;
 
-    bool operator>(GenTime op) const { return m_time > op.m_time + s_delta; }
+    bool operator>(GenTime op) const;
 
-    bool operator>=(GenTime op) const { return m_time + s_delta >= op.m_time; }
+    bool operator>=(GenTime op) const;
 
-    bool operator<=(GenTime op) const { return m_time <= op.m_time + s_delta; }
+    bool operator<=(GenTime op) const;
 
-    bool operator==(GenTime op) const { return fabs(m_time - op.m_time) < s_delta; }
+    bool operator==(GenTime op) const;
 
-    bool operator!=(GenTime op) const { return fabs(m_time - op.m_time) >= s_delta; }
+    bool operator!=(GenTime op) const;
+
+    /** @brief Sets the fps used to determine if two GenTimes are equal */
+    static void setFps(double fps);
 
 private:
     /** Holds the time in seconds for this object. */
