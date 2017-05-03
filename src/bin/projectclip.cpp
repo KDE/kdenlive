@@ -1067,12 +1067,12 @@ void ProjectClip::slotCreateAudioThumbs()
                 emit updateJobStatus(AbstractClipJob::THUMBJOB, JobWorking, val);
                 last_val = val;
             }
-            QScopedPointer<Mlt::Frame> mlt_frame(audioProducer->get_frame());
-            if ((mlt_frame != nullptr) && mlt_frame->is_valid() && (mlt_frame->get_int("test_audio") == 0)) {
+            QScopedPointer<Mlt::Frame> mltFrame(audioProducer->get_frame());
+            if ((mltFrame != nullptr) && mltFrame->is_valid() && (mltFrame->get_int("test_audio") == 0)) {
                 int samples = mlt_sample_calculator(framesPerSecond, frequency, z);
-                mlt_frame->get_audio(audioFormat, frequency, channels, samples);
+                mltFrame->get_audio(audioFormat, frequency, channels, samples);
                 for (int channel = 0; channel < channels; ++channel) {
-                    double level = 256 * qMin(mlt_frame->get_double(keys.at(channel).toUtf8().constData()) * 0.9, 1.0);
+                    double level = 256 * qMin(mltFrame->get_double(keys.at(channel).toUtf8().constData()) * 0.9, 1.0);
                     audioLevels << level;
                 }
             } else if (!audioLevels.isEmpty()) {
@@ -1094,7 +1094,7 @@ void ProjectClip::slotCreateAudioThumbs()
     if (!m_abortAudioThumb && !audioLevels.isEmpty()) {
         // Put into an image for caching.
         int count = audioLevels.size();
-        QImage image(lrint((count + 3) / 4.0 / channels), channels, QImage::Format_ARGB32);
+        image = QImage(lrint((count + 3) / 4.0 / channels), channels, QImage::Format_ARGB32);
         int n = image.width() * image.height();
         for (int i = 0; i < n; i++) {
             QRgb p;
