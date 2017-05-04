@@ -298,6 +298,8 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, const
 
 #if KXMLGUI_VERSION_MINOR > 32 || KXMLGUI_VERSION_MAJOR > 5
     m_view.out_file->setAcceptMode(QFileDialog::AcceptSave);
+#elif !defined(KIOWIDGETS_NO_DEPRECATED)
+    m_view.out_file->fileDialog()->setAcceptMode(QFileDialog::AcceptSave);
 #endif
 
     m_view.out_file->setFocusPolicy(Qt::ClickFocus);
