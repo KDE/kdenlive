@@ -25,12 +25,15 @@
 /*  This file contains a collection of macros that can be used in model related classes.
     The class only needs to have the following members:
     - std::weak_ptr<DocUndoStack> m_undoStack;  this is a pointer to the undoStack
-    - mutable QReadWriteLock m_lock; This is a lock that ensures safety in case of concurrent access
+    - mutable QReadWriteLock m_lock; This is a lock that ensures safety in case of concurrent access. Note that the mutex must be recursive.
 
     See for example TimelineModel.
 */
 
-// This convenience macro adds lock/unlock ability to a given lambda function
+/* This convenience macro adds lock/unlock ability to a given lambda function
+   Note that it is automatically called when you push the lambda so you shouldn't have
+   to call it directly yourself
+*/
 #define LOCK_IN_LAMBDA(lambda)                                                                                                                                 \
     lambda = [this, lambda]() {                                                                                                                                \
         m_lock.lockForWrite();                                                                                                                                 \
