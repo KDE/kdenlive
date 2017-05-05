@@ -58,6 +58,13 @@ public:
        @param id Requested id of the clip. Automatic if -1
     */
     static int construct(const std::weak_ptr<TimelineModel> &parent, const QString &binClipId, int id = -1);
+    /* @brief Creates a clip from an instance in MLT's playlist,
+       Returns the (unique) id of the created clip
+       @param parent is a pointer to the timeline
+       @param producer is the producer to be inserted
+       @param id Requested id of the clip. Automatic if -1
+    */
+    static int load(const std::weak_ptr<TimelineModel> &parent, const QString &binClipId, std::shared_ptr<Mlt::Producer> producer, int id = -1);
 
     /* @brief returns a property of the clip, or from it's parent if it's a cut
      */

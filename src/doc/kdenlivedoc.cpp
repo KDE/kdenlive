@@ -355,197 +355,64 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList<TrackInfo> &tracks)
 {
     // Creating new document
     QDomDocument doc;
-    QDomElement mlt = doc.createElement(QStringLiteral("mlt"));
-    doc.appendChild(mlt);
-
-    QDomElement blk = doc.createElement(QStringLiteral("producer"));
-    blk.setAttribute(QStringLiteral("in"), 0);
-    blk.setAttribute(QStringLiteral("out"), 500);
-    blk.setAttribute(QStringLiteral("aspect_ratio"), 1);
-    blk.setAttribute(QStringLiteral("set.test_audio"), 0);
-    blk.setAttribute(QStringLiteral("id"), QStringLiteral("black"));
-
-    QDomElement property = doc.createElement(QStringLiteral("property"));
-    property.setAttribute(QStringLiteral("name"), QStringLiteral("mlt_type"));
-    QDomText value = doc.createTextNode(QStringLiteral("producer"));
-    property.appendChild(value);
-    blk.appendChild(property);
-
-    property = doc.createElement(QStringLiteral("property"));
-    property.setAttribute(QStringLiteral("name"), QStringLiteral("aspect_ratio"));
-    value = doc.createTextNode(QString::number(0));
-    property.appendChild(value);
-    blk.appendChild(property);
-
-    property = doc.createElement(QStringLiteral("property"));
-    property.setAttribute(QStringLiteral("name"), QStringLiteral("length"));
-    value = doc.createTextNode(QString::number(15000));
-    property.appendChild(value);
-    blk.appendChild(property);
-
-    property = doc.createElement(QStringLiteral("property"));
-    property.setAttribute(QStringLiteral("name"), QStringLiteral("eof"));
-    value = doc.createTextNode(QStringLiteral("pause"));
-    property.appendChild(value);
-    blk.appendChild(property);
-
-    property = doc.createElement(QStringLiteral("property"));
-    property.setAttribute(QStringLiteral("name"), QStringLiteral("resource"));
-    value = doc.createTextNode(QStringLiteral("black"));
-    property.appendChild(value);
-    blk.appendChild(property);
-
-    property = doc.createElement(QStringLiteral("property"));
-    property.setAttribute(QStringLiteral("name"), QStringLiteral("mlt_service"));
-    value = doc.createTextNode(QStringLiteral("colour"));
-    property.appendChild(value);
-    blk.appendChild(property);
-
-    mlt.appendChild(blk);
-
-    QDomElement tractor = doc.createElement(QStringLiteral("tractor"));
-    tractor.setAttribute(QStringLiteral("id"), QStringLiteral("maintractor"));
-    tractor.setAttribute(QStringLiteral("global_feed"), 1);
-    // QDomElement multitrack = doc.createElement("multitrack");
-    QDomElement playlist = doc.createElement(QStringLiteral("playlist"));
-    playlist.setAttribute(QStringLiteral("id"), QStringLiteral("black_track"));
-    mlt.appendChild(playlist);
-
-    QDomElement blank0 = doc.createElement(QStringLiteral("entry"));
-    blank0.setAttribute(QStringLiteral("in"), QStringLiteral("0"));
-    blank0.setAttribute(QStringLiteral("out"), QStringLiteral("1"));
-    blank0.setAttribute(QStringLiteral("producer"), QStringLiteral("black"));
-    playlist.appendChild(blank0);
-
-    // create playlists
-    int total = tracks.count();
-    // The lower video track will receive composite transitions
-    int lowestVideoTrack = -1;
-    for (int i = 0; i < total; ++i) {
-        QDomElement cur_playlist = doc.createElement(QStringLiteral("playlist"));
-        cur_playlist.setAttribute(QStringLiteral("id"), QStringLiteral("playlist") + QString::number(i + 1));
-        cur_playlist.setAttribute(QStringLiteral("kdenlive:track_name"), tracks.at(i).trackName);
+    Mlt::Profile docProfile;
+    Mlt::Consumer xmlConsumer(docProfile, "xml:kdenlive_playlist");
+    xmlConsumer.set("no_profile", 1);
+    xmlConsumer.set("terminate_on_pause", 1);
+    xmlConsumer.set("store", "kdenlive");
+    Mlt::Tractor tractor(docProfile);
+    Mlt::Producer bk(docProfile, "color:black");
+    tractor.insert_track(bk, 0);
+    for (int i = 0; i < tracks.count(); ++i) {
+        Mlt::Tractor track(docProfile);
+        track.set("kdenlive:track_name", tracks.at(i).trackName.toUtf8().constData());
+        track.set("kdenlive:trackheight", KdenliveSettings::trackheight());
         if (tracks.at(i).type == AudioTrack) {
-            cur_playlist.setAttribute(QStringLiteral("kdenlive:audio_track"), 1);
-        } else if (lowestVideoTrack == -1) {
-            // Register first video track
-            lowestVideoTrack = i + 1;
+            track.set("kdenlive:audio_track", 1);
         }
-        mlt.appendChild(cur_playlist);
-    }
-    QString compositeService = TransitionHandler::compositeTransition();
-    QDomElement track0 = doc.createElement(QStringLiteral("track"));
-    track0.setAttribute(QStringLiteral("producer"), QStringLiteral("black_track"));
-    tractor.appendChild(track0);
-
-    // create audio and video tracks
-    for (int i = 0; i < total; ++i) {
-        QDomElement track = doc.createElement(QStringLiteral("track"));
-        track.setAttribute(QStringLiteral("producer"), QStringLiteral("playlist") + QString::number(i + 1));
-        if (tracks.at(i).type == AudioTrack) {
-            track.setAttribute(QStringLiteral("hide"), QStringLiteral("video"));
-        } else if (tracks.at(i).isBlind) {
-            if (tracks.at(i).isMute) {
-                track.setAttribute(QStringLiteral("hide"), QStringLiteral("all"));
+        if (tracks.at(i).isLocked) {
+            track.set("kdenlive:locked_track", 1);
+        }
+        if (tracks.at(i).isMute) {
+            if (tracks.at(i).isBlind) {
+                track.set("hide", 3);
             } else {
-                track.setAttribute(QStringLiteral("hide"), QStringLiteral("video"));
+                track.set("hide", 2);
             }
-        } else if (tracks.at(i).isMute) {
-            track.setAttribute(QStringLiteral("hide"), QStringLiteral("audio"));
+        } else if (tracks.at(i).isBlind) {
+            track.set("hide", 1);
         }
-        tractor.appendChild(track);
+        Mlt::Playlist playlist1(docProfile);
+        Mlt::Playlist playlist2(docProfile);
+        track.insert_track(playlist1, 0);
+        track.insert_track(playlist2, 1);
+        tractor.insert_track(track, i+1);
     }
-
-    // Transitions
-    for (int i = 0; i <= total; i++) {
+    QScopedPointer <Mlt::Field> field(tractor.field());
+    QString compositeService = TransitionHandler::compositeTransition();
+    for (int i = 0; i <= tracks.count(); i++) {
         if (i > 0) {
-            QDomElement transition = doc.createElement(QStringLiteral("transition"));
-            transition.setAttribute(QStringLiteral("always_active"), QStringLiteral("1"));
-
-            QDomElement cur_property = doc.createElement(QStringLiteral("property"));
-            cur_property.setAttribute(QStringLiteral("name"), QStringLiteral("mlt_service"));
-            value = doc.createTextNode(QStringLiteral("mix"));
-            cur_property.appendChild(value);
-            transition.appendChild(cur_property);
-
-            cur_property = doc.createElement(QStringLiteral("property"));
-            cur_property.setAttribute(QStringLiteral("name"), QStringLiteral("a_track"));
-            value = doc.createTextNode(QStringLiteral("0"));
-            cur_property.appendChild(value);
-            transition.appendChild(cur_property);
-
-            cur_property = doc.createElement(QStringLiteral("property"));
-            cur_property.setAttribute(QStringLiteral("name"), QStringLiteral("b_track"));
-            value = doc.createTextNode(QString::number(i));
-            cur_property.appendChild(value);
-            transition.appendChild(cur_property);
-
-            cur_property = doc.createElement(QStringLiteral("property"));
-            cur_property.setAttribute(QStringLiteral("name"), QStringLiteral("combine"));
-            value = doc.createTextNode(QStringLiteral("1"));
-            cur_property.appendChild(value);
-            transition.appendChild(cur_property);
-
-            cur_property = doc.createElement(QStringLiteral("property"));
-            cur_property.setAttribute(QStringLiteral("name"), QStringLiteral("internal_added"));
-            value = doc.createTextNode(QStringLiteral("237"));
-            cur_property.appendChild(value);
-            transition.appendChild(cur_property);
-
-            tractor.appendChild(transition);
+            Mlt::Transition tr(docProfile, "mix");
+            tr.set("a_track", 0);
+            tr.set("b_track", i);
+            tr.set("always_active", 1);
+            tr.set("internal_added", 237);
+            field->plant_transition(tr, 0, i);
         }
         if (i > 0 && tracks.at(i - 1).type == VideoTrack) {
-            // Only add composite transition if both tracks are video
-            QDomElement transition = doc.createElement(QStringLiteral("transition"));
-            QDomElement cur_property = doc.createElement(QStringLiteral("property"));
-            cur_property.setAttribute(QStringLiteral("name"), QStringLiteral("mlt_service"));
-            cur_property.appendChild(doc.createTextNode(compositeService));
-            transition.appendChild(cur_property);
-
-            cur_property = doc.createElement(QStringLiteral("property"));
-            cur_property.setAttribute(QStringLiteral("name"), QStringLiteral("a_track"));
-            cur_property.appendChild(doc.createTextNode(QString::number(0)));
-            transition.appendChild(cur_property);
-
-            cur_property = doc.createElement(QStringLiteral("property"));
-            cur_property.setAttribute(QStringLiteral("name"), QStringLiteral("b_track"));
-            cur_property.appendChild(doc.createTextNode(QString::number(i)));
-            transition.appendChild(cur_property);
-
-            cur_property = doc.createElement(QStringLiteral("property"));
-            cur_property.setAttribute(QStringLiteral("name"), QStringLiteral("internal_added"));
-            cur_property.appendChild(doc.createTextNode(QStringLiteral("237")));
-            transition.appendChild(cur_property);
-
-            tractor.appendChild(transition);
+            Mlt::Transition tr(docProfile, compositeService.toUtf8().constData());
+            tr.set("a_track", 0);
+            tr.set("b_track", i);
+            tr.set("always_active", 1);
+            tr.set("internal_added", 237);
+            field->plant_transition(tr, 0, i);
         }
     }
-
-    // TODO: remove once qml transition works. This a transition to test the new timeline model view
-    QDomElement transition = doc.createElement(QStringLiteral("transition"));
-    transition.setAttribute(QStringLiteral("out"), QStringLiteral("400"));
-    QDomElement cur_property = doc.createElement(QStringLiteral("property"));
-    cur_property.setAttribute(QStringLiteral("name"), QStringLiteral("mlt_service"));
-    cur_property.appendChild(doc.createTextNode("luma"));
-    transition.appendChild(cur_property);
-
-    cur_property = doc.createElement(QStringLiteral("property"));
-    cur_property.setAttribute(QStringLiteral("name"), QStringLiteral("a_track"));
-    cur_property.appendChild(doc.createTextNode(QString::number(0)));
-    transition.appendChild(cur_property);
-
-    cur_property = doc.createElement(QStringLiteral("property"));
-    cur_property.setAttribute(QStringLiteral("name"), QStringLiteral("b_track"));
-    cur_property.appendChild(doc.createTextNode(QString::number(3)));
-    transition.appendChild(cur_property);
-
-    cur_property = doc.createElement(QStringLiteral("property"));
-    cur_property.setAttribute(QStringLiteral("name"), QStringLiteral("internal_added"));
-    cur_property.appendChild(doc.createTextNode(QStringLiteral("237")));
-    transition.appendChild(cur_property);
-    tractor.appendChild(transition);
-
-    mlt.appendChild(tractor);
+    Mlt::Producer prod(tractor.get_producer());
+    xmlConsumer.connect(prod);
+    xmlConsumer.run();
+    QString playlist = QString::fromUtf8(xmlConsumer.get("kdenlive_playlist"));
+    doc.setContent(playlist);
     return doc;
 }
 

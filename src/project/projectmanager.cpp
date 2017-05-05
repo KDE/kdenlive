@@ -877,9 +877,10 @@ void ProjectManager::updateTimeline(Mlt::Tractor tractor)
         info.replaceProducer = true;
         pCore->bin()->slotProducerReady(info, pCore->binController()->getController(id).get());
     }
-    m_mainTimelineModel = TimelineItemModel::construct(&pCore->getCurrentProfile()->profile(), m_project->getGuideModel(), m_project->commandStack());
+    m_mainTimelineModel = TimelineItemModel::construct(&pCore->getCurrentProfile()->profile(), m_project->getGuideModel(), m_project->commandStack(), tractor);
+    m_mainTimelineModel->loadTractor();
     pCore->binController()->setBinPlaylist(m_mainTimelineModel->tractor());
-    constructTimelineFromMelt(m_mainTimelineModel, tractor);
+    //constructTimelineFromMelt(m_mainTimelineModel, tractor);
 
     // TODO this is for testing purposes, remove.
     m_project->getGuideModel()->addMarker(GenTime(10.), "Guide 1", 0);

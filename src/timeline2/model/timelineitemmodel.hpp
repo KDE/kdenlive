@@ -55,14 +55,14 @@ public:
        @param guideModel ptr to the guide model of the project
      */
     static std::shared_ptr<TimelineItemModel> construct(Mlt::Profile *profile, std::shared_ptr<MarkerListModel> guideModel,
-                                                        std::weak_ptr<DocUndoStack> undo_stack);
+                                                        std::weak_ptr<DocUndoStack> undo_stack, Mlt::Tractor mlt_timeline);
 
     friend bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, Mlt::Tractor mlt_timeline);
 
 protected:
     /* @brief this constructor should not be called. Call the static construct instead
      */
-    TimelineItemModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack);
+    TimelineItemModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack, Mlt::Tractor mlt_timeline);
 
 public:
     ~TimelineItemModel();

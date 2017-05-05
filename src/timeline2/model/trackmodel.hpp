@@ -53,6 +53,7 @@ public:
 private:
     /* This constructor is private, call the static construct instead */
     TrackModel(std::weak_ptr<TimelineModel> parent, int id = -1);
+    TrackModel(std::weak_ptr<TimelineModel> parent, Mlt::Tractor mltTrack, int id = -1);
 
 public:
     /* @brief Creates a track, which references itself to the parent
@@ -61,6 +62,15 @@ public:
        @param pos is the optional position of the track. If left to -1, it will be added at the end
      */
     static int construct(const std::weak_ptr<TimelineModel> &parent, int id = -1, int pos = -1);
+    /* @brief Creates a track based on it's tractor entry in MLT
+       Returns the (unique) id of the created track
+       @param id Requested id of the track. Automatic if id = -1
+       @param pos is the optional position of the track. If left to -1, it will be added at the end
+     */
+    static int load(const std::weak_ptr<TimelineModel> &parent, Mlt::Tractor mltTrack, int id = -1, int pos = -1);
+    /* @brief Loads clips in the existing MLT track, used on project opening
+     */
+    void loadPlaylist();
 
     /* @brief returns the number of clips */
     int getClipsCount();

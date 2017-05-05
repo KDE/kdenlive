@@ -93,7 +93,6 @@ void TimelineWidget::setModel(std::shared_ptr<TimelineItemModel> model)
     m_proxy->setRoot(rootObject());
     setVisible(true);
     m_proxy->checkDuration();
-    resize(QSize(4000, 4000));
 }
 
 

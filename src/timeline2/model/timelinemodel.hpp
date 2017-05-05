@@ -87,7 +87,7 @@ class TimelineModel : public QAbstractItemModel, public std::enable_shared_from_
 protected:
     /* @brief this constructor should not be called. Call the static construct instead
      */
-    TimelineModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack);
+    TimelineModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack, Mlt::Tractor mlt_timeline);
 
 public:
     friend class TrackModel;
@@ -129,6 +129,9 @@ public:
 
     virtual ~TimelineModel();
     Mlt::Tractor *tractor() const { return m_tractor.get(); }
+    /* @brief Load tracks from the current tractor, used on project opening
+     */
+    void loadTractor();
 
     /* @brief Returns the current tractor's producer, useful fo control seeking, playing, etc
      */
@@ -419,7 +422,7 @@ protected:
     /* @brief Register a new track. This is a call-back meant to be called from TrackModel
        @param pos indicates the number of the track we are adding. If this is -1, then we add at the end.
      */
-    void registerTrack(std::shared_ptr<TrackModel> track, int pos = -1);
+    void registerTrack(std::shared_ptr<TrackModel> track, int pos = -1, bool doInsert = true);
 
     /* @brief Register a new clip. This is a call-back meant to be called from ClipModel
     */

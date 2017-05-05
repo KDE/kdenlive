@@ -45,6 +45,20 @@ TrackModel::TrackModel(std::weak_ptr<TimelineModel> parent, int id)
     }
 }
 
+TrackModel::TrackModel(std::weak_ptr<TimelineModel> parent, Mlt::Tractor mltTrack, int id)
+    : m_parent(parent)
+    , m_id(id == -1 ? TimelineModel::getNextId() : id)
+{
+    if (auto ptr = parent.lock()) {
+        m_track = mltTrack;
+        m_playlists[0] = *m_track.track(0);
+        m_playlists[1] = *m_track.track(1);
+    } else {
+        qDebug() << "Error : construction of track failed because parent timeline is not available anymore";
+        Q_ASSERT(false);
+    }
+}
+
 TrackModel::~TrackModel()
 {
     m_track.remove_track(1);
@@ -62,6 +76,47 @@ int TrackModel::construct(const std::weak_ptr<TimelineModel> &parent, int id, in
         Q_ASSERT(false);
     }
     return id;
+}
+
+int TrackModel::load(const std::weak_ptr<TimelineModel> &parent, Mlt::Tractor mltTrack, int id, int pos)
+{
+    std::shared_ptr<TrackModel> track(new TrackModel(parent, mltTrack, id));
+    id = track->m_id;
+    if (auto ptr = parent.lock()) {
+        ptr->registerTrack(std::move(track), pos, false);
+    } else {
+        qDebug() << "Error : construction of track failed because parent timeline is not available anymore";
+        Q_ASSERT(false);
+    }
+    return id;
+}
+
+void TrackModel::loadPlaylist()
+{
+    for (int i = 0; i < m_playlists[0].count(); i++) {
+        if (m_playlists[0].is_blank(i)) {
+            continue;
+        }
+        if (auto ptr = m_parent.lock()) {
+            QScopedPointer <Mlt::ClipInfo> info(m_playlists[0].clip_info(i));
+            std::shared_ptr<Mlt::Producer> prod(m_playlists[0].get_clip(i));
+            QString binId = prod->get("kdenlive:id");
+            int clipId = TimelineModel::getNextId();
+            ClipModel::load(ptr, binId, prod, clipId);
+            std::shared_ptr<ClipModel> clip = ptr->getClipPtr(clipId);
+            m_allClips[clip->getId()] = clip; // store clip
+            // update clip position and track
+            clip->setPosition(info->start);
+            clip->setCurrentTrackId(getId());
+            int new_in = clip->getPosition();
+            int new_out = new_in + clip->getPlaytime() - 1;
+            ptr->m_snaps->addPoint(new_in);
+            ptr->m_snaps->addPoint(new_out);
+            int clip_index = getRowfromClip(clip->getId());
+            ptr->_beginInsertRows(ptr->makeTrackIndexFromID(getId()), clip_index, clip_index);
+            ptr->_endInsertRows();
+        }
+    }
 }
 
 int TrackModel::getClipsCount()

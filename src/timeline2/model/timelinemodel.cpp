@@ -37,6 +37,7 @@
 #include <mlt++/MltProfile.h>
 #include <mlt++/MltTractor.h>
 #include <mlt++/MltTransition.h>
+#include <mlt++/MltConsumer.h>
 #include <queue>
 #ifdef LOGGING
 #include <sstream>
@@ -47,23 +48,22 @@
 
 int TimelineModel::next_id = 0;
 
-TimelineModel::TimelineModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack)
+TimelineModel::TimelineModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack, Mlt::Tractor mlt_timeline)
     : QAbstractItemModel()
-    , m_tractor(new Mlt::Tractor(*profile))
+    , m_tractor(new Mlt::Tractor(mlt_timeline))
     , m_snaps(new SnapModel())
     , m_undoStack(undo_stack)
     , m_profile(profile)
-    , m_blackClip(new Mlt::Producer(*profile, "color:black"))
     , m_lock(QReadWriteLock::Recursive)
     , m_timelineEffectsEnabled(true)
     , m_id(getNextId())
 {
-    // Create black background track
-    m_blackClip->set("id", "black_track");
-    m_blackClip->set("mlt_type", "producer");
+    // Load black background track
+    QScopedPointer <Mlt::Producer> bgTrack(m_tractor->track(0));
+    Mlt::Playlist bgPlaylist(*bgTrack);
+    m_blackClip = std::unique_ptr<Mlt::Producer>(&bgTrack->parent());
     m_blackClip->set("aspect_ratio", 1);
     m_blackClip->set("set.test_audio", 0);
-    m_tractor->insert_track(*m_blackClip, 0);
 
 #ifdef LOGGING
     m_logFile = std::ofstream("log.txt");
@@ -86,6 +86,27 @@ TimelineModel::~TimelineModel()
     }
     for (auto tracks : all_ids) {
         deregisterTrack_lambda(tracks, false)();
+    }
+}
+
+void TimelineModel::loadTractor()
+{
+    // Load existing tracks
+    int trackId;
+    for (int i = 0; i < m_tractor->count(); i++) {
+        Mlt::Tractor trk(*m_tractor->track(i));
+        if (!trk.is_valid()) {
+            continue;
+        }
+        trackId = TimelineModel::getNextId();
+        TrackModel::load(shared_from_this(), trk, trackId, -1);
+    }
+    auto it = m_allTracks.begin();
+    ++it;
+    while (it != m_allTracks.end()) {
+        trackId = (*it)->getId();
+        getTrackById(trackId)->loadPlaylist();
+        ++it;
     }
 }
 
@@ -830,7 +851,7 @@ bool TimelineModel::requestTrackDeletion(int trackId, Fun &undo, Fun &redo)
     return false;
 }
 
-void TimelineModel::registerTrack(std::shared_ptr<TrackModel> track, int pos)
+void TimelineModel::registerTrack(std::shared_ptr<TrackModel> track, int pos, bool doInsert)
 {
     int id = track->getId();
     if (pos == -1) {
@@ -840,8 +861,10 @@ void TimelineModel::registerTrack(std::shared_ptr<TrackModel> track, int pos)
     Q_ASSERT(pos <= static_cast<int>(m_allTracks.size()));
 
     // effective insertion (MLT operation), add 1 to account for black background track
-    int error = m_tractor->insert_track(*track, pos + 1);
-    Q_ASSERT(error == 0); // we might need better error handling...
+    if (doInsert) {
+        int error = m_tractor->insert_track(*track, pos + 1);
+        Q_ASSERT(error == 0); // we might need better error handling...
+    }
 
     // we now insert in the list
     auto posIt = m_allTracks.begin();

@@ -71,6 +71,22 @@ int ClipModel::construct(const std::weak_ptr<TimelineModel> &parent, const QStri
     return id;
 }
 
+int ClipModel::load(const std::weak_ptr<TimelineModel> &parent, const QString &binClipId, std::shared_ptr<Mlt::Producer> producer, int id)
+{
+    std::shared_ptr<ClipModel> clip(new ClipModel(parent, producer, binClipId, id));
+    id = clip->m_id;
+    if (auto ptr = parent.lock()) {
+        ptr->registerClip(clip);
+    } else {
+        qDebug() << "Error : construction of clip failed because parent timeline is not available anymore";
+        Q_ASSERT(false);
+    }
+    ProjectClip *binClip = pCore->bin()->getBinClip(binClipId);
+    binClip->registerTimelineClip(parent, id);
+
+    return id;
+}
+
 ClipModel::~ClipModel()
 {
     ProjectClip *binClip = pCore->bin()->getBinClip(m_binClipId);
