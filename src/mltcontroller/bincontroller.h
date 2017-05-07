@@ -89,7 +89,7 @@ public:
     void destroyBin();
 
     /** @brief Load the Bin's main playlist from an existing tractor */
-    void loadBinPlaylist(Mlt::Tractor &tractor);
+    void loadBinPlaylist(Mlt::Tractor *tractor);
 
     /** @brief Initialize the bin's playlist from MLT's data
      * @param playlist The MLT playlist containing our bin's clips

@@ -69,7 +69,7 @@ public:
                 const QMap<QString, QString> &metadata, const QPoint &tracks, bool *openBackup, MainWindow *parent = nullptr);
     ~KdenliveDoc();
     /** @brief Get current document's producer. */
-    Mlt::Producer *getProjectProducer();
+    const QByteArray getProjectXml();
     QDomNodeList producersList();
     double fps() const;
     int width() const;

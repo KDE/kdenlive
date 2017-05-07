@@ -214,10 +214,7 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
     pCore->window()->m_timelineArea->addTab(m_trackView, QIcon::fromTheme(QStringLiteral("kdenlive")), doc->description());*/
     // END of things to delete
     m_project = doc;
-    QScopedPointer<Mlt::Producer> prod(doc->getProjectProducer());
-    Mlt::Service s(*prod);
-    Mlt::Tractor t(s);
-    updateTimeline(t);
+    updateTimeline();
     /*if (!ok) {
         // MLT is broken
         //pCore->window()->m_timelineArea->setEnabled(false);
@@ -576,9 +573,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
             disableEffects->blockSignals(false);
         }
     }*/
-    Mlt::Service s(*doc->getProjectProducer());
-    Mlt::Tractor t(s);
-    updateTimeline(t);
+    updateTimeline();
     pCore->window()->connectDocument();
 
     emit docOpened(m_project);
@@ -861,10 +856,11 @@ void ProjectManager::slotMoveFinished(KJob *job)
     }
 }
 
-void ProjectManager::updateTimeline(Mlt::Tractor tractor)
+void ProjectManager::updateTimeline()
 {
     pCore->producerQueue()->abortOperations();
-    pCore->binController()->loadBinPlaylist(tractor);
+    m_mainTimelineModel = TimelineItemModel::construct(&pCore->getCurrentProfile()->profile(), m_project->getGuideModel(), m_project->commandStack(), m_project->getProjectXml());
+    pCore->binController()->loadBinPlaylist(m_mainTimelineModel->tractor());
     const QStringList ids = pCore->binController()->getClipIds();
     for (const QString &id : ids) {
         if (id == QLatin1String("black")) {
@@ -877,7 +873,6 @@ void ProjectManager::updateTimeline(Mlt::Tractor tractor)
         info.replaceProducer = true;
         pCore->bin()->slotProducerReady(info, pCore->binController()->getController(id).get());
     }
-    m_mainTimelineModel = TimelineItemModel::construct(&pCore->getCurrentProfile()->profile(), m_project->getGuideModel(), m_project->commandStack(), tractor);
     m_mainTimelineModel->loadTractor();
     //pCore->binController()->setBinPlaylist(m_mainTimelineModel->tractor());
     //constructTimelineFromMelt(m_mainTimelineModel, tractor);

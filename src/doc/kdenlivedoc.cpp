@@ -305,9 +305,9 @@ KdenliveDoc::~KdenliveDoc()
     }
 }
 
-Mlt::Producer *KdenliveDoc::getProjectProducer()
+const QByteArray KdenliveDoc::getProjectXml()
 {
-    return new Mlt::Producer(pCore->getCurrentProfile()->profile(), "xml-string", m_document.toString().toUtf8().constData());
+    return m_document.toString().toUtf8();
 }
 
 void KdenliveDoc::loadThumbs()

@@ -152,7 +152,7 @@ signals:
     //     void projectOpened(Project *project);
 
 protected:
-    void updateTimeline(Mlt::Tractor tractor);
+    void updateTimeline();
 
 private:
     /** @brief Checks that the Kdenlive mime type is correctly installed.

@@ -48,9 +48,8 @@
 
 int TimelineModel::next_id = 0;
 
-TimelineModel::TimelineModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack, Mlt::Tractor mlt_timeline)
+TimelineModel::TimelineModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack, const QByteArray xml)
     : QAbstractItemModel()
-    , m_tractor(new Mlt::Tractor(mlt_timeline))
     , m_snaps(new SnapModel())
     , m_undoStack(undo_stack)
     , m_profile(profile)
@@ -58,6 +57,10 @@ TimelineModel::TimelineModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> 
     , m_timelineEffectsEnabled(true)
     , m_id(getNextId())
 {
+    QScopedPointer<Mlt::Producer> prod(new Mlt::Producer(*profile, "xml-string", xml.constData()));
+    Mlt::Service s(*prod);
+    m_tractor = std::unique_ptr<Mlt::Tractor>(new Mlt::Tractor(s));
+
     // Load black background track
     QScopedPointer <Mlt::Producer> bgTrack(m_tractor->track(0));
     Mlt::Playlist bgPlaylist(*bgTrack);

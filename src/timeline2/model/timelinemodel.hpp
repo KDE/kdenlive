@@ -87,7 +87,7 @@ class TimelineModel : public QAbstractItemModel, public std::enable_shared_from_
 protected:
     /* @brief this constructor should not be called. Call the static construct instead
      */
-    TimelineModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack, Mlt::Tractor mlt_timeline);
+    TimelineModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack, const QByteArray xml);
 
 public:
     friend class TrackModel;

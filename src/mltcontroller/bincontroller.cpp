@@ -189,10 +189,10 @@ void BinController::createIfNeeded(Mlt::Profile *profile)
     m_binPlaylist->set("id", kPlaylistTrackId);
 }
 
-void BinController::loadBinPlaylist(Mlt::Tractor &tractor)
+void BinController::loadBinPlaylist(Mlt::Tractor *tractor)
 {
     destroyBin();
-    Mlt::Properties retainList((mlt_properties)tractor.get_data("xml_retain"));
+    Mlt::Properties retainList((mlt_properties)tractor->get_data("xml_retain"));
     if (retainList.is_valid() && (retainList.get_data(binPlaylistId().toUtf8().constData()) != nullptr)) {
         Mlt::Playlist playlist((mlt_playlist)retainList.get_data(binPlaylistId().toUtf8().constData()));
         if (playlist.is_valid() && playlist.type() == playlist_type) {
@@ -202,7 +202,7 @@ void BinController::loadBinPlaylist(Mlt::Tractor &tractor)
     }
     // If no Playlist found, create new one
     if (!m_binPlaylist) {
-        m_binPlaylist.reset(new Mlt::Playlist(*tractor.profile()));
+        m_binPlaylist.reset(new Mlt::Playlist(*tractor->profile()));
         m_binPlaylist->set("id", kPlaylistTrackId);
     }
 }
