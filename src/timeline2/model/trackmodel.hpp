@@ -83,7 +83,7 @@ public:
 
     /* Implicit conversion operator to access the underlying producer
      */
-    operator Mlt::Producer &() { return m_track; }
+    operator Mlt::Producer &() { return *m_track.get(); }
 
     // TODO make protected
     QVariant getProperty(const QString &name);
@@ -199,7 +199,7 @@ private:
     int m_id; // this is the creation id of the track, used for book-keeping
 
     // We fake two playlists to allow same track transitions.
-    Mlt::Tractor m_track;
+    std::shared_ptr<Mlt::Tractor> m_track;
     Mlt::Playlist m_playlists[2];
 
     int m_currentInsertionOrder;

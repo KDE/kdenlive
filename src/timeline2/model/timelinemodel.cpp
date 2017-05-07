@@ -79,7 +79,6 @@ TimelineModel::TimelineModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> 
 TimelineModel::~TimelineModel()
 {
     // Remove black background
-    // m_tractor->remove_track(0);
     std::vector<int> all_ids;
     for (auto tracks : m_iteratorTable) {
         all_ids.push_back(tracks.first);

@@ -116,7 +116,7 @@ void BinController::initializeBin(Mlt::Playlist playlist)
         if (producer->is_blank() || !producer->is_valid()) {
             continue;
         }
-        QString id = producer->get("id");
+        QString id = producer->get("kdenlive:id");
         if (id.contains(QLatin1Char('_'))) {
             // This is a track producer
             QString mainId = id.section(QLatin1Char('_'), 0, 0);
@@ -141,7 +141,8 @@ void BinController::initializeBin(Mlt::Playlist playlist)
                         producer->set("resource", color.toUtf8().constData());
                     }
                 }
-                ClipController::construct(shared_from_this(), producer);
+                std::shared_ptr<ClipController> controller = ClipController::construct(shared_from_this(), producer, true);
+                m_clipList.insert(id, controller);
             }
         }
         emit loadingBin(i + 1);
@@ -283,10 +284,9 @@ void BinController::addClipToBin(const QString &id, const std::shared_ptr<ClipCo
     */
     // append or replace clip in MLT's retain playlist
     replaceBinPlaylistClip(id, controller->originalProducer());
-
     if (m_clipList.contains(id)) {
         // There is something wrong, we should not be recreating an existing controller!
-        qDebug() << "Error: creating bin clip with existing id";
+        qDebug() << "Error: creating bin clip with existing id: "<<id;
         // we are replacing a producer
         // TODO: replace it in timeline
         /*ClipController *c2 = m_clipList.value(id);

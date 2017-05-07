@@ -54,8 +54,9 @@ public:
        * It also take care of registration to the BinController
        * @param bincontroller reference to the bincontroller
        * @param producer producer to create reference to
+       * @param loadingFromBinPlaylist if true, we are loading the clip from bin playlist, so no need to insert it here
        */
-    static std::shared_ptr<ClipController> construct(const std::shared_ptr<BinController> &bincontroller, std::shared_ptr<Mlt::Producer> producer);
+    static std::shared_ptr<ClipController> construct(const std::shared_ptr<BinController> &bincontroller, std::shared_ptr<Mlt::Producer> producer, bool loadingFromBinPlaylist = false);
 
 protected:
     /**

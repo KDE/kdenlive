@@ -85,6 +85,7 @@ ProjectClip::ProjectClip(const QDomElement &description, const QIcon &thumb, Pro
     , m_thumbsProducer(nullptr)
 {
     Q_ASSERT(description.hasAttribute(QStringLiteral("id")));
+    m_markerModel = std::make_shared<MarkerListModel>(description.attribute(QStringLiteral("id")), pCore->projectManager()->current()->commandStack());
     m_clipStatus = StatusWaiting;
     m_thumbnail = thumb;
     if (description.hasAttribute(QStringLiteral("type"))) {

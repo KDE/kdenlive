@@ -879,7 +879,7 @@ void ProjectManager::updateTimeline(Mlt::Tractor tractor)
     }
     m_mainTimelineModel = TimelineItemModel::construct(&pCore->getCurrentProfile()->profile(), m_project->getGuideModel(), m_project->commandStack(), tractor);
     m_mainTimelineModel->loadTractor();
-    pCore->binController()->setBinPlaylist(m_mainTimelineModel->tractor());
+    //pCore->binController()->setBinPlaylist(m_mainTimelineModel->tractor());
     //constructTimelineFromMelt(m_mainTimelineModel, tractor);
 
     // TODO this is for testing purposes, remove.

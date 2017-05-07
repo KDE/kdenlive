@@ -82,6 +82,9 @@ int ClipModel::load(const std::weak_ptr<TimelineModel> &parent, const QString &b
         Q_ASSERT(false);
     }
     ProjectClip *binClip = pCore->bin()->getBinClip(binClipId);
+    if (!binClip) {
+        qDebug() << "Error : Bin clip for id: "<<binClipId<<" NOT AVAILABLE!!!";
+    }
     binClip->registerTimelineClip(parent, id);
 
     return id;

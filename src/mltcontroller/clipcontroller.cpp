@@ -91,10 +91,12 @@ ClipController::ClipController(std::shared_ptr<BinController> bincontroller)
 }
 
 // static
-std::shared_ptr<ClipController> ClipController::construct(const std::shared_ptr<BinController> &binController, std::shared_ptr<Mlt::Producer> producer)
+std::shared_ptr<ClipController> ClipController::construct(const std::shared_ptr<BinController> &binController, std::shared_ptr<Mlt::Producer> producer, bool loadingFromBinPlaylist)
 {
-    std::shared_ptr<ClipController> ptr(new ClipController(binController, std::move(producer)));
-    binController->addClipToBin(ptr->clipId(), ptr);
+    std::shared_ptr<ClipController> ptr(new ClipController(binController, producer));
+    if (!loadingFromBinPlaylist) {
+        binController->addClipToBin(ptr->clipId(), ptr);
+    }
     return ptr;
 }
 

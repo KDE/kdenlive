@@ -34,11 +34,11 @@ TrackModel::TrackModel(std::weak_ptr<TimelineModel> parent, int id)
     , m_id(id == -1 ? TimelineModel::getNextId() : id)
 {
     if (auto ptr = parent.lock()) {
-        m_track.set_profile(*ptr->getProfile());
+        m_track = std::shared_ptr<Mlt::Tractor>(new Mlt::Tractor(*ptr->getProfile()));
         m_playlists[0].set_profile(*ptr->getProfile());
         m_playlists[1].set_profile(*ptr->getProfile());
-        m_track.insert_track(m_playlists[0], 0);
-        m_track.insert_track(m_playlists[1], 1);
+        m_track->insert_track(m_playlists[0], 0);
+        m_track->insert_track(m_playlists[1], 1);
     } else {
         qDebug() << "Error : construction of track failed because parent timeline is not available anymore";
         Q_ASSERT(false);
@@ -50,9 +50,9 @@ TrackModel::TrackModel(std::weak_ptr<TimelineModel> parent, Mlt::Tractor mltTrac
     , m_id(id == -1 ? TimelineModel::getNextId() : id)
 {
     if (auto ptr = parent.lock()) {
-        m_track = mltTrack;
-        m_playlists[0] = *m_track.track(0);
-        m_playlists[1] = *m_track.track(1);
+        m_track = std::shared_ptr<Mlt::Tractor>(new Mlt::Tractor(mltTrack));
+        m_playlists[0] = *m_track->track(0);
+        m_playlists[1] = *m_track->track(1);
     } else {
         qDebug() << "Error : construction of track failed because parent timeline is not available anymore";
         Q_ASSERT(false);
@@ -61,8 +61,8 @@ TrackModel::TrackModel(std::weak_ptr<TimelineModel> parent, Mlt::Tractor mltTrac
 
 TrackModel::~TrackModel()
 {
-    m_track.remove_track(1);
-    m_track.remove_track(0);
+    m_track->remove_track(1);
+    m_track->remove_track(0);
 }
 
 int TrackModel::construct(const std::weak_ptr<TimelineModel> &parent, int id, int pos)
@@ -160,8 +160,8 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
                 int clip_index = getRowfromClip(clip->getId());
                 ptr->_beginInsertRows(ptr->makeTrackIndexFromID(getId()), clip_index, clip_index);
                 ptr->_endInsertRows();
-                int state = m_track.get_int("hide");
-                if ((state == 0 || state == 2) && m_track.get_int("kdenlive:audio_track") != 1) {
+                int state = m_track->get_int("hide");
+                if ((state == 0 || state == 2) && m_track->get_int("kdenlive:audio_track") != 1) {
                     // only refresh monitor if not an audio track and not hidden
                     ptr->checkRefresh(new_in, new_out);
                 }
@@ -247,8 +247,8 @@ Fun TrackModel::requestClipDeletion_lambda(int clipId, bool updateView)
             if (auto ptr = m_parent.lock()) {
                 ptr->m_snaps->removePoint(old_in);
                 ptr->m_snaps->removePoint(old_out);
-                int state = m_track.get_int("hide");
-                if ((state == 0 || state == 2) && m_track.get_int("kdenlive:audio_track") != 1) {
+                int state = m_track->get_int("hide");
+                if ((state == 0 || state == 2) && m_track->get_int("kdenlive:audio_track") != 1) {
                     // only refresh monitor if not an audio track and not hidden
                     ptr->checkRefresh(old_in, old_out);
                 }
@@ -342,9 +342,9 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
     int target_clip = clip_loc.second;
     Q_ASSERT(target_clip < m_playlists[target_track].count());
     int size = out - in + 1;
-    int state = m_track.get_int("hide");
+    int state = m_track->get_int("hide");
     bool checkRefresh = false;
-    if ((state == 0 || state == 2) && m_track.get_int("kdenlive:audio_track") != 1) {
+    if ((state == 0 || state == 2) && m_track->get_int("kdenlive:audio_track") != 1) {
         checkRefresh = true;
     }
 
@@ -482,12 +482,12 @@ int TrackModel::getRowfromComposition(int tid) const
 
 QVariant TrackModel::getProperty(const QString &name)
 {
-    return QVariant(m_track.get(name.toUtf8().constData()));
+    return QVariant(m_track->get(name.toUtf8().constData()));
 }
 
 void TrackModel::setProperty(const QString &name, const QString &value)
 {
-    m_track.set(name.toUtf8().constData(), value.toUtf8().constData());
+    m_track->set(name.toUtf8().constData(), value.toUtf8().constData());
 }
 
 bool TrackModel::checkConsistency()
