@@ -674,6 +674,8 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         emit refreshAnalysisPanel();
     }
     if (properties.contains(QStringLiteral("length")) || properties.contains(QStringLiteral("kdenlive:duration"))) {
+        refreshOnly = false;
+        reload = true;
         m_duration = m_controller->getStringDuration();
         bin()->emitItemUpdated(this);
     }
