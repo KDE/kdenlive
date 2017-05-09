@@ -109,7 +109,7 @@ void ClipCreationDialog::createClipFromXml(KdenliveDoc *doc, QDomElement &xml, c
     // FIXME?
     Q_UNUSED(groupInfo)
 
-    uint id = bin->getFreeClipId();
+    int id = bin->getFreeClipId();
     xml.setAttribute(QStringLiteral("id"), QString::number(id));
     AddClipCommand *command = new AddClipCommand(bin, xml, QString::number(id), true);
     doc->commandStack()->push(command);
@@ -138,7 +138,7 @@ void ClipCreationDialog::createColorClip(KdenliveDoc *doc, const QStringList &gr
         QDomElement prod = xml.createElement(QStringLiteral("producer"));
         xml.appendChild(prod);
         prod.setAttribute(QStringLiteral("type"), (int)Color);
-        uint id = bin->getFreeClipId();
+        int id = bin->getFreeClipId();
         prod.setAttribute(QStringLiteral("id"), QString::number(id));
         prod.setAttribute(QStringLiteral("in"), QStringLiteral("0"));
         prod.setAttribute(QStringLiteral("length"), doc->getFramePos(doc->timecode().getTimecode(t->gentime())));
@@ -199,7 +199,7 @@ void ClipCreationDialog::createQTextClip(KdenliveDoc *doc, const QStringList &gr
         QDomElement prod = xml.createElement(QStringLiteral("producer"));
         xml.appendChild(prod);
         prod.setAttribute(QStringLiteral("type"), (int)QText);
-        uint id = bin->getFreeClipId();
+        int id = bin->getFreeClipId();
         prod.setAttribute(QStringLiteral("id"), QString::number(id));
 
         prod.setAttribute(QStringLiteral("in"), QStringLiteral("0"));
@@ -278,7 +278,7 @@ void ClipCreationDialog::createSlideshowClip(KdenliveDoc *doc, const QStringList
             properties.insert(QStringLiteral("kdenlive:folderid"), groupInfo.at(0));
         }
         addXmlProperties(prod, properties);
-        uint id = bin->getFreeClipId();
+        int id = bin->getFreeClipId();
         AddClipCommand *command = new AddClipCommand(bin, xml.documentElement(), QString::number(id), true);
         doc->commandStack()->push(command);
     }
@@ -298,7 +298,7 @@ void ClipCreationDialog::createTitleClip(KdenliveDoc *doc, const QStringList &gr
         QDomElement prod = xml.createElement(QStringLiteral("producer"));
         xml.appendChild(prod);
         // prod.setAttribute("resource", imagePath);
-        uint id = bin->getFreeClipId();
+        int id = bin->getFreeClipId();
         prod.setAttribute(QStringLiteral("id"), QString::number(id));
 
         QMap<QString, QString> properties;

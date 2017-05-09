@@ -61,7 +61,7 @@ private:
     ThumbnailProvider *m_thumbnailer;
     TimelineController *m_proxy;
     static const int comboScale[];
-    std::unique_ptr<AssetTreeModel> m_transitionModel;
+    std::shared_ptr<AssetTreeModel> m_transitionModel;
     std::unique_ptr<AssetFilter> m_transitionProxyModel;
 
 signals:

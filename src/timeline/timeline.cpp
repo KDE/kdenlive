@@ -1061,15 +1061,15 @@ int Timeline::loadTrack(int ix, int offset, Mlt::Playlist &playlist, int start, 
             }
         }
         id = id.section(QLatin1Char('_'), 0, 0);
-        ProjectClip *binclip = m_doc->getBinClip(id);
+        std::shared_ptr<ProjectClip> binclip = m_doc->getBinClip(id);
         PlaylistState::ClipState originalState = PlaylistState::Original;
-        if (binclip == nullptr) {
+        if (!binclip) {
             // Is this a disabled clip
             id = info->producer->get("kdenlive:binid");
             binclip = m_doc->getBinClip(id);
             originalState = (PlaylistState::ClipState)info->producer->get_int("kdenlive:clipstate");
         }
-        if (binclip == nullptr) {
+        if (!binclip) {
             // Warning, unknown clip found, timeline corruption!!
             // TODO: fix this
             qCDebug(KDENLIVE_LOG) << "* * * * *UNKNOWN CLIP, WE ARE DEAD: " << id;
@@ -1085,7 +1085,7 @@ int Timeline::loadTrack(int ix, int offset, Mlt::Playlist &playlist, int start, 
         clipinfo.cropDuration = GenTime(info->frame_count, fps);
         clipinfo.track = ix;
         // qCDebug(KDENLIVE_LOG)<<"// Loading clip: "<<clipinfo.startPos.frames(25)<<" / "<<clipinfo.endPos.frames(25)<<"\n++++++++++++++++++++++++";
-        auto *item = new ClipItem(binclip, clipinfo, fps, slowInfo.speed, slowInfo.strobe, m_trackview->getFrameWidth(), true);
+        auto *item = new ClipItem(binclip.get(), clipinfo, fps, slowInfo.speed, slowInfo.strobe, m_trackview->getFrameWidth(), true);
         connect(item, &AbstractClipItem::selectItem, m_trackview, &CustomTrackView::slotSelectItem);
         item->setPos(clipinfo.startPos.frames(fps), KdenliveSettings::trackheight() * (visibleTracksCount() - clipinfo.track) + 1 + item->itemOffset());
         // qCDebug(KDENLIVE_LOG)<<" * * Loaded clip on tk: "<<clipinfo.track<< ", POS: "<<clipinfo.startPos.frames(fps);

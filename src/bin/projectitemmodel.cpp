@@ -38,7 +38,13 @@ ProjectItemModel::ProjectItemModel(Bin *bin, QObject *parent)
     : AbstractTreeModel(parent)
     , m_bin(bin)
 {
-    rootItem = new ProjectFolder(this);
+}
+
+std::shared_ptr<ProjectItemModel> ProjectItemModel::construct(Bin *bin, QObject *parent)
+{
+    std::shared_ptr<ProjectItemModel> self(new ProjectItemModel(bin, parent));
+    self->rootItem = ProjectFolder::construct(self);
+    return self;
 }
 
 ProjectItemModel::~ProjectItemModel()
@@ -68,7 +74,7 @@ QVariant ProjectItemModel::data(const QModelIndex &index, int role) const
         return QVariant();
     }
     if (role == Qt::DisplayRole || role == Qt::EditRole) {
-        AbstractProjectItem *item = static_cast<AbstractProjectItem *>(index.internalPointer());
+        std::shared_ptr<AbstractProjectItem> item = getBinItemByIndex(index);
         auto type = static_cast<AbstractProjectItem::DataType>(mapToColumn(index.column()));
         QVariant ret = item->getData(type);
         return ret;
@@ -78,7 +84,7 @@ QVariant ProjectItemModel::data(const QModelIndex &index, int role) const
             return QVariant();
         }
         // Data has to be returned as icon to allow the view to scale it
-        AbstractProjectItem *item = static_cast<AbstractProjectItem *>(index.internalPointer());
+        std::shared_ptr<AbstractProjectItem> item = getBinItemByIndex(index);
         QVariant thumb = item->getData(AbstractProjectItem::DataThumbnail);
         QIcon icon;
         if (thumb.canConvert<QIcon>()) {
@@ -88,13 +94,13 @@ QVariant ProjectItemModel::data(const QModelIndex &index, int role) const
         }
         return icon;
     }
-    AbstractProjectItem *item = static_cast<AbstractProjectItem *>(index.internalPointer());
+    std::shared_ptr<AbstractProjectItem> item = getBinItemByIndex(index);
     return item->getData((AbstractProjectItem::DataType)role);
 }
 
 bool ProjectItemModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-    AbstractProjectItem *item = static_cast<AbstractProjectItem *>(index.internalPointer());
+    std::shared_ptr<AbstractProjectItem> item = getBinItemByIndex(index);
     if (item->rename(value.toString(), index.column())) {
         emit dataChanged(index, index, QVector<int>() << role);
         return true;
@@ -109,7 +115,7 @@ Qt::ItemFlags ProjectItemModel::flags(const QModelIndex &index) const
     if (!index.isValid()) {
         return Qt::ItemIsDropEnabled;
     }
-    AbstractProjectItem *item = static_cast<AbstractProjectItem *>(index.internalPointer());
+    std::shared_ptr<AbstractProjectItem> item = getBinItemByIndex(index);
     AbstractProjectItem::PROJECTITEMTYPE type = item->itemType();
     switch (type) {
     case AbstractProjectItem::FolderItem:
@@ -194,9 +200,9 @@ QVariant ProjectItemModel::headerData(int section, Qt::Orientation orientation, 
 int ProjectItemModel::columnCount(const QModelIndex &parent) const
 {
     if (parent.isValid()) {
-        return static_cast<AbstractProjectItem *>(parent.internalPointer())->supportedDataCount();
+        return getBinItemByIndex(parent)->supportedDataCount();
     }
-    return static_cast<ProjectFolder *>(rootItem)->supportedDataCount();
+    return std::static_pointer_cast<ProjectFolder>(rootItem)->supportedDataCount();
 }
 
 // cppcheck-suppress unusedFunction
@@ -227,11 +233,11 @@ QMimeData *ProjectItemModel::mimeData(const QModelIndexList &indices) const
         if (!ix.isValid() || ix.column() != 0) {
             continue;
         }
-        AbstractProjectItem *item = static_cast<AbstractProjectItem *>(ix.internalPointer());
+        std::shared_ptr<AbstractProjectItem> item = getBinItemByIndex(ix);
         AbstractProjectItem::PROJECTITEMTYPE type = item->itemType();
         if (type == AbstractProjectItem::ClipItem) {
             list << item->clipId();
-            duration += ((ProjectClip *)(item))->frameDuration();
+            duration += (std::static_pointer_cast<ProjectClip>(item))->frameDuration();
         } else if (type == AbstractProjectItem::SubClipItem) {
             QPoint p = item->zone();
             list << item->clipId() + QLatin1Char('/') + QString::number(p.x()) + QLatin1Char('/') + QString::number(p.y());
@@ -249,31 +255,31 @@ QMimeData *ProjectItemModel::mimeData(const QModelIndexList &indices) const
     return mimeData;
 }
 
-void ProjectItemModel::onItemUpdated(AbstractProjectItem *item)
+void ProjectItemModel::onItemUpdated(std::shared_ptr<AbstractProjectItem> item)
 {
-    auto index = getIndexFromItem(static_cast<TreeItem *>(item));
+    auto index = getIndexFromItem(std::static_pointer_cast<TreeItem>(item));
     emit dataChanged(index, index);
 }
 
-ProjectClip *ProjectItemModel::getClipByBinID(const QString &binId)
+std::shared_ptr<ProjectClip> ProjectItemModel::getClipByBinID(const QString &binId)
 {
     if (binId.contains(QLatin1Char('_'))) {
         return getClipByBinID(binId.section(QLatin1Char('_'), 0, 0));
     }
     if (!binId.isEmpty()) {
-        return static_cast<AbstractProjectItem *>(rootItem)->clip(binId);
+        return std::static_pointer_cast<AbstractProjectItem>(rootItem)->clip(binId);
     }
     return nullptr;
 }
 
-ProjectFolder *ProjectItemModel::getFolderByBinId(const QString &binId)
+std::shared_ptr<ProjectFolder> ProjectItemModel::getFolderByBinId(const QString &binId)
 {
-    return static_cast<AbstractProjectItem *>(rootItem)->folder(binId);
+    return std::static_pointer_cast<AbstractProjectItem>(rootItem)->folder(binId);
 }
 
 void ProjectItemModel::setBinEffectsEnabled(bool enabled)
 {
-    return static_cast<AbstractProjectItem *>(rootItem)->setBinEffectsEnabled(enabled);
+    return std::static_pointer_cast<AbstractProjectItem>(rootItem)->setBinEffectsEnabled(enabled);
 }
 
 QStringList ProjectItemModel::getEnclosingFolderInfo(const QModelIndex &index) const
@@ -285,7 +291,7 @@ QStringList ProjectItemModel::getEnclosingFolderInfo(const QModelIndex &index) c
         return noInfo;
     }
 
-    AbstractProjectItem *currentItem = static_cast<AbstractProjectItem *>(index.internalPointer());
+    std::shared_ptr<AbstractProjectItem> currentItem = getBinItemByIndex(index);
     auto folder = currentItem->getEnclosingFolder(true);
     if ((folder == nullptr) || folder == rootItem) {
         return noInfo;
@@ -298,18 +304,17 @@ QStringList ProjectItemModel::getEnclosingFolderInfo(const QModelIndex &index) c
 
 void ProjectItemModel::clean()
 {
-    delete rootItem;
-    rootItem = new ProjectFolder(this);
+    rootItem = ProjectFolder::construct(std::static_pointer_cast<ProjectItemModel>(shared_from_this()));
 }
 
-ProjectFolder *ProjectItemModel::getRootFolder() const
+std::shared_ptr<ProjectFolder> ProjectItemModel::getRootFolder() const
 {
-    return static_cast<ProjectFolder *>(rootItem);
+    return std::static_pointer_cast<ProjectFolder>(rootItem);
 }
 
 void ProjectItemModel::loadSubClips(const QString &id, const QMap<QString, QString> &dataMap)
 {
-    ProjectClip *clip = getClipByBinID(id);
+    std::shared_ptr<ProjectClip> clip = getClipByBinID(id);
     if (!clip) {
         return;
     }
@@ -329,7 +334,9 @@ void ProjectItemModel::loadSubClips(const QString &id, const QMap<QString, QStri
         }
         missingThumbs << in;
         // TODO remove access to doc here
-        new ProjectSubClip(clip, this, in, out, pCore->currentDoc()->timecode().getDisplayTimecodeFromFrames(in, KdenliveSettings::frametimecode()), i.key());
+        auto self = std::static_pointer_cast<ProjectItemModel>(shared_from_this());
+        ProjectSubClip::construct(clip, self, in, out, pCore->currentDoc()->timecode().getDisplayTimecodeFromFrames(in, KdenliveSettings::frametimecode()),
+                                  i.key());
     }
     if (!missingThumbs.isEmpty()) {
         // generate missing subclip thumbnails
@@ -340,4 +347,9 @@ void ProjectItemModel::loadSubClips(const QString &id, const QMap<QString, QStri
 Bin *ProjectItemModel::bin() const
 {
     return m_bin;
+}
+
+std::shared_ptr<AbstractProjectItem> ProjectItemModel::getBinItemByIndex(const QModelIndex &index) const
+{
+    return std::static_pointer_cast<AbstractProjectItem>(getItemById((int)index.internalId()));
 }

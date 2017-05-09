@@ -38,10 +38,13 @@ public:
        @param service is the mlt object on which we will plant the effects */
     static std::shared_ptr<EffectStackModel> construct(std::weak_ptr<Mlt::Service> service);
 
+protected:
+    EffectStackModel(std::weak_ptr<Mlt::Service> service);
+
+public:
     /* @brief Add an effect at the bottom of the stack */
     void appendEffect(const QString &effectId);
 
-    EffectStackModel(std::weak_ptr<Mlt::Service> service);
 
     /* @brief This function change the global (timeline-wise) enabled state of the effects
      */

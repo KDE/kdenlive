@@ -24,45 +24,56 @@
 
 #include <QList>
 #include <QVariant>
+#include <memory>
+#include <unordered_map>
 
 /* @brief This class is a generic class to represent items of a tree-like model
  */
 
 class AbstractTreeModel;
-class TreeItem : public QObject
+class TreeItem : public QObject, public std::enable_shared_from_this<TreeItem>
 {
 public:
     /* @brief Construct a TreeItem
      @param data List of data elements (columns) of the created item
      @param model Pointer to the model to which this elem belongs to
      @param parentItem address of the parent if the child is not orphan
+     @param id of the newly created item. If left to -1, the id is assigned automatically
+     @return a ptr to the constructed item
     */
-    explicit TreeItem(const QList<QVariant> &data, AbstractTreeModel *model, TreeItem *parentItem = nullptr);
+    static std::shared_ptr<TreeItem> construct(const QList<QVariant> &data, std::shared_ptr<AbstractTreeModel> model, std::shared_ptr<TreeItem> parent, int id = -1);
+
+    friend class AbstractTreeModel;
+protected:
+    // This is protected. Call construct instead
+    explicit TreeItem(const QList<QVariant> &data, std::shared_ptr<AbstractTreeModel> model, std::shared_ptr<TreeItem> parent, int id = -1);
+
+public:
     virtual ~TreeItem();
 
     /* @brief Creates a child of the current item
        @param data: List of data elements (columns) to init the child with.
     */
-    TreeItem *appendChild(const QList<QVariant> &data);
+    std::shared_ptr<TreeItem> appendChild(const QList<QVariant> &data);
 
     /* @brief Appends an already created child
        Useful for example if the child should be a subclass of TreeItem
     */
-    void appendChild(TreeItem *child);
+    void appendChild(std::shared_ptr<TreeItem> child);
 
     /* @brief Remove given child from children list. The parent of the child is updated
        accordingly
      */
-    void removeChild(TreeItem *child);
+    void removeChild(std::shared_ptr<TreeItem> child);
 
     /* @brief Change the parent of the current item. Structures are modified accordingly
      */
-    void changeParent(TreeItem *newParent);
+    void changeParent(std::shared_ptr<TreeItem> newParent);
 
     /* @brief Retrieves a child of the current item
        @param row is the index of the child to retrieve
     */
-    TreeItem *child(int row) const;
+    std::shared_ptr<TreeItem> child(int row) const;
 
     /* @brief Return the number of children */
     int childCount() const;
@@ -82,18 +93,30 @@ public:
 
     /* @brief Return a ptr to the parent item
      */
-    TreeItem *parentItem();
+    std::weak_ptr<TreeItem> parentItem() const;
 
     /* @brief Return the depth of the current item*/
     int depth() const;
 
+    /* @brief Return the id of the current item*/
+    int getId() const;
 protected:
-    QList<TreeItem *> m_childItems;
-    QList<QVariant> m_itemData;
-    TreeItem *m_parentItem;
 
-    AbstractTreeModel *m_model;
+    /* @brief Finish construction of object given its pointer
+       This is a separated function so that it can be called from derived classes */
+    static void baseFinishConstruct(std::shared_ptr<TreeItem> self);
+
+
+    std::list<std::shared_ptr<TreeItem>> m_childItems;
+    std::unordered_map<int, std::list<std::shared_ptr<TreeItem>>::iterator>
+    m_iteratorTable; // this logs the iterator associated which each child id. This allows easy access of a child based on its id.
+
+    QList<QVariant> m_itemData;
+    std::weak_ptr<TreeItem> m_parentItem;
+
+    std::weak_ptr<AbstractTreeModel> m_model;
     int m_depth;
+    int m_id;
 };
 
 #endif

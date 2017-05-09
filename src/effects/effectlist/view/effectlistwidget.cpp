@@ -32,7 +32,7 @@ EffectListWidget::EffectListWidget(QWidget *parent)
 {
 
     QString effectCategory = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("kdenliveeffectscategory.rc"));
-    m_model.reset(new EffectTreeModel(effectCategory, this));
+    m_model = EffectTreeModel::construct(effectCategory, this);
 
     m_proxyModel.reset(new EffectFilter(this));
     m_proxyModel->setSourceModel(m_model.get());

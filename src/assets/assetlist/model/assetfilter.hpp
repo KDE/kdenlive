@@ -53,9 +53,9 @@ public:
 protected:
     bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override;
 
-    bool filterName(TreeItem *item) const;
+    bool filterName(std::shared_ptr<TreeItem> item) const;
     /* @brief Apply all filter and returns true if the object should be kept after filtering */
-    virtual bool applyAll(TreeItem *item) const;
+    virtual bool applyAll(std::shared_ptr<TreeItem> item) const;
 
     bool m_name_enabled;
     QString m_name_value;

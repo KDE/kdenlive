@@ -185,7 +185,7 @@ public:
     void createClip(const QDomElement &xml);
 
     /** @brief Used to notify the Model View that an item was updated */
-    void emitItemUpdated(AbstractProjectItem *item);
+    void emitItemUpdated(std::shared_ptr<AbstractProjectItem> item);
 
     /** @brief Set monitor associated with this bin (clipmonitor) */
     void setMonitor(Monitor *monitor);
@@ -194,17 +194,17 @@ public:
     Monitor *monitor();
 
     /** @brief Open a producer in the clip monitor */
-    void openProducer(ProjectClip *controller);
-    void openProducer(ProjectClip *controller, int in, int out);
+    void openProducer(std::shared_ptr<ProjectClip> controller);
+    void openProducer(std::shared_ptr<ProjectClip> controller, int in, int out);
 
     /** @brief Trigger deletion of an item */
     void deleteClip(const QString &id);
 
     /** @brief Get a clip from it's id */
-    ProjectClip *getBinClip(const QString &id);
+    std::shared_ptr<ProjectClip> getBinClip(const QString &id);
 
     /** @brief Returns a list of selected clips  */
-    QList<ProjectClip *> selectedClips();
+    QList<std::shared_ptr<ProjectClip>> selectedClips();
 
     /** @brief Start a job of selected type for a clip  */
     void startJob(const QString &id, AbstractClipJob::JOBTYPE type);
@@ -280,7 +280,7 @@ public:
     /** @brief Delete all markers from @param id clip. */
     void deleteAllClipMarkers(const QString &id);
     /** @brief Edit an effect settings to a bin clip. */
-    void editMasterEffect(AbstractProjectItem *clip);
+    void editMasterEffect(std::shared_ptr<AbstractProjectItem> clip);
     /** @brief An effect setting was changed, update stack if displayed. */
     void updateMasterEffect(ClipController *ctl);
     /** @brief Display a message about an operation in status bar. */
@@ -395,7 +395,7 @@ public slots:
     void slotRefreshClipThumbnail(const QString &id);
     void slotDeleteClip();
     void slotItemDoubleClicked(const QModelIndex &ix, const QPoint pos);
-    void slotSwitchClipProperties(ProjectClip *clip);
+    void slotSwitchClipProperties(std::shared_ptr<ProjectClip> clip);
     void slotSwitchClipProperties();
     /** @brief Creates a new folder with optional name, and returns new folder's id */
     QString slotAddFolder(const QString &folderName = QString());
@@ -449,16 +449,16 @@ protected:
     /* This function is called whenever an item is selected to propagate signals
        (for ex request to show the clip in the monitor)
     */
-    void setCurrent(AbstractProjectItem *item);
+    void setCurrent(std::shared_ptr<AbstractProjectItem> item);
 
     void contextMenuEvent(QContextMenuEvent *event) override;
     bool eventFilter(QObject *obj, QEvent *event) override;
 
 private:
-    ProjectItemModel *m_itemModel;
+    std::shared_ptr<ProjectItemModel> m_itemModel;
     QAbstractItemView *m_itemView;
     /** @brief An "Up" item that is inserted in bin when using icon view so that user can navigate up */
-    ProjectFolderUp *m_folderUp;
+    std::shared_ptr<ProjectFolderUp> m_folderUp;
     BinItemDelegate *m_binTreeViewDelegate;
     ProjectSortProxyModel *m_proxyModel;
     JobManager *m_jobManager;
@@ -518,16 +518,16 @@ private:
     long m_processedAudio;
     /** @brief Indicates whether audio thumbnail creation is running. */
     QFuture<void> m_audioThumbsThread;
-    void showClipProperties(ProjectClip *clip, bool forceRefresh = false);
+    void showClipProperties(std::shared_ptr<ProjectClip> clip, bool forceRefresh = false);
     /** @brief Get the QModelIndex value for an item in the Bin. */
     QModelIndex getIndexForId(const QString &id, bool folderWanted) const;
-    ProjectClip *getFirstSelectedClip();
-    void showTitleWidget(ProjectClip *clip);
-    void showSlideshowWidget(ProjectClip *clip);
+    std::shared_ptr<ProjectClip> getFirstSelectedClip();
+    void showTitleWidget(std::shared_ptr<ProjectClip> clip);
+    void showSlideshowWidget(std::shared_ptr<ProjectClip> clip);
     void processAudioThumbs();
 
 signals:
-    void itemUpdated(AbstractProjectItem *);
+    void itemUpdated(std::shared_ptr<AbstractProjectItem>);
     void producerReady(const QString &id);
     /** @brief Save folder info into MLT. */
     void storeFolder(const QString &folderId, const QString &parentId, const QString &oldParentId, const QString &folderName);
@@ -541,7 +541,7 @@ signals:
     /** @brief Request that the current effect stack is hidden */
     void requestHideEffectStack();
     /** @brief Request that the given clip is displayed in the clip monitor */
-    void requestClipShow(ProjectClip *);
+    void requestClipShow(std::shared_ptr<ProjectClip>);
     void displayBinMessage(const QString &, KMessageWidget::MessageType);
     void displayMessage(const QString &, int, MessageType);
     void requesteInvalidRemoval(const QString &, const QString &, const QString &);
@@ -549,7 +549,7 @@ signals:
     void refreshPanelMarkers();
     /** @brief Analysis data changed, refresh panel. */
     void updateAnalysisData(const QString &);
-    void openClip(ProjectClip *c, int in = -1, int out = -1);
+    void openClip(std::shared_ptr<ProjectClip> c, int in = -1, int out = -1);
     /** @brief Fill context menu with occurrences of this clip in timeline. */
     void findInTimeline(const QString &);
     void clipNameChanged(const QString &);

@@ -60,7 +60,7 @@ public:
 
 protected:
     void setup();
-    std::unique_ptr<AssetTreeModel> m_model;
+    std::shared_ptr<AssetTreeModel> m_model;
     std::unique_ptr<AssetFilter> m_proxyModel;
     // the QmlEngine takes ownership of the image provider
     AssetIconProvider *m_assetIconProvider;

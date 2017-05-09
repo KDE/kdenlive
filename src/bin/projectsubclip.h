@@ -48,13 +48,20 @@ public:
     /**
      * @brief Constructor; used when loading a project and the producer is already available.
      */
-    ProjectSubClip(ProjectClip *parent, ProjectItemModel *model, int in, int out, const QString &timecode, const QString &name = QString());
+    static std::shared_ptr<ProjectSubClip> construct(std::shared_ptr<ProjectClip> parent, std::shared_ptr<ProjectItemModel> model, int in, int out,
+                                                     const QString &timecode, const QString &name = QString());
+
+protected:
+    ProjectSubClip(std::shared_ptr<ProjectClip> parent, std::shared_ptr<ProjectItemModel> model, int in, int out, const QString &timecode,
+                   const QString &name = QString());
+
+public:
     virtual ~ProjectSubClip();
 
-    ProjectClip *clip(const QString &id) override;
-    ProjectFolder *folder(const QString &id) override;
-    ProjectSubClip *subClip(int in, int out);
-    ProjectClip *clipAt(int ix) override;
+    std::shared_ptr<ProjectClip> clip(const QString &id) override;
+    std::shared_ptr<ProjectFolder> folder(const QString &id) override;
+    std::shared_ptr<ProjectSubClip> subClip(int in, int out);
+    std::shared_ptr<ProjectClip> clipAt(int ix) override;
     /** @brief Recursively disable/enable bin effects. */
     void setBinEffectsEnabled(bool enabled) override;
     QDomElement toXml(QDomDocument &document, bool includeMeta = false) override;
@@ -72,10 +79,10 @@ public:
     bool rename(const QString &name, int column) override;
 
     /** @brief returns a pointer to the parent clip */
-    ProjectClip *getMasterClip() const;
+    std::shared_ptr<ProjectClip> getMasterClip() const;
 
 private:
-    ProjectClip *m_masterClip;
+    std::shared_ptr<ProjectClip> m_masterClip;
     int m_in;
     int m_out;
 

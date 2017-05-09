@@ -38,7 +38,7 @@ public:
     QVariant data(const QModelIndex &index, int role) const override;
 
     /*@brief Given a valid QModelIndex, this function retrieves the corresponding profile's path. Returns the empty string if something went wrong */
-    static QString getProfile(const QModelIndex &index);
+    QString getProfile(const QModelIndex &index);
 
     /** @brief This function returns the model index corresponding to a given @param profile path */
     QModelIndex findProfile(const QString &profile);

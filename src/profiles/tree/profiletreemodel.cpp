@@ -42,7 +42,7 @@ ProfileTreeModel::ProfileTreeModel(QObject *parent)
              << "sample_aspect_ratio"
              << "fps"
              << "colorspace";
-    rootItem = new TreeItem(rootData, this);
+    rootItem = TreeItem::construct(rootData, shared_from_this(), std::shared_ptr<TreeItem>());
 
     ProfileRepository::get()->refresh();
     QVector<QPair<QString, QString>> profiles = ProfileRepository::get()->getAllProfiles();
@@ -54,7 +54,7 @@ ProfileTreeModel::ProfileTreeModel(QObject *parent)
 
     // We define the filters as a vector of pairs. The first element correspond to the tree item holding matching profiles, and the array correspond to the
     // filter itself
-    std::vector<std::pair<TreeItem *, std::array<QVariant, nbCrit>>> filters{
+    std::vector<std::pair<std::shared_ptr<TreeItem> , std::array<QVariant, nbCrit>>> filters{
         {createCat(i18n("5K (Wide 2160)")), {{5120, 2160, -1}}},
         {createCat(i18n("4K UHD 2160")), {{3840, 2160, -1}}},
         {createCat(i18n("4K DCI 2160")), {{4096, 2160, -1}}},
@@ -113,7 +113,7 @@ QVariant ProfileTreeModel::data(const QModelIndex &index, int role) const
         return QVariant();
     }
 
-    TreeItem *item = static_cast<TreeItem *>(index.internalPointer());
+    auto item = getItemById((int)index.internalId());
     if (role == Qt::DecorationRole) {
         if (item->depth() == 1) {
             return KoIconUtils::themedIcon(QStringLiteral("folder"));
@@ -127,11 +127,10 @@ QVariant ProfileTreeModel::data(const QModelIndex &index, int role) const
     return item->dataColumn(index.column());
 }
 
-// static
 QString ProfileTreeModel::getProfile(const QModelIndex &index)
 {
     if (index.isValid()) {
-        TreeItem *item = static_cast<TreeItem *>(index.internalPointer());
+        auto item = getItemById((int)index.internalId());
         if (item->depth() == 2) {
             return item->dataColumn(1).toString();
         }
@@ -144,13 +143,13 @@ QModelIndex ProfileTreeModel::findProfile(const QString &profile)
     // we iterate over categories
     for (int i = 0; i < rootItem->childCount(); ++i) {
         // we iterate over profiles of the category
-        TreeItem *category = rootItem->child(i);
+        std::shared_ptr<TreeItem> category = rootItem->child(i);
         for (int j = 0; j < category->childCount(); ++j) {
             // we retrieve profile path
-            TreeItem *child = category->child(j);
+            std::shared_ptr<TreeItem> child = category->child(j);
             QString path = child->dataColumn(1).toString();
             if (path == profile) {
-                return createIndex(j, 0, child);
+                return createIndex(j, 0, quintptr(child->getId()));
             }
         }
     }

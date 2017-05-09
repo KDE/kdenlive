@@ -31,8 +31,11 @@ class TreeItem;
 class EffectTreeModel : public AssetTreeModel
 {
 
+protected:
+    explicit EffectTreeModel(QObject *parent = nullptr);
+
 public:
-    explicit EffectTreeModel(const QString &categoryFile, QObject *parent = 0);
+    static std::shared_ptr<EffectTreeModel> construct(const QString &categoryFile, QObject *parent);
 
 protected:
 };

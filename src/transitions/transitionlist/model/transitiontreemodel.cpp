@@ -26,33 +26,37 @@
 
 #include <QDebug>
 
-TransitionTreeModel::TransitionTreeModel(bool flat, QObject *parent)
+TransitionTreeModel::TransitionTreeModel(QObject *parent)
     : AssetTreeModel(parent)
 {
+}
+std::shared_ptr<TransitionTreeModel> TransitionTreeModel::construct(bool flat, QObject *parent)
+{
+    std::shared_ptr<TransitionTreeModel> self(new TransitionTreeModel(parent));
     QList<QVariant> rootData;
     rootData << "Name"
              << "ID"
              << "Type"
              << "isFav";
-    rootItem = new TreeItem(rootData, static_cast<AbstractTreeModel *>(this));
+    self->rootItem = TreeItem::construct(rootData, self, std::shared_ptr<TreeItem>());
 
     // We create categories, if requested
-    TreeItem *compoCategory, *transCategory;
+    std::shared_ptr<TreeItem> compoCategory, transCategory;
     if (!flat) {
-        compoCategory = rootItem->appendChild(QList<QVariant>{i18n("Compositions"), QStringLiteral("root")});
-        transCategory = rootItem->appendChild(QList<QVariant>{i18n("Transitions"), QStringLiteral("root")});
+        compoCategory = self->rootItem->appendChild(QList<QVariant>{i18n("Compositions"), QStringLiteral("root")});
+        transCategory = self->rootItem->appendChild(QList<QVariant>{i18n("Transitions"), QStringLiteral("root")});
     }
 
     // We parse transitions
     auto allTransitions = TransitionsRepository::get()->getNames();
     for (const auto &transition : allTransitions) {
-        TreeItem *targetCategory = compoCategory;
+        std::shared_ptr<TreeItem> targetCategory = compoCategory;
         TransitionType type = TransitionsRepository::get()->getType(transition.first);
         if (type == TransitionType::AudioTransition || type == TransitionType::VideoTransition) {
             targetCategory = transCategory;
         }
         if (flat) {
-            targetCategory = rootItem;
+            targetCategory = self->rootItem;
         }
 
         // we create the data list corresponding to this transition
@@ -63,4 +67,5 @@ TransitionTreeModel::TransitionTreeModel(bool flat, QObject *parent)
 
         targetCategory->appendChild(data);
     }
+    return self;
 }

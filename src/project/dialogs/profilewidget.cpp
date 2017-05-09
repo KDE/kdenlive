@@ -198,7 +198,7 @@ void ProfileWidget::slotChangeSelection(const QModelIndex &current, const QModel
         selection->select(previous, QItemSelectionModel::Select);
         return;
     }
-    m_currentProfile = ProfileTreeModel::getProfile(originalIndex);
+    m_currentProfile = m_treeModel->getProfile(originalIndex);
     if (!m_currentProfile.isEmpty()) {
         m_lastValidProfile = m_currentProfile;
     }

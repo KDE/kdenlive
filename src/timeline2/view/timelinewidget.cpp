@@ -51,7 +51,7 @@ TimelineWidget::TimelineWidget(KActionCollection *actionCollection, std::shared_
 {
     registerTimelineItems();
 
-    m_transitionModel.reset(new TransitionTreeModel(true, this));
+    m_transitionModel = TransitionTreeModel::construct(true, this);
 
     m_transitionProxyModel.reset(new AssetFilter(this));
     m_transitionProxyModel->setSourceModel(m_transitionModel.get());

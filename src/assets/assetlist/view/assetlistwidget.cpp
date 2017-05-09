@@ -76,8 +76,7 @@ QVariantMap AssetListWidget::getMimeData(const QString &assetId) const
 void AssetListWidget::activate(const QModelIndex &ix)
 {
     const QString assetId = m_model->data(m_proxyModel->mapToSource(ix), AssetTreeModel::IdRole).toString();
-    const QVariantMap data = getMimeData(assetId);
-    emit activateAsset(data);
+    emit activateAsset(getMimeData(assetId));
 }
 
 

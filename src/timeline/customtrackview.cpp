@@ -1800,6 +1800,7 @@ void CustomTrackView::insertClipCut(const QString &id, int in, int out)
 
 bool CustomTrackView::insertDropClips(const QMimeData *mimeData, const QPoint &pos)
 {
+    /*
     m_clipDrag = mimeData->hasFormat(QStringLiteral("kdenlive/clip")) || mimeData->hasFormat(QStringLiteral("kdenlive/producerslist"));
     // This is not a clip drag, maybe effect or other...
     if (!m_clipDrag) {
@@ -1988,6 +1989,7 @@ bool CustomTrackView::insertDropClips(const QMimeData *mimeData, const QPoint &p
         }
         // m_selectionGroup->setZValue(10);
     }
+    */
     return true;
 }
 
@@ -4904,6 +4906,7 @@ void CustomTrackView::slotInfoProcessingFinished()
 
 void CustomTrackView::addClip(const QString &clipId, const ItemInfo &info, const EffectsList &effects, PlaylistState::ClipState state, bool refresh)
 {
+    /*
     ProjectClip *binClip = m_document->getBinClip(clipId);
     if (!binClip) {
         emit displayMessage(i18n("Cannot insert clip."), ErrorMessage);
@@ -5001,6 +5004,7 @@ void CustomTrackView::addClip(const QString &clipId, const ItemInfo &info, const
     if (refresh && item->hasVisibleVideo()) {
         monitorRefresh(info, true);
     }
+    */
 }
 
 void CustomTrackView::slotUpdateClip(const QString &clipId, bool reload)
@@ -8218,6 +8222,7 @@ void CustomTrackView::checkTrackSequence(int track)
 
 int CustomTrackView::insertZone(TimelineMode::EditMode sceneMode, const QString &clipId, QPoint binZone)
 {
+    /*
     bool extractAudio = true;
     bool extractVideo = true;
     ProjectClip *clp = m_document->getBinClip(clipId);
@@ -8305,6 +8310,8 @@ int CustomTrackView::insertZone(TimelineMode::EditMode sceneMode, const QString 
     m_commandStack->push(addCommand);
     selectClip(true, false, m_selectedTrack, timelineZone.x());
     return info.endPos.frames(pCore->getCurrentFps());
+    */
+    return 0;
 }
 
 void CustomTrackView::clearSelection(bool emitInfo)

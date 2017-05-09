@@ -41,27 +41,31 @@ public:
      * @param description element describing the folder and its children
      * @param parent parent folder
      */
-    explicit ProjectFolderUp(ProjectItemModel *model, AbstractProjectItem *parent);
+    static std::shared_ptr<ProjectFolderUp> construct(std::shared_ptr<ProjectItemModel> model, std::shared_ptr<AbstractProjectItem> parent);
 
+protected:
+    explicit ProjectFolderUp(std::shared_ptr<ProjectItemModel> model, std::shared_ptr<AbstractProjectItem> parent);
+
+public:
     ~ProjectFolderUp();
 
     /**
      * @brief Returns the clip if it is a child (also indirect).
      * @param id id of the child which should be returned
      */
-    ProjectClip *clip(const QString &id) override;
+    std::shared_ptr<ProjectClip> clip(const QString &id) override;
 
     /**
      * @brief Returns itself or a child folder that matches the requested id.
      * @param id id of the child which should be returned
      */
-    ProjectFolder *folder(const QString &id) override;
+    std::shared_ptr<ProjectFolder> folder(const QString &id) override;
 
     /**
      * @brief Returns the clip if it is a child (also indirect).
      * @param index index of the child which should be returned
      */
-    ProjectClip *clipAt(int index) override;
+    std::shared_ptr<ProjectClip> clipAt(int index) override;
 
     /** @brief Recursively disable/enable bin effects. */
     void setBinEffectsEnabled(bool enabled) override;

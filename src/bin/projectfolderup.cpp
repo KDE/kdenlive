@@ -26,7 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KLocalizedString>
 #include <QDomElement>
 
-ProjectFolderUp::ProjectFolderUp(ProjectItemModel *model, AbstractProjectItem *parent)
+ProjectFolderUp::ProjectFolderUp(std::shared_ptr<ProjectItemModel> model, std::shared_ptr<AbstractProjectItem> parent)
     : AbstractProjectItem(AbstractProjectItem::FolderUpItem, QString(), model, parent)
 {
     m_thumbnail = KoIconUtils::themedIcon(QStringLiteral("go-previous"));
@@ -34,14 +34,22 @@ ProjectFolderUp::ProjectFolderUp(ProjectItemModel *model, AbstractProjectItem *p
     changeParent(parent);
 }
 
+std::shared_ptr<ProjectFolderUp> ProjectFolderUp::construct(std::shared_ptr<ProjectItemModel> model, std::shared_ptr<AbstractProjectItem> parent)
+{
+    std::shared_ptr<ProjectFolderUp> self(new ProjectFolderUp(model, parent));
+
+    baseFinishConstruct(self);
+    return self;
+}
+
 ProjectFolderUp::~ProjectFolderUp()
 {
 }
 
-ProjectClip *ProjectFolderUp::clip(const QString &id)
+std::shared_ptr<ProjectClip> ProjectFolderUp::clip(const QString &id)
 {
     Q_UNUSED(id)
-    return nullptr;
+    return std::shared_ptr<ProjectClip>();
 }
 
 QString ProjectFolderUp::getToolTip() const
@@ -49,16 +57,16 @@ QString ProjectFolderUp::getToolTip() const
     return i18n("Go up");
 }
 
-ProjectFolder *ProjectFolderUp::folder(const QString &id)
+std::shared_ptr<ProjectFolder> ProjectFolderUp::folder(const QString &id)
 {
-    Q_UNUSED(id)
-    return nullptr;
+    Q_UNUSED(id);
+    return std::shared_ptr<ProjectFolder>();
 }
 
-ProjectClip *ProjectFolderUp::clipAt(int index)
+std::shared_ptr<ProjectClip> ProjectFolderUp::clipAt(int index)
 {
-    Q_UNUSED(index)
-    return nullptr;
+    Q_UNUSED(index);
+    return std::shared_ptr<ProjectClip>();
 }
 
 void ProjectFolderUp::setBinEffectsEnabled(bool)

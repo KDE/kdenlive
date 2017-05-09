@@ -36,7 +36,7 @@ public:
     /* This construct an effect of the given id
        @param is a ptr to the model this item belongs to. This is required to send update signals
      */
-    static EffectItemModel *construct(const QString &effectId, EffectStackModel *stack);
+    static std::shared_ptr<EffectItemModel> construct(const QString &effectId, std::shared_ptr<AbstractTreeModel> stack, std::shared_ptr<TreeItem> parent);
 
     /* @brief This function plants the effect into the given service in last position
      */
@@ -54,7 +54,7 @@ public:
     Mlt::Filter &filter() const;
 
 protected:
-    EffectItemModel(const QList<QVariant> &data, Mlt::Properties *effect, const QDomElement &xml, const QString &effectId, EffectStackModel *stack);
+    EffectItemModel(const QList<QVariant> &data, Mlt::Properties *effect, const QDomElement &xml, const QString &effectId, std::shared_ptr<AbstractTreeModel> stack, std::shared_ptr<TreeItem> parent);
 
     /* @brief Toogles the mlt effect according to the current activation state*/
     void updateEnable();

@@ -22,22 +22,30 @@
 #include "abstracttreemodel.hpp"
 #include "treeitem.hpp"
 
+int AbstractTreeModel::currentTreeId = 0;
 AbstractTreeModel::AbstractTreeModel(QObject *parent)
     : QAbstractItemModel(parent)
-    , rootItem(new TreeItem(QList<QVariant>(), this))
 {
+}
+
+std::shared_ptr<AbstractTreeModel> AbstractTreeModel::construct(QObject *parent)
+{
+    std::shared_ptr<AbstractTreeModel> self(new AbstractTreeModel(parent));
+    self->rootItem.reset(new TreeItem(QList<QVariant>(), self, std::shared_ptr<TreeItem>()));
+    return self;
 }
 
 AbstractTreeModel::~AbstractTreeModel()
 {
-    delete rootItem;
 }
 
 int AbstractTreeModel::columnCount(const QModelIndex &parent) const
 {
-    if (parent.isValid()) return static_cast<TreeItem *>(parent.internalPointer())->columnCount();
+    if (!parent.isValid()) return rootItem->columnCount();
 
-    return rootItem->columnCount();
+    const int id = (int)parent.internalId();
+    auto item = getItemById(id);
+    return item->columnCount();
 }
 
 QVariant AbstractTreeModel::data(const QModelIndex &index, int role) const
@@ -49,7 +57,7 @@ QVariant AbstractTreeModel::data(const QModelIndex &index, int role) const
     if (role != Qt::DisplayRole) {
         return QVariant();
     }
-    TreeItem *item = static_cast<TreeItem *>(index.internalPointer());
+    auto item = getItemById((int)index.internalId());
     return item->dataColumn(index.column());
 }
 
@@ -58,7 +66,7 @@ Qt::ItemFlags AbstractTreeModel::flags(const QModelIndex &index) const
     const auto flags = QAbstractItemModel::flags(index);
 
     if (index.isValid()) {
-        TreeItem *item = static_cast<TreeItem *>(index.internalPointer());
+        auto item = getItemById((int)index.internalId());
         if (item->depth() == 1) {
             return flags & ~Qt::ItemIsSelectable;
         }
@@ -77,15 +85,15 @@ QModelIndex AbstractTreeModel::index(int row, int column, const QModelIndex &par
 {
     if (!hasIndex(row, column, parent)) return QModelIndex();
 
-    TreeItem *parentItem;
+    std::shared_ptr<TreeItem> parentItem;
 
     if (!parent.isValid())
         parentItem = rootItem;
     else
-        parentItem = static_cast<TreeItem *>(parent.internalPointer());
+        parentItem = getItemById((int)parent.internalId());
 
-    TreeItem *childItem = parentItem->child(row);
-    if (childItem) return createIndex(row, column, childItem);
+    std::shared_ptr<TreeItem> childItem = parentItem->child(row);
+    if (childItem) return createIndex(row, column, quintptr(childItem->getId()));
 
     return QModelIndex();
 }
@@ -94,36 +102,38 @@ QModelIndex AbstractTreeModel::parent(const QModelIndex &index) const
 {
     if (!index.isValid()) return QModelIndex();
 
-    TreeItem *childItem = static_cast<TreeItem *>(index.internalPointer());
-    TreeItem *parentItem = childItem->parentItem();
+    std::shared_ptr<TreeItem> childItem = getItemById((int)index.internalId());
+    std::shared_ptr<TreeItem> parentItem = childItem->parentItem().lock();
+
+    Q_ASSERT(parentItem);
 
     if (parentItem == rootItem) return QModelIndex();
 
-    return createIndex(parentItem->row(), 0, parentItem);
+    return createIndex(parentItem->row(), 0, quintptr(parentItem->getId()));
 }
 
 int AbstractTreeModel::rowCount(const QModelIndex &parent) const
 {
-    TreeItem *parentItem;
     if (parent.column() > 0) return 0;
 
+    std::shared_ptr<TreeItem> parentItem;
     if (!parent.isValid())
         parentItem = rootItem;
     else
-        parentItem = static_cast<TreeItem *>(parent.internalPointer());
+        parentItem = getItemById((int)parent.internalId());
 
     return parentItem->childCount();
 }
 
-QModelIndex AbstractTreeModel::getIndexFromItem(TreeItem *item) const
+QModelIndex AbstractTreeModel::getIndexFromItem(std::shared_ptr<TreeItem> item) const
 {
     if (item == rootItem) {
         return QModelIndex();
     }
-    return index(item->row(), 0, getIndexFromItem(item->parentItem()));
+    return index(item->row(), 0, getIndexFromItem(item->parentItem().lock()));
 }
 
-void AbstractTreeModel::notifyRowAboutToAppend(TreeItem *item)
+void AbstractTreeModel::notifyRowAboutToAppend(std::shared_ptr<TreeItem> item)
 {
     auto index = getIndexFromItem(item);
     beginInsertRows(index, item->childCount(), item->childCount());
@@ -134,7 +144,7 @@ void AbstractTreeModel::notifyRowAppended()
     endInsertRows();
 }
 
-void AbstractTreeModel::notifyRowAboutToDelete(TreeItem *item, int row)
+void AbstractTreeModel::notifyRowAboutToDelete(std::shared_ptr<TreeItem> item, int row)
 {
     auto index = getIndexFromItem(item);
     beginRemoveRows(index, row, row);
@@ -143,4 +153,32 @@ void AbstractTreeModel::notifyRowAboutToDelete(TreeItem *item, int row)
 void AbstractTreeModel::notifyRowDeleted()
 {
     endRemoveRows();
+}
+
+// static
+int AbstractTreeModel::getNextId()
+{
+    return currentTreeId++;
+}
+
+void AbstractTreeModel::registerItem(std::shared_ptr<TreeItem> item)
+{
+    int id = item->getId();
+    Q_ASSERT(m_allItems.count(id) == 0);
+    m_allItems[id] = item;
+}
+
+void AbstractTreeModel::deregisterItem(int id)
+{
+    Q_ASSERT(m_allItems.count(id) > 0);
+    m_allItems.erase(id);
+}
+
+std::shared_ptr<TreeItem> AbstractTreeModel::getItemById(int id) const
+{
+    if (id == rootItem->getId()) {
+        return rootItem;
+    }
+    Q_ASSERT(m_allItems.count(id) > 0);
+    return m_allItems.at(id);
 }

@@ -40,7 +40,7 @@ ClipModel::ClipModel(std::weak_ptr<TimelineModel> parent, std::shared_ptr<Mlt::P
     , m_binClipId(binClipId)
 {
     m_producer->set("kdenlive:id", binClipId.toUtf8().constData());
-    ProjectClip *binClip = pCore->bin()->getBinClip(m_binClipId);
+    std::shared_ptr<ProjectClip> binClip = pCore->bin()->getBinClip(m_binClipId);
     if (binClip) {
         m_endlessResize = !binClip->hasLimitedDuration();
     } else {
@@ -54,7 +54,7 @@ ClipModel::ClipModel(std::weak_ptr<TimelineModel> parent, std::shared_ptr<Mlt::P
 
 int ClipModel::construct(const std::weak_ptr<TimelineModel> &parent, const QString &binClipId, int id)
 {
-    ProjectClip *binClip = pCore->bin()->getBinClip(binClipId);
+    std::shared_ptr<ProjectClip> binClip = pCore->bin()->getBinClip(binClipId);
     std::shared_ptr<Mlt::Producer> originalProducer = binClip->originalProducer();
     std::shared_ptr<Mlt::Producer> cutProducer(originalProducer->cut());
     std::shared_ptr<ClipModel> clip(new ClipModel(parent, cutProducer, binClipId, id));
@@ -92,7 +92,7 @@ int ClipModel::load(const std::weak_ptr<TimelineModel> &parent, const QString &b
 
 ClipModel::~ClipModel()
 {
-    ProjectClip *binClip = pCore->bin()->getBinClip(m_binClipId);
+    std::shared_ptr<ProjectClip> binClip = pCore->bin()->getBinClip(m_binClipId);
     binClip->deregisterTimelineClip(m_id);
 }
 
@@ -205,7 +205,7 @@ void ClipModel::refreshProducerFromBin()
 {
     int in = getIn();
     int out = getOut();
-    ProjectClip *binClip = pCore->bin()->getBinClip(m_binClipId);
+    std::shared_ptr<ProjectClip> binClip = pCore->bin()->getBinClip(m_binClipId);
     std::shared_ptr<Mlt::Producer> originalProducer = binClip->originalProducer();
     m_producer.reset(originalProducer->cut(in, out));
     m_endlessResize = !binClip->hasLimitedDuration();
@@ -213,7 +213,7 @@ void ClipModel::refreshProducerFromBin()
 
 QVariant ClipModel::getAudioWaveform()
 {
-    ProjectClip *binClip = pCore->bin()->getBinClip(m_binClipId);
+    std::shared_ptr<ProjectClip> binClip = pCore->bin()->getBinClip(m_binClipId);
     if (binClip) {
         return QVariant::fromValue(binClip->audioFrameCache);
     }

@@ -54,7 +54,7 @@ public:
      * @brief Constructor.
      * @param parent parent this item should be added to
      */
-    AbstractProjectItem(PROJECTITEMTYPE type, const QString &id, ProjectItemModel *model, AbstractProjectItem *parent = nullptr);
+    AbstractProjectItem(PROJECTITEMTYPE type, const QString &id, std::shared_ptr<ProjectItemModel> model, std::shared_ptr<AbstractProjectItem> parent);
     /**
      * @brief Creates a project item upon project load.
      * @param description element for this item.
@@ -63,28 +63,31 @@ public:
      *
      * We try to read the attributes "name" and "description"
      */
-    AbstractProjectItem(PROJECTITEMTYPE type, const QDomElement &description, ProjectItemModel *model, AbstractProjectItem *parent = nullptr);
+    AbstractProjectItem(PROJECTITEMTYPE type, const QDomElement &description, std::shared_ptr<ProjectItemModel> model,
+                        std::shared_ptr<AbstractProjectItem> parent);
     virtual ~AbstractProjectItem();
 
-    bool operator==(const AbstractProjectItem *projectItem) const;
+    bool operator==(std::shared_ptr<AbstractProjectItem> projectItem) const;
 
     /** @brief Returns a pointer to the parent item (or NULL). */
-    AbstractProjectItem *parent() const;
+    std::shared_ptr<AbstractProjectItem> parent() const;
 
     /** @brief Returns the type of this item (folder, clip, subclip, etc). */
     PROJECTITEMTYPE itemType() const;
 
     /** @brief Used to search for a clip with a specific id. */
-    virtual ProjectClip *clip(const QString &id) = 0;
+    virtual std::shared_ptr<ProjectClip> clip(const QString &id) = 0;
     /** @brief Used to search for a folder with a specific id. */
-    virtual ProjectFolder *folder(const QString &id) = 0;
-    virtual ProjectClip *clipAt(int ix) = 0;
+    virtual std::shared_ptr<ProjectFolder> folder(const QString &id) = 0;
+    virtual std::shared_ptr<ProjectClip> clipAt(int ix) = 0;
     /** @brief Recursively disable/enable bin effects. */
     virtual void setBinEffectsEnabled(bool enabled) = 0;
 
     /** @brief Returns the clip's id. */
     const QString &clipId() const;
     virtual QPoint zone() const;
+
+    // TODO refac : these ref counting are probably deprecated by smart ptrs
     /** @brief Set current usage count. */
     void setRefCount(uint count);
     /** @brief Returns clip's current usage count in timeline. */
@@ -163,7 +166,7 @@ public:
     /* Returns a ptr to the enclosing dir, and nullptr if none is found.
        @param strict if set to false, the enclosing dir of a dir is itself, otherwise we try to find a "true" parent
     */
-    AbstractProjectItem *getEnclosingFolder(bool strict = false) const;
+    std::shared_ptr<AbstractProjectItem> getEnclosingFolder(bool strict = false);
 
 signals:
     void childAdded(AbstractProjectItem *child);

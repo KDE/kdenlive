@@ -47,7 +47,7 @@ QString AssetTreeModel::getName(const QModelIndex &index) const
     if (!index.isValid()) {
         return QString();
     }
-    TreeItem *item = static_cast<TreeItem *>(index.internalPointer());
+    std::shared_ptr<TreeItem> item = getItemById((int)index.internalId());
     if (item->depth() == 1) {
         return item->dataColumn(0).toString();
     }
@@ -59,7 +59,7 @@ QString AssetTreeModel::getDescription(const QModelIndex &index) const
     if (!index.isValid()) {
         return QString();
     }
-    TreeItem *item = static_cast<TreeItem *>(index.internalPointer());
+    std::shared_ptr<TreeItem> item = getItemById((int)index.internalId());
     if (item->depth() == 1) {
         return QString();
     }
@@ -79,7 +79,7 @@ QVariant AssetTreeModel::data(const QModelIndex &index, int role) const
         return QVariant();
     }
 
-    TreeItem *item = static_cast<TreeItem *>(index.internalPointer());
+    std::shared_ptr<TreeItem> item = getItemById((int)index.internalId());
     if (role == IdRole) {
         return item->dataColumn(AssetTreeModel::idCol);
     }
@@ -94,8 +94,8 @@ QList<QModelIndex> AssetTreeModel::getChildrenIndexes()
 {
     QList<QModelIndex> indexes;
     for (int i = 0; i != rootItem->childCount(); ++i) {
-        TreeItem *child = rootItem->child(i);
-        indexes << createIndex(i, 0, child);
+        auto child = rootItem->child(i);
+        indexes << getIndexFromItem(child);
     }
 
     return indexes;

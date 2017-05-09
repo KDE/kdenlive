@@ -30,7 +30,7 @@ TransitionListWidget::TransitionListWidget(QWidget *parent)
     : AssetListWidget(parent)
 {
 
-    m_model.reset(new TransitionTreeModel(false, this));
+    m_model = TransitionTreeModel::construct(false, this);
 
     m_proxyModel.reset(new AssetFilter(this));
     m_proxyModel->setSourceModel(m_model.get());

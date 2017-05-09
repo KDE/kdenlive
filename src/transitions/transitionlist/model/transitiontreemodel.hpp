@@ -31,9 +31,12 @@ class TreeItem;
 class TransitionTreeModel : public AssetTreeModel
 {
 
+protected:
+    explicit TransitionTreeModel(QObject *parent);
+
 public:
     // if flat = true, then the categories are not created
-    explicit TransitionTreeModel(bool flat = false, QObject *parent = 0);
+    static std::shared_ptr<TransitionTreeModel> construct(bool flat = false, QObject *parent = nullptr);
 
 protected:
 };

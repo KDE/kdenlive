@@ -870,7 +870,7 @@ void MainWindow::slotAddEffect(const QDomElement &effect)
 
 void MainWindow::slotUpdateClip(const QString &id, bool reload)
 {
-    ProjectClip *clip = pCore->bin()->getBinClip(id);
+    std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(id);
     if (!clip) {
         return;
     }

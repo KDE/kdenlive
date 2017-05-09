@@ -64,7 +64,7 @@ JobManager::~JobManager()
 
 void JobManager::slotProcessLog(const QString &id, int progress, int type, const QString &message)
 {
-    ProjectClip *item = m_bin->getBinClip(id);
+    std::shared_ptr<ProjectClip> item = m_bin->getBinClip(id);
     item->setJobStatus((AbstractClipJob::JOBTYPE)type, JobWorking, progress, message);
 }
 
@@ -179,7 +179,7 @@ void JobManager::slotProcessJobs()
         firstPass = false;
         QString destination = job->destination();
         // Check if the clip is still here
-        ProjectClip *currentClip = m_bin->getBinClip(job->clipId());
+        std::shared_ptr<ProjectClip> currentClip = m_bin->getBinClip(job->clipId());
         if (currentClip == nullptr) {
             job->setStatus(JobDone);
             continue;

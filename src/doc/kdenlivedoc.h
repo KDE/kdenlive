@@ -85,7 +85,7 @@ public:
     void deleteClip(const QString &clipId, ClipType type, const QString &url);
     int getFramePos(const QString &duration);
     /** @brief Get a bin's clip from its id. */
-    ProjectClip *getBinClip(const QString &clipId);
+    std::shared_ptr<ProjectClip> getBinClip(const QString &clipId);
     /** @brief Get a list of all clip ids that are inside a folder. */
     QStringList getBinFolderClipIds(const QString &folderId) const;
 
@@ -225,7 +225,8 @@ public slots:
      * Emits docModified conected to MainWindow::slotUpdateDocumentState \n
      * @param mod (optional) true if the document has to be saved */
     void setModified(bool mod = true);
-    void slotProxyCurrentItem(bool doProxy, QList<ProjectClip *> clipList = QList<ProjectClip *>(), bool force = false, QUndoCommand *masterCommand = nullptr);
+    void slotProxyCurrentItem(bool doProxy, QList<std::shared_ptr<ProjectClip>> clipList = QList<std::shared_ptr<ProjectClip>>(), bool force = false,
+                              QUndoCommand *masterCommand = nullptr);
     /** @brief Saves the current project at the autosave location.
      * @description The autosave files are in ~/.kde/data/stalefiles/kdenlive/ */
     void slotAutoSave();

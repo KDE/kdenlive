@@ -835,7 +835,7 @@ void KdenliveDoc::deleteClip(const QString &clipId, ClipType type, const QString
     }
 }
 
-ProjectClip *KdenliveDoc::getBinClip(const QString &clipId)
+std::shared_ptr<ProjectClip> KdenliveDoc::getBinClip(const QString &clipId)
 {
     return pCore->bin()->getBinClip(clipId);
 }
@@ -1153,7 +1153,7 @@ void KdenliveDoc::setMetadata(const QMap<QString, QString> &meta)
     m_documentMetadata = meta;
 }
 
-void KdenliveDoc::slotProxyCurrentItem(bool doProxy, QList<ProjectClip *> clipList, bool force, QUndoCommand *masterCommand)
+void KdenliveDoc::slotProxyCurrentItem(bool doProxy, QList<std::shared_ptr<ProjectClip>> clipList, bool force, QUndoCommand *masterCommand)
 {
     if (clipList.isEmpty()) {
         clipList = pCore->bin()->selectedClips();
@@ -1191,7 +1191,7 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy, QList<ProjectClip *> clipLi
 
     // Parse clips
     for (int i = 0; i < clipList.count(); ++i) {
-        ProjectClip *item = clipList.at(i);
+        std::shared_ptr<ProjectClip> item = clipList.at(i);
         ClipType t = item->clipType();
         // Only allow proxy on some clip types
         if ((t == Video || t == AV || t == Unknown || t == Image || t == Playlist || t == SlideShow) && item->isReady()) {

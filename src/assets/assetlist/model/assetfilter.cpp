@@ -20,6 +20,7 @@
  ***************************************************************************/
 
 #include "assetfilter.hpp"
+#include "abstractmodel/abstracttreemodel.hpp"
 #include "abstractmodel/treeitem.hpp"
 #include "assettreemodel.hpp"
 
@@ -37,7 +38,7 @@ void AssetFilter::setFilterName(bool enabled, const QString &pattern)
     sort(0);
 }
 
-bool AssetFilter::filterName(TreeItem *item) const
+bool AssetFilter::filterName(std::shared_ptr<TreeItem> item) const
 {
     if (!m_name_enabled) {
         return true;
@@ -52,7 +53,8 @@ bool AssetFilter::filterName(TreeItem *item) const
 bool AssetFilter::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
 {
     QModelIndex row = sourceModel()->index(sourceRow, 0, sourceParent);
-    TreeItem *item = static_cast<TreeItem *>(row.internalPointer());
+    AbstractTreeModel *model = static_cast<AbstractTreeModel*>(sourceModel());
+    std::shared_ptr<TreeItem> item = model->getItemById((int)row.internalId());
 
     if (item->dataColumn(AssetTreeModel::idCol) == QStringLiteral("root")) {
         // In that case, we have a category. We hide it if it does not have children.
@@ -72,7 +74,7 @@ bool AssetFilter::isVisible(const QModelIndex &sourceIndex)
     return filterAcceptsRow(sourceIndex.row(), parent);
 }
 
-bool AssetFilter::applyAll(TreeItem *item) const
+bool AssetFilter::applyAll(std::shared_ptr<TreeItem> item) const
 {
     return filterName(item);
 }

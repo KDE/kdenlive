@@ -29,7 +29,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class ClipController;
 
-ProjectSubClip::ProjectSubClip(ProjectClip *parent, ProjectItemModel *model, int in, int out, const QString &timecode, const QString &name)
+ProjectSubClip::ProjectSubClip(std::shared_ptr<ProjectClip> parent, std::shared_ptr<ProjectItemModel> model, int in, int out, const QString &timecode,
+                               const QString &name)
     : AbstractProjectItem(AbstractProjectItem::SubClipItem, parent->AbstractProjectItem::clipId(), model, parent)
     , m_masterClip(parent)
     , m_in(in)
@@ -48,7 +49,16 @@ ProjectSubClip::ProjectSubClip(ProjectClip *parent, ProjectItemModel *model, int
     m_duration = timecode;
     // Save subclip in MLT
     parent->setProducerProperty("kdenlive:clipzone." + m_name, QString::number(in) + QLatin1Char(';') + QString::number(out));
-    connect(parent, &ProjectClip::thumbReady, this, &ProjectSubClip::gotThumb);
+    connect(parent.get(), &ProjectClip::thumbReady, this, &ProjectSubClip::gotThumb);
+}
+
+std::shared_ptr<ProjectSubClip> ProjectSubClip::construct(std::shared_ptr<ProjectClip> parent, std::shared_ptr<ProjectItemModel> model, int in, int out,
+                                                          const QString &timecode, const QString &name)
+{
+    std::shared_ptr<ProjectSubClip> self(new ProjectSubClip(parent, model, in, out, timecode, name));
+
+    baseFinishConstruct(self);
+    return self;
 }
 
 ProjectSubClip::~ProjectSubClip()
@@ -60,7 +70,7 @@ void ProjectSubClip::gotThumb(int pos, const QImage &img)
 {
     if (pos == m_in) {
         setThumbnail(img);
-        disconnect(m_masterClip, &ProjectClip::thumbReady, this, &ProjectSubClip::gotThumb);
+        disconnect(m_masterClip.get(), &ProjectClip::thumbReady, this, &ProjectSubClip::gotThumb);
     }
 }
 
@@ -76,16 +86,16 @@ QString ProjectSubClip::getToolTip() const
     return QStringLiteral("test");
 }
 
-ProjectClip *ProjectSubClip::clip(const QString &id)
+std::shared_ptr<ProjectClip> ProjectSubClip::clip(const QString &id)
 {
-    Q_UNUSED(id)
-    return nullptr;
+    Q_UNUSED(id);
+    return std::shared_ptr<ProjectClip>();
 }
 
-ProjectFolder *ProjectSubClip::folder(const QString &id)
+std::shared_ptr<ProjectFolder> ProjectSubClip::folder(const QString &id)
 {
-    Q_UNUSED(id)
-    return nullptr;
+    Q_UNUSED(id);
+    return std::shared_ptr<ProjectFolder>();
 }
 
 void ProjectSubClip::setBinEffectsEnabled(bool)
@@ -103,10 +113,10 @@ QPoint ProjectSubClip::zone() const
     return QPoint(m_in, m_out);
 }
 
-ProjectClip *ProjectSubClip::clipAt(int ix)
+std::shared_ptr<ProjectClip> ProjectSubClip::clipAt(int ix)
 {
-    Q_UNUSED(ix)
-    return nullptr;
+    Q_UNUSED(ix);
+    return std::shared_ptr<ProjectClip>();
 }
 
 QDomElement ProjectSubClip::toXml(QDomDocument &document, bool)
@@ -118,19 +128,20 @@ QDomElement ProjectSubClip::toXml(QDomDocument &document, bool)
     return sub;
 }
 
-ProjectSubClip *ProjectSubClip::subClip(int in, int out)
+std::shared_ptr<ProjectSubClip> ProjectSubClip::subClip(int in, int out)
 {
     if (m_in == in && m_out == out) {
-        return this;
+        return std::static_pointer_cast<ProjectSubClip>(shared_from_this());
     }
-    return nullptr;
+    return std::shared_ptr<ProjectSubClip>();
 }
 
 void ProjectSubClip::setThumbnail(const QImage &img)
 {
     QPixmap thumb = roundedPixmap(QPixmap::fromImage(img));
     m_thumbnail = QIcon(thumb);
-    static_cast<ProjectItemModel *>(m_model)->bin()->emitItemUpdated(this);
+    if (auto ptr = m_model.lock())
+        std::static_pointer_cast<ProjectItemModel>(ptr)->bin()->emitItemUpdated(std::static_pointer_cast<ProjectSubClip>(shared_from_this()));
 }
 
 bool ProjectSubClip::rename(const QString &name, int column)
@@ -140,11 +151,11 @@ bool ProjectSubClip::rename(const QString &name, int column)
         return false;
     }
     // Rename folder
-    static_cast<ProjectItemModel *>(m_model)->bin()->renameSubClipCommand(m_id, name, m_name, m_in, m_out);
+    if (auto ptr = m_model.lock()) std::static_pointer_cast<ProjectItemModel>(ptr)->bin()->renameSubClipCommand(m_id, name, m_name, m_in, m_out);
     return true;
 }
 
-ProjectClip *ProjectSubClip::getMasterClip() const
+std::shared_ptr<ProjectClip> ProjectSubClip::getMasterClip() const
 {
     return m_masterClip;
 }

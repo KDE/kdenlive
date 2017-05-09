@@ -28,8 +28,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QPainter>
 #include <QVariant>
 
-AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QString &id, ProjectItemModel *model, AbstractProjectItem *parent)
-    : TreeItem(QList<QVariant>(), static_cast<AbstractTreeModel *>(model), (TreeItem *)parent)
+AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QString &id, std::shared_ptr<ProjectItemModel> model,
+                                         std::shared_ptr<AbstractProjectItem> parent)
+    : TreeItem(QList<QVariant>(), std::static_pointer_cast<AbstractTreeModel>(model), std::static_pointer_cast<TreeItem>(parent))
     , m_name()
     , m_description()
     , m_thumbnail(QIcon())
@@ -44,8 +45,9 @@ AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QString &id
 {
 }
 
-AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QDomElement &description, ProjectItemModel *model, AbstractProjectItem *parent)
-    : TreeItem(QList<QVariant>(), static_cast<AbstractTreeModel *>(model), (TreeItem *)parent)
+AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QDomElement &description, std::shared_ptr<ProjectItemModel> model,
+                                         std::shared_ptr<AbstractProjectItem> parent)
+    : TreeItem(QList<QVariant>(), std::static_pointer_cast<AbstractTreeModel>(model), std::static_pointer_cast<TreeItem>(parent))
     , m_name()
     , m_description()
     , m_thumbnail(QIcon())
@@ -64,23 +66,24 @@ AbstractProjectItem::~AbstractProjectItem()
 {
 }
 
-bool AbstractProjectItem::operator==(const AbstractProjectItem *projectItem) const
+bool AbstractProjectItem::operator==(std::shared_ptr<AbstractProjectItem> projectItem) const
 {
     // FIXME: only works for folders
     bool equal = this->m_childItems == projectItem->m_childItems;
-    equal &= static_cast<int>(m_parentItem == projectItem->m_parentItem);
+    // equal = equal && (m_parentItem == projectItem->m_parentItem);
     return equal;
 }
 
-AbstractProjectItem *AbstractProjectItem::parent() const
+std::shared_ptr<AbstractProjectItem> AbstractProjectItem::parent() const
 {
-    return static_cast<AbstractProjectItem *>(m_parentItem);
+    return std::static_pointer_cast<AbstractProjectItem>(m_parentItem.lock());
 }
 
 void AbstractProjectItem::setRefCount(uint count)
 {
     m_usage = count;
-    static_cast<ProjectItemModel *>(m_model)->onItemUpdated(this);
+    if (auto ptr = m_model.lock())
+        std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<AbstractProjectItem>(shared_from_this()));
 }
 
 uint AbstractProjectItem::refCount() const
@@ -91,13 +94,15 @@ uint AbstractProjectItem::refCount() const
 void AbstractProjectItem::addRef()
 {
     m_usage++;
-    static_cast<ProjectItemModel *>(m_model)->onItemUpdated(this);
+    if (auto ptr = m_model.lock())
+        std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<AbstractProjectItem>(shared_from_this()));
 }
 
 void AbstractProjectItem::removeRef()
 {
     m_usage--;
-    static_cast<ProjectItemModel *>(m_model)->onItemUpdated(this);
+    if (auto ptr = m_model.lock())
+        std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<AbstractProjectItem>(shared_from_this()));
 }
 
 const QString &AbstractProjectItem::clipId() const
@@ -218,13 +223,13 @@ AbstractProjectItem::CLIPSTATUS AbstractProjectItem::clipStatus() const
     return m_clipStatus;
 }
 
-AbstractProjectItem *AbstractProjectItem::getEnclosingFolder(bool strict) const
+std::shared_ptr<AbstractProjectItem> AbstractProjectItem::getEnclosingFolder(bool strict)
 {
     if (!strict && itemType() == AbstractProjectItem::FolderItem) {
-        return const_cast<AbstractProjectItem *>(this);
+        return std::static_pointer_cast<AbstractProjectItem>(shared_from_this());
     }
-    if (m_parentItem) {
-        return static_cast<AbstractProjectItem *>(m_parentItem)->getEnclosingFolder(false);
+    if (auto ptr = m_parentItem.lock()) {
+        return std::static_pointer_cast<AbstractProjectItem>(ptr)->getEnclosingFolder(false);
     }
-    return nullptr;
+    return std::shared_ptr<AbstractProjectItem>();
 }

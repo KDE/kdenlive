@@ -316,9 +316,9 @@ void TimelineController::setOutPoint()
 
 void TimelineController::editMarker(const QString &cid, int frame)
 {
-    ProjectClip *clip = pCore->bin()->getBinClip(cid);
+    std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(cid);
     CommentedTime marker = clip->getMarker(GenTime(frame, pCore->getCurrentFps()));
-    QPointer<MarkerDialog> d = new MarkerDialog(clip, marker, pCore->bin()->projectTimecode(), i18n("Edit Marker"), qApp->activeWindow());
+    QPointer<MarkerDialog> d = new MarkerDialog(clip.get(), marker, pCore->bin()->projectTimecode(), i18n("Edit Marker"), qApp->activeWindow());
     if (d->exec() == QDialog::Accepted) {
         QList<CommentedTime> markers;
         CommentedTime newMarker = d->newMarker();

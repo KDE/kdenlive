@@ -23,8 +23,8 @@
 #include "effects/effectsrepository.hpp"
 #include "effectstackmodel.hpp"
 
-EffectItemModel::EffectItemModel(const QList<QVariant> &data, Mlt::Properties *effect, const QDomElement &xml, const QString &effectId, EffectStackModel *stack)
-    : TreeItem(data, static_cast<AbstractTreeModel *>(stack))
+EffectItemModel::EffectItemModel(const QList<QVariant> &data, Mlt::Properties *effect, const QDomElement &xml, const QString &effectId, std::shared_ptr<AbstractTreeModel> stack, std::shared_ptr<TreeItem> parent)
+    : TreeItem(data, stack, parent)
     , AssetParameterModel(effect, xml, effectId)
     , m_enabled(true)
     , m_effectStackEnabled(true)
@@ -32,7 +32,7 @@ EffectItemModel::EffectItemModel(const QList<QVariant> &data, Mlt::Properties *e
 }
 
 // static
-EffectItemModel *EffectItemModel::construct(const QString &effectId, EffectStackModel *stack)
+std::shared_ptr<EffectItemModel> EffectItemModel::construct(const QString &effectId, std::shared_ptr<AbstractTreeModel> stack, std::shared_ptr<TreeItem> parent)
 {
     Q_ASSERT(EffectsRepository::get()->exists(effectId));
     QDomElement xml = EffectsRepository::get()->getXml(effectId);
@@ -42,7 +42,11 @@ EffectItemModel *EffectItemModel::construct(const QString &effectId, EffectStack
     QList<QVariant> data;
     data << EffectsRepository::get()->getName(effectId) << effectId;
 
-    return new EffectItemModel(data, effect, xml, effectId, stack);
+    std::shared_ptr<EffectItemModel> self(new EffectItemModel(data, effect, xml, effectId, stack, parent));
+
+    baseFinishConstruct(self);
+
+    return self;
 }
 
 void EffectItemModel::plant(const std::weak_ptr<Mlt::Service> &service)

@@ -41,17 +41,20 @@ class ProjectItemModel : public AbstractTreeModel
 {
     Q_OBJECT
 
-public:
+protected:
     explicit ProjectItemModel(Bin *bin, QObject *parent);
+
+public:
+    static std::shared_ptr<ProjectItemModel> construct(Bin *bin, QObject *parent);
     ~ProjectItemModel();
 
     /** @brief Returns a clip from the hierarchy, given its id
      */
-    ProjectClip *getClipByBinID(const QString &binId);
+    std::shared_ptr<ProjectClip> getClipByBinID(const QString &binId);
 
     /** @brief Gets a folder by its id. If none is found, the root is returned
      */
-    ProjectFolder *getFolderByBinId(const QString &binId);
+    std::shared_ptr<ProjectFolder> getFolderByBinId(const QString &binId);
 
     /** @brief This function change the global enabled state of the bin effects
      */
@@ -64,7 +67,7 @@ public:
     void clean();
 
     /** @brief Convenience method to access root folder */
-    ProjectFolder *getRootFolder() const;
+    std::shared_ptr<ProjectFolder> getRootFolder() const;
 
     /** @brief Convenience method to access the bin associated with this model
         TODO remove that.
@@ -75,6 +78,9 @@ public:
         @param id is the id of the parent clip
         @param data is a definition of the subclips (keys are subclips' names, value are "in:out")*/
     void loadSubClips(const QString &id, const QMap<QString, QString> &data);
+
+    /* @brief Convenience method to retrieve a pointer to an element given its index */
+    std::shared_ptr<AbstractProjectItem> getBinItemByIndex(const QModelIndex &index) const;
 
     /** @brief Returns item data depending on role requested */
     QVariant data(const QModelIndex &index, int role) const override;
@@ -97,7 +103,7 @@ public:
 
 public slots:
     /** @brief An item in the list was modified, notify */
-    void onItemUpdated(AbstractProjectItem *item);
+    void onItemUpdated(std::shared_ptr<AbstractProjectItem> item);
 
 private:
     /** @brief Return reference to column specific data */

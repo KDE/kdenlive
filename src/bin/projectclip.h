@@ -60,12 +60,21 @@ public:
     /**
      * @brief Constructor; used when loading a project and the producer is already available.
      */
-    ProjectClip(const QString &id, const QIcon &thumb, ProjectItemModel *model, std::shared_ptr<Mlt::Producer> producer, ProjectFolder *parent);
+    static std::shared_ptr<ProjectClip> construct(const QString &id, const QIcon &thumb, std::shared_ptr<ProjectItemModel> model,
+                                                  std::shared_ptr<Mlt::Producer> producer, std::shared_ptr<ProjectFolder> parent);
     /**
      * @brief Constructor.
      * @param description element describing the clip; the "id" attribute and "resource" property are used
      */
-    ProjectClip(const QDomElement &description, const QIcon &thumb, ProjectItemModel *model, ProjectFolder *parent);
+    static std::shared_ptr<ProjectClip> construct(const QDomElement &description, const QIcon &thumb, std::shared_ptr<ProjectItemModel> model,
+                                                  std::shared_ptr<ProjectFolder> parent);
+
+protected:
+    ProjectClip(const QString &id, const QIcon &thumb, std::shared_ptr<ProjectItemModel> model, std::shared_ptr<Mlt::Producer> producer,
+                std::shared_ptr<ProjectFolder> parent);
+    ProjectClip(const QDomElement &description, const QIcon &thumb, std::shared_ptr<ProjectItemModel> model, std::shared_ptr<ProjectFolder> parent);
+
+public:
     virtual ~ProjectClip();
 
     void reloadProducer(bool refreshOnly = false);
@@ -74,14 +83,14 @@ public:
     // virtual void hash() = 0;
 
     /** @brief Returns this if @param id matches the clip's id or nullptr otherwise. */
-    ProjectClip *clip(const QString &id) override;
+    std::shared_ptr<ProjectClip> clip(const QString &id) override;
 
-    ProjectFolder *folder(const QString &id) override;
+    std::shared_ptr<ProjectFolder> folder(const QString &id) override;
 
-    ProjectSubClip *getSubClip(int in, int out);
+    std::shared_ptr<ProjectSubClip> getSubClip(int in, int out);
 
     /** @brief Returns this if @param ix matches the clip's index or nullptr otherwise. */
-    ProjectClip *clipAt(int ix) override;
+    std::shared_ptr<ProjectClip> clipAt(int ix) override;
 
     /** @brief Returns the clip type as defined in definitions.h */
     ClipType clipType() const;

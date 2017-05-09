@@ -30,12 +30,14 @@ EffectStackModel::EffectStackModel(std::weak_ptr<Mlt::Service> service)
 
 std::shared_ptr<EffectStackModel> EffectStackModel::construct(std::weak_ptr<Mlt::Service> service)
 {
-    return std::make_shared<EffectStackModel>(service);
+    std::shared_ptr<EffectStackModel> self(new EffectStackModel(service));
+    self->rootItem = TreeItem::construct(QList<QVariant>(), self, std::shared_ptr<TreeItem>());
+    return self;
 }
 
 void EffectStackModel::appendEffect(const QString &effectId)
 {
-    auto effect = EffectItemModel::construct(effectId, this);
+    auto effect = EffectItemModel::construct(effectId, shared_from_this(), rootItem);
     effect->setEffectStackEnabled(m_effectStackEnabled);
     rootItem->appendChild(effect);
 }
@@ -46,6 +48,6 @@ void EffectStackModel::setEffectStackEnabled(bool enabled)
 
     // Recursively updates children states
     for (int i = 0; i < rootItem->childCount(); ++i) {
-        static_cast<EffectItemModel *>(rootItem->child(i))->setEffectStackEnabled(enabled);
+        std::static_pointer_cast<EffectItemModel>(rootItem->child(i))->setEffectStackEnabled(enabled);
     }
 }

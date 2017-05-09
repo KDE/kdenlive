@@ -43,24 +43,31 @@ public:
      * @param description element describing the folder and its children
      * @param parent parent folder
      */
-    ProjectFolder(const QString &id, const QString &name, ProjectItemModel *model, ProjectFolder *parent = nullptr);
+    static std::shared_ptr<ProjectFolder> construct(const QString &id, const QString &name, std::shared_ptr<ProjectItemModel> model,
+                                                    std::shared_ptr<ProjectFolder> parent);
 
     /** @brief Creates an empty root folder. */
-    explicit ProjectFolder(ProjectItemModel *model);
+    static std::shared_ptr<ProjectFolder> construct(std::shared_ptr<ProjectItemModel> model);
 
+protected:
+    ProjectFolder(const QString &id, const QString &name, std::shared_ptr<ProjectItemModel> model, std::shared_ptr<ProjectFolder> parent);
+
+    explicit ProjectFolder(std::shared_ptr<ProjectItemModel> model);
+
+public:
     ~ProjectFolder();
 
     /**
      * @brief Returns the clip if it is a child (also indirect).
      * @param id id of the child which should be returned
      */
-    ProjectClip *clip(const QString &id) override;
+    std::shared_ptr<ProjectClip> clip(const QString &id) override;
 
     /**
      * @brief Returns itself or a child folder that matches the requested id.
      * @param id id of the child which should be returned
      */
-    ProjectFolder *folder(const QString &id) override;
+    std::shared_ptr<ProjectFolder> folder(const QString &id) override;
 
     /** @brief Recursively disable/enable bin effects. */
     void setBinEffectsEnabled(bool enabled) override;
@@ -69,14 +76,14 @@ public:
      * @brief Returns the clip if it is a child (also indirect).
      * @param index index of the child which should be returned
      */
-    ProjectClip *clipAt(int index) override;
+    std::shared_ptr<ProjectClip> clipAt(int index) override;
 
     /** @brief Returns an xml description of the folder. */
     QDomElement toXml(QDomDocument &document, bool includeMeta = false) override;
     QString getToolTip() const override;
     bool rename(const QString &name, int column) override;
     /** @brief Returns a list of all children and sub-children clips. */
-    QList<ProjectClip *> childClips();
+    QList<std::shared_ptr<ProjectClip>> childClips();
 };
 
 #endif
