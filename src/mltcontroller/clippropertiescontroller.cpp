@@ -1012,7 +1012,7 @@ void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
             QString res = p.readAllStandardOutput();
             m_controller->setProducerProperty(QStringLiteral("kdenlive:exiftool"), 1);
             QTreeWidgetItem *exif = nullptr;
-            QStringList list = res.split('\n');
+            QStringList list = res.split(QLatin1Char('\n'));
             for (const QString &tagline : list) {
                 if (tagline.startsWith(QLatin1String("-File")) || tagline.startsWith(QLatin1String("-ExifTool"))) {
                     continue;
@@ -1043,7 +1043,7 @@ void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
                     m_controller->setProducerProperty(QStringLiteral("kdenlive:exiftool"), 1);
                 }
                 QTreeWidgetItem *exif = nullptr;
-                QStringList list = res.split('\n');
+                QStringList list = res.split(QLatin1Char('\n'));
                 for (const QString &tagline : list) {
                     if (m_type != Image && !tagline.startsWith(QLatin1String("-H264"))) {
                         continue;

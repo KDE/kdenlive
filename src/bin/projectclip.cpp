@@ -519,6 +519,8 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
     if (properties.contains(QStringLiteral("length")) || properties.contains(QStringLiteral("kdenlive:duration"))) {
         m_duration = getStringDuration();
         static_cast<ProjectItemModel *>(m_model)->onItemUpdated(this);
+        refreshOnly = false;
+        reload = true;
     }
 
     if (properties.contains(QStringLiteral("kdenlive:clipname"))) {
@@ -1124,7 +1126,7 @@ void ProjectClip::updateFfmpegProgress()
         return;
     }
     QString result = callerProcess->readAllStandardOutput();
-    const QStringList lines = result.split('\n');
+    const QStringList lines = result.split(QLatin1Char('\n'));
     for (const QString &data : lines) {
         if (data.startsWith(QStringLiteral("out_time_ms"))) {
             long ms = data.section(QLatin1Char('='), 1).toLong();

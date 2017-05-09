@@ -3180,8 +3180,6 @@ void Bin::slotAddClipMarker(const QString &id, const QList<CommentedTime> &newMa
     }
 }
 
-
-
 void Bin::deleteClipMarker(const QString &comment, const QString &id, const GenTime &position)
 {
     ProjectClip *clip = getBinClip(id);

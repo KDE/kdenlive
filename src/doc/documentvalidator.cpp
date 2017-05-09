@@ -105,7 +105,7 @@ bool DocumentValidator::validate(const double currentVersion)
             }
 #ifdef Q_OS_MAC
             setlocale(LC_NUMERIC_MASK, requestedLocale.toUtf8().constData());
-#elifdef Q_OS_WIN
+#elif defined(Q_OS_WIN)
             std::locale::global(std::locale(requestedLocale.toUtf8().constData()));
 #else
             setlocale(LC_NUMERIC, requestedLocale.toUtf8().constData());

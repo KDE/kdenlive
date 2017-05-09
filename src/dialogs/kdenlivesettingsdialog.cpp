@@ -569,12 +569,12 @@ void KdenliveSettingsDialog::initDevices()
 void KdenliveSettingsDialog::slotReadAudioDevices()
 {
     QString result = QString(m_readProcess.readAllStandardOutput());
-    // qCDebug(KDENLIVE_LOG) << "// / / / / / READING APLAY: ";
-    // qCDebug(KDENLIVE_LOG) << result;
-    const QStringList lines = result.split('\n');
+    //qCDebug(KDENLIVE_LOG) << "// / / / / / READING APLAY: ";
+    //qCDebug(KDENLIVE_LOG) << result;
+    const QStringList lines = result.split(QLatin1Char('\n'));
     for (const QString &data : lines) {
         ////qCDebug(KDENLIVE_LOG) << "// READING LINE: " << data;
-        if (!data.startsWith(' ') && data.count(':') > 1) {
+        if (!data.startsWith(QLatin1Char(' ')) && data.count(QLatin1Char(':')) > 1) {
             QString card = data.section(QLatin1Char(':'), 0, 0).section(QLatin1Char(' '), -1);
             QString device = data.section(QLatin1Char(':'), 1, 1).section(QLatin1Char(' '), -1);
             m_configSdl.kcfg_audio_device->addItem(data.section(QLatin1Char(':'), -1).simplified(), "plughw:" + card + QLatin1Char(',') + device);

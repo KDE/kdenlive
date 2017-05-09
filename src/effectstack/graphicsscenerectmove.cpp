@@ -175,7 +175,7 @@ void MyTextItem::updateGeometry(int, int, int)
         double lineSpacing = data(TitleDocument::LineSpacing).toInt() + metrics.lineSpacing();
 
         // Calculate line width
-        QStringList lines = text.split('\n');
+        QStringList lines = text.split(QLatin1Char('\n'));
         double linePos = metrics.ascent();
         QRectF bounding = boundingRect();
         /*if (lines.count() > 0) {
