@@ -874,7 +874,6 @@ void ProjectManager::updateTimeline()
         pCore->bin()->slotProducerReady(info, pCore->binController()->getController(id).get());
     }
     m_mainTimelineModel->loadTractor();
-    //pCore->binController()->setBinPlaylist(m_mainTimelineModel->tractor());
     //constructTimelineFromMelt(m_mainTimelineModel, tractor);
 
     // TODO this is for testing purposes, remove.

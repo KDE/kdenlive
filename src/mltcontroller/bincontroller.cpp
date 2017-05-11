@@ -205,10 +205,6 @@ void BinController::loadBinPlaylist(Mlt::Tractor *tractor)
         m_binPlaylist.reset(new Mlt::Playlist(*tractor->profile()));
         m_binPlaylist->set("id", kPlaylistTrackId);
     }
-}
-
-void BinController::setBinPlaylist(Mlt::Tractor *tractor)
-{
     QString retain = QStringLiteral("xml_retain %1").arg(binPlaylistId());
     tractor->set(retain.toUtf8().constData(), m_binPlaylist->get_service(), 0);
 }
@@ -376,16 +372,6 @@ Mlt::Producer *BinController::getBinVideoProducer(const QString &id)
         return videoOnly;
     }
     return m_extraClipList.value(videoId);
-}
-
-double BinController::fps() const
-{
-    return m_binPlaylist->profile()->fps();
-}
-
-double BinController::dar() const
-{
-    return m_binPlaylist->profile()->dar();
 }
 
 void BinController::duplicateFilters(Mlt::Producer original, Mlt::Producer clone)

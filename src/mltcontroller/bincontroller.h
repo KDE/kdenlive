@@ -54,14 +54,6 @@ public:
     /** @brief Returns the MLT profile used everywhere in the project. */
     Mlt::Profile *profile();
 
-    /** @brief Returns the project's fps. */
-    // TODO Depracate: We should access profile's settings only through profilerepository
-    double fps() const;
-
-    /** @brief Returns the project's dar. */
-    // TODO Depracate: We should access profile's settings only through profilerepository
-    double dar() const;
-
     /** @brief Returns the service for the Bin's playlist, used to make sure MLT will save it correctly in its XML. */
     mlt_service service();
 
@@ -95,9 +87,6 @@ public:
      * @param playlist The MLT playlist containing our bin's clips
      */
     void initializeBin(Mlt::Playlist playlist);
-
-    /** @brief Pass the Bin's main playlist to the current project's tractor */
-    void setBinPlaylist(Mlt::Tractor *tractor);
 
     /** @brief If our bin's playlist does not exist, create a new one */
     void createIfNeeded(Mlt::Profile *profile);
