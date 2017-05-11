@@ -55,6 +55,9 @@ GeometryWidget::GeometryWidget(EffectMetaInfo *info, int clipPos, bool showRotat
     /*
         Setup of timeline and keyframe controls
     */
+    m_originalSize = new QAction(KoIconUtils::themedIcon(QStringLiteral("zoom-original")), i18n("Adjust to original size"), this);
+    connect(m_originalSize, &QAction::triggered, this, &GeometryWidget::slotAdjustToSource);
+    m_originalSize->setCheckable(true);
     if (m_frameSize == QPoint() || m_frameSize.x() == 0 || m_frameSize.y() == 0) {
         m_originalSize->setEnabled(false);
         m_frameSize = QPoint(m_monitor->render->frameRenderWidth(), m_monitor->render->renderHeight());
@@ -111,9 +114,6 @@ GeometryWidget::GeometryWidget(EffectMetaInfo *info, int clipPos, bool showRotat
     m_ui.horizontalLayout->setColumnStretch(5, 10);
 
     QMenu *menu = new QMenu(this);
-    m_originalSize = new QAction(KoIconUtils::themedIcon(QStringLiteral("zoom-original")), i18n("Adjust to original size"), this);
-    connect(m_originalSize, &QAction::triggered, this, &GeometryWidget::slotAdjustToSource);
-    m_originalSize->setCheckable(true);
     QAction *adjustSize = new QAction(KoIconUtils::themedIcon(QStringLiteral("zoom-fit-best")), i18n("Adjust and center in frame"), this);
     connect(adjustSize, &QAction::triggered, this, &GeometryWidget::slotAdjustToFrameSize);
     QAction *fitToWidth = new QAction(KoIconUtils::themedIcon(QStringLiteral("zoom-fit-width")), i18n("Fit to width"), this);
