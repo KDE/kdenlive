@@ -43,7 +43,7 @@ public:
      * @param description element describing the folder and its children
      * @param parent parent folder
      */
-    ProjectFolder(const QString &id, const QString &name, ProjectFolder *parent = 0);
+    ProjectFolder(const QString &id, const QString &name, ProjectFolder *parent = nullptr);
 
     /** @brief Creates an empty root folder. */
     explicit ProjectFolder(Bin *bin);

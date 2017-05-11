@@ -33,7 +33,7 @@ class ProfileTreeModel : public QAbstractItemModel
       Q_OBJECT
 
   public:
-      explicit ProfileTreeModel(QObject *parent = 0);
+      explicit ProfileTreeModel(QObject *parent = nullptr);
       ~ProfileTreeModel();
 
       QVariant data(const QModelIndex &index, int role) const override;
