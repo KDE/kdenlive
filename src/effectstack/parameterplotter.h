@@ -26,7 +26,7 @@ class ParameterPlotter : public KPlotWidget
 {
     Q_OBJECT
 public:
-    explicit ParameterPlotter(QWidget *parent = 0);
+    explicit ParameterPlotter(QWidget *parent = nullptr);
     ~ParameterPlotter() {}
     void setMoveX(bool);
     void setMoveY(bool);
