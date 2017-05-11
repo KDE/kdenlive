@@ -645,7 +645,7 @@ bool GLWidget::checkFrameNumber(int pos)
             m_producer->set_speed(speed);
         }
     } else {
-        if (m_producer->get_speed() == 0) {
+        if (!m_isLoopMode && m_producer->get_speed() == 0) {
             m_consumer->purge();
         } else if (m_isZoneMode) {
             if (pos >= m_producer->get_int("out") - 1) {
