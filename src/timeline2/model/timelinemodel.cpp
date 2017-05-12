@@ -104,7 +104,6 @@ void TimelineModel::loadTractor()
         TrackModel::load(shared_from_this(), trk, trackId, -1);
     }
     auto it = m_allTracks.begin();
-    ++it;
     while (it != m_allTracks.end()) {
         trackId = (*it)->getId();
         getTrackById(trackId)->loadPlaylist();

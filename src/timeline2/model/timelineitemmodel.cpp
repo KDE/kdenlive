@@ -133,9 +133,9 @@ int TimelineItemModel::rowCount(const QModelIndex &parent) const
     READ_LOCK();
     if (parent.isValid()) {
         const int id = (int)parent.internalId();
-        if (isClip(id) || isComposition(id) || !isTrack(id)) {
+        if (!isTrack(id)) {
             // clips don't have children
-            // if it is not a track and not a clip, it is something invalid
+            // if it is not a track, it is something invalid
             return 0;
         }
         return getTrackClipsCount(id) + getTrackCompositionsCount(id);
