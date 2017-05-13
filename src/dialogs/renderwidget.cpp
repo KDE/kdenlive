@@ -93,7 +93,7 @@ enum JOBSTATUS {
 
 #ifdef Q_OS_WIN
 const QLatin1String ScriptFormat(".bat");
-QString ScriptSetVar(const QString name, const QString value) { return QString("set ") + name + "=" + value; }
+QString ScriptSetVar(const QString name, const QString value) { return QString("set ") + name + "=\"" + value + '\"'; }
 QString ScriptGetVar(const QString varName) { return QString('%') + varName + '%'; }
 #else
 const QLatin1String ScriptFormat(".sh");
@@ -2526,14 +2526,16 @@ bool RenderWidget::startWaitingRenderJobs()
     }
 
     QTextStream outStream(&file);
+#ifndef Q_OS_WIN
     outStream << "#! /bin/sh" << '\n' << '\n';
+#endif
     RenderJobItem *item = static_cast<RenderJobItem *>(m_view.running_jobs->topLevelItem(0));
     while (item) {
         if (item->status() == WAITINGJOB) {
             if (item->type() == DirectRenderType) {
                 // Add render process for item
                 const QString params = item->data(1, ParametersRole).toStringList().join(QLatin1Char(' '));
-                outStream << m_renderer << ' ' << params << '\n';
+                outStream << '\"' << m_renderer << "\" " << params << '\n';
             } else if (item->type() == ScriptRenderType) {
                 // Script item
                 outStream << item->data(1, ParametersRole).toString() << '\n';
@@ -2542,7 +2544,11 @@ bool RenderWidget::startWaitingRenderJobs()
         item = static_cast<RenderJobItem *>(m_view.running_jobs->itemBelow(item));
     }
     // erase itself when rendering is finished
-    outStream << "rm " << autoscriptFile << '\n' << '\n';
+#ifndef Q_OS_WIN
+    outStream << "rm \"" << autoscriptFile << "\"\n";
+#else
+    outStream << "del \"" << autoscriptFile << "\"\n";
+#endif
     if (file.error() != QFile::NoError) {
         KMessageBox::error(nullptr, i18n("Cannot write to file %1", autoscriptFile));
         file.close();
