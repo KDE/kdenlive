@@ -14,6 +14,7 @@
 #include "audioCorrelationInfo.h"
 #include "audioEnvelope.h"
 #include "definitions.h"
+#include <memory>
 #include <QList>
 
 /**
@@ -27,14 +28,31 @@ class AudioCorrelation : public QObject
 {
     Q_OBJECT
 public:
-    /// AudioCorrelation will take ownership of mainTrackEnvelope
-    explicit AudioCorrelation(AudioEnvelope *mainTrackEnvelope);
+    /**
+      @param mainTrackEnvelope Envelope of the reference track. Its
+                               actual computation will be started in
+                               this contructor
+                               (i.e. mainTrackEnvelope->StartComputeEnvelope()
+                               will be called). The computation of the
+                               envelop must not be started when passed
+                               to this contructor
+                               (i.e. mainTrackEnvelope->HasComputationStarted()
+                               must return false).
+    */
+    explicit AudioCorrelation(std::unique_ptr<AudioEnvelope> mainTrackEnvelope);
     ~AudioCorrelation();
 
     /**
+      Adds a child envelope that will be aligned to the reference
+      envelope. This function returns immediately, the alignment
+      computation is done asynchronously. When done, the signal
+      gotAudioAlignData will be emitted. Similarly to the main
+      envelope, the computation of the envelope must not be started
+      when it is passed to this object.
+
       This object will take ownership of the passed envelope.
       */
-    void addChild(AudioEnvelope *envelope);
+    void addChild(AudioEnvelope* envelope);
 
     const AudioCorrelationInfo *info(int childIndex) const;
     int getShift(int childIndex) const;
@@ -48,12 +66,19 @@ public:
                           qint64 *correlation,
                           qint64 *out_max = nullptr);
 private:
-    AudioEnvelope *m_mainTrackEnvelope;
+    std::unique_ptr<AudioEnvelope> m_mainTrackEnvelope;
 
     QList<AudioEnvelope *> m_children;
     QList<AudioCorrelationInfo *> m_correlations;
 
 private slots:
+    /**
+      This is invoked when the child envelope is computed. This
+      triggers the actual computations of the cross-correlation for
+      aligning the envelope to the reference envelope.
+
+      Takes ownership of @p envelope.
+    */
     void slotProcessChild(AudioEnvelope *envelope);
     void slotAnnounceEnvelope();
 
