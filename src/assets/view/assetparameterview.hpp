@@ -43,7 +43,7 @@ public:
     AssetParameterView(QWidget *parent = nullptr);
 
     /** Sets the model to be displayed by current view */
-    void setModel(std::shared_ptr<AssetParameterModel> model);
+    void setModel(const std::shared_ptr<AssetParameterModel> &model);
 
     /** Set the widget to display no model (this yield ownership on the smart-ptr)*/
     void unsetModel();

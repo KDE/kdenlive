@@ -50,9 +50,7 @@ AudioStreamInfo::AudioStreamInfo(Mlt::Producer *producer, int audioStreamIndex)
     }
 }
 
-AudioStreamInfo::~AudioStreamInfo()
-{
-}
+AudioStreamInfo::~AudioStreamInfo() = default;
 
 int AudioStreamInfo::samplingRate() const
 {

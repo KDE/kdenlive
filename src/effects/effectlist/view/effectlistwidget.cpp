@@ -50,7 +50,7 @@ EffectListWidget::EffectListWidget(QWidget *parent)
 EffectListWidget::~EffectListWidget()
 {
     delete m_proxy;
-    qDebug()<<" - - -Deleting effect list widget";
+    qDebug() << " - - -Deleting effect list widget";
 }
 
 void EffectListWidget::setFilterType(const QString &type)

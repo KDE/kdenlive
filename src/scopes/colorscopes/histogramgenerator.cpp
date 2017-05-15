@@ -16,9 +16,7 @@
 #include <algorithm>
 #include <math.h>
 
-HistogramGenerator::HistogramGenerator()
-{
-}
+HistogramGenerator::HistogramGenerator() = default;
 
 QImage HistogramGenerator::calculateHistogram(const QSize &paradeSize, const QImage &image, const int &components, HistogramGenerator::Rec rec, bool unscaled,
                                               uint accelFactor) const

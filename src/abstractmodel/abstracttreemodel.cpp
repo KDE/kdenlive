@@ -20,7 +20,9 @@
  ***************************************************************************/
 
 #include "abstracttreemodel.hpp"
+
 #include "treeitem.hpp"
+#include <utility>
 
 int AbstractTreeModel::currentTreeId = 0;
 AbstractTreeModel::AbstractTreeModel(QObject *parent)
@@ -35,15 +37,13 @@ std::shared_ptr<AbstractTreeModel> AbstractTreeModel::construct(QObject *parent)
     return self;
 }
 
-AbstractTreeModel::~AbstractTreeModel()
-{
-}
+AbstractTreeModel::~AbstractTreeModel() = default;
 
 int AbstractTreeModel::columnCount(const QModelIndex &parent) const
 {
     if (!parent.isValid()) return rootItem->columnCount();
 
-    const int id = (int)parent.internalId();
+    const auto id = (int)parent.internalId();
     auto item = getItemById(id);
     return item->columnCount();
 }
@@ -125,7 +125,7 @@ int AbstractTreeModel::rowCount(const QModelIndex &parent) const
     return parentItem->childCount();
 }
 
-QModelIndex AbstractTreeModel::getIndexFromItem(std::shared_ptr<TreeItem> item) const
+QModelIndex AbstractTreeModel::getIndexFromItem(const std::shared_ptr<TreeItem> &item) const
 {
     if (item == rootItem) {
         return QModelIndex();
@@ -133,7 +133,7 @@ QModelIndex AbstractTreeModel::getIndexFromItem(std::shared_ptr<TreeItem> item) 
     return index(item->row(), 0, getIndexFromItem(item->parentItem().lock()));
 }
 
-void AbstractTreeModel::notifyRowAboutToAppend(std::shared_ptr<TreeItem> item)
+void AbstractTreeModel::notifyRowAboutToAppend(const std::shared_ptr<TreeItem> &item)
 {
     auto index = getIndexFromItem(item);
     beginInsertRows(index, item->childCount(), item->childCount());
@@ -146,7 +146,7 @@ void AbstractTreeModel::notifyRowAppended()
 
 void AbstractTreeModel::notifyRowAboutToDelete(std::shared_ptr<TreeItem> item, int row)
 {
-    auto index = getIndexFromItem(item);
+    auto index = getIndexFromItem(std::move(item));
     beginRemoveRows(index, row, row);
 }
 
@@ -161,7 +161,7 @@ int AbstractTreeModel::getNextId()
     return currentTreeId++;
 }
 
-void AbstractTreeModel::registerItem(std::shared_ptr<TreeItem> item)
+void AbstractTreeModel::registerItem(const std::shared_ptr<TreeItem> &item)
 {
     int id = item->getId();
     Q_ASSERT(m_allItems.count(id) == 0);

@@ -302,9 +302,10 @@ void Wizard::slotUpdateCaptureParameters()
                 QString formatDescription =
                     QLatin1Char('[') + format + QStringLiteral("] ") + itemSize + QStringLiteral(" (") + itemRates.at(k) + QLatin1Char(')');
                 if (m_capture.v4l_formats->findText(formatDescription) == -1) {
-                    m_capture.v4l_formats->addItem(formatDescription, QStringList() << format << itemSize.section('x', 0, 0) << itemSize.section('x', 1, 1)
-                                                                                    << itemRates.at(k).section(QLatin1Char('/'), 0, 0)
-                                                                                    << itemRates.at(k).section(QLatin1Char('/'), 1, 1));
+                    m_capture.v4l_formats->addItem(formatDescription,
+                                                   QStringList()
+                                                       << format << itemSize.section('x', 0, 0) << itemSize.section('x', 1, 1)
+                                                       << itemRates.at(k).section(QLatin1Char('/'), 0, 0) << itemRates.at(k).section(QLatin1Char('/'), 1, 1));
                 }
             }
         }

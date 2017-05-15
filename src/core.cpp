@@ -55,7 +55,7 @@ Core::~Core()
         delete m_monitorManager;
     }
     delete m_producerQueue;
-    //delete m_binWidget;
+    // delete m_binWidget;
     delete m_projectManager;
 }
 

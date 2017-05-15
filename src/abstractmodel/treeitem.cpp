@@ -22,8 +22,9 @@
 #include "treeitem.hpp"
 #include "abstracttreemodel.hpp"
 #include <QDebug>
+#include <utility>
 
-TreeItem::TreeItem(const QList<QVariant> &data, std::shared_ptr<AbstractTreeModel> model, std::shared_ptr<TreeItem> parent, int id)
+TreeItem::TreeItem(const QList<QVariant> &data, const std::shared_ptr<AbstractTreeModel> &model, const std::shared_ptr<TreeItem> &parent, int id)
     : m_itemData(data)
     , m_parentItem(parent)
     , m_model(model)
@@ -34,14 +35,14 @@ TreeItem::TreeItem(const QList<QVariant> &data, std::shared_ptr<AbstractTreeMode
 
 std::shared_ptr<TreeItem> TreeItem::construct(const QList<QVariant> &data, std::shared_ptr<AbstractTreeModel> model, std::shared_ptr<TreeItem> parent, int id)
 {
-    std::shared_ptr<TreeItem> self(new TreeItem(data,model, parent, id));
+    std::shared_ptr<TreeItem> self(new TreeItem(data, std::move(model), std::move(parent), id));
     id = self->m_id;
     baseFinishConstruct(self);
     return self;
 }
 
 // static
-void TreeItem::baseFinishConstruct(std::shared_ptr<TreeItem> self)
+void TreeItem::baseFinishConstruct(const std::shared_ptr<TreeItem> &self)
 {
     if (auto ptr = self->m_model.lock()) {
         ptr->registerItem(self);
@@ -94,7 +95,7 @@ void TreeItem::appendChild(std::shared_ptr<TreeItem> child)
     }
 }
 
-void TreeItem::removeChild(std::shared_ptr<TreeItem> child)
+void TreeItem::removeChild(const std::shared_ptr<TreeItem> &child)
 {
     if (auto ptr = m_model.lock()) {
         ptr->notifyRowAboutToDelete(shared_from_this(), child->row());
@@ -113,7 +114,7 @@ void TreeItem::removeChild(std::shared_ptr<TreeItem> child)
     }
 }
 
-void TreeItem::changeParent(std::shared_ptr<TreeItem> newParent)
+void TreeItem::changeParent(const std::shared_ptr<TreeItem> &newParent)
 {
     if (auto ptr = m_parentItem.lock()) {
         ptr->removeChild(shared_from_this());

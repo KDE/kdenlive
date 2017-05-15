@@ -33,7 +33,7 @@ QmlManager::QmlManager(QQuickView *view)
 
 void QmlManager::enableAudioThumbs(bool enable)
 {
-    QmlAudioThumb *audioThumbDisplay = m_view->rootObject()->findChild<QmlAudioThumb *>(QStringLiteral("audiothumb"));
+    auto *audioThumbDisplay = m_view->rootObject()->findChild<QmlAudioThumb *>(QStringLiteral("audiothumb"));
     if (audioThumbDisplay) {
         audioThumbDisplay->setProperty("stateVisible", enable);
     }

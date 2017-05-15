@@ -61,9 +61,9 @@
 #include "timeline/timeline.h"
 #include "timeline/timelinesearch.h"
 #include "timeline/track.h"
+#include "timeline2/view/timelinecontroller.h"
 #include "timeline2/view/timelinetabs.hpp"
 #include "timeline2/view/timelinewidget.h"
-#include "timeline2/view/timelinecontroller.h"
 #include "titler/titlewidget.h"
 #include "transitions/transitionlist/view/transitionlistwidget.hpp"
 #include "transitions/transitionsrepository.hpp"
@@ -737,7 +737,7 @@ MainWindow::~MainWindow()
     delete m_effectList2;
     delete m_transitionList2;
     qDeleteAll(m_transitions);
-    //Mlt::Factory::close();
+    // Mlt::Factory::close();
 }
 
 // virtual
@@ -1829,9 +1829,9 @@ void MainWindow::slotRenderProject()
             m_renderWidget->setRenderProfile(project->getRenderProperties());
         }
         if (m_compositeAction->currentAction()) {
-            m_renderWidget->errorMessage(RenderWidget::CompositeError, m_compositeAction->currentAction()->data().toInt() == 1
-                                                                           ? i18n("Rendering using low quality track compositing")
-                                                                           : QString());
+            m_renderWidget->errorMessage(RenderWidget::CompositeError,
+                                         m_compositeAction->currentAction()->data().toInt() == 1 ? i18n("Rendering using low quality track compositing")
+                                                                                                 : QString());
         }
     }
     slotCheckRenderStatus();

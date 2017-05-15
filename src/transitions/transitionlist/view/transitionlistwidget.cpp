@@ -49,7 +49,7 @@ TransitionListWidget::TransitionListWidget(QWidget *parent)
 TransitionListWidget::~TransitionListWidget()
 {
     delete m_proxy;
-    qDebug()<<" - - -Deleting transition list widget";
+    qDebug() << " - - -Deleting transition list widget";
 }
 
 QString TransitionListWidget::getMimeType(const QString &assetId) const

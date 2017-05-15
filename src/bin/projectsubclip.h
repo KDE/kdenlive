@@ -52,7 +52,7 @@ public:
                                                      const QString &timecode, const QString &name = QString());
 
 protected:
-    ProjectSubClip(std::shared_ptr<ProjectClip> parent, std::shared_ptr<ProjectItemModel> model, int in, int out, const QString &timecode,
+    ProjectSubClip(const std::shared_ptr<ProjectClip> &parent, const std::shared_ptr<ProjectItemModel> &model, int in, int out, const QString &timecode,
                    const QString &name = QString());
 
 public:

@@ -246,7 +246,7 @@ struct KisCubicCurve::Data : public QSharedData
         validU16Transfer = false;
         validFTransfer = false;
     }
-    ~Data() {}
+    ~Data() = default;
     mutable KisCubicSpline<QPointF, qreal> spline;
     QList<QPointF> points;
     mutable bool validSpline;

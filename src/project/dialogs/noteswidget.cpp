@@ -32,9 +32,7 @@ NotesWidget::NotesWidget(QWidget *parent)
     setMouseTracking(true);
 }
 
-NotesWidget::~NotesWidget()
-{
-}
+NotesWidget::~NotesWidget() = default;
 
 void NotesWidget::slotFillNotesMenu(const QPoint &pos)
 {

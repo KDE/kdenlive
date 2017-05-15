@@ -28,7 +28,7 @@ public:
         : f(frame)
     {
     }
-    ~FrameData() {}
+    ~FrameData() = default;
 
     Mlt::Frame f;
 
@@ -47,19 +47,12 @@ SharedFrame::SharedFrame(Mlt::Frame &frame)
 }
 
 SharedFrame::SharedFrame(const SharedFrame &other)
-    : d(other.d)
-{
-}
 
-SharedFrame::~SharedFrame()
-{
-}
+    = default;
 
-SharedFrame &SharedFrame::operator=(const SharedFrame &other)
-{
-    d = other.d;
-    return *this;
-}
+SharedFrame::~SharedFrame() = default;
+
+SharedFrame &SharedFrame::operator=(const SharedFrame &other) = default;
 
 bool SharedFrame::is_valid() const
 {

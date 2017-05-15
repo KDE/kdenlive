@@ -21,12 +21,12 @@
 #define MONITOR_H
 
 #include "abstractmonitor.h"
+#include "bin/model/markerlistmodel.hpp"
 #include "definitions.h"
 #include "effectslist/effectslist.h"
 #include "gentime.h"
 #include "renderer.h"
 #include "scopes/sharedframe.h"
-#include "bin/model/markerlistmodel.hpp"
 #include "timecodedisplay.h"
 
 #include <QDomElement>

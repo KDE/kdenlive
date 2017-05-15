@@ -24,9 +24,10 @@
 
 #include <QApplication>
 #include <QGraphicsItem>
+#include <utility>
 
 SpacerManager::SpacerManager(CustomTrackView *view, std::shared_ptr<DocUndoStack> commandStack)
-    : AbstractToolManager(SpacerType, view, commandStack)
+    : AbstractToolManager(SpacerType, view, std::move(commandStack))
     , m_track(0)
     , m_dragMoved(false)
 {

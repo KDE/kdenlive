@@ -32,9 +32,7 @@ AbstractService::AbstractService(QListWidget *listWidget, QObject *parent)
 {
 }
 
-AbstractService::~AbstractService()
-{
-}
+AbstractService::~AbstractService() = default;
 
 void AbstractService::slotStartSearch(const QString &, int)
 {

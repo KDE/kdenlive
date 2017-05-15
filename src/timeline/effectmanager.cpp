@@ -36,9 +36,7 @@ EffectManager::EffectManager(EffectManager &other)
     m_producer = other.producer();
 }
 
-EffectManager::~EffectManager()
-{
-}
+EffectManager::~EffectManager() = default;
 
 EffectManager &EffectManager::operator=(EffectManager &other)
 {

@@ -77,5 +77,4 @@ signals:
     void zoneMoved(const QPoint &zone);
 };
 
-
 #endif

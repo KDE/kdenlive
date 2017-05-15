@@ -28,14 +28,15 @@
 #include "undohelper.hpp"
 #include <QDebug>
 #include <mlt++/MltProducer.h>
+#include <utility>
 
 // this can be deleted
 #include "bin/model/markerlistmodel.hpp"
 #include "gentime.h"
 
 ClipModel::ClipModel(std::weak_ptr<TimelineModel> parent, std::shared_ptr<Mlt::Producer> prod, const QString &binClipId, int id)
-    : MoveableItem<Mlt::Producer>(parent, id)
-    , m_producer(prod)
+    : MoveableItem<Mlt::Producer>(std::move(parent), id)
+    , m_producer(std::move(prod))
     , m_effectStack(EffectStackModel::construct(m_producer))
     , m_binClipId(binClipId)
 {

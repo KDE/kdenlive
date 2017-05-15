@@ -19,13 +19,9 @@
 
 #define CHOP255(a) ((255) < (a) ? (255) : (a))
 
-WaveformGenerator::WaveformGenerator()
-{
-}
+WaveformGenerator::WaveformGenerator() = default;
 
-WaveformGenerator::~WaveformGenerator()
-{
-}
+WaveformGenerator::~WaveformGenerator() = default;
 
 QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, const QImage &image, WaveformGenerator::PaintMode paintMode, bool drawAxis,
                                             WaveformGenerator::Rec rec, uint accelFactor)
@@ -76,7 +72,7 @@ QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, const QIm
         Q_ASSERT(bits < image.bits() + byteCount);
 
         double dY, dx, dy;
-        QRgb *col = (QRgb *)bits;
+        auto *col = (QRgb *)bits;
 
         if (rec == WaveformGenerator::Rec_601) {
             // CIE 601 Luminance

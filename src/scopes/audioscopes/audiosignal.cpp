@@ -35,9 +35,7 @@ AudioSignal::AudioSignal(QWidget *parent)
     init();
 }
 
-AudioSignal::~AudioSignal()
-{
-}
+AudioSignal::~AudioSignal() = default;
 
 QImage AudioSignal::renderAudioScope(uint, const audioShortVector &audioFrame, const int, const int num_channels, const int samples, const int)
 {

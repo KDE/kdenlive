@@ -33,9 +33,7 @@ ScopeWidget::ScopeWidget(QWidget *parent)
     // qCDebug(KDENLIVE_LOG) << "end";
 }
 
-ScopeWidget::~ScopeWidget()
-{
-}
+ScopeWidget::~ScopeWidget() = default;
 
 void ScopeWidget::onNewFrame(const SharedFrame &frame)
 {

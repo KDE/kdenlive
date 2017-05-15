@@ -54,7 +54,7 @@ ProfileTreeModel::ProfileTreeModel(QObject *parent)
 
     // We define the filters as a vector of pairs. The first element correspond to the tree item holding matching profiles, and the array correspond to the
     // filter itself
-    std::vector<std::pair<std::shared_ptr<TreeItem> , std::array<QVariant, nbCrit>>> filters{
+    std::vector<std::pair<std::shared_ptr<TreeItem>, std::array<QVariant, nbCrit>>> filters{
         {createCat(i18n("5K (Wide 2160)")), {{5120, 2160, -1}}},
         {createCat(i18n("4K UHD 2160")), {{3840, 2160, -1}}},
         {createCat(i18n("4K DCI 2160")), {{4096, 2160, -1}}},

@@ -48,12 +48,12 @@ public:
     virtual ~AbstractTreeModel();
 
     /* @brief Given an item from the hierarchy, construct the corresponding ModelIndex */
-    QModelIndex getIndexFromItem(std::shared_ptr<TreeItem> item) const;
+    QModelIndex getIndexFromItem(const std::shared_ptr<TreeItem> &item) const;
 
     /* @brief Send the appropriate notification related to a row that we are appending
        @param item is the parent item to which row is appended
      */
-    void notifyRowAboutToAppend(std::shared_ptr<TreeItem> item);
+    void notifyRowAboutToAppend(const std::shared_ptr<TreeItem> &item);
 
     /* @brief Send the appropriate notification related to a row that we have appended
     */
@@ -83,15 +83,17 @@ public:
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
 
     friend class TreeItem;
+
 protected:
     /* @brief Register a new item. This is a call-back meant to be called from TreeItem */
-    void registerItem(std::shared_ptr<TreeItem> item);
+    void registerItem(const std::shared_ptr<TreeItem> &item);
 
     /* @brief Deregister an item. This is a call-back meant to be called from TreeItem */
     void deregisterItem(int id);
 
     /* @brief Returns the next valid id to give to a new element */
     static int getNextId();
+
 protected:
     std::shared_ptr<TreeItem> rootItem;
 

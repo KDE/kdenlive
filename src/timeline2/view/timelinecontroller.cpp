@@ -19,27 +19,26 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-
 #include "timelinecontroller.h"
-#include "kdenlivesettings.h"
-#include "core.h"
 #include "bin/bin.h"
-#include "bin/projectclip.h"
-#include "timeline2/model/timelineitemmodel.hpp"
-#include "dialogs/markerdialog.h"
 #include "bin/model/markerlistmodel.hpp"
-#include "project/projectmanager.h"
+#include "bin/projectclip.h"
+#include "core.h"
+#include "dialogs/markerdialog.h"
 #include "doc/kdenlivedoc.h"
+#include "kdenlivesettings.h"
+#include "project/projectmanager.h"
+#include "timeline2/model/timelineitemmodel.hpp"
 #include "timelinewidget.h"
 
-#include <QQuickItem>
 #include <KActionCollection>
 #include <QApplication>
+#include <QQuickItem>
 
 int TimelineController::m_duration = 0;
 
-TimelineController::TimelineController(KActionCollection *actionCollection, QObject *parent) :
-    QObject(parent)
+TimelineController::TimelineController(KActionCollection *actionCollection, QObject *parent)
+    : QObject(parent)
     , m_root(nullptr)
     , m_actionCollection(actionCollection)
     , m_position(0)
@@ -122,7 +121,6 @@ void TimelineController::setSelection(const QList<int> &newSelection, int trackI
     }
 }
 
-
 void TimelineController::emitSelectedFromSelection()
 {
     /*if (!m_model.trackList().count()) {
@@ -152,8 +150,6 @@ void TimelineController::emitSelectedFromSelection()
         delete info;
     }*/
 }
-
-
 
 QList<int> TimelineController::selection() const
 {

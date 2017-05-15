@@ -50,9 +50,7 @@ JogShuttleAction::JogShuttleAction(const JogShuttle *jogShuttle, const QStringLi
     connect(this, &JogShuttleAction::forward, pCore->monitorManager(), &MonitorManager::slotForward);
 }
 
-JogShuttleAction::~JogShuttleAction()
-{
-}
+JogShuttleAction::~JogShuttleAction() = default;
 
 void JogShuttleAction::slotShuttlePos(int shuttle_pos)
 {

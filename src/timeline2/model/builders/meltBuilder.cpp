@@ -103,9 +103,8 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
             if (!ok) {
                 qDebug() << "ERROR : failed to insert composition in track " << t.get_b_track() << ", position" << t.get_in();
                 break;
-            } else {
-                qDebug() << "Inserted composition in track " << t.get_b_track() << ", position" << t.get_in();
             }
+            qDebug() << "Inserted composition in track " << t.get_b_track() << ", position" << t.get_in();
         }
         service.reset(service->producer());
     }

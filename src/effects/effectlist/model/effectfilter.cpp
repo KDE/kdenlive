@@ -37,12 +37,12 @@ void EffectFilter::setFilterType(bool enabled, EffectType type)
     invalidateFilter();
 }
 
-bool EffectFilter::filterType(std::shared_ptr<TreeItem> item) const
+bool EffectFilter::filterType(const std::shared_ptr<TreeItem> &item) const
 {
     if (!m_type_enabled) {
         return true;
     }
-    EffectType itemType = item->dataColumn(AssetTreeModel::typeCol).value<EffectType>();
+    auto itemType = item->dataColumn(AssetTreeModel::typeCol).value<EffectType>();
     return itemType == m_type_value;
 }
 

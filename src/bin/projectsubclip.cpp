@@ -26,11 +26,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <KLocalizedString>
 #include <QDomElement>
+#include <utility>
 
 class ClipController;
 
-ProjectSubClip::ProjectSubClip(std::shared_ptr<ProjectClip> parent, std::shared_ptr<ProjectItemModel> model, int in, int out, const QString &timecode,
-                               const QString &name)
+ProjectSubClip::ProjectSubClip(const std::shared_ptr<ProjectClip> &parent, const std::shared_ptr<ProjectItemModel> &model, int in, int out,
+                               const QString &timecode, const QString &name)
     : AbstractProjectItem(AbstractProjectItem::SubClipItem, parent->AbstractProjectItem::clipId(), model, parent)
     , m_masterClip(parent)
     , m_in(in)
@@ -55,7 +56,7 @@ ProjectSubClip::ProjectSubClip(std::shared_ptr<ProjectClip> parent, std::shared_
 std::shared_ptr<ProjectSubClip> ProjectSubClip::construct(std::shared_ptr<ProjectClip> parent, std::shared_ptr<ProjectItemModel> model, int in, int out,
                                                           const QString &timecode, const QString &name)
 {
-    std::shared_ptr<ProjectSubClip> self(new ProjectSubClip(parent, model, in, out, timecode, name));
+    std::shared_ptr<ProjectSubClip> self(new ProjectSubClip(std::move(parent), std::move(model), in, out, timecode, name));
 
     baseFinishConstruct(self);
     return self;

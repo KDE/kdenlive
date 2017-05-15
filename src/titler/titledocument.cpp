@@ -484,8 +484,8 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QGraphicsRectItem *start
 
                     // Effects
                     if (!txtProperties.namedItem(QStringLiteral("typewriter")).isNull()) {
-                        QStringList effData = QStringList() << QStringLiteral("typewriter")
-                                                            << txtProperties.namedItem(QStringLiteral("typewriter")).nodeValue();
+                        QStringList effData = QStringList()
+                                              << QStringLiteral("typewriter") << txtProperties.namedItem(QStringLiteral("typewriter")).nodeValue();
                         txt->setData(100, effData);
                     }
                     if (txt->toPlainText() == QLatin1String("%s")) {

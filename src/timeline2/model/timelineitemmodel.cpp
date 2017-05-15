@@ -49,16 +49,14 @@ std::shared_ptr<TimelineItemModel> TimelineItemModel::construct(Mlt::Profile *pr
     return ptr;
 }
 
-TimelineItemModel::~TimelineItemModel()
-{
-}
+TimelineItemModel::~TimelineItemModel() = default;
 
 QModelIndex TimelineItemModel::index(int row, int column, const QModelIndex &parent) const
 {
     READ_LOCK();
     QModelIndex result;
     if (parent.isValid()) {
-        int trackId = int(parent.internalId());
+        auto trackId = int(parent.internalId());
         Q_ASSERT(isTrack(trackId));
         int clipId = getTrackById_const(trackId)->getClipByRow(row);
         if (clipId != -1) {

@@ -45,9 +45,7 @@ void AbstractAudioScopeWidget::slotReceiveAudio(const audioShortVector &sampleDa
     AbstractScopeWidget::slotRenderZoneUpdated();
 }
 
-AbstractAudioScopeWidget::~AbstractAudioScopeWidget()
-{
-}
+AbstractAudioScopeWidget::~AbstractAudioScopeWidget() = default;
 
 QImage AbstractAudioScopeWidget::renderScope(uint accelerationFactor)
 {

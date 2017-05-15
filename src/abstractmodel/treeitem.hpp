@@ -41,12 +41,14 @@ public:
      @param id of the newly created item. If left to -1, the id is assigned automatically
      @return a ptr to the constructed item
     */
-    static std::shared_ptr<TreeItem> construct(const QList<QVariant> &data, std::shared_ptr<AbstractTreeModel> model, std::shared_ptr<TreeItem> parent, int id = -1);
+    static std::shared_ptr<TreeItem> construct(const QList<QVariant> &data, std::shared_ptr<AbstractTreeModel> model, std::shared_ptr<TreeItem> parent,
+                                               int id = -1);
 
     friend class AbstractTreeModel;
+
 protected:
     // This is protected. Call construct instead
-    explicit TreeItem(const QList<QVariant> &data, std::shared_ptr<AbstractTreeModel> model, std::shared_ptr<TreeItem> parent, int id = -1);
+    explicit TreeItem(const QList<QVariant> &data, const std::shared_ptr<AbstractTreeModel> &model, const std::shared_ptr<TreeItem> &parent, int id = -1);
 
 public:
     virtual ~TreeItem();
@@ -64,11 +66,11 @@ public:
     /* @brief Remove given child from children list. The parent of the child is updated
        accordingly
      */
-    void removeChild(std::shared_ptr<TreeItem> child);
+    void removeChild(const std::shared_ptr<TreeItem> &child);
 
     /* @brief Change the parent of the current item. Structures are modified accordingly
      */
-    void changeParent(std::shared_ptr<TreeItem> newParent);
+    void changeParent(const std::shared_ptr<TreeItem> &newParent);
 
     /* @brief Retrieves a child of the current item
        @param row is the index of the child to retrieve
@@ -100,16 +102,15 @@ public:
 
     /* @brief Return the id of the current item*/
     int getId() const;
-protected:
 
+protected:
     /* @brief Finish construction of object given its pointer
        This is a separated function so that it can be called from derived classes */
-    static void baseFinishConstruct(std::shared_ptr<TreeItem> self);
-
+    static void baseFinishConstruct(const std::shared_ptr<TreeItem> &self);
 
     std::list<std::shared_ptr<TreeItem>> m_childItems;
     std::unordered_map<int, std::list<std::shared_ptr<TreeItem>>::iterator>
-    m_iteratorTable; // this logs the iterator associated which each child id. This allows easy access of a child based on its id.
+        m_iteratorTable; // this logs the iterator associated which each child id. This allows easy access of a child based on its id.
 
     QList<QVariant> m_itemData;
     std::weak_ptr<TreeItem> m_parentItem;

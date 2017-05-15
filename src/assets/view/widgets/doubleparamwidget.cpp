@@ -23,9 +23,10 @@
 #include "assets/model/assetparametermodel.hpp"
 #include "widgets/doublewidget.h"
 #include <QVBoxLayout>
+#include <utility>
 
 DoubleParamWidget::DoubleParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
-    : AbstractParamWidget(model, index, parent)
+    : AbstractParamWidget(std::move(model), index, parent)
     , m_doubleWidget(nullptr)
 {
     m_lay = new QVBoxLayout(this);

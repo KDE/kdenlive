@@ -22,11 +22,10 @@
 #ifndef TIMELINECONTROLLER_H
 #define TIMELINECONTROLLER_H
 
-#include "timelinewidget.h"
 #include "timeline2/model/timelineitemmodel.hpp"
+#include "timelinewidget.h"
 
-
-//see https://bugreports.qt.io/browse/QTBUG-57714, don't expose a QWidget as a context property
+// see https://bugreports.qt.io/browse/QTBUG-57714, don't expose a QWidget as a context property
 class TimelineController : public QObject
 {
     Q_OBJECT
@@ -194,7 +193,6 @@ public slots:
     void selectMultitrack();
     void seek(int position);
     void onSeeked(int position);
-
 
 private:
     QQuickItem *m_root;

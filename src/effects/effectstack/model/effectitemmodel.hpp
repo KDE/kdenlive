@@ -54,7 +54,8 @@ public:
     Mlt::Filter &filter() const;
 
 protected:
-    EffectItemModel(const QList<QVariant> &data, Mlt::Properties *effect, const QDomElement &xml, const QString &effectId, std::shared_ptr<AbstractTreeModel> stack, std::shared_ptr<TreeItem> parent);
+    EffectItemModel(const QList<QVariant> &data, Mlt::Properties *effect, const QDomElement &xml, const QString &effectId,
+                    const std::shared_ptr<AbstractTreeModel> &stack, const std::shared_ptr<TreeItem> &parent);
 
     /* @brief Toogles the mlt effect according to the current activation state*/
     void updateEnable();

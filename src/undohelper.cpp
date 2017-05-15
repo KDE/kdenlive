@@ -22,7 +22,7 @@
 #include "undohelper.hpp"
 #include <QDebug>
 
-FunctionalUndoCommand::FunctionalUndoCommand(const Fun &undo, const Fun &redo, QString text, QUndoCommand *parent)
+FunctionalUndoCommand::FunctionalUndoCommand(const Fun &undo, const Fun &redo, const QString &text, QUndoCommand *parent)
     : QUndoCommand(parent)
     , m_undo(undo)
     , m_redo(redo)

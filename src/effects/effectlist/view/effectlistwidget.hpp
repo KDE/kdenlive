@@ -25,7 +25,6 @@
 #include "assets/assetlist/view/assetlistwidget.hpp"
 #include "kdenlivesettings.h"
 
-
 /* @brief This class is a widget that display the list of available effects
  */
 
@@ -49,45 +48,28 @@ private:
     EffectListWidgetProxy *m_proxy;
 };
 
-//see https://bugreports.qt.io/browse/QTBUG-57714, don't expose a QWidget as a context property
+// see https://bugreports.qt.io/browse/QTBUG-57714, don't expose a QWidget as a context property
 class EffectListWidgetProxy : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(bool showDescription READ showDescription WRITE setShowDescription NOTIFY showDescriptionChanged)
 
 public:
-    EffectListWidgetProxy(EffectListWidget *parent) :
-    QObject(parent),
-        q(parent)
+    EffectListWidgetProxy(EffectListWidget *parent)
+        : QObject(parent)
+        , q(parent)
     {
     }
-    Q_INVOKABLE QString getName(const QModelIndex &index) const {
-        return q->getName(index);
-    }
+    Q_INVOKABLE QString getName(const QModelIndex &index) const { return q->getName(index); }
 
-    Q_INVOKABLE QString getDescription(const QModelIndex &index) const {
-        return q->getDescription(index);
-    }
-    Q_INVOKABLE QVariantMap getMimeData(const QString &assetId) const {
-        return q->getMimeData(assetId);
-    }
+    Q_INVOKABLE QString getDescription(const QModelIndex &index) const { return q->getDescription(index); }
+    Q_INVOKABLE QVariantMap getMimeData(const QString &assetId) const { return q->getMimeData(assetId); }
 
-    Q_INVOKABLE void activate(const QModelIndex &ix) {
-        q->activate(ix);
-    }
-    Q_INVOKABLE void setFilterType(const QString &type) {
-        q->setFilterType(type);
-    }
-    Q_INVOKABLE void setFilterName(const QString &pattern) {
-        q->setFilterName(pattern);
-    }
-    Q_INVOKABLE QString getMimeType(const QString &assetId) const {
-        return q->getMimeType(assetId);
-    }
-    bool showDescription() const
-    {
-        return KdenliveSettings::showeffectinfo();
-    }
+    Q_INVOKABLE void activate(const QModelIndex &ix) { q->activate(ix); }
+    Q_INVOKABLE void setFilterType(const QString &type) { q->setFilterType(type); }
+    Q_INVOKABLE void setFilterName(const QString &pattern) { q->setFilterName(pattern); }
+    Q_INVOKABLE QString getMimeType(const QString &assetId) const { return q->getMimeType(assetId); }
+    bool showDescription() const { return KdenliveSettings::showeffectinfo(); }
 
     void setShowDescription(bool show)
     {
@@ -98,7 +80,7 @@ signals:
     void showDescriptionChanged();
 
 private:
-    EffectListWidget* q;
+    EffectListWidget *q;
 };
 
 #endif

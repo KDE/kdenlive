@@ -314,8 +314,6 @@ void media_ctrl_read_event(struct media_ctrl *ctrl, struct media_ctrl_event *me)
             // printf("*** Jog %02d ***\n", me->value);
         }
     }
-
-    return;
 }
 
 int probe_device(struct media_ctrl *mc)

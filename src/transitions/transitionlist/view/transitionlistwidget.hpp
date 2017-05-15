@@ -25,7 +25,6 @@
 #include "assets/assetlist/view/assetlistwidget.hpp"
 #include "kdenlivesettings.h"
 
-
 class TransitionListWidgetProxy;
 
 /* @brief This class is a widget that display the list of available effects
@@ -41,46 +40,32 @@ public:
     /*@brief Return mime type used for drag and drop. It will be kdenlive/composition
      or kdenlive/transition*/
     QString getMimeType(const QString &assetId) const override;
+
 private:
     TransitionListWidgetProxy *m_proxy;
 };
 
-//see https://bugreports.qt.io/browse/QTBUG-57714, don't expose a QWidget as a context property
+// see https://bugreports.qt.io/browse/QTBUG-57714, don't expose a QWidget as a context property
 class TransitionListWidgetProxy : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(bool showDescription READ showDescription WRITE setShowDescription NOTIFY showDescriptionChanged)
 public:
-    TransitionListWidgetProxy(TransitionListWidget *parent) :
-    QObject(parent),
-        q(parent)
+    TransitionListWidgetProxy(TransitionListWidget *parent)
+        : QObject(parent)
+        , q(parent)
     {
     }
-    Q_INVOKABLE QString getName(const QModelIndex &index) const {
-        return q->getName(index);
-    }
+    Q_INVOKABLE QString getName(const QModelIndex &index) const { return q->getName(index); }
 
-    Q_INVOKABLE QString getDescription(const QModelIndex &index) const {
-        return q->getDescription(index);
-    }
-    Q_INVOKABLE QVariantMap getMimeData(const QString &assetId) const {
-        return q->getMimeData(assetId);
-    }
+    Q_INVOKABLE QString getDescription(const QModelIndex &index) const { return q->getDescription(index); }
+    Q_INVOKABLE QVariantMap getMimeData(const QString &assetId) const { return q->getMimeData(assetId); }
 
-    Q_INVOKABLE void activate(const QModelIndex &ix) {
-        q->activate(ix);
-    }
+    Q_INVOKABLE void activate(const QModelIndex &ix) { q->activate(ix); }
 
-    Q_INVOKABLE void setFilterName(const QString &pattern) {
-        q->setFilterName(pattern);
-    }
-    Q_INVOKABLE QString getMimeType(const QString &assetId) const {
-        return q->getMimeType(assetId);
-    }
-    bool showDescription() const
-    {
-        return KdenliveSettings::showeffectinfo();
-    }
+    Q_INVOKABLE void setFilterName(const QString &pattern) { q->setFilterName(pattern); }
+    Q_INVOKABLE QString getMimeType(const QString &assetId) const { return q->getMimeType(assetId); }
+    bool showDescription() const { return KdenliveSettings::showeffectinfo(); }
 
     void setShowDescription(bool show)
     {
@@ -89,8 +74,9 @@ public:
     }
 signals:
     void showDescriptionChanged();
+
 private:
-    TransitionListWidget* q;
+    TransitionListWidget *q;
 };
 
 #endif

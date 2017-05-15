@@ -358,7 +358,7 @@ bool MarkerListModel::importFromJson(const QString &data, bool ignoreConflicts)
 QString MarkerListModel::toJson() const
 {
     QJsonArray list;
-    for(const auto &marker : m_markerList) {
+    for (const auto &marker : m_markerList) {
         QJsonObject currentMarker;
         currentMarker.insert(QLatin1String("pos"), QJsonValue(marker.first.seconds()));
         currentMarker.insert(QLatin1String("comment"), QJsonValue(marker.second.first));

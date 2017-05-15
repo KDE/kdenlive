@@ -94,7 +94,7 @@ void AudioEnvelope::loadEnvelope()
         qint64 position = mlt_frame_get_position(frame->get_frame());
         int samples = mlt_sample_calculator(m_producer->get_fps(), samplingRate, position);
 
-        qint16 *data = static_cast<qint16 *>(frame->get_audio(format_s16, samplingRate, channels, samples));
+        auto *data = static_cast<qint16 *>(frame->get_audio(format_s16, samplingRate, channels, samples));
 
         qint64 sum = 0;
         for (int k = 0; k < samples; ++k) {

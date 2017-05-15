@@ -20,12 +20,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <KMessageBox>
 #include <QApplication>
 #include <QOpenGLFunctions_3_2_Core>
 #include <QPainter>
 #include <QQmlContext>
 #include <QQuickItem>
-#include <KMessageBox>
 #include <klocalizedstring.h>
 
 #include "core.h"
@@ -1630,8 +1630,9 @@ void GLWidget::refreshSceneLayout()
     }
     rootObject()->setProperty("profile", QPoint(m_monitorProfile->width(), m_monitorProfile->height()));
     rootObject()->setProperty("scalex", (double)m_rect.width() / m_monitorProfile->width() * m_zoom);
-    rootObject()->setProperty("scaley", (double)m_rect.width() / (((double)m_monitorProfile->height() * m_monitorProfile->dar() / m_monitorProfile->width())) /
-                                            m_monitorProfile->width() * m_zoom);
+    rootObject()->setProperty("scaley",
+                              (double)m_rect.width() / (((double)m_monitorProfile->height() * m_monitorProfile->dar() / m_monitorProfile->width())) /
+                                  m_monitorProfile->width() * m_zoom);
 }
 
 void GLWidget::switchPlay(bool play, double speed)
@@ -1790,7 +1791,7 @@ bool GLWidget::setProducer(Mlt::Producer *producer, int position, bool isActive)
     if (isActive) {
         startConsumer();
     }
-    //emit durationChanged(m_producer->get_length() - 1, m_producer->get_in());
+    // emit durationChanged(m_producer->get_length() - 1, m_producer->get_in());
     position = m_producer->position();
     rootObject()->setProperty("consumerPosition", position);
     return true;

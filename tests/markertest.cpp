@@ -4,8 +4,8 @@
 #pragma GCC diagnostic push
 #include "fakeit.hpp"
 #include <QColor>
-#include <QString>
 #include <QDebug>
+#include <QString>
 #include <cmath>
 #include <iostream>
 #include <tuple>
@@ -13,7 +13,6 @@
 
 #define private public
 #define protected public
-#include "bin/model/markerlistmodel.hpp"
 #include "bin/model/markerlistmodel.hpp"
 #include "core.h"
 #include "doc/docundostack.hpp"
@@ -23,22 +22,19 @@
 
 using namespace fakeit;
 
-
 using Marker = std::tuple<GenTime, QString, int>;
 double fps;
 
 void checkMarkerList(std::shared_ptr<MarkerListModel> model, const std::vector<Marker> &l, std::shared_ptr<SnapModel> snaps)
 {
     auto list = l;
-    std::sort(list.begin(), list.end(), [](const Marker& a, const Marker& b){
-            return std::get<0>(a) < std::get<0>(b);
-        });
+    std::sort(list.begin(), list.end(), [](const Marker &a, const Marker &b) { return std::get<0>(a) < std::get<0>(b); });
 
-    REQUIRE(model->rowCount() == (int) list.size());
+    REQUIRE(model->rowCount() == (int)list.size());
     if (model->rowCount() == 0) {
         REQUIRE(snaps->getClosestPoint(0) == -1);
     }
-    for (int i = 0; i < model->rowCount() ; ++i ) {
+    for (int i = 0; i < model->rowCount(); ++i) {
         REQUIRE(qAbs(std::get<0>(list[i]).seconds() - model->data(model->index(i), MarkerListModel::PosRole).toDouble()) < 1e-4);
         REQUIRE(std::get<1>(list[i]) == model->data(model->index(i), MarkerListModel::CommentRole).toString());
         REQUIRE(std::get<2>(list[i]) == model->data(model->index(i), MarkerListModel::TypeRole).toInt());
@@ -53,7 +49,8 @@ void checkMarkerList(std::shared_ptr<MarkerListModel> model, const std::vector<M
     }
 }
 
-void checkStates(std::shared_ptr<DocUndoStack> undoStack, std::shared_ptr<MarkerListModel> model, const std::vector<std::vector<Marker>> &states, std::shared_ptr<SnapModel> snaps)
+void checkStates(std::shared_ptr<DocUndoStack> undoStack, std::shared_ptr<MarkerListModel> model, const std::vector<std::vector<Marker>> &states,
+                 std::shared_ptr<SnapModel> snaps)
 {
     for (size_t i = 0; i < states.size(); ++i) {
         checkMarkerList(model, states[states.size() - 1 - i], snaps);
@@ -77,7 +74,6 @@ TEST_CASE("Marker model", "[MarkerListModel]")
     std::shared_ptr<SnapModel> snaps = std::make_shared<SnapModel>();
     model->registerSnapModel(snaps);
 
-
     // Here we do some trickery to enable testing.
     // We mock the project class so that the getGuideModel function returns this model
 
@@ -87,7 +83,8 @@ TEST_CASE("Marker model", "[MarkerListModel]")
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
 
-    SECTION("Basic Manipulation") {
+    SECTION("Basic Manipulation")
+    {
         std::vector<Marker> list;
         checkMarkerList(model, list, snaps);
 
@@ -129,7 +126,8 @@ TEST_CASE("Marker model", "[MarkerListModel]")
         checkStates(undoStack, model, {{}, state1, state2, state3, state4, state5}, snaps);
     }
 
-    SECTION("Json identity test") {
+    SECTION("Json identity test")
+    {
         std::vector<Marker> list;
         checkMarkerList(model, list, snaps);
 

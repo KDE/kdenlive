@@ -137,8 +137,8 @@ public:
                 int val = value.toInt();
                 if (property == KFileMetaData::Property::BitRate) {
                     // Adjust unit for bitrate
-                    new QTreeWidgetItem(m_tree, QStringList() << info.displayName()
-                                                              << QString::number(val / 1000) + QLatin1Char(' ') + i18nc("Kilobytes per seconds", "kb/s"));
+                    new QTreeWidgetItem(
+                        m_tree, QStringList() << info.displayName() << QString::number(val / 1000) + QLatin1Char(' ') + i18nc("Kilobytes per seconds", "kb/s"));
                 } else {
                     new QTreeWidgetItem(m_tree, QStringList() << info.displayName() << QString::number(val));
                 }
@@ -880,7 +880,6 @@ void ClipPropertiesController::fillProperties()
     m_propertiesTree->resizeColumnToContents(0);
 }
 
-
 void ClipPropertiesController::slotSeekToMarker()
 {
     auto markerModel = m_controller->getMarkerModel();
@@ -1104,8 +1103,8 @@ void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
                         magicL->setIcon(0, icon);
                         magicL->setExpanded(true);
                     }
-                    new QTreeWidgetItem(magicL, QStringList() << line.section(QLatin1Char(':'), 0, 0).simplified()
-                                                              << line.section(QLatin1Char(':'), 1).simplified());
+                    new QTreeWidgetItem(magicL,
+                                        QStringList() << line.section(QLatin1Char(':'), 0, 0).simplified() << line.section(QLatin1Char(':'), 1).simplified());
                 }
             }
         }

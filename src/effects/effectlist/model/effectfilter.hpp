@@ -43,7 +43,7 @@ public:
     void setFilterType(bool enabled, EffectType type);
 
 protected:
-    bool filterType(std::shared_ptr<TreeItem> item) const;
+    bool filterType(const std::shared_ptr<TreeItem> &item) const;
     bool applyAll(std::shared_ptr<TreeItem> item) const override;
 
     bool m_type_enabled;

@@ -358,6 +358,7 @@ public:
     typedef void (SafeBool::*type)() const;
 
     static type makeSafe(bool value) { return value ? &SafeBool::trueValue : 0; }
+
 private:
     void trueValue() const {}
 };
@@ -986,6 +987,7 @@ public:
     virtual bool match(ExpressionT const &expr) const CATCH_OVERRIDE { return !m_matcher->match(expr); }
 
     virtual std::string toString() const CATCH_OVERRIDE { return "not " + m_matcher->toString(); }
+
 private:
     Ptr<Matcher<ExpressionT>> m_matcher;
 };
@@ -1988,6 +1990,7 @@ struct MessageInfo
 
     bool operator==(MessageInfo const &other) const { return sequence == other.sequence; }
     bool operator<(MessageInfo const &other) const { return sequence < other.sequence; }
+
 private:
     static unsigned int globalCount;
 };
@@ -3289,6 +3292,7 @@ class TestSpec
         }
         virtual ~NamePattern();
         virtual bool matches(TestCaseInfo const &testCase) const { return m_wildcardPattern.matches(toLower(testCase.name)); }
+
     private:
         WildcardPattern m_wildcardPattern;
     };
@@ -3302,6 +3306,7 @@ class TestSpec
         }
         virtual ~TagPattern();
         virtual bool matches(TestCaseInfo const &testCase) const { return testCase.lcaseTags.find(m_tag) != testCase.lcaseTags.end(); }
+
     private:
         std::string m_tag;
     };
@@ -3315,6 +3320,7 @@ class TestSpec
         }
         virtual ~ExcludedPattern();
         virtual bool matches(TestCaseInfo const &testCase) const { return !m_underlyingPattern->matches(testCase); }
+
     private:
         Ptr<Pattern> m_underlyingPattern;
     };
@@ -4221,6 +4227,7 @@ public:
     bool takesArg() const { return functionObj->takesArg(); }
 
     bool isSet() const { return functionObj != CLARA_NULL; }
+
 private:
     IArgFunction<ConfigT> *functionObj;
 };
@@ -5866,6 +5873,7 @@ public:
         m_ctx.completeCycle();
     }
     virtual void markAsNeedingAnotherRun() CATCH_OVERRIDE { m_runState = NeedsAnotherRun; }
+
 private:
     void moveToParent()
     {
@@ -8900,6 +8908,7 @@ struct CumulativeReporterBase : SharedImpl<IStreamingReporter>
         {
         }
         bool operator()(Ptr<SectionNode> const &node) const { return node->stats.sectionInfo.lineInfo == m_other.lineInfo; }
+
     private:
         void operator=(BySectionInfo const &);
         SectionInfo const &m_other;

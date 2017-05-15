@@ -22,9 +22,7 @@
 #include <QDebug>
 #include <limits.h>
 
-SnapModel::SnapModel()
-{
-}
+SnapModel::SnapModel() = default;
 
 void SnapModel::addPoint(int position)
 {

@@ -46,9 +46,7 @@ ShuttleThread::ShuttleThread(const QString &device, QObject *parent)
 {
 }
 
-ShuttleThread::~ShuttleThread()
-{
-}
+ShuttleThread::~ShuttleThread() = default;
 
 QString ShuttleThread::device()
 {
@@ -85,7 +83,8 @@ void ShuttleThread::run()
         if (result < 0 && errno == EINTR) {
             // EINTR event caught. This is not a problem - continue processing
             continue;
-        } else if (result < 0) {
+        }
+        if (result < 0) {
             // stop thread
             m_isRunning = false;
         } else if (result > 0) {
@@ -174,10 +173,10 @@ void JogShuttle::customEvent(QEvent *e)
     QEvent::Type type = e->type();
 
     if (type == MediaCtrlEvent::Key) {
-        MediaCtrlEvent *mev = static_cast<MediaCtrlEvent *>(e);
+        auto *mev = static_cast<MediaCtrlEvent *>(e);
         emit button(mev->value());
     } else if (type == MediaCtrlEvent::Jog) {
-        MediaCtrlEvent *mev = static_cast<MediaCtrlEvent *>(e);
+        auto *mev = static_cast<MediaCtrlEvent *>(e);
         int value = mev->value();
 
         if (value < 0) {
@@ -186,7 +185,7 @@ void JogShuttle::customEvent(QEvent *e)
             emit jogForward();
         }
     } else if (type == MediaCtrlEvent::Shuttle) {
-        MediaCtrlEvent *mev = static_cast<MediaCtrlEvent *>(e);
+        auto *mev = static_cast<MediaCtrlEvent *>(e);
         emit shuttlePos(mev->value());
     }
 }

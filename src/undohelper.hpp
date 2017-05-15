@@ -56,7 +56,7 @@ using Fun = std::function<bool(void)>;
 class FunctionalUndoCommand : public QUndoCommand
 {
 public:
-    FunctionalUndoCommand(const Fun &undo, const Fun &redo, QString text, QUndoCommand *parent = nullptr);
+    FunctionalUndoCommand(const Fun &undo, const Fun &redo, const QString &text, QUndoCommand *parent = nullptr);
     void undo() override;
     void redo() override;
 

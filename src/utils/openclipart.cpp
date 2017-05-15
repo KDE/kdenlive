@@ -31,9 +31,7 @@ OpenClipArt::OpenClipArt(QListWidget *listWidget, QObject *parent)
     serviceType = OPENCLIPART;
 }
 
-OpenClipArt::~OpenClipArt()
-{
-}
+OpenClipArt::~OpenClipArt() = default;
 /**
  * @brief OpenClipArt::slotStartSearch
  * @param searchText
@@ -59,7 +57,7 @@ void OpenClipArt::slotShowResults(KJob *job)
         return;
     }
     m_listWidget->blockSignals(true);
-    KIO::StoredTransferJob *storedQueryJob = static_cast<KIO::StoredTransferJob *>(job);
+    auto *storedQueryJob = static_cast<KIO::StoredTransferJob *>(job);
 
     QDomDocument doc;
     doc.setContent(QString::fromLatin1(storedQueryJob->data()));

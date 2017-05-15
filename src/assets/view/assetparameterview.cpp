@@ -38,7 +38,7 @@ AssetParameterView::AssetParameterView(QWidget *parent)
     m_lay->setSpacing(2);
 }
 
-void AssetParameterView::setModel(std::shared_ptr<AssetParameterModel> model)
+void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &model)
 {
     qDebug() << "set model " << model.get();
     unsetModel();
@@ -82,7 +82,7 @@ void AssetParameterView::refresh(const QModelIndex &topLeft, const QModelIndex &
     // We make sure the range is valid
     Q_ASSERT(bottomRight.row() < (int)m_widgets.size());
 
-    for (size_t i = (size_t)topLeft.row(); i <= (size_t)bottomRight.row(); ++i) {
+    for (auto i = (size_t)topLeft.row(); i <= (size_t)bottomRight.row(); ++i) {
         m_widgets[i]->slotRefresh();
     }
 }

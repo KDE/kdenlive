@@ -294,8 +294,8 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     connect(m_glMonitor, &GLWidget::audioSamplesSignal, render, &AbstractRender::audioSamplesSignal);
 
     if (id != Kdenlive::ClipMonitor) {
-        //TODO: reimplement
-        //connect(render, &Render::durationChanged, this, &Monitor::durationChanged);
+        // TODO: reimplement
+        // connect(render, &Render::durationChanged, this, &Monitor::durationChanged);
         connect(m_glMonitor->getControllerProxy(), SIGNAL(zoneChanged()), this, SLOT(updateTimelineClipZone()));
     } else {
         connect(m_glMonitor->getControllerProxy(), SIGNAL(zoneChanged()), this, SLOT(updateClipZone()));
@@ -603,7 +603,7 @@ void Monitor::updateMarkers()
 
 void Monitor::setGuides(const QMap<double, QString> &guides)
 {
-    //TODO: load guides model
+    // TODO: load guides model
     m_markerMenu->clear();
     QMapIterator<double, QString> i(guides);
     QList<CommentedTime> guidesList;
@@ -616,7 +616,7 @@ void Monitor::setGuides(const QMap<double, QString> &guides)
         QAction *go = m_markerMenu->addAction(position);
         go->setData(pos);
     }
-    //m_ruler->setMarkers(guidesList);
+    // m_ruler->setMarkers(guidesList);
     m_markerMenu->setEnabled(!m_markerMenu->isEmpty());
     checkOverlay();
 }
@@ -1053,7 +1053,6 @@ void Monitor::slotSeek(int pos)
     m_glMonitor->getControllerProxy()->setSeekPosition(pos);
 }
 
-
 void Monitor::checkOverlay(int pos)
 {
     if (m_qmlManager->sceneType() != MonitorSceneDefault) {
@@ -1078,8 +1077,8 @@ void Monitor::checkOverlay(int pos)
         }
     } else if (m_id == Kdenlive::ProjectMonitor) {
         // Check for timeline guides
-        //TODO load timeline guides as monitor markermodel
-        //overlayText = m_ruler->markerAt(GenTime(pos, m_monitorManager->timecode().fps()));
+        // TODO load timeline guides as monitor markermodel
+        // overlayText = m_ruler->markerAt(GenTime(pos, m_monitorManager->timecode().fps()));
         if (overlayText.isEmpty()) {
             if (pos == zone.x()) {
                 overlayText = i18n("In Point");
@@ -1384,8 +1383,8 @@ void Monitor::slotOpenDvdFile(const QString &file)
 
 void Monitor::slotSaveZone()
 {
-    //TODO? or deprecate
-    //render->saveZone(pCore->projectManager()->current()->projectDataFolder(), m_ruler->zone());
+    // TODO? or deprecate
+    // render->saveZone(pCore->projectManager()->current()->projectDataFolder(), m_ruler->zone());
 }
 
 void Monitor::setCustomProfile(const QString &profile, const Timecode &tc)
@@ -1671,9 +1670,9 @@ void Monitor::onFrameDisplayed(const SharedFrame &frame)
     int position = frame.get_position();
     if (!m_glMonitor->checkFrameNumber(position)) {
         m_playAction->setActive(false);
-    }/* else if (position >= m_length) {
-        m_playAction->setActive(false);
-    }*/
+    } /* else if (position >= m_length) {
+         m_playAction->setActive(false);
+     }*/
 }
 
 void Monitor::checkDrops(int dropped)

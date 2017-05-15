@@ -29,7 +29,7 @@
 #include <mlt++/MltProfile.h>
 #include <mlt++/MltTransition.h>
 
-TrackModel::TrackModel(std::weak_ptr<TimelineModel> parent, int id)
+TrackModel::TrackModel(const std::weak_ptr<TimelineModel> &parent, int id)
     : m_parent(parent)
     , m_id(id == -1 ? TimelineModel::getNextId() : id)
 {
@@ -522,20 +522,20 @@ bool TrackModel::checkConsistency()
                 current_clip++;
                 i--;
                 continue;
-            } else {
-                if (isBlankAt(i)) {
-                    qDebug() << "ERROR: Found blank when clip was required at position " << i;
-                    return false;
-                }
-                auto pr = m_playlists[track].get_clip(index);
-                Mlt::Producer prod(pr);
-                if (!prod.same_clip(*clip)) {
-                    qDebug() << "ERROR: Wrong clip at position " << i;
-                    delete pr;
-                    return false;
-                }
-                delete pr;
             }
+            if (isBlankAt(i)) {
+                qDebug() << "ERROR: Found blank when clip was required at position " << i;
+                return false;
+            }
+            auto pr = m_playlists[track].get_clip(index);
+            Mlt::Producer prod(pr);
+            if (!prod.same_clip(*clip)) {
+                qDebug() << "ERROR: Wrong clip at position " << i;
+                delete pr;
+                return false;
+            }
+            delete pr;
+
         } else {
             if (!isBlankAt(i)) {
                 qDebug() << "ERROR: Found clip when blank was required at position " << i;

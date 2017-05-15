@@ -20,9 +20,11 @@
  ***************************************************************************/
 
 #include "assetfilter.hpp"
+
 #include "abstractmodel/abstracttreemodel.hpp"
 #include "abstractmodel/treeitem.hpp"
 #include "assettreemodel.hpp"
+#include <utility>
 
 AssetFilter::AssetFilter(QObject *parent)
     : QSortFilterProxyModel(parent)
@@ -38,7 +40,7 @@ void AssetFilter::setFilterName(bool enabled, const QString &pattern)
     sort(0);
 }
 
-bool AssetFilter::filterName(std::shared_ptr<TreeItem> item) const
+bool AssetFilter::filterName(const std::shared_ptr<TreeItem> &item) const
 {
     if (!m_name_enabled) {
         return true;
@@ -53,7 +55,7 @@ bool AssetFilter::filterName(std::shared_ptr<TreeItem> item) const
 bool AssetFilter::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
 {
     QModelIndex row = sourceModel()->index(sourceRow, 0, sourceParent);
-    AbstractTreeModel *model = static_cast<AbstractTreeModel*>(sourceModel());
+    auto *model = static_cast<AbstractTreeModel *>(sourceModel());
     std::shared_ptr<TreeItem> item = model->getItemById((int)row.internalId());
 
     if (item->dataColumn(AssetTreeModel::idCol) == QStringLiteral("root")) {
@@ -76,7 +78,7 @@ bool AssetFilter::isVisible(const QModelIndex &sourceIndex)
 
 bool AssetFilter::applyAll(std::shared_ptr<TreeItem> item) const
 {
-    return filterName(item);
+    return filterName(std::move(item));
 }
 
 QModelIndex AssetFilter::getNextChild(const QModelIndex &current)
@@ -92,9 +94,8 @@ QModelIndex AssetFilter::getNextChild(const QModelIndex &current)
         }
         if (folder.isValid() && rowCount(folder) > 0) {
             return index(0, current.column(), folder);
-        } else {
-            nextItem = current;
         }
+        nextItem = current;
     }
     return nextItem;
 }
@@ -112,9 +113,8 @@ QModelIndex AssetFilter::getPreviousChild(const QModelIndex &current)
         }
         if (folder.isValid() && rowCount(folder) > 0) {
             return index(rowCount(folder) - 1, current.column(), folder);
-        } else {
-            nextItem = current;
         }
+        nextItem = current;
     }
     return nextItem;
 }

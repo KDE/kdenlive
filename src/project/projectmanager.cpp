@@ -30,8 +30,8 @@ the Free Software Foundation, either version 3 of the License, or
 #include "timeline/customtrackview.h"
 #include "timeline/timeline.h"
 #include "timeline2/model/builders/meltBuilder.hpp"
-#include "timeline2/view/timelinewidget.h"
 #include "timeline2/view/timelinecontroller.h"
+#include "timeline2/view/timelinewidget.h"
 #include "transitionsettings.h"
 #include "utils/KoIconUtils.h"
 

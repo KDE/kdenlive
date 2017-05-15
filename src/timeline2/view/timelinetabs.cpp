@@ -26,8 +26,8 @@
 #include "monitor/monitor.h"
 #include "monitor/monitormanager.h"
 #include "project/projectmanager.h"
-#include "timelinewidget.h"
 #include "timelinecontroller.h"
+#include "timelinewidget.h"
 
 TimelineTabs::TimelineTabs(QWidget *parent)
     : QTabWidget(parent)

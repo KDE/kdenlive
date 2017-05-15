@@ -45,7 +45,6 @@ public:
     /* @brief Add an effect at the bottom of the stack */
     void appendEffect(const QString &effectId);
 
-
     /* @brief This function change the global (timeline-wise) enabled state of the effects
      */
     void setEffectStackEnabled(bool enabled);

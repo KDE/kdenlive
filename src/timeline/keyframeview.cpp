@@ -44,9 +44,7 @@ KeyframeView::KeyframeView(int handleSize, QObject *parent)
 {
 }
 
-KeyframeView::~KeyframeView()
-{
-}
+KeyframeView::~KeyframeView() = default;
 
 double KeyframeView::keyframeUnmap(const QRectF &br, double y)
 {

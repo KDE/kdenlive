@@ -24,9 +24,10 @@
 #include <QDebug>
 #include <QModelIndex>
 #include <queue>
+#include <utility>
 
 GroupsModel::GroupsModel(std::weak_ptr<TimelineItemModel> parent)
-    : m_parent(parent)
+    : m_parent(std::move(parent))
 {
 }
 

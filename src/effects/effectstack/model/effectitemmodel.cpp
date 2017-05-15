@@ -20,10 +20,13 @@
  ***************************************************************************/
 
 #include "effectitemmodel.hpp"
+
 #include "effects/effectsrepository.hpp"
 #include "effectstackmodel.hpp"
+#include <utility>
 
-EffectItemModel::EffectItemModel(const QList<QVariant> &data, Mlt::Properties *effect, const QDomElement &xml, const QString &effectId, std::shared_ptr<AbstractTreeModel> stack, std::shared_ptr<TreeItem> parent)
+EffectItemModel::EffectItemModel(const QList<QVariant> &data, Mlt::Properties *effect, const QDomElement &xml, const QString &effectId,
+                                 const std::shared_ptr<AbstractTreeModel> &stack, const std::shared_ptr<TreeItem> &parent)
     : TreeItem(data, stack, parent)
     , AssetParameterModel(effect, xml, effectId)
     , m_enabled(true)
@@ -42,7 +45,7 @@ std::shared_ptr<EffectItemModel> EffectItemModel::construct(const QString &effec
     QList<QVariant> data;
     data << EffectsRepository::get()->getName(effectId) << effectId;
 
-    std::shared_ptr<EffectItemModel> self(new EffectItemModel(data, effect, xml, effectId, stack, parent));
+    std::shared_ptr<EffectItemModel> self(new EffectItemModel(data, effect, xml, effectId, std::move(stack), std::move(parent)));
 
     baseFinishConstruct(self);
 

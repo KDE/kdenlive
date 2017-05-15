@@ -462,8 +462,9 @@ void AbstractClipItem::insertKeyframe(ProfileInfo profile, QDomElement effect, i
                 if (f.attribute(QStringLiteral("type")) != QLatin1String("animated") && f.attribute(QStringLiteral("type")) != QLatin1String("animatedrect")) {
                     continue;
                 }
-                f.setAttribute(QStringLiteral("value"), m_keyframeView.serialize(f.attribute(QStringLiteral("name")),
-                                                                                 f.attribute(QStringLiteral("type")) == QLatin1String("animatedrect")));
+                f.setAttribute(
+                    QStringLiteral("value"),
+                    m_keyframeView.serialize(f.attribute(QStringLiteral("name")), f.attribute(QStringLiteral("type")) == QLatin1String("animatedrect")));
             }
         } else if (e.attribute(QStringLiteral("type")) == QLatin1String("keyframe") || e.attribute(QStringLiteral("type")) == QLatin1String("simplekeyframe")) {
             QString kfr = e.attribute(QStringLiteral("keyframes"));
@@ -527,8 +528,9 @@ void AbstractClipItem::movedKeyframe(QDomElement effect, int newpos, int oldpos,
                         f.attribute(QStringLiteral("type")) != QLatin1String("animatedrect")) {
                         continue;
                     }
-                    f.setAttribute(QStringLiteral("value"), m_keyframeView.serialize(f.attribute(QStringLiteral("name")),
-                                                                                     f.attribute(QStringLiteral("type")) == QLatin1String("animatedrect")));
+                    f.setAttribute(
+                        QStringLiteral("value"),
+                        m_keyframeView.serialize(f.attribute(QStringLiteral("name")), f.attribute(QStringLiteral("type")) == QLatin1String("animatedrect")));
                 }
             }
         } else if ((e.attribute(QStringLiteral("type")) == QLatin1String("keyframe") ||
@@ -609,8 +611,9 @@ void AbstractClipItem::removeKeyframe(QDomElement effect, int frame)
                 if (f.attribute(QStringLiteral("type")) != QLatin1String("animated") && f.attribute(QStringLiteral("type")) != QLatin1String("animatedrect")) {
                     continue;
                 }
-                f.setAttribute(QStringLiteral("value"), m_keyframeView.serialize(f.attribute(QStringLiteral("name")),
-                                                                                 f.attribute(QStringLiteral("type")) == QLatin1String("animatedrect")));
+                f.setAttribute(
+                    QStringLiteral("value"),
+                    m_keyframeView.serialize(f.attribute(QStringLiteral("name")), f.attribute(QStringLiteral("type")) == QLatin1String("animatedrect")));
             }
         }
     }

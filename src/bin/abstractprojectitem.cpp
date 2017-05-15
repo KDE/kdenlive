@@ -28,8 +28,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QPainter>
 #include <QVariant>
 
-AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QString &id, std::shared_ptr<ProjectItemModel> model,
-                                         std::shared_ptr<AbstractProjectItem> parent)
+AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QString &id, const std::shared_ptr<ProjectItemModel> &model,
+                                         const std::shared_ptr<AbstractProjectItem> &parent)
     : TreeItem(QList<QVariant>(), std::static_pointer_cast<AbstractTreeModel>(model), std::static_pointer_cast<TreeItem>(parent))
     , m_name()
     , m_description()
@@ -45,8 +45,8 @@ AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QString &id
 {
 }
 
-AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QDomElement &description, std::shared_ptr<ProjectItemModel> model,
-                                         std::shared_ptr<AbstractProjectItem> parent)
+AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QDomElement &description, const std::shared_ptr<ProjectItemModel> &model,
+                                         const std::shared_ptr<AbstractProjectItem> &parent)
     : TreeItem(QList<QVariant>(), std::static_pointer_cast<AbstractTreeModel>(model), std::static_pointer_cast<TreeItem>(parent))
     , m_name()
     , m_description()
@@ -62,11 +62,9 @@ AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QDomElement
 {
 }
 
-AbstractProjectItem::~AbstractProjectItem()
-{
-}
+AbstractProjectItem::~AbstractProjectItem() = default;
 
-bool AbstractProjectItem::operator==(std::shared_ptr<AbstractProjectItem> projectItem) const
+bool AbstractProjectItem::operator==(const std::shared_ptr<AbstractProjectItem> &projectItem) const
 {
     // FIXME: only works for folders
     bool equal = this->m_childItems == projectItem->m_childItems;

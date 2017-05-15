@@ -20,19 +20,19 @@
  ***************************************************************************/
 
 #include "timelinewidget.h"
-#include "timelinecontroller.h"
 #include "../model/builders/meltBuilder.hpp"
 #include "assets/model/assetparametermodel.hpp"
 #include "core.h"
 #include "doc/docundostack.hpp"
+#include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "profiles/profilemodel.hpp"
+#include "project/projectmanager.h"
 #include "qml/timelineitems.h"
 #include "qmltypes/thumbnailprovider.h"
+#include "timelinecontroller.h"
 #include "transitions/transitionlist/model/transitiontreemodel.hpp"
-#include "project/projectmanager.h"
-#include "doc/kdenlivedoc.h"
 
 #include <KDeclarative/KDeclarative>
 // #include <QUrl>
@@ -94,8 +94,6 @@ void TimelineWidget::setModel(std::shared_ptr<TimelineItemModel> model)
     setVisible(true);
     m_proxy->checkDuration();
 }
-
-
 
 void TimelineWidget::mousePressEvent(QMouseEvent *event)
 {

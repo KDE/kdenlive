@@ -1276,4 +1276,3 @@ void ProjectClip::deregisterTimelineClip(int clipId)
     Q_ASSERT(m_registeredClips.count(clipId) > 0);
     m_registeredClips.erase(clipId);
 }
-

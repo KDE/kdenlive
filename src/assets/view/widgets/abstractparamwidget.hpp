@@ -45,7 +45,7 @@ public:
         @param index Index of the parameter in the given model
         @param parent parent widget
     */
-    static AbstractParamWidget *construct(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent);
+    static AbstractParamWidget *construct(const std::shared_ptr<AssetParameterModel> &model, QModelIndex index, QWidget *parent);
 
 signals:
     /** @brief Signal sent when the parameters hold by the widgets are modified

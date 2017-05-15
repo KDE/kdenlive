@@ -137,7 +137,7 @@ QImage VectorscopeGenerator::calculateVectorscope(const QSize &vectorscopeSize, 
     double avgPxPerPx = (double)image.depth() / 8 * (image.bytesPerLine() * image.height()) / scope.size().width() / scope.size().height() / accelFactor;
 
     for (int i = 0; i < (image.bytesPerLine() * image.height()); i += stepsize) {
-        QRgb *col = (QRgb *)bits;
+        auto *col = (QRgb *)bits;
 
         int r = qRed(*col);
         int g = qGreen(*col);

@@ -30,9 +30,7 @@ struct StructRGB
     uint b;
 };
 
-RGBParadeGenerator::RGBParadeGenerator()
-{
-}
+RGBParadeGenerator::RGBParadeGenerator() = default;
 
 QImage RGBParadeGenerator::calculateRGBParade(const QSize &paradeSize, const QImage &image, const RGBParadeGenerator::PaintMode paintMode, bool drawAxis,
                                               bool drawGradientRef, uint accelFactor)
@@ -84,7 +82,7 @@ QImage RGBParadeGenerator::calculateRGBParade(const QSize &paradeSize, const QIm
     const uint stepsize = image.depth() / 8 * accelFactor;
 
     for (uint i = 0, x = 0; i < byteCount; i += stepsize) {
-        QRgb *col = (QRgb *)bits;
+        auto *col = (QRgb *)bits;
         r = qRed(*col);
         g = qGreen(*col);
         b = qBlue(*col);

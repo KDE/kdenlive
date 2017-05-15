@@ -25,9 +25,7 @@ AbstractGfxScopeWidget::AbstractGfxScopeWidget(bool trackMouse, QWidget *parent)
 {
 }
 
-AbstractGfxScopeWidget::~AbstractGfxScopeWidget()
-{
-}
+AbstractGfxScopeWidget::~AbstractGfxScopeWidget() = default;
 
 QImage AbstractGfxScopeWidget::renderScope(uint accelerationFactor)
 {

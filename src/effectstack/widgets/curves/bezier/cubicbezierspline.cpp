@@ -39,11 +39,7 @@ CubicBezierSpline::CubicBezierSpline(const CubicBezierSpline &spline)
     m_points = spline.m_points;
 }
 
-CubicBezierSpline &CubicBezierSpline::operator=(const CubicBezierSpline &spline)
-{
-    m_points = spline.m_points;
-    return *this;
-}
+CubicBezierSpline &CubicBezierSpline::operator=(const CubicBezierSpline &spline) = default;
 
 void CubicBezierSpline::fromString(const QString &spline)
 {

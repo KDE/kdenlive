@@ -25,11 +25,12 @@
 #include "undohelper.hpp"
 #include <QDebug>
 #include <mlt++/MltTransition.h>
+#include <utility>
 
 CompositionModel::CompositionModel(std::weak_ptr<TimelineModel> parent, Mlt::Transition *transition, int id, const QDomElement &transitionXml,
                                    const QString &transitionId)
     : AssetParameterModel(transition, transitionXml, transitionId)
-    , MoveableItem<Mlt::Transition>(parent, id)
+    , MoveableItem<Mlt::Transition>(std::move(parent), id)
     , m_atrack(-1)
 {
 }

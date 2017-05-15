@@ -38,9 +38,7 @@ Clip::Clip(Clip &other)
     m_producer = other.producer();
 }
 
-Clip::~Clip()
-{
-}
+Clip::~Clip() = default;
 
 Clip &Clip::operator=(Clip &other)
 {

@@ -87,9 +87,7 @@ Timecode::Timecode(Formats format, double framesPerSecond)
     setFormat(framesPerSecond, format);
 }
 
-Timecode::~Timecode()
-{
-}
+Timecode::~Timecode() = default;
 
 void Timecode::setFormat(double framesPerSecond, Formats format)
 {
@@ -218,7 +216,7 @@ QString Timecode::getStringTimecode(int frames, const double &fps, bool showFram
         frames = qAbs(frames);
     }
 
-    int seconds = (int)(frames / fps);
+    auto seconds = (int)(frames / fps);
     int frms = frames % (int)(fps + 0.5);
     int minutes = seconds / 60;
     seconds = seconds % 60;
@@ -285,7 +283,7 @@ const QString Timecode::getTimecodeHH_MM_SS_FF(int frames) const
 
 const QString Timecode::getTimecodeHH_MM_SS_HH(const GenTime &time) const
 {
-    int hundredths = (int)(time.seconds() * 100);
+    auto hundredths = (int)(time.seconds() * 100);
 
     bool negative = false;
     if (hundredths < 0) {

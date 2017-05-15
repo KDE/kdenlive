@@ -180,7 +180,7 @@ int FlowLayout::smartSpacing(QStyle::PixelMetric pm) const
         return -1;
     }
     if (parent->isWidgetType()) {
-        QWidget *pw = static_cast<QWidget *>(parent);
+        auto *pw = static_cast<QWidget *>(parent);
         return pw->style()->pixelMetric(pm, nullptr, pw);
     }
     return static_cast<QLayout *>(parent)->spacing();

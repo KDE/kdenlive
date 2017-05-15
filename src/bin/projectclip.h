@@ -225,7 +225,6 @@ public slots:
      * @param statusMessage The job info message */
     void setJobStatus(int jobType, int status, int progress = 0, const QString &statusMessage = QString());
 
-
 private:
     bool m_abortAudioThumb;
     /** @brief Generate and store file hash if not available. */
@@ -246,7 +245,6 @@ private:
     void doExtractIntra();
 
     std::map<int, std::weak_ptr<TimelineModel>> m_registeredClips;
-
 
 private slots:
     void updateFfmpegProgress();

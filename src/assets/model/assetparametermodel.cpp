@@ -116,9 +116,7 @@ void AssetParameterModel::setParameter(const QString &name, const QString &value
     }
 }
 
-AssetParameterModel::~AssetParameterModel()
-{
-}
+AssetParameterModel::~AssetParameterModel() = default;
 
 QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
 {
@@ -177,7 +175,8 @@ ParamType AssetParameterModel::paramTypeFromStr(const QString &type)
     }
     if (type == QLatin1String("bool")) {
         return ParamType::Bool;
-    } else if (type == QLatin1String("switch")) {
+    }
+    if (type == QLatin1String("switch")) {
         return ParamType::Switch;
     } else if (type.startsWith(QLatin1String("animated"))) {
         return ParamType::Animated;

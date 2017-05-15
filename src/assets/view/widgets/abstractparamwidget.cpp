@@ -22,21 +22,22 @@
 #include "doubleparamwidget.hpp"
 #include <QLabel>
 #include <QVBoxLayout>
+#include <utility>
 
 // temporary place holder for parameters that don't currently have a display class
 class Unsupported : public AbstractParamWidget
 {
 public:
     Unsupported(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
-        : AbstractParamWidget(model, index, parent)
+        : AbstractParamWidget(std::move(model), index, parent)
     {
-        QVBoxLayout *lay = new QVBoxLayout(this);
+        auto *lay = new QVBoxLayout(this);
         lay->setContentsMargins(4, 0, 4, 0);
         m_label = new QLabel(this);
         lay->addWidget(m_label);
     }
     void setText(const QString &str) { m_label->setText(str); }
-    void slotRefresh() {}
+    void slotRefresh() override {}
 
 protected:
     QLabel *m_label;
@@ -44,15 +45,15 @@ protected:
 
 AbstractParamWidget::AbstractParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
     : QWidget(parent)
-    , m_model(model)
+    , m_model(std::move(model))
     , m_index(index)
 {
 }
 
-AbstractParamWidget *AbstractParamWidget::construct(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
+AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetParameterModel> &model, QModelIndex index, QWidget *parent)
 {
     // We retrieve the parameter type
-    ParamType type = model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
+    auto type = model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
     qDebug() << "paramtype " << (int)type;
 
     QString name = model->data(index, AssetParameterModel::NameRole).toString();
