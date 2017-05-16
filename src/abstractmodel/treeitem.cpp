@@ -114,7 +114,7 @@ void TreeItem::removeChild(const std::shared_ptr<TreeItem> &child)
     }
 }
 
-void TreeItem::changeParent(const std::shared_ptr<TreeItem> &newParent)
+void TreeItem::changeParent(std::shared_ptr<TreeItem> newParent)
 {
     if (auto ptr = m_parentItem.lock()) {
         ptr->removeChild(shared_from_this());

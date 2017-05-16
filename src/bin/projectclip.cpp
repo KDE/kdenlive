@@ -74,9 +74,7 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, std::shared_ptr<
     // Make sure we have a hash for this clip
     hash();
     connect(this, &ProjectClip::updateJobStatus, this, &ProjectClip::setJobStatus);
-    model->loadSubClips(id, getPropertiesFromPrefix(QStringLiteral("kdenlive:clipzone.")));
     connect(this, &ProjectClip::updateThumbProgress, model.get(), &ProjectItemModel::updateThumbProgress);
-    createAudioThumbs();
 }
 
 // static
@@ -84,8 +82,10 @@ std::shared_ptr<ProjectClip> ProjectClip::construct(const QString &id, const QIc
                                                     std::shared_ptr<Mlt::Producer> producer, std::shared_ptr<ProjectFolder> parent)
 {
     std::shared_ptr<ProjectClip> self(new ProjectClip(id, thumb, model, producer, parent));
-
     baseFinishConstruct(self);
+    parent->appendChild(self);
+    model->loadSubClips(id, self->getPropertiesFromPrefix(QStringLiteral("kdenlive:clipzone.")));
+    self->createAudioThumbs();
     return self;
 }
 
@@ -124,6 +124,7 @@ std::shared_ptr<ProjectClip> ProjectClip::construct(const QDomElement &descripti
 {
     std::shared_ptr<ProjectClip> self(new ProjectClip(description, thumb, model, parent));
     baseFinishConstruct(self);
+    parent->appendChild(self);
     return self;
 }
 

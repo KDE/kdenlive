@@ -257,8 +257,12 @@ QMimeData *ProjectItemModel::mimeData(const QModelIndexList &indices) const
 
 void ProjectItemModel::onItemUpdated(std::shared_ptr<AbstractProjectItem> item)
 {
-    auto index = getIndexFromItem(std::static_pointer_cast<TreeItem>(item));
-    emit dataChanged(index, index);
+    auto tItem = std::static_pointer_cast<TreeItem>(item);
+    auto ptr = tItem->parentItem().lock();
+    if (ptr) {
+        auto index = getIndexFromItem(tItem);
+        emit dataChanged(index, index);
+    }
 }
 
 std::shared_ptr<ProjectClip> ProjectItemModel::getClipByBinID(const QString &binId)
