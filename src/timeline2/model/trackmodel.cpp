@@ -45,7 +45,7 @@ TrackModel::TrackModel(const std::weak_ptr<TimelineModel> &parent, int id)
     }
 }
 
-TrackModel::TrackModel(std::weak_ptr<TimelineModel> parent, Mlt::Tractor mltTrack, int id)
+TrackModel::TrackModel(const std::weak_ptr<TimelineModel> &parent, Mlt::Tractor mltTrack, int id)
     : m_parent(parent)
     , m_id(id == -1 ? TimelineModel::getNextId() : id)
 {

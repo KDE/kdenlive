@@ -82,7 +82,7 @@ int ClipModel::load(const std::weak_ptr<TimelineModel> &parent, const QString &b
         qDebug() << "Error : construction of clip failed because parent timeline is not available anymore";
         Q_ASSERT(false);
     }
-    ProjectClip *binClip = pCore->bin()->getBinClip(binClipId);
+    auto binClip = pCore->bin()->getBinClip(binClipId);
     if (!binClip) {
         qDebug() << "Error : Bin clip for id: "<<binClipId<<" NOT AVAILABLE!!!";
     }

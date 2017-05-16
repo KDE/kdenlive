@@ -52,8 +52,8 @@ public:
 
 private:
     /* This constructor is private, call the static construct instead */
-    TrackModel(std::weak_ptr<TimelineModel> parent, int id = -1);
-    TrackModel(std::weak_ptr<TimelineModel> parent, Mlt::Tractor mltTrack, int id = -1);
+    TrackModel(const std::weak_ptr<TimelineModel> &parent, int id = -1);
+    TrackModel(const std::weak_ptr<TimelineModel> &parent, Mlt::Tractor mltTrack, int id = -1);
 
 public:
     /* @brief Creates a track, which references itself to the parent
