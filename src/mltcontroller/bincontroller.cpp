@@ -93,6 +93,7 @@ QStringList BinController::getProjectHashes()
 
 void BinController::initializeBin(Mlt::Playlist playlist)
 {
+    qDebug() << "init bin";
     // Load folders
     Mlt::Properties folderProperties;
     Mlt::Properties playlistProps(playlist.get_properties());
@@ -101,6 +102,7 @@ void BinController::initializeBin(Mlt::Playlist playlist)
     for (int i = 0; i < folderProperties.count(); i++) {
         foldersData.insert(folderProperties.get_name(i), folderProperties.get(i));
     }
+    qDebug() << "Found " <<folderProperties.count()<<"folders";
     emit loadFolders(foldersData);
 
     // Read notes
@@ -110,13 +112,17 @@ void BinController::initializeBin(Mlt::Playlist playlist)
     // Fill Controller's list
     m_binPlaylist.reset(new Mlt::Playlist(playlist));
     m_binPlaylist->set("id", kPlaylistTrackId);
+    qDebug() << "Found " <<m_binPlaylist->count()<<"clips";
     int max = m_binPlaylist->count();
     for (int i = 0; i < max; i++) {
         std::shared_ptr<Mlt::Producer> producer(new Mlt::Producer(m_binPlaylist->get_clip(i)->parent()));
+        qDebug() << "dealing with bin clip"<<i;
         if (producer->is_blank() || !producer->is_valid()) {
+            qDebug() << "producer is not valid or blank";
             continue;
         }
         QString id = producer->get("kdenlive:id");
+        qDebug() << "clip id"<<id;
         if (id.contains(QLatin1Char('_'))) {
             // This is a track producer
             QString mainId = id.section(QLatin1Char('_'), 0, 0);
@@ -125,6 +131,7 @@ void BinController::initializeBin(Mlt::Playlist playlist)
                 // The controller for this track producer already exists
             } else {
                 // Create empty controller for this track
+                qDebug() << "creating empty clipcontroller";
                 ClipController::construct(shared_from_this(), ClipController::mediaUnavailable);
             }
         } else {
@@ -141,6 +148,7 @@ void BinController::initializeBin(Mlt::Playlist playlist)
                         producer->set("resource", color.toUtf8().constData());
                     }
                 }
+                qDebug() << "creating clipcontroller";
                 std::shared_ptr<ClipController> controller = ClipController::construct(shared_from_this(), producer, true);
                 m_clipList.insert(id, controller);
             }
@@ -193,15 +201,19 @@ void BinController::loadBinPlaylist(Mlt::Tractor *tractor)
 {
     destroyBin();
     Mlt::Properties retainList((mlt_properties)tractor->get_data("xml_retain"));
+    qDebug() << "Loading bin playlist...";
     if (retainList.is_valid() && (retainList.get_data(binPlaylistId().toUtf8().constData()) != nullptr)) {
         Mlt::Playlist playlist((mlt_playlist)retainList.get_data(binPlaylistId().toUtf8().constData()));
+        qDebug() << "retain is valid";
         if (playlist.is_valid() && playlist.type() == playlist_type) {
+            qDebug() << "playlist is valid";
             // Load bin clips
             initializeBin(playlist);
         }
     }
     // If no Playlist found, create new one
     if (!m_binPlaylist) {
+        qDebug() << "no playlist valid, creating";
         m_binPlaylist.reset(new Mlt::Playlist(*tractor->profile()));
         m_binPlaylist->set("id", kPlaylistTrackId);
     }

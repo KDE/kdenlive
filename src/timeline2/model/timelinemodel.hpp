@@ -87,7 +87,7 @@ class TimelineModel : public QAbstractItemModel, public std::enable_shared_from_
 protected:
     /* @brief this constructor should not be called. Call the static construct instead
      */
-    TimelineModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack, const QByteArray xml);
+    TimelineModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack);
 
 public:
     friend class TrackModel;
@@ -232,21 +232,21 @@ public:
        not in inserted in a track yet, it gets inserted for the first time. If
        the clip is in a group, the call is deferred to requestGroupMove @param
        transid is the ID of the composition @param trackId is the ID of the
-       track */ Q_INVOKABLE bool
-    requestCompositionMove(int compoId, int trackId, int position, bool updateView = true, bool logUndo = true);
+       track */
+    Q_INVOKABLE bool requestCompositionMove(int compoId, int trackId, int position, bool updateView = true, bool logUndo = true);
+
+    /* Same function, but accumulates undo and redo, and doesn't check
+       for group*/
+    bool requestClipMove(int clipId, int trackId, int position, bool updateView, Fun &undo, Fun &redo);
+    bool requestCompositionMove(int transid, int trackId, int position, bool updateView, Fun &undo, Fun &redo);
 
     Q_INVOKABLE int getCompositionPosition(int compoId) const;
     Q_INVOKABLE int suggestCompositionMove(int compoId, int trackId, int position);
     int getCompositionPlaytime(int compoId) const;
 
-protected: /* Same function, but accumulates undo and redo, and doesn't check
-    for group*/
-    bool requestClipMove(int clipId, int trackId, int position, bool updateView, Fun &undo, Fun &redo);
-    bool requestCompositionMove(int transid, int trackId, int position, bool updateView, Fun &undo, Fun &redo);
-
-public: /* @brief Given an intended move, try to suggest a more valid one
-    (accounting for snaps and missing UI calls) @param clipId id of the clip to
-    move @param trackId id of the target track @param position target position
+/* @brief Given an intended move, try to suggest a more valid one
+   (accounting for snaps and missing UI calls) @param clipId id of the clip to
+   move @param trackId id of the target track @param position target position
     of the clip */
     Q_INVOKABLE int suggestClipMove(int clipId, int trackId, int position);
 

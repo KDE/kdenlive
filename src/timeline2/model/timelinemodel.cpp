@@ -48,25 +48,23 @@
 
 int TimelineModel::next_id = 0;
 
-TimelineModel::TimelineModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack, const QByteArray xml)
+TimelineModel::TimelineModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack)
     : QAbstractItemModel()
+    , m_tractor(new Mlt::Tractor(*profile))
     , m_snaps(new SnapModel())
     , m_undoStack(undo_stack)
     , m_profile(profile)
+    , m_blackClip(new Mlt::Producer(*profile, "color:black"))
     , m_lock(QReadWriteLock::Recursive)
     , m_timelineEffectsEnabled(true)
     , m_id(getNextId())
 {
-    QScopedPointer<Mlt::Producer> prod(new Mlt::Producer(*profile, "xml-string", xml.constData()));
-    Mlt::Service s(*prod);
-    m_tractor = std::unique_ptr<Mlt::Tractor>(new Mlt::Tractor(s));
-
-    // Load black background track
-    QScopedPointer <Mlt::Producer> bgTrack(m_tractor->track(0));
-    Mlt::Playlist bgPlaylist(*bgTrack);
-    m_blackClip = std::unique_ptr<Mlt::Producer>(&bgTrack->parent());
+    // Create black background track
+    m_blackClip->set("id", "black_track");
+    m_blackClip->set("mlt_type", "producer");
     m_blackClip->set("aspect_ratio", 1);
     m_blackClip->set("set.test_audio", 0);
+    m_tractor->insert_track(*m_blackClip, 0);
 
 #ifdef LOGGING
     m_logFile = std::ofstream("log.txt");
@@ -91,25 +89,6 @@ TimelineModel::~TimelineModel()
     }
 }
 
-void TimelineModel::loadTractor()
-{
-    // Load existing tracks
-    int trackId;
-    for (int i = 0; i < m_tractor->count(); i++) {
-        Mlt::Tractor trk(*m_tractor->track(i));
-        if (!trk.is_valid()) {
-            continue;
-        }
-        trackId = TimelineModel::getNextId();
-        TrackModel::load(shared_from_this(), trk, trackId, -1);
-    }
-    auto it = m_allTracks.begin();
-    while (it != m_allTracks.end()) {
-        trackId = (*it)->getId();
-        getTrackById(trackId)->loadPlaylist();
-        ++it;
-    }
-}
 
 int TimelineModel::getTracksCount() const
 {

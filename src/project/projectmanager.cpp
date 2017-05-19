@@ -197,7 +197,6 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
     KdenliveDoc *doc = new KdenliveDoc(QUrl(), projectFolder, pCore->window()->m_commandStack, profileName, documentProperties, documentMetadata, projectTracks,
                                        &openBackup, pCore->window());
     doc->m_autosave = new KAutoSaveFile(startFile, doc);
-    bool ok;
     pCore->bin()->setDocument(doc);
     // TODO REFAC: Delete this
     /*QList<QAction *> rulerActions;
@@ -859,8 +858,14 @@ void ProjectManager::slotMoveFinished(KJob *job)
 void ProjectManager::updateTimeline()
 {
     pCore->producerQueue()->abortOperations();
-    m_mainTimelineModel = TimelineItemModel::construct(&pCore->getCurrentProfile()->profile(), m_project->getGuideModel(), m_project->commandStack(), m_project->getProjectXml());
-    pCore->binController()->loadBinPlaylist(m_mainTimelineModel->tractor());
+    qDebug() << "Loading xml"<<m_project->getProjectXml().constData();
+    QScopedPointer<Mlt::Producer> xmlProd(new Mlt::Producer(pCore->getCurrentProfile()->profile(), "xml-string", m_project->getProjectXml().constData()));
+    Mlt::Service s(*xmlProd);
+    Mlt::Tractor tractor(s);
+    pCore->binController()->loadBinPlaylist(&tractor);
+
+    m_mainTimelineModel = TimelineItemModel::construct(&pCore->getCurrentProfile()->profile(), m_project->getGuideModel(), m_project->commandStack());
+    constructTimelineFromMelt(m_mainTimelineModel, tractor);
     const QStringList ids = pCore->binController()->getClipIds();
     for (const QString &id : ids) {
         if (id == QLatin1String("black")) {
@@ -873,8 +878,6 @@ void ProjectManager::updateTimeline()
         info.replaceProducer = true;
         pCore->bin()->slotProducerReady(info, pCore->binController()->getController(id).get());
     }
-    m_mainTimelineModel->loadTractor();
-    //constructTimelineFromMelt(m_mainTimelineModel, tractor);
 
     // TODO this is for testing purposes, remove.
     m_project->getGuideModel()->addMarker(GenTime(10.), "Guide 1", 0);

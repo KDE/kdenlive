@@ -22,8 +22,11 @@
 #include "meltBuilder.hpp"
 #include "../timelineitemmodel.hpp"
 #include "../timelinemodel.hpp"
+#include "../clipmodel.hpp"
 #include "../trackmodel.hpp"
 #include "../undohelper.hpp"
+#include "core.h"
+#include "bin/bin.h"
 #include <QDebug>
 #include <QSet>
 #include <mlt++/MltPlaylist.h>
@@ -70,9 +73,6 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
             int tid;
             ok = timeline->requestTrackInsertion(-1, tid, undo, redo);
             timeline->setTrackProperty(tid, "kdenlive:trackheight", "100");
-#ifdef LOGGING
-            timeline->m_logFile << "timeline->requestTrackInsertion(-1, dummy_id ); " << std::endl;
-#endif
             Mlt::Playlist local_playlist(*track);
             ok = ok && constructTrackFromMelt(timeline, tid, local_playlist, undo, redo);
             QString trackName = local_playlist.get("kdenlive:track_name");
@@ -156,10 +156,12 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
         switch (clip->type()) {
         case unknown_type:
         case producer_type: {
-            int cid;
-            // bool ok = timeline->requestClipInsertion(clip, tid, position, cid, undo, redo);
-            // TODO find bin clip id from here to create the timelineclip
+            QString binId = clip->get("kdenlive:id");
             bool ok = false;
+            if (pCore->bin()->getBinClip(binId)) {
+                int cid = ClipModel::construct(timeline, binId, clip);
+                ok = timeline->requestClipMove(cid, tid, position, true, undo, redo);
+            }
             if (!ok) {
                 qDebug() << "ERROR : failed to insert clip in track" << tid << "position" << position;
                 return false;
