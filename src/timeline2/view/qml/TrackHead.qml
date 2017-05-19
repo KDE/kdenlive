@@ -21,7 +21,6 @@ import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.2
 import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
-//import Shotcut.Controls 1.0 as Shotcut
 
 Rectangle {
     id: trackHeadRoot
@@ -236,7 +235,7 @@ Rectangle {
             ToolButton {
                 id: lockButton
                 iconName: isLocked ? 'kdenlive-lock' : 'kdenlive-unlock'
-                iconSource: isLocked ? 'qrc:///pics/kdenlive-lock.svgz' : 'qrc:///pics/kdenlive-unlock.svgz'
+                iconSource: isLocked ? 'qrc:///pics/kdenlive-lock.svg' : 'qrc:///pics/kdenlive-unlock.svg'
                 onClicked: controller.setTrackProperty(trackId, "kdenlive:locked_track", isLocked ? '0' : '1')
                 tooltip: isLocked? i18n('Unlock track') : i18n('Lock track')
 

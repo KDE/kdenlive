@@ -86,7 +86,8 @@ int main(int argc, char *argv[])
 
     bool forceBreeze = grp.readEntry("force_breeze", QVariant(false)).toBool();
     if (forceBreeze) {
-        QIcon::setThemeName("breeze");
+        bool darkBreeze = grp.readEntry("use_dark_breeze", QVariant(false)).toBool();
+        QIcon::setThemeName(darkBreeze ? QStringLiteral("breeze-dark") : QStringLiteral("breeze"));
     }
 
     // Create KAboutData

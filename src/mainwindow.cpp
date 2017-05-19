@@ -636,8 +636,18 @@ void MainWindow::slotThemeChanged(const QString &theme)
     qApp->setPalette(palette());
     // Required for qml palette change
     QGuiApplication::setPalette(plt);
-
     KdenliveSettings::setColortheme(theme);
+
+    QColor background = plt.window().color();
+    bool useDarkIcons = background.value() < 100;
+    if (KdenliveSettings::force_breeze() && useDarkIcons != KdenliveSettings::use_dark_breeze()) {
+        // We need to reload icon theme
+        KdenliveSettings::setUse_dark_breeze(useDarkIcons);
+        if (KMessageBox::warningContinueCancel(this, i18n("Kdenlive needs to be restarted to apply color theme change. Restart now ?")) == KMessageBox::Continue) {
+            slotRestart();
+        }
+    }
+
     if (m_assetPanel) {
         m_assetPanel->updatePalette();
     }
