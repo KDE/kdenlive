@@ -4091,6 +4091,12 @@ void MainWindow::showMenuBar(bool show)
 void MainWindow::forceIconSet(bool force)
 {
     KdenliveSettings::setForce_breeze(force);
+    if (force) {
+        // Check current color theme
+        QColor background = qApp->palette().window().color();
+        bool useDarkIcons = background.value() < 100;
+        KdenliveSettings::setUse_dark_breeze(useDarkIcons);
+    }
     if (KMessageBox::warningContinueCancel(this, i18n("Kdenlive needs to be restarted to apply icon theme change. Restart now ?")) == KMessageBox::Continue) {
         slotRestart();
     }
