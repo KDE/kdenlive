@@ -1020,11 +1020,6 @@ int GLWidget::reconfigure(Mlt::Profile *profile)
 
         int volume = KdenliveSettings::volume();
         if (serviceName == QLatin1String("sdl_audio")) {
-            /*#ifdef Q_OS_WIN
-                            m_consumer->set("audio_buffer", 2048);
-            #else
-                            m_consumer->set("audio_buffer", 512);
-            #endif*/
             QString audioDevice = KdenliveSettings::audiodevicename();
             if (!audioDevice.isEmpty()) {
                 m_consumer->set("audio_device", audioDevice.toUtf8().constData());
