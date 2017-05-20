@@ -272,15 +272,28 @@ int MarkerListModel::rowCount(const QModelIndex &parent) const
     return static_cast<int>(m_markerList.size());
 }
 
-CommentedTime MarkerListModel::getMarker(const GenTime &pos) const
+CommentedTime MarkerListModel::getMarker(const GenTime &pos, bool *ok) const
 {
     READ_LOCK();
     if (m_markerList.count(pos) <= 0) {
         // return empty marker
+        *ok = false;
         return CommentedTime();
     }
+    *ok = true;
     CommentedTime t(pos, m_markerList.at(pos).first, m_markerList.at(pos).second);
     return t;
+}
+
+QList <CommentedTime> MarkerListModel::getAllMarkers() const
+{
+    READ_LOCK();
+    QList <CommentedTime> markers;
+    for (const auto &marker : m_markerList) {
+        CommentedTime t(marker.first, marker.second.first, marker.second.second);
+        markers << t;
+    }
+    return markers;
 }
 
 bool MarkerListModel::hasMarker(int frame) const

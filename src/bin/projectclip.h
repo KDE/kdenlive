@@ -198,7 +198,7 @@ public:
     bool isSplittable() const;
 
     /** @brief Returns a marker data at given pos */
-    CommentedTime getMarker(const GenTime &pos) const;
+    CommentedTime getMarker(const GenTime &pos, bool *ok) const;
 
 protected:
     friend class ClipModel;

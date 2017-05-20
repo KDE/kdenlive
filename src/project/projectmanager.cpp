@@ -879,9 +879,6 @@ void ProjectManager::updateTimeline()
         pCore->bin()->slotProducerReady(info, pCore->binController()->getController(id).get());
     }
 
-    // TODO this is for testing purposes, remove.
-    m_project->getGuideModel()->addMarker(GenTime(10.), "Guide 1", 0);
-    m_project->getGuideModel()->addMarker(GenTime(15.), "Guide 2", 2);
     m_project->loadThumbs();
 
     pCore->monitorManager()->projectMonitor()->setProducer(m_mainTimelineModel->producer());

@@ -671,17 +671,15 @@ void ProjectClip::addClipMarker(QList<CommentedTime> newMarkers, QUndoCommand *g
 
 bool ProjectClip::deleteClipMarkers(QUndoCommand *command)
 {
-    QList<CommentedTime> markers = commentedSnapMarkers();
+    QList<CommentedTime> markers = m_markerModel->getAllMarkers();
     if (markers.isEmpty()) {
         return false;
     }
-    QList<CommentedTime> newMarkers;
-    for (int i = 0; i < markers.size(); ++i) {
-        CommentedTime marker = markers.at(i);
+    for (auto &marker : markers) {
         marker.setMarkerType(-1);
-        newMarkers << marker;
     }
-    new AddMarkerCommand(this, markers, newMarkers, command);
+    //TODO: group all markers in one undo/redo operation
+    addMarkers(markers);
     return true;
 }
 
@@ -700,9 +698,9 @@ void ProjectClip::addMarkers(QList<CommentedTime> &markers)
     emit refreshClipDisplay();
 }
 
-CommentedTime ProjectClip::getMarker(const GenTime &pos) const
+CommentedTime ProjectClip::getMarker(const GenTime &pos, bool *ok) const
 {
-    return m_markerModel->getMarker(pos);
+    return m_markerModel->getMarker(pos, ok);
 }
 
 /*QVariant ProjectClip::getData(DataType type) const

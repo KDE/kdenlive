@@ -895,8 +895,10 @@ void ClipPropertiesController::slotEditMarker()
     auto current = m_markerTree->currentIndex();
     if (!current.isValid()) return;
     GenTime pos(markerModel->data(current, MarkerListModel::PosRole).toDouble());
-    CommentedTime marker = markerModel->getMarker(pos);
-    QScopedPointer<MarkerDialog> d(new MarkerDialog(m_controller, marker, m_tc, i18n("Add Marker"), this));
+    bool markerFound = false;
+    CommentedTime marker = markerModel->getMarker(pos, &markerFound);
+    Q_ASSERT(markerFound);
+    QScopedPointer<MarkerDialog> d(new MarkerDialog(m_controller, marker, m_tc, i18n("Edit Marker"), this));
     if (d->exec() == QDialog::Accepted) {
         marker = d->newMarker();
         markerModel->editMarker(pos, marker.time(), marker.comment(), marker.markerType());

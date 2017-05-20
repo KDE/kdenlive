@@ -100,7 +100,7 @@ public:
     void updateTimecodeFormat();
     void updateMarkers();
     /** @brief Controller for the clip currently displayed (only valid for clip monitor). */
-    ProjectClip *currentController() const;
+    std::shared_ptr<ProjectClip> currentController() const;
     /** @brief Add timeline guides to the ruler and context menu */
     void setGuides(const QMap<double, QString> &guides);
     void reloadProducer(const QString &id);
@@ -177,7 +177,7 @@ protected:
     virtual QStringList mimeTypes() const;
 
 private:
-    ProjectClip *m_controller;
+    std::shared_ptr<ProjectClip> m_controller;
     /** @brief The QQuickView that handles our monitor display (video and qml overlay) **/
     GLWidget *m_glMonitor;
     /** @brief Container for our QQuickView monitor display (QQuickView needs to be embedded) **/
@@ -284,7 +284,7 @@ public slots:
     // void slotSetClipProducer(DocClipBase *clip, QPoint zone = QPoint(), bool forceUpdate = false, int position = -1);
     void updateClipProducer(Mlt::Producer *prod);
     void updateClipProducer(const QString &playlist);
-    void slotOpenClip(ProjectClip *controller, int in = -1, int out = -1);
+    void slotOpenClip(std::shared_ptr<ProjectClip> controller, int in = -1, int out = -1);
     void slotRefreshMonitor(bool visible);
     void slotSeek(int pos);
     void stop() override;

@@ -88,7 +88,10 @@ public:
     static std::array<QColor, 5> markerTypes;
 
     /* @brief Returns a marker data at given pos */
-    CommentedTime getMarker(const GenTime &pos) const;
+    CommentedTime getMarker(const GenTime &pos, bool *ok) const;
+
+    /* @brief Returns all markers in model */
+    QList <CommentedTime> getAllMarkers() const;
 
     /* @brief Returns true if a marker exists at given pos
        Notice that add/remove queries are done in real time (gentime), but this request is made in frame

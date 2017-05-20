@@ -1221,7 +1221,7 @@ void Bin::setMonitor(Monitor *monitor)
     connect(m_monitor, SIGNAL(requestAudioThumb(QString)), this, SLOT(slotSendAudioThumb(QString)));
     connect(m_monitor, &Monitor::refreshCurrentClip, this, &Bin::slotOpenCurrent);
     connect(m_monitor, SIGNAL(updateClipMarker(QString, QList<CommentedTime>)), this, SLOT(slotAddClipMarker(QString, QList<CommentedTime>)));
-    connect(this, &Bin::openClip, [&](std::shared_ptr<ProjectClip> clip) { m_monitor->slotOpenClip(clip.get()); });
+    connect(this, &Bin::openClip, [&](std::shared_ptr<ProjectClip> clip) { m_monitor->slotOpenClip(clip); });
 }
 
 int Bin::getFreeFolderId()

@@ -149,7 +149,7 @@ public:
     Q_INVOKABLE void editGuide(int frame);
     /* @brief Add a timeline guide
      */
-    Q_INVOKABLE void switchGuide(int frame);
+    Q_INVOKABLE void switchGuide(int frame = -1);
     /* @brief Request monitor refresh
      */
     Q_INVOKABLE void requestRefresh();

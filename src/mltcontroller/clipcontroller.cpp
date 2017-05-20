@@ -510,7 +510,6 @@ ClipType ClipController::clipType() const
 
 QPixmap ClipController::pixmap(int framePosition, int width, int height)
 {
-    // int currentPosition = position();
     m_masterProducer->seek(framePosition);
     Mlt::Frame *frame = m_masterProducer->get_frame();
     if (frame == nullptr || !frame->is_valid()) {
@@ -545,7 +544,6 @@ QPixmap ClipController::pixmap(int framePosition, int width, int height)
     QPixmap pixmap;
     pixmap.convertFromImage(image);
     delete frame;
-
     return pixmap;
 }
 

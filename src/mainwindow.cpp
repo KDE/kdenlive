@@ -2275,17 +2275,14 @@ void MainWindow::slotAddClipMarker()
 {
     KdenliveDoc *project = pCore->projectManager()->current();
 
-    ClipController *clip = nullptr;
+    std::shared_ptr<ProjectClip> clip(nullptr);
     GenTime pos;
     if (m_projectMonitor->isActive()) {
-        if (pCore->projectManager()->currentTimeline()) {
-            ClipItem *item = pCore->projectManager()->currentTimeline()->projectView()->getActiveClipUnderCursor();
-            if (item) {
-                pos = GenTime((int)((m_projectMonitor->position() - item->startPos() + item->cropStart()).frames(pCore->getCurrentFps()) * item->speed() + 0.5),
-                              pCore->getCurrentFps());
-                clip = pCore->binController()->getController(item->getBinId()).get();
-            }
+        if (m_timelineTabs->getCurrentTimeline()) {
+            //TODO
+            //m_timelineTabs->getCurrentTimeline()->addMarkerInCurrentClip();
         }
+        return;
     } else {
         clip = m_clipMonitor->currentController();
         pos = m_clipMonitor->position();
@@ -2294,11 +2291,11 @@ void MainWindow::slotAddClipMarker()
         m_messageLabel->setMessage(i18n("Cannot find clip to add marker"), ErrorMessage);
         return;
     }
-    QString id = clip->clipId();
+    QString id = clip->AbstractProjectItem::clipId();
     CommentedTime marker(pos, i18n("Marker"), KdenliveSettings::default_marker_type());
-    QPointer<MarkerDialog> d = new MarkerDialog(clip, marker, project->timecode(), i18n("Add Marker"), this);
+    QPointer<MarkerDialog> d = new MarkerDialog(clip.get(), marker, project->timecode(), i18n("Add Marker"), this);
     if (d->exec() == QDialog::Accepted) {
-        pCore->bin()->slotAddClipMarker(id, QList<CommentedTime>() << d->newMarker());
+        clip->addMarkers(QList<CommentedTime>() << d->newMarker());
         QString hash = clip->getClipHash();
         if (!hash.isEmpty()) {
             project->cacheImage(hash + QLatin1Char('#') + QString::number(d->newMarker().time().frames(pCore->getCurrentFps())), d->markerImage());
@@ -2309,14 +2306,14 @@ void MainWindow::slotAddClipMarker()
 
 void MainWindow::slotDeleteClipMarker(bool allowGuideDeletion)
 {
-    ClipController *clip = nullptr;
+    std::shared_ptr<ProjectClip>clip(nullptr);
     GenTime pos;
     if (m_projectMonitor->isActive()) {
         if (pCore->projectManager()->currentTimeline()) {
             ClipItem *item = pCore->projectManager()->currentTimeline()->projectView()->getActiveClipUnderCursor();
             if (item) {
                 pos = (m_projectMonitor->position() - item->startPos() + item->cropStart()) / item->speed();
-                clip = pCore->binController()->getController(item->getBinId()).get();
+                clip = pCore->bin()->getBinClip(item->getBinId());
             }
         }
     } else {
@@ -2328,9 +2325,10 @@ void MainWindow::slotDeleteClipMarker(bool allowGuideDeletion)
         return;
     }
 
-    QString id = clip->clipId();
-    QString comment = clip->markerComment(pos);
-    if (comment.isEmpty()) {
+    QString id = clip->AbstractProjectItem::clipId();
+    bool markerFound = false;
+    CommentedTime marker  = clip->getMarker(pos, &markerFound);
+    if (!markerFound) {
         if (allowGuideDeletion && m_projectMonitor->isActive()) {
             slotDeleteGuide();
         } else {
@@ -2338,17 +2336,19 @@ void MainWindow::slotDeleteClipMarker(bool allowGuideDeletion)
         }
         return;
     }
-    pCore->bin()->deleteClipMarker(comment, id, pos);
+    marker.setMarkerType(-1);
+    QList <CommentedTime> markers = {marker};
+    clip->addMarkers(markers);
 }
 
 void MainWindow::slotDeleteAllClipMarkers()
 {
-    ClipController *clip = nullptr;
+    std::shared_ptr<ProjectClip>clip(nullptr);
     if (m_projectMonitor->isActive()) {
         if (pCore->projectManager()->currentTimeline()) {
             ClipItem *item = pCore->projectManager()->currentTimeline()->projectView()->getActiveClipUnderCursor();
             if (item) {
-                clip = pCore->binController()->getController(item->getBinId()).get();
+                clip = pCore->bin()->getBinClip(item->getBinId());
             }
         }
     } else {
@@ -2358,19 +2358,19 @@ void MainWindow::slotDeleteAllClipMarkers()
         m_messageLabel->setMessage(i18n("Cannot find clip to remove marker"), ErrorMessage);
         return;
     }
-    pCore->bin()->deleteAllClipMarkers(clip->clipId());
+    pCore->bin()->deleteAllClipMarkers(clip->AbstractProjectItem::clipId());
 }
 
 void MainWindow::slotEditClipMarker()
 {
-    ClipController *clip = nullptr;
+    std::shared_ptr<ProjectClip>clip(nullptr);
     GenTime pos;
     if (m_projectMonitor->isActive()) {
         if (pCore->projectManager()->currentTimeline()) {
             ClipItem *item = pCore->projectManager()->currentTimeline()->projectView()->getActiveClipUnderCursor();
             if (item) {
                 pos = (m_projectMonitor->position() - item->startPos() + item->cropStart()) / item->speed();
-                clip = pCore->binController()->getController(item->getBinId()).get();
+                clip = pCore->bin()->getBinClip(item->getBinId());
             }
         }
     } else {
@@ -2382,16 +2382,17 @@ void MainWindow::slotEditClipMarker()
         return;
     }
 
-    QString id = clip->clipId();
-    CommentedTime oldMarker = clip->markerAt(pos);
-    if (oldMarker == CommentedTime()) {
+    QString id = clip->AbstractProjectItem::clipId();
+    bool markerFound = false;
+    CommentedTime oldMarker = clip->getMarker(pos, &markerFound);
+    if (!markerFound) {
         m_messageLabel->setMessage(i18n("No marker found at cursor time"), ErrorMessage);
         return;
     }
 
-    QPointer<MarkerDialog> d = new MarkerDialog(clip, oldMarker, pCore->projectManager()->current()->timecode(), i18n("Edit Marker"), this);
+    QPointer<MarkerDialog> d = new MarkerDialog(clip.get(), oldMarker, pCore->projectManager()->current()->timecode(), i18n("Edit Marker"), this);
     if (d->exec() == QDialog::Accepted) {
-        pCore->bin()->slotAddClipMarker(id, QList<CommentedTime>() << d->newMarker());
+        clip->addMarkers(QList<CommentedTime>() << d->newMarker());
         QString hash = clip->getClipHash();
         if (!hash.isEmpty()) {
             pCore->projectManager()->current()->cacheImage(hash + QLatin1Char('#') + QString::number(d->newMarker().time().frames(pCore->getCurrentFps())),
@@ -2400,7 +2401,8 @@ void MainWindow::slotEditClipMarker()
         if (d->newMarker().time() != pos) {
             // remove old marker
             oldMarker.setMarkerType(-1);
-            pCore->bin()->slotAddClipMarker(id, QList<CommentedTime>() << oldMarker);
+            QList <CommentedTime> markers = {oldMarker};
+            clip->addMarkers(markers);
         }
     }
     delete d;
@@ -2408,23 +2410,22 @@ void MainWindow::slotEditClipMarker()
 
 void MainWindow::slotAddMarkerGuideQuickly()
 {
-    if (!pCore->projectManager()->currentTimeline() || !pCore->projectManager()->current()) {
+    if (!m_timelineTabs->getCurrentTimeline() || !pCore->currentDoc()) {
         return;
     }
 
     if (m_clipMonitor->isActive()) {
-        ClipController *clip = m_clipMonitor->currentController();
+        std::shared_ptr<ProjectClip>clip(m_clipMonitor->currentController());
         GenTime pos = m_clipMonitor->position();
 
         if (!clip) {
             m_messageLabel->setMessage(i18n("Cannot find clip to add marker"), ErrorMessage);
             return;
         }
-        // TODO: allow user to set default marker category
         CommentedTime marker(pos, pCore->projectManager()->current()->timecode().getDisplayTimecode(pos, false), KdenliveSettings::default_marker_type());
-        pCore->bin()->slotAddClipMarker(clip->clipId(), QList<CommentedTime>() << marker);
+        clip->addMarkers(QList<CommentedTime>() << marker);
     } else {
-        pCore->projectManager()->currentTimeline()->projectView()->slotAddGuide(false);
+        m_timelineTabs->getCurrentTimeline()->controller()->switchGuide();
     }
 }
 

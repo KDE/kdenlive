@@ -313,7 +313,9 @@ void TimelineController::setOutPoint()
 void TimelineController::editMarker(const QString &cid, int frame)
 {
     std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(cid);
-    CommentedTime marker = clip->getMarker(GenTime(frame, pCore->getCurrentFps()));
+    bool markerFound = false;
+    CommentedTime marker = clip->getMarker(GenTime(frame, pCore->getCurrentFps()), &markerFound);
+    Q_ASSERT(markerFound);
     QPointer<MarkerDialog> d = new MarkerDialog(clip.get(), marker, pCore->bin()->projectTimecode(), i18n("Edit Marker"), qApp->activeWindow());
     if (d->exec() == QDialog::Accepted) {
         QList<CommentedTime> markers;
@@ -330,7 +332,9 @@ void TimelineController::editMarker(const QString &cid, int frame)
 
 void TimelineController::editGuide(int frame)
 {
-    CommentedTime marker = pCore->projectManager()->current()->getGuideModel().get()->getMarker(GenTime(frame, pCore->getCurrentFps()));
+    bool markerFound = false;
+    CommentedTime marker = pCore->projectManager()->current()->getGuideModel().get()->getMarker(GenTime(frame, pCore->getCurrentFps()), &markerFound);
+    Q_ASSERT(markerFound);
     QPointer<MarkerDialog> d = new MarkerDialog(nullptr, marker, pCore->bin()->projectTimecode(), i18n("Edit Marker"), qApp->activeWindow());
     if (d->exec() == QDialog::Accepted) {
         QList<CommentedTime> markers;
@@ -347,8 +351,12 @@ void TimelineController::editGuide(int frame)
 
 void TimelineController::switchGuide(int frame)
 {
-    CommentedTime marker = pCore->projectManager()->current()->getGuideModel().get()->getMarker(GenTime(frame, pCore->getCurrentFps()));
-    if (marker.time() == GenTime(0)) {
+    bool markerFound = false;
+    if (frame == -1) {
+        frame = m_position;
+    }
+    CommentedTime marker = pCore->projectManager()->current()->getGuideModel().get()->getMarker(GenTime(frame, pCore->getCurrentFps()), &markerFound);
+    if (!markerFound) {
         marker = CommentedTime(GenTime(frame, pCore->getCurrentFps()), i18n("guide"));
     } else {
         marker.setMarkerType(-1);

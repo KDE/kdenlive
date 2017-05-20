@@ -968,7 +968,7 @@ void Monitor::slotExtractCurrentZone()
     emit extractZone(m_controller->AbstractProjectItem::clipId());
 }
 
-ProjectClip *Monitor::currentController() const
+std::shared_ptr<ProjectClip> Monitor::currentController() const
 {
     return m_controller;
 }
@@ -1331,7 +1331,7 @@ void Monitor::updateClipProducer(const QString &playlist)
     render->play(1.0);
 }
 
-void Monitor::slotOpenClip(ProjectClip *controller, int in, int out)
+void Monitor::slotOpenClip(std::shared_ptr<ProjectClip> controller, int in, int out)
 {
     m_controller = controller;
     m_snaps.reset(new SnapModel());
