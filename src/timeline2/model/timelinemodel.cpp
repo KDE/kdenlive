@@ -258,6 +258,36 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
     return res;
 }
 
+bool TimelineModel::requestClipCut(int clipId, int position)
+{
+    //QWriteLocker locker(&m_lock);
+    Q_ASSERT(m_allClips.count(clipId) > 0);
+    if (m_allClips[clipId]->getPosition() > position || (m_allClips[clipId]->getPosition() + m_allClips[clipId]->getPlaytime() < position)) {
+        return true;
+    }
+    if (m_groups->isInGroup(clipId)) {
+        // TODO
+        /*int groupId = m_groups->getRootId(clipId);
+        int current_trackId = getClipTrackId(clipId);
+        int track_pos1 = getTrackPosition(trackId);
+        int track_pos2 = getTrackPosition(current_trackId);
+        int delta_track = track_pos1 - track_pos2;
+        int delta_pos = position - m_allClips[clipId]->getPosition();*/
+    }
+    std::function<bool(void)> undo = []() { return true; };
+    std::function<bool(void)> redo = []() { return true; };
+    int in = position - m_allClips[clipId]->getPosition() - m_allClips[clipId]->getIn();
+    int out = m_allClips[clipId]->getPosition() + m_allClips[clipId]->getPlaytime() - position;
+    bool res = requestItemResize(clipId, position - m_allClips[clipId]->getPosition(), true, true, undo, redo);
+    int newId;
+    res = requestClipCreation(m_allClips[clipId]->binId(), in, out, newId, undo, redo);
+    res = requestClipMove(newId, m_allClips[clipId]->getCurrentTrackId(), position, true, undo, redo);
+    if (res) {
+        PUSH_UNDO(undo, redo, i18n("Move clip"));
+    }
+    return res;
+}
+
 int TimelineModel::suggestClipMove(int clipId, int trackId, int position)
 {
 #ifdef LOGGING
@@ -390,6 +420,37 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
         PUSH_UNDO(undo, redo, i18n("Insert Clip"));
     }
     return result;
+}
+
+bool TimelineModel::requestClipCreation(const QString &binClipId, int in, int duration, int &id, Fun &undo, Fun &redo)
+{
+    int clipId = TimelineModel::getNextId();
+    id = clipId;
+    Fun local_undo = deregisterClip_lambda(clipId);
+    ClipModel::construct(shared_from_this(), binClipId, clipId);
+    auto clip = m_allClips[clipId];
+    Fun local_redo = [clip, this]() {
+        // We capture a shared_ptr to the clip, which means that as long as this undo object lives, the clip object is not deleted. To insert it back it is
+        // sufficient to register it.
+        registerClip(clip);
+        clip->refreshProducerFromBin();
+        return true;
+    };
+    bool res = true;
+    if (in > 0) {
+        res = requestItemResize(clipId, clip->getPlaytime() - in, false, false);
+    }
+    if (res && duration > 0) {
+        res = requestItemResize(clipId, duration, true, false);
+    }
+    if (!res) {
+        bool undone = local_undo();
+        Q_ASSERT(undone);
+        id = -1;
+        return false;
+    }
+    UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
+    return true;
 }
 
 bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, int position, int &id, Fun &undo, Fun &redo)

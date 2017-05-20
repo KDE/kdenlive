@@ -607,8 +607,7 @@ Rectangle {
             text: i18n('Cut')
             onTriggered: {
                 if (!trackRoot.isLocked) {
-                    timeline.copyClip(trackIndex, index)
-                    timeline.remove(trackIndex, index)
+                    controller.requestClipCut(clipId, timeline.position)
                 } else {
                     root.pulseLockButtonOnTrack(currentTrack)
                 }

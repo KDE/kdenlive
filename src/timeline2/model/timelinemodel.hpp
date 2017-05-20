@@ -418,6 +418,8 @@ public:
      */
     void setTimelineEffectsEnabled(bool enabled);
 
+    Q_INVOKABLE bool requestClipCut(int clipId, int position);
+
 protected:
     /* @brief Register a new track. This is a call-back meant to be called from TrackModel
        @param pos indicates the number of the track we are adding. If this is -1, then we add at the end.
@@ -481,6 +483,8 @@ protected:
     bool checkConsistency();
 
     void checkRefresh(int start, int end) const;
+
+    bool requestClipCreation(const QString &binClipId, int in, int duration, int &id, Fun &undo, Fun &redo);
 
 protected:
     std::unique_ptr<Mlt::Tractor> m_tractor;
