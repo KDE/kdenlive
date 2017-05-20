@@ -172,6 +172,8 @@ public:
     void addGuides(QList<CommentedTime> &markers);
     /** @brief Load bin thumbnails after document opening */
     void loadThumbs();
+    /** @brief Get timeline guide at pos. ok set to false if no guide */
+    CommentedTime getGuide(const GenTime &pos, bool *ok) const;
 
     // TODO REFAC: delete */
     Render *renderer();

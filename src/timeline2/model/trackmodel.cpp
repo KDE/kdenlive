@@ -417,6 +417,22 @@ int TrackModel::getId() const
     return m_id;
 }
 
+int TrackModel::getClipByPosition(int position) const
+{
+    auto it = m_allClips.cbegin();
+    while (it != m_allClips.cend()) {//row < static_cast<int>(m_allClips.size())) {
+        std::shared_ptr<ClipModel> clip = (*it).second;
+        if (clip->getPosition() > position) {
+            return -1;
+        }
+        if (clip->getPosition() + clip->getPlaytime() > position) {
+            return clip->getId();
+        }
+        std::advance(it, 1);
+    }
+    return -1;
+}
+
 int TrackModel::getClipByRow(int row) const
 {
     if (row >= static_cast<int>(m_allClips.size())) {

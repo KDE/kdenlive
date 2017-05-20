@@ -22,6 +22,10 @@ Rectangle {
         font.family: "Arial"
     }
 
+    function currentTrackId() {
+        return tracksRepeater.itemAt(root.currentTrack).trackId
+    }
+
     function zoomByWheel(wheel) {
         if (wheel.modifiers & Qt.ControlModifier) {
             //TODO

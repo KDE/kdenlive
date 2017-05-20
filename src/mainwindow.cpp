@@ -2531,9 +2531,7 @@ void MainWindow::slotDeleteAllGuides()
 
 void MainWindow::slotCutTimelineClip()
 {
-    if (pCore->projectManager()->currentTimeline()) {
-        pCore->projectManager()->currentTimeline()->projectView()->cutSelectedClips();
-    }
+    m_timelineTabs->getCurrentTimeline()->controller()->cutClipUnderCursor();
 }
 
 void MainWindow::slotInsertClipOverwrite()
@@ -2822,18 +2820,14 @@ void MainWindow::slotSnapForward()
 void MainWindow::slotClipStart()
 {
     if (m_projectMonitor->isActive()) {
-        if (pCore->projectManager()->currentTimeline()) {
-            pCore->projectManager()->currentTimeline()->projectView()->clipStart();
-        }
+        m_timelineTabs->getCurrentTimeline()->controller()->seekCurrentClip(false);
     }
 }
 
 void MainWindow::slotClipEnd()
 {
     if (m_projectMonitor->isActive()) {
-        if (pCore->projectManager()->currentTimeline()) {
-            pCore->projectManager()->currentTimeline()->projectView()->clipEnd();
-        }
+        m_timelineTabs->getCurrentTimeline()->controller()->seekCurrentClip(true);
     }
 }
 

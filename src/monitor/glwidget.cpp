@@ -135,7 +135,7 @@ GLWidget::GLWidget(int id, QObject *parent)
     connect(this, &QQuickWindow::beforeRendering, this, &GLWidget::paintGL, Qt::DirectConnection);
     registerTimelineItems();
     m_proxy = new MonitorProxy(this);
-    connect(m_proxy, &MonitorProxy::seekPositionChanged, this, &GLWidget::requestSeek);
+    connect(m_proxy, &MonitorProxy::seekRequestChanged, this, &GLWidget::requestSeek);
     rootContext()->setContextProperty("controller", m_proxy);
 }
 
@@ -634,8 +634,7 @@ bool GLWidget::checkFrameNumber(int pos)
     rootObject()->setProperty("consumerPosition", pos);
     if (pos == m_proxy->seekPosition()) {
         m_proxy->setSeekPosition(SEEK_INACTIVE);
-    }
-    if (m_proxy->seekPosition() != SEEK_INACTIVE) {
+    } else if (m_proxy->seekPosition() != SEEK_INACTIVE) {
         double speed = m_producer->get_speed();
         m_producer->set_speed(0);
         m_producer->seek(m_proxy->seekPosition());
@@ -1252,7 +1251,7 @@ void GLWidget::onFrameDisplayed(const SharedFrame &frame)
     m_sharedFrame = frame;
     m_sendFrame = sendFrameForAnalysis;
     m_mutex.unlock();
-    update();
+    //update();
 }
 
 void GLWidget::mouseReleaseEvent(QMouseEvent *event)

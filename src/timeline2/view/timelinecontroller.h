@@ -188,6 +188,12 @@ public:
      */
     void addAsset(const QVariantMap data);
     void checkDuration();
+    /* @brief Cuts the clip on current track at timeline position
+     */
+    void cutClipUnderCursor();
+    /* @brief Seeks to selected clip start / end
+     */
+    void seekCurrentClip(bool seekToEnd = false);
 
 public slots:
     void selectMultitrack();

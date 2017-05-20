@@ -141,6 +141,7 @@ Item {
         anchors {
             left: parent.left
             bottom: parent.bottom
+            bottomMargin: root.rulerHeight
         }
         visible: root.showMarkers && text != ""
         maximumLength: 20

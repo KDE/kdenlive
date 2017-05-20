@@ -435,3 +435,44 @@ void TimelineController::setZoneOut(int outPoint)
     m_zone.setY(outPoint);
     emit zoneMoved(m_zone);
 }
+
+void TimelineController::cutClipUnderCursor()
+{
+    bool foundClip = false;
+    for (int cid : m_selection.selectedClips) {
+        if (m_model->requestClipCut(cid, m_position)) {
+            foundClip = true;
+        }
+    }
+    if (!foundClip) {
+        QVariant returnedValue;
+        QMetaObject::invokeMethod(m_root, "currentTrackId",
+        Q_RETURN_ARG(QVariant, returnedValue));
+        int trackId = returnedValue.toInt();
+        if (trackId >= 0) {
+            int cid = m_model->getClipByPosition(trackId, m_position);
+            if (cid >= 0) {
+                m_model->requestClipCut(cid, m_position);
+                foundClip = true;
+            }
+        }
+    }
+    if (!foundClip) {
+        //TODO: display warning, no clip found
+    }
+}
+
+void TimelineController::seekCurrentClip(bool seekToEnd)
+{
+    bool foundClip = false;
+    for (int cid : m_selection.selectedClips) {
+        int start = m_model->getClipPosition(cid);
+        if (seekToEnd) {
+            start += m_model->getClipPlaytime(cid);
+        }
+        seek(start);
+        foundClip = true;
+        break;
+    }
+}
+

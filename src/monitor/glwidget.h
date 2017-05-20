@@ -292,6 +292,12 @@ public:
     {
     }
     int seekPosition() const { return m_seekPosition; }
+    Q_INVOKABLE void requestSeekPosition(int pos)
+    {
+        m_seekPosition = pos;
+        emit seekPositionChanged();
+        emit seekRequestChanged();
+    }
     void setSeekPosition(int pos)
     {
         m_seekPosition = pos;
@@ -324,6 +330,7 @@ public:
     QPoint zone() const { return QPoint(m_zoneIn, m_zoneOut); }
 signals:
     void seekPositionChanged();
+    void seekRequestChanged();
     void zoneChanged();
 
 private:

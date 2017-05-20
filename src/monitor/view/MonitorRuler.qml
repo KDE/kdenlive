@@ -78,12 +78,12 @@ import QtQuick 2.4
             onEntered: root.mouseOverRuler = true;
             onExited: root.mouseOverRuler = false;
             onPressed: {
-                controller.seekPosition = mouseX / root.timeScale;
+                controller.requestSeekPosition(mouseX / root.timeScale);
             }
             onPositionChanged: {
                 root.mouseRulerPos = mouseX
                 if (pressed) {
-                    controller.seekPosition = mouseX / root.timeScale;
+                    controller.requestSeekPosition(mouseX / root.timeScale);
                 }
             }
         }

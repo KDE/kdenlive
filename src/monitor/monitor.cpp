@@ -157,7 +157,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     m_glMonitor = new GLWidget((int)id);
     connect(m_glMonitor, &GLWidget::passKeyEvent, this, &Monitor::doKeyPressEvent);
     connect(m_glMonitor, &GLWidget::panView, this, &Monitor::panView);
-    connect(m_glMonitor, &GLWidget::seekPosition, this, &Monitor::seekPosition, Qt::DirectConnection);
+    connect(m_glMonitor, &GLWidget::seekPosition, this, &Monitor::slotSeekPosition, Qt::DirectConnection);
     m_videoWidget = QWidget::createWindowContainer(qobject_cast<QWindow *>(m_glMonitor));
     m_videoWidget->setAcceptDrops(true);
     auto *leventEater = new QuickEventEater(this);
@@ -1066,25 +1066,28 @@ void Monitor::checkOverlay(int pos)
     QPoint zone = m_glMonitor->getControllerProxy()->zone();
     if (m_id == Kdenlive::ClipMonitor) {
         if (m_controller) {
-            overlayText = m_controller->markerComment(GenTime(pos, m_monitorManager->timecode().fps()));
-            if (overlayText.isEmpty()) {
+            bool found = false;
+            CommentedTime marker = m_controller->getMarker(GenTime(pos, m_monitorManager->timecode().fps()), &found);
+            if (!found) {
                 if (pos == zone.x()) {
                     overlayText = i18n("In Point");
                 } else if (pos == zone.y()) {
                     overlayText = i18n("Out Point");
                 }
-            }
+            } else overlayText = marker.comment();
         }
     } else if (m_id == Kdenlive::ProjectMonitor) {
-        // Check for timeline guides
-        // TODO load timeline guides as monitor markermodel
-        // overlayText = m_ruler->markerAt(GenTime(pos, m_monitorManager->timecode().fps()));
-        if (overlayText.isEmpty()) {
+        bool found = false;
+        CommentedTime marker = pCore->projectManager()->current()->getGuide(GenTime(pos, m_monitorManager->timecode().fps()), &found);
+        if (!found) {
             if (pos == zone.x()) {
                 overlayText = i18n("In Point");
             } else if (pos == zone.y()) {
                 overlayText = i18n("Out Point");
             }
+        } else {
+            overlayText = marker.comment();
+            qDebug()<<"/// POSITOIN: "<<pos<<" = "<<overlayText;
         }
     }
     m_glMonitor->rootObject()->setProperty("markerText", overlayText);
@@ -2046,16 +2049,26 @@ void Monitor::slotEditInlineMarker()
         if (m_controller) {
             // We are editing a clip marker
             QString newComment = root->property("markerText").toString();
-            CommentedTime oldMarker = m_controller->markerAt(render->seekPosition());
-            if (newComment == oldMarker.comment()) {
+            bool found = false;
+            CommentedTime oldMarker = m_controller->getMarker(m_timePos->gentime(), &found);
+            if (!found || newComment == oldMarker.comment()) {
                 // No change
                 return;
             }
             oldMarker.setComment(newComment);
-            emit updateClipMarker(m_controller->AbstractProjectItem::clipId(), QList<CommentedTime>() << oldMarker);
+            m_controller->addMarkers(QList<CommentedTime>() << oldMarker);
         } else {
             // We are editing a timeline guide
-            // TODO
+            QString newComment = root->property("markerText").toString();
+            bool found = false;
+            CommentedTime oldMarker = pCore->projectManager()->current()->getGuide(m_timePos->gentime(), &found);
+            if (!found || newComment == oldMarker.comment()) {
+                // No change
+                return;
+            }
+            oldMarker.setComment(newComment);
+            pCore->projectManager()->current()->addGuides(QList<CommentedTime>() << oldMarker);
+            
             /*QString currentComment = m_ruler->markerAt(render->seekPosition());
             QString newComment = root->property("markerText").toString();
             if (newComment == currentComment) {
@@ -2152,4 +2165,11 @@ void Monitor::setProducer(Mlt::Producer *producer)
 int Monitor::duration() const
 {
     return m_length;
+}
+
+void Monitor::slotSeekPosition(int pos)
+{
+    emit seekPosition(pos);
+    m_timePos->setValue(pos);
+    checkOverlay();
 }

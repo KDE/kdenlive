@@ -1727,3 +1727,8 @@ void KdenliveDoc::addGuides(QList<CommentedTime> &markers)
         }
     }
 }
+
+CommentedTime KdenliveDoc::getGuide(const GenTime &pos, bool *ok) const
+{
+    return m_guideModel->getMarker(pos, ok);
+}

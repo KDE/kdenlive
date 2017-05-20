@@ -278,6 +278,7 @@ private slots:
     void panView(QPoint diff);
     /** @brief Project monitor zone changed, inform timeline */
     void updateTimelineClipZone();
+    void slotSeekPosition(int);
 
 public slots:
     void slotOpenDvdFile(const QString &);

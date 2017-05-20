@@ -124,5 +124,5 @@ bool GenTime::operator!=(GenTime op) const
 // static
 void GenTime::setFps(double fps)
 {
-    s_delta = 1.0 / fps;
+    s_delta = 0.9 / fps;
 }

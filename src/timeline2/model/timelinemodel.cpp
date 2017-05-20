@@ -166,6 +166,13 @@ int TimelineModel::getTrackClipsCount(int trackId) const
     return count;
 }
 
+int TimelineModel::getClipByPosition(int trackId, int position) const
+{
+    READ_LOCK();
+    Q_ASSERT(isTrack(trackId));
+    return getTrackById_const(trackId)->getClipByPosition(position);
+}
+
 int TimelineModel::getTrackPosition(int trackId) const
 {
     READ_LOCK();
@@ -263,7 +270,7 @@ bool TimelineModel::requestClipCut(int clipId, int position)
     //QWriteLocker locker(&m_lock);
     Q_ASSERT(m_allClips.count(clipId) > 0);
     if (m_allClips[clipId]->getPosition() > position || (m_allClips[clipId]->getPosition() + m_allClips[clipId]->getPlaytime() < position)) {
-        return true;
+        return false;
     }
     if (m_groups->isInGroup(clipId)) {
         // TODO

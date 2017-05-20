@@ -419,6 +419,7 @@ public:
     void setTimelineEffectsEnabled(bool enabled);
 
     Q_INVOKABLE bool requestClipCut(int clipId, int position);
+    int getClipByPosition(int trackId, int position) const;
 
 protected:
     /* @brief Register a new track. This is a call-back meant to be called from TrackModel
