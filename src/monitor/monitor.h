@@ -95,8 +95,6 @@ public:
     const QString sceneList(const QString &root);
     const QString activeClipId();
     GenTime position();
-    /** @brief Check current position to show relevant infos in qml view (markers, zone in/out, etc). */
-    void checkOverlay(int pos = -1);
     void updateTimecodeFormat();
     void updateMarkers();
     /** @brief Controller for the clip currently displayed (only valid for clip monitor). */
@@ -333,6 +331,8 @@ public slots:
     void slotSwitchAudioMonitor();
     /** @brief Request seeking */
     void requestSeek(int pos);
+    /** @brief Check current position to show relevant infos in qml view (markers, zone in/out, etc). */
+    void checkOverlay(int pos = -1);
 
 signals:
     void renderPosition(int);

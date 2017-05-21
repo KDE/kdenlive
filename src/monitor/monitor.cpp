@@ -587,7 +587,7 @@ void Monitor::updateMarkers()
 {
     if (m_controller) {
         m_markerMenu->clear();
-        QList<CommentedTime> markers = m_controller->commentedSnapMarkers();
+        QList<CommentedTime> markers = m_controller->getMarkerModel()->getAllMarkers();
         if (!markers.isEmpty()) {
             for (int i = 0; i < markers.count(); ++i) {
                 int pos = (int)markers.at(i).time().frames(m_monitorManager->timecode().fps());
@@ -597,7 +597,6 @@ void Monitor::updateMarkers()
             }
         }
         m_markerMenu->setEnabled(!m_markerMenu->isEmpty());
-        checkOverlay();
     }
 }
 
@@ -1050,7 +1049,7 @@ void Monitor::slotSeek()
 void Monitor::slotSeek(int pos)
 {
     slotActivateMonitor();
-    m_glMonitor->getControllerProxy()->setSeekPosition(pos);
+    m_glMonitor->seek(pos);
 }
 
 void Monitor::checkOverlay(int pos)
@@ -1218,6 +1217,9 @@ void Monitor::adjustRulerSize(int length, std::shared_ptr<MarkerListModel> marke
         m_length = length;
     }
     m_timePos->setRange(0, length);
+    connect(markerModel.get(), SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &, const QVector<int> &)), this, SLOT(checkOverlay()));
+    connect(markerModel.get(), SIGNAL(rowsInserted(const QModelIndex &,int,int)), this, SLOT(checkOverlay()));
+    connect(markerModel.get(), SIGNAL(rowsRemoved(const QModelIndex &,int,int)), this, SLOT(checkOverlay()));
 }
 
 void Monitor::stop()
@@ -1336,6 +1338,11 @@ void Monitor::updateClipProducer(const QString &playlist)
 
 void Monitor::slotOpenClip(std::shared_ptr<ProjectClip> controller, int in, int out)
 {
+    if (m_controller) {
+        disconnect(m_controller->getMarkerModel().get(), SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &, const QVector<int> &)), this, SLOT(checkOverlay()));
+        disconnect(m_controller->getMarkerModel().get(), SIGNAL(rowsInserted(const QModelIndex &,int,int)), this, SLOT(checkOverlay()));
+        disconnect(m_controller->getMarkerModel().get(), SIGNAL(rowsRemoved(const QModelIndex &,int,int)), this,    SLOT(checkOverlay()));
+    }
     m_controller = controller;
     m_snaps.reset(new SnapModel());
     if (!m_glMonitor->isVisible()) {
@@ -1344,6 +1351,10 @@ void Monitor::slotOpenClip(std::shared_ptr<ProjectClip> controller, int in, int 
     }
     if (controller) {
         m_controller->getMarkerModel()->registerSnapModel(m_snaps);
+        connect(m_controller->getMarkerModel().get(), SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &, const QVector<int> &)), this, SLOT(checkOverlay()));
+        connect(m_controller->getMarkerModel().get(), SIGNAL(rowsInserted(const QModelIndex &,int,int)), this, SLOT(checkOverlay()));
+        connect(m_controller->getMarkerModel().get(), SIGNAL(rowsRemoved(const QModelIndex &,int,int)), this,    SLOT(checkOverlay()));
+
         m_snaps->addPoint(m_controller->frameDuration());
         if (m_recManager->toolbar()->isVisible()) {
             // we are in record mode, don't display clip
@@ -2068,7 +2079,6 @@ void Monitor::slotEditInlineMarker()
             }
             oldMarker.setComment(newComment);
             pCore->projectManager()->current()->addGuides(QList<CommentedTime>() << oldMarker);
-            
             /*QString currentComment = m_ruler->markerAt(render->seekPosition());
             QString newComment = root->property("markerText").toString();
             if (newComment == currentComment) {
