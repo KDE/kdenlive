@@ -47,6 +47,7 @@ public:
      */
     Mlt::Tractor *tractor();
     TimelineController *controller();
+    void setTool(ProjectTool tool);
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;

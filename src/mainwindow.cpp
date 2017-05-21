@@ -2859,7 +2859,7 @@ void MainWindow::slotChangeEdit(QAction *action)
 
 void MainWindow::slotSetTool(ProjectTool tool)
 {
-    if (pCore->projectManager()->current() && pCore->projectManager()->currentTimeline()) {
+    if (pCore->currentDoc()) {
         // pCore->projectManager()->current()->setTool(tool);
         QString message;
         switch (tool) {
@@ -2874,7 +2874,7 @@ void MainWindow::slotSetTool(ProjectTool tool)
             break;
         }
         m_messageLabel->setMessage(message, InformationMessage);
-        pCore->projectManager()->currentTimeline()->projectView()->setTool(tool);
+        m_timelineTabs->getCurrentTimeline()->setTool(tool);
     }
 }
 

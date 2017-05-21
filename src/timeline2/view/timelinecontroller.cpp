@@ -30,6 +30,7 @@
 #include "project/projectmanager.h"
 #include "timeline2/model/timelineitemmodel.hpp"
 #include "timelinewidget.h"
+#include "utils/KoIconUtils.h"
 
 #include <KActionCollection>
 #include <QApplication>
@@ -436,11 +437,14 @@ void TimelineController::setZoneOut(int outPoint)
     emit zoneMoved(m_zone);
 }
 
-void TimelineController::cutClipUnderCursor()
+void TimelineController::cutClipUnderCursor(int position)
 {
+    if (position == -1) {
+        position = m_position;
+    }
     bool foundClip = false;
     for (int cid : m_selection.selectedClips) {
-        if (m_model->requestClipCut(cid, m_position)) {
+        if (m_model->requestClipCut(cid, position)) {
             foundClip = true;
         }
     }
@@ -450,9 +454,9 @@ void TimelineController::cutClipUnderCursor()
         Q_RETURN_ARG(QVariant, returnedValue));
         int trackId = returnedValue.toInt();
         if (trackId >= 0) {
-            int cid = m_model->getClipByPosition(trackId, m_position);
+            int cid = m_model->getClipByPosition(trackId, position);
             if (cid >= 0) {
-                m_model->requestClipCut(cid, m_position);
+                m_model->requestClipCut(cid, position);
                 foundClip = true;
             }
         }

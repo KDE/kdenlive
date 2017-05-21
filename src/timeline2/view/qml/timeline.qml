@@ -70,6 +70,7 @@ Rectangle {
     }
 
     property int headerWidth: 140
+    property int activeTool: 0
     property real baseUnit: fontMetrics.font.pointSize
     property int currentTrack: 0
     property color selectedTrackColor: Qt.rgba(activePalette.highlight.r, activePalette.highlight.g, activePalette.highlight.b, 0.4)
@@ -366,22 +367,31 @@ Rectangle {
                     menu.clickedY = mouse.y
                     menu.popup()
                 } else {
-                    console.log("Position changed: ",timeline.position)
-                    timeline.seekPosition = (scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor
-                    timeline.position = timeline.seekPosition
+                    if (root.activeTool === 1 && mouse.y > ruler.height) {
+                        timeline.cutClipUnderCursor((scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor)
+                    } else {
+                        timeline.seekPosition = (scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor
+                        timeline.position = timeline.seekPosition
+                    }
                 }
             }
             property bool scim: false
             onReleased: scim = false
-            onExited: scim = false
+            onExited: {
+                scim = false
+            }
             onPositionChanged: {
                 if ( mouse.buttons === Qt.LeftButton) {
                     timeline.seekPosition = (scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor
                     timeline.position = timeline.seekPosition
                     scim = true
                 }
-                else
+                else {
                     scim = false
+                    if (root.activeTool === 1) {
+                        cutLine.x = Math.floor((scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor) * timeline.scaleFactor - scrollView.flickableItem.contentX
+                    }
+                }
             }
             Timer {
                 id: scrubTimer
@@ -556,6 +566,17 @@ Rectangle {
                 opacity: 0.5
                 x: timeline.seekPosition * timeline.scaleFactor - scrollView.flickableItem.contentX
                 y: 0
+            }
+            Rectangle {
+                id: cutLine
+                visible: root.activeTool == 1
+                color: 'red'
+                width: Math.max(1, 1 * timeline.scaleFactor)
+                opacity: (width > 2) ? 0.5 : 1
+                height: root.height - scrollView.__horizontalScrollBar.height - ruler.height
+                x: 0
+                //x: timeline.position * timeline.scaleFactor - scrollView.flickableItem.contentX
+                y: ruler.height
             }
             TimelinePlayhead {
                 id: playhead

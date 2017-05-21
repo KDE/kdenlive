@@ -132,6 +132,7 @@ Rectangle {
     onAudioLevelsChanged: generateWaveform()
     MouseArea {
         id: mouseArea
+        enabled: root.activeTool === 0
         anchors.fill: parent
         acceptedButtons: Qt.LeftButton
         drag.target: parent

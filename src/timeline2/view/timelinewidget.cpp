@@ -33,6 +33,7 @@
 #include "qmltypes/thumbnailprovider.h"
 #include "timelinecontroller.h"
 #include "transitions/transitionlist/model/transitiontreemodel.hpp"
+#include "utils/KoIconUtils.h"
 
 #include <KDeclarative/KDeclarative>
 // #include <QUrl>
@@ -132,4 +133,20 @@ TimelineController *TimelineWidget::controller()
 void TimelineWidget::zoneUpdated(const QPoint &zone)
 {
     m_proxy->setZone(zone);
+}
+
+void TimelineWidget::setTool(ProjectTool tool)
+{
+    switch (tool) {
+        case SpacerTool:
+            break;
+        case RazorTool: {
+            QIcon razorIcon = KoIconUtils::themedIcon(QStringLiteral("edit-cut"));
+            setCursor(QCursor(razorIcon.pixmap(32, 32)));
+            break;
+        }
+        default:
+            break;
+    }
+    rootObject()->setProperty("activeTool", (int) tool);
 }
