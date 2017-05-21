@@ -521,7 +521,7 @@ Rectangle {
         opacity: 0
         Drag.active: trimInMouseArea.drag.active
         Drag.proposedAction: Qt.MoveAction
-        visible: root.activeTool === 0
+        visible: root.activeTool === 0 && !mouseArea.drag.active
 
         MouseArea {
             id: trimInMouseArea
@@ -566,7 +566,7 @@ Rectangle {
         opacity: 0
         Drag.active: trimOutMouseArea.drag.active
         Drag.proposedAction: Qt.MoveAction
-        visible: root.activeTool === 0
+        visible: root.activeTool === 0 && !mouseArea.drag.active
 
         MouseArea {
             id: trimOutMouseArea
