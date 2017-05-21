@@ -190,7 +190,7 @@ public:
     void checkDuration();
     /* @brief Cuts the clip on current track at timeline position
      */
-    Q_INVOKABLE void cutClipUnderCursor(int position = -1);
+    Q_INVOKABLE void cutClipUnderCursor(int position = -1, int track = -1);
     /* @brief Seeks to selected clip start / end
      */
     void seekCurrentClip(bool seekToEnd = false);

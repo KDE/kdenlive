@@ -437,7 +437,7 @@ void TimelineController::setZoneOut(int outPoint)
     emit zoneMoved(m_zone);
 }
 
-void TimelineController::cutClipUnderCursor(int position)
+void TimelineController::cutClipUnderCursor(int position, int track)
 {
     if (position == -1) {
         position = m_position;
@@ -449,12 +449,14 @@ void TimelineController::cutClipUnderCursor(int position)
         }
     }
     if (!foundClip) {
-        QVariant returnedValue;
-        QMetaObject::invokeMethod(m_root, "currentTrackId",
-        Q_RETURN_ARG(QVariant, returnedValue));
-        int trackId = returnedValue.toInt();
-        if (trackId >= 0) {
-            int cid = m_model->getClipByPosition(trackId, position);
+        if (track == -1) {
+            QVariant returnedValue;
+            QMetaObject::invokeMethod(m_root, "currentTrackId",
+            Q_RETURN_ARG(QVariant, returnedValue));
+            track = returnedValue.toInt();
+        }
+        if (track >= 0) {
+            int cid = m_model->getClipByPosition(track, position);
             if (cid >= 0) {
                 m_model->requestClipCut(cid, position);
                 foundClip = true;

@@ -369,7 +369,8 @@ Rectangle {
                     menu.popup()
                 } else {
                     if (root.activeTool === 1 && mouse.y > ruler.height) {
-                        timeline.cutClipUnderCursor((scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor)
+                        var y = mouse.y - ruler.height
+                        timeline.cutClipUnderCursor((scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor, tracksRepeater.itemAt(Logic.getTrackIndexFromPos(y)).trackId)
                     } else {
                         timeline.seekPosition = (scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor
                         timeline.position = timeline.seekPosition
@@ -382,9 +383,11 @@ Rectangle {
                 scim = false
             }
             onPositionChanged: {
-                if ( mouse.buttons === Qt.LeftButton) {
-                    timeline.seekPosition = (scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor
-                    timeline.position = timeline.seekPosition
+                if (mouse.buttons === Qt.LeftButton) {
+                    if (root.activeTool === 0) {
+                        timeline.seekPosition = (scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor
+                        timeline.position = timeline.seekPosition
+                    }
                     scim = true
                 }
                 else {
