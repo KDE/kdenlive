@@ -357,6 +357,7 @@ Rectangle {
             // This provides continuous scrubbing and scimming at the left/right edges.
             hoverEnabled: true
             acceptedButtons: Qt.RightButton | Qt.LeftButton
+            cursorShape: root.activeTool === 0 ? Qt.ArrowCursor : root.activeTool === 1 ? Qt.IBeamCursor : Qt.SplitHCursor
             onWheel: {
                 timeline.seekPosition = timeline.position + (wheel.angleDelta.y > 0 ? 1 : -1)
                 timeline.position = timeline.seekPosition
@@ -505,6 +506,7 @@ Rectangle {
                             anchors.fill: parent
                             acceptedButtons: Qt.NoButton
                             onWheel: zoomByWheel(wheel)
+                            cursorShape: tracksArea.cursorShape
                         }
                         Column {
                             // These make the striped background for the tracks.

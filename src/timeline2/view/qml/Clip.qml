@@ -174,7 +174,7 @@ Rectangle {
             anchors.fill: parent
             acceptedButtons: Qt.RightButton
             propagateComposedEvents: true
-            cursorShape: (trimInMouseArea.drag.active || trimOutMouseArea.drag.active)? Qt.SizeHorCursor :
+            cursorShape: root.activeTool != 0 ? tracksArea.cursorShape : (trimInMouseArea.drag.active || trimOutMouseArea.drag.active)? Qt.SizeHorCursor :
                 (fadeInMouseArea.drag.active || fadeOutMouseArea.drag.active)? Qt.PointingHandCursor :
                 drag.active? Qt.ClosedHandCursor : Qt.OpenHandCursor
             onPressed: {
@@ -521,6 +521,7 @@ Rectangle {
         opacity: 0
         Drag.active: trimInMouseArea.drag.active
         Drag.proposedAction: Qt.MoveAction
+        visible: root.activeTool === 0
 
         MouseArea {
             id: trimInMouseArea
@@ -565,6 +566,7 @@ Rectangle {
         opacity: 0
         Drag.active: trimOutMouseArea.drag.active
         Drag.proposedAction: Qt.MoveAction
+        visible: root.activeTool === 0
 
         MouseArea {
             id: trimOutMouseArea
