@@ -638,27 +638,22 @@ bool GLWidget::checkFrameNumber(int pos)
         double speed = m_producer->get_speed();
         m_producer->set_speed(0);
         m_producer->seek(m_proxy->seekPosition());
-        if (speed == 0) {
+        if (speed == 0.) {
             m_consumer->set("refresh", 1);
         } else {
             m_producer->set_speed(speed);
         }
-    } else {
-        if (!m_isLoopMode && m_producer->get_speed() == 0) {
-            m_consumer->purge();
-        } else if (m_isZoneMode) {
+    } else if (m_producer->get_speed() == 0.) {
+        if (m_isLoopMode) {
             if (pos >= m_producer->get_int("out") - 1) {
-                if (m_isLoopMode) {
-                    m_consumer->purge();
-                    m_producer->seek(m_proxy->zoneIn());
-                    m_producer->set_speed(1.0);
-                    m_consumer->set("refresh", 1);
-                } else {
-                    if (m_producer->get_speed() == 0) {
-                        return false;
-                    }
-                }
+                m_consumer->purge();
+                m_producer->seek(m_proxy->zoneIn());
+                m_producer->set_speed(1.0);
+                m_consumer->set("refresh", 1);
             }
+            return true;
+        } else {
+            return pos < m_producer->get_int("out") - 1.;
         }
     }
     return true;
@@ -1665,14 +1660,13 @@ void GLWidget::switchPlay(bool play, double speed)
             m_consumer->purge();
         }
         m_producer->set_speed(speed);
-    } else if (m_producer->get_speed() != 0.) {
-        m_consumer->set("refresh", 0);
-        m_consumer->purge();
-        m_producer->set_speed(0.0);
+    } else {
+        m_consumer->set("real_time", -1);
         m_consumer->set("buffer", 0);
         m_consumer->set("prefill", 0);
-        m_consumer->set("real_time", -1);
+        m_producer->set_speed(0.0);
         m_producer->seek(m_consumer->position() + 1);
+        m_consumer->purge();
     }
 }
 
