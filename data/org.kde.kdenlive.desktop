@@ -94,6 +94,7 @@ Comment[sl]=Ne-linearni urejevalnik videa s strani KDE
 Comment[sv]=Icke-linjär videoeditor av KDE
 Comment[uk]=Нелінійний редактор відео від KDE
 Comment[x-test]=xxNonlinear video editor by KDExx
+Comment[zh_CN]=KDE 推出的非线性视频编辑器
 Type=Application
 Exec=kdenlive %U
 Icon=kdenlive
