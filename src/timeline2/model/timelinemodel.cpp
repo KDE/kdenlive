@@ -550,6 +550,8 @@ bool TimelineModel::requestCompositionDeletion(int compositionId, Fun &undo, Fun
         if (!res) {
             undo();
             return false;
+        } else {
+            unplantComposition(compositionId);
         }
     }
     Fun operation = deregisterComposition_lambda(compositionId);
