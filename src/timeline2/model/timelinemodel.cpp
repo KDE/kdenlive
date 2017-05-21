@@ -198,16 +198,18 @@ int TimelineModel::getNextTrackId(int trackId) const
     return (it != m_allTracks.end()) ? (*it)->getId() : -1;
 }
 
-int TimelineModel::getPreviousTrackId(int trackId) const
+int TimelineModel::getPreviousVideoTrackId(int trackId) const
 {
     READ_LOCK();
     Q_ASSERT(isTrack(trackId));
     auto it = m_iteratorTable.at(trackId);
-    if (it == m_allTracks.begin()) {
-        return -1;
+    while (it != m_allTracks.begin()) {
+        --it;
+        if (it != m_allTracks.begin() && (*it)->getProperty("kdenlive:audio_track").toInt() == 0) {
+            break;
+        }
     }
-    --it;
-    return (*it)->getId();
+    return it == m_allTracks.begin() ? 0 : (*it)->getId();
 }
 
 bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool updateView, Fun &undo, Fun &redo)
@@ -1215,7 +1217,7 @@ bool TimelineModel::requestCompositionMove(int compoId, int trackId, int positio
     QWriteLocker locker(&m_lock);
     Q_ASSERT(isComposition(compoId));
     Q_ASSERT(isTrack(trackId));
-    int previousTrack = getPreviousTrackId(trackId);
+    int previousTrack = getPreviousVideoTrackId(trackId);
     if (previousTrack == -1) {
         // it doesn't make sense to insert a composition on the last track
         qDebug() << "Move failed because of last track";
@@ -1312,7 +1314,7 @@ bool TimelineModel::replantCompositions(int currentCompo)
     for (const auto &compo : compos) {
         int aTrack = m_allCompositions[compo.second]->getATrack();
         Q_ASSERT(aTrack != -1);
-        aTrack = getTrackMltIndex(aTrack);
+        aTrack = aTrack == 0 ? 0 : getTrackMltIndex(aTrack);
         int ret = field->plant_transition(*m_allCompositions[compo.second].get(), aTrack, compo.first);
         qDebug() << "Planting composition " << compo.second << "in " << aTrack << "/" << compo.first << "IN = " << m_allCompositions[compo.second]->getIn()
                  << "OUT = " << m_allCompositions[compo.second]->getOut() << "ret=" << ret;

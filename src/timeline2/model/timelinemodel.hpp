@@ -212,7 +212,7 @@ public:
        Return -1 if we give the last track
        @param trackId Id of the track to test
     */
-    int getPreviousTrackId(int trackId) const;
+    int getPreviousVideoTrackId(int trackId) const;
 
     /* @brief Move a clip to a specific position
        This action is undoable
