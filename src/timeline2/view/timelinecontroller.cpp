@@ -482,3 +482,14 @@ void TimelineController::seekCurrentClip(bool seekToEnd)
     }
 }
 
+QPoint TimelineController::getTracksCount() const
+{
+    int audioTracks = 0;
+    int videoTracks = 0;
+    QVariant returnedValue;
+    QMetaObject::invokeMethod(m_root, "getTracksCount",
+    Q_RETURN_ARG(QVariant, returnedValue));
+    QVariantList tracks = returnedValue.toList();
+    QPoint p(tracks.at(0).toInt(), tracks.at(1).toInt());
+    return p;
+}

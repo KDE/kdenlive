@@ -58,6 +58,10 @@ Rectangle {
         return Logic.getTrackYFromId(a_track)
     }
 
+    function getTracksCount() {
+        return Logic.getTracksList()
+    }
+
     function getTrackColor(audio, header) {
         var col = activePalette.alternateBase
         if (audio) {

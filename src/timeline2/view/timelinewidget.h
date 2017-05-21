@@ -48,6 +48,7 @@ public:
     Mlt::Tractor *tractor();
     TimelineController *controller();
     void setTool(ProjectTool tool);
+    QPoint getTracksCount() const;
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;

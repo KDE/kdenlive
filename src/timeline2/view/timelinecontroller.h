@@ -194,6 +194,9 @@ public:
     /* @brief Seeks to selected clip start / end
      */
     void seekCurrentClip(bool seekToEnd = false);
+    /* @brief Returns the number of tracks (audioTrakcs, videoTracks)
+     */
+    QPoint getTracksCount() const;
 
 public slots:
     void selectMultitrack();

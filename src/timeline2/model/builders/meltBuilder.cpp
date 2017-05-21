@@ -140,6 +140,10 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
             if (!trackName.isEmpty()) {
                 timeline->setTrackProperty(tid, QStringLiteral("kdenlive:track_name"), trackName.toUtf8().constData());
             }
+            if (track.get_int("kdenlive:audio_track") == 1) {
+                // This is an audio track
+                timeline->setTrackProperty(tid, QStringLiteral("kdenlive:audio_track"), QStringLiteral("1"));
+            }
         }
     }
     return true;

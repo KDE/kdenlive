@@ -8,6 +8,7 @@ import QtQuick 2.4
     Rectangle {
         id: ruler
         color: activePalette.window
+        opacity: 0.8
 
         // frame ticks
         Repeater {

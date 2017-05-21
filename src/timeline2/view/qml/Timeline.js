@@ -59,6 +59,22 @@ function getTrackYFromId(id) {
     return result
 }
 
+function getTracksList() {
+    var result = new Array(2);
+    var aTracks = 0
+    var vTracks = 0
+    for (var i = 0; i < trackHeaderRepeater.count; i++) {
+        if (trackHeaderRepeater.itemAt(i).isAudio) {
+            aTracks ++;
+        } else {
+            vTracks ++;
+        }
+    }
+    result[0] = aTracks;
+    result[1] = vTracks;
+    return result
+}
+
 function acceptDrop(xml) {
     var position = Math.round((dropTarget.x + scrollView.flickableItem.contentX - headerWidth) / timeline.scaleFactor)
     timeline.insertClip(currentTrack, position, xml)

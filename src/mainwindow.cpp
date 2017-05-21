@@ -1696,7 +1696,7 @@ void MainWindow::slotRefreshProfiles()
 void MainWindow::slotEditProjectSettings()
 {
     KdenliveDoc *project = pCore->projectManager()->current();
-    QPoint p = pCore->projectManager()->currentTimeline()->getTracksCount();
+    QPoint p = m_timelineTabs->getCurrentTimeline()->getTracksCount();
 
     ProjectSettings *w = new ProjectSettings(project, project->metadata(), pCore->projectManager()->currentTimeline()->projectView()->extractTransitionsLumas(),
                                              p.x(), p.y(), project->projectTempFolder(), true, !project->isModified(), this);
