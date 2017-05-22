@@ -182,7 +182,7 @@ protected:
     int getBlankEnd(int position, int track);
 
     /* @brief Returns the clip id on this track at position requested, or -1 if no clip */
-    int getClipByPosition(int position) const;
+    int getClipByPosition(int position);
 
 public slots:
     /*Delete the current track and all its associated clips */

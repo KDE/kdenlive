@@ -417,18 +417,13 @@ int TrackModel::getId() const
     return m_id;
 }
 
-int TrackModel::getClipByPosition(int position) const
+int TrackModel::getClipByPosition(int position)
 {
-    auto it = m_allClips.cbegin();
-    // TODO: this is a very bad way to find a clip by position..
-    while (it != m_allClips.cend()) {
-        std::shared_ptr<ClipModel> clip = (*it).second;
-        if (clip->getPosition() < position && clip->getPosition() + clip->getPlaytime() > position) {
-            return clip->getId();
-        }
-        std::advance(it, 1);
+    QSharedPointer <Mlt::Producer> prod(m_playlists[0].get_clip_at(position));
+    if (prod->is_blank()) {
+        return -1;
     }
-    return -1;
+    return prod->get_int("_kdenlive_cid");
 }
 
 int TrackModel::getClipByRow(int row) const
@@ -644,7 +639,6 @@ Fun TrackModel::requestCompositionResize_lambda(int compoId, int in, int out)
 
 bool TrackModel::requestCompositionInsertion(int compoId, int position, bool updateView, Fun &undo, Fun &redo)
 {
-    qDebug() << "++++++++++++TRREQUEST INSERTION AT: " << position;
     auto operation = requestCompositionInsertion_lambda(compoId, position, updateView);
     if (operation()) {
         auto reverse = requestCompositionDeletion_lambda(compoId, updateView);

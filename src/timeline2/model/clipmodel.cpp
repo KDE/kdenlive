@@ -41,6 +41,7 @@ ClipModel::ClipModel(std::weak_ptr<TimelineModel> parent, std::shared_ptr<Mlt::P
     , m_binClipId(binClipId)
 {
     m_producer->set("kdenlive:id", binClipId.toUtf8().constData());
+    m_producer->set("_kdenlive_cid", id);
     std::shared_ptr<ProjectClip> binClip = pCore->bin()->getBinClip(m_binClipId);
     if (binClip) {
         m_endlessResize = !binClip->hasLimitedDuration();
