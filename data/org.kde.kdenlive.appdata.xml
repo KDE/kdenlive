@@ -36,7 +36,7 @@
   <summary xml:lang="bs">Video uređivač</summary>
   <summary xml:lang="ca">Editor de vídeo</summary>
   <summary xml:lang="ca-valencia">Editor de vídeo</summary>
-  <summary xml:lang="cs">Editor videí</summary>
+  <summary xml:lang="cs">Editor videa</summary>
   <summary xml:lang="da">Videoredigering</summary>
   <summary xml:lang="de">Video-Editor</summary>
   <summary xml:lang="en-GB">Video Editor</summary>
@@ -63,6 +63,7 @@
     <p>Kdenlive is a non linear video editor. It is based on the MLT framework and accepts many audio and video formats, allows you to add effects, transitions and render into the format of your choice.</p>
     <p xml:lang="ca">El Kdenlive és un editor no lineal de vídeo. Està basat en l'entorn de treball MLT i accepta molts formats d'àudio i vídeo, permetent afegir efectes, transicions i representacions en el format de la vostra elecció.</p>
     <p xml:lang="ca-valencia">El Kdenlive és un editor no lineal de vídeo. Està basat en l'entorn de treball MLT i accepta molts formats d'àudio i vídeo, permetent afegir efectes, transicions i representacions en el format de la vostra elecció.</p>
+    <p xml:lang="cs">Kdenlive je nelineární video editor. Je založený na frameworku MLT a přehrává mnoho zvukových a video formátů, umožňuje přidat efekty, přechody a renderuje do formátu podle vašeho výběru.</p>
     <p xml:lang="de">Kdenlive ist ein Video-Editor für nichtlinearen Schnitt. Es basiert auf MLT und verarbeitet viele Audio- und Video-Formate. Sie können Effekte und Übergänge benutzen und in Formate Ihrer Wahl umwandeln.</p>
     <p xml:lang="en-GB">Kdenlive is a non linear video editor. It is based on the MLT framework and accepts many audio and video formats, allows you to add effects, transitions and render into the format of your choice.</p>
     <p xml:lang="es">Kdenlive es un editor no lineal de video. Está basado en la infraestructura MLT y acepta numerosos formatos de audio y video, permitiendo agregar efectos, transiciones y procesar el video final en el formato deseado.</p>
@@ -116,6 +117,7 @@
       <li>Intuitive multitrack interface.</li>
       <li xml:lang="ca">Interfície multipista intuïtiva.</li>
       <li xml:lang="ca-valencia">Interfície multipista intuïtiva.</li>
+      <li xml:lang="cs">Intuitivní vícepohledové rozhraní.</li>
       <li xml:lang="de">Intuitive Mehrspur-Benutzeroberfläche.</li>
       <li xml:lang="en-GB">Intuitive multitrack interface.</li>
       <li xml:lang="es">Interfaz multipista intuitiva.</li>
@@ -167,6 +169,7 @@
       <li xml:lang="ar">نطاقات الألوان</li>
       <li xml:lang="ca">Àmbits de color</li>
       <li xml:lang="ca-valencia">Àmbits de color</li>
+      <li xml:lang="cs">Rozsahy barev</li>
       <li xml:lang="de">Farbbereiche</li>
       <li xml:lang="en-GB">Colour scopes</li>
       <li xml:lang="es">Indicadores de color</li>
