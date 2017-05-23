@@ -22,7 +22,7 @@
 #ifndef BOOLPARAMWIDGET_H
 #define BOOLPARAMWIDGET_H
 
-#include "abstractparamwidget.h"
+#include "abstractparamwidget.hpp"
 #include "ui_boolparamwidget_ui.h"
 #include <QWidget>
 
@@ -39,15 +39,20 @@ public:
         @param checked Boolean indicating wether the checkbox should initially be checked
         @param parent Parent widget
     */
-    BoolParamWidget(const QString &name, const QString &comment = QString(), bool checked = false, QWidget *parent = nullptr);
+    BoolParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent);
 
     /** @brief Returns the current value of the parameter
      */
     bool getValue();
 
 public slots:
-    /** @brief Toggle the comments on or off    */
-    void slotShowComment(bool);
+    /** @brief Toggle the comments on or off
+     */
+    void slotShowComment(bool show) override;
+
+    /** @brief refresh the properties to reflect changes in the model
+     */
+    void slotRefresh() override;
 };
 
 #endif

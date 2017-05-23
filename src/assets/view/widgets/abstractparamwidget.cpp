@@ -20,6 +20,7 @@
 #include "abstractparamwidget.hpp"
 #include "assets/model/assetparametermodel.hpp"
 #include "doubleparamwidget.hpp"
+#include "boolparamwidget.hpp"
 #include <QLabel>
 #include <QVBoxLayout>
 #include <utility>
@@ -66,6 +67,8 @@ AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetP
         break;
     case ParamType::List:
     case ParamType::Bool:
+        widget = new BoolParamWidget(model, index, parent);
+        break;
     case ParamType::Switch:
     case ParamType::Animated:
     case ParamType::Geometry:

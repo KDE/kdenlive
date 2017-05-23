@@ -19,14 +19,18 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-#include "boolparamwidget.h"
+#include "boolparamwidget.hpp"
+#include "assets/model/assetparametermodel.hpp"
 
-BoolParamWidget::BoolParamWidget(const QString &name, const QString &comment, bool checked, QWidget *parent)
-    : AbstractParamWidget(parent)
+BoolParamWidget::BoolParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
+    : AbstractParamWidget(std::move(model), index, parent)
 {
     setupUi(this);
 
     // setup the comment
+    QString name = m_model->data(m_index, AssetParameterModel::NameRole).toString();
+    bool checked = m_model->data(m_index, AssetParameterModel::ValueRole).toInt();
+    QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
     setToolTip(comment);
     m_labelComment->setText(comment);
     m_widgetComment->setHidden(true);
@@ -38,7 +42,7 @@ BoolParamWidget::BoolParamWidget(const QString &name, const QString &comment, bo
     m_checkBox->setChecked(checked);
 
     // emit the signal of the base class when appropriate
-    connect(this->m_checkBox, &QCheckBox::stateChanged, [this](int) { emit qobject_cast<AbstractParamWidget *>(this)->valueChanged(); });
+    connect(this->m_checkBox, &QCheckBox::stateChanged, [this](int) { emit valueChanged(m_index, QString::number(m_checkBox->isChecked())); });
 }
 
 void BoolParamWidget::slotShowComment(bool show)
@@ -46,6 +50,12 @@ void BoolParamWidget::slotShowComment(bool show)
     if (!m_labelComment->text().isEmpty()) {
         m_widgetComment->setVisible(show);
     }
+}
+
+void BoolParamWidget::slotRefresh()
+{
+    bool checked = m_model->data(m_index, AssetParameterModel::ValueRole).toInt();
+    m_checkBox->setChecked(checked);
 }
 
 bool BoolParamWidget::getValue()

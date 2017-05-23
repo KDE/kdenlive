@@ -9,5 +9,6 @@ set(kdenlive_SRCS
   assets/view/assetparameterview.cpp
   assets/view/widgets/abstractparamwidget.cpp
   assets/view/widgets/doubleparamwidget.cpp
+  assets/view/widgets/boolparamwidget.cpp
   PARENT_SCOPE)
 
