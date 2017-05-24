@@ -21,6 +21,8 @@
 
 #include "listparamwidget.h"
 #include "assets/model/assetparametermodel.hpp"
+#include "core.h"
+#include "mainwindow.h"
 
 ListParamWidget::ListParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
     : AbstractParamWidget(std::move(model), index, parent)
@@ -35,6 +37,7 @@ ListParamWidget::ListParamWidget(std::shared_ptr<AssetParameterModel> model, QMo
     setToolTip(comment);
     m_labelComment->setText(comment);
     m_widgetComment->setHidden(true);
+    m_list->setIconSize(QSize(50, 30));
     // setup the name
     m_labelName->setText(name);
     slotRefresh();
@@ -86,17 +89,43 @@ void ListParamWidget::slotRefresh()
 {
     m_list->clear();
     QStringList names = m_model->data(m_index, AssetParameterModel::ListNamesRole).toStringList();
-    QStringList values = m_model->data(m_index, AssetParameterModel::ListNamesRole).toStringList();
-    if (names.count() != values.count()) {
-        names = values;
-    }
-    for (int i = 0; i < names.count(); i++) {
-        m_list->addItem(names.at(i), values.at(i));
-    }
+    QStringList values = m_model->data(m_index, AssetParameterModel::ListValuesRole).toStringList();
     QString value = m_model->data(m_index, AssetParameterModel::ValueRole).toString();
-    if (!value.isEmpty() && values.contains(value)) {
-        //TODO:: search item data directly
-        m_list->setCurrentIndex(values.indexOf(value));
+    if (values.first() == QLatin1String("%lumaPaths")) {
+        // Special case: Luma files
+        // Create thumbnails
+        if (pCore->getCurrentFrameSize().width() > 1000) {
+            // HD project
+            values = MainWindow::m_lumaFiles.value(QStringLiteral("HD"));
+        } else {
+            values = MainWindow::m_lumaFiles.value(QStringLiteral("PAL"));
+        }
+        m_list->addItem(i18n("None (Dissolve)"));
+        for (int j = 0; j < values.count(); ++j) {
+            const QString &entry = values.at(j);
+            m_list->addItem(values.at(j).section(QLatin1Char('/'), -1), entry);
+            if (!entry.isEmpty() && (entry.endsWith(QLatin1String(".png")) || entry.endsWith(QLatin1String(".pgm")))) {
+                if (!MainWindow::m_lumacache.contains(entry)) {
+                    QImage pix(entry);
+                    MainWindow::m_lumacache.insert(entry, pix.scaled(50, 30, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+                }
+                m_list->setItemIcon(j + 1, QPixmap::fromImage(MainWindow::m_lumacache.value(entry)));
+            }
+        }
+        if (!value.isEmpty() && values.contains(value)) {
+            m_list->setCurrentIndex(values.indexOf(value) + 1);
+        }
+    } else {
+        if (names.count() != values.count()) {
+            names = values;
+        }
+        for (int i = 0; i < names.count(); i++) {
+            m_list->addItem(names.at(i), values.at(i));
+        }
+        if (!value.isEmpty() && values.contains(value)) {
+            //TODO:: search item data directly
+            m_list->setCurrentIndex(values.indexOf(value));
+        }
     }
 }
 
