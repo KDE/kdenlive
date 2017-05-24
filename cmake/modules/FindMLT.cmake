@@ -6,7 +6,7 @@
 # Redistribution and use is allowed according to the terms of the BSD license.
 
 find_package(PkgConfig QUIET)
-pkg_check_modules(PC_MLT QUIET mlt++)
+pkg_check_modules(PC_MLT mlt++)
 
 find_path(MLT_INCLUDE_DIR
   NAMES framework/mlt.h
