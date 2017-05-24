@@ -25,6 +25,7 @@
 #include <QDebug>
 #include <QLocale>
 #include <QString>
+#include "klocalizedstring.h"
 
 AssetParameterModel::AssetParameterModel(Mlt::Properties *asset, const QDomElement &assetXml, const QString &assetId, QObject *parent)
     : QAbstractListModel(parent)
@@ -153,6 +154,12 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
         return element.attribute(QStringLiteral("suffix"));
     case ValueRole:
         return element.attribute(QStringLiteral("value")).isNull() ? element.attribute(QStringLiteral("default")) : element.attribute(QStringLiteral("value"));
+    case ListValuesRole:
+        return element.attribute(QStringLiteral("paramlist")).split(QLatin1Char(';'));
+    case ListNamesRole: {
+        QDomElement namesElem = element.firstChildElement(QStringLiteral("paramlistdisplay"));
+        return i18n(namesElem.text().toUtf8().data()).split(QLatin1Char(','));
+    }
     }
     return QVariant();
 }

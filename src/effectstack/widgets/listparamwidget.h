@@ -22,10 +22,12 @@
 #ifndef LISTPARAMETERWIDGET_H
 #define LISTPARAMETERWIDGET_H
 
-#include "abstractparamwidget.h"
+#include "assets/view/widgets/abstractparamwidget.hpp"
 #include "ui_listparamwidget_ui.h"
 #include <QVariant>
 #include <QWidget>
+
+class AssetParameterModel;
 
 /** @brief This class represents a parameter that requires
            the user to choose a value from a list
@@ -39,7 +41,7 @@ public:
         @param comment Optional string containing the comment associated to the parameter
         @param parent Parent widget
     */
-    ListParamWidget(const QString &name, const QString &comment = QString(), QWidget *parent = nullptr);
+    ListParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent);
 
     /** @brief Set the index of the current displayed element
         @param index Integer holding the index of the target element (0-indexed)
@@ -73,8 +75,13 @@ public:
     QString getValue();
 
 public slots:
-    /** @brief Toggle the comments on or off    */
-    void slotShowComment(bool);
+    /** @brief Toggle the comments on or off
+     */
+    void slotShowComment(bool show) override;
+
+    /** @brief refresh the properties to reflect changes in the model
+     */
+    void slotRefresh() override;
 };
 
 #endif

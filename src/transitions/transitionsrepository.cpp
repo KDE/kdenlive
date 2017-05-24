@@ -55,6 +55,7 @@ void TransitionsRepository::parseCustomAssetFile(const QString &file_name, std::
     QDomDocument doc;
     doc.setContent(&file, false);
     file.close();
+
     QDomElement base = doc.documentElement();
     QDomNodeList transitions = doc.elementsByTagName(QStringLiteral("transition"));
 
@@ -78,8 +79,11 @@ void TransitionsRepository::parseCustomAssetFile(const QString &file_name, std::
         if (customAssets.count(result.id) > 0) {
             qDebug() << "Warning: duplicate custom definition of transition" << result.id << "found. Only last one will be considered";
         }
-
-        result.xml = currentNode.toElement();
+        QDomDocument doc;
+        QDomElement e = doc.createElement("root");
+        doc.appendChild(e);
+        e.appendChild(doc.importNode(currentNode, true));
+        result.xml = doc.documentElement();
         customAssets[result.id] = result;
     }
 }
@@ -97,7 +101,6 @@ QStringList TransitionsRepository::assetDirs() const
 
 void TransitionsRepository::parseType(QScopedPointer<Mlt::Properties> &metadata, Info &res)
 {
-
     Mlt::Properties tags((mlt_properties)metadata->get_data("tags"));
     bool audio = QString(tags.get(0)) == QLatin1String("Audio");
 

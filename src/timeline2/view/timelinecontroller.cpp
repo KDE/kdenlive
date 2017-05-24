@@ -387,7 +387,6 @@ void TimelineController::showAsset(int id)
 {
     qDebug() << "show asset" << id;
     if (m_model->isComposition(id)) {
-        qDebug() << "show asset compo" << id;
         emit showTransitionModel(m_model->getCompositionParameterModel(id));
     }
 }

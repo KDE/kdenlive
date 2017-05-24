@@ -10,5 +10,6 @@ set(kdenlive_SRCS
   effectstack/keyframehelper.cpp
   effectstack/animkeyframeruler.cpp
   effectstack/widgets/animationwidget.cpp
+  effectstack/widgets/listparamwidget.cpp
   PARENT_SCOPE)
 

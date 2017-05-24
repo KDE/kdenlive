@@ -6,3 +6,9 @@ frei0r.alphainjection
 frei0r.blend
 frei0r.xfade0r
 webvfx
+
+# not usable directly or have xml definitions
+affine
+mix
+region
+luma

@@ -120,16 +120,13 @@ template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInf
     QScopedPointer<Mlt::Properties> metadata(getMetadata(assetId));
     if (metadata && metadata->is_valid()) {
         if (metadata->get("title") && metadata->get("identifier") && strlen(metadata->get("title")) > 0) {
-
             res.name = metadata->get("title");
             res.name[0] = res.name[0].toUpper();
-
             res.description = metadata->get("description");
             res.author = metadata->get("creator");
             res.version_str = metadata->get("version");
             res.version = metadata->get_double("version");
             res.id = res.mltId = assetId;
-
             parseType(metadata, res);
             return true;
         }

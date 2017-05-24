@@ -67,7 +67,7 @@ class AssetParameterModel : public QAbstractListModel
 public:
     explicit AssetParameterModel(Mlt::Properties *asset, const QDomElement &assetXml, const QString &assetId, QObject *parent = nullptr);
     virtual ~AssetParameterModel();
-    enum { NameRole = Qt::UserRole + 1, TypeRole, CommentRole, MinRole, MaxRole, DefaultRole, SuffixRole, DecimalsRole, ValueRole };
+    enum { NameRole = Qt::UserRole + 1, TypeRole, CommentRole, MinRole, MaxRole, DefaultRole, SuffixRole, DecimalsRole, ValueRole, ListValuesRole, ListNamesRole };
 
     /* @brief Returns the id of the asset represented by this object */
     QString getAssetId() const;

@@ -20,24 +20,29 @@
  ***************************************************************************/
 
 #include "listparamwidget.h"
+#include "assets/model/assetparametermodel.hpp"
 
-ListParamWidget::ListParamWidget(const QString &name, const QString &comment, QWidget *parent)
-    : AbstractParamWidget(parent)
+ListParamWidget::ListParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
+    : AbstractParamWidget(std::move(model), index, parent)
 {
     setupUi(this);
+
+    // Get data from model
+    QString name = m_model->data(m_index, AssetParameterModel::NameRole).toString();
+    QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
 
     // setup the comment
     setToolTip(comment);
     m_labelComment->setText(comment);
     m_widgetComment->setHidden(true);
-
     // setup the name
     m_labelName->setText(name);
+    slotRefresh();
 
     // emit the signal of the base class when appropriate
     // The connection is ugly because the signal "currentIndexChanged" is overloaded in QComboBox
     connect(this->m_list, static_cast<void (KComboBox::*)(int)>(&KComboBox::currentIndexChanged),
-            [this](int) { emit qobject_cast<AbstractParamWidget *>(this)->valueChanged(); });
+            [this](int) { emit valueChanged(m_index, m_list->itemData(m_list->currentIndex()).toString()); });
 }
 
 void ListParamWidget::setCurrentIndex(int index)
@@ -76,3 +81,22 @@ QString ListParamWidget::getValue()
 {
     return m_list->itemData(m_list->currentIndex()).toString();
 }
+
+void ListParamWidget::slotRefresh()
+{
+    m_list->clear();
+    QStringList names = m_model->data(m_index, AssetParameterModel::ListNamesRole).toStringList();
+    QStringList values = m_model->data(m_index, AssetParameterModel::ListNamesRole).toStringList();
+    if (names.count() != values.count()) {
+        names = values;
+    }
+    for (int i = 0; i < names.count(); i++) {
+        m_list->addItem(names.at(i), values.at(i));
+    }
+    QString value = m_model->data(m_index, AssetParameterModel::ValueRole).toString();
+    if (!value.isEmpty() && values.contains(value)) {
+        //TODO:: search item data directly
+        m_list->setCurrentIndex(values.indexOf(value));
+    }
+}
+
