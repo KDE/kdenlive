@@ -27,6 +27,7 @@
 #include "../undohelper.hpp"
 #include "core.h"
 #include "bin/bin.h"
+#include "mltcontroller/bincontroller.h"
 #include <QDebug>
 #include <QSet>
 #include <mlt++/MltPlaylist.h>
@@ -42,7 +43,7 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
     Fun redo = []() { return true; };
     // First, we destruct the previous tracks
     timeline->requestReset(undo, redo);
-
+    pCore->binController()->loadBinPlaylist(&tractor, timeline->tractor());
     QSet<QString> reserved_names{QLatin1String("playlistmain"), QLatin1String("timeline_preview"), QLatin1String("overlay_track"),
                                  QLatin1String("black_track")};
 

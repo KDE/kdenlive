@@ -80,8 +80,8 @@ public:
     /** @brief Clear the bin's playlist */
     void destroyBin();
 
-    /** @brief Load the Bin's main playlist from an existing tractor */
-    void loadBinPlaylist(Mlt::Tractor *tractor);
+    /** @brief Load the Bin's main playlist from an existing tractor, and pass it to the model */
+    void loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tractor *modelTractor);
 
     /** @brief Initialize the bin's playlist from MLT's data
      * @param playlist The MLT playlist containing our bin's clips

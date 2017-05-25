@@ -862,8 +862,6 @@ void ProjectManager::updateTimeline()
     QScopedPointer<Mlt::Producer> xmlProd(new Mlt::Producer(pCore->getCurrentProfile()->profile(), "xml-string", m_project->getProjectXml().constData()));
     Mlt::Service s(*xmlProd);
     Mlt::Tractor tractor(s);
-    pCore->binController()->loadBinPlaylist(&tractor);
-
     m_mainTimelineModel = TimelineItemModel::construct(&pCore->getCurrentProfile()->profile(), m_project->getGuideModel(), m_project->commandStack());
     constructTimelineFromMelt(m_mainTimelineModel, tractor);
     const QStringList ids = pCore->binController()->getClipIds();

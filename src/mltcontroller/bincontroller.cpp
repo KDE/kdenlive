@@ -197,10 +197,10 @@ void BinController::createIfNeeded(Mlt::Profile *profile)
     m_binPlaylist->set("id", kPlaylistTrackId);
 }
 
-void BinController::loadBinPlaylist(Mlt::Tractor *tractor)
+void BinController::loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tractor *modelTractor)
 {
     destroyBin();
-    Mlt::Properties retainList((mlt_properties)tractor->get_data("xml_retain"));
+    Mlt::Properties retainList((mlt_properties)documentTractor->get_data("xml_retain"));
     qDebug() << "Loading bin playlist...";
     if (retainList.is_valid() && (retainList.get_data(binPlaylistId().toUtf8().constData()) != nullptr)) {
         Mlt::Playlist playlist((mlt_playlist)retainList.get_data(binPlaylistId().toUtf8().constData()));
@@ -214,11 +214,11 @@ void BinController::loadBinPlaylist(Mlt::Tractor *tractor)
     // If no Playlist found, create new one
     if (!m_binPlaylist) {
         qDebug() << "no playlist valid, creating";
-        m_binPlaylist.reset(new Mlt::Playlist(*tractor->profile()));
+        m_binPlaylist.reset(new Mlt::Playlist(*modelTractor->profile()));
         m_binPlaylist->set("id", kPlaylistTrackId);
     }
     QString retain = QStringLiteral("xml_retain %1").arg(binPlaylistId());
-    tractor->set(retain.toUtf8().constData(), m_binPlaylist->get_service(), 0);
+    modelTractor->set(retain.toUtf8().constData(), m_binPlaylist->get_service(), 0);
 }
 
 void BinController::slotStoreFolder(const QString &folderId, const QString &parentId, const QString &oldParentId, const QString &folderName)
