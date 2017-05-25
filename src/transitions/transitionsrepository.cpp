@@ -79,11 +79,7 @@ void TransitionsRepository::parseCustomAssetFile(const QString &file_name, std::
         if (customAssets.count(result.id) > 0) {
             qDebug() << "Warning: duplicate custom definition of transition" << result.id << "found. Only last one will be considered";
         }
-        QDomDocument doc;
-        QDomElement e = doc.createElement("root");
-        doc.appendChild(e);
-        e.appendChild(doc.importNode(currentNode, true));
-        result.xml = doc.documentElement();
+        result.xml = currentNode.toElement();
         customAssets[result.id] = result;
     }
 }
