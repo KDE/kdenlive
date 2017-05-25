@@ -64,13 +64,13 @@ TreeItem::~TreeItem()
 std::shared_ptr<TreeItem> TreeItem::appendChild(const QList<QVariant> &data)
 {
     if (auto ptr = m_model.lock()) {
+        ptr->notifyRowAboutToAppend(shared_from_this());
         auto child = construct(data, ptr, shared_from_this());
         child->m_depth = m_depth + 1;
         int id = child->getId();
         m_childItems.push_back(child);
         auto it = std::prev(m_childItems.end());
         m_iteratorTable[id] = it;
-        ptr->notifyRowAboutToAppend(shared_from_this());
         ptr->notifyRowAppended();
         return child;
     }
@@ -82,12 +82,12 @@ std::shared_ptr<TreeItem> TreeItem::appendChild(const QList<QVariant> &data)
 void TreeItem::appendChild(std::shared_ptr<TreeItem> child)
 {
     if (auto ptr = m_model.lock()) {
+        ptr->notifyRowAboutToAppend(shared_from_this());
         child->m_depth = m_depth + 1;
         child->m_parentItem = shared_from_this();
         int id = child->getId();
         auto it = m_childItems.insert(m_childItems.end(), std::move(child));
         m_iteratorTable[id] = it;
-        ptr->notifyRowAboutToAppend(shared_from_this());
         ptr->notifyRowAppended();
     } else {
         qDebug() << "ERROR: Something went wrong when appending child in TreeItem. Model is not available anymore";
