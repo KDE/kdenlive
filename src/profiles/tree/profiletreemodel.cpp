@@ -32,6 +32,11 @@
 ProfileTreeModel::ProfileTreeModel(QObject *parent)
     : AbstractTreeModel(parent)
 {
+}
+
+std::shared_ptr<ProfileTreeModel> ProfileTreeModel::construct(QObject *parent)
+{
+    std::shared_ptr<ProfileTreeModel> self(new ProfileTreeModel(parent));
     QList<QVariant> rootData;
     rootData << "Description"
              << "Path"
@@ -42,16 +47,14 @@ ProfileTreeModel::ProfileTreeModel(QObject *parent)
              << "sample_aspect_ratio"
              << "fps"
              << "colorspace";
-    rootItem = TreeItem::construct(rootData, shared_from_this(), std::shared_ptr<TreeItem>());
-
+    self->rootItem = TreeItem::construct(rootData, self, std::shared_ptr<TreeItem>());
     ProfileRepository::get()->refresh();
     QVector<QPair<QString, QString>> profiles = ProfileRepository::get()->getAllProfiles();
 
     constexpr size_t nbCrit = 3; // number of criterion we check for profile classification
 
     // helper lambda that creates a profile category with the given name
-    auto createCat = [&](const QString &name) { return rootItem->appendChild(QList<QVariant>{name}); };
-
+    auto createCat = [&](const QString &name) { return self->rootItem->appendChild(QList<QVariant>{name}); };
     // We define the filters as a vector of pairs. The first element correspond to the tree item holding matching profiles, and the array correspond to the
     // filter itself
     std::vector<std::pair<std::shared_ptr<TreeItem>, std::array<QVariant, nbCrit>>> filters{
@@ -66,7 +69,6 @@ ProfileTreeModel::ProfileTreeModel(QObject *parent)
     };
 
     auto customCat = createCat(i18n("Custom"));
-
     // We define lambdas that controls how a given field should be filtered
     std::array<std::function<bool(QVariant, std::unique_ptr<ProfileModel> &)>, nbCrit> filtLambdas;
     filtLambdas[0] = [](QVariant width, std::unique_ptr<ProfileModel> &ptr) { return width == -1 || ptr->width() == width; };
@@ -80,7 +82,6 @@ ProfileTreeModel::ProfileTreeModel(QObject *parent)
     filtLambdas[2] = [](QVariant display_aspect_num, std::unique_ptr<ProfileModel> &ptr) {
         return display_aspect_num == -1 || ptr->display_aspect_num() == display_aspect_num;
     };
-
     for (const auto &profile : profiles) {
         bool foundMatch = false;
         // we get a pointer to the profilemodel
@@ -105,6 +106,7 @@ ProfileTreeModel::ProfileTreeModel(QObject *parent)
             customCat->appendChild(data);
         }
     }
+    return self;
 }
 
 QVariant ProfileTreeModel::data(const QModelIndex &index, int role) const

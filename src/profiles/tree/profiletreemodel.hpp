@@ -32,8 +32,13 @@ class ProfileTreeModel : public AbstractTreeModel
 {
     Q_OBJECT
 
+protected:
+    explicit ProfileTreeModel(QObject *parent = nullptr);
+
 public:
-    explicit ProfileTreeModel(QObject *parent = 0);
+    static std::shared_ptr<ProfileTreeModel> construct(QObject *parent);
+
+    void init();
 
     QVariant data(const QModelIndex &index, int role) const override;
 

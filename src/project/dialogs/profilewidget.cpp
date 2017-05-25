@@ -65,9 +65,9 @@ ProfileWidget::ProfileWidget(QWidget *parent)
     auto *profileSplitter = new QSplitter;
 
     m_treeView = new QTreeView(this);
-    m_treeModel = new ProfileTreeModel(this);
+    m_treeModel = ProfileTreeModel::construct(this);
     m_filter = new ProfileFilter(this);
-    m_filter->setSourceModel(m_treeModel);
+    m_filter->setSourceModel(m_treeModel.get());
     m_treeView->setModel(m_filter);
     for (int i = 1; i < m_treeModel->columnCount(); ++i) {
         m_treeView->hideColumn(i);

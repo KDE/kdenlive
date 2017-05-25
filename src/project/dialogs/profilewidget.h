@@ -24,6 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define PROFILESELECTWIDGET_H
 
 #include "dialogs/profilesdialog.h"
+#include <memory>
 
 #include <QWidget>
 
@@ -59,7 +60,7 @@ private:
     QComboBox *scanningFilt;
 
     QTreeView *m_treeView;
-    ProfileTreeModel *m_treeModel;
+    std::shared_ptr<ProfileTreeModel> m_treeModel;
     ProfileFilter *m_filter;
 
     QTextEdit *m_descriptionPanel;
