@@ -1338,7 +1338,6 @@ void Bin::createClip(const QDomElement &xml)
         }
     }
     auto newClip = ProjectClip::construct(xml, m_blankThumb, m_itemModel, parentFolder);
-    parentFolder->appendChild(std::static_pointer_cast<TreeItem>(newClip));
 }
 
 QString Bin::slotAddFolder(const QString &folderName)
@@ -2807,7 +2806,7 @@ void Bin::slotItemEdited(const QModelIndex &ix, const QModelIndex &, const QVect
 {
     if (ix.isValid()) {
         // Clip renamed
-        std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
+        std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(ix);
         auto clip = std::static_pointer_cast<ProjectClip>(item);
         if (clip) {
             emit clipNameChanged(clip->AbstractProjectItem::clipId());
