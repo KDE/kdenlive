@@ -2163,7 +2163,6 @@ void Bin::slotProducerReady(const requestClipInfo &info, ClipController *control
         }
         // TODO at this point, we shouldn't have a controller, but rather a bare producer
         std::shared_ptr<ProjectClip> newClip = ProjectClip::construct(info.clipId, m_blankThumb, m_itemModel, controller->originalProducer(), parentFolder);
-        parentFolder->appendChild(newClip);
         emit producerReady(info.clipId);
         ClipType t = newClip->clipType();
         if (t == AV || t == Audio || t == Image || t == Video || t == Playlist) {
