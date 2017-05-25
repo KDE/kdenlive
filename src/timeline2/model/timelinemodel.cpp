@@ -1053,6 +1053,7 @@ bool TimelineModel::requestReset(Fun &undo, Fun &redo)
     for (int trackId : all_ids) {
         ok = ok && requestTrackDeletion(trackId, undo, redo);
     }
+    TimelineModel::next_id = 0;
     return ok;
 }
 

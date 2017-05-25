@@ -44,6 +44,18 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
     // First, we destruct the previous tracks
     timeline->requestReset(undo, redo);
     pCore->binController()->loadBinPlaylist(&tractor, timeline->tractor());
+    const QStringList ids = pCore->binController()->getClipIds();
+    for (const QString &id : ids) {
+        if (id == QLatin1String("black")) {
+            continue;
+        }
+        // pass basic info, the others (folder, etc) will be taken from the producer itself
+        requestClipInfo info;
+        info.imageHeight = 0;
+        info.clipId = id;
+        info.replaceProducer = true;
+        pCore->bin()->slotProducerReady(info, pCore->binController()->getController(id).get());
+    }
     QSet<QString> reserved_names{QLatin1String("playlistmain"), QLatin1String("timeline_preview"), QLatin1String("overlay_track"),
                                  QLatin1String("black_track")};
 
@@ -166,6 +178,8 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
             if (pCore->bin()->getBinClip(binId)) {
                 int cid = ClipModel::construct(timeline, binId, clip);
                 ok = timeline->requestClipMove(cid, tid, position, true, undo, redo);
+            } else {
+                qDebug()<<"// Cannot find bin clip: "<<binId;
             }
             if (!ok) {
                 qDebug() << "ERROR : failed to insert clip in track" << tid << "position" << position;

@@ -2149,7 +2149,7 @@ void Bin::slotProducerReady(const requestClipInfo &info, ClipController *control
         // Clip not found, create it
         QString groupId = controller->getProducerProperty(QStringLiteral("kdenlive:folderid"));
         std::shared_ptr<ProjectFolder> parentFolder;
-        if (!groupId.isEmpty()) {
+        if (!groupId.isEmpty() && groupId != QLatin1String("-1")) {
             parentFolder = m_itemModel->getFolderByBinId(groupId);
             if (!parentFolder) {
                 // parent folder does not exist, put in root folder

@@ -864,19 +864,6 @@ void ProjectManager::updateTimeline()
     Mlt::Tractor tractor(s);
     m_mainTimelineModel = TimelineItemModel::construct(&pCore->getCurrentProfile()->profile(), m_project->getGuideModel(), m_project->commandStack());
     constructTimelineFromMelt(m_mainTimelineModel, tractor);
-    const QStringList ids = pCore->binController()->getClipIds();
-    for (const QString &id : ids) {
-        if (id == QLatin1String("black")) {
-            continue;
-        }
-        // pass basic info, the others (folder, etc) will be taken from the producer itself
-        requestClipInfo info;
-        info.imageHeight = 0;
-        info.clipId = id;
-        info.replaceProducer = true;
-        pCore->bin()->slotProducerReady(info, pCore->binController()->getController(id).get());
-    }
-
     m_project->loadThumbs();
 
     pCore->monitorManager()->projectMonitor()->setProducer(m_mainTimelineModel->producer());
