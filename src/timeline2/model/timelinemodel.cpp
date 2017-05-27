@@ -149,6 +149,24 @@ int TimelineModel::getClipPosition(int clipId) const
     return pos;
 }
 
+int TimelineModel::getClipIn(int clipId) const
+{
+    READ_LOCK();
+    Q_ASSERT(m_allClips.count(clipId) > 0);
+    const auto clip = m_allClips.at(clipId);
+    int pos = clip->getIn();
+    return pos;
+}
+
+const QString TimelineModel::getClipBinId(int clipId) const
+{
+    READ_LOCK();
+    Q_ASSERT(m_allClips.count(clipId) > 0);
+    const auto clip = m_allClips.at(clipId);
+    QString id = clip->binId();
+    return id;
+}
+
 int TimelineModel::getClipPlaytime(int clipId) const
 {
     READ_LOCK();
@@ -267,35 +285,6 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
     return res;
 }
 
-bool TimelineModel::requestClipCut(int clipId, int position)
-{
-    //QWriteLocker locker(&m_lock);
-    Q_ASSERT(m_allClips.count(clipId) > 0);
-    if (m_allClips[clipId]->getPosition() > position || (m_allClips[clipId]->getPosition() + m_allClips[clipId]->getPlaytime() < position)) {
-        return false;
-    }
-    if (m_groups->isInGroup(clipId)) {
-        // TODO
-        /*int groupId = m_groups->getRootId(clipId);
-        int current_trackId = getClipTrackId(clipId);
-        int track_pos1 = getTrackPosition(trackId);
-        int track_pos2 = getTrackPosition(current_trackId);
-        int delta_track = track_pos1 - track_pos2;
-        int delta_pos = position - m_allClips[clipId]->getPosition();*/
-    }
-    std::function<bool(void)> undo = []() { return true; };
-    std::function<bool(void)> redo = []() { return true; };
-    int in = position - m_allClips[clipId]->getPosition() - m_allClips[clipId]->getIn();
-    int out = m_allClips[clipId]->getPosition() + m_allClips[clipId]->getPlaytime() - position;
-    bool res = requestItemResize(clipId, position - m_allClips[clipId]->getPosition(), true, true, undo, redo);
-    int newId;
-    res = requestClipCreation(m_allClips[clipId]->binId(), in, out, newId, undo, redo);
-    res = requestClipMove(newId, m_allClips[clipId]->getCurrentTrackId(), position, true, undo, redo);
-    if (res) {
-        PUSH_UNDO(undo, redo, i18n("Move clip"));
-    }
-    return res;
-}
 
 int TimelineModel::suggestClipMove(int clipId, int trackId, int position)
 {
@@ -1053,7 +1042,6 @@ bool TimelineModel::requestReset(Fun &undo, Fun &redo)
     for (int trackId : all_ids) {
         ok = ok && requestTrackDeletion(trackId, undo, redo);
     }
-    TimelineModel::next_id = 0;
     return ok;
 }
 

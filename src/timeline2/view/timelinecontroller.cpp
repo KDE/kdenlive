@@ -22,6 +22,7 @@
 #include "timelinecontroller.h"
 #include "bin/bin.h"
 #include "bin/model/markerlistmodel.hpp"
+#include "../model/timelinefunctions.hpp"
 #include "bin/projectclip.h"
 #include "core.h"
 #include "dialogs/markerdialog.h"
@@ -443,7 +444,7 @@ void TimelineController::cutClipUnderCursor(int position, int track)
     }
     bool foundClip = false;
     for (int cid : m_selection.selectedClips) {
-        if (m_model->requestClipCut(cid, position)) {
+        if (TimelineFunction::requestClipCut(m_model, cid, position)) {
             foundClip = true;
         }
     }
@@ -457,7 +458,7 @@ void TimelineController::cutClipUnderCursor(int position, int track)
         if (track >= 0) {
             int cid = m_model->getClipByPosition(track, position);
             if (cid >= 0) {
-                m_model->requestClipCut(cid, position);
+                TimelineFunction::requestClipCut(m_model, cid, position);
                 foundClip = true;
             }
         }

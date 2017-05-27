@@ -43,7 +43,9 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
     Fun redo = []() { return true; };
     // First, we destruct the previous tracks
     timeline->requestReset(undo, redo);
+
     pCore->binController()->loadBinPlaylist(&tractor, timeline->tractor());
+
     const QStringList ids = pCore->binController()->getClipIds();
     for (const QString &id : ids) {
         if (id == QLatin1String("black")) {

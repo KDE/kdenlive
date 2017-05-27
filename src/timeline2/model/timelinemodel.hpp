@@ -178,6 +178,16 @@ public:
     */
     Q_INVOKABLE int getClipPosition(int clipId) const;
 
+    /* @brief Returns the in cut position of a clip
+       @param clipId Id of the clip to test
+    */
+    int getClipIn(int clipId) const;
+
+    /* @brief Returns the bin id of the clip master
+       @param clipId Id of the clip to test
+    */
+    const QString getClipBinId(int clipId) const;
+
     /* @brief Returns the duration of a clip
        @param clipId Id of the clip to test
     */
@@ -418,8 +428,13 @@ public:
      */
     void setTimelineEffectsEnabled(bool enabled);
 
-    Q_INVOKABLE bool requestClipCut(int clipId, int position);
+    /* @brief Get a timeline clip id by its position
+     */
     int getClipByPosition(int trackId, int position) const;
+
+    /* @brief Creates a new clip instance without inserting it
+     */
+    bool requestClipCreation(const QString &binClipId, int in, int duration, int &id, Fun &undo, Fun &redo);
 
 protected:
     /* @brief Register a new track. This is a call-back meant to be called from TrackModel
@@ -484,8 +499,6 @@ protected:
     bool checkConsistency();
 
     void checkRefresh(int start, int end) const;
-
-    bool requestClipCreation(const QString &binClipId, int in, int duration, int &id, Fun &undo, Fun &redo);
 
 protected:
     std::unique_ptr<Mlt::Tractor> m_tractor;
