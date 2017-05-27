@@ -51,7 +51,6 @@ TimelineWidget::TimelineWidget(KActionCollection *actionCollection, std::shared_
     , m_binController(binController)
 {
     registerTimelineItems();
-
     m_transitionModel = TransitionTreeModel::construct(true, this);
 
     m_transitionProxyModel.reset(new AssetFilter(this));
@@ -83,13 +82,12 @@ void TimelineWidget::setModel(std::shared_ptr<TimelineItemModel> model)
     proxyModel->setSourceModel(model.get());
     proxyModel->setSortRole(TimelineItemModel::ItemIdRole);
     proxyModel->sort(0, Qt::DescendingOrder);
-
+    m_proxy->setModel(model);
     rootContext()->setContextProperty("multitrack", proxyModel);
     rootContext()->setContextProperty("controller", model.get());
     rootContext()->setContextProperty("timeline", m_proxy);
     rootContext()->setContextProperty("transitionModel", m_transitionProxyModel.get());
     rootContext()->setContextProperty("guidesModel", pCore->projectManager()->current()->getGuideModel().get());
-    m_proxy->setModel(model);
     setSource(QUrl(QStringLiteral("qrc:/qml/timeline.qml")));
     m_proxy->setRoot(rootObject());
     setVisible(true);
