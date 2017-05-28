@@ -27,15 +27,16 @@
 #include <QDebug>
 #include <QLabel>
 #include <QVBoxLayout>
-
+#include <QFontDatabase>
 #include <utility>
 
 AssetParameterView::AssetParameterView(QWidget *parent)
     : QWidget(parent)
 {
     m_lay = new QVBoxLayout(this);
-    m_lay->setContentsMargins(4, 0, 4, 0);
-    m_lay->setSpacing(2);
+    m_lay->setContentsMargins(2, 0, 2, 0);
+    m_lay->setSpacing(0);
+    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
 }
 
 void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &model)

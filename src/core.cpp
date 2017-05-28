@@ -202,6 +202,14 @@ MonitorManager *Core::monitorManager()
     return m_monitorManager;
 }
 
+Monitor *Core::getMonitor(int id)
+{
+    if (id == Kdenlive::ClipMonitor) {
+        return m_monitorManager->clipMonitor();
+    }
+    return m_monitorManager->projectMonitor();
+}
+
 std::shared_ptr<BinController> Core::binController()
 {
     return m_binController;
@@ -262,6 +270,11 @@ std::unique_ptr<ProfileModel> &Core::getCurrentProfile() const
     // TODO store locally the profile and not in parameters
     QString profile = KdenliveSettings::current_profile();
     return ProfileRepository::get()->getProfile(profile);
+}
+
+double Core::getCurrentSar() const
+{
+    return getCurrentProfile()->sar();
 }
 
 double Core::getCurrentDar() const

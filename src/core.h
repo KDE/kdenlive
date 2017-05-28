@@ -28,6 +28,7 @@ class MonitorManager;
 class ProducerQueue;
 class ProfileModel;
 class ProjectManager;
+class Monitor;
 
 namespace Mlt {
 class Repository;
@@ -98,6 +99,8 @@ public:
     /** @brief Returns a pointer to the current profile */
     std::unique_ptr<ProfileModel> &getCurrentProfile() const;
 
+    /** @brief Returns Sample Aspect Ratio of current profile */
+    double getCurrentSar() const;
     /** @brief Returns Display Aspect Ratio of current profile */
     double getCurrentDar() const;
 
@@ -112,6 +115,8 @@ public:
     void requestMonitorRefresh();
     /** @brief Request project monitor refresh if current position is inside range*/
     void refreshProjectRange(QSize range);
+    /** @brief Returns a reference to a monitor (clip or project monitor) */
+    Monitor *getMonitor(int id);
 
     /** @brief This function must be called whenever the profile used changes */
     void profileChanged();

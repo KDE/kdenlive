@@ -27,10 +27,11 @@
 #include <QString>
 #include "klocalizedstring.h"
 
-AssetParameterModel::AssetParameterModel(Mlt::Properties *asset, const QDomElement &assetXml, const QString &assetId, QObject *parent)
+AssetParameterModel::AssetParameterModel(Mlt::Properties *asset, const QDomElement &assetXml, const QString &assetId, Kdenlive::MonitorId monitor, QObject *parent)
     : QAbstractListModel(parent)
     , m_xml(assetXml)
     , m_assetId(assetId)
+    , monitorId(monitor)
     , m_asset(asset)
 {
     Q_ASSERT(asset->is_valid());
@@ -115,6 +116,7 @@ void AssetParameterModel::setParameter(const QString &name, const QString &value
             m_fixedParams[name] = value;
         }
     }
+    //refresh monitor after asset change
     QSize range(m_asset->get_int("in"), m_asset->get_int("out"));
     pCore->refreshProjectRange(range);
 }
@@ -144,16 +146,24 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
         }
         return comment;
     }
+    case InRole:
+        return m_asset->get_int("in");
+    case OutRole:
+        return m_asset->get_int("out");
     case MinRole:
         return parseDoubleAttribute(QStringLiteral("min"), element);
     case MaxRole:
         return parseDoubleAttribute(QStringLiteral("max"), element);
+    case FactorRole:
+        return parseDoubleAttribute(QStringLiteral("factor"), element, 1);
     case DecimalsRole:
         return (int)parseDoubleAttribute(QStringLiteral("decimals"), element);
     case DefaultRole:
         return element.attribute(QStringLiteral("default"));
     case SuffixRole:
         return element.attribute(QStringLiteral("suffix"));
+    case OpacityRole:
+        return element.attribute(QStringLiteral("opacity")) != QLatin1String("false");
     case ValueRole:
         return element.attribute(QStringLiteral("value")).isNull() ? element.attribute(QStringLiteral("default")) : element.attribute(QStringLiteral("value"));
     case ListValuesRole:
@@ -187,8 +197,10 @@ ParamType AssetParameterModel::paramTypeFromStr(const QString &type)
     }
     if (type == QLatin1String("switch")) {
         return ParamType::Switch;
-    } else if (type.startsWith(QLatin1String("animated"))) {
+    } else if (type == QLatin1String("animated")) {
         return ParamType::Animated;
+    } else if (type == QLatin1String("animatedrect")) {
+        return ParamType::AnimatedRect;
     } else if (type == QLatin1String("geometry")) {
         return ParamType::Geometry;
     } else if (type == QLatin1String("addedgeometry")) {
@@ -223,11 +235,13 @@ ParamType AssetParameterModel::paramTypeFromStr(const QString &type)
 }
 
 // static
-double AssetParameterModel::parseDoubleAttribute(const QString &attribute, const QDomElement &element)
+double AssetParameterModel::parseDoubleAttribute(const QString &attribute, const QDomElement &element, double defaultValue)
 {
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
-
+    if (!element.hasAttribute(attribute)) {
+        return defaultValue;
+    }
     QString content = element.attribute(attribute);
     if (content.contains(QLatin1Char('%'))) {
         std::unique_ptr<ProfileModel> &profile = pCore->getCurrentProfile();
@@ -246,8 +260,6 @@ double AssetParameterModel::parseDoubleAttribute(const QString &attribute, const
         return p.get_double("eval");
     }
     return locale.toDouble(content);
-
-    return -1;
 }
 
 QString AssetParameterModel::getAssetId() const

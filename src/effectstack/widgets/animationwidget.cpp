@@ -52,34 +52,36 @@
 #include "timeline/keyframeview.h"
 #include "widgets/doublewidget.h"
 #include "widgets/dragvalue.h"
+#include "core.h"
+#include "assets/model/assetparametermodel.hpp"
 
-AnimationWidget::AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int max, int effectIn, const QString &effectId, const QDomElement &xml,
-                                 QWidget *parent)
-    : QWidget(parent)
-    , m_monitor(info->monitor)
-    , m_frameSize(info->frameSize)
-    , m_timePos(new TimecodeDisplay(info->monitor->timecode(), this))
+AnimationWidget::AnimationWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
+//AnimationWidget::AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int max, int effectIn, const QString &effectId, const QDomElement &xml, QWidget *parent)
+    : AbstractParamWidget(std::move(model), index, parent)
     , m_active(false)
-    , m_clipPos(clipPos)
-    , m_inPoint(min)
-    , m_outPoint(max + 1)
+    //, m_clipPos(clipPos)
     , m_editedKeyframe(-1)
     , m_attachedToEnd(-2)
-    , m_xml(xml)
-    , m_effectId(effectId)
+    //, m_xml(xml)
+    //, m_effectId(effectId)
     , m_spinX(nullptr)
     , m_spinY(nullptr)
     , m_spinWidth(nullptr)
     , m_spinHeight(nullptr)
     , m_spinSize(nullptr)
     , m_spinOpacity(nullptr)
-    , m_offset(effectIn - min)
+    , m_offset(0) //effectIn - min)
 {
     setAcceptDrops(true);
     auto *vbox2 = new QVBoxLayout(this);
 
     // Keyframe ruler
-    m_ruler = new AnimKeyframeRuler(min, max, this);
+    m_inPoint = m_model->data(m_index, AssetParameterModel::InRole).toInt();
+    m_outPoint = m_model->data(m_index, AssetParameterModel::OutRole).toInt() + 1;
+    m_monitorSize = pCore->getCurrentFrameSize();
+    m_monitor = pCore->getMonitor(m_model->monitorId);
+    m_timePos = new TimecodeDisplay(m_monitor->timecode(), this);
+    m_ruler = new AnimKeyframeRuler(m_inPoint, m_outPoint, this);
     connect(m_ruler, &AnimKeyframeRuler::addKeyframe, this, &AnimationWidget::slotAddKeyframe);
     connect(m_ruler, &AnimKeyframeRuler::removeKeyframe, this, &AnimationWidget::slotDeleteKeyframe);
     vbox2->addWidget(m_ruler);
@@ -87,12 +89,12 @@ AnimationWidget::AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int
     auto *tb = new QToolBar(this);
     vbox2->addWidget(tb);
     setLayout(vbox2);
-    connect(m_ruler, &AnimKeyframeRuler::requestSeek, this, &AnimationWidget::seekToPos);
+    connect(m_ruler, &AnimKeyframeRuler::requestSeek, this, &AnimationWidget::requestSeek);
     connect(m_ruler, &AnimKeyframeRuler::moveKeyframe, this, &AnimationWidget::moveKeyframe);
     connect(m_timePos, SIGNAL(timeCodeEditingFinished()), this, SLOT(slotPositionChanged()));
 
-    if (m_frameSize == QPoint() || m_frameSize.x() == 0 || m_frameSize.y() == 0) {
-        m_frameSize = QPoint(m_monitor->render->frameRenderWidth(), m_monitor->render->renderHeight());
+    if (m_frameSize.isNull() || m_frameSize.width() == 0 || m_frameSize.height() == 0) {
+        m_frameSize = m_monitorSize;
     }
 
     // seek to previous
@@ -213,7 +215,7 @@ AnimationWidget::AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int
     m_animProperties.set("_profile", profile, 0, nullptr, nullptr);
 
     // Display keyframe parameter
-    addParameter(xml);
+    addParameter(m_index);
 }
 
 AnimationWidget::~AnimationWidget()
@@ -508,8 +510,8 @@ void AnimationWidget::slotPositionChanged(int pos, bool seek)
 
     // scene ratio lock
     if ((m_spinWidth != nullptr) && m_spinWidth->isEnabled()) {
-        double ratio = m_originalSize->isChecked() ? (double)m_frameSize.x() / m_frameSize.y()
-                                                   : (double)m_monitor->render->frameRenderWidth() / m_monitor->render->renderHeight();
+        double ratio = m_originalSize->isChecked() ? (double)m_frameSize.width() / m_frameSize.height()
+                                                   : (double)m_monitorSize.width() / m_monitorSize.height();
         bool lockRatio = m_spinHeight->value() == (int)(m_spinWidth->value() / ratio + 0.5);
         m_lockRatio->blockSignals(true);
         m_lockRatio->setChecked(lockRatio);
@@ -518,8 +520,13 @@ void AnimationWidget::slotPositionChanged(int pos, bool seek)
     }
 
     if (seek) {
-        emit seekToPos(pos);
+        m_monitor->requestSeek(pos + m_inPoint);
     }
+}
+
+void AnimationWidget::requestSeek(int pos)
+{
+    m_monitor->requestSeek(pos + m_inPoint);
 }
 
 void AnimationWidget::updateSlider(int pos)
@@ -604,17 +611,17 @@ void AnimationWidget::updateRect(int pos)
     m_spinWidth->setValue(rect.w);
     m_spinHeight->setValue(rect.h);
     double size;
-    if (rect.w / m_monitor->render->dar() > rect.h) {
+    if (rect.w / pCore->getCurrentDar() > rect.h) {
         if (m_originalSize->isChecked()) {
-            size = rect.w * 100.0 / m_frameSize.x();
+            size = rect.w * 100.0 / m_frameSize.width();
         } else {
-            size = rect.w * 100.0 / m_monitor->render->frameRenderWidth();
+            size = rect.w * 100.0 / m_monitorSize.width();
         }
     } else {
         if (m_originalSize->isChecked()) {
-            size = rect.h * 100.0 / m_frameSize.y();
+            size = rect.h * 100.0 / m_frameSize.height();
         } else {
-            size = rect.h * 100.0 / m_monitor->render->renderHeight();
+            size = rect.h * 100.0 / m_monitorSize.height();
         }
     }
 
@@ -713,77 +720,74 @@ void AnimationWidget::slotSetDefaultInterp(QAction *action)
     KdenliveSettings::setDefaultkeyframeinterp(action->data().toInt());
 }
 
-void AnimationWidget::addParameter(const QDomElement &e)
+void AnimationWidget::addParameter(QModelIndex ix)
 {
     // Anim properties might at some point require some more infos like profile
-    QString keyframes;
-    if (e.hasAttribute(QStringLiteral("value"))) {
-        keyframes = e.attribute(QStringLiteral("value"));
-    }
+    QString keyframes = m_model->data(ix, AssetParameterModel::ValueRole).toString();
     if (keyframes.isEmpty()) {
-        keyframes = getDefaultKeyframes(m_inPoint, e.attribute(QStringLiteral("default")));
+        keyframes = getDefaultKeyframes(m_inPoint, m_model->data(ix, AssetParameterModel::DefaultRole).toString());
         if (keyframes.contains(QLatin1Char('%'))) {
             keyframes = EffectsController::getStringRectEval(m_monitor->profileInfo(), keyframes);
         }
     }
-    QString paramTag = e.attribute(QStringLiteral("name"));
+    QString paramTag = m_model->data(ix, AssetParameterModel::NameRole).toString();
     m_animProperties.set(paramTag.toUtf8().constData(), keyframes.toUtf8().constData());
     m_attachedToEnd = KeyframeView::checkNegatives(keyframes, m_outPoint);
-    m_params.append(e.cloneNode().toElement());
-    const QString paramType = e.attribute(QStringLiteral("type"));
-    if (paramType == QLatin1String("animated")) {
+    //m_params.append(e.cloneNode().toElement());
+    ParamType type = (ParamType) m_model->data(ix, AssetParameterModel::TypeRole).toInt();
+    //const QString paramType = e.attribute(QStringLiteral("type"));
+    if (type == ParamType::Animated) {
         // one dimension parameter
         // Required to initialize anim property
         m_animProperties.anim_get_int(paramTag.toUtf8().constData(), 0, m_outPoint);
-        buildSliderWidget(paramTag, e);
-    } else if (paramType == QLatin1String("animatedrect")) {
+        buildSliderWidget(paramTag, ix);
+    } else {
         // one dimension parameter
         // TODO: multiple rect parameters in effect ?
         m_rectParameter = paramTag;
         m_inTimeline = paramTag;
         // Required to initialize anim property
         m_animProperties.anim_get_rect(paramTag.toUtf8().constData(), 0, m_outPoint);
-        buildRectWidget(paramTag, e);
+        buildRectWidget(paramTag, ix);
     }
 }
 
-void AnimationWidget::buildSliderWidget(const QString &paramTag, const QDomElement &e)
+void AnimationWidget::buildSliderWidget(const QString &paramTag, QModelIndex ix)
 {
     QLocale locale;
-    QDomElement na = e.firstChildElement(QStringLiteral("name"));
-    QString paramName = i18n(na.text().toUtf8().data());
-    QDomElement commentElem = e.firstChildElement(QStringLiteral("comment"));
-    QString comment;
-    if (!commentElem.isNull()) {
-        comment = i18n(commentElem.text().toUtf8().data());
+    QString paramName = i18n(paramTag.toUtf8().data());
+    QString comment = m_model->data(ix, AssetParameterModel::CommentRole).toString();
+    if (!comment.isEmpty()) {
+        comment = i18n(comment.toUtf8().data());
     }
 
     int index = m_params.count() - 1;
 
-    double factor = e.hasAttribute(QStringLiteral("factor")) ? locale.toDouble(e.attribute(QStringLiteral("factor"))) : 1;
-    DoubleWidget *doubleparam = new DoubleWidget(paramName, 0, e.attribute(QStringLiteral("min")).toDouble(), e.attribute(QStringLiteral("max")).toDouble(),
-                                                 e.attribute(QStringLiteral("default")).toDouble() * factor, comment, index,
-                                                 e.attribute(QStringLiteral("suffix")), e.attribute(QStringLiteral("decimals")).toInt(), this);
+    double factor = m_model->data(ix, AssetParameterModel::FactorRole).toDouble();
+    DoubleWidget *doubleparam = new DoubleWidget(paramName, 0, m_model->data(ix, AssetParameterModel::MinRole).toDouble(), m_model->data(ix, AssetParameterModel::MaxRole).toDouble(),
+                                                 m_model->data(ix, AssetParameterModel::DefaultRole).toDouble() * factor, comment, index,
+                                                 m_model->data(ix, AssetParameterModel::SuffixRole).toString(), m_model->data(ix, AssetParameterModel::DecimalsRole).toInt(), this);
     doubleparam->setObjectName(paramTag);
     doubleparam->factor = factor;
     connect(doubleparam, &DoubleWidget::valueChanged, this, &AnimationWidget::slotAdjustKeyframeValue);
     layout()->addWidget(doubleparam);
-    if ((!e.hasAttribute(QStringLiteral("intimeline")) || e.attribute(QStringLiteral("intimeline")) == QLatin1String("1")) &&
-        !e.hasAttribute(QStringLiteral("notintimeline"))) {
+
+    //TODO: in timeline
+    /*if ((!e.hasAttribute(QStringLiteral("intimeline")) || e.attribute(QStringLiteral("intimeline")) == QLatin1String("1")) &&
+        !e.hasAttribute(QStringLiteral("notintimeline"))) {*/
+    {
         m_inTimeline = paramTag;
         m_animController = m_animProperties.get_animation(m_inTimeline.toUtf8().constData());
     }
     m_doubleWidgets.insert(paramTag, doubleparam);
 }
 
-void AnimationWidget::buildRectWidget(const QString &paramTag, const QDomElement &e)
+void AnimationWidget::buildRectWidget(const QString &paramTag, QModelIndex ix)
 {
-    QDomElement na = e.firstChildElement(QStringLiteral("name"));
-    QString paramName = i18n(na.text().toUtf8().data());
-    QDomElement commentElem = e.firstChildElement(QStringLiteral("comment"));
-    QString comment;
-    if (!commentElem.isNull()) {
-        comment = i18n(commentElem.text().toUtf8().data());
+    QString paramName = i18n(paramTag.toUtf8().data());
+    QString comment = m_model->data(ix, AssetParameterModel::CommentRole).toString();
+    if (!comment.isEmpty()) {
+        comment = i18n(comment.toUtf8().data());
     }
 
     auto *horLayout = new QHBoxLayout;
@@ -795,7 +799,7 @@ void AnimationWidget::buildRectWidget(const QString &paramTag, const QDomElement
     connect(m_spinY, &DragValue::valueChanged, this, &AnimationWidget::slotAdjustRectKeyframeValue);
     horLayout->addWidget(m_spinY);
 
-    m_spinWidth = new DragValue(i18nc("Frame width", "W"), m_monitor->render->frameRenderWidth(), 0, 1, 99000, -1, QString(), false, this);
+    m_spinWidth = new DragValue(i18nc("Frame width", "W"), m_monitorSize.width(), 0, 1, 99000, -1, QString(), false, this);
     connect(m_spinWidth, &DragValue::valueChanged, this, &AnimationWidget::slotAdjustRectWidth);
     horLayout->addWidget(m_spinWidth);
 
@@ -807,7 +811,7 @@ void AnimationWidget::buildRectWidget(const QString &paramTag, const QDomElement
     ratioButton->setDefaultAction(m_lockRatio);
     horLayout->addWidget(ratioButton);
 
-    m_spinHeight = new DragValue(i18nc("Frame height", "H"), m_monitor->render->renderHeight(), 0, 1, 99000, -1, QString(), false, this);
+    m_spinHeight = new DragValue(i18nc("Frame height", "H"), m_monitorSize.height(), 0, 1, 99000, -1, QString(), false, this);
     connect(m_spinHeight, &DragValue::valueChanged, this, &AnimationWidget::slotAdjustRectHeight);
     horLayout->addWidget(m_spinHeight);
     horLayout->addStretch(10);
@@ -817,7 +821,7 @@ void AnimationWidget::buildRectWidget(const QString &paramTag, const QDomElement
     m_spinSize->setStep(10);
     connect(m_spinSize, &DragValue::valueChanged, this, &AnimationWidget::slotResize);
     horLayout2->addWidget(m_spinSize);
-    if (e.attribute(QStringLiteral("opacity")) != QLatin1String("false")) {
+    if (m_model->data(ix, AssetParameterModel::OpacityRole).toBool()) {
         m_spinOpacity = new DragValue(i18n("Opacity"), 100, 0, 0, 100, -1, i18n("%"), true, this);
         connect(m_spinOpacity, &DragValue::valueChanged, this, &AnimationWidget::slotAdjustRectKeyframeValue);
         horLayout2->addWidget(m_spinOpacity);
@@ -965,17 +969,17 @@ void AnimationWidget::slotAdjustRectKeyframeValue()
     rect.o = m_spinOpacity ? m_spinOpacity->value() / 100.0 : 1;
 
     double size;
-    if (m_spinWidth->value() / m_monitor->render->dar() > m_spinHeight->value()) {
+    if (m_spinWidth->value() / pCore->getCurrentDar() > m_spinHeight->value()) {
         if (m_originalSize->isChecked()) {
-            size = m_spinWidth->value() * 100.0 / m_frameSize.x();
+            size = m_spinWidth->value() * 100.0 / m_frameSize.width();
         } else {
-            size = m_spinWidth->value() * 100.0 / m_monitor->render->frameRenderWidth();
+            size = m_spinWidth->value() * 100.0 / m_monitorSize.width();
         }
     } else {
         if (m_originalSize->isChecked()) {
-            size = m_spinHeight->value() * 100.0 / m_frameSize.y();
+            size = m_spinHeight->value() * 100.0 / m_frameSize.height();
         } else {
-            size = m_spinHeight->value() * 100.0 / m_monitor->render->renderHeight();
+            size = m_spinHeight->value() * 100.0 / m_monitorSize.height();
         }
     }
     m_spinSize->blockSignals(true);
@@ -1002,8 +1006,8 @@ void AnimationWidget::slotResize(double value)
 {
     m_spinWidth->blockSignals(true);
     m_spinHeight->blockSignals(true);
-    int w = m_originalSize->isChecked() ? m_frameSize.x() : m_monitor->render->frameRenderWidth();
-    int h = m_originalSize->isChecked() ? m_frameSize.y() : m_monitor->render->renderHeight();
+    int w = m_originalSize->isChecked() ? m_frameSize.width() : m_monitorSize.width();
+    int h = m_originalSize->isChecked() ? m_frameSize.height() : m_monitorSize.height();
     m_spinWidth->setValue(w * value / 100.0);
     m_spinHeight->setValue(h * value / 100.0);
     m_spinWidth->blockSignals(false);
@@ -1306,13 +1310,13 @@ void AnimationWidget::connectMonitor(bool activate)
         connect(m_monitor, &Monitor::seekToPreviousKeyframe, this, &AnimationWidget::slotPrevious, Qt::UniqueConnection);
         connect(m_monitor, SIGNAL(addKeyframe()), this, SLOT(slotAddKeyframe()), Qt::UniqueConnection);
         connect(m_monitor, SIGNAL(deleteKeyframe()), this, SLOT(slotDeleteKeyframe()), Qt::UniqueConnection);
-        int framePos = qBound<int>(0, m_monitor->render->seekFramePosition() - m_clipPos, m_timePos->maximum());
+        int framePos = qBound<int>(0, m_monitor->position() - m_clipPos, m_timePos->maximum());
         slotPositionChanged(framePos, false);
         double ratio = (double)m_spinWidth->value() / m_spinHeight->value();
-        if (m_frameSize.x() != m_monitor->render->frameRenderWidth() || m_frameSize.y() != m_monitor->render->renderHeight()) {
+        if (m_frameSize.width() != m_monitorSize.width() || m_frameSize.height() != m_monitorSize.height()) {
             // Source frame size different than project frame size, enable original size option accordingly
-            bool isOriginalSize = qAbs((double)m_frameSize.x() / m_frameSize.y() - ratio) <
-                                  qAbs((double)m_monitor->render->frameRenderWidth() / m_monitor->render->renderHeight() - ratio);
+            bool isOriginalSize = qAbs((double)m_frameSize.width() / m_frameSize.height() - ratio) <
+                                  qAbs((double)m_monitorSize.width() / m_monitorSize.height() - ratio);
             if (isOriginalSize) {
                 m_originalSize->blockSignals(true);
                 m_originalSize->setChecked(true);
@@ -1440,41 +1444,41 @@ void AnimationWidget::slotAdjustToSource()
 {
     m_spinWidth->blockSignals(true);
     m_spinHeight->blockSignals(true);
-    m_spinWidth->setValue((int)(m_frameSize.x() / m_monitor->render->sar() + 0.5), false);
-    m_spinHeight->setValue(m_frameSize.y(), false);
+    m_spinWidth->setValue((int)(m_frameSize.width() / pCore->getCurrentSar() + 0.5), false);
+    m_spinHeight->setValue(m_frameSize.height(), false);
     m_spinWidth->blockSignals(false);
     m_spinHeight->blockSignals(false);
     slotAdjustRectKeyframeValue();
     if (m_lockRatio->isChecked()) {
         m_monitor->setEffectSceneProperty(QStringLiteral("lockratio"),
-                                          m_originalSize->isChecked() ? (double)m_frameSize.x() / m_frameSize.y()
-                                                                      : (double)m_monitor->render->frameRenderWidth() / m_monitor->render->renderHeight());
+                                          m_originalSize->isChecked() ? (double)m_frameSize.width() / m_frameSize.height()
+                                                                      : (double)m_monitorSize.width() / m_monitorSize.height());
     }
 }
 
 void AnimationWidget::slotAdjustToFrameSize()
 {
-    double monitorDar = m_monitor->render->frameRenderWidth() / m_monitor->render->renderHeight();
-    double sourceDar = m_frameSize.x() / m_frameSize.y();
+    double monitorDar = pCore->getCurrentDar();
+    double sourceDar = m_frameSize.width() / m_frameSize.height();
     m_spinWidth->blockSignals(true);
     m_spinHeight->blockSignals(true);
     if (sourceDar > monitorDar) {
         // Fit to width
-        double factor = (double)m_monitor->render->frameRenderWidth() / m_frameSize.x() * m_monitor->render->sar();
-        m_spinHeight->setValue((int)(m_frameSize.y() * factor + 0.5));
-        m_spinWidth->setValue(m_monitor->render->frameRenderWidth());
+        double factor = (double)m_monitorSize.width() / m_frameSize.width() * pCore->getCurrentSar();
+        m_spinHeight->setValue((int)(m_frameSize.height() * factor + 0.5));
+        m_spinWidth->setValue(m_monitorSize.width());
         // Center
         m_spinY->blockSignals(true);
-        m_spinY->setValue((m_monitor->render->renderHeight() - m_spinHeight->value()) / 2);
+        m_spinY->setValue((m_monitorSize.height() - m_spinHeight->value()) / 2);
         m_spinY->blockSignals(false);
     } else {
         // Fit to height
-        double factor = (double)m_monitor->render->renderHeight() / m_frameSize.y();
-        m_spinHeight->setValue(m_monitor->render->renderHeight());
-        m_spinWidth->setValue((int)(m_frameSize.x() / m_monitor->render->sar() * factor + 0.5));
+        double factor = (double)m_monitorSize.height() / m_frameSize.height();
+        m_spinHeight->setValue(m_monitorSize.height());
+        m_spinWidth->setValue((int)(m_frameSize.width() / pCore->getCurrentSar() * factor + 0.5));
         // Center
         m_spinX->blockSignals(true);
-        m_spinX->setValue((m_monitor->render->frameRenderWidth() - m_spinWidth->value()) / 2);
+        m_spinX->setValue((m_monitorSize.width() - m_spinWidth->value()) / 2);
         m_spinX->blockSignals(false);
     }
     m_spinWidth->blockSignals(false);
@@ -1484,11 +1488,11 @@ void AnimationWidget::slotAdjustToFrameSize()
 
 void AnimationWidget::slotFitToWidth()
 {
-    double factor = (double)m_monitor->render->frameRenderWidth() / m_frameSize.x() * m_monitor->render->sar();
+    double factor = (double)m_monitorSize.width() / m_frameSize.width() * pCore->getCurrentSar();
     m_spinWidth->blockSignals(true);
     m_spinHeight->blockSignals(true);
-    m_spinHeight->setValue((int)(m_frameSize.y() * factor + 0.5));
-    m_spinWidth->setValue(m_monitor->render->frameRenderWidth());
+    m_spinHeight->setValue((int)(m_frameSize.height() * factor + 0.5));
+    m_spinWidth->setValue(m_monitorSize.width());
     m_spinWidth->blockSignals(false);
     m_spinHeight->blockSignals(false);
     slotAdjustRectKeyframeValue();
@@ -1496,11 +1500,11 @@ void AnimationWidget::slotFitToWidth()
 
 void AnimationWidget::slotFitToHeight()
 {
-    double factor = (double)m_monitor->render->renderHeight() / m_frameSize.y();
+    double factor = (double)m_monitorSize.height() / m_frameSize.height();
     m_spinWidth->blockSignals(true);
     m_spinHeight->blockSignals(true);
-    m_spinHeight->setValue(m_monitor->render->renderHeight());
-    m_spinWidth->setValue((int)(m_frameSize.x() / m_monitor->render->sar() * factor + 0.5));
+    m_spinHeight->setValue(m_monitorSize.height());
+    m_spinWidth->setValue((int)(m_frameSize.width() / pCore->getCurrentSar() * factor + 0.5));
     m_spinWidth->blockSignals(false);
     m_spinHeight->blockSignals(false);
     slotAdjustRectKeyframeValue();
@@ -1513,12 +1517,12 @@ void AnimationWidget::slotMoveLeft()
 
 void AnimationWidget::slotCenterH()
 {
-    m_spinX->setValue((m_monitor->render->frameRenderWidth() - m_spinWidth->value()) / 2);
+    m_spinX->setValue((m_monitorSize.width() - m_spinWidth->value()) / 2);
 }
 
 void AnimationWidget::slotMoveRight()
 {
-    m_spinX->setValue(m_monitor->render->frameRenderWidth() - m_spinWidth->value());
+    m_spinX->setValue(m_monitorSize.width() - m_spinWidth->value());
 }
 
 void AnimationWidget::slotMoveTop()
@@ -1528,12 +1532,12 @@ void AnimationWidget::slotMoveTop()
 
 void AnimationWidget::slotCenterV()
 {
-    m_spinY->setValue((m_monitor->render->renderHeight() - m_spinHeight->value()) / 2);
+    m_spinY->setValue((m_monitorSize.height() - m_spinHeight->value()) / 2);
 }
 
 void AnimationWidget::slotMoveBottom()
 {
-    m_spinY->setValue(m_monitor->render->renderHeight() - m_spinHeight->value());
+    m_spinY->setValue(m_monitorSize.height() - m_spinHeight->value());
 }
 
 void AnimationWidget::slotCopyKeyframes()
@@ -1564,8 +1568,8 @@ void AnimationWidget::slotLockRatio()
     QAction *lockRatio = qobject_cast<QAction *>(QObject::sender());
     if (lockRatio->isChecked()) {
         m_monitor->setEffectSceneProperty(QStringLiteral("lockratio"),
-                                          m_originalSize->isChecked() ? (double)m_frameSize.x() / m_frameSize.y()
-                                                                      : (double)m_monitor->render->frameRenderWidth() / m_monitor->render->renderHeight());
+                                          m_originalSize->isChecked() ? (double)m_frameSize.width() / m_frameSize.height()
+                                                                      : (double)m_monitorSize.width() / m_monitorSize.height());
     } else {
         m_monitor->setEffectSceneProperty(QStringLiteral("lockratio"), -1);
     }
@@ -1576,9 +1580,9 @@ void AnimationWidget::slotAdjustRectWidth()
     if (m_lockRatio->isChecked()) {
         m_spinHeight->blockSignals(true);
         if (m_originalSize->isChecked()) {
-            m_spinHeight->setValue((int)(m_spinWidth->value() * m_frameSize.y() / m_frameSize.x() + 0.5));
+            m_spinHeight->setValue((int)(m_spinWidth->value() * m_frameSize.height() / m_frameSize.width() + 0.5));
         } else {
-            m_spinHeight->setValue((int)(m_spinWidth->value() * m_monitor->render->renderHeight() / m_monitor->render->frameRenderWidth() + 0.5));
+            m_spinHeight->setValue((int)(m_spinWidth->value() * m_monitorSize.height() / m_monitorSize.width() + 0.5));
         }
         m_spinHeight->blockSignals(false);
     }
@@ -1590,11 +1594,19 @@ void AnimationWidget::slotAdjustRectHeight()
     if (m_lockRatio->isChecked()) {
         m_spinWidth->blockSignals(true);
         if (m_originalSize->isChecked()) {
-            m_spinWidth->setValue((int)(m_spinHeight->value() * m_frameSize.x() / m_frameSize.y() + 0.5));
+            m_spinWidth->setValue((int)(m_spinHeight->value() * m_frameSize.width() / m_frameSize.height() + 0.5));
         } else {
-            m_spinWidth->setValue((int)(m_spinHeight->value() * m_monitor->render->frameRenderWidth() / m_monitor->render->renderHeight() + 0.5));
+            m_spinWidth->setValue((int)(m_spinHeight->value() * m_monitorSize.width() / m_monitorSize.height() + 0.5));
         }
         m_spinWidth->blockSignals(false);
     }
     slotAdjustRectKeyframeValue();
+}
+
+void AnimationWidget::slotShowComment(bool show)
+{
+}
+
+void AnimationWidget::slotRefresh()
+{
 }

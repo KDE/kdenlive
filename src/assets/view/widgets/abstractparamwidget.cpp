@@ -22,6 +22,7 @@
 #include "doubleparamwidget.hpp"
 #include "boolparamwidget.hpp"
 #include "effectstack/widgets/listparamwidget.h"
+#include "effectstack/widgets/animationwidget.h"
 
 #include <QLabel>
 #include <QVBoxLayout>
@@ -73,9 +74,12 @@ AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetP
     case ParamType::Bool:
         widget = new BoolParamWidget(model, index, parent);
         break;
-    case ParamType::Switch:
-    case ParamType::Animated:
     case ParamType::Geometry:
+    case ParamType::Animated:
+    case ParamType::AnimatedRect:
+        widget = new AnimationWidget(model, index, parent);
+        break;
+    case ParamType::Switch:
     case ParamType::Addedgeometry:
     case ParamType::Keyframe:
     case ParamType::Color:

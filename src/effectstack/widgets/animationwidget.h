@@ -25,6 +25,7 @@
 #include <QList>
 #include <QWidget>
 
+#include "assets/view/widgets/abstractparamwidget.hpp"
 #include "mlt++/MltAnimation.h"
 #include "mlt++/MltProperties.h"
 #include "timecodedisplay.h"
@@ -38,15 +39,16 @@ class KSelectAction;
 class QComboBox;
 class DragValue;
 
-class AnimationWidget : public QWidget
+class AnimationWidget : public AbstractParamWidget
 {
     Q_OBJECT
 public:
-    explicit AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int max, int effectIn, const QString &effectId, const QDomElement &xml,
-                             QWidget *parent = nullptr);
+    AnimationWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent);
+
+    //explicit AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int max, int effectIn, const QString &effectId, const QDomElement &xml,QWidget *parent = nullptr);
     virtual ~AnimationWidget();
     void updateTimecodeFormat();
-    void addParameter(const QDomElement &e);
+    void addParameter(QModelIndex ix);
     const QMap<QString, QString> getAnimation();
     static QString getDefaultKeyframes(int start, const QString &defaultValue, bool linearOnly = false);
     void setActiveKeyframe(int frame);
@@ -63,7 +65,8 @@ public:
 private:
     AnimKeyframeRuler *m_ruler;
     Monitor *m_monitor;
-    QPoint m_frameSize;
+    QSize m_frameSize;
+    QSize m_monitorSize;
     TimecodeDisplay *m_timePos;
     KDualAction *m_addKeyframe;
     QComboBox *m_presetCombo;
@@ -108,8 +111,8 @@ private:
     void updateSlider(int pos);
     void updateRect(int pos);
     /** @brief Create widget to adjust param value */
-    void buildSliderWidget(const QString &paramTag, const QDomElement &e);
-    void buildRectWidget(const QString &paramTag, const QDomElement &e);
+    void buildSliderWidget(const QString &paramTag, QModelIndex ix);
+    void buildRectWidget(const QString &paramTag, QModelIndex ix);
     /** @brief Calculate path for keyframes centers and send to monitor */
     void setupMonitor(QRect r = QRect());
     /** @brief Returns the default value for a parameter from its name */
@@ -120,6 +123,13 @@ private:
 public slots:
     void slotSyncPosition(int relTimelinePos);
     void slotPositionChanged(int pos = -1, bool seek = true);
+    /** @brief Toggle the comments on or off
+     */
+    void slotShowComment(bool show) override;
+
+    /** @brief refresh the properties to reflect changes in the model
+     */
+    void slotRefresh() override;
 
 private slots:
     void slotPrevious();
@@ -166,9 +176,10 @@ private slots:
     void slotLockRatio();
     void slotAdjustRectHeight();
     void slotAdjustRectWidth();
+    /** @brief Seek monitor. */
+    void requestSeek(int pos);
 
 signals:
-    void seekToPos(int);
     /** @brief keyframes dropped / pasted on widget, import them. */
     void setKeyframes(const QString &);
     void valueChanged();

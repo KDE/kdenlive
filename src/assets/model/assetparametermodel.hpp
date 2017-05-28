@@ -44,6 +44,7 @@ enum class ParamType {
     Bool,
     Switch,
     Animated,
+    AnimatedRect,
     Geometry,
     Addedgeometry,
     Keyframe,
@@ -65,9 +66,9 @@ class AssetParameterModel : public QAbstractListModel
     Q_OBJECT
 
 public:
-    explicit AssetParameterModel(Mlt::Properties *asset, const QDomElement &assetXml, const QString &assetId, QObject *parent = nullptr);
+    explicit AssetParameterModel(Mlt::Properties *asset, const QDomElement &assetXml, const QString &assetId, Kdenlive::MonitorId monitor = Kdenlive::ProjectMonitor, QObject *parent = nullptr);
     virtual ~AssetParameterModel();
-    enum { NameRole = Qt::UserRole + 1, TypeRole, CommentRole, MinRole, MaxRole, DefaultRole, SuffixRole, DecimalsRole, ValueRole, ListValuesRole, ListNamesRole };
+    enum { NameRole = Qt::UserRole + 1, TypeRole, CommentRole, MinRole, MaxRole, DefaultRole, SuffixRole, DecimalsRole, ValueRole, ListValuesRole, ListNamesRole, FactorRole, OpacityRole, InRole, OutRole };
 
     /* @brief Returns the id of the asset represented by this object */
     QString getAssetId() const;
@@ -90,6 +91,10 @@ public:
     */
     void commitChanges(const QModelIndex &index, const QString &value);
 
+    /* Which monitor is attached to this asset (clip/project)
+    */
+    Kdenlive::MonitorId monitorId;
+
     QVariant data(const QModelIndex &index, int role) const override;
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 
@@ -102,7 +107,7 @@ protected:
        - %width and %height that are replaced with profile's height and width.
        If keywords are found, mathematical operations are supported. For example "%width -1" is a valid value.
     */
-    static double parseDoubleAttribute(const QString &attribute, const QDomElement &element);
+    static double parseDoubleAttribute(const QString &attribute, const QDomElement &element, double defaultValue = -1);
 
     struct ParamRow
     {
