@@ -87,7 +87,7 @@ Rectangle {
     SystemPalette { id: activePalette }
     color: Qt.darker(getColor())
 
-    border.color: selected? 'red' : borderColor
+    border.color: selected? 'red' : grouped ? 'yellow' : borderColor
     border.width: 1.5
     Drag.active: mouseArea.drag.active
     Drag.proposedAction: Qt.MoveAction

@@ -34,7 +34,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace TimelineFunction {
     bool requestClipCut(std::shared_ptr<TimelineItemModel> timeline, int clipId, int position);
-    int requestSpacerOperation(std::shared_ptr<TimelineItemModel> timeline, int trackId, int delta, int position);
+    int requestSpacerStartOperation(std::shared_ptr<TimelineItemModel> timeline, int trackId, int position);
+    bool requestSpacerEndOperation(std::shared_ptr<TimelineItemModel> timeline, int clipId, int startPosition, int endPosition);
 
 }
 

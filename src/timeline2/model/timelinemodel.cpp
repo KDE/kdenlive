@@ -484,7 +484,7 @@ bool TimelineModel::requestItemDeletion(int itemId, bool logUndo)
     QWriteLocker locker(&m_lock);
     Q_ASSERT(isClip(itemId) || isComposition(itemId));
     if (m_groups->isInGroup(itemId)) {
-        return requestGroupDeletion(itemId);
+        return requestGroupDeletion(itemId, logUndo);
     }
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
@@ -575,13 +575,22 @@ std::unordered_set<int> TimelineModel::getItemsAfterPosition(int trackId, int po
 
 bool TimelineModel::requestGroupMove(int clipId, int groupId, int delta_track, int delta_pos, bool updateView, bool logUndo)
 {
-#ifdef LOGGING
-    m_logFile << "timeline->requestGroupMove(" << clipId << "," << groupId << " ," << delta_track << ", " << delta_pos << ", "
-              << (updateView ? "true" : "false") << ", " << (logUndo ? "true" : "false") << " ); " << std::endl;
-#endif
-    QWriteLocker locker(&m_lock);
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
+    bool res = requestGroupMove(clipId, groupId, delta_track, delta_pos, updateView, undo, redo);
+    if (res && logUndo) {
+        PUSH_UNDO(undo, redo, i18n("Move group"));
+    }
+    return res;
+}
+
+bool TimelineModel::requestGroupMove(int clipId, int groupId, int delta_track, int delta_pos, bool updateView, Fun &undo, Fun &redo)
+{
+#ifdef LOGGING
+    m_logFile << "timeline->requestGroupMove(" << clipId << "," << groupId << " ," << delta_track << ", " << delta_pos << ", "
+              << (updateView ? "true" : "false") << " ); " << std::endl;
+#endif
+    QWriteLocker locker(&m_lock);
     Q_ASSERT(m_allGroups.count(groupId) > 0);
     bool ok = true;
     auto all_clips = m_groups->getLeaves(groupId);
@@ -620,13 +629,10 @@ bool TimelineModel::requestGroupMove(int clipId, int groupId, int delta_track, i
             return false;
         }
     }
-    if (logUndo) {
-        PUSH_UNDO(undo, redo, i18n("Move group"));
-    }
     return true;
 }
 
-bool TimelineModel::requestGroupDeletion(int clipId)
+bool TimelineModel::requestGroupDeletion(int clipId, bool logUndo)
 {
 #ifdef LOGGING
     m_logFile << "timeline->requestGroupDeletion(" << clipId << " ); " << std::endl;
@@ -669,7 +675,9 @@ bool TimelineModel::requestGroupDeletion(int clipId)
             return false;
         }
     }
-    PUSH_UNDO(undo, redo, i18n("Remove group"));
+    if (logUndo) {
+        PUSH_UNDO(undo, redo, i18n("Remove group"));
+    }
     return true;
 }
 
@@ -755,7 +763,19 @@ bool TimelineModel::requestClipTrim(int clipId, int delta, bool right, bool ripp
     return requestItemResize(clipId, m_allClips[clipId]->getPlaytime() - delta, right, logUndo);
 }
 
-int TimelineModel::requestClipsGroup(const std::unordered_set<int> &ids)
+int TimelineModel::requestClipsGroup(const std::unordered_set<int> &ids, bool logUndo)
+{
+    QWriteLocker locker(&m_lock);
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    int result = requestClipsGroup(ids, undo, redo);
+    if (result > -1 && logUndo) {
+        PUSH_UNDO(undo, redo, i18n("Group clips"));
+    }
+    return result;
+}
+
+int TimelineModel::requestClipsGroup(const std::unordered_set<int> &ids, Fun &undo, Fun &redo)
 {
 #ifdef LOGGING
     std::stringstream group;
@@ -777,22 +797,17 @@ int TimelineModel::requestClipsGroup(const std::unordered_set<int> &ids)
     for (int id : ids) {
         if (isClip(id)) {
             if (getClipTrackId(id) == -1) {
-                return false;
+                return -1;
             }
         } else if (!isGroup(id)) {
-            return false;
+            return -1;
         }
     }
-    Fun undo = []() { return true; };
-    Fun redo = []() { return true; };
     int groupId = m_groups->groupItems(ids, undo, redo);
-    if (groupId != -1) {
-        PUSH_UNDO(undo, redo, i18n("Group clips"));
-    }
     return groupId;
 }
 
-bool TimelineModel::requestClipUngroup(int id)
+bool TimelineModel::requestClipUngroup(int id, bool logUndo)
 {
 #ifdef LOGGING
     m_logFile << "timeline->requestClipUngroup(" << id << " ); " << std::endl;
@@ -801,7 +816,7 @@ bool TimelineModel::requestClipUngroup(int id)
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     bool result = requestClipUngroup(id, undo, redo);
-    if (result) {
+    if (result && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Ungroup clips"));
     }
     return result;

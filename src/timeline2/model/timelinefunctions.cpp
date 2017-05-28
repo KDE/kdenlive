@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "timelinefunctions.hpp"
 #include "core.h"
 
-#include <klocalizedstring.h>"Rename
+#include <klocalizedstring.h>
 #include <QDebug>
 
 bool TimelineFunction::requestClipCut(std::shared_ptr<TimelineItemModel> timeline, int clipId, int position)
@@ -52,12 +52,38 @@ bool TimelineFunction::requestClipCut(std::shared_ptr<TimelineItemModel> timelin
     return res;
 }
 
-int TimelineFunction::requestSpacerOperation(std::shared_ptr<TimelineItemModel> timeline, int trackId, int delta, int position)
+int TimelineFunction::requestSpacerStartOperation(std::shared_ptr<TimelineItemModel> timeline, int trackId, int position)
 {
-    std::unordered_set<int> clips = timeline->getItemsAfterPosition(-1, position);
-    qDebug()<<"/// FOUND CLIPS: "<<clips.size();
+    std::unordered_set<int> clips = timeline->getItemsAfterPosition(trackId, position);
     if (clips.size() > 0) {
-        return timeline->requestClipsGroup(clips);
+        timeline->requestClipsGroup(clips, false);
+        return (*clips.cbegin());
     }
     return -1;
+}
+
+bool TimelineFunction::requestSpacerEndOperation(std::shared_ptr<TimelineItemModel> timeline, int clipId, int startPosition, int endPosition)
+{
+    // Move group back to original position
+    int track = timeline->getItemTrackId(clipId);
+    timeline->requestClipMove(clipId, track, startPosition, false, false);
+    std::unordered_set<int> clips = timeline->getGroupElements(clipId);
+    // break group
+    timeline->requestClipUngroup(clipId, false);
+    // Start undoable command
+    std::function<bool(void)> undo = []() { return true; };
+    std::function<bool(void)> redo = []() { return true; };
+    int res = timeline->requestClipsGroup(clips, undo, redo);
+    bool final = false;
+    if (res > -1) {
+        final = timeline->requestGroupMove(clipId, res, 0, endPosition - startPosition, true, undo, redo);
+    }
+    if (final) {
+        final = timeline->requestClipUngroup(clipId, undo, redo);
+    }
+    if (final) {
+        pCore->pushUndo(undo, redo, i18n("Insert space"));
+        return true;
+    }
+    return false;
 }

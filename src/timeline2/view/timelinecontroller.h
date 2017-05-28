@@ -193,7 +193,10 @@ public:
     Q_INVOKABLE void cutClipUnderCursor(int position = -1, int track = -1);
     /* @brief Request a spacer operation
      */
-    Q_INVOKABLE void requestSpacerOperation(int trackId, int position);
+    Q_INVOKABLE int requestSpacerStartOperation(int trackId, int position);
+    /* @brief Request a spacer operation
+     */
+    Q_INVOKABLE bool requestSpacerEndOperation(int clipId, int startPosition, int endPosition);
     /* @brief Seeks to selected clip start / end
      */
     void seekCurrentClip(bool seekToEnd = false);

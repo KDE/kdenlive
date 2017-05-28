@@ -122,6 +122,12 @@ Column{
                     value: model.out
                     when: loader.status == Loader.Ready
                 }
+                Binding {
+                    target: loader.item
+                    property: "grouped"
+                    value: model.grouped
+                    when: loader.status == Loader.Ready
+                }
                 sourceComponent: {
                     if (model.isComposition) {
                         return compositionDelegate
@@ -146,8 +152,6 @@ Column{
                     } else {
                         item.a_track = model.a_track
                     }
-                    item.grouped= model.grouped
-                    item.borderColor= (model.grouped ? 'yellow' : 'black')
                     item.trackIndex= trackRoot.DelegateModel.itemsIndex
                     item.trackId= trackRoot.trackId
                     //hash= model.hash

@@ -292,6 +292,7 @@ public:
        @param logUndo if set to true, an undo object is created
     */
     bool requestGroupMove(int clipId, int groupId, int delta_track, int delta_pos, bool updateView = true, bool logUndo = true);
+    bool requestGroupMove(int clipId, int groupId, int delta_track, int delta_pos, bool updateView, Fun &undo, Fun &redo);
 
     /* @brief Deletes all clips inside the group that contains the given clip.
        This action is undoable
@@ -299,7 +300,7 @@ public:
        Returns true on success. If it fails, nothing is modified.
        @param clipId is the id of the clip that triggers the group deletion
     */
-    bool requestGroupDeletion(int clipId);
+    Q_INVOKABLE bool requestGroupDeletion(int clipId, bool logUndo = true);
 
     /* @brief Change the duration of an item (clip or composition)
        This action is undoable
@@ -341,14 +342,15 @@ public:
        Typically, ids would be ids of clips, but for convenience, some of them can be ids of groups as well.
        @param ids Set of ids to group
     */
-    int requestClipsGroup(const std::unordered_set<int> &ids);
+    int requestClipsGroup(const std::unordered_set<int> &ids, bool logUndo = true);
+    int requestClipsGroup(const std::unordered_set<int> &ids, Fun &undo, Fun &redo);
 
     /* @brief Destruct the topmost group containing clip
        This action is undoable
        Returns true on success. If it fails, nothing is modified.
        @param id of the clip to degroup (all clips belonging to the same group will be ungrouped as well)
     */
-    bool requestClipUngroup(int id);
+    bool requestClipUngroup(int id, bool logUndo = true);
     /* Same function, but accumulates undo and redo*/
     bool requestClipUngroup(int id, Fun &undo, Fun &redo);
 

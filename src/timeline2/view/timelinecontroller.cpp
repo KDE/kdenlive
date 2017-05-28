@@ -468,9 +468,14 @@ void TimelineController::cutClipUnderCursor(int position, int track)
     }
 }
 
-void TimelineController::requestSpacerOperation(int trackId, int position)
+int TimelineController::requestSpacerStartOperation(int trackId, int position)
 {
-    TimelineFunction::requestSpacerOperation(m_model, trackId, 0, position);
+    return TimelineFunction::requestSpacerStartOperation(m_model, trackId, position);
+}
+
+bool TimelineController::requestSpacerEndOperation(int clipId, int startPosition, int endPosition)
+{
+    return TimelineFunction::requestSpacerEndOperation(m_model, clipId, startPosition, endPosition);
 }
 
 void TimelineController::seekCurrentClip(bool seekToEnd)

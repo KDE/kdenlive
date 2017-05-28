@@ -88,6 +88,8 @@ Rectangle {
     property int droppedTrack: -1
     property int clipBeingMovedId: -1
     property int spacerGroup: -1
+    property int spacerFrame: -1
+    property int spacerClickFrame: -1
     property real timeScale: timeline.scaleFactor
     property int trackHeight
 
@@ -367,31 +369,39 @@ Rectangle {
                 timeline.seekPosition = timeline.position + (wheel.angleDelta.y > 0 ? 1 : -1)
                 timeline.position = timeline.seekPosition
             }
+            onPressed: {
+                if (root.activeTool === 2 && mouse.y > ruler.height) {
+                        // spacer tool
+                        var y = mouse.y - ruler.height
+                        var frame = (scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor
+                        var track = (mouse.modifiers & Qt.ControlModifier) ? tracksRepeater.itemAt(Logic.getTrackIndexFromPos(y)).trackId : -1
+                        spacerGroup = timeline.requestSpacerStartOperation(track, frame)
+                        if (spacerGroup > -1) {
+                            drag.axis = Drag.XAxis
+                            Drag.active = true
+                            Drag.proposedAction = Qt.MoveAction
+                            spacerClickFrame = frame
+                            spacerFrame = controller.getClipPosition(spacerGroup)
+                        }
+                    }
+            }
             onClicked: {
                 if (mouse.button & Qt.RightButton) {
                     menu.clickedX = mouse.x
                     menu.clickedY = mouse.y
                     menu.popup()
                 } else {
-                    if (root.activeTool === 2 && mouse.y > ruler.height) {
-                        // spacer tool
-                        var y = mouse.y - ruler.height
-                        spacerGroup = timeline.requestSpacerOperation(tracksRepeater.itemAt(Logic.getTrackIndexFromPos(y)).trackId, (scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor)
-                        if (spacerGroup > -1) {
-                            //TODO: Start drag
-                        }
-                    } else if (root.activeTool === 1 && mouse.y > ruler.height) {
+                    if (root.activeTool === 0 || mouse.y <= ruler.height) {
+                        timeline.seekPosition = (scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor
+                        timeline.position = timeline.seekPosition
+                    } else if (root.activeTool === 1) {
                         // razor tool
                         var y = mouse.y - ruler.height
                         timeline.cutClipUnderCursor((scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor, tracksRepeater.itemAt(Logic.getTrackIndexFromPos(y)).trackId)
-                    } else {
-                        timeline.seekPosition = (scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor
-                        timeline.position = timeline.seekPosition
-                    }
+                    } 
                 }
             }
             property bool scim: false
-            onReleased: scim = false
             onExited: {
                 scim = false
             }
@@ -400,6 +410,13 @@ Rectangle {
                     if (root.activeTool === 0) {
                         timeline.seekPosition = (scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor
                         timeline.position = timeline.seekPosition
+                    } else if (root.activeTool === 2 && spacerGroup > -1) {
+                        // Move group
+                        var track = controller.getClipTrackId(spacerGroup)
+                        var frame = Math.round((mouse.x + scrollView.flickableItem.contentX) / timeline.scaleFactor) + spacerFrame - spacerClickFrame
+                        frame = controller.suggestClipMove(spacerGroup, track, frame);
+                        controller.requestClipMove(spacerGroup, track, frame, true, false)
+                        continuousScrolling(mouse.x + scrollView.flickableItem.contentX)
                     }
                     scim = true
                 }
@@ -409,6 +426,17 @@ Rectangle {
                         cutLine.x = Math.floor((scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor) * timeline.scaleFactor - scrollView.flickableItem.contentX
                     }
                 }
+            }
+            onReleased: {
+                if (spacerGroup > -1) {
+                    var frame = controller.getClipPosition(spacerGroup)
+                    timeline.requestSpacerEndOperation(spacerGroup, spacerFrame, frame);
+                    spacerClickFrame = -1
+                    spacerFrame = -1
+                    spacerGroup = -1
+                    controller.request
+                }
+                scim = false
             }
             Timer {
                 id: scrubTimer
