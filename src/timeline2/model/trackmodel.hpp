@@ -80,7 +80,7 @@ public:
     // TODO make protected
     QVariant getProperty(const QString &name);
     void setProperty(const QString &name, const QString &value);
-    std::unordered_set<int> getClipsAfterPosition(int position);
+    std::unordered_set<int> getClipsAfterPosition(int position, int end = -1);
 
 protected:
     /* @brief Returns a lambda that performs a resize of the given clip.

@@ -436,11 +436,19 @@ int TrackModel::getClipByRow(int row) const
     return (*it).first;
 }
 
-std::unordered_set<int> TrackModel::getClipsAfterPosition(int position)
+std::unordered_set<int> TrackModel::getClipsAfterPosition(int position, int end)
 {
     std::unordered_set<int> ids;
     int ix = m_playlists[0].get_clip_index_at(position);
-    while (ix < m_playlists[0].count()) {
+    if (end > -1) {
+        end = m_playlists[0].get_clip_index_at(end);
+        if (end < m_playlists[0].count()) {
+            end++;
+        }
+    } else {
+        end = m_playlists[0].count();
+    }
+    while (ix < end) {
         QSharedPointer <Mlt::Producer> prod(m_playlists[0].get_clip(ix));
         ix++;
         if (prod->is_blank()) {

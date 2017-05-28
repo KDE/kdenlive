@@ -559,16 +559,21 @@ bool TimelineModel::requestCompositionDeletion(int compositionId, Fun &undo, Fun
     return false;
 }
 
-std::unordered_set<int> TimelineModel::getItemsAfterPosition(int trackId, int position, bool listCompositions)
+std::unordered_set<int> TimelineModel::getItemsAfterPosition(int trackId, int position, int end, bool listCompositions)
 {
     std::unordered_set<int> allClips;
+    auto it = m_allTracks.cbegin();
     if (trackId == -1) {
-        auto it = m_allTracks.cbegin();
         while (it != m_allTracks.cend()) {
-             std::unordered_set<int> clipTracks = (*it)->getClipsAfterPosition(position);
+             std::unordered_set<int> clipTracks = (*it)->getClipsAfterPosition(position, end);
              allClips.insert(clipTracks.begin(), clipTracks.end()); 
              ++it;
         }
+    } else {
+        int target_track_position = getTrackPosition(trackId);
+        std::advance(it, target_track_position);
+        std::unordered_set<int> clipTracks = (*it)->getClipsAfterPosition(position);
+        allClips.insert(clipTracks.begin(), clipTracks.end()); 
     }
     return allClips;
 }

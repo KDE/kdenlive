@@ -54,7 +54,7 @@ bool TimelineFunction::requestClipCut(std::shared_ptr<TimelineItemModel> timelin
 
 int TimelineFunction::requestSpacerStartOperation(std::shared_ptr<TimelineItemModel> timeline, int trackId, int position)
 {
-    std::unordered_set<int> clips = timeline->getItemsAfterPosition(trackId, position);
+    std::unordered_set<int> clips = timeline->getItemsAfterPosition(trackId, position, -1);
     if (clips.size() > 0) {
         timeline->requestClipsGroup(clips, false);
         return (*clips.cbegin());

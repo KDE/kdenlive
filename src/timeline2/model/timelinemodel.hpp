@@ -441,9 +441,10 @@ public:
     /* @brief Returns a list of all items that are at or after a given position.
      * @param trackId is the id of the track for concerned items. Setting trackId to -1 returns items on all tracks
      * @param position is the position where we the items should start
+     * @param end is the position after which items will not be selected, set to -1 to get all clips on track
      * @param listCompositions if enabled, the list will also contains composition ids
      */
-    std::unordered_set<int> getItemsAfterPosition(int trackId, int position, bool listCompositions = true);
+    std::unordered_set<int> getItemsAfterPosition(int trackId, int position, int end = -1, bool listCompositions = true);
 
 protected:
     /* @brief Register a new track. This is a call-back meant to be called from TrackModel
