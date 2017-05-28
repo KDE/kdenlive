@@ -559,6 +559,20 @@ bool TimelineModel::requestCompositionDeletion(int compositionId, Fun &undo, Fun
     return false;
 }
 
+std::unordered_set<int> TimelineModel::getItemsAfterPosition(int trackId, int position, bool listCompositions)
+{
+    std::unordered_set<int> allClips;
+    if (trackId == -1) {
+        auto it = m_allTracks.cbegin();
+        while (it != m_allTracks.cend()) {
+             std::unordered_set<int> clipTracks = (*it)->getClipsAfterPosition(position);
+             allClips.insert(clipTracks.begin(), clipTracks.end()); 
+             ++it;
+        }
+    }
+    return allClips;
+}
+
 bool TimelineModel::requestGroupMove(int clipId, int groupId, int delta_track, int delta_pos, bool updateView, bool logUndo)
 {
 #ifdef LOGGING
@@ -741,7 +755,7 @@ bool TimelineModel::requestClipTrim(int clipId, int delta, bool right, bool ripp
     return requestItemResize(clipId, m_allClips[clipId]->getPlaytime() - delta, right, logUndo);
 }
 
-bool TimelineModel::requestClipsGroup(const std::unordered_set<int> &ids)
+int TimelineModel::requestClipsGroup(const std::unordered_set<int> &ids)
 {
 #ifdef LOGGING
     std::stringstream group;
@@ -775,7 +789,7 @@ bool TimelineModel::requestClipsGroup(const std::unordered_set<int> &ids)
     if (groupId != -1) {
         PUSH_UNDO(undo, redo, i18n("Group clips"));
     }
-    return (groupId != -1);
+    return groupId;
 }
 
 bool TimelineModel::requestClipUngroup(int id)

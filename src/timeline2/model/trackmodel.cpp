@@ -436,6 +436,21 @@ int TrackModel::getClipByRow(int row) const
     return (*it).first;
 }
 
+std::unordered_set<int> TrackModel::getClipsAfterPosition(int position)
+{
+    std::unordered_set<int> ids;
+    int ix = m_playlists[0].get_clip_index_at(position);
+    while (ix < m_playlists[0].count()) {
+        QSharedPointer <Mlt::Producer> prod(m_playlists[0].get_clip(ix));
+        ix++;
+        if (prod->is_blank()) {
+            continue;
+        }
+        ids.insert(prod->get_int("_kdenlive_cid"));
+    }
+    return ids;
+}
+
 int TrackModel::getRowfromClip(int clipId) const
 {
     Q_ASSERT(m_allClips.count(clipId) > 0);

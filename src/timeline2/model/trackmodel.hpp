@@ -25,6 +25,7 @@
 #include "undohelper.hpp"
 #include <QSharedPointer>
 #include <memory>
+#include <unordered_set>
 #include <mlt++/MltPlaylist.h>
 #include <mlt++/MltTractor.h>
 #include <unordered_map>
@@ -79,6 +80,7 @@ public:
     // TODO make protected
     QVariant getProperty(const QString &name);
     void setProperty(const QString &name, const QString &value);
+    std::unordered_set<int> getClipsAfterPosition(int position);
 
 protected:
     /* @brief Returns a lambda that performs a resize of the given clip.

@@ -87,6 +87,7 @@ Rectangle {
     property int droppedPosition: -1
     property int droppedTrack: -1
     property int clipBeingMovedId: -1
+    property int spacerGroup: -1
     property real timeScale: timeline.scaleFactor
     property int trackHeight
 
@@ -372,7 +373,15 @@ Rectangle {
                     menu.clickedY = mouse.y
                     menu.popup()
                 } else {
-                    if (root.activeTool === 1 && mouse.y > ruler.height) {
+                    if (root.activeTool === 2 && mouse.y > ruler.height) {
+                        // spacer tool
+                        var y = mouse.y - ruler.height
+                        spacerGroup = timeline.requestSpacerOperation(tracksRepeater.itemAt(Logic.getTrackIndexFromPos(y)).trackId, (scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor)
+                        if (spacerGroup > -1) {
+                            //TODO: Start drag
+                        }
+                    } else if (root.activeTool === 1 && mouse.y > ruler.height) {
+                        // razor tool
                         var y = mouse.y - ruler.height
                         timeline.cutClipUnderCursor((scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor, tracksRepeater.itemAt(Logic.getTrackIndexFromPos(y)).trackId)
                     } else {

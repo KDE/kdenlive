@@ -20,8 +20,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "timelinefunctions.hpp"
-#include "klocalizedstring.h"
+#include "core.h"
 
+#include <klocalizedstring.h>"Rename
 #include <QDebug>
 
 bool TimelineFunction::requestClipCut(std::shared_ptr<TimelineItemModel> timeline, int clipId, int position)
@@ -46,9 +47,17 @@ bool TimelineFunction::requestClipCut(std::shared_ptr<TimelineItemModel> timelin
     res = timeline->requestClipCreation(binId, in, out, newId, undo, redo);
     res = timeline->requestClipMove(newId, timeline->getItemTrackId(clipId), position, true, undo, redo);
     if (res) {
-        //TODO
-        //PUSH_UNDO(undo, redo, i18n("Move clip"));
+        pCore->pushUndo(undo, redo, i18n("Cut clip"));
     }
     return res;
 }
 
+int TimelineFunction::requestSpacerOperation(std::shared_ptr<TimelineItemModel> timeline, int trackId, int delta, int position)
+{
+    std::unordered_set<int> clips = timeline->getItemsAfterPosition(-1, position);
+    qDebug()<<"/// FOUND CLIPS: "<<clips.size();
+    if (clips.size() > 0) {
+        return timeline->requestClipsGroup(clips);
+    }
+    return -1;
+}

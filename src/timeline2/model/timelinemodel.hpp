@@ -337,11 +337,11 @@ public:
     /* @brief Group together a set of ids
        The ids are either a group ids or clip ids. The involved clip must already be inserted in a track
        This action is undoable
-       Returns true on success. If it fails, nothing is modified.
+       Returns the group id on success, -1 if it fails and nothing is modified.
        Typically, ids would be ids of clips, but for convenience, some of them can be ids of groups as well.
        @param ids Set of ids to group
     */
-    bool requestClipsGroup(const std::unordered_set<int> &ids);
+    int requestClipsGroup(const std::unordered_set<int> &ids);
 
     /* @brief Destruct the topmost group containing clip
        This action is undoable
@@ -435,6 +435,13 @@ public:
     /* @brief Creates a new clip instance without inserting it
      */
     bool requestClipCreation(const QString &binClipId, int in, int duration, int &id, Fun &undo, Fun &redo);
+
+    /* @brief Returns a list of all items that are at or after a given position.
+     * @param trackId is the id of the track for concerned items. Setting trackId to -1 returns items on all tracks
+     * @param position is the position where we the items should start
+     * @param listCompositions if enabled, the list will also contains composition ids
+     */
+    std::unordered_set<int> getItemsAfterPosition(int trackId, int position, bool listCompositions = true);
 
 protected:
     /* @brief Register a new track. This is a call-back meant to be called from TrackModel

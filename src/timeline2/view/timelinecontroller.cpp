@@ -468,6 +468,11 @@ void TimelineController::cutClipUnderCursor(int position, int track)
     }
 }
 
+void TimelineController::requestSpacerOperation(int trackId, int position)
+{
+    TimelineFunction::requestSpacerOperation(m_model, trackId, 0, position);
+}
+
 void TimelineController::seekCurrentClip(bool seekToEnd)
 {
     bool foundClip = false;

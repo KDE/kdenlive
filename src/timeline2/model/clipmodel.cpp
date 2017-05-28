@@ -48,10 +48,6 @@ ClipModel::ClipModel(std::weak_ptr<TimelineModel> parent, std::shared_ptr<Mlt::P
     } else {
         m_endlessResize = false;
     }
-    // TODO this is for testing purposes, remove.
-    binClip->getMarkerModel()->addMarker(GenTime(1.), "Test1", 0);
-    binClip->getMarkerModel()->addMarker(GenTime(2.), "Test2", 2);
-    // END OF TESTS
 }
 
 int ClipModel::construct(const std::weak_ptr<TimelineModel> &parent, const QString &binClipId, int id)

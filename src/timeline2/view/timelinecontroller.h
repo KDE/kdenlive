@@ -191,6 +191,9 @@ public:
     /* @brief Cuts the clip on current track at timeline position
      */
     Q_INVOKABLE void cutClipUnderCursor(int position = -1, int track = -1);
+    /* @brief Request a spacer operation
+     */
+    Q_INVOKABLE void requestSpacerOperation(int trackId, int position);
     /* @brief Seeks to selected clip start / end
      */
     void seekCurrentClip(bool seekToEnd = false);

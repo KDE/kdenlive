@@ -22,9 +22,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef TIMELINEFUNCTIONS_H
 #define TIMELINEFUNCTIONS_H
 
-#include <memory>
 #include "timelineitemmodel.hpp"
-
+#include <memory>
+#include <unordered_set>
 
 /**
  * @namespace TimelineFunction
@@ -34,6 +34,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace TimelineFunction {
     bool requestClipCut(std::shared_ptr<TimelineItemModel> timeline, int clipId, int position);
+    int requestSpacerOperation(std::shared_ptr<TimelineItemModel> timeline, int trackId, int delta, int position);
+
 }
 
 #endif
