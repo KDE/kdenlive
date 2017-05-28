@@ -289,6 +289,11 @@ void Core::requestMonitorRefresh()
     m_monitorManager->refreshProjectMonitor();
 }
 
+void Core::refreshProjectRange(QSize range)
+{
+    m_monitorManager->refreshProjectRange(range);
+}
+
 KdenliveDoc *Core::currentDoc()
 {
     return m_projectManager->current();

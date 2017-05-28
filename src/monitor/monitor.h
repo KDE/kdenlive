@@ -94,7 +94,7 @@ public:
     void setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu = nullptr, QAction *loopClip = nullptr);
     const QString sceneList(const QString &root);
     const QString activeClipId();
-    GenTime position();
+    int position();
     void updateTimecodeFormat();
     void updateMarkers();
     /** @brief Controller for the clip currently displayed (only valid for clip monitor). */

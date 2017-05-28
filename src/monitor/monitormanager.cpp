@@ -117,6 +117,13 @@ void MonitorManager::focusProjectMonitor()
     activateMonitor(Kdenlive::ProjectMonitor);
 }
 
+void MonitorManager::refreshProjectRange(QSize range)
+{
+    if (m_projectMonitor->position() >= range.width() && m_projectMonitor->position() <= range.height()) {
+        m_projectMonitor->refreshMonitorIfActive();
+    }
+}
+
 void MonitorManager::refreshProjectMonitor()
 {
     m_projectMonitor->refreshMonitorIfActive();

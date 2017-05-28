@@ -110,6 +110,8 @@ public:
     QSize getCurrentFrameDisplaySize() const;
     /** @brief Request project monitor refresh */
     void requestMonitorRefresh();
+    /** @brief Request project monitor refresh if current position is inside range*/
+    void refreshProjectRange(QSize range);
 
     /** @brief This function must be called whenever the profile used changes */
     void profileChanged();

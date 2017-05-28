@@ -410,7 +410,7 @@ void EffectStackView2::setupListView()
             m_effectMetaInfo.monitor->slotShowEffectScene(m_monitorSceneWanted);
         }
         int position =
-            (m_effectMetaInfo.monitor->position() - (m_status == TIMELINE_CLIP ? m_clipref->startPos() : GenTime())).frames(KdenliveSettings::project_fps());
+            (m_effectMetaInfo.monitor->position() - (m_status == TIMELINE_CLIP ? m_clipref->startPos().frames(KdenliveSettings::project_fps()) : 0));
         currentEffect->slotSyncEffectsPos(position);
         currentEffect->setActive(isSelected);
         m_effects.append(currentEffect);
@@ -615,8 +615,7 @@ void EffectStackView2::slotUpdateEffectState(bool disable, int index, MonitorSce
         if (m_monitorSceneWanted != MonitorSceneDefault) {
             CollapsibleEffect *activeEffect = getEffectByIndex(index);
             if (activeEffect) {
-                int position = (m_effectMetaInfo.monitor->position() - (m_status == TIMELINE_CLIP ? m_clipref->startPos() : GenTime()))
-                                   .frames(KdenliveSettings::project_fps());
+                int position = (m_effectMetaInfo.monitor->position() - (m_status == TIMELINE_CLIP ? m_clipref->startPos().frames(KdenliveSettings::project_fps()) : 0));
                 activeEffect->slotSyncEffectsPos(position);
             }
         }
@@ -811,8 +810,7 @@ void EffectStackView2::slotSetCurrentEffect(int ix)
                     effect->setActive(true);
                     m_monitorSceneWanted = effect->needsMonitorEffectScene();
                     m_effectMetaInfo.monitor->slotShowEffectScene(m_monitorSceneWanted);
-                    int position = (m_effectMetaInfo.monitor->position() - (m_status == TIMELINE_CLIP ? m_clipref->startPos() : GenTime()))
-                                       .frames(KdenliveSettings::project_fps());
+                    int position = (m_effectMetaInfo.monitor->position() - (m_status == TIMELINE_CLIP ? m_clipref->startPos().frames(KdenliveSettings::project_fps()) : 0));
                     effect->slotSyncEffectsPos(position);
                 } else {
                     effect->setActive(false);
@@ -1353,16 +1351,16 @@ void EffectStackView2::slotSwitchCompare(bool enable)
     int pos = 0;
     if (enable) {
         if (m_status == TIMELINE_CLIP) {
-            pos = (m_effectMetaInfo.monitor->position() - m_clipref->startPos()).frames(KdenliveSettings::project_fps());
+            pos = m_effectMetaInfo.monitor->position() - m_clipref->startPos().frames(KdenliveSettings::project_fps());
         } else {
-            pos = m_effectMetaInfo.monitor->position().frames(KdenliveSettings::project_fps());
+            pos = m_effectMetaInfo.monitor->position();
         }
         m_effectMetaInfo.monitor->slotSwitchCompare(enable, pos);
     } else {
         if (m_status == TIMELINE_CLIP) {
-            pos = (m_effectMetaInfo.monitor->position() + m_clipref->startPos()).frames(KdenliveSettings::project_fps());
+            pos = m_effectMetaInfo.monitor->position() + m_clipref->startPos().frames(KdenliveSettings::project_fps());
         } else {
-            pos = m_effectMetaInfo.monitor->position().frames(KdenliveSettings::project_fps());
+            pos = m_effectMetaInfo.monitor->position();
         }
         m_effectMetaInfo.monitor->slotSwitchCompare(enable, pos);
     }

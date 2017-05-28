@@ -634,9 +634,9 @@ void Monitor::slotSeekToNextSnap()
     }
 }
 
-GenTime Monitor::position()
+int Monitor::position()
 {
-    return render->seekPosition();
+    return m_glMonitor->getCurrentPos();
 }
 
 GenTime Monitor::getSnapForPos(bool previous)

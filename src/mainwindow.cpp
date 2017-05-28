@@ -2285,7 +2285,7 @@ void MainWindow::slotAddClipMarker()
         return;
     } else {
         clip = m_clipMonitor->currentController();
-        pos = m_clipMonitor->position();
+        pos = GenTime(m_clipMonitor->position(), pCore->getCurrentFps());
     }
     if (!clip) {
         m_messageLabel->setMessage(i18n("Cannot find clip to add marker"), ErrorMessage);
@@ -2312,13 +2312,13 @@ void MainWindow::slotDeleteClipMarker(bool allowGuideDeletion)
         if (pCore->projectManager()->currentTimeline()) {
             ClipItem *item = pCore->projectManager()->currentTimeline()->projectView()->getActiveClipUnderCursor();
             if (item) {
-                pos = (m_projectMonitor->position() - item->startPos() + item->cropStart()) / item->speed();
+                pos = (GenTime(m_projectMonitor->position(), pCore->getCurrentFps()) - item->startPos() + item->cropStart()) / item->speed();
                 clip = pCore->bin()->getBinClip(item->getBinId());
             }
         }
     } else {
         clip = m_clipMonitor->currentController();
-        pos = m_clipMonitor->position();
+        pos = GenTime(m_clipMonitor->position(), pCore->getCurrentFps());
     }
     if (!clip) {
         m_messageLabel->setMessage(i18n("Cannot find clip to remove marker"), ErrorMessage);
@@ -2369,13 +2369,13 @@ void MainWindow::slotEditClipMarker()
         if (pCore->projectManager()->currentTimeline()) {
             ClipItem *item = pCore->projectManager()->currentTimeline()->projectView()->getActiveClipUnderCursor();
             if (item) {
-                pos = (m_projectMonitor->position() - item->startPos() + item->cropStart()) / item->speed();
+                pos = (GenTime(m_projectMonitor->position(), pCore->getCurrentFps()) - item->startPos() + item->cropStart()) / item->speed();
                 clip = pCore->bin()->getBinClip(item->getBinId());
             }
         }
     } else {
         clip = m_clipMonitor->currentController();
-        pos = m_clipMonitor->position();
+        pos = GenTime(m_clipMonitor->position(), pCore->getCurrentFps());
     }
     if (!clip) {
         m_messageLabel->setMessage(i18n("Cannot find clip to remove marker"), ErrorMessage);
@@ -2416,7 +2416,7 @@ void MainWindow::slotAddMarkerGuideQuickly()
 
     if (m_clipMonitor->isActive()) {
         std::shared_ptr<ProjectClip>clip(m_clipMonitor->currentController());
-        GenTime pos = m_clipMonitor->position();
+        GenTime pos(m_clipMonitor->position(), pCore->getCurrentFps());
 
         if (!clip) {
             m_messageLabel->setMessage(i18n("Cannot find clip to add marker"), ErrorMessage);

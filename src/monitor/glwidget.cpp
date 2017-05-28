@@ -624,7 +624,6 @@ void GLWidget::refresh()
     if (m_consumer->is_stopped()) {
         m_consumer->start();
     }
-    m_consumer->purge();
     m_consumer->set("refresh", 1);
 }
 

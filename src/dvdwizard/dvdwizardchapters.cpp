@@ -82,7 +82,7 @@ void DvdWizardChapters::slotUpdateChaptersList()
 
 void DvdWizardChapters::slotAddChapter()
 {
-    int pos = m_monitor->position().frames(m_tc.fps());
+    int pos = m_monitor->position();
     QStringList currentChaps = m_view.vob_list->itemData(m_view.vob_list->currentIndex(), Qt::UserRole + 1).toStringList();
     if (currentChaps.contains(QString::number(pos))) {
         return;

@@ -244,7 +244,7 @@ void TransitionSettings::slotTransitionItemSelected(Transition *t, int nextTrack
             slotTransitionChanged(false, true);
         }
         if (m_effectEdit->needsMonitorEffectScene() != 0u) {
-            slotRenderPos(m_effectEdit->monitor()->position().frames(KdenliveSettings::project_fps()));
+            slotRenderPos(m_effectEdit->monitor()->position());
             connect(m_effectEdit->monitor(), &Monitor::renderPosition, this, &TransitionSettings::slotRenderPos, Qt::UniqueConnection);
         }
         return;
@@ -272,7 +272,7 @@ void TransitionSettings::slotTransitionItemSelected(Transition *t, int nextTrack
             transitionList->blockSignals(false);
         }
         if (m_effectEdit->needsMonitorEffectScene() != 0u) {
-            slotRenderPos(m_effectEdit->monitor()->position().frames(KdenliveSettings::project_fps()));
+            slotRenderPos(m_effectEdit->monitor()->position());
             connect(m_effectEdit->monitor(), &Monitor::renderPosition, this, &TransitionSettings::slotRenderPos, Qt::UniqueConnection);
         }
     } else {

@@ -115,6 +115,8 @@ void AssetParameterModel::setParameter(const QString &name, const QString &value
             m_fixedParams[name] = value;
         }
     }
+    QSize range(m_asset->get_int("in"), m_asset->get_int("out"));
+    pCore->refreshProjectRange(range);
 }
 
 AssetParameterModel::~AssetParameterModel() = default;
