@@ -25,6 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "abstractmodel/treeitem.hpp"
 #include "project/jobs/abstractclipjob.h"
+#include "undohelper.hpp"
 
 #include <QDateTime>
 #include <QObject>
@@ -66,7 +67,6 @@ public:
      */
     AbstractProjectItem(PROJECTITEMTYPE type, const QDomElement &description, const std::shared_ptr<ProjectItemModel> &model,
                         const std::shared_ptr<AbstractProjectItem> &parent);
-    virtual ~AbstractProjectItem();
 
     bool operator==(const std::shared_ptr<AbstractProjectItem> &projectItem) const;
 
@@ -83,6 +83,15 @@ public:
     virtual std::shared_ptr<ProjectClip> clipAt(int ix) = 0;
     /** @brief Recursively disable/enable bin effects. */
     virtual void setBinEffectsEnabled(bool enabled) = 0;
+
+    /** @brief This function executes what should be done when the item is deleted
+        but without deleting effectively.
+        For example, the item will deregister itself from the model and delete the
+        clips from the timeline.
+        However, the object is NOT actually deleted, and the tree structure is preserved.
+        @param Undo,Redo are the lambdas accumulating the update.
+     */
+    virtual bool selfSoftDelete(Fun &undo, Fun &redo);
 
     /** @brief Returns the clip's id. */
     const QString &clipId() const;
@@ -169,6 +178,11 @@ public:
     */
     std::shared_ptr<AbstractProjectItem> getEnclosingFolder(bool strict = false);
 
+    /** @brief Returns true if a clip corresponding to this bin is inserted in a timeline.
+        Note that this function does not account for children, use TreeItem::accumulate if you want to get that information as well.
+    */
+    virtual bool isIncludedInTimeline(){ return false; }
+
 signals:
     void childAdded(AbstractProjectItem *child);
     void aboutToRemoveChild(AbstractProjectItem *child);
@@ -179,7 +193,7 @@ protected:
     QIcon m_thumbnail;
     QString m_duration;
     QDateTime m_date;
-    QString m_id;
+    QString m_binId;
     uint m_usage;
     CLIPSTATUS m_clipStatus;
     AbstractClipJob::JOBTYPE m_jobType;

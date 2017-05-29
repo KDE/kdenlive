@@ -96,7 +96,7 @@ QString ProjectFolder::getToolTip() const
 
 std::shared_ptr<ProjectFolder> ProjectFolder::folder(const QString &id)
 {
-    if (m_id == id) {
+    if (m_binId == id) {
         return std::static_pointer_cast<ProjectFolder>(shared_from_this());
     }
     for (int i = 0; i < childCount(); ++i) {
@@ -147,6 +147,6 @@ bool ProjectFolder::rename(const QString &name, int column)
         return false;
     }
     // Rename folder
-    if (auto ptr = m_model.lock()) std::static_pointer_cast<ProjectItemModel>(ptr)->bin()->renameFolderCommand(m_id, name, m_name);
+    if (auto ptr = m_model.lock()) std::static_pointer_cast<ProjectItemModel>(ptr)->bin()->renameFolderCommand(m_binId, name, m_name);
     return true;
 }

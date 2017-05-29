@@ -152,7 +152,7 @@ bool ProjectSubClip::rename(const QString &name, int column)
         return false;
     }
     // Rename folder
-    if (auto ptr = m_model.lock()) std::static_pointer_cast<ProjectItemModel>(ptr)->bin()->renameSubClipCommand(m_id, name, m_name, m_in, m_out);
+    if (auto ptr = m_model.lock()) std::static_pointer_cast<ProjectItemModel>(ptr)->bin()->renameSubClipCommand(m_binId, name, m_name, m_in, m_out);
     return true;
 }
 

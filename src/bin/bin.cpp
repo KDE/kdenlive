@@ -48,6 +48,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "projectsubclip.h"
 #include "titler/titlewidget.h"
 #include "ui_qtextclip_ui.h"
+#include "undohelper.hpp"
 #include "utils/KoIconUtils.h"
 
 #include <KColorScheme>
@@ -1008,6 +1009,40 @@ std::shared_ptr<ProjectClip> Bin::getFirstSelectedClip()
 
 void Bin::slotDeleteClip()
 {
+    const QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
+    std::vector<std::shared_ptr<AbstractProjectItem>> items;
+    bool included = false;
+    bool usedFolder = false;
+    for (const QModelIndex &ix : indexes) {
+        if (!ix.isValid() || ix.column() != 0) {
+            continue;
+        }
+        std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
+        if (!item) {
+            qDebug()<<"Suspicious: item not found when trying to delete";
+            continue;
+        }
+        auto checkInclusion = [](bool included, std::shared_ptr<TreeItem> item) {
+            return included || std::static_pointer_cast<AbstractProjectItem>(item)->isIncludedInTimeline();
+        };
+        included = included || item->accumulate(false, checkInclusion);
+        // Check if we are deleting non-empty folders:
+        usedFolder = usedFolder || item->childCount() > 0;
+        items.push_back(item);
+    }
+    if (included && (KMessageBox::warningContinueCancel(this, i18n("This will delete all selected clips from timeline")) != KMessageBox::Continue)) {
+        return;
+    }
+    if (usedFolder && (KMessageBox::warningContinueCancel(this, i18n("This will delete all folder content")) != KMessageBox::Continue)) {
+        return;
+    }
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    for (const auto& item : items) {
+        m_itemModel->requestBinClipDeletion(item->clipId(), undo, redo);
+    }
+    pCore->pushUndo(undo, redo, i18n("Delete bin Clips"));
+    /*
     QStringList clipIds;
     QStringList subClipIds;
     QStringList foldersIds;
@@ -1107,6 +1142,7 @@ void Bin::slotDeleteClip()
         return;
     }
     m_doc->clipManager()->deleteProjectItems(clipIds, foldersIds, subClipIds);
+    */
 }
 
 void Bin::slotReloadClip()

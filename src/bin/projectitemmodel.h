@@ -26,6 +26,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "abstractmodel/abstracttreemodel.hpp"
 #include "mltcontroller/bincontroller.h"
 #include <QSize>
+#include <QReadWriteLock>
+#include "undohelper.hpp"
 
 class AbstractProjectItem;
 class ProjectClip;
@@ -101,6 +103,14 @@ public:
     bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent) override;
     Qt::DropActions supportedDropActions() const override;
 
+    /* @brief Request deletion of a bin clip from the project bin
+       @param binId : id of the bin clip to deleted
+       @param undo,redo: lambdas that are updated to accumulate operation.
+     */
+    bool requestBinClipDeletion(const QString &binId, Fun &undo, Fun &redo);
+
+    void registerItem(const std::shared_ptr<TreeItem> &item) override;
+    void deregisterItem(int id) override;
 public slots:
     /** @brief An item in the list was modified, notify */
     void onItemUpdated(std::shared_ptr<AbstractProjectItem> item);
@@ -108,6 +118,8 @@ public slots:
 private:
     /** @brief Return reference to column specific data */
     int mapToColumn(int column) const;
+
+    mutable QReadWriteLock m_lock; // This is a lock that ensures safety in case of concurrent access
 
     Bin *m_bin;
 

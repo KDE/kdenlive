@@ -23,6 +23,7 @@
 
 #include "treeitem.hpp"
 #include <utility>
+#include <QDebug>
 
 int AbstractTreeModel::currentTreeId = 0;
 AbstractTreeModel::AbstractTreeModel(QObject *parent)
@@ -164,13 +165,37 @@ int AbstractTreeModel::getNextId()
 void AbstractTreeModel::registerItem(const std::shared_ptr<TreeItem> &item)
 {
     int id = item->getId();
+    qDebug() << "bottom registering "<<item->getId();
     Q_ASSERT(m_allItems.count(id) == 0);
     m_allItems[id] = item;
+    /*if (!m_allItems[id]->isInModel()) {
+        qDebug() << "inserting in model"<<id;
+        m_allItems[id]->setIsInModel(true);
+        if (auto ptr = m_allItems[id]->parentItem().lock()) {
+            notifyRowAboutToAppend(ptr);
+            notifyRowAppended();
+            qDebug() << "notifying"<<id;
+        } else {
+            qDebug() << "no parent"<<id;
+        }
+    } else {
+        qDebug() << "already in model"<<id;
+        }*/
 }
 
 void AbstractTreeModel::deregisterItem(int id)
 {
+    qDebug() << "bottom deregistering "<<id;
     Q_ASSERT(m_allItems.count(id) > 0);
+    // if item is in model, we must send signal that it is deleted
+    /*  if (m_allItems[id]->isInModel()) {
+        m_allItems[id]->setIsInModel(false);
+        if (auto ptr = m_allItems[id]->parentItem().lock()) {
+            notifyRowAboutToDelete(ptr, m_allItems[id]->row());
+            notifyRowDeleted();
+        }
+
+        } */
     m_allItems.erase(id);
 }
 

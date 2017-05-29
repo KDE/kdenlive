@@ -116,7 +116,7 @@ ProjectClip::ProjectClip(const QDomElement &description, const QIcon &thumb, std
     }
     connect(this, &ProjectClip::updateJobStatus, this, &ProjectClip::setJobStatus);
     connect(this, &ProjectClip::updateThumbProgress, model.get(), &ProjectItemModel::updateThumbProgress);
-    m_markerModel = std::make_shared<MarkerListModel>(m_id, pCore->projectManager()->current()->commandStack());
+    m_markerModel = std::make_shared<MarkerListModel>(m_binId, pCore->projectManager()->current()->commandStack());
 }
 
 std::shared_ptr<ProjectClip> ProjectClip::construct(const QDomElement &description, const QIcon &thumb, std::shared_ptr<ProjectItemModel> model,
@@ -132,7 +132,7 @@ ProjectClip::~ProjectClip()
 {
     // controller is deleted in bincontroller
     abortAudioThumbs();
-    if (auto ptr = m_model.lock()) emit std::static_pointer_cast<ProjectItemModel>(ptr)->abortAudioThumb(m_id, duration().ms());
+    if (auto ptr = m_model.lock()) emit std::static_pointer_cast<ProjectItemModel>(ptr)->abortAudioThumb(m_binId, duration().ms());
     QMutexLocker audioLock(&m_audioMutex);
     m_thumbMutex.lock();
     m_requestedThumbs.clear();
@@ -170,7 +170,7 @@ void ProjectClip::updateAudioThumbnail(const QVariantList &audioLevels)
 {
     audioFrameCache = audioLevels;
     m_audioThumbCreated = true;
-    if (auto ptr = m_model.lock()) emit std::static_pointer_cast<ProjectItemModel>(ptr)->refreshAudioThumbs(m_id);
+    if (auto ptr = m_model.lock()) emit std::static_pointer_cast<ProjectItemModel>(ptr)->refreshAudioThumbs(m_binId);
     emit gotAudioData();
 }
 
@@ -203,7 +203,7 @@ bool ProjectClip::hasParent(const QString &id) const
 
 std::shared_ptr<ProjectClip> ProjectClip::clip(const QString &id)
 {
-    if (id == m_id) {
+    if (id == m_binId) {
         return std::static_pointer_cast<ProjectClip>(shared_from_this());
     }
     return std::shared_ptr<ProjectClip>();
@@ -283,7 +283,7 @@ void ProjectClip::reloadProducer(bool refreshOnly)
         // set a special flag to request thumbnail only
         xml.setAttribute(QStringLiteral("refreshOnly"), QStringLiteral("1"));
     }
-    if (auto ptr = m_model.lock()) emit std::static_pointer_cast<ProjectItemModel>(ptr)->reloadProducer(m_id, xml);
+    if (auto ptr = m_model.lock()) emit std::static_pointer_cast<ProjectItemModel>(ptr)->reloadProducer(m_binId, xml);
 }
 
 QDomElement ProjectClip::toXml(QDomDocument &document, bool includeMeta)
@@ -341,7 +341,7 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
     m_duration = getStringDuration();
     m_clipStatus = StatusReady;
     if (!hasProxy()) {
-        if (auto ptr = m_model.lock()) emit std::static_pointer_cast<ProjectItemModel>(ptr)->refreshPanel(m_id);
+        if (auto ptr = m_model.lock()) emit std::static_pointer_cast<ProjectItemModel>(ptr)->refreshPanel(m_binId);
     }
     if (auto ptr = m_model.lock()) std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()));
     // Make sure we have a hash for this clip
@@ -353,7 +353,7 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
 void ProjectClip::createAudioThumbs()
 {
     if (KdenliveSettings::audiothumbnails() && (m_clipType == AV || m_clipType == Audio || m_clipType == Playlist)) {
-        if (auto ptr = m_model.lock()) emit std::static_pointer_cast<ProjectItemModel>(ptr)->requestAudioThumbs(m_id, duration().ms());
+        if (auto ptr = m_model.lock()) emit std::static_pointer_cast<ProjectItemModel>(ptr)->requestAudioThumbs(m_binId, duration().ms());
         emit updateJobStatus(AbstractClipJob::THUMBJOB, JobWaiting, 0);
     }
 }
@@ -513,8 +513,8 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         if (value.isEmpty() || value == QLatin1String("-")) {
             // reset proxy
             if (auto ptr = m_model.lock()) {
-                if (std::static_pointer_cast<ProjectItemModel>(ptr)->bin()->hasPendingJob(m_id, AbstractClipJob::PROXYJOB)) {
-                    std::static_pointer_cast<ProjectItemModel>(ptr)->bin()->discardJobs(m_id, AbstractClipJob::PROXYJOB);
+                if (std::static_pointer_cast<ProjectItemModel>(ptr)->bin()->hasPendingJob(m_binId, AbstractClipJob::PROXYJOB)) {
+                    std::static_pointer_cast<ProjectItemModel>(ptr)->bin()->discardJobs(m_binId, AbstractClipJob::PROXYJOB);
                 } else {
                     reloadProducer();
                 }
@@ -522,7 +522,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         } else {
             // A proxy was requested, make sure to keep original url
             setProducerProperty(QStringLiteral("kdenlive:originalurl"), url());
-            if (auto ptr = m_model.lock()) std::static_pointer_cast<ProjectItemModel>(ptr)->bin()->startJob(m_id, AbstractClipJob::PROXYJOB);
+            if (auto ptr = m_model.lock()) std::static_pointer_cast<ProjectItemModel>(ptr)->bin()->startJob(m_binId, AbstractClipJob::PROXYJOB);
         }
     } else if (properties.contains(QStringLiteral("resource")) || properties.contains(QStringLiteral("templatetext")) ||
                properties.contains(QStringLiteral("autorotate"))) {
@@ -560,10 +560,10 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
     if (reload) {
         // producer has changed, refresh monitor and thumbnail
         reloadProducer(refreshOnly);
-        if (auto ptr = m_model.lock()) std::static_pointer_cast<ProjectItemModel>(ptr)->bin()->refreshClip(m_id);
+        if (auto ptr = m_model.lock()) std::static_pointer_cast<ProjectItemModel>(ptr)->bin()->refreshClip(m_binId);
     }
     if (!passProperties.isEmpty()) {
-        if (auto ptr = m_model.lock()) std::static_pointer_cast<ProjectItemModel>(ptr)->bin()->updateTimelineProducers(m_id, passProperties);
+        if (auto ptr = m_model.lock()) std::static_pointer_cast<ProjectItemModel>(ptr)->bin()->updateTimelineProducers(m_binId, passProperties);
     }
 }
 
@@ -650,7 +650,7 @@ bool ProjectClip::rename(const QString &name, int column)
         break;
     }
     if (edited) {
-        if (auto ptr = m_model.lock()) std::static_pointer_cast<ProjectItemModel>(ptr)->bin()->slotEditClipCommand(m_id, oldProperites, newProperites);
+        if (auto ptr = m_model.lock()) std::static_pointer_cast<ProjectItemModel>(ptr)->bin()->slotEditClipCommand(m_binId, oldProperites, newProperites);
     }
     return edited;
 }
@@ -693,7 +693,7 @@ void ProjectClip::addMarkers(QList<CommentedTime> &markers)
         }
     }
     // refresh markers in clip monitor
-    if (auto ptr = m_model.lock()) std::static_pointer_cast<ProjectItemModel>(ptr)->bin()->refreshClipMarkers(m_id);
+    if (auto ptr = m_model.lock()) std::static_pointer_cast<ProjectItemModel>(ptr)->bin()->refreshClipMarkers(m_binId);
     // refresh markers in timeline clips
     emit refreshClipDisplay();
 }
@@ -1274,4 +1274,23 @@ void ProjectClip::deregisterTimelineClip(int clipId)
 {
     Q_ASSERT(m_registeredClips.count(clipId) > 0);
     m_registeredClips.erase(clipId);
+}
+
+bool ProjectClip::selfSoftDelete(Fun &undo, Fun &redo)
+{
+    for(const auto& clip : m_registeredClips) {
+        if (auto timeline = clip.second.lock()) {
+            timeline->requestClipDeletion(clip.first, undo, redo);
+        } else {
+            qDebug() << "Error while deleting clip: timeline unavailable";
+            Q_ASSERT(false);
+            return false;
+        }
+    }
+    return AbstractProjectItem::selfSoftDelete(undo, redo);
+}
+
+bool ProjectClip::isIncludedInTimeline()
+{
+    return m_registeredClips.size() > 0;
 }

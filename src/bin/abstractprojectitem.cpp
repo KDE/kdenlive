@@ -35,7 +35,7 @@ AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QString &id
     , m_description()
     , m_thumbnail(QIcon())
     , m_date()
-    , m_id(id)
+    , m_binId(id)
     , m_usage(0)
     , m_clipStatus(StatusReady)
     , m_jobType(AbstractClipJob::NOJOBTYPE)
@@ -52,7 +52,7 @@ AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QDomElement
     , m_description()
     , m_thumbnail(QIcon())
     , m_date()
-    , m_id(description.attribute(QStringLiteral("id")))
+    , m_binId(description.attribute(QStringLiteral("id")))
     , m_usage(0)
     , m_clipStatus(StatusReady)
     , m_jobType(AbstractClipJob::NOJOBTYPE)
@@ -62,7 +62,6 @@ AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QDomElement
 {
 }
 
-AbstractProjectItem::~AbstractProjectItem() = default;
 
 bool AbstractProjectItem::operator==(const std::shared_ptr<AbstractProjectItem> &projectItem) const
 {
@@ -105,7 +104,7 @@ void AbstractProjectItem::removeRef()
 
 const QString &AbstractProjectItem::clipId() const
 {
-    return m_id;
+    return m_binId;
 }
 
 QPixmap AbstractProjectItem::roundedPixmap(const QPixmap &source)
@@ -230,4 +229,36 @@ std::shared_ptr<AbstractProjectItem> AbstractProjectItem::getEnclosingFolder(boo
         return std::static_pointer_cast<AbstractProjectItem>(ptr)->getEnclosingFolder(false);
     }
     return std::shared_ptr<AbstractProjectItem>();
+}
+
+bool AbstractProjectItem::selfSoftDelete(Fun &undo, Fun &redo)
+{
+    for(const auto& child : m_childItems) {
+        std::static_pointer_cast<AbstractProjectItem>(child)->selfSoftDelete(undo, redo);
+    }
+    Fun operation = [this]() {
+        if (auto ptr = m_model.lock()) {
+            ptr->deregisterItem(m_id);
+        } else {
+            qDebug() << "ERROR: Something went wrong when deleting TreeItem. Model is not available anymore";
+            return false;
+        }
+        return true;
+    };
+    std::shared_ptr<TreeItem> self =  shared_from_this();
+    Fun reverse = [this, self]() {
+        //self is capture explicitly to prevent deletion of the object
+        if (auto ptr = m_model.lock()) {
+            ptr->registerItem(self);
+        } else {
+            qDebug() << "ERROR: Something went wrong when deleting TreeItem. Model is not available anymore";
+            return false;
+        }
+        return true;
+    };
+    if(operation()) {
+        UPDATE_UNDO_REDO(operation, reverse, undo, redo);
+        return true;
+    }
+    return false;
 }

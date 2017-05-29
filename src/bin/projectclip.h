@@ -95,6 +95,8 @@ public:
     /** @brief Returns the clip type as defined in definitions.h */
     ClipType clipType() const;
 
+    bool selfSoftDelete(Fun &undo, Fun &redo) override;
+
     /** @brief Check if clip has a parent folder with id id */
     bool hasParent(const QString &id) const;
     ClipPropertiesController *buildProperties(QWidget *parent);
@@ -199,6 +201,11 @@ public:
 
     /** @brief Returns a marker data at given pos */
     CommentedTime getMarker(const GenTime &pos, bool *ok) const;
+
+    /** @brief Returns true if a clip corresponding to this bin is inserted in a timeline.
+        Note that this function does not account for children, use TreeItem::accumulate if you want to get that information as well.
+    */
+    bool isIncludedInTimeline() override;
 
 protected:
     friend class ClipModel;

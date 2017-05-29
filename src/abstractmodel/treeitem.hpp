@@ -103,6 +103,18 @@ public:
     /* @brief Return the id of the current item*/
     int getId() const;
 
+    /* @brief This is similar to the std::accumulate function, except that it
+       operates on the whole subtree
+       @param init is the initial value of the operation
+       @param is the binary op to apply (signature should be (T, shared_ptr<TreeItem>)->T)
+    */
+    template<class T, class BinaryOperation>
+    T accumulate(T init, BinaryOperation op);
+
+    /* @brief Returns true if the model has been notified about the existence of this object
+     */
+    bool isInModel() const;
+    void setIsInModel(bool isInModel);
 protected:
     /* @brief Finish construction of object given its pointer
        This is a separated function so that it can be called from derived classes */
@@ -118,6 +130,14 @@ protected:
     std::weak_ptr<AbstractTreeModel> m_model;
     int m_depth;
     int m_id;
+
+    bool m_isInModel;
 };
 
+template<class T, class BinaryOperation>
+T TreeItem::accumulate(T init, BinaryOperation op)
+{
+    T res = op(init, shared_from_this());
+    return std::accumulate(m_childItems.begin(), m_childItems.end(), res, op);
+}
 #endif

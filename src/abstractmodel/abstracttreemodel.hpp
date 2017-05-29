@@ -83,13 +83,14 @@ public:
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
 
     friend class TreeItem;
+    friend class AbstractProjectItem;
 
 protected:
     /* @brief Register a new item. This is a call-back meant to be called from TreeItem */
-    void registerItem(const std::shared_ptr<TreeItem> &item);
+    virtual void registerItem(const std::shared_ptr<TreeItem> &item);
 
     /* @brief Deregister an item. This is a call-back meant to be called from TreeItem */
-    void deregisterItem(int id);
+    virtual void deregisterItem(int id);
 
     /* @brief Returns the next valid id to give to a new element */
     static int getNextId();
