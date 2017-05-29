@@ -569,8 +569,8 @@ void KdenliveSettingsDialog::initDevices()
 void KdenliveSettingsDialog::slotReadAudioDevices()
 {
     QString result = QString(m_readProcess.readAllStandardOutput());
-    //qCDebug(KDENLIVE_LOG) << "// / / / / / READING APLAY: ";
-    //qCDebug(KDENLIVE_LOG) << result;
+    // qCDebug(KDENLIVE_LOG) << "// / / / / / READING APLAY: ";
+    // qCDebug(KDENLIVE_LOG) << result;
     const QStringList lines = result.split(QLatin1Char('\n'));
     for (const QString &data : lines) {
         ////qCDebug(KDENLIVE_LOG) << "// READING LINE: " << data;

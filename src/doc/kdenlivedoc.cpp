@@ -386,9 +386,9 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList<TrackInfo> &tracks)
         Mlt::Playlist playlist2(docProfile);
         track.insert_track(playlist1, 0);
         track.insert_track(playlist2, 1);
-        tractor.insert_track(track, i+1);
+        tractor.insert_track(track, i + 1);
     }
-    QScopedPointer <Mlt::Field> field(tractor.field());
+    QScopedPointer<Mlt::Field> field(tractor.field());
     QString compositeService = TransitionHandler::compositeTransition();
     for (int i = 0; i <= tracks.count(); i++) {
         if (i > 0) {
@@ -1296,8 +1296,7 @@ QMap<QString, QString> KdenliveDoc::documentProperties()
                                     m_projectFolder + QLatin1Char('/') + m_documentProperties.value(QStringLiteral("documentid")));
     }
     m_documentProperties.insert(QStringLiteral("profile"), profilePath());
-    m_documentProperties.insert(QStringLiteral("position"),
-                                QString::number(pCore->monitorManager()->projectMonitor()->position()));
+    m_documentProperties.insert(QStringLiteral("position"), QString::number(pCore->monitorManager()->projectMonitor()->position()));
     if (!m_documentProperties.contains(QStringLiteral("decimalPoint"))) {
         m_documentProperties.insert(QStringLiteral("decimalPoint"), QLocale().decimalPoint());
     }
@@ -1732,4 +1731,3 @@ CommentedTime KdenliveDoc::getGuide(const GenTime &pos, bool *ok) const
 {
     return m_guideModel->getMarker(pos, ok);
 }
-

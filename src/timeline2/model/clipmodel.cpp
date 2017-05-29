@@ -70,7 +70,7 @@ int ClipModel::construct(const std::weak_ptr<TimelineModel> &parent, const QStri
     }
     auto binClip = pCore->bin()->getBinClip(binClipId);
     if (!binClip) {
-        qDebug() << "Error : Bin clip for id: "<<binClipId<<" NOT AVAILABLE!!!";
+        qDebug() << "Error : Bin clip for id: " << binClipId << " NOT AVAILABLE!!!";
     }
     binClip->registerTimelineClip(parent, id);
 

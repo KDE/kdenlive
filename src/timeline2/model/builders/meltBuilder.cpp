@@ -20,13 +20,13 @@
  ***************************************************************************/
 
 #include "meltBuilder.hpp"
+#include "../clipmodel.hpp"
 #include "../timelineitemmodel.hpp"
 #include "../timelinemodel.hpp"
-#include "../clipmodel.hpp"
 #include "../trackmodel.hpp"
 #include "../undohelper.hpp"
-#include "core.h"
 #include "bin/bin.h"
+#include "core.h"
 #include "mltcontroller/bincontroller.h"
 #include <QDebug>
 #include <QSet>
@@ -181,7 +181,7 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
                 int cid = ClipModel::construct(timeline, binId, clip);
                 ok = timeline->requestClipMove(cid, tid, position, true, undo, redo);
             } else {
-                qDebug()<<"// Cannot find bin clip: "<<binId;
+                qDebug() << "// Cannot find bin clip: " << binId;
             }
             if (!ok) {
                 qDebug() << "ERROR : failed to insert clip in track" << tid << "position" << position;

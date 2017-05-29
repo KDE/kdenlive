@@ -135,7 +135,7 @@ void TimelineWidget::zoneUpdated(const QPoint &zone)
 
 void TimelineWidget::setTool(ProjectTool tool)
 {
-    rootObject()->setProperty("activeTool", (int) tool);
+    rootObject()->setProperty("activeTool", (int)tool);
 }
 
 QPoint TimelineWidget::getTracksCount() const

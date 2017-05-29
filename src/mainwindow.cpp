@@ -643,7 +643,8 @@ void MainWindow::slotThemeChanged(const QString &theme)
     if (KdenliveSettings::force_breeze() && useDarkIcons != KdenliveSettings::use_dark_breeze()) {
         // We need to reload icon theme
         KdenliveSettings::setUse_dark_breeze(useDarkIcons);
-        if (KMessageBox::warningContinueCancel(this, i18n("Kdenlive needs to be restarted to apply color theme change. Restart now ?")) == KMessageBox::Continue) {
+        if (KMessageBox::warningContinueCancel(this, i18n("Kdenlive needs to be restarted to apply color theme change. Restart now ?")) ==
+            KMessageBox::Continue) {
             slotRestart();
         }
     }
@@ -2279,8 +2280,8 @@ void MainWindow::slotAddClipMarker()
     GenTime pos;
     if (m_projectMonitor->isActive()) {
         if (m_timelineTabs->getCurrentTimeline()) {
-            //TODO
-            //m_timelineTabs->getCurrentTimeline()->addMarkerInCurrentClip();
+            // TODO
+            // m_timelineTabs->getCurrentTimeline()->addMarkerInCurrentClip();
         }
         return;
     } else {
@@ -2306,7 +2307,7 @@ void MainWindow::slotAddClipMarker()
 
 void MainWindow::slotDeleteClipMarker(bool allowGuideDeletion)
 {
-    std::shared_ptr<ProjectClip>clip(nullptr);
+    std::shared_ptr<ProjectClip> clip(nullptr);
     GenTime pos;
     if (m_projectMonitor->isActive()) {
         if (pCore->projectManager()->currentTimeline()) {
@@ -2327,7 +2328,7 @@ void MainWindow::slotDeleteClipMarker(bool allowGuideDeletion)
 
     QString id = clip->AbstractProjectItem::clipId();
     bool markerFound = false;
-    CommentedTime marker  = clip->getMarker(pos, &markerFound);
+    CommentedTime marker = clip->getMarker(pos, &markerFound);
     if (!markerFound) {
         if (allowGuideDeletion && m_projectMonitor->isActive()) {
             slotDeleteGuide();
@@ -2337,13 +2338,13 @@ void MainWindow::slotDeleteClipMarker(bool allowGuideDeletion)
         return;
     }
     marker.setMarkerType(-1);
-    QList <CommentedTime> markers = {marker};
+    QList<CommentedTime> markers = {marker};
     clip->addMarkers(markers);
 }
 
 void MainWindow::slotDeleteAllClipMarkers()
 {
-    std::shared_ptr<ProjectClip>clip(nullptr);
+    std::shared_ptr<ProjectClip> clip(nullptr);
     if (m_projectMonitor->isActive()) {
         if (pCore->projectManager()->currentTimeline()) {
             ClipItem *item = pCore->projectManager()->currentTimeline()->projectView()->getActiveClipUnderCursor();
@@ -2363,7 +2364,7 @@ void MainWindow::slotDeleteAllClipMarkers()
 
 void MainWindow::slotEditClipMarker()
 {
-    std::shared_ptr<ProjectClip>clip(nullptr);
+    std::shared_ptr<ProjectClip> clip(nullptr);
     GenTime pos;
     if (m_projectMonitor->isActive()) {
         if (pCore->projectManager()->currentTimeline()) {
@@ -2401,7 +2402,7 @@ void MainWindow::slotEditClipMarker()
         if (d->newMarker().time() != pos) {
             // remove old marker
             oldMarker.setMarkerType(-1);
-            QList <CommentedTime> markers = {oldMarker};
+            QList<CommentedTime> markers = {oldMarker};
             clip->addMarkers(markers);
         }
     }
@@ -2415,7 +2416,7 @@ void MainWindow::slotAddMarkerGuideQuickly()
     }
 
     if (m_clipMonitor->isActive()) {
-        std::shared_ptr<ProjectClip>clip(m_clipMonitor->currentController());
+        std::shared_ptr<ProjectClip> clip(m_clipMonitor->currentController());
         GenTime pos(m_clipMonitor->position(), pCore->getCurrentFps());
 
         if (!clip) {

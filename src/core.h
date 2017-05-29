@@ -121,7 +121,6 @@ public:
     /** @brief This function must be called whenever the profile used changes */
     void profileChanged();
 
-
     /** @brief Create and push and undo object based on the corresponding functions
         Note that if you class permits and requires it, you should use the macro PUSH_UNDO instead*/
     void pushUndo(const Fun &undo, const Fun &redo, const QString &text);

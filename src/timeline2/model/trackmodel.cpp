@@ -419,7 +419,7 @@ int TrackModel::getId() const
 
 int TrackModel::getClipByPosition(int position)
 {
-    QSharedPointer <Mlt::Producer> prod(m_playlists[0].get_clip_at(position));
+    QSharedPointer<Mlt::Producer> prod(m_playlists[0].get_clip_at(position));
     if (prod->is_blank()) {
         return -1;
     }
@@ -449,7 +449,7 @@ std::unordered_set<int> TrackModel::getClipsAfterPosition(int position, int end)
         end = m_playlists[0].count();
     }
     while (ix < end) {
-        QSharedPointer <Mlt::Producer> prod(m_playlists[0].get_clip(ix));
+        QSharedPointer<Mlt::Producer> prod(m_playlists[0].get_clip(ix));
         ix++;
         if (prod->is_blank()) {
             continue;

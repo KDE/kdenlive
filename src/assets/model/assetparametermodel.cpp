@@ -21,13 +21,14 @@
 
 #include "assetparametermodel.hpp"
 #include "core.h"
+#include "klocalizedstring.h"
 #include "profiles/profilemodel.hpp"
 #include <QDebug>
 #include <QLocale>
 #include <QString>
-#include "klocalizedstring.h"
 
-AssetParameterModel::AssetParameterModel(Mlt::Properties *asset, const QDomElement &assetXml, const QString &assetId, Kdenlive::MonitorId monitor, QObject *parent)
+AssetParameterModel::AssetParameterModel(Mlt::Properties *asset, const QDomElement &assetXml, const QString &assetId, Kdenlive::MonitorId monitor,
+                                         QObject *parent)
     : QAbstractListModel(parent)
     , m_xml(assetXml)
     , m_assetId(assetId)
@@ -116,7 +117,7 @@ void AssetParameterModel::setParameter(const QString &name, const QString &value
             m_fixedParams[name] = value;
         }
     }
-    //refresh monitor after asset change
+    // refresh monitor after asset change
     QSize range(m_asset->get_int("in"), m_asset->get_int("out"));
     pCore->refreshProjectRange(range);
 }

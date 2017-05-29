@@ -25,10 +25,10 @@
 #include "undohelper.hpp"
 #include <QSharedPointer>
 #include <memory>
-#include <unordered_set>
 #include <mlt++/MltPlaylist.h>
 #include <mlt++/MltTractor.h>
 #include <unordered_map>
+#include <unordered_set>
 
 class TimelineModel;
 class ClipModel;

@@ -181,7 +181,7 @@ public:
     /** @brief Returns true if a clip corresponding to this bin is inserted in a timeline.
         Note that this function does not account for children, use TreeItem::accumulate if you want to get that information as well.
     */
-    virtual bool isIncludedInTimeline(){ return false; }
+    virtual bool isIncludedInTimeline() { return false; }
 
 signals:
     void childAdded(AbstractProjectItem *child);

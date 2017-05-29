@@ -33,11 +33,11 @@
 #include <QDebug>
 #include <QModelIndex>
 #include <klocalizedstring.h>
+#include <mlt++/MltConsumer.h>
 #include <mlt++/MltField.h>
 #include <mlt++/MltProfile.h>
 #include <mlt++/MltTractor.h>
 #include <mlt++/MltTransition.h>
-#include <mlt++/MltConsumer.h>
 #include <queue>
 #ifdef LOGGING
 #include <sstream>
@@ -88,7 +88,6 @@ TimelineModel::~TimelineModel()
         deregisterTrack_lambda(tracks, false)();
     }
 }
-
 
 int TimelineModel::getTracksCount() const
 {
@@ -284,7 +283,6 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
     }
     return res;
 }
-
 
 int TimelineModel::suggestClipMove(int clipId, int trackId, int position)
 {
@@ -565,15 +563,15 @@ std::unordered_set<int> TimelineModel::getItemsAfterPosition(int trackId, int po
     auto it = m_allTracks.cbegin();
     if (trackId == -1) {
         while (it != m_allTracks.cend()) {
-             std::unordered_set<int> clipTracks = (*it)->getClipsAfterPosition(position, end);
-             allClips.insert(clipTracks.begin(), clipTracks.end()); 
-             ++it;
+            std::unordered_set<int> clipTracks = (*it)->getClipsAfterPosition(position, end);
+            allClips.insert(clipTracks.begin(), clipTracks.end());
+            ++it;
         }
     } else {
         int target_track_position = getTrackPosition(trackId);
         std::advance(it, target_track_position);
         std::unordered_set<int> clipTracks = (*it)->getClipsAfterPosition(position);
-        allClips.insert(clipTracks.begin(), clipTracks.end()); 
+        allClips.insert(clipTracks.begin(), clipTracks.end());
     }
     return allClips;
 }

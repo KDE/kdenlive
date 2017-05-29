@@ -22,8 +22,8 @@
 #include "treeitem.hpp"
 #include "abstracttreemodel.hpp"
 #include <QDebug>
-#include <utility>
 #include <numeric>
+#include <utility>
 
 TreeItem::TreeItem(const QList<QVariant> &data, const std::shared_ptr<AbstractTreeModel> &model, const std::shared_ptr<TreeItem> &parent, int id)
     : m_itemData(data)
@@ -46,7 +46,7 @@ std::shared_ptr<TreeItem> TreeItem::construct(const QList<QVariant> &data, std::
 // static
 void TreeItem::baseFinishConstruct(const std::shared_ptr<TreeItem> &self)
 {
-    qDebug() << "FINISHED constructing "<<self->getId();
+    qDebug() << "FINISHED constructing " << self->getId();
     if (auto ptr = self->m_model.lock()) {
         ptr->registerItem(self);
     } else {
@@ -69,7 +69,7 @@ std::shared_ptr<TreeItem> TreeItem::appendChild(const QList<QVariant> &data)
     if (auto ptr = m_model.lock()) {
         ptr->notifyRowAboutToAppend(shared_from_this());
         auto child = construct(data, ptr, shared_from_this());
-        qDebug() << "appending child"<<child->getId() <<"to "<<m_id;
+        qDebug() << "appending child" << child->getId() << "to " << m_id;
         child->m_depth = m_depth + 1;
         int id = child->getId();
         m_childItems.push_back(child);
@@ -90,7 +90,7 @@ void TreeItem::appendChild(std::shared_ptr<TreeItem> child)
         ptr->notifyRowAboutToAppend(shared_from_this());
         child->m_depth = m_depth + 1;
         child->m_parentItem = shared_from_this();
-        qDebug() << "appending child2"<<child->getId() <<"to "<<m_id;
+        qDebug() << "appending child2" << child->getId() << "to " << m_id;
         int id = child->getId();
         auto it = m_childItems.insert(m_childItems.end(), std::move(child));
         m_iteratorTable[id] = it;
@@ -105,7 +105,7 @@ void TreeItem::appendChild(std::shared_ptr<TreeItem> child)
 void TreeItem::removeChild(const std::shared_ptr<TreeItem> &child)
 {
     if (auto ptr = m_model.lock()) {
-        qDebug() << "removing child"<<child->getId() <<"from "<<m_id;
+        qDebug() << "removing child" << child->getId() << "from " << m_id;
         ptr->notifyRowAboutToDelete(shared_from_this(), child->row());
         // get iterator corresponding to child
         auto it = m_iteratorTable[child->getId()];
@@ -125,7 +125,7 @@ void TreeItem::removeChild(const std::shared_ptr<TreeItem> &child)
 
 void TreeItem::changeParent(std::shared_ptr<TreeItem> newParent)
 {
-    qDebug() << "changing parent of "<<m_id;
+    qDebug() << "changing parent of " << m_id;
     if (auto ptr = m_parentItem.lock()) {
         ptr->removeChild(shared_from_this());
     }

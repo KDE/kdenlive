@@ -45,7 +45,8 @@ class AnimationWidget : public AbstractParamWidget
 public:
     AnimationWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent);
 
-    //explicit AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int max, int effectIn, const QString &effectId, const QDomElement &xml,QWidget *parent = nullptr);
+    // explicit AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int max, int effectIn, const QString &effectId, const QDomElement &xml,QWidget
+    // *parent = nullptr);
     virtual ~AnimationWidget();
     void updateTimecodeFormat();
     void addParameter(QModelIndex ix);

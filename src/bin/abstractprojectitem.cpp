@@ -62,7 +62,6 @@ AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QDomElement
 {
 }
 
-
 bool AbstractProjectItem::operator==(const std::shared_ptr<AbstractProjectItem> &projectItem) const
 {
     // FIXME: only works for folders
@@ -233,7 +232,7 @@ std::shared_ptr<AbstractProjectItem> AbstractProjectItem::getEnclosingFolder(boo
 
 bool AbstractProjectItem::selfSoftDelete(Fun &undo, Fun &redo)
 {
-    for(const auto& child : m_childItems) {
+    for (const auto &child : m_childItems) {
         std::static_pointer_cast<AbstractProjectItem>(child)->selfSoftDelete(undo, redo);
     }
     Fun operation = [this]() {
@@ -245,9 +244,9 @@ bool AbstractProjectItem::selfSoftDelete(Fun &undo, Fun &redo)
         }
         return true;
     };
-    std::shared_ptr<TreeItem> self =  shared_from_this();
+    std::shared_ptr<TreeItem> self = shared_from_this();
     Fun reverse = [this, self]() {
-        //self is capture explicitly to prevent deletion of the object
+        // self is capture explicitly to prevent deletion of the object
         if (auto ptr = m_model.lock()) {
             ptr->registerItem(self);
         } else {
@@ -256,7 +255,7 @@ bool AbstractProjectItem::selfSoftDelete(Fun &undo, Fun &redo)
         }
         return true;
     };
-    if(operation()) {
+    if (operation()) {
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
         return true;
     }

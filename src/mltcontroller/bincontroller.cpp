@@ -102,7 +102,7 @@ void BinController::initializeBin(Mlt::Playlist playlist)
     for (int i = 0; i < folderProperties.count(); i++) {
         foldersData.insert(folderProperties.get_name(i), folderProperties.get(i));
     }
-    qDebug() << "Found " <<folderProperties.count()<<"folders";
+    qDebug() << "Found " << folderProperties.count() << "folders";
     emit loadFolders(foldersData);
 
     // Read notes
@@ -112,17 +112,17 @@ void BinController::initializeBin(Mlt::Playlist playlist)
     // Fill Controller's list
     m_binPlaylist.reset(new Mlt::Playlist(playlist));
     m_binPlaylist->set("id", kPlaylistTrackId);
-    qDebug() << "Found " <<m_binPlaylist->count()<<"clips";
+    qDebug() << "Found " << m_binPlaylist->count() << "clips";
     int max = m_binPlaylist->count();
     for (int i = 0; i < max; i++) {
         std::shared_ptr<Mlt::Producer> producer(new Mlt::Producer(m_binPlaylist->get_clip(i)->parent()));
-        qDebug() << "dealing with bin clip"<<i;
+        qDebug() << "dealing with bin clip" << i;
         if (producer->is_blank() || !producer->is_valid()) {
             qDebug() << "producer is not valid or blank";
             continue;
         }
         QString id = producer->get("kdenlive:id");
-        qDebug() << "clip id"<<id;
+        qDebug() << "clip id" << id;
         if (id.contains(QLatin1Char('_'))) {
             // This is a track producer
             QString mainId = id.section(QLatin1Char('_'), 0, 0);
@@ -294,7 +294,7 @@ void BinController::addClipToBin(const QString &id, const std::shared_ptr<ClipCo
     replaceBinPlaylistClip(id, controller->originalProducer());
     if (m_clipList.contains(id)) {
         // There is something wrong, we should not be recreating an existing controller!
-        qDebug() << "Error: creating bin clip with existing id: "<<id;
+        qDebug() << "Error: creating bin clip with existing id: " << id;
         // we are replacing a producer
         // TODO: replace it in timeline
         /*ClipController *c2 = m_clipList.value(id);

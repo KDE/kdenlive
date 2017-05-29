@@ -285,10 +285,10 @@ CommentedTime MarkerListModel::getMarker(const GenTime &pos, bool *ok) const
     return t;
 }
 
-QList <CommentedTime> MarkerListModel::getAllMarkers() const
+QList<CommentedTime> MarkerListModel::getAllMarkers() const
 {
     READ_LOCK();
-    QList <CommentedTime> markers;
+    QList<CommentedTime> markers;
     for (const auto &marker : m_markerList) {
         CommentedTime t(marker.first, marker.second.first, marker.second.second);
         markers << t;

@@ -1019,7 +1019,7 @@ void Bin::slotDeleteClip()
         }
         std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
         if (!item) {
-            qDebug()<<"Suspicious: item not found when trying to delete";
+            qDebug() << "Suspicious: item not found when trying to delete";
             continue;
         }
         auto checkInclusion = [](bool included, std::shared_ptr<TreeItem> item) {
@@ -1038,7 +1038,7 @@ void Bin::slotDeleteClip()
     }
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    for (const auto& item : items) {
+    for (const auto &item : items) {
         m_itemModel->requestBinClipDeletion(item->clipId(), undo, redo);
     }
     pCore->pushUndo(undo, redo, i18n("Delete bin Clips"));

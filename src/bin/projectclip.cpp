@@ -678,7 +678,7 @@ bool ProjectClip::deleteClipMarkers(QUndoCommand *command)
     for (auto &marker : markers) {
         marker.setMarkerType(-1);
     }
-    //TODO: group all markers in one undo/redo operation
+    // TODO: group all markers in one undo/redo operation
     addMarkers(markers);
     return true;
 }
@@ -1278,7 +1278,7 @@ void ProjectClip::deregisterTimelineClip(int clipId)
 
 bool ProjectClip::selfSoftDelete(Fun &undo, Fun &redo)
 {
-    for(const auto& clip : m_registeredClips) {
+    for (const auto &clip : m_registeredClips) {
         if (auto timeline = clip.second.lock()) {
             timeline->requestClipDeletion(clip.first, undo, redo);
         } else {

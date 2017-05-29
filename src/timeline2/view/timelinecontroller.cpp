@@ -20,9 +20,9 @@
  ***************************************************************************/
 
 #include "timelinecontroller.h"
+#include "../model/timelinefunctions.hpp"
 #include "bin/bin.h"
 #include "bin/model/markerlistmodel.hpp"
-#include "../model/timelinefunctions.hpp"
 #include "bin/projectclip.h"
 #include "core.h"
 #include "dialogs/markerdialog.h"
@@ -451,8 +451,7 @@ void TimelineController::cutClipUnderCursor(int position, int track)
     if (!foundClip) {
         if (track == -1) {
             QVariant returnedValue;
-            QMetaObject::invokeMethod(m_root, "currentTrackId",
-            Q_RETURN_ARG(QVariant, returnedValue));
+            QMetaObject::invokeMethod(m_root, "currentTrackId", Q_RETURN_ARG(QVariant, returnedValue));
             track = returnedValue.toInt();
         }
         if (track >= 0) {
@@ -464,7 +463,7 @@ void TimelineController::cutClipUnderCursor(int position, int track)
         }
     }
     if (!foundClip) {
-        //TODO: display warning, no clip found
+        // TODO: display warning, no clip found
     }
 }
 
@@ -497,8 +496,7 @@ QPoint TimelineController::getTracksCount() const
     int audioTracks = 0;
     int videoTracks = 0;
     QVariant returnedValue;
-    QMetaObject::invokeMethod(m_root, "getTracksCount",
-    Q_RETURN_ARG(QVariant, returnedValue));
+    QMetaObject::invokeMethod(m_root, "getTracksCount", Q_RETURN_ARG(QVariant, returnedValue));
     QVariantList tracks = returnedValue.toList();
     QPoint p(tracks.at(0).toInt(), tracks.at(1).toInt());
     return p;

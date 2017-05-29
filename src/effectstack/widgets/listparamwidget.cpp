@@ -123,9 +123,8 @@ void ListParamWidget::slotRefresh()
             m_list->addItem(names.at(i), values.at(i));
         }
         if (!value.isEmpty() && values.contains(value)) {
-            //TODO:: search item data directly
+            // TODO:: search item data directly
             m_list->setCurrentIndex(values.indexOf(value));
         }
     }
 }
-

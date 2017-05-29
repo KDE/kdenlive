@@ -274,7 +274,7 @@ std::shared_ptr<ProjectClip> ProjectItemModel::getClipByBinID(const QString &bin
     if (binId.contains(QLatin1Char('_'))) {
         return getClipByBinID(binId.section(QLatin1Char('_'), 0, 0));
     }
-    for (const auto &clip: m_allItems) {
+    for (const auto &clip : m_allItems) {
         auto c = std::static_pointer_cast<AbstractProjectItem>(clip.second);
         if (c->itemType() == AbstractProjectItem::ClipItem && c->clipId() == binId) {
             return std::static_pointer_cast<ProjectClip>(c);
@@ -285,7 +285,7 @@ std::shared_ptr<ProjectClip> ProjectItemModel::getClipByBinID(const QString &bin
 
 std::shared_ptr<ProjectFolder> ProjectItemModel::getFolderByBinId(const QString &binId)
 {
-    for (const auto &clip: m_allItems) {
+    for (const auto &clip : m_allItems) {
         auto c = std::static_pointer_cast<AbstractProjectItem>(clip.second);
         if (c->itemType() == AbstractProjectItem::FolderItem && c->clipId() == binId) {
             return std::static_pointer_cast<ProjectFolder>(c);
@@ -381,8 +381,7 @@ bool ProjectItemModel::requestBinClipDeletion(const QString &binId, Fun &undo, F
     Q_ASSERT(clip);
     if (!clip) return false;
     int parentId = -1;
-    if (auto ptr = clip->parent())
-        parentId = ptr->getId();
+    if (auto ptr = clip->parent()) parentId = ptr->getId();
     Fun operation = [this, binId]() {
         /* Deletion simply deregister clip and remove it from parent.
            The actual object is not actually deleted, because a shared_pointer to it
@@ -402,16 +401,16 @@ bool ProjectItemModel::requestBinClipDeletion(const QString &binId, Fun &undo, F
     Fun reverse = [this, clip, parentId]() {
         /* To undo deletion, we reregister the clip */
         std::shared_ptr<TreeItem> parent;
-        qDebug() << "reversing deletion. Parentid ="<<parentId;
+        qDebug() << "reversing deletion. Parentid =" << parentId;
         if (parentId != -1) {
-            qDebug()<<"parent found";
+            qDebug() << "parent found";
             parent = getItemById(parentId);
         }
         clip->changeParent(parent);
         return true;
     };
     bool res = operation();
-    qDebug() << "operation succes"<<res;
+    qDebug() << "operation succes" << res;
     if (res) {
         LOCK_IN_LAMBDA(operation);
         LOCK_IN_LAMBDA(reverse);
@@ -419,23 +418,23 @@ bool ProjectItemModel::requestBinClipDeletion(const QString &binId, Fun &undo, F
         res = clip->selfSoftDelete(undo, redo);
         // PUSH_LAMBDA(operation, redo);
         // PUSH_LAMBDA(reverse, undo);
-        qDebug() << "soltDelete succes"<<res;
+        qDebug() << "soltDelete succes" << res;
     }
     if (res) {
     }
-    qDebug() << "Deletion success"<<res;
+    qDebug() << "Deletion success" << res;
     return res;
 }
 
 void ProjectItemModel::registerItem(const std::shared_ptr<TreeItem> &item)
 {
     // TODO refac : here should go the logic of adding the clip into the bin playlist
-    qDebug() << "Top registering "<<item->getId();
+    qDebug() << "Top registering " << item->getId();
     AbstractTreeModel::registerItem(item);
 }
 void ProjectItemModel::deregisterItem(int id)
 {
     // TODO refac : here should go the logic of adding the clip into the bin playlist
-    qDebug() << "Top deregistering "<<id;
+    qDebug() << "Top deregistering " << id;
     AbstractTreeModel::deregisterItem(id);
 }

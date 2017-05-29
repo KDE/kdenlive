@@ -108,7 +108,7 @@ bool DocumentValidator::validate(const double currentVersion)
 #elif defined(Q_OS_WIN)
             std::locale::global(std::locale(requestedLocale.toUtf8().constData()));
 #else
-            setlocale(LC_NUMERIC, requestedLocale.toUtf8().constData());
+        setlocale(LC_NUMERIC, requestedLocale.toUtf8().constData());
 #endif
             if (numericalSeparator != documentLocale.decimalPoint()) {
                 // Parse installed locales to find one matching

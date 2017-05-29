@@ -45,6 +45,8 @@
 
 #include "../animkeyframeruler.h"
 #include "animationwidget.h"
+#include "assets/model/assetparametermodel.hpp"
+#include "core.h"
 #include "effectstack/parametercontainer.h"
 #include "kdenlivesettings.h"
 #include "monitor/monitor.h"
@@ -52,11 +54,10 @@
 #include "timeline/keyframeview.h"
 #include "widgets/doublewidget.h"
 #include "widgets/dragvalue.h"
-#include "core.h"
-#include "assets/model/assetparametermodel.hpp"
 
 AnimationWidget::AnimationWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
-//AnimationWidget::AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int max, int effectIn, const QString &effectId, const QDomElement &xml, QWidget *parent)
+    // AnimationWidget::AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int max, int effectIn, const QString &effectId, const QDomElement &xml,
+    // QWidget *parent)
     : AbstractParamWidget(std::move(model), index, parent)
     , m_active(false)
     //, m_clipPos(clipPos)
@@ -70,7 +71,7 @@ AnimationWidget::AnimationWidget(std::shared_ptr<AssetParameterModel> model, QMo
     , m_spinHeight(nullptr)
     , m_spinSize(nullptr)
     , m_spinOpacity(nullptr)
-    , m_offset(0) //effectIn - min)
+    , m_offset(0) // effectIn - min)
 {
     setAcceptDrops(true);
     auto *vbox2 = new QVBoxLayout(this);
@@ -510,8 +511,8 @@ void AnimationWidget::slotPositionChanged(int pos, bool seek)
 
     // scene ratio lock
     if ((m_spinWidth != nullptr) && m_spinWidth->isEnabled()) {
-        double ratio = m_originalSize->isChecked() ? (double)m_frameSize.width() / m_frameSize.height()
-                                                   : (double)m_monitorSize.width() / m_monitorSize.height();
+        double ratio =
+            m_originalSize->isChecked() ? (double)m_frameSize.width() / m_frameSize.height() : (double)m_monitorSize.width() / m_monitorSize.height();
         bool lockRatio = m_spinHeight->value() == (int)(m_spinWidth->value() / ratio + 0.5);
         m_lockRatio->blockSignals(true);
         m_lockRatio->setChecked(lockRatio);
@@ -733,9 +734,9 @@ void AnimationWidget::addParameter(QModelIndex ix)
     QString paramTag = m_model->data(ix, AssetParameterModel::NameRole).toString();
     m_animProperties.set(paramTag.toUtf8().constData(), keyframes.toUtf8().constData());
     m_attachedToEnd = KeyframeView::checkNegatives(keyframes, m_outPoint);
-    //m_params.append(e.cloneNode().toElement());
-    ParamType type = (ParamType) m_model->data(ix, AssetParameterModel::TypeRole).toInt();
-    //const QString paramType = e.attribute(QStringLiteral("type"));
+    // m_params.append(e.cloneNode().toElement());
+    ParamType type = (ParamType)m_model->data(ix, AssetParameterModel::TypeRole).toInt();
+    // const QString paramType = e.attribute(QStringLiteral("type"));
     if (type == ParamType::Animated) {
         // one dimension parameter
         // Required to initialize anim property
@@ -764,15 +765,16 @@ void AnimationWidget::buildSliderWidget(const QString &paramTag, QModelIndex ix)
     int index = m_params.count() - 1;
 
     double factor = m_model->data(ix, AssetParameterModel::FactorRole).toDouble();
-    DoubleWidget *doubleparam = new DoubleWidget(paramName, 0, m_model->data(ix, AssetParameterModel::MinRole).toDouble(), m_model->data(ix, AssetParameterModel::MaxRole).toDouble(),
-                                                 m_model->data(ix, AssetParameterModel::DefaultRole).toDouble() * factor, comment, index,
-                                                 m_model->data(ix, AssetParameterModel::SuffixRole).toString(), m_model->data(ix, AssetParameterModel::DecimalsRole).toInt(), this);
+    DoubleWidget *doubleparam =
+        new DoubleWidget(paramName, 0, m_model->data(ix, AssetParameterModel::MinRole).toDouble(), m_model->data(ix, AssetParameterModel::MaxRole).toDouble(),
+                         m_model->data(ix, AssetParameterModel::DefaultRole).toDouble() * factor, comment, index,
+                         m_model->data(ix, AssetParameterModel::SuffixRole).toString(), m_model->data(ix, AssetParameterModel::DecimalsRole).toInt(), this);
     doubleparam->setObjectName(paramTag);
     doubleparam->factor = factor;
     connect(doubleparam, &DoubleWidget::valueChanged, this, &AnimationWidget::slotAdjustKeyframeValue);
     layout()->addWidget(doubleparam);
 
-    //TODO: in timeline
+    // TODO: in timeline
     /*if ((!e.hasAttribute(QStringLiteral("intimeline")) || e.attribute(QStringLiteral("intimeline")) == QLatin1String("1")) &&
         !e.hasAttribute(QStringLiteral("notintimeline"))) {*/
     {
@@ -1315,8 +1317,8 @@ void AnimationWidget::connectMonitor(bool activate)
         double ratio = (double)m_spinWidth->value() / m_spinHeight->value();
         if (m_frameSize.width() != m_monitorSize.width() || m_frameSize.height() != m_monitorSize.height()) {
             // Source frame size different than project frame size, enable original size option accordingly
-            bool isOriginalSize = qAbs((double)m_frameSize.width() / m_frameSize.height() - ratio) <
-                                  qAbs((double)m_monitorSize.width() / m_monitorSize.height() - ratio);
+            bool isOriginalSize =
+                qAbs((double)m_frameSize.width() / m_frameSize.height() - ratio) < qAbs((double)m_monitorSize.width() / m_monitorSize.height() - ratio);
             if (isOriginalSize) {
                 m_originalSize->blockSignals(true);
                 m_originalSize->setChecked(true);

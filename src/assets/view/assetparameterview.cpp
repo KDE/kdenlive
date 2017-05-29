@@ -25,9 +25,9 @@
 #include "assets/view/widgets/abstractparamwidget.hpp"
 
 #include <QDebug>
+#include <QFontDatabase>
 #include <QLabel>
 #include <QVBoxLayout>
-#include <QFontDatabase>
 #include <utility>
 
 AssetParameterView::AssetParameterView(QWidget *parent)

@@ -19,10 +19,10 @@
 
 #include "abstractparamwidget.hpp"
 #include "assets/model/assetparametermodel.hpp"
-#include "doubleparamwidget.hpp"
 #include "boolparamwidget.hpp"
-#include "effectstack/widgets/listparamwidget.h"
+#include "doubleparamwidget.hpp"
 #include "effectstack/widgets/animationwidget.h"
+#include "effectstack/widgets/listparamwidget.h"
 
 #include <QLabel>
 #include <QVBoxLayout>

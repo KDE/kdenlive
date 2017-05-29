@@ -254,10 +254,10 @@ public:
     Q_INVOKABLE int suggestCompositionMove(int compoId, int trackId, int position);
     int getCompositionPlaytime(int compoId) const;
 
-/* @brief Given an intended move, try to suggest a more valid one
-   (accounting for snaps and missing UI calls) @param clipId id of the clip to
-   move @param trackId id of the target track @param position target position
-    of the clip */
+    /* @brief Given an intended move, try to suggest a more valid one
+       (accounting for snaps and missing UI calls) @param clipId id of the clip to
+       move @param trackId id of the target track @param position target position
+        of the clip */
     Q_INVOKABLE int suggestClipMove(int clipId, int trackId, int position);
 
     /* @brief Request clip insertion at given position. This action is undoable
