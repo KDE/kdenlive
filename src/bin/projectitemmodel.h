@@ -109,8 +109,34 @@ public:
      */
     bool requestBinClipDeletion(const QString &binId, Fun &undo, Fun &redo);
 
+    /* @brief Manage insertion in the tree hierarchy.
+       Note that the element has normally already been registered through registerItem,
+       this function is called when its parent is defined.
+       @param row is the new element
+    */
+    void notifyRowAppended(const std::shared_ptr<TreeItem> &row) override;
+    /* @brief Manage deletion in the tree hierarchy
+       @param item is the parent of the row being deleted
+       @param row is the index of the row being deleted
+    */
+    void notifyRowAboutToDelete(std::shared_ptr<TreeItem> item, int row) override;
+
+    /* @brief Register the existence of a new element
+     */
     void registerItem(const std::shared_ptr<TreeItem> &item) override;
     void deregisterItem(int id) override;
+
+
+protected:
+    /* @brief This function updates the underlying binPlaylist object to reflect deletion of a bin item
+       @param binElem is the bin item deleted
+       @param oldParent is its parent
+    */
+    void manageBinClipDeletion(std::shared_ptr<AbstractProjectItem> binElem, std::shared_ptr<AbstractProjectItem> oldParent);
+    /* @brief This function updates the underlying binPlaylist object to reflect insertion of a bin item
+       @param binElem is the bin item inserted
+    */
+    void manageBinClipInsertion(const std::shared_ptr<AbstractProjectItem> &binElem);
 public slots:
     /** @brief An item in the list was modified, notify */
     void onItemUpdated(std::shared_ptr<AbstractProjectItem> item);
@@ -120,6 +146,9 @@ private:
     int mapToColumn(int column) const;
 
     mutable QReadWriteLock m_lock; // This is a lock that ensures safety in case of concurrent access
+
+    /** @brief The MLT playlist holding our Producers */
+    std::unique_ptr<Mlt::Playlist> m_binPlaylist;
 
     Bin *m_bin;
 

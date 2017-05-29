@@ -140,8 +140,9 @@ void AbstractTreeModel::notifyRowAboutToAppend(const std::shared_ptr<TreeItem> &
     beginInsertRows(index, item->childCount(), item->childCount());
 }
 
-void AbstractTreeModel::notifyRowAppended()
+void AbstractTreeModel::notifyRowAppended(const std::shared_ptr<TreeItem> &row)
 {
+    Q_UNUSED(row);
     endInsertRows();
 }
 

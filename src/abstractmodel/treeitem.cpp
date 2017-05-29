@@ -75,7 +75,7 @@ std::shared_ptr<TreeItem> TreeItem::appendChild(const QList<QVariant> &data)
         m_childItems.push_back(child);
         auto it = std::prev(m_childItems.end());
         m_iteratorTable[id] = it;
-        ptr->notifyRowAppended();
+        ptr->notifyRowAppended(child);
         m_isInModel = true;
         return child;
     }
@@ -92,9 +92,9 @@ void TreeItem::appendChild(std::shared_ptr<TreeItem> child)
         child->m_parentItem = shared_from_this();
         qDebug() << "appending child2" << child->getId() << "to " << m_id;
         int id = child->getId();
-        auto it = m_childItems.insert(m_childItems.end(), std::move(child));
+        auto it = m_childItems.insert(m_childItems.end(), child);
         m_iteratorTable[id] = it;
-        ptr->notifyRowAppended();
+        ptr->notifyRowAppended(child);
         m_isInModel = true;
     } else {
         qDebug() << "ERROR: Something went wrong when appending child in TreeItem. Model is not available anymore";
