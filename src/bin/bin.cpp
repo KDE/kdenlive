@@ -1039,7 +1039,7 @@ void Bin::slotDeleteClip()
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     for (const auto &item : items) {
-        m_itemModel->requestBinClipDeletion(item->clipId(), undo, redo);
+        m_itemModel->requestBinClipDeletion(item, undo, redo);
     }
     pCore->pushUndo(undo, redo, i18n("Delete bin Clips"));
     /*

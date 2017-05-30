@@ -374,27 +374,21 @@ std::shared_ptr<AbstractProjectItem> ProjectItemModel::getBinItemByIndex(const Q
     return std::static_pointer_cast<AbstractProjectItem>(getItemById((int)index.internalId()));
 }
 
-bool ProjectItemModel::requestBinClipDeletion(const QString &binId, Fun &undo, Fun &redo)
+bool ProjectItemModel::requestBinClipDeletion(std::shared_ptr<AbstractProjectItem> clip, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
-    std::shared_ptr<AbstractProjectItem> clip = getClipByBinID(binId);
-    if (!clip) {
-        clip = getFolderByBinId(binId);
-    }
     Q_ASSERT(clip);
     if (!clip) return false;
     int parentId = -1;
     if (auto ptr = clip->parent()) parentId = ptr->getId();
-    Fun operation = [this, binId]() {
+    int id = clip->getId();
+    Fun operation = [this, id]() {
         /* Deletion simply deregister clip and remove it from parent.
            The actual object is not actually deleted, because a shared_pointer to it
            is captured by the reverse operation.
            Actual deletions occurs when the undo object is destroyed.
         */
-        std::shared_ptr<AbstractProjectItem> currentClip = getClipByBinID(binId);
-        if (!currentClip) {
-            currentClip = getFolderByBinId(binId);
-        }
+        auto currentClip = std::static_pointer_cast<AbstractProjectItem>(m_allItems[id]);
         Q_ASSERT(currentClip);
         if (!currentClip) return false;
         auto parent = currentClip->parent();
@@ -419,8 +413,6 @@ bool ProjectItemModel::requestBinClipDeletion(const QString &binId, Fun &undo, F
         LOCK_IN_LAMBDA(reverse);
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
         res = clip->selfSoftDelete(undo, redo);
-        // PUSH_LAMBDA(operation, redo);
-        // PUSH_LAMBDA(reverse, undo);
         qDebug() << "soltDelete succes" << res;
     }
     if (res) {
@@ -431,7 +423,6 @@ bool ProjectItemModel::requestBinClipDeletion(const QString &binId, Fun &undo, F
 
 void ProjectItemModel::registerItem(const std::shared_ptr<TreeItem> &item)
 {
-    // TODO refac : here should go the logic of adding the clip into the bin playlist
     auto clip = std::static_pointer_cast<AbstractProjectItem>(item);
     manageBinClipInsertion(clip);
     AbstractTreeModel::registerItem(item);
@@ -490,3 +481,41 @@ void ProjectItemModel::manageBinClipDeletion(std::shared_ptr<AbstractProjectItem
         break;
     }
 }
+
+// bool ProjectItemModel::requestAddFolder(const QString &name, const QString &parentId, Fun &undo, Fun &redo)
+// {
+//     QWriteLocker locker(&m_lock);
+//     std::shared_ptr<ProjectFolder> parentFolder = getFolderByBinId(parentId);
+//     if (!parentFolder) {
+//         qCDebug(KDENLIVE_LOG) << "  / / ERROR IN PARENT FOLDER";
+//         return false;
+//     }
+//     std::shared_ptr<ProjectFolder> new_folder = ProjectFolder::construct(id, name, m_itemModel, parentFolder);
+//     int folderId = new_folder->getId();
+//     Fun operation = [this, new_folder, parentId]() {
+//         /* Insertion is simply setting the parent of the folder.*/
+//         std::shared_ptr<ProjectFolder> parentFolder = getFolderByBinId(parentId);
+//         if (!parentFolder) {
+//             return false;
+//         }
+//         new_folder->changeParent(parentFolder);
+//         return true;
+//     };
+//     Fun reverse = [this, folderId]() {
+//         /* To undo insertion, we deregister the clip */
+//         std::shared_ptr<AbstractProjectItem> folder = getClipByBinID(folderId);
+//         if (!folder) {
+//             return false;
+//         }
+//         auto parent = currentClip->parent();
+//         parent->removeChild(currentClip);
+//         return true;
+//     };
+//     bool res = operation();
+//     if (res) {
+//         LOCK_IN_LAMBDA(operation);
+//         LOCK_IN_LAMBDA(reverse);
+//         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
+//     }
+//     return res;
+// }

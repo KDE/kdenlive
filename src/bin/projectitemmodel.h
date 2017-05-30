@@ -107,7 +107,7 @@ public:
        @param binId : id of the bin clip to deleted
        @param undo,redo: lambdas that are updated to accumulate operation.
      */
-    bool requestBinClipDeletion(const QString &binId, Fun &undo, Fun &redo);
+    bool requestBinClipDeletion(std::shared_ptr<AbstractProjectItem> clip, Fun &undo, Fun &redo);
 
     /* @brief Manage insertion in the tree hierarchy.
        Note that the element has normally already been registered through registerItem,
