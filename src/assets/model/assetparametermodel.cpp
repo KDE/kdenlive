@@ -160,13 +160,13 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
     case DecimalsRole:
         return (int)parseDoubleAttribute(QStringLiteral("decimals"), element);
     case DefaultRole:
-        return element.attribute(QStringLiteral("default"));
+        return parseAttribute(QStringLiteral("default"), element);
     case SuffixRole:
         return element.attribute(QStringLiteral("suffix"));
     case OpacityRole:
         return element.attribute(QStringLiteral("opacity")) != QLatin1String("false");
     case ValueRole:
-        return element.attribute(QStringLiteral("value")).isNull() ? element.attribute(QStringLiteral("default")) : element.attribute(QStringLiteral("value"));
+        return element.attribute(QStringLiteral("value")).isNull() ? parseAttribute(QStringLiteral("default"), element) : element.attribute(QStringLiteral("value"));
     case ListValuesRole:
         return element.attribute(QStringLiteral("paramlist")).split(QLatin1Char(';'));
     case ListNamesRole: {
@@ -233,6 +233,42 @@ ParamType AssetParameterModel::paramTypeFromStr(const QString &type)
     }
     qDebug() << "WARNING: Unknown type :" << type;
     return ParamType::Double;
+}
+
+
+// static
+QVariant AssetParameterModel::parseAttribute(const QString &attribute, const QDomElement &element, QVariant defaultValue)
+{
+    if (!element.hasAttribute(attribute)) {
+        return defaultValue;
+    }
+    ParamType type = paramTypeFromStr(element.attribute(QStringLiteral("type")));
+    QString content = element.attribute(attribute);
+    if (content.contains(QLatin1Char('%'))) {
+        std::unique_ptr<ProfileModel> &profile = pCore->getCurrentProfile();
+        int width = profile->width();
+        int height = profile->height();
+
+        // replace symbols in the double parameter
+        content.replace(QLatin1String("%maxWidth"), QString::number(width))
+            .replace(QLatin1String("%maxHeight"), QString::number(height))
+            .replace(QLatin1String("%width"), QString::number(width))
+            .replace(QLatin1String("%height"), QString::number(height));
+
+        if (type == ParamType::Double) {
+            // Use a Mlt::Properties to parse mathematical operators
+            Mlt::Properties p;
+            p.set("eval", content.toLatin1().constData());
+            return p.get_double("eval");
+        }
+    }
+    qDebug()<<"__RESTLT VAL: "<<content;
+    if (type == ParamType::Double) {
+        QLocale locale;
+        locale.setNumberOptions(QLocale::OmitGroupSeparator);
+        return locale.toDouble(content);
+    }
+    return content;
 }
 
 // static

@@ -164,13 +164,13 @@ void TransitionSettings::slotTransitionChanged(bool reinit, bool updateCurrent)
     QDomElement e = m_usedTransition->toXML().cloneNode().toElement();
     if (reinit) {
         // Reset the transition parameters to the default one
-        disconnect(m_effectEdit->monitor(), &Monitor::renderPosition, this, &TransitionSettings::slotRenderPos);
+        disconnect(m_effectEdit->monitor(), &Monitor::seekPosition, this, &TransitionSettings::slotRenderPos);
         QDomElement newTransition = MainWindow::transitions.getEffectByName(transitionList->currentText()).cloneNode().toElement();
         pCore->projectManager()->currentTimeline()->transitionHandler->initTransition(newTransition);
         slotUpdateEffectParams(e, newTransition);
         m_effectEdit->transferParamDesc(newTransition, m_usedTransition->info(), false);
         if (m_effectEdit->needsMonitorEffectScene() != 0u) {
-            connect(m_effectEdit->monitor(), &Monitor::renderPosition, this, &TransitionSettings::slotRenderPos, Qt::UniqueConnection);
+            connect(m_effectEdit->monitor(), &Monitor::seekPosition, this, &TransitionSettings::slotRenderPos, Qt::UniqueConnection);
         }
     } else if (!updateCurrent) {
         // Transition changed, update parameters dialog
@@ -192,7 +192,7 @@ void TransitionSettings::slotTransitionChanged(bool reinit, bool updateCurrent)
             }
         }
         if (m_effectEdit->needsMonitorEffectScene() != 0u) {
-            connect(m_effectEdit->monitor(), &Monitor::renderPosition, this, &TransitionSettings::slotRenderPos, Qt::UniqueConnection);
+            connect(m_effectEdit->monitor(), &Monitor::seekPosition, this, &TransitionSettings::slotRenderPos, Qt::UniqueConnection);
         }
     }
     slotCheckMonitorPosition(m_effectEdit->monitor()->render->seekFramePosition());
@@ -223,7 +223,7 @@ void TransitionSettings::slotTransitionItemSelected(Transition *t, int nextTrack
     setEnabled(t != nullptr);
     m_effectEdit->setFrameSize(p);
     m_autoTrackTransition = nextTrack;
-    disconnect(m_effectEdit->monitor(), &Monitor::renderPosition, this, &TransitionSettings::slotRenderPos);
+    disconnect(m_effectEdit->monitor(), &Monitor::seekPosition, this, &TransitionSettings::slotRenderPos);
     if (t == m_usedTransition) {
         if (t == nullptr) {
             return;
@@ -245,7 +245,7 @@ void TransitionSettings::slotTransitionItemSelected(Transition *t, int nextTrack
         }
         if (m_effectEdit->needsMonitorEffectScene() != 0u) {
             slotRenderPos(m_effectEdit->monitor()->position());
-            connect(m_effectEdit->monitor(), &Monitor::renderPosition, this, &TransitionSettings::slotRenderPos, Qt::UniqueConnection);
+            connect(m_effectEdit->monitor(), &Monitor::seekPosition, this, &TransitionSettings::slotRenderPos, Qt::UniqueConnection);
         }
         return;
     }
@@ -273,7 +273,7 @@ void TransitionSettings::slotTransitionItemSelected(Transition *t, int nextTrack
         }
         if (m_effectEdit->needsMonitorEffectScene() != 0u) {
             slotRenderPos(m_effectEdit->monitor()->position());
-            connect(m_effectEdit->monitor(), &Monitor::renderPosition, this, &TransitionSettings::slotRenderPos, Qt::UniqueConnection);
+            connect(m_effectEdit->monitor(), &Monitor::seekPosition, this, &TransitionSettings::slotRenderPos, Qt::UniqueConnection);
         }
     } else {
         // null transition selected

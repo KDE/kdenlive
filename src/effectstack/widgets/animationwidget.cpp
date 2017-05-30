@@ -93,6 +93,7 @@ AnimationWidget::AnimationWidget(std::shared_ptr<AssetParameterModel> model, QMo
     connect(m_ruler, &AnimKeyframeRuler::requestSeek, this, &AnimationWidget::requestSeek);
     connect(m_ruler, &AnimKeyframeRuler::moveKeyframe, this, &AnimationWidget::moveKeyframe);
     connect(m_timePos, SIGNAL(timeCodeEditingFinished()), this, SLOT(slotPositionChanged()));
+    connect(m_monitor, &Monitor::seekPosition, this, &AnimationWidget::monitorSeek, Qt::UniqueConnection);
 
     if (m_frameSize.isNull() || m_frameSize.width() == 0 || m_frameSize.height() == 0) {
         m_frameSize = m_monitorSize;
@@ -322,7 +323,7 @@ void AnimationWidget::doAddKeyframe(int pos, QString paramName, bool directUpdat
     if (directUpdate) {
         m_ruler->setActiveKeyframe(pos);
         rebuildKeyframes();
-        emit valueChanged();
+        emit valueChanged(m_index, QString(m_animController.serialize_cut()));
     }
 }
 
@@ -365,7 +366,7 @@ void AnimationWidget::slotAddDeleteKeyframe(bool add, int pos)
     m_animController = m_animProperties.get_animation(m_inTimeline.toUtf8().constData());
     // Rebuild
     rebuildKeyframes();
-    emit valueChanged();
+    emit valueChanged(m_index, QString(m_animController.serialize_cut()));
 }
 
 void AnimationWidget::slotRemoveNext()
@@ -396,7 +397,7 @@ void AnimationWidget::slotRemoveNext()
     m_animController = m_animProperties.get_animation(m_inTimeline.toUtf8().constData());
     // Rebuild
     rebuildKeyframes();
-    emit valueChanged();
+    emit valueChanged(m_index, QString(m_animController.serialize_cut()));
 }
 
 void AnimationWidget::slotSyncPosition(int relTimelinePos)
@@ -438,7 +439,7 @@ void AnimationWidget::moveKeyframe(int oldPos, int newPos)
     }
     rebuildKeyframes();
     slotPositionChanged(m_ruler->position(), false);
-    emit valueChanged();
+    emit valueChanged(m_index, QString(m_animController.serialize_cut()));
 }
 
 void AnimationWidget::rebuildKeyframes()
@@ -712,7 +713,7 @@ void AnimationWidget::slotEditKeyframeType(QAction *action)
         }*/
         rebuildKeyframes();
         setupMonitor();
-        emit valueChanged();
+        emit valueChanged(m_index, QString(m_animController.serialize_cut()));
     }
 }
 
@@ -925,7 +926,7 @@ void AnimationWidget::slotUpdateVisibleParameter(bool display)
         m_inTimeline = slider->objectName();
         m_animController = m_animProperties.get_animation(m_inTimeline.toUtf8().constData());
         rebuildKeyframes();
-        emit valueChanged();
+        emit valueChanged(m_index, QString(m_animController.serialize_cut()));
     }
 }
 
@@ -945,7 +946,7 @@ void AnimationWidget::slotAdjustKeyframeValue(double value)
         // This is a keyframe
         type = m_animController.keyframe_type(pos);
         m_animProperties.anim_set(m_inTimeline.toUtf8().constData(), value / slider->factor, pos, m_outPoint, type);
-        emit valueChanged();
+        emit valueChanged(m_index, QString(m_animController.serialize_cut()));
     } else if (m_animController.key_count() <= 1) {
         pos = m_animController.key_get_frame(0);
         if (pos >= 0) {
@@ -953,7 +954,7 @@ void AnimationWidget::slotAdjustKeyframeValue(double value)
                 type = m_animController.keyframe_type(pos);
             }
             m_animProperties.anim_set(m_inTimeline.toUtf8().constData(), value / slider->factor, pos, m_outPoint, type);
-            emit valueChanged();
+            emit valueChanged(m_index, QString(m_animController.serialize_cut()));
         }
     }
 }
@@ -991,14 +992,14 @@ void AnimationWidget::slotAdjustRectKeyframeValue()
         // This is a keyframe
         m_animProperties.anim_set(m_rectParameter.toUtf8().constData(), rect, pos, m_outPoint,
                                   (mlt_keyframe_type)m_selectType->currentAction()->data().toInt());
-        emit valueChanged();
+        emit valueChanged(m_index, QString(m_animController.serialize_cut()));
         setupMonitor(QRect(rect.x, rect.y, rect.w, rect.h));
     } else if (m_animController.key_count() <= 1) {
         pos = m_animController.key_get_frame(0);
         if (pos >= 0) {
             m_animProperties.anim_set(m_rectParameter.toUtf8().constData(), rect, pos, m_outPoint,
                                       (mlt_keyframe_type)m_selectType->currentAction()->data().toInt());
-            emit valueChanged();
+            emit valueChanged(m_index, QString(m_animController.serialize_cut()));
             setupMonitor(QRect(rect.x, rect.y, rect.w, rect.h));
         }
     }
@@ -1087,7 +1088,7 @@ void AnimationWidget::slotReverseKeyframeType(bool reverse)
             m_attachedToEnd = -2;
         }
         rebuildKeyframes();
-        emit valueChanged();
+        emit valueChanged(m_index, QString(m_animController.serialize_cut()));
     }
 }
 
@@ -1157,7 +1158,7 @@ void AnimationWidget::applyPreset(int ix)
     }
     m_animController = m_animProperties.get_animation(m_inTimeline.toUtf8().constData());
     rebuildKeyframes();
-    emit valueChanged();
+    emit valueChanged(m_index, QString(m_animController.serialize_cut()));
 }
 
 void AnimationWidget::savePreset()
@@ -1298,6 +1299,9 @@ void AnimationWidget::slotSeekToKeyframe(int ix)
 
 void AnimationWidget::connectMonitor(bool activate)
 {
+    if (m_active == activate) {
+        return;
+    }
     m_active = activate;
     if (!m_spinX) {
         // No animated rect displayed in monitor, return
@@ -1312,7 +1316,7 @@ void AnimationWidget::connectMonitor(bool activate)
         connect(m_monitor, &Monitor::seekToPreviousKeyframe, this, &AnimationWidget::slotPrevious, Qt::UniqueConnection);
         connect(m_monitor, SIGNAL(addKeyframe()), this, SLOT(slotAddKeyframe()), Qt::UniqueConnection);
         connect(m_monitor, SIGNAL(deleteKeyframe()), this, SLOT(slotDeleteKeyframe()), Qt::UniqueConnection);
-        int framePos = qBound<int>(0, m_monitor->position() - m_clipPos, m_timePos->maximum());
+        int framePos = qBound<int>(0, m_monitor->position() - m_inPoint, m_timePos->maximum());
         slotPositionChanged(framePos, false);
         double ratio = (double)m_spinWidth->value() / m_spinHeight->value();
         if (m_frameSize.width() != m_monitorSize.width() || m_frameSize.height() != m_monitorSize.height()) {
@@ -1424,7 +1428,7 @@ void AnimationWidget::reload(const QString &tag, const QString &data)
         m_animProperties.anim_get_rect(m_rectParameter.toUtf8().constData(), 0, m_outPoint);
     }
     rebuildKeyframes();
-    emit valueChanged();
+    emit valueChanged(m_index, QString(m_animController.serialize_cut()));
 }
 
 QString AnimationWidget::defaultValue(const QString &paramName)
@@ -1446,6 +1450,7 @@ void AnimationWidget::slotAdjustToSource()
 {
     m_spinWidth->blockSignals(true);
     m_spinHeight->blockSignals(true);
+    qDebug()<<"ADjust src: "<<m_frameSize.width() / pCore->getCurrentSar();
     m_spinWidth->setValue((int)(m_frameSize.width() / pCore->getCurrentSar() + 0.5), false);
     m_spinHeight->setValue(m_frameSize.height(), false);
     m_spinWidth->blockSignals(false);
@@ -1477,6 +1482,7 @@ void AnimationWidget::slotAdjustToFrameSize()
         // Fit to height
         double factor = (double)m_monitorSize.height() / m_frameSize.height();
         m_spinHeight->setValue(m_monitorSize.height());
+        qDebug()<<"*** ADJ WIRGH FIT: "<<m_frameSize.width() / pCore->getCurrentSar();
         m_spinWidth->setValue((int)(m_frameSize.width() / pCore->getCurrentSar() * factor + 0.5));
         // Center
         m_spinX->blockSignals(true);
@@ -1603,6 +1609,18 @@ void AnimationWidget::slotAdjustRectHeight()
         m_spinWidth->blockSignals(false);
     }
     slotAdjustRectKeyframeValue();
+}
+
+void AnimationWidget::monitorSeek(int pos)
+{
+    slotPositionChanged(pos - m_inPoint, false);
+    if (pos > m_inPoint && pos < m_outPoint) {
+        connectMonitor(true);
+        m_monitor->slotShowEffectScene(MonitorSceneGeometry);
+    } else {
+        connectMonitor(false);
+        m_monitor->slotShowEffectScene(MonitorSceneDefault);
+    }
 }
 
 void AnimationWidget::slotShowComment(bool show)

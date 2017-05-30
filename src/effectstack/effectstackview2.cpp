@@ -302,7 +302,7 @@ void EffectStackView2::setupListView()
     m_monitorSceneWanted = MonitorSceneDefault;
     m_draggedEffect = nullptr;
     m_draggedGroup = nullptr;
-    disconnect(m_effectMetaInfo.monitor, &Monitor::renderPosition, this, &EffectStackView2::slotRenderPos);
+    disconnect(m_effectMetaInfo.monitor, &Monitor::seekPosition, this, &EffectStackView2::slotRenderPos);
     QWidget *view = m_effect->container->takeWidget();
     if (view) {
         /*QList<CollapsibleEffect *> allChildren = view->findChildren<CollapsibleEffect *>();
@@ -433,7 +433,7 @@ void EffectStackView2::setupListView()
         for (int i = 0; i < allGroups.count(); ++i) {
             allGroups.at(i)->adjustEffects();
         }
-        connect(m_effectMetaInfo.monitor, &Monitor::renderPosition, this, &EffectStackView2::slotRenderPos);
+        connect(m_effectMetaInfo.monitor, &Monitor::seekPosition, this, &EffectStackView2::slotRenderPos);
     }
 
     vbox1->addStretch(10);

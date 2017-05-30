@@ -1551,7 +1551,7 @@ void Monitor::slotEnableEffectScene(bool enable)
     MonitorSceneType sceneType = enable ? m_lastMonitorSceneType : MonitorSceneDefault;
     slotShowEffectScene(sceneType, true);
     if (enable) {
-        emit renderPosition(render->seekFramePosition());
+        emit seekPosition(m_glMonitor->getCurrentPos());
     }
 }
 

@@ -335,7 +335,6 @@ public slots:
     void checkOverlay(int pos = -1);
 
 signals:
-    void renderPosition(int);
     void seekPosition(int);
     /** @brief Request a timeline seeking if diff is true, position is a relative offset, otherwise an absolute position */
     void seekTimeline(int position);

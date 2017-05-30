@@ -125,7 +125,7 @@ protected:
        If keywords are found, mathematical operations are supported. For example "%width -1" is a valid value.
     */
     static double parseDoubleAttribute(const QString &attribute, const QDomElement &element, double defaultValue = -1);
-
+    static QVariant parseAttribute(const QString &attribute, const QDomElement &element, QVariant defaultValue = QString());
     struct ParamRow
     {
         ParamType type;

@@ -179,11 +179,13 @@ private slots:
     void slotAdjustRectWidth();
     /** @brief Seek monitor. */
     void requestSeek(int pos);
+    /** @brief monitor seek pos changed. */
+    void monitorSeek(int pos);
 
 signals:
     /** @brief keyframes dropped / pasted on widget, import them. */
     void setKeyframes(const QString &);
-    void valueChanged();
+
 };
 
 #endif
