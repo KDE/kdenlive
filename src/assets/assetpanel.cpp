@@ -43,6 +43,7 @@ AssetPanel::AssetPanel(QWidget *parent)
     m_lay->addWidget(m_assetTitle);
     m_lay->addWidget(m_transitionWidget);
     m_transitionWidget->setVisible(false);
+    updatePalette();
 }
 
 void AssetPanel::showTransition(std::shared_ptr<AssetParameterModel> transitionModel)
