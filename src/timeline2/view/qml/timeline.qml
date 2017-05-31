@@ -128,15 +128,16 @@ Rectangle {
             console.log('======================== ON POS CHANGED ========================================')
             if (clipBeingMovedId == -1) {
                 var track = Logic.getTrackIdFromPos(drag.y)
-                var frame = Math.round((drag.x + scrollView.flickableItem.contentX) / timeline.scaleFactor)
-                if (clipBeingDroppedId >= 0){
-                    controller.requestCompositionMove(clipBeingDroppedId, track, frame, true, false)
-                    continuousScrolling(drag.x + scrollView.flickableItem.contentX)
-
-                } else {
-                    clipBeingDroppedData = drag.getDataAsString('kdenlive/composition')
-                    clipBeingDroppedId = timeline.insertComposition(track, frame, clipBeingDroppedData , false)
-                    continuousScrolling(drag.x + scrollView.flickableItem.contentX)
+                if (track !=-1) {
+                    var frame = Math.round((drag.x + scrollView.flickableItem.contentX) / timeline.scaleFactor)
+                    if (clipBeingDroppedId >= 0){
+                        controller.requestCompositionMove(clipBeingDroppedId, track, frame, true, false)
+                        continuousScrolling(drag.x + scrollView.flickableItem.contentX)
+                    } else {
+                        clipBeingDroppedData = drag.getDataAsString('kdenlive/composition')
+                        clipBeingDroppedId = timeline.insertComposition(track, frame, clipBeingDroppedData , false)
+                        continuousScrolling(drag.x + scrollView.flickableItem.contentX)
+                    }
                 }
             }
         }
