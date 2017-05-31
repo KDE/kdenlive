@@ -52,7 +52,7 @@ void DoubleParamWidget::slotRefresh()
     m_lay = new QVBoxLayout(this);
     m_lay->setContentsMargins(4, 0, 4, 0);
     // Retrieve parameters from the model
-    QString name = m_model->data(m_index, AssetParameterModel::NameRole).toString();
+    QString name = m_model->data(m_index, Qt::DisplayRole).toString();
     double value = locale.toDouble(m_model->data(m_index, AssetParameterModel::ValueRole).toString());
     double min = m_model->data(m_index, AssetParameterModel::MinRole).toDouble();
     double max = m_model->data(m_index, AssetParameterModel::MaxRole).toDouble();
