@@ -74,7 +74,7 @@ AssetParameterModel::AssetParameterModel(Mlt::Properties *asset, const QDomEleme
         QString type = currentParameter.attribute(QStringLiteral("type"));
         QString value = currentParameter.attribute(QStringLiteral("value"));
         if (value.isNull()) {
-            value = currentParameter.attribute(QStringLiteral("default"));
+            value = parseAttribute(QStringLiteral("default"), currentParameter).toString();
         }
         bool isFixed = (type == QLatin1String("fixed"));
         if (isFixed) {
@@ -152,13 +152,13 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
     case OutRole:
         return m_asset->get_int("out");
     case MinRole:
-        return parseDoubleAttribute(QStringLiteral("min"), element);
+        return parseAttribute(QStringLiteral("min"), element);
     case MaxRole:
-        return parseDoubleAttribute(QStringLiteral("max"), element);
+        return parseAttribute(QStringLiteral("max"), element);
     case FactorRole:
-        return parseDoubleAttribute(QStringLiteral("factor"), element, 1);
+        return parseAttribute(QStringLiteral("factor"), element, 1);
     case DecimalsRole:
-        return (int)parseDoubleAttribute(QStringLiteral("decimals"), element);
+        return parseAttribute(QStringLiteral("decimals"), element);
     case DefaultRole:
         return parseAttribute(QStringLiteral("default"), element);
     case SuffixRole:
@@ -239,7 +239,7 @@ ParamType AssetParameterModel::paramTypeFromStr(const QString &type)
 // static
 QVariant AssetParameterModel::parseAttribute(const QString &attribute, const QDomElement &element, QVariant defaultValue)
 {
-    if (!element.hasAttribute(attribute)) {
+    if (!element.hasAttribute(attribute) && !defaultValue.isNull()) {
         return defaultValue;
     }
     ParamType type = paramTypeFromStr(element.attribute(QStringLiteral("type")));
@@ -261,42 +261,12 @@ QVariant AssetParameterModel::parseAttribute(const QString &attribute, const QDo
             p.set("eval", content.toLatin1().constData());
             return p.get_double("eval");
         }
-    }
-    qDebug()<<"__RESTLT VAL: "<<content;
-    if (type == ParamType::Double) {
+    } else if (type == ParamType::Double) {
         QLocale locale;
         locale.setNumberOptions(QLocale::OmitGroupSeparator);
         return locale.toDouble(content);
     }
     return content;
-}
-
-// static
-double AssetParameterModel::parseDoubleAttribute(const QString &attribute, const QDomElement &element, double defaultValue)
-{
-    QLocale locale;
-    locale.setNumberOptions(QLocale::OmitGroupSeparator);
-    if (!element.hasAttribute(attribute)) {
-        return defaultValue;
-    }
-    QString content = element.attribute(attribute);
-    if (content.contains(QLatin1Char('%'))) {
-        std::unique_ptr<ProfileModel> &profile = pCore->getCurrentProfile();
-        int width = profile->width();
-        int height = profile->height();
-
-        // replace symbols in the double parameter
-        content.replace(QLatin1String("%maxWidth"), QString::number(width))
-            .replace(QLatin1String("%maxHeight"), QString::number(height))
-            .replace(QLatin1String("%width"), QString::number(width))
-            .replace(QLatin1String("%height"), QString::number(height));
-
-        // Use a Mlt::Properties to parse mathematical operators
-        Mlt::Properties p;
-        p.set("eval", content.toLatin1().constData());
-        return p.get_double("eval");
-    }
-    return locale.toDouble(content);
 }
 
 QString AssetParameterModel::getAssetId() const

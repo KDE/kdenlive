@@ -119,13 +119,12 @@ protected:
     /* @brief Helper function to retrieve the type of a parameter given the string corresponding to it*/
     static ParamType paramTypeFromStr(const QString &type);
 
-    /* @brief Helper function to get a double attribute from a dom element, given its name.
+    /* @brief Helper function to get an attribute from a dom element, given its name.
        The function additionally parses following keywords:
        - %width and %height that are replaced with profile's height and width.
-       If keywords are found, mathematical operations are supported. For example "%width -1" is a valid value.
+       If keywords are found, mathematical operations are supported for double type params. For example "%width -1" is a valid value.
     */
-    static double parseDoubleAttribute(const QString &attribute, const QDomElement &element, double defaultValue = -1);
-    static QVariant parseAttribute(const QString &attribute, const QDomElement &element, QVariant defaultValue = QString());
+    static QVariant parseAttribute(const QString &attribute, const QDomElement &element, QVariant defaultValue = QVariant());
     struct ParamRow
     {
         ParamType type;
