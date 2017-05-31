@@ -36,7 +36,7 @@ BoolParamWidget::BoolParamWidget(std::shared_ptr<AssetParameterModel> model, QMo
     m_widgetComment->setHidden(true);
 
     // setup the name
-    m_labelName->setText(name);
+    m_labelName->setText(m_model->data(m_index, Qt::DisplayRole).toString());
 
     // set check state
     m_checkBox->setChecked(checked);

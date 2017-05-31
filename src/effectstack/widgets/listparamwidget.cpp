@@ -39,7 +39,7 @@ ListParamWidget::ListParamWidget(std::shared_ptr<AssetParameterModel> model, QMo
     m_widgetComment->setHidden(true);
     m_list->setIconSize(QSize(50, 30));
     // setup the name
-    m_labelName->setText(name);
+    m_labelName->setText(m_model->data(m_index, Qt::DisplayRole).toString());
     slotRefresh();
 
     // emit the signal of the base class when appropriate

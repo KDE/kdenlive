@@ -89,6 +89,8 @@ AssetParameterModel::AssetParameterModel(Mlt::Properties *asset, const QDomEleme
         currentRow.type = paramTypeFromStr(type);
         currentRow.xml = currentParameter;
         currentRow.value = value;
+        QString title = currentParameter.firstChildElement(QStringLiteral("name")).text();
+        currentRow.name = title.isEmpty() ? name : title;
         m_params[name] = currentRow;
         m_rows.push_back(name);
     }
@@ -135,6 +137,7 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
     switch (role) {
     case Qt::DisplayRole:
     case Qt::EditRole:
+        return m_params.at(paramName).name;
     case NameRole:
         return paramName;
     case TypeRole:
@@ -187,7 +190,7 @@ int AssetParameterModel::rowCount(const QModelIndex &parent) const
 // static
 ParamType AssetParameterModel::paramTypeFromStr(const QString &type)
 {
-    if (type == QLatin1String("double") || type == QLatin1String("constant")) {
+    if (type == QLatin1String("double") || type == QLatin1String("float") ||type == QLatin1String("constant")) {
         return ParamType::Double;
     }
     if (type == QLatin1String("list")) {

@@ -130,6 +130,7 @@ protected:
         ParamType type;
         QDomElement xml;
         QVariant value;
+        QString name;
     };
 
     QDomElement m_xml;
