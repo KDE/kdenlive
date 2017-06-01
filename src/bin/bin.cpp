@@ -1385,17 +1385,23 @@ QString Bin::slotAddFolder(const QString &folderName)
         std::shared_ptr<AbstractProjectItem> currentItem = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
         parentFolder = std::static_pointer_cast<ProjectFolder>(currentItem->getEnclosingFolder());
     }
-    QString newId = QString::number(getFreeFolderId());
-    AddBinFolderCommand *command = new AddBinFolderCommand(this, newId, folderName.isEmpty() ? i18n("Folder") : folderName, parentFolder->clipId());
-    m_doc->commandStack()->push(command);
+    qDebug() << "pranteforder id"<<parentFolder->clipId();
+    QString newId;
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    m_itemModel->requestAddFolder(newId, folderName.isEmpty() ? i18n("Folder") : folderName, parentFolder->clipId(), undo, redo);
+    pCore->pushUndo(undo, redo, i18n("Create bin folder"));
 
     // Edit folder name
     if (!folderName.isEmpty()) {
         // We already have a name, no need to edit
         return newId;
     }
-    ix = getIndexForId(newId, true);
+    auto folder = m_itemModel->getFolderByBinId(newId);
+    ix = m_itemModel->getIndexFromItem(folder);
+    qDebug() << "selecting"<<ix;
     if (ix.isValid()) {
+        qDebug() << "ix valid";
         m_proxyModel->selectionModel()->clearSelection();
         int row = ix.row();
         const QModelIndex id = m_itemModel->index(row, 0, ix.parent());

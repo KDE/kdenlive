@@ -109,6 +109,13 @@ public:
      */
     bool requestBinClipDeletion(std::shared_ptr<AbstractProjectItem> clip, Fun &undo, Fun &redo);
 
+    /* @brief Request creation of a bin folder
+       @param id Id of the requested bin. If this is empty, it will be used as a return parameter to give the automatic bin id used.
+       @param name Name of the folder
+       @param parentId Bin id of the parent folder
+       @param undo,redo: lambdas that are updated to accumulate operation.
+    */
+    bool requestAddFolder(QString &id, const QString &name, const QString &parentId, Fun &undo, Fun &redo);
     /* @brief Manage insertion in the tree hierarchy.
        Note that the element has normally already been registered through registerItem,
        this function is called when its parent is defined.
@@ -124,19 +131,25 @@ public:
     /* @brief Register the existence of a new element
      */
     void registerItem(const std::shared_ptr<TreeItem> &item) override;
-    void deregisterItem(int id) override;
+    void deregisterItem(int id, TreeItem *item) override;
 
 
 protected:
     /* @brief This function updates the underlying binPlaylist object to reflect deletion of a bin item
-       @param binElem is the bin item deleted
-       @param oldParent is its parent
+       @param binElem is the bin item deleted. Note that exceptionnally, this function takes a raw pointer instead of a smart one.
+       This is because the function will be called in the middle of the element's destructor, so no smart pointer is available at that time.
     */
-    void manageBinClipDeletion(std::shared_ptr<AbstractProjectItem> binElem, std::shared_ptr<AbstractProjectItem> oldParent);
+    void manageBinClipDeletion(AbstractProjectItem *binElem);
     /* @brief This function updates the underlying binPlaylist object to reflect insertion of a bin item
        @param binElem is the bin item inserted
     */
     void manageBinClipInsertion(const std::shared_ptr<AbstractProjectItem> &binElem);
+
+    /* @brief Retrieves the next id available for attribution to a folder */
+    int getFreeFolderId();
+
+    /* @brief Retrieves the next id available for attribution to a clip */
+    int getFreeClipId();
 public slots:
     /** @brief An item in the list was modified, notify */
     void onItemUpdated(std::shared_ptr<AbstractProjectItem> item);
@@ -152,6 +165,8 @@ private:
 
     Bin *m_bin;
 
+    int m_clipCounter;
+    int m_folderCounter;
 signals:
     void updateThumbProgress(long ms);
     void abortAudioThumb(const QString &id, long duration);

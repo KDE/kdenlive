@@ -70,7 +70,7 @@ public:
 
     /* @brief Change the parent of the current item. Structures are modified accordingly
      */
-    void changeParent(std::shared_ptr<TreeItem> newParent);
+    virtual void changeParent(std::shared_ptr<TreeItem> newParent);
 
     /* @brief Retrieves a child of the current item
        @param row is the index of the child to retrieve

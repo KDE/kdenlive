@@ -42,6 +42,8 @@ ProjectItemModel::ProjectItemModel(Bin *bin, QObject *parent)
     , m_lock(QReadWriteLock::Recursive)
     , m_binPlaylist(new Mlt::Playlist(pCore->getCurrentProfile()->profile()))
     , m_bin(bin)
+    , m_clipCounter(1)
+    , m_folderCounter(1)
 {
 }
 
@@ -278,7 +280,7 @@ std::shared_ptr<ProjectClip> ProjectItemModel::getClipByBinID(const QString &bin
         return getClipByBinID(binId.section(QLatin1Char('_'), 0, 0));
     }
     for (const auto &clip : m_allItems) {
-        auto c = std::static_pointer_cast<AbstractProjectItem>(clip.second);
+        auto c = std::static_pointer_cast<AbstractProjectItem>(clip.second.lock());
         if (c->itemType() == AbstractProjectItem::ClipItem && c->clipId() == binId) {
             return std::static_pointer_cast<ProjectClip>(c);
         }
@@ -289,7 +291,7 @@ std::shared_ptr<ProjectClip> ProjectItemModel::getClipByBinID(const QString &bin
 std::shared_ptr<ProjectFolder> ProjectItemModel::getFolderByBinId(const QString &binId)
 {
     for (const auto &clip : m_allItems) {
-        auto c = std::static_pointer_cast<AbstractProjectItem>(clip.second);
+        auto c = std::static_pointer_cast<AbstractProjectItem>(clip.second.lock());
         if (c->itemType() == AbstractProjectItem::FolderItem && c->clipId() == binId) {
             return std::static_pointer_cast<ProjectFolder>(c);
         }
@@ -324,7 +326,16 @@ QStringList ProjectItemModel::getEnclosingFolderInfo(const QModelIndex &index) c
 
 void ProjectItemModel::clean()
 {
-    rootItem = ProjectFolder::construct(std::static_pointer_cast<ProjectItemModel>(shared_from_this()));
+    std::vector<std::shared_ptr<TreeItem> > toDelete;
+    for (int i = 0; i < rootItem->childCount(); ++i) {
+        toDelete.push_back(rootItem->child(i));
+    }
+    for (const auto& child : toDelete) {
+        rootItem->removeChild(child);
+    }
+    Q_ASSERT(rootItem->childCount() == 0);
+    m_clipCounter = 1;
+    m_folderCounter = 1;
 }
 
 std::shared_ptr<ProjectFolder> ProjectItemModel::getRootFolder() const
@@ -388,7 +399,7 @@ bool ProjectItemModel::requestBinClipDeletion(std::shared_ptr<AbstractProjectIte
            is captured by the reverse operation.
            Actual deletions occurs when the undo object is destroyed.
         */
-        auto currentClip = std::static_pointer_cast<AbstractProjectItem>(m_allItems[id]);
+        auto currentClip = std::static_pointer_cast<AbstractProjectItem>(m_allItems[id].lock());
         Q_ASSERT(currentClip);
         if (!currentClip) return false;
         auto parent = currentClip->parent();
@@ -424,16 +435,15 @@ bool ProjectItemModel::requestBinClipDeletion(std::shared_ptr<AbstractProjectIte
 void ProjectItemModel::registerItem(const std::shared_ptr<TreeItem> &item)
 {
     auto clip = std::static_pointer_cast<AbstractProjectItem>(item);
+    qDebug() << "registering" <<clip->clipId();
     manageBinClipInsertion(clip);
     AbstractTreeModel::registerItem(item);
 }
-void ProjectItemModel::deregisterItem(int id)
+void ProjectItemModel::deregisterItem(int id, TreeItem *item)
 {
-    auto clip = std::static_pointer_cast<AbstractProjectItem>(m_allItems[id]);
-    if (auto parent = clip->parent()) {
-        manageBinClipDeletion(clip, parent);
-    }
-    AbstractTreeModel::deregisterItem(id);
+    auto clip = static_cast<AbstractProjectItem*>(item);
+    manageBinClipDeletion(clip);
+    AbstractTreeModel::deregisterItem(id, item);
 }
 
 void ProjectItemModel::notifyRowAppended(const std::shared_ptr<TreeItem> &row)
@@ -463,18 +473,19 @@ void ProjectItemModel::notifyRowAboutToDelete(std::shared_ptr<TreeItem> item, in
 {
     auto rowItem = item->child(row);
     auto binElem = std::static_pointer_cast<AbstractProjectItem>(rowItem);
-    auto oldParent = std::static_pointer_cast<AbstractProjectItem>(item);
-    manageBinClipDeletion(binElem, oldParent);
+    manageBinClipDeletion(binElem.get());
     AbstractTreeModel::notifyRowAboutToDelete(item, row);
 }
 
-void ProjectItemModel::manageBinClipDeletion(std::shared_ptr<AbstractProjectItem> binElem, std::shared_ptr<AbstractProjectItem> oldParent)
+void ProjectItemModel::manageBinClipDeletion(AbstractProjectItem *binElem)
 {
     switch(binElem->itemType()) {
     case AbstractProjectItem::FolderItem: {
         //When a folder is removed, we clear the path info
-        QString propertyName = "kdenlive:folder." + oldParent->clipId() + QLatin1Char('.') + binElem->clipId();
-        m_binPlaylist->set(propertyName.toUtf8().constData(), (char *)nullptr);
+        if (!binElem->lastParentId().isEmpty()) {
+            QString propertyName = "kdenlive:folder." + binElem->lastParentId() + QLatin1Char('.') + binElem->clipId();
+            m_binPlaylist->set(propertyName.toUtf8().constData(), (char *)nullptr);
+        }
         break;
     }
     default:
@@ -482,40 +493,65 @@ void ProjectItemModel::manageBinClipDeletion(std::shared_ptr<AbstractProjectItem
     }
 }
 
-// bool ProjectItemModel::requestAddFolder(const QString &name, const QString &parentId, Fun &undo, Fun &redo)
-// {
-//     QWriteLocker locker(&m_lock);
-//     std::shared_ptr<ProjectFolder> parentFolder = getFolderByBinId(parentId);
-//     if (!parentFolder) {
-//         qCDebug(KDENLIVE_LOG) << "  / / ERROR IN PARENT FOLDER";
-//         return false;
-//     }
-//     std::shared_ptr<ProjectFolder> new_folder = ProjectFolder::construct(id, name, m_itemModel, parentFolder);
-//     int folderId = new_folder->getId();
-//     Fun operation = [this, new_folder, parentId]() {
-//         /* Insertion is simply setting the parent of the folder.*/
-//         std::shared_ptr<ProjectFolder> parentFolder = getFolderByBinId(parentId);
-//         if (!parentFolder) {
-//             return false;
-//         }
-//         new_folder->changeParent(parentFolder);
-//         return true;
-//     };
-//     Fun reverse = [this, folderId]() {
-//         /* To undo insertion, we deregister the clip */
-//         std::shared_ptr<AbstractProjectItem> folder = getClipByBinID(folderId);
-//         if (!folder) {
-//             return false;
-//         }
-//         auto parent = currentClip->parent();
-//         parent->removeChild(currentClip);
-//         return true;
-//     };
-//     bool res = operation();
-//     if (res) {
-//         LOCK_IN_LAMBDA(operation);
-//         LOCK_IN_LAMBDA(reverse);
-//         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
-//     }
-//     return res;
-// }
+int ProjectItemModel::getFreeFolderId()
+{
+    return m_folderCounter++;
+}
+
+int ProjectItemModel::getFreeClipId()
+{
+    return m_clipCounter++;
+}
+bool ProjectItemModel::requestAddFolder(QString &id, const QString &name, const QString &parentId, Fun &undo, Fun &redo)
+{
+    QWriteLocker locker(&m_lock);
+    qDebug() << "request Add. parent="<<parentId;
+    std::shared_ptr<ProjectFolder> parentFolder = getFolderByBinId(parentId);
+    if (!parentFolder) {
+        qCDebug(KDENLIVE_LOG) << "  / / ERROR IN PARENT FOLDER";
+        return false;
+    }
+    if (id.isEmpty()) {
+        id = QString::number(getFreeFolderId());
+    }
+    std::shared_ptr<ProjectFolder> new_folder = ProjectFolder::construct(id, name, std::static_pointer_cast<ProjectItemModel>(shared_from_this()), parentFolder);
+    qDebug() << "newfolder created:"<<new_folder->clipId()<<(void*)new_folder.get();
+    parentFolder->appendChild(new_folder);
+    int folderId = new_folder->getId();
+    qDebug() << "creating op. parent="<<parentId<<(void*)parentFolder.get();
+    Fun operation = [this, new_folder, parentId]() {
+        /* Insertion is simply setting the parent of the folder.*/
+        qDebug() << "executing op. parent="<<parentId;
+        std::shared_ptr<ProjectFolder> parent = getFolderByBinId(parentId);
+        if (!parent) {
+            return false;
+        }
+        qDebug() << "executing op2. parent="<<parent->clipId()<<(void*)parent.get();
+        new_folder->changeParent(parent);
+        return true;
+    };
+    Fun reverse = [this, folderId]() {
+        /* To undo insertion, we deregister the clip */
+        auto folder = std::static_pointer_cast<AbstractProjectItem>(m_allItems[folderId].lock());
+        if (!folder) {
+            return false;
+        }
+        auto parent = folder->parent();
+        parent->removeChild(folder);
+        return true;
+    };
+    qDebug()<<"Folder list";
+    for (const auto &clip : m_allItems) {
+        auto c = std::static_pointer_cast<AbstractProjectItem>(clip.second.lock());
+        if (c->itemType() == AbstractProjectItem::FolderItem) {
+            qDebug() <<"folder"<<c->clipId()<<(void*)c.get();
+        }
+    }
+    bool res = operation();
+    if (res) {
+        LOCK_IN_LAMBDA(operation);
+        LOCK_IN_LAMBDA(reverse);
+        UPDATE_UNDO_REDO(operation, reverse, undo, redo);
+    }
+    return res;
+}

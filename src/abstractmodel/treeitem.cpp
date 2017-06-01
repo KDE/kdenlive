@@ -58,7 +58,7 @@ void TreeItem::baseFinishConstruct(const std::shared_ptr<TreeItem> &self)
 TreeItem::~TreeItem()
 {
     if (auto ptr = m_model.lock()) {
-        ptr->deregisterItem(m_id);
+        ptr->deregisterItem(m_id, this);
     } else {
         qDebug() << "ERROR: Something went wrong when deleting TreeItem. Model is not available anymore";
     }

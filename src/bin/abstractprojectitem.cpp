@@ -237,7 +237,7 @@ bool AbstractProjectItem::selfSoftDelete(Fun &undo, Fun &redo)
     }
     Fun operation = [this]() {
         if (auto ptr = m_model.lock()) {
-            ptr->deregisterItem(m_id);
+            ptr->deregisterItem(m_id, this);
         } else {
             qDebug() << "ERROR: Something went wrong when deleting TreeItem. Model is not available anymore";
             return false;
@@ -260,4 +260,18 @@ bool AbstractProjectItem::selfSoftDelete(Fun &undo, Fun &redo)
         return true;
     }
     return false;
+}
+
+QString AbstractProjectItem::lastParentId() const
+{
+    return m_lastParentId;
+}
+
+void AbstractProjectItem::changeParent(std::shared_ptr<TreeItem> newParent)
+{
+    m_lastParentId.clear();
+    if (newParent) {
+        m_lastParentId = std::static_pointer_cast<AbstractProjectItem>(newParent)->clipId();
+    }
+    TreeItem::changeParent(newParent);
 }

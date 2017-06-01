@@ -91,7 +91,7 @@ protected:
     virtual void registerItem(const std::shared_ptr<TreeItem> &item);
 
     /* @brief Deregister an item. This is a call-back meant to be called from TreeItem */
-    virtual void deregisterItem(int id);
+    virtual void deregisterItem(int id, TreeItem *item);
 
     /* @brief Returns the next valid id to give to a new element */
     static int getNextId();
@@ -99,7 +99,7 @@ protected:
 protected:
     std::shared_ptr<TreeItem> rootItem;
 
-    std::unordered_map<int, std::shared_ptr<TreeItem>> m_allItems;
+    std::unordered_map<int, std::weak_ptr<TreeItem>> m_allItems;
 
     static int currentTreeId;
 };

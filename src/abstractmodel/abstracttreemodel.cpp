@@ -170,8 +170,9 @@ void AbstractTreeModel::registerItem(const std::shared_ptr<TreeItem> &item)
     m_allItems[id] = item;
 }
 
-void AbstractTreeModel::deregisterItem(int id)
+void AbstractTreeModel::deregisterItem(int id, TreeItem *item)
 {
+    Q_UNUSED(item);
     Q_ASSERT(m_allItems.count(id) > 0);
     m_allItems.erase(id);
 }
@@ -182,5 +183,5 @@ std::shared_ptr<TreeItem> AbstractTreeModel::getItemById(int id) const
         return rootItem;
     }
     Q_ASSERT(m_allItems.count(id) > 0);
-    return m_allItems.at(id);
+    return m_allItems.at(id).lock();
 }
