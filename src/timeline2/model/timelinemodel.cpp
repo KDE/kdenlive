@@ -1227,9 +1227,21 @@ bool TimelineModel::requestCompositionMove(int compoId, int trackId, int positio
     }
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
+    int min = getCompositionPosition(compoId);
+    int max = min + getCompositionPlaytime(compoId);
+    int tk = getCompositionTrackId(compoId);
     bool res = requestCompositionMove(compoId, trackId, position, updateView, undo, redo);
+    if (tk > -1) {
+        min = qMin(min, getCompositionPosition(compoId));
+        max = qMax(max, getCompositionPosition(compoId));
+    } else {
+        min = getCompositionPosition(compoId);
+        max = min + getCompositionPlaytime(compoId);
+    }
+
     if (res && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Move composition"));
+        checkRefresh(min, max);
     }
     return res;
 }

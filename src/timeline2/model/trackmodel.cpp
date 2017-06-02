@@ -135,8 +135,10 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
         // In that case, we append after, in the first playlist
         return [this, position, clipId, end_function]() {
             if (auto ptr = m_parent.lock()) {
+                m_playlists[0].lock();
                 std::shared_ptr<ClipModel> clip = ptr->getClipPtr(clipId);
                 int index = m_playlists[0].insert_at(position, *clip, 1);
+                m_playlists[0].unlock();
                 return index != -1 && end_function();
             }
             qDebug() << "Error : Clip Insertion failed because timeline is not available anymore";
@@ -155,7 +157,9 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
             return [this, position, clipId, end_function]() {
                 if (auto ptr = m_parent.lock()) {
                     std::shared_ptr<ClipModel> clip = ptr->getClipPtr(clipId);
+                    m_playlists[0].lock();
                     int index = m_playlists[0].insert_at(position, *clip, 1);
+                    m_playlists[0].unlock();
                     return index != -1 && end_function();
                 }
                 qDebug() << "Error : Clip Insertion failed because timeline is not available anymore";
@@ -195,6 +199,7 @@ Fun TrackModel::requestClipDeletion_lambda(int clipId, bool updateView)
         }
         int target_track = clip_loc.first;
         int target_clip = clip_loc.second;
+        m_playlists[target_track].lock();
         Q_ASSERT(target_clip < m_playlists[target_track].count());
         Q_ASSERT(!m_playlists[target_track].is_blank(target_clip));
         auto prod = m_playlists[target_track].replace_with_blank(target_clip);
@@ -203,6 +208,7 @@ Fun TrackModel::requestClipDeletion_lambda(int clipId, bool updateView)
             m_allClips[clipId]->setCurrentTrackId(-1);
             m_allClips.erase(clipId);
             delete prod;
+            m_playlists[target_track].unlock();
             if (auto ptr = m_parent.lock()) {
                 ptr->m_snaps->removePoint(old_in);
                 ptr->m_snaps->removePoint(old_out);
@@ -214,6 +220,7 @@ Fun TrackModel::requestClipDeletion_lambda(int clipId, bool updateView)
             }
             return true;
         }
+        m_playlists[target_track].unlock();
         return false;
     };
 }
@@ -331,6 +338,7 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
         return [right, target_clip, target_track, clip_position, delta, in, out, clipId, update_snaps, this]() {
             int target_clip_mutable = target_clip;
             int blank_index = right ? (target_clip_mutable + 1) : target_clip_mutable;
+            m_playlists[target_track].lock();
             // insert blank to space that is going to be empty
             // The second is parameter is delta - 1 because this function expects an out time, which is basically size - 1
             m_playlists[target_track].insert_blank(blank_index, delta - 1);
@@ -345,6 +353,7 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
             if (err == 0) {
                 update_snaps(m_allClips[clipId]->getPosition(), m_allClips[clipId]->getPosition() + out - in);
             }
+            m_playlists[target_track].unlock();
             return err == 0;
         };
     }
@@ -752,7 +761,6 @@ Fun TrackModel::requestCompositionInsertion_lambda(int compoId, int position, bo
                 }
                 ptr->m_snaps->addPoint(new_in);
                 ptr->m_snaps->addPoint(new_out);
-                ptr->checkRefresh(new_in, new_out);
                 m_compoPos[new_in] = composition->getId();
                 return true;
             }
