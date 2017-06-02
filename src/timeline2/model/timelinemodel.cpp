@@ -305,13 +305,13 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position)
         auto all_clips = m_groups->getLeaves(groupId);
         for (int current_clipId : all_clips) {
             int in = getClipPosition(current_clipId);
-            int out = in + getClipPlaytime(current_clipId) - 1;
+            int out = in + getClipPlaytime(current_clipId);
             ignored_pts.push_back(in);
             ignored_pts.push_back(out);
         }
     } else {
         int in = getClipPosition(clipId);
-        int out = in + getClipPlaytime(clipId) - 1;
+        int out = in + getClipPlaytime(clipId);
         ignored_pts.push_back(in);
         ignored_pts.push_back(out);
     }
@@ -364,13 +364,13 @@ int TimelineModel::suggestCompositionMove(int compoId, int trackId, int position
         for (int current_compoId : all_clips) {
             // TODO: fix for composition
             int in = getClipPosition(current_compoId);
-            int out = in + getClipPlaytime(current_compoId) - 1;
+            int out = in + getClipPlaytime(current_compoId);
             ignored_pts.push_back(in);
             ignored_pts.push_back(out);
         }
     } else {
         int in = currentPos;
-        int out = in + getCompositionPlaytime(compoId) - 1;
+        int out = in + getCompositionPlaytime(compoId);
         qDebug() << " * ** IGNORING SNAP PTS: " << in << "-" << out;
         ignored_pts.push_back(in);
         ignored_pts.push_back(out);
@@ -698,10 +698,10 @@ bool TimelineModel::requestItemResize(int itemId, int size, bool right, bool log
         int in, out;
         if (isClip(itemId)) {
             in = getClipPosition(itemId);
-            out = in + getClipPlaytime(itemId) - 1;
+            out = in + getClipPlaytime(itemId);
         } else {
             in = getCompositionPosition(itemId);
-            out = in + getCompositionPlaytime(itemId) - 1;
+            out = in + getCompositionPlaytime(itemId);
         }
         // TODO Make the number of frames of snapping adjustable
         int proposed_size = m_snaps->proposeSize(in, out, size, right, 10);

@@ -112,7 +112,7 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
             clip->setPosition(position);
             clip->setCurrentTrackId(getId());
             int new_in = clip->getPosition();
-            int new_out = new_in + clip->getPlaytime() - 1;
+            int new_out = new_in + clip->getPlaytime();
             ptr->m_snaps->addPoint(new_in);
             ptr->m_snaps->addPoint(new_out);
             if (updateView) {
@@ -188,7 +188,7 @@ Fun TrackModel::requestClipDeletion_lambda(int clipId, bool updateView)
     // Find index of clip
     int clip_position = m_allClips[clipId]->getPosition();
     int old_in = clip_position;
-    int old_out = old_in + m_allClips[clipId]->getPlaytime() - 1;
+    int old_out = old_in + m_allClips[clipId]->getPlaytime();
     return [clip_position, clipId, old_in, old_out, updateView, this]() {
         auto clip_loc = getClipIndexAt(clip_position);
         int old_clip_index = getRowfromClip(clipId);
@@ -302,7 +302,7 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
 {
     int clip_position = m_allClips[clipId]->getPosition();
     int old_in = clip_position;
-    int old_out = old_in + m_allClips[clipId]->getPlaytime() - 1;
+    int old_out = old_in + m_allClips[clipId]->getPlaytime();
     auto clip_loc = getClipIndexAt(clip_position);
     int target_track = clip_loc.first;
     int target_clip = clip_loc.second;
@@ -351,7 +351,7 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
             // make sure to do this after, to avoid messing the indexes
             m_playlists[target_track].consolidate_blanks();
             if (err == 0) {
-                update_snaps(m_allClips[clipId]->getPosition(), m_allClips[clipId]->getPosition() + out - in);
+                update_snaps(m_allClips[clipId]->getPosition(), m_allClips[clipId]->getPosition() + out - in + 1);
             }
             m_playlists[target_track].unlock();
             return err == 0;
@@ -371,7 +371,7 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
                 }
                 int err = m_playlists[target_track].resize_clip(target_clip, in, out);
                 if (err == 0) {
-                    update_snaps(m_allClips[clipId]->getPosition(), m_allClips[clipId]->getPosition() + out - in);
+                    update_snaps(m_allClips[clipId]->getPosition(), m_allClips[clipId]->getPosition() + out - in + 1);
                 }
                 return err == 0;
             };
@@ -627,7 +627,7 @@ Fun TrackModel::requestCompositionResize_lambda(int compoId, int in, int out)
     Q_ASSERT(m_compoPos.count(compo_position) > 0);
     Q_ASSERT(m_compoPos[compo_position] == compoId);
     int old_in = compo_position;
-    int old_out = old_in + m_allCompositions[compoId]->getPlaytime() - 1;
+    int old_out = old_in + m_allCompositions[compoId]->getPlaytime();
     if (out == -1) {
         out = in + old_out - old_in;
     }
@@ -663,7 +663,7 @@ Fun TrackModel::requestCompositionResize_lambda(int compoId, int in, int out)
     return [in, out, compoId, update_snaps, this]() {
         m_compoPos.erase(m_allCompositions[compoId]->getPosition());
         m_allCompositions[compoId]->setInOut(in, out);
-        update_snaps(m_allCompositions[compoId]->getPosition(), m_allCompositions[compoId]->getPosition() + out - in);
+        update_snaps(m_allCompositions[compoId]->getPosition(), m_allCompositions[compoId]->getPosition() + out - in + 1);
         m_compoPos[m_allCompositions[compoId]->getPosition()] = compoId;
         return true;
     };
@@ -701,7 +701,7 @@ Fun TrackModel::requestCompositionDeletion_lambda(int compoId, bool updateView)
     // Find index of clip
     int clip_position = m_allCompositions[compoId]->getPosition();
     int old_in = clip_position;
-    int old_out = old_in + m_allCompositions[compoId]->getPlaytime() - 1;
+    int old_out = old_in + m_allCompositions[compoId]->getPlaytime();
     return [clip_position, compoId, old_in, old_out, updateView, this]() {
         int old_clip_index = getRowfromComposition(compoId);
         auto ptr = m_parent.lock();
@@ -749,9 +749,8 @@ Fun TrackModel::requestCompositionInsertion_lambda(int compoId, int position, bo
                 // update clip position and track
                 composition->setCurrentTrackId(getId());
                 int new_in = position;
-                int new_out = new_in + composition->getPlaytime() - 1;
-                composition->setInOut(new_in, new_out);
-                qDebug() << "---SETTING TR POS: " << position;
+                int new_out = new_in + composition->getPlaytime();
+                composition->setInOut(new_in, new_out - 1);
                 if (updateView) {
                     qDebug() << "* * *ADDING COMPOSITION ON TK: " << composition->getCurrentTrackId();
                     int composition_index = getRowfromComposition(composition->getId());
