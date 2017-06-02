@@ -27,10 +27,8 @@
 
 EffectItemModel::EffectItemModel(const QList<QVariant> &data, Mlt::Properties *effect, const QDomElement &xml, const QString &effectId,
                                  const std::shared_ptr<AbstractTreeModel> &stack, const std::shared_ptr<TreeItem> &parent)
-    : TreeItem(data, stack, parent)
+    : AbstractEffectItem(data, stack, parent)
     , AssetParameterModel(effect, xml, effectId)
-    , m_enabled(true)
-    , m_effectStackEnabled(true)
 {
 }
 
@@ -68,22 +66,6 @@ Mlt::Filter &EffectItemModel::filter() const
     return *static_cast<Mlt::Filter *>(m_asset.get());
 }
 
-void EffectItemModel::setEnabled(bool enabled)
-{
-    m_enabled = enabled;
-    updateEnable();
-}
-
-void EffectItemModel::setEffectStackEnabled(bool enabled)
-{
-    m_effectStackEnabled = enabled;
-    updateEnable();
-}
-
-bool EffectItemModel::isEnabled() const
-{
-    return m_enabled && m_effectStackEnabled;
-}
 
 void EffectItemModel::updateEnable()
 {

@@ -20,7 +20,7 @@
  ***************************************************************************/
 
 #include "assetpanel.hpp"
-#include "effects/effectstack/model/effectstackmodel.cpp"
+#include "effects/effectstack/model/effectstackmodel.hpp"
 #include "kdenlivesettings.h"
 #include "model/assetparametermodel.hpp"
 #include "transitions/transitionsrepository.hpp"

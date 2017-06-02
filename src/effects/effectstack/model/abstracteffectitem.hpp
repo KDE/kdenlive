@@ -19,38 +19,38 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-#ifndef EFFECTITEMMODEL_H
-#define EFFECTITEMMODEL_H
+#ifndef ABSTRACTEFFECTITEM_H
+#define ABSTRACTEFFECTITEM_H
 
 #include "abstractmodel/treeitem.hpp"
 #include "assets/model/assetparametermodel.hpp"
-#include "abstracteffectitem.hpp"
 #include <mlt++/MltFilter.h>
 
 class EffectStackModel;
 /* @brief This represents an effect of the effectstack
  */
-class EffectItemModel : public AbstractEffectItem, public AssetParameterModel
+class AbstractEffectItem : public TreeItem
 {
 
 public:
-    /* This construct an effect of the given id
-       @param is a ptr to the model this item belongs to. This is required to send update signals
-     */
-    static std::shared_ptr<EffectItemModel> construct(const QString &effectId, std::shared_ptr<AbstractTreeModel> stack, std::shared_ptr<TreeItem> parent);
+    AbstractEffectItem(const QList<QVariant> &data, const std::shared_ptr<AbstractTreeModel> &stack, const std::shared_ptr<TreeItem> &parent);
 
-    /* @brief This function plants the effect into the given service in last position
-     */
-    void plant(const std::weak_ptr<Mlt::Service> &service);
+    /* @brief This function change the individual enabled state of the effect */
+    void setEnabled(bool enabled);
 
-    Mlt::Filter &filter() const;
+    /* @brief This function change the global (effectstack-wise) enabled state of the effect */
+    void setEffectStackEnabled(bool enabled);
+
+    /* @brief Returns whether the effect is enabled */
+    bool isEnabled() const;
 
 protected:
-    EffectItemModel(const QList<QVariant> &data, Mlt::Properties *effect, const QDomElement &xml, const QString &effectId,
-                    const std::shared_ptr<AbstractTreeModel> &stack, const std::shared_ptr<TreeItem> &parent);
 
-    void updateEnable() override;
+    /* @brief Toogles the mlt effect according to the current activation state*/
+    virtual void updateEnable() = 0;
 
+    bool m_enabled;
+    bool m_effectStackEnabled;
 };
 
 #endif

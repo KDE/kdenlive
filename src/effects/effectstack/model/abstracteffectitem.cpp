@@ -19,38 +19,40 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-#ifndef EFFECTITEMMODEL_H
-#define EFFECTITEMMODEL_H
-
-#include "abstractmodel/treeitem.hpp"
-#include "assets/model/assetparametermodel.hpp"
 #include "abstracteffectitem.hpp"
-#include <mlt++/MltFilter.h>
 
-class EffectStackModel;
-/* @brief This represents an effect of the effectstack
- */
-class EffectItemModel : public AbstractEffectItem, public AssetParameterModel
+#include "effects/effectsrepository.hpp"
+#include "effectstackmodel.hpp"
+#include <utility>
+
+AbstractEffectItem::AbstractEffectItem(const QList<QVariant> &data, const std::shared_ptr<AbstractTreeModel> &stack, const std::shared_ptr<TreeItem> &parent)
+    : TreeItem(data, stack, parent)
+    , m_enabled(true)
+    , m_effectStackEnabled(true)
 {
+}
 
-public:
-    /* This construct an effect of the given id
-       @param is a ptr to the model this item belongs to. This is required to send update signals
-     */
-    static std::shared_ptr<EffectItemModel> construct(const QString &effectId, std::shared_ptr<AbstractTreeModel> stack, std::shared_ptr<TreeItem> parent);
+void AbstractEffectItem::setEnabled(bool enabled)
+{
+    m_enabled = enabled;
+    updateEnable();
+}
 
-    /* @brief This function plants the effect into the given service in last position
-     */
-    void plant(const std::weak_ptr<Mlt::Service> &service);
+void AbstractEffectItem::setEffectStackEnabled(bool enabled)
+{
+    m_effectStackEnabled = enabled;
+    for (int i = 0; i < childCount(); ++i) {
+        std::static_pointer_cast<AbstractEffectItem>(child(i))->setEffectStackEnabled(enabled);
+    }
+    updateEnable();
+}
 
-    Mlt::Filter &filter() const;
+bool AbstractEffectItem::isEnabled() const
+{
+    bool parentEnabled = true;
+    if (auto ptr = std::static_pointer_cast<AbstractEffectItem>(m_parentItem.lock())) {
+        parentEnabled = ptr->isEnabled();
+    }
+    return m_enabled && m_effectStackEnabled && parentEnabled;
+}
 
-protected:
-    EffectItemModel(const QList<QVariant> &data, Mlt::Properties *effect, const QDomElement &xml, const QString &effectId,
-                    const std::shared_ptr<AbstractTreeModel> &stack, const std::shared_ptr<TreeItem> &parent);
-
-    void updateEnable() override;
-
-};
-
-#endif
