@@ -25,18 +25,6 @@
 
 using Fun = std::function<bool(void)>;
 
-/* @brief This macro takes as parameter one atomic operation and its reverse, and update
-   the undo and redo functional stacks/queue accordingly
-*/
-#define UPDATE_UNDO_REDO(operation, reverse, undo, redo)                                                                                                       \
-    undo = [reverse, undo]() {                                                                                                                                 \
-        bool v = reverse();                                                                                                                                    \
-        return undo() && v;                                                                                                                                    \
-    };                                                                                                                                                         \
-    redo = [operation, redo]() {                                                                                                                               \
-        bool v = redo();                                                                                                                                       \
-        return operation() && v;                                                                                                                               \
-    };
 
 /* @brief this macro executes an operation after a given lambda
  */

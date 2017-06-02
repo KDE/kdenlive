@@ -19,62 +19,74 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
+#include "macros.hpp"
 template <typename Service>
 MoveableItem<Service>::MoveableItem(std::weak_ptr<TimelineModel> parent, int id)
     : m_parent(parent)
     , m_id(id == -1 ? TimelineModel::getNextId() : id)
     , m_position(-1)
     , m_currentTrackId(-1)
+    , m_lock(QReadWriteLock::Recursive)
 {
 }
 
 template <typename Service> int MoveableItem<Service>::getId() const
 {
+    READ_LOCK();
     return m_id;
 }
 
 template <typename Service> int MoveableItem<Service>::getCurrentTrackId() const
 {
+    READ_LOCK();
     return m_currentTrackId;
 }
 
 template <typename Service> int MoveableItem<Service>::getPosition() const
 {
+    READ_LOCK();
     return m_position;
 }
 
 template <typename Service> std::pair<int, int> MoveableItem<Service>::getInOut() const
 {
+    READ_LOCK();
     return {getIn(), getOut()};
 }
 
 template <typename Service> int MoveableItem<Service>::getIn() const
 {
+    READ_LOCK();
     return service()->get_in();
 }
 
 template <typename Service> int MoveableItem<Service>::getOut() const
 {
+    READ_LOCK();
     return service()->get_out();
 }
 
 template <typename Service> bool MoveableItem<Service>::isValid()
 {
+    READ_LOCK();
     return service()->is_valid();
 }
 
 template <typename Service> void MoveableItem<Service>::setPosition(int pos)
 {
+    QWriteLocker locker(&m_lock);
     m_position = pos;
 }
 
 template <typename Service> void MoveableItem<Service>::setCurrentTrackId(int tid)
 {
+    QWriteLocker locker(&m_lock);
     m_currentTrackId = tid;
 }
 
 template <typename Service> void MoveableItem<Service>::setInOut(int in, int out)
 {
+    QWriteLocker locker(&m_lock);
     m_position = in;
     service()->set_in_and_out(in, out);
 }

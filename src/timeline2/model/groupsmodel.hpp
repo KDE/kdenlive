@@ -26,6 +26,7 @@
 #include <memory>
 #include <unordered_map>
 #include <unordered_set>
+#include <QReadWriteLock>
 
 class TimelineItemModel;
 
@@ -137,6 +138,7 @@ private:
     std::unordered_map<int, std::unordered_set<int>> m_downLink; // edges toward children
 
     std::unordered_set<int> m_groupIds; // this keeps track of "real" groups (non-leaf elements)
+    mutable QReadWriteLock m_lock; // This is a lock that ensures safety in case of concurrent access
 };
 
 #endif

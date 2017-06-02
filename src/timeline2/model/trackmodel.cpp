@@ -32,6 +32,7 @@
 TrackModel::TrackModel(const std::weak_ptr<TimelineModel> &parent, int id)
     : m_parent(parent)
     , m_id(id == -1 ? TimelineModel::getNextId() : id)
+    , m_lock(QReadWriteLock::Recursive)
 {
     if (auto ptr = parent.lock()) {
         m_track = std::shared_ptr<Mlt::Tractor>(new Mlt::Tractor(*ptr->getProfile()));
@@ -80,6 +81,7 @@ int TrackModel::construct(const std::weak_ptr<TimelineModel> &parent, int id, in
 
 int TrackModel::getClipsCount()
 {
+    READ_LOCK();
 #ifdef QT_DEBUG
     int count = 0;
     for (int j = 0; j < 2; j++) {
@@ -98,6 +100,7 @@ int TrackModel::getClipsCount()
 
 Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updateView)
 {
+    QWriteLocker locker(&m_lock);
     // By default, insertion occurs in topmost track
     // Find out the clip id at position
     int target_clip = m_playlists[0].get_clip_index_at(position);
@@ -135,10 +138,8 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
         // In that case, we append after, in the first playlist
         return [this, position, clipId, end_function]() {
             if (auto ptr = m_parent.lock()) {
-                m_playlists[0].lock();
                 std::shared_ptr<ClipModel> clip = ptr->getClipPtr(clipId);
                 int index = m_playlists[0].insert_at(position, *clip, 1);
-                m_playlists[0].unlock();
                 return index != -1 && end_function();
             }
             qDebug() << "Error : Clip Insertion failed because timeline is not available anymore";
@@ -157,9 +158,7 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
             return [this, position, clipId, end_function]() {
                 if (auto ptr = m_parent.lock()) {
                     std::shared_ptr<ClipModel> clip = ptr->getClipPtr(clipId);
-                    m_playlists[0].lock();
                     int index = m_playlists[0].insert_at(position, *clip, 1);
-                    m_playlists[0].unlock();
                     return index != -1 && end_function();
                 }
                 qDebug() << "Error : Clip Insertion failed because timeline is not available anymore";
@@ -174,6 +173,7 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
 
 bool TrackModel::requestClipInsertion(int clipId, int position, bool updateView, Fun &undo, Fun &redo)
 {
+    QWriteLocker locker(&m_lock);
     auto operation = requestClipInsertion_lambda(clipId, position, updateView);
     if (operation()) {
         auto reverse = requestClipDeletion_lambda(clipId, updateView);
@@ -185,6 +185,7 @@ bool TrackModel::requestClipInsertion(int clipId, int position, bool updateView,
 
 Fun TrackModel::requestClipDeletion_lambda(int clipId, bool updateView)
 {
+    QWriteLocker locker(&m_lock);
     // Find index of clip
     int clip_position = m_allClips[clipId]->getPosition();
     int old_in = clip_position;
@@ -199,7 +200,6 @@ Fun TrackModel::requestClipDeletion_lambda(int clipId, bool updateView)
         }
         int target_track = clip_loc.first;
         int target_clip = clip_loc.second;
-        m_playlists[target_track].lock();
         Q_ASSERT(target_clip < m_playlists[target_track].count());
         Q_ASSERT(!m_playlists[target_track].is_blank(target_clip));
         auto prod = m_playlists[target_track].replace_with_blank(target_clip);
@@ -208,7 +208,6 @@ Fun TrackModel::requestClipDeletion_lambda(int clipId, bool updateView)
             m_allClips[clipId]->setCurrentTrackId(-1);
             m_allClips.erase(clipId);
             delete prod;
-            m_playlists[target_track].unlock();
             if (auto ptr = m_parent.lock()) {
                 ptr->m_snaps->removePoint(old_in);
                 ptr->m_snaps->removePoint(old_out);
@@ -220,13 +219,13 @@ Fun TrackModel::requestClipDeletion_lambda(int clipId, bool updateView)
             }
             return true;
         }
-        m_playlists[target_track].unlock();
         return false;
     };
 }
 
 bool TrackModel::requestClipDeletion(int clipId, bool updateView, Fun &undo, Fun &redo)
 {
+    QWriteLocker locker(&m_lock);
     Q_ASSERT(m_allClips.count(clipId) > 0);
     auto old_clip = m_allClips[clipId];
     int old_position = old_clip->getPosition();
@@ -241,6 +240,7 @@ bool TrackModel::requestClipDeletion(int clipId, bool updateView, Fun &undo, Fun
 
 int TrackModel::getBlankSizeNearClip(int clipId, bool after)
 {
+    READ_LOCK();
     Q_ASSERT(m_allClips.count(clipId) > 0);
     int clip_position = m_allClips[clipId]->getPosition();
     auto clip_loc = getClipIndexAt(clip_position);
@@ -276,6 +276,7 @@ int TrackModel::getBlankSizeNearClip(int clipId, bool after)
 
 int TrackModel::getBlankSizeNearComposition(int compoId, bool after)
 {
+    READ_LOCK();
     Q_ASSERT(m_allCompositions.count(compoId) > 0);
     int clip_position = m_allCompositions[compoId]->getPosition();
     Q_ASSERT(m_compoPos.count(clip_position) > 0);
@@ -300,6 +301,7 @@ int TrackModel::getBlankSizeNearComposition(int compoId, bool after)
 
 Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right)
 {
+    QWriteLocker locker(&m_lock);
     int clip_position = m_allClips[clipId]->getPosition();
     int old_in = clip_position;
     int old_out = old_in + m_allClips[clipId]->getPlaytime();
@@ -338,7 +340,6 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
         return [right, target_clip, target_track, clip_position, delta, in, out, clipId, update_snaps, this]() {
             int target_clip_mutable = target_clip;
             int blank_index = right ? (target_clip_mutable + 1) : target_clip_mutable;
-            m_playlists[target_track].lock();
             // insert blank to space that is going to be empty
             // The second is parameter is delta - 1 because this function expects an out time, which is basically size - 1
             m_playlists[target_track].insert_blank(blank_index, delta - 1);
@@ -353,7 +354,6 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
             if (err == 0) {
                 update_snaps(m_allClips[clipId]->getPosition(), m_allClips[clipId]->getPosition() + out - in + 1);
             }
-            m_playlists[target_track].unlock();
             return err == 0;
         };
     }
@@ -428,7 +428,11 @@ int TrackModel::getId() const
 
 int TrackModel::getClipByPosition(int position)
 {
+    READ_LOCK();
     QSharedPointer<Mlt::Producer> prod(m_playlists[0].get_clip_at(position));
+    if (prod->is_blank()) {
+        QSharedPointer<Mlt::Producer> prod(m_playlists[1].get_clip_at(position));
+    }
     if (prod->is_blank()) {
         return -1;
     }
@@ -437,6 +441,7 @@ int TrackModel::getClipByPosition(int position)
 
 int TrackModel::getClipByRow(int row) const
 {
+    READ_LOCK();
     if (row >= static_cast<int>(m_allClips.size())) {
         return -1;
     }
@@ -447,6 +452,8 @@ int TrackModel::getClipByRow(int row) const
 
 std::unordered_set<int> TrackModel::getClipsAfterPosition(int position, int end)
 {
+    READ_LOCK();
+    // TODO: this function doesn't take into accounts the fact that there are two tracks
     std::unordered_set<int> ids;
     int ix = m_playlists[0].get_clip_index_at(position);
     if (end > -1) {
@@ -470,23 +477,27 @@ std::unordered_set<int> TrackModel::getClipsAfterPosition(int position, int end)
 
 int TrackModel::getRowfromClip(int clipId) const
 {
+    READ_LOCK();
     Q_ASSERT(m_allClips.count(clipId) > 0);
     return (int)std::distance(m_allClips.begin(), m_allClips.find(clipId));
 }
 
 int TrackModel::getRowfromComposition(int tid) const
 {
+    READ_LOCK();
     Q_ASSERT(m_allCompositions.count(tid) > 0);
     return (int)m_allClips.size() + (int)std::distance(m_allCompositions.begin(), m_allCompositions.find(tid));
 }
 
 QVariant TrackModel::getProperty(const QString &name)
 {
+    READ_LOCK();
     return QVariant(m_track->get(name.toUtf8().constData()));
 }
 
 void TrackModel::setProperty(const QString &name, const QString &value)
 {
+    QWriteLocker locker(&m_lock);
     m_track->set(name.toUtf8().constData(), value.toUtf8().constData());
 }
 
@@ -582,6 +593,7 @@ bool TrackModel::checkConsistency()
 
 std::pair<int, int> TrackModel::getClipIndexAt(int position)
 {
+    READ_LOCK();
     for (int j = 0; j < 2; j++) {
         if (!m_playlists[j].is_blank_at(position)) {
             return {j, m_playlists[j].get_clip_index_at(position)};
@@ -593,11 +605,13 @@ std::pair<int, int> TrackModel::getClipIndexAt(int position)
 
 bool TrackModel::isBlankAt(int position)
 {
+    READ_LOCK();
     return m_playlists[0].is_blank_at(position) && m_playlists[1].is_blank_at(position);
 }
 
 int TrackModel::getBlankEnd(int position, int track)
 {
+    READ_LOCK();
     // Q_ASSERT(m_playlists[track].is_blank_at(position));
     if (!m_playlists[track].is_blank_at(position)) {
         return position;
@@ -613,6 +627,7 @@ int TrackModel::getBlankEnd(int position, int track)
 }
 int TrackModel::getBlankEnd(int position)
 {
+    READ_LOCK();
     int end = INT_MAX;
     for (int j = 0; j < 2; j++) {
         end = std::min(getBlankEnd(position, j), end);
@@ -622,6 +637,7 @@ int TrackModel::getBlankEnd(int position)
 
 Fun TrackModel::requestCompositionResize_lambda(int compoId, int in, int out)
 {
+    QWriteLocker locker(&m_lock);
     qDebug() << "compo resize " << compoId << in << out;
     int compo_position = m_allCompositions[compoId]->getPosition();
     Q_ASSERT(m_compoPos.count(compo_position) > 0);
@@ -671,6 +687,7 @@ Fun TrackModel::requestCompositionResize_lambda(int compoId, int in, int out)
 
 bool TrackModel::requestCompositionInsertion(int compoId, int position, bool updateView, Fun &undo, Fun &redo)
 {
+    QWriteLocker locker(&m_lock);
     auto operation = requestCompositionInsertion_lambda(compoId, position, updateView);
     if (operation()) {
         auto reverse = requestCompositionDeletion_lambda(compoId, updateView);
@@ -682,6 +699,7 @@ bool TrackModel::requestCompositionInsertion(int compoId, int position, bool upd
 
 bool TrackModel::requestCompositionDeletion(int compoId, bool updateView, Fun &undo, Fun &redo)
 {
+    QWriteLocker locker(&m_lock);
     Q_ASSERT(m_allCompositions.count(compoId) > 0);
     auto old_composition = m_allCompositions[compoId];
     int old_position = old_composition->getPosition();
@@ -698,6 +716,7 @@ bool TrackModel::requestCompositionDeletion(int compoId, bool updateView, Fun &u
 
 Fun TrackModel::requestCompositionDeletion_lambda(int compoId, bool updateView)
 {
+    QWriteLocker locker(&m_lock);
     // Find index of clip
     int clip_position = m_allCompositions[compoId]->getPosition();
     int old_in = clip_position;
@@ -720,6 +739,7 @@ Fun TrackModel::requestCompositionDeletion_lambda(int compoId, bool updateView)
 
 int TrackModel::getCompositionByRow(int row) const
 {
+    READ_LOCK();
     if (row < (int)m_allClips.size()) {
         return -1;
     }
@@ -730,11 +750,13 @@ int TrackModel::getCompositionByRow(int row) const
 
 int TrackModel::getCompositionsCount() const
 {
+    READ_LOCK();
     return (int)m_allCompositions.size();
 }
 
 Fun TrackModel::requestCompositionInsertion_lambda(int compoId, int position, bool updateView)
 {
+    QWriteLocker locker(&m_lock);
     bool intersecting = true;
     if (auto ptr = m_parent.lock()) {
         intersecting = hasIntersectingComposition(position, position + ptr->getCompositionPlaytime(compoId) - 1);
@@ -773,6 +795,7 @@ Fun TrackModel::requestCompositionInsertion_lambda(int compoId, int position, bo
 
 bool TrackModel::hasIntersectingComposition(int in, int out) const
 {
+    READ_LOCK();
     auto it = m_compoPos.lower_bound(in);
     if (m_compoPos.empty()) {
         return false;

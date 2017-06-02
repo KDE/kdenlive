@@ -22,6 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "abstractprojectitem.h"
 #include "bin.h"
+#include "macros.hpp"
 #include "projectitemmodel.h"
 
 #include <QDomElement>
@@ -42,6 +43,7 @@ AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QString &id
     , m_jobProgress(0)
     , m_itemType(type)
     , m_isCurrent(false)
+    , m_lock(QReadWriteLock::Recursive)
 {
 }
 
@@ -59,6 +61,7 @@ AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QDomElement
     , m_jobProgress(0)
     , m_itemType(type)
     , m_isCurrent(false)
+    , m_lock(QReadWriteLock::Recursive)
 {
 }
 

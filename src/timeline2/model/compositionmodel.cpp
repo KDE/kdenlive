@@ -54,6 +54,7 @@ int CompositionModel::construct(const std::weak_ptr<TimelineModel> &parent, cons
 
 bool CompositionModel::requestResize(int size, bool right, Fun &undo, Fun &redo)
 {
+    QWriteLocker locker(&m_lock);
     if (size <= 0) {
         return false;
     }
@@ -111,26 +112,31 @@ bool CompositionModel::requestResize(int size, bool right, Fun &undo, Fun &redo)
 
 const QString CompositionModel::getProperty(const QString &name) const
 {
+    READ_LOCK();
     return QString::fromUtf8(service()->get(name.toUtf8().constData()));
 }
 
 Mlt::Transition *CompositionModel::service() const
 {
+    READ_LOCK();
     return static_cast<Mlt::Transition *>(m_asset.get());
 }
 
 int CompositionModel::getPlaytime() const
 {
+    READ_LOCK();
     return getOut() - getIn() + 1;
 }
 
 int CompositionModel::getATrack() const
 {
+    READ_LOCK();
     return m_atrack;
 }
 
 void CompositionModel::setATrack(int trackId)
 {
+    QWriteLocker locker(&m_lock);
     Q_ASSERT(trackId != getCurrentTrackId()); // can't compose with same track
     m_atrack = trackId;
 }

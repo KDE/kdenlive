@@ -29,6 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QDateTime>
 #include <QObject>
+#include <QReadWriteLock>
 
 class ProjectClip;
 class ProjectFolder;
@@ -214,6 +215,8 @@ protected:
 
     /** @brief Returns a rounded border pixmap from the @param source pixmap. */
     QPixmap roundedPixmap(const QPixmap &source);
+
+    mutable QReadWriteLock m_lock; // This is a lock that ensures safety in case of concurrent access
 
 private:
     bool m_isCurrent;

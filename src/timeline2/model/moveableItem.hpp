@@ -26,6 +26,7 @@
 #include "trackmodel.hpp"
 #include "undohelper.hpp"
 #include <QObject>
+#include <QReadWriteLock>
 #include <memory>
 
 /* @brief This is the base class for objects that can move, for example clips and compositions
@@ -111,6 +112,7 @@ protected:
     int m_id; // this is the creation id of the item, used for book-keeping
     int m_position;
     int m_currentTrackId;
+    mutable QReadWriteLock m_lock; // This is a lock that ensures safety in case of concurrent access
 };
 
 #include "moveableItem.ipp"

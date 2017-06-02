@@ -420,8 +420,6 @@ bool ProjectItemModel::requestBinClipDeletion(std::shared_ptr<AbstractProjectIte
     bool res = operation();
     qDebug() << "operation succes" << res;
     if (res) {
-        LOCK_IN_LAMBDA(operation);
-        LOCK_IN_LAMBDA(reverse);
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
         res = clip->selfSoftDelete(undo, redo);
         qDebug() << "soltDelete succes" << res;
@@ -549,8 +547,6 @@ bool ProjectItemModel::requestAddFolder(QString &id, const QString &name, const 
     }
     bool res = operation();
     if (res) {
-        LOCK_IN_LAMBDA(operation);
-        LOCK_IN_LAMBDA(reverse);
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
     }
     return res;

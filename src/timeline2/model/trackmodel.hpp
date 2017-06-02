@@ -24,6 +24,7 @@
 
 #include "undohelper.hpp"
 #include <QSharedPointer>
+#include <QReadWriteLock>
 #include <memory>
 #include <mlt++/MltPlaylist.h>
 #include <mlt++/MltTractor.h>
@@ -208,6 +209,8 @@ private:
 
     std::map<int, int> m_compoPos; // We store the positions of the compositions. In Melt, the compositions are not inserted at the track level, but we keep
                                    // those positions here to check for moves and resize
+
+    mutable QReadWriteLock m_lock; // This is a lock that ensures safety in case of concurrent access
 };
 
 #endif

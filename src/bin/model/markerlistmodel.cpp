@@ -56,6 +56,7 @@ MarkerListModel::MarkerListModel(std::weak_ptr<DocUndoStack> undo_stack, QObject
 
 bool MarkerListModel::addMarker(GenTime pos, const QString &comment, int type, Fun &undo, Fun &redo)
 {
+    QWriteLocker locker(&m_lock);
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
     if (type == -1) type = KdenliveSettings::default_marker_type();
@@ -97,6 +98,7 @@ void MarkerListModel::addMarker(GenTime pos, const QString &comment, int type)
 
 bool MarkerListModel::removeMarker(GenTime pos, Fun &undo, Fun &redo)
 {
+    QWriteLocker locker(&m_lock);
     Q_ASSERT(m_markerList.count(pos) > 0);
     QString oldComment = m_markerList[pos].first;
     int oldType = m_markerList[pos].second;
@@ -123,6 +125,7 @@ void MarkerListModel::removeMarker(GenTime pos)
 
 void MarkerListModel::editMarker(GenTime oldPos, GenTime pos, const QString &comment, int type)
 {
+    QWriteLocker locker(&m_lock);
     Q_ASSERT(m_markerList.count(oldPos) > 0);
     QString oldComment = m_markerList[oldPos].first;
     int oldType = m_markerList[oldPos].second;
@@ -143,6 +146,7 @@ void MarkerListModel::editMarker(GenTime oldPos, GenTime pos, const QString &com
 
 Fun MarkerListModel::changeComment_lambda(GenTime pos, const QString &comment, int type)
 {
+    QWriteLocker locker(&m_lock);
     auto guide = m_guide;
     auto clipId = m_clipId;
     return [guide, clipId, pos, comment, type]() {
@@ -158,6 +162,7 @@ Fun MarkerListModel::changeComment_lambda(GenTime pos, const QString &comment, i
 
 Fun MarkerListModel::addMarker_lambda(GenTime pos, const QString &comment, int type)
 {
+    QWriteLocker locker(&m_lock);
     auto guide = m_guide;
     auto clipId = m_clipId;
     return [guide, clipId, pos, comment, type]() {
@@ -179,6 +184,7 @@ Fun MarkerListModel::addMarker_lambda(GenTime pos, const QString &comment, int t
 
 Fun MarkerListModel::deleteMarker_lambda(GenTime pos)
 {
+    QWriteLocker locker(&m_lock);
     auto guide = m_guide;
     auto clipId = m_clipId;
     return [guide, clipId, pos]() {
@@ -214,6 +220,7 @@ QHash<int, QByteArray> MarkerListModel::roleNames() const
 
 void MarkerListModel::addSnapPoint(GenTime pos)
 {
+    QWriteLocker locker(&m_lock);
     std::vector<std::weak_ptr<SnapModel>> validSnapModels;
     for (const auto &snapModel : m_registeredSnaps) {
         if (auto ptr = snapModel.lock()) {
@@ -227,6 +234,7 @@ void MarkerListModel::addSnapPoint(GenTime pos)
 
 void MarkerListModel::removeSnapPoint(GenTime pos)
 {
+    QWriteLocker locker(&m_lock);
     std::vector<std::weak_ptr<SnapModel>> validSnapModels;
     for (const auto &snapModel : m_registeredSnaps) {
         if (auto ptr = snapModel.lock()) {
@@ -323,6 +331,7 @@ void MarkerListModel::registerSnapModel(std::weak_ptr<SnapModel> snapModel)
 
 bool MarkerListModel::importFromJson(const QString &data, bool ignoreConflicts)
 {
+    QWriteLocker locker(&m_lock);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
 
@@ -370,6 +379,7 @@ bool MarkerListModel::importFromJson(const QString &data, bool ignoreConflicts)
 
 QString MarkerListModel::toJson() const
 {
+    READ_LOCK();
     QJsonArray list;
     for (const auto &marker : m_markerList) {
         QJsonObject currentMarker;

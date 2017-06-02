@@ -24,8 +24,8 @@
 
 /*  This file contains a collection of macros that can be used in model related classes.
     The class only needs to have the following members:
-    - std::weak_ptr<DocUndoStack> m_undoStack;  this is a pointer to the undoStack
-    - mutable QReadWriteLock m_lock; This is a lock that ensures safety in case of concurrent access. Note that the mutex must be recursive.
+    - For Push_undo : std::weak_ptr<DocUndoStack> m_undoStack;  this is a pointer to the undoStack
+    - For Update_undo_redo: mutable QReadWriteLock m_lock; This is a lock that ensures safety in case of concurrent access. Note that the mutex must be recursive.
 
     See for example TimelineModel.
 */
@@ -62,8 +62,6 @@ reading a Read-protected property. In that case, we try to write lock it first (
    Then they are added on the undoStack
 */
 #define PUSH_UNDO(undo, redo, text)                                                                                                                            \
-    LOCK_IN_LAMBDA(undo)                                                                                                                                       \
-    LOCK_IN_LAMBDA(redo)                                                                                                                                       \
     if (auto ptr = m_undoStack.lock()) {                                                                                                                       \
         ptr->push(new FunctionalUndoCommand(undo, redo, text));                                                                                                \
     } else {                                                                                                                                                   \
@@ -71,4 +69,19 @@ reading a Read-protected property. In that case, we try to write lock it first (
         Q_ASSERT(false);                                                                                                                                       \
     }
 
+/* @brief This macro takes as parameter one atomic operation and its reverse, and update
+   the undo and redo functional stacks/queue accordingly
+   It will also ensure that operation and reverse are dealing with mutexes
+*/
+#define UPDATE_UNDO_REDO(operation, reverse, undo, redo)                                                                                                       \
+    LOCK_IN_LAMBDA(operation)                                           \
+    LOCK_IN_LAMBDA(reverse)                                             \
+    undo = [reverse, undo]() {                                                                                                                                 \
+        bool v = reverse();                                                                                                                                    \
+        return undo() && v;                                                                                                                                    \
+    };                                                                                                                                                         \
+    redo = [operation, redo]() {                                                                                                                               \
+        bool v = redo();                                                                                                                                       \
+        return operation() && v;                                                                                                                               \
+    };
 #endif

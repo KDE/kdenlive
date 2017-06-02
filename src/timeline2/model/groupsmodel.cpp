@@ -21,6 +21,7 @@
 
 #include "groupsmodel.hpp"
 #include "timelineitemmodel.hpp"
+#include "macros.hpp"
 #include <QDebug>
 #include <QModelIndex>
 #include <queue>
@@ -28,11 +29,13 @@
 
 GroupsModel::GroupsModel(std::weak_ptr<TimelineItemModel> parent)
     : m_parent(std::move(parent))
+    , m_lock(QReadWriteLock::Recursive)
 {
 }
 
 Fun GroupsModel::groupItems_lambda(int gid, const std::unordered_set<int> &ids)
 {
+    QWriteLocker locker(&m_lock);
     return [gid, ids, this]() {
         createGroupItem(gid);
 
@@ -61,6 +64,7 @@ Fun GroupsModel::groupItems_lambda(int gid, const std::unordered_set<int> &ids)
 
 int GroupsModel::groupItems(const std::unordered_set<int> &ids, Fun &undo, Fun &redo)
 {
+    QWriteLocker locker(&m_lock);
     Q_ASSERT(!ids.empty());
     if (ids.size() == 1) {
         // We do not create a group with only one element. Instead, we return the id of that element
@@ -78,6 +82,7 @@ int GroupsModel::groupItems(const std::unordered_set<int> &ids, Fun &undo, Fun &
 
 bool GroupsModel::ungroupItem(int id, Fun &undo, Fun &redo)
 {
+    QWriteLocker locker(&m_lock);
     int gid = getRootId(id);
     if (m_groupIds.count(gid) == 0) {
         // element is not part of a group
@@ -89,6 +94,7 @@ bool GroupsModel::ungroupItem(int id, Fun &undo, Fun &redo)
 
 void GroupsModel::createGroupItem(int id)
 {
+    QWriteLocker locker(&m_lock);
     Q_ASSERT(m_upLink.count(id) == 0);
     Q_ASSERT(m_downLink.count(id) == 0);
     m_upLink[id] = -1;
@@ -97,6 +103,7 @@ void GroupsModel::createGroupItem(int id)
 
 Fun GroupsModel::destructGroupItem_lambda(int id)
 {
+    QWriteLocker locker(&m_lock);
     return [this, id]() {
         auto ptr = m_parent.lock();
         if (m_groupIds.count(id) > 0) {
@@ -124,6 +131,7 @@ Fun GroupsModel::destructGroupItem_lambda(int id)
 
 bool GroupsModel::destructGroupItem(int id, bool deleteOrphan, Fun &undo, Fun &redo)
 {
+    QWriteLocker locker(&m_lock);
     Q_ASSERT(m_upLink.count(id) > 0);
     int parent = m_upLink[id];
     auto old_children = m_downLink[id];
@@ -141,11 +149,13 @@ bool GroupsModel::destructGroupItem(int id, bool deleteOrphan, Fun &undo, Fun &r
 
 bool GroupsModel::destructGroupItem(int id)
 {
+    QWriteLocker locker(&m_lock);
     return destructGroupItem_lambda(id)();
 }
 
 int GroupsModel::getRootId(int id) const
 {
+    READ_LOCK();
     std::unordered_set<int> seen; // we store visited ids to detect cycles
     int father = -1;
     do {
@@ -162,18 +172,21 @@ int GroupsModel::getRootId(int id) const
 
 bool GroupsModel::isLeaf(int id) const
 {
+    READ_LOCK();
     Q_ASSERT(m_downLink.count(id) > 0);
     return m_downLink.at(id).empty();
 }
 
 bool GroupsModel::isInGroup(int id) const
 {
+    READ_LOCK();
     Q_ASSERT(m_downLink.count(id) > 0);
     return getRootId(id) != id;
 }
 
 std::unordered_set<int> GroupsModel::getSubtree(int id) const
 {
+    READ_LOCK();
     std::unordered_set<int> result;
     result.insert(id);
     std::queue<int> queue;
@@ -191,6 +204,7 @@ std::unordered_set<int> GroupsModel::getSubtree(int id) const
 
 std::unordered_set<int> GroupsModel::getLeaves(int id) const
 {
+    READ_LOCK();
     std::unordered_set<int> result;
     std::queue<int> queue;
     queue.push(id);
@@ -209,12 +223,14 @@ std::unordered_set<int> GroupsModel::getLeaves(int id) const
 
 std::unordered_set<int> GroupsModel::getDirectChildren(int id) const
 {
+    READ_LOCK();
     Q_ASSERT(m_downLink.count(id) > 0);
     return m_downLink.at(id);
 }
 
 void GroupsModel::setGroup(int id, int groupId)
 {
+    QWriteLocker locker(&m_lock);
     Q_ASSERT(m_upLink.count(id) > 0);
     Q_ASSERT(m_downLink.count(groupId) > 0);
     Q_ASSERT(id != groupId);
@@ -225,6 +241,7 @@ void GroupsModel::setGroup(int id, int groupId)
 
 void GroupsModel::removeFromGroup(int id)
 {
+    QWriteLocker locker(&m_lock);
     Q_ASSERT(m_upLink.count(id) > 0);
     Q_ASSERT(m_downLink.count(id) > 0);
     int parent = m_upLink[id];

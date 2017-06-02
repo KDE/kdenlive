@@ -25,7 +25,7 @@
 #include "effects/effectstack/model/effectstackmodel.hpp"
 #include "timelinemodel.hpp"
 #include "trackmodel.hpp"
-#include "undohelper.hpp"
+#include "macros.hpp"
 #include <QDebug>
 #include <mlt++/MltProducer.h>
 #include <utility>
@@ -85,6 +85,7 @@ ClipModel::~ClipModel()
 
 bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo)
 {
+    QWriteLocker locker(&m_lock);
     if (!m_endlessResize && (size <= 0 || size > m_producer->get_length())) {
         return false;
     }
@@ -114,7 +115,7 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo)
             Q_ASSERT(false);
         }
     }
-    auto operation = [this, in, out, track_operation]() {
+    Fun operation = [this, in, out, track_operation]() {
         if (track_operation()) {
             int outPoint = in < 0 ? out - in : out;
             if (outPoint >= m_producer->get_length()) {
@@ -132,7 +133,7 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo)
         if (m_currentTrackId != -1 && ptr) {
             track_reverse = ptr->getTrackById(m_currentTrackId)->requestClipResize_lambda(m_id, old_in, old_out, right);
         }
-        auto reverse = [this, old_in, old_out, track_reverse]() {
+        Fun reverse = [this, old_in, old_out, track_reverse]() {
             if (track_reverse()) {
                 m_producer->set_in_and_out(old_in, old_out);
                 return true;
@@ -147,6 +148,7 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo)
 
 const QString ClipModel::getProperty(const QString &name) const
 {
+    READ_LOCK();
     if (service()->parent().is_valid()) {
         return QString::fromUtf8(service()->parent().get(name.toUtf8().constData()));
     }
@@ -155,6 +157,7 @@ const QString ClipModel::getProperty(const QString &name) const
 
 int ClipModel::getIntProperty(const QString &name) const
 {
+    READ_LOCK();
     if (service()->parent().is_valid()) {
         return service()->parent().get_int(name.toUtf8().constData());
     }
@@ -163,33 +166,39 @@ int ClipModel::getIntProperty(const QString &name) const
 
 Mlt::Producer *ClipModel::service() const
 {
+    READ_LOCK();
     return m_producer.get();
 }
 
 int ClipModel::getPlaytime() const
 {
+    READ_LOCK();
     return m_producer->get_playtime();
 }
 
 void ClipModel::setTimelineEffectsEnabled(bool enabled)
 {
+    READ_LOCK();
     m_effectStack->setEffectStackEnabled(enabled);
 }
 
 bool ClipModel::hasAudio() const
 {
+    READ_LOCK();
     QString service = getProperty("mlt_service");
     return service.contains(QStringLiteral("avformat"));
 }
 
 bool ClipModel::isAudioOnly() const
 {
+    READ_LOCK();
     QString service = getProperty("mlt_service");
     return service.contains(QStringLiteral("avformat")) && (getIntProperty(QStringLiteral("video_index")) == -1);
 }
 
 void ClipModel::refreshProducerFromBin()
 {
+    QWriteLocker locker(&m_lock);
     int in = getIn();
     int out = getOut();
     std::shared_ptr<ProjectClip> binClip = pCore->bin()->getBinClip(m_binClipId);
@@ -200,6 +209,7 @@ void ClipModel::refreshProducerFromBin()
 
 QVariant ClipModel::getAudioWaveform()
 {
+    READ_LOCK();
     std::shared_ptr<ProjectClip> binClip = pCore->bin()->getBinClip(m_binClipId);
     if (binClip) {
         return QVariant::fromValue(binClip->audioFrameCache);
@@ -214,5 +224,6 @@ const QString &ClipModel::binId() const
 
 std::shared_ptr<MarkerListModel> ClipModel::getMarkerModel() const
 {
+    READ_LOCK();
     return pCore->bin()->getBinClip(m_binClipId)->getMarkerModel();
 }

@@ -514,7 +514,7 @@ bool TimelineModel::requestClipDeletion(int clipId, Fun &undo, Fun &redo)
     }
     auto operation = deregisterClip_lambda(clipId);
     auto clip = m_allClips[clipId];
-    auto reverse = [this, clip]() {
+    Fun reverse = [this, clip]() {
         // We capture a shared_ptr to the clip, which means that as long as this undo object lives, the clip object is not deleted. To insert it back it is
         // sufficient to register it.
         registerClip(clip);
@@ -909,7 +909,7 @@ bool TimelineModel::requestTrackDeletion(int trackId, Fun &undo, Fun &redo)
     int old_position = getTrackPosition(trackId);
     auto operation = deregisterTrack_lambda(trackId, true);
     std::shared_ptr<TrackModel> track = getTrackById(trackId);
-    auto reverse = [this, track, old_position]() {
+    Fun reverse = [this, track, old_position]() {
         // We capture a shared_ptr to the track, which means that as long as this undo object lives, the track object is not deleted. To insert it back it is
         // sufficient to register it.
         registerTrack(track, old_position);
