@@ -22,6 +22,7 @@
 #include "assetparametermodel.hpp"
 #include "core.h"
 #include "klocalizedstring.h"
+#include "kdenlivesettings.h"
 #include "profiles/profilemodel.hpp"
 #include <QDebug>
 #include <QLocale>
@@ -168,8 +169,10 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
         return element.attribute(QStringLiteral("suffix"));
     case OpacityRole:
         return element.attribute(QStringLiteral("opacity")) != QLatin1String("false");
-    case ValueRole:
-        return element.attribute(QStringLiteral("value")).isNull() ? parseAttribute(QStringLiteral("default"), element) : element.attribute(QStringLiteral("value"));
+    case ValueRole: {
+        QString value = m_asset->get(paramName.toUtf8().constData());
+        return value.isEmpty() ? (element.attribute(QStringLiteral("value")).isNull() ? parseAttribute(QStringLiteral("default"), element) : element.attribute(QStringLiteral("value"))) : value;
+    }
     case ListValuesRole:
         return element.attribute(QStringLiteral("paramlist")).split(QLatin1Char(';'));
     case ListNamesRole: {
@@ -201,6 +204,8 @@ ParamType AssetParameterModel::paramTypeFromStr(const QString &type)
     }
     if (type == QLatin1String("switch")) {
         return ParamType::Switch;
+    } else if (type == QLatin1String("simplekeyframe")) {
+        return ParamType::RestrictedAnim;
     } else if (type == QLatin1String("animated")) {
         return ParamType::Animated;
     } else if (type == QLatin1String("animatedrect")) {
@@ -209,7 +214,7 @@ ParamType AssetParameterModel::paramTypeFromStr(const QString &type)
         return ParamType::Geometry;
     } else if (type == QLatin1String("addedgeometry")) {
         return ParamType::Addedgeometry;
-    } else if (type == QLatin1String("keyframe") || type == QLatin1String("simplekeyframe")) {
+    } else if (type == QLatin1String("keyframe")) {
         return ParamType::Keyframe;
     } else if (type == QLatin1String("color")) {
         return ParamType::Color;
@@ -238,6 +243,28 @@ ParamType AssetParameterModel::paramTypeFromStr(const QString &type)
     return ParamType::Double;
 }
 
+// static
+QString AssetParameterModel::getDefaultKeyframes(int start, const QString &defaultValue, bool linearOnly)
+{
+    QString keyframes = QString::number(start);
+    if (linearOnly) {
+        keyframes.append(QLatin1Char('='));
+    } else {
+        switch (KdenliveSettings::defaultkeyframeinterp()) {
+        case mlt_keyframe_discrete:
+            keyframes.append(QStringLiteral("|="));
+            break;
+        case mlt_keyframe_smooth:
+            keyframes.append(QStringLiteral("~="));
+            break;
+        default:
+            keyframes.append(QLatin1Char('='));
+            break;
+        }
+    }
+    keyframes.append(defaultValue);
+    return keyframes;
+}
 
 // static
 QVariant AssetParameterModel::parseAttribute(const QString &attribute, const QDomElement &element, QVariant defaultValue)
@@ -268,6 +295,11 @@ QVariant AssetParameterModel::parseAttribute(const QString &attribute, const QDo
         QLocale locale;
         locale.setNumberOptions(QLocale::OmitGroupSeparator);
         return locale.toDouble(content);
+    }
+    if (attribute == QLatin1String("default")) {
+        if (type == ParamType::RestrictedAnim) {
+            content = getDefaultKeyframes(0, content, true);
+        }
     }
     return content;
 }

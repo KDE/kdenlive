@@ -38,7 +38,7 @@ DoubleParamWidget::DoubleParamWidget(std::shared_ptr<AssetParameterModel> model,
     slotRefresh();
 
     // Connect signal
-    connect(m_doubleWidget, &DoubleWidget::valueChanged, [this, locale](double value) { emit valueChanged(m_index, locale.toString(value)); });
+    connect(m_doubleWidget, &DoubleWidget::valueChanged, [this, locale](double value) { emit valueChanged(m_index, locale.toString(value / m_doubleWidget->factor)); });
 }
 
 void DoubleParamWidget::slotRefresh()
@@ -60,9 +60,10 @@ void DoubleParamWidget::slotRefresh()
     QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
     QString suffix = m_model->data(m_index, AssetParameterModel::SuffixRole).toString();
     int decimals = m_model->data(m_index, AssetParameterModel::DecimalsRole).toInt();
-
+    double factor = m_model->data(m_index, AssetParameterModel::FactorRole).toDouble();
     // Construct object
     m_doubleWidget = new DoubleWidget(name, value, min, max, defaultValue, comment, -1, suffix, decimals, this);
+    m_doubleWidget->factor = factor;
     m_lay->addWidget(m_doubleWidget);
 }
 

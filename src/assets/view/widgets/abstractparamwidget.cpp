@@ -23,6 +23,7 @@
 #include "doubleparamwidget.hpp"
 #include "effectstack/widgets/animationwidget.h"
 #include "effectstack/widgets/listparamwidget.h"
+#include "effectstack/widgets/keyframeedit.h"
 
 #include <QLabel>
 #include <QVBoxLayout>
@@ -76,12 +77,15 @@ AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetP
         break;
     case ParamType::Geometry:
     case ParamType::Animated:
+    case ParamType::RestrictedAnim:
     case ParamType::AnimatedRect:
         widget = new AnimationWidget(model, index, parent);
         break;
+    case ParamType::Keyframe:
+        widget = new KeyframeEdit(model, index, parent);
+        break;
     case ParamType::Switch:
     case ParamType::Addedgeometry:
-    case ParamType::Keyframe:
     case ParamType::Color:
     case ParamType::Position:
     case ParamType::Curve:

@@ -71,18 +71,20 @@ AnimationWidget::AnimationWidget(std::shared_ptr<AssetParameterModel> model, QMo
     , m_spinHeight(nullptr)
     , m_spinSize(nullptr)
     , m_spinOpacity(nullptr)
-    , m_offset(0) // effectIn - min)
 {
     setAcceptDrops(true);
     auto *vbox2 = new QVBoxLayout(this);
 
     // Keyframe ruler
     m_inPoint = m_model->data(m_index, AssetParameterModel::InRole).toInt();
+    m_offset = 0;
+    //TODO: For clips, offset should be the clip cut in valie
+    //m_model->data(m_index, AssetParameterModel::ClipInRole).toInt();
     m_outPoint = m_model->data(m_index, AssetParameterModel::OutRole).toInt() + 1;
     m_monitorSize = pCore->getCurrentFrameSize();
     m_monitor = pCore->getMonitor(m_model->monitorId);
     m_timePos = new TimecodeDisplay(m_monitor->timecode(), this);
-    m_ruler = new AnimKeyframeRuler(m_inPoint, m_outPoint, this);
+    m_ruler = new AnimKeyframeRuler(0, m_outPoint - m_inPoint, this);
     connect(m_ruler, &AnimKeyframeRuler::addKeyframe, this, &AnimationWidget::slotAddKeyframe);
     connect(m_ruler, &AnimKeyframeRuler::removeKeyframe, this, &AnimationWidget::slotDeleteKeyframe);
     vbox2->addWidget(m_ruler);
@@ -218,6 +220,9 @@ AnimationWidget::AnimationWidget(std::shared_ptr<AssetParameterModel> model, QMo
 
     // Display keyframe parameter
     addParameter(m_index);
+    finishSetup();
+    // Update displayed values
+    monitorSeek(m_monitor->position());
 }
 
 AnimationWidget::~AnimationWidget()
@@ -299,17 +304,22 @@ void AnimationWidget::doAddKeyframe(int pos, QString paramName, bool directUpdat
     }
     pos -= m_offset;
     // Try to get previous key's type
-    mlt_keyframe_type type = (mlt_keyframe_type)KdenliveSettings::defaultkeyframeinterp();
-    if (m_animController.key_count() > 1) {
-        int previous = m_animController.previous_key(pos);
-        if (m_animController.is_key(previous)) {
-            type = m_animController.keyframe_type(previous);
-        } else {
-            int next = m_animController.next_key(pos);
-            if (m_animController.is_key(next)) {
-                type = m_animController.keyframe_type(next);
+    mlt_keyframe_type type;
+    if (m_selectType->isVisible()) {
+        type =  (mlt_keyframe_type)KdenliveSettings::defaultkeyframeinterp();
+        if (m_animController.key_count() > 1) {
+            int previous = m_animController.previous_key(pos);
+            if (m_animController.is_key(previous)) {
+                type = m_animController.keyframe_type(previous);
+            } else {
+                int next = m_animController.next_key(pos);
+                if (m_animController.is_key(next)) {
+                    type = m_animController.keyframe_type(next);
+                }
             }
         }
+    } else {
+        type = mlt_keyframe_linear;
     }
 
     if (paramName == m_rectParameter) {
@@ -471,7 +481,7 @@ void AnimationWidget::updateToolbar()
         double val = m_animProperties.anim_get_double(i.key().toUtf8().constData(), pos, m_outPoint);
         i.value()->setValue(val * i.value()->factor);
     }
-    if (m_animController.is_key(pos)) {
+    if (m_animController.is_key(pos) && m_selectType->isVisible()) {
         QList<QAction *> types = m_selectType->actions();
         for (int j = 0; j < types.count(); j++) {
             if (types.at(j)->data().toInt() == (int)m_animController.keyframe_type(pos)) {
@@ -504,11 +514,11 @@ void AnimationWidget::slotPositionChanged(int pos, bool seek)
     }
     m_ruler->setValue(pos);
     if (m_spinX) {
-        updateRect(pos - m_offset);
+        updateRect(pos);
     }
-    updateSlider(pos - m_offset);
+    updateSlider(pos);
     m_previous->setEnabled(pos > 0);
-    m_next->setEnabled(pos < (m_outPoint - m_inPoint - 1));
+    m_next->setEnabled(pos < (m_outPoint - 1));
 
     // scene ratio lock
     if ((m_spinWidth != nullptr) && m_spinWidth->isEnabled()) {
@@ -581,12 +591,14 @@ void AnimationWidget::updateSlider(int pos)
                 m_selectType->setEnabled(m_animController.key_count() > 1);
                 m_endAttach->setEnabled(true);
                 m_endAttach->setChecked(m_attachedToEnd > -2 && pos >= m_attachedToEnd);
-                mlt_keyframe_type currentType = m_animController.keyframe_type(pos);
-                QList<QAction *> types = m_selectType->actions();
-                for (int j = 0; j < types.count(); j++) {
-                    if ((mlt_keyframe_type)types.at(j)->data().toInt() == currentType) {
-                        m_selectType->setCurrentAction(types.at(j));
-                        break;
+                if (m_selectType->isVisible()) {
+                    mlt_keyframe_type currentType = m_animController.keyframe_type(pos);
+                    QList<QAction *> types = m_selectType->actions();
+                    for (int j = 0; j < types.count(); j++) {
+                        if ((mlt_keyframe_type)types.at(j)->data().toInt() == currentType) {
+                            m_selectType->setCurrentAction(types.at(j));
+                            break;
+                        }
                     }
                 }
             }
@@ -665,12 +677,14 @@ void AnimationWidget::updateRect(int pos)
         m_selectType->setEnabled(m_animController.key_count() > 1);
         m_endAttach->setEnabled(true);
         m_endAttach->setChecked(m_attachedToEnd > -2 && pos >= m_attachedToEnd);
-        mlt_keyframe_type currentType = m_animController.keyframe_type(pos);
-        QList<QAction *> types = m_selectType->actions();
-        for (int i = 0; i < types.count(); i++) {
-            if ((mlt_keyframe_type)types.at(i)->data().toInt() == currentType) {
-                m_selectType->setCurrentAction(types.at(i));
-                break;
+        if (m_selectType->isVisible()) {
+            mlt_keyframe_type currentType = m_animController.keyframe_type(pos);
+            QList<QAction *> types = m_selectType->actions();
+            for (int i = 0; i < types.count(); i++) {
+                if ((mlt_keyframe_type)types.at(i)->data().toInt() == currentType) {
+                    m_selectType->setCurrentAction(types.at(i));
+                    break;
+                }
             }
         }
     }
@@ -725,20 +739,12 @@ void AnimationWidget::slotSetDefaultInterp(QAction *action)
 void AnimationWidget::addParameter(QModelIndex ix)
 {
     // Anim properties might at some point require some more infos like profile
+    ParamType type = (ParamType)m_model->data(ix, AssetParameterModel::TypeRole).toInt();
     QString keyframes = m_model->data(ix, AssetParameterModel::ValueRole).toString();
-    if (keyframes.isEmpty()) {
-        keyframes = getDefaultKeyframes(m_inPoint, m_model->data(ix, AssetParameterModel::DefaultRole).toString());
-        if (keyframes.contains(QLatin1Char('%'))) {
-            keyframes = EffectsController::getStringRectEval(m_monitor->profileInfo(), keyframes);
-        }
-    }
     QString paramTag = m_model->data(ix, AssetParameterModel::NameRole).toString();
     m_animProperties.set(paramTag.toUtf8().constData(), keyframes.toUtf8().constData());
     m_attachedToEnd = KeyframeView::checkNegatives(keyframes, m_outPoint);
-    // m_params.append(e.cloneNode().toElement());
-    ParamType type = (ParamType)m_model->data(ix, AssetParameterModel::TypeRole).toInt();
-    // const QString paramType = e.attribute(QStringLiteral("type"));
-    if (type == ParamType::Animated) {
+    if (type == ParamType::Animated || type == ParamType::RestrictedAnim) {
         // one dimension parameter
         // Required to initialize anim property
         m_animProperties.anim_get_int(paramTag.toUtf8().constData(), 0, m_outPoint);
@@ -752,12 +758,17 @@ void AnimationWidget::addParameter(QModelIndex ix)
         m_animProperties.anim_get_rect(paramTag.toUtf8().constData(), 0, m_outPoint);
         buildRectWidget(paramTag, ix);
     }
+    if (type == ParamType::RestrictedAnim) {
+        // This param only support linear keyframes
+        m_selectType->setVisible(false);
+        m_selectType->setCurrentItem(0);
+    }
 }
 
 void AnimationWidget::buildSliderWidget(const QString &paramTag, QModelIndex ix)
 {
     QLocale locale;
-    QString paramName = i18n(paramTag.toUtf8().data());
+    QString paramName = i18n(m_model->data(ix, Qt::DisplayRole).toString().toUtf8().data());
     QString comment = m_model->data(ix, AssetParameterModel::CommentRole).toString();
     if (!comment.isEmpty()) {
         comment = i18n(comment.toUtf8().data());
@@ -940,8 +951,8 @@ void AnimationWidget::slotAdjustKeyframeValue(double value)
     m_animController = m_animProperties.get_animation(m_inTimeline.toUtf8().constData());
 
     int pos = m_ruler->position() - m_offset;
-    mlt_keyframe_type type = m_selectType->isEnabled() ? (mlt_keyframe_type)m_selectType->currentAction()->data().toInt()
-                                                       : (mlt_keyframe_type)KdenliveSettings::defaultkeyframeinterp();
+    mlt_keyframe_type type = m_selectType->isVisible() ? (m_selectType->isEnabled() ? (mlt_keyframe_type)m_selectType->currentAction()->data().toInt()
+                                                       : (mlt_keyframe_type)KdenliveSettings::defaultkeyframeinterp()) : mlt_keyframe_linear;
     if (m_animController.is_key(pos)) {
         // This is a keyframe
         type = m_animController.keyframe_type(pos);
@@ -1106,10 +1117,10 @@ void AnimationWidget::loadPresets(QString currentText)
     QMap<QString, QVariant> defaultEntry;
     QStringList paramNames = m_doubleWidgets.keys();
     for (int i = 0; i < paramNames.count(); i++) {
-        defaultEntry.insert(paramNames.at(i), getDefaultKeyframes(m_inPoint, m_params.at(i).attribute(QStringLiteral("default"))));
+        defaultEntry.insert(paramNames.at(i), getDefaultKeyframes(m_offset, m_model->data(m_index, AssetParameterModel::DefaultRole).toString()));
     }
     m_presetCombo->addItem(i18n("Default"), defaultEntry);
-    loadPreset(dir.absoluteFilePath(m_xml.attribute(QStringLiteral("type"))));
+    loadPreset(dir.absoluteFilePath(m_model->data(m_index, AssetParameterModel::TypeRole).toString()));
     loadPreset(dir.absoluteFilePath(m_effectId));
     if (!currentText.isEmpty()) {
         int ix = m_presetCombo->findText(currentText);
@@ -1310,7 +1321,6 @@ void AnimationWidget::connectMonitor(bool activate)
     if (activate) {
         connect(m_monitor, &Monitor::effectChanged, this, &AnimationWidget::slotUpdateGeometryRect, Qt::UniqueConnection);
         connect(m_monitor, &Monitor::effectPointsChanged, this, &AnimationWidget::slotUpdateCenters, Qt::UniqueConnection);
-        connect(m_monitor, SIGNAL(addKeyframe()), this, SLOT(slotAddKeyframe()), Qt::UniqueConnection);
         connect(m_monitor, &Monitor::seekToKeyframe, this, &AnimationWidget::slotSeekToKeyframe, Qt::UniqueConnection);
         connect(m_monitor, &Monitor::seekToNextKeyframe, this, &AnimationWidget::slotNext, Qt::UniqueConnection);
         connect(m_monitor, &Monitor::seekToPreviousKeyframe, this, &AnimationWidget::slotPrevious, Qt::UniqueConnection);
@@ -1334,7 +1344,6 @@ void AnimationWidget::connectMonitor(bool activate)
         disconnect(m_monitor, &Monitor::effectPointsChanged, this, &AnimationWidget::slotUpdateCenters);
         disconnect(m_monitor, SIGNAL(addKeyframe()), this, SLOT(slotAddKeyframe()));
         disconnect(m_monitor, SIGNAL(deleteKeyframe()), this, SLOT(slotDeleteKeyframe()));
-        disconnect(m_monitor, SIGNAL(addKeyframe()), this, SLOT(slotAddKeyframe()));
         disconnect(m_monitor, &Monitor::seekToNextKeyframe, this, &AnimationWidget::slotNext);
         disconnect(m_monitor, &Monitor::seekToPreviousKeyframe, this, &AnimationWidget::slotPrevious);
         disconnect(m_monitor, &Monitor::seekToKeyframe, this, &AnimationWidget::slotSeekToKeyframe);
@@ -1398,7 +1407,7 @@ void AnimationWidget::reload(const QString &tag, const QString &data)
             continue;
         }
         // simple anim parameter, get default value
-        double def = locale.toDouble(defaultValue(currentParam));
+        double def = m_model->data(m_index, AssetParameterModel::DefaultRole).toDouble();
         // Clear current keyframes
         m_animProperties.set(currentParam.toUtf8().constData(), "");
         // Add default keyframes
@@ -1413,7 +1422,7 @@ void AnimationWidget::reload(const QString &tag, const QString &data)
     if (!m_rectParameter.isEmpty() && tag != m_rectParameter) {
         // reset geometry keyframes
         // simple anim parameter, get default value
-        QString def = getDefaultKeyframes(m_inPoint, defaultValue(m_rectParameter));
+        QString def = m_model->data(m_index, AssetParameterModel::DefaultRole).toString();
         // Clear current keyframes
         m_animProperties.set(m_rectParameter.toUtf8().constData(), def.toUtf8().constData());
         // Add default keyframes
@@ -1450,7 +1459,6 @@ void AnimationWidget::slotAdjustToSource()
 {
     m_spinWidth->blockSignals(true);
     m_spinHeight->blockSignals(true);
-    qDebug()<<"ADjust src: "<<m_frameSize.width() / pCore->getCurrentSar();
     m_spinWidth->setValue((int)(m_frameSize.width() / pCore->getCurrentSar() + 0.5), false);
     m_spinHeight->setValue(m_frameSize.height(), false);
     m_spinWidth->blockSignals(false);
@@ -1482,7 +1490,6 @@ void AnimationWidget::slotAdjustToFrameSize()
         // Fit to height
         double factor = (double)m_monitorSize.height() / m_frameSize.height();
         m_spinHeight->setValue(m_monitorSize.height());
-        qDebug()<<"*** ADJ WIRGH FIT: "<<m_frameSize.width() / pCore->getCurrentSar();
         m_spinWidth->setValue((int)(m_frameSize.width() / pCore->getCurrentSar() * factor + 0.5));
         // Center
         m_spinX->blockSignals(true);
@@ -1614,12 +1621,15 @@ void AnimationWidget::slotAdjustRectHeight()
 void AnimationWidget::monitorSeek(int pos)
 {
     slotPositionChanged(pos - m_inPoint, false);
-    if (pos > m_inPoint && pos < m_outPoint) {
-        connectMonitor(true);
-        m_monitor->slotShowEffectScene(MonitorSceneGeometry);
-    } else {
-        connectMonitor(false);
-        m_monitor->slotShowEffectScene(MonitorSceneDefault);
+    if (m_spinX) {
+        // Update monitor scene for geometry params
+        if (pos > m_inPoint && pos < m_outPoint) {
+            connectMonitor(true);
+            m_monitor->slotShowEffectScene(MonitorSceneGeometry);
+        } else {
+            connectMonitor(false);
+            m_monitor->slotShowEffectScene(MonitorSceneDefault);
+        }
     }
 }
 
@@ -1629,4 +1639,5 @@ void AnimationWidget::slotShowComment(bool show)
 
 void AnimationWidget::slotRefresh()
 {
+    rebuildKeyframes();
 }

@@ -43,6 +43,7 @@ enum class ParamType {
     List,
     Bool,
     Switch,
+    RestrictedAnim, // animated 1 dimensional param with linear support only
     Animated,
     AnimatedRect,
     Geometry,
@@ -118,6 +119,8 @@ public:
 protected:
     /* @brief Helper function to retrieve the type of a parameter given the string corresponding to it*/
     static ParamType paramTypeFromStr(const QString &type);
+
+    static QString getDefaultKeyframes(int start, const QString &defaultValue, bool linearOnly);
 
     /* @brief Helper function to get an attribute from a dom element, given its name.
        The function additionally parses following keywords:

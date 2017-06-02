@@ -20,7 +20,7 @@
 
 #include "effectstack/keyframehelper.h"
 
-#include "abstractparamwidget.h"
+#include "assets/view/widgets/abstractparamwidget.hpp"
 #include "definitions.h"
 #include "ui_keyframeeditor_ui.h"
 
@@ -88,9 +88,9 @@ class KeyframeEdit : public AbstractParamWidget, public Ui::KeyframeEditor_UI
 {
     Q_OBJECT
 public:
-    explicit KeyframeEdit(const QDomElement &e, int minFrame, int maxFrame, const Timecode &tc, int activeKeyframe, QWidget *parent = nullptr);
+    explicit KeyframeEdit(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent);
     virtual ~KeyframeEdit();
-    virtual void addParameter(const QDomElement &e, int activeKeyframe = -1);
+    virtual void addParameter(QModelIndex index, int activeKeyframe = -1);
     const QString getValue(const QString &name);
     /** @brief Updates the timecode display according to settings (frame number or hh:mm:ss:ff) */
     void updateTimecodeFormat();
@@ -111,7 +111,11 @@ public slots:
 
     /** @brief Toggle the comments on or off
      */
-    void slotShowComment(bool) override;
+    void slotShowComment(bool show) override;
+
+    /** @brief refresh the properties to reflect changes in the model
+     */
+    void slotRefresh() override;
 
 protected:
     /** @brief Gets the position of a keyframe from the table.
@@ -122,16 +126,17 @@ protected:
     QString getPosString(int pos);
 
     void generateAllParams();
+    QList <QModelIndex> m_paramIndexes;
 
     int m_min;
     int m_max;
+    int m_offset;
 
 protected slots:
     void slotAdjustKeyframeInfo(bool seek = true);
 
 private:
     QList<QDomElement> m_params;
-    Timecode m_timecode;
     QGridLayout *m_slidersLayout;
     PositionWidget *m_position;
     bool m_keyframesTag;
@@ -157,7 +162,6 @@ private slots:
     void rowClicked(int newRow, int, int oldRow, int);
 
 signals:
-    void valueChanged();
     void seekToPos(int);
     void showComments(bool show);
 };

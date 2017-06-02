@@ -16,23 +16,28 @@
  ***************************************************************************/
 
 #include "keyframeedit.h"
-#include "doubleparameterwidget.h"
+#include "widgets/doublewidget.h"
 #include "kdenlivesettings.h"
-#include "positionwidget.h"
+#include "widgets/positionwidget.h"
 #include "utils/KoIconUtils.h"
+#include "assets/model/assetparametermodel.hpp"
+#include "core.h"
+#include "monitor/monitormanager.h"
 
 #include "kdenlive_debug.h"
 #include "klocalizedstring.h"
 #include <QFontDatabase>
 #include <QHeaderView>
 
-KeyframeEdit::KeyframeEdit(const QDomElement &e, int minFrame, int maxFrame, const Timecode &tc, int activeKeyframe, QWidget *parent)
-    : AbstractParamWidget(parent)
-    , m_min(minFrame)
-    , m_max(maxFrame)
-    , m_timecode(tc)
+KeyframeEdit::KeyframeEdit(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
+    : AbstractParamWidget(std::move(model), index, parent)
     , m_keyframesTag(false)
 {
+    m_min = m_model->data(m_index, AssetParameterModel::InRole).toInt();
+    m_max = m_model->data(m_index, AssetParameterModel::OutRole).toInt() + 1;
+    //TODO: for compositions, offset = min but for clips it might differ 
+    m_offset = m_min;
+
     setupUi(this);
     if (m_max == -1) {
         // special case: keyframe for tracks, do not allow keyframes
@@ -53,7 +58,7 @@ KeyframeEdit::KeyframeEdit(const QDomElement &e, int minFrame, int maxFrame, con
     connect(keyframe_list, &QTableWidget::currentCellChanged, this, &KeyframeEdit::rowClicked);
     connect(keyframe_list, &QTableWidget::cellChanged, this, &KeyframeEdit::slotGenerateParams);
 
-    m_position = new PositionWidget(i18n("Position"), 0, 0, 1, tc, "", widgetTable);
+    m_position = new PositionWidget(i18n("Position"), 0, 0, 1, pCore->monitorManager()->timecode(), QStringLiteral(""), widgetTable);
     ((QGridLayout *)widgetTable->layout())->addWidget(m_position, 3, 0, 1, -1);
 
     m_slidersLayout = new QGridLayout(param_sliders);
@@ -63,7 +68,7 @@ KeyframeEdit::KeyframeEdit(const QDomElement &e, int minFrame, int maxFrame, con
     m_slidersLayout->setVerticalSpacing(2);
     keyframe_list->setSelectionBehavior(QAbstractItemView::SelectRows);
     keyframe_list->setSelectionMode(QAbstractItemView::SingleSelection);
-    addParameter(e, activeKeyframe);
+    addParameter(m_index);
     keyframe_list->resizeRowsToContents();
 
     // keyframe_list->horizontalHeader()->resizeSections(QHeaderView::ResizeToContents);
@@ -103,49 +108,58 @@ KeyframeEdit::~KeyframeEdit()
     }
 }
 
-void KeyframeEdit::addParameter(const QDomElement &e, int activeKeyframe)
+void KeyframeEdit::addParameter(QModelIndex index, int activeKeyframe)
 {
     keyframe_list->blockSignals(true);
-    m_params.append(e.cloneNode().toElement());
 
-    QDomElement na = e.firstChildElement(QStringLiteral("name"));
-    QString paramName = i18n(na.text().toUtf8().data());
-    QDomElement commentElem = e.firstChildElement(QStringLiteral("comment"));
-    QString comment;
-    if (!commentElem.isNull()) {
-        comment = i18n(commentElem.text().toUtf8().data());
-    }
+    // Retrieve parameters from the model
+    QLocale locale;
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
+    QString name = m_model->data(index, Qt::DisplayRole).toString();
+    double value = 0; //locale.toDouble(m_model->data(index, AssetParameterModel::ValueRole).toString());
+    double min = m_model->data(index, AssetParameterModel::MinRole).toDouble();
+    double max = m_model->data(index, AssetParameterModel::MaxRole).toDouble();
+    double defaultValue = locale.toDouble(m_model->data(index, AssetParameterModel::DefaultRole).toString());
+    QString comment = m_model->data(index, AssetParameterModel::CommentRole).toString();
+    QString suffix = m_model->data(index, AssetParameterModel::SuffixRole).toString();
+    int decimals = m_model->data(index, AssetParameterModel::DecimalsRole).toInt();
 
     int columnId = keyframe_list->columnCount();
+    m_paramIndexes << index;
     keyframe_list->insertColumn(columnId);
-    keyframe_list->setHorizontalHeaderItem(columnId, new QTableWidgetItem(paramName));
+    keyframe_list->setHorizontalHeaderItem(columnId, new QTableWidgetItem(name));
+    DoubleWidget *doubleparam = new DoubleWidget(name, value, min, max, defaultValue, comment, -1, suffix, decimals, this);
 
-    DoubleParameterWidget *doubleparam = new DoubleParameterWidget(
+    /*DoubleParameterWidget *doubleparam = new DoubleParameterWidget(
         paramName, 0, m_params.at(columnId).attribute(QStringLiteral("min")).toDouble(), m_params.at(columnId).attribute(QStringLiteral("max")).toDouble(),
         m_params.at(columnId).attribute(QStringLiteral("default")).toDouble(), comment, columnId, m_params.at(columnId).attribute(QStringLiteral("suffix")),
-        m_params.at(columnId).attribute(QStringLiteral("decimals")).toInt(), false, this);
-    connect(doubleparam, &DoubleParameterWidget::valueChanged, this, &KeyframeEdit::slotAdjustKeyframeValue);
+        m_params.at(columnId).attribute(QStringLiteral("decimals")).toInt(), false, this);*/
+
+    // Connect signal
+    //connect(doubleparam, &DoubleWidget::valueChanged, [this, locale, index](double value) { emit valueChanged(index, locale.toString(value)); });
+
+    connect(doubleparam, &DoubleWidget::valueChanged, this, &KeyframeEdit::slotAdjustKeyframeValue);
     connect(this, SIGNAL(showComments(bool)), doubleparam, SLOT(slotShowComment(bool)));
-    connect(doubleparam, SIGNAL(setInTimeline(int)), this, SLOT(slotUpdateVisibleParameter(int)));
+    //connect(doubleparam, SIGNAL(setInTimeline(int)), this, SLOT(slotUpdateVisibleParameter(int)));
     m_slidersLayout->addWidget(doubleparam, columnId, 0);
-    if (e.attribute(QStringLiteral("intimeline")) == QLatin1String("1")) {
+    /*if (e.attribute(QStringLiteral("intimeline")) == QLatin1String("1")) {
         doubleparam->setInTimelineProperty(true);
-    }
+    }*/
 
     QStringList frames;
-    if (e.hasAttribute(QStringLiteral("keyframes"))) {
+    /*if (e.hasAttribute(QStringLiteral("keyframes"))) {
         // Effects have keyframes in a "keyframe" attribute, not sure why
         frames = e.attribute(QStringLiteral("keyframes")).split(QLatin1Char(';'), QString::SkipEmptyParts);
         m_keyframesTag = true;
-    } else {
+    } else {*/
         // Transitions take keyframes from the value param
-        QString framesValue = e.attribute(QStringLiteral("value"));
+        QString framesValue = m_model->data(index, AssetParameterModel::ValueRole).toString();
         if (!framesValue.contains(QLatin1Char('='))) {
             framesValue.prepend(QStringLiteral("0="));
         }
         frames = framesValue.split(QLatin1Char(';'), QString::SkipEmptyParts);
         m_keyframesTag = false;
-    }
+    //}
     for (int i = 0; i < frames.count(); ++i) {
         int frame = frames.at(i).section(QLatin1Char('='), 0, 0).toInt();
         bool found = false;
@@ -299,14 +313,14 @@ void KeyframeEdit::slotGenerateParams(int row, int column)
             return;
         }
 
-        int pos = getPos(row);
+        int pos = getPos(row) + m_offset;
         if (pos <= m_min) {
             pos = m_min;
         }
         if (m_max != -1 && pos > m_max) {
             pos = m_max;
         }
-        QString val = getPosString(pos);
+        QString val = getPosString(pos - m_offset);
         if (val != keyframe_list->verticalHeaderItem(row)->text()) {
             keyframe_list->verticalHeaderItem(row)->setText(val);
         }
@@ -316,12 +330,12 @@ void KeyframeEdit::slotGenerateParams(int row, int column)
             if (!item) {
                 continue;
             }
+            int min = m_model->data(m_paramIndexes.at(col), AssetParameterModel::MinRole).toInt();
+            int max = m_model->data(m_paramIndexes.at(col), AssetParameterModel::MaxRole).toInt();
             int v = item->text().toInt();
-            if (v >= m_params.at(col).attribute(QStringLiteral("max")).toInt()) {
-                item->setText(m_params.at(col).attribute(QStringLiteral("max")));
-            }
-            if (v <= m_params.at(col).attribute(QStringLiteral("min")).toInt()) {
-                item->setText(m_params.at(col).attribute(QStringLiteral("min")));
+            int result = qBound(min, v, max);
+            if (v != result) {
+                item->setText(QString::number(result));
             }
             QString keyframes;
             for (int i = 0; i < keyframe_list->rowCount(); ++i) {
@@ -329,10 +343,9 @@ void KeyframeEdit::slotGenerateParams(int row, int column)
                     keyframes.append(QString::number(getPos(i)) + QLatin1Char('=') + keyframe_list->item(i, col)->text() + QLatin1Char(';'));
                 }
             }
-            m_params[col].setAttribute(getTag(), keyframes);
+            emit valueChanged(m_paramIndexes.at(col), keyframes);
+            //m_params[col].setAttribute(getTag(), keyframes);
         }
-
-        emit valueChanged();
         return;
     }
     QTableWidgetItem *item = keyframe_list->item(row, column);
@@ -340,7 +353,7 @@ void KeyframeEdit::slotGenerateParams(int row, int column)
         return;
     }
 
-    int pos = getPos(row);
+    int pos = getPos(row) + m_offset;
     if (pos <= m_min) {
         pos = m_min;
     }
@@ -353,17 +366,17 @@ void KeyframeEdit::slotGenerateParams(int row, int column)
         // Trying to insert a keyframe at existing value, revert it
         val = m_timecode.getTimecodeFromFrames(m_previousPos);
     }*/
-    QString val = getPosString(pos);
+    QString val = getPosString(pos - m_offset);
     if (val != keyframe_list->verticalHeaderItem(row)->text()) {
         keyframe_list->verticalHeaderItem(row)->setText(val);
     }
+    int min = m_model->data(m_paramIndexes.at(column), AssetParameterModel::MinRole).toInt();
+    int max = m_model->data(m_paramIndexes.at(column), AssetParameterModel::MaxRole).toInt();
 
     int v = item->text().toInt();
-    if (v >= m_params.at(column).attribute(QStringLiteral("max")).toInt()) {
-        item->setText(m_params.at(column).attribute(QStringLiteral("max")));
-    }
-    if (v <= m_params.at(column).attribute(QStringLiteral("min")).toInt()) {
-        item->setText(m_params.at(column).attribute(QStringLiteral("min")));
+    int result = qBound(min, v, max);
+    if (v != result) {
+        item->setText(QString::number(result));
     }
     slotAdjustKeyframeInfo(false);
 
@@ -373,8 +386,8 @@ void KeyframeEdit::slotGenerateParams(int row, int column)
             keyframes.append(QString::number(getPos(i)) + QLatin1Char('=') + keyframe_list->item(i, column)->text() + QLatin1Char(';'));
         }
     }
-    m_params[column].setAttribute(getTag(), keyframes);
-    emit valueChanged();
+    qDebug()<<"/// ADJUSTING PARAM: "<<column<<" = "<<keyframes;
+    emit valueChanged(m_paramIndexes.at(column), keyframes);
 }
 
 const QString KeyframeEdit::getTag() const
@@ -392,9 +405,8 @@ void KeyframeEdit::generateAllParams()
                 keyframes.append(QString::number(getPos(i)) + QLatin1Char('=') + keyframe_list->item(i, col)->text() + QLatin1Char(';'));
             }
         }
-        m_params[col].setAttribute(getTag(), keyframes);
+        emit valueChanged(m_paramIndexes.at(col), keyframes);
     }
-    emit valueChanged();
 }
 
 const QString KeyframeEdit::getValue(const QString &name)
@@ -415,8 +427,8 @@ void KeyframeEdit::slotAdjustKeyframeInfo(bool seek)
     if (!item) {
         return;
     }
-    int min = m_min;
-    int max = m_max;
+    int min = m_min - m_offset;
+    int max = m_max - m_offset;
     QTableWidgetItem *above = keyframe_list->item(item->row() - 1, item->column());
     QTableWidgetItem *below = keyframe_list->item(item->row() + 1, item->column());
     if (above) {
@@ -433,7 +445,7 @@ void KeyframeEdit::slotAdjustKeyframeInfo(bool seek)
     QLocale locale;
 
     for (int col = 0; col < keyframe_list->columnCount(); ++col) {
-        DoubleParameterWidget *doubleparam = static_cast<DoubleParameterWidget *>(m_slidersLayout->itemAtPosition(col, 0)->widget());
+        DoubleWidget *doubleparam = static_cast<DoubleWidget *>(m_slidersLayout->itemAtPosition(col, 0)->widget());
         if (!doubleparam) {
             continue;
         }
@@ -466,7 +478,7 @@ void KeyframeEdit::slotAdjustKeyframeValue(double value)
 
     QTableWidgetItem *item = keyframe_list->currentItem();
     for (int col = 0; col < keyframe_list->columnCount(); ++col) {
-        DoubleParameterWidget *doubleparam = static_cast<DoubleParameterWidget *>(m_slidersLayout->itemAtPosition(col, 0)->widget());
+        DoubleWidget *doubleparam = static_cast<DoubleWidget *>(m_slidersLayout->itemAtPosition(col, 0)->widget());
         if (!doubleparam) {
             continue;
         }
@@ -487,7 +499,7 @@ int KeyframeEdit::getPos(int row)
     if (KdenliveSettings::frametimecode()) {
         return keyframe_list->verticalHeaderItem(row)->text().toInt();
     }
-    return m_timecode.getFrameCount(keyframe_list->verticalHeaderItem(row)->text());
+    return pCore->monitorManager()->timecode().getFrameCount(keyframe_list->verticalHeaderItem(row)->text());
 }
 
 QString KeyframeEdit::getPosString(int pos)
@@ -495,7 +507,7 @@ QString KeyframeEdit::getPosString(int pos)
     if (KdenliveSettings::frametimecode()) {
         return QString::number(pos);
     }
-    return m_timecode.getTimecodeFromFrames(pos);
+    return pCore->monitorManager()->timecode().getTimecodeFromFrames(pos);
 }
 
 void KeyframeEdit::slotSetSeeking(bool seek)
@@ -508,9 +520,9 @@ void KeyframeEdit::updateTimecodeFormat()
     for (int row = 0; row < keyframe_list->rowCount(); ++row) {
         QString pos = keyframe_list->verticalHeaderItem(row)->text();
         if (KdenliveSettings::frametimecode()) {
-            keyframe_list->verticalHeaderItem(row)->setText(QString::number(m_timecode.getFrameCount(pos)));
+            keyframe_list->verticalHeaderItem(row)->setText(QString::number(pCore->monitorManager()->timecode().getFrameCount(pos)));
         } else {
-            keyframe_list->verticalHeaderItem(row)->setText(m_timecode.getTimecodeFromFrames(pos.toInt()));
+            keyframe_list->verticalHeaderItem(row)->setText(pCore->monitorManager()->timecode().getTimecodeFromFrames(pos.toInt()));
         }
     }
 
@@ -529,7 +541,7 @@ void KeyframeEdit::slotKeyframeMode()
 void KeyframeEdit::slotResetKeyframe()
 {
     for (int col = 0; col < keyframe_list->columnCount(); ++col) {
-        DoubleParameterWidget *doubleparam = static_cast<DoubleParameterWidget *>(m_slidersLayout->itemAtPosition(col, 0)->widget());
+        DoubleWidget *doubleparam = static_cast<DoubleWidget *>(m_slidersLayout->itemAtPosition(col, 0)->widget());
         if (doubleparam) {
             doubleparam->slotReset();
         }
@@ -542,15 +554,17 @@ void KeyframeEdit::slotUpdateVisibleParameter(int id, bool update)
         m_params[i].setAttribute(QStringLiteral("intimeline"), (i == id ? "1" : "0"));
     }
     for (int col = 0; col < keyframe_list->columnCount(); ++col) {
-        DoubleParameterWidget *doubleparam = static_cast<DoubleParameterWidget *>(m_slidersLayout->itemAtPosition(col, 0)->widget());
+        DoubleWidget *doubleparam = static_cast<DoubleWidget *>(m_slidersLayout->itemAtPosition(col, 0)->widget());
         if (!doubleparam) {
             continue;
         }
-        doubleparam->setInTimelineProperty(col == id);
+        //TODO
+        //doubleparam->setInTimelineProperty(col == id);
         ////qCDebug(KDENLIVE_LOG)<<"// PARAM: "<<col<<" Set TO: "<<(bool) (col == id);
     }
+    //TODO
     if (update) {
-        emit valueChanged();
+        //emit valueChanged();
     }
 }
 
@@ -596,4 +610,9 @@ void KeyframeEdit::rowClicked(int newRow, int, int oldRow, int)
 void KeyframeEdit::slotShowComment(bool show)
 {
     emit showComments(show);
+}
+
+void KeyframeEdit::slotRefresh()
+{
+    //TODO
 }

@@ -3,7 +3,7 @@
         <name>Cairo Blend</name>
         <description>Composites second input on the first input with user-defined blend mode and opacity.</description>
         <author>Janne Liljeblad</author>
-        <parameter type="simplekeyframe" name="0" max="100" min="0" default="0=100" factor="100">
+        <parameter type="simplekeyframe" name="0" max="100" min="0" default="100" factor="100">
                 <name>Opacity</name>
         </parameter>
         <parameter type="list" name="1" default="normal" paramlist="normal;add;saturate;multiply;screen;overlay;darken;lighten;colordodge;colorburn;hardlight;softlight;difference;exclusion;hslhue;hslsaturation;hslcolor;hslluminosity" >
