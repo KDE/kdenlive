@@ -241,20 +241,15 @@ void AnimKeyframeRuler::mouseReleaseEvent(QMouseEvent *event)
 // virtual
 void AnimKeyframeRuler::wheelEvent(QWheelEvent *e)
 {
+    int pos = m_seekPosition == SEEK_INACTIVE ? m_position : m_seekPosition;
     if (e->delta() < 0) {
-        --m_position;
+        --pos;
     } else {
-        ++m_position;
+        ++pos;
     }
-    m_position = qMax(0, m_position);
-    m_position = qMin(frameLength, m_position);
-    emit requestSeek(m_position);
+    m_seekPosition = pos;
+    emit requestSeek(m_seekPosition);
     update();
-    /*    int delta = 1;
-        if (e->modifiers() == Qt::ControlModifier) delta = m_timecode.fps();
-        if (e->delta() < 0) delta = 0 - delta;
-        m_view->moveCursorPos(delta);
-    */
 }
 
 // virtual
