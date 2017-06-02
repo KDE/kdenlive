@@ -321,3 +321,8 @@ void Core::pushUndo(const Fun &undo, const Fun &redo, const QString &text)
 {
     currentDoc()->commandStack()->push(new FunctionalUndoCommand(undo, redo, text));
 }
+
+void Core::pushUndo(QUndoCommand *command)
+{
+    currentDoc()->commandStack()->push(command);
+}

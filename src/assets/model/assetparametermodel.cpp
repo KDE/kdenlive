@@ -20,6 +20,7 @@
  ***************************************************************************/
 
 #include "assetparametermodel.hpp"
+#include "assetcommand.hpp"
 #include "core.h"
 #include "klocalizedstring.h"
 #include "kdenlivesettings.h"
@@ -332,6 +333,9 @@ void AssetParameterModel::setParameters(const QVector<QPair<QString, QVariant>> 
 
 void AssetParameterModel::commitChanges(const QModelIndex &index, const QString &value)
 {
-    QString name = data(index, NameRole).toString();
-    setParameter(name, value);
+    std::shared_ptr<AssetParameterModel> ptr = shared_from_this(); 
+    AssetCommand *command = new AssetCommand(ptr, m_assetId, index, value);
+    pCore->pushUndo(command);
 }
+
+

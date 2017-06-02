@@ -233,9 +233,6 @@ void AnimationWidget::finishSetup()
 {
     // Load effect presets
     loadPresets();
-
-    // Load keyframes
-    rebuildKeyframes();
 }
 
 // static
@@ -747,6 +744,7 @@ void AnimationWidget::addParameter(QModelIndex ix)
     if (type == ParamType::Animated || type == ParamType::RestrictedAnim) {
         // one dimension parameter
         // Required to initialize anim property
+        m_inTimeline = paramTag;
         m_animProperties.anim_get_int(paramTag.toUtf8().constData(), 0, m_outPoint);
         buildSliderWidget(paramTag, ix);
     } else {
@@ -763,6 +761,9 @@ void AnimationWidget::addParameter(QModelIndex ix)
         m_selectType->setVisible(false);
         m_selectType->setCurrentItem(0);
     }
+    m_parameters << ix;
+    // Load keyframes
+    rebuildKeyframes();
 }
 
 void AnimationWidget::buildSliderWidget(const QString &paramTag, QModelIndex ix)
@@ -1639,5 +1640,26 @@ void AnimationWidget::slotShowComment(bool show)
 
 void AnimationWidget::slotRefresh()
 {
+    for (int i = 0; i < m_parameters.count(); i++) {
+        QModelIndex ix = m_parameters.at(i);
+        ParamType type = (ParamType)m_model->data(ix, AssetParameterModel::TypeRole).toInt();
+        QString keyframes = m_model->data(ix, AssetParameterModel::ValueRole).toString();
+        QString paramTag = m_model->data(ix, AssetParameterModel::NameRole).toString();
+        m_animProperties.set(paramTag.toUtf8().constData(), keyframes.toUtf8().constData());
+        m_attachedToEnd = KeyframeView::checkNegatives(keyframes, m_outPoint);
+        if (type == ParamType::Animated || type == ParamType::RestrictedAnim) {
+            // one dimension parameter
+            // Required to initialize anim property
+            m_animProperties.anim_get_int(paramTag.toUtf8().constData(), 0, m_outPoint);
+        } else {
+            // one dimension parameter
+            // TODO: multiple rect parameters in effect ?
+            m_rectParameter = paramTag;
+            m_inTimeline = paramTag;
+            // Required to initialize anim property
+            m_animProperties.anim_get_rect(paramTag.toUtf8().constData(), 0, m_outPoint);
+        }
+    }
     rebuildKeyframes();
+    monitorSeek(m_monitor->position());
 }

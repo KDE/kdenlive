@@ -6,6 +6,7 @@ set(kdenlive_SRCS
   assets/assetlist/model/assettreemodel.cpp
   assets/assetpanel.cpp
   assets/model/assetparametermodel.cpp
+  assets/model/assetcommand.cpp
   assets/view/assetparameterview.cpp
   assets/view/widgets/abstractparamwidget.cpp
   assets/view/widgets/doubleparamwidget.cpp

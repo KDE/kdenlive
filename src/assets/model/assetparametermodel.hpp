@@ -26,6 +26,7 @@
 #include "klocalizedstring.h"
 #include <QAbstractListModel>
 #include <QDomElement>
+#include <QUndoCommand>
 #include <unordered_map>
 
 #include <memory>
@@ -37,6 +38,7 @@
    Note that internally parameters are not sorted in any ways, because some effects like sox need a precise order
 
  */
+
 
 enum class ParamType {
     Double,
@@ -62,7 +64,7 @@ enum class ParamType {
     Readonly
 };
 Q_DECLARE_METATYPE(ParamType)
-class AssetParameterModel : public QAbstractListModel
+class AssetParameterModel : public QAbstractListModel, public std::enable_shared_from_this<AssetParameterModel>
 {
     Q_OBJECT
 
