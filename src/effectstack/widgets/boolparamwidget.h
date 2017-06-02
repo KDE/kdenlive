@@ -50,7 +50,7 @@ public:
 
 public slots:
     /** @brief Toggle the comments on or off    */
-    void slotShowComment(bool);
+    void slotShowComment(bool) Q_DECL_OVERRIDE;
 };
 
 

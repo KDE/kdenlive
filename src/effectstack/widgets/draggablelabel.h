@@ -33,9 +33,9 @@ class DraggableLabel : public QLabel
 public:
     explicit DraggableLabel(const QString &text, QWidget *parent = nullptr);
 protected:
-    void mousePressEvent(QMouseEvent *ev);
-    void mouseReleaseEvent(QMouseEvent *ev);
-    void mouseMoveEvent(QMouseEvent *ev);
+    void mousePressEvent(QMouseEvent *ev) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QMouseEvent *ev) Q_DECL_OVERRIDE;
+    void mouseMoveEvent(QMouseEvent *ev) Q_DECL_OVERRIDE;
 signals:
     void startDrag(const QString &);
 private:

@@ -88,7 +88,7 @@ protected:
 public:
     /** @brief Toggle the comments on or off
      */
-    void slotShowComment(bool);
+    void slotShowComment(bool) Q_DECL_OVERRIDE;
 private:
     Ui::BezierSpline_UI m_ui;
     DragValue *m_pX;
