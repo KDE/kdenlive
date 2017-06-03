@@ -26,6 +26,18 @@ Rectangle {
         return tracksRepeater.itemAt(root.currentTrack).trackId
     }
 
+    function moveSelectedTrack(offset) {
+        var newTrack = root.currentTrack + offset
+        var max = tracksRepeater.count;
+        if (newTrack < 0) {
+            newTrack = max - 1;
+        } else if (newTrack >= max) {
+            newTrack = 0;
+        }
+        console.log('Setting curr tk: ', newTrack, 'MAX: ',max)
+        root.currentTrack = newTrack
+    }
+
     function zoomByWheel(wheel) {
         if (wheel.modifiers & Qt.ControlModifier) {
             //TODO
@@ -361,7 +373,12 @@ Rectangle {
             id: tracksArea
             width: root.width - headerWidth
             height: root.height
-
+            Keys.onDownPressed: {
+                root.moveSelectedTrack(1)
+            }
+            Keys.onUpPressed: {
+                root.moveSelectedTrack(-1)
+            }
             // This provides continuous scrubbing and scimming at the left/right edges.
             hoverEnabled: true
             acceptedButtons: Qt.RightButton | Qt.LeftButton
@@ -371,6 +388,7 @@ Rectangle {
                 timeline.position = timeline.seekPosition
             }
             onPressed: {
+                focus = true
                 if (root.activeTool === 2 && mouse.y > ruler.height) {
                         // spacer tool
                         var y = mouse.y - ruler.height

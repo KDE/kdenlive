@@ -65,8 +65,8 @@ TimelineWidget::TimelineWidget(KActionCollection *actionCollection, std::shared_
     setResizeMode(QQuickWidget::SizeRootObjectToView);
     m_thumbnailer = new ThumbnailProvider;
     engine()->addImageProvider(QStringLiteral("thumbnail"), m_thumbnailer);
-    setFocusPolicy(Qt::StrongFocus);
     setVisible(false);
+    setFocusPolicy(Qt::StrongFocus);
     // connect(&*m_model, SIGNAL(seeked(int)), this, SLOT(onSeeked(int)));
 }
 

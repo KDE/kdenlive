@@ -81,6 +81,12 @@ Rectangle {
         }
     ]
 
+    Keys.onDownPressed: {
+        root.moveSelectedTrack(1)
+    }
+    Keys.onUpPressed: {
+        root.moveSelectedTrack(-1)
+    }
 
     MouseArea {
         anchors.fill: parent
