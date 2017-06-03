@@ -1865,7 +1865,7 @@ void MainWindow::addTimelineClip(const QString &url)
     if (pCore->projectManager()->current()) {
         QStringList ids = pCore->binController()->getBinIdsByResource(QFileInfo(url));
         if (!ids.isEmpty()) {
-            pCore->bin()->selectClipById(ids.first());
+            pCore->bin()->selectClipById(ids.constFirst());
             slotInsertClipInsert();
         }
     }

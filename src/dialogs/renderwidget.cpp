@@ -961,7 +961,7 @@ void RenderWidget::focusFirstVisibleItem(const QString &profile)
     if (!profile.isEmpty()) {
         QList<QTreeWidgetItem *> items = m_view.formats->findItems(profile, Qt::MatchExactly | Qt::MatchRecursive);
         if (!items.isEmpty()) {
-            item = items.first();
+            item = items.constFirst();
         }
     }
     if (!item) {
@@ -1723,7 +1723,7 @@ void RenderWidget::refreshParams()
         QStringList qs = item->data(0, BitratesRole).toStringList();
         if (qs.count() > 1) {
             quality = true;
-            int qmax = qs.first().toInt();
+            int qmax = qs.constFirst().toInt();
             int qmin = qs.last().toInt();
             if (qmax < qmin) {
                 // always show best quality on right
@@ -1749,7 +1749,7 @@ void RenderWidget::refreshParams()
         QStringList qs = item->data(0, AudioBitratesRole).toStringList();
         if (qs.count() > 1) {
             quality = true;
-            int qmax = qs.first().toInt();
+            int qmax = qs.constFirst().toInt();
             int qmin = qs.last().toInt();
             if (qmax < qmin) {
                 m_view.audio->setRange(qmax, qmin);

@@ -270,7 +270,7 @@ bool OnMonitorCornersItem::getView()
     }
 
     if (scene() && !scene()->views().isEmpty()) {
-        m_view = scene()->views().first();
+        m_view = scene()->views().constFirst();
         return true;
     } else {
         return false;

@@ -160,9 +160,9 @@ AddMarkerCommand::AddMarkerCommand(ProjectClip *clip, QList<CommentedTime> &oldM
     if (m_newMarkers.isEmpty()) {
         return;
     }
-    if (m_newMarkers.first().markerType() < 0) {
+    if (m_newMarkers.constFirst().markerType() < 0) {
         setText(i18n("Delete marker"));
-    } else if (m_oldMarkers.first().comment().isEmpty()) {
+    } else if (m_oldMarkers.constFirst().comment().isEmpty()) {
         setText(i18n("Add marker"));
     } else {
         setText(i18n("Edit marker"));

@@ -682,7 +682,7 @@ QList<int> CustomRuler::addChunks(QList<int> chunks, bool add)
     std::sort(m_renderingPreviews.begin(), m_renderingPreviews.end());
     std::sort(m_dirtyRenderingPreviews.begin(), m_dirtyRenderingPreviews.end());
     if (!m_hidePreview) {
-        update(chunks.first() * m_factor - offset(), MAX_HEIGHT, (chunks.last() - chunks.first()) * KdenliveSettings::timelinechunks() * m_factor + 1, PREVIEW_SIZE);
+        update(chunks.constFirst() * m_factor - offset(), MAX_HEIGHT, (chunks.last() - chunks.constFirst()) * KdenliveSettings::timelinechunks() * m_factor + 1, PREVIEW_SIZE);
     }
     return toProcess;
 }

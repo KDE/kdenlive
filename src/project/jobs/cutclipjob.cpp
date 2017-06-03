@@ -395,7 +395,7 @@ QHash<ProjectClip *, AbstractClipJob *> CutClipJob::prepareTranscodeJob(double f
     d->setWindowTitle(i18n("Transcoding"));
     ui.extra_params->setMaximumHeight(QFontMetrics(qApp->font()).lineSpacing() * 5);
     if (clips.count() == 1) {
-        ui.file_url->setUrl(QUrl(destinations.first()));
+        ui.file_url->setUrl(QUrl(destinations.constFirst()));
     } else {
         ui.destination_label->setVisible(false);
         ui.file_url->setVisible(false);

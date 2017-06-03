@@ -1928,7 +1928,7 @@ void TitleWidget::saveTitle(QUrl url)
         //fs->setConfirmOverwrite(true);
         //fs->setKeepLocation(true);
         if (fs->exec() && !fs->selectedUrls().isEmpty()) {
-            url = fs->selectedUrls().first();
+            url = fs->selectedUrls().constFirst();
         }
         delete fs;
     }

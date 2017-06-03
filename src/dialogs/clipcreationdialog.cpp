@@ -550,7 +550,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QStringList 
         KdenliveSettings::setAutoimagetransparency(c->isChecked());
         list = fileWidget->selectedUrls();
         if (!list.isEmpty()) {
-            KRecentDirs::add(QStringLiteral(":KdenliveClipFolder"), list.first().adjusted(QUrl::RemoveFilename).toLocalFile());
+            KRecentDirs::add(QStringLiteral(":KdenliveClipFolder"), list.constFirst().adjusted(QUrl::RemoveFilename).toLocalFile());
         }
         if (b->isChecked() && list.count() == 1) {
             // Check for image sequence

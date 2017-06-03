@@ -186,7 +186,7 @@ void SplineItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
         if (close || event->button() == Qt::RightButton) {
             if (items.count() > 1) {
                 // close the spline
-                BPointItem *i1 = qgraphicsitem_cast<BPointItem *>(items.first());
+                BPointItem *i1 = qgraphicsitem_cast<BPointItem *>(items.constFirst());
                 BPointItem *i2 = qgraphicsitem_cast<BPointItem *>(items.last());
                 BPoint p1 = i1->getPoint();
                 BPoint p2 = i2->getPoint();

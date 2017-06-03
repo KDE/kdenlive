@@ -471,7 +471,7 @@ void PreviewManager::slotProcessDirtyChunks()
         return;
     }
     invalidatePreviews(chunks);
-    m_ruler->updatePreviewDisplay(chunks.first(), chunks.last());
+    m_ruler->updatePreviewDisplay(chunks.constFirst(), chunks.last());
     if (KdenliveSettings::autopreview()) {
         m_previewTimer.start();
     }
@@ -544,7 +544,7 @@ void PreviewManager::reloadChunks(const QList<int> &chunks)
             }
         }
     }
-    m_ruler->updatePreviewDisplay(chunks.first(), chunks.last());
+    m_ruler->updatePreviewDisplay(chunks.constFirst(), chunks.last());
     m_previewTrack->consolidate_blanks();
     m_tractor->unlock();
 }

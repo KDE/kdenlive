@@ -176,7 +176,7 @@ bool MyTreeView::performDrag()
     }
     QDrag *drag = new QDrag(this);
     drag->setMimeData(model()->mimeData(indexes));
-    QModelIndex ix = indexes.first();
+    QModelIndex ix = indexes.constFirst();
     if (ix.isValid()) {
         QIcon icon = ix.data(AbstractProjectItem::DataThumbnail).value<QIcon>();
         QPixmap pix = icon.pixmap(iconSize());
@@ -936,7 +936,7 @@ const QStringList Bin::getFolderInfo(const QModelIndex &selectedIx)
         folderInfo << QString();
         return folderInfo;
     }
-    QModelIndex ix = indexes.first();
+    QModelIndex ix = indexes.constFirst();
     if (ix.isValid() && (m_proxyModel->selectionModel()->isSelected(ix) || selectedIx.isValid())) {
         AbstractProjectItem *currentItem = static_cast<AbstractProjectItem *>(m_proxyModel->mapToSource(ix).internalPointer());
         while (currentItem->itemType() != AbstractProjectItem::FolderItem) {
@@ -2808,7 +2808,7 @@ void Bin::droppedUrls(const QList<QUrl> &urls, const QStringList &folderInfo)
         current = m_proxyModel->mapToSource(m_proxyModel->selectionModel()->currentIndex());
     } else {
         // get index for folder
-        current = getIndexForId(folderInfo.first(), true);
+        current = getIndexForId(folderInfo.constFirst(), true);
     }
     slotItemDropped(urls, current);
 }
@@ -3409,7 +3409,7 @@ void Bin::slotLoadClipMarkers(const QString &id)
     QStringList selection = fd->selectedFiles();
     QString url;
     if (!selection.isEmpty()) {
-        url = selection.first();
+        url = selection.constFirst();
     }
 
     //QUrl url = KFileDialog::getOpenUrl(QUrl("kfiledialog:///projectfolder"), "text/plain", this, i18n("Load marker file"));
@@ -3502,7 +3502,7 @@ void Bin::slotSaveClipMarkers(const QString &id)
         QStringList selection = fd->selectedFiles();
         QString url;
         if (!selection.isEmpty()) {
-            url = selection.first();
+            url = selection.constFirst();
         }
         //QString url = KFileDialog::getSaveFileName(QUrl("kfiledialog:///projectfolder"), "text/plain", this, i18n("Save markers"));
         if (url.isEmpty()) {
@@ -4009,7 +4009,7 @@ void Bin::saveZone(const QStringList &info, const QDir &dir)
     if (info.size() != 3) {
         return;
     }
-    ProjectClip *clip = getBinClip(info.first());
+    ProjectClip *clip = getBinClip(info.constFirst());
     if (clip && clip->controller()) {
         QPoint zone(info.at(1).toInt(), info.at(2).toInt());
         clip->controller()->saveZone(zone, dir);

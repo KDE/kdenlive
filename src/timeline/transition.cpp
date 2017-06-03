@@ -550,7 +550,7 @@ void Transition::dropEvent(QGraphicsSceneDragDropEvent *event)
         }
         QString geometry = QString::fromUtf8(event->mimeData()->data(QStringLiteral("kdenlive/geometry")));
         event->acceptProposedAction();
-        CustomTrackView *view = static_cast<CustomTrackView *>(scene()->views().first());
+        CustomTrackView *view = static_cast<CustomTrackView *>(scene()->views().constFirst());
         if (view) {
             view->dropTransitionGeometry(this, geometry);
         }

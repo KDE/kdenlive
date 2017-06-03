@@ -170,7 +170,7 @@ QUrl Generators::getSavedClip(QString clipFolder)
     if (fd.exec() != QDialog::Accepted || fd.selectedUrls().isEmpty()) {
         return QUrl();
     }
-    QUrl url = fd.selectedUrls().first();
+    QUrl url = fd.selectedUrls().constFirst();
 
     if (url.isValid()) {
 #if KXMLGUI_VERSION_MINOR < 23 && KXMLGUI_VERSION_MAJOR == 5

@@ -864,7 +864,7 @@ void EffectStackView2::slotAddEffect(const QDomElement &effect)
 
 void EffectStackView2::slotMoveEffectUp(const QList<int> &indexes, bool up)
 {
-    if (up && indexes.first() <= 1) {
+    if (up && indexes.constFirst() <= 1) {
         return;
     }
     if (!up && indexes.last() >= m_currentEffectList.count()) {
@@ -872,7 +872,7 @@ void EffectStackView2::slotMoveEffectUp(const QList<int> &indexes, bool up)
     }
     int endPos;
     if (up) {
-        endPos = getPreviousIndex(indexes.first());
+        endPos = getPreviousIndex(indexes.constFirst());
     } else {
         endPos = getNextIndex(indexes.last());
     }

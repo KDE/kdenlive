@@ -347,7 +347,7 @@ bool ProjectManager::saveFileAs()
     if (fd.exec() != QDialog::Accepted || fd.selectedFiles().isEmpty()) {
         return false;
     }
-    QString outputFile = fd.selectedFiles().first();
+    QString outputFile = fd.selectedFiles().constFirst();
 
 #if KXMLGUI_VERSION_MINOR < 23 && KXMLGUI_VERSION_MAJOR == 5
     // Since Plasma 5.7 (release at same time as KF 5.23,
