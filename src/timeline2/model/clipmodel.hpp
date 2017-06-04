@@ -82,6 +82,8 @@ public:
     /** @brief Returns the bin clip's id */
     const QString &binId() const;
 
+    bool addEffect(const QString &effectId);
+
     friend class TrackModel;
     friend class TimelineModel;
     friend class TimelineItemModel;

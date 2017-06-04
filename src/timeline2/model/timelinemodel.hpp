@@ -177,6 +177,7 @@ public:
        @param clipId Id of the clip to test
     */
     Q_INVOKABLE int getClipPosition(int clipId) const;
+    Q_INVOKABLE bool addClipEffect(int clipId, const QString &effectId);
 
     /* @brief Returns the in cut position of a clip
        @param clipId Id of the clip to test

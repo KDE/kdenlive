@@ -1017,6 +1017,12 @@ std::shared_ptr<ClipModel> TimelineModel::getClipPtr(int clipId) const
     return m_allClips.at(clipId);
 }
 
+bool TimelineModel::addClipEffect(int clipId, const QString &effectId)
+{
+    Q_ASSERT(m_allClips.count(clipId) > 0);
+    return m_allClips.at(clipId)->addEffect(effectId);
+}
+
 std::shared_ptr<CompositionModel> TimelineModel::getCompositionPtr(int compoId) const
 {
     Q_ASSERT(m_allCompositions.count(compoId) > 0);

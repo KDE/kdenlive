@@ -182,6 +182,13 @@ void ClipModel::setTimelineEffectsEnabled(bool enabled)
     m_effectStack->setEffectStackEnabled(enabled);
 }
 
+bool ClipModel::addEffect(const QString &effectId)
+{
+    READ_LOCK();
+    m_effectStack->appendEffect(effectId);
+    return true;
+}
+
 bool ClipModel::hasAudio() const
 {
     READ_LOCK();

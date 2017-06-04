@@ -41,6 +41,7 @@ void EffectStackModel::appendEffect(const QString &effectId)
 {
     auto effect = EffectItemModel::construct(effectId, shared_from_this(), rootItem);
     effect->setEffectStackEnabled(m_effectStackEnabled);
+    effect->plant(m_service);
     rootItem->appendChild(effect);
 }
 
