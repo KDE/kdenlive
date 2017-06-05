@@ -28,6 +28,7 @@
 #include <QVector>
 #include <array>
 #include <vector>
+#include <functional>
 
 ProfileTreeModel::ProfileTreeModel(QObject *parent)
     : AbstractTreeModel(parent)
