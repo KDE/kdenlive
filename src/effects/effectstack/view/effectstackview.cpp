@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017 by Nicolas Carion                                  *
+ *   Copyright (C) 2017 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
  *   This file is part of Kdenlive. See www.kdenlive.org.                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,45 +18,49 @@
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
-#include "effectstackmodel.hpp"
 
-#include "effectitemmodel.hpp"
-#include <utility>
+#include "effectstackview.hpp"
+#include "collapsibleeffectview.hpp"
+#include "effects/effectstack/model/effectstackmodel.hpp"
+#include "effects/effectstack/model/effectitemmodel.hpp"
+#include "assets/view/assetparameterview.hpp"
 
-EffectStackModel::EffectStackModel(std::weak_ptr<Mlt::Service> service)
-    : AbstractTreeModel()
-    , m_service(std::move(service))
-    , m_effectStackEnabled(true)
+#include <QVBoxLayout>
+#include <QFontDatabase>
+
+EffectStackView::EffectStackView(QWidget *parent) : QWidget(parent)
 {
+    m_lay = new QVBoxLayout(this);
+    m_lay->setContentsMargins(0, 0, 0, 0);
+    m_lay->setSpacing(2);
+    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
 }
 
-std::shared_ptr<EffectStackModel> EffectStackModel::construct(std::weak_ptr<Mlt::Service> service)
+void EffectStackView::setModel(std::shared_ptr<EffectStackModel>model)
 {
-    std::shared_ptr<EffectStackModel> self(new EffectStackModel(std::move(service)));
-    self->rootItem = TreeItem::construct(QList<QVariant>(), self, std::shared_ptr<TreeItem>());
-    return self;
-}
-
-void EffectStackModel::appendEffect(const QString &effectId)
-{
-    auto effect = EffectItemModel::construct(effectId, shared_from_this(), rootItem);
-    effect->setEffectStackEnabled(m_effectStackEnabled);
-    effect->plant(m_service);
-    rootItem->appendChild(effect);
-}
-
-void EffectStackModel::setEffectStackEnabled(bool enabled)
-{
-    m_effectStackEnabled = enabled;
-
-    // Recursively updates children states
-    for (int i = 0; i < rootItem->childCount(); ++i) {
-        std::static_pointer_cast<EffectItemModel>(rootItem->child(i))->setEffectStackEnabled(enabled);
+    unsetModel();
+    m_model = model;
+    int max = m_model->rowCount();
+    for (int i = 0; i < max; i++) {
+        CollapsibleEffectView *view = new CollapsibleEffectView(m_model->effect(i), this);
+        m_lay->addWidget(view);
+        m_widgets.push_back(view);
     }
+    m_lay->addStretch();
 }
 
-std::shared_ptr<EffectItemModel> EffectStackModel::effect(int row)
+void EffectStackView::unsetModel()
 {
-    return std::static_pointer_cast<EffectItemModel>(rootItem->child(row));
+    // clear layout
+    m_widgets.clear();
+    QLayoutItem *child;
+    while ((child = m_lay->takeAt(0)) != nullptr) {
+        delete child->widget();
+        delete child->spacerItem();
+    }
+
+    // Release ownership of smart pointer
+    m_model.reset();
 }
+
 

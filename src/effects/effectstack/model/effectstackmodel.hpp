@@ -30,6 +30,7 @@
    It is responsible for planting and managing effects into the producer it holds a pointer to.
  */
 class TreeItem;
+class EffectItemModel;
 class EffectStackModel : public AbstractTreeModel
 {
 
@@ -48,6 +49,9 @@ public:
     /* @brief This function change the global (timeline-wise) enabled state of the effects
      */
     void setEffectStackEnabled(bool enabled);
+
+    /* @brief Returns an effect from the stack (at the given row) */
+    std::shared_ptr<EffectItemModel> effect(int row);
 
 protected:
     std::weak_ptr<Mlt::Service> m_service;

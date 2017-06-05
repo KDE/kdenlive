@@ -33,6 +33,7 @@
 class AssetParameterModel;
 class AssetParameterView;
 class EffectStackModel;
+class EffectStackView;
 class QLabel;
 
 class AssetPanel : public QScrollArea
@@ -61,6 +62,7 @@ protected:
     QVBoxLayout *m_lay;
     QLabel *m_assetTitle;
     AssetParameterView *m_transitionWidget;
+    EffectStackView *m_effectStackWidget;
 };
 
 #endif

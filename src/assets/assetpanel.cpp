@@ -21,6 +21,8 @@
 
 #include "assetpanel.hpp"
 #include "effects/effectstack/model/effectstackmodel.hpp"
+#include "effects/effectstack/model/effectitemmodel.hpp"
+#include "effects/effectstack/view/effectstackview.hpp"
 #include "kdenlivesettings.h"
 #include "model/assetparametermodel.hpp"
 #include "transitions/transitionsrepository.hpp"
@@ -39,9 +41,12 @@ AssetPanel::AssetPanel(QWidget *parent)
     , m_lay(new QVBoxLayout(this))
     , m_assetTitle(new QLabel(this))
     , m_transitionWidget(new AssetParameterView(this))
+    , m_effectStackWidget(new EffectStackView(this))
 {
     m_lay->addWidget(m_assetTitle);
     m_lay->addWidget(m_transitionWidget);
+    m_lay->addWidget(m_effectStackWidget);
+    m_lay->addStretch();
     m_transitionWidget->setVisible(false);
     updatePalette();
 }
@@ -60,13 +65,17 @@ void AssetPanel::showTransition(std::shared_ptr<AssetParameterModel> transitionM
 void AssetPanel::showEffectStack(std::shared_ptr<EffectStackModel> effectsModel)
 {
     clear();
-    // TODO
+    m_assetTitle->setText(i18n("Properties of clip ..."));
+    m_effectStackWidget->setVisible(true);
+    m_effectStackWidget->setModel(effectsModel);
 }
 
 void AssetPanel::clear()
 {
     m_transitionWidget->setVisible(false);
     m_transitionWidget->unsetModel();
+    m_effectStackWidget->setVisible(false);
+    m_effectStackWidget->unsetModel();
     m_assetTitle->setText(QString());
 }
 
@@ -75,6 +84,7 @@ void AssetPanel::updatePalette()
     QString styleSheet = getStyleSheet();
     setStyleSheet(styleSheet);
     m_transitionWidget->setStyleSheet(styleSheet);
+    m_effectStackWidget->setStyleSheet(styleSheet);
 }
 
 // static

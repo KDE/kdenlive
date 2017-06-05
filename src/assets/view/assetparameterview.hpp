@@ -48,6 +48,9 @@ public:
     /** Set the widget to display no model (this yield ownership on the smart-ptr)*/
     void unsetModel();
 
+    /** Returns the preferred widget height */
+    int contentHeight() const;
+
 protected:
     /** @brief This is a handler for the dataChanged slot of the model.
         It basically instructs the widgets in the given range to be refreshed */

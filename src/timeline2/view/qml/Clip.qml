@@ -139,7 +139,7 @@ Rectangle {
         onDropped: {
             console.log("Add effect: ", dropData)
             controller.addClipEffect(clipRoot.clipId, dropData);
-            drag.acceptProposedAction()
+            drag.acceptProposedAction
         }
     }
 

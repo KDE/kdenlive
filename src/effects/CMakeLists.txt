@@ -2,10 +2,13 @@ set(kdenlive_SRCS
   ${kdenlive_SRCS}
   effects/effectsrepository.cpp
   effects/effectlist/view/effectlistwidget.cpp
+  effects/effectlist/view/effectlistwidget.cpp
   effects/effectlist/model/effecttreemodel.cpp
   effects/effectlist/model/effectfilter.cpp
   effects/effectstack/model/abstracteffectitem.cpp
   effects/effectstack/model/effectitemmodel.cpp
   effects/effectstack/model/effectstackmodel.cpp
+  effects/effectstack/view/effectstackview.cpp
+  effects/effectstack/view/collapsibleeffectview.cpp
   PARENT_SCOPE)
 

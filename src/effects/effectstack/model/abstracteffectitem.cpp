@@ -52,6 +52,9 @@ bool AbstractEffectItem::isEnabled() const
     bool parentEnabled = true;
     if (auto ptr = std::static_pointer_cast<AbstractEffectItem>(m_parentItem.lock())) {
         parentEnabled = ptr->isEnabled();
+    } else {
+        // Root item, always return true
+        return true;
     }
     return m_enabled && m_effectStackEnabled && parentEnabled;
 }

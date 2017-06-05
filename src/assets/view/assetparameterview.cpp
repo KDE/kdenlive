@@ -34,8 +34,8 @@ AssetParameterView::AssetParameterView(QWidget *parent)
     : QWidget(parent)
 {
     m_lay = new QVBoxLayout(this);
-    m_lay->setContentsMargins(2, 0, 2, 0);
-    m_lay->setSpacing(0);
+    m_lay->setContentsMargins(2, 2, 2, 2);
+    m_lay->setSpacing(2);
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
 }
 
@@ -53,7 +53,6 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
         m_lay->addWidget(w);
         m_widgets.push_back(w);
     }
-    m_lay->addStretch();
 }
 
 void AssetParameterView::unsetModel()
@@ -87,3 +86,9 @@ void AssetParameterView::refresh(const QModelIndex &topLeft, const QModelIndex &
         m_widgets[i]->slotRefresh();
     }
 }
+
+int AssetParameterView::contentHeight() const
+{
+    return m_lay->sizeHint().height();
+}
+

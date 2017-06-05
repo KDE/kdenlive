@@ -1531,3 +1531,10 @@ std::shared_ptr<AssetParameterModel> TimelineModel::getCompositionParameterModel
     Q_ASSERT(isComposition(compoId));
     return std::static_pointer_cast<AssetParameterModel>(m_allCompositions.at(compoId));
 }
+
+std::shared_ptr<EffectStackModel> TimelineModel::getClipEffectStackModel(int clipId) const
+{
+    READ_LOCK();
+    Q_ASSERT(isClip(clipId));
+    return std::static_pointer_cast<EffectStackModel>(m_allClips.at(clipId)->m_effectStack);
+}

@@ -30,7 +30,7 @@
 
 class TimelineWidget;
 class AssetParameterModel;
-
+class EffectStackModel;
 class TimelineTabs : public QTabWidget
 {
     Q_OBJECT
@@ -71,6 +71,8 @@ signals:
     void changeZoom(int value, bool zoomOnMouse);
     /* @brief Requests that a given parameter model is displayed in the asset panel */
     void showTransitionModel(std::shared_ptr<AssetParameterModel>);
+    /* @brief Requests that a given effectstack model is displayed in the asset panel */
+    void showClipEffectStack(std::shared_ptr<EffectStackModel>);
 
 private:
     TimelineWidget *m_mainTimeline;

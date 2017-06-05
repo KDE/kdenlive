@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017 by Nicolas Carion                                  *
+ *   Copyright (C) 2017 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
  *   This file is part of Kdenlive. See www.kdenlive.org.                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,45 +18,35 @@
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
-#include "effectstackmodel.hpp"
 
-#include "effectitemmodel.hpp"
-#include <utility>
+#ifndef EFFECTSTACKVIEW_H
+#define EFFECTSTACKVIEW_H
 
-EffectStackModel::EffectStackModel(std::weak_ptr<Mlt::Service> service)
-    : AbstractTreeModel()
-    , m_service(std::move(service))
-    , m_effectStackEnabled(true)
+#include <QWidget>
+#include <memory>
+
+
+class QVBoxLayout;
+class CollapsibleEffectView;
+class AssetParameterModel;
+class EffectStackModel;
+
+class EffectStackView : public QWidget
 {
-}
+Q_OBJECT
 
-std::shared_ptr<EffectStackModel> EffectStackModel::construct(std::weak_ptr<Mlt::Service> service)
-{
-    std::shared_ptr<EffectStackModel> self(new EffectStackModel(std::move(service)));
-    self->rootItem = TreeItem::construct(QList<QVariant>(), self, std::shared_ptr<TreeItem>());
-    return self;
-}
+public:
+    EffectStackView(QWidget *parent = nullptr);
+    void setModel(std::shared_ptr<EffectStackModel>model);
+    void unsetModel();
 
-void EffectStackModel::appendEffect(const QString &effectId)
-{
-    auto effect = EffectItemModel::construct(effectId, shared_from_this(), rootItem);
-    effect->setEffectStackEnabled(m_effectStackEnabled);
-    effect->plant(m_service);
-    rootItem->appendChild(effect);
-}
+private:
+    QVBoxLayout *m_lay;
+    std::shared_ptr<EffectStackModel> m_model;
+    std::vector<CollapsibleEffectView *> m_widgets;
+    const QString getStyleSheet();
 
-void EffectStackModel::setEffectStackEnabled(bool enabled)
-{
-    m_effectStackEnabled = enabled;
+};
 
-    // Recursively updates children states
-    for (int i = 0; i < rootItem->childCount(); ++i) {
-        std::static_pointer_cast<EffectItemModel>(rootItem->child(i))->setEffectStackEnabled(enabled);
-    }
-}
-
-std::shared_ptr<EffectItemModel> EffectStackModel::effect(int row)
-{
-    return std::static_pointer_cast<EffectItemModel>(rootItem->child(row));
-}
+#endif
 

@@ -249,6 +249,7 @@ signals:
     void zoneMoved(const QPoint &zone);
     /* @brief Requests that a given parameter model is displayed in the asset panel */
     void showTransitionModel(std::shared_ptr<AssetParameterModel>);
+    void showClipEffectStack(std::shared_ptr<EffectStackModel>);
 };
 
 #endif

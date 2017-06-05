@@ -37,6 +37,7 @@
 #endif
 
 class AssetParameterModel;
+class EffectStackModel;
 class ClipModel;
 class CompositionModel;
 class DocUndoStack;
@@ -172,6 +173,8 @@ public:
 
     /* @brief Given a composition Id, returns its underlying parameter model */
     std::shared_ptr<AssetParameterModel> getCompositionParameterModel(int compoId) const;
+    /* @brief Given a clip Id, returns its underlying effect stack model */
+    std::shared_ptr<EffectStackModel> getClipEffectStackModel(int clipId) const;
 
     /* @brief Returns the position of clip (-1 if it is not inserted)
        @param clipId Id of the clip to test
