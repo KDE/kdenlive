@@ -19,39 +19,33 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-#ifndef ABSTRACTEFFECTITEM_H
-#define ABSTRACTEFFECTITEM_H
+#ifndef EFFECTGROUPMODEL_H
+#define EFFECTGROUPMODEL_H
 
 #include "abstractmodel/treeitem.hpp"
-#include "assets/model/assetparametermodel.hpp"
-#include <mlt++/MltFilter.h>
+#include "abstracteffectitem.hpp"
 
 class EffectStackModel;
-/* @brief This represents an effect of the effectstack
+/* @brief This represents a group of effects of the effectstack
  */
-class AbstractEffectItem : public TreeItem
+class EffectGroupModel : public AbstractEffectItem
 {
 
 public:
-    AbstractEffectItem(const QList<QVariant> &data, const std::shared_ptr<AbstractTreeModel> &stack, const std::shared_ptr<TreeItem> &parent);
+    /* This construct an effect of the given id
+       @param is a ptr to the model this item belongs to. This is required to send update signals
+     */
+    static std::shared_ptr<EffectGroupModel> construct(const QString &name, std::shared_ptr<AbstractTreeModel> stack, std::shared_ptr<TreeItem> parent);
 
-    /* @brief This function change the individual enabled state of the effect */
-    void setEnabled(bool enabled);
 
-    /* @brief This function change the global (effectstack-wise) enabled state of the effect */
-    void setEffectStackEnabled(bool enabled);
-
-    /* @brief Returns whether the effect is enabled */
-    bool isEnabled() const;
-
-  friend class EffectGroupModel;
 protected:
+    EffectGroupModel(const QList<QVariant> &data, const QString &name,
+                    const std::shared_ptr<AbstractTreeModel> &stack, const std::shared_ptr<TreeItem> &parent);
 
-    /* @brief Toogles the mlt effect according to the current activation state*/
-    virtual void updateEnable() = 0;
+    void updateEnable() override;
 
-    bool m_enabled;
-    bool m_effectStackEnabled;
+    QString m_name;
+
 };
 
 #endif

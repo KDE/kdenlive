@@ -19,39 +19,35 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-#ifndef ABSTRACTEFFECTITEM_H
-#define ABSTRACTEFFECTITEM_H
+#include "effectgroupmodel.hpp"
 
-#include "abstractmodel/treeitem.hpp"
-#include "assets/model/assetparametermodel.hpp"
-#include <mlt++/MltFilter.h>
+#include "effectstackmodel.hpp"
+#include <utility>
 
-class EffectStackModel;
-/* @brief This represents an effect of the effectstack
- */
-class AbstractEffectItem : public TreeItem
+EffectGroupModel::EffectGroupModel(const QList<QVariant> &data, const QString &name,
+                                 const std::shared_ptr<AbstractTreeModel> &stack, const std::shared_ptr<TreeItem> &parent)
+    : AbstractEffectItem(data, stack, parent)
+    , m_name(name)
 {
+}
 
-public:
-    AbstractEffectItem(const QList<QVariant> &data, const std::shared_ptr<AbstractTreeModel> &stack, const std::shared_ptr<TreeItem> &parent);
+// static
+std::shared_ptr<EffectGroupModel> EffectGroupModel::construct(const QString &name, std::shared_ptr<AbstractTreeModel> stack, std::shared_ptr<TreeItem> parent)
+{
+    QList<QVariant> data;
+    data << name << name;
 
-    /* @brief This function change the individual enabled state of the effect */
-    void setEnabled(bool enabled);
+    std::shared_ptr<EffectGroupModel> self(new EffectGroupModel(data, name, std::move(stack), std::move(parent)));
 
-    /* @brief This function change the global (effectstack-wise) enabled state of the effect */
-    void setEffectStackEnabled(bool enabled);
+    baseFinishConstruct(self);
 
-    /* @brief Returns whether the effect is enabled */
-    bool isEnabled() const;
+    return self;
+}
 
-  friend class EffectGroupModel;
-protected:
 
-    /* @brief Toogles the mlt effect according to the current activation state*/
-    virtual void updateEnable() = 0;
-
-    bool m_enabled;
-    bool m_effectStackEnabled;
-};
-
-#endif
+void EffectGroupModel::updateEnable()
+{
+    for (int i = 0; i < childCount(); ++i) {
+        std::static_pointer_cast<AbstractEffectItem>(child(i))->updateEnable();
+    }
+}

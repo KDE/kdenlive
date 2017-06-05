@@ -21,6 +21,7 @@
 #include "effectstackmodel.hpp"
 
 #include "effectitemmodel.hpp"
+#include "effectgroupmodel.hpp"
 #include <utility>
 
 EffectStackModel::EffectStackModel(std::weak_ptr<Mlt::Service> service)
@@ -33,7 +34,7 @@ EffectStackModel::EffectStackModel(std::weak_ptr<Mlt::Service> service)
 std::shared_ptr<EffectStackModel> EffectStackModel::construct(std::weak_ptr<Mlt::Service> service)
 {
     std::shared_ptr<EffectStackModel> self(new EffectStackModel(std::move(service)));
-    self->rootItem = TreeItem::construct(QList<QVariant>(), self, std::shared_ptr<TreeItem>());
+    self->rootItem = EffectGroupModel::construct(QStringLiteral("root"), self, std::shared_ptr<TreeItem>());
     return self;
 }
 
