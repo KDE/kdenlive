@@ -38,13 +38,16 @@ Q_OBJECT
 public:
     EffectStackView(QWidget *parent = nullptr);
     void setModel(std::shared_ptr<EffectStackModel>model);
-    void unsetModel();
+    void unsetModel(bool reset = true);
 
 private:
     QVBoxLayout *m_lay;
     std::shared_ptr<EffectStackModel> m_model;
     std::vector<CollapsibleEffectView *> m_widgets;
     const QString getStyleSheet();
+
+private slots:
+    void refresh(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles);
 
 };
 

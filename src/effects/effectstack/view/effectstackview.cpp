@@ -46,10 +46,23 @@ void EffectStackView::setModel(std::shared_ptr<EffectStackModel>model)
         m_lay->addWidget(view);
         m_widgets.push_back(view);
     }
+    connect(m_model.get(), &EffectStackModel::dataChanged, this, &EffectStackView::refresh);
     m_lay->addStretch();
 }
 
-void EffectStackView::unsetModel()
+void EffectStackView::refresh(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles)
+{
+    unsetModel(false);
+    int max = m_model->rowCount();
+    for (int i = 0; i < max; i++) {
+        CollapsibleEffectView *view = new CollapsibleEffectView(m_model->effect(i), this);
+        m_lay->addWidget(view);
+        m_widgets.push_back(view);
+    }
+    m_lay->addStretch();
+}
+
+void EffectStackView::unsetModel(bool reset)
 {
     // clear layout
     m_widgets.clear();
@@ -60,7 +73,9 @@ void EffectStackView::unsetModel()
     }
 
     // Release ownership of smart pointer
-    m_model.reset();
+    if (reset) {
+        m_model.reset();
+    }
 }
 
 

@@ -44,6 +44,8 @@ void EffectStackModel::appendEffect(const QString &effectId)
     effect->setEffectStackEnabled(m_effectStackEnabled);
     effect->plant(m_service);
     rootItem->appendChild(effect);
+    QModelIndex ix = getIndexFromItem(effect);
+    emit dataChanged(ix, ix, QVector<int>());
 }
 
 void EffectStackModel::setEffectStackEnabled(bool enabled)

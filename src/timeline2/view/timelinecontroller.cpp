@@ -389,7 +389,7 @@ void TimelineController::showAsset(int id)
     if (m_model->isComposition(id)) {
         emit showTransitionModel(m_model->getCompositionParameterModel(id));
     } else if (m_model->isClip(id)) {
-        emit showClipEffectStack(m_model->getClipEffectStackModel(id));
+        emit showClipEffectStack(id, m_model->getClipEffectStackModel(id));
     }
 }
 

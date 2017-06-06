@@ -53,7 +53,6 @@ AssetPanel::AssetPanel(QWidget *parent)
 
 void AssetPanel::showTransition(std::shared_ptr<AssetParameterModel> transitionModel)
 {
-    qDebug() << "Show transition signal";
     clear();
     QString transitionId = transitionModel->getAssetId();
     QString transitionName = TransitionsRepository::get()->getName(transitionId);
@@ -62,11 +61,12 @@ void AssetPanel::showTransition(std::shared_ptr<AssetParameterModel> transitionM
     m_transitionWidget->setModel(transitionModel);
 }
 
-void AssetPanel::showEffectStack(std::shared_ptr<EffectStackModel> effectsModel)
+void AssetPanel::showEffectStack(int cid, std::shared_ptr<EffectStackModel> effectsModel)
 {
     clear();
     m_assetTitle->setText(i18n("Properties of clip ..."));
     m_effectStackWidget->setVisible(true);
+    m_effectStackWidget->setProperty("clipId", cid);
     m_effectStackWidget->setModel(effectsModel);
 }
 
@@ -75,6 +75,7 @@ void AssetPanel::clear()
     m_transitionWidget->setVisible(false);
     m_transitionWidget->unsetModel();
     m_effectStackWidget->setVisible(false);
+    m_effectStackWidget->setProperty("clipId", QVariant());
     m_effectStackWidget->unsetModel();
     m_assetTitle->setText(QString());
 }
