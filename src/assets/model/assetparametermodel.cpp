@@ -20,7 +20,6 @@
  ***************************************************************************/
 
 #include "assetparametermodel.hpp"
-#include "assetcommand.hpp"
 #include "core.h"
 #include "klocalizedstring.h"
 #include "kdenlivesettings.h"
@@ -32,9 +31,10 @@
 AssetParameterModel::AssetParameterModel(Mlt::Properties *asset, const QDomElement &assetXml, const QString &assetId, Kdenlive::MonitorId monitor,
                                          QObject *parent)
     : QAbstractListModel(parent)
+    , monitorId(monitor)
     , m_xml(assetXml)
     , m_assetId(assetId)
-    , monitorId(monitor)
+    , m_parentId(-1)
     , m_asset(asset)
 {
     Q_ASSERT(asset->is_valid());
@@ -122,8 +122,9 @@ void AssetParameterModel::setParameter(const QString &name, const QString &value
         }
     }
     // refresh monitor after asset change
-    QSize range(m_asset->get_int("in"), m_asset->get_int("out"));
-    pCore->refreshProjectRange(range);
+    if (m_parentId >= 0) {
+        pCore->refreshProjectItem(m_parentId);
+    }
 }
 
 AssetParameterModel::~AssetParameterModel() = default;
@@ -331,11 +332,13 @@ void AssetParameterModel::setParameters(const QVector<QPair<QString, QVariant>> 
     }
 }
 
-void AssetParameterModel::commitChanges(const QModelIndex &index, const QString &value)
+void AssetParameterModel::setParentId(int id)
 {
-    std::shared_ptr<AssetParameterModel> ptr = shared_from_this(); 
-    AssetCommand *command = new AssetCommand(ptr, m_assetId, index, value);
-    pCore->pushUndo(command);
+    m_parentId = id;
 }
 
+int AssetParameterModel::parentId() const
+{
+    return m_parentId;
+}
 

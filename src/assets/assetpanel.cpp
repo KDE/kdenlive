@@ -51,10 +51,11 @@ AssetPanel::AssetPanel(QWidget *parent)
     updatePalette();
 }
 
-void AssetPanel::showTransition(std::shared_ptr<AssetParameterModel> transitionModel)
+void AssetPanel::showTransition(int tid, std::shared_ptr<AssetParameterModel> transitionModel)
 {
     clear();
     QString transitionId = transitionModel->getAssetId();
+    transitionModel->setParentId(tid);
     QString transitionName = TransitionsRepository::get()->getName(transitionId);
     m_assetTitle->setText(i18n("Properties of transition %1", transitionName));
     m_transitionWidget->setVisible(true);

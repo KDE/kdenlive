@@ -203,6 +203,9 @@ public:
     /* @brief Returns the number of tracks (audioTrakcs, videoTracks)
      */
     QPoint getTracksCount() const;
+    /* @brief Request monitor refresh if item (clip or composition) is under timeline cursor
+     */
+    void refreshItem(int id);
 
 public slots:
     void selectMultitrack();
@@ -248,7 +251,7 @@ signals:
     void zoneChanged();
     void zoneMoved(const QPoint &zone);
     /* @brief Requests that a given parameter model is displayed in the asset panel */
-    void showTransitionModel(std::shared_ptr<AssetParameterModel>);
+    void showTransitionModel(int tid, std::shared_ptr<AssetParameterModel>);
     void showClipEffectStack(int cid, std::shared_ptr<EffectStackModel>);
 };
 

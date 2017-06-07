@@ -387,7 +387,7 @@ void TimelineController::showAsset(int id)
 {
     qDebug() << "show asset" << id;
     if (m_model->isComposition(id)) {
-        emit showTransitionModel(m_model->getCompositionParameterModel(id));
+        emit showTransitionModel(id, m_model->getCompositionParameterModel(id));
     } else if (m_model->isClip(id)) {
         emit showClipEffectStack(id, m_model->getClipEffectStackModel(id));
     }
@@ -482,13 +482,24 @@ void TimelineController::seekCurrentClip(bool seekToEnd)
 {
     bool foundClip = false;
     for (int cid : m_selection.selectedClips) {
-        int start = m_model->getClipPosition(cid);
+        int start = m_model->getItemPosition(cid);
         if (seekToEnd) {
-            start += m_model->getClipPlaytime(cid);
+            start += m_model->getItemPlaytime(cid);
         }
         seek(start);
         foundClip = true;
         break;
+    }
+}
+
+void TimelineController::refreshItem(int id)
+{
+    int in = m_model->getItemPosition(id);
+    if (in > m_position) {
+        return;
+    }
+    if (m_position <= in + m_model->getItemPlaytime(id)) {
+        pCore->requestMonitorRefresh();
     }
 }
 

@@ -889,7 +889,7 @@ std::shared_ptr<EffectStackModel> ClipController::getEffectStack() const
 }
 void ClipController::addEffect(const QString &effectId)
 {
-    m_effectStack->appendEffect(effectId);
+    m_effectStack->appendEffect(effectId, clipId().toInt());
 }
 
 std::shared_ptr<MarkerListModel> ClipController::getMarkerModel() const

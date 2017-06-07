@@ -24,16 +24,23 @@
 #include "effects/effectstack/model/effectstackmodel.hpp"
 #include "effects/effectstack/model/effectitemmodel.hpp"
 #include "assets/view/assetparameterview.hpp"
+#include "assets/assetlist/view/qmltypes/asseticonprovider.hpp"
 
 #include <QVBoxLayout>
 #include <QFontDatabase>
 
 EffectStackView::EffectStackView(QWidget *parent) : QWidget(parent)
+    , m_thumbnailer(new AssetIconProvider(true))
 {
     m_lay = new QVBoxLayout(this);
     m_lay->setContentsMargins(0, 0, 0, 0);
     m_lay->setSpacing(2);
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+}
+
+EffectStackView::~EffectStackView()
+{
+    delete m_thumbnailer;
 }
 
 void EffectStackView::setModel(std::shared_ptr<EffectStackModel>model)
@@ -42,7 +49,10 @@ void EffectStackView::setModel(std::shared_ptr<EffectStackModel>model)
     m_model = model;
     int max = m_model->rowCount();
     for (int i = 0; i < max; i++) {
-        CollapsibleEffectView *view = new CollapsibleEffectView(m_model->effect(i), this);
+        std::shared_ptr<EffectItemModel> effectModel = m_model->effect(i);
+        QSize size;
+        QImage effectIcon = m_thumbnailer->requestImage(effectModel->getAssetId(), &size, QSize(QStyle::PM_SmallIconSize,QStyle::PM_SmallIconSize));
+        CollapsibleEffectView *view = new CollapsibleEffectView(effectModel, effectIcon, this);
         m_lay->addWidget(view);
         m_widgets.push_back(view);
     }
@@ -55,7 +65,10 @@ void EffectStackView::refresh(const QModelIndex &topLeft, const QModelIndex &bot
     unsetModel(false);
     int max = m_model->rowCount();
     for (int i = 0; i < max; i++) {
-        CollapsibleEffectView *view = new CollapsibleEffectView(m_model->effect(i), this);
+        std::shared_ptr<EffectItemModel> effectModel = m_model->effect(i);
+        QSize size;
+        QImage effectIcon = m_thumbnailer->requestImage(effectModel->getAssetId(), &size, QSize(QStyle::PM_SmallIconSize,QStyle::PM_SmallIconSize));
+        CollapsibleEffectView *view = new CollapsibleEffectView(effectModel, effectIcon, this);
         m_lay->addWidget(view);
         m_widgets.push_back(view);
     }

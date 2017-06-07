@@ -25,6 +25,9 @@
 #include "kdenlivesettings.h"
 #include "mltcontroller/effectscontroller.h"
 #include "utils/KoIconUtils.h"
+#include "effects/effectstack/model/effectitemmodel.hpp"
+#include "effects/effectsrepository.hpp"
+#include "assets/view/assetparameterview.hpp"
 
 #include "kdenlive_debug.h"
 #include <QDialog>
@@ -46,11 +49,8 @@
 #include <KMessageBox>
 #include <KRecentDirs>
 #include <klocalizedstring.h>
-#include <assets/model/assetparametermodel.hpp>
-#include <effects/effectsrepository.hpp>
-#include <assets/view/assetparameterview.hpp>
 
-CollapsibleEffectView::CollapsibleEffectView(std::shared_ptr<AssetParameterModel> effectModel, QWidget *parent)
+CollapsibleEffectView::CollapsibleEffectView(std::shared_ptr<EffectItemModel> effectModel, QImage icon, QWidget *parent)
     : AbstractCollapsibleWidget(parent)
 /*    , m_effect(effect)
     , m_itemInfo(info)
@@ -122,29 +122,8 @@ CollapsibleEffectView::CollapsibleEffectView(std::shared_ptr<AssetParameterModel
         effectName.append(':' + QUrl(EffectsList::parameter(m_effect, QStringLiteral("resource"))).fileName());
     }
 
-    // Create color thumb
-    QPixmap pix(iconSize);
-    QColor col(m_effect.attribute(QStringLiteral("effectcolor")));
-    QFont ft = font();
-    ft.setBold(true);
-    bool isAudio = m_effect.attribute(QStringLiteral("type")) == QLatin1String("audio");
-    if (isAudio) {
-        pix.fill(Qt::transparent);
-    } else {
-        pix.fill(col);
-    }
-    QPainter p(&pix);
-    if (isAudio) {
-        p.setPen(Qt::NoPen);
-        p.setBrush(col);
-        p.drawEllipse(pix.rect());
-        p.setPen(QPen());
-    }
-    p.setFont(ft);
-    p.drawText(pix.rect(), Qt::AlignCenter, effectName.at(0));
-    p.end();
-    m_iconPix = pix;
-    m_colorIcon->setPixmap(pix);
+    // Color thumb
+    m_colorIcon->setPixmap(QPixmap::fromImage(icon));
     title->setText(effectName);
 
     if (!m_regionEffect) {
@@ -154,7 +133,7 @@ CollapsibleEffectView::CollapsibleEffectView(std::shared_ptr<AssetParameterModel
         m_menu->addAction(KoIconUtils::themedIcon(QStringLiteral("folder-new")), i18n("Create Region"), this, SLOT(slotCreateRegion()));
     }
     m_view = new AssetParameterView(this);
-    m_view->setModel(effectModel);
+    m_view->setModel(std::static_pointer_cast<AssetParameterModel>(effectModel));
     QVBoxLayout *lay = new QVBoxLayout(widgetFrame);
     lay->setContentsMargins(0, 0, 0, 0);
     lay->setSpacing(0);
@@ -346,6 +325,7 @@ void CollapsibleEffectView::mouseReleaseEvent(QMouseEvent *event)
 void CollapsibleEffectView::slotDisable(bool disable, bool emitInfo)
 {
     title->setEnabled(!disable);
+    m_colorIcon->setEnabled(!disable);
     m_enabledButton->setActive(disable);
     m_effect.setAttribute(QStringLiteral("disable"), disable ? 1 : 0);
     if (!disable || KdenliveSettings::disable_effect_parameters()) {

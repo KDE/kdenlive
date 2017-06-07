@@ -30,6 +30,7 @@ class QVBoxLayout;
 class CollapsibleEffectView;
 class AssetParameterModel;
 class EffectStackModel;
+class AssetIconProvider;
 
 class EffectStackView : public QWidget
 {
@@ -37,6 +38,7 @@ Q_OBJECT
 
 public:
     EffectStackView(QWidget *parent = nullptr);
+    virtual ~EffectStackView();
     void setModel(std::shared_ptr<EffectStackModel>model);
     void unsetModel(bool reset = true);
 
@@ -44,6 +46,7 @@ private:
     QVBoxLayout *m_lay;
     std::shared_ptr<EffectStackModel> m_model;
     std::vector<CollapsibleEffectView *> m_widgets;
+    AssetIconProvider *m_thumbnailer;
     const QString getStyleSheet();
 
 private slots:

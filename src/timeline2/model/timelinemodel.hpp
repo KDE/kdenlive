@@ -258,6 +258,11 @@ public:
     Q_INVOKABLE int suggestCompositionMove(int compoId, int trackId, int position);
     int getCompositionPlaytime(int compoId) const;
 
+    /* Returns an item position, item can be clip or composition */
+    int getItemPosition(int itemId) const;
+    /* Returns an item duration, item can be clip or composition */
+    int getItemPlaytime(int itemId) const;
+
     /* @brief Given an intended move, try to suggest a more valid one
        (accounting for snaps and missing UI calls) @param clipId id of the clip to
        move @param trackId id of the target track @param position target position

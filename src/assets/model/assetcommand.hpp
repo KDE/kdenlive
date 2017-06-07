@@ -29,7 +29,7 @@
 class AssetCommand : public QUndoCommand
 {
 public:
-    AssetCommand(std::shared_ptr<AssetParameterModel> &model, const QString &assetId, const QModelIndex &index, const QString &value, QUndoCommand *parent = nullptr);
+    AssetCommand(std::shared_ptr<AssetParameterModel> model, const QModelIndex &index, const QString &value, QUndoCommand *parent = nullptr);
     void undo() override;
     void redo() override;
     int id() const override;

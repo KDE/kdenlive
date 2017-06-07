@@ -33,6 +33,7 @@
 // this can be deleted
 #include "bin/model/markerlistmodel.hpp"
 #include "gentime.h"
+#include <effects/effectsrepository.hpp>
 
 ClipModel::ClipModel(std::weak_ptr<TimelineModel> parent, std::shared_ptr<Mlt::Producer> prod, const QString &binClipId, int id)
     : MoveableItem<Mlt::Producer>(std::move(parent), id)
@@ -185,7 +186,11 @@ void ClipModel::setTimelineEffectsEnabled(bool enabled)
 bool ClipModel::addEffect(const QString &effectId)
 {
     READ_LOCK();
-    m_effectStack->appendEffect(effectId);
+    m_effectStack->appendEffect(effectId, m_id);
+    // refresh monitor
+    if (EffectsRepository::get()->getType(effectId) != EffectType::Audio) {
+        pCore->refreshProjectItem(m_id);
+    }
     return true;
 }
 

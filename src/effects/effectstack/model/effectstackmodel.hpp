@@ -44,7 +44,7 @@ protected:
 
 public:
     /* @brief Add an effect at the bottom of the stack */
-    void appendEffect(const QString &effectId);
+    void appendEffect(const QString &effectId, int cid);
 
     /* @brief This function change the global (timeline-wise) enabled state of the effects
      */

@@ -22,7 +22,9 @@
 #include "assetparameterview.hpp"
 
 #include "assets/model/assetparametermodel.hpp"
+#include "assets/model/assetcommand.hpp"
 #include "assets/view/widgets/abstractparamwidget.hpp"
+#include "core.h"
 
 #include <QDebug>
 #include <QFontDatabase>
@@ -49,10 +51,16 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
     for (int i = 0; i < model->rowCount(); ++i) {
         QModelIndex index = model->index(i, 0);
         auto w = AbstractParamWidget::construct(model, index, this);
-        connect(w, &AbstractParamWidget::valueChanged, model.get(), &AssetParameterModel::commitChanges);
+        connect(w, &AbstractParamWidget::valueChanged, this, &AssetParameterView::commitChanges);
         m_lay->addWidget(w);
         m_widgets.push_back(w);
     }
+}
+
+void AssetParameterView::commitChanges(const QModelIndex &index, const QString &value)
+{
+    AssetCommand *command = new AssetCommand(m_model, index, value);
+    pCore->pushUndo(command);
 }
 
 void AssetParameterView::unsetModel()

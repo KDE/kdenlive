@@ -307,17 +307,10 @@ void MainWindow::init()
 
     m_projectBinDock = addDock(i18n("Project Bin"), QStringLiteral("project_bin"), pCore->bin());
 
-    // TODO REFAC delete this
-    auto trans = TransitionsRepository::get()->getTransition(QStringLiteral("wipe"));
-    auto transxml = TransitionsRepository::get()->getXml(QStringLiteral("wipe"));
-    std::shared_ptr<AssetParameterModel> model = std::make_shared<AssetParameterModel>(trans, transxml, QStringLiteral("wipe"));
-    // END delete
-
     m_assetPanel = new AssetPanel(this);
 
     connect(m_timelineTabs, &TimelineTabs::showTransitionModel, m_assetPanel, &AssetPanel::showTransition);
     connect(m_timelineTabs, &TimelineTabs::showClipEffectStack, m_assetPanel, &AssetPanel::showEffectStack);
-    m_assetPanel->showTransition(model);
 
     m_effectStackDock = addDock(i18n("Properties"), QStringLiteral("effect_stack"), m_assetPanel);
 

@@ -22,19 +22,25 @@
 
 #include "assetcommand.hpp"
 #include "transitions/transitionsrepository.hpp"
+#include "effects/effectsrepository.hpp"
 #include <memory>
 
 
-AssetCommand::AssetCommand(std::shared_ptr<AssetParameterModel> &model, const QString &assetId, const QModelIndex &index, const QString &value, QUndoCommand *parent)
+AssetCommand::AssetCommand(std::shared_ptr<AssetParameterModel> model, const QModelIndex &index, const QString &value, QUndoCommand *parent)
     : QUndoCommand(parent)
-    , m_model(std::move(model))
+    , m_model(model)
     , m_index(index)
     , m_value(value)
     , m_updateView(false)
     , m_stamp(QTime::currentTime())
 {
     m_name = m_model->data(index, AssetParameterModel::NameRole).toString();
-    setText(i18n("Edit %1", TransitionsRepository::get()->getName(assetId)));
+    const QString id = model->getAssetId();
+    if (EffectsRepository::get()->exists(id)) {
+        setText(i18n("Edit %1", EffectsRepository::get()->getName(id)));
+    } else if (TransitionsRepository::get()->exists(id)) {
+        setText(i18n("Edit %1", TransitionsRepository::get()->getName(id)));
+    }
     m_oldValue = m_model->data(index, AssetParameterModel::ValueRole).toString();
 }
 

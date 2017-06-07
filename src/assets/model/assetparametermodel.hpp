@@ -105,18 +105,14 @@ public:
      */
     void setParameters(const QVector<QPair<QString, QVariant>> &params);
 
-    /* @brief Apply a change of parameter sent by the view
-       @param index is the index corresponding to the modified param
-       @param value is the new value of the parameter
-    */
-    void commitChanges(const QModelIndex &index, const QString &value);
-
     /* Which monitor is attached to this asset (clip/project)
     */
     Kdenlive::MonitorId monitorId;
 
     QVariant data(const QModelIndex &index, int role) const override;
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+    void setParentId(int id);
+    int parentId() const;
 
 protected:
     /* @brief Helper function to retrieve the type of a parameter given the string corresponding to it*/
@@ -140,6 +136,7 @@ protected:
 
     QDomElement m_xml;
     QString m_assetId;
+    int m_parentId;
     std::unordered_map<QString, ParamRow> m_params;      // Store all parameters by name
     std::unordered_map<QString, QVariant> m_fixedParams; // We store values of fixed parameters aside
     QVector<QString> m_rows;                             // We store the params name in order of parsing. The order is important (cf some effects like sox)

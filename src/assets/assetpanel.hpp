@@ -44,7 +44,7 @@ public:
     AssetPanel(QWidget *parent);
 
     /* @brief Shows the parameters of the given transition model */
-    void showTransition(std::shared_ptr<AssetParameterModel> transition_model);
+    void showTransition(int tid, std::shared_ptr<AssetParameterModel> transition_model);
 
     /* @brief Shows the parameters of the given effect stack model */
     void showEffectStack(int cid, std::shared_ptr<EffectStackModel> effectsModel);

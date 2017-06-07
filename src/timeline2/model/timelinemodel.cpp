@@ -1205,6 +1205,22 @@ int TimelineModel::getCompositionPlaytime(int compoId) const
     return playtime;
 }
 
+int TimelineModel::getItemPosition(int itemId) const
+{
+    if (isClip(itemId)) {
+        return getClipPosition(itemId);
+    }
+    return getCompositionPosition(itemId);
+}
+
+int TimelineModel::getItemPlaytime(int itemId) const
+{
+    if (isClip(itemId)) {
+        return getClipPlaytime(itemId);
+    }
+    return getCompositionPlaytime(itemId);
+}
+
 int TimelineModel::getTrackCompositionsCount(int compoId) const
 {
     return getTrackById_const(compoId)->getCompositionsCount();

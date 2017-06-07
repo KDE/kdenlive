@@ -32,7 +32,7 @@
 
 class QLabel;
 class KDualAction;
-class AssetParameterModel;
+class EffectItemModel;
 class AssetParameterView;
 
 /**)
@@ -46,7 +46,7 @@ class CollapsibleEffectView : public AbstractCollapsibleWidget
     Q_OBJECT
 
 public:
-    explicit CollapsibleEffectView(std::shared_ptr<AssetParameterModel> effectModel, QWidget *parent = nullptr);
+    explicit CollapsibleEffectView(std::shared_ptr<EffectItemModel> effectModel,  QImage icon, QWidget *parent = nullptr);
     ~CollapsibleEffectView();
     QLabel *title;
 
