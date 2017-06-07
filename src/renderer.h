@@ -42,7 +42,7 @@
 
 #include <QUrl>
 
-#include <QtXml/qdom.h>
+#include <qdom.h>
 #include <QString>
 #include <QMap>
 #include <QList>

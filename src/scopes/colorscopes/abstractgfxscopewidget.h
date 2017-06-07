@@ -12,7 +12,7 @@
 #define ABSTRACTGFXSCOPEWIDGET_H
 
 #include <QtCore>
-#include <QtCore/QString>
+#include <QString>
 #include <QWidget>
 
 #include "../abstractscopewidget.h"

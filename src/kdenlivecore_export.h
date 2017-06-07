@@ -20,7 +20,7 @@
 #ifndef KDENLIVECORE_EXPORT_H
 #define KDENLIVECORE_EXPORT_H
 
-#include <QtCore/QtGlobal>
+#include <QtGlobal>
 
 #ifndef KDENLIVECORE_EXPORT
 # if defined(MAKE_KDENLIVECORE_LIB)

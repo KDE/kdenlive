@@ -20,7 +20,7 @@
 #ifndef CLIPMANAGER_H
 #define CLIPMANAGER_H
 
-#include <QtXml/qdom.h>
+#include <qdom.h>
 #include <QObject>
 #include <QMutex>
 #include <QFuture>
