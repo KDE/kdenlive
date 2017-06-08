@@ -112,7 +112,7 @@ public:
     QVariant data(const QModelIndex &index, int role) const override;
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     void setParentId(int id);
-    int parentId() const;
+    int getParentId() const;
 
 protected:
     /* @brief Helper function to retrieve the type of a parameter given the string corresponding to it*/

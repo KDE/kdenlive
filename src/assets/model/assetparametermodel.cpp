@@ -337,7 +337,7 @@ void AssetParameterModel::setParentId(int id)
     m_parentId = id;
 }
 
-int AssetParameterModel::parentId() const
+int AssetParameterModel::getParentId() const
 {
     return m_parentId;
 }

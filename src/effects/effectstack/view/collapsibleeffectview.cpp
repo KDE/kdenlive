@@ -28,6 +28,7 @@
 #include "effects/effectstack/model/effectitemmodel.hpp"
 #include "effects/effectsrepository.hpp"
 #include "assets/view/assetparameterview.hpp"
+#include "core.h"
 
 #include "kdenlive_debug.h"
 #include <QDialog>
@@ -56,6 +57,7 @@ CollapsibleEffectView::CollapsibleEffectView(std::shared_ptr<EffectItemModel> ef
     , m_itemInfo(info)
     , m_original_effect(original_effect)
     , m_isMovable(true)*/
+    , m_model(effectModel)
     , m_regionEffect(false)
 {
     QString effectId = effectModel->getAssetId();
@@ -142,8 +144,12 @@ CollapsibleEffectView::CollapsibleEffectView(std::shared_ptr<EffectItemModel> ef
     menuButton->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-menu")));
     menuButton->setMenu(m_menu);
 
-    if (m_effect.attribute(QStringLiteral("disable")) == QLatin1String("1")) {
+    if (!effectModel->isEnabled()) {
         title->setEnabled(false);
+        m_colorIcon->setEnabled(false);
+        if (KdenliveSettings::disable_effect_parameters()) {
+            widgetFrame->setEnabled(false);
+        }
         m_enabledButton->setActive(true);
     } else {
         m_enabledButton->setActive(false);
@@ -324,15 +330,14 @@ void CollapsibleEffectView::mouseReleaseEvent(QMouseEvent *event)
 
 void CollapsibleEffectView::slotDisable(bool disable, bool emitInfo)
 {
+    //TODO: this should go in an undo/redo function
     title->setEnabled(!disable);
     m_colorIcon->setEnabled(!disable);
     m_enabledButton->setActive(disable);
-    m_effect.setAttribute(QStringLiteral("disable"), disable ? 1 : 0);
+    std::static_pointer_cast<AbstractEffectItem>(m_model)->setEnabled(!disable);
+    pCore->refreshProjectItem(m_model->getParentId());
     if (!disable || KdenliveSettings::disable_effect_parameters()) {
         widgetFrame->setEnabled(!disable);
-    }
-    if (emitInfo) {
-        emit effectStateChanged(disable, effectIndex(), needsMonitorEffectScene());
     }
 }
 
@@ -401,7 +406,7 @@ void CollapsibleEffectView::slotSaveEffect()
 
 void CollapsibleEffectView::slotResetEffect()
 {
-    emit resetEffect(effectIndex());
+    m_view->resetValues();
 }
 
 void CollapsibleEffectView::slotSwitch(bool expand)

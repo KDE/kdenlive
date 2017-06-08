@@ -57,6 +57,17 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
     }
 }
 
+void AssetParameterView::resetValues()
+{
+    for (int i = 0; i < m_model->rowCount(); ++i) {
+        QModelIndex index = m_model->index(i, 0);
+        QString name = m_model->data(index, AssetParameterModel::NameRole).toString();
+        QString defaultValue = m_model->data(index, AssetParameterModel::DefaultRole).toString();
+        m_model->setParameter(name, defaultValue);
+        refresh(index, index, QVector<int>());
+    }
+}
+
 void AssetParameterView::commitChanges(const QModelIndex &index, const QString &value)
 {
     AssetCommand *command = new AssetCommand(m_model, index, value);

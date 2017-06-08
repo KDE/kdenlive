@@ -51,6 +51,9 @@ public:
     /** Returns the preferred widget height */
     int contentHeight() const;
 
+    /** Reset all parameter values to default */
+    void resetValues();
+
 protected:
     /** @brief This is a handler for the dataChanged slot of the model.
         It basically instructs the widgets in the given range to be refreshed */
