@@ -122,21 +122,21 @@ add_subdirectory(thumbnailer)
 ############################
 # Tests
 ############################
-add_subdirectory(tests)
+#add_subdirectory(tests)
 
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -fexceptions")
-include_directories(
-    ${CMAKE_BINARY_DIR}
-    ${CMAKE_BINARY_DIR}/src
-    ${MLT_INCLUDE_DIR}
-    ${MLTPP_INCLUDE_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}/lib/external
-    ${CMAKE_CURRENT_SOURCE_DIR}/lib
-    src
-    )
-ADD_EXECUTABLE(runTests ${Tests_SRCS})
-target_link_libraries(runTests kdenliveLib)
-ADD_TEST(runTests runTests -d yes)
+#SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -fexceptions")
+#include_directories(
+#    ${CMAKE_BINARY_DIR}
+#    ${CMAKE_BINARY_DIR}/src
+#    ${MLT_INCLUDE_DIR}
+#    ${MLTPP_INCLUDE_DIR}
+#    ${CMAKE_CURRENT_SOURCE_DIR}/lib/external
+#    ${CMAKE_CURRENT_SOURCE_DIR}/lib
+#    src
+#    )
+#ADD_EXECUTABLE(runTests ${Tests_SRCS})
+#target_link_libraries(runTests kdenliveLib)
+#ADD_TEST(runTests runTests -d yes)
 
 #add_subdirectory(testingArea)
 

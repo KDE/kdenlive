@@ -27,6 +27,8 @@
 #include "assets/assetlist/view/qmltypes/asseticonprovider.hpp"
 
 #include <QVBoxLayout>
+#include <QDragEnterEvent>
+#include <QMimeData>
 #include <QFontDatabase>
 
 EffectStackView::EffectStackView(QWidget *parent) : QWidget(parent)
@@ -36,11 +38,29 @@ EffectStackView::EffectStackView(QWidget *parent) : QWidget(parent)
     m_lay->setContentsMargins(0, 0, 0, 0);
     m_lay->setSpacing(2);
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    setAcceptDrops(true);
 }
 
 EffectStackView::~EffectStackView()
 {
     delete m_thumbnailer;
+}
+
+void EffectStackView::dragEnterEvent(QDragEnterEvent *event)
+{
+    if (event->mimeData()->hasFormat(QStringLiteral("kdenlive/effect"))) {
+        event->setDropAction(Qt::CopyAction);
+        event->setAccepted(true);
+    } else {
+        event->setAccepted(false);
+    }
+}
+
+void EffectStackView::dropEvent(QDropEvent *event)
+{
+    event->accept();
+    QString effectId = event->mimeData()->data(QStringLiteral("kdenlive/effect"));
+    m_model->appendEffect(effectId, property("clipId").toInt());
 }
 
 void EffectStackView::setModel(std::shared_ptr<EffectStackModel>model)

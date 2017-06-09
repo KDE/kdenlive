@@ -389,7 +389,9 @@ void TimelineController::showAsset(int id)
     if (m_model->isComposition(id)) {
         emit showTransitionModel(id, m_model->getCompositionParameterModel(id));
     } else if (m_model->isClip(id)) {
-        emit showClipEffectStack(id, m_model->getClipEffectStackModel(id));
+        QModelIndex clipIx = m_model->makeClipIndexFromID(id);
+        QString clipName = m_model->data(clipIx, Qt::DisplayRole).toString();
+        emit showClipEffectStack(id, clipName, m_model->getClipEffectStackModel(id));
     }
 }
 

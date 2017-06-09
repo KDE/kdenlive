@@ -42,6 +42,10 @@ public:
     void setModel(std::shared_ptr<EffectStackModel>model);
     void unsetModel(bool reset = true);
 
+protected:
+    void dragEnterEvent(QDragEnterEvent *event);
+    void dropEvent(QDropEvent *event);
+
 private:
     QVBoxLayout *m_lay;
     std::shared_ptr<EffectStackModel> m_model;

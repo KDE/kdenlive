@@ -47,7 +47,7 @@ public:
     void showTransition(int tid, std::shared_ptr<AssetParameterModel> transition_model);
 
     /* @brief Shows the parameters of the given effect stack model */
-    void showEffectStack(int cid, std::shared_ptr<EffectStackModel> effectsModel);
+    void showEffectStack(int cid, const QString &clipName, std::shared_ptr<EffectStackModel> effectsModel);
 
     /* @brief Clear the panel so that it doesn't display anything */
     void clear();
