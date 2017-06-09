@@ -92,7 +92,7 @@ public:
 
 public slots:
     void slotSyncEffectsPos(int pos);
-    void slotDisable(bool disable, bool emitInfo = true);
+    void slotDisable(bool disable);
     void slotResetEffect();
     void importKeyframes(const QString &keyframes);
 
@@ -112,8 +112,6 @@ private slots:
     void slotUnGroup();
     /** @brief A sub effect parameter was changed */
     void slotUpdateRegionEffectParams(const QDomElement & /*old*/, const QDomElement & /*e*/, int /*ix*/);
-    /** @brief Dis/enable effect before processing an operation (color picker) */
-    void slotDisableEffect(bool disable);
     void prepareImportClipKeyframes();
 
 private:

@@ -328,17 +328,11 @@ void CollapsibleEffectView::mouseReleaseEvent(QMouseEvent *event)
     QWidget::mouseReleaseEvent(event);
 }
 
-void CollapsibleEffectView::slotDisable(bool disable, bool emitInfo)
+void CollapsibleEffectView::slotDisable(bool disable)
 {
-    //TODO: this should go in an undo/redo function
-    title->setEnabled(!disable);
-    m_colorIcon->setEnabled(!disable);
-    m_enabledButton->setActive(disable);
-    std::static_pointer_cast<AbstractEffectItem>(m_model)->setEnabled(!disable);
-    pCore->refreshProjectItem(m_model->getParentId());
-    if (!disable || KdenliveSettings::disable_effect_parameters()) {
-        widgetFrame->setEnabled(!disable);
-    }
+    QString effectId = m_model->getAssetId();
+    QString effectName = EffectsRepository::get()->getName(effectId);
+    std::static_pointer_cast<AbstractEffectItem>(m_model)->markEnabled(effectName, !disable);
 }
 
 void CollapsibleEffectView::slotDeleteEffect()
@@ -572,7 +566,7 @@ void CollapsibleEffectView::setupWidget(const ItemInfo &info, EffectMetaInfo *me
         }
     } else {
         m_paramWidget = new ParameterContainer(m_effect, info, metaInfo, widgetFrame);
-        connect(m_paramWidget, &ParameterContainer::disableCurrentFilter, this, &CollapsibleEffectView::slotDisableEffect);
+        connect(m_paramWidget, &ParameterContainer::disableCurrentFilter, this, &CollapsibleEffectView::slotDisable);
         connect(m_paramWidget, &ParameterContainer::importKeyframes, this, &CollapsibleEffectView::importKeyframes);
         if (m_effect.firstChildElement(QStringLiteral("parameter")).isNull()) {
             // Effect has no parameter, don't allow expand
@@ -594,14 +588,6 @@ void CollapsibleEffectView::setupWidget(const ItemInfo &info, EffectMetaInfo *me
     connect(m_paramWidget, &ParameterContainer::seekTimeline, this, &CollapsibleEffectView::seekTimeline);
     connect(m_paramWidget, &ParameterContainer::importClipKeyframes, this, &CollapsibleEffectView::prepareImportClipKeyframes);
     */
-}
-
-void CollapsibleEffectView::slotDisableEffect(bool disable)
-{
-    title->setEnabled(!disable);
-    m_enabledButton->setActive(disable);
-    m_effect.setAttribute(QStringLiteral("disable"), disable ? 1 : 0);
-    emit effectStateChanged(disable, effectIndex(), needsMonitorEffectScene());
 }
 
 bool CollapsibleEffectView::isGroup() const

@@ -41,11 +41,14 @@ std::shared_ptr<EffectStackModel> EffectStackModel::construct(std::weak_ptr<Mlt:
 void EffectStackModel::appendEffect(const QString &effectId, int cid)
 {
     auto effect = EffectItemModel::construct(effectId, shared_from_this(), rootItem);
-    effect->setEffectStackEnabled(m_effectStackEnabled);
     effect->setParentId(cid);
     effect->plant(m_service);
     rootItem->appendChild(effect);
+    if (!m_effectStackEnabled) {
+        effect->setEffectStackEnabled(m_effectStackEnabled);
+    }
     QModelIndex ix = getIndexFromItem(effect);
+    connect(effect.get(), &EffectItemModel::dataChanged, this, &EffectStackModel::dataChanged);
     emit dataChanged(ix, ix, QVector<int>());
 }
 

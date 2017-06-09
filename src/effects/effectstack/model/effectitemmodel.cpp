@@ -23,6 +23,7 @@
 
 #include "effects/effectsrepository.hpp"
 #include "effectstackmodel.hpp"
+#include "core.h"
 #include <utility>
 
 EffectItemModel::EffectItemModel(const QList<QVariant> &data, Mlt::Properties *effect, const QDomElement &xml, const QString &effectId,
@@ -70,4 +71,6 @@ Mlt::Filter &EffectItemModel::filter() const
 void EffectItemModel::updateEnable()
 {
     filter().set("disable", isEnabled() ? 0 : 1);
+    pCore->refreshProjectItem(getParentId());
+    emit dataChanged(index(row()), index(row()), QVector<int>());
 }
