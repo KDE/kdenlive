@@ -40,19 +40,48 @@ std::shared_ptr<EffectStackModel> EffectStackModel::construct(std::weak_ptr<Mlt:
     return self;
 }
 
+void EffectStackModel::removeEffect(std::shared_ptr<EffectItemModel> effect)
+{
+    int cid = effect->getParentId();
+    const QString effectId = effect->getAssetId();
+    bool isAudioEffect = EffectsRepository::get()->getType(effectId) == EffectType::Audio;
+    Fun undo = addEffect_lambda(effect, cid, isAudioEffect);
+    Fun redo = deleteEffect_lambda(effect, cid, isAudioEffect);
+    redo();
+    QString effectName = EffectsRepository::get()->getName(effectId);
+    pCore->pushUndo(undo, redo, i18n("Delete effect %1", effectName));
+}
+
 void EffectStackModel::appendEffect(const QString &effectId, int cid)
 {
     auto effect = EffectItemModel::construct(effectId, shared_from_this(), rootItem);
     bool isAudioEffect = EffectsRepository::get()->getType(effectId) == EffectType::Audio;
-    Fun undo = [effect, cid, this]() {
+    Fun undo = deleteEffect_lambda(effect, cid, isAudioEffect);
+    Fun redo = addEffect_lambda(effect, cid, isAudioEffect);
+    redo();
+    QString effectName = EffectsRepository::get()->getName(effectId);
+    pCore->pushUndo(undo, redo, i18n("Add effect %1", effectName));
+}
+
+Fun EffectStackModel::deleteEffect_lambda(std::shared_ptr<EffectItemModel> effect, int cid, bool isAudio)
+{
+    QWriteLocker locker(&m_lock);
+    return [effect, cid, isAudio, this]() {
         QModelIndex ix = this->getIndexFromItem(effect);
         this->rootItem->removeChild(effect);
         effect->unplant(this->m_service);
         this->dataChanged(ix, ix, QVector<int>());
-        pCore->refreshProjectItem(cid);
-        return true; 
+        if (!isAudio) {
+            pCore->refreshProjectItem(cid);
+        }
+        return true;
     };
-    Fun redo = [effect, cid, this]() {
+}
+
+Fun EffectStackModel::addEffect_lambda(std::shared_ptr<EffectItemModel> effect, int cid, bool isAudio)
+{
+    QWriteLocker locker(&m_lock);
+    return [effect, cid, isAudio, this]() {
         effect->setParentId(cid);
         effect->plant(this->m_service);
         this->rootItem->appendChild(effect);
@@ -60,13 +89,11 @@ void EffectStackModel::appendEffect(const QString &effectId, int cid)
         QModelIndex ix = this->getIndexFromItem(effect);
         connect(effect.get(), &EffectItemModel::dataChanged, this, &EffectStackModel::dataChanged);
         this->dataChanged(ix, ix, QVector<int>());
-        pCore->refreshProjectItem(cid);
-        return true; 
+        if (!isAudio) {
+            pCore->refreshProjectItem(cid);
+        }
+        return true;
     };
-    redo();
-
-    QString effectName = EffectsRepository::get()->getName(effectId);
-    pCore->pushUndo(undo, redo, i18n("Add effect %1", effectName));
 }
 
 void EffectStackModel::setEffectStackEnabled(bool enabled)

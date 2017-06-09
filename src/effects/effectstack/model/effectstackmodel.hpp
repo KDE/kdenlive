@@ -23,6 +23,9 @@
 #define EFFECTSTACKMODEL_H
 
 #include "abstractmodel/abstracttreemodel.hpp"
+#include "undohelper.hpp"
+
+#include <QReadWriteLock>
 #include <memory>
 #include <mlt++/Mlt.h>
 
@@ -41,6 +44,8 @@ public:
 
 protected:
     EffectStackModel(std::weak_ptr<Mlt::Service> service);
+    Fun deleteEffect_lambda(std::shared_ptr<EffectItemModel> effect, int cid, bool isAudio);
+    Fun addEffect_lambda(std::shared_ptr<EffectItemModel> effect, int cid, bool isAudio);
 
 public:
     /* @brief Add an effect at the bottom of the stack */
@@ -53,10 +58,16 @@ public:
     /* @brief Returns an effect from the stack (at the given row) */
     std::shared_ptr<EffectItemModel> effect(int row);
 
+public slots:
+    /* @brief Delete an effect from the stack */
+    void removeEffect(std::shared_ptr<EffectItemModel> effect);
+
 protected:
     std::weak_ptr<Mlt::Service> m_service;
-
     bool m_effectStackEnabled;
+
+private:
+    mutable QReadWriteLock m_lock;
 };
 
 #endif

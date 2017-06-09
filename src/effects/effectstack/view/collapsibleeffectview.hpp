@@ -149,7 +149,7 @@ signals:
     void parameterChanged(const QDomElement &, const QDomElement &, int);
     void syncEffectsPos(int);
     void effectStateChanged(bool, int ix, MonitorSceneType effectNeedsMonitorScene);
-    void deleteEffect(const QDomElement &);
+    void deleteEffect(std::shared_ptr<EffectItemModel> effect);
     void activateEffect(int);
     void checkMonitorPosition(int);
     void seekTimeline(int);

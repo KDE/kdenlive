@@ -337,7 +337,7 @@ void CollapsibleEffectView::slotDisable(bool disable)
 
 void CollapsibleEffectView::slotDeleteEffect()
 {
-    emit deleteEffect(m_effect);
+    emit deleteEffect(m_model);
 }
 
 void CollapsibleEffectView::slotEffectUp()

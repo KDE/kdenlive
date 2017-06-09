@@ -53,6 +53,7 @@ void EffectStackView::setModel(std::shared_ptr<EffectStackModel>model)
         QSize size;
         QImage effectIcon = m_thumbnailer->requestImage(effectModel->getAssetId(), &size, QSize(QStyle::PM_SmallIconSize,QStyle::PM_SmallIconSize));
         CollapsibleEffectView *view = new CollapsibleEffectView(effectModel, effectIcon, this);
+        connect(view, &CollapsibleEffectView::deleteEffect, m_model.get(), &EffectStackModel::removeEffect);
         m_lay->addWidget(view);
         m_widgets.push_back(view);
     }
@@ -69,6 +70,7 @@ void EffectStackView::refresh(const QModelIndex &topLeft, const QModelIndex &bot
         QSize size;
         QImage effectIcon = m_thumbnailer->requestImage(effectModel->getAssetId(), &size, QSize(QStyle::PM_SmallIconSize,QStyle::PM_SmallIconSize));
         CollapsibleEffectView *view = new CollapsibleEffectView(effectModel, effectIcon, this);
+        connect(view, &CollapsibleEffectView::deleteEffect, m_model.get(), &EffectStackModel::removeEffect);
         m_lay->addWidget(view);
         m_widgets.push_back(view);
     }
