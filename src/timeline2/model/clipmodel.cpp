@@ -187,10 +187,6 @@ bool ClipModel::addEffect(const QString &effectId)
 {
     READ_LOCK();
     m_effectStack->appendEffect(effectId, m_id);
-    // refresh monitor
-    if (EffectsRepository::get()->getType(effectId) != EffectType::Audio) {
-        pCore->refreshProjectItem(m_id);
-    }
     return true;
 }
 

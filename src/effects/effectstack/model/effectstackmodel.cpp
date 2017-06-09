@@ -19,9 +19,11 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 #include "effectstackmodel.hpp"
+#include "effects/effectsrepository.hpp"
 
 #include "effectitemmodel.hpp"
 #include "effectgroupmodel.hpp"
+#include "core.h"
 #include <utility>
 
 EffectStackModel::EffectStackModel(std::weak_ptr<Mlt::Service> service)
@@ -41,15 +43,30 @@ std::shared_ptr<EffectStackModel> EffectStackModel::construct(std::weak_ptr<Mlt:
 void EffectStackModel::appendEffect(const QString &effectId, int cid)
 {
     auto effect = EffectItemModel::construct(effectId, shared_from_this(), rootItem);
-    effect->setParentId(cid);
-    effect->plant(m_service);
-    rootItem->appendChild(effect);
-    if (!m_effectStackEnabled) {
+    bool isAudioEffect = EffectsRepository::get()->getType(effectId) == EffectType::Audio;
+    Fun undo = [effect, cid, this]() {
+        QModelIndex ix = this->getIndexFromItem(effect);
+        this->rootItem->removeChild(effect);
+        effect->unplant(this->m_service);
+        this->dataChanged(ix, ix, QVector<int>());
+        pCore->refreshProjectItem(cid);
+        return true; 
+    };
+    Fun redo = [effect, cid, this]() {
+        effect->setParentId(cid);
+        effect->plant(this->m_service);
+        this->rootItem->appendChild(effect);
         effect->setEffectStackEnabled(m_effectStackEnabled);
-    }
-    QModelIndex ix = getIndexFromItem(effect);
-    connect(effect.get(), &EffectItemModel::dataChanged, this, &EffectStackModel::dataChanged);
-    emit dataChanged(ix, ix, QVector<int>());
+        QModelIndex ix = this->getIndexFromItem(effect);
+        connect(effect.get(), &EffectItemModel::dataChanged, this, &EffectStackModel::dataChanged);
+        this->dataChanged(ix, ix, QVector<int>());
+        pCore->refreshProjectItem(cid);
+        return true; 
+    };
+    redo();
+
+    QString effectName = EffectsRepository::get()->getName(effectId);
+    pCore->pushUndo(undo, redo, i18n("Add effect %1", effectName));
 }
 
 void EffectStackModel::setEffectStackEnabled(bool enabled)

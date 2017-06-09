@@ -62,6 +62,17 @@ void EffectItemModel::plant(const std::weak_ptr<Mlt::Service> &service)
     }
 }
 
+void EffectItemModel::unplant(const std::weak_ptr<Mlt::Service> &service)
+{
+    if (auto ptr = service.lock()) {
+        int ret = ptr->detach(filter());
+        Q_ASSERT(ret == 0);
+    } else {
+        qDebug() << "Error : Cannot plant effect because parent service is not available anymore";
+        Q_ASSERT(false);
+    }
+}
+
 Mlt::Filter &EffectItemModel::filter() const
 {
     return *static_cast<Mlt::Filter *>(m_asset.get());
