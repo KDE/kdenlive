@@ -74,6 +74,10 @@ Rectangle {
         return Logic.getTracksList()
     }
 
+    function getMousePos() {
+        return (scrollView.flickableItem.contentX + tracksArea.mouseX) / timeline.scaleFactor;
+    }
+
     function getTrackColor(audio, header) {
         var col = activePalette.alternateBase
         if (audio) {

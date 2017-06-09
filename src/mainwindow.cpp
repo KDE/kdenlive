@@ -3761,7 +3761,7 @@ void MainWindow::slotProcessImportKeyframes(GraphicsRectItem type, const QString
 void MainWindow::slotAlignPlayheadToMousePos()
 {
     pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
-    pCore->projectManager()->currentTimeline()->projectView()->slotAlignPlayheadToMousePos();
+    m_timelineTabs->getCurrentTimeline()->controller()->seekToMouse();
 }
 
 void MainWindow::triggerKey(QKeyEvent *ev)

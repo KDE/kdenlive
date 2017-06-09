@@ -206,6 +206,9 @@ public:
     /* @brief Request monitor refresh if item (clip or composition) is under timeline cursor
      */
     void refreshItem(int id);
+    /* @brief Seek timeline to mouse position
+     */
+    void seekToMouse();
 
 public slots:
     void selectMultitrack();

@@ -492,6 +492,14 @@ void TimelineController::seekCurrentClip(bool seekToEnd)
     }
 }
 
+void TimelineController::seekToMouse()
+{
+    QVariant returnedValue;
+    QMetaObject::invokeMethod(m_root, "getMousePos", Q_RETURN_ARG(QVariant, returnedValue));
+    int mousePos = returnedValue.toInt();
+    seek(mousePos);
+}
+
 void TimelineController::refreshItem(int id)
 {
     int in = m_model->getItemPosition(id);
