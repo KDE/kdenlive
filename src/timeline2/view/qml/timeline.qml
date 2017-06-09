@@ -107,11 +107,13 @@ Rectangle {
     property int spacerFrame: -1
     property int spacerClickFrame: -1
     property real timeScale: timeline.scaleFactor
+    property real snapping: timeline.snap ? 10 / Math.sqrt(timeScale) : -1
     property int trackHeight
 
     //onCurrentTrackChanged: timeline.selection = []
     onTimeScaleChanged: {
         scrollView.flickableItem.contentX = Math.max(0, (timeline.seekPosition > -1 ? timeline.seekPosition : timeline.position) * timeline.scaleFactor - (scrollView.width / 2))
+        root.snapping = timeline.snap ? 10 / Math.sqrt(root.timeScale) : -1
         ruler.adjustStepSize()
     }
 
@@ -437,7 +439,7 @@ Rectangle {
                         // Move group
                         var track = controller.getClipTrackId(spacerGroup)
                         var frame = Math.round((mouse.x + scrollView.flickableItem.contentX) / timeline.scaleFactor) + spacerFrame - spacerClickFrame
-                        frame = controller.suggestClipMove(spacerGroup, track, frame);
+                        frame = controller.suggestClipMove(spacerGroup, track, frame, root.snapping);
                         controller.requestClipMove(spacerGroup, track, frame, true, false)
                         continuousScrolling(mouse.x + scrollView.flickableItem.contentX)
                     }

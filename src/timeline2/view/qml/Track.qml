@@ -208,7 +208,7 @@ Column{
                 clip.x = Math.max(0, clip.x)
                 var frame = Math.round(clip.x / timeScale)
 
-                frame = controller.suggestClipMove(cIndex, toTrack, frame);
+                frame = controller.suggestClipMove(cIndex, toTrack, frame, root.snapping);
 
                 if (!controller.requestClipMove(cIndex, toTrack, frame, false, false)) {
                     // Abort move
@@ -221,7 +221,7 @@ Column{
                 clip.draggedX = clip.x
             }
             onTrimmingIn: {
-                if (controller.requestItemResize(clip.clipId, newDuration, false, false, true)) {
+                if (controller.requestItemResize(clip.clipId, newDuration, false, false, root.snapping)) {
                     clip.lastValidDuration = newDuration
                     clip.originalX = clip.draggedX
                     // Show amount trimmed as a time in a "bubble" help.
@@ -235,11 +235,11 @@ Column{
             }
             onTrimmedIn: {
                 bubbleHelp.hide()
-                controller.requestItemResize(clip.clipId, clip.originalDuration, false, false, true)
-                controller.requestItemResize(clip.clipId, clip.lastValidDuration, false, true, true)
+                controller.requestItemResize(clip.clipId, clip.originalDuration, false, false, root.snapping)
+                controller.requestItemResize(clip.clipId, clip.lastValidDuration, false, true, root.snapping)
             }
             onTrimmingOut: {
-                if (controller.requestItemResize(clip.clipId, newDuration, true, false, true)) {
+                if (controller.requestItemResize(clip.clipId, newDuration, true, false, root.snapping)) {
                     clip.lastValidDuration = newDuration
                     // Show amount trimmed as a time in a "bubble" help.
                     var delta = newDuration - clip.originalDuration
@@ -252,8 +252,8 @@ Column{
             }
             onTrimmedOut: {
                 bubbleHelp.hide()
-                controller.requestItemResize(clip.clipId, clip.originalDuration, true, false, true)
-                controller.requestItemResize(clip.clipId, clip.lastValidDuration, true, true, true)
+                controller.requestItemResize(clip.clipId, clip.originalDuration, true, false, root.snapping)
+                controller.requestItemResize(clip.clipId, clip.lastValidDuration, true, true, root.snapping)
             }
 
             Component.onCompleted: {
@@ -307,7 +307,7 @@ Column{
                 clip.x = Math.max(0, clip.x)
                 var frame = Math.round(clip.x / timeScale)
 
-                frame = controller.suggestCompositionMove(cIndex, toTrack, frame);
+                frame = controller.suggestCompositionMove(cIndex, toTrack, frame, root.snapping);
 
                 if (!controller.requestCompositionMove(cIndex, toTrack, frame, false, false)) {
                     // Abort move
@@ -320,7 +320,7 @@ Column{
                 clip.draggedX = clip.x
             }
             onTrimmingIn: {
-                if (controller.requestItemResize(clip.clipId, newDuration, false, false, true)) {
+                if (controller.requestItemResize(clip.clipId, newDuration, false, false, root.snapping)) {
                     clip.lastValidDuration = newDuration
                     clip.originalX = clip.draggedX
                     // Show amount trimmed as a time in a "bubble" help.
@@ -334,11 +334,11 @@ Column{
             }
             onTrimmedIn: {
                 bubbleHelp.hide()
-                controller.requestItemResize(clip.clipId, clip.originalDuration, false, false, true)
-                controller.requestItemResize(clip.clipId, clip.lastValidDuration, false, true, true)
+                controller.requestItemResize(clip.clipId, clip.originalDuration, false, false, root.snapping)
+                controller.requestItemResize(clip.clipId, clip.lastValidDuration, false, true, root.snapping)
             }
             onTrimmingOut: {
-                if (controller.requestItemResize(clip.clipId, newDuration, true, false, true)) {
+                if (controller.requestItemResize(clip.clipId, newDuration, true, false, root.snapping)) {
                     clip.lastValidDuration = newDuration
                     // Show amount trimmed as a time in a "bubble" help.
                     var delta = newDuration - clip.originalDuration
@@ -351,8 +351,8 @@ Column{
             }
             onTrimmedOut: {
                 bubbleHelp.hide()
-                controller.requestItemResize(clip.clipId, clip.originalDuration, true, false, true)
-                controller.requestItemResize(clip.clipId, clip.lastValidDuration, true, true, true)
+                controller.requestItemResize(clip.clipId, clip.originalDuration, true, false, root.snapping)
+                controller.requestItemResize(clip.clipId, clip.lastValidDuration, true, true, root.snapping)
             }
 
             Component.onCompleted: {

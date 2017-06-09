@@ -255,7 +255,7 @@ public:
     bool requestCompositionMove(int transid, int trackId, int position, bool updateView, Fun &undo, Fun &redo);
 
     Q_INVOKABLE int getCompositionPosition(int compoId) const;
-    Q_INVOKABLE int suggestCompositionMove(int compoId, int trackId, int position);
+    Q_INVOKABLE int suggestCompositionMove(int compoId, int trackId, int position, int snapDistance = -1);
     int getCompositionPlaytime(int compoId) const;
 
     /* Returns an item position, item can be clip or composition */
@@ -264,10 +264,14 @@ public:
     int getItemPlaytime(int itemId) const;
 
     /* @brief Given an intended move, try to suggest a more valid one
-       (accounting for snaps and missing UI calls) @param clipId id of the clip to
-       move @param trackId id of the target track @param position target position
+       (accounting for snaps and missing UI calls) 
+       @param clipId id of the clip to
+       move 
+       @param trackId id of the target track 
+       @param position target position
+       @param snapDistance the maximum distance for a snap result, -1 for no snapping
         of the clip */
-    Q_INVOKABLE int suggestClipMove(int clipId, int trackId, int position);
+    Q_INVOKABLE int suggestClipMove(int clipId, int trackId, int position, int snapDistance = -1);
 
     /* @brief Request clip insertion at given position. This action is undoable
        Returns true on success. If it fails, nothing is modified. @param
@@ -320,7 +324,7 @@ public:
        @param logUndo if set to true, an undo object is created
        @param snap if set to true, the resize order will be coerced to use the snapping grid
     */
-    Q_INVOKABLE bool requestItemResize(int itemId, int size, bool right, bool logUndo = true, bool snap = false);
+    Q_INVOKABLE bool requestItemResize(int itemId, int size, bool right, bool logUndo = true, int snapDistance = -1);
     /* @brief Change the duration of an item (clip or composition)
        This action is undoable
        Returns true on success. If it fails, nothing is modified.
@@ -406,9 +410,10 @@ public:
        @param pos is the clip's requested position
        @param length is the clip's duration
        @param pts snap points to ignore (for example currently moved clip)
+       @param snapDistance the maximum distance for a snap result, -1 for no snapping
        @returns best snap position or -1 if no snap point is near
      */
-    int requestBestSnapPos(int pos, int length, const std::vector<int> &pts = std::vector<int>());
+    int requestBestSnapPos(int pos, int length, const std::vector<int> &pts = std::vector<int>(), int snapDistance = -1);
 
     /* @brief Requests the next snapped point
        @param pos is the current position

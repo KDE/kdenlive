@@ -168,7 +168,12 @@ void TimelineController::selectMultitrack()
 
 bool TimelineController::snap()
 {
-    return true;
+    return KdenliveSettings::snaptopoints();
+}
+
+void TimelineController::snapChanged(bool snap)
+{
+    m_root->setProperty("snapping", snap ? 10 / std::sqrt(m_scale) : -1);
 }
 
 bool TimelineController::ripple()
@@ -222,6 +227,7 @@ QString TimelineController::timecode(int frames)
 {
     return KdenliveSettings::frametimecode() ? QString::number(frames) : m_model->tractor()->frames_to_time(frames, mlt_time_smpte_df);
 }
+
 bool TimelineController::showThumbnails() const
 {
     return KdenliveSettings::videothumbnails();
@@ -255,11 +261,6 @@ void TimelineController::addTrack(int tid)
 void TimelineController::deleteTrack(int tid)
 {
     qDebug() << "Deleting track: " << tid;
-}
-
-int TimelineController::requestBestSnapPos(int pos, int duration)
-{
-    return m_model->requestBestSnapPos(pos, duration);
 }
 
 void TimelineController::gotoNextSnap()

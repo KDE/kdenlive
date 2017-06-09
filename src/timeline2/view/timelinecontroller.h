@@ -45,7 +45,6 @@ class TimelineController : public QObject
     Q_PROPERTY(int zoneIn READ zoneIn WRITE setZoneIn NOTIFY zoneChanged)
     Q_PROPERTY(int zoneOut READ zoneOut WRITE setZoneOut NOTIFY zoneChanged)
     Q_PROPERTY(int seekPosition READ seekPosition WRITE setSeekPosition NOTIFY seekPositionChanged)
-    Q_PROPERTY(bool snap READ snap NOTIFY snapChanged)
     Q_PROPERTY(bool ripple READ ripple NOTIFY rippleChanged)
     Q_PROPERTY(bool scrub READ scrub NOTIFY scrubChanged)
     Q_PROPERTY(bool showThumbnails READ showThumbnails NOTIFY showThumbnailsChanged)
@@ -115,8 +114,6 @@ public:
     /* @brief Request deletion of the currently selected clips
      */
     Q_INVOKABLE void deleteSelectedClips();
-
-    Q_INVOKABLE int requestBestSnapPos(int pos, int duration);
 
     Q_INVOKABLE void triggerAction(const QString &name);
 
@@ -210,6 +207,10 @@ public:
      */
     void seekToMouse();
 
+    /* @brief User enabled / disabled snapping, update timeline behavior
+     */
+    void snapChanged(bool snap);
+
 public slots:
     void selectMultitrack();
     void seek(int position);
@@ -247,7 +248,6 @@ signals:
     void showThumbnailsChanged();
     void showAudioThumbnailsChanged();
     void showMarkersChanged();
-    void snapChanged();
     void rippleChanged();
     void scrubChanged();
     void seeked(int position);

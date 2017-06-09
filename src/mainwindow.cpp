@@ -2236,6 +2236,7 @@ void MainWindow::slotSwitchSnap()
 {
     KdenliveSettings::setSnaptopoints(!KdenliveSettings::snaptopoints());
     m_buttonSnap->setChecked(KdenliveSettings::snaptopoints());
+    getMainTimeline()->controller()->snapChanged(KdenliveSettings::snaptopoints());
 }
 
 void MainWindow::slotSwitchAutomaticTransition()

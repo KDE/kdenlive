@@ -284,7 +284,7 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
     return res;
 }
 
-int TimelineModel::suggestClipMove(int clipId, int trackId, int position)
+int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int snapDistance)
 {
 #ifdef LOGGING
     m_logFile << "timeline->suggestClipMove(" << clipId << "," << trackId << " ," << position << "); " << std::endl;
@@ -297,29 +297,30 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position)
     if (currentPos == position || currentTrack != trackId) {
         return position;
     }
-
-    // For snapping, we must ignore all in/outs of the clips of the group being moved
-    std::vector<int> ignored_pts;
-    if (m_groups->isInGroup(clipId)) {
-        int groupId = m_groups->getRootId(clipId);
-        auto all_clips = m_groups->getLeaves(groupId);
-        for (int current_clipId : all_clips) {
-            int in = getClipPosition(current_clipId);
-            int out = in + getClipPlaytime(current_clipId);
+    if (snapDistance > 0) {
+        // For snapping, we must ignore all in/outs of the clips of the group being moved
+        std::vector<int> ignored_pts;
+        if (m_groups->isInGroup(clipId)) {
+            int groupId = m_groups->getRootId(clipId);
+            auto all_clips = m_groups->getLeaves(groupId);
+            for (int current_clipId : all_clips) {
+                int in = getItemPosition(current_clipId);
+                int out = in + getItemPlaytime(current_clipId);
+                ignored_pts.push_back(in);
+                ignored_pts.push_back(out);
+            }
+        } else {
+            int in = getClipPosition(clipId);
+            int out = in + getClipPlaytime(clipId);
             ignored_pts.push_back(in);
             ignored_pts.push_back(out);
         }
-    } else {
-        int in = getClipPosition(clipId);
-        int out = in + getClipPlaytime(clipId);
-        ignored_pts.push_back(in);
-        ignored_pts.push_back(out);
-    }
 
-    int snapped = requestBestSnapPos(position, m_allClips[clipId]->getPlaytime(), ignored_pts);
-    qDebug() << "Starting suggestion " << clipId << position << currentPos << "snapped to " << snapped;
-    if (snapped >= 0) {
-        position = snapped;
+        int snapped = requestBestSnapPos(position, m_allClips[clipId]->getPlaytime(), ignored_pts, snapDistance);
+        qDebug() << "Starting suggestion " << clipId << position << currentPos << "snapped to " << snapped;
+        if (snapped >= 0) {
+            position = snapped;
+        }
     }
     // we check if move is possible
     Fun undo = []() { return true; };
@@ -342,7 +343,7 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position)
     return position;
 }
 
-int TimelineModel::suggestCompositionMove(int compoId, int trackId, int position)
+int TimelineModel::suggestCompositionMove(int compoId, int trackId, int position, int snapDistance)
 {
 #ifdef LOGGING
     m_logFile << "timeline->suggestCompositionMove(" << compoId << "," << trackId << " ," << position << "); " << std::endl;
@@ -356,30 +357,32 @@ int TimelineModel::suggestCompositionMove(int compoId, int trackId, int position
         return position;
     }
 
-    // For snapping, we must ignore all in/outs of the clips of the group being moved
-    std::vector<int> ignored_pts;
-    if (m_groups->isInGroup(compoId)) {
-        int groupId = m_groups->getRootId(compoId);
-        auto all_clips = m_groups->getLeaves(groupId);
-        for (int current_compoId : all_clips) {
-            // TODO: fix for composition
-            int in = getClipPosition(current_compoId);
-            int out = in + getClipPlaytime(current_compoId);
+    if (snapDistance > 0) {
+        // For snapping, we must ignore all in/outs of the clips of the group being moved
+        std::vector<int> ignored_pts;
+        if (m_groups->isInGroup(compoId)) {
+            int groupId = m_groups->getRootId(compoId);
+            auto all_clips = m_groups->getLeaves(groupId);
+            for (int current_compoId : all_clips) {
+                // TODO: fix for composition
+                int in = getItemPosition(current_compoId);
+                int out = in + getItemPlaytime(current_compoId);
+                ignored_pts.push_back(in);
+                ignored_pts.push_back(out);
+            }
+        } else {
+            int in = currentPos;
+            int out = in + getCompositionPlaytime(compoId);
+            qDebug() << " * ** IGNORING SNAP PTS: " << in << "-" << out;
             ignored_pts.push_back(in);
             ignored_pts.push_back(out);
         }
-    } else {
-        int in = currentPos;
-        int out = in + getCompositionPlaytime(compoId);
-        qDebug() << " * ** IGNORING SNAP PTS: " << in << "-" << out;
-        ignored_pts.push_back(in);
-        ignored_pts.push_back(out);
-    }
 
-    int snapped = requestBestSnapPos(position, m_allCompositions[compoId]->getPlaytime(), ignored_pts);
-    qDebug() << "Starting suggestion " << compoId << position << currentPos << "snapped to " << snapped;
-    if (snapped >= 0) {
-        position = snapped;
+        int snapped = requestBestSnapPos(position, m_allCompositions[compoId]->getPlaytime(), ignored_pts, snapDistance);
+        qDebug() << "Starting suggestion " << compoId << position << currentPos << "snapped to " << snapped;
+        if (snapped >= 0) {
+            position = snapped;
+        }
     }
     // we check if move is possible
     Fun undo = []() { return true; };
@@ -684,15 +687,15 @@ bool TimelineModel::requestGroupDeletion(int clipId, bool logUndo)
     return true;
 }
 
-bool TimelineModel::requestItemResize(int itemId, int size, bool right, bool logUndo, bool snapping)
+bool TimelineModel::requestItemResize(int itemId, int size, bool right, bool logUndo, int snapDistance)
 {
 #ifdef LOGGING
     m_logFile << "timeline->requestItemResize(" << itemId << "," << size << " ," << (right ? "true" : "false") << ", " << (logUndo ? "true" : "false") << ", "
-              << (snapping ? "true" : "false") << " ); " << std::endl;
+              << (snapDistance > 0 ? "true" : "false") << " ); " << std::endl;
 #endif
     QWriteLocker locker(&m_lock);
     Q_ASSERT(isClip(itemId) || isComposition(itemId));
-    if (snapping) {
+    if (snapDistance > 0) {
         Fun temp_undo = []() { return true; };
         Fun temp_redo = []() { return true; };
         int in, out;
@@ -703,8 +706,7 @@ bool TimelineModel::requestItemResize(int itemId, int size, bool right, bool log
             in = getCompositionPosition(itemId);
             out = in + getCompositionPlaytime(itemId);
         }
-        // TODO Make the number of frames of snapping adjustable
-        int proposed_size = m_snaps->proposeSize(in, out, size, right, 10);
+        int proposed_size = m_snaps->proposeSize(in, out, size, right, snapDistance);
         if (proposed_size < 0) {
             proposed_size = size;
         }
@@ -1088,7 +1090,7 @@ void TimelineModel::setUndoStack(std::weak_ptr<DocUndoStack> undo_stack)
     m_undoStack = std::move(undo_stack);
 }
 
-int TimelineModel::requestBestSnapPos(int pos, int length, const std::vector<int> &pts)
+int TimelineModel::requestBestSnapPos(int pos, int length, const std::vector<int> &pts, int snapDistance)
 {
     if (!pts.empty()) {
         m_snaps->ignore(pts);
@@ -1102,12 +1104,12 @@ int TimelineModel::requestBestSnapPos(int pos, int length, const std::vector<int
     int endDiff = qAbs(pos + length - snapped_end);
     if (startDiff < endDiff && snapped_start >= 0) {
         // snap to start
-        if (startDiff < 10) {
+        if (startDiff < snapDistance) {
             return snapped_start;
         }
     } else {
         // snap to end
-        if (endDiff < 10 && snapped_end >= 0) {
+        if (endDiff < snapDistance && snapped_end >= 0) {
             return snapped_end - length;
         }
     }
