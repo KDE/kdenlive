@@ -111,3 +111,15 @@ std::shared_ptr<EffectItemModel> EffectStackModel::effect(int row)
     return std::static_pointer_cast<EffectItemModel>(rootItem->child(row));
 }
 
+void EffectStackModel::importEffects(int cid, std::shared_ptr<EffectStackModel>sourceStack)
+{
+    //TODO: manage fades, keyframes if clips don't have same size / in point
+    for (int i = 0; i < sourceStack->rowCount(); i++) {
+        std::shared_ptr<EffectItemModel> effect = sourceStack->effect(i);
+        auto clone = EffectItemModel::construct(effect->getAssetId(), shared_from_this(), rootItem);
+        clone->setParameters(effect->getAllParameters());
+        Fun redo = addEffect_lambda(clone, cid, true);
+        redo();
+    }
+}
+

@@ -50,6 +50,9 @@ protected:
 public:
     /* @brief Add an effect at the bottom of the stack */
     void appendEffect(const QString &effectId, int cid);
+    /* @brief Import all effects from the given effect stack
+     */
+    void importEffects(int cid, std::shared_ptr<EffectStackModel>sourceStack);
 
     /* @brief This function change the global (timeline-wise) enabled state of the effects
      */

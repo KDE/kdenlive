@@ -78,10 +78,10 @@ Mlt::Filter &EffectItemModel::filter() const
     return *static_cast<Mlt::Filter *>(m_asset.get());
 }
 
-
 void EffectItemModel::updateEnable()
 {
     filter().set("disable", isEnabled() ? 0 : 1);
     pCore->refreshProjectItem(getParentId());
     emit dataChanged(index(row()), index(row()), QVector<int>());
 }
+

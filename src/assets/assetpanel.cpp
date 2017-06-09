@@ -62,10 +62,10 @@ void AssetPanel::showTransition(int tid, std::shared_ptr<AssetParameterModel> tr
     m_transitionWidget->setModel(transitionModel);
 }
 
-void AssetPanel::showEffectStack(int cid, std::shared_ptr<EffectStackModel> effectsModel)
+void AssetPanel::showEffectStack(int cid, const QString &clipName, std::shared_ptr<EffectStackModel> effectsModel)
 {
     clear();
-    m_assetTitle->setText(i18n("Properties of clip ..."));
+    m_assetTitle->setText(i18n("%1 effects", clipName));
     m_effectStackWidget->setVisible(true);
     m_effectStackWidget->setProperty("clipId", cid);
     m_effectStackWidget->setModel(effectsModel);
