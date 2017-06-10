@@ -13,6 +13,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include "kdenlivecore_export.h"
 #include "undohelper.hpp"
+#include "definitions.h"
 #include <QObject>
 #include <QTabWidget>
 #include <QUrl>
@@ -127,6 +128,8 @@ public:
         Note that if you class permits and requires it, you should use the macro PUSH_UNDO instead*/
     void pushUndo(const Fun &undo, const Fun &redo, const QString &text);
     void pushUndo(QUndoCommand *command);
+    /** @brief display a user info/warning message in statusbar */
+    void displayMessage(const QString &message, MessageType type, int timeout);
 
 private:
     explicit Core();

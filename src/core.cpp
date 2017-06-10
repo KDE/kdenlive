@@ -331,3 +331,8 @@ void Core::pushUndo(QUndoCommand *command)
 {
     currentDoc()->commandStack()->push(command);
 }
+
+void Core::displayMessage(const QString &message, MessageType type, int timeout)
+{
+    m_mainWindow->displayMessage(message, type, timeout);
+}

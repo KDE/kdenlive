@@ -658,9 +658,6 @@ void MainWindow::slotThemeChanged(const QString &theme)
     if (m_projectMonitor) {
         m_projectMonitor->setPalette(plt);
     }
-    if (m_messageLabel) {
-        m_messageLabel->updatePalette();
-    }
     if (pCore->projectManager() && pCore->projectManager()->currentTimeline()) {
         pCore->projectManager()->currentTimeline()->updatePalette();
     }

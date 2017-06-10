@@ -27,7 +27,6 @@
 #include <QColor>
 #include <QLabel>
 #include <QList>
-#include <QPropertyAnimation>
 #include <QSemaphore>
 #include <QTimer>
 #include <QWidget>
@@ -91,7 +90,6 @@ class StatusBarMessageLabel : public FlashLabel
 public:
     explicit StatusBarMessageLabel(QWidget *parent);
     virtual ~StatusBarMessageLabel();
-    void updatePalette();
 
 protected:
     // void paintEvent(QPaintEvent* event);
@@ -129,7 +127,6 @@ private:
     QProgressBar *m_progress;
     QTimerWithTime m_queueTimer;
     QSemaphore m_queueSemaphore;
-    QPropertyAnimation m_animation;
     QList<StatusBarMessageItem> m_messageQueue;
     StatusBarMessageItem m_currentMessage;
 };

@@ -376,6 +376,8 @@ void TimelineController::addAsset(const QVariantMap data)
         for (int id : m_selection.selectedClips) {
             m_model->addClipEffect(id, effect);
         }
+    } else {
+        pCore->displayMessage(i18n("Select a clip to apply an effect"), InformationMessage, 500);
     }
 }
 
