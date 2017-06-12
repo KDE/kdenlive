@@ -102,6 +102,34 @@ void TreeItem::appendChild(std::shared_ptr<TreeItem> child)
     }
 }
 
+void TreeItem::moveChild(int ix, std::shared_ptr<TreeItem> child)
+{
+    if (auto ptr = m_model.lock()) {
+        auto childPtr = child->m_parentItem.lock();
+        if (childPtr && childPtr->getId() == m_id) {
+            childPtr->removeChild(child);
+        } else {
+            // deletion of child
+            auto it = m_iteratorTable[child->getId()];
+            m_childItems.erase(it);
+        }
+        ptr->notifyRowAboutToAppend(shared_from_this());
+        child->m_depth = m_depth + 1;
+        child->m_parentItem = shared_from_this();
+        qDebug() << "appending child2" << child->getId() << "to " << m_id;
+        int id = child->getId();
+        auto pos = m_childItems.cbegin();
+        std::advance(pos, ix);
+        auto it = m_childItems.insert(pos, child);
+        m_iteratorTable[id] = it;
+        ptr->notifyRowAppended(child);
+        m_isInModel = true;
+    } else {
+        qDebug() << "ERROR: Something went wrong when inserting child in TreeItem. Model is not available anymore";
+        Q_ASSERT(false);
+    }
+}
+
 void TreeItem::removeChild(const std::shared_ptr<TreeItem> &child)
 {
     if (auto ptr = m_model.lock()) {

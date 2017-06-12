@@ -59,7 +59,10 @@ public:
     void setEffectStackEnabled(bool enabled);
 
     /* @brief Returns an effect from the stack (at the given row) */
-    std::shared_ptr<EffectItemModel> effect(int row);
+    std::shared_ptr<EffectItemModel> getEffect(int row);
+
+    /* @brief Move an effect in the stack */
+    void moveEffect(int destRow, std::shared_ptr<EffectItemModel> effect);
 
 public slots:
     /* @brief Delete an effect from the stack */

@@ -63,6 +63,26 @@ void EffectStackModel::appendEffect(const QString &effectId, int cid)
     pCore->pushUndo(undo, redo, i18n("Add effect %1", effectName));
 }
 
+void EffectStackModel::moveEffect(int destRow, std::shared_ptr<EffectItemModel> effect)
+{
+    QModelIndex ix = getIndexFromItem(effect);
+    int currentRow = effect->row();
+    //effect->unplant(m_service);
+    rootItem->moveChild(destRow, effect);
+    QList < std::shared_ptr<EffectItemModel> > effects;
+    for (int i = destRow; i < rootItem->childCount(); i++) {
+        auto eff = getEffect(i);
+        eff->unplant(m_service);
+        effects << eff;
+    }
+    for (int i = 0; i < effects.count(); i++) {
+        auto eff = effects.at(i);
+        eff->plant(m_service);
+    }
+    pCore->refreshProjectItem(effect->getParentId());
+    emit dataChanged(ix, ix, QVector<int>());
+}
+
 Fun EffectStackModel::deleteEffect_lambda(std::shared_ptr<EffectItemModel> effect, int cid, bool isAudio)
 {
     QWriteLocker locker(&m_lock);
@@ -106,7 +126,7 @@ void EffectStackModel::setEffectStackEnabled(bool enabled)
     }
 }
 
-std::shared_ptr<EffectItemModel> EffectStackModel::effect(int row)
+std::shared_ptr<EffectItemModel> EffectStackModel::getEffect(int row)
 {
     return std::static_pointer_cast<EffectItemModel>(rootItem->child(row));
 }
@@ -115,7 +135,7 @@ void EffectStackModel::importEffects(int cid, std::shared_ptr<EffectStackModel>s
 {
     //TODO: manage fades, keyframes if clips don't have same size / in point
     for (int i = 0; i < sourceStack->rowCount(); i++) {
-        std::shared_ptr<EffectItemModel> effect = sourceStack->effect(i);
+        std::shared_ptr<EffectItemModel> effect = sourceStack->getEffect(i);
         auto clone = EffectItemModel::construct(effect->getAssetId(), shared_from_this(), rootItem);
         clone->setParameters(effect->getAllParameters());
         Fun redo = addEffect_lambda(clone, cid, true);

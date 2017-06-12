@@ -342,12 +342,12 @@ void CollapsibleEffectView::slotDeleteEffect()
 
 void CollapsibleEffectView::slotEffectUp()
 {
-    emit changeEffectPosition(QList<int>() << effectIndex(), true);
+    emit moveEffect(qMax(0, m_model->row() -1), m_model);
 }
 
 void CollapsibleEffectView::slotEffectDown()
 {
-    emit changeEffectPosition(QList<int>() << effectIndex(), false);
+    emit moveEffect(m_model->row() + 1, m_model);
 }
 
 void CollapsibleEffectView::slotSaveEffect()
@@ -701,7 +701,7 @@ void CollapsibleEffectView::dropEvent(QDropEvent *event)
                     QDomElement effect = subeffects.at(i).toElement();
                     effectsIds << effect.attribute(QStringLiteral("kdenlive_ix")).toInt();
                 }
-                emit moveEffect(effectsIds, currentEffectIx, info.groupIndex, info.groupName);
+                //emit moveEffect(effectsIds, currentEffectIx, info.groupIndex, info.groupName);
             } else {
                 // group effect dropped from effect list
                 if (m_info.groupIndex > -1) {
@@ -722,7 +722,7 @@ void CollapsibleEffectView::dropEvent(QDropEvent *event)
         emit addEffect(e);
         return;
     }
-    emit moveEffect(QList<int>() << ix, currentEffectIx, m_info.groupIndex, m_info.groupName);
+    //emit moveEffect(QList<int>() << ix, currentEffectIx, m_info.groupIndex, m_info.groupName);
     event->setDropAction(Qt::MoveAction);
     event->accept();
 }

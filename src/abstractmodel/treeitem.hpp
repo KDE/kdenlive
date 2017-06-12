@@ -62,6 +62,7 @@ public:
        Useful for example if the child should be a subclass of TreeItem
     */
     void appendChild(std::shared_ptr<TreeItem> child);
+    void moveChild(int ix, std::shared_ptr<TreeItem> child);
 
     /* @brief Remove given child from children list. The parent of the child is updated
        accordingly

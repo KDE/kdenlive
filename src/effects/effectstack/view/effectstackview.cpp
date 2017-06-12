@@ -69,11 +69,12 @@ void EffectStackView::setModel(std::shared_ptr<EffectStackModel>model)
     m_model = model;
     int max = m_model->rowCount();
     for (int i = 0; i < max; i++) {
-        std::shared_ptr<EffectItemModel> effectModel = m_model->effect(i);
+        std::shared_ptr<EffectItemModel> effectModel = m_model->getEffect(i);
         QSize size;
         QImage effectIcon = m_thumbnailer->requestImage(effectModel->getAssetId(), &size, QSize(QStyle::PM_SmallIconSize,QStyle::PM_SmallIconSize));
         CollapsibleEffectView *view = new CollapsibleEffectView(effectModel, effectIcon, this);
         connect(view, &CollapsibleEffectView::deleteEffect, m_model.get(), &EffectStackModel::removeEffect);
+        connect(view, &CollapsibleEffectView::moveEffect, m_model.get(), &EffectStackModel::moveEffect);
         m_lay->addWidget(view);
         m_widgets.push_back(view);
     }
@@ -86,11 +87,12 @@ void EffectStackView::refresh(const QModelIndex &topLeft, const QModelIndex &bot
     unsetModel(false);
     int max = m_model->rowCount();
     for (int i = 0; i < max; i++) {
-        std::shared_ptr<EffectItemModel> effectModel = m_model->effect(i);
+        std::shared_ptr<EffectItemModel> effectModel = m_model->getEffect(i);
         QSize size;
         QImage effectIcon = m_thumbnailer->requestImage(effectModel->getAssetId(), &size, QSize(QStyle::PM_SmallIconSize,QStyle::PM_SmallIconSize));
         CollapsibleEffectView *view = new CollapsibleEffectView(effectModel, effectIcon, this);
         connect(view, &CollapsibleEffectView::deleteEffect, m_model.get(), &EffectStackModel::removeEffect);
+        connect(view, &CollapsibleEffectView::moveEffect, m_model.get(), &EffectStackModel::moveEffect);
         m_lay->addWidget(view);
         m_widgets.push_back(view);
     }

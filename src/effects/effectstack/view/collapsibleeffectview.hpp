@@ -150,6 +150,7 @@ signals:
     void syncEffectsPos(int);
     void effectStateChanged(bool, int ix, MonitorSceneType effectNeedsMonitorScene);
     void deleteEffect(std::shared_ptr<EffectItemModel> effect);
+    void moveEffect(int destRow, std::shared_ptr<EffectItemModel> effect);
     void activateEffect(int);
     void checkMonitorPosition(int);
     void seekTimeline(int);
