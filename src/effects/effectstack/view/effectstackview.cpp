@@ -67,36 +67,32 @@ void EffectStackView::setModel(std::shared_ptr<EffectStackModel>model)
 {
     unsetModel();
     m_model = model;
+    loadEffects();
+    connect(m_model.get(), &EffectStackModel::dataChanged, this, &EffectStackView::refresh);
+}
+
+void EffectStackView::loadEffects()
+{
     int max = m_model->rowCount();
     for (int i = 0; i < max; i++) {
         std::shared_ptr<EffectItemModel> effectModel = m_model->getEffect(i);
         QSize size;
         QImage effectIcon = m_thumbnailer->requestImage(effectModel->getAssetId(), &size, QSize(QStyle::PM_SmallIconSize,QStyle::PM_SmallIconSize));
         CollapsibleEffectView *view = new CollapsibleEffectView(effectModel, effectIcon, this);
+        view->buttonUp->setEnabled(i > 0);
+        view->buttonDown->setEnabled(i < max - 1);
         connect(view, &CollapsibleEffectView::deleteEffect, m_model.get(), &EffectStackModel::removeEffect);
         connect(view, &CollapsibleEffectView::moveEffect, m_model.get(), &EffectStackModel::moveEffect);
         m_lay->addWidget(view);
         m_widgets.push_back(view);
     }
-    connect(m_model.get(), &EffectStackModel::dataChanged, this, &EffectStackView::refresh);
     m_lay->addStretch();
 }
 
 void EffectStackView::refresh(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles)
 {
     unsetModel(false);
-    int max = m_model->rowCount();
-    for (int i = 0; i < max; i++) {
-        std::shared_ptr<EffectItemModel> effectModel = m_model->getEffect(i);
-        QSize size;
-        QImage effectIcon = m_thumbnailer->requestImage(effectModel->getAssetId(), &size, QSize(QStyle::PM_SmallIconSize,QStyle::PM_SmallIconSize));
-        CollapsibleEffectView *view = new CollapsibleEffectView(effectModel, effectIcon, this);
-        connect(view, &CollapsibleEffectView::deleteEffect, m_model.get(), &EffectStackModel::removeEffect);
-        connect(view, &CollapsibleEffectView::moveEffect, m_model.get(), &EffectStackModel::moveEffect);
-        m_lay->addWidget(view);
-        m_widgets.push_back(view);
-    }
-    m_lay->addStretch();
+    loadEffects();
 }
 
 void EffectStackView::unsetModel(bool reset)

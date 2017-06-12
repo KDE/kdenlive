@@ -52,6 +52,7 @@ private:
     std::vector<CollapsibleEffectView *> m_widgets;
     AssetIconProvider *m_thumbnailer;
     const QString getStyleSheet();
+    void loadEffects();
 
 private slots:
     void refresh(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles);
