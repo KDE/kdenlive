@@ -46,7 +46,6 @@ AssetPanel::AssetPanel(QWidget *parent)
     m_lay->addWidget(m_assetTitle);
     m_lay->addWidget(m_transitionWidget);
     m_lay->addWidget(m_effectStackWidget);
-    m_lay->addStretch();
     m_transitionWidget->setVisible(false);
     updatePalette();
 }

@@ -24,13 +24,27 @@
 
 #include <QWidget>
 #include <memory>
-
+#include <QItemDelegate>
 
 class QVBoxLayout;
+class QTreeView;
 class CollapsibleEffectView;
 class AssetParameterModel;
 class EffectStackModel;
+class EffectItemModel;
 class AssetIconProvider;
+
+class WidgetDelegate : public QItemDelegate
+{
+    Q_OBJECT
+public:
+    explicit WidgetDelegate(QObject *parent = nullptr);
+    void setHeight(const QModelIndex &index, int height);
+    QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;
+
+private:
+    QMap<QModelIndex, int> m_height;
+};
 
 class EffectStackView : public QWidget
 {
@@ -43,19 +57,22 @@ public:
     void unsetModel(bool reset = true);
 
 protected:
-    void dragEnterEvent(QDragEnterEvent *event);
-    void dropEvent(QDropEvent *event);
+    void dragEnterEvent(QDragEnterEvent *event) override;
+    void dropEvent(QDropEvent *event) override;
+    void mousePressEvent(QMouseEvent *e) override;
 
 private:
     QVBoxLayout *m_lay;
+    QTreeView *m_effectsTree;
     std::shared_ptr<EffectStackModel> m_model;
     std::vector<CollapsibleEffectView *> m_widgets;
     AssetIconProvider *m_thumbnailer;
     const QString getStyleSheet();
-    void loadEffects();
+    void loadEffects(int start = 0, int end = -1);
 
 private slots:
     void refresh(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles);
+    void slotAdjustDelegate(std::shared_ptr<EffectItemModel> effectModel, int height);
 
 };
 

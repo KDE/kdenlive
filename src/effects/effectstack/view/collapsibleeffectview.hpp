@@ -113,6 +113,7 @@ private slots:
     /** @brief A sub effect parameter was changed */
     void slotUpdateRegionEffectParams(const QDomElement & /*old*/, const QDomElement & /*e*/, int /*ix*/);
     void prepareImportClipKeyframes();
+    void animationChanged(const QVariant &geom);
 
 private:
     ParameterContainer *m_paramWidget;
@@ -125,7 +126,6 @@ private:
     QDomElement m_original_effect;
     QList<QDomElement> m_subEffects;
     QMenu *m_menu;
-    QPoint m_clickPoint;
     EffectInfo m_info;
     bool m_isMovable;
     /** @brief True if this is a region effect, which behaves in a special way, like a group. */
@@ -164,6 +164,7 @@ signals:
     void createRegion(int, const QUrl &);
     void deleteGroup(const QDomDocument &);
     void importClipKeyframes(GraphicsRectItem, ItemInfo, QDomElement, const QMap<QString, QString> &keyframes = QMap<QString, QString>());
+    void switchHeight(std::shared_ptr<EffectItemModel> model, int height);
 };
 
 #endif

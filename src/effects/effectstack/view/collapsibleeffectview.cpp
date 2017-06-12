@@ -406,19 +406,28 @@ void CollapsibleEffectView::slotResetEffect()
 void CollapsibleEffectView::slotSwitch(bool expand)
 {
     slotShow(expand);
-    if (!expand) {
+    emit switchHeight(m_model, expand ? frame->height() : frame->height() + m_view->contentHeight());
+    setFixedHeight(expand ? frame->height() : frame->height() + m_view->contentHeight());
+    widgetFrame->setVisible(!expand);
+    /*if (!expand) {
         widgetFrame->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
         widgetFrame->setFixedHeight(m_view->contentHeight());
     } else {
         widgetFrame->setFixedHeight(QWIDGETSIZE_MAX);
-    }
-    const QRect final_geometry = expand ? QRect(QPoint(0, - m_view->height()), m_view->size()) : QRect(widgetFrame->rect().topLeft(), m_view->size());
-    QPropertyAnimation *anim = new QPropertyAnimation(m_view, "geometry", this);
+    }*/
+    /*const QRect final_geometry = expand ? QRect(0, 0, width(), title->height()) : QRect(rect().topLeft(), size());
+    QPropertyAnimation *anim = new QPropertyAnimation(this, "geometry", this);
     anim->setDuration(200);
     anim->setEasingCurve(QEasingCurve::InOutQuad);
     anim->setEndValue(final_geometry);
+    //connect(anim, SIGNAL(valueChanged(const QVariant &)), SLOT(animationChanged(const QVariant &)));
     connect(anim, SIGNAL(finished()), SLOT(animationFinished()));
-    anim->start(QPropertyAnimation::DeleteWhenStopped);
+    anim->start(QPropertyAnimation::DeleteWhenStopped);*/
+}
+
+void CollapsibleEffectView::animationChanged(const QVariant &geom)
+{
+    parentWidget()->setFixedHeight(geom.toRect().height());
 }
 
 void CollapsibleEffectView::animationFinished()

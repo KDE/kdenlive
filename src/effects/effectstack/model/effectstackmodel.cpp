@@ -66,8 +66,7 @@ void EffectStackModel::appendEffect(const QString &effectId, int cid)
 void EffectStackModel::moveEffect(int destRow, std::shared_ptr<EffectItemModel> effect)
 {
     QModelIndex ix = getIndexFromItem(effect);
-    int currentRow = effect->row();
-    //effect->unplant(m_service);
+    QModelIndex ix2 = ix;
     rootItem->moveChild(destRow, effect);
     QList < std::shared_ptr<EffectItemModel> > effects;
     for (int i = destRow; i < rootItem->childCount(); i++) {
@@ -78,9 +77,12 @@ void EffectStackModel::moveEffect(int destRow, std::shared_ptr<EffectItemModel> 
     for (int i = 0; i < effects.count(); i++) {
         auto eff = effects.at(i);
         eff->plant(m_service);
+        if (i == effects.count() - 1) {
+            ix2 = getIndexFromItem(eff);
+        }
     }
     pCore->refreshProjectItem(effect->getParentId());
-    emit dataChanged(ix, ix, QVector<int>());
+    emit dataChanged(ix, ix2, QVector<int>());
 }
 
 Fun EffectStackModel::deleteEffect_lambda(std::shared_ptr<EffectItemModel> effect, int cid, bool isAudio)
@@ -90,7 +92,6 @@ Fun EffectStackModel::deleteEffect_lambda(std::shared_ptr<EffectItemModel> effec
         QModelIndex ix = this->getIndexFromItem(effect);
         this->rootItem->removeChild(effect);
         effect->unplant(this->m_service);
-        this->dataChanged(ix, ix, QVector<int>());
         if (!isAudio) {
             pCore->refreshProjectItem(cid);
         }
@@ -108,6 +109,7 @@ Fun EffectStackModel::addEffect_lambda(std::shared_ptr<EffectItemModel> effect, 
         effect->setEffectStackEnabled(m_effectStackEnabled);
         QModelIndex ix = this->getIndexFromItem(effect);
         connect(effect.get(), &EffectItemModel::dataChanged, this, &EffectStackModel::dataChanged);
+        // Required to build the effect view
         this->dataChanged(ix, ix, QVector<int>());
         if (!isAudio) {
             pCore->refreshProjectItem(cid);

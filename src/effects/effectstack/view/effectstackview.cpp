@@ -30,15 +30,47 @@
 #include <QDragEnterEvent>
 #include <QMimeData>
 #include <QFontDatabase>
+#include <QTreeView>
+
+WidgetDelegate::WidgetDelegate(QObject *parent) :
+    QItemDelegate(parent)
+{
+}
+
+QSize WidgetDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
+{
+    QSize s = QItemDelegate::sizeHint(option, index);
+    if (m_height.contains(index)) {
+        s.setHeight(m_height.value(index));
+    }
+    return s;
+}
+
+void WidgetDelegate::setHeight(const QModelIndex &index, int height)
+{
+    m_height[index] = height;
+    emit sizeHintChanged(index);
+}
+
+
 
 EffectStackView::EffectStackView(QWidget *parent) : QWidget(parent)
     , m_thumbnailer(new AssetIconProvider(true))
 {
+    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     m_lay = new QVBoxLayout(this);
     m_lay->setContentsMargins(0, 0, 0, 0);
-    m_lay->setSpacing(2);
+    m_lay->setSpacing(0);
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setAcceptDrops(true);
+    m_effectsTree = new QTreeView(this);
+    m_effectsTree->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+    m_effectsTree->setHeaderHidden(true);
+    m_effectsTree->setRootIsDecorated(false);
+    QString style = QStringLiteral("QTreeView {border: none;}");
+    //m_effectsTree->viewport()->setAutoFillBackground(false);
+    m_effectsTree->setStyleSheet(style);
+    m_lay->addWidget(m_effectsTree);
 }
 
 EffectStackView::~EffectStackView()
@@ -67,14 +99,24 @@ void EffectStackView::setModel(std::shared_ptr<EffectStackModel>model)
 {
     unsetModel();
     m_model = model;
+    m_effectsTree->setModel(m_model.get());
+    m_effectsTree->setItemDelegateForColumn(0, new WidgetDelegate(this));
+    m_effectsTree->setColumnHidden(1, true);
+    m_effectsTree->setAcceptDrops(true);
+    m_effectsTree->setDragDropMode(QAbstractItemView::DragDrop);
+    m_effectsTree->setDragEnabled(true);
+    m_effectsTree->setUniformRowHeights(false);
     loadEffects();
     connect(m_model.get(), &EffectStackModel::dataChanged, this, &EffectStackView::refresh);
 }
 
-void EffectStackView::loadEffects()
+void EffectStackView::loadEffects(int start, int end)
 {
     int max = m_model->rowCount();
-    for (int i = 0; i < max; i++) {
+    if (end == -1) {
+        end = max;
+    }
+    for (int i = 0; i < end; i++) {
         std::shared_ptr<EffectItemModel> effectModel = m_model->getEffect(i);
         QSize size;
         QImage effectIcon = m_thumbnailer->requestImage(effectModel->getAssetId(), &size, QSize(QStyle::PM_SmallIconSize,QStyle::PM_SmallIconSize));
@@ -83,32 +125,36 @@ void EffectStackView::loadEffects()
         view->buttonDown->setEnabled(i < max - 1);
         connect(view, &CollapsibleEffectView::deleteEffect, m_model.get(), &EffectStackModel::removeEffect);
         connect(view, &CollapsibleEffectView::moveEffect, m_model.get(), &EffectStackModel::moveEffect);
-        m_lay->addWidget(view);
-        m_widgets.push_back(view);
+        connect(view, &CollapsibleEffectView::switchHeight, this, &EffectStackView::slotAdjustDelegate);
+        QModelIndex ix = m_model->getIndexFromItem(effectModel);
+        m_effectsTree->setIndexWidget(ix, view);
+
     }
-    m_lay->addStretch();
+}
+
+void EffectStackView::slotAdjustDelegate(std::shared_ptr<EffectItemModel> effectModel, int height)
+{
+    QModelIndex ix = m_model->getIndexFromItem(effectModel);
+    WidgetDelegate *del = static_cast <WidgetDelegate *>(m_effectsTree->itemDelegate(ix));
+    del->setHeight(ix, height);
 }
 
 void EffectStackView::refresh(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles)
 {
-    unsetModel(false);
-    loadEffects();
+    loadEffects(topLeft.row(), bottomRight.row() + 1);
 }
 
 void EffectStackView::unsetModel(bool reset)
 {
-    // clear layout
-    m_widgets.clear();
-    QLayoutItem *child;
-    while ((child = m_lay->takeAt(0)) != nullptr) {
-        delete child->widget();
-        delete child->spacerItem();
-    }
-
     // Release ownership of smart pointer
     if (reset) {
         m_model.reset();
     }
 }
 
-
+void EffectStackView::mousePressEvent(QMouseEvent *e)
+{
+    //m_dragPoint = e->globalPos();
+    //e->accept();
+    qDebug()<<"*** EFFECT STACK CLICK";
+}
