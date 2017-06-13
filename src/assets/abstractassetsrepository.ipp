@@ -146,7 +146,7 @@ template <typename AssetType> QVector<QPair<QString, QString>> AbstractAssetsRep
     for (const auto &asset : m_assets) {
         res.push_back({asset.first, asset.second.name});
     }
-    std::sort(res.begin(), res.end(), [](const decltype(res.front()) &a, const decltype(res.front()) &b) { return a.second < b.second; });
+    std::sort(res.begin(), res.end(), [](const QPair<QString, QString> &a, const QPair<QString, QString> &b) { return a.second < b.second; });
     return res;
 }
 
