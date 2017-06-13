@@ -95,6 +95,7 @@ public slots:
     void slotDisable(bool disable);
     void slotResetEffect();
     void importKeyframes(const QString &keyframes);
+    void slotActivateEffect(QModelIndex ix);
 
 private slots:
     void setWidgetHeight(qreal value);
@@ -135,11 +136,14 @@ private:
     KDualAction *m_enabledButton;
     QLabel *m_colorIcon;
     QPixmap m_iconPix;
+    QPoint m_dragStart;
     /** @brief Check if collapsed state changed and inform MLT. */
     void updateCollapsedState();
 
 protected:
     void mouseDoubleClickEvent(QMouseEvent *event) override;
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *e) override;
     void mouseReleaseEvent(QMouseEvent *event) override;
     void dragEnterEvent(QDragEnterEvent *event) override;
     void dragLeaveEvent(QDragLeaveEvent *event) override;
@@ -151,7 +155,6 @@ signals:
     void effectStateChanged(bool, int ix, MonitorSceneType effectNeedsMonitorScene);
     void deleteEffect(std::shared_ptr<EffectItemModel> effect);
     void moveEffect(int destRow, std::shared_ptr<EffectItemModel> effect);
-    void activateEffect(int);
     void checkMonitorPosition(int);
     void seekTimeline(int);
     /** @brief Start an MLT filter job on this clip. */
@@ -165,6 +168,8 @@ signals:
     void deleteGroup(const QDomDocument &);
     void importClipKeyframes(GraphicsRectItem, ItemInfo, QDomElement, const QMap<QString, QString> &keyframes = QMap<QString, QString>());
     void switchHeight(std::shared_ptr<EffectItemModel> model, int height);
+    void startDrag(QPixmap, std::shared_ptr<EffectItemModel> effectModel);
+    void activateEffect(std::shared_ptr<EffectItemModel> effectModel);
 };
 
 #endif

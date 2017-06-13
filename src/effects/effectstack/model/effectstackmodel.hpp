@@ -64,6 +64,9 @@ public:
     /* @brief Move an effect in the stack */
     void moveEffect(int destRow, std::shared_ptr<EffectItemModel> effect);
 
+    void setActiveEffect(int ix);
+    int getActiveEffect() const;
+
 public slots:
     /* @brief Delete an effect from the stack */
     void removeEffect(std::shared_ptr<EffectItemModel> effect);

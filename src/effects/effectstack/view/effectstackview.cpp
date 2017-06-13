@@ -31,15 +31,16 @@
 #include <QMimeData>
 #include <QFontDatabase>
 #include <QTreeView>
+#include <QDrag>
 
 WidgetDelegate::WidgetDelegate(QObject *parent) :
-    QItemDelegate(parent)
+    QStyledItemDelegate(parent)
 {
 }
 
 QSize WidgetDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-    QSize s = QItemDelegate::sizeHint(option, index);
+    QSize s = QStyledItemDelegate::sizeHint(option, index);
     if (m_height.contains(index)) {
         s.setHeight(m_height.value(index));
     }
@@ -52,7 +53,16 @@ void WidgetDelegate::setHeight(const QModelIndex &index, int height)
     emit sizeHintChanged(index);
 }
 
+void WidgetDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
+{
+    QStyleOptionViewItem opt(option);
+    initStyleOption(&opt, index);
+    QStyle *style = opt.widget ? opt.widget->style() : QApplication::style();
+    const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
+    // QRect r = QStyle::alignedRect(opt.direction, Qt::AlignVCenter | Qt::AlignLeft, opt.decorationSize, r1);
 
+    style->drawPrimitive(QStyle::PE_PanelItemViewItem, &opt, painter, opt.widget);
+}
 
 EffectStackView::EffectStackView(QWidget *parent) : QWidget(parent)
     , m_thumbnailer(new AssetIconProvider(true))
@@ -116,20 +126,48 @@ void EffectStackView::loadEffects(int start, int end)
     if (end == -1) {
         end = max;
     }
+    int active = m_model->getActiveEffect();
     for (int i = 0; i < end; i++) {
         std::shared_ptr<EffectItemModel> effectModel = m_model->getEffect(i);
         QSize size;
         QImage effectIcon = m_thumbnailer->requestImage(effectModel->getAssetId(), &size, QSize(QStyle::PM_SmallIconSize,QStyle::PM_SmallIconSize));
         CollapsibleEffectView *view = new CollapsibleEffectView(effectModel, effectIcon, this);
+        qDebug()<<"__ADDING EFFECT: "<<effectModel->filter().get("id")<<", ACT: "<<active;
+        if (i == active) {
+            view->slotActivateEffect(m_model->getIndexFromItem(effectModel));
+        }
         view->buttonUp->setEnabled(i > 0);
         view->buttonDown->setEnabled(i < max - 1);
         connect(view, &CollapsibleEffectView::deleteEffect, m_model.get(), &EffectStackModel::removeEffect);
         connect(view, &CollapsibleEffectView::moveEffect, m_model.get(), &EffectStackModel::moveEffect);
         connect(view, &CollapsibleEffectView::switchHeight, this, &EffectStackView::slotAdjustDelegate);
+        connect(view, &CollapsibleEffectView::startDrag, this, &EffectStackView::slotStartDrag);
+        connect(view, &CollapsibleEffectView::activateEffect, this, &EffectStackView::slotActivateEffect);
+        connect(this, &EffectStackView::doActivateEffect, view, &CollapsibleEffectView::slotActivateEffect);
         QModelIndex ix = m_model->getIndexFromItem(effectModel);
         m_effectsTree->setIndexWidget(ix, view);
 
     }
+}
+
+void EffectStackView::slotActivateEffect(std::shared_ptr<EffectItemModel> effectModel)
+{
+    m_model->setActiveEffect(effectModel->row());
+    QModelIndex activeIx = m_model->getIndexFromItem(effectModel);
+    emit doActivateEffect(activeIx);
+}
+
+void EffectStackView::slotStartDrag(QPixmap pix, std::shared_ptr<EffectItemModel> effectModel)
+{
+    auto *drag = new QDrag(this);
+    drag->setPixmap(pix);
+    auto *mime = new QMimeData;
+    mime->setData(QStringLiteral("kdenlive/effectslist"), effectModel->getAssetId().toUtf8());
+
+    // Assign ownership of the QMimeData object to the QDrag object.
+    drag->setMimeData(mime);
+    // Start the drag and drop operation
+    drag->exec(Qt::CopyAction | Qt::MoveAction, Qt::CopyAction);
 }
 
 void EffectStackView::slotAdjustDelegate(std::shared_ptr<EffectItemModel> effectModel, int height)
@@ -152,9 +190,3 @@ void EffectStackView::unsetModel(bool reset)
     }
 }
 
-void EffectStackView::mousePressEvent(QMouseEvent *e)
-{
-    //m_dragPoint = e->globalPos();
-    //e->accept();
-    qDebug()<<"*** EFFECT STACK CLICK";
-}

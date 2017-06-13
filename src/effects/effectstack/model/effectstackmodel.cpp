@@ -145,3 +145,19 @@ void EffectStackModel::importEffects(int cid, std::shared_ptr<EffectStackModel>s
     }
 }
 
+void EffectStackModel::setActiveEffect(int ix)
+{
+    auto ptr = m_service.lock();
+    if (ptr) {
+        ptr->set("kdenlive:activeeffect", ix);
+    }
+}
+
+int EffectStackModel::getActiveEffect() const
+{
+    auto ptr = m_service.lock();
+    if (ptr) {
+        return ptr->get_int("kdenlive:activeeffect");
+    }
+    return -1;
+}

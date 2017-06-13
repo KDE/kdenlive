@@ -68,7 +68,7 @@ CollapsibleEffectView::CollapsibleEffectView(std::shared_ptr<EffectItemModel> ef
         decoframe->setObjectName(QStringLiteral("decoframegroup"));
     }
     filterWheelEvent = true;
-    decoframe->setProperty("active", true);
+    //decoframe->setProperty("active", true);
     //m_info.fromString(effect.attribute(QStringLiteral("kdenlive_info")));
     // setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     buttonUp->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-up")));
@@ -288,6 +288,12 @@ bool CollapsibleEffectView::isEnabled() const
     return m_enabledButton->isActive();
 }
 
+void CollapsibleEffectView::slotActivateEffect(QModelIndex ix)
+{
+    decoframe->setProperty("active", ix.row() == m_model->row());
+    decoframe->setStyleSheet(decoframe->styleSheet());
+}
+
 void CollapsibleEffectView::setActive(bool activate)
 {
     /*
@@ -310,6 +316,22 @@ void CollapsibleEffectView::setActive(bool activate)
     */
 }
 
+void CollapsibleEffectView::mousePressEvent(QMouseEvent *e)
+{
+    m_dragStart = e->globalPos();
+    emit activateEffect(m_model);
+    QWidget::mousePressEvent(e);
+}
+
+void CollapsibleEffectView::mouseMoveEvent(QMouseEvent *e)
+{
+    if ((e->globalPos() - m_dragStart).manhattanLength() < QApplication::startDragDistance()) {
+        QPixmap pix = frame->grab();
+        emit startDrag(pix, m_model);
+    }
+    QWidget::mouseMoveEvent(e);
+}
+
 void CollapsibleEffectView::mouseDoubleClickEvent(QMouseEvent *event)
 {
     if (frame->underMouse() && collapseButton->isEnabled()) {
@@ -322,8 +344,9 @@ void CollapsibleEffectView::mouseDoubleClickEvent(QMouseEvent *event)
 
 void CollapsibleEffectView::mouseReleaseEvent(QMouseEvent *event)
 {
+    m_dragStart = QPoint();
     if (!decoframe->property("active").toBool()) {
-        emit activateEffect(effectIndex());
+        //emit activateEffect(effectIndex());
     }
     QWidget::mouseReleaseEvent(event);
 }
@@ -671,7 +694,7 @@ void CollapsibleEffectView::dropEvent(QDropEvent *event)
         if (event->source()->objectName() == QStringLiteral("ParameterContainer")) {
             return;
         }
-        emit activateEffect(effectIndex());
+        //emit activateEffect(effectIndex());
         QString itemData = event->mimeData()->data(QStringLiteral("kdenlive/geometry"));
         importKeyframes(itemData);
         return;

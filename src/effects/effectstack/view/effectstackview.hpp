@@ -24,7 +24,7 @@
 
 #include <QWidget>
 #include <memory>
-#include <QItemDelegate>
+#include <QStyledItemDelegate>
 
 class QVBoxLayout;
 class QTreeView;
@@ -34,13 +34,14 @@ class EffectStackModel;
 class EffectItemModel;
 class AssetIconProvider;
 
-class WidgetDelegate : public QItemDelegate
+class WidgetDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
 public:
     explicit WidgetDelegate(QObject *parent = nullptr);
     void setHeight(const QModelIndex &index, int height);
     QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;
+    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 
 private:
     QMap<QModelIndex, int> m_height;
@@ -59,7 +60,6 @@ public:
 protected:
     void dragEnterEvent(QDragEnterEvent *event) override;
     void dropEvent(QDropEvent *event) override;
-    void mousePressEvent(QMouseEvent *e) override;
 
 private:
     QVBoxLayout *m_lay;
@@ -73,7 +73,11 @@ private:
 private slots:
     void refresh(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles);
     void slotAdjustDelegate(std::shared_ptr<EffectItemModel> effectModel, int height);
+    void slotStartDrag(QPixmap pix, std::shared_ptr<EffectItemModel> effectModel);
+    void slotActivateEffect(std::shared_ptr<EffectItemModel> effectModel);
 
+signals:
+    void doActivateEffect(QModelIndex);
 };
 
 #endif

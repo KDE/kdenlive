@@ -106,7 +106,7 @@ void TreeItem::moveChild(int ix, std::shared_ptr<TreeItem> child)
 {
     if (auto ptr = m_model.lock()) {
         auto childPtr = child->m_parentItem.lock();
-        if (childPtr && childPtr->getId() == m_id) {
+        if (childPtr && childPtr->getId() != m_id) {
             childPtr->removeChild(child);
         } else {
             // deletion of child
