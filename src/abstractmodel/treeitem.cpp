@@ -118,7 +118,7 @@ void TreeItem::moveChild(int ix, std::shared_ptr<TreeItem> child)
         child->m_parentItem = shared_from_this();
         qDebug() << "appending child2" << child->getId() << "to " << m_id;
         int id = child->getId();
-        auto pos = m_childItems.cbegin();
+        auto pos = m_childItems.begin();
         std::advance(pos, ix);
         auto it = m_childItems.insert(pos, child);
         m_iteratorTable[id] = it;
