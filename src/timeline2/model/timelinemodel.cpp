@@ -1025,6 +1025,12 @@ bool TimelineModel::addClipEffect(int clipId, const QString &effectId)
     return m_allClips.at(clipId)->addEffect(effectId);
 }
 
+bool TimelineModel::copyClipEffect(int clipId, const QString &sourceId, const QString &rowId)
+{
+    Q_ASSERT(m_allClips.count(clipId) > 0 && m_allClips.count(sourceId.toInt()) > 0);
+    return m_allClips.at(clipId)->copyEffect(m_allClips.at(sourceId.toInt())->m_effectStack, rowId.toInt());
+}
+
 std::shared_ptr<CompositionModel> TimelineModel::getCompositionPtr(int compoId) const
 {
     Q_ASSERT(m_allCompositions.count(compoId) > 0);

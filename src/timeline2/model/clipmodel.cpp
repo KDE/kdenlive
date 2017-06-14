@@ -190,6 +190,13 @@ bool ClipModel::addEffect(const QString &effectId)
     return true;
 }
 
+bool ClipModel::copyEffect(std::shared_ptr<EffectStackModel> stackModel, int rowId)
+{
+    READ_LOCK();
+    m_effectStack->copyEffect(stackModel->getEffect(rowId), m_id);
+    return true;
+}
+
 bool ClipModel::hasAudio() const
 {
     READ_LOCK();

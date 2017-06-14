@@ -91,7 +91,11 @@ EffectStackView::~EffectStackView()
 void EffectStackView::dragEnterEvent(QDragEnterEvent *event)
 {
     if (event->mimeData()->hasFormat(QStringLiteral("kdenlive/effect"))) {
-        event->setDropAction(Qt::CopyAction);
+        if (event->source() == this) {
+            event->setDropAction(Qt::MoveAction);
+        } else {
+            event->setDropAction(Qt::CopyAction);
+        }
         event->setAccepted(true);
     } else {
         event->setAccepted(false);
@@ -102,7 +106,29 @@ void EffectStackView::dropEvent(QDropEvent *event)
 {
     event->accept();
     QString effectId = event->mimeData()->data(QStringLiteral("kdenlive/effect"));
-    m_model->appendEffect(effectId, property("clipId").toInt());
+    int row = m_model->rowCount();
+    for (int i = 0; i < m_model->rowCount(); i++) {
+        std::shared_ptr<EffectItemModel> eff = m_model->getEffect(i);
+        QModelIndex ix = m_model->getIndexFromItem(eff);
+        QWidget *w = m_effectsTree->indexWidget(ix);
+        if (w && w->geometry().contains(event->pos())) {
+            qDebug()<<"// DROPPED ON EFF: "<<eff->getAssetId();
+            row = i;
+            break;
+        }
+    }
+    if (event->source() == this) {
+        int oldRow = event->mimeData()->data(QStringLiteral("kdenlive/effectrow")).toInt();
+        qDebug()<<"// MOVING EFFECT FROM : "<<oldRow<<" TO "<<row;
+        m_model->moveEffect(row, m_model->getEffect(oldRow));
+    } else {
+        if (row < m_model->rowCount()) {
+            m_model->appendEffect(effectId, property("clipId").toInt());
+            m_model->moveEffect(row, m_model->getEffect(m_model->rowCount() - 1));
+        } else {
+            m_model->appendEffect(effectId, property("clipId").toInt());
+        }
+    }
 }
 
 void EffectStackView::setModel(std::shared_ptr<EffectStackModel>model)
@@ -162,7 +188,9 @@ void EffectStackView::slotStartDrag(QPixmap pix, std::shared_ptr<EffectItemModel
     auto *drag = new QDrag(this);
     drag->setPixmap(pix);
     auto *mime = new QMimeData;
-    mime->setData(QStringLiteral("kdenlive/effectslist"), effectModel->getAssetId().toUtf8());
+    mime->setData(QStringLiteral("kdenlive/effect"), effectModel->getAssetId().toUtf8());
+    mime->setData(QStringLiteral("kdenlive/effectsource"), QString::number(effectModel->getParentId()).toUtf8());
+    mime->setData(QStringLiteral("kdenlive/effectrow"), QString::number(effectModel->row()).toUtf8());
 
     // Assign ownership of the QMimeData object to the QDrag object.
     drag->setMimeData(mime);

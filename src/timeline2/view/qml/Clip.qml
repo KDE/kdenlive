@@ -129,16 +129,27 @@ Rectangle {
         }
     }
 
-    DropArea { //Drop area for compositions
+    DropArea { //Drop area for clips
         anchors.fill: clipRoot
         keys: 'kdenlive/effect'
         property string dropData
+        property int dropSource: -1
+        property int dropRow: -1
         onEntered: {
             dropData = drag.getDataAsString('kdenlive/effect')
+            dropSource = drag.getDataAsString('kdenlive/effectsource')
+            dropRow = drag.getDataAsString('kdenlive/effectrow')
         }
         onDropped: {
             console.log("Add effect: ", dropData)
-            controller.addClipEffect(clipRoot.clipId, dropData);
+            if (dropSource == -1) {
+                // drop from effects list
+                controller.addClipEffect(clipRoot.clipId, dropData);
+            } else {
+                controller.copyClipEffect(clipRoot.clipId, dropSource, dropRow);
+            }
+            dropSource = -1
+            dropRow = -1
             drag.acceptProposedAction
         }
     }

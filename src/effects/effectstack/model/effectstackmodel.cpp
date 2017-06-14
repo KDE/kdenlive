@@ -52,6 +52,19 @@ void EffectStackModel::removeEffect(std::shared_ptr<EffectItemModel> effect)
     pCore->pushUndo(undo, redo, i18n("Delete effect %1", effectName));
 }
 
+void EffectStackModel::copyEffect(std::shared_ptr<EffectItemModel>sourceEffect, int cid)
+{
+    QString effectId = sourceEffect->getAssetId();
+    auto effect = EffectItemModel::construct(effectId, shared_from_this(), rootItem);
+    effect->setParameters(sourceEffect->getAllParameters());
+    bool isAudioEffect = EffectsRepository::get()->getType(effectId) == EffectType::Audio;
+    Fun undo = deleteEffect_lambda(effect, cid, isAudioEffect);
+    Fun redo = addEffect_lambda(effect, cid, isAudioEffect);
+    redo();
+    QString effectName = EffectsRepository::get()->getName(effectId);
+    pCore->pushUndo(undo, redo, i18n("copy effect %1", effectName));
+}
+
 void EffectStackModel::appendEffect(const QString &effectId, int cid)
 {
     auto effect = EffectItemModel::construct(effectId, shared_from_this(), rootItem);

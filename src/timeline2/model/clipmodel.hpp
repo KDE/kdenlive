@@ -83,6 +83,7 @@ public:
     const QString &binId() const;
 
     bool addEffect(const QString &effectId);
+    bool copyEffect(std::shared_ptr<EffectStackModel> stackModel, int rowId);
 
     friend class TrackModel;
     friend class TimelineModel;
