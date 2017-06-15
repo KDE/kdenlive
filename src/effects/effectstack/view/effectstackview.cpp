@@ -108,7 +108,12 @@ void EffectStackView::dropEvent(QDropEvent *event)
     QString effectId = event->mimeData()->data(QStringLiteral("kdenlive/effect"));
     int row = m_model->rowCount();
     for (int i = 0; i < m_model->rowCount(); i++) {
-        std::shared_ptr<EffectItemModel> eff = m_model->getEffect(i);
+        auto item = m_model->getEffectStackRow(i);
+        if (item->childCount() > 0) {
+            //TODO: group
+            continue;
+        }
+        std::shared_ptr<EffectItemModel> eff = std::static_pointer_cast<EffectItemModel>(item);
         QModelIndex ix = m_model->getIndexFromItem(eff);
         QWidget *w = m_effectsTree->indexWidget(ix);
         if (w && w->geometry().contains(event->pos())) {
@@ -120,11 +125,11 @@ void EffectStackView::dropEvent(QDropEvent *event)
     if (event->source() == this) {
         int oldRow = event->mimeData()->data(QStringLiteral("kdenlive/effectrow")).toInt();
         qDebug()<<"// MOVING EFFECT FROM : "<<oldRow<<" TO "<<row;
-        m_model->moveEffect(row, m_model->getEffect(oldRow));
+        m_model->moveEffect(row, m_model->getEffectStackRow(oldRow));
     } else {
         if (row < m_model->rowCount()) {
             m_model->appendEffect(effectId, property("clipId").toInt());
-            m_model->moveEffect(row, m_model->getEffect(m_model->rowCount() - 1));
+            m_model->moveEffect(row, m_model->getEffectStackRow(m_model->rowCount() - 1));
         } else {
             m_model->appendEffect(effectId, property("clipId").toInt());
         }
@@ -154,8 +159,13 @@ void EffectStackView::loadEffects(int start, int end)
     }
     int active = m_model->getActiveEffect();
     for (int i = 0; i < end; i++) {
-        std::shared_ptr<EffectItemModel> effectModel = m_model->getEffect(i);
+        std::shared_ptr<AbstractEffectItem> item = m_model->getEffectStackRow(i);
         QSize size;
+        if (item->childCount() > 0) {
+            // group, create sub stack
+            continue;
+        }
+        std::shared_ptr<EffectItemModel> effectModel = std::static_pointer_cast<EffectItemModel>(item);
         QImage effectIcon = m_thumbnailer->requestImage(effectModel->getAssetId(), &size, QSize(QStyle::PM_SmallIconSize,QStyle::PM_SmallIconSize));
         CollapsibleEffectView *view = new CollapsibleEffectView(effectModel, effectIcon, this);
         qDebug()<<"__ADDING EFFECT: "<<effectModel->filter().get("id")<<", ACT: "<<active;
@@ -168,6 +178,7 @@ void EffectStackView::loadEffects(int start, int end)
         connect(view, &CollapsibleEffectView::moveEffect, m_model.get(), &EffectStackModel::moveEffect);
         connect(view, &CollapsibleEffectView::switchHeight, this, &EffectStackView::slotAdjustDelegate);
         connect(view, &CollapsibleEffectView::startDrag, this, &EffectStackView::slotStartDrag);
+        connect(view, &CollapsibleEffectView::createGroup, m_model.get(), &EffectStackModel::slotCreateGroup);
         connect(view, &CollapsibleEffectView::activateEffect, this, &EffectStackView::slotActivateEffect);
         connect(this, &EffectStackView::doActivateEffect, view, &CollapsibleEffectView::slotActivateEffect);
         QModelIndex ix = m_model->getIndexFromItem(effectModel);

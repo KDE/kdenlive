@@ -34,6 +34,8 @@
  */
 class TreeItem;
 class EffectItemModel;
+class AbstractEffectItem;
+
 class EffectStackModel : public AbstractTreeModel
 {
 
@@ -51,7 +53,7 @@ public:
     /* @brief Add an effect at the bottom of the stack */
     void appendEffect(const QString &effectId, int cid);
     /* @brief Copy an existing effect and append it at the bottom of the stack */
-    void copyEffect(std::shared_ptr<EffectItemModel>sourceEffect, int cid);
+    void copyEffect(std::shared_ptr<AbstractEffectItem>sourceItem, int cid);
     /* @brief Import all effects from the given effect stack
      */
     void importEffects(int cid, std::shared_ptr<EffectStackModel>sourceStack);
@@ -60,14 +62,18 @@ public:
      */
     void setEffectStackEnabled(bool enabled);
 
-    /* @brief Returns an effect from the stack (at the given row) */
-    std::shared_ptr<EffectItemModel> getEffect(int row);
+    /* @brief Returns an effect or group from the stack (at the given row) */
+    std::shared_ptr<AbstractEffectItem> getEffectStackRow(int row, std::shared_ptr<TreeItem> parentItem = nullptr);
 
     /* @brief Move an effect in the stack */
-    void moveEffect(int destRow, std::shared_ptr<EffectItemModel> effect);
+    void moveEffect(int destRow, std::shared_ptr<AbstractEffectItem> item);
 
+    /* @brief Set effect in row as current one */
     void setActiveEffect(int ix);
+    /* @brief Get currently active effect row */
     int getActiveEffect() const;
+
+    void slotCreateGroup(std::shared_ptr<EffectItemModel> childEffect);
 
 public slots:
     /* @brief Delete an effect from the stack */

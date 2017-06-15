@@ -195,7 +195,7 @@ void CollapsibleEffectView::setWidgetHeight(qreal value)
 
 void CollapsibleEffectView::slotCreateGroup()
 {
-    emit createGroup(effectIndex());
+    emit createGroup(m_model);
 }
 
 void CollapsibleEffectView::slotCreateRegion()

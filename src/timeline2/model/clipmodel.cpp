@@ -193,7 +193,7 @@ bool ClipModel::addEffect(const QString &effectId)
 bool ClipModel::copyEffect(std::shared_ptr<EffectStackModel> stackModel, int rowId)
 {
     READ_LOCK();
-    m_effectStack->copyEffect(stackModel->getEffect(rowId), m_id);
+    m_effectStack->copyEffect(stackModel->getEffectStackRow(rowId), m_id);
     return true;
 }
 

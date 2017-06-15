@@ -162,7 +162,7 @@ signals:
     /** @brief An effect was reset, trigger param reload. */
     void resetEffect(int ix);
     /** @brief Ask for creation of a group. */
-    void createGroup(int ix);
+    void createGroup(std::shared_ptr<EffectItemModel> effectModel);
     void unGroup(CollapsibleEffectView *);
     void createRegion(int, const QUrl &);
     void deleteGroup(const QDomDocument &);
