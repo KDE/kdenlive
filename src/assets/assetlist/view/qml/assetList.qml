@@ -204,8 +204,10 @@ Rectangle {
                 treeView.__listView.positionViewAtIndex(rowPosition(assetListModel, sel.currentIndex), ListView.Visible)
             }
             Keys.onReturnPressed: {
-                assetlist.activate(sel.currentIndex)
-                searchList.checked = false
+                if (sel.hasSelection) {
+                    assetlist.activate(sel.currentIndex)
+                    searchList.checked = false
+                }
             }
         }
         ItemSelectionModel {
@@ -300,7 +302,11 @@ Rectangle {
                 treeView.expand(sel.currentIndex.parent)
                 treeView.__listView.positionViewAtIndex(rowPosition(assetListModel, sel.currentIndex), ListView.Visible)
             }
-            Keys.onReturnPressed: assetlist.activate(sel.currentIndex)
+            Keys.onReturnPressed: {
+                if (sel.hasSelection) {
+                    assetlist.activate(sel.currentIndex)
+                }
+            }
 
         }
         TextArea {
