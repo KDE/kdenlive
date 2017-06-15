@@ -95,6 +95,10 @@ void AssetParameterView::unsetModel()
 
 void AssetParameterView::refresh(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles)
 {
+    if (m_widgets.size() == 0) {
+        // no visible param for this asset, abort
+        return;
+    }
     Q_UNUSED(roles);
     // We are expecting indexes that are children of the root index, which is "invalid"
     Q_ASSERT(!topLeft.parent().isValid());
