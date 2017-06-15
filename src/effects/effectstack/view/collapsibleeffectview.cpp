@@ -102,7 +102,9 @@ CollapsibleEffectView::CollapsibleEffectView(std::shared_ptr<EffectItemModel> ef
     // buttonShowComments->setIcon(KoIconUtils::themedIcon("help-about"));
     // buttonShowComments->setToolTip(i18n("Show additional information for the parameters"));
     m_menu = new QMenu(this);
-    m_menu->addAction(KoIconUtils::themedIcon(QStringLiteral("view-refresh")), i18n("Reset Effect"), this, SLOT(slotResetEffect()));
+    if (effectModel->rowCount() > 0) {
+        m_menu->addAction(KoIconUtils::themedIcon(QStringLiteral("view-refresh")), i18n("Reset Effect"), this, SLOT(slotResetEffect()));
+    }
     m_menu->addAction(KoIconUtils::themedIcon(QStringLiteral("document-save")), i18n("Save Effect"), this, SLOT(slotSaveEffect()));
 
     QHBoxLayout *l = static_cast<QHBoxLayout *>(frame->layout());
