@@ -64,6 +64,7 @@
 #include "utils/thememanager.h"
 #include "utils/progressbutton.h"
 #include "effectslist/effectslistwidget.h"
+#include "profiles/profilerepository.hpp"
 
 #include "utils/KoIconUtils.h"
 #include "project/dialogs/temporarydata.h"
@@ -2010,7 +2011,7 @@ void MainWindow::connectDocument()
     connect(m_effectStack->transitionConfig(), &TransitionSettings::seekTimeline, trackView->projectView(), &CustomTrackView::seekCursorPos);
 
     connect(trackView->projectView(), SIGNAL(activateDocumentMonitor()), m_projectMonitor, SLOT(slotActivateMonitor()), Qt::DirectConnection);
-    connect(project, &KdenliveDoc::updateFps, trackView, &Timeline::updateProfile, Qt::DirectConnection);
+    connect(project, &KdenliveDoc::updateFps, this, &MainWindow::slotUpdateProfile, Qt::DirectConnection);
     connect(trackView, &Timeline::zoneMoved, this, &MainWindow::slotZoneMoved);
     trackView->projectView()->setContextMenu(m_timelineContextMenu, m_timelineContextClipMenu, m_timelineContextTransitionMenu, m_clipTypeGroup, static_cast<QMenu *>(factory()->container(QStringLiteral("marker_menu"), this)));
     if (m_renderWidget) {
@@ -4138,6 +4139,19 @@ void MainWindow::setTrimMode(const QString &mode)
     if (pCore->projectManager()->currentTimeline()) {
         m_trimLabel->setText(mode);
         m_trimLabel->setVisible(!mode.isEmpty());
+    }
+}
+
+void MainWindow::slotUpdateProfile(bool updateFps)
+{
+    //reload the profile from disk
+    ProfileRepository::get()->refresh();
+
+    if (pCore->projectManager()->currentTimeline()) {
+        pCore->projectManager()->currentTimeline()->updateProfile(updateFps);
+    }
+    if (m_renderWidget) {
+        m_renderWidget->setProfile(pCore->projectManager()->current()->mltProfile().path);
     }
 }
 
