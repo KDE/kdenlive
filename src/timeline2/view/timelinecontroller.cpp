@@ -265,12 +265,12 @@ void TimelineController::deleteTrack(int tid)
 
 void TimelineController::gotoNextSnap()
 {
-    seek(m_model->requestNextSnapPos(m_position));
+    setPosition(m_model->requestNextSnapPos(m_position));
 }
 
 void TimelineController::gotoPreviousSnap()
 {
-    seek(m_model->requestPreviousSnapPos(m_position));
+    setPosition(m_model->requestPreviousSnapPos(m_position));
 }
 
 void TimelineController::groupSelection()
@@ -289,7 +289,7 @@ void TimelineController::unGroupSelection(int cid)
 
 void TimelineController::setInPoint()
 {
-    int cursorPos = m_root->property("seekPos").toInt();
+    int cursorPos = m_seekPosition;
     if (cursorPos < 0) {
         cursorPos = m_position;
     }
@@ -302,7 +302,7 @@ void TimelineController::setInPoint()
 
 void TimelineController::setOutPoint()
 {
-    int cursorPos = m_root->property("seekPos").toInt();
+    int cursorPos = m_seekPosition;
     if (cursorPos < 0) {
         cursorPos = m_position;
     }
@@ -398,12 +398,6 @@ void TimelineController::showAsset(int id)
     }
 }
 
-void TimelineController::seek(int position)
-{
-    m_root->setProperty("seekPos", position);
-    emit seeked(position);
-}
-
 void TimelineController::setPosition(int position)
 {
     emit seeked(position);
@@ -491,7 +485,7 @@ void TimelineController::seekCurrentClip(bool seekToEnd)
         if (seekToEnd) {
             start += m_model->getItemPlaytime(cid);
         }
-        seek(start);
+        setPosition(start);
         foundClip = true;
         break;
     }
@@ -502,7 +496,7 @@ void TimelineController::seekToMouse()
     QVariant returnedValue;
     QMetaObject::invokeMethod(m_root, "getMousePos", Q_RETURN_ARG(QVariant, returnedValue));
     int mousePos = returnedValue.toInt();
-    seek(mousePos);
+    setPosition(mousePos);
 }
 
 void TimelineController::refreshItem(int id)

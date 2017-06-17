@@ -88,7 +88,6 @@ public:
        @param position is the desired new timeline position
      */
     Q_INVOKABLE void setPosition(int position);
-    Q_INVOKABLE void setSeekPosition(int position);
     Q_INVOKABLE bool snap();
     Q_INVOKABLE bool ripple();
     Q_INVOKABLE bool scrub();
@@ -213,7 +212,7 @@ public:
 
 public slots:
     void selectMultitrack();
-    void seek(int position);
+    Q_INVOKABLE void setSeekPosition(int position);
     void onSeeked(int position);
 
 private:

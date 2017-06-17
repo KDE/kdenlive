@@ -56,7 +56,7 @@ TimelineWidget *TimelineTabs::getCurrentTimeline() const
 
 void TimelineTabs::connectTimeline(TimelineWidget *timeline)
 {
-    connect(pCore->monitorManager()->projectMonitor(), &Monitor::seekTimeline, timeline->controller(), &TimelineController::seek, Qt::DirectConnection);
+    connect(pCore->monitorManager()->projectMonitor(), &Monitor::seekTimeline, timeline->controller(), &TimelineController::setPosition, Qt::DirectConnection);
     connect(timeline->controller(), &TimelineController::seeked, pCore->monitorManager()->projectMonitor(), &Monitor::requestSeek, Qt::DirectConnection);
     connect(pCore->monitorManager()->projectMonitor(), &Monitor::seekPosition, timeline->controller(), &TimelineController::onSeeked, Qt::DirectConnection);
     connect(timeline, &TimelineWidget::focusProjectMonitor, pCore->monitorManager(), &MonitorManager::focusProjectMonitor);
