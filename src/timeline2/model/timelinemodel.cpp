@@ -1101,6 +1101,12 @@ void TimelineModel::setUndoStack(std::weak_ptr<DocUndoStack> undo_stack)
     m_undoStack = std::move(undo_stack);
 }
 
+int TimelineModel::suggestSnapPoint(int pos, int snapDistance)
+{
+    int snapped = m_snaps->getClosestPoint(pos);
+    return (qAbs(snapped - pos) < snapDistance ? snapped : pos);
+}
+
 int TimelineModel::requestBestSnapPos(int pos, int length, const std::vector<int> &pts, int snapDistance)
 {
     if (!pts.empty()) {

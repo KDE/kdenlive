@@ -115,6 +115,8 @@ Rectangle {
         scrollView.flickableItem.contentX = Math.max(0, (timeline.seekPosition > -1 ? timeline.seekPosition : timeline.position) * timeline.scaleFactor - (scrollView.width / 2))
         root.snapping = timeline.snap ? 10 / Math.sqrt(root.timeScale) : -1
         ruler.adjustStepSize()
+        zoneTrimOut.x = timeline.zoneOut * timeScale - zoneTrimOut.width
+        zoneTrimIn.x = timeline.zoneIn * timeScale
     }
 
     DropArea { //Drop area for compositions
@@ -459,7 +461,6 @@ Rectangle {
                     spacerClickFrame = -1
                     spacerFrame = -1
                     spacerGroup = -1
-                    controller.request
                 }
                 scim = false
             }
@@ -494,8 +495,8 @@ Rectangle {
                     Rectangle {
                         id: zoneTrimIn
                         x: ruler.rulerZone.x
-                        y: ruler.rulerZone.y
-                        height: ruler.rulerZone.height
+                        y: ruler.y
+                        height: ruler.height
                         width: 5
                         color: 'lawngreen'
                         opacity: 0
@@ -514,10 +515,13 @@ Rectangle {
 
                             onPositionChanged: {
                                 if (mouse.buttons === Qt.LeftButton) {
-                                    timeline.zoneIn = zoneTrimIn.x / timeScale
+                                    timeline.zoneIn = controller.suggestSnapPoint(zoneTrimIn.x / timeScale, root.snapping)
                                 }
                             }
-                            onReleased: parent.opacity = 0
+                            onReleased: {
+                                zoneTrimIn.x = timeline.zoneIn * timeScale
+                                parent.opacity = 0
+                            }
                             onEntered: zoneTrimIn.opacity = 0.5
                             onExited: {
                                 if (!pressed) {
@@ -529,8 +533,8 @@ Rectangle {
                     Rectangle {
                         id: zoneTrimOut
                         x: ruler.rulerZone.x + ruler.rulerZone.width - width
-                        y: ruler.rulerZone.y
-                        height: ruler.rulerZone.height
+                        y: ruler.y
+                        height: ruler.height
                         width: 5
                         color: 'darkred'
                         opacity: 0
@@ -548,10 +552,13 @@ Rectangle {
 
                             onPositionChanged: {
                                 if (mouse.buttons === Qt.LeftButton) {
-                                    timeline.zoneOut = (zoneTrimOut.x + zoneTrimOut.width) / timeScale
+                                    timeline.zoneOut = controller.suggestSnapPoint((zoneTrimOut.x + zoneTrimOut.width) / timeScale, root.snapping)
                                 }
                             }
-                            onReleased: parent.opacity = 0
+                            onReleased: {
+                                zoneTrimOut.x = timeline.zoneOut * timeScale - zoneTrimOut.width
+                                parent.opacity = 0
+                            }
                             onEntered: parent.opacity = 0.5
                             onExited: {
                                 if (!pressed) {

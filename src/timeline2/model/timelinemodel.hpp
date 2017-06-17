@@ -183,6 +183,10 @@ public:
     Q_INVOKABLE bool addClipEffect(int clipId, const QString &effectId);
     Q_INVOKABLE bool copyClipEffect(int clipId, const QString &sourceId, const QString &rowId);
 
+    /* @brief Returns the closest snap point within snapDistance
+     */
+    Q_INVOKABLE int suggestSnapPoint(int pos, int snapDistance);
+
     /* @brief Returns the in cut position of a clip
        @param clipId Id of the clip to test
     */
