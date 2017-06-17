@@ -311,11 +311,11 @@ void MonitorManager::slotEnd()
     }
 }
 
-void MonitorManager::resetProfiles(const MltVideoProfile &profile, const Timecode &tc)
+void MonitorManager::resetProfiles(const Timecode &tc)
 {
     m_timecode = tc;
-    m_clipMonitor->resetProfile(profile);
-    m_projectMonitor->resetProfile(profile);
+    m_clipMonitor->resetProfile();
+    m_projectMonitor->resetProfile();
 }
 
 void MonitorManager::slotUpdateAudioMonitoring()

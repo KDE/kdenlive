@@ -82,6 +82,9 @@ public:
     /** @brief Returns the bin clip's id */
     const QString &binId() const;
 
+    void registerClipToBin();
+    void deregisterClipToBin();
+
     bool addEffect(const QString &effectId);
     bool copyEffect(std::shared_ptr<EffectStackModel> stackModel, int rowId);
 

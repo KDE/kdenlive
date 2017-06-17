@@ -316,7 +316,7 @@ void CustomTrackView::checkAutoScroll()
 
 int CustomTrackView::getFrameWidth() const
 {
-    return (int)(m_tracksHeight * m_document->dar() + 0.5);
+    return (int)(m_tracksHeight * pCore->getCurrentDar() + 0.5);
 }
 
 void CustomTrackView::updateSceneFrameWidth(double fpsChanged)

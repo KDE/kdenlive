@@ -272,6 +272,15 @@ std::unique_ptr<ProfileModel> &Core::getCurrentProfile() const
     return ProfileRepository::get()->getProfile(profile);
 }
 
+bool Core::setCurrentProfile(const QString &profilePath)
+{
+    if (ProfileRepository::get()->profileExists(profilePath)) {
+        KdenliveSettings::setCurrent_profile(profilePath);
+        return true;
+    }
+    return false;
+}
+
 double Core::getCurrentSar() const
 {
     return getCurrentProfile()->sar();

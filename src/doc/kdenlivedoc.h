@@ -89,7 +89,6 @@ public:
     /** @brief Get a list of all clip ids that are inside a folder. */
     QStringList getBinFolderClipIds(const QString &folderId) const;
 
-    const QString &profilePath() const;
     /** @brief Returns current project profile. */
     MltVideoProfile mltProfile() const;
     ProfileInfo getProfileInfo() const;
@@ -186,12 +185,9 @@ private:
     QTimer m_modifiedTimer;
     /** List of the clip IDs that need to be reloaded after being externally modified */
     QMap<QString, QTime> m_modifiedClips;
-    int m_width;
-    int m_height;
     Timecode m_timecode;
     std::shared_ptr<DocUndoStack> m_commandStack;
     ClipManager *m_clipManager;
-    MltVideoProfile m_profile;
     QString m_searchFolder;
 
     /** @brief Tells whether the current document has been changed after being saved. */

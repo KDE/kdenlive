@@ -244,6 +244,9 @@ protected:
     // void rebuildEffectList(ProfileInfo info);
     std::shared_ptr<EffectStackModel> m_effectStack;
     std::shared_ptr<MarkerListModel> m_markerModel;
+
+private:
+    QMutex m_producerLock;
 };
 
 #endif

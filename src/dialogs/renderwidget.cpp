@@ -23,6 +23,7 @@
 #include "profiles/profilemodel.hpp"
 #include "profiles/profilerepository.hpp"
 #include "timecode.h"
+#include "core.h"
 #include "ui_saveprofile_ui.h"
 #include "utils/KoIconUtils.h"
 
@@ -164,10 +165,9 @@ const QString RenderJobItem::metadata() const
     return m_data;
 }
 
-RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, const QString &profile, QWidget *parent)
+RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, QWidget *parent)
     : QDialog(parent)
     , m_projectFolder(projectfolder)
-    , m_profile(profile)
     , m_blockProcessing(false)
 {
     m_view.setupUi(this);
@@ -435,7 +435,7 @@ void RenderWidget::setGuides(const QMap<double, QString> &guidesData, double dur
         m_view.render_guide->setEnabled(false);
         m_view.create_chapter->setEnabled(false);
     }
-    double fps = ProfileRepository::get()->getProfile(m_profile)->fps();
+    double fps = pCore->getCurrentProfile()->fps();
     QMapIterator<double, QString> i(guidesData);
     while (i.hasNext()) {
         i.next();
@@ -1146,7 +1146,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
         }
 
         bool resizeProfile = false;
-        std::unique_ptr<ProfileModel> &profile = ProfileRepository::get()->getProfile(m_profile);
+        std::unique_ptr<ProfileModel> &profile = pCore->getCurrentProfile();
         if (renderArgs.contains(QLatin1String("%dv_standard"))) {
             QString std;
             if (fmod((double)profile->frame_rate_num() / profile->frame_rate_den(), 30.01) > 27) {
@@ -1510,8 +1510,9 @@ int RenderWidget::waitingJobsCount() const
     return count;
 }
 
-void RenderWidget::setProfile(const QString &profile)
+void RenderWidget::adjustViewToProfile()
 {
+    //TODO: Update settings on profile change
     m_view.scanning_list->setCurrentIndex(0);
     m_view.rescale_width->setValue(KdenliveSettings::defaultrescalewidth());
     if (!m_view.rescale_keep->isChecked()) {
@@ -1519,10 +1520,7 @@ void RenderWidget::setProfile(const QString &profile)
         m_view.rescale_height->setValue(KdenliveSettings::defaultrescaleheight());
         m_view.rescale_height->blockSignals(false);
     }
-    if (m_profile != profile) {
-        m_profile = profile;
-        refreshView();
-    }
+    refreshView();
 }
 
 void RenderWidget::refreshView()
@@ -1536,7 +1534,7 @@ void RenderWidget::refreshView()
     const QColor disabledbg = scheme.background(KColorScheme::NegativeBackground).color();
 
     // We borrow a reference to the profile's pointer to query it more easily
-    std::unique_ptr<ProfileModel> &profile = ProfileRepository::get()->getProfile(m_profile);
+    std::unique_ptr<ProfileModel> &profile = pCore->getCurrentProfile();
     double project_framerate = (double)profile->frame_rate_num() / profile->frame_rate_den();
     for (int i = 0; i < m_view.formats->topLevelItemCount(); ++i) {
         QTreeWidgetItem *group = m_view.formats->topLevelItem(i);
@@ -2643,7 +2641,7 @@ void RenderWidget::slotUpdateRescaleWidth(int val)
         return;
     }
     m_view.rescale_height->blockSignals(true);
-    std::unique_ptr<ProfileModel> &profile = ProfileRepository::get()->getProfile(m_profile);
+    std::unique_ptr<ProfileModel> &profile = pCore->getCurrentProfile();
     m_view.rescale_height->setValue(val * profile->height() / profile->width());
     KdenliveSettings::setDefaultrescaleheight(m_view.rescale_height->value());
     m_view.rescale_height->blockSignals(false);
@@ -2656,7 +2654,7 @@ void RenderWidget::slotUpdateRescaleHeight(int val)
         return;
     }
     m_view.rescale_width->blockSignals(true);
-    std::unique_ptr<ProfileModel> &profile = ProfileRepository::get()->getProfile(m_profile);
+    std::unique_ptr<ProfileModel> &profile = pCore->getCurrentProfile();
     m_view.rescale_width->setValue(val * profile->width() / profile->height());
     KdenliveSettings::setDefaultrescaleheight(m_view.rescale_width->value());
     m_view.rescale_width->blockSignals(false);

@@ -77,7 +77,7 @@ ClipController::ClipController(std::shared_ptr<BinController> bincontroller, std
 ClipController::ClipController(std::shared_ptr<BinController> bincontroller)
     : selectedEffectIndex(1)
     , m_audioThumbCreated(false)
-    , m_masterProducer(ClipController::mediaUnavailable)
+    , m_masterProducer(nullptr) //ClipController::mediaUnavailable)
     , m_properties(nullptr)
     , m_usesProxy(false)
     , m_audioInfo(nullptr)
@@ -88,6 +88,7 @@ ClipController::ClipController(std::shared_ptr<BinController> bincontroller)
     , m_binController(bincontroller)
     , m_snapMarkers(QList<CommentedTime>())
 {
+    m_producerLock.lock();
 }
 
 // static
@@ -123,8 +124,11 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
     m_properties = new Mlt::Properties(producer->get_properties());
     m_masterProducer = producer;
     if (!m_masterProducer->is_valid()) {
+        m_masterProducer = ClipController::mediaUnavailable;
+        m_producerLock.unlock();
         qCDebug(KDENLIVE_LOG) << "// WARNING, USING INVALID PRODUCER";
     } else {
+        m_producerLock.unlock();
         QString proxy = m_properties->get("kdenlive:proxy");
         m_service = m_properties->get("mlt_service");
         QString path = m_properties->get("resource");
@@ -219,6 +223,7 @@ bool ClipController::hasLimitedDuration() const
 
 std::shared_ptr<Mlt::Producer> ClipController::originalProducer()
 {
+    QMutexLocker lock(&m_producerLock);
     return m_masterProducer;
 }
 

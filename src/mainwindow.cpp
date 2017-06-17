@@ -21,6 +21,7 @@
 #include "assets/assetpanel.hpp"
 #include "bin/generators/generators.h"
 #include "bin/projectclip.h"
+#include "profiles/profilemodel.hpp"
 #include "core.h"
 #include "dialogs/clipcreationdialog.h"
 #include "dialogs/kdenlivesettingsdialog.h"
@@ -206,13 +207,13 @@ void MainWindow::init()
 
     new RenderingAdaptor(this);
     QString defaultProfile = KdenliveSettings::default_profile();
-    KdenliveSettings::setCurrent_profile(defaultProfile.isEmpty() ? ProjectManager::getDefaultProjectFormat() : defaultProfile);
+    pCore->setCurrentProfile(defaultProfile.isEmpty() ? ProjectManager::getDefaultProjectFormat() : defaultProfile);
     m_commandStack = new QUndoGroup();
 
     // If using a custom profile, make sure the file exists or fallback to default
     if (KdenliveSettings::current_profile().startsWith(QLatin1Char('/')) && !QFile::exists(KdenliveSettings::current_profile())) {
         KMessageBox::sorry(this, i18n("Cannot find your default profile, switching to ATSC 1080p 25"));
-        KdenliveSettings::setCurrent_profile(QStringLiteral("atsc_1080p_25"));
+        pCore->setCurrentProfile(QStringLiteral("atsc_1080p_25"));
         KdenliveSettings::setDefault_profile(QStringLiteral("atsc_1080p_25"));
     }
 
@@ -1710,8 +1711,8 @@ void MainWindow::slotEditProjectSettings()
         if (KdenliveSettings::audiothumbnails() != w->enableAudioThumbs()) {
             slotSwitchAudioThumbs();
         }
-        if (project->profilePath() != profile || project->profileChanged(profile)) {
-            KdenliveSettings::setCurrent_profile(profile);
+        if (pCore->getCurrentProfile()->path() != profile || project->profileChanged(profile)) {
+            pCore->setCurrentProfile(profile);
             pCore->projectManager()->slotResetProfiles();
             slotUpdateDocumentState(true);
         }
@@ -1816,16 +1817,13 @@ void MainWindow::slotRenderProject()
 
     if (!m_renderWidget) {
         QString projectfolder = project ? project->projectDataFolder() + QDir::separator() : KdenliveSettings::defaultprojectfolder();
-        MltVideoProfile profile;
         if (project) {
-            profile = project->mltProfile();
-            m_renderWidget = new RenderWidget(projectfolder, project->useProxy(), profile.path, this);
+            m_renderWidget = new RenderWidget(projectfolder, project->useProxy(), this);
             connect(m_renderWidget, &RenderWidget::shutdown, this, &MainWindow::slotShutdown);
             connect(m_renderWidget, &RenderWidget::selectedRenderProfile, this, &MainWindow::slotSetDocumentRenderProfile);
             connect(m_renderWidget, &RenderWidget::prepareRenderingData, this, &MainWindow::slotPrepareRendering);
             connect(m_renderWidget, &RenderWidget::abortProcess, this, &MainWindow::abortRenderJob);
             connect(m_renderWidget, &RenderWidget::openDvdWizard, this, &MainWindow::slotDvdWizard);
-            m_renderWidget->setProfile(project->mltProfile().path);
             m_renderWidget->setGuides(pCore->projectManager()->currentTimeline()->projectView()->guidesData(), project->projectDuration());
             m_renderWidget->setDocumentPath(project->projectDataFolder() + QDir::separator());
             m_renderWidget->setRenderProfile(project->getRenderProperties());
@@ -2057,14 +2055,13 @@ void MainWindow::connectDocument()
 
     if (m_renderWidget) {
         slotCheckRenderStatus();
-        m_renderWidget->setProfile(project->mltProfile().path);
+        m_renderWidget->adjustViewToProfile();
         // m_renderWidget->setGuides(pCore->projectManager()->currentTimeline()->projectView()->guidesData(), project->projectDuration());
         m_renderWidget->setDocumentPath(project->projectDataFolder() + QDir::separator());
         m_renderWidget->setRenderProfile(project->getRenderProperties());
     }
     m_zoomSlider->setValue(project->zoom().x());
     m_commandStack->setActiveStack(project->commandStack().get());
-    KdenliveSettings::setProject_display_ratio(project->dar());
 
     setWindowTitle(project->description());
     setWindowModified(project->isModified());

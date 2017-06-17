@@ -69,19 +69,27 @@ int ClipModel::construct(const std::weak_ptr<TimelineModel> &parent, const QStri
         qDebug() << "Error : construction of clip failed because parent timeline is not available anymore";
         Q_ASSERT(false);
     }
-    auto binClip = pCore->bin()->getBinClip(binClipId);
-    if (!binClip) {
-        qDebug() << "Error : Bin clip for id: " << binClipId << " NOT AVAILABLE!!!";
-    }
-    binClip->registerTimelineClip(parent, id);
 
     return id;
 }
 
-ClipModel::~ClipModel()
+void ClipModel::registerClipToBin()
+{
+    auto binClip = pCore->bin()->getBinClip(m_binClipId);
+    if (!binClip) {
+        qDebug() << "Error : Bin clip for id: " << m_binClipId << " NOT AVAILABLE!!!";
+    }
+    binClip->registerTimelineClip(m_parent, m_id);
+}
+
+void ClipModel::deregisterClipToBin()
 {
     std::shared_ptr<ProjectClip> binClip = pCore->bin()->getBinClip(m_binClipId);
     binClip->deregisterTimelineClip(m_id);
+}
+
+ClipModel::~ClipModel()
+{
 }
 
 bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo)

@@ -954,8 +954,10 @@ void TimelineModel::registerTrack(std::shared_ptr<TrackModel> track, int pos, bo
 void TimelineModel::registerClip(const std::shared_ptr<ClipModel> &clip)
 {
     int id = clip->getId();
+    qDebug()<<" // /REQUEST TL CLP REGSTR: "<< id<<"\n--------\nCLIPS COUNT: "<<m_allClips.size();
     Q_ASSERT(m_allClips.count(id) == 0);
     m_allClips[id] = clip;
+    clip->registerClipToBin();
     m_groups->createGroupItem(id);
     clip->setTimelineEffectsEnabled(m_timelineEffectsEnabled);
 }
@@ -986,10 +988,13 @@ Fun TimelineModel::deregisterTrack_lambda(int id, bool updateView)
 Fun TimelineModel::deregisterClip_lambda(int clipId)
 {
     return [this, clipId]() {
+        qDebug()<<" // /REQUEST TL CLP DELETION: "<< clipId<<"\n--------\nCLIPS COUNT: "<<m_allClips.size();
         Q_ASSERT(m_allClips.count(clipId) > 0);
         Q_ASSERT(getClipTrackId(clipId) == -1); // clip must be deleted from its track at this point
         Q_ASSERT(!m_groups->isInGroup(clipId)); // clip must be ungrouped at this point
+        auto clip = m_allClips[clipId];
         m_allClips.erase(clipId);
+        clip->deregisterClipToBin();
         m_groups->destructGroupItem(clipId);
         return true;
     };

@@ -21,6 +21,7 @@
 #include "bin/bin.h"
 #include "bin/bincommands.h"
 #include "bin/model/markerlistmodel.hpp"
+#include "profiles/profilerepository.hpp"
 #include "bin/projectclip.h"
 #include "core.h"
 #include "dialogs/profilesdialog.h"
@@ -76,25 +77,12 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGro
     : QObject(parent)
     , m_autosave(nullptr)
     , m_url(url)
-    , m_width(0)
-    , m_height(0)
     , m_modified(false)
     , m_projectFolder(projectFolder)
 {
     m_commandStack = std::make_shared<DocUndoStack>(undoGroup);
     m_guideModel.reset(new MarkerListModel(m_commandStack, this));
 
-    // init m_profile struct
-    m_profile.frame_rate_num = 0;
-    m_profile.frame_rate_den = 0;
-    m_profile.width = 0;
-    m_profile.height = 0;
-    m_profile.progressive = 0;
-    m_profile.sample_aspect_num = 0;
-    m_profile.sample_aspect_den = 0;
-    m_profile.display_aspect_num = 0;
-    m_profile.display_aspect_den = 0;
-    m_profile.colorspace = 0;
     m_clipManager = new ClipManager(this);
     connect(m_clipManager, SIGNAL(displayMessage(QString, int)), parent, SLOT(slotGotProgressInfo(QString, int)));
     connect(this, SIGNAL(updateCompositionMode(int)), parent, SLOT(slotUpdateCompositeAction(int)));
@@ -252,7 +240,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGro
     // Something went wrong, or a new file was requested: create a new project
     if (!success) {
         m_url.clear();
-        m_profile = ProfilesDialog::getVideoProfile(profileName);
+        pCore->setCurrentProfile(profileName);
         m_document = createEmptyDocument(tracks.x(), tracks.y());
         updateProjectProfile(false);
     }
@@ -670,19 +658,9 @@ void KdenliveDoc::moveProjectData(const QString & /*src*/, const QString &dest)
     }
 }
 
-const QString &KdenliveDoc::profilePath() const
-{
-    return m_profile.path;
-}
-
-MltVideoProfile KdenliveDoc::mltProfile() const
-{
-    return m_profile;
-}
-
 bool KdenliveDoc::profileChanged(const QString &profile) const
 {
-    return m_profile.toList() != ProfilesDialog::getVideoProfile(profile).toList();
+    return pCore->getCurrentProfile() != ProfileRepository::get()->getProfile(profile);
 }
 
 ProfileInfo KdenliveDoc::getProfileInfo() const
@@ -696,11 +674,6 @@ ProfileInfo KdenliveDoc::getProfileInfo() const
 Render *KdenliveDoc::renderer()
 {
     return nullptr;
-}
-
-double KdenliveDoc::dar() const
-{
-    return (double)m_profile.display_aspect_num / m_profile.display_aspect_den;
 }
 
 std::shared_ptr<DocUndoStack> KdenliveDoc::commandStack()
@@ -735,12 +708,12 @@ double KdenliveDoc::projectDuration() const
 
 int KdenliveDoc::width() const
 {
-    return m_width;
+    return pCore->getCurrentProfile()->width();
 }
 
 int KdenliveDoc::height() const
 {
-    return m_height;
+    return pCore->getCurrentProfile()->height();
 }
 
 QUrl KdenliveDoc::url() const
@@ -779,9 +752,9 @@ bool KdenliveDoc::isModified() const
 const QString KdenliveDoc::description() const
 {
     if (!m_url.isValid()) {
-        return i18n("Untitled") + QStringLiteral("[*] / ") + m_profile.description;
+        return i18n("Untitled") + QStringLiteral("[*] / ") + pCore->getCurrentProfile()->description();
     }
-    return m_url.fileName() + QStringLiteral(" [*]/ ") + m_profile.description;
+    return m_url.fileName() + QStringLiteral(" [*]/ ") + pCore->getCurrentProfile()->description();
 }
 
 QString KdenliveDoc::searchFileRecursively(const QDir &dir, const QString &matchSize, const QString &matchHash) const
@@ -1295,7 +1268,7 @@ QMap<QString, QString> KdenliveDoc::documentProperties()
         m_documentProperties.insert(QStringLiteral("storagefolder"),
                                     m_projectFolder + QLatin1Char('/') + m_documentProperties.value(QStringLiteral("documentid")));
     }
-    m_documentProperties.insert(QStringLiteral("profile"), profilePath());
+    m_documentProperties.insert(QStringLiteral("profile"), pCore->getCurrentProfile()->path());
     m_documentProperties.insert(QStringLiteral("position"), QString::number(pCore->monitorManager()->projectMonitor()->position()));
     if (!m_documentProperties.contains(QStringLiteral("decimalPoint"))) {
         m_documentProperties.insert(QStringLiteral("decimalPoint"), QLocale().decimalPoint());
@@ -1348,15 +1321,17 @@ void KdenliveDoc::loadDocumentProperties()
     }
 
     QString profile = m_documentProperties.value(QStringLiteral("profile"));
-    if (!profile.isEmpty()) {
-        m_profile = ProfilesDialog::getVideoProfile(profile);
-    }
-    if (!m_profile.isValid()) {
+    bool profileFound = pCore->setCurrentProfile(profile);
+    if (!profileFound) {
         // try to find matching profile from MLT profile properties
         list = m_document.elementsByTagName(QStringLiteral("profile"));
         if (!list.isEmpty()) {
-            m_profile = ProfilesDialog::getVideoProfileFromXml(list.at(0).toElement());
+            MltVideoProfile prof = ProfilesDialog::getVideoProfileFromXml(list.at(0).toElement());
+            profileFound = pCore->setCurrentProfile(prof.path);
         }
+    }
+    if (!profileFound) {
+        qDebug()<<"ERROR, no matching profile found";
     }
     updateProjectProfile(false);
 }
@@ -1365,15 +1340,10 @@ void KdenliveDoc::updateProjectProfile(bool reloadProducers)
 {
     pCore->bin()->abortAudioThumbs();
     pCore->producerQueue()->abortOperations();
-    KdenliveSettings::setProject_display_ratio((double)m_profile.display_aspect_num / m_profile.display_aspect_den);
-    double fps = (double)m_profile.frame_rate_num / m_profile.frame_rate_den;
-    KdenliveSettings::setProject_fps(fps);
-    m_width = m_profile.width;
-    m_height = m_profile.height;
+    double fps = pCore->getCurrentFps();
     double fpsChanged = m_timecode.fps() / fps;
     m_timecode.setFormat(fps);
-    KdenliveSettings::setCurrent_profile(m_profile.path);
-    pCore->monitorManager()->resetProfiles(m_profile, m_timecode);
+    pCore->monitorManager()->resetProfiles(m_timecode);
     if (!reloadProducers) {
         return;
     }
@@ -1385,7 +1355,6 @@ void KdenliveDoc::updateProjectProfile(bool reloadProducers)
 
 void KdenliveDoc::resetProfile()
 {
-    m_profile = ProfilesDialog::getVideoProfile(KdenliveSettings::current_profile());
     updateProjectProfile(true);
     emit docModified(true);
 }
@@ -1401,7 +1370,7 @@ void KdenliveDoc::slotSwitchProfile()
         // we want a profile switch
         MltVideoProfile profile = MltVideoProfile(data);
         if (profile.isValid()) {
-            m_profile = profile;
+            pCore->setCurrentProfile(profile.path);
             updateProjectProfile(true);
             emit docModified(true);
         }
@@ -1425,24 +1394,24 @@ void KdenliveDoc::switchProfile(MltVideoProfile profile, const QString &id, cons
 
         if (KdenliveSettings::default_profile().isEmpty()) {
             // Default project format not yet confirmed, propose
+            QString currentProfileDesc = pCore->getCurrentProfile()->description();
             KMessageBox::ButtonCode answer = KMessageBox::questionYesNoCancel(
                 QApplication::activeWindow(),
                 i18n("Your default project profile is %1, but your clip's profile is %2.\nDo you want to change default profile for future projects ?",
-                     m_profile.description, profile.description),
+                     currentProfileDesc, profile.description),
                 i18n("Change default project profile"), KGuiItem(i18n("Change default to %1", profile.description)),
-                KGuiItem(i18n("Keep current default %1", m_profile.description)), KGuiItem(i18n("Ask me later")));
+                KGuiItem(i18n("Keep current default %1", currentProfileDesc)), KGuiItem(i18n("Ask me later")));
 
             switch (answer) {
             case KMessageBox::Yes:
                 KdenliveSettings::setDefault_profile(profile.path);
-                m_profile = profile;
+                pCore->setCurrentProfile(profile.path);
                 updateProjectProfile(true);
                 emit docModified(true);
                 pCore->producerQueue()->getFileProperties(xml, id, 150, true);
                 return;
                 break;
             case KMessageBox::No:
-                KdenliveSettings::setDefault_profile(m_profile.path);
                 return;
                 break;
             default:
@@ -1500,12 +1469,14 @@ void KdenliveDoc::switchProfile(MltVideoProfile profile, const QString &id, cons
                                                i18n("No profile found for your clip.\nCreate and switch to new profile (%1x%2, %3fps)?%4", profile.width,
                                                     profile.height, QString::number((double)profile.frame_rate_num / profile.frame_rate_den, 'f', 2),
                                                     adjustMessage)) == KMessageBox::Continue) {
-            m_profile = profile;
-            m_profile.description = QStringLiteral("%1x%2 %3fps")
+            profile.description = QStringLiteral("%1x%2 %3fps")
                                         .arg(profile.width)
                                         .arg(profile.height)
                                         .arg(QString::number((double)profile.frame_rate_num / profile.frame_rate_den, 'f', 2));
-            ProfilesDialog::saveProfile(m_profile);
+            ProfilesDialog::saveProfile(profile);
+            // reload profiles from disk
+            ProfileRepository::get()->refresh();
+            pCore->setCurrentProfile(profile.path);
             updateProjectProfile(true);
             emit docModified(true);
             pCore->producerQueue()->getFileProperties(xml, id, 150, true);

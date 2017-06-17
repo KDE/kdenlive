@@ -1415,18 +1415,18 @@ void Monitor::setCustomProfile(const QString &profile, const Timecode &tc)
     if (m_multitrackView) {
         m_multitrackView->setChecked(false);
     }
-    m_glMonitor->resetProfile(ProfilesDialog::getVideoProfile(profile));
+    pCore->setCurrentProfile(profile);
+    m_glMonitor->reloadProfile();
 }
 
-void Monitor::resetProfile(const MltVideoProfile &profile)
+void Monitor::resetProfile()
 {
     m_timePos->updateTimeCode(m_monitorManager->timecode());
     if (render == nullptr) {
         return;
     }
     render->prepareProfileReset(m_monitorManager->timecode().fps());
-    m_glMonitor->resetProfile(profile);
-    render->finishProfileReset();
+    m_glMonitor->reloadProfile();
     m_glMonitor->rootObject()->setProperty("framesize", QRect(0, 0, m_glMonitor->profileSize().width(), m_glMonitor->profileSize().height()));
     double fps = m_monitorManager->timecode().fps();
     // Update dro pframe info

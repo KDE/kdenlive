@@ -1295,7 +1295,7 @@ void Bin::setDocument(KdenliveDoc *project)
     m_folderCounter = 1;
     m_doc = project;
     int iconHeight = QFontInfo(font()).pixelSize() * 3.5;
-    m_iconSize = QSize(iconHeight * m_doc->dar(), iconHeight);
+    m_iconSize = QSize(iconHeight * pCore->getCurrentDar(), iconHeight);
     m_jobManager = new JobManager(this);
     setEnabled(true);
     blockSignals(false);

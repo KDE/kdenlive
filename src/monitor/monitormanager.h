@@ -43,7 +43,7 @@ public:
     void appendMonitor(AbstractMonitor *monitor);
     void removeMonitor(AbstractMonitor *monitor);
     Timecode timecode() const;
-    void resetProfiles(const MltVideoProfile &profile, const Timecode &tc);
+    void resetProfiles(const Timecode &tc);
     void stopActiveMonitor();
     void pauseActiveMonitor();
     AbstractRender *activeRenderer();

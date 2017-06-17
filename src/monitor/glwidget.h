@@ -95,7 +95,7 @@ public:
     void updateGamma();
     Mlt::Profile *profile();
     void resetProfile(const MltVideoProfile &profile);
-    void reloadProfile(Mlt::Profile &profile);
+    void reloadProfile();
     void lockMonitor();
     void releaseMonitor();
     int realTime() const;

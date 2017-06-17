@@ -34,6 +34,7 @@
 #include "mltcontroller/bincontroller.h"
 #include "qml/qmlaudiothumb.h"
 #include "timeline2/view/qml/timelineitems.h"
+#include "profiles/profilemodel.hpp"
 #include <mlt++/Mlt.h>
 
 #ifndef GL_UNPACK_ROW_LENGTH
@@ -984,7 +985,7 @@ int GLWidget::reconfigureMulti(const QString &params, const QString &path, Mlt::
     if (m_consumer->is_valid()) {
         // buid sub consumers
         // m_consumer->set("mlt_image_format", "yuv422");
-        reloadProfile(*profile);
+        reloadProfile();
         int volume = KdenliveSettings::volume();
         m_consumer->set("0", serviceName.toUtf8().constData());
         m_consumer->set("0.mlt_image_format", "yuv422");
@@ -1050,7 +1051,7 @@ int GLWidget::reconfigure(Mlt::Profile *profile)
     // use SDL for audio, OpenGL for video
     QString serviceName = property("mlt_service").toString();
     if (profile) {
-        reloadProfile(*profile);
+        reloadProfile();
         m_blackClip.reset(new Mlt::Producer(*profile, "color:black"));
         m_blackClip->set("kdenlive:id", "black");
     }
@@ -1193,16 +1194,17 @@ void GLWidget::resetProfile(const MltVideoProfile &profile)
     refreshSceneLayout();
 }
 
-void GLWidget::reloadProfile(Mlt::Profile &profile)
+void GLWidget::reloadProfile()
 {
-    m_monitorProfile->get_profile()->description = strdup(profile.description());
-    m_monitorProfile->set_colorspace(profile.colorspace());
-    m_monitorProfile->set_frame_rate(profile.frame_rate_num(), profile.frame_rate_den());
-    m_monitorProfile->set_height(profile.height());
-    m_monitorProfile->set_width(profile.width());
-    m_monitorProfile->set_progressive(static_cast<int>(profile.progressive()));
-    m_monitorProfile->set_sample_aspect(profile.sample_aspect_num(), profile.sample_aspect_den());
-    m_monitorProfile->set_display_aspect(profile.display_aspect_num(), profile.display_aspect_den());
+    auto &profile = pCore->getCurrentProfile();
+    m_monitorProfile->get_profile()->description = qstrdup(profile->description().toUtf8().constData());
+    m_monitorProfile->set_colorspace(profile->colorspace());
+    m_monitorProfile->set_frame_rate(profile->frame_rate_num(), profile->frame_rate_den());
+    m_monitorProfile->set_height(profile->height());
+    m_monitorProfile->set_width(profile->width());
+    m_monitorProfile->set_progressive(static_cast<int>(profile->progressive()));
+    m_monitorProfile->set_sample_aspect(profile->sample_aspect_num(), profile->sample_aspect_den());
+    m_monitorProfile->set_display_aspect(profile->display_aspect_num(), profile->display_aspect_den());
     m_monitorProfile->set_explicit(1);
     // The profile display aspect ratio may have changed.
     resizeGL(width(), height());

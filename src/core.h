@@ -99,7 +99,10 @@ public:
 
     /** @brief Returns a pointer to the current profile */
     std::unique_ptr<ProfileModel> &getCurrentProfile() const;
-
+    /** @brief Define the active profile 
+     *  @returns true if profile exists, false if not found
+     */
+    bool setCurrentProfile(const QString &profilePath);
     /** @brief Returns Sample Aspect Ratio of current profile */
     double getCurrentSar() const;
     /** @brief Returns Display Aspect Ratio of current profile */

@@ -89,7 +89,7 @@ public:
     ~Monitor();
     Render *render;
     AbstractRender *abstractRender() override;
-    void resetProfile(const MltVideoProfile &profile);
+    void resetProfile();
     void setCustomProfile(const QString &profile, const Timecode &tc);
     void setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu = nullptr, QAction *loopClip = nullptr);
     const QString sceneList(const QString &root);
