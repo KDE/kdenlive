@@ -62,7 +62,6 @@ CollapsibleEffectView::CollapsibleEffectView(std::shared_ptr<EffectItemModel> ef
 {
     QString effectId = effectModel->getAssetId();
     QString effectName = EffectsRepository::get()->getName(effectId);
-    qDebug()<<" * * *DISPLAYING EFFECT; "<<effectName<<" = "<<effectId;
     if (effectId == QLatin1String("region")) {
         m_regionEffect = true;
         decoframe->setObjectName(QStringLiteral("decoframegroup"));
@@ -101,16 +100,17 @@ CollapsibleEffectView::CollapsibleEffectView(std::shared_ptr<EffectItemModel> ef
     // checkAll->setToolTip(i18n("Enable/Disable all effects"));
     // buttonShowComments->setIcon(KoIconUtils::themedIcon("help-about"));
     // buttonShowComments->setToolTip(i18n("Show additional information for the parameters"));
-    m_menu = new QMenu(this);
-    if (effectModel->rowCount() > 0) {
-        m_menu->addAction(KoIconUtils::themedIcon(QStringLiteral("view-refresh")), i18n("Reset Effect"), this, SLOT(slotResetEffect()));
-    }
-    m_menu->addAction(KoIconUtils::themedIcon(QStringLiteral("document-save")), i18n("Save Effect"), this, SLOT(slotSaveEffect()));
+
+    m_collapse = new KDualAction(i18n("Collapse Effect"), i18n("Expand Effect"), this);
+    m_collapse->setActiveIcon(KoIconUtils::themedIcon(QStringLiteral("arrow-right")));
+    m_collapse->setInactiveIcon(KoIconUtils::themedIcon(QStringLiteral("arrow-down")));
+    collapseButton->setDefaultAction(m_collapse);
+    connect(m_collapse, &KDualAction::activeChanged, this, &CollapsibleEffectView::slotSwitch);
 
     QHBoxLayout *l = static_cast<QHBoxLayout *>(frame->layout());
     m_colorIcon = new QLabel(this);
     l->insertWidget(0, m_colorIcon);
-    m_colorIcon->setMinimumSize(iconSize);
+    m_colorIcon->setFixedSize(icon.size());
     title = new QLabel(this);
     l->insertWidget(2, title);
 
@@ -130,18 +130,28 @@ CollapsibleEffectView::CollapsibleEffectView(std::shared_ptr<EffectItemModel> ef
     m_colorIcon->setPixmap(QPixmap::fromImage(icon));
     title->setText(effectName);
 
-    if (!m_regionEffect) {
-        if (m_info.groupIndex == -1) {
-            m_menu->addAction(m_groupAction);
-        }
-        m_menu->addAction(KoIconUtils::themedIcon(QStringLiteral("folder-new")), i18n("Create Region"), this, SLOT(slotCreateRegion()));
-    }
     m_view = new AssetParameterView(this);
     m_view->setModel(std::static_pointer_cast<AssetParameterModel>(effectModel));
     QVBoxLayout *lay = new QVBoxLayout(widgetFrame);
     lay->setContentsMargins(0, 0, 0, 0);
     lay->setSpacing(0);
     lay->addWidget(m_view);
+
+    m_menu = new QMenu(this);
+    if (effectModel->rowCount() > 0) {
+        m_menu->addAction(KoIconUtils::themedIcon(QStringLiteral("view-refresh")), i18n("Reset Effect"), this, SLOT(slotResetEffect()));
+    } else {
+        collapseButton->setEnabled(false);
+        m_view->setVisible(false);
+    }
+    m_menu->addAction(KoIconUtils::themedIcon(QStringLiteral("document-save")), i18n("Save Effect"), this, SLOT(slotSaveEffect()));
+    if (!m_regionEffect) {
+        if (m_info.groupIndex == -1) {
+            m_menu->addAction(m_groupAction);
+        }
+        m_menu->addAction(KoIconUtils::themedIcon(QStringLiteral("folder-new")), i18n("Create Region"), this, SLOT(slotCreateRegion()));
+    }
+
     //setupWidget(info, metaInfo);
     menuButton->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-menu")));
     menuButton->setMenu(m_menu);
@@ -156,12 +166,6 @@ CollapsibleEffectView::CollapsibleEffectView(std::shared_ptr<EffectItemModel> ef
     } else {
         m_enabledButton->setActive(false);
     }
-
-    m_collapse = new KDualAction(i18n("Collapse Effect"), i18n("Expand Effect"), this);
-    m_collapse->setActiveIcon(KoIconUtils::themedIcon(QStringLiteral("arrow-right")));
-    m_collapse->setInactiveIcon(KoIconUtils::themedIcon(QStringLiteral("arrow-down")));
-    collapseButton->setDefaultAction(m_collapse);
-    connect(m_collapse, &KDualAction::activeChanged, this, &CollapsibleEffectView::slotSwitch);
 
     connect(m_enabledButton, SIGNAL(activeChangedByUser(bool)), this, SLOT(slotDisable(bool)));
     connect(buttonUp, &QAbstractButton::clicked, this, &CollapsibleEffectView::slotEffectUp);
@@ -431,8 +435,8 @@ void CollapsibleEffectView::slotResetEffect()
 void CollapsibleEffectView::slotSwitch(bool expand)
 {
     slotShow(expand);
-    emit switchHeight(m_model, expand ? frame->height() : frame->height() + m_view->contentHeight());
-    setFixedHeight(expand ? frame->height() : frame->height() + m_view->contentHeight());
+    emit switchHeight(m_model, expand ? frame->height() + 4 : frame->height() + m_view->contentHeight() + 4);
+    setFixedHeight(expand ? frame->height() + 4 : frame->height() + m_view->contentHeight() + 4);
     widgetFrame->setVisible(!expand);
     /*if (!expand) {
         widgetFrame->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);

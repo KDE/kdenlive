@@ -101,8 +101,8 @@ const QString AssetPanel::getStyleSheet()
     QString stylesheet;
 
     // effect background
-    stylesheet.append(QStringLiteral("QFrame#decoframe {border-top-left-radius:5px;border-top-right-radius:5px;border-bottom:2px solid "
-                                     "palette(mid);border-top:1px solid palette(light);} QFrame#decoframe[active=\"true\"] {background: %1;}")
+    stylesheet.append(QStringLiteral("QFrame#decoframe {border-bottom:2px solid "
+                                     "palette(mid);background: transparent} QFrame#decoframe[active=\"true\"] {background: %1;}")
                           .arg(hgh.name()));
 
     // effect in group background
@@ -111,14 +111,14 @@ const QString AssetPanel::getStyleSheet()
 
     // group background
     stylesheet.append(QStringLiteral(
-        "QFrame#decoframegroup {border-top-left-radius:5px;border-top-right-radius:5px;border:2px solid palette(dark);margin:0px;margin-top:2px;} "));
+        "QFrame#decoframegroup {border:2px solid palette(dark);margin:0px;margin-top:2px;} "));
 
     // effect title bar
-    stylesheet.append(QStringLiteral("QFrame#frame {margin-bottom:2px;border-top-left-radius:5px;border-top-right-radius:5px;}  QFrame#frame[target=\"true\"] "
+    stylesheet.append(QStringLiteral("QFrame#frame {margin-bottom:2px;}  QFrame#frame[target=\"true\"] "
                                      "{background: palette(highlight);}"));
 
     // group effect title bar
-    stylesheet.append(QStringLiteral("QFrame#framegroup {border-top-left-radius:2px;border-top-right-radius:2px;background: palette(dark);}  "
+    stylesheet.append(QStringLiteral("QFrame#framegroup {background: palette(dark);}  "
                                      "QFrame#framegroup[target=\"true\"] {background: palette(highlight);} "));
 
     // draggable effect bar content
