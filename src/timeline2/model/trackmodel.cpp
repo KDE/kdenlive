@@ -411,7 +411,7 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
                     m_allClips[clipId]->setPosition(m_playlists[target_track].clip_start(target_clip_mutable));
                 }
                 if (err == 0) {
-                    update_snaps(m_allClips[clipId]->getPosition(), m_allClips[clipId]->getPosition() + out - in);
+                    update_snaps(m_allClips[clipId]->getPosition(), m_allClips[clipId]->getPosition() + out - in + 1);
                 }
                 return err == 0;
             };
