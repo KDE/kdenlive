@@ -520,3 +520,8 @@ QPoint TimelineController::getTracksCount() const
     QPoint p(tracks.at(0).toInt(), tracks.at(1).toInt());
     return p;
 }
+
+QStringList TimelineController::extractCompositionLumas() const
+{
+    return m_model->extractCompositionLumas();
+}

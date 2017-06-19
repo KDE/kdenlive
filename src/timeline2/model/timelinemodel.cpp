@@ -1573,3 +1573,16 @@ std::shared_ptr<EffectStackModel> TimelineModel::getClipEffectStackModel(int cli
     Q_ASSERT(isClip(clipId));
     return std::static_pointer_cast<EffectStackModel>(m_allClips.at(clipId)->m_effectStack);
 }
+
+QStringList TimelineModel::extractCompositionLumas() const
+{
+    QStringList urls;
+    for (const auto &compo : m_allCompositions) {
+        QString luma = compo.second->getProperty(QStringLiteral("resource"));
+        if (!luma.isEmpty()) {
+            urls << QUrl::fromLocalFile(luma).toLocalFile();
+        }
+    }
+    urls.removeDuplicates();
+    return urls;
+}

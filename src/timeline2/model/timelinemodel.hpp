@@ -465,6 +465,10 @@ public:
      */
     std::unordered_set<int> getItemsAfterPosition(int trackId, int position, int end = -1, bool listCompositions = true);
 
+    /* @brief Returns a list of all luma files used in the project
+     */
+    QStringList extractCompositionLumas() const;
+
 protected:
     /* @brief Register a new track. This is a call-back meant to be called from TrackModel
        @param pos indicates the number of the track we are adding. If this is -1, then we add at the end.

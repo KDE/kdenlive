@@ -1691,7 +1691,7 @@ void MainWindow::slotEditProjectSettings()
     KdenliveDoc *project = pCore->projectManager()->current();
     QPoint p = m_timelineTabs->getCurrentTimeline()->getTracksCount();
 
-    ProjectSettings *w = new ProjectSettings(project, project->metadata(), pCore->projectManager()->currentTimeline()->projectView()->extractTransitionsLumas(),
+    ProjectSettings *w = new ProjectSettings(project, project->metadata(), m_timelineTabs->getCurrentTimeline()->controller()->extractCompositionLumas(),
                                              p.x(), p.y(), project->projectTempFolder(), true, !project->isModified(), this);
     connect(w, &ProjectSettings::disableProxies, this, &MainWindow::slotDisableProxies);
     connect(w, SIGNAL(disablePreview()), pCore->projectManager()->currentTimeline(), SLOT(invalidateRange()));
@@ -1700,7 +1700,8 @@ void MainWindow::slotEditProjectSettings()
     if (w->exec() == QDialog::Accepted) {
         QString profile = w->selectedProfile();
         // project->setProjectFolder(w->selectedFolder());
-        pCore->projectManager()->currentTimeline()->updatePreviewSettings(w->selectedPreview());
+        //TODO: timeline preview
+        //pCore->projectManager()->currentTimeline()->updatePreviewSettings(w->selectedPreview());
         bool modified = false;
         if (m_renderWidget) {
             m_renderWidget->setDocumentPath(project->projectDataFolder() + QDir::separator());
@@ -1824,6 +1825,7 @@ void MainWindow::slotRenderProject()
             connect(m_renderWidget, &RenderWidget::prepareRenderingData, this, &MainWindow::slotPrepareRendering);
             connect(m_renderWidget, &RenderWidget::abortProcess, this, &MainWindow::abortRenderJob);
             connect(m_renderWidget, &RenderWidget::openDvdWizard, this, &MainWindow::slotDvdWizard);
+            connect(this, &MainWindow::updateRenderWidgetProfile, m_renderWidget, &RenderWidget::adjustViewToProfile);
             m_renderWidget->setGuides(pCore->projectManager()->currentTimeline()->projectView()->guidesData(), project->projectDuration());
             m_renderWidget->setDocumentPath(project->projectDataFolder() + QDir::separator());
             m_renderWidget->setRenderProfile(project->getRenderProperties());
@@ -2055,7 +2057,6 @@ void MainWindow::connectDocument()
 
     if (m_renderWidget) {
         slotCheckRenderStatus();
-        m_renderWidget->adjustViewToProfile();
         // m_renderWidget->setGuides(pCore->projectManager()->currentTimeline()->projectView()->guidesData(), project->projectDuration());
         m_renderWidget->setDocumentPath(project->projectDataFolder() + QDir::separator());
         m_renderWidget->setRenderProfile(project->getRenderProperties());

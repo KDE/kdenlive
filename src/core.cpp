@@ -276,6 +276,8 @@ bool Core::setCurrentProfile(const QString &profilePath)
 {
     if (ProfileRepository::get()->profileExists(profilePath)) {
         KdenliveSettings::setCurrent_profile(profilePath);
+        // inform render widget
+        m_mainWindow->updateRenderWidgetProfile();
         return true;
     }
     return false;

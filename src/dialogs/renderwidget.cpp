@@ -1512,7 +1512,6 @@ int RenderWidget::waitingJobsCount() const
 
 void RenderWidget::adjustViewToProfile()
 {
-    //TODO: Update settings on profile change
     m_view.scanning_list->setCurrentIndex(0);
     m_view.rescale_width->setValue(KdenliveSettings::defaultrescalewidth());
     if (!m_view.rescale_keep->isChecked()) {

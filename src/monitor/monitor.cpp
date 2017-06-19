@@ -1415,7 +1415,8 @@ void Monitor::setCustomProfile(const QString &profile, const Timecode &tc)
     if (m_multitrackView) {
         m_multitrackView->setChecked(false);
     }
-    pCore->setCurrentProfile(profile);
+    //TODO: this is a temporary profile for DVD preview, it should not alter project profile
+    //pCore->setCurrentProfile(profile);
     m_glMonitor->reloadProfile();
 }
 

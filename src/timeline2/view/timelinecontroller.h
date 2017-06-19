@@ -210,6 +210,10 @@ public:
      */
     void snapChanged(bool snap);
 
+    /* @brief Returns a list of all luma files used in the project
+     */
+    QStringList extractCompositionLumas() const;
+
 public slots:
     void selectMultitrack();
     Q_INVOKABLE void setSeekPosition(int position);

@@ -117,7 +117,6 @@ public:
     virtual ~RenderWidget();
     void setGuides(const QMap<double, QString> &guidesData, double duration);
     void focusFirstVisibleItem(const QString &profile = QString());
-    void adjustViewToProfile();
     void setRenderJob(const QString &dest, int progress = 0);
     void setRenderStatus(const QString &dest, int status, const QString &error);
     void setDocumentPath(const QString &path);
@@ -150,6 +149,7 @@ public slots:
                     const QList<QString> &trackNames, const QString &scriptPath, bool exportAudio);
     void slotAbortCurrentJob();
     void slotPrepareExport(bool scriptExport = false, const QString &scriptPath = QString());
+    void adjustViewToProfile();
 
 private slots:
     void slotUpdateButtons(const QUrl &url);
