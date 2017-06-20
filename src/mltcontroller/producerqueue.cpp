@@ -25,6 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "clipcontroller.h"
 #include "core.h"
 #include "dialogs/profilesdialog.h"
+#include "profiles/profilemodel.hpp"
 #include "doc/kthumb.h"
 #include "kdenlivesettings.h"
 #include "project/dialogs/slideshowclip.h"
@@ -324,7 +325,7 @@ void ProducerQueue::processFileProperties()
                         emit switchProfile(clipProfile, info.clipId, info.xml);
                     } else if (KdenliveSettings::default_profile().isEmpty()) {
                         // Confirm default project format
-                        KdenliveSettings::setDefault_profile(KdenliveSettings::current_profile());
+                        KdenliveSettings::setDefault_profile(pCore->getCurrentProfile()->path());
                     }
                 }
             }

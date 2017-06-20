@@ -51,7 +51,7 @@ MltDeviceCapture::MltDeviceCapture(QString profile, /*VideoSurface *surface, */ 
 {
     analyseAudio = KdenliveSettings::monitor_audio();
     if (profile.isEmpty()) {
-        profile = KdenliveSettings::current_profile();
+        //profile = KdenliveSettings::current_profile();
     }
     buildConsumer(profile);
     connect(this, &MltDeviceCapture::unblockPreview, this, &MltDeviceCapture::slotPreparePreview);

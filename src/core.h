@@ -148,6 +148,8 @@ private:
     ProducerQueue *m_producerQueue;
     Bin *m_binWidget;
     LibraryWidget *m_library;
+    /** @brief Current project's profile path */
+    QString m_currentProfile;
 
     std::unique_ptr<MltConnection> m_mltConnection;
 

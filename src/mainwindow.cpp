@@ -211,7 +211,8 @@ void MainWindow::init()
     m_commandStack = new QUndoGroup();
 
     // If using a custom profile, make sure the file exists or fallback to default
-    if (KdenliveSettings::current_profile().startsWith(QLatin1Char('/')) && !QFile::exists(KdenliveSettings::current_profile())) {
+    QString currentProfilePath = pCore->getCurrentProfile()->path();
+    if (currentProfilePath.startsWith(QLatin1Char('/')) && !QFile::exists(currentProfilePath)) {
         KMessageBox::sorry(this, i18n("Cannot find your default profile, switching to ATSC 1080p 25"));
         pCore->setCurrentProfile(QStringLiteral("atsc_1080p_25"));
         KdenliveSettings::setDefault_profile(QStringLiteral("atsc_1080p_25"));

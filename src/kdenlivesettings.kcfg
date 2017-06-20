@@ -683,10 +683,6 @@
       <label>Default project format.</label>
       <default></default>
     </entry>
-    <entry name="current_profile" type="String">
-      <label>active project format.</label>
-      <default></default>
-    </entry>
 
     <entry name="showdescriptioncolumn" type="Bool">
       <label>Show descriptions in project tree view.</label>

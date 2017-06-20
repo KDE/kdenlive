@@ -129,7 +129,7 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
     m_fileRevert->setEnabled(false);
     QString profileName = KdenliveSettings::default_profile();
     if (profileName.isEmpty()) {
-        profileName = KdenliveSettings::current_profile();
+        profileName = pCore->getCurrentProfile()->path();
     }
     QString projectFolder;
     QMap<QString, QString> documentProperties;
@@ -525,7 +525,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     m_notesPlugin->clear();
     KdenliveDoc *doc = new KdenliveDoc(
         stale ? QUrl::fromLocalFile(stale->fileName()) : url, QString(), pCore->window()->m_commandStack,
-        KdenliveSettings::default_profile().isEmpty() ? KdenliveSettings::current_profile() : KdenliveSettings::default_profile(), QMap<QString, QString>(),
+        KdenliveSettings::default_profile().isEmpty() ? pCore->getCurrentProfile()->path() : KdenliveSettings::default_profile(), QMap<QString, QString>(),
         QMap<QString, QString>(), QPoint(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks()), &openBackup, pCore->window());
     if (stale == nullptr) {
         stale = new KAutoSaveFile(url, doc);

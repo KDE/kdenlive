@@ -12,10 +12,12 @@
 #include "waveformgenerator.h"
 // For reading out the project resolution
 #include "dialogs/profilesdialog.h"
-#include "kdenlivesettings.h"
+#include "core.h"
+#include "profiles/profilemodel.hpp"
 
 #include "klocalizedstring.h"
 #include <KSharedConfig>
+#include <KConfigGroup>
 #include <QPainter>
 #include <QPoint>
 
@@ -120,7 +122,7 @@ QImage Waveform::renderHUD(uint)
     QPainter davinci(&hud);
     davinci.setPen(penLight);
 
-    QMap<QString, QString> values = ProfilesDialog::getSettingsFromFile(KdenliveSettings::current_profile());
+    QMap<QString, QString> values = ProfilesDialog::getSettingsFromFile(pCore->getCurrentProfile()->path());
     //    qCDebug(KDENLIVE_LOG) << values.value("width");
 
     const int rightX = scopeRect().width() - m_textWidth.width() + 3;

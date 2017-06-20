@@ -25,6 +25,8 @@
 #include "profilesdialog.h"
 #include "project/dialogs/profilewidget.h"
 #include "renderer.h"
+#include "core.h"
+#include "profiles/profilemodel.hpp"
 #include "utils/KoIconUtils.h"
 
 #ifdef USE_V4L
@@ -80,7 +82,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString> &map
     m_configProject.profile_box->setLayout(vbox);
     m_configProject.profile_box->setTitle(i18n("Select the default profile (preset)"));
     // Select profile
-    m_pw->loadProfile(KdenliveSettings::default_profile().isEmpty() ? KdenliveSettings::current_profile() : KdenliveSettings::default_profile());
+    m_pw->loadProfile(KdenliveSettings::default_profile().isEmpty() ? pCore->getCurrentProfile()->path() : KdenliveSettings::default_profile());
     connect(m_pw, &ProfileWidget::profileChanged, this, &KdenliveSettingsDialog::slotDialogModified);
     m_page8->setIcon(KoIconUtils::themedIcon(QStringLiteral("project-defaults")));
     connect(m_configProject.kcfg_generateproxy, &QAbstractButton::toggled, m_configProject.kcfg_proxyminsize, &QWidget::setEnabled);
@@ -1436,7 +1438,7 @@ void KdenliveSettingsDialog::slotReloadBlackMagic()
 
 void KdenliveSettingsDialog::checkProfile()
 {
-    m_pw->loadProfile(KdenliveSettings::default_profile().isEmpty() ? KdenliveSettings::current_profile() : KdenliveSettings::default_profile());
+    m_pw->loadProfile(KdenliveSettings::default_profile().isEmpty() ? pCore->getCurrentProfile()->path() : KdenliveSettings::default_profile());
 }
 
 void KdenliveSettingsDialog::slotReloadShuttleDevices()
@@ -1465,3 +1467,4 @@ void KdenliveSettingsDialog::slotReloadShuttleDevices()
     QTimer::singleShot(200, this, SLOT(slotUpdateShuttleDevice()));
 #endif // USE_JOGSHUTTLE
 }
+

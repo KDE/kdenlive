@@ -31,6 +31,7 @@
 #include "project/dialogs/profilewidget.h"
 #include "project/dialogs/temporarydata.h"
 #include "titler/titlewidget.h"
+#include "profiles/profilemodel.hpp"
 #include "utils/KoIconUtils.h"
 
 #include "kdenlive_debug.h"
@@ -89,7 +90,7 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
 
     QString currentProf;
     if (doc) {
-        currentProf = KdenliveSettings::current_profile();
+        currentProf = pCore->getCurrentProfile()->path();
         enable_proxy->setChecked(doc->getDocumentProperty(QStringLiteral("enableproxy")).toInt() != 0);
         generate_proxy->setChecked(doc->getDocumentProperty(QStringLiteral("generateproxy")).toInt() != 0);
         proxy_minsize->setValue(doc->getDocumentProperty(QStringLiteral("proxyminsize")).toInt());
@@ -424,7 +425,7 @@ void ProjectSettings::accept()
             }
         }
     }
-    if (!m_savedProject && selectedProfile() != KdenliveSettings::current_profile()) {
+    if (!m_savedProject && selectedProfile() != pCore->getCurrentProfile()->path()) {
         if (KMessageBox::warningContinueCancel(
                 this, i18n("Changing the profile of your project cannot be undone.\nIt is recommended to save your project before attempting this operation "
                            "that might cause some corruption in transitions.\n Are you sure you want to proceed?"),

@@ -268,14 +268,17 @@ std::unique_ptr<Mlt::Repository> &Core::getMltRepository()
 std::unique_ptr<ProfileModel> &Core::getCurrentProfile() const
 {
     // TODO store locally the profile and not in parameters
-    QString profile = KdenliveSettings::current_profile();
-    return ProfileRepository::get()->getProfile(profile);
+    return ProfileRepository::get()->getProfile(m_currentProfile);
 }
 
 bool Core::setCurrentProfile(const QString &profilePath)
 {
+    if (m_currentProfile == profilePath) {
+        // no change required
+        return true;
+    }
     if (ProfileRepository::get()->profileExists(profilePath)) {
-        KdenliveSettings::setCurrent_profile(profilePath);
+        m_currentProfile = profilePath;
         // inform render widget
         m_mainWindow->updateRenderWidgetProfile();
         return true;

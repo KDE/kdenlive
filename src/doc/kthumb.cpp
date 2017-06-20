@@ -20,7 +20,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "kthumb.h"
+#include "core.h"
 #include "kdenlivesettings.h"
+#include "profiles/profilemodel.hpp"
 
 #include <mlt++/Mlt.h>
 
@@ -39,7 +41,7 @@ QPixmap KThumb::getImage(const QUrl &url, int width, int height)
 // static
 QPixmap KThumb::getImage(const QUrl &url, int frame, int width, int height)
 {
-    Mlt::Profile profile(KdenliveSettings::current_profile().toUtf8().constData());
+    Mlt::Profile profile = pCore->getCurrentProfile()->profile();
     if (height == -1) {
         height = width * profile.height() / profile.width();
     }

@@ -21,6 +21,8 @@
 #include "meltjob.h"
 #include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
+#include "core.h"
+#include "profiles/profilemodel.hpp"
 
 #include <klocalizedstring.h>
 
@@ -98,7 +100,7 @@ void MeltJob::startJob()
         setStatus(JobCrashed);
         return;
     }
-    Mlt::Profile *projectProfile = new Mlt::Profile(KdenliveSettings::current_profile().toUtf8().constData());
+    Mlt::Profile *projectProfile = new Mlt::Profile(pCore->getCurrentProfile()->profile());
     bool producerProfile = m_extra.contains(QStringLiteral("producer_profile"));
     if (producerProfile) {
         m_profile = new Mlt::Profile;
