@@ -70,20 +70,6 @@ private:
     QString m_newParentId;
 };
 
-class RenameBinFolderCommand : public QUndoCommand
-{
-public:
-    explicit RenameBinFolderCommand(Bin *bin, const QString &folderId, const QString &newName, const QString &oldName, QUndoCommand *parent = nullptr);
-    void undo() override;
-    void redo() override;
-
-private:
-    Bin *m_bin;
-    QString m_clipId;
-    QString m_oldName;
-    QString m_newName;
-};
-
 class RenameBinSubClipCommand : public QUndoCommand
 {
 public:

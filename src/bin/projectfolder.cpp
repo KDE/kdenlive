@@ -23,6 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "projectfolder.h"
 #include "bin.h"
 #include "projectclip.h"
+#include "core.h"
 #include "projectitemmodel.h"
 #include "utils/KoIconUtils.h"
 
@@ -147,6 +148,11 @@ bool ProjectFolder::rename(const QString &name, int column)
         return false;
     }
     // Rename folder
-    if (auto ptr = m_model.lock()) std::static_pointer_cast<ProjectItemModel>(ptr)->bin()->renameFolderCommand(m_binId, name, m_name);
-    return true;
+    if (auto ptr = m_model.lock()) {
+        auto self = std::static_pointer_cast<ProjectFolder>(shared_from_this());
+        return std::static_pointer_cast<ProjectItemModel>(ptr)->requestRenameFolder(self, name);
+    }
+    qDebug() << "ERROR: Impossible to rename folder because model is not available";
+    Q_ASSERT(false);
+    return false;
 }

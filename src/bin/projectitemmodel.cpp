@@ -409,31 +409,23 @@ bool ProjectItemModel::requestBinClipDeletion(std::shared_ptr<AbstractProjectIte
     Fun reverse = [this, clip, parentId]() {
         /* To undo deletion, we reregister the clip */
         std::shared_ptr<TreeItem> parent;
-        qDebug() << "reversing deletion. Parentid =" << parentId;
         if (parentId != -1) {
-            qDebug() << "parent found";
             parent = getItemById(parentId);
         }
         clip->changeParent(parent);
         return true;
     };
     bool res = operation();
-    qDebug() << "operation succes" << res;
     if (res) {
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
         res = clip->selfSoftDelete(undo, redo);
-        qDebug() << "soltDelete succes" << res;
     }
-    if (res) {
-    }
-    qDebug() << "Deletion success" << res;
     return res;
 }
 
 void ProjectItemModel::registerItem(const std::shared_ptr<TreeItem> &item)
 {
     auto clip = std::static_pointer_cast<AbstractProjectItem>(item);
-    qDebug() << "registering" <<clip->clipId();
     manageBinClipInsertion(clip);
     AbstractTreeModel::registerItem(item);
 }
@@ -500,10 +492,10 @@ int ProjectItemModel::getFreeClipId()
 {
     return m_clipCounter++;
 }
+
 bool ProjectItemModel::requestAddFolder(QString &id, const QString &name, const QString &parentId, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
-    qDebug() << "request Add. parent="<<parentId;
     std::shared_ptr<ProjectFolder> parentFolder = getFolderByBinId(parentId);
     if (!parentFolder) {
         qCDebug(KDENLIVE_LOG) << "  / / ERROR IN PARENT FOLDER";
@@ -513,18 +505,14 @@ bool ProjectItemModel::requestAddFolder(QString &id, const QString &name, const 
         id = QString::number(getFreeFolderId());
     }
     std::shared_ptr<ProjectFolder> new_folder = ProjectFolder::construct(id, name, std::static_pointer_cast<ProjectItemModel>(shared_from_this()), parentFolder);
-    qDebug() << "newfolder created:"<<new_folder->clipId()<<(void*)new_folder.get();
     parentFolder->appendChild(new_folder);
     int folderId = new_folder->getId();
-    qDebug() << "creating op. parent="<<parentId<<(void*)parentFolder.get();
     Fun operation = [this, new_folder, parentId]() {
         /* Insertion is simply setting the parent of the folder.*/
-        qDebug() << "executing op. parent="<<parentId;
         std::shared_ptr<ProjectFolder> parent = getFolderByBinId(parentId);
         if (!parent) {
             return false;
         }
-        qDebug() << "executing op2. parent="<<parent->clipId()<<(void*)parent.get();
         new_folder->changeParent(parent);
         return true;
     };
@@ -538,16 +526,49 @@ bool ProjectItemModel::requestAddFolder(QString &id, const QString &name, const 
         parent->removeChild(folder);
         return true;
     };
-    qDebug()<<"Folder list";
-    for (const auto &clip : m_allItems) {
-        auto c = std::static_pointer_cast<AbstractProjectItem>(clip.second.lock());
-        if (c->itemType() == AbstractProjectItem::FolderItem) {
-            qDebug() <<"folder"<<c->clipId()<<(void*)c.get();
-        }
-    }
     bool res = operation();
     if (res) {
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
+    }
+    return res;
+}
+
+Fun ProjectItemModel::requestRenameFolder_lambda(std::shared_ptr<AbstractProjectItem> folder, const QString &newName)
+{
+    int id = folder->getId();
+    return [this, id, newName](){
+        auto currentFolder = std::static_pointer_cast<AbstractProjectItem>(m_allItems[id].lock());
+        if (!currentFolder) {
+            return false;
+        }
+        auto parent = currentFolder->parent();
+        parent->removeChild(currentFolder);
+        currentFolder->setName(newName);
+        parent->appendChild(currentFolder);
+        return true;
+    };
+}
+
+bool ProjectItemModel::requestRenameFolder(std::shared_ptr<AbstractProjectItem> folder, const QString &name, Fun &undo, Fun &redo)
+{
+    QWriteLocker locker(&m_lock);
+    QString oldName = folder->name();
+    auto operation = requestRenameFolder_lambda(folder, name);
+    if (operation()) {
+        auto reverse = requestRenameFolder_lambda(folder, oldName);
+        UPDATE_UNDO_REDO(operation, reverse, undo, redo);
+        return true;
+    }
+    return false;
+}
+
+bool ProjectItemModel::requestRenameFolder(std::shared_ptr<AbstractProjectItem> folder, const QString &name)
+{
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    bool res = requestRenameFolder(folder, name, undo, redo);
+    if (res) {
+        pCore->pushUndo(undo, redo, i18n("Rename Folder"));
     }
     return res;
 }

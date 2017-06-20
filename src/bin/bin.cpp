@@ -1477,18 +1477,6 @@ void Bin::doAddFolder(const QString &id, const QString &name, const QString &par
     emit storeFolder(id, parentId, QString(), name);
 }
 
-void Bin::renameFolder(const QString &id, const QString &name)
-{
-    std::shared_ptr<ProjectFolder> folder = m_itemModel->getFolderByBinId(id);
-    if ((folder == nullptr) || (folder->parent() == nullptr)) {
-        qCDebug(KDENLIVE_LOG) << "  / / ERROR IN PARENT FOLDER";
-        return;
-    }
-    folder->setName(name);
-    emit itemUpdated(folder);
-    emit storeFolder(id, folder->parent()->clipId(), QString(), name);
-}
-
 void Bin::slotLoadFolders(const QMap<QString, QString> &foldersData)
 {
     // Folder parent is saved in folderId, separated by a dot. for example "1.3" means parent folder id is "1" and new folder id is "3".
@@ -2855,11 +2843,6 @@ void Bin::slotItemEdited(const QModelIndex &ix, const QModelIndex &, const QVect
     }
 }
 
-void Bin::renameFolderCommand(const QString &id, const QString &newName, const QString &oldName)
-{
-    auto *command = new RenameBinFolderCommand(this, id, newName, oldName);
-    m_doc->commandStack()->push(command);
-}
 
 void Bin::renameSubClipCommand(const QString &id, const QString &newName, const QString &oldName, int in, int out)
 {

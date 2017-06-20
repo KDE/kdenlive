@@ -104,7 +104,7 @@ public:
     Qt::DropActions supportedDropActions() const override;
 
     /* @brief Request deletion of a bin clip from the project bin
-       @param binId : id of the bin clip to deleted
+       @param clip : pointer to the clip to delete
        @param undo,redo: lambdas that are updated to accumulate operation.
      */
     bool requestBinClipDeletion(std::shared_ptr<AbstractProjectItem> clip, Fun &undo, Fun &redo);
@@ -116,6 +116,16 @@ public:
        @param undo,redo: lambdas that are updated to accumulate operation.
     */
     bool requestAddFolder(QString &id, const QString &name, const QString &parentId, Fun &undo, Fun &redo);
+
+    /* @brief Request that a folder's name is changed
+       @param clip : pointer to the folder to rename
+       @param name: new name of the folder
+       @param undo,redo: lambdas that are updated to accumulate operation.
+    */
+    bool requestRenameFolder(std::shared_ptr<AbstractProjectItem> folder, const QString &name, Fun &undo, Fun &redo);
+    /* Same functions but pushes the undo object directly */
+    bool requestRenameFolder(std::shared_ptr<AbstractProjectItem> folder, const QString &name);
+
     /* @brief Manage insertion in the tree hierarchy.
        Note that the element has normally already been registered through registerItem,
        this function is called when its parent is defined.
@@ -150,6 +160,10 @@ protected:
 
     /* @brief Retrieves the next id available for attribution to a clip */
     int getFreeClipId();
+
+    /* @brief Helper function to generate a lambda that rename a folder */
+    Fun requestRenameFolder_lambda(std::shared_ptr<AbstractProjectItem> folder, const QString &newName);
+
 public slots:
     /** @brief An item in the list was modified, notify */
     void onItemUpdated(std::shared_ptr<AbstractProjectItem> item);
