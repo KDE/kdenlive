@@ -58,7 +58,7 @@ void AssetPanel::showTransition(int tid, std::shared_ptr<AssetParameterModel> tr
     QString transitionName = TransitionsRepository::get()->getName(transitionId);
     m_assetTitle->setText(i18n("Properties of transition %1", transitionName));
     m_transitionWidget->setVisible(true);
-    m_transitionWidget->setModel(transitionModel);
+    m_transitionWidget->setModel(transitionModel, true);
 }
 
 void AssetPanel::showEffectStack(int cid, const QString &clipName, std::shared_ptr<EffectStackModel> effectsModel)

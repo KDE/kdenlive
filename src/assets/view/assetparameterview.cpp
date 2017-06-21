@@ -41,7 +41,7 @@ AssetParameterView::AssetParameterView(QWidget *parent)
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
 }
 
-void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &model)
+void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &model, bool addSpacer)
 {
     qDebug() << "set model " << model.get();
     unsetModel();
@@ -54,6 +54,9 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
         connect(w, &AbstractParamWidget::valueChanged, this, &AssetParameterView::commitChanges);
         m_lay->addWidget(w);
         m_widgets.push_back(w);
+    }
+    if (addSpacer) {
+        m_lay->addStretch();
     }
 }
 
