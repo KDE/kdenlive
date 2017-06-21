@@ -150,6 +150,7 @@ Rectangle {
                 var track = Logic.getTrackIdFromPos(drag.y)
                 if (track !=-1) {
                     var frame = Math.round((drag.x + scrollView.flickableItem.contentX) / timeline.scaleFactor)
+                    frame = controller.suggestSnapPoint(frame, root.snapping)
                     if (clipBeingDroppedId >= 0){
                         controller.requestCompositionMove(clipBeingDroppedId, track, frame, true, false)
                         continuousScrolling(drag.x + scrollView.flickableItem.contentX)
@@ -219,6 +220,7 @@ Rectangle {
             if (clipBeingMovedId == -1) {
                 var track = Logic.getTrackIdFromPos(drag.y)
                 var frame = Math.round((drag.x + scrollView.flickableItem.contentX) / timeline.scaleFactor)
+                frame = controller.suggestSnapPoint(frame, root.snapping)
                 if (clipBeingDroppedId >= 0){
                     controller.requestClipMove(clipBeingDroppedId, track, frame, true, false)
                     continuousScrolling(drag.x + scrollView.flickableItem.contentX)

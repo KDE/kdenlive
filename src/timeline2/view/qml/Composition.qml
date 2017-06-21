@@ -239,20 +239,19 @@ Item {
 
             onPressed: {
                 root.stopScrolling = true
-                compositionRoot.originalX = mapToItem(null, x, y).x
+                compositionRoot.originalX = compositionRoot.x
                 compositionRoot.originalDuration = clipDuration
                 parent.anchors.left = undefined
             }
             onReleased: {
                 root.stopScrolling = false
-                parent.anchors.left = compositionRoot.left
+                parent.anchors.left = displayRect.left
                 compositionRoot.trimmedIn(compositionRoot)
                 parent.opacity = 0
             }
             onPositionChanged: {
                 if (mouse.buttons === Qt.LeftButton) {
-                    compositionRoot.draggedX = mapToItem(null, x, y).x
-                    var delta = Math.round((draggedX - originalX) / timeScale)
+                    var delta = Math.round((trimIn.x) / timeScale)
                     if (delta !== 0) {
                         var newDuration = compositionRoot.clipDuration - delta
                         compositionRoot.trimmingIn(compositionRoot, newDuration, mouse)
@@ -265,9 +264,9 @@ Item {
     }
     Rectangle {
         id: trimOut
-        anchors.right: parent.right
+        anchors.right: displayRect.right
         anchors.rightMargin: 0
-        height: parent.height
+        height: displayRect.height
         width: 5
         color: 'red'
         opacity: 0
@@ -291,7 +290,7 @@ Item {
             }
             onReleased: {
                 root.stopScrolling = false
-                parent.anchors.right = compositionRoot.right
+                parent.anchors.right = displayRect.right
                 compositionRoot.trimmedOut(compositionRoot)
             }
             onPositionChanged: {

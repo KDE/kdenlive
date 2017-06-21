@@ -86,7 +86,6 @@ bool CompositionModel::requestResize(int size, bool right, Fun &undo, Fun &redo)
     }
     Fun operation = [in, out, track_operation, this]() {
         if (track_operation()) {
-            setInOut(in, out);
             return true;
         }
         return false;
@@ -99,7 +98,6 @@ bool CompositionModel::requestResize(int size, bool right, Fun &undo, Fun &redo)
         }
         Fun reverse = [old_in, old_out, track_reverse, this]() {
             if (track_reverse()) {
-                setInOut(old_in, old_out);
                 return true;
             }
             return false;

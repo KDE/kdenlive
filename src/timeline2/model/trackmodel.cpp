@@ -638,12 +638,12 @@ int TrackModel::getBlankEnd(int position)
 Fun TrackModel::requestCompositionResize_lambda(int compoId, int in, int out)
 {
     QWriteLocker locker(&m_lock);
-    qDebug() << "compo resize " << compoId << in << out;
     int compo_position = m_allCompositions[compoId]->getPosition();
     Q_ASSERT(m_compoPos.count(compo_position) > 0);
     Q_ASSERT(m_compoPos[compo_position] == compoId);
     int old_in = compo_position;
     int old_out = old_in + m_allCompositions[compoId]->getPlaytime();
+    qDebug() << "compo resize " << compoId << in <<"-"<< out<<" / "<<old_in <<"-"<< old_out;
     if (out == -1) {
         out = in + old_out - old_in;
     }
@@ -679,7 +679,7 @@ Fun TrackModel::requestCompositionResize_lambda(int compoId, int in, int out)
     return [in, out, compoId, update_snaps, this]() {
         m_compoPos.erase(m_allCompositions[compoId]->getPosition());
         m_allCompositions[compoId]->setInOut(in, out);
-        update_snaps(m_allCompositions[compoId]->getPosition(), m_allCompositions[compoId]->getPosition() + out - in + 1);
+        update_snaps(in, out + 1);
         m_compoPos[m_allCompositions[compoId]->getPosition()] = compoId;
         return true;
     };
