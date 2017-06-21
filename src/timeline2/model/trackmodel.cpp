@@ -499,6 +499,11 @@ void TrackModel::setProperty(const QString &name, const QString &value)
 {
     QWriteLocker locker(&m_lock);
     m_track->set(name.toUtf8().constData(), value.toUtf8().constData());
+    if (name == QLatin1String("kdenlive:audio_track") && value.toInt() == 1) {
+        for (int i = 0; i < 2; i++) {
+            m_playlists[i].set("hide", 1);
+        }
+    }
 }
 
 bool TrackModel::checkConsistency()
