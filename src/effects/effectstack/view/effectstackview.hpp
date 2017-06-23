@@ -56,6 +56,7 @@ public:
     virtual ~EffectStackView();
     void setModel(std::shared_ptr<EffectStackModel>model, QPair <int, int>range);
     void unsetModel(bool reset = true);
+    void setRange(int in, int out);
 
 protected:
     void dragEnterEvent(QDragEnterEvent *event) override;

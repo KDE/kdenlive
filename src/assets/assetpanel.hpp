@@ -58,6 +58,7 @@ public:
 public slots:
     /** @brief Clear panel if displaying itemId */
     void clearAssetPanel(int itemId);
+    void adjustAssetPanelRange(int itemId, int in, int out);
 
 protected:
     /** @brief Return the stylesheet used to display the panel (based on current palette). */

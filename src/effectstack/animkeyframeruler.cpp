@@ -60,6 +60,12 @@ AnimKeyframeRuler::AnimKeyframeRuler(int min, int max, QWidget *parent)
     m_keyframe = scheme.foreground(KColorScheme::LinkText).color();
 }
 
+void AnimKeyframeRuler::setRange(int in, int out)
+{
+    frameLength = out - in;
+    update();
+}
+
 void AnimKeyframeRuler::updateKeyframes(const QVector<int> &keyframes, const QVector<int> &types, int attachToEnd)
 {
     m_keyframes = keyframes;

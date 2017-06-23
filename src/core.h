@@ -135,6 +135,7 @@ public:
     void displayMessage(const QString &message, MessageType type, int timeout);
     /** @brief Clear asset view if itemId is displayed. */
     void clearAssetPanel(int itemId);
+    void adjustAssetRange(int itemId, int in , int out);
 
 private:
     explicit Core();

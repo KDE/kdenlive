@@ -355,3 +355,9 @@ void Core::clearAssetPanel(int itemId)
 {
     m_mainWindow->clearAssetPanel(itemId);
 }
+
+void Core::adjustAssetRange(int itemId, int in , int out)
+{
+    m_mainWindow->adjustAssetPanelRange(itemId, in, out);
+}
+

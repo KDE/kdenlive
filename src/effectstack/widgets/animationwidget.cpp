@@ -78,7 +78,7 @@ AnimationWidget::AnimationWidget(std::shared_ptr<AssetParameterModel> model, QMo
     if (range.second >= 0) {
         m_inPoint = range.first;
         m_outPoint = range.second;
-        m_offset = m_model->data(m_index, AssetParameterModel::InRole).toInt();;
+        m_offset = m_model->data(m_index, AssetParameterModel::InRole).toInt();
     } else {
         m_offset = 0;
         m_inPoint = m_model->data(m_index, AssetParameterModel::InRole).toInt();
@@ -1671,5 +1671,8 @@ void AnimationWidget::slotSetRange(QPair<int, int>range)
 {
     m_inPoint = range.first;
     m_outPoint = range.second;
+    m_offset = m_model->data(m_index, AssetParameterModel::InRole).toInt();
+    m_ruler->setRange(0, m_outPoint - m_inPoint);
+    m_timePos->setRange(0, m_outPoint - m_inPoint - 1);
 }
 

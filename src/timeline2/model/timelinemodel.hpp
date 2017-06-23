@@ -468,6 +468,9 @@ public:
     /* @brief Returns a list of all luma files used in the project
      */
     QStringList extractCompositionLumas() const;
+    /* @brief Inform asset view of duration change
+     */
+    void adjustAssetRange(int clipId, int in, int out);
 
 protected:
     /* @brief Register a new track. This is a call-back meant to be called from TrackModel

@@ -236,3 +236,16 @@ void EffectStackView::unsetModel(bool reset)
     }
 }
 
+void EffectStackView::setRange(int in, int out)
+{
+    m_range.first = in;
+    m_range.second = out;
+    int max = m_model->rowCount();
+    for (int i = 0; i < max; i++) {
+        std::shared_ptr<AbstractEffectItem> item = m_model->getEffectStackRow(i);
+        std::shared_ptr<EffectItemModel> eff = std::static_pointer_cast<EffectItemModel>(item);
+        QModelIndex ix = m_model->getIndexFromItem(eff);
+        auto w = m_effectsTree->indexWidget(ix);
+        static_cast<CollapsibleEffectView*>(w)->setRange(m_range);
+    }
+}

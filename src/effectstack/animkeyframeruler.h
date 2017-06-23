@@ -37,6 +37,7 @@ public:
     void updateKeyframes(const QVector<int> &keyframes, const QVector<int> &types, int attachToEnd);
     void setActiveKeyframe(int frame);
     int activeKeyframe() const;
+    void setRange(int in, int out);
 
 protected:
     void paintEvent(QPaintEvent * /*e*/) override;

@@ -477,6 +477,7 @@ signals:
     void updateRenderWidgetProfile();
     /** @brief Clear asset view if itemId is displayed. */
     void clearAssetPanel(int itemId = -1);
+    void adjustAssetPanelRange(int itemId, int in, int out);
 };
 
 #endif

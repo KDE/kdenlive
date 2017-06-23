@@ -1592,3 +1592,8 @@ QStringList TimelineModel::extractCompositionLumas() const
     urls.removeDuplicates();
     return urls;
 }
+
+void TimelineModel::adjustAssetRange(int clipId, int in, int out)
+{
+    pCore->adjustAssetRange(clipId, in, out);
+}

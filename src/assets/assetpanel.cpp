@@ -77,6 +77,13 @@ void AssetPanel::clearAssetPanel(int itemId)
     }
 }
 
+void AssetPanel::adjustAssetPanelRange(int itemId, int in, int out)
+{
+    if (m_effectStackWidget->property("clipId").toInt() == itemId) {
+        m_effectStackWidget->setRange(in, out);
+    }
+}
+
 void AssetPanel::clear()
 {
     m_transitionWidget->setVisible(false);

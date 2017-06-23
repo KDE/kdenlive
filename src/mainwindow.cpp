@@ -314,6 +314,7 @@ void MainWindow::init()
     connect(m_timelineTabs, &TimelineTabs::showTransitionModel, m_assetPanel, &AssetPanel::showTransition);
     connect(m_timelineTabs, &TimelineTabs::showClipEffectStack, m_assetPanel, &AssetPanel::showEffectStack);
     connect(this, &MainWindow::clearAssetPanel, m_assetPanel, &AssetPanel::clearAssetPanel);
+    connect(this, &MainWindow::adjustAssetPanelRange, m_assetPanel, &AssetPanel::adjustAssetPanelRange);
 
     m_effectStackDock = addDock(i18n("Properties"), QStringLiteral("effect_stack"), m_assetPanel);
 
