@@ -786,6 +786,7 @@ void AnimationWidget::buildSliderWidget(const QString &paramTag, QModelIndex ix)
                          m_model->data(ix, AssetParameterModel::DefaultRole).toDouble() * factor, comment, index,
                          m_model->data(ix, AssetParameterModel::SuffixRole).toString(), m_model->data(ix, AssetParameterModel::DecimalsRole).toInt(), this);
     doubleparam->setObjectName(paramTag);
+    doubleparam->setProperty("index", ix);
     doubleparam->factor = factor;
     connect(doubleparam, &DoubleWidget::valueChanged, this, &AnimationWidget::slotAdjustKeyframeValue);
     layout()->addWidget(doubleparam);
@@ -812,6 +813,7 @@ void AnimationWidget::buildRectWidget(const QString &paramTag, QModelIndex ix)
     m_spinX = new DragValue(i18nc("x axis position", "X"), 0, 0, -99000, 99000, -1, QString(), false, this);
     connect(m_spinX, &DragValue::valueChanged, this, &AnimationWidget::slotAdjustRectKeyframeValue);
     horLayout->addWidget(m_spinX);
+    m_spinX->setProperty("index", ix);
 
     m_spinY = new DragValue(i18nc("y axis position", "Y"), 0, 0, -99000, 99000, -1, QString(), false, this);
     connect(m_spinY, &DragValue::valueChanged, this, &AnimationWidget::slotAdjustRectKeyframeValue);
@@ -952,6 +954,7 @@ void AnimationWidget::slotAdjustKeyframeValue(double value)
         return;
     }
     m_inTimeline = slider->objectName();
+    QModelIndex ix = slider->property("index").toModelIndex();
     m_animController = m_animProperties.get_animation(m_inTimeline.toUtf8().constData());
 
     int pos = m_ruler->position() - m_offset;
@@ -961,7 +964,7 @@ void AnimationWidget::slotAdjustKeyframeValue(double value)
         // This is a keyframe
         type = m_animController.keyframe_type(pos);
         m_animProperties.anim_set(m_inTimeline.toUtf8().constData(), value / slider->factor, pos, m_outPoint, type);
-        emit valueChanged(m_index, QString(m_animController.serialize_cut()));
+        emit valueChanged(ix, QString(m_animController.serialize_cut()));
     } else if (m_animController.key_count() <= 1) {
         pos = m_animController.key_get_frame(0);
         if (pos >= 0) {
@@ -969,7 +972,7 @@ void AnimationWidget::slotAdjustKeyframeValue(double value)
                 type = m_animController.keyframe_type(pos);
             }
             m_animProperties.anim_set(m_inTimeline.toUtf8().constData(), value / slider->factor, pos, m_outPoint, type);
-            emit valueChanged(m_index, QString(m_animController.serialize_cut()));
+            emit valueChanged(ix, QString(m_animController.serialize_cut()));
         }
     }
 }
