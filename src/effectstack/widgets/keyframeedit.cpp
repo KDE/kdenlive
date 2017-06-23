@@ -616,3 +616,9 @@ void KeyframeEdit::slotRefresh()
 {
     //TODO
 }
+
+void KeyframeEdit::slotSetRange(QPair<int, int>range)
+{
+    m_min = range.first;
+    m_max = range.second;
+}

@@ -350,3 +350,8 @@ void Core::displayMessage(const QString &message, MessageType type, int timeout)
 {
     m_mainWindow->displayMessage(message, type, timeout);
 }
+
+void Core::clearAssetPanel(int itemId)
+{
+    m_mainWindow->clearAssetPanel(itemId);
+}

@@ -53,6 +53,10 @@ public slots:
     /** @brief refresh the properties to reflect changes in the model
      */
     void slotRefresh() override;
+
+    /** @brief update the clip's in/out point
+     */
+    void slotSetRange(QPair<int, int>) override;
 };
 
 #endif

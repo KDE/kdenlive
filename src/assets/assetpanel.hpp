@@ -47,13 +47,17 @@ public:
     void showTransition(int tid, std::shared_ptr<AssetParameterModel> transition_model);
 
     /* @brief Shows the parameters of the given effect stack model */
-    void showEffectStack(int cid, const QString &clipName, std::shared_ptr<EffectStackModel> effectsModel);
+    void showEffectStack(const QString &clipName, std::shared_ptr<EffectStackModel> effectsModel, QPair <int, int>range);
 
     /* @brief Clear the panel so that it doesn't display anything */
     void clear();
 
     /* @brief This method should be called when the style changes */
     void updatePalette();
+
+public slots:
+    /** @brief Clear panel if displaying itemId */
+    void clearAssetPanel(int itemId);
 
 protected:
     /** @brief Return the stylesheet used to display the panel (based on current palette). */

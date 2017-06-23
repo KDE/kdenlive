@@ -41,7 +41,7 @@ AssetParameterView::AssetParameterView(QWidget *parent)
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
 }
 
-void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &model, bool addSpacer)
+void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &model, QPair <int, int>range, bool addSpacer)
 {
     qDebug() << "set model " << model.get();
     unsetModel();
@@ -50,7 +50,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
 
     for (int i = 0; i < model->rowCount(); ++i) {
         QModelIndex index = model->index(i, 0);
-        auto w = AbstractParamWidget::construct(model, index, this);
+        auto w = AbstractParamWidget::construct(model, index, range, this);
         connect(w, &AbstractParamWidget::valueChanged, this, &AssetParameterView::commitChanges);
         m_lay->addWidget(w);
         m_widgets.push_back(w);
@@ -68,6 +68,14 @@ void AssetParameterView::resetValues()
         QString defaultValue = m_model->data(index, AssetParameterModel::DefaultRole).toString();
         m_model->setParameter(name, defaultValue);
         refresh(index, index, QVector<int>());
+    }
+}
+
+void AssetParameterView::setRange(QPair <int, int> range)
+{
+    for (int i = 0; i < m_widgets.size(); ++i) {
+        auto w = m_widgets[i];
+        w->slotSetRange(range);
     }
 }
 

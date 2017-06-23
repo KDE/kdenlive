@@ -74,6 +74,8 @@ public:
     int getActiveEffect() const;
 
     void slotCreateGroup(std::shared_ptr<EffectItemModel> childEffect);
+    /* @brief Returns the Clip's id in timeline */
+    QPair <int, int> getClipId() const;
 
 public slots:
     /* @brief Delete an effect from the stack */

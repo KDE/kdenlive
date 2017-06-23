@@ -54,25 +54,33 @@ void AssetPanel::showTransition(int tid, std::shared_ptr<AssetParameterModel> tr
 {
     clear();
     QString transitionId = transitionModel->getAssetId();
+    m_transitionWidget->setProperty("compositionId", tid);
     transitionModel->setParentId(tid);
     QString transitionName = TransitionsRepository::get()->getName(transitionId);
     m_assetTitle->setText(i18n("Properties of transition %1", transitionName));
     m_transitionWidget->setVisible(true);
-    m_transitionWidget->setModel(transitionModel, true);
+    m_transitionWidget->setModel(transitionModel, QPair<int, int>(-1, -1), true);
 }
 
-void AssetPanel::showEffectStack(int cid, const QString &clipName, std::shared_ptr<EffectStackModel> effectsModel)
+void AssetPanel::showEffectStack(const QString &clipName, std::shared_ptr<EffectStackModel> effectsModel, QPair <int, int>range)
 {
     clear();
     m_assetTitle->setText(i18n("%1 effects", clipName));
     m_effectStackWidget->setVisible(true);
-    m_effectStackWidget->setProperty("clipId", cid);
-    m_effectStackWidget->setModel(effectsModel);
+    m_effectStackWidget->setModel(effectsModel, range);
+}
+
+void AssetPanel::clearAssetPanel(int itemId)
+{
+    if (itemId == -1 || m_transitionWidget->property("compositionId").toInt() == itemId || m_effectStackWidget->property("clipId").toInt() == itemId) {
+        clear();
+    }
 }
 
 void AssetPanel::clear()
 {
     m_transitionWidget->setVisible(false);
+    m_transitionWidget->setProperty("compositionId", QVariant());
     m_transitionWidget->unsetModel();
     m_effectStackWidget->setVisible(false);
     m_effectStackWidget->setProperty("clipId", QVariant());

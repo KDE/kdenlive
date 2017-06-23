@@ -388,13 +388,12 @@ void TimelineController::requestRefresh()
 
 void TimelineController::showAsset(int id)
 {
-    qDebug() << "show asset" << id;
     if (m_model->isComposition(id)) {
         emit showTransitionModel(id, m_model->getCompositionParameterModel(id));
     } else if (m_model->isClip(id)) {
         QModelIndex clipIx = m_model->makeClipIndexFromID(id);
         QString clipName = m_model->data(clipIx, Qt::DisplayRole).toString();
-        emit showClipEffectStack(id, clipName, m_model->getClipEffectStackModel(id));
+        emit showClipEffectStack(clipName, m_model->getClipEffectStackModel(id), QPair<int, int>(m_model->getClipPosition(id), m_model->getClipPosition(id) + m_model->getClipPlaytime(id)));
     }
 }
 

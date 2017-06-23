@@ -128,3 +128,7 @@ void ListParamWidget::slotRefresh()
         }
     }
 }
+
+void ListParamWidget::slotSetRange(QPair<int, int>)
+{
+}

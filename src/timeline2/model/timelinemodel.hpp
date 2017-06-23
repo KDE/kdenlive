@@ -531,7 +531,11 @@ protected:
     /* @brief Debugging function that checks consistency with Mlt objects */
     bool checkConsistency();
 
+    /* @brief Refresh project monitor if cursor was inside range */
     void checkRefresh(int start, int end) const;
+
+    /* @brief Clear effet/composition view */
+    void clearAssetView(int itemId);
 
 protected:
     std::unique_ptr<Mlt::Tractor> m_tractor;

@@ -54,7 +54,7 @@ Q_OBJECT
 public:
     EffectStackView(QWidget *parent = nullptr);
     virtual ~EffectStackView();
-    void setModel(std::shared_ptr<EffectStackModel>model);
+    void setModel(std::shared_ptr<EffectStackModel>model, QPair <int, int>range);
     void unsetModel(bool reset = true);
 
 protected:
@@ -67,8 +67,9 @@ private:
     std::shared_ptr<EffectStackModel> m_model;
     std::vector<CollapsibleEffectView *> m_widgets;
     AssetIconProvider *m_thumbnailer;
+    QPair <int, int> m_range;
     const QString getStyleSheet();
-    void loadEffects(int start = 0, int end = -1);
+    void loadEffects(QPair <int, int>range, int start = 0, int end = -1);
 
 private slots:
     void refresh(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles);

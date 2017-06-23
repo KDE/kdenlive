@@ -490,17 +490,16 @@ bool TimelineModel::requestItemDeletion(int itemId, bool logUndo)
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     bool res = false;
+    QString actionLabel;
     if (isClip(itemId)) {
+        actionLabel = i18n("Delete Clip");
         res = requestClipDeletion(itemId, undo, redo);
     } else {
+        actionLabel = i18n("Delete Composition");
         res = requestCompositionDeletion(itemId, undo, redo);
     }
     if (res && logUndo) {
-        if (isClip(itemId)) {
-            PUSH_UNDO(undo, redo, i18n("Delete Clip"));
-        } else {
-            PUSH_UNDO(undo, redo, i18n("Delete Composition"));
-        }
+        PUSH_UNDO(undo, redo, actionLabel);
     }
     return res;
 }
@@ -521,7 +520,7 @@ bool TimelineModel::requestClipDeletion(int clipId, Fun &undo, Fun &redo)
         // We capture a shared_ptr to the clip, which means that as long as this undo object lives, the clip object is not deleted. To insert it back it is
         // sufficient to register it.
         registerClip(clip);
-        clip->refreshProducerFromBin();
+        //clip->refreshProducerFromBin();
         return true;
     };
     if (operation()) {
@@ -989,6 +988,7 @@ Fun TimelineModel::deregisterClip_lambda(int clipId)
 {
     return [this, clipId]() {
         qDebug()<<" // /REQUEST TL CLP DELETION: "<< clipId<<"\n--------\nCLIPS COUNT: "<<m_allClips.size();
+        clearAssetView(clipId);
         Q_ASSERT(m_allClips.count(clipId) > 0);
         Q_ASSERT(getClipTrackId(clipId) == -1); // clip must be deleted from its track at this point
         Q_ASSERT(!m_groups->isInGroup(clipId)); // clip must be ungrouped at this point
@@ -1202,6 +1202,7 @@ Fun TimelineModel::deregisterComposition_lambda(int compoId)
     return [this, compoId]() {
         Q_ASSERT(m_allCompositions.count(compoId) > 0);
         Q_ASSERT(!m_groups->isInGroup(compoId)); // composition must be ungrouped at this point
+        clearAssetView(compoId);
         m_allCompositions.erase(compoId);
         m_groups->destructGroupItem(compoId);
         return true;
@@ -1558,6 +1559,11 @@ void TimelineModel::checkRefresh(int start, int end) const
     if (currentPos > start && currentPos < end) {
         pCore->requestMonitorRefresh();
     }
+}
+
+void TimelineModel::clearAssetView(int itemId)
+{
+    pCore->clearAssetPanel(itemId);
 }
 
 std::shared_ptr<AssetParameterModel> TimelineModel::getCompositionParameterModel(int compoId) const

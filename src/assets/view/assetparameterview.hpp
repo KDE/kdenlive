@@ -43,7 +43,7 @@ public:
     AssetParameterView(QWidget *parent = nullptr);
 
     /** Sets the model to be displayed by current view */
-    void setModel(const std::shared_ptr<AssetParameterModel> &model, bool addSpacer = false);
+    void setModel(const std::shared_ptr<AssetParameterModel> &model, QPair <int, int>range, bool addSpacer = false);
 
     /** Set the widget to display no model (this yield ownership on the smart-ptr)*/
     void unsetModel();
@@ -53,6 +53,9 @@ public:
 
     /** Reset all parameter values to default */
     void resetValues();
+
+    /** The parent clip in/out points changed, update effects */
+    void setRange(QPair <int, int> range);
 
 protected:
     /** @brief This is a handler for the dataChanged slot of the model.

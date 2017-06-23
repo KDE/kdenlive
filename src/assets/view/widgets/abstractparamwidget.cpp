@@ -43,6 +43,7 @@ public:
     }
     void setText(const QString &str) { m_label->setText(str); }
     void slotRefresh() override {}
+    void slotSetRange(QPair<int, int>) override {}
 
 protected:
     QLabel *m_label;
@@ -55,7 +56,7 @@ AbstractParamWidget::AbstractParamWidget(std::shared_ptr<AssetParameterModel> mo
 {
 }
 
-AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetParameterModel> &model, QModelIndex index, QWidget *parent)
+AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetParameterModel> &model, QModelIndex index, QPair<int, int> range, QWidget *parent)
 {
     // We retrieve the parameter type
     auto type = model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
@@ -79,7 +80,7 @@ AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetP
     case ParamType::Animated:
     case ParamType::RestrictedAnim:
     case ParamType::AnimatedRect:
-        widget = new AnimationWidget(model, index, parent);
+        widget = new AnimationWidget(model, index, range, parent);
         break;
     case ParamType::Keyframe:
         widget = new KeyframeEdit(model, index, parent);

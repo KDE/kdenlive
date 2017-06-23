@@ -116,9 +116,6 @@ public:
     /** @brief Returns a ptr to the main timeline widget of the project */
     TimelineWidget *getMainTimeline() const;
 
-    /** @brief clears the asset panel */
-    void clearAssetPanel();
-
 protected:
     /** @brief Closes the window.
      * @return false if the user presses "Cancel" on a confirmation dialog or
@@ -478,6 +475,8 @@ signals:
     void displayMessage(const QString &, MessageType, int);
     /** @brief Project profile changed, update render widget accordingly. */
     void updateRenderWidgetProfile();
+    /** @brief Clear asset view if itemId is displayed. */
+    void clearAssetPanel(int itemId = -1);
 };
 
 #endif

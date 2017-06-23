@@ -72,7 +72,7 @@ signals:
     /* @brief Requests that a given parameter model is displayed in the asset panel */
     void showTransitionModel(int tid, std::shared_ptr<AssetParameterModel>);
     /* @brief Requests that a given effectstack model is displayed in the asset panel */
-    void showClipEffectStack(int cid, const QString &clipName, std::shared_ptr<EffectStackModel>);
+    void showClipEffectStack(const QString &clipName, std::shared_ptr<EffectStackModel>, QPair<int,int>);
 
 private:
     TimelineWidget *m_mainTimeline;

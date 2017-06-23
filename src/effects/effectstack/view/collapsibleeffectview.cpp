@@ -51,13 +51,14 @@
 #include <KRecentDirs>
 #include <klocalizedstring.h>
 
-CollapsibleEffectView::CollapsibleEffectView(std::shared_ptr<EffectItemModel> effectModel, QImage icon, QWidget *parent)
+CollapsibleEffectView::CollapsibleEffectView(std::shared_ptr<EffectItemModel> effectModel, QPair <int, int>range, QImage icon, QWidget *parent)
     : AbstractCollapsibleWidget(parent)
 /*    , m_effect(effect)
     , m_itemInfo(info)
     , m_original_effect(original_effect)
     , m_isMovable(true)*/
     , m_model(effectModel)
+    , m_view(nullptr)
     , m_regionEffect(false)
 {
     QString effectId = effectModel->getAssetId();
@@ -131,7 +132,7 @@ CollapsibleEffectView::CollapsibleEffectView(std::shared_ptr<EffectItemModel> ef
     title->setText(effectName);
 
     m_view = new AssetParameterView(this);
-    m_view->setModel(std::static_pointer_cast<AssetParameterModel>(effectModel));
+    m_view->setModel(std::static_pointer_cast<AssetParameterModel>(effectModel), range);
     QVBoxLayout *lay = new QVBoxLayout(widgetFrame);
     lay->setContentsMargins(0, 0, 0, 0);
     lay->setSpacing(0);
@@ -781,11 +782,11 @@ MonitorSceneType CollapsibleEffectView::needsMonitorEffectScene() const
     return MonitorSceneDefault;
 }
 
-void CollapsibleEffectView::setRange(int inPoint, int outPoint)
+void CollapsibleEffectView::setRange(QPair <int, int>range)
 {
-    /*
-    m_paramWidget->setRange(inPoint, outPoint);
-    */
+    if (m_view) {
+        m_view->setRange(range);
+    }
 }
 
 void CollapsibleEffectView::setKeyframes(const QString &tag, const QString &keyframes)

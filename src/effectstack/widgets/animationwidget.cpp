@@ -1,4 +1,3 @@
-#include <float.h>
 /***************************************************************************
  *   Copyright (C) 2016 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
  *   This file is part of Kdenlive. See www.kdenlive.org.                  *
@@ -41,6 +40,7 @@
 #include <QToolBar>
 #include <QVBoxLayout>
 #include <klocalizedstring.h>
+#include <float.h>
 
 #include "mlt++/MltAnimation.h"
 
@@ -56,9 +56,7 @@
 #include "widgets/doublewidget.h"
 #include "widgets/dragvalue.h"
 
-AnimationWidget::AnimationWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
-    // AnimationWidget::AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int max, int effectIn, const QString &effectId, const QDomElement &xml,
-    // QWidget *parent)
+AnimationWidget::AnimationWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QPair <int, int>range, QWidget *parent)
     : AbstractParamWidget(std::move(model), index, parent)
     , m_active(false)
     //, m_clipPos(clipPos)
@@ -77,11 +75,15 @@ AnimationWidget::AnimationWidget(std::shared_ptr<AssetParameterModel> model, QMo
     auto *vbox2 = new QVBoxLayout(this);
 
     // Keyframe ruler
-    m_inPoint = m_model->data(m_index, AssetParameterModel::InRole).toInt();
-    m_offset = 0;
-    //TODO: For clips, offset should be the clip cut in valie
-    //m_model->data(m_index, AssetParameterModel::ClipInRole).toInt();
-    m_outPoint = m_model->data(m_index, AssetParameterModel::OutRole).toInt() + 1;
+    if (range.second >= 0) {
+        m_inPoint = range.first;
+        m_outPoint = range.second;
+        m_offset = m_model->data(m_index, AssetParameterModel::InRole).toInt();;
+    } else {
+        m_offset = 0;
+        m_inPoint = m_model->data(m_index, AssetParameterModel::InRole).toInt();
+        m_outPoint = m_model->data(m_index, AssetParameterModel::OutRole).toInt() + 1;
+    }
     m_monitorSize = pCore->getCurrentFrameSize();
     m_monitor = pCore->getMonitor(m_model->monitorId);
     m_timePos = new TimecodeDisplay(m_monitor->timecode(), this);
@@ -1664,3 +1666,10 @@ void AnimationWidget::slotRefresh()
     rebuildKeyframes();
     monitorSeek(m_monitor->position());
 }
+
+void AnimationWidget::slotSetRange(QPair<int, int>range)
+{
+    m_inPoint = range.first;
+    m_outPoint = range.second;
+}
+

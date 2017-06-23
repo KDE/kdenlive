@@ -66,6 +66,7 @@ void WidgetDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option
 
 EffectStackView::EffectStackView(QWidget *parent) : QWidget(parent)
     , m_thumbnailer(new AssetIconProvider(true))
+    , m_range(-1, -1)
 {
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     m_lay = new QVBoxLayout(this);
@@ -136,10 +137,13 @@ void EffectStackView::dropEvent(QDropEvent *event)
     }
 }
 
-void EffectStackView::setModel(std::shared_ptr<EffectStackModel>model)
+void EffectStackView::setModel(std::shared_ptr<EffectStackModel>model, QPair <int, int>range)
 {
     unsetModel();
     m_model = model;
+    QPair <int, int>clipId = m_model->getClipId();
+    setProperty("binId", clipId.first);
+    setProperty("clipId", clipId.second);
     m_effectsTree->setModel(m_model.get());
     m_effectsTree->setItemDelegateForColumn(0, new WidgetDelegate(this));
     m_effectsTree->setColumnHidden(1, true);
@@ -147,12 +151,13 @@ void EffectStackView::setModel(std::shared_ptr<EffectStackModel>model)
     m_effectsTree->setDragDropMode(QAbstractItemView::DragDrop);
     m_effectsTree->setDragEnabled(true);
     m_effectsTree->setUniformRowHeights(false);
-    loadEffects();
+    loadEffects(range);
     connect(m_model.get(), &EffectStackModel::dataChanged, this, &EffectStackView::refresh);
 }
 
-void EffectStackView::loadEffects(int start, int end)
+void EffectStackView::loadEffects(QPair <int, int>range, int start, int end)
 {
+    m_range = range;
     int max = m_model->rowCount();
     if (end == -1) {
         end = max;
@@ -167,7 +172,7 @@ void EffectStackView::loadEffects(int start, int end)
         }
         std::shared_ptr<EffectItemModel> effectModel = std::static_pointer_cast<EffectItemModel>(item);
         QImage effectIcon = m_thumbnailer->requestImage(effectModel->getAssetId(), &size, QSize(QStyle::PM_SmallIconSize,QStyle::PM_SmallIconSize));
-        CollapsibleEffectView *view = new CollapsibleEffectView(effectModel, effectIcon, this);
+        CollapsibleEffectView *view = new CollapsibleEffectView(effectModel, range, effectIcon, this);
         qDebug()<<"__ADDING EFFECT: "<<effectModel->filter().get("id")<<", ACT: "<<active;
         if (i == active) {
             view->slotActivateEffect(m_model->getIndexFromItem(effectModel));
@@ -218,8 +223,10 @@ void EffectStackView::slotAdjustDelegate(std::shared_ptr<EffectItemModel> effect
 
 void EffectStackView::refresh(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles)
 {
-    loadEffects(topLeft.row(), bottomRight.row() + 1);
+    loadEffects(m_range, topLeft.row(), bottomRight.row() + 1);
 }
+
+
 
 void EffectStackView::unsetModel(bool reset)
 {

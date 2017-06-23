@@ -43,9 +43,10 @@ public:
     /** @brief Factory method to construct a parameter widget.
         @param model Parameter model this parameter belongs to
         @param index Index of the parameter in the given model
+        @param range For timeline clips, the in/out point in playlist
         @param parent parent widget
     */
-    static AbstractParamWidget *construct(const std::shared_ptr<AssetParameterModel> &model, QModelIndex index, QWidget *parent);
+    static AbstractParamWidget *construct(const std::shared_ptr<AssetParameterModel> &model, QModelIndex index, QPair<int, int> range, QWidget *parent);
 
 signals:
     /** @brief Signal sent when the parameters hold by the widgets are modified
@@ -64,6 +65,10 @@ public slots:
     /** @brief refresh the properties to reflect changes in the model
      */
     virtual void slotRefresh() = 0;
+
+    /** @brief update the clip's in/out point
+     */
+    virtual void slotSetRange(QPair<int, int>range) = 0;
 
 protected:
     std::shared_ptr<AssetParameterModel> m_model;

@@ -202,3 +202,13 @@ void EffectStackModel::slotCreateGroup(std::shared_ptr<EffectItemModel> childEff
     rootItem->appendChild(groupItem);
     groupItem->appendChild(childEffect);
 }
+
+QPair <int, int> EffectStackModel::getClipId() const
+{
+    auto ptr = m_service.lock();
+    if (ptr) {
+        return QPair<int, int>(ptr->get_int("kdenlive:id"), ptr->get_int("_kdenlive_cid"));
+    }
+    qDebug()<<"*  ** ERORR; CANNOT LOCK CLIP SERVICE";
+    return QPair<int, int>();
+}

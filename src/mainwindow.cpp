@@ -313,6 +313,7 @@ void MainWindow::init()
 
     connect(m_timelineTabs, &TimelineTabs::showTransitionModel, m_assetPanel, &AssetPanel::showTransition);
     connect(m_timelineTabs, &TimelineTabs::showClipEffectStack, m_assetPanel, &AssetPanel::showEffectStack);
+    connect(this, &MainWindow::clearAssetPanel, m_assetPanel, &AssetPanel::clearAssetPanel);
 
     m_effectStackDock = addDock(i18n("Properties"), QStringLiteral("effect_stack"), m_assetPanel);
 
@@ -4109,10 +4110,6 @@ TimelineWidget *MainWindow::getMainTimeline() const
     return m_timelineTabs->getMainTimeline();
 }
 
-void MainWindow::clearAssetPanel()
-{
-    m_assetPanel->clear();
-}
 
 #ifdef DEBUG_MAINW
 #undef DEBUG_MAINW

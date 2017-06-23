@@ -43,7 +43,7 @@ class AnimationWidget : public AbstractParamWidget
 {
     Q_OBJECT
 public:
-    AnimationWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent);
+    AnimationWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QPair <int, int>range, QWidget *parent);
 
     // explicit AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int max, int effectIn, const QString &effectId, const QDomElement &xml,QWidget
     // *parent = nullptr);
@@ -132,6 +132,10 @@ public slots:
     /** @brief refresh the properties to reflect changes in the model
      */
     void slotRefresh() override;
+
+    /** @brief update the clip's in/out point
+     */
+    void slotSetRange(QPair<int, int>) override;
 
 private slots:
     void slotPrevious();
