@@ -24,6 +24,7 @@
 #include "assets/model/assetparametermodel.hpp"
 #include "assets/model/assetcommand.hpp"
 #include "assets/view/widgets/abstractparamwidget.hpp"
+#include "effectstack/widgets/animationwidget.h"
 #include "core.h"
 
 #include <QDebug>
@@ -47,13 +48,22 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
     unsetModel();
     m_model = model;
     connect(m_model.get(), &AssetParameterModel::dataChanged, this, &AssetParameterView::refresh);
-
+    AnimationWidget *animWidget = nullptr;
     for (int i = 0; i < model->rowCount(); ++i) {
         QModelIndex index = model->index(i, 0);
-        auto w = AbstractParamWidget::construct(model, index, range, this);
-        connect(w, &AbstractParamWidget::valueChanged, this, &AssetParameterView::commitChanges);
-        m_lay->addWidget(w);
-        m_widgets.push_back(w);
+        auto type = model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
+        if (animWidget && (type == ParamType::Geometry || type == ParamType::Animated || type == ParamType::RestrictedAnim)) {
+            // Animation widget can have some extra params that should'nt build a new widget
+            animWidget->addParameter(index);
+        } else {
+            auto w = AbstractParamWidget::construct(model, index, range, this);
+            if (type == ParamType::Geometry || type == ParamType::Animated || type == ParamType::RestrictedAnim || type == ParamType::AnimatedRect) {
+                animWidget = static_cast<AnimationWidget*>(w);
+            }
+            connect(w, &AbstractParamWidget::valueChanged, this, &AssetParameterView::commitChanges);
+            m_lay->addWidget(w);
+            m_widgets.push_back(w);
+        }
     }
     if (addSpacer) {
         m_lay->addStretch();

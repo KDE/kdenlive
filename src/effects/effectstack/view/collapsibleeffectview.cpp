@@ -96,8 +96,6 @@ CollapsibleEffectView::CollapsibleEffectView(std::shared_ptr<EffectItemModel> ef
         setAcceptDrops(true);
     }
 
-    /*buttonReset->setIcon(KoIconUtils::themedIcon("view-refresh"));
-    buttonReset->setToolTip(i18n("Reset effect"));*/
     // checkAll->setToolTip(i18n("Enable/Disable all effects"));
     // buttonShowComments->setIcon(KoIconUtils::themedIcon("help-about"));
     // buttonShowComments->setToolTip(i18n("Show additional information for the parameters"));
