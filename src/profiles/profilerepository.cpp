@@ -99,7 +99,12 @@ std::unique_ptr<ProfileModel> &ProfileRepository::getProfile(const QString &path
 
     if (m_profiles.count(path) == 0) {
         qCWarning(KDENLIVE_LOG) << "//// WARNING: profile not found: " << path << ". Returning default profile instead.";
-        return getProfile(KdenliveSettings::default_profile());
+        QString default_profile = KdenliveSettings::default_profile();
+        if (m_profiles.count(default_profile) == 0) {
+            qCWarning(KDENLIVE_LOG) << "//// WARNING: default profile not found: " << default_profile << ". Returning random profile instead.";
+            return (*(m_profiles.begin())).second;
+        }
+        return m_profiles.at(default_profile);
     }
 
     return m_profiles.at(path);

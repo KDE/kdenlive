@@ -38,7 +38,10 @@ std::shared_ptr<AbstractTreeModel> AbstractTreeModel::construct(QObject *parent)
     return self;
 }
 
-AbstractTreeModel::~AbstractTreeModel() = default;
+AbstractTreeModel::~AbstractTreeModel(){
+    m_allItems.clear();
+    rootItem.reset();
+}
 
 int AbstractTreeModel::columnCount(const QModelIndex &parent) const
 {
@@ -84,14 +87,14 @@ QVariant AbstractTreeModel::headerData(int section, Qt::Orientation orientation,
 
 QModelIndex AbstractTreeModel::index(int row, int column, const QModelIndex &parent) const
 {
-    if (!hasIndex(row, column, parent)) return QModelIndex();
-
     std::shared_ptr<TreeItem> parentItem;
 
     if (!parent.isValid())
         parentItem = rootItem;
     else
         parentItem = getItemById((int)parent.internalId());
+
+    if (row >= parentItem->childCount()) return QModelIndex();
 
     std::shared_ptr<TreeItem> childItem = parentItem->child(row);
     if (childItem) return createIndex(row, column, quintptr(childItem->getId()));
@@ -131,7 +134,8 @@ QModelIndex AbstractTreeModel::getIndexFromItem(const std::shared_ptr<TreeItem> 
     if (item == rootItem) {
         return QModelIndex();
     }
-    return index(item->row(), 0, getIndexFromItem(item->parentItem().lock()));
+    auto parentIndex = getIndexFromItem(item->parentItem().lock());
+    return index(item->row(), 0, parentIndex);
 }
 
 void AbstractTreeModel::notifyRowAboutToAppend(const std::shared_ptr<TreeItem> &item)

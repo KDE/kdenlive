@@ -57,8 +57,6 @@ TreeItem::~TreeItem()
 {
     if (auto ptr = m_model.lock()) {
         ptr->deregisterItem(m_id, this);
-    } else {
-        qDebug() << "ERROR: Something went wrong when deleting TreeItem. Model is not available anymore";
     }
 }
 

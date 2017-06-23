@@ -31,5 +31,31 @@ TEST_CASE("Basic tree testing", "[TreeModel]")
 
         // check that we can query the item in the model
         REQUIRE(model->getItemById(id) == item);
+        REQUIRE(model->m_allItems.size() == 1);
+
+
+        // Assign this to a parent
+        model->getRoot()->appendChild(item);
+        REQUIRE(item->depth() == 1);
+        REQUIRE(model->rowCount() == 1);
+        qDebug() << (void*)model->getRoot().get() << (void*)item.get();
+        qDebug() << model->getIndexFromItem(item);
+        REQUIRE(model->rowCount(model->getIndexFromItem(item)) == 0);
+        REQUIRE(model->m_allItems.size() == 1);
+
+        // Retrieve data member
+        REQUIRE(model->data(model->getIndexFromItem(item), 0) == QStringLiteral("test"));
+
+
+        // Try joint creation / assignation
+        auto item2 = item->appendChild(QList<QVariant>{QString("test2")});
+        REQUIRE(item->depth() == 1);
+        REQUIRE(item2->depth() == 2);
+        REQUIRE(model->rowCount() == 1);
+        REQUIRE(model->rowCount(model->getIndexFromItem(item)) == 1);
+        REQUIRE(model->rowCount(model->getIndexFromItem(item2)) == 0);
+        REQUIRE(model->m_allItems.size() == 2);
+        REQUIRE(model->data(model->getIndexFromItem(item2), 0) == QStringLiteral("test2"));
+
     }
 }
