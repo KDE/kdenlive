@@ -26,17 +26,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KLocalizedString>
 #include <QDomElement>
 
-ProjectFolderUp::ProjectFolderUp(std::shared_ptr<ProjectItemModel> model, std::shared_ptr<AbstractProjectItem> parent)
-    : AbstractProjectItem(AbstractProjectItem::FolderUpItem, QString(), model, parent)
+ProjectFolderUp::ProjectFolderUp(std::shared_ptr<ProjectItemModel> model)
+    : AbstractProjectItem(AbstractProjectItem::FolderUpItem, QString(), model)
 {
     m_thumbnail = KoIconUtils::themedIcon(QStringLiteral("go-previous"));
     m_name = i18n("Back");
-    changeParent(parent);
 }
 
-std::shared_ptr<ProjectFolderUp> ProjectFolderUp::construct(std::shared_ptr<ProjectItemModel> model, std::shared_ptr<AbstractProjectItem> parent)
+std::shared_ptr<ProjectFolderUp> ProjectFolderUp::construct(std::shared_ptr<ProjectItemModel> model)
 {
-    std::shared_ptr<ProjectFolderUp> self(new ProjectFolderUp(model, parent));
+    std::shared_ptr<ProjectFolderUp> self(new ProjectFolderUp(model));
 
     baseFinishConstruct(self);
     return self;

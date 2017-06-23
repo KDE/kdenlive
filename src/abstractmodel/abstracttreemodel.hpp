@@ -50,29 +50,12 @@ public:
     /* @brief Given an item from the hierarchy, construct the corresponding ModelIndex */
     QModelIndex getIndexFromItem(const std::shared_ptr<TreeItem> &item) const;
 
-    /* @brief Send the appropriate notification related to a row that we are appending
-       @param item is the parent item to which row is appended
-     */
-    void notifyRowAboutToAppend(const std::shared_ptr<TreeItem> &item);
-
-    /* @brief Send the appropriate notification related to a row that we have appended
-       @param row is the new element
-    */
-    virtual void notifyRowAppended(const std::shared_ptr<TreeItem> &row);
-
-    /* @brief Send the appropriate notification related to a row that we are deleting
-       @param item is the parent of the row being deleted
-       @param row is the index of the row being deleted
-    */
-    virtual void notifyRowAboutToDelete(std::shared_ptr<TreeItem> item, int row);
-
-    /* @brief Send the appropriate notification related to a row that we have appended
-       @param row is the old element
-    */
-    void notifyRowDeleted();
 
     /* @brief Return a ptr to an item given its id */
     std::shared_ptr<TreeItem> getItemById(int id) const;
+
+    /* @brief Return a ptr to the root of the tree */
+    std::shared_ptr<TreeItem> getRoot() const;
 
     QVariant data(const QModelIndex &index, int role) const override;
     // This is reimplemented to prevent selection of the categories
@@ -95,6 +78,27 @@ protected:
 
     /* @brief Returns the next valid id to give to a new element */
     static int getNextId();
+
+    /* @brief Send the appropriate notification related to a row that we are appending
+       @param item is the parent item to which row is appended
+    */
+    void notifyRowAboutToAppend(const std::shared_ptr<TreeItem> &item);
+
+    /* @brief Send the appropriate notification related to a row that we have appended
+       @param row is the new element
+    */
+    virtual void notifyRowAppended(const std::shared_ptr<TreeItem> &row);
+
+    /* @brief Send the appropriate notification related to a row that we are deleting
+       @param item is the parent of the row being deleted
+       @param row is the index of the row being deleted
+    */
+    virtual void notifyRowAboutToDelete(std::shared_ptr<TreeItem> item, int row);
+
+    /* @brief Send the appropriate notification related to a row that we have appended
+       @param row is the old element
+    */
+    void notifyRowDeleted();
 
 protected:
     std::shared_ptr<TreeItem> rootItem;

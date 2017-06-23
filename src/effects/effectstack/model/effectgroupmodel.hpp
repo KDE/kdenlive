@@ -35,12 +35,12 @@ public:
     /* This construct an effect of the given id
        @param is a ptr to the model this item belongs to. This is required to send update signals
      */
-    static std::shared_ptr<EffectGroupModel> construct(const QString &name, std::shared_ptr<AbstractTreeModel> stack, std::shared_ptr<TreeItem> parent);
+    static std::shared_ptr<EffectGroupModel> construct(const QString &name, std::shared_ptr<AbstractTreeModel> stack);
 
 
 protected:
     EffectGroupModel(const QList<QVariant> &data, const QString &name,
-                    const std::shared_ptr<AbstractTreeModel> &stack, const std::shared_ptr<TreeItem> &parent);
+                    const std::shared_ptr<AbstractTreeModel> &stack);
 
     void updateEnable() override;
 

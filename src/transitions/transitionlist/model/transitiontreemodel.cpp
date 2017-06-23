@@ -38,7 +38,7 @@ std::shared_ptr<TransitionTreeModel> TransitionTreeModel::construct(bool flat, Q
              << "ID"
              << "Type"
              << "isFav";
-    self->rootItem = TreeItem::construct(rootData, self, std::shared_ptr<TreeItem>());
+    self->rootItem = TreeItem::construct(rootData, self);
 
     // We create categories, if requested
     std::shared_ptr<TreeItem> compoCategory, transCategory;

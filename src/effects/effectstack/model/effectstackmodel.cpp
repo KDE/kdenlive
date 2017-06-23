@@ -36,7 +36,7 @@ EffectStackModel::EffectStackModel(std::weak_ptr<Mlt::Service> service)
 std::shared_ptr<EffectStackModel> EffectStackModel::construct(std::weak_ptr<Mlt::Service> service)
 {
     std::shared_ptr<EffectStackModel> self(new EffectStackModel(std::move(service)));
-    self->rootItem = EffectGroupModel::construct(QStringLiteral("root"), self, std::shared_ptr<TreeItem>());
+    self->rootItem = EffectGroupModel::construct(QStringLiteral("root"), self);
     return self;
 }
 
@@ -60,7 +60,8 @@ void EffectStackModel::copyEffect(std::shared_ptr<AbstractEffectItem>sourceItem,
     }
     std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(sourceItem);
     QString effectId = sourceEffect->getAssetId();
-    auto effect = EffectItemModel::construct(effectId, shared_from_this(), rootItem);
+    auto effect = EffectItemModel::construct(effectId, shared_from_this());
+    rootItem->appendChild(effect);
     effect->setParameters(sourceEffect->getAllParameters());
     bool isAudioEffect = EffectsRepository::get()->getType(effectId) == EffectType::Audio;
     Fun undo = deleteEffect_lambda(effect, cid, isAudioEffect);
@@ -72,7 +73,8 @@ void EffectStackModel::copyEffect(std::shared_ptr<AbstractEffectItem>sourceItem,
 
 void EffectStackModel::appendEffect(const QString &effectId, int cid)
 {
-    auto effect = EffectItemModel::construct(effectId, shared_from_this(), rootItem);
+    auto effect = EffectItemModel::construct(effectId, shared_from_this());
+    rootItem->appendChild(effect);
     bool isAudioEffect = EffectsRepository::get()->getType(effectId) == EffectType::Audio;
     Fun undo = deleteEffect_lambda(effect, cid, isAudioEffect);
     Fun redo = addEffect_lambda(effect, cid, isAudioEffect);
@@ -172,7 +174,8 @@ void EffectStackModel::importEffects(int cid, std::shared_ptr<EffectStackModel>s
             continue;
         }
         std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(item);
-        auto clone = EffectItemModel::construct(effect->getAssetId(), shared_from_this(), rootItem);
+        auto clone = EffectItemModel::construct(effect->getAssetId(), shared_from_this());
+        rootItem->appendChild(clone);
         clone->setParameters(effect->getAllParameters());
         Fun redo = addEffect_lambda(clone, cid, true);
         redo();
@@ -198,7 +201,7 @@ int EffectStackModel::getActiveEffect() const
 
 void EffectStackModel::slotCreateGroup(std::shared_ptr<EffectItemModel> childEffect)
 {
-    auto groupItem = EffectGroupModel::construct(QStringLiteral("group"), shared_from_this(), rootItem);
+    auto groupItem = EffectGroupModel::construct(QStringLiteral("group"), shared_from_this());
     rootItem->appendChild(groupItem);
     groupItem->appendChild(childEffect);
 }

@@ -30,25 +30,24 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KLocalizedString>
 #include <QDomElement>
 
-ProjectFolder::ProjectFolder(const QString &id, const QString &name, std::shared_ptr<ProjectItemModel> model, std::shared_ptr<ProjectFolder> parent)
-    : AbstractProjectItem(AbstractProjectItem::FolderItem, id, model, parent)
+ProjectFolder::ProjectFolder(const QString &id, const QString &name, std::shared_ptr<ProjectItemModel> model)
+    : AbstractProjectItem(AbstractProjectItem::FolderItem, id, model)
 {
     m_name = name;
     m_clipStatus = StatusReady;
     m_thumbnail = KoIconUtils::themedIcon(QStringLiteral("folder"));
 }
 
-std::shared_ptr<ProjectFolder> ProjectFolder::construct(const QString &id, const QString &name, std::shared_ptr<ProjectItemModel> model,
-                                                        std::shared_ptr<ProjectFolder> parent)
+std::shared_ptr<ProjectFolder> ProjectFolder::construct(const QString &id, const QString &name, std::shared_ptr<ProjectItemModel> model)
 {
-    std::shared_ptr<ProjectFolder> self(new ProjectFolder(id, name, model, parent));
+    std::shared_ptr<ProjectFolder> self(new ProjectFolder(id, name, model));
 
     baseFinishConstruct(self);
     return self;
 }
 
 ProjectFolder::ProjectFolder(std::shared_ptr<ProjectItemModel> model)
-    : AbstractProjectItem(AbstractProjectItem::FolderItem, QString::number(-1), model, std::shared_ptr<AbstractProjectItem>())
+    : AbstractProjectItem(AbstractProjectItem::FolderItem, QString::number(-1), model)
 {
     m_name = QStringLiteral("root");
 }

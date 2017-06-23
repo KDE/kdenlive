@@ -25,19 +25,19 @@
 #include <utility>
 
 EffectGroupModel::EffectGroupModel(const QList<QVariant> &data, const QString &name,
-                                 const std::shared_ptr<AbstractTreeModel> &stack, const std::shared_ptr<TreeItem> &parent)
-    : AbstractEffectItem(data, stack, parent)
+                                 const std::shared_ptr<AbstractTreeModel> &stack)
+    : AbstractEffectItem(data, stack)
     , m_name(name)
 {
 }
 
 // static
-std::shared_ptr<EffectGroupModel> EffectGroupModel::construct(const QString &name, std::shared_ptr<AbstractTreeModel> stack, std::shared_ptr<TreeItem> parent)
+std::shared_ptr<EffectGroupModel> EffectGroupModel::construct(const QString &name, std::shared_ptr<AbstractTreeModel> stack)
 {
     QList<QVariant> data;
     data << name << name;
 
-    std::shared_ptr<EffectGroupModel> self(new EffectGroupModel(data, name, std::move(stack), std::move(parent)));
+    std::shared_ptr<EffectGroupModel> self(new EffectGroupModel(data, name, std::move(stack)));
 
     baseFinishConstruct(self);
 

@@ -61,18 +61,16 @@ public:
      * @brief Constructor; used when loading a project and the producer is already available.
      */
     static std::shared_ptr<ProjectClip> construct(const QString &id, const QIcon &thumb, std::shared_ptr<ProjectItemModel> model,
-                                                  std::shared_ptr<Mlt::Producer> producer, std::shared_ptr<ProjectFolder> parent);
+                                                  std::shared_ptr<Mlt::Producer> producer);
     /**
      * @brief Constructor.
      * @param description element describing the clip; the "id" attribute and "resource" property are used
      */
-    static std::shared_ptr<ProjectClip> construct(const QDomElement &description, const QIcon &thumb, std::shared_ptr<ProjectItemModel> model,
-                                                  std::shared_ptr<ProjectFolder> parent);
+    static std::shared_ptr<ProjectClip> construct(const QDomElement &description, const QIcon &thumb, std::shared_ptr<ProjectItemModel> model);
 
 protected:
-    ProjectClip(const QString &id, const QIcon &thumb, std::shared_ptr<ProjectItemModel> model, std::shared_ptr<Mlt::Producer> producer,
-                std::shared_ptr<ProjectFolder> parent);
-    ProjectClip(const QDomElement &description, const QIcon &thumb, std::shared_ptr<ProjectItemModel> model, std::shared_ptr<ProjectFolder> parent);
+    ProjectClip(const QString &id, const QIcon &thumb, std::shared_ptr<ProjectItemModel> model, std::shared_ptr<Mlt::Producer> producer);
+    ProjectClip(const QDomElement &description, const QIcon &thumb, std::shared_ptr<ProjectItemModel> model);
 
 public:
     virtual ~ProjectClip();

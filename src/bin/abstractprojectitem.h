@@ -56,8 +56,7 @@ public:
      * @brief Constructor.
      * @param parent parent this item should be added to
      */
-    AbstractProjectItem(PROJECTITEMTYPE type, const QString &id, const std::shared_ptr<ProjectItemModel> &model,
-                        const std::shared_ptr<AbstractProjectItem> &parent);
+    AbstractProjectItem(PROJECTITEMTYPE type, const QString &id, const std::shared_ptr<ProjectItemModel> &model);
     /**
      * @brief Creates a project item upon project load.
      * @param description element for this item.
@@ -66,8 +65,7 @@ public:
      *
      * We try to read the attributes "name" and "description"
      */
-    AbstractProjectItem(PROJECTITEMTYPE type, const QDomElement &description, const std::shared_ptr<ProjectItemModel> &model,
-                        const std::shared_ptr<AbstractProjectItem> &parent);
+    AbstractProjectItem(PROJECTITEMTYPE type, const QDomElement &description, const std::shared_ptr<ProjectItemModel> &model);
 
     bool operator==(const std::shared_ptr<AbstractProjectItem> &projectItem) const;
 

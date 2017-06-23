@@ -32,7 +32,7 @@ class ClipController;
 
 ProjectSubClip::ProjectSubClip(const std::shared_ptr<ProjectClip> &parent, const std::shared_ptr<ProjectItemModel> &model, int in, int out,
                                const QString &timecode, const QString &name)
-    : AbstractProjectItem(AbstractProjectItem::SubClipItem, parent->AbstractProjectItem::clipId(), model, parent)
+    : AbstractProjectItem(AbstractProjectItem::SubClipItem, parent->AbstractProjectItem::clipId(), model)
     , m_masterClip(parent)
     , m_in(in)
     , m_out(out)
@@ -56,8 +56,8 @@ ProjectSubClip::ProjectSubClip(const std::shared_ptr<ProjectClip> &parent, const
 std::shared_ptr<ProjectSubClip> ProjectSubClip::construct(std::shared_ptr<ProjectClip> parent, std::shared_ptr<ProjectItemModel> model, int in, int out,
                                                           const QString &timecode, const QString &name)
 {
-    std::shared_ptr<ProjectSubClip> self(new ProjectSubClip(std::move(parent), std::move(model), in, out, timecode, name));
-
+    std::shared_ptr<ProjectSubClip> self(new ProjectSubClip(parent, std::move(model), in, out, timecode, name));
+    parent->appendChild(self);
     baseFinishConstruct(self);
     return self;
 }

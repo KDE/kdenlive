@@ -53,9 +53,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QtConcurrent>
 #include <utility>
 
-ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, std::shared_ptr<ProjectItemModel> model, std::shared_ptr<Mlt::Producer> producer,
-                         std::shared_ptr<ProjectFolder> parent)
-    : AbstractProjectItem(AbstractProjectItem::ClipItem, id, model, parent)
+ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, std::shared_ptr<ProjectItemModel> model, std::shared_ptr<Mlt::Producer> producer)
+    : AbstractProjectItem(AbstractProjectItem::ClipItem, id, model)
     , ClipController(pCore->binController(), producer)
     , m_abortAudioThumb(false)
     , m_thumbsProducer(nullptr)
@@ -79,18 +78,17 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, std::shared_ptr<
 
 // static
 std::shared_ptr<ProjectClip> ProjectClip::construct(const QString &id, const QIcon &thumb, std::shared_ptr<ProjectItemModel> model,
-                                                    std::shared_ptr<Mlt::Producer> producer, std::shared_ptr<ProjectFolder> parent)
+                                                    std::shared_ptr<Mlt::Producer> producer)
 {
-    std::shared_ptr<ProjectClip> self(new ProjectClip(id, thumb, model, producer, parent));
+    std::shared_ptr<ProjectClip> self(new ProjectClip(id, thumb, model, producer));
     baseFinishConstruct(self);
-    parent->appendChild(self);
     model->loadSubClips(id, self->getPropertiesFromPrefix(QStringLiteral("kdenlive:clipzone.")));
     self->createAudioThumbs();
     return self;
 }
 
-ProjectClip::ProjectClip(const QDomElement &description, const QIcon &thumb, std::shared_ptr<ProjectItemModel> model, std::shared_ptr<ProjectFolder> parent)
-    : AbstractProjectItem(AbstractProjectItem::ClipItem, description, model, parent)
+ProjectClip::ProjectClip(const QDomElement &description, const QIcon &thumb, std::shared_ptr<ProjectItemModel> model)
+    : AbstractProjectItem(AbstractProjectItem::ClipItem, description, model)
     , ClipController(pCore->binController())
     , m_abortAudioThumb(false)
     , m_thumbsProducer(nullptr)
@@ -119,12 +117,10 @@ ProjectClip::ProjectClip(const QDomElement &description, const QIcon &thumb, std
     m_markerModel = std::make_shared<MarkerListModel>(m_binId, pCore->projectManager()->current()->commandStack());
 }
 
-std::shared_ptr<ProjectClip> ProjectClip::construct(const QDomElement &description, const QIcon &thumb, std::shared_ptr<ProjectItemModel> model,
-                                                    std::shared_ptr<ProjectFolder> parent)
+std::shared_ptr<ProjectClip> ProjectClip::construct(const QDomElement &description, const QIcon &thumb, std::shared_ptr<ProjectItemModel> model)
 {
-    std::shared_ptr<ProjectClip> self(new ProjectClip(description, thumb, model, parent));
+    std::shared_ptr<ProjectClip> self(new ProjectClip(description, thumb, model));
     baseFinishConstruct(self);
-    parent->appendChild(self);
     return self;
 }
 

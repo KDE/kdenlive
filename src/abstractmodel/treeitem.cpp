@@ -25,9 +25,8 @@
 #include <numeric>
 #include <utility>
 
-TreeItem::TreeItem(const QList<QVariant> &data, const std::shared_ptr<AbstractTreeModel> &model, const std::shared_ptr<TreeItem> &parent, int id)
+TreeItem::TreeItem(const QList<QVariant> &data, const std::shared_ptr<AbstractTreeModel> &model, int id)
     : m_itemData(data)
-    , m_parentItem(parent)
     , m_model(model)
     , m_depth(0)
     , m_id(id == -1 ? AbstractTreeModel::getNextId() : id)
@@ -35,10 +34,9 @@ TreeItem::TreeItem(const QList<QVariant> &data, const std::shared_ptr<AbstractTr
 {
 }
 
-std::shared_ptr<TreeItem> TreeItem::construct(const QList<QVariant> &data, std::shared_ptr<AbstractTreeModel> model, std::shared_ptr<TreeItem> parent, int id)
+std::shared_ptr<TreeItem> TreeItem::construct(const QList<QVariant> &data, std::shared_ptr<AbstractTreeModel> model, int id)
 {
-    std::shared_ptr<TreeItem> self(new TreeItem(data, std::move(model), std::move(parent), id));
-    id = self->m_id;
+    std::shared_ptr<TreeItem> self(new TreeItem(data, std::move(model), id));
     baseFinishConstruct(self);
     return self;
 }
@@ -68,7 +66,8 @@ std::shared_ptr<TreeItem> TreeItem::appendChild(const QList<QVariant> &data)
 {
     if (auto ptr = m_model.lock()) {
         ptr->notifyRowAboutToAppend(shared_from_this());
-        auto child = construct(data, ptr, shared_from_this());
+        auto child = construct(data, ptr);
+        child->m_parentItem = shared_from_this();
         qDebug() << "appending child" << child->getId() << "to " << m_id;
         child->m_depth = m_depth + 1;
         int id = child->getId();

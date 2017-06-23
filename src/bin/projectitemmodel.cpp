@@ -504,7 +504,7 @@ bool ProjectItemModel::requestAddFolder(QString &id, const QString &name, const 
     if (id.isEmpty()) {
         id = QString::number(getFreeFolderId());
     }
-    std::shared_ptr<ProjectFolder> new_folder = ProjectFolder::construct(id, name, std::static_pointer_cast<ProjectItemModel>(shared_from_this()), parentFolder);
+    std::shared_ptr<ProjectFolder> new_folder = ProjectFolder::construct(id, name, std::static_pointer_cast<ProjectItemModel>(shared_from_this()));
     parentFolder->appendChild(new_folder);
     int folderId = new_folder->getId();
     Fun operation = [this, new_folder, parentId]() {

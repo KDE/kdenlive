@@ -29,9 +29,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QPainter>
 #include <QVariant>
 
-AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QString &id, const std::shared_ptr<ProjectItemModel> &model,
-                                         const std::shared_ptr<AbstractProjectItem> &parent)
-    : TreeItem(QList<QVariant>(), std::static_pointer_cast<AbstractTreeModel>(model), std::static_pointer_cast<TreeItem>(parent))
+AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QString &id, const std::shared_ptr<ProjectItemModel> &model)
+    : TreeItem(QList<QVariant>(), std::static_pointer_cast<AbstractTreeModel>(model))
     , m_name()
     , m_description()
     , m_thumbnail(QIcon())
@@ -47,9 +46,8 @@ AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QString &id
 {
 }
 
-AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QDomElement &description, const std::shared_ptr<ProjectItemModel> &model,
-                                         const std::shared_ptr<AbstractProjectItem> &parent)
-    : TreeItem(QList<QVariant>(), std::static_pointer_cast<AbstractTreeModel>(model), std::static_pointer_cast<TreeItem>(parent))
+AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QDomElement &description, const std::shared_ptr<ProjectItemModel> &model)
+    : TreeItem(QList<QVariant>(), std::static_pointer_cast<AbstractTreeModel>(model))
     , m_name()
     , m_description()
     , m_thumbnail(QIcon())

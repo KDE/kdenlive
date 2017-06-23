@@ -26,8 +26,8 @@
 #include "core.h"
 #include <utility>
 
-AbstractEffectItem::AbstractEffectItem(const QList<QVariant> &data, const std::shared_ptr<AbstractTreeModel> &stack, const std::shared_ptr<TreeItem> &parent)
-    : TreeItem(data, stack, parent)
+AbstractEffectItem::AbstractEffectItem(const QList<QVariant> &data, const std::shared_ptr<AbstractTreeModel> &stack)
+    : TreeItem(data, stack)
     , m_enabled(true)
     , m_effectStackEnabled(true)
 {

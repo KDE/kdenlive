@@ -12,6 +12,7 @@ SET(Tests_SRCS
     tests/modeltest.cpp
     tests/regressions.cpp
     tests/snaptest.cpp
+    tests/treetest.cpp
     PARENT_SCOPE
 )
 

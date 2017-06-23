@@ -44,7 +44,7 @@ std::shared_ptr<EffectTreeModel> EffectTreeModel::construct(const QString &categ
              << "ID"
              << "Type"
              << "isFav";
-    self->rootItem = TreeItem::construct(rootData, self, std::shared_ptr<TreeItem>());
+    self->rootItem = TreeItem::construct(rootData, self);
 
     QHash<QString, std::shared_ptr<TreeItem>> effectCategory; // category in which each effect should land.
 

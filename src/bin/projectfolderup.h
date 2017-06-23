@@ -39,12 +39,11 @@ public:
     /**
      * @brief Creates the supplied folder and loads its children.
      * @param description element describing the folder and its children
-     * @param parent parent folder
      */
-    static std::shared_ptr<ProjectFolderUp> construct(std::shared_ptr<ProjectItemModel> model, std::shared_ptr<AbstractProjectItem> parent);
+    static std::shared_ptr<ProjectFolderUp> construct(std::shared_ptr<ProjectItemModel> model);
 
 protected:
-    explicit ProjectFolderUp(std::shared_ptr<ProjectItemModel> model, std::shared_ptr<AbstractProjectItem> parent);
+    explicit ProjectFolderUp(std::shared_ptr<ProjectItemModel> model);
 
 public:
     ~ProjectFolderUp();

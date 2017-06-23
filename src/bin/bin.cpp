@@ -1373,7 +1373,8 @@ void Bin::createClip(const QDomElement &xml)
             }
         }
     }
-    auto newClip = ProjectClip::construct(xml, m_blankThumb, m_itemModel, parentFolder);
+    auto newClip = ProjectClip::construct(xml, m_blankThumb, m_itemModel);
+    parentFolder->appendChild(newClip);
 }
 
 QString Bin::slotAddFolder(const QString &folderName)
@@ -1472,7 +1473,7 @@ void Bin::doAddFolder(const QString &id, const QString &name, const QString &par
         qCDebug(KDENLIVE_LOG) << "  / / ERROR IN PARENT FOLDER";
         return;
     }
-    std::shared_ptr<ProjectFolder> new_folder = ProjectFolder::construct(id, name, m_itemModel, parentFolder);
+    std::shared_ptr<ProjectFolder> new_folder = ProjectFolder::construct(id, name, m_itemModel);
     parentFolder->appendChild(new_folder);
     emit storeFolder(id, parentId, QString(), name);
 }
@@ -1494,14 +1495,14 @@ void Bin::slotLoadFolders(const QMap<QString, QString> &foldersData)
             parentFolder = m_itemModel->getFolderByBinId(parentId);
             if (parentFolder->depth() == 0) { // check if this is root
                 // parent folder not yet created, create unnamed placeholder
-                std::shared_ptr<ProjectFolder> newFolder = ProjectFolder::construct(parentId, QString(), m_itemModel, parentFolder);
+                std::shared_ptr<ProjectFolder> newFolder = ProjectFolder::construct(parentId, QString(), m_itemModel);
                 parentFolder->appendChild(newFolder);
                 parentFolder = newFolder;
             } else if (parentFolder == nullptr) {
                 // Parent folder not yet created in hierarchy
                 if (iterations > maxIterations) {
                     // Give up, place folder in root
-                    std::shared_ptr<ProjectFolder> newFolder = ProjectFolder::construct(parentId, i18n("Folder"), m_itemModel, m_itemModel->getRootFolder());
+                    std::shared_ptr<ProjectFolder> newFolder = ProjectFolder::construct(parentId, i18n("Folder"), m_itemModel);
                     parentFolder->appendChild(newFolder);
                     parentFolder = newFolder;
                 } else {
@@ -1525,7 +1526,7 @@ void Bin::slotLoadFolders(const QMap<QString, QString> &foldersData)
             placeHolder->setName(foldersData.value(id));
         } else {
             // Create new folder
-            std::shared_ptr<ProjectFolder> newFolder = ProjectFolder::construct(folderId, foldersData.value(id), m_itemModel, parentFolder);
+            std::shared_ptr<ProjectFolder> newFolder = ProjectFolder::construct(folderId, foldersData.value(id), m_itemModel);
             parentFolder->appendChild(newFolder);
         }
     }
@@ -1713,7 +1714,7 @@ void Bin::slotInitView(QAction *action)
     switch (m_listType) {
     case BinIconView:
         m_itemView = new MyListView(this);
-        m_folderUp = ProjectFolderUp::construct(m_itemModel, std::shared_ptr<AbstractProjectItem>());
+        m_folderUp = ProjectFolderUp::construct(m_itemModel);
         m_showDate->setEnabled(false);
         m_showDesc->setEnabled(false);
         break;
@@ -2192,7 +2193,8 @@ void Bin::slotProducerReady(const requestClipInfo &info, ClipController *control
             parentFolder = m_itemModel->getRootFolder();
         }
         // TODO at this point, we shouldn't have a controller, but rather a bare producer
-        std::shared_ptr<ProjectClip> newClip = ProjectClip::construct(info.clipId, m_blankThumb, m_itemModel, controller->originalProducer(), parentFolder);
+        std::shared_ptr<ProjectClip> newClip = ProjectClip::construct(info.clipId, m_blankThumb, m_itemModel, controller->originalProducer());
+        parentFolder->appendChild(newClip);
         emit producerReady(info.clipId);
         ClipType t = newClip->clipType();
         if (t == AV || t == Audio || t == Image || t == Video || t == Playlist) {

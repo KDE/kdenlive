@@ -37,7 +37,7 @@ public:
     /* This construct an effect of the given id
        @param is a ptr to the model this item belongs to. This is required to send update signals
      */
-    static std::shared_ptr<EffectItemModel> construct(const QString &effectId, std::shared_ptr<AbstractTreeModel> stack, std::shared_ptr<TreeItem> parent);
+    static std::shared_ptr<EffectItemModel> construct(const QString &effectId, std::shared_ptr<AbstractTreeModel> stack);
 
     /* @brief This function plants the effect into the given service in last position
      */
@@ -50,7 +50,7 @@ public:
 
 protected:
     EffectItemModel(const QList<QVariant> &data, Mlt::Properties *effect, const QDomElement &xml, const QString &effectId,
-                    const std::shared_ptr<AbstractTreeModel> &stack, const std::shared_ptr<TreeItem> &parent);
+                    const std::shared_ptr<AbstractTreeModel> &stack);
 
     void updateEnable() override;
 

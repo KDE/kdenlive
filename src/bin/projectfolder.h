@@ -41,16 +41,14 @@ public:
     /**
      * @brief Creates the supplied folder and loads its children.
      * @param description element describing the folder and its children
-     * @param parent parent folder
      */
-    static std::shared_ptr<ProjectFolder> construct(const QString &id, const QString &name, std::shared_ptr<ProjectItemModel> model,
-                                                    std::shared_ptr<ProjectFolder> parent);
+    static std::shared_ptr<ProjectFolder> construct(const QString &id, const QString &name, std::shared_ptr<ProjectItemModel> model);
 
     /** @brief Creates an empty root folder. */
     static std::shared_ptr<ProjectFolder> construct(std::shared_ptr<ProjectItemModel> model);
 
 protected:
-    ProjectFolder(const QString &id, const QString &name, std::shared_ptr<ProjectItemModel> model, std::shared_ptr<ProjectFolder> parent);
+    ProjectFolder(const QString &id, const QString &name, std::shared_ptr<ProjectItemModel> model);
 
     explicit ProjectFolder(std::shared_ptr<ProjectItemModel> model);
 
