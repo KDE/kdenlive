@@ -1,3 +1,4 @@
+#include <float.h>
 /***************************************************************************
  *   Copyright (C) 2016 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
  *   This file is part of Kdenlive. See www.kdenlive.org.                  *
@@ -981,7 +982,7 @@ void AnimationWidget::slotAdjustRectKeyframeValue()
     rect.y = m_spinY->value();
     rect.w = m_spinWidth->value();
     rect.h = m_spinHeight->value();
-    rect.o = m_spinOpacity ? m_spinOpacity->value() / 100.0 : 1;
+    rect.o = m_spinOpacity ? m_spinOpacity->value() / 100.0 : DBL_MIN;
 
     double size;
     if (m_spinWidth->value() / pCore->getCurrentDar() > m_spinHeight->value()) {
