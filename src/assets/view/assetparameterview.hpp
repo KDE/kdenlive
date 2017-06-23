@@ -25,6 +25,7 @@
 #include <QModelIndex>
 #include <QVector>
 #include <QWidget>
+#include <QMutex>
 #include <memory>
 
 /* @brief This class is the view for a list of parameters.
@@ -63,6 +64,9 @@ protected:
     void refresh(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles);
 
     QVBoxLayout *m_lay;
+    /** @brief Protect from concurrent operations
+     **/
+    QMutex m_lock;
     std::shared_ptr<AssetParameterModel> m_model;
     std::vector<AbstractParamWidget *> m_widgets;
 

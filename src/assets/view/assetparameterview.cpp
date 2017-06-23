@@ -46,6 +46,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
 {
     qDebug() << "set model " << model.get();
     unsetModel();
+    QMutexLocker lock(&m_lock);
     m_model = model;
     connect(m_model.get(), &AssetParameterModel::dataChanged, this, &AssetParameterView::refresh);
     AnimationWidget *animWidget = nullptr;
@@ -72,6 +73,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
 
 void AssetParameterView::resetValues()
 {
+    QMutexLocker lock(&m_lock);
     for (int i = 0; i < m_model->rowCount(); ++i) {
         QModelIndex index = m_model->index(i, 0);
         QString name = m_model->data(index, AssetParameterModel::NameRole).toString();
@@ -83,6 +85,7 @@ void AssetParameterView::resetValues()
 
 void AssetParameterView::setRange(QPair <int, int> range)
 {
+    QMutexLocker lock(&m_lock);
     for (int i = 0; i < m_widgets.size(); ++i) {
         auto w = m_widgets[i];
         w->slotSetRange(range);
@@ -97,6 +100,7 @@ void AssetParameterView::commitChanges(const QModelIndex &index, const QString &
 
 void AssetParameterView::unsetModel()
 {
+    QMutexLocker lock(&m_lock);
     if (m_model) {
         // if a model is already there, we have to disconnect signals first
         disconnect(m_model.get(), &AssetParameterModel::dataChanged, this, &AssetParameterView::refresh);
@@ -116,6 +120,7 @@ void AssetParameterView::unsetModel()
 
 void AssetParameterView::refresh(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles)
 {
+    QMutexLocker lock(&m_lock);
     if (m_widgets.size() == 0) {
         // no visible param for this asset, abort
         return;
