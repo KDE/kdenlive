@@ -334,6 +334,7 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
     };
 
     int delta = m_allClips[clipId]->getPlaytime() - size;
+    qDebug()<<"RESIZING CLIP: "<<clipId<<" FROM: "<<delta;
     if (delta == 0) {
         return []() { return true; };
     }
@@ -401,7 +402,7 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
                     err = m_playlists[target_track].resize_clip(blank, 0, blank_length + delta - 1);
                 }
                 if (err == 0) {
-                    QScopedPointer<Mlt::Producer> clip(m_playlists[target_track].get_clip(target_clip));
+                    QScopedPointer<Mlt::Producer> clip(m_playlists[target_track].get_clip(target_clip_mutable));
                     if (out >= clip->get_length()) {
                         clip->parent().set("length", out + 1);
                         clip->set("length", out + 1);
