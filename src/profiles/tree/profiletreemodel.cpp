@@ -24,6 +24,7 @@
 #include "../profilerepository.hpp"
 #include "../profilemodel.hpp"
 #include <vector>
+#include <functional>
 #include <QVector>
 #include <array>
 #include <KLocalizedString>
