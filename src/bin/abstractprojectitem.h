@@ -54,9 +54,12 @@ public:
 
     /**
      * @brief Constructor.
-     * @param parent parent this item should be added to
+     * @param type is the type of the bin item
+     * @param id is the binId
+     * @param model is the ptr to the item model
+     * @param isRoot is true if this is the topmost folder
      */
-    AbstractProjectItem(PROJECTITEMTYPE type, const QString &id, const std::shared_ptr<ProjectItemModel> &model);
+    AbstractProjectItem(PROJECTITEMTYPE type, const QString &id, const std::shared_ptr<ProjectItemModel> &model, bool isRoot = false);
     /**
      * @brief Creates a project item upon project load.
      * @param description element for this item.

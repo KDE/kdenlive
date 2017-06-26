@@ -87,13 +87,13 @@ protected:
     /* @brief Send the appropriate notification related to a row that we have appended
        @param row is the new element
     */
-    virtual void notifyRowAppended(const std::shared_ptr<TreeItem> &row);
+    void notifyRowAppended(const std::shared_ptr<TreeItem> &row);
 
     /* @brief Send the appropriate notification related to a row that we are deleting
        @param item is the parent of the row being deleted
        @param row is the index of the row being deleted
     */
-    virtual void notifyRowAboutToDelete(std::shared_ptr<TreeItem> item, int row);
+    void notifyRowAboutToDelete(std::shared_ptr<TreeItem> item, int row);
 
     /* @brief Send the appropriate notification related to a row that we have appended
        @param row is the old element

@@ -393,32 +393,11 @@ bool ProjectItemModel::requestBinClipDeletion(std::shared_ptr<AbstractProjectIte
     int parentId = -1;
     if (auto ptr = clip->parent()) parentId = ptr->getId();
     int id = clip->getId();
-    Fun operation = [this, id]() {
-        /* Deletion simply deregister clip and remove it from parent.
-           The actual object is not actually deleted, because a shared_pointer to it
-           is captured by the reverse operation.
-           Actual deletions occurs when the undo object is destroyed.
-        */
-        auto currentClip = std::static_pointer_cast<AbstractProjectItem>(m_allItems[id].lock());
-        Q_ASSERT(currentClip);
-        if (!currentClip) return false;
-        auto parent = currentClip->parent();
-        parent->removeChild(currentClip);
-        return true;
-    };
-    Fun reverse = [this, clip, parentId]() {
-        /* To undo deletion, we reregister the clip */
-        std::shared_ptr<TreeItem> parent;
-        if (parentId != -1) {
-            parent = getItemById(parentId);
-        }
-        clip->changeParent(parent);
-        return true;
-    };
+    Fun operation = removeBin_lambda(id);
+    Fun reverse = addBin_lambda(clip, parentId);
     bool res = operation();
     if (res) {
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
-        res = clip->selfSoftDelete(undo, redo);
     }
     return res;
 }
@@ -436,13 +415,6 @@ void ProjectItemModel::deregisterItem(int id, TreeItem *item)
     AbstractTreeModel::deregisterItem(id, item);
 }
 
-void ProjectItemModel::notifyRowAppended(const std::shared_ptr<TreeItem> &row)
-{
-    auto binElem = std::static_pointer_cast<AbstractProjectItem>(row);
-    manageBinClipInsertion(binElem);
-    AbstractTreeModel::notifyRowAppended(row);
-}
-
 void ProjectItemModel::manageBinClipInsertion(const std::shared_ptr<AbstractProjectItem> &binElem)
 {
     switch(binElem->itemType()) {
@@ -457,14 +429,6 @@ void ProjectItemModel::manageBinClipInsertion(const std::shared_ptr<AbstractProj
     default:
         break;
     }
-}
-
-void ProjectItemModel::notifyRowAboutToDelete(std::shared_ptr<TreeItem> item, int row)
-{
-    auto rowItem = item->child(row);
-    auto binElem = std::static_pointer_cast<AbstractProjectItem>(rowItem);
-    manageBinClipDeletion(binElem.get());
-    AbstractTreeModel::notifyRowAboutToDelete(item, row);
 }
 
 void ProjectItemModel::manageBinClipDeletion(AbstractProjectItem *binElem)
@@ -505,28 +469,11 @@ bool ProjectItemModel::requestAddFolder(QString &id, const QString &name, const 
         id = QString::number(getFreeFolderId());
     }
     std::shared_ptr<ProjectFolder> new_folder = ProjectFolder::construct(id, name, std::static_pointer_cast<ProjectItemModel>(shared_from_this()));
-    parentFolder->appendChild(new_folder);
+    Fun operation = addBin_lambda(new_folder, parentFolder->getId());
     int folderId = new_folder->getId();
-    Fun operation = [this, new_folder, parentId]() {
-        /* Insertion is simply setting the parent of the folder.*/
-        std::shared_ptr<ProjectFolder> parent = getFolderByBinId(parentId);
-        if (!parent) {
-            return false;
-        }
-        new_folder->changeParent(parent);
-        return true;
-    };
-    Fun reverse = [this, folderId]() {
-        /* To undo insertion, we deregister the clip */
-        auto folder = std::static_pointer_cast<AbstractProjectItem>(m_allItems[folderId].lock());
-        if (!folder) {
-            return false;
-        }
-        auto parent = folder->parent();
-        parent->removeChild(folder);
-        return true;
-    };
+    Fun reverse = removeBin_lambda(folderId);
     bool res = operation();
+    Q_ASSERT(new_folder->isInModel());
     if (res) {
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
     }
@@ -571,4 +518,40 @@ bool ProjectItemModel::requestRenameFolder(std::shared_ptr<AbstractProjectItem> 
         pCore->pushUndo(undo, redo, i18n("Rename Folder"));
     }
     return res;
+}
+
+Fun ProjectItemModel::addBin_lambda(std::shared_ptr<AbstractProjectItem> new_item, int parentId)
+{
+    return [this, new_item, parentId]() {
+        /* Insertion is simply setting the parent of the item.*/
+        std::shared_ptr<TreeItem> parent;
+        if (parentId != -1) {
+            parent = getItemById(parentId);
+            if (!parent) {
+                Q_ASSERT(parent);
+                return false;
+            }
+        }
+        new_item->changeParent(parent);
+        return true;
+    };
+}
+
+Fun ProjectItemModel::removeBin_lambda(int binId)
+{
+    return [this, binId]() {
+        /* Deletion simply deregister clip and remove it from parent.
+           The actual object is not actually deleted, because a shared_pointer to it
+           is captured by the reverse operation.
+           Actual deletions occurs when the undo object is destroyed.
+        */
+        auto binItem = std::static_pointer_cast<AbstractProjectItem>(m_allItems[binId].lock());
+        Q_ASSERT(binItem);
+        if (!binItem) {
+            return false;
+        }
+        auto parent = binItem->parent();
+        parent->removeChild(binItem);
+        return true;
+    };
 }

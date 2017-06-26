@@ -34,7 +34,7 @@ AbstractTreeModel::AbstractTreeModel(QObject *parent)
 std::shared_ptr<AbstractTreeModel> AbstractTreeModel::construct(QObject *parent)
 {
     std::shared_ptr<AbstractTreeModel> self(new AbstractTreeModel(parent));
-    self->rootItem.reset(new TreeItem(QList<QVariant>(), self));
+    self->rootItem.reset(new TreeItem(QList<QVariant>(), self, true));
     return self;
 }
 

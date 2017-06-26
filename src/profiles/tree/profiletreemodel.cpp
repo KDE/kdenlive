@@ -48,7 +48,7 @@ std::shared_ptr<ProfileTreeModel> ProfileTreeModel::construct(QObject *parent)
              << "sample_aspect_ratio"
              << "fps"
              << "colorspace";
-    self->rootItem = TreeItem::construct(rootData, self);
+    self->rootItem = TreeItem::construct(rootData, self, true);
     ProfileRepository::get()->refresh();
     QVector<QPair<QString, QString>> profiles = ProfileRepository::get()->getAllProfiles();
 

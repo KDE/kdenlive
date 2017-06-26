@@ -126,18 +126,6 @@ public:
     /* Same functions but pushes the undo object directly */
     bool requestRenameFolder(std::shared_ptr<AbstractProjectItem> folder, const QString &name);
 
-    /* @brief Manage insertion in the tree hierarchy.
-       Note that the element has normally already been registered through registerItem,
-       this function is called when its parent is defined.
-       @param row is the new element
-    */
-    void notifyRowAppended(const std::shared_ptr<TreeItem> &row) override;
-    /* @brief Manage deletion in the tree hierarchy
-       @param item is the parent of the row being deleted
-       @param row is the index of the row being deleted
-    */
-    void notifyRowAboutToDelete(std::shared_ptr<TreeItem> item, int row) override;
-
     /* @brief Register the existence of a new element
      */
     void registerItem(const std::shared_ptr<TreeItem> &item) override;
@@ -164,6 +152,11 @@ protected:
     /* @brief Helper function to generate a lambda that rename a folder */
     Fun requestRenameFolder_lambda(std::shared_ptr<AbstractProjectItem> folder, const QString &newName);
 
+    /* @brief Helper function to generate a lambda that adds a bin item to view */
+    Fun addBin_lambda(std::shared_ptr<AbstractProjectItem> new_item, int parentId);
+
+    /* @brief Helper function to generate a lambda that removes a bin item from view */
+    Fun removeBin_lambda(int binId);
 public slots:
     /** @brief An item in the list was modified, notify */
     void onItemUpdated(std::shared_ptr<AbstractProjectItem> item);

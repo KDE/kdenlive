@@ -28,6 +28,17 @@
 #include <unordered_map>
 
 /* @brief This class is a generic class to represent items of a tree-like model
+   It works in tandem with AbstractTreeModel or one of its derived classes.
+   There is a registration mechanism that takes place: each TreeItem holds a unique Id
+   that can allow to retrieve it directly from the model.
+
+   A TreeItem registers itself to the model as soon as it gets a proper parent (the node
+   above it in the hierarchy). This means that upon creation, the TreeItem is NOT
+   registered, because at this point it doesn't belong to any parent.
+   The only exception is for the rootItem, which is always registered.
+
+   Note that the root is a special object. In particular, it must stay at the root and
+   must not be declared as the child of any other item.
  */
 
 class AbstractTreeModel;
@@ -38,16 +49,17 @@ public:
      @param data List of data elements (columns) of the created item
      @param model Pointer to the model to which this elem belongs to
      @param parentItem address of the parent if the child is not orphan
+     @param isRoot is true if the object is the topmost item of the tree
      @param id of the newly created item. If left to -1, the id is assigned automatically
      @return a ptr to the constructed item
     */
-    static std::shared_ptr<TreeItem> construct(const QList<QVariant> &data, std::shared_ptr<AbstractTreeModel> model, int id = -1);
+    static std::shared_ptr<TreeItem> construct(const QList<QVariant> &data, std::shared_ptr<AbstractTreeModel> model, bool isRoot, int id = -1);
 
     friend class AbstractTreeModel;
 
 protected:
     // This is protected. Call construct instead
-    explicit TreeItem(const QList<QVariant> &data, const std::shared_ptr<AbstractTreeModel> &model, int id = -1);
+    explicit TreeItem(const QList<QVariant> &data, const std::shared_ptr<AbstractTreeModel> &model, bool isRoot, int id = -1);
 
 public:
     virtual ~TreeItem();
@@ -103,6 +115,9 @@ public:
     /* @brief Return the id of the current item*/
     int getId() const;
 
+    /* @brief Return true if the current item has been registered */
+    bool isInModel() const;
+
     /* @brief This is similar to the std::accumulate function, except that it
        operates on the whole subtree
        @param init is the initial value of the operation
@@ -112,13 +127,15 @@ public:
 
     /* @brief Returns true if the model has been notified about the existence of this object
      */
-    bool isInModel() const;
-    void setIsInModel(bool isInModel);
 
 protected:
     /* @brief Finish construction of object given its pointer
        This is a separated function so that it can be called from derived classes */
     static void baseFinishConstruct(const std::shared_ptr<TreeItem> &self);
+
+    /* @brief Helper functions to handle registration / deregistration to the model */
+    void registerSelf();
+    void deregisterSelf();
 
     std::list<std::shared_ptr<TreeItem>> m_childItems;
     std::unordered_map<int, std::list<std::shared_ptr<TreeItem>>::iterator>
@@ -132,6 +149,7 @@ protected:
     int m_id;
 
     bool m_isInModel;
+    bool m_isRoot;
 };
 
 template <class T, class BinaryOperation> T TreeItem::accumulate(T init, BinaryOperation op)

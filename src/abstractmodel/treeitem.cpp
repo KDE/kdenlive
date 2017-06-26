@@ -25,18 +25,19 @@
 #include <numeric>
 #include <utility>
 
-TreeItem::TreeItem(const QList<QVariant> &data, const std::shared_ptr<AbstractTreeModel> &model, int id)
+TreeItem::TreeItem(const QList<QVariant> &data, const std::shared_ptr<AbstractTreeModel> &model, bool isRoot, int id)
     : m_itemData(data)
     , m_model(model)
     , m_depth(0)
     , m_id(id == -1 ? AbstractTreeModel::getNextId() : id)
     , m_isInModel(false)
+    , m_isRoot(isRoot)
 {
 }
 
-std::shared_ptr<TreeItem> TreeItem::construct(const QList<QVariant> &data, std::shared_ptr<AbstractTreeModel> model, int id)
+std::shared_ptr<TreeItem> TreeItem::construct(const QList<QVariant> &data, std::shared_ptr<AbstractTreeModel> model, bool isRoot, int id)
 {
-    std::shared_ptr<TreeItem> self(new TreeItem(data, std::move(model), id));
+    std::shared_ptr<TreeItem> self(new TreeItem(data, std::move(model), isRoot, id));
     baseFinishConstruct(self);
     return self;
 }
@@ -45,35 +46,21 @@ std::shared_ptr<TreeItem> TreeItem::construct(const QList<QVariant> &data, std::
 void TreeItem::baseFinishConstruct(const std::shared_ptr<TreeItem> &self)
 {
     qDebug() << "FINISHED constructing " << self->getId();
-    if (auto ptr = self->m_model.lock()) {
-        ptr->registerItem(self);
-    } else {
-        qDebug() << "Error : construction of treeItem failed because parent model is not available anymore";
-        Q_ASSERT(false);
+    if (self->m_isRoot) {
+        self->registerSelf();
     }
 }
 
 TreeItem::~TreeItem()
 {
-    if (auto ptr = m_model.lock()) {
-        ptr->deregisterItem(m_id, this);
-    }
+    deregisterSelf();
 }
 
 std::shared_ptr<TreeItem> TreeItem::appendChild(const QList<QVariant> &data)
 {
     if (auto ptr = m_model.lock()) {
-        ptr->notifyRowAboutToAppend(shared_from_this());
-        auto child = construct(data, ptr);
-        child->m_parentItem = shared_from_this();
-        qDebug() << "appending child" << child->getId() << "to " << m_id;
-        child->m_depth = m_depth + 1;
-        int id = child->getId();
-        m_childItems.push_back(child);
-        auto it = std::prev(m_childItems.end());
-        m_iteratorTable[id] = it;
-        ptr->notifyRowAppended(child);
-        m_isInModel = true;
+        auto child = construct(data, ptr, false);
+        appendChild(child);
         return child;
     }
     qDebug() << "ERROR: Something went wrong when appending child in TreeItem. Model is not available anymore";
@@ -87,12 +74,11 @@ void TreeItem::appendChild(std::shared_ptr<TreeItem> child)
         ptr->notifyRowAboutToAppend(shared_from_this());
         child->m_depth = m_depth + 1;
         child->m_parentItem = shared_from_this();
-        qDebug() << "appending child2" << child->getId() << "to " << m_id;
         int id = child->getId();
         auto it = m_childItems.insert(m_childItems.end(), child);
         m_iteratorTable[id] = it;
+        child->registerSelf();
         ptr->notifyRowAppended(child);
-        m_isInModel = true;
     } else {
         qDebug() << "ERROR: Something went wrong when appending child in TreeItem. Model is not available anymore";
         Q_ASSERT(false);
@@ -122,7 +108,7 @@ void TreeItem::moveChild(int ix, std::shared_ptr<TreeItem> child)
         ptr->notifyRowAppended(child);
         m_isInModel = true;
     } else {
-        qDebug() << "ERROR: Something went wrong when inserting child in TreeItem. Model is not available anymore";
+        qDebug() << "ERROR: Something went wrong when moving child in TreeItem. Model is not available anymore";
         Q_ASSERT(false);
     }
 }
@@ -140,8 +126,8 @@ void TreeItem::removeChild(const std::shared_ptr<TreeItem> &child)
         m_iteratorTable.erase(child->getId());
         child->m_depth = 0;
         child->m_parentItem.reset();
+        child->deregisterSelf();
         ptr->notifyRowDeleted();
-        m_isInModel = false;
     } else {
         qDebug() << "ERROR: Something went wrong when removing child in TreeItem. Model is not available anymore";
         Q_ASSERT(false);
@@ -150,6 +136,7 @@ void TreeItem::removeChild(const std::shared_ptr<TreeItem> &child)
 
 void TreeItem::changeParent(std::shared_ptr<TreeItem> newParent)
 {
+    Q_ASSERT(!m_isRoot);
     qDebug() << "changing parent of " << m_id;
     if (auto ptr = m_parentItem.lock()) {
         ptr->removeChild(shared_from_this());
@@ -208,11 +195,34 @@ int TreeItem::getId() const
     return m_id;
 }
 
-void TreeItem::setIsInModel(bool isInModel)
-{
-    m_isInModel = isInModel;
-}
 bool TreeItem::isInModel() const
 {
     return m_isInModel;
+}
+
+void TreeItem::registerSelf()
+{
+    for (const auto &child : m_childItems) {
+        child->registerSelf();
+    }
+    if (auto ptr = m_model.lock()) {
+        ptr->registerItem(shared_from_this());
+        m_isInModel = true;
+    } else {
+        qDebug() << "Error : construction of treeItem failed because parent model is not available anymore";
+        Q_ASSERT(false);
+    }
+}
+
+void TreeItem::deregisterSelf()
+{
+    for (const auto &child : m_childItems) {
+        child->deregisterSelf();
+    }
+    if (m_isInModel) {
+        if (auto ptr = m_model.lock()) {
+            ptr->deregisterItem(m_id, this);
+            m_isInModel = false;
+        }
+    }
 }

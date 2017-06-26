@@ -47,7 +47,7 @@ std::shared_ptr<ProjectFolder> ProjectFolder::construct(const QString &id, const
 }
 
 ProjectFolder::ProjectFolder(std::shared_ptr<ProjectItemModel> model)
-    : AbstractProjectItem(AbstractProjectItem::FolderItem, QString::number(-1), model)
+    : AbstractProjectItem(AbstractProjectItem::FolderItem, QString::number(-1), model, true)
 {
     m_name = QStringLiteral("root");
 }

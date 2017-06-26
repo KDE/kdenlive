@@ -22,26 +22,25 @@ TEST_CASE("Basic tree testing", "[TreeModel]")
 
     SECTION("Item creation Test")
     {
-        auto item = TreeItem::construct(QList<QVariant>{QString("test")}, model);
+        auto item = TreeItem::construct(QList<QVariant>{QString("test")}, model, false);
         int id = item->getId();
         REQUIRE(item->depth() == 0);
 
         // check that a valid Id has been assigned
         REQUIRE(id != -1);
 
-        // check that we can query the item in the model
-        REQUIRE(model->getItemById(id) == item);
-        REQUIRE(model->m_allItems.size() == 1);
+        // check that the item is not yet registered (not valid parent)
+        REQUIRE(model->m_allItems.size() == 0);
 
 
         // Assign this to a parent
         model->getRoot()->appendChild(item);
+        // Now the item should be registered, we query it
+        REQUIRE(model->m_allItems.size() == 1);
+        REQUIRE(model->getItemById(id) == item);
         REQUIRE(item->depth() == 1);
         REQUIRE(model->rowCount() == 1);
-        qDebug() << (void*)model->getRoot().get() << (void*)item.get();
-        qDebug() << model->getIndexFromItem(item);
         REQUIRE(model->rowCount(model->getIndexFromItem(item)) == 0);
-        REQUIRE(model->m_allItems.size() == 1);
 
         // Retrieve data member
         REQUIRE(model->data(model->getIndexFromItem(item), 0) == QStringLiteral("test"));

@@ -29,8 +29,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QPainter>
 #include <QVariant>
 
-AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QString &id, const std::shared_ptr<ProjectItemModel> &model)
-    : TreeItem(QList<QVariant>(), std::static_pointer_cast<AbstractTreeModel>(model))
+AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QString &id, const std::shared_ptr<ProjectItemModel> &model, bool isRoot)
+    : TreeItem(QList<QVariant>(), std::static_pointer_cast<AbstractTreeModel>(model), isRoot)
     , m_name()
     , m_description()
     , m_thumbnail(QIcon())
@@ -47,7 +47,7 @@ AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QString &id
 }
 
 AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QDomElement &description, const std::shared_ptr<ProjectItemModel> &model)
-    : TreeItem(QList<QVariant>(), std::static_pointer_cast<AbstractTreeModel>(model))
+    : TreeItem(QList<QVariant>(), std::static_pointer_cast<AbstractTreeModel>(model), false)
     , m_name()
     , m_description()
     , m_thumbnail(QIcon())
