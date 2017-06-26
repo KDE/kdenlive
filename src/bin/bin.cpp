@@ -2127,12 +2127,11 @@ void Bin::slotRemoveInvalidClip(const QString &id, bool replace, const QString &
     emit requesteInvalidRemoval(id, clip->url(), errorMessage);
 }
 
-void Bin::slotProducerReady(const requestClipInfo &info, ClipController *controller)
+void Bin::slotProducerReady(const requestClipInfo &info, std::shared_ptr<Mlt::Producer> producer)
 {
-    // TODO this function should receive a bare producer
     std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(info.clipId);
     if (clip) {
-        if (clip->setProducer(controller->originalProducer(), info.replaceProducer) && !clip->hasProxy()) {
+        if (producer != nullptr && clip->setProducer(producer, info.replaceProducer) && !clip->hasProxy()) {
             emit producerReady(info.clipId);
             // Check for file modifications
             ClipType t = clip->clipType();
@@ -2178,7 +2177,7 @@ void Bin::slotProducerReady(const requestClipInfo &info, ClipController *control
         }
     } else {
         // Clip not found, create it
-        QString groupId = controller->getProducerProperty(QStringLiteral("kdenlive:folderid"));
+        QString groupId = producer->get("kdenlive:folderid");
         std::shared_ptr<ProjectFolder> parentFolder;
         if (!groupId.isEmpty() && groupId != QLatin1String("-1")) {
             parentFolder = m_itemModel->getFolderByBinId(groupId);
@@ -2193,7 +2192,7 @@ void Bin::slotProducerReady(const requestClipInfo &info, ClipController *control
             parentFolder = m_itemModel->getRootFolder();
         }
         // TODO at this point, we shouldn't have a controller, but rather a bare producer
-        std::shared_ptr<ProjectClip> newClip = ProjectClip::construct(info.clipId, m_blankThumb, m_itemModel, controller->originalProducer());
+        std::shared_ptr<ProjectClip> newClip = ProjectClip::construct(info.clipId, m_blankThumb, m_itemModel, producer);
         parentFolder->appendChild(newClip);
         emit producerReady(info.clipId);
         ClipType t = newClip->clipType();

@@ -74,6 +74,7 @@ void Core::build(const QString &MltPath)
     qRegisterMetaType<stringMap>("stringMap");
     qRegisterMetaType<audioByteArray>("audioByteArray");
     qRegisterMetaType<QList<ItemInfo>>("QList<ItemInfo>");
+    qRegisterMetaType<std::shared_ptr<Mlt::Producer>>("std::shared_ptr<Mlt::Producer>");
     qRegisterMetaType<QVector<int>>();
     qRegisterMetaType<QDomElement>("QDomElement");
     qRegisterMetaType<requestClipInfo>("requestClipInfo");
@@ -159,8 +160,7 @@ void Core::initGUI(const QUrl &Url)
     m_monitorManager = new MonitorManager(this);
     // Producer queue, creating MLT::Producers on request
     m_producerQueue = new ProducerQueue(m_binController);
-    connect(m_producerQueue, SIGNAL(gotFileProperties(requestClipInfo, ClipController *)), m_binWidget,
-            SLOT(slotProducerReady(requestClipInfo, ClipController *)), Qt::DirectConnection);
+    connect(m_producerQueue, &ProducerQueue::gotFileProperties, m_binWidget, &Bin::slotProducerReady, Qt::DirectConnection);
     connect(m_producerQueue, &ProducerQueue::replyGetImage, m_binWidget, &Bin::slotThumbnailReady);
     connect(m_producerQueue, &ProducerQueue::removeInvalidClip, m_binWidget, &Bin::slotRemoveInvalidClip, Qt::DirectConnection);
     connect(m_producerQueue, SIGNAL(addClip(QString, QMap<QString, QString>)), m_binWidget, SLOT(slotAddUrl(QString, QMap<QString, QString>)));

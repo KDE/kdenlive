@@ -273,7 +273,6 @@ void BinController::replaceProducer(const QString &id, const std::shared_ptr<Mlt
     pasteEffects(id, producer);
     ctrl->updateProducer(producer);
     replaceBinPlaylistClip(id, producer);
-    emit prepareTimelineReplacement(id);
     producer->set("id", id.toUtf8().constData());
     // Remove video only producer
     QString videoId = id + QStringLiteral("_video");
@@ -281,7 +280,8 @@ void BinController::replaceProducer(const QString &id, const std::shared_ptr<Mlt
         m_extraClipList.remove(videoId);
     }
     removeBinPlaylistClip("#" + id);
-    emit replaceTimelineProducer(id);
+    emit prepareTimelineReplacement(id);
+    //emit replaceTimelineProducer(id);
 }
 
 void BinController::addClipToBin(const QString &id, const std::shared_ptr<ClipController> &controller) // Mlt::Producer &producer)

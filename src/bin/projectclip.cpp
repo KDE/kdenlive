@@ -74,6 +74,7 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, std::shared_ptr<
     hash();
     connect(this, &ProjectClip::updateJobStatus, this, &ProjectClip::setJobStatus);
     connect(this, &ProjectClip::updateThumbProgress, model.get(), &ProjectItemModel::updateThumbProgress);
+    connect(pCore->binController().get(), &BinController::prepareTimelineReplacement, this, &ProjectClip::prepareTimelineReplacement, Qt::DirectConnection);
 }
 
 // static
@@ -115,6 +116,7 @@ ProjectClip::ProjectClip(const QDomElement &description, const QIcon &thumb, std
     connect(this, &ProjectClip::updateJobStatus, this, &ProjectClip::setJobStatus);
     connect(this, &ProjectClip::updateThumbProgress, model.get(), &ProjectItemModel::updateThumbProgress);
     m_markerModel = std::make_shared<MarkerListModel>(m_binId, pCore->projectManager()->current()->commandStack());
+    connect(pCore->binController().get(), &BinController::prepareTimelineReplacement, this, &ProjectClip::prepareTimelineReplacement, Qt::DirectConnection);
 }
 
 std::shared_ptr<ProjectClip> ProjectClip::construct(const QDomElement &description, const QIcon &thumb, std::shared_ptr<ProjectItemModel> model)
@@ -339,7 +341,9 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
     if (!hasProxy()) {
         if (auto ptr = m_model.lock()) emit std::static_pointer_cast<ProjectItemModel>(ptr)->refreshPanel(m_binId);
     }
-    if (auto ptr = m_model.lock()) std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()));
+    if (auto ptr = m_model.lock()) {
+        std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()));
+    }
     // Make sure we have a hash for this clip
     getFileHash();
     createAudioThumbs();
@@ -606,11 +610,6 @@ bool ProjectClip::matches(const QString &condition)
     // TODO
     Q_UNUSED(condition)
     return true;
-}
-
-const QString ProjectClip::codec(bool audioCodec) const
-{
-    return codec(audioCodec);
 }
 
 bool ProjectClip::rename(const QString &name, int column)
@@ -1289,4 +1288,18 @@ bool ProjectClip::selfSoftDelete(Fun &undo, Fun &redo)
 bool ProjectClip::isIncludedInTimeline()
 {
     return m_registeredClips.size() > 0;
+}
+
+void ProjectClip::prepareTimelineReplacement(const QString &id)
+{
+    if (id == AbstractProjectItem::clipId()) {
+        for (const auto &clip : m_registeredClips) {
+            if (auto timeline = clip.second.lock()) {
+                timeline->requestClipReload(clip.first);
+            } else {
+                qDebug() << "Error while reloading clip: timeline unavailable";
+                Q_ASSERT(false);
+            }
+        }
+    }
 }

@@ -227,6 +227,8 @@ void ClipModel::refreshProducerFromBin()
     std::shared_ptr<ProjectClip> binClip = pCore->bin()->getBinClip(m_binClipId);
     std::shared_ptr<Mlt::Producer> originalProducer = binClip->originalProducer();
     m_producer.reset(originalProducer->cut(in, out));
+    // replant effect stack in updated service
+    m_effectStack->resetService(m_producer);
     m_producer->set("kdenlive:id", binClip->AbstractProjectItem::clipId().toUtf8().constData());
     m_producer->set("_kdenlive_cid", m_id);
     m_endlessResize = !binClip->hasLimitedDuration();

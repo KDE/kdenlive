@@ -520,7 +520,6 @@ bool TimelineModel::requestClipDeletion(int clipId, Fun &undo, Fun &redo)
         // We capture a shared_ptr to the clip, which means that as long as this undo object lives, the clip object is not deleted. To insert it back it is
         // sufficient to register it.
         registerClip(clip);
-        //clip->refreshProducerFromBin();
         return true;
     };
     if (operation()) {
@@ -1596,4 +1595,20 @@ QStringList TimelineModel::extractCompositionLumas() const
 void TimelineModel::adjustAssetRange(int clipId, int in, int out)
 {
     pCore->adjustAssetRange(clipId, in, out);
+}
+
+
+void TimelineModel::requestClipReload(int clipId)
+{
+    std::function<bool(void)> local_undo = []() { return true; };
+    std::function<bool(void)> local_redo = []() { return true; };
+    m_allClips[clipId]->refreshProducerFromBin();
+
+    // in order to make the producer change effective, we need to unplant / replant the clip in int track
+    int old_trackId = getClipTrackId(clipId);
+    int oldPos = getClipPosition(clipId);
+    if (old_trackId != -1) {
+        getTrackById(old_trackId)->requestClipDeletion(clipId, false, local_undo, local_redo);
+        getTrackById(old_trackId)->requestClipInsertion(clipId, oldPos, false, local_undo, local_redo);
+    }
 }

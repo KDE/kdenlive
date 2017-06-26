@@ -56,7 +56,8 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
         info.imageHeight = 0;
         info.clipId = id;
         info.replaceProducer = true;
-        pCore->bin()->slotProducerReady(info, pCore->binController()->getController(id).get());
+        std::shared_ptr<Mlt::Producer> prod(pCore->binController()->getController(id).get()->originalProducer());
+        pCore->bin()->slotProducerReady(info, prod);
     }
     QSet<QString> reserved_names{QLatin1String("playlistmain"), QLatin1String("timeline_preview"), QLatin1String("overlay_track"),
                                  QLatin1String("black_track")};
@@ -97,7 +98,7 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
             int audioTrack = local_playlist.get_int("kdenlive:audio_track");
             if (audioTrack == 1) {
                 // This is an audio track
-                timeline->setTrackProperty(tid, QStringLiteral("kdenlive:audio_track"), QStringLiteral("1"));
+                timeline->setTrackProperty(tid, QStringLiteral(""), QStringLiteral("1"));
             }
             break;
         }

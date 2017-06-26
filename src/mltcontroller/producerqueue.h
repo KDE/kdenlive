@@ -88,7 +88,7 @@ private slots:
 
 signals:
     /** @brief The renderer received a reply to a getFileProperties request. */
-    void gotFileProperties(requestClipInfo, ClipController *);
+    void gotFileProperties(const requestClipInfo &, std::shared_ptr<Mlt::Producer> producer);
 
     /** @brief The renderer received a reply to a getImage request. */
     void replyGetImage(const QString &, const QImage &, bool fromFile = false);

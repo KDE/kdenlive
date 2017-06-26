@@ -887,9 +887,6 @@ void MainWindow::slotConnectMonitors()
 {
     // connect(m_projectList, SIGNAL(deleteProjectClips(QStringList,QMap<QString,QString>)), this,
     // SLOT(slotDeleteProjectClips(QStringList,QMap<QString,QString>)));
-    connect(m_projectMonitor->render, SIGNAL(gotFileProperties(requestClipInfo, ClipController *)), pCore->bin(),
-            SLOT(slotProducerReady(requestClipInfo, ClipController *)), Qt::DirectConnection);
-
     connect(m_clipMonitor, &Monitor::refreshClipThumbnail, pCore->bin(), &Bin::slotRefreshClipThumbnail);
     connect(m_projectMonitor, &Monitor::requestFrameForAnalysis, this, &MainWindow::slotMonitorRequestRenderFrame);
     connect(m_projectMonitor, &Monitor::createSplitOverlay, this, &MainWindow::createSplitOverlay);
@@ -3639,7 +3636,7 @@ void MainWindow::slotSwitchMonitors()
 {
     pCore->monitorManager()->slotSwitchMonitors(!m_clipMonitor->isActive());
     if (m_projectMonitor->isActive()) {
-        pCore->projectManager()->currentTimeline()->projectView()->setFocus();
+        m_timelineTabs->getCurrentTimeline()->setFocus();
     } else {
         pCore->bin()->focusBinView();
     }

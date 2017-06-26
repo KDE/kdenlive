@@ -383,7 +383,7 @@ public slots:
      *  @param id the clip id
      *  @param controller The Controller for this clip
      */
-    void slotProducerReady(const requestClipInfo &info, ClipController *controller);
+    void slotProducerReady(const requestClipInfo &info, std::shared_ptr<Mlt::Producer> producer);
     void slotRemoveInvalidClip(const QString &id, bool replace, const QString &errorMessage);
     /** @brief Create a folder when opening a document */
     void slotLoadFolders(const QMap<QString, QString> &foldersData);

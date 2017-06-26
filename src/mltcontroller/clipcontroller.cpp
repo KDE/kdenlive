@@ -121,8 +121,8 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
     } else {
         qDebug() << "Error: impossible to add master producer because bincontroller is not available";
     }
-    m_properties = new Mlt::Properties(producer->get_properties());
     m_masterProducer = producer;
+    m_properties = new Mlt::Properties(m_masterProducer->get_properties());
     if (!m_masterProducer->is_valid()) {
         m_masterProducer = ClipController::mediaUnavailable;
         m_producerLock.unlock();
@@ -277,7 +277,6 @@ void ClipController::updateProducer(const std::shared_ptr<Mlt::Producer> &produc
         // producer has not been initialized
         return addMasterProducer(producer);
     }
-
     Mlt::Properties passProperties;
     // Keep track of necessary properties
     QString proxy = producer->get("kdenlive:proxy");
@@ -289,10 +288,11 @@ void ClipController::updateProducer(const std::shared_ptr<Mlt::Producer> &produc
     }
     passProperties.pass_list(*m_properties, getPassPropertiesList(m_usesProxy));
     delete m_properties;
-    m_masterProducer = producer;
-    m_properties = new Mlt::Properties(producer->get_properties());
+    *m_masterProducer = producer.get();
+    m_properties = new Mlt::Properties(m_masterProducer->get_properties());
     // Pass properties from previous producer
     m_properties->pass_list(passProperties, getPassPropertiesList(m_usesProxy));
+    m_producerLock.unlock();
     if (!m_masterProducer->is_valid()) {
         qCDebug(KDENLIVE_LOG) << "// WARNING, USING INVALID PRODUCER";
     } else {
@@ -303,6 +303,7 @@ void ClipController::updateProducer(const std::shared_ptr<Mlt::Producer> &produc
         }
         */
     }
+    qDebug()<<"// replace finished: "<<clipId()<<" : "<<m_masterProducer->get("resource");
 }
 
 Mlt::Producer *ClipController::getTrackProducer(const QString &trackName, PlaylistState::ClipState clipState, double speed)

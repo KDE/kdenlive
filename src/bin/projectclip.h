@@ -168,10 +168,6 @@ public:
     void setWaitingStatus(const QString &id);
     /** @brief Returns true if the clip matched a condition, for example vcodec=mpeg1video. */
     bool matches(const QString &condition);
-    /** @brief Returns true if the clip's video codec is equal to @param codec.
-     *  @param audioCodec set to true if you want to check audio codec. When false, this will check the video codec
-     */
-    const QString codec(bool audioCodec) const;
 
     void addClipMarker(QList<CommentedTime> newMarkers, QUndoCommand *groupCommand);
     bool deleteClipMarkers(QUndoCommand *groupCommand);
@@ -253,6 +249,7 @@ private:
 
 private slots:
     void updateFfmpegProgress();
+    void prepareTimelineReplacement(const QString &id);
 
 signals:
     void gotAudioData();

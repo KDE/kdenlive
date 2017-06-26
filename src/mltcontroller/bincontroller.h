@@ -135,7 +135,6 @@ public:
 
     /** @brief Get the list of ids whose clip have the resource indicated by @param url */
     const QStringList getBinIdsByResource(const QFileInfo &url) const;
-    void replaceProducer(const QString &id, const std::shared_ptr<Mlt::Producer> &producer);
     void storeMarker(const QString &markerId, const QString &markerHash);
     QMap<double, QString> takeGuidesData();
 
@@ -172,6 +171,7 @@ public:
 public slots:
     /** @brief Stored a Bin Folder id / name to MLT's bin playlist. Using an empry folderName deletes the property */
     void slotStoreFolder(const QString &folderId, const QString &parentId, const QString &oldParentId, const QString &folderName);
+    void replaceProducer(const QString &id, const std::shared_ptr<Mlt::Producer> &producer);
 
 private:
     /** @brief The MLT playlist holding our Producers */

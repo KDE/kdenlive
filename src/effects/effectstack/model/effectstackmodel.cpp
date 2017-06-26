@@ -40,6 +40,15 @@ std::shared_ptr<EffectStackModel> EffectStackModel::construct(std::weak_ptr<Mlt:
     return self;
 }
 
+void EffectStackModel::resetService(std::weak_ptr<Mlt::Service> service)
+{
+    m_service = std::move(service);
+    // replant all effects in new service
+    for (int i = 0; i < rootItem->childCount(); ++i) {
+        std::static_pointer_cast<EffectItemModel>(rootItem->child(i))->plant(m_service);
+    }
+}
+
 void EffectStackModel::removeEffect(std::shared_ptr<EffectItemModel> effect)
 {
     int cid = effect->getParentId();
@@ -177,7 +186,8 @@ void EffectStackModel::importEffects(int cid, std::shared_ptr<EffectStackModel>s
         auto clone = EffectItemModel::construct(effect->getAssetId(), shared_from_this());
         rootItem->appendChild(clone);
         clone->setParameters(effect->getAllParameters());
-        Fun redo = addEffect_lambda(clone, cid, true);
+        bool isAudioEffect = EffectsRepository::get()->getType(effect->getAssetId()) == EffectType::Audio;
+        Fun redo = addEffect_lambda(clone, cid, isAudioEffect);
         redo();
     }
 }

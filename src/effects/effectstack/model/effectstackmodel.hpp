@@ -43,6 +43,7 @@ public:
     /* @brief Constructs an effect stack and returns a shared ptr to the constucted object
        @param service is the mlt object on which we will plant the effects */
     static std::shared_ptr<EffectStackModel> construct(std::weak_ptr<Mlt::Service> service);
+    void resetService(std::weak_ptr<Mlt::Service> service);
 
 protected:
     EffectStackModel(std::weak_ptr<Mlt::Service> service);

@@ -511,8 +511,7 @@ void ProducerQueue::processFileProperties()
                     producer->set(name.toUtf8().constData(), e.firstChild().nodeValue().toUtf8().constData());
                 }
             }
-            m_binController->replaceProducer(info.clipId, producer);
-            emit gotFileProperties(info, nullptr);
+            QMetaObject::invokeMethod(m_binController.get(), "replaceProducer", Qt::QueuedConnection, Q_ARG(const QString&, info.clipId), Q_ARG(const std::shared_ptr<Mlt::Producer>&, producer));
             continue;
         }
         // We are not replacing an existing producer, so set the id
@@ -836,7 +835,7 @@ void ProducerQueue::processFileProperties()
         } else {
             // Create the controller
             std::shared_ptr<ClipController> controller = ClipController::construct(m_binController, producer);
-            emit gotFileProperties(info, controller.get());
+            emit gotFileProperties(info, producer);
         }
         m_processingClipId.removeAll(info.clipId);
     }
