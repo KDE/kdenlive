@@ -23,8 +23,8 @@
 #define ASSETCOMMAND_H
 
 #include "assetparametermodel.hpp"
-#include <QUndoCommand>
 #include <QTime>
+#include <QUndoCommand>
 
 class AssetCommand : public QUndoCommand
 {

@@ -22,9 +22,9 @@
 #ifndef EFFECTITEMMODEL_H
 #define EFFECTITEMMODEL_H
 
+#include "abstracteffectitem.hpp"
 #include "abstractmodel/treeitem.hpp"
 #include "assets/model/assetparametermodel.hpp"
-#include "abstracteffectitem.hpp"
 #include <mlt++/MltFilter.h>
 
 class EffectStackModel;
@@ -53,7 +53,6 @@ protected:
                     const std::shared_ptr<AbstractTreeModel> &stack);
 
     void updateEnable() override;
-
 };
 
 #endif

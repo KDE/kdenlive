@@ -21,7 +21,6 @@
 #include "bin/bin.h"
 #include "bin/bincommands.h"
 #include "bin/model/markerlistmodel.hpp"
-#include "profiles/profilerepository.hpp"
 #include "bin/projectclip.h"
 #include "core.h"
 #include "dialogs/profilesdialog.h"
@@ -36,6 +35,7 @@
 #include "mltcontroller/effectscontroller.h"
 #include "mltcontroller/producerqueue.h"
 #include "profiles/profilemodel.hpp"
+#include "profiles/profilerepository.hpp"
 #include "project/clipmanager.h"
 #include "project/projectcommands.h"
 #include "renderer.h"
@@ -1331,7 +1331,7 @@ void KdenliveDoc::loadDocumentProperties()
         }
     }
     if (!profileFound) {
-        qDebug()<<"ERROR, no matching profile found";
+        qDebug() << "ERROR, no matching profile found";
     }
     updateProjectProfile(false);
 }
@@ -1470,9 +1470,9 @@ void KdenliveDoc::switchProfile(MltVideoProfile profile, const QString &id, cons
                                                     profile.height, QString::number((double)profile.frame_rate_num / profile.frame_rate_den, 'f', 2),
                                                     adjustMessage)) == KMessageBox::Continue) {
             profile.description = QStringLiteral("%1x%2 %3fps")
-                                        .arg(profile.width)
-                                        .arg(profile.height)
-                                        .arg(QString::number((double)profile.frame_rate_num / profile.frame_rate_den, 'f', 2));
+                                      .arg(profile.width)
+                                      .arg(profile.height)
+                                      .arg(QString::number((double)profile.frame_rate_num / profile.frame_rate_den, 'f', 2));
             ProfilesDialog::saveProfile(profile);
             // reload profiles from disk
             ProfileRepository::get()->refresh();

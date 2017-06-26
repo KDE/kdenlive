@@ -25,7 +25,6 @@
 
 using Fun = std::function<bool(void)>;
 
-
 /* @brief this macro executes an operation after a given lambda
  */
 #define PUSH_LAMBDA(operation, lambda)                                                                                                                         \

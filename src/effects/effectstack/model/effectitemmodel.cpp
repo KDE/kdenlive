@@ -21,9 +21,9 @@
 
 #include "effectitemmodel.hpp"
 
+#include "core.h"
 #include "effects/effectsrepository.hpp"
 #include "effectstackmodel.hpp"
-#include "core.h"
 #include <utility>
 
 EffectItemModel::EffectItemModel(const QList<QVariant> &data, Mlt::Properties *effect, const QDomElement &xml, const QString &effectId,
@@ -84,4 +84,3 @@ void EffectItemModel::updateEnable()
     pCore->refreshProjectItem(getParentId());
     emit dataChanged(index(row()), index(row()), QVector<int>());
 }
-

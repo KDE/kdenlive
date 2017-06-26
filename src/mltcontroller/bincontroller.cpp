@@ -281,7 +281,7 @@ void BinController::replaceProducer(const QString &id, const std::shared_ptr<Mlt
     }
     removeBinPlaylistClip("#" + id);
     emit prepareTimelineReplacement(id);
-    //emit replaceTimelineProducer(id);
+    // emit replaceTimelineProducer(id);
 }
 
 void BinController::addClipToBin(const QString &id, const std::shared_ptr<ClipController> &controller) // Mlt::Producer &producer)

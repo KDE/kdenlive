@@ -39,8 +39,8 @@
 #include <QStandardPaths>
 #include <QToolBar>
 #include <QVBoxLayout>
-#include <klocalizedstring.h>
 #include <float.h>
+#include <klocalizedstring.h>
 
 #include "mlt++/MltAnimation.h"
 
@@ -56,7 +56,7 @@
 #include "widgets/doublewidget.h"
 #include "widgets/dragvalue.h"
 
-AnimationWidget::AnimationWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QPair <int, int>range, QWidget *parent)
+AnimationWidget::AnimationWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QPair<int, int> range, QWidget *parent)
     : AbstractParamWidget(std::move(model), index, parent)
     , m_active(false)
     //, m_clipPos(clipPos)
@@ -306,7 +306,7 @@ void AnimationWidget::doAddKeyframe(int pos, QString paramName, bool directUpdat
     // Try to get previous key's type
     mlt_keyframe_type type;
     if (m_selectType->isVisible()) {
-        type =  (mlt_keyframe_type)KdenliveSettings::defaultkeyframeinterp();
+        type = (mlt_keyframe_type)KdenliveSettings::defaultkeyframeinterp();
         if (m_animController.key_count() > 1) {
             int previous = m_animController.previous_key(pos);
             if (m_animController.is_key(previous)) {
@@ -959,7 +959,8 @@ void AnimationWidget::slotAdjustKeyframeValue(double value)
 
     int pos = m_ruler->position() - m_offset;
     mlt_keyframe_type type = m_selectType->isVisible() ? (m_selectType->isEnabled() ? (mlt_keyframe_type)m_selectType->currentAction()->data().toInt()
-                                                       : (mlt_keyframe_type)KdenliveSettings::defaultkeyframeinterp()) : mlt_keyframe_linear;
+                                                                                    : (mlt_keyframe_type)KdenliveSettings::defaultkeyframeinterp())
+                                                       : mlt_keyframe_linear;
     if (m_animController.is_key(pos)) {
         // This is a keyframe
         type = m_animController.keyframe_type(pos);
@@ -1670,7 +1671,7 @@ void AnimationWidget::slotRefresh()
     monitorSeek(m_monitor->position());
 }
 
-void AnimationWidget::slotSetRange(QPair<int, int>range)
+void AnimationWidget::slotSetRange(QPair<int, int> range)
 {
     m_inPoint = range.first;
     m_outPoint = range.second;
@@ -1678,4 +1679,3 @@ void AnimationWidget::slotSetRange(QPair<int, int>range)
     m_ruler->setRange(0, m_outPoint - m_inPoint);
     m_timePos->setRange(0, m_outPoint - m_inPoint - 1);
 }
-

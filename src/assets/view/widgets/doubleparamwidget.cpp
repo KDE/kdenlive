@@ -64,7 +64,8 @@ void DoubleParamWidget::slotRefresh()
     m_lay->addWidget(m_doubleWidget);
 
     // Connect signal
-    connect(m_doubleWidget, &DoubleWidget::valueChanged, [this, locale](double value) { emit valueChanged(m_index, locale.toString(value / m_doubleWidget->factor)); });
+    connect(m_doubleWidget, &DoubleWidget::valueChanged,
+            [this, locale](double value) { emit valueChanged(m_index, locale.toString(value / m_doubleWidget->factor)); });
 }
 
 void DoubleParamWidget::slotShowComment(bool show)
@@ -75,4 +76,3 @@ void DoubleParamWidget::slotShowComment(bool show)
 void DoubleParamWidget::slotSetRange(QPair<int, int>)
 {
 }
-

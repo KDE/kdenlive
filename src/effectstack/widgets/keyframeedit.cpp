@@ -16,13 +16,13 @@
  ***************************************************************************/
 
 #include "keyframeedit.h"
-#include "widgets/doublewidget.h"
-#include "kdenlivesettings.h"
-#include "widgets/positionwidget.h"
-#include "utils/KoIconUtils.h"
 #include "assets/model/assetparametermodel.hpp"
 #include "core.h"
+#include "kdenlivesettings.h"
 #include "monitor/monitormanager.h"
+#include "utils/KoIconUtils.h"
+#include "widgets/doublewidget.h"
+#include "widgets/positionwidget.h"
 
 #include "kdenlive_debug.h"
 #include "klocalizedstring.h"
@@ -35,7 +35,7 @@ KeyframeEdit::KeyframeEdit(std::shared_ptr<AssetParameterModel> model, QModelInd
 {
     m_min = m_model->data(m_index, AssetParameterModel::InRole).toInt();
     m_max = m_model->data(m_index, AssetParameterModel::OutRole).toInt() + 1;
-    //TODO: for compositions, offset = min but for clips it might differ 
+    // TODO: for compositions, offset = min but for clips it might differ
     m_offset = m_min;
 
     setupUi(this);
@@ -116,7 +116,7 @@ void KeyframeEdit::addParameter(QModelIndex index, int activeKeyframe)
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
     QString name = m_model->data(index, Qt::DisplayRole).toString();
-    double value = 0; //locale.toDouble(m_model->data(index, AssetParameterModel::ValueRole).toString());
+    double value = 0; // locale.toDouble(m_model->data(index, AssetParameterModel::ValueRole).toString());
     double min = m_model->data(index, AssetParameterModel::MinRole).toDouble();
     double max = m_model->data(index, AssetParameterModel::MaxRole).toDouble();
     double defaultValue = locale.toDouble(m_model->data(index, AssetParameterModel::DefaultRole).toString());
@@ -136,11 +136,11 @@ void KeyframeEdit::addParameter(QModelIndex index, int activeKeyframe)
         m_params.at(columnId).attribute(QStringLiteral("decimals")).toInt(), false, this);*/
 
     // Connect signal
-    //connect(doubleparam, &DoubleWidget::valueChanged, [this, locale, index](double value) { emit valueChanged(index, locale.toString(value)); });
+    // connect(doubleparam, &DoubleWidget::valueChanged, [this, locale, index](double value) { emit valueChanged(index, locale.toString(value)); });
 
     connect(doubleparam, &DoubleWidget::valueChanged, this, &KeyframeEdit::slotAdjustKeyframeValue);
     connect(this, SIGNAL(showComments(bool)), doubleparam, SLOT(slotShowComment(bool)));
-    //connect(doubleparam, SIGNAL(setInTimeline(int)), this, SLOT(slotUpdateVisibleParameter(int)));
+    // connect(doubleparam, SIGNAL(setInTimeline(int)), this, SLOT(slotUpdateVisibleParameter(int)));
     m_slidersLayout->addWidget(doubleparam, columnId, 0);
     /*if (e.attribute(QStringLiteral("intimeline")) == QLatin1String("1")) {
         doubleparam->setInTimelineProperty(true);
@@ -152,13 +152,13 @@ void KeyframeEdit::addParameter(QModelIndex index, int activeKeyframe)
         frames = e.attribute(QStringLiteral("keyframes")).split(QLatin1Char(';'), QString::SkipEmptyParts);
         m_keyframesTag = true;
     } else {*/
-        // Transitions take keyframes from the value param
-        QString framesValue = m_model->data(index, AssetParameterModel::ValueRole).toString();
-        if (!framesValue.contains(QLatin1Char('='))) {
-            framesValue.prepend(QStringLiteral("0="));
-        }
-        frames = framesValue.split(QLatin1Char(';'), QString::SkipEmptyParts);
-        m_keyframesTag = false;
+    // Transitions take keyframes from the value param
+    QString framesValue = m_model->data(index, AssetParameterModel::ValueRole).toString();
+    if (!framesValue.contains(QLatin1Char('='))) {
+        framesValue.prepend(QStringLiteral("0="));
+    }
+    frames = framesValue.split(QLatin1Char(';'), QString::SkipEmptyParts);
+    m_keyframesTag = false;
     //}
     for (int i = 0; i < frames.count(); ++i) {
         int frame = frames.at(i).section(QLatin1Char('='), 0, 0).toInt();
@@ -344,7 +344,7 @@ void KeyframeEdit::slotGenerateParams(int row, int column)
                 }
             }
             emit valueChanged(m_paramIndexes.at(col), keyframes);
-            //m_params[col].setAttribute(getTag(), keyframes);
+            // m_params[col].setAttribute(getTag(), keyframes);
         }
         return;
     }
@@ -386,7 +386,7 @@ void KeyframeEdit::slotGenerateParams(int row, int column)
             keyframes.append(QString::number(getPos(i)) + QLatin1Char('=') + keyframe_list->item(i, column)->text() + QLatin1Char(';'));
         }
     }
-    qDebug()<<"/// ADJUSTING PARAM: "<<column<<" = "<<keyframes;
+    qDebug() << "/// ADJUSTING PARAM: " << column << " = " << keyframes;
     emit valueChanged(m_paramIndexes.at(column), keyframes);
 }
 
@@ -558,13 +558,13 @@ void KeyframeEdit::slotUpdateVisibleParameter(int id, bool update)
         if (!doubleparam) {
             continue;
         }
-        //TODO
-        //doubleparam->setInTimelineProperty(col == id);
+        // TODO
+        // doubleparam->setInTimelineProperty(col == id);
         ////qCDebug(KDENLIVE_LOG)<<"// PARAM: "<<col<<" Set TO: "<<(bool) (col == id);
     }
-    //TODO
+    // TODO
     if (update) {
-        //emit valueChanged();
+        // emit valueChanged();
     }
 }
 
@@ -614,10 +614,10 @@ void KeyframeEdit::slotShowComment(bool show)
 
 void KeyframeEdit::slotRefresh()
 {
-    //TODO
+    // TODO
 }
 
-void KeyframeEdit::slotSetRange(QPair<int, int>range)
+void KeyframeEdit::slotSetRange(QPair<int, int> range)
 {
     m_min = range.first;
     m_max = range.second;

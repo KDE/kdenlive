@@ -22,8 +22,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "projectfolder.h"
 #include "bin.h"
-#include "projectclip.h"
 #include "core.h"
+#include "projectclip.h"
 #include "projectitemmodel.h"
 #include "utils/KoIconUtils.h"
 

@@ -11,13 +11,13 @@
 #include "waveform.h"
 #include "waveformgenerator.h"
 // For reading out the project resolution
-#include "dialogs/profilesdialog.h"
 #include "core.h"
+#include "dialogs/profilesdialog.h"
 #include "profiles/profilemodel.hpp"
 
 #include "klocalizedstring.h"
-#include <KSharedConfig>
 #include <KConfigGroup>
+#include <KSharedConfig>
 #include <QPainter>
 #include <QPoint>
 

@@ -43,7 +43,7 @@ class AnimationWidget : public AbstractParamWidget
 {
     Q_OBJECT
 public:
-    AnimationWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QPair <int, int>range, QWidget *parent);
+    AnimationWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QPair<int, int> range, QWidget *parent);
 
     // explicit AnimationWidget(EffectMetaInfo *info, int clipPos, int min, int max, int effectIn, const QString &effectId, const QDomElement &xml,QWidget
     // *parent = nullptr);
@@ -87,7 +87,7 @@ private:
     /** @brief the keyframe position which should be attached to end (negative frame) */
     int m_attachedToEnd;
     QDomElement m_xml;
-    QList <QModelIndex> m_parameters;
+    QList<QModelIndex> m_parameters;
     QString m_effectId;
     Mlt::Animation m_animController;
     Mlt::Properties m_animProperties;
@@ -190,7 +190,6 @@ private slots:
 signals:
     /** @brief keyframes dropped / pasted on widget, import them. */
     void setKeyframes(const QString &);
-
 };
 
 #endif

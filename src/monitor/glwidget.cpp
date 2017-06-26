@@ -32,9 +32,9 @@
 #include "glwidget.h"
 #include "kdenlivesettings.h"
 #include "mltcontroller/bincontroller.h"
+#include "profiles/profilemodel.hpp"
 #include "qml/qmlaudiothumb.h"
 #include "timeline2/view/qml/timelineitems.h"
-#include "profiles/profilemodel.hpp"
 #include <mlt++/Mlt.h>
 
 #ifndef GL_UNPACK_ROW_LENGTH

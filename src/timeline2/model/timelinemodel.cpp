@@ -952,7 +952,7 @@ void TimelineModel::registerTrack(std::shared_ptr<TrackModel> track, int pos, bo
 void TimelineModel::registerClip(const std::shared_ptr<ClipModel> &clip)
 {
     int id = clip->getId();
-    qDebug()<<" // /REQUEST TL CLP REGSTR: "<< id<<"\n--------\nCLIPS COUNT: "<<m_allClips.size();
+    qDebug() << " // /REQUEST TL CLP REGSTR: " << id << "\n--------\nCLIPS COUNT: " << m_allClips.size();
     Q_ASSERT(m_allClips.count(id) == 0);
     m_allClips[id] = clip;
     clip->registerClipToBin();
@@ -986,7 +986,7 @@ Fun TimelineModel::deregisterTrack_lambda(int id, bool updateView)
 Fun TimelineModel::deregisterClip_lambda(int clipId)
 {
     return [this, clipId]() {
-        qDebug()<<" // /REQUEST TL CLP DELETION: "<< clipId<<"\n--------\nCLIPS COUNT: "<<m_allClips.size();
+        qDebug() << " // /REQUEST TL CLP DELETION: " << clipId << "\n--------\nCLIPS COUNT: " << m_allClips.size();
         clearAssetView(clipId);
         Q_ASSERT(m_allClips.count(clipId) > 0);
         Q_ASSERT(getClipTrackId(clipId) == -1); // clip must be deleted from its track at this point
@@ -1596,7 +1596,6 @@ void TimelineModel::adjustAssetRange(int clipId, int in, int out)
 {
     pCore->adjustAssetRange(clipId, in, out);
 }
-
 
 void TimelineModel::requestClipReload(int clipId)
 {

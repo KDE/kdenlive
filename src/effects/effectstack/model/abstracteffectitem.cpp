@@ -21,9 +21,9 @@
 
 #include "abstracteffectitem.hpp"
 
+#include "core.h"
 #include "effects/effectsrepository.hpp"
 #include "effectstackmodel.hpp"
-#include "core.h"
 #include <utility>
 
 AbstractEffectItem::AbstractEffectItem(const QList<QVariant> &data, const std::shared_ptr<AbstractTreeModel> &stack)
@@ -35,8 +35,14 @@ AbstractEffectItem::AbstractEffectItem(const QList<QVariant> &data, const std::s
 
 void AbstractEffectItem::markEnabled(const QString &name, bool enabled)
 {
-    Fun undo = [this, enabled]() { setEnabled(!enabled);return true; };
-    Fun redo = [this, enabled]() { setEnabled(enabled);return true; };
+    Fun undo = [this, enabled]() {
+        setEnabled(!enabled);
+        return true;
+    };
+    Fun redo = [this, enabled]() {
+        setEnabled(enabled);
+        return true;
+    };
     redo();
     pCore->pushUndo(undo, redo, enabled ? i18n("Enable %1", name) : i18n("Disable %1", name));
 }
@@ -71,4 +77,3 @@ bool AbstractEffectItem::isEnabled() const
     }
     return m_enabled && m_effectStackEnabled && parentEnabled;
 }
-

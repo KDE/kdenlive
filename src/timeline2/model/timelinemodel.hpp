@@ -269,10 +269,10 @@ public:
     int getItemPlaytime(int itemId) const;
 
     /* @brief Given an intended move, try to suggest a more valid one
-       (accounting for snaps and missing UI calls) 
+       (accounting for snaps and missing UI calls)
        @param clipId id of the clip to
-       move 
-       @param trackId id of the target track 
+       move
+       @param trackId id of the target track
        @param position target position
        @param snapDistance the maximum distance for a snap result, -1 for no snapping
         of the clip */

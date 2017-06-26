@@ -96,7 +96,6 @@ void MoveBinFolderCommand::redo()
     m_bin->doMoveFolder(m_clipId, m_newParentId);
 }
 
-
 RenameBinSubClipCommand::RenameBinSubClipCommand(Bin *bin, const QString &clipId, const QString &newName, const QString &oldName, int in, int out,
                                                  QUndoCommand *parent)
     : QUndoCommand(parent)

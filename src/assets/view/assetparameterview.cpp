@@ -21,11 +21,11 @@
 
 #include "assetparameterview.hpp"
 
-#include "assets/model/assetparametermodel.hpp"
 #include "assets/model/assetcommand.hpp"
+#include "assets/model/assetparametermodel.hpp"
 #include "assets/view/widgets/abstractparamwidget.hpp"
-#include "effectstack/widgets/animationwidget.h"
 #include "core.h"
+#include "effectstack/widgets/animationwidget.h"
 
 #include <QDebug>
 #include <QFontDatabase>
@@ -42,7 +42,7 @@ AssetParameterView::AssetParameterView(QWidget *parent)
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
 }
 
-void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &model, QPair <int, int>range, bool addSpacer)
+void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &model, QPair<int, int> range, bool addSpacer)
 {
     qDebug() << "set model " << model.get();
     unsetModel();
@@ -59,7 +59,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
         } else {
             auto w = AbstractParamWidget::construct(model, index, range, this);
             if (type == ParamType::Geometry || type == ParamType::Animated || type == ParamType::RestrictedAnim || type == ParamType::AnimatedRect) {
-                animWidget = static_cast<AnimationWidget*>(w);
+                animWidget = static_cast<AnimationWidget *>(w);
             }
             connect(w, &AbstractParamWidget::valueChanged, this, &AssetParameterView::commitChanges);
             m_lay->addWidget(w);
@@ -83,7 +83,7 @@ void AssetParameterView::resetValues()
     }
 }
 
-void AssetParameterView::setRange(QPair <int, int> range)
+void AssetParameterView::setRange(QPair<int, int> range)
 {
     QMutexLocker lock(&m_lock);
     for (int i = 0; i < m_widgets.size(); ++i) {
@@ -140,4 +140,3 @@ int AssetParameterView::contentHeight() const
 {
     return m_lay->sizeHint().height();
 }
-

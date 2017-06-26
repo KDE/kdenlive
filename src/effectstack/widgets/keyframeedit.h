@@ -130,7 +130,7 @@ protected:
     QString getPosString(int pos);
 
     void generateAllParams();
-    QList <QModelIndex> m_paramIndexes;
+    QList<QModelIndex> m_paramIndexes;
 
     int m_min;
     int m_max;

@@ -23,8 +23,8 @@
 #define COLLAPSIBLEEFFECTVIEW_H
 
 #include "effectstack/abstractcollapsiblewidget.h"
-#include "mltcontroller/effectscontroller.h"
 #include "effectstack/parametercontainer.h"
+#include "mltcontroller/effectscontroller.h"
 #include "timecode.h"
 
 #include <QDomElement>
@@ -46,7 +46,7 @@ class CollapsibleEffectView : public AbstractCollapsibleWidget
     Q_OBJECT
 
 public:
-    explicit CollapsibleEffectView(std::shared_ptr<EffectItemModel> effectModel, QPair <int, int>range, QImage icon, QWidget *parent = nullptr);
+    explicit CollapsibleEffectView(std::shared_ptr<EffectItemModel> effectModel, QPair<int, int> range, QImage icon, QWidget *parent = nullptr);
     ~CollapsibleEffectView();
     QLabel *title;
 
@@ -80,7 +80,7 @@ public:
     /** @brief Returns this effect's monitor scene type if any is needed. */
     MonitorSceneType needsMonitorEffectScene() const;
     /** @brief Set clip in / out points. */
-    void setRange(QPair <int, int>range);
+    void setRange(QPair<int, int> range);
     /** @brief Import keyframes from a clip's data. */
     void setKeyframes(const QString &tag, const QString &keyframes);
     /** @brief Pass frame size info (dar, etc). */

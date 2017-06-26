@@ -19,14 +19,14 @@
 
 #include "kdenlivesettingsdialog.h"
 #include "clipcreationdialog.h"
+#include "core.h"
 #include "dialogs/profilesdialog.h"
 #include "encodingprofilesdialog.h"
 #include "kdenlivesettings.h"
+#include "profiles/profilemodel.hpp"
 #include "profilesdialog.h"
 #include "project/dialogs/profilewidget.h"
 #include "renderer.h"
-#include "core.h"
-#include "profiles/profilemodel.hpp"
 #include "utils/KoIconUtils.h"
 
 #ifdef USE_V4L
@@ -1467,4 +1467,3 @@ void KdenliveSettingsDialog::slotReloadShuttleDevices()
     QTimer::singleShot(200, this, SLOT(slotUpdateShuttleDevice()));
 #endif // USE_JOGSHUTTLE
 }
-

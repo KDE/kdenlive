@@ -334,7 +334,7 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
     };
 
     int delta = m_allClips[clipId]->getPlaytime() - size;
-    qDebug()<<"RESIZING CLIP: "<<clipId<<" FROM: "<<delta;
+    qDebug() << "RESIZING CLIP: " << clipId << " FROM: " << delta;
     if (delta == 0) {
         return []() { return true; };
     }
@@ -650,7 +650,7 @@ Fun TrackModel::requestCompositionResize_lambda(int compoId, int in, int out)
     Q_ASSERT(m_compoPos[compo_position] == compoId);
     int old_in = compo_position;
     int old_out = old_in + m_allCompositions[compoId]->getPlaytime();
-    qDebug() << "compo resize " << compoId << in <<"-"<< out<<" / "<<old_in <<"-"<< old_out;
+    qDebug() << "compo resize " << compoId << in << "-" << out << " / " << old_in << "-" << old_out;
     if (out == -1) {
         out = in + old_out - old_in;
     }

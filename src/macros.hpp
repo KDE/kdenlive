@@ -25,7 +25,8 @@
 /*  This file contains a collection of macros that can be used in model related classes.
     The class only needs to have the following members:
     - For Push_undo : std::weak_ptr<DocUndoStack> m_undoStack;  this is a pointer to the undoStack
-    - For Update_undo_redo: mutable QReadWriteLock m_lock; This is a lock that ensures safety in case of concurrent access. Note that the mutex must be recursive.
+    - For Update_undo_redo: mutable QReadWriteLock m_lock; This is a lock that ensures safety in case of concurrent access. Note that the mutex must be
+   recursive.
 
     See for example TimelineModel.
 */
@@ -74,8 +75,8 @@ reading a Read-protected property. In that case, we try to write lock it first (
    It will also ensure that operation and reverse are dealing with mutexes
 */
 #define UPDATE_UNDO_REDO(operation, reverse, undo, redo)                                                                                                       \
-    LOCK_IN_LAMBDA(operation)                                           \
-    LOCK_IN_LAMBDA(reverse)                                             \
+    LOCK_IN_LAMBDA(operation)                                                                                                                                  \
+    LOCK_IN_LAMBDA(reverse)                                                                                                                                    \
     undo = [reverse, undo]() {                                                                                                                                 \
         bool v = reverse();                                                                                                                                    \
         return undo() && v;                                                                                                                                    \

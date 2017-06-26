@@ -28,10 +28,10 @@
 #include "kdenlivesettings.h"
 #include "mltcontroller/bincontroller.h"
 #include "mltcontroller/clipcontroller.h"
+#include "profiles/profilemodel.hpp"
 #include "project/dialogs/profilewidget.h"
 #include "project/dialogs/temporarydata.h"
 #include "titler/titlewidget.h"
-#include "profiles/profilemodel.hpp"
 #include "utils/KoIconUtils.h"
 
 #include "kdenlive_debug.h"

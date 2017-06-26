@@ -25,8 +25,8 @@
 #include <QDebug>
 #include <utility>
 
-#include <unordered_set>
 #include <queue>
+#include <unordered_set>
 
 int AbstractTreeModel::currentTreeId = 0;
 AbstractTreeModel::AbstractTreeModel(QObject *parent)
@@ -41,7 +41,8 @@ std::shared_ptr<AbstractTreeModel> AbstractTreeModel::construct(QObject *parent)
     return self;
 }
 
-AbstractTreeModel::~AbstractTreeModel(){
+AbstractTreeModel::~AbstractTreeModel()
+{
     m_allItems.clear();
     rootItem.reset();
 }
@@ -201,16 +202,14 @@ std::shared_ptr<TreeItem> AbstractTreeModel::getRoot() const
 bool AbstractTreeModel::checkConsistency()
 {
     // first check that the root is all good
-    if (!rootItem || !rootItem->m_isRoot || !rootItem->isInModel()
-        || m_allItems.count(rootItem->getId()) == 0){
-        qDebug() << !rootItem->m_isRoot << !rootItem->isInModel()
-                 << (m_allItems.count(rootItem->getId()) == 0);
+    if (!rootItem || !rootItem->m_isRoot || !rootItem->isInModel() || m_allItems.count(rootItem->getId()) == 0) {
+        qDebug() << !rootItem->m_isRoot << !rootItem->isInModel() << (m_allItems.count(rootItem->getId()) == 0);
         qDebug() << "ERROR: Model is not valid because root is not properly constructed";
         return false;
     }
     // Then we traverse the tree from the root, checking the infos on the way
     std::unordered_set<int> seenIDs;
-    std::queue<std::pair<int, std::pair<int, int>> > queue; // store (id, (depth, parentId))
+    std::queue<std::pair<int, std::pair<int, int>>> queue; // store (id, (depth, parentId))
     queue.push({rootItem->getId(), {0, rootItem->getId()}});
     while (!queue.empty()) {
         auto current = queue.front();
@@ -236,17 +235,16 @@ bool AbstractTreeModel::checkConsistency()
             return false;
         }
         if (currentId != rootItem->getId()) {
-            if((currentDepth == 0 || currentItem->m_isRoot)) {
+            if ((currentDepth == 0 || currentItem->m_isRoot)) {
                 qDebug() << "ERROR: Invalid tree: duplicate root";
                 return false;
             }
             if (auto ptr = currentItem->parentItem().lock()) {
-                if (ptr->getId() != parentId  ||
-                    ptr->child(currentItem->row())->getId() != currentItem->getId()) {
+                if (ptr->getId() != parentId || ptr->child(currentItem->row())->getId() != currentItem->getId()) {
                     qDebug() << "ERROR: Invalid tree: invalid parent link";
                     return false;
                 }
-            } else  {
+            } else {
                 qDebug() << "ERROR: Invalid tree: invalid parent";
                 return false;
             }

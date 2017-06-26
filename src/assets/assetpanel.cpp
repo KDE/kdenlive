@@ -20,8 +20,8 @@
  ***************************************************************************/
 
 #include "assetpanel.hpp"
-#include "effects/effectstack/model/effectstackmodel.hpp"
 #include "effects/effectstack/model/effectitemmodel.hpp"
+#include "effects/effectstack/model/effectstackmodel.hpp"
 #include "effects/effectstack/view/effectstackview.hpp"
 #include "kdenlivesettings.h"
 #include "model/assetparametermodel.hpp"
@@ -62,7 +62,7 @@ void AssetPanel::showTransition(int tid, std::shared_ptr<AssetParameterModel> tr
     m_transitionWidget->setModel(transitionModel, QPair<int, int>(-1, -1), true);
 }
 
-void AssetPanel::showEffectStack(const QString &clipName, std::shared_ptr<EffectStackModel> effectsModel, QPair <int, int>range)
+void AssetPanel::showEffectStack(const QString &clipName, std::shared_ptr<EffectStackModel> effectsModel, QPair<int, int> range)
 {
     clear();
     m_assetTitle->setText(i18n("%1 effects", clipName));
@@ -125,8 +125,7 @@ const QString AssetPanel::getStyleSheet()
         QStringLiteral("QFrame#decoframesub {border-top:1px solid palette(light);}  QFrame#decoframesub[active=\"true\"] {background: %1;}").arg(hgh.name()));
 
     // group background
-    stylesheet.append(QStringLiteral(
-        "QFrame#decoframegroup {border:2px solid palette(dark);margin:0px;margin-top:2px;} "));
+    stylesheet.append(QStringLiteral("QFrame#decoframegroup {border:2px solid palette(dark);margin:0px;margin-top:2px;} "));
 
     // effect title bar
     stylesheet.append(QStringLiteral("QFrame#frame {margin-bottom:2px;}  QFrame#frame[target=\"true\"] "

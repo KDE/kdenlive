@@ -18,12 +18,12 @@
  ***************************************************************************/
 
 #include "renderwidget.h"
+#include "core.h"
 #include "dialogs/profilesdialog.h"
 #include "kdenlivesettings.h"
 #include "profiles/profilemodel.hpp"
 #include "profiles/profilerepository.hpp"
 #include "timecode.h"
-#include "core.h"
 #include "ui_saveprofile_ui.h"
 #include "utils/KoIconUtils.h"
 

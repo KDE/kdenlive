@@ -20,21 +20,21 @@
  ***************************************************************************/
 
 #include "effectstackview.hpp"
-#include "collapsibleeffectview.hpp"
-#include "effects/effectstack/model/effectstackmodel.hpp"
-#include "effects/effectstack/model/effectitemmodel.hpp"
-#include "assets/view/assetparameterview.hpp"
 #include "assets/assetlist/view/qmltypes/asseticonprovider.hpp"
+#include "assets/view/assetparameterview.hpp"
+#include "collapsibleeffectview.hpp"
+#include "effects/effectstack/model/effectitemmodel.hpp"
+#include "effects/effectstack/model/effectstackmodel.hpp"
 
-#include <QVBoxLayout>
-#include <QDragEnterEvent>
-#include <QMimeData>
-#include <QFontDatabase>
-#include <QTreeView>
 #include <QDrag>
+#include <QDragEnterEvent>
+#include <QFontDatabase>
+#include <QMimeData>
+#include <QTreeView>
+#include <QVBoxLayout>
 
-WidgetDelegate::WidgetDelegate(QObject *parent) :
-    QStyledItemDelegate(parent)
+WidgetDelegate::WidgetDelegate(QObject *parent)
+    : QStyledItemDelegate(parent)
 {
 }
 
@@ -64,7 +64,8 @@ void WidgetDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option
     style->drawPrimitive(QStyle::PE_PanelItemViewItem, &opt, painter, opt.widget);
 }
 
-EffectStackView::EffectStackView(QWidget *parent) : QWidget(parent)
+EffectStackView::EffectStackView(QWidget *parent)
+    : QWidget(parent)
     , m_thumbnailer(new AssetIconProvider(true))
     , m_range(-1, -1)
 {
@@ -79,7 +80,7 @@ EffectStackView::EffectStackView(QWidget *parent) : QWidget(parent)
     m_effectsTree->setHeaderHidden(true);
     m_effectsTree->setRootIsDecorated(false);
     QString style = QStringLiteral("QTreeView {border: none;}");
-    //m_effectsTree->viewport()->setAutoFillBackground(false);
+    // m_effectsTree->viewport()->setAutoFillBackground(false);
     m_effectsTree->setStyleSheet(style);
     m_lay->addWidget(m_effectsTree);
 }
@@ -111,21 +112,21 @@ void EffectStackView::dropEvent(QDropEvent *event)
     for (int i = 0; i < m_model->rowCount(); i++) {
         auto item = m_model->getEffectStackRow(i);
         if (item->childCount() > 0) {
-            //TODO: group
+            // TODO: group
             continue;
         }
         std::shared_ptr<EffectItemModel> eff = std::static_pointer_cast<EffectItemModel>(item);
         QModelIndex ix = m_model->getIndexFromItem(eff);
         QWidget *w = m_effectsTree->indexWidget(ix);
         if (w && w->geometry().contains(event->pos())) {
-            qDebug()<<"// DROPPED ON EFF: "<<eff->getAssetId();
+            qDebug() << "// DROPPED ON EFF: " << eff->getAssetId();
             row = i;
             break;
         }
     }
     if (event->source() == this) {
         int oldRow = event->mimeData()->data(QStringLiteral("kdenlive/effectrow")).toInt();
-        qDebug()<<"// MOVING EFFECT FROM : "<<oldRow<<" TO "<<row;
+        qDebug() << "// MOVING EFFECT FROM : " << oldRow << " TO " << row;
         m_model->moveEffect(row, m_model->getEffectStackRow(oldRow));
     } else {
         if (row < m_model->rowCount()) {
@@ -137,11 +138,11 @@ void EffectStackView::dropEvent(QDropEvent *event)
     }
 }
 
-void EffectStackView::setModel(std::shared_ptr<EffectStackModel>model, QPair <int, int>range)
+void EffectStackView::setModel(std::shared_ptr<EffectStackModel> model, QPair<int, int> range)
 {
     unsetModel();
     m_model = model;
-    QPair <int, int>clipId = m_model->getClipId();
+    QPair<int, int> clipId = m_model->getClipId();
     setProperty("binId", clipId.first);
     setProperty("clipId", clipId.second);
     m_effectsTree->setModel(m_model.get());
@@ -155,7 +156,7 @@ void EffectStackView::setModel(std::shared_ptr<EffectStackModel>model, QPair <in
     connect(m_model.get(), &EffectStackModel::dataChanged, this, &EffectStackView::refresh);
 }
 
-void EffectStackView::loadEffects(QPair <int, int>range, int start, int end)
+void EffectStackView::loadEffects(QPair<int, int> range, int start, int end)
 {
     m_range = range;
     int max = m_model->rowCount();
@@ -171,9 +172,9 @@ void EffectStackView::loadEffects(QPair <int, int>range, int start, int end)
             continue;
         }
         std::shared_ptr<EffectItemModel> effectModel = std::static_pointer_cast<EffectItemModel>(item);
-        QImage effectIcon = m_thumbnailer->requestImage(effectModel->getAssetId(), &size, QSize(QStyle::PM_SmallIconSize,QStyle::PM_SmallIconSize));
+        QImage effectIcon = m_thumbnailer->requestImage(effectModel->getAssetId(), &size, QSize(QStyle::PM_SmallIconSize, QStyle::PM_SmallIconSize));
         CollapsibleEffectView *view = new CollapsibleEffectView(effectModel, range, effectIcon, this);
-        qDebug()<<"__ADDING EFFECT: "<<effectModel->filter().get("id")<<", ACT: "<<active;
+        qDebug() << "__ADDING EFFECT: " << effectModel->filter().get("id") << ", ACT: " << active;
         if (i == active) {
             view->slotActivateEffect(m_model->getIndexFromItem(effectModel));
         }
@@ -188,7 +189,6 @@ void EffectStackView::loadEffects(QPair <int, int>range, int start, int end)
         connect(this, &EffectStackView::doActivateEffect, view, &CollapsibleEffectView::slotActivateEffect);
         QModelIndex ix = m_model->getIndexFromItem(effectModel);
         m_effectsTree->setIndexWidget(ix, view);
-
     }
 }
 
@@ -217,7 +217,7 @@ void EffectStackView::slotStartDrag(QPixmap pix, std::shared_ptr<EffectItemModel
 void EffectStackView::slotAdjustDelegate(std::shared_ptr<EffectItemModel> effectModel, int height)
 {
     QModelIndex ix = m_model->getIndexFromItem(effectModel);
-    WidgetDelegate *del = static_cast <WidgetDelegate *>(m_effectsTree->itemDelegate(ix));
+    WidgetDelegate *del = static_cast<WidgetDelegate *>(m_effectsTree->itemDelegate(ix));
     del->setHeight(ix, height);
 }
 
@@ -225,8 +225,6 @@ void EffectStackView::refresh(const QModelIndex &topLeft, const QModelIndex &bot
 {
     loadEffects(m_range, topLeft.row(), bottomRight.row() + 1);
 }
-
-
 
 void EffectStackView::unsetModel(bool reset)
 {
@@ -246,6 +244,6 @@ void EffectStackView::setRange(int in, int out)
         std::shared_ptr<EffectItemModel> eff = std::static_pointer_cast<EffectItemModel>(item);
         QModelIndex ix = m_model->getIndexFromItem(eff);
         auto w = m_effectsTree->indexWidget(ix);
-        static_cast<CollapsibleEffectView*>(w)->setRange(m_range);
+        static_cast<CollapsibleEffectView *>(w)->setRange(m_range);
     }
 }

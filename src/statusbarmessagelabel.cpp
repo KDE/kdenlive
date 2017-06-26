@@ -31,12 +31,12 @@
 
 #include <QDialog>
 #include <QDialogButtonBox>
-#include <QPropertyAnimation>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QMouseEvent>
 #include <QPixmap>
 #include <QProgressBar>
+#include <QPropertyAnimation>
 #include <QPushButton>
 #include <QTextEdit>
 

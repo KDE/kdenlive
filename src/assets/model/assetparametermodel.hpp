@@ -39,7 +39,6 @@
 
  */
 
-
 enum class ParamType {
     Double,
     List,

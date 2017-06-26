@@ -20,12 +20,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "timelinefunctions.hpp"
-#include "core.h"
 #include "clipmodel.hpp"
+#include "core.h"
 #include "effects/effectstack/model/effectstackmodel.hpp"
 
-#include <klocalizedstring.h>
 #include <QDebug>
+#include <klocalizedstring.h>
 
 bool TimelineFunction::requestClipCut(std::shared_ptr<TimelineItemModel> timeline, int clipId, int position)
 {
@@ -46,10 +46,10 @@ bool TimelineFunction::requestClipCut(std::shared_ptr<TimelineItemModel> timelin
     bool res = timeline->requestItemResize(clipId, position - start, true, true, undo, redo);
     int newId;
     const QString binId = timeline->getClipBinId(clipId);
-    std::shared_ptr<EffectStackModel>sourceStack = timeline->getClipEffectStackModel(clipId);
+    std::shared_ptr<EffectStackModel> sourceStack = timeline->getClipEffectStackModel(clipId);
     res = timeline->requestClipCreation(binId, in, out, newId, undo, redo);
     res = timeline->requestClipMove(newId, timeline->getItemTrackId(clipId), position, true, undo, redo);
-    std::shared_ptr<EffectStackModel>destStack = timeline->getClipEffectStackModel(newId);
+    std::shared_ptr<EffectStackModel> destStack = timeline->getClipEffectStackModel(newId);
     destStack->importEffects(newId, sourceStack);
     if (res) {
         pCore->pushUndo(undo, redo, i18n("Cut clip"));

@@ -25,9 +25,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "clipcontroller.h"
 #include "core.h"
 #include "dialogs/profilesdialog.h"
-#include "profiles/profilemodel.hpp"
 #include "doc/kthumb.h"
 #include "kdenlivesettings.h"
+#include "profiles/profilemodel.hpp"
 #include "project/dialogs/slideshowclip.h"
 #include "timeline/clip.h"
 
@@ -511,7 +511,8 @@ void ProducerQueue::processFileProperties()
                     producer->set(name.toUtf8().constData(), e.firstChild().nodeValue().toUtf8().constData());
                 }
             }
-            QMetaObject::invokeMethod(m_binController.get(), "replaceProducer", Qt::QueuedConnection, Q_ARG(const QString&, info.clipId), Q_ARG(const std::shared_ptr<Mlt::Producer>&, producer));
+            QMetaObject::invokeMethod(m_binController.get(), "replaceProducer", Qt::QueuedConnection, Q_ARG(const QString &, info.clipId),
+                                      Q_ARG(const std::shared_ptr<Mlt::Producer> &, producer));
             continue;
         }
         // We are not replacing an existing producer, so set the id

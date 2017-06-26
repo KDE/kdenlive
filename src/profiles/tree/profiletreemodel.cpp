@@ -27,8 +27,8 @@
 #include <KLocalizedString>
 #include <QVector>
 #include <array>
-#include <vector>
 #include <functional>
+#include <vector>
 
 ProfileTreeModel::ProfileTreeModel(QObject *parent)
     : AbstractTreeModel(parent)

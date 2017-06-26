@@ -54,10 +54,10 @@ public:
     /* @brief Add an effect at the bottom of the stack */
     void appendEffect(const QString &effectId, int cid);
     /* @brief Copy an existing effect and append it at the bottom of the stack */
-    void copyEffect(std::shared_ptr<AbstractEffectItem>sourceItem, int cid);
+    void copyEffect(std::shared_ptr<AbstractEffectItem> sourceItem, int cid);
     /* @brief Import all effects from the given effect stack
      */
-    void importEffects(int cid, std::shared_ptr<EffectStackModel>sourceStack);
+    void importEffects(int cid, std::shared_ptr<EffectStackModel> sourceStack);
 
     /* @brief This function change the global (timeline-wise) enabled state of the effects
      */
@@ -76,7 +76,7 @@ public:
 
     void slotCreateGroup(std::shared_ptr<EffectItemModel> childEffect);
     /* @brief Returns the Clip's id in timeline */
-    QPair <int, int> getClipId() const;
+    QPair<int, int> getClipId() const;
 
 public slots:
     /* @brief Delete an effect from the stack */

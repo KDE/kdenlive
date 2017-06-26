@@ -77,7 +77,7 @@ ClipController::ClipController(std::shared_ptr<BinController> bincontroller, std
 ClipController::ClipController(std::shared_ptr<BinController> bincontroller)
     : selectedEffectIndex(1)
     , m_audioThumbCreated(false)
-    , m_masterProducer(nullptr) //ClipController::mediaUnavailable)
+    , m_masterProducer(nullptr) // ClipController::mediaUnavailable)
     , m_properties(nullptr)
     , m_usesProxy(false)
     , m_audioInfo(nullptr)
@@ -303,7 +303,7 @@ void ClipController::updateProducer(const std::shared_ptr<Mlt::Producer> &produc
         }
         */
     }
-    qDebug()<<"// replace finished: "<<clipId()<<" : "<<m_masterProducer->get("resource");
+    qDebug() << "// replace finished: " << clipId() << " : " << m_masterProducer->get("resource");
 }
 
 Mlt::Producer *ClipController::getTrackProducer(const QString &trackName, PlaylistState::ClipState clipState, double speed)

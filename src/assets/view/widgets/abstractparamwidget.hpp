@@ -68,7 +68,7 @@ public slots:
 
     /** @brief update the clip's in/out point
      */
-    virtual void slotSetRange(QPair<int, int>range) = 0;
+    virtual void slotSetRange(QPair<int, int> range) = 0;
 
 protected:
     std::shared_ptr<AssetParameterModel> m_model;

@@ -19,9 +19,9 @@
  ***************************************************************************/
 
 #include "meltjob.h"
+#include "core.h"
 #include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
-#include "core.h"
 #include "profiles/profilemodel.hpp"
 
 #include <klocalizedstring.h>

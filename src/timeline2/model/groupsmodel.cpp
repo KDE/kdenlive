@@ -20,8 +20,8 @@
  ***************************************************************************/
 
 #include "groupsmodel.hpp"
-#include "timelineitemmodel.hpp"
 #include "macros.hpp"
+#include "timelineitemmodel.hpp"
 #include <QDebug>
 #include <QModelIndex>
 #include <queue>

@@ -1386,7 +1386,7 @@ QString Bin::slotAddFolder(const QString &folderName)
         std::shared_ptr<AbstractProjectItem> currentItem = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
         parentFolder = std::static_pointer_cast<ProjectFolder>(currentItem->getEnclosingFolder());
     }
-    qDebug() << "pranteforder id"<<parentFolder->clipId();
+    qDebug() << "pranteforder id" << parentFolder->clipId();
     QString newId;
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
@@ -1400,7 +1400,7 @@ QString Bin::slotAddFolder(const QString &folderName)
     }
     auto folder = m_itemModel->getFolderByBinId(newId);
     ix = m_itemModel->getIndexFromItem(folder);
-    qDebug() << "selecting"<<ix;
+    qDebug() << "selecting" << ix;
     if (ix.isValid()) {
         qDebug() << "ix valid";
         m_proxyModel->selectionModel()->clearSelection();
@@ -2843,7 +2843,6 @@ void Bin::slotItemEdited(const QModelIndex &ix, const QModelIndex &, const QVect
         }
     }
 }
-
 
 void Bin::renameSubClipCommand(const QString &id, const QString &newName, const QString &oldName, int in, int out)
 {

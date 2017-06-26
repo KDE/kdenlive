@@ -46,9 +46,9 @@ public:
     /* @brief Returns whether the effect is enabled */
     bool isEnabled() const;
 
-  friend class EffectGroupModel;
-protected:
+    friend class EffectGroupModel;
 
+protected:
     /* @brief Toogles the mlt effect according to the current activation state*/
     virtual void updateEnable() = 0;
 

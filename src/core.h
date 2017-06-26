@@ -11,9 +11,9 @@ the Free Software Foundation, either version 3 of the License, or
 #ifndef CORE_H
 #define CORE_H
 
+#include "definitions.h"
 #include "kdenlivecore_export.h"
 #include "undohelper.hpp"
-#include "definitions.h"
 #include <QObject>
 #include <QTabWidget>
 #include <QUrl>
@@ -99,7 +99,7 @@ public:
 
     /** @brief Returns a pointer to the current profile */
     std::unique_ptr<ProfileModel> &getCurrentProfile() const;
-    /** @brief Define the active profile 
+    /** @brief Define the active profile
      *  @returns true if profile exists, false if not found
      */
     bool setCurrentProfile(const QString &profilePath);
@@ -135,7 +135,7 @@ public:
     void displayMessage(const QString &message, MessageType type, int timeout);
     /** @brief Clear asset view if itemId is displayed. */
     void clearAssetPanel(int itemId);
-    void adjustAssetRange(int itemId, int in , int out);
+    void adjustAssetRange(int itemId, int in, int out);
 
 private:
     explicit Core();

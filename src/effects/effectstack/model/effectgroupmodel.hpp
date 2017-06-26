@@ -22,8 +22,8 @@
 #ifndef EFFECTGROUPMODEL_H
 #define EFFECTGROUPMODEL_H
 
-#include "abstractmodel/treeitem.hpp"
 #include "abstracteffectitem.hpp"
+#include "abstractmodel/treeitem.hpp"
 
 class EffectStackModel;
 /* @brief This represents a group of effects of the effectstack
@@ -37,15 +37,12 @@ public:
      */
     static std::shared_ptr<EffectGroupModel> construct(const QString &name, std::shared_ptr<AbstractTreeModel> stack);
 
-
 protected:
-    EffectGroupModel(const QList<QVariant> &data, const QString &name,
-                    const std::shared_ptr<AbstractTreeModel> &stack);
+    EffectGroupModel(const QList<QVariant> &data, const QString &name, const std::shared_ptr<AbstractTreeModel> &stack);
 
     void updateEnable() override;
 
     QString m_name;
-
 };
 
 #endif

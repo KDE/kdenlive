@@ -19,12 +19,10 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-
 #include "assetcommand.hpp"
-#include "transitions/transitionsrepository.hpp"
 #include "effects/effectsrepository.hpp"
+#include "transitions/transitionsrepository.hpp"
 #include <memory>
-
 
 AssetCommand::AssetCommand(std::shared_ptr<AssetParameterModel> model, const QModelIndex &index, const QString &value, QUndoCommand *parent)
     : QUndoCommand(parent)
@@ -67,11 +65,11 @@ int AssetCommand::id() const
 // virtual
 bool AssetCommand::mergeWith(const QUndoCommand *other)
 {
-    if (other->id() != id() || static_cast<const AssetCommand *>(other)->m_index != m_index || m_stamp.msecsTo(static_cast<const AssetCommand *>(other)->m_stamp) > 3000) {
+    if (other->id() != id() || static_cast<const AssetCommand *>(other)->m_index != m_index ||
+        m_stamp.msecsTo(static_cast<const AssetCommand *>(other)->m_stamp) > 3000) {
         return false;
     }
     m_value = static_cast<const AssetCommand *>(other)->m_value;
     m_stamp = static_cast<const AssetCommand *>(other)->m_stamp;
     return true;
 }
-

@@ -23,9 +23,9 @@
 #include "bin/projectclip.h"
 #include "core.h"
 #include "effects/effectstack/model/effectstackmodel.hpp"
+#include "macros.hpp"
 #include "timelinemodel.hpp"
 #include "trackmodel.hpp"
-#include "macros.hpp"
 #include <QDebug>
 #include <mlt++/MltProducer.h>
 #include <utility>

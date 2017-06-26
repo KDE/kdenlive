@@ -21,9 +21,9 @@
 #include "effectstackmodel.hpp"
 #include "effects/effectsrepository.hpp"
 
-#include "effectitemmodel.hpp"
-#include "effectgroupmodel.hpp"
 #include "core.h"
+#include "effectgroupmodel.hpp"
+#include "effectitemmodel.hpp"
 #include <utility>
 
 EffectStackModel::EffectStackModel(std::weak_ptr<Mlt::Service> service)
@@ -61,10 +61,10 @@ void EffectStackModel::removeEffect(std::shared_ptr<EffectItemModel> effect)
     pCore->pushUndo(undo, redo, i18n("Delete effect %1", effectName));
 }
 
-void EffectStackModel::copyEffect(std::shared_ptr<AbstractEffectItem>sourceItem, int cid)
+void EffectStackModel::copyEffect(std::shared_ptr<AbstractEffectItem> sourceItem, int cid)
 {
     if (sourceItem->childCount() > 0) {
-        //TODO: group
+        // TODO: group
         return;
     }
     std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(sourceItem);
@@ -95,19 +95,19 @@ void EffectStackModel::appendEffect(const QString &effectId, int cid)
 void EffectStackModel::moveEffect(int destRow, std::shared_ptr<AbstractEffectItem> item)
 {
     if (item->childCount() > 0) {
-        //TODO: group
+        // TODO: group
         return;
     }
     std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(item);
     QModelIndex ix = getIndexFromItem(effect);
     QModelIndex ix2 = ix;
     rootItem->moveChild(destRow, effect);
-    QList < std::shared_ptr<EffectItemModel> > effects;
-    //TODO: define parent group target
+    QList<std::shared_ptr<EffectItemModel>> effects;
+    // TODO: define parent group target
     for (int i = destRow; i < rootItem->childCount(); i++) {
         auto item = getEffectStackRow(i);
         if (item->childCount() > 0) {
-            //TODO: group
+            // TODO: group
             continue;
         }
         std::shared_ptr<EffectItemModel> eff = std::static_pointer_cast<EffectItemModel>(item);
@@ -173,13 +173,13 @@ std::shared_ptr<AbstractEffectItem> EffectStackModel::getEffectStackRow(int row,
     return std::static_pointer_cast<AbstractEffectItem>(parentItem ? rootItem->child(row) : rootItem->child(row));
 }
 
-void EffectStackModel::importEffects(int cid, std::shared_ptr<EffectStackModel>sourceStack)
+void EffectStackModel::importEffects(int cid, std::shared_ptr<EffectStackModel> sourceStack)
 {
-    //TODO: manage fades, keyframes if clips don't have same size / in point
+    // TODO: manage fades, keyframes if clips don't have same size / in point
     for (int i = 0; i < sourceStack->rowCount(); i++) {
         auto item = sourceStack->getEffectStackRow(i);
         if (item->childCount() > 0) {
-            //TODO: group
+            // TODO: group
             continue;
         }
         std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(item);
@@ -216,12 +216,12 @@ void EffectStackModel::slotCreateGroup(std::shared_ptr<EffectItemModel> childEff
     groupItem->appendChild(childEffect);
 }
 
-QPair <int, int> EffectStackModel::getClipId() const
+QPair<int, int> EffectStackModel::getClipId() const
 {
     auto ptr = m_service.lock();
     if (ptr) {
         return QPair<int, int>(ptr->get_int("kdenlive:id"), ptr->get_int("_kdenlive_cid"));
     }
-    qDebug()<<"*  ** ERORR; CANNOT LOCK CLIP SERVICE";
+    qDebug() << "*  ** ERORR; CANNOT LOCK CLIP SERVICE";
     return QPair<int, int>();
 }

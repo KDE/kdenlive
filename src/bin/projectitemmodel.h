@@ -131,7 +131,6 @@ public:
     void registerItem(const std::shared_ptr<TreeItem> &item) override;
     void deregisterItem(int id, TreeItem *item) override;
 
-
 protected:
     /* @brief This function updates the underlying binPlaylist object to reflect deletion of a bin item
        @param binElem is the bin item deleted. Note that exceptionnally, this function takes a raw pointer instead of a smart one.

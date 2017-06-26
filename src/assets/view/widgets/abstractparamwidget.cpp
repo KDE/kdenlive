@@ -22,8 +22,8 @@
 #include "boolparamwidget.hpp"
 #include "doubleparamwidget.hpp"
 #include "effectstack/widgets/animationwidget.h"
-#include "effectstack/widgets/listparamwidget.h"
 #include "effectstack/widgets/keyframeedit.h"
+#include "effectstack/widgets/listparamwidget.h"
 
 #include <QLabel>
 #include <QVBoxLayout>
@@ -56,7 +56,8 @@ AbstractParamWidget::AbstractParamWidget(std::shared_ptr<AssetParameterModel> mo
 {
 }
 
-AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetParameterModel> &model, QModelIndex index, QPair<int, int> range, QWidget *parent)
+AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetParameterModel> &model, QModelIndex index, QPair<int, int> range,
+                                                    QWidget *parent)
 {
     // We retrieve the parameter type
     auto type = model->data(index, AssetParameterModel::TypeRole).value<ParamType>();

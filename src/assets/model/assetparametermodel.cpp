@@ -21,8 +21,8 @@
 
 #include "assetparametermodel.hpp"
 #include "core.h"
-#include "klocalizedstring.h"
 #include "kdenlivesettings.h"
+#include "klocalizedstring.h"
 #include "profiles/profilemodel.hpp"
 #include <QDebug>
 #include <QLocale>
@@ -173,7 +173,9 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
         return element.attribute(QStringLiteral("opacity")) != QLatin1String("false");
     case ValueRole: {
         QString value = m_asset->get(paramName.toUtf8().constData());
-        return value.isEmpty() ? (element.attribute(QStringLiteral("value")).isNull() ? parseAttribute(QStringLiteral("default"), element) : element.attribute(QStringLiteral("value"))) : value;
+        return value.isEmpty() ? (element.attribute(QStringLiteral("value")).isNull() ? parseAttribute(QStringLiteral("default"), element)
+                                                                                      : element.attribute(QStringLiteral("value")))
+                               : value;
     }
     case ListValuesRole:
         return element.attribute(QStringLiteral("paramlist")).split(QLatin1Char(';'));
@@ -195,7 +197,7 @@ int AssetParameterModel::rowCount(const QModelIndex &parent) const
 // static
 ParamType AssetParameterModel::paramTypeFromStr(const QString &type)
 {
-    if (type == QLatin1String("double") || type == QLatin1String("float") ||type == QLatin1String("constant")) {
+    if (type == QLatin1String("double") || type == QLatin1String("float") || type == QLatin1String("constant")) {
         return ParamType::Double;
     }
     if (type == QLatin1String("list")) {
@@ -341,4 +343,3 @@ int AssetParameterModel::getParentId() const
 {
     return m_parentId;
 }
-

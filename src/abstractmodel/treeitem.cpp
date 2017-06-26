@@ -160,7 +160,7 @@ bool TreeItem::changeParent(std::shared_ptr<TreeItem> newParent)
         res = newParent->appendChild(shared_from_this());
         if (res) {
             m_parentItem = newParent;
-        } else if (oldParent){
+        } else if (oldParent) {
             // something went wrong, we have to reset the parent.
             bool reverse = oldParent->appendChild(shared_from_this());
             Q_ASSERT(reverse);
@@ -249,7 +249,8 @@ void TreeItem::deregisterSelf()
     }
 }
 
-bool TreeItem::hasAncestor(int id) {
+bool TreeItem::hasAncestor(int id)
+{
     if (m_id == id) {
         return true;
     }

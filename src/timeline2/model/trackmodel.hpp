@@ -23,8 +23,8 @@
 #define TRACKMODEL_H
 
 #include "undohelper.hpp"
-#include <QSharedPointer>
 #include <QReadWriteLock>
+#include <QSharedPointer>
 #include <memory>
 #include <mlt++/MltPlaylist.h>
 #include <mlt++/MltTractor.h>

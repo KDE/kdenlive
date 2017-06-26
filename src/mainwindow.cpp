@@ -21,7 +21,6 @@
 #include "assets/assetpanel.hpp"
 #include "bin/generators/generators.h"
 #include "bin/projectclip.h"
-#include "profiles/profilemodel.hpp"
 #include "core.h"
 #include "dialogs/clipcreationdialog.h"
 #include "dialogs/kdenlivesettingsdialog.h"
@@ -47,6 +46,7 @@
 #include "monitor/monitor.h"
 #include "monitor/monitormanager.h"
 #include "monitor/scopes/audiographspectrum.h"
+#include "profiles/profilemodel.hpp"
 #include "project/clipmanager.h"
 #include "project/cliptranscode.h"
 #include "project/dialogs/archivewidget.h"
@@ -1691,8 +1691,8 @@ void MainWindow::slotEditProjectSettings()
     KdenliveDoc *project = pCore->projectManager()->current();
     QPoint p = m_timelineTabs->getCurrentTimeline()->getTracksCount();
 
-    ProjectSettings *w = new ProjectSettings(project, project->metadata(), m_timelineTabs->getCurrentTimeline()->controller()->extractCompositionLumas(),
-                                             p.x(), p.y(), project->projectTempFolder(), true, !project->isModified(), this);
+    ProjectSettings *w = new ProjectSettings(project, project->metadata(), m_timelineTabs->getCurrentTimeline()->controller()->extractCompositionLumas(), p.x(),
+                                             p.y(), project->projectTempFolder(), true, !project->isModified(), this);
     connect(w, &ProjectSettings::disableProxies, this, &MainWindow::slotDisableProxies);
     connect(w, SIGNAL(disablePreview()), pCore->projectManager()->currentTimeline(), SLOT(invalidateRange()));
     connect(w, &ProjectSettings::refreshProfiles, this, &MainWindow::slotRefreshProfiles);
@@ -1700,8 +1700,8 @@ void MainWindow::slotEditProjectSettings()
     if (w->exec() == QDialog::Accepted) {
         QString profile = w->selectedProfile();
         // project->setProjectFolder(w->selectedFolder());
-        //TODO: timeline preview
-        //pCore->projectManager()->currentTimeline()->updatePreviewSettings(w->selectedPreview());
+        // TODO: timeline preview
+        // pCore->projectManager()->currentTimeline()->updatePreviewSettings(w->selectedPreview());
         bool modified = false;
         if (m_renderWidget) {
             m_renderWidget->setDocumentPath(project->projectDataFolder() + QDir::separator());
@@ -4107,7 +4107,6 @@ TimelineWidget *MainWindow::getMainTimeline() const
 {
     return m_timelineTabs->getMainTimeline();
 }
-
 
 #ifdef DEBUG_MAINW
 #undef DEBUG_MAINW

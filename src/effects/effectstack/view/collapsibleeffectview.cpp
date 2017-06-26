@@ -20,15 +20,15 @@
  ***************************************************************************/
 
 #include "collapsibleeffectview.hpp"
+#include "assets/view/assetparameterview.hpp"
+#include "core.h"
 #include "dialogs/clipcreationdialog.h"
+#include "effects/effectsrepository.hpp"
+#include "effects/effectstack/model/effectitemmodel.hpp"
 #include "effectslist/effectslist.h"
 #include "kdenlivesettings.h"
 #include "mltcontroller/effectscontroller.h"
 #include "utils/KoIconUtils.h"
-#include "effects/effectstack/model/effectitemmodel.hpp"
-#include "effects/effectsrepository.hpp"
-#include "assets/view/assetparameterview.hpp"
-#include "core.h"
 
 #include "kdenlive_debug.h"
 #include <QDialog>
@@ -40,10 +40,10 @@
 #include <QMimeData>
 #include <QPainter>
 #include <QProgressBar>
+#include <QPropertyAnimation>
 #include <QStandardPaths>
 #include <QVBoxLayout>
 #include <QWheelEvent>
-#include <QPropertyAnimation>
 
 #include <KComboBox>
 #include <KDualAction>
@@ -51,12 +51,12 @@
 #include <KRecentDirs>
 #include <klocalizedstring.h>
 
-CollapsibleEffectView::CollapsibleEffectView(std::shared_ptr<EffectItemModel> effectModel, QPair <int, int>range, QImage icon, QWidget *parent)
+CollapsibleEffectView::CollapsibleEffectView(std::shared_ptr<EffectItemModel> effectModel, QPair<int, int> range, QImage icon, QWidget *parent)
     : AbstractCollapsibleWidget(parent)
-/*    , m_effect(effect)
-    , m_itemInfo(info)
-    , m_original_effect(original_effect)
-    , m_isMovable(true)*/
+    /*    , m_effect(effect)
+        , m_itemInfo(info)
+        , m_original_effect(original_effect)
+        , m_isMovable(true)*/
     , m_model(effectModel)
     , m_view(nullptr)
     , m_regionEffect(false)
@@ -68,8 +68,8 @@ CollapsibleEffectView::CollapsibleEffectView(std::shared_ptr<EffectItemModel> ef
         decoframe->setObjectName(QStringLiteral("decoframegroup"));
     }
     filterWheelEvent = true;
-    //decoframe->setProperty("active", true);
-    //m_info.fromString(effect.attribute(QStringLiteral("kdenlive_info")));
+    // decoframe->setProperty("active", true);
+    // m_info.fromString(effect.attribute(QStringLiteral("kdenlive_info")));
     // setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     buttonUp->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-up")));
     QSize iconSize = buttonUp->iconSize();
@@ -83,8 +83,8 @@ CollapsibleEffectView::CollapsibleEffectView(std::shared_ptr<EffectItemModel> ef
     buttonDown->setToolTip(i18n("Move effect down"));
     buttonDel->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-deleffect")));
     buttonDel->setToolTip(i18n("Delete effect"));
-    //buttonUp->setEnabled(canMoveUp);
-    //buttonDown->setEnabled(!lastEffect);
+    // buttonUp->setEnabled(canMoveUp);
+    // buttonDown->setEnabled(!lastEffect);
 
     if (effectId == QLatin1String("speed")) {
         // Speed effect is a "pseudo" effect, cannot be moved
@@ -151,7 +151,7 @@ CollapsibleEffectView::CollapsibleEffectView(std::shared_ptr<EffectItemModel> ef
         m_menu->addAction(KoIconUtils::themedIcon(QStringLiteral("folder-new")), i18n("Create Region"), this, SLOT(slotCreateRegion()));
     }
 
-    //setupWidget(info, metaInfo);
+    // setupWidget(info, metaInfo);
     menuButton->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-menu")));
     menuButton->setMenu(m_menu);
 
@@ -351,7 +351,7 @@ void CollapsibleEffectView::mouseReleaseEvent(QMouseEvent *event)
 {
     m_dragStart = QPoint();
     if (!decoframe->property("active").toBool()) {
-        //emit activateEffect(effectIndex());
+        // emit activateEffect(effectIndex());
     }
     QWidget::mouseReleaseEvent(event);
 }
@@ -370,7 +370,7 @@ void CollapsibleEffectView::slotDeleteEffect()
 
 void CollapsibleEffectView::slotEffectUp()
 {
-    emit moveEffect(qMax(0, m_model->row() -1), m_model);
+    emit moveEffect(qMax(0, m_model->row() - 1), m_model);
 }
 
 void CollapsibleEffectView::slotEffectDown()
@@ -470,10 +470,10 @@ void CollapsibleEffectView::animationFinished()
 void CollapsibleEffectView::slotShow(bool show)
 {
     if (show) {
-        //collapseButton->setArrowType(Qt::DownArrow);
+        // collapseButton->setArrowType(Qt::DownArrow);
         m_info.isCollapsed = false;
     } else {
-        //collapseButton->setArrowType(Qt::RightArrow);
+        // collapseButton->setArrowType(Qt::RightArrow);
         m_info.isCollapsed = true;
     }
     updateCollapsedState();
@@ -699,7 +699,7 @@ void CollapsibleEffectView::dropEvent(QDropEvent *event)
         if (event->source()->objectName() == QStringLiteral("ParameterContainer")) {
             return;
         }
-        //emit activateEffect(effectIndex());
+        // emit activateEffect(effectIndex());
         QString itemData = event->mimeData()->data(QStringLiteral("kdenlive/geometry"));
         importKeyframes(itemData);
         return;
@@ -738,7 +738,7 @@ void CollapsibleEffectView::dropEvent(QDropEvent *event)
                     QDomElement effect = subeffects.at(i).toElement();
                     effectsIds << effect.attribute(QStringLiteral("kdenlive_ix")).toInt();
                 }
-                //emit moveEffect(effectsIds, currentEffectIx, info.groupIndex, info.groupName);
+                // emit moveEffect(effectsIds, currentEffectIx, info.groupIndex, info.groupName);
             } else {
                 // group effect dropped from effect list
                 if (m_info.groupIndex > -1) {
@@ -759,7 +759,7 @@ void CollapsibleEffectView::dropEvent(QDropEvent *event)
         emit addEffect(e);
         return;
     }
-    //emit moveEffect(QList<int>() << ix, currentEffectIx, m_info.groupIndex, m_info.groupName);
+    // emit moveEffect(QList<int>() << ix, currentEffectIx, m_info.groupIndex, m_info.groupName);
     event->setDropAction(Qt::MoveAction);
     event->accept();
 }
@@ -780,7 +780,7 @@ MonitorSceneType CollapsibleEffectView::needsMonitorEffectScene() const
     return MonitorSceneDefault;
 }
 
-void CollapsibleEffectView::setRange(QPair <int, int>range)
+void CollapsibleEffectView::setRange(QPair<int, int> range)
 {
     if (m_view) {
         m_view->setRange(range);

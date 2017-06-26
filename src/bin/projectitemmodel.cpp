@@ -26,16 +26,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
 #include "macros.hpp"
+#include "profiles/profilemodel.hpp"
 #include "projectclip.h"
 #include "projectfolder.h"
 #include "projectsubclip.h"
-#include "profiles/profilemodel.hpp"
 
 #include <KLocalizedString>
 #include <QIcon>
 #include <QMimeData>
-#include <qvarlengtharray.h>
 #include <mlt++/Mlt.h>
+#include <qvarlengtharray.h>
 
 ProjectItemModel::ProjectItemModel(Bin *bin, QObject *parent)
     : AbstractTreeModel(parent)
@@ -326,11 +326,11 @@ QStringList ProjectItemModel::getEnclosingFolderInfo(const QModelIndex &index) c
 
 void ProjectItemModel::clean()
 {
-    std::vector<std::shared_ptr<TreeItem> > toDelete;
+    std::vector<std::shared_ptr<TreeItem>> toDelete;
     for (int i = 0; i < rootItem->childCount(); ++i) {
         toDelete.push_back(rootItem->child(i));
     }
-    for (const auto& child : toDelete) {
+    for (const auto &child : toDelete) {
         rootItem->removeChild(child);
     }
     Q_ASSERT(rootItem->childCount() == 0);
@@ -410,16 +410,16 @@ void ProjectItemModel::registerItem(const std::shared_ptr<TreeItem> &item)
 }
 void ProjectItemModel::deregisterItem(int id, TreeItem *item)
 {
-    auto clip = static_cast<AbstractProjectItem*>(item);
+    auto clip = static_cast<AbstractProjectItem *>(item);
     manageBinClipDeletion(clip);
     AbstractTreeModel::deregisterItem(id, item);
 }
 
 void ProjectItemModel::manageBinClipInsertion(const std::shared_ptr<AbstractProjectItem> &binElem)
 {
-    switch(binElem->itemType()) {
+    switch (binElem->itemType()) {
     case AbstractProjectItem::FolderItem: {
-        //When a folder is inserted, we have to store its path into the properties
+        // When a folder is inserted, we have to store its path into the properties
         if (binElem->parent()) {
             QString propertyName = "kdenlive:folder." + binElem->parent()->clipId() + QLatin1Char('.') + binElem->clipId();
             m_binPlaylist->set(propertyName.toUtf8().constData(), binElem->name().toUtf8().constData());
@@ -433,9 +433,9 @@ void ProjectItemModel::manageBinClipInsertion(const std::shared_ptr<AbstractProj
 
 void ProjectItemModel::manageBinClipDeletion(AbstractProjectItem *binElem)
 {
-    switch(binElem->itemType()) {
+    switch (binElem->itemType()) {
     case AbstractProjectItem::FolderItem: {
-        //When a folder is removed, we clear the path info
+        // When a folder is removed, we clear the path info
         if (!binElem->lastParentId().isEmpty()) {
             QString propertyName = "kdenlive:folder." + binElem->lastParentId() + QLatin1Char('.') + binElem->clipId();
             m_binPlaylist->set(propertyName.toUtf8().constData(), (char *)nullptr);
@@ -483,7 +483,7 @@ bool ProjectItemModel::requestAddFolder(QString &id, const QString &name, const 
 Fun ProjectItemModel::requestRenameFolder_lambda(std::shared_ptr<AbstractProjectItem> folder, const QString &newName)
 {
     int id = folder->getId();
-    return [this, id, newName](){
+    return [this, id, newName]() {
         auto currentFolder = std::static_pointer_cast<AbstractProjectItem>(m_allItems[id].lock());
         if (!currentFolder) {
             return false;
