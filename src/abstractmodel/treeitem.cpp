@@ -45,7 +45,6 @@ std::shared_ptr<TreeItem> TreeItem::construct(const QList<QVariant> &data, std::
 // static
 void TreeItem::baseFinishConstruct(const std::shared_ptr<TreeItem> &self)
 {
-    qDebug() << "FINISHED constructing " << self->getId();
     if (self->m_isRoot) {
         self->registerSelf();
     }
@@ -68,8 +67,22 @@ std::shared_ptr<TreeItem> TreeItem::appendChild(const QList<QVariant> &data)
     return std::shared_ptr<TreeItem>();
 }
 
-void TreeItem::appendChild(std::shared_ptr<TreeItem> child)
+bool TreeItem::appendChild(std::shared_ptr<TreeItem> child)
 {
+    if (hasAncestor(child->getId())) {
+        // in that case, we are trying to create a cycle, abort
+        return false;
+    }
+    if (auto oldParent = child->parentItem().lock()) {
+        if (oldParent->getId() == m_id) {
+            // no change needed
+            return true;
+        } else {
+            // in that case a call to removeChild should have been carried out
+            qDebug() << "ERROR: trying to append a child that alrealdy has a parent";
+            return false;
+        }
+    }
     if (auto ptr = m_model.lock()) {
         ptr->notifyRowAboutToAppend(shared_from_this());
         child->m_depth = m_depth + 1;
@@ -79,10 +92,11 @@ void TreeItem::appendChild(std::shared_ptr<TreeItem> child)
         m_iteratorTable[id] = it;
         child->registerSelf();
         ptr->notifyRowAppended(child);
-    } else {
-        qDebug() << "ERROR: Something went wrong when appending child in TreeItem. Model is not available anymore";
-        Q_ASSERT(false);
+        return true;
     }
+    qDebug() << "ERROR: Something went wrong when appending child in TreeItem. Model is not available anymore";
+    Q_ASSERT(false);
+    return false;
 }
 
 void TreeItem::moveChild(int ix, std::shared_ptr<TreeItem> child)
@@ -99,7 +113,6 @@ void TreeItem::moveChild(int ix, std::shared_ptr<TreeItem> child)
         ptr->notifyRowAboutToAppend(shared_from_this());
         child->m_depth = m_depth + 1;
         child->m_parentItem = shared_from_this();
-        qDebug() << "appending child2" << child->getId() << "to " << m_id;
         int id = child->getId();
         auto pos = m_childItems.begin();
         std::advance(pos, ix);
@@ -116,9 +129,9 @@ void TreeItem::moveChild(int ix, std::shared_ptr<TreeItem> child)
 void TreeItem::removeChild(const std::shared_ptr<TreeItem> &child)
 {
     if (auto ptr = m_model.lock()) {
-        qDebug() << "removing child" << child->getId() << "from " << m_id;
         ptr->notifyRowAboutToDelete(shared_from_this(), child->row());
         // get iterator corresponding to child
+        Q_ASSERT(m_iteratorTable.count(child->getId()) > 0);
         auto it = m_iteratorTable[child->getId()];
         // deletion of child
         m_childItems.erase(it);
@@ -134,17 +147,26 @@ void TreeItem::removeChild(const std::shared_ptr<TreeItem> &child)
     }
 }
 
-void TreeItem::changeParent(std::shared_ptr<TreeItem> newParent)
+bool TreeItem::changeParent(std::shared_ptr<TreeItem> newParent)
 {
     Q_ASSERT(!m_isRoot);
-    qDebug() << "changing parent of " << m_id;
-    if (auto ptr = m_parentItem.lock()) {
-        ptr->removeChild(shared_from_this());
+    if (m_isRoot) return false;
+    std::shared_ptr<TreeItem> oldParent;
+    if (oldParent = m_parentItem.lock()) {
+        oldParent->removeChild(shared_from_this());
     }
+    bool res = true;
     if (newParent) {
-        newParent->appendChild(shared_from_this());
-        m_parentItem = newParent;
+        res = newParent->appendChild(shared_from_this());
+        if (res) {
+            m_parentItem = newParent;
+        } else if (oldParent){
+            // something went wrong, we have to reset the parent.
+            bool reverse = oldParent->appendChild(shared_from_this());
+            Q_ASSERT(reverse);
+        }
     }
+    return res;
 }
 
 std::shared_ptr<TreeItem> TreeItem::child(int row) const
@@ -225,4 +247,14 @@ void TreeItem::deregisterSelf()
             m_isInModel = false;
         }
     }
+}
+
+bool TreeItem::hasAncestor(int id) {
+    if (m_id == id) {
+        return true;
+    }
+    if (auto ptr = m_parentItem.lock()) {
+        return ptr->hasAncestor(id);
+    }
+    return false;
 }

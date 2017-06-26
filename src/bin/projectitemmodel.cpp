@@ -491,8 +491,7 @@ Fun ProjectItemModel::requestRenameFolder_lambda(std::shared_ptr<AbstractProject
         auto parent = currentFolder->parent();
         parent->removeChild(currentFolder);
         currentFolder->setName(newName);
-        parent->appendChild(currentFolder);
-        return true;
+        return parent->appendChild(currentFolder);
     };
 }
 
@@ -532,8 +531,7 @@ Fun ProjectItemModel::addBin_lambda(std::shared_ptr<AbstractProjectItem> new_ite
                 return false;
             }
         }
-        new_item->changeParent(parent);
-        return true;
+        return new_item->changeParent(parent);
     };
 }
 

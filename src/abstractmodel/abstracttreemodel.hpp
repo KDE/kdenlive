@@ -100,6 +100,9 @@ protected:
     */
     void notifyRowDeleted();
 
+    /* @brief This is a convenience function that helps check if the tree is in a valid state */
+    bool checkConsistency();
+
 protected:
     std::shared_ptr<TreeItem> rootItem;
 

@@ -25,6 +25,9 @@
 #include <QDebug>
 #include <utility>
 
+#include <unordered_set>
+#include <queue>
+
 int AbstractTreeModel::currentTreeId = 0;
 AbstractTreeModel::AbstractTreeModel(QObject *parent)
     : QAbstractItemModel(parent)
@@ -34,7 +37,7 @@ AbstractTreeModel::AbstractTreeModel(QObject *parent)
 std::shared_ptr<AbstractTreeModel> AbstractTreeModel::construct(QObject *parent)
 {
     std::shared_ptr<AbstractTreeModel> self(new AbstractTreeModel(parent));
-    self->rootItem.reset(new TreeItem(QList<QVariant>(), self, true));
+    self->rootItem = TreeItem::construct(QList<QVariant>(), self, true);
     return self;
 }
 
@@ -193,4 +196,71 @@ std::shared_ptr<TreeItem> AbstractTreeModel::getItemById(int id) const
 std::shared_ptr<TreeItem> AbstractTreeModel::getRoot() const
 {
     return rootItem;
+}
+
+bool AbstractTreeModel::checkConsistency()
+{
+    // first check that the root is all good
+    if (!rootItem || !rootItem->m_isRoot || !rootItem->isInModel()
+        || m_allItems.count(rootItem->getId()) == 0){
+        qDebug() << !rootItem->m_isRoot << !rootItem->isInModel()
+                 << (m_allItems.count(rootItem->getId()) == 0);
+        qDebug() << "ERROR: Model is not valid because root is not properly constructed";
+        return false;
+    }
+    // Then we traverse the tree from the root, checking the infos on the way
+    std::unordered_set<int> seenIDs;
+    std::queue<std::pair<int, std::pair<int, int>> > queue; // store (id, (depth, parentId))
+    queue.push({rootItem->getId(), {0, rootItem->getId()}});
+    while (!queue.empty()) {
+        auto current = queue.front();
+        int currentId = current.first, currentDepth = current.second.first;
+        int parentId = current.second.second;
+        queue.pop();
+        if (seenIDs.count(currentId) != 0) {
+            qDebug() << "ERROR: Invalid tree: Id found twice."
+                     << "It either a cycle or a clash in id attribution";
+            return false;
+        }
+        if (m_allItems.count(currentId) == 0) {
+            qDebug() << "ERROR: Invalid tree: Id not found. Item is not registered";
+            return false;
+        }
+        auto currentItem = m_allItems[currentId].lock();
+        if (currentItem->depth() != currentDepth) {
+            qDebug() << "ERROR: Invalid tree: invalid depth info found";
+            return false;
+        }
+        if (!currentItem->isInModel()) {
+            qDebug() << "ERROR: Invalid tree: item thinks it is not in a model";
+            return false;
+        }
+        if (currentId != rootItem->getId()) {
+            if((currentDepth == 0 || currentItem->m_isRoot)) {
+                qDebug() << "ERROR: Invalid tree: duplicate root";
+                return false;
+            }
+            if (auto ptr = currentItem->parentItem().lock()) {
+                if (ptr->getId() != parentId  ||
+                    ptr->child(currentItem->row())->getId() != currentItem->getId()) {
+                    qDebug() << "ERROR: Invalid tree: invalid parent link";
+                    return false;
+                }
+            } else  {
+                qDebug() << "ERROR: Invalid tree: invalid parent";
+                return false;
+            }
+        }
+        // propagate to children
+        int i = 0;
+        for (const auto &child : currentItem->m_childItems) {
+            if (currentItem->child(i) != child) {
+                qDebug() << "ERROR: Invalid tree: invalid child ordering";
+                return false;
+            }
+            queue.push({child->getId(), {currentDepth + 1, currentId}});
+            i++;
+        }
+    }
+    return true;
 }

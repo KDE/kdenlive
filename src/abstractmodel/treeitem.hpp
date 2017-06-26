@@ -71,8 +71,9 @@ public:
 
     /* @brief Appends an already created child
        Useful for example if the child should be a subclass of TreeItem
+       @return true on success. Otherwise, nothing is modified.
     */
-    void appendChild(std::shared_ptr<TreeItem> child);
+    bool appendChild(std::shared_ptr<TreeItem> child);
     void moveChild(int ix, std::shared_ptr<TreeItem> child);
 
     /* @brief Remove given child from children list. The parent of the child is updated
@@ -82,7 +83,7 @@ public:
 
     /* @brief Change the parent of the current item. Structures are modified accordingly
      */
-    virtual void changeParent(std::shared_ptr<TreeItem> newParent);
+    virtual bool changeParent(std::shared_ptr<TreeItem> newParent);
 
     /* @brief Retrieves a child of the current item
        @param row is the index of the child to retrieve
@@ -125,8 +126,8 @@ public:
     */
     template <class T, class BinaryOperation> T accumulate(T init, BinaryOperation op);
 
-    /* @brief Returns true if the model has been notified about the existence of this object
-     */
+    /* @brief Return true if the current item has the item with given id as an ancestor */
+    bool hasAncestor(int id);
 
 protected:
     /* @brief Finish construction of object given its pointer

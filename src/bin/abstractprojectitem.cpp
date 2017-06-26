@@ -268,11 +268,11 @@ QString AbstractProjectItem::lastParentId() const
     return m_lastParentId;
 }
 
-void AbstractProjectItem::changeParent(std::shared_ptr<TreeItem> newParent)
+bool AbstractProjectItem::changeParent(std::shared_ptr<TreeItem> newParent)
 {
     m_lastParentId.clear();
     if (newParent) {
         m_lastParentId = std::static_pointer_cast<AbstractProjectItem>(newParent)->clipId();
     }
-    TreeItem::changeParent(newParent);
+    return TreeItem::changeParent(newParent);
 }
