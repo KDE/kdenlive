@@ -392,6 +392,7 @@ bool ProjectItemModel::requestBinClipDeletion(std::shared_ptr<AbstractProjectIte
     if (!clip) return false;
     int parentId = -1;
     if (auto ptr = clip->parent()) parentId = ptr->getId();
+    clip->selfSoftDelete(undo, redo);
     int id = clip->getId();
     Fun operation = removeBin_lambda(id);
     Fun reverse = addBin_lambda(clip, parentId);
