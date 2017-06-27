@@ -65,10 +65,8 @@ class ClipManager : public QObject
     virtual ~ClipManager();
 
     void slotAddTextTemplateClip(const QString &titleName, const QUrl &path, const QString &group, const QString &groupId);
-    void doDeleteClips(const QStringList &clipIds, const QStringList &folderIds, const QStringList &subClipIds, QUndoCommand *deleteCommand, bool execute);
     int lastClipId() const;
     /** @brief Prepare deletion of clips and folders from the Bin. */
-    void deleteProjectItems(const QStringList &clipIds, const QStringList &folderIds, const QStringList &subClipIds, QUndoCommand *deleteCommand = nullptr);
     void clear();
     void clearCache();
     AbstractGroupItem *createGroup();

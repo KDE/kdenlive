@@ -126,12 +126,15 @@ public:
     /* Same functions but pushes the undo object directly */
     bool requestRenameFolder(std::shared_ptr<AbstractProjectItem> folder, const QString &name);
 
+    /* @brief Request that the unused clips are deleted */
+    bool requestCleanup();
+
+protected:
     /* @brief Register the existence of a new element
      */
     void registerItem(const std::shared_ptr<TreeItem> &item) override;
     void deregisterItem(int id, TreeItem *item) override;
 
-protected:
     /* @brief This function updates the underlying binPlaylist object to reflect deletion of a bin item
        @param binElem is the bin item deleted. Note that exceptionnally, this function takes a raw pointer instead of a smart one.
        This is because the function will be called in the middle of the element's destructor, so no smart pointer is available at that time.

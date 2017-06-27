@@ -1013,6 +1013,9 @@ void Bin::slotDeleteClip()
     std::vector<std::shared_ptr<AbstractProjectItem>> items;
     bool included = false;
     bool usedFolder = false;
+    auto checkInclusion = [](bool accum, std::shared_ptr<TreeItem> item) {
+        return accum || std::static_pointer_cast<AbstractProjectItem>(item)->isIncludedInTimeline();
+    };
     for (const QModelIndex &ix : indexes) {
         if (!ix.isValid() || ix.column() != 0) {
             continue;
@@ -1022,9 +1025,6 @@ void Bin::slotDeleteClip()
             qDebug() << "Suspicious: item not found when trying to delete";
             continue;
         }
-        auto checkInclusion = [](bool included, std::shared_ptr<TreeItem> item) {
-            return included || std::static_pointer_cast<AbstractProjectItem>(item)->isIncludedInTimeline();
-        };
         included = included || item->accumulate(false, checkInclusion);
         // Check if we are deleting non-empty folders:
         usedFolder = usedFolder || item->childCount() > 0;
@@ -1042,107 +1042,6 @@ void Bin::slotDeleteClip()
         m_itemModel->requestBinClipDeletion(item, undo, redo);
     }
     pCore->pushUndo(undo, redo, i18n("Delete bin Clips"));
-    /*
-    QStringList clipIds;
-    QStringList subClipIds;
-    QStringList foldersIds;
-    std::shared_ptr<ProjectSubClip> sub;
-    QPoint zone;
-    bool usedFolder = false;
-    // check folders, remove child folders if there is any
-    QList<std::shared_ptr<ProjectFolder>> topFolders;
-    const QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
-    for (const QModelIndex &ix : indexes) {
-        if (!ix.isValid() || ix.column() != 0) {
-            continue;
-        }
-        std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
-        if (!item) {
-            continue;
-        }
-        if (item->itemType() == AbstractProjectItem::SubClipItem) {
-            QString subId = item->clipId();
-            sub = std::static_pointer_cast<ProjectSubClip>(item);
-            zone = sub->zone();
-            subId.append(QLatin1Char(':') + QString::number(zone.x()) + QLatin1Char(':') + QString::number(zone.y()));
-            subClipIds << subId;
-            continue;
-        }
-        if (item->itemType() != AbstractProjectItem::FolderItem) {
-            continue;
-        }
-        auto current = std::static_pointer_cast<ProjectFolder>(item);
-        if (!usedFolder && current->childCount() != 0) {
-            usedFolder = true;
-        }
-        if (topFolders.isEmpty()) {
-            topFolders << current;
-            continue;
-        }
-        // parse all folders to check for children
-        bool isChild = false;
-        for (std::shared_ptr<ProjectFolder> f : topFolders) {
-            if (f->folder(current->clipId())) {
-                // Current is a child, no need to take it into account
-                isChild = true;
-                break;
-            }
-        }
-        if (isChild) {
-            continue;
-        }
-        QList<std::shared_ptr<ProjectFolder>> childFolders;
-        // parse all folders to check for children
-        for (std::shared_ptr<ProjectFolder> f : topFolders) {
-            if (current->folder(f->clipId())) {
-                childFolders << f;
-            }
-        }
-        if (!childFolders.isEmpty()) {
-            // children are in the list, remove from
-            for (std::shared_ptr<ProjectFolder> f : childFolders) {
-                topFolders.removeAll(f);
-            }
-        }
-        topFolders << current;
-    }
-    for (std::shared_ptr<ProjectFolder> f : topFolders) {
-        foldersIds << f->clipId();
-    }
-    bool usedClips = false;
-    QList<std::shared_ptr<ProjectFolder>> topClips;
-    // Check if clips are in already selected folders
-    for (const QModelIndex &ix : indexes) {
-        if (!ix.isValid() || ix.column() != 0) {
-            continue;
-        }
-        std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
-        if ((item == nullptr) || item->itemType() != AbstractProjectItem::ClipItem) {
-            continue;
-        }
-        auto current = std::static_pointer_cast<ProjectClip>(item);
-        bool isChild = false;
-        for (std::shared_ptr<ProjectFolder> f : topFolders) {
-            if (current->hasParent(f->clipId())) {
-                isChild = true;
-                break;
-            }
-        }
-        if (!isChild) {
-            if (!usedClips && current->refCount() > 0) {
-                usedClips = true;
-            }
-            clipIds << current->AbstractProjectItem::clipId();
-        }
-    }
-    if (usedClips && (KMessageBox::warningContinueCancel(this, i18n("This will delete all selected clips from timeline")) != KMessageBox::Continue)) {
-        return;
-    }
-    if (usedFolder && (KMessageBox::warningContinueCancel(this, i18n("This will delete all folder content")) != KMessageBox::Continue)) {
-        return;
-    }
-    m_doc->clipManager()->deleteProjectItems(clipIds, foldersIds, subClipIds);
-    */
 }
 
 void Bin::slotReloadClip()
@@ -1466,17 +1365,6 @@ void Bin::selectClipById(const QString &clipId, int frame, const QPoint &zone)
     }
 }
 
-void Bin::doAddFolder(const QString &id, const QString &name, const QString &parentId)
-{
-    std::shared_ptr<ProjectFolder> parentFolder = m_itemModel->getFolderByBinId(parentId);
-    if (!parentFolder) {
-        qCDebug(KDENLIVE_LOG) << "  / / ERROR IN PARENT FOLDER";
-        return;
-    }
-    std::shared_ptr<ProjectFolder> new_folder = ProjectFolder::construct(id, name, m_itemModel);
-    parentFolder->appendChild(new_folder);
-    emit storeFolder(id, parentId, QString(), name);
-}
 
 void Bin::slotLoadFolders(const QMap<QString, QString> &foldersData)
 {
@@ -1532,41 +1420,6 @@ void Bin::slotLoadFolders(const QMap<QString, QString> &foldersData)
     }
 }
 
-void Bin::removeFolder(const QString &id, QUndoCommand *deleteCommand)
-{
-    // Check parent item
-    std::shared_ptr<ProjectFolder> folder = m_itemModel->getFolderByBinId(id);
-    if ((folder == nullptr) || (folder->parent() == nullptr)) {
-        qCDebug(KDENLIVE_LOG) << "  / / ERROR when removing folder: folder is invalid or is root";
-        return;
-    }
-    std::shared_ptr<AbstractProjectItem> parent = folder->parent();
-    if (folder->childCount() != 0) {
-        // Folder has clips inside, warn user
-        if (KMessageBox::warningContinueCancel(this, i18np("Folder contains a clip, delete anyways ?", "Folder contains %1 clips, delete anyways ?",
-                                                           folder->childCount())) != KMessageBox::Continue) {
-            return;
-        }
-        QStringList clipIds;
-        QStringList folderIds;
-        // TODO: manage subclips
-        for (int i = 0; i < folder->childCount(); i++) {
-            std::shared_ptr<AbstractProjectItem> child = std::static_pointer_cast<AbstractProjectItem>(folder->child(i));
-            switch (child->itemType()) {
-            case AbstractProjectItem::ClipItem:
-                clipIds << child->clipId();
-                break;
-            case AbstractProjectItem::FolderItem:
-                folderIds << child->clipId();
-                break;
-            default:
-                break;
-            }
-        }
-        m_doc->clipManager()->deleteProjectItems(clipIds, folderIds, QStringList(), deleteCommand);
-    }
-    new AddBinFolderCommand(this, folder->clipId(), folder->name(), parent->clipId(), true, deleteCommand);
-}
 
 void Bin::removeSubClip(const QString &id, QUndoCommand *deleteCommand)
 {
@@ -1578,18 +1431,6 @@ void Bin::removeSubClip(const QString &id, QUndoCommand *deleteCommand)
     new AddBinClipCutCommand(this, clipId, in, out, false, deleteCommand);
 }
 
-void Bin::doRemoveFolder(const QString &id)
-{
-    std::shared_ptr<ProjectFolder> folder = m_itemModel->getFolderByBinId(id);
-    if (!folder) {
-        qCDebug(KDENLIVE_LOG) << "  / / FOLDER not found";
-        return;
-    }
-    // TODO: warn user on non-empty folders
-    std::shared_ptr<AbstractProjectItem> parent = folder->parent();
-    parent->removeChild(folder);
-    emit storeFolder(id, parent->clipId(), QString(), QString());
-}
 
 void Bin::selectProxyModel(const QModelIndex &id)
 {
@@ -2715,6 +2556,8 @@ void Bin::slotItemDropped(const QList<QUrl> &urls, const QModelIndex &parent)
 
 void Bin::slotExpandUrl(const ItemInfo &info, const QString &url, QUndoCommand *command)
 {
+    //TODO reimplement this
+    /*
     // Create folder to hold imported clips
     QString folderName = QFileInfo(url).fileName().section(QLatin1Char('.'), 0, 0);
     QString folderId = QString::number(getFreeFolderId());
@@ -2830,6 +2673,7 @@ void Bin::slotExpandUrl(const ItemInfo &info, const QString &url, QUndoCommand *
         ClipCreationDialog::createClipsCommand(this, clone, newId, command);
     }
     pCore->projectManager()->currentTimeline()->importPlaylist(info, idMap, doc, command);
+    */
 }
 
 void Bin::slotItemEdited(const QModelIndex &ix, const QModelIndex &, const QVector<int> &)
@@ -3578,21 +3422,6 @@ void Bin::resetUsageCount()
     }
 }
 
-void Bin::cleanup()
-{
-    QList<std::shared_ptr<ProjectClip>> clipList = m_itemModel->getRootFolder()->childClips();
-    QStringList ids;
-    QStringList subIds;
-    for (std::shared_ptr<ProjectClip> clip : clipList) {
-        if (clip->refCount() == 0) {
-            ids << clip->AbstractProjectItem::clipId();
-            subIds << clip->subClipIds();
-        }
-    }
-    auto *command = new QUndoCommand();
-    command->setText(i18n("Clean Project"));
-    m_doc->clipManager()->doDeleteClips(ids, QStringList(), subIds, command, true);
-}
 
 void Bin::getBinStats(uint *used, uint *unused, qint64 *usedSize, qint64 *unusedSize)
 {
@@ -3705,4 +3534,9 @@ void Bin::setCurrent(std::shared_ptr<AbstractProjectItem> item)
     default:
         break;
     }
+}
+
+void Bin::cleanup()
+{
+    m_itemModel->requestCleanup();
 }

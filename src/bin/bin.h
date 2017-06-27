@@ -243,11 +243,8 @@ public:
     /** @brief Ask MLT to reload this clip's producer  */
     void reloadClip(const QString &id);
 
-    /** @brief Delete a folder  */
-    void doRemoveFolder(const QString &id);
     /** @brief Add a folder  */
     void doAddFolder(const QString &id, const QString &name, const QString &parentId);
-    void removeFolder(const QString &id, QUndoCommand *deleteCommand);
     void removeSubClip(const QString &id, QUndoCommand *deleteCommand);
     void doMoveClip(const QString &id, const QString &newParentId);
     void doMoveFolder(const QString &id, const QString &newParentId);
@@ -299,8 +296,6 @@ public:
     bool isEmpty() const;
     /** @brief Trigger reload of all clips. */
     void reloadAllProducers();
-    /** @brief Remove all unused clip from project bin. */
-    void cleanup();
     /** @brief Get usage stats for project bin. */
     void getBinStats(uint *used, uint *unused, qint64 *usedSize, qint64 *unusedSize);
     /** @brief Returns the clip properties dockwidget. */
@@ -321,6 +316,8 @@ public:
     void saveZone(const QStringList &info, const QDir &dir);
     QVariantList audioFrameCache(const QString &id);
 
+    // TODO refac: remove this and call directly the function in ProjectItemModel
+    void cleanup();
 private slots:
     void slotAddClip();
     void slotReloadClip();

@@ -26,21 +26,6 @@
 
 class Bin;
 
-class AddBinFolderCommand : public QUndoCommand
-{
-public:
-    explicit AddBinFolderCommand(Bin *bin, const QString &id, const QString &name, const QString &parentId, bool remove = false,
-                                 QUndoCommand *parent = nullptr);
-    void undo() override;
-    void redo() override;
-
-private:
-    Bin *m_bin;
-    QString m_id;
-    QString m_name;
-    QString m_parentId;
-    bool m_remove;
-};
 
 class MoveBinClipCommand : public QUndoCommand
 {

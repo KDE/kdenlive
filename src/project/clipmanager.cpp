@@ -189,58 +189,6 @@ void ClipManager::slotGetThumbs()
     emit displayMessage(QString(), -1);
 }
 
-void ClipManager::deleteProjectItems(const QStringList &clipIds, const QStringList &folderIds, const QStringList &subClipIds, QUndoCommand *deleteCommand)
-{
-    // Create meta command
-    bool execute = deleteCommand == nullptr;
-    if (execute) {
-        deleteCommand = new QUndoCommand();
-    }
-    if (clipIds.isEmpty()) {
-        // Deleting folder only
-        if (!subClipIds.isEmpty()) {
-            deleteCommand->setText(i18np("Delete subclip", "Delete subclips", subClipIds.count()));
-        } else {
-            deleteCommand->setText(i18np("Delete folder", "Delete folders", folderIds.count()));
-        }
-    } else {
-        deleteCommand->setText(i18np("Delete clip", "Delete clips", clipIds.count()));
-    }
-    // TODO REFAC: delete clips from timeline
-    if (pCore->projectManager()->currentTimeline()) {
-        // Remove clips from timeline
-        if (!clipIds.isEmpty()) {
-            for (int i = 0; i < clipIds.size(); ++i) {
-                pCore->projectManager()->currentTimeline()->slotDeleteClip(clipIds.at(i), deleteCommand);
-            }
-        }
-    }
-    // remove clips and folders from bin
-    doDeleteClips(clipIds, folderIds, subClipIds, deleteCommand, execute);
-}
-
-void ClipManager::doDeleteClips(const QStringList &clipIds, const QStringList &folderIds, const QStringList &subClipIds, QUndoCommand *deleteCommand,
-                                bool execute)
-{
-    for (int i = 0; i < clipIds.size(); ++i) {
-        QString xml = pCore->binController()->xmlFromId(clipIds.at(i));
-        if (!xml.isEmpty()) {
-            QDomDocument doc;
-            doc.setContent(xml);
-            new AddClipCommand(pCore->bin(), doc.documentElement(), clipIds.at(i), false, deleteCommand);
-        }
-    }
-    for (int i = 0; i < folderIds.size(); ++i) {
-        pCore->bin()->removeFolder(folderIds.at(i), deleteCommand);
-    }
-    for (int i = 0; i < subClipIds.size(); ++i) {
-        pCore->bin()->removeSubClip(subClipIds.at(i), deleteCommand);
-    }
-
-    if (execute) {
-        m_doc->commandStack()->push(deleteCommand);
-    }
-}
 
 void ClipManager::slotAddCopiedClip(KIO::Job *, const QUrl &, const QUrl &dst)
 {

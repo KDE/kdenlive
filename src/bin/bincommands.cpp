@@ -23,39 +23,6 @@
 
 #include <klocalizedstring.h>
 
-AddBinFolderCommand::AddBinFolderCommand(Bin *bin, const QString &id, const QString &name, const QString &parentId, bool remove, QUndoCommand *parent)
-    : QUndoCommand(parent)
-    , m_bin(bin)
-    , m_id(id)
-    , m_name(name)
-    , m_parentId(parentId)
-    , m_remove(remove)
-{
-    if (remove) {
-        setText(i18n("Remove Folder"));
-    } else {
-        setText(i18n("Add Folder"));
-    }
-}
-// virtual
-void AddBinFolderCommand::undo()
-{
-    if (m_remove) {
-        m_bin->doAddFolder(m_id, m_name, m_parentId);
-    } else {
-        m_bin->doRemoveFolder(m_id);
-    }
-}
-// virtual
-void AddBinFolderCommand::redo()
-{
-    if (m_remove) {
-        m_bin->doRemoveFolder(m_id);
-    } else {
-        m_bin->doAddFolder(m_id, m_name, m_parentId);
-    }
-}
-
 MoveBinClipCommand::MoveBinClipCommand(Bin *bin, const QString &clipId, const QString &oldParentId, const QString &newParentId, QUndoCommand *parent)
     : QUndoCommand(parent)
     , m_bin(bin)

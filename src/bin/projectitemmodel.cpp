@@ -554,3 +554,29 @@ Fun ProjectItemModel::removeBin_lambda(int binId)
         return true;
     };
 }
+
+bool ProjectItemModel::requestCleanup()
+{
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    bool res = true;
+    std::vector<std::shared_ptr<AbstractProjectItem>> to_delete;
+    for (const auto &clip : m_allItems) {
+        auto c = std::static_pointer_cast<AbstractProjectItem>(clip.second.lock());
+        if (c->itemType() == AbstractProjectItem::ClipItem && !c->isIncludedInTimeline()) {
+            to_delete.push_back(c);
+        }
+    }
+    // it is important to execute deletion in a separate loop, because otherwise
+    // the iterators of m_allItems get messed up
+    for (const auto &c : to_delete) {
+        res = requestBinClipDeletion(c, undo, redo);
+        if (!res) {
+            bool undone = undo();
+            Q_ASSERT(undone);
+            return false;
+        }
+    }
+    pCore->pushUndo(undo, redo, i18n("Clean Project"));
+    return true;
+}
