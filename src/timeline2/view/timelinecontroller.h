@@ -142,10 +142,10 @@ public:
     Q_INVOKABLE void editMarker(const QString &cid, int frame);
     /* @brief Ask for edit timeline guide dialog
      */
-    Q_INVOKABLE void editGuide(int frame);
+    Q_INVOKABLE void editGuide(int frame = -1);
     /* @brief Add a timeline guide
      */
-    Q_INVOKABLE void switchGuide(int frame = -1);
+    Q_INVOKABLE void switchGuide(int frame = -1, bool deleteOnly = false);
     /* @brief Request monitor refresh
      */
     Q_INVOKABLE void requestRefresh();
@@ -213,6 +213,9 @@ public:
     /* @brief Returns a list of all luma files used in the project
      */
     QStringList extractCompositionLumas() const;
+    /* @brief Get the frame where mouse is positionned
+     */
+    int getMousePos();
 
 public slots:
     void selectMultitrack();

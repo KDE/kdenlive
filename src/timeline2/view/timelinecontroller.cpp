@@ -336,6 +336,9 @@ void TimelineController::editMarker(const QString &cid, int frame)
 void TimelineController::editGuide(int frame)
 {
     bool markerFound = false;
+    if (frame == -1) {
+        frame = m_position;
+    }
     CommentedTime marker = pCore->projectManager()->current()->getGuideModel().get()->getMarker(GenTime(frame, pCore->getCurrentFps()), &markerFound);
     Q_ASSERT(markerFound);
     QPointer<MarkerDialog> d = new MarkerDialog(nullptr, marker, pCore->bin()->projectTimecode(), i18n("Edit Marker"), qApp->activeWindow());
@@ -352,7 +355,7 @@ void TimelineController::editGuide(int frame)
     }
 }
 
-void TimelineController::switchGuide(int frame)
+void TimelineController::switchGuide(int frame, bool deleteOnly)
 {
     bool markerFound = false;
     if (frame == -1) {
@@ -360,6 +363,10 @@ void TimelineController::switchGuide(int frame)
     }
     CommentedTime marker = pCore->projectManager()->current()->getGuideModel().get()->getMarker(GenTime(frame, pCore->getCurrentFps()), &markerFound);
     if (!markerFound) {
+        if (deleteOnly) {
+            pCore->displayMessage(i18n("No guide found at current position"), InformationMessage, 500);
+            return;
+        }
         marker = CommentedTime(GenTime(frame, pCore->getCurrentFps()), i18n("guide"));
     } else {
         marker.setMarkerType(-1);
@@ -497,6 +504,13 @@ void TimelineController::seekToMouse()
     QMetaObject::invokeMethod(m_root, "getMousePos", Q_RETURN_ARG(QVariant, returnedValue));
     int mousePos = returnedValue.toInt();
     setPosition(mousePos);
+}
+
+int TimelineController::getMousePos()
+{
+    QVariant returnedValue;
+    QMetaObject::invokeMethod(m_root, "getMousePos", Q_RETURN_ARG(QVariant, returnedValue));
+    return returnedValue.toInt();
 }
 
 void TimelineController::refreshItem(int id)

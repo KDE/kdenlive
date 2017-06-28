@@ -2083,13 +2083,6 @@ void Monitor::slotEditInlineMarker()
             }
             oldMarker.setComment(newComment);
             pCore->projectManager()->current()->addGuides(QList<CommentedTime>() << oldMarker);
-            /*QString currentComment = m_ruler->markerAt(render->seekPosition());
-            QString newComment = root->property("markerText").toString();
-            if (newComment == currentComment) {
-                // No change
-                return;
-            }
-            emit updateGuide(render->seekFramePosition(), newComment);*/
         }
     }
 }

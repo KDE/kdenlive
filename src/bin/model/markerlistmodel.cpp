@@ -123,6 +123,27 @@ void MarkerListModel::removeMarker(GenTime pos)
     }
 }
 
+void MarkerListModel::removeAllMarkers()
+{
+    QWriteLocker locker(&m_lock);
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+
+    bool res = false;
+    QList <GenTime> times;
+    // Collect marker positions
+    for (const auto &marker : m_markerList) {
+        times << marker.first;
+    }
+    // delete
+    for (int i = 0; i < times.count(); i++) {
+        res = removeMarker(times.at(i), undo, redo);
+    }
+    if (res) {
+        PUSH_UNDO(undo, redo, m_guide ? i18n("Delete all guides") : i18n("Delete all markers"));
+    }
+}
+
 void MarkerListModel::editMarker(GenTime oldPos, GenTime pos, const QString &comment, int type)
 {
     QWriteLocker locker(&m_lock);

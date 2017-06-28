@@ -361,10 +361,6 @@ signals:
     void addEffect(const QDomElement &);
     void addMasterEffect(const QString &, const QDomElement &);
     void passKeyPress(QKeyEvent *);
-    /** @brief Update the text of a clip marker. */
-    void updateClipMarker(const QString &, const QList<CommentedTime> &);
-    /** @brief Update the text of a timeline guide. */
-    void updateGuide(int, const QString &);
     /** @brief Enable / disable project monitor multitrack view (split view with one track in each quarter). */
     void multitrackView(bool);
     void requestAudioThumb(const QString &);

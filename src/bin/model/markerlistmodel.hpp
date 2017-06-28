@@ -70,6 +70,7 @@ protected:
 public:
     /* @brief Removes the marker at the given position. */
     void removeMarker(GenTime pos);
+    void removeAllMarkers();
 
 protected:
     /* @brief Same function but accumulates undo/redo */
