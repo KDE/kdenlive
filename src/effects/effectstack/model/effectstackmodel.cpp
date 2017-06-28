@@ -83,7 +83,7 @@ void EffectStackModel::copyEffect(std::shared_ptr<AbstractEffectItem> sourceItem
 void EffectStackModel::appendEffect(const QString &effectId, int cid)
 {
     auto effect = EffectItemModel::construct(effectId, shared_from_this());
-    rootItem->appendChild(effect);
+    rootItem->appendChild(std::static_pointer_cast<TreeItem>(effect));
     bool isAudioEffect = EffectsRepository::get()->getType(effectId) == EffectType::Audio;
     Fun undo = deleteEffect_lambda(effect, cid, isAudioEffect);
     Fun redo = addEffect_lambda(effect, cid, isAudioEffect);

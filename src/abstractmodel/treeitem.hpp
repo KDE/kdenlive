@@ -135,7 +135,7 @@ protected:
     static void baseFinishConstruct(const std::shared_ptr<TreeItem> &self);
 
     /* @brief Helper functions to handle registration / deregistration to the model */
-    void registerSelf();
+    static void registerSelf(std::shared_ptr<TreeItem> self);
     void deregisterSelf();
 
     std::list<std::shared_ptr<TreeItem>> m_childItems;

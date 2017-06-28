@@ -46,7 +46,7 @@ std::shared_ptr<TreeItem> TreeItem::construct(const QList<QVariant> &data, std::
 void TreeItem::baseFinishConstruct(const std::shared_ptr<TreeItem> &self)
 {
     if (self->m_isRoot) {
-        self->registerSelf();
+        registerSelf(self);
     }
 }
 
@@ -90,7 +90,7 @@ bool TreeItem::appendChild(std::shared_ptr<TreeItem> child)
         int id = child->getId();
         auto it = m_childItems.insert(m_childItems.end(), child);
         m_iteratorTable[id] = it;
-        child->registerSelf();
+        registerSelf(child);
         ptr->notifyRowAppended(child);
         return true;
     }
@@ -222,14 +222,14 @@ bool TreeItem::isInModel() const
     return m_isInModel;
 }
 
-void TreeItem::registerSelf()
+void TreeItem::registerSelf(std::shared_ptr<TreeItem> self)
 {
-    for (const auto &child : m_childItems) {
-        child->registerSelf();
+    for (const auto &child : self->m_childItems) {
+        registerSelf(child);
     }
-    if (auto ptr = m_model.lock()) {
-        ptr->registerItem(shared_from_this());
-        m_isInModel = true;
+    if (auto ptr = self->m_model.lock()) {
+        ptr->registerItem(self);
+        self->m_isInModel = true;
     } else {
         qDebug() << "Error : construction of treeItem failed because parent model is not available anymore";
         Q_ASSERT(false);
