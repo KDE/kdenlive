@@ -259,7 +259,6 @@ void MainWindow::init()
     connect(m_clipMonitor, &Monitor::seekToPreviousSnap, this, &MainWindow::slotSnapRewind);
     connect(m_clipMonitor, &Monitor::seekToNextSnap, this, &MainWindow::slotSnapForward);
 
-    connect(pCore->bin(), &Bin::clipNeedsReload, this, &MainWindow::slotUpdateClip);
     connect(pCore->bin(), &Bin::findInTimeline, this, &MainWindow::slotClipInTimeline);
 
     // TODO deprecated, replace with Bin methods if necessary
@@ -872,15 +871,6 @@ void MainWindow::slotAddEffect(const QDomElement &effect)
         m_messageLabel->setMessage(i18n("Select a clip if you want to apply an effect"), ErrorMessage);
     }
     */
-}
-
-void MainWindow::slotUpdateClip(const QString &id, bool reload)
-{
-    std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(id);
-    if (!clip) {
-        return;
-    }
-    pCore->projectManager()->currentTimeline()->projectView()->slotUpdateClip(id, reload);
 }
 
 void MainWindow::slotConnectMonitors()

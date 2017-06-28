@@ -526,8 +526,6 @@ signals:
     /** @brief Save folder info into MLT. */
     void storeFolder(const QString &folderId, const QString &parentId, const QString &oldParentId, const QString &folderName);
     void gotFilterJobResults(const QString &, int, int, stringMap, stringMap);
-    /** @brief The clip was changed and thumbnail needs a refresh. */
-    void clipNeedsReload(const QString &, bool);
     /** @brief Trigger timecode format refresh where needed. */
     void refreshTimeCode();
     /** @brief Request display of effect stack for a Bin clip. */

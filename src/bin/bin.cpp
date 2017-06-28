@@ -2282,7 +2282,6 @@ void Bin::reloadProducer(const QString &id, const QDomElement &xml)
 
 void Bin::refreshClip(const QString &id)
 {
-    emit clipNeedsReload(id, false);
     if (m_monitor->activeClipId() == id) {
         m_monitor->refreshMonitorIfActive();
     }
