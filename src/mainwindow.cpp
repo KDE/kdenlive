@@ -1826,7 +1826,7 @@ void MainWindow::slotRenderProject()
             connect(m_renderWidget, &RenderWidget::abortProcess, this, &MainWindow::abortRenderJob);
             connect(m_renderWidget, &RenderWidget::openDvdWizard, this, &MainWindow::slotDvdWizard);
             connect(this, &MainWindow::updateRenderWidgetProfile, m_renderWidget, &RenderWidget::adjustViewToProfile);
-            m_renderWidget->setGuides(pCore->projectManager()->currentTimeline()->projectView()->guidesData(), project->projectDuration());
+            m_renderWidget->setGuides(project->getGuideModel()->getAllMarkers(), project->projectDuration());
             m_renderWidget->setDocumentPath(project->projectDataFolder() + QDir::separator());
             m_renderWidget->setRenderProfile(project->getRenderProperties());
         }
@@ -2097,11 +2097,9 @@ void MainWindow::slotZoneMoved(int start, int end)
 
 void MainWindow::slotGuidesUpdated()
 {
-    QMap<double, QString> guidesData = pCore->projectManager()->currentTimeline()->projectView()->guidesData();
     if (m_renderWidget) {
-        m_renderWidget->setGuides(guidesData, pCore->projectManager()->current()->projectDuration());
+        m_renderWidget->setGuides(pCore->projectManager()->current()->getGuideModel()->getAllMarkers(), pCore->projectManager()->current()->projectDuration());
     }
-    m_projectMonitor->setGuides(guidesData);
 }
 
 void MainWindow::slotEditKeys()
@@ -3396,8 +3394,8 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
     int in = 0;
     int out;
     if (zoneOnly) {
-        in = pCore->projectManager()->currentTimeline()->inPoint();
-        out = pCore->projectManager()->currentTimeline()->outPoint();
+        in = m_timelineTabs->getCurrentTimeline()->controller()->zoneIn();
+        out = m_timelineTabs->getCurrentTimeline()->controller()->zoneOut();
     } else {
         out = (int)GenTime(project->projectDuration()).frames(pCore->getCurrentFps()) - 2;
     }
@@ -3407,25 +3405,22 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
         QDomElement chapters = doc.createElement(QStringLiteral("chapters"));
         chapters.setAttribute(QStringLiteral("fps"), pCore->getCurrentFps());
         doc.appendChild(chapters);
-
-        QMap<double, QString> guidesData = pCore->projectManager()->currentTimeline()->projectView()->guidesData();
-        QMapIterator<double, QString> g(guidesData);
-        while (g.hasNext()) {
-            g.next();
-            int time = (int)GenTime(g.key()).frames(pCore->getCurrentFps());
+        const QList<CommentedTime> guidesList = project->getGuideModel()->getAllMarkers();
+        for (int i = 0; i < guidesList.count(); i++) {
+            CommentedTime c = guidesList.at(i);
+            int time = c.time().frames(pCore->getCurrentFps());
             if (time >= in && time < out) {
                 if (zoneOnly) {
                     time = time - in;
                 }
-                QDomElement chapter = doc.createElement(QStringLiteral("chapter"));
-                chapters.appendChild(chapter);
-                chapter.setAttribute(QStringLiteral("title"), g.value());
-                chapter.setAttribute(QStringLiteral("time"), time);
             }
+            QDomElement chapter = doc.createElement(QStringLiteral("chapter"));
+            chapters.appendChild(chapter);
+            chapter.setAttribute(QStringLiteral("title"), c.comment());
+            chapter.setAttribute(QStringLiteral("time"), time);
         }
-
         if (!chapters.childNodes().isEmpty()) {
-            if (pCore->projectManager()->currentTimeline()->projectView()->hasGuide(out, true) == -1) {
+            if (!project->getGuideModel()->hasMarker(out)) {
                 // Always insert a guide in pos 0
                 QDomElement chapter = doc.createElement(QStringLiteral("chapter"));
                 chapters.insertBefore(chapter, QDomNode());
@@ -3449,7 +3444,9 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
     // check if audio export is selected
     bool exportAudio;
     if (m_renderWidget->automaticAudioExport()) {
-        exportAudio = pCore->projectManager()->currentTimeline()->checkProjectAudio();
+        //TODO check if projact contains audio
+        //exportAudio = pCore->projectManager()->currentTimeline()->checkProjectAudio();
+        exportAudio = true;
     } else {
         exportAudio = m_renderWidget->selectedAudioExport();
     }
@@ -3534,6 +3531,7 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
 
     // check which audio tracks have to be exported
     if (stemExport) {
+        //TODO port to new timeline model
         Timeline *ct = pCore->projectManager()->currentTimeline();
         int allTracksCount = ct->tracksCount();
 

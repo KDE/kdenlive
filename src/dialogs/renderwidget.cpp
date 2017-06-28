@@ -423,11 +423,11 @@ void RenderWidget::slotCheckEndGuidePosition()
     }
 }
 
-void RenderWidget::setGuides(const QMap<double, QString> &guidesData, double duration)
+void RenderWidget::setGuides(const QList<CommentedTime> &guidesList, double duration)
 {
     m_view.guide_start->clear();
     m_view.guide_end->clear();
-    if (!guidesData.isEmpty()) {
+    if (!guidesList.isEmpty()) {
         m_view.guide_start->addItem(i18n("Beginning"), "0");
         m_view.render_guide->setEnabled(true);
         m_view.create_chapter->setEnabled(true);
@@ -436,15 +436,14 @@ void RenderWidget::setGuides(const QMap<double, QString> &guidesData, double dur
         m_view.create_chapter->setEnabled(false);
     }
     double fps = pCore->getCurrentProfile()->fps();
-    QMapIterator<double, QString> i(guidesData);
-    while (i.hasNext()) {
-        i.next();
-        GenTime pos = GenTime(i.key());
+    for (int i = 0; i < guidesList.count(); i++) {
+        CommentedTime c = guidesList.at(i);
+        GenTime pos = c.time();
         const QString guidePos = Timecode::getStringTimecode(pos.frames(fps), fps);
-        m_view.guide_start->addItem(i.value() + QLatin1Char('/') + guidePos, i.key());
-        m_view.guide_end->addItem(i.value() + QLatin1Char('/') + guidePos, i.key());
+        m_view.guide_start->addItem(c.comment() + QLatin1Char('/') + guidePos, pos.seconds());
+        m_view.guide_end->addItem(c.comment() + QLatin1Char('/') + guidePos, pos.seconds());
     }
-    if (!guidesData.isEmpty()) {
+    if (!guidesList.isEmpty()) {
         m_view.guide_end->addItem(i18n("End"), QString::number(duration));
     }
 }

@@ -115,7 +115,7 @@ class RenderWidget : public QDialog
 public:
     explicit RenderWidget(const QString &projectfolder, bool enableProxy, QWidget *parent = nullptr);
     virtual ~RenderWidget();
-    void setGuides(const QMap<double, QString> &guidesData, double duration);
+    void setGuides(const QList<CommentedTime> &guidesList, double duration);
     void focusFirstVisibleItem(const QString &profile = QString());
     void setRenderJob(const QString &dest, int progress = 0);
     void setRenderStatus(const QString &dest, int status, const QString &error);
