@@ -153,6 +153,8 @@ void Core::initGUI(const QUrl &Url)
     connect(m_binWidget, SIGNAL(storeFolder(QString, QString, QString, QString)), m_binController.get(),
             SLOT(slotStoreFolder(QString, QString, QString, QString)));
     connect(m_binController.get(), SIGNAL(loadFolders(QMap<QString, QString>)), m_binWidget, SLOT(slotLoadFolders(QMap<QString, QString>)));
+    connect(m_binController.get(), &BinController::prepareTimelineReplacement, m_binWidget, &Bin::prepareTimelineReplacement, Qt::DirectConnection);
+
     connect(m_binController.get(), &BinController::requestAudioThumb, m_binWidget, &Bin::slotCreateAudioThumb);
     connect(m_binController.get(), &BinController::abortAudioThumbs, m_binWidget, &Bin::abortAudioThumbs);
     connect(m_binController.get(), SIGNAL(loadThumb(QString, QImage, bool)), m_binWidget, SLOT(slotThumbnailReady(QString, QImage, bool)));
@@ -160,7 +162,7 @@ void Core::initGUI(const QUrl &Url)
     m_monitorManager = new MonitorManager(this);
     // Producer queue, creating MLT::Producers on request
     m_producerQueue = new ProducerQueue(m_binController);
-    connect(m_producerQueue, &ProducerQueue::gotFileProperties, m_binWidget, &Bin::slotProducerReady, Qt::DirectConnection);
+    connect(m_producerQueue, &ProducerQueue::gotFileProperties, m_binWidget, &Bin::slotProducerReady);
     connect(m_producerQueue, &ProducerQueue::replyGetImage, m_binWidget, &Bin::slotThumbnailReady);
     connect(m_producerQueue, &ProducerQueue::removeInvalidClip, m_binWidget, &Bin::slotRemoveInvalidClip, Qt::DirectConnection);
     connect(m_producerQueue, SIGNAL(addClip(QString, QMap<QString, QString>)), m_binWidget, SLOT(slotAddUrl(QString, QMap<QString, QString>)));

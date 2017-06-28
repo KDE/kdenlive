@@ -74,7 +74,6 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, std::shared_ptr<
     hash();
     connect(this, &ProjectClip::updateJobStatus, this, &ProjectClip::setJobStatus);
     connect(this, &ProjectClip::updateThumbProgress, model.get(), &ProjectItemModel::updateThumbProgress);
-    connect(pCore->binController().get(), &BinController::prepareTimelineReplacement, this, &ProjectClip::prepareTimelineReplacement, Qt::DirectConnection);
 }
 
 // static
@@ -116,7 +115,6 @@ ProjectClip::ProjectClip(const QDomElement &description, const QIcon &thumb, std
     connect(this, &ProjectClip::updateJobStatus, this, &ProjectClip::setJobStatus);
     connect(this, &ProjectClip::updateThumbProgress, model.get(), &ProjectItemModel::updateThumbProgress);
     m_markerModel = std::make_shared<MarkerListModel>(m_binId, pCore->projectManager()->current()->commandStack());
-    connect(pCore->binController().get(), &BinController::prepareTimelineReplacement, this, &ProjectClip::prepareTimelineReplacement, Qt::DirectConnection);
 }
 
 std::shared_ptr<ProjectClip> ProjectClip::construct(const QDomElement &description, const QIcon &thumb, std::shared_ptr<ProjectItemModel> model)
@@ -325,7 +323,6 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
     Q_UNUSED(replaceProducer);
 
     updateProducer(std::move(producer));
-
     // Update info
     if (m_name.isEmpty()) {
         m_name = clipName();
@@ -465,10 +462,11 @@ double ProjectClip::getOriginalFps() const
     return originalFps();
 }
 
+
 bool ProjectClip::hasProxy() const
 {
     QString proxy = getProducerProperty(QStringLiteral("kdenlive:proxy"));
-    return !proxy.isEmpty() || proxy == QLatin1String("-");
+    return proxy.size() > 2;
 }
 
 void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool refreshPanel)
@@ -1290,16 +1288,14 @@ bool ProjectClip::isIncludedInTimeline()
     return m_registeredClips.size() > 0;
 }
 
-void ProjectClip::prepareTimelineReplacement(const QString &id)
+void ProjectClip::replaceInTimeline()
 {
-    if (id == AbstractProjectItem::clipId()) {
-        for (const auto &clip : m_registeredClips) {
-            if (auto timeline = clip.second.lock()) {
-                timeline->requestClipReload(clip.first);
-            } else {
-                qDebug() << "Error while reloading clip: timeline unavailable";
-                Q_ASSERT(false);
-            }
+    for (const auto &clip : m_registeredClips) {
+        if (auto timeline = clip.second.lock()) {
+            timeline->requestClipReload(clip.first);
+        } else {
+            qDebug() << "Error while reloading clip: timeline unavailable";
+            Q_ASSERT(false);
         }
     }
 }

@@ -1917,7 +1917,7 @@ void Bin::slotThumbnailReady(const QString &id, const QImage &img, bool fromFile
         clip->setThumbnail(img);
         // Save thumbnail for later reuse
         bool ok = false;
-        if (!fromFile) {
+        if (!fromFile && clip->clipStatus() == ProjectClip::StatusReady) {
             img.save(m_doc->getCacheDir(CacheThumbs, &ok).absoluteFilePath(clip->hash() + QStringLiteral(".png")));
         }
     }
@@ -1972,7 +1972,7 @@ void Bin::slotProducerReady(const requestClipInfo &info, std::shared_ptr<Mlt::Pr
 {
     std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(info.clipId);
     if (clip) {
-        if (producer != nullptr && clip->setProducer(producer, info.replaceProducer) && !clip->hasProxy()) {
+        if ((producer == nullptr || clip->setProducer(producer, info.replaceProducer)) && !clip->hasProxy()) {
             emit producerReady(info.clipId);
             // Check for file modifications
             ClipType t = clip->clipType();
@@ -3539,4 +3539,12 @@ void Bin::setCurrent(std::shared_ptr<AbstractProjectItem> item)
 void Bin::cleanup()
 {
     m_itemModel->requestCleanup();
+}
+
+void Bin::prepareTimelineReplacement(const requestClipInfo &info)
+{
+    std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(info.clipId);
+    Q_ASSERT(clip != nullptr);
+    slotProducerReady(info, nullptr);
+    clip->replaceInTimeline();
 }

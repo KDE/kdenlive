@@ -91,9 +91,9 @@ Render::Render(Kdenlive::MonitorId rendererName, BinController *binController, G
     connect(&m_refreshTimer, &QTimer::timeout, this, &Render::refresh);
     connect(this, &Render::checkSeeking, this, &Render::slotCheckSeeking);
     if (m_name == Kdenlive::ProjectMonitor) {
-        connect(m_binController, &BinController::prepareTimelineReplacement, this, &Render::prepareTimelineReplacement, Qt::DirectConnection);
-        connect(m_binController, &BinController::replaceTimelineProducer, this, &Render::replaceTimelineProducer, Qt::DirectConnection);
-        connect(m_binController, &BinController::updateTimelineProducer, this, &Render::updateTimelineProducer);
+        //connect(m_binController, &BinController::prepareTimelineReplacement, this, &Render::prepareTimelineReplacement, Qt::DirectConnection);
+        //connect(m_binController, &BinController::replaceTimelineProducer, this, &Render::replaceTimelineProducer, Qt::DirectConnection);
+        //connect(m_binController, &BinController::updateTimelineProducer, this, &Render::updateTimelineProducer);
     }
 }
 
@@ -527,7 +527,7 @@ int Render::setSceneList(QString playlist, int position)
         info.imageHeight = 0;
         info.clipId = id;
         info.replaceProducer = true;
-        emit gotFileProperties(info, m_binController->getController(id).get());
+        //emit gotFileProperties(info, m_binController->getController(id).get());
     }
 
     ////qCDebug(KDENLIVE_LOG)<<"// SETSCN LST, POS: "<<position;

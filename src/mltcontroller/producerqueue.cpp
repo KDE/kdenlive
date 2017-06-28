@@ -39,7 +39,6 @@ ProducerQueue::ProducerQueue(std::shared_ptr<BinController> controller)
 {
     connect(this, SIGNAL(multiStreamFound(QString, QList<int>, QList<int>, stringMap)), this,
             SLOT(slotMultiStreamProducerFound(QString, QList<int>, QList<int>, stringMap)));
-    connect(this, &ProducerQueue::refreshTimelineProducer, m_binController.get(), &BinController::replaceTimelineProducer);
 }
 
 ProducerQueue::~ProducerQueue()
@@ -511,7 +510,7 @@ void ProducerQueue::processFileProperties()
                     producer->set(name.toUtf8().constData(), e.firstChild().nodeValue().toUtf8().constData());
                 }
             }
-            QMetaObject::invokeMethod(m_binController.get(), "replaceProducer", Qt::QueuedConnection, Q_ARG(const QString &, info.clipId),
+            QMetaObject::invokeMethod(m_binController.get(), "replaceProducer", Qt::QueuedConnection, Q_ARG(const requestClipInfo &, info),
                                       Q_ARG(const std::shared_ptr<Mlt::Producer> &, producer));
             continue;
         }
@@ -831,11 +830,9 @@ void ProducerQueue::processFileProperties()
         producer->seek(0);
         if (m_binController->hasClip(info.clipId)) {
             // If controller already exists, we just want to update the producer
-            m_binController->replaceProducer(info.clipId, producer);
-            emit gotFileProperties(info, nullptr);
+            QMetaObject::invokeMethod(m_binController.get(), "replaceProducer", Qt::QueuedConnection, Q_ARG(const requestClipInfo &, info),
+                                      Q_ARG(const std::shared_ptr<Mlt::Producer> &, producer));
         } else {
-            // Create the controller
-            std::shared_ptr<ClipController> controller = ClipController::construct(m_binController, producer);
             emit gotFileProperties(info, producer);
         }
         m_processingClipId.removeAll(info.clipId);

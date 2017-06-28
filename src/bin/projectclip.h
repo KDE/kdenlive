@@ -200,6 +200,8 @@ public:
         Note that this function does not account for children, use TreeItem::accumulate if you want to get that information as well.
     */
     bool isIncludedInTimeline() override;
+    /** @brief Replace instance of this clip in timeline */
+    void replaceInTimeline();
 
 protected:
     friend class ClipModel;
@@ -249,7 +251,6 @@ private:
 
 private slots:
     void updateFfmpegProgress();
-    void prepareTimelineReplacement(const QString &id);
 
 signals:
     void gotAudioData();

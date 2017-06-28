@@ -263,25 +263,24 @@ int BinController::clipCount() const
     return m_clipList.size();
 }
 
-void BinController::replaceProducer(const QString &id, const std::shared_ptr<Mlt::Producer> &producer)
+void BinController::replaceProducer(const requestClipInfo &info, const std::shared_ptr<Mlt::Producer> &producer)
 {
-    if (!m_clipList.contains(id)) {
+    if (!m_clipList.contains(info.clipId)) {
         qCDebug(KDENLIVE_LOG) << " / // error controller not found, crashing";
         return;
     }
-    std::shared_ptr<ClipController> ctrl = m_clipList.value(id);
-    pasteEffects(id, producer);
+    std::shared_ptr<ClipController> ctrl = m_clipList.value(info.clipId);
+    pasteEffects(info.clipId, producer);
     ctrl->updateProducer(producer);
-    replaceBinPlaylistClip(id, producer);
-    producer->set("id", id.toUtf8().constData());
+    replaceBinPlaylistClip(info.clipId, producer);
+    producer->set("id", info.clipId.toUtf8().constData());
     // Remove video only producer
-    QString videoId = id + QStringLiteral("_video");
+    QString videoId = info.clipId + QStringLiteral("_video");
     if (m_extraClipList.contains(videoId)) {
         m_extraClipList.remove(videoId);
     }
-    removeBinPlaylistClip("#" + id);
-    emit prepareTimelineReplacement(id);
-    // emit replaceTimelineProducer(id);
+    removeBinPlaylistClip("#" + info.clipId);
+    emit prepareTimelineReplacement(info);
 }
 
 void BinController::addClipToBin(const QString &id, const std::shared_ptr<ClipController> &controller) // Mlt::Producer &producer)
@@ -292,16 +291,7 @@ void BinController::addClipToBin(const QString &id, const std::shared_ptr<ClipCo
     */
     // append or replace clip in MLT's retain playlist
     replaceBinPlaylistClip(id, controller->originalProducer());
-    if (m_clipList.contains(id)) {
-        // There is something wrong, we should not be recreating an existing controller!
-        qDebug() << "Error: creating bin clip with existing id: " << id;
-        // we are replacing a producer
-        // TODO: replace it in timeline
-        /*ClipController *c2 = m_clipList.value(id);
-        c2->updateProducer(id, &controller->originalProducer());
-        controller->originalProducer().set("id", id.toUtf8().constData());*/
-        // removeBinClip(id);
-    } else {
+    if (!m_clipList.contains(id)) {
         m_clipList.insert(id, controller);
     }
 }

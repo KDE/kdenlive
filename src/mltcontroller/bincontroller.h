@@ -171,7 +171,7 @@ public:
 public slots:
     /** @brief Stored a Bin Folder id / name to MLT's bin playlist. Using an empry folderName deletes the property */
     void slotStoreFolder(const QString &folderId, const QString &parentId, const QString &oldParentId, const QString &folderName);
-    void replaceProducer(const QString &id, const std::shared_ptr<Mlt::Producer> &producer);
+    void replaceProducer(const requestClipInfo &info, const std::shared_ptr<Mlt::Producer> &producer);
 
 private:
     /** @brief The MLT playlist holding our Producers */
@@ -204,11 +204,10 @@ signals:
     void createThumb(const QDomElement &, const QString &, int);
     void requestAudioThumb(const QString &);
     void abortAudioThumbs();
-    void replaceTimelineProducer(const QString &id);
     void setDocumentNotes(const QString &);
     void updateTimelineProducer(const QString &);
     /** @brief We want to replace a clip with another, but before we need to change clip producer id so that there is no interference*/
-    void prepareTimelineReplacement(const QString &);
+    void prepareTimelineReplacement(const requestClipInfo &);
     /** @brief Indicate which clip we are loading */
     void loadingBin(int);
 };

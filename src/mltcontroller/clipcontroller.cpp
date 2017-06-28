@@ -144,6 +144,10 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
             path.prepend(documentRoot);
         }
         m_path = QFileInfo(path).absoluteFilePath();
+        // insert controller in bin
+        if (auto ptr = m_binController.lock()) {
+            ptr->addClipToBin(clipId(), static_cast<std::shared_ptr<ClipController>>(this));
+        }
         getInfoForProducer();
     }
 }

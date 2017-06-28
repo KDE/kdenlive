@@ -437,7 +437,8 @@ public slots:
     void slotAddClipToProject(const QUrl &url);
     void doUpdateThumbsProgress(long ms);
     void droppedUrls(const QList<QUrl> &urls, const QStringList &folderInfo = QStringList());
-
+    /** @brief A cli producer was changed and needs to be replaced in timeline. */
+    void prepareTimelineReplacement(const requestClipInfo &info);
 protected:
     /* This function is called whenever an item is selected to propagate signals
        (for ex request to show the clip in the monitor)
