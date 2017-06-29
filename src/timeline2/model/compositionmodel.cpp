@@ -29,8 +29,8 @@
 
 CompositionModel::CompositionModel(std::weak_ptr<TimelineModel> parent, Mlt::Transition *transition, int id, const QDomElement &transitionXml,
                                    const QString &transitionId)
-    : AssetParameterModel(transition, transitionXml, transitionId)
-    , MoveableItem<Mlt::Transition>(std::move(parent), id)
+    : MoveableItem<Mlt::Transition>(std::move(parent), id)
+    , AssetParameterModel(transition, transitionXml, transitionId, {ObjectType::TimelineComposition, m_id})
     , m_atrack(-1)
 {
 }

@@ -133,6 +133,7 @@ protected:
     /* @brief Register the existence of a new element
      */
     void registerItem(const std::shared_ptr<TreeItem> &item) override;
+    /* @brief Deregister the existence of a new element*/
     void deregisterItem(int id, TreeItem *item) override;
 
     /* @brief This function updates the underlying binPlaylist object to reflect deletion of a bin item
@@ -154,11 +155,6 @@ protected:
     /* @brief Helper function to generate a lambda that rename a folder */
     Fun requestRenameFolder_lambda(std::shared_ptr<AbstractProjectItem> folder, const QString &newName);
 
-    /* @brief Helper function to generate a lambda that adds a bin item to view */
-    Fun addBin_lambda(std::shared_ptr<AbstractProjectItem> new_item, int parentId);
-
-    /* @brief Helper function to generate a lambda that removes a bin item from view */
-    Fun removeBin_lambda(int binId);
 public slots:
     /** @brief An item in the list was modified, notify */
     void onItemUpdated(std::shared_ptr<AbstractProjectItem> item);

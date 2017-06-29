@@ -4083,6 +4083,10 @@ TimelineWidget *MainWindow::getMainTimeline() const
     return m_timelineTabs->getMainTimeline();
 }
 
+TimelineWidget *MainWindow::getCurrentTimeline() const
+{
+    return m_timelineTabs->getCurrentTimeline();
+}
 #ifdef DEBUG_MAINW
 #undef DEBUG_MAINW
 #endif

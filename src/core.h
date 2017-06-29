@@ -120,7 +120,7 @@ public:
     /** @brief Request project monitor refresh if current position is inside range*/
     void refreshProjectRange(QSize range);
     /** @brief Request project monitor refresh if referenced item is under cursor */
-    void refreshProjectItem(int itemId);
+    void refreshProjectItem(const ObjectId &id);
     /** @brief Returns a reference to a monitor (clip or project monitor) */
     Monitor *getMonitor(int id);
 

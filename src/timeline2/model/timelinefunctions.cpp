@@ -50,7 +50,7 @@ bool TimelineFunction::requestClipCut(std::shared_ptr<TimelineItemModel> timelin
     res = timeline->requestClipCreation(binId, in, out, newId, undo, redo);
     res = timeline->requestClipMove(newId, timeline->getItemTrackId(clipId), position, true, undo, redo);
     std::shared_ptr<EffectStackModel> destStack = timeline->getClipEffectStackModel(newId);
-    destStack->importEffects(newId, sourceStack);
+    destStack->importEffects(sourceStack);
     if (res) {
         pCore->pushUndo(undo, redo, i18n("Cut clip"));
     }

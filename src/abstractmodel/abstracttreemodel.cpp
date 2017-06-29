@@ -262,3 +262,38 @@ bool AbstractTreeModel::checkConsistency()
     }
     return true;
 }
+
+Fun AbstractTreeModel::addItem_lambda(std::shared_ptr<TreeItem> new_item, int parentId)
+{
+    return [this, new_item, parentId]() {
+        /* Insertion is simply setting the parent of the item.*/
+        std::shared_ptr<TreeItem> parent;
+        if (parentId != -1) {
+            parent = getItemById(parentId);
+            if (!parent) {
+                Q_ASSERT(parent);
+                return false;
+            }
+        }
+        return new_item->changeParent(parent);
+    };
+}
+
+Fun AbstractTreeModel::removeItem_lambda(int binId)
+{
+    return [this, binId]() {
+        /* Deletion simply deregister clip and remove it from parent.
+           The actual object is not actually deleted, because a shared_pointer to it
+           is captured by the reverse operation.
+           Actual deletions occurs when the undo object is destroyed.
+        */
+        auto binItem = m_allItems[binId].lock();
+        Q_ASSERT(binItem);
+        if (!binItem) {
+            return false;
+        }
+        auto parent = binItem->parentItem().lock();
+        parent->removeChild(binItem);
+        return true;
+    };
+}

@@ -394,8 +394,8 @@ bool ProjectItemModel::requestBinClipDeletion(std::shared_ptr<AbstractProjectIte
     if (auto ptr = clip->parent()) parentId = ptr->getId();
     clip->selfSoftDelete(undo, redo);
     int id = clip->getId();
-    Fun operation = removeBin_lambda(id);
-    Fun reverse = addBin_lambda(clip, parentId);
+    Fun operation = removeItem_lambda(id);
+    Fun reverse = addItem_lambda(clip, parentId);
     bool res = operation();
     if (res) {
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
@@ -470,9 +470,9 @@ bool ProjectItemModel::requestAddFolder(QString &id, const QString &name, const 
         id = QString::number(getFreeFolderId());
     }
     std::shared_ptr<ProjectFolder> new_folder = ProjectFolder::construct(id, name, std::static_pointer_cast<ProjectItemModel>(shared_from_this()));
-    Fun operation = addBin_lambda(new_folder, parentFolder->getId());
+    Fun operation = addItem_lambda(new_folder, parentFolder->getId());
     int folderId = new_folder->getId();
-    Fun reverse = removeBin_lambda(folderId);
+    Fun reverse = removeItem_lambda(folderId);
     bool res = operation();
     Q_ASSERT(new_folder->isInModel());
     if (res) {
@@ -520,40 +520,6 @@ bool ProjectItemModel::requestRenameFolder(std::shared_ptr<AbstractProjectItem> 
     return res;
 }
 
-Fun ProjectItemModel::addBin_lambda(std::shared_ptr<AbstractProjectItem> new_item, int parentId)
-{
-    return [this, new_item, parentId]() {
-        /* Insertion is simply setting the parent of the item.*/
-        std::shared_ptr<TreeItem> parent;
-        if (parentId != -1) {
-            parent = getItemById(parentId);
-            if (!parent) {
-                Q_ASSERT(parent);
-                return false;
-            }
-        }
-        return new_item->changeParent(parent);
-    };
-}
-
-Fun ProjectItemModel::removeBin_lambda(int binId)
-{
-    return [this, binId]() {
-        /* Deletion simply deregister clip and remove it from parent.
-           The actual object is not actually deleted, because a shared_pointer to it
-           is captured by the reverse operation.
-           Actual deletions occurs when the undo object is destroyed.
-        */
-        auto binItem = std::static_pointer_cast<AbstractProjectItem>(m_allItems[binId].lock());
-        Q_ASSERT(binItem);
-        if (!binItem) {
-            return false;
-        }
-        auto parent = binItem->parent();
-        parent->removeChild(binItem);
-        return true;
-    };
-}
 
 bool ProjectItemModel::requestCleanup()
 {

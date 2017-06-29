@@ -63,12 +63,12 @@ enum class ParamType {
     Readonly
 };
 Q_DECLARE_METATYPE(ParamType)
-class AssetParameterModel : public QAbstractListModel, public std::enable_shared_from_this<AssetParameterModel>
+class AssetParameterModel : public QAbstractListModel, public enable_shared_from_this_virtual<AssetParameterModel>
 {
     Q_OBJECT
 
 public:
-    explicit AssetParameterModel(Mlt::Properties *asset, const QDomElement &assetXml, const QString &assetId,
+    explicit AssetParameterModel(Mlt::Properties *asset, const QDomElement &assetXml, const QString &assetId, ObjectId ownerId,
                                  Kdenlive::MonitorId monitor = Kdenlive::ProjectMonitor, QObject *parent = nullptr);
     virtual ~AssetParameterModel();
     enum {
@@ -110,8 +110,9 @@ public:
 
     QVariant data(const QModelIndex &index, int role) const override;
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
-    void setParentId(int id);
-    int getParentId() const;
+
+    /* @brief Returns the id of the actual object associated with this asset */
+    ObjectId getOwnerId() const;
 
 protected:
     /* @brief Helper function to retrieve the type of a parameter given the string corresponding to it*/
@@ -135,7 +136,7 @@ protected:
 
     QDomElement m_xml;
     QString m_assetId;
-    int m_parentId;
+    ObjectId m_ownerId;
     std::unordered_map<QString, ParamRow> m_params;      // Store all parameters by name
     std::unordered_map<QString, QVariant> m_fixedParams; // We store values of fixed parameters aside
     QVector<QString> m_rows;                             // We store the params name in order of parsing. The order is important (cf some effects like sox)

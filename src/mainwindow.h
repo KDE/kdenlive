@@ -116,6 +116,9 @@ public:
     /** @brief Returns a ptr to the main timeline widget of the project */
     TimelineWidget *getMainTimeline() const;
 
+    /* @brief Returns a pointer to the current timeline */
+    TimelineWidget *getCurrentTimeline() const;
+
 protected:
     /** @brief Closes the window.
      * @return false if the user presses "Cancel" on a confirmation dialog or

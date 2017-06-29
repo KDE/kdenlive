@@ -55,7 +55,6 @@ void AssetPanel::showTransition(int tid, std::shared_ptr<AssetParameterModel> tr
     clear();
     QString transitionId = transitionModel->getAssetId();
     m_transitionWidget->setProperty("compositionId", tid);
-    transitionModel->setParentId(tid);
     QString transitionName = TransitionsRepository::get()->getName(transitionId);
     m_assetTitle->setText(i18n("Properties of transition %1", transitionName));
     m_transitionWidget->setVisible(true);

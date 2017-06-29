@@ -38,7 +38,7 @@
 ClipModel::ClipModel(std::weak_ptr<TimelineModel> parent, std::shared_ptr<Mlt::Producer> prod, const QString &binClipId, int id)
     : MoveableItem<Mlt::Producer>(std::move(parent), id)
     , m_producer(std::move(prod))
-    , m_effectStack(EffectStackModel::construct(m_producer))
+    , m_effectStack(EffectStackModel::construct(m_producer, {ObjectType::TimelineClip, m_id}))
     , m_binClipId(binClipId)
 {
     m_producer->set("kdenlive:id", binClipId.toUtf8().constData());
@@ -194,14 +194,14 @@ void ClipModel::setTimelineEffectsEnabled(bool enabled)
 bool ClipModel::addEffect(const QString &effectId)
 {
     READ_LOCK();
-    m_effectStack->appendEffect(effectId, m_id);
+    m_effectStack->appendEffect(effectId);
     return true;
 }
 
 bool ClipModel::copyEffect(std::shared_ptr<EffectStackModel> stackModel, int rowId)
 {
     READ_LOCK();
-    m_effectStack->copyEffect(stackModel->getEffectStackRow(rowId), m_id);
+    m_effectStack->copyEffect(stackModel->getEffectStackRow(rowId));
     return true;
 }
 

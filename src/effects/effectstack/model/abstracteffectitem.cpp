@@ -26,8 +26,9 @@
 #include "effectstackmodel.hpp"
 #include <utility>
 
-AbstractEffectItem::AbstractEffectItem(const QList<QVariant> &data, const std::shared_ptr<AbstractTreeModel> &stack)
+AbstractEffectItem::AbstractEffectItem(EffectItemType type, const QList<QVariant> &data, const std::shared_ptr<AbstractTreeModel> &stack)
     : TreeItem(data, stack, false)
+    , m_effectItemType(type)
     , m_enabled(true)
     , m_effectStackEnabled(true)
 {
@@ -76,4 +77,9 @@ bool AbstractEffectItem::isEnabled() const
         return true;
     }
     return m_enabled && m_effectStackEnabled && parentEnabled;
+}
+
+EffectItemType AbstractEffectItem::effectItemType() const
+{
+    return m_effectItemType;
 }

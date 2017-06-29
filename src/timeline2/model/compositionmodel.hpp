@@ -38,7 +38,7 @@ class TrackModel;
    In general, the Gui associated with it will send modification queries (such as resize or move), and this class authorize them or not depending on the
    validity of the modifications
 */
-class CompositionModel : public AssetParameterModel, public MoveableItem<Mlt::Transition>
+class CompositionModel : public MoveableItem<Mlt::Transition>, public AssetParameterModel
 {
     CompositionModel() = delete;
 

@@ -28,6 +28,7 @@
 #include <QHash>
 #include <QString>
 #include <QTreeWidgetItem>
+#include <memory>
 
 const int MAXCLIPDURATION = 15000;
 
@@ -37,6 +38,9 @@ enum MonitorId { NoMonitor = 0x01, ClipMonitor = 0x02, ProjectMonitor = 0x04, Re
 
 const int DefaultThumbHeight = 100;
 }
+
+enum class ObjectType { TimelineClip, TimelineComposition, TimelineTrack, BinClip };
+using ObjectId = std::pair<ObjectType, int>;
 
 enum OperationType {
     None = 0,
@@ -278,4 +282,41 @@ template <> struct hash<QString>
 };
 }
 
+// The following is a hack that allows to use shared_from_this in the case of a multiple inheritance.
+template<typename T> struct enable_shared_from_this_virtual;
+
+class enable_shared_from_this_virtual_base : public std::enable_shared_from_this<enable_shared_from_this_virtual_base>
+{
+    typedef std::enable_shared_from_this<enable_shared_from_this_virtual_base> base_type;
+    template<typename T>
+    friend struct enable_shared_from_this_virtual;
+
+    std::shared_ptr<enable_shared_from_this_virtual_base> shared_from_this()
+    {
+        return base_type::shared_from_this();
+    }
+    std::shared_ptr<enable_shared_from_this_virtual_base const> shared_from_this() const
+    {
+       return base_type::shared_from_this();
+    }
+};
+
+template<typename T>
+struct enable_shared_from_this_virtual: virtual enable_shared_from_this_virtual_base
+{
+    typedef enable_shared_from_this_virtual_base base_type;
+
+public:
+    std::shared_ptr<T> shared_from_this()
+    {
+       std::shared_ptr<T> result(base_type::shared_from_this(), static_cast<T*>(this));
+       return result;
+    }
+
+    std::shared_ptr<T const> shared_from_this() const
+    {
+        std::shared_ptr<T const> result(base_type::shared_from_this(), static_cast<T const*>(this));
+        return result;
+    }
+};
 #endif

@@ -54,6 +54,11 @@ void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
     m_model = std::move(model);
 }
 
+std::shared_ptr<TimelineItemModel> TimelineController::getModel() const
+{
+    return m_model;
+}
+
 void TimelineController::setRoot(QQuickItem *root)
 {
     m_root = root;

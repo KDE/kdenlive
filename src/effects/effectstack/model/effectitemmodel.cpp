@@ -28,8 +28,9 @@
 
 EffectItemModel::EffectItemModel(const QList<QVariant> &data, Mlt::Properties *effect, const QDomElement &xml, const QString &effectId,
                                  const std::shared_ptr<AbstractTreeModel> &stack)
-    : AbstractEffectItem(data, stack)
-    , AssetParameterModel(effect, xml, effectId)
+    : AbstractEffectItem(EffectItemType::Effect, data, stack)
+    , AssetParameterModel(effect, xml, effectId,
+                          std::static_pointer_cast<EffectStackModel>(stack)->getOwnerId())
 {
 }
 
@@ -81,6 +82,11 @@ Mlt::Filter &EffectItemModel::filter() const
 void EffectItemModel::updateEnable()
 {
     filter().set("disable", isEnabled() ? 0 : 1);
-    pCore->refreshProjectItem(getParentId());
+    pCore->refreshProjectItem(m_ownerId);
     emit dataChanged(index(row()), index(row()), QVector<int>());
+}
+
+bool EffectItemModel::isAudio() const
+{
+    return EffectsRepository::get()->getType(getAssetId()) == EffectType::Audio;
 }

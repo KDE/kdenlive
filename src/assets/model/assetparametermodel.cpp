@@ -28,13 +28,13 @@
 #include <QLocale>
 #include <QString>
 
-AssetParameterModel::AssetParameterModel(Mlt::Properties *asset, const QDomElement &assetXml, const QString &assetId, Kdenlive::MonitorId monitor,
+AssetParameterModel::AssetParameterModel(Mlt::Properties *asset, const QDomElement &assetXml, const QString &assetId, ObjectId ownerId, Kdenlive::MonitorId monitor,
                                          QObject *parent)
     : QAbstractListModel(parent)
     , monitorId(monitor)
     , m_xml(assetXml)
     , m_assetId(assetId)
-    , m_parentId(-1)
+    , m_ownerId(ownerId)
     , m_asset(asset)
 {
     Q_ASSERT(asset->is_valid());
@@ -121,10 +121,7 @@ void AssetParameterModel::setParameter(const QString &name, const QString &value
             m_fixedParams[name] = value;
         }
     }
-    // refresh monitor after asset change
-    if (m_parentId >= 0) {
-        pCore->refreshProjectItem(m_parentId);
-    }
+    pCore->refreshProjectItem(m_ownerId);
 }
 
 AssetParameterModel::~AssetParameterModel() = default;
@@ -334,12 +331,7 @@ void AssetParameterModel::setParameters(const QVector<QPair<QString, QVariant>> 
     }
 }
 
-void AssetParameterModel::setParentId(int id)
+ObjectId AssetParameterModel::getOwnerId() const
 {
-    m_parentId = id;
-}
-
-int AssetParameterModel::getParentId() const
-{
-    return m_parentId;
+    return m_ownerId;
 }

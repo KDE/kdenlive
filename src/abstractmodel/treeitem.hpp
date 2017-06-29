@@ -26,6 +26,7 @@
 #include <QVariant>
 #include <memory>
 #include <unordered_map>
+#include "definitions.h"
 
 /* @brief This class is a generic class to represent items of a tree-like model
    It works in tandem with AbstractTreeModel or one of its derived classes.
@@ -42,7 +43,7 @@
  */
 
 class AbstractTreeModel;
-class TreeItem : public QObject, public std::enable_shared_from_this<TreeItem>
+class TreeItem : public QObject, public enable_shared_from_this_virtual<TreeItem>
 {
 public:
     /* @brief Construct a TreeItem
@@ -128,7 +129,6 @@ public:
 
     /* @brief Return true if the current item has the item with given id as an ancestor */
     bool hasAncestor(int id);
-
 protected:
     /* @brief Finish construction of object given its pointer
        This is a separated function so that it can be called from derived classes */

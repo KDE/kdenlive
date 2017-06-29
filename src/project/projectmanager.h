@@ -136,8 +136,6 @@ public slots:
     void adjustProjectDuration();
     /** @brief Add an asset in timeline (effect, transition). */
     void activateAsset(const QVariantMap data);
-    /** @brief Request monitor refresh if item is under cursor. */
-    void refreshItem(int id);
 
 private slots:
     void slotRevert();

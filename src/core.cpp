@@ -23,6 +23,9 @@ the Free Software Foundation, either version 3 of the License, or
 #include "profiles/profilemodel.hpp"
 #include "profiles/profilerepository.hpp"
 #include "project/projectmanager.h"
+#include "timeline2/view/timelinewidget.h"
+#include "timeline2/view/timelinecontroller.h"
+#include "timeline2/model/timelineitemmodel.hpp"
 
 #include <mlt++/MltRepository.h>
 
@@ -323,9 +326,30 @@ void Core::refreshProjectRange(QSize range)
     m_monitorManager->refreshProjectRange(range);
 }
 
-void Core::refreshProjectItem(int itemId)
+void Core::refreshProjectItem(const ObjectId &id)
 {
-    m_projectManager->refreshItem(itemId);
+    switch(id.first) {
+    case ObjectType::TimelineClip:
+        if(m_mainWindow->getCurrentTimeline()->controller()->getModel()->isClip(id.second)) {
+            m_mainWindow->getCurrentTimeline()->controller()->refreshItem(id.second);
+        }
+        break;
+    case ObjectType::TimelineComposition:
+        if(m_mainWindow->getCurrentTimeline()->controller()->getModel()->isComposition(id.second)) {
+            m_mainWindow->getCurrentTimeline()->controller()->refreshItem(id.second);
+        }
+        break;
+    case ObjectType::TimelineTrack:
+        if(m_mainWindow->getCurrentTimeline()->controller()->getModel()->isTrack(id.second)) {
+            requestMonitorRefresh();
+        }
+        break;
+    case ObjectType::BinClip:
+        m_monitorManager->refreshClipMonitor();
+        break;
+    default:
+        qDebug() << "ERROR: unhandled object type";
+    }
 }
 
 KdenliveDoc *Core::currentDoc()

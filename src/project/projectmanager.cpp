@@ -876,10 +876,6 @@ void ProjectManager::activateAsset(const QVariantMap data)
     pCore->window()->getMainTimeline()->controller()->addAsset(data);
 }
 
-void ProjectManager::refreshItem(int id)
-{
-    pCore->window()->getMainTimeline()->controller()->refreshItem(id);
-}
 
 std::shared_ptr<MarkerListModel> ProjectManager::getGuideModel()
 {

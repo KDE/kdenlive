@@ -48,6 +48,9 @@ public:
 
     Mlt::Filter &filter() const;
 
+    /* @brief Return true if the effect applies only to audio */
+    bool isAudio() const;
+
 protected:
     EffectItemModel(const QList<QVariant> &data, Mlt::Properties *effect, const QDomElement &xml, const QString &effectId,
                     const std::shared_ptr<AbstractTreeModel> &stack);

@@ -26,6 +26,7 @@
 #include "assets/model/assetparametermodel.hpp"
 #include <mlt++/MltFilter.h>
 
+enum class EffectItemType {Effect, Group};
 class EffectStackModel;
 /* @brief This represents an effect of the effectstack
  */
@@ -33,7 +34,7 @@ class AbstractEffectItem : public TreeItem
 {
 
 public:
-    AbstractEffectItem(const QList<QVariant> &data, const std::shared_ptr<AbstractTreeModel> &stack);
+    AbstractEffectItem(EffectItemType type, const QList<QVariant> &data, const std::shared_ptr<AbstractTreeModel> &stack);
 
     /* @brief This function change the individual enabled state of the effect, creating an undo/redo entry*/
     void markEnabled(const QString &name, bool enabled);
@@ -48,10 +49,12 @@ public:
 
     friend class EffectGroupModel;
 
+    EffectItemType effectItemType() const;
 protected:
     /* @brief Toogles the mlt effect according to the current activation state*/
     virtual void updateEnable() = 0;
 
+    EffectItemType m_effectItemType;
     bool m_enabled;
     bool m_effectStackEnabled;
 };

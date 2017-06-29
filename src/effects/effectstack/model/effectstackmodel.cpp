@@ -26,16 +26,17 @@
 #include "effectitemmodel.hpp"
 #include <utility>
 
-EffectStackModel::EffectStackModel(std::weak_ptr<Mlt::Service> service)
+EffectStackModel::EffectStackModel(std::weak_ptr<Mlt::Service> service, ObjectId ownerId)
     : AbstractTreeModel()
     , m_service(std::move(service))
     , m_effectStackEnabled(true)
+    , m_ownerId(ownerId)
 {
 }
 
-std::shared_ptr<EffectStackModel> EffectStackModel::construct(std::weak_ptr<Mlt::Service> service)
+std::shared_ptr<EffectStackModel> EffectStackModel::construct(std::weak_ptr<Mlt::Service> service, ObjectId ownerId)
 {
-    std::shared_ptr<EffectStackModel> self(new EffectStackModel(std::move(service)));
+    std::shared_ptr<EffectStackModel> self(new EffectStackModel(std::move(service), ownerId));
     self->rootItem = EffectGroupModel::construct(QStringLiteral("root"), self);
     return self;
 }
@@ -51,17 +52,18 @@ void EffectStackModel::resetService(std::weak_ptr<Mlt::Service> service)
 
 void EffectStackModel::removeEffect(std::shared_ptr<EffectItemModel> effect)
 {
-    int cid = effect->getParentId();
-    const QString effectId = effect->getAssetId();
-    bool isAudioEffect = EffectsRepository::get()->getType(effectId) == EffectType::Audio;
-    Fun undo = addEffect_lambda(effect, cid, isAudioEffect);
-    Fun redo = deleteEffect_lambda(effect, cid, isAudioEffect);
-    redo();
-    QString effectName = EffectsRepository::get()->getName(effectId);
-    pCore->pushUndo(undo, redo, i18n("Delete effect %1", effectName));
+    int parentId = -1;
+    if (auto ptr = effect->parentItem().lock()) parentId = ptr->getId();
+    Fun undo = addItem_lambda(effect, parentId);
+    Fun redo = removeItem_lambda(effect->getId());
+    bool res = redo();
+    if (res) {
+        QString effectName = EffectsRepository::get()->getName(effect->getAssetId());
+        pCore->pushUndo(undo, redo, i18n("Delete effect %1", effectName));
+    }
 }
 
-void EffectStackModel::copyEffect(std::shared_ptr<AbstractEffectItem> sourceItem, int cid)
+void EffectStackModel::copyEffect(std::shared_ptr<AbstractEffectItem> sourceItem)
 {
     if (sourceItem->childCount() > 0) {
         // TODO: group
@@ -70,26 +72,28 @@ void EffectStackModel::copyEffect(std::shared_ptr<AbstractEffectItem> sourceItem
     std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(sourceItem);
     QString effectId = sourceEffect->getAssetId();
     auto effect = EffectItemModel::construct(effectId, shared_from_this());
-    rootItem->appendChild(effect);
     effect->setParameters(sourceEffect->getAllParameters());
-    bool isAudioEffect = EffectsRepository::get()->getType(effectId) == EffectType::Audio;
-    Fun undo = deleteEffect_lambda(effect, cid, isAudioEffect);
-    Fun redo = addEffect_lambda(effect, cid, isAudioEffect);
-    redo();
-    QString effectName = EffectsRepository::get()->getName(effectId);
-    pCore->pushUndo(undo, redo, i18n("copy effect %1", effectName));
+    Fun undo = removeItem_lambda(effect->getId());
+    // TODO the parent should probably not always be the root
+    Fun redo = addItem_lambda(effect, rootItem->getId());
+    bool res = redo();
+    if (res) {
+        QString effectName = EffectsRepository::get()->getName(effectId);
+        pCore->pushUndo(undo, redo, i18n("copy effect %1", effectName));
+    }
 }
 
-void EffectStackModel::appendEffect(const QString &effectId, int cid)
+void EffectStackModel::appendEffect(const QString &effectId)
 {
     auto effect = EffectItemModel::construct(effectId, shared_from_this());
-    rootItem->appendChild(std::static_pointer_cast<TreeItem>(effect));
-    bool isAudioEffect = EffectsRepository::get()->getType(effectId) == EffectType::Audio;
-    Fun undo = deleteEffect_lambda(effect, cid, isAudioEffect);
-    Fun redo = addEffect_lambda(effect, cid, isAudioEffect);
-    redo();
-    QString effectName = EffectsRepository::get()->getName(effectId);
-    pCore->pushUndo(undo, redo, i18n("Add effect %1", effectName));
+    Fun undo = removeItem_lambda(effect->getId());
+    // TODO the parent should probably not always be the root
+    Fun redo = addItem_lambda(effect, rootItem->getId());
+    bool res = redo();
+    if (res) {
+        QString effectName = EffectsRepository::get()->getName(effectId);
+        pCore->pushUndo(undo, redo, i18n("Add effect %1", effectName));
+    }
 }
 
 void EffectStackModel::moveEffect(int destRow, std::shared_ptr<AbstractEffectItem> item)
@@ -121,41 +125,44 @@ void EffectStackModel::moveEffect(int destRow, std::shared_ptr<AbstractEffectIte
             ix2 = getIndexFromItem(eff);
         }
     }
-    pCore->refreshProjectItem(effect->getParentId());
+    pCore->refreshProjectItem(m_ownerId);
     emit dataChanged(ix, ix2, QVector<int>());
 }
 
-Fun EffectStackModel::deleteEffect_lambda(std::shared_ptr<EffectItemModel> effect, int cid, bool isAudio)
+void EffectStackModel::registerItem(const std::shared_ptr<TreeItem> &item)
 {
-    QWriteLocker locker(&m_lock);
-    return [effect, cid, isAudio, this]() {
-        QModelIndex ix = this->getIndexFromItem(effect);
-        this->rootItem->removeChild(effect);
-        effect->unplant(this->m_service);
-        if (!isAudio) {
-            pCore->refreshProjectItem(cid);
-        }
-        return true;
-    };
-}
-
-Fun EffectStackModel::addEffect_lambda(std::shared_ptr<EffectItemModel> effect, int cid, bool isAudio)
-{
-    QWriteLocker locker(&m_lock);
-    return [effect, cid, isAudio, this]() {
-        effect->setParentId(cid);
-        effect->plant(this->m_service);
-        this->rootItem->appendChild(effect);
+    auto effectItem = std::static_pointer_cast<AbstractEffectItem>(item);
+    switch(effectItem->effectItemType()) {
+    case EffectItemType::Effect:{
+        auto effect = std::static_pointer_cast<EffectItemModel>(effectItem);
+        effect->plant(m_service);
         effect->setEffectStackEnabled(m_effectStackEnabled);
-        QModelIndex ix = this->getIndexFromItem(effect);
+        QModelIndex ix = getIndexFromItem(effect);
         connect(effect.get(), &EffectItemModel::dataChanged, this, &EffectStackModel::dataChanged);
         // Required to build the effect view
-        this->dataChanged(ix, ix, QVector<int>());
-        if (!isAudio) {
-            pCore->refreshProjectItem(cid);
+        dataChanged(ix, ix, QVector<int>());
+        if (!effect->isAudio()) {
+            pCore->refreshProjectItem(m_ownerId);
         }
-        return true;
-    };
+        break;
+    }
+    }
+    AbstractTreeModel::registerItem(item);
+}
+void EffectStackModel::deregisterItem(int id, TreeItem *item)
+{
+    auto effectItem = static_cast<AbstractEffectItem*>(item);
+    switch(effectItem->effectItemType()) {
+    case EffectItemType::Effect:{
+        auto effect = static_cast<EffectItemModel*>(effectItem);
+        effect->unplant(this->m_service);
+        if (!effect->isAudio()) {
+            pCore->refreshProjectItem(m_ownerId);
+        }
+        break;
+    }
+    }
+    AbstractTreeModel::deregisterItem(id, item);
 }
 
 void EffectStackModel::setEffectStackEnabled(bool enabled)
@@ -173,7 +180,7 @@ std::shared_ptr<AbstractEffectItem> EffectStackModel::getEffectStackRow(int row,
     return std::static_pointer_cast<AbstractEffectItem>(parentItem ? rootItem->child(row) : rootItem->child(row));
 }
 
-void EffectStackModel::importEffects(int cid, std::shared_ptr<EffectStackModel> sourceStack)
+void EffectStackModel::importEffects(std::shared_ptr<EffectStackModel> sourceStack)
 {
     // TODO: manage fades, keyframes if clips don't have same size / in point
     for (int i = 0; i < sourceStack->rowCount(); i++) {
@@ -187,7 +194,8 @@ void EffectStackModel::importEffects(int cid, std::shared_ptr<EffectStackModel> 
         rootItem->appendChild(clone);
         clone->setParameters(effect->getAllParameters());
         bool isAudioEffect = EffectsRepository::get()->getType(effect->getAssetId()) == EffectType::Audio;
-        Fun redo = addEffect_lambda(clone, cid, isAudioEffect);
+        // TODO parent should not always be root
+        Fun redo = addItem_lambda(clone, rootItem->getId());
         redo();
     }
 }
@@ -216,12 +224,7 @@ void EffectStackModel::slotCreateGroup(std::shared_ptr<EffectItemModel> childEff
     groupItem->appendChild(childEffect);
 }
 
-QPair<int, int> EffectStackModel::getClipId() const
+ObjectId EffectStackModel::getOwnerId() const
 {
-    auto ptr = m_service.lock();
-    if (ptr) {
-        return QPair<int, int>(ptr->get_int("kdenlive:id"), ptr->get_int("_kdenlive_cid"));
-    }
-    qDebug() << "*  ** ERORR; CANNOT LOCK CLIP SERVICE";
-    return QPair<int, int>();
+    return m_ownerId;
 }

@@ -24,6 +24,7 @@
 
 #include "abstractmodel/abstracttreemodel.hpp"
 #include "undohelper.hpp"
+#include "definitions.h"
 
 #include <QReadWriteLock>
 #include <memory>
@@ -41,23 +42,23 @@ class EffectStackModel : public AbstractTreeModel
 
 public:
     /* @brief Constructs an effect stack and returns a shared ptr to the constucted object
-       @param service is the mlt object on which we will plant the effects */
-    static std::shared_ptr<EffectStackModel> construct(std::weak_ptr<Mlt::Service> service);
+       @param service is the mlt object on which we will plant the effects
+       @param ownerId is some information about the actual object to which the effects are applied
+    */
+    static std::shared_ptr<EffectStackModel> construct(std::weak_ptr<Mlt::Service> service, ObjectId ownerId);
     void resetService(std::weak_ptr<Mlt::Service> service);
 
 protected:
-    EffectStackModel(std::weak_ptr<Mlt::Service> service);
-    Fun deleteEffect_lambda(std::shared_ptr<EffectItemModel> effect, int cid, bool isAudio);
-    Fun addEffect_lambda(std::shared_ptr<EffectItemModel> effect, int cid, bool isAudio);
+    EffectStackModel(std::weak_ptr<Mlt::Service> service, ObjectId ownerId);
 
 public:
     /* @brief Add an effect at the bottom of the stack */
-    void appendEffect(const QString &effectId, int cid);
+    void appendEffect(const QString &effectId);
     /* @brief Copy an existing effect and append it at the bottom of the stack */
-    void copyEffect(std::shared_ptr<AbstractEffectItem> sourceItem, int cid);
+    void copyEffect(std::shared_ptr<AbstractEffectItem> sourceItem);
     /* @brief Import all effects from the given effect stack
      */
-    void importEffects(int cid, std::shared_ptr<EffectStackModel> sourceStack);
+    void importEffects(std::shared_ptr<EffectStackModel> sourceStack);
 
     /* @brief This function change the global (timeline-wise) enabled state of the effects
      */
@@ -75,16 +76,25 @@ public:
     int getActiveEffect() const;
 
     void slotCreateGroup(std::shared_ptr<EffectItemModel> childEffect);
-    /* @brief Returns the Clip's id in timeline */
-    QPair<int, int> getClipId() const;
+
+    /* @brief Returns the id of the owner of the stack */
+    ObjectId getOwnerId() const;
 
 public slots:
     /* @brief Delete an effect from the stack */
     void removeEffect(std::shared_ptr<EffectItemModel> effect);
 
 protected:
+    /* @brief Register the existence of a new element
+     */
+    void registerItem(const std::shared_ptr<TreeItem> &item) override;
+    /* @brief Deregister the existence of a new element*/
+    void deregisterItem(int id, TreeItem *item) override;
+
+
     std::weak_ptr<Mlt::Service> m_service;
     bool m_effectStackEnabled;
+    ObjectId m_ownerId;
 
 private:
     mutable QReadWriteLock m_lock;

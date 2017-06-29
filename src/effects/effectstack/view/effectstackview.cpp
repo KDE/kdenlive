@@ -130,10 +130,10 @@ void EffectStackView::dropEvent(QDropEvent *event)
         m_model->moveEffect(row, m_model->getEffectStackRow(oldRow));
     } else {
         if (row < m_model->rowCount()) {
-            m_model->appendEffect(effectId, property("clipId").toInt());
+            m_model->appendEffect(effectId);
             m_model->moveEffect(row, m_model->getEffectStackRow(m_model->rowCount() - 1));
         } else {
-            m_model->appendEffect(effectId, property("clipId").toInt());
+            m_model->appendEffect(effectId);
         }
     }
 }
@@ -142,9 +142,6 @@ void EffectStackView::setModel(std::shared_ptr<EffectStackModel> model, QPair<in
 {
     unsetModel();
     m_model = model;
-    QPair<int, int> clipId = m_model->getClipId();
-    setProperty("binId", clipId.first);
-    setProperty("clipId", clipId.second);
     m_effectsTree->setModel(m_model.get());
     m_effectsTree->setItemDelegateForColumn(0, new WidgetDelegate(this));
     m_effectsTree->setColumnHidden(1, true);
@@ -205,7 +202,8 @@ void EffectStackView::slotStartDrag(QPixmap pix, std::shared_ptr<EffectItemModel
     drag->setPixmap(pix);
     auto *mime = new QMimeData;
     mime->setData(QStringLiteral("kdenlive/effect"), effectModel->getAssetId().toUtf8());
-    mime->setData(QStringLiteral("kdenlive/effectsource"), QString::number(effectModel->getParentId()).toUtf8());
+    // TODO this will break if source effect is not on the stack of a timeline clip
+    mime->setData(QStringLiteral("kdenlive/effectsource"), QString::number(effectModel->getOwnerId().second).toUtf8());
     mime->setData(QStringLiteral("kdenlive/effectrow"), QString::number(effectModel->row()).toUtf8());
 
     // Assign ownership of the QMimeData object to the QDrag object.

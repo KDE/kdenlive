@@ -25,7 +25,7 @@
 #include <utility>
 
 EffectGroupModel::EffectGroupModel(const QList<QVariant> &data, const QString &name, const std::shared_ptr<AbstractTreeModel> &stack)
-    : AbstractEffectItem(data, stack)
+    : AbstractEffectItem(EffectItemType::Group, data, stack)
     , m_name(name)
 {
 }
