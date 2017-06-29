@@ -283,6 +283,7 @@ template <> struct hash<QString>
 }
 
 // The following is a hack that allows to use shared_from_this in the case of a multiple inheritance.
+// Credit: https://stackoverflow.com/questions/14939190/boost-shared-from-this-and-multiple-inheritance
 template<typename T> struct enable_shared_from_this_virtual;
 
 class enable_shared_from_this_virtual_base : public std::enable_shared_from_this<enable_shared_from_this_virtual_base>

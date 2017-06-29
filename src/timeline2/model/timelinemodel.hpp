@@ -537,10 +537,15 @@ protected:
     bool checkConsistency();
 
     /* @brief Refresh project monitor if cursor was inside range */
-    void checkRefresh(int start, int end) const;
+    void checkRefresh(int start, int end);
 
-    /* @brief Clear effet/composition view */
+    /* @brief Send signal to require clearing effet/composition view */
     void clearAssetView(int itemId);
+
+signals:
+    /* @brief signal triggered by clearAssetView */
+    void requestClearAssetView(int);
+    void requestMonitorRefresh();
 
 protected:
     std::unique_ptr<Mlt::Tractor> m_tractor;

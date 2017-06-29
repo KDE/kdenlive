@@ -52,6 +52,10 @@ TimelineController::TimelineController(KActionCollection *actionCollection, QObj
 void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
 {
     m_model = std::move(model);
+    connect(m_model.get(), &TimelineItemModel::requestClearAssetView,
+            [&](int id){pCore->clearAssetPanel(id);});
+    connect(m_model.get(), &TimelineItemModel::requestMonitorRefresh,
+            [&](){pCore->requestMonitorRefresh();});
 }
 
 std::shared_ptr<TimelineItemModel> TimelineController::getModel() const

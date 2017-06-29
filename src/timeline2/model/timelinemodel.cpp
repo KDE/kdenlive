@@ -1552,17 +1552,17 @@ Mlt::Producer *TimelineModel::producer()
     return prod;
 }
 
-void TimelineModel::checkRefresh(int start, int end) const
+void TimelineModel::checkRefresh(int start, int end) 
 {
     int currentPos = tractor()->position();
     if (currentPos > start && currentPos < end) {
-        pCore->requestMonitorRefresh();
+        emit requestMonitorRefresh();
     }
 }
 
 void TimelineModel::clearAssetView(int itemId)
 {
-    pCore->clearAssetPanel(itemId);
+    emit requestClearAssetView(itemId);
 }
 
 std::shared_ptr<AssetParameterModel> TimelineModel::getCompositionParameterModel(int compoId) const
