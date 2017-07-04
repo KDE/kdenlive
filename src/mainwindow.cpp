@@ -2045,7 +2045,7 @@ void MainWindow::connectDocument()
     slotGuidesUpdated();
 
     // set tool to select tool
-    setTrimMode(QStringLiteral());
+    setTrimMode(QString());
     m_buttonSelectTool->setChecked(true);
     connect(m_projectMonitorDock, &QDockWidget::visibilityChanged, m_projectMonitor, &Monitor::slotRefreshMonitor, Qt::UniqueConnection);
     connect(m_clipMonitorDock, &QDockWidget::visibilityChanged, m_clipMonitor, &Monitor::slotRefreshMonitor, Qt::UniqueConnection);
