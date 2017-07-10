@@ -8405,6 +8405,10 @@ void CustomTrackView::slotImportClipKeyframes(GraphicsRectItem type, const ItemI
 void CustomTrackView::slotReplaceTimelineProducer(const QString &id)
 {
     Mlt::Producer *prod = m_document->renderer()->getBinProducer(id);
+    if (!prod) {
+        qDebug()<<"* ** ERROR, CANNOT FIND BIN CLIP : "<<id;
+        return;
+    }
     Mlt::Producer *videoProd = m_document->renderer()->getBinVideoProducer(id);
     QList<Track::SlowmoInfo> allSlows;
     for (int i = 1; i < m_timeline->tracksCount(); i++) {
