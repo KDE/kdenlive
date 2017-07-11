@@ -53,7 +53,7 @@ ClipTranscode::ClipTranscode(const QStringList &urls, const QString &params, con
     auto_add->setChecked(KdenliveSettings::add_new_clip());
 
     if (m_urls.count() == 1) {
-        QString fileName = m_urls.first();
+        QString fileName = m_urls.constFirst();
         source_url->setUrl(QUrl::fromLocalFile(fileName));
         dest_url->setMode(KFile::File);
 #if KXMLGUI_VERSION_MINOR > 32 || KXMLGUI_VERSION_MAJOR > 5
@@ -71,7 +71,7 @@ ClipTranscode::ClipTranscode(const QStringList &urls, const QString &params, con
         source_url->setHidden(true);
         label_dest->setText(i18n("Destination folder"));
         dest_url->setMode(KFile::Directory);
-        dest_url->setUrl(QUrl::fromLocalFile(m_urls.first()).adjusted(QUrl::RemoveFilename));
+        dest_url->setUrl(QUrl::fromLocalFile(m_urls.constFirst()).adjusted(QUrl::RemoveFilename));
         dest_url->setMode(KFile::Directory | KFile::ExistingOnly);
         for (int i = 0; i < m_urls.count(); ++i) {
             urls_list->addItem(m_urls.at(i));

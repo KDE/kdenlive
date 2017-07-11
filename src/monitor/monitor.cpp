@@ -1006,9 +1006,8 @@ void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
     fs->selectFile(frameName);
     if (fs->exec() != 0) {
         if (!fs->selectedFiles().isEmpty()) {
-            QUrl savePath = fs->selectedUrls().first();
-            if (QFile::exists(savePath.toLocalFile()) &&
-                KMessageBox::warningYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", savePath.toLocalFile())) == KMessageBox::No) {
+            QUrl savePath = fs->selectedUrls().constFirst();
+            if (QFile::exists(savePath.toLocalFile()) && KMessageBox::warningYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", savePath.toLocalFile())) == KMessageBox::No) {
                 delete fs;
                 slotExtractCurrentFrame(savePath.fileName(), addToProject);
                 return;

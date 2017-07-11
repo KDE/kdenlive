@@ -170,8 +170,6 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     connect(textOutline, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateText()));
     connect(font_weight_box, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateText()));
 
-    connect(font_family, &QComboBox::editTextChanged, this, &TitleWidget::slotFontText);
-
     connect(rectFColor, &KColorButton::changed, this, &TitleWidget::rectChanged);
     connect(rectBColor, &KColorButton::changed, this, &TitleWidget::rectChanged);
     connect(plain_rect, &QAbstractButton::clicked, this, &TitleWidget::rectChanged);
@@ -1901,11 +1899,12 @@ void TitleWidget::saveTitle(QUrl url)
         fs->setFileMode(QFileDialog::AnyFile);
         fs->setAcceptMode(QFileDialog::AcceptSave);
         fs->setDefaultSuffix(QStringLiteral("kdenlivetitle"));
+
         // TODO: KF5 porting?
         // fs->setConfirmOverwrite(true);
         // fs->setKeepLocation(true);
         if ((fs->exec() != 0) && !fs->selectedUrls().isEmpty()) {
-            url = fs->selectedUrls().first();
+            url = fs->selectedUrls().constFirst();
         }
         delete fs;
     }
@@ -2322,18 +2321,6 @@ void TitleWidget::slotAddEffect(int /*ix*/)
                 break;
             }
         }*/
-}
-
-void TitleWidget::slotFontText(const QString &s)
-{
-    const QFont f(s);
-    if (f.exactMatch()) {
-        // Font really exists (could also just be a «d» if the user
-        // starts typing «dejavu» for example).
-        font_family->setCurrentFont(f);
-    }
-    // Note: Typing dejavu serif does not recognize the font (takes sans)
-    // in older Qt versions. Case must match there (except for first letter)
 }
 
 void TitleWidget::slotEditTypewriter(int /*ix*/)

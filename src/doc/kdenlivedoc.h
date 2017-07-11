@@ -25,13 +25,11 @@
 #ifndef KDENLIVEDOC_H
 #define KDENLIVEDOC_H
 
-#include <QDir>
-#include <QList>
+#include <qdom.h>
 #include <QMap>
-#include <QObject>
+#include <QList>
+#include <QDir>
 #include <QTimer>
-#include <QUrl>
-#include <QtXml/qdom.h>
 #include <memory>
 
 #include <KDirWatch>
@@ -53,7 +51,6 @@ class Render;
 
 class QTextEdit;
 class QUndoGroup;
-class QTimer;
 class QUndoCommand;
 class DocUndoStack;
 

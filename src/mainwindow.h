@@ -466,6 +466,8 @@ private slots:
     void setTrimMode(const QString &mode);
     /** @brief Set timeline toolbar icon size. */
     void setTimelineToolbarIconSize(QAction *a);
+    /** @brief Make sure to reload profile if changed. */
+    void slotUpdateProfile(bool updateFps);
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

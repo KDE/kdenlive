@@ -623,8 +623,8 @@ void ProducerQueue::processFileProperties()
                     video_list.append(i);
                 }
             }
-
-            if (!info.xml.hasAttribute(QStringLiteral("video_index")) && video_list.count() > 1) {
+            int bypass = EffectsList::property(info.xml, QStringLiteral("bypassDuplicate")).toInt();
+            if (!info.xml.hasAttribute(QStringLiteral("video_index")) && video_list.count() > 1 && bypass != 1) {
                 // Clip has more than one video stream, ask which one should be used
                 QMap<QString, QString> data;
                 if (info.xml.hasAttribute(QStringLiteral("group"))) {
@@ -978,7 +978,12 @@ void ProducerQueue::slotMultiStreamProducerFound(const QString &path, const QLis
         for (int i = 0; i < groupList.count(); ++i) {
             if (groupList.at(i)->isChecked()) {
                 int vindex = groupList.at(i)->property("vindex").toInt();
-                int aindex = comboList.at(i)->itemData(comboList.at(i)->currentIndex()).toInt();
+                int ax = qMin(i, comboList.size() - 1);
+                int aindex = -1;
+                if (ax >= 0) {
+                    // only check audio index if we have several audio streams
+                    aindex = comboList.at(ax)->itemData(comboList.at(ax)->currentIndex()).toInt();
+                }
                 data.insert(QStringLiteral("kdenlive-force.video_index"), QString::number(vindex));
                 data.insert(QStringLiteral("kdenlive-force.audio_index"), QString::number(aindex));
                 data.insert(QStringLiteral("bypassDuplicate"), QStringLiteral("1"));

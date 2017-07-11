@@ -1573,8 +1573,8 @@ void KdenliveDoc::selectPreviewProfile()
         setDocumentProperty(QStringLiteral("previewparameters"), bestMatch.section(QLatin1Char(';'), 0, 0));
         setDocumentProperty(QStringLiteral("previewextension"), bestMatch.section(QLatin1Char(';'), 1, 1));
     } else {
-        setDocumentProperty(QStringLiteral("previewparameters"), QStringLiteral());
-        setDocumentProperty(QStringLiteral("previewextension"), QStringLiteral());
+        setDocumentProperty(QStringLiteral("previewparameters"), QString());
+        setDocumentProperty(QStringLiteral("previewextension"), QString());
     }
 }
 

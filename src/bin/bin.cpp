@@ -180,7 +180,7 @@ bool MyTreeView::performDrag()
     }
     auto *drag = new QDrag(this);
     drag->setMimeData(model()->mimeData(indexes));
-    QModelIndex ix = indexes.first();
+    QModelIndex ix = indexes.constFirst();
     if (ix.isValid()) {
         QIcon icon = ix.data(AbstractProjectItem::DataThumbnail).value<QIcon>();
         QPixmap pix = icon.pixmap(iconSize());
@@ -951,7 +951,7 @@ const QStringList Bin::getFolderInfo(const QModelIndex &selectedIx)
         folderInfo << QString();
         return folderInfo;
     }
-    QModelIndex ix = indexes.first();
+    QModelIndex ix = indexes.constFirst();
     if (ix.isValid() && (m_proxyModel->selectionModel()->isSelected(ix) || selectedIx.isValid())) {
         return m_itemModel->getEnclosingFolderInfo(m_proxyModel->mapToSource(ix));
     }
@@ -2495,7 +2495,7 @@ void Bin::droppedUrls(const QList<QUrl> &urls, const QStringList &folderInfo)
         current = m_proxyModel->mapToSource(m_proxyModel->selectionModel()->currentIndex());
     } else {
         // get index for folder
-        current = getIndexForId(folderInfo.first(), true);
+        current = getIndexForId(folderInfo.constFirst(), true);
     }
     slotItemDropped(urls, current);
 }
@@ -3499,7 +3499,7 @@ void Bin::saveZone(const QStringList &info, const QDir &dir)
     if (info.size() != 3) {
         return;
     }
-    std::shared_ptr<ProjectClip> clip = getBinClip(info.first());
+    std::shared_ptr<ProjectClip> clip = getBinClip(info.constFirst());
     if (clip) {
         QPoint zone(info.at(1).toInt(), info.at(2).toInt());
         clip->saveZone(zone, dir);

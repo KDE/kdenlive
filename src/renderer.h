@@ -42,14 +42,15 @@
 
 #include <QUrl>
 
-#include <QEvent>
-#include <QList>
+#include <qdom.h>
+#include <QString>
 #include <QMap>
+#include <QList>
+
+#include <QEvent>
 #include <QMutex>
 #include <QSemaphore>
-#include <QString>
 #include <QTimer>
-#include <QtXml/qdom.h>
 
 class KComboBox;
 class BinController;

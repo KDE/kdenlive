@@ -70,8 +70,11 @@
 #include "transitions/transitionsrepository.hpp"
 #include "utils/resourcewidget.h"
 #include "utils/thememanager.h"
+
 #include "widgets/progressbutton.h"
 #include <config-kdenlive.h>
+#include "effectslist/effectslistwidget.h"
+#include "profiles/profilerepository.hpp"
 
 #include "project/dialogs/temporarydata.h"
 #include "utils/KoIconUtils.h"
@@ -1871,7 +1874,7 @@ void MainWindow::addTimelineClip(const QString &url)
     if (pCore->projectManager()->current()) {
         QStringList ids = pCore->binController()->getBinIdsByResource(QFileInfo(url));
         if (!ids.isEmpty()) {
-            pCore->bin()->selectClipById(ids.first());
+            pCore->bin()->selectClipById(ids.constFirst());
             slotInsertClipInsert();
         }
     }
@@ -2027,7 +2030,7 @@ void MainWindow::connectDocument()
     connect(m_effectStack->transitionConfig(), &TransitionSettings::seekTimeline, trackView->projectView(), &CustomTrackView::seekCursorPos);
 
     connect(trackView->projectView(), SIGNAL(activateDocumentMonitor()), m_projectMonitor, SLOT(slotActivateMonitor()), Qt::DirectConnection);
-    connect(project, &KdenliveDoc::updateFps, trackView, &Timeline::updateProfile, Qt::DirectConnection);
+    connect(project, &KdenliveDoc::updateFps, this, &MainWindow::slotUpdateProfile, Qt::DirectConnection);
     connect(trackView, &Timeline::zoneMoved, this, &MainWindow::slotZoneMoved);
     trackView->projectView()->setContextMenu(m_timelineContextMenu, m_timelineContextClipMenu, m_timelineContextTransitionMenu, m_clipTypeGroup,
     static_cast<QMenu *>(factory()->container(QStringLiteral("marker_menu"), this)));
@@ -2065,7 +2068,7 @@ void MainWindow::connectDocument()
     // slotGuidesUpdated();
 
     // set tool to select tool
-    setTrimMode(QStringLiteral());
+    setTrimMode(QString());
     m_buttonSelectTool->setChecked(true);
     connect(m_projectMonitorDock, &QDockWidget::visibilityChanged, m_projectMonitor, &Monitor::slotRefreshMonitor, Qt::UniqueConnection);
     connect(m_clipMonitorDock, &QDockWidget::visibilityChanged, m_clipMonitor, &Monitor::slotRefreshMonitor, Qt::UniqueConnection);
@@ -4087,6 +4090,7 @@ TimelineWidget *MainWindow::getCurrentTimeline() const
 {
     return m_timelineTabs->getCurrentTimeline();
 }
+
 #ifdef DEBUG_MAINW
 #undef DEBUG_MAINW
 #endif

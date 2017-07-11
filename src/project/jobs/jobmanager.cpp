@@ -269,7 +269,7 @@ void JobManager::prepareJobs(const QList<ProjectClip *> &clips, double fps, Abst
     if (jobType == AbstractClipJob::TRANSCODEJOB) {
         jobs = CutClipJob::prepareTranscodeJob(fps, matching, params);
     } else if (jobType == AbstractClipJob::CUTJOB) {
-        ProjectClip *clip = matching.first();
+        ProjectClip *clip = matching.constFirst();
         double originalFps = clip->getOriginalFps();
         jobs = CutClipJob::prepareCutClipJob(fps, originalFps, clip);
     } else if (jobType == AbstractClipJob::ANALYSECLIPJOB) {

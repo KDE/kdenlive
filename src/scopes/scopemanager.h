@@ -14,7 +14,7 @@
 #include "audioscopes/abstractaudioscopewidget.h"
 #include "colorscopes/abstractgfxscopewidget.h"
 
-#include <QtCore/QList>
+#include <QList>
 
 class QDockWidget;
 class AbstractRender;

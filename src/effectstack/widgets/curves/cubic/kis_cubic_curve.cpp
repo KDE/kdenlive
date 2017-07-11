@@ -137,7 +137,7 @@ public:
     {
         int intervals = m_intervals = a.size() - 1;
         int i;
-        m_begin = a.first().x();
+        m_begin = a.constFirst().x();
         m_end = a.last().x();
 
         m_a.clear();

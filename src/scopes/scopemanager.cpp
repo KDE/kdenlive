@@ -27,7 +27,7 @@
 
 //#define DEBUG_SM
 #ifdef DEBUG_SM
-#include <QtCore/QDebug>
+#include <QDebug>
 #endif
 
 ScopeManager::ScopeManager(QObject *parent)

@@ -373,7 +373,7 @@ void CollapsibleGroup::dropEvent(QDropEvent *event)
                 emit moveEffect(pastedEffectIndexes, currentEffectIndexes.last(), pasteInfo.groupIndex, pasteInfo.groupName);
             } else {
                 // Group moved before current one
-                emit moveEffect(pastedEffectIndexes, currentEffectIndexes.first(), pasteInfo.groupIndex, pasteInfo.groupName);
+                emit moveEffect(pastedEffectIndexes, currentEffectIndexes.constFirst(), pasteInfo.groupIndex, pasteInfo.groupName);
             }
             event->setDropAction(Qt::MoveAction);
             event->accept();

@@ -609,7 +609,7 @@ void GraphicsSceneRectMove::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *e)
     }
 
     int ix = 1;
-    QGraphicsItem *g = i.first();
+    QGraphicsItem *g = i.constFirst();
     while (!(g->flags() & QGraphicsItem::ItemIsSelectable) && ix < i.count()) {
         g = i.at(ix);
         ix++;
@@ -643,7 +643,7 @@ void GraphicsSceneRectMove::mouseReleaseEvent(QGraphicsSceneMouseEvent *e)
     }
     QList<QGraphicsView *> viewlist = views();
     if (!viewlist.isEmpty()) {
-        viewlist.first()->setDragMode(QGraphicsView::RubberBandDrag);
+        viewlist.constFirst()->setDragMode(QGraphicsView::RubberBandDrag);
     }
     emit actionFinished();
 }
@@ -654,7 +654,7 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent *e)
         clearTextSelection();
         QList<QGraphicsView *> viewlist = views();
         if (!viewlist.isEmpty()) {
-            viewlist.first()->setDragMode(QGraphicsView::ScrollHandDrag);
+            viewlist.constFirst()->setDragMode(QGraphicsView::ScrollHandDrag);
             m_pan = true;
             e->accept();
             QGraphicsScene::mousePressEvent(e);
@@ -673,14 +673,14 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent *e)
         if ((e->modifiers() & Qt::ControlModifier) != 0u) {
             clearTextSelection();
             if (!viewlist.isEmpty()) {
-                viewlist.first()->setDragMode(QGraphicsView::ScrollHandDrag);
+                viewlist.constFirst()->setDragMode(QGraphicsView::ScrollHandDrag);
                 e->ignore();
                 // QGraphicsScene::mousePressEvent(e);
                 return;
             }
         } else {
             if (!viewlist.isEmpty()) {
-                viewlist.first()->setRubberBandSelectionMode(Qt::IntersectsItemShape);
+                viewlist.constFirst()->setRubberBandSelectionMode(Qt::IntersectsItemShape);
             }
         }
         bool alreadySelected = false;
@@ -798,7 +798,7 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
         e->ignore();
         return;
     }
-    QGraphicsView *view = viewlist.first();
+    QGraphicsView *view = viewlist.constFirst();
     if (m_pan) {
         QPoint diff = e->lastScreenPos() - e->screenPos();
         view->horizontalScrollBar()->setValue(view->horizontalScrollBar()->value() + diff.x());

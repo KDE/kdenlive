@@ -78,7 +78,7 @@ protected:
 public:
     /** @brief Toggle the comments on or off
      */
-    void slotShowComment(bool);
+    void slotShowComment(bool) override;
 
 private:
     Ui::BezierSpline_UI m_ui;

@@ -332,8 +332,6 @@ private slots:
      * @ref writeChoices */
     void slotAccepted();
 
-    void slotFontText(const QString &s);
-
     /** @brief Adds an effect to an element.
      * @param ix index of the effect in the effects menu
      *

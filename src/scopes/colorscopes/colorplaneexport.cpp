@@ -131,7 +131,7 @@ void ColorPlaneExport::slotValidate()
         ok = ok && nr > 0;
     }
     if (ok) {
-        ok = kurlrequester->text().trimmed().length() > 0;
+        ok = !kurlrequester->text().trimmed().isEmpty();
 #ifdef DEBUG_CPE
         qCDebug(KDENLIVE_LOG) << "File given: " << ok;
 #endif

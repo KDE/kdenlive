@@ -117,7 +117,7 @@ QMap<QString, QString> TransitionHandler::getTransitionParamsFromXml(const QDomE
                         // Something is wrong
                         map[name] = QString();
                     } else {
-                        map[name] = lumas.first();
+                        map[name] = lumas.constFirst();
                     }
                 }
             } else {

@@ -139,7 +139,7 @@ QString UnicodeWidget::trimmedUnicodeNumber(QString text)
 QString UnicodeWidget::unicodeInfo(const QString &unicode)
 {
     QString infoText(i18n("<small>(no character selected)</small>"));
-    if (unicode.length() == 0) {
+    if (unicode.isEmpty()) {
         return infoText;
     }
 

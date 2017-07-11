@@ -1745,7 +1745,7 @@ void ClipItem::dropEvent(QGraphicsSceneDragDropEvent *event)
                 m_selectionTimer.stop();
             }
             event->acceptProposedAction();
-            CustomTrackView *view = static_cast<CustomTrackView *>(scene()->views().first());
+            CustomTrackView *view = static_cast<CustomTrackView *>(scene()->views().constFirst());
             if (view) {
                 QString geometry = QString::fromUtf8(event->mimeData()->data(QStringLiteral("kdenlive/geometry")));
                 view->dropClipGeometry(this, geometry);
@@ -1772,7 +1772,7 @@ void ClipItem::dropEvent(QGraphicsSceneDragDropEvent *event)
             // single effect dropped
             e.removeAttribute(QStringLiteral("kdenlive_ix"));
         }
-        CustomTrackView *view = static_cast<CustomTrackView *>(scene()->views().first());
+        CustomTrackView *view = static_cast<CustomTrackView *>(scene()->views().constFirst());
         if (view) {
             if (transitionDrop) {
                 view->slotDropTransition(this, e, event->scenePos());

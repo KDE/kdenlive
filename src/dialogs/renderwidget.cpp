@@ -973,7 +973,7 @@ void RenderWidget::focusFirstVisibleItem(const QString &profile)
     if (!profile.isEmpty()) {
         QList<QTreeWidgetItem *> items = m_view.formats->findItems(profile, Qt::MatchExactly | Qt::MatchRecursive);
         if (!items.isEmpty()) {
-            item = items.first();
+            item = items.constFirst();
         }
     }
     if (!item) {
@@ -1731,7 +1731,7 @@ void RenderWidget::refreshParams()
         QStringList qs = item->data(0, BitratesRole).toStringList();
         if (qs.count() > 1) {
             quality = true;
-            int qmax = qs.first().toInt();
+            int qmax = qs.constFirst().toInt();
             int qmin = qs.last().toInt();
             if (qmax < qmin) {
                 // always show best quality on right
@@ -1757,7 +1757,7 @@ void RenderWidget::refreshParams()
         QStringList qs = item->data(0, AudioBitratesRole).toStringList();
         if (qs.count() > 1) {
             quality = true;
-            int qmax = qs.first().toInt();
+            int qmax = qs.constFirst().toInt();
             int qmin = qs.last().toInt();
             if (qmax < qmin) {
                 m_view.audio->setRange(qmax, qmin);
@@ -2540,14 +2540,16 @@ bool RenderWidget::startWaitingRenderJobs()
     }
 
     QTextStream outStream(&file);
+#ifndef Q_OS_WIN
     outStream << "#! /bin/sh" << '\n' << '\n';
+#endif
     RenderJobItem *item = static_cast<RenderJobItem *>(m_view.running_jobs->topLevelItem(0));
     while (item != nullptr) {
         if (item->status() == WAITINGJOB) {
             if (item->type() == DirectRenderType) {
                 // Add render process for item
                 const QString params = item->data(1, ParametersRole).toStringList().join(QLatin1Char(' '));
-                outStream << m_renderer << ' ' << params << '\n';
+                outStream << '\"' << m_renderer << "\" " << params << '\n';
             } else if (item->type() == ScriptRenderType) {
                 // Script item
                 outStream << item->data(1, ParametersRole).toString() << '\n';
@@ -2556,7 +2558,11 @@ bool RenderWidget::startWaitingRenderJobs()
         item = static_cast<RenderJobItem *>(m_view.running_jobs->itemBelow(item));
     }
     // erase itself when rendering is finished
-    outStream << "rm " << autoscriptFile << '\n' << '\n';
+#ifndef Q_OS_WIN
+    outStream << "rm \"" << autoscriptFile << "\"\n";
+#else
+    outStream << "del \"" << autoscriptFile << "\"\n";
+#endif
     if (file.error() != QFile::NoError) {
         KMessageBox::error(nullptr, i18n("Cannot write to file %1", autoscriptFile));
         file.close();

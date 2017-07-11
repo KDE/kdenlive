@@ -45,14 +45,14 @@ ClipStabilize::ClipStabilize(const QStringList &urls, const QString &filterName,
     setStyleSheet(stylesheet);
 
     if (m_urls.count() == 1) {
-        QString newFile = m_urls.first();
+        QString newFile = m_urls.constFirst();
         newFile.append(QStringLiteral(".mlt"));
         dest_url->setMode(KFile::File);
         dest_url->setUrl(QUrl(newFile));
     } else {
         label_dest->setText(i18n("Destination folder"));
         dest_url->setMode(KFile::Directory | KFile::ExistingOnly);
-        dest_url->setUrl(QUrl(m_urls.first()).adjusted(QUrl::RemoveFilename));
+        dest_url->setUrl(QUrl(m_urls.constFirst()).adjusted(QUrl::RemoveFilename));
     }
 
     if (m_filtername == QLatin1String("vidstab") || m_filtername == QLatin1String("videostab2")) {
