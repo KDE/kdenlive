@@ -87,7 +87,7 @@ private:
     /** @brief the keyframe position which should be attached to end (negative frame) */
     int m_attachedToEnd;
     QDomElement m_xml;
-    QList<QModelIndex> m_parameters;
+    QList< QPair<QModelIndex, QString>> m_parameters;
     QString m_effectId;
     Mlt::Animation m_animController;
     Mlt::Properties m_animProperties;

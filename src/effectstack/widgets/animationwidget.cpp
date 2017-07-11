@@ -372,11 +372,16 @@ void AnimationWidget::slotAddDeleteKeyframe(bool add, int pos)
         }
         m_ruler->setActiveKeyframe(pos);
     }
-    // Restore default controller
-    m_animController = m_animProperties.get_animation(m_inTimeline.toUtf8().constData());
     // Rebuild
     rebuildKeyframes();
-    emit valueChanged(m_index, QString(m_animController.serialize_cut()));
+
+    // Send updates
+    for (int i = 0; i < m_parameters.count(); i++) {
+        m_animController = m_animProperties.get_animation(m_parameters.at(i).second.toUtf8().constData());
+        emit valueChanged(m_parameters.at(i).first, QString(m_animController.serialize_cut()));
+    }
+    // Restore default controller
+    m_animController = m_animProperties.get_animation(m_inTimeline.toUtf8().constData());
 }
 
 void AnimationWidget::slotRemoveNext()
@@ -403,11 +408,16 @@ void AnimationWidget::slotRemoveNext()
     m_selectType->setEnabled(false);
     m_addKeyframe->setActive(false);
     slotPositionChanged(-1, false);
+
+    // Send updates
+    for (int i = 0; i < m_parameters.count(); i++) {
+        m_animController = m_animProperties.get_animation(m_parameters.at(i).second.toUtf8().constData());
+        emit valueChanged(m_parameters.at(i).first, QString(m_animController.serialize_cut()));
+    }
     // Restore default controller
     m_animController = m_animProperties.get_animation(m_inTimeline.toUtf8().constData());
     // Rebuild
     rebuildKeyframes();
-    emit valueChanged(m_index, QString(m_animController.serialize_cut()));
 }
 
 void AnimationWidget::slotSyncPosition(int relTimelinePos)
@@ -441,15 +451,20 @@ void AnimationWidget::moveKeyframe(int oldPos, int newPos)
         m_animController.remove(oldPos - m_offset);
         m_animProperties.anim_set(param.toUtf8().constData(), val, newPos - m_offset, m_outPoint, type);
     }
-    // Restore default controller
-    m_animController = m_animProperties.get_animation(m_inTimeline.toUtf8().constData());
     m_ruler->setActiveKeyframe(newPos);
     if (m_attachedToEnd == oldPos) {
         m_attachedToEnd = newPos;
     }
     rebuildKeyframes();
     slotPositionChanged(m_ruler->position(), false);
-    emit valueChanged(m_index, QString(m_animController.serialize_cut()));
+
+    // Send updates
+    for (int i = 0; i < m_parameters.count(); i++) {
+        m_animController = m_animProperties.get_animation(m_parameters.at(i).second.toUtf8().constData());
+        emit valueChanged(m_parameters.at(i).first, QString(m_animController.serialize_cut()));
+    }
+    // Restore default controller
+    m_animController = m_animProperties.get_animation(m_inTimeline.toUtf8().constData());
 }
 
 void AnimationWidget::rebuildKeyframes()
@@ -727,7 +742,14 @@ void AnimationWidget::slotEditKeyframeType(QAction *action)
         }*/
         rebuildKeyframes();
         setupMonitor();
-        emit valueChanged(m_index, QString(m_animController.serialize_cut()));
+        // Send updates
+        QStringList paramNames = m_doubleWidgets.keys();
+        for (int i = 0; i < m_parameters.count(); i++) {
+            m_animController = m_animProperties.get_animation(m_parameters.at(i).second.toUtf8().constData());
+            emit valueChanged(m_parameters.at(i).first, QString(m_animController.serialize_cut()));
+        }
+        // Restore default controller
+        m_animController = m_animProperties.get_animation(m_inTimeline.toUtf8().constData());
     }
 }
 
@@ -764,7 +786,7 @@ void AnimationWidget::addParameter(QModelIndex ix)
         m_selectType->setVisible(false);
         m_selectType->setCurrentItem(0);
     }
-    m_parameters << ix;
+    m_parameters << QPair<QModelIndex, QString>(ix, paramTag);
     // Load keyframes
     rebuildKeyframes();
 }
@@ -1648,7 +1670,7 @@ void AnimationWidget::slotShowComment(bool show)
 void AnimationWidget::slotRefresh()
 {
     for (int i = 0; i < m_parameters.count(); i++) {
-        QModelIndex ix = m_parameters.at(i);
+        QModelIndex ix = m_parameters.at(i).first;
         ParamType type = (ParamType)m_model->data(ix, AssetParameterModel::TypeRole).toInt();
         QString keyframes = m_model->data(ix, AssetParameterModel::ValueRole).toString();
         QString paramTag = m_model->data(ix, AssetParameterModel::NameRole).toString();
