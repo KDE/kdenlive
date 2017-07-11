@@ -132,22 +132,25 @@ void EffectStackModel::moveEffect(int destRow, std::shared_ptr<AbstractEffectIte
 void EffectStackModel::registerItem(const std::shared_ptr<TreeItem> &item)
 {
     auto effectItem = std::static_pointer_cast<AbstractEffectItem>(item);
+    QModelIndex ix;
     switch(effectItem->effectItemType()) {
-    case EffectItemType::Effect:{
-        auto effect = std::static_pointer_cast<EffectItemModel>(effectItem);
-        effect->plant(m_service);
-        effect->setEffectStackEnabled(m_effectStackEnabled);
-        QModelIndex ix = getIndexFromItem(effect);
-        connect(effect.get(), &EffectItemModel::dataChanged, this, &EffectStackModel::dataChanged);
-        // Required to build the effect view
-        dataChanged(ix, ix, QVector<int>());
-        if (!effect->isAudio()) {
-            pCore->refreshProjectItem(m_ownerId);
+        case EffectItemType::Effect:{
+            auto effect = std::static_pointer_cast<EffectItemModel>(effectItem);
+            effect->plant(m_service);
+            effect->setEffectStackEnabled(m_effectStackEnabled);
+            ix = getIndexFromItem(effect);
+            connect(effect.get(), &EffectItemModel::dataChanged, this, &EffectStackModel::dataChanged);
+            if (!effect->isAudio()) {
+                pCore->refreshProjectItem(m_ownerId);
+            }
+            break;
         }
-        break;
-    }
     }
     AbstractTreeModel::registerItem(item);
+    if (ix.isValid()) {
+        // Required to build the effect view
+        dataChanged(ix, ix, QVector<int>());
+    }
 }
 void EffectStackModel::deregisterItem(int id, TreeItem *item)
 {
