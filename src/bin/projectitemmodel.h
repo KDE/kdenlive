@@ -183,7 +183,7 @@ signals:
     void markersNeedUpdate(const QString &id, const QList<int> &);
     void itemDropped(const QStringList &, const QModelIndex &);
     void itemDropped(const QList<QUrl> &, const QModelIndex &);
-    void effectDropped(const QString &, const QModelIndex &);
+    void effectDropped(const QStringList &, const QModelIndex &);
     void addClipCut(const QString &, int, int);
 };
 

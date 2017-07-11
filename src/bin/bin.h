@@ -340,7 +340,7 @@ private slots:
     void slotSaveHeaders();
     void slotItemDropped(const QStringList &ids, const QModelIndex &parent);
     void slotItemDropped(const QList<QUrl> &urls, const QModelIndex &parent);
-    void slotEffectDropped(const QString &effect, const QModelIndex &parent);
+    void slotEffectDropped(const QStringList &effectData, const QModelIndex &parent);
     void slotItemEdited(const QModelIndex &, const QModelIndex &, const QVector<int> &);
     void slotAddUrl(const QString &url, int folderId, const QMap<QString, QString> &data = QMap<QString, QString>());
     void slotAddUrl(const QString &url, const QMap<QString, QString> &data = QMap<QString, QString>());
@@ -419,7 +419,7 @@ public slots:
     /** @brief Pass some important properties to timeline track producers. */
     void updateTimelineProducers(const QString &id, const QMap<QString, QString> &passProperties);
     /** @brief Add effect to active Bin clip (used when double clicking an effect in list). */
-    void slotEffectDropped(QString id, const QString &effectID);
+    void slotAddEffect(QString id, const QString &effectID);
     /** @brief Request current frame from project monitor.
      *  @param clipId is the id of a clip we want to hide from screenshot
      *  @param request true to start capture process, false to end it. It is necessary to emit a false after image is received
@@ -437,8 +437,10 @@ public slots:
     void slotAddClipToProject(const QUrl &url);
     void doUpdateThumbsProgress(long ms);
     void droppedUrls(const QList<QUrl> &urls, const QStringList &folderInfo = QStringList());
-    /** @brief A cli producer was changed and needs to be replaced in timeline. */
+    /** @brief A clip producer was changed and needs to be replaced in timeline. */
     void prepareTimelineReplacement(const requestClipInfo &info);
+    /** @brief Returns the effectstack of a given clip. */
+    std::shared_ptr<EffectStackModel> getClipEffectStack(int itemId);
 protected:
     /* This function is called whenever an item is selected to propagate signals
        (for ex request to show the clip in the monitor)
@@ -529,7 +531,7 @@ signals:
     /** @brief Trigger timecode format refresh where needed. */
     void refreshTimeCode();
     /** @brief Request display of effect stack for a Bin clip. */
-    void requestShowEffectStack(std::shared_ptr<EffectStackModel>);
+    void requestShowEffectStack(const QString &clipName, std::shared_ptr<EffectStackModel>, QPair<int, int> range);
     /** @brief Request that the current effect stack is hidden */
     void requestHideEffectStack();
     /** @brief Request that the given clip is displayed in the clip monitor */

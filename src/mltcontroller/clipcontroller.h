@@ -34,6 +34,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <mlt++/Mlt.h>
 
 class QPixmap;
+class Bin;
 class BinController;
 class AudioStreamInfo;
 class EffectStackModel;
@@ -49,6 +50,7 @@ class MarkerListModel;
 class ClipController
 {
 public:
+    friend class Bin;
     /**
        @brief Constructs a clipController and returns a ptr to it.
        * It also take care of registration to the BinController
@@ -189,6 +191,7 @@ public:
     Mlt::Properties &properties();
     void initEffect(const ProfileInfo &pInfo, QDomElement &xml);
     void addEffect(const ProfileInfo &pInfo, QDomElement &xml);
+    bool copyEffect(std::shared_ptr<EffectStackModel> stackModel, int rowId);
     void removeEffect(int effectIndex, bool delayRefresh = false);
     EffectsList effectList();
     /** @brief Enable/disable an effect. */

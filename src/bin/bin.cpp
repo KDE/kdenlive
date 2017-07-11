@@ -600,7 +600,7 @@ Bin::Bin(QWidget *parent)
     connect(m_proxyModel, &ProjectSortProxyModel::selectModel, this, &Bin::selectProxyModel);
     connect(m_itemModel.get(), SIGNAL(itemDropped(QStringList, QModelIndex)), this, SLOT(slotItemDropped(QStringList, QModelIndex)));
     connect(m_itemModel.get(), SIGNAL(itemDropped(QList<QUrl>, QModelIndex)), this, SLOT(slotItemDropped(QList<QUrl>, QModelIndex)));
-    connect(m_itemModel.get(), SIGNAL(effectDropped(QString, QModelIndex)), this, SLOT(slotEffectDropped(QString, QModelIndex)));
+    connect(m_itemModel.get(), &ProjectItemModel::effectDropped, this, &Bin::slotEffectDropped);
     connect(m_itemModel.get(), &QAbstractItemModel::dataChanged, this, &Bin::slotItemEdited);
     connect(m_itemModel.get(), &ProjectItemModel::addClipCut, this, &Bin::slotAddClipCut);
     connect(this, &Bin::refreshPanel, this, &Bin::doRefreshPanel);
@@ -2406,7 +2406,7 @@ void Bin::slotItemDropped(const QStringList &ids, const QModelIndex &parent)
     m_doc->commandStack()->push(moveCommand);
 }
 
-void Bin::slotEffectDropped(QString id, const QString &effectId)
+void Bin::slotAddEffect(QString id, const QString &effectId)
 {
     if (id.isEmpty()) {
         id = m_monitor->activeClipId();
@@ -2420,7 +2420,7 @@ void Bin::slotEffectDropped(QString id, const QString &effectId)
     }
 }
 
-void Bin::slotEffectDropped(const QString &effect, const QModelIndex &parent)
+void Bin::slotEffectDropped(const QStringList &effectData, const QModelIndex &parent)
 {
     if (parent.isValid()) {
         std::shared_ptr<AbstractProjectItem> parentItem = m_itemModel->getBinItemByIndex(parent);
@@ -2437,7 +2437,13 @@ void Bin::slotEffectDropped(const QString &effect, const QModelIndex &parent)
                                                    QItemSelectionModel::Select);
         }
         setCurrent(parentItem);
-        std::static_pointer_cast<ProjectClip>(parentItem)->addEffect(effect);
+        if (effectData.count() == 4) {
+            // Paste effect from another stack
+            std::shared_ptr<EffectStackModel> sourceStack = pCore->getItemEffectStack(effectData.at(1).toInt(), effectData.at(2).toInt());
+            std::static_pointer_cast<ProjectClip>(parentItem)->copyEffect(sourceStack, effectData.at(3).toInt());
+        } else {
+            std::static_pointer_cast<ProjectClip>(parentItem)->addEffect(effectData.constFirst());
+        }
     }
 }
 
@@ -2449,11 +2455,15 @@ void Bin::editMasterEffect(std::shared_ptr<AbstractProjectItem> clip)
     }
     if (clip) {
         if (clip->itemType() == AbstractProjectItem::ClipItem) {
-            emit requestShowEffectStack(std::static_pointer_cast<ProjectClip>(clip)->getEffectStack());
+            std::shared_ptr<ProjectClip>clp = std::static_pointer_cast<ProjectClip>(clip);
+            emit requestShowEffectStack(clp->clipName(), clp->m_effectStack, QPair<int, int>(0, clp->frameDuration()));
             return;
         }
         if (clip->itemType() == AbstractProjectItem::SubClipItem) {
-            if (auto ptr = clip->parentItem().lock()) emit requestShowEffectStack(std::static_pointer_cast<ProjectClip>(ptr)->getEffectStack());
+            if (auto ptr = clip->parentItem().lock()) {
+                std::shared_ptr<ProjectClip>clp = std::static_pointer_cast<ProjectClip>(ptr);
+                emit requestShowEffectStack(clp->clipName(), clp->m_effectStack, QPair<int, int>(0, clp->frameDuration()));
+            }
             return;
         }
     }
@@ -3518,10 +3528,12 @@ QVariantList Bin::audioFrameCache(const QString &id)
 void Bin::setCurrent(std::shared_ptr<AbstractProjectItem> item)
 {
     switch (item->itemType()) {
-    case AbstractProjectItem::ClipItem:
+    case AbstractProjectItem::ClipItem: {
         openProducer(std::static_pointer_cast<ProjectClip>(item));
-        requestShowEffectStack(std::static_pointer_cast<ProjectClip>(item)->getEffectStack());
+        std::shared_ptr<ProjectClip>clp = std::static_pointer_cast<ProjectClip>(item);
+        emit requestShowEffectStack(clp->clipName(), clp->m_effectStack, QPair<int, int>(0, clp->frameDuration()));
         break;
+    }
     case AbstractProjectItem::SubClipItem: {
         auto subClip = std::static_pointer_cast<ProjectSubClip>(item);
         QPoint zone = subClip->zone();
@@ -3546,4 +3558,12 @@ void Bin::prepareTimelineReplacement(const requestClipInfo &info)
     Q_ASSERT(clip != nullptr);
     slotProducerReady(info, nullptr);
     clip->replaceInTimeline();
+}
+
+std::shared_ptr<EffectStackModel> Bin::getClipEffectStack(int itemId)
+{
+    std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(QString::number(itemId));
+    Q_ASSERT(clip != nullptr);
+    std::shared_ptr<EffectStackModel> effectStack = std::static_pointer_cast<ClipController>(clip)->m_effectStack;
+    return effectStack;
 }

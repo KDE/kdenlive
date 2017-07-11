@@ -386,3 +386,19 @@ void Core::adjustAssetRange(int itemId, int in, int out)
 {
     m_mainWindow->adjustAssetPanelRange(itemId, in, out);
 }
+
+std::shared_ptr<EffectStackModel> Core::getItemEffectStack(int itemType, int itemId)
+{
+    switch (itemType) {
+        case (int) ObjectType::TimelineClip:
+            return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getClipEffectStack(itemId);
+        case (int) ObjectType::TimelineTrack:
+            //TODO
+            return nullptr;
+            break;
+        case (int) ObjectType::BinClip:
+            return m_binWidget->getClipEffectStack(itemId);
+        default:
+            return nullptr;
+    }
+}

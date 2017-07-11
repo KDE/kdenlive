@@ -52,6 +52,7 @@ ClipController::ClipController(std::shared_ptr<BinController> bincontroller, std
     , m_hasLimitedDuration(true)
     , m_binController(bincontroller)
     , m_snapMarkers(QList<CommentedTime>())
+    , m_effectStack(EffectStackModel::construct(producer, {ObjectType::BinClip, m_properties->get_int("kdenlive:id")}))
 {
     if (!m_masterProducer->is_valid()) {
         qCDebug(KDENLIVE_LOG) << "// WARNING, USING INVALID PRODUCER";
@@ -123,6 +124,7 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
     }
     m_masterProducer = producer;
     m_properties = new Mlt::Properties(m_masterProducer->get_properties());
+    m_effectStack = EffectStackModel::construct(producer, {ObjectType::BinClip, m_properties->get_int("kdenlive:id")});
     if (!m_masterProducer->is_valid()) {
         m_masterProducer = ClipController::mediaUnavailable;
         m_producerLock.unlock();
@@ -900,6 +902,12 @@ std::shared_ptr<EffectStackModel> ClipController::getEffectStack() const
 void ClipController::addEffect(const QString &effectId)
 {
     m_effectStack->appendEffect(effectId);
+}
+
+bool ClipController::copyEffect(std::shared_ptr<EffectStackModel> stackModel, int rowId)
+{
+    m_effectStack->copyEffect(stackModel->getEffectStackRow(rowId));
+    return true;
 }
 
 std::shared_ptr<MarkerListModel> ClipController::getMarkerModel() const

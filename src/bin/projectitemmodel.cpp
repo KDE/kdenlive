@@ -168,10 +168,13 @@ bool ProjectItemModel::dropMimeData(const QMimeData *data, Qt::DropAction action
         return true;
     }
 
-    if (data->hasFormat(QStringLiteral("kdenlive/effectslist"))) {
+    if (data->hasFormat(QStringLiteral("kdenlive/effect"))) {
         // Dropping effect on a Bin item
-        const QString effect = QString::fromUtf8(data->data(QStringLiteral("kdenlive/effectslist")));
-        emit effectDropped(effect, parent);
+        QStringList effectData;
+        effectData << QString::fromUtf8(data->data(QStringLiteral("kdenlive/effect")));
+        QStringList source = QString::fromUtf8(data->data(QStringLiteral("kdenlive/effectsource"))).split(QLatin1Char('-'));
+        effectData << source;
+        emit effectDropped(effectData, parent);
         return true;
     }
 
@@ -224,7 +227,7 @@ QStringList ProjectItemModel::mimeTypes() const
 {
     QStringList types;
     types << QStringLiteral("kdenlive/producerslist") << QStringLiteral("text/uri-list") << QStringLiteral("kdenlive/clip")
-          << QStringLiteral("kdenlive/effectslist");
+          << QStringLiteral("kdenlive/effect");
     return types;
 }
 

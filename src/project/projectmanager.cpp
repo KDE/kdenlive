@@ -871,9 +871,14 @@ void ProjectManager::updateTimeline()
     m_mainTimelineModel->setUndoStack(m_project->commandStack());
 }
 
-void ProjectManager::activateAsset(const QVariantMap data)
+void ProjectManager::activateAsset(const QVariantMap effectData)
 {
-    pCore->window()->getMainTimeline()->controller()->addAsset(data);
+    if (pCore->monitorManager()->projectMonitor()->isActive()) {
+        pCore->window()->getMainTimeline()->controller()->addAsset(effectData);
+    } else {
+        QString effect = effectData.value(QStringLiteral("kdenlive/effect")).toString();
+        pCore->bin()->slotAddEffect(QString(), effect);
+    }
 }
 
 

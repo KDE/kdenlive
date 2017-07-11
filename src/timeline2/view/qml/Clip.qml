@@ -138,7 +138,6 @@ Rectangle {
         onEntered: {
             dropData = drag.getDataAsString('kdenlive/effect')
             dropSource = drag.getDataAsString('kdenlive/effectsource')
-            dropRow = drag.getDataAsString('kdenlive/effectrow')
         }
         onDropped: {
             console.log("Add effect: ", dropData)
@@ -146,7 +145,7 @@ Rectangle {
                 // drop from effects list
                 controller.addClipEffect(clipRoot.clipId, dropData);
             } else {
-                controller.copyClipEffect(clipRoot.clipId, dropSource, dropRow);
+                controller.copyClipEffect(clipRoot.clipId, dropSource);
             }
             dropSource = ''
             dropRow = -1

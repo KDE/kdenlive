@@ -181,7 +181,7 @@ public:
     */
     Q_INVOKABLE int getClipPosition(int clipId) const;
     Q_INVOKABLE bool addClipEffect(int clipId, const QString &effectId);
-    Q_INVOKABLE bool copyClipEffect(int clipId, const QString &sourceId, const QString &rowId);
+    Q_INVOKABLE bool copyClipEffect(int clipId, const QString &sourceId);
 
     /* @brief Returns the closest snap point within snapDistance
      */
@@ -474,6 +474,8 @@ public:
 
     void requestClipReload(int clipId);
 
+    /** @brief Returns the effectstack of a given clip. */
+    std::shared_ptr<EffectStackModel> getClipEffectStack(int itemId);
 protected:
     /* @brief Register a new track. This is a call-back meant to be called from TrackModel
        @param pos indicates the number of the track we are adding. If this is -1, then we add at the end.

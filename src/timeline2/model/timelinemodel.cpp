@@ -1029,10 +1029,21 @@ bool TimelineModel::addClipEffect(int clipId, const QString &effectId)
     return m_allClips.at(clipId)->addEffect(effectId);
 }
 
-bool TimelineModel::copyClipEffect(int clipId, const QString &sourceId, const QString &rowId)
+std::shared_ptr<EffectStackModel> TimelineModel::getClipEffectStack(int itemId)
 {
-    Q_ASSERT(m_allClips.count(clipId) > 0 && m_allClips.count(sourceId.toInt()) > 0);
-    return m_allClips.at(clipId)->copyEffect(m_allClips.at(sourceId.toInt())->m_effectStack, rowId.toInt());
+    Q_ASSERT(m_allClips.count(itemId));
+    return m_allClips.at(itemId)->m_effectStack;
+}
+
+bool TimelineModel::copyClipEffect(int clipId, const QString &sourceId)
+{
+    QStringList source = sourceId.split(QLatin1Char('-'));
+    Q_ASSERT(m_allClips.count(clipId) && source.count() == 3);
+    int itemType = source.at(0).toInt();
+    int itemId = source.at(1).toInt();
+    int itemRow = source.at(2).toInt();
+    std::shared_ptr<EffectStackModel> effectStack = pCore->getItemEffectStack(itemType, itemId);
+    return m_allClips.at(clipId)->copyEffect(effectStack, itemRow);;
 }
 
 std::shared_ptr<CompositionModel> TimelineModel::getCompositionPtr(int compoId) const

@@ -135,7 +135,7 @@ public slots:
     /** @brief Project's duration changed, adjust monitor, etc. */
     void adjustProjectDuration();
     /** @brief Add an asset in timeline (effect, transition). */
-    void activateAsset(const QVariantMap data);
+    void activateAsset(const QVariantMap effectData);
 
 private slots:
     void slotRevert();
