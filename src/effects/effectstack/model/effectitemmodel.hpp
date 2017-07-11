@@ -41,15 +41,18 @@ public:
 
     /* @brief This function plants the effect into the given service in last position
      */
-    void plant(const std::weak_ptr<Mlt::Service> &service);
+    void plant(const std::weak_ptr<Mlt::Service> &service) override;
     /* @brief This function unplants (removes) the effect from the given service
      */
-    void unplant(const std::weak_ptr<Mlt::Service> &service);
+    void unplant(const std::weak_ptr<Mlt::Service> &service) override;
 
     Mlt::Filter &filter() const;
 
     /* @brief Return true if the effect applies only to audio */
-    bool isAudio() const;
+    bool isAudio() const override;
+
+    /* @brief This function connect the dataChanged signal of the effects to the dataChanged signal of the model. This workarounds limitation with signal when using multiple inheritance */
+    void connectDataChanged();
 
 protected:
     EffectItemModel(const QList<QVariant> &data, Mlt::Properties *effect, const QDomElement &xml, const QString &effectId,

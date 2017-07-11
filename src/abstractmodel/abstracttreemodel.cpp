@@ -142,6 +142,19 @@ QModelIndex AbstractTreeModel::getIndexFromItem(const std::shared_ptr<TreeItem> 
     return index(item->row(), 0, parentIndex);
 }
 
+QModelIndex AbstractTreeModel::getIndexFromId(int id) const
+{
+    if (id == rootItem->getId()) {
+        return QModelIndex();
+    }
+    Q_ASSERT(m_allItems.count(id) > 0);
+    if (auto ptr = m_allItems.at(id).lock())
+        return getIndexFromItem(ptr);
+
+    Q_ASSERT(false);
+    return QModelIndex();
+}
+
 void AbstractTreeModel::notifyRowAboutToAppend(const std::shared_ptr<TreeItem> &item)
 {
     auto index = getIndexFromItem(item);

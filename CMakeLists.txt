@@ -43,6 +43,8 @@ add_definitions(-DTRANSLATION_DOMAIN=\"kdenlive\")
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH})
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+#SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -fsanitize=address -fno-omit-frame-pointer")
 # To be switched on when releasing.
 option(RELEASE_BUILD "Remove Git revision from program version (use for stable releases)" ON)
 
@@ -78,7 +80,7 @@ include(CheckIncludeFiles)
 check_include_files(malloc.h HAVE_MALLOC_H)
 check_include_files(pthread.h HAVE_PTHREAD_H)
 
-find_package(Qt5 REQUIRED COMPONENTS Core DBus Widgets Script Svg Quick )
+find_package(Qt5 REQUIRED COMPONENTS Core DBus Widgets Svg Quick )
 find_package(Qt5 OPTIONAL_COMPONENTS WebKitWidgets QUIET)
 
 find_package(KF5 5.23.0 OPTIONAL_COMPONENTS XmlGui QUIET)

@@ -37,6 +37,19 @@ public:
      */
     static std::shared_ptr<EffectGroupModel> construct(const QString &name, std::shared_ptr<AbstractTreeModel> stack);
 
+    /* @brief Return true if the effect applies only to audio */
+    bool isAudio() const override;
+
+    /* @brief This function plants the effect into the given service in last position
+     */
+    void plant(const std::weak_ptr<Mlt::Service> &service) override;
+    /* @brief This function unplants (removes) the effect from the given service
+     */
+    void unplant(const std::weak_ptr<Mlt::Service> &service) override;
+
+    /* @brief This function connect the dataChanged signal of the effects to the dataChanged signal of the model. This workarounds limitation with signal when using multiple inheritance */
+    void connectDataChanged();
+
 protected:
     EffectGroupModel(const QList<QVariant> &data, const QString &name, const std::shared_ptr<AbstractTreeModel> &stack);
 

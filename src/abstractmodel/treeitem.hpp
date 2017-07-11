@@ -43,7 +43,7 @@
  */
 
 class AbstractTreeModel;
-class TreeItem : public QObject, public enable_shared_from_this_virtual<TreeItem>
+class TreeItem :  public enable_shared_from_this_virtual<TreeItem>
 {
 public:
     /* @brief Construct a TreeItem

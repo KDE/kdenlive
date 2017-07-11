@@ -50,6 +50,19 @@ public:
     friend class EffectGroupModel;
 
     EffectItemType effectItemType() const;
+
+    /* @brief Return true if the effect or effect group applies only to audio */
+    virtual bool isAudio() const = 0;
+
+    /* @brief This function plants the effect into the given service in last position
+     */
+    virtual void plant(const std::weak_ptr<Mlt::Service> &service) = 0;
+    /* @brief This function unplants (removes) the effect from the given service
+     */
+    virtual void unplant(const std::weak_ptr<Mlt::Service> &service) = 0;
+
+    /* @brief This function connect the dataChanged signal of the effects to the dataChanged signal of the model. This workarounds limitation with signal when using multiple inheritance */
+    virtual void connectDataChanged() = 0;
 protected:
     /* @brief Toogles the mlt effect according to the current activation state*/
     virtual void updateEnable() = 0;

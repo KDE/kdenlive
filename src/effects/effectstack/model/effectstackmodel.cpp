@@ -133,18 +133,12 @@ void EffectStackModel::registerItem(const std::shared_ptr<TreeItem> &item)
 {
     auto effectItem = std::static_pointer_cast<AbstractEffectItem>(item);
     QModelIndex ix;
-    switch(effectItem->effectItemType()) {
-        case EffectItemType::Effect:{
-            auto effect = std::static_pointer_cast<EffectItemModel>(effectItem);
-            effect->plant(m_service);
-            effect->setEffectStackEnabled(m_effectStackEnabled);
-            ix = getIndexFromItem(effect);
-            connect(effect.get(), &EffectItemModel::dataChanged, this, &EffectStackModel::dataChanged);
-            if (!effect->isAudio()) {
-                pCore->refreshProjectItem(m_ownerId);
-            }
-            break;
-        }
+    effectItem->plant(m_service);
+    effectItem->setEffectStackEnabled(m_effectStackEnabled);
+    ix = getIndexFromItem(effectItem);
+    effectItem->connectDataChanged();
+    if (!effectItem->isAudio()) {
+        pCore->refreshProjectItem(m_ownerId);
     }
     AbstractTreeModel::registerItem(item);
     if (ix.isValid()) {
@@ -155,15 +149,9 @@ void EffectStackModel::registerItem(const std::shared_ptr<TreeItem> &item)
 void EffectStackModel::deregisterItem(int id, TreeItem *item)
 {
     auto effectItem = static_cast<AbstractEffectItem*>(item);
-    switch(effectItem->effectItemType()) {
-    case EffectItemType::Effect:{
-        auto effect = static_cast<EffectItemModel*>(effectItem);
-        effect->unplant(this->m_service);
-        if (!effect->isAudio()) {
-            pCore->refreshProjectItem(m_ownerId);
-        }
-        break;
-    }
+    effectItem->unplant(this->m_service);
+    if (!effectItem->isAudio()) {
+        pCore->refreshProjectItem(m_ownerId);
     }
     AbstractTreeModel::deregisterItem(id, item);
 }
@@ -174,7 +162,7 @@ void EffectStackModel::setEffectStackEnabled(bool enabled)
 
     // Recursively updates children states
     for (int i = 0; i < rootItem->childCount(); ++i) {
-        std::static_pointer_cast<EffectItemModel>(rootItem->child(i))->setEffectStackEnabled(enabled);
+        std::static_pointer_cast<AbstractEffectItem>(rootItem->child(i))->setEffectStackEnabled(enabled);
     }
 }
 
@@ -196,7 +184,6 @@ void EffectStackModel::importEffects(std::shared_ptr<EffectStackModel> sourceSta
         auto clone = EffectItemModel::construct(effect->getAssetId(), shared_from_this());
         rootItem->appendChild(clone);
         clone->setParameters(effect->getAllParameters());
-        bool isAudioEffect = EffectsRepository::get()->getType(effect->getAssetId()) == EffectType::Audio;
         // TODO parent should not always be root
         Fun redo = addItem_lambda(clone, rootItem->getId());
         redo();

@@ -51,6 +51,9 @@ public:
     /* @brief Given an item from the hierarchy, construct the corresponding ModelIndex */
     QModelIndex getIndexFromItem(const std::shared_ptr<TreeItem> &item) const;
 
+    /* @brief Given an item id, construct the corresponding ModelIndex */
+    QModelIndex getIndexFromId(int id) const;
+
     /* @brief Return a ptr to an item given its id */
     std::shared_ptr<TreeItem> getItemById(int id) const;
 

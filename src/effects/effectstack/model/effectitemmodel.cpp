@@ -83,10 +83,24 @@ void EffectItemModel::updateEnable()
 {
     filter().set("disable", isEnabled() ? 0 : 1);
     pCore->refreshProjectItem(m_ownerId);
-    emit dataChanged(index(row()), index(row()), QVector<int>());
+    if (auto ptr = m_model.lock()) {
+        QModelIndex index = ptr->getIndexFromId(m_id);
+        emit dataChanged(index, index, QVector<int>());
+    } else {
+        qDebug() << "Error, unable to send update to deleted model";
+        Q_ASSERT(false);
+    }
 }
 
 bool EffectItemModel::isAudio() const
 {
     return EffectsRepository::get()->getType(getAssetId()) == EffectType::Audio;
+}
+
+void EffectItemModel::connectDataChanged()
+{
+    if (auto ptr = m_model.lock()) {
+        auto model = std::static_pointer_cast<EffectStackModel>(ptr);
+        connect(this, &EffectItemModel::dataChanged, model.get(), &EffectStackModel::dataChanged);
+    }
 }
