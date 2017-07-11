@@ -282,7 +282,7 @@ void MainWindow::init()
     connect(m_loopClip, &QAction::triggered, m_projectMonitor, &Monitor::slotLoopClip);
 
     pCore->monitorManager()->initMonitors(m_clipMonitor, m_projectMonitor);
-    connect(m_clipMonitor, SIGNAL(addMasterEffect(QString, QDomElement)), pCore->bin(), SLOT(slotEffectDropped(QString, QDomElement)));
+    connect(m_clipMonitor, &Monitor::addMasterEffect, pCore->bin(), &Bin::slotAddEffect);
 
     m_timelineTabs = new TimelineTabs(this);
     ctnLay->addWidget(m_timelineTabs);

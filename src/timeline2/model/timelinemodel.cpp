@@ -99,6 +99,18 @@ int TimelineModel::getTracksCount() const
     return count - 1;
 }
 
+int TimelineModel::getTrackIndexFromPosition(int pos) const
+{
+    Q_ASSERT(pos >= 0 && pos < m_allTracks.size());
+    READ_LOCK();
+    auto it = m_allTracks.begin();
+    while (pos > 0) {
+        it++;
+        pos--;
+    }
+    return (*it)->getId();
+}
+
 int TimelineModel::getClipsCount() const
 {
     READ_LOCK();

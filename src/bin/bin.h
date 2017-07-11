@@ -419,7 +419,7 @@ public slots:
     /** @brief Pass some important properties to timeline track producers. */
     void updateTimelineProducers(const QString &id, const QMap<QString, QString> &passProperties);
     /** @brief Add effect to active Bin clip (used when double clicking an effect in list). */
-    void slotAddEffect(QString id, const QString &effectID);
+    void slotAddEffect(QString id, const QStringList &effectData);
     /** @brief Request current frame from project monitor.
      *  @param clipId is the id of a clip we want to hide from screenshot
      *  @param request true to start capture process, false to end it. It is necessary to emit a false after image is received

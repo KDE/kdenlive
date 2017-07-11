@@ -74,7 +74,7 @@ bool QuickEventEater::eventFilter(QObject *obj, QEvent *event)
     switch (event->type()) {
     case QEvent::DragEnter: {
         QDragEnterEvent *ev = reinterpret_cast<QDragEnterEvent *>(event);
-        if (ev->mimeData()->hasFormat(QStringLiteral("kdenlive/effectslist"))) {
+        if (ev->mimeData()->hasFormat(QStringLiteral("kdenlive/effect"))) {
             ev->acceptProposedAction();
             return true;
         }
@@ -82,7 +82,7 @@ bool QuickEventEater::eventFilter(QObject *obj, QEvent *event)
     }
     case QEvent::DragMove: {
         QDragEnterEvent *ev = reinterpret_cast<QDragEnterEvent *>(event);
-        if (ev->mimeData()->hasFormat(QStringLiteral("kdenlive/effectslist"))) {
+        if (ev->mimeData()->hasFormat(QStringLiteral("kdenlive/effect"))) {
             ev->acceptProposedAction();
             return true;
         }
@@ -91,10 +91,11 @@ bool QuickEventEater::eventFilter(QObject *obj, QEvent *event)
     case QEvent::Drop: {
         QDropEvent *ev = static_cast<QDropEvent *>(event);
         if (ev) {
-            const QString effects = QString::fromUtf8(ev->mimeData()->data(QStringLiteral("kdenlive/effectslist")));
-            QDomDocument doc;
-            doc.setContent(effects, true);
-            emit addEffect(doc.documentElement());
+            QStringList effectData;
+            effectData << QString::fromUtf8(ev->mimeData()->data(QStringLiteral("kdenlive/effect")));
+            QStringList source = QString::fromUtf8(ev->mimeData()->data(QStringLiteral("kdenlive/effectsource"))).split(QLatin1Char('-'));
+            effectData << source;
+            emit addEffect(effectData);
             ev->accept();
             return true;
         }
@@ -390,7 +391,7 @@ void Monitor::slotGetCurrentImage(bool request)
     }
 }
 
-void Monitor::slotAddEffect(const QDomElement &effect)
+void Monitor::slotAddEffect(const QStringList &effect)
 {
     if (m_id == Kdenlive::ClipMonitor) {
         if (m_controller) {

@@ -431,11 +431,14 @@ int TrackModel::getId() const
 int TrackModel::getClipByPosition(int position)
 {
     READ_LOCK();
-    QSharedPointer<Mlt::Producer> prod(m_playlists[0].get_clip_at(position));
-    if (prod->is_blank()) {
-        QSharedPointer<Mlt::Producer> prod(m_playlists[1].get_clip_at(position));
+    QSharedPointer<Mlt::Producer> prod(nullptr);
+    if (m_playlists[0].count() > 0) {
+        prod = QSharedPointer<Mlt::Producer>(m_playlists[0].get_clip_at(position));
     }
-    if (prod->is_blank()) {
+    if ((!prod || prod->is_blank()) && m_playlists[1].count() > 0) {
+        prod = QSharedPointer<Mlt::Producer>(m_playlists[1].get_clip_at(position));
+    }
+    if (!prod || prod->is_blank()) {
         return -1;
     }
     return prod->get_int("_kdenlive_cid");

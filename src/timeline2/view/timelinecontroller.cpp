@@ -548,3 +548,23 @@ QStringList TimelineController::extractCompositionLumas() const
 {
     return m_model->extractCompositionLumas();
 }
+
+void TimelineController::addEffectToCurrentClip(const QStringList &effectData)
+{
+    QList <int> activeClips;
+    for (int track = m_model->getTracksCount() - 1; track > 0; track--) {
+        int trackIx = m_model->getTrackIndexFromPosition(track);
+        int cid = m_model->getClipByPosition(trackIx, m_position);
+        if (cid > -1) {
+            activeClips << cid;
+        }
+    }
+    if (!activeClips.isEmpty()) {
+        if (effectData.count() == 4) {
+            QString effectString = effectData.at(1) + QStringLiteral("-") + effectData.at(2) + QStringLiteral("-") + effectData.at(3);
+            m_model->copyClipEffect(activeClips.first(), effectString);
+        } else {
+            m_model->addClipEffect(activeClips.first(), effectData.constFirst());
+        }
+    }
+}

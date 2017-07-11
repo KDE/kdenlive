@@ -42,6 +42,7 @@ TimelineTabs::TimelineTabs(QWidget *parent)
     tabBar()->tabButton(0, QTabBar::RightSide)->resize(0, 0);
     connect(pCore->monitorManager()->projectMonitor(), &Monitor::zoneUpdated, m_mainTimeline, &TimelineWidget::zoneUpdated);
     connect(m_mainTimeline, &TimelineWidget::zoneMoved, pCore->monitorManager()->projectMonitor(), &Monitor::slotLoadClipZone);
+    connect(pCore->monitorManager()->projectMonitor(), &Monitor::addEffect, m_mainTimeline->controller(), &TimelineController::addEffectToCurrentClip);
 }
 
 TimelineWidget *TimelineTabs::getMainTimeline() const

@@ -2406,7 +2406,7 @@ void Bin::slotItemDropped(const QStringList &ids, const QModelIndex &parent)
     m_doc->commandStack()->push(moveCommand);
 }
 
-void Bin::slotAddEffect(QString id, const QString &effectId)
+void Bin::slotAddEffect(QString id, const QStringList &effectData)
 {
     if (id.isEmpty()) {
         id = m_monitor->activeClipId();
@@ -2414,7 +2414,13 @@ void Bin::slotAddEffect(QString id, const QString &effectId)
     if (!id.isEmpty()) {
         std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(id);
         if (clip) {
-            clip->addEffect(effectId);
+            if (effectData.count() == 4) {
+                // Paste effect from another stack
+                std::shared_ptr<EffectStackModel> sourceStack = pCore->getItemEffectStack(effectData.at(1).toInt(), effectData.at(2).toInt());
+                clip->copyEffect(sourceStack, effectData.at(3).toInt());
+            } else {
+                clip->addEffect(effectData.constFirst());
+            }
             return;
         }
     }

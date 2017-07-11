@@ -64,7 +64,7 @@ protected:
     bool eventFilter(QObject *obj, QEvent *event) override;
 
 signals:
-    void addEffect(const QDomElement &);
+    void addEffect(const QStringList&);
 };
 
 class QuickMonitorEventEater : public QObject
@@ -259,7 +259,7 @@ private slots:
     /** @brief Display a non blocking error message to user **/
     void warningMessage(const QString &text, int timeout = 5000, const QList<QAction *> &actions = QList<QAction *>());
     void slotLockMonitor(bool lock);
-    void slotAddEffect(const QDomElement &effect);
+    void slotAddEffect(const QStringList &effect);
     void slotSwitchPlay();
     void slotEditInlineMarker();
     /** @brief Pass keypress event to mainwindow */
@@ -358,8 +358,8 @@ signals:
     void showConfigDialog(int, int);
     /** @brief Request display of current bin clip. */
     void refreshCurrentClip();
-    void addEffect(const QDomElement &);
-    void addMasterEffect(const QString &, const QDomElement &);
+    void addEffect(const QStringList &);
+    void addMasterEffect(QString, const QStringList &);
     void passKeyPress(QKeyEvent *);
     /** @brief Enable / disable project monitor multitrack view (split view with one track in each quarter). */
     void multitrackView(bool);

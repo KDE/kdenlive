@@ -224,6 +224,7 @@ public slots:
     void selectMultitrack();
     Q_INVOKABLE void setSeekPosition(int position);
     void onSeeked(int position);
+    void addEffectToCurrentClip(const QStringList &effectData);
 
 private:
     QQuickItem *m_root;
