@@ -216,7 +216,7 @@ Rectangle {
         RowLayout {
             spacing: 0
             id: buttonBar
-            visible: (trackHeadRoot.height > trackLabel.height + muteButton.height + resizer.height + 4)
+            visible: (trackHeadRoot.height >= trackLabel.height + muteButton.height + resizer.height)
             Layout.leftMargin: 2
             ToolButton {
                 id: muteButton

@@ -2411,13 +2411,14 @@ void Bin::slotAddEffect(QString id, const QString &effectId)
     if (id.isEmpty()) {
         id = m_monitor->activeClipId();
     }
-    if (id.isEmpty()) {
-        return;
+    if (!id.isEmpty()) {
+        std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(id);
+        if (clip) {
+            clip->addEffect(effectId);
+            return;
+        }
     }
-    std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(id);
-    if (clip) {
-        clip->addEffect(effectId);
-    }
+    pCore->displayMessage(i18n("Select a clip to apply an effect"), InformationMessage, 500);
 }
 
 void Bin::slotEffectDropped(const QStringList &effectData, const QModelIndex &parent)

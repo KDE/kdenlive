@@ -62,6 +62,22 @@ Rectangle {
             spacing: 6
             ExclusiveGroup { id: filterGroup}
             ToolButton {
+                id: searchList
+                implicitWidth: 40
+                implicitHeight: 40
+                iconName: "edit-find"
+                checkable: true
+                tooltip: isEffectList ? i18n('Find effect') : i18n('Find composition')
+                onCheckedChanged: {
+                    searchInput.visible = searchList.checked
+                    searchInput.focus = searchList.checked
+                    if (!searchList.checked) {
+                        searchInput.text = ''
+                        treeView.focus = true
+                    }
+                }
+            }
+            ToolButton {
                 id: showAll
                 implicitWidth: 40
                 implicitHeight: 40
@@ -119,22 +135,6 @@ Rectangle {
                 Layout.fillHeight: true
                 Layout.fillWidth: true
                 color: "transparent"
-            }
-            ToolButton {
-                id: searchList
-                implicitWidth: 40
-                implicitHeight: 40
-                iconName: "edit-find"
-                checkable: true
-                tooltip: isEffectList ? i18n('Find effect') : i18n('Find composition')
-                onCheckedChanged: {
-                    searchInput.visible = searchList.checked
-                    searchInput.focus = searchList.checked
-                    if (!searchList.checked) {
-                        searchInput.text = ''
-                        treeView.focus = true
-                    }
-                }
             }
             ToolButton {
                 id: showDescription
