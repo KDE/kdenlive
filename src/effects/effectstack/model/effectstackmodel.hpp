@@ -60,6 +60,7 @@ public:
     /* @brief Import all effects from the given effect stack
      */
     void importEffects(std::shared_ptr<EffectStackModel> sourceStack);
+    bool removeEffectById(const QString &effectName);
 
     /* @brief This function change the global (timeline-wise) enabled state of the effects
      */
@@ -75,11 +76,16 @@ public:
     void setActiveEffect(int ix);
     /* @brief Get currently active effect row */
     int getActiveEffect() const;
+    /* @brief Adjust an effect duration (useful for fades) */
+    bool adjustEffectLength(const QString &effectName, int duration);
 
     void slotCreateGroup(std::shared_ptr<EffectItemModel> childEffect);
 
     /* @brief Returns the id of the owner of the stack */
     ObjectId getOwnerId() const;
+
+    int getFadeIn();
+    int getFadeOut();
 
 public slots:
     /* @brief Delete an effect from the stack */

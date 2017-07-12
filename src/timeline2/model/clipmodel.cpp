@@ -200,6 +200,20 @@ bool ClipModel::copyEffect(std::shared_ptr<EffectStackModel> stackModel, int row
     return true;
 }
 
+bool ClipModel::removeEffect(const QString &effectId)
+{
+    READ_LOCK();
+    m_effectStack->removeEffectById(effectId);
+    return true;
+}
+
+bool ClipModel::adjustEffectLength(const QString &effectName, int duration)
+{
+    READ_LOCK();
+    m_effectStack->adjustEffectLength(effectName, duration);
+    return true;
+}
+
 bool ClipModel::hasAudio() const
 {
     READ_LOCK();
@@ -249,3 +263,14 @@ std::shared_ptr<MarkerListModel> ClipModel::getMarkerModel() const
     READ_LOCK();
     return pCore->bin()->getBinClip(m_binClipId)->getMarkerModel();
 }
+
+int ClipModel::fadeIn() const
+{
+    return m_effectStack->getFadeIn();
+}
+
+int ClipModel::fadeOut() const
+{
+    return m_effectStack->getFadeOut();
+}
+

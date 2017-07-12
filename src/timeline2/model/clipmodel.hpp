@@ -87,6 +87,11 @@ public:
 
     bool addEffect(const QString &effectId);
     bool copyEffect(std::shared_ptr<EffectStackModel> stackModel, int rowId);
+    bool removeEffect(const QString &effectId);
+    bool adjustEffectLength(const QString &effectName, int duration);
+
+    int fadeIn() const;
+    int fadeOut() const;
 
     friend class TrackModel;
     friend class TimelineModel;

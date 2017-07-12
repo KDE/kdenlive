@@ -375,12 +375,12 @@ Rectangle {
 
     TimelineTriangle {
         id: fadeInTriangle
-        width: parent.fadeIn * timeScale
+        width: clipRoot.fadeIn * timeScale
         height: parent.height - parent.border.width * 2
         anchors.left: parent.left
         anchors.top: parent.top
         anchors.margins: parent.border.width
-        opacity: 0.5
+        opacity: 0.3
     }
     Rectangle {
         id: fadeInControl
@@ -407,17 +407,20 @@ Rectangle {
             property int startFadeIn
             onEntered: parent.opacity = 0.7
             onExited: parent.opacity = 0
+            drag.smoothed: false
             onPressed: {
                 root.stopScrolling = true
                 startX = parent.x
-                startFadeIn = fadeIn
+                startFadeIn = clipRoot.fadeIn
                 parent.anchors.left = undefined
                 parent.anchors.horizontalCenter = undefined
                 parent.opacity = 1
+                fadeInTriangle.opacity = 0.5
                 // trackRoot.clipSelected(clipRoot, trackRoot) TODO
             }
             onReleased: {
                 root.stopScrolling = false
+                fadeInTriangle.opacity = 0.3
                 if (fadeInTriangle.width > parent.radius)
                     parent.anchors.horizontalCenter = fadeInTriangle.right
                 else
@@ -428,7 +431,8 @@ Rectangle {
                 if (mouse.buttons === Qt.LeftButton) {
                     var delta = Math.round((parent.x - startX) / timeScale)
                     var duration = startFadeIn + delta
-                    timeline.fadeIn(trackIndex, index, duration)
+                    clipRoot.fadeIn = duration;
+                    timeline.adjustFade(clipRoot.clipId, 'fadein', duration)
 
                     // Show fade duration as time in a "bubble" help.
                     var s = timeline.timecode(Math.max(duration, 0))
@@ -456,12 +460,12 @@ Rectangle {
 
     TimelineTriangle {
         id: fadeOutCanvas
-        width: parent.fadeOut * timeScale
+        width: clipRoot.fadeOut * timeScale
         height: parent.height - parent.border.width * 2
         anchors.right: parent.right
         anchors.top: parent.top
         anchors.margins: parent.border.width
-        opacity: 0.5
+        opacity: 0.3
         transform: Scale { xScale: -1; origin.x: fadeOutCanvas.width / 2}
     }
     Rectangle {
@@ -489,15 +493,18 @@ Rectangle {
             property int startFadeOut
             onEntered: parent.opacity = 0.7
             onExited: parent.opacity = 0
+            drag.smoothed: false
             onPressed: {
                 root.stopScrolling = true
                 startX = parent.x
-                startFadeOut = fadeOut
+                startFadeOut = clipRoot.fadeOut
                 parent.anchors.right = undefined
                 parent.anchors.horizontalCenter = undefined
                 parent.opacity = 1
+                fadeOutCanvas.opacity = 0.5
             }
             onReleased: {
+                fadeOutCanvas.opacity = 0.3
                 root.stopScrolling = false
                 if (fadeOutCanvas.width > parent.radius)
                     parent.anchors.horizontalCenter = fadeOutCanvas.left
@@ -509,7 +516,8 @@ Rectangle {
                 if (mouse.buttons === Qt.LeftButton) {
                     var delta = Math.round((startX - parent.x) / timeScale)
                     var duration = startFadeOut + delta
-                    timeline.fadeOut(trackIndex, index, duration)
+                    clipRoot.fadeOut = duration
+                    timeline.adjustFade(clipRoot.clipId, 'fadeout', duration)
 
                     // Show fade duration as time in a "bubble" help.
                     var s = timeline.timecode(Math.max(duration, 0))

@@ -1041,6 +1041,12 @@ bool TimelineModel::addClipEffect(int clipId, const QString &effectId)
     return m_allClips.at(clipId)->addEffect(effectId);
 }
 
+bool TimelineModel::removeEffect(int clipId, const QString &effectId)
+{
+    Q_ASSERT(m_allClips.count(clipId) > 0);
+    return m_allClips.at(clipId)->removeEffect(effectId);
+}
+
 std::shared_ptr<EffectStackModel> TimelineModel::getClipEffectStack(int itemId)
 {
     Q_ASSERT(m_allClips.count(itemId));
@@ -1056,6 +1062,13 @@ bool TimelineModel::copyClipEffect(int clipId, const QString &sourceId)
     int itemRow = source.at(2).toInt();
     std::shared_ptr<EffectStackModel> effectStack = pCore->getItemEffectStack(itemType, itemId);
     return m_allClips.at(clipId)->copyEffect(effectStack, itemRow);;
+}
+
+bool TimelineModel::adjustEffectLength(int clipId, const QString &effectId, int duration)
+{
+    Q_ASSERT(m_allClips.count(clipId));
+    bool res = m_allClips.at(clipId)->adjustEffectLength(effectId, duration);
+    return res;
 }
 
 std::shared_ptr<CompositionModel> TimelineModel::getCompositionPtr(int compoId) const

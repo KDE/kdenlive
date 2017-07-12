@@ -568,3 +568,17 @@ void TimelineController::addEffectToCurrentClip(const QStringList &effectData)
         }
     }
 }
+
+void TimelineController::adjustFade(int cid, const QString &effectId, int duration)
+{
+    if (duration <= 0) {
+        // remove fade
+        m_model->removeEffect(cid, effectId);
+    } else {
+        m_model->adjustEffectLength(cid, effectId, duration);
+        QModelIndex ix = m_model->makeClipIndexFromID(cid);
+        QVector <int> roles;
+        roles << TimelineModel::FadeInRole;
+        m_model->dataChanged(ix, ix, roles);
+    }
+}

@@ -90,6 +90,18 @@ Column{
                     value: scrollView.flickableItem.contentX
                     when: loader.status == Loader.Ready
                 }
+                Binding {
+                    target: loader.item
+                    property: "fadeIn"
+                    value: model.fadeIn
+                    when: loader.status == Loader.Ready && !loader.item.isComposition
+                }
+                Binding {
+                    target: loader.item
+                    property: "fadeOut"
+                    value: model.fadeOut
+                    when: loader.status == Loader.Ready && !loader.item.isComposition
+                }
 
                 Binding {
                     target: loader.item
@@ -146,8 +158,8 @@ Column{
                         item.audioLevels= model.audioLevels
                         item.isAudio= model.audio
                         item.markers= model.markers
-                        item.fadeIn= 0 //model.fadeIn
-                        item.fadeOut= 0 //model.fadeOut
+                        item.fadeIn = model.fadeIn
+                        item.fadeOut = model.fadeOut
                         item.hasAudio = model.hasAudio
                     } else {
                         item.a_track = model.a_track

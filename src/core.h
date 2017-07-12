@@ -139,6 +139,8 @@ public:
     void adjustAssetRange(int itemId, int in, int out);
     /** @brief Returns the effectstack of a given bin clip. */
     std::shared_ptr<EffectStackModel> getItemEffectStack(int itemType, int itemId);
+    int getItemIn(const ObjectId &id);
+    int getItemDuration(const ObjectId &id);
 
     std::shared_ptr<DocUndoStack> undoStack();
 

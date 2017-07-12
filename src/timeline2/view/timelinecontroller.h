@@ -196,6 +196,9 @@ public:
     /* @brief Request a spacer operation
      */
     Q_INVOKABLE bool requestSpacerEndOperation(int clipId, int startPosition, int endPosition);
+    /* @brief Request a Fade in effect for clip
+     */
+    Q_INVOKABLE void adjustFade(int cid, const QString &effectId, int duration);
     /* @brief Seeks to selected clip start / end
      */
     void seekCurrentClip(bool seekToEnd = false);

@@ -330,6 +330,44 @@ void Core::refreshProjectRange(QSize range)
     m_monitorManager->refreshProjectRange(range);
 }
 
+int Core::getItemIn(const ObjectId &id)
+{
+    switch(id.first) {
+    case ObjectType::TimelineClip:
+        if(m_mainWindow->getCurrentTimeline()->controller()->getModel()->isClip(id.second)) {
+            return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getClipPosition(id.second);
+        }
+        break;
+    case ObjectType::TimelineComposition:
+        if(m_mainWindow->getCurrentTimeline()->controller()->getModel()->isComposition(id.second)) {
+            return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getCompositionPosition(id.second);
+        }
+        break;
+    default:
+        qDebug() << "ERROR: unhandled object type";
+    }
+    return 0;
+}
+
+int Core::getItemDuration(const ObjectId &id)
+{
+    switch(id.first) {
+    case ObjectType::TimelineClip:
+        if(m_mainWindow->getCurrentTimeline()->controller()->getModel()->isClip(id.second)) {
+            return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getClipPlaytime(id.second);
+        }
+        break;
+    case ObjectType::TimelineComposition:
+        if(m_mainWindow->getCurrentTimeline()->controller()->getModel()->isComposition(id.second)) {
+            return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getCompositionPlaytime(id.second);
+        }
+        break;
+    default:
+        qDebug() << "ERROR: unhandled object type";
+    }
+    return 0;
+}
+
 void Core::refreshProjectItem(const ObjectId &id)
 {
     if (!m_guiConstructed)

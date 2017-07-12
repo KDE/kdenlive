@@ -99,6 +99,74 @@ void EffectStackModel::appendEffect(const QString &effectId)
     }
 }
 
+bool EffectStackModel::adjustEffectLength(const QString &effectName, int duration)
+{
+    int row = -1;
+    for (int i = 0; i < rootItem->childCount(); ++i) {
+        if (std::static_pointer_cast<AbstractEffectItem>(rootItem->child(i))->dataColumn(1) == effectName) {
+            row = i;
+            break;
+        }
+    }
+    if (row == -1) {
+        appendEffect(effectName);
+        row = rootItem->childCount() - 1;
+    }
+    std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(getEffectStackRow(row));
+    if (effectName == QLatin1String("fadein")) {
+        effect->filter().set("out", duration);
+        QModelIndex ix = getIndexFromItem(effect);
+        emit dataChanged(ix, ix, QVector<int>());
+    }
+    else if (effectName == QLatin1String("fadeout")) {
+        int out = pCore->getItemDuration(m_ownerId);
+        effect->filter().set("out", out);
+        effect->filter().set("in", out - duration);
+        QModelIndex ix = getIndexFromItem(effect);
+        emit dataChanged(ix, ix, QVector<int>());
+    }
+    return true;
+}
+
+int EffectStackModel::getFadeIn()
+{
+    for (int i = 0; i < rootItem->childCount(); ++i) {
+        if (std::static_pointer_cast<AbstractEffectItem>(rootItem->child(i))->dataColumn(1) == QLatin1String("fadein")) {
+            std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(getEffectStackRow(i));
+            return effect->filter().get_int("out");
+        }
+    }
+    return 0;
+}
+
+int EffectStackModel::getFadeOut()
+{
+    for (int i = 0; i < rootItem->childCount(); ++i) {
+        if (std::static_pointer_cast<AbstractEffectItem>(rootItem->child(i))->dataColumn(1) == QLatin1String("fadeout")) {
+            std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(getEffectStackRow(i));
+            return effect->filter().get_int("out") - effect->filter().get_int("in");
+        }
+    }
+    return 0;
+}
+
+bool EffectStackModel::removeEffectById(const QString &effectName)
+{
+    int row = -1;
+    for (int i = 0; i < rootItem->childCount(); ++i) {
+        if (std::static_pointer_cast<AbstractEffectItem>(rootItem->child(i))->dataColumn(1) == effectName) {
+            row = i;
+            break;
+        }
+    }
+    if (row == -1) {
+        return false;
+    }
+    std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(getEffectStackRow(row));
+    removeEffect(effect);
+    return true;
+}
+
 void EffectStackModel::moveEffect(int destRow, std::shared_ptr<AbstractEffectItem> item)
 {
     if (item->childCount() > 0) {

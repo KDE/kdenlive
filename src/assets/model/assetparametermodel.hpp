@@ -86,7 +86,9 @@ public:
         FactorRole,
         OpacityRole,
         InRole,
-        OutRole
+        OutRole,
+        ParentInRole,
+        ParentDurationRole
     };
 
     /* @brief Returns the id of the asset represented by this object */

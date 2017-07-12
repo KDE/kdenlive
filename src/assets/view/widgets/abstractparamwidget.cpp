@@ -21,6 +21,7 @@
 #include "assets/model/assetparametermodel.hpp"
 #include "boolparamwidget.hpp"
 #include "doubleparamwidget.hpp"
+#include "positioneditwidget.hpp"
 #include "effectstack/widgets/animationwidget.h"
 #include "effectstack/widgets/keyframeedit.h"
 #include "effectstack/widgets/listparamwidget.h"
@@ -86,10 +87,12 @@ AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetP
     case ParamType::Keyframe:
         widget = new KeyframeEdit(model, index, parent);
         break;
+    case ParamType::Position:
+        widget = new PositionEditWidget(model, index, parent);
+        break;
     case ParamType::Switch:
     case ParamType::Addedgeometry:
     case ParamType::Color:
-    case ParamType::Position:
     case ParamType::Curve:
     case ParamType::Bezier_spline:
     case ParamType::Roto_spline:

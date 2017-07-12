@@ -243,6 +243,10 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             return clip->getOut();
         case IsCompositionRole:
             return false;
+        case FadeInRole:
+            return clip->fadeIn();
+        case FadeOutRole:
+            return clip->fadeOut();
         default:
             break;
         }

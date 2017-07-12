@@ -17,7 +17,7 @@ public:
         path.moveTo(0, 0);
         path.lineTo(width(), 0);
         path.lineTo(0, height());
-        painter->fillPath(path, Qt::black);
+        painter->fillPath(path, Qt::red);
     }
 };
 
