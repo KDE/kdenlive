@@ -93,7 +93,6 @@ void Core::build(const QString &MltPath)
         m_self->m_profile = ProjectManager::getDefaultProjectFormat();
         KdenliveSettings::setDefault_profile(m_self->m_profile);
     }
-    m_self->profileChanged();
 
     // Init producer shown for unavailable media
     // TODO make it a more proper image
@@ -103,10 +102,11 @@ void Core::build(const QString &MltPath)
 
 void Core::initGUI(const QUrl &Url)
 {
-    m_mainWindow = new MainWindow();
-
-    // load default profile and ask user to select one if not found.
     m_profile = KdenliveSettings::default_profile();
+    m_currentProfile = m_profile;
+    profileChanged();
+    m_mainWindow = new MainWindow();
+    // load default profile and ask user to select one if not found.
     if (m_profile.isEmpty()) {
         m_profile = ProjectManager::getDefaultProjectFormat();
         profileChanged();
@@ -271,7 +271,6 @@ std::unique_ptr<Mlt::Repository> &Core::getMltRepository()
 
 std::unique_ptr<ProfileModel> &Core::getCurrentProfile() const
 {
-    // TODO store locally the profile and not in parameters
     return ProfileRepository::get()->getProfile(m_currentProfile);
 }
 
