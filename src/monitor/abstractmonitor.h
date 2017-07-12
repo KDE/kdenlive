@@ -88,6 +88,7 @@ public slots:
     virtual void stop() = 0;
     virtual void start() = 0;
     virtual void slotPlay() = 0;
+    virtual void refreshMonitorIfActive() = 0;
     virtual void slotMouseSeek(int eventDelta, int modifiers) = 0;
     bool slotActivateMonitor(bool forceRefresh = false);
     virtual void slotSwitchFullScreen(bool minimizeOnly = false) = 0;
@@ -95,6 +96,14 @@ public slots:
 protected:
     Kdenlive::MonitorId m_id;
     MonitorManager *m_monitorManager;
+
+signals:
+    /** @brief Send a frame for analysis or title background display. */
+    void frameUpdated(const QImage &);
+    /** @brief This signal contains the audio of the current frame. */
+    void audioSamplesSignal(const audioShortVector &, int, int, int);
+    /** @brief Scopes are ready to receive a new frame. */
+    void scopesClear();
 };
 
 #endif

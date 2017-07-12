@@ -730,6 +730,7 @@ Bin::~Bin()
     m_proxyModel->selectionModel()->blockSignals(true);
     setEnabled(false);
     abortOperations();
+    m_itemModel->clean();
 }
 
 QDockWidget *Bin::clipPropertiesDock()

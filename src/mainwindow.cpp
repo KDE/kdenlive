@@ -726,6 +726,7 @@ void MainWindow::slotReloadTheme()
 
 MainWindow::~MainWindow()
 {
+    ClipController::mediaUnavailable.reset();
     delete m_audioSpectrum;
     if (m_projectMonitor) {
         m_projectMonitor->stop();

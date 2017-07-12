@@ -143,7 +143,6 @@ public:
     void refreshIcons();
     /** @brief Send audio thumb data to qml for on monitor display */
     void prepareAudioThumb(int channels, QVariantList &audioCache);
-    void refreshMonitorIfActive();
     void connectAudioSpectrum(bool activate);
     /** @brief Set a property on the Qml scene **/
     void setQmlProperty(const QString &name, const QVariant &value);
@@ -333,6 +332,7 @@ public slots:
     void requestSeek(int pos);
     /** @brief Check current position to show relevant infos in qml view (markers, zone in/out, etc). */
     void checkOverlay(int pos = -1);
+    void refreshMonitorIfActive() override;
 
 signals:
     void seekPosition(int);
@@ -373,8 +373,6 @@ signals:
     void removeSplitOverlay();
     void acceptRipple(bool);
     void switchTrimMode(int);
-    /** @brief Send a frame for analysis of title background display. */
-    void frameUpdated(const QImage &);
 };
 
 #endif

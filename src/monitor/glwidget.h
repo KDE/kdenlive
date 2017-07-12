@@ -115,6 +115,17 @@ public:
     void startConsumer();
     void stop();
     int rulerHeight() const;
+    QImage extractFrame(int frame_position, const QString &path = QString(), int width = -1, int height = -1);
+    /** @brief return current play producer's playing speed */
+    double playSpeed() const;
+    /** @brief Turn drop frame feature on/off */
+    void setDropFrames(bool drop);
+    /** @brief Returns current audio volume */
+    int volume() const;
+    /** @brief Set audio volume on consumer */
+    void setVolume(double volume);
+    /** @brief Returns current producer's duration in frames */
+    int duration() const;
 
 protected:
     void mouseReleaseEvent(QMouseEvent *event) override;

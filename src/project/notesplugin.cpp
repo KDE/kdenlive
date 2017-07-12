@@ -32,13 +32,13 @@ NotesPlugin::NotesPlugin(ProjectManager *projectManager)
 
 void NotesPlugin::setProject(KdenliveDoc *document)
 {
-    connect(m_widget, &NotesWidget::seekProject, pCore->monitorManager()->projectMonitor()->render, &Render::seekToFrame);
+    connect(m_widget, &NotesWidget::seekProject, pCore->monitorManager()->projectMonitor(), &Monitor::requestSeek);
     connect(m_widget, SIGNAL(textChanged()), document, SLOT(setModified()));
 }
 
 void NotesPlugin::slotInsertTimecode()
 {
-    int frames = pCore->monitorManager()->projectMonitor()->render->seekPosition().frames(pCore->getCurrentFps());
+    int frames = pCore->monitorManager()->projectMonitor()->position();
     QString position = pCore->projectManager()->current()->timecode().getTimecodeFromFrames(frames);
     m_widget->insertHtml(QStringLiteral("<a href=\"") + QString::number(frames) + QStringLiteral("\">") + position + QStringLiteral("</a> "));
 }

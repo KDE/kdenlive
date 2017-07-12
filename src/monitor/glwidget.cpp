@@ -30,6 +30,7 @@
 
 #include "core.h"
 #include "glwidget.h"
+#include "doc/kthumb.h"
 #include "kdenlivesettings.h"
 #include "mltcontroller/bincontroller.h"
 #include "profiles/profilemodel.hpp"
@@ -1793,6 +1794,9 @@ int GLWidget::rulerHeight() const
 
 void GLWidget::startConsumer()
 {
+    if (m_consumer == nullptr) {
+        return;
+    }
     if (m_consumer->is_stopped() && m_consumer->start() == -1) {
         // ARGH CONSUMER BROKEN!!!!
         KMessageBox::error(
@@ -1826,4 +1830,102 @@ void GLWidget::stop()
             m_consumer->stop();
         }
     }
+}
+
+QImage GLWidget::extractFrame(int frame_position, const QString &path, int width, int height)
+{
+    if (width == -1) {
+        width = m_monitorProfile->width();
+        height = m_monitorProfile->height();
+    } else if (width % 2 == 1) {
+        width++;
+    }
+    if (!path.isEmpty()) {
+        Mlt::Producer *producer = new Mlt::Producer(*m_monitorProfile, path.toUtf8().constData());
+        if (producer) {
+            if (producer->is_valid()) {
+                QImage img = KThumb::getFrame(producer, frame_position, width, height);
+                delete producer;
+                return img;
+            }
+            delete producer;
+        }
+    }
+    if (m_producer == nullptr) {
+        QImage pix(width, height, QImage::Format_RGB32);
+        pix.fill(Qt::black);
+        return pix;
+    }
+    Mlt::Frame *frame = nullptr;
+    if (KdenliveSettings::gpu_accel()) {
+        QString service = m_producer->get("mlt_service");
+        // TODO: create duplicate prod from xml data
+        Mlt::Producer *tmpProd = new Mlt::Producer(*m_monitorProfile, service.toUtf8().constData(), path.toUtf8().constData());
+        Mlt::Filter scaler(*m_monitorProfile, "swscale");
+        Mlt::Filter converter(*m_monitorProfile, "avcolor_space");
+        tmpProd->attach(scaler);
+        tmpProd->attach(converter);
+        tmpProd->seek(m_producer->position());
+        frame = tmpProd->get_frame();
+        delete tmpProd;
+    } else {
+        frame = m_producer->get_frame();
+    }
+    QImage img = KThumb::getFrame(frame, width, height);
+    delete frame;
+    return img;
+}
+
+double GLWidget::playSpeed() const
+{
+    if (m_producer) {
+        return m_producer->get_speed();
+    }
+    return 0.0;
+}
+
+void GLWidget::setDropFrames(bool drop)
+{
+    QMutexLocker locker(&m_mutex);
+    if (m_consumer) {
+        int dropFrames = realTime();
+        if (!drop) {
+            dropFrames = -dropFrames;
+        }
+        m_consumer->stop();
+        m_consumer->set("real_time", dropFrames);
+        if (m_consumer->start() == -1) {
+            qCWarning(KDENLIVE_LOG) << "ERROR, Cannot start monitor";
+        }
+    }
+}
+
+int GLWidget::volume() const
+{
+    if ((m_consumer == nullptr) || (m_producer == nullptr)) {
+        return -1;
+    }
+    if (m_consumer->get("mlt_service") == QStringLiteral("multi")) {
+        return ((int)100 * m_consumer->get_double("0.volume"));
+    }
+    return ((int)100 * m_consumer->get_double("volume"));
+}
+
+void GLWidget::setVolume(double volume)
+{
+    if (m_consumer) {
+        if (m_consumer->get("mlt_service") == QStringLiteral("multi")) {
+            m_consumer->set("0.volume", volume);
+        } else {
+            m_consumer->set("volume", volume);
+        }
+    }
+}
+
+int GLWidget::duration() const
+{
+    if (m_producer == nullptr) {
+        return 0;
+    }
+    return m_producer->get_playtime();
 }

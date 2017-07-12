@@ -54,10 +54,9 @@ Core::Core()
 Core::~Core()
 {
     if (m_monitorManager) {
-        m_monitorManager->stopActiveMonitor();
         delete m_monitorManager;
     }
-    delete m_producerQueue;
+    //delete m_producerQueue;
     // delete m_binWidget;
     delete m_projectManager;
 }
@@ -97,7 +96,7 @@ void Core::build(const QString &MltPath)
     m_self->profileChanged();
 
     // Init producer shown for unavailable media
-    // TODO make it a more proper image, it currently causes a crash on exit
+    // TODO make it a more proper image
     ClipController::mediaUnavailable = std::make_shared<Mlt::Producer>(ProfileRepository::get()->getProfile(m_self->m_profile)->profile(), "color:blue");
     ClipController::mediaUnavailable->set("length", 99999999);
 }

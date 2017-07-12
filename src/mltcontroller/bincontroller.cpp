@@ -34,6 +34,7 @@ BinController::BinController(const QString &profileName)
 BinController::~BinController()
 {
     qDebug() << "/// delete bincontroller";
+    qDebug()<<"REMAINING CLIPS: "<<m_clipList.keys();
     destroyBin();
 }
 

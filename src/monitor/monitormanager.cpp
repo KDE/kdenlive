@@ -338,10 +338,10 @@ void MonitorManager::updateScopeSource()
     emit checkColorScopes();
 }
 
-AbstractRender *MonitorManager::activeRenderer()
+AbstractMonitor *MonitorManager::activeMonitor()
 {
     if (m_activeMonitor) {
-        return m_activeMonitor->abstractRender();
+        return m_activeMonitor;
     }
     return nullptr;
 }

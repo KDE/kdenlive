@@ -185,7 +185,9 @@ void ScopeManager::slotRequestFrame(const QString &widgetName)
         }
     }
     if (m_lastConnectedRenderer) {
-        m_lastConnectedRenderer->sendFrameUpdate();
+        //TODO: trigger refresh?
+        m_lastConnectedRenderer->refreshMonitorIfActive();
+        //m_lastConnectedRenderer->sendFrameUpdate();
     }
 }
 
@@ -204,7 +206,7 @@ void ScopeManager::slotUpdateActiveRenderer()
         m_lastConnectedRenderer->disconnect(this);
     }
 
-    m_lastConnectedRenderer = pCore->monitorManager()->activeRenderer();
+    m_lastConnectedRenderer = pCore->monitorManager()->activeMonitor();
     // DVD monitor shouldn't be monitored or will cause crash on deletion
     if (pCore->monitorManager()->isActive(Kdenlive::DvdMonitor)) {
         m_lastConnectedRenderer = nullptr;
@@ -212,8 +214,8 @@ void ScopeManager::slotUpdateActiveRenderer()
 
     // Connect new renderer
     if (m_lastConnectedRenderer != nullptr) {
-        connect(m_lastConnectedRenderer, &AbstractRender::frameUpdated, this, &ScopeManager::slotDistributeFrame, Qt::UniqueConnection);
-        connect(m_lastConnectedRenderer, &AbstractRender::audioSamplesSignal, this, &ScopeManager::slotDistributeAudio, Qt::UniqueConnection);
+        connect(m_lastConnectedRenderer, &Monitor::frameUpdated, this, &ScopeManager::slotDistributeFrame, Qt::UniqueConnection);
+        connect(m_lastConnectedRenderer, &Monitor::audioSamplesSignal, this, &ScopeManager::slotDistributeAudio, Qt::UniqueConnection);
 
 #ifdef DEBUG_SM
         qCDebug(KDENLIVE_LOG) << "Renderer connected to ScopeManager: " << m_lastConnectedRenderer->id();
@@ -223,7 +225,7 @@ void ScopeManager::slotUpdateActiveRenderer()
 #ifdef DEBUG_SM
             qCDebug(KDENLIVE_LOG) << "Some scopes accept images, triggering frame update.";
 #endif
-            m_lastConnectedRenderer->sendFrameUpdate();
+            m_lastConnectedRenderer->refreshMonitorIfActive();
         }
     }
 }

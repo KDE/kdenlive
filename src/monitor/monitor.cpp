@@ -288,11 +288,11 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     setLayout(layout);
     setMinimumHeight(200);
 
-    render = new Render(m_id, m_monitorManager->binController(), m_glMonitor, this);
+    //render = new Render(m_id, m_monitorManager->binController(), m_glMonitor, this);
 
-    connect(render, &AbstractRender::scopesClear, m_glMonitor, &GLWidget::releaseAnalyse, Qt::DirectConnection);
-    connect(m_glMonitor, SIGNAL(analyseFrame(QImage)), this, SIGNAL(frameUpdated(QImage)));
-    connect(m_glMonitor, &GLWidget::audioSamplesSignal, render, &AbstractRender::audioSamplesSignal);
+    connect(this, &Monitor::scopesClear, m_glMonitor, &GLWidget::releaseAnalyse, Qt::DirectConnection);
+    connect(m_glMonitor, &GLWidget::analyseFrame, this, &Monitor::frameUpdated);
+    connect(m_glMonitor, &GLWidget::audioSamplesSignal, this, &Monitor::audioSamplesSignal);
 
     if (id != Kdenlive::ClipMonitor) {
         // TODO: reimplement
@@ -359,7 +359,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
 
 Monitor::~Monitor()
 {
-    render->stop();
     delete m_audioMeterWidget;
     delete m_glMonitor;
     delete m_videoWidget;
@@ -956,7 +955,7 @@ void Monitor::slotSetThumbFrame()
     if (m_controller == nullptr) {
         return;
     }
-    m_controller->setProducerProperty(QStringLiteral("kdenlive:thumbnailFrame"), (int)render->seekFramePosition());
+    m_controller->setProducerProperty(QStringLiteral("kdenlive:thumbnailFrame"), m_glMonitor->getCurrentPos());
     emit refreshClipThumbnail(m_controller->AbstractProjectItem::clipId());
 }
 
@@ -992,7 +991,7 @@ void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
                           ? currentController()->clipName()
                           : pCore->projectManager()->current()->url().isValid() ? pCore->projectManager()->current()->url().fileName() : i18n("untitled"))
                 .completeBaseName() +
-            QStringLiteral("-f") + QString::number(render->seekFramePosition()) + QStringLiteral(".png");
+            QStringLiteral("-f") + QString::number(m_glMonitor->getCurrentPos()) + QStringLiteral(".png");
         frameName = QFileInfo(frameName, suggestedImageName).fileName();
     }
 
@@ -1019,9 +1018,9 @@ void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
             if ((m_controller != nullptr) && !m_controller->getProducerProperty(QStringLiteral("kdenlive:proxy")).isEmpty() &&
                 m_controller->getProducerProperty(QStringLiteral("kdenlive:proxy")) != QLatin1String("-")) {
                 // using proxy, use original clip url to get frame
-                frame = render->extractFrame(render->seekFramePosition(), m_controller->getProducerProperty(QStringLiteral("kdenlive:originalurl")));
+                frame = m_glMonitor->extractFrame(m_glMonitor->getCurrentPos(), m_controller->getProducerProperty(QStringLiteral("kdenlive:originalurl")));
             } else {
-                frame = render->extractFrame(render->seekFramePosition());
+                frame = m_glMonitor->extractFrame(m_glMonitor->getCurrentPos());
             }
             frame.save(savePath.toLocalFile());
             KRecentDirs::add(QStringLiteral(":KdenliveFramesFolder"), savePath.adjusted(QUrl::RemoveFilename).toLocalFile());
@@ -1094,20 +1093,6 @@ void Monitor::checkOverlay(int pos)
     // m_qmlManager->setProperty(QLatin1String("markerText"), overlayText);
 }
 
-void Monitor::slotStart()
-{
-    slotActivateMonitor();
-    render->play(0);
-    render->seekToFrame(0);
-}
-
-void Monitor::slotEnd()
-{
-    slotActivateMonitor();
-    render->play(0);
-    render->seekToFrame(render->getLength() - 1);
-}
-
 int Monitor::getZoneStart()
 {
     return m_glMonitor->getControllerProxy()->zoneIn();
@@ -1160,7 +1145,7 @@ void Monitor::slotForward(double speed)
 {
     slotActivateMonitor();
     if (speed == 0) {
-        double currentspeed = render->playSpeed();
+        double currentspeed = m_glMonitor->playSpeed();
         if (currentspeed <= 0) {
             speed = 1;
         } else
@@ -1231,6 +1216,7 @@ void Monitor::stop()
 
 void Monitor::mute(bool mute, bool updateIconOnly)
 {
+    //TODO
     if (render) {
         // TODO: we should set the "audio_off" property to 1 to mute the consumer instead of changing volume
         QIcon icon;
@@ -1332,6 +1318,7 @@ void Monitor::updateClipProducer(Mlt::Producer *prod)
 
 void Monitor::updateClipProducer(const QString &playlist)
 {
+    //TODO
     Mlt::Producer *prod = new Mlt::Producer(*m_glMonitor->profile(), playlist.toUtf8().constData());
     m_glMonitor->setProducer(prod, render->seekFramePosition(), true);
     render->play(1.0);
@@ -1391,6 +1378,7 @@ const QString Monitor::activeClipId()
 
 void Monitor::slotOpenDvdFile(const QString &file)
 {
+    //TODO
     if (render == nullptr) {
         return;
     }
@@ -1406,6 +1394,7 @@ void Monitor::slotSaveZone()
 
 void Monitor::setCustomProfile(const QString &profile, const Timecode &tc)
 {
+    //TODO or deprecate
     m_timePos->updateTimeCode(tc);
     if (render == nullptr) {
         return;
@@ -1423,14 +1412,10 @@ void Monitor::setCustomProfile(const QString &profile, const Timecode &tc)
 void Monitor::resetProfile()
 {
     m_timePos->updateTimeCode(m_monitorManager->timecode());
-    if (render == nullptr) {
-        return;
-    }
-    render->prepareProfileReset(m_monitorManager->timecode().fps());
     m_glMonitor->reloadProfile();
     m_glMonitor->rootObject()->setProperty("framesize", QRect(0, 0, m_glMonitor->profileSize().width(), m_glMonitor->profileSize().height()));
     double fps = m_monitorManager->timecode().fps();
-    // Update dro pframe info
+    // Update drop frame info
     m_qmlManager->setProperty(QStringLiteral("dropped"), false);
     m_qmlManager->setProperty(QStringLiteral("fps"), QString::number(fps, 'g', 2));
 }
@@ -1461,7 +1446,7 @@ void Monitor::updateTimelineClipZone()
 
 void Monitor::switchDropFrames(bool drop)
 {
-    render->setDropFrames(drop);
+    m_glMonitor->setDropFrames(drop);
 }
 
 void Monitor::switchMonitorInfo(int code)
@@ -1659,8 +1644,8 @@ void Monitor::slotSetVolume(int volume)
 {
     KdenliveSettings::setVolume(volume);
     QIcon icon;
-    double renderVolume = render->volume();
-    render->setVolume((double)volume / 100.0);
+    double renderVolume = m_glMonitor->volume();
+    m_glMonitor->setVolume((double)volume / 100.0);
     if (renderVolume > 0 && volume > 0) {
         return;
     }
@@ -1842,6 +1827,7 @@ void Monitor::slotSwitchCompare(bool enable, int pos)
         }
         buildSplitEffect(m_controller->masterProducer(), pos);
     } else if (m_splitEffect) {
+        //TODO
         render->setProducer(m_controller->masterProducer(), pos, isActive());
         delete m_splitEffect;
         m_splitProducer = nullptr;
@@ -1853,6 +1839,7 @@ void Monitor::slotSwitchCompare(bool enable, int pos)
 
 void Monitor::buildSplitEffect(Mlt::Producer *original, int pos)
 {
+    //TODO
     m_splitEffect = new Mlt::Filter(*profile(), "frei0r.alphagrad");
     if ((m_splitEffect != nullptr) && m_splitEffect->is_valid()) {
         m_splitEffect->set("0", 0.5);    // 0 is the Clip left parameter
@@ -1902,7 +1889,8 @@ void Monitor::loadQmlScene(MonitorSceneType type)
         // User doesn't want effect scenes
         type = MonitorSceneDefault;
     }
-    m_qmlManager->setScene(m_id, type, m_glMonitor->profileSize(), (double)render->renderWidth() / render->frameRenderWidth(), m_glMonitor->displayRect(),
+    double ratio = (double) m_glMonitor->profileSize().width() / (int) (m_glMonitor->profileSize().height() * m_glMonitor->profile()->dar() + 0.5);
+    m_qmlManager->setScene(m_id, type, m_glMonitor->profileSize(), ratio, m_glMonitor->displayRect(),
                            m_glMonitor->zoom());
     QQuickItem *root = m_glMonitor->rootObject();
     root->setProperty("showToolbar", m_zoomVisibilityAction->isChecked());
@@ -2003,14 +1991,14 @@ void Monitor::slotAdjustEffectCompare()
     if (m_splitEffect) {
         m_splitEffect->set("0", percent);
     }
-    render->doRefresh();
+    //render->doRefresh();
 }
 
 ProfileInfo Monitor::profileInfo() const
 {
     ProfileInfo info;
-    info.profileSize = QSize(render->frameRenderWidth(), render->renderHeight());
-    info.profileFps = render->fps();
+    info.profileSize = m_glMonitor->profileSize();
+    info.profileFps = m_glMonitor->profile()->fps();
     return info;
 }
 
@@ -2036,6 +2024,7 @@ void Monitor::slotSwitchRec(bool enable)
 
 bool Monitor::startCapture(const QString &params, const QString &path, Mlt::Producer *p)
 {
+    //TODO
     m_controller = nullptr;
     if (render->updateProducer(p)) {
         m_glMonitor->reconfigureMulti(params, path, p->profile());
@@ -2179,4 +2168,18 @@ void Monitor::slotSeekPosition(int pos)
     emit seekPosition(pos);
     m_timePos->setValue(pos);
     checkOverlay();
+}
+
+void Monitor::slotStart()
+{
+    slotActivateMonitor();
+    m_glMonitor->switchPlay(false);
+    m_glMonitor->seek(0);
+}
+
+void Monitor::slotEnd()
+{
+    slotActivateMonitor();
+    m_glMonitor->switchPlay(false);
+    m_glMonitor->seek(m_glMonitor->duration());
 }

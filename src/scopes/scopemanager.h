@@ -17,7 +17,7 @@
 #include <QList>
 
 class QDockWidget;
-class AbstractRender;
+class AbstractMonitor;
 
 /**
   \brief Manages communication between Scopes and Renderer
@@ -71,7 +71,7 @@ private:
     QList<AudioScopeData> m_audioScopes;
     QList<GfxScopeData> m_colorScopes;
 
-    AbstractRender *m_lastConnectedRenderer;
+    AbstractMonitor *m_lastConnectedRenderer;
 
     QSignalMapper *m_signalMapper;
 
