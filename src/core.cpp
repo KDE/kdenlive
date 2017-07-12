@@ -83,7 +83,7 @@ void Core::build(const QString &MltPath)
     qRegisterMetaType<MltVideoProfile>("MltVideoProfile");
 
     // Open connection with Mlt
-    m_self->m_mltConnection = std::unique_ptr<MltConnection>(new MltConnection(MltPath));
+    MltConnection::construct(MltPath);
 
     // load the profile from disk
     ProfileRepository::get()->refresh();
@@ -102,6 +102,7 @@ void Core::build(const QString &MltPath)
 
 void Core::initGUI(const QUrl &Url)
 {
+    m_guiConstructed = true;
     m_profile = KdenliveSettings::default_profile();
     m_currentProfile = m_profile;
     profileChanged();
@@ -267,7 +268,7 @@ void Core::initLocale()
 
 std::unique_ptr<Mlt::Repository> &Core::getMltRepository()
 {
-    return m_mltConnection->getMltRepository();
+    return MltConnection::self()->getMltRepository();
 }
 
 std::unique_ptr<ProfileModel> &Core::getCurrentProfile() const
@@ -317,16 +318,22 @@ QSize Core::getCurrentFrameSize() const
 
 void Core::requestMonitorRefresh()
 {
+    if (!m_guiConstructed)
+        return;
     m_monitorManager->refreshProjectMonitor();
 }
 
 void Core::refreshProjectRange(QSize range)
 {
+    if (!m_guiConstructed)
+        return;
     m_monitorManager->refreshProjectRange(range);
 }
 
 void Core::refreshProjectItem(const ObjectId &id)
 {
+    if (!m_guiConstructed)
+        return;
     switch(id.first) {
     case ObjectType::TimelineClip:
         if(m_mainWindow->getCurrentTimeline()->controller()->getModel()->isClip(id.second)) {
@@ -363,12 +370,12 @@ void Core::profileChanged()
 
 void Core::pushUndo(const Fun &undo, const Fun &redo, const QString &text)
 {
-    currentDoc()->commandStack()->push(new FunctionalUndoCommand(undo, redo, text));
+    undoStack()->push(new FunctionalUndoCommand(undo, redo, text));
 }
 
 void Core::pushUndo(QUndoCommand *command)
 {
-    currentDoc()->commandStack()->push(command);
+    undoStack()->push(command);
 }
 
 void Core::displayMessage(const QString &message, MessageType type, int timeout)
@@ -388,6 +395,8 @@ void Core::adjustAssetRange(int itemId, int in, int out)
 
 std::shared_ptr<EffectStackModel> Core::getItemEffectStack(int itemType, int itemId)
 {
+    if (!m_guiConstructed)
+        return nullptr;
     switch (itemType) {
         case (int) ObjectType::TimelineClip:
             return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getClipEffectStack(itemId);
@@ -400,4 +409,9 @@ std::shared_ptr<EffectStackModel> Core::getItemEffectStack(int itemType, int ite
         default:
             return nullptr;
     }
+}
+
+std::shared_ptr<DocUndoStack> Core::undoStack()
+{
+    return currentDoc()->commandStack();
 }
