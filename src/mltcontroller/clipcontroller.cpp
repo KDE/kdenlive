@@ -361,6 +361,9 @@ const QString ClipController::getStringDuration()
 
 GenTime ClipController::getPlaytime() const
 {
+    if (!m_masterProducer || !m_masterProducer->is_valid()) {
+        return GenTime();
+    }
     double fps = pCore->getCurrentFps();
     if (!m_hasLimitedDuration) {
         int playtime = m_masterProducer->get_int("kdenlive:duration");

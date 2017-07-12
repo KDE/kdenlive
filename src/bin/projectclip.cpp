@@ -128,7 +128,9 @@ ProjectClip::~ProjectClip()
 {
     // controller is deleted in bincontroller
     abortAudioThumbs();
-    if (auto ptr = m_model.lock()) emit std::static_pointer_cast<ProjectItemModel>(ptr)->abortAudioThumb(m_binId, duration().ms());
+    if (auto ptr = m_model.lock()) {
+        emit std::static_pointer_cast<ProjectItemModel>(ptr)->abortAudioThumb(m_binId, duration().ms());
+    }
     QMutexLocker audioLock(&m_audioMutex);
     m_thumbMutex.lock();
     m_requestedThumbs.clear();
