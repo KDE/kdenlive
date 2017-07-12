@@ -44,5 +44,14 @@ TEST_CASE("Effects stack", "[Effects]")
         model->appendEffect(anEffect);
         REQUIRE(model->checkConsistency());
         REQUIRE(model->rowCount() == 1);
+
+        model->appendEffect(anEffect);
+        REQUIRE(model->checkConsistency());
+        REQUIRE(model->rowCount() == 2);
+
+        undoStack->undo();
+        REQUIRE(model->checkConsistency());
+        REQUIRE(model->rowCount() == 1);
+
     }
 }

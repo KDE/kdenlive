@@ -27,6 +27,8 @@
 #include "effectitemmodel.hpp"
 #include "macros.hpp"
 #include <utility>
+#include <vector>
+#include <stack>
 
 EffectStackModel::EffectStackModel(std::weak_ptr<Mlt::Service> service, ObjectId ownerId, std::weak_ptr<DocUndoStack> undo_stack)
     : AbstractTreeModel()
@@ -55,6 +57,7 @@ void EffectStackModel::resetService(std::weak_ptr<Mlt::Service> service)
 
 void EffectStackModel::removeEffect(std::shared_ptr<EffectItemModel> effect)
 {
+    Q_ASSERT(m_allItems.count(effect->getId()) > 0);
     int parentId = -1;
     if (auto ptr = effect->parentItem().lock()) parentId = ptr->getId();
     Fun undo = addItem_lambda(effect, parentId);
@@ -332,4 +335,55 @@ void EffectStackModel::slotCreateGroup(std::shared_ptr<EffectItemModel> childEff
 ObjectId EffectStackModel::getOwnerId() const
 {
     return m_ownerId;
+}
+
+
+bool EffectStackModel::checkConsistency()
+{
+    if (!AbstractTreeModel::checkConsistency()) {
+        return false;
+    }
+
+    std::vector<std::shared_ptr<EffectItemModel> > allFilters;
+    // We do a DFS on the tree to retrieve all the filters
+    std::stack<std::shared_ptr<AbstractEffectItem>> stck;
+    stck.push(std::static_pointer_cast<AbstractEffectItem>(rootItem));
+
+    while(!stck.empty()) {
+        auto current = stck.top();
+        stck.pop();
+
+        if (current->effectItemType() == EffectItemType::Effect) {
+            if (current->childCount() > 0 ) {
+                qDebug() << "ERROR: Found an effect with children";
+                return false;
+            }
+            allFilters.push_back(std::static_pointer_cast<EffectItemModel>(current));
+            continue;
+        }
+        for (int i = current->childCount() - 1; i >= 0; --i) {
+            stck.push(std::static_pointer_cast<AbstractEffectItem>(current->child(i)));
+        }
+    }
+
+    auto ptr = m_service.lock();
+    if (!ptr) {
+        qDebug() << "ERROR: unavailable service";
+        return false;
+    }
+    if (ptr->filter_count() != allFilters.size()) {
+        qDebug() << "ERROR: Wrong filter count";
+        return false;
+    }
+
+    for (int i = 0; i < allFilters.size(); ++i) {
+        auto mltFilter = ptr->filter(i)->get_filter();
+        auto currentFilter = allFilters[i]->filter().get_filter();
+        if (mltFilter != currentFilter) {
+            qDebug() << "ERROR: filter " << i << "differ";
+            return false;
+        }
+    }
+
+    return true;
 }
