@@ -129,6 +129,11 @@ public:
 
     /* @brief Return true if the current item has the item with given id as an ancestor */
     bool hasAncestor(int id);
+
+    /* @brief Return true if the item thinks it is a root.
+       Note that it should be consistent with what the model thinks, but it may have been
+       messed up at some point if someone wrongly constructed the object with isRoot = true */
+    bool isRoot() const;
 protected:
     /* @brief Finish construction of object given its pointer
        This is a separated function so that it can be called from derived classes */

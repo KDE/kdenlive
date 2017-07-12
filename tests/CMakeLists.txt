@@ -7,6 +7,7 @@ SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -fexceptions")
 SET(Tests_SRCS
     tests/TestMain.cpp
     tests/compositiontest.cpp
+    tests/effectstest.cpp
     tests/groupstest.cpp
     tests/markertest.cpp
     tests/modeltest.cpp

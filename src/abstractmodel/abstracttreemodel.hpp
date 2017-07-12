@@ -73,7 +73,11 @@ public:
     Fun addItem_lambda(std::shared_ptr<TreeItem> new_item, int parentId);
 
     /* @brief Helper function to generate a lambda that removes an item from the tree */
-    Fun removeItem_lambda(int binId);
+    Fun removeItem_lambda(int id);
+
+    /* @brief Helper function to generate a lambda that changes the row of an item */
+    Fun moveItem_lambda(int id, int destRow);
+
     friend class TreeItem;
     friend class AbstractProjectItem;
 

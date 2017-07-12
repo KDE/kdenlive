@@ -33,9 +33,10 @@
 /* @brief This class an effect stack as viewed by the back-end.
    It is responsible for planting and managing effects into the producer it holds a pointer to.
  */
-class TreeItem;
-class EffectItemModel;
 class AbstractEffectItem;
+class DocUndoStack;
+class EffectItemModel;
+class TreeItem;
 
 class EffectStackModel : public AbstractTreeModel
 {
@@ -45,11 +46,11 @@ public:
        @param service is the mlt object on which we will plant the effects
        @param ownerId is some information about the actual object to which the effects are applied
     */
-    static std::shared_ptr<EffectStackModel> construct(std::weak_ptr<Mlt::Service> service, ObjectId ownerId);
+    static std::shared_ptr<EffectStackModel> construct(std::weak_ptr<Mlt::Service> service, ObjectId ownerId, std::weak_ptr<DocUndoStack> undo_stack);
     void resetService(std::weak_ptr<Mlt::Service> service);
 
 protected:
-    EffectStackModel(std::weak_ptr<Mlt::Service> service, ObjectId ownerId);
+    EffectStackModel(std::weak_ptr<Mlt::Service> service, ObjectId ownerId, std::weak_ptr<DocUndoStack> undo_stack);
 
 public:
     /* @brief Add an effect at the bottom of the stack */
@@ -91,11 +92,11 @@ protected:
     /* @brief Deregister the existence of a new element*/
     void deregisterItem(int id, TreeItem *item) override;
 
-
     std::weak_ptr<Mlt::Service> m_service;
     bool m_effectStackEnabled;
     ObjectId m_ownerId;
 
+    std::weak_ptr<DocUndoStack> m_undoStack;
 private:
     mutable QReadWriteLock m_lock;
 };

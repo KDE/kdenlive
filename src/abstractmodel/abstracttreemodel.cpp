@@ -292,21 +292,59 @@ Fun AbstractTreeModel::addItem_lambda(std::shared_ptr<TreeItem> new_item, int pa
     };
 }
 
-Fun AbstractTreeModel::removeItem_lambda(int binId)
+Fun AbstractTreeModel::removeItem_lambda(int id)
 {
-    return [this, binId]() {
+    return [this, id]() {
         /* Deletion simply deregister clip and remove it from parent.
            The actual object is not actually deleted, because a shared_pointer to it
            is captured by the reverse operation.
            Actual deletions occurs when the undo object is destroyed.
         */
-        auto binItem = m_allItems[binId].lock();
-        Q_ASSERT(binItem);
-        if (!binItem) {
+        auto item = m_allItems[id].lock();
+        Q_ASSERT(item);
+        if (!item) {
             return false;
         }
-        auto parent = binItem->parentItem().lock();
-        parent->removeChild(binItem);
+        auto parent = item->parentItem().lock();
+        parent->removeChild(item);
         return true;
     };
+}
+
+Fun AbstractTreeModel::moveItem_lambda(int id, int destRow)
+{
+    Fun lambda = [](){return true;};
+
+    std::vector<std::shared_ptr<TreeItem> > oldStack;
+    auto item = getItemById(id);
+    if (item->row() == destRow) {
+        //nothing to do
+        return lambda;
+    }
+    if (auto parent = item->parentItem().lock()) {
+        if (destRow > parent->childCount()) {
+            return [](){return false;};
+        }
+        int parentId = parent->getId();
+        // remove the element to move
+        oldStack.push_back(item);
+        Fun oper = removeItem_lambda(id);
+        PUSH_LAMBDA(oper, lambda);
+        // remove the tail of the stack
+        for (int i = destRow; i < parent->childCount(); ++i) {
+            auto current = parent->child(i);
+            if (current->getId() != id) {
+                oldStack.push_back(current);
+                oper = removeItem_lambda(current->getId());
+                PUSH_LAMBDA(oper, lambda);
+            }
+        }
+        // insert back in order
+        for (const auto & elem : oldStack) {
+            oper = addItem_lambda(elem, parentId);
+            PUSH_LAMBDA(oper, lambda);
+        }
+        return lambda;
+    }
+    return [](){return false;};
 }

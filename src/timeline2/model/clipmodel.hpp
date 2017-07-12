@@ -46,7 +46,7 @@ class ClipModel : public MoveableItem<Mlt::Producer>
 
 protected:
     /* This constructor is not meant to be called, call the static construct instead */
-    ClipModel(std::weak_ptr<TimelineModel> parent, std::shared_ptr<Mlt::Producer> prod, const QString &binClipId, int id = -1);
+    ClipModel(std::shared_ptr<TimelineModel> parent, std::shared_ptr<Mlt::Producer> prod, const QString &binClipId, int id = -1);
 
 public:
     ~ClipModel();
@@ -57,7 +57,7 @@ public:
        @param binClip is the id of the bin clip associated
        @param id Requested id of the clip. Automatic if -1
     */
-    static int construct(const std::weak_ptr<TimelineModel> &parent, const QString &binClipId, int id = -1);
+    static int construct(const std::shared_ptr<TimelineModel> &parent, const QString &binClipId, int id = -1);
     /* @brief Creates a clip from an instance in MLT's playlist,
        Returns the (unique) id of the created clip
        @param parent is a pointer to the timeline
@@ -65,7 +65,7 @@ public:
        @param producer is the producer to be inserted
        @param id Requested id of the clip. Automatic if -1
     */
-    static int construct(const std::weak_ptr<TimelineModel> &parent, const QString &binClipId, std::shared_ptr<Mlt::Producer> producer, int id = -1);
+    static int construct(const std::shared_ptr<TimelineModel> &parent, const QString &binClipId, std::shared_ptr<Mlt::Producer> producer, int id = -1);
 
     /* @brief returns a property of the clip, or from it's parent if it's a cut
      */

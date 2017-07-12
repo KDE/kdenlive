@@ -21,16 +21,16 @@ the Free Software Foundation, either version 3 of the License, or
 
 class Bin;
 class BinController;
+class DocUndoStack;
+class EffectStackModel;
 class KdenliveDoc;
 class LibraryWidget;
 class MainWindow;
-class MltConnection;
+class Monitor;
 class MonitorManager;
 class ProducerQueue;
 class ProfileModel;
 class ProjectManager;
-class Monitor;
-class EffectStackModel;
 
 namespace Mlt {
 class Repository;
@@ -140,6 +140,8 @@ public:
     /** @brief Returns the effectstack of a given bin clip. */
     std::shared_ptr<EffectStackModel> getItemEffectStack(int itemType, int itemId);
 
+    std::shared_ptr<DocUndoStack> undoStack();
+
 private:
     explicit Core();
     static std::unique_ptr<Core> m_self;
@@ -157,9 +159,9 @@ private:
     /** @brief Current project's profile path */
     QString m_currentProfile;
 
-    std::unique_ptr<MltConnection> m_mltConnection;
-
     QString m_profile;
+
+    bool m_guiConstructed = false;
 
 signals:
     void coreIsReady();

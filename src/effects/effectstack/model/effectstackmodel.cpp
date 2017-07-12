@@ -22,22 +22,25 @@
 #include "effects/effectsrepository.hpp"
 
 #include "core.h"
+#include "doc/docundostack.hpp"
 #include "effectgroupmodel.hpp"
 #include "effectitemmodel.hpp"
+#include "macros.hpp"
 #include <utility>
 
-EffectStackModel::EffectStackModel(std::weak_ptr<Mlt::Service> service, ObjectId ownerId)
+EffectStackModel::EffectStackModel(std::weak_ptr<Mlt::Service> service, ObjectId ownerId, std::weak_ptr<DocUndoStack> undo_stack)
     : AbstractTreeModel()
     , m_service(std::move(service))
     , m_effectStackEnabled(true)
     , m_ownerId(ownerId)
+    , m_undoStack(undo_stack)
 {
 }
 
-std::shared_ptr<EffectStackModel> EffectStackModel::construct(std::weak_ptr<Mlt::Service> service, ObjectId ownerId)
+std::shared_ptr<EffectStackModel> EffectStackModel::construct(std::weak_ptr<Mlt::Service> service, ObjectId ownerId, std::weak_ptr<DocUndoStack> undo_stack)
 {
-    std::shared_ptr<EffectStackModel> self(new EffectStackModel(std::move(service), ownerId));
-    self->rootItem = EffectGroupModel::construct(QStringLiteral("root"), self);
+    std::shared_ptr<EffectStackModel> self(new EffectStackModel(std::move(service), ownerId, undo_stack));
+    self->rootItem = EffectGroupModel::construct(QStringLiteral("root"), self, true);
     return self;
 }
 
@@ -59,7 +62,7 @@ void EffectStackModel::removeEffect(std::shared_ptr<EffectItemModel> effect)
     bool res = redo();
     if (res) {
         QString effectName = EffectsRepository::get()->getName(effect->getAssetId());
-        pCore->pushUndo(undo, redo, i18n("Delete effect %1", effectName));
+        PUSH_UNDO(undo, redo, i18n("Delete effect %1", effectName));
     }
 }
 
@@ -79,7 +82,7 @@ void EffectStackModel::copyEffect(std::shared_ptr<AbstractEffectItem> sourceItem
     bool res = redo();
     if (res) {
         QString effectName = EffectsRepository::get()->getName(effectId);
-        pCore->pushUndo(undo, redo, i18n("copy effect %1", effectName));
+        PUSH_UNDO(undo, redo, i18n("copy effect %1", effectName));
     }
 }
 
@@ -92,7 +95,7 @@ void EffectStackModel::appendEffect(const QString &effectId)
     bool res = redo();
     if (res) {
         QString effectName = EffectsRepository::get()->getName(effectId);
-        pCore->pushUndo(undo, redo, i18n("Add effect %1", effectName));
+        PUSH_UNDO(undo, redo, i18n("Add effect %1", effectName));
     }
 }
 
@@ -131,27 +134,31 @@ void EffectStackModel::moveEffect(int destRow, std::shared_ptr<AbstractEffectIte
 
 void EffectStackModel::registerItem(const std::shared_ptr<TreeItem> &item)
 {
-    auto effectItem = std::static_pointer_cast<AbstractEffectItem>(item);
-    QModelIndex ix;
-    effectItem->plant(m_service);
-    effectItem->setEffectStackEnabled(m_effectStackEnabled);
-    ix = getIndexFromItem(effectItem);
-    effectItem->connectDataChanged();
-    if (!effectItem->isAudio()) {
-        pCore->refreshProjectItem(m_ownerId);
+    if (!item->isRoot()) {
+        auto effectItem = std::static_pointer_cast<AbstractEffectItem>(item);
+        QModelIndex ix;
+        effectItem->plant(m_service);
+        effectItem->setEffectStackEnabled(m_effectStackEnabled);
+        ix = getIndexFromItem(effectItem);
+        effectItem->connectDataChanged();
+        if (!effectItem->isAudio()) {
+            pCore->refreshProjectItem(m_ownerId);
+        }
+        if (ix.isValid()) {
+            // Required to build the effect view
+            dataChanged(ix, ix, QVector<int>());
+        }
     }
     AbstractTreeModel::registerItem(item);
-    if (ix.isValid()) {
-        // Required to build the effect view
-        dataChanged(ix, ix, QVector<int>());
-    }
 }
 void EffectStackModel::deregisterItem(int id, TreeItem *item)
 {
-    auto effectItem = static_cast<AbstractEffectItem*>(item);
-    effectItem->unplant(this->m_service);
-    if (!effectItem->isAudio()) {
-        pCore->refreshProjectItem(m_ownerId);
+    if (!item->isRoot()) {
+        auto effectItem = static_cast<AbstractEffectItem*>(item);
+        effectItem->unplant(this->m_service);
+        if (!effectItem->isAudio()) {
+            pCore->refreshProjectItem(m_ownerId);
+        }
     }
     AbstractTreeModel::deregisterItem(id, item);
 }

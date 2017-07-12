@@ -259,3 +259,9 @@ bool TreeItem::hasAncestor(int id)
     }
     return false;
 }
+
+bool TreeItem::isRoot() const
+{
+    return m_isRoot;
+}
+

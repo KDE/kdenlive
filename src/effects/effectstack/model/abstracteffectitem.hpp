@@ -34,7 +34,7 @@ class AbstractEffectItem : public TreeItem
 {
 
 public:
-    AbstractEffectItem(EffectItemType type, const QList<QVariant> &data, const std::shared_ptr<AbstractTreeModel> &stack);
+    AbstractEffectItem(EffectItemType type, const QList<QVariant> &data, const std::shared_ptr<AbstractTreeModel> &stack, bool isRoot = false);
 
     /* @brief This function change the individual enabled state of the effect, creating an undo/redo entry*/
     void markEnabled(const QString &name, bool enabled);

@@ -95,7 +95,7 @@ void Core::build(const QString &MltPath)
     }
 
     // Init producer shown for unavailable media
-    // TODO make it a more proper image
+    // TODO make it a more proper image, it currently causes a crash on exit
     ClipController::mediaUnavailable = std::make_shared<Mlt::Producer>(ProfileRepository::get()->getProfile(m_self->m_profile)->profile(), "color:blue");
     ClipController::mediaUnavailable->set("length", 99999999);
 }
@@ -106,6 +106,7 @@ void Core::initGUI(const QUrl &Url)
     m_currentProfile = m_profile;
     profileChanged();
     m_mainWindow = new MainWindow();
+
     // load default profile and ask user to select one if not found.
     if (m_profile.isEmpty()) {
         m_profile = ProjectManager::getDefaultProjectFormat();

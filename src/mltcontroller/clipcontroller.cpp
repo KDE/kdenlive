@@ -23,6 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "clipcontroller.h"
 #include "bin/model/markerlistmodel.hpp"
 #include "bincontroller.h"
+#include "doc/docundostack.hpp"
 #include "effects/effectstack/model/effectstackmodel.hpp"
 #include "lib/audio/audioStreamInfo.h"
 #include "mltcontroller/effectscontroller.h"
@@ -52,7 +53,7 @@ ClipController::ClipController(std::shared_ptr<BinController> bincontroller, std
     , m_hasLimitedDuration(true)
     , m_binController(bincontroller)
     , m_snapMarkers(QList<CommentedTime>())
-    , m_effectStack(EffectStackModel::construct(producer, {ObjectType::BinClip, m_properties->get_int("kdenlive:id")}))
+    , m_effectStack(EffectStackModel::construct(producer, {ObjectType::BinClip, m_properties->get_int("kdenlive:id")}, pCore->undoStack()))
 {
     if (!m_masterProducer->is_valid()) {
         qCDebug(KDENLIVE_LOG) << "// WARNING, USING INVALID PRODUCER";
@@ -124,7 +125,7 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
     }
     m_masterProducer = producer;
     m_properties = new Mlt::Properties(m_masterProducer->get_properties());
-    m_effectStack = EffectStackModel::construct(producer, {ObjectType::BinClip, m_properties->get_int("kdenlive:id")});
+    m_effectStack = EffectStackModel::construct(producer, {ObjectType::BinClip, m_properties->get_int("kdenlive:id")}, pCore->undoStack());
     if (!m_masterProducer->is_valid()) {
         m_masterProducer = ClipController::mediaUnavailable;
         m_producerLock.unlock();

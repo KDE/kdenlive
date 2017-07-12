@@ -35,7 +35,7 @@ public:
     /* This construct an effect of the given id
        @param is a ptr to the model this item belongs to. This is required to send update signals
      */
-    static std::shared_ptr<EffectGroupModel> construct(const QString &name, std::shared_ptr<AbstractTreeModel> stack);
+    static std::shared_ptr<EffectGroupModel> construct(const QString &name, std::shared_ptr<AbstractTreeModel> stack, bool isRoot = false);
 
     /* @brief Return true if the effect applies only to audio */
     bool isAudio() const override;
@@ -51,7 +51,7 @@ public:
     void connectDataChanged();
 
 protected:
-    EffectGroupModel(const QList<QVariant> &data, const QString &name, const std::shared_ptr<AbstractTreeModel> &stack);
+    EffectGroupModel(const QList<QVariant> &data, const QString &name, const std::shared_ptr<AbstractTreeModel> &stack, bool isRoot = false);
 
     void updateEnable() override;
 

@@ -22,14 +22,10 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QFile>
 #include <QStandardPaths>
 
-int MltConnection::instanceCounter = 0;
+
+std::unique_ptr<MltConnection> MltConnection::m_self;
 MltConnection::MltConnection(const QString &mltPath)
 {
-    MltConnection::instanceCounter++;
-    if (MltConnection::instanceCounter > 1) {
-        qDebug() << "DEBUG: Warning : trying to open a second mlt connection";
-        return;
-    }
     // Disable VDPAU that crashes in multithread environment.
     // TODO: make configurable
     setenv("MLT_NO_VDPAU", "1", 1);
@@ -47,6 +43,20 @@ MltConnection::MltConnection(const QString &mltPath)
     KdenliveSettings::setProducerslist(producersList);
 
     refreshLumas();
+}
+
+void MltConnection::construct(const QString& mltPath)
+{
+    if (MltConnection::m_self) {
+        qDebug() << "DEBUG: Warning : trying to open a second mlt connection";
+        return;
+    }
+    MltConnection::m_self.reset(new MltConnection(mltPath));
+}
+
+std::unique_ptr<MltConnection> &MltConnection::self()
+{
+    return MltConnection::m_self;
 }
 
 void MltConnection::locateMeltAndProfilesPath(const QString &mltPath)

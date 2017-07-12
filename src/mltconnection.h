@@ -29,14 +29,20 @@ class MltConnection
 
 public:
     /** @brief Open connection to the MLT framework
-        This constructor should be called only once
-     */
-    MltConnection(const QString &mltPath);
+    */
+    static void construct(const QString &mltPath);
 
     /* @brief Returns a pointer to the MLT Repository*/
     std::unique_ptr<Mlt::Repository> &getMltRepository();
 
+    /* @brief Returns a pointer to the instance of the singleton */
+    static std::unique_ptr<MltConnection> &self();
 protected:
+    /** @brief Open connection to the MLT framework
+        This constructor should be called only once
+    */
+    MltConnection(const QString &mltPath);
+
     /** @brief Locates the MLT environment.
      * @param mltPath (optional) path to MLT environment
      *
@@ -49,7 +55,7 @@ protected:
      */
     void refreshLumas();
 
-    static int instanceCounter;
+    static std::unique_ptr<MltConnection> m_self;
 
     /** @brief The MLT repository, useful for filter/producer requests */
     std::unique_ptr<Mlt::Repository> m_repository;
