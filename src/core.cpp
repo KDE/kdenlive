@@ -332,6 +332,8 @@ void Core::refreshProjectRange(QSize range)
 
 int Core::getItemIn(const ObjectId &id)
 {
+    if (!m_guiConstructed)
+        return 0;
     switch(id.first) {
     case ObjectType::TimelineClip:
         if(m_mainWindow->getCurrentTimeline()->controller()->getModel()->isClip(id.second)) {
@@ -351,6 +353,8 @@ int Core::getItemIn(const ObjectId &id)
 
 int Core::getItemDuration(const ObjectId &id)
 {
+    if (!m_guiConstructed)
+        return 0;
     switch(id.first) {
     case ObjectType::TimelineClip:
         if(m_mainWindow->getCurrentTimeline()->controller()->getModel()->isClip(id.second)) {

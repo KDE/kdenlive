@@ -202,9 +202,9 @@ void EffectStackModel::moveEffect(int destRow, std::shared_ptr<AbstractEffectIte
 
 void EffectStackModel::registerItem(const std::shared_ptr<TreeItem> &item)
 {
+    QModelIndex ix;
     if (!item->isRoot()) {
         auto effectItem = std::static_pointer_cast<AbstractEffectItem>(item);
-        QModelIndex ix;
         effectItem->plant(m_service);
         effectItem->setEffectStackEnabled(m_effectStackEnabled);
         ix = getIndexFromItem(effectItem);
@@ -212,12 +212,12 @@ void EffectStackModel::registerItem(const std::shared_ptr<TreeItem> &item)
         if (!effectItem->isAudio()) {
             pCore->refreshProjectItem(m_ownerId);
         }
-        if (ix.isValid()) {
-            // Required to build the effect view
-            dataChanged(ix, ix, QVector<int>());
-        }
     }
     AbstractTreeModel::registerItem(item);
+    if (ix.isValid()) {
+        // Required to build the effect view
+        dataChanged(ix, ix, QVector<int>());
+    }
 }
 void EffectStackModel::deregisterItem(int id, TreeItem *item)
 {
