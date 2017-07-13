@@ -96,6 +96,7 @@ public:
     friend class ClipModel;
     friend class CompositionModel;
     friend class GroupsModel;
+    friend class TimelineController;
 
     /// Two level model: tracks and clips on track
     enum {
@@ -262,7 +263,7 @@ public:
     /* Same function, but accumulates undo and redo, and doesn't check
        for group*/
     bool requestClipMove(int clipId, int trackId, int position, bool updateView, Fun &undo, Fun &redo);
-    bool requestCompositionMove(int transid, int trackId, int position, bool updateView, Fun &undo, Fun &redo);
+    bool requestCompositionMove(int transid, int trackId, int compositionTrack, int position, bool updateView, Fun &undo, Fun &redo);
 
     Q_INVOKABLE int getCompositionPosition(int compoId) const;
     Q_INVOKABLE int suggestCompositionMove(int compoId, int trackId, int position, int snapDistance = -1);
@@ -447,7 +448,7 @@ public:
     */
     bool requestCompositionInsertion(const QString &transitionId, int trackId, int position, int length, int &id, bool logUndo = true);
     /* Same function, but accumulates undo and redo*/
-    bool requestCompositionInsertion(const QString &transitionId, int trackId, int position, int length, int &id, Fun &undo, Fun &redo);
+    bool requestCompositionInsertion(const QString &transitionId, int trackId, int compositionTrack, int position, int length, int &id, Fun &undo, Fun &redo);
 
     /* @brief This function change the global (timeline-wise) enabled state of the effects
        It disables/enables track and clip effects (recursively)

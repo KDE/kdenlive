@@ -30,6 +30,7 @@
 #include "kdenlivesettings.h"
 #include "project/projectmanager.h"
 #include "timeline2/model/timelineitemmodel.hpp"
+#include "timeline2/model/trackmodel.hpp"
 #include "timelinewidget.h"
 #include "utils/KoIconUtils.h"
 
@@ -90,6 +91,14 @@ void TimelineController::addSelection(int newSelection)
 double TimelineController::scaleFactor() const
 {
     return m_scale;
+}
+
+const QString TimelineController::getTrackName(int trackId)
+{
+    if (trackId == -1) {
+        return i18n("unknown");
+    }
+    return m_model->getTrackById(trackId)->getProperty("kdenlive:track_name").toString();
 }
 
 void TimelineController::setScaleFactor(double scale)

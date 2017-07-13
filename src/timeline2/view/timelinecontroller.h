@@ -199,6 +199,8 @@ public:
     /* @brief Request a Fade in effect for clip
      */
     Q_INVOKABLE void adjustFade(int cid, const QString &effectId, int duration);
+
+    Q_INVOKABLE const QString getTrackName(int trackId);
     /* @brief Seeks to selected clip start / end
      */
     void seekCurrentClip(bool seekToEnd = false);

@@ -399,7 +399,7 @@ int TimelineModel::suggestCompositionMove(int compoId, int trackId, int position
     // we check if move is possible
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    bool possible = requestCompositionMove(compoId, trackId, position, false, undo, redo);
+    bool possible = requestCompositionMove(compoId, trackId, m_allCompositions[compoId]->getATrack(), position, false, undo, redo);
     qDebug() << "Original move success" << possible;
     if (possible) {
         bool undone = undo();
@@ -1194,7 +1194,7 @@ bool TimelineModel::requestCompositionInsertion(const QString &transitionId, int
     QWriteLocker locker(&m_lock);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    bool result = requestCompositionInsertion(transitionId, trackId, position, length, id, undo, redo);
+    bool result = requestCompositionInsertion(transitionId, trackId, -1, position, length, id, undo, redo);
     if (result && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Insert Composition"));
     }
@@ -1202,7 +1202,7 @@ bool TimelineModel::requestCompositionInsertion(const QString &transitionId, int
     return result;
 }
 
-bool TimelineModel::requestCompositionInsertion(const QString &transitionId, int trackId, int position, int length, int &id, Fun &undo, Fun &redo)
+bool TimelineModel::requestCompositionInsertion(const QString &transitionId, int trackId, int compositionTrack, int position, int length, int &id, Fun &undo, Fun &redo)
 {
     qDebug() << "Inserting compo track" << trackId << "pos" << position << "length" << length;
     int compositionId = TimelineModel::getNextId();
@@ -1216,7 +1216,7 @@ bool TimelineModel::requestCompositionInsertion(const QString &transitionId, int
         registerComposition(composition);
         return true;
     };
-    bool res = requestCompositionMove(compositionId, trackId, position, true, local_undo, local_redo);
+    bool res = requestCompositionMove(compositionId, trackId, compositionTrack, position, true, local_undo, local_redo);
     qDebug() << "trying to move" << trackId << "pos" << position << "succes " << res;
     if (res) {
         res = requestItemResize(compositionId, length, true, true, local_undo, local_redo, true);
@@ -1307,7 +1307,7 @@ bool TimelineModel::requestCompositionMove(int compoId, int trackId, int positio
     int min = getCompositionPosition(compoId);
     int max = min + getCompositionPlaytime(compoId);
     int tk = getCompositionTrackId(compoId);
-    bool res = requestCompositionMove(compoId, trackId, position, updateView, undo, redo);
+    bool res = requestCompositionMove(compoId, trackId, m_allCompositions[compoId]->getATrack(), position, updateView, undo, redo);
     if (tk > -1) {
         min = qMin(min, getCompositionPosition(compoId));
         max = qMax(max, getCompositionPosition(compoId));
@@ -1323,14 +1323,16 @@ bool TimelineModel::requestCompositionMove(int compoId, int trackId, int positio
     return res;
 }
 
-bool TimelineModel::requestCompositionMove(int compoId, int trackId, int position, bool updateView, Fun &undo, Fun &redo)
+bool TimelineModel::requestCompositionMove(int compoId, int trackId, int compositionTrack, int position, bool updateView, Fun &undo, Fun &redo)
 {
     qDebug() << "Requesting composition move" << trackId << "," << position;
     QWriteLocker locker(&m_lock);
     Q_ASSERT(isComposition(compoId));
     Q_ASSERT(isTrack(trackId));
-    int previousTrack = getPreviousVideoTrackId(trackId);
-    if (previousTrack == -1) {
+    if (compositionTrack == -1) {
+        compositionTrack = getPreviousVideoTrackId(trackId);
+    }
+    if (compositionTrack == -1) {
         // it doesn't make sense to insert a composition on the last track
         qDebug() << "Move failed because of last track";
         return false;
@@ -1374,8 +1376,8 @@ bool TimelineModel::requestCompositionMove(int compoId, int trackId, int positio
         Fun insert_operation = []() { return true; };
         Fun insert_reverse = []() { return true; };
         if (old_trackId != trackId) {
-            insert_operation = [this, compoId, trackId, previousTrack]() {
-                m_allCompositions[compoId]->setATrack(previousTrack);
+            insert_operation = [this, compoId, trackId, compositionTrack]() {
+                m_allCompositions[compoId]->setATrack(compositionTrack);
                 return replantCompositions(compoId);
             };
             insert_reverse = [this, compoId]() {

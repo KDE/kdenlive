@@ -105,7 +105,7 @@ Column{
 
                 Binding {
                     target: loader.item
-                    property: "a_track"
+                    property: "aTrack"
                     value: model.a_track
                     when: loader.status == Loader.Ready && loader.item.isComposition
                 }
@@ -162,7 +162,7 @@ Column{
                         item.fadeOut = model.fadeOut
                         item.hasAudio = model.hasAudio
                     } else {
-                        item.a_track = model.a_track
+                        item.aTrack = model.a_track
                     }
                     item.trackIndex= trackRoot.DelegateModel.itemsIndex
                     item.trackId= trackRoot.trackId

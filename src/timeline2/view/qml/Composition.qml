@@ -46,14 +46,13 @@ Item {
     property int trackHeight
     property int trackIndex //Index in track repeater
     property int trackId: -42    //Id in the model
-    property int a_track: -1
+    property int aTrack: -1
     property int clipId     //Id of the clip in the model
     property int originalTrackId: trackId
     property int originalX: x
     property int originalDuration: clipDuration
     property int lastValidDuration: clipDuration
     property int draggedX: x
-    property int a_trackPos: -1
     property bool selected: false
     property double speed: 1.0
     property color color: displayRect.color
@@ -68,10 +67,6 @@ Item {
     signal trimmedIn(var clip)
     signal trimmingOut(var clip, real newDuration, var mouse)
     signal trimmedOut(var clip)
-
-    onTrackHeightChanged: {
-        a_trackPos = root.getTrackYFromId(a_track) - trackRoot.mapToItem(null, 0, 0).y + ruler.height
-    }
 
     onModelStartChanged: {
         x = modelStart * timeScale;
@@ -92,9 +87,6 @@ Item {
         parent = track
         isAudio = track.isAudio
         displayHeight = track.height / 2
-    }
-    onA_trackChanged: {
-        a_trackPos = root.getTrackYFromId(a_track) - trackRoot.mapToItem(null, 0, 0).y + ruler.height
     }
 
     SystemPalette { id: activePalette }
@@ -311,11 +303,11 @@ Item {
             GradientStop { position: 0.0; color: selected ? 'red' : 'mediumpurple' }
             GradientStop { position: 1.0; color: "#00000000" }
         }
-        y: a_trackPos
+        y: root.getTrackYFromId(compositionRoot.aTrack) - trackRoot.mapToItem(null, 0, 0).y + ruler.height
         height: clabel.height + 4
         Text {
             id: clabel
-            text: a_track
+            text: timeline.getTrackName(compositionRoot.aTrack)
             font.pixelSize: root.baseUnit
             anchors {
                 top: parent.top
