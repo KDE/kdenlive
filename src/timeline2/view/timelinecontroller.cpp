@@ -615,6 +615,10 @@ int TimelineController::getCompositionATrack(int cid) const
 
 void TimelineController::setCompositionATrack(int cid, int aTrack)
 {
-    return m_model->getCompositionPtr(cid)->setATrack(aTrack);
+    m_model->getCompositionPtr(cid)->setATrack(aTrack);
+    QModelIndex modelIndex = m_model->makeCompositionIndexFromID(cid);
+    QVector <int> roles;
+    roles << TimelineModel::ItemATrack;
+    m_model->dataChanged(modelIndex, modelIndex, roles);
 }
 
