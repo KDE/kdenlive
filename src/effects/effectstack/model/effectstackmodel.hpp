@@ -60,7 +60,7 @@ public:
     /* @brief Import all effects from the given effect stack
      */
     void importEffects(std::shared_ptr<EffectStackModel> sourceStack);
-    bool removeEffectById(const QString &effectName);
+    bool removeFade(bool fromStart);
 
     /* @brief This function change the global (timeline-wise) enabled state of the effects
      */
@@ -108,7 +108,8 @@ protected:
 
 private:
     mutable QReadWriteLock m_lock;
-    int getEffectById(const QString &effectName);
+    QList <int> fadeIns;
+    QList <int> fadeOuts;
 };
 
 #endif

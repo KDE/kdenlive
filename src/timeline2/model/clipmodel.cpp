@@ -200,10 +200,10 @@ bool ClipModel::copyEffect(std::shared_ptr<EffectStackModel> stackModel, int row
     return true;
 }
 
-bool ClipModel::removeEffect(const QString &effectId)
+bool ClipModel::removeFade(bool fromStart)
 {
     READ_LOCK();
-    m_effectStack->removeEffectById(effectId);
+    m_effectStack->removeFade(fromStart);
     return true;
 }
 

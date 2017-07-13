@@ -582,7 +582,7 @@ void TimelineController::adjustFade(int cid, const QString &effectId, int durati
 {
     if (duration <= 0) {
         // remove fade
-        m_model->removeEffect(cid, effectId);
+        m_model->removeFade(cid, effectId == QLatin1String("fadein"));
     } else {
         m_model->adjustEffectLength(cid, effectId, duration);
         QModelIndex ix = m_model->makeClipIndexFromID(cid);

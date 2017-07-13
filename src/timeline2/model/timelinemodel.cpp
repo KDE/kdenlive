@@ -1041,10 +1041,10 @@ bool TimelineModel::addClipEffect(int clipId, const QString &effectId)
     return m_allClips.at(clipId)->addEffect(effectId);
 }
 
-bool TimelineModel::removeEffect(int clipId, const QString &effectId)
+bool TimelineModel::removeFade(int clipId, bool fromStart)
 {
     Q_ASSERT(m_allClips.count(clipId) > 0);
-    return m_allClips.at(clipId)->removeEffect(effectId);
+    return m_allClips.at(clipId)->removeFade(fromStart);
 }
 
 std::shared_ptr<EffectStackModel> TimelineModel::getClipEffectStack(int itemId)

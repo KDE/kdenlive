@@ -64,6 +64,8 @@ void EffectStackModel::removeEffect(std::shared_ptr<EffectItemModel> effect)
     Fun redo = removeItem_lambda(effect->getId());
     bool res = redo();
     if (res) {
+        fadeIns.removeAll(effect->getId());
+        fadeOuts.removeAll(effect->getId());
         QString effectName = EffectsRepository::get()->getName(effect->getAssetId());
         PUSH_UNDO(undo, redo, i18n("Delete effect %1", effectName));
     }
@@ -97,116 +99,110 @@ void EffectStackModel::appendEffect(const QString &effectId)
     Fun redo = addItem_lambda(effect, rootItem->getId());
     bool res = redo();
     if (res) {
+        if (effectId == QLatin1String("fadein") || effectId == QLatin1String("fade_from_black")) {
+            fadeIns << effect->getId();
+        } else if (effectId == QLatin1String("fadeout") || effectId == QLatin1String("fade_to_black")) {
+            fadeOuts << effect->getId();
+        }
         QString effectName = EffectsRepository::get()->getName(effectId);
         PUSH_UNDO(undo, redo, i18n("Add effect %1", effectName));
     }
 }
 
-
-
 bool EffectStackModel::adjustFadeLength(int duration, bool fromStart, bool audioFade, bool videoFade)
 {
     if (fromStart) {
         // Fade in
-        int audioRow = audioFade ? getEffectById(QStringLiteral("fadein")) : -1;
-        int videoRow = videoFade ? getEffectById(QStringLiteral("fade_from_black")) : -1;
-        if (audioRow == -1 && videoRow == -1) {
+        if (fadeIns.isEmpty()) {
             if (audioFade) {
                 appendEffect(QStringLiteral("fadein"));
-                audioRow = rootItem->childCount() - 1;
             }
             if (videoFade) {
                 appendEffect(QStringLiteral("fade_from_black"));
-                videoRow = rootItem->childCount() - 1;
             }
         }
-        QModelIndex audioIx;
-        QModelIndex videoIx;
-        if (audioFade && audioRow > -1) {
-            std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(getEffectStackRow(audioRow));
-            effect->filter().set("out", duration);
-            audioIx = getIndexFromItem(effect);
+        QList <QModelIndex> indexes;
+        for (int i = 0; i < rootItem->childCount(); ++i) {
+            if (fadeIns.contains(std::static_pointer_cast<TreeItem>(rootItem->child(i))->getId())) {
+                std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
+                effect->filter().set("out", duration);
+                indexes << getIndexFromItem(effect);
+            }
         }
-        if (videoFade && videoRow > -1) {
-            std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(getEffectStackRow(videoRow));
-            effect->filter().set("out", duration);
-            videoIx = getIndexFromItem(effect);
+        if (!indexes.isEmpty()) {
+            emit dataChanged(indexes.first(), indexes.last(), QVector<int>());
         }
-        emit dataChanged(audioIx.isValid() ? audioIx : videoIx, videoIx.isValid() ? videoIx : audioIx, QVector<int>());
     } else {
         // Fade out
-        int audioRow = audioFade ? getEffectById(QStringLiteral("fadeout")) : -1;
-        int videoRow = videoFade ? getEffectById(QStringLiteral("fade_to_black")) : -1;
-        if (audioRow == -1 && videoRow == -1) {
+        if (fadeOuts.isEmpty()) {
             if (audioFade) {
                 appendEffect(QStringLiteral("fadeout"));
-                audioRow = rootItem->childCount() - 1;
             }
             if (videoFade) {
                 appendEffect(QStringLiteral("fade_to_black"));
-                videoRow = rootItem->childCount() - 1;
             }
         }
         int out = pCore->getItemDuration(m_ownerId);
-        QModelIndex audioIx;
-        QModelIndex videoIx;
-        if (audioFade && audioRow > -1) {
-            std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(getEffectStackRow(audioRow));
-            effect->filter().set("out", out);
-            effect->filter().set("in", out - duration);
-            audioIx = getIndexFromItem(effect);
+        QList <QModelIndex> indexes;
+        for (int i = 0; i < rootItem->childCount(); ++i) {
+            if (fadeOuts.contains(std::static_pointer_cast<TreeItem>(rootItem->child(i))->getId())) {
+                std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
+                effect->filter().set("out", out);
+                effect->filter().set("in", out - duration);
+                indexes << getIndexFromItem(effect);
+            }
         }
-        if (videoFade && videoRow > -1) {
-            std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(getEffectStackRow(videoRow));
-            effect->filter().set("out", out);
-            effect->filter().set("in", out - duration);
-            videoIx = getIndexFromItem(effect);
+        if (!indexes.isEmpty()) {
+            emit dataChanged(indexes.first(), indexes.last(), QVector<int>());
         }
-        emit dataChanged(audioIx.isValid() ? audioIx : videoIx, videoIx.isValid() ? videoIx : audioIx, QVector<int>());
     }
     return true;
 }
 
 int EffectStackModel::getFadePosition(bool fromStart)
 {
-    int row = -1;
     if (fromStart) {
-        row = getEffectById(QStringLiteral("fadein"));
-        if (row == -1) row = getEffectById(QStringLiteral("fade_from_black"));
-        if (row != -1) {
-            std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(getEffectStackRow(row));
-            return effect->filter().get_int("out");
+        if (fadeIns.isEmpty()) {
+            return 0;
+        }
+        for (int i = 0; i < rootItem->childCount(); ++i) {
+            if (fadeIns.first() == std::static_pointer_cast<TreeItem>(rootItem->child(i))->getId()) {
+                std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
+                return effect->filter().get_int("out");
+            }
         }
     } else {
-        row = getEffectById(QStringLiteral("fadeout"));
-        if (row == -1) row = getEffectById(QStringLiteral("fade_to_black"));
-        if (row != -1) {
-            std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(getEffectStackRow(row));
-            return effect->filter().get_int("out") - effect->filter().get_int("in");
+        if (fadeOuts.isEmpty()) {
+            return 0;
+        }
+        for (int i = 0; i < rootItem->childCount(); ++i) {
+            if (fadeOuts.first() == std::static_pointer_cast<TreeItem>(rootItem->child(i))->getId()) {
+                std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
+                return effect->filter().get_int("out") - effect->filter().get_int("in");
+            }
         }
     }
     return 0;
 }
 
-int EffectStackModel::getEffectById(const QString &effectName)
+bool EffectStackModel::removeFade(bool fromStart)
 {
+    QList <int> toRemove;
     for (int i = 0; i < rootItem->childCount(); ++i) {
-        if (std::static_pointer_cast<AbstractEffectItem>(rootItem->child(i))->dataColumn(1) == effectName) {
-            return i;
-            break;
+        if ((fromStart && fadeIns.contains(std::static_pointer_cast<TreeItem>(rootItem->child(i))->getId())) || (!fromStart && fadeOuts.contains(std::static_pointer_cast<TreeItem>(rootItem->child(i))->getId()))) {
+            toRemove << i;
         }
     }
-    return -1;
-}
-
-bool EffectStackModel::removeEffectById(const QString &effectName)
-{
-    int row = getEffectById(effectName);
-    if (row == -1) {
-        return false;
+    qSort(toRemove.begin(),toRemove.end(),qGreater<int>());
+    foreach(int i, toRemove) {
+        std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
+        if (fromStart) {
+            fadeIns.removeAll(rootItem->child(i)->getId());
+        } else {
+            fadeOuts.removeAll(rootItem->child(i)->getId());
+        }
+        removeEffect(effect);
     }
-    std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(getEffectStackRow(row));
-    removeEffect(effect);
     return true;
 }
 

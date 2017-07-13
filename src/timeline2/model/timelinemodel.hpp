@@ -185,7 +185,7 @@ public:
     */
     Q_INVOKABLE int getClipPosition(int clipId) const;
     Q_INVOKABLE bool addClipEffect(int clipId, const QString &effectId);
-    bool removeEffect(int clipId, const QString &effectId);
+    bool removeFade(int clipId, bool fromStart);
     Q_INVOKABLE bool copyClipEffect(int clipId, const QString &sourceId);
     bool adjustEffectLength(int clipId, const QString &effectId, int duration);
 
