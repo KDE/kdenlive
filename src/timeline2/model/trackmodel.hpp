@@ -51,6 +51,7 @@ public:
     friend class TimelineItemModel;
     friend class ClipModel;
     friend class CompositionModel;
+    friend class TimelineController;
 
 private:
     /* This constructor is private, call the static construct instead */
@@ -79,7 +80,7 @@ public:
     operator Mlt::Producer &() { return *m_track.get(); }
 
     // TODO make protected
-    QVariant getProperty(const QString &name);
+    QVariant getProperty(const QString &name) const;
     void setProperty(const QString &name, const QString &value);
     std::unordered_set<int> getClipsAfterPosition(int position, int end = -1);
 

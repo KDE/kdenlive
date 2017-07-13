@@ -457,3 +457,24 @@ std::shared_ptr<DocUndoStack> Core::undoStack()
 {
     return currentDoc()->commandStack();
 }
+
+QMap<int, QString> Core::getVideoTrackNames()
+{
+    if (!m_guiConstructed)
+        return QMap<int, QString>();
+    return m_mainWindow->getCurrentTimeline()->controller()->getTrackNames(true);
+}
+
+int Core::getCompositionATrack(int cid) const
+{
+    if (!m_guiConstructed)
+        return -1;
+    return m_mainWindow->getCurrentTimeline()->controller()->getCompositionATrack(cid);
+}
+
+void Core::setCompositionATrack(int cid, int aTrack)
+{
+    if (!m_guiConstructed)
+        return;
+    m_mainWindow->getCurrentTimeline()->controller()->setCompositionATrack(cid, aTrack);
+}

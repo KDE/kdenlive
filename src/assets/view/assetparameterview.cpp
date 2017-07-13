@@ -110,6 +110,13 @@ void AssetParameterView::unsetModel()
     m_widgets.clear();
     QLayoutItem *child;
     while ((child = m_lay->takeAt(0)) != nullptr) {
+        if (child->layout()) {
+            QLayoutItem *subchild;
+            while ((subchild = child->layout()->takeAt(0)) != nullptr) {
+                delete subchild->widget();
+                delete subchild->spacerItem();
+            }
+        }
         delete child->widget();
         delete child->spacerItem();
     }

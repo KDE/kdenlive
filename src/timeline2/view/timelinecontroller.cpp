@@ -31,6 +31,7 @@
 #include "project/projectmanager.h"
 #include "timeline2/model/timelineitemmodel.hpp"
 #include "timeline2/model/trackmodel.hpp"
+#include "timeline2/model/compositionmodel.hpp"
 #include "timelinewidget.h"
 #include "utils/KoIconUtils.h"
 
@@ -101,7 +102,19 @@ const QString TimelineController::getTrackName(int trackId)
     if (trackId == 0) {
         return i18n("Black");
     }
-    return m_model->getTrackById(trackId)->getProperty("kdenlive:track_name").toString();
+    return m_model->getTrackById(trackId)->getProperty(QStringLiteral("kdenlive:track_name")).toString();
+}
+
+QMap<int, QString> TimelineController::getTrackNames(bool videoOnly)
+{
+    QMap<int, QString> names;
+    for (const auto &track : m_model->m_iteratorTable) {
+        if (videoOnly && m_model->getTrackById(track.first)->getProperty(QStringLiteral("kdenlive:audio_track")).toInt() == 1) {
+            continue;
+        }
+        names[track.first] = m_model->getTrackById(track.first)->getProperty("kdenlive:track_name").toString();
+    }
+    return names;
 }
 
 void TimelineController::setScaleFactor(double scale)
@@ -594,3 +607,14 @@ void TimelineController::adjustFade(int cid, const QString &effectId, int durati
         m_model->dataChanged(ix, ix, roles);
     }
 }
+
+int TimelineController::getCompositionATrack(int cid) const
+{
+    return m_model->getCompositionPtr(cid)->getATrack();
+}
+
+void TimelineController::setCompositionATrack(int cid, int aTrack)
+{
+    return m_model->getCompositionPtr(cid)->setATrack(aTrack);
+}
+

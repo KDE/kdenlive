@@ -88,8 +88,6 @@ protected:
        @param redo Lambda function containing the current redo queue. Will be updated with current operation
     */
     bool requestResize(int size, bool right, Fun &undo, Fun &redo);
-
-    int m_atrack;
 };
 
 #endif

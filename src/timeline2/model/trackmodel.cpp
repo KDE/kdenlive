@@ -494,7 +494,7 @@ int TrackModel::getRowfromComposition(int tid) const
     return (int)m_allClips.size() + (int)std::distance(m_allCompositions.begin(), m_allCompositions.find(tid));
 }
 
-QVariant TrackModel::getProperty(const QString &name)
+QVariant TrackModel::getProperty(const QString &name) const
 {
     READ_LOCK();
     return QVariant(m_track->get(name.toUtf8().constData()));

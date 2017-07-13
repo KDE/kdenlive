@@ -141,7 +141,10 @@ public:
     std::shared_ptr<EffectStackModel> getItemEffectStack(int itemType, int itemId);
     int getItemIn(const ObjectId &id);
     int getItemDuration(const ObjectId &id);
-
+    /** @brief Get a list of video track names with indexes */
+    QMap<int, QString> getVideoTrackNames();
+    int getCompositionATrack(int cid) const;
+    void setCompositionATrack(int cid, int aTrack);
     std::shared_ptr<DocUndoStack> undoStack();
 
 private:

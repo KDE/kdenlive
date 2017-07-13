@@ -23,6 +23,7 @@
 #include "effects/effectstack/model/effectitemmodel.hpp"
 #include "effects/effectstack/model/effectstackmodel.hpp"
 #include "effects/effectstack/view/effectstackview.hpp"
+#include "transitions/view/transitionstackview.hpp"
 #include "kdenlivesettings.h"
 #include "model/assetparametermodel.hpp"
 #include "transitions/transitionsrepository.hpp"
@@ -40,7 +41,7 @@ AssetPanel::AssetPanel(QWidget *parent)
     : QScrollArea(parent)
     , m_lay(new QVBoxLayout(this))
     , m_assetTitle(new QLabel(this))
-    , m_transitionWidget(new AssetParameterView(this))
+    , m_transitionWidget(new TransitionStackView(this))
     , m_effectStackWidget(new EffectStackView(this))
 {
     m_lay->addWidget(m_assetTitle);

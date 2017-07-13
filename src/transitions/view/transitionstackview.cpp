@@ -19,56 +19,46 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-#ifndef ASSETPANEL_H
-#define ASSETPANEL_H
+#include "transitionstackview.hpp"
+#include "assets/model/assetparametermodel.hpp"
+#include "core.h"
 
-#include <QScrollArea>
 #include <QVBoxLayout>
-#include <memory>
+#include <QHBoxLayout>
+#include <QComboBox>
+#include <QLabel>
+#include <QDebug>
+#include <klocalizedstring.h>
 
-/** @brief This class is the widget that provides interaction with the asset currently selected.
-    That is, it either displays an effectStack or the parameters of a transition
- */
 
-class AssetParameterModel;
-class AssetParameterView;
-class EffectStackModel;
-class EffectStackView;
-class TransitionStackView;
-class QLabel;
-
-class AssetPanel : public QScrollArea
+TransitionStackView::TransitionStackView(QWidget *parent)
+    : AssetParameterView(parent)
 {
-    Q_OBJECT
+}
 
-public:
-    AssetPanel(QWidget *parent);
+void TransitionStackView::setModel(const std::shared_ptr<AssetParameterModel> &model, QPair<int, int> range, bool addSpacer)
+{
+    QHBoxLayout *lay = new QHBoxLayout;
+    m_trackBox = new QComboBox(this);
+    m_trackBox->addItem(i18n("Background"), 0);
+    QMapIterator<int, QString> i(pCore->getVideoTrackNames());
+    while (i.hasNext()) {
+        i.next();
+        m_trackBox->addItem(i.value(), i.key());
+    }
+    AssetParameterView::setModel(model, range, addSpacer);
 
-    /* @brief Shows the parameters of the given transition model */
-    void showTransition(int tid, std::shared_ptr<AssetParameterModel> transition_model);
+    int aTrack = pCore->getCompositionATrack(m_model->getOwnerId().second);
+    m_trackBox->setCurrentIndex(m_trackBox->findData(aTrack));
+    QLabel *title = new QLabel(i18n("Composition track: "), this);
+    lay->addWidget(title);
+    lay->addWidget(m_trackBox);
+    m_lay->insertLayout(0, lay);
+    connect(m_trackBox, SIGNAL(currentIndexChanged(int)), this, SLOT(updateTrack(int)));
+}
 
-    /* @brief Shows the parameters of the given effect stack model */
-    void showEffectStack(const QString &clipName, std::shared_ptr<EffectStackModel> effectsModel, QPair<int, int> range);
-
-    /* @brief Clear the panel so that it doesn't display anything */
-    void clear();
-
-    /* @brief This method should be called when the style changes */
-    void updatePalette();
-
-public slots:
-    /** @brief Clear panel if displaying itemId */
-    void clearAssetPanel(int itemId);
-    void adjustAssetPanelRange(int itemId, int in, int out);
-
-protected:
-    /** @brief Return the stylesheet used to display the panel (based on current palette). */
-    static const QString getStyleSheet();
-
-    QVBoxLayout *m_lay;
-    QLabel *m_assetTitle;
-    TransitionStackView *m_transitionWidget;
-    EffectStackView *m_effectStackWidget;
-};
-
-#endif
+void TransitionStackView::updateTrack(int newTrack)
+{
+    qDebug()<<"// Update transitiino TRACK to: "<<m_trackBox->currentData().toInt();
+    pCore->setCompositionATrack(m_model->getOwnerId().second, m_trackBox->currentData().toInt());
+}

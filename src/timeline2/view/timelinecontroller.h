@@ -224,6 +224,13 @@ public:
     /* @brief Get the frame where mouse is positionned
      */
     int getMousePos();
+    /* @brief Returns a map of track ids/track names
+     */
+    QMap<int, QString> getTrackNames(bool videoOnly);
+    /* @brief Returns the transition a track index for a composition
+     */
+    int getCompositionATrack(int cid) const;
+    void setCompositionATrack(int cid, int aTrack);
 
 public slots:
     void selectMultitrack();
