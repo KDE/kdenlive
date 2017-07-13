@@ -210,7 +210,9 @@ bool ClipModel::removeEffect(const QString &effectId)
 bool ClipModel::adjustEffectLength(const QString &effectName, int duration)
 {
     READ_LOCK();
-    m_effectStack->adjustEffectLength(effectName, duration);
+    qDebug()<<"// ADJUSTING FADE: "<<hasAudio()<<", "<<!isAudioOnly();
+    m_effectStack->adjustFadeLength(duration, effectName == QLatin1String("fadein"), hasAudio(), !isAudioOnly());
+    //m_effectStack->adjustEffectLength(effectName, duration, isAudioOnly());
     return true;
 }
 
@@ -218,7 +220,7 @@ bool ClipModel::hasAudio() const
 {
     READ_LOCK();
     QString service = getProperty("mlt_service");
-    return service.contains(QStringLiteral("avformat"));
+    return service.contains(QStringLiteral("avformat")) && (getIntProperty(QStringLiteral("audio_index")) > -1);
 }
 
 bool ClipModel::isAudioOnly() const
@@ -266,11 +268,11 @@ std::shared_ptr<MarkerListModel> ClipModel::getMarkerModel() const
 
 int ClipModel::fadeIn() const
 {
-    return m_effectStack->getFadeIn();
+    return m_effectStack->getFadePosition(true);
 }
 
 int ClipModel::fadeOut() const
 {
-    return m_effectStack->getFadeOut();
+    return m_effectStack->getFadePosition(false);
 }
 

@@ -77,15 +77,14 @@ public:
     /* @brief Get currently active effect row */
     int getActiveEffect() const;
     /* @brief Adjust an effect duration (useful for fades) */
-    bool adjustEffectLength(const QString &effectName, int duration);
+    bool adjustFadeLength(int duration, bool fromStart, bool audioFade, bool videoFade);
 
     void slotCreateGroup(std::shared_ptr<EffectItemModel> childEffect);
 
     /* @brief Returns the id of the owner of the stack */
     ObjectId getOwnerId() const;
 
-    int getFadeIn();
-    int getFadeOut();
+    int getFadePosition(bool fromStart);
 
 public slots:
     /* @brief Delete an effect from the stack */
@@ -103,8 +102,10 @@ protected:
     ObjectId m_ownerId;
 
     std::weak_ptr<DocUndoStack> m_undoStack;
+
 private:
     mutable QReadWriteLock m_lock;
+    int getEffectById(const QString &effectName);
 };
 
 #endif

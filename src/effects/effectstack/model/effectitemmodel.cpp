@@ -41,6 +41,7 @@ std::shared_ptr<EffectItemModel> EffectItemModel::construct(const QString &effec
     QDomElement xml = EffectsRepository::get()->getXml(effectId);
 
     Mlt::Properties *effect = EffectsRepository::get()->getEffect(effectId);
+    effect->set("kdenlive:id", effectId.toUtf8().constData());
 
     QList<QVariant> data;
     data << EffectsRepository::get()->getName(effectId) << effectId;
