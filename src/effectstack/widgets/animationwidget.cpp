@@ -727,27 +727,19 @@ void AnimationWidget::slotEditKeyframeType(QAction *action)
 {
     int pos = m_timePos->getValue() - m_offset;
     if (m_animController.is_key(pos)) {
-        if (m_rectParameter == m_inTimeline) {
-            mlt_rect rect = m_animProperties.anim_get_rect(m_inTimeline.toUtf8().constData(), pos, m_outPoint);
-            m_animProperties.anim_set(m_inTimeline.toUtf8().constData(), rect, pos, m_outPoint, (mlt_keyframe_type)action->data().toInt());
-        } else {
-            double val = m_animProperties.anim_get_double(m_inTimeline.toUtf8().constData(), pos, m_outPoint);
-            m_animProperties.anim_set(m_inTimeline.toUtf8().constData(), val, pos, m_outPoint, (mlt_keyframe_type)action->data().toInt());
-        }
-        /* This is a keyframe, edit for all parameters
-        QStringList paramNames = m_doubleWidgets.keys();
-        for (int i = 0; i < paramNames.count(); i++) {
-            double val = m_animProperties.anim_get_double(paramNames.at(i).toUtf8().constData(), pos, m_timePos->maximum());
-            m_animProperties.anim_set(paramNames.at(i).toUtf8().constData(), val, pos, m_timePos->maximum(), (mlt_keyframe_type) action->data().toInt());
-        }*/
-        rebuildKeyframes();
-        setupMonitor();
-        // Send updates
-        QStringList paramNames = m_doubleWidgets.keys();
         for (int i = 0; i < m_parameters.count(); i++) {
             m_animController = m_animProperties.get_animation(m_parameters.at(i).second.toUtf8().constData());
+            if (m_parameters.at(i).second == m_rectParameter) {
+                mlt_rect rect = m_animProperties.anim_get_rect(m_parameters.at(i).second.toUtf8().constData(), pos, m_outPoint);
+                m_animProperties.anim_set(m_parameters.at(i).second.toUtf8().constData(), rect, pos, m_outPoint, (mlt_keyframe_type)action->data().toInt());
+            } else {
+                double val = m_animProperties.anim_get_double(m_parameters.at(i).second.toUtf8().constData(), pos, m_outPoint);
+                m_animProperties.anim_set(m_parameters.at(i).second.toUtf8().constData(), val, pos, m_outPoint, (mlt_keyframe_type) action->data().toInt());
+            }
             emit valueChanged(m_parameters.at(i).first, QString(m_animController.serialize_cut()));
         }
+        rebuildKeyframes();
+        setupMonitor();
         // Restore default controller
         m_animController = m_animProperties.get_animation(m_inTimeline.toUtf8().constData());
     }
@@ -1681,7 +1673,7 @@ void AnimationWidget::slotRefresh()
             // Required to initialize anim property
             m_animProperties.anim_get_int(paramTag.toUtf8().constData(), 0, m_outPoint);
         } else {
-            // one dimension parameter
+            // rect parameter
             // TODO: multiple rect parameters in effect ?
             m_rectParameter = paramTag;
             m_inTimeline = paramTag;
