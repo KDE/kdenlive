@@ -64,6 +64,10 @@ void AssetPanel::showTransition(int tid, std::shared_ptr<AssetParameterModel> tr
 void AssetPanel::showEffectStack(const QString &clipName, std::shared_ptr<EffectStackModel> effectsModel, QPair<int, int> range)
 {
     clear();
+    if (effectsModel == nullptr) {
+        // Item is not ready
+        return;
+    }
     m_assetTitle->setText(i18n("%1 effects", clipName));
     m_effectStackWidget->setVisible(true);
     m_effectStackWidget->setModel(effectsModel, range);

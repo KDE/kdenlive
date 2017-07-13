@@ -89,6 +89,7 @@ ClipController::ClipController(std::shared_ptr<BinController> bincontroller)
     , m_hasLimitedDuration(true)
     , m_binController(bincontroller)
     , m_snapMarkers(QList<CommentedTime>())
+    , m_effectStack(nullptr)
 {
     m_producerLock.lock();
 }

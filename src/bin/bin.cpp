@@ -1488,6 +1488,8 @@ void Bin::selectProxyModel(const QModelIndex &id)
         showClipProperties(nullptr);
         emit findInTimeline(QString());
         emit requestClipShow(nullptr);
+        // clear effect stack
+        emit requestShowEffectStack(QString(), nullptr, QPair<int, int>());
         // Display black bg in clip monitor
         emit openClip(std::shared_ptr<ProjectClip>());
     }
@@ -2474,7 +2476,7 @@ void Bin::editMasterEffect(std::shared_ptr<AbstractProjectItem> clip)
             return;
         }
     }
-    emit requestHideEffectStack();
+    emit requestShowEffectStack(QString(), nullptr, QPair<int, int>());
 }
 
 void Bin::slotGotFocus()
