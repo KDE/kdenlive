@@ -322,7 +322,7 @@ Fun AbstractTreeModel::moveItem_lambda(int id, int destRow)
         return lambda;
     }
     if (auto parent = item->parentItem().lock()) {
-        if (destRow > parent->childCount()) {
+        if (destRow > parent->childCount() || destRow < 0) {
             return [](){return false;};
         }
         int parentId = parent->getId();

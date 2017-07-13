@@ -208,35 +208,16 @@ bool EffectStackModel::removeFade(bool fromStart)
 
 void EffectStackModel::moveEffect(int destRow, std::shared_ptr<AbstractEffectItem> item)
 {
-    if (item->childCount() > 0) {
-        // TODO: group
-        return;
+    Q_ASSERT(m_allItems.count(item->getId()) > 0);
+    int oldRow = item->row();
+    Fun undo = moveItem_lambda(item->getId(), oldRow);
+    Fun redo = moveItem_lambda(item->getId(), destRow);
+    bool res = redo();
+    if (res) {
+        auto effectId = std::static_pointer_cast<EffectItemModel>(item)->getAssetId();
+        QString effectName = EffectsRepository::get()->getName(effectId);
+        PUSH_UNDO(undo, redo, i18n("Move effect %1", effectName));
     }
-    std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(item);
-    QModelIndex ix = getIndexFromItem(effect);
-    QModelIndex ix2 = ix;
-    rootItem->moveChild(destRow, effect);
-    QList<std::shared_ptr<EffectItemModel>> effects;
-    // TODO: define parent group target
-    for (int i = destRow; i < rootItem->childCount(); i++) {
-        auto item = getEffectStackRow(i);
-        if (item->childCount() > 0) {
-            // TODO: group
-            continue;
-        }
-        std::shared_ptr<EffectItemModel> eff = std::static_pointer_cast<EffectItemModel>(item);
-        eff->unplant(m_service);
-        effects << eff;
-    }
-    for (int i = 0; i < effects.count(); i++) {
-        auto eff = effects.at(i);
-        eff->plant(m_service);
-        if (i == effects.count() - 1) {
-            ix2 = getIndexFromItem(eff);
-        }
-    }
-    pCore->refreshProjectItem(m_ownerId);
-    emit dataChanged(ix, ix2, QVector<int>());
 }
 
 void EffectStackModel::registerItem(const std::shared_ptr<TreeItem> &item)
