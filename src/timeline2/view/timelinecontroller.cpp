@@ -98,6 +98,9 @@ const QString TimelineController::getTrackName(int trackId)
     if (trackId == -1) {
         return i18n("unknown");
     }
+    if (trackId == 0) {
+        return i18n("Black");
+    }
     return m_model->getTrackById(trackId)->getProperty("kdenlive:track_name").toString();
 }
 
