@@ -32,6 +32,7 @@
 #include <QMimeData>
 #include <QTreeView>
 #include <QVBoxLayout>
+#include <QMutexLocker>
 
 WidgetDelegate::WidgetDelegate(QObject *parent)
     : QStyledItemDelegate(parent)
@@ -140,6 +141,7 @@ void EffectStackView::dropEvent(QDropEvent *event)
 
 void EffectStackView::setModel(std::shared_ptr<EffectStackModel> model, QPair<int, int> range)
 {
+    m_mutex.lock();
     unsetModel();
     m_model = model;
     m_effectsTree->setModel(m_model.get());
@@ -149,12 +151,14 @@ void EffectStackView::setModel(std::shared_ptr<EffectStackModel> model, QPair<in
     m_effectsTree->setDragDropMode(QAbstractItemView::DragDrop);
     m_effectsTree->setDragEnabled(true);
     m_effectsTree->setUniformRowHeights(false);
+    m_mutex.unlock();
     loadEffects(range);
     connect(m_model.get(), &EffectStackModel::dataChanged, this, &EffectStackView::refresh);
 }
 
 void EffectStackView::loadEffects(QPair<int, int> range, int start, int end)
 {
+    QMutexLocker lock (&m_mutex);
     m_range = range;
     int max = m_model->rowCount();
     if (end == -1) {
@@ -191,6 +195,7 @@ void EffectStackView::loadEffects(QPair<int, int> range, int start, int end)
 
 void EffectStackView::slotActivateEffect(std::shared_ptr<EffectItemModel> effectModel)
 {
+    QMutexLocker lock (&m_mutex);
     m_model->setActiveEffect(effectModel->row());
     QModelIndex activeIx = m_model->getIndexFromItem(effectModel);
     emit doActivateEffect(activeIx);
@@ -220,6 +225,7 @@ void EffectStackView::slotStartDrag(QPixmap pix, std::shared_ptr<EffectItemModel
 
 void EffectStackView::slotAdjustDelegate(std::shared_ptr<EffectItemModel> effectModel, int height)
 {
+    QMutexLocker lock (&m_mutex);
     QModelIndex ix = m_model->getIndexFromItem(effectModel);
     WidgetDelegate *del = static_cast<WidgetDelegate *>(m_effectsTree->itemDelegate(ix));
     del->setHeight(ix, height);
@@ -234,12 +240,14 @@ void EffectStackView::unsetModel(bool reset)
 {
     // Release ownership of smart pointer
     if (reset) {
+        disconnect(m_model.get(), &EffectStackModel::dataChanged, this, &EffectStackView::refresh);
         m_model.reset();
     }
 }
 
 void EffectStackView::setRange(int in, int out)
 {
+    QMutexLocker lock (&m_mutex);
     m_range.first = in;
     m_range.second = out;
     int max = m_model->rowCount();

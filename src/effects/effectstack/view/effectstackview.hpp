@@ -24,6 +24,7 @@
 
 #include <QStyledItemDelegate>
 #include <QWidget>
+#include <QMutex>
 #include <memory>
 
 class QVBoxLayout;
@@ -63,6 +64,7 @@ protected:
     void dropEvent(QDropEvent *event) override;
 
 private:
+    QMutex m_mutex;
     QVBoxLayout *m_lay;
     QTreeView *m_effectsTree;
     std::shared_ptr<EffectStackModel> m_model;

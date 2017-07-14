@@ -243,6 +243,9 @@ int TimelineModel::getPreviousVideoTrackPos(int trackId) const
 
 bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool updateView, Fun &undo, Fun &redo)
 {
+    if (trackId == -1) {
+        return false;
+    }
     Q_ASSERT(isClip(clipId));
     std::function<bool(void)> local_undo = []() { return true; };
     std::function<bool(void)> local_redo = []() { return true; };

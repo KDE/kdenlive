@@ -387,13 +387,13 @@ Rectangle {
         anchors.left: fadeInTriangle.width > radius? undefined : fadeInTriangle.left
         anchors.horizontalCenter: fadeInTriangle.width > radius? fadeInTriangle.right : undefined
         anchors.top: fadeInTriangle.top
-        anchors.topMargin: -3
-        width: 15
-        height: 15
-        radius: 7.5
-        color: 'black'
+        anchors.topMargin: -10
+        width: root.baseUnit * 2
+        height: width
+        radius: width / 2
+        color: '#66FFFFFF'
         border.width: 2
-        border.color: 'white'
+        border.color: 'red'
         opacity: 0
         Drag.active: fadeInMouseArea.drag.active
         MouseArea {
@@ -406,7 +406,11 @@ Rectangle {
             property int startX
             property int startFadeIn
             onEntered: parent.opacity = 0.7
-            onExited: parent.opacity = 0
+            onExited: {
+                if (!pressed) {
+                  parent.opacity = 0
+                }
+            }
             drag.smoothed: false
             onPressed: {
                 root.stopScrolling = true
@@ -421,6 +425,7 @@ Rectangle {
             onReleased: {
                 root.stopScrolling = false
                 fadeInTriangle.opacity = 0.3
+                parent.opacity = 0
                 if (fadeInTriangle.width > parent.radius)
                     parent.anchors.horizontalCenter = fadeInTriangle.right
                 else
@@ -442,15 +447,15 @@ Rectangle {
         }
         SequentialAnimation on scale {
             loops: Animation.Infinite
-            running: fadeInMouseArea.containsMouse
+            running: fadeInMouseArea.containsMouse && !fadeInMouseArea.pressed
             NumberAnimation {
                 from: 1.0
-                to: 0.5
+                to: 0.7
                 duration: 250
                 easing.type: Easing.InOutQuad
             }
             NumberAnimation {
-                from: 0.5
+                from: 0.7
                 to: 1.0
                 duration: 250
                 easing.type: Easing.InOutQuad
@@ -473,13 +478,13 @@ Rectangle {
         anchors.right: fadeOutCanvas.width > radius? undefined : fadeOutCanvas.right
         anchors.horizontalCenter: fadeOutCanvas.width > radius? fadeOutCanvas.left : undefined
         anchors.top: fadeOutCanvas.top
-        anchors.topMargin: -3
-        width: 15
-        height: 15
-        radius: 7.5
-        color: 'black'
+        anchors.topMargin: -10
+        width: root.baseUnit * 2
+        height: width
+        radius: width / 2
+        color: '#66FFFFFF'
         border.width: 2
-        border.color: 'white'
+        border.color: 'red'
         opacity: 0
         Drag.active: fadeOutMouseArea.drag.active
         MouseArea {
@@ -492,7 +497,11 @@ Rectangle {
             property int startX
             property int startFadeOut
             onEntered: parent.opacity = 0.7
-            onExited: parent.opacity = 0
+            onExited: {
+                if (!pressed) {
+                  parent.opacity = 0
+                }
+            }
             drag.smoothed: false
             onPressed: {
                 root.stopScrolling = true
@@ -505,6 +514,7 @@ Rectangle {
             }
             onReleased: {
                 fadeOutCanvas.opacity = 0.3
+                parent.opacity = 0
                 root.stopScrolling = false
                 if (fadeOutCanvas.width > parent.radius)
                     parent.anchors.horizontalCenter = fadeOutCanvas.left
@@ -527,15 +537,15 @@ Rectangle {
         }
         SequentialAnimation on scale {
             loops: Animation.Infinite
-            running: fadeOutMouseArea.containsMouse
+            running: fadeOutMouseArea.containsMouse && !fadeOutMouseArea.pressed
             NumberAnimation {
                 from: 1.0
-                to: 0.5
+                to: 0.7
                 duration: 250
                 easing.type: Easing.InOutQuad
             }
             NumberAnimation {
-                from: 0.5
+                from: 0.7
                 to: 1.0
                 duration: 250
                 easing.type: Easing.InOutQuad
