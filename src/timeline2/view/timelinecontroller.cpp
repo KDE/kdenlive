@@ -94,15 +94,15 @@ double TimelineController::scaleFactor() const
     return m_scale;
 }
 
-const QString TimelineController::getTrackName(int trackId)
+const QString TimelineController::getTrackNameFromMltIndex(int trackPos)
 {
-    if (trackId == -1) {
+    if (trackPos == -1) {
         return i18n("unknown");
     }
-    if (trackId == 0) {
+    if (trackPos == 0) {
         return i18n("Black");
     }
-    return m_model->getTrackById(trackId)->getProperty(QStringLiteral("kdenlive:track_name")).toString();
+    return m_model->getTrackById(m_model->getTrackIndexFromPosition(trackPos -1))->getProperty(QStringLiteral("kdenlive:track_name")).toString();
 }
 
 QMap<int, QString> TimelineController::getTrackNames(bool videoOnly)
@@ -112,7 +112,7 @@ QMap<int, QString> TimelineController::getTrackNames(bool videoOnly)
         if (videoOnly && m_model->getTrackById(track.first)->getProperty(QStringLiteral("kdenlive:audio_track")).toInt() == 1) {
             continue;
         }
-        names[track.first] = m_model->getTrackById(track.first)->getProperty("kdenlive:track_name").toString();
+        names[m_model->getTrackMltIndex(track.first)] = m_model->getTrackById(track.first)->getProperty("kdenlive:track_name").toString();
     }
     return names;
 }

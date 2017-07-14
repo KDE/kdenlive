@@ -200,7 +200,7 @@ public:
      */
     Q_INVOKABLE void adjustFade(int cid, const QString &effectId, int duration);
 
-    Q_INVOKABLE const QString getTrackName(int trackId);
+    Q_INVOKABLE const QString getTrackNameFromMltIndex(int trackPos);
     /* @brief Seeks to selected clip start / end
      */
     void seekCurrentClip(bool seekToEnd = false);

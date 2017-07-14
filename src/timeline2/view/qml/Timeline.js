@@ -59,6 +59,17 @@ function getTrackYFromId(id) {
     return result
 }
 
+function getTrackYFromMltIndex(id) {
+    if (id <= 0) {
+        return 0
+    }
+    var result = - scrollView.flickableItem.contentY
+    for (var i = 0; i < trackHeaderRepeater.count - id; i++) {
+        result += trackHeaderRepeater.itemAt(i).height
+    }
+    return result
+}
+
 function getTracksList() {
     var result = new Array(2);
     var aTracks = 0

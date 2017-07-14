@@ -303,11 +303,12 @@ Item {
             GradientStop { position: 0.0; color: selected ? 'red' : 'mediumpurple' }
             GradientStop { position: 1.0; color: "#00000000" }
         }
-        y: root.getTrackYFromId(compositionRoot.aTrack) - trackRoot.mapToItem(null, 0, 0).y + ruler.height
+        visible: compositionRoot.aTrack > 0
+        y: root.getTrackYFromMltIndex(compositionRoot.aTrack) - trackRoot.mapToItem(null, 0, 0).y + ruler.height
         height: clabel.height + 4
         Text {
             id: clabel
-            text: timeline.getTrackName(compositionRoot.aTrack)
+            text: timeline.getTrackNameFromMltIndex(compositionRoot.aTrack)
             font.pixelSize: root.baseUnit
             anchors {
                 top: parent.top
