@@ -615,7 +615,10 @@ int TimelineController::getCompositionATrack(int cid) const
 
 void TimelineController::setCompositionATrack(int cid, int aTrack)
 {
+    QScopedPointer<Mlt::Field> field(m_model->m_tractor->field());
+    field->lock();
     m_model->getCompositionPtr(cid)->setATrack(aTrack);
+    field->unlock();
     refreshItem(cid);
     QModelIndex modelIndex = m_model->makeCompositionIndexFromID(cid);
     QVector <int> roles;

@@ -31,6 +31,7 @@ CompositionModel::CompositionModel(std::weak_ptr<TimelineModel> parent, Mlt::Tra
                                    const QString &transitionId)
     : MoveableItem<Mlt::Transition>(std::move(parent), id)
     , AssetParameterModel(transition, transitionXml, transitionId, {ObjectType::TimelineComposition, m_id})
+    , a_track(-1)
 {
 }
 
@@ -128,12 +129,15 @@ int CompositionModel::getPlaytime() const
 int CompositionModel::getATrack() const
 {
     READ_LOCK();
-    return service()->get_int("a_track");
+    return a_track == -1 ? -1 : service()->get_int("a_track");
 }
 
 void CompositionModel::setATrack(int trackId)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(trackId != getCurrentTrackId()); // can't compose with same track
-    service()->set("a_track", trackId);
+    a_track = trackId;
+    if (a_track >= 0) {
+        service()->set("a_track", trackId);
+    }
 }

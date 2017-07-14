@@ -227,7 +227,7 @@ int TimelineModel::getNextTrackId(int trackId) const
     return (it != m_allTracks.end()) ? (*it)->getId() : -1;
 }
 
-int TimelineModel::getPreviousVideoTrackId(int trackId) const
+int TimelineModel::getPreviousVideoTrackPos(int trackId) const
 {
     READ_LOCK();
     Q_ASSERT(isTrack(trackId));
@@ -238,7 +238,7 @@ int TimelineModel::getPreviousVideoTrackId(int trackId) const
             break;
         }
     }
-    return it == m_allTracks.begin() ? 0 : (*it)->getId();
+    return it == m_allTracks.begin() ? 0 : getTrackMltIndex((*it)->getId());
 }
 
 bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool updateView, Fun &undo, Fun &redo)
@@ -1330,7 +1330,8 @@ bool TimelineModel::requestCompositionMove(int compoId, int trackId, int composi
     Q_ASSERT(isComposition(compoId));
     Q_ASSERT(isTrack(trackId));
     if (compositionTrack == -1) {
-        compositionTrack = getPreviousVideoTrackId(trackId);
+        qDebug()<<"// compo track: "<<trackId<<", PREVIOUS TK: "<<getPreviousVideoTrackPos(trackId);
+        compositionTrack = getPreviousVideoTrackPos(trackId);
     }
     if (compositionTrack == -1) {
         // it doesn't make sense to insert a composition on the last track
@@ -1405,7 +1406,6 @@ bool TimelineModel::replantCompositions(int currentCompo)
 {
     // We ensure that the compositions are planted in a decreasing order of b_track.
     // For that, there is no better option than to disconnect every composition and then reinsert everything in the correct order.
-
     std::vector<std::pair<int, int>> compos;
     for (const auto &compo : m_allCompositions) {
         int trackId = compo.second->getCurrentTrackId();
@@ -1419,16 +1419,14 @@ bool TimelineModel::replantCompositions(int currentCompo)
             unplantComposition(compo.first);
         }
     }
-
     // sort by decreasing b_track
     std::sort(compos.begin(), compos.end(), [](const std::pair<int, int> &a, const std::pair<int, int> &b) { return a.first > b.first; });
-
     // replant
     QScopedPointer<Mlt::Field> field(m_tractor->field());
+    field->lock();
     for (const auto &compo : compos) {
         int aTrack = m_allCompositions[compo.second]->getATrack();
         Q_ASSERT(aTrack != -1);
-        aTrack = aTrack == 0 ? 0 : getTrackMltIndex(aTrack);
         int ret = field->plant_transition(*m_allCompositions[compo.second].get(), aTrack, compo.first);
         qDebug() << "Planting composition " << compo.second << "in " << aTrack << "/" << compo.first << "IN = " << m_allCompositions[compo.second]->getIn()
                  << "OUT = " << m_allCompositions[compo.second]->getOut() << "ret=" << ret;
@@ -1437,9 +1435,11 @@ bool TimelineModel::replantCompositions(int currentCompo)
         mlt_service consumer = mlt_service_consumer(transition.get_service());
         Q_ASSERT(consumer != nullptr);
         if (ret != 0) {
+            field->unlock();
             return false;
         }
     }
+    field->unlock();
     QModelIndex modelIndex = makeCompositionIndexFromID(currentCompo);
     QVector<int> roles;
     roles.push_back(ItemATrack);
@@ -1453,13 +1453,16 @@ bool TimelineModel::unplantComposition(int compoId)
     Mlt::Transition &transition = *m_allCompositions[compoId].get();
     mlt_service consumer = mlt_service_consumer(transition.get_service());
     Q_ASSERT(consumer != nullptr);
-    m_tractor->field()->disconnect_service(transition);
+    QScopedPointer<Mlt::Field> field(m_tractor->field());
+    field->lock();
+    field->disconnect_service(transition);
     int ret = transition.disconnect_all_producers();
 
     mlt_service nextservice = mlt_service_get_producer(transition.get_service());
     // mlt_service consumer = mlt_service_consumer(transition.get_service());
     Q_ASSERT(nextservice == nullptr);
     // Q_ASSERT(consumer == nullptr);
+    field->unlock();
     return ret != 0;
 }
 

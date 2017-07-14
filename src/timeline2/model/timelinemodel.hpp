@@ -233,11 +233,10 @@ public:
     */
     int getNextTrackId(int trackId) const;
 
-    /* @brief Returns the id of the track just above the given track in the order of the tracks
-       Return -1 if we give the last track
+    /* @brief Returns the MLT track index of the video track just below the given trackC
        @param trackId Id of the track to test
     */
-    int getPreviousVideoTrackId(int trackId) const;
+    int getPreviousVideoTrackPos(int trackId) const;
 
     /* @brief Move a clip to a specific position
        This action is undoable
