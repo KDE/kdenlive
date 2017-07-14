@@ -1435,6 +1435,7 @@ bool TimelineModel::replantCompositions(int currentCompo)
                  << "OUT = " << m_allCompositions[compo.second]->getOut() << "ret=" << ret;
 
         Mlt::Transition &transition = *m_allCompositions[compo.second].get();
+        transition.set_tracks(aTrack, compo.first);
         mlt_service consumer = mlt_service_consumer(transition.get_service());
         Q_ASSERT(consumer != nullptr);
         if (ret != 0) {
