@@ -1011,6 +1011,8 @@ void ParameterContainer::slotCollectAllParameters()
                     pedit->setPosition(pos);
                 }*/
                 effect_in = m_out - pos;
+            } else {
+                namenode.item(i).toElement().setAttribute(QStringLiteral("value"), pos);
             }
             EffectsList::setParameter(m_effect, QStringLiteral("in"),
                                       QString::number(effect_in));
