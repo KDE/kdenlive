@@ -18,6 +18,7 @@
  ***************************************************************************/
 
 #include "monitormanager.h"
+#include "monitorcontroller.hpp"
 #include "core.h"
 #include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
@@ -63,8 +64,6 @@ void MonitorManager::initMonitors(Monitor *clipMonitor, Monitor *projectMonitor)
 {
     m_clipMonitor = clipMonitor;
     m_projectMonitor = projectMonitor;
-    connect(m_clipMonitor->render, SIGNAL(activateMonitor(Kdenlive::MonitorId)), this, SLOT(activateMonitor(Kdenlive::MonitorId)));
-    connect(m_projectMonitor->render, SIGNAL(activateMonitor(Kdenlive::MonitorId)), this, SLOT(activateMonitor(Kdenlive::MonitorId)));
     m_monitorsList.append(clipMonitor);
     m_monitorsList.append(projectMonitor);
 }
@@ -95,10 +94,10 @@ AbstractMonitor *MonitorManager::monitor(Kdenlive::MonitorId monitorName)
 void MonitorManager::setConsumerProperty(const QString &name, const QString &value)
 {
     if (m_clipMonitor) {
-        m_clipMonitor->render->setConsumerProperty(name, value);
+        m_clipMonitor->m_monitorController->setConsumerProperty(name, value);
     }
     if (m_projectMonitor) {
-        m_projectMonitor->render->setConsumerProperty(name, value);
+        m_projectMonitor->m_monitorController->setConsumerProperty(name, value);
     }
 }
 

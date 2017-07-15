@@ -80,7 +80,6 @@ public:
     AbstractMonitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *parent = nullptr);
     Kdenlive::MonitorId id() { return m_id; }
     virtual ~AbstractMonitor();
-    virtual AbstractRender *abstractRender() = 0;
     bool isActive() const;
     virtual void mute(bool mute, bool updateIconOnly = false) = 0;
 

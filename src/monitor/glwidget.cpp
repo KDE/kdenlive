@@ -30,7 +30,6 @@
 
 #include "core.h"
 #include "glwidget.h"
-#include "doc/kthumb.h"
 #include "kdenlivesettings.h"
 #include "mltcontroller/bincontroller.h"
 #include "profiles/profilemodel.hpp"
@@ -1832,49 +1831,7 @@ void GLWidget::stop()
     }
 }
 
-QImage GLWidget::extractFrame(int frame_position, const QString &path, int width, int height)
-{
-    if (width == -1) {
-        width = m_monitorProfile->width();
-        height = m_monitorProfile->height();
-    } else if (width % 2 == 1) {
-        width++;
-    }
-    if (!path.isEmpty()) {
-        Mlt::Producer *producer = new Mlt::Producer(*m_monitorProfile, path.toUtf8().constData());
-        if (producer) {
-            if (producer->is_valid()) {
-                QImage img = KThumb::getFrame(producer, frame_position, width, height);
-                delete producer;
-                return img;
-            }
-            delete producer;
-        }
-    }
-    if (m_producer == nullptr) {
-        QImage pix(width, height, QImage::Format_RGB32);
-        pix.fill(Qt::black);
-        return pix;
-    }
-    Mlt::Frame *frame = nullptr;
-    if (KdenliveSettings::gpu_accel()) {
-        QString service = m_producer->get("mlt_service");
-        // TODO: create duplicate prod from xml data
-        Mlt::Producer *tmpProd = new Mlt::Producer(*m_monitorProfile, service.toUtf8().constData(), path.toUtf8().constData());
-        Mlt::Filter scaler(*m_monitorProfile, "swscale");
-        Mlt::Filter converter(*m_monitorProfile, "avcolor_space");
-        tmpProd->attach(scaler);
-        tmpProd->attach(converter);
-        tmpProd->seek(m_producer->position());
-        frame = tmpProd->get_frame();
-        delete tmpProd;
-    } else {
-        frame = m_producer->get_frame();
-    }
-    QImage img = KThumb::getFrame(frame, width, height);
-    delete frame;
-    return img;
-}
+
 
 double GLWidget::playSpeed() const
 {

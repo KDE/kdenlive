@@ -25,23 +25,19 @@
 #include "definitions.h"
 #include "effectslist/effectslist.h"
 #include "gentime.h"
-#include "renderer.h"
 #include "scopes/sharedframe.h"
 #include "timecodedisplay.h"
 
 #include <QDomElement>
 #include <QElapsedTimer>
 #include <QToolBar>
+#include <QMutex>
 
 #include <memory>
 #include <unordered_set>
 
 class SnapModel;
 class ProjectClip;
-class AbstractClipItem;
-class Transition;
-class ClipItem;
-class Monitor;
 class MonitorManager;
 class QSlider;
 class KDualAction;
@@ -52,7 +48,14 @@ class QScrollBar;
 class RecManager;
 class QToolButton;
 class QmlManager;
+class GLWidget;
 class MonitorAudioLevel;
+class MonitorController;
+
+namespace Mlt {
+    class Profile;
+    class Filter;
+}
 
 class QuickEventEater : public QObject
 {
@@ -85,10 +88,10 @@ class Monitor : public AbstractMonitor
     Q_OBJECT
 
 public:
+    friend class MonitorManager;
+
     Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *parent = nullptr);
     ~Monitor();
-    Render *render;
-    AbstractRender *abstractRender() override;
     void resetProfile();
     void setCustomProfile(const QString &profile, const Timecode &tc);
     void setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu = nullptr, QAction *loopClip = nullptr);
@@ -172,6 +175,7 @@ protected:
     void enterEvent(QEvent *event) override;
     void leaveEvent(QEvent *event) override;
     virtual QStringList mimeTypes() const;
+    MonitorController *m_monitorController;
 
 private:
     std::shared_ptr<ProjectClip> m_controller;
@@ -209,8 +213,6 @@ private:
     QMenu *m_playMenu;
     QMenu *m_markerMenu;
     QPoint m_DragStartPosition;
-    /** Selected clip/transition in timeline. Used for looping it. */
-    AbstractClipItem *m_selectedClip;
     /** true if selected clip is transition, false = selected clip is clip.
      *  Necessary because sometimes we get two signals, e.g. we get a clip and we get selected transition = nullptr. */
     bool m_loopClipTransition;
@@ -316,10 +318,6 @@ public slots:
     bool effectSceneDisplayed(MonitorSceneType effectType);
     /** @brief split screen to compare clip with and without effect */
     void slotSwitchCompare(bool enable, int pos);
-    /** @brief Sets m_selectedClip to @param item. Used for looping it. */
-    void slotSetSelectedClip(AbstractClipItem *item);
-    void slotSetSelectedClip(ClipItem *item);
-    void slotSetSelectedClip(Transition *item);
     void slotMouseSeek(int eventDelta, int modifiers) override;
     void slotSwitchFullScreen(bool minimizeOnly = false) override;
     /** @brief Display or hide the record toolbar */

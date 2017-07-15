@@ -18,6 +18,7 @@
  ***************************************************************************/
 
 #include "monitor.h"
+#include "monitorcontroller.hpp"
 #include "bin/bin.h"
 #include "bin/projectclip.h"
 #include "core.h"
@@ -126,7 +127,6 @@ bool QuickMonitorEventEater::eventFilter(QObject *obj, QEvent *event)
 
 Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *parent)
     : AbstractMonitor(id, manager, parent)
-    , render(nullptr)
     , m_controller(nullptr)
     , m_glMonitor(nullptr)
     , m_splitEffect(nullptr)
@@ -138,7 +138,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     , m_sceneVisibilityAction(nullptr)
     , m_multitrackView(nullptr)
     , m_contextMenu(nullptr)
-    , m_selectedClip(nullptr)
     , m_loopClipTransition(true)
     , m_editMarker(nullptr)
     , m_forceSizeFactor(0)
@@ -159,6 +158,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     connect(m_glMonitor, &GLWidget::passKeyEvent, this, &Monitor::doKeyPressEvent);
     connect(m_glMonitor, &GLWidget::panView, this, &Monitor::panView);
     connect(m_glMonitor, &GLWidget::seekPosition, this, &Monitor::slotSeekPosition, Qt::DirectConnection);
+    m_monitorController = new MonitorController(m_glMonitor);
     m_videoWidget = QWidget::createWindowContainer(qobject_cast<QWindow *>(m_glMonitor));
     m_videoWidget->setAcceptDrops(true);
     auto *leventEater = new QuickEventEater(this);
@@ -288,8 +288,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     setLayout(layout);
     setMinimumHeight(200);
 
-    //render = new Render(m_id, m_monitorManager->binController(), m_glMonitor, this);
-
     connect(this, &Monitor::scopesClear, m_glMonitor, &GLWidget::releaseAnalyse, Qt::DirectConnection);
     connect(m_glMonitor, &GLWidget::analyseFrame, this, &Monitor::frameUpdated);
     connect(m_glMonitor, &GLWidget::audioSamplesSignal, this, &Monitor::audioSamplesSignal);
@@ -364,7 +362,6 @@ Monitor::~Monitor()
     delete m_videoWidget;
     delete m_glWidget;
     delete m_timePos;
-    delete render;
 }
 
 void Monitor::setOffsetX(int x)
@@ -1018,9 +1015,9 @@ void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
             if ((m_controller != nullptr) && !m_controller->getProducerProperty(QStringLiteral("kdenlive:proxy")).isEmpty() &&
                 m_controller->getProducerProperty(QStringLiteral("kdenlive:proxy")) != QLatin1String("-")) {
                 // using proxy, use original clip url to get frame
-                frame = m_glMonitor->extractFrame(m_glMonitor->getCurrentPos(), m_controller->getProducerProperty(QStringLiteral("kdenlive:originalurl")));
+                frame = m_monitorController->extractFrame(m_glMonitor->getCurrentPos(), m_controller->getProducerProperty(QStringLiteral("kdenlive:originalurl")));
             } else {
-                frame = m_glMonitor->extractFrame(m_glMonitor->getCurrentPos());
+                frame = m_monitorController->extractFrame(m_glMonitor->getCurrentPos());
             }
             frame.save(savePath.toLocalFile());
             KRecentDirs::add(QStringLiteral(":KdenliveFramesFolder"), savePath.adjusted(QUrl::RemoveFilename).toLocalFile());
@@ -1119,7 +1116,7 @@ void Monitor::slotRewind(double speed)
 {
     slotActivateMonitor();
     if (speed == 0) {
-        double currentspeed = render->playSpeed();
+        double currentspeed = m_glMonitor->playSpeed();
         if (currentspeed >= 0) {
             speed = -1;
         } else
@@ -1216,19 +1213,16 @@ void Monitor::stop()
 
 void Monitor::mute(bool mute, bool updateIconOnly)
 {
-    //TODO
-    if (render) {
-        // TODO: we should set the "audio_off" property to 1 to mute the consumer instead of changing volume
-        QIcon icon;
-        if (mute || KdenliveSettings::volume() == 0) {
-            icon = KoIconUtils::themedIcon(QStringLiteral("audio-volume-muted"));
-        } else {
-            icon = KoIconUtils::themedIcon(QStringLiteral("audio-volume-medium"));
-        }
-        m_audioButton->setIcon(icon);
-        if (!updateIconOnly) {
-            render->setVolume(mute ? 0 : (double)KdenliveSettings::volume() / 100.0);
-        }
+    // TODO: we should set the "audio_off" property to 1 to mute the consumer instead of changing volume
+    QIcon icon;
+    if (mute || KdenliveSettings::volume() == 0) {
+        icon = KoIconUtils::themedIcon(QStringLiteral("audio-volume-muted"));
+    } else {
+        icon = KoIconUtils::themedIcon(QStringLiteral("audio-volume-medium"));
+    }
+    m_audioButton->setIcon(icon);
+    if (!updateIconOnly) {
+        m_glMonitor->setVolume(mute ? 0 : (double)KdenliveSettings::volume() / 100.0);
     }
 }
 
@@ -1320,8 +1314,8 @@ void Monitor::updateClipProducer(const QString &playlist)
 {
     //TODO
     Mlt::Producer *prod = new Mlt::Producer(*m_glMonitor->profile(), playlist.toUtf8().constData());
-    m_glMonitor->setProducer(prod, render->seekFramePosition(), true);
-    render->play(1.0);
+    //m_glMonitor->setProducer(prod, render->seekFramePosition(), true);
+    m_glMonitor->switchPlay(true);
 }
 
 void Monitor::slotOpenClip(std::shared_ptr<ProjectClip> controller, int in, int out)
@@ -1379,11 +1373,8 @@ const QString Monitor::activeClipId()
 void Monitor::slotOpenDvdFile(const QString &file)
 {
     //TODO
-    if (render == nullptr) {
-        return;
-    }
     m_glMonitor->initializeGL();
-    render->loadUrl(file);
+    //render->loadUrl(file);
 }
 
 void Monitor::slotSaveZone()
@@ -1396,11 +1387,11 @@ void Monitor::setCustomProfile(const QString &profile, const Timecode &tc)
 {
     //TODO or deprecate
     m_timePos->updateTimeCode(tc);
-    if (render == nullptr) {
+    if (true) {
         return;
     }
     slotActivateMonitor();
-    render->prepareProfileReset(tc.fps());
+    //render->prepareProfileReset(tc.fps());
     if (m_multitrackView) {
         m_multitrackView->setChecked(false);
     }
@@ -1494,36 +1485,6 @@ QPoint Monitor::getZoneInfo() const
         return QPoint();
     }
     return m_controller->zone();
-}
-
-void Monitor::slotSetSelectedClip(AbstractClipItem *item)
-{
-    if (item) {
-        if (m_loopClipAction) {
-            m_loopClipAction->setEnabled(true);
-        }
-        m_selectedClip = item;
-    } else {
-        if (m_loopClipAction) {
-            m_loopClipAction->setEnabled(false);
-        }
-    }
-}
-
-void Monitor::slotSetSelectedClip(ClipItem *item)
-{
-    if ((item != nullptr) || !m_loopClipTransition) {
-        m_loopClipTransition = false;
-        slotSetSelectedClip((AbstractClipItem *)item); // FIXME static_cast fails!
-    }
-}
-
-void Monitor::slotSetSelectedClip(Transition *item)
-{
-    if ((item != nullptr) || m_loopClipTransition) {
-        m_loopClipTransition = true;
-        slotSetSelectedClip((AbstractClipItem *)item); // FIXME static_cast fails!
-    }
 }
 
 void Monitor::slotEnableSceneZoom(bool enable)
@@ -1703,11 +1664,6 @@ void Monitor::checkDrops(int dropped)
     }
 }
 
-AbstractRender *Monitor::abstractRender()
-{
-    return render;
-}
-
 void Monitor::reloadProducer(const QString &id)
 {
     if (!m_controller) {
@@ -1828,7 +1784,7 @@ void Monitor::slotSwitchCompare(bool enable, int pos)
         buildSplitEffect(m_controller->masterProducer(), pos);
     } else if (m_splitEffect) {
         //TODO
-        render->setProducer(m_controller->masterProducer(), pos, isActive());
+        //render->setProducer(m_controller->masterProducer(), pos, isActive());
         delete m_splitEffect;
         m_splitProducer = nullptr;
         m_splitEffect = nullptr;
@@ -1870,7 +1826,7 @@ void Monitor::buildSplitEffect(Mlt::Producer *original, int pos)
     delete clone;
     delete original;
     m_splitProducer = new Mlt::Producer(trac.get_producer());
-    render->setProducer(m_splitProducer, pos, isActive());
+    //render->setProducer(m_splitProducer, pos, isActive());
     loadQmlScene(MonitorSceneSplit);
 }
 
@@ -2026,7 +1982,7 @@ bool Monitor::startCapture(const QString &params, const QString &path, Mlt::Prod
 {
     //TODO
     m_controller = nullptr;
-    if (render->updateProducer(p)) {
+    if (false) {//render->updateProducer(p)) {
         m_glMonitor->reconfigureMulti(params, path, p->profile());
         return true;
     }

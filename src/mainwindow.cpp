@@ -3665,7 +3665,7 @@ void MainWindow::slotInsertZoneToTimeline()
 void MainWindow::slotMonitorRequestRenderFrame(bool request)
 {
     if (request) {
-        m_projectMonitor->render->sendFrameForAnalysis = true;
+        m_projectMonitor->sendFrameForAnalysis(true);
         return;
     }
     for (int i = 0; i < m_gfxScopesList.count(); ++i) {
@@ -3680,7 +3680,7 @@ void MainWindow::slotMonitorRequestRenderFrame(bool request)
     qCDebug(KDENLIVE_LOG) << "Any scope accepting new frames? " << request;
 #endif
     if (!request) {
-        m_projectMonitor->render->sendFrameForAnalysis = false;
+        m_projectMonitor->sendFrameForAnalysis(false);
     }
 }
 

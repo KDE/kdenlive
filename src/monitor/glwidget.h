@@ -58,6 +58,9 @@ class GLWidget : public QQuickView, protected QOpenGLFunctions
     Q_PROPERTY(QPoint offset READ offset NOTIFY offsetChanged)
 
 public:
+
+    friend class MonitorController;
+
     GLWidget(int id, QObject *parent = nullptr);
     ~GLWidget();
 
@@ -115,7 +118,6 @@ public:
     void startConsumer();
     void stop();
     int rulerHeight() const;
-    QImage extractFrame(int frame_position, const QString &path = QString(), int width = -1, int height = -1);
     /** @brief return current play producer's playing speed */
     double playSpeed() const;
     /** @brief Turn drop frame feature on/off */
@@ -168,6 +170,13 @@ signals:
     void panView(const QPoint &diff);
     void seekPosition(int);
 
+protected:
+    Mlt::Filter *m_glslManager;
+    Mlt::Consumer *m_consumer;
+    Mlt::Producer *m_producer;
+    Mlt::Profile *m_monitorProfile;
+    QMutex m_mutex;
+
 private:
     int m_id;
     QRect m_rect;
@@ -176,9 +185,6 @@ private:
     QOpenGLShaderProgram *m_shader;
     QPoint m_panStart;
     QPoint m_dragStart;
-    Mlt::Filter *m_glslManager;
-    Mlt::Consumer *m_consumer;
-    Mlt::Producer *m_producer;
     QSemaphore m_initSem;
     QSemaphore m_analyseSem;
     bool m_isInitialized;
@@ -187,7 +193,6 @@ private:
     Mlt::Event *m_threadCreateEvent;
     Mlt::Event *m_threadJoinEvent;
     Mlt::Event *m_displayEvent;
-    Mlt::Profile *m_monitorProfile;
     FrameRenderer *m_frameRenderer;
     int m_projectionLocation;
     int m_modelViewLocation;
@@ -202,7 +207,6 @@ private:
     bool m_isZoneMode;
     bool m_isLoopMode;
     SharedFrame m_sharedFrame;
-    QMutex m_mutex;
     QPoint m_offset;
     QOffscreenSurface m_offscreenSurface;
     QOpenGLContext *m_shareContext;

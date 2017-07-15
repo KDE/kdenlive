@@ -195,7 +195,7 @@ void TransitionSettings::slotTransitionChanged(bool reinit, bool updateCurrent)
             connect(m_effectEdit->monitor(), &Monitor::seekPosition, this, &TransitionSettings::slotRenderPos, Qt::UniqueConnection);
         }
     }
-    slotCheckMonitorPosition(m_effectEdit->monitor()->render->seekFramePosition());
+    //slotCheckMonitorPosition(m_effectEdit->monitor()->render->seekFramePosition());
 }
 
 void TransitionSettings::slotTransitionTrackChanged()

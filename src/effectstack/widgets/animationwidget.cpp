@@ -43,12 +43,14 @@
 #include <klocalizedstring.h>
 
 #include "mlt++/MltAnimation.h"
+#include "mlt++/MltProfile.h"
 
 #include "../animkeyframeruler.h"
 #include "animationwidget.h"
 #include "assets/model/assetparametermodel.hpp"
 #include "core.h"
 #include "effectstack/parametercontainer.h"
+#include "mltcontroller/effectscontroller.h"
 #include "kdenlivesettings.h"
 #include "monitor/monitor.h"
 #include "timecodedisplay.h"

@@ -214,12 +214,14 @@ Rectangle {
             }
         }
         RowLayout {
-            spacing: 0
+            spacing: root.baseUnit / 2
             id: buttonBar
             visible: (trackHeadRoot.height >= trackLabel.height + muteButton.height + resizer.height)
-            Layout.leftMargin: 2
+            Layout.leftMargin: root.baseUnit
             ToolButton {
                 id: muteButton
+                implicitHeight: root.baseUnit * 2
+                implicitWidth: root.baseUnit * 2
                 iconName: isMute ? 'kdenlive-hide-audio' : 'kdenlive-show-audio'
                 iconSource: isMute ? 'qrc:///pics/kdenlive-hide-audio.svgz' : 'qrc:///pics/kdenlive-show-audio.svgz'
                 onClicked: controller.setTrackProperty(trackId, "hide", isMute ? isHidden ? '1' : '0' : isHidden ? '3' : '2')
@@ -228,6 +230,8 @@ Rectangle {
 
             ToolButton {
                 id: hideButton
+                implicitHeight: root.baseUnit * 2
+                implicitWidth: root.baseUnit * 2
                 visible: !isAudio
                 iconName: isHidden ? 'kdenlive-hide-video' : 'kdenlive-show-video'
                 iconSource: isHidden? 'qrc:///pics/kdenlive-hide-video.svgz' : 'qrc:///pics/kdenlive-show-video.svgz'
@@ -240,6 +244,8 @@ Rectangle {
 
             ToolButton {
                 id: lockButton
+                implicitHeight: root.baseUnit * 2
+                implicitWidth: root.baseUnit * 2
                 iconName: isLocked ? 'kdenlive-lock' : 'kdenlive-unlock'
                 iconSource: isLocked ? 'qrc:///pics/kdenlive-lock.svg' : 'qrc:///pics/kdenlive-unlock.svg'
                 onClicked: controller.setTrackProperty(trackId, "kdenlive:locked_track", isLocked ? '0' : '1')
