@@ -366,10 +366,12 @@ Rectangle {
                             trackId: item
                             onIsLockedChanged: tracksRepeater.itemAt(index).isLocked = isLocked
                             onMyTrackHeightChanged: {
-                                model.trackHeight = myTrackHeight
                                 trackBaseRepeater.itemAt(index).height = myTrackHeight
                                 tracksRepeater.itemAt(index).height = myTrackHeight
                                 height = myTrackHeight
+                                if (!collapsed) {
+                                    controller.setTrackProperty(trackId, "kdenlive:trackheight", myTrackHeight)
+                                }
                                 // hack: change property to trigger transition adjustment
                                 root.trackHeight = root.trackHeight === 1 ? 0 : 1
                             }

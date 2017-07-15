@@ -26,6 +26,7 @@ Rectangle {
     id: trackHeadRoot
     property string trackName
     property bool isMute
+    property bool collapsed: false
     property bool isHidden
     property int isComposite
     property bool isLocked
@@ -113,7 +114,8 @@ Rectangle {
                 id: expandButton
                 iconName: buttonBar.visible ? 'arrow-down' : 'arrow-right'
                 onClicked: {
-                    trackHeadRoot.myTrackHeight = buttonBar.visible ? nameEdit.height + 2 : '100'
+                    trackHeadRoot.collapsed = buttonBar.visible
+                    trackHeadRoot.myTrackHeight = buttonBar.visible ? nameEdit.height + 2 : controller.getTrackProperty(trackId, "kdenlive:trackheight")
                 }
                 tooltip: buttonBar.visible? i18n('Minimize') : i18n('Expand')
             }
@@ -311,6 +313,7 @@ Rectangle {
                         parent.opacity = 0.5
                         var newHeight = originalY + (mapToItem(null, x, y).y - startY)
                         newHeight =  Math.max(trackLabel.height + resizer.height + 4, newHeight)
+                        trackHeadRoot.collapsed = newHeight < nameEdit.height * 2
                         trackHeadRoot.myTrackHeight = newHeight
                     }
                 }

@@ -339,6 +339,11 @@ void TimelineItemModel::setTrackProperty(int trackId, const QString &name, const
     }
 }
 
+QVariant TimelineItemModel::getTrackProperty(int tid, const QString &name)
+{
+    return getTrackById(tid)->getProperty(name);
+}
+
 void TimelineItemModel::notifyChange(const QModelIndex &topleft, const QModelIndex &bottomright, bool start, bool duration, bool updateThumb)
 {
     QVector<int> roles;
