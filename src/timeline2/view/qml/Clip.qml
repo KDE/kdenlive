@@ -250,7 +250,6 @@ Rectangle {
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.bottom: parent.bottom
-            anchors.bottomMargin: 1
             property int maxWidth: 10000
             property int innerWidth: clipRoot.width - clipRoot.border.width * 2
 
@@ -435,7 +434,7 @@ Rectangle {
             onPositionChanged: {
                 if (mouse.buttons === Qt.LeftButton) {
                     var delta = Math.round((parent.x - startX) / timeScale)
-                    var duration = startFadeIn + delta
+                    var duration = Math.max(0, startFadeIn + delta)
                     clipRoot.fadeIn = duration;
                     timeline.adjustFade(clipRoot.clipId, 'fadein', duration)
 
@@ -525,7 +524,7 @@ Rectangle {
             onPositionChanged: {
                 if (mouse.buttons === Qt.LeftButton) {
                     var delta = Math.round((startX - parent.x) / timeScale)
-                    var duration = startFadeOut + delta
+                    var duration = Math.max(0, startFadeOut + delta)
                     clipRoot.fadeOut = duration
                     timeline.adjustFade(clipRoot.clipId, 'fadeout', duration)
 
