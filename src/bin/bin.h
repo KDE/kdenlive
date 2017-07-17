@@ -300,9 +300,6 @@ public:
     void getBinStats(uint *used, uint *unused, qint64 *usedSize, qint64 *unusedSize);
     /** @brief Returns the clip properties dockwidget. */
     QDockWidget *clipPropertiesDock();
-    /** @brief Returns a cached thumbnail. */
-    QImage findCachedPixmap(const QString &path);
-    void cachePixmap(const QString &path, const QImage &img);
     /** @brief Returns a document's cache dir. ok is set to false if folder does not exist */
     QDir getCacheDir(CacheType type, bool *ok) const;
     /** @brief Command adding a bin clip */

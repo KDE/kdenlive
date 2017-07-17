@@ -21,7 +21,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "projectclip.h"
-#include "bin.h"
 #include "core.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
@@ -42,6 +41,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "timeline/clip.h"
 #include "timeline2/model/snapmodel.hpp"
 #include "utils/KoIconUtils.h"
+#include <kimagecache.h>
+#include <QPainter>
 
 #include "kdenlive_debug.h"
 #include <KLocalizedString>
@@ -513,16 +514,15 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         if (value.isEmpty() || value == QLatin1String("-")) {
             // reset proxy
             if (auto ptr = m_model.lock()) {
-                if (std::static_pointer_cast<ProjectItemModel>(ptr)->bin()->hasPendingJob(m_binId, AbstractClipJob::PROXYJOB)) {
-                    std::static_pointer_cast<ProjectItemModel>(ptr)->bin()->discardJobs(m_binId, AbstractClipJob::PROXYJOB);
-                } else {
-                    reloadProducer();
-                }
+                emit std::static_pointer_cast<ProjectItemModel>(ptr)->discardJobs(m_binId, AbstractClipJob::PROXYJOB);
+                reloadProducer();
             }
         } else {
             // A proxy was requested, make sure to keep original url
             setProducerProperty(QStringLiteral("kdenlive:originalurl"), url());
-            if (auto ptr = m_model.lock()) std::static_pointer_cast<ProjectItemModel>(ptr)->bin()->startJob(m_binId, AbstractClipJob::PROXYJOB);
+            if (auto ptr = m_model.lock()) {
+                emit std::static_pointer_cast<ProjectItemModel>(ptr)->startJob(m_binId, AbstractClipJob::PROXYJOB);
+            }
         }
     } else if (properties.contains(QStringLiteral("resource")) || properties.contains(QStringLiteral("templatetext")) ||
                properties.contains(QStringLiteral("autorotate"))) {
@@ -560,10 +560,10 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
     if (reload) {
         // producer has changed, refresh monitor and thumbnail
         reloadProducer(refreshOnly);
-        if (auto ptr = m_model.lock()) std::static_pointer_cast<ProjectItemModel>(ptr)->bin()->refreshClip(m_binId);
+        if (auto ptr = m_model.lock()) emit std::static_pointer_cast<ProjectItemModel>(ptr)->refreshClip(m_binId);
     }
     if (!passProperties.isEmpty()) {
-        if (auto ptr = m_model.lock()) std::static_pointer_cast<ProjectItemModel>(ptr)->bin()->updateTimelineProducers(m_binId, passProperties);
+        if (auto ptr = m_model.lock()) emit std::static_pointer_cast<ProjectItemModel>(ptr)->updateTimelineProducers(m_binId, passProperties);
     }
 }
 
@@ -582,7 +582,7 @@ void ProjectClip::setJobStatus(int jobType, int status, int progress, const QStr
         }
         if ((status == JobAborted || status == JobCrashed || status == JobDone) && !statusMessage.isEmpty()) {
             m_jobMessage = statusMessage;
-            if (auto ptr = m_model.lock()) std::static_pointer_cast<ProjectItemModel>(ptr)->bin()->emitMessage(statusMessage, 100, OperationCompletedMessage);
+            if (auto ptr = m_model.lock()) emit std::static_pointer_cast<ProjectItemModel>(ptr)->emitMessage(statusMessage, 100, OperationCompletedMessage);
         }
     }
     if (auto ptr = m_model.lock()) std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()));
@@ -593,7 +593,7 @@ ClipPropertiesController *ProjectClip::buildProperties(QWidget *parent)
     auto ptr = m_model.lock();
     Q_ASSERT(ptr);
     ClipPropertiesController *panel =
-        new ClipPropertiesController(std::static_pointer_cast<ProjectItemModel>(ptr)->bin()->projectTimecode(), static_cast<ClipController *>(this), parent);
+        new ClipPropertiesController(static_cast<ClipController *>(this), parent);
     connect(this, &ProjectClip::refreshPropertiesPanel, panel, &ClipPropertiesController::slotReloadProperties);
     connect(this, &ProjectClip::refreshAnalysisPanel, panel, &ClipPropertiesController::slotFillAnalysisData);
     return panel;
@@ -645,7 +645,8 @@ bool ProjectClip::rename(const QString &name, int column)
         break;
     }
     if (edited) {
-        if (auto ptr = m_model.lock()) std::static_pointer_cast<ProjectItemModel>(ptr)->bin()->slotEditClipCommand(m_binId, oldProperites, newProperites);
+        // TODO refac
+        //if (auto ptr = m_model.lock()) std::static_pointer_cast<ProjectItemModel>(ptr)->bin()->slotEditClipCommand(m_binId, oldProperites, newProperites);
     }
     return edited;
 }
@@ -680,6 +681,7 @@ bool ProjectClip::deleteClipMarkers(QUndoCommand *command)
 
 void ProjectClip::addMarkers(QList<CommentedTime> &markers)
 {
+    // TODO refac : this must be cleaned
     for (int i = 0; i < markers.count(); ++i) {
         if (markers.at(i).markerType() < 0) {
             m_markerModel->removeMarker(markers.at(i).time());
@@ -688,7 +690,7 @@ void ProjectClip::addMarkers(QList<CommentedTime> &markers)
         }
     }
     // refresh markers in clip monitor
-    if (auto ptr = m_model.lock()) std::static_pointer_cast<ProjectItemModel>(ptr)->bin()->refreshClipMarkers(m_binId);
+    //if (auto ptr = m_model.lock()) std::static_pointer_cast<ProjectItemModel>(ptr)->bin()->refreshClipMarkers(m_binId);
     // refresh markers in timeline clips
     emit refreshClipDisplay();
 }
@@ -743,7 +745,8 @@ void ProjectClip::doExtractIntra()
         const QString path = url() + QLatin1Char('_') + QString::number(pos);
         auto ptr = m_model.lock();
         Q_ASSERT(ptr);
-        QImage img = std::static_pointer_cast<ProjectItemModel>(ptr)->bin()->findCachedPixmap(path);
+        QImage img;
+        std::static_pointer_cast<ProjectItemModel>(ptr)->m_pixmapCache->findImage(path, &img);
         if (!img.isNull()) {
             // Cache already contains image
             continue;
@@ -754,7 +757,7 @@ void ProjectClip::doExtractIntra()
         frame->set("top_field_first", -1);
         if (frame->is_valid()) {
             img = KThumb::getFrame(frame, fullWidth, 150);
-            std::static_pointer_cast<ProjectItemModel>(ptr)->bin()->cachePixmap(path, img);
+            std::static_pointer_cast<ProjectItemModel>(ptr)->m_pixmapCache->insertImage(path, img);
             emit thumbReady(pos, img);
         }
         delete frame;
@@ -785,7 +788,7 @@ void ProjectClip::doExtractImage()
     bool ok = false;
     auto ptr = m_model.lock();
     Q_ASSERT(ptr);
-    QDir thumbFolder = std::static_pointer_cast<ProjectItemModel>(ptr)->bin()->getCacheDir(CacheThumbs, &ok);
+    QDir thumbFolder = pCore->currentDoc()->getCacheDir(CacheThumbs, &ok);
     int max = prod->get_length();
     while (!m_requestedThumbs.isEmpty()) {
         m_thumbMutex.lock();
@@ -799,7 +802,8 @@ void ProjectClip::doExtractImage()
             pos = max - 1;
         }
         const QString path = url() + QLatin1Char('_') + QString::number(pos);
-        QImage img = std::static_pointer_cast<ProjectItemModel>(ptr)->bin()->findCachedPixmap(path);
+        QImage img;
+        std::static_pointer_cast<ProjectItemModel>(ptr)->m_pixmapCache->findImage(path, &img);
         if (!img.isNull()) {
             emit thumbReady(pos, img);
             continue;
@@ -810,7 +814,7 @@ void ProjectClip::doExtractImage()
         frame->set("top_field_first", -1);
         if (frame->is_valid()) {
             img = KThumb::getFrame(frame, frameWidth, 150, prod->profile()->sar() != 1);
-            std::static_pointer_cast<ProjectItemModel>(ptr)->bin()->cachePixmap(path, img);
+            std::static_pointer_cast<ProjectItemModel>(ptr)->m_pixmapCache->insertImage(path, img);
             emit thumbReady(pos, img);
         }
         delete frame;
@@ -851,7 +855,7 @@ const QString ProjectClip::getAudioThumbPath(AudioStreamInfo *audioInfo)
     bool ok = false;
     auto ptr = m_model.lock();
     Q_ASSERT(ptr);
-    QDir thumbFolder = std::static_pointer_cast<ProjectItemModel>(ptr)->bin()->getCacheDir(CacheAudio, &ok);
+    QDir thumbFolder = pCore->currentDoc()->getCacheDir(CacheAudio, &ok);
     QString audioPath = thumbFolder.absoluteFilePath(clipHash);
     if (audioStream > 0) {
         audioPath.append(QLatin1Char('_') + QString::number(audioInfo->audio_index()));
@@ -909,7 +913,7 @@ void ProjectClip::slotCreateAudioThumbs()
             if (!channelTmpfile->open()) {
                 delete channelTmpfile;
                 if (auto ptr = m_model.lock())
-                    std::static_pointer_cast<ProjectItemModel>(ptr)->bin()->emitMessage(i18n("Cannot create temporary file, check disk space and permissions"),
+                    emit std::static_pointer_cast<ProjectItemModel>(ptr)->emitMessage(i18n("Cannot create temporary file, check disk space and permissions"),
                                                                                         100, ErrorMessage);
                 return;
             }
@@ -1008,7 +1012,7 @@ void ProjectClip::slotCreateAudioThumbs()
                     }
                     emit updateJobStatus(AbstractClipJob::THUMBJOB, JobDone, 0);
                     if (auto ptr = m_model.lock())
-                        std::static_pointer_cast<ProjectItemModel>(ptr)->bin()->emitMessage(i18n("Error reading audio thumbnail"), 100, ErrorMessage);
+                        emit std::static_pointer_cast<ProjectItemModel>(ptr)->emitMessage(i18n("Error reading audio thumbnail"), 100, ErrorMessage);
                     return;
                 }
                 rawChannels << (const qint16 *)res.constData();
@@ -1056,7 +1060,7 @@ void ProjectClip::slotCreateAudioThumbs()
             jobFinished = true;
         } else {
             if (auto ptr = m_model.lock())
-                std::static_pointer_cast<ProjectItemModel>(ptr)->bin()->emitMessage(i18n("Failed to create FFmpeg audio thumbnails, using MLT"), 100,
+                emit std::static_pointer_cast<ProjectItemModel>(ptr)->emitMessage(i18n("Failed to create FFmpeg audio thumbnails, using MLT"), 100,
                                                                                     ErrorMessage);
         }
         // Cleanup temporary ffmpeg audio thumb file
@@ -1246,7 +1250,9 @@ QImage ProjectClip::findCachedThumb(int pos)
     const QString path = url() + QLatin1Char('_') + QString::number(pos);
     auto ptr = m_model.lock();
     Q_ASSERT(ptr);
-    return std::static_pointer_cast<ProjectItemModel>(ptr)->bin()->findCachedPixmap(path);
+    QImage img;
+    std::static_pointer_cast<ProjectItemModel>(ptr)->m_pixmapCache->findImage(path, &img);
+    return img;
 }
 
 bool ProjectClip::isSplittable() const

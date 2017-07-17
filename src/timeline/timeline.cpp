@@ -1408,7 +1408,7 @@ void Timeline::updateProfile(double fpsChanged)
 void Timeline::checkTrackHeight(bool force)
 {
     if (m_trackview->checkTrackHeight(force)) {
-        m_doc->clipManager()->clearCache();
+        //m_doc->clipManager()->clearCache();
         m_ruler->updateFrameSize();
         slotChangeZoom(m_doc->zoom().x(), m_doc->zoom().y());
         slotSetZone(m_doc->zone(), false);

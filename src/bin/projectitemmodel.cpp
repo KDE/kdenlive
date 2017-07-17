@@ -41,10 +41,12 @@ ProjectItemModel::ProjectItemModel(Bin *bin, QObject *parent)
     : AbstractTreeModel(parent)
     , m_lock(QReadWriteLock::Recursive)
     , m_binPlaylist(new Mlt::Playlist(pCore->getCurrentProfile()->profile()))
-    , m_bin(bin)
     , m_clipCounter(1)
     , m_folderCounter(1)
 {
+    KImageCache::deleteCache(QStringLiteral("kdenlive-thumbs"));
+    m_pixmapCache.reset(new KImageCache(QStringLiteral("kdenlive-thumbs"), 10000000));
+    m_pixmapCache->setEvictionPolicy(KSharedDataCache::EvictOldest);
 }
 
 std::shared_ptr<ProjectItemModel> ProjectItemModel::construct(Bin *bin, QObject *parent)
@@ -339,6 +341,7 @@ void ProjectItemModel::clean()
     Q_ASSERT(rootItem->childCount() == 0);
     m_clipCounter = 1;
     m_folderCounter = 1;
+    m_pixmapCache->clear();
 }
 
 std::shared_ptr<ProjectFolder> ProjectItemModel::getRootFolder() const
@@ -376,11 +379,6 @@ void ProjectItemModel::loadSubClips(const QString &id, const QMap<QString, QStri
         // generate missing subclip thumbnails
         clip->slotExtractImage(missingThumbs);
     }
-}
-
-Bin *ProjectItemModel::bin() const
-{
-    return m_bin;
 }
 
 std::shared_ptr<AbstractProjectItem> ProjectItemModel::getBinItemByIndex(const QModelIndex &index) const

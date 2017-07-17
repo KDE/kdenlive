@@ -27,7 +27,6 @@
 
 #include <KIO/CopyJob>
 #include <QUrl>
-#include <kimagecache.h>
 
 #include "definitions.h"
 #include "gentime.h"
@@ -68,7 +67,6 @@ class ClipManager : public QObject
     int lastClipId() const;
     /** @brief Prepare deletion of clips and folders from the Bin. */
     void clear();
-    void clearCache();
     AbstractGroupItem *createGroup();
     void removeGroup(AbstractGroupItem *group);
     /** @brief Delete groups list, prepare for a reload. */
@@ -77,7 +75,6 @@ class ClipManager : public QObject
     /** @brief remove a clip id from the queue list. */
     void stopThumbs(const QString &id);
     void projectTreeThumbReady(const QString &id, int frame, const QImage &img, int type);
-    KImageCache *pixmapCache;
 
 public slots:
     /** @brief Request creation of a clip thumbnail for specified frames. */

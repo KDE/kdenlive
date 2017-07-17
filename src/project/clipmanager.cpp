@@ -58,9 +58,6 @@ ClipManager::ClipManager(KdenliveDoc *doc)
     , m_closing(false)
     , m_abortAudioThumb(false)
 {
-    KImageCache::deleteCache(QStringLiteral("kdenlive-thumbs"));
-    pixmapCache = new KImageCache(QStringLiteral("kdenlive-thumbs"), 10000000);
-    pixmapCache->setEvictionPolicy(KSharedDataCache::EvictOldest);
 }
 
 ClipManager::~ClipManager()
@@ -74,8 +71,6 @@ ClipManager::~ClipManager()
     m_requestedThumbs.clear();
     m_audioThumbsQueue.clear();
     m_thumbsMutex.unlock();
-
-    delete pixmapCache;
 }
 
 void ClipManager::clear()
@@ -92,13 +87,8 @@ void ClipManager::clear()
     m_abortAudioThumb = false;
     m_folderList.clear();
     m_modifiedClips.clear();
-    pixmapCache->clear();
 }
 
-void ClipManager::clearCache()
-{
-    pixmapCache->clear();
-}
 
 void ClipManager::slotRequestThumbs(const QString &id, const QList<int> &frames)
 {

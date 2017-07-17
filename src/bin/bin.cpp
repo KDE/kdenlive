@@ -593,6 +593,14 @@ Bin::Bin(QWidget *parent)
     connect(m_itemModel.get(), &ProjectItemModel::reloadProducer, this, &Bin::reloadProducer);
     connect(m_itemModel.get(), &ProjectItemModel::refreshPanel, this, &Bin::refreshPanel);
     connect(m_itemModel.get(), &ProjectItemModel::requestAudioThumbs, this, &Bin::requestAudioThumbs);
+    connect(m_itemModel.get(), &ProjectItemModel::discardJobs, [&](const QString &id, AbstractClipJob::JOBTYPE type){
+            if (hasPendingJob(id, type))
+                discardJobs(id, type);
+        });
+    connect(m_itemModel.get(), &ProjectItemModel::startJob, this, &Bin::startJob);
+    connect(m_itemModel.get(), &ProjectItemModel::refreshClip, this, &Bin::refreshClip);
+    connect(m_itemModel.get(), &ProjectItemModel::updateTimelineProducers, this, &Bin::updateTimelineProducers);
+    connect(m_itemModel.get(), &ProjectItemModel::emitMessage, this, &Bin::emitMessage);
 
     // Connect models
     m_proxyModel->setSourceModel(m_itemModel.get());
@@ -3455,19 +3463,6 @@ void Bin::getBinStats(uint *used, uint *unused, qint64 *usedSize, qint64 *unused
     }
 }
 
-QImage Bin::findCachedPixmap(const QString &path)
-{
-    QImage img;
-    m_doc->clipManager()->pixmapCache->findImage(path, &img);
-    return img;
-}
-
-void Bin::cachePixmap(const QString &path, const QImage &img)
-{
-    if (!m_doc->clipManager()->pixmapCache->contains(path)) {
-        m_doc->clipManager()->pixmapCache->insertImage(path, img);
-    }
-}
 
 QDir Bin::getCacheDir(CacheType type, bool *ok) const
 {

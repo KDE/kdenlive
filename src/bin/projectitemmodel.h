@@ -25,15 +25,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "abstractmodel/abstracttreemodel.hpp"
 #include "mltcontroller/bincontroller.h"
+#include "project/jobs/abstractclipjob.h"
 #include "undohelper.hpp"
 #include <QReadWriteLock>
 #include <QSize>
+#include <kimagecache.h>
 
 class AbstractProjectItem;
 class ProjectClip;
 class ProjectFolder;
-class Bin;
 
+class Bin;
 /**
  * @class ProjectItemModel
  * @brief Acts as an adaptor to be able to use BinModel with item views.
@@ -49,6 +51,8 @@ protected:
 public:
     static std::shared_ptr<ProjectItemModel> construct(Bin *bin, QObject *parent);
     ~ProjectItemModel();
+
+    friend class ProjectClip;
 
     /** @brief Returns a clip from the hierarchy, given its id
      */
@@ -70,11 +74,6 @@ public:
 
     /** @brief Convenience method to access root folder */
     std::shared_ptr<ProjectFolder> getRootFolder() const;
-
-    /** @brief Convenience method to access the bin associated with this model
-        TODO remove that.
-     */
-    Bin *bin() const;
 
     /** @brief Create the subclips defined in the parent clip.
         @param id is the id of the parent clip
@@ -155,6 +154,7 @@ protected:
     /* @brief Helper function to generate a lambda that rename a folder */
     Fun requestRenameFolder_lambda(std::shared_ptr<AbstractProjectItem> folder, const QString &newName);
 
+    std::unique_ptr<KImageCache> m_pixmapCache;
 public slots:
     /** @brief An item in the list was modified, notify */
     void onItemUpdated(std::shared_ptr<AbstractProjectItem> item);
@@ -168,11 +168,14 @@ private:
     /** @brief The MLT playlist holding our Producers */
     std::unique_ptr<Mlt::Playlist> m_binPlaylist;
 
-    Bin *m_bin;
-
     int m_clipCounter;
     int m_folderCounter;
 signals:
+    void discardJobs(const QString &id, AbstractClipJob::JOBTYPE type);
+    void startJob(const QString &id, AbstractClipJob::JOBTYPE type);
+    void refreshClip(const QString &id);
+    void emitMessage(const QString &, int, MessageType);
+    void updateTimelineProducers(const QString &id, const QMap<QString, QString> &passProperties);
     void updateThumbProgress(long ms);
     void abortAudioThumb(const QString &id, long duration);
     void refreshAudioThumbs(const QString &id);

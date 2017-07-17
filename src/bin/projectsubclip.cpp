@@ -20,7 +20,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "projectsubclip.h"
-#include "bin.h"
 #include "projectclip.h"
 #include "projectitemmodel.h"
 
@@ -142,17 +141,18 @@ void ProjectSubClip::setThumbnail(const QImage &img)
     QPixmap thumb = roundedPixmap(QPixmap::fromImage(img));
     m_thumbnail = QIcon(thumb);
     if (auto ptr = m_model.lock())
-        std::static_pointer_cast<ProjectItemModel>(ptr)->bin()->emitItemUpdated(std::static_pointer_cast<ProjectSubClip>(shared_from_this()));
+        std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectSubClip>(shared_from_this()));
 }
 
 bool ProjectSubClip::rename(const QString &name, int column)
 {
+    // TODO refac: rework this
     Q_UNUSED(column)
     if (m_name == name) {
         return false;
     }
     // Rename folder
-    if (auto ptr = m_model.lock()) std::static_pointer_cast<ProjectItemModel>(ptr)->bin()->renameSubClipCommand(m_binId, name, m_name, m_in, m_out);
+    //if (auto ptr = m_model.lock()) std::static_pointer_cast<ProjectItemModel>(ptr)->bin()->renameSubClipCommand(m_binId, name, m_name, m_in, m_out);
     return true;
 }
 

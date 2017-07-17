@@ -155,10 +155,10 @@ private:
 };
 #endif
 
-ClipPropertiesController::ClipPropertiesController(const Timecode &tc, ClipController *controller, QWidget *parent)
+ClipPropertiesController::ClipPropertiesController(ClipController *controller, QWidget *parent)
     : QWidget(parent)
     , m_controller(controller)
-    , m_tc(tc)
+    , m_tc(Timecode(Timecode::HH_MM_SS_HH, pCore->getCurrentFps()))
     , m_id(controller->clipId())
     , m_type(controller->clipType())
     , m_properties(controller->properties())
@@ -256,7 +256,7 @@ ClipPropertiesController::ClipPropertiesController(const Timecode &tc, ClipContr
         QCheckBox *box = new QCheckBox(i18n("Duration"), this);
         box->setObjectName(QStringLiteral("force_duration"));
         hlay->addWidget(box);
-        auto *timePos = new TimecodeDisplay(tc, this);
+        auto *timePos = new TimecodeDisplay(m_tc, this);
         timePos->setObjectName(QStringLiteral("force_duration_value"));
         timePos->setValue(kdenlive_length > 0 ? kdenlive_length : m_properties.get_int("length"));
         int original_length = m_properties.get_int("kdenlive:original_length");
