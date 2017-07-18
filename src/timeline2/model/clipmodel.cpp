@@ -19,7 +19,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 #include "clipmodel.hpp"
-#include "bin/bin.h"
+#include "bin/projectitemmodel.h"
 #include "bin/projectclip.h"
 #include "core.h"
 #include "effects/effectstack/model/effectstackmodel.hpp"
@@ -43,7 +43,7 @@ ClipModel::ClipModel(std::shared_ptr<TimelineModel> parent, std::shared_ptr<Mlt:
 {
     m_producer->set("kdenlive:id", binClipId.toUtf8().constData());
     m_producer->set("_kdenlive_cid", id);
-    std::shared_ptr<ProjectClip> binClip = pCore->bin()->getBinClip(m_binClipId);
+    std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
     if (binClip) {
         m_endlessResize = !binClip->hasLimitedDuration();
     } else {
@@ -53,7 +53,7 @@ ClipModel::ClipModel(std::shared_ptr<TimelineModel> parent, std::shared_ptr<Mlt:
 
 int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QString &binClipId, int id)
 {
-    std::shared_ptr<ProjectClip> binClip = pCore->bin()->getBinClip(binClipId);
+    std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(binClipId);
     std::shared_ptr<Mlt::Producer> originalProducer = binClip->originalProducer();
     std::shared_ptr<Mlt::Producer> cutProducer(originalProducer->cut());
     return construct(parent, binClipId, cutProducer, id);
@@ -70,7 +70,7 @@ int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QSt
 
 void ClipModel::registerClipToBin()
 {
-    auto binClip = pCore->bin()->getBinClip(m_binClipId);
+    std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
     if (!binClip) {
         qDebug() << "Error : Bin clip for id: " << m_binClipId << " NOT AVAILABLE!!!";
     }
@@ -79,7 +79,7 @@ void ClipModel::registerClipToBin()
 
 void ClipModel::deregisterClipToBin()
 {
-    std::shared_ptr<ProjectClip> binClip = pCore->bin()->getBinClip(m_binClipId);
+    std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
     binClip->deregisterTimelineClip(m_id);
 }
 
@@ -235,7 +235,7 @@ void ClipModel::refreshProducerFromBin()
     QWriteLocker locker(&m_lock);
     int in = getIn();
     int out = getOut();
-    std::shared_ptr<ProjectClip> binClip = pCore->bin()->getBinClip(m_binClipId);
+    std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
     std::shared_ptr<Mlt::Producer> originalProducer = binClip->originalProducer();
     m_producer.reset(originalProducer->cut(in, out));
     // replant effect stack in updated service
@@ -248,7 +248,7 @@ void ClipModel::refreshProducerFromBin()
 QVariant ClipModel::getAudioWaveform()
 {
     READ_LOCK();
-    std::shared_ptr<ProjectClip> binClip = pCore->bin()->getBinClip(m_binClipId);
+    std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
     if (binClip) {
         return QVariant::fromValue(binClip->audioFrameCache);
     }
@@ -263,7 +263,7 @@ const QString &ClipModel::binId() const
 std::shared_ptr<MarkerListModel> ClipModel::getMarkerModel() const
 {
     READ_LOCK();
-    return pCore->bin()->getBinClip(m_binClipId)->getMarkerModel();
+    return pCore->projectItemModel()->getClipByBinID(m_binClipId)->getMarkerModel();
 }
 
 int ClipModel::fadeIn() const
