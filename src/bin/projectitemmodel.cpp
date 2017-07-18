@@ -37,7 +37,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <mlt++/Mlt.h>
 #include <qvarlengtharray.h>
 
-ProjectItemModel::ProjectItemModel(Bin *bin, QObject *parent)
+ProjectItemModel::ProjectItemModel(QObject *parent)
     : AbstractTreeModel(parent)
     , m_lock(QReadWriteLock::Recursive)
     , m_binPlaylist(new Mlt::Playlist(pCore->getCurrentProfile()->profile()))
@@ -49,9 +49,9 @@ ProjectItemModel::ProjectItemModel(Bin *bin, QObject *parent)
     m_pixmapCache->setEvictionPolicy(KSharedDataCache::EvictOldest);
 }
 
-std::shared_ptr<ProjectItemModel> ProjectItemModel::construct(Bin *bin, QObject *parent)
+std::shared_ptr<ProjectItemModel> ProjectItemModel::construct(QObject *parent)
 {
-    std::shared_ptr<ProjectItemModel> self(new ProjectItemModel(bin, parent));
+    std::shared_ptr<ProjectItemModel> self(new ProjectItemModel(parent));
     self->rootItem = ProjectFolder::construct(self);
     return self;
 }

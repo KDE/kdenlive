@@ -541,10 +541,10 @@ bool LineEventEater::eventFilter(QObject *obj, QEvent *event)
     return QObject::eventFilter(obj, event);
 }
 
-Bin::Bin(QWidget *parent)
+Bin::Bin(const std::shared_ptr<ProjectItemModel> &model, QWidget *parent)
     : QWidget(parent)
     , isLoading(false)
-    , m_itemModel(nullptr)
+    , m_itemModel(model)
     , m_itemView(nullptr)
     , m_jobManager(nullptr)
     , m_doc(nullptr)
@@ -584,8 +584,6 @@ Bin::Bin(QWidget *parent)
     connect(leventEater, &LineEventEater::showClearButton, this, &Bin::showClearButton);
 
     setFocusPolicy(Qt::ClickFocus);
-    // Build item view model
-    m_itemModel = ProjectItemModel::construct(this, this);
 
     connect(m_itemModel.get(), &ProjectItemModel::updateThumbProgress, this, &Bin::doUpdateThumbsProgress);
     connect(m_itemModel.get(), &ProjectItemModel::abortAudioThumb, this, &Bin::slotAbortAudioThumb);

@@ -10,6 +10,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include "core.h"
 #include "bin/bin.h"
+#include "bin/projectitemmodel.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
 #include "kdenlive_debug.h"
@@ -98,6 +99,8 @@ void Core::build(const QString &MltPath)
     // TODO make it a more proper image, it currently causes a crash on exit
     ClipController::mediaUnavailable = std::make_shared<Mlt::Producer>(ProfileRepository::get()->getProfile(m_self->m_profile)->profile(), "color:blue");
     ClipController::mediaUnavailable->set("length", 99999999);
+
+    m_self->m_projectItemModel = ProjectItemModel::construct();
 }
 
 void Core::initGUI(const QUrl &Url)
@@ -149,7 +152,7 @@ void Core::initGUI(const QUrl &Url)
     }
 
     m_projectManager = new ProjectManager(this);
-    m_binWidget = new Bin();
+    m_binWidget = new Bin(m_projectItemModel);
     m_binController = std::make_shared<BinController>();
     m_library = new LibraryWidget(m_projectManager);
     connect(m_library, SIGNAL(addProjectClips(QList<QUrl>)), m_binWidget, SLOT(droppedUrls(QList<QUrl>)));
@@ -477,4 +480,9 @@ void Core::setCompositionATrack(int cid, int aTrack)
     if (!m_guiConstructed)
         return;
     m_mainWindow->getCurrentTimeline()->controller()->setCompositionATrack(cid, aTrack);
+}
+
+std::shared_ptr<ProjectItemModel> Core::projectItemModel()
+{
+    return m_projectItemModel;
 }

@@ -35,7 +35,6 @@ class AbstractProjectItem;
 class ProjectClip;
 class ProjectFolder;
 
-class Bin;
 /**
  * @class ProjectItemModel
  * @brief Acts as an adaptor to be able to use BinModel with item views.
@@ -46,10 +45,10 @@ class ProjectItemModel : public AbstractTreeModel
     Q_OBJECT
 
 protected:
-    explicit ProjectItemModel(Bin *bin, QObject *parent);
+    explicit ProjectItemModel(QObject *parent);
 
 public:
-    static std::shared_ptr<ProjectItemModel> construct(Bin *bin, QObject *parent);
+    static std::shared_ptr<ProjectItemModel> construct(QObject *parent = nullptr);
     ~ProjectItemModel();
 
     friend class ProjectClip;

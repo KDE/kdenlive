@@ -30,6 +30,7 @@ class Monitor;
 class MonitorManager;
 class ProducerQueue;
 class ProfileModel;
+class ProjectItemModel;
 class ProjectManager;
 
 namespace Mlt {
@@ -88,8 +89,10 @@ public:
     MonitorManager *monitorManager();
     /** @brief Returns a pointer to the project bin controller. */
     std::shared_ptr<BinController> binController();
-    /** @brief Returns a pointer to the project bin. */
+    /** @brief Returns a pointer to the view of the project bin. */
     Bin *bin();
+    /** @brief Returns a pointer to the model of the project bin. */
+    std::shared_ptr<ProjectItemModel> projectItemModel();
     /** @brief Returns a pointer to the producer queue. */
     ProducerQueue *producerQueue();
     /** @brief Returns a pointer to the library. */
@@ -158,6 +161,7 @@ private:
     ProjectManager *m_projectManager;
     MonitorManager *m_monitorManager;
     std::shared_ptr<BinController> m_binController;
+    std::shared_ptr<ProjectItemModel> m_projectItemModel;
     ProducerQueue *m_producerQueue;
     Bin *m_binWidget;
     LibraryWidget *m_library;

@@ -173,7 +173,7 @@ class Bin : public QWidget
     enum BinViewType { BinTreeView, BinIconView };
 
 public:
-    explicit Bin(QWidget *parent = nullptr);
+    explicit Bin(const std::shared_ptr<ProjectItemModel> &model, QWidget *parent = nullptr);
     ~Bin();
 
     bool isLoading;
