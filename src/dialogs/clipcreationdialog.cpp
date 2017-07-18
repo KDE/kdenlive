@@ -98,7 +98,7 @@ void ClipCreationDialog::createClipFromXml(KdenliveDoc *doc, QDomElement &xml, c
     //FIXME?
     Q_UNUSED(groupInfo)
 
-    uint id = bin->getFreeClipId();
+    int id = bin->getFreeClipId();
     xml.setAttribute(QStringLiteral("id"), QString::number(id));
     AddClipCommand *command = new AddClipCommand(bin, xml, QString::number(id), true);
     doc->commandStack()->push(command);
@@ -127,7 +127,7 @@ void ClipCreationDialog::createColorClip(KdenliveDoc *doc, const QStringList &gr
         QDomElement prod = xml.createElement(QStringLiteral("producer"));
         xml.appendChild(prod);
         prod.setAttribute(QStringLiteral("type"), (int) Color);
-        uint id = bin->getFreeClipId();
+        int id = bin->getFreeClipId();
         prod.setAttribute(QStringLiteral("id"), QString::number(id));
         prod.setAttribute(QStringLiteral("in"), QStringLiteral("0"));
         prod.setAttribute(QStringLiteral("length"), doc->getFramePos(doc->timecode().getTimecode(t->gentime())));
@@ -188,7 +188,7 @@ void ClipCreationDialog::createQTextClip(KdenliveDoc *doc, const QStringList &gr
         QDomElement prod = xml.createElement(QStringLiteral("producer"));
         xml.appendChild(prod);
         prod.setAttribute(QStringLiteral("type"), (int) QText);
-        uint id = bin->getFreeClipId();
+        int id = bin->getFreeClipId();
         prod.setAttribute(QStringLiteral("id"), QString::number(id));
 
         prod.setAttribute(QStringLiteral("in"), QStringLiteral("0"));
@@ -267,7 +267,7 @@ void ClipCreationDialog::createSlideshowClip(KdenliveDoc *doc, const QStringList
             properties.insert(QStringLiteral("kdenlive:folderid"), groupInfo.at(0));
         }
         addXmlProperties(prod, properties);
-        uint id = bin->getFreeClipId();
+        int id = bin->getFreeClipId();
         AddClipCommand *command = new AddClipCommand(bin, xml.documentElement(), QString::number(id), true);
         doc->commandStack()->push(command);
     }
@@ -287,7 +287,7 @@ void ClipCreationDialog::createTitleClip(KdenliveDoc *doc, const QStringList &gr
         QDomElement prod = xml.createElement(QStringLiteral("producer"));
         xml.appendChild(prod);
         //prod.setAttribute("resource", imagePath);
-        uint id = bin->getFreeClipId();
+        int id = bin->getFreeClipId();
         prod.setAttribute(QStringLiteral("id"), QString::number(id));
 
         QMap<QString, QString> properties;
@@ -326,7 +326,7 @@ void ClipCreationDialog::createTitleTemplateClip(KdenliveDoc *doc, const QString
             properties.insert(QStringLiteral("kdenlive:folderid"), groupInfo.at(0));
         }
         addXmlProperties(prod, properties);
-        uint id = bin->getFreeClipId();
+        int id = bin->getFreeClipId();
         prod.setAttribute(QStringLiteral("id"), QString::number(id));
         prod.setAttribute(QStringLiteral("type"), (int) TextTemplate);
         prod.setAttribute(QStringLiteral("transparency"), QStringLiteral("1"));
@@ -446,7 +446,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QList<QUrl> 
             i.next();
             properties.insert(i.key(), i.value());
         }
-        uint id = bin->getFreeClipId();
+        int id = bin->getFreeClipId();
         prod.setAttribute(QStringLiteral("id"), QString::number(id));
         QMimeDatabase db;
         QMimeType type = db.mimeTypeForUrl(file);
@@ -466,8 +466,8 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QList<QUrl> 
                 prod.setAttribute(QStringLiteral("type"), (int) Text);
                 // extract embedded images
                 QDomNodeList items = txtdoc.elementsByTagName(QStringLiteral("content"));
-                for (int i = 0; i < items.count(); ++i) {
-                    QDomElement content = items.item(i).toElement();
+                for (int j = 0; j < items.count(); ++j) {
+                    QDomElement content = items.item(j).toElement();
                     if (content.hasAttribute(QStringLiteral("base64"))) {
                         QString titlesFolder = doc->projectDataFolder() + QStringLiteral("/titles/");
                         QString path = TitleDocument::extractBase64Image(titlesFolder, content.attribute(QStringLiteral("base64")));
@@ -560,10 +560,10 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QStringList 
                 KFileItem item(url);
                 if (item.mimetype().startsWith(QLatin1String("image"))) {
                     // import as sequence if we found more than one image in the sequence
-                    QStringList list;
-                    QString pattern = SlideshowClip::selectedPath(url, false, QString(), &list);
-                    qCDebug(KDENLIVE_LOG) << " / // IMPORT PATTERN: " << pattern << " COUNT: " << list.count();
-                    int count = list.count();
+                    QStringList patternlist;
+                    QString pattern = SlideshowClip::selectedPath(url, false, QString(), &patternlist);
+                    qCDebug(KDENLIVE_LOG) << " / // IMPORT PATTERN: " << pattern << " COUNT: " << patternlist.count();
+                    int count = patternlist.count();
                     if (count > 1) {
                         delete fileWidget;
                         delete dlg;
@@ -589,7 +589,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QStringList 
                             properties.insert(QStringLiteral("kdenlive:folderid"), groupInfo.at(0));
                         }
                         addXmlProperties(prod, properties);
-                        uint id = bin->getFreeClipId();
+                        int id = bin->getFreeClipId();
                         AddClipCommand *command = new AddClipCommand(bin, xml.documentElement(), QString::number(id), true);
                         doc->commandStack()->push(command);
                         return;

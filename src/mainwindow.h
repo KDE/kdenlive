@@ -436,7 +436,7 @@ private slots:
     void slotDownloadResources();
 
     /** @brief Process keyframe data sent from a clip to effect / transition stack. */
-    void slotProcessImportKeyframes(GraphicsRectItem type, const QString &tag, const QString &data);
+    void slotProcessImportKeyframes(GraphicsRectItem type, const QString& tag, const QString& keyframes);
     /** @brief Move playhead to mouse curser position if defined key is pressed */
     void slotAlignPlayheadToMousePos();
 

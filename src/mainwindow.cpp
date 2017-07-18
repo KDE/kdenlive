@@ -160,6 +160,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 void MainWindow::init(const QString &MltPath, const QUrl &Url, const QString &clipsToLoad)
 {
+    Q_UNUSED(MltPath)
 
     // Widget themes for non KDE users
     KActionMenu *stylesAction = new KActionMenu(i18n("Style"), this);
@@ -613,9 +614,9 @@ void MainWindow::init(const QString &MltPath, const QUrl &Url, const QString &cl
         QMapIterator<QString, QString> i(values);
         if (i.hasNext()) {
             i.next();
-            QString data = i.value();
-            KdenliveSettings::setProxyparams(data.section(QLatin1Char(';'), 0, 0));
-            KdenliveSettings::setProxyextension(data.section(QLatin1Char(';'), 1, 1));
+            QString proxystring = i.value();
+            KdenliveSettings::setProxyparams(proxystring.section(QLatin1Char(';'), 0, 0));
+            KdenliveSettings::setProxyextension(proxystring.section(QLatin1Char(';'), 1, 1));
         }
     }
     if (KdenliveSettings::v4l_parameters().isEmpty() || KdenliveSettings::v4l_extension().isEmpty()) {
@@ -624,9 +625,9 @@ void MainWindow::init(const QString &MltPath, const QUrl &Url, const QString &cl
         QMapIterator<QString, QString> i(values);
         if (i.hasNext()) {
             i.next();
-            QString data = i.value();
-            KdenliveSettings::setV4l_parameters(data.section(QLatin1Char(';'), 0, 0));
-            KdenliveSettings::setV4l_extension(data.section(QLatin1Char(';'), 1, 1));
+            QString v4lstring = i.value();
+            KdenliveSettings::setV4l_parameters(v4lstring.section(QLatin1Char(';'), 0, 0));
+            KdenliveSettings::setV4l_extension(v4lstring.section(QLatin1Char(';'), 1, 1));
         }
     }
     if (KdenliveSettings::grab_parameters().isEmpty() || KdenliveSettings::grab_extension().isEmpty()) {
@@ -635,9 +636,9 @@ void MainWindow::init(const QString &MltPath, const QUrl &Url, const QString &cl
         QMapIterator<QString, QString> i(values);
         if (i.hasNext()) {
             i.next();
-            QString data = i.value();
-            KdenliveSettings::setGrab_parameters(data.section(QLatin1Char(';'), 0, 0));
-            KdenliveSettings::setGrab_extension(data.section(QLatin1Char(';'), 1, 1));
+            QString grabstring = i.value();
+            KdenliveSettings::setGrab_parameters(grabstring.section(QLatin1Char(';'), 0, 0));
+            KdenliveSettings::setGrab_extension(grabstring.section(QLatin1Char(';'), 1, 1));
         }
     }
     if (KdenliveSettings::decklink_parameters().isEmpty() || KdenliveSettings::decklink_extension().isEmpty()) {
@@ -646,9 +647,9 @@ void MainWindow::init(const QString &MltPath, const QUrl &Url, const QString &cl
         QMapIterator<QString, QString> i(values);
         if (i.hasNext()) {
             i.next();
-            QString data = i.value();
-            KdenliveSettings::setDecklink_parameters(data.section(QLatin1Char(';'), 0, 0));
-            KdenliveSettings::setDecklink_extension(data.section(QLatin1Char(';'), 1, 1));
+            QString decklinkstring = i.value();
+            KdenliveSettings::setDecklink_parameters(decklinkstring.section(QLatin1Char(';'), 0, 0));
+            KdenliveSettings::setDecklink_extension(decklinkstring.section(QLatin1Char(';'), 1, 1));
         }
     }
 
@@ -1591,15 +1592,15 @@ void MainWindow::setupActions()
         if (effectInfo.isEmpty()) {
             continue;
         }
-        QAction *a = new QAction(effectInfo.at(0), this);
-        a->setData(effectInfo);
-        a->setIconVisibleInMenu(false);
-        m_transitions << a;
+        QAction *transAction = new QAction(effectInfo.at(0), this);
+        transAction->setData(effectInfo);
+        transAction->setIconVisibleInMenu(false);
+        m_transitions << transAction;
         QString id = effectInfo.at(2);
         if (id.isEmpty()) {
             id = effectInfo.at(1);
         }
-        transitionActions->addAction("transition_" + id, a);
+        transitionActions->addAction("transition_" + id, transAction);
     }
 }
 
@@ -2976,8 +2977,8 @@ void MainWindow::slotSelectClipInTimeline()
 {
     if (pCore->projectManager()->currentTimeline()) {
         QAction *action = qobject_cast<QAction *>(sender());
-        QStringList data = action->data().toStringList();
-        pCore->projectManager()->currentTimeline()->projectView()->selectFound(data.at(0), data.at(1));
+        QStringList clipList = action->data().toStringList();
+        pCore->projectManager()->currentTimeline()->projectView()->selectFound(clipList.at(0), clipList.at(1));
     }
 }
 
@@ -3222,7 +3223,7 @@ void MainWindow::buildDynamicActions()
     Mlt::Filter *filter;
 
     foreach (const QString &stab, QStringList() << "vidstab" << "videostab2" << "videostab") {
-        filter = Mlt::Factory::filter(profile, (char *)stab.toUtf8().constData());
+        filter = Mlt::Factory::filter(profile, (char*)stab.toUtf8().constData());
         if (filter && filter->is_valid()) {
             QAction *action = new QAction(i18n("Stabilize") + QStringLiteral(" (") + stab + QLatin1Char(')'), m_extraFactory->actionCollection());
             action->setData(QStringList() << QString::number((int) AbstractClipJob::FILTERCLIPJOB) << stab);
@@ -3233,7 +3234,7 @@ void MainWindow::buildDynamicActions()
         }
         delete filter;
     }
-    filter = Mlt::Factory::filter(profile, (char *)"motion_est");
+    filter = Mlt::Factory::filter(profile, (char*)"motion_est");
     if (filter) {
         if (filter->is_valid()) {
             QAction *action = new QAction(i18n("Automatic scene split"), m_extraFactory->actionCollection());
@@ -3277,17 +3278,17 @@ void MainWindow::buildDynamicActions()
     QMapIterator<QString, QString> i(profiles);
     while (i.hasNext()) {
         i.next();
-        QStringList data;
-        data << QString::number((int) AbstractClipJob::TRANSCODEJOB);
-        data << i.value().split(QLatin1Char(';'));
+        QStringList transList;
+        transList << QString::number((int) AbstractClipJob::TRANSCODEJOB);
+        transList << i.value().split(QLatin1Char(';'));
         QAction *a = new QAction(i.key(), m_extraFactory->actionCollection());
-        a->setData(data);
-        if (data.count() > 1) {
-            a->setToolTip(data.at(1));
+        a->setData(transList);
+        if (transList.count() > 1) {
+            a->setToolTip(transList.at(1));
         }
         // slottranscode
         connect(a, &QAction::triggered, pCore->bin(), &Bin::slotStartClipJob);
-        if (data.count() > 3 && data.at(3) == QLatin1String("audio")) {
+        if (transList.count() > 3 && transList.at(3) == QLatin1String("audio")) {
             // This is an audio transcoding action
             ats->addAction(i.key(), a);
         } else {
@@ -3312,8 +3313,8 @@ void MainWindow::buildDynamicActions()
     actionCollection()->addAction(showTimeline->text(), showTimeline);
 
     QList<QDockWidget *> docks = findChildren<QDockWidget *>();
-    for (int i = 0; i < docks.count(); ++i) {
-        QDockWidget *dock = docks.at(i);
+    for (int j = 0; j < docks.count(); ++j) {
+        QDockWidget *dock = docks.at(j);
         QAction *dockInformations = dock->toggleViewAction();
         if (!dockInformations) {
             continue;
@@ -3338,8 +3339,8 @@ void MainWindow::slotTranscode(const QStringList &urls)
     QString desc;
     if (urls.isEmpty()) {
         QAction *action = qobject_cast<QAction *>(sender());
-        QStringList data = action->data().toStringList();
-        pCore->bin()->startClipJob(data);
+        QStringList transList = action->data().toStringList();
+        pCore->bin()->startClipJob(transList);
         return;
     }
     if (urls.isEmpty()) {
@@ -3787,14 +3788,14 @@ void MainWindow::slotDownloadResources()
     d->show();
 }
 
-void MainWindow::slotProcessImportKeyframes(GraphicsRectItem type, const QString &tag, const QString &data)
+void MainWindow::slotProcessImportKeyframes(GraphicsRectItem type, const QString &tag, const QString &keyframes)
 {
     if (type == AVWidget) {
         // This data should be sent to the effect stack
-        m_effectStack->setKeyframes(tag, data);
+        m_effectStack->setKeyframes(tag, keyframes);
     } else if (type == TransitionWidget) {
         // This data should be sent to the transition stack
-        m_effectStack->transitionConfig()->setKeyframes(tag, data);
+        m_effectStack->transitionConfig()->setKeyframes(tag, keyframes);
     } else {
         // Error
     }
@@ -3813,7 +3814,7 @@ void MainWindow::triggerKey(QKeyEvent *ev)
     QKeySequence seq;
     // Remove the Num modifier or some shortcuts like "*" will not work
     if (ev->modifiers() != Qt::KeypadModifier) {
-        seq = QKeySequence(ev->key() + ev->modifiers());
+        seq = QKeySequence(ev->key() + static_cast<int>(ev->modifiers()));
     } else {
         seq = QKeySequence(ev->key());
     }
@@ -3850,11 +3851,11 @@ void MainWindow::slotUpdateMonitorOverlays(int id, int code)
     }
     QList<QAction *> actions = monitorOverlay->actions();
     foreach (QAction *ac, actions) {
-        int data = ac->data().toInt();
-        if (data == 0x010) {
+        int mid = ac->data().toInt();
+        if (mid == 0x010) {
             ac->setEnabled(id == Kdenlive::ClipMonitor);
         }
-        ac->setChecked(code & data);
+        ac->setChecked(code & mid);
     }
 }
 
@@ -4011,14 +4012,14 @@ void MainWindow::showTimelineToolbarMenu(const QPoint &pos)
             }
 
             // save the size in the contextIconSizes map
-            QAction *a = new QAction(text, contextSize);
-            a->setData(it);
-            a->setCheckable(true);
-            a->setActionGroup(sizeGroup);
+            QAction *sizeAction = new QAction(text, contextSize);
+            sizeAction->setData(it);
+            sizeAction->setCheckable(true);
+            sizeAction->setActionGroup(sizeGroup);
             if (it == currentSize) {
-                a->setChecked(true);
+                sizeAction->setChecked(true);
             }
-            contextSize->addAction(a);
+            contextSize->addAction(sizeAction);
         }
     } else {
         // Scalable icons.
@@ -4039,14 +4040,14 @@ void MainWindow::showTimelineToolbarMenu(const QPoint &pos)
                     }
 
                     // save the size in the contextIconSizes map
-                    QAction *a = new QAction(text, contextSize);
-                    a->setData(it);
-                    a->setCheckable(true);
-                    a->setActionGroup(sizeGroup);
+                    QAction *sizeAction = new QAction(text, contextSize);
+                    sizeAction->setData(it);
+                    sizeAction->setCheckable(true);
+                    sizeAction->setActionGroup(sizeGroup);
                     if (it == currentSize) {
-                        a->setChecked(true);
+                        sizeAction->setChecked(true);
                     }
-                    contextSize->addAction(a);
+                    contextSize->addAction(sizeAction);
                     break;
                 }
             }

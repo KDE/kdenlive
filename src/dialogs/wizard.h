@@ -80,7 +80,7 @@ private slots:
     void slotDetectWebcam();
     void slotUpdateCaptureParameters();
     void slotSaveCaptureFormat();
-    void slotUpdateDecklinkDevice(int captureCard);
+    void slotUpdateDecklinkDevice(uint captureCard);
     void slotOpenManual();
 };
 
