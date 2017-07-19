@@ -544,7 +544,6 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     }
     m_progressDialog->setLabelText(i18n("Loading clips"));
     pCore->bin()->setDocument(doc);
-
     QList<QAction *> rulerActions;
     rulerActions << pCore->window()->actionCollection()->action(QStringLiteral("set_render_timeline_zone"));
     rulerActions << pCore->window()->actionCollection()->action(QStringLiteral("unset_render_timeline_zone"));

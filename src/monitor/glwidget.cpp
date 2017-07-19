@@ -842,10 +842,13 @@ int GLWidget::setProducer(Mlt::Producer *producer, int position)
     int error = 0;
     QString currentId;
     int consumerPosition = 0;
+    currentId = m_producer->get("kdenlive:id");
     if (producer != nullptr) {
-        currentId = m_producer->get("kdenlive:id");
         m_producer = producer;
     } else {
+        if (currentId == QLatin1String("black")) {
+            return 0;
+        }
         if (m_audioWaveDisplayed) {
             removeAudioOverlay();
         }

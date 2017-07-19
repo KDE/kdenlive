@@ -155,7 +155,6 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool forceRefresh
         }
     }
     if (m_activeMonitor) {
-        qDebug()<<"Acrivate mon 2";
         m_activeMonitor->blockSignals(true);
         m_activeMonitor->parentWidget()->raise();
         if (name == Kdenlive::ClipMonitor) {
