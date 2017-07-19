@@ -81,7 +81,7 @@ Render::Render(Kdenlive::MonitorId rendererName, BinController *binController, G
         m_blackClip->set("aspect_ratio", 1);
         m_blackClip->set("set.test_audio", 0);
         m_mltProducer = m_blackClip->cut(0, 1);
-        m_qmlView->setProducer(m_mltProducer);
+        //m_qmlView->setProducer(m_mltProducer);
         m_mltConsumer = qmlView->consumer();
     }
     /*m_mltConsumer->connect(*m_mltProducer);
@@ -328,7 +328,7 @@ bool Render::updateProducer(Mlt::Producer *producer)
     m_fps = producer->get_fps();
     m_mltProducer = producer;
     if (m_qmlView) {
-        m_qmlView->setProducer(producer);
+        //m_qmlView->setProducer(producer);
         m_mltConsumer = m_qmlView->consumer();
     }
     return true;
@@ -383,7 +383,7 @@ bool Render::setProducer(Mlt::Producer *producer, int position, bool isActive)
     m_mltProducer = producer;
     m_mltProducer->set_speed(0);
     if (m_qmlView) {
-        m_qmlView->setProducer(producer);
+        //m_qmlView->setProducer(producer);
         m_mltConsumer = m_qmlView->consumer();
         // m_mltConsumer->set("refresh", 1);
     }

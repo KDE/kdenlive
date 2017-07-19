@@ -693,7 +693,7 @@
       <label>Show ratings in project tree view.</label>
       <default>false</default>
     </entry>
-    
+
     <entry name="showdatecolumn" type="Bool">
       <label>Show dates in project tree view.</label>
       <default>false</default>

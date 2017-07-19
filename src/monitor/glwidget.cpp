@@ -119,7 +119,9 @@ GLWidget::GLWidget(int id, QObject *parent)
     m_refreshTimer.setInterval(50);
     m_blackClip.reset(new Mlt::Producer(*m_monitorProfile, "color:black"));
     m_blackClip->set("kdenlive:id", "black");
+    m_blackClip->set("out", 3);
     connect(&m_refreshTimer, &QTimer::timeout, this, &GLWidget::refresh);
+    m_producer = &*m_blackClip;
 
     if (KdenliveSettings::gpu_accel()) {
         m_glslManager = new Mlt::Filter(*m_monitorProfile, "glsl.manager");
@@ -158,6 +160,7 @@ GLWidget::~GLWidget()
             delete m_frameRenderer;
         }
     }
+    m_blackClip.reset();
     delete m_shareContext;
     delete m_shader;
     delete m_monitorProfile;
@@ -239,6 +242,7 @@ void GLWidget::initializeGL()
     connect(this, &GLWidget::textureUpdated, this, &GLWidget::update, Qt::QueuedConnection);
     m_initSem.release();
     m_isInitialized = true;
+    reconfigure();
 }
 
 void GLWidget::resizeGL(int width, int height)
@@ -581,6 +585,9 @@ void GLWidget::wheelEvent(QWheelEvent *event)
 
 void GLWidget::requestSeek()
 {
+    if (m_producer == nullptr) {
+        return;
+    }
     if (m_proxy->seekPosition() != SEEK_INACTIVE) {
         if (m_producer->get_speed() != 0) {
             m_consumer->purge();
@@ -825,17 +832,33 @@ void GLWidget::slotSwitchAudioOverlay(bool enable)
             removeAudioOverlay();
         }
     }
-    if (enable && !m_audioWaveDisplayed) {
+    if (enable && !m_audioWaveDisplayed && m_producer != nullptr) {
         createAudioOverlay(m_producer->get_int("video_index") == -1);
     }
 }
 
-int GLWidget::setProducer(Mlt::Producer *producer)
+int GLWidget::setProducer(Mlt::Producer *producer, int position)
 {
-    int error = 0; // Controller::setProducer(producer, isMulti);
-    m_producer = producer;
-    m_producer->set_speed(0);
+    int error = 0;
+    QString currentId;
+    int consumerPosition = 0;
+    if (producer != nullptr) {
+        currentId = m_producer->get("kdenlive:id");
+        m_producer = producer;
+    } else {
+        if (m_audioWaveDisplayed) {
+            removeAudioOverlay();
+        }
+        m_producer = &*m_blackClip;
+    }
     if (m_producer) {
+        m_producer->set_speed(0);
+        if (m_consumer) {
+            consumerPosition = m_consumer->position();
+            if (!m_consumer->is_stopped()) {
+                m_consumer->stop();
+            }
+        }
         error = reconfigure();
         if (error == 0) {
             // The profile display aspect ratio may have changed.
@@ -847,6 +870,7 @@ int GLWidget::setProducer(Mlt::Producer *producer)
     if (!m_consumer) {
         return error;
     }
+    consumerPosition = m_consumer->position();
     if (m_producer->get_int("video_index") == -1) {
         // This is an audio only clip, attach visualization filter. Currently, the filter crashes MLT when Movit accel is used
         if (!m_audioWaveDisplayed) {
@@ -868,6 +892,17 @@ int GLWidget::setProducer(Mlt::Producer *producer)
     } else if (KdenliveSettings::displayAudioOverlay()) {
         createAudioOverlay(false);
     }
+    if (position == -1 && m_producer->get("kdenlive:id") == currentId) {
+        position = consumerPosition;
+    }
+    if (position != -1) {
+        m_producer->seek(position);
+    }
+    //if (isActive) {
+    startConsumer();
+    // emit durationChanged(m_producer->get_length() - 1, m_producer->get_in());
+    position = m_producer->position();
+    rootObject()->setProperty("consumerPosition", position);
     return error;
 }
 
@@ -1734,7 +1769,7 @@ void GLWidget::setRulerInfo(int duration, std::shared_ptr<MarkerListModel> model
     }
 }
 
-bool GLWidget::setProducer(Mlt::Producer *producer, int position, bool isActive)
+bool GLWidget::replaceProducer(Mlt::Producer *producer, int position, bool isActive)
 {
     m_refreshTimer.stop();
     m_proxy->setSeekPosition(SEEK_INACTIVE);
@@ -1752,18 +1787,17 @@ bool GLWidget::setProducer(Mlt::Producer *producer, int position, bool isActive)
             // We need to make some cleanup
             Mlt::Tractor trac(*m_producer);
             for (int i = 0; i < trac.count(); i++) {
-                trac.set_track(*m_blackClip, i);
+                trac.set_track(*new Mlt::Producer(*m_blackClip), i);
             }
         }
-        delete m_producer;
-        m_producer = nullptr;
+        //delete m_producer;
+        m_producer = &*m_blackClip;
     }
     if (m_consumer) {
         if (!m_consumer->is_stopped()) {
             isActive = true;
             m_consumer->stop();
         }
-        consumerPosition = m_consumer->position();
     }
     if ((producer == nullptr) || !producer->is_valid()) {
         producer = m_blackClip.data()->cut(0, 1);

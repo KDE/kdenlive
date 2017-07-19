@@ -1305,7 +1305,7 @@ void Monitor::slotLoopClip()
 
 void Monitor::updateClipProducer(Mlt::Producer *prod)
 {
-    if (m_glMonitor->setProducer(prod, -1, false)) {
+    if (m_glMonitor->setProducer(prod, -1)) {
         prod->set_speed(1.0);
     }
 }
@@ -1314,7 +1314,7 @@ void Monitor::updateClipProducer(const QString &playlist)
 {
     //TODO
     Mlt::Producer *prod = new Mlt::Producer(*m_glMonitor->profile(), playlist.toUtf8().constData());
-    //m_glMonitor->setProducer(prod, render->seekFramePosition(), true);
+    //m_glMonitor->setProducer(prod, render->seekFramePosition());
     m_glMonitor->switchPlay(true);
 }
 
@@ -1350,12 +1350,12 @@ void Monitor::slotOpenClip(std::shared_ptr<ProjectClip> controller, int in, int 
         if (m_playAction->isActive()) {
             m_playAction->setActive(false);
         }
-        m_glMonitor->setProducer(m_controller->masterProducer(), in, isActive());
+        m_glMonitor->setProducer(m_controller->masterProducer(), in);
         m_audioMeterWidget->audioChannels = controller->audioInfo() ? controller->audioInfo()->channels() : 0;
         emit requestAudioThumb(controller->AbstractProjectItem::clipId());
         // hasEffects =  controller->hasEffects();
     } else {
-        m_glMonitor->setProducer(nullptr, -1, isActive());
+        m_glMonitor->setProducer(nullptr);
         m_glMonitor->setAudioThumb();
         m_audioMeterWidget->audioChannels = 0;
     }

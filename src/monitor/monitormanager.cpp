@@ -53,6 +53,7 @@ Timecode MonitorManager::timecode() const
 void MonitorManager::setDocument(KdenliveDoc *doc)
 {
     m_document = doc;
+    activateMonitor(Kdenlive::ProjectMonitor);
 }
 
 QAction *MonitorManager::getAction(const QString &name)
@@ -154,6 +155,7 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool forceRefresh
         }
     }
     if (m_activeMonitor) {
+        qDebug()<<"Acrivate mon 2";
         m_activeMonitor->blockSignals(true);
         m_activeMonitor->parentWidget()->raise();
         if (name == Kdenlive::ClipMonitor) {

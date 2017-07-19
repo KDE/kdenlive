@@ -60,6 +60,7 @@ class GLWidget : public QQuickView, protected QOpenGLFunctions
 public:
 
     friend class MonitorController;
+    friend class Monitor;
 
     GLWidget(int id, QObject *parent = nullptr);
     ~GLWidget();
@@ -69,8 +70,6 @@ public:
     void startGlsl();
     void stopGlsl();
     void clear();
-    /** @brief Update producer, should ONLY be called from renderer.cpp */
-    int setProducer(Mlt::Producer *producer);
     int reconfigureMulti(const QString &params, const QString &path, Mlt::Profile *profile);
     void stopCapture();
     int reconfigure(Mlt::Profile *profile = nullptr);
@@ -114,7 +113,7 @@ public:
     MonitorProxy *getControllerProxy();
     bool playZone(bool loop = false);
     bool loopClip();
-    bool setProducer(Mlt::Producer *producer, int position, bool isActive);
+    bool replaceProducer(Mlt::Producer *producer, int position, bool isActive);
     void startConsumer();
     void stop();
     int rulerHeight() const;
@@ -133,6 +132,8 @@ protected:
     void mouseReleaseEvent(QMouseEvent *event) override;
     void mouseDoubleClickEvent(QMouseEvent *event) override;
     void wheelEvent(QWheelEvent *event) override;
+    /** @brief Update producer, should ONLY be called from monitor */
+    int setProducer(Mlt::Producer *producer, int position = -1);
 
 public slots:
     void seek(int pos);
