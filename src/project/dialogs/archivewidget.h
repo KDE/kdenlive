@@ -59,7 +59,7 @@ private slots:
     void slotCheckSpace();
     bool slotStartArchiving(bool firstPass = true);
     void slotArchivingFinished(KJob *job = nullptr, bool finished = false);
-    void slotArchivingProgress(KJob *, qulonglong);
+    void slotArchivingProgress(KJob *, KIO::filesize_t);
     void done(int r) Q_DECL_OVERRIDE;
     bool closeAccepted();
     void createArchive();
