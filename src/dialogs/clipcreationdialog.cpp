@@ -541,17 +541,17 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QStringList 
     if (clipFolder.isEmpty()) {
         clipFolder = QDir::homePath();
     }
-    QDialog *dlg = new QDialog((QWidget *)doc->parent());
-    KFileWidget *fileWidget = new KFileWidget(QUrl::fromLocalFile(clipFolder), dlg);
+    QScopedPointer<QDialog> dlg(new QDialog((QWidget *)doc->parent()));
+    QScopedPointer<KFileWidget> fileWidget (new KFileWidget(QUrl::fromLocalFile(clipFolder), dlg.data()));
     auto *layout = new QVBoxLayout;
-    layout->addWidget(fileWidget);
+    layout->addWidget(fileWidget.data());
     fileWidget->setCustomWidget(f);
     fileWidget->okButton()->show();
     fileWidget->cancelButton()->show();
-    QObject::connect(fileWidget->okButton(), &QPushButton::clicked, fileWidget, &KFileWidget::slotOk);
-    QObject::connect(fileWidget, &KFileWidget::accepted, fileWidget, &KFileWidget::accept);
-    QObject::connect(fileWidget, &KFileWidget::accepted, dlg, &QDialog::accept);
-    QObject::connect(fileWidget->cancelButton(), &QPushButton::clicked, dlg, &QDialog::reject);
+    QObject::connect(fileWidget->okButton(), &QPushButton::clicked, fileWidget.data(), &KFileWidget::slotOk);
+    QObject::connect(fileWidget.data(), &KFileWidget::accepted, fileWidget.data(), &KFileWidget::accept);
+    QObject::connect(fileWidget.data(), &KFileWidget::accepted, dlg.data(), &QDialog::accept);
+    QObject::connect(fileWidget->cancelButton(), &QPushButton::clicked, dlg.data(), &QDialog::reject);
     dlg->setLayout(layout);
     fileWidget->setFilter(dialogFilter);
     fileWidget->setMode(KFile::Files | KFile::ExistingOnly | KFile::LocalOnly);
@@ -567,7 +567,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QStringList 
         if (!list.isEmpty()) {
             KRecentDirs::add(QStringLiteral(":KdenliveClipFolder"), list.constFirst().adjusted(QUrl::RemoveFilename).toLocalFile());
         }
-        if (b->isChecked() && list.count() == 1) {
+        if (b->isChecked() && list.count() > 1) {
             // Check for image sequence
             const QUrl &url = list.at(0);
             QString fileName = url.fileName().section(QLatin1Char('.'), 0, -2);
@@ -580,8 +580,6 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QStringList 
                     qCDebug(KDENLIVE_LOG) << " / // IMPORT PATTERN: " << pattern << " COUNT: " << list.count();
                     int count = list.count();
                     if (count > 1) {
-                        delete fileWidget;
-                        delete dlg;
                         // get image sequence base name
                         while (fileName.at(fileName.size() - 1).isDigit()) {
                             fileName.chop(1);
@@ -619,8 +617,6 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QStringList 
         KWindowConfig::saveWindowSize(handle, group);
     }
 
-    delete fileWidget;
-    delete dlg;
     if (!list.isEmpty()) {
         ClipCreationDialog::createClipsCommand(doc, list, groupInfo, bin);
     }
