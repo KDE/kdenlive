@@ -122,7 +122,7 @@ void BinController::initializeBin(Mlt::Playlist playlist)
             qDebug() << "producer is not valid or blank";
             continue;
         }
-        QString id = producer->get("kdenlive:id");
+        QString id = producer->get("id");
         qDebug() << "clip id" << id;
         if (id.contains(QLatin1Char('_'))) {
             // This is a track producer
