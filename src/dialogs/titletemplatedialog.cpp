@@ -48,10 +48,10 @@ TitleTemplateDialog::TitleTemplateDialog(const QString &folder, QWidget *parent)
     const QStringList titleTemplates = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("titles/"), QStandardPaths::LocateDirectory);
 
     for (const QString &folderpath : titleTemplates) {
-        QDir folder(folderpath);
-        const QStringList filesnames = folder.entryList(filter, QDir::Files);
+        QDir sysdir(folderpath);
+        const QStringList filesnames = sysdir.entryList(filter, QDir::Files);
         for (const QString &fname : filesnames) {
-            m_view.template_list->comboBox()->addItem(fname, folder.absoluteFilePath(fname));
+            m_view.template_list->comboBox()->addItem(fname, sysdir.absoluteFilePath(fname));
         }
     }
 
