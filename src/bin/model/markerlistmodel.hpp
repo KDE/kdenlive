@@ -115,6 +115,7 @@ public:
        such markers are overridden silently
      */
     bool importFromJson(const QString &data, bool ignoreConflicts);
+    bool loadFromJson(const QString &data);
 
     /* @brief Exports the model to json using format above */
     QString toJson() const;

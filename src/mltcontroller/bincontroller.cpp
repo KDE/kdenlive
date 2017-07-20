@@ -131,9 +131,12 @@ void BinController::initializeBin(Mlt::Playlist playlist)
             if (m_clipList.contains(mainId)) {
                 // The controller for this track producer already exists
             } else {
-                // Create empty controller for this track
-                qDebug() << "creating empty clipcontroller";
-                ClipController::construct(shared_from_this(), ClipController::mediaUnavailable);
+                // Create empty controller for this clip
+                requestClipInfo info;
+                info.imageHeight = 0;
+                info.clipId = id;
+                info.replaceProducer = true;
+                emit slotProducerReady(info, ClipController::mediaUnavailable);
             }
         } else {
             // Controller was already added by a track producer, add master now
@@ -149,24 +152,14 @@ void BinController::initializeBin(Mlt::Playlist playlist)
                         producer->set("resource", color.toUtf8().constData());
                     }
                 }
-                qDebug() << "creating clipcontroller";
-                std::shared_ptr<ClipController> controller = ClipController::construct(shared_from_this(), producer, true);
-                m_clipList.insert(id, controller);
+                requestClipInfo info;
+                info.imageHeight = 0;
+                info.clipId = id;
+                info.replaceProducer = true;
+                emit slotProducerReady(info, producer);
             }
         }
         emit loadingBin(i + 1);
-    }
-    // Load markers
-    Mlt::Properties markerProperties;
-    markerProperties.pass_values(playlistProps, "kdenlive:marker.");
-    for (int i = 0; i < markerProperties.count(); i++) {
-        QString markerId = markerProperties.get_name(i);
-        QString controllerId = markerId.section(QLatin1Char(':'), 0, 0);
-        if (!m_clipList.contains(controllerId)) {
-            qDebug() << "Warning: receiving marker info for unavailable clip";
-            continue;
-        }
-        m_clipList[controllerId]->loadSnapMarker(markerId.section(QLatin1Char(':'), 1), markerProperties.get(i));
     }
 }
 
@@ -284,7 +277,7 @@ void BinController::replaceProducer(const requestClipInfo &info, const std::shar
     emit prepareTimelineReplacement(info);
 }
 
-void BinController::addClipToBin(const QString &id, const std::shared_ptr<ClipController> &controller) // Mlt::Producer &producer)
+void BinController::addClipToBin(const QString &id, const std::shared_ptr<ClipController> &controller)
 {
     /** Test: we can use filters on clips in the bin this way
     Mlt::Filter f(*m_mltProfile, "sepia");

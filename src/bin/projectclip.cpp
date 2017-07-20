@@ -75,6 +75,10 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, std::shared_ptr<
     hash();
     connect(this, &ProjectClip::updateJobStatus, this, &ProjectClip::setJobStatus);
     connect(this, &ProjectClip::updateThumbProgress, model.get(), &ProjectItemModel::updateThumbProgress);
+    QString markers = getProducerProperty(QStringLiteral("kdenlive:markers"));
+    if (!markers.isEmpty()) {
+        m_markerModel->loadFromJson(markers);
+    }
 }
 
 // static
@@ -85,6 +89,7 @@ std::shared_ptr<ProjectClip> ProjectClip::construct(const QString &id, const QIc
     baseFinishConstruct(self);
     model->loadSubClips(id, self->getPropertiesFromPrefix(QStringLiteral("kdenlive:clipzone.")));
     self->createAudioThumbs();
+    pCore->binController()->addClipToBin(id, self);
     return self;
 }
 
@@ -95,9 +100,9 @@ ProjectClip::ProjectClip(const QDomElement &description, const QIcon &thumb, std
     , m_thumbsProducer(nullptr)
 {
     Q_ASSERT(description.hasAttribute(QStringLiteral("id")));
-    m_markerModel = std::make_shared<MarkerListModel>(description.attribute(QStringLiteral("id")), pCore->projectManager()->current()->commandStack());
     m_clipStatus = StatusWaiting;
     m_thumbnail = thumb;
+    m_markerModel = std::make_shared<MarkerListModel>(description.attribute(QStringLiteral("id")), pCore->projectManager()->current()->commandStack());
     if (description.hasAttribute(QStringLiteral("type"))) {
         m_clipType = (ClipType)description.attribute(QStringLiteral("type")).toInt();
         if (m_clipType == Audio) {
@@ -115,7 +120,6 @@ ProjectClip::ProjectClip(const QDomElement &description, const QIcon &thumb, std
     }
     connect(this, &ProjectClip::updateJobStatus, this, &ProjectClip::setJobStatus);
     connect(this, &ProjectClip::updateThumbProgress, model.get(), &ProjectItemModel::updateThumbProgress);
-    m_markerModel = std::make_shared<MarkerListModel>(m_binId, pCore->projectManager()->current()->commandStack());
 }
 
 std::shared_ptr<ProjectClip> ProjectClip::construct(const QDomElement &description, const QIcon &thumb, std::shared_ptr<ProjectItemModel> model)
@@ -326,6 +330,7 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
     Q_UNUSED(replaceProducer);
 
     updateProducer(std::move(producer));
+
     // Update info
     if (m_name.isEmpty()) {
         m_name = clipName();
@@ -692,6 +697,7 @@ void ProjectClip::addMarkers(QList<CommentedTime> &markers)
     // refresh markers in clip monitor
     //if (auto ptr = m_model.lock()) std::static_pointer_cast<ProjectItemModel>(ptr)->bin()->refreshClipMarkers(m_binId);
     // refresh markers in timeline clips
+    setProducerProperty(QStringLiteral("kdenlive:markers"), m_markerModel->toJson());
     emit refreshClipDisplay();
 }
 

@@ -58,6 +58,7 @@ public:
     mlt_service service();
 
     friend class ClipController;
+    friend class ProjectClip;
 
 protected:
     /** @brief Add a new clip producer to the project.
@@ -210,6 +211,7 @@ signals:
     void prepareTimelineReplacement(const requestClipInfo &);
     /** @brief Indicate which clip we are loading */
     void loadingBin(int);
+    void slotProducerReady(const requestClipInfo &info, std::shared_ptr<Mlt::Producer> producer);
 };
 
 #endif

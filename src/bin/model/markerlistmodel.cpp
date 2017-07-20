@@ -350,6 +350,41 @@ void MarkerListModel::registerSnapModel(std::weak_ptr<SnapModel> snapModel)
     }
 }
 
+bool MarkerListModel::loadFromJson(const QString &data)
+{
+    QWriteLocker locker(&m_lock);
+    auto json = QJsonDocument::fromJson(data.toUtf8());
+    if (!json.isArray()) {
+        qDebug() << "Error : Json file should be an array";
+        return false;
+    }
+    auto list = json.array();
+    beginInsertRows(QModelIndex(), 0, list.size() - 1);
+    for (const auto &entry : list) {
+        if (!entry.isObject()) {
+            qDebug() << "Warning : Skipping invalid marker data";
+            continue;
+        }
+        auto entryObj = entry.toObject();
+        if (!entryObj.contains(QLatin1String("pos"))) {
+            qDebug() << "Warning : Skipping invalid marker data (does not contain position)";
+            continue;
+        }
+        GenTime pos(entryObj[QLatin1String("pos")].toInt(), pCore->getCurrentFps());
+        QString comment = entryObj[QLatin1String("comment")].toString(i18n("Marker"));
+        int type = entryObj[QLatin1String("type")].toInt(0);
+        if (type < 0 || type >= (int)markerTypes.size()) {
+            qDebug() << "Warning : invalid type found:" << type << " Defaulting to 0";
+            type = 0;
+        }
+        m_markerList[pos] = {comment, type};
+        addSnapPoint(pos);
+    }
+    endInsertRows();
+    return true;
+}
+
+
 bool MarkerListModel::importFromJson(const QString &data, bool ignoreConflicts)
 {
     QWriteLocker locker(&m_lock);
@@ -372,7 +407,7 @@ bool MarkerListModel::importFromJson(const QString &data, bool ignoreConflicts)
             qDebug() << "Warning : Skipping invalid marker data (does not contain position)";
             continue;
         }
-        double pos = entryObj[QLatin1String("pos")].toDouble();
+        int pos = entryObj[QLatin1String("pos")].toInt();
         QString comment = entryObj[QLatin1String("comment")].toString(i18n("Marker"));
         int type = entryObj[QLatin1String("type")].toInt(0);
         if (type < 0 || type >= (int)markerTypes.size()) {
@@ -380,13 +415,13 @@ bool MarkerListModel::importFromJson(const QString &data, bool ignoreConflicts)
             type = 0;
         }
         bool res = true;
-        if (!ignoreConflicts && m_markerList.count(GenTime(pos)) > 0) {
+        if (!ignoreConflicts && m_markerList.count(GenTime(pos, pCore->getCurrentFps())) > 0) {
             // potential conflict found, checking
-            QString oldComment = m_markerList[GenTime(pos)].first;
-            int oldType = m_markerList[GenTime(pos)].second;
+            QString oldComment = m_markerList[GenTime(pos, pCore->getCurrentFps())].first;
+            int oldType = m_markerList[GenTime(pos, pCore->getCurrentFps())].second;
             res = (oldComment == comment) && (type == oldType);
         }
-        res = res && addMarker(GenTime(pos), comment, type, undo, redo);
+        res = res && addMarker(GenTime(pos, pCore->getCurrentFps()), comment, type, undo, redo);
         if (!res) {
             bool undone = undo();
             Q_ASSERT(undone);
@@ -404,7 +439,7 @@ QString MarkerListModel::toJson() const
     QJsonArray list;
     for (const auto &marker : m_markerList) {
         QJsonObject currentMarker;
-        currentMarker.insert(QLatin1String("pos"), QJsonValue(marker.first.seconds()));
+        currentMarker.insert(QLatin1String("pos"), QJsonValue(marker.first.frames(pCore->getCurrentFps())));
         currentMarker.insert(QLatin1String("comment"), QJsonValue(marker.second.first));
         currentMarker.insert(QLatin1String("type"), QJsonValue(marker.second.second));
         list.push_back(currentMarker);

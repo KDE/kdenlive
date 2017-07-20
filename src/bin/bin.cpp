@@ -1948,7 +1948,7 @@ QStringList Bin::getBinFolderClipIds(const QString &id) const
 
 std::shared_ptr<ProjectClip> Bin::getBinClip(const QString &id)
 {
-    std::shared_ptr<ProjectClip> clip;
+    std::shared_ptr<ProjectClip> clip = nullptr;
     if (id.contains(QLatin1Char('_'))) {
         clip = m_itemModel->getClipByBinID(id.section(QLatin1Char('_'), 0, 0));
     } else if (!id.isEmpty()) {
@@ -2040,10 +2040,10 @@ void Bin::slotProducerReady(const requestClipInfo &info, std::shared_ptr<Mlt::Pr
         } else {
             parentFolder = m_itemModel->getRootFolder();
         }
-        // TODO at this point, we shouldn't have a controller, but rather a bare producer
         std::shared_ptr<ProjectClip> newClip = ProjectClip::construct(info.clipId, m_blankThumb, m_itemModel, producer);
         parentFolder->appendChild(newClip);
         emit producerReady(info.clipId);
+
         ClipType t = newClip->clipType();
         if (t == AV || t == Audio || t == Image || t == Video || t == Playlist) {
             m_doc->watchFile(newClip->url());

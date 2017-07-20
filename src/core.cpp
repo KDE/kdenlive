@@ -160,6 +160,7 @@ void Core::initGUI(const QUrl &Url)
     connect(m_binWidget, SIGNAL(storeFolder(QString, QString, QString, QString)), m_binController.get(),
             SLOT(slotStoreFolder(QString, QString, QString, QString)));
     connect(m_binController.get(), SIGNAL(loadFolders(QMap<QString, QString>)), m_binWidget, SLOT(slotLoadFolders(QMap<QString, QString>)));
+    connect(m_binController.get(), &BinController::slotProducerReady, m_binWidget, &Bin::slotProducerReady, Qt::DirectConnection);
     connect(m_binController.get(), &BinController::prepareTimelineReplacement, m_binWidget, &Bin::prepareTimelineReplacement, Qt::DirectConnection);
 
     connect(m_binController.get(), &BinController::requestAudioThumb, m_binWidget, &Bin::slotCreateAudioThumb);
