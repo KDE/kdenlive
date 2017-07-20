@@ -57,9 +57,7 @@ QMimeData *EffectBasket::mimeData(const QList<QListWidgetItem *> list) const
     QDomElement effect = EffectsListWidget::itemEffect(type, info);
     doc.appendChild(doc.importNode(effect, true));
     QMimeData *mime = new QMimeData;
-    QByteArray data;
-    data.append(doc.toString().toUtf8());
-    mime->setData(QStringLiteral("kdenlive/effectslist"), data);
+    mime->setData(QStringLiteral("kdenlive/effectslist"), doc.toString().toUtf8());
     return mime;
 }
 
