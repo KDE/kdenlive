@@ -57,8 +57,8 @@ Core::~Core()
     if (m_monitorManager) {
         delete m_monitorManager;
     }
-    //delete m_producerQueue;
-    // delete m_binWidget;
+    m_binController->destroyBin();
+    //delete m_binWidget;
     delete m_projectManager;
 }
 

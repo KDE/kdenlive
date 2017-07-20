@@ -990,6 +990,9 @@ void Bin::deleteClip(const QString &id)
     ClipType type = clip->clipType();
     QString url = clip->url();
     clip->setClipStatus(AbstractProjectItem::StatusDeleting);
+    if (!m_processingAudioThumb.isEmpty()) {
+            clip->abortAudioThumbs();
+    }
     std::shared_ptr<AbstractProjectItem> parent = clip->parent();
     Q_ASSERT(parent);
     parent->removeChild(clip);
