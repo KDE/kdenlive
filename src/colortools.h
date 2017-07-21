@@ -38,7 +38,7 @@ public:
       If not the full rect should be filled, set circleOnly to true.
       See also: http://en.wikipedia.org/wiki/YUV and http://de.wikipedia.org/wiki/Vektorskop
      */
-    QImage yuvColorWheel(const QSize &size, const unsigned char &Y, const float &scaling, const bool &modifiedVersion, const bool &circleOnly);
+    QImage yuvColorWheel(const QSize& size, int Y, float scaling, bool modifiedVersion, bool circleOnly);
     /**
       @brief Draws a UV plane with given UV angle (ratio u:v stays constant)
       scaling defines how far to zoom in (or out). Lower value = zoom in.
@@ -46,7 +46,7 @@ public:
       is then laid through the UV plane, with the defined angle.
       @see yuvColorWheel()
      */
-    QImage yuvVerticalPlane(const QSize &size, const float &angle, const float &scaling);
+    QImage yuvVerticalPlane(const QSize& size, int angle, float scaling);
     /**
       @brief Draws a RGB plane with two values on one axis and one on the other.
       This is e.g. useful as background for a curves dialog. On the line from bottom left to top right
@@ -69,7 +69,7 @@ public:
       scaling defines how far to zoom in (or out). Lower value = zoom in.
       See also: http://de.wikipedia.org/wiki/YPbPr-Farbmodell and http://www.poynton.com/ColorFAQ.html
      */
-    QImage yPbPrColorWheel(const QSize &size, const unsigned char &Y, const float &scaling, const bool &circleOnly);
+    QImage yPbPrColorWheel(const QSize &size, int Y, float scaling, bool circleOnly);
     /**
      @brief Draws a HSV plane with Hue on the x axis and hue difference on the y axis.
      This is for the Bézier Curves widget which allows to change the hue (y) of a certain hue.
@@ -77,7 +77,7 @@ public:
      For the value ranges see:
      http://doc.qt.nokia.com/latest/qcolor.html#the-hsv-color-model
      */
-    static QImage hsvHueShiftPlane(const QSize &size, const uint &S, const uint &V, const int &MIN, const int &MAX);
+    static QImage hsvHueShiftPlane(const QSize &size, int S, int V, int MIN, int MAX);
 
     /**
       Basic HSV plane with two components varying on the x and y axis.
