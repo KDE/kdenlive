@@ -552,7 +552,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QStringList 
         if (!list.isEmpty()) {
             KRecentDirs::add(QStringLiteral(":KdenliveClipFolder"), list.constFirst().adjusted(QUrl::RemoveFilename).toLocalFile());
         }
-        if (b->isChecked() && list.count() == 1) {
+        if (b->isChecked() && list.count() >= 1) {
             // Check for image sequence
             QUrl url = list.at(0);
             QString fileName = url.fileName().section(QLatin1Char('.'), 0, -2);
