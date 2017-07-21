@@ -35,7 +35,7 @@ void checkMarkerList(std::shared_ptr<MarkerListModel> model, const std::vector<M
         REQUIRE(snaps->getClosestPoint(0) == -1);
     }
     for (int i = 0; i < model->rowCount(); ++i) {
-        REQUIRE(qAbs(std::get<0>(list[i]).seconds() - model->data(model->index(i), MarkerListModel::PosRole).toDouble()) < 1e-4);
+        REQUIRE(qAbs(std::get<0>(list[i]).seconds() - model->data(model->index(i), MarkerListModel::PosRole).toDouble()) < 0.9 / fps);
         REQUIRE(std::get<1>(list[i]) == model->data(model->index(i), MarkerListModel::CommentRole).toString());
         REQUIRE(std::get<2>(list[i]) == model->data(model->index(i), MarkerListModel::TypeRole).toInt());
         REQUIRE(MarkerListModel::markerTypes[std::get<2>(list[i])] == model->data(model->index(i), MarkerListModel::ColorRole).value<QColor>());
@@ -67,6 +67,7 @@ void checkStates(std::shared_ptr<DocUndoStack> undoStack, std::shared_ptr<Marker
 TEST_CASE("Marker model", "[MarkerListModel]")
 {
     fps = pCore->getCurrentFps();
+    GenTime::setFps(fps);
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
 
     std::shared_ptr<MarkerListModel> model = std::make_shared<MarkerListModel>(undoStack, nullptr);
