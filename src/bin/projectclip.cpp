@@ -77,7 +77,7 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, std::shared_ptr<
     connect(this, &ProjectClip::updateThumbProgress, model.get(), &ProjectItemModel::updateThumbProgress);
     QString markers = getProducerProperty(QStringLiteral("kdenlive:markers"));
     if (!markers.isEmpty()) {
-        m_markerModel->loadFromJson(markers);
+        m_markerModel->importFromJson(markers, true, false);
     }
 }
 

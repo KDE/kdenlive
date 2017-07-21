@@ -113,9 +113,9 @@ public:
        return true on succes and logs undo object
        @param ignoreConflicts: if set to false, it aborts if the data contains a marker with same position but different comment and/or type. If set to true,
        such markers are overridden silently
+       @param pushUndo: if true, create an undo object
      */
-    bool importFromJson(const QString &data, bool ignoreConflicts);
-    bool loadFromJson(const QString &data);
+    bool importFromJson(const QString &data, bool ignoreConflicts, bool pushUndo = true);
 
     /* @brief Exports the model to json using format above */
     QString toJson() const;

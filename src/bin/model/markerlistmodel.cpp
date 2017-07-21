@@ -350,42 +350,7 @@ void MarkerListModel::registerSnapModel(std::weak_ptr<SnapModel> snapModel)
     }
 }
 
-bool MarkerListModel::loadFromJson(const QString &data)
-{
-    QWriteLocker locker(&m_lock);
-    auto json = QJsonDocument::fromJson(data.toUtf8());
-    if (!json.isArray()) {
-        qDebug() << "Error : Json file should be an array";
-        return false;
-    }
-    auto list = json.array();
-    beginInsertRows(QModelIndex(), 0, list.size() - 1);
-    for (const auto &entry : list) {
-        if (!entry.isObject()) {
-            qDebug() << "Warning : Skipping invalid marker data";
-            continue;
-        }
-        auto entryObj = entry.toObject();
-        if (!entryObj.contains(QLatin1String("pos"))) {
-            qDebug() << "Warning : Skipping invalid marker data (does not contain position)";
-            continue;
-        }
-        GenTime pos(entryObj[QLatin1String("pos")].toInt(), pCore->getCurrentFps());
-        QString comment = entryObj[QLatin1String("comment")].toString(i18n("Marker"));
-        int type = entryObj[QLatin1String("type")].toInt(0);
-        if (type < 0 || type >= (int)markerTypes.size()) {
-            qDebug() << "Warning : invalid type found:" << type << " Defaulting to 0";
-            type = 0;
-        }
-        m_markerList[pos] = {comment, type};
-        addSnapPoint(pos);
-    }
-    endInsertRows();
-    return true;
-}
-
-
-bool MarkerListModel::importFromJson(const QString &data, bool ignoreConflicts)
+bool MarkerListModel::importFromJson(const QString &data, bool ignoreConflicts, bool pushUndo)
 {
     QWriteLocker locker(&m_lock);
     Fun undo = []() { return true; };
@@ -429,7 +394,9 @@ bool MarkerListModel::importFromJson(const QString &data, bool ignoreConflicts)
         }
     }
 
-    PUSH_UNDO(undo, redo, m_guide ? i18n("Import guides") : i18n("Import markers"));
+    if (pushUndo) {
+        PUSH_UNDO(undo, redo, m_guide ? i18n("Import guides") : i18n("Import markers"));
+    }
     return true;
 }
 
