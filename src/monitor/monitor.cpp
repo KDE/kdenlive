@@ -986,7 +986,7 @@ void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
         QString suggestedImageName =
             QFileInfo(currentController()
                           ? currentController()->clipName()
-                          : pCore->projectManager()->current()->url().isValid() ? pCore->projectManager()->current()->url().fileName() : i18n("untitled"))
+                          : pCore->currentDoc()->url().isValid() ? pCore->currentDoc()->url().fileName() : i18n("untitled"))
                 .completeBaseName() +
             QStringLiteral("-f") + QString::number(m_glMonitor->getCurrentPos()) + QStringLiteral(".png");
         frameName = QFileInfo(frameName, suggestedImageName).fileName();
@@ -1072,9 +1072,9 @@ void Monitor::checkOverlay(int pos)
             } else
                 overlayText = marker.comment();
         }
-    } else if (m_id == Kdenlive::ProjectMonitor) {
+    } else if (m_id == Kdenlive::ProjectMonitor && pCore->currentDoc()) {
         bool found = false;
-        CommentedTime marker = pCore->projectManager()->current()->getGuide(GenTime(pos, m_monitorManager->timecode().fps()), &found);
+        CommentedTime marker = pCore->currentDoc()->getGuide(GenTime(pos, m_monitorManager->timecode().fps()), &found);
         if (!found) {
             if (pos == zone.x()) {
                 overlayText = i18n("In Point");
@@ -1380,7 +1380,7 @@ void Monitor::slotOpenDvdFile(const QString &file)
 void Monitor::slotSaveZone()
 {
     // TODO? or deprecate
-    // render->saveZone(pCore->projectManager()->current()->projectDataFolder(), m_ruler->zone());
+    // render->saveZone(pCore->currentDoc()->projectDataFolder(), m_ruler->zone());
 }
 
 void Monitor::setCustomProfile(const QString &profile, const Timecode &tc)
@@ -2021,13 +2021,13 @@ void Monitor::slotEditInlineMarker()
             // We are editing a timeline guide
             QString newComment = root->property("markerText").toString();
             bool found = false;
-            CommentedTime oldMarker = pCore->projectManager()->current()->getGuide(m_timePos->gentime(), &found);
+            CommentedTime oldMarker = pCore->currentDoc()->getGuide(m_timePos->gentime(), &found);
             if (!found || newComment == oldMarker.comment()) {
                 // No change
                 return;
             }
             oldMarker.setComment(newComment);
-            pCore->projectManager()->current()->addGuides(QList<CommentedTime>() << oldMarker);
+            pCore->currentDoc()->addGuides(QList<CommentedTime>() << oldMarker);
         }
     }
 }

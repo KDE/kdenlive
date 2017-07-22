@@ -83,7 +83,7 @@ public:
 
     /** @brief Returns a pointer to the project manager. */
     ProjectManager *projectManager();
-    /** @brief Returns a pointer to the project manager. */
+    /** @brief Returns a pointer to the current project. */
     KdenliveDoc *currentDoc();
     /** @brief Returns a pointer to the monitor manager. */
     MonitorManager *monitorManager();

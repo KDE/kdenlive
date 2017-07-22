@@ -283,6 +283,8 @@ KdenliveDoc::~KdenliveDoc()
         }
     }
     // qCDebug(KDENLIVE_LOG) << "// DEL CLP MAN";
+    //Clean up guide model  
+    m_guideModel.reset();
     delete m_clipManager;
     // qCDebug(KDENLIVE_LOG) << "// DEL CLP MAN done";
     if (m_autosave) {
