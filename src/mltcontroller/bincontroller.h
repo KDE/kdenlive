@@ -66,7 +66,7 @@ protected:
      * @param id The clip's id
      * @param producer The MLT producer for this clip
      * */
-    void addClipToBin(const QString &id, const std::shared_ptr<ClipController> &controller);
+    void addClipToBin(const QString &id, const std::shared_ptr<ClipController> &controller, bool fromPlaylist = false);
 
 public:
     /** @brief Store a timeline producer in clip list for later re-use

@@ -115,20 +115,21 @@ AudioStreamInfo *ClipController::audioInfo() const
 void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &producer)
 {
     QString documentRoot;
+    m_masterProducer = producer;
+    m_producerLock.unlock();
     if (auto ptr = m_binController.lock()) {
         documentRoot = ptr->documentRoot();
+        // insert controller in bin
+        ptr->addClipToBin(clipId(), static_cast<std::shared_ptr<ClipController>>(this));
     } else {
         qDebug() << "Error: impossible to add master producer because bincontroller is not available";
     }
-    m_masterProducer = producer;
     m_properties = new Mlt::Properties(m_masterProducer->get_properties());
     m_effectStack = EffectStackModel::construct(producer, {ObjectType::BinClip, m_properties->get_int("kdenlive:id")}, pCore->undoStack());
     if (!m_masterProducer->is_valid()) {
         m_masterProducer = ClipController::mediaUnavailable;
-        m_producerLock.unlock();
         qCDebug(KDENLIVE_LOG) << "// WARNING, USING INVALID PRODUCER";
     } else {
-        m_producerLock.unlock();
         QString proxy = m_properties->get("kdenlive:proxy");
         m_service = m_properties->get("mlt_service");
         QString path = m_properties->get("resource");
@@ -144,10 +145,6 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
             path.prepend(documentRoot);
         }
         m_path = QFileInfo(path).absoluteFilePath();
-        // insert controller in bin
-        if (auto ptr = m_binController.lock()) {
-            ptr->addClipToBin(clipId(), static_cast<std::shared_ptr<ClipController>>(this));
-        }
         getInfoForProducer();
     }
 }

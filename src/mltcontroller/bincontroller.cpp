@@ -277,14 +277,16 @@ void BinController::replaceProducer(const requestClipInfo &info, const std::shar
     emit prepareTimelineReplacement(info);
 }
 
-void BinController::addClipToBin(const QString &id, const std::shared_ptr<ClipController> &controller)
+void BinController::addClipToBin(const QString &id, const std::shared_ptr<ClipController> &controller, bool fromPlaylist)
 {
     /** Test: we can use filters on clips in the bin this way
     Mlt::Filter f(*m_mltProfile, "sepia");
     producer.attach(f);
     */
     // append or replace clip in MLT's retain playlist
-    replaceBinPlaylistClip(id, controller->originalProducer());
+    if (!fromPlaylist) {
+        replaceBinPlaylistClip(id, controller->originalProducer());
+    }
     if (!m_clipList.contains(id)) {
         m_clipList.insert(id, controller);
     }
