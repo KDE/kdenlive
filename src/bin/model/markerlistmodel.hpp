@@ -107,7 +107,16 @@ public:
     */
     void registerSnapModel(std::weak_ptr<SnapModel> snapModel);
 
-    /* @brief Imports a list of markers from json data
+    /* @brief Exports the model to json using format above */
+    QString toJson() const;
+
+    // Mandatory overloads
+    QVariant data(const QModelIndex &index, int role) const override;
+    QHash<int, QByteArray> roleNames() const override;
+    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+
+public slots:
+        /* @brief Imports a list of markers from json data
        The data should be formated as follows:
        [{"pos":0.2, "comment":"marker 1", "type":1}, {...}, ...]
        return true on succes and logs undo object
@@ -116,14 +125,6 @@ public:
        @param pushUndo: if true, create an undo object
      */
     bool importFromJson(const QString &data, bool ignoreConflicts, bool pushUndo = true);
-
-    /* @brief Exports the model to json using format above */
-    QString toJson() const;
-
-    // Mandatory overloads
-    QVariant data(const QModelIndex &index, int role) const override;
-    QHash<int, QByteArray> roleNames() const override;
-    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 
 protected:
     /* @brief Adds a snap point at marker position in the registered snap models

@@ -283,7 +283,7 @@ KdenliveDoc::~KdenliveDoc()
         }
     }
     // qCDebug(KDENLIVE_LOG) << "// DEL CLP MAN";
-    //Clean up guide model  
+    //Clean up guide model
     m_guideModel.reset();
     delete m_clipManager;
     // qCDebug(KDENLIVE_LOG) << "// DEL CLP MAN done";
@@ -1306,6 +1306,11 @@ void KdenliveDoc::loadDocumentProperties()
                         value.prepend(root);
                     }
                     m_documentProperties.insert(name, value);
+                } else if (name == QStringLiteral("guides")) {
+                    QString guides = e.firstChild().nodeValue();
+                    if (!guides.isEmpty()) {
+                        QMetaObject::invokeMethod(m_guideModel.get(), "importFromJson", Qt::QueuedConnection, Q_ARG(const QString &, guides), Q_ARG(bool, true), Q_ARG(bool, false));
+                    }
                 } else {
                     m_documentProperties.insert(name, e.firstChild().nodeValue());
                 }
@@ -1698,6 +1703,7 @@ void KdenliveDoc::addGuides(QList<CommentedTime> &markers)
             m_guideModel->addMarker(markers.at(i).time(), markers.at(i).comment(), markers.at(i).markerType());
         }
     }
+    m_documentProperties[QStringLiteral("guides")] = m_guideModel->toJson();
 }
 
 CommentedTime KdenliveDoc::getGuide(const GenTime &pos, bool *ok) const
