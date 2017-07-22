@@ -240,7 +240,6 @@ void EffectStackView::unsetModel(bool reset)
 {
     // Release ownership of smart pointer
     if (reset) {
-        disconnect(m_model.get(), &EffectStackModel::dataChanged, this, &EffectStackView::refresh);
         m_model.reset();
     }
 }
