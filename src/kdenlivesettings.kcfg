@@ -156,7 +156,7 @@
       <default></default>
     </entry>
     
-    <entry name="proxy_profile" type="UInt">
+    <entry name="proxy_profile" type="Int">
       <label>default proxy encoding profile.</label>
       <default>0</default>
     </entry>
@@ -171,7 +171,7 @@
       <default></default>
     </entry>
     
-    <entry name="preview_profile" type="UInt">
+    <entry name="preview_profile" type="Int">
       <label>default preview encoding profile.</label>
       <default>0</default>
     </entry>
@@ -308,7 +308,7 @@
       <default></default>
     </entry>
 
-    <entry name="audio_device" type="UInt">
+    <entry name="audio_device" type="Int">
       <label>Audio device for SDL output.</label>
       <default></default>
     </entry>
@@ -433,12 +433,12 @@
 
 
   <group name="capture">
-    <entry name="defaultcapture" type="UInt">
+    <entry name="defaultcapture" type="Int">
       <label>Default video capture system.</label>
       <default>0</default>
     </entry>
 
-    <entry name="firewireformat" type="UInt">
+    <entry name="firewireformat" type="Int">
       <label>Default firewire capture format.</label>
       <default>0</default>
     </entry>
@@ -463,7 +463,7 @@
       <default>/dev/video0</default>
     </entry>
 
-    <entry name="v4l_alsadevice" type="UInt">
+    <entry name="v4l_alsadevice" type="Int">
       <label>Audio device for v4l capture.</label>
       <default></default>
     </entry>
@@ -503,12 +503,12 @@
       <default>false</default>
     </entry>
     
-    <entry name="v4l_profile" type="UInt">
+    <entry name="v4l_profile" type="Int">
       <label>default v4l encoding profile.</label>
       <default>0</default>
     </entry>
     
-    <entry name="grab_profile" type="UInt">
+    <entry name="grab_profile" type="Int">
       <label>default screen grab encoding profile.</label>
       <default>0</default>
     </entry>
@@ -523,7 +523,7 @@
       <default></default>
     </entry>
 
-    <entry name="grab_capture_type" type="UInt">
+    <entry name="grab_capture_type" type="Int">
       <label>capture type.</label>
       <default>0</default>
     </entry>
@@ -593,7 +593,7 @@
       <default>0</default>
     </entry>
     
-    <entry name="decklink_profile" type="UInt">
+    <entry name="decklink_profile" type="Int">
       <label>default HDMI encoding profile.</label>
       <default>0</default>
     </entry>

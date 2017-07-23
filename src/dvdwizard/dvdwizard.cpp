@@ -354,11 +354,11 @@ void DvdWizard::processSpumux()
         ++i;
     }
 
-    QFile data(m_menuFile.fileName());
-    if (data.open(QFile::WriteOnly)) {
-        data.write(doc.toString().toUtf8());
+    QFile menuFile(m_menuFile.fileName());
+    if (menuFile.open(QFile::WriteOnly)) {
+        menuFile.write(doc.toString().toUtf8());
     }
-    data.close();
+    menuFile.close();
 
     //qCDebug(KDENLIVE_LOG) << " SPUMUX DATA: " << doc.toString();
 
@@ -461,10 +461,10 @@ void DvdWizard::processSpumux()
 
         ////qCDebug(KDENLIVE_LOG) << " SPUMUX DATA: " << doc.toString();
 
-        if (data.open(QFile::WriteOnly)) {
-            data.write(docLetter.toString().toUtf8());
+        if (menuFile.open(QFile::WriteOnly)) {
+            menuFile.write(docLetter.toString().toUtf8());
         }
-        data.close();
+        menuFile.close();
         spumux.setStandardInputFile(m_menuVobFile.fileName());
         spumux.setStandardOutputFile(m_letterboxMovie.fileName());
         args.clear();

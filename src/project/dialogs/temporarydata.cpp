@@ -24,7 +24,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "utils/KoIconUtils.h"
 
 #include <KLocalizedString>
-#include <KIO/DirectorySizeJob>
 #include <KMessageBox>
 
 #include <QVBoxLayout>
@@ -229,7 +228,7 @@ void TemporaryData::updateDataInfo()
     if (ok) {
         preview.setNameFilters(m_proxies);
         const QFileInfoList fList = preview.entryInfoList();
-        qint64 size = 0;
+        KIO::filesize_t size = 0;
         for (const QFileInfo &info : fList) {
             size += info.size();
         }
@@ -254,7 +253,7 @@ void TemporaryData::updateDataInfo()
 void TemporaryData::gotPreviewSize(KJob *job)
 {
     KIO::DirectorySizeJob *sourceJob = static_cast<KIO::DirectorySizeJob *>(job);
-    qulonglong total = sourceJob->totalSize();
+    KIO::filesize_t total = sourceJob->totalSize();
     if (sourceJob->totalFiles() == 0) {
         total = 0;
     }
@@ -268,7 +267,7 @@ void TemporaryData::gotPreviewSize(KJob *job)
     updateTotal();
 }
 
-void TemporaryData::gotProxySize(qint64 total)
+void TemporaryData::gotProxySize(KIO::filesize_t total)
 {
     QLayoutItem *button = m_grid->itemAtPosition(1, 4);
     if (button && button->widget()) {
@@ -283,7 +282,7 @@ void TemporaryData::gotProxySize(qint64 total)
 void TemporaryData::gotAudioSize(KJob *job)
 {
     KIO::DirectorySizeJob *sourceJob = static_cast<KIO::DirectorySizeJob *>(job);
-    qulonglong total = sourceJob->totalSize();
+    KIO::filesize_t total = sourceJob->totalSize();
     if (sourceJob->totalFiles() == 0) {
         total = 0;
     }
@@ -300,7 +299,7 @@ void TemporaryData::gotAudioSize(KJob *job)
 void TemporaryData::gotThumbSize(KJob *job)
 {
     KIO::DirectorySizeJob *sourceJob = static_cast<KIO::DirectorySizeJob *>(job);
-    qulonglong total = sourceJob->totalSize();
+    KIO::filesize_t total = sourceJob->totalSize();
     if (sourceJob->totalFiles() == 0) {
         total = 0;
     }
@@ -322,11 +321,11 @@ void TemporaryData::updateTotal()
         button->widget()->setEnabled(m_totalCurrent > 0);
     }
     QList<int> segments;
-    foreach (qulonglong size, mCurrentSizes) {
+    foreach (KIO::filesize_t size, mCurrentSizes) {
         if (m_totalCurrent == 0) {
             segments << 0;
         } else {
-            segments << size * 360 / m_totalCurrent;
+            segments << static_cast<int>(size * 360 / m_totalCurrent);
         }
     }
     m_currentPie->setSegments(segments);
@@ -513,7 +512,7 @@ void TemporaryData::processglobalDirectories()
 void TemporaryData::gotFolderSize(KJob *job)
 {
     KIO::DirectorySizeJob *sourceJob = static_cast<KIO::DirectorySizeJob *>(job);
-    qulonglong total = sourceJob->totalSize();
+    KIO::filesize_t total = sourceJob->totalSize();
     if (sourceJob->totalFiles() == 0) {
         total = 0;
     }
@@ -560,7 +559,7 @@ void TemporaryData::gotFolderSize(KJob *job)
 void TemporaryData::refreshGlobalPie()
 {
     QList<QTreeWidgetItem *> list = m_listWidget->selectedItems();
-    qulonglong currentSize = 0;
+    KIO::filesize_t currentSize = 0;
     foreach (QTreeWidgetItem *current, list) {
         if (current) {
             currentSize += current->data(1, Qt::UserRole).toULongLong();

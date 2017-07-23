@@ -355,7 +355,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QStringList
                 }
                 item->setData(0, Qt::UserRole + 1, slideImages);
                 item->setData(0, Qt::UserRole + 3, totalSize);
-                m_requestedSize += totalSize;
+                m_requestedSize += static_cast<KIO::filesize_t>(totalSize);
             } else {
                 // pattern url (like clip%.3d.png)
                 QStringList result = dir.entryList(QDir::Files);
@@ -378,7 +378,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QStringList
                 }
                 item->setData(0, Qt::UserRole + 1, slideImages);
                 item->setData(0, Qt::UserRole + 3, totalSize);
-                m_requestedSize += totalSize;
+                m_requestedSize += static_cast<KIO::filesize_t>(totalSize);
             }
         } else if (filesList.contains(fileName)) {
             // we have 2 files with same name
@@ -397,7 +397,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QStringList
                 item->setIcon(0, QIcon::fromTheme(QStringLiteral("edit-delete")));
                 m_missingClips++;
             } else {
-                m_requestedSize += fileSize;
+                m_requestedSize += static_cast<KIO::filesize_t>(fileSize);
                 item->setData(0, Qt::UserRole + 3, fileSize);
             }
             filesList << fileName;
@@ -439,7 +439,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap<QStrin
                 }
                 item->setData(0, Qt::UserRole + 1, slideImages);
                 item->setData(0, Qt::UserRole + 3, totalSize);
-                m_requestedSize += totalSize;
+                m_requestedSize += static_cast<KIO::filesize_t>(totalSize);
             } else {
                 // pattern url (like clip%.3d.png)
                 QStringList result = dir.entryList(QDir::Files);
@@ -458,7 +458,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap<QStrin
                 }
                 item->setData(0, Qt::UserRole + 1, slideImages);
                 item->setData(0, Qt::UserRole + 3, totalSize);
-                m_requestedSize += totalSize;
+                m_requestedSize += static_cast<KIO::filesize_t>(totalSize);
             }
         } else if (filesList.contains(fileName)) {
             // we have 2 files with same name
@@ -477,7 +477,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap<QStrin
                 item->setIcon(0, QIcon::fromTheme(QStringLiteral("edit-delete")));
                 m_missingClips++;
             } else {
-                m_requestedSize += fileSize;
+                m_requestedSize += static_cast<KIO::filesize_t>(fileSize);
                 item->setData(0, Qt::UserRole + 3, fileSize);
             }
             filesList << fileName;
@@ -617,7 +617,7 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
             m_duplicateFiles.remove(startJobSrc);
             KIO::CopyJob *job = KIO::copyAs(startJobSrc, startJobDst, KIO::HideProgressInfo);
             connect(job, SIGNAL(result(KJob *)), this, SLOT(slotArchivingFinished(KJob *)));
-            connect(job, SIGNAL(processedSize(KJob *, qulonglong)), this, SLOT(slotArchivingProgress(KJob *, qulonglong)));
+            connect(job, SIGNAL(processedSize(KJob *, KIO::filesize_t)), this, SLOT(slotArchivingProgress(KJob *, KIO::filesize_t)));
         }
         return true;
     }
@@ -637,7 +637,7 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
         }
         m_copyJob = KIO::copy(files, destUrl, KIO::HideProgressInfo);
         connect(m_copyJob, SIGNAL(result(KJob *)), this, SLOT(slotArchivingFinished(KJob *)));
-        connect(m_copyJob, SIGNAL(processedSize(KJob *, qulonglong)), this, SLOT(slotArchivingProgress(KJob *, qulonglong)));
+        connect(m_copyJob, SIGNAL(processedSize(KJob *, KIO::filesize_t)), this, SLOT(slotArchivingProgress(KJob *, KIO::filesize_t)));
     }
     if (firstPass) {
         progressBar->setValue(0);
@@ -681,9 +681,9 @@ void ArchiveWidget::slotArchivingFinished(KJob *job, bool finished)
     }
 }
 
-void ArchiveWidget::slotArchivingProgress(KJob *, qulonglong size)
+void ArchiveWidget::slotArchivingProgress(KJob *, KIO::filesize_t size)
 {
-    progressBar->setValue(100 * size / m_requestedSize);
+    progressBar->setValue(static_cast<int>(100 * size / m_requestedSize));
 }
 
 bool ArchiveWidget::processProjectFile()
@@ -777,8 +777,8 @@ bool ArchiveWidget::processProjectFile()
             QDomDocument titleXML;
             titleXML.setContent(src);
             QDomNodeList images = titleXML.documentElement().elementsByTagName(QLatin1String("item"));
-            for (int i = 0; i < images.count(); i++) {
-                QDomNode n = images.at(i);
+            for (int j = 0; j < images.count(); ++j) {
+                QDomNode n = images.at(j);
                 QDomElement url = n.firstChildElement(QLatin1String("content"));
                 if (!url.isNull() && url.hasAttribute(QLatin1String("url"))) {
                     QUrl srcUrl = QUrl::fromLocalFile(url.attribute(QLatin1String("url")));
@@ -937,7 +937,7 @@ void ArchiveWidget::slotStartExtracting()
         return;
     }
     QFileInfo f(m_extractUrl.toLocalFile());
-    m_requestedSize = f.size();
+    m_requestedSize = static_cast<KIO::filesize_t>(f.size());
     QDir dir(archive_url->url().toLocalFile());
     if (!dir.mkpath(QStringLiteral("."))) {
         KMessageBox::sorry(this, i18n("Cannot create directory %1", archive_url->url().toLocalFile()));
@@ -958,7 +958,7 @@ void ArchiveWidget::slotGotProgress(KJob *job)
 {
     if (!job->error()) {
         KIO::DirectorySizeJob *j = static_cast <KIO::DirectorySizeJob *>(job);
-        progressBar->setValue((int) 100 * j->totalSize() / m_requestedSize);
+        progressBar->setValue(static_cast<int>(100 * j->totalSize() / m_requestedSize));
     }
     job->deleteLater();
 }
@@ -1075,7 +1075,7 @@ void ArchiveWidget::slotProxyOnly(int onlyProxy)
 
         for (int j = 0; j < items; ++j) {
             if (!parentItem->child(j)->isDisabled()) {
-                m_requestedSize += parentItem->child(j)->data(0, Qt::UserRole + 3).toInt();
+                m_requestedSize += static_cast<KIO::filesize_t>(parentItem->child(j)->data(0, Qt::UserRole + 3).toInt());
                 if (isSlideshow) {
                     total += parentItem->child(j)->data(0, Qt::UserRole + 1).toStringList().count();
                 } else {

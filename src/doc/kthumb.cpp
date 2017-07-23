@@ -122,7 +122,7 @@ uint KThumb::imageVariance(const QImage &image)
 {
     uint delta = 0;
     uint avg = 0;
-    uint bytes = image.byteCount();
+    uint bytes = static_cast<uint>(image.byteCount());
     uint STEPS = bytes / 2;
     QVarLengthArray<uchar> pivot(STEPS);
     const uchar *bits = image.bits();

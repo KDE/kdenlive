@@ -190,9 +190,9 @@ void CommentedTime::setComment(const QString &comm)
     c = comm;
 }
 
-void CommentedTime::setMarkerType(int t)
+void CommentedTime::setMarkerType(int newtype)
 {
-    type = t;
+    type = newtype;
 }
 
 QString CommentedTime::hash() const
