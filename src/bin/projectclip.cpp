@@ -56,7 +56,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, std::shared_ptr<ProjectItemModel> model, std::shared_ptr<Mlt::Producer> producer)
     : AbstractProjectItem(AbstractProjectItem::ClipItem, id, model)
-    , ClipController(pCore->binController(), producer)
+    , ClipController(id, pCore->binController(), producer)
     , m_abortAudioThumb(false)
     , m_thumbsProducer(nullptr)
 {
@@ -95,14 +95,13 @@ std::shared_ptr<ProjectClip> ProjectClip::construct(const QString &id, const QIc
 
 ProjectClip::ProjectClip(const QDomElement &description, const QIcon &thumb, std::shared_ptr<ProjectItemModel> model)
     : AbstractProjectItem(AbstractProjectItem::ClipItem, description, model)
-    , ClipController(pCore->binController())
+    , ClipController(description.attribute(QStringLiteral("id")), pCore->binController())
     , m_abortAudioThumb(false)
     , m_thumbsProducer(nullptr)
 {
-    Q_ASSERT(description.hasAttribute(QStringLiteral("id")));
     m_clipStatus = StatusWaiting;
     m_thumbnail = thumb;
-    m_markerModel = std::make_shared<MarkerListModel>(description.attribute(QStringLiteral("id")), pCore->projectManager()->current()->commandStack());
+    m_markerModel = std::make_shared<MarkerListModel>(m_binId, pCore->projectManager()->current()->commandStack());
     if (description.hasAttribute(QStringLiteral("type"))) {
         m_clipType = (ClipType)description.attribute(QStringLiteral("type")).toInt();
         if (m_clipType == Audio) {
@@ -126,6 +125,7 @@ std::shared_ptr<ProjectClip> ProjectClip::construct(const QDomElement &descripti
 {
     std::shared_ptr<ProjectClip> self(new ProjectClip(description, thumb, model));
     baseFinishConstruct(self);
+    pCore->binController()->addClipToBin(description.attribute(QStringLiteral("id")), self, true);
     return self;
 }
 
@@ -325,7 +325,6 @@ QPixmap ProjectClip::thumbnail(int width, int height)
 bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool replaceProducer)
 {
     Q_UNUSED(replaceProducer);
-
     updateProducer(std::move(producer));
 
     // Update info

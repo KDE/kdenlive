@@ -112,7 +112,7 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc
     for (int i = 0; i < list.count(); ++i) {
         const std::shared_ptr<ClipController> &clip = list.at(i);
         ClipType t = clip->clipType();
-        QString id = clip->clipId();
+        QString id = clip->binId();
         if (t == Color) {
             continue;
         }

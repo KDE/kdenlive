@@ -52,28 +52,12 @@ class ClipController
 public:
     friend class Bin;
     /**
-       @brief Constructs a clipController and returns a ptr to it.
-       * It also take care of registration to the BinController
-       * @param bincontroller reference to the bincontroller
-       * @param producer producer to create reference to
-       * @param loadingFromBinPlaylist if true, we are loading the clip from bin playlist, so no need to insert it here
-       */
-    static std::shared_ptr<ClipController> construct(const std::shared_ptr<BinController> &bincontroller, std::shared_ptr<Mlt::Producer> producer);
-
-protected:
-    /**
      * @brief Constructor.
      The constructor is protected because you should call the static Construct instead
      * @param bincontroller reference to the bincontroller
      * @param producer producer to create reference to
      */
-    explicit ClipController(std::shared_ptr<BinController> bincontroller, std::shared_ptr<Mlt::Producer> producer);
-    /**
-     * @brief Constructor used when opening a document and encountering a
-     The constructor is protected because you should call the static Construct instead
-     * @param bincontroller reference to the bincontroller
-     */
-    explicit ClipController(std::shared_ptr<BinController> bincontroller);
+    explicit ClipController(const QString id, std::shared_ptr<BinController> bincontroller, std::shared_ptr<Mlt::Producer> producer = nullptr);
 
 public:
     virtual ~ClipController();
@@ -92,9 +76,6 @@ public:
     /** @brief Returns a clone of our master producer. Delete after use! */
     Mlt::Producer *masterProducer();
 
-    /** @brief Returns the MLT's producer id */
-    const QString clipId();
-
     /** @brief Returns the clip name (usually file name) */
     QString clipName() const;
 
@@ -106,6 +87,9 @@ public:
 
     /** @brief Returns the clip's type as defined in definitions.h */
     ClipType clipType() const;
+
+    /** @brief Returns the MLT's producer id */
+    const QString binId() const;
 
     /** @brief Returns the clip's duration */
     GenTime getPlaytime() const;
@@ -249,6 +233,7 @@ protected:
 
 private:
     QMutex m_producerLock;
+    QString m_controllerBinId;
 };
 
 #endif

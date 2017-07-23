@@ -182,7 +182,7 @@ private:
     QString m_activeProfile;
 
     /** @brief Can be used to copy filters from a clip to another */
-    void duplicateFilters(Mlt::Producer original, Mlt::Producer clone);
+    void duplicateFilters(std::shared_ptr<Mlt::Producer> original, Mlt::Producer clone);
 
     /** @brief This list holds all producer controllers for the playlist, indexed by id */
     QMap<QString, std::shared_ptr<ClipController>> m_clipList;

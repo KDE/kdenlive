@@ -218,7 +218,7 @@ void EffectStackView2::slotClipItemSelected(ClipItem *c, Monitor *m, bool reload
 
 void EffectStackView2::slotRefreshMasterClipEffects(ClipController *c, Monitor *m)
 {
-    if ((c != nullptr) && m_status == MASTER_CLIP && (m_masterclipref != nullptr) && m_masterclipref->clipId() == c->clipId()) {
+    if ((c != nullptr) && m_status == MASTER_CLIP && (m_masterclipref != nullptr) && m_masterclipref->binId() == c->binId()) {
         slotMasterClipItemSelected(c, m);
     }
 }
@@ -625,7 +625,7 @@ void EffectStackView2::slotUpdateEffectState(bool disable, int index, MonitorSce
         emit changeEffectState(nullptr, m_trackindex, QList<int>() << index, disable);
         break;
     case MASTER_CLIP:
-        emit changeMasterEffectState(m_masterclipref->clipId(), QList<int>() << index, disable);
+        emit changeMasterEffectState(m_masterclipref->binId(), QList<int>() << index, disable);
         break;
     default:
         // timeline clip effect
@@ -729,7 +729,7 @@ void EffectStackView2::slotCheckAll(int state)
     } else if (m_status == TIMELINE_CLIP) {
         emit changeEffectState(m_clipref, -1, indexes, disabled);
     } else if (m_status == MASTER_CLIP) {
-        emit changeMasterEffectState(m_masterclipref->clipId(), indexes, disabled);
+        emit changeMasterEffectState(m_masterclipref->binId(), indexes, disabled);
     }
 }
 
@@ -791,7 +791,7 @@ void EffectStackView2::slotUpdateEffectParams(const QDomElement &old, const QDom
         // Make sure the changed effect is currently displayed
         slotSetCurrentEffect(ix);
     } else if (m_status == MASTER_CLIP) {
-        emit updateMasterEffect(m_masterclipref->clipId(), old, e, ix);
+        emit updateMasterEffect(m_masterclipref->binId(), old, e, ix);
     }
     m_scrollTimer.start();
 }
@@ -856,14 +856,14 @@ void EffectStackView2::slotDeleteEffect(const QDomElement &effect)
         emit removeEffect(m_clipref, -1, effect);
     }
     if (m_status == MASTER_CLIP) {
-        emit removeMasterEffect(m_masterclipref->clipId(), effect);
+        emit removeMasterEffect(m_masterclipref->binId(), effect);
     }
 }
 
 void EffectStackView2::slotAddEffect(const QDomElement &effect)
 {
     if (m_status == MASTER_CLIP) {
-        emit addMasterEffect(m_masterclipref->clipId(), effect);
+        emit addMasterEffect(m_masterclipref->binId(), effect);
     } else {
         emit addEffect(m_clipref, effect, m_trackindex);
     }
@@ -888,7 +888,7 @@ void EffectStackView2::slotMoveEffectUp(const QList<int> &indexes, bool up)
     } else if (m_status == TIMELINE_CLIP) {
         emit changeEffectPosition(m_clipref, -1, indexes, endPos);
     } else if (m_status == MASTER_CLIP) {
-        emit changeEffectPosition(m_masterclipref->clipId(), indexes, endPos);
+        emit changeEffectPosition(m_masterclipref->binId(), indexes, endPos);
     }
 }
 
@@ -922,7 +922,7 @@ void EffectStackView2::slotStartFilterJob(QMap<QString, QString> &filterParams, 
         emit startFilterJob(m_clipref->info(), m_clipref->getBinId(), filterParams, consumerParams, extraParams);
     } else if (m_status == MASTER_CLIP && (m_masterclipref != nullptr)) {
         ItemInfo info;
-        emit startFilterJob(info, m_masterclipref->clipId(), filterParams, consumerParams, extraParams);
+        emit startFilterJob(info, m_masterclipref->binId(), filterParams, consumerParams, extraParams);
     }
 }
 
@@ -964,7 +964,7 @@ void EffectStackView2::slotResetEffect(int ix)
             emit updateEffect(m_clipref, -1, old, dom, ix, true);
         } else if (m_status == MASTER_CLIP) {
             m_masterclipref->initEffect(m_effectMetaInfo.monitor->profileInfo(), dom);
-            emit updateMasterEffect(m_masterclipref->clipId(), old, dom, ix, true);
+            emit updateMasterEffect(m_masterclipref->binId(), old, dom, ix, true);
         }
     }
 

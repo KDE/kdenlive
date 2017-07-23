@@ -113,7 +113,6 @@ public:
     MonitorProxy *getControllerProxy();
     bool playZone(bool loop = false);
     bool loopClip();
-    bool replaceProducer(Mlt::Producer *producer, int position, bool isActive);
     void startConsumer();
     void stop();
     int rulerHeight() const;
@@ -133,7 +132,7 @@ protected:
     void mouseDoubleClickEvent(QMouseEvent *event) override;
     void wheelEvent(QWheelEvent *event) override;
     /** @brief Update producer, should ONLY be called from monitor */
-    int setProducer(Mlt::Producer *producer, int position = -1);
+    int setProducer(Mlt::Producer *producer, bool isActive, int position = -1);
 
 public slots:
     void seek(int pos);

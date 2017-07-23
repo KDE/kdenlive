@@ -726,7 +726,6 @@ void MainWindow::slotReloadTheme()
 
 MainWindow::~MainWindow()
 {
-    ClipController::mediaUnavailable.reset();
     delete m_audioSpectrum;
     if (m_projectMonitor) {
         m_projectMonitor->stop();
@@ -734,6 +733,7 @@ MainWindow::~MainWindow()
     if (m_clipMonitor) {
         m_clipMonitor->stop();
     }
+    ClipController::mediaUnavailable.reset();
     delete m_projectMonitor;
     delete m_clipMonitor;
     delete m_shortcutRemoveFocus;

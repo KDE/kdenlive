@@ -828,13 +828,7 @@ void ProducerQueue::processFileProperties()
             }
         }
         producer->seek(0);
-        if (m_binController->hasClip(info.clipId)) {
-            // If controller already exists, we just want to update the producer
-            QMetaObject::invokeMethod(m_binController.get(), "replaceProducer", Qt::QueuedConnection, Q_ARG(const requestClipInfo &, info),
-                                      Q_ARG(const std::shared_ptr<Mlt::Producer> &, producer));
-        } else {
-            emit gotFileProperties(info, producer);
-        }
+        emit gotFileProperties(info, producer);
         m_processingClipId.removeAll(info.clipId);
     }
 }

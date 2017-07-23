@@ -837,12 +837,12 @@ void GLWidget::slotSwitchAudioOverlay(bool enable)
     }
 }
 
-int GLWidget::setProducer(Mlt::Producer *producer, int position)
+int GLWidget::setProducer(Mlt::Producer *producer, bool isActive, int position)
 {
     int error = 0;
     QString currentId;
     int consumerPosition = 0;
-    currentId = m_producer->get("kdenlive:id");
+    currentId = m_producer->parent().get("kdenlive:id");
     if (producer != nullptr) {
         m_producer = producer;
     } else {
@@ -895,14 +895,15 @@ int GLWidget::setProducer(Mlt::Producer *producer, int position)
     } else if (KdenliveSettings::displayAudioOverlay()) {
         createAudioOverlay(false);
     }
-    if (position == -1 && m_producer->get("kdenlive:id") == currentId) {
+    if (position == -1 && m_producer->parent().get("kdenlive:id") == currentId) {
         position = consumerPosition;
     }
     if (position != -1) {
         m_producer->seek(position);
     }
-    //if (isActive) {
-    startConsumer();
+    if (isActive) {
+        startConsumer();
+    }
     // emit durationChanged(m_producer->get_length() - 1, m_producer->get_in());
     position = m_producer->position();
     rootObject()->setProperty("consumerPosition", position);
@@ -1770,57 +1771,6 @@ void GLWidget::setRulerInfo(int duration, std::shared_ptr<MarkerListModel> model
     if (model != nullptr) {
         rootContext()->setContextProperty("markersModel", model.get());
     }
-}
-
-bool GLWidget::replaceProducer(Mlt::Producer *producer, int position, bool isActive)
-{
-    m_refreshTimer.stop();
-    m_proxy->setSeekPosition(SEEK_INACTIVE);
-    QMutexLocker locker(&m_mutex);
-    QString currentId;
-    int consumerPosition = 0;
-    if ((producer == nullptr) && (m_producer != nullptr) && m_producer->parent().get("kdenlive:id") == QLatin1String("black")) {
-        // Black clip already displayed no need to refresh
-        return true;
-    }
-    if (m_producer) {
-        currentId = m_producer->get("kdenlive:id");
-        m_producer->set_speed(0);
-        if (QString(m_producer->get("resource")) == QLatin1String("<tractor>")) {
-            // We need to make some cleanup
-            Mlt::Tractor trac(*m_producer);
-            for (int i = 0; i < trac.count(); i++) {
-                trac.set_track(*new Mlt::Producer(*m_blackClip), i);
-            }
-        }
-        //delete m_producer;
-        m_producer = &*m_blackClip;
-    }
-    if (m_consumer) {
-        if (!m_consumer->is_stopped()) {
-            isActive = true;
-            m_consumer->stop();
-        }
-    }
-    if ((producer == nullptr) || !producer->is_valid()) {
-        producer = m_blackClip.data()->cut(0, 1);
-    }
-
-    if (position == -1 && producer->get("kdenlive:id") == currentId) {
-        position = consumerPosition;
-    }
-    if (position != -1) {
-        producer->seek(position);
-    }
-    setProducer(producer);
-
-    if (isActive) {
-        startConsumer();
-    }
-    // emit durationChanged(m_producer->get_length() - 1, m_producer->get_in());
-    position = m_producer->position();
-    rootObject()->setProperty("consumerPosition", position);
-    return true;
 }
 
 int GLWidget::rulerHeight() const

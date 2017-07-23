@@ -46,11 +46,11 @@ Mlt::Profile *BinController::profile()
 void BinController::destroyBin()
 {
     if (m_binPlaylist) {
+        //m_binPlaylist.release();
         m_binPlaylist->clear();
     }
     qDeleteAll(m_extraClipList);
     m_extraClipList.clear();
-
     m_clipList.clear();
 }
 
@@ -122,7 +122,7 @@ void BinController::initializeBin(Mlt::Playlist playlist)
             qDebug() << "producer is not valid or blank";
             continue;
         }
-        QString id = producer->get("id");
+        QString id = qstrdup(producer->get("kdenlive:id"));
         qDebug() << "clip id" << id;
         if (id.contains(QLatin1Char('_'))) {
             // This is a track producer
@@ -155,7 +155,7 @@ void BinController::initializeBin(Mlt::Playlist playlist)
                 requestClipInfo info;
                 info.imageHeight = 0;
                 info.clipId = id;
-                info.replaceProducer = true;
+                info.replaceProducer = false;
                 emit slotProducerReady(info, producer);
             }
         }
@@ -264,7 +264,9 @@ void BinController::replaceProducer(const requestClipInfo &info, const std::shar
         return;
     }
     std::shared_ptr<ClipController> ctrl = m_clipList.value(info.clipId);
-    pasteEffects(info.clipId, producer);
+    if (ctrl->isValid()) {
+        pasteEffects(info.clipId, producer);
+    }
     ctrl->updateProducer(producer);
     replaceBinPlaylistClip(info.clipId, producer);
     producer->set("id", info.clipId.toUtf8().constData());
@@ -284,7 +286,7 @@ void BinController::addClipToBin(const QString &id, const std::shared_ptr<ClipCo
     producer.attach(f);
     */
     // append or replace clip in MLT's retain playlist
-    if (!fromPlaylist) {
+    if (!fromPlaylist && controller->isValid()) {
         replaceBinPlaylistClip(id, controller->originalProducer());
     }
     if (!m_clipList.contains(id)) {
@@ -300,14 +302,9 @@ void BinController::replaceBinPlaylistClip(const QString &id, const std::shared_
 
 void BinController::pasteEffects(const QString &id, const std::shared_ptr<Mlt::Producer> &producer)
 {
-    int size = m_binPlaylist->count();
-    for (int i = 0; i < size; i++) {
-        QScopedPointer<Mlt::Producer> prod(m_binPlaylist->get_clip(i));
-        QString prodId = prod->parent().get("id");
-        if (prodId == id) {
-            duplicateFilters(prod->parent(), *producer.get());
-            break;
-        }
+    std::shared_ptr<ClipController> ctrl = getController(id);
+    if (ctrl) {
+        duplicateFilters(ctrl->originalProducer(), *producer.get());
     }
 }
 
@@ -316,7 +313,7 @@ void BinController::removeBinPlaylistClip(const QString &id)
     int size = m_binPlaylist->count();
     for (int i = 0; i < size; i++) {
         QScopedPointer<Mlt::Producer> prod(m_binPlaylist->get_clip(i));
-        QString prodId = prod->parent().get("id");
+        QString prodId = prod->parent().get("kdenlive:id");
         if (prodId == id) {
             m_binPlaylist->remove(i);
             break;
@@ -372,9 +369,9 @@ Mlt::Producer *BinController::getBinVideoProducer(const QString &id)
     return m_extraClipList.value(videoId);
 }
 
-void BinController::duplicateFilters(Mlt::Producer original, Mlt::Producer clone)
+void BinController::duplicateFilters(std::shared_ptr<Mlt::Producer> original, Mlt::Producer clone)
 {
-    Mlt::Service clipService(original.get_service());
+    Mlt::Service clipService(original->get_service());
     Mlt::Service dupService(clone.get_service());
     for (int ix = 0; ix < clipService.filter_count(); ++ix) {
         QScopedPointer<Mlt::Filter> filter(clipService.filter(ix));
@@ -386,7 +383,7 @@ void BinController::duplicateFilters(Mlt::Producer original, Mlt::Producer clone
             }
             // looks like there is no easy way to duplicate a filter,
             // so we will create a new one and duplicate its properties
-            auto *dup = new Mlt::Filter(*original.profile(), filter->get("mlt_service"));
+            auto *dup = new Mlt::Filter(*original->profile(), filter->get("mlt_service"));
             if ((dup != nullptr) && dup->is_valid()) {
                 for (int i = 0; i < filter->count(); ++i) {
                     QString paramName = filter->get_name(i);
@@ -499,7 +496,7 @@ void BinController::checkThumbnails(const QDir &thumbFolder)
         if (!ctrl->getClipHash().isEmpty()) {
             QImage img(thumbFolder.absoluteFilePath(ctrl->getClipHash() + QStringLiteral(".png")));
             if (!img.isNull()) {
-                emit loadThumb(ctrl->clipId(), img, true);
+                emit loadThumb(ctrl->binId(), img, true);
                 foundFile = true;
             }
         }
@@ -510,7 +507,7 @@ void BinController::checkThumbnails(const QDir &thumbFolder)
             QDomElement xml = doc.documentElement().firstChildElement(QStringLiteral("producer"));
             if (!xml.isNull()) {
                 xml.setAttribute(QStringLiteral("thumbnailOnly"), 1);
-                emit createThumb(xml, ctrl->clipId(), 150);
+                emit createThumb(xml, ctrl->binId(), 150);
             }
         }
     }
@@ -525,7 +522,7 @@ void BinController::checkAudioThumbs()
         if (!ctrl->m_audioThumbCreated) {
             if (KdenliveSettings::audiothumbnails()) {
                 // We want audio thumbnails
-                emit requestAudioThumb(ctrl->clipId());
+                emit requestAudioThumb(ctrl->binId());
             } else {
                 // Abort all pending thumb creation
                 emit abortAudioThumbs();

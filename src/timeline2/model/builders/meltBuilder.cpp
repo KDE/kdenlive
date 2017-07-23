@@ -46,19 +46,6 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
 
     pCore->binController()->loadBinPlaylist(&tractor, timeline->tractor());
 
-    const QStringList ids = pCore->binController()->getClipIds();
-    for (const QString &id : ids) {
-        if (id == QLatin1String("black")) {
-            continue;
-        }
-        // pass basic info, the others (folder, etc) will be taken from the producer itself
-        requestClipInfo info;
-        info.imageHeight = 0;
-        info.clipId = id;
-        info.replaceProducer = true;
-        std::shared_ptr<Mlt::Producer> prod(pCore->binController()->getController(id).get()->originalProducer());
-        pCore->bin()->slotProducerReady(info, prod);
-    }
     QSet<QString> reserved_names{QLatin1String("playlistmain"), QLatin1String("timeline_preview"), QLatin1String("overlay_track"),
                                  QLatin1String("black_track")};
 

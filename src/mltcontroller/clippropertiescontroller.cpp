@@ -159,7 +159,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
     : QWidget(parent)
     , m_controller(controller)
     , m_tc(Timecode(Timecode::HH_MM_SS_HH, pCore->getCurrentFps()))
-    , m_id(controller->clipId())
+    , m_id(controller->binId())
     , m_type(controller->clipType())
     , m_properties(controller->properties())
     , m_textEdit(nullptr)

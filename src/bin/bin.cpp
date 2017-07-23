@@ -1984,6 +1984,9 @@ void Bin::slotProducerReady(const requestClipInfo &info, std::shared_ptr<Mlt::Pr
     std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(info.clipId);
     if (clip) {
         if ((producer == nullptr || clip->setProducer(producer, info.replaceProducer)) && !clip->hasProxy()) {
+            if (producer) {
+                pCore->binController()->replaceBinPlaylistClip(info.clipId, producer);
+            }
             emit producerReady(info.clipId);
             // Check for file modifications
             ClipType t = clip->clipType();
@@ -2012,15 +2015,21 @@ void Bin::slotProducerReady(const requestClipInfo &info, std::shared_ptr<Mlt::Pr
         if (currentClip.isEmpty()) {
             // No clip displayed in monitor, check if item is selected
             QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
-            for (const QModelIndex &ix : indexes) {
-                if (!ix.isValid() || ix.column() != 0) {
-                    continue;
-                }
-                std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
-                if ((item != nullptr) && item->clipId() == info.clipId) {
-                    // Item was selected, show it in monitor
-                    setCurrent(item);
-                    break;
+            if (indexes.isEmpty()) {
+                // No clip selected, focus this new one
+                emit openClip(std::shared_ptr<ProjectClip>());
+                setCurrent(clip);
+            } else  {
+                for (const QModelIndex &ix : indexes) {
+                    if (!ix.isValid() || ix.column() != 0) {
+                        continue;
+                    }
+                    std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
+                    if ((item != nullptr) && item->clipId() == info.clipId) {
+                        // Item was selected, show it in monitor
+                        setCurrent(item);
+                        break;
+                    }
                 }
             }
         } else if (currentClip == info.clipId) {

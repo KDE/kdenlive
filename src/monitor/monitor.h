@@ -157,6 +157,7 @@ public:
     void setProducer(Mlt::Producer *producer);
     /** @brief Returns current monitor's duration in frames **/
     int duration() const;
+    void reconfigure();
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
