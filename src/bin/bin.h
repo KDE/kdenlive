@@ -443,7 +443,7 @@ protected:
        (for ex request to show the clip in the monitor)
     */
     void setCurrent(std::shared_ptr<AbstractProjectItem> item);
-
+    void selectClip(const std::shared_ptr<ProjectClip> &clip);
     void contextMenuEvent(QContextMenuEvent *event) override;
     bool eventFilter(QObject *obj, QEvent *event) override;
 

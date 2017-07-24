@@ -2007,34 +2007,33 @@ void Bin::slotProducerReady(const requestClipInfo &info, std::shared_ptr<Mlt::Pr
                     // Start proxy
                     m_doc->slotProxyCurrentItem(true, {clip});
                 }
+            } else {
+                emit producerReady(info.clipId);
             }
-        } else {
-            emit producerReady(info.clipId);
-        }
-        QString currentClip = m_monitor->activeClipId();
-        if (currentClip.isEmpty()) {
-            // No clip displayed in monitor, check if item is selected
-            QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
-            if (indexes.isEmpty()) {
-                // No clip selected, focus this new one
-                emit openClip(std::shared_ptr<ProjectClip>());
-                setCurrent(clip);
-            } else  {
-                for (const QModelIndex &ix : indexes) {
-                    if (!ix.isValid() || ix.column() != 0) {
-                        continue;
-                    }
-                    std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
-                    if ((item != nullptr) && item->clipId() == info.clipId) {
-                        // Item was selected, show it in monitor
-                        setCurrent(item);
-                        break;
+            QString currentClip = m_monitor->activeClipId();
+            if (currentClip.isEmpty()) {
+                // No clip displayed in monitor, check if item is selected
+                QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
+                if (indexes.isEmpty()) {
+                    // No clip selected, focus this new one
+                    selectClip(clip);
+                } else  {
+                    for (const QModelIndex &ix : indexes) {
+                        if (!ix.isValid() || ix.column() != 0) {
+                            continue;
+                        }
+                        std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
+                        if ((item != nullptr) && item->clipId() == info.clipId) {
+                            // Item was selected, show it in monitor
+                            setCurrent(item);
+                            break;
+                        }
                     }
                 }
+            } else if (currentClip == info.clipId) {
+                emit openClip(std::shared_ptr<ProjectClip>());
+                setCurrent(clip);
             }
-        } else if (currentClip == info.clipId) {
-            emit openClip(std::shared_ptr<ProjectClip>());
-            setCurrent(clip);
         }
     } else {
         // Clip not found, create it
@@ -2064,6 +2063,21 @@ void Bin::slotProducerReady(const requestClipInfo &info, std::shared_ptr<Mlt::Pr
             m_clipCounter = info.clipId.toInt() + 1;
         }
     }
+}
+
+void Bin::selectClip(const std::shared_ptr<ProjectClip> &clip)
+{
+    QModelIndex ix = m_itemModel->getIndexFromItem(clip);
+    int row = ix.row();
+    const QModelIndex id = m_itemModel->index(row, 0, ix.parent());
+    const QModelIndex id2 = m_itemModel->index(row, m_itemModel->columnCount() - 1, ix.parent());
+    if (id.isValid() && id2.isValid()) {
+        m_proxyModel->selectionModel()->select(QItemSelection(m_proxyModel->mapFromSource(id), m_proxyModel->mapFromSource(id2)), QItemSelectionModel::Select);
+    }
+    selectProxyModel(m_proxyModel->mapFromSource(ix));
+    m_itemView->scrollTo(m_proxyModel->mapFromSource(ix));
+    pCore->monitorManager()->activateMonitor(Kdenlive::ClipMonitor);
+    emit openClip(clip);
 }
 
 void Bin::slotOpenCurrent()

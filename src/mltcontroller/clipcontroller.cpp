@@ -553,8 +553,8 @@ void ClipController::loadSnapMarker(const QString &seconds, const QString &hash)
 {
     QLocale locale;
     // Make sure to get an integer frame since markers are stored in seconds
-    int frame = GenTime(locale.toDouble(seconds)).frames(m_binController->fps());
-    GenTime markerTime(frame, m_binController->fps());
+    int frame = GenTime(locale.toDouble(seconds)).frames(pCore->getCurrentFps());
+    GenTime markerTime(frame, pCore->getCurrentFps());
     CommentedTime marker(hash, markerTime);
     if (m_snapMarkers.contains(marker)) {
         m_snapMarkers.removeAll(marker);

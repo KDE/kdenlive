@@ -1956,6 +1956,7 @@ void MainWindow::connectDocument()
     connect(project, &KdenliveDoc::startAutoSave, pCore->projectManager(), &ProjectManager::slotStartAutoSave);
     connect(project, &KdenliveDoc::reloadEffects, this, &MainWindow::slotReloadEffects);
     KdenliveSettings::setProject_fps(pCore->getCurrentFps());
+    m_clipMonitorDock->raise();
 
     // TODO REFAC: reconnect to new timeline
     /*
