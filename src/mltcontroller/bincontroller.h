@@ -137,7 +137,6 @@ public:
     /** @brief Get the list of ids whose clip have the resource indicated by @param url */
     const QStringList getBinIdsByResource(const QFileInfo &url) const;
     void storeMarker(const QString &markerId, const QString &markerHash);
-    QMap<double, QString> takeGuidesData();
 
     /** @brief A Bin clip effect was changed, update track producers */
     void updateTrackProducer(const QString &id);

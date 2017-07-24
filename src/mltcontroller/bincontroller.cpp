@@ -163,24 +163,6 @@ void BinController::initializeBin(Mlt::Playlist playlist)
     }
 }
 
-QMap<double, QString> BinController::takeGuidesData()
-{
-    QLocale locale;
-    // Load guides
-    Mlt::Properties guidesProperties;
-    Mlt::Properties playlistProps(m_binPlaylist->get_properties());
-    guidesProperties.pass_values(playlistProps, "kdenlive:guide.");
-    qCDebug(KDENLIVE_LOG) << "***********\nFOUND GUIDES: " << guidesProperties.count() << "\n**********";
-    QMap<double, QString> guidesData;
-    for (int i = 0; i < guidesProperties.count(); i++) {
-        double time = locale.toDouble(guidesProperties.get_name(i));
-        guidesData.insert(time, guidesProperties.get(i));
-        // Clear bin data
-        QString propertyName = "kdenlive:guide." + QString(guidesProperties.get_name(i));
-        m_binPlaylist->set(propertyName.toUtf8().constData(), (char *)nullptr);
-    }
-    return guidesData;
-}
 // TODO REFACTOR: DELETE
 void BinController::createIfNeeded(Mlt::Profile *profile)
 {
@@ -552,14 +534,6 @@ void BinController::saveDocumentProperties(const QMap<QString, QString> &props, 
         playlistProps.set(propName.toUtf8().constData(), (char *)nullptr);
     }
 
-    // Clear previous guides
-    Mlt::Properties guideProperties;
-    guideProperties.pass_values(playlistProps, "kdenlive:guide.");
-    for (int i = 0; i < guideProperties.count(); i++) {
-        QString propName = QStringLiteral("kdenlive:guide.") + guideProperties.get_name(i);
-        playlistProps.set(propName.toUtf8().constData(), (char *)nullptr);
-    }
-
     QMapIterator<QString, QString> i(props);
     while (i.hasNext()) {
         i.next();
@@ -570,13 +544,6 @@ void BinController::saveDocumentProperties(const QMap<QString, QString> &props, 
     while (j.hasNext()) {
         j.next();
         playlistProps.set(("kdenlive:docmetadata." + j.key()).toUtf8().constData(), j.value().toUtf8().constData());
-    }
-
-    // Append guides
-    QLocale locale;
-    for (const auto &guide : *guideModel) {
-        QString propertyName = "kdenlive:guide." + locale.toString(guide.first.seconds());
-        playlistProps.set(propertyName.toUtf8().constData(), guide.second.first.toUtf8().constData());
     }
 }
 

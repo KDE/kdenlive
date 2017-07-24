@@ -1703,7 +1703,6 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 currentGuide.insert(QStringLiteral("type"), QJsonValue(0));
                 // Clear entry in old format
                 n.toElement().setAttribute(QStringLiteral("name"), QStringLiteral("_"));
-                n.firstChild().setNodeValue(QString());
                 guidesList.push_back(currentGuide);
             } else if (prop.startsWith(QLatin1String("kdenlive:marker."))) {
                 //Process marker
@@ -1718,7 +1717,6 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 currentMarker.insert(QStringLiteral("type"), QJsonValue(markerType));
                 // Clear entry in old format
                 n.toElement().setAttribute(QStringLiteral("name"), QStringLiteral("_"));
-                n.firstChild().setNodeValue(QString());
                 if (markersList.contains(markerBinClip)) {
                     // we already have a marker list for this clip
                     QJsonArray markerList = markersList.value(markerBinClip);
