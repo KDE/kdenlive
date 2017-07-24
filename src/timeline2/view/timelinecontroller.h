@@ -231,6 +231,7 @@ public:
      */
     int getCompositionATrack(int cid) const;
     void setCompositionATrack(int cid, int aTrack);
+    const QString getClipBinId(int clipId) const;
 
 public slots:
     void selectMultitrack();

@@ -2910,18 +2910,16 @@ void MainWindow::slotClipInTimeline(const QString &clipId)
 
 void MainWindow::slotClipInProjectTree()
 {
-    if (pCore->projectManager()->currentTimeline()) {
-        int pos = -1;
-        QPoint zone;
-        const QString selectedId = pCore->projectManager()->currentTimeline()->projectView()->getClipUnderCursor(&pos, &zone);
-        if (selectedId.isEmpty()) {
-            return;
-        }
+    QList <int> ids = getMainTimeline()->controller()->selection();
+    if (!ids.isEmpty()) {
         m_projectBinDock->raise();
-        pCore->bin()->selectClipById(selectedId, pos, zone);
+        ObjectId id(ObjectType::TimelineClip, ids.constFirst());
+        int start = pCore->getItemIn(id);
+        QPoint zone(start, start + pCore->getItemDuration(id));
         if (m_projectMonitor->isActive()) {
             slotSwitchMonitors();
         }
+        pCore->bin()->selectClipById(getMainTimeline()->controller()->getClipBinId(ids.constFirst()), -1, zone);
     }
 }
 

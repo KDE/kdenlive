@@ -689,6 +689,10 @@ Rectangle {
             visible: true
         }
         MenuItem {
+            text: i18n('Clip in Project Bin')
+            onTriggered: timeline.triggerAction('clip_in_project_tree')
+        }
+        MenuItem {
             visible: true
             text: i18n('Split At Playhead (S)')
             onTriggered: timeline.splitClip(trackIndex, index)

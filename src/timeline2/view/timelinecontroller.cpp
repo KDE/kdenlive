@@ -241,7 +241,6 @@ int TimelineController::insertComposition(int tid, int position, const QString &
 void TimelineController::deleteSelectedClips()
 {
     if (m_selection.selectedClips.isEmpty()) {
-        qDebug() << " * * *NO selection, aborting";
         return;
     }
     for (int cid : m_selection.selectedClips) {
@@ -626,3 +625,7 @@ void TimelineController::setCompositionATrack(int cid, int aTrack)
     m_model->dataChanged(modelIndex, modelIndex, roles);
 }
 
+const QString TimelineController::getClipBinId(int clipId) const
+{
+    return m_model->getClipBinId(clipId);
+}

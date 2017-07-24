@@ -1353,18 +1353,10 @@ void Bin::selectClipById(const QString &clipId, int frame, const QPoint &zone)
         }
         return;
     }
-    QModelIndex ix = getIndexForId(clipId, false);
-    if (ix.isValid()) {
-        m_proxyModel->selectionModel()->clearSelection();
-        int row = ix.row();
-        const QModelIndex id = m_itemModel->index(row, 0, ix.parent());
-        const QModelIndex id2 = m_itemModel->index(row, m_itemModel->columnCount() - 1, ix.parent());
-        if (id.isValid() && id2.isValid()) {
-            m_proxyModel->selectionModel()->select(QItemSelection(m_proxyModel->mapFromSource(id), m_proxyModel->mapFromSource(id2)),
-                                                   QItemSelectionModel::Select);
-        }
-        selectProxyModel(m_proxyModel->mapFromSource(ix));
-        m_itemView->scrollTo(m_proxyModel->mapFromSource(ix));
+    m_proxyModel->selectionModel()->clearSelection();
+    std::shared_ptr<ProjectClip> clip = getBinClip(clipId);
+    if (clip) {
+        selectClip(clip);
         if (frame > -1) {
             m_monitor->slotSeek(frame);
         }
