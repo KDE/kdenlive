@@ -154,6 +154,8 @@ public:
     void clearDisplay();
     /** @brief Seeks timeline without refreshing if monitor is not active **/
     void silentSeek(int pos);
+    /** @brief Save monitor frame as image, and add image to current project if addToProject is set to true*/
+    void slotExtractCurrentFrame(QString frameName = QString(), bool addToProject = false);
 
 protected:
     void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
@@ -239,8 +241,6 @@ private:
 private slots:
     void seekCursor(int pos);
     void rendererStopped(int pos);
-    void slotExtractCurrentFrame(QString frameName = QString(), bool addToProject = false);
-    void slotExtractCurrentFrameToProject();
     void slotSetThumbFrame();
     void slotSaveZone();
     void slotSeek();

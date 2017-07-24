@@ -1602,6 +1602,11 @@ void MainWindow::setupActions()
         }
         transitionActions->addAction("transition_" + id, transAction);
     }
+
+    // monitor actions
+    addAction(QStringLiteral("extract_frame"), i18n("Extract frame..."), pCore->monitorManager(), SLOT(slotExtractCurrentFrame()), KoIconUtils::themedIcon(QStringLiteral("insert-image")));
+
+    addAction(QStringLiteral("extract_frame_to_project"), i18n("Extract frame to project..."), pCore->monitorManager(), SLOT(slotExtractCurrentFrameToProject()), KoIconUtils::themedIcon(QStringLiteral("insert-image")));
 }
 
 void MainWindow::saveOptions()
