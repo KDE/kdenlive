@@ -145,9 +145,9 @@ void EncodingProfilesDialog::slotAddProfile()
 
     QListWidgetItem *item = profile_list->currentItem();
     if (item) {
-        QString data = item->data(Qt::UserRole).toString();
-        pparams->setPlainText(data.section(QLatin1Char(';'), 0, 0));
-        pext->setText(data.section(QLatin1Char(';'), 1, 1));
+        QString profilestr = item->data(Qt::UserRole).toString();
+        pparams->setPlainText(profilestr.section(QLatin1Char(';'), 0, 0));
+        pext->setText(profilestr.section(QLatin1Char(';'), 1, 1));
     }
     if (d->exec() == QDialog::Accepted) {
         m_configGroup->writeEntry(pname->text(), pparams->toPlainText() + QLatin1Char(';') + pext->text());
@@ -178,9 +178,9 @@ void EncodingProfilesDialog::slotEditProfile()
     QListWidgetItem *item = profile_list->currentItem();
     if (item) {
         pname->setText(item->text());
-        QString data = item->data(Qt::UserRole).toString();
-        pparams->setPlainText(data.section(QLatin1Char(';'), 0, 0));
-        pext->setText(data.section(QLatin1Char(';'), 1, 1));
+        QString profilestr = item->data(Qt::UserRole).toString();
+        pparams->setPlainText(profilestr.section(QLatin1Char(';'), 0, 0));
+        pext->setText(profilestr.section(QLatin1Char(';'), 1, 1));
         pparams->setFocus();
     }
     if (d->exec() == QDialog::Accepted) {

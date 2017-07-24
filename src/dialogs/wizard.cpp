@@ -875,7 +875,7 @@ void Wizard::slotSaveCaptureFormat()
     ProfilesDialog::saveProfile(profile, dir.absoluteFilePath(QStringLiteral("video4linux")));
 }
 
-void Wizard::slotUpdateDecklinkDevice(int captureCard)
+void Wizard::slotUpdateDecklinkDevice(uint captureCard)
 {
     KdenliveSettings::setDecklink_capturedevice(captureCard);
 }

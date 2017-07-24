@@ -177,8 +177,8 @@ void DvdWizardVob::slotShowTranscodeInfo()
     QString log = QString(m_transcodeProcess.readAll());
     if (m_duration == 0) {
         if (log.contains(QStringLiteral("Duration:"))) {
-            QString data = log.section(QStringLiteral("Duration:"), 1, 1).section(QLatin1Char(','), 0, 0).simplified();
-            QStringList numbers = data.split(QLatin1Char(':'));
+            QString durationstr = log.section(QStringLiteral("Duration:"), 1, 1).section(QLatin1Char(','), 0, 0).simplified();
+            QStringList numbers = durationstr.split(QLatin1Char(':'));
             if (numbers.size() < 3) {
                 return;
             }
@@ -290,8 +290,8 @@ void DvdWizardVob::slotAddVobFile(const QUrl &url, const QString &chapters, bool
     qint64 fileSize = f.size();
 
     Mlt::Profile profile;
-    profile.set_explicit(0);
-    QTreeWidgetItem *item = new QTreeWidgetItem(m_vobList, QStringList() << url.toLocalFile() << QString() << KIO::convertSize(fileSize));
+    profile.set_explicit(false);
+    QTreeWidgetItem *item = new QTreeWidgetItem(m_vobList, QStringList() << url.toLocalFile() << QString() << QString::number(static_cast<KIO::filesize_t>(fileSize)));
     item->setData(2, Qt::UserRole, fileSize);
     item->setData(0, Qt::DecorationRole, QIcon::fromTheme(QStringLiteral("video-x-generic")).pixmap(60, 45));
     item->setToolTip(0, url.toLocalFile());
@@ -381,10 +381,10 @@ void DvdWizardVob::slotAddVobFile(const QUrl &url, const QString &chapters, bool
                 return;
             }
             file.close();
-            QDomNodeList chapters = doc.elementsByTagName(QStringLiteral("chapter"));
+            QDomNodeList chapterNodes = doc.elementsByTagName(QStringLiteral("chapter"));
             QStringList chaptersList;
-            for (int j = 0; j < chapters.count(); ++j) {
-                chaptersList.append(QString::number(chapters.at(j).toElement().attribute(QStringLiteral("time")).toInt()));
+            for (int j = 0; j < chapterNodes.count(); ++j) {
+                chaptersList.append(QString::number(chapterNodes.at(j).toElement().attribute(QStringLiteral("time")).toInt()));
             }
             item->setData(1, Qt::UserRole + 1, chaptersList.join(QLatin1Char(';')));
         }
@@ -537,9 +537,9 @@ void DvdWizardVob::slotCheckVobList()
         }
     }
 
-    qint64 maxSize = (qint64)47000 * 100000;
-    m_capacityBar->setValue(100 * totalSize / maxSize);
-    m_capacityBar->setText(KIO::convertSize(totalSize));
+    qint64 maxSize = (qint64) 47000 * 100000;
+    m_capacityBar->setValue(static_cast<int>(100 * totalSize / maxSize));
+    m_capacityBar->setText(KIO::convertSize(static_cast<KIO::filesize_t>(totalSize)));
 }
 
 void DvdWizardVob::slotItemUp()
@@ -779,8 +779,8 @@ void DvdWizardVob::slotTranscodedClip(const QString &src, const QString &transco
             qint64 fileSize = f.size();
 
             Mlt::Profile profile;
-            profile.set_explicit(0);
-            item->setText(2, KIO::convertSize(fileSize));
+            profile.set_explicit(false);
+            item->setText(2, KIO::convertSize(static_cast<KIO::filesize_t>(fileSize)));
             item->setData(2, Qt::UserRole, fileSize);
             item->setData(0, Qt::DecorationRole, QIcon::fromTheme(QStringLiteral("video-x-generic")).pixmap(60, 45));
             item->setToolTip(0, transcoded);

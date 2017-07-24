@@ -308,6 +308,6 @@ void OAuth2::obtainNewAccessToken()
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup authGroup(config, "FreeSoundAuthentication");
 
-    QString mstr_RefreshToken = authGroup.readEntry(QStringLiteral("freesound_refresh_token"));
+    mstr_RefreshToken = authGroup.readEntry(QStringLiteral("freesound_refresh_token"));
     OAuth2::RequestAccessCode(true, mstr_RefreshToken); // request new access code via the refresh token method
 }

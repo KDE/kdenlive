@@ -140,17 +140,17 @@ void LibraryTree::dropEvent(QDropEvent *event)
         emit importSequence(QString(qMimeData->data(QStringLiteral("kdenlive/clip"))).split(QLatin1Char(';')), dest);
     } else if (qMimeData->hasFormat(QStringLiteral("kdenlive/producerslist"))) {
         QStringList list = QString(qMimeData->data(QStringLiteral("kdenlive/producerslist"))).split(QLatin1Char(';'));
-        for (const QString &data : list) {
-            if (data.startsWith(QLatin1Char('#'))) {
+        for (const QString &prodslist : list) {
+            if (prodslist.startsWith(QLatin1Char('#'))) {
                 // Bin folder, not supported yet
                 continue;
             }
-            if (data.contains(QLatin1Char('/'))) {
+            if (prodslist.contains(QLatin1Char('/'))) {
                 // Clip zone
-                emit importSequence(data.split(QLatin1Char('/')), dest);
+                emit importSequence(prodslist.split(QLatin1Char('/')), dest);
             } else {
                 // Full clip
-                emit importSequence(QStringList() << data << QStringLiteral("-1") << QStringLiteral("-1"), dest);
+                emit importSequence(QStringList() << prodslist << QStringLiteral("-1") << QStringLiteral("-1"), dest);
             }
         }
     }
@@ -462,7 +462,7 @@ void LibraryWidget::slotDownloadFinished(KJob *)
     m_progressBar->setVisible(false);
 }
 
-void LibraryWidget::slotDownloadProgress(KJob *, unsigned long progress)
+void LibraryWidget::slotDownloadProgress(KJob *, int progress)
 {
     m_progressBar->setVisible(true);
     m_progressBar->setValue(progress);

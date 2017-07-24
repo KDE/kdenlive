@@ -23,7 +23,7 @@ ColorTools::ColorTools(QObject *parent)
 {
 }
 
-QImage ColorTools::yuvColorWheel(const QSize &size, const unsigned char &Y, const float &scaling, const bool &modifiedVersion, const bool &circleOnly)
+QImage ColorTools::yuvColorWheel(const QSize &size, int Y, float scaling, bool modifiedVersion, bool circleOnly)
 {
     QImage wheel(size, QImage::Format_ARGB32);
     if (size.width() == 0 || size.height() == 0) {
@@ -114,7 +114,7 @@ QImage ColorTools::yuvColorWheel(const QSize &size, const unsigned char &Y, cons
     return wheel;
 }
 
-QImage ColorTools::yuvVerticalPlane(const QSize &size, const float &angle, const float &scaling)
+QImage ColorTools::yuvVerticalPlane(const QSize &size, int angle, float scaling)
 {
     QImage plane(size, QImage::Format_ARGB32);
     if (size.width() == 0 || size.height() == 0) {
@@ -248,7 +248,7 @@ QImage ColorTools::rgbCurveLine(const QSize &size, const ColorTools::ColorsRGB &
     return plane;
 }
 
-QImage ColorTools::yPbPrColorWheel(const QSize &size, const unsigned char &Y, const float &scaling, const bool &circleOnly)
+QImage ColorTools::yPbPrColorWheel(const QSize &size, int Y, float scaling, bool circleOnly)
 {
 
     QImage wheel(size, QImage::Format_ARGB32);
@@ -321,7 +321,7 @@ QImage ColorTools::yPbPrColorWheel(const QSize &size, const unsigned char &Y, co
     return wheel;
 }
 
-QImage ColorTools::hsvHueShiftPlane(const QSize &size, const uint &S, const uint &V, const int &MIN, const int &MAX)
+QImage ColorTools::hsvHueShiftPlane(const QSize &size, int S, int V, int MIN, int MAX)
 {
     Q_ASSERT(size.width() > 0);
     Q_ASSERT(size.height() > 0);

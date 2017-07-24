@@ -234,10 +234,10 @@ void EffectsListView::creatFavoriteBasket(QListWidget *list)
         }
         for (int j = 0; j < folder->childCount(); ++j) {
             QTreeWidgetItem *item = folder->child(j);
-            QStringList data = item->data(0, Qt::UserRole + 1).toStringList();
-            QString id = data.at(1);
+            QStringList effectdata = item->data(0, Qt::UserRole + 1).toStringList();
+            QString id = effectdata.at(1);
             if (id.isEmpty()) {
-                id = data.at(0);
+                id = effectdata.at(0);
             }
             if (KdenliveSettings::favorite_effects().contains(id)) {
                 QListWidgetItem *it = new QListWidgetItem(item->icon(0), item->text(0));
@@ -289,10 +289,10 @@ void EffectsListView::filterList()
             QTreeWidgetItem *folder = m_effectsList->topLevelItem(i);
             for (int j = 0; j < folder->childCount(); ++j) {
                 QTreeWidgetItem *item = folder->child(j);
-                QStringList data = item->data(0, Qt::UserRole + 1).toStringList();
-                QString id = data.at(1);
+                QStringList effectdata = item->data(0, Qt::UserRole + 1).toStringList();
+                QString id = effectdata.at(1);
                 if (id.isEmpty()) {
-                    id = data.at(0);
+                    id = effectdata.at(0);
                 }
                 if (KdenliveSettings::favorite_effects().contains(id)) {
                     favorites << item->clone();

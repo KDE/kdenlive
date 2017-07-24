@@ -828,7 +828,7 @@ void ProjectManager::moveProjectData(const QString &src, const QString &dest)
 
 void ProjectManager::slotMoveProgress(KJob *, unsigned long progress)
 {
-    pCore->window()->slotGotProgressInfo(i18n("Moving project folder"), progress, ProcessingJobMessage);
+    pCore->window()->slotGotProgressInfo(i18n("Moving project folder"), static_cast<int>(progress), ProcessingJobMessage);
 }
 
 void ProjectManager::slotMoveFinished(KJob *job)

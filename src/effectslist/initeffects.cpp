@@ -663,9 +663,9 @@ QDomDocument initEffects::createDescriptionFromMlt(std::unique_ptr<Mlt::Reposito
                 }
 
                 if (paramdesc.get("description")) {
-                    QDomElement desc = ret.createElement(QStringLiteral("comment"));
-                    desc.appendChild(ret.createTextNode(paramdesc.get("description")));
-                    params.appendChild(desc);
+                    QDomElement comment = ret.createElement(QStringLiteral("comment"));
+                    comment.appendChild(ret.createTextNode(paramdesc.get("description")));
+                    params.appendChild(comment);
                 }
 
                 eff.appendChild(params);

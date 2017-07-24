@@ -35,6 +35,7 @@
 #include <KNotification>
 #include <KRun>
 #include <knotifications_version.h>
+#include <kio_version.h>
 
 #include "kdenlive_debug.h"
 #include <QDBusConnectionInterface>
@@ -302,10 +303,9 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, QWidg
     // m_view.splitter->setStretchFactor(0, 2);
 
     m_view.out_file->setMode(KFile::File);
-
-#if KXMLGUI_VERSION_MINOR > 32 || KXMLGUI_VERSION_MAJOR > 5
+#if KIO_VERSION >= QT_VERSION_CHECK(5,33,0)
     m_view.out_file->setAcceptMode(QFileDialog::AcceptSave);
-#elif !defined(KIOWIDGETS_NO_DEPRECATED)
+#elif !defined(KIOWIDGETS_DEPRECATED)
     m_view.out_file->fileDialog()->setAcceptMode(QFileDialog::AcceptSave);
 #endif
 
@@ -1147,9 +1147,9 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
         bool resizeProfile = false;
         std::unique_ptr<ProfileModel> &profile = pCore->getCurrentProfile();
         if (renderArgs.contains(QLatin1String("%dv_standard"))) {
-            QString std;
+            QString dvstd;
             if (fmod((double)profile->frame_rate_num() / profile->frame_rate_den(), 30.01) > 27) {
-                std = QStringLiteral("ntsc");
+                dvstd = QStringLiteral("ntsc");
                 if (!(profile->frame_rate_num() == 30000 && profile->frame_rate_den() == 1001)) {
                     forcedfps = 30000.0 / 1001;
                 }
@@ -1157,7 +1157,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
                     resizeProfile = true;
                 }
             } else {
-                std = QStringLiteral("pal");
+                dvstd = QStringLiteral("pal");
                 if (!(profile->frame_rate_num() == 25 && profile->frame_rate_den() == 1)) {
                     forcedfps = 25;
                 }
@@ -1165,11 +1165,10 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
                     resizeProfile = true;
                 }
             }
-
-            if ((double)profile->display_aspect_num() / profile->display_aspect_den() > 1.5) {
-                std += QLatin1String("_wide");
+            if ((double) profile->display_aspect_num() / profile->display_aspect_den() > 1.5) {
+                dvstd += QLatin1String("_wide");
             }
-            renderArgs.replace(QLatin1String("%dv_standard"), std);
+            renderArgs.replace(QLatin1String("%dv_standard"), dvstd);
         }
 
         // If there is an fps change, we need to use the producer consumer AND update the in/out points
@@ -1961,20 +1960,20 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
             QDomNodeList profilelist = doc.elementsByTagName(QStringLiteral("profile"));
             for (int i = 0; i < profilelist.count(); ++i) {
                 QString category = i18nc("Category Name", "Custom");
-                QString extension;
+                QString ext;
                 QDomNode parent = profilelist.at(i).parentNode();
                 if (!parent.isNull()) {
                     QDomElement parentNode = parent.toElement();
                     if (parentNode.hasAttribute(QStringLiteral("name"))) {
                         category = parentNode.attribute(QStringLiteral("name"));
                     }
-                    extension = parentNode.attribute(QStringLiteral("extension"));
+                    ext = parentNode.attribute(QStringLiteral("extension"));
                 }
                 if (!profilelist.at(i).toElement().hasAttribute(QStringLiteral("category"))) {
                     profilelist.at(i).toElement().setAttribute(QStringLiteral("category"), category);
                 }
-                if (!extension.isEmpty()) {
-                    profilelist.at(i).toElement().setAttribute(QStringLiteral("extension"), extension);
+                if (!ext.isEmpty()) {
+                    profilelist.at(i).toElement().setAttribute(QStringLiteral("extension"), ext);
                 }
                 QDomNode n = profilelist.at(i).cloneNode();
                 newprofiles.appendChild(newdoc.importNode(n, true));
@@ -2033,46 +2032,46 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
 
             // Check if item with same name already exists and replace it,
             // allowing to override default profiles
-            QTreeWidgetItem *item = nullptr;
+            QTreeWidgetItem *childitem  = nullptr;
             for (int j = 0; j < groupItem->childCount(); ++j) {
                 if (groupItem->child(j)->text(0) == profileName) {
-                    item = groupItem->child(j);
+                    childitem = groupItem->child(j);
                     break;
                 }
             }
-            if (!item) {
-                item = new QTreeWidgetItem(QStringList(profileName));
+            if (!childitem) {
+                childitem = new QTreeWidgetItem(QStringList(profileName));
             }
-            item->setData(0, GroupRole, groupName);
-            item->setData(0, ExtensionRole, extension);
-            item->setData(0, RenderRole, "avformat");
-            item->setData(0, StandardRole, standard);
-            item->setData(0, ParamsRole, params);
+            childitem->setData(0, GroupRole, groupName);
+            childitem->setData(0, ExtensionRole, extension);
+            childitem->setData(0, RenderRole, "avformat");
+            childitem->setData(0, StandardRole, standard);
+            childitem->setData(0, ParamsRole, params);
             if (params.contains(QLatin1String("%quality"))) {
-                item->setData(0, BitratesRole, profile.attribute(QStringLiteral("qualities")).split(QLatin1Char(','), QString::SkipEmptyParts));
+                childitem->setData(0, BitratesRole, profile.attribute(QStringLiteral("qualities")).split(QLatin1Char(','), QString::SkipEmptyParts));
             } else if (params.contains(QLatin1String("%bitrate"))) {
-                item->setData(0, BitratesRole, profile.attribute(QStringLiteral("bitrates")).split(QLatin1Char(','), QString::SkipEmptyParts));
+                childitem->setData(0, BitratesRole, profile.attribute(QStringLiteral("bitrates")).split(QLatin1Char(','), QString::SkipEmptyParts));
             }
             if (params.contains(QLatin1String("%audioquality"))) {
-                item->setData(0, AudioBitratesRole, profile.attribute(QStringLiteral("audioqualities")).split(QLatin1Char(','), QString::SkipEmptyParts));
+                childitem->setData(0, AudioBitratesRole, profile.attribute(QStringLiteral("audioqualities")).split(QLatin1Char(','), QString::SkipEmptyParts));
             } else if (params.contains(QLatin1String("%audiobitrate"))) {
-                item->setData(0, AudioBitratesRole, profile.attribute(QStringLiteral("audiobitrates")).split(QLatin1Char(','), QString::SkipEmptyParts));
+                childitem->setData(0, AudioBitratesRole, profile.attribute(QStringLiteral("audiobitrates")).split(QLatin1Char(','), QString::SkipEmptyParts));
             }
             if (profile.hasAttribute(QStringLiteral("speeds"))) {
-                item->setData(0, SpeedsRole, profile.attribute(QStringLiteral("speeds")).split(QLatin1Char(';'), QString::SkipEmptyParts));
+                childitem->setData(0, SpeedsRole, profile.attribute(QStringLiteral("speeds")).split(QLatin1Char(';'), QString::SkipEmptyParts));
             }
             if (profile.hasAttribute(QStringLiteral("url"))) {
-                item->setData(0, ExtraRole, profile.attribute(QStringLiteral("url")));
+                childitem->setData(0, ExtraRole, profile.attribute(QStringLiteral("url")));
             }
             if (editable) {
-                item->setData(0, EditableRole, exportFile);
+                childitem->setData(0, EditableRole, exportFile);
                 if (exportFile.endsWith(QLatin1String("customprofiles.xml"))) {
-                    item->setIcon(0, KoIconUtils::themedIcon(QStringLiteral("favorite")));
+                    childitem->setIcon(0, KoIconUtils::themedIcon(QStringLiteral("favorite")));
                 } else {
-                    item->setIcon(0, QIcon::fromTheme(QStringLiteral("applications-internet")));
+                    childitem->setIcon(0, QIcon::fromTheme(QStringLiteral("applications-internet")));
                 }
             }
-            groupItem->addChild(item);
+            groupItem->addChild(childitem);
             node = doc.elementsByTagName(QStringLiteral("profile")).at(count);
             count++;
         }
@@ -2180,11 +2179,11 @@ void RenderWidget::setRenderJob(const QString &dest, int progress)
     } else {
         QDateTime startTime = item->data(1, TimeRole).toDateTime();
         qint64 elapsedTime = startTime.secsTo(QDateTime::currentDateTime());
-        quint32 remaining = elapsedTime * (100.0 - progress) / progress;
-        int days = remaining / 86400;
-        int remainingSecs = remaining % 86400;
-        QTime when = QTime(0, 0, 0, 0);
-        when = when.addSecs(remainingSecs);
+        qint64 remaining = elapsedTime * (100 - progress) / progress;
+        int days = static_cast<int>(remaining / 86400);
+        int remainingSecs = static_cast<int>(remaining % 86400);
+        QTime when = QTime ( 0, 0, 0, 0 ) ;
+        when = when.addSecs (remainingSecs) ;
         QString est = (days > 0) ? i18np("%1 day ", "%1 days ", days) : QString();
         est.append(when.toString(QStringLiteral("hh:mm:ss")));
         QString t = i18n("Remaining time %1", est);
@@ -2209,10 +2208,10 @@ void RenderWidget::setRenderStatus(const QString &dest, int status, const QStrin
         item->setStatus(FINISHEDJOB);
         QDateTime startTime = item->data(1, TimeRole).toDateTime();
         qint64 elapsedTime = startTime.secsTo(QDateTime::currentDateTime());
-        int days = elapsedTime / 86400;
-        elapsedTime -= (days * 86400);
-        QTime when = QTime(0, 0, 0, 0);
-        when = when.addSecs(elapsedTime);
+        int days = static_cast<int>(elapsedTime / 86400);
+        int secs = static_cast<int>(elapsedTime % 86400);
+        QTime when = QTime ( 0, 0, 0, 0 ) ;
+        when = when.addSecs (secs) ;
         QString est = (days > 0) ? i18np("%1 day ", "%1 days ", days) : QString();
         est.append(when.toString(QStringLiteral("hh:mm:ss")));
         QString t = i18n("Rendering finished in %1", est);

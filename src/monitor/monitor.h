@@ -158,6 +158,8 @@ public:
     /** @brief Returns current monitor's duration in frames **/
     int duration() const;
     void reconfigure();
+    /** @brief Saves current monitor frame to an image file, and add it to project if addToProject is set to true **/
+    void slotExtractCurrentFrame(QString frameName = QString(), bool addToProject = false);
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
@@ -240,8 +242,6 @@ private:
 
 private slots:
     Q_DECL_DEPRECATED void seekCursor(int pos);
-    void slotExtractCurrentFrame(QString frameName = QString(), bool addToProject = false);
-    void slotExtractCurrentFrameToProject();
     void slotSetThumbFrame();
     void slotSaveZone();
     void slotSeek();

@@ -184,7 +184,7 @@ private slots:
     void slotSaveSequence(const QStringList &info, QString dest);
     void slotItemEdited(QTreeWidgetItem *item, int column);
     void slotDownloadFinished(KJob *);
-    void slotDownloadProgress(KJob *, unsigned long);
+    void slotDownloadProgress(KJob *, int);
     void slotGotPreview(const KFileItem &item, const QPixmap &pix);
     void slotItemsAdded(const QUrl &url, const KFileItemList &list);
     void slotItemsDeleted(const KFileItemList &list);

@@ -476,13 +476,8 @@ void Monitor::setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QA
             m_configMenu->addAction(KoIconUtils::themedIcon(QStringLiteral("document-new")), i18n("Extract Zone"), this, SLOT(slotExtractCurrentZone()));
         m_contextMenu->addAction(extractZone);
     }
-    QAction *extractFrame =
-        m_configMenu->addAction(KoIconUtils::themedIcon(QStringLiteral("document-new")), i18n("Extract frame..."), this, SLOT(slotExtractCurrentFrame()));
-    m_contextMenu->addAction(extractFrame);
-
-    QAction *extractFrameToProject = m_configMenu->addAction(KoIconUtils::themedIcon(QStringLiteral("document-new")), i18n("Extract frame to project..."), this,
-                                                             SLOT(slotExtractCurrentFrameToProject()));
-    m_contextMenu->addAction(extractFrameToProject);
+    m_contextMenu->addAction(m_monitorManager->getAction(QStringLiteral("extract_frame")));
+    m_contextMenu->addAction(m_monitorManager->getAction(QStringLiteral("extract_frame_to_project")));
 
     if (m_id == Kdenlive::ProjectMonitor) {
         m_multitrackView = m_contextMenu->addAction(KoIconUtils::themedIcon(QStringLiteral("view-split-left-right")), i18n("Multitrack view"), this,
@@ -969,26 +964,24 @@ std::shared_ptr<ProjectClip> Monitor::currentController() const
     return m_controller;
 }
 
-void Monitor::slotExtractCurrentFrameToProject()
-{
-    slotExtractCurrentFrame(QString(), true);
-}
-
 void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
 {
-    if (addToProject && QFileInfo(frameName).fileName().isEmpty()) {
+    if (QFileInfo(frameName).fileName().isEmpty()) {
         // convenience: when extracting an image to be added to the project,
         // suggest a suitable image file name. In the project monitor, this
         // suggestion bases on the project file name; in the clip monitor,
         // the suggestion bases on the clip file name currently shown.
         // Finally, the frame number is added to this suggestion, prefixed
         // with "-f", so we get something like clip-f#.png.
-        QString suggestedImageName =
-            QFileInfo(currentController()
-                          ? currentController()->clipName()
-                          : pCore->currentDoc()->url().isValid() ? pCore->currentDoc()->url().fileName() : i18n("untitled"))
-                .completeBaseName() +
-            QStringLiteral("-f") + QString::number(m_glMonitor->getCurrentPos()) + QStringLiteral(".png");
+        QString suggestedImageName = QFileInfo(currentController()
+                                               ? currentController()->clipName()
+                                               : pCore->currentDoc()->url().isValid()
+                                               ? pCore->currentDoc()->url().fileName()
+                                               : i18n("untitled")
+                                              ).completeBaseName()
+                                     + QStringLiteral("-f")
+                                     + QString::number(m_glMonitor->getCurrentPos()).rightJustified(6, QLatin1Char('0'))
+                                     + QStringLiteral(".png");
         frameName = QFileInfo(frameName, suggestedImageName).fileName();
     }
 

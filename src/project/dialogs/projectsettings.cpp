@@ -397,9 +397,9 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
         label_fonts->setHidden(true);
     }
     used_count->setText(QString::number(used));
-    used_size->setText(KIO::convertSize(usedSize));
+    used_size->setText(KIO::convertSize(static_cast<KIO::filesize_t>(usedSize)));
     unused_count->setText(QString::number(unUsed));
-    unused_size->setText(KIO::convertSize(unUsedSize));
+    unused_size->setText(KIO::convertSize(static_cast<KIO::filesize_t>(unUsedSize)));
     delete_unused->setEnabled(unUsed > 0);
 }
 

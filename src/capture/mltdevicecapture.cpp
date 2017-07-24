@@ -223,7 +223,7 @@ void MltDeviceCapture::showFrame(Mlt::Frame &frame)
     int height = 0;
     const uchar *image = frame.get_image(format, width, height);
     QImage qimage(width, height, QImage::Format_RGB888);
-    memcpy(qimage.scanLine(0), image, width * height * 3);
+    memcpy(qimage.scanLine(0), image, static_cast<size_t>(width * height * 3));
     emit showImageSignal(qimage);
 
     if (sendFrameForAnalysis && (frame.get_frame()->convert_image != nullptr)) {
@@ -249,7 +249,7 @@ void MltDeviceCapture::showAudio(Mlt::Frame &frame)
     // Data format: [ c00 c10 c01 c11 c02 c12 c03 c13 ... c0{samples-1} c1{samples-1} for 2 channels.
     // So the vector is of size samples*channels.
     audioShortVector sampleVector(samples * num_channels);
-    memcpy(sampleVector.data(), data, samples * num_channels * sizeof(qint16));
+    memcpy(sampleVector.data(), data, static_cast<size_t>(samples * num_channels * sizeof(qint16)));
     if (samples > 0) {
         emit audioSamplesSignal(sampleVector, freq, num_channels, samples);
     }
@@ -307,7 +307,7 @@ void MltDeviceCapture::saveFrame(Mlt::Frame &frame)
     int height = 0;
     const uchar *image = frame.get_image(format, width, height);
     QImage qimage(width, height, QImage::Format_RGB888);
-    memcpy(qimage.bits(), image, width * height * 3);
+    memcpy(qimage.bits(), image, static_cast<size_t>(width * height * 3));
 
     // Re-enable overlay
     Mlt::Service service(m_mltProducer->parent().get_service());
@@ -638,9 +638,9 @@ void MltDeviceCapture::uyvy2rgb(unsigned char *yuv_buffer, int width, int height
             b = 0;
         }
 
-        rgb_buffer[rgb_ptr] = r;
-        rgb_buffer[rgb_ptr + 1] = g;
-        rgb_buffer[rgb_ptr + 2] = b;
+        rgb_buffer[rgb_ptr] = static_cast<uchar>(r);
+        rgb_buffer[rgb_ptr + 1] = static_cast<uchar>(g);
+        rgb_buffer[rgb_ptr + 2] = static_cast<uchar>(b);
         rgb_ptr += 3;
 
         r = ((298 * (Y2 - 16) + 409 * (V - 128) + 128) >> 8);
@@ -667,9 +667,9 @@ void MltDeviceCapture::uyvy2rgb(unsigned char *yuv_buffer, int width, int height
             b = 0;
         }
 
-        rgb_buffer[rgb_ptr] = r;
-        rgb_buffer[rgb_ptr + 1] = g;
-        rgb_buffer[rgb_ptr + 2] = b;
+        rgb_buffer[rgb_ptr] = static_cast<uchar>(r);
+        rgb_buffer[rgb_ptr + 1] = static_cast<uchar>(g);
+        rgb_buffer[rgb_ptr + 2] = static_cast<uchar>(b);
         rgb_ptr += 3;
     }
     // emit imageReady(image);

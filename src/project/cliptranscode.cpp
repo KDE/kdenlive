@@ -26,6 +26,7 @@
 
 #include <KMessageBox>
 #include <klocalizedstring.h>
+#include <kio_version.h>
 
 ClipTranscode::ClipTranscode(const QStringList &urls, const QString &params, const QStringList &postParams, const QString &description,
                              const QStringList &folderInfo, bool automaticMode, QWidget *parent)
@@ -56,7 +57,7 @@ ClipTranscode::ClipTranscode(const QStringList &urls, const QString &params, con
         QString fileName = m_urls.constFirst();
         source_url->setUrl(QUrl::fromLocalFile(fileName));
         dest_url->setMode(KFile::File);
-#if KXMLGUI_VERSION_MINOR > 32 || KXMLGUI_VERSION_MAJOR > 5
+#if KIO_VERSION >= QT_VERSION_CHECK(5,33,0)
         dest_url->setAcceptMode(QFileDialog::AcceptSave);
 #endif
         if (!params.isEmpty()) {

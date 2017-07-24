@@ -171,12 +171,12 @@ void EffectsListWidget::initList(QMenu *effectsMenu, KActionCategory *effectActi
         if (topLevelItem(i)->data(0, TypeRole) == EffectsList::TRANSITION_TYPE) {
             QTreeWidgetItem *item = topLevelItem(i);
             QAction *a = new QAction(item->icon(0), item->text(0), effectsMenu);
-            QStringList data = item->data(0, IdRole).toStringList();
-            QString id = data.at(1);
+            QStringList effectdata = item->data(0, IdRole).toStringList();
+            QString id = effectdata.at(1);
             if (id.isEmpty()) {
-                id = data.at(0);
+                id = effectdata.at(0);
             }
-            a->setData(data);
+            a->setData(effectdata);
             a->setIconVisibleInMenu(false);
             effectsMenu->addAction(a);
             effectActions->addAction("transition_" + id, a);
@@ -204,12 +204,12 @@ void EffectsListWidget::initList(QMenu *effectsMenu, KActionCategory *effectActi
         for (int j = 0; j < effectsInCategory; ++j) {
             QTreeWidgetItem *item = topLevelItem(i)->child(j);
             QAction *a = new QAction(item->icon(0), item->text(0), sub);
-            QStringList data = item->data(0, IdRole).toStringList();
-            QString id = data.at(1);
+            QStringList effectdata = item->data(0, IdRole).toStringList();
+            QString id = effectdata.at(1);
             if (id.isEmpty()) {
-                id = data.at(0);
+                id = effectdata.at(0);
             }
-            a->setData(data);
+            a->setData(effectdata);
             a->setIconVisibleInMenu(false);
             if (hasSubCategories) {
                 // put action in sub category
@@ -455,9 +455,7 @@ QMimeData *EffectsListWidget::mimeData(const QList<QTreeWidgetItem *> list) cons
         }
     }
     auto *mime = new QMimeData;
-    QByteArray data;
-    data.append(doc.toString().toUtf8());
-    mime->setData(transitionMode ? "kdenlive/transitionslist" : "kdenlive/effectslist", data);
+    mime->setData(transitionMode ? "kdenlive/transitionslist" : "kdenlive/effectslist", doc.toString().toUtf8());
     return mime;
 }
 

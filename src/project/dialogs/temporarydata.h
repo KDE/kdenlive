@@ -23,12 +23,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define TEMPORARYDATA_H
 
 #include "definitions.h"
-
+#include <KIO/DirectorySizeJob>
 #include <QDir>
-#include <QWidget>
 
 class KdenliveDoc;
-class KJob;
 class QPaintEvent;
 class QLabel;
 class QGridLayout;
@@ -110,10 +108,10 @@ private:
     QWidget *m_globalPage;
     QTreeWidget *m_listWidget;
     QGridLayout *m_grid;
-    qulonglong m_totalCurrent;
-    qulonglong m_totalGlobal;
-    QList<qulonglong> mCurrentSizes;
-    QList<qulonglong> mGlobalSizes;
+    KIO::filesize_t m_totalCurrent;
+    KIO::filesize_t m_totalGlobal;
+    QList<KIO::filesize_t> mCurrentSizes;
+    QList<KIO::filesize_t> mGlobalSizes;
     QStringList m_globalDirectories;
     QString m_processingDirectory;
     QDir m_globalDir;
@@ -127,7 +125,7 @@ private:
 
 private slots:
     void gotPreviewSize(KJob *job);
-    void gotProxySize(qint64 total);
+    void gotProxySize(KIO::filesize_t total);
     void gotAudioSize(KJob *job);
     void gotThumbSize(KJob *job);
     void gotFolderSize(KJob *job);
