@@ -131,6 +131,7 @@ Mlt::Transition *TransitionsRepository::getTransition(const QString &transitionI
     QString service_name = m_assets.at(transitionId).mltId;
     // We create the Mlt element from its name
     Mlt::Transition *transition = new Mlt::Transition(pCore->getCurrentProfile()->profile(), service_name.toLatin1().constData(), nullptr);
+    transition->set("kdenlive_id", transitionId.toUtf8().constData());
     return transition;
 }
 

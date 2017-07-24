@@ -1,0 +1,8 @@
+<!DOCTYPE kpartgui>
+<transition tag="luma" id="dissolve">
+    <name>Dissolve</name>
+    <description>Fade out one video while fading in the other video.</description>
+    <parameter type="bool" name="reverse" default="0">
+        <name>Reverse</name>
+    </parameter>
+</transition>

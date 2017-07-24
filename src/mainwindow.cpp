@@ -2880,7 +2880,6 @@ void MainWindow::slotClipInTimeline(const QString &clipId, QList <int> ids)
     QList<QAction *> actionList;
     for (int i = 0; i < ids.count(); ++i) {
         QString track = getMainTimeline()->controller()->getTrackNameFromIndex(pCore->getItemTrack(ObjectId(ObjectType::TimelineClip, ids.at(i))));
-        qDebug()<<"// TK NAME FOR: "<<ids.at(i)<<" = "<<track;
         QString start = pCore->currentDoc()->timecode().getTimecodeFromFrames(pCore->getItemIn(ObjectId(ObjectType::TimelineClip, ids.at(i))));
         int j = 0;
         QAction *a = new QAction(track + QStringLiteral(": ") + start, inTimelineMenu);

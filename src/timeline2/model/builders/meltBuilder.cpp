@@ -50,7 +50,7 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
                                  QLatin1String("black_track")};
 
     bool ok = true;
-    qDebug() << "//////////////////////\nTrying to construct" << tractor.count() << "tracks.\n////////////////////////////////7";
+    qDebug() << "//////////////////////\nTrying to construct" << tractor.count() << "tracks.\n////////////////////////////////";
     for (int i = 0; i < tractor.count() && ok; i++) {
         std::unique_ptr<Mlt::Producer> track(tractor.track(i));
         QString playlist_name = track->get("id");
@@ -100,7 +100,11 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
         if (service->type() == transition_type) {
             Mlt::Transition t((mlt_transition)service->get_service());
             int compoId;
-            QString id(t.get("mlt_service"));
+            QString id(t.get("kdenlive_id"));
+            if (id.isEmpty()) {
+                qDebug()<<"// Warning, this should not happen, transition without id: "<<t.get("id")<<" = "<<t.get("mlt_service");
+                id = t.get("mlt_service");
+            }
             QString internal(t.get("internal_added"));
             if (internal.isEmpty()) {
                 ok = timeline->requestCompositionInsertion(id, timeline->getTrackIndexFromPosition(t.get_b_track() - 1), t.get_a_track(), t.get_in(), t.get_length(), compoId, undo, redo);
@@ -165,13 +169,13 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
         switch (clip->type()) {
         case unknown_type:
         case producer_type: {
-            QString binId = clip->get("kdenlive:id");
+            QString binId = clip->parent().get("kdenlive:id");
             bool ok = false;
             if (pCore->bin()->getBinClip(binId)) {
                 int cid = ClipModel::construct(timeline, binId, clip);
                 ok = timeline->requestClipMove(cid, tid, position, true, undo, redo);
             } else {
-                qDebug() << "// Cannot find bin clip: " << binId;
+                qDebug() << "// Cannot find bin clip: " << binId<<" - "<< clip->get("id");
             }
             if (!ok) {
                 qDebug() << "ERROR : failed to insert clip in track" << tid << "position" << position;
