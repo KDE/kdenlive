@@ -31,6 +31,9 @@
 
 #include <QColor>
 #include <QDir>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
 
 #include <mlt++/Mlt.h>
 
@@ -1691,8 +1694,9 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             // Move to new kdenlive:id format
             const QString id = prod.attribute(QStringLiteral("id")).section(QLatin1Char('_'), 0, 0);
             EffectsList::setProperty(prod, QStringLiteral("kdenlive:id"), id);
-            const QString service = EffectsList::property(prod, QStringLiteral("mlt_service"));
+
             // Check image sequences with buggy begin frame number
+            const QString service = EffectsList::property(prod, QStringLiteral("mlt_service"));
             if (service == QLatin1String("pixbuf") || service == QLatin1String("qimage")) {
                 QString resource = EffectsList::property(prod, QStringLiteral("resource"));
                 if (resource.contains(QStringLiteral("?begin:"))) {
@@ -1701,6 +1705,25 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 }
             }
         }
+        // move guides to new JSON format
+        QDomElement main_playlist = m_doc.documentElement().firstChildElement(QStringLiteral("playlist"));
+        QDomNodeList props = main_playlist.elementsByTagName(QStringLiteral("property"));
+        QJsonArray list;
+        for (int i = 0; i < props.count(); ++i) {
+            QDomNode n = props.at(i);
+            QString prop = n.toElement().attribute(QStringLiteral("name"));
+            if (prop.startsWith(QLatin1String("kdenlive:guide."))) {
+                double guidePos = prop.section(QLatin1Char('.'), 1).toDouble();
+                QJsonObject currentMarker;
+                currentMarker.insert(QLatin1String("pos"), QJsonValue(GenTime(guidePos).frames(pCore->getCurrentFps())));
+                currentMarker.insert(QLatin1String("comment"), QJsonValue(n.firstChild().nodeValue()));
+                currentMarker.insert(QLatin1String("type"), QJsonValue(0));
+                list.push_back(currentMarker);
+            }
+            QJsonDocument json(list);
+            EffectsList::setProperty(main_playlist, QStringLiteral("kdenlive:docproperties.guides"), json.toJson());
+        }
+
     }
 
     m_modified = true;

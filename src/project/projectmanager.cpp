@@ -862,6 +862,7 @@ void ProjectManager::updateTimeline()
     Mlt::Tractor tractor(s);
     m_mainTimelineModel = TimelineItemModel::construct(&pCore->getCurrentProfile()->profile(), m_project->getGuideModel(), m_project->commandStack());
     constructTimelineFromMelt(m_mainTimelineModel, tractor);
+
     m_project->loadThumbs();
 
     pCore->monitorManager()->projectMonitor()->setProducer(m_mainTimelineModel->producer());
