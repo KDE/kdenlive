@@ -103,6 +103,10 @@ public slots:
      * @param activateClip whether to activate the clip monitor */
     void slotSwitchMonitors(bool activateClip);
     void slotUpdateAudioMonitoring();
+    /** @brief Export the current monitor's frame to image file. */
+    void slotExtractCurrentFrame();
+    /** @brief Export the current monitor's frame to image file and add it to the current project */
+    void slotExtractCurrentFrameToProject();
 
 private slots:
     /** @brief Set MLT's consumer deinterlace method */

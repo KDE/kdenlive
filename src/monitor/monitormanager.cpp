@@ -590,3 +590,17 @@ QDir MonitorManager::getCacheFolder(CacheType type)
     }
     return QDir();
 }
+
+void MonitorManager::slotExtractCurrentFrame()
+{
+    if (m_activeMonitor) {
+        static_cast<Monitor *>(m_activeMonitor)->slotExtractCurrentFrame();
+    }
+}
+
+void MonitorManager::slotExtractCurrentFrameToProject()
+{
+    if (m_activeMonitor) {
+        static_cast<Monitor *>(m_activeMonitor)->slotExtractCurrentFrame(QString(), true);
+    }
+}
