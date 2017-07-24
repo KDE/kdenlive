@@ -105,6 +105,11 @@ const QString TimelineController::getTrackNameFromMltIndex(int trackPos)
     return m_model->getTrackById(m_model->getTrackIndexFromPosition(trackPos -1))->getProperty(QStringLiteral("kdenlive:track_name")).toString();
 }
 
+const QString TimelineController::getTrackNameFromIndex(int trackIndex)
+{
+    return m_model->getTrackById(trackIndex)->getProperty(QStringLiteral("kdenlive:track_name")).toString();
+}
+
 QMap<int, QString> TimelineController::getTrackNames(bool videoOnly)
 {
     QMap<int, QString> names;
@@ -440,6 +445,7 @@ void TimelineController::showAsset(int id)
 
 void TimelineController::setPosition(int position)
 {
+    setSeekPosition(position);
     emit seeked(position);
 }
 
@@ -628,4 +634,10 @@ void TimelineController::setCompositionATrack(int cid, int aTrack)
 const QString TimelineController::getClipBinId(int clipId) const
 {
     return m_model->getClipBinId(clipId);
+}
+
+void TimelineController::focusItem(int itemId)
+{
+    int start = m_model->getItemPosition(itemId);
+    setPosition(start);
 }

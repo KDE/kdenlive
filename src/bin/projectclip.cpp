@@ -1279,6 +1279,15 @@ void ProjectClip::deregisterTimelineClip(int clipId)
     m_registeredClips.erase(clipId);
 }
 
+QList <int> ProjectClip::timelineInstances() const
+{
+    QList <int> ids;
+    for(std::map<int, std::weak_ptr<TimelineModel>>::const_iterator it = m_registeredClips.begin(); it != m_registeredClips.end(); ++it) {
+        ids.push_back(it->first);
+    }
+    return ids;
+}
+
 bool ProjectClip::selfSoftDelete(Fun &undo, Fun &redo)
 {
     for (const auto &clip : m_registeredClips) {

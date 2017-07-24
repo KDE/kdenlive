@@ -1450,12 +1450,13 @@ void Bin::selectProxyModel(const QModelIndex &id)
                 m_reloadAction->setEnabled(true);
                 m_locateAction->setEnabled(true);
                 m_duplicateAction->setEnabled(true);
-                ClipType type = std::static_pointer_cast<ProjectClip>(currentItem)->clipType();
+                std::shared_ptr<ProjectClip> clip = std::static_pointer_cast<ProjectClip>(currentItem);
+                ClipType type = clip->clipType();
                 m_openAction->setEnabled(type == Image || type == Audio || type == Text || type == TextTemplate);
-                showClipProperties(std::static_pointer_cast<ProjectClip>(currentItem), false);
+                showClipProperties(clip, false);
                 m_deleteAction->setText(i18n("Delete Clip"));
                 m_proxyAction->setText(i18n("Proxy Clip"));
-                emit findInTimeline(currentItem->clipId());
+                emit findInTimeline(clip->clipId(), clip->timelineInstances());
             } else if (currentItem->itemType() == AbstractProjectItem::FolderItem) {
                 // A folder was selected, disable editing clip
                 m_openAction->setEnabled(false);
@@ -1659,7 +1660,7 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
                     auto clip = std::static_pointer_cast<ProjectClip>(currentItem);
                     if (clip) {
                         m_proxyAction->blockSignals(true);
-                        emit findInTimeline(clip->AbstractProjectItem::clipId());
+                        emit findInTimeline(clip->clipId(), clip->timelineInstances());
                         clipService = clip->getProducerProperty(QStringLiteral("mlt_service"));
                         m_proxyAction->setChecked(clip->hasProxy());
                         QList<QAction *> transcodeActions;

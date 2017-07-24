@@ -202,6 +202,8 @@ public:
     bool isIncludedInTimeline() override;
     /** @brief Replace instance of this clip in timeline */
     void replaceInTimeline();
+    /** @brief Returns a list of all timeline clip ids for this bin clip */
+    QList <int> timelineInstances() const;
 
 protected:
     friend class ClipModel;

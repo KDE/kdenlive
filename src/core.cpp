@@ -376,6 +376,21 @@ int Core::getItemDuration(const ObjectId &id)
     return 0;
 }
 
+int Core::getItemTrack(const ObjectId &id)
+{
+    if (!m_guiConstructed)
+        return 0;
+    switch(id.first) {
+    case ObjectType::TimelineClip:
+    case ObjectType::TimelineComposition:
+        return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getItemTrackId(id.second);
+        break;
+    default:
+        qDebug() << "ERROR: unhandled object type";
+    }
+    return 0;
+}
+
 void Core::refreshProjectItem(const ObjectId &id)
 {
     if (!m_guiConstructed)

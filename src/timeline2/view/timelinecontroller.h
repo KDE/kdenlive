@@ -201,6 +201,7 @@ public:
     Q_INVOKABLE void adjustFade(int cid, const QString &effectId, int duration);
 
     Q_INVOKABLE const QString getTrackNameFromMltIndex(int trackPos);
+    const QString getTrackNameFromIndex(int trackIndex);
     /* @brief Seeks to selected clip start / end
      */
     void seekCurrentClip(bool seekToEnd = false);
@@ -232,6 +233,7 @@ public:
     int getCompositionATrack(int cid) const;
     void setCompositionATrack(int cid, int aTrack);
     const QString getClipBinId(int clipId) const;
+    void focusItem(int itemId);
 
 public slots:
     void selectMultitrack();
