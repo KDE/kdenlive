@@ -397,6 +397,7 @@ bool MarkerListModel::importFromJson(const QString &data, bool ignoreConflicts, 
     if (pushUndo) {
         PUSH_UNDO(undo, redo, m_guide ? i18n("Import guides") : i18n("Import markers"));
     }
+    emit dataImported();
     return true;
 }
 

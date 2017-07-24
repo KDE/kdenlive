@@ -235,6 +235,8 @@ private slots:
     void slotSwitchProfile();
     /** @brief Check if we did a new action invalidating more recent undo items. */
     void checkPreviewStack();
+    /** @brief Guides were changed, save to MLT. */
+    void guidesChanged();
 
 signals:
     void resetProjectList();
@@ -244,7 +246,6 @@ signals:
      * If the document has been modified, it's called with true as an argument. */
     void docModified(bool);
     void selectLastAddedClip(const QString &);
-    void guidesUpdated();
     /** @brief When creating a backup file, also save a thumbnail of current timeline */
     void saveTimelinePreview(const QString &path);
     /** @brief Trigger the autosave timer start */

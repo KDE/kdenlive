@@ -1686,6 +1686,57 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         }
     }
     if (version < 0.96) {
+        // move guides to new JSON format
+        QDomElement main_playlist = m_doc.documentElement().firstChildElement(QStringLiteral("playlist"));
+        QDomNodeList props = main_playlist.elementsByTagName(QStringLiteral("property"));
+        QJsonArray guidesList;
+        QMap <QString, QJsonArray> markersList;
+        for (int i = 0; i < props.count(); ++i) {
+            QDomNode n = props.at(i);
+            QString prop = n.toElement().attribute(QStringLiteral("name"));
+            if (prop.startsWith(QLatin1String("kdenlive:guide."))) {
+                //Process guide
+                double guidePos = prop.section(QLatin1Char('.'), 1).toDouble();
+                QJsonObject currentGuide;
+                currentGuide.insert(QStringLiteral("pos"), QJsonValue(GenTime(guidePos).frames(pCore->getCurrentFps())));
+                currentGuide.insert(QStringLiteral("comment"), QJsonValue(n.firstChild().nodeValue()));
+                currentGuide.insert(QStringLiteral("type"), QJsonValue(0));
+                // Clear entry in old format
+                n.toElement().setAttribute(QStringLiteral("name"), QStringLiteral("_"));
+                n.firstChild().setNodeValue(QString());
+                guidesList.push_back(currentGuide);
+            } else if (prop.startsWith(QLatin1String("kdenlive:marker."))) {
+                //Process marker
+                double markerPos = prop.section(QLatin1Char(':'), -1).toDouble();
+                QString markerBinClip = prop.section(QLatin1Char('.'), 1).section(QLatin1Char(':'), 0, 0);
+                QString markerData = n.firstChild().nodeValue();
+                int markerType = markerData.section(QLatin1Char(':'), 0, 0).toInt();
+                QString markerComment = markerData.section(QLatin1Char(':'), 1);
+                QJsonObject currentMarker;
+                currentMarker.insert(QStringLiteral("pos"), QJsonValue(GenTime(markerPos).frames(pCore->getCurrentFps())));
+                currentMarker.insert(QStringLiteral("comment"), QJsonValue(markerComment));
+                currentMarker.insert(QStringLiteral("type"), QJsonValue(markerType));
+                // Clear entry in old format
+                n.toElement().setAttribute(QStringLiteral("name"), QStringLiteral("_"));
+                n.firstChild().setNodeValue(QString());
+                if (markersList.contains(markerBinClip)) {
+                    // we already have a marker list for this clip
+                    QJsonArray markerList = markersList.value(markerBinClip);
+                    markerList.push_back(currentMarker);
+                    markersList.insert(markerBinClip, markerList);
+                } else {
+                    QJsonArray markerList;
+                    markerList.push_back(currentMarker);
+                    markersList.insert(markerBinClip, markerList);
+                }
+            }
+        }
+        if (!guidesList.isEmpty()) {
+            QJsonDocument json(guidesList);
+            EffectsList::setProperty(main_playlist, QStringLiteral("kdenlive:docproperties.guides"), json.toJson());
+        }
+
+        // Update producers
         QDomNodeList producers = m_doc.elementsByTagName(QStringLiteral("producer"));
         int max = producers.count();
         for (int i = 0; i < max; ++i) {
@@ -1694,6 +1745,10 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             // Move to new kdenlive:id format
             const QString id = prod.attribute(QStringLiteral("id")).section(QLatin1Char('_'), 0, 0);
             EffectsList::setProperty(prod, QStringLiteral("kdenlive:id"), id);
+            if (markersList.contains(id)) {
+                QJsonDocument json(markersList.value(id));
+                EffectsList::setProperty(prod, QStringLiteral("kdenlive:markers"), json.toJson());
+            }
 
             // Check image sequences with buggy begin frame number
             const QString service = EffectsList::property(prod, QStringLiteral("mlt_service"));
@@ -1705,25 +1760,6 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 }
             }
         }
-        // move guides to new JSON format
-        QDomElement main_playlist = m_doc.documentElement().firstChildElement(QStringLiteral("playlist"));
-        QDomNodeList props = main_playlist.elementsByTagName(QStringLiteral("property"));
-        QJsonArray list;
-        for (int i = 0; i < props.count(); ++i) {
-            QDomNode n = props.at(i);
-            QString prop = n.toElement().attribute(QStringLiteral("name"));
-            if (prop.startsWith(QLatin1String("kdenlive:guide."))) {
-                double guidePos = prop.section(QLatin1Char('.'), 1).toDouble();
-                QJsonObject currentMarker;
-                currentMarker.insert(QLatin1String("pos"), QJsonValue(GenTime(guidePos).frames(pCore->getCurrentFps())));
-                currentMarker.insert(QLatin1String("comment"), QJsonValue(n.firstChild().nodeValue()));
-                currentMarker.insert(QLatin1String("type"), QJsonValue(0));
-                list.push_back(currentMarker);
-            }
-            QJsonDocument json(list);
-            EffectsList::setProperty(main_playlist, QStringLiteral("kdenlive:docproperties.guides"), json.toJson());
-        }
-
     }
 
     m_modified = true;

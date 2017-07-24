@@ -161,6 +161,9 @@ private:
     std::map<GenTime, std::pair<QString, int>> m_markerList;
     std::vector<std::weak_ptr<SnapModel>> m_registeredSnaps;
 
+signals:
+    void dataImported();
+
 public:
     // this is to enable for range loops
     auto begin() -> decltype(m_markerList.begin()) { return m_markerList.begin(); }

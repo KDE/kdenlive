@@ -82,6 +82,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGro
 {
     m_commandStack = std::make_shared<DocUndoStack>(undoGroup);
     m_guideModel.reset(new MarkerListModel(m_commandStack, this));
+    connect(m_guideModel.get(), &MarkerListModel::dataImported, this, &KdenliveDoc::guidesChanged);
 
     m_clipManager = new ClipManager(this);
     connect(m_clipManager, SIGNAL(displayMessage(QString, int)), parent, SLOT(slotGotProgressInfo(QString, int)));
@@ -1696,7 +1697,6 @@ std::shared_ptr<MarkerListModel> KdenliveDoc::getGuideModel() const
 void KdenliveDoc::addGuides(QList<CommentedTime> &markers)
 {
     for (int i = 0; i < markers.count(); ++i) {
-        qDebug() << "** *ADDING MARKERS: " << markers.at(i).time().frames(25) << ", TYPE: " << markers.at(i).markerType();
         if (markers.at(i).markerType() < 0) {
             m_guideModel->removeMarker(markers.at(i).time());
         } else {
@@ -1709,4 +1709,9 @@ void KdenliveDoc::addGuides(QList<CommentedTime> &markers)
 CommentedTime KdenliveDoc::getGuide(const GenTime &pos, bool *ok) const
 {
     return m_guideModel->getMarker(pos, ok);
+}
+
+void KdenliveDoc::guidesChanged()
+{
+    m_documentProperties[QStringLiteral("guides")] = m_guideModel->toJson();
 }
