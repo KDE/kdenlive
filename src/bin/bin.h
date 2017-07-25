@@ -244,7 +244,6 @@ public:
     void reloadClip(const QString &id);
 
     /** @brief Add a folder  */
-    void doAddFolder(const QString &id, const QString &name, const QString &parentId);
     void removeSubClip(const QString &id, QUndoCommand *deleteCommand);
     void doMoveClip(const QString &id, const QString &newParentId);
     void doMoveFolder(const QString &id, const QString &newParentId);

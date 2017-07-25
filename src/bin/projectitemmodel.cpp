@@ -490,9 +490,11 @@ Fun ProjectItemModel::requestRenameFolder_lambda(std::shared_ptr<AbstractProject
         if (!currentFolder) {
             return false;
         }
+        // For correct propagation of the name change, we remove folder from parent first
         auto parent = currentFolder->parent();
         parent->removeChild(currentFolder);
         currentFolder->setName(newName);
+        // Reinsert in parent
         return parent->appendChild(currentFolder);
     };
 }
@@ -528,6 +530,7 @@ bool ProjectItemModel::requestCleanup()
     Fun redo = []() { return true; };
     bool res = true;
     std::vector<std::shared_ptr<AbstractProjectItem>> to_delete;
+    // Iterate to find clips that are not in timeline
     for (const auto &clip : m_allItems) {
         auto c = std::static_pointer_cast<AbstractProjectItem>(clip.second.lock());
         if (c->itemType() == AbstractProjectItem::ClipItem && !c->isIncludedInTimeline()) {
