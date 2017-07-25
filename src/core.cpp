@@ -502,3 +502,9 @@ std::shared_ptr<ProjectItemModel> Core::projectItemModel()
 {
     return m_projectItemModel;
 }
+
+QString Core::getDocumentRoot() const
+{
+    // TODO refac: the root should probably be stored elsewhere
+    return m_binController->documentRoot();
+}

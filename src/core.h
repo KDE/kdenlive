@@ -115,6 +115,9 @@ public:
     /** @brief Returns frame rate of current profile */
     double getCurrentFps() const;
 
+    /** @brief Returns the root of the document */
+    QString getDocumentRoot() const;
+
     /** @brief Returns the frame size (width x height) of current profile */
     QSize getCurrentFrameSize() const;
     /** @brief Returns the frame display size (width x height) of current profile */
