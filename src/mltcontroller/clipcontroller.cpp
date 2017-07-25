@@ -107,7 +107,8 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
     }
     m_masterProducer = producer;
     m_properties = new Mlt::Properties(m_masterProducer->get_properties());
-    m_effectStack = EffectStackModel::construct(producer, {ObjectType::BinClip, m_properties->get_int("kdenlive:id")}, pCore->undoStack());
+    int id = m_properties->get_int("kdenlive:id");
+    m_effectStack = EffectStackModel::construct(producer, {ObjectType::BinClip, id}, pCore->undoStack());
     if (!m_masterProducer->is_valid()) {
         m_masterProducer = ClipController::mediaUnavailable;
         m_producerLock.unlock();
@@ -130,6 +131,7 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
         }
         m_path = QFileInfo(path).absoluteFilePath();
         getInfoForProducer();
+        emitProducerChanged(QString::number(id), producer);
     }
 }
 

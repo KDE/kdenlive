@@ -23,6 +23,7 @@
 #define BINPLAYLIST_H
 
 #include <memory>
+#include <QObject>
 #include <unordered_set>
 #include "definitions.h"
 
@@ -35,9 +36,10 @@
 class AbstractProjectItem;
 namespace Mlt {
     class Playlist;
+    class Producer;
 }
 
-class BinPlaylist
+class BinPlaylist : public QObject
 {
 
 public:
@@ -59,6 +61,12 @@ protected:
     /* @brief This is an helper function that removes a clip from the playlist given its id
      */
     void removeBinClip(const QString &id);
+    /* @brief This handles the fact that a clip has changed its producer (for example, loading is done)
+       It should be called directly as a slot of ClipController's signal, so you probably don't want to call this directly.
+       @param id: binId of the producer
+       @param producer : new producer
+    */
+    void changeProducer(const QString &id, const std::shared_ptr<Mlt::Producer> &producer);
 private:
     /** @brief The MLT playlist holding our Producers */
     std::unique_ptr<Mlt::Playlist> m_binPlaylist;

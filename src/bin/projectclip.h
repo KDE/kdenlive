@@ -218,6 +218,7 @@ protected:
     */
     void deregisterTimelineClip(int clipId);
 
+    void emitProducerChanged(const QString& id, const std::shared_ptr<Mlt::Producer> &producer) override {emit producerChanged(id, producer);};
 public slots:
     void updateAudioThumbnail(const QVariantList &audioLevels);
     /** @brief Extract image thumbnails for timeline. */
@@ -255,6 +256,7 @@ private slots:
     void updateFfmpegProgress();
 
 signals:
+    void producerChanged(const QString& , const std::shared_ptr<Mlt::Producer> &);
     void gotAudioData();
     void refreshPropertiesPanel();
     void refreshAnalysisPanel();

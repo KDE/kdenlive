@@ -211,7 +211,10 @@ public:
     /** @brief Append an effect to this producer's effect list */
     void addEffect(const QString &effectId);
 
+
 protected:
+    virtual void emitProducerChanged(const QString& , const std::shared_ptr<Mlt::Producer> &) {};
+
     std::shared_ptr<Mlt::Producer> m_masterProducer;
     Mlt::Properties *m_properties;
     bool m_usesProxy;
