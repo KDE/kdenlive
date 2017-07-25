@@ -157,17 +157,6 @@ public:
     /* @brief Returns the marker model associated with this clip */
     std::shared_ptr<MarkerListModel> getMarkerModel() const;
 
-    QList<CommentedTime> commentedSnapMarkers() const;
-    GenTime findNextSnapMarker(const GenTime &currTime);
-    GenTime findPreviousSnapMarker(const GenTime &currTime);
-    QString deleteSnapMarker(const GenTime &time);
-    void editSnapMarker(const GenTime &time, const QString &comment);
-    void addSnapMarker(const CommentedTime &marker);
-    void loadSnapMarker(const QString &seconds, const QString &hash);
-    QList<GenTime> snapMarkers() const;
-    QString markerComment(const GenTime &t) const;
-    QStringList markerComments(const GenTime &start, const GenTime &end) const;
-    CommentedTime markerAt(const GenTime &t) const;
     void setZone(const QPoint &zone);
     QPoint zone() const;
     bool hasLimitedDuration() const;
@@ -226,8 +215,6 @@ protected:
     ClipType m_clipType;
     bool m_hasLimitedDuration;
     std::weak_ptr<BinController> m_binController;
-    /** @brief A list of snap markers; these markers are added to a clips snap-to points, and are displayed as necessary. */
-    QList<CommentedTime> m_snapMarkers;
     QMutex m_effectMutex;
     void getInfoForProducer();
     // void rebuildEffectList(ProfileInfo info);

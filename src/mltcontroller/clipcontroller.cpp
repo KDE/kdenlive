@@ -52,7 +52,6 @@ ClipController::ClipController(const QString clipId, std::shared_ptr<BinControll
     , m_clipType(Unknown)
     , m_hasLimitedDuration(true)
     , m_binController(bincontroller)
-    , m_snapMarkers(QList<CommentedTime>())
     , m_effectStack(producer ? EffectStackModel::construct(producer, {ObjectType::BinClip, clipId.toInt()}, pCore->undoStack()) : nullptr)
     , m_controllerBinId(clipId)
 {
@@ -68,11 +67,11 @@ ClipController::ClipController(const QString clipId, std::shared_ptr<BinControll
             // This is a proxy producer, read original url from kdenlive property
             path = m_properties->get("kdenlive:originalurl");
             if (QFileInfo(path).isRelative()) {
-                path.prepend(pcore->getDocumentRoot());
+                path.prepend(pCore->getDocumentRoot());
             }
             m_usesProxy = true;
         } else if (m_service != QLatin1String("color") && m_service != QLatin1String("colour") && QFileInfo(path).isRelative()) {
-            path.prepend(pcore->getDocumentRoot());
+            path.prepend(pCore->getDocumentRoot());
         }
         m_path = QFileInfo(path).absoluteFilePath();
         getInfoForProducer();
@@ -101,7 +100,7 @@ AudioStreamInfo *ClipController::audioInfo() const
 
 void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &producer)
 {
-    QString documentRoot = pcore->getDocumentRoot();
+    QString documentRoot = pCore->getDocumentRoot();
     m_masterProducer = producer;
     m_properties = new Mlt::Properties(m_masterProducer->get_properties());
     int id = m_properties->get_int("kdenlive:id");
@@ -533,128 +532,6 @@ QPixmap ClipController::pixmap(int framePosition, int width, int height)
     return pixmap;
 }
 
-QList<GenTime> ClipController::snapMarkers() const
-{
-    QList<GenTime> markers;
-    for (int count = 0; count < m_snapMarkers.count(); ++count) {
-        markers.append(m_snapMarkers.at(count).time());
-    }
-
-    return markers;
-}
-
-QList<CommentedTime> ClipController::commentedSnapMarkers() const
-{
-    return m_snapMarkers;
-}
-
-void ClipController::loadSnapMarker(const QString &seconds, const QString &hash)
-{
-    QLocale locale;
-    // Make sure to get an integer frame since markers are stored in seconds
-    int frame = GenTime(locale.toDouble(seconds)).frames(pCore->getCurrentFps());
-    GenTime markerTime(frame, pCore->getCurrentFps());
-    CommentedTime marker(hash, markerTime);
-    if (m_snapMarkers.contains(marker)) {
-        m_snapMarkers.removeAll(marker);
-    }
-    m_snapMarkers.append(marker);
-    qSort(m_snapMarkers);
-}
-
-void ClipController::addSnapMarker(const CommentedTime &marker)
-{
-    if (m_snapMarkers.contains(marker)) {
-        m_snapMarkers.removeAll(marker);
-    }
-    m_snapMarkers.append(marker);
-    QLocale locale;
-    QString markerId = m_controllerBinId + QLatin1Char(':') + locale.toString(marker.time().seconds());
-    if (auto ptr = m_binController.lock()) ptr->storeMarker(markerId, marker.hash());
-    qSort(m_snapMarkers);
-}
-
-void ClipController::editSnapMarker(const GenTime &time, const QString &comment)
-{
-    CommentedTime marker(time, comment);
-    int ix = m_snapMarkers.indexOf(marker);
-    if (ix == -1) {
-        qCCritical(KDENLIVE_LOG) << "trying to edit Snap Marker that does not already exists";
-        return;
-    }
-    m_snapMarkers[ix].setComment(comment);
-    QLocale locale;
-    QString markerId = m_controllerBinId + QLatin1Char(':') + locale.toString(time.seconds());
-    if (auto ptr = m_binController.lock()) ptr->storeMarker(markerId, QString());
-}
-
-QString ClipController::deleteSnapMarker(const GenTime &time)
-{
-    CommentedTime marker(time, QString());
-    int ix = m_snapMarkers.indexOf(marker);
-    if (ix == -1) {
-        qCCritical(KDENLIVE_LOG) << "trying to edit Snap Marker that does not already exists";
-        return QString();
-    }
-    QString result = m_snapMarkers.at(ix).comment();
-    m_snapMarkers.removeAt(ix);
-    QLocale locale;
-    QString markerId = m_controllerBinId + QLatin1Char(':') + locale.toString(time.seconds());
-    if (auto ptr = m_binController.lock()) ptr->storeMarker(markerId, QString());
-    return result;
-}
-
-GenTime ClipController::findPreviousSnapMarker(const GenTime &currTime)
-{
-    CommentedTime marker(currTime, QString());
-    int ix = m_snapMarkers.indexOf(marker) - 1;
-    return m_snapMarkers.at(qMax(ix, 0)).time();
-}
-
-GenTime ClipController::findNextSnapMarker(const GenTime &currTime)
-{
-    CommentedTime marker(currTime, QString());
-    int ix = m_snapMarkers.indexOf(marker) + 1;
-    if (ix == 0 || ix == m_snapMarkers.count()) {
-        return getPlaytime();
-    }
-    return m_snapMarkers.at(ix).time();
-}
-
-QString ClipController::markerComment(const GenTime &t) const
-{
-    CommentedTime marker(t, QString());
-    int ix = m_snapMarkers.indexOf(marker);
-    if (ix == -1) {
-        return QString();
-    }
-    return m_snapMarkers.at(ix).comment();
-}
-
-QStringList ClipController::markerComments(const GenTime &start, const GenTime &end) const
-{
-    QStringList comments;
-    for (int count = 0; count < m_snapMarkers.count(); ++count) {
-        if (m_snapMarkers.at(count).time() >= start) {
-            if (m_snapMarkers.at(count).time() > end) {
-                break;
-            } else {
-                comments << m_snapMarkers.at(count).comment();
-            }
-        }
-    }
-    return comments;
-}
-
-CommentedTime ClipController::markerAt(const GenTime &t) const
-{
-    CommentedTime marker(t, QString());
-    int ix = m_snapMarkers.indexOf(marker);
-    if (ix == -1) {
-        return CommentedTime();
-    }
-    return m_snapMarkers.at(ix);
-}
 
 void ClipController::setZone(const QPoint &zone)
 {

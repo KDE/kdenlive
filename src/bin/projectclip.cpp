@@ -174,11 +174,6 @@ void ProjectClip::updateAudioThumbnail(const QVariantList &audioLevels)
     emit gotAudioData();
 }
 
-QStringList ProjectClip::markersText(GenTime in, GenTime out) const
-{
-    return markerComments(in, out);
-}
-
 bool ProjectClip::audioThumbCreated() const
 {
     return (m_audioThumbCreated);
@@ -652,33 +647,7 @@ bool ProjectClip::rename(const QString &name, int column)
     return edited;
 }
 
-void ProjectClip::addClipMarker(QList<CommentedTime> newMarkers, QUndoCommand *groupCommand)
-{
-    QList<CommentedTime> oldMarkers;
-    for (int i = 0; i < newMarkers.count(); ++i) {
-        CommentedTime oldMarker = markerAt(newMarkers.at(i).time());
-        if (oldMarker == CommentedTime()) {
-            oldMarker = newMarkers.at(i);
-            oldMarker.setMarkerType(-1);
-        }
-        oldMarkers << oldMarker;
-    }
-    (void)new AddMarkerCommand(this, oldMarkers, newMarkers, groupCommand);
-}
 
-bool ProjectClip::deleteClipMarkers(QUndoCommand *command)
-{
-    QList<CommentedTime> markers = m_markerModel->getAllMarkers();
-    if (markers.isEmpty()) {
-        return false;
-    }
-    for (auto &marker : markers) {
-        marker.setMarkerType(-1);
-    }
-    // TODO: group all markers in one undo/redo operation
-    addMarkers(markers);
-    return true;
-}
 
 void ProjectClip::addMarkers(QList<CommentedTime> &markers)
 {

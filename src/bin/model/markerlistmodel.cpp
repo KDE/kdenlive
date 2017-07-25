@@ -414,3 +414,26 @@ QString MarkerListModel::toJson() const
     QJsonDocument json(list);
     return QString(json.toJson());
 }
+
+
+bool MarkerListModel::deleteAllMarkers()
+{
+    QWriteLocker locker(&m_lock);
+    std::vector<GenTime> all_pos;
+    Fun local_undo = []() { return true; };
+    Fun local_redo = []() { return true; };
+    for (const auto& m : m_markerList) {
+        all_pos.push_back(m.first);
+    }
+    bool res = true;
+    for (const auto& p : all_pos) {
+        res = removeMarker(p, local_undo, local_redo);
+        if (!res) {
+            bool undone = local_undo();
+            Q_ASSERT(undone);
+            return false;
+        }
+    }
+    PUSH_UNDO(local_undo, local_redo, m_guide ? i18n("Delete all guides") : i18n("Delete all markers"));
+    return true;
+}

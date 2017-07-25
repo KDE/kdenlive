@@ -2336,7 +2336,7 @@ void MainWindow::slotDeleteAllClipMarkers()
         m_messageLabel->setMessage(i18n("Cannot find clip to remove marker"), ErrorMessage);
         return;
     }
-    pCore->bin()->deleteAllClipMarkers(clip->AbstractProjectItem::clipId());
+    clip->getMarkerModel()->deleteAllMarkers();
 }
 
 void MainWindow::slotEditClipMarker()

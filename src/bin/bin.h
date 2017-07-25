@@ -265,12 +265,6 @@ public:
     Timecode projectTimecode() const;
     /** @brief Trigger timecode format refresh where needed. */
     void updateTimecodeFormat();
-    /** @brief If clip monitor is displaying clip with id @param id, refresh markers. */
-    void refreshClipMarkers(const QString &id);
-    /** @brief Delete a clip marker. */
-    void deleteClipMarker(const QString &comment, const QString &id, const GenTime &position);
-    /** @brief Delete all markers from @param id clip. */
-    void deleteAllClipMarkers(const QString &id);
     /** @brief Edit an effect settings to a bin clip. */
     void editMasterEffect(std::shared_ptr<AbstractProjectItem> clip);
     /** @brief An effect setting was changed, update stack if displayed. */
@@ -402,7 +396,6 @@ public slots:
     void slotAddClipCut(const QString &id, int in, int out);
     /** @brief Open current clip in an external editing application */
     void slotOpenClip();
-    void slotAddClipMarker(const QString &id, const QList<CommentedTime> &newMarker, QUndoCommand *groupCommand = nullptr);
     void slotDuplicateClip();
     void slotLocateClip();
     /** @brief Request audio thumbnail for clip with id */
@@ -533,8 +526,6 @@ signals:
     void displayBinMessage(const QString &, KMessageWidget::MessageType);
     void displayMessage(const QString &, int, MessageType);
     void requesteInvalidRemoval(const QString &, const QString &, const QString &);
-    /** @brief Markers changed, refresh panel. */
-    void refreshPanelMarkers();
     /** @brief Analysis data changed, refresh panel. */
     void updateAnalysisData(const QString &);
     void openClip(std::shared_ptr<ProjectClip> c, int in = -1, int out = -1);

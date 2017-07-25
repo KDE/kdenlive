@@ -1883,12 +1883,9 @@ void Bin::showClipProperties(std::shared_ptr<ProjectClip> clip, bool forceRefres
     }
     ClipPropertiesController *panel = clip->buildProperties(m_propertiesPanel);
     connect(this, &Bin::refreshTimeCode, panel, &ClipPropertiesController::slotRefreshTimeCode);
-    // TODO refac clean callers of refreshPanelMarkers
-    // connect(this, &Bin::refreshPanelMarkers, panel, &ClipPropertiesController::slotFillMarkers);
     connect(panel, SIGNAL(updateClipProperties(QString, QMap<QString, QString>, QMap<QString, QString>)), this,
             SLOT(slotEditClipCommand(QString, QMap<QString, QString>, QMap<QString, QString>)));
     connect(panel, SIGNAL(seekToFrame(int)), m_monitor, SLOT(slotSeek(int)));
-    connect(panel, SIGNAL(addMarkers(QString, QList<CommentedTime>)), this, SLOT(slotAddClipMarker(QString, QList<CommentedTime>)));
     connect(panel, &ClipPropertiesController::editClip, this, &Bin::slotEditClip);
     connect(panel, SIGNAL(editAnalysis(QString, QString, QString)), this, SLOT(slotAddClipExtraData(QString, QString, QString)));
 
@@ -2318,19 +2315,6 @@ void Bin::doRefreshAudioThumbs(const QString &id)
 {
     if (m_monitor->activeClipId() == id) {
         slotSendAudioThumb(id);
-    }
-}
-
-void Bin::refreshClipMarkers(const QString &id)
-{
-    if (m_monitor->activeClipId() == id) {
-        m_monitor->updateMarkers();
-    }
-    if (m_propertiesPanel) {
-        QString panelId = m_propertiesPanel->property("clipId").toString();
-        if (panelId == id) {
-            emit refreshPanelMarkers();
-        }
     }
 }
 
@@ -2838,8 +2822,6 @@ void Bin::addClipCut(const QString &id, int in, int out)
         return;
     }
     sub = ProjectSubClip::construct(clip, m_itemModel, in, out, m_doc->timecode().getDisplayTimecodeFromFrames(in, KdenliveSettings::frametimecode()));
-    QStringList markersComment = clip->markersText(GenTime(in, pCore->getCurrentFps()), GenTime(out, pCore->getCurrentFps()));
-    sub->setDescription(markersComment.join(QLatin1Char(';')));
     QList<int> missingThumbs;
     missingThumbs << in;
     clip->slotExtractImage(missingThumbs);
@@ -3029,9 +3011,6 @@ void Bin::slotGotFilterJobResults(const QString &id, int startPos, int track, co
         // Add markers from returned data
         dataProcessed = true;
         int cutPos = 0;
-        auto *command = new QUndoCommand();
-        command->setText(i18n("Add Markers"));
-        QList<CommentedTime> markersList;
         int index = 1;
         bool simpleList = false;
         double sourceFps = clip->getOriginalFps();
@@ -3044,8 +3023,7 @@ void Bin::slotGotFilterJobResults(const QString &id, int startPos, int track, co
         }
         for (const QString &pos : value) {
             if (simpleList) {
-                CommentedTime m(GenTime((int)(pos.toInt() * pCore->getCurrentFps() / sourceFps), pCore->getCurrentFps()), label + pos, markersType);
-                markersList << m;
+                clip->getMarkerModel()->addMarker(GenTime((int)(pos.toInt() * pCore->getCurrentFps() / sourceFps), pCore->getCurrentFps()), label + pos, markersType);
                 index++;
                 continue;
             }
@@ -3057,12 +3035,10 @@ void Bin::slotGotFilterJobResults(const QString &id, int startPos, int track, co
             if (newPos - cutPos < 24) {
                 continue;
             }
-            CommentedTime m(GenTime(newPos + offset, pCore->getCurrentFps()), label + QString::number(index), markersType);
-            markersList << m;
+            clip->getMarkerModel()->addMarker(GenTime(newPos + offset, pCore->getCurrentFps()), label + QString::number(index), markersType);
             index++;
             cutPos = newPos;
         }
-        slotAddClipMarker(id, markersList);
     }
     if (!dataProcessed || filterInfo.contains(QStringLiteral("storedata"))) {
         // Store returned data as clip extra data
@@ -3071,61 +3047,7 @@ void Bin::slotGotFilterJobResults(const QString &id, int startPos, int track, co
     }
 }
 
-void Bin::slotAddClipMarker(const QString &id, const QList<CommentedTime> &newMarkers, QUndoCommand *groupCommand)
-{
-    std::shared_ptr<ProjectClip> clip = getBinClip(id);
-    if (!clip) {
-        return;
-    }
-    if (groupCommand == nullptr) {
-        groupCommand = new QUndoCommand;
-        groupCommand->setText(i18np("Add marker", "Add markers", newMarkers.count()));
-    }
-    clip->addClipMarker(newMarkers, groupCommand);
-    if (groupCommand->childCount() > 0) {
-        m_doc->commandStack()->push(groupCommand);
-    } else {
-        delete groupCommand;
-    }
-}
 
-void Bin::deleteClipMarker(const QString &comment, const QString &id, const GenTime &position)
-{
-    std::shared_ptr<ProjectClip> clip = getBinClip(id);
-    if (!clip) {
-        return;
-    }
-    auto *command = new QUndoCommand;
-    command->setText(i18n("Delete marker"));
-    CommentedTime marker(position, comment);
-    marker.setMarkerType(-1);
-    QList<CommentedTime> markers;
-    markers << marker;
-    clip->addClipMarker(markers, command);
-    if (command->childCount() > 0) {
-        m_doc->commandStack()->push(command);
-    } else {
-        delete command;
-    }
-}
-
-void Bin::deleteAllClipMarkers(const QString &id)
-{
-    std::shared_ptr<ProjectClip> clip = getBinClip(id);
-    if (!clip) {
-        return;
-    }
-    auto *command = new QUndoCommand;
-    command->setText(i18n("Delete clip markers"));
-    if (!clip->deleteClipMarkers(command)) {
-        doDisplayMessage(i18n("Clip has no markers"), KMessageWidget::Warning);
-    }
-    if (command->childCount() > 0) {
-        m_doc->commandStack()->push(command);
-    } else {
-        delete command;
-    }
-}
 
 void Bin::slotGetCurrentProjectImage(const QString &clipId, bool request)
 {

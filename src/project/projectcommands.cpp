@@ -154,30 +154,3 @@ void EditFolderCommand::redo()
     // if (m_doIt) m_view->slotAddFolder(m_name, m_id, false, true);
 }
 
-AddMarkerCommand::AddMarkerCommand(ProjectClip *clip, QList<CommentedTime> &oldMarkers, QList<CommentedTime> &newMarkers, QUndoCommand *parent)
-    : QUndoCommand(parent)
-    , m_clip(clip)
-    , m_oldMarkers(oldMarkers)
-    , m_newMarkers(newMarkers)
-{
-    if (m_newMarkers.isEmpty()) {
-        return;
-    }
-    if (m_newMarkers.constFirst().markerType() < 0) {
-        setText(i18n("Delete marker"));
-    } else if (m_oldMarkers.constFirst().comment().isEmpty()) {
-        setText(i18n("Add marker"));
-    } else {
-        setText(i18n("Edit marker"));
-    }
-}
-// virtual
-void AddMarkerCommand::undo()
-{
-    m_clip->addMarkers(m_oldMarkers);
-}
-// virtual
-void AddMarkerCommand::redo()
-{
-    m_clip->addMarkers(m_newMarkers);
-}

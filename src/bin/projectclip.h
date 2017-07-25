@@ -153,9 +153,6 @@ public:
     /** @brief The clip hash created from the clip's resource. */
     const QString hash();
 
-    /** @brief Returns a list of all markers comments between in ant out frames. */
-    QStringList markersText(GenTime in, GenTime out) const;
-
     /** @brief Returns true if we are using a proxy for this clip. */
     bool hasProxy() const;
 
@@ -169,9 +166,7 @@ public:
     /** @brief Returns true if the clip matched a condition, for example vcodec=mpeg1video. */
     bool matches(const QString &condition);
 
-    void addClipMarker(QList<CommentedTime> newMarkers, QUndoCommand *groupCommand);
-    bool deleteClipMarkers(QUndoCommand *groupCommand);
-    void addMarkers(QList<CommentedTime> &markers);
+   void addMarkers(QList<CommentedTime> &markers);
     /** @brief Create audio thumbnail for this clip. */
     void createAudioThumbs();
     /** @brief Returns the number of audio channels. */

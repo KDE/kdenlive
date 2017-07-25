@@ -948,8 +948,6 @@ void ClipPropertiesController::slotSaveMarkers()
     }
     file.write(m_controller->getMarkerModel()->toJson().toUtf8());
     file.close();
-
-    emit saveMarkers(m_id);
 }
 
 void ClipPropertiesController::slotLoadMarkers()
