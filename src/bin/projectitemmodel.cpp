@@ -22,6 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "projectitemmodel.h"
 #include "abstractprojectitem.h"
+#include "binplaylist.hpp"
 #include "core.h"
 #include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
@@ -40,7 +41,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ProjectItemModel::ProjectItemModel(QObject *parent)
     : AbstractTreeModel(parent)
     , m_lock(QReadWriteLock::Recursive)
-    , m_binPlaylist(new Mlt::Playlist(pCore->getCurrentProfile()->profile()))
+    , m_binPlaylist(new BinPlaylist())
     , m_clipCounter(1)
     , m_folderCounter(1)
 {
@@ -407,47 +408,16 @@ bool ProjectItemModel::requestBinClipDeletion(std::shared_ptr<AbstractProjectIte
 void ProjectItemModel::registerItem(const std::shared_ptr<TreeItem> &item)
 {
     auto clip = std::static_pointer_cast<AbstractProjectItem>(item);
-    manageBinClipInsertion(clip);
+    m_binPlaylist->manageBinClipInsertion(clip);
     AbstractTreeModel::registerItem(item);
 }
 void ProjectItemModel::deregisterItem(int id, TreeItem *item)
 {
     auto clip = static_cast<AbstractProjectItem *>(item);
-    manageBinClipDeletion(clip);
+    m_binPlaylist->manageBinClipDeletion(clip);
     AbstractTreeModel::deregisterItem(id, item);
 }
 
-void ProjectItemModel::manageBinClipInsertion(const std::shared_ptr<AbstractProjectItem> &binElem)
-{
-    switch (binElem->itemType()) {
-    case AbstractProjectItem::FolderItem: {
-        // When a folder is inserted, we have to store its path into the properties
-        if (binElem->parent()) {
-            QString propertyName = "kdenlive:folder." + binElem->parent()->clipId() + QLatin1Char('.') + binElem->clipId();
-            m_binPlaylist->set(propertyName.toUtf8().constData(), binElem->name().toUtf8().constData());
-        }
-        break;
-    }
-    default:
-        break;
-    }
-}
-
-void ProjectItemModel::manageBinClipDeletion(AbstractProjectItem *binElem)
-{
-    switch (binElem->itemType()) {
-    case AbstractProjectItem::FolderItem: {
-        // When a folder is removed, we clear the path info
-        if (!binElem->lastParentId().isEmpty()) {
-            QString propertyName = "kdenlive:folder." + binElem->lastParentId() + QLatin1Char('.') + binElem->clipId();
-            m_binPlaylist->set(propertyName.toUtf8().constData(), (char *)nullptr);
-        }
-        break;
-    }
-    default:
-        break;
-    }
-}
 
 int ProjectItemModel::getFreeFolderId()
 {

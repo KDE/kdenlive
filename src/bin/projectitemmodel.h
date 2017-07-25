@@ -33,6 +33,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <kimagecache.h>
 
 class AbstractProjectItem;
+class BinPlaylist;
 class ProjectClip;
 class ProjectFolder;
 
@@ -135,15 +136,6 @@ protected:
     /* @brief Deregister the existence of a new element*/
     void deregisterItem(int id, TreeItem *item) override;
 
-    /* @brief This function updates the underlying binPlaylist object to reflect deletion of a bin item
-       @param binElem is the bin item deleted. Note that exceptionnally, this function takes a raw pointer instead of a smart one.
-       This is because the function will be called in the middle of the element's destructor, so no smart pointer is available at that time.
-    */
-    void manageBinClipDeletion(AbstractProjectItem *binElem);
-    /* @brief This function updates the underlying binPlaylist object to reflect insertion of a bin item
-       @param binElem is the bin item inserted
-    */
-    void manageBinClipInsertion(const std::shared_ptr<AbstractProjectItem> &binElem);
 
     /* @brief Retrieves the next id available for attribution to a folder */
     int getFreeFolderId();
@@ -165,8 +157,7 @@ private:
 
     mutable QReadWriteLock m_lock; // This is a lock that ensures safety in case of concurrent access
 
-    /** @brief The MLT playlist holding our Producers */
-    std::unique_ptr<Mlt::Playlist> m_binPlaylist;
+    std::unique_ptr<BinPlaylist> m_binPlaylist;
 
     int m_clipCounter;
     int m_folderCounter;

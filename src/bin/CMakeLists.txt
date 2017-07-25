@@ -3,6 +3,7 @@ set(kdenlive_SRCS
   bin/abstractprojectitem.cpp
   bin/bin.cpp
   bin/bincommands.cpp
+  bin/binplaylist.cpp
   bin/generators/generators.cpp
   bin/model/markerlistmodel.cpp
   bin/projectclip.cpp
