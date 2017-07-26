@@ -210,9 +210,7 @@ bool ClipModel::removeFade(bool fromStart)
 bool ClipModel::adjustEffectLength(const QString &effectName, int duration)
 {
     READ_LOCK();
-    qDebug()<<"// ADJUSTING FADE: "<<hasAudio()<<", "<<!isAudioOnly();
     m_effectStack->adjustFadeLength(duration, effectName == QLatin1String("fadein"), hasAudio(), !isAudioOnly());
-    //m_effectStack->adjustEffectLength(effectName, duration, isAudioOnly());
     return true;
 }
 

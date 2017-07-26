@@ -9,9 +9,9 @@ webvfx
 
 # not usable directly or have xml definitions
 affine
-mix
 region
 
-# luma should not be shown directly as a transition, but can be used in xml,
+# luma/mix should not be shown directly as a transition, but can be used in xml,
 # so we should find a way to hide it from GUI without really blacklisting
 #luma
+#mix

@@ -116,7 +116,8 @@ void BinController::initializeBin(Mlt::Playlist playlist)
     qDebug() << "Found " << m_binPlaylist->count() << "clips";
     int max = m_binPlaylist->count();
     for (int i = 0; i < max; i++) {
-        std::shared_ptr<Mlt::Producer> producer(new Mlt::Producer(m_binPlaylist->get_clip(i)->parent()));
+        QScopedPointer<Mlt::Producer> prod(m_binPlaylist->get_clip(i));
+        std::shared_ptr<Mlt::Producer> producer(new Mlt::Producer(prod->parent()));
         qDebug() << "dealing with bin clip" << i;
         if (producer->is_blank() || !producer->is_valid()) {
             qDebug() << "producer is not valid or blank";

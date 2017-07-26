@@ -28,11 +28,14 @@
 #include "groupsmodel.hpp"
 #include "macros.hpp"
 #include "trackmodel.hpp"
+#include "transitions/transitionsrepository.hpp"
 #include <QDebug>
 #include <QFileInfo>
 #include <mlt++/MltProfile.h>
 #include <mlt++/MltTractor.h>
 #include <mlt++/MltTransition.h>
+#include <mlt++/MltField.h>
+
 #include <utility>
 
 TimelineItemModel::TimelineItemModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack)
@@ -344,6 +347,33 @@ QVariant TimelineItemModel::getTrackProperty(int tid, const QString &name)
     return getTrackById(tid)->getProperty(name);
 }
 
+void TimelineItemModel::buildTrackCompositing()
+{
+    auto it = m_allTracks.cbegin();
+    QScopedPointer<Mlt::Field> field(m_tractor->field());
+    field->lock();
+    while (it != m_allTracks.cend()) {
+        int trackId = getTrackMltIndex((*it)->getId());
+        if ((*it)->getProperty("kdenlive:audio_track").toInt() != 1) {
+            // video track, add composition
+            Mlt::Transition *transition = TransitionsRepository::get()->getTransition(QStringLiteral("qtblend"));
+            transition->set("internal_added", 237);
+            transition->set("always_active", 1);
+            int ret = field->plant_transition(*transition, 0, trackId);
+            transition->set_tracks(0, trackId);
+        }
+        // audio mix
+        Mlt::Transition *transition = TransitionsRepository::get()->getTransition(QStringLiteral("mix"));
+        transition->set("internal_added", 237);
+        transition->set("always_active", 1);
+        transition->set("combine", 1);
+        int ret = field->plant_transition(*transition, 0, trackId);
+        transition->set_tracks(0, trackId);
+        ++it;
+    }
+    field->unlock();
+}
+
 void TimelineItemModel::notifyChange(const QModelIndex &topleft, const QModelIndex &bottomright, bool start, bool duration, bool updateThumb)
 {
     QVector<int> roles;
@@ -393,3 +423,4 @@ void TimelineItemModel::_resetView()
     beginResetModel();
     endResetModel();
 }
+

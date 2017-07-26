@@ -94,6 +94,10 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
         }
     }
 
+
+    // build internal track compositing
+    timeline->buildTrackCompositing();
+
     // Loading compositions
     QScopedPointer<Mlt::Service> service(tractor.producer());
     while ((service != nullptr) && service->is_valid()) {
