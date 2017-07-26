@@ -82,7 +82,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGro
 {
     m_commandStack = std::make_shared<DocUndoStack>(undoGroup);
     m_guideModel.reset(new MarkerListModel(m_commandStack, this));
-    connect(m_guideModel.get(), &MarkerListModel::dataImported, this, &KdenliveDoc::guidesChanged);
+    connect(m_guideModel.get(), &MarkerListModel::modelChanged, this, &KdenliveDoc::guidesChanged);
 
     m_clipManager = new ClipManager(this);
     connect(m_clipManager, SIGNAL(displayMessage(QString, int)), parent, SLOT(slotGotProgressInfo(QString, int)));

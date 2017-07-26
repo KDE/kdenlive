@@ -150,6 +150,8 @@ protected:
     /** @brief Helper function that retrieves a pointer to the markermodel, given whether it's a guide model and its clipId*/
     static std::shared_ptr<MarkerListModel> getModel(bool guide, const QString &clipId);
 
+    /* @brief Connects the signals of this object */
+    void setup();
 private:
     std::weak_ptr<DocUndoStack> m_undoStack;
 
@@ -162,7 +164,7 @@ private:
     std::vector<std::weak_ptr<SnapModel>> m_registeredSnaps;
 
 signals:
-    void dataImported();
+    void modelChanged();
 
 public:
     // this is to enable for range loops

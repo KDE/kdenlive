@@ -44,6 +44,7 @@ MarkerListModel::MarkerListModel(const QString &clipId, std::weak_ptr<DocUndoSta
     , m_clipId(clipId)
     , m_lock(QReadWriteLock::Recursive)
 {
+    setup();
 }
 
 MarkerListModel::MarkerListModel(std::weak_ptr<DocUndoStack> undo_stack, QObject *parent)
@@ -52,6 +53,20 @@ MarkerListModel::MarkerListModel(std::weak_ptr<DocUndoStack> undo_stack, QObject
     , m_guide(true)
     , m_lock(QReadWriteLock::Recursive)
 {
+    setup();
+}
+
+void MarkerListModel::setup()
+{
+    // We connect the signals of the abstractitemmodel to a more generic one.
+    connect(this, &MarkerListModel::columnsMoved, this, &MarkerListModel::modelChanged);
+    connect(this, &MarkerListModel::columnsRemoved, this, &MarkerListModel::modelChanged);
+    connect(this, &MarkerListModel::columnsInserted, this, &MarkerListModel::modelChanged);
+    connect(this, &MarkerListModel::rowsMoved, this, &MarkerListModel::modelChanged);
+    connect(this, &MarkerListModel::rowsRemoved, this, &MarkerListModel::modelChanged);
+    connect(this, &MarkerListModel::rowsInserted, this, &MarkerListModel::modelChanged);
+    connect(this, &MarkerListModel::modelReset, this, &MarkerListModel::modelChanged);
+    connect(this, &MarkerListModel::dataChanged, this, &MarkerListModel::modelChanged);
 }
 
 bool MarkerListModel::addMarker(GenTime pos, const QString &comment, int type, Fun &undo, Fun &redo)
@@ -397,7 +412,6 @@ bool MarkerListModel::importFromJson(const QString &data, bool ignoreConflicts, 
     if (pushUndo) {
         PUSH_UNDO(undo, redo, m_guide ? i18n("Import guides") : i18n("Import markers"));
     }
-    emit dataImported();
     return true;
 }
 
