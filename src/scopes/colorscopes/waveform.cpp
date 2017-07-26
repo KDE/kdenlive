@@ -88,10 +88,10 @@ void Waveform::writeConfig()
 QRect Waveform::scopeRect()
 {
     // Distance from top/left/right
-    int offset = 6;
-    QPoint topleft(offset, ui->verticalSpacer->geometry().y() + offset);
+    int border = 6;
+    QPoint topleft(border, ui->verticalSpacer->geometry().y() + border);
 
-    return QRect(topleft, this->size() - QSize(offset + topleft.x(), offset + topleft.y()));
+    return QRect(topleft, this->size() - QSize(border + topleft.x(), border + topleft.y()));
 }
 
 ///// Implemented methods /////
