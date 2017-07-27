@@ -75,6 +75,9 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, std::shared_ptr<
     hash();
     connect(this, &ProjectClip::updateJobStatus, this, &ProjectClip::setJobStatus);
     connect(this, &ProjectClip::updateThumbProgress, model.get(), &ProjectItemModel::updateThumbProgress);
+    connect(m_markerModel.get(), &MarkerListModel::modelChanged, [&](){
+            setProducerProperty(QStringLiteral("kdenlive:markers"), m_markerModel->toJson());
+        });
     QString markers = getProducerProperty(QStringLiteral("kdenlive:markers"));
     if (!markers.isEmpty()) {
         QMetaObject::invokeMethod(m_markerModel.get(), "importFromJson", Qt::QueuedConnection, Q_ARG(const QString &, markers), Q_ARG(bool, true), Q_ARG(bool, false));
@@ -119,6 +122,9 @@ ProjectClip::ProjectClip(const QDomElement &description, const QIcon &thumb, std
     }
     connect(this, &ProjectClip::updateJobStatus, this, &ProjectClip::setJobStatus);
     connect(this, &ProjectClip::updateThumbProgress, model.get(), &ProjectItemModel::updateThumbProgress);
+    connect(m_markerModel.get(), &MarkerListModel::modelChanged, [&](){
+            setProducerProperty(QStringLiteral("kdenlive:markers"), m_markerModel->toJson());
+        });
 }
 
 std::shared_ptr<ProjectClip> ProjectClip::construct(const QDomElement &description, const QIcon &thumb, std::shared_ptr<ProjectItemModel> model)
