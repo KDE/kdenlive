@@ -52,6 +52,7 @@ public:
        This is because the function will be called in the middle of the element's destructor, so no smart pointer is available at that time.
     */
     void manageBinClipDeletion(AbstractProjectItem *binElem);
+
     /* @brief This function updates the underlying binPlaylist object to reflect insertion of a bin item
        @param binElem is the bin item inserted
     */
@@ -61,6 +62,7 @@ protected:
     /* @brief This is an helper function that removes a clip from the playlist given its id
      */
     void removeBinClip(const QString &id);
+
     /* @brief This handles the fact that a clip has changed its producer (for example, loading is done)
        It should be called directly as a slot of ClipController's signal, so you probably don't want to call this directly.
        @param id: binId of the producer

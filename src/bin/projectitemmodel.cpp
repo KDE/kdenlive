@@ -42,8 +42,7 @@ ProjectItemModel::ProjectItemModel(QObject *parent)
     : AbstractTreeModel(parent)
     , m_lock(QReadWriteLock::Recursive)
     , m_binPlaylist(new BinPlaylist())
-    , m_clipCounter(1)
-    , m_folderCounter(1)
+    , m_nextId(1)
 {
     KImageCache::deleteCache(QStringLiteral("kdenlive-thumbs"));
     m_pixmapCache.reset(new KImageCache(QStringLiteral("kdenlive-thumbs"), 10000000));
@@ -340,8 +339,7 @@ void ProjectItemModel::clean()
         rootItem->removeChild(child);
     }
     Q_ASSERT(rootItem->childCount() == 0);
-    m_clipCounter = 1;
-    m_folderCounter = 1;
+    m_nextId = 1;
     m_pixmapCache->clear();
 }
 
@@ -421,12 +419,12 @@ void ProjectItemModel::deregisterItem(int id, TreeItem *item)
 
 int ProjectItemModel::getFreeFolderId()
 {
-    return m_folderCounter++;
+    return m_nextId++;
 }
 
 int ProjectItemModel::getFreeClipId()
 {
-    return m_clipCounter++;
+    return m_nextId++;
 }
 
 bool ProjectItemModel::requestAddFolder(QString &id, const QString &name, const QString &parentId, Fun &undo, Fun &redo)

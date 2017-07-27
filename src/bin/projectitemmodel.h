@@ -159,8 +159,7 @@ private:
 
     std::unique_ptr<BinPlaylist> m_binPlaylist;
 
-    int m_clipCounter;
-    int m_folderCounter;
+    int m_nextId;
 signals:
     void discardJobs(const QString &id, AbstractClipJob::JOBTYPE type);
     void startJob(const QString &id, AbstractClipJob::JOBTYPE type);

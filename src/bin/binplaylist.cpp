@@ -47,7 +47,6 @@ void BinPlaylist::manageBinClipInsertion(const std::shared_ptr<AbstractProjectIt
     case AbstractProjectItem::ClipItem: {
         Q_ASSERT(m_allClips.count(id) == 0);
         auto clip = std::static_pointer_cast<ProjectClip>(binElem);
-        qDebug() << "BBBBBBBBBBBBBPPPPPPPPPPPP insert"<<id << clip->isValid();
         if (clip->isValid()) {
             m_binPlaylist->append(*clip->originalProducer().get());
         } else {
@@ -78,7 +77,6 @@ void BinPlaylist::manageBinClipDeletion(AbstractProjectItem *binElem)
         break;
     }
     case AbstractProjectItem::ClipItem: {
-        qDebug() << "BBBBBBBBBBBBBPPPPPPPPPPPP delete"<<id;
         Q_ASSERT(m_allClips.count(id) > 0);
         m_allClips.erase(id);
         removeBinClip(id);
@@ -107,7 +105,6 @@ void BinPlaylist::removeBinClip(const QString &id)
 
 void BinPlaylist::changeProducer(const QString &id, const std::shared_ptr<Mlt::Producer> &producer)
 {
-    qDebug() << "BBBBBBBBBBBBBPPPPPPPPPPPP change"<<id;
     Q_ASSERT(m_allClips.count(id) > 0);
     removeBinClip(id);
     m_binPlaylist->append(*producer.get());
