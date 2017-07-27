@@ -3038,7 +3038,7 @@ void MainWindow::slotGetNewLumaStuff()
 {
     if (getNewStuff(QStringLiteral("kdenlive_wipes.knsrc")) > 0) {
         initEffects::refreshLumas();
-        pCore->projectManager()->currentTimeline()->projectView()->reloadTransitionLumas();
+        // TODO: refresh currently displayd trans ?
     }
 }
 
