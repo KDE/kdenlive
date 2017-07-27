@@ -84,6 +84,7 @@ public:
     void notifyChange(const QModelIndex &topleft, const QModelIndex &bottomright, bool start, bool duration, bool updateThumb) override;
     void notifyChange(const QModelIndex &topleft, const QModelIndex &bottomright, QVector<int> roles) override;
     void buildTrackCompositing();
+    static const QString getCompositingTransition();
 
     virtual void _beginRemoveRows(const QModelIndex &, int, int) override;
     virtual void _beginInsertRows(const QModelIndex &, int, int) override;

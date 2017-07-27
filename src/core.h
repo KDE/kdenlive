@@ -139,7 +139,7 @@ public:
     void pushUndo(const Fun &undo, const Fun &redo, const QString &text);
     void pushUndo(QUndoCommand *command);
     /** @brief display a user info/warning message in statusbar */
-    void displayMessage(const QString &message, MessageType type, int timeout);
+    void displayMessage(const QString &message, MessageType type, int timeout = -1);
     /** @brief Clear asset view if itemId is displayed. */
     void clearAssetPanel(int itemId);
     void adjustAssetRange(int itemId, int in, int out);

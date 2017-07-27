@@ -29,6 +29,8 @@
 #include "macros.hpp"
 #include "trackmodel.hpp"
 #include "transitions/transitionsrepository.hpp"
+#include "kdenlivesettings.h"
+#include "core.h"
 #include <QDebug>
 #include <QFileInfo>
 #include <mlt++/MltProfile.h>
@@ -352,11 +354,12 @@ void TimelineItemModel::buildTrackCompositing()
     auto it = m_allTracks.cbegin();
     QScopedPointer<Mlt::Field> field(m_tractor->field());
     field->lock();
+    QString composite = getCompositingTransition();
     while (it != m_allTracks.cend()) {
         int trackId = getTrackMltIndex((*it)->getId());
-        if ((*it)->getProperty("kdenlive:audio_track").toInt() != 1) {
+        if (!composite.isEmpty() && (*it)->getProperty("kdenlive:audio_track").toInt() != 1) {
             // video track, add composition
-            Mlt::Transition *transition = TransitionsRepository::get()->getTransition(QStringLiteral("qtblend"));
+            Mlt::Transition *transition = TransitionsRepository::get()->getTransition(composite);
             transition->set("internal_added", 237);
             transition->set("always_active", 1);
             int ret = field->plant_transition(*transition, 0, trackId);
@@ -372,6 +375,27 @@ void TimelineItemModel::buildTrackCompositing()
         ++it;
     }
     field->unlock();
+    if (composite.isEmpty()) {
+        pCore->displayMessage(i18n("Could not setup track compositing, check your install"), MessageType::ErrorMessage);
+    }
+}
+
+// static
+const QString TimelineItemModel::getCompositingTransition()
+{
+    if (KdenliveSettings::gpu_accel()) {
+        return QStringLiteral("movit.overlay");
+    }
+    if (TransitionsRepository::get()->exists(QStringLiteral("qtblend"))) {
+        return QStringLiteral("qtblend");
+    }
+    if (TransitionsRepository::get()->exists(QStringLiteral("frei0r.cairoblend"))) {
+        return QStringLiteral("frei0r.cairoblend");
+    }
+    if (TransitionsRepository::get()->exists(QStringLiteral("composite"))) {
+        return QStringLiteral("composite");
+    }
+    return QString();
 }
 
 void TimelineItemModel::notifyChange(const QModelIndex &topleft, const QModelIndex &bottomright, bool start, bool duration, bool updateThumb)
