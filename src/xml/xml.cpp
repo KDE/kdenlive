@@ -44,7 +44,7 @@ QVector<QDomNode> Xml::getDirectChildrenByTagName(const QDomElement &element, co
     auto children = element.childNodes();
     QVector<QDomNode> result;
     for (int i = 0; i < children.count(); ++i) {
-        if (children.item(i).isNull()) {
+        if (children.item(i).isNull() || !children.item(i).isElement()) {
             continue;
         }
         QDomElement child = children.item(i).toElement();
@@ -53,4 +53,27 @@ QVector<QDomNode> Xml::getDirectChildrenByTagName(const QDomElement &element, co
         }
     }
     return result;
+}
+
+QString Xml::getTagContentByAttribute(const QDomElement &element, const QString &tagName, const QString &attribute, const QString &value, const QString &defaultReturn, bool directChildren)
+{
+    QDomNodeList nodes;
+    if (directChildren) {
+        nodes = element.childNodes();
+    } else {
+        nodes = element.elementsByTagName(tagName);
+    }
+    for (int i = 0; i < nodes.count(); ++i) {
+        auto current = nodes.item(i);
+        if (current.isNull() || !current.isElement()) {
+            continue;
+        }
+        auto elem = current.toElement();
+        if (elem.tagName() == tagName && elem.hasAttribute(attribute)) {
+            if (elem.attribute(attribute) == value) {
+                return elem.text();
+            }
+        }
+    }
+    return defaultReturn;
 }

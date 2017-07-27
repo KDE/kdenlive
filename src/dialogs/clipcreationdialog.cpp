@@ -33,6 +33,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "titletemplatedialog.h"
 #include "ui_colorclip_ui.h"
 #include "ui_qtextclip_ui.h"
+#include "xml/xml.hpp"
 
 #include "klocalizedstring.h"
 #include <KFileWidget>
@@ -150,6 +151,8 @@ void ClipCreationDialog::createColorClip(KdenliveDoc *doc, const QStringList &gr
             properties.insert(QStringLiteral("kdenlive:folderid"), groupInfo.at(0));
         }
         addXmlProperties(prod, properties);
+        qDebug() << xml.toString();
+        qDebug() << Xml::getTagContentByAttribute(xml.documentElement(), QStringLiteral("property"), QStringLiteral("name"), QStringLiteral("resource"));
         AddClipCommand *command = new AddClipCommand(bin, xml.documentElement(), QString::number(id), true);
         doc->commandStack()->push(command);
     }

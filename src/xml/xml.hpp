@@ -44,6 +44,15 @@ namespace Xml
        This is an alternative to QDomElement::elementsByTagName which returns also non-direct children
     */
     QVector<QDomNode> getDirectChildrenByTagName(const QDomElement &element, const QString &tagName);
+
+    /* @brief Returns the content of a children tag of @param element, which respects the following conditions :
+       - Its type is @param tagName
+       - It as an attribute named @param attribute with value @param value
+       For example, if your element is <html><param val="foo">bar</param></html>, you can retrieve "bar" with parameters: tagName="param", attribute="val", and value="foo"
+       Returns @param defaultReturn when nothing is found. The methods returns the first match found, so make sure there can't be more than one.
+       If @param directChildren is true, only immediate children of the node are considered
+    */
+    QString getTagContentByAttribute(const QDomElement &element, const QString &tagName, const QString &attribute, const QString &value, const QString &defaultReturn = QString(), bool directChildren = true);
 }
 
 #endif
