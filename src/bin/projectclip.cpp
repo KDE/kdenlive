@@ -653,30 +653,6 @@ bool ProjectClip::rename(const QString &name, int column)
     return edited;
 }
 
-
-
-void ProjectClip::addMarkers(QList<CommentedTime> &markers)
-{
-    // TODO refac : this must be cleaned
-    for (int i = 0; i < markers.count(); ++i) {
-        if (markers.at(i).markerType() < 0) {
-            m_markerModel->removeMarker(markers.at(i).time());
-        } else {
-            m_markerModel->addMarker(markers.at(i).time(), markers.at(i).comment(), markers.at(i).markerType());
-        }
-    }
-    // refresh markers in clip monitor
-    //if (auto ptr = m_model.lock()) std::static_pointer_cast<ProjectItemModel>(ptr)->bin()->refreshClipMarkers(m_binId);
-    // refresh markers in timeline clips
-    setProducerProperty(QStringLiteral("kdenlive:markers"), m_markerModel->toJson());
-    emit refreshClipDisplay();
-}
-
-CommentedTime ProjectClip::getMarker(const GenTime &pos, bool *ok) const
-{
-    return m_markerModel->getMarker(pos, ok);
-}
-
 /*QVariant ProjectClip::getData(DataType type) const
 {
     switch (type) {

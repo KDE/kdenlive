@@ -1052,22 +1052,16 @@ void Monitor::checkOverlay(int pos)
         pos = m_timePos->getValue();
     }
     QPoint zone = m_glMonitor->getControllerProxy()->zone();
-    if (m_id == Kdenlive::ClipMonitor) {
-        if (m_controller) {
-            bool found = false;
-            CommentedTime marker = m_controller->getMarker(GenTime(pos, m_monitorManager->timecode().fps()), &found);
-            if (!found) {
-                if (pos == zone.x()) {
-                    overlayText = i18n("In Point");
-                } else if (pos == zone.y()) {
-                    overlayText = i18n("Out Point");
-                }
-            } else
-                overlayText = marker.comment();
-        }
+    std::shared_ptr<MarkerListModel> model;
+    if (m_id == Kdenlive::ClipMonitor && m_controller) {
+        model = m_controller->getMarkerModel();
     } else if (m_id == Kdenlive::ProjectMonitor && pCore->currentDoc()) {
+        model = pCore->currentDoc()->getGuideModel();
+    }
+
+    if (model) {
         bool found = false;
-        CommentedTime marker = pCore->currentDoc()->getGuide(GenTime(pos, m_monitorManager->timecode().fps()), &found);
+        CommentedTime marker = model->getMarker(GenTime(pos, m_monitorManager->timecode().fps()), &found);
         if (!found) {
             if (pos == zone.x()) {
                 overlayText = i18n("In Point");
@@ -1076,7 +1070,6 @@ void Monitor::checkOverlay(int pos)
             }
         } else {
             overlayText = marker.comment();
-            qDebug() << "/// POSITOIN: " << pos << " = " << overlayText;
         }
     }
     m_glMonitor->rootObject()->setProperty("markerText", overlayText);
@@ -1999,29 +1992,22 @@ void Monitor::slotEditInlineMarker()
 {
     QQuickItem *root = m_glMonitor->rootObject();
     if (root) {
+        std::shared_ptr<MarkerListModel> model;
         if (m_controller) {
             // We are editing a clip marker
-            QString newComment = root->property("markerText").toString();
-            bool found = false;
-            CommentedTime oldMarker = m_controller->getMarker(m_timePos->gentime(), &found);
-            if (!found || newComment == oldMarker.comment()) {
-                // No change
-                return;
-            }
-            oldMarker.setComment(newComment);
-            m_controller->addMarkers(QList<CommentedTime>() << oldMarker);
+            model = m_controller->getMarkerModel();
         } else {
-            // We are editing a timeline guide
-            QString newComment = root->property("markerText").toString();
-            bool found = false;
-            CommentedTime oldMarker = pCore->currentDoc()->getGuide(m_timePos->gentime(), &found);
-            if (!found || newComment == oldMarker.comment()) {
-                // No change
-                return;
-            }
-            oldMarker.setComment(newComment);
-            pCore->currentDoc()->addGuides(QList<CommentedTime>() << oldMarker);
+            model = pCore->currentDoc()->getGuideModel();
         }
+        QString newComment = root->property("markerText").toString();
+        bool found = false;
+        CommentedTime oldMarker = model->getMarker(m_timePos->gentime(), &found);
+        if (!found || newComment == oldMarker.comment()) {
+            // No change
+            return;
+        }
+        oldMarker.setComment(newComment);
+        model->addMarker(oldMarker.time(), oldMarker.comment(), oldMarker.markerType());
     }
 }
 

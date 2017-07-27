@@ -58,7 +58,6 @@
 #include "scopes/scopemanager.h"
 #include "timeline/clipitem.h"
 #include "timeline/customtrackview.h"
-#include "timeline/markerdialog.h"
 #include "timeline/timeline.h"
 #include "timeline/timelinesearch.h"
 #include "timeline/track.h"
@@ -2254,10 +2253,6 @@ void MainWindow::slotAddClipMarker()
     std::shared_ptr<ProjectClip> clip(nullptr);
     GenTime pos;
     if (m_projectMonitor->isActive()) {
-        if (getMainTimeline()) {
-            // TODO
-            // getMainTimeline()->addMarkerInCurrentClip();
-        }
         return;
     } else {
         clip = m_clipMonitor->currentController();
@@ -2268,16 +2263,7 @@ void MainWindow::slotAddClipMarker()
         return;
     }
     QString id = clip->AbstractProjectItem::clipId();
-    CommentedTime marker(pos, i18n("Marker"), KdenliveSettings::default_marker_type());
-    QPointer<MarkerDialog> d = new MarkerDialog(clip.get(), marker, project->timecode(), i18n("Add Marker"), this);
-    if (d->exec() == QDialog::Accepted) {
-        clip->addMarkers(QList<CommentedTime>() << d->newMarker());
-        QString hash = clip->getClipHash();
-        if (!hash.isEmpty()) {
-            project->cacheImage(hash + QLatin1Char('#') + QString::number(d->newMarker().time().frames(pCore->getCurrentFps())), d->markerImage());
-        }
-    }
-    delete d;
+    clip->getMarkerModel()->editMarkerGui(pos, this, true, clip.get());
 }
 
 void MainWindow::slotDeleteClipMarker(bool allowGuideDeletion)
@@ -2304,7 +2290,7 @@ void MainWindow::slotDeleteClipMarker(bool allowGuideDeletion)
 
     QString id = clip->AbstractProjectItem::clipId();
     bool markerFound = false;
-    CommentedTime marker = clip->getMarker(pos, &markerFound);
+    CommentedTime marker = clip->getMarkerModel()->getMarker(pos, &markerFound);
     if (!markerFound) {
         if (allowGuideDeletion && m_projectMonitor->isActive()) {
             slotDeleteGuide();
@@ -2313,9 +2299,7 @@ void MainWindow::slotDeleteClipMarker(bool allowGuideDeletion)
         }
         return;
     }
-    marker.setMarkerType(-1);
-    QList<CommentedTime> markers = {marker};
-    clip->addMarkers(markers);
+    clip->getMarkerModel()->removeMarker(pos);
 }
 
 void MainWindow::slotDeleteAllClipMarkers()
@@ -2336,7 +2320,11 @@ void MainWindow::slotDeleteAllClipMarkers()
         m_messageLabel->setMessage(i18n("Cannot find clip to remove marker"), ErrorMessage);
         return;
     }
-    clip->getMarkerModel()->deleteAllMarkers();
+    bool ok = clip->getMarkerModel()->removeAllMarkers();
+    if (!ok) {
+        m_messageLabel->setMessage(i18n("An error occured while deleting markers"), ErrorMessage);
+        return;
+    }
 }
 
 void MainWindow::slotEditClipMarker()
@@ -2357,34 +2345,19 @@ void MainWindow::slotEditClipMarker()
         pos = GenTime(m_clipMonitor->position(), pCore->getCurrentFps());
     }
     if (!clip) {
-        m_messageLabel->setMessage(i18n("Cannot find clip to remove marker"), ErrorMessage);
+        m_messageLabel->setMessage(i18n("Cannot find clip to edit marker"), ErrorMessage);
         return;
     }
 
     QString id = clip->AbstractProjectItem::clipId();
     bool markerFound = false;
-    CommentedTime oldMarker = clip->getMarker(pos, &markerFound);
+    CommentedTime oldMarker = clip->getMarkerModel()->getMarker(pos, &markerFound);
     if (!markerFound) {
         m_messageLabel->setMessage(i18n("No marker found at cursor time"), ErrorMessage);
         return;
     }
 
-    QPointer<MarkerDialog> d = new MarkerDialog(clip.get(), oldMarker, pCore->currentDoc()->timecode(), i18n("Edit Marker"), this);
-    if (d->exec() == QDialog::Accepted) {
-        clip->addMarkers(QList<CommentedTime>() << d->newMarker());
-        QString hash = clip->getClipHash();
-        if (!hash.isEmpty()) {
-            pCore->currentDoc()->cacheImage(hash + QLatin1Char('#') + QString::number(d->newMarker().time().frames(pCore->getCurrentFps())),
-                                                           d->markerImage());
-        }
-        if (d->newMarker().time() != pos) {
-            // remove old marker
-            oldMarker.setMarkerType(-1);
-            QList<CommentedTime> markers = {oldMarker};
-            clip->addMarkers(markers);
-        }
-    }
-    delete d;
+    clip->getMarkerModel()->editMarkerGui(pos, this, false, clip.get());
 }
 
 void MainWindow::slotAddMarkerGuideQuickly()
@@ -2402,7 +2375,7 @@ void MainWindow::slotAddMarkerGuideQuickly()
             return;
         }
         CommentedTime marker(pos, pCore->currentDoc()->timecode().getDisplayTimecode(pos, false), KdenliveSettings::default_marker_type());
-        clip->addMarkers(QList<CommentedTime>() << marker);
+        clip->getMarkerModel()->addMarker(marker.time(), marker.comment(), marker.markerType());
     } else {
         getMainTimeline()->controller()->switchGuide();
     }

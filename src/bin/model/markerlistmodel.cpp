@@ -23,6 +23,7 @@
 #include "bin/bin.h"
 #include "bin/projectclip.h"
 #include "core.h"
+#include "dialogs/markerdialog.h"
 #include "doc/docundostack.hpp"
 #include "kdenlivesettings.h"
 #include "macros.hpp"
@@ -94,7 +95,7 @@ bool MarkerListModel::addMarker(GenTime pos, const QString &comment, int type, F
     return false;
 }
 
-void MarkerListModel::addMarker(GenTime pos, const QString &comment, int type)
+bool MarkerListModel::addMarker(GenTime pos, const QString &comment, int type)
 {
     QWriteLocker locker(&m_lock);
     Fun undo = []() { return true; };
@@ -109,6 +110,7 @@ void MarkerListModel::addMarker(GenTime pos, const QString &comment, int type)
             PUSH_UNDO(undo, redo, m_guide ? i18n("Add guide") : i18n("Add marker"));
         }
     }
+    return res;
 }
 
 bool MarkerListModel::removeMarker(GenTime pos, Fun &undo, Fun &redo)
@@ -126,7 +128,7 @@ bool MarkerListModel::removeMarker(GenTime pos, Fun &undo, Fun &redo)
     return false;
 }
 
-void MarkerListModel::removeMarker(GenTime pos)
+bool MarkerListModel::removeMarker(GenTime pos)
 {
     QWriteLocker locker(&m_lock);
     Fun undo = []() { return true; };
@@ -136,36 +138,16 @@ void MarkerListModel::removeMarker(GenTime pos)
     if (res) {
         PUSH_UNDO(undo, redo, m_guide ? i18n("Delete guide") : i18n("Delete marker"));
     }
+    return res;
 }
 
-void MarkerListModel::removeAllMarkers()
-{
-    QWriteLocker locker(&m_lock);
-    Fun undo = []() { return true; };
-    Fun redo = []() { return true; };
-
-    bool res = false;
-    QList <GenTime> times;
-    // Collect marker positions
-    for (const auto &marker : m_markerList) {
-        times << marker.first;
-    }
-    // delete
-    for (int i = 0; i < times.count(); i++) {
-        res = removeMarker(times.at(i), undo, redo);
-    }
-    if (res) {
-        PUSH_UNDO(undo, redo, m_guide ? i18n("Delete all guides") : i18n("Delete all markers"));
-    }
-}
-
-void MarkerListModel::editMarker(GenTime oldPos, GenTime pos, const QString &comment, int type)
+bool MarkerListModel::editMarker(GenTime oldPos, GenTime pos, const QString &comment, int type)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_markerList.count(oldPos) > 0);
     QString oldComment = m_markerList[oldPos].first;
     int oldType = m_markerList[oldPos].second;
-    if (oldPos == pos && oldComment == comment && oldType == type) return;
+    if (oldPos == pos && oldComment == comment && oldType == type) return true;
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     bool res = removeMarker(oldPos, undo, redo);
@@ -178,6 +160,7 @@ void MarkerListModel::editMarker(GenTime oldPos, GenTime pos, const QString &com
         bool undone = undo();
         Q_ASSERT(undone);
     }
+    return res;
 }
 
 Fun MarkerListModel::changeComment_lambda(GenTime pos, const QString &comment, int type)
@@ -431,7 +414,7 @@ QString MarkerListModel::toJson() const
 }
 
 
-bool MarkerListModel::deleteAllMarkers()
+bool MarkerListModel::removeAllMarkers()
 {
     QWriteLocker locker(&m_lock);
     std::vector<GenTime> all_pos;
@@ -451,4 +434,26 @@ bool MarkerListModel::deleteAllMarkers()
     }
     PUSH_UNDO(local_undo, local_redo, m_guide ? i18n("Delete all guides") : i18n("Delete all markers"));
     return true;
+}
+
+bool MarkerListModel::editMarkerGui(const GenTime &pos, QWidget *parent, bool createIfNotFound, ClipController* clip)
+{
+    bool exists;
+    auto marker = getMarker(pos, &exists);
+    Q_ASSERT(exists || createIfNotFound);
+
+    if (!exists && createIfNotFound) {
+        marker = CommentedTime(GenTime(), QString());
+    }
+
+    QScopedPointer<MarkerDialog> dialog(new MarkerDialog(clip, marker, pCore->bin()->projectTimecode(), m_guide ? i18n("Edit guide") : i18n("Edit marker"), parent));
+
+    if (dialog->exec() == QDialog::Accepted) {
+        marker = dialog->newMarker();
+        if (exists) {
+            return editMarker(pos, marker.time(), marker.comment(), marker.markerType());
+        }
+        return addMarker(marker.time(), marker.comment(), marker.markerType());
+    }
+    return false;
 }

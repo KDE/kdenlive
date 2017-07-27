@@ -12,7 +12,6 @@ set(kdenlive_SRCS
   timeline/guide.cpp
   timeline/headertrack.cpp
   timeline/keyframeview.cpp
-  timeline/markerdialog.cpp
   timeline/spacerdialog.cpp
   timeline/timeline.cpp
   timeline/timelinecommands.cpp

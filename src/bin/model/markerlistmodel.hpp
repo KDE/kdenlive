@@ -32,6 +32,7 @@
 #include <map>
 #include <memory>
 
+class ClipController;
 class DocUndoStack;
 class SnapModel;
 
@@ -61,7 +62,7 @@ public:
        @param comment is the text associated with the marker
        @param type is the type (color) associated with the marker. If -1 is passed, then the value is pulled from kdenlive's defaults
      */
-    void addMarker(GenTime pos, const QString &comment, int type = -1);
+    bool addMarker(GenTime pos, const QString &comment, int type = -1);
 
 protected:
     /* @brief Same function but accumulates undo/redo */
@@ -69,8 +70,9 @@ protected:
 
 public:
     /* @brief Removes the marker at the given position. */
-    void removeMarker(GenTime pos);
-    void removeAllMarkers();
+    bool removeMarker(GenTime pos);
+    /* @brief Delete all the markers of the model */
+    bool removeAllMarkers();
 
 protected:
     /* @brief Same function but accumulates undo/redo */
@@ -83,7 +85,7 @@ public:
        @param comment is the text associated with the marker
        @param type is the type (color) associated with the marker. If -1 is passed, then the value is pulled from kdenlive's defaults
     */
-    void editMarker(GenTime oldPos, GenTime pos, const QString &comment, int type = -1);
+    bool editMarker(GenTime oldPos, GenTime pos, const QString &comment, int type = -1);
 
     /* @brief This describes the available markers type and their corresponding colors */
     static std::array<QColor, 5> markerTypes;
@@ -93,9 +95,6 @@ public:
 
     /* @brief Returns all markers in model */
     QList<CommentedTime> getAllMarkers() const;
-
-    /* @brief Delete all the markers of the model */
-    bool deleteAllMarkers();
 
     /* @brief Returns true if a marker exists at given pos
        Notice that add/remove queries are done in real time (gentime), but this request is made in frame
@@ -112,6 +111,15 @@ public:
 
     /* @brief Exports the model to json using format above */
     QString toJson() const;
+
+    /* @brief Shows a dialog to edit a marker/guide
+       @param pos: position of the marker to edit, or new position for a marker
+       @param widget: qt widget that will be the parent of the dialog
+       @param createIfNotFound: if true, we create a marker if none is found at pos
+       @param clip: pointer to the clip if we are editing a marker
+       @return true if dialog was accepted and modification successful
+     */
+    bool editMarkerGui(const GenTime &pos, QWidget *parent, bool createIfNotFound, ClipController* clip = nullptr);
 
     // Mandatory overloads
     QVariant data(const QModelIndex &index, int role) const override;

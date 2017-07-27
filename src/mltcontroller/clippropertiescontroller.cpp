@@ -29,7 +29,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "kdenlivesettings.h"
 #include "project/projectmanager.h"
 #include "timecodedisplay.h"
-#include "timeline/markerdialog.h"
 #include "utils/KoIconUtils.h"
 #include "widgets/choosecolorwidget.h"
 
@@ -895,14 +894,7 @@ void ClipPropertiesController::slotEditMarker()
     auto current = m_markerTree->currentIndex();
     if (!current.isValid()) return;
     GenTime pos(markerModel->data(current, MarkerListModel::PosRole).toDouble());
-    bool markerFound = false;
-    CommentedTime marker = markerModel->getMarker(pos, &markerFound);
-    Q_ASSERT(markerFound);
-    QScopedPointer<MarkerDialog> d(new MarkerDialog(m_controller, marker, m_tc, i18n("Edit Marker"), this));
-    if (d->exec() == QDialog::Accepted) {
-        marker = d->newMarker();
-        markerModel->editMarker(pos, marker.time(), marker.comment(), marker.markerType());
-    }
+    markerModel->editMarkerGui(pos, this, false, m_controller);
 }
 
 void ClipPropertiesController::slotDeleteMarker()
@@ -916,12 +908,9 @@ void ClipPropertiesController::slotDeleteMarker()
 
 void ClipPropertiesController::slotAddMarker()
 {
-    CommentedTime marker(GenTime(m_controller->originalProducer()->position(), m_tc.fps()), i18n("Marker"));
-    QScopedPointer<MarkerDialog> d(new MarkerDialog(m_controller, marker, m_tc, i18n("Add Marker"), this));
-    if (d->exec() == QDialog::Accepted) {
-        marker = d->newMarker();
-        m_controller->getMarkerModel()->addMarker(marker.time(), marker.comment(), marker.markerType());
-    }
+    auto markerModel = m_controller->getMarkerModel();
+    GenTime pos(m_controller->originalProducer()->position(), m_tc.fps());
+    markerModel->editMarkerGui(pos, this, true, m_controller);
 }
 
 void ClipPropertiesController::slotSaveMarkers()

@@ -25,7 +25,6 @@
 #include "bin/model/markerlistmodel.hpp"
 #include "bin/projectclip.h"
 #include "core.h"
-#include "dialogs/markerdialog.h"
 #include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
 #include "project/projectmanager.h"
@@ -354,21 +353,8 @@ void TimelineController::setOutPoint()
 void TimelineController::editMarker(const QString &cid, int frame)
 {
     std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(cid);
-    bool markerFound = false;
-    CommentedTime marker = clip->getMarker(GenTime(frame, pCore->getCurrentFps()), &markerFound);
-    Q_ASSERT(markerFound);
-    QPointer<MarkerDialog> d = new MarkerDialog(clip.get(), marker, pCore->bin()->projectTimecode(), i18n("Edit Marker"), qApp->activeWindow());
-    if (d->exec() == QDialog::Accepted) {
-        QList<CommentedTime> markers;
-        CommentedTime newMarker = d->newMarker();
-        if (newMarker.time() != marker.time()) {
-            // marker was moved
-            marker.setMarkerType(-1);
-            markers << marker;
-        }
-        markers << newMarker;
-        clip->addMarkers(markers);
-    }
+    GenTime pos(frame, pCore->getCurrentFps());
+    clip->getMarkerModel()->editMarkerGui(pos, qApp->activeWindow(), false, clip.get());
 }
 
 void TimelineController::editGuide(int frame)
@@ -377,20 +363,9 @@ void TimelineController::editGuide(int frame)
     if (frame == -1) {
         frame = m_position;
     }
-    CommentedTime marker = pCore->projectManager()->current()->getGuideModel().get()->getMarker(GenTime(frame, pCore->getCurrentFps()), &markerFound);
-    Q_ASSERT(markerFound);
-    QPointer<MarkerDialog> d = new MarkerDialog(nullptr, marker, pCore->bin()->projectTimecode(), i18n("Edit Marker"), qApp->activeWindow());
-    if (d->exec() == QDialog::Accepted) {
-        QList<CommentedTime> markers;
-        CommentedTime newMarker = d->newMarker();
-        if (newMarker.time() != marker.time()) {
-            // marker was moved
-            marker.setMarkerType(-1);
-            markers << marker;
-        }
-        markers << newMarker;
-        pCore->projectManager()->current()->addGuides(markers);
-    }
+    auto guideModel = pCore->projectManager()->current()->getGuideModel();
+    GenTime pos(frame, pCore->getCurrentFps());
+    guideModel->editMarkerGui(pos, qApp->activeWindow(), false);
 }
 
 void TimelineController::switchGuide(int frame, bool deleteOnly)
@@ -399,19 +374,17 @@ void TimelineController::switchGuide(int frame, bool deleteOnly)
     if (frame == -1) {
         frame = m_position;
     }
-    CommentedTime marker = pCore->projectManager()->current()->getGuideModel().get()->getMarker(GenTime(frame, pCore->getCurrentFps()), &markerFound);
+    CommentedTime marker = pCore->projectManager()->current()->getGuideModel()->getMarker(GenTime(frame, pCore->getCurrentFps()), &markerFound);
     if (!markerFound) {
         if (deleteOnly) {
             pCore->displayMessage(i18n("No guide found at current position"), InformationMessage, 500);
             return;
         }
-        marker = CommentedTime(GenTime(frame, pCore->getCurrentFps()), i18n("guide"));
+        GenTime pos(frame, pCore->getCurrentFps());
+        pCore->projectManager()->current()->getGuideModel()->addMarker(pos, i18n("guide"));
     } else {
-        marker.setMarkerType(-1);
+        pCore->projectManager()->current()->getGuideModel()->removeMarker(marker.time());
     }
-    QList<CommentedTime> markers;
-    markers << marker;
-    pCore->projectManager()->current()->addGuides(markers);
 }
 
 void TimelineController::addAsset(const QVariantMap data)

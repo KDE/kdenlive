@@ -39,7 +39,6 @@
 #include "managers/selectmanager.h"
 #include "managers/spacermanager.h"
 #include "managers/trimmanager.h"
-#include "markerdialog.h"
 #include "mltcontroller/clipcontroller.h"
 #include "mltcontroller/effectscontroller.h"
 #include "project/clipmanager.h"
@@ -6233,6 +6232,7 @@ bool CustomTrackView::addGuide(const GenTime &pos, const QString &comment, bool 
 
 void CustomTrackView::slotAddGuide(bool dialog)
 {
+    /*
     CommentedTime marker(GenTime(m_cursorPos, pCore->getCurrentFps()), i18n("Guide"));
     if (dialog) {
         QPointer<MarkerDialog> d = new MarkerDialog(nullptr, marker, m_document->timecode(), i18n("Add Guide"), this);
@@ -6249,10 +6249,12 @@ void CustomTrackView::slotAddGuide(bool dialog)
         EditGuideCommand *command = new EditGuideCommand(this, GenTime(), QString(), marker.time(), marker.comment(), false);
         m_commandStack->push(command);
     }
+    */
 }
 
 void CustomTrackView::slotEditGuide(int guidePos, const QString &newText)
 {
+    /*
     GenTime pos;
     if (guidePos == -1) {
         pos = GenTime(m_cursorPos, pCore->getCurrentFps());
@@ -6276,20 +6278,24 @@ void CustomTrackView::slotEditGuide(int guidePos, const QString &newText)
     if (!found) {
         emit displayMessage(i18n("No guide at cursor time"), ErrorMessage);
     }
+    */
 }
 
 void CustomTrackView::slotEditGuide(const CommentedTime &guide)
 {
+    /*
     QPointer<MarkerDialog> d = new MarkerDialog(nullptr, guide, m_document->timecode(), i18n("Edit Guide"), this);
     if (d->exec() == QDialog::Accepted) {
         EditGuideCommand *command = new EditGuideCommand(this, guide.time(), guide.comment(), d->newMarker().time(), d->newMarker().comment(), true);
         m_commandStack->push(command);
     }
     delete d;
+    */
 }
 
 void CustomTrackView::slotEditTimeLineGuide()
 {
+    /*
     if (m_dragGuide == nullptr) {
         return;
     }
@@ -6300,6 +6306,7 @@ void CustomTrackView::slotEditTimeLineGuide()
         m_commandStack->push(command);
     }
     delete d;
+    */
 }
 
 void CustomTrackView::slotDeleteGuide(int guidePos)

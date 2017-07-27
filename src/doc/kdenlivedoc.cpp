@@ -1694,23 +1694,6 @@ std::shared_ptr<MarkerListModel> KdenliveDoc::getGuideModel() const
     return m_guideModel;
 }
 
-void KdenliveDoc::addGuides(QList<CommentedTime> &markers)
-{
-    for (int i = 0; i < markers.count(); ++i) {
-        if (markers.at(i).markerType() < 0) {
-            m_guideModel->removeMarker(markers.at(i).time());
-        } else {
-            m_guideModel->addMarker(markers.at(i).time(), markers.at(i).comment(), markers.at(i).markerType());
-        }
-    }
-    m_documentProperties[QStringLiteral("guides")] = m_guideModel->toJson();
-}
-
-CommentedTime KdenliveDoc::getGuide(const GenTime &pos, bool *ok) const
-{
-    return m_guideModel->getMarker(pos, ok);
-}
-
 void KdenliveDoc::guidesChanged()
 {
     m_documentProperties[QStringLiteral("guides")] = m_guideModel->toJson();

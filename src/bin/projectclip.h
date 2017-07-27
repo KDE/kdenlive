@@ -166,7 +166,6 @@ public:
     /** @brief Returns true if the clip matched a condition, for example vcodec=mpeg1video. */
     bool matches(const QString &condition);
 
-   void addMarkers(QList<CommentedTime> &markers);
     /** @brief Create audio thumbnail for this clip. */
     void createAudioThumbs();
     /** @brief Returns the number of audio channels. */
@@ -187,9 +186,6 @@ public:
     void slotQueryIntraThumbs(const QList<int> &frames);
     /** @brief Returns true if this producer has audio and can be splitted on timeline*/
     bool isSplittable() const;
-
-    /** @brief Returns a marker data at given pos */
-    CommentedTime getMarker(const GenTime &pos, bool *ok) const;
 
     /** @brief Returns true if a clip corresponding to this bin is inserted in a timeline.
         Note that this function does not account for children, use TreeItem::accumulate if you want to get that information as well.
