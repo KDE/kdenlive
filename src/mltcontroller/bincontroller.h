@@ -157,13 +157,7 @@ public:
     const QString getProperty(const QString &name);
 
     /** @brief Return a list of proxy / original url */
-    QMap<QString, QString> getProxies();
-
-    /** @brief Loads the MLT's XML document root */
-    void setDocumentRoot(const QString &);
-
-    /** @brief Returns the MLT's XML document root */
-    const QString documentRoot() const;
+    QMap<QString, QString> getProxies(const QString &root);
 
     /** @brief Returns a list of all clips hashes. */
     QStringList getProjectHashes();
@@ -188,9 +182,6 @@ private:
 
     /** @brief This list holds all extra controllers (slowmotion, video only, ... that are in timeline, indexed by id */
     QMap<QString, Mlt::Producer *> m_extraClipList;
-
-    /** @brief Stores MLT's xml playlist document root, useful to recover full urls */
-    QString m_documentRoot;
 
     /** @brief Remove a clip from MLT's special bin playlist */
     void removeBinPlaylistClip(const QString &id);

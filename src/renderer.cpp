@@ -483,7 +483,7 @@ int Render::setSceneList(QString playlist, int position)
     }
 
     // init MLT's document root, useful to find full urls
-    m_binController->setDocumentRoot(doc.documentElement().attribute(QStringLiteral("root")));
+    //m_binController->setDocumentRoot(doc.documentElement().attribute(QStringLiteral("root")));
 
     // Fill Bin's playlist
     Mlt::Service service(m_mltProducer->parent().get_service());

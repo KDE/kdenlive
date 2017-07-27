@@ -877,7 +877,7 @@ QMap<QString, QString> KdenliveDoc::getRenderProperties() const
                 // Check that we have a full path
                 QString value = i.value();
                 if (QFileInfo(value).isRelative()) {
-                    value.prepend(pCore->binController()->documentRoot());
+                    value.prepend(m_documentRoot);
                 }
                 renderProperties.insert(i.key(), value);
             } else {
@@ -1283,9 +1283,9 @@ void KdenliveDoc::loadDocumentProperties()
 {
     QDomNodeList list = m_document.elementsByTagName(QStringLiteral("playlist"));
     QDomElement baseElement = m_document.documentElement();
-    QString root = baseElement.attribute(QStringLiteral("root"));
-    if (!root.isEmpty()) {
-        root = QDir::cleanPath(root) + QDir::separator();
+    m_documentRoot = baseElement.attribute(QStringLiteral("root"));
+    if (!m_documentRoot.isEmpty()) {
+        m_documentRoot = QDir::cleanPath(m_documentRoot) + QDir::separator();
     }
     if (!list.isEmpty()) {
         QDomElement pl = list.at(0).toElement();
@@ -1304,7 +1304,7 @@ void KdenliveDoc::loadDocumentProperties()
                     // Make sure we have an absolute path
                     QString value = e.firstChild().nodeValue();
                     if (QFileInfo(value).isRelative()) {
-                        value.prepend(root);
+                        value.prepend(m_documentRoot);
                     }
                     m_documentProperties.insert(name, value);
                 } else if (name == QStringLiteral("guides")) {
@@ -1714,4 +1714,9 @@ CommentedTime KdenliveDoc::getGuide(const GenTime &pos, bool *ok) const
 void KdenliveDoc::guidesChanged()
 {
     m_documentProperties[QStringLiteral("guides")] = m_guideModel->toJson();
+}
+
+const QString KdenliveDoc::documentRoot() const
+{
+    return m_documentRoot;
 }

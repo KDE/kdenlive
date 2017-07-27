@@ -30,6 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "profiles/profilemodel.hpp"
 #include "timeline/effectmanager.h"
 #include "timeline/timeline.h"
+#include "doc/kdenlivedoc.h"
 
 #include "core.h"
 #include "kdenlive_debug.h"
@@ -67,11 +68,11 @@ ClipController::ClipController(const QString clipId, std::shared_ptr<BinControll
             // This is a proxy producer, read original url from kdenlive property
             path = m_properties->get("kdenlive:originalurl");
             if (QFileInfo(path).isRelative()) {
-                path.prepend(pCore->getDocumentRoot());
+                path.prepend(pCore->currentDoc()->documentRoot());
             }
             m_usesProxy = true;
         } else if (m_service != QLatin1String("color") && m_service != QLatin1String("colour") && QFileInfo(path).isRelative()) {
-            path.prepend(pCore->getDocumentRoot());
+            path.prepend(pCore->currentDoc()->documentRoot());
         }
         m_path = QFileInfo(path).absoluteFilePath();
         getInfoForProducer();
@@ -100,7 +101,7 @@ AudioStreamInfo *ClipController::audioInfo() const
 
 void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &producer)
 {
-    QString documentRoot = pCore->getDocumentRoot();
+    QString documentRoot = pCore->currentDoc()->documentRoot();
     m_masterProducer = producer;
     m_properties = new Mlt::Properties(m_masterProducer->get_properties());
     int id = m_properties->get_int("kdenlive:id");

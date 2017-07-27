@@ -54,23 +54,6 @@ void BinController::destroyBin()
     m_clipList.clear();
 }
 
-void BinController::setDocumentRoot(const QString &root)
-{
-    if (root.isEmpty()) {
-        m_documentRoot.clear();
-    } else {
-        m_documentRoot = root;
-        if (!m_documentRoot.endsWith(QLatin1Char('/'))) {
-            m_documentRoot.append(QLatin1Char('/'));
-        }
-    }
-}
-
-const QString BinController::documentRoot() const
-{
-    return m_documentRoot;
-}
-
 void BinController::loadExtraProducer(const QString &id, Mlt::Producer *prod)
 {
     if (m_extraClipList.contains(id)) {
@@ -558,7 +541,7 @@ const QString BinController::getProperty(const QString &name)
     return QString(m_binPlaylist->get(name.toUtf8().constData()));
 }
 
-QMap<QString, QString> BinController::getProxies()
+QMap<QString, QString> BinController::getProxies(const QString &root)
 {
     QMap<QString, QString> proxies;
     int size = m_binPlaylist->count();
@@ -570,11 +553,11 @@ QMap<QString, QString> BinController::getProxies()
         QString proxy = prod->parent().get("kdenlive:proxy");
         if (proxy.length() > 2) {
             if (QFileInfo(proxy).isRelative()) {
-                proxy.prepend(m_documentRoot);
+                proxy.prepend(root);
             }
             QString sourceUrl(prod->parent().get("kdenlive:originalurl"));
             if (QFileInfo(sourceUrl).isRelative()) {
-                sourceUrl.prepend(m_documentRoot);
+                sourceUrl.prepend(root);
             }
             proxies.insert(proxy, sourceUrl);
         }

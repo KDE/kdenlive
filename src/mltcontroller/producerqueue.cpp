@@ -23,6 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "bin/projectclip.h"
 #include "bincontroller.h"
 #include "clipcontroller.h"
+#include "doc/kdenlivedoc.h"
 #include "core.h"
 #include "dialogs/profilesdialog.h"
 #include "doc/kthumb.h"
@@ -188,7 +189,7 @@ void ProducerQueue::processFileProperties()
             if (proxy == QLatin1String("-")) {
                 path = ProjectClip::getXmlProperty(info.xml, QStringLiteral("kdenlive:originalurl"));
                 if (QFileInfo(path).isRelative()) {
-                    path.prepend(m_binController->documentRoot());
+                    path.prepend(pCore->currentDoc()->documentRoot());
                 }
                 proxyProducer = false;
             } else {

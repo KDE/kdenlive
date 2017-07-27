@@ -173,10 +173,14 @@ public:
 
     // TODO REFAC: delete */
     Render *renderer();
+    /** @brief Returns MLT's root (base path) */
+    const QString documentRoot() const;
 
 private:
     QUrl m_url;
     QDomDocument m_document;
+    /** @brief MLT's root (base path) that is stripped from urls in saved xml */
+    QString m_documentRoot;
     KDirWatch m_fileWatcher;
     /** Timer used to reload clips when they have been externally modified */
     QTimer m_modifiedTimer;
