@@ -1223,7 +1223,6 @@ void Monitor::start()
 void Monitor::slotRefreshMonitor(bool visible)
 {
     if (visible) {
-        parentWidget()->raise();
         slotActivateMonitor(true);
     }
 }
@@ -1314,10 +1313,6 @@ void Monitor::slotOpenClip(std::shared_ptr<ProjectClip> controller, int in, int 
     }
     m_controller = controller;
     m_snaps.reset(new SnapModel());
-    if (!m_glMonitor->isVisible()) {
-        // Don't load clip if monitor is not active (disabled)
-        return;
-    }
     if (controller) {
         m_controller->getMarkerModel()->registerSnapModel(m_snaps);
         connect(m_controller->getMarkerModel().get(), SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &, const QVector<int> &)), this,
@@ -1345,6 +1340,7 @@ void Monitor::slotOpenClip(std::shared_ptr<ProjectClip> controller, int in, int 
         m_glMonitor->setAudioThumb();
         m_audioMeterWidget->audioChannels = 0;
     }
+    slotActivateMonitor();
     checkOverlay();
 }
 
@@ -2088,9 +2084,9 @@ void Monitor::requestSeek(int pos)
     m_glMonitor->seek(pos);
 }
 
-void Monitor::setProducer(Mlt::Producer *producer)
+void Monitor::setProducer(Mlt::Producer *producer, int pos)
 {
-    m_glMonitor->setProducer(producer, isActive(), -1);
+    m_glMonitor->setProducer(producer, isActive(), pos);
 }
 
 void Monitor::reconfigure()

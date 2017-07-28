@@ -326,7 +326,6 @@ private slots:
                              const QString &details = QString());
     void slotSetIconSize(int size);
     void selectProxyModel(const QModelIndex &id);
-    void autoSelect();
     void slotSaveHeaders();
     void slotItemDropped(const QStringList &ids, const QModelIndex &parent);
     void slotItemDropped(const QList<QUrl> &urls, const QModelIndex &parent);

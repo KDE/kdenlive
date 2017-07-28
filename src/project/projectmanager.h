@@ -152,7 +152,7 @@ signals:
     //     void projectOpened(Project *project);
 
 protected:
-    void updateTimeline();
+    void updateTimeline(int pos = -1);
 
 private:
     /** @brief Checks that the Kdenlive mime type is correctly installed.

@@ -53,7 +53,6 @@ Timecode MonitorManager::timecode() const
 void MonitorManager::setDocument(KdenliveDoc *doc)
 {
     m_document = doc;
-    activateMonitor(Kdenlive::ProjectMonitor);
 }
 
 QAction *MonitorManager::getAction(const QString &name)
@@ -146,16 +145,15 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool forceRefresh
         return false;
     }
     QMutexLocker locker(&m_switchMutex);
-    m_activeMonitor = nullptr;
+    bool stopCurrent = m_activeMonitor != nullptr;
     for (int i = 0; i < m_monitorsList.count(); ++i) {
         if (m_monitorsList.at(i)->id() == name) {
             m_activeMonitor = m_monitorsList.at(i);
-        } else {
+        } else if (stopCurrent) {
             m_monitorsList.at(i)->stop();
         }
     }
     if (m_activeMonitor) {
-        m_activeMonitor->blockSignals(true);
         m_activeMonitor->parentWidget()->raise();
         if (name == Kdenlive::ClipMonitor) {
             emit updateOverlayInfos(name, KdenliveSettings::displayClipMonitorInfo());
@@ -166,8 +164,6 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool forceRefresh
             m_clipMonitor->displayAudioMonitor(false);
             m_projectMonitor->displayAudioMonitor(true);
         }
-        m_activeMonitor->blockSignals(false);
-        m_activeMonitor->start();
     }
     emit checkColorScopes();
     return (m_activeMonitor != nullptr);

@@ -234,6 +234,7 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
     emit docOpened(m_project);
     //pCore->monitorManager()->activateMonitor(Kdenlive::ClipMonitor);
     m_lastSave.start();
+    pCore->monitorManager()->activateMonitor(Kdenlive::ClipMonitor, true);
 }
 
 bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
@@ -570,7 +571,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
             disableEffects->blockSignals(false);
         }
     }*/
-    updateTimeline();
+    updateTimeline(m_project->getDocumentProperty("position").toInt());
     pCore->window()->connectDocument();
 
     emit docOpened(m_project);
@@ -594,6 +595,8 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     m_lastSave.start();
     delete m_progressDialog;
     m_progressDialog = nullptr;
+    pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor, true);
+    //pCore->monitorManager()->projectMonitor()->refreshMonitorIfActive();
 }
 
 void ProjectManager::adjustProjectDuration()
@@ -853,7 +856,7 @@ void ProjectManager::slotMoveFinished(KJob *job)
     }
 }
 
-void ProjectManager::updateTimeline()
+void ProjectManager::updateTimeline(int pos)
 {
     pCore->producerQueue()->abortOperations();
     // qDebug() << "Loading xml"<<m_project->getProjectXml().constData();
@@ -865,7 +868,7 @@ void ProjectManager::updateTimeline()
 
     m_project->loadThumbs();
 
-    pCore->monitorManager()->projectMonitor()->setProducer(m_mainTimelineModel->producer());
+    pCore->monitorManager()->projectMonitor()->setProducer(m_mainTimelineModel->producer(), pos);
     pCore->window()->getMainTimeline()->setModel(m_mainTimelineModel);
     m_mainTimelineModel->setUndoStack(m_project->commandStack());
 }

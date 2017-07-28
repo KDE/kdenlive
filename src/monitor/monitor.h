@@ -154,7 +154,7 @@ public:
     void activateSplit();
     /** @brief Clear monitor display **/
     void clearDisplay();
-    void setProducer(Mlt::Producer *producer);
+    void setProducer(Mlt::Producer *producer, int pos = -1);
     /** @brief Returns current monitor's duration in frames **/
     int duration() const;
     void reconfigure();

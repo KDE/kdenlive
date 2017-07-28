@@ -847,7 +847,9 @@ void Bin::slotCreateAudioThumbs()
 bool Bin::eventFilter(QObject *obj, QEvent *event)
 {
     if (event->type() == QEvent::MouseButtonRelease) {
-        m_monitor->slotActivateMonitor();
+        if (!m_monitor->isActive()) {
+            m_monitor->slotActivateMonitor();
+        }
         bool success = QWidget::eventFilter(obj, event);
         if (m_gainedFocus) {
             QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
@@ -1224,7 +1226,6 @@ void Bin::setDocument(KdenliveDoc *project)
     slotInitView(nullptr);
     bool binEffectsDisabled = getDocumentProperty(QStringLiteral("disablebineffects")).toInt() == 1;
     setBinEffectsEnabled(!binEffectsDisabled);
-    autoSelect();
 }
 
 void Bin::slotAddUrl(const QString &url, int folderId, const QMap<QString, QString> &dataMap)
@@ -1495,17 +1496,6 @@ void Bin::selectProxyModel(const QModelIndex &id)
         // Display black bg in clip monitor
         emit openClip(std::shared_ptr<ProjectClip>());
     }
-}
-
-void Bin::autoSelect()
-{
-    /*QModelIndex current = m_proxyModel->selectionModel()->currentIndex();
-    AbstractProjectItem *currentItem = static_cast<AbstractProjectItem *>(m_proxyModel->mapToSource(current).internalPointer());
-    if (!currentItem) {
-        QModelIndex id = m_proxyModel->index(0, 0, QModelIndex());
-        //selectModel(id);
-        //m_proxyModel->selectionModel()->select(m_proxyModel->mapFromSource(id), QItemSelectionModel::Select);
-    }*/
 }
 
 QList<std::shared_ptr<ProjectClip>> Bin::selectedClips()
@@ -2021,7 +2011,6 @@ void Bin::slotProducerReady(const requestClipInfo &info, std::shared_ptr<Mlt::Pr
                     }
                 }
             } else if (currentClip == info.clipId) {
-                emit openClip(std::shared_ptr<ProjectClip>());
                 setCurrent(clip);
             }
         }
@@ -2066,7 +2055,6 @@ void Bin::selectClip(const std::shared_ptr<ProjectClip> &clip)
     }
     selectProxyModel(m_proxyModel->mapFromSource(ix));
     m_itemView->scrollTo(m_proxyModel->mapFromSource(ix));
-    pCore->monitorManager()->activateMonitor(Kdenlive::ClipMonitor);
     emit openClip(clip);
 }
 
