@@ -823,3 +823,4 @@ bool TrackModel::hasIntersectingComposition(int in, int out) const
 
     return false;
 }
+

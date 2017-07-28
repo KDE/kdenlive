@@ -159,6 +159,8 @@ public:
     */
     Q_INVOKABLE void showAsset(int id);
 
+    Q_INVOKABLE void selectItems(QVariantList arg, int startFrame, int endFrame);
+
     /* @brief Seek to next snap point
      */
     void gotoNextSnap();

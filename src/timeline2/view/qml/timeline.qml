@@ -405,7 +405,17 @@ Rectangle {
             }
             onPressed: {
                 focus = true
-                if (root.activeTool === 2 && mouse.y > ruler.height) {
+                if (mouse.modifiers & Qt.ShiftModifier) {
+                        // rubber selection
+                        rubberSelect.visible = true
+                        rubberSelect.x = mouse.x + tracksArea.x
+                        rubberSelect.y = mouse.y
+                        rubberSelect.originX = mouse.x
+                        rubberSelect.originY = rubberSelect.y
+                        rubberSelect.width = 0
+                        rubberSelect.height = 0
+                } else if (mouse.button & Qt.LeftButton) {
+                    if (root.activeTool === 2 && mouse.y > ruler.height) {
                         // spacer tool
                         var y = mouse.y - ruler.height
                         var frame = (scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor
@@ -418,22 +428,21 @@ Rectangle {
                             spacerClickFrame = frame
                             spacerFrame = controller.getClipPosition(spacerGroup)
                         }
-                    }
-            }
-            onClicked: {
-                if (mouse.button & Qt.RightButton) {
-                    menu.clickedX = mouse.x
-                    menu.clickedY = mouse.y
-                    menu.popup()
-                } else {
-                    if (root.activeTool === 0 || mouse.y <= ruler.height) {
+                    } else if (root.activeTool === 0 || mouse.y <= ruler.height) {
                         timeline.seekPosition = (scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor
                         timeline.position = timeline.seekPosition
                     } else if (root.activeTool === 1) {
                         // razor tool
                         var y = mouse.y - ruler.height
                         timeline.cutClipUnderCursor((scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor, tracksRepeater.itemAt(Logic.getTrackIndexFromPos(y)).trackId)
-                    } 
+                    }
+                }
+            }
+            onClicked: {
+                if (mouse.button & Qt.RightButton) {
+                    menu.clickedX = mouse.x
+                    menu.clickedY = mouse.y
+                    menu.popup() 
                 }
             }
             property bool scim: false
@@ -441,7 +450,24 @@ Rectangle {
                 scim = false
             }
             onPositionChanged: {
-                if (mouse.buttons === Qt.LeftButton) {
+                if (rubberSelect.visible) {
+                    var newX = mouse.x
+                    var newY = mouse.y
+                    if (newX < rubberSelect.originX) {
+                        rubberSelect.x = newX + tracksArea.x
+                        rubberSelect.width = rubberSelect.originX - newX
+                    } else {
+                        rubberSelect.x = rubberSelect.originX + tracksArea.x
+                        rubberSelect.width = newX - rubberSelect.originX
+                    }
+                    if (newY < rubberSelect.originY) {
+                        rubberSelect.y = newY
+                        rubberSelect.height = rubberSelect.originY - newY
+                    } else {
+                        rubberSelect.y = rubberSelect.originY
+                        rubberSelect.height= newY - rubberSelect.originY
+                    }
+                } else if (mouse.buttons === Qt.LeftButton) {
                     if (root.activeTool === 0) {
                         timeline.seekPosition = (scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor
                         timeline.position = timeline.seekPosition
@@ -463,6 +489,18 @@ Rectangle {
                 }
             }
             onReleased: {
+                if (rubberSelect.visible) {
+                    rubberSelect.visible = false
+                    var topTrack = Logic.getTrackIndexFromPos(rubberSelect.y - ruler.height)
+                    var bottomTrack = Logic.getTrackIndexFromPos(rubberSelect.y - ruler.height + rubberSelect.height)
+                    var t = []
+                    for (var i = topTrack; i <= bottomTrack; i++) {
+                        t.push(tracksRepeater.itemAt(i).trackId)
+                    }
+                    var startFrame = (scrollView.flickableItem.contentX - tracksArea.x + rubberSelect.x) / timeline.scaleFactor
+                    var endFrame = (scrollView.flickableItem.contentX - tracksArea.x + rubberSelect.x + rubberSelect.width) / timeline.scaleFactor
+                    timeline.selectItems(t, startFrame, endFrame);
+                }
                 if (spacerGroup > -1) {
                     var frame = controller.getClipPosition(spacerGroup)
                     timeline.requestSpacerEndOperation(spacerGroup, spacerFrame, frame);
@@ -716,6 +754,16 @@ Rectangle {
             bubbleHelp.state = 'invisible'
             bubbleHelp.opacity = 0
         }
+    }
+
+    Rectangle {
+        id: rubberSelect
+        property int originX
+        property int originY
+        color: Qt.rgba(activePalette.highlight.r, activePalette.highlight.g, activePalette.highlight.b, 0.4)
+        border.color: activePalette.highlight
+        border.width: 1
+        visible: false
     }
     /*DropShadow {
         source: bubbleHelp

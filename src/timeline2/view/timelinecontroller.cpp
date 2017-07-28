@@ -456,6 +456,19 @@ void TimelineController::setZoneOut(int outPoint)
     emit zoneMoved(m_zone);
 }
 
+void TimelineController::selectItems(QVariantList arg, int startFrame, int endFrame)
+{
+    std::unordered_set<int>clipsToSelect;
+    for (int i = 0; i < arg.count(); i++) {
+        std::unordered_set<int> trackClips = m_model->getTrackById(arg.at(i).toInt())->getClipsAfterPosition(startFrame, endFrame);
+        clipsToSelect.insert(trackClips.begin(), trackClips.end());
+    }
+    for (int x: clipsToSelect) {
+        m_selection.selectedClips << x;
+    }
+    emit selectionChanged();
+}
+
 void TimelineController::cutClipUnderCursor(int position, int track)
 {
     if (position == -1) {
