@@ -61,6 +61,7 @@ ClipController::ClipController(const QString clipId, std::shared_ptr<BinControll
         return;
     }
     if (m_properties) {
+        setProducerProperty(QStringLiteral("kdenlive:id"), m_controllerBinId);
         m_service = m_properties->get("mlt_service");
         QString proxy = m_properties->get("kdenlive:proxy");
         QString path = m_properties->get("resource");
@@ -104,7 +105,7 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
     QString documentRoot = pCore->currentDoc()->documentRoot();
     m_masterProducer = producer;
     m_properties = new Mlt::Properties(m_masterProducer->get_properties());
-    int id = m_properties->get_int("kdenlive:id");
+    int id = m_controllerBinId.toInt();
     m_effectStack = EffectStackModel::construct(producer, {ObjectType::BinClip, id}, pCore->undoStack());
     if (!m_masterProducer->is_valid()) {
         m_masterProducer = ClipController::mediaUnavailable;
@@ -128,7 +129,8 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
         }
         m_path = QFileInfo(path).absoluteFilePath();
         getInfoForProducer();
-        emitProducerChanged(QString::number(id), producer);
+        emitProducerChanged(m_controllerBinId, producer);
+        setProducerProperty(QStringLiteral("kdenlive:id"), m_controllerBinId);
     }
 }
 
