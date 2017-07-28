@@ -170,7 +170,6 @@ Rectangle {
             originalTrackId = clipRoot.trackId
             startX = parent.x
             clipRoot.forceActiveFocus();
-            clipRoot.clicked(clipRoot, mouse.modifiers === Qt.ShiftModifier)
         }
         onPositionChanged: {
             if (mouse.y < 0 || mouse.y > height) {
@@ -190,6 +189,7 @@ Rectangle {
             } else {
                 parent.dropped(clipRoot)
             }
+            clipRoot.clicked(clipRoot, mouse.modifiers === Qt.ShiftModifier)
         }
         onDoubleClicked: timeline.position = clipRoot.x / timeline.scaleFactor
         onWheel: zoomByWheel(wheel)

@@ -58,6 +58,7 @@ TimelineModel::TimelineModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> 
     , m_lock(QReadWriteLock::Recursive)
     , m_timelineEffectsEnabled(true)
     , m_id(getNextId())
+    , m_temporarySelectionGroup(-1)
 {
     // Create black background track
     m_blackClip->set("id", "black_track");
@@ -781,13 +782,18 @@ bool TimelineModel::requestClipTrim(int clipId, int delta, bool right, bool ripp
     return requestItemResize(clipId, m_allClips[clipId]->getPlaytime() - delta, right, logUndo);
 }
 
-int TimelineModel::requestClipsGroup(const std::unordered_set<int> &ids, bool logUndo)
+int TimelineModel::requestClipsGroup(const std::unordered_set<int> &ids, bool logUndo, bool temporarySelection)
 {
     QWriteLocker locker(&m_lock);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
+    if (temporarySelection && m_temporarySelectionGroup > -1) {
+        requestClipUngroup(m_temporarySelectionGroup, undo, redo);
+        m_temporarySelectionGroup = -1;
+    }
     int result = requestClipsGroup(ids, undo, redo);
     if (result > -1 && logUndo) {
+        m_temporarySelectionGroup = result;
         PUSH_UNDO(undo, redo, i18n("Group clips"));
     }
     return result;

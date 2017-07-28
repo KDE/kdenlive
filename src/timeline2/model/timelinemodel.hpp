@@ -365,7 +365,7 @@ public:
        Typically, ids would be ids of clips, but for convenience, some of them can be ids of groups as well.
        @param ids Set of ids to group
     */
-    int requestClipsGroup(const std::unordered_set<int> &ids, bool logUndo = true);
+    int requestClipsGroup(const std::unordered_set<int> &ids, bool logUndo = true, bool temporarySelection = false);
     int requestClipsGroup(const std::unordered_set<int> &ids, Fun &undo, Fun &redo);
 
     /* @brief Destruct the topmost group containing clip
@@ -588,6 +588,9 @@ protected:
     bool m_timelineEffectsEnabled;
 
     bool m_id; // id of the timeline itself
+
+    // id of the currently selected group in timeline, should be destroyed on each new selection
+    int m_temporarySelectionGroup;
 
     // what follows are some virtual function that corresponds to the QML. They are implemented in TimelineItemModel
 protected:

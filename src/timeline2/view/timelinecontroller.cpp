@@ -31,6 +31,7 @@
 #include "timeline2/model/timelineitemmodel.hpp"
 #include "timeline2/model/trackmodel.hpp"
 #include "timeline2/model/compositionmodel.hpp"
+#include <timeline2/model/groupsmodel.hpp>
 #include "timelinewidget.h"
 #include "utils/KoIconUtils.h"
 
@@ -80,6 +81,9 @@ void TimelineController::addSelection(int newSelection)
         return;
     }
     m_selection.selectedClips << newSelection;
+    std::unordered_set<int> ids;
+    ids.insert(m_selection.selectedClips.cbegin(), m_selection.selectedClips.cend());
+    m_model->requestClipsGroup(ids, true, true);
     emit selectionChanged();
 
     if (!m_selection.selectedClips.isEmpty())
@@ -152,6 +156,9 @@ void TimelineController::setSelection(const QList<int> &newSelection, int trackI
         m_selection.selectedClips = newSelection;
         m_selection.selectedTrack = trackIndex;
         m_selection.isMultitrackSelected = isMultitrack;
+        std::unordered_set<int> ids;
+        ids.insert(m_selection.selectedClips.cbegin(), m_selection.selectedClips.cend());
+        m_model->requestClipsGroup(ids, true, true);
         emit selectionChanged();
 
         if (!m_selection.selectedClips.isEmpty())
@@ -359,7 +366,6 @@ void TimelineController::editMarker(const QString &cid, int frame)
 
 void TimelineController::editGuide(int frame)
 {
-    bool markerFound = false;
     if (frame == -1) {
         frame = m_position;
     }
@@ -466,6 +472,7 @@ void TimelineController::selectItems(QVariantList arg, int startFrame, int endFr
     for (int x: clipsToSelect) {
         m_selection.selectedClips << x;
     }
+    m_model->requestClipsGroup(clipsToSelect, true, true);
     emit selectionChanged();
 }
 
@@ -626,4 +633,12 @@ void TimelineController::focusItem(int itemId)
 {
     int start = m_model->getItemPosition(itemId);
     setPosition(start);
+}
+
+bool TimelineController::isInSelection(int cid) const
+{
+    if (m_model->m_temporarySelectionGroup == -1 || !m_model->m_groups->isInGroup(cid)) {
+        return false;
+    }
+    return (m_model->m_groups->getRootId(cid) == m_model->m_temporarySelectionGroup);
 }

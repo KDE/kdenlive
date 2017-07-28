@@ -119,6 +119,8 @@ public:
 
     Q_INVOKABLE void triggerAction(const QString &name);
 
+    Q_INVOKABLE bool isInSelection(int cid) const;
+
     /* @brief Do we want to display video thumbnails
      */
     bool showThumbnails() const;

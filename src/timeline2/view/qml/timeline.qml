@@ -796,7 +796,7 @@ Rectangle {
                 currentTrack = track.DelegateModel.itemsIndex
                 if (shiftClick === 1) {
                     timeline.addSelection(clip.clipId)
-                } else {
+                } else if (!timeline.isInSelection(clip.clipId) ) {
                     timeline.selection = [ clip.clipId ]
                 }
                 timeline.showAsset(clip.clipId)
