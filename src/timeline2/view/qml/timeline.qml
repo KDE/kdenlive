@@ -793,14 +793,13 @@ Rectangle {
             trackId: item
             selection: timeline.selection
             onClipClicked: {
-                currentTrack = track.DelegateModel.itemsIndex
+                currentTrack = track
                 if (shiftClick === 1) {
                     timeline.addSelection(clip.clipId)
                 } else if (!timeline.isInSelection(clip.clipId) ) {
                     timeline.selection = [ clip.clipId ]
                 }
                 timeline.showAsset(clip.clipId)
-                //root.clipClicked()
             }
             onClipDragged: {
                 continuousScrolling(x)
