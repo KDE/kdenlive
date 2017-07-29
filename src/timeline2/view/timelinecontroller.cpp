@@ -464,6 +464,7 @@ void TimelineController::setZoneOut(int outPoint)
 
 void TimelineController::selectItems(QVariantList arg, int startFrame, int endFrame)
 {
+    m_selection.selectedClips.clear();
     std::unordered_set<int>clipsToSelect;
     for (int i = 0; i < arg.count(); i++) {
         std::unordered_set<int> trackClips = m_model->getTrackById(arg.at(i).toInt())->getClipsAfterPosition(startFrame, endFrame);
