@@ -129,6 +129,11 @@ public:
     /* @brief Request that the unused clips are deleted */
     bool requestCleanup();
 
+    /* @brief Retrieves the next id available for attribution to a folder */
+    int getFreeFolderId();
+
+    /* @brief Retrieves the next id available for attribution to a clip */
+    int getFreeClipId();
 protected:
     /* @brief Register the existence of a new element
      */
@@ -136,12 +141,6 @@ protected:
     /* @brief Deregister the existence of a new element*/
     void deregisterItem(int id, TreeItem *item) override;
 
-
-    /* @brief Retrieves the next id available for attribution to a folder */
-    int getFreeFolderId();
-
-    /* @brief Retrieves the next id available for attribution to a clip */
-    int getFreeClipId();
 
     /* @brief Helper function to generate a lambda that rename a folder */
     Fun requestRenameFolder_lambda(std::shared_ptr<AbstractProjectItem> folder, const QString &newName);

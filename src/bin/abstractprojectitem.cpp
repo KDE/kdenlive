@@ -46,13 +46,13 @@ AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QString &id
 {
 }
 
-AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QDomElement &description, const std::shared_ptr<ProjectItemModel> &model)
+AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QString &id, const QDomElement &description, const std::shared_ptr<ProjectItemModel> &model)
     : TreeItem(QList<QVariant>(), std::static_pointer_cast<AbstractTreeModel>(model), false)
     , m_name()
     , m_description()
     , m_thumbnail(QIcon())
     , m_date()
-    , m_binId(description.attribute(QStringLiteral("id")))
+    , m_binId(id)
     , m_usage(0)
     , m_clipStatus(StatusReady)
     , m_jobType(AbstractClipJob::NOJOBTYPE)

@@ -64,13 +64,13 @@ public:
                                                   std::shared_ptr<Mlt::Producer> producer);
     /**
      * @brief Constructor.
-     * @param description element describing the clip; the "id" attribute and "resource" property are used
+     * @param description element describing the clip; the "kdenlive:id" attribute and "resource" property are used
      */
-    static std::shared_ptr<ProjectClip> construct(const QDomElement &description, const QIcon &thumb, std::shared_ptr<ProjectItemModel> model);
+    static std::shared_ptr<ProjectClip> construct(const QString &id, const QDomElement &description, const QIcon &thumb, std::shared_ptr<ProjectItemModel> model);
 
 protected:
     ProjectClip(const QString &id, const QIcon &thumb, std::shared_ptr<ProjectItemModel> model, std::shared_ptr<Mlt::Producer> producer);
-    ProjectClip(const QDomElement &description, const QIcon &thumb, std::shared_ptr<ProjectItemModel> model);
+    ProjectClip(const QString &id, const QDomElement &description, const QIcon &thumb, std::shared_ptr<ProjectItemModel> model);
 
 public:
     virtual ~ProjectClip();

@@ -41,6 +41,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "timeline/clip.h"
 #include "timeline2/model/snapmodel.hpp"
 #include "utils/KoIconUtils.h"
+#include "xml/xml.hpp"
 #include <kimagecache.h>
 #include <QPainter>
 
@@ -96,9 +97,9 @@ std::shared_ptr<ProjectClip> ProjectClip::construct(const QString &id, const QIc
     return self;
 }
 
-ProjectClip::ProjectClip(const QDomElement &description, const QIcon &thumb, std::shared_ptr<ProjectItemModel> model)
-    : AbstractProjectItem(AbstractProjectItem::ClipItem, description, model)
-    , ClipController(description.attribute(QStringLiteral("id")), pCore->binController())
+ProjectClip::ProjectClip(const QString &id, const QDomElement &description, const QIcon &thumb, std::shared_ptr<ProjectItemModel> model)
+    : AbstractProjectItem(AbstractProjectItem::ClipItem, id, description, model)
+    , ClipController(id, pCore->binController())
     , m_abortAudioThumb(false)
     , m_thumbsProducer(nullptr)
 {
@@ -127,9 +128,9 @@ ProjectClip::ProjectClip(const QDomElement &description, const QIcon &thumb, std
         });
 }
 
-std::shared_ptr<ProjectClip> ProjectClip::construct(const QDomElement &description, const QIcon &thumb, std::shared_ptr<ProjectItemModel> model)
+std::shared_ptr<ProjectClip> ProjectClip::construct(const QString &id, const QDomElement &description, const QIcon &thumb, std::shared_ptr<ProjectItemModel> model)
 {
-    std::shared_ptr<ProjectClip> self(new ProjectClip(description, thumb, model));
+    std::shared_ptr<ProjectClip> self(new ProjectClip(id, description, thumb, model));
     baseFinishConstruct(self);
     pCore->binController()->addClipToBin(description.attribute(QStringLiteral("id")), self, true);
     return self;

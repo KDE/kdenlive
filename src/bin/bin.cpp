@@ -50,6 +50,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ui_qtextclip_ui.h"
 #include "undohelper.hpp"
 #include "utils/KoIconUtils.h"
+#include "xml/xml.hpp"
 
 #include <KColorScheme>
 #include <KMessageBox>
@@ -1282,7 +1283,11 @@ void Bin::createClip(const QDomElement &xml)
             }
         }
     }
-    auto newClip = ProjectClip::construct(xml, m_blankThumb, m_itemModel);
+    QString id = Xml::getTagContentByAttribute(xml, QStringLiteral("property"), QStringLiteral("name"), QStringLiteral("kdenlive:id"));
+    if (id.isEmpty()) {
+        id = QString::number(m_itemModel->getFreeClipId());
+    }
+    auto newClip = ProjectClip::construct(id, xml, m_blankThumb, m_itemModel);
     parentFolder->appendChild(newClip);
 }
 

@@ -68,7 +68,7 @@ public:
      *
      * We try to read the attributes "name" and "description"
      */
-    AbstractProjectItem(PROJECTITEMTYPE type, const QDomElement &description, const std::shared_ptr<ProjectItemModel> &model);
+    AbstractProjectItem(PROJECTITEMTYPE type, const QString &id, const QDomElement &description, const std::shared_ptr<ProjectItemModel> &model);
 
     bool operator==(const std::shared_ptr<AbstractProjectItem> &projectItem) const;
 
