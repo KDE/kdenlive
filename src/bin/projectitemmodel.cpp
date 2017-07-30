@@ -139,7 +139,7 @@ bool ProjectItemModel::dropMimeData(const QMimeData *data, Qt::DropAction action
 
     if (data->hasFormat(QStringLiteral("kdenlive/producerslist"))) {
         // Dropping an Bin item
-        QStringList ids = QString(data->data(QStringLiteral("kdenlive/producerslist"))).split(QLatin1Char(';'));
+        const QStringList ids = QString(data->data(QStringLiteral("kdenlive/producerslist"))).split(QLatin1Char(';'));
         emit itemDropped(ids, parent);
         return true;
     }
@@ -152,7 +152,7 @@ bool ProjectItemModel::dropMimeData(const QMimeData *data, Qt::DropAction action
     }
 
     if (data->hasFormat(QStringLiteral("kdenlive/clip"))) {
-        QStringList list = QString(data->data(QStringLiteral("kdenlive/clip"))).split(QLatin1Char(';'));
+        const QStringList list = QString(data->data(QStringLiteral("kdenlive/clip"))).split(QLatin1Char(';'));
         emit addClipCut(list.at(0), list.at(1).toInt(), list.at(2).toInt());
     }
 

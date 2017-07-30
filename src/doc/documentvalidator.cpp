@@ -1219,7 +1219,7 @@ void DocumentValidator::updateProducerInfo(const QDomElement &prod, const QDomEl
     }
     if (source.hasAttribute(QStringLiteral("cutzones"))) {
         QString zoneData = source.attribute(QStringLiteral("cutzones"));
-        QStringList zoneList = zoneData.split(QLatin1Char(';'));
+        const QStringList zoneList = zoneData.split(QLatin1Char(';'));
         int ct = 1;
         foreach (const QString &data, zoneList) {
             QString zoneName = data.section(QLatin1Char('-'), 2);
@@ -1429,7 +1429,7 @@ bool DocumentValidator::checkMovit()
 
 QString DocumentValidator::factorizeGeomValue(const QString &value, double factor)
 {
-    QStringList vals = value.split(QLatin1Char(';'));
+    const QStringList vals = value.split(QLatin1Char(';'));
     QString result;
     QLocale locale;
     for (int i = 0; i < vals.count(); i++) {

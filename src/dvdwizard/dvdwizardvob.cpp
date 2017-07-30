@@ -177,7 +177,7 @@ void DvdWizardVob::slotShowTranscodeInfo()
     if (m_duration == 0) {
         if (log.contains(QStringLiteral("Duration:"))) {
             QString durationstr = log.section(QStringLiteral("Duration:"), 1, 1).section(QLatin1Char(','), 0, 0).simplified();
-            QStringList numbers = durationstr.split(QLatin1Char(':'));
+            const QStringList numbers = durationstr.split(QLatin1Char(':'));
             if (numbers.size() < 3) {
                 return;
             }
@@ -192,7 +192,7 @@ void DvdWizardVob::slotShowTranscodeInfo()
         int progress;
         QString time = log.section(QStringLiteral("time="), 1, 1).simplified().section(QLatin1Char(' '), 0, 0);
         if (time.contains(QLatin1Char(':'))) {
-            QStringList numbers = time.split(QLatin1Char(':'));
+            const QStringList numbers = time.split(QLatin1Char(':'));
             if (numbers.size() < 3) {
                 return;
             }
@@ -722,7 +722,7 @@ void DvdWizardVob::processTranscoding()
     }
 
     bool replaceVfParams = false;
-    QStringList splitted = params.split(QLatin1Char(' '));
+    const QStringList splitted = params.split(QLatin1Char(' '));
     foreach (QString s, splitted) {
         if (replaceVfParams) {
             parameters << postParams.at(1);

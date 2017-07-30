@@ -436,7 +436,7 @@ QString KisCubicCurve::toString() const
 
 void KisCubicCurve::fromString(const QString &string)
 {
-    QStringList data = string.split(QLatin1Char(';'));
+    const QStringList data = string.split(QLatin1Char(';'));
 
     QList<QPointF> points;
     QLocale locale;
