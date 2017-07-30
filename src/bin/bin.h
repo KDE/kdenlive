@@ -302,6 +302,8 @@ public:
     QStringList getProxyHashList();
     /** @brief Get info (id, name) of a folder (or the currently selected one)  */
     const QStringList getFolderInfo(const QModelIndex &selectedIx = QModelIndex());
+    /** @brief Get binId of the current selected folder */
+    QString getCurrentFolder();
     /** @brief Save a clip zone as MLT playlist */
     void saveZone(const QStringList &info, const QDir &dir);
     QVariantList audioFrameCache(const QString &id);

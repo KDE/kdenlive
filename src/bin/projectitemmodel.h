@@ -117,6 +117,15 @@ public:
     */
     bool requestAddFolder(QString &id, const QString &name, const QString &parentId, Fun &undo, Fun &redo);
 
+    /* @brief Request creation of a bin clip
+       @param id Id of the requested bin. If this is empty, it will be used as a return parameter to give the automatic bin id used.
+       @param description Xml description of the clip
+       @param parentId Bin id of the parent folder
+       @param undo,redo: lambdas that are updated to accumulate operation.
+    */
+    bool requestAddBinClip(QString &id, const QDomElement &description, const QString &parentId, Fun &undo, Fun &redo);
+    bool requestAddBinClip(QString &id, const QDomElement &description, const QString &parentId, const QString &undoText = QString());
+
     /* @brief Request that a folder's name is changed
        @param clip : pointer to the folder to rename
        @param name: new name of the folder
@@ -145,6 +154,9 @@ protected:
     /* @brief Helper function to generate a lambda that rename a folder */
     Fun requestRenameFolder_lambda(std::shared_ptr<AbstractProjectItem> folder, const QString &newName);
 
+    /* @brief Helper function to add a given item to the tree */
+    bool addItem(std::shared_ptr<AbstractProjectItem> item, const QString &parentId, Fun &undo, Fun &redo);
+
     std::unique_ptr<KImageCache> m_pixmapCache;
 public slots:
     /** @brief An item in the list was modified, notify */
@@ -159,6 +171,8 @@ private:
     std::unique_ptr<BinPlaylist> m_binPlaylist;
 
     int m_nextId;
+
+    QIcon m_blankThumb;
 signals:
     void discardJobs(const QString &id, AbstractClipJob::JOBTYPE type);
     void startJob(const QString &id, AbstractClipJob::JOBTYPE type);

@@ -28,6 +28,7 @@ class KdenliveDoc;
 class QUndoCommand;
 class Bin;
 class ProjectClip;
+class ProjectItemModel;
 
 /**
  * @namespace ClipCreationDialog
@@ -38,7 +39,7 @@ class ProjectClip;
 namespace ClipCreationDialog {
 
 QStringList getExtensions();
-void createColorClip(KdenliveDoc *doc, const QStringList &groupInfo, Bin *bin);
+void createColorClip(KdenliveDoc *doc, const QString &parentFolder, std::shared_ptr<ProjectItemModel> model);
 void createQTextClip(KdenliveDoc *doc, const QStringList &groupInfo, Bin *bin, ProjectClip *clip = nullptr);
 void createClipFromXml(KdenliveDoc *doc, QDomElement &xml, const QStringList &groupInfo, Bin *bin);
 void createSlideshowClip(KdenliveDoc *doc, const QStringList &groupInfo, Bin *bin);

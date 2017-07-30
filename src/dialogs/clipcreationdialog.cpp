@@ -22,6 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "clipcreationdialog.h"
 #include "bin/bin.h"
 #include "bin/bincommands.h"
+#include "bin/projectitemmodel.h"
 #include "bin/projectclip.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
@@ -117,17 +118,17 @@ void ClipCreationDialog::createClipFromXml(KdenliveDoc *doc, QDomElement &xml, c
 }
 
 // static
-void ClipCreationDialog::createColorClip(KdenliveDoc *doc, const QStringList &groupInfo, Bin *bin)
+void ClipCreationDialog::createColorClip(KdenliveDoc *doc, const QString &parentFolder, std::shared_ptr<ProjectItemModel> model)
 {
-    QPointer<QDialog> dia = new QDialog(bin);
+    QScopedPointer<QDialog> dia(new QDialog(qApp->activeWindow()));
     Ui::ColorClip_UI dia_ui;
-    dia_ui.setupUi(dia);
+    dia_ui.setupUi(dia.data());
     dia->setWindowTitle(i18n("Color Clip"));
     dia_ui.clip_name->setText(i18n("Color Clip"));
 
-    TimecodeDisplay *t = new TimecodeDisplay(doc->timecode());
+    QScopedPointer<TimecodeDisplay> t(new TimecodeDisplay(doc->timecode()));
     t->setValue(KdenliveSettings::color_duration());
-    dia_ui.clip_durationBox->addWidget(t);
+    dia_ui.clip_durationBox->addWidget(t.data());
     dia_ui.clip_color->setColor(KdenliveSettings::colorclipcolor());
 
     if (dia->exec() == QDialog::Accepted) {
@@ -139,25 +140,19 @@ void ClipCreationDialog::createColorClip(KdenliveDoc *doc, const QStringList &gr
         QDomElement prod = xml.createElement(QStringLiteral("producer"));
         xml.appendChild(prod);
         prod.setAttribute(QStringLiteral("type"), (int) Color);
-        int id = bin->getFreeClipId();
-        prod.setAttribute(QStringLiteral("id"), QString::number(id));
         prod.setAttribute(QStringLiteral("in"), QStringLiteral("0"));
         prod.setAttribute(QStringLiteral("length"), doc->getFramePos(doc->timecode().getTimecode(t->gentime())));
         QMap<QString, QString> properties;
         properties.insert(QStringLiteral("resource"), color);
         properties.insert(QStringLiteral("kdenlive:clipname"), dia_ui.clip_name->text());
         properties.insert(QStringLiteral("mlt_service"), QStringLiteral("color"));
-        if (!groupInfo.isEmpty()) {
-            properties.insert(QStringLiteral("kdenlive:folderid"), groupInfo.at(0));
-        }
         addXmlProperties(prod, properties);
         qDebug() << xml.toString();
         qDebug() << Xml::getTagContentByAttribute(xml.documentElement(), QStringLiteral("property"), QStringLiteral("name"), QStringLiteral("resource"));
-        AddClipCommand *command = new AddClipCommand(bin, xml.documentElement(), QString::number(id), true);
-        doc->commandStack()->push(command);
+
+        QString id;
+        model->requestAddBinClip(id, xml.documentElement(), parentFolder, i18n("Create color clip"));
     }
-    delete t;
-    delete dia;
 }
 
 void ClipCreationDialog::createQTextClip(KdenliveDoc *doc, const QStringList &groupInfo, Bin *bin, ProjectClip *clip)

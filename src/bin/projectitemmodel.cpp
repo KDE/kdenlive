@@ -31,6 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "projectclip.h"
 #include "projectfolder.h"
 #include "projectsubclip.h"
+#include "xml/xml.hpp"
 
 #include <KLocalizedString>
 #include <QIcon>
@@ -43,10 +44,16 @@ ProjectItemModel::ProjectItemModel(QObject *parent)
     , m_lock(QReadWriteLock::Recursive)
     , m_binPlaylist(new BinPlaylist())
     , m_nextId(1)
+    , m_blankThumb()
 {
     KImageCache::deleteCache(QStringLiteral("kdenlive-thumbs"));
     m_pixmapCache.reset(new KImageCache(QStringLiteral("kdenlive-thumbs"), 10000000));
     m_pixmapCache->setEvictionPolicy(KSharedDataCache::EvictOldest);
+
+    QPixmap pix(QSize(160, 90));
+    pix.fill(Qt::lightGray);
+    m_blankThumb.addPixmap(pix);
+
 }
 
 std::shared_ptr<ProjectItemModel> ProjectItemModel::construct(QObject *parent)
@@ -427,7 +434,7 @@ int ProjectItemModel::getFreeClipId()
     return m_nextId++;
 }
 
-bool ProjectItemModel::requestAddFolder(QString &id, const QString &name, const QString &parentId, Fun &undo, Fun &redo)
+bool ProjectItemModel::addItem(std::shared_ptr<AbstractProjectItem> item, const QString &parentId, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
     std::shared_ptr<ProjectFolder> parentFolder = getFolderByBinId(parentId);
@@ -435,17 +442,50 @@ bool ProjectItemModel::requestAddFolder(QString &id, const QString &name, const 
         qCDebug(KDENLIVE_LOG) << "  / / ERROR IN PARENT FOLDER";
         return false;
     }
+    Fun operation = addItem_lambda(item, parentFolder->getId());
+    int itemId = item->getId();
+    Fun reverse = removeItem_lambda(itemId);
+    bool res = operation();
+    Q_ASSERT(item->isInModel());
+    if (res) {
+        UPDATE_UNDO_REDO(operation, reverse, undo, redo);
+    }
+    return res;
+}
+
+bool ProjectItemModel::requestAddFolder(QString &id, const QString &name, const QString &parentId, Fun &undo, Fun &redo)
+{
+    QWriteLocker locker(&m_lock);
     if (id.isEmpty()) {
         id = QString::number(getFreeFolderId());
     }
     std::shared_ptr<ProjectFolder> new_folder = ProjectFolder::construct(id, name, std::static_pointer_cast<ProjectItemModel>(shared_from_this()));
-    Fun operation = addItem_lambda(new_folder, parentFolder->getId());
-    int folderId = new_folder->getId();
-    Fun reverse = removeItem_lambda(folderId);
-    bool res = operation();
-    Q_ASSERT(new_folder->isInModel());
+    return addItem(new_folder, parentId, undo, redo);
+}
+
+bool ProjectItemModel::requestAddBinClip(QString &id, const QDomElement &description, const QString &parentId, Fun &undo, Fun &redo)
+{
+    QWriteLocker locker(&m_lock);
+    if (id.isEmpty()) {
+        QString defaultId = QString::number(getFreeFolderId());
+        id = Xml::getTagContentByAttribute(description, QStringLiteral("property"), QStringLiteral("name"), QStringLiteral("kdenlive:id"), defaultId);
+    }
+    std::shared_ptr<ProjectClip> new_clip = ProjectClip::construct(id, description, m_blankThumb, std::static_pointer_cast<ProjectItemModel>(shared_from_this()));
+    bool res = addItem(new_clip, parentId, undo, redo);
     if (res) {
-        UPDATE_UNDO_REDO(operation, reverse, undo, redo);
+        //TODO Not very clean, improve (should pass pointer to projectClip instead of xml)
+        pCore->currentDoc()->getFileProperties(description, new_clip->clipId(), 150, true);
+    }
+    return res;
+}
+
+bool ProjectItemModel::requestAddBinClip(QString &id, const QDomElement &description, const QString &parentId, const QString &undoText)
+{
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    bool res = requestAddBinClip(id, description, parentId, undo, redo);
+    if (res) {
+        pCore->pushUndo(undo, redo, undoText.isEmpty() ? i18n("Rename Folder") : undoText);
     }
     return res;
 }

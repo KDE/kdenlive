@@ -1293,13 +1293,7 @@ void Bin::createClip(const QDomElement &xml)
 
 QString Bin::slotAddFolder(const QString &folderName)
 {
-    // Check parent item
-    QModelIndex ix = m_proxyModel->selectionModel()->currentIndex();
-    std::shared_ptr<ProjectFolder> parentFolder = m_itemModel->getRootFolder();
-    if (ix.isValid() && m_proxyModel->selectionModel()->isSelected(ix)) {
-        std::shared_ptr<AbstractProjectItem> currentItem = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
-        parentFolder = std::static_pointer_cast<ProjectFolder>(currentItem->getEnclosingFolder());
-    }
+    auto parentFolder = m_itemModel->getFolderByBinId(getCurrentFolder());
     qDebug() << "pranteforder id" << parentFolder->clipId();
     QString newId;
     Fun undo = []() { return true; };
@@ -1313,7 +1307,7 @@ QString Bin::slotAddFolder(const QString &folderName)
         return newId;
     }
     auto folder = m_itemModel->getFolderByBinId(newId);
-    ix = m_itemModel->getIndexFromItem(folder);
+    auto ix = m_itemModel->getIndexFromItem(folder);
     qDebug() << "selecting" << ix;
     if (ix.isValid()) {
         qDebug() << "ix valid";
@@ -2346,9 +2340,10 @@ void Bin::slotCreateProjectClip()
     }
     ClipType type = (ClipType)act->data().toInt();
     QStringList folderInfo = getFolderInfo();
+    QString parentFolder = getCurrentFolder();
     switch (type) {
     case Color:
-        ClipCreationDialog::createColorClip(m_doc, folderInfo, this);
+        ClipCreationDialog::createColorClip(m_doc, parentFolder, m_itemModel);
         break;
     case SlideShow:
         ClipCreationDialog::createSlideshowClip(m_doc, folderInfo, this);
@@ -3502,4 +3497,17 @@ std::shared_ptr<EffectStackModel> Bin::getClipEffectStack(int itemId)
     Q_ASSERT(clip != nullptr);
     std::shared_ptr<EffectStackModel> effectStack = std::static_pointer_cast<ClipController>(clip)->m_effectStack;
     return effectStack;
+}
+
+
+QString Bin::getCurrentFolder()
+{
+    // Check parent item
+    QModelIndex ix = m_proxyModel->selectionModel()->currentIndex();
+    std::shared_ptr<ProjectFolder> parentFolder = m_itemModel->getRootFolder();
+    if (ix.isValid() && m_proxyModel->selectionModel()->isSelected(ix)) {
+        std::shared_ptr<AbstractProjectItem> currentItem = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
+        parentFolder = std::static_pointer_cast<ProjectFolder>(currentItem->getEnclosingFolder());
+    }
+    return parentFolder->clipId();
 }
