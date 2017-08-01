@@ -741,7 +741,7 @@ void ProjectManager::prepareSave()
     // TODO REFAC: save target tracks, preview chunks and guides
     pCore->binController()->saveDocumentProperties(m_project->documentProperties(), m_project->metadata(), m_project->getGuideModel());
     pCore->binController()->saveProperty(QStringLiteral("kdenlive:documentnotes"), documentNotes());
-    pCore->binController()->saveProperty(QStringLiteral("kdenlive:clipgroups"), m_project->groupsXml());
+    pCore->binController()->saveProperty(QStringLiteral("kdenlive:groups"), m_mainTimelineModel->groupsData());
 }
 
 void ProjectManager::slotResetProfiles()

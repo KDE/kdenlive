@@ -24,19 +24,22 @@
 #include "timelineitemmodel.hpp"
 #include <QDebug>
 #include <QModelIndex>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
 #include <queue>
 #include <utility>
 
-GroupsModel::GroupsModel(std::weak_ptr<TimelineItemModel> parent)
-    : m_parent(std::move(parent))
+GroupsModel::GroupsModel(std::weak_ptr<TimelineItemModel> parent) :
+    m_parent(std::move(parent))
     , m_lock(QReadWriteLock::Recursive)
 {
 }
 
-Fun GroupsModel::groupItems_lambda(int gid, const std::unordered_set<int> &ids)
+Fun GroupsModel::groupItems_lambda(int gid, const std::unordered_set<int> &ids, bool temporarySelection)
 {
     QWriteLocker locker(&m_lock);
-    return [gid, ids, this]() {
+    return [gid, ids, temporarySelection, this]() {
         createGroupItem(gid);
 
         Q_ASSERT(m_groupIds.count(gid) == 0);
@@ -53,7 +56,7 @@ Fun GroupsModel::groupItems_lambda(int gid, const std::unordered_set<int> &ids)
         std::transform(ids.begin(), ids.end(), std::inserter(roots, roots.begin()), [&](int id) { return getRootId(id); });
         for (int id : roots) {
             setGroup(getRootId(id), gid);
-            if (ptr->isClip(id)) {
+            if (!temporarySelection && ptr->isClip(id)) {
                 QModelIndex ix = ptr->makeClipIndexFromID(id);
                 ptr->dataChanged(ix, ix, {TimelineItemModel::GroupedRole});
             }
@@ -62,7 +65,7 @@ Fun GroupsModel::groupItems_lambda(int gid, const std::unordered_set<int> &ids)
     };
 }
 
-int GroupsModel::groupItems(const std::unordered_set<int> &ids, Fun &undo, Fun &redo)
+int GroupsModel::groupItems(const std::unordered_set<int> &ids, Fun &undo, Fun &redo, bool temporarySelection)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(!ids.empty());
@@ -71,7 +74,7 @@ int GroupsModel::groupItems(const std::unordered_set<int> &ids, Fun &undo, Fun &
         return *(ids.begin());
     }
     int gid = TimelineModel::getNextId();
-    auto operation = groupItems_lambda(gid, ids);
+    auto operation = groupItems_lambda(gid, ids, temporarySelection);
     if (operation()) {
         auto reverse = destructGroupItem_lambda(gid);
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
@@ -80,7 +83,7 @@ int GroupsModel::groupItems(const std::unordered_set<int> &ids, Fun &undo, Fun &
     return -1;
 }
 
-bool GroupsModel::ungroupItem(int id, Fun &undo, Fun &redo)
+bool GroupsModel::ungroupItem(int id, Fun &undo, Fun &redo, bool temporarySelection)
 {
     QWriteLocker locker(&m_lock);
     int gid = getRootId(id);
@@ -89,7 +92,7 @@ bool GroupsModel::ungroupItem(int id, Fun &undo, Fun &redo)
         return false;
     }
 
-    return destructGroupItem(gid, true, undo, redo);
+    return destructGroupItem(gid, true, undo, redo, temporarySelection);
 }
 
 void GroupsModel::createGroupItem(int id)
@@ -129,7 +132,7 @@ Fun GroupsModel::destructGroupItem_lambda(int id)
     };
 }
 
-bool GroupsModel::destructGroupItem(int id, bool deleteOrphan, Fun &undo, Fun &redo)
+bool GroupsModel::destructGroupItem(int id, bool deleteOrphan, Fun &undo, Fun &redo, bool temporarySelection)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_upLink.count(id) > 0);
@@ -137,10 +140,10 @@ bool GroupsModel::destructGroupItem(int id, bool deleteOrphan, Fun &undo, Fun &r
     auto old_children = m_downLink[id];
     auto operation = destructGroupItem_lambda(id);
     if (operation()) {
-        auto reverse = groupItems_lambda(id, old_children);
+        auto reverse = groupItems_lambda(id, old_children, temporarySelection);
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
         if (parent != -1 && m_downLink[parent].empty() && deleteOrphan) {
-            return destructGroupItem(parent, true, undo, redo);
+            return destructGroupItem(parent, true, undo, redo, temporarySelection);
         }
         return true;
     }
@@ -249,4 +252,24 @@ void GroupsModel::removeFromGroup(int id)
         m_downLink[parent].erase(id);
     }
     m_upLink[id] = -1;
+}
+
+const QString GroupsModel::toJson() const
+{
+    READ_LOCK();
+    QJsonArray list;
+    for (const auto &uplink : m_upLink) {
+        QJsonObject currentGroup;
+        currentGroup.insert(QLatin1String("id"), QJsonValue(uplink.first));
+        currentGroup.insert(QLatin1String("parent"), QJsonValue(uplink.second));
+        std::unordered_set<int> children = getLeaves(uplink.first);
+        QJsonArray array;
+        for (const int &child : children) {
+            array.append(child);
+        }
+        currentGroup.insert(QLatin1String("leaves"), QJsonValue(array));
+        list.push_back(currentGroup);
+    }
+    QJsonDocument json(list);
+    return QString(json.toJson());
 }

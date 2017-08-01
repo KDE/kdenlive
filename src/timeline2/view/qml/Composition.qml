@@ -184,7 +184,7 @@ Item {
                 compositionRoot.moved(compositionRoot)
                 originalX = compositionRoot.x
                 originalTrackId = trackId
-            } else {
+            } else if (Math.abs(delta) >= 1.0) {
                 compositionRoot.dropped(compositionRoot)
             }
         }

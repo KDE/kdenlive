@@ -35,6 +35,7 @@ class TimelineItemModel;
 */
 class GroupsModel
 {
+
 public:
     GroupsModel() = delete;
     GroupsModel(std::weak_ptr<TimelineItemModel> parent);
@@ -47,11 +48,12 @@ public:
        @param redo Lambda function containing the current redo queue. Will be updated with current operation
        Returns the id of the new group, or -1 on error.
     */
-    int groupItems(const std::unordered_set<int> &ids, Fun &undo, Fun &redo);
+    int groupItems(const std::unordered_set<int> &ids, Fun &undo, Fun &redo, bool temporarySelection = false);
+    const QString toJson() const;
 
 protected:
     /* Lambda version */
-    Fun groupItems_lambda(int gid, const std::unordered_set<int> &ids);
+    Fun groupItems_lambda(int gid, const std::unordered_set<int> &ids, bool temporarySelection = false);
 
 public:
     /* Deletes the topmost group containing given element
@@ -61,7 +63,7 @@ public:
        @param undo Lambda function containing the current undo stack. Will be updated with current operation
        @param redo Lambda function containing the current redo queue. Will be updated with current operation
      */
-    bool ungroupItem(int id, Fun &undo, Fun &redo);
+    bool ungroupItem(int id, Fun &undo, Fun &redo, bool temporarySelection = false);
 
     /* @brief Create a groupItem in the hierarchy. Initially it is not part of a group
        @param id id of the groupItem
@@ -116,7 +118,7 @@ protected:
        @param undo Lambda function containing the current undo stack. Will be updated with current operation
        @param redo Lambda function containing the current redo queue. Will be updated with current operation
     */
-    bool destructGroupItem(int id, bool deleteOrphan, Fun &undo, Fun &redo);
+    bool destructGroupItem(int id, bool deleteOrphan, Fun &undo, Fun &redo, bool temporarySelection = false);
     /* Lambda version */
     Fun destructGroupItem_lambda(int id);
 

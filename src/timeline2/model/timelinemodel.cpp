@@ -787,19 +787,21 @@ int TimelineModel::requestClipsGroup(const std::unordered_set<int> &ids, bool lo
     QWriteLocker locker(&m_lock);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    if (temporarySelection && m_temporarySelectionGroup > -1) {
-        requestClipUngroup(m_temporarySelectionGroup, undo, redo);
+    if (m_temporarySelectionGroup > -1) {
+        requestClipUngroup(m_temporarySelectionGroup, undo, redo, true);
         m_temporarySelectionGroup = -1;
     }
-    int result = requestClipsGroup(ids, undo, redo);
-    if (result > -1 && logUndo) {
+    int result = requestClipsGroup(ids, undo, redo, temporarySelection);
+    if (temporarySelection) {
         m_temporarySelectionGroup = result;
+    }
+    if (result > -1 && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Group clips"));
     }
     return result;
 }
 
-int TimelineModel::requestClipsGroup(const std::unordered_set<int> &ids, Fun &undo, Fun &redo)
+int TimelineModel::requestClipsGroup(const std::unordered_set<int> &ids, Fun &undo, Fun &redo, bool temporarySelection)
 {
 #ifdef LOGGING
     std::stringstream group;
@@ -827,7 +829,11 @@ int TimelineModel::requestClipsGroup(const std::unordered_set<int> &ids, Fun &un
             return -1;
         }
     }
-    int groupId = m_groups->groupItems(ids, undo, redo);
+    int groupId = m_groups->groupItems(ids, undo, redo, temporarySelection);
+    if (temporarySelection && *(ids.begin()) == groupId) {
+        // only one element selected, no group created
+        return -1;
+    }
     return groupId;
 }
 
@@ -846,9 +852,9 @@ bool TimelineModel::requestClipUngroup(int id, bool logUndo)
     return result;
 }
 
-bool TimelineModel::requestClipUngroup(int id, Fun &undo, Fun &redo)
+bool TimelineModel::requestClipUngroup(int id, Fun &undo, Fun &redo, bool temporarySelection)
 {
-    return m_groups->ungroupItem(id, undo, redo);
+    return m_groups->ungroupItem(id, undo, redo, temporarySelection);
 }
 
 bool TimelineModel::requestTrackInsertion(int position, int &id)

@@ -636,10 +636,3 @@ void TimelineController::focusItem(int itemId)
     setPosition(start);
 }
 
-bool TimelineController::isInSelection(int cid) const
-{
-    if (m_model->m_temporarySelectionGroup == -1 || !m_model->m_groups->isInGroup(cid)) {
-        return false;
-    }
-    return (m_model->m_groups->getRootId(cid) == m_model->m_temporarySelectionGroup);
-}

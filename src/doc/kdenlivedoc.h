@@ -77,7 +77,6 @@ public:
     QDomDocument toXml();
     std::shared_ptr<DocUndoStack> commandStack();
     ClipManager *clipManager();
-    QString groupsXml() const;
 
     void deleteClip(const QString &clipId, ClipType type, const QString &url);
     int getFramePos(const QString &duration);
@@ -225,6 +224,8 @@ public slots:
     /** @brief Saves the current project at the autosave location.
      * @description The autosave files are in ~/.kde/data/stalefiles/kdenlive/ */
     void slotAutoSave();
+    /** @brief Groups were changed, save to MLT. */
+    void groupsChanged(const QString &groups);
 
 private slots:
     void slotClipModified(const QString &path);

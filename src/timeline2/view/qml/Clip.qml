@@ -182,14 +182,21 @@ Rectangle {
             root.stopScrolling = false
             parent.y = 0
             var delta = parent.x - startX
+            var moved = false
             if (Math.abs(delta) >= 1.0 || trackId !== originalTrackId) {
+                moved = true
                 parent.moved(clipRoot)
                 originalX = parent.x
                 originalTrackId = trackId
             } else {
-                parent.dropped(clipRoot)
+                if (Math.abs(delta) >= 1.0) {
+                    parent.dropped(clipRoot)
+                    moved = true;
+                }
             }
-            clipRoot.clicked(clipRoot, mouse.modifiers === Qt.ShiftModifier)
+            if (!clipRoot.selected || moved == false) {
+                clipRoot.clicked(clipRoot, mouse.modifiers === Qt.ShiftModifier)
+            }
         }
         onDoubleClicked: timeline.position = clipRoot.x / timeline.scaleFactor
         onWheel: zoomByWheel(wheel)

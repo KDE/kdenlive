@@ -366,7 +366,7 @@ public:
        @param ids Set of ids to group
     */
     int requestClipsGroup(const std::unordered_set<int> &ids, bool logUndo = true, bool temporarySelection = false);
-    int requestClipsGroup(const std::unordered_set<int> &ids, Fun &undo, Fun &redo);
+    int requestClipsGroup(const std::unordered_set<int> &ids, Fun &undo, Fun &redo, bool temporarySelection = false);
 
     /* @brief Destruct the topmost group containing clip
        This action is undoable
@@ -375,7 +375,7 @@ public:
     */
     bool requestClipUngroup(int id, bool logUndo = true);
     /* Same function, but accumulates undo and redo*/
-    bool requestClipUngroup(int id, Fun &undo, Fun &redo);
+    bool requestClipUngroup(int id, Fun &undo, Fun &redo, bool temporarySelection = false);
 
     /* @brief Create a track at given position
        This action is undoable
@@ -604,5 +604,6 @@ protected:
     virtual QModelIndex makeCompositionIndexFromID(int) const = 0;
     virtual QModelIndex makeTrackIndexFromID(int) const = 0;
     virtual void _resetView() = 0;
+
 };
 #endif

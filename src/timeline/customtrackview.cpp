@@ -322,29 +322,7 @@ void CustomTrackView::updateSceneFrameWidth(double fpsChanged)
 {
     int frameWidth = getFrameWidth();
     if (fpsChanged != 1.0 && m_projectDuration > 0) {
-        // try to remember and rebuild groups
-        // Prepare groups for reload
-        QDomDocument doc;
-        doc.setContent(m_document->groupsXml());
-        QDomNodeList groups;
-        if (!doc.isNull()) {
-            groups = doc.documentElement().elementsByTagName(QStringLiteral("group"));
-            for (int nodeindex = 0; nodeindex < groups.count(); ++nodeindex) {
-                QDomNode grp = groups.item(nodeindex);
-                QDomNodeList nodes = grp.childNodes();
-                for (int itemindex = 0; itemindex < nodes.count(); ++itemindex) {
-                    QDomElement elem = nodes.item(itemindex).toElement();
-                    if (!elem.hasAttribute(QStringLiteral("position"))) {
-                        continue;
-                    }
-                    int pos = elem.attribute(QStringLiteral("position")).toInt();
-                    elem.setAttribute(QStringLiteral("position"), rintf(pos * fpsChanged));
-                }
-            }
-        }
-        clearSelection();
-        reloadTimeline();
-        loadGroups(groups);
+
     } else {
         QList<QGraphicsItem *> itemList = items();
         ClipItem *item;
@@ -3749,30 +3727,6 @@ void CustomTrackView::addTrack(const TrackInfo &type, int ix)
     if (ix <= m_timeline->audioTarget) {
         m_timeline->audioTarget++;
     }
-    // Prepare groups for reload
-    QDomDocument doc;
-    doc.setContent(m_document->groupsXml());
-    QDomNodeList groups;
-    if (!doc.isNull()) {
-        groups = doc.documentElement().elementsByTagName(QStringLiteral("group"));
-        for (int nodeindex = 0; nodeindex < groups.count(); ++nodeindex) {
-            QDomNode grp = groups.item(nodeindex);
-            QDomNodeList nodes = grp.childNodes();
-            for (int itemindex = 0; itemindex < nodes.count(); ++itemindex) {
-                QDomElement elem = nodes.item(itemindex).toElement();
-                if (!elem.hasAttribute(QStringLiteral("track"))) {
-                    continue;
-                }
-                int track = elem.attribute(QStringLiteral("track")).toInt();
-                if (track < ix) {
-                    // No change
-                    continue;
-                } else {
-                    elem.setAttribute(QStringLiteral("track"), track + 1);
-                }
-            }
-        }
-    }
     // insert track in MLT's playlist
     transitionInfos = m_document->renderer()->mltInsertTrack(ix, type.trackName, type.type == VideoTrack);
     Mlt::Tractor *tractor = m_document->renderer()->lockService();
@@ -3781,7 +3735,6 @@ void CustomTrackView::addTrack(const TrackInfo &type, int ix)
     reloadTimeline();
     // Refresh track compositing and audio mix
     m_timeline->refreshTransitions();
-    loadGroups(groups);
 }
 
 void CustomTrackView::reloadTimeline()
@@ -3842,35 +3795,6 @@ void CustomTrackView::removeTrack(int ix)
             field->disconnect_service(*mixTr.data());
         }
     }
-    // Prepare groups for reload
-    QDomDocument doc;
-    doc.setContent(m_document->groupsXml());
-    QDomNodeList groups;
-    if (!doc.isNull()) {
-        groups = doc.documentElement().elementsByTagName(QStringLiteral("group"));
-        for (int nodeindex = 0; nodeindex < groups.count(); ++nodeindex) {
-            QDomNode grp = groups.item(nodeindex);
-            QDomNodeList nodes = grp.childNodes();
-            for (int itemindex = 0; itemindex < nodes.count(); ++itemindex) {
-                QDomElement elem = nodes.item(itemindex).toElement();
-                if (!elem.hasAttribute(QStringLiteral("track"))) {
-                    continue;
-                }
-                int track = elem.attribute(QStringLiteral("track")).toInt();
-                if (track < ix) {
-                    // No change
-                    continue;
-                } else if (track > ix) {
-                    elem.setAttribute(QStringLiteral("track"), track - 1);
-                } else {
-                    // track == ix
-                    // A grouped item was on deleted track, remove it from group
-                    elem.setAttribute(QStringLiteral("track"), -1);
-                }
-            }
-        }
-    }
-
     // Manually remove all transitions issued from track ix, otherwise  MLT will relocate it to another track
     m_timeline->transitionHandler->deleteTrackTransitions(ix);
 
@@ -3880,7 +3804,6 @@ void CustomTrackView::removeTrack(int ix)
     reloadTimeline();
     // Refresh track compositing and audio mix
     m_timeline->refreshTransitions();
-    loadGroups(groups);
 }
 
 void CustomTrackView::configTracks(const QList<TrackInfo> &trackInfos)

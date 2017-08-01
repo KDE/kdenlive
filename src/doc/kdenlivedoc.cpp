@@ -583,11 +583,6 @@ ClipManager *KdenliveDoc::clipManager()
     return m_clipManager;
 }
 
-QString KdenliveDoc::groupsXml() const
-{
-    return m_clipManager->groupsXml();
-}
-
 QString KdenliveDoc::projectTempFolder() const
 {
     if (m_projectFolder.isEmpty()) {
@@ -1697,6 +1692,11 @@ std::shared_ptr<MarkerListModel> KdenliveDoc::getGuideModel() const
 void KdenliveDoc::guidesChanged()
 {
     m_documentProperties[QStringLiteral("guides")] = m_guideModel->toJson();
+}
+
+void KdenliveDoc::groupsChanged(const QString &groups)
+{
+    m_documentProperties[QStringLiteral("groups")] = groups;
 }
 
 const QString KdenliveDoc::documentRoot() const

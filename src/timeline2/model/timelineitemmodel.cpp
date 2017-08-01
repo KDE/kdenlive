@@ -241,7 +241,7 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
         case DurationRole:
             return clip->getPlaytime();
         case GroupedRole:
-            return m_groups->isInGroup(id);
+            return (m_groups->isInGroup(id) && !isInSelection(id));
         case InPointRole:
             return clip->getIn();
         case OutPointRole:
@@ -398,6 +398,20 @@ const QString TimelineItemModel::getCompositingTransition()
     return QString();
 }
 
+const QString TimelineItemModel::groupsData()
+{
+    return m_groups->toJson();
+}
+
+bool TimelineItemModel::isInSelection(int cid) const
+{
+    if (m_temporarySelectionGroup == -1 || !m_groups->isInGroup(cid)) {
+        return false;
+    }
+    bool res = (m_groups->getRootId(cid) == m_temporarySelectionGroup);
+    return res;
+}
+
 void TimelineItemModel::notifyChange(const QModelIndex &topleft, const QModelIndex &bottomright, bool start, bool duration, bool updateThumb)
 {
     QVector<int> roles;
@@ -447,4 +461,3 @@ void TimelineItemModel::_resetView()
     beginResetModel();
     endResetModel();
 }
-

@@ -796,7 +796,7 @@ Rectangle {
                 currentTrack = track
                 if (shiftClick === 1) {
                     timeline.addSelection(clip.clipId)
-                } else if (!timeline.isInSelection(clip.clipId) ) {
+                } else {
                     timeline.selection = [ clip.clipId ]
                 }
                 timeline.showAsset(clip.clipId)
@@ -949,3 +949,4 @@ Rectangle {
         }
     }
 }
+
