@@ -49,7 +49,6 @@ public:
        Returns the id of the new group, or -1 on error.
     */
     int groupItems(const std::unordered_set<int> &ids, Fun &undo, Fun &redo, bool temporarySelection = false);
-    const QString toJson() const;
 
 protected:
     /* Lambda version */
@@ -108,6 +107,10 @@ public:
        @param id of the groupItem
      */
     std::unordered_set<int> getDirectChildren(int id) const;
+
+    /* @brief Returns group data for saving
+     */
+    std::unordered_map<int, int>groupsData();
 
 protected:
     /* @brief Destruct a groupItem in the hierarchy.

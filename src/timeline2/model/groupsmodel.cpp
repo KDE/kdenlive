@@ -24,9 +24,6 @@
 #include "timelineitemmodel.hpp"
 #include <QDebug>
 #include <QModelIndex>
-#include <QJsonArray>
-#include <QJsonDocument>
-#include <QJsonObject>
 #include <queue>
 #include <utility>
 
@@ -254,22 +251,7 @@ void GroupsModel::removeFromGroup(int id)
     m_upLink[id] = -1;
 }
 
-const QString GroupsModel::toJson() const
+std::unordered_map<int, int>GroupsModel::groupsData()
 {
-    READ_LOCK();
-    QJsonArray list;
-    for (const auto &uplink : m_upLink) {
-        QJsonObject currentGroup;
-        currentGroup.insert(QLatin1String("id"), QJsonValue(uplink.first));
-        currentGroup.insert(QLatin1String("parent"), QJsonValue(uplink.second));
-        std::unordered_set<int> children = getLeaves(uplink.first);
-        QJsonArray array;
-        for (const int &child : children) {
-            array.append(child);
-        }
-        currentGroup.insert(QLatin1String("leaves"), QJsonValue(array));
-        list.push_back(currentGroup);
-    }
-    QJsonDocument json(list);
-    return QString(json.toJson());
+    return m_upLink;
 }

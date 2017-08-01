@@ -89,6 +89,7 @@ public:
     void buildTrackCompositing();
     static const QString getCompositingTransition();
     const QString groupsData();
+    bool loadGroups(const QString &groupsData);
 
     virtual void _beginRemoveRows(const QModelIndex &, int, int) override;
     virtual void _beginInsertRows(const QModelIndex &, int, int) override;

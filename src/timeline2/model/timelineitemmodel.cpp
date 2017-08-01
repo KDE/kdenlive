@@ -38,6 +38,10 @@
 #include <mlt++/MltTransition.h>
 #include <mlt++/MltField.h>
 
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
+
 #include <utility>
 
 TimelineItemModel::TimelineItemModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack)
@@ -400,7 +404,68 @@ const QString TimelineItemModel::getCompositingTransition()
 
 const QString TimelineItemModel::groupsData()
 {
-    return m_groups->toJson();
+    std::unordered_map<int, int>upLinks = m_groups->groupsData();
+    QJsonArray list;
+    for (const auto &uplink : upLinks) {
+        QJsonObject currentGroup;
+        int cid = uplink.first;
+        if (isClip(cid) || isComposition(cid)) {
+            continue;
+        } else {
+            // encountering a group
+            currentGroup.insert(QLatin1String("id"), QJsonValue(cid));
+            currentGroup.insert(QLatin1String("parent"), QJsonValue(uplink.second));
+            std::unordered_set<int> children = m_groups->getLeaves(cid);
+            QJsonArray array;
+            for (const int &child : children) {
+                if (isClip(child) || isComposition(child)) {
+                    array.append(QString("%1:%2").arg(getTrackMltIndex(getItemTrackId(child))).arg(getItemPosition(child)));
+                } else {
+                    // this is a subgroup
+                    array.append(child);
+                }
+            }
+            currentGroup.insert(QLatin1String("leaves"), QJsonValue(array));
+        }
+        list.push_back(currentGroup);
+    }
+    QJsonDocument json(list);
+    return QString(json.toJson());
+}
+
+bool TimelineItemModel::loadGroups(const QString &groupsData)
+{
+    auto json = QJsonDocument::fromJson(groupsData.toUtf8());
+    if (!json.isArray()) {
+        qDebug() << "Error : Json file should be an array";
+        return false;
+    }
+    auto list = json.array();
+    for (const auto &entry : list) {
+        if (!entry.isObject()) {
+            qDebug() << "Warning : Skipping invalid marker data";
+            continue;
+        }
+        auto entryObj = entry.toObject();
+        if (!entryObj.contains(QLatin1String("leaves"))) {
+            qDebug() << "Warning : Skipping invalid empty group";
+            continue;
+        }
+        auto clipList = entryObj[QLatin1String("leaves")].toArray();
+        std::unordered_set<int> ids;
+        for (int i = 0; i < clipList.count(); i++) {
+            QString clip = clipList[i].toString();
+            if (clip.contains(QStringLiteral(":"))) {
+                int track = getTrackIndexFromPosition(clip.section(":", 0, 0).toInt() - 1);
+                int position = clip.section(":", 1, 1).toInt();
+                int cid = getClipByPosition(track, position);
+                ids.insert(cid);
+            }
+        }
+        requestClipsGroup(ids, false, false);
+        return true;
+    }
+    return false;
 }
 
 bool TimelineItemModel::isInSelection(int cid) const

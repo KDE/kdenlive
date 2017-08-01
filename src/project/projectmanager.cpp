@@ -741,7 +741,7 @@ void ProjectManager::prepareSave()
     // TODO REFAC: save target tracks, preview chunks and guides
     pCore->binController()->saveDocumentProperties(m_project->documentProperties(), m_project->metadata(), m_project->getGuideModel());
     pCore->binController()->saveProperty(QStringLiteral("kdenlive:documentnotes"), documentNotes());
-    pCore->binController()->saveProperty(QStringLiteral("kdenlive:groups"), m_mainTimelineModel->groupsData());
+    pCore->binController()->saveProperty(QStringLiteral("kdenlive:docproperties.groups"), m_mainTimelineModel->groupsData());
 }
 
 void ProjectManager::slotResetProfiles()
@@ -865,7 +865,7 @@ void ProjectManager::updateTimeline(int pos)
     Mlt::Tractor tractor(s);
     m_mainTimelineModel = TimelineItemModel::construct(&pCore->getCurrentProfile()->profile(), m_project->getGuideModel(), m_project->commandStack());
     constructTimelineFromMelt(m_mainTimelineModel, tractor);
-
+    m_mainTimelineModel->loadGroups(m_project->getDocumentProperty(QStringLiteral("groups")));
     m_project->loadThumbs();
 
     pCore->monitorManager()->projectMonitor()->setProducer(m_mainTimelineModel->producer(), pos);
