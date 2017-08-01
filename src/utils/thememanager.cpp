@@ -221,7 +221,7 @@ void ThemeManager::slotConfigColors()
     int ret = KToolInvocation::kdeinitExec(QStringLiteral("kcmshell5"), QStringList() << QStringLiteral("colors"));
 
     if (ret > 0) {
-        KMessageBox::error(nullptr, i18n("Cannot start Colors Settings panel from KDE Control Center. "
+        KMessageBox::error(nullptr, i18n("Cannot start Colors panel from System Settings. "
                                    "Please check your system..."));
     }
 }
