@@ -132,9 +132,9 @@ signals:
 //     void projectOpened(Project *project);
 
 private:
-    /** @brief Checks that the Kdenlive mime type is correctly installed.
-    * @param open If set to true, this will return the mimetype allowed for file opening (adds .tar.gz format)
-    * @return The mimetype */
+    /** @brief Checks that the Kdenlive MIME type is correctly installed.
+    * @param open If set to true, this will return the MIME type allowed for file opening (adds .tar.gz format)
+    * @return The MIME type */
     QString getMimeType(bool open = true);
     /** @brief checks if autoback files exists, recovers from it if user says yes, returns true if files were recovered. */
     bool checkForBackupFile(const QUrl &url);

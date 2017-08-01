@@ -90,7 +90,7 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip
     if (clip) {
         QString url = clip->url();
         if (QFileInfo(url).fileName().startsWith(QLatin1String(".all."))) {
-            // the image sequence is defined by mimetype
+            // the image sequence is defined by MIME type
             m_view.method_mime->setChecked(true);
             m_view.folder_url->setText(QFileInfo(url).absolutePath());
             QString filter = QFileInfo(url).fileName();
@@ -509,7 +509,7 @@ void SlideshowClip::slotUpdateDurationFormat(int ix)
 void SlideshowClip::slotMethodChanged(bool active)
 {
     if (active) {
-        // User wants mimetype image sequence
+        // User wants MIME type image sequence
         m_view.clip_duration->setText(m_timecode.reformatSeparators(KdenliveSettings::image_duration()));
         m_view.stackedWidget->setCurrentIndex(0);
         KdenliveSettings::setSlideshowbymime(true);

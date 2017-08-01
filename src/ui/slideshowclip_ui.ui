@@ -33,7 +33,7 @@
       <item row="0" column="0">
        <widget class="QRadioButton" name="method_mime">
         <property name="text">
-         <string>&amp;Mimetype</string>
+         <string>&amp;MIME type</string>
         </property>
         <property name="checked">
          <bool>true</bool>

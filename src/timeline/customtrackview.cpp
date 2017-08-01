@@ -3655,7 +3655,7 @@ void CustomTrackView::adjustTimelineTransitions(TimelineMode::EditMode mode, Tra
 QStringList CustomTrackView::mimeTypes() const
 {
     QStringList qstrList;
-    // list of accepted mime types for drop
+    // list of accepted MIME types for drop
     qstrList.append(QStringLiteral("text/plain"));
     qstrList.append(QStringLiteral("kdenlive/producerslist"));
     qstrList.append(QStringLiteral("kdenlive/clip"));

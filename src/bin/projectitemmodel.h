@@ -58,7 +58,7 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
     /** @brief Mandatory reimplementation from QAbstractItemModel */
     int columnCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
-    /** @brief Returns the mimetype used for Drag actions */
+    /** @brief Returns the MIME type used for Drag actions */
     QStringList mimeTypes() const Q_DECL_OVERRIDE;
     /** @brief Create data that will be used for Drag events */
     QMimeData *mimeData(const QModelIndexList &indices) const Q_DECL_OVERRIDE;
