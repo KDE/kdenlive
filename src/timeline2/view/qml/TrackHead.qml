@@ -280,7 +280,7 @@ Rectangle {
         Rectangle {
             id: resizer
             Layout.fillWidth: true
-            height: 5
+            height: 4
             color: 'red'
             opacity: 0
             Drag.active: trimInMouseArea.drag.active
@@ -312,7 +312,7 @@ Rectangle {
                     if (mouse.buttons === Qt.LeftButton) {
                         parent.opacity = 0.5
                         var newHeight = originalY + (mapToItem(null, x, y).y - startY)
-                        newHeight =  Math.max(trackLabel.height + resizer.height + 4, newHeight)
+                        newHeight =  Math.max(trackLabel.height + resizer.height + 3, newHeight)
                         trackHeadRoot.collapsed = newHeight < nameEdit.height * 2
                         trackHeadRoot.myTrackHeight = newHeight
                     }

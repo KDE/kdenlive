@@ -176,7 +176,7 @@ Timeline::Timeline(KdenliveDoc *doc, const QList<QAction *> &actions, const QLis
     connect(m_disablePreview, &QAction::triggered, this, &Timeline::disablePreview);
     m_disablePreview->setEnabled(false);
     m_trackview->initTools();
-    splitter->restoreState(QByteArray::fromBase64(KdenliveSettings::timelineheaderwidth().toUtf8()));
+    //splitter->restoreState(QByteArray::fromBase64(KdenliveSettings::timelineheaderwidth().toUtf8()));
     QAction *previewRender = m_doc->getAction(QStringLiteral("prerender_timeline_zone"));
     previewRender->setEnabled(true);
 }
@@ -2130,7 +2130,7 @@ void Timeline::clearPreviewRange()
 
 void Timeline::storeHeaderSize(int, int)
 {
-    KdenliveSettings::setTimelineheaderwidth(splitter->saveState().toBase64());
+    //KdenliveSettings::setTimelineheaderwidth(splitter->saveState().toBase64());
 }
 
 void Timeline::switchComposite(int mode)

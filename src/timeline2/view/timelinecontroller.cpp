@@ -636,3 +636,13 @@ void TimelineController::focusItem(int itemId)
     setPosition(start);
 }
 
+int TimelineController::headerWidth() const
+{
+    return qMax(10, KdenliveSettings::headerwidth());
+}
+
+void TimelineController::setHeaderWidth(int width)
+{
+    KdenliveSettings::setHeaderwidth(width);
+}
+

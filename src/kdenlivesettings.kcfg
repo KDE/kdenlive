@@ -183,9 +183,9 @@
   </group>
 
   <group name="timeline">
-    <entry name="timelineheaderwidth" type="String">
+    <entry name="headerwidth" type="Int">
       <label>Default width for timeline track headers.</label>
-      <default></default>
+      <default>140</default>
     </entry>
     <entry name="defaultkeyframeinterp" type="Int">
       <label>Default interpolation for keyframes.</label>

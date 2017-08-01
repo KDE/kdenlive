@@ -93,7 +93,7 @@ Rectangle {
         return col
     }
 
-    property int headerWidth: 140
+    property int headerWidth: timeline.headerWidth
     property int activeTool: 0
     property real baseUnit: fontMetrics.font.pointSize
     property int currentTrack: 0
@@ -380,9 +380,53 @@ Rectangle {
                                 console.log('track name: ',index, ' = ', model.name)
                                 //timeline.selectTrackHead(currentTrack)
                             }
+                        }
                     }
                 }
-            }
+                Column {
+                    id: trackHeadersResizer
+                    spacing: 0
+                    width: 5
+                    Rectangle {
+                        id: resizer
+                        height: trackHeaders.height
+                        width: 3
+                        x: root.headerWidth - 2
+                        color: 'red'
+                        opacity: 0
+                        Drag.active: headerMouseArea.drag.active
+                        Drag.proposedAction: Qt.MoveAction
+
+                        MouseArea {
+                            id: headerMouseArea
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            cursorShape: Qt.SizeHorCursor
+                            drag.target: parent
+                            drag.axis: Drag.XAxis
+                            property double startX
+                            property double originalX
+                            drag.smoothed: false
+
+                            onPressed: {
+                                root.stopScrolling = true
+                            }
+                            onReleased: {
+                                root.stopScrolling = false
+                                parent.opacity = 0
+                            }
+                            onEntered: parent.opacity = 0.5
+                            onExited: parent.opacity = 0
+                            onPositionChanged: {
+                                if (mouse.buttons === Qt.LeftButton) {
+                                    parent.opacity = 0.5
+                                    headerWidth = Math.max(10, mapToItem(null, x, y).x + 2)
+                                    timeline.setHeaderWidth(headerWidth)
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
         MouseArea {
