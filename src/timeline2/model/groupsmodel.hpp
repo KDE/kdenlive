@@ -111,6 +111,7 @@ public:
     /* @brief Returns group data for saving
      */
     std::unordered_map<int, int>groupsData();
+    std::unordered_map<int, std::unordered_set<int>>groupsDataDownlink();
 
 protected:
     /* @brief Destruct a groupItem in the hierarchy.

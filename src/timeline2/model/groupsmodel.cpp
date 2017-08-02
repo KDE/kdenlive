@@ -255,3 +255,8 @@ std::unordered_map<int, int>GroupsModel::groupsData()
 {
     return m_upLink;
 }
+
+std::unordered_map<int, std::unordered_set<int>>GroupsModel::groupsDataDownlink()
+{
+    return m_downLink;
+}
