@@ -701,10 +701,10 @@ Rectangle {
         }
         MenuItem {
             visible: true
-            text: i18n('Split At Playhead (S)')
-            onTriggered: timeline.splitClip(trackIndex, index)
+            text: i18n('Split At Playhead')
+            onTriggered: timeline.triggerAction('cut_timeline_clip')
         }
-        MenuItem {
+        /*MenuItem {
             id: mergeItem
             text: i18n('Merge with next clip')
             onTriggered: timeline.mergeClipWithNext(trackIndex, index, false)
@@ -712,7 +712,7 @@ Rectangle {
         MenuItem {
             text: i18n('Rebuild Audio Waveform')
             onTriggered: timeline.remakeAudioLevels(trackIndex, index)
-        }
+        }*/
         /*onPopupVisibleChanged: {
             if (visible && application.OS !== 'OS X' && __popupGeometry.height > 0) {
                 // Try to fix menu running off screen. This only works intermittently.
