@@ -328,7 +328,22 @@ void TimelineController::groupSelection()
 
 void TimelineController::unGroupSelection(int cid)
 {
-    m_model->requestClipUngroup(cid);
+    if (cid == -1 && m_selection.selectedClips.isEmpty()) {
+        return;
+    }
+    if (cid == -1) {
+        for (int id : m_selection.selectedClips) {
+            if (m_model->m_groups->isInGroup(id) && !m_model->isInSelection(id)) {
+                cid = id;
+                break;
+            }
+        }
+    }
+    if (cid > -1) {
+        m_model->requestClipUngroup(cid);
+        m_selection.selectedClips.clear();
+        emit selectionChanged();
+    }
 }
 
 void TimelineController::setInPoint()

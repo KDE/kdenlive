@@ -2592,16 +2592,12 @@ void MainWindow::slotSelectAddTimelineTransition()
 
 void MainWindow::slotGroupClips()
 {
-    if (pCore->projectManager()->currentTimeline()) {
-        pCore->projectManager()->currentTimeline()->projectView()->groupClips();
-    }
+    getCurrentTimeline()->controller()->groupSelection();
 }
 
 void MainWindow::slotUnGroupClips()
 {
-    if (pCore->projectManager()->currentTimeline()) {
-        pCore->projectManager()->currentTimeline()->projectView()->groupClips(false);
-    }
+    getCurrentTimeline()->controller()->unGroupSelection();
 }
 
 void MainWindow::slotEditItemDuration()

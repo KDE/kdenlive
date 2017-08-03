@@ -140,7 +140,7 @@ public:
     Q_INVOKABLE void groupSelection();
     /* @brief Ungroup selected items in timeline
      */
-    Q_INVOKABLE void unGroupSelection(int cid);
+    Q_INVOKABLE void unGroupSelection(int cid = -1);
     /* @brief Ask for edit marker dialog
      */
     Q_INVOKABLE void editMarker(const QString &cid, int frame);

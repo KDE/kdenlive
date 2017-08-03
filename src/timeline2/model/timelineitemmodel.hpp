@@ -63,9 +63,6 @@ protected:
     /* @brief this constructor should not be called. Call the static construct instead
      */
     TimelineItemModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack);
-    /* @brief returns true if clip is in temporary selection group.
-     */
-    bool isInSelection(int cid) const;
 
 public:
     ~TimelineItemModel();
@@ -90,6 +87,9 @@ public:
     static const QString getCompositingTransition();
     const QString groupsData();
     bool loadGroups(const QString &groupsData);
+    /* @brief returns true if clip is in temporary selection group.
+     */
+    bool isInSelection(int cid) const;
 
     virtual void _beginRemoveRows(const QModelIndex &, int, int) override;
     virtual void _beginInsertRows(const QModelIndex &, int, int) override;

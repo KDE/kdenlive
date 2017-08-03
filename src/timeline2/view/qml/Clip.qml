@@ -667,7 +667,7 @@ Rectangle {
         MenuItem {
             visible: !grouped && trackRoot.selection.length > 1
             text: i18n('Group')
-            onTriggered: timeline.groupSelection()
+            onTriggered: timeline.triggerAction('group_clip')
         }
         MenuItem {
             visible: grouped
