@@ -58,7 +58,6 @@ bool DocumentValidator::validate(const double currentVersion)
     if (mlt.isNull()) {
         return false;
     }
-
     QDomElement kdenliveDoc = mlt.firstChildElement(QStringLiteral("kdenlivedoc"));
     QString rootDir = mlt.attribute(QStringLiteral("root"));
     if (rootDir == QLatin1String("$CURRENTPATH")) {
@@ -385,9 +384,9 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
     if (!docs.isEmpty()) {
         infoXmlNode = m_doc.elementsByTagName(QStringLiteral("kdenlivedoc")).at(0);
         infoXml = infoXmlNode.toElement();
-        infoXml.setAttribute(QStringLiteral("upgraded"), QStringLiteral("1"));
+        infoXml.setAttribute(QStringLiteral("upgraded"), 1);
     }
-    m_doc.documentElement().setAttribute(QStringLiteral("upgraded"), QStringLiteral("1"));
+    m_doc.documentElement().setAttribute(QStringLiteral("upgraded"), 1);
 
     if (version <= 0.6) {
         QDomElement infoXml_old = infoXmlNode.cloneNode(true).toElement(); // Needed for folders

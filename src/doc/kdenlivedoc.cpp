@@ -48,6 +48,7 @@
 #include <KBookmarkManager>
 #include <KIO/CopyJob>
 #include <KIO/JobUiDelegate>
+#include <KIO/FileCopyJob>
 #include <KMessageBox>
 #include <klocalizedstring.h>
 
@@ -78,6 +79,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGro
     , m_autosave(nullptr)
     , m_url(url)
     , m_modified(false)
+    , m_documentOpenStatus(CleanProject)
     , m_projectFolder(projectFolder)
 {
     m_commandStack = std::make_shared<DocUndoStack>(undoGroup);
@@ -225,10 +227,12 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGro
                         success = !d.hasErrorInClips();
                         if (success) {
                             loadDocumentProperties();
-                            if (m_document.documentElement().attribute(QStringLiteral("modified")) == QLatin1String("1")) {
-                                setModified(true);
-                            }
-                            if (validator.isModified()) {
+                            if (m_document.documentElement().hasAttribute(QStringLiteral("upgraded"))) {
+                                m_documentOpenStatus = UpgradedProject;
+                                pCore->displayMessage(i18n("Your project was upgraded, a backup will be created on next save"), ErrorMessage);
+                            } else if (m_document.documentElement().hasAttribute(QStringLiteral("modified")) || validator.isModified()) {
+                                m_documentOpenStatus = ModifiedProject;
+                                pCore->displayMessage(i18n("Your project was modified on opening, a backup will be created on next save"), ErrorMessage);
                                 setModified(true);
                             }
                         }
@@ -552,8 +556,35 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene)
 
     // Backup current version
     backupLastSavedVersion(path);
-    QFile file(path);
+    if (m_documentOpenStatus != CleanProject) {
+        // create visible backup file and warn user
+        QString baseFile = path.section(QStringLiteral(".kdenlive"), 0, 0);
+        int ct = 0;
+        QString backupFile = baseFile + QStringLiteral("_backup") + QString::number(ct) + QStringLiteral(".kdenlive");
+        while (QFile::exists(backupFile)) {
+            ct++;
+            backupFile = baseFile + QStringLiteral("_backup") + QString::number(ct) + QStringLiteral(".kdenlive");
+        }
+        QString message;
+        if (m_documentOpenStatus == UpgradedProject) {
+            message = i18n("Your project file was upgraded to the latest Kdenlive document version.\nTo make sure you don't lose data, a backup copy called %1 "
+                           "was created.",
+                           backupFile);
+        } else {
+            message = i18n("Your project file was modified by Kdenlive.\nTo make sure you don't lose data, a backup copy called %1 was created.", backupFile);
+        }
 
+        KIO::FileCopyJob *copyjob = KIO::file_copy(QUrl::fromLocalFile(path), QUrl::fromLocalFile(backupFile));
+        if (copyjob->exec()) {
+            KMessageBox::information(QApplication::activeWindow(), message);
+            m_documentOpenStatus = CleanProject;
+        } else {
+            KMessageBox::information(
+                QApplication::activeWindow(), i18n("Your project file was upgraded to the latest Kdenlive document version, but it was not possible to create the backup copy %1.",
+                           backupFile));
+        }
+    }
+    QFile file(path);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         qCWarning(KDENLIVE_LOG) << "//////  ERROR writing to file: " << path;
         KMessageBox::error(QApplication::activeWindow(), i18n("Cannot write to file %1", path));

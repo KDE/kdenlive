@@ -189,6 +189,10 @@ private:
     /** @brief Tells whether the current document has been changed after being saved. */
     bool m_modified;
 
+    /** @brief Tells whether the current document was modified by Kdenlive on opening, and a backup should be created on save. */
+    enum DOCSTATUS {CleanProject, ModifiedProject, UpgradedProject};
+    DOCSTATUS m_documentOpenStatus;
+
     /** @brief The project folder, used to store project files (titles, effects...). */
     QString m_projectFolder;
     QList<int> m_undoChunks;

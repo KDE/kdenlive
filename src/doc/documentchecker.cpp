@@ -103,7 +103,7 @@ bool DocumentChecker::hasErrorInClips()
                 storageFolder = projectDir.absolutePath();
                 EffectsList::setProperty(playlists.at(i).toElement(), QStringLiteral("kdenlive:docproperties.storagefolder"),
                                          projectDir.absoluteFilePath(documentid));
-                m_doc.documentElement().setAttribute(QStringLiteral("modified"), QStringLiteral("1"));
+                m_doc.documentElement().setAttribute(QStringLiteral("modified"), 1);
             }
             break;
         }
@@ -463,7 +463,7 @@ bool DocumentChecker::hasErrorInClips()
 
     if (max > 0) {
         // original doc was modified
-        m_doc.documentElement().setAttribute(QStringLiteral("modified"), QStringLiteral("1"));
+        m_doc.documentElement().setAttribute(QStringLiteral("modified"), 1);
     }
 
     // Check clips with available proxies but missing original source clips
@@ -495,7 +495,7 @@ bool DocumentChecker::hasErrorInClips()
     }
     if (max > 0) {
         // original doc was modified
-        m_doc.documentElement().setAttribute(QStringLiteral("modified"), QStringLiteral("1"));
+        m_doc.documentElement().setAttribute(QStringLiteral("modified"), 1);
     }
     m_ui.treeWidget->resizeColumnToContents(0);
     connect(m_ui.recursiveSearch, &QAbstractButton::pressed, this, &DocumentChecker::slotSearchClips);
@@ -616,7 +616,7 @@ void DocumentChecker::slotSearchClips()
     m_ui.recursiveSearch->setEnabled(true);
     if (fixed) {
         // original doc was modified
-        m_doc.documentElement().setAttribute(QStringLiteral("modified"), QStringLiteral("1"));
+        m_doc.documentElement().setAttribute(QStringLiteral("modified"), 1);
     }
     checkStatus();
 }
@@ -1076,7 +1076,7 @@ void DocumentChecker::slotDeleteSelected()
                 }
             }
         }
-        m_doc.documentElement().setAttribute(QStringLiteral("modified"), QStringLiteral("1"));
+        m_doc.documentElement().setAttribute(QStringLiteral("modified"), 1);
         checkStatus();
     }
 }

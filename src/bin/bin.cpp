@@ -1076,7 +1076,7 @@ void Bin::slotReloadClip()
                 doc.setContent(&f, false);
                 f.close();
                 DocumentChecker d(QUrl::fromLocalFile(path), doc);
-                if (!d.hasErrorInClips() && doc.documentElement().attribute(QStringLiteral("modified")) == QLatin1String("1")) {
+                if (!d.hasErrorInClips() && doc.documentElement().hasAttribute(QStringLiteral("modified"))) {
                     QString backupFile = path + QStringLiteral(".backup");
                     KIO::FileCopyJob *copyjob = KIO::file_copy(QUrl::fromLocalFile(path), QUrl::fromLocalFile(backupFile));
                     if (copyjob->exec()) {
@@ -1266,7 +1266,7 @@ void Bin::createClip(const QDomElement &xml)
         doc.setContent(&f, false);
         f.close();
         DocumentChecker d(QUrl::fromLocalFile(path), doc);
-        if (!d.hasErrorInClips() && doc.documentElement().attribute(QStringLiteral("modified")) == QLatin1String("1")) {
+        if (!d.hasErrorInClips() && doc.documentElement().hasAttribute(QStringLiteral("modified"))) {
             QString backupFile = path + QStringLiteral(".backup");
             KIO::FileCopyJob *copyjob = KIO::file_copy(QUrl::fromLocalFile(path), QUrl::fromLocalFile(backupFile));
             if (copyjob->exec()) {
