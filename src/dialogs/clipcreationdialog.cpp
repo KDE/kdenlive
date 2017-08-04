@@ -55,27 +55,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // static
 QStringList ClipCreationDialog::getExtensions()
 {
-    // Build list of mime types
-    QStringList mimeTypes = QStringList() << QStringLiteral("application/x-kdenlive") << QStringLiteral("application/x-kdenlivetitle")
-                                          << QStringLiteral("video/mlt-playlist") << QStringLiteral("text/plain");
+    // Build list of MIME types
+    QStringList mimeTypes = QStringList() << QStringLiteral("application/x-kdenlive") << QStringLiteral("application/x-kdenlivetitle") << QStringLiteral("video/mlt-playlist") << QStringLiteral("text/plain");
 
-    // Video mimes
-    mimeTypes << QStringLiteral("video/x-flv") << QStringLiteral("application/vnd.rn-realmedia") << QStringLiteral("video/x-dv") << QStringLiteral("video/dv")
-              << QStringLiteral("video/x-msvideo") << QStringLiteral("video/x-matroska") << QStringLiteral("video/mpeg") << QStringLiteral("video/ogg")
-              << QStringLiteral("video/x-ms-wmv") << QStringLiteral("video/mp4") << QStringLiteral("video/quicktime") << QStringLiteral("video/webm")
-              << QStringLiteral("video/3gpp") << QStringLiteral("video/mp2t");
+    // Video MIMEs
+    mimeTypes <<  QStringLiteral("video/x-flv") << QStringLiteral("application/vnd.rn-realmedia") << QStringLiteral("video/x-dv") << QStringLiteral("video/dv") << QStringLiteral("video/x-msvideo") << QStringLiteral("video/x-matroska") << QStringLiteral("video/mpeg") << QStringLiteral("video/ogg") << QStringLiteral("video/x-ms-wmv") << QStringLiteral("video/mp4") << QStringLiteral("video/quicktime") << QStringLiteral("video/webm") << QStringLiteral("video/3gpp") << QStringLiteral("video/mp2t");
 
-    // Audio mimes
-    mimeTypes << QStringLiteral("audio/x-flac") << QStringLiteral("audio/x-matroska") << QStringLiteral("audio/mp4") << QStringLiteral("audio/mpeg")
-              << QStringLiteral("audio/x-mp3") << QStringLiteral("audio/ogg") << QStringLiteral("audio/x-wav") << QStringLiteral("audio/x-aiff")
-              << QStringLiteral("audio/aiff") << QStringLiteral("application/ogg") << QStringLiteral("application/mxf")
-              << QStringLiteral("application/x-shockwave-flash") << QStringLiteral("audio/ac3");
+    // Audio MIMEs
+    mimeTypes << QStringLiteral("audio/x-flac") << QStringLiteral("audio/x-matroska") << QStringLiteral("audio/mp4") << QStringLiteral("audio/mpeg") << QStringLiteral("audio/x-mp3") << QStringLiteral("audio/ogg") << QStringLiteral("audio/x-wav") << QStringLiteral("audio/x-aiff") << QStringLiteral("audio/aiff") << QStringLiteral("application/ogg") << QStringLiteral("application/mxf") << QStringLiteral("application/x-shockwave-flash") << QStringLiteral("audio/ac3");
 
-    // Image mimes
-    mimeTypes << QStringLiteral("image/gif") << QStringLiteral("image/jpeg") << QStringLiteral("image/png") << QStringLiteral("image/x-tga")
-              << QStringLiteral("image/x-bmp") << QStringLiteral("image/svg+xml") << QStringLiteral("image/tiff") << QStringLiteral("image/x-xcf")
-              << QStringLiteral("image/x-xcf-gimp") << QStringLiteral("image/x-vnd.adobe.photoshop") << QStringLiteral("image/x-pcx")
-              << QStringLiteral("image/x-exr") << QStringLiteral("image/x-portable-pixmap") << QStringLiteral("application/x-krita");
+    // Image MIMEs
+    mimeTypes << QStringLiteral("image/gif") << QStringLiteral("image/jpeg") << QStringLiteral("image/png") << QStringLiteral("image/x-tga") << QStringLiteral("image/x-bmp") << QStringLiteral("image/svg+xml") << QStringLiteral("image/tiff") << QStringLiteral("image/x-xcf") << QStringLiteral("image/x-xcf-gimp") << QStringLiteral("image/x-vnd.adobe.photoshop") << QStringLiteral("image/x-pcx") << QStringLiteral("image/x-exr") << QStringLiteral("image/x-portable-pixmap") << QStringLiteral("application/x-krita");
 
     QMimeDatabase db;
     QStringList allExtensions;

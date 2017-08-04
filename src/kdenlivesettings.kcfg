@@ -815,7 +815,7 @@
     </entry>
 
     <entry name="slideshowbymime" type="Bool">
-      <label>True if slideshow default method is mimetype.</label>
+      <label>True if slideshow default method is MIME type.</label>
       <default>true</default>
     </entry>
     

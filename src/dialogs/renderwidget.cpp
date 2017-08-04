@@ -1209,9 +1209,9 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
                 KIO::DesktopExecParser parser(*serv, QList<QUrl>() << QUrl::fromLocalFile(QUrl::toPercentEncoding(dest)));
                 render_process_args << parser.resultingArguments().join(QLatin1Char(' '));
             } else {
-                // no service found to play mime type
-                // TODO: inform user
-                // errorMessage(PlaybackError, i18n("No service found to play %1", mime.name()));
+                // no service found to play MIME type
+                //TODO: inform user
+                //errorMessage(PlaybackError, i18n("No service found to play %1", mime.name()));
                 render_process_args << QStringLiteral("-");
             }
         } else {

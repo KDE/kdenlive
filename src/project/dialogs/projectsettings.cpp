@@ -581,7 +581,7 @@ QStringList ProjectSettings::extractSlideshowUrls(const QString &url)
     QString path = QFileInfo(url).absolutePath();
     QDir dir(path);
     if (url.contains(QStringLiteral(".all."))) {
-        // this is a mime slideshow, like *.jpeg
+        // this is a MIME slideshow, like *.jpeg
         QString ext = url.section(QLatin1Char('.'), -1);
         QStringList filters;
         filters << QStringLiteral("*.") + ext;

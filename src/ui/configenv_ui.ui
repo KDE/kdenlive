@@ -253,7 +253,7 @@
        <item row="0" column="0">
         <widget class="QLabel" name="label_5">
          <property name="text">
-          <string>Additional clip mime types</string>
+          <string>Additional clip MIME types</string>
          </property>
         </widget>
        </item>
@@ -267,7 +267,7 @@
        <item row="2" column="0">
         <widget class="QLabel" name="label_12">
          <property name="text">
-          <string>Supported clip mime types</string>
+          <string>Supported clip MIME types</string>
          </property>
         </widget>
        </item>

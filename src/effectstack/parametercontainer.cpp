@@ -282,7 +282,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                 }
                 m_vbox->addWidget(lswid);
             } else if (type == QLatin1String("bool")) {
-                bool checked = (value == QLatin1String("1"));
+                bool checked = (value.toInt() == 1);
                 auto *bwid = new BoolParamWidget(paramName, comment, checked, parent);
                 if (m_conditionParameter && pa.hasAttribute(QStringLiteral("conditional"))) {
                     bwid->setEnabled(false);
@@ -293,7 +293,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                 connect(this, SIGNAL(showComments(bool)), bwid, SLOT(slotShowComment(bool)));
                 m_vbox->addWidget(bwid);
             } else if (type == QLatin1String("switch")) {
-                bool checked = (value == pa.attribute("min"));
+                bool checked = (value == pa.attribute("max"));
                 auto *bwid = new BoolParamWidget(paramName, comment, checked, parent);
                 if (m_conditionParameter && pa.hasAttribute(QStringLiteral("conditional"))) {
                     bwid->setEnabled(false);

@@ -673,7 +673,7 @@ void Wizard::installExtraMimes(const QString &baseName, const QStringList &globs
         return;
     }
     if (!mime.isValid() || mime.isDefault()) {
-        qCDebug(KDENLIVE_LOG) << "mimeType " << baseName << " not found";
+        qCDebug(KDENLIVE_LOG) << "MIME type " << baseName << " not found";
     } else {
         QStringList extensions = mime.globPatterns();
         QString comment = mime.comment();

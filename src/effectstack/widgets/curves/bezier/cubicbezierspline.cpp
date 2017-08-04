@@ -50,7 +50,7 @@ void CubicBezierSpline::fromString(const QString &spline)
         const QStringList points = bpoint.split(QLatin1Char('#'));
         QVector<QPointF> values;
         for (const QString &point : points) {
-            QStringList xy = point.split(QLatin1Char(';'));
+            const QStringList xy = point.split(QLatin1Char(';'));
             if (xy.count() == 2) {
                 values.append(QPointF(locale.toDouble(xy.at(0)), locale.toDouble(xy.at(1))));
             }

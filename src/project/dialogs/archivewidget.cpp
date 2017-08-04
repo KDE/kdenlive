@@ -340,7 +340,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QStringList
             QUrl slideUrl = QUrl::fromLocalFile(file);
             QDir dir(slideUrl.adjusted(QUrl::RemoveFilename).toLocalFile());
             if (slideUrl.fileName().startsWith(QLatin1String(".all."))) {
-                // mimetype slideshow (for example *.png)
+                // MIME type slideshow (for example *.png)
                 QStringList filters;
                 // TODO: improve jpeg image detection with extension like jpeg, requires change in MLT image producers
                 filters << QStringLiteral("*.") + slideUrl.fileName().section(QLatin1Char('.'), -1);
@@ -426,7 +426,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap<QStrin
             QUrl slideUrl = QUrl::fromLocalFile(file);
             QDir dir(slideUrl.adjusted(QUrl::RemoveFilename).toLocalFile());
             if (slideUrl.fileName().startsWith(QLatin1String(".all."))) {
-                // mimetype slideshow (for example *.png)
+                // MIME type slideshow (for example *.png)
                 QStringList filters;
                 // TODO: improve jpeg image detection with extension like jpeg, requires change in MLT image producers
                 filters << QStringLiteral("*.") + slideUrl.fileName().section(QLatin1Char('.'), -1);

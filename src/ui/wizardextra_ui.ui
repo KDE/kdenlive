@@ -63,7 +63,7 @@
    <item row="4" column="0" >
     <widget class="QCheckBox" name="installmimes" >
      <property name="text" >
-      <string>Install extra video mimetypes</string>
+      <string>Install extra video MIME types</string>
      </property>
      <property name="checked" >
       <bool>true</bool>

@@ -886,7 +886,7 @@ Qt::DropActions Monitor::supportedDropActions() const {
 QStringList Monitor::mimeTypes() const
 {
     QStringList qstrList;
-    // list of accepted mime types for drop
+    // list of accepted MIME types for drop
     qstrList.append(QStringLiteral("kdenlive/clip"));
     return qstrList;
 }

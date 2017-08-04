@@ -94,7 +94,7 @@ public:
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
     /** @brief Mandatory reimplementation from QAbstractItemModel */
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
-    /** @brief Returns the mimetype used for Drag actions */
+    /** @brief Returns the MIME type used for Drag actions */
     QStringList mimeTypes() const override;
     /** @brief Create data that will be used for Drag events */
     QMimeData *mimeData(const QModelIndexList &indices) const override;
