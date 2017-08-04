@@ -145,7 +145,6 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
         QString conditionParam = EffectsList::parameter(effect, condition);
         m_conditionParameter = !conditionParam.isEmpty();
     }
-
     if (effect.attribute(QStringLiteral("id")) == QLatin1String("movit.lift_gamma_gain") || effect.attribute(QStringLiteral("id")) == QLatin1String("lift_gamma_gain")) {
         // We use a special custom widget here
         LumaLiftGain *gainWidget = new LumaLiftGain(namenode, parent);
@@ -282,7 +281,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                 }
                 m_vbox->addWidget(lswid);
             } else if (type == QLatin1String("bool")) {
-                bool checked = (value == QLatin1String("1"));
+                bool checked = (value.toInt() == 1);
                 BoolParamWidget *bwid = new BoolParamWidget(paramName, comment, checked, parent);
                 if (m_conditionParameter && pa.hasAttribute(QStringLiteral("conditional"))) {
                     bwid->setEnabled(false);
@@ -293,7 +292,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                 connect(this, SIGNAL(showComments(bool)), bwid, SLOT(slotShowComment(bool)));
                 m_vbox->addWidget(bwid);
             } else if (type == QLatin1String("switch")) {
-                bool checked = (value == pa.attribute("min"));
+                bool checked = (value == pa.attribute("max"));
                 BoolParamWidget *bwid = new BoolParamWidget(paramName, comment, checked, parent);
                 if (m_conditionParameter && pa.hasAttribute(QStringLiteral("conditional"))) {
                     bwid->setEnabled(false);
