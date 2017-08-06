@@ -280,6 +280,11 @@ std::unique_ptr<ProfileModel> &Core::getCurrentProfile() const
     return ProfileRepository::get()->getProfile(m_currentProfile);
 }
 
+const QString &Core::getCurrentProfilePath() const
+{
+    return m_currentProfile;
+}
+
 bool Core::setCurrentProfile(const QString &profilePath)
 {
     if (m_currentProfile == profilePath) {

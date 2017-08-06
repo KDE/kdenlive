@@ -41,22 +41,22 @@ QPixmap KThumb::getImage(const QUrl &url, int width, int height)
 // static
 QPixmap KThumb::getImage(const QUrl &url, int frame, int width, int height)
 {
-    Mlt::Profile profile = pCore->getCurrentProfile()->profile();
+    QScopedPointer <Mlt::Profile> profile(new Mlt::Profile(pCore->getCurrentProfilePath().toUtf8().constData()));
     if (height == -1) {
-        height = width * profile.height() / profile.width();
+        height = width * (double) profile->height() / profile->width();
     }
     QPixmap pix(width, height);
     if (!url.isValid()) {
         return pix;
     }
-    Mlt::Producer *producer = new Mlt::Producer(profile, url.toLocalFile().toUtf8().constData());
+    Mlt::Producer *producer = new Mlt::Producer(*(profile.data()), url.toLocalFile().toUtf8().constData());
     if (KdenliveSettings::gpu_accel()) {
         QString service = producer->get("mlt_service");
         QString res = producer->get("resource");
         delete producer;
-        producer = new Mlt::Producer(profile, service.toUtf8().constData(), res.toUtf8().constData());
-        Mlt::Filter scaler(profile, "swscale");
-        Mlt::Filter converter(profile, "avcolor_space");
+        producer = new Mlt::Producer(*(profile.data()), service.toUtf8().constData(), res.toUtf8().constData());
+        Mlt::Filter scaler(*(profile.data()), "swscale");
+        Mlt::Filter converter(*(profile.data()), "avcolor_space");
         producer->attach(scaler);
         producer->attach(converter);
     }

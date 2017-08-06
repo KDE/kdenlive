@@ -103,6 +103,8 @@ public:
 
     /** @brief Returns a pointer to the current profile */
     std::unique_ptr<ProfileModel> &getCurrentProfile() const;
+    const QString &getCurrentProfilePath() const;
+
     /** @brief Define the active profile
      *  @returns true if profile exists, false if not found
      */

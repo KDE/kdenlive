@@ -598,7 +598,7 @@ void TitleWidget::refreshTitleTemplates(const QString &projectPath)
         TitleTemplate t;
         t.name = fname;
         t.file = dir.absoluteFilePath(fname);
-        t.icon = QIcon(KThumb::getImage(QUrl::fromLocalFile(t.file), 0, 60, 60));
+        t.icon = QIcon(KThumb::getImage(QUrl::fromLocalFile(t.file), 0, 60, -1));
         titletemplates.append(t);
     }
 
@@ -611,7 +611,7 @@ void TitleWidget::refreshTitleTemplates(const QString &projectPath)
             TitleTemplate t;
             t.name = fname;
             t.file = folder.absoluteFilePath(fname);
-            t.icon = QIcon(KThumb::getImage(QUrl::fromLocalFile(t.file), 0, 60, 60));
+            t.icon = QIcon(KThumb::getImage(QUrl::fromLocalFile(t.file), 0, 60, -1));
             titletemplates.append(t);
         }
     }
