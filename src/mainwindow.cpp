@@ -1252,7 +1252,6 @@ void MainWindow::setupActions()
 
     KNS3::standardAction(i18n("Download New Wipes..."),            this, SLOT(slotGetNewLumaStuff()),       actionCollection(), "get_new_lumas");
     KNS3::standardAction(i18n("Download New Render Profiles..."),  this, SLOT(slotGetNewRenderStuff()),     actionCollection(), "get_new_profiles");
-    //KNS3::standardAction(i18n("Download New Project Profiles..."), this, SLOT(slotGetNewMltProfileStuff()), actionCollection(), "get_new_mlt_profiles");
     KNS3::standardAction(i18n("Download New Title Templates..."),  this, SLOT(slotGetNewTitleStuff()),      actionCollection(), "get_new_titles");
 
     addAction(QStringLiteral("run_wizard"), i18n("Run Config Wizard"), this, SLOT(slotRunWizard()), KoIconUtils::themedIcon(QStringLiteral("tools-wizard")));
@@ -3109,17 +3108,6 @@ void MainWindow::slotGetNewRenderStuff()
         if (m_renderWidget) {
             m_renderWidget->reloadProfiles();
         }
-}
-
-void MainWindow::slotGetNewMltProfileStuff()
-{
-    if (getNewStuff(QStringLiteral("kdenlive_projectprofiles.knsrc")) > 0) {
-        // update the list of profiles in settings dialog
-        KdenliveSettingsDialog *d = static_cast <KdenliveSettingsDialog *>(KConfigDialog::exists(QStringLiteral("settings")));
-        if (d) {
-            d->checkProfile();
-        }
-    }
 }
 
 void MainWindow::slotAutoTransition()

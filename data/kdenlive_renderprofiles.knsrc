@@ -1,8 +1,3 @@
-[KNewStuff2]
-ProvidersUrl=https://kdenlive.org/data/rendersources.xml
-TargetDir=kdenlive/export
-Uncompress=archive
-
 [KNewStuff3]
 Name=Kdenlive Render Profiles
 Name[ca]=Perfils de renderització del Kdenlive
