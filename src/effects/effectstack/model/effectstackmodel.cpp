@@ -46,6 +46,24 @@ std::shared_ptr<EffectStackModel> EffectStackModel::construct(std::weak_ptr<Mlt:
     return self;
 }
 
+void EffectStackModel::loadEffects()
+{
+    auto ptr = m_service.lock();
+    if (ptr) {
+        qDebug()<<"// FOUND FILTERS IN CLIP: "<<ptr->filter_count();
+        for (int i = 0; i < ptr->filter_count(); i++) {
+            auto effect = EffectItemModel::construct(ptr->filter(i), shared_from_this());
+            //effect->setParameters
+            qDebug()<<"// Adding effect: "<<effect->getAssetId();
+            Fun redo = addItem_lambda(effect, rootItem->getId());
+            bool res = redo();
+        }
+    } else {
+        qDebug()<<"// CANNOT LOCK CLIP SEEVCE";
+    }
+
+}
+
 void EffectStackModel::resetService(std::weak_ptr<Mlt::Service> service)
 {
     m_service = std::move(service);
@@ -313,7 +331,6 @@ ObjectId EffectStackModel::getOwnerId() const
 {
     return m_ownerId;
 }
-
 
 bool EffectStackModel::checkConsistency()
 {

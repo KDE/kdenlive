@@ -64,7 +64,7 @@ int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QSt
     std::shared_ptr<ClipModel> clip(new ClipModel(parent, producer, binClipId, id));
     id = clip->m_id;
     parent->registerClip(clip);
-
+    clip->m_effectStack->loadEffects();
     return id;
 }
 

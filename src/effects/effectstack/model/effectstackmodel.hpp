@@ -48,6 +48,7 @@ public:
     */
     static std::shared_ptr<EffectStackModel> construct(std::weak_ptr<Mlt::Service> service, ObjectId ownerId, std::weak_ptr<DocUndoStack> undo_stack);
     void resetService(std::weak_ptr<Mlt::Service> service);
+    void loadEffects();
 
 protected:
     EffectStackModel(std::weak_ptr<Mlt::Service> service, ObjectId ownerId, std::weak_ptr<DocUndoStack> undo_stack);

@@ -41,7 +41,34 @@ std::shared_ptr<EffectItemModel> EffectItemModel::construct(const QString &effec
     QDomElement xml = EffectsRepository::get()->getXml(effectId);
 
     Mlt::Properties *effect = EffectsRepository::get()->getEffect(effectId);
-    effect->set("kdenlive:id", effectId.toUtf8().constData());
+    effect->set("kdenlive_id", effectId.toUtf8().constData());
+
+    QList<QVariant> data;
+    data << EffectsRepository::get()->getName(effectId) << effectId;
+
+    std::shared_ptr<EffectItemModel> self(new EffectItemModel(data, effect, xml, effectId, std::move(stack)));
+
+    baseFinishConstruct(self);
+
+    return self;
+}
+
+// static
+std::shared_ptr<EffectItemModel> EffectItemModel::construct(Mlt::Properties *effect, std::shared_ptr<AbstractTreeModel> stack)
+{
+    QString effectId = effect->get("kdenlive_id");
+    if (effectId.isEmpty()) {
+        effectId = effect->get("mlt_service");
+    }
+    Q_ASSERT(EffectsRepository::get()->exists(effectId));
+    QDomElement xml = EffectsRepository::get()->getXml(effectId);
+    QDomNodeList params = xml.elementsByTagName(QStringLiteral("parameter"));
+    for (int i = 0; i < params.count(); ++i) {
+        QDomElement currentParameter = params.item(i).toElement();
+        QString paramName = currentParameter.attribute(QStringLiteral("name"));
+        QString paramValue = effect->get(paramName.toUtf8().constData());
+        currentParameter.setAttribute(QStringLiteral("value"), paramValue);
+    }
 
     QList<QVariant> data;
     data << EffectsRepository::get()->getName(effectId) << effectId;

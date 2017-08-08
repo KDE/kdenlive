@@ -39,6 +39,8 @@ public:
      */
     static std::shared_ptr<EffectItemModel> construct(const QString &effectId, std::shared_ptr<AbstractTreeModel> stack);
 
+    static std::shared_ptr<EffectItemModel> construct(Mlt::Properties *effect, std::shared_ptr<AbstractTreeModel> stack);
+
     /* @brief This function plants the effect into the given service in last position
      */
     void plant(const std::weak_ptr<Mlt::Service> &service) override;
