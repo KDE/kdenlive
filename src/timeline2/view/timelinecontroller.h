@@ -50,7 +50,6 @@ class TimelineController : public QObject
     Q_PROPERTY(bool showThumbnails READ showThumbnails NOTIFY showThumbnailsChanged)
     Q_PROPERTY(bool showMarkers READ showMarkers NOTIFY showMarkersChanged)
     Q_PROPERTY(bool showAudioThumbnails READ showAudioThumbnails NOTIFY showAudioThumbnailsChanged)
-    Q_PROPERTY(int headerWidth READ headerWidth WRITE setHeaderWidth)
 
 public:
     TimelineController(KActionCollection *actionCollection, QObject *parent);

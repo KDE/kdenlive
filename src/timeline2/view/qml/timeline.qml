@@ -93,7 +93,7 @@ Rectangle {
         return col
     }
 
-    property int headerWidth: timeline.headerWidth
+    property int headerWidth: timeline.headerWidth()
     property int activeTool: 0
     property real baseUnit: fontMetrics.font.pointSize
     property int currentTrack: 0
