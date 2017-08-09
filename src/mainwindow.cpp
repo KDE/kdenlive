@@ -2248,7 +2248,6 @@ void MainWindow::slotDeleteItem()
 void MainWindow::slotAddClipMarker()
 {
     KdenliveDoc *project = pCore->currentDoc();
-
     std::shared_ptr<ProjectClip> clip(nullptr);
     GenTime pos;
     if (m_projectMonitor->isActive()) {

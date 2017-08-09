@@ -443,7 +443,7 @@ bool MarkerListModel::editMarkerGui(const GenTime &pos, QWidget *parent, bool cr
     Q_ASSERT(exists || createIfNotFound);
 
     if (!exists && createIfNotFound) {
-        marker = CommentedTime(GenTime(), QString());
+        marker = CommentedTime(pos, QString());
     }
 
     QScopedPointer<MarkerDialog> dialog(new MarkerDialog(clip, marker, pCore->bin()->projectTimecode(), m_guide ? i18n("Edit guide") : i18n("Edit marker"), parent));
