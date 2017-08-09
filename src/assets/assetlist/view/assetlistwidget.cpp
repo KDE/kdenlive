@@ -36,6 +36,12 @@ AssetListWidget::AssetListWidget(QWidget *parent)
     kdeclarative.setupBindings();
 }
 
+AssetListWidget::~AssetListWidget()
+{
+    // clear source
+    setSource(QUrl());
+}
+
 void AssetListWidget::setup()
 {
     setResizeMode(QQuickWidget::SizeRootObjectToView);
