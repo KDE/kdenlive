@@ -80,7 +80,7 @@ void DocUndoStack::push(QUndoCommand *cmd)
     QUndoStack::push(cmd);
 }
 
-const double DOCUMENTVERSION = 0.95;
+const double DOCUMENTVERSION = 0.96;
 
 KdenliveDoc::KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap<QString, QString> &properties, const QMap<QString, QString> &metadata, const QPoint &tracks, Render *render, NotesPlugin *notes, bool *openBackup, MainWindow *parent) :
     QObject(parent),
@@ -498,7 +498,11 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList<TrackInfo> &tracks)
             transition.appendChild(cur_property);
 
             cur_property = doc.createElement(QStringLiteral("property"));
-            cur_property.setAttribute(QStringLiteral("name"), QStringLiteral("combine"));
+            if (TransitionHandler::sumAudioMixAvailable()) {
+                cur_property.setAttribute(QStringLiteral("name"), QStringLiteral("sum"));
+            } else {
+                cur_property.setAttribute(QStringLiteral("name"), QStringLiteral("combine"));
+            }
             value = doc.createTextNode(QStringLiteral("1"));
             cur_property.appendChild(value);
             transition.appendChild(cur_property);
