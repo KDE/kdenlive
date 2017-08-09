@@ -138,8 +138,11 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
         // In that case, we append after, in the first playlist
         return [this, position, clipId, end_function]() {
             if (auto ptr = m_parent.lock()) {
+                // Lock MLT playlist so that we don't end up with an invalid frame being displayed
+                m_playlists[0].lock();
                 std::shared_ptr<ClipModel> clip = ptr->getClipPtr(clipId);
                 int index = m_playlists[0].insert_at(position, *clip, 1);
+                m_playlists[0].unlock();
                 return index != -1 && end_function();
             }
             qDebug() << "Error : Clip Insertion failed because timeline is not available anymore";
@@ -157,8 +160,11 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
         if (blank_end >= position + length) {
             return [this, position, clipId, end_function]() {
                 if (auto ptr = m_parent.lock()) {
+                    // Lock MLT playlist so that we don't end up with an invalid frame being displayed
+                    m_playlists[0].lock();
                     std::shared_ptr<ClipModel> clip = ptr->getClipPtr(clipId);
                     int index = m_playlists[0].insert_at(position, *clip, 1);
+                    m_playlists[0].unlock();
                     return index != -1 && end_function();
                 }
                 qDebug() << "Error : Clip Insertion failed because timeline is not available anymore";
@@ -200,6 +206,8 @@ Fun TrackModel::requestClipDeletion_lambda(int clipId, bool updateView)
         }
         int target_track = clip_loc.first;
         int target_clip = clip_loc.second;
+        // lock MLT playlist so that we don't end up with invalid frames in monitor
+        m_playlists[target_track].lock();
         Q_ASSERT(target_clip < m_playlists[target_track].count());
         Q_ASSERT(!m_playlists[target_track].is_blank(target_clip));
         auto prod = m_playlists[target_track].replace_with_blank(target_clip);
@@ -208,6 +216,7 @@ Fun TrackModel::requestClipDeletion_lambda(int clipId, bool updateView)
             m_allClips[clipId]->setCurrentTrackId(-1);
             m_allClips.erase(clipId);
             delete prod;
+            m_playlists[target_track].unlock();
             if (auto ptr = m_parent.lock()) {
                 ptr->m_snaps->removePoint(old_in);
                 ptr->m_snaps->removePoint(old_out);
@@ -219,6 +228,7 @@ Fun TrackModel::requestClipDeletion_lambda(int clipId, bool updateView)
             }
             return true;
         }
+        m_playlists[target_track].unlock();
         return false;
     };
 }
