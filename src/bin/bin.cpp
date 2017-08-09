@@ -835,6 +835,8 @@ void Bin::slotCreateAudioThumbs()
         if (clip) {
             clip->slotCreateAudioThumbs();
             m_processedAudio += (int)clip->duration().ms();
+        } else {
+            qDebug()<<"// Trying to create audio thumbs for unknown clip: "<<m_processingAudioThumb;
         }
     }
     m_audioThumbMutex.lock();
@@ -2032,6 +2034,7 @@ void Bin::slotProducerReady(const requestClipInfo &info, std::shared_ptr<Mlt::Pr
         std::shared_ptr<ProjectClip> newClip = ProjectClip::construct(info.clipId, m_blankThumb, m_itemModel, producer);
         parentFolder->appendChild(newClip);
         emit producerReady(info.clipId);
+        newClip->createAudioThumbs();
 
         ClipType t = newClip->clipType();
         if (t == AV || t == Audio || t == Image || t == Video || t == Playlist) {

@@ -92,7 +92,6 @@ std::shared_ptr<ProjectClip> ProjectClip::construct(const QString &id, const QIc
     std::shared_ptr<ProjectClip> self(new ProjectClip(id, thumb, model, producer));
     baseFinishConstruct(self);
     model->loadSubClips(id, self->getPropertiesFromPrefix(QStringLiteral("kdenlive:clipzone.")));
-    self->createAudioThumbs();
     pCore->binController()->addClipToBin(id, self, true);
     return self;
 }
