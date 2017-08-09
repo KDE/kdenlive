@@ -21,6 +21,7 @@
 
 #include "definitions.h"
 #include "effectslist/initeffects.h"
+#include "timeline/transitionhandler.h"
 #include "mainwindow.h"
 #include "core.h"
 #include "mltcontroller/bincontroller.h"
@@ -1174,6 +1175,18 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 if (resource.contains(QStringLiteral("?begin:"))) {
                     resource.replace(QStringLiteral("?begin:"), QStringLiteral("?begin="));
                     EffectsList::setProperty(prod, QStringLiteral("resource"), resource);
+                }
+            }
+        }
+        if (TransitionHandler::sumAudioMixAvailable()) {
+            QDomNodeList transitions = m_doc.elementsByTagName(QStringLiteral("transition"));
+            max = transitions.count();
+            for (int i = 0; i < max; ++i) {
+                QDomElement trans = transitions.at(i).toElement();
+                if (trans.isNull()) continue;
+                const QString service = EffectsList::property(trans, QStringLiteral("mlt_service"));
+                if (service == QLatin1String("mix")) {
+                    EffectsList::renameProperty(trans, QStringLiteral("combine"), QStringLiteral("sum"));
                 }
             }
         }

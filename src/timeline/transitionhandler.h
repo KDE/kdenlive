@@ -60,6 +60,7 @@ public:
     static const QString compositeTransition();
     /** @brief Initialize transition settings. */
     void initTransition(const QDomElement &xml);
+    static bool sumAudioMixAvailable();
 
 private:
     Mlt::Tractor *m_tractor;

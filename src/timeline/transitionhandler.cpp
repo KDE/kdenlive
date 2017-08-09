@@ -641,7 +641,11 @@ void TransitionHandler::rebuildTransitions(int mode, const QList<int> &videoTrac
     for (int i = 1; i < maxTrack; i++) {
         Mlt::Transition transition(*m_tractor->profile(), "mix");
         transition.set("always_active", 1);
-        transition.set("combine", 1);
+        if (sumAudioMixAvailable()) {
+            transition.set("sum", 1);
+        } else {
+            transition.set("combine", 1);
+        }
         transition.set("a_track", 0);
         transition.set("b_track", i);
         transition.set("internal_added", 237);
@@ -680,3 +684,10 @@ void TransitionHandler::rebuildTransitions(int mode, const QList<int> &videoTrac
     field->unlock();
     delete field;
 }
+
+// static
+bool TransitionHandler::sumAudioMixAvailable() {
+    // TODO: remove whenever we require MLT > 6.4.x
+    return (LIBMLT_VERSION_MAJOR > 6 || (LIBMLT_VERSION_MAJOR == 6 && LIBMLT_VERSION_MINOR > 4));
+}
+

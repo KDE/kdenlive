@@ -22,7 +22,6 @@
 
 #include "gentime.h"
 #include "effectslist/effectslist.h"
-
 #include "kdenlive_debug.h"
 
 #include <QTreeWidgetItem>
