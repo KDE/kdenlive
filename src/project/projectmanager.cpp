@@ -865,7 +865,10 @@ void ProjectManager::updateTimeline(int pos)
     Mlt::Tractor tractor(s);
     m_mainTimelineModel = TimelineItemModel::construct(&pCore->getCurrentProfile()->profile(), m_project->getGuideModel(), m_project->commandStack());
     constructTimelineFromMelt(m_mainTimelineModel, tractor);
-    m_mainTimelineModel->loadGroups(m_project->getDocumentProperty(QStringLiteral("groups")));
+    const QString groupsData = m_project->getDocumentProperty(QStringLiteral("groups"));
+    if (!groupsData.isEmpty()) {
+        m_mainTimelineModel->loadGroups(groupsData);
+    }
     m_project->loadThumbs();
 
     pCore->monitorManager()->projectMonitor()->setProducer(m_mainTimelineModel->producer(), pos);
