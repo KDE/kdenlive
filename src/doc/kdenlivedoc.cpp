@@ -70,7 +70,7 @@
 #include <xlocale.h>
 #endif
 
-const double DOCUMENTVERSION = 0.96;
+const double DOCUMENTVERSION = 0.97;
 
 KdenliveDoc::KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGroup *undoGroup, const QString &profileName,
                          const QMap<QString, QString> &properties, const QMap<QString, QString> &metadata, const QPoint &tracks, bool *openBackup,
@@ -391,6 +391,7 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList<TrackInfo> &tracks)
             tr.set("a_track", 0);
             tr.set("b_track", i);
             tr.set("always_active", 1);
+            tr.set("sum", 1);
             tr.set("internal_added", 237);
             field->plant_transition(tr, 0, i);
         }

@@ -22,6 +22,7 @@
 #include "core.h"
 #include "definitions.h"
 #include "effectslist/initeffects.h"
+#include "timeline/transitionhandler.h"
 #include "mainwindow.h"
 #include "mltcontroller/bincontroller.h"
 
@@ -1684,7 +1685,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             }
         }
     }
-    if (version < 0.96) {
+    if (version < 0.97) {
         // move guides to new JSON format
         QDomElement main_playlist = m_doc.documentElement().firstChildElement(QStringLiteral("playlist"));
         QDomNodeList props = main_playlist.elementsByTagName(QStringLiteral("property"));
