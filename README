@@ -1,5 +1,4 @@
-About Kdenlive
-==============
+# About Kdenlive
 
 Kdenlive is a video editing application,
 based on MLT Framework and KDE Frameworks 5
@@ -7,8 +6,7 @@ based on MLT Framework and KDE Frameworks 5
 Please check the project page for more information:
 https://kdenlive.org
 
-Building from source
-====================
+# Building from source
 
 You will first need to install development headers dependencies
 from your system (mainly KDE and MLT).
@@ -16,21 +14,21 @@ from your system (mainly KDE and MLT).
 Then in the directory where you extracted the source archive
 (with custom /install/path):
 
-mkdir build
-cd build
-cmake .. -DCMAKE_INSTALL_PREFIX=/install/path
-make -j4
-make install
+    mkdir build
+    cd build
+    cmake .. -DCMAKE_INSTALL_PREFIX=/install/path
+    make -j4
+    make install
 
 and then run
-/install/path/bin/kdenlive
+
+    /install/path/bin/kdenlive
 
 Alternately, to get kdenlive with an up-to-date multimedia stack
 (isolated from your system), you can use the build-kdenlive.sh from:
 https://github.com/mltframework/mlt-scripts/
 
-Contributing
-============
+# Contributing
 
 We welcome all feedback and offers for help!
 
