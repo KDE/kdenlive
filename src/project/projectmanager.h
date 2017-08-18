@@ -19,7 +19,6 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QTimer>
 #include <QUrl>
 
-#include "doc/docundostack.hpp"
 #include "timeline/timeline.h"
 #include "timeline2/model/timelineitemmodel.hpp"
 
@@ -36,6 +35,7 @@ class Project;
 class QAction;
 class QProgressDialog;
 class QUrl;
+class DocUndoStack;
 
 /**
  * @class ProjectManager
@@ -75,8 +75,15 @@ public:
     /** @brief Retrieve current project's notes */
     QString documentNotes() const;
 
-    /** @brief Retrieve the curren Guide Model */
+    /** @brief Retrieve the current Guide Model
+        The method is virtual to allow mocking
+     */
     virtual std::shared_ptr<MarkerListModel> getGuideModel();
+
+    /** @brief Return the current undo stack
+        The method is virtual to allow mocking
+    */
+    virtual std::shared_ptr<DocUndoStack> undoStack();
 
 public slots:
     void newFile(bool showProjectSettings = true, bool force = false);

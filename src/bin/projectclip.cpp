@@ -61,7 +61,7 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, std::shared_ptr<
     , m_abortAudioThumb(false)
     , m_thumbsProducer(nullptr)
 {
-    m_markerModel = std::make_shared<MarkerListModel>(id, pCore->projectManager()->current()->commandStack());
+    m_markerModel = std::make_shared<MarkerListModel>(id, pCore->projectManager()->undoStack());
     m_clipStatus = StatusReady;
     m_name = clipName();
     m_duration = getStringDuration();
@@ -92,7 +92,6 @@ std::shared_ptr<ProjectClip> ProjectClip::construct(const QString &id, const QIc
     std::shared_ptr<ProjectClip> self(new ProjectClip(id, thumb, model, producer));
     baseFinishConstruct(self);
     model->loadSubClips(id, self->getPropertiesFromPrefix(QStringLiteral("kdenlive:clipzone.")));
-    pCore->binController()->addClipToBin(id, self, true);
     return self;
 }
 
@@ -104,7 +103,7 @@ ProjectClip::ProjectClip(const QString &id, const QDomElement &description, cons
 {
     m_clipStatus = StatusWaiting;
     m_thumbnail = thumb;
-    m_markerModel = std::make_shared<MarkerListModel>(m_binId, pCore->projectManager()->current()->commandStack());
+    m_markerModel = std::make_shared<MarkerListModel>(m_binId, pCore->projectManager()->undoStack());
     if (description.hasAttribute(QStringLiteral("type"))) {
         m_clipType = (ClipType)description.attribute(QStringLiteral("type")).toInt();
         if (m_clipType == Audio) {
@@ -131,7 +130,6 @@ std::shared_ptr<ProjectClip> ProjectClip::construct(const QString &id, const QDo
 {
     std::shared_ptr<ProjectClip> self(new ProjectClip(id, description, thumb, model));
     baseFinishConstruct(self);
-    pCore->binController()->addClipToBin(description.attribute(QStringLiteral("id")), self, true);
     return self;
 }
 

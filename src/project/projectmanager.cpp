@@ -893,3 +893,8 @@ std::shared_ptr<MarkerListModel> ProjectManager::getGuideModel()
 {
     return current()->getGuideModel();
 }
+
+std::shared_ptr<DocUndoStack> ProjectManager::undoStack()
+{
+    return current()->commandStack();
+}

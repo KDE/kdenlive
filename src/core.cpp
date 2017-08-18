@@ -479,7 +479,7 @@ std::shared_ptr<EffectStackModel> Core::getItemEffectStack(int itemType, int ite
 
 std::shared_ptr<DocUndoStack> Core::undoStack()
 {
-    return currentDoc()->commandStack();
+    return projectManager()->undoStack();
 }
 
 QMap<int, QString> Core::getVideoTrackNames()

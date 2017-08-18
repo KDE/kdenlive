@@ -1,44 +1,70 @@
 #include "catch.hpp"
 #include "doc/docundostack.hpp"
+#include "bin/model/markerlistmodel.hpp"
 #include <iostream>
 #include <memory>
 #include <random>
 
+#pragma GCC diagnostic ignored "-Wnon-virtual-dtor"
+#pragma GCC diagnostic push
+#include "fakeit.hpp"
 #include <mlt++/MltFactory.h>
 #include <mlt++/MltProducer.h>
 #include <mlt++/MltProfile.h>
 #include <mlt++/MltRepository.h>
 #define private public
 #define protected public
+#include "timeline2/model/timelinemodel.hpp"
+#include "project/projectmanager.h"
+#include "core.h"
 #include "timeline2/model/clipmodel.hpp"
 #include "timeline2/model/compositionmodel.hpp"
 #include "timeline2/model/timelineitemmodel.hpp"
-#include "timeline2/model/timelinemodel.hpp"
 #include "timeline2/model/trackmodel.hpp"
+#include "bin/projectitemmodel.h"
+#include "bin/projectfolder.h"
+#include "bin/projectclip.h"
+#include "bin/clipcreator.hpp"
 
+using namespace fakeit;
 std::default_random_engine g(42);
 
 Mlt::Profile profile_model;
-/*
 TEST_CASE("Basic creation/deletion of a track", "[TrackModel]")
 {
+    auto binModel = pCore->projectItemModel();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(new Mlt::Profile(), undoStack);
+    std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
+    std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(new Mlt::Profile(), guideModel, undoStack);
+
+    // Here we do some trickery to enable testing.
+    // We mock the project class so that the undoStack function returns our undoStack
+
+    Mock<ProjectManager> pmMock;
+    When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
+
+    ProjectManager &mocked = pmMock.get();
+    pCore->m_projectManager = &mocked;
+
 
     int id1 = TrackModel::construct(timeline);
+    REQUIRE(timeline->checkConsistency());
     REQUIRE(timeline->getTracksCount() == 1);
     REQUIRE(timeline->getTrackPosition(id1) == 0);
 
     int id2 = TrackModel::construct(timeline);
+    REQUIRE(timeline->checkConsistency());
     REQUIRE(timeline->getTracksCount() == 2);
     REQUIRE(timeline->getTrackPosition(id2) == 1);
 
     int id3 = TrackModel::construct(timeline);
+    REQUIRE(timeline->checkConsistency());
     REQUIRE(timeline->getTracksCount() == 3);
     REQUIRE(timeline->getTrackPosition(id3) == 2);
 
     int id4;
     REQUIRE(timeline->requestTrackInsertion(1, id4));
+    REQUIRE(timeline->checkConsistency());
     REQUIRE(timeline->getTracksCount() == 4);
     REQUIRE(timeline->getTrackPosition(id1) == 0);
     REQUIRE(timeline->getTrackPosition(id4) == 1);
@@ -47,30 +73,43 @@ TEST_CASE("Basic creation/deletion of a track", "[TrackModel]")
 
     // Test deletion
     REQUIRE(timeline->requestTrackDeletion(id3));
+    REQUIRE(timeline->checkConsistency());
     REQUIRE(timeline->getTracksCount() == 3);
 
     REQUIRE(timeline->requestTrackDeletion(id1));
+    REQUIRE(timeline->checkConsistency());
     REQUIRE(timeline->getTracksCount() == 2);
 
     REQUIRE(timeline->requestTrackDeletion(id4));
+    REQUIRE(timeline->checkConsistency());
     REQUIRE(timeline->getTracksCount() == 1);
 
     REQUIRE(timeline->requestTrackDeletion(id2));
+    REQUIRE(timeline->checkConsistency());
     REQUIRE(timeline->getTracksCount() == 0);
 
     SECTION("Delete a track with groups") {
         int tid1, tid2;
         REQUIRE(timeline->requestTrackInsertion(-1, tid1));
         REQUIRE(timeline->requestTrackInsertion(-1, tid2));
+        REQUIRE(timeline->checkConsistency());
+
         std::shared_ptr<Mlt::Producer> producer = std::make_shared<Mlt::Producer>(profile_model, "color", "red");
         producer->set("length", 20);
         producer->set("out", 19);
         int length = producer->get_playtime();
+
+        QString binId = QString::number(binModel->getFreeClipId());
+        auto binClip = ProjectClip::construct(binId, QIcon(), binModel, producer);
+        Fun undo = []() { return true; };
+        Fun redo = []() { return true; };
+        REQUIRE(binModel->addItem(binClip, binModel->getRootFolder()->clipId(), undo, redo));
         int cid1,cid2,cid3,cid4;
-        REQUIRE(timeline->requestClipInsertion(producer, tid1, 2, cid1));
-        REQUIRE(timeline->requestClipInsertion(producer, tid2, 0, cid2));
-        REQUIRE(timeline->requestClipInsertion(producer, tid2, length, cid3));
-        REQUIRE(timeline->requestClipInsertion(producer, tid2, 2*length, cid4));
+        REQUIRE(timeline->requestClipInsertion(binId, tid1, 2, cid1));
+        REQUIRE(timeline->requestClipInsertion(binId, tid2, 0, cid2));
+        REQUIRE(timeline->requestClipInsertion(binId, tid2, length, cid3));
+        REQUIRE(timeline->requestClipInsertion(binId, tid2, 2*length, cid4));
+        REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->getClipsCount() == 4);
         REQUIRE(timeline->getTracksCount() == 2);
 
@@ -80,21 +119,35 @@ TEST_CASE("Basic creation/deletion of a track", "[TrackModel]")
         REQUIRE(timeline->requestClipsGroup(g1));
         REQUIRE(timeline->requestClipsGroup(g2));
         REQUIRE(timeline->requestClipsGroup(g3));
+        REQUIRE(timeline->checkConsistency());
 
         REQUIRE(timeline->requestTrackDeletion(tid1));
         REQUIRE(timeline->getClipsCount() == 3);
         REQUIRE(timeline->getTracksCount() == 1);
+        REQUIRE(timeline->checkConsistency());
 
     }
 }
 
 
 
+
 TEST_CASE("Basic creation/deletion of a clip", "[ClipModel]")
 {
 
+    auto binModel = pCore->projectItemModel();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(new Mlt::Profile(), undoStack);
+    std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
+    std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(new Mlt::Profile(), guideModel, undoStack);
+
+    // Here we do some trickery to enable testing.
+    // We mock the project class so that the undoStack function returns our undoStack
+
+    Mock<ProjectManager> pmMock;
+    When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
+
+    ProjectManager &mocked = pmMock.get();
+    pCore->m_projectManager = &mocked;
 
 
     std::shared_ptr<Mlt::Producer> producer = std::make_shared<Mlt::Producer>(profile_model, "color", "red");
@@ -103,27 +156,41 @@ TEST_CASE("Basic creation/deletion of a clip", "[ClipModel]")
     producer->set("out", 19);
     producer2->set("length", 20);
     producer2->set("out", 19);
+    QString binId = QString::number(binModel->getFreeClipId());
+    auto binClip = ProjectClip::construct(binId, QIcon(), binModel, producer);
+    QString binId2 = QString::number(binModel->getFreeClipId());
+    auto binClip2 = ProjectClip::construct(binId, QIcon(), binModel, producer2);
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    REQUIRE(binModel->addItem(binClip, binModel->getRootFolder()->clipId(), undo, redo));
+    REQUIRE(binModel->addItem(binClip2, binModel->getRootFolder()->clipId(), undo, redo));
 
     REQUIRE(timeline->getClipsCount() == 0);
-    int id1 = ClipModel::construct(timeline, producer);
+    int id1 = ClipModel::construct(timeline, binId);
     REQUIRE(timeline->getClipsCount() == 1);
+    REQUIRE(timeline->checkConsistency());
 
-    int id2 = ClipModel::construct(timeline, producer2);
+    int id2 = ClipModel::construct(timeline, binId2);
     REQUIRE(timeline->getClipsCount() == 2);
+    REQUIRE(timeline->checkConsistency());
 
-    int id3 = ClipModel::construct(timeline, producer);
+    int id3 = ClipModel::construct(timeline, binId);
     REQUIRE(timeline->getClipsCount() == 3);
+    REQUIRE(timeline->checkConsistency());
 
     // Test deletion
     REQUIRE(timeline->requestItemDeletion(id2));
+    REQUIRE(timeline->checkConsistency());
     REQUIRE(timeline->getClipsCount() == 2);
     REQUIRE(timeline->requestItemDeletion(id3));
+    REQUIRE(timeline->checkConsistency());
     REQUIRE(timeline->getClipsCount() == 1);
     REQUIRE(timeline->requestItemDeletion(id1));
+    REQUIRE(timeline->checkConsistency());
     REQUIRE(timeline->getClipsCount() == 0);
 
 }
-
+/*
 TEST_CASE("Clip manipulation", "[ClipModel]")
 {
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);

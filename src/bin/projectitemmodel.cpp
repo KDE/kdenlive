@@ -467,7 +467,7 @@ bool ProjectItemModel::requestAddBinClip(QString &id, const QDomElement &descrip
 {
     QWriteLocker locker(&m_lock);
     if (id.isEmpty()) {
-        QString defaultId = QString::number(getFreeFolderId());
+        QString defaultId = QString::number(getFreeClipId());
         id = Xml::getTagContentByAttribute(description, QStringLiteral("property"), QStringLiteral("name"), QStringLiteral("kdenlive:id"), defaultId);
     }
     std::shared_ptr<ProjectClip> new_clip = ProjectClip::construct(id, description, m_blankThumb, std::static_pointer_cast<ProjectItemModel>(shared_from_this()));
