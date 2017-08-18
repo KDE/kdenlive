@@ -136,9 +136,7 @@ void ClipCreationDialog::createColorClip(KdenliveDoc *doc, const QString &parent
         properties.insert(QStringLiteral("resource"), color);
         properties.insert(QStringLiteral("kdenlive:clipname"), dia_ui.clip_name->text());
         properties.insert(QStringLiteral("mlt_service"), QStringLiteral("color"));
-        addXmlProperties(prod, properties);
-        qDebug() << xml.toString();
-        qDebug() << Xml::getTagContentByAttribute(xml.documentElement(), QStringLiteral("property"), QStringLiteral("name"), QStringLiteral("resource"));
+        Xml::addXmlProperties(prod, properties);
 
         QString id;
         model->requestAddBinClip(id, xml.documentElement(), parentFolder, i18n("Create color clip"));
@@ -149,9 +147,9 @@ void ClipCreationDialog::createQTextClip(KdenliveDoc *doc, const QStringList &gr
 {
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup titleConfig(config, "TitleWidget");
-    QPointer<QDialog> dia = new QDialog(bin);
+    QScopedPointer<QDialog> dia(new QDialog(bin));
     Ui::QTextClip_UI dia_ui;
-    dia_ui.setupUi(dia);
+    dia_ui.setupUi(dia.data());
     dia->setWindowTitle(i18n("Text Clip"));
     dia_ui.fgColor->setAlphaChannelEnabled(true);
     dia_ui.lineColor->setAlphaChannelEnabled(true);
@@ -229,12 +227,11 @@ void ClipCreationDialog::createQTextClip(KdenliveDoc *doc, const QStringList &gr
             oldProperties.insert(QStringLiteral("animation"), clip->getProducerProperty(QStringLiteral("animation")));
             bin->slotEditClipCommand(clip->AbstractProjectItem::clipId(), oldProperties, properties);
         } else {
-            addXmlProperties(prod, properties);
+            Xml::addXmlProperties(prod, properties);
             AddClipCommand *command = new AddClipCommand(bin, xml.documentElement(), QString::number(id), true);
             doc->commandStack()->push(command);
         }
     }
-    delete dia;
 }
 
 // static
@@ -265,7 +262,7 @@ void ClipCreationDialog::createSlideshowClip(KdenliveDoc *doc, const QStringList
         if (!groupInfo.isEmpty()) {
             properties.insert(QStringLiteral("kdenlive:folderid"), groupInfo.at(0));
         }
-        addXmlProperties(prod, properties);
+        Xml::addXmlProperties(prod, properties);
         int id = bin->getFreeClipId();
         AddClipCommand *command = new AddClipCommand(bin, xml.documentElement(), QString::number(id), true);
         doc->commandStack()->push(command);
@@ -295,7 +292,7 @@ void ClipCreationDialog::createTitleClip(KdenliveDoc *doc, const QStringList &gr
         if (!groupInfo.isEmpty()) {
             properties.insert(QStringLiteral("kdenlive:folderid"), groupInfo.at(0));
         }
-        addXmlProperties(prod, properties);
+        Xml::addXmlProperties(prod, properties);
         prod.setAttribute(QStringLiteral("type"), (int)Text);
         prod.setAttribute(QStringLiteral("transparency"), QStringLiteral("1"));
         prod.setAttribute(QStringLiteral("in"), QStringLiteral("0"));
@@ -324,7 +321,7 @@ void ClipCreationDialog::createTitleTemplateClip(KdenliveDoc *doc, const QString
         if (!groupInfo.isEmpty()) {
             properties.insert(QStringLiteral("kdenlive:folderid"), groupInfo.at(0));
         }
-        addXmlProperties(prod, properties);
+        Xml::addXmlProperties(prod, properties);
         int id = bin->getFreeClipId();
         prod.setAttribute(QStringLiteral("id"), QString::number(id));
         prod.setAttribute(QStringLiteral("type"), (int)TextTemplate);
@@ -357,18 +354,6 @@ void ClipCreationDialog::createTitleTemplateClip(KdenliveDoc *doc, const QString
     delete dia;
 }
 
-void ClipCreationDialog::addXmlProperties(QDomElement &producer, QMap<QString, QString> &properties)
-{
-    QMapIterator<QString, QString> i(properties);
-    while (i.hasNext()) {
-        i.next();
-        QDomElement prop = producer.ownerDocument().createElement(QStringLiteral("property"));
-        prop.setAttribute(QStringLiteral("name"), i.key());
-        QDomText value = producer.ownerDocument().createTextNode(i.value());
-        prop.appendChild(value);
-        producer.appendChild(prop);
-    }
-}
 
 void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QList<QUrl> &urls, const QStringList &groupInfo, Bin *bin,
                                             const QMap<QString, QString> &data)
@@ -500,7 +485,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QList<QUrl> 
                 txtfile.close();
             }
         }
-        addXmlProperties(prod, properties);
+        Xml::addXmlProperties(prod, properties);
         new AddClipCommand(bin, xml.documentElement(), QString::number(id), true, addClips);
     }
     if (addClips->childCount() > 0) {
@@ -590,7 +575,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QStringList 
                         if (!groupInfo.isEmpty()) {
                             properties.insert(QStringLiteral("kdenlive:folderid"), groupInfo.at(0));
                         }
-                        addXmlProperties(prod, properties);
+                        Xml::addXmlProperties(prod, properties);
                         int id = bin->getFreeClipId();
                         AddClipCommand *command = new AddClipCommand(bin, xml.documentElement(), QString::number(id), true);
                         doc->commandStack()->push(command);

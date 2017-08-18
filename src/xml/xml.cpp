@@ -77,3 +77,16 @@ QString Xml::getTagContentByAttribute(const QDomElement &element, const QString 
     }
     return defaultReturn;
 }
+
+void Xml::addXmlProperties(QDomElement &element, QMap<QString, QString> &properties)
+{
+    QMapIterator<QString, QString> i(properties);
+    while (i.hasNext()) {
+        i.next();
+        QDomElement prop = element.ownerDocument().createElement(QStringLiteral("property"));
+        prop.setAttribute(QStringLiteral("name"), i.key());
+        QDomText value = element.ownerDocument().createTextNode(i.value());
+        prop.appendChild(value);
+        element.appendChild(prop);
+    }
+}

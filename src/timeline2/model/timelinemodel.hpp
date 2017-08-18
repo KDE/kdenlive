@@ -288,9 +288,9 @@ public:
        binClipId id of the clip in the bin @param track Id of the track where to
        insert @param Requested position @param ID return parameter of the id of
        the inserted clip @param logUndo if set to false, no undo object is
-       stored */ bool
-    requestClipInsertion(const QString &binClipId, int trackId, int position, int &id, bool logUndo = true); /* Same function,
-                                                       but accumulates undo and redo*/
+       stored */
+    bool requestClipInsertion(const QString &binClipId, int trackId, int position, int &id, bool logUndo = true);
+    /* Same function, but accumulates undo and redo*/
     bool requestClipInsertion(const QString &binClipId, int trackId, int position, int &id, Fun &undo, Fun &redo);
 
     /* @brief Deletes the given clip or composition from the timeline This

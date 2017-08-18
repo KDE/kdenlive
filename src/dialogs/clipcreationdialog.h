@@ -49,7 +49,6 @@ void createClipsCommand(KdenliveDoc *doc, const QList<QUrl> &urls, const QString
                         const QMap<QString, QString> &data = QMap<QString, QString>());
 void createClipsCommand(Bin *bin, const QDomElement &producer, const QString &id, QUndoCommand *command);
 void createClipsCommand(KdenliveDoc *doc, const QStringList &groupInfo, Bin *bin);
-void addXmlProperties(QDomElement &producer, QMap<QString, QString> &properties);
 }
 
 #endif

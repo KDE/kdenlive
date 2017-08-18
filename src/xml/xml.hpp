@@ -53,6 +53,13 @@ namespace Xml
        If @param directChildren is true, only immediate children of the node are considered
     */
     QString getTagContentByAttribute(const QDomElement &element, const QString &tagName, const QString &attribute, const QString &value, const QString &defaultReturn = QString(), bool directChildren = true);
+
+    /* @brief Add properties to the given xml element
+       For each element (n, v) in the properties map, it creates a sub element of the form : <property name="n">v</property>
+       @param producer is the xml element where to append properties
+       @param properties is the map of properties
+     */
+    void addXmlProperties(QDomElement &producer, QMap<QString, QString> &properties);
 }
 
 #endif
