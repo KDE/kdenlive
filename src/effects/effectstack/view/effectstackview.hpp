@@ -26,6 +26,7 @@
 #include <QWidget>
 #include <QMutex>
 #include <memory>
+#include "definitions.h"
 
 class QVBoxLayout;
 class QTreeView;
@@ -58,6 +59,7 @@ public:
     void setModel(std::shared_ptr<EffectStackModel> model, QPair<int, int> range);
     void unsetModel(bool reset = true);
     void setRange(int in, int out);
+    ObjectType stackOwner() const;
 
 protected:
     void dragEnterEvent(QDragEnterEvent *event) override;

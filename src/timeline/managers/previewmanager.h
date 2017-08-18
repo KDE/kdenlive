@@ -27,8 +27,7 @@
 #include <QMutex>
 #include <QTimer>
 
-class KdenliveDoc;
-class CustomRuler;
+class TimelineController;
 
 namespace Mlt {
 class Tractor;
@@ -50,16 +49,18 @@ class PreviewManager : public QObject
     Q_OBJECT
 
 public:
-    explicit PreviewManager(KdenliveDoc *doc, CustomRuler *ruler, Mlt::Tractor *tractor);
+    friend class TimelineController;
+
+    explicit PreviewManager(TimelineController *controller, Mlt::Tractor *tractor);
     virtual ~PreviewManager();
     /** @brief: initialize base variables, return false if error. */
     bool initialize();
     /** @brief: a timeline operation caused changes to frames between startFrame and endFrame. */
     void invalidatePreview(int startFrame, int endFrame);
     /** @brief: after a small  delay (some operations trigger several invalidatePreview calls), take care of these invalidated chunks. */
-    void invalidatePreviews(const QList<int> &chunks);
+    void invalidatePreviews(const QVariantList &chunks);
     /** @brief: user adds current timeline zone to the preview zone. */
-    void addPreviewRange(bool add);
+    void addPreviewRange(const QPoint zone, bool add);
     /** @brief: Remove all existing previews. */
     void clearPreviewRange();
     /** @brief: stops current rendering process. */
@@ -77,13 +78,19 @@ public:
     /** @brief: Returns directory currently used to store the preview files. */
     const QDir getCacheDir() const;
     /** @brief: Load existing ruler chunks. */
-    void loadChunks(const QStringList &previewChunks, QStringList dirtyChunks, const QDateTime &documentDate);
+    void loadChunks(QVariantList previewChunks, QVariantList dirtyChunks, const QDateTime &documentDate);
+    int setOverlayTrack(Mlt::Playlist *overlay);
+    /** @brief Remove the effect compare overlay track */
+    void removeOverlayTrack();
+    /** @brief The current preview chunk being processed, -1 if none */
+    int workingPreview;
 
 private:
-    KdenliveDoc *m_doc;
-    CustomRuler *m_ruler;
+    TimelineController *m_controller;
     Mlt::Tractor *m_tractor;
     Mlt::Playlist *m_previewTrack;
+    Mlt::Playlist *m_overlayTrack;
+    int m_previewTrackIndex;
     /** @brief: The directory used to store the preview files. */
     QDir m_cacheDir;
     /** @brief: The directory used to store undo history of preview files (child of m_cacheDir). */
@@ -100,7 +107,7 @@ private:
     QList<int> m_waitingThumbs;
     QFuture<void> m_previewThread;
     /** @brief: After an undo/redo, if we have preview history, use it. */
-    void reloadChunks(const QList<int> &chunks);
+    void reloadChunks(const QVariantList chunks);
 
 private slots:
     /** @brief: To avoid filling the hard drive, remove preview undo history after 5 steps. */
@@ -117,6 +124,10 @@ public slots:
     void startPreviewRender();
     /** @brief: A chunk has been created, notify ruler. */
     void gotPreviewRender(int frame, const QString &file, int progress);
+
+protected:
+    QVariantList m_renderedChunks;
+    QVariantList m_dirtyChunks;
 
 signals:
     void abortPreview();

@@ -1331,7 +1331,7 @@ void Monitor::slotOpenClip(std::shared_ptr<ProjectClip> controller, int in, int 
         if (m_playAction->isActive()) {
             m_playAction->setActive(false);
         }
-        m_glMonitor->setProducer(m_controller->masterProducer(), isActive(), in);
+        m_glMonitor->setProducer(m_controller->originalProducer().get(), isActive(), in);
         m_audioMeterWidget->audioChannels = controller->audioInfo() ? controller->audioInfo()->channels() : 0;
         emit requestAudioThumb(controller->AbstractProjectItem::clipId());
         // hasEffects =  controller->hasEffects();
@@ -1399,9 +1399,9 @@ void Monitor::resetProfile()
     render->saveSceneList(path, info);
 }*/
 
-const QString Monitor::sceneList(const QString &root)
+const QString Monitor::sceneList(const QString &root, const QString &fullPath)
 {
-    return m_glMonitor->sceneList(root);
+    return m_glMonitor->sceneList(root, fullPath);
 }
 
 void Monitor::updateClipZone()
@@ -1719,7 +1719,7 @@ void Monitor::activateSplit()
     slotActivateMonitor(true);
 }
 
-void Monitor::slotSwitchCompare(bool enable, int pos)
+void Monitor::slotSwitchCompare(bool enable)
 {
     if (m_id == Kdenlive::ProjectMonitor) {
         if (enable) {
@@ -1752,9 +1752,9 @@ void Monitor::slotSwitchCompare(bool enable, int pos)
     if (m_controller == nullptr || !m_controller->hasEffects()) {
         // disable split effect
         if (m_controller) {
-            // warningMessage(i18n("Clip has no effects"));
+            pCore->displayMessage(i18n("Clip has no effects"), InformationMessage);
         } else {
-            // warningMessage(i18n("Select a clip in project bin to compare effect"));
+            pCore->displayMessage(i18n("Select a clip in project bin to compare effect"), InformationMessage);
         }
         return;
     }
@@ -1763,10 +1763,10 @@ void Monitor::slotSwitchCompare(bool enable, int pos)
             // Split scene is already active
             return;
         }
-        buildSplitEffect(m_controller->masterProducer(), pos);
+        buildSplitEffect(m_controller->masterProducer());
     } else if (m_splitEffect) {
         //TODO
-        //render->setProducer(m_controller->masterProducer(), pos, isActive());
+        m_glMonitor->setProducer(m_controller->originalProducer().get(), isActive(), position());
         delete m_splitEffect;
         m_splitProducer = nullptr;
         m_splitEffect = nullptr;
@@ -1775,9 +1775,9 @@ void Monitor::slotSwitchCompare(bool enable, int pos)
     slotActivateMonitor();
 }
 
-void Monitor::buildSplitEffect(Mlt::Producer *original, int pos)
+void Monitor::buildSplitEffect(Mlt::Producer *original)
 {
-    //TODO
+    qDebug()<<"// BUILDING SPLIT EFFECT!!!";
     m_splitEffect = new Mlt::Filter(*profile(), "frei0r.alphagrad");
     if ((m_splitEffect != nullptr) && m_splitEffect->is_valid()) {
         m_splitEffect->set("0", 0.5);    // 0 is the Clip left parameter
@@ -1785,17 +1785,18 @@ void Monitor::buildSplitEffect(Mlt::Producer *original, int pos)
         m_splitEffect->set("2", -0.747); // 2 is tilt
     } else {
         // frei0r.scal0tilt is not available
-        warningMessage(i18n("The alphagrad filter is required for that feature, please install frei0r and restart Kdenlive"));
+        pCore->displayMessage(i18n("The alphagrad filter is required for that feature, please install frei0r and restart Kdenlive"), ErrorMessage);
         return;
     }
-    QString splitTransition = TransitionHandler::compositeTransition();
+    QString splitTransition = TimelineItemModel::getCompositingTransition();
     Mlt::Transition t(*profile(), splitTransition.toUtf8().constData());
     if (!t.is_valid()) {
         delete m_splitEffect;
-        warningMessage(i18n("The cairoblend transition is required for that feature, please install frei0r and restart Kdenlive"));
+        pCore->displayMessage(i18n("The cairoblend transition is required for that feature, please install frei0r and restart Kdenlive"), ErrorMessage);
         return;
     }
     Mlt::Tractor trac(*profile());
+    //TODO: remove usage of Clip class
     Clip clp(*original);
     Mlt::Producer *clone = clp.clone();
     Clip clp2(*clone);
@@ -1808,7 +1809,7 @@ void Monitor::buildSplitEffect(Mlt::Producer *original, int pos)
     delete clone;
     delete original;
     m_splitProducer = new Mlt::Producer(trac.get_producer());
-    //render->setProducer(m_splitProducer, pos, isActive());
+    m_glMonitor->setProducer(m_splitProducer, isActive(), position());
     loadQmlScene(MonitorSceneSplit);
 }
 
@@ -1929,7 +1930,7 @@ void Monitor::slotAdjustEffectCompare()
     if (m_splitEffect) {
         m_splitEffect->set("0", percent);
     }
-    //render->doRefresh();
+    m_glMonitor->refresh();
 }
 
 ProfileInfo Monitor::profileInfo() const

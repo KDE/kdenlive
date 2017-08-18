@@ -69,6 +69,7 @@ EffectStackView::EffectStackView(QWidget *parent)
     : QWidget(parent)
     , m_thumbnailer(new AssetIconProvider(true))
     , m_range(-1, -1)
+    , m_model(nullptr)
 {
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     m_lay = new QVBoxLayout(this);
@@ -257,4 +258,12 @@ void EffectStackView::setRange(int in, int out)
         auto w = m_effectsTree->indexWidget(ix);
         static_cast<CollapsibleEffectView *>(w)->setRange(m_range);
     }
+}
+
+ObjectType EffectStackView::stackOwner() const
+{
+    if (m_model) {
+        return m_model->getOwnerId().first;
+    }
+    return ObjectType::NoItem;
 }

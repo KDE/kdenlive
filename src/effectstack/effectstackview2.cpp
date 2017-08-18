@@ -1356,13 +1356,13 @@ void EffectStackView2::slotSwitchCompare(bool enable)
         } else {
             pos = m_effectMetaInfo.monitor->position();
         }
-        m_effectMetaInfo.monitor->slotSwitchCompare(enable, pos);
+        m_effectMetaInfo.monitor->slotSwitchCompare(enable);
     } else {
         if (m_status == TIMELINE_CLIP) {
             pos = m_effectMetaInfo.monitor->position() + m_clipref->startPos().frames(KdenliveSettings::project_fps());
         } else {
             pos = m_effectMetaInfo.monitor->position();
         }
-        m_effectMetaInfo.monitor->slotSwitchCompare(enable, pos);
+        m_effectMetaInfo.monitor->slotSwitchCompare(enable);
     }
 }

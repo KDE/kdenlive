@@ -2003,8 +2003,17 @@ void Timeline::loadPreviewRender()
             return;
         }
         m_timelinePreview->buildPreviewTrack();
-        m_timelinePreview->loadChunks(chunks.split(QLatin1Char(','), QString::SkipEmptyParts), dirty.split(QLatin1Char(','), QString::SkipEmptyParts),
-                                      documentDate);
+        QList <int> renderedChunks;
+        QList <int> dirtyChunks;
+        QStringList chunksList = chunks.split(QLatin1Char(','), QString::SkipEmptyParts);
+        QStringList dirtyList = dirty.split(QLatin1Char(','), QString::SkipEmptyParts);
+        for (const QString &frame : chunksList) {
+            renderedChunks << frame.toInt();
+        }
+        for (const QString &frame : dirtyList) {
+            dirtyChunks << frame.toInt();
+        }
+        //m_timelinePreview->loadChunks(renderedChunks, dirtyChunks, documentDate);
         m_usePreview = true;
     } else {
         m_ruler->hidePreview(true);
@@ -2054,7 +2063,7 @@ void Timeline::initializePreview()
             m_timelinePreview = nullptr;
         }
     } else {
-        m_timelinePreview = new PreviewManager(m_doc, m_ruler, m_tractor);
+        m_timelinePreview = nullptr; //new PreviewManager(m_tractor);
         if (!m_timelinePreview->initialize()) {
             // TODO warn user
             m_ruler->hidePreview(true);
@@ -2107,7 +2116,7 @@ void Timeline::disablePreview(bool disable)
                 m_tractor->unlock();
             }
             QPair<QStringList, QStringList> chunks = m_ruler->previewChunks();
-            m_timelinePreview->loadChunks(chunks.first, chunks.second, QDateTime());
+            //m_timelinePreview->loadChunks(chunks.first, chunks.second, QDateTime());
             m_ruler->hidePreview(false);
             m_usePreview = true;
         }
@@ -2117,7 +2126,7 @@ void Timeline::disablePreview(bool disable)
 void Timeline::addPreviewRange(bool add)
 {
     if (m_timelinePreview) {
-        m_timelinePreview->addPreviewRange(add);
+        m_timelinePreview->addPreviewRange(QPoint(), add);
     }
 }
 

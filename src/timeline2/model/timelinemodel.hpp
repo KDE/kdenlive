@@ -481,6 +481,7 @@ public:
 
     /** @brief Returns the effectstack of a given clip. */
     std::shared_ptr<EffectStackModel> getClipEffectStack(int itemId);
+
 protected:
     /* @brief Register a new track. This is a call-back meant to be called from TrackModel
        @param pos indicates the number of the track we are adding. If this is -1, then we add at the end.
@@ -591,6 +592,9 @@ protected:
 
     // id of the currently selected group in timeline, should be destroyed on each new selection
     int m_temporarySelectionGroup;
+
+    // The index of the temporary overlay track in tractor, or -1 if not connected
+    int m_overlayTrackIndex;
 
     // what follows are some virtual function that corresponds to the QML. They are implemented in TimelineItemModel
 protected:

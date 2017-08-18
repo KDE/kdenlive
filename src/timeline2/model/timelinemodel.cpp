@@ -59,6 +59,7 @@ TimelineModel::TimelineModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> 
     , m_timelineEffectsEnabled(true)
     , m_id(getNextId())
     , m_temporarySelectionGroup(-1)
+    , m_overlayTrackIndex(-1)
 {
     // Create black background track
     m_blackClip->set("id", "black_track");
@@ -94,6 +95,9 @@ int TimelineModel::getTracksCount() const
 {
     READ_LOCK();
     int count = m_tractor->count();
+    if (m_overlayTrackIndex > -1) {
+        count --;
+    }
     Q_ASSERT(count >= 0);
     // don't count the black background track
     Q_ASSERT(count - 1 == static_cast<int>(m_allTracks.size()));
@@ -874,6 +878,7 @@ bool TimelineModel::requestTrackInsertion(int position, int &id)
 
 bool TimelineModel::requestTrackInsertion(int position, int &id, Fun &undo, Fun &redo)
 {
+    // TODO: make sure we disable overlayTrack before inserting a track
     if (position == -1) {
         position = (int)(m_allTracks.size());
     }
@@ -897,6 +902,7 @@ bool TimelineModel::requestTrackInsertion(int position, int &id, Fun &undo, Fun 
 
 bool TimelineModel::requestTrackDeletion(int trackId)
 {
+    // TODO: make sure we disable overlayTrack before deleting a track
 #ifdef LOGGING
     m_logFile << "timeline->requestTrackDeletion(" << trackId << "); " << std::endl;
 #endif
@@ -1668,3 +1674,4 @@ void TimelineModel::requestClipReload(int clipId)
         getTrackById(old_trackId)->requestClipInsertion(clipId, oldPos, false, local_undo, local_redo);
     }
 }
+

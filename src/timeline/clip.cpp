@@ -127,7 +127,7 @@ void Clip::deleteEffects()
     int ct = 0;
     Mlt::Filter *filter = m_producer.filter(ct);
     while (filter != nullptr) {
-        QString ix = QString::fromLatin1(filter->get("kdenlive_ix"));
+        QString ix = QString::fromLatin1(filter->get("kdenlive_id"));
         if (!ix.isEmpty()) {
             if (m_producer.detach(*filter) == 0) {
             } else {

@@ -39,7 +39,7 @@ enum MonitorId { NoMonitor = 0x01, ClipMonitor = 0x02, ProjectMonitor = 0x04, Re
 const int DefaultThumbHeight = 100;
 }
 
-enum class ObjectType { TimelineClip, TimelineComposition, TimelineTrack, BinClip };
+enum class ObjectType { TimelineClip, TimelineComposition, TimelineTrack, BinClip, NoItem };
 using ObjectId = std::pair<ObjectType, int>;
 
 enum OperationType {

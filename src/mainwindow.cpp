@@ -310,6 +310,8 @@ void MainWindow::init()
 
     m_assetPanel = new AssetPanel(this);
 
+    connect(m_assetPanel, &AssetPanel::doSplitEffect, m_projectMonitor, &Monitor::slotSwitchCompare);
+    connect(m_assetPanel, &AssetPanel::doSplitBinEffect, m_clipMonitor, &Monitor::slotSwitchCompare);
     connect(m_timelineTabs, &TimelineTabs::showTransitionModel, m_assetPanel, &AssetPanel::showTransition);
     connect(m_timelineTabs, &TimelineTabs::showClipEffectStack, m_assetPanel, &AssetPanel::showEffectStack);
     connect(pCore->bin(), &Bin::requestShowEffectStack, m_assetPanel, &AssetPanel::showEffectStack);
@@ -881,20 +883,13 @@ void MainWindow::slotConnectMonitors()
 
 void MainWindow::createSplitOverlay(Mlt::Filter *filter)
 {
-    //TODO
-    if (pCore->projectManager()->currentTimeline()) {
-        if (pCore->projectManager()->currentTimeline()->projectView()->createSplitOverlay(filter)) {
-            m_projectMonitor->activateSplit();
-        }
-    }
+    getMainTimeline()->controller()->createSplitOverlay(filter);
+    m_projectMonitor->activateSplit();
 }
 
 void MainWindow::removeSplitOverlay()
 {
-    //TODO
-    if (pCore->projectManager()->currentTimeline()) {
-        pCore->projectManager()->currentTimeline()->projectView()->removeSplitOverlay();
-    }
+    getMainTimeline()->controller()->removeSplitOverlay();
 }
 
 void MainWindow::addAction(const QString &name, QAction *action)
@@ -2515,35 +2510,35 @@ void MainWindow::slotLiftZone()
 void MainWindow::slotPreviewRender()
 {
     if (pCore->currentDoc()) {
-        pCore->projectManager()->currentTimeline()->startPreviewRender();
+        getCurrentTimeline()->controller()->startPreviewRender();
     }
 }
 
 void MainWindow::slotStopPreviewRender()
 {
     if (pCore->currentDoc()) {
-        pCore->projectManager()->currentTimeline()->stopPreviewRender();
+        getCurrentTimeline()->controller()->stopPreviewRender();
     }
 }
 
 void MainWindow::slotDefinePreviewRender()
 {
     if (pCore->currentDoc()) {
-        pCore->projectManager()->currentTimeline()->addPreviewRange(true);
+        getCurrentTimeline()->controller()->addPreviewRange(true);
     }
 }
 
 void MainWindow::slotRemovePreviewRender()
 {
     if (pCore->currentDoc()) {
-        pCore->projectManager()->currentTimeline()->addPreviewRange(false);
+        getCurrentTimeline()->controller()->addPreviewRange(false);
     }
 }
 
 void MainWindow::slotClearPreviewRender()
 {
     if (pCore->currentDoc()) {
-        pCore->projectManager()->currentTimeline()->clearPreviewRange();
+        getCurrentTimeline()->controller()->clearPreviewRange();
     }
 }
 

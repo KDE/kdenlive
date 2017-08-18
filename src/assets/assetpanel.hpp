@@ -26,6 +26,9 @@
 #include <QVBoxLayout>
 #include <memory>
 
+class KSqueezedTextLabel;
+class QToolButton;
+
 /** @brief This class is the widget that provides interaction with the asset currently selected.
     That is, it either displays an effectStack or the parameters of a transition
  */
@@ -64,11 +67,20 @@ public slots:
 protected:
     /** @brief Return the stylesheet used to display the panel (based on current palette). */
     static const QString getStyleSheet();
-
     QVBoxLayout *m_lay;
-    QLabel *m_assetTitle;
+    KSqueezedTextLabel *m_assetTitle;
     TransitionStackView *m_transitionWidget;
     EffectStackView *m_effectStackWidget;
+
+private:
+    QToolButton *m_splitButton;
+
+private slots:
+    void processSplitEffect(bool enable);
+
+signals:
+    void doSplitEffect(bool);
+    void doSplitBinEffect(bool);
 };
 
 #endif

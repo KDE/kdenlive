@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
+import QtQuick 2.6
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
 
@@ -28,6 +28,7 @@ Rectangle {
     property real timeScale: timeline.scaleFactor
     property real fontUnit: root.baseUnit * 0.9
     property alias rulerZone : zone
+    property int workingPreview : timeline.workingPreview
 
     SystemPalette { id: activePalette }
 
@@ -46,10 +47,61 @@ Rectangle {
         adjustStepSize()
     }
 
+    /*onDirtyChunksChanged: {
+        console.log('new chunks RES: ' , dirtyChunks)
+        //for (var i = 0; i < dirtyChunks.count; i++)
+        //    console.log('new chunks: ' , dirtyChunks[i])
+    }*/
+
     id: rulerTop
     enabled: false
     height: fontMetrics.font.pixelSize * 2
     color: activePalette.window
+
+    Repeater {
+        model: timeline.dirtyChunks
+        anchors.fill: rulerTop
+        delegate: Rectangle {
+            x: scrollView.flickableItem.contentX / stepSize + modelData * rulerTop.timeScale
+            y: 0
+            width: 25 * rulerTop.timeScale
+            height: rulerTop.height / 4
+            color: 'darkred'
+        }
+    }
+
+    Repeater {
+        model: timeline.renderedChunks
+        anchors.fill: rulerTop
+        delegate: Rectangle {
+            x: scrollView.flickableItem.contentX / stepSize + modelData * rulerTop.timeScale
+            y: 0
+            width: 25 * rulerTop.timeScale
+            height: rulerTop.height / 4
+            color: 'darkgreen'
+        }
+    }
+    Rectangle {
+        id: working
+        x: scrollView.flickableItem.contentX / stepSize + rulerTop.workingPreview * rulerTop.timeScale
+        y: 0
+        width: 25 * rulerTop.timeScale
+        height: rulerTop.height / 4
+        color: 'orange'
+        visible: rulerTop.workingPreview > -1
+        SequentialAnimation on color {
+            id: anim
+            loops: Animation.Infinite
+            ColorAnimation {
+                to: 'transparent'
+                duration: 1000
+            }
+            PropertyAnimation {
+                to: 'orange'
+                duration: 1000
+            }
+        }
+    }
 
     Repeater {
         model: scrollView.width / frameSize + 2
@@ -75,6 +127,7 @@ Rectangle {
             color: activePalette.windowText
         }
     }
+
     // monitor zone
     Rectangle {
         id: zone

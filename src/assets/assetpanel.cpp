@@ -28,23 +28,37 @@
 #include "model/assetparametermodel.hpp"
 #include "transitions/transitionsrepository.hpp"
 #include "view/assetparameterview.hpp"
+#include "utils/KoIconUtils.h"
+#include "definitions.h"
 
 #include <KColorScheme>
 #include <KColorUtils>
+#include <KSqueezedTextLabel>
 #include <QApplication>
 #include <QDebug>
 #include <QLabel>
 #include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QToolButton>
 #include <klocalizedstring.h>
 
 AssetPanel::AssetPanel(QWidget *parent)
     : QScrollArea(parent)
     , m_lay(new QVBoxLayout(this))
-    , m_assetTitle(new QLabel(this))
+    , m_assetTitle(new KSqueezedTextLabel(this))
     , m_transitionWidget(new TransitionStackView(this))
     , m_effectStackWidget(new EffectStackView(this))
 {
-    m_lay->addWidget(m_assetTitle);
+    QHBoxLayout *tLayout = new QHBoxLayout;
+    tLayout->addWidget(m_assetTitle);
+    m_splitButton = new QToolButton(this);
+    m_splitButton->setIcon(KoIconUtils::themedIcon(QStringLiteral("view-split-left-right")));
+    m_splitButton->setToolTip(i18n("Compare effect"));
+    m_splitButton->setCheckable(true);
+    m_splitButton->setVisible(false);
+    connect(m_splitButton, &QToolButton::toggled, this, &AssetPanel::processSplitEffect);
+    tLayout->addWidget(m_splitButton);
+    m_lay->addLayout(tLayout);
     m_lay->addWidget(m_transitionWidget);
     m_lay->addWidget(m_effectStackWidget);
     m_transitionWidget->setVisible(false);
@@ -70,6 +84,7 @@ void AssetPanel::showEffectStack(const QString &clipName, std::shared_ptr<Effect
         return;
     }
     m_assetTitle->setText(i18n("%1 effects", clipName));
+    m_splitButton->setVisible(true);
     m_effectStackWidget->setVisible(true);
     m_effectStackWidget->setModel(effectsModel, range);
 }
@@ -94,6 +109,7 @@ void AssetPanel::clear()
     m_transitionWidget->setProperty("compositionId", QVariant());
     m_transitionWidget->unsetModel();
     m_effectStackWidget->setVisible(false);
+    m_splitButton->setVisible(false);
     m_effectStackWidget->setProperty("clipId", QVariant());
     m_effectStackWidget->unsetModel();
     m_assetTitle->setText(QString());
@@ -169,4 +185,14 @@ const QString AssetPanel::getStyleSheet()
     stylesheet.append(QStringLiteral("QComboBox { background-color: transparent;} "));
 
     return stylesheet;
+}
+
+void AssetPanel::processSplitEffect(bool enable)
+{
+    ObjectType id = m_effectStackWidget->stackOwner();
+    if (id == ObjectType::TimelineClip) {
+        emit doSplitEffect(enable);
+    } else if (id == ObjectType::BinClip) {
+        emit doSplitBinEffect(enable);
+    }
 }

@@ -95,7 +95,7 @@ public:
     void resetProfile();
     void setCustomProfile(const QString &profile, const Timecode &tc);
     void setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu = nullptr, QAction *loopClip = nullptr);
-    const QString sceneList(const QString &root);
+    const QString sceneList(const QString &root, const QString &fullPath = QString());
     const QString activeClipId();
     int position();
     void updateTimecodeFormat();
@@ -238,7 +238,7 @@ private:
     /** @brief Check and display dropped frames */
     void checkDrops(int dropped);
     /** @brief Create temporary Mlt::Tractor holding a clip and it's effectless clone */
-    void buildSplitEffect(Mlt::Producer *original, int pos);
+    void buildSplitEffect(Mlt::Producer *original);
 
 private slots:
     Q_DECL_DEPRECATED void seekCursor(int pos);
@@ -301,7 +301,6 @@ public slots:
     void slotRewind(double speed = 0);
     void slotRewindOneFrame(int diff = 1);
     void slotForwardOneFrame(int diff = 1);
-    // void saveSceneList(const QString &path, const QDomElement &info = QDomElement());
     void slotStart();
     void slotEnd();
     void slotSetZoneStart();
@@ -318,7 +317,7 @@ public slots:
     void slotShowEffectScene(MonitorSceneType sceneType, bool temporary = false);
     bool effectSceneDisplayed(MonitorSceneType effectType);
     /** @brief split screen to compare clip with and without effect */
-    void slotSwitchCompare(bool enable, int pos);
+    void slotSwitchCompare(bool enable);
     void slotMouseSeek(int eventDelta, int modifiers) override;
     void slotSwitchFullScreen(bool minimizeOnly = false) override;
     /** @brief Display or hide the record toolbar */

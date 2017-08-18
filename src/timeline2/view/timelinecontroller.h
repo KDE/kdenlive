@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017 by Jean-Baptiste Mardelle                                  *
+ *   Copyright (C) 2017 by Jean-Baptiste Mardelle                          *
  *   This file is part of Kdenlive. See www.kdenlive.org.                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -24,6 +24,9 @@
 
 #include "timeline2/model/timelineitemmodel.hpp"
 #include "timelinewidget.h"
+
+class PreviewManager;
+class QAction;
 
 // see https://bugreports.qt.io/browse/QTBUG-57714, don't expose a QWidget as a context property
 class TimelineController : public QObject
@@ -50,6 +53,9 @@ class TimelineController : public QObject
     Q_PROPERTY(bool showThumbnails READ showThumbnails NOTIFY showThumbnailsChanged)
     Q_PROPERTY(bool showMarkers READ showMarkers NOTIFY showMarkersChanged)
     Q_PROPERTY(bool showAudioThumbnails READ showAudioThumbnails NOTIFY showAudioThumbnailsChanged)
+    Q_PROPERTY(QVariantList dirtyChunks READ dirtyChunks NOTIFY dirtyChunksChanged)
+    Q_PROPERTY(QVariantList renderedChunks READ renderedChunks NOTIFY renderedChunksChanged)
+    Q_PROPERTY(int workingPreview READ workingPreview NOTIFY workingPreviewChanged)
 
 public:
     TimelineController(KActionCollection *actionCollection, QObject *parent);
@@ -188,6 +194,7 @@ public:
     /* @brief Get the list of currenly selected clip id's
      */
     QList<int> selection() const;
+
     /* @brief Add an asset (effect, composition)
      */
     void addAsset(const QVariantMap data);
@@ -239,17 +246,37 @@ public:
     void setCompositionATrack(int cid, int aTrack);
     const QString getClipBinId(int clipId) const;
     void focusItem(int itemId);
+    /* @brief Create and display a split clip view to compare effect
+     */
+    bool createSplitOverlay(Mlt::Filter *filter);
+    /* @brief Delete the split clip view to compare effect
+     */
+    void removeSplitOverlay();
+    /* @brief Add current timeline zone to preview rendering
+     */
+    void addPreviewRange(bool add);
+    /* @brief Clear current timeline zone from preview rendering
+     */
+    void clearPreviewRange();
+    void startPreviewRender();
+    void stopPreviewRender();
+    QVariantList dirtyChunks() const;
+    QVariantList renderedChunks() const;
+    int workingPreview() const;
 
 public slots:
     void selectMultitrack();
     Q_INVOKABLE void setSeekPosition(int position);
     void onSeeked(int position);
     void addEffectToCurrentClip(const QStringList &effectData);
+    /** @brief Dis / enable timeline preview. */
+    void disablePreview(bool disable);
 
 private:
     QQuickItem *m_root;
     KActionCollection *m_actionCollection;
     std::shared_ptr<TimelineItemModel> m_model;
+    bool m_usePreview;
     struct Selection
     {
         QList<int> selectedClips;
@@ -263,7 +290,11 @@ private:
     static int m_duration;
     Selection m_selection;
     Selection m_savedSelection;
+    PreviewManager *m_timelinePreview;
+    QAction *m_disablePreview;
     void emitSelectedFromSelection();
+    int getCurrentItem();
+    void initializePreview();
 
 signals:
     void selected(Mlt::Producer *producer);
@@ -286,6 +317,11 @@ signals:
     /* @brief Requests that a given parameter model is displayed in the asset panel */
     void showTransitionModel(int tid, std::shared_ptr<AssetParameterModel>);
     void showClipEffectStack(const QString &clipName, std::shared_ptr<EffectStackModel>, QPair<int, int> range);
+    /* @brief notify of chunks change
+     */
+    void dirtyChunksChanged();
+    void renderedChunksChanged();
+    void workingPreviewChanged();
 };
 
 #endif

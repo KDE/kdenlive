@@ -23,13 +23,16 @@
 #include "../model/timelinefunctions.hpp"
 #include "bin/bin.h"
 #include "bin/model/markerlistmodel.hpp"
+#include "bin/projectitemmodel.h"
 #include "bin/projectclip.h"
+#include "timeline/managers/previewmanager.h"
 #include "core.h"
 #include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
 #include "project/projectmanager.h"
 #include "timeline2/model/timelineitemmodel.hpp"
 #include "timeline2/model/trackmodel.hpp"
+#include "timeline2/model/clipmodel.hpp"
 #include "timeline2/model/compositionmodel.hpp"
 #include <timeline2/model/groupsmodel.hpp>
 #include "timelinewidget.h"
@@ -48,7 +51,12 @@ TimelineController::TimelineController(KActionCollection *actionCollection, QObj
     , m_position(0)
     , m_seekPosition(-1)
     , m_scale(3.0)
+    , m_usePreview(false)
+    , m_timelinePreview(nullptr)
 {
+    m_disablePreview = pCore->currentDoc()->getAction(QStringLiteral("disable_preview"));
+    connect(m_disablePreview, &QAction::triggered, this, &TimelineController::disablePreview);
+    m_disablePreview->setEnabled(false);
 }
 
 void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
@@ -90,6 +98,16 @@ void TimelineController::addSelection(int newSelection)
         emitSelectedFromSelection();
     else
         emit selected(nullptr);
+}
+
+int TimelineController::getCurrentItem()
+{
+    //TODO: if selection is empty, return topmost clip under timeline cursor
+    if (m_selection.selectedClips.isEmpty()) {
+        return -1;
+    }
+    //TODO: if selection contains more than 1 clip, return topmost clip under timeline cursor in selection
+    return m_selection.selectedClips.constFirst();
 }
 
 double TimelineController::scaleFactor() const
@@ -661,3 +679,168 @@ void TimelineController::setHeaderWidth(int width)
     KdenliveSettings::setHeaderwidth(width);
 }
 
+bool TimelineController::createSplitOverlay(Mlt::Filter *filter)
+{
+    if (m_model->m_overlayTrackIndex > -1) {
+        return true;
+    }
+    int clipId = getCurrentItem();
+    if (clipId == -1) {
+        pCore->displayMessage(i18n("Select a clip to compare effect"), InformationMessage, 500);
+        return false;
+    }
+    std::shared_ptr<ClipModel> clip = m_model->getClipPtr(clipId);
+    const QString binId = clip->binId();
+
+    // Get clean bin copy of the clip
+    std::shared_ptr< ProjectClip > binClip = pCore->projectItemModel()->getClipByBinID(binId);
+    std::shared_ptr<Mlt::Producer> binProd(binClip->masterProducer()->cut(clip->getIn(), clip->getOut()));
+
+    // Get copy of timeline producer
+    Mlt::Producer *clipProducer = new Mlt::Producer(*clip);
+
+    // Built tractor and compositing
+    Mlt::Tractor trac(*m_model->m_tractor->profile());
+    Mlt::Playlist play(*m_model->m_tractor->profile());
+    Mlt::Playlist play2(*m_model->m_tractor->profile());
+    play.append(*clipProducer);
+    play2.append(*binProd);
+    trac.set_track(play, 0);
+    trac.set_track(play2, 1);
+    play2.attach(*filter);
+    QString splitTransition = TimelineItemModel::getCompositingTransition();
+    Mlt::Transition t(*m_model->m_tractor->profile(), splitTransition.toUtf8().constData());
+    t.set("always_active", 1);
+    trac.plant_transition(t, 0, 1);
+    int startPos = m_model->getClipPosition(clipId);
+
+    // plug in overlay playlist
+    Mlt::Playlist *overlay = new Mlt::Playlist(*m_model->m_tractor->profile());
+    overlay->insert_blank(0, startPos);
+    Mlt::Producer split(trac.get_producer());
+    overlay->insert_at(startPos, &split, 1);
+
+    // insert in tractor
+    if (!m_timelinePreview) {
+        initializePreview();
+    }
+    m_model->m_overlayTrackIndex = m_timelinePreview->setOverlayTrack(overlay);
+    return true;
+
+}
+
+void TimelineController::removeSplitOverlay()
+{
+    if (m_model->m_overlayTrackIndex == -1) {
+        return;
+    }
+    // disconnect
+    m_timelinePreview->removeOverlayTrack();
+    m_model->m_overlayTrackIndex = -1;
+}
+
+void TimelineController::addPreviewRange(bool add)
+{
+    if (m_timelinePreview && !m_zone.isNull()) {
+        m_timelinePreview->addPreviewRange(m_zone, add);
+    }
+}
+
+void TimelineController::clearPreviewRange()
+{
+    if (m_timelinePreview) {
+        m_timelinePreview->clearPreviewRange();
+    }
+}
+
+void TimelineController::startPreviewRender()
+{
+    // Timeline preview stuff
+    if (!m_timelinePreview) {
+        initializePreview();
+    } else if (m_disablePreview->isChecked()) {
+        m_disablePreview->setChecked(false);
+        disablePreview(false);
+    }
+    if (m_timelinePreview) {
+        if (!m_usePreview) {
+            m_timelinePreview->buildPreviewTrack();
+            qDebug()<<"// STARTING PREVIEW TRACK";
+            m_usePreview = true;
+        }
+        m_timelinePreview->startPreviewRender();
+    }
+}
+
+void TimelineController::stopPreviewRender()
+{
+    if (m_timelinePreview) {
+        m_timelinePreview->abortRendering();
+    }
+}
+
+void TimelineController::initializePreview()
+{
+    if (m_timelinePreview) {
+        // Update parameters
+        if (!m_timelinePreview->loadParams()) {
+            if (m_usePreview) {
+                // Disconnect preview track
+                m_timelinePreview->disconnectTrack();
+                m_usePreview = false;
+            }
+            delete m_timelinePreview;
+            m_timelinePreview = nullptr;
+        }
+    } else {
+        m_timelinePreview = new PreviewManager(this, m_model->m_tractor.get());
+        if (!m_timelinePreview->initialize()) {
+            // TODO warn user
+            delete m_timelinePreview;
+            m_timelinePreview = nullptr;
+        } else {
+        }
+    }
+    QAction *previewRender = pCore->currentDoc()->getAction(QStringLiteral("prerender_timeline_zone"));
+    if (previewRender) {
+        previewRender->setEnabled(m_timelinePreview != nullptr);
+    }
+    m_disablePreview->setEnabled(m_timelinePreview != nullptr);
+    m_disablePreview->blockSignals(true);
+    m_disablePreview->setChecked(false);
+    m_disablePreview->blockSignals(false);
+}
+
+void TimelineController::disablePreview(bool disable)
+{
+    if (disable) {
+        m_timelinePreview->deletePreviewTrack();
+        m_usePreview = false;
+    } else {
+        if (!m_usePreview) {
+            if (!m_timelinePreview->buildPreviewTrack()) {
+                // preview track already exists, reconnect
+                m_model->m_tractor->lock();
+                m_timelinePreview->reconnectTrack();
+                m_model->m_tractor->unlock();
+            }
+            m_timelinePreview->loadChunks(QVariantList(), QVariantList(), QDateTime());
+            m_usePreview = true;
+        }
+    }
+}
+
+QVariantList TimelineController::dirtyChunks() const
+{
+    return m_timelinePreview ? m_timelinePreview->m_dirtyChunks : QVariantList();
+}
+
+QVariantList TimelineController::renderedChunks() const
+{
+    return m_timelinePreview ? m_timelinePreview->m_renderedChunks : QVariantList();
+}
+
+int TimelineController::workingPreview() const
+{
+    return m_timelinePreview ? m_timelinePreview->workingPreview : -1;
+}

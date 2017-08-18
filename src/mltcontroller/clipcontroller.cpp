@@ -716,15 +716,7 @@ void ClipController::updateEffect(const ProfileInfo &pInfo, const QDomElement &e
 
 bool ClipController::hasEffects() const
 {
-    Mlt::Service service = m_masterProducer->parent();
-    for (int ix = 0; ix < service.filter_count(); ++ix) {
-        QScopedPointer<Mlt::Filter> effect(service.filter(ix));
-        QString id = effect->get("kdenlive_ix");
-        if (!id.isEmpty()) {
-            return true;
-        }
-    }
-    return false;
+    return m_effectStack->rowCount() > 0;
 }
 
 void ClipController::setBinEffectsEnabled(bool enabled)

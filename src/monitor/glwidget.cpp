@@ -1349,11 +1349,11 @@ void GLWidget::updateGamma()
     reconfigure();
 }
 
-const QString GLWidget::sceneList(const QString &root)
+const QString GLWidget::sceneList(const QString &root, const QString &fullPath)
 {
     QString playlist;
     qCDebug(KDENLIVE_LOG) << " * * *Setting document xml root: " << root;
-    Mlt::Consumer xmlConsumer(*m_monitorProfile, "xml:kdenlive_playlist");
+    Mlt::Consumer xmlConsumer(*m_monitorProfile, fullPath.isEmpty() ? "xml:kdenlive_playlist" : fullPath.toUtf8().constData());
     if (!root.isEmpty()) {
         xmlConsumer.set("root", root.toUtf8().constData());
     }
@@ -1372,7 +1372,7 @@ const QString GLWidget::sceneList(const QString &root)
     }
     xmlConsumer.connect(prod);
     xmlConsumer.run();
-    playlist = QString::fromUtf8(xmlConsumer.get("kdenlive_playlist"));
+    playlist = fullPath.isEmpty() ? QString::fromUtf8(xmlConsumer.get("kdenlive_playlist")) : fullPath;
     return playlist;
 }
 

@@ -96,6 +96,7 @@ public:
     friend class TrackModel;
     friend class TimelineModel;
     friend class TimelineItemModel;
+    friend class TimelineController;
 
 protected:
     Mlt::Producer *service() const override;
