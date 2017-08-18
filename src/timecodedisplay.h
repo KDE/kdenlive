@@ -38,7 +38,7 @@ public:
  * @brief A widget for inserting a timecode value.
  * @author Jean-Baptiste Mardelle
  *
- * TimecodeDisplay can be used to insert eigther frames
+ * TimecodeDisplay can be used to insert either frames
  * or a timecode in the format HH:MM:SS:FF
  */
 class TimecodeDisplay : public QAbstractSpinBox

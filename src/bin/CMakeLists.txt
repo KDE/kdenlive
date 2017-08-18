@@ -4,6 +4,7 @@ set(kdenlive_SRCS
   bin/bin.cpp
   bin/bincommands.cpp
   bin/binplaylist.cpp
+  bin/clipcreator.cpp
   bin/generators/generators.cpp
   bin/model/markerlistmodel.cpp
   bin/projectclip.cpp

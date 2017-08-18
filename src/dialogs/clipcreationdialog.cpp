@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "clipcreationdialog.h"
 #include "bin/bin.h"
 #include "bin/bincommands.h"
-#include "bin/projectitemmodel.h"
+#include "bin/clipcreator.hpp"
 #include "bin/projectclip.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
@@ -125,21 +125,10 @@ void ClipCreationDialog::createColorClip(KdenliveDoc *doc, const QString &parent
         QString color = dia_ui.clip_color->color().name();
         KdenliveSettings::setColorclipcolor(color);
         color = color.replace(0, 1, QStringLiteral("0x")) + "ff";
-        // Everything is ready. create clip xml
-        QDomDocument xml;
-        QDomElement prod = xml.createElement(QStringLiteral("producer"));
-        xml.appendChild(prod);
-        prod.setAttribute(QStringLiteral("type"), (int) Color);
-        prod.setAttribute(QStringLiteral("in"), QStringLiteral("0"));
-        prod.setAttribute(QStringLiteral("length"), doc->getFramePos(doc->timecode().getTimecode(t->gentime())));
-        QMap<QString, QString> properties;
-        properties.insert(QStringLiteral("resource"), color);
-        properties.insert(QStringLiteral("kdenlive:clipname"), dia_ui.clip_name->text());
-        properties.insert(QStringLiteral("mlt_service"), QStringLiteral("color"));
-        Xml::addXmlProperties(prod, properties);
+        int duration =  doc->getFramePos(doc->timecode().getTimecode(t->gentime()));
+        QString name = dia_ui.clip_name->text();
 
-        QString id;
-        model->requestAddBinClip(id, xml.documentElement(), parentFolder, i18n("Create color clip"));
+        ClipCreator::createColorClip(color, duration, name, parentFolder, model);
     }
 }
 
