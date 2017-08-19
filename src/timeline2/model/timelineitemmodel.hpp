@@ -96,5 +96,10 @@ public:
     virtual void _endRemoveRows() override;
     virtual void _endInsertRows() override;
     virtual void _resetView() override;
+
+protected:
+    // This is an helper function that finishes a constuction of a freshly created TimelineItemModel
+    static void finishConstruct(std::shared_ptr<TimelineItemModel> ptr, std::shared_ptr<MarkerListModel> guideModel);
+
 };
 #endif

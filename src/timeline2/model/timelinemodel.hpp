@@ -23,6 +23,8 @@
 #define TIMELINEMODEL_H
 
 #include "undohelper.hpp"
+#include <assert.h>
+#include "definitions.h"
 #include <QAbstractItemModel>
 #include <QReadWriteLock>
 #include <memory>
@@ -81,7 +83,7 @@ class TrackModel;
    A ModelIndex can also store one additional integer, and we exploit this feature to store the unique ID of the object it corresponds to.
 
 */
-class TimelineModel : public QAbstractItemModel, public std::enable_shared_from_this<TimelineModel>
+class TimelineModel : public QAbstractItemModel_shared_from_this<TimelineModel>
 {
     Q_OBJECT
 
@@ -475,7 +477,7 @@ public:
     QStringList extractCompositionLumas() const;
     /* @brief Inform asset view of duration change
      */
-    void adjustAssetRange(int clipId, int in, int out);
+    virtual void adjustAssetRange(int clipId, int in, int out);
 
     void requestClipReload(int clipId);
 

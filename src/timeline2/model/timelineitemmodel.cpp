@@ -49,12 +49,19 @@ TimelineItemModel::TimelineItemModel(Mlt::Profile *profile, std::weak_ptr<DocUnd
 {
 }
 
+void TimelineItemModel::finishConstruct(std::shared_ptr<TimelineItemModel> ptr, std::shared_ptr<MarkerListModel> guideModel)
+{
+    ptr->weak_this_ = ptr;
+    ptr->m_groups = std::unique_ptr<GroupsModel>(new GroupsModel(ptr));
+    guideModel->registerSnapModel(ptr->m_snaps);
+}
+
+
 std::shared_ptr<TimelineItemModel> TimelineItemModel::construct(Mlt::Profile *profile, std::shared_ptr<MarkerListModel> guideModel,
                                                                 std::weak_ptr<DocUndoStack> undo_stack)
 {
     std::shared_ptr<TimelineItemModel> ptr(new TimelineItemModel(profile, std::move(undo_stack)));
-    ptr->m_groups = std::unique_ptr<GroupsModel>(new GroupsModel(ptr));
-    guideModel->registerSnapModel(ptr->m_snaps);
+    finishConstruct(ptr, std::move(guideModel));
     return ptr;
 }
 

@@ -320,4 +320,33 @@ public:
         return result;
     }
 };
+
+
+// This is a small trick to have a QAbstractItemModel with shared_from_this enabled without multiple inheritance
+// Be careful, if you use this class, you have to make sure to init weak_this_ when you construct a shared_ptr to your object
+template<class T>
+class QAbstractItemModel_shared_from_this : public QAbstractItemModel
+{
+protected:
+    QAbstractItemModel_shared_from_this() : QAbstractItemModel() {}
+
+public:
+
+    std::shared_ptr<T> shared_from_this()
+    {
+        std::shared_ptr<T> p( weak_this_ );
+        assert( p.get() == this );
+        return p;
+    }
+
+    std::shared_ptr<T const> shared_from_this() const
+    {
+        std::shared_ptr<T const> p( weak_this_ );
+        assert( p.get() == this );
+        return p;
+    }
+
+public: // actually private, but avoids compiler template friendship issues
+    mutable std::weak_ptr<T> weak_this_;
+};
 #endif
