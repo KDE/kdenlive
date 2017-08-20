@@ -1526,11 +1526,12 @@ bool TimelineModel::checkConsistency()
         }
     }
     // Check snaps
-    if (snaps.size() != m_snaps->_snaps().size()) {
+    auto stored_snaps = m_snaps->_snaps();
+    if (snaps.size() != stored_snaps.size()) {
         qDebug() << "Wrong number of snaps";
         return false;
     }
-    for (auto i = snaps.begin(), j = m_snaps->_snaps().begin(); i != snaps.end(); ++i, ++j) {
+    for (auto i = snaps.begin(), j = stored_snaps.begin(); i != snaps.end(); ++i, ++j) {
         if (*i != *j) {
             qDebug() << "Wrong snap info at point"<<(*i).first;
             return false;

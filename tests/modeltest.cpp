@@ -1,97 +1,9 @@
-#include "catch.hpp"
-#include "doc/docundostack.hpp"
-#include "bin/model/markerlistmodel.hpp"
-#include <iostream>
-#include <memory>
-#include <random>
-#include <string>
-
-#pragma GCC diagnostic ignored "-Wnon-virtual-dtor"
-#pragma GCC diagnostic push
-#include "fakeit.hpp"
-#include <mlt++/MltFactory.h>
-#include <mlt++/MltProducer.h>
-#include <mlt++/MltProfile.h>
-#include <mlt++/MltRepository.h>
-#define private public
-#define protected public
-#include "timeline2/model/timelinemodel.hpp"
-#include "project/projectmanager.h"
-#include "core.h"
-#include "timeline2/model/clipmodel.hpp"
-#include "timeline2/model/groupsmodel.hpp"
-#include "timeline2/model/compositionmodel.hpp"
-#include "timeline2/model/timelineitemmodel.hpp"
-#include "timeline2/model/trackmodel.hpp"
-#include "bin/projectitemmodel.h"
-#include "bin/projectfolder.h"
-#include "bin/projectclip.h"
-#include "bin/clipcreator.hpp"
+#include "test_utils.hpp"
 
 using namespace fakeit;
 std::default_random_engine g(42);
 Mlt::Profile profile_model;
 
-#define RESET()                                                         \
-    timMock.Reset();                                                    \
-    Fake(Method(timMock, adjustAssetRange));                            \
-    Spy(Method(timMock, _resetView));                                   \
-    Spy(Method(timMock, _beginInsertRows));                             \
-    Spy(Method(timMock, _beginRemoveRows));                             \
-    Spy(Method(timMock, _endInsertRows));                               \
-    Spy(Method(timMock, _endRemoveRows));                               \
-    Spy(OverloadedMethod(timMock, notifyChange, void(const QModelIndex&, const QModelIndex&, bool, bool, bool))); \
-    Spy(OverloadedMethod(timMock, notifyChange, void(const QModelIndex&, const QModelIndex&, QVector<int>)));
-
-#define NO_OTHERS() \
-    VerifyNoOtherInvocations(Method(timMock, _beginRemoveRows));  \
-    VerifyNoOtherInvocations(Method(timMock, _beginInsertRows));  \
-    VerifyNoOtherInvocations(Method(timMock, _endRemoveRows));    \
-    VerifyNoOtherInvocations(Method(timMock, _endInsertRows));    \
-    VerifyNoOtherInvocations(OverloadedMethod(timMock, notifyChange, void(const QModelIndex&, const QModelIndex&, bool, bool, bool))); \
-    VerifyNoOtherInvocations(OverloadedMethod(timMock, notifyChange, void(const QModelIndex&, const QModelIndex&, QVector<int>))); \
-    RESET();
-
-#define CHECK_MOVE(times)                                         \
-    Verify(Method(timMock, _beginRemoveRows) +                    \
-           Method(timMock, _endRemoveRows) +                      \
-           Method(timMock, _beginInsertRows) +                    \
-           Method(timMock, _endInsertRows)                        \
-        ).Exactly(times);                                         \
-    NO_OTHERS();
-
-#define CHECK_INSERT(times)                       \
-    Verify(Method(timMock, _beginInsertRows) +    \
-           Method(timMock, _endInsertRows)        \
-        ).Exactly(times);                         \
-    NO_OTHERS();
-
-#define CHECK_REMOVE(times)                       \
-    Verify(Method(timMock, _beginRemoveRows) +    \
-           Method(timMock, _endRemoveRows)        \
-        ).Exactly(times);                         \
-    NO_OTHERS();
-
-#define CHECK_RESIZE(times) \
-    Verify(OverloadedMethod(timMock, notifyChange, void(const QModelIndex&, const QModelIndex&, bool, bool, bool))).Exactly(times); \
-    NO_OTHERS();
-
-QString createProducer(std::string color, std::shared_ptr<ProjectItemModel> binModel, int length = 20)
-{
-    std::shared_ptr<Mlt::Producer> producer = std::make_shared<Mlt::Producer>(profile_model, "color", color.c_str());
-    producer->set("length", length);
-    producer->set("out", length - 1);
-
-    REQUIRE(producer->is_valid());
-
-    QString binId = QString::number(binModel->getFreeClipId());
-    auto binClip = ProjectClip::construct(binId, QIcon(), binModel, producer);
-    Fun undo = []() { return true; };
-    Fun redo = []() { return true; };
-    REQUIRE(binModel->addItem(binClip, binModel->getRootFolder()->clipId(), undo, redo));
-
-    return binId;
-}
 
 TEST_CASE("Basic creation/deletion of a track", "[TrackModel]")
 {
@@ -186,7 +98,7 @@ TEST_CASE("Basic creation/deletion of a track", "[TrackModel]")
         REQUIRE(timeline->requestTrackInsertion(-1, tid2));
         REQUIRE(timeline->checkConsistency());
 
-        QString binId = createProducer("red", binModel);
+        QString binId = createProducer(profile_model, "red", binModel);
         int length = 20;
         int cid1,cid2,cid3,cid4;
         REQUIRE(timeline->requestClipInsertion(binId, tid1, 2, cid1));
@@ -234,8 +146,8 @@ TEST_CASE("Basic creation/deletion of a clip", "[ClipModel]")
     pCore->m_projectManager = &mocked;
 
 
-    QString binId = createProducer("red", binModel);
-    QString binId2 = createProducer("green", binModel);
+    QString binId = createProducer(profile_model, "red", binModel);
+    QString binId2 = createProducer(profile_model, "green", binModel);
 
     REQUIRE(timeline->getClipsCount() == 0);
     int id1 = ClipModel::construct(timeline, binId);
@@ -295,9 +207,9 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
     Fake(Method(timMock, _endInsertRows));
     Fake(Method(timMock, _endRemoveRows));
 
-    QString binId = createProducer("red", binModel);
-    QString binId2 = createProducer("blue", binModel);
-    QString binId3 = createProducer("green", binModel);
+    QString binId = createProducer(profile_model, "red", binModel);
+    QString binId2 = createProducer(profile_model, "blue", binModel);
+    QString binId3 = createProducer(profile_model, "green", binModel);
 
     int cid1 = ClipModel::construct(timeline, binId);
     int tid1 = TrackModel::construct(timeline);
@@ -812,7 +724,7 @@ TEST_CASE("Check id unicity", "[ClipModel]")
 
     RESET();
 
-    QString binId = createProducer("red", binModel);
+    QString binId = createProducer(profile_model, "red", binModel);
 
     std::vector<int> track_ids;
     std::unordered_set<int> all_ids;
@@ -866,8 +778,8 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
 
     RESET();
 
-    QString binId = createProducer("red", binModel);
-    QString binId2 = createProducer("blue", binModel);
+    QString binId = createProducer(profile_model, "red", binModel);
+    QString binId2 = createProducer(profile_model, "blue", binModel);
 
     int cid1 = ClipModel::construct(timeline, binId);
     int tid1 = TrackModel::construct(timeline);
@@ -1038,7 +950,7 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
         REQUIRE(undoStack->index() == init_index + 1);
     }
     SECTION("Clip Insertion Undo") {
-        QString binId3 = createProducer("red", binModel);
+        QString binId3 = createProducer(profile_model, "red", binModel);
 
         REQUIRE(timeline->requestClipMove(cid1, tid1, 5));
         auto state1 = [&]() {
@@ -1241,8 +1153,8 @@ TEST_CASE("Snapping", "[Snapping]") {
 
     RESET();
 
-    QString binId = createProducer("red", binModel, 50);
-    QString binId2 = createProducer("blue", binModel);
+    QString binId = createProducer(profile_model, "red", binModel, 50);
+    QString binId2 = createProducer(profile_model, "blue", binModel);
 
     int tid1 = TrackModel::construct(timeline);
     int cid1 = ClipModel::construct(timeline, binId);
@@ -1331,4 +1243,41 @@ TEST_CASE("Snapping", "[Snapping]") {
             }
         }
     }
+}
+
+TEST_CASE("Advanced trimming operations", "[Trimming]")
+{
+    auto binModel = pCore->projectItemModel();
+    binModel->clean();
+    std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
+    std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
+
+    // Here we do some trickery to enable testing.
+    // We mock the project class so that the undoStack function returns our undoStack
+
+    Mock<ProjectManager> pmMock;
+    When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
+
+    ProjectManager &mocked = pmMock.get();
+    pCore->m_projectManager = &mocked;
+
+    // We also mock timeline object to spy few functions and mock others
+    TimelineItemModel tim(new Mlt::Profile(), undoStack);
+    Mock<TimelineItemModel> timMock(tim);
+    TimelineItemModel &tt = timMock.get();
+    auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(),[](...){});
+    TimelineItemModel::finishConstruct(timeline, guideModel);
+
+    RESET();
+
+    QString binId = createProducer(profile_model, "red", binModel);
+    QString binId2 = createProducer(profile_model, "blue", binModel);
+
+    int cid1 = ClipModel::construct(timeline, binId);
+    int tid1 = TrackModel::construct(timeline);
+    int tid2 = TrackModel::construct(timeline);
+    int cid2 = ClipModel::construct(timeline, binId2);
+
+    timeline->m_allClips[cid1]->m_endlessResize = false;
+    timeline->m_allClips[cid2]->m_endlessResize = false;
 }

@@ -52,7 +52,7 @@ public:
 
 protected:
     /* Lambda version */
-    Fun groupItems_lambda(int gid, const std::unordered_set<int> &ids, bool temporarySelection = false);
+    Fun groupItems_lambda(int gid, const std::unordered_set<int> &ids, bool temporarySelection = false, int parent = -1);
 
 public:
     /* Deletes the topmost group containing given element
@@ -75,7 +75,16 @@ public:
     */
     bool destructGroupItem(int id);
 
-public:
+    /* @brief Merges group with only one child to parent
+       Ex:   .                     .
+            / \                   / \
+           .   .    becomes      a   b
+          /     \
+         a       b
+       @param id id of the tree to consider
+     */
+    bool mergeSingleGroups(int id, Fun &undo, Fun &redo);
+
     /* @brief Get the overall father of a given groupItem
        If the element has no father, it is returned as is.
        @param id id of the groupitem

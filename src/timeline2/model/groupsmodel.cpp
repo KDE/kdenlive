@@ -33,11 +33,14 @@ GroupsModel::GroupsModel(std::weak_ptr<TimelineItemModel> parent) :
 {
 }
 
-Fun GroupsModel::groupItems_lambda(int gid, const std::unordered_set<int> &ids, bool temporarySelection)
+Fun GroupsModel::groupItems_lambda(int gid, const std::unordered_set<int> &ids, bool temporarySelection, int parent)
 {
     QWriteLocker locker(&m_lock);
-    return [gid, ids, temporarySelection, this]() {
+    return [gid, ids, parent, temporarySelection, this]() {
         createGroupItem(gid);
+        if (parent != -1) {
+            setGroup(gid, parent);
+        }
 
         Q_ASSERT(m_groupIds.count(gid) == 0);
         m_groupIds.insert(gid);
@@ -137,7 +140,7 @@ bool GroupsModel::destructGroupItem(int id, bool deleteOrphan, Fun &undo, Fun &r
     auto old_children = m_downLink[id];
     auto operation = destructGroupItem_lambda(id);
     if (operation()) {
-        auto reverse = groupItems_lambda(id, old_children, temporarySelection);
+        auto reverse = groupItems_lambda(id, old_children, temporarySelection, parent);
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
         if (parent != -1 && m_downLink[parent].empty() && deleteOrphan) {
             return destructGroupItem(parent, true, undo, redo, temporarySelection);
@@ -259,4 +262,53 @@ std::unordered_map<int, int>GroupsModel::groupsData()
 std::unordered_map<int, std::unordered_set<int>>GroupsModel::groupsDataDownlink()
 {
     return m_downLink;
+}
+
+bool GroupsModel::mergeSingleGroups(int id, Fun &undo, Fun &redo)
+{
+    QWriteLocker locker(&m_lock);
+    auto leaves = getLeaves(id);
+    std::unordered_map<int, int> old_parents, new_parents;
+    std::unordered_set<int> to_delete;
+    for(int leaf : leaves) {
+        int current = m_upLink[leaf];
+        while (current != id && m_downLink[current].size() == 1) {
+            to_delete.insert(current);
+            current = m_upLink[current];
+        }
+        if (current != m_upLink[leaf]) {
+            old_parents[leaf] = m_upLink[leaf];
+            new_parents[leaf] = current;
+        }
+    }
+    Fun reverse = [this, old_parents]() {
+        for (const auto& group : old_parents) {
+            setGroup(group.first, group.second);
+        }
+        return true;
+    };
+    Fun operation = [this, new_parents]() {
+        for (const auto& group : new_parents) {
+            setGroup(group.first, group.second);
+        }
+        return true;
+    };
+    bool res = operation();
+    if (!res) {
+        bool undone = reverse();
+        Q_ASSERT(undone);
+        return res;
+    }
+    UPDATE_UNDO_REDO(operation, reverse, undo, redo);
+
+    for (int gid : to_delete) {
+        Q_ASSERT(m_downLink[gid].size() == 0);
+        res = destructGroupItem(gid, false, undo, redo, false);
+        if (!res) {
+            bool undone = undo();
+            Q_ASSERT(undone);
+            return res;
+        }
+    }
+    return true;
 }

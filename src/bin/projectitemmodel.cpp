@@ -338,12 +338,14 @@ QStringList ProjectItemModel::getEnclosingFolderInfo(const QModelIndex &index) c
 
 void ProjectItemModel::clean()
 {
-    std::vector<std::shared_ptr<TreeItem>> toDelete;
+    std::vector<std::shared_ptr<AbstractProjectItem>> toDelete;
     for (int i = 0; i < rootItem->childCount(); ++i) {
-        toDelete.push_back(rootItem->child(i));
+        toDelete.push_back(std::static_pointer_cast<AbstractProjectItem>(rootItem->child(i)));
     }
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
     for (const auto &child : toDelete) {
-        rootItem->removeChild(child);
+        requestBinClipDeletion(child, undo, redo);
     }
     Q_ASSERT(rootItem->childCount() == 0);
     m_nextId = 1;
