@@ -844,3 +844,40 @@ int TimelineController::workingPreview() const
 {
     return m_timelinePreview ? m_timelinePreview->workingPreview : -1;
 }
+
+void TimelineController::loadPreview(QString chunks, QString dirty, const QDateTime &documentDate, int enable)
+{
+    if (!m_timelinePreview) {
+        initializePreview();
+    }
+    QVariantList renderedChunks;
+    QVariantList dirtyChunks;
+    QStringList chunksList = chunks.split(QLatin1Char(','), QString::SkipEmptyParts);
+    QStringList dirtyList = dirty.split(QLatin1Char(','), QString::SkipEmptyParts);
+    for (const QString &frame : chunksList) {
+        renderedChunks << frame.toInt();
+    }
+    for (const QString &frame : dirtyList) {
+        dirtyChunks << frame.toInt();
+    }
+    m_disablePreview->blockSignals(true);
+    m_disablePreview->setChecked(enable);
+    m_disablePreview->blockSignals(false);
+    if (!enable) {
+        m_timelinePreview->buildPreviewTrack();
+    }
+    m_timelinePreview->loadChunks(renderedChunks, dirtyChunks, documentDate);
+}
+
+QMap<QString, QString> TimelineController::documentProperties()
+{
+    QMap<QString, QString> props = pCore->currentDoc()->documentProperties();
+    //TODO
+    //props.insert(QStringLiteral("audiotargettrack"), QString::number(audioTarget));
+    //props.insert(QStringLiteral("videotargettrack"), QString::number(videoTarget));
+    QPair<QStringList, QStringList> chunks = m_timelinePreview->previewChunks();
+    props.insert(QStringLiteral("previewchunks"), chunks.first.join(QLatin1Char(',')));
+    props.insert(QStringLiteral("dirtypreviewchunks"), chunks.second.join(QLatin1Char(',')));
+    props.insert(QStringLiteral("disablepreview"), QString::number((int)m_disablePreview->isChecked()));
+    return props;
+}

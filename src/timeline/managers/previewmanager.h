@@ -84,6 +84,8 @@ public:
     void removeOverlayTrack();
     /** @brief The current preview chunk being processed, -1 if none */
     int workingPreview;
+    /** @brief Returns the list of existing chunks */
+    QPair<QStringList, QStringList> previewChunks() const;
 
 private:
     TimelineController *m_controller;

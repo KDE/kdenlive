@@ -262,7 +262,15 @@ public:
     void stopPreviewRender();
     QVariantList dirtyChunks() const;
     QVariantList renderedChunks() const;
+    /* @brief returns the frame currently processed by timeline preview, -1 if none
+     */
     int workingPreview() const;
+    /* @brief Load timeline preview from saved doc
+     */
+    void loadPreview(QString chunks, QString dirty, const QDateTime &documentDate, int enable);
+    /* @brief Return document properties with added settings from timeline
+     */
+    QMap<QString, QString> documentProperties();
 
 public slots:
     void selectMultitrack();

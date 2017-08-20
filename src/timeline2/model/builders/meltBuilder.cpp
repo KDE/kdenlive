@@ -46,7 +46,7 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
 
     pCore->binController()->loadBinPlaylist(&tractor, timeline->tractor());
 
-    QSet<QString> reserved_names{QLatin1String("playlistmain"), QLatin1String("timeline_preview"), QLatin1String("overlay_track"),
+    QSet<QString> reserved_names{QLatin1String("playlistmain"), QLatin1String("timeline_preview"), QLatin1String("timeline_overlay"),
                                  QLatin1String("black_track")};
 
     bool ok = true;

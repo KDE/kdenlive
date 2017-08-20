@@ -144,12 +144,16 @@ void PreviewManager::loadChunks(QVariantList previewChunks, QVariantList dirtyCh
             dirtyChunks << frame;
         }
     }
+    if (!previewChunks.isEmpty()) {
+        m_controller->renderedChunksChanged();
+    }
     if (!dirtyChunks.isEmpty()) {
         for (const auto &i : dirtyChunks) {
             if (!m_dirtyChunks.contains(i)) {
                 m_dirtyChunks << i;
             }
         }
+        m_controller->dirtyChunksChanged();
     }
 }
 
@@ -646,4 +650,17 @@ void PreviewManager::removeOverlayTrack()
     delete m_overlayTrack;
     m_overlayTrack = nullptr;
     reconnectTrack();
+}
+
+QPair<QStringList, QStringList> PreviewManager::previewChunks() const
+{
+    QStringList renderedChunks;
+    QStringList dirtyChunks;
+    for (const QVariant &frame : m_renderedChunks) {
+        renderedChunks << frame.toString();
+    }
+    for (const QVariant &frame : m_dirtyChunks) {
+        dirtyChunks << frame.toString();
+    }
+    return {renderedChunks, dirtyChunks};
 }

@@ -571,8 +571,11 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
             disableEffects->blockSignals(false);
         }
     }*/
+
     updateTimeline(m_project->getDocumentProperty("position").toInt());
     pCore->window()->connectDocument();
+    QDateTime documentDate = QFileInfo(m_project->url().toLocalFile()).lastModified();
+    pCore->window()->getMainTimeline()->controller()->loadPreview(m_project->getDocumentProperty(QStringLiteral("previewchunks")), m_project->getDocumentProperty(QStringLiteral("dirtypreviewchunks")), documentDate, m_project->getDocumentProperty(QStringLiteral("disablepreview")).toInt());
 
     emit docOpened(m_project);
 
@@ -738,8 +741,7 @@ QString ProjectManager::documentNotes() const
 
 void ProjectManager::prepareSave()
 {
-    // TODO REFAC: save target tracks, preview chunks and guides
-    pCore->binController()->saveDocumentProperties(m_project->documentProperties(), m_project->metadata(), m_project->getGuideModel());
+    pCore->binController()->saveDocumentProperties(pCore->window()->getMainTimeline()->controller()->documentProperties(), m_project->metadata(), m_project->getGuideModel());
     pCore->binController()->saveProperty(QStringLiteral("kdenlive:documentnotes"), documentNotes());
     pCore->binController()->saveProperty(QStringLiteral("kdenlive:docproperties.groups"), m_mainTimelineModel->groupsData());
 }
