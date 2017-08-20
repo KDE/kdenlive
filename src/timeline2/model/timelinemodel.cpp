@@ -1505,6 +1505,8 @@ bool TimelineModel::checkConsistency()
         }
     }
 
+    // We store all in/outs of clips to check snap points
+    std::map<int, int> snaps;
     //Check parent/children link for clips
     for (const auto &cp : m_allClips) {
         auto clip = (cp.second);
@@ -1516,6 +1518,21 @@ bool TimelineModel::checkConsistency()
             }
         } else {
             qDebug() << "NULL parent for clip" << cp.first;
+            return false;
+        }
+        if (getClipTrackId(cp.first) != -1) {
+            snaps[clip->getPosition()] += 1;
+            snaps[clip->getPosition() + clip->getPlaytime()] += 1;
+        }
+    }
+    // Check snaps
+    if (snaps.size() != m_snaps->_snaps().size()) {
+        qDebug() << "Wrong number of snaps";
+        return false;
+    }
+    for (auto i = snaps.begin(), j = m_snaps->_snaps().begin(); i != snaps.end(); ++i, ++j) {
+        if (*i != *j) {
+            qDebug() << "Wrong snap info at point"<<(*i).first;
             return false;
         }
     }
