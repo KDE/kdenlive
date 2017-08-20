@@ -725,7 +725,6 @@ TEST_CASE("Undo/redo", "[GroupsModel]")
             REQUIRE(groups.getDirectChildren(4) == std::unordered_set<int>({2}));
             REQUIRE(groups.getDirectChildren(5) == std::unordered_set<int>({}));
         };
-        qDebug() << "test1";
         test_tree();
 
         REQUIRE(groups.mergeSingleGroups(1, undo, redo));
@@ -744,4 +743,37 @@ TEST_CASE("Undo/redo", "[GroupsModel]")
         test_tree2();
     }
 
+    SECTION("MergeSingleGroups2"){
+        Fun undo = []() { return true; };
+        Fun redo = []() { return true; };
+        REQUIRE(groups.m_upLink.size() == 0);
+
+        for (int i = 0; i < 3; i++) {
+            groups.createGroupItem(i);
+        }
+        groups.setGroup(1,0);
+        groups.setGroup(2,1);
+
+        auto test_tree = [&]() {
+            REQUIRE(groups.getSubtree(0) == std::unordered_set<int>({0,1,2}));
+            REQUIRE(groups.getDirectChildren(0) == std::unordered_set<int>({1}));
+            REQUIRE(groups.getDirectChildren(1) == std::unordered_set<int>({2}));
+            REQUIRE(groups.getDirectChildren(2) == std::unordered_set<int>({}));
+        };
+        test_tree();
+
+        REQUIRE(groups.mergeSingleGroups(1, undo, redo));
+        auto test_tree2 = [&]() {
+            REQUIRE(groups.getSubtree(0) == std::unordered_set<int>({0,2}));
+            REQUIRE(groups.getDirectChildren(0) == std::unordered_set<int>({2}));
+            REQUIRE(groups.getDirectChildren(2) == std::unordered_set<int>({}));
+        };
+        test_tree2();
+
+        undo();
+        test_tree();
+
+        redo();
+        test_tree2();
+    }
 }

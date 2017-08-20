@@ -272,7 +272,7 @@ bool GroupsModel::mergeSingleGroups(int id, Fun &undo, Fun &redo)
     std::unordered_set<int> to_delete;
     for(int leaf : leaves) {
         int current = m_upLink[leaf];
-        while (current != id && m_downLink[current].size() == 1) {
+        while (current != m_upLink[id] && m_downLink[current].size() == 1) {
             to_delete.insert(current);
             current = m_upLink[current];
         }
