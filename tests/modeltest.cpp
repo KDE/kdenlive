@@ -32,15 +32,49 @@ using namespace fakeit;
 std::default_random_engine g(42);
 Mlt::Profile profile_model;
 
-#define RESET()                                 \
-  timMock.Reset();                              \
-  Fake(Method(timMock, adjustAssetRange));      \
-  Fake(Method(timMock, _resetView));            \
-  Fake(Method(timMock, _beginInsertRows));      \
-  Fake(Method(timMock, _beginRemoveRows));      \
-  Fake(Method(timMock, _endInsertRows));        \
-  Fake(Method(timMock, _endRemoveRows));
+#define RESET()                                                         \
+    timMock.Reset();                                                    \
+    Fake(Method(timMock, adjustAssetRange));                            \
+    Spy(Method(timMock, _resetView));                                   \
+    Spy(Method(timMock, _beginInsertRows));                             \
+    Spy(Method(timMock, _beginRemoveRows));                             \
+    Spy(Method(timMock, _endInsertRows));                               \
+    Spy(Method(timMock, _endRemoveRows));                               \
+    Spy(OverloadedMethod(timMock, notifyChange, void(const QModelIndex&, const QModelIndex&, bool, bool, bool))); \
+    Spy(OverloadedMethod(timMock, notifyChange, void(const QModelIndex&, const QModelIndex&, QVector<int>)));
 
+#define NO_OTHERS() \
+    VerifyNoOtherInvocations(Method(timMock, _beginRemoveRows));  \
+    VerifyNoOtherInvocations(Method(timMock, _beginInsertRows));  \
+    VerifyNoOtherInvocations(Method(timMock, _endRemoveRows));    \
+    VerifyNoOtherInvocations(Method(timMock, _endInsertRows));    \
+    VerifyNoOtherInvocations(OverloadedMethod(timMock, notifyChange, void(const QModelIndex&, const QModelIndex&, bool, bool, bool))); \
+    VerifyNoOtherInvocations(OverloadedMethod(timMock, notifyChange, void(const QModelIndex&, const QModelIndex&, QVector<int>))); \
+    RESET();
+
+#define CHECK_MOVE(times)                                         \
+    Verify(Method(timMock, _beginRemoveRows) +                    \
+           Method(timMock, _endRemoveRows) +                      \
+           Method(timMock, _beginInsertRows) +                    \
+           Method(timMock, _endInsertRows)                        \
+        ).Exactly(times);                                         \
+    NO_OTHERS();
+
+#define CHECK_INSERT(times)                       \
+    Verify(Method(timMock, _beginInsertRows) +    \
+           Method(timMock, _endInsertRows)        \
+        ).Exactly(times);                         \
+    NO_OTHERS();
+
+#define CHECK_REMOVE(times)                       \
+    Verify(Method(timMock, _beginRemoveRows) +    \
+           Method(timMock, _endRemoveRows)        \
+        ).Exactly(times);                         \
+    NO_OTHERS();
+
+#define CHECK_RESIZE(times) \
+    Verify(OverloadedMethod(timMock, notifyChange, void(const QModelIndex&, const QModelIndex&, bool, bool, bool))).Exactly(times); \
+    NO_OTHERS();
 
 QString createProducer(std::string color, std::shared_ptr<ProjectItemModel> binModel)
 {
@@ -299,10 +333,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         REQUIRE(timeline->getTrackClipsCount(tid1) == 1);
         REQUIRE(timeline->getTrackClipsCount(tid2) == 0);
         // Check that the model was correctly notified
-        Verify(Method(timMock, _beginInsertRows) + // clip is reinserted
-               Method(timMock, _endInsertRows)
-               ).Exactly(Once);
-        RESET();
+        CHECK_INSERT(Once);
 
         pos = 1;
         REQUIRE(timeline->requestClipMove(cid1, tid2, pos));
@@ -311,13 +342,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         REQUIRE(timeline->getClipPosition(cid1) == pos);
         REQUIRE(timeline->getTrackClipsCount(tid2) == 1);
         REQUIRE(timeline->getTrackClipsCount(tid1) == 0);
-        Verify(Method(timMock, _beginRemoveRows) +  // clip is removed
-               Method(timMock, _endRemoveRows) +
-               Method(timMock, _beginInsertRows) + // clip is reinserted
-               Method(timMock, _endInsertRows)
-               ).Exactly(Once);
-        RESET();
-
+        CHECK_MOVE(Once);
 
         // Check conflicts
         int pos2 = binModel->getClipByBinID(binId)->frameDuration();
@@ -327,10 +352,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         REQUIRE(timeline->getClipPosition(cid2) == pos2);
         REQUIRE(timeline->getTrackClipsCount(tid2) == 1);
         REQUIRE(timeline->getTrackClipsCount(tid1) == 1);
-        Verify(Method(timMock, _beginInsertRows) + // clip is reinserted
-               Method(timMock, _endInsertRows)
-               ).Exactly(Once);
-        RESET();
+        CHECK_INSERT(Once);
 
         REQUIRE_FALSE(timeline->requestClipMove(cid1, tid1, pos2 + 2));
         REQUIRE(timeline->checkConsistency());
@@ -340,12 +362,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         REQUIRE(timeline->getClipPosition(cid1) == pos);
         REQUIRE(timeline->getClipTrackId(cid2) == tid1);
         REQUIRE(timeline->getClipPosition(cid2) == pos2);
-        Verify(Method(timMock, _beginRemoveRows) +  // clip is removed
-               Method(timMock, _endRemoveRows) +
-               Method(timMock, _beginInsertRows) + // clip is reinserted
-               Method(timMock, _endInsertRows)
-               ).Exactly(Once);
-        RESET();
+        CHECK_MOVE(Once);
 
         REQUIRE_FALSE(timeline->requestClipMove(cid1, tid1, pos2 - 2));
         REQUIRE(timeline->checkConsistency());
@@ -355,14 +372,8 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         REQUIRE(timeline->getClipPosition(cid1) == pos);
         REQUIRE(timeline->getClipTrackId(cid2) == tid1);
         REQUIRE(timeline->getClipPosition(cid2) == pos2);
-        Verify(Method(timMock, _beginRemoveRows) +  // clip is removed
-               Method(timMock, _endRemoveRows) +
-               Method(timMock, _beginInsertRows) + // clip is reinserted
-               Method(timMock, _endInsertRows)
-               ).Exactly(Once);
-        RESET();
+        CHECK_MOVE(Once);
 
-        // // REQUIRE(timeline->allowClipMove(cid1, tid1, 0));
         REQUIRE(timeline->requestClipMove(cid1, tid1, 0));
         REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->getTrackClipsCount(tid2) == 0);
@@ -371,30 +382,25 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         REQUIRE(timeline->getClipPosition(cid1) == 0);
         REQUIRE(timeline->getClipTrackId(cid2) == tid1);
         REQUIRE(timeline->getClipPosition(cid2) == pos2);
-        Verify(Method(timMock, _beginRemoveRows) +  // clip is removed
-               Method(timMock, _endRemoveRows) +
-               Method(timMock, _beginInsertRows) + // clip is reinserted
-               Method(timMock, _endInsertRows)
-               ).Exactly(Once);
-        RESET();
+        CHECK_MOVE(Once);
 
     }
 
     int length = binModel->getClipByBinID(binId)->frameDuration();
     SECTION("Insert consecutive clips") {
-        // // REQUIRE(timeline->allowClipMove(cid1, tid1, 0));
         REQUIRE(timeline->requestClipMove(cid1, tid1, 0));
         REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->getClipTrackId(cid1) == tid1);
         REQUIRE(timeline->getClipPosition(cid1) == 0);
         REQUIRE(timeline->getTrackClipsCount(tid1) == 1);
+        CHECK_INSERT(Once);
 
-        // // REQUIRE(timeline->allowClipMove(cid2, tid1, length));
         REQUIRE(timeline->requestClipMove(cid2, tid1, length));
         REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->getClipTrackId(cid2) == tid1);
         REQUIRE(timeline->getClipPosition(cid2) == length);
         REQUIRE(timeline->getTrackClipsCount(tid1) == 2);
+        CHECK_INSERT(Once);
     }
 
     SECTION("Resize orphan clip"){
@@ -427,31 +433,35 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
     }
 
     SECTION("Resize inserted clips"){
-        // // REQUIRE(timeline->allowClipMove(cid1, tid1, 0));
         REQUIRE(timeline->requestClipMove(cid1, tid1, 0));
         REQUIRE(timeline->checkConsistency());
+        CHECK_INSERT(Once);
 
         REQUIRE(timeline->requestItemResize(cid1, 5, true));
         REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->getClipPlaytime(cid1) == 5);
         REQUIRE(timeline->getClipPosition(cid1) == 0);
+        CHECK_RESIZE(Once);
 
-        // // REQUIRE(timeline->allowClipMove(cid2, tid1, 5));
         REQUIRE(timeline->requestClipMove(cid2, tid1, 5));
         REQUIRE(timeline->checkConsistency());
         REQUIRE(binModel->getClipByBinID(binId)->frameDuration() == length);
+        CHECK_INSERT(Once);
 
         REQUIRE_FALSE(timeline->requestItemResize(cid1, 6, true));
         REQUIRE_FALSE(timeline->requestItemResize(cid1, 6, false));
         REQUIRE(timeline->checkConsistency());
+        NO_OTHERS();
 
         REQUIRE(timeline->requestItemResize(cid2, length - 5, false));
         REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->getClipPosition(cid2) == 10);
+        CHECK_RESIZE(Once);
 
         REQUIRE(timeline->requestItemResize(cid1, 10, true));
         REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->getTrackClipsCount(tid1) == 2);
+        CHECK_RESIZE(Once);
     }
 
     SECTION("Change track of resized clips"){
@@ -531,7 +541,6 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         REQUIRE(timeline->getClipPosition(cid1) == length);
         REQUIRE(timeline->getClipPosition(cid2) == 0);
 
-        // REQUIRE(timeline->allowClipMove(cid1, tid1, length - 5));
         REQUIRE(timeline->requestClipMove(cid1, tid1, length - 5));
         REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->getTrackClipsCount(tid1) == 2);
@@ -777,17 +786,33 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
 
     }
 }
-/*
+
 TEST_CASE("Check id unicity", "[ClipModel]")
 {
+    auto binModel = pCore->projectItemModel();
+    binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(new Mlt::Profile(), undoStack);
+    std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
 
-    std::shared_ptr<Mlt::Producer> producer = std::make_shared<Mlt::Producer>(profile_model, "color", "red");
-    producer->set("length", 20);
-    producer->set("out", 19);
+    // Here we do some trickery to enable testing.
+    // We mock the project class so that the undoStack function returns our undoStack
 
-    REQUIRE(producer->is_valid());
+    Mock<ProjectManager> pmMock;
+    When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
+
+    ProjectManager &mocked = pmMock.get();
+    pCore->m_projectManager = &mocked;
+
+    // We also mock timeline object to spy few functions and mock others
+    TimelineItemModel tim(new Mlt::Profile(), undoStack);
+    Mock<TimelineItemModel> timMock(tim);
+    TimelineItemModel &tt = timMock.get();
+    auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(),[](...){});
+    TimelineItemModel::finishConstruct(timeline, guideModel);
+
+    RESET();
+
+    QString binId = createProducer("red", binModel);
 
     std::vector<int> track_ids;
     std::unordered_set<int> all_ids;
@@ -804,106 +829,131 @@ TEST_CASE("Check id unicity", "[ClipModel]")
             track_ids.push_back(tid);
             REQUIRE(timeline->getTracksCount() == track_ids.size());
         } else {
-            int cid = ClipModel::construct(timeline, producer);
+            int cid = ClipModel::construct(timeline, binId);
             REQUIRE(all_ids.count(cid) == 0);
             all_ids.insert(cid);
             REQUIRE(timeline->getClipsCount() == all_ids.size() - track_ids.size());
         }
     }
 
+    REQUIRE(timeline->checkConsistency());
     REQUIRE(all_ids.size() == nbr);
     REQUIRE(all_ids.size() != track_ids.size());
 }
 
 TEST_CASE("Undo and Redo", "[ClipModel]")
 {
+    auto binModel = pCore->projectItemModel();
+    binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(new Mlt::Profile(), undoStack);
+    std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
 
-    std::shared_ptr<Mlt::Producer> producer = std::make_shared<Mlt::Producer>(profile_model, "color", "red");
-    std::shared_ptr<Mlt::Producer> producer2 = std::make_shared<Mlt::Producer>(profile_model, "color", "blue");
-    producer->set("length", 20);
-    producer->set("out", 19);
-    producer2->set("length", 20);
-    producer2->set("out", 19);
+    // Here we do some trickery to enable testing.
+    // We mock the project class so that the undoStack function returns our undoStack
 
-    REQUIRE(producer->is_valid());
-    REQUIRE(producer2->is_valid());
-    int cid1 = ClipModel::construct(timeline, producer);
+    Mock<ProjectManager> pmMock;
+    When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
+
+    ProjectManager &mocked = pmMock.get();
+    pCore->m_projectManager = &mocked;
+
+    // We also mock timeline object to spy few functions and mock others
+    TimelineItemModel tim(new Mlt::Profile(), undoStack);
+    Mock<TimelineItemModel> timMock(tim);
+    TimelineItemModel &tt = timMock.get();
+    auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(),[](...){});
+    TimelineItemModel::finishConstruct(timeline, guideModel);
+
+    RESET();
+
+    QString binId = createProducer("red", binModel);
+    QString binId2 = createProducer("blue", binModel);
+
+    int cid1 = ClipModel::construct(timeline, binId);
     int tid1 = TrackModel::construct(timeline);
     int tid2 = TrackModel::construct(timeline);
-    int cid2 = ClipModel::construct(timeline, producer2);
+    int cid2 = ClipModel::construct(timeline, binId2);
 
-    int length = producer->get_playtime();
+    timeline->m_allClips[cid1]->m_endlessResize = false;
+    timeline->m_allClips[cid2]->m_endlessResize = false;
+
+    int length = 20;
 
     int init_index = undoStack->index();
 
     SECTION("Basic move undo") {
-        // REQUIRE(timeline->allowClipMove(cid1, tid1, 5));
         REQUIRE(timeline->requestClipMove(cid1, tid1, 5));
-        REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
+        REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->getTrackClipsCount(tid1) == 1);
         REQUIRE(timeline->getClipTrackId(cid1) == tid1);
         REQUIRE(timeline->getClipPosition(cid1) == 5);
         REQUIRE(undoStack->index() == init_index + 1);
+        CHECK_INSERT(Once);
 
-        // REQUIRE(timeline->allowClipMove(cid1, tid1, 0));
         REQUIRE(timeline->requestClipMove(cid1, tid1, 0));
-        REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
+        REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->getTrackClipsCount(tid1) == 1);
         REQUIRE(timeline->getClipTrackId(cid1) == tid1);
         REQUIRE(timeline->getClipPosition(cid1) == 0);
         REQUIRE(undoStack->index() == init_index + 2);
+        CHECK_MOVE(Once);
 
         undoStack->undo();
-        REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
+        REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->getTrackClipsCount(tid1) == 1);
         REQUIRE(timeline->getClipTrackId(cid1) == tid1);
         REQUIRE(timeline->getClipPosition(cid1) == 5);
         REQUIRE(undoStack->index() == init_index + 1);
+        CHECK_MOVE(Once);
 
         undoStack->redo();
-        REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
+        REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->getTrackClipsCount(tid1) == 1);
         REQUIRE(timeline->getClipTrackId(cid1) == tid1);
         REQUIRE(timeline->getClipPosition(cid1) == 0);
         REQUIRE(undoStack->index() == init_index + 2);
+        CHECK_MOVE(Once);
 
         undoStack->undo();
-        REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
+        REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->getTrackClipsCount(tid1) == 1);
         REQUIRE(timeline->getClipTrackId(cid1) == tid1);
         REQUIRE(timeline->getClipPosition(cid1) == 5);
         REQUIRE(undoStack->index() == init_index + 1);
+        CHECK_MOVE(Once);
 
-        // REQUIRE(timeline->allowClipMove(cid1, tid1, 2*length));
         REQUIRE(timeline->requestClipMove(cid1, tid1, 2*length));
-        REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
+        REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->getTrackClipsCount(tid1) == 1);
         REQUIRE(timeline->getClipTrackId(cid1) == tid1);
         REQUIRE(timeline->getClipPosition(cid1) == 2*length);
         REQUIRE(undoStack->index() == init_index + 2);
+        CHECK_MOVE(Once);
 
         undoStack->undo();
-        REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
+        REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->getTrackClipsCount(tid1) == 1);
         REQUIRE(timeline->getClipTrackId(cid1) == tid1);
         REQUIRE(timeline->getClipPosition(cid1) == 5);
         REQUIRE(undoStack->index() == init_index + 1);
+        CHECK_MOVE(Once);
 
         undoStack->redo();
-        REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
+        REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->getTrackClipsCount(tid1) == 1);
         REQUIRE(timeline->getClipTrackId(cid1) == tid1);
         REQUIRE(timeline->getClipPosition(cid1) == 2*length);
         REQUIRE(undoStack->index() == init_index + 2);
+        CHECK_MOVE(Once);
 
         undoStack->undo();
+        CHECK_MOVE(Once);
         undoStack->undo();
-        REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
+        REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->getTrackClipsCount(tid1) == 0);
         REQUIRE(timeline->getClipTrackId(cid1) == -1);
         REQUIRE(undoStack->index() == init_index);
+        CHECK_REMOVE(Once);
     }
 
     SECTION("Basic resize orphan clip undo") {
@@ -941,13 +991,12 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
         REQUIRE(timeline->getClipPlaytime(cid2) == length);
 
         auto check = [&](int pos, int l) {
-            REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
+            REQUIRE(timeline->checkConsistency());
             REQUIRE(timeline->getTrackClipsCount(tid1) == 1);
             REQUIRE(timeline->getClipTrackId(cid2) == tid1);
             REQUIRE(timeline->getClipPlaytime(cid2) == l);
             REQUIRE(timeline->getClipPosition(cid2) == pos);
         };
-        // REQUIRE(timeline->allowClipMove(cid2, tid1, 5));
         REQUIRE(timeline->requestClipMove(cid2, tid1, 5));
         INFO("Test 1");
         check(5, length);
@@ -989,13 +1038,11 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
         REQUIRE(undoStack->index() == init_index + 1);
     }
     SECTION("Clip Insertion Undo") {
-        std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(profile_model, "color", "red");
-        prod->set("length", 20);
-        prod->set("out", 19);
+        QString binId3 = createProducer("red", binModel);
 
         REQUIRE(timeline->requestClipMove(cid1, tid1, 5));
         auto state1 = [&]() {
-            REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
+            REQUIRE(timeline->checkConsistency());
             REQUIRE(timeline->getTrackClipsCount(tid1) == 1);
             REQUIRE(timeline->getClipTrackId(cid1) == tid1);
             REQUIRE(timeline->getClipPosition(cid1) == 5);
@@ -1004,15 +1051,15 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
         state1();
 
         int cid3;
-        REQUIRE_FALSE(timeline->requestClipInsertion(prod, tid1, 5, cid3));
+        REQUIRE_FALSE(timeline->requestClipInsertion(binId3, tid1, 5, cid3));
         state1();
 
-        REQUIRE_FALSE(timeline->requestClipInsertion(prod, tid1, 6, cid3));
+        REQUIRE_FALSE(timeline->requestClipInsertion(binId3, tid1, 6, cid3));
         state1();
 
-        REQUIRE(timeline->requestClipInsertion(prod, tid1, 5 + length, cid3));
+        REQUIRE(timeline->requestClipInsertion(binId3, tid1, 5 + length, cid3));
         auto state2 = [&]() {
-            REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
+            REQUIRE(timeline->checkConsistency());
             REQUIRE(timeline->getTrackClipsCount(tid1) == 2);
             REQUIRE(timeline->getClipTrackId(cid1) == tid1);
             REQUIRE(timeline->getClipTrackId(cid3) == tid1);
@@ -1025,7 +1072,7 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
 
         REQUIRE(timeline->requestClipMove(cid3, tid1, 10 + length));
         auto state3 = [&]() {
-            REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
+            REQUIRE(timeline->checkConsistency());
             REQUIRE(timeline->getTrackClipsCount(tid1) == 2);
             REQUIRE(timeline->getClipTrackId(cid1) == tid1);
             REQUIRE(timeline->getClipTrackId(cid3) == tid1);
@@ -1037,7 +1084,7 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
 
         REQUIRE(timeline->requestItemResize(cid3, 1, true));
         auto state4 = [&]() {
-            REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
+            REQUIRE(timeline->checkConsistency());
             REQUIRE(timeline->getTrackClipsCount(tid1) == 2);
             REQUIRE(timeline->getClipTrackId(cid1) == tid1);
             REQUIRE(timeline->getClipTrackId(cid3) == tid1);
@@ -1057,7 +1104,6 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
         undoStack->undo();
         state1();
 
-        std::cout<<"REDOING"<<std::endl;
         undoStack->redo();
         state2();
 
@@ -1081,7 +1127,7 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
     SECTION("Clip Deletion undo") {
         REQUIRE(timeline->requestClipMove(cid1, tid1, 5));
         auto state1 = [&]() {
-            REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
+            REQUIRE(timeline->checkConsistency());
             REQUIRE(timeline->getTrackClipsCount(tid1) == 1);
             REQUIRE(timeline->getClipTrackId(cid1) == tid1);
             REQUIRE(timeline->getClipPosition(cid1) == 5);
@@ -1092,7 +1138,7 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
         int nbClips = timeline->getClipsCount();
         REQUIRE(timeline->requestItemDeletion(cid1));
         auto state2 = [&]() {
-            REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
+            REQUIRE(timeline->checkConsistency());
             REQUIRE(timeline->getTrackClipsCount(tid1) == 0);
             REQUIRE(timeline->getClipsCount() == nbClips - 1);
             REQUIRE(undoStack->index() == init_index + 2);
@@ -1145,7 +1191,7 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
         int nb_tracks = timeline->getTracksCount();
         REQUIRE(timeline->requestClipMove(cid1, tid1, 5));
         auto state1 = [&]() {
-            REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
+            REQUIRE(timeline->checkConsistency());
             REQUIRE(timeline->getTrackClipsCount(tid1) == 1);
             REQUIRE(timeline->getClipTrackId(cid1) == tid1);
             REQUIRE(timeline->getClipPosition(cid1) == 5);
@@ -1170,7 +1216,7 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
         state1();
     }
 }
-
+/*
 TEST_CASE("Snapping", "[Snapping]") {
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(new Mlt::Profile(), undoStack);
