@@ -959,6 +959,7 @@ bool TimelineModel::requestTrackDeletion(int trackId, Fun &undo, Fun &redo)
 
 void TimelineModel::registerTrack(std::shared_ptr<TrackModel> track, int pos, bool doInsert)
 {
+    qDebug() << "REGISTER TRACK" << track->getId() << pos;
     int id = track->getId();
     if (pos == -1) {
         pos = static_cast<int>(m_allTracks.size());
@@ -1002,6 +1003,7 @@ void TimelineModel::registerGroup(int groupId)
 Fun TimelineModel::deregisterTrack_lambda(int id, bool updateView)
 {
     return [this, id, updateView]() {
+        qDebug() << "DEREGISTER TRACK" << id;
         auto it = m_iteratorTable[id];    // iterator to the element
         int index = getTrackPosition(id); // compute index in list
         if (updateView) {

@@ -32,6 +32,16 @@ using namespace fakeit;
 std::default_random_engine g(42);
 Mlt::Profile profile_model;
 
+#define RESET()                                 \
+  timMock.Reset();                              \
+  Fake(Method(timMock, adjustAssetRange));      \
+  Fake(Method(timMock, _resetView));            \
+  Fake(Method(timMock, _beginInsertRows));      \
+  Fake(Method(timMock, _beginRemoveRows));      \
+  Fake(Method(timMock, _endInsertRows));        \
+  Fake(Method(timMock, _endRemoveRows));
+
+
 QString createProducer(std::string color, std::shared_ptr<ProjectItemModel> binModel)
 {
     std::shared_ptr<Mlt::Producer> producer = std::make_shared<Mlt::Producer>(profile_model, "color", color.c_str());
@@ -54,7 +64,6 @@ TEST_CASE("Basic creation/deletion of a track", "[TrackModel]")
     auto binModel = pCore->projectItemModel();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
-    std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(new Mlt::Profile(), guideModel, undoStack);
 
     // Here we do some trickery to enable testing.
     // We mock the project class so that the undoStack function returns our undoStack
@@ -65,21 +74,41 @@ TEST_CASE("Basic creation/deletion of a track", "[TrackModel]")
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
 
+    // We also mock timeline object to spy few functions and mock others
+    TimelineItemModel tim(new Mlt::Profile(), undoStack);
+    Mock<TimelineItemModel> timMock(tim);
+    TimelineItemModel &tt = timMock.get();
+    auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(),[](...){});
+    TimelineItemModel::finishConstruct(timeline, guideModel);
+
+    Fake(Method(timMock, adjustAssetRange));
+
+    // This is faked to allow to count calls
+    Fake(Method(timMock, _resetView));
+
+
 
     int id1 = TrackModel::construct(timeline);
     REQUIRE(timeline->checkConsistency());
     REQUIRE(timeline->getTracksCount() == 1);
     REQUIRE(timeline->getTrackPosition(id1) == 0);
+    // In the current implementation, when a track is added/removed, the model is notified with _resetView
+    Verify(Method(timMock, _resetView)).Exactly(Once);
+    RESET();
 
     int id2 = TrackModel::construct(timeline);
     REQUIRE(timeline->checkConsistency());
     REQUIRE(timeline->getTracksCount() == 2);
     REQUIRE(timeline->getTrackPosition(id2) == 1);
+    Verify(Method(timMock, _resetView)).Exactly(Once);
+    RESET();
 
     int id3 = TrackModel::construct(timeline);
     REQUIRE(timeline->checkConsistency());
     REQUIRE(timeline->getTracksCount() == 3);
     REQUIRE(timeline->getTrackPosition(id3) == 2);
+    Verify(Method(timMock, _resetView)).Exactly(Once);
+    RESET();
 
     int id4;
     REQUIRE(timeline->requestTrackInsertion(1, id4));
@@ -89,23 +118,33 @@ TEST_CASE("Basic creation/deletion of a track", "[TrackModel]")
     REQUIRE(timeline->getTrackPosition(id4) == 1);
     REQUIRE(timeline->getTrackPosition(id2) == 2);
     REQUIRE(timeline->getTrackPosition(id3) == 3);
+    Verify(Method(timMock, _resetView)).Exactly(Once);
+    RESET();
 
     // Test deletion
     REQUIRE(timeline->requestTrackDeletion(id3));
     REQUIRE(timeline->checkConsistency());
     REQUIRE(timeline->getTracksCount() == 3);
+    Verify(Method(timMock, _resetView)).Exactly(Once);
+    RESET();
 
     REQUIRE(timeline->requestTrackDeletion(id1));
     REQUIRE(timeline->checkConsistency());
     REQUIRE(timeline->getTracksCount() == 2);
+    Verify(Method(timMock, _resetView)).Exactly(Once);
+    RESET();
 
     REQUIRE(timeline->requestTrackDeletion(id4));
     REQUIRE(timeline->checkConsistency());
     REQUIRE(timeline->getTracksCount() == 1);
+    Verify(Method(timMock, _resetView)).Exactly(Once);
+    RESET();
 
     REQUIRE(timeline->requestTrackDeletion(id2));
     REQUIRE(timeline->checkConsistency());
     REQUIRE(timeline->getTracksCount() == 0);
+    Verify(Method(timMock, _resetView)).Exactly(Once);
+    RESET();
 
     SECTION("Delete a track with groups") {
         int tid1, tid2;
@@ -208,11 +247,18 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
     // We also mock timeline object to spy few functions and mock others
     TimelineItemModel tim(new Mlt::Profile(), undoStack);
     Mock<TimelineItemModel> timMock(tim);
+    TimelineItemModel &tt = timMock.get();
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(),[](...){});
     TimelineItemModel::finishConstruct(timeline, guideModel);
 
     Fake(Method(timMock, adjustAssetRange));
 
+    // This is faked to allow to count calls
+    Fake(Method(timMock, _resetView));
+    Fake(Method(timMock, _beginInsertRows));
+    Fake(Method(timMock, _beginRemoveRows));
+    Fake(Method(timMock, _endInsertRows));
+    Fake(Method(timMock, _endRemoveRows));
 
     QString binId = createProducer("red", binModel);
     QString binId2 = createProducer("blue", binModel);
@@ -225,6 +271,9 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
     int cid2 = ClipModel::construct(timeline, binId2);
     int cid3 = ClipModel::construct(timeline, binId3);
     int cid4 = ClipModel::construct(timeline, binId2);
+
+    Verify(Method(timMock, _resetView)).Exactly(3_Times);
+    RESET();
 
     // for testing purposes, we make sure the clip will behave as regular clips
     // (ie their size is fixed, we cannot resize them past their original size)
@@ -242,37 +291,46 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         REQUIRE(timeline->getClipPosition(cid1) == -1);
 
         int pos = 10;
-        //real insert
-        // // REQUIRE(timeline->allowClipMove(cid1, tid1, pos));
         REQUIRE(timeline->requestClipMove(cid1, tid1, pos));
         REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->getClipTrackId(cid1) == tid1);
         REQUIRE(timeline->getClipPosition(cid1) == pos);
         REQUIRE(timeline->getTrackClipsCount(tid1) == 1);
         REQUIRE(timeline->getTrackClipsCount(tid2) == 0);
+        // Check that the model was correctly notified
+        Verify(Method(timMock, _beginInsertRows) + // clip is reinserted
+               Method(timMock, _endInsertRows)
+               ).Exactly(Once);
+        RESET();
 
         pos = 1;
-        //real
-        // // REQUIRE(timeline->allowClipMove(cid1, tid2, pos));
         REQUIRE(timeline->requestClipMove(cid1, tid2, pos));
         REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->getClipTrackId(cid1) == tid2);
         REQUIRE(timeline->getClipPosition(cid1) == pos);
         REQUIRE(timeline->getTrackClipsCount(tid2) == 1);
         REQUIRE(timeline->getTrackClipsCount(tid1) == 0);
+        Verify(Method(timMock, _beginRemoveRows) +  // clip is removed
+               Method(timMock, _endRemoveRows) +
+               Method(timMock, _beginInsertRows) + // clip is reinserted
+               Method(timMock, _endInsertRows)
+               ).Exactly(Once);
+        RESET();
 
 
         // Check conflicts
         int pos2 = binModel->getClipByBinID(binId)->frameDuration();
-        // // REQUIRE(timeline->allowClipMove(cid2, tid1, pos2));
         REQUIRE(timeline->requestClipMove(cid2, tid1, pos2));
         REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->getClipTrackId(cid2) == tid1);
         REQUIRE(timeline->getClipPosition(cid2) == pos2);
         REQUIRE(timeline->getTrackClipsCount(tid2) == 1);
         REQUIRE(timeline->getTrackClipsCount(tid1) == 1);
+        Verify(Method(timMock, _beginInsertRows) + // clip is reinserted
+               Method(timMock, _endInsertRows)
+               ).Exactly(Once);
+        RESET();
 
-        // // REQUIRE_FALSE(timeline->allowClipMove(cid1, tid1, pos2 + 2));
         REQUIRE_FALSE(timeline->requestClipMove(cid1, tid1, pos2 + 2));
         REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->getTrackClipsCount(tid2) == 1);
@@ -281,8 +339,13 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         REQUIRE(timeline->getClipPosition(cid1) == pos);
         REQUIRE(timeline->getClipTrackId(cid2) == tid1);
         REQUIRE(timeline->getClipPosition(cid2) == pos2);
+        Verify(Method(timMock, _beginRemoveRows) +  // clip is removed
+               Method(timMock, _endRemoveRows) +
+               Method(timMock, _beginInsertRows) + // clip is reinserted
+               Method(timMock, _endInsertRows)
+               ).Exactly(Once);
+        RESET();
 
-        // // REQUIRE_FALSE(timeline->allowClipMove(cid1, tid1, pos2 - 2));
         REQUIRE_FALSE(timeline->requestClipMove(cid1, tid1, pos2 - 2));
         REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->getTrackClipsCount(tid2) == 1);
@@ -291,6 +354,12 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         REQUIRE(timeline->getClipPosition(cid1) == pos);
         REQUIRE(timeline->getClipTrackId(cid2) == tid1);
         REQUIRE(timeline->getClipPosition(cid2) == pos2);
+        Verify(Method(timMock, _beginRemoveRows) +  // clip is removed
+               Method(timMock, _endRemoveRows) +
+               Method(timMock, _beginInsertRows) + // clip is reinserted
+               Method(timMock, _endInsertRows)
+               ).Exactly(Once);
+        RESET();
 
         // // REQUIRE(timeline->allowClipMove(cid1, tid1, 0));
         REQUIRE(timeline->requestClipMove(cid1, tid1, 0));
@@ -301,6 +370,13 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         REQUIRE(timeline->getClipPosition(cid1) == 0);
         REQUIRE(timeline->getClipTrackId(cid2) == tid1);
         REQUIRE(timeline->getClipPosition(cid2) == pos2);
+        Verify(Method(timMock, _beginRemoveRows) +  // clip is removed
+               Method(timMock, _endRemoveRows) +
+               Method(timMock, _beginInsertRows) + // clip is reinserted
+               Method(timMock, _endInsertRows)
+               ).Exactly(Once);
+        RESET();
+
     }
 
     int length = binModel->getClipByBinID(binId)->frameDuration();
