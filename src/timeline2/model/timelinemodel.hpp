@@ -349,17 +349,6 @@ public:
     /* Same function, but accumulates undo and redo and doesn't deal with snapping*/
     bool requestItemResize(int itemId, int size, bool right, bool logUndo, Fun &undo, Fun &redo, bool blockUndo = false);
 
-    /* @brief Similar to requestClipResize but takes a delta instead of absolute size
-       This action is undoable
-       Returns true on success. If it fails, nothing is modified.
-       @param clipId is the ID of the clip
-       @param delta is the delta to be applied to the length of the clip
-       @param right is true if we change the right side of the clip, false otherwise
-       @param ripple TODO document this
-       @param test_only if set to true, the undo is not created and no signal is sent to qml
-     */
-    bool requestClipTrim(int clipId, int delta, bool right, bool ripple = false, bool test_only = false);
-
     /* @brief Group together a set of ids
        The ids are either a group ids or clip ids. The involved clip must already be inserted in a track
        This action is undoable

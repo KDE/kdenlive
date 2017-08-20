@@ -786,10 +786,6 @@ bool TimelineModel::requestItemResize(int itemId, int size, bool right, bool log
     return result;
 }
 
-bool TimelineModel::requestClipTrim(int clipId, int delta, bool right, bool ripple, bool logUndo)
-{
-    return requestItemResize(clipId, m_allClips[clipId]->getPlaytime() - delta, right, logUndo);
-}
 
 int TimelineModel::requestClipsGroup(const std::unordered_set<int> &ids, bool logUndo, bool temporarySelection)
 {
