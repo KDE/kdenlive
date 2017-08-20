@@ -76,11 +76,11 @@ Mlt::Profile profile_model;
     Verify(OverloadedMethod(timMock, notifyChange, void(const QModelIndex&, const QModelIndex&, bool, bool, bool))).Exactly(times); \
     NO_OTHERS();
 
-QString createProducer(std::string color, std::shared_ptr<ProjectItemModel> binModel)
+QString createProducer(std::string color, std::shared_ptr<ProjectItemModel> binModel, int length = 20)
 {
     std::shared_ptr<Mlt::Producer> producer = std::make_shared<Mlt::Producer>(profile_model, "color", color.c_str());
-    producer->set("length", 20);
-    producer->set("out", 19);
+    producer->set("length", length);
+    producer->set("out", length - 1);
 
     REQUIRE(producer->is_valid());
 
@@ -1216,27 +1216,46 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
         state1();
     }
 }
-/*
+
 TEST_CASE("Snapping", "[Snapping]") {
+    auto binModel = pCore->projectItemModel();
+    binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(new Mlt::Profile(), undoStack);
+    std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
 
+    // Here we do some trickery to enable testing.
+    // We mock the project class so that the undoStack function returns our undoStack
 
-    std::shared_ptr<Mlt::Producer> producer = std::make_shared<Mlt::Producer>(profile_model, "color", "red");
-    std::shared_ptr<Mlt::Producer> producer2 = std::make_shared<Mlt::Producer>(profile_model, "color", "blue");
-    producer->set("length", 20);
-    producer->set("out", 19);
-    producer2->set("length", 20);
-    producer2->set("out", 19);
+    Mock<ProjectManager> pmMock;
+    When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
 
-    REQUIRE(producer->is_valid());
-    REQUIRE(producer2->is_valid());
+    ProjectManager &mocked = pmMock.get();
+    pCore->m_projectManager = &mocked;
+
+    // We also mock timeline object to spy few functions and mock others
+    TimelineItemModel tim(new Mlt::Profile(), undoStack);
+    Mock<TimelineItemModel> timMock(tim);
+    TimelineItemModel &tt = timMock.get();
+    auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(),[](...){});
+    TimelineItemModel::finishConstruct(timeline, guideModel);
+
+    RESET();
+
+    QString binId = createProducer("red", binModel, 50);
+    QString binId2 = createProducer("blue", binModel);
+
     int tid1 = TrackModel::construct(timeline);
-    int cid1 = ClipModel::construct(timeline, producer);
+    int cid1 = ClipModel::construct(timeline, binId);
     int tid2 = TrackModel::construct(timeline);
-    int cid2 = ClipModel::construct(timeline, producer2);
+    int cid2 = ClipModel::construct(timeline, binId2);
+    int cid3 = ClipModel::construct(timeline, binId2);
+
+    timeline->m_allClips[cid1]->m_endlessResize = false;
+    timeline->m_allClips[cid2]->m_endlessResize = false;
+    timeline->m_allClips[cid3]->m_endlessResize = false;
 
     int length = timeline->getClipPlaytime(cid1);
+    int length2 = timeline->getClipPlaytime(cid2);
     SECTION("getBlankSizeNearClip") {
         REQUIRE(timeline->requestClipMove(cid1,tid1,0));
 
@@ -1265,5 +1284,51 @@ TEST_CASE("Snapping", "[Snapping]") {
         REQUIRE(timeline->getTrackById(tid1)->getBlankSizeNearClip(cid1, true) == 0);
         REQUIRE(timeline->getTrackById(tid1)->getBlankSizeNearClip(cid2, true) == INT_MAX);
     }
+    SECTION("Snap move to a single clip") {
+        int beg = 30;
+        // in the absence of other clips, a valid move shouldn't be modified
+        for (int snap = -1; snap <= 5; ++snap) {
+            REQUIRE(timeline->suggestClipMove(cid2, tid2, beg, snap) == beg);
+            REQUIRE(timeline->suggestClipMove(cid2, tid2, beg + length, snap) == beg + length);
+            REQUIRE(timeline->checkConsistency());
+        }
+
+        // We add a clip in first track to create snap points
+        REQUIRE(timeline->requestClipMove(cid1,tid1,beg));
+
+        // Now a clip in second track should snap to beginning
+        auto check_snap = [&](int pos, int perturb, int snap) {
+            if (snap >= perturb) {
+                REQUIRE(timeline->suggestClipMove(cid2, tid2, pos + perturb, snap) == pos);
+                REQUIRE(timeline->suggestClipMove(cid2, tid2, pos - perturb, snap) == pos);
+            } else {
+                REQUIRE(timeline->suggestClipMove(cid2, tid2, pos + perturb, snap) == pos + perturb);
+                REQUIRE(timeline->suggestClipMove(cid2, tid2, pos - perturb, snap) == pos - perturb);
+            }
+        };
+        for (int snap = -1; snap <= 5; ++snap) {
+            for (int perturb = 0; perturb <= 6; ++perturb) {
+                //snap to beginning
+                check_snap(beg, perturb, snap);
+                check_snap(beg + length, perturb, snap);
+                //snap to end
+                check_snap(beg - length2, perturb, snap);
+                check_snap(beg + length - length2, perturb, snap);
+                REQUIRE(timeline->checkConsistency());
+            }
+        }
+
+        // Same test, but now clip is moved in position 0 first
+        REQUIRE(timeline->requestClipMove(cid2, tid2, 0));
+        for (int snap = -1; snap <= 5; ++snap) {
+            for (int perturb = 0; perturb <= 6; ++perturb) {
+                check_snap(beg, perturb, snap);
+                check_snap(beg + length, perturb, snap);
+                check_snap(beg - length2, perturb, snap);
+                check_snap(beg + length - length2, perturb, snap);
+                REQUIRE(timeline->checkConsistency());
+                REQUIRE(timeline->getClipPosition(cid2) == 0);
+            }
+        }
+    }
 }
-*/

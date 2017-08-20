@@ -318,27 +318,24 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int sn
     Q_ASSERT(isClip(clipId));
     Q_ASSERT(isTrack(trackId));
     int currentPos = getClipPosition(clipId);
-    int currentTrack = getClipTrackId(clipId);
-    if (currentPos == position || currentTrack != trackId) {
+    if (currentPos == position) {
         return position;
     }
     if (snapDistance > 0) {
         // For snapping, we must ignore all in/outs of the clips of the group being moved
         std::vector<int> ignored_pts;
+        std::unordered_set<int> all_clips = {clipId};
         if (m_groups->isInGroup(clipId)) {
             int groupId = m_groups->getRootId(clipId);
-            auto all_clips = m_groups->getLeaves(groupId);
-            for (int current_clipId : all_clips) {
+            all_clips = m_groups->getLeaves(groupId);
+        }
+        for (int current_clipId : all_clips) {
+            if (getClipTrackId(current_clipId) != -1) {
                 int in = getItemPosition(current_clipId);
                 int out = in + getItemPlaytime(current_clipId);
                 ignored_pts.push_back(in);
                 ignored_pts.push_back(out);
             }
-        } else {
-            int in = getClipPosition(clipId);
-            int out = in + getClipPlaytime(clipId);
-            ignored_pts.push_back(in);
-            ignored_pts.push_back(out);
         }
 
         int snapped = requestBestSnapPos(position, m_allClips[clipId]->getPlaytime(), ignored_pts, snapDistance);
@@ -1172,22 +1169,18 @@ int TimelineModel::requestBestSnapPos(int pos, int length, const std::vector<int
         m_snaps->ignore(pts);
     }
     int snapped_start = m_snaps->getClosestPoint(pos);
-    qDebug() << "snapping start suggestion" << snapped_start;
     int snapped_end = m_snaps->getClosestPoint(pos + length);
     m_snaps->unIgnore();
 
     int startDiff = qAbs(pos - snapped_start);
     int endDiff = qAbs(pos + length - snapped_end);
-    if (startDiff < endDiff && snapped_start >= 0) {
+    if (startDiff < endDiff && startDiff <= snapDistance) {
         // snap to start
-        if (startDiff < snapDistance) {
-            return snapped_start;
-        }
-    } else {
+        return snapped_start;
+    }
+    if (endDiff <= snapDistance) {
         // snap to end
-        if (endDiff < snapDistance && snapped_end >= 0) {
-            return snapped_end - length;
-        }
+        return snapped_end - length;
     }
     return -1;
 }

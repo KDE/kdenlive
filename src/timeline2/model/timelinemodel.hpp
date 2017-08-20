@@ -267,7 +267,6 @@ public:
     bool requestCompositionMove(int transid, int trackId, int compositionTrack, int position, bool updateView, Fun &undo, Fun &redo);
 
     Q_INVOKABLE int getCompositionPosition(int compoId) const;
-    Q_INVOKABLE int suggestCompositionMove(int compoId, int trackId, int position, int snapDistance = -1);
     int getCompositionPlaytime(int compoId) const;
 
     /* Returns an item position, item can be clip or composition */
@@ -284,6 +283,7 @@ public:
        @param snapDistance the maximum distance for a snap result, -1 for no snapping
         of the clip */
     Q_INVOKABLE int suggestClipMove(int clipId, int trackId, int position, int snapDistance = -1);
+    Q_INVOKABLE int suggestCompositionMove(int compoId, int trackId, int position, int snapDistance = -1);
 
     /* @brief Request clip insertion at given position. This action is undoable
        Returns true on success. If it fails, nothing is modified. @param
