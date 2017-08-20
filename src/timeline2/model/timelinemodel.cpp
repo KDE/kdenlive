@@ -21,6 +21,8 @@
 
 #include "timelinemodel.hpp"
 #include "assets/model/assetparametermodel.hpp"
+#include "bin/projectitemmodel.h"
+#include "bin/projectclip.h"
 #include "clipmodel.hpp"
 #include "compositionmodel.hpp"
 #include "core.h"
@@ -88,6 +90,9 @@ TimelineModel::~TimelineModel()
     }
     for (auto tracks : all_ids) {
         deregisterTrack_lambda(tracks, false)();
+    }
+    for (const auto & clip : m_allClips) {
+        clip.second->deregisterClipToBin();
     }
 }
 
@@ -1492,14 +1497,72 @@ bool TimelineModel::unplantComposition(int compoId)
 
 bool TimelineModel::checkConsistency()
 {
-    for (const auto &track : m_iteratorTable) {
-        if (!(*track.second)->checkConsistency()) {
-            qDebug() << "Constistency check failed for track" << track.first;
+    for (const auto &tck : m_iteratorTable) {
+        auto track = (*tck.second);
+        //Check parent/children link for tracks
+        if (auto ptr = track->m_parent.lock()) {
+            if (ptr.get() != this) {
+                qDebug() << "Wrong parent for track" << tck.first;
+                return false;
+            }
+        } else {
+            qDebug() << "NULL parent for track" << tck.first;
+            return false;
+        }
+        // check consistency of track
+        if (!track->checkConsistency()) {
+            qDebug() << "Constistency check failed for track" << tck.first;
             return false;
         }
     }
 
-    // We now check consistenty of the compositions. For that, we list all compositions of the tractor, and see if we have a matching one in our
+    //Check parent/children link for clips
+    for (const auto &cp : m_allClips) {
+        auto clip = (cp.second);
+        //Check parent/children link for tracks
+        if (auto ptr = clip->m_parent.lock()) {
+            if (ptr.get() != this) {
+                qDebug() << "Wrong parent for clip" << cp.first;
+                return false;
+            }
+        } else {
+            qDebug() << "NULL parent for clip" << cp.first;
+            return false;
+        }
+    }
+
+    // We check consistency with bin model
+    auto binClips = pCore->projectItemModel()->getAllClipIds();
+    // First step: all clips referenced by the bin model exist and are inserted
+    for (const auto &binClip : binClips) {
+        auto projClip = pCore->projectItemModel()->getClipByBinID(binClip);
+        for (const auto &insertedClip : projClip->m_registeredClips) {
+            if (auto ptr = insertedClip.second.lock()) {
+                if (ptr.get() == this) {  // check we are talking of this timeline
+                    if (!isClip(insertedClip.first)) {
+                        qDebug() << "Bin model registers a bad clip ID" << insertedClip.first;
+                        return false;
+                    }
+                }
+            } else {
+                qDebug() << "Bin model registers a clip in a NULL timeline" << insertedClip.first;
+                return false;
+            }
+        }
+    }
+
+    // Second step: all clips are referenced
+    for (const auto &clip : m_allClips) {
+        auto binId = clip.second->m_binClipId;
+        auto projClip = pCore->projectItemModel()->getClipByBinID(binId);
+        if (projClip->m_registeredClips.count(clip.first) == 0) {
+            qDebug() << "Clip " << clip.first << "not registered in bin";
+            return false;
+        }
+    }
+
+
+    // We now check consistency of the compositions. For that, we list all compositions of the tractor, and see if we have a matching one in our
     // m_allCompositions
     std::unordered_set<int> remaining_compo;
     for (const auto &compo : m_allCompositions) {

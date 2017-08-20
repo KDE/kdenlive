@@ -1219,6 +1219,7 @@ void ProjectClip::setBinEffectsEnabled(bool enabled)
 void ProjectClip::registerTimelineClip(std::weak_ptr<TimelineModel> timeline, int clipId)
 {
     Q_ASSERT(m_registeredClips.count(clipId) == 0);
+    Q_ASSERT(!timeline.expired());
     m_registeredClips[clipId] = std::move(timeline);
 }
 

@@ -57,6 +57,7 @@ class ProjectClip : public AbstractProjectItem, public ClipController
     Q_OBJECT
 
 public:
+    friend bool TimelineModel::checkConsistency(); // for testing
     /**
      * @brief Constructor; used when loading a project and the producer is already available.
      */

@@ -543,9 +543,11 @@ protected:
     /* @brief Unplant the composition with given Id */
     bool unplantComposition(int compoId);
 
+public:
     /* @brief Debugging function that checks consistency with Mlt objects */
     bool checkConsistency();
 
+protected:
     /* @brief Refresh project monitor if cursor was inside range */
     void checkRefresh(int start, int end);
 

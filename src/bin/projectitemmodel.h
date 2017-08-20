@@ -73,6 +73,9 @@ public:
     /** @brief Deletes all element and start a fresh model */
     void clean();
 
+    /** @brief Returns the id of all the clips (excluding folders) */
+    std::vector<QString> getAllClipIds() const;
+
     /** @brief Convenience method to access root folder */
     std::shared_ptr<ProjectFolder> getRootFolder() const;
 

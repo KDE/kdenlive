@@ -74,6 +74,7 @@ void ClipModel::registerClipToBin()
     if (!binClip) {
         qDebug() << "Error : Bin clip for id: " << m_binClipId << " NOT AVAILABLE!!!";
     }
+    qDebug() << "REGISTRATION " << m_id << "ptr count"<<m_parent.use_count();
     binClip->registerTimelineClip(m_parent, m_id);
 }
 

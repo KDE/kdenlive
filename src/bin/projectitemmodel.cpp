@@ -558,3 +558,15 @@ bool ProjectItemModel::requestCleanup()
     pCore->pushUndo(undo, redo, i18n("Clean Project"));
     return true;
 }
+
+std::vector<QString> ProjectItemModel::getAllClipIds() const
+{
+    std::vector<QString> result;
+    for (const auto &clip : m_allItems) {
+        auto c = std::static_pointer_cast<AbstractProjectItem>(clip.second.lock());
+        if (c->itemType() == AbstractProjectItem::ClipItem) {
+            result.push_back(c->clipId());
+        }
+    }
+    return result;
+}
