@@ -873,7 +873,7 @@ Rectangle {
             onClipDraggedToTrack: {
                 var y = pos - ruler.height
                 currentTrack = Logic.getTrackIndexFromPos(y)
-                var frame = Math.round(clip.x / timeScale)
+                var frame = Math.max(0, Math.round(clip.x / timeScale))
                 if (currentTrack >= 0  && currentTrack < tracksRepeater.count) {
                     var track = tracksRepeater.itemAt(currentTrack)
                     if (controller.requestClipMove(clip.clipId, track.trackId, frame, false, false)) {
