@@ -762,11 +762,11 @@ TEST_CASE("Undo/redo", "[GroupsModel]")
         };
         test_tree();
 
-        REQUIRE(groups.mergeSingleGroups(1, undo, redo));
+        REQUIRE(groups.mergeSingleGroups(0, undo, redo));
         auto test_tree2 = [&]() {
-            REQUIRE(groups.getSubtree(0) == std::unordered_set<int>({0,2}));
-            REQUIRE(groups.getDirectChildren(0) == std::unordered_set<int>({2}));
+            REQUIRE(groups.getSubtree(2) == std::unordered_set<int>({2}));
             REQUIRE(groups.getDirectChildren(2) == std::unordered_set<int>({}));
+            REQUIRE(groups.getRootId(2) == 2);
         };
         test_tree2();
 

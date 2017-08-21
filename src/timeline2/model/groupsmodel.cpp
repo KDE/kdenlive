@@ -235,11 +235,12 @@ void GroupsModel::setGroup(int id, int groupId)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_upLink.count(id) > 0);
-    Q_ASSERT(m_downLink.count(groupId) > 0);
+    Q_ASSERT(groupId == -1 || m_downLink.count(groupId) > 0);
     Q_ASSERT(id != groupId);
     removeFromGroup(id);
     m_upLink[id] = groupId;
-    m_downLink[groupId].insert(id);
+    if (groupId != -1)
+        m_downLink[groupId].insert(id);
 }
 
 void GroupsModel::removeFromGroup(int id)
@@ -269,11 +270,11 @@ bool GroupsModel::mergeSingleGroups(int id, Fun &undo, Fun &redo)
     QWriteLocker locker(&m_lock);
     auto leaves = getLeaves(id);
     std::unordered_map<int, int> old_parents, new_parents;
-    std::unordered_set<int> to_delete;
+    std::vector<int> to_delete;
     for(int leaf : leaves) {
         int current = m_upLink[leaf];
         while (current != m_upLink[id] && m_downLink[current].size() == 1) {
-            to_delete.insert(current);
+            to_delete.push_back(current);
             current = m_upLink[current];
         }
         if (current != m_upLink[leaf]) {
@@ -282,14 +283,33 @@ bool GroupsModel::mergeSingleGroups(int id, Fun &undo, Fun &redo)
         }
     }
     Fun reverse = [this, old_parents]() {
+        auto ptr = m_parent.lock();
+        if (!ptr) {
+            qDebug() << "Impossible to create group because the timeline is not available anymore";
+            return false;
+        }
         for (const auto& group : old_parents) {
             setGroup(group.first, group.second);
+            if (group.second == -1 && ptr->isClip(group.first)) {
+                QModelIndex ix = ptr->makeClipIndexFromID(group.first);
+                ptr->dataChanged(ix, ix, {TimelineItemModel::GroupedRole});
+            }
         }
         return true;
     };
     Fun operation = [this, new_parents]() {
+        auto ptr = m_parent.lock();
+        if (!ptr) {
+            qDebug() << "Impossible to create group because the timeline is not available anymore";
+            return false;
+        }
         for (const auto& group : new_parents) {
+            int old = m_upLink[group.first];
             setGroup(group.first, group.second);
+            if (old == -1 && group.second != -1 && ptr->isClip(group.first)) {
+                QModelIndex ix = ptr->makeClipIndexFromID(group.first);
+                ptr->dataChanged(ix, ix, {TimelineItemModel::GroupedRole});
+            }
         }
         return true;
     };
