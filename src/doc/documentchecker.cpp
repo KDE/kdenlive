@@ -627,7 +627,11 @@ QString DocumentChecker::searchLuma(const QDir &dir, const QString &file) const
     }
     // try to find luma in application path
     searchPath.setPath(QCoreApplication::applicationDirPath());
+#ifdef Q_OS_WIN
+    searchPath.cd(QStringLiteral("data/lumas"));
+#else
     searchPath.cd(QStringLiteral("../share/apps/kdenlive/lumas"));
+#endif
     result.setFile(searchPath, fname);
     if (result.exists()) {
         return result.filePath();
