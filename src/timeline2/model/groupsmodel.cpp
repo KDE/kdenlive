@@ -65,11 +65,11 @@ Fun GroupsModel::groupItems_lambda(int gid, const std::unordered_set<int> &ids, 
     };
 }
 
-int GroupsModel::groupItems(const std::unordered_set<int> &ids, Fun &undo, Fun &redo, bool temporarySelection)
+int GroupsModel::groupItems(const std::unordered_set<int> &ids, Fun &undo, Fun &redo, bool temporarySelection, bool force)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(!ids.empty());
-    if (ids.size() == 1) {
+    if (ids.size() == 1 && !force) {
         // We do not create a group with only one element. Instead, we return the id of that element
         return *(ids.begin());
     }
@@ -267,43 +267,42 @@ std::unordered_map<int, std::unordered_set<int>>GroupsModel::groupsDataDownlink(
 
 bool GroupsModel::mergeSingleGroups(int id, Fun &undo, Fun &redo)
 {
+    // The idea is as follow: we start from the leaves, and go up to the root.
+    // In the process, if we find a node with only one children, we flag it for deletion
     QWriteLocker locker(&m_lock);
+    Q_ASSERT(m_upLink.count(id) > 0);
     auto leaves = getLeaves(id);
     std::unordered_map<int, int> old_parents, new_parents;
     std::vector<int> to_delete;
+    std::unordered_set<int> processed; // to avoid going twice along the same branch
     for(int leaf : leaves) {
         int current = m_upLink[leaf];
-        while (current != m_upLink[id] && m_downLink[current].size() == 1) {
-            to_delete.push_back(current);
+        int start = leaf;
+        while (current != m_upLink[id] && processed.count(current) == 0  ) {
+            processed.insert(current);
+            if (m_downLink[current].size() == 1) {
+                to_delete.push_back(current);
+            } else {
+                if (current != m_upLink[start]) {
+                    old_parents[start] = m_upLink[start];
+                    new_parents[start] = current;
+                }
+                start = current;
+            }
             current = m_upLink[current];
         }
-        if (current != m_upLink[leaf]) {
-            old_parents[leaf] = m_upLink[leaf];
-            new_parents[leaf] = current;
+        if (current != m_upLink[start]) {
+            old_parents[start] = m_upLink[start];
+            new_parents[start] = current;
         }
     }
-    Fun reverse = [this, old_parents]() {
+    auto parent_changer = [this](const std::unordered_map<int, int>& parents){
         auto ptr = m_parent.lock();
         if (!ptr) {
             qDebug() << "Impossible to create group because the timeline is not available anymore";
             return false;
         }
-        for (const auto& group : old_parents) {
-            setGroup(group.first, group.second);
-            if (group.second == -1 && ptr->isClip(group.first)) {
-                QModelIndex ix = ptr->makeClipIndexFromID(group.first);
-                ptr->dataChanged(ix, ix, {TimelineItemModel::GroupedRole});
-            }
-        }
-        return true;
-    };
-    Fun operation = [this, new_parents]() {
-        auto ptr = m_parent.lock();
-        if (!ptr) {
-            qDebug() << "Impossible to create group because the timeline is not available anymore";
-            return false;
-        }
-        for (const auto& group : new_parents) {
+        for (const auto& group : parents) {
             int old = m_upLink[group.first];
             setGroup(group.first, group.second);
             if (old == -1 && group.second != -1 && ptr->isClip(group.first)) {
@@ -313,6 +312,8 @@ bool GroupsModel::mergeSingleGroups(int id, Fun &undo, Fun &redo)
         }
         return true;
     };
+    Fun reverse = [this, old_parents, parent_changer]() { return parent_changer(old_parents); };
+    Fun operation = [this, new_parents, parent_changer]() { return parent_changer(new_parents); };
     bool res = operation();
     if (!res) {
         bool undone = reverse();
@@ -332,3 +333,101 @@ bool GroupsModel::mergeSingleGroups(int id, Fun &undo, Fun &redo)
     }
     return true;
 }
+
+bool GroupsModel::split(int id, std::function<bool(int)> criterion, Fun &undo, Fun &redo)
+{
+    QWriteLocker locker(&m_lock);
+    // This function is valid only for roots (otherwise it is not clear what should be the new parent of the created tree)
+    Q_ASSERT(m_upLink[id] == -1);
+
+    // We do a BFS on the tree to copy it
+    // We store corresponding nodes
+    std::unordered_map<int, int> corresp; //keys are id in the original tree, values are temporary negative id assigned for creation of the new tree
+    corresp[-1] = -1;
+    // These are the nodes to be moved to new tree
+    std::vector<int > to_move;
+    // We store the groups (ie the nodes) that are going to be part of the new tree
+    // Keys are temporary id (negative) and values are the set of children (true ids in the case of leaves and temporary ids for other nodes)
+    std::unordered_map<int, std::unordered_set<int> > new_groups;
+    std::queue<int> queue;
+    queue.push(id);
+    int tempId = -10;
+    while (!queue.empty()) {
+        int current = queue.front();
+        queue.pop();
+        if (!isLeaf(current) || criterion(current)) {
+            if (isLeaf(current)) {
+                to_move.push_back(current);
+                new_groups[corresp[m_upLink[current]]].insert(current);
+            } else {
+                corresp[current] = tempId;
+                if (m_upLink[current] != -1)
+                    new_groups[corresp[m_upLink[current]]].insert(tempId);
+                tempId--;
+            }
+        }
+        for (const int &child : m_downLink.at(current)) {
+            queue.push(child);
+        }
+    }
+    // First, we simulate deletion of elements that we have to remove from the original tree
+    // A side effect of this is that empty groups will be removed
+    for (const auto &leaf : to_move) {
+        destructGroupItem(leaf, true, undo, redo, false);
+    }
+
+    // we artificially recreate the leaves
+    Fun operation = [this, to_move]() {
+        for (const auto &leaf : to_move) {
+            createGroupItem(leaf);
+        }
+        return true;
+    };
+    Fun reverse = [this, to_move]() {
+        for (const auto &group : to_move) {
+            destructGroupItem(group);
+        }
+        return true;
+    };
+    bool res = operation();
+    if (!res) {
+        return false;
+    }
+    UPDATE_UNDO_REDO(operation, reverse, undo, redo);
+
+    // We now regroup the items of the new tree to recreate hierarchy.
+    // This is equivalent to creating the tree bottom up (starting from the leaves)
+    // At each iteration, we create a new node by grouping together elements that are either leaves or already created nodes.
+    std::unordered_map<int, int> created_id; // to keep track of node that we create
+    while (!new_groups.empty()) {
+        int selected = INT_MAX;
+        for (const auto &group : new_groups) {
+            // we check that all children are already created
+            bool ok = true;
+            for (int elem : group.second) {
+                if (elem < -1 && created_id.count(elem) == 0) {
+                    ok = false;
+                    break;
+                }
+            }
+            if (ok) {
+                selected = group.first;
+                break;
+            }
+        }
+        Q_ASSERT(selected!=INT_MAX);
+        std::unordered_set<int> group;
+        for (int elem : new_groups[selected]) {
+            group.insert(elem < -1 ? created_id[elem] : elem);
+        }
+        int gid = groupItems(group, undo, redo, false, true);
+        created_id[selected] = gid;
+        new_groups.erase(selected);
+    }
+
+    mergeSingleGroups(id, undo, redo);
+    mergeSingleGroups(created_id[corresp[id]], undo, redo);
+
+    return res;
+}
+

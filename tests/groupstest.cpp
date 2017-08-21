@@ -776,4 +776,167 @@ TEST_CASE("Undo/redo", "[GroupsModel]")
         redo();
         test_tree2();
     }
+
+    SECTION("MergeSingleGroups3"){
+        Fun undo = []() { return true; };
+        Fun redo = []() { return true; };
+        REQUIRE(groups.m_upLink.size() == 0);
+
+        for (int i = 0; i < 6; i++) {
+            groups.createGroupItem(i);
+        }
+        groups.setGroup(0,2);
+        groups.setGroup(1,0);
+        groups.setGroup(3,1);
+        groups.setGroup(4,1);
+        groups.setGroup(5,4);
+
+        auto test_tree = [&]() {
+            for (int i = 0; i < 6; i++) {
+                REQUIRE(groups.getRootId(i) == 2);
+            }
+            REQUIRE(groups.getSubtree(2) == std::unordered_set<int>({0,1,2,3,4,5}));
+            REQUIRE(groups.getDirectChildren(0) == std::unordered_set<int>({1}));
+            REQUIRE(groups.getDirectChildren(1) == std::unordered_set<int>({4,3}));
+            REQUIRE(groups.getDirectChildren(2) == std::unordered_set<int>({0}));
+            REQUIRE(groups.getDirectChildren(3) == std::unordered_set<int>({}));
+            REQUIRE(groups.getDirectChildren(4) == std::unordered_set<int>({5}));
+            REQUIRE(groups.getDirectChildren(5) == std::unordered_set<int>({}));
+        };
+        test_tree();
+
+        REQUIRE(groups.mergeSingleGroups(2, undo, redo));
+        auto test_tree2 = [&]() {
+            REQUIRE(groups.getRootId(1) == 1);
+            REQUIRE(groups.getRootId(3) == 1);
+            REQUIRE(groups.getRootId(5) == 1);
+            REQUIRE(groups.getSubtree(1) == std::unordered_set<int>({1,3,5}));
+            REQUIRE(groups.getDirectChildren(1) == std::unordered_set<int>({3,5}));
+            REQUIRE(groups.getDirectChildren(3) == std::unordered_set<int>({}));
+            REQUIRE(groups.getDirectChildren(5) == std::unordered_set<int>({}));
+        };
+        test_tree2();
+
+        undo();
+        test_tree();
+
+        redo();
+        test_tree2();
+    }
+    SECTION("Simple split Tree"){
+        Fun undo = []() { return true; };
+        Fun redo = []() { return true; };
+        REQUIRE(groups.m_upLink.size() == 0);
+
+        // This is a dummy split criterion
+        auto criterion = [](int a) { return a % 2 == 0;};
+
+        // We create a very simple tree
+        for (int i = 0; i < 3; i++) {
+            groups.createGroupItem(i);
+        }
+        groups.setGroup(1,0);
+        groups.setGroup(2,0);
+
+        auto test_tree = [&]() {
+            REQUIRE(groups.getRootId(0) == 0);
+            REQUIRE(groups.getRootId(1) == 0);
+            REQUIRE(groups.getRootId(2) == 0);
+            REQUIRE(groups.getSubtree(0) == std::unordered_set<int>({0,1,2}));
+            REQUIRE(groups.getDirectChildren(0) == std::unordered_set<int>({1,2}));
+            REQUIRE(groups.getDirectChildren(1) == std::unordered_set<int>({}));
+            REQUIRE(groups.getDirectChildren(2) == std::unordered_set<int>({}));
+        };
+        test_tree();
+
+        REQUIRE(groups.split(0, criterion, undo, redo));
+        auto test_tree2 = [&]() {
+            REQUIRE(groups.getRootId(1) == 1);
+            REQUIRE(groups.getRootId(2) == 2);
+            REQUIRE(groups.getSubtree(2) == std::unordered_set<int>({2}));
+            REQUIRE(groups.getSubtree(1) == std::unordered_set<int>({1}));
+            REQUIRE(groups.getDirectChildren(2) == std::unordered_set<int>({}));
+            REQUIRE(groups.getDirectChildren(1) == std::unordered_set<int>({}));
+        };
+        test_tree2();
+
+        undo();
+        test_tree();
+
+        redo();
+        test_tree2();
+    }
+
+    SECTION("complex split Tree"){
+        Fun undo = []() { return true; };
+        Fun redo = []() { return true; };
+        REQUIRE(groups.m_upLink.size() == 0);
+
+        // This is a dummy split criterion
+        auto criterion = [](int a) { return a % 2 != 0;};
+
+        for (int i = 0; i < 9; i++) {
+            groups.createGroupItem(i);
+        }
+        groups.setGroup(0,3);
+        groups.setGroup(1,0);
+        groups.setGroup(3,2);
+        groups.setGroup(4,3);
+        groups.setGroup(5,8);
+        groups.setGroup(6,0);
+        groups.setGroup(7,8);
+        groups.setGroup(8,2);
+
+        auto test_tree = [&]() {
+            for (int i = 0; i < 9; i++) {
+                REQUIRE(groups.getRootId(i) == 2);
+            }
+            REQUIRE(groups.getSubtree(2) == std::unordered_set<int>({0,1,2,3,4,5,6,7,8}));
+            REQUIRE(groups.getDirectChildren(0) == std::unordered_set<int>({1,6}));
+            REQUIRE(groups.getDirectChildren(1) == std::unordered_set<int>({}));
+            REQUIRE(groups.getDirectChildren(2) == std::unordered_set<int>({3, 8}));
+            REQUIRE(groups.getDirectChildren(3) == std::unordered_set<int>({0,4}));
+            REQUIRE(groups.getDirectChildren(4) == std::unordered_set<int>({}));
+            REQUIRE(groups.getDirectChildren(5) == std::unordered_set<int>({}));
+            REQUIRE(groups.getDirectChildren(6) == std::unordered_set<int>({}));
+            REQUIRE(groups.getDirectChildren(7) == std::unordered_set<int>({}));
+            REQUIRE(groups.getDirectChildren(8) == std::unordered_set<int>({5,7}));
+        };
+        test_tree();
+
+        REQUIRE(groups.split(2, criterion, undo, redo));
+        auto test_tree2 = [&]() {
+            REQUIRE(groups.getRootId(6) == 3);
+            REQUIRE(groups.getRootId(3) == 3);
+            REQUIRE(groups.getRootId(4) == 3);
+            REQUIRE(groups.getSubtree(3) == std::unordered_set<int>({3,4,6}));
+            REQUIRE(groups.getDirectChildren(6) == std::unordered_set<int>({}));
+            REQUIRE(groups.getDirectChildren(4) == std::unordered_set<int>({}));
+            REQUIRE(groups.getDirectChildren(3) == std::unordered_set<int>({6,4}));
+            // new tree
+            int newRoot = groups.getRootId(1);
+            REQUIRE(groups.getRootId(1) == newRoot);
+            REQUIRE(groups.getRootId(5) == newRoot);
+            REQUIRE(groups.getRootId(7) == newRoot);
+            int other = -1;
+            REQUIRE(groups.getDirectChildren(newRoot).size() == 2);
+            for (int c : groups.getDirectChildren(newRoot))
+                if (c != 1)
+                    other = c;
+            REQUIRE(other != -1);
+            REQUIRE(groups.getSubtree(newRoot) == std::unordered_set<int>({1,5,7,newRoot, other}));
+            REQUIRE(groups.getDirectChildren(1) == std::unordered_set<int>({}));
+            REQUIRE(groups.getDirectChildren(5) == std::unordered_set<int>({}));
+            REQUIRE(groups.getDirectChildren(7) == std::unordered_set<int>({}));
+            REQUIRE(groups.getDirectChildren(newRoot) == std::unordered_set<int>({1,other}));
+            REQUIRE(groups.getDirectChildren(other) == std::unordered_set<int>({5,7}));
+        };
+        test_tree2();
+
+        undo();
+        test_tree();
+
+        redo();
+        test_tree2();
+    }
 }

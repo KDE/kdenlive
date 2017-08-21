@@ -48,7 +48,7 @@ public:
        @param redo Lambda function containing the current redo queue. Will be updated with current operation
        Returns the id of the new group, or -1 on error.
     */
-    int groupItems(const std::unordered_set<int> &ids, Fun &undo, Fun &redo, bool temporarySelection = false);
+    int groupItems(const std::unordered_set<int> &ids, Fun &undo, Fun &redo, bool temporarySelection = false, bool force = false);
 
 protected:
     /* Lambda version */
@@ -84,6 +84,14 @@ public:
        @param id id of the tree to consider
      */
     bool mergeSingleGroups(int id, Fun &undo, Fun &redo);
+
+    /* @brief Split the group tree according to a given criterion
+       All the leaves satisfying the criterion are moved to the new tree, the other stay
+       Both tree are subsequently simplified to avoid weird structure.
+       @param id is the root of the tree
+     */
+    bool split(int id, std::function<bool(int)> criterion, Fun &undo, Fun &redo);
+
 
     /* @brief Get the overall father of a given groupItem
        If the element has no father, it is returned as is.
