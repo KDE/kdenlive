@@ -2146,6 +2146,9 @@ void MainWindow::closeEvent(QCloseEvent *event)
 {
     KXmlGuiWindow::closeEvent(event);
     if (event->isAccepted()) {
+#ifdef Q_OS_WIN
+        QProcess::startDetached(QStandardPaths::findExecutable(QStringLiteral("kdeinit5")) + " --terminate");
+#endif
         QApplication::exit(m_exitCode);
         return;
     }
