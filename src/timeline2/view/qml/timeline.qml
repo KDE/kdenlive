@@ -837,7 +837,7 @@ Rectangle {
             trackId: item
             selection: timeline.selection
             onClipClicked: {
-                currentTrack = track
+                root.currentTrack = index
                 if (shiftClick === 1) {
                     timeline.addSelection(clip.clipId)
                 } else {

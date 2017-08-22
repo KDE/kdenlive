@@ -158,24 +158,32 @@ Rectangle {
         id: mouseArea
         enabled: root.activeTool === 0
         anchors.fill: parent
-        acceptedButtons: Qt.LeftButton
+        acceptedButtons: Qt.LeftButton | Qt.RightButton
         drag.target: parent
         drag.axis: Drag.XAxis
         property int startX
         drag.smoothed: false
-
+        hoverEnabled: true
+        cursorShape: containsMouse ? pressed ? Qt.ClosedHandCursor : Qt.OpenHandCursor : Qt.ClosedHandCursor
         onPressed: {
             root.stopScrolling = true
             originalX = parent.x
             originalTrackId = clipRoot.trackId
             startX = parent.x
+            root.stopScrolling = true
             clipRoot.forceActiveFocus();
+            if (!clipRoot.selected) {
+                clipRoot.clicked(clipRoot, false)
+            }
+            drag.target = clipRoot
         }
         onPositionChanged: {
-            if (mouse.y < 0 || mouse.y > height) {
-                parent.draggedToTrack(clipRoot, mapToItem(null, 0, mouse.y).y)
-            } else {
-                parent.dragged(clipRoot, mouse)
+            if (pressed) {
+                if (mouse.y < 0 || mouse.y > height) {
+                    parent.draggedToTrack(clipRoot, mapToItem(null, 0, mouse.y).y)
+                } else {
+                    parent.dragged(clipRoot, mouse)
+                }
             }
         }
         onReleased: {
@@ -183,6 +191,8 @@ Rectangle {
             parent.y = 0
             var delta = parent.x - startX
             var moved = false
+            drag.target = undefined
+            cursorShape = Qt.OpenHandCursor
             if (Math.abs(delta) >= 1.0 || trackId !== originalTrackId) {
                 moved = true
                 parent.moved(clipRoot)
@@ -198,25 +208,13 @@ Rectangle {
                 clipRoot.clicked(clipRoot, mouse.modifiers === Qt.ShiftModifier)
             }
         }
+        onClicked: {
+            if (mouse.button == Qt.RightButton) {
+                menu.show()
+            }
+        }
         onDoubleClicked: timeline.position = clipRoot.x / timeline.scaleFactor
         onWheel: zoomByWheel(wheel)
-
-        MouseArea {
-            anchors.fill: parent
-            acceptedButtons: Qt.RightButton
-            propagateComposedEvents: true
-            cursorShape: root.activeTool != 0 ? tracksArea.cursorShape : (trimInMouseArea.drag.active || trimOutMouseArea.drag.active)? Qt.SizeHorCursor :
-                (fadeInMouseArea.drag.active || fadeOutMouseArea.drag.active)? Qt.PointingHandCursor :
-                drag.active? Qt.ClosedHandCursor : Qt.OpenHandCursor
-            onPressed: {
-                root.stopScrolling = true
-                clipRoot.forceActiveFocus();
-                if (!clipRoot.selected) {
-                    clipRoot.clicked(clipRoot, false)
-                }
-            }
-            onClicked: menu.show()
-        }
     }
 
     Item {
@@ -575,11 +573,14 @@ Rectangle {
             id: trimInMouseArea
             anchors.fill: parent
             hoverEnabled: true
-            cursorShape: Qt.SizeHorCursor
             drag.target: parent
             drag.axis: Drag.XAxis
             drag.smoothed: false
-
+            cursorShape: (containsMouse
+                          ? (pressed
+                             ? Qt.SizeHorCursor
+                             : Qt.SizeHorCursor)
+                          : Qt.ClosedHandCursor);
             onPressed: {
                 root.stopScrolling = true
                 clipRoot.originalX = clipRoot.x
@@ -600,8 +601,12 @@ Rectangle {
                     }
                 }
             }
-            onEntered: parent.opacity = 0.5
-            onExited: parent.opacity = 0
+            onEntered: {
+                parent.opacity = 0.5
+            }
+            onExited: {
+                parent.opacity = 0
+            }
         }
     }
     Rectangle {
@@ -620,7 +625,11 @@ Rectangle {
             id: trimOutMouseArea
             anchors.fill: parent
             hoverEnabled: true
-            cursorShape: Qt.SizeHorCursor
+            cursorShape: (containsMouse
+                          ? (pressed
+                             ? Qt.SizeHorCursor
+                             : Qt.SizeHorCursor)
+                          : Qt.ClosedHandCursor);
             drag.target: parent
             drag.axis: Drag.XAxis
             drag.smoothed: false
