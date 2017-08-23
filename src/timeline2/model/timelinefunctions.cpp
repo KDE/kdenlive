@@ -81,9 +81,14 @@ bool TimelineFunction::requestSpacerEndOperation(std::shared_ptr<TimelineItemMod
     int res = timeline->requestClipsGroup(clips, undo, redo);
     bool final = false;
     if (res > -1) {
-        final = timeline->requestGroupMove(clipId, res, 0, endPosition - startPosition, true, undo, redo);
+        if (clips.size() > 1) {
+            final = timeline->requestGroupMove(clipId, res, 0, endPosition - startPosition, true, undo, redo);
+        } else {
+            // only 1 clip to be moved
+            final = timeline->requestClipMove(clipId, track, endPosition, true, undo, redo);
+        }
     }
-    if (final) {
+    if (final && clips.size() > 1) {
         final = timeline->requestClipUngroup(clipId, undo, redo);
     }
     if (final) {
