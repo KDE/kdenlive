@@ -436,7 +436,16 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
     QWriteLocker locker(&m_lock);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    bool result = requestClipInsertion(binClipId, trackId, position, id, undo, redo);
+    bool result = false;
+    if (binClipId.contains(QLatin1Char('#'))) {
+        // This is a clip section insert
+        const QString bid = binClipId.section(QLatin1Char('#'), 0, 0);
+        int in = binClipId.section(QLatin1Char('#'), 1, 1).toInt();
+        int out = binClipId.section(QLatin1Char('#'), 2, 2).toInt();
+        result = requestClipInsertion(bid, trackId, position, id, undo, redo, in, out);
+    } else {
+        result = requestClipInsertion(binClipId, trackId, position, id, undo, redo);
+    }
     if (result && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Insert Clip"));
     }
@@ -474,7 +483,7 @@ bool TimelineModel::requestClipCreation(const QString &binClipId, int in, int du
     return true;
 }
 
-bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, int position, int &id, Fun &undo, Fun &redo)
+bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, int position, int &id, Fun &undo, Fun &redo, int in, int out)
 {
     int clipId = TimelineModel::getNextId();
     id = clipId;
@@ -488,6 +497,10 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
         clip->refreshProducerFromBin();
         return true;
     };
+    if (in > -1) {
+        // clip zone
+        clip->setInOut(in, out);
+    }
     bool res = requestClipMove(clipId, trackId, position, true, local_undo, local_redo);
     if (!res) {
         bool undone = local_undo();

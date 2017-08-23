@@ -293,7 +293,7 @@ public:
        stored */
     bool requestClipInsertion(const QString &binClipId, int trackId, int position, int &id, bool logUndo = true);
     /* Same function, but accumulates undo and redo*/
-    bool requestClipInsertion(const QString &binClipId, int trackId, int position, int &id, Fun &undo, Fun &redo);
+    bool requestClipInsertion(const QString &binClipId, int trackId, int position, int &id, Fun &undo, Fun &redo, int in = -1, int out = -1);
 
     /* @brief Deletes the given clip or composition from the timeline This
        action is undoable Returns true on success. If it fails, nothing is
