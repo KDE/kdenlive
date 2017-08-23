@@ -797,7 +797,7 @@ int TimelineModel::requestClipsGroup(const std::unordered_set<int> &ids, bool lo
     if (temporarySelection) {
         m_temporarySelectionGroup = result;
     }
-    if (result > -1 && logUndo) {
+    if (result > -1 && logUndo && !temporarySelection) {
         PUSH_UNDO(undo, redo, i18n("Group clips"));
     }
     return result;
