@@ -213,6 +213,10 @@ public:
     Q_INVOKABLE void adjustFade(int cid, const QString &effectId, int duration);
 
     Q_INVOKABLE const QString getTrackNameFromMltIndex(int trackPos);
+    /* @brief Request inserting space in a track
+     */
+    Q_INVOKABLE void insertSpace(int trackId, int frame);
+
     const QString getTrackNameFromIndex(int trackIndex);
     /* @brief Seeks to selected clip start / end
      */

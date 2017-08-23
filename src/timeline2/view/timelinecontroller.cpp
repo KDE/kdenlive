@@ -34,7 +34,8 @@
 #include "timeline2/model/trackmodel.hpp"
 #include "timeline2/model/clipmodel.hpp"
 #include "timeline2/model/compositionmodel.hpp"
-#include <timeline2/model/groupsmodel.hpp>
+#include "timeline2/model/groupsmodel.hpp"
+#include "timeline/spacerdialog.h"
 #include "timelinewidget.h"
 #include "utils/KoIconUtils.h"
 
@@ -880,4 +881,25 @@ QMap<QString, QString> TimelineController::documentProperties()
     props.insert(QStringLiteral("dirtypreviewchunks"), chunks.second.join(QLatin1Char(',')));
     props.insert(QStringLiteral("disablepreview"), QString::number((int)m_disablePreview->isChecked()));
     return props;
+}
+
+void TimelineController::insertSpace(int trackId, int frame)
+{
+    if (frame == -1) {
+        frame = m_position;
+    }
+    QPointer<SpacerDialog> d = new SpacerDialog(GenTime(65, pCore->getCurrentFps()), pCore->currentDoc()->timecode(), qApp->activeWindow());
+    if (d->exec() != QDialog::Accepted) {
+        delete d;
+        return;
+    }
+    int cid = requestSpacerStartOperation(d->affectAllTracks() ? -1 : trackId, frame);
+    int spaceDuration = d->selectedDuration().frames(pCore->getCurrentFps());
+    delete d;
+    if (cid == -1) {
+        pCore->displayMessage(i18n("No clips found to insert space"), InformationMessage, 500);
+        return;
+    }
+    int start = m_model->getItemPosition(cid);
+    requestSpacerEndOperation(cid, start, start + spaceDuration);
 }

@@ -6,14 +6,24 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>226</width>
-    <height>174</height>
+    <width>210</width>
+    <height>110</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Add space</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <item row="3" column="0" colspan="2">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
    <item row="2" column="0" colspan="2">
     <spacer name="verticalSpacer">
      <property name="orientation">
@@ -27,26 +37,6 @@
      </property>
     </spacer>
    </item>
-   <item row="1" column="0">
-    <widget class="QLabel" name="clip_filesize_3">
-     <property name="text">
-      <string>Track:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="1">
-    <widget class="KComboBox" name="track_number"/>
-   </item>
-   <item row="3" column="0" colspan="2">
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-     </property>
-    </widget>
-   </item>
    <item row="0" column="0">
     <widget class="QLabel" name="clip_filesize_2">
      <property name="text">
@@ -57,15 +47,15 @@
    <item row="0" column="1">
     <layout class="QHBoxLayout" name="inputLayout"/>
    </item>
+   <item row="1" column="0" colspan="2">
+    <widget class="QCheckBox" name="insert_all_tracks">
+     <property name="text">
+      <string>Insert space in all tracks</string>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>KComboBox</class>
-   <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections>
   <connection>

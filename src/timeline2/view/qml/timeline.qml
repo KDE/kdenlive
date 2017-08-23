@@ -254,6 +254,14 @@ Rectangle {
         property int clickedX
         property int clickedY
         MenuItem {
+            text: i18n('Insert Space')
+            onTriggered: {
+                var track = Logic.getTrackIdFromPos(menu.clickedY - ruler.height)
+                var frame = Math.round((menu.clickedX + scrollView.flickableItem.contentX) / timeline.scaleFactor)
+                timeline.insertSpace(track, frame);
+            }
+        }
+        MenuItem {
             id: addGuideMenu
             text: i18n('Add Guide')
             onTriggered: {
@@ -486,6 +494,7 @@ Rectangle {
                 if (mouse.button & Qt.RightButton) {
                     menu.clickedX = mouse.x
                     menu.clickedY = mouse.y
+                    currentTrack = Logic.getTrackIndexFromPos(mouse.y - ruler.height)
                     menu.popup() 
                 }
             }
