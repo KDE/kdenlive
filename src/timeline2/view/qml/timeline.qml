@@ -880,6 +880,16 @@ Rectangle {
                         clip.reparent(track)
                         clip.trackIndex = track.DelegateModel.itemsIndex
                         clip.trackId = track.trackId
+                    } else {
+                        if (track.trackId != clip.trackId) {
+                            // check if we can move on existing track
+                            if (!controller.requestClipMove(clip.clipId, clip.trackId, frame, false, false)) {
+                                // Abort move
+                                clip.x = clip.draggedX
+                            } else {
+                                clip.x = frame * timeScale
+                            }
+                        }
                     }
                 }
             }
