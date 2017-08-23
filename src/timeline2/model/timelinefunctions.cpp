@@ -66,7 +66,7 @@ bool TimelineFunctions::requestClipCut(std::shared_ptr<TimelineItemModel> timeli
 {
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
-    std::unordered_set<int> clips = timeline->getGroupElements(clipId);
+    const std::unordered_set<int> clips = timeline->getGroupElements(clipId);
     int count = 0;
     for (int cid : clips) {
         int start = timeline->getClipPosition(cid);
@@ -74,19 +74,17 @@ bool TimelineFunctions::requestClipCut(std::shared_ptr<TimelineItemModel> timeli
         if (start < position && (start + duration) > position) {
             count++;
             int newId;
-            bool res = requestClipCut(timeline, clipId, position, newId, undo, redo);
+            bool res = requestClipCut(timeline, cid, position, newId, undo, redo);
             if (!res) {
                 bool undone = undo();
                 Q_ASSERT(undone);
                 return false;
             }
             // splitted elements go temporarily in the same group as original ones.
-            timeline->m_groups->setInGroupOf(newId, clipId);
+            timeline->m_groups->setInGroupOf(newId, cid, undo, redo);
         }
     }
-    qDebug() << "SPLIT COUNT"<<count;
     if (count > 0 && timeline->m_groups->isInGroup(clipId)) {
-        qDebug() << "SPLITTING hierary";
         // we now split the group hiearchy.
         // As a splitting criterion, we compare start point with split position
         auto criterion = [timeline, position](int cid) {
@@ -101,7 +99,6 @@ bool TimelineFunctions::requestClipCut(std::shared_ptr<TimelineItemModel> timeli
         }
     }
     if (count > 0) {
-        qDebug() << "SPLITTING PUSH UNDO";
         pCore->pushUndo(undo, redo, i18n("Cut clip"));
     }
     return count > 0;

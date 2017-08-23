@@ -395,6 +395,34 @@ bool GroupsModel::split(int id, std::function<bool(int)> criterion, Fun &undo, F
     }
     UPDATE_UNDO_REDO(operation, reverse, undo, redo);
 
+    // We prune the new_groups to remove empty ones
+    bool finished = false;
+    while(!finished) {
+        finished = true;
+        int selected = INT_MAX;
+        for (const auto &it: new_groups) {
+            if (it.second.size() == 0) { // empty group
+                finished = false;
+                selected = it.first;
+                break;
+            }
+            for (int it2 : it.second) {
+                if (it2 < -1 && new_groups.count(it2) == 0) {
+                    // group that has no reference, it is empty too
+                    finished = false;
+                    selected = it2;
+                    break;
+                }
+            }
+            if (!finished) break;
+        }
+        if (!finished) {
+            new_groups.erase(selected);
+            for (auto it = new_groups.begin(); it != new_groups.end(); ++it) {
+                (*it).second.erase(selected);
+            }
+        }
+    }
     // We now regroup the items of the new tree to recreate hierarchy.
     // This is equivalent to creating the tree bottom up (starting from the leaves)
     // At each iteration, we create a new node by grouping together elements that are either leaves or already created nodes.
@@ -432,8 +460,18 @@ bool GroupsModel::split(int id, std::function<bool(int)> criterion, Fun &undo, F
 }
 
 
-void GroupsModel::setInGroupOf(int id, int targetId)
+void GroupsModel::setInGroupOf(int id, int targetId, Fun &undo, Fun &redo)
 {
     Q_ASSERT(m_upLink.count(targetId) > 0);
-    setGroup(id, m_upLink[targetId]);
+    int oldGroup = m_upLink[id];
+    Fun operation = [this, id, targetId]() {
+        setGroup(id, m_upLink[targetId]);
+        return true;
+    };
+    Fun reverse = [this, id, oldGroup]() {
+        setGroup(id, oldGroup);
+        return true;
+    };
+    operation();
+    UPDATE_UNDO_REDO(operation, reverse, undo, redo);
 }
