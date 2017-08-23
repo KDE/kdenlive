@@ -22,9 +22,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef TIMELINEFUNCTIONS_H
 #define TIMELINEFUNCTIONS_H
 
-#include "timelineitemmodel.hpp"
 #include <memory>
 #include <unordered_set>
+#include "undohelper.hpp"
 
 /**
  * @namespace TimelineFunction
@@ -32,10 +32,24 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *  based on timelinemodel methods
  */
 
-namespace TimelineFunction {
-bool requestClipCut(std::shared_ptr<TimelineItemModel> timeline, int clipId, int position);
-int requestSpacerStartOperation(std::shared_ptr<TimelineItemModel> timeline, int trackId, int position);
-bool requestSpacerEndOperation(std::shared_ptr<TimelineItemModel> timeline, int clipId, int startPosition, int endPosition);
-}
+class TimelineItemModel;
+struct TimelineFunctions {
+    /* @brief Cuts a clip at given position
+       If the clip is part of the group, all clips of the groups are cut at the same position. The group structure is then preserved for clips on both sides
+       Returns true on success
+       @param timeline : ptr to the timeline model
+       @param clipId: Id of the clip to split
+       @param position: position (in frames) where to cut
+    */
+    static bool requestClipCut(std::shared_ptr<TimelineItemModel> timeline, int clipId, int position);
+    /* This is the same function, except that it accumulates undo/redo and do not deal with groups */
+    static bool requestClipCut(std::shared_ptr<TimelineItemModel> timeline, int clipId, int position, int &newId, Fun &undo, Fun &redo);
+
+    /* @brief Makes a perfect copy of a given clip, but do not insert it */
+    static bool copyClip(std::shared_ptr<TimelineItemModel> timeline, int clipId, int &newId, Fun &undo, Fun &redo);
+
+    static int requestSpacerStartOperation(std::shared_ptr<TimelineItemModel> timeline, int trackId, int position);
+    static bool requestSpacerEndOperation(std::shared_ptr<TimelineItemModel> timeline, int clipId, int startPosition, int endPosition);
+};
 
 #endif

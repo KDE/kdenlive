@@ -99,6 +99,7 @@ public:
     friend class CompositionModel;
     friend class GroupsModel;
     friend class TimelineController;
+    friend struct TimelineFunctions;
 
     /// Two level model: tracks and clips on track
     enum {
@@ -293,7 +294,14 @@ public:
        stored */
     bool requestClipInsertion(const QString &binClipId, int trackId, int position, int &id, bool logUndo = true);
     /* Same function, but accumulates undo and redo*/
-    bool requestClipInsertion(const QString &binClipId, int trackId, int position, int &id, Fun &undo, Fun &redo, int in = -1, int out = -1);
+    bool requestClipInsertion(const QString &binClipId, int trackId, int position, int &id, Fun &undo, Fun &redo);
+
+    /* @brief Creates a new clip instance without inserting it.
+       This action is undoable, returns true on success
+       @param binClipId: Bin id of the clip to insert
+       @param id: return parameter for the id of the newly created clip.
+     */
+    bool requestClipCreation(const QString &binClipId, int &id, Fun &undo, Fun &redo);
 
     /* @brief Deletes the given clip or composition from the timeline This
        action is undoable Returns true on success. If it fails, nothing is
@@ -448,10 +456,6 @@ public:
     /* @brief Get a timeline clip id by its position
      */
     int getClipByPosition(int trackId, int position) const;
-
-    /* @brief Creates a new clip instance without inserting it
-     */
-    bool requestClipCreation(const QString &binClipId, int in, int duration, int &id, Fun &undo, Fun &redo);
 
     /* @brief Returns a list of all items that are at or after a given position.
      * @param trackId is the id of the track for concerned items. Setting trackId to -1 returns items on all tracks

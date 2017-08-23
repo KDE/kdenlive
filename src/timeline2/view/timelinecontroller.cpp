@@ -518,7 +518,7 @@ void TimelineController::cutClipUnderCursor(int position, int track)
     }
     bool foundClip = false;
     for (int cid : m_selection.selectedClips) {
-        if (TimelineFunction::requestClipCut(m_model, cid, position)) {
+        if (TimelineFunctions::requestClipCut(m_model, cid, position)) {
             foundClip = true;
         }
     }
@@ -531,7 +531,7 @@ void TimelineController::cutClipUnderCursor(int position, int track)
         if (track >= 0) {
             int cid = m_model->getClipByPosition(track, position);
             if (cid >= 0) {
-                TimelineFunction::requestClipCut(m_model, cid, position);
+                TimelineFunctions::requestClipCut(m_model, cid, position);
                 foundClip = true;
             }
         }
@@ -543,12 +543,12 @@ void TimelineController::cutClipUnderCursor(int position, int track)
 
 int TimelineController::requestSpacerStartOperation(int trackId, int position)
 {
-    return TimelineFunction::requestSpacerStartOperation(m_model, trackId, position);
+    return TimelineFunctions::requestSpacerStartOperation(m_model, trackId, position);
 }
 
 bool TimelineController::requestSpacerEndOperation(int clipId, int startPosition, int endPosition)
 {
-    return TimelineFunction::requestSpacerEndOperation(m_model, clipId, startPosition, endPosition);
+    return TimelineFunctions::requestSpacerEndOperation(m_model, clipId, startPosition, endPosition);
 }
 
 void TimelineController::seekCurrentClip(bool seekToEnd)

@@ -431,3 +431,9 @@ bool GroupsModel::split(int id, std::function<bool(int)> criterion, Fun &undo, F
     return res;
 }
 
+
+void GroupsModel::setInGroupOf(int id, int targetId)
+{
+    Q_ASSERT(m_upLink.count(targetId) > 0);
+    setGroup(id, m_upLink[targetId]);
+}

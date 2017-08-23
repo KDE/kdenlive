@@ -697,6 +697,22 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         state(tid6);
 
     }
+
+    SECTION("Clip copy") {
+        int cid6 = ClipModel::construct(timeline, binId);
+        int l = timeline->getClipPlaytime(cid6);
+        REQUIRE(timeline->requestItemResize(cid6, l-3, true, true, -1));
+        REQUIRE(timeline->requestItemResize(cid6, l-7, false, true, -1));
+
+        int newId;
+
+        std::function<bool(void)> undo = []() { return true; };
+        std::function<bool(void)> redo = []() { return true; };
+        REQUIRE(TimelineFunctions::copyClip(timeline, cid6, newId, undo, redo));
+        REQUIRE(timeline->m_allClips[cid6]->binId() == timeline->m_allClips[newId]->binId());
+        // TODO check effects
+    }
+
 }
 
 TEST_CASE("Check id unicity", "[ClipModel]")
@@ -1127,6 +1143,85 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
         undoStack->undo();
         state1();
     }
+
+    int clipCount = timeline->m_allClips.size();
+    SECTION("Clip creation and resize") {
+        int cid6;
+        auto state0 = [&]() {
+            REQUIRE(timeline->m_allClips.size() == clipCount);
+            REQUIRE(timeline->checkConsistency());
+        };
+        state0();
+
+        {
+            std::function<bool(void)> undo = []() { return true; };
+            std::function<bool(void)> redo = []() { return true; };
+            REQUIRE(timeline->requestClipCreation(binId, cid6,undo,redo));
+            pCore->pushUndo(undo, redo, QString());
+        }
+        int l = timeline->getClipPlaytime(cid6);
+
+        auto state1 = [&]() {
+            REQUIRE(timeline->m_allClips.size() == clipCount + 1);
+            REQUIRE(timeline->isClip(cid6));
+            REQUIRE(timeline->getClipTrackId(cid6) == -1);
+            REQUIRE(timeline->getClipPlaytime(cid6) == l);
+        };
+        state1();
+
+        {
+            std::function<bool(void)> undo = []() { return true; };
+            std::function<bool(void)> redo = []() { return true; };
+            REQUIRE(timeline->requestItemResize(cid6, l-5, true, true, undo, redo, false));
+            pCore->pushUndo(undo, redo, QString());
+        }
+        auto state2 = [&]() {
+            REQUIRE(timeline->m_allClips.size() == clipCount + 1);
+            REQUIRE(timeline->isClip(cid6));
+            REQUIRE(timeline->getClipTrackId(cid6) == -1);
+            REQUIRE(timeline->getClipPlaytime(cid6) == l - 5);
+        };
+        state2();
+
+        {
+            std::function<bool(void)> undo = []() { return true; };
+            std::function<bool(void)> redo = []() { return true; };
+            REQUIRE(timeline->requestClipMove(cid6, tid1, 7, true, undo, redo));
+            pCore->pushUndo(undo, redo, QString());
+        }
+        auto state3 = [&]() {
+            REQUIRE(timeline->m_allClips.size() == clipCount + 1);
+            REQUIRE(timeline->isClip(cid6));
+            REQUIRE(timeline->getClipTrackId(cid6) == tid1);
+            REQUIRE(timeline->getClipPosition(cid6) == 7);
+            REQUIRE(timeline->getClipPlaytime(cid6) == l - 5);
+        };
+        state3();
+
+        {
+            std::function<bool(void)> undo = []() { return true; };
+            std::function<bool(void)> redo = []() { return true; };
+            REQUIRE(timeline->requestItemResize(cid6, l-6, false, true, undo, redo, false));
+            pCore->pushUndo(undo, redo, QString());
+        }
+        auto state4 = [&]() {
+            REQUIRE(timeline->m_allClips.size() == clipCount + 1);
+            REQUIRE(timeline->isClip(cid6));
+            REQUIRE(timeline->getClipTrackId(cid6) == tid1);
+            REQUIRE(timeline->getClipPosition(cid6) == 8);
+            REQUIRE(timeline->getClipPlaytime(cid6) == l - 6);
+        };
+        state4();
+
+        undoStack->undo(); state3();
+        undoStack->undo(); state2();
+        undoStack->undo(); state1();
+        undoStack->undo(); state0();
+        undoStack->redo(); state1();
+        undoStack->redo(); state2();
+        undoStack->redo(); state3();
+        undoStack->redo(); state4();
+    }
 }
 
 TEST_CASE("Snapping", "[Snapping]") {
@@ -1277,7 +1372,56 @@ TEST_CASE("Advanced trimming operations", "[Trimming]")
     int tid1 = TrackModel::construct(timeline);
     int tid2 = TrackModel::construct(timeline);
     int cid2 = ClipModel::construct(timeline, binId2);
+    int cid3 = ClipModel::construct(timeline, binId);
 
     timeline->m_allClips[cid1]->m_endlessResize = false;
     timeline->m_allClips[cid2]->m_endlessResize = false;
+    timeline->m_allClips[cid3]->m_endlessResize = false;
+
+    SECTION("Clip splitting") {
+        // Trivial split
+        REQUIRE(timeline->requestClipMove(cid1, tid1, 0));
+        int l = timeline->getClipPlaytime(cid2);
+        REQUIRE(timeline->requestItemResize(cid2, l - 3, true));
+        REQUIRE(timeline->requestItemResize(cid2, l - 5, false));
+        REQUIRE(timeline->requestClipMove(cid2, tid1, l));
+        REQUIRE(timeline->requestClipMove(cid3, tid1, l + l - 5));
+        auto state = [&](){
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid1) == l);
+            REQUIRE(timeline->getClipPlaytime(cid2) == l - 5);
+            REQUIRE(timeline->getClipPlaytime(cid3) == l);
+            REQUIRE(timeline->getClipPosition(cid1) == 0);
+            REQUIRE(timeline->getClipPosition(cid2) == l);
+            REQUIRE(timeline->getClipPosition(cid3) == l + l - 5);
+        };
+        state();
+
+        REQUIRE_FALSE(TimelineFunctions::requestClipCut(timeline, cid2, 0));
+        REQUIRE_FALSE(TimelineFunctions::requestClipCut(timeline, cid2, 5 * l));
+        REQUIRE_FALSE(TimelineFunctions::requestClipCut(timeline, cid2, l));
+        REQUIRE_FALSE(TimelineFunctions::requestClipCut(timeline, cid2, l + l - 5));
+        state();
+
+        REQUIRE(TimelineFunctions::requestClipCut(timeline, cid2, l + 4));
+        int splitted = timeline->getClipByPosition(tid1, l + 5);
+        auto state2 = [&](){
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid1) == l);
+            REQUIRE(timeline->getClipPlaytime(cid2) == 4);
+            REQUIRE(timeline->getClipPlaytime(splitted) == l - 9);
+            REQUIRE(timeline->getClipPlaytime(cid3) == l);
+            REQUIRE(timeline->getClipPosition(cid1) == 0);
+            REQUIRE(timeline->getClipPosition(cid2) == l);
+            REQUIRE(timeline->getClipPosition(splitted) == l + 4);
+            REQUIRE(timeline->getClipPosition(cid3) == l + l - 5);
+        };
+        state2();
+
+        undoStack->undo();
+        state();
+
+        undoStack->redo();
+        state2();
+    }
 }

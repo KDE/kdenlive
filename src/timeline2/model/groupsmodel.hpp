@@ -109,6 +109,9 @@ public:
     */
     bool isInGroup(int id) const;
 
+    /* @brief Move element id in the same group as targetId */
+    void setInGroupOf(int id, int targetId);
+
     /* @brief Returns the id of all the descendant of given item (including item)
        @param id of the groupItem
     */

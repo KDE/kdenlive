@@ -24,6 +24,7 @@
 #include "timeline2/model/compositionmodel.hpp"
 #include "timeline2/model/timelineitemmodel.hpp"
 #include "timeline2/model/trackmodel.hpp"
+#include "timeline2/model/timelinefunctions.hpp"
 #include "bin/projectitemmodel.h"
 #include "bin/projectfolder.h"
 #include "bin/projectclip.h"
