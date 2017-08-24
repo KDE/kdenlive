@@ -806,7 +806,100 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
     timeline->m_allClips[cid2]->m_endlessResize = false;
 
     int length = 20;
+    int nclips = timeline->m_allClips.size();
 
+    SECTION("requestCreateClip") {
+        auto state0 = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->m_allClips.size() == nclips);
+        };
+        state0();
+
+        QString binId3 = createProducer(profile_model, "green", binModel);
+        int cid3;
+        {
+            Fun undo = [](){return true;};
+            Fun redo = [](){return true;};
+            REQUIRE(timeline->requestClipCreation(binId3, cid3, undo, redo));
+            pCore->pushUndo(undo, redo, QString());
+        }
+
+        auto state1 = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->m_allClips.size() == nclips + 1);
+            REQUIRE(timeline->getClipPlaytime(cid3) == length);
+            REQUIRE(timeline->getClipTrackId(cid3) == -1);
+        };
+        state1();
+
+        QString binId4 = binId3 + "#1#10";
+        int cid4;
+        {
+            Fun undo = [](){return true;};
+            Fun redo = [](){return true;};
+            REQUIRE(timeline->requestClipCreation(binId4, cid4, undo, redo));
+            pCore->pushUndo(undo, redo, QString());
+        }
+
+        auto state2 = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->m_allClips.size() == nclips + 2);
+            REQUIRE(timeline->getClipPlaytime(cid4) == 10);
+            REQUIRE(timeline->getClipTrackId(cid4) == -1);
+            auto inOut = std::pair<int,int>({1,10});
+            REQUIRE(timeline->m_allClips.at(cid4)->getInOut() == inOut);
+            REQUIRE(timeline->getClipPlaytime(cid3) == length);
+            REQUIRE(timeline->getClipTrackId(cid3) == -1);
+        };
+        state2();
+        undoStack->undo(); state1();
+        undoStack->undo(); state0();
+        undoStack->redo(); state1();
+        undoStack->redo(); state2();
+    }
+
+    SECTION("requestInsertClip") {
+        auto state0 = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->m_allClips.size() == nclips);
+        };
+        state0();
+
+        QString binId3 = createProducer(profile_model, "green", binModel);
+        int cid3;
+        REQUIRE(timeline->requestClipInsertion(binId3, tid1, 12, cid3, true));
+
+        auto state1 = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->m_allClips.size() == nclips + 1);
+            REQUIRE(timeline->getClipPlaytime(cid3) == length);
+            REQUIRE(timeline->getClipTrackId(cid3) == tid1);
+            REQUIRE(timeline->getClipPosition(cid3) == 12);
+        };
+        state1();
+
+        QString binId4 = binId3 + "#1#10";
+        int cid4;
+        REQUIRE(timeline->requestClipInsertion(binId4, tid2, 17, cid4, true));
+
+        auto state2 = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->m_allClips.size() == nclips + 2);
+            REQUIRE(timeline->getClipPlaytime(cid4) == 10);
+            REQUIRE(timeline->getClipTrackId(cid4) == tid2);
+            REQUIRE(timeline->getClipPosition(cid4) == 17);
+            auto inOut = std::pair<int,int>({1,10});
+            REQUIRE(timeline->m_allClips.at(cid4)->getInOut() == inOut);
+            REQUIRE(timeline->getClipPlaytime(cid3) == length);
+            REQUIRE(timeline->getClipTrackId(cid3) == tid1);
+            REQUIRE(timeline->getClipPosition(cid3) == 12);
+        };
+        state2();
+        undoStack->undo(); state1();
+        undoStack->undo(); state0();
+        undoStack->redo(); state1();
+        undoStack->redo(); state2();
+    }
     int init_index = undoStack->index();
 
     SECTION("Basic move undo") {
