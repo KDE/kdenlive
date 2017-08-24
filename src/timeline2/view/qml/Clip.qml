@@ -173,7 +173,7 @@ Rectangle {
             root.stopScrolling = true
             clipRoot.forceActiveFocus();
             if (!clipRoot.selected) {
-                clipRoot.clicked(clipRoot, false)
+                clipRoot.clicked(clipRoot, mouse.modifiers == Qt.ShiftModifier)
             }
             drag.target = clipRoot
         }
@@ -203,9 +203,6 @@ Rectangle {
                     parent.dropped(clipRoot)
                     moved = true;
                 }
-            }
-            if (!clipRoot.selected || moved == false) {
-                clipRoot.clicked(clipRoot, mouse.modifiers === Qt.ShiftModifier)
             }
         }
         onClicked: {
