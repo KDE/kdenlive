@@ -215,7 +215,8 @@ public:
     Q_INVOKABLE const QString getTrackNameFromMltIndex(int trackPos);
     /* @brief Request inserting space in a track
      */
-    Q_INVOKABLE void insertSpace(int trackId, int frame);
+    Q_INVOKABLE void insertSpace(int trackId = -1, int frame = -1);
+    Q_INVOKABLE void removeSpace(int trackId = -1, int frame = -1, bool affectAllTracks = false);
 
     const QString getTrackNameFromIndex(int trackIndex);
     /* @brief Seeks to selected clip start / end

@@ -262,6 +262,22 @@ Rectangle {
             }
         }
         MenuItem {
+            text: i18n('Remove Space On Active Track')
+            onTriggered: {
+                var track = Logic.getTrackIdFromPos(menu.clickedY - ruler.height)
+                var frame = Math.round((menu.clickedX + scrollView.flickableItem.contentX) / timeline.scaleFactor)
+                timeline.removeSpace(track, frame);
+            }
+        }
+        MenuItem {
+            text: i18n('Remove Space')
+            onTriggered: {
+                var track = Logic.getTrackIdFromPos(menu.clickedY - ruler.height)
+                var frame = Math.round((menu.clickedX + scrollView.flickableItem.contentX) / timeline.scaleFactor)
+                timeline.removeSpace(track, frame, true);
+            }
+        }
+        MenuItem {
             id: addGuideMenu
             text: i18n('Add Guide')
             onTriggered: {

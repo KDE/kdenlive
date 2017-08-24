@@ -888,6 +888,11 @@ void TimelineController::insertSpace(int trackId, int frame)
     if (frame == -1) {
         frame = m_position;
     }
+    if (trackId == -1) {
+        QVariant returnedValue;
+        QMetaObject::invokeMethod(m_root, "currentTrackId", Q_RETURN_ARG(QVariant, returnedValue));
+        trackId = returnedValue.toInt();
+    }
     QPointer<SpacerDialog> d = new SpacerDialog(GenTime(65, pCore->getCurrentFps()), pCore->currentDoc()->timecode(), qApp->activeWindow());
     if (d->exec() != QDialog::Accepted) {
         delete d;
@@ -903,3 +908,25 @@ void TimelineController::insertSpace(int trackId, int frame)
     int start = m_model->getItemPosition(cid);
     requestSpacerEndOperation(cid, start, start + spaceDuration);
 }
+
+void TimelineController::removeSpace(int trackId, int frame, bool affectAllTracks)
+{
+    if (frame == -1) {
+        frame = m_position;
+    }
+    if (trackId == -1) {
+        QVariant returnedValue;
+        QMetaObject::invokeMethod(m_root, "currentTrackId", Q_RETURN_ARG(QVariant, returnedValue));
+        trackId = returnedValue.toInt();
+    }
+    // find blank duration
+    int spaceDuration = m_model->getTrackById(trackId)->getBlankSizeAtPos(frame);
+    int cid = requestSpacerStartOperation(affectAllTracks ? -1 : trackId, frame);
+    if (cid == -1) {
+        pCore->displayMessage(i18n("No clips found to insert space"), InformationMessage, 500);
+        return;
+    }
+    int start = m_model->getItemPosition(cid);
+    requestSpacerEndOperation(cid, start, start - spaceDuration);
+}
+

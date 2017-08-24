@@ -248,6 +248,22 @@ bool TrackModel::requestClipDeletion(int clipId, bool updateView, Fun &undo, Fun
     return false;
 }
 
+int TrackModel::getBlankSizeAtPos(int frame)
+{
+    READ_LOCK();
+    int min_length = 0;
+    for (int i = 0; i < 2; ++i) {
+        int ix = m_playlists[i].get_clip_index_at(frame);
+        if (m_playlists[i].is_blank(ix)) {
+            int blank_length = m_playlists[i].clip_length(ix);
+            if (min_length == 0 || (blank_length > 0 && blank_length < min_length)) {
+                min_length = blank_length;
+            }
+        }
+    }
+    return min_length;
+}
+
 int TrackModel::getBlankSizeNearClip(int clipId, bool after)
 {
     READ_LOCK();

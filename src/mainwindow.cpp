@@ -2381,26 +2381,17 @@ void MainWindow::slotAddGuide()
 
 void MainWindow::slotInsertSpace()
 {
-    //TODO
-    if (pCore->projectManager()->currentTimeline()) {
-        pCore->projectManager()->currentTimeline()->projectView()->slotInsertSpace();
-    }
+    getMainTimeline()->controller()->insertSpace();
 }
 
 void MainWindow::slotRemoveSpace()
 {
-    //TODO
-    if (pCore->projectManager()->currentTimeline()) {
-        pCore->projectManager()->currentTimeline()->projectView()->slotRemoveSpace();
-    }
+    getMainTimeline()->controller()->removeSpace(-1, -1, false);
 }
 
 void MainWindow::slotRemoveAllSpace()
 {
-    //TODO
-    if (pCore->projectManager()->currentTimeline()) {
-        pCore->projectManager()->currentTimeline()->projectView()->slotRemoveSpace(true);
-    }
+    getMainTimeline()->controller()->removeSpace(-1, -1, true);
 }
 
 void MainWindow::slotInsertTrack()
