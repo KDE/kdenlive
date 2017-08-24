@@ -1,33 +1,37 @@
-#include "catch.hpp"
-#include <iostream>
-#include <memory>
-#include <random>
-#define private public
-#define protected public
-#include "doc/docundostack.hpp"
-#include "timeline2/model/clipmodel.hpp"
-#include "timeline2/model/timelineitemmodel.hpp"
-#include "timeline2/model/timelinemodel.hpp"
-#include "timeline2/model/trackmodel.hpp"
+#include "test_utils.hpp"
 
-#include <mlt++/MltFactory.h>
-#include <mlt++/MltProducer.h>
-#include <mlt++/MltProfile.h>
-#include <mlt++/MltRepository.h>
-/*
+Mlt::Profile reg_profile;
 TEST_CASE("Regression") {
-    Mlt::Profile profile;
+    auto binModel = pCore->projectItemModel();
+    binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(new Mlt::Profile(), undoStack);
+    std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
+
+    // Here we do some trickery to enable testing.
+    // We mock the project class so that the undoStack function returns our undoStack
+
+    Mock<ProjectManager> pmMock;
+    When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
+
+    ProjectManager &mocked = pmMock.get();
+    pCore->m_projectManager = &mocked;
+
+    // We also mock timeline object to spy few functions and mock others
+    TimelineItemModel tim(new Mlt::Profile(), undoStack);
+    Mock<TimelineItemModel> timMock(tim);
+    TimelineItemModel &tt = timMock.get();
+    auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(),[](...){});
+    TimelineItemModel::finishConstruct(timeline, guideModel);
+
+    RESET();
     TimelineModel::next_id = 0;
     undoStack->undo();
     undoStack->redo();
     undoStack->redo();
     undoStack->undo();
-    std::shared_ptr<Mlt::Producer> producer0 = std::make_shared<Mlt::Producer>(profile, "color", "red");
-    producer0 ->set("length", 20);
-    producer0 ->set("out", 19);
-    ClipModel::construct(timeline, producer0 );
+    QString binId0 = createProducer(reg_profile, "red", binModel);
+    int c = ClipModel::construct(timeline, binId0 );
+    timeline->m_allClips[c]->m_endlessResize = false;
     TrackModel::construct(timeline);
     REQUIRE(timeline->getTrackById(1)->checkConsistency());
     REQUIRE(timeline->getTrackById(1)->checkConsistency());
@@ -60,9 +64,28 @@ TEST_CASE("Regression") {
 }
 
 TEST_CASE("Regression2") {
-    Mlt::Profile profile;
+    auto binModel = pCore->projectItemModel();
+    binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<TimelineModel> timeline = TimelineItemModel::construct(new Mlt::Profile(), undoStack);
+    std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
+
+// Here we do some trickery to enable testing.
+// We mock the project class so that the undoStack function returns our undoStack
+
+    Mock<ProjectManager> pmMock;
+    When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
+
+    ProjectManager &mocked = pmMock.get();
+    pCore->m_projectManager = &mocked;
+
+// We also mock timeline object to spy few functions and mock others
+    TimelineItemModel tim(new Mlt::Profile(), undoStack);
+    Mock<TimelineItemModel> timMock(tim);
+    TimelineItemModel &tt = timMock.get();
+    auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(),[](...){});
+    TimelineItemModel::finishConstruct(timeline, guideModel);
+
+    RESET();
     TimelineModel::next_id = 0;
     int dummy_id;
     undoStack->undo();
@@ -73,10 +96,9 @@ TEST_CASE("Regression2") {
     undoStack->undo();
     REQUIRE(timeline->getTrackById(0)->checkConsistency());
     {
-        std::shared_ptr<Mlt::Producer> producer0 = std::make_shared<Mlt::Producer>(profile, "color", "red");
-        producer0->set("length", 20);
-        producer0->set("out", 19);
-        bool ok = timeline->requestClipInsertion(producer0,0 ,10, dummy_id );
+        QString binId0 = createProducer(reg_profile, "red", binModel);
+        bool ok = timeline->requestClipInsertion(binId0, 0, 10, dummy_id );
+        timeline->m_allClips[dummy_id]->m_endlessResize = false;
         REQUIRE(ok);
     }
     REQUIRE(timeline->getTrackById(0)->checkConsistency());
@@ -88,10 +110,9 @@ TEST_CASE("Regression2") {
     REQUIRE(timeline->getTrackById(0)->checkConsistency());
     REQUIRE(timeline->getTrackById(2)->checkConsistency());
     {
-        std::shared_ptr<Mlt::Producer> producer1 = std::make_shared<Mlt::Producer>(profile, "color", "red");
-        producer1->set("length", 20);
-        producer1->set("out", 19);
-        bool ok = timeline->requestClipInsertion(producer1,2 ,10, dummy_id );
+        QString binId0 = createProducer(reg_profile, "red", binModel);
+        bool ok = timeline->requestClipInsertion(binId0, 2 ,10, dummy_id );
+        timeline->m_allClips[3]->m_endlessResize = false;
         REQUIRE(ok);
     }
     REQUIRE(timeline->getTrackById(0)->checkConsistency());
@@ -106,6 +127,7 @@ TEST_CASE("Regression2") {
     REQUIRE(timeline->getTrackById(0)->checkConsistency());
     REQUIRE(timeline->getTrackById(2)->checkConsistency());
     undoStack->redo();
+    timeline->m_allClips[3]->m_endlessResize = false;
     REQUIRE(timeline->getTrackById(0)->checkConsistency());
     REQUIRE(timeline->getTrackById(2)->checkConsistency());
     {
@@ -118,10 +140,11 @@ TEST_CASE("Regression2") {
     REQUIRE(timeline->getTrackById(0)->checkConsistency());
     REQUIRE(timeline->getTrackById(2)->checkConsistency());
     REQUIRE(timeline->getTrackById(4)->checkConsistency());
-    std::shared_ptr<Mlt::Producer> producer2 = std::make_shared<Mlt::Producer>(profile, "color", "red");
-    producer2->set("length", 20);
-    producer2->set("out", 19);
-    ClipModel::construct(timeline, producer2 );
+    {
+        QString binId0 = createProducer(reg_profile, "red", binModel);
+        int c = ClipModel::construct(timeline, binId0 );
+        timeline->m_allClips[c]->m_endlessResize = false;
+    }
     REQUIRE(timeline->getTrackById(0)->checkConsistency());
     REQUIRE(timeline->getTrackById(2)->checkConsistency());
     REQUIRE(timeline->getTrackById(4)->checkConsistency());
@@ -173,10 +196,8 @@ TEST_CASE("Regression2") {
     REQUIRE(timeline->getTrackById(4)->checkConsistency());
     REQUIRE(timeline->getTrackById(6)->checkConsistency());
     {
-        std::shared_ptr<Mlt::Producer> producer3 = std::make_shared<Mlt::Producer>(profile, "color", "red");
-        producer3->set("length", 20);
-        producer3->set("out", 19);
-        bool ok = timeline->requestClipInsertion(producer3,0 ,1, dummy_id );
+        QString binId0 = createProducer(reg_profile, "red", binModel);
+        bool ok = timeline->requestClipInsertion(binId0,0 ,1, dummy_id );
         REQUIRE_FALSE(ok);
     }
     REQUIRE(timeline->getTrackById(0)->checkConsistency());
@@ -196,7 +217,7 @@ TEST_CASE("Regression2") {
     undoStack->redo();
 }
 
-
+/*
 TEST_CASE("Regression 3")
 {
     Mlt::Profile profile;

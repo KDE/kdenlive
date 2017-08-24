@@ -710,6 +710,7 @@ bool TimelineModel::requestItemResize(int itemId, int size, bool right, bool log
 #endif
     QWriteLocker locker(&m_lock);
     Q_ASSERT(isClip(itemId) || isComposition(itemId));
+    if (size <= 0) return false;
     if (snapDistance > 0) {
         Fun temp_undo = []() { return true; };
         Fun temp_redo = []() { return true; };

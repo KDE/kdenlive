@@ -91,6 +91,7 @@ ClipModel::~ClipModel()
 bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
+    qDebug() << "RESIZE CLIP" << m_id << "target size="<<size<<"right="<<right<<"endless="<<m_endlessResize<<"length"<<m_producer->get_length();
     if (!m_endlessResize && (size <= 0 || size > m_producer->get_length())) {
         return false;
     }
@@ -98,6 +99,7 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo)
     int in = m_producer->get_in();
     int out = m_producer->get_out();
     int old_in = in, old_out = out;
+    qDebug() << "Resize facts delta ="<<delta<<"in"<<in<<"out"<<out;
     // check if there is enough space on the chosen side
     if (!right && in + delta < 0 && !m_endlessResize) {
         return false;
