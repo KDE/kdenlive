@@ -1245,7 +1245,8 @@ QList <int> ProjectClip::timelineInstances() const
 
 bool ProjectClip::selfSoftDelete(Fun &undo, Fun &redo)
 {
-    for (const auto &clip : m_registeredClips) {
+    auto toDelete = m_registeredClips; //we cannot use m_registeredClips directly, because it will be modified during loop
+    for (const auto &clip : toDelete) {
         if (auto timeline = clip.second.lock()) {
             timeline->requestClipDeletion(clip.first, undo, redo);
         } else {
