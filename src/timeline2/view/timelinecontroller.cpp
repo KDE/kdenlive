@@ -253,6 +253,14 @@ bool TimelineController::scrub()
 int TimelineController::insertClip(int tid, int position, const QString &data_str, bool logUndo)
 {
     int id;
+    if (tid == -1) {
+        QVariant returnedValue;
+        QMetaObject::invokeMethod(m_root, "currentTrackId", Q_RETURN_ARG(QVariant, returnedValue));
+        tid = returnedValue.toInt();
+    }
+    if (position == -1) {
+        position = m_position;
+    }
     if (!m_model->requestClipInsertion(data_str, tid, position, id, logUndo)) {
         id = -1;
     }
@@ -563,6 +571,15 @@ void TimelineController::seekCurrentClip(bool seekToEnd)
         foundClip = true;
         break;
     }
+}
+
+void TimelineController::seekToClip(int cid, bool seekToEnd)
+{
+    int start = m_model->getItemPosition(cid);
+    if (seekToEnd) {
+        start += m_model->getItemPlaytime(cid);
+    }
+    setPosition(start);
 }
 
 void TimelineController::seekToMouse()

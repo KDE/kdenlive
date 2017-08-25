@@ -222,6 +222,9 @@ public:
     /* @brief Seeks to selected clip start / end
      */
     void seekCurrentClip(bool seekToEnd = false);
+    /* @brief Seeks to a clip start (or end) based on it's clip id
+     */
+    void seekToClip(int cid, bool seekToEnd);
     /* @brief Returns the number of tracks (audioTrakcs, videoTracks)
      */
     QPoint getTracksCount() const;

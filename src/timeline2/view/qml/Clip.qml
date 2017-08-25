@@ -167,7 +167,7 @@ Rectangle {
     onAudioLevelsChanged: generateWaveform()
     MouseArea {
         id: mouseArea
-        enabled: root.activeTool === 0
+        visible: root.activeTool === 0
         anchors.fill: parent
         acceptedButtons: Qt.LeftButton | Qt.RightButton
         drag.target: parent
@@ -175,7 +175,7 @@ Rectangle {
         property int startX
         drag.smoothed: false
         hoverEnabled: true
-        cursorShape: containsMouse ? pressed ? Qt.ClosedHandCursor : Qt.OpenHandCursor : Qt.ClosedHandCursor
+        cursorShape: containsMouse ? pressed ? Qt.ClosedHandCursor : Qt.OpenHandCursor : tracksArea.cursorShape
         onPressed: {
             root.stopScrolling = true
             originalX = parent.x
