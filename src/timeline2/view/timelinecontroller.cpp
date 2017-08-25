@@ -876,9 +876,11 @@ QMap<QString, QString> TimelineController::documentProperties()
     //TODO
     //props.insert(QStringLiteral("audiotargettrack"), QString::number(audioTarget));
     //props.insert(QStringLiteral("videotargettrack"), QString::number(videoTarget));
-    QPair<QStringList, QStringList> chunks = m_timelinePreview->previewChunks();
-    props.insert(QStringLiteral("previewchunks"), chunks.first.join(QLatin1Char(',')));
-    props.insert(QStringLiteral("dirtypreviewchunks"), chunks.second.join(QLatin1Char(',')));
+    if (m_timelinePreview) {
+        QPair<QStringList, QStringList> chunks = m_timelinePreview->previewChunks();
+        props.insert(QStringLiteral("previewchunks"), chunks.first.join(QLatin1Char(',')));
+        props.insert(QStringLiteral("dirtypreviewchunks"), chunks.second.join(QLatin1Char(',')));
+    }
     props.insert(QStringLiteral("disablepreview"), QString::number((int)m_disablePreview->isChecked()));
     return props;
 }
