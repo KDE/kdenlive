@@ -76,8 +76,10 @@ Rectangle {
     }
 
     onReloadThumbChanged: {
-        console.log('qml thb rld')
-        color = Qt.darker(getColor())
+        if (mltService === 'color') {
+            var newColor = getColor()
+            color = selected ? newColor : Qt.darker(newColor)
+        }
     }
 
     onTimeScaleChanged: {
@@ -101,10 +103,13 @@ Rectangle {
 
     function getColor() {
         if (mltService === 'color') {
-            //console.log('clip color', clipResource, " / ", '#' + clipResource.substring(2, 8))
+            //console.log('clip color', clipResource, " / ", '#' + clipResource.substring(3, 9))
             if (clipResource.length == 10) {
                 // 0xRRGGBBAA
                 return '#' + clipResource.substring(2, 8)
+            } else if (clipResource.length == 9) {
+                // 0xAARRGGBB
+                return '#' + clipResource.substring(3, 9)
             }
         }
         return isAudio? '#445f5a' : '#416e8c'
@@ -354,15 +359,7 @@ Rectangle {
     states: [
         State {
             name: 'normal'
-            when: !clipRoot.selected
-            PropertyChanges {
-                target: clipRoot
-                z: 0
-            }
-        },
-        State {
-            name: 'selectedBlank'
-            when: clipRoot.selected
+            when: clipRoot.selected === false
             PropertyChanges {
                 target: clipRoot
                 color: Qt.darker(getColor())
@@ -370,7 +367,7 @@ Rectangle {
         },
         State {
             name: 'selected'
-            when: clipRoot.selected
+            when: clipRoot.selected === true
             PropertyChanges {
                 target: clipRoot
                 z: 1

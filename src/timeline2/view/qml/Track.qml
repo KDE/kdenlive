@@ -100,7 +100,7 @@ Column{
                     target: loader.item
                     property: "reloadThumb"
                     value: model.reloadThumb
-                    when: loader.status == Loader.Ready && !loader.item.isComposition
+                    when: loader.status == Loader.Ready && loader.item.isComposition === false
                 }
                 Binding {
                     target: loader.item
@@ -151,6 +151,12 @@ Column{
                     value: model.name
                     when: loader.status == Loader.Ready
                 }
+                Binding {
+                    target: loader.item
+                    property: "clipResource"
+                    value: model.resource
+                    when: loader.status == Loader.Ready && !loader.item.isComposition
+                }
                 sourceComponent: {
                     if (model.isComposition) {
                         return compositionDelegate
@@ -160,7 +166,6 @@ Column{
                 }
                 onLoaded: {
                     console.log('loaded clip: ', model.start)
-                    item.clipResource= model.resource
                     item.clipId= model.item
                     item.binId= model.binId
                     item.isComposition= model.isComposition
