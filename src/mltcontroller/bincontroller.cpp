@@ -223,28 +223,6 @@ int BinController::clipCount() const
     return m_clipList.size();
 }
 
-void BinController::replaceProducer(const requestClipInfo &info, const std::shared_ptr<Mlt::Producer> &producer)
-{
-    if (!m_clipList.contains(info.clipId)) {
-        qCDebug(KDENLIVE_LOG) << " / // error controller not found, crashing";
-        return;
-    }
-    std::shared_ptr<ClipController> ctrl = m_clipList.value(info.clipId);
-    if (ctrl->isValid()) {
-        pasteEffects(info.clipId, producer);
-    }
-    ctrl->updateProducer(producer);
-    replaceBinPlaylistClip(info.clipId, producer);
-    producer->set("id", info.clipId.toUtf8().constData());
-    // Remove video only producer
-    QString videoId = info.clipId + QStringLiteral("_video");
-    if (m_extraClipList.contains(videoId)) {
-        m_extraClipList.remove(videoId);
-    }
-    removeBinPlaylistClip("#" + info.clipId);
-    emit prepareTimelineReplacement(info);
-}
-
 void BinController::addClipToBin(const QString &id, const std::shared_ptr<ClipController> &controller, bool fromPlaylist)
 {
     /** Test: we can use filters on clips in the bin this way
@@ -328,7 +306,7 @@ Mlt::Producer *BinController::getBinVideoProducer(const QString &id)
         std::shared_ptr<Mlt::Producer> original = getBinProducer(originalId);
         Mlt::Producer *videoOnly = cloneProducer(*original.get());
         videoOnly->set("audio_index", -1);
-        videoOnly->set("id", videoId.toUtf8().constData());
+        videoOnly->set("kdenlive:id", videoId.toUtf8().constData());
         m_extraClipList.insert(videoId, videoOnly);
         return videoOnly;
     }

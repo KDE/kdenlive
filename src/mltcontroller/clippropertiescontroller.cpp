@@ -586,8 +586,9 @@ void ClipPropertiesController::slotColorModified(const QColor &newcolor)
 {
     QMap<QString, QString> properties;
     properties.insert(QStringLiteral("resource"), newcolor.name(QColor::HexArgb));
-    emit updateClipProperties(m_id, m_originalProperties, properties);
-    m_originalProperties = properties;
+    QMap<QString, QString> oldProperties;
+    oldProperties.insert(QStringLiteral("resource"), m_properties.get("resource"));
+    emit updateClipProperties(m_id, oldProperties, properties);
 }
 
 void ClipPropertiesController::slotDurationChanged(int duration)

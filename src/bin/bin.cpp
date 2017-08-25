@@ -3486,11 +3486,11 @@ void Bin::cleanup()
     m_itemModel->requestCleanup();
 }
 
-void Bin::prepareTimelineReplacement(const requestClipInfo &info)
+void Bin::prepareTimelineReplacement(const requestClipInfo &info, const std::shared_ptr<Mlt::Producer> &producer)
 {
     std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(info.clipId);
     Q_ASSERT(clip != nullptr);
-    slotProducerReady(info, nullptr);
+    slotProducerReady(info, producer);
     clip->replaceInTimeline();
 }
 

@@ -183,7 +183,6 @@ void ProducerQueue::processFileProperties()
         m_processingClipId.append(info.clipId);
         m_infoMutex.unlock();
         // TODO: read all xml meta.kdenlive properties into a QMap or an MLT::Properties and pass them to the newly created producer
-
         QString path;
         bool proxyProducer;
         QString proxy = ProjectClip::getXmlProperty(info.xml, QStringLiteral("kdenlive:proxy"));
@@ -461,11 +460,11 @@ void ProducerQueue::processFileProperties()
 
         int fullWidth = info.imageHeight * m_binController->profile()->dar() + 0.5;
         int frameNumber = ProjectClip::getXmlProperty(info.xml, QStringLiteral("kdenlive:thumbnailFrame"), QStringLiteral("-1")).toInt();
+        producer->set("kdenlive:id", info.clipId.toUtf8().constData());
 
-        if ((!info.replaceProducer && !EffectsList::property(info.xml, QStringLiteral("kdenlive:file_hash")).isEmpty()) || proxyProducer) {
+        if ((info.replaceProducer && !EffectsList::property(info.xml, QStringLiteral("kdenlive:file_hash")).isEmpty()) || proxyProducer) {
             // Clip  already has all properties
-            // We want to replace an existing producer. We MUST NOT set the producer's id property until
-            // the old one has been removed.
+            // We want to replace an existing producer.
             if (proxyProducer) {
                 // Recreate clip thumb
                 Mlt::Frame *frame = nullptr;
@@ -513,13 +512,10 @@ void ProducerQueue::processFileProperties()
                     producer->set(name.toUtf8().constData(), e.firstChild().nodeValue().toUtf8().constData());
                 }
             }
-            QMetaObject::invokeMethod(m_binController.get(), "replaceProducer", Qt::QueuedConnection, Q_ARG(const requestClipInfo &, info),
+            QMetaObject::invokeMethod(m_binController.get(), "prepareTimelineReplacement", Qt::QueuedConnection, Q_ARG(const requestClipInfo &, info),
                                       Q_ARG(const std::shared_ptr<Mlt::Producer> &, producer));
             continue;
         }
-        // We are not replacing an existing producer, so set the id
-        producer->set("id", info.clipId.toUtf8().constData());
-        producer->set("kdenlive:id", info.clipId.toUtf8().constData());
         stringMap filePropertyMap;
         stringMap metadataPropertyMap;
         char property[200];

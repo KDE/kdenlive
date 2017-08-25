@@ -428,7 +428,7 @@ public slots:
     void doUpdateThumbsProgress(long ms);
     void droppedUrls(const QList<QUrl> &urls, const QStringList &folderInfo = QStringList());
     /** @brief A clip producer was changed and needs to be replaced in timeline. */
-    void prepareTimelineReplacement(const requestClipInfo &info);
+    void prepareTimelineReplacement(const requestClipInfo &info, const std::shared_ptr<Mlt::Producer> &producer);
     /** @brief Returns the effectstack of a given clip. */
     std::shared_ptr<EffectStackModel> getClipEffectStack(int itemId);
 protected:
