@@ -32,6 +32,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 bool TimelineFunctions::copyClip(std::shared_ptr<TimelineItemModel> timeline, int clipId, int &newId, Fun &undo, Fun &redo)
 {
     bool res = timeline->requestClipCreation(timeline->getClipBinId(clipId), newId, undo, redo);
+    timeline->m_allClips[newId]->m_endlessResize = timeline->m_allClips[clipId]->m_endlessResize;
     int duration = timeline->getClipPlaytime(clipId);
     int init_duration = timeline->getClipPlaytime(newId);
     if (duration != init_duration) {
@@ -58,7 +59,7 @@ bool TimelineFunctions::requestClipCut(std::shared_ptr<TimelineItemModel> timeli
     bool res = copyClip(timeline, clipId, newId, undo, redo);
     res = res && timeline->requestItemResize(clipId, position - start, true, true, undo, redo);
     int newDuration = timeline->getClipPlaytime(clipId);
-    res = res && timeline->requestItemResize(newId, duration - newDuration, true, true, undo, redo);
+    res = res && timeline->requestItemResize(newId, duration - newDuration, false, true, undo, redo);
     res = res && timeline->requestClipMove(newId, timeline->getClipTrackId(clipId), position, true, undo, redo);
     return res;
 }

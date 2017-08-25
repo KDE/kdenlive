@@ -1464,6 +1464,7 @@ TEST_CASE("Advanced trimming operations", "[Trimming]")
     int cid1 = ClipModel::construct(timeline, binId);
     int tid1 = TrackModel::construct(timeline);
     int tid2 = TrackModel::construct(timeline);
+    int tid3 = TrackModel::construct(timeline);
     int cid2 = ClipModel::construct(timeline, binId2);
     int cid3 = ClipModel::construct(timeline, binId);
     int cid4 = ClipModel::construct(timeline, binId);
@@ -1495,6 +1496,8 @@ TEST_CASE("Advanced trimming operations", "[Trimming]")
             REQUIRE(timeline->getClipPosition(cid1) == 0);
             REQUIRE(timeline->getClipPosition(cid2) == l);
             REQUIRE(timeline->getClipPosition(cid3) == l + l - 5);
+            REQUIRE(timeline->getClipPtr(cid2)->getIn() == 2);
+            REQUIRE(timeline->getClipPtr(cid2)->getOut() == l - 4);
         };
         state();
 
@@ -1516,6 +1519,10 @@ TEST_CASE("Advanced trimming operations", "[Trimming]")
             REQUIRE(timeline->getClipPosition(cid2) == l);
             REQUIRE(timeline->getClipPosition(splitted) == l + 4);
             REQUIRE(timeline->getClipPosition(cid3) == l + l - 5);
+            REQUIRE(timeline->getClipPtr(cid2)->getIn() == 2);
+            REQUIRE(timeline->getClipPtr(cid2)->getOut() == 5);
+            REQUIRE(timeline->getClipPtr(splitted)->getIn() == 6);
+            REQUIRE(timeline->getClipPtr(splitted)->getOut() == l-4);
         };
         state2();
 
@@ -1524,6 +1531,60 @@ TEST_CASE("Advanced trimming operations", "[Trimming]")
 
         undoStack->redo();
         state2();
+    }
+
+    SECTION("Split and resize"){
+        REQUIRE(timeline->requestClipMove(cid1, tid1, 5));
+        int l = timeline->getClipPlaytime(cid1);
+        timeline->m_allClips[cid1]->m_endlessResize = false;
+
+        auto state = [&](){
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipTrackId(cid1) == tid1);
+            REQUIRE(timeline->getClipPlaytime(cid1) == l);
+            REQUIRE(timeline->getClipPosition(cid1) == 5);
+        };
+        state();
+
+        REQUIRE(TimelineFunctions::requestClipCut(timeline, cid1, 9));
+        int splitted = timeline->getClipByPosition(tid1, 10);
+        timeline->m_allClips[splitted]->m_endlessResize = false;
+        auto state2 = [&](){
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipTrackId(cid1) == tid1);
+            REQUIRE(timeline->getClipTrackId(splitted) == tid1);
+            REQUIRE(timeline->getClipPlaytime(cid1) == 4);
+            REQUIRE(timeline->getClipPlaytime(splitted) == l - 4);
+            REQUIRE(timeline->getClipPosition(cid1) == 5);
+            REQUIRE(timeline->getClipPosition(splitted) == 9);
+        };
+        state2();
+
+        REQUIRE(timeline->requestClipMove(splitted, tid2, 9, true, true));
+        REQUIRE_FALSE(timeline->requestItemResize(splitted, l - 3, true, true));
+        REQUIRE(timeline->requestItemResize(splitted, l, false, true));
+        REQUIRE_FALSE(timeline->requestItemResize(cid1, 5, false, true));
+        REQUIRE(timeline->requestItemResize(cid1, l, true, true));
+        auto state3 = [&](){
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipTrackId(cid1) == tid1);
+            REQUIRE(timeline->getClipTrackId(splitted) == tid2);
+            REQUIRE(timeline->getClipPlaytime(cid1) == l);
+            REQUIRE(timeline->getClipPlaytime(splitted) == l);
+            REQUIRE(timeline->getClipPosition(cid1) == 5);
+            REQUIRE(timeline->getClipPosition(splitted) == 5);
+        };
+        state3();
+
+        undoStack->undo(); undoStack->undo(); undoStack->undo();
+        state2();
+        undoStack->undo();
+        state();
+        undoStack->redo();
+        state2();
+        undoStack->redo(); undoStack->redo(); undoStack->redo();
+        state3();
+
     }
 
     SECTION("Clip splitting 2") {
@@ -1576,6 +1637,20 @@ TEST_CASE("Advanced trimming operations", "[Trimming]")
         int splitted = timeline->getClipByPosition(tid1, l + 5);
         int splitted2 = timeline->getClipByPosition(tid2, l + 5);
         REQUIRE(splitted != splitted2);
+        auto check_groups = [&]() {
+            REQUIRE(timeline->m_groups->getDirectChildren(gid2) == std::unordered_set<int>({splitted, splitted2}));
+            REQUIRE(timeline->m_groups->getDirectChildren(gid3) == std::unordered_set<int>({cid3, cid6}));
+            REQUIRE(timeline->m_groups->getDirectChildren(gid4) == std::unordered_set<int>({gid2, gid3, cid7}));
+            REQUIRE(timeline->getGroupElements(cid3) == std::unordered_set<int>({splitted, splitted2, cid3, cid6, cid7}));
+
+            int g1b = timeline->m_groups->m_upLink[cid1];
+            int g2b = timeline->m_groups->m_upLink[cid2];
+            int g4b = timeline->m_groups->getRootId(cid1);
+            REQUIRE(timeline->m_groups->getDirectChildren(g1b) == std::unordered_set<int>({cid1, cid4}));
+            REQUIRE(timeline->m_groups->getDirectChildren(g2b) == std::unordered_set<int>({cid2, cid5}));
+            REQUIRE(timeline->m_groups->getDirectChildren(g4b) == std::unordered_set<int>({g1b, g2b}));
+            REQUIRE(timeline->getGroupElements(cid1) == std::unordered_set<int>({cid1, cid2, cid4, cid5}));
+        };
         auto state2 = [&](){
             REQUIRE(timeline->checkConsistency());
             int p = 0;
@@ -1600,26 +1675,43 @@ TEST_CASE("Advanced trimming operations", "[Trimming]")
             REQUIRE(timeline->getClipPosition(splitted2) == l + 4);
             REQUIRE(timeline->getClipPlaytime(splitted2) == l - 4);
             REQUIRE(timeline->getClipTrackId(splitted2) == tid2);
-
-            REQUIRE(timeline->m_groups->getDirectChildren(gid2) == std::unordered_set<int>({splitted, splitted2}));
-            REQUIRE(timeline->m_groups->getDirectChildren(gid3) == std::unordered_set<int>({cid3, cid6}));
-            REQUIRE(timeline->m_groups->getDirectChildren(gid4) == std::unordered_set<int>({gid2, gid3, cid7}));
-            REQUIRE(timeline->getGroupElements(cid3) == std::unordered_set<int>({splitted, splitted2, cid3, cid6, cid7}));
-
-            int g1b = timeline->m_groups->m_upLink[cid1];
-            int g2b = timeline->m_groups->m_upLink[cid2];
-            int g4b = timeline->m_groups->getRootId(cid1);
-            REQUIRE(timeline->m_groups->getDirectChildren(g1b) == std::unordered_set<int>({cid1, cid4}));
-            REQUIRE(timeline->m_groups->getDirectChildren(g2b) == std::unordered_set<int>({cid2, cid5}));
-            REQUIRE(timeline->m_groups->getDirectChildren(g4b) == std::unordered_set<int>({g1b, g2b}));
-            REQUIRE(timeline->getGroupElements(cid1) == std::unordered_set<int>({cid1, cid2, cid4, cid5}));
+            check_groups();
         };
         state2();
 
-        undoStack->undo();
-        state();
+        REQUIRE(timeline->requestClipMove(splitted, tid1, l + 4 + 10, true, true));
+        REQUIRE(timeline->requestClipMove(cid1, tid2, 10, true, true));
+        auto state3 = [&](){
+            REQUIRE(timeline->checkConsistency());
+            int p = 0;
+            for (int c : std::vector<int>({cid1, cid2, cid3})) {
+                REQUIRE(timeline->getClipPlaytime(c) == (c == cid2 ? 4 : l));
+                REQUIRE(timeline->getClipTrackId(c) == (c == cid3 ? tid1 : tid2));
+                REQUIRE(timeline->getClipPosition(c) == p+10);
+                p += l;
+            }
+            p = 0;
+            for (int c : std::vector<int>({cid4, cid5, cid6})) {
+                REQUIRE(timeline->getClipPlaytime(c) == (c == cid5 ? 4 : l));
+                REQUIRE(timeline->getClipTrackId(c) == (c == cid6 ? tid2 : tid3));
+                REQUIRE(timeline->getClipPosition(c) == p + 10);
+                p += l;
+            }
+            REQUIRE(timeline->getClipPosition(cid7) == 210);
+            REQUIRE(timeline->getClipTrackId(cid7) == tid1);
+            REQUIRE(timeline->getClipPosition(splitted) == l + 4 + 10);
+            REQUIRE(timeline->getClipPlaytime(splitted) == l - 4);
+            REQUIRE(timeline->getClipTrackId(splitted) == tid1);
+            REQUIRE(timeline->getClipPosition(splitted2) == l + 4 + 10);
+            REQUIRE(timeline->getClipPlaytime(splitted2) == l - 4);
+            REQUIRE(timeline->getClipTrackId(splitted2) == tid2);
+            check_groups();
+        };
+        state3();
 
-        undoStack->redo();
-        state2();
+        undoStack->undo();undoStack->undo(); state2();
+        undoStack->undo(); state();
+        undoStack->redo(); state2();
+        undoStack->redo();undoStack->redo(); state3();
     }
 }
