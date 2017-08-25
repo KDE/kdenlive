@@ -193,6 +193,7 @@ QHash<int, QByteArray> TimelineItemModel::roleNames() const
     roles[ItemIdRole] = "item";
     roles[ItemATrack] = "a_track";
     roles[HasAudio] = "hasAudio";
+    roles[ReloadThumb] = "reloadThumb";
     return roles;
 }
 
@@ -263,6 +264,8 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             return clip->fadeIn();
         case FadeOutRole:
             return clip->fadeOut();
+        case ReloadThumb:
+            return false;
         default:
             break;
         }

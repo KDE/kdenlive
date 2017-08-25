@@ -102,7 +102,7 @@ ClipItem::ClipItem(ProjectClip *clip, const ItemInfo &info, double fps, double s
     } else if (m_clipType == Image || m_clipType == Text || m_clipType == QText || m_clipType == TextTemplate) {
         m_baseColor = QColor(141, 166, 215);
         m_startPix = m_binClip->thumbnail(frame_width, rect().height());
-        connect(m_binClip, SIGNAL(thumbUpdated(QImage)), this, SLOT(slotUpdateThumb(QImage)));
+        //connect(m_binClip, SIGNAL(thumbUpdated(QImage)), this, SLOT(slotUpdateThumb(QImage)));
         // connect(m_clip->thumbProducer(), SIGNAL(thumbReady(int,QImage)), this, SLOT(slotThumbReady(int,QImage)));
     } else if (m_clipType == Audio) {
         m_baseColor = QColor(141, 215, 166);

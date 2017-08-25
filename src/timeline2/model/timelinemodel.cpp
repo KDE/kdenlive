@@ -1747,3 +1747,9 @@ void TimelineModel::requestClipReload(int clipId)
         getTrackById(old_trackId)->requestClipInsertion(clipId, oldPos, false, local_undo, local_redo);
     }
 }
+
+void TimelineModel::requestClipUpdate(int clipId, QVector<int> roles)
+{
+    QModelIndex modelIndex = makeClipIndexFromID(clipId);
+    notifyChange(modelIndex, modelIndex, roles);
+}

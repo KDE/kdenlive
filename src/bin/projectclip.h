@@ -241,6 +241,7 @@ private:
     const QString geometryWithOffset(const QString &data, int offset);
     void doExtractImage();
     void doExtractIntra();
+    void updateTimelineClips(QVector<int> roles);
 
     std::map<int, std::weak_ptr<TimelineModel>> m_registeredClips;
 
@@ -254,7 +255,6 @@ signals:
     void refreshAnalysisPanel();
     void refreshClipDisplay();
     void thumbReady(int, const QImage &);
-    void thumbUpdated(const QImage &);
     void updateJobStatus(int jobType, int status, int progress = 0, const QString &statusMessage = QString());
     /** @brief Clip is ready, load properties. */
     void loadPropertiesPanel();

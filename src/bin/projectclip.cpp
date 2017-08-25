@@ -23,6 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "projectclip.h"
 #include "core.h"
 #include "doc/docundostack.hpp"
+#include "bin.h"
 #include "doc/kdenlivedoc.h"
 #include "doc/kthumb.h"
 #include "kdenlivesettings.h"
@@ -312,7 +313,7 @@ void ProjectClip::setThumbnail(const QImage &img)
         p.drawText(r, Qt::AlignCenter, i18nc("The first letter of Proxy, used as abbreviation", "P"));
     }
     m_thumbnail = QIcon(thumb);
-    emit thumbUpdated(img);
+    updateTimelineClips(QVector<int>() << TimelineModel::ReloadThumb);
     if (auto ptr = m_model.lock()) std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()));
 }
 
@@ -550,8 +551,11 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
     if (properties.contains(QStringLiteral("kdenlive:clipname"))) {
         m_name = properties.value(QStringLiteral("kdenlive:clipname"));
         refreshPanel = true;
-        if (auto ptr = m_model.lock())
+        if (auto ptr = m_model.lock()) {
             std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()));
+        }
+        // update timeline clips
+        updateTimelineClips(QVector<int>() << TimelineModel::NameRole);
     }
     if (refreshPanel) {
         // Some of the clip properties have changed through a command, update properties panel
@@ -645,8 +649,7 @@ bool ProjectClip::rename(const QString &name, int column)
         break;
     }
     if (edited) {
-        // TODO refac
-        //if (auto ptr = m_model.lock()) std::static_pointer_cast<ProjectItemModel>(ptr)->bin()->slotEditClipCommand(m_binId, oldProperites, newProperites);
+        pCore->bin()->slotEditClipCommand(m_binId, oldProperites, newProperites);
     }
     return edited;
 }
@@ -1221,12 +1224,14 @@ void ProjectClip::registerTimelineClip(std::weak_ptr<TimelineModel> timeline, in
     Q_ASSERT(m_registeredClips.count(clipId) == 0);
     Q_ASSERT(!timeline.expired());
     m_registeredClips[clipId] = std::move(timeline);
+    setRefCount(m_registeredClips.size());
 }
 
 void ProjectClip::deregisterTimelineClip(int clipId)
 {
     Q_ASSERT(m_registeredClips.count(clipId) > 0);
     m_registeredClips.erase(clipId);
+    setRefCount(m_registeredClips.size());
 }
 
 QList <int> ProjectClip::timelineInstances() const
@@ -1265,6 +1270,19 @@ void ProjectClip::replaceInTimeline()
         } else {
             qDebug() << "Error while reloading clip: timeline unavailable";
             Q_ASSERT(false);
+        }
+    }
+}
+
+void ProjectClip::updateTimelineClips(QVector<int> roles)
+{
+    for (const auto &clip : m_registeredClips) {
+        if (auto timeline = clip.second.lock()) {
+            timeline->requestClipUpdate(clip.first, roles);
+        } else {
+            qDebug() << "Error while reloading clip thumb: timeline unavailable";
+            Q_ASSERT(false);
+            return;
         }
     }
 }

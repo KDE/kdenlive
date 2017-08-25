@@ -98,6 +98,12 @@ Column{
                 }
                 Binding {
                     target: loader.item
+                    property: "reloadThumb"
+                    value: model.reloadThumb
+                    when: loader.status == Loader.Ready && !loader.item.isComposition
+                }
+                Binding {
+                    target: loader.item
                     property: "fadeOut"
                     value: model.fadeOut
                     when: loader.status == Loader.Ready && !loader.item.isComposition
@@ -115,7 +121,6 @@ Column{
                     value: root.trackHeight
                     when: loader.status == Loader.Ready && loader.item.isComposition
                 }
-
                 Binding {
                     target: loader.item
                     property: "clipDuration"
@@ -140,6 +145,12 @@ Column{
                     value: model.grouped
                     when: loader.status == Loader.Ready
                 }
+                Binding {
+                    target: loader.item
+                    property: "clipName"
+                    value: model.name
+                    when: loader.status == Loader.Ready
+                }
                 sourceComponent: {
                     if (model.isComposition) {
                         return compositionDelegate
@@ -149,7 +160,6 @@ Column{
                 }
                 onLoaded: {
                     console.log('loaded clip: ', model.start)
-                    item.clipName= model.name
                     item.clipResource= model.resource
                     item.clipId= model.item
                     item.binId= model.binId

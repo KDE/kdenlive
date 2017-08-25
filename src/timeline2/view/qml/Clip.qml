@@ -55,6 +55,7 @@ Rectangle {
     property string hash: 'ccc' //TODO
     property double speed: 1.0
     property color borderColor: 'black'
+    property bool reloadThumb: false
     width : clipDuration * timeScale;
 
     signal clicked(var clip, int shiftClick)
@@ -72,6 +73,11 @@ Rectangle {
     }
     onModelStartChanged: {
         x = modelStart * timeScale;
+    }
+
+    onReloadThumbChanged: {
+        console.log('qml thb rld')
+        color = Qt.darker(getColor())
     }
 
     onTimeScaleChanged: {

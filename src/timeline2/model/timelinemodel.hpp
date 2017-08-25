@@ -128,6 +128,7 @@ public:
         IsCompositionRole, /// clip only
         FileHashRole,      /// clip only
         SpeedRole,         /// clip only
+        ReloadThumb,       /// clip only
         ItemATrack,        /// composition only
         ItemIdRole
     };
@@ -473,6 +474,7 @@ public:
     virtual void adjustAssetRange(int clipId, int in, int out);
 
     void requestClipReload(int clipId);
+    void requestClipUpdate(int clipId, QVector<int> roles);
 
     /** @brief Returns the effectstack of a given clip. */
     std::shared_ptr<EffectStackModel> getClipEffectStack(int itemId);

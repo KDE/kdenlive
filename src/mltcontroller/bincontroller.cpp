@@ -313,7 +313,7 @@ std::shared_ptr<Mlt::Producer> BinController::getBinProducer(const QString &id)
 {
     // TODO: framebuffer speed clips
     if (!m_clipList.contains(id)) {
-        qDebug() << "ERROR: requesting invalid bin producer";
+        qDebug() << "ERROR: requesting invalid bin producer: "<<id;
         return nullptr;
     }
     return m_clipList[id]->originalProducer();
