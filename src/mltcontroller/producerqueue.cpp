@@ -22,6 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "producerqueue.h"
 #include "bin/projectclip.h"
 #include "bincontroller.h"
+#include "bin/projectitemmodel.h"
 #include "clipcontroller.h"
 #include "doc/kdenlivedoc.h"
 #include "core.h"
@@ -145,7 +146,8 @@ void ProducerQueue::processFileProperties()
         if (info.xml.hasAttribute(QStringLiteral("thumbnailOnly")) || info.xml.hasAttribute(QStringLiteral("refreshOnly"))) {
             m_infoMutex.unlock();
             // Special case, we just want the thumbnail for existing producer
-            Mlt::Producer *prod = new Mlt::Producer(*m_binController->getBinProducer(info.clipId));
+            std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(info.clipId);
+            Mlt::Producer *prod = new Mlt::Producer(*binClip->originalProducer());
             if ((prod == nullptr) || !prod->is_valid()) {
                 continue;
             }
