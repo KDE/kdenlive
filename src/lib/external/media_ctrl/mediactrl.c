@@ -24,7 +24,9 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/time.h>
+#if defined(Q_OS_LINUX)
 #include <asm/types.h>
+#endif
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdint.h>
