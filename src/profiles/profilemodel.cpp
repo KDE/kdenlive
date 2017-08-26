@@ -127,7 +127,7 @@ int ProfileModel::colorspace() const
     return m_profile->colorspace();
 }
 
-bool ProfileModel::operator==(const ProfileModel &other) const
+bool ProfileInfo::operator==(const ProfileInfo &other) const
 {
     if (!description().isEmpty() && other.description() == description()) {
         return true;
@@ -145,7 +145,7 @@ QString ProfileModel::path() const
     return m_path;
 }
 
-QString ProfileModel::colorspaceDescription() const
+QString ProfileInfo::colorspaceDescription() const
 {
     // TODO: should the descriptions be translated?
     switch (colorspace()) {
@@ -165,12 +165,12 @@ void ProfileModel::set_explicit(int b)
     m_profile->set_explicit(b);
 }
 
-bool ProfileModel::isCompatible(std::unique_ptr<ProfileModel> &other) const
+bool ProfileInfo::isCompatible(std::unique_ptr<ProfileInfo> &other) const
 {
-    return isCompatible(other->m_profile.get());
+    return frame_rate_num() * 100 / frame_rate_den() == other->frame_rate_num() * 100 / other->frame_rate_den();
 }
 
-bool ProfileModel::isCompatible(Mlt::Profile *other) const
+bool ProfileInfo::isCompatible(Mlt::Profile *other) const
 {
     return frame_rate_num() * 100 / frame_rate_den() == other->frame_rate_num() * 100 / other->frame_rate_den();
 }

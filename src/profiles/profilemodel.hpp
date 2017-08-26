@@ -26,12 +26,52 @@
 #include <QString>
 #include <memory>
 
+
+/* @brief This is a virtual class that represents any profile that we can get info from
+ */
+class ProfileInfo
+{
+public:
+    ProfileInfo() = default;
+    virtual ~ProfileInfo() = default;
+
+    virtual bool is_valid() const = 0;
+    virtual QString description() const = 0;
+    virtual int frame_rate_num() const = 0;
+    virtual int frame_rate_den() const = 0;
+    virtual double fps() const = 0;
+    virtual int width() const = 0;
+    virtual int height() const = 0;
+    virtual bool progressive() const = 0;
+    virtual int sample_aspect_num() const = 0;
+    virtual int sample_aspect_den() const = 0;
+    virtual double sar() const = 0;
+    virtual int display_aspect_num() const = 0;
+    virtual int display_aspect_den() const = 0;
+    virtual double dar() const = 0;
+    virtual int is_explicit() const = 0;
+    virtual void set_explicit(int b) = 0;
+    virtual int colorspace() const = 0;
+    QString colorspaceDescription() const;
+    virtual QString path() const = 0;
+
+    /* @brief overload of comparison operators */
+    bool operator==(const ProfileInfo &other) const;
+    bool operator!=(const ProfileInfo &other) const;
+
+    /** @brief Returns true if both profiles have same fps, and can be mixed with the xml producer */
+    bool isCompatible(std::unique_ptr<ProfileInfo> &other) const;
+    bool isCompatible(Mlt::Profile *other) const;
+};
+
+
+
 /** @brief This is a wrapper around Mlt::Profile to be used by the rest of kdenlive.
  *  It has implicit conversion to Mlt::Profile so you can use it directly in calls to Mlt backend.
  *
  */
 
-class ProfileModel
+class ProfileModel : public ProfileInfo
 {
 
 public:
@@ -40,34 +80,27 @@ public:
     /* @brief Constructs a profile using the path to the profile description
      */
     ProfileModel(const QString &path);
+    virtual ~ProfileModel() = default;
 
-    bool is_valid() const;
-    QString description() const;
-    int frame_rate_num() const;
-    int frame_rate_den() const;
-    double fps() const;
-    int width() const;
-    int height() const;
-    bool progressive() const;
-    int sample_aspect_num() const;
-    int sample_aspect_den() const;
-    double sar() const;
-    int display_aspect_num() const;
-    int display_aspect_den() const;
-    double dar() const;
-    int is_explicit() const;
-    void set_explicit(int b);
-    int colorspace() const;
-    QString colorspaceDescription() const;
-    QString path() const;
+    bool is_valid() const override;
+    QString description() const override;
+    int frame_rate_num() const override;
+    int frame_rate_den() const override;
+    double fps() const override;
+    int width() const override;
+    int height() const override;
+    bool progressive() const override;
+    int sample_aspect_num() const override;
+    int sample_aspect_den() const override;
+    double sar() const override;
+    int display_aspect_num() const override;
+    int display_aspect_den() const override;
+    double dar() const override;
+    int is_explicit() const override;
+    void set_explicit(int b) override;
+    int colorspace() const override;
+    QString path() const override;
 
-    /* @brief overload of comparison operators */
-    bool operator==(const ProfileModel &other) const;
-    bool operator!=(const ProfileModel &other) const;
-
-    /** @brief Returns true if both profiles have same fps, and can be mixed with the xml producer */
-    bool isCompatible(std::unique_ptr<ProfileModel> &other) const;
-    bool isCompatible(Mlt::Profile *other) const;
 
     /* @brief get underlying profile. Use with caution*/
     Mlt::Profile &profile() { return *m_profile.get(); };
