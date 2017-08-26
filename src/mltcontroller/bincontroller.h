@@ -51,9 +51,6 @@ public:
     explicit BinController(const QString &profileName = QString());
     virtual ~BinController();
 
-    /** @brief Returns the MLT profile used everywhere in the project. */
-    Mlt::Profile *profile();
-
     /** @brief Returns the service for the Bin's playlist, used to make sure MLT will save it correctly in its XML. */
     mlt_service service();
 

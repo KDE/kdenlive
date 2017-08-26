@@ -38,10 +38,6 @@ BinController::~BinController()
     destroyBin();
 }
 
-Mlt::Profile *BinController::profile()
-{
-    return m_binPlaylist->profile();
-}
 
 void BinController::destroyBin()
 {

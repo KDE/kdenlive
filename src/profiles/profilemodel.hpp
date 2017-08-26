@@ -56,6 +56,7 @@ public:
     int display_aspect_den() const;
     double dar() const;
     int is_explicit() const;
+    void set_explicit(int b);
     int colorspace() const;
     QString colorspaceDescription() const;
     QString path() const;
@@ -63,6 +64,10 @@ public:
     /* @brief overload of comparison operators */
     bool operator==(const ProfileModel &other) const;
     bool operator!=(const ProfileModel &other) const;
+
+    /** @brief Returns true if both profiles have same fps, and can be mixed with the xml producer */
+    bool isCompatible(std::unique_ptr<ProfileModel> &other) const;
+    bool isCompatible(Mlt::Profile *other) const;
 
     /* @brief get underlying profile. Use with caution*/
     Mlt::Profile &profile() { return *m_profile.get(); };

@@ -364,11 +364,6 @@ BinController *MonitorManager::binController()
     return pCore->binController().get();
 }
 
-Mlt::Profile *MonitorManager::profile()
-{
-    return pCore->binController()->profile();
-}
-
 void MonitorManager::setupActions()
 {
     KDualAction *playAction = new KDualAction(i18n("Play"), i18n("Pause"), this);

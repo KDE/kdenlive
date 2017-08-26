@@ -159,3 +159,18 @@ QString ProfileModel::colorspaceDescription() const
         return i18n("Unknown");
     }
 }
+
+void ProfileModel::set_explicit(int b)
+{
+    m_profile->set_explicit(b);
+}
+
+bool ProfileModel::isCompatible(std::unique_ptr<ProfileModel> &other) const
+{
+    return isCompatible(other->m_profile.get());
+}
+
+bool ProfileModel::isCompatible(Mlt::Profile *other) const
+{
+    return frame_rate_num() * 100 / frame_rate_den() == other->frame_rate_num() * 100 / other->frame_rate_den();
+}

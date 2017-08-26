@@ -139,7 +139,7 @@ void ProducerQueue::processFileProperties()
     requestClipInfo info;
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
-    bool forceThumbScale = qAbs(m_binController->profile()->sar() - 1) > 1e-1;
+    bool forceThumbScale = qAbs(pCore->getCurrentSar() - 1) > 1e-1;
     while (!m_requestList.isEmpty()) {
         m_infoMutex.lock();
         info = m_requestList.takeFirst();
@@ -156,9 +156,9 @@ void ProducerQueue::processFileProperties()
                 QString service = prod->get("mlt_service");
                 QString res = prod->get("resource");
                 delete prod;
-                prod = new Mlt::Producer(*m_binController->profile(), service.toUtf8().constData(), res.toUtf8().constData());
-                Mlt::Filter scaler(*m_binController->profile(), "swscale");
-                Mlt::Filter converter(*m_binController->profile(), "avcolor_space");
+                prod = new Mlt::Producer(pCore->getCurrentProfile()->profile(), service.toUtf8().constData(), res.toUtf8().constData());
+                Mlt::Filter scaler(pCore->getCurrentProfile()->profile(), "swscale");
+                Mlt::Filter converter(pCore->getCurrentProfile()->profile(), "avcolor_space");
                 prod->attach(scaler);
                 prod->attach(converter);
             }
@@ -168,7 +168,7 @@ void ProducerQueue::processFileProperties()
             }
             Mlt::Frame *frame = prod->get_frame();
             if ((frame != nullptr) && frame->is_valid()) {
-                int fullWidth = info.imageHeight * m_binController->profile()->dar() + 0.5;
+                int fullWidth = info.imageHeight * pCore->getCurrentDar() + 0.5;
                 QImage img = KThumb::getFrame(frame, fullWidth, info.imageHeight, forceThumbScale);
                 emit replyGetImage(info.clipId, img);
             }
@@ -220,29 +220,25 @@ void ProducerQueue::processFileProperties()
         }
         if (type == Color) {
             path.prepend(QStringLiteral("color:"));
-            producer = std::make_shared<Mlt::Producer>(*m_binController->profile(), nullptr, path.toUtf8().constData());
+            producer = std::make_shared<Mlt::Producer>(pCore->getCurrentProfile()->profile(), nullptr, path.toUtf8().constData());
         } else if (type == Text || type == TextTemplate) {
             path.prepend(QStringLiteral("kdenlivetitle:"));
-            producer = std::make_shared<Mlt::Producer>(*m_binController->profile(), nullptr, path.toUtf8().constData());
+            producer = std::make_shared<Mlt::Producer>(pCore->getCurrentProfile()->profile(), nullptr, path.toUtf8().constData());
         } else if (type == QText) {
             path.prepend(QStringLiteral("qtext:"));
-            producer = std::make_shared<Mlt::Producer>(*m_binController->profile(), nullptr, path.toUtf8().constData());
+            producer = std::make_shared<Mlt::Producer>(pCore->getCurrentProfile()->profile(), nullptr, path.toUtf8().constData());
         } else if (type == Playlist && !proxyProducer) {
             // TODO: "xml" seems to corrupt project fps if different, and "consumer" crashed on audio transition
-            auto *xmlProfile = new Mlt::Profile();
+            std::unique_ptr<Mlt::Profile> xmlProfile(new Mlt::Profile());
             xmlProfile->set_explicit(0);
-            MltVideoProfile projectProfile = ProfilesDialog::getVideoProfile(*m_binController->profile());
             // path.prepend("consumer:");
             producer = std::make_shared<Mlt::Producer>(*xmlProfile, "xml", path.toUtf8().constData());
             if (!producer->is_valid()) {
-                delete xmlProfile;
                 m_processingClipId.removeAll(info.clipId);
                 emit removeInvalidClip(info.clipId, info.replaceProducer);
                 continue;
             }
-            MltVideoProfile clipProfile = ProfilesDialog::getVideoProfile(*xmlProfile);
-            delete xmlProfile;
-            if (clipProfile.isCompatible(projectProfile)) {
+            if (pCore->getCurrentProfile()->isCompatible(xmlProfile.get())) {
                 // We can use the "xml" producer since profile is the same (using it with different profiles corrupts the project.
                 // Beware that "consumer" currently crashes on audio mixes!
                 path.prepend(QStringLiteral("xml:"));
@@ -253,10 +249,10 @@ void ProducerQueue::processFileProperties()
                 emit removeInvalidClip(info.clipId, info.replaceProducer, i18n("Cannot import playlists with different profile."));
                 continue;
             }
-            m_binController->profile()->set_explicit(1);
-            producer = std::make_shared<Mlt::Producer>(*m_binController->profile(), nullptr, path.toUtf8().constData());
+            pCore->getCurrentProfile()->set_explicit(1);
+            producer = std::make_shared<Mlt::Producer>(pCore->getCurrentProfile()->profile(), nullptr, path.toUtf8().constData());
         } else if (type == SlideShow) {
-            producer = std::make_shared<Mlt::Producer>(*m_binController->profile(), nullptr, path.toUtf8().constData());
+            producer = std::make_shared<Mlt::Producer>(pCore->getCurrentProfile()->profile(), nullptr, path.toUtf8().constData());
         } else if (!url.isValid()) {
             // WARNING: when is this case used? Not sure it is working.. JBM/
             QDomDocument doc;
@@ -272,9 +268,9 @@ void ProducerQueue::processFileProperties()
             track.setAttribute(QStringLiteral("producer"), QStringLiteral("playlist0"));
             tractor.appendChild(track);
             mlt.appendChild(tractor);
-            producer = std::make_shared<Mlt::Producer>(*m_binController->profile(), "xml-string", doc.toString().toUtf8().constData());
+            producer = std::make_shared<Mlt::Producer>(pCore->getCurrentProfile()->profile(), "xml-string", doc.toString().toUtf8().constData());
         } else {
-            producer = std::make_shared<Mlt::Producer>(*m_binController->profile(), nullptr, path.toUtf8().constData());
+            producer = std::make_shared<Mlt::Producer>(pCore->getCurrentProfile()->profile(), nullptr, path.toUtf8().constData());
             if (producer->is_valid() && info.xml.hasAttribute(QStringLiteral("checkProfile")) && producer->get_int("video_index") > -1) {
                 // Check if clip profile matches
                 QString service = producer->get("mlt_service");
@@ -284,7 +280,7 @@ void ProducerQueue::processFileProperties()
                     int width = producer->get_int("meta.media.width");
                     int height = producer->get_int("meta.media.height");
                     if (width > 100 && height > 100) {
-                        MltVideoProfile projectProfile = ProfilesDialog::getVideoProfile(*m_binController->profile());
+                        MltVideoProfile projectProfile = ProfilesDialog::getVideoProfile(pCore->getCurrentProfile()->profile());
                         projectProfile.width = width;
                         projectProfile.height = height;
                         projectProfile.sample_aspect_num = 1;
@@ -305,8 +301,8 @@ void ProducerQueue::processFileProperties()
                     if (KdenliveSettings::gpu_accel()) {
                         Clip clp(*producer);
                         Mlt::Producer *glProd = clp.softClone(ClipController::getPassPropertiesList());
-                        Mlt::Filter scaler(*m_binController->profile(), "swscale");
-                        Mlt::Filter converter(*m_binController->profile(), "avcolor_space");
+                        Mlt::Filter scaler(pCore->getCurrentProfile()->profile(), "swscale");
+                        Mlt::Filter converter(pCore->getCurrentProfile()->profile(), "avcolor_space");
                         glProd->attach(scaler);
                         glProd->attach(converter);
                         blankProfile->from_producer(*glProd);
@@ -315,7 +311,7 @@ void ProducerQueue::processFileProperties()
                         blankProfile->from_producer(*producer);
                     }
                     MltVideoProfile clipProfile = ProfilesDialog::getVideoProfile(*blankProfile);
-                    MltVideoProfile projectProfile = ProfilesDialog::getVideoProfile(*m_binController->profile());
+                    MltVideoProfile projectProfile = ProfilesDialog::getVideoProfile(pCore->getCurrentProfile()->profile());
                     clipProfile.adjustWidth();
                     if (clipProfile != projectProfile) {
                         // Profiles do not match, propose profile adjustment
@@ -458,7 +454,7 @@ void ProducerQueue::processFileProperties()
             producer->set("templatetext", info.xml.attribute(QStringLiteral("templatetext")).toUtf8().constData());
         }
 
-        int fullWidth = info.imageHeight * m_binController->profile()->dar() + 0.5;
+        int fullWidth = info.imageHeight * pCore->getCurrentDar() + 0.5;
         int frameNumber = ProjectClip::getXmlProperty(info.xml, QStringLiteral("kdenlive:thumbnailFrame"), QStringLiteral("-1")).toInt();
         producer->set("kdenlive:id", info.clipId.toUtf8().constData());
 
@@ -475,8 +471,8 @@ void ProducerQueue::processFileProperties()
                     if (frameNumber > 0) {
                         glProd->seek(frameNumber);
                     }
-                    Mlt::Filter scaler(*m_binController->profile(), "swscale");
-                    Mlt::Filter converter(*m_binController->profile(), "avcolor_space");
+                    Mlt::Filter scaler(pCore->getCurrentProfile()->profile(), "swscale");
+                    Mlt::Filter converter(pCore->getCurrentProfile()->profile(), "avcolor_space");
                     glProd->attach(scaler);
                     glProd->attach(converter);
                     frame = glProd->get_frame();
@@ -529,13 +525,13 @@ void ProducerQueue::processFileProperties()
             int ttl = EffectsList::property(info.xml, QStringLiteral("ttl")).toInt();
             QString anim = EffectsList::property(info.xml, QStringLiteral("animation"));
             if (!anim.isEmpty()) {
-                auto *filter = new Mlt::Filter(*m_binController->profile(), "affine");
+                auto *filter = new Mlt::Filter(pCore->getCurrentProfile()->profile(), "affine");
                 if ((filter != nullptr) && filter->is_valid()) {
                     int cycle = ttl;
                     QString geometry = SlideshowClip::animationToGeometry(anim, cycle);
                     if (!geometry.isEmpty()) {
                         if (anim.contains(QStringLiteral("low-pass"))) {
-                            auto *blur = new Mlt::Filter(*m_binController->profile(), "boxblur");
+                            auto *blur = new Mlt::Filter(pCore->getCurrentProfile()->profile(), "boxblur");
                             if ((blur != nullptr) && blur->is_valid()) {
                                 producer->attach(*blur);
                             }
@@ -549,7 +545,7 @@ void ProducerQueue::processFileProperties()
             QString fade = EffectsList::property(info.xml, QStringLiteral("fade"));
             if (fade == QLatin1String("1")) {
                 // user wants a fade effect to slideshow
-                auto *filter = new Mlt::Filter(*m_binController->profile(), "luma");
+                auto *filter = new Mlt::Filter(pCore->getCurrentProfile()->profile(), "luma");
                 if ((filter != nullptr) && filter->is_valid()) {
                     if (ttl != 0) {
                         filter->set("cycle", ttl);
@@ -573,7 +569,7 @@ void ProducerQueue::processFileProperties()
             QString crop = EffectsList::property(info.xml, QStringLiteral("crop"));
             if (crop == QLatin1String("1")) {
                 // user wants to center crop the slides
-                auto *filter = new Mlt::Filter(*m_binController->profile(), "crop");
+                auto *filter = new Mlt::Filter(pCore->getCurrentProfile()->profile(), "crop");
                 if ((filter != nullptr) && filter->is_valid()) {
                     filter->set("center", 1);
                     producer->attach(*filter);
@@ -601,7 +597,7 @@ void ProducerQueue::processFileProperties()
                 delete tmpProd;
                 tmpProd = new Mlt::Producer(original_profile, nullptr, path.toUtf8().constData());
                 int originalLength = tmpProd->get_length();
-                int fixedLength = (int)(originalLength * m_binController->profile()->fps() / originalFps);
+                int fixedLength = (int)(originalLength * pCore->getCurrentFps() / originalFps);
                 producer->set("length", fixedLength);
                 producer->set("out", fixedLength - 1);
             }
@@ -675,8 +671,8 @@ void ProducerQueue::processFileProperties()
                     delete frame;
                     Clip clp(*producer);
                     Mlt::Producer *glProd = clp.softClone(ClipController::getPassPropertiesList());
-                    Mlt::Filter scaler(*m_binController->profile(), "swscale");
-                    Mlt::Filter converter(*m_binController->profile(), "avcolor_space");
+                    Mlt::Filter scaler(pCore->getCurrentProfile()->profile(), "swscale");
+                    Mlt::Filter converter(pCore->getCurrentProfile()->profile(), "avcolor_space");
                     glProd->attach(scaler);
                     glProd->attach(converter);
                     frame = glProd->get_frame();
@@ -723,8 +719,8 @@ void ProducerQueue::processFileProperties()
                         delete frame;
                         Clip clp(*producer);
                         tmpProd = std::shared_ptr<Mlt::Producer>(clp.softClone(ClipController::getPassPropertiesList()));
-                        Mlt::Filter scaler(*m_binController->profile(), "swscale");
-                        Mlt::Filter converter(*m_binController->profile(), "avcolor_space");
+                        Mlt::Filter scaler(pCore->getCurrentProfile()->profile(), "swscale");
+                        Mlt::Filter converter(pCore->getCurrentProfile()->profile(), "avcolor_space");
                         tmpProd->attach(scaler);
                         tmpProd->attach(converter);
                         frame = tmpProd->get_frame();
@@ -914,7 +910,7 @@ void ProducerQueue::slotMultiStreamProducerFound(const QString &path, const QLis
         return;
     }
 
-    int width = 60.0 * m_binController->profile()->dar();
+    int width = 60.0 * pCore->getCurrentDar();
     if (width % 2 == 1) {
         width++;
     }
@@ -939,7 +935,7 @@ void ProducerQueue::slotMultiStreamProducerFound(const QString &path, const QLis
     QList<KComboBox *> comboList;
     // We start loading the list at 1, video index 0 should already be loaded
     for (int j = 1; j < video_list.count(); ++j) {
-        Mlt::Producer multiprod(*m_binController->profile(), path.toUtf8().constData());
+        Mlt::Producer multiprod(pCore->getCurrentProfile()->profile(), path.toUtf8().constData());
         multiprod.set("video_index", video_list.at(j));
         QImage thumb = KThumb::getFrame(&multiprod, 0, width, 60);
         QGroupBox *streamFrame = new QGroupBox(i18n("Video stream %1", video_list.at(j)), mainWidget);

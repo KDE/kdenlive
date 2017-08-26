@@ -60,7 +60,6 @@ public:
     /** @brief Change an MLT consumer property for both monitors. */
     void setConsumerProperty(const QString &name, const QString &value);
     BinController *binController();
-    Mlt::Profile *profile();
     /** @brief Return a mainwindow action from its id name. */
     QAction *getAction(const QString &name);
     Monitor *clipMonitor();
