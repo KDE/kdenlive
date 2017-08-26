@@ -28,7 +28,10 @@
 #include <sys/ioctl.h>
 #include <sys/stat.h>
 #include <sys/time.h>
-#include <sys/types.h>
+#if defined(Q_OS_LINUX)
+#include <asm/types.h>
+#endif
+#include <fcntl.h>
 #include <unistd.h>
 
 #include "mediactrl.h"
