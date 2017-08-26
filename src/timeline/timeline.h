@@ -138,7 +138,7 @@ public:
     int changeClipSpeed(const ItemInfo &info, const ItemInfo &speedIndependantInfo, PlaylistState::ClipState state, double speed, int strobe,
                         Mlt::Producer *originalProd, bool removeEffect = false);
     /** @brief Set an effect's XML accordingly to MLT::filter values. */
-    static void setParam(ProfileInfo info, QDomElement param, const QString &value);
+    static void setParam(QDomElement param, const QString &value);
     int getTracks();
     void getTransitions();
     void refreshTractor();

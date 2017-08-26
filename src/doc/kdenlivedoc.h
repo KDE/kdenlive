@@ -87,7 +87,6 @@ public:
 
     /** @brief Returns current project profile. */
     MltVideoProfile mltProfile() const;
-    ProfileInfo getProfileInfo() const;
     const QString description() const;
     void setUrl(const QUrl &url);
 

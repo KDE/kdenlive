@@ -161,14 +161,14 @@ public:
     QPoint zone() const;
     bool hasLimitedDuration() const;
     Mlt::Properties &properties();
-    void initEffect(const ProfileInfo &pInfo, QDomElement &xml);
-    void addEffect(const ProfileInfo &pInfo, QDomElement &xml);
+    void initEffect(QDomElement &xml);
+    void addEffect(QDomElement &xml);
     bool copyEffect(std::shared_ptr<EffectStackModel> stackModel, int rowId);
     void removeEffect(int effectIndex, bool delayRefresh = false);
     EffectsList effectList();
     /** @brief Enable/disable an effect. */
     void changeEffectState(const QList<int> &indexes, bool disable);
-    void updateEffect(const ProfileInfo &pInfo, const QDomElement &e, int ix);
+    void updateEffect(const QDomElement &e, int ix);
     /** @brief Returns true if the bin clip has effects */
     bool hasEffects() const;
     /** @brief Returns info about clip audio */

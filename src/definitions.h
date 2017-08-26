@@ -138,11 +138,6 @@ public:
     }
 };
 
-struct ProfileInfo
-{
-    QSize profileSize;
-    double profileFps;
-};
 
 struct requestClipInfo
 {

@@ -2931,7 +2931,7 @@ void Bin::slotGotFilterJobResults(const QString &id, int startPos, int track, co
                     EffectsList::setParameter(newEffect, i.key(), i.value());
                     ++i;
                 }
-                ctl->updateEffect(pCore->monitorManager()->projectMonitor()->profileInfo(), newEffect, effect.attribute(QStringLiteral("kdenlive_ix")).toInt());
+                ctl->updateEffect(newEffect, effect.attribute(QStringLiteral("kdenlive_ix")).toInt());
                 emit requestClipShow(currentItem);
                 // TODO use undo / redo for bin clip edit effect
                 /*EditEffectCommand *command = new EditEffectCommand(this, clip->track(), clip->startPos(), effect, newEffect, clip->selectedEffectIndex(),

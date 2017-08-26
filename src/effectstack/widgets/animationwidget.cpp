@@ -1471,7 +1471,7 @@ QString AnimationWidget::defaultValue(const QString &paramName)
         if (m_params.at(i).attribute(QStringLiteral("name")) == paramName) {
             QString def = m_params.at(i).attribute(QStringLiteral("default"));
             if (def.contains(QLatin1Char('%'))) {
-                def = EffectsController::getStringRectEval(m_monitor->profileInfo(), def);
+                def = EffectsController::getStringRectEval(def);
             }
             return def;
         }

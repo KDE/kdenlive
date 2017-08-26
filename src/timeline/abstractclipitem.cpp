@@ -432,7 +432,7 @@ void AbstractClipItem::editKeyframeType(const QDomElement &effect, int type)
     }
 }
 
-void AbstractClipItem::insertKeyframe(ProfileInfo profile, QDomElement effect, int pos, double val, bool defaultValue)
+void AbstractClipItem::insertKeyframe(QDomElement effect, int pos, double val, bool defaultValue)
 {
     if (effect.attribute(QStringLiteral("disable")) == QLatin1String("1")) {
         return;
@@ -452,7 +452,7 @@ void AbstractClipItem::insertKeyframe(ProfileInfo profile, QDomElement effect, i
                 continue;
             }
             if (defaultValue) {
-                m_keyframeView.addDefaultKeyframe(profile, pos, m_keyframeView.type(pos));
+                m_keyframeView.addDefaultKeyframe(pos, m_keyframeView.type(pos));
             } else {
                 m_keyframeView.addKeyframe(pos, val, m_keyframeView.type(pos));
             }

@@ -197,9 +197,9 @@ int ClipItem::selectedEffectIndex() const
     return m_selectedEffect;
 }
 
-void ClipItem::initEffect(ProfileInfo pInfo, const QDomElement &effect, int diff, int offset)
+void ClipItem::initEffect(const QDomElement &effect, int diff, int offset)
 {
-    EffectsController::initEffect(m_info, pInfo, m_effectList, m_binClip->getProducerProperty(QStringLiteral("proxy")), effect, diff, offset);
+    EffectsController::initEffect(m_info, m_effectList, m_binClip->getProducerProperty(QStringLiteral("proxy")), effect, diff, offset);
 }
 
 bool ClipItem::checkKeyFrames(int width, int height, int previousDuration, int cutPos)
@@ -1028,7 +1028,7 @@ bool ClipItem::moveEffect(QDomElement effect, int ix)
     return true;
 }
 
-EffectsParameterList ClipItem::addEffect(ProfileInfo info, QDomElement effect, bool animate)
+EffectsParameterList ClipItem::addEffect(QDomElement effect, bool animate)
 {
     bool needRepaint = false;
     QLocale locale;
@@ -1177,7 +1177,7 @@ EffectsParameterList ClipItem::addEffect(ProfileInfo info, QDomElement effect, b
             } else {
                 double fact;
                 if (e.attribute(QStringLiteral("factor")).contains(QLatin1Char('%'))) {
-                    fact = EffectsController::getStringEval(info, e.attribute(QStringLiteral("factor")));
+                    fact = EffectsController::getStringEval(e.attribute(QStringLiteral("factor")));
                 } else {
                     fact = locale.toDouble(e.attribute(QStringLiteral("factor"), QStringLiteral("1")));
                 }

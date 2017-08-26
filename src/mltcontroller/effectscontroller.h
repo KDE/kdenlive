@@ -88,26 +88,26 @@ public:
 
 namespace EffectsController {
 /** @brief Gets the effect parameters that will be passed to Mlt. */
-EffectsParameterList getEffectArgs(const ProfileInfo &info, const QDomElement &effect);
+EffectsParameterList getEffectArgs(const QDomElement &effect);
 
 /** @brief Get effect parameters ready for MLT*/
-void adjustEffectParameters(EffectsParameterList &parameters, const QDomNodeList &params, const ProfileInfo &info, const QString &prefix = QString());
+void adjustEffectParameters(EffectsParameterList &parameters, const QDomNodeList &params, const QString &prefix = QString());
 
 /** @brief Returns an value from a string by replacing "%width" and "%height" with given profile values:
  *  @param info The struct that gives width & height
  *  @param eval The string to be evaluated, for example: "%width / 2"
  *  @return the evaluated value */
-double getStringEval(const ProfileInfo &info, QString eval, const QPoint &frameSize = QPoint());
-QString getStringRectEval(const ProfileInfo &info, QString eval);
+double getStringEval(QString eval, const QPoint &frameSize = QPoint());
+QString getStringRectEval(QString eval);
 
 /** @brief Initialize some track effects parameters */
-void initTrackEffect(ProfileInfo pInfo, const QDomElement &effect);
+void initTrackEffect(const QDomElement &effect);
 /** @brief Initialize some effects parameters: keyframes, fades, in / out points  */
-void initEffect(const ItemInfo &info, ProfileInfo pInfo, const EffectsList &list, const QString &proxy, QDomElement effect, int diff = 0, int offset = 0);
+void initEffect(const ItemInfo &info, const EffectsList &list, const QString &proxy, QDomElement effect, int diff = 0, int offset = 0);
 
 /** @brief Adjust keyframes to the new clip. */
-const QString adjustKeyframes(const QString &keyframes, int oldIn, int newIn, int newEnd, ProfileInfo pInfo);
-EffectsParameterList addEffect(const ProfileInfo &info, const QDomElement &effect);
+const QString adjustKeyframes(const QString &keyframes, int oldIn, int newIn, int newEnd);
+EffectsParameterList addEffect(const QDomElement &effect);
 
 /** @brief Keyframe frame numbers are relative to clip's crop start. So when saving an effect, remove clip cropstart from keyframe numbers so that when we apply
  * effect on another clip, frame numbers are applied relative to the new clip's crop start. */

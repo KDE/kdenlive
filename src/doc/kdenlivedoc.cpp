@@ -693,14 +693,6 @@ bool KdenliveDoc::profileChanged(const QString &profile) const
     return pCore->getCurrentProfile() != ProfileRepository::get()->getProfile(profile);
 }
 
-ProfileInfo KdenliveDoc::getProfileInfo() const
-{
-    ProfileInfo info;
-    info.profileSize = pCore->getCurrentFrameSize();
-    info.profileFps = pCore->getCurrentFps();
-    return info;
-}
-
 Render *KdenliveDoc::renderer()
 {
     return nullptr;

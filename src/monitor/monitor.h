@@ -117,8 +117,6 @@ public:
     QString getMarkerThumb(GenTime pos);
     /** @brief Get current project's folder */
     const QString projectFolder() const;
-    /** @brief Get the project's profile info*/
-    ProfileInfo profileInfo() const;
     /** @brief Get the project's Mlt profile */
     Mlt::Profile *profile();
     int getZoneStart();

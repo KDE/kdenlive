@@ -23,6 +23,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "effectscontroller.h"
 #include "dialogs/profilesdialog.h"
 #include "effectstack/widgets/animationwidget.h"
+#include "core.h"
+#include "profiles/profilemodel.hpp"
 
 #include "kdenlive_debug.h"
 
@@ -124,7 +126,7 @@ void EffectsParameterList::removeParam(const QString &name)
         }
 }
 
-EffectsParameterList EffectsController::getEffectArgs(const ProfileInfo &info, const QDomElement &effect)
+EffectsParameterList EffectsController::getEffectArgs(const QDomElement &effect)
 {
     EffectsParameterList parameters;
     parameters.addParam(QStringLiteral("tag"), effect.attribute(QStringLiteral("tag")));
@@ -152,16 +154,16 @@ EffectsParameterList EffectsController::getEffectArgs(const ProfileInfo &info, c
             parameters.addParam(QStringLiteral("filter%1.tag").arg(subeffectix), subeffect.attribute(QStringLiteral("tag")));
             parameters.addParam(QStringLiteral("filter%1.kdenlive_info").arg(subeffectix), subeffect.attribute(QStringLiteral("kdenlive_info")));
             QDomNodeList subparams = subeffect.elementsByTagName(QStringLiteral("parameter"));
-            adjustEffectParameters(parameters, subparams, info, QStringLiteral("filter%1.").arg(subeffectix));
+            adjustEffectParameters(parameters, subparams, QStringLiteral("filter%1.").arg(subeffectix));
         }
     }
 
     QDomNodeList params = effect.elementsByTagName(QStringLiteral("parameter"));
-    adjustEffectParameters(parameters, params, info);
+    adjustEffectParameters(parameters, params);
     return parameters;
 }
 
-void EffectsController::adjustEffectParameters(EffectsParameterList &parameters, const QDomNodeList &params, const ProfileInfo &info, const QString &prefix)
+void EffectsController::adjustEffectParameters(EffectsParameterList &parameters, const QDomNodeList &params, const QString &prefix)
 {
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
@@ -220,7 +222,7 @@ void EffectsController::adjustEffectParameters(EffectsParameterList &parameters,
                 e.attribute(QStringLiteral("offset"), QStringLiteral("0")) != QLatin1String("0")) {
                 double fact;
                 if (e.attribute(QStringLiteral("factor")).contains(QLatin1Char('%'))) {
-                    fact = getStringEval(info, e.attribute(QStringLiteral("factor")));
+                    fact = getStringEval(e.attribute(QStringLiteral("factor")));
                 } else {
                     fact = locale.toDouble(e.attribute(QStringLiteral("factor"), QStringLiteral("1")));
                 }
@@ -233,25 +235,25 @@ void EffectsController::adjustEffectParameters(EffectsParameterList &parameters,
     }
 }
 
-double EffectsController::getStringEval(const ProfileInfo &info, QString eval, const QPoint &frameSize)
+double EffectsController::getStringEval(QString eval, const QPoint &frameSize)
 {
-    eval.replace(QLatin1String("%maxWidth"), QString::number(info.profileSize.width() > frameSize.x() ? info.profileSize.width() : frameSize.x()))
-        .replace(QLatin1String("%maxHeight"), QString::number(info.profileSize.height() > frameSize.y() ? info.profileSize.height() : frameSize.y()))
-        .replace(QLatin1String("%width"), QString::number(info.profileSize.width()))
-        .replace(QLatin1String("%height"), QString::number(info.profileSize.height()));
+    eval.replace(QLatin1String("%maxWidth"), QString::number(pCore->getCurrentProfile()->width() > frameSize.x() ? pCore->getCurrentProfile()->width() : frameSize.x()))
+        .replace(QLatin1String("%maxHeight"), QString::number(pCore->getCurrentProfile()->height() > frameSize.y() ? pCore->getCurrentProfile()->height() : frameSize.y()))
+        .replace(QLatin1String("%width"), QString::number(pCore->getCurrentProfile()->width()))
+        .replace(QLatin1String("%height"), QString::number(pCore->getCurrentProfile()->height()));
     Mlt::Properties p;
     p.set("eval", eval.toLatin1().constData());
     return p.get_double("eval");
 }
 
-QString EffectsController::getStringRectEval(const ProfileInfo &info, QString eval)
+QString EffectsController::getStringRectEval(QString eval)
 {
-    eval.replace(QStringLiteral("%width"), QString::number(info.profileSize.width()));
-    eval.replace(QStringLiteral("%height"), QString::number(info.profileSize.height()));
+    eval.replace(QStringLiteral("%width"), QString::number(pCore->getCurrentProfile()->width()));
+    eval.replace(QStringLiteral("%height"), QString::number(pCore->getCurrentProfile()->height()));
     return eval;
 }
 
-void EffectsController::initTrackEffect(ProfileInfo pInfo, const QDomElement &effect)
+void EffectsController::initTrackEffect(const QDomElement &effect)
 {
     QDomNodeList params = effect.elementsByTagName(QStringLiteral("parameter"));
     for (int i = 0; i < params.count(); ++i) {
@@ -267,11 +269,11 @@ void EffectsController::initTrackEffect(ProfileInfo pInfo, const QDomElement &ef
         if ((type == QLatin1String("animatedrect") || type == QLatin1String("geometry")) && !hasValue) {
             QString kfr = AnimationWidget::getDefaultKeyframes(0, e.attribute(QStringLiteral("default")), type == QLatin1String("geometry"));
             if (kfr.contains(QLatin1String("%"))) {
-                kfr = EffectsController::getStringRectEval(pInfo, kfr);
+                kfr = EffectsController::getStringRectEval(kfr);
             }
             e.setAttribute(QStringLiteral("value"), kfr);
         } else if (e.attribute(QStringLiteral("default")).contains(QLatin1Char('%'))) {
-            double evaluatedValue = EffectsController::getStringEval(pInfo, e.attribute(QStringLiteral("default")));
+            double evaluatedValue = EffectsController::getStringEval(e.attribute(QStringLiteral("default")));
             e.setAttribute(QStringLiteral("default"), evaluatedValue);
             if (e.hasAttribute(QStringLiteral("value"))) {
                 if (e.attribute(QStringLiteral("value")).startsWith(QLatin1Char('%'))) {
@@ -293,7 +295,7 @@ void EffectsController::initTrackEffect(ProfileInfo pInfo, const QDomElement &ef
     }
 }
 
-void EffectsController::initEffect(const ItemInfo &info, ProfileInfo pInfo, const EffectsList &list, const QString &proxy, QDomElement effect, int diff,
+void EffectsController::initEffect(const ItemInfo &info, const EffectsList &list, const QString &proxy, QDomElement effect, int diff,
                                    int offset)
 {
     // the kdenlive_ix int is used to identify an effect in mlt's playlist, should
@@ -301,7 +303,7 @@ void EffectsController::initEffect(const ItemInfo &info, ProfileInfo pInfo, cons
     if (effect.attribute(QStringLiteral("id")) == QLatin1String("freeze") && diff > 0) {
         EffectsList::setParameter(effect, QStringLiteral("frame"), QString::number(diff));
     }
-    double fps = pInfo.profileFps;
+    double fps = pCore->getCurrentFps();
     // Init parameter value & keyframes if required
     QDomNodeList params = effect.elementsByTagName(QStringLiteral("parameter"));
     for (int i = 0; i < params.count(); ++i) {
@@ -318,11 +320,11 @@ void EffectsController::initEffect(const ItemInfo &info, ProfileInfo pInfo, cons
             int pos = type == QLatin1String("geometry") ? 0 : info.cropStart.frames(fps);
             QString kfr = AnimationWidget::getDefaultKeyframes(pos, e.attribute(QStringLiteral("default")), type == QLatin1String("geometry"));
             if (kfr.contains(QLatin1String("%"))) {
-                kfr = EffectsController::getStringRectEval(pInfo, kfr);
+                kfr = EffectsController::getStringRectEval(kfr);
             }
             e.setAttribute(QStringLiteral("value"), kfr);
         } else if (e.attribute(QStringLiteral("default")).contains(QLatin1Char('%'))) {
-            double evaluatedValue = EffectsController::getStringEval(pInfo, e.attribute(QStringLiteral("default")));
+            double evaluatedValue = EffectsController::getStringEval(e.attribute(QStringLiteral("default")));
             e.setAttribute(QStringLiteral("default"), evaluatedValue);
             if (e.hasAttribute(QStringLiteral("value"))) {
                 if (e.attribute(QStringLiteral("value")).startsWith(QLatin1Char('%'))) {
@@ -354,7 +356,7 @@ void EffectsController::initEffect(const ItemInfo &info, ProfileInfo pInfo, cons
             } else {
                 // adjust keyframes to this clip
                 QString adjusted = adjustKeyframes(e.attribute(QStringLiteral("keyframes")), offset, info.cropStart.frames(fps),
-                                                   (info.cropStart + info.cropDuration).frames(fps) - 1, pInfo);
+                                                   (info.cropStart + info.cropDuration).frames(fps) - 1);
                 e.setAttribute(QStringLiteral("keyframes"), adjusted);
             }
         }
@@ -437,7 +439,7 @@ void EffectsController::initEffect(const ItemInfo &info, ProfileInfo pInfo, cons
     }
 }
 
-const QString EffectsController::adjustKeyframes(const QString &keyframes, int oldIn, int newIn, int newOut, ProfileInfo pInfo)
+const QString EffectsController::adjustKeyframes(const QString &keyframes, int oldIn, int newIn, int newOut)
 {
     QStringList result;
     // Simple keyframes
@@ -455,7 +457,7 @@ const QString EffectsController::adjustKeyframes(const QString &keyframes, int o
                 // Find correct interpolated value
                 Mlt::Geometry geom;
                 int framePos = oldIn + max;
-                geom.parse(keyframes.toUtf8().data(), newOut, pInfo.profileSize.rwidth(), pInfo.profileSize.rheight());
+                geom.parse(keyframes.toUtf8().data(), newOut, pCore->getCurrentProfile()->width(), pCore->getCurrentProfile()->height());
                 Mlt::GeometryItem item;
                 geom.fetch(&item, framePos);
                 const QString lastKey = QString::number(newIn + max) + QLatin1Char('=') + locale.toString(item.x());
@@ -468,7 +470,7 @@ const QString EffectsController::adjustKeyframes(const QString &keyframes, int o
     return result.join(QLatin1Char(';'));
 }
 
-EffectsParameterList EffectsController::addEffect(const ProfileInfo &info, const QDomElement &effect)
+EffectsParameterList EffectsController::addEffect(const QDomElement &effect)
 {
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
@@ -522,7 +524,7 @@ EffectsParameterList EffectsController::addEffect(const ProfileInfo &info, const
             } else {
                 double fact;
                 if (e.attribute(QStringLiteral("factor")).contains(QLatin1Char('%'))) {
-                    fact = EffectsController::getStringEval(info, e.attribute(QStringLiteral("factor")));
+                    fact = EffectsController::getStringEval(e.attribute(QStringLiteral("factor")));
                 } else {
                     fact = locale.toDouble(e.attribute(QStringLiteral("factor"), QStringLiteral("1")));
                 }

@@ -26,6 +26,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "keyframeview.h"
 #include "mltcontroller/effectscontroller.h"
+#include "core.h"
+#include "profiles/profilemodel.hpp"
 
 KeyframeView::KeyframeView(int handleSize, QObject *parent)
     : QObject(parent)
@@ -456,13 +458,13 @@ QString KeyframeView::getSingleAnimation(int ix, int in, int out, int offset, in
     return result;
 }
 
-QString KeyframeView::getOffsetAnimation(int in, int out, int offset, int limitKeyframes, ProfileInfo profile, bool allowAnimation, bool positionOnly,
+QString KeyframeView::getOffsetAnimation(int in, int out, int offset, int limitKeyframes, bool allowAnimation, bool positionOnly,
                                          QPoint rectOffset)
 {
     m_keyProperties.set("kdenlive_import", "");
     int newduration = out - in + offset;
-    int pWidth = profile.profileSize.width();
-    int pHeight = profile.profileSize.height();
+    int pWidth = pCore->getCurrentProfile()->width();
+    int pHeight = pCore->getCurrentProfile()->height();
     m_keyProperties.anim_get_double("kdenlive_import", 0, newduration);
     Mlt::Animation anim = m_keyProperties.get_animation("kdenlive_import");
     mlt_keyframe_type kftype = (limitKeyframes > 0 && allowAnimation) ? mlt_keyframe_smooth : mlt_keyframe_linear;
@@ -665,7 +667,7 @@ void KeyframeView::addKeyframe(int frame, double value, mlt_keyframe_type type)
     }
 }
 
-void KeyframeView::addDefaultKeyframe(ProfileInfo profile, int frame, mlt_keyframe_type type)
+void KeyframeView::addDefaultKeyframe(int frame, mlt_keyframe_type type)
 {
     double value = m_keyframeDefault;
     if (m_keyAnim.key_count() == 1 && frame != m_keyAnim.key_get_frame(0)) {
@@ -690,7 +692,7 @@ void KeyframeView::addDefaultKeyframe(ProfileInfo profile, int frame, mlt_keyfra
             // this is probably an animated rect
             QString defaultVal = info.defaultValue;
             if (defaultVal.contains(QLatin1Char('%'))) {
-                defaultVal = EffectsController::getStringRectEval(profile, defaultVal).simplified();
+                defaultVal = EffectsController::getStringRectEval(defaultVal).simplified();
             }
             mlt_rect rect;
             rect.x = locale.toDouble(defaultVal.section(QLatin1Char(' '), 0, 0));

@@ -35,12 +35,13 @@
 #include "effectstack/widgets/positionwidget.h"
 #include "keyframeimport.h"
 #include "timeline/keyframeview.h"
+#include "core.h"
+#include "profiles/profilemodel.hpp"
 
 KeyframeImport::KeyframeImport(const ItemInfo &srcInfo, const ItemInfo &dstInfo, const QMap<QString, QString> &data, const Timecode &tc, const QDomElement &xml,
-                               const ProfileInfo &profile, QWidget *parent)
+                               QWidget *parent)
     : QDialog(parent)
     , m_xml(xml)
-    , m_profile(profile)
     , m_supportsAnim(false)
 {
     auto *lay = new QVBoxLayout(this);
@@ -275,8 +276,8 @@ void KeyframeImport::updateRange()
             break;
         }
     } else {
-        int profileWidth = m_profile.profileSize.width();
-        int profileHeight = m_profile.profileSize.height();
+        int profileWidth = pCore->getCurrentProfile()->width();
+        int profileHeight = pCore->getCurrentProfile()->height();
         switch (pos) {
         case 0:
             rangeText = i18n("Source range %1 to %2", qMin(0, m_maximas.at(0).x()), qMax(profileWidth, m_maximas.at(0).y()));
@@ -327,8 +328,9 @@ void KeyframeImport::updateDestinationRange()
         }
     } else {
         // TODO
-        m_destMin.setRange(0, m_profile.profileSize.width());
-        m_destMax.setRange(0, m_profile.profileSize.width());
+        int profileWidth = pCore->getCurrentProfile()->width();
+        m_destMin.setRange(0, profileWidth);
+        m_destMax.setRange(0, profileWidth);
         m_destMin.setEnabled(false);
         m_destMax.setEnabled(false);
         m_limitRange->setEnabled(false);
@@ -342,8 +344,8 @@ void KeyframeImport::updateDisplay()
     auto *painter = new QPainter(&pix);
     QList<QPoint> maximas;
     int selectedtarget = m_sourceCombo->currentData().toInt();
-    int profileWidth = m_profile.profileSize.width();
-    int profileHeight = m_profile.profileSize.height();
+    int profileWidth = pCore->getCurrentProfile()->width();
+    int profileHeight = pCore->getCurrentProfile()->height();
     if (!m_maximas.isEmpty()) {
         if (m_maximas.at(0).x() == m_maximas.at(0).y() || (selectedtarget < 10 && selectedtarget != 0)) {
             maximas << QPoint();
@@ -409,10 +411,10 @@ QString KeyframeImport::selectedData() const
             maximas = m_maximas.at(ix);
         } else if (ix == 0 || ix == 2) {
             // Width maximas
-            maximas = QPoint(qMin(m_maximas.at(ix).x(), 0), qMax(m_maximas.at(ix).y(), m_profile.profileSize.width()));
+            maximas = QPoint(qMin(m_maximas.at(ix).x(), 0), qMax(m_maximas.at(ix).y(), pCore->getCurrentProfile->width()));
         } else {
             // Height maximas
-            maximas = QPoint(qMin(m_maximas.at(ix).x(), 0), qMax(m_maximas.at(ix).y(), m_profile.profileSize.height()));
+            maximas = QPoint(qMin(m_maximas.at(ix).x(), 0), qMax(m_maximas.at(ix).y(), pCore->getCurrentProfile->height()));
         }
         return m_keyframeView->getSingleAnimation(ix, m_inPoint->getPosition(), m_outPoint->getPosition(), m_offsetPoint->getPosition(),
                                                   m_limitKeyframes->isChecked() ? m_limitNumber->value() : 0, maximas, m_destMin.value(), m_destMax.value());
@@ -423,16 +425,16 @@ QString KeyframeImport::selectedData() const
     int ix = m_alignCombo->currentIndex();
     switch (ix) {
     case 1:
-        rectOffset = QPoint(m_profile.profileSize.width() / 2, m_profile.profileSize.height() / 2);
+        rectOffset = QPoint(pCore->getCurrentProfile->width() / 2, pCore->getCurrentProfile->height() / 2);
         break;
     case 2:
-        rectOffset = QPoint(m_profile.profileSize.width(), m_profile.profileSize.height());
+        rectOffset = QPoint(pCore->getCurrentProfile->width(), pCore->getCurrentProfile->height());
         break;
     default:
         break;
     }
     return m_keyframeView->getOffsetAnimation(m_inPoint->getPosition(), m_outPoint->getPosition(), m_offsetPoint->getPosition(),
-                                              m_limitKeyframes->isChecked() ? m_limitNumber->value() : 0, m_profile, m_supportsAnim, pos == 11, rectOffset);
+                                              m_limitKeyframes->isChecked() ? m_limitNumber->value() : 0, m_supportsAnim, pos == 11, rectOffset);
 }
 
 QString KeyframeImport::selectedTarget() const

@@ -564,7 +564,8 @@ Mlt::Properties &ClipController::properties()
     return *m_properties;
 }
 
-void ClipController::initEffect(const ProfileInfo &pInfo, QDomElement &xml)
+// TODO REFAC: this now should be managed from effectstack
+void ClipController::initEffect(QDomElement &xml)
 {
     QMutexLocker lock(&m_effectMutex);
     Mlt::Service service = m_masterProducer->parent();
@@ -572,10 +573,10 @@ void ClipController::initEffect(const ProfileInfo &pInfo, QDomElement &xml)
     info.cropStart = GenTime();
     info.cropDuration = getPlaytime();
     EffectsList eff = effectList();
-    EffectsController::initEffect(info, pInfo, eff, getProducerProperty(QStringLiteral("kdenlive:proxy")), xml);
+    EffectsController::initEffect(info, eff, getProducerProperty(QStringLiteral("kdenlive:proxy")), xml);
 }
 
-void ClipController::addEffect(const ProfileInfo &pInfo, QDomElement &xml)
+void ClipController::addEffect(QDomElement &xml)
 {
     QMutexLocker lock(&m_effectMutex);
     Mlt::Service service = m_masterProducer->parent();
@@ -583,7 +584,7 @@ void ClipController::addEffect(const ProfileInfo &pInfo, QDomElement &xml)
     info.cropStart = GenTime();
     info.cropDuration = getPlaytime();
     EffectsList eff = effectList();
-    EffectsController::initEffect(info, pInfo, eff, getProducerProperty(QStringLiteral("kdenlive:proxy")), xml);
+    EffectsController::initEffect(info, eff, getProducerProperty(QStringLiteral("kdenlive:proxy")), xml);
     // Add effect to list and setup a kdenlive_ix value
     int kdenlive_ix = 0;
     for (int i = 0; i < service.filter_count(); ++i) {
@@ -595,7 +596,7 @@ void ClipController::addEffect(const ProfileInfo &pInfo, QDomElement &xml)
     }
     kdenlive_ix++;
     xml.setAttribute(QStringLiteral("kdenlive_ix"), kdenlive_ix);
-    EffectsParameterList params = EffectsController::getEffectArgs(pInfo, xml);
+    EffectsParameterList params = EffectsController::getEffectArgs(xml);
     EffectManager effect(service);
     effect.addEffect(params, getPlaytime().frames(pCore->getCurrentFps()));
     if (auto ptr = m_binController.lock()) ptr->updateTrackProducer(m_controllerBinId);
@@ -625,6 +626,7 @@ void ClipController::moveEffect(int oldPos, int newPos)
     effect.moveEffect(oldPos, newPos);
 }
 
+
 void ClipController::reloadTrackProducers()
 {
     if (auto ptr = m_binController.lock()) ptr->updateTrackProducer(m_controllerBinId);
@@ -647,9 +649,6 @@ int ClipController::effectsCount()
 // static
 EffectsList ClipController::xmlEffectList(Mlt::Profile *profile, Mlt::Service &service)
 {
-    ProfileInfo profileinfo;
-    profileinfo.profileSize = QSize(profile->width(), profile->height());
-    profileinfo.profileFps = profile->fps();
     EffectsList effList(true);
     for (int ix = 0; ix < service.filter_count(); ++ix) {
         QScopedPointer<Mlt::Filter> effect(service.filter(ix));
@@ -662,7 +661,8 @@ EffectsList ClipController::xmlEffectList(Mlt::Profile *profile, Mlt::Service &s
         }
         for (int i = 0; i < params.count(); ++i) {
             QDomElement param = params.item(i).toElement();
-            Timeline::setParam(profileinfo, param, effect->get(param.attribute(QStringLiteral("name")).toUtf8().constData()));
+            // Useless?
+            Timeline::setParam(param, effect->get(param.attribute(QStringLiteral("name")).toUtf8().constData()));
         }
         effList.append(currenteffect);
     }
@@ -681,17 +681,17 @@ void ClipController::changeEffectState(const QList<int> &indexes, bool disable)
     if (auto ptr = m_binController.lock()) ptr->updateTrackProducer(m_controllerBinId);
 }
 
-void ClipController::updateEffect(const ProfileInfo &pInfo, const QDomElement &e, int ix)
+void ClipController::updateEffect(const QDomElement &e, int ix)
 {
     QString tag = e.attribute(QStringLiteral("id"));
     if (tag == QLatin1String("autotrack_rectangle") || tag.startsWith(QLatin1String("ladspa")) || tag == QLatin1String("sox")) {
         // this filters cannot be edited, remove and re-add it
         removeEffect(ix, true);
         QDomElement clone = e.cloneNode().toElement();
-        addEffect(pInfo, clone);
+        addEffect(clone);
         return;
     }
-    EffectsParameterList params = EffectsController::getEffectArgs(pInfo, e);
+    EffectsParameterList params = EffectsController::getEffectArgs(e);
     Mlt::Service service = m_masterProducer->parent();
     for (int i = 0; i < service.filter_count(); ++i) {
         QScopedPointer<Mlt::Filter> effect(service.filter(i));

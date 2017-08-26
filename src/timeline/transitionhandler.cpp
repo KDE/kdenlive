@@ -122,10 +122,7 @@ QMap<QString, QString> TransitionHandler::getTransitionParamsFromXml(const QDomE
                 }
             } else {
                 if (defaultValue.contains(QLatin1Char('%'))) {
-                    ProfileInfo pInfo;
-                    pInfo.profileSize = QSize(m_tractor->profile()->width(), m_tractor->profile()->height());
-                    pInfo.profileFps = m_tractor->profile()->fps();
-                    defaultValue = EffectsController::getStringRectEval(pInfo, defaultValue);
+                    defaultValue = EffectsController::getStringRectEval(defaultValue);
                 }
                 map[name] = defaultValue;
             }

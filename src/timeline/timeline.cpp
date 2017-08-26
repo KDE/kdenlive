@@ -522,7 +522,7 @@ void Timeline::adjustDouble(QDomElement &e, const QString &value)
     double offset = locale.toDouble(e.attribute(QStringLiteral("offset"), QStringLiteral("0")));
     double fact = 1;
     if (factor.contains(QLatin1Char('%'))) {
-        fact = EffectsController::getStringEval(m_doc->getProfileInfo(), factor);
+        fact = EffectsController::getStringEval(factor);
     } else {
         fact = locale.toDouble(factor);
     }
@@ -1098,7 +1098,7 @@ int Timeline::loadTrack(int ix, int offset, Mlt::Playlist &playlist, int start, 
             QDomElement speedeffect = MainWindow::videoEffects.getEffectByTag(QString(), QStringLiteral("speed")).cloneNode().toElement();
             EffectsList::setParameter(speedeffect, QStringLiteral("speed"), QString::number((int)(100 * slowInfo.speed + 0.5)));
             EffectsList::setParameter(speedeffect, QStringLiteral("strobe"), QString::number(slowInfo.strobe));
-            item->addEffect(m_doc->getProfileInfo(), speedeffect, false);
+            item->addEffect(speedeffect, false);
         }
         // parse clip effects
         getEffects(*clip, item);
@@ -1137,13 +1137,12 @@ void Timeline::getEffects(Mlt::Service &service, ClipItem *clip, int track)
         QDomNodeList clipeffectparams = currenteffect.childNodes();
 
         QDomNodeList params = currenteffect.elementsByTagName(QStringLiteral("parameter"));
-        ProfileInfo info = m_doc->getProfileInfo();
         for (int i = 0; i < params.count(); ++i) {
             QDomElement e = params.item(i).toElement();
             if (e.attribute(QStringLiteral("type")) == QLatin1String("keyframe")) {
                 e.setAttribute(QStringLiteral("keyframes"), getKeyframes(service, ix, e));
             } else {
-                setParam(info, e, effect->get(e.attribute(QStringLiteral("name")).toUtf8().constData()));
+                setParam(e, effect->get(e.attribute(QStringLiteral("name")).toUtf8().constData()));
             }
         }
 
@@ -1161,7 +1160,7 @@ void Timeline::getEffects(Mlt::Service &service, ClipItem *clip, int track)
             getSubfilters(effect.data(), currenteffect);
         }
         if (clip) {
-            clip->addEffect(m_doc->getProfileInfo(), currenteffect, false);
+            clip->addEffect(currenteffect, false);
         } else {
             addTrackEffect(track, currenteffect, false);
         }
@@ -1177,7 +1176,7 @@ QString Timeline::getKeyframes(Mlt::Service service, int &ix, const QDomElement 
     double fact, offset = locale.toDouble(e.attribute(QStringLiteral("offset"), QStringLiteral("0")));
     QString factor = e.attribute(QStringLiteral("factor"), QStringLiteral("1"));
     if (factor.contains(QLatin1Char('%'))) {
-        fact = EffectsController::getStringEval(m_doc->getProfileInfo(), factor);
+        fact = EffectsController::getStringEval(factor);
     } else {
         fact = locale.toDouble(factor);
     }
@@ -1220,17 +1219,16 @@ void Timeline::getSubfilters(Mlt::Filter *effect, QDomElement &currenteffect)
         subclipeffect.setAttribute(QStringLiteral("region_ix"), i);
         // get effect parameters (prefixed by subfilter name)
         QDomNodeList params = subclipeffect.elementsByTagName(QStringLiteral("parameter"));
-        ProfileInfo info = m_doc->getProfileInfo();
         for (int j = 0; j < params.count(); ++j) {
             QDomElement param = params.item(j).toElement();
-            setParam(info, param, effect->get((name + QLatin1Char('.') + param.attribute(QStringLiteral("name"))).toUtf8().constData()));
+            setParam(param, effect->get((name + QLatin1Char('.') + param.attribute(QStringLiteral("name"))).toUtf8().constData()));
         }
         currenteffect.appendChild(currenteffect.ownerDocument().importNode(subclipeffect, true));
     }
 }
 
 // static
-void Timeline::setParam(ProfileInfo info, QDomElement param, const QString &value)
+void Timeline::setParam(QDomElement param, const QString &value)
 {
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
@@ -1239,7 +1237,7 @@ void Timeline::setParam(ProfileInfo info, QDomElement param, const QString &valu
     double fact;
     QString factor = param.attribute(QStringLiteral("factor"), QStringLiteral("1"));
     if (factor.contains(QLatin1Char('%'))) {
-        fact = EffectsController::getStringEval(info, factor);
+        fact = EffectsController::getStringEval(factor);
     } else {
         fact = locale.toDouble(factor);
     }
@@ -1458,13 +1456,13 @@ void Timeline::addTrackEffect(int trackIndex, QDomElement effect, bool addToPlay
         // Check if this effect has a variable parameter
         if (e.attribute(QStringLiteral("default")).contains(QLatin1Char('%'))) {
             if (type == QLatin1String("animatedrect")) {
-                QString evaluatedValue = EffectsController::getStringRectEval(m_doc->getProfileInfo(), e.attribute(QStringLiteral("default")));
+                QString evaluatedValue = EffectsController::getStringRectEval(e.attribute(QStringLiteral("default")));
                 e.setAttribute(QStringLiteral("default"), evaluatedValue);
                 if (!e.hasAttribute(QStringLiteral("value"))) {
                     e.setAttribute(QStringLiteral("value"), evaluatedValue);
                 }
             } else {
-                double evaluatedValue = EffectsController::getStringEval(m_doc->getProfileInfo(), e.attribute(QStringLiteral("default")));
+                double evaluatedValue = EffectsController::getStringEval(e.attribute(QStringLiteral("default")));
                 e.setAttribute(QStringLiteral("default"), evaluatedValue);
                 if (!e.hasAttribute(QStringLiteral("value")) || e.attribute(QStringLiteral("value")).startsWith(QLatin1Char('%'))) {
                     e.setAttribute(QStringLiteral("value"), evaluatedValue);
@@ -1491,7 +1489,7 @@ void Timeline::addTrackEffect(int trackIndex, QDomElement effect, bool addToPlay
     }
     sourceTrack->effectsList.append(effect);
     if (addToPlaylist) {
-        sourceTrack->addTrackEffect(EffectsController::getEffectArgs(m_doc->getProfileInfo(), effect));
+        sourceTrack->addTrackEffect(EffectsController::getEffectArgs(effect));
         if (effect.attribute(QStringLiteral("type")) != QLatin1String("audio")) {
             invalidateTrack(trackIndex);
         }

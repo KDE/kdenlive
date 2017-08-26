@@ -70,7 +70,7 @@ public:
     mlt_keyframe_type type(int frame);
     void removeKeyframe(int frame);
     void addKeyframe(int frame, double value, mlt_keyframe_type type);
-    void addDefaultKeyframe(ProfileInfo profile, int frame, mlt_keyframe_type type);
+    void addDefaultKeyframe(int frame, mlt_keyframe_type type);
     const QString serialize(const QString &name = QString(), bool rectAnimation = false);
     /** @brief Loads a rect animation and returns minimas/maximas for x,y,w,h **/
     QList<QPoint> loadKeyframes(const QString &data);
@@ -99,7 +99,7 @@ public:
     /** @brief Returns a copy of the original anim, with a crop zone (in/out), frame offset, max number of keyframes, and value mapping */
     QString getSingleAnimation(int ix, int in, int out, int offset, int limitKeyframes, QPoint maximas, double min, double max);
     /** @brief Returns a copy of the original anim, with a crop zone (in/out) and frame offset */
-    QString getOffsetAnimation(int in, int out, int offset, int limitKeyframes, ProfileInfo profile, bool allowAnimation, bool positionOnly, QPoint rectOffset);
+    QString getOffsetAnimation(int in, int out, int offset, int limitKeyframes, bool allowAnimation, bool positionOnly, QPoint rectOffset);
 
 private:
     Mlt::Properties m_keyProperties;

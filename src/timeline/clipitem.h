@@ -73,7 +73,7 @@ public:
 
     /** @brief Adds an effect to the clip.
     * @return The parameters that will be passed to Mlt */
-    EffectsParameterList addEffect(ProfileInfo info, QDomElement effect, bool animate = true);
+    EffectsParameterList addEffect(QDomElement effect, bool animate = true);
 
     /** @brief Deletes the effect with id @param ix.
      * @return true if deleted effect was video and requires monitor refresh */
@@ -133,7 +133,7 @@ public:
     void setSelectedEffect(const int ix);
     QDomElement selectedEffect();
     int selectedEffectIndex() const;
-    void initEffect(ProfileInfo info, const QDomElement &effect, int diff = 0, int offset = 0);
+    void initEffect(const QDomElement &effect, int diff = 0, int offset = 0);
 
     /** @brief Gets all keyframes.
     * @param index Index of the effect

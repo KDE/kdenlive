@@ -1933,13 +1933,6 @@ void Monitor::slotAdjustEffectCompare()
     m_glMonitor->refresh();
 }
 
-ProfileInfo Monitor::profileInfo() const
-{
-    ProfileInfo info;
-    info.profileSize = m_glMonitor->profileSize();
-    info.profileFps = m_glMonitor->profile()->fps();
-    return info;
-}
 
 Mlt::Profile *Monitor::profile()
 {

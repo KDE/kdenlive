@@ -960,10 +960,10 @@ void EffectStackView2::slotResetEffect(int ix)
             }
             emit updateEffect(nullptr, m_trackindex, old, dom, ix, false);
         } else if (m_status == TIMELINE_CLIP) {
-            m_clipref->initEffect(m_effectMetaInfo.monitor->profileInfo(), dom);
+            m_clipref->initEffect(dom);
             emit updateEffect(m_clipref, -1, old, dom, ix, true);
         } else if (m_status == MASTER_CLIP) {
-            m_masterclipref->initEffect(m_effectMetaInfo.monitor->profileInfo(), dom);
+            m_masterclipref->initEffect(dom);
             emit updateMasterEffect(m_masterclipref->binId(), old, dom, ix, true);
         }
     }
