@@ -399,39 +399,6 @@ MltVideoProfile ProfilesDialog::getVideoProfile(Mlt::Profile &profile)
 }
 
 // static
-bool ProfilesDialog::existingProfileDescription(const QString &desc)
-{
-    QStringList profilesFilter;
-    profilesFilter << QStringLiteral("*");
-
-    // List the Mlt profiles
-    QDir mltDir(KdenliveSettings::mltpath());
-    QStringList profilesFiles = mltDir.entryList(profilesFilter, QDir::Files);
-    for (int i = 0; i < profilesFiles.size(); ++i) {
-        KConfig confFile(mltDir.absoluteFilePath(profilesFiles.at(i)), KConfig::SimpleConfig);
-        if (desc == confFile.entryMap().value(QStringLiteral("description"))) {
-            return true;
-        }
-    }
-
-    // List custom profiles
-    QStringList customProfiles = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("profiles/"), QStandardPaths::LocateDirectory);
-    for (int i = 0; i < customProfiles.size(); ++i) {
-        QDir customDir(customProfiles.at(i));
-        profilesFiles = customDir.entryList(profilesFilter, QDir::Files);
-        for (int j = 0; j < profilesFiles.size(); ++j) {
-            KConfig confFile(customDir.absoluteFilePath(profilesFiles.at(j)), KConfig::SimpleConfig);
-            if (desc == confFile.entryMap().value(QStringLiteral("description"))) {
-                return true;
-            }
-        }
-    }
-    return false;
-}
-
-
-
-// static
 QList<MltVideoProfile> ProfilesDialog::profilesList()
 {
     // Check if the profile has a matching entry in existing ones
