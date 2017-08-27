@@ -470,63 +470,6 @@ QList<MltVideoProfile> ProfilesDialog::profilesList()
 }
 
 // static
-QMap<QString, QString> ProfilesDialog::getProfilesFromProperties(int width, int height, double fps, double par, bool useDisplayWidth)
-{
-    QStringList profilesNames;
-    QStringList profilesFiles;
-    QStringList profilesFilter;
-    QMap<QString, QString> result;
-    profilesFilter << QStringLiteral("*");
-    // List the Mlt profiles
-    QDir mltDir(KdenliveSettings::mltpath());
-    profilesFiles = mltDir.entryList(profilesFilter, QDir::Files);
-    for (int i = 0; i < profilesFiles.size(); ++i) {
-        KConfig confFile(mltDir.absoluteFilePath(profilesFiles.at(i)), KConfig::SimpleConfig);
-        QMap<QString, QString> values = confFile.entryMap();
-        int profileWidth;
-        if (useDisplayWidth) {
-            profileWidth = values.value(QStringLiteral("height")).toInt() * values.value(QStringLiteral("display_aspect_num")).toInt() /
-                           values.value(QStringLiteral("display_aspect_den")).toInt();
-        } else {
-            profileWidth = values.value(QStringLiteral("width")).toInt();
-        }
-        if (profileWidth == width && values.value(QStringLiteral("height")).toInt() == height) {
-            double profile_fps = values.value(QStringLiteral("frame_rate_num")).toDouble() / values.value(QStringLiteral("frame_rate_den")).toDouble();
-            double profile_par = values.value(QStringLiteral("sample_aspect_num")).toDouble() / values.value(QStringLiteral("sample_aspect_den")).toDouble();
-            if ((fps <= 0 || qAbs(profile_fps - fps) < 0.5) && (par <= 0 || qAbs(profile_par - par) < 0.1)) {
-                result.insert(profilesFiles.at(i), values.value(QStringLiteral("description")));
-            }
-        }
-    }
-
-    // List custom profiles
-    QStringList customProfiles = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("profiles/"), QStandardPaths::LocateDirectory);
-    for (int i = 0; i < customProfiles.size(); ++i) {
-        QStringList profiles = QDir(customProfiles.at(i)).entryList(profilesFilter, QDir::Files);
-        for (int j = 0; j < profiles.size(); ++j) {
-            KConfig confFile(customProfiles.at(i) + profiles.at(j), KConfig::SimpleConfig);
-            QMap<QString, QString> values = confFile.entryMap();
-            int profileWidth;
-            if (useDisplayWidth) {
-                profileWidth = values.value(QStringLiteral("height")).toInt() * values.value(QStringLiteral("display_aspect_num")).toInt() /
-                               values.value(QStringLiteral("display_aspect_den")).toInt();
-            } else {
-                profileWidth = values.value(QStringLiteral("width")).toInt();
-            }
-            if (profileWidth == width && values.value(QStringLiteral("height")).toInt() == height) {
-                double profile_fps = values.value(QStringLiteral("frame_rate_num")).toDouble() / values.value(QStringLiteral("frame_rate_den")).toDouble();
-                double profile_par =
-                    values.value(QStringLiteral("sample_aspect_num")).toDouble() / values.value(QStringLiteral("sample_aspect_den")).toDouble();
-                if ((fps <= 0 || qAbs(profile_fps - fps) < 0.5) && (par <= 0 || qAbs(profile_par - par) < 0.1)) {
-                    result.insert(customProfiles.at(i) + profiles.at(j), values.value(QStringLiteral("description")));
-                }
-            }
-        }
-    }
-    return result;
-}
-
-// static
 // TODO refac : delete this and replace by ProfileRepository::saveProfile
 void ProfilesDialog::saveProfile(MltVideoProfile &profile, QString profilePath)
 {

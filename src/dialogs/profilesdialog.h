@@ -42,16 +42,6 @@ public:
     static bool existingProfileDescription(const QString &desc);
     static QList<MltVideoProfile> profilesList();
 
-
-    /** @brief Find profiles that match parameter properties:
-     *  @param width The profile frame width
-     *  @param height The profile frame height
-     *  @param fps The profile fps
-     *  @param par The sample aspect ratio
-     *  @param useDisplayWidth If true, compare width with profile's display width ( = dar * height)
-     *  @return A string list of the matching profiles description */
-    static QMap<QString, QString> getProfilesFromProperties(int width, int height, double fps, double par, bool useDisplayWidth = false);
-
     /** @brief Build a profile from it's url */
     static MltVideoProfile getProfileFromPath(const QString &path, const QString &name);
 
