@@ -48,6 +48,7 @@ class ProjectClip;
 class ClipController;
 class MarkerListModel;
 class Render;
+class ProfileParam;
 
 class QTextEdit;
 class QUndoGroup;
@@ -235,8 +236,8 @@ private slots:
     void slotClipMissing(const QString &path);
     void slotProcessModifiedClips();
     void slotModified();
-    void switchProfile(MltVideoProfile profile, const QString &id, const QDomElement &xml);
-    void slotSwitchProfile();
+    void switchProfile(std::unique_ptr<ProfileParam> &profile, const QString &id, const QDomElement &xml);
+    void slotSwitchProfile(const QString &profile_path);
     /** @brief Check if we did a new action invalidating more recent undo items. */
     void checkPreviewStack();
     /** @brief Guides were changed, save to MLT. */

@@ -127,37 +127,10 @@ int ProfileModel::colorspace() const
     return m_profile->colorspace();
 }
 
-bool ProfileInfo::operator==(const ProfileInfo &other) const
-{
-    if (!description().isEmpty() && other.description() == description()) {
-        return true;
-    }
-    int fps = frame_rate_num() * 100 / frame_rate_den();
-    int sar = sample_aspect_num() * 100 / sample_aspect_den();
-    int dar = display_aspect_num() * 100 / display_aspect_den();
-    return other.frame_rate_num() * 100 / other.frame_rate_den() == fps && other.width() == width() && other.height() == height() &&
-           other.progressive() == progressive() && other.sample_aspect_num() * 100 / other.sample_aspect_den() == sar &&
-           other.display_aspect_num() * 100 / other.display_aspect_den() == dar && other.colorspace() == colorspace();
-}
 
 QString ProfileModel::path() const
 {
     return m_path;
-}
-
-QString ProfileInfo::colorspaceDescription() const
-{
-    // TODO: should the descriptions be translated?
-    switch (colorspace()) {
-    case 601:
-        return QStringLiteral("ITU-R 601");
-    case 709:
-        return QStringLiteral("ITU-R 709");
-    case 240:
-        return QStringLiteral("SMPTE240M");
-    default:
-        return i18n("Unknown");
-    }
 }
 
 void ProfileModel::set_explicit(int b)
@@ -165,12 +138,124 @@ void ProfileModel::set_explicit(int b)
     m_profile->set_explicit(b);
 }
 
-bool ProfileInfo::isCompatible(std::unique_ptr<ProfileInfo> &other) const
+ProfileParam::ProfileParam(const QDomElement &element)
+    : m_description(element.attribute(QStringLiteral("description")))
+    , m_frame_rate_num(element.attribute(QStringLiteral("frame_rate_num")).toInt())
+    , m_frame_rate_den(element.attribute(QStringLiteral("frame_rate_den")).toInt())
+    , m_width(element.attribute(QStringLiteral("width")).toInt())
+    , m_height(element.attribute(QStringLiteral("height")).toInt())
+    , m_progressive((element.attribute(QStringLiteral("progressive")).toInt() != 0))
+    , m_sample_aspect_num(element.attribute(QStringLiteral("sample_aspect_num")).toInt())
+    , m_sample_aspect_den(element.attribute(QStringLiteral("sample_aspect_den")).toInt())
+    , m_display_aspect_num(element.attribute(QStringLiteral("display_aspect_num")).toInt())
+    , m_display_aspect_den(element.attribute(QStringLiteral("display_aspect_den")).toInt())
+    , m_colorspace(element.attribute(QStringLiteral("colorspace")).toInt())
 {
-    return frame_rate_num() * 100 / frame_rate_den() == other->frame_rate_num() * 100 / other->frame_rate_den();
+    m_fps = m_frame_rate_num / m_frame_rate_den;
+    m_sar = m_sample_aspect_num / m_sample_aspect_den;
+    m_dar = m_display_aspect_num / m_display_aspect_den;
 }
 
-bool ProfileInfo::isCompatible(Mlt::Profile *other) const
+ProfileParam::ProfileParam(ProfileInfo *p)
+    : m_frame_rate_num(p->frame_rate_num())
+    , m_frame_rate_den(p->frame_rate_den())
+    , m_width(p->width())
+    , m_height(p->height())
+    , m_progressive(p-> progressive())
+    , m_sample_aspect_num(p->sample_aspect_num())
+    , m_sample_aspect_den(p->sample_aspect_den())
+    , m_display_aspect_num(p->display_aspect_num())
+    , m_display_aspect_den(p->display_aspect_den())
+    , m_colorspace(p->colorspace())
+    , m_fps(p->fps())
+    , m_sar(p->sar())
+    , m_dar(p->dar())
 {
-    return frame_rate_num() * 100 / frame_rate_den() == other->frame_rate_num() * 100 / other->frame_rate_den();
+}
+
+ProfileParam::ProfileParam(Mlt::Profile *p)
+    : m_frame_rate_num(p->frame_rate_num())
+    , m_frame_rate_den(p->frame_rate_den())
+    , m_width(p->width())
+    , m_height(p->height())
+    , m_progressive(p-> progressive())
+    , m_sample_aspect_num(p->sample_aspect_num())
+    , m_sample_aspect_den(p->sample_aspect_den())
+    , m_display_aspect_num(p->display_aspect_num())
+    , m_display_aspect_den(p->display_aspect_den())
+    , m_colorspace(p->colorspace())
+    , m_fps(p->fps())
+    , m_sar(p->sar())
+    , m_dar(p->dar())
+{
+}
+QString ProfileParam::path() const
+{
+    return m_path;
+}
+QString ProfileParam::description() const
+{
+    return m_description;
+}
+int ProfileParam::frame_rate_num() const
+{
+    return m_frame_rate_num;
+}
+int ProfileParam::frame_rate_den() const
+{
+    return m_frame_rate_den;
+}
+int ProfileParam::width() const
+{
+    return m_width;
+}
+int ProfileParam::height() const
+{
+    return m_height;
+}
+bool ProfileParam::progressive() const
+{
+    return m_progressive;
+}
+int ProfileParam::sample_aspect_num() const
+{
+    return m_sample_aspect_num;
+}
+int ProfileParam::sample_aspect_den() const
+{
+    return m_sample_aspect_den;
+}
+int ProfileParam::display_aspect_num() const
+{
+    return m_display_aspect_num;
+}
+int ProfileParam::display_aspect_den() const
+{
+    return m_display_aspect_den;
+}
+int ProfileParam::colorspace() const
+{
+    return m_colorspace;
+}
+
+double ProfileParam::fps() const
+{
+    return m_fps;
+}
+double ProfileParam::dar() const
+{
+    return m_dar;
+}
+double ProfileParam::sar() const
+{
+    return m_sar;
+}
+void ProfileParam::adjustWidth()
+{
+    m_width = (m_width + 7) / 8 * 8;
+}
+
+bool ProfileParam::is_valid() const
+{
+    return (m_frame_rate_den > 0 && m_sample_aspect_den > 0 && m_display_aspect_den > 0 && m_width > 0);
 }

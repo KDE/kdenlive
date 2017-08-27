@@ -280,14 +280,14 @@ void ProducerQueue::processFileProperties()
                     int width = producer->get_int("meta.media.width");
                     int height = producer->get_int("meta.media.height");
                     if (width > 100 && height > 100) {
-                        MltVideoProfile projectProfile = ProfilesDialog::getVideoProfile(pCore->getCurrentProfile()->profile());
-                        projectProfile.width = width;
-                        projectProfile.height = height;
-                        projectProfile.sample_aspect_num = 1;
-                        projectProfile.sample_aspect_den = 1;
-                        projectProfile.display_aspect_num = width;
-                        projectProfile.display_aspect_den = height;
-                        projectProfile.description.clear();
+                        std::unique_ptr<ProfileParam> projectProfile(new ProfileParam(pCore->getCurrentProfile().get()));
+                        projectProfile->m_width = width;
+                        projectProfile->m_height = height;
+                        projectProfile->m_sample_aspect_num = 1;
+                        projectProfile->m_sample_aspect_den = 1;
+                        projectProfile->m_display_aspect_num = width;
+                        projectProfile->m_display_aspect_den = height;
+                        projectProfile->m_description.clear();
                         // delete producer;
                         // m_processingClipId.removeAll(info.clipId);
                         info.xml.removeAttribute(QStringLiteral("checkProfile"));
@@ -310,9 +310,9 @@ void ProducerQueue::processFileProperties()
                     } else {
                         blankProfile->from_producer(*producer);
                     }
-                    MltVideoProfile clipProfile = ProfilesDialog::getVideoProfile(*blankProfile);
-                    MltVideoProfile projectProfile = ProfilesDialog::getVideoProfile(pCore->getCurrentProfile()->profile());
-                    clipProfile.adjustWidth();
+                    std::unique_ptr<ProfileParam> clipProfile(new ProfileParam(blankProfile));
+                    std::unique_ptr<ProfileParam> projectProfile(new ProfileParam(pCore->getCurrentProfile().get()));
+                    clipProfile->adjustWidth();
                     if (clipProfile != projectProfile) {
                         // Profiles do not match, propose profile adjustment
                         // delete producer;

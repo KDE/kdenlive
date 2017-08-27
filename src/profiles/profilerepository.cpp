@@ -28,6 +28,8 @@
 #include <QStandardPaths>
 #include <algorithm>
 #include <mlt++/MltProfile.h>
+#include <KMessageBox>
+#include <KMessageWidget>
 
 std::unique_ptr<ProfileRepository> ProfileRepository::instance;
 std::once_flag ProfileRepository::m_onceFlag;
@@ -81,7 +83,7 @@ void ProfileRepository::refresh()
     }
 }
 
-QVector<QPair<QString, QString>> ProfileRepository::getAllProfiles()
+QVector<QPair<QString, QString>> ProfileRepository::getAllProfiles() const
 {
     QReadLocker locker(&m_mutex);
 
@@ -110,7 +112,7 @@ std::unique_ptr<ProfileModel> &ProfileRepository::getProfile(const QString &path
     return m_profiles.at(path);
 }
 
-bool ProfileRepository::profileExists(const QString &path)
+bool ProfileRepository::profileExists(const QString &path) const
 {
     QReadLocker locker(&m_mutex);
     return m_profiles.count(path) != 0;
@@ -132,8 +134,9 @@ QString ProfileRepository::getColorspaceDescription(int colorspace)
     }
 }
 
-QVector<double> ProfileRepository::getAllFps()
+QVector<double> ProfileRepository::getAllFps() const
 {
+    QReadLocker locker(&m_mutex);
     QVector<double> res;
     for (const auto &ptr : m_profiles) {
         res.push_back(ptr.second->fps());
@@ -141,4 +144,55 @@ QVector<double> ProfileRepository::getAllFps()
     std::sort(res.begin(), res.end());
     res.erase(std::unique(res.begin(), res.end()), res.end());
     return res;
+}
+
+QString ProfileRepository::findMatchingProfile(ProfileInfo *profile) const
+{
+    QReadLocker locker(&m_mutex);
+    for (const auto &ptr : m_profiles) {
+        if (*ptr.second.get() == *profile) {
+            return ptr.first;
+        }
+    }
+    return QString();
+}
+
+void ProfileRepository::saveProfile(ProfileInfo *profile, QString profilePath)
+{
+    Q_ASSERT(findMatchingProfile(profile).isEmpty()); //We should not save if there exists a similar profile
+    if (profilePath.isEmpty()) {
+        int i = 0;
+        QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/profiles/"));
+        if (!dir.exists()) {
+            dir.mkpath(QStringLiteral("."));
+        }
+        QString customName = QStringLiteral("customprofile");
+        profilePath = dir.absoluteFilePath(customName + QString::number(i));
+        while (QFile::exists(profilePath)) {
+            ++i;
+            profilePath = dir.absoluteFilePath(customName + QString::number(i));
+        }
+    }
+    QFile file(profilePath);
+    if (!file.open(QIODevice::WriteOnly)) {
+        KMessageBox::sorry(nullptr, i18n("Cannot open file %1", profilePath));
+        return;
+    }
+    QTextStream out(&file);
+    out << "description=" << profile->description() << '\n'
+        << "frame_rate_num=" << profile->frame_rate_num() << '\n'
+        << "frame_rate_den=" << profile->frame_rate_den() << '\n'
+        << "width=" << profile->width() << '\n'
+        << "height=" << profile->height() << '\n'
+        << "progressive=" << static_cast<int>(profile->progressive()) << '\n'
+        << "sample_aspect_num=" << profile->sample_aspect_num() << '\n'
+        << "sample_aspect_den=" << profile->sample_aspect_den() << '\n'
+        << "display_aspect_num=" << profile->display_aspect_num() << '\n'
+        << "display_aspect_den=" << profile->display_aspect_den() << '\n'
+        << "colorspace=" << profile->colorspace() << '\n';
+    if (file.error() != QFile::NoError) {
+        KMessageBox::error(nullptr, i18n("Cannot write to file %1", profilePath));
+    }
+    file.close();
+    refresh();
 }

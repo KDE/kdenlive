@@ -1353,8 +1353,8 @@ void KdenliveDoc::loadDocumentProperties()
         // try to find matching profile from MLT profile properties
         list = m_document.elementsByTagName(QStringLiteral("profile"));
         if (!list.isEmpty()) {
-            MltVideoProfile prof = ProfilesDialog::getVideoProfileFromXml(list.at(0).toElement());
-            profileFound = pCore->setCurrentProfile(prof.path);
+            std::unique_ptr<ProfileInfo> xmlProfile(new ProfileParam(list.at(0).toElement()));
+            profileFound = pCore->setCurrentProfile(ProfileRepository::get()->findMatchingProfile(xmlProfile.get()));
         }
     }
     if (!profileFound) {
@@ -1386,38 +1386,26 @@ void KdenliveDoc::resetProfile()
     emit docModified(true);
 }
 
-void KdenliveDoc::slotSwitchProfile()
+void KdenliveDoc::slotSwitchProfile(const QString &profile_path)
 {
-    QAction *action = qobject_cast<QAction *>(sender());
-    if (!action) {
-        return;
-    }
-    QVariantList data = action->data().toList();
-    if (!data.isEmpty()) {
-        // we want a profile switch
-        MltVideoProfile profile = MltVideoProfile(data);
-        if (profile.isValid()) {
-            pCore->setCurrentProfile(profile.path);
-            updateProjectProfile(true);
-            emit docModified(true);
-        }
-    }
+    pCore->setCurrentProfile(profile_path);
+    updateProjectProfile(true);
+    emit docModified(true);
 }
 
-void KdenliveDoc::switchProfile(MltVideoProfile profile, const QString &id, const QDomElement &xml)
+void KdenliveDoc::switchProfile(std::unique_ptr<ProfileParam> &profile, const QString &id, const QDomElement &xml)
 {
     // Request profile update
-    QString matchingProfile = ProfilesDialog::existingProfile(profile);
-    if (matchingProfile.isEmpty() && (profile.width % 8 != 0)) {
+    QString matchingProfile = ProfileRepository::get()->findMatchingProfile(profile.get());
+    if (matchingProfile.isEmpty() && (profile->width() % 8 != 0)) {
         // Make sure profile width is a multiple of 8, required by some parts of mlt
-        profile.adjustWidth();
-        matchingProfile = ProfilesDialog::existingProfile(profile);
+        profile->adjustWidth();
+        matchingProfile = ProfileRepository::get()->findMatchingProfile(profile.get());
     }
     if (!matchingProfile.isEmpty()) {
         // We found a known matching profile, switch and inform user
-        QMap<QString, QString> profileProperties = ProfilesDialog::getSettingsFromFile(matchingProfile);
-        profile.path = matchingProfile;
-        profile.description = profileProperties.value(QStringLiteral("description"));
+        profile->m_path = matchingProfile;
+        profile->m_description = ProfileRepository::get()->getProfile(matchingProfile)->description();
 
         if (KdenliveSettings::default_profile().isEmpty()) {
             // Default project format not yet confirmed, propose
@@ -1425,14 +1413,14 @@ void KdenliveDoc::switchProfile(MltVideoProfile profile, const QString &id, cons
             KMessageBox::ButtonCode answer = KMessageBox::questionYesNoCancel(
                 QApplication::activeWindow(),
                 i18n("Your default project profile is %1, but your clip's profile is %2.\nDo you want to change default profile for future projects ?",
-                     currentProfileDesc, profile.description),
-                i18n("Change default project profile"), KGuiItem(i18n("Change default to %1", profile.description)),
+                     currentProfileDesc, profile->description()),
+                i18n("Change default project profile"), KGuiItem(i18n("Change default to %1", profile->description())),
                 KGuiItem(i18n("Keep current default %1", currentProfileDesc)), KGuiItem(i18n("Ask me later")));
 
             switch (answer) {
             case KMessageBox::Yes:
-                KdenliveSettings::setDefault_profile(profile.path);
-                pCore->setCurrentProfile(profile.path);
+                KdenliveSettings::setDefault_profile(profile->path());
+                pCore->setCurrentProfile(profile->path());
                 updateProjectProfile(true);
                 emit docModified(true);
                 pCore->producerQueue()->getFileProperties(xml, id, 150, true);
@@ -1449,61 +1437,57 @@ void KdenliveDoc::switchProfile(MltVideoProfile profile, const QString &id, cons
         // Build actions for the info message (switch / cancel)
         QList<QAction *> list;
         QAction *ac = new QAction(KoIconUtils::themedIcon(QStringLiteral("dialog-ok")), i18n("Switch"), this);
-        QVariantList params;
-        connect(ac, &QAction::triggered, this, &KdenliveDoc::slotSwitchProfile);
-        params << profile.toList();
-        ac->setData(params);
+        connect(ac, &QAction::triggered, [this, &profile]() {
+                this->slotSwitchProfile(profile->path());
+            });
         QAction *ac2 = new QAction(KoIconUtils::themedIcon(QStringLiteral("dialog-cancel")), i18n("Cancel"), this);
-        connect(ac2, &QAction::triggered, this, &KdenliveDoc::slotSwitchProfile);
         list << ac << ac2;
-        pCore->bin()->doDisplayMessage(i18n("Switch to clip profile %1?", profile.descriptiveString()), KMessageWidget::Information, list);
+        pCore->bin()->doDisplayMessage(i18n("Switch to clip profile %1?", profile->descriptiveString()), KMessageWidget::Information, list);
     } else {
         // No known profile, ask user if he wants to use clip profile anyway
         // Check profile fps so that we don't end up with an fps = 30.003 which would mess things up
         QString adjustMessage;
-        double fps = (double)profile.frame_rate_num / profile.frame_rate_den;
+        double fps = (double)profile->frame_rate_num() / profile->frame_rate_den();
         double fps_int;
         double fps_frac = std::modf(fps, &fps_int);
         if (fps_frac < 0.4) {
-            profile.frame_rate_num = (int)fps_int;
-            profile.frame_rate_den = 1;
+            profile->m_frame_rate_num = (int)fps_int;
+            profile->m_frame_rate_den = 1;
         } else {
             // Check for 23.98, 29.97, 59.94
             if (qAbs(fps_int - 23.0) < 1e-5) {
                 if (qAbs(fps - 23.98) < 0.01) {
-                    profile.frame_rate_num = 24000;
-                    profile.frame_rate_den = 1001;
+                    profile->m_frame_rate_num = 24000;
+                    profile->m_frame_rate_den = 1001;
                 }
             } else if (qAbs(fps_int - 29.0) < 1e-5) {
                 if (qAbs(fps - 29.97) < 0.01) {
-                    profile.frame_rate_num = 30000;
-                    profile.frame_rate_den = 1001;
+                    profile->m_frame_rate_num = 30000;
+                    profile->m_frame_rate_den = 1001;
                 }
             } else if (qAbs(fps_int - 59.0) < 1e-5) {
                 if (qAbs(fps - 59.94) < 0.01) {
-                    profile.frame_rate_num = 60000;
-                    profile.frame_rate_den = 1001;
+                    profile->m_frame_rate_num = 60000;
+                    profile->m_frame_rate_den = 1001;
                 }
             } else {
                 // Unknown profile fps, warn user
                 adjustMessage = i18n("\nWarning: unknown non integer fps, might cause incorrect duration display.");
             }
         }
-        if (qAbs((double)profile.frame_rate_num / profile.frame_rate_den - fps) < 1e-4) {
+        if (qAbs((double)profile->m_frame_rate_num / profile->m_frame_rate_den - fps) < 1e-4) {
             adjustMessage = i18n("\nProfile fps adjusted from original %1", QString::number(fps, 'f', 4));
         }
         if (KMessageBox::warningContinueCancel(QApplication::activeWindow(),
-                                               i18n("No profile found for your clip.\nCreate and switch to new profile (%1x%2, %3fps)?%4", profile.width,
-                                                    profile.height, QString::number((double)profile.frame_rate_num / profile.frame_rate_den, 'f', 2),
+                                               i18n("No profile found for your clip.\nCreate and switch to new profile (%1x%2, %3fps)?%4", profile->m_width,
+                                                    profile->m_height, QString::number((double)profile->m_frame_rate_num / profile->m_frame_rate_den, 'f', 2),
                                                     adjustMessage)) == KMessageBox::Continue) {
-            profile.description = QStringLiteral("%1x%2 %3fps")
-                                      .arg(profile.width)
-                                      .arg(profile.height)
-                                      .arg(QString::number((double)profile.frame_rate_num / profile.frame_rate_den, 'f', 2));
-            ProfilesDialog::saveProfile(profile);
-            // reload profiles from disk
-            ProfileRepository::get()->refresh();
-            pCore->setCurrentProfile(profile.path);
+            profile->m_description = QStringLiteral("%1x%2 %3fps")
+                                      .arg(profile->m_width)
+                                      .arg(profile->m_height)
+                                      .arg(QString::number((double)profile->m_frame_rate_num / profile->m_frame_rate_den, 'f', 2));
+            ProfileRepository::get()->saveProfile(profile.get());
+            pCore->setCurrentProfile(profile->m_path);
             updateProjectProfile(true);
             emit docModified(true);
             pCore->producerQueue()->getFileProperties(xml, id, 150, true);

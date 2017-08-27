@@ -320,24 +320,6 @@ void ProfilesDialog::slotDeleteProfile()
     }
 }
 
-// static
-MltVideoProfile ProfilesDialog::getVideoProfileFromXml(const QDomElement &element)
-{
-    MltVideoProfile result;
-    result.description = element.attribute(QStringLiteral("description"));
-    result.frame_rate_num = element.attribute(QStringLiteral("frame_rate_num")).toInt();
-    result.frame_rate_den = element.attribute(QStringLiteral("frame_rate_den")).toInt();
-    result.width = element.attribute(QStringLiteral("width")).toInt();
-    result.height = element.attribute(QStringLiteral("height")).toInt();
-    result.progressive = (element.attribute(QStringLiteral("progressive")).toInt() != 0);
-    result.sample_aspect_num = element.attribute(QStringLiteral("sample_aspect_num")).toInt();
-    result.sample_aspect_den = element.attribute(QStringLiteral("sample_aspect_den")).toInt();
-    result.display_aspect_num = element.attribute(QStringLiteral("display_aspect_num")).toInt();
-    result.display_aspect_den = element.attribute(QStringLiteral("display_aspect_den")).toInt();
-    result.colorspace = element.attribute(QStringLiteral("colorspace")).toInt();
-    result.path = existingProfile(result);
-    return result;
-}
 
 // static
 MltVideoProfile ProfilesDialog::getVideoProfile(const QString &name)
@@ -446,44 +428,7 @@ bool ProfilesDialog::existingProfileDescription(const QString &desc)
     return false;
 }
 
-// static
-QString ProfilesDialog::existingProfile(const MltVideoProfile &profile)
-{
-    // Check if the profile has a matching entry in existing ones
-    QStringList profilesFilter;
-    profilesFilter << QStringLiteral("*");
 
-    // Check the Mlt profiles
-    QDir mltDir(KdenliveSettings::mltpath());
-    QStringList profilesFiles = mltDir.entryList(profilesFilter, QDir::Files);
-    for (int i = 0; i < profilesFiles.size(); ++i) {
-        MltVideoProfile test = getProfileFromPath(mltDir.absoluteFilePath(profilesFiles.at(i)), profilesFiles.at(i));
-        if (!test.isValid()) {
-            continue;
-        }
-        if (test == profile) {
-            return profilesFiles.at(i);
-        }
-    }
-
-    // Check custom profiles
-    QStringList customProfiles = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("profiles/"), QStandardPaths::LocateDirectory);
-    for (int i = 0; i < customProfiles.size(); ++i) {
-        QDir customDir(customProfiles.at(i));
-        profilesFiles = customDir.entryList(profilesFilter, QDir::Files);
-        for (int j = 0; j < profilesFiles.size(); ++j) {
-            QString path = customDir.absoluteFilePath(profilesFiles.at(j));
-            MltVideoProfile test = getProfileFromPath(path, path);
-            if (!test.isValid()) {
-                continue;
-            }
-            if (test == profile) {
-                return path;
-            }
-        }
-    }
-    return QString();
-}
 
 // static
 QList<MltVideoProfile> ProfilesDialog::profilesList()
@@ -613,6 +558,7 @@ QMap<QString, QString> ProfilesDialog::getProfilesFromProperties(int width, int 
 }
 
 // static
+// TODO refac : delete this and replace by ProfileRepository::saveProfile
 void ProfilesDialog::saveProfile(MltVideoProfile &profile, QString profilePath)
 {
     if (profilePath.isEmpty()) {

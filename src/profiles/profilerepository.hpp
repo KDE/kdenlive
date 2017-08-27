@@ -23,6 +23,7 @@
 #define PROFILEREPOSITORY_H
 
 #include "definitions.h" //for QString hash function
+#include "profileinfo.hpp"
 #include <QReadWriteLock>
 #include <QString>
 #include <memory>
@@ -47,7 +48,7 @@ public:
     void refresh();
 
     /* @brief Returns a list of all the pairs (description, path) of all the profiles loaded */
-    QVector<QPair<QString, QString>> getAllProfiles();
+    QVector<QPair<QString, QString>> getAllProfiles() const;
 
     /* @brief Returns a profile model given the profile's @param path
      */
@@ -55,7 +56,10 @@ public:
 
     /* @brief Returns true if the given profile exists in repository
      */
-    bool profileExists(const QString &path);
+    bool profileExists(const QString &path) const;
+
+    /* @brief Find a profile that match the parameters of the given one and return its path. If not found, returns empty string */
+    QString findMatchingProfile(ProfileInfo *profile) const;
 
     /** @brief Get the descriptive text for given colorspace code (defined by MLT)
      *  @param colorspace An int as defined in mlt_profile.h
@@ -63,8 +67,11 @@ public:
     static QString getColorspaceDescription(int colorspace);
 
     /** @brief Returns all the possible fps of the profiles in the repository*/
-    QVector<double> getAllFps();
+    QVector<double> getAllFps() const;
 
+    /** @brief Saves given profile as custom one. If the path is left empty, it will be set to the standard custom_profile directory
+     */
+    void saveProfile(ProfileInfo *profile, QString profilePath = QString());
 protected:
     // Constructor is protected because class is a Singleton
     ProfileRepository();
@@ -72,7 +79,7 @@ protected:
     static std::unique_ptr<ProfileRepository> instance;
     static std::once_flag m_onceFlag; // flag to create the repository only once;
 
-    QReadWriteLock m_mutex;
+    mutable QReadWriteLock m_mutex;
 
     std::unordered_map<QString, std::unique_ptr<ProfileModel>> m_profiles; // map from the profile path to the instance of the profile. We use unordered_map
                                                                            // because QMap and QHash currently don't support move insertion, hence inserting

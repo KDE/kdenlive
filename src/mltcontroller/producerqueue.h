@@ -31,6 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class ClipController;
 class BinController;
+class ProfileParam;
 
 namespace Mlt {
 class Producer;
@@ -96,7 +97,7 @@ signals:
     void requestProxy(const QString &);
     void infoProcessingFinished();
     /** @brief First clip does not match profect profile, switch. */
-    void switchProfile(MltVideoProfile profile, const QString &id, const QDomElement &xml);
+    void switchProfile(std::unique_ptr<ProfileParam> &profile, const QString &id, const QDomElement &xml);
     /** @brief The clip is not valid, should be removed from project. */
     void removeInvalidClip(const QString &, bool replaceProducer, const QString &message = QString());
     /** @brief The proxy is not valid, should be deleted.
