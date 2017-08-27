@@ -79,7 +79,11 @@ QImage ThumbnailProvider::requestImage(const QString &id, QSize *size, const QSi
             if (m_producers.contains(binId.toInt())) {
                 producer = m_producers.object(binId.toInt());
             } else {
-                producer = new Mlt::Producer(m_profile, service.toUtf8().constData(), resource.toUtf8().constData());
+                if (!resource.isEmpty()) {
+                    producer = new Mlt::Producer(m_profile, service.toUtf8().constData(), resource.toUtf8().constData());
+                } else {
+                    producer = new Mlt::Producer(m_profile, service.toUtf8().constData());
+                }
                 std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(binId);
                 if (binClip) {
                     std::shared_ptr<Mlt::Producer> projectProducer = binClip->originalProducer();
