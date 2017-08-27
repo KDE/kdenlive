@@ -652,6 +652,83 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
 
     }
 
+    SECTION("Group move consecutive clips") {
+        REQUIRE(timeline->requestClipMove(cid1, tid1, 7));
+        REQUIRE(timeline->requestClipMove(cid2, tid1, 7 + length));
+        REQUIRE(timeline->requestClipMove(cid3, tid1, 7 + 2*length));
+        REQUIRE(timeline->requestClipMove(cid4, tid1, 7 + 3*length));
+        REQUIRE(timeline->requestClipsGroup({cid1, cid2, cid3, cid4}));
+
+        auto state = [&](int tid, int start) {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getTrackClipsCount(tid) == 4);
+            int i = 0;
+            for (int cid : std::vector<int>({cid1, cid2, cid3, cid4})) {
+                REQUIRE(timeline->getClipTrackId(cid) == tid);
+                REQUIRE(timeline->getClipPosition(cid) == start + i * length);
+                REQUIRE(timeline->getClipPlaytime(cid) == length);
+                i++;
+            }
+        };
+        state(tid1, 7);
+
+        auto check_undo = [&](int target, int tid, int oldTid) {
+            state(tid, target);
+            undoStack->undo(); state(oldTid, 7);
+            undoStack->redo(); state(tid, target);
+            undoStack->undo(); state(oldTid, 7);
+        };
+
+        REQUIRE(timeline->requestClipMove(cid1, tid1, 6));
+        qDebug() << "state1";
+        state(tid1, 6);
+        undoStack->undo(); state(tid1, 7);
+        undoStack->redo(); state(tid1, 6);
+        REQUIRE(timeline->requestClipMove(cid1, tid1, 0));
+        qDebug() << "state2";
+        state(tid1, 0);
+        undoStack->undo(); state(tid1, 6);
+        undoStack->redo(); state(tid1, 0);
+        undoStack->undo(); state(tid1, 6);
+        undoStack->undo(); state(tid1, 7);
+
+        REQUIRE(timeline->requestClipMove(cid3, tid1, 1 + 2*length));
+        qDebug() << "state3";
+        check_undo(1, tid1, tid1);
+
+        REQUIRE(timeline->requestClipMove(cid4, tid1, 4 + 3*length));
+        qDebug() << "state4";
+        check_undo(4, tid1, tid1);
+
+        REQUIRE(timeline->requestClipMove(cid4, tid1, 11 + 3*length));
+        qDebug() << "state5";
+        check_undo(11, tid1, tid1);
+
+        REQUIRE(timeline->requestClipMove(cid2, tid1, 13 + length));
+        qDebug() << "state6";
+        check_undo(13, tid1, tid1);
+
+        REQUIRE(timeline->requestClipMove(cid1, tid1, 20));
+        qDebug() << "state7";
+        check_undo(20, tid1, tid1);
+
+        REQUIRE(timeline->requestClipMove(cid4, tid1, 7 + 4*length));
+        qDebug() << "state8";
+        check_undo(length + 7, tid1, tid1);
+
+        REQUIRE(timeline->requestClipMove(cid2, tid1, 7 + 2*length));
+        qDebug() << "state9";
+        check_undo(length + 7, tid1, tid1);
+
+        REQUIRE(timeline->requestClipMove(cid1, tid1, 7 + length));
+        qDebug() << "state10";
+        check_undo(length + 7, tid1, tid1);
+
+        REQUIRE(timeline->requestClipMove(cid2, tid2, 8 + length));
+        qDebug() << "state11";
+        check_undo(8, tid2, tid1);
+    }
+
     SECTION("Group move to unavailable track") {
         REQUIRE(timeline->requestClipMove(cid1, tid1, 10));
         REQUIRE(timeline->requestClipMove(cid2, tid2, 12));
