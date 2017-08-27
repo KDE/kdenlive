@@ -17,6 +17,8 @@
  */
 
 #include "thumbnailprovider.h"
+#include "bin/projectitemmodel.h"
+#include "bin/projectclip.h"
 #include "core.h"
 
 #include <QCryptographicHash>
@@ -27,15 +29,16 @@
 
 ThumbnailProvider::ThumbnailProvider()
     : QQuickImageProvider(QQmlImageProviderBase::Image, QQmlImageProviderBase::ForceAsynchronousImageLoading)
-    , m_profile("atsc_720p_60")
+    , m_profile(pCore->getCurrentProfilePath().toUtf8().constData())
 {
     KImageCache::deleteCache(QStringLiteral("kdenlive-timeline-thumbs"));
     m_cache = new KImageCache(QStringLiteral("kdenlive-timeline-thumbs"), 10000000);
     m_cache->clear();
     m_cache->setEvictionPolicy(KSharedDataCache::EvictOldest);
-    // TODO: get profile from current active project
+    int width = 180 * m_profile.dar();
+    width += width %8;
     m_profile.set_height(180);
-    m_profile.set_width(320);
+    m_profile.set_width(width);
     m_producers.setMaxCost(6);
 }
 
@@ -54,40 +57,43 @@ QImage ThumbnailProvider::requestImage(const QString &id, QSize *size, const QSi
 {
     QImage result;
 
-    // id is [hash]/mlt_service/resource#frameNumber
+    // id is binID/mlt_service/resource#frameNumber
     int index = id.lastIndexOf('#');
     if (index != -1) {
-        int hash = id.section('/', 0, 0).toInt();
+        QString binId = id.section('/', 0, 0);
         QString service = id.section('/', 1, 1);
         QString resource = id.section('/', 2);
         int frameNumber = id.mid(index + 1).toInt();
-
-        // TODO: get profile from pCore
-        // frameNumber = qRound(frameNumber / pCore->profile().fps() * m_profile.fps());
-
         resource = resource.left(resource.lastIndexOf('#'));
         // properties.set("_profile", m_profile.get_profile(), 0);
 
         // QString key = cacheKey(properties, service, resource, hash, frameNumber);
         // result = getCachedThumbnail(key);
-        const QString key = QString::number(hash) + "#" + QString::number(frameNumber);
+        const QString key = binId + "#" + QString::number(frameNumber);
         if (!m_cache->findImage(key, &result)) {
             if (service == "avformat-novalidate")
                 service = "avformat";
             else if (service.startsWith("xml"))
                 service = "xml-nogl";
             Mlt::Producer *producer = nullptr;
-            if (m_producers.contains(hash)) {
-                producer = m_producers.object(hash);
+            if (m_producers.contains(binId.toInt())) {
+                producer = m_producers.object(binId.toInt());
             } else {
                 producer = new Mlt::Producer(m_profile, service.toUtf8().constData(), resource.toUtf8().constData());
+                std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(binId);
+                if (binClip) {
+                    std::shared_ptr<Mlt::Producer> projectProducer = binClip->originalProducer();
+                    Mlt::Properties original(projectProducer->get_properties());
+                    Mlt::Properties cloneProps(producer->get_properties());
+                    cloneProps.pass_list(original, "video_index,force_aspect_num,force_aspect_den,force_aspect_ratio,force_fps,force_progressive,force_tff,force_colorspace,set.force_full_luma,templatetext,autorotate,xmldata");
+                }
                 Mlt::Filter scaler(m_profile, "swscale");
                 Mlt::Filter padder(m_profile, "resize");
                 Mlt::Filter converter(m_profile, "avcolor_space");
                 producer->attach(scaler);
                 producer->attach(padder);
                 producer->attach(converter);
-                m_producers.insert(hash, producer);
+                m_producers.insert(binId.toInt(), producer);
             }
             if ((producer != nullptr) && producer->is_valid()) {
                 // result = KThumb::getFrame(producer, frameNumber, 0, 0);
