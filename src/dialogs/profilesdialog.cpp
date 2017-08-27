@@ -21,6 +21,7 @@
 #include "kdenlivesettings.h"
 #include "profiles/profilemodel.hpp"
 #include "profiles/profilerepository.hpp"
+#include "core.h"
 #include "utils/KoIconUtils.h"
 
 #include "klocalizedstring.h"
@@ -285,105 +286,30 @@ bool ProfilesDialog::slotSaveProfile()
 
 void ProfilesDialog::saveProfile(const QString &path)
 {
-    QFile file(path);
-    if (!file.open(QIODevice::WriteOnly)) {
-        KMessageBox::sorry(this, i18n("Cannot open file %1", path));
-        return;
-    }
-    QTextStream out(&file);
-    out << "description=" << m_view.description->text() << '\n'
-        << "frame_rate_num=" << m_view.frame_num->value() << '\n'
-        << "frame_rate_den=" << m_view.frame_den->value() << '\n'
-        << "width=" << m_view.size_w->value() << '\n'
-        << "height=" << m_view.size_h->value() << '\n'
-        << "progressive=" << static_cast<int>(m_view.progressive->isChecked()) << '\n'
-        << "sample_aspect_num=" << m_view.aspect_num->value() << '\n'
-        << "sample_aspect_den=" << m_view.aspect_den->value() << '\n'
-        << "display_aspect_num=" << m_view.display_num->value() << '\n'
-        << "display_aspect_den=" << m_view.display_den->value() << '\n'
-        << "colorspace=" << m_view.colorspace->itemData(m_view.colorspace->currentIndex()).toInt() << '\n';
-    if (file.error() != QFile::NoError) {
-        KMessageBox::error(this, i18n("Cannot write to file %1", path));
-    }
-    file.close();
+    std::unique_ptr<ProfileParam> profile(new ProfileParam(pCore->getCurrentProfile().get()));
+    profile->m_description = m_view.description->text();
+    profile->m_frame_rate_num = m_view.frame_num->value();
+    profile->m_frame_rate_den = m_view.frame_den->value();
+    profile->m_width = m_view.size_w->value();
+    profile->m_height = m_view.size_h->value();
+    profile->m_progressive = static_cast<int>(m_view.progressive->isChecked());
+    profile->m_sample_aspect_num = m_view.aspect_num->value();
+    profile->m_sample_aspect_den = m_view.aspect_den->value();
+    profile->m_display_aspect_num = m_view.display_num->value();
+    profile->m_display_aspect_den = m_view.display_den->value();
+    profile->m_colorspace = m_view.colorspace->itemData(m_view.colorspace->currentIndex()).toInt();
+    ProfileRepository::get()->saveProfile(profile.get(), path);
 }
 
 void ProfilesDialog::slotDeleteProfile()
 {
     const QString path = m_view.profiles_list->itemData(m_view.profiles_list->currentIndex()).toString();
-    bool success = false;
-    if (path.contains(QLatin1Char('/'))) {
-        success = QFile::remove(path);
+    bool success = ProfileRepository::get()->deleteProfile(path);
+    if (success) {
         fillList();
     }
-    if (!success) {
-        qCDebug(KDENLIVE_LOG) << "//// Cannot delete profile " << path << ", does not seem to be custom one";
-    }
 }
 
-
-
-MltVideoProfile ProfilesDialog::getProfileFromPath(const QString &path, const QString &name)
-{
-    KConfig confFile(path, KConfig::SimpleConfig);
-    MltVideoProfile result;
-    QMap<QString, QString> entries = confFile.entryMap();
-    result.path = name;
-    result.description = entries.value(QStringLiteral("description"));
-    result.frame_rate_num = entries.value(QStringLiteral("frame_rate_num")).toInt();
-    result.frame_rate_den = entries.value(QStringLiteral("frame_rate_den")).toInt();
-    result.width = entries.value(QStringLiteral("width")).toInt();
-    result.height = entries.value(QStringLiteral("height")).toInt();
-    result.progressive = (entries.value(QStringLiteral("progressive")).toInt() != 0);
-    result.sample_aspect_num = entries.value(QStringLiteral("sample_aspect_num")).toInt();
-    result.sample_aspect_den = entries.value(QStringLiteral("sample_aspect_den")).toInt();
-    result.display_aspect_num = entries.value(QStringLiteral("display_aspect_num")).toInt();
-    result.display_aspect_den = entries.value(QStringLiteral("display_aspect_den")).toInt();
-    result.colorspace = entries.value(QStringLiteral("colorspace")).toInt();
-    return result;
-
-}
-
-// static
-// TODO refac : delete this and replace by ProfileRepository::saveProfile
-void ProfilesDialog::saveProfile(MltVideoProfile &profile, QString profilePath)
-{
-    if (profilePath.isEmpty()) {
-        int i = 0;
-        QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/profiles/"));
-        if (!dir.exists()) {
-            dir.mkpath(QStringLiteral("."));
-        }
-        QString customName = QStringLiteral("customprofile");
-        profilePath = dir.absoluteFilePath(customName + QString::number(i));
-        while (QFile::exists(profilePath)) {
-            ++i;
-            profilePath = dir.absoluteFilePath(customName + QString::number(i));
-        }
-    }
-    QFile file(profilePath);
-    if (!file.open(QIODevice::WriteOnly)) {
-        KMessageBox::sorry(nullptr, i18n("Cannot open file %1", profilePath));
-        return;
-    }
-    QTextStream out(&file);
-    out << "description=" << profile.description << '\n'
-        << "frame_rate_num=" << profile.frame_rate_num << '\n'
-        << "frame_rate_den=" << profile.frame_rate_den << '\n'
-        << "width=" << profile.width << '\n'
-        << "height=" << profile.height << '\n'
-        << "progressive=" << static_cast<int>(profile.progressive) << '\n'
-        << "sample_aspect_num=" << profile.sample_aspect_num << '\n'
-        << "sample_aspect_den=" << profile.sample_aspect_den << '\n'
-        << "display_aspect_num=" << profile.display_aspect_num << '\n'
-        << "display_aspect_den=" << profile.display_aspect_den << '\n'
-        << "colorspace=" << profile.colorspace << '\n';
-    if (file.error() != QFile::NoError) {
-        KMessageBox::error(nullptr, i18n("Cannot write to file %1", profilePath));
-    }
-    file.close();
-    profile.path = profilePath;
-}
 
 void ProfilesDialog::slotUpdateDisplay(QString currentProfile)
 {

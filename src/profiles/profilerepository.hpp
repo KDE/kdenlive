@@ -74,6 +74,9 @@ public:
     /** @brief Saves given profile as custom one. If the path is left empty, it will be set to the standard custom_profile directory
      */
     void saveProfile(ProfileInfo *profile, QString profilePath = QString());
+
+    /** @brief Delete a (custom) profile*/
+    bool deleteProfile(const QString &path);
 protected:
     // Constructor is protected because class is a Singleton
     ProfileRepository();

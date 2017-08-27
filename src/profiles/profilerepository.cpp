@@ -205,3 +205,15 @@ void ProfileRepository::saveProfile(ProfileInfo *profile, QString profilePath)
     file.close();
     refresh();
 }
+
+bool ProfileRepository::deleteProfile(const QString &path)
+{
+    bool success = false;
+    if (path.contains(QLatin1Char('/'))) {
+        success = QFile::remove(path);
+    }
+    if (!success) {
+        qCDebug(KDENLIVE_LOG) << "//// Cannot delete profile " << path << ", does not seem to be custom one";
+    }
+    return success;
+}

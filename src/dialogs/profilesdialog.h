@@ -34,12 +34,7 @@ public:
     explicit ProfilesDialog(const QString &profileDescription = QString(), QWidget *parent = nullptr);
     /** @brief Using this constructor, the dialog only allows editing one profile. */
     explicit ProfilesDialog(const QString &profilePath, bool, QWidget *parent = nullptr);
-
     void fillList(const QString &selectedProfile = QString());
-    static void saveProfile(MltVideoProfile &profile, QString profilePath = QString());
-
-    /** @brief Build a profile from it's url */
-    static MltVideoProfile getProfileFromPath(const QString &path, const QString &name);
 
 protected:
     void closeEvent(QCloseEvent *event) override;

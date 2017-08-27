@@ -202,34 +202,6 @@ public:
     }
 };
 
-class MltVideoProfile
-{
-public:
-    QString path;
-    QString description;
-    int frame_rate_num;
-    int frame_rate_den;
-    int width;
-    int height;
-    bool progressive;
-    int sample_aspect_num;
-    int sample_aspect_den;
-    int display_aspect_num;
-    int display_aspect_den;
-    int colorspace;
-    // A profile's width should always be a multiple of 8
-    void adjustWidth();
-    MltVideoProfile();
-    explicit MltVideoProfile(const QVariantList &params);
-    bool operator==(const MltVideoProfile &point) const;
-    bool operator!=(const MltVideoProfile &other) const;
-    /** @brief Returns true if both profiles have same fps, and can be mixed with the xml producer */
-    bool isCompatible(const MltVideoProfile &point) const;
-    bool isValid() const;
-    const QVariantList toList() const;
-    const QString descriptiveString();
-    const QString dialogDescriptiveString();
-};
 
 class CommentedTime
 {
@@ -267,7 +239,6 @@ private:
 };
 
 QDebug operator<<(QDebug qd, const ItemInfo &info);
-QDebug operator<<(QDebug qd, const MltVideoProfile &profile);
 
 // we provide hash function for qstring
 namespace std {

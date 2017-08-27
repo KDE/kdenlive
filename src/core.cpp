@@ -81,7 +81,6 @@ void Core::build(const QString &MltPath)
     qRegisterMetaType<QVector<int>>();
     qRegisterMetaType<QDomElement>("QDomElement");
     qRegisterMetaType<requestClipInfo>("requestClipInfo");
-    qRegisterMetaType<MltVideoProfile>("MltVideoProfile");
 
     // Open connection with Mlt
     MltConnection::construct(MltPath);
