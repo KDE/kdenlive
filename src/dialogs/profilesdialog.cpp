@@ -50,10 +50,10 @@ ProfilesDialog::ProfilesDialog(const QString &profileDescription, QWidget *paren
     m_infoMessage->hide();
 
     // Fill colorspace list (see mlt_profile.h)
-    m_view.colorspace->addItem(getColorspaceDescription(601), 601);
-    m_view.colorspace->addItem(getColorspaceDescription(709), 709);
-    m_view.colorspace->addItem(getColorspaceDescription(240), 240);
-    m_view.colorspace->addItem(getColorspaceDescription(0), 0);
+    m_view.colorspace->addItem(ProfileRepository::getColorspaceDescription(601), 601);
+    m_view.colorspace->addItem(ProfileRepository::getColorspaceDescription(709), 709);
+    m_view.colorspace->addItem(ProfileRepository::getColorspaceDescription(240), 240);
+    m_view.colorspace->addItem(ProfileRepository::getColorspaceDescription(0), 0);
 
     QStringList profilesFilter;
     profilesFilter << QStringLiteral("*");
@@ -103,10 +103,10 @@ ProfilesDialog::ProfilesDialog(const QString &profilePath, bool, QWidget *parent
     m_infoMessage->hide();
 
     // Fill colorspace list (see mlt_profile.h)
-    m_view.colorspace->addItem(getColorspaceDescription(601), 601);
-    m_view.colorspace->addItem(getColorspaceDescription(709), 709);
-    m_view.colorspace->addItem(getColorspaceDescription(240), 240);
-    m_view.colorspace->addItem(getColorspaceDescription(0), 0);
+    m_view.colorspace->addItem(ProfileRepository::getColorspaceDescription(601), 601);
+    m_view.colorspace->addItem(ProfileRepository::getColorspaceDescription(709), 709);
+    m_view.colorspace->addItem(ProfileRepository::getColorspaceDescription(240), 240);
+    m_view.colorspace->addItem(ProfileRepository::getColorspaceDescription(0), 0);
 
     QStringList profilesFilter;
     profilesFilter << QStringLiteral("*");
@@ -641,33 +641,4 @@ void ProfilesDialog::slotUpdateDisplay(QString currentProfile)
         m_view.colorspace->setCurrentIndex(colorix);
     }
     m_profileIsModified = false;
-}
-
-// static
-QString ProfilesDialog::getColorspaceDescription(int colorspace)
-{
-    // TODO: should the descriptions be translated?
-    switch (colorspace) {
-    case 601:
-        return QStringLiteral("ITU-R 601");
-    case 709:
-        return QStringLiteral("ITU-R 709");
-    case 240:
-        return QStringLiteral("SMPTE240M");
-    default:
-        return i18n("Unknown");
-    }
-}
-
-// static
-int ProfilesDialog::getColorspaceFromDescription(const QString &description)
-{
-    // TODO: should the descriptions be translated?
-    if (description == QLatin1String("SMPTE240M")) {
-        return 240;
-    }
-    if (description == QLatin1String("ITU-R 709")) {
-        return 709;
-    }
-    return 601;
 }

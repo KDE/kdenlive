@@ -65,6 +65,8 @@ public:
      *  @param colorspace An int as defined in mlt_profile.h
      *  @return The string description */
     static QString getColorspaceDescription(int colorspace);
+    /* @brief This is the opposite function */
+    static int getColorspaceFromDescription(const QString &description);
 
     /** @brief Returns all the possible fps of the profiles in the repository*/
     QVector<double> getAllFps() const;
@@ -78,6 +80,8 @@ protected:
 
     static std::unique_ptr<ProfileRepository> instance;
     static std::once_flag m_onceFlag; // flag to create the repository only once;
+
+    static std::vector<std::pair<int, QString>> colorProfiles;
 
     mutable QReadWriteLock m_mutex;
 

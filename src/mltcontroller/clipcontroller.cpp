@@ -661,7 +661,6 @@ EffectsList ClipController::xmlEffectList(Mlt::Profile *profile, Mlt::Service &s
         }
         for (int i = 0; i < params.count(); ++i) {
             QDomElement param = params.item(i).toElement();
-            // Useless?
             Timeline::setParam(param, effect->get(param.attribute(QStringLiteral("name")).toUtf8().constData()));
         }
         effList.append(currenteffect);

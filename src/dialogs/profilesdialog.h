@@ -62,16 +62,6 @@ public:
      *  @return A string list of the matching profiles description */
     static QMap<QString, QString> getProfilesFromProperties(int width, int height, double fps, double par, bool useDisplayWidth = false);
 
-    /** @brief Get the descriptive text for given colorspace code (defined by MLT)
-     *  @param colorspace An int as defined in mlt_profile.h
-     *  @return The string description */
-    static QString getColorspaceDescription(int colorspace);
-
-    /** @brief Get the colorspace code (defined by MLT) from a descriptive text
-     *  @param desctiption A string description as defined in getColorspaceDescription(int colorspace)
-     *  @return The int code */
-    static int getColorspaceFromDescription(const QString &description);
-
     /** @brief Build a profile from it's url */
     static MltVideoProfile getProfileFromPath(const QString &path, const QString &name);
 

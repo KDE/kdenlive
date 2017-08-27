@@ -28,6 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
 #include "project/projectmanager.h"
+#include "profiles/profilerepository.hpp"
 #include "timecodedisplay.h"
 #include "utils/KoIconUtils.h"
 #include "widgets/choosecolorwidget.h"
@@ -490,9 +491,9 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
         combo = new QComboBox(this);
         combo->setObjectName(QStringLiteral("force_colorspace_value"));
-        combo->addItem(ProfilesDialog::getColorspaceDescription(601), 601);
-        combo->addItem(ProfilesDialog::getColorspaceDescription(709), 709);
-        combo->addItem(ProfilesDialog::getColorspaceDescription(240), 240);
+        combo->addItem(ProfileRepository::getColorspaceDescription(601), 601);
+        combo->addItem(ProfileRepository::getColorspaceDescription(709), 709);
+        combo->addItem(ProfileRepository::getColorspaceDescription(240), 240);
         int force_colorspace = m_properties.get_int("force_colorspace");
         m_originalProperties.insert(QStringLiteral("force_colorspace"), force_colorspace == 0 ? QStringLiteral("-") : QString::number(force_colorspace));
         int colorspace = controller->videoCodecProperty(QStringLiteral("colorspace")).toInt();
@@ -840,7 +841,7 @@ void ClipPropertiesController::fillProperties()
             propertyMap.append(QStringList() << i18n("Pixel aspect ratio") << QString::number(par, 'f', 3));
             propertyMap.append(QStringList() << i18n("Pixel format") << m_controller->videoCodecProperty(QStringLiteral("pix_fmt")));
             int colorspace = m_controller->videoCodecProperty(QStringLiteral("colorspace")).toInt();
-            propertyMap.append(QStringList() << i18n("Colorspace") << ProfilesDialog::getColorspaceDescription(colorspace));
+            propertyMap.append(QStringList() << i18n("Colorspace") << ProfileRepository::getColorspaceDescription(colorspace));
         }
         if (default_audio > -1) {
             char property[200];

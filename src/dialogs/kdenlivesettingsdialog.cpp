@@ -24,6 +24,7 @@
 #include "encodingprofilesdialog.h"
 #include "kdenlivesettings.h"
 #include "profiles/profilemodel.hpp"
+#include "profiles/profilerepository.hpp"
 #include "profilesdialog.h"
 #include "project/dialogs/profilewidget.h"
 #include "renderer.h"
@@ -1153,7 +1154,7 @@ void KdenliveSettingsDialog::slotUpdatev4lCaptureProfile()
     m_configCapture.p_fps->setText(info.at(3) + QLatin1Char('/') + info.at(4));
     m_configCapture.p_aspect->setText(QStringLiteral("1/1"));
     m_configCapture.p_display->setText(info.at(1) + QLatin1Char('/') + info.at(2));
-    m_configCapture.p_colorspace->setText(ProfilesDialog::getColorspaceDescription(601));
+    m_configCapture.p_colorspace->setText(ProfileRepository::getColorspaceDescription(601));
     m_configCapture.p_progressive->setText(i18n("Progressive"));
 
     QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/profiles/"));
@@ -1189,7 +1190,7 @@ void KdenliveSettingsDialog::loadCurrentV4lProfileInfo()
     m_configCapture.p_fps->setText(QString::number(prof.frame_rate_num) + QLatin1Char('/') + QString::number(prof.frame_rate_den));
     m_configCapture.p_aspect->setText(QString::number(prof.sample_aspect_num) + QLatin1Char('/') + QString::number(prof.sample_aspect_den));
     m_configCapture.p_display->setText(QString::number(prof.display_aspect_num) + QLatin1Char('/') + QString::number(prof.display_aspect_den));
-    m_configCapture.p_colorspace->setText(ProfilesDialog::getColorspaceDescription(prof.colorspace));
+    m_configCapture.p_colorspace->setText(ProfileRepository::getColorspaceDescription(prof.colorspace));
     if (prof.progressive) {
         m_configCapture.p_progressive->setText(i18n("Progressive"));
     }
@@ -1199,7 +1200,7 @@ void KdenliveSettingsDialog::saveCurrentV4lProfile()
 {
     MltVideoProfile profile;
     profile.description = QStringLiteral("Video4Linux capture");
-    profile.colorspace = ProfilesDialog::getColorspaceFromDescription(m_configCapture.p_colorspace->text());
+    profile.colorspace = ProfileRepository::getColorspaceFromDescription(m_configCapture.p_colorspace->text());
     profile.width = m_configCapture.p_size->text().section('x', 0, 0).toInt();
     profile.height = m_configCapture.p_size->text().section('x', 1, 1).toInt();
     profile.sample_aspect_num = m_configCapture.p_aspect->text().section(QLatin1Char('/'), 0, 0).toInt();

@@ -33,6 +33,10 @@
 
 std::unique_ptr<ProfileRepository> ProfileRepository::instance;
 std::once_flag ProfileRepository::m_onceFlag;
+std::vector<std::pair<int, QString>> ProfileRepository::colorProfiles{
+    {601,QStringLiteral("ITU-R 601")},
+    {709, QStringLiteral("ITU-R 709")},
+    {240, QStringLiteral("SMPTE240M")}};
 
 ProfileRepository::ProfileRepository()
 {
@@ -122,16 +126,21 @@ bool ProfileRepository::profileExists(const QString &path) const
 QString ProfileRepository::getColorspaceDescription(int colorspace)
 {
     // TODO: should the descriptions be translated?
-    switch (colorspace) {
-    case 601:
-        return QStringLiteral("ITU-R 601");
-    case 709:
-        return QStringLiteral("ITU-R 709");
-    case 240:
-        return QStringLiteral("SMPTE240M");
-    default:
-        return i18n("Unknown");
+    for (const auto& cs : colorProfiles) {
+        if (cs.first == colorspace)
+            return cs.second;
     }
+    return i18n("Unknown");
+}
+
+// static
+int ProfileRepository::getColorspaceFromDescription(const QString &description)
+{
+    for (const auto& cs : colorProfiles) {
+        if (cs.second == description)
+            return cs.first;
+    }
+    return 0;
 }
 
 QVector<double> ProfileRepository::getAllFps() const
