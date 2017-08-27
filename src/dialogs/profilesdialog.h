@@ -39,7 +39,6 @@ public:
     static MltVideoProfile getVideoProfile(const QString &name);
     static MltVideoProfile getVideoProfile(Mlt::Profile &profile);
     static void saveProfile(MltVideoProfile &profile, QString profilePath = QString());
-    static QList<MltVideoProfile> profilesList();
 
     /** @brief Build a profile from it's url */
     static MltVideoProfile getProfileFromPath(const QString &path, const QString &name);
