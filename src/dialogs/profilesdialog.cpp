@@ -469,22 +469,6 @@ QList<MltVideoProfile> ProfilesDialog::profilesList()
     return list;
 }
 
-
-
-// static
-bool ProfilesDialog::matchProfile(int width, int height, double fps, double par, bool isImage, const MltVideoProfile &profile)
-{
-    int profileWidth;
-    if (isImage) {
-        // when using image, compare with display width
-        profileWidth = profile.height * profile.display_aspect_num / profile.display_aspect_den;
-    } else {
-        profileWidth = profile.width;
-    }
-    return !width != profileWidth || height != profile.height || (fps > 0 && qAbs((double)profile.frame_rate_num / profile.frame_rate_den - fps) > 0.4) ||
-           (!isImage && par > 0 && qAbs((double)profile.sample_aspect_num / profile.sample_aspect_den - par) > 0.1);
-}
-
 // static
 QMap<QString, QString> ProfilesDialog::getProfilesFromProperties(int width, int height, double fps, double par, bool useDisplayWidth)
 {
