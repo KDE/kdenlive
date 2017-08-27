@@ -322,43 +322,6 @@ void ProfilesDialog::slotDeleteProfile()
 }
 
 
-// static
-MltVideoProfile ProfilesDialog::getVideoProfile(const QString &name)
-{
-    MltVideoProfile result;
-    QStringList profilesNames;
-    QStringList profilesFiles;
-    QStringList profilesFilter;
-    profilesFilter << QStringLiteral("*");
-    QString path;
-    bool isCustom = false;
-    if (name.contains(QLatin1Char('/'))) {
-        isCustom = true;
-    }
-    if (!isCustom) {
-        // List the Mlt profiles
-        QDir mltDir(KdenliveSettings::mltpath());
-        if (mltDir.exists(name)) {
-            path = mltDir.absoluteFilePath(name);
-        }
-    }
-    if (isCustom || path.isEmpty()) {
-        path = name;
-    }
-
-    if (path.isEmpty() || !QFile::exists(path)) {
-        if (name == QLatin1String("dv_pal")) {
-            // qCDebug(KDENLIVE_LOG) << "!!! WARNING, COULD NOT FIND DEFAULT MLT PROFILE";
-            return result;
-        }
-        if (name == KdenliveSettings::default_profile()) {
-            KdenliveSettings::setDefault_profile(QStringLiteral("dv_pal"));
-        }
-        // qCDebug(KDENLIVE_LOG) << "// WARNING, COULD NOT FIND PROFILE " << name;
-        return result;
-    }
-    return getProfileFromPath(path, name);
-}
 
 MltVideoProfile ProfilesDialog::getProfileFromPath(const QString &path, const QString &name)
 {
@@ -378,24 +341,7 @@ MltVideoProfile ProfilesDialog::getProfileFromPath(const QString &path, const QS
     result.display_aspect_den = entries.value(QStringLiteral("display_aspect_den")).toInt();
     result.colorspace = entries.value(QStringLiteral("colorspace")).toInt();
     return result;
-}
 
-// static
-MltVideoProfile ProfilesDialog::getVideoProfile(Mlt::Profile &profile)
-{
-    MltVideoProfile result;
-    result.description = profile.description();
-    result.frame_rate_num = profile.frame_rate_num();
-    result.frame_rate_den = profile.frame_rate_den();
-    result.width = profile.width();
-    result.height = profile.height();
-    result.progressive = profile.progressive();
-    result.sample_aspect_num = profile.sample_aspect_num();
-    result.sample_aspect_den = profile.sample_aspect_den();
-    result.display_aspect_num = profile.display_aspect_num();
-    result.display_aspect_den = profile.display_aspect_den();
-    result.colorspace = profile.colorspace();
-    return result;
 }
 
 // static

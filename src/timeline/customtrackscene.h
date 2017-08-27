@@ -33,7 +33,6 @@
 #include "gentime.h"
 
 class Timeline;
-class MltVideoProfile;
 
 class CustomTrackScene : public QGraphicsScene
 {
@@ -49,7 +48,6 @@ public:
     void setScale(double scale, double vscale);
     QPointF scale() const;
     int tracksCount() const;
-    MltVideoProfile profile() const;
     void setEditMode(TimelineMode::EditMode mode);
     TimelineMode::EditMode editMode() const;
     bool isZooming;

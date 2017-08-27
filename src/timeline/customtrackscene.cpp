@@ -99,11 +99,6 @@ int CustomTrackScene::tracksCount() const
     return m_timeline->visibleTracksCount();
 }
 
-MltVideoProfile CustomTrackScene::profile() const
-{
-    return m_timeline->mltProfile();
-}
-
 void CustomTrackScene::setEditMode(TimelineMode::EditMode mode)
 {
     m_editMode = mode;

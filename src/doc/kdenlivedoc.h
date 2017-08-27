@@ -86,8 +86,6 @@ public:
     /** @brief Get a list of all clip ids that are inside a folder. */
     QStringList getBinFolderClipIds(const QString &folderId) const;
 
-    /** @brief Returns current project profile. */
-    MltVideoProfile mltProfile() const;
     const QString description() const;
     void setUrl(const QUrl &url);
 

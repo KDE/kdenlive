@@ -1601,10 +1601,6 @@ int Timeline::hasTrackEffect(int trackIndex, const QString &tag, const QString &
     return list.hasEffect(tag, id);
 }
 
-MltVideoProfile Timeline::mltProfile() const
-{
-    return ProfilesDialog::getVideoProfile(*m_tractor->profile());
-}
 
 double Timeline::fps() const
 {

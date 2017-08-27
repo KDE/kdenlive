@@ -1169,52 +1169,51 @@ void KdenliveSettingsDialog::loadCurrentV4lProfileInfo()
     if (!dir.exists()) {
         dir.mkpath(QStringLiteral("."));
     }
-    MltVideoProfile prof;
-    if (!dir.exists(QStringLiteral("video4linux"))) {
+    if (!ProfileRepository::get()->profileExists(dir.absoluteFilePath(QStringLiteral("video4linux")))) {
         // No default formats found, build one
-        prof.width = 320;
-        prof.height = 200;
-        prof.frame_rate_num = 15;
-        prof.frame_rate_den = 1;
-        prof.display_aspect_num = 4;
-        prof.display_aspect_den = 3;
-        prof.sample_aspect_num = 1;
-        prof.sample_aspect_den = 1;
-        prof.progressive = 1;
-        prof.colorspace = 601;
-        ProfilesDialog::saveProfile(prof, dir.absoluteFilePath(QStringLiteral("video4linux")));
-    } else {
-        prof = ProfilesDialog::getVideoProfile(dir.absoluteFilePath(QStringLiteral("video4linux")));
+        std::unique_ptr<ProfileParam> prof(new ProfileParam(pCore->getCurrentProfile().get()));
+        prof->m_width = 320;
+        prof->m_height = 200;
+        prof->m_frame_rate_num = 15;
+        prof->m_frame_rate_den = 1;
+        prof->m_display_aspect_num = 4;
+        prof->m_display_aspect_den = 3;
+        prof->m_sample_aspect_num = 1;
+        prof->m_sample_aspect_den = 1;
+        prof->m_progressive = 1;
+        prof->m_colorspace = 601;
+        ProfileRepository::get()->saveProfile(prof.get(), dir.absoluteFilePath(QStringLiteral("video4linux")));
     }
-    m_configCapture.p_size->setText(QString::number(prof.width) + QLatin1Char('x') + QString::number(prof.height));
-    m_configCapture.p_fps->setText(QString::number(prof.frame_rate_num) + QLatin1Char('/') + QString::number(prof.frame_rate_den));
-    m_configCapture.p_aspect->setText(QString::number(prof.sample_aspect_num) + QLatin1Char('/') + QString::number(prof.sample_aspect_den));
-    m_configCapture.p_display->setText(QString::number(prof.display_aspect_num) + QLatin1Char('/') + QString::number(prof.display_aspect_den));
-    m_configCapture.p_colorspace->setText(ProfileRepository::getColorspaceDescription(prof.colorspace));
-    if (prof.progressive) {
+    auto &prof = ProfileRepository::get()->getProfile(dir.absoluteFilePath(QStringLiteral("video4linux")));
+    m_configCapture.p_size->setText(QString::number(prof->width()) + QLatin1Char('x') + QString::number(prof->height()));
+    m_configCapture.p_fps->setText(QString::number(prof->frame_rate_num()) + QLatin1Char('/') + QString::number(prof->frame_rate_den()));
+    m_configCapture.p_aspect->setText(QString::number(prof->sample_aspect_num()) + QLatin1Char('/') + QString::number(prof->sample_aspect_den()));
+    m_configCapture.p_display->setText(QString::number(prof->display_aspect_num()) + QLatin1Char('/') + QString::number(prof->display_aspect_den()));
+    m_configCapture.p_colorspace->setText(ProfileRepository::getColorspaceDescription(prof->colorspace()));
+    if (prof->progressive()) {
         m_configCapture.p_progressive->setText(i18n("Progressive"));
     }
 }
 
 void KdenliveSettingsDialog::saveCurrentV4lProfile()
 {
-    MltVideoProfile profile;
-    profile.description = QStringLiteral("Video4Linux capture");
-    profile.colorspace = ProfileRepository::getColorspaceFromDescription(m_configCapture.p_colorspace->text());
-    profile.width = m_configCapture.p_size->text().section('x', 0, 0).toInt();
-    profile.height = m_configCapture.p_size->text().section('x', 1, 1).toInt();
-    profile.sample_aspect_num = m_configCapture.p_aspect->text().section(QLatin1Char('/'), 0, 0).toInt();
-    profile.sample_aspect_den = m_configCapture.p_aspect->text().section(QLatin1Char('/'), 1, 1).toInt();
-    profile.display_aspect_num = m_configCapture.p_display->text().section(QLatin1Char('/'), 0, 0).toInt();
-    profile.display_aspect_den = m_configCapture.p_display->text().section(QLatin1Char('/'), 1, 1).toInt();
-    profile.frame_rate_num = m_configCapture.p_fps->text().section(QLatin1Char('/'), 0, 0).toInt();
-    profile.frame_rate_den = m_configCapture.p_fps->text().section(QLatin1Char('/'), 1, 1).toInt();
-    profile.progressive = m_configCapture.p_progressive->text() == i18n("Progressive");
+    std::unique_ptr<ProfileParam> profile(new ProfileParam(pCore->getCurrentProfile().get()));
+    profile->m_description = QStringLiteral("Video4Linux capture");
+    profile->m_colorspace = ProfileRepository::getColorspaceFromDescription(m_configCapture.p_colorspace->text());
+    profile->m_width = m_configCapture.p_size->text().section('x', 0, 0).toInt();
+    profile->m_height = m_configCapture.p_size->text().section('x', 1, 1).toInt();
+    profile->m_sample_aspect_num = m_configCapture.p_aspect->text().section(QLatin1Char('/'), 0, 0).toInt();
+    profile->m_sample_aspect_den = m_configCapture.p_aspect->text().section(QLatin1Char('/'), 1, 1).toInt();
+    profile->m_display_aspect_num = m_configCapture.p_display->text().section(QLatin1Char('/'), 0, 0).toInt();
+    profile->m_display_aspect_den = m_configCapture.p_display->text().section(QLatin1Char('/'), 1, 1).toInt();
+    profile->m_frame_rate_num = m_configCapture.p_fps->text().section(QLatin1Char('/'), 0, 0).toInt();
+    profile->m_frame_rate_den = m_configCapture.p_fps->text().section(QLatin1Char('/'), 1, 1).toInt();
+    profile->m_progressive = m_configCapture.p_progressive->text() == i18n("Progressive");
     QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/profiles/"));
     if (!dir.exists()) {
         dir.mkpath(QStringLiteral("."));
     }
-    ProfilesDialog::saveProfile(profile, dir.absoluteFilePath(QStringLiteral("video4linux")));
+    ProfileRepository::get()->saveProfile(profile.get(), dir.absoluteFilePath(QStringLiteral("video4linux")));
 }
 
 void KdenliveSettingsDialog::slotManageEncodingProfile()

@@ -96,7 +96,6 @@ public:
     bool sendFrameForAnalysis;
     void updateGamma();
     Mlt::Profile *profile();
-    void resetProfile(const MltVideoProfile &profile);
     void reloadProfile();
     void lockMonitor();
     void releaseMonitor();

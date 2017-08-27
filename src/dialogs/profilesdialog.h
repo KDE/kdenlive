@@ -36,8 +36,6 @@ public:
     explicit ProfilesDialog(const QString &profilePath, bool, QWidget *parent = nullptr);
 
     void fillList(const QString &selectedProfile = QString());
-    static MltVideoProfile getVideoProfile(const QString &name);
-    static MltVideoProfile getVideoProfile(Mlt::Profile &profile);
     static void saveProfile(MltVideoProfile &profile, QString profilePath = QString());
 
     /** @brief Build a profile from it's url */

@@ -1208,25 +1208,6 @@ Mlt::Profile *GLWidget::profile()
     return m_monitorProfile;
 }
 
-void GLWidget::resetProfile(const MltVideoProfile &profile)
-{
-    if ((m_consumer != nullptr) && !m_consumer->is_stopped()) {
-        m_consumer->stop();
-        m_consumer->purge();
-    }
-    free(m_monitorProfile->get_profile()->description);
-    m_monitorProfile->get_profile()->description = strdup(profile.description.toUtf8().data());
-    m_monitorProfile->set_colorspace(profile.colorspace);
-    m_monitorProfile->set_frame_rate(profile.frame_rate_num, profile.frame_rate_den);
-    m_monitorProfile->set_height(profile.height);
-    m_monitorProfile->set_width(profile.width);
-    m_monitorProfile->set_progressive(static_cast<int>(profile.progressive));
-    m_monitorProfile->set_sample_aspect(profile.sample_aspect_num, profile.sample_aspect_den);
-    m_monitorProfile->set_display_aspect(profile.display_aspect_num, profile.display_aspect_den);
-    m_monitorProfile->set_explicit(1);
-    reconfigure();
-    refreshSceneLayout();
-}
 
 void GLWidget::reloadProfile()
 {

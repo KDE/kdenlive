@@ -28,6 +28,7 @@
 #include "capture/v4lcapture.h"
 #endif
 #include <config-kdenlive.h>
+#include "core.h"
 
 #include <framework/mlt_version.h>
 #include <mlt++/Mlt.h>
@@ -282,12 +283,12 @@ void Wizard::slotUpdateCaptureParameters()
         dir.mkpath(QStringLiteral("."));
     }
 
-    if (dir.exists(QStringLiteral("video4linux"))) {
-        MltVideoProfile profileInfo = ProfilesDialog::getVideoProfile(dir.absoluteFilePath(QStringLiteral("video4linux")));
+    if (ProfileRepository::get()->profileExists(dir.absoluteFilePath(QStringLiteral("video4linux")))) {
+        auto& profileInfo = ProfileRepository::get()->getProfile(dir.absoluteFilePath(QStringLiteral("video4linux")));
         m_capture.v4l_formats->addItem(
-            i18n("Current settings (%1x%2, %3/%4fps)", profileInfo.width, profileInfo.height, profileInfo.frame_rate_num, profileInfo.frame_rate_den),
-            QStringList() << QStringLiteral("unknown") << QString::number(profileInfo.width) << QString::number(profileInfo.height)
-                          << QString::number(profileInfo.frame_rate_num) << QString::number(profileInfo.frame_rate_den));
+            i18n("Current settings (%1x%2, %3/%4fps)", profileInfo->width(), profileInfo->height(), profileInfo->frame_rate_num(), profileInfo->frame_rate_den()),
+            QStringList() << QStringLiteral("unknown") << QString::number(profileInfo->width()) << QString::number(profileInfo->height())
+            << QString::number(profileInfo->frame_rate_num()) << QString::number(profileInfo->frame_rate_den()));
     }
     QStringList pixelformats = formats.split('>', QString::SkipEmptyParts);
     QString itemSize;
@@ -317,22 +318,22 @@ void Wizard::slotUpdateCaptureParameters()
             slotSaveCaptureFormat();
         } else {
             // No existing profile and no autodetected profiles
-            MltVideoProfile profileInfo;
-            profileInfo.width = 320;
-            profileInfo.height = 200;
-            profileInfo.frame_rate_num = 15;
-            profileInfo.frame_rate_den = 1;
-            profileInfo.display_aspect_num = 4;
-            profileInfo.display_aspect_den = 3;
-            profileInfo.sample_aspect_num = 1;
-            profileInfo.sample_aspect_den = 1;
-            profileInfo.progressive = 1;
-            profileInfo.colorspace = 601;
-            ProfilesDialog::saveProfile(profileInfo, dir.absoluteFilePath(QStringLiteral("video4linux")));
+            std::unique_ptr<ProfileParam> profileInfo(new ProfileParam(pCore->getCurrentProfile().get()));
+            profileInfo->m_width = 320;
+            profileInfo->m_height = 200;
+            profileInfo->m_frame_rate_num = 15;
+            profileInfo->m_frame_rate_den = 1;
+            profileInfo->m_display_aspect_num = 4;
+            profileInfo->m_display_aspect_den = 3;
+            profileInfo->m_sample_aspect_num = 1;
+            profileInfo->m_sample_aspect_den = 1;
+            profileInfo->m_progressive = 1;
+            profileInfo->m_colorspace = 601;
+            ProfileRepository::get()->saveProfile(profileInfo.get(), dir.absoluteFilePath(QStringLiteral("video4linux")));
             m_capture.v4l_formats->addItem(
-                i18n("Default settings (%1x%2, %3/%4fps)", profileInfo.width, profileInfo.height, profileInfo.frame_rate_num, profileInfo.frame_rate_den),
-                QStringList() << QStringLiteral("unknown") << QString::number(profileInfo.width) << QString::number(profileInfo.height)
-                              << QString::number(profileInfo.frame_rate_num) << QString::number(profileInfo.frame_rate_den));
+                i18n("Default settings (%1x%2, %3/%4fps)", profileInfo->width(), profileInfo->height(), profileInfo->frame_rate_num(), profileInfo->frame_rate_den()),
+                QStringList() << QStringLiteral("unknown") << QString::number(profileInfo->width()) << QString::number(profileInfo->height())
+                << QString::number(profileInfo->frame_rate_num()) << QString::number(profileInfo->frame_rate_den()));
         }
     }
     m_capture.v4l_formats->blockSignals(false);
@@ -858,23 +859,23 @@ void Wizard::slotSaveCaptureFormat()
     if (format.isEmpty()) {
         return;
     }
-    MltVideoProfile profile;
-    profile.description = QStringLiteral("Video4Linux capture");
-    profile.colorspace = 601;
-    profile.width = format.at(1).toInt();
-    profile.height = format.at(2).toInt();
-    profile.sample_aspect_num = 1;
-    profile.sample_aspect_den = 1;
-    profile.display_aspect_num = format.at(1).toInt();
-    profile.display_aspect_den = format.at(2).toInt();
-    profile.frame_rate_num = format.at(3).toInt();
-    profile.frame_rate_den = format.at(4).toInt();
-    profile.progressive = 1;
+    std::unique_ptr<ProfileParam> profile(new ProfileParam(pCore->getCurrentProfile().get()));
+    profile->m_description = QStringLiteral("Video4Linux capture");
+    profile->m_colorspace = 601;
+    profile->m_width = format.at(1).toInt();
+    profile->m_height = format.at(2).toInt();
+    profile->m_sample_aspect_num = 1;
+    profile->m_sample_aspect_den = 1;
+    profile->m_display_aspect_num = format.at(1).toInt();
+    profile->m_display_aspect_den = format.at(2).toInt();
+    profile->m_frame_rate_num = format.at(3).toInt();
+    profile->m_frame_rate_den = format.at(4).toInt();
+    profile->m_progressive = 1;
     QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/profiles/"));
     if (!dir.exists()) {
         dir.mkpath(QStringLiteral("."));
     }
-    ProfilesDialog::saveProfile(profile, dir.absoluteFilePath(QStringLiteral("video4linux")));
+    ProfileRepository::get()->saveProfile(profile.get(), dir.absoluteFilePath(QStringLiteral("video4linux")));
 }
 
 void Wizard::slotUpdateDecklinkDevice(uint captureCard)

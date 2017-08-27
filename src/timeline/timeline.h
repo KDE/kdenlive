@@ -128,7 +128,6 @@ public:
     const EffectsList getTrackEffects(int trackIndex);
     QDomElement getTrackEffect(int trackIndex, int effectIndex);
     int hasTrackEffect(int trackIndex, const QString &tag, const QString &id);
-    MltVideoProfile mltProfile() const;
     double fps() const;
     QPoint getTracksCount();
     /** @brief Check if we have a blank space on selected track.
