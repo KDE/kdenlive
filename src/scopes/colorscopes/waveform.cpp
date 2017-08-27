@@ -12,7 +12,6 @@
 #include "waveformgenerator.h"
 // For reading out the project resolution
 #include "core.h"
-#include "dialogs/profilesdialog.h"
 #include "profiles/profilemodel.hpp"
 
 #include "klocalizedstring.h"
@@ -122,7 +121,6 @@ QImage Waveform::renderHUD(uint)
     QPainter davinci(&hud);
     davinci.setPen(penLight);
 
-    QMap<QString, QString> values = ProfilesDialog::getSettingsFromFile(pCore->getCurrentProfile()->path());
     //    qCDebug(KDENLIVE_LOG) << values.value("width");
 
     const int rightX = scopeRect().width() - m_textWidth.width() + 3;
@@ -152,7 +150,7 @@ QImage Waveform::renderHUD(uint)
         if (scopeRect().width() > 0) {
             // Draw a vertical line and the x position of the source clip
             bool ok;
-            const int profileWidth = values.value(QStringLiteral("width")).toInt(&ok);
+            const int profileWidth = pCore->getCurrentProfile()->width();
 
             if (ok) {
                 const int clipX = (float)x / (scopeRect().width() - m_textWidth.width() - 1) * (profileWidth - 1);

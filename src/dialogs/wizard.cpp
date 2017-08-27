@@ -20,6 +20,8 @@
 #include "wizard.h"
 #include "kdenlivesettings.h"
 #include "profilesdialog.h"
+#include "profiles/profilerepository.hpp"
+#include "profiles/profilemodel.hpp"
 #include "utils/KoIconUtils.h"
 #include "utils/thememanager.h"
 #ifdef USE_V4L
@@ -770,14 +772,14 @@ void Wizard::slotCheckStandard()
     for (int i = 0; i < m_standard.profiles_list->count(); ++i) {
         QListWidgetItem *item = m_standard.profiles_list->item(i);
 
-        QMap<QString, QString> values = ProfilesDialog::getSettingsFromFile(item->data(Qt::UserRole).toString());
+        std::unique_ptr<ProfileModel> &curProfile = ProfileRepository::get()->getProfile(item->data(Qt::UserRole).toString());
         const QString infoString = ("<strong>" + i18n("Frame size:") + QStringLiteral(" </strong>%1x%2<br /><strong>") + i18n("Frame rate:") +
                                     QStringLiteral(" </strong>%3/%4<br /><strong>") + i18n("Pixel aspect ratio:") +
                                     QStringLiteral("</strong>%5/%6<br /><strong>") + i18n("Display aspect ratio:") + QStringLiteral(" </strong>%7/%8"))
-                                       .arg(values.value(QStringLiteral("width")), values.value(QStringLiteral("height")),
-                                            values.value(QStringLiteral("frame_rate_num")), values.value(QStringLiteral("frame_rate_den")),
-                                            values.value(QStringLiteral("sample_aspect_num")), values.value(QStringLiteral("sample_aspect_den")),
-                                            values.value(QStringLiteral("display_aspect_num")), values.value(QStringLiteral("display_aspect_den")));
+            .arg(QString::number(curProfile->width()), QString::number(curProfile->height()),
+                 QString::number(curProfile->frame_rate_num()), QString::number(curProfile->frame_rate_den()),
+                 QString::number(curProfile->sample_aspect_num()), QString::number(curProfile->sample_aspect_den()),
+                 QString::number(curProfile->display_aspect_num()), QString::number(curProfile->display_aspect_den()));
         item->setToolTip(infoString);
     }
 

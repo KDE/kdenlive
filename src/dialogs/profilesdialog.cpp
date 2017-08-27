@@ -19,6 +19,7 @@
 
 #include "profilesdialog.h"
 #include "kdenlivesettings.h"
+#include "profiles/profilemodel.hpp"
 #include "profiles/profilerepository.hpp"
 #include "utils/KoIconUtils.h"
 
@@ -468,23 +469,7 @@ QList<MltVideoProfile> ProfilesDialog::profilesList()
     return list;
 }
 
-// static
-QMap<QString, QString> ProfilesDialog::getSettingsFromFile(const QString &path)
-{
-    QStringList profilesNames;
-    QStringList profilesFiles;
-    QStringList profilesFilter;
-    profilesFilter << QStringLiteral("*");
-    QDir mltDir(KdenliveSettings::mltpath());
-    if (!path.contains(QLatin1Char('/'))) {
-        // This is an MLT profile
-        KConfig confFile(mltDir.absoluteFilePath(path), KConfig::SimpleConfig);
-        return confFile.entryMap();
-    }
-    // This is a custom profile
-    KConfig confFile(path, KConfig::SimpleConfig);
-    return confFile.entryMap();
-}
+
 
 // static
 bool ProfilesDialog::matchProfile(int width, int height, double fps, double par, bool isImage, const MltVideoProfile &profile)
@@ -617,26 +602,26 @@ void ProfilesDialog::slotUpdateDisplay(QString currentProfile)
     m_view.button_delete->setEnabled(m_isCustomProfile);
     m_view.properties->setEnabled(m_isCustomProfile);
     m_view.button_save->setEnabled(m_isCustomProfile);
-    QMap<QString, QString> values = ProfilesDialog::getSettingsFromFile(currentProfile);
-    m_view.description->setText(values.value(QStringLiteral("description")));
-    m_view.size_w->setValue(values.value(QStringLiteral("width")).toInt());
-    m_view.size_h->setValue(values.value(QStringLiteral("height")).toInt());
-    m_view.aspect_num->setValue(values.value(QStringLiteral("sample_aspect_num")).toInt());
-    m_view.aspect_den->setValue(values.value(QStringLiteral("sample_aspect_den")).toInt());
-    m_view.display_num->setValue(values.value(QStringLiteral("display_aspect_num")).toInt());
-    m_view.display_den->setValue(values.value(QStringLiteral("display_aspect_den")).toInt());
-    m_view.frame_num->setValue(values.value(QStringLiteral("frame_rate_num")).toInt());
-    m_view.frame_den->setValue(values.value(QStringLiteral("frame_rate_den")).toInt());
-    m_view.progressive->setChecked(values.value(QStringLiteral("progressive")).toInt() != 0);
-    if (values.value(QStringLiteral("progressive")).toInt() != 0) {
+    std::unique_ptr<ProfileModel> &curProfile = ProfileRepository::get()->getProfile(currentProfile);
+    m_view.description->setText(curProfile->description());
+    m_view.size_w->setValue(curProfile->width());
+    m_view.size_h->setValue(curProfile->height());
+    m_view.aspect_num->setValue(curProfile->sample_aspect_num());
+    m_view.aspect_den->setValue(curProfile->sample_aspect_den());
+    m_view.display_num->setValue(curProfile->display_aspect_num());
+    m_view.display_den->setValue(curProfile->display_aspect_den());
+    m_view.frame_num->setValue(curProfile->frame_rate_num());
+    m_view.frame_den->setValue(curProfile->frame_rate_den());
+    m_view.progressive->setChecked(curProfile->progressive() != 0);
+    if (curProfile->progressive() != 0) {
         m_view.fields->setText(
-            locale.toString((double)values.value(QStringLiteral("frame_rate_num")).toInt() / values.value(QStringLiteral("frame_rate_den")).toInt(), 'f', 2));
+            locale.toString((double)curProfile->frame_rate_num() / curProfile->frame_rate_den(), 'f', 2));
     } else {
         m_view.fields->setText(locale.toString(
-            (double)2 * values.value(QStringLiteral("frame_rate_num")).toInt() / values.value(QStringLiteral("frame_rate_den")).toInt(), 'f', 2));
+            (double)2 * curProfile->frame_rate_num() / curProfile->frame_rate_den(), 'f', 2));
     }
 
-    int colorix = m_view.colorspace->findData(values.value(QStringLiteral("colorspace")).toInt());
+    int colorix = m_view.colorspace->findData(curProfile->colorspace());
     if (colorix > -1) {
         m_view.colorspace->setCurrentIndex(colorix);
     }

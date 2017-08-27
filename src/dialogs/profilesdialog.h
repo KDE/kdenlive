@@ -36,7 +36,6 @@ public:
     explicit ProfilesDialog(const QString &profilePath, bool, QWidget *parent = nullptr);
 
     void fillList(const QString &selectedProfile = QString());
-    static QMap<QString, QString> getSettingsFromFile(const QString &path);
     static MltVideoProfile getVideoProfile(const QString &name);
     static MltVideoProfile getVideoProfile(Mlt::Profile &profile);
     static void saveProfile(MltVideoProfile &profile, QString profilePath = QString());
