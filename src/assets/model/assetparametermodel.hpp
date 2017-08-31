@@ -49,7 +49,7 @@ enum class ParamType {
     AnimatedRect,
     Geometry,
     Addedgeometry,
-    Keyframe,
+    KeyframeParam,
     Color,
     Position,
     Curve,

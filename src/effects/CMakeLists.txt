@@ -11,5 +11,6 @@ set(kdenlive_SRCS
   effects/effectstack/model/effectstackmodel.cpp
   effects/effectstack/view/collapsibleeffectview.cpp
   effects/effectstack/view/effectstackview.cpp
+  effects/keyframes/keyframemodel.cpp
   PARENT_SCOPE)
 

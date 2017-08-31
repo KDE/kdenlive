@@ -84,7 +84,7 @@ AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetP
     case ParamType::AnimatedRect:
         widget = new AnimationWidget(model, index, range, parent);
         break;
-    case ParamType::Keyframe:
+    case ParamType::KeyframeParam:
         widget = new KeyframeEdit(model, index, parent);
         break;
     case ParamType::Position:

@@ -220,7 +220,7 @@ ParamType AssetParameterModel::paramTypeFromStr(const QString &type)
     } else if (type == QLatin1String("addedgeometry")) {
         return ParamType::Addedgeometry;
     } else if (type == QLatin1String("keyframe")) {
-        return ParamType::Keyframe;
+        return ParamType::KeyframeParam;
     } else if (type == QLatin1String("color")) {
         return ParamType::Color;
     } else if (type == QLatin1String("position")) {
