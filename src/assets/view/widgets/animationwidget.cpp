@@ -45,7 +45,7 @@
 #include "mlt++/MltAnimation.h"
 #include "mlt++/MltProfile.h"
 
-#include "../animkeyframeruler.h"
+#include "effectstack/animkeyframeruler.h"
 #include "animationwidget.h"
 #include "assets/model/assetparametermodel.hpp"
 #include "core.h"
@@ -335,7 +335,7 @@ void AnimationWidget::doAddKeyframe(int pos, QString paramName, bool directUpdat
     if (directUpdate) {
         m_ruler->setActiveKeyframe(pos);
         rebuildKeyframes();
-        emit valueChanged(m_index, QString(m_animController.serialize_cut()));
+        emit valueChanged(m_index, QString(m_animController.serialize_cut()), true);
     }
 }
 
@@ -380,7 +380,7 @@ void AnimationWidget::slotAddDeleteKeyframe(bool add, int pos)
     // Send updates
     for (int i = 0; i < m_parameters.count(); i++) {
         m_animController = m_animProperties.get_animation(m_parameters.at(i).second.toUtf8().constData());
-        emit valueChanged(m_parameters.at(i).first, QString(m_animController.serialize_cut()));
+        emit valueChanged(m_parameters.at(i).first, QString(m_animController.serialize_cut()), true);
     }
     // Restore default controller
     m_animController = m_animProperties.get_animation(m_inTimeline.toUtf8().constData());
@@ -414,7 +414,7 @@ void AnimationWidget::slotRemoveNext()
     // Send updates
     for (int i = 0; i < m_parameters.count(); i++) {
         m_animController = m_animProperties.get_animation(m_parameters.at(i).second.toUtf8().constData());
-        emit valueChanged(m_parameters.at(i).first, QString(m_animController.serialize_cut()));
+        emit valueChanged(m_parameters.at(i).first, QString(m_animController.serialize_cut()), true);
     }
     // Restore default controller
     m_animController = m_animProperties.get_animation(m_inTimeline.toUtf8().constData());
@@ -463,7 +463,7 @@ void AnimationWidget::moveKeyframe(int oldPos, int newPos)
     // Send updates
     for (int i = 0; i < m_parameters.count(); i++) {
         m_animController = m_animProperties.get_animation(m_parameters.at(i).second.toUtf8().constData());
-        emit valueChanged(m_parameters.at(i).first, QString(m_animController.serialize_cut()));
+        emit valueChanged(m_parameters.at(i).first, QString(m_animController.serialize_cut()), true);
     }
     // Restore default controller
     m_animController = m_animProperties.get_animation(m_inTimeline.toUtf8().constData());
@@ -738,7 +738,7 @@ void AnimationWidget::slotEditKeyframeType(QAction *action)
                 double val = m_animProperties.anim_get_double(m_parameters.at(i).second.toUtf8().constData(), pos, m_outPoint);
                 m_animProperties.anim_set(m_parameters.at(i).second.toUtf8().constData(), val, pos, m_outPoint, (mlt_keyframe_type) action->data().toInt());
             }
-            emit valueChanged(m_parameters.at(i).first, QString(m_animController.serialize_cut()));
+            emit valueChanged(m_parameters.at(i).first, QString(m_animController.serialize_cut()), true);
         }
         rebuildKeyframes();
         setupMonitor();
@@ -959,7 +959,7 @@ void AnimationWidget::slotUpdateVisibleParameter(bool display)
         m_inTimeline = slider->objectName();
         m_animController = m_animProperties.get_animation(m_inTimeline.toUtf8().constData());
         rebuildKeyframes();
-        emit valueChanged(m_index, QString(m_animController.serialize_cut()));
+        emit valueChanged(m_index, QString(m_animController.serialize_cut()), true);
     }
 }
 
@@ -981,7 +981,7 @@ void AnimationWidget::slotAdjustKeyframeValue(double value)
         // This is a keyframe
         type = m_animController.keyframe_type(pos);
         m_animProperties.anim_set(m_inTimeline.toUtf8().constData(), value / slider->factor, pos, m_outPoint, type);
-        emit valueChanged(ix, QString(m_animController.serialize_cut()));
+        emit valueChanged(ix, QString(m_animController.serialize_cut()), true);
     } else if (m_animController.key_count() <= 1) {
         pos = m_animController.key_get_frame(0);
         if (pos >= 0) {
@@ -989,7 +989,7 @@ void AnimationWidget::slotAdjustKeyframeValue(double value)
                 type = m_animController.keyframe_type(pos);
             }
             m_animProperties.anim_set(m_inTimeline.toUtf8().constData(), value / slider->factor, pos, m_outPoint, type);
-            emit valueChanged(ix, QString(m_animController.serialize_cut()));
+            emit valueChanged(ix, QString(m_animController.serialize_cut()), true);
         }
     }
 }
@@ -1027,14 +1027,14 @@ void AnimationWidget::slotAdjustRectKeyframeValue()
         // This is a keyframe
         m_animProperties.anim_set(m_rectParameter.toUtf8().constData(), rect, pos, m_outPoint,
                                   (mlt_keyframe_type)m_selectType->currentAction()->data().toInt());
-        emit valueChanged(m_index, QString(m_animController.serialize_cut()));
+        emit valueChanged(m_index, QString(m_animController.serialize_cut()), true);
         setupMonitor(QRect(rect.x, rect.y, rect.w, rect.h));
     } else if (m_animController.key_count() <= 1) {
         pos = m_animController.key_get_frame(0);
         if (pos >= 0) {
             m_animProperties.anim_set(m_rectParameter.toUtf8().constData(), rect, pos, m_outPoint,
                                       (mlt_keyframe_type)m_selectType->currentAction()->data().toInt());
-            emit valueChanged(m_index, QString(m_animController.serialize_cut()));
+            emit valueChanged(m_index, QString(m_animController.serialize_cut()), true);
             setupMonitor(QRect(rect.x, rect.y, rect.w, rect.h));
         }
     }
@@ -1123,7 +1123,7 @@ void AnimationWidget::slotReverseKeyframeType(bool reverse)
             m_attachedToEnd = -2;
         }
         rebuildKeyframes();
-        emit valueChanged(m_index, QString(m_animController.serialize_cut()));
+        emit valueChanged(m_index, QString(m_animController.serialize_cut()), true);
     }
 }
 
@@ -1193,7 +1193,7 @@ void AnimationWidget::applyPreset(int ix)
     }
     m_animController = m_animProperties.get_animation(m_inTimeline.toUtf8().constData());
     rebuildKeyframes();
-    emit valueChanged(m_index, QString(m_animController.serialize_cut()));
+    emit valueChanged(m_index, QString(m_animController.serialize_cut()), true);
 }
 
 void AnimationWidget::savePreset()
@@ -1461,7 +1461,7 @@ void AnimationWidget::reload(const QString &tag, const QString &data)
         m_animProperties.anim_get_rect(m_rectParameter.toUtf8().constData(), 0, m_outPoint);
     }
     rebuildKeyframes();
-    emit valueChanged(m_index, QString(m_animController.serialize_cut()));
+    emit valueChanged(m_index, QString(m_animController.serialize_cut()), true);
 }
 
 QString AnimationWidget::defaultValue(const QString &paramName)

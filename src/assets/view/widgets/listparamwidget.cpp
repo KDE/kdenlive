@@ -45,7 +45,7 @@ ListParamWidget::ListParamWidget(std::shared_ptr<AssetParameterModel> model, QMo
     // emit the signal of the base class when appropriate
     // The connection is ugly because the signal "currentIndexChanged" is overloaded in QComboBox
     connect(this->m_list, static_cast<void (KComboBox::*)(int)>(&KComboBox::currentIndexChanged),
-            [this](int) { emit valueChanged(m_index, m_list->itemData(m_list->currentIndex()).toString()); });
+            [this](int) { emit valueChanged(m_index, m_list->itemData(m_list->currentIndex()).toString(), true); });
 }
 
 void ListParamWidget::setCurrentIndex(int index)

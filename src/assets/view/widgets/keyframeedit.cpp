@@ -343,7 +343,7 @@ void KeyframeEdit::slotGenerateParams(int row, int column)
                     keyframes.append(QString::number(getPos(i)) + QLatin1Char('=') + keyframe_list->item(i, col)->text() + QLatin1Char(';'));
                 }
             }
-            emit valueChanged(m_paramIndexes.at(col), keyframes);
+            emit valueChanged(m_paramIndexes.at(col), keyframes, true);
             // m_params[col].setAttribute(getTag(), keyframes);
         }
         return;
@@ -387,7 +387,7 @@ void KeyframeEdit::slotGenerateParams(int row, int column)
         }
     }
     qDebug() << "/// ADJUSTING PARAM: " << column << " = " << keyframes;
-    emit valueChanged(m_paramIndexes.at(column), keyframes);
+    emit valueChanged(m_paramIndexes.at(column), keyframes, true);
 }
 
 const QString KeyframeEdit::getTag() const
@@ -405,7 +405,7 @@ void KeyframeEdit::generateAllParams()
                 keyframes.append(QString::number(getPos(i)) + QLatin1Char('=') + keyframe_list->item(i, col)->text() + QLatin1Char(';'));
             }
         }
-        emit valueChanged(m_paramIndexes.at(col), keyframes);
+        emit valueChanged(m_paramIndexes.at(col), keyframes, true);
     }
 }
 

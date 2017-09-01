@@ -9,8 +9,5 @@ set(kdenlive_SRCS
   effectstack/graphicsscenerectmove.cpp
   effectstack/keyframehelper.cpp
   effectstack/animkeyframeruler.cpp
-  effectstack/widgets/animationwidget.cpp
-  effectstack/widgets/listparamwidget.cpp
-  effectstack/widgets/keyframeedit.cpp
   PARENT_SCOPE)
 

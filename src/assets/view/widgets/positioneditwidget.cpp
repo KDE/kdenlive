@@ -55,7 +55,7 @@ PositionEditWidget::PositionEditWidget(std::shared_ptr<AssetParameterModel> mode
     connect(m_slider, &QAbstractSlider::valueChanged, this, &PositionEditWidget::valueChanged);
 
     // emit the signal of the base class when appropriate
-    connect(this->m_slider, &QAbstractSlider::valueChanged, [this](int val) { emit AbstractParamWidget::valueChanged(m_index, QString::number(val)); });
+    connect(this->m_slider, &QAbstractSlider::valueChanged, [this](int val) { emit AbstractParamWidget::valueChanged(m_index, QString::number(val), true); });
 
     setToolTip(comment);
 }

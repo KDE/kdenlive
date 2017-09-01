@@ -74,8 +74,9 @@ private slots:
     /** @brief Apply a change of parameter sent by the view
        @param index is the index corresponding to the modified param
        @param value is the new value of the parameter
+       @param storeUndo: if true, an undo object is created
     */
-    void commitChanges(const QModelIndex &index, const QString &value);
+    void commitChanges(const QModelIndex &index, const QString &value, bool storeUndo);
 };
 
 #endif

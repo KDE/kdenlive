@@ -50,8 +50,11 @@ public:
 
 signals:
     /** @brief Signal sent when the parameters hold by the widgets are modified
+        The index corresponds which parameter is changed
+        The string is the new value
+        The bool allows to decide whether an undo object should be created
      */
-    void valueChanged(QModelIndex, QString);
+    void valueChanged(QModelIndex, QString, bool);
 
     /* @brief Signal sent when the filter needs to be deactivated or reactivated.
        This happens for example when the user has to pick a color.

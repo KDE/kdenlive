@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "effectscontroller.h"
 #include "dialogs/profilesdialog.h"
-#include "effectstack/widgets/animationwidget.h"
+#include "assets/view/widgets/animationwidget.h"
 #include "core.h"
 #include "profiles/profilemodel.hpp"
 

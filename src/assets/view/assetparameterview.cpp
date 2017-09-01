@@ -25,7 +25,7 @@
 #include "assets/model/assetparametermodel.hpp"
 #include "assets/view/widgets/abstractparamwidget.hpp"
 #include "core.h"
-#include "effectstack/widgets/animationwidget.h"
+#include "widgets/animationwidget.h"
 
 #include <QDebug>
 #include <QFontDatabase>
@@ -92,10 +92,15 @@ void AssetParameterView::setRange(QPair<int, int> range)
     }
 }
 
-void AssetParameterView::commitChanges(const QModelIndex &index, const QString &value)
+void AssetParameterView::commitChanges(const QModelIndex &index, const QString &value, bool storeUndo)
 {
     AssetCommand *command = new AssetCommand(m_model, index, value);
-    pCore->pushUndo(command);
+    if (storeUndo) {
+        pCore->pushUndo(command);
+    } else {
+        command->redo();
+        delete command;
+    }
 }
 
 void AssetParameterView::unsetModel()

@@ -18,13 +18,13 @@
  ***************************************************************************/
 
 #include "abstractparamwidget.hpp"
+#include "animationwidget.h"
 #include "assets/model/assetparametermodel.hpp"
 #include "boolparamwidget.hpp"
 #include "doubleparamwidget.hpp"
+#include "keyframeedit.h"
+#include "listparamwidget.h"
 #include "positioneditwidget.hpp"
-#include "effectstack/widgets/animationwidget.h"
-#include "effectstack/widgets/keyframeedit.h"
-#include "effectstack/widgets/listparamwidget.h"
 
 #include <QLabel>
 #include <QVBoxLayout>

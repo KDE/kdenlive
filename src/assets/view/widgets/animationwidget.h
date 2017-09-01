@@ -24,6 +24,7 @@
 
 #include <QList>
 #include <QWidget>
+#include <QDomElement>
 
 #include "assets/view/widgets/abstractparamwidget.hpp"
 #include "mlt++/MltAnimation.h"
