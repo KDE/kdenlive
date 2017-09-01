@@ -47,27 +47,29 @@ enum class KeyframeType
     Curve
 };
 Q_DECLARE_METATYPE(KeyframeType)
-using Keyframe = std::pair<GenTime, KeyframeType>;
+using Keyframe = std::pair<GenTime, std::pair<KeyframeType, double>>;
 
 class KeyframeModel : public QAbstractListModel
 {
     Q_OBJECT
 
 public:
-    /* @brief Construct a keyframe list bound to the given effect*/
-    explicit KeyframeModel(std::weak_ptr<EffectItemModel> effect, std::weak_ptr<DocUndoStack> undo_stack, QObject *parent = nullptr);
+    /* @brief Construct a keyframe list bound to the given effect
+       @param init_value is the value taken by the param at time 0.
+     */
+    explicit KeyframeModel(double init_value, std::weak_ptr<EffectItemModel> effect, std::weak_ptr<DocUndoStack> undo_stack, QObject *parent = nullptr);
 
-    enum { TypeRole = Qt::UserRole + 1, PosRole, FrameRole};
+    enum { TypeRole = Qt::UserRole + 1, PosRole, FrameRole, ValueRole};
 
-    /* @brief Adds a keyframe at the given position. If there is already one then we update its type.
+    /* @brief Adds a keyframe at the given position. If there is already one then we update it.
        @param pos defines the position of the keyframe, relative to the clip
        @param type is the type of the keyframe.
      */
-    bool addKeyframe(GenTime pos, KeyframeType type);
+    bool addKeyframe(GenTime pos, KeyframeType type, double value);
 
 protected:
     /* @brief Same function but accumulates undo/redo */
-    bool addKeyframe(GenTime pos, KeyframeType type, Fun &undo, Fun &redo);
+    bool addKeyframe(GenTime pos, KeyframeType type, double value, Fun &undo, Fun &redo);
 
 public:
     /* @brief Removes the keyframe at the given position. */
@@ -86,6 +88,12 @@ public:
     */
     bool moveKeyframe(GenTime oldPos, GenTime pos);
 
+    /* @brief updates the value of a keyframe
+       @param old is the position of the keyframe
+       @param value is the new value of the param
+    */
+    bool updateKeyframe(GenTime pos, double value);
+
     /* @brief Returns a keyframe data at given pos
        ok is a return parameter, set to true if everything went good
      */
@@ -96,6 +104,13 @@ public:
      */
     Q_INVOKABLE bool hasKeyframe(int frame) const;
 
+    /** @brief returns the keyframes as a Mlt Anim Property string.
+        It is defined as pairs of frame and value, separated by ;
+        Example : "0|=50; 50|=100; 100=200; 200~=60;"
+        Spaces are ignored by Mlt.
+        |= represents a discrete keyframe, = a linear one and ~= a Catmull-Rom spline
+    */
+    QString getAnimProperty() const;
 
     // Mandatory overloads
     QVariant data(const QModelIndex &index, int role) const override;
@@ -104,11 +119,11 @@ public:
 
 protected:
 
-    /** @brief Helper function that generate a lambda to change comment / type of given keyframe */
-    Fun changeType_lambda(GenTime pos, KeyframeType type);
+    /** @brief Helper function that generate a lambda to change type / value of given keyframe */
+    Fun updateKeyframe_lambda(GenTime pos, KeyframeType type, double value);
 
     /** @brief Helper function that generate a lambda to add given keyframe */
-    Fun addKeyframe_lambda(GenTime pos, KeyframeType type);
+    Fun addKeyframe_lambda(GenTime pos, KeyframeType type, double value);
 
     /** @brief Helper function that generate a lambda to remove given keyframe */
     Fun deleteKeyframe_lambda(GenTime pos);
@@ -122,7 +137,7 @@ private:
 
     mutable QReadWriteLock m_lock; // This is a lock that ensures safety in case of concurrent access
 
-    std::map<GenTime, KeyframeType> m_keyframeList;
+    std::map<GenTime, std::pair<KeyframeType, double>> m_keyframeList;
 
 signals:
     void modelChanged();
