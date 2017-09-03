@@ -22,16 +22,17 @@
 #include "keyframemodel.hpp"
 #include "doc/docundostack.hpp"
 #include "core.h"
-#include "effects/effectstack/model/effectitemmodel.hpp"
+#include "assets/model/assetparametermodel.hpp"
 #include "macros.hpp"
 
 #include <QDebug>
 
 
-KeyframeModel::KeyframeModel(double init_value, std::weak_ptr<EffectItemModel> effect, std::weak_ptr<DocUndoStack> undo_stack, QObject *parent)
+KeyframeModel::KeyframeModel(double init_value, std::weak_ptr<AssetParameterModel> model, const QModelIndex &index, std::weak_ptr<DocUndoStack> undo_stack, QObject *parent)
     : QAbstractListModel(parent)
-    , m_effect(std::move(effect))
+    , m_model(std::move(model))
     , m_undoStack(std::move(undo_stack))
+    , m_index(index)
     , m_lock(QReadWriteLock::Recursive)
 {
     m_keyframeList.insert({GenTime(), {KeyframeType::Linear, init_value}});
@@ -50,6 +51,7 @@ void KeyframeModel::setup()
     connect(this, &KeyframeModel::rowsInserted, this, &KeyframeModel::modelChanged);
     connect(this, &KeyframeModel::modelReset, this, &KeyframeModel::modelChanged);
     connect(this, &KeyframeModel::dataChanged, this, &KeyframeModel::modelChanged);
+    connect(this, &KeyframeModel::modelChanged, this, &KeyframeModel::sendModification);
 }
 
 bool KeyframeModel::addKeyframe(GenTime pos, KeyframeType type, double value, Fun &undo, Fun &redo)
@@ -112,7 +114,7 @@ bool KeyframeModel::removeKeyframe(GenTime pos)
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
 
-    if (pos == GenTime()) {
+    if (m_keyframeList.count(pos) > 0 && m_keyframeList.find(pos) == m_keyframeList.begin()) {
         return false;  // initial point must stay
     }
 
@@ -123,7 +125,7 @@ bool KeyframeModel::removeKeyframe(GenTime pos)
     return res;
 }
 
-bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos)
+bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, bool logUndo)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_keyframeList.count(oldPos) > 0);
@@ -137,7 +139,9 @@ bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos)
         res = addKeyframe(pos, oldType, oldValue, undo, redo);
     }
     if (res) {
-        PUSH_UNDO(undo, redo, i18n("Move keyframe"));
+        if (logUndo) {
+            PUSH_UNDO(undo, redo, i18n("Move keyframe"));
+        }
     } else {
         bool undone = undo();
         Q_ASSERT(undone);
@@ -261,10 +265,64 @@ Keyframe KeyframeModel::getKeyframe(const GenTime &pos, bool *ok) const
     return {pos, m_keyframeList.at(pos)};
 }
 
+Keyframe KeyframeModel::getNextKeyframe(const GenTime &pos, bool *ok) const
+{
+    auto it = m_keyframeList.upper_bound(pos);
+    if (it == m_keyframeList.end()) {
+        // return empty marker
+        *ok = false;
+        return {GenTime(), {KeyframeType::Linear, 0}};
+    }
+    *ok = true;
+    return {(*it).first, (*it).second};
+}
+
+Keyframe KeyframeModel::getPrevKeyframe(const GenTime &pos, bool *ok) const
+{
+    auto it = m_keyframeList.lower_bound(pos);
+    if (it == m_keyframeList.begin()) {
+        // return empty marker
+        *ok = false;
+        return {GenTime(), {KeyframeType::Linear, 0}};
+    }
+    --it;
+    *ok = true;
+    return {(*it).first, (*it).second};
+}
+
+Keyframe KeyframeModel::getClosestKeyframe(const GenTime &pos, bool *ok) const
+{
+    if (m_keyframeList.count(pos) > 0) {
+        return getKeyframe(pos, ok);
+    }
+    bool ok1, ok2;
+    auto next = getNextKeyframe(pos, &ok1);
+    auto prev = getPrevKeyframe(pos, &ok2);
+    *ok = ok1 || ok2;
+    if (ok1 && ok2) {
+        double fps = pCore->getCurrentFps();
+        if (qAbs(next.first.frames(fps) - pos.frames(fps)) < qAbs(prev.first.frames(fps) - pos.frames(fps))) {
+            return next;
+        }
+        return prev;
+    } else if (ok1) {
+        return next;
+    } else if (ok2) {
+        return prev;
+    }
+    // return empty marker
+    return {GenTime(), {KeyframeType::Linear, 0}};
+}
+
+
 bool KeyframeModel::hasKeyframe(int frame) const
 {
+    return hasKeyframe(GenTime(frame, pCore->getCurrentFps()));
+}
+bool KeyframeModel::hasKeyframe(const GenTime &pos) const
+{
     READ_LOCK();
-    return m_keyframeList.count(GenTime(frame, pCore->getCurrentFps())) > 0;
+    return m_keyframeList.count(pos) > 0;
 }
 
 bool KeyframeModel::removeAllKeyframes()
@@ -277,7 +335,12 @@ bool KeyframeModel::removeAllKeyframes()
         all_pos.push_back(m.first);
     }
     bool res = true;
+    bool first = true;
     for (const auto& p : all_pos) {
+        if (first) { // skip first point
+            first = false;
+            continue;
+        }
         res = removeKeyframe(p, local_undo, local_redo);
         if (!res) {
             bool undone = local_undo();
@@ -314,4 +377,56 @@ QString KeyframeModel::getAnimProperty() const
         prop += QString::number(keyframe.second.second);
     }
     return prop;
+}
+
+mlt_keyframe_type convertToMltType(KeyframeType type)
+{
+    switch (type) {
+    case KeyframeType::Linear:
+        return mlt_keyframe_linear;
+    case KeyframeType::Discrete:
+        return mlt_keyframe_discrete;
+    case KeyframeType::Curve:
+        return mlt_keyframe_smooth;
+    }
+    return mlt_keyframe_linear;
+}
+
+double KeyframeModel::getInterpolatedValue(int p) const
+{
+    auto pos = GenTime(p, pCore->getCurrentFps());
+    return getInterpolatedValue(pos);
+}
+double KeyframeModel::getInterpolatedValue(const GenTime &pos) const
+{
+    int p = pos.frames(pCore->getCurrentFps());
+    if (m_keyframeList.count(pos) > 0) {
+        return m_keyframeList.at(pos).second;
+    }
+    auto next = m_keyframeList.upper_bound(pos);
+    if (next == m_keyframeList.cbegin()) {
+        return (m_keyframeList.cbegin())->second.second;
+    } else if (next == m_keyframeList.cend()) {
+        auto it = m_keyframeList.cend();
+        --it;
+        return it->second.second;
+    }
+    auto prev = next;
+    --prev;
+    // We now have surrounding keyframes, we use mlt to compute the value
+
+    Mlt::Properties prop;
+    prop.anim_set("keyframe", prev->second.second, prev->first.frames(pCore->getCurrentFps()), 0, convertToMltType(prev->second.first) );
+    prop.anim_set("keyframe", next->second.second, next->first.frames(pCore->getCurrentFps()), 0, convertToMltType(next->second.first) );
+    return prop.anim_get_double("keyframe", p);
+}
+
+void KeyframeModel::sendModification() const
+{
+    if (auto ptr = m_model.lock()) {
+        Q_ASSERT(m_index.isValid());
+        QString name =  ptr->data(m_index, AssetParameterModel::NameRole).toString();
+        ptr->setParameter(name, getAnimProperty());
+        ptr->dataChanged(m_index, m_index);
+    }
 }

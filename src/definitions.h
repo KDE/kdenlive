@@ -27,6 +27,7 @@
 
 #include <QHash>
 #include <QString>
+#include <QPersistentModelIndex>
 #include <QTreeWidgetItem>
 #include <memory>
 
@@ -240,11 +241,15 @@ private:
 
 QDebug operator<<(QDebug qd, const ItemInfo &info);
 
-// we provide hash function for qstring
+// we provide hash function for qstring and QPersistentModelIndex
 namespace std {
 template <> struct hash<QString>
 {
     std::size_t operator()(const QString &k) const { return qHash(k); }
+};
+template <> struct hash<QPersistentModelIndex>
+{
+    std::size_t operator()(const QPersistentModelIndex &k) const { return qHash(k); }
 };
 }
 
@@ -294,7 +299,7 @@ template<class T>
 class QAbstractItemModel_shared_from_this : public QAbstractItemModel
 {
 protected:
-    QAbstractItemModel_shared_from_this() : QAbstractItemModel() {}
+QAbstractItemModel_shared_from_this() : QAbstractItemModel() {}
 
 public:
 

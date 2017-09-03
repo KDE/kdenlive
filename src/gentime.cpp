@@ -44,9 +44,9 @@ double GenTime::ms() const
     return m_time * 1000;
 }
 
-double GenTime::frames(double framesPerSecond) const
+int GenTime::frames(double framesPerSecond) const
 {
-    return floor(m_time * framesPerSecond + 0.5);
+    return (int)floor(m_time * framesPerSecond + 0.5);
 }
 
 QString GenTime::toString() const

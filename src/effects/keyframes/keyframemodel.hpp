@@ -32,11 +32,12 @@
 #include <map>
 #include <memory>
 
+class AssetParameterModel;
 class DocUndoStack;
 class EffectItemModel;
 
 /* @brief This class is the model for a list of keyframes.
-   A keyframe is defined by a time, and a type;
+   A keyframe is defined by a time, a type and a value
    We store them in a sorted fashion using a std::map
  */
 
@@ -56,10 +57,13 @@ class KeyframeModel : public QAbstractListModel
 public:
     /* @brief Construct a keyframe list bound to the given effect
        @param init_value is the value taken by the param at time 0.
+       @param model is the asset this parameter belong to
+       @param index is the index of this parameter in its model
      */
-    explicit KeyframeModel(double init_value, std::weak_ptr<EffectItemModel> effect, std::weak_ptr<DocUndoStack> undo_stack, QObject *parent = nullptr);
+    explicit KeyframeModel(double init_value, std::weak_ptr<AssetParameterModel> model, const QModelIndex &index, std::weak_ptr<DocUndoStack> undo_stack, QObject *parent = nullptr);
 
     enum { TypeRole = Qt::UserRole + 1, PosRole, FrameRole, ValueRole};
+    friend class KeyframeModelList;
 
     /* @brief Adds a keyframe at the given position. If there is already one then we update it.
        @param pos defines the position of the keyframe, relative to the clip
@@ -85,8 +89,9 @@ public:
     /* @brief moves a keyframe
        @param oldPos is the old position of the keyframe
        @param pos defines the new position of the keyframe, relative to the clip
+       @param logUndo if true, then an undo object is created
     */
-    bool moveKeyframe(GenTime oldPos, GenTime pos);
+    bool moveKeyframe(GenTime oldPos, GenTime pos, bool logUndo);
 
     /* @brief updates the value of a keyframe
        @param old is the position of the keyframe
@@ -99,10 +104,28 @@ public:
      */
     Keyframe getKeyframe(const GenTime &pos, bool *ok) const;
 
+    /* @brief Returns the keyframe located after given position.
+       If there is a keyframe at given position it is ignored.
+       @param ok is a return parameter to tell if a keyframe was found.
+    */
+    Keyframe getNextKeyframe(const GenTime &pos, bool *ok) const;
+
+    /* @brief Returns the keyframe located before given position.
+       If there is a keyframe at given position it is ignored.
+       @param ok is a return parameter to tell if a keyframe was found.
+    */
+    Keyframe getPrevKeyframe(const GenTime &pos, bool *ok) const;
+
+    /* @brief Returns the closest keyframe from given position.
+       @param ok is a return parameter to tell if a keyframe was found.
+    */
+    Keyframe getClosestKeyframe(const GenTime &pos, bool *ok) const;
+
     /* @brief Returns true if a keyframe exists at given pos
        Notice that add/remove queries are done in real time (gentime), but this request is made in frame
      */
     Q_INVOKABLE bool hasKeyframe(int frame) const;
+    Q_INVOKABLE bool hasKeyframe(const GenTime &pos) const;
 
     /** @brief returns the keyframes as a Mlt Anim Property string.
         It is defined as pairs of frame and value, separated by ;
@@ -111,6 +134,10 @@ public:
         |= represents a discrete keyframe, = a linear one and ~= a Catmull-Rom spline
     */
     QString getAnimProperty() const;
+
+    /* @brief Return the interpolated value at given pos */
+    double getInterpolatedValue(int pos) const;
+    double getInterpolatedValue(const GenTime &pos) const;
 
     // Mandatory overloads
     QVariant data(const QModelIndex &index, int role) const override;
@@ -130,10 +157,14 @@ protected:
 
     /* @brief Connects the signals of this object */
     void setup();
+
+    /* @brief Commit the modification to the model */
+    void sendModification() const;
 private:
 
-    std::weak_ptr<EffectItemModel> m_effect;
+    std::weak_ptr<AssetParameterModel> m_model;
     std::weak_ptr<DocUndoStack> m_undoStack;
+    QPersistentModelIndex m_index;
 
     mutable QReadWriteLock m_lock; // This is a lock that ensures safety in case of concurrent access
 

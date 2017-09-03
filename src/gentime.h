@@ -47,7 +47,7 @@ public:
 
     /** @brief Gets the time in frames.
     * @param framesPerSecond Number of frames per second */
-    double frames(double framesPerSecond) const;
+    int frames(double framesPerSecond) const;
 
     QString toString() const;
 
