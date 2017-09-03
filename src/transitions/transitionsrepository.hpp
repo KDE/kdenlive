@@ -51,6 +51,8 @@ public:
     /* @brief returns true if the transition corresponding to @transitionId is a composition*/
     bool isComposition(const QString &transitionId) const;
 
+    /* @brief Returns the id of the transition to be used for compositing */
+    const QString getCompositingTransition();
 protected:
     // Constructor is protected because class is a Singleton
     TransitionsRepository();

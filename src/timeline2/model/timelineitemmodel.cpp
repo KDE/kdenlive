@@ -368,7 +368,7 @@ void TimelineItemModel::buildTrackCompositing()
     auto it = m_allTracks.cbegin();
     QScopedPointer<Mlt::Field> field(m_tractor->field());
     field->lock();
-    QString composite = getCompositingTransition();
+    QString composite = TransitionsRepository::get()->getCompositingTransition();
     while (it != m_allTracks.cend()) {
         int trackId = getTrackMltIndex((*it)->getId());
         if (!composite.isEmpty() && (*it)->getProperty("kdenlive:audio_track").toInt() != 1) {
@@ -394,23 +394,6 @@ void TimelineItemModel::buildTrackCompositing()
     }
 }
 
-// static
-const QString TimelineItemModel::getCompositingTransition()
-{
-    if (KdenliveSettings::gpu_accel()) {
-        return QStringLiteral("movit.overlay");
-    }
-    if (TransitionsRepository::get()->exists(QStringLiteral("qtblend"))) {
-        return QStringLiteral("qtblend");
-    }
-    if (TransitionsRepository::get()->exists(QStringLiteral("frei0r.cairoblend"))) {
-        return QStringLiteral("frei0r.cairoblend");
-    }
-    if (TransitionsRepository::get()->exists(QStringLiteral("composite"))) {
-        return QStringLiteral("composite");
-    }
-    return QString();
-}
 
 const QString TimelineItemModel::groupsData()
 {

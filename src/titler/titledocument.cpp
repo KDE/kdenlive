@@ -18,7 +18,7 @@
 #include "titledocument.h"
 #include "gradientwidget.h"
 
-#include "effectstack/graphicsscenerectmove.h"
+#include "graphicsscenerectmove.h"
 #include "kdenlivesettings.h"
 #include "timecode.h"
 

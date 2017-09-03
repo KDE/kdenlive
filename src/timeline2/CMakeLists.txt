@@ -9,6 +9,8 @@ set(kdenlive_SRCS
   timeline2/model/trackmodel.cpp
   timeline2/model/snapmodel.cpp
   timeline2/model/builders/meltBuilder.cpp
+  timeline2/view/dialogs/spacerdialog.cpp
+  timeline2/view/previewmanager.cpp
   timeline2/view/timelinetabs.cpp
   timeline2/view/timelinecontroller.cpp
   timeline2/view/timelinewidget.cpp

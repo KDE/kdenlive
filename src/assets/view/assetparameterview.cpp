@@ -55,7 +55,8 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
         auto type = model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
         if (animWidget && (type == ParamType::Geometry || type == ParamType::Animated || type == ParamType::RestrictedAnim)) {
             // Animation widget can have some extra params that should'nt build a new widget
-            animWidget->addParameter(index);
+            // TODO refac
+            // animWidget->addParameter(index);
         } else {
             auto w = AbstractParamWidget::construct(model, index, range, this);
             if (type == ParamType::Geometry || type == ParamType::Animated || type == ParamType::RestrictedAnim || type == ParamType::AnimatedRect) {

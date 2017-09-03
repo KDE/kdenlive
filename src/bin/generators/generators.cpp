@@ -19,7 +19,6 @@
 
 #include "generators.h"
 #include "doc/kthumb.h"
-#include "effectstack/parametercontainer.h"
 #include "kdenlivesettings.h"
 #include "monitor/monitor.h"
 
@@ -69,10 +68,10 @@ Generators::Generators(Monitor *monitor, const QString &path, QWidget *parent)
         QWidget *frameWidget = new QWidget;
         lay->addWidget(frameWidget);
         ItemInfo info;
-        EffectMetaInfo metaInfo;
-        metaInfo.monitor = monitor;
         // TODO refac look after this
         /*
+        EffectMetaInfo metaInfo;
+        metaInfo.monitor = monitor;
         m_container = new ParameterContainer(base, info, &metaInfo, frameWidget);
         connect(m_container, &ParameterContainer::parameterChanged, this, &Generators::updateProducer);
         */

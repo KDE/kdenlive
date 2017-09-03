@@ -22,7 +22,6 @@
 #include "core.h"
 #include "definitions.h"
 #include "effectslist/initeffects.h"
-#include "timeline/transitionhandler.h"
 #include "mainwindow.h"
 #include "mltcontroller/bincontroller.h"
 

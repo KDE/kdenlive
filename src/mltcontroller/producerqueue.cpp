@@ -31,7 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "kdenlivesettings.h"
 #include "profiles/profilemodel.hpp"
 #include "project/dialogs/slideshowclip.h"
-#include "timeline/clip.h"
+#include "mltcontroller/clip.h"
 
 #include <QtConcurrent>
 

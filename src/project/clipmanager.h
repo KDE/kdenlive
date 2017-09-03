@@ -67,11 +67,6 @@ class ClipManager : public QObject
     int lastClipId() const;
     /** @brief Prepare deletion of clips and folders from the Bin. */
     void clear();
-    AbstractGroupItem *createGroup();
-    void removeGroup(AbstractGroupItem *group);
-    /** @brief Delete groups list, prepare for a reload. */
-    void resetGroups();
-    QString groupsXml();
     /** @brief remove a clip id from the queue list. */
     void stopThumbs(const QString &id);
     void projectTreeThumbReady(const QString &id, int frame, const QImage &img, int type);

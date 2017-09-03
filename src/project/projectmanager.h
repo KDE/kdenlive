@@ -19,7 +19,6 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QTimer>
 #include <QUrl>
 
-#include "timeline/timeline.h"
 #include "timeline2/model/timelineitemmodel.hpp"
 
 #include <memory>
@@ -53,7 +52,6 @@ public:
 
     /** @brief Returns a pointer to the currently opened project. A project should always be open. */
     KdenliveDoc *current();
-    Timeline *currentTimeline();
 
     /** @brief Store command line args for later opening. */
     void init(const QUrl &projectUrl, const QString &clipList);
@@ -170,7 +168,6 @@ private:
     bool checkForBackupFile(const QUrl &url);
 
     KdenliveDoc *m_project;
-    Timeline *m_trackView; // TODO delete this
     std::shared_ptr<TimelineItemModel> m_mainTimelineModel;
     QTime m_lastSave;
     QTimer m_autoSaveTimer;

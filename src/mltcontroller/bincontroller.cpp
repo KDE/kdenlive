@@ -19,9 +19,9 @@
 
 #include "bincontroller.h"
 #include "bin/model/markerlistmodel.hpp"
+#include "clip.h"
 #include "clipcontroller.h"
 #include "kdenlivesettings.h"
-#include "timeline/clip.h"
 
 static const char *kPlaylistTrackId = "main bin";
 

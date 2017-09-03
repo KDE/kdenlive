@@ -39,7 +39,6 @@
 #include "gentime.h"
 #include "mltcontroller/effectscontroller.h"
 #include "timecode.h"
-#include "timeline/guide.h"
 
 class ClipManager;
 class MainWindow;
@@ -153,8 +152,6 @@ public:
     void initCacheDirs();
     /** @brief Get a list of all proxy hash used in this project */
     QStringList getProxyHashList();
-    /** @brief Returns true if advanced compositing is available */
-    static int compositingMode();
     /** @brief Move project data files to new url */
     void moveProjectData(const QString &src, const QString &dest);
 

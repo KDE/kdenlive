@@ -30,8 +30,6 @@
 #include "mltcontroller/clipcontroller.h"
 #include "project/projectmanager.h"
 #include "renderer.h"
-#include "timeline/abstractclipitem.h"
-#include "timeline/abstractgroupitem.h"
 #include "titler/titledocument.h"
 
 #include <mlt++/Mlt.h>
@@ -225,64 +223,13 @@ void ClipManager::slotAddTextTemplateClip(const QString &titleName, const QUrl &
     m_doc->commandStack()->push(command);
 }
 
-AbstractGroupItem *ClipManager::createGroup()
-{
-    QMutexLocker lock(&m_groupsMutex);
-    auto *group = new AbstractGroupItem(pCore->getCurrentFps());
-    m_groupsList.append(group);
-    return group;
-}
 
 int ClipManager::lastClipId() const
 {
     return pCore->bin()->lastClipId();
 }
 
-void ClipManager::removeGroup(AbstractGroupItem *group)
-{
-    QMutexLocker lock(&m_groupsMutex);
-    m_groupsList.removeAll(group);
-}
 
-void ClipManager::resetGroups()
-{
-    QMutexLocker lock(&m_groupsMutex);
-    m_groupsList.clear();
-}
-
-QString ClipManager::groupsXml()
-{
-    QMutexLocker lock(&m_groupsMutex);
-    if (m_groupsList.isEmpty()) {
-        return QString();
-    }
-    QDomDocument doc;
-    QDomElement groups = doc.createElement(QStringLiteral("groups"));
-    doc.appendChild(groups);
-    for (int i = 0; i < m_groupsList.count(); ++i) {
-        QDomElement group = doc.createElement(QStringLiteral("group"));
-        groups.appendChild(group);
-        QList<QGraphicsItem *> children = m_groupsList.at(i)->childItems();
-        for (int j = 0; j < children.count(); ++j) {
-            if (children.at(j)->type() == AVWidget || children.at(j)->type() == TransitionWidget) {
-                AbstractClipItem *item = static_cast<AbstractClipItem *>(children.at(j));
-                ItemInfo info = item->info();
-                if (item->type() == AVWidget) {
-                    QDomElement clip = doc.createElement(QStringLiteral("clipitem"));
-                    clip.setAttribute(QStringLiteral("track"), info.track);
-                    clip.setAttribute(QStringLiteral("position"), info.startPos.frames(pCore->getCurrentFps()));
-                    group.appendChild(clip);
-                } else if (item->type() == TransitionWidget) {
-                    QDomElement clip = doc.createElement(QStringLiteral("transitionitem"));
-                    clip.setAttribute(QStringLiteral("track"), info.track);
-                    clip.setAttribute(QStringLiteral("position"), info.startPos.frames(pCore->getCurrentFps()));
-                    group.appendChild(clip);
-                }
-            }
-        }
-    }
-    return doc.toString();
-}
 
 /*
 void ClipManager::slotClipMissing(const QString &path)

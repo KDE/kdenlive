@@ -19,7 +19,6 @@
  ***************************************************************************/
 
 #include "clipstabilize.h"
-#include "effectstack/effectstackview2.h"
 #include "widgets/doublewidget.h"
 #include "widgets/positionwidget.h"
 
@@ -41,8 +40,8 @@ ClipStabilize::ClipStabilize(const QStringList &urls, const QString &filterName,
     auto_add->setText(i18np("Add clip to project", "Add clips to project", urls.count()));
     auto_add->setChecked(KdenliveSettings::add_new_clip());
 
-    QString stylesheet = EffectStackView2::getStyleSheet();
-    setStyleSheet(stylesheet);
+    //QString stylesheet = EffectStackView2::getStyleSheet();
+    //setStyleSheet(stylesheet);
 
     if (m_urls.count() == 1) {
         QString newFile = m_urls.constFirst();

@@ -12,7 +12,6 @@ the Free Software Foundation, either version 3 of the License, or
 #include "bin/bin.h"
 #include "core.h"
 #include "doc/kdenlivedoc.h"
-#include "effectstack/effectstackview2.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "mltcontroller/bincontroller.h"
@@ -27,12 +26,9 @@ the Free Software Foundation, either version 3 of the License, or
 #include "bin/model/markerlistmodel.hpp"
 
 #include "project/notesplugin.h"
-#include "timeline/customtrackview.h"
-#include "timeline/timeline.h"
 #include "timeline2/model/builders/meltBuilder.hpp"
 #include "timeline2/view/timelinecontroller.h"
 #include "timeline2/view/timelinewidget.h"
-#include "transitionsettings.h"
 #include "utils/KoIconUtils.h"
 
 #include <KActionCollection>
@@ -55,7 +51,6 @@ the Free Software Foundation, either version 3 of the License, or
 ProjectManager::ProjectManager(QObject *parent)
     : QObject(parent)
     , m_project(nullptr)
-    , m_trackView(nullptr)
     , m_progressDialog(nullptr)
 {
     m_fileRevert = KStandardAction::revert(this, SLOT(slotRevert()), pCore->window()->actionCollection());
@@ -87,7 +82,6 @@ ProjectManager::ProjectManager(QObject *parent)
 
 ProjectManager::~ProjectManager()
 {
-    delete m_trackView;
 }
 
 void ProjectManager::slotLoadOnOpen()
@@ -268,8 +262,6 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
             pCore->bin()->abortOperations();
             pCore->monitorManager()->clipMonitor()->slotOpenClip(nullptr);
             pCore->window()->clearAssetPanel();
-            delete m_trackView;
-            m_trackView = nullptr;
             delete m_project;
             m_project = nullptr;
         }
@@ -332,12 +324,15 @@ void ProjectManager::saveRecentFiles()
 
 void ProjectManager::slotSaveSelection(const QString &path)
 {
-    m_trackView->projectView()->exportTimelineSelection(path);
+    // TODO refac : look at this
+    //m_trackView->projectView()->exportTimelineSelection(path);
 }
 
 bool ProjectManager::hasSelection() const
 {
-    return m_trackView->projectView()->hasSelection();
+    return false;
+    // TODO refac : look at this
+    //return m_trackView->projectView()->hasSelection();
 }
 
 bool ProjectManager::saveFileAs()
@@ -665,10 +660,6 @@ void ProjectManager::slotOpenBackup(const QUrl &url)
     delete dia;
 }
 
-Timeline *ProjectManager::currentTimeline()
-{
-    return m_trackView;
-}
 
 KRecentFilesAction *ProjectManager::recentFilesAction()
 {
@@ -690,6 +681,8 @@ void ProjectManager::slotStartAutoSave()
 
 void ProjectManager::slotAutoSave()
 {
+    // TODO refac: repair this
+    /*
     prepareSave();
     bool multitrackEnabled = m_trackView->multitrackView;
     if (multitrackEnabled) {
@@ -704,11 +697,15 @@ void ProjectManager::slotAutoSave()
         m_trackView->slotMultitrackView(true);
     }
     m_lastSave.start();
+    */
 }
 
 QString ProjectManager::projectSceneList(const QString &outputFolder)
 {
     // TODO: re-implement overlay and all
+    // TODO refac: repair this
+    return QString();
+    /*
     return pCore->monitorManager()->projectMonitor()->sceneList(outputFolder);
     bool multitrackEnabled = m_trackView->multitrackView;
     if (multitrackEnabled) {
@@ -723,6 +720,7 @@ QString ProjectManager::projectSceneList(const QString &outputFolder)
         m_trackView->slotMultitrackView(true);
     }
     return scene;
+    */
 }
 
 void ProjectManager::setDocumentNotes(const QString &notes)
@@ -755,7 +753,8 @@ void ProjectManager::slotResetProfiles()
 
 void ProjectManager::slotExpandClip()
 {
-    m_trackView->projectView()->expandActiveClip();
+    //TODO refac
+    //m_trackView->projectView()->expandActiveClip();
 }
 
 void ProjectManager::disableBinEffects(bool disable)
@@ -778,24 +777,26 @@ void ProjectManager::slotDisableTimelineEffects(bool disable)
     } else {
         m_project->setDocumentProperty(QStringLiteral("disabletimelineeffects"), QString());
     }
-    m_trackView->disableTimelineEffects(disable);
     m_mainTimelineModel->setTimelineEffectsEnabled(!disable);
     pCore->monitorManager()->refreshProjectMonitor();
 }
 
 void ProjectManager::slotSwitchTrackLock()
 {
-    m_trackView->projectView()->switchTrackLock();
+    // TODO refac
+    //m_trackView->projectView()->switchTrackLock();
 }
 
 void ProjectManager::slotSwitchAllTrackLock()
 {
-    m_trackView->projectView()->switchAllTrackLock();
+    // TODO refac
+    //m_trackView->projectView()->switchAllTrackLock();
 }
 
 void ProjectManager::slotSwitchTrackTarget()
 {
-    m_trackView->switchTrackTarget();
+    // TODO refac
+    //m_trackView->switchTrackTarget();
 }
 
 QString ProjectManager::getDefaultProjectFormat()

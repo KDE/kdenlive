@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2008 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
+ *   Copyright (C) 2012 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,33 +17,31 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#ifndef SPACERDIALOG_H
-#define SPACERDIALOG_H
+#ifndef ABSTRACTCOLLAPSIBLEWIDGET_H
+#define ABSTRACTCOLLAPSIBLEWIDGET_H
 
-#include "definitions.h"
-#include "timecode.h"
-#include "timecodedisplay.h"
-#include "ui_spacerdialog_ui.h"
+#include "ui_collapsiblewidget_ui.h"
 
-/**
- * @class SpacerDialog
- * @brief A dialog to specify length and track of inserted space.
- * @author Jean-Baptiste Mardelle
- */
+#include <QDomElement>
+#include <QWidget>
 
-class SpacerDialog : public QDialog, public Ui::SpacerDialog_UI
+class AbstractCollapsibleWidget : public QWidget, public Ui::CollapsibleWidget_UI
 {
     Q_OBJECT
 
 public:
-    SpacerDialog(const GenTime &duration, const Timecode &tc, int track, const QList<TrackInfo> &tracks, QWidget *parent = nullptr);
-    SpacerDialog(const GenTime &duration, const Timecode &tc, QWidget *parent = nullptr);
-    GenTime selectedDuration() const;
-    int selectedTrack() const;
-    bool affectAllTracks() const;
+    explicit AbstractCollapsibleWidget(QWidget *parent = nullptr);
+    virtual void setActive(bool activate) = 0;
+    virtual bool isGroup() const = 0;
 
-private:
-    TimecodeDisplay m_in;
+signals:
+    void addEffect(const QDomElement &e);
+    /** @brief Move effects in the stack one step up or down. */
+    void changeEffectPosition(const QList<int> &, bool upwards);
+    /** @brief Move effects in the stack. */
+    void moveEffect(const QList<int> &current_pos, int new_pos, int groupIndex, const QString &groupName);
+    /** @brief An effect was saved, trigger effect list reload. */
+    void reloadEffects();
 };
 
 #endif

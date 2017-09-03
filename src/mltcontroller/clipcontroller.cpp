@@ -28,8 +28,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "lib/audio/audioStreamInfo.h"
 #include "mltcontroller/effectscontroller.h"
 #include "profiles/profilemodel.hpp"
-#include "timeline/effectmanager.h"
-#include "timeline/timeline.h"
 #include "doc/kdenlivedoc.h"
 
 #include "core.h"
@@ -578,6 +576,8 @@ void ClipController::initEffect(QDomElement &xml)
 
 void ClipController::addEffect(QDomElement &xml)
 {
+    // TODO refac: this must be rewritten
+    /*
     QMutexLocker lock(&m_effectMutex);
     Mlt::Service service = m_masterProducer->parent();
     ItemInfo info;
@@ -600,10 +600,13 @@ void ClipController::addEffect(QDomElement &xml)
     EffectManager effect(service);
     effect.addEffect(params, getPlaytime().frames(pCore->getCurrentFps()));
     if (auto ptr = m_binController.lock()) ptr->updateTrackProducer(m_controllerBinId);
+    */
 }
 
 void ClipController::removeEffect(int effectIndex, bool delayRefresh)
 {
+    // TODO refac: this must be rewritten
+    /*
     QMutexLocker lock(&m_effectMutex);
     Mlt::Service service(m_masterProducer->parent());
     EffectManager effect(service);
@@ -611,6 +614,7 @@ void ClipController::removeEffect(int effectIndex, bool delayRefresh)
     if (!delayRefresh) {
         if (auto ptr = m_binController.lock()) ptr->updateTrackProducer(m_controllerBinId);
     }
+    */
 }
 
 EffectsList ClipController::effectList()
@@ -620,10 +624,13 @@ EffectsList ClipController::effectList()
 
 void ClipController::moveEffect(int oldPos, int newPos)
 {
+    // TODO refac: this must be rewritten
+    /*
     QMutexLocker lock(&m_effectMutex);
     Mlt::Service service(m_masterProducer->parent());
     EffectManager effect(service);
     effect.moveEffect(oldPos, newPos);
+    */
 }
 
 
@@ -650,6 +657,8 @@ int ClipController::effectsCount()
 EffectsList ClipController::xmlEffectList(Mlt::Profile *profile, Mlt::Service &service)
 {
     EffectsList effList(true);
+    // TODO refac : rewrite this
+    /*
     for (int ix = 0; ix < service.filter_count(); ++ix) {
         QScopedPointer<Mlt::Filter> effect(service.filter(ix));
         QDomElement clipeffect = Timeline::getEffectByTag(effect->get("tag"), effect->get("kdenlive_id"));
@@ -665,11 +674,14 @@ EffectsList ClipController::xmlEffectList(Mlt::Profile *profile, Mlt::Service &s
         }
         effList.append(currenteffect);
     }
+    */
     return effList;
 }
 
 void ClipController::changeEffectState(const QList<int> &indexes, bool disable)
 {
+    // TODO refac : this must be rewritten
+    /*
     Mlt::Service service = m_masterProducer->parent();
     for (int i = 0; i < service.filter_count(); ++i) {
         QScopedPointer<Mlt::Filter> effect(service.filter(i));
@@ -678,10 +690,13 @@ void ClipController::changeEffectState(const QList<int> &indexes, bool disable)
         }
     }
     if (auto ptr = m_binController.lock()) ptr->updateTrackProducer(m_controllerBinId);
+    */
 }
 
 void ClipController::updateEffect(const QDomElement &e, int ix)
 {
+    // TODO refac : this must be rewritten
+    /*
     QString tag = e.attribute(QStringLiteral("id"));
     if (tag == QLatin1String("autotrack_rectangle") || tag.startsWith(QLatin1String("ladspa")) || tag == QLatin1String("sox")) {
         // this filters cannot be edited, remove and re-add it
@@ -711,6 +726,7 @@ void ClipController::updateEffect(const QDomElement &e, int ix)
     }
     if (auto ptr = m_binController.lock()) ptr->updateTrackProducer(m_controllerBinId);
     // slotRefreshTracks();
+    */
 }
 
 bool ClipController::hasEffects() const

@@ -3042,9 +3042,10 @@ void Bin::slotGotFilterJobResults(const QString &id, int startPos, int track, co
 
 void Bin::slotGetCurrentProjectImage(const QString &clipId, bool request)
 {
-    if (!clipId.isEmpty()) {
-        (pCore->projectManager()->currentTimeline()->hideClip(clipId, request));
-    }
+    // TODO refact : look at this
+//    if (!clipId.isEmpty()) {
+//        (pCore->projectManager()->currentTimeline()->hideClip(clipId, request));
+//    }
     pCore->monitorManager()->projectMonitor()->slotGetCurrentImage(request);
 }
 

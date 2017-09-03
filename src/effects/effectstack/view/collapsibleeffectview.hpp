@@ -22,10 +22,9 @@
 #ifndef COLLAPSIBLEEFFECTVIEW_H
 #define COLLAPSIBLEEFFECTVIEW_H
 
-#include "effectstack/abstractcollapsiblewidget.h"
-#include "effectstack/parametercontainer.h"
 #include "mltcontroller/effectscontroller.h"
 #include "timecode.h"
+#include "abstractcollapsiblewidget.h"
 
 #include <QDomElement>
 #include <memory>
@@ -50,13 +49,13 @@ public:
     ~CollapsibleEffectView();
     QLabel *title;
 
-    void setupWidget(const ItemInfo &info, EffectMetaInfo *metaInfo);
+    void setupWidget(const ItemInfo &info);
     void updateTimecodeFormat();
     void setActive(bool activate) override;
     /** @brief Install event filter so that scrolling with mouse wheel does not change parameter value. */
     bool eventFilter(QObject *o, QEvent *e) override;
     /** @brief Update effect GUI to reflect parameted changes. */
-    void updateWidget(const ItemInfo &info, const QDomElement &effect, EffectMetaInfo *metaInfo);
+    void updateWidget(const ItemInfo &info, const QDomElement &effect);
     /** @brief Returns effect xml. */
     QDomElement effect() const;
     /** @brief Returns effect xml with keyframe offset for saving. */
@@ -117,7 +116,6 @@ private slots:
     void animationChanged(const QVariant &geom);
 
 private:
-    ParameterContainer *m_paramWidget;
     AssetParameterView *m_view;
     std::shared_ptr<EffectItemModel> m_model;
     KDualAction *m_collapse;

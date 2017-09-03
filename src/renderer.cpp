@@ -33,8 +33,7 @@
 #include "mltcontroller/clipcontroller.h"
 #include "monitor/glwidget.h"
 #include "project/dialogs/slideshowclip.h"
-#include "timeline/clip.h"
-#include "timeline/transitionhandler.h"
+#include "mltcontroller/clip.h"
 #include <mlt++/Mlt.h>
 
 #include "kdenlive_debug.h"
@@ -1515,11 +1514,14 @@ QList<TransitionInfo> Render::mltInsertTrack(int ix, const QString &name, bool v
     mix.set("b_track", ix);
     mix.set("always_active", 1);
     mix.set("internal_added", 237);
+    // TODO refac
+    /*
     if (TransitionHandler::sumAudioMixAvailable()) {
         mix.set("sum", 1);
     } else {
         mix.set("combine", 1);
     }
+    */
     field->plant_transition(mix, 0, ix);
     service.unlock();
     blockSignals(false);

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2008 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
+ *   Copyright (C) 2012 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,33 +17,10 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#ifndef SPACERDIALOG_H
-#define SPACERDIALOG_H
+#include "abstractcollapsiblewidget.h"
 
-#include "definitions.h"
-#include "timecode.h"
-#include "timecodedisplay.h"
-#include "ui_spacerdialog_ui.h"
-
-/**
- * @class SpacerDialog
- * @brief A dialog to specify length and track of inserted space.
- * @author Jean-Baptiste Mardelle
- */
-
-class SpacerDialog : public QDialog, public Ui::SpacerDialog_UI
+AbstractCollapsibleWidget::AbstractCollapsibleWidget(QWidget *parent)
+    : QWidget(parent)
 {
-    Q_OBJECT
-
-public:
-    SpacerDialog(const GenTime &duration, const Timecode &tc, int track, const QList<TrackInfo> &tracks, QWidget *parent = nullptr);
-    SpacerDialog(const GenTime &duration, const Timecode &tc, QWidget *parent = nullptr);
-    GenTime selectedDuration() const;
-    int selectedTrack() const;
-    bool affectAllTracks() const;
-
-private:
-    TimecodeDisplay m_in;
-};
-
-#endif
+    setupUi(this);
+}

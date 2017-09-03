@@ -9,6 +9,5 @@ set(kdenlive_SRCS
   project/projectcommands.cpp
   project/projectmanager.cpp
   project/effectsettings.cpp
-  project/transitionsettings.cpp
   project/notesplugin.cpp
   PARENT_SCOPE)

@@ -18,7 +18,7 @@
 #ifndef TITLEWIDGET_H
 #define TITLEWIDGET_H
 
-#include "effectstack/graphicsscenerectmove.h"
+#include "graphicsscenerectmove.h"
 #include "timecode.h"
 #include "titler/titledocument.h"
 #include "titler/unicodedialog.h"

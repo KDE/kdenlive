@@ -255,6 +255,8 @@ QString EffectsController::getStringRectEval(QString eval)
 
 void EffectsController::initTrackEffect(const QDomElement &effect)
 {
+    // TODO refac
+    /*
     QDomNodeList params = effect.elementsByTagName(QStringLiteral("parameter"));
     for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
@@ -293,6 +295,7 @@ void EffectsController::initTrackEffect(const QDomElement &effect)
             }
         }
     }
+    */
 }
 
 void EffectsController::initEffect(const ItemInfo &info, const EffectsList &list, const QString &proxy, QDomElement effect, int diff,
@@ -300,6 +303,8 @@ void EffectsController::initEffect(const ItemInfo &info, const EffectsList &list
 {
     // the kdenlive_ix int is used to identify an effect in mlt's playlist, should
     // not be changed
+    // TODO refac
+    /*
     if (effect.attribute(QStringLiteral("id")) == QLatin1String("freeze") && diff > 0) {
         EffectsList::setParameter(effect, QStringLiteral("frame"), QString::number(diff));
     }
@@ -437,6 +442,7 @@ void EffectsController::initEffect(const ItemInfo &info, const EffectsList &list
             EffectsList::setParameter(effect, QStringLiteral("out"), QString::number(end));
         }
     }
+    */
 }
 
 const QString EffectsController::adjustKeyframes(const QString &keyframes, int oldIn, int newIn, int newOut)

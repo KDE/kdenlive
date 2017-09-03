@@ -30,15 +30,14 @@
 #include "lib/audio/audioStreamInfo.h"
 #include "mainwindow.h"
 #include "mltcontroller/bincontroller.h"
+#include "mltcontroller/clip.h"
 #include "mltcontroller/clipcontroller.h"
 #include "project/projectmanager.h"
 #include "qmlmanager.h"
 #include "recmanager.h"
 #include "scopes/monitoraudiolevel.h"
-#include "timeline/abstractclipitem.h"
-#include "timeline/clip.h"
-#include "timeline/transitionhandler.h"
 #include "timeline2/model/snapmodel.hpp"
+#include "transitions/transitionsrepository.hpp"
 #include "utils/KoIconUtils.h"
 
 #include "klocalizedstring.h"
@@ -1788,7 +1787,7 @@ void Monitor::buildSplitEffect(Mlt::Producer *original)
         pCore->displayMessage(i18n("The alphagrad filter is required for that feature, please install frei0r and restart Kdenlive"), ErrorMessage);
         return;
     }
-    QString splitTransition = TimelineItemModel::getCompositingTransition();
+    QString splitTransition = TransitionsRepository::get()->getCompositingTransition();
     Mlt::Transition t(*profile(), splitTransition.toUtf8().constData());
     if (!t.is_valid()) {
         delete m_splitEffect;

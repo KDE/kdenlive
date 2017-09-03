@@ -41,6 +41,7 @@
 #include <QPainter>
 #include <QProgressBar>
 #include <QPropertyAnimation>
+#include <QSpinBox>
 #include <QStandardPaths>
 #include <QVBoxLayout>
 #include <QWheelEvent>
@@ -540,7 +541,7 @@ int CollapsibleEffectView::effectIndex() const
     return m_effect.attribute(QStringLiteral("kdenlive_ix")).toInt();
 }
 
-void CollapsibleEffectView::updateWidget(const ItemInfo &info, const QDomElement &effect, EffectMetaInfo *metaInfo)
+void CollapsibleEffectView::updateWidget(const ItemInfo &info, const QDomElement &effect)
 {
     // cleanup
     /*
@@ -548,7 +549,7 @@ void CollapsibleEffectView::updateWidget(const ItemInfo &info, const QDomElement
     m_paramWidget = nullptr;
     */
     m_effect = effect;
-    setupWidget(info, metaInfo);
+    setupWidget(info);
 }
 
 void CollapsibleEffectView::updateFrameInfo()
@@ -569,7 +570,7 @@ void CollapsibleEffectView::setActiveKeyframe(int kf)
     */
 }
 
-void CollapsibleEffectView::setupWidget(const ItemInfo &info, EffectMetaInfo *metaInfo)
+void CollapsibleEffectView::setupWidget(const ItemInfo &info)
 {
     /*
     if (m_effect.isNull()) {

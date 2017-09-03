@@ -20,6 +20,7 @@
  ***************************************************************************/
 
 #include "transitionsrepository.hpp"
+#include "kdenlivesettings.h"
 #include "core.h"
 #include "xml/xml.hpp"
 #include <QDir>
@@ -139,4 +140,21 @@ bool TransitionsRepository::isComposition(const QString &transitionId) const
 {
     auto type = getType(transitionId);
     return type == TransitionType::AudioComposition || type == TransitionType::VideoComposition;
+}
+
+const QString TransitionsRepository::getCompositingTransition()
+{
+    if (KdenliveSettings::gpu_accel()) {
+        return QStringLiteral("movit.overlay");
+    }
+    if (exists(QStringLiteral("qtblend"))) {
+        return QStringLiteral("qtblend");
+    }
+    if (exists(QStringLiteral("frei0r.cairoblend"))) {
+        return QStringLiteral("frei0r.cairoblend");
+    }
+    if (exists(QStringLiteral("composite"))) {
+        return QStringLiteral("composite");
+    }
+    return QString();
 }

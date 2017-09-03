@@ -1,34 +1,4 @@
 set(kdenlive_SRCS
   ${kdenlive_SRCS}
-  timeline/abstractclipitem.cpp
-  timeline/abstractgroupitem.cpp
-  timeline/clip.cpp
-  timeline/effectmanager.cpp
-  timeline/clipdurationdialog.cpp
-  timeline/clipitem.cpp
-  timeline/customruler.cpp
-  timeline/customtrackscene.cpp
-  timeline/customtrackview.cpp
-  timeline/guide.cpp
-  timeline/headertrack.cpp
-  timeline/keyframeview.cpp
-  timeline/spacerdialog.cpp
-  timeline/timeline.cpp
-  timeline/timelinecommands.cpp
-  timeline/track.cpp
-  timeline/trackdialog.cpp
-  timeline/tracksconfigdialog.cpp
-  timeline/transition.cpp
-  timeline/transitionhandler.cpp
-  timeline/timelinesearch.cpp
-  timeline/managers/abstracttoolmanager.cpp
-  timeline/managers/guidemanager.cpp
-  timeline/managers/razormanager.cpp
-  timeline/managers/selectmanager.cpp
-  timeline/managers/previewmanager.cpp
-  timeline/managers/trimmanager.cpp
-  timeline/managers/spacermanager.cpp
-  timeline/managers/movemanager.cpp
-  timeline/managers/resizemanager.cpp
   PARENT_SCOPE)
 

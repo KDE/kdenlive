@@ -33,7 +33,6 @@
 #include "effectslist/effectslistview.h"
 #include "effectslist/effectslistwidget.h"
 #include "effectslist/initeffects.h"
-#include "effectstack/effectstackview2.h"
 #include "hidetitlebars.h"
 #include "kdenlivesettings.h"
 #include "layoutmanagement.h"
@@ -53,14 +52,8 @@
 #include "project/dialogs/projectsettings.h"
 #include "project/projectcommands.h"
 #include "project/projectmanager.h"
-#include "project/transitionsettings.h"
 #include "renderer.h"
 #include "scopes/scopemanager.h"
-#include "timeline/clipitem.h"
-#include "timeline/customtrackview.h"
-#include "timeline/timeline.h"
-#include "timeline/timelinesearch.h"
-#include "timeline/track.h"
 #include "timeline2/view/timelinecontroller.h"
 #include "timeline2/view/timelinetabs.hpp"
 #include "timeline2/view/timelinewidget.h"
@@ -382,7 +375,6 @@ void MainWindow::init()
 
     new LayoutManagement(this);
     new HideTitleBars(this);
-    new TimelineSearch(this);
     m_extraFactory = new KXMLGUIClient(this);
     buildDynamicActions();
 
@@ -951,8 +943,8 @@ void MainWindow::setupActions()
     noComposite->setCheckable(true);
     noComposite->setData(0);
     m_compositeAction->addAction(noComposite);
-    int compose = KdenliveDoc::compositingMode();
-    if (compose == 2) {
+    QString compose = TransitionsRepository::get()->getCompositingTransition();
+    if (compose == QStringLiteral("movit.overlay")) {
         // Movit, do not show "preview" option since movit is faster
         QAction *hqComposite = new QAction(KoIconUtils::themedIcon(QStringLiteral("composite-track-on")), i18n("High Quality"), this);
         hqComposite->setCheckable(true);
@@ -964,7 +956,7 @@ void MainWindow::setupActions()
         previewComposite->setCheckable(true);
         previewComposite->setData(1);
         m_compositeAction->addAction(previewComposite);
-        if (compose == 1) {
+        if (compose != QStringLiteral("composite")) {
             QAction *hqComposite = new QAction(KoIconUtils::themedIcon(QStringLiteral("composite-track-on")), i18n("High Quality"), this);
             hqComposite->setData(2);
             hqComposite->setCheckable(true);
@@ -1682,7 +1674,7 @@ void MainWindow::slotEditProjectSettings()
     ProjectSettings *w = new ProjectSettings(project, project->metadata(), getMainTimeline()->controller()->extractCompositionLumas(), p.x(),
                                              p.y(), project->projectTempFolder(), true, !project->isModified(), this);
     connect(w, &ProjectSettings::disableProxies, this, &MainWindow::slotDisableProxies);
-    connect(w, SIGNAL(disablePreview()), pCore->projectManager()->currentTimeline(), SLOT(invalidateRange()));
+    //connect(w, SIGNAL(disablePreview()), pCore->projectManager()->currentTimeline(), SLOT(invalidateRange()));
     connect(w, &ProjectSettings::refreshProfiles, this, &MainWindow::slotRefreshProfiles);
 
     if (w->exec() == QDialog::Accepted) {
@@ -2264,7 +2256,8 @@ void MainWindow::slotDeleteClipMarker(bool allowGuideDeletion)
     std::shared_ptr<ProjectClip> clip(nullptr);
     GenTime pos;
     if (m_projectMonitor->isActive()) {
-        //TODO retrieve active clip
+        //TODO refac retrieve active clip
+        /*
         if (pCore->projectManager()->currentTimeline()) {
             ClipItem *item = pCore->projectManager()->currentTimeline()->projectView()->getActiveClipUnderCursor();
             if (item) {
@@ -2272,6 +2265,7 @@ void MainWindow::slotDeleteClipMarker(bool allowGuideDeletion)
                 clip = pCore->bin()->getBinClip(item->getBinId());
             }
         }
+        */
     } else {
         clip = m_clipMonitor->currentController();
         pos = GenTime(m_clipMonitor->position(), pCore->getCurrentFps());
@@ -2299,13 +2293,15 @@ void MainWindow::slotDeleteAllClipMarkers()
 {
     std::shared_ptr<ProjectClip> clip(nullptr);
     if (m_projectMonitor->isActive()) {
-        //TODO
+        //TODO refac
+        /*
         if (pCore->projectManager()->currentTimeline()) {
             ClipItem *item = pCore->projectManager()->currentTimeline()->projectView()->getActiveClipUnderCursor();
             if (item) {
                 clip = pCore->bin()->getBinClip(item->getBinId());
             }
         }
+        */
     } else {
         clip = m_clipMonitor->currentController();
     }
@@ -2325,7 +2321,8 @@ void MainWindow::slotEditClipMarker()
     std::shared_ptr<ProjectClip> clip(nullptr);
     GenTime pos;
     if (m_projectMonitor->isActive()) {
-        //TODO
+        //TODO refac
+        /*
         if (pCore->projectManager()->currentTimeline()) {
             ClipItem *item = pCore->projectManager()->currentTimeline()->projectView()->getActiveClipUnderCursor();
             if (item) {
@@ -2333,6 +2330,7 @@ void MainWindow::slotEditClipMarker()
                 clip = pCore->bin()->getBinClip(item->getBinId());
             }
         }
+        */
     } else {
         clip = m_clipMonitor->currentController();
         pos = GenTime(m_clipMonitor->position(), pCore->getCurrentFps());
@@ -2397,52 +2395,70 @@ void MainWindow::slotRemoveAllSpace()
 void MainWindow::slotInsertTrack()
 {
     pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
+    // TODO refac
+    /*
     if (pCore->projectManager()->currentTimeline()) {
         int ix = pCore->projectManager()->currentTimeline()->projectView()->selectedTrack();
         pCore->projectManager()->currentTimeline()->projectView()->slotInsertTrack(ix);
     }
+    */
 }
 
 void MainWindow::slotDeleteTrack()
 {
     pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
+    // TODO refac
+    /*
     if (pCore->projectManager()->currentTimeline()) {
         int ix = pCore->projectManager()->currentTimeline()->projectView()->selectedTrack();
         pCore->projectManager()->currentTimeline()->projectView()->slotDeleteTrack(ix);
     }
+    */
 }
 
 void MainWindow::slotConfigTrack()
 {
     pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
+    // TODO refac
+    /*
     if (pCore->projectManager()->currentTimeline()) {
         int ix = pCore->projectManager()->currentTimeline()->projectView()->selectedTrack();
         pCore->projectManager()->currentTimeline()->projectView()->slotConfigTracks(ix);
     }
+    */
 }
 
 void MainWindow::slotSelectTrack()
 {
     pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
+    // TODO refac
+    /*
     if (pCore->projectManager()->currentTimeline()) {
         pCore->projectManager()->currentTimeline()->projectView()->slotSelectClipsInTrack();
     }
+    */
 }
 
 void MainWindow::slotSelectAllTracks()
 {
+    // TODO refac
+    /*
     pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
     if (pCore->projectManager()->currentTimeline()) {
         pCore->projectManager()->currentTimeline()->projectView()->slotSelectAllClips();
     }
+    */
 }
 
 void MainWindow::slotUnselectAllTracks()
 {
+    // TODO refac
+    /*
     pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
     if (pCore->projectManager()->currentTimeline()) {
         pCore->projectManager()->currentTimeline()->projectView()->clearSelection();
     }
+    */
 }
 
 void MainWindow::slotEditGuide()
@@ -2467,14 +2483,19 @@ void MainWindow::slotCutTimelineClip()
 
 void MainWindow::slotInsertClipOverwrite()
 {
+    // TODO refac
+    /*
     if (pCore->projectManager()->currentTimeline()) {
         QPoint binZone = m_clipMonitor->getZoneInfo();
         pCore->projectManager()->currentTimeline()->projectView()->insertZone(TimelineMode::OverwriteEdit, m_clipMonitor->activeClipId(), binZone);
     }
+    */
 }
 
 void MainWindow::slotInsertClipInsert()
 {
+    // TODO refac
+    /*
     if (pCore->projectManager()->currentTimeline()) {
         QPoint binZone = m_clipMonitor->getZoneInfo();
         int pos = pCore->projectManager()->currentTimeline()->projectView()->insertZone(TimelineMode::InsertEdit, m_clipMonitor->activeClipId(), binZone);
@@ -2482,20 +2503,27 @@ void MainWindow::slotInsertClipInsert()
             m_projectMonitor->requestSeek(pos);
         }
     }
+    */
 }
 
 void MainWindow::slotExtractZone()
 {
+    // TODO refac
+    /*
     if (pCore->projectManager()->currentTimeline()) {
         pCore->projectManager()->currentTimeline()->projectView()->extractZone(QPoint(), true);
     }
+    */
 }
 
 void MainWindow::slotLiftZone()
 {
+    // TODO refac
+    /*
     if (pCore->projectManager()->currentTimeline()) {
         pCore->projectManager()->currentTimeline()->projectView()->extractZone(QPoint(), false);
     }
+    */
 }
 
 void MainWindow::slotPreviewRender()
@@ -2535,44 +2563,62 @@ void MainWindow::slotClearPreviewRender()
 
 void MainWindow::slotSelectTimelineClip()
 {
+    //TODO refac
+    /*
     if (pCore->projectManager()->currentTimeline()) {
         pCore->projectManager()->currentTimeline()->projectView()->selectClip(true);
     }
+    */
 }
 
 void MainWindow::slotSelectTimelineTransition()
 {
+    //TODO refac
+    /*
     if (pCore->projectManager()->currentTimeline()) {
         pCore->projectManager()->currentTimeline()->projectView()->selectTransition(true);
     }
+    */
 }
 
 void MainWindow::slotDeselectTimelineClip()
 {
+    //TODO refac
+    /*
     if (pCore->projectManager()->currentTimeline()) {
         pCore->projectManager()->currentTimeline()->projectView()->selectClip(false, true);
     }
+    */
 }
 
 void MainWindow::slotDeselectTimelineTransition()
 {
+    //TODO refac
+    /*
     if (pCore->projectManager()->currentTimeline()) {
         pCore->projectManager()->currentTimeline()->projectView()->selectTransition(false, true);
     }
+    */
 }
 
 void MainWindow::slotSelectAddTimelineClip()
 {
+    //TODO refac
+    /*
     if (pCore->projectManager()->currentTimeline()) {
         pCore->projectManager()->currentTimeline()->projectView()->selectClip(true, true);
     }
+    */
 }
 
 void MainWindow::slotSelectAddTimelineTransition()
 {
+    //TODO refac
+    /*
     if (pCore->projectManager()->currentTimeline()) {
         pCore->projectManager()->currentTimeline()->projectView()->selectTransition(true, true);
     }
+    */
 }
 
 void MainWindow::slotGroupClips()
@@ -2587,9 +2633,12 @@ void MainWindow::slotUnGroupClips()
 
 void MainWindow::slotEditItemDuration()
 {
+    //TODO refac
+    /*
     if (pCore->projectManager()->currentTimeline()) {
         pCore->projectManager()->currentTimeline()->projectView()->editItemDuration();
     }
+    */
 }
 
 void MainWindow::slotAddProjectClip(const QUrl &url, const QStringList &folderInfo)
@@ -2607,6 +2656,8 @@ void MainWindow::slotAddTransition(QAction *result)
     if (!result) {
         return;
     }
+    //TODO refac
+    /*
     QStringList info = result->data().toStringList();
     if (info.isEmpty() || info.count() < 2) {
         return;
@@ -2615,6 +2666,7 @@ void MainWindow::slotAddTransition(QAction *result)
     if (pCore->projectManager()->currentTimeline() && !transition.isNull()) {
         pCore->projectManager()->currentTimeline()->projectView()->slotAddTransitionToSelectedClips(transition.cloneNode().toElement());
     }
+    */
 }
 
 void MainWindow::slotAddVideoEffect(QAction *result)
@@ -2673,17 +2725,21 @@ void MainWindow::slotZoomOut(bool zoomOnMouse)
 
 void MainWindow::slotFitZoom()
 {
+    /*
     if (pCore->projectManager()->currentTimeline()) {
         m_zoomSlider->setValue(pCore->projectManager()->currentTimeline()->fitZoom());
         // Make sure to reset scroll bar to start
         pCore->projectManager()->currentTimeline()->projectView()->scrollToStart();
     }
+    */
 }
 
 void MainWindow::slotSetZoom(int value, bool zoomOnMouse)
 {
     value = qBound(m_zoomSlider->minimum(), value, m_zoomSlider->maximum());
 
+    //TODO refac
+    /*
     if (pCore->projectManager()->currentTimeline()) {
         pCore->projectManager()->currentTimeline()->slotChangeZoom(value, -1, zoomOnMouse);
     }
@@ -2695,6 +2751,7 @@ void MainWindow::slotSetZoom(int value, bool zoomOnMouse)
     m_zoomSlider->blockSignals(true);
     m_zoomSlider->setValue(value);
     m_zoomSlider->blockSignals(false);
+    */
 }
 
 void MainWindow::slotShowZoomSliderToolTip(int zoomlevel)
@@ -2771,6 +2828,8 @@ void MainWindow::slotChangeTool(QAction *action)
 
 void MainWindow::slotChangeEdit(QAction *action)
 {
+    //TODO refac
+    /*
     if (!pCore->projectManager()->currentTimeline()) {
         return;
     }
@@ -2782,6 +2841,7 @@ void MainWindow::slotChangeEdit(QAction *action)
     } else {
         pCore->projectManager()->currentTimeline()->projectView()->setEditMode(TimelineMode::NormalEdit);
     }
+    */
 }
 
 void MainWindow::slotSetTool(ProjectTool tool)
@@ -2807,23 +2867,32 @@ void MainWindow::slotSetTool(ProjectTool tool)
 
 void MainWindow::slotCopy()
 {
+    //TODO refac
+    /*
     if (pCore->projectManager()->currentTimeline()) {
         pCore->projectManager()->currentTimeline()->projectView()->copyClip();
     }
+    */
 }
 
 void MainWindow::slotPaste()
 {
+    //TODO refac
+    /*
     if (pCore->projectManager()->currentTimeline()) {
         pCore->projectManager()->currentTimeline()->projectView()->pasteClip();
     }
+    */
 }
 
 void MainWindow::slotPasteEffects()
 {
+    //TODO refac
+    /*
     if (pCore->projectManager()->currentTimeline()) {
         pCore->projectManager()->currentTimeline()->projectView()->pasteClipEffects();
     }
+    */
 }
 
 void MainWindow::slotClipInTimeline(const QString &clipId, QList <int> ids)
@@ -3016,38 +3085,53 @@ void MainWindow::slotGetNewMltProfileStuff()
 
 void MainWindow::slotAutoTransition()
 {
+    //TODO refac
+    /*
     if (pCore->projectManager()->currentTimeline()) {
         pCore->projectManager()->currentTimeline()->projectView()->autoTransition();
     }
+    */
 }
 
 void MainWindow::slotSplitAudio()
 {
+    //TODO refac
+    /*
     if (pCore->projectManager()->currentTimeline()) {
         pCore->projectManager()->currentTimeline()->projectView()->splitAudio();
     }
+    */
 }
 
 void MainWindow::slotSetAudioAlignReference()
 {
+    //TODO refac
+    /*
     if (pCore->projectManager()->currentTimeline()) {
         pCore->projectManager()->currentTimeline()->projectView()->setAudioAlignReference();
     }
+    */
 }
 
 void MainWindow::slotAlignAudio()
 {
+    //TODO refac
+    /*
     if (pCore->projectManager()->currentTimeline()) {
         pCore->projectManager()->currentTimeline()->projectView()->alignAudio();
     }
+    */
 }
 
 void MainWindow::slotUpdateClipType(QAction *action)
 {
+    //TODO refac
+    /*
     if (pCore->projectManager()->currentTimeline()) {
         PlaylistState::ClipState state = (PlaylistState::ClipState)action->data().toInt();
         pCore->projectManager()->currentTimeline()->projectView()->setClipType(state);
     }
+    */
 }
 
 void MainWindow::slotDvdWizard(const QString &url)
@@ -3462,6 +3546,8 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
     QList<QDomDocument> docList;
 
     // check which audio tracks have to be exported
+    //TODO refac
+    /*
     if (stemExport) {
         //TODO port to new timeline model
         Timeline *ct = pCore->projectManager()->currentTimeline();
@@ -3496,6 +3582,7 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
     } else {
         docList << doc;
     }
+    */
 
     // create full playlistPaths
     for (int i = 0; i < tracksCount; i++) {
@@ -3650,6 +3737,8 @@ void MainWindow::slotArchiveProject()
 {
     QList<std::shared_ptr<ClipController>> list = pCore->binController()->getControllerList();
     KdenliveDoc *doc = pCore->currentDoc();
+    // TODO refac
+    /*
     pCore->binController()->saveDocumentProperties(pCore->projectManager()->currentTimeline()->documentProperties(), doc->metadata(), doc->getGuideModel());
     QDomDocument xmlDoc = doc->xmlSceneList(m_projectMonitor->sceneList(doc->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile()));
     QScopedPointer<ArchiveWidget> d(
@@ -3657,6 +3746,7 @@ void MainWindow::slotArchiveProject()
     if (d->exec() != 0) {
         m_messageLabel->setMessage(i18n("Archiving project"), OperationCompletedMessage);
     }
+    */
 }
 
 void MainWindow::slotDownloadResources()
@@ -3823,10 +3913,13 @@ void MainWindow::updateDockTitleBars(bool isTopLevel)
 
 void MainWindow::slotToggleAutoPreview(bool enable)
 {
+    // TODO refac
+    /*
     KdenliveSettings::setAutopreview(enable);
     if (enable && pCore->projectManager()->currentTimeline()) {
         pCore->projectManager()->currentTimeline()->startPreviewRender();
     }
+    */
 }
 
 void MainWindow::configureToolbars()
@@ -3964,7 +4057,10 @@ void MainWindow::slotManageCache()
     auto *lay = new QVBoxLayout;
     TemporaryData tmp(pCore->currentDoc(), false, this);
     connect(&tmp, &TemporaryData::disableProxies, this, &MainWindow::slotDisableProxies);
+    // TODO refac
+    /*
     connect(&tmp, SIGNAL(disablePreview()), pCore->projectManager()->currentTimeline(), SLOT(invalidateRange()));
+    */
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
     connect(buttonBox, &QDialogButtonBox::rejected, &d, &QDialog::reject);
     lay->addWidget(&tmp);
@@ -3975,6 +4071,8 @@ void MainWindow::slotManageCache()
 
 void MainWindow::slotUpdateCompositing(QAction *compose)
 {
+    // TODO refac
+    /*
     if (pCore->projectManager()->currentTimeline()) {
         int mode = compose->data().toInt();
         pCore->projectManager()->currentTimeline()->switchComposite(mode);
@@ -3982,6 +4080,7 @@ void MainWindow::slotUpdateCompositing(QAction *compose)
             m_renderWidget->errorMessage(RenderWidget::CompositeError, mode == 1 ? i18n("Rendering using low quality track compositing") : QString());
         }
     }
+    */
 }
 
 void MainWindow::slotUpdateCompositeAction(int mode)
@@ -4023,17 +4122,23 @@ void MainWindow::forceIconSet(bool force)
 
 void MainWindow::slotSwitchTrimMode()
 {
+    // TODO refac
+    /*
     if (pCore->projectManager()->currentTimeline()) {
         pCore->projectManager()->currentTimeline()->projectView()->switchTrimMode();
     }
+    */
 }
 
 void MainWindow::setTrimMode(const QString &mode)
 {
+    // TODO refac
+    /*
     if (pCore->projectManager()->currentTimeline()) {
         m_trimLabel->setText(mode);
         m_trimLabel->setVisible(!mode.isEmpty());
     }
+    */
 }
 
 TimelineWidget *MainWindow::getMainTimeline() const

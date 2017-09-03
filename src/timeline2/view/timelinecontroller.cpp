@@ -25,7 +25,7 @@
 #include "bin/model/markerlistmodel.hpp"
 #include "bin/projectitemmodel.h"
 #include "bin/projectclip.h"
-#include "timeline/managers/previewmanager.h"
+#include "previewmanager.h"
 #include "core.h"
 #include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
@@ -35,7 +35,8 @@
 #include "timeline2/model/clipmodel.hpp"
 #include "timeline2/model/compositionmodel.hpp"
 #include "timeline2/model/groupsmodel.hpp"
-#include "timeline/spacerdialog.h"
+#include "transitions/transitionsrepository.hpp"
+#include "dialogs/spacerdialog.h"
 #include "timelinewidget.h"
 #include "utils/KoIconUtils.h"
 
@@ -726,7 +727,7 @@ bool TimelineController::createSplitOverlay(Mlt::Filter *filter)
     trac.set_track(play, 0);
     trac.set_track(play2, 1);
     play2.attach(*filter);
-    QString splitTransition = TimelineItemModel::getCompositingTransition();
+    QString splitTransition = TransitionsRepository::get()->getCompositingTransition();
     Mlt::Transition t(*m_model->m_tractor->profile(), splitTransition.toUtf8().constData());
     t.set("always_active", 1);
     trac.plant_transition(t, 0, 1);

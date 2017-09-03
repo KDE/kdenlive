@@ -39,8 +39,8 @@
 #include "project/clipmanager.h"
 #include "project/projectcommands.h"
 #include "renderer.h"
-#include "timeline/transitionhandler.h"
 #include "titler/titlewidget.h"
+#include "transitions/transitionsrepository.hpp"
 #include "utils/KoIconUtils.h"
 #include <config-kdenlive.h>
 
@@ -384,7 +384,7 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList<TrackInfo> &tracks)
         tractor.insert_track(track, i + 1);
     }
     QScopedPointer<Mlt::Field> field(tractor.field());
-    QString compositeService = TransitionHandler::compositeTransition();
+    QString compositeService = TransitionsRepository::get()->getCompositingTransition();
     for (int i = 0; i <= tracks.count(); i++) {
         if (i > 0) {
             Mlt::Transition tr(docProfile, "mix");
@@ -1674,22 +1674,6 @@ QDir KdenliveDoc::getCacheDir(CacheType type, bool *ok) const
 QStringList KdenliveDoc::getProxyHashList()
 {
     return pCore->bin()->getProxyHashList();
-}
-
-// static
-int KdenliveDoc::compositingMode()
-{
-    QString composite = TransitionHandler::compositeTransition();
-    if (composite == QLatin1String("composite")) {
-        // only simple preview compositing enabled
-        return 0;
-    }
-    if (composite == QLatin1String("movit.overlay")) {
-        // Movit compositing enabled
-        return 2;
-    }
-    // Cairoblend or qtblend available
-    return 1;
 }
 
 std::shared_ptr<MarkerListModel> KdenliveDoc::getGuideModel() const

@@ -19,12 +19,9 @@
 #include "core.h"
 #include "doc/kdenlivedoc.h"
 #include "effectslist/effectslist.h"
-#include "effectstack/effectstackedit.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "project/projectmanager.h"
-#include "timeline/transition.h"
-#include "timeline/transitionhandler.h"
 #include "utils/KoIconUtils.h"
 
 #include "klocalizedstring.h"

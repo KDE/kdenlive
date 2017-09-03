@@ -18,8 +18,6 @@
 #ifndef KEYFRAMEEDIT_H
 #define KEYFRAMEEDIT_H
 
-#include "effectstack/keyframehelper.h"
-
 #include "assets/view/widgets/abstractparamwidget.hpp"
 #include "definitions.h"
 #include "ui_keyframeeditor_ui.h"
