@@ -538,9 +538,17 @@ void TransitionHandler::enableMultiTrack(bool enable)
             }
             type = mlt_service_identify(nextservice);
         }
+        // Search for visible tracks and arrange them on a 2x2 grid.
+        // If there are more than 4 visible tracks, the extra
+        // tracks will be displayed without rescaling on top of the grid.
+        // The user has to manually hide them.
         for (int i = 1, screen = 0; i < tracks && screen < 4; ++i) {
             Mlt::Producer trackProducer(m_tractor->track(i));
-            if (QString(trackProducer.get("hide")).toInt() != 1) {
+            // A track is in hidden state in "hide" has the bit 0x01 set.
+            // See Track::setInfo (in track.cpp) for details
+            const int trackVisibilityFlags = QString(trackProducer.get("hide")).toInt();
+            const bool trackVisible = ( (trackVisibilityFlags & 1) == 0 );
+            if (trackVisible) {
                 Mlt::Transition transition(*m_tractor->profile(), "composite");
                 transition.set("mlt_service", "composite");
                 transition.set("a_track", 0);
