@@ -951,4 +951,10 @@
       <default>false</default>
     </entry>
   </group>
+  <group name="titles">
+       <entry name="selected_template" type="String">
+           <label>Name of last selected title template</label>
+           <default></default>
+       </entry>
+   </group>
 </kcfg>
