@@ -200,15 +200,10 @@ QImage Render::extractFrame(int frame_position, const QString &path, int width, 
         width++;
     }
     if (!path.isEmpty()) {
-        Mlt::Producer *producer = new Mlt::Producer(*m_qmlView->profile(), path.toUtf8().constData());
-        if (producer) {
-            if (producer->is_valid()) {
-                QImage img = KThumb::getFrame(producer, frame_position, width, height);
-                delete producer;
-                return img;
-            } else {
-                delete producer;
-            }
+        QScopedPointer<Mlt::Producer> producer(new Mlt::Producer(*m_qmlView->profile(), path.toUtf8().constData()));
+        if (producer && producer->is_valid()) {
+            QImage img = KThumb::getFrame(producer.data(), frame_position, width, height);
+            return img;
         }
     }
 
@@ -218,22 +213,44 @@ QImage Render::extractFrame(int frame_position, const QString &path, int width, 
         return pix;
     }
     Mlt::Frame *frame = nullptr;
-    if (KdenliveSettings::gpu_accel()) {
+    QImage img;
+    bool profileFromSource = m_mltProducer->get_int("meta.media.width") > width;
+    if (KdenliveSettings::gpu_accel() && !profileFromSource) {
         QString service = m_mltProducer->get("mlt_service");
-        //TODO: create duplicate prod from xml data
-        Mlt::Producer *tmpProd = new Mlt::Producer(*m_qmlView->profile(), service.toUtf8().constData(), path.toUtf8().constData());
+        QScopedPointer <Mlt::Producer> tmpProd(new Mlt::Producer(*m_qmlView->profile(), service.toUtf8().constData(), m_mltProducer->get("resource")));
         Mlt::Filter scaler(*m_qmlView->profile(), "swscale");
         Mlt::Filter converter(*m_qmlView->profile(), "avcolor_space");
         tmpProd->attach(scaler);
         tmpProd->attach(converter);
         tmpProd->seek(m_mltProducer->position());
         frame = tmpProd->get_frame();
-        delete tmpProd;
+        img = KThumb::getFrame(frame, width, height);
+        delete frame;
+    } else if (profileFromSource) {
+        // Our source clip's resolution is higher than current profile, export at full res
+        QScopedPointer<Mlt::Profile> tmpProfile(new Mlt::Profile());
+        QString service = m_mltProducer->get("mlt_service");
+        QScopedPointer<Mlt::Producer> tmpProd(new Mlt::Producer(*tmpProfile, service.toUtf8().constData(), m_mltProducer->get("resource")));
+        tmpProfile->from_producer(*tmpProd);
+        width = tmpProfile->width();
+        height = tmpProfile->height();
+        if (tmpProd && tmpProd->is_valid()) {
+            Mlt::Filter scaler(*tmpProfile, "swscale");
+            Mlt::Filter converter(*tmpProfile, "avcolor_space");
+            tmpProd->attach(scaler);
+            tmpProd->attach(converter);
+            //Clip clp2(*m_mltProducer);
+            Clip(*tmpProd).addEffects(*m_mltProducer);
+            tmpProd->seek(m_mltProducer->position());
+            frame = tmpProd->get_frame();
+            img = KThumb::getFrame(frame, width, height);
+            delete frame;
+        }
     } else {
         frame = m_mltProducer->get_frame();
+        img = KThumb::getFrame(frame, width, height);
+        delete frame;
     }
-    QImage img = KThumb::getFrame(frame, width, height);
-    delete frame;
     return img;
 }
 
