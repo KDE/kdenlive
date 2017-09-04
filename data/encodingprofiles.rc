@@ -4,8 +4,8 @@ DNxHD=vcodec=dnxhd vb=145000k acodec=pcm_s16le threads=%threads;mov
 MPEG=qscale=4 ab=192k vcodec=mpeg2video acodec=mp2 threads=%threads;mpg
 
 [proxy]
-x264=-vf scale=640:-1 -g 5 -crf 25 -ab 128k -vcodec libx264 -acodec libvorbis -preset veryfast;mov
-MPEG=-vf scale=640:-1 -g 5 -qscale 6 -ab 128k -vcodec mpeg2video -acodec mp2;mpg
+x264=-vf scale=640:-2 -g 5 -crf 25 -ab 128k -vcodec libx264 -acodec libvorbis -preset veryfast;mov
+MPEG=-vf scale=640:-2 -g 5 -qscale 6 -ab 128k -vcodec mpeg2video -acodec mp2;mpg
 
 [screengrab]
 X264 mute=-crf 25 -vcodec libx264 -preset veryfast -threads 0;mov
