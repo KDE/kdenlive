@@ -55,10 +55,14 @@ TitleTemplateDialog::TitleTemplateDialog(const QString &folder, QWidget *parent)
         }
     }
 
-    if (!templateFiles.isEmpty()) {
+    if (m_view.template_list->comboBox()->count() > 0) {
         m_view.buttonBox->button(QDialogButtonBox::Ok)->setFocus();
     }
-    const QStringList mimeTypeFilters = {QStringLiteral("application/x-kdenlivetitle")};
+    int current = m_view.template_list->comboBox()->findText(KdenliveSettings::selected_template());
+    if (current > -1) {
+        m_view.template_list->comboBox()->setCurrentIndex(current);
+    }
+    const QStringList mimeTypeFilters = { QStringLiteral("application/x-kdenlivetitle") };
     m_view.template_list->setFilter(mimeTypeFilters.join(' '));
     connect(m_view.template_list->comboBox(), SIGNAL(currentIndexChanged(int)), this, SLOT(updatePreview()));
     updatePreview();
@@ -86,4 +90,5 @@ void TitleTemplateDialog::updatePreview()
     }
     QPixmap pix = KThumb::getImage(QUrl::fromLocalFile(textTemplate), m_view.preview->width());
     m_view.preview->setPixmap(pix);
+    KdenliveSettings::setSelected_template(m_view.template_list->comboBox()->currentText());
 }
