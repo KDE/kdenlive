@@ -43,7 +43,7 @@ void MonitorController::setConsumerProperty(const QString &name, const QString &
     }
 }
 
-QImage MonitorController::extractFrame(int frame_position, const QString &path, int width, int height)
+QImage MonitorController::extractFrame(int frame_position, const QString &path, int width, int height, bool useSourceProfile)
 {
     if (width == -1) {
         width = m_glWidget->m_monitorProfile->width();
@@ -52,38 +52,56 @@ QImage MonitorController::extractFrame(int frame_position, const QString &path, 
         width++;
     }
     if (!path.isEmpty()) {
-        Mlt::Producer *producer = new Mlt::Producer(*m_glWidget->m_monitorProfile, path.toUtf8().constData());
-        if (producer) {
-            if (producer->is_valid()) {
-                QImage img = KThumb::getFrame(producer, frame_position, width, height);
-                delete producer;
-                return img;
-            }
-            delete producer;
+        QScopedPointer<Mlt::Producer> producer(new Mlt::Producer(*m_glWidget->m_monitorProfile, path.toUtf8().constData()));
+        if (producer && producer->is_valid()) {
+            QImage img = KThumb::getFrame(producer.data(), frame_position, width, height);
+            return img;
         }
     }
-    if (m_glWidget->m_producer == nullptr) {
+
+    if ((m_glWidget->m_producer == nullptr) || !path.isEmpty()) {
         QImage pix(width, height, QImage::Format_RGB32);
         pix.fill(Qt::black);
         return pix;
     }
     Mlt::Frame *frame = nullptr;
-    if (KdenliveSettings::gpu_accel()) {
+    QImage img;
+    if (useSourceProfile) {
+        // Our source clip's resolution is higher than current profile, export at full res
+        QScopedPointer<Mlt::Profile> tmpProfile(new Mlt::Profile());
         QString service = m_glWidget->m_producer->get("mlt_service");
-        // TODO: create duplicate prod from xml data
-        Mlt::Producer *tmpProd = new Mlt::Producer(*m_glWidget->m_monitorProfile, service.toUtf8().constData(), path.toUtf8().constData());
+        QScopedPointer<Mlt::Producer> tmpProd(new Mlt::Producer(*tmpProfile, service.toUtf8().constData(), m_glWidget->m_producer->get("resource")));
+        tmpProfile->from_producer(*tmpProd);
+        width = tmpProfile->width();
+        height = tmpProfile->height();
+        if (tmpProd && tmpProd->is_valid()) {
+            Mlt::Filter scaler(*tmpProfile, "swscale");
+            Mlt::Filter converter(*tmpProfile, "avcolor_space");
+            tmpProd->attach(scaler);
+            tmpProd->attach(converter);
+            //TODO: paste effects
+            //Clip(*tmpProd).addEffects(*m_glWidget->m_producer);
+            tmpProd->seek(m_glWidget->m_producer->position());
+            frame = tmpProd->get_frame();
+            img = KThumb::getFrame(frame, width, height);
+            delete frame;
+        }
+    } else if (KdenliveSettings::gpu_accel()) {
+        QString service = m_glWidget->m_producer->get("mlt_service");
+        QScopedPointer <Mlt::Producer> tmpProd(new Mlt::Producer(*m_glWidget->m_monitorProfile, service.toUtf8().constData(), m_glWidget->m_producer->get("resource")));
         Mlt::Filter scaler(*m_glWidget->m_monitorProfile, "swscale");
         Mlt::Filter converter(*m_glWidget->m_monitorProfile, "avcolor_space");
         tmpProd->attach(scaler);
         tmpProd->attach(converter);
         tmpProd->seek(m_glWidget->m_producer->position());
         frame = tmpProd->get_frame();
-        delete tmpProd;
+        img = KThumb::getFrame(frame, width, height);
+        delete frame;
     } else {
         frame = m_glWidget->m_producer->get_frame();
+        img = KThumb::getFrame(frame, width, height);
+        delete frame;
     }
-    QImage img = KThumb::getFrame(frame, width, height);
-    delete frame;
     return img;
 }
 

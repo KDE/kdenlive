@@ -32,7 +32,7 @@ public:
     MonitorController(GLWidget *widget);
 
     void setConsumerProperty(const QString &name, const QString &value);
-    QImage extractFrame(int frame_position, const QString &path = QString(), int width = -1, int height = -1);
+    QImage extractFrame(int frame_position, const QString &path = QString(), int width = -1, int height = -1, bool useSourceProfile = false);
 
 private:
     GLWidget *m_glWidget;

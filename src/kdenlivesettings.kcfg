@@ -35,12 +35,14 @@
       <label>Select tab position in dockwidgets.</label>
       <default>1</default>
     </entry>
-
     <entry name="checkfirstprojectclip" type="Bool">
       <label>Check if document profile is same as first imported clip.</label>
       <default>false</default>
     </entry>
-
+    <entry name="exportframe_usingsourceres" type="Bool">
+      <label>Export image using source resolution.</label>
+      <default>true</default>
+    </entry>
     <entry name="usekuiserver" type="Bool">
       <label>Use KDE central job management to track render jobs.</label>
       <default>false</default>

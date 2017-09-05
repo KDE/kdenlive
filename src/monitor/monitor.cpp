@@ -30,15 +30,17 @@
 #include "lib/audio/audioStreamInfo.h"
 #include "mainwindow.h"
 #include "mltcontroller/bincontroller.h"
-#include "mltcontroller/clip.h"
 #include "mltcontroller/clipcontroller.h"
 #include "project/projectmanager.h"
 #include "qmlmanager.h"
 #include "recmanager.h"
 #include "scopes/monitoraudiolevel.h"
+#include "timeline/abstractclipitem.h"
+#include "timeline/clip.h"
+#include "timeline/transitionhandler.h"
 #include "timeline2/model/snapmodel.hpp"
-#include "transitions/transitionsrepository.hpp"
 #include "utils/KoIconUtils.h"
+#include "transitions/transitionsrepository.hpp"
 
 #include "klocalizedstring.h"
 #include <KDualAction>
@@ -46,6 +48,8 @@
 #include <KMessageWidget>
 #include <KRecentDirs>
 #include <KSelectAction>
+#include <KFileWidget>
+#include <KWindowConfig>
 
 #include "kdenlive_debug.h"
 #include <QDesktopWidget>
@@ -988,39 +992,62 @@ void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
     if (framesFolder.isEmpty()) {
         framesFolder = QDir::homePath();
     }
-    QPointer<QFileDialog> fs = new QFileDialog(this, addToProject ? i18n("Save Image") : i18n("Save Image to Project"), framesFolder);
-    fs->setMimeTypeFilters(QStringList() << QStringLiteral("image/png"));
-    fs->setAcceptMode(QFileDialog::AcceptSave);
-    fs->setDefaultSuffix(QStringLiteral("png"));
-    fs->selectFile(frameName);
-    if (fs->exec() != 0) {
-        if (!fs->selectedFiles().isEmpty()) {
-            QUrl savePath = fs->selectedUrls().constFirst();
-            if (QFile::exists(savePath.toLocalFile()) && KMessageBox::warningYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", savePath.toLocalFile())) == KMessageBox::No) {
-                delete fs;
-                slotExtractCurrentFrame(savePath.fileName(), addToProject);
-                return;
-            }
+    QScopedPointer<QDialog> dlg(new QDialog(this));
+    QScopedPointer<KFileWidget> fileWidget (new KFileWidget(QUrl::fromLocalFile(framesFolder), dlg.data()));
+    dlg->setWindowTitle(addToProject ? i18n("Save Image") : i18n("Save Image to Project"));
+    auto *layout = new QVBoxLayout;
+    layout->addWidget(fileWidget.data());
+    QCheckBox *b = nullptr;
+    if (m_id == Kdenlive::ClipMonitor) {
+        b = new QCheckBox(i18n("Export image using source resolution"), dlg.data());
+        b->setChecked(KdenliveSettings::exportframe_usingsourceres());
+        fileWidget->setCustomWidget(b);
+    }
+    fileWidget->setConfirmOverwrite(true);
+    fileWidget->okButton()->show();
+    fileWidget->cancelButton()->show();
+    QObject::connect(fileWidget->okButton(), &QPushButton::clicked, fileWidget.data(), &KFileWidget::slotOk);
+    QObject::connect(fileWidget.data(), &KFileWidget::accepted, fileWidget.data(), &KFileWidget::accept);
+    QObject::connect(fileWidget.data(), &KFileWidget::accepted, dlg.data(), &QDialog::accept);
+    QObject::connect(fileWidget->cancelButton(), &QPushButton::clicked, dlg.data(), &QDialog::reject);
+    dlg->setLayout(layout);
+    fileWidget->setMimeFilter(QStringList() << QStringLiteral("image/png"));
+    fileWidget->setMode(KFile::File | KFile::LocalOnly);
+    fileWidget->setOperationMode(KFileWidget::Saving);
+    QUrl relativeUrl;
+    relativeUrl.setPath(frameName);
+    fileWidget->setSelectedUrl(relativeUrl);
+    KSharedConfig::Ptr conf = KSharedConfig::openConfig();
+    QWindow *handle = dlg->windowHandle();
+    if ((handle != nullptr) && conf->hasGroup("FileDialogSize")) {
+        KWindowConfig::restoreWindowSize(handle, conf->group("FileDialogSize"));
+        dlg->resize(handle->size());
+    }
+    if (dlg->exec() == QDialog::Accepted) {
+        QString selectedFile = fileWidget->selectedFile();
+        if (!selectedFile.isEmpty()) {
             // Create Qimage with frame
             QImage frame;
             // check if we are using a proxy
             if ((m_controller != nullptr) && !m_controller->getProducerProperty(QStringLiteral("kdenlive:proxy")).isEmpty() &&
                 m_controller->getProducerProperty(QStringLiteral("kdenlive:proxy")) != QLatin1String("-")) {
                 // using proxy, use original clip url to get frame
-                frame = m_monitorController->extractFrame(m_glMonitor->getCurrentPos(), m_controller->getProducerProperty(QStringLiteral("kdenlive:originalurl")));
+                frame = m_monitorController->extractFrame(m_glMonitor->getCurrentPos(), m_controller->getProducerProperty(QStringLiteral("kdenlive:originalurl")), -1, -1, b != nullptr ? b->isChecked() : false);
             } else {
-                frame = m_monitorController->extractFrame(m_glMonitor->getCurrentPos());
+                frame = m_monitorController->extractFrame(m_glMonitor->getCurrentPos(), QString(), -1, -1, b != nullptr ? b->isChecked() : false);
             }
-            frame.save(savePath.toLocalFile());
-            KRecentDirs::add(QStringLiteral(":KdenliveFramesFolder"), savePath.adjusted(QUrl::RemoveFilename).toLocalFile());
+            frame.save(selectedFile);
+            if (b != nullptr) {
+                KdenliveSettings::setExportframe_usingsourceres(b->isChecked());
+            }
+            KRecentDirs::add(QStringLiteral(":KdenliveFramesFolder"), QUrl::fromLocalFile(selectedFile).adjusted(QUrl::RemoveFilename).toLocalFile());
 
             if (addToProject) {
                 QStringList folderInfo = pCore->bin()->getFolderInfo();
-                pCore->bin()->droppedUrls(QList<QUrl>() << savePath, folderInfo);
+                pCore->bin()->droppedUrls(QList<QUrl>() << QUrl::fromLocalFile(selectedFile), folderInfo);
             }
         }
     }
-    delete fs;
 }
 
 void Monitor::setTimePos(const QString &pos)
