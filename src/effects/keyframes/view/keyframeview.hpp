@@ -80,12 +80,6 @@ private:
 signals:
     void positionChanged(int pos);
     void atKeyframe(bool);
-
-    void keyframeSelected();
-    void keyframeMoving(int oldPos, int currentPos);
-    void keyframeMoved(int oldPos, int newPos);
-    void keyframeAdded(int pos);
-    void keyframeRemoved(int pos);
 };
 
 #endif
