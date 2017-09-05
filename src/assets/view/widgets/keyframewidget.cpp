@@ -18,8 +18,8 @@
  ***************************************************************************/
 
 #include "keyframewidget.hpp"
-#include "effects/keyframes/view/keyframeview.hpp"
-#include "effects/keyframes/keyframemodellist.hpp"
+#include "assets/keyframes/view/keyframeview.hpp"
+#include "assets/keyframes/model/keyframemodellist.hpp"
 #include "timecodedisplay.h"
 #include "utils/KoIconUtils.h"
 #include "core.h"

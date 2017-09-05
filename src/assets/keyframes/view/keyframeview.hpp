@@ -20,8 +20,8 @@
 #ifndef KEYFRAMEVIEW_H
 #define KEYFRAMEVIEW_H
 
-#include "effects/keyframes/keyframemodel.hpp"
-#include "effects/keyframes/keyframemodellist.hpp"
+#include "assets/keyframes/model/keyframemodel.hpp"
+#include "assets/keyframes/model/keyframemodellist.hpp"
 #include <QWidget>
 #include <memory>
 

@@ -18,6 +18,7 @@
  ***************************************************************************/
 
 #include "keyframeview.hpp"
+#include "assets/keyframes/model/keyframemodellist.hpp"
 #include "core.h"
 #include "kdenlivesettings.h"
 
