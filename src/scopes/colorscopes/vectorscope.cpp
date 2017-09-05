@@ -166,11 +166,11 @@ void Vectorscope::writeConfig()
 QRect Vectorscope::scopeRect()
 {
     // Distance from top/left/right
-    int offset = 6;
+    int border = 6;
 
     // We want to paint below the controls area. The line is the lowest element.
-    QPoint topleft(offset, ui->verticalSpacer->geometry().y() + offset);
-    QPoint bottomright(ui->horizontalSpacer->geometry().right() - offset, this->size().height() - offset);
+    QPoint topleft(border, ui->verticalSpacer->geometry().y() + border);
+    QPoint bottomright(ui->horizontalSpacer->geometry().right() - border, this->size().height() - border);
 
     m_visibleRect = QRect(topleft, bottomright);
 
@@ -248,7 +248,7 @@ QImage Vectorscope::renderHUD(uint)
         }
         davinci.drawEllipse(m_centerPoint, (int)r, (int)r);
         davinci.setPen(penThin);
-        davinci.drawText(QPoint(m_scopeRect.width() - 40, m_scopeRect.height()), i18n("%1 \%", locale.toString(percent, 'f', 0)));
+        davinci.drawText(QPoint(m_scopeRect.width() - 40, m_scopeRect.height()), i18n("%1 %%", locale.toString(percent, 'f', 0)));
 
         float angle = copysign(acos(dx / r) * 180 / M_PI, dy);
         davinci.drawText(QPoint(10, m_scopeRect.height()), i18n("%1°", locale.toString(angle, 'f', 1)));

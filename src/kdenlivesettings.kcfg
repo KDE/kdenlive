@@ -27,7 +27,10 @@
       <label>Open last project on startup.</label>
       <default>false</default>
     </entry>
-
+    <entry name="crashrecovery" type="Bool">
+      <label>Enable autosave.</label>
+      <default>true</default>
+    </entry>
     <entry name="tabposition" type="Int">
       <label>Select tab position in dockwidgets.</label>
       <default>1</default>
@@ -948,4 +951,10 @@
       <default>false</default>
     </entry>
   </group>
+  <group name="titles">
+       <entry name="selected_template" type="String">
+           <label>Name of last selected title template</label>
+           <default></default>
+       </entry>
+   </group>
 </kcfg>
