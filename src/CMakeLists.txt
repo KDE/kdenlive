@@ -311,9 +311,11 @@ if(Q_WS_X11)
     target_link_libraries(kdenlive ${X11_LIBRARIES})
 endif(Q_WS_X11)
 
-if(SDL_FOUND)
+if(SDL2_FOUND)
+    target_link_libraries(kdenlive ${SDL2_LIBRARY})
+elseif(SDL_FOUND)
     target_link_libraries(kdenlive ${SDL_LIBRARY})
-endif(SDL_FOUND)
+endif(SDL2_FOUND)
 
 if(LIBV4L2_FOUND)
     include_directories(${LIBV4L2_INCLUDE_DIR})
