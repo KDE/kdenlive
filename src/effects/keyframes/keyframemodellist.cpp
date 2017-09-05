@@ -30,12 +30,18 @@
 #include <QDebug>
 
 
-KeyframeModelList::KeyframeModelList(double init_value, std::weak_ptr<AssetParameterModel> model, const QModelIndex &index, std::weak_ptr<DocUndoStack> undo_stack, QObject *parent)
+KeyframeModelList::KeyframeModelList(double init_value, std::weak_ptr<AssetParameterModel> model, const QModelIndex &index, std::weak_ptr<DocUndoStack> undo_stack)
     : m_model(model)
     , m_undoStack(undo_stack)
     , m_lock(QReadWriteLock::Recursive)
 {
-    std::shared_ptr<KeyframeModel> parameter (new KeyframeModel(init_value, model, index, undo_stack, parent));
+    addParameter(index, init_value);
+    connect(m_parameters.begin()->second.get(), &KeyframeModel::modelChanged, this, &KeyframeModelList::modelChanged);
+}
+
+void KeyframeModelList::addParameter(const QModelIndex &index, double init_value)
+{
+    std::shared_ptr<KeyframeModel> parameter (new KeyframeModel(init_value, m_model, index, m_undoStack));
     m_parameters.insert({index, std::move(parameter)});
 }
 
@@ -61,6 +67,7 @@ bool KeyframeModelList::applyOperation(const std::function<bool(std::shared_ptr<
     }
     return res;
 }
+
 bool KeyframeModelList::addKeyframe(GenTime pos, KeyframeType type)
 {
     QWriteLocker locker(&m_lock);

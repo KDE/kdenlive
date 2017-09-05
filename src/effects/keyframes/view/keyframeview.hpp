@@ -21,15 +21,18 @@
 #define KEYFRAMEVIEW_H
 
 #include "effects/keyframes/keyframemodel.hpp"
+#include "effects/keyframes/keyframemodellist.hpp"
 #include <QWidget>
 #include <memory>
+
+class KeyframeModelList;
 
 class KeyframeView : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit KeyframeView(std::shared_ptr<KeyframeModel> model, QWidget *parent = nullptr);
+    explicit KeyframeView(std::shared_ptr<KeyframeModelList> model, QWidget *parent = nullptr);
     void setDuration(int dur);
 
 public slots:
@@ -42,11 +45,11 @@ public slots:
     /* @brief Add a keyframe with given parameter value at given pos.
        If pos is negative, then keyframe is added at current position
     */
-    void slotAddKeyframe(int pos = -1, double value = 0);
+    void slotAddKeyframe(int pos = -1);
     /* @brief If there is a keyframe at current position, it is removed.
        Otherwise, we add a new one with given value.
     */
-    void slotAddRemove(double value);
+    void slotAddRemove();
     void slotGoToNext();
     void slotGoToPrev();
 
@@ -59,7 +62,7 @@ protected:
     void wheelEvent(QWheelEvent *event) override;
 
 private:
-    std::shared_ptr<KeyframeModel> m_model;
+    std::shared_ptr<KeyframeModelList> m_model;
     int m_duration;
     int m_position;
     int m_currentKeyframe;

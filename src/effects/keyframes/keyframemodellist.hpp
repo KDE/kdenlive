@@ -33,6 +33,7 @@
 #include <map>
 #include <memory>
 #include <unordered_map>
+#include <QObject>
 
 class AssetParameterModel;
 class DocUndoStack;
@@ -42,15 +43,19 @@ class DocUndoStack;
    but we regroup all of these in a common class to provide unified access.
  */
 
-class KeyframeModelList
+
+class KeyframeModelList : public QObject
 {
+    Q_OBJECT
 
 public:
     /* @brief Construct a keyframe list bound to the given asset
        @param init_value and index correspond to the first parameter
      */
-    explicit KeyframeModelList(double init_value, std::weak_ptr<AssetParameterModel> model, const QModelIndex &index, std::weak_ptr<DocUndoStack> undo_stack, QObject *parent = nullptr);
+    explicit KeyframeModelList(double init_value, std::weak_ptr<AssetParameterModel> model, const QModelIndex &index, std::weak_ptr<DocUndoStack> undo_stack);
 
+    /* @brief Add a keyframable parameter to be managed by this model */
+    void addParameter(const QModelIndex &index, double init_value);
 
     /* @brief Adds a keyframe at the given position. If there is already one then we update it.
        @param pos defines the position of the keyframe, relative to the clip
@@ -107,6 +112,9 @@ protected:
 
     /** @brief Helper function to apply a given operation on all parameters */
     bool applyOperation(const std::function<bool(std::shared_ptr<KeyframeModel>, Fun&, Fun&)> &op, const QString &undoString);
+
+signals:
+    void modelChanged();
 
 private:
 

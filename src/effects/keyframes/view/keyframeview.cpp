@@ -26,7 +26,7 @@
 #include <KColorScheme>
 #include <QFontDatabase>
 
-KeyframeView::KeyframeView(std::shared_ptr<KeyframeModel> model, QWidget *parent)
+KeyframeView::KeyframeView(std::shared_ptr<KeyframeModelList> model, QWidget *parent)
     : QWidget(parent)
     , m_model(model)
     , m_duration(1)
@@ -49,7 +49,7 @@ KeyframeView::KeyframeView(std::shared_ptr<KeyframeModel> model, QWidget *parent
     m_lineHeight = m_size / 2;
     setMinimumHeight(m_size);
     setMaximumHeight(m_size);
-    connect(m_model.get(), &KeyframeModel::modelChanged, [&](){
+    connect(m_model.get(), &KeyframeModelList::modelChanged, [&](){
             emit atKeyframe(m_model->hasKeyframe(m_position));
             update();
         });
@@ -65,20 +65,20 @@ void KeyframeView::slotSetPosition(int pos)
     }
 }
 
-void KeyframeView::slotAddKeyframe(int pos, double value)
+void KeyframeView::slotAddKeyframe(int pos)
 {
     if (pos < 0) {
         pos = m_position;
     }
-    m_model->addKeyframe(GenTime(pos, pCore->getCurrentFps()), m_currentType, value);
+    m_model->addKeyframe(GenTime(pos, pCore->getCurrentFps()), m_currentType);
 }
 
-void KeyframeView::slotAddRemove(double value)
+void KeyframeView::slotAddRemove()
 {
     if (m_model->hasKeyframe(m_position)) {
         slotRemoveKeyframe(m_position);
     } else {
-        slotAddKeyframe(m_position, value);
+        slotAddKeyframe(m_position);
     }
 }
 
@@ -221,8 +221,7 @@ void KeyframeView::mouseDoubleClickEvent(QMouseEvent *event)
         }
 
         // add new keyframe
-        double value = m_model->getInterpolatedValue(pos);
-        m_model->addKeyframe(position, m_currentType, value);
+        m_model->addKeyframe(position, m_currentType);
     } else {
         QWidget::mouseDoubleClickEvent(event);
     }
