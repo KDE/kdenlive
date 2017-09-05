@@ -19,11 +19,12 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-#ifndef KEYFRAMELISTMODEL_H
-#define KEYFRAMELISTMODEL_H
+#ifndef KEYFRAMELISTMODELLIST_H
+#define KEYFRAMELISTMODELLIST_H
 
-#include "definitions.h"
 #include "gentime.h"
+#include "definitions.h"
+#include "keyframemodel.hpp"
 #include "undohelper.hpp"
 
 #include <QAbstractListModel>
@@ -31,76 +32,49 @@
 
 #include <map>
 #include <memory>
+#include <unordered_map>
 
 class AssetParameterModel;
 class DocUndoStack;
-class EffectItemModel;
 
-/* @brief This class is the model for a list of keyframes.
-   A keyframe is defined by a time, a type and a value
-   We store them in a sorted fashion using a std::map
+/* @brief This class is a container for the keyframe models.
+   If an asset has several keyframable parameters, each one has its own keyframeModel,
+   but we regroup all of these in a common class to provide unified access.
  */
 
-enum class KeyframeType
+class KeyframeModelList
 {
-    Linear,
-    Discrete,
-    Curve
-};
-Q_DECLARE_METATYPE(KeyframeType)
-using Keyframe = std::pair<GenTime, KeyframeType>;
-
-class KeyframeModel : public QAbstractListModel
-{
-    Q_OBJECT
 
 public:
-    /* @brief Construct a keyframe list bound to the given effect
-       @param init_value is the value taken by the param at time 0.
-       @param model is the asset this parameter belong to
-       @param index is the index of this parameter in its model
+    /* @brief Construct a keyframe list bound to the given asset
+       @param init_value and index correspond to the first parameter
      */
-    explicit KeyframeModel(double init_value, std::weak_ptr<AssetParameterModel> model, const QModelIndex &index, std::weak_ptr<DocUndoStack> undo_stack, QObject *parent = nullptr);
+    explicit KeyframeModelList(double init_value, std::weak_ptr<AssetParameterModel> model, const QModelIndex &index, std::weak_ptr<DocUndoStack> undo_stack, QObject *parent = nullptr);
 
-    enum { TypeRole = Qt::UserRole + 1, PosRole, FrameRole, ValueRole};
-    friend class KeyframeModelList;
 
     /* @brief Adds a keyframe at the given position. If there is already one then we update it.
        @param pos defines the position of the keyframe, relative to the clip
        @param type is the type of the keyframe.
      */
-    bool addKeyframe(GenTime pos, KeyframeType type, double value);
+    bool addKeyframe(GenTime pos, KeyframeType type);
 
-protected:
-    /* @brief Same function but accumulates undo/redo */
-    bool addKeyframe(GenTime pos, KeyframeType type, double value, Fun &undo, Fun &redo);
-
-public:
     /* @brief Removes the keyframe at the given position. */
     bool removeKeyframe(GenTime pos);
-    /* @brief Delete all the keyframes of the model */
+    /* @brief Delete all the keyframes of the model (except first) */
     bool removeAllKeyframes();
-    bool removeAllKeyframes(Fun &undo, Fun &redo);
 
-protected:
-    /* @brief Same function but accumulates undo/redo */
-    bool removeKeyframe(GenTime pos, Fun &undo, Fun &redo);
-
-public:
     /* @brief moves a keyframe
        @param oldPos is the old position of the keyframe
        @param pos defines the new position of the keyframe, relative to the clip
        @param logUndo if true, then an undo object is created
     */
     bool moveKeyframe(GenTime oldPos, GenTime pos, bool logUndo);
-    bool moveKeyframe(GenTime oldPos, GenTime pos, Fun &undo, Fun &redo);
 
     /* @brief updates the value of a keyframe
        @param old is the position of the keyframe
        @param value is the new value of the param
     */
     bool updateKeyframe(GenTime pos, double value);
-    bool updateKeyframe(GenTime pos, double value, Fun &undo, Fun &redo);
 
     /* @brief Returns a keyframe data at given pos
        ok is a return parameter, set to true if everything went good
@@ -128,59 +102,24 @@ public:
        Notice that add/remove queries are done in real time (gentime), but this request is made in frame
      */
     Q_INVOKABLE bool hasKeyframe(int frame) const;
-    Q_INVOKABLE bool hasKeyframe(const GenTime &pos) const;
-
-    /** @brief returns the keyframes as a Mlt Anim Property string.
-        It is defined as pairs of frame and value, separated by ;
-        Example : "0|=50; 50|=100; 100=200; 200~=60;"
-        Spaces are ignored by Mlt.
-        |= represents a discrete keyframe, = a linear one and ~= a Catmull-Rom spline
-    */
-    QString getAnimProperty() const;
-
-    /* @brief Return the interpolated value at given pos */
-    double getInterpolatedValue(int pos) const;
-    double getInterpolatedValue(const GenTime &pos) const;
-
-    // Mandatory overloads
-    QVariant data(const QModelIndex &index, int role) const override;
-    QHash<int, QByteArray> roleNames() const override;
-    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 
 protected:
 
-    /** @brief Helper function that generate a lambda to change type / value of given keyframe */
-    Fun updateKeyframe_lambda(GenTime pos, KeyframeType type, double value);
+    /** @brief Helper function to apply a given operation on all parameters */
+    bool applyOperation(const std::function<bool(std::shared_ptr<KeyframeModel>, Fun&, Fun&)> &op, const QString &undoString);
 
-    /** @brief Helper function that generate a lambda to add given keyframe */
-    Fun addKeyframe_lambda(GenTime pos, KeyframeType type, double value);
-
-    /** @brief Helper function that generate a lambda to remove given keyframe */
-    Fun deleteKeyframe_lambda(GenTime pos);
-
-    /* @brief Connects the signals of this object */
-    void setup();
-
-    /* @brief Commit the modification to the model */
-    void sendModification() const;
 private:
 
     std::weak_ptr<AssetParameterModel> m_model;
     std::weak_ptr<DocUndoStack> m_undoStack;
-    QPersistentModelIndex m_index;
+    std::unordered_map<QPersistentModelIndex, std::shared_ptr<KeyframeModel>> m_parameters;
 
     mutable QReadWriteLock m_lock; // This is a lock that ensures safety in case of concurrent access
 
-    std::map<GenTime, std::pair<KeyframeType, double>> m_keyframeList;
-
-signals:
-    void modelChanged();
-
 public:
     // this is to enable for range loops
-    auto begin() -> decltype(m_keyframeList.begin()) { return m_keyframeList.begin(); }
-    auto end() -> decltype(m_keyframeList.end()) { return m_keyframeList.end(); }
+    auto begin() -> decltype(m_parameters.begin()->second->begin()) { return m_parameters.begin()->second->begin(); }
+    auto end() -> decltype(m_parameters.begin()->second->end()) { return m_parameters.begin()->second->end(); }
 };
-//Q_DECLARE_METATYPE(KeyframeModel *)
 
 #endif

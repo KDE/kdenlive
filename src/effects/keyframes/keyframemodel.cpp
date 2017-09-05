@@ -125,26 +125,54 @@ bool KeyframeModel::removeKeyframe(GenTime pos)
     return res;
 }
 
-bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, bool logUndo)
+bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_keyframeList.count(oldPos) > 0);
     KeyframeType oldType = m_keyframeList[oldPos].first;
     double oldValue = m_keyframeList[pos].second;
     if (oldPos == pos ) return true;
-    Fun undo = []() { return true; };
-    Fun redo = []() { return true; };
-    bool res = removeKeyframe(oldPos, undo, redo);
+    Fun local_undo = []() { return true; };
+    Fun local_redo = []() { return true; };
+    bool res = removeKeyframe(oldPos, local_undo, local_redo);
     if (res) {
-        res = addKeyframe(pos, oldType, oldValue, undo, redo);
+        res = addKeyframe(pos, oldType, oldValue, local_undo, local_redo);
     }
     if (res) {
-        if (logUndo) {
-            PUSH_UNDO(undo, redo, i18n("Move keyframe"));
-        }
+        UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
     } else {
-        bool undone = undo();
+        bool undone = local_undo();
         Q_ASSERT(undone);
+    }
+    return res;
+}
+
+bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, bool logUndo)
+{
+    QWriteLocker locker(&m_lock);
+    Q_ASSERT(m_keyframeList.count(oldPos) > 0);
+    if (oldPos == pos ) return true;
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    bool res = moveKeyframe(oldPos, pos, undo, redo);
+    if (res && logUndo) {
+        PUSH_UNDO(undo, redo, i18n("Move keyframe"));
+    }
+    return res;
+}
+
+bool KeyframeModel::updateKeyframe(GenTime pos, double value, Fun &undo, Fun &redo)
+{
+    QWriteLocker locker(&m_lock);
+    Q_ASSERT(m_keyframeList.count(pos) > 0);
+    KeyframeType oldType = m_keyframeList[pos].first;
+    double oldValue = m_keyframeList[pos].second;
+    if (qAbs(oldValue - value) < 1e-6) return true;
+    auto operation = updateKeyframe_lambda(pos, oldType, oldValue);
+    auto reverse = updateKeyframe_lambda(pos, oldType, value);
+    bool res = operation();
+    if (res) {
+        UPDATE_UNDO_REDO(operation, reverse, undo, redo);
     }
     return res;
 }
@@ -153,12 +181,10 @@ bool KeyframeModel::updateKeyframe(GenTime pos, double value)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_keyframeList.count(pos) > 0);
-    KeyframeType oldType = m_keyframeList[pos].first;
-    double oldValue = m_keyframeList[pos].second;
-    if (qAbs(oldValue - value) < 1e-6) return true;
-    Fun undo = updateKeyframe_lambda(pos, oldType, oldValue);
-    Fun redo = updateKeyframe_lambda(pos, oldType, value);
-    bool res = redo();
+
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    bool res = updateKeyframe(pos, value, undo, redo);
     if (res) {
         PUSH_UNDO(undo, redo, i18n("Update keyframe"));
     }
@@ -259,10 +285,10 @@ Keyframe KeyframeModel::getKeyframe(const GenTime &pos, bool *ok) const
     if (m_keyframeList.count(pos) <= 0) {
         // return empty marker
         *ok = false;
-        return {GenTime(), {KeyframeType::Linear, 0}};
+        return {GenTime(), KeyframeType::Linear};
     }
     *ok = true;
-    return {pos, m_keyframeList.at(pos)};
+    return {pos, m_keyframeList.at(pos).first};
 }
 
 Keyframe KeyframeModel::getNextKeyframe(const GenTime &pos, bool *ok) const
@@ -271,10 +297,10 @@ Keyframe KeyframeModel::getNextKeyframe(const GenTime &pos, bool *ok) const
     if (it == m_keyframeList.end()) {
         // return empty marker
         *ok = false;
-        return {GenTime(), {KeyframeType::Linear, 0}};
+        return {GenTime(), KeyframeType::Linear};
     }
     *ok = true;
-    return {(*it).first, (*it).second};
+    return {(*it).first, (*it).second.first};
 }
 
 Keyframe KeyframeModel::getPrevKeyframe(const GenTime &pos, bool *ok) const
@@ -283,11 +309,11 @@ Keyframe KeyframeModel::getPrevKeyframe(const GenTime &pos, bool *ok) const
     if (it == m_keyframeList.begin()) {
         // return empty marker
         *ok = false;
-        return {GenTime(), {KeyframeType::Linear, 0}};
+        return {GenTime(), KeyframeType::Linear};
     }
     --it;
     *ok = true;
-    return {(*it).first, (*it).second};
+    return {(*it).first, (*it).second.first};
 }
 
 Keyframe KeyframeModel::getClosestKeyframe(const GenTime &pos, bool *ok) const
@@ -311,7 +337,7 @@ Keyframe KeyframeModel::getClosestKeyframe(const GenTime &pos, bool *ok) const
         return prev;
     }
     // return empty marker
-    return {GenTime(), {KeyframeType::Linear, 0}};
+    return {GenTime(), KeyframeType::Linear};
 }
 
 
@@ -325,7 +351,7 @@ bool KeyframeModel::hasKeyframe(const GenTime &pos) const
     return m_keyframeList.count(pos) > 0;
 }
 
-bool KeyframeModel::removeAllKeyframes()
+bool KeyframeModel::removeAllKeyframes(Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
     std::vector<GenTime> all_pos;
@@ -348,8 +374,20 @@ bool KeyframeModel::removeAllKeyframes()
             return false;
         }
     }
-    PUSH_UNDO(local_undo, local_redo, i18n("Delete all keyframes"));
+    UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
     return true;
+}
+
+bool KeyframeModel::removeAllKeyframes()
+{
+    QWriteLocker locker(&m_lock);
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    bool res = removeAllKeyframes(undo, redo);
+    if (res) {
+        PUSH_UNDO(undo, redo, i18n("Delete all keyframes"));
+    }
+    return res;
 }
 
 QString KeyframeModel::getAnimProperty() const
