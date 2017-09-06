@@ -664,3 +664,4 @@ QPair<QStringList, QStringList> PreviewManager::previewChunks() const
     }
     return {renderedChunks, dirtyChunks};
 }
+

@@ -700,7 +700,7 @@ void TimelineController::setHeaderWidth(int width)
 
 bool TimelineController::createSplitOverlay(Mlt::Filter *filter)
 {
-    if (m_model->m_overlayTrackIndex > -1) {
+    if (m_timelinePreview && m_timelinePreview->hasOverlayTrack()) {
         return true;
     }
     int clipId = getCurrentItem();
@@ -743,19 +743,20 @@ bool TimelineController::createSplitOverlay(Mlt::Filter *filter)
     if (!m_timelinePreview) {
         initializePreview();
     }
-    m_model->m_overlayTrackIndex = m_timelinePreview->setOverlayTrack(overlay);
+    m_timelinePreview->setOverlayTrack(overlay);
+    m_model->m_overlayTrackCount = m_timelinePreview->addedTracks();
     return true;
 
 }
 
 void TimelineController::removeSplitOverlay()
 {
-    if (m_model->m_overlayTrackIndex == -1) {
+    if (m_timelinePreview && !m_timelinePreview->hasOverlayTrack()) {
         return;
     }
     // disconnect
     m_timelinePreview->removeOverlayTrack();
-    m_model->m_overlayTrackIndex = -1;
+    m_model->m_overlayTrackCount = m_timelinePreview->addedTracks();
 }
 
 void TimelineController::addPreviewRange(bool add)
@@ -786,6 +787,7 @@ void TimelineController::startPreviewRender()
             m_timelinePreview->buildPreviewTrack();
             qDebug()<<"// STARTING PREVIEW TRACK";
             m_usePreview = true;
+            m_model->m_overlayTrackCount = m_timelinePreview->addedTracks();
         }
         m_timelinePreview->startPreviewRender();
     }
@@ -835,6 +837,7 @@ void TimelineController::disablePreview(bool disable)
     if (disable) {
         m_timelinePreview->deletePreviewTrack();
         m_usePreview = false;
+        m_model->m_overlayTrackCount = m_timelinePreview->addedTracks();
     } else {
         if (!m_usePreview) {
             if (!m_timelinePreview->buildPreviewTrack()) {
@@ -847,6 +850,7 @@ void TimelineController::disablePreview(bool disable)
             m_usePreview = true;
         }
     }
+    m_model->m_overlayTrackCount = m_timelinePreview->addedTracks();
 }
 
 QVariantList TimelineController::dirtyChunks() const

@@ -593,7 +593,7 @@ protected:
     int m_temporarySelectionGroup;
 
     // The index of the temporary overlay track in tractor, or -1 if not connected
-    int m_overlayTrackIndex;
+    int m_overlayTrackCount;
 
     // what follows are some virtual function that corresponds to the QML. They are implemented in TimelineItemModel
 protected:

@@ -61,7 +61,7 @@ TimelineModel::TimelineModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> 
     , m_timelineEffectsEnabled(true)
     , m_id(getNextId())
     , m_temporarySelectionGroup(-1)
-    , m_overlayTrackIndex(-1)
+    , m_overlayTrackCount(-1)
 {
     // Create black background track
     m_blackClip->set("id", "black_track");
@@ -100,8 +100,8 @@ int TimelineModel::getTracksCount() const
 {
     READ_LOCK();
     int count = m_tractor->count();
-    if (m_overlayTrackIndex > -1) {
-        count --;
+    if (m_overlayTrackCount > -1) {
+        count -= m_overlayTrackCount;
     }
     Q_ASSERT(count >= 0);
     // don't count the black background track

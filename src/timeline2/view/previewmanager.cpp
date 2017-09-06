@@ -664,3 +664,26 @@ QPair<QStringList, QStringList> PreviewManager::previewChunks() const
     }
     return {renderedChunks, dirtyChunks};
 }
+
+bool PreviewManager::hasOverlayTrack() const
+{
+    return m_overlayTrack != nullptr;
+}
+
+bool PreviewManager::hasPreviewTrack() const
+{
+    return m_previewTrack != nullptr;
+}
+
+int PreviewManager::addedTracks() const
+{
+    if (m_previewTrack) {
+        if (m_overlayTrack) {
+            return 2;
+        }
+        return 1;
+    } else if (m_overlayTrack) {
+        return 1;
+    }
+    return -1;
+}

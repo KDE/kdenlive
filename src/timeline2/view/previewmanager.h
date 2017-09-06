@@ -86,6 +86,9 @@ public:
     int workingPreview;
     /** @brief Returns the list of existing chunks */
     QPair<QStringList, QStringList> previewChunks() const;
+    bool hasOverlayTrack() const;
+    bool hasPreviewTrack() const;
+    int addedTracks() const;
 
 private:
     TimelineController *m_controller;
