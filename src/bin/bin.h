@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "abstractprojectitem.h"
 #include "timecode.h"
-
+#include "filewatcher.hpp"
 #include "effects/effectstack/model/effectstackmodel.hpp"
 
 #include <KMessageWidget>
@@ -450,6 +450,7 @@ private:
     JobManager *m_jobManager;
     QToolBar *m_toolbar;
     KdenliveDoc *m_doc;
+    FileWatcher m_fileWatcher;
     QLineEdit *m_searchLine;
     QToolButton *m_addButton;
     QMenu *m_extractAudioAction;

@@ -994,6 +994,7 @@ void Bin::deleteClip(const QString &id)
     m_jobManager->discardJobs(id);
     ClipType type = clip->clipType();
     QString url = clip->url();
+    m_fileWatcher.removeFile(id, url);
     clip->setClipStatus(AbstractProjectItem::StatusDeleting);
     if (!m_processingAudioThumb.isEmpty()) {
             clip->abortAudioThumbs();
@@ -1201,6 +1202,7 @@ void Bin::setDocument(KdenliveDoc *project)
 
     // Cleanup previous project
     m_itemModel->clean();
+    m_fileWatcher.clear();
     delete m_itemView;
     m_itemView = nullptr;
     delete m_jobManager;
@@ -1971,8 +1973,8 @@ void Bin::slotProducerReady(const requestClipInfo &info, std::shared_ptr<Mlt::Pr
             emit producerReady(info.clipId);
             // Check for file modifications
             ClipType t = clip->clipType();
-            if (t == AV || t == Audio || t == Image || t == Video || t == Playlist) {
-                m_doc->watchFile(clip->url());
+            if (t == AV || t == Audio || t == Image || t == Video || t == Playlist || t == TextTemplate) {
+                m_fileWatcher.addFile(info.clipId, clip->url());
             }
             if (m_doc->useProxy()) {
                 if (t == AV || t == Video) {
@@ -2037,8 +2039,8 @@ void Bin::slotProducerReady(const requestClipInfo &info, std::shared_ptr<Mlt::Pr
         newClip->createAudioThumbs();
 
         ClipType t = newClip->clipType();
-        if (t == AV || t == Audio || t == Image || t == Video || t == Playlist) {
-            m_doc->watchFile(newClip->url());
+        if (t == AV || t == Audio || t == Image || t == Video || t == Playlist || t == TextTemplate) {
+            m_fileWatcher.addFile(info.clipId, newClip->url());
         }
         if (info.clipId.toInt() >= m_clipCounter) {
             m_clipCounter = info.clipId.toInt() + 1;

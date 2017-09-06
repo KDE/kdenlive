@@ -32,7 +32,6 @@
 #include <QTimer>
 #include <memory>
 
-#include <KDirWatch>
 #include <kautosavefile.h>
 
 #include "definitions.h"
@@ -122,8 +121,6 @@ public:
     const QMap<QString, QString> metadata() const;
     /** @brief Set the document metadata (author, copyright, ...) */
     void setMetadata(const QMap<QString, QString> &meta);
-    /** @brief Add url to the file watcher so that we monitor changes */
-    void watchFile(const QString &url);
     /** @brief Get all document properties that need to be saved */
     QMap<QString, QString> documentProperties();
     bool useProxy() const;
@@ -171,11 +168,6 @@ private:
     QDomDocument m_document;
     /** @brief MLT's root (base path) that is stripped from urls in saved xml */
     QString m_documentRoot;
-    KDirWatch m_fileWatcher;
-    /** Timer used to reload clips when they have been externally modified */
-    QTimer m_modifiedTimer;
-    /** List of the clip IDs that need to be reloaded after being externally modified */
-    QMap<QString, QTime> m_modifiedClips;
     Timecode m_timecode;
     std::shared_ptr<DocUndoStack> m_commandStack;
     ClipManager *m_clipManager;
@@ -227,9 +219,6 @@ public slots:
     void groupsChanged(const QString &groups);
 
 private slots:
-    void slotClipModified(const QString &path);
-    void slotClipMissing(const QString &path);
-    void slotProcessModifiedClips();
     void slotModified();
     void switchProfile(std::unique_ptr<ProfileParam> &profile, const QString &id, const QDomElement &xml);
     void slotSwitchProfile(const QString &profile_path);

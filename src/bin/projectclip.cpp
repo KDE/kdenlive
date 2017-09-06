@@ -324,7 +324,6 @@ QPixmap ProjectClip::thumbnail(int width, int height)
 
 bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool replaceProducer)
 {
-    Q_UNUSED(replaceProducer);
     updateProducer(std::move(producer));
 
     // Update info
@@ -348,6 +347,10 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
     // Make sure we have a hash for this clip
     getFileHash();
     createAudioThumbs();
+    if (replaceProducer) {
+        // Recreate thumbnail
+        
+    }
     return true;
 }
 

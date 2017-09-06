@@ -704,10 +704,8 @@ QString ProjectManager::projectSceneList(const QString &outputFolder)
 {
     // TODO: re-implement overlay and all
     // TODO refac: repair this
-    return QString();
-    /*
     return pCore->monitorManager()->projectMonitor()->sceneList(outputFolder);
-    bool multitrackEnabled = m_trackView->multitrackView;
+    /*bool multitrackEnabled = m_trackView->multitrackView;
     if (multitrackEnabled) {
         // Multitrack view was enabled, disable for auto save
         m_trackView->slotMultitrackView(false);

@@ -458,42 +458,41 @@ void ProducerQueue::processFileProperties()
         int frameNumber = ProjectClip::getXmlProperty(info.xml, QStringLiteral("kdenlive:thumbnailFrame"), QStringLiteral("-1")).toInt();
         producer->set("kdenlive:id", info.clipId.toUtf8().constData());
 
+        qDebug()<<" * * * ** * * *REQUEST CLIP RELOAD: "<<info.clipId<<" = "<<info.replaceProducer;
         if ((info.replaceProducer && !EffectsList::property(info.xml, QStringLiteral("kdenlive:file_hash")).isEmpty()) || proxyProducer) {
+            qDebug()<<" * * * ** * * *REQUEST CLIP RELOAD NAD REPLACVE!!: "<<info.clipId;
             // Clip  already has all properties
             // We want to replace an existing producer.
-            if (proxyProducer) {
-                // Recreate clip thumb
-                Mlt::Frame *frame = nullptr;
-                QImage img;
-                if (KdenliveSettings::gpu_accel()) {
-                    Clip clp(*producer);
-                    Mlt::Producer *glProd = clp.softClone(ClipController::getPassPropertiesList());
-                    if (frameNumber > 0) {
-                        glProd->seek(frameNumber);
-                    }
-                    Mlt::Filter scaler(pCore->getCurrentProfile()->profile(), "swscale");
-                    Mlt::Filter converter(pCore->getCurrentProfile()->profile(), "avcolor_space");
-                    glProd->attach(scaler);
-                    glProd->attach(converter);
-                    frame = glProd->get_frame();
-                    if ((frame != nullptr) && frame->is_valid()) {
-                        img = KThumb::getFrame(frame, fullWidth, info.imageHeight);
-                        emit replyGetImage(info.clipId, img);
-                    }
-                    delete glProd;
-                } else {
-                    if (frameNumber > 0) {
-                        producer->seek(frameNumber);
-                    }
-                    frame = producer->get_frame();
-                    if ((frame != nullptr) && frame->is_valid()) {
-                        img = KThumb::getFrame(frame, fullWidth, info.imageHeight, forceThumbScale);
-                        emit replyGetImage(info.clipId, img);
-                    }
+            // Recreate clip thumb
+            Mlt::Frame *frame = nullptr;
+            QImage img;
+            if (KdenliveSettings::gpu_accel()) {
+                Clip clp(*producer);
+                QScopedPointer<Mlt::Producer> glProd( clp.softClone(ClipController::getPassPropertiesList()));
+                if (frameNumber > 0) {
+                    glProd->seek(frameNumber);
                 }
-                if (frame) {
-                    delete frame;
+                Mlt::Filter scaler(pCore->getCurrentProfile()->profile(), "swscale");
+                Mlt::Filter converter(pCore->getCurrentProfile()->profile(), "avcolor_space");
+                glProd->attach(scaler);
+                glProd->attach(converter);
+                frame = glProd->get_frame();
+                if ((frame != nullptr) && frame->is_valid()) {
+                    img = KThumb::getFrame(frame, fullWidth, info.imageHeight);
+                    emit replyGetImage(info.clipId, img);
                 }
+            } else {
+                if (frameNumber > 0) {
+                    producer->seek(frameNumber);
+                }
+                frame = producer->get_frame();
+                if ((frame != nullptr) && frame->is_valid()) {
+                    img = KThumb::getFrame(frame, fullWidth, info.imageHeight, forceThumbScale);
+                    emit replyGetImage(info.clipId, img);
+                }
+            }
+            if (frame) {
+                delete frame;
             }
             // replace clip
             m_processingClipId.removeAll(info.clipId);
