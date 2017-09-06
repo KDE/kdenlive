@@ -20,25 +20,30 @@
 #include "keyframewidget.hpp"
 #include "assets/keyframes/view/keyframeview.hpp"
 #include "assets/keyframes/model/keyframemodellist.hpp"
+#include "assets/model/assetparametermodel.hpp"
+#include "core.h"
+#include "monitor/monitor.h"
+#include "timecode.h"
 #include "timecodedisplay.h"
 #include "utils/KoIconUtils.h"
-#include "core.h"
 
 #include <QGridLayout>
 #include <QToolButton>
 
 #include <klocalizedstring.h>
 
-KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, double init_value, const Timecode &t, int duration, QWidget *parent)
-    : QWidget(parent)
-    , m_model(model)
-    , m_index(index)
-    , m_keyframes(new KeyframeModelList(init_value, model, index, pCore->undoStack()))
+KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
+    : AbstractParamWidget(std::move(model), index, parent)
 {
+    m_keyframes = std::shared_ptr<KeyframeModelList>(new KeyframeModelList(model, index, pCore->undoStack()));
+
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 
     auto *l = new QGridLayout(this);
 
+    bool ok = false;
+    int duration = m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt(&ok);
+    Q_ASSERT(ok);
     m_keyframeview = new KeyframeView(m_keyframes, this);
     m_keyframeview->setDuration(duration);
 
@@ -57,7 +62,8 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     m_buttonNext->setIcon(KoIconUtils::themedIcon(QStringLiteral("media-skip-forward")));
     m_buttonNext->setToolTip(i18n("Go to next keyframe"));
 
-    m_time = new TimecodeDisplay(t, this);
+
+    m_time = new TimecodeDisplay(pCore->getMonitor(m_model->monitorId)->timecode(), this);
     m_time->setRange(0, duration);
 
     l->addWidget(m_keyframeview, 0, 0, 1, -1);
@@ -128,4 +134,22 @@ void KeyframeWidget::slotAtKeyframe(bool atKeyframe)
         m_buttonAddDelete->setIcon(KoIconUtils::themedIcon(QStringLiteral("list-add")));
         m_buttonAddDelete->setToolTip(i18n("Add keyframe"));
     }
+}
+
+void KeyframeWidget::slotSetRange(QPair<int, int> /*range*/)
+{
+    bool ok = false;
+    int duration = m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt(&ok);
+    Q_ASSERT(ok);
+    m_keyframeview->setDuration(duration);
+    m_time->setRange(0, duration);
+}
+
+void KeyframeWidget::slotRefresh()
+{
+    // update duration
+    slotSetRange(QPair<int,int>(-1, -1));
+
+    // refresh keyframes
+    m_keyframes->refresh();
 }

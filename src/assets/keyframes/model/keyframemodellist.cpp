@@ -30,18 +30,18 @@
 #include <QDebug>
 
 
-KeyframeModelList::KeyframeModelList(double init_value, std::weak_ptr<AssetParameterModel> model, const QModelIndex &index, std::weak_ptr<DocUndoStack> undo_stack)
+KeyframeModelList::KeyframeModelList(std::weak_ptr<AssetParameterModel> model, const QModelIndex &index, std::weak_ptr<DocUndoStack> undo_stack)
     : m_model(model)
     , m_undoStack(undo_stack)
     , m_lock(QReadWriteLock::Recursive)
 {
-    addParameter(index, init_value);
+    addParameter(index);
     connect(m_parameters.begin()->second.get(), &KeyframeModel::modelChanged, this, &KeyframeModelList::modelChanged);
 }
 
-void KeyframeModelList::addParameter(const QModelIndex &index, double init_value)
+void KeyframeModelList::addParameter(const QModelIndex &index)
 {
-    std::shared_ptr<KeyframeModel> parameter (new KeyframeModel(init_value, m_model, index, m_undoStack));
+    std::shared_ptr<KeyframeModel> parameter (new KeyframeModel(m_model, index, m_undoStack));
     m_parameters.insert({index, std::move(parameter)});
 }
 
@@ -157,3 +157,9 @@ bool KeyframeModelList::hasKeyframe(int frame) const
     return m_parameters.begin()->second->hasKeyframe(frame);
 }
 
+void KeyframeModelList::refresh()
+{
+    for (const auto& param : m_parameters) {
+        param.second->refresh();
+    }
+}

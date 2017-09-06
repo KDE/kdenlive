@@ -379,23 +379,25 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList<TrackInfo> &tracks)
     }
     QScopedPointer<Mlt::Field> field(tractor.field());
     QString compositeService = TransitionsRepository::get()->getCompositingTransition();
-    for (int i = 0; i <= tracks.count(); i++) {
-        if (i > 0) {
-            Mlt::Transition tr(docProfile, "mix");
-            tr.set("a_track", 0);
-            tr.set("b_track", i);
-            tr.set("always_active", 1);
-            tr.set("sum", 1);
-            tr.set("internal_added", 237);
-            field->plant_transition(tr, 0, i);
-        }
-        if (i > 0 && tracks.at(i - 1).type == VideoTrack) {
-            Mlt::Transition tr(docProfile, compositeService.toUtf8().constData());
-            tr.set("a_track", 0);
-            tr.set("b_track", i);
-            tr.set("always_active", 1);
-            tr.set("internal_added", 237);
-            field->plant_transition(tr, 0, i);
+    if (!compositeService.isEmpty()){
+        for (int i = 0; i <= tracks.count(); i++) {
+            if (i > 0) {
+                Mlt::Transition tr(docProfile, "mix");
+                tr.set("a_track", 0);
+                tr.set("b_track", i);
+                tr.set("always_active", 1);
+                tr.set("sum", 1);
+                tr.set("internal_added", 237);
+                field->plant_transition(tr, 0, i);
+            }
+            if (i > 0 && tracks.at(i - 1).type == VideoTrack) {
+                Mlt::Transition tr(docProfile, compositeService.toUtf8().constData());
+                tr.set("a_track", 0);
+                tr.set("b_track", i);
+                tr.set("always_active", 1);
+                tr.set("internal_added", 237);
+                field->plant_transition(tr, 0, i);
+            }
         }
     }
     Mlt::Producer prod(tractor.get_producer());

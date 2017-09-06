@@ -20,9 +20,8 @@
 #ifndef KEYFRAMEWIDGET_H
 #define KEYFRAMEWIDGET_H
 
-#include "timecode.h"
+#include "abstractparamwidget.hpp"
 
-#include <QWidget>
 #include <QPersistentModelIndex>
 #include <memory>
 
@@ -32,12 +31,12 @@ class KeyframeView;
 class QToolButton;
 class TimecodeDisplay;
 
-class KeyframeWidget : public QWidget
+class KeyframeWidget : public AbstractParamWidget
 {
     Q_OBJECT
 
 public:
-    explicit KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, double init_value, const Timecode &t, int duration, QWidget *parent = nullptr);
+    explicit KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent = nullptr);
     ~KeyframeWidget();
 
     int getPosition() const;
@@ -45,6 +44,8 @@ public:
 
     void updateTimecodeFormat();
 
+    void slotSetRange(QPair<int, int> range) override;
+    void slotRefresh() override;
 public slots:
     void slotSetPosition(int pos = -1, bool update = true);
 
@@ -55,9 +56,6 @@ signals:
     void positionChanged(int pos);
 
 private:
-    std::shared_ptr<AssetParameterModel> m_model;
-    QPersistentModelIndex m_index;
-
     std::shared_ptr<KeyframeModelList> m_keyframes;
 
     KeyframeView *m_keyframeview;

@@ -60,7 +60,7 @@ public:
        @param model is the asset this parameter belong to
        @param index is the index of this parameter in its model
      */
-    explicit KeyframeModel(double init_value, std::weak_ptr<AssetParameterModel> model, const QModelIndex &index, std::weak_ptr<DocUndoStack> undo_stack, QObject *parent = nullptr);
+    explicit KeyframeModel(std::weak_ptr<AssetParameterModel> model, const QModelIndex &index, std::weak_ptr<DocUndoStack> undo_stack, QObject *parent = nullptr);
 
     enum { TypeRole = Qt::UserRole + 1, PosRole, FrameRole, ValueRole};
     friend class KeyframeModelList;
@@ -130,13 +130,8 @@ public:
     Q_INVOKABLE bool hasKeyframe(int frame) const;
     Q_INVOKABLE bool hasKeyframe(const GenTime &pos) const;
 
-    /** @brief returns the keyframes as a Mlt Anim Property string.
-        It is defined as pairs of frame and value, separated by ;
-        Example : "0|=50; 50|=100; 100=200; 200~=60;"
-        Spaces are ignored by Mlt.
-        |= represents a discrete keyframe, = a linear one and ~= a Catmull-Rom spline
-    */
-    QString getAnimProperty() const;
+    /* @brief Read the value from the model and update itself accordingly */
+    void refresh();
 
     /* @brief Return the interpolated value at given pos */
     double getInterpolatedValue(int pos) const;
@@ -163,6 +158,17 @@ protected:
 
     /* @brief Commit the modification to the model */
     void sendModification() const;
+
+    /** @brief returns the keyframes as a Mlt Anim Property string.
+        It is defined as pairs of frame and value, separated by ;
+        Example : "0|=50; 50|=100; 100=200; 200~=60;"
+        Spaces are ignored by Mlt.
+        |= represents a discrete keyframe, = a linear one and ~= a Catmull-Rom spline
+    */
+    QString getAnimProperty() const;
+
+    /* @brief this function does the opposite: given a MLT representation of an animation, build the corresponding model */
+    void parseAnimProperty(const QString &prop);
 private:
 
     std::weak_ptr<AssetParameterModel> m_model;

@@ -82,6 +82,7 @@ AssetParameterModel::AssetParameterModel(Mlt::Properties *asset, const QDomEleme
         if (isFixed) {
             m_fixedParams[name] = value;
         }
+        qDebug() << "PARAMETER"<<name<<type<<value<<isFixed;
         setParameter(name, value);
         if (isFixed) {
             // fixed parameters are not displayed so we don't store them.
@@ -96,6 +97,7 @@ AssetParameterModel::AssetParameterModel(Mlt::Properties *asset, const QDomEleme
         m_params[name] = currentRow;
         m_rows.push_back(name);
     }
+    qDebug() << "END parsing of "<<name<<". Number of found parameters"<<m_rows.size();
 }
 
 void AssetParameterModel::setParameter(const QString &name, const QString &value)

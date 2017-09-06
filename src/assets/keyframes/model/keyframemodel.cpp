@@ -26,17 +26,18 @@
 #include "macros.hpp"
 
 #include <QDebug>
+#include <mlt++/Mlt.h>
 
 
-KeyframeModel::KeyframeModel(double init_value, std::weak_ptr<AssetParameterModel> model, const QModelIndex &index, std::weak_ptr<DocUndoStack> undo_stack, QObject *parent)
+KeyframeModel::KeyframeModel(std::weak_ptr<AssetParameterModel> model, const QModelIndex &index, std::weak_ptr<DocUndoStack> undo_stack, QObject *parent)
     : QAbstractListModel(parent)
     , m_model(std::move(model))
     , m_undoStack(std::move(undo_stack))
     , m_index(index)
     , m_lock(QReadWriteLock::Recursive)
 {
-    m_keyframeList.insert({GenTime(), {KeyframeType::Linear, init_value}});
     setup();
+    refresh();
 }
 
 
@@ -429,6 +430,66 @@ mlt_keyframe_type convertToMltType(KeyframeType type)
     }
     return mlt_keyframe_linear;
 }
+KeyframeType convertFromMltType(mlt_keyframe_type type)
+{
+    switch (type) {
+    case mlt_keyframe_linear:
+        return KeyframeType::Linear;
+    case mlt_keyframe_discrete:
+        return KeyframeType::Discrete;
+    case mlt_keyframe_smooth:
+        return KeyframeType::Curve;
+    }
+    return KeyframeType::Linear;
+}
+
+void KeyframeModel::parseAnimProperty(const QString &prop)
+{
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+
+    Mlt::Properties mlt_prop;
+    mlt_prop.set("key", prop.toUtf8().constData());
+
+    Mlt::Animation *anim = mlt_prop.get_anim("key");
+
+    for (int i = 0; i < anim->key_count(); ++i) {
+        int frame;
+        mlt_keyframe_type type;
+        anim->key_get(i, frame, type);
+        double value = mlt_prop.anim_get_double("key", frame);
+        addKeyframe(GenTime(frame, pCore->getCurrentFps()), convertFromMltType(type), value, undo, redo);
+    }
+
+    delete anim;
+
+
+    /*
+    std::vector<std::pair<QString, KeyframeType> > separators({QStringLiteral("="), QStringLiteral("|="), QStringLiteral("~=")});
+
+    QStringList list = prop.split(';', QString::SkipEmptyParts);
+    for (const auto& k : list) {
+        bool found = false;
+        KeyframeType type;
+        QStringList values;
+        for (const auto &sep : separators) {
+            if (k.contains(sep.first)) {
+                found = true;
+                type = sep.second;
+                values = k.split(sep.first);
+                break;
+            }
+        }
+        if (!found || values.size() != 2) {
+            qDebug() << "ERROR while parsing value of keyframe"<<k<<"in value"<<prop;
+            continue;
+        }
+        QString sep;
+        if ()
+    }
+    */
+}
+
 
 double KeyframeModel::getInterpolatedValue(int p) const
 {
@@ -464,7 +525,26 @@ void KeyframeModel::sendModification() const
     if (auto ptr = m_model.lock()) {
         Q_ASSERT(m_index.isValid());
         QString name =  ptr->data(m_index, AssetParameterModel::NameRole).toString();
-        ptr->setParameter(name, getAnimProperty());
+        auto type = ptr->data(m_index, AssetParameterModel::TypeRole).value<ParamType>();
+        if (type == ParamType::KeyframeParam) {
+            ptr->setParameter(name, getAnimProperty());
+        } else {
+            Q_ASSERT(false); //Not implemented, TODO
+        }
+        ptr->dataChanged(m_index, m_index);
+    }
+}
+
+void KeyframeModel::refresh()
+{
+    if (auto ptr = m_model.lock()) {
+        Q_ASSERT(m_index.isValid());
+        auto type = ptr->data(m_index, AssetParameterModel::TypeRole).value<ParamType>();
+        if (type == ParamType::KeyframeParam) {
+            parseAnimProperty(ptr->data(m_index, AssetParameterModel::ValueRole).toString());
+        } else {
+            Q_ASSERT(false); //Not implemented, TODO
+        }
         ptr->dataChanged(m_index, m_index);
     }
 }

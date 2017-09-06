@@ -52,10 +52,10 @@ public:
     /* @brief Construct a keyframe list bound to the given asset
        @param init_value and index correspond to the first parameter
      */
-    explicit KeyframeModelList(double init_value, std::weak_ptr<AssetParameterModel> model, const QModelIndex &index, std::weak_ptr<DocUndoStack> undo_stack);
+    explicit KeyframeModelList(std::weak_ptr<AssetParameterModel> model, const QModelIndex &index, std::weak_ptr<DocUndoStack> undo_stack);
 
     /* @brief Add a keyframable parameter to be managed by this model */
-    void addParameter(const QModelIndex &index, double init_value);
+    void addParameter(const QModelIndex &index);
 
     /* @brief Adds a keyframe at the given position. If there is already one then we update it.
        @param pos defines the position of the keyframe, relative to the clip
@@ -107,6 +107,8 @@ public:
        Notice that add/remove queries are done in real time (gentime), but this request is made in frame
      */
     Q_INVOKABLE bool hasKeyframe(int frame) const;
+
+    void refresh();
 
 protected:
 

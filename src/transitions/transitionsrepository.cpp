@@ -156,5 +156,6 @@ const QString TransitionsRepository::getCompositingTransition()
     if (exists(QStringLiteral("composite"))) {
         return QStringLiteral("composite");
     }
+    qDebug() << "Warning: no compositing found";
     return QString();
 }
