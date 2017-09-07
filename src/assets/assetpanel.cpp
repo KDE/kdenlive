@@ -63,6 +63,7 @@ AssetPanel::AssetPanel(QWidget *parent)
     m_lay->addWidget(m_effectStackWidget);
     m_transitionWidget->setVisible(false);
     updatePalette();
+    connect(m_effectStackWidget, &EffectStackView::seekToPos, this, &AssetPanel::seekToPos);
 }
 
 void AssetPanel::showTransition(int tid, std::shared_ptr<AssetParameterModel> transitionModel)

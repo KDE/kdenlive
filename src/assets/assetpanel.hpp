@@ -81,6 +81,7 @@ private slots:
 signals:
     void doSplitEffect(bool);
     void doSplitBinEffect(bool);
+    void seekToPos(int);
 };
 
 #endif

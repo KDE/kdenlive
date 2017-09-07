@@ -73,7 +73,7 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     l->addWidget(m_time, 1, 3, Qt::AlignRight);
 
     connect(m_time, &TimecodeDisplay::timeCodeEditingFinished, [&](){slotSetPosition(-1, true);});
-    connect(m_keyframeview, &KeyframeView::positionChanged, [&](int p){slotSetPosition(p, true);});
+    connect(m_keyframeview, &KeyframeView::seekToPos, [&](int p){slotSetPosition(p, true);});
     connect(m_keyframeview, &KeyframeView::atKeyframe, this, &KeyframeWidget::slotAtKeyframe);
 
     connect(m_buttonAddDelete, &QAbstractButton::pressed, m_keyframeview, &KeyframeView::slotAddRemove);
@@ -102,7 +102,7 @@ void KeyframeWidget::slotSetPosition(int pos, bool update)
     }
 
     if (update) {
-        emit positionChanged(pos);
+        emit seekToPos(pos);
     }
 }
 

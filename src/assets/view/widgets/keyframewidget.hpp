@@ -52,9 +52,6 @@ public slots:
 private slots:
     void slotAtKeyframe(bool atKeyframe);
 
-signals:
-    void positionChanged(int pos);
-
 private:
     std::shared_ptr<KeyframeModelList> m_keyframes;
 

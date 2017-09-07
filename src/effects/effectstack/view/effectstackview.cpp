@@ -23,6 +23,7 @@
 #include "assets/assetlist/view/qmltypes/asseticonprovider.hpp"
 #include "assets/view/assetparameterview.hpp"
 #include "collapsibleeffectview.hpp"
+#include "core.h"
 #include "effects/effectstack/model/effectitemmodel.hpp"
 #include "effects/effectstack/model/effectstackmodel.hpp"
 
@@ -188,6 +189,11 @@ void EffectStackView::loadEffects(QPair<int, int> range, int start, int end)
         connect(view, &CollapsibleEffectView::startDrag, this, &EffectStackView::slotStartDrag);
         connect(view, &CollapsibleEffectView::createGroup, m_model.get(), &EffectStackModel::slotCreateGroup);
         connect(view, &CollapsibleEffectView::activateEffect, this, &EffectStackView::slotActivateEffect);
+        connect(view, &CollapsibleEffectView::seekToPos, [this](int pos){
+                // at this point, the effects returns a pos relative to the clip. We need to convert it to a global time
+                int clipIn = pCore->getItemIn(m_model->getOwnerId());
+                emit seekToPos(pos + clipIn);
+            });
         connect(this, &EffectStackView::doActivateEffect, view, &CollapsibleEffectView::slotActivateEffect);
         QModelIndex ix = m_model->getIndexFromItem(effectModel);
         m_effectsTree->setIndexWidget(ix, view);

@@ -132,6 +132,7 @@ CollapsibleEffectView::CollapsibleEffectView(std::shared_ptr<EffectItemModel> ef
 
     m_view = new AssetParameterView(this);
     m_view->setModel(std::static_pointer_cast<AssetParameterModel>(effectModel), range);
+    connect(m_view, &AssetParameterView::seekToPos, this, &AbstractCollapsibleWidget::seekToPos);
     QVBoxLayout *lay = new QVBoxLayout(widgetFrame);
     lay->setContentsMargins(0, 0, 0, 0);
     lay->setSpacing(0);

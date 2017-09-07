@@ -84,6 +84,7 @@ private slots:
 
 signals:
     void doActivateEffect(QModelIndex);
+    void seekToPos(int);
 };
 
 #endif

@@ -62,7 +62,7 @@ void KeyframeView::slotSetPosition(int pos)
     if (pos != m_position) {
         m_position = pos;
         emit atKeyframe(m_model->hasKeyframe(pos));
-        emit positionChanged(pos);
+        emit seekToPos(pos);
         update();
     }
 }

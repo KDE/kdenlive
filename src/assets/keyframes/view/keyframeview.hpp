@@ -78,7 +78,7 @@ private:
     QColor m_colKeyframeBg;
 
 signals:
-    void positionChanged(int pos);
+    void seekToPos(int pos);
     void atKeyframe(bool);
 };
 

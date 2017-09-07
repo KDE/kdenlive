@@ -36,7 +36,7 @@ class AssetParameterView;
 
 /**)
  * @class CollapsibleEffectView
- * @brief A dialog for editing markers and guides.
+ * @brief A container for the parameters of an effect
  * @author Jean-Baptiste Mardelle
  */
 

@@ -311,6 +311,8 @@ void MainWindow::init()
     connect(this, &MainWindow::clearAssetPanel, m_assetPanel, &AssetPanel::clearAssetPanel);
     connect(this, &MainWindow::adjustAssetPanelRange, m_assetPanel, &AssetPanel::adjustAssetPanelRange);
 
+    connect(m_assetPanel, &AssetPanel::seekToPos, [this](int pos){getCurrentTimeline()->controller()->setPosition(pos);} );
+
     m_effectStackDock = addDock(i18n("Properties"), QStringLiteral("effect_stack"), m_assetPanel);
 
     m_effectList = new EffectsListView();

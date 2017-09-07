@@ -77,6 +77,9 @@ private slots:
        @param storeUndo: if true, an undo object is created
     */
     void commitChanges(const QModelIndex &index, const QString &value, bool storeUndo);
+
+signals:
+    void seekToPos(int);
 };
 
 #endif

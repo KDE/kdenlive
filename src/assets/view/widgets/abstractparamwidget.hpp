@@ -60,6 +60,8 @@ signals:
        This happens for example when the user has to pick a color.
      */
     void disableCurrentFilter(bool);
+
+    void seekToPos(int);
 public slots:
     /** @brief Toggle the comments on or off
      */

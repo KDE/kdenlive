@@ -63,6 +63,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
                 animWidget = static_cast<AnimationWidget *>(w);
             }
             connect(w, &AbstractParamWidget::valueChanged, this, &AssetParameterView::commitChanges);
+            connect(w, &AbstractParamWidget::seekToPos, this, &AssetParameterView::seekToPos);
             m_lay->addWidget(w);
             m_widgets.push_back(w);
         }
@@ -86,6 +87,7 @@ void AssetParameterView::resetValues()
 
 void AssetParameterView::setRange(QPair<int, int> range)
 {
+    qDebug() << "SETTING RANGE"<<range;
     QMutexLocker lock(&m_lock);
     for (int i = 0; i < m_widgets.size(); ++i) {
         auto w = m_widgets[i];
