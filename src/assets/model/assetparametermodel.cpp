@@ -97,7 +97,7 @@ AssetParameterModel::AssetParameterModel(Mlt::Properties *asset, const QDomEleme
         m_params[name] = currentRow;
         m_rows.push_back(name);
     }
-    qDebug() << "END parsing of "<<name<<". Number of found parameters"<<m_rows.size();
+    qDebug() << "END parsing of "<<assetId<<". Number of found parameters"<<m_rows.size();
 }
 
 void AssetParameterModel::setParameter(const QString &name, const QString &value)

@@ -25,6 +25,7 @@
 #include "assetparametermodel.hpp"
 #include <QTime>
 #include <QUndoCommand>
+#include <QPersistentModelIndex>
 
 class AssetCommand : public QUndoCommand
 {
@@ -37,7 +38,7 @@ public:
 
 private:
     std::shared_ptr<AssetParameterModel> m_model;
-    QModelIndex m_index;
+    QPersistentModelIndex m_index;
     QString m_value;
     QString m_name;
     QString m_oldValue;

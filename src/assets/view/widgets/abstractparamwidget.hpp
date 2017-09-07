@@ -23,7 +23,7 @@
 #define ABSTRACTPARAMWIDGET_H
 
 #include <QDebug>
-#include <QModelIndex>
+#include <QPersistentModelIndex>
 #include <QWidget>
 #include <memory>
 
@@ -75,7 +75,7 @@ public slots:
 
 protected:
     std::shared_ptr<AssetParameterModel> m_model;
-    QModelIndex m_index;
+    QPersistentModelIndex m_index;
 };
 
 #endif
