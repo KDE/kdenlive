@@ -37,7 +37,9 @@ Rectangle {
 
     function expandNodes(indexes)  {
         for(var i = 0; i < indexes.length; i++) {
-            treeView.expand(indexes[i]);
+            if (indexes[i].valid) {
+                treeView.expand(indexes[i]);
+            }
         }
     }
     function rowPosition(model, index) {
@@ -187,7 +189,10 @@ Rectangle {
             onTextChanged: {
                 var current = sel.currentIndex
                 assetlist.setFilterName(text)
-                sel.setCurrentIndex(assetListModel.firstVisibleItem(current), ItemSelectionModel.ClearAndSelect)
+                if (text.length > 0) {
+                    sel.clear
+                    sel.setCurrentIndex(assetListModel.firstVisibleItem(current), ItemSelectionModel.Select)
+                }
                 treeView.__listView.positionViewAtIndex(rowPosition(assetListModel, sel.currentIndex), ListView.Visible)
             }
             onEditingFinished: {

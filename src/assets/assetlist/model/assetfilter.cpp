@@ -30,6 +30,9 @@ AssetFilter::AssetFilter(QObject *parent)
     : QSortFilterProxyModel(parent)
     , m_name_enabled(false)
 {
+    setFilterRole(Qt::DisplayRole);
+    setSortRole(Qt::DisplayRole);
+    setDynamicSortFilter(false);
 }
 
 void AssetFilter::setFilterName(bool enabled, const QString &pattern)
@@ -37,7 +40,9 @@ void AssetFilter::setFilterName(bool enabled, const QString &pattern)
     m_name_enabled = enabled;
     m_name_value = pattern;
     invalidateFilter();
-    sort(0);
+    if (rowCount() > 1) {
+        sort(0);
+    }
 }
 
 bool AssetFilter::filterName(const std::shared_ptr<TreeItem> &item) const
@@ -61,6 +66,9 @@ bool AssetFilter::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParen
     if (item->dataColumn(AssetTreeModel::idCol) == QStringLiteral("root")) {
         // In that case, we have a category. We hide it if it does not have children.
         QModelIndex category = sourceModel()->index(sourceRow, 0, sourceParent);
+        if (!category.isValid()) {
+            return false;
+        }
         bool accepted = false;
         for (int i = 0; i < sourceModel()->rowCount(category) && !accepted; ++i) {
             accepted = filterAcceptsRow(i, category);
@@ -141,4 +149,16 @@ QModelIndex AssetFilter::getCategory(int catRow)
 {
     QModelIndex cat = index(catRow, 0, QModelIndex());
     return cat;
+}
+
+QVariantList AssetFilter::getCategories()
+{
+    QVariantList list;
+    for (int i = 0; i < sourceModel()->rowCount(); i++) {
+        QModelIndex cat = getCategory(i);
+        if (cat.isValid()) {
+            list << cat;
+        }
+    }
+    return list;
 }

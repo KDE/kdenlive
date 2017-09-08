@@ -90,13 +90,3 @@ QVariant AssetTreeModel::data(const QModelIndex &index, int role) const
     return item->dataColumn(index.column());
 }
 
-QList<QModelIndex> AssetTreeModel::getChildrenIndexes()
-{
-    QList<QModelIndex> indexes;
-    for (int i = 0; i != rootItem->childCount(); ++i) {
-        auto child = rootItem->child(i);
-        indexes << getIndexFromItem(child);
-    }
-
-    return indexes;
-}
