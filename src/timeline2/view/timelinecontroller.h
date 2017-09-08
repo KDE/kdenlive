@@ -288,6 +288,9 @@ public slots:
     /** @brief Dis / enable timeline preview. */
     void disablePreview(bool disable);
 
+private slots:
+    void invalidateClip(int cid);
+
 private:
     QQuickItem *m_root;
     KActionCollection *m_actionCollection;

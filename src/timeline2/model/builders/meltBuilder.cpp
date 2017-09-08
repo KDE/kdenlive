@@ -177,7 +177,7 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
             bool ok = false;
             if (pCore->bin()->getBinClip(binId)) {
                 int cid = ClipModel::construct(timeline, binId, clip);
-                ok = timeline->requestClipMove(cid, tid, position, true, undo, redo);
+                ok = timeline->requestClipMove(cid, tid, position, true, false, undo, redo);
             } else {
                 qDebug() << "// Cannot find bin clip: " << binId<<" - "<< clip->get("id");
             }

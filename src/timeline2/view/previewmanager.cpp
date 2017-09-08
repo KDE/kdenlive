@@ -109,7 +109,7 @@ bool PreviewManager::initialize()
 
 bool PreviewManager::buildPreviewTrack()
 {
-    if (m_previewTrack) {
+    if (m_previewTrack != nullptr) {
         return false;
     }
     // Create overlay track
@@ -551,10 +551,8 @@ void PreviewManager::invalidatePreview(int startFrame, int endFrame)
     end *= chunkSize;
 
     qSort(m_renderedChunks);
-    for (const auto &ix : m_renderedChunks) {
-        if (ix.toInt() >= start && ix.toInt() <= end) {
-            return;
-        }
+    if (m_renderedChunks.isEmpty() || m_renderedChunks.constFirst().toInt() > end || m_renderedChunks.constLast().toInt() < start) {
+        return;
     }
     m_previewGatherTimer.stop();
     abortPreview();
@@ -568,10 +566,14 @@ void PreviewManager::invalidatePreview(int startFrame, int endFrame)
             }
             Mlt::Producer *prod = m_previewTrack->replace_with_blank(ix);
             delete prod;
+            m_renderedChunks.removeAll(i);
+            m_dirtyChunks << i;
         }
     }
     if (hasPreview) {
         m_previewTrack->consolidate_blanks();
+        m_controller->renderedChunksChanged();
+        m_controller->dirtyChunksChanged();
     }
     m_tractor->unlock();
     m_previewGatherTimer.start();
@@ -600,7 +602,6 @@ void PreviewManager::reloadChunks(const QVariantList chunks)
 
 void PreviewManager::gotPreviewRender(int frame, const QString &file, int progress)
 {
-    qDebug()<<"// GOT PREV RENDER: "<<frame;
     if (m_previewTrack == nullptr) {
         return;
     }
@@ -618,18 +619,15 @@ void PreviewManager::gotPreviewRender(int frame, const QString &file, int progre
     if (m_previewTrack->is_blank_at(frame)) {
         Mlt::Producer prod(*m_tractor->profile(), file.toUtf8().constData());
         if (prod.is_valid()) {
-            qDebug()<<"// YOP PROD OK";
             m_renderedChunks << frame;
             m_controller->renderedChunksChanged();
             //m_ruler->updatePreview(frame, true, true);
             prod.set("mlt_service", "avformat-novalidate");
             m_previewTrack->insert_at(frame, &prod, 1);
         } else {
-            qDebug()<<"// INVALID PROD: "<<file;
             qCDebug(KDENLIVE_LOG) << "* * * INVALID PROD: " << file;
         }
     } else {
-        qDebug()<<"// NON EMPTY PREV: ";
         qCDebug(KDENLIVE_LOG) << "* * * NON EMPTY PROD: " << frame;
     }
     m_previewTrack->consolidate_blanks();

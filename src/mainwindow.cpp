@@ -2739,12 +2739,6 @@ void MainWindow::slotFitZoom()
 void MainWindow::slotSetZoom(int value, bool zoomOnMouse)
 {
     value = qBound(m_zoomSlider->minimum(), value, m_zoomSlider->maximum());
-
-    //TODO refac
-    /*
-    if (pCore->projectManager()->currentTimeline()) {
-        pCore->projectManager()->currentTimeline()->slotChangeZoom(value, -1, zoomOnMouse);
-    }
     m_timelineTabs->changeZoom(value, zoomOnMouse);
     m_zoomOut->setEnabled(value < m_zoomSlider->maximum());
     m_zoomIn->setEnabled(value > m_zoomSlider->minimum());
@@ -2753,7 +2747,6 @@ void MainWindow::slotSetZoom(int value, bool zoomOnMouse)
     m_zoomSlider->blockSignals(true);
     m_zoomSlider->setValue(value);
     m_zoomSlider->blockSignals(false);
-    */
 }
 
 void MainWindow::slotShowZoomSliderToolTip(int zoomlevel)

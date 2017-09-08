@@ -253,7 +253,7 @@ public:
        @param updateView if set to false, no signal is sent to qml
        @param logUndo if set to false, no undo object is stored
     */
-    Q_INVOKABLE bool requestClipMove(int clipId, int trackId, int position, bool updateView = true, bool logUndo = true);
+    Q_INVOKABLE bool requestClipMove(int clipId, int trackId, int position, bool updateView = true, bool logUndo = true, bool invalidateTimeline = false);
 
     /* @brief Move a composition to a specific position This action is undoable
        Returns true on success. If it fails, nothing is modified. If the clip is
@@ -265,7 +265,7 @@ public:
 
     /* Same function, but accumulates undo and redo, and doesn't check
        for group*/
-    bool requestClipMove(int clipId, int trackId, int position, bool updateView, Fun &undo, Fun &redo);
+    bool requestClipMove(int clipId, int trackId, int position, bool updateView, bool invalidateTimeline, Fun &undo, Fun &redo);
     bool requestCompositionMove(int transid, int trackId, int compositionTrack, int position, bool updateView, Fun &undo, Fun &redo);
 
     Q_INVOKABLE int getCompositionPosition(int compoId) const;
@@ -295,7 +295,7 @@ public:
        stored */
     bool requestClipInsertion(const QString &binClipId, int trackId, int position, int &id, bool logUndo = true);
     /* Same function, but accumulates undo and redo*/
-    bool requestClipInsertion(const QString &binClipId, int trackId, int position, int &id, Fun &undo, Fun &redo);
+    bool requestClipInsertion(const QString &binClipId, int trackId, int position, int &id, bool logUndo, Fun &undo, Fun &redo);
 
     /* @brief Creates a new clip instance without inserting it.
        This action is undoable, returns true on success
@@ -326,7 +326,7 @@ public:
        @param logUndo if set to true, an undo object is created
     */
     bool requestGroupMove(int clipId, int groupId, int delta_track, int delta_pos, bool updateView = true, bool logUndo = true);
-    bool requestGroupMove(int clipId, int groupId, int delta_track, int delta_pos, bool updateView, Fun &undo, Fun &redo);
+    bool requestGroupMove(int clipId, int groupId, int delta_track, int delta_pos, bool updateView, bool finalMove, Fun &undo, Fun &redo);
 
     /* @brief Deletes all clips inside the group that contains the given clip.
        This action is undoable
@@ -553,6 +553,8 @@ signals:
     /* @brief signal triggered by clearAssetView */
     void requestClearAssetView(int);
     void requestMonitorRefresh();
+    /* @brief signal triggered by track operations */
+    void invalidateClip(int);
 
 protected:
     std::unique_ptr<Mlt::Tractor> m_tractor;

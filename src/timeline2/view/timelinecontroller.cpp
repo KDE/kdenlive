@@ -68,6 +68,9 @@ void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
             [&](int id){pCore->clearAssetPanel(id);});
     connect(m_model.get(), &TimelineItemModel::requestMonitorRefresh,
             [&](){pCore->requestMonitorRefresh();});
+    connect(m_model.get(), &TimelineModel::invalidateClip, this,
+            &TimelineController::invalidateClip, Qt::DirectConnection);
+
 }
 
 std::shared_ptr<TimelineItemModel> TimelineController::getModel() const
@@ -954,3 +957,13 @@ void TimelineController::removeSpace(int trackId, int frame, bool affectAllTrack
     requestSpacerEndOperation(cid, start, start - spaceDuration);
 }
 
+void TimelineController::invalidateClip(int cid)
+{
+    if (!m_timelinePreview) {
+        return;
+    }
+    int start = m_model->getItemPosition(cid);
+    int end = start + m_model->getItemPlaytime(cid);
+    qDebug()<<"invalid range: "<<start<<"-"<<end;
+    m_timelinePreview->invalidatePreview(start, end);
+}

@@ -220,15 +220,13 @@ Rectangle {
             scrollTimer.running = false
         }
         onPositionChanged: {
-            console.log('======================== ON POS CHANGED ========================================')
             if (clipBeingMovedId == -1) {
                 var track = Logic.getTrackIdFromPos(drag.y)
                 var frame = Math.round((drag.x + scrollView.flickableItem.contentX) / timeline.scaleFactor)
                 frame = controller.suggestSnapPoint(frame, root.snapping)
                 if (clipBeingDroppedId >= 0){
-                    controller.requestClipMove(clipBeingDroppedId, track, frame, true, false)
+                    controller.requestClipMove(clipBeingDroppedId, track, frame, true, false, false)
                     continuousScrolling(drag.x + scrollView.flickableItem.contentX)
-
                 } else {
                     clipBeingDroppedId = timeline.insertClip(track, frame, drag.getDataAsString('kdenlive/producerslist'), false)
                     continuousScrolling(drag.x + scrollView.flickableItem.contentX)
@@ -545,7 +543,7 @@ Rectangle {
                         var track = controller.getClipTrackId(spacerGroup)
                         var frame = Math.round((mouse.x + scrollView.flickableItem.contentX) / timeline.scaleFactor) + spacerFrame - spacerClickFrame
                         frame = controller.suggestClipMove(spacerGroup, track, frame, root.snapping);
-                        controller.requestClipMove(spacerGroup, track, frame, true, false)
+                        controller.requestClipMove(spacerGroup, track, frame, true, false, false)
                         continuousScrolling(mouse.x + scrollView.flickableItem.contentX)
                     }
                     scim = true
@@ -900,14 +898,14 @@ Rectangle {
                 var frame = Math.max(0, Math.round(clip.x / timeScale))
                 if (currentTrack >= 0  && currentTrack < tracksRepeater.count) {
                     var track = tracksRepeater.itemAt(currentTrack)
-                    if (controller.requestClipMove(clip.clipId, track.trackId, frame, false, false)) {
+                    if (controller.requestClipMove(clip.clipId, track.trackId, frame, false, false, false)) {
                         clip.reparent(track)
                         clip.trackIndex = track.DelegateModel.itemsIndex
                         clip.trackId = track.trackId
                     } else {
                         if (track.trackId != clip.trackId) {
                             // check if we can move on existing track
-                            if (!controller.requestClipMove(clip.clipId, clip.trackId, frame, false, false)) {
+                            if (!controller.requestClipMove(clip.clipId, clip.trackId, frame, false, false, false)) {
                                 // Abort move
                                 clip.x = clip.draggedX
                             } else {

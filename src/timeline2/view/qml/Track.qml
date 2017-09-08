@@ -223,11 +223,9 @@ Column{
                 var cIndex = clip.clipId
                 var frame = Math.round(clip.x / timeScale)
                 var origFrame = Math.round(clip.originalX / timeScale)
-
                 console.log("Asking move ",toTrack, cIndex, frame)
-                controller.requestClipMove(cIndex, clip.originalTrackId, origFrame, false, false)
-                var val = controller.requestClipMove(cIndex, toTrack, frame, true, true)
-                console.log("RESULT", val)
+                controller.requestClipMove(cIndex, clip.originalTrackId, origFrame, false, false, false)
+                var val = controller.requestClipMove(cIndex, toTrack, frame, true, true, true)
             }
             onDragged: { //called when the move is in process
                 var toTrack = clip.trackId
@@ -236,8 +234,7 @@ Column{
                 var frame = Math.round(clip.x / timeScale)
 
                 frame = controller.suggestClipMove(cIndex, toTrack, frame, root.snapping);
-
-                if (!controller.requestClipMove(cIndex, toTrack, frame, false, false)) {
+                if (!controller.requestClipMove(cIndex, toTrack, frame, false, false, false)) {
                     // Abort move
                     clip.x = clip.draggedX
                 } else {

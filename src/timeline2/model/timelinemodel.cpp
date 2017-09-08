@@ -251,8 +251,9 @@ int TimelineModel::getPreviousVideoTrackPos(int trackId) const
     return it == m_allTracks.begin() ? 0 : getTrackMltIndex((*it)->getId());
 }
 
-bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool updateView, Fun &undo, Fun &redo)
+bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool updateView, bool invalidateTimeline, Fun &undo, Fun &redo)
 {
+    qDebug()<<"// FINAL MOVE: "<<invalidateTimeline<< ", UPDATE VIEW: "<<updateView;
     if (trackId == -1) {
         return false;
     }
@@ -262,14 +263,14 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
     bool ok = true;
     int old_trackId = getClipTrackId(clipId);
     if (old_trackId != -1) {
-        ok = getTrackById(old_trackId)->requestClipDeletion(clipId, updateView, local_undo, local_redo);
+        ok = getTrackById(old_trackId)->requestClipDeletion(clipId, updateView, invalidateTimeline, local_undo, local_redo);
         if (!ok) {
             bool undone = local_undo();
             Q_ASSERT(undone);
             return false;
         }
     }
-    ok = getTrackById(trackId)->requestClipInsertion(clipId, position, updateView, local_undo, local_redo);
+    ok = getTrackById(trackId)->requestClipInsertion(clipId, position, updateView, invalidateTimeline, local_undo, local_redo);
     if (!ok) {
         bool undone = local_undo();
         Q_ASSERT(undone);
@@ -279,7 +280,7 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
     return true;
 }
 
-bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool updateView, bool logUndo)
+bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool updateView, bool logUndo, bool invalidateTimeline)
 {
 #ifdef LOGGING
     m_logFile << "timeline->requestClipMove(" << clipId << "," << trackId << " ," << position << ", " << (updateView ? "true" : "false") << ", "
@@ -302,7 +303,7 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
     }
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
-    bool res = requestClipMove(clipId, trackId, position, updateView, undo, redo);
+    bool res = requestClipMove(clipId, trackId, position, updateView, invalidateTimeline, undo, redo);
     if (res && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Move clip"));
     }
@@ -347,7 +348,7 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int sn
     // we check if move is possible
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    bool possible = requestClipMove(clipId, trackId, position, false, undo, redo);
+    bool possible = requestClipMove(clipId, trackId, position, false, false, undo, redo);
     qDebug() << "Original move success" << possible;
     if (possible) {
         undo();
@@ -436,7 +437,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
     QWriteLocker locker(&m_lock);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    bool result = requestClipInsertion(binClipId, trackId, position, id, undo, redo);
+    bool result = requestClipInsertion(binClipId, trackId, position, id, logUndo, undo, redo);
     if (result && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Insert Clip"));
     }
@@ -478,12 +479,12 @@ bool TimelineModel::requestClipCreation(const QString &binClipId, int &id, Fun &
     return true;
 }
 
-bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, int position, int &id, Fun &undo, Fun &redo)
+bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, int position, int &id, bool logUndo, Fun &undo, Fun &redo)
 {
     std::function<bool(void)> local_undo = []() { return true; };
     std::function<bool(void)> local_redo = []() { return true; };
     bool res = requestClipCreation(binClipId, id, local_undo, local_redo);
-    res = res && requestClipMove(id, trackId, position, true, local_undo, local_redo);
+    res = res && requestClipMove(id, trackId, position, logUndo, logUndo, local_undo, local_redo);
     if (!res) {
         bool undone = local_undo();
         Q_ASSERT(undone);
@@ -525,7 +526,7 @@ bool TimelineModel::requestClipDeletion(int clipId, Fun &undo, Fun &redo)
 {
     int trackId = getClipTrackId(clipId);
     if (trackId != -1) {
-        bool res = getTrackById(trackId)->requestClipDeletion(clipId, true, undo, redo);
+        bool res = getTrackById(trackId)->requestClipDeletion(clipId, true, true, undo, redo);
         if (!res) {
             undo();
             return false;
@@ -598,14 +599,14 @@ bool TimelineModel::requestGroupMove(int clipId, int groupId, int delta_track, i
 {
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
-    bool res = requestGroupMove(clipId, groupId, delta_track, delta_pos, updateView, undo, redo);
+    bool res = requestGroupMove(clipId, groupId, delta_track, delta_pos, updateView, logUndo, undo, redo);
     if (res && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Move group"));
     }
     return res;
 }
 
-bool TimelineModel::requestGroupMove(int clipId, int groupId, int delta_track, int delta_pos, bool updateView, Fun &undo, Fun &redo)
+bool TimelineModel::requestGroupMove(int clipId, int groupId, int delta_track, int delta_pos, bool updateView, bool finalMove, Fun &undo, Fun &redo)
 {
 #ifdef LOGGING
     m_logFile << "timeline->requestGroupMove(" << clipId << "," << groupId << " ," << delta_track << ", " << delta_pos << ", "
@@ -640,7 +641,7 @@ bool TimelineModel::requestGroupMove(int clipId, int groupId, int delta_track, i
             std::advance(it, target_track_position);
             int target_track = (*it)->getId();
             int target_position = m_allClips[clip]->getPosition() + delta_pos;
-            ok = requestClipMove(clip, target_track, target_position, updateView || (clip != clipId), undo, redo);
+            ok = requestClipMove(clip, target_track, target_position, updateView || (clip != clipId), finalMove, undo, redo);
         } else {
             ok = false;
         }
@@ -1743,8 +1744,8 @@ void TimelineModel::requestClipReload(int clipId)
     int old_trackId = getClipTrackId(clipId);
     int oldPos = getClipPosition(clipId);
     if (old_trackId != -1) {
-        getTrackById(old_trackId)->requestClipDeletion(clipId, false, local_undo, local_redo);
-        getTrackById(old_trackId)->requestClipInsertion(clipId, oldPos, false, local_undo, local_redo);
+        getTrackById(old_trackId)->requestClipDeletion(clipId, false, false, local_undo, local_redo);
+        getTrackById(old_trackId)->requestClipInsertion(clipId, oldPos, true, true, local_undo, local_redo);
     }
 }
 

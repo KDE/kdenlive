@@ -1356,7 +1356,7 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
         {
             std::function<bool(void)> undo = []() { return true; };
             std::function<bool(void)> redo = []() { return true; };
-            REQUIRE(timeline->requestClipMove(cid6, tid1, 7, true, undo, redo));
+            REQUIRE(timeline->requestClipMove(cid6, tid1, 7, true, true, undo, redo));
             pCore->pushUndo(undo, redo, QString());
         }
         auto state3 = [&]() {
