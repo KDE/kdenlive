@@ -125,10 +125,3 @@ bool EffectItemModel::isAudio() const
     return EffectsRepository::get()->getType(getAssetId()) == EffectType::Audio;
 }
 
-void EffectItemModel::connectDataChanged()
-{
-    if (auto ptr = m_model.lock()) {
-        auto model = std::static_pointer_cast<EffectStackModel>(ptr);
-        connect(this, &EffectItemModel::dataChanged, model.get(), &EffectStackModel::dataChanged);
-    }
-}

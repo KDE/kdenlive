@@ -72,8 +72,10 @@ public:
     bool addKeyframe(GenTime pos, KeyframeType type, double value);
 
 protected:
-    /* @brief Same function but accumulates undo/redo */
-    bool addKeyframe(GenTime pos, KeyframeType type, double value, Fun &undo, Fun &redo);
+    /* @brief Same function but accumulates undo/redo
+       @param notify: if true, send a signal to model
+     */
+    bool addKeyframe(GenTime pos, KeyframeType type, double value, bool notify, Fun &undo, Fun &redo);
 
 public:
     /* @brief Removes the keyframe at the given position. */
@@ -145,19 +147,19 @@ public:
 protected:
 
     /** @brief Helper function that generate a lambda to change type / value of given keyframe */
-    Fun updateKeyframe_lambda(GenTime pos, KeyframeType type, double value);
+    Fun updateKeyframe_lambda(GenTime pos, KeyframeType type, double value, bool notify);
 
     /** @brief Helper function that generate a lambda to add given keyframe */
-    Fun addKeyframe_lambda(GenTime pos, KeyframeType type, double value);
+    Fun addKeyframe_lambda(GenTime pos, KeyframeType type, double value, bool notify);
 
     /** @brief Helper function that generate a lambda to remove given keyframe */
-    Fun deleteKeyframe_lambda(GenTime pos);
+    Fun deleteKeyframe_lambda(GenTime pos, bool notify);
 
     /* @brief Connects the signals of this object */
     void setup();
 
     /* @brief Commit the modification to the model */
-    void sendModification() const;
+    void sendModification();
 
     /** @brief returns the keyframes as a Mlt Anim Property string.
         It is defined as pairs of frame and value, separated by ;
@@ -174,6 +176,7 @@ private:
     std::weak_ptr<AssetParameterModel> m_model;
     std::weak_ptr<DocUndoStack> m_undoStack;
     QPersistentModelIndex m_index;
+    QString m_lastData;
 
     mutable QReadWriteLock m_lock; // This is a lock that ensures safety in case of concurrent access
 

@@ -53,8 +53,6 @@ public:
     /* @brief Return true if the effect applies only to audio */
     bool isAudio() const override;
 
-    /* @brief This function connect the dataChanged signal of the effects to the dataChanged signal of the model. This workarounds limitation with signal when using multiple inheritance */
-    void connectDataChanged();
 
 protected:
     EffectItemModel(const QList<QVariant> &data, Mlt::Properties *effect, const QDomElement &xml, const QString &effectId,

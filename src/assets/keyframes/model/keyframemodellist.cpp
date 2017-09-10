@@ -35,6 +35,7 @@ KeyframeModelList::KeyframeModelList(std::weak_ptr<AssetParameterModel> model, c
     , m_undoStack(undo_stack)
     , m_lock(QReadWriteLock::Recursive)
 {
+    qDebug() <<"Construct keyframemodellist. Checking model:"<<m_model.expired();
     addParameter(index);
     connect(m_parameters.begin()->second.get(), &KeyframeModel::modelChanged, this, &KeyframeModelList::modelChanged);
 }
@@ -75,7 +76,7 @@ bool KeyframeModelList::addKeyframe(GenTime pos, KeyframeType type)
     bool update = (m_parameters.begin()->second->hasKeyframe(pos) > 0);
     auto op = [pos, type](std::shared_ptr<KeyframeModel> param, Fun &undo, Fun &redo){
         double value = param->getInterpolatedValue(pos);
-        return param->addKeyframe(pos, type, value, undo, redo);
+        return param->addKeyframe(pos, type, value, true, undo, redo);
     };
     return applyOperation(op, update ? i18n("Change keyframe type") : i18n("Add keyframe"));
 }

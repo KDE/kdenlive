@@ -246,7 +246,6 @@ void EffectStackModel::registerItem(const std::shared_ptr<TreeItem> &item)
         effectItem->plant(m_service);
         effectItem->setEffectStackEnabled(m_effectStackEnabled);
         ix = getIndexFromItem(effectItem);
-        effectItem->connectDataChanged();
         if (!effectItem->isAudio()) {
             pCore->refreshProjectItem(m_ownerId);
         }

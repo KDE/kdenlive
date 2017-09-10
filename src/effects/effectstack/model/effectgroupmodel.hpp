@@ -47,8 +47,6 @@ public:
      */
     void unplant(const std::weak_ptr<Mlt::Service> &service) override;
 
-    /* @brief This function connect the dataChanged signal of the effects to the dataChanged signal of the model. This workarounds limitation with signal when using multiple inheritance */
-    void connectDataChanged();
 
 protected:
     EffectGroupModel(const QList<QVariant> &data, const QString &name, const std::shared_ptr<AbstractTreeModel> &stack, bool isRoot = false);

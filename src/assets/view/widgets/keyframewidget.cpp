@@ -33,7 +33,7 @@
 #include <klocalizedstring.h>
 
 KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
-    : AbstractParamWidget(std::move(model), index, parent)
+    : AbstractParamWidget(model, index, parent)
 {
     m_keyframes = std::shared_ptr<KeyframeModelList>(new KeyframeModelList(model, index, pCore->undoStack()));
 

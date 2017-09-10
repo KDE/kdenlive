@@ -34,8 +34,10 @@ KeyframeModel::KeyframeModel(std::weak_ptr<AssetParameterModel> model, const QMo
     , m_model(std::move(model))
     , m_undoStack(std::move(undo_stack))
     , m_index(index)
+    , m_lastData()
     , m_lock(QReadWriteLock::Recursive)
 {
+    qDebug() <<"Construct keyframemodel. Checking model:"<<m_model.expired();
     setup();
     refresh();
 }
@@ -55,7 +57,7 @@ void KeyframeModel::setup()
     connect(this, &KeyframeModel::modelChanged, this, &KeyframeModel::sendModification);
 }
 
-bool KeyframeModel::addKeyframe(GenTime pos, KeyframeType type, double value, Fun &undo, Fun &redo)
+bool KeyframeModel::addKeyframe(GenTime pos, KeyframeType type, double value, bool notify, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
     Fun local_undo = []() { return true; };
@@ -67,11 +69,11 @@ bool KeyframeModel::addKeyframe(GenTime pos, KeyframeType type, double value, Fu
         // In this case we simply change the type and value
         KeyframeType oldType = m_keyframeList[pos].first;
         double oldValue = m_keyframeList[pos].second;
-        local_undo = updateKeyframe_lambda(pos, oldType, oldValue);
-        local_redo = updateKeyframe_lambda(pos, type, value);
+        local_undo = updateKeyframe_lambda(pos, oldType, oldValue, notify);
+        local_redo = updateKeyframe_lambda(pos, type, value, notify);
     } else {
-        local_redo = addKeyframe_lambda(pos, type, value);
-        local_undo = deleteKeyframe_lambda(pos);
+        local_redo = addKeyframe_lambda(pos, type, value, notify);
+        local_undo = deleteKeyframe_lambda(pos, notify);
     }
     if (local_redo()) {
         UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
@@ -87,7 +89,7 @@ bool KeyframeModel::addKeyframe(GenTime pos, KeyframeType type, double value)
     Fun redo = []() { return true; };
 
     bool update = (m_keyframeList.count(pos) > 0);
-    bool res = addKeyframe(pos, type, value, undo, redo);
+    bool res = addKeyframe(pos, type, value, true, undo, redo);
     if (res) {
         PUSH_UNDO(undo, redo, update ? i18n("Change keyframe type") : i18n("Add keyframe"));
     }
@@ -100,8 +102,8 @@ bool KeyframeModel::removeKeyframe(GenTime pos, Fun &undo, Fun &redo)
     Q_ASSERT(m_keyframeList.count(pos) > 0);
     KeyframeType oldType = m_keyframeList[pos].first;
     double oldValue = m_keyframeList[pos].second;
-    Fun local_undo = addKeyframe_lambda(pos, oldType, oldValue);
-    Fun local_redo = deleteKeyframe_lambda(pos);
+    Fun local_undo = addKeyframe_lambda(pos, oldType, oldValue, true);
+    Fun local_redo = deleteKeyframe_lambda(pos, true);
     if (local_redo()) {
         UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
         return true;
@@ -137,7 +139,7 @@ bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, Fun &undo, Fun &re
     Fun local_redo = []() { return true; };
     bool res = removeKeyframe(oldPos, local_undo, local_redo);
     if (res) {
-        res = addKeyframe(pos, oldType, oldValue, local_undo, local_redo);
+        res = addKeyframe(pos, oldType, oldValue, true, local_undo, local_redo);
     }
     if (res) {
         UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
@@ -169,8 +171,8 @@ bool KeyframeModel::updateKeyframe(GenTime pos, double value, Fun &undo, Fun &re
     KeyframeType oldType = m_keyframeList[pos].first;
     double oldValue = m_keyframeList[pos].second;
     if (qAbs(oldValue - value) < 1e-6) return true;
-    auto operation = updateKeyframe_lambda(pos, oldType, oldValue);
-    auto reverse = updateKeyframe_lambda(pos, oldType, value);
+    auto operation = updateKeyframe_lambda(pos, oldType, oldValue, true);
+    auto reverse = updateKeyframe_lambda(pos, oldType, value, true);
     bool res = operation();
     if (res) {
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
@@ -192,23 +194,24 @@ bool KeyframeModel::updateKeyframe(GenTime pos, double value)
     return res;
 }
 
-Fun KeyframeModel::updateKeyframe_lambda(GenTime pos, KeyframeType type, double value)
+Fun KeyframeModel::updateKeyframe_lambda(GenTime pos, KeyframeType type, double value, bool notify)
 {
     QWriteLocker locker(&m_lock);
-    return [this, pos, type, value]() {
+    return [this, pos, type, value, notify]() {
         Q_ASSERT(m_keyframeList.count(pos) > 0);
         int row = static_cast<int>(std::distance(m_keyframeList.begin(), m_keyframeList.find(pos)));
         m_keyframeList[pos].first = type;
         m_keyframeList[pos].second = value;
-        emit dataChanged(index(row), index(row), QVector<int>() << TypeRole << ValueRole);
+        if (notify)
+            emit dataChanged(index(row), index(row), QVector<int>() << TypeRole << ValueRole);
         return true;
     };
 }
 
-Fun KeyframeModel::addKeyframe_lambda(GenTime pos, KeyframeType type, double value)
+Fun KeyframeModel::addKeyframe_lambda(GenTime pos, KeyframeType type, double value, bool notify)
 {
     QWriteLocker locker(&m_lock);
-    return [this, pos, type, value]() {
+    return [this, notify, pos, type, value]() {
         Q_ASSERT(m_keyframeList.count(pos) == 0);
         // We determine the row of the newly added marker
         auto insertionIt = m_keyframeList.lower_bound(pos);
@@ -216,24 +219,28 @@ Fun KeyframeModel::addKeyframe_lambda(GenTime pos, KeyframeType type, double val
         if (insertionIt != m_keyframeList.end()) {
             insertionRow = static_cast<int>(std::distance(m_keyframeList.begin(), insertionIt));
         }
-        beginInsertRows(QModelIndex(), insertionRow, insertionRow);
+        if (notify)
+            beginInsertRows(QModelIndex(), insertionRow, insertionRow);
         m_keyframeList[pos].first = type;
         m_keyframeList[pos].second = value;
-        endInsertRows();
+        if (notify)
+            endInsertRows();
         return true;
     };
 }
 
-Fun KeyframeModel::deleteKeyframe_lambda(GenTime pos)
+Fun KeyframeModel::deleteKeyframe_lambda(GenTime pos, bool notify)
 {
     QWriteLocker locker(&m_lock);
-    return [this, pos]() {
+    return [this, pos, notify]() {
         Q_ASSERT(m_keyframeList.count(pos) > 0);
         Q_ASSERT(pos != GenTime()); // cannot delete initial point
         int row = static_cast<int>(std::distance(m_keyframeList.begin(), m_keyframeList.find(pos)));
-        beginRemoveRows(QModelIndex(), row, row);
+        if (notify)
+            beginRemoveRows(QModelIndex(), row, row);
         m_keyframeList.erase(pos);
-        endRemoveRows();
+        if (notify)
+            endRemoveRows();
         return true;
     };
 }
@@ -458,7 +465,7 @@ void KeyframeModel::parseAnimProperty(const QString &prop)
         mlt_keyframe_type type;
         anim->key_get(i, frame, type);
         double value = mlt_prop.anim_get_double("key", frame);
-        addKeyframe(GenTime(frame, pCore->getCurrentFps()), convertFromMltType(type), value, undo, redo);
+        addKeyframe(GenTime(frame, pCore->getCurrentFps()), convertFromMltType(type), value, false, undo, redo);
     }
 
     delete anim;
@@ -520,31 +527,50 @@ double KeyframeModel::getInterpolatedValue(const GenTime &pos) const
     return prop.anim_get_double("keyframe", p);
 }
 
-void KeyframeModel::sendModification() const
+void KeyframeModel::sendModification()
 {
     if (auto ptr = m_model.lock()) {
         Q_ASSERT(m_index.isValid());
         QString name =  ptr->data(m_index, AssetParameterModel::NameRole).toString();
         auto type = ptr->data(m_index, AssetParameterModel::TypeRole).value<ParamType>();
+        QString data;
         if (type == ParamType::KeyframeParam) {
-            ptr->setParameter(name, getAnimProperty());
+            data = getAnimProperty();
+            ptr->setParameter(name, data);
         } else {
             Q_ASSERT(false); //Not implemented, TODO
         }
+        m_lastData = data;
         ptr->dataChanged(m_index, m_index);
     }
 }
 
 void KeyframeModel::refresh()
 {
+    qDebug() << "REFRESHING KEYFRAME";
     if (auto ptr = m_model.lock()) {
         Q_ASSERT(m_index.isValid());
         auto type = ptr->data(m_index, AssetParameterModel::TypeRole).value<ParamType>();
-        if (type == ParamType::KeyframeParam) {
-            parseAnimProperty(ptr->data(m_index, AssetParameterModel::ValueRole).toString());
+        QString data = ptr->data(m_index, AssetParameterModel::ValueRole).toString();
+        qDebug() << "FOUND DATA KEYFRAME" << data;
+        if (data == m_lastData) {
+            // nothing to do
+            return;
+        }
+        // first, try to convert to double
+        bool ok = false;
+        double value = data.toDouble(&ok);
+        if (ok) {
+            Fun undo = []() { return true; };
+            Fun redo = []() { return true; };
+            addKeyframe(GenTime(), KeyframeType::Linear, value, false, undo, redo);
+            qDebug() << "KEYFRAME ADDED"<<value;
+        } else if (type == ParamType::KeyframeParam) {
+            parseAnimProperty(data);
         } else {
             Q_ASSERT(false); //Not implemented, TODO
         }
-        ptr->dataChanged(m_index, m_index);
+    } else {
+        qDebug() << "WARNING : unable to access keyframe's model";
     }
 }

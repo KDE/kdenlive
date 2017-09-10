@@ -73,10 +73,3 @@ void EffectGroupModel::unplant(const std::weak_ptr<Mlt::Service> &service)
     }
 
 }
-
-void EffectGroupModel::connectDataChanged()
-{
-    for (int i = 0; i < childCount(); ++i) {
-        std::static_pointer_cast<AbstractEffectItem>(child(i))->connectDataChanged();
-    }
-}

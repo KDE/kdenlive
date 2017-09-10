@@ -61,8 +61,6 @@ public:
      */
     virtual void unplant(const std::weak_ptr<Mlt::Service> &service) = 0;
 
-    /* @brief This function connect the dataChanged signal of the effects to the dataChanged signal of the model. This workarounds limitation with signal when using multiple inheritance */
-    virtual void connectDataChanged() = 0;
 protected:
     /* @brief Toogles the mlt effect according to the current activation state*/
     virtual void updateEnable() = 0;
