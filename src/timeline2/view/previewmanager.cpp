@@ -304,7 +304,7 @@ void PreviewManager::invalidatePreviews(const QVariantList &chunks)
             moveFile = false;
         }
         QVariantList foundChunks;
-        for (const auto &i : chunks) {
+        for (const auto i : chunks) {
             QString cacheFileName = QStringLiteral("%1.%2").arg(i.toInt()).arg(m_extension);
             if (!lastUndo) {
                 m_cacheDir.remove(cacheFileName);
@@ -312,11 +312,17 @@ void PreviewManager::invalidatePreviews(const QVariantList &chunks)
             if (moveFile) {
                 if (QFile::copy(tmpDir.absoluteFilePath(cacheFileName), m_cacheDir.absoluteFilePath(cacheFileName))) {
                     foundChunks << i;
+                    m_dirtyChunks.removeAll(i);
+                    m_renderedChunks << i;
                 }
             }
         }
-        qSort(foundChunks);
-        reloadChunks(foundChunks);
+        if (!foundChunks.isEmpty()) {
+            qSort(foundChunks);
+            m_controller->dirtyChunksChanged();
+            m_controller->renderedChunksChanged();
+            reloadChunks(foundChunks);
+        }
     }
     doc->setModified(true);
     if (timer) {
@@ -551,13 +557,11 @@ void PreviewManager::invalidatePreview(int startFrame, int endFrame)
     end *= chunkSize;
 
     qSort(m_renderedChunks);
-    if (m_renderedChunks.isEmpty() || m_renderedChunks.constFirst().toInt() > end || m_renderedChunks.constLast().toInt() < start) {
-        return;
-    }
     m_previewGatherTimer.stop();
     abortPreview();
     m_tractor->lock();
     bool hasPreview = m_previewTrack != nullptr;
+    bool chunksChanged = false;
     for (int i = start; i <= end; i += chunkSize) {
         if (m_renderedChunks.contains(i) && hasPreview) {
             int ix = m_previewTrack->get_clip_index_at(i);
@@ -566,11 +570,12 @@ void PreviewManager::invalidatePreview(int startFrame, int endFrame)
             }
             Mlt::Producer *prod = m_previewTrack->replace_with_blank(ix);
             delete prod;
-            m_renderedChunks.removeAll(i);
-            m_dirtyChunks << i;
+            m_renderedChunks.removeAll(QVariant(i));
+            m_dirtyChunks << QVariant(i);
+            chunksChanged = true;
         }
     }
-    if (hasPreview) {
+    if (chunksChanged) {
         m_previewTrack->consolidate_blanks();
         m_controller->renderedChunksChanged();
         m_controller->dirtyChunksChanged();
