@@ -232,11 +232,8 @@ void GLWidget::initializeGL()
     openglContext()->makeCurrent(this);
     // openglContext()->blockSignals(false);
     connect(m_frameRenderer, &FrameRenderer::frameDisplayed, this, &GLWidget::frameDisplayed, Qt::QueuedConnection);
-    if (KdenliveSettings::gpu_accel() || openglContext()->supportsThreadedOpenGL()) {
-        connect(m_frameRenderer, &FrameRenderer::textureReady, this, &GLWidget::updateTexture, Qt::DirectConnection);
-    } else {
-        connect(m_frameRenderer, &FrameRenderer::frameDisplayed, this, &GLWidget::onFrameDisplayed, Qt::QueuedConnection);
-    }
+    connect(m_frameRenderer, &FrameRenderer::textureReady, this, &GLWidget::updateTexture, Qt::DirectConnection);
+    connect(m_frameRenderer, &FrameRenderer::frameDisplayed, this, &GLWidget::onFrameDisplayed, Qt::QueuedConnection);
 
     connect(m_frameRenderer, &FrameRenderer::audioSamplesSignal, this, &GLWidget::audioSamplesSignal, Qt::QueuedConnection);
     connect(this, &GLWidget::textureUpdated, this, &GLWidget::update, Qt::QueuedConnection);
@@ -415,9 +412,6 @@ void GLWidget::releaseAnalyse()
 
 void GLWidget::paintGL()
 {
-    if ((m_glslManager != nullptr) && (m_texture[0] == 0u)) {
-        return;
-    }
     QOpenGLFunctions *f = openglContext()->functions();
     int width = this->width() * devicePixelRatio();
     int height = this->height() * devicePixelRatio();
@@ -440,6 +434,17 @@ void GLWidget::paintGL()
         }
         uploadTextures(openglContext(), m_sharedFrame, m_texture);
         m_mutex.unlock();
+    } else if (m_glslManager) {
+        m_mutex.lock();
+        if (m_sharedFrame.is_valid()) {
+            m_texture[0] = *((GLuint*) m_sharedFrame.get_image());
+        }
+    }
+
+    if (!m_texture[0]) {
+        if (m_glslManager)
+            m_mutex.unlock();
+        return;
     }
 
     // Bind textures.
@@ -542,6 +547,10 @@ void GLWidget::paintGL()
     }
     f->glActiveTexture(GL_TEXTURE0);
     check_error(f);
+    if (m_glslManager) {
+        glFinish(); check_error(f);
+        m_mutex.unlock();
+    }
 }
 
 void GLWidget::slotZoomScene(double value)
@@ -804,9 +813,6 @@ void GLWidget::stopGlsl()
 {
     if (m_consumer) {
         m_consumer->purge();
-    }
-    if (m_frameRenderer) {
-        m_frameRenderer->clearFrame();
     }
 
     // TODO This is commented out for now because it is causing crashes.
@@ -1528,12 +1534,11 @@ void FrameRenderer::showGLFrame(Mlt::Frame frame)
 #endif // Q_OS_WIN
         }
 
-        emit textureReady(*textureId);
+        m_context->functions()->glFinish();
         m_context->doneCurrent();
 
         // Save this frame for future use and to keep a reference to the GL Texture.
-        m_frame = SharedFrame(frame);
-        qSwap(m_frame, m_displayFrame);
+        m_displayFrame = SharedFrame(frame);
     }
     // The frame is now done being modified and can be shared with the rest
     // of the application.
@@ -1553,24 +1558,17 @@ void FrameRenderer::showGLNoSyncFrame(Mlt::Frame frame)
         m_context->makeCurrent(m_surface);
         m_context->functions()->glFinish();
 
-        emit textureReady(*textureId);
         m_context->doneCurrent();
 
         // Save this frame for future use and to keep a reference to the GL Texture.
-        m_frame = SharedFrame(frame);
-        qSwap(m_frame, m_displayFrame);
+        m_displayFrame = SharedFrame(frame);
     }
-
     // The frame is now done being modified and can be shared with the rest
     // of the application.
     emit frameDisplayed(m_displayFrame);
     m_semaphore.release();
 }
 
-void FrameRenderer::clearFrame()
-{
-    m_frame = SharedFrame();
-}
 
 void FrameRenderer::cleanup()
 {

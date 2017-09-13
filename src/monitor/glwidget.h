@@ -262,7 +262,6 @@ public:
     ~FrameRenderer();
     QSemaphore *semaphore() { return &m_semaphore; }
     QOpenGLContext *context() const { return m_context; }
-    void clearFrame();
     Q_INVOKABLE void showFrame(Mlt::Frame frame);
     Q_INVOKABLE void showGLFrame(Mlt::Frame frame);
     Q_INVOKABLE void showGLNoSyncFrame(Mlt::Frame frame);
@@ -277,7 +276,6 @@ signals:
 
 private:
     QSemaphore m_semaphore;
-    SharedFrame m_frame;
     SharedFrame m_displayFrame;
     QOpenGLContext *m_context;
     QSurface *m_surface;
