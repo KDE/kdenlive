@@ -59,7 +59,7 @@ class TimelineController : public QObject
 
 public:
     TimelineController(KActionCollection *actionCollection, QObject *parent);
-
+    virtual ~TimelineController();
     /* @brief Sets the model that this widgets displays */
     void setModel(std::shared_ptr<TimelineItemModel> model);
     std::shared_ptr<TimelineItemModel> getModel() const;

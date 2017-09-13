@@ -720,6 +720,7 @@ void MainWindow::slotReloadTheme()
 
 MainWindow::~MainWindow()
 {
+    pCore->prepareShutdown();
     delete m_audioSpectrum;
     if (m_projectMonitor) {
         m_projectMonitor->stop();

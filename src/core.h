@@ -153,6 +153,7 @@ public:
     void setCompositionATrack(int cid, int aTrack);
     std::shared_ptr<DocUndoStack> undoStack();
     void invalidateItem(ObjectId itemId);
+    void prepareShutdown();
 
 private:
     explicit Core();

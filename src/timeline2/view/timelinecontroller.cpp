@@ -61,8 +61,17 @@ TimelineController::TimelineController(KActionCollection *actionCollection, QObj
     m_disablePreview->setEnabled(false);
 }
 
+TimelineController::~TimelineController()
+{
+    delete m_timelinePreview;
+    m_timelinePreview = nullptr;
+}
+
+
 void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
 {
+    delete m_timelinePreview;
+    m_timelinePreview = nullptr;
     m_model = std::move(model);
     connect(m_model.get(), &TimelineItemModel::requestClearAssetView,
             [&](int id){pCore->clearAssetPanel(id);});

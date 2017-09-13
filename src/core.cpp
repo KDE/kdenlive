@@ -52,6 +52,11 @@ Core::Core()
 {
 }
 
+void Core::prepareShutdown()
+{
+    m_guiConstructed = false;
+}
+
 Core::~Core()
 {
     if (m_monitorManager) {
