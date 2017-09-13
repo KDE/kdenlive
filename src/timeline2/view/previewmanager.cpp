@@ -249,7 +249,7 @@ bool PreviewManager::loadParams()
     return true;
 }
 
-void PreviewManager::invalidatePreviews(const QVariantList &chunks)
+void PreviewManager::invalidatePreviews(const QVariantList chunks)
 {
     QMutexLocker lock(&m_previewMutex);
     bool timer = false;
@@ -304,7 +304,7 @@ void PreviewManager::invalidatePreviews(const QVariantList &chunks)
             moveFile = false;
         }
         QVariantList foundChunks;
-        for (const auto i : chunks) {
+        for (const auto &i : chunks) {
             QString cacheFileName = QStringLiteral("%1.%2").arg(i.toInt()).arg(m_extension);
             if (!lastUndo) {
                 m_cacheDir.remove(cacheFileName);
@@ -314,6 +314,8 @@ void PreviewManager::invalidatePreviews(const QVariantList &chunks)
                     foundChunks << i;
                     m_dirtyChunks.removeAll(i);
                     m_renderedChunks << i;
+                } else {
+                    qDebug()<<"// ERROR PROCESSE CHUNK: "<<i<<", "<<cacheFileName;
                 }
             }
         }

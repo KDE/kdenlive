@@ -507,3 +507,17 @@ std::shared_ptr<ProjectItemModel> Core::projectItemModel()
     return m_projectItemModel;
 }
 
+void Core::invalidateItem(ObjectId itemId)
+{
+    switch (itemId.first) {
+        case ObjectType::TimelineClip:
+            m_mainWindow->getCurrentTimeline()->controller()->invalidateClip(itemId.second);
+            break;
+        case ObjectType::TimelineTrack:
+            //TODO: invalidate all clips in track
+            break;
+        default:
+            // bin clip should automatically be reloaded, compositions should not have effects
+            break;
+    }
+}

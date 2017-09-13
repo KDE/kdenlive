@@ -248,6 +248,7 @@ void EffectStackModel::registerItem(const std::shared_ptr<TreeItem> &item)
         ix = getIndexFromItem(effectItem);
         if (!effectItem->isAudio()) {
             pCore->refreshProjectItem(m_ownerId);
+            pCore->invalidateItem(m_ownerId);
         }
     }
     AbstractTreeModel::registerItem(item);
@@ -263,6 +264,7 @@ void EffectStackModel::deregisterItem(int id, TreeItem *item)
         effectItem->unplant(this->m_service);
         if (!effectItem->isAudio()) {
             pCore->refreshProjectItem(m_ownerId);
+            pCore->invalidateItem(m_ownerId);
         }
     }
     AbstractTreeModel::deregisterItem(id, item);

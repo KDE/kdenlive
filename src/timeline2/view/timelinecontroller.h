@@ -287,8 +287,6 @@ public slots:
     void addEffectToCurrentClip(const QStringList &effectData);
     /** @brief Dis / enable timeline preview. */
     void disablePreview(bool disable);
-
-private slots:
     void invalidateClip(int cid);
 
 private:

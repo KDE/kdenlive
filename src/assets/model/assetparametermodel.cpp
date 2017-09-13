@@ -124,6 +124,7 @@ void AssetParameterModel::setParameter(const QString &name, const QString &value
         }
     }
     pCore->refreshProjectItem(m_ownerId);
+    pCore->invalidateItem(m_ownerId);
 }
 
 AssetParameterModel::~AssetParameterModel() = default;
