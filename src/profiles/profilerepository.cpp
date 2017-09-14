@@ -168,7 +168,6 @@ QString ProfileRepository::findMatchingProfile(ProfileInfo *profile) const
 
 void ProfileRepository::saveProfile(ProfileInfo *profile, QString profilePath)
 {
-    Q_ASSERT(findMatchingProfile(profile).isEmpty()); //We should not save if there exists a similar profile
     if (profilePath.isEmpty()) {
         int i = 0;
         QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/profiles/"));
