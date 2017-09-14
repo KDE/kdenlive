@@ -109,6 +109,7 @@ Item {
             right: root.right
             bottom: root.bottom
             rightMargin: 4
+            bottomMargin: root.rulerHeight
         }
     }
 
@@ -125,6 +126,7 @@ Item {
             right: timecode.visible ? timecode.left : root.right
             bottom: root.bottom
             rightMargin: 10
+            bottomMargin: root.rulerHeight
         }
     }
 
