@@ -305,6 +305,7 @@ void MainWindow::init()
 
     connect(m_assetPanel, &AssetPanel::doSplitEffect, m_projectMonitor, &Monitor::slotSwitchCompare);
     connect(m_assetPanel, &AssetPanel::doSplitBinEffect, m_clipMonitor, &Monitor::slotSwitchCompare);
+    connect(m_assetPanel, &AssetPanel::changeSpeed, this, &MainWindow::slotChangeSpeed);
     connect(m_timelineTabs, &TimelineTabs::showTransitionModel, m_assetPanel, &AssetPanel::showTransition);
     connect(m_timelineTabs, &TimelineTabs::showClipEffectStack, m_assetPanel, &AssetPanel::showEffectStack);
     connect(pCore->bin(), &Bin::requestShowEffectStack, m_assetPanel, &AssetPanel::showEffectStack);
@@ -4136,6 +4137,15 @@ TimelineWidget *MainWindow::getMainTimeline() const
 TimelineWidget *MainWindow::getCurrentTimeline() const
 {
     return m_timelineTabs->getCurrentTimeline();
+}
+
+void MainWindow::slotChangeSpeed(int speed)
+{
+    ObjectId owner = m_assetPanel->effectStackOwner();
+    //TODO: manage bin clips / tracks
+    if (owner.first == ObjectType::TimelineClip) {
+        getCurrentTimeline()->controller()->changeItemSpeed(owner.second, speed);
+    }
 }
 
 #ifdef DEBUG_MAINW

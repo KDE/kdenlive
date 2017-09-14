@@ -728,7 +728,10 @@
       <label>When editing an effect with position, seek to the keyframe pos.</label>
       <default>false</default>
     </entry>
-
+    <entry name="showbuiltstack" type="Bool">
+      <label>Show builtin effect stack.</label>
+      <default>false</default>
+    </entry>
     <entry name="showeffectinfo" type="Bool">
       <label>Show small effect description in effects list.</label>
       <default>false</default>

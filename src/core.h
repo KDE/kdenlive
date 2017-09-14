@@ -152,6 +152,7 @@ public:
     int getCompositionATrack(int cid) const;
     void setCompositionATrack(int cid, int aTrack);
     std::shared_ptr<DocUndoStack> undoStack();
+    double getClipSpeed(int id) const;
     void invalidateItem(ObjectId itemId);
     void prepareShutdown();
 

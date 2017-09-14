@@ -189,6 +189,7 @@ public:
     */
     Q_INVOKABLE int getClipPosition(int clipId) const;
     Q_INVOKABLE bool addClipEffect(int clipId, const QString &effectId);
+    double getClipSpeed(int clipId) const;
     bool removeFade(int clipId, bool fromStart);
     Q_INVOKABLE bool copyClipEffect(int clipId, const QString &sourceId);
     bool adjustEffectLength(int clipId, const QString &effectId, int duration);
@@ -478,6 +479,10 @@ public:
 
     /** @brief Returns the effectstack of a given clip. */
     std::shared_ptr<EffectStackModel> getClipEffectStack(int itemId);
+
+    /** @brief Add slowmotion effect to clip in timeline. */
+    bool requestClipTimeWarp(int clipId, double speed);
+    bool changeItemSpeed(int clipId, int speed);
 
 protected:
     /* @brief Register a new track. This is a call-back meant to be called from TrackModel

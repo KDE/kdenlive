@@ -26,6 +26,8 @@
 #include <QVBoxLayout>
 #include <memory>
 
+#include "definitions.h"
+
 class KSqueezedTextLabel;
 class QToolButton;
 
@@ -58,11 +60,14 @@ public:
 
     /* @brief This method should be called when the style changes */
     void updatePalette();
+    /* @brief Returns the object type / id of effectstack owner */
+    ObjectId effectStackOwner();
 
 public slots:
     /** @brief Clear panel if displaying itemId */
     void clearAssetPanel(int itemId);
     void adjustAssetPanelRange(int itemId, int in, int out);
+    void parameterChanged(QString name, int value);
 
 protected:
     /** @brief Return the stylesheet used to display the panel (based on current palette). */
@@ -73,6 +78,7 @@ protected:
     EffectStackView *m_effectStackWidget;
 
 private:
+    QToolButton *m_switchBuiltStack;
     QToolButton *m_splitButton;
 
 private slots:
@@ -82,6 +88,7 @@ signals:
     void doSplitEffect(bool);
     void doSplitBinEffect(bool);
     void seekToPos(int);
+    void changeSpeed(int);
 };
 
 #endif

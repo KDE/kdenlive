@@ -51,6 +51,15 @@ AssetPanel::AssetPanel(QWidget *parent)
 {
     QHBoxLayout *tLayout = new QHBoxLayout;
     tLayout->addWidget(m_assetTitle);
+    m_switchBuiltStack = new QToolButton(this);
+    m_switchBuiltStack->setIcon(KoIconUtils::themedIcon(QStringLiteral("adjustlevels")));
+    m_switchBuiltStack->setToolTip(i18n("Adjust clip"));
+    m_switchBuiltStack->setCheckable(true);
+    m_switchBuiltStack->setChecked(KdenliveSettings::showbuiltstack());
+    m_switchBuiltStack->setVisible(false);
+    connect(m_switchBuiltStack, &QToolButton::toggled, m_effectStackWidget, &EffectStackView::switchBuiltStack);
+    tLayout->addWidget(m_switchBuiltStack);
+
     m_splitButton = new QToolButton(this);
     m_splitButton->setIcon(KoIconUtils::themedIcon(QStringLiteral("view-split-left-right")));
     m_splitButton->setToolTip(i18n("Compare effect"));
@@ -62,6 +71,7 @@ AssetPanel::AssetPanel(QWidget *parent)
     m_lay->addWidget(m_transitionWidget);
     m_lay->addWidget(m_effectStackWidget);
     m_transitionWidget->setVisible(false);
+    m_effectStackWidget->setVisible(false);
     updatePalette();
     connect(m_effectStackWidget, &EffectStackView::seekToPos, this, &AssetPanel::seekToPos);
 }
@@ -86,6 +96,7 @@ void AssetPanel::showEffectStack(const QString &clipName, std::shared_ptr<Effect
     }
     m_assetTitle->setText(i18n("%1 effects", clipName));
     m_splitButton->setVisible(true);
+    m_switchBuiltStack->setVisible(true);
     m_effectStackWidget->setVisible(true);
     m_effectStackWidget->setModel(effectsModel, range);
 }
@@ -111,6 +122,7 @@ void AssetPanel::clear()
     m_transitionWidget->unsetModel();
     m_effectStackWidget->setVisible(false);
     m_splitButton->setVisible(false);
+    m_switchBuiltStack->setVisible(false);
     m_effectStackWidget->setProperty("clipId", QVariant());
     m_effectStackWidget->unsetModel();
     m_assetTitle->setText(QString());
@@ -190,10 +202,23 @@ const QString AssetPanel::getStyleSheet()
 
 void AssetPanel::processSplitEffect(bool enable)
 {
-    ObjectType id = m_effectStackWidget->stackOwner();
+    ObjectType id = m_effectStackWidget->stackOwner().first;
     if (id == ObjectType::TimelineClip) {
         emit doSplitEffect(enable);
     } else if (id == ObjectType::BinClip) {
         emit doSplitBinEffect(enable);
     }
+}
+
+ObjectId AssetPanel::effectStackOwner()
+{
+    if (!m_effectStackWidget->isVisible()) {
+        return ObjectId(ObjectType::NoItem, -1);
+    }
+    return m_effectStackWidget->stackOwner();
+}
+
+void AssetPanel::parameterChanged(QString name, int value)
+{
+    emit changeSpeed(value);
 }

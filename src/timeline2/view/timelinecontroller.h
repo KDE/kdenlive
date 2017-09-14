@@ -279,6 +279,7 @@ public:
     /* @brief Return document properties with added settings from timeline
      */
     QMap<QString, QString> documentProperties();
+    void changeItemSpeed(int clipId, int speed);
 
 public slots:
     void selectMultitrack();

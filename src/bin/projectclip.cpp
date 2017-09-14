@@ -335,6 +335,10 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
     m_temporaryUrl.clear();
     if (m_clipType == Audio) {
         m_thumbnail = KoIconUtils::themedIcon(QStringLiteral("audio-x-generic"));
+    } else if (m_clipType == Image) {
+        if (getProducerIntProperty(QStringLiteral("meta.media.width")) < 8 || getProducerIntProperty(QStringLiteral("meta.media.height")) < 8) {
+            KMessageBox::information(QApplication::activeWindow(), i18n("Image dimension smaller than 8 pixels.\nThis is not correctly supported by our video framework."));
+        }
     }
     m_duration = getStringDuration();
     m_clipStatus = StatusReady;

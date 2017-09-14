@@ -71,6 +71,7 @@ public:
      */
     const QString getProperty(const QString &name) const override;
     int getIntProperty(const QString &name) const;
+    double getDoubleProperty(const QString &name) const;
 
     /* @brief returns the length of the item on the timeline
      */
@@ -119,12 +120,15 @@ protected:
 
     /* @brief This functions should be called when the producer of the binClip changes, to allow refresh */
     void refreshProducerFromBin();
+    /* @brief This functions replaces the current producer with a slowmotion one */
+    void useTimewarpProducer(double speed, int extraSpace);
 
     /** @brief Returns the marker model associated with this clip */
     std::shared_ptr<MarkerListModel> getMarkerModel() const;
 
     bool hasAudio() const;
     bool isAudioOnly() const;
+    double getSpeed() const;
 
 protected:
     std::shared_ptr<Mlt::Producer> m_producer;

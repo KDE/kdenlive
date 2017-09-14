@@ -976,3 +976,8 @@ void TimelineController::invalidateClip(int cid)
     qDebug()<<"invalid range: "<<start<<"-"<<end;
     m_timelinePreview->invalidatePreview(start, end);
 }
+
+void TimelineController::changeItemSpeed(int clipId, int speed)
+{
+    m_model->changeItemSpeed(clipId, speed);
+}

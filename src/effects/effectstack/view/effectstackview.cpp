@@ -20,9 +20,12 @@
  ***************************************************************************/
 
 #include "effectstackview.hpp"
+#include "builtstack.hpp"
 #include "assets/assetlist/view/qmltypes/asseticonprovider.hpp"
 #include "assets/view/assetparameterview.hpp"
+#include "assets/assetpanel.hpp"
 #include "collapsibleeffectview.hpp"
+#include "kdenlivesettings.h"
 #include "core.h"
 #include "effects/effectstack/model/effectitemmodel.hpp"
 #include "effects/effectstack/model/effectstackmodel.hpp"
@@ -66,7 +69,7 @@ void WidgetDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option
     style->drawPrimitive(QStyle::PE_PanelItemViewItem, &opt, painter, opt.widget);
 }
 
-EffectStackView::EffectStackView(QWidget *parent)
+EffectStackView::EffectStackView(AssetPanel *parent)
     : QWidget(parent)
     , m_thumbnailer(new AssetIconProvider(true))
     , m_range(-1, -1)
@@ -78,6 +81,10 @@ EffectStackView::EffectStackView(QWidget *parent)
     m_lay->setSpacing(0);
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setAcceptDrops(true);
+    m_builtStack = new BuiltStack(parent);
+    m_builtStack->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
+    m_lay->addWidget(m_builtStack);
+    m_builtStack->setVisible(KdenliveSettings::showbuiltstack());
     m_effectsTree = new QTreeView(this);
     m_effectsTree->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     m_effectsTree->setHeaderHidden(true);
@@ -86,6 +93,7 @@ EffectStackView::EffectStackView(QWidget *parent)
     // m_effectsTree->viewport()->setAutoFillBackground(false);
     m_effectsTree->setStyleSheet(style);
     m_lay->addWidget(m_effectsTree);
+    m_lay->setStretch(1, 10);
 }
 
 EffectStackView::~EffectStackView()
@@ -158,6 +166,7 @@ void EffectStackView::setModel(std::shared_ptr<EffectStackModel> model, QPair<in
     qDebug()<<"MUTEX UNLOCK!!!!!!!!!!!! setmodel";
     loadEffects(range);
     connect(m_model.get(), &EffectStackModel::dataChanged, this, &EffectStackView::refresh);
+    m_builtStack->setModel(model, stackOwner());
 }
 
 void EffectStackView::loadEffects(QPair<int, int> range, int start, int end)
@@ -275,10 +284,16 @@ void EffectStackView::setRange(int in, int out)
     }
 }
 
-ObjectType EffectStackView::stackOwner() const
+ObjectId EffectStackView::stackOwner() const
 {
     if (m_model) {
-        return m_model->getOwnerId().first;
+        return m_model->getOwnerId();
     }
-    return ObjectType::NoItem;
+    return ObjectId(ObjectType::NoItem, -1);
+}
+
+void EffectStackView::switchBuiltStack(bool show)
+{
+    m_builtStack->setVisible(show);
+    KdenliveSettings::setShowbuiltstack(show);
 }

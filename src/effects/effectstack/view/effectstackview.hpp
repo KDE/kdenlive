@@ -35,6 +35,8 @@ class AssetParameterModel;
 class EffectStackModel;
 class EffectItemModel;
 class AssetIconProvider;
+class BuiltStack;
+class AssetPanel;
 
 class WidgetDelegate : public QStyledItemDelegate
 {
@@ -54,12 +56,12 @@ class EffectStackView : public QWidget
     Q_OBJECT
 
 public:
-    EffectStackView(QWidget *parent = nullptr);
+    EffectStackView(AssetPanel *parent);
     virtual ~EffectStackView();
     void setModel(std::shared_ptr<EffectStackModel> model, QPair<int, int> range);
     void unsetModel(bool reset = true);
     void setRange(int in, int out);
-    ObjectType stackOwner() const;
+    ObjectId stackOwner() const;
 
 protected:
     void dragEnterEvent(QDragEnterEvent *event) override;
@@ -68,6 +70,7 @@ protected:
 private:
     QMutex m_mutex;
     QVBoxLayout *m_lay;
+    BuiltStack *m_builtStack;
     QTreeView *m_effectsTree;
     std::shared_ptr<EffectStackModel> m_model;
     std::vector<CollapsibleEffectView *> m_widgets;
@@ -81,6 +84,9 @@ private slots:
     void slotAdjustDelegate(std::shared_ptr<EffectItemModel> effectModel, int height);
     void slotStartDrag(QPixmap pix, std::shared_ptr<EffectItemModel> effectModel);
     void slotActivateEffect(std::shared_ptr<EffectItemModel> effectModel);
+
+public slots:
+    void switchBuiltStack(bool show);
 
 signals:
     void doActivateEffect(QModelIndex);

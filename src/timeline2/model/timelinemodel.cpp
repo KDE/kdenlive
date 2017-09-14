@@ -170,6 +170,13 @@ int TimelineModel::getClipPosition(int clipId) const
     return pos;
 }
 
+double TimelineModel::getClipSpeed(int clipId) const
+{
+    READ_LOCK();
+    Q_ASSERT(m_allClips.count(clipId) > 0);
+    return m_allClips.at(clipId)->getSpeed();
+}
+
 int TimelineModel::getClipIn(int clipId) const
 {
     READ_LOCK();
@@ -1753,4 +1760,47 @@ void TimelineModel::requestClipUpdate(int clipId, QVector<int> roles)
 {
     QModelIndex modelIndex = makeClipIndexFromID(clipId);
     notifyChange(modelIndex, modelIndex, roles);
+}
+
+
+bool TimelineModel::requestClipTimeWarp(int clipId, double speed)
+{
+    QWriteLocker locker(&m_lock);
+    std::function<bool(void)> local_undo = []() { return true; };
+    std::function<bool(void)> local_redo = []() { return true; };
+    qDebug()<<"// CHANGING SPEED TO: "<<speed;
+
+    // in order to make the producer change effective, we need to unplant / replant the clip in int track
+    int old_trackId = getClipTrackId(clipId);
+    int oldPos = getClipPosition(clipId);
+    if (old_trackId != -1) {
+        int blankSpace = getTrackById(old_trackId)->getBlankSizeNearClip(clipId, true);
+        qDebug()<<"// FOUND BLANK AFTER CLIP: "<<blankSpace;
+        getTrackById(old_trackId)->requestClipDeletion(clipId, false, true, local_undo, local_redo);
+        m_allClips[clipId]->useTimewarpProducer(speed, blankSpace);
+        getTrackById(old_trackId)->requestClipInsertion(clipId, oldPos, false, true, local_undo, local_redo);
+    } else {
+        m_allClips[clipId]->useTimewarpProducer(speed, -1);
+    }
+    QModelIndex modelIndex = makeClipIndexFromID(clipId);
+    notifyChange(modelIndex, modelIndex, false, true, true);
+    return true;
+}
+
+bool TimelineModel::changeItemSpeed(int clipId, int speed)
+{
+    Fun local_undo = []() { return true; };
+    Fun local_redo = []() { return true; };
+    double currentSpeed = m_allClips[clipId]->getSpeed();
+    Fun operation = [this, clipId, speed]() {
+        return requestClipTimeWarp(clipId, speed / 100.0);
+    };
+    Fun reverse = [this, clipId, currentSpeed]() {
+        return requestClipTimeWarp(clipId, currentSpeed);
+    };
+    if (operation()) {
+        UPDATE_UNDO_REDO(operation, reverse, local_undo, local_redo);
+        return true;
+    }
+    return false;
 }

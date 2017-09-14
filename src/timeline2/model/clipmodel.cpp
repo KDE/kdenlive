@@ -171,6 +171,15 @@ int ClipModel::getIntProperty(const QString &name) const
     return service()->get_int(name.toUtf8().constData());
 }
 
+double ClipModel::getDoubleProperty(const QString &name) const
+{
+    READ_LOCK();
+    if (service()->parent().is_valid()) {
+        return service()->parent().get_double(name.toUtf8().constData());
+    }
+    return service()->get_double(name.toUtf8().constData());
+}
+
 Mlt::Producer *ClipModel::service() const
 {
     READ_LOCK();
@@ -233,6 +242,19 @@ bool ClipModel::isAudioOnly() const
 
 void ClipModel::refreshProducerFromBin()
 {
+    if (getProperty("mlt_service") == QLatin1String("timewarp")) {
+        // slowmotion producer, keep it
+        int space = -1;
+        if (m_currentTrackId != -1) {
+            if (auto ptr = m_parent.lock()) {
+                space = ptr->getTrackById(m_currentTrackId)->getBlankSizeNearClip(m_id, true);
+            } else {
+                qDebug() << "Error : Moving clip failed because parent timeline is not available anymore";
+                Q_ASSERT(false);
+            }
+        }
+        return useTimewarpProducer(m_producer->get_double("warp_speed"), space);
+    }
     QWriteLocker locker(&m_lock);
     int in = getIn();
     int out = getOut();
@@ -243,6 +265,47 @@ void ClipModel::refreshProducerFromBin()
     m_effectStack->resetService(m_producer);
     m_producer->set("kdenlive:id", binClip->AbstractProjectItem::clipId().toUtf8().constData());
     m_producer->set("_kdenlive_cid", m_id);
+    m_endlessResize = !binClip->hasLimitedDuration();
+}
+
+void ClipModel::useTimewarpProducer(double speed, int extraSpace)
+{
+    QWriteLocker locker(&m_lock);
+    // TODO: disable timewarp on color clips
+    int in = getIn();
+    int out = getOut();
+    int warp_in;
+    int warp_out;
+    double currentSpeed = 1.0;
+    qDebug()<<"// SLOWMO CLIP SERVICE: "<<getProperty("mlt_service");
+    if (getProperty("mlt_service") == QLatin1String("timewarp")) {
+        // slowmotion producer, get current speed
+        warp_in = m_producer->get_int("warp_in");
+        warp_out = m_producer->get_int("warp_out");
+        currentSpeed = m_producer->get_double("warp_speed");
+    } else {
+        // store original in/out
+        warp_in = in;
+        warp_out = out;
+    }
+    qDebug()<<"++++\n//// USING TIMEWARP: "<<warp_in<<"-"<<warp_out;
+    in = warp_in / speed;
+    out = warp_out / speed;
+    std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
+    std::shared_ptr<Mlt::Producer> originalProducer = binClip->originalProducer();
+    if (speed == 1.0) {
+        m_producer.reset(originalProducer->cut(in, out));
+    } else {
+        QString resource = QString("%1:%2").arg(speed).arg(originalProducer->get("resource"));
+        std::shared_ptr<Mlt::Producer> warpProducer(new Mlt::Producer(*originalProducer->profile(), "timewarp", resource.toUtf8().constData()));
+        m_producer.reset(warpProducer->cut(in, out));
+    }
+    // replant effect stack in updated service
+    m_effectStack->resetService(m_producer);
+    m_producer->set("kdenlive:id", binClip->AbstractProjectItem::clipId().toUtf8().constData());
+    m_producer->set("_kdenlive_cid", m_id);
+    m_producer->set("warp_in", warp_in);
+    m_producer->set("warp_out", warp_out);
     m_endlessResize = !binClip->hasLimitedDuration();
 }
 
@@ -277,3 +340,11 @@ int ClipModel::fadeOut() const
     return m_effectStack->getFadePosition(false);
 }
 
+double ClipModel::getSpeed() const
+{
+    if (getProperty("mlt_service") == QLatin1String("timewarp")) {
+        // slowmotion producer, get current speed
+        return m_producer->parent().get_double("warp_speed");
+    }
+    return 1.0;
+}

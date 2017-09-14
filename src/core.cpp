@@ -455,7 +455,8 @@ void Core::displayMessage(const QString &message, MessageType type, int timeout)
 
 void Core::clearAssetPanel(int itemId)
 {
-    m_mainWindow->clearAssetPanel(itemId);
+    if (m_guiConstructed)
+        m_mainWindow->clearAssetPanel(itemId);
 }
 
 void Core::adjustAssetRange(int itemId, int in, int out)
@@ -525,4 +526,9 @@ void Core::invalidateItem(ObjectId itemId)
             // bin clip should automatically be reloaded, compositions should not have effects
             break;
     }
+}
+
+double Core::getClipSpeed(int id) const
+{
+    return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getClipSpeed(id);
 }
