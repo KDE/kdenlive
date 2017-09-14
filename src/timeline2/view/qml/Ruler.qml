@@ -47,12 +47,6 @@ Rectangle {
         adjustStepSize()
     }
 
-    /*onDirtyChunksChanged: {
-        console.log('new chunks RES: ' , dirtyChunks)
-        //for (var i = 0; i < dirtyChunks.count; i++)
-        //    console.log('new chunks: ' , dirtyChunks[i])
-    }*/
-
     id: rulerTop
     enabled: false
     height: fontMetrics.font.pixelSize * 2
@@ -91,6 +85,7 @@ Rectangle {
         visible: rulerTop.workingPreview > -1
         SequentialAnimation on color {
             id: anim
+            running: working.visible
             loops: Animation.Infinite
             ColorAnimation {
                 to: 'transparent'
