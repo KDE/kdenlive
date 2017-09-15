@@ -197,12 +197,12 @@ Rectangle {
         onEntered: {
             if (clipBeingMovedId == -1) {
                 var track = Logic.getTrackIdFromPos(drag.y)
-                var frame = Math.round((drag.x + scrollView.flickableItem.contentX) / timeline.scaleFactor)
-                droppedPosition = frame
                 if (track >= 0) {
+                    var frame = Math.round((drag.x + scrollView.flickableItem.contentX) / timeline.scaleFactor)
+                    droppedPosition = frame
                     //drag.acceptProposedAction()
                     clipBeingDroppedData = drag.getDataAsString('kdenlive/producerslist')
-                    clipBeingDroppedId = timeline.insertClip(track, frame, clipBeingDroppedData, false)
+                    clipBeingDroppedId = timeline.insertClip(track, frame, clipBeingDroppedData, false, true)
                     continuousScrolling(drag.x + scrollView.flickableItem.contentX)
                 } else {
                     drag.accepted = false
@@ -227,7 +227,7 @@ Rectangle {
                     controller.requestClipMove(clipBeingDroppedId, track, frame, true, false, false)
                     continuousScrolling(drag.x + scrollView.flickableItem.contentX)
                 } else {
-                    clipBeingDroppedId = timeline.insertClip(track, frame, drag.getDataAsString('kdenlive/producerslist'), false)
+                    clipBeingDroppedId = timeline.insertClip(track, frame, drag.getDataAsString('kdenlive/producerslist'), false, true)
                     continuousScrolling(drag.x + scrollView.flickableItem.contentX)
                 }
             }
@@ -238,7 +238,7 @@ Rectangle {
                 var track = controller.getClipTrackId(clipBeingDroppedId)
                 // we simulate insertion at the final position so that stored undo has correct value
                 controller.requestItemDeletion(clipBeingDroppedId, false)
-                timeline.insertClip(track, frame, clipBeingDroppedData, true)
+                timeline.insertClip(track, frame, clipBeingDroppedData, true, true)
             }
             clipBeingDroppedId = -1
             droppedPosition = -1

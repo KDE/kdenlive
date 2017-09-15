@@ -263,7 +263,7 @@ bool TimelineController::scrub()
     return false;
 }
 
-int TimelineController::insertClip(int tid, int position, const QString &data_str, bool logUndo)
+int TimelineController::insertClip(int tid, int position, const QString &data_str, bool logUndo, bool refreshView)
 {
     int id;
     if (tid == -1) {
@@ -274,7 +274,7 @@ int TimelineController::insertClip(int tid, int position, const QString &data_st
     if (position == -1) {
         position = m_position;
     }
-    if (!m_model->requestClipInsertion(data_str, tid, position, id, logUndo)) {
+    if (!m_model->requestClipInsertion(data_str, tid, position, id, logUndo, refreshView)) {
         id = -1;
     }
     return id;

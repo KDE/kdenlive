@@ -294,9 +294,9 @@ public:
        insert @param Requested position @param ID return parameter of the id of
        the inserted clip @param logUndo if set to false, no undo object is
        stored */
-    bool requestClipInsertion(const QString &binClipId, int trackId, int position, int &id, bool logUndo = true);
+    bool requestClipInsertion(const QString &binClipId, int trackId, int position, int &id, bool logUndo = true, bool refreshView = false);
     /* Same function, but accumulates undo and redo*/
-    bool requestClipInsertion(const QString &binClipId, int trackId, int position, int &id, bool logUndo, Fun &undo, Fun &redo);
+    bool requestClipInsertion(const QString &binClipId, int trackId, int position, int &id, bool logUndo, bool refreshView, Fun &undo, Fun &redo);
 
     /* @brief Creates a new clip instance without inserting it.
        This action is undoable, returns true on success

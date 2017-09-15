@@ -436,7 +436,7 @@ int TimelineModel::suggestCompositionMove(int compoId, int trackId, int position
     return position;
 }
 
-bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, int position, int &id, bool logUndo)
+bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, int position, int &id, bool logUndo, bool refreshView)
 {
 #ifdef LOGGING
     m_logFile << "timeline->requestClipInsertion(" << binClipId.toStdString() << "," << trackId << " ," << position << ", dummy_id );" << std::endl;
@@ -444,7 +444,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
     QWriteLocker locker(&m_lock);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    bool result = requestClipInsertion(binClipId, trackId, position, id, logUndo, undo, redo);
+    bool result = requestClipInsertion(binClipId, trackId, position, id, logUndo, refreshView, undo, redo);
     if (result && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Insert Clip"));
     }
@@ -486,12 +486,12 @@ bool TimelineModel::requestClipCreation(const QString &binClipId, int &id, Fun &
     return true;
 }
 
-bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, int position, int &id, bool logUndo, Fun &undo, Fun &redo)
+bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, int position, int &id, bool logUndo, bool refreshView, Fun &undo, Fun &redo)
 {
     std::function<bool(void)> local_undo = []() { return true; };
     std::function<bool(void)> local_redo = []() { return true; };
     bool res = requestClipCreation(binClipId, id, local_undo, local_redo);
-    res = res && requestClipMove(id, trackId, position, logUndo, logUndo, local_undo, local_redo);
+    res = res && requestClipMove(id, trackId, position, refreshView, logUndo, local_undo, local_redo);
     if (!res) {
         bool undone = local_undo();
         Q_ASSERT(undone);
