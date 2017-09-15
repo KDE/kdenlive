@@ -1,6 +1,7 @@
 [Global]
 IconName=kdenlive
 Comment=Kdenlive
+Comment[ar]=كدينلايڤ
 Comment[ast]=Kdenlive
 Comment[bs]=Kdenlive
 Comment[ca]=Kdenlive
@@ -358,6 +359,7 @@ Name[x-test]=xxErrorxx
 Name[zh_CN]=错误
 Name[zh_TW]=錯誤
 Comment=An error occurred in Kdenlive
+Comment[ar]=حدث خطأ في «كدينلايڤ»
 Comment[bs]=Desila se greška u KDenlive
 Comment[ca]=S'ha produït un error al Kdenlive
 Comment[ca@valencia]=S'ha produït un error al Kdenlive

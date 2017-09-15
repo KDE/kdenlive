@@ -1,6 +1,7 @@
 # KDE Config File
 [Desktop Entry]
 Name=Kdenlive
+Name[ar]=كدينلايڤ
 Name[bs]=Kdenlive
 Name[ca]=Kdenlive
 Name[ca@valencia]=Kdenlive
@@ -80,6 +81,7 @@ GenericName[x-test]=xxVideo Editorxx
 GenericName[zh_CN]=视频编辑器
 GenericName[zh_TW]=影像編輯器
 Comment=Nonlinear video editor by KDE
+Comment[ar]=محرّر فيديوهات غير خطّيّ من كدي
 Comment[ca]=Editor de vídeo no lineal, creat per la comunitat KDE
 Comment[ca@valencia]=Editor de vídeo no lineal, creat per la comunitat KDE
 Comment[cs]=Nelineární editor videa od KDE
