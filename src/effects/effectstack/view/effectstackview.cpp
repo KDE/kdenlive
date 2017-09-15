@@ -82,7 +82,7 @@ EffectStackView::EffectStackView(AssetPanel *parent)
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setAcceptDrops(true);
     m_builtStack = new BuiltStack(parent);
-    m_builtStack->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
+    m_builtStack->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     m_lay->addWidget(m_builtStack);
     m_builtStack->setVisible(KdenliveSettings::showbuiltstack());
     m_effectsTree = new QTreeView(this);
@@ -92,6 +92,7 @@ EffectStackView::EffectStackView(AssetPanel *parent)
     QString style = QStringLiteral("QTreeView {border: none;}");
     // m_effectsTree->viewport()->setAutoFillBackground(false);
     m_effectsTree->setStyleSheet(style);
+    m_effectsTree->setVisible(!KdenliveSettings::showbuiltstack());
     m_lay->addWidget(m_effectsTree);
     m_lay->setStretch(1, 10);
 }
@@ -295,5 +296,6 @@ ObjectId EffectStackView::stackOwner() const
 void EffectStackView::switchBuiltStack(bool show)
 {
     m_builtStack->setVisible(show);
+    m_effectsTree->setVisible(!show);
     KdenliveSettings::setShowbuiltstack(show);
 }

@@ -1,10 +1,12 @@
 import QtQuick 2.6
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
+import QtQuick.Layouts 1.3
 
 Rectangle {
     id: root
     objectName: "builtinstack"
+
     signal valueChanged(string text, int val)
 
     SystemPalette { id: activePalette }
@@ -16,13 +18,22 @@ Rectangle {
         id: fontMetrics
         font.family: "Arial"
     }
-    EffectSlider {
-        id: slider1
-        sliderIcon: 'speedometer'
-        sliderLabel: 'Speed'
-        paramName: 'speed'
-        slider_max: 300
-        slider_def: 100
+
+
+    ColumnLayout {
+        anchors.left: parent.left
+        anchors.right: parent.right
+        EffectSlider {
+            id: slider1
+            sliderIcon: 'speedometer'
+            sliderLabel: 'Speed'
+            paramName: 'speed'
+            slider_max: 300
+            slider_def: 100
+        }
+        LiftGammaGain {
+            id: color_correct
+        }
     }
 
     function resetStack() {

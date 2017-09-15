@@ -13,9 +13,8 @@ Item {
     property int slider_min: 0
     property int slider_def: 100
     property bool blockSignals: false
-    height: 20
-    anchors.left: parent.left
-    anchors.right: parent.right
+    implicitHeight: 20
+    anchors.fill: parent
 
     function resetSlider() {
         slider.value = sliderroot.slider_def

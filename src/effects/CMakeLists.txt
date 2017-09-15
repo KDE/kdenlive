@@ -13,5 +13,6 @@ set(kdenlive_SRCS
   effects/effectstack/view/collapsibleeffectview.cpp
   effects/effectstack/view/effectstackview.cpp
   effects/effectstack/view/builtstack.cpp
+  effects/effectstack/view/qml/colorwheelitem.cpp
   PARENT_SCOPE)
 
