@@ -981,3 +981,29 @@ void TimelineController::changeItemSpeed(int clipId, int speed)
 {
     m_model->changeItemSpeed(clipId, speed);
 }
+
+
+void TimelineController::switchCompositing(int mode)
+{
+    //m_model->m_tractor->lock();
+    qDebug()<<"//// SWITCH COMPO: "<<mode;
+    QScopedPointer<Mlt::Service> service(m_model->m_tractor->field());
+    Mlt::Field *field = m_model->m_tractor->field();
+    field->lock();
+    while ((service != nullptr) && service->is_valid()) {
+        if (service->type() == transition_type) {
+            Mlt::Transition t((mlt_transition)service->get_service());
+            QString serviceName = t.get("mlt_service");
+            if (t.get_int("internal_added") == 237 && serviceName != QLatin1String("mix")) {
+                if (mode <= 0) {
+                    // No compositing wanted, remove
+                    field->disconnect_service(t);
+                    qDebug()<<"//// DELETING TRANSITION!!!";
+                }
+            }
+        }
+        service.reset(service->producer());
+    }
+    field->unlock();
+    delete field;
+}

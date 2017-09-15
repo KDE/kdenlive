@@ -4059,16 +4059,11 @@ void MainWindow::slotManageCache()
 
 void MainWindow::slotUpdateCompositing(QAction *compose)
 {
-    // TODO refac
-    /*
-    if (pCore->projectManager()->currentTimeline()) {
-        int mode = compose->data().toInt();
-        pCore->projectManager()->currentTimeline()->switchComposite(mode);
-        if (m_renderWidget) {
-            m_renderWidget->errorMessage(RenderWidget::CompositeError, mode == 1 ? i18n("Rendering using low quality track compositing") : QString());
-        }
+    int mode = compose->data().toInt();
+    getMainTimeline()->controller()->switchCompositing(mode);
+    if (m_renderWidget) {
+        m_renderWidget->errorMessage(RenderWidget::CompositeError, mode == 1 ? i18n("Rendering using low quality track compositing") : QString());
     }
-    */
 }
 
 void MainWindow::slotUpdateCompositeAction(int mode)

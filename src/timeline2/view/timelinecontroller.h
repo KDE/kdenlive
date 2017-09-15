@@ -279,6 +279,11 @@ public:
     /* @brief Return document properties with added settings from timeline
      */
     QMap<QString, QString> documentProperties();
+
+    /** @brief Change track compsiting mode */
+    void switchCompositing(int mode);
+
+    /** @brief Change a clip item's speed in timeline */
     void changeItemSpeed(int clipId, int speed);
 
 public slots:

@@ -98,7 +98,6 @@ Rectangle {
     property real baseUnit: fontMetrics.font.pointSize
     property int currentTrack: 0
     property color selectedTrackColor: Qt.rgba(activePalette.highlight.r, activePalette.highlight.g, activePalette.highlight.b, 0.4)
-    property alias trackCount: tracksRepeater.count
     property bool stopScrolling: false
     property int duration: timeline.duration
     property color shotcutBlue: Qt.rgba(23/255, 92/255, 118/255, 1.0)
