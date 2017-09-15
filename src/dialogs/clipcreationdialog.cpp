@@ -431,9 +431,6 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QList<QUrl> 
             prod.setAttribute(QStringLiteral("type"), (int)Image);
             prod.setAttribute(QStringLiteral("in"), 0);
             prod.setAttribute(QStringLiteral("length"), doc->getFramePos(KdenliveSettings::image_duration()));
-            if (KdenliveSettings::autoimagetransparency()) {
-                properties.insert(QStringLiteral("kdenlive:transparency"), QStringLiteral("1"));
-            }
         } else if (type.inherits(QStringLiteral("application/x-kdenlivetitle"))) {
             // opening a title file
             QDomDocument txtdoc(QStringLiteral("titledocument"));
@@ -490,13 +487,10 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QStringList 
     QString dialogFilter = allExtensions + QLatin1Char('|') + i18n("All Supported Files") + QStringLiteral("\n*|") + i18n("All Files");
     QCheckBox *b = new QCheckBox(i18n("Import image sequence"));
     b->setChecked(KdenliveSettings::autoimagesequence());
-    QCheckBox *c = new QCheckBox(i18n("Transparent background for images"));
-    c->setChecked(KdenliveSettings::autoimagetransparency());
     QFrame *f = new QFrame();
     f->setFrameShape(QFrame::NoFrame);
     auto *l = new QHBoxLayout;
     l->addWidget(b);
-    l->addWidget(c);
     l->addStretch(5);
     f->setLayout(l);
     QString clipFolder = KRecentDirs::dir(QStringLiteral(":KdenliveClipFolder"));
@@ -524,7 +518,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QStringList 
         dlg->resize(handle->size());
     }
     if (dlg->exec() == QDialog::Accepted) {
-        KdenliveSettings::setAutoimagetransparency(c->isChecked());
+        KdenliveSettings::setAutoimagesequence(b->isChecked());
         list = fileWidget->selectedUrls();
         if (!list.isEmpty()) {
             KRecentDirs::add(QStringLiteral(":KdenliveClipFolder"), list.constFirst().adjusted(QUrl::RemoveFilename).toLocalFile());

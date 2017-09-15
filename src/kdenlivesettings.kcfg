@@ -68,11 +68,6 @@
       <default>false</default>
     </entry>
 
-    <entry name="autoimagetransparency" type="Bool">
-      <label>Automatically add transparency transition to added images.</label>
-      <default>false</default>
-    </entry>
-
     <entry name="automultistreams" type="Bool">
       <label>Automatically import all streams in multi streams clips.</label>
       <default>false</default>
