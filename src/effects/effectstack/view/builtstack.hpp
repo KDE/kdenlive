@@ -40,6 +40,7 @@ public:
 
 private:
     std::shared_ptr<EffectStackModel> m_model;
+
 };
 
 #endif

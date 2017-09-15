@@ -8,6 +8,7 @@ Rectangle {
     objectName: "builtinstack"
 
     signal valueChanged(string text, int val)
+    //signal parameterChanged(string effectId, string paramName, double val)
 
     SystemPalette { id: activePalette }
     color: activePalette.window
@@ -37,7 +38,7 @@ Rectangle {
     }
 
     function resetStack() {
-        //slider1.resetSlider()
+        color_correct.loadWheels()
     }
 
     function setSpeed(speed) {

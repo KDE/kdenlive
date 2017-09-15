@@ -29,74 +29,103 @@
 
 static const qreal WHEEL_SLIDER_RATIO = 10.0;
 
+NegQColor NegQColor::fromHsvF(qreal h, qreal s, qreal l, qreal a)
+{
+    NegQColor color;
+    color.qcolor = QColor::fromHsvF(h,s,l<0?-l:l,a);
+    color.sign_r = l<0?-1:1;
+    color.sign_g = l<0?-1:1;
+    color.sign_b = l<0?-1:1;
+    return color;
+}
+
+NegQColor NegQColor::fromRgbF(qreal r, qreal g, qreal b, qreal a)
+{
+    NegQColor color;
+    color.qcolor = QColor::fromRgbF(r<0?-r:r,g<0?-g:g,b<0?-b:b,a);
+    color.sign_r = r<0?-1:1;
+    color.sign_g = g<0?-1:1;
+    color.sign_b = b<0?-1:1;
+    return color;
+}
+qreal NegQColor::redF() {
+    return qcolor.redF()*sign_r;
+}
+qreal NegQColor::greenF() {
+    return qcolor.greenF()*sign_g;
+}
+qreal NegQColor::blueF() {
+    return qcolor.blueF()*sign_b;
+}
+qreal NegQColor::valueF() {
+    return qcolor.valueF()*sign_g;
+}
+int NegQColor::hue() {
+    return qcolor.hue();
+}
+qreal NegQColor::hueF() {
+    return qcolor.hueF();
+}
+qreal NegQColor::saturationF() {
+    return qcolor.saturationF();
+}
+
 ColorWheelItem::ColorWheelItem(QQuickItem *parent)
     : QQuickPaintedItem(parent)
     , m_image()
     , m_lastPoint(0, 0)
     , m_size(0, 0)
     , m_margin(5)
-    , m_color(0, 0, 0, 0)
+    , m_color(NegQColor())
     , m_isInWheel(false)
     , m_isInSquare(false)
+    , m_sizeFactor(1)
+    , m_defaultValue(1)
+    , m_zeroShift(0)
 {
-    setAcceptedMouseButtons(Qt::LeftButton);
+    setAcceptedMouseButtons(Qt::LeftButton | Qt::MidButton);
     setAcceptHoverEvents(true);
+}
+
+
+void ColorWheelItem::setFactorDefaultZero(qreal factor, qreal defvalue, qreal zero) {
+    m_sizeFactor = factor;
+    m_defaultValue = defvalue;
+    m_zeroShift = zero;
 }
 
 QColor ColorWheelItem::color()
 {
-    return m_color;
+    return QColor(m_color.redF() * m_sizeFactor, m_color.greenF() * m_sizeFactor, m_color.blueF() * m_sizeFactor);
 }
 
-void ColorWheelItem::setColor(const QColor& color)
+void ColorWheelItem::setColor(double r, double g, double b)
 {
-    if(m_color != color && color.isValid()) {
-        m_color = color;
-        update();
-        emit colorChanged(m_color);
-    }
+    m_color = NegQColor::fromRgbF(r, g, b);
+    update();
 }
 
-int ColorWheelItem::red()
+void ColorWheelItem::setColor(const NegQColor &color)
 {
-    return m_color.red();
+    m_color = color;
+    update();
+    emit colorChanged();
 }
 
-void ColorWheelItem::setRed(int red)
+double ColorWheelItem::red()
 {
-    if(m_color.red() != red) {
-        m_color.setRed(red);
-        update();
-        emit colorChanged(m_color);
-    }
+    return m_color.redF() * m_sizeFactor;
 }
 
-int ColorWheelItem::green()
+double ColorWheelItem::green()
 {
-    return m_color.green();
+    return m_color.greenF() * m_sizeFactor;
 }
 
-void ColorWheelItem::setGreen(int green)
-{
-    if(m_color.green() != green) {
-        m_color.setGreen(green);
-        update();
-        emit colorChanged(m_color);
-    }
-}
 
-int ColorWheelItem::blue()
+double ColorWheelItem::blue()
 {
-    return m_color.blue();
-}
-
-void ColorWheelItem::setBlue(int blue)
-{
-    if(m_color.blue() != blue) {
-        m_color.setBlue(blue);
-        update();
-        emit colorChanged(m_color);
-    }
+    return m_color.blueF() * m_sizeFactor;
 }
 
 int ColorWheelItem::wheelSize() const
@@ -105,9 +134,9 @@ int ColorWheelItem::wheelSize() const
     return qMin(ws, height());
 }
 
-QColor ColorWheelItem::colorForPoint(const QPoint &point)
+NegQColor ColorWheelItem::colorForPoint(const QPoint &point)
 {
-    if (! m_image.valid(point)) return QColor();
+    if (! m_image.valid(point)) return NegQColor();
     if (m_isInWheel) {
         qreal w = wheelSize();
         qreal xf = qreal(point.x()) / w;
@@ -120,30 +149,40 @@ QColor ColorWheelItem::colorForPoint(const QPoint &point)
         if (theta < 0.0)
             theta += 2.0 * M_PI;
         qreal hue = (theta * 180.0 / M_PI) / 360.0;
-        return QColor::fromHsvF( hue, rad, m_color.valueF() );
+        return NegQColor::fromHsvF( hue, rad, m_color.valueF() );
     }
     if (m_isInSquare) {
         qreal value = 1.0 - qreal(point.y() - m_margin) / (wheelSize() - m_margin * 2);
-        return QColor::fromHsvF( m_color.hueF(), m_color.saturationF(), value);
+        if (m_zeroShift != 0) {
+           value = value - m_zeroShift;
+        }
+        return NegQColor::fromHsvF( m_color.hueF(), m_color.saturationF(), value);
     }
-    return QColor();
+    return NegQColor();
 }
 
 void ColorWheelItem::mousePressEvent(QMouseEvent *event)
 {
     if(event->button() == Qt::LeftButton) {
         m_lastPoint = event->pos();
+        event->accept();
         if (m_wheelRegion.contains(m_lastPoint)) {
             m_isInWheel = true;
             m_isInSquare = false;
-            QColor color = colorForPoint(m_lastPoint);
+            NegQColor color = colorForPoint(m_lastPoint);
             setColor(color);
         } else if (m_sliderRegion.contains(m_lastPoint)) {
             m_isInWheel = false;
             m_isInSquare = true;
-            QColor color = colorForPoint(m_lastPoint);
+            NegQColor color = colorForPoint(m_lastPoint);
             setColor(color);
         }
+    } else if(event->button() == Qt::MidButton) {
+        NegQColor color = NegQColor::fromRgbF(m_defaultValue/m_sizeFactor, m_defaultValue/m_sizeFactor, m_defaultValue/m_sizeFactor);
+        setColor(color);
+        event->accept();
+    } else {
+        event->ignore();
     }
 }
 
@@ -153,27 +192,27 @@ void ColorWheelItem::mouseMoveEvent(QMouseEvent *event)
     if (event->buttons() == Qt::NoButton) return;
     m_lastPoint = event->pos();
     if (m_isInWheel) {
-        QColor color = colorForPoint(m_lastPoint);
+        NegQColor color = colorForPoint(m_lastPoint);
         setColor(color);
     } else if(m_isInSquare) {
-        QColor color = colorForPoint(m_lastPoint);
+        NegQColor color = colorForPoint(m_lastPoint);
         setColor(color);
     }
+    event->accept();
 }
 
 void ColorWheelItem::mouseReleaseEvent(QMouseEvent *event)
 {
-    qDebug()<<"/// TEM RELEASE EVENT!!!";
     if(event->button() == Qt::LeftButton) {
         m_isInWheel = false;
         m_isInSquare = false;
     }
+    event->accept();
 }
 
 void ColorWheelItem::hoverMoveEvent(QHoverEvent * event)
 {
     updateCursor(event->pos());
-    qDebug() << event->pos();
 }
 
 void ColorWheelItem::paint(QPainter *painter)
@@ -247,6 +286,9 @@ void ColorWheelItem::drawWheelDot(QPainter& painter)
 void ColorWheelItem::drawSliderBar(QPainter &painter)
 {
     qreal value = 1.0 - m_color.valueF();
+    if (m_zeroShift != 0) {
+        value -= m_zeroShift;
+    }
     int ws = wheelSize() * qApp->devicePixelRatio();
     int w = (qreal)ws / WHEEL_SLIDER_RATIO;
     int h = ws - m_margin * 2;

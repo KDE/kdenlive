@@ -24,26 +24,43 @@
 #include <QQuickPaintedItem>
 #include <QImage>
 
+class NegQColor
+{
+public:
+    int8_t sign_r=1;
+    int8_t sign_g=1;
+    int8_t sign_b=1;
+    QColor qcolor;
+    static NegQColor fromHsvF(qreal h, qreal s, qreal l, qreal a = 1.0);
+    static NegQColor fromRgbF(qreal r, qreal g, qreal b, qreal a = 1.0);
+    qreal redF();
+    qreal greenF();
+    qreal blueF();
+    qreal valueF();
+    int hue();
+    qreal hueF();
+    qreal saturationF();
+};
+
 class ColorWheelItem : public QQuickPaintedItem
 {
     Q_OBJECT
-    Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
-    Q_PROPERTY(int red READ red WRITE setRed)
-    Q_PROPERTY(int green READ green WRITE setGreen)
-    Q_PROPERTY(int blue READ blue WRITE setBlue)
+    Q_PROPERTY(QColor color READ color NOTIFY colorChanged)
+    Q_PROPERTY(double red READ red )
+    Q_PROPERTY(double green READ green )
+    Q_PROPERTY(double blue READ blue )
 public:
     explicit ColorWheelItem(QQuickItem *parent = 0);
     QColor color();
-    void setColor(const QColor &color);
-    int red();
-    void setRed(int red);
-    int green();
-    void setGreen(int green);
-    int blue();
-    void setBlue(int blue);
+    void setColor(const NegQColor &color);
+    Q_INVOKABLE void setColor(double r, double g, double b);
+    double red();
+    double green();
+    double blue();
+    Q_INVOKABLE void setFactorDefaultZero(qreal factor, qreal defvalue, qreal zero);
 
 signals:
-    void colorChanged(const QColor &color);
+    void colorChanged();
 
 protected:
     void mousePressEvent(QMouseEvent *event);
@@ -59,12 +76,15 @@ private:
     int m_margin;
     QRegion m_wheelRegion;
     QRegion m_sliderRegion;
-    QColor m_color;
+    NegQColor m_color;
     bool m_isInWheel;
     bool m_isInSquare;
+    qreal m_sizeFactor;
+    qreal m_defaultValue;
+    qreal m_zeroShift;
 
     int wheelSize() const;
-    QColor colorForPoint(const QPoint &point);
+    NegQColor colorForPoint(const QPoint &point);
     void drawWheel();
     void drawWheelDot(QPainter &painter);
     void drawSliderBar(QPainter &painter);

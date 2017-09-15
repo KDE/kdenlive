@@ -96,7 +96,8 @@ public:
 
     /* @brief Set the parameter with given name to the given value
      */
-    void setParameter(const QString &name, const QString &value);
+    Q_INVOKABLE void setParameter(const QString &name, const QString &value);
+    Q_INVOKABLE void setParameter(const QString &name, double &value);
 
     /* @brief Return all the parameters as pairs (parameter name, parameter value) */
     QVector<QPair<QString, QVariant>> getAllParameters() const;

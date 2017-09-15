@@ -127,6 +127,19 @@ void AssetParameterModel::setParameter(const QString &name, const QString &value
     pCore->invalidateItem(m_ownerId);
 }
 
+void AssetParameterModel::setParameter(const QString &name, double &value)
+{
+    Q_ASSERT(m_asset->is_valid());
+    m_asset->set(name.toLatin1().constData(), value);
+    if (m_fixedParams.count(name) == 0) {
+        m_params[name].value = value;
+    } else {
+        m_fixedParams[name] = value;
+    }
+    pCore->refreshProjectItem(m_ownerId);
+    pCore->invalidateItem(m_ownerId);
+}
+
 AssetParameterModel::~AssetParameterModel() = default;
 
 QVariant AssetParameterModel::data(const QModelIndex &index, int role) const

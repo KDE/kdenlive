@@ -382,3 +382,37 @@ bool EffectStackModel::checkConsistency()
 
     return true;
 }
+
+void EffectStackModel::adjust(const QString &effectId,const QString &effectName, double value)
+{
+    for (int i = 0; i < rootItem->childCount(); ++i) {
+        std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
+        if (effectId == sourceEffect->getAssetId()) {
+            sourceEffect->setParameter(effectName, QString::number(value));
+            return;
+        }
+    }
+}
+
+bool EffectStackModel::hasFilter(const QString &effectId)
+{
+    for (int i = 0; i < rootItem->childCount(); ++i) {
+        std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
+        if (effectId == sourceEffect->getAssetId()) {
+            return true;
+        }
+    }
+    return false;
+}
+
+double EffectStackModel::getFilter(const QString &effectId, const QString &paramName)
+{
+    for (int i = 0; i < rootItem->childCount(); ++i) {
+        std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
+        if (effectId == sourceEffect->getAssetId()) {
+            return sourceEffect->filter().get_double(paramName.toUtf8().constData());
+        }
+    }
+    return 0.0;
+}
+

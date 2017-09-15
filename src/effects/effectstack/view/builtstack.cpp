@@ -60,7 +60,7 @@ void BuiltStack::setModel(std::shared_ptr<EffectStackModel> model, ObjectId owne
         qDebug()<<" CLIP SPEED OFR: "<<ownerId.second<<" = "<<current_speed;
         QMetaObject::invokeMethod(rootObject(), "setSpeed", Qt::QueuedConnection, Q_ARG(QVariant, current_speed));
     }
+    rootContext()->setContextProperty("effectstackmodel", model.get());
     QMetaObject::invokeMethod(rootObject(), "resetStack", Qt::QueuedConnection);
 }
-
 

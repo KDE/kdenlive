@@ -34,12 +34,14 @@
    It is responsible for planting and managing effects into the producer it holds a pointer to.
  */
 class AbstractEffectItem;
+class AssetParameterModel;
 class DocUndoStack;
 class EffectItemModel;
 class TreeItem;
 
 class EffectStackModel : public AbstractTreeModel
 {
+    Q_OBJECT
 
 public:
     /* @brief Constructs an effect stack and returns a shared ptr to the constucted object
@@ -86,6 +88,9 @@ public:
     ObjectId getOwnerId() const;
 
     int getFadePosition(bool fromStart);
+    Q_INVOKABLE void adjust(const QString &effectId, const QString &effectName, double value);
+    Q_INVOKABLE bool hasFilter(const QString &effectId);
+    Q_INVOKABLE double getFilter(const QString &effectId, const QString &paramName);
 
 public slots:
     /* @brief Delete an effect from the stack */
