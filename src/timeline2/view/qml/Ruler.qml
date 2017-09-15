@@ -83,19 +83,23 @@ Rectangle {
         height: rulerTop.height / 4
         color: 'orange'
         visible: rulerTop.workingPreview > -1
+        /*
+         * Disable animation since it consumes 3% CPU for a simple rectangle
         SequentialAnimation on color {
             id: anim
             running: working.visible
             loops: Animation.Infinite
+            //PropertyAnimation { target: working; property: "width"; to: 0; duration: 500 }
+            //PropertyAnimation { target: working; property: "width"; to: 25 * rulerTop.timeScale; duration: 500 }
             ColorAnimation {
-                to: 'transparent'
+                to: 'yellow'
                 duration: 1000
             }
-            PropertyAnimation {
+            ColorAnimation {
                 to: 'orange'
                 duration: 1000
             }
-        }
+        }*/
     }
 
     Repeater {
