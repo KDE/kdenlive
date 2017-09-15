@@ -541,7 +541,9 @@ void Wizard::checkMissingCodecs()
     for (int i = 0; i < vcodecsList.count(); ++i) {
         requiredVCodecs.removeAll(vcodecsList.at(i));
     }
-    if (!requiredACodecs.isEmpty() || !requiredVCodecs.isEmpty()) {
+    /*
+     * Info about missing codecs is given in render widget, no need to put this at first start
+     * if (!requiredACodecs.isEmpty() || !requiredVCodecs.isEmpty()) {
         QString missing = requiredACodecs.join(QLatin1Char(','));
         if (!missing.isEmpty() && !requiredVCodecs.isEmpty()) {
             missing.append(',');
@@ -549,7 +551,7 @@ void Wizard::checkMissingCodecs()
         missing.append(requiredVCodecs.join(QLatin1Char(',')));
         missing.prepend(i18n("The following codecs were not found on your system. Check our <a href=''>online manual</a> if you need them: "));
         m_infos.append(QString("<li>%1</li>").arg(missing));
-    }
+    }*/
 }
 
 void Wizard::slotCheckPrograms()
@@ -612,23 +614,6 @@ void Wizard::slotCheckPrograms()
         else item->setIcon(0, m_okIcon);
     #endif
     */
-    if (QStandardPaths::findExecutable(QStringLiteral("dvdauthor")).isEmpty()) {
-        m_infos.append(i18n("<li>Missing app: <b>dvdauthor</b><br/>required for creation of DVD</li>"));
-        allIsOk = false;
-    }
-
-    if (QStandardPaths::findExecutable(QStringLiteral("genisoimage")).isEmpty()) {
-        // no GenIso, check for mkisofs
-        if (QStandardPaths::findExecutable(QStringLiteral("mkisofs")).isEmpty()) {
-            m_infos.append(i18n("<li>Missing app: <b>genisoimage</b> or <b>mkisofs</b><br/>required for creation of DVD ISO images</li>"));
-            allIsOk = false;
-        }
-    }
-
-    if (QStandardPaths::findExecutable(QStringLiteral("xine")).isEmpty() && QStandardPaths::findExecutable(QStringLiteral("vlc")).isEmpty()) {
-        m_infos.append(i18n("<li>Missing app: <b>vlc</b> or <b>xine</b><br/>recommended to preview DVD</li>"));
-        allIsOk = false;
-    }
 
     // set up some default applications
     QString program;
