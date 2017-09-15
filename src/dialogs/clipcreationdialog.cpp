@@ -543,9 +543,10 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QStringList 
                         QDomDocument xml;
                         QDomElement prod = xml.createElement(QStringLiteral("producer"));
                         xml.appendChild(prod);
+                        prod.setAttribute(QStringLiteral("type"), (int)SlideShow);
                         prod.setAttribute(QStringLiteral("in"), QStringLiteral("0"));
                         QString duration = doc->timecode().reformatSeparators(KdenliveSettings::sequence_duration());
-                        prod.setAttribute(QStringLiteral("out"), QString::number(doc->getFramePos(duration) * count));
+                        prod.setAttribute(QStringLiteral("out"), QString::number(doc->getFramePos(duration) * count - 1));
                         QMap<QString, QString> properties;
                         properties.insert(QStringLiteral("resource"), pattern);
                         properties.insert(QStringLiteral("kdenlive:clipname"), fileName);
