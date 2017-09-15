@@ -3534,9 +3534,9 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
     QList<QDomDocument> docList;
 
     // check which audio tracks have to be exported
-    //TODO refac
-    /*
     if (stemExport) {
+        //TODO refac
+        /*
         //TODO port to new timeline model
         Timeline *ct = pCore->projectManager()->currentTimeline();
         int allTracksCount = ct->tracksCount();
@@ -3567,10 +3567,10 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
                 tracksCount++;
             }
         }
+        */
     } else {
         docList << doc;
     }
-    */
 
     // create full playlistPaths
     for (int i = 0; i < tracksCount; i++) {

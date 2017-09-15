@@ -239,7 +239,9 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, QWidg
     m_infoMessage->setCloseButtonVisible(false);
     m_infoMessage->hide();
 
+    m_view.encoder_threads->setMinimum(0);
     m_view.encoder_threads->setMaximum(QThread::idealThreadCount());
+    m_view.encoder_threads->setToolTip(i18n("Encoding threads (0 is automatic)"));
     m_view.encoder_threads->setValue(KdenliveSettings::encodethreads());
     connect(m_view.encoder_threads, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateEncodeThreads(int)));
 
@@ -1786,7 +1788,7 @@ void RenderWidget::refreshParams()
     } else {
         m_view.speed->setEnabled(false);
     }
-
+    adjustSpeed(m_view.speed->value());
     m_view.checkTwoPass->setEnabled(params.contains(QStringLiteral("passes")));
 
     m_view.encoder_threads->setEnabled(!params.contains(QStringLiteral("threads=")));
