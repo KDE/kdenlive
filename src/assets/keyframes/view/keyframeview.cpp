@@ -199,8 +199,9 @@ void KeyframeView::mouseReleaseEvent(QMouseEvent *event)
     if (m_currentKeyframe >= 0) {
         GenTime initPos(m_currentKeyframeOriginal, pCore->getCurrentFps());
         GenTime targetPos(m_currentKeyframe, pCore->getCurrentFps());
-        m_model->moveKeyframe(targetPos, initPos, false);
-        m_model->moveKeyframe(initPos, targetPos, true);
+        bool ok1 = m_model->moveKeyframe(targetPos, initPos, false);
+        bool ok2 = m_model->moveKeyframe(initPos, targetPos, true);
+        qDebug() << "RELEASING keyframe move"<<ok1<<ok2<<initPos.frames(pCore->getCurrentFps())<<targetPos.frames(pCore->getCurrentFps());
     }
 }
 
