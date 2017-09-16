@@ -47,6 +47,7 @@ SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
 #SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -fsanitize=address -fno-omit-frame-pointer")
 # To be switched on when releasing.
 option(RELEASE_BUILD "Remove Git revision from program version (use for stable releases)" ON)
+option(BUILD_TESTS "Build tests" ON)
 
 # Get current version.
 set(KDENLIVE_VERSION_STRING "${KDENLIVE_VERSION}")
@@ -123,21 +124,27 @@ add_subdirectory(thumbnailer)
 ############################
 # Tests
 ############################
-add_subdirectory(tests)
 
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -fexceptions")
-include_directories(
-    ${CMAKE_BINARY_DIR}
-    ${CMAKE_BINARY_DIR}/src
-    ${MLT_INCLUDE_DIR}
-    ${MLTPP_INCLUDE_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}/lib/external
-    ${CMAKE_CURRENT_SOURCE_DIR}/lib
-    src
-    )
-ADD_EXECUTABLE(runTests ${Tests_SRCS})
-target_link_libraries(runTests kdenliveLib)
-ADD_TEST(runTests runTests -d yes)
+if (BUILD_TESTS)
+    message(STATUS "Building TESTS")
+    add_subdirectory(tests)
+
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -fexceptions")
+    include_directories(
+        ${CMAKE_BINARY_DIR}
+        ${CMAKE_BINARY_DIR}/src
+        ${MLT_INCLUDE_DIR}
+        ${MLTPP_INCLUDE_DIR}
+        ${CMAKE_CURRENT_SOURCE_DIR}/lib/external
+        ${CMAKE_CURRENT_SOURCE_DIR}/lib
+        src
+        )
+    ADD_EXECUTABLE(runTests ${Tests_SRCS})
+    target_link_libraries(runTests kdenliveLib)
+    ADD_TEST(runTests runTests -d yes)
+else()
+    message(STATUS "Not building TESTS")
+endif()
 
 #add_subdirectory(testingArea)
 
