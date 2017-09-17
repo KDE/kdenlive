@@ -1,0 +1,164 @@
+#include "test_utils.hpp"
+
+using namespace fakeit;
+
+bool test_model_equality(std::shared_ptr<KeyframeModel> m1, std::shared_ptr<KeyframeModel> m2)
+{
+    // we cheat a bit by simply comparing the underlying map
+    qDebug() << "Equality test"<<m1->m_keyframeList.size()<<m2->m_keyframeList.size();
+    return m1->m_keyframeList == m2->m_keyframeList;
+}
+
+bool check_anim_identity(std::shared_ptr<KeyframeModel> m)
+{
+    auto m2 = std::shared_ptr<KeyframeModel>(new KeyframeModel(m->m_model, m->m_index, m->m_undoStack));
+    m2->parseAnimProperty(m->getAnimProperty());
+    return test_model_equality(m, m2);
+}
+
+TEST_CASE("Keyframe model", "[KeyframeModel]")
+{
+    std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
+    std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
+    // Here we do some trickery to enable testing.
+    // We mock the project class so that the undoStack function returns our undoStack
+
+    Mock<ProjectManager> pmMock;
+    When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
+
+    ProjectManager &mocked = pmMock.get();
+    pCore->m_projectManager = &mocked;
+
+    Mlt::Profile pr;
+    std::shared_ptr<Mlt::Producer> producer = std::make_shared<Mlt::Producer>(pr, "color", "red");
+    auto effectstack = EffectStackModel::construct(producer, {ObjectType::TimelineClip, 0}, undoStack);
+
+    effectstack->appendEffect(QStringLiteral("audiobalance"));
+    REQUIRE(effectstack->checkConsistency());
+    REQUIRE(effectstack->rowCount() == 1);
+    auto effect = std::dynamic_pointer_cast<EffectItemModel>(effectstack->getEffectStackRow(0));
+    qDebug() << effect->getAssetId() << effect->getAllParameters();
+
+    REQUIRE(effect->rowCount() == 1);
+    QModelIndex index = effect->index(0, 0);
+
+    auto model = std::shared_ptr<KeyframeModel>(new KeyframeModel(effect, index, undoStack));
+
+    SECTION("Add/remove + undo")
+    {
+        auto state0 = [&]() {
+            REQUIRE(model->rowCount() == 1);
+            REQUIRE(check_anim_identity(model));
+        };
+        state0();
+
+        REQUIRE(model->addKeyframe(GenTime(1.1), KeyframeType::Linear, 42));
+        auto state1 = [&]() {
+            REQUIRE(model->rowCount() == 2);
+            REQUIRE(check_anim_identity(model));
+            REQUIRE(model->hasKeyframe(GenTime(1.1)));
+            bool ok;
+            auto k = model->getKeyframe(GenTime(1.1), &ok);
+            REQUIRE(ok);
+            auto k0 = model->getKeyframe(GenTime(0), &ok);
+            REQUIRE(ok);
+            auto k1 = model->getClosestKeyframe(GenTime(0.655555), &ok);
+            REQUIRE(ok);
+            REQUIRE(k == k1);
+            auto k2 = model->getNextKeyframe(GenTime(0.5), &ok);
+            REQUIRE(ok);
+            REQUIRE(k == k2);
+            auto k3 = model->getPrevKeyframe(GenTime(0.5), &ok);
+            REQUIRE(ok);
+            REQUIRE(k3 == k0);
+            auto k4 = model->getPrevKeyframe(GenTime(10), &ok);
+            REQUIRE(ok);
+            REQUIRE(k == k4);
+            model->getNextKeyframe(GenTime(10), &ok);
+            REQUIRE_FALSE(ok);
+        };
+        state1();
+
+        undoStack->undo(); state0();
+        undoStack->redo(); state1();
+
+        REQUIRE(model->addKeyframe(GenTime(12.6), KeyframeType::Discrete, 33));
+        auto state2 = [&]() {
+            REQUIRE(model->rowCount() == 3);
+            REQUIRE(check_anim_identity(model));
+            REQUIRE(model->hasKeyframe(GenTime(1.1)));
+            REQUIRE(model->hasKeyframe(GenTime(12.6)));
+            bool ok;
+            auto k = model->getKeyframe(GenTime(1.1), &ok);
+            REQUIRE(ok);
+            auto k0 = model->getKeyframe(GenTime(0), &ok);
+            REQUIRE(ok);
+            auto kk = model->getKeyframe(GenTime(12.6), &ok);
+            REQUIRE(ok);
+            auto k1 = model->getClosestKeyframe(GenTime(0.655555), &ok);
+            REQUIRE(ok);
+            REQUIRE(k == k1);
+            auto k2 = model->getNextKeyframe(GenTime(0.5), &ok);
+            REQUIRE(ok);
+            REQUIRE(k == k2);
+            auto k3 = model->getPrevKeyframe(GenTime(0.5), &ok);
+            REQUIRE(ok);
+            REQUIRE(k3 == k0);
+            auto k4 = model->getPrevKeyframe(GenTime(10), &ok);
+            REQUIRE(ok);
+            REQUIRE(k == k4);
+            auto k5 = model->getNextKeyframe(GenTime(10), &ok);
+            REQUIRE(ok);
+            REQUIRE(k5 == kk);
+        };
+        state2();
+
+        undoStack->undo(); state1();
+        undoStack->undo(); state0();
+        undoStack->redo(); state1();
+        undoStack->redo(); state2();
+
+
+        REQUIRE(model->removeKeyframe(GenTime(1.1)));
+        auto state3 = [&]() {
+            REQUIRE(model->rowCount() == 2);
+            REQUIRE(check_anim_identity(model));
+            REQUIRE(model->hasKeyframe(GenTime(12.6)));
+            bool ok;
+            auto k = model->getKeyframe(GenTime(1.1), &ok);
+            REQUIRE_FALSE(ok);
+            auto k0 = model->getKeyframe(GenTime(0), &ok);
+            REQUIRE(ok);
+            auto kk = model->getKeyframe(GenTime(12.6), &ok);
+            REQUIRE(ok);
+            auto k1 = model->getClosestKeyframe(GenTime(0.655555), &ok);
+            REQUIRE(ok);
+            REQUIRE(k == k0);
+            auto k2 = model->getNextKeyframe(GenTime(0.5), &ok);
+            REQUIRE(ok);
+            REQUIRE(kk == k2);
+            auto k3 = model->getPrevKeyframe(GenTime(0.5), &ok);
+            REQUIRE(ok);
+            REQUIRE(k3 == k0);
+            auto k4 = model->getPrevKeyframe(GenTime(10), &ok);
+            REQUIRE(ok);
+            REQUIRE(k0 == k4);
+            auto k5 = model->getNextKeyframe(GenTime(10), &ok);
+            REQUIRE(ok);
+            REQUIRE(k5 == kk);
+        };
+        state3();
+
+        undoStack->undo(); state2();
+        undoStack->undo(); state1();
+        undoStack->undo(); state0();
+        undoStack->redo(); state1();
+        undoStack->redo(); state2();
+        undoStack->redo(); state3();
+
+        REQUIRE(model->removeAllKeyframes());
+        state0();
+        undoStack->undo(); state3();
+        undoStack->redo(); state0();
+    }
+}

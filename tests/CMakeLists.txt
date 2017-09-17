@@ -9,6 +9,7 @@ SET(Tests_SRCS
     tests/compositiontest.cpp
     tests/effectstest.cpp
     tests/groupstest.cpp
+    tests/keyframetest.cpp
     tests/markertest.cpp
     tests/modeltest.cpp
     tests/regressions.cpp

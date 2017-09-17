@@ -11,6 +11,7 @@ Write your tests in a file with a name corresponding to what you're testing */
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
+    app.setApplicationName(QStringLiteral("kdenlive"));
     std::unique_ptr<Mlt::Repository> repo(Mlt::Factory::init(nullptr));
     Core::build();
 

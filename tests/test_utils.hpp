@@ -29,6 +29,11 @@
 #include "bin/projectfolder.h"
 #include "bin/projectclip.h"
 #include "bin/clipcreator.hpp"
+#include "assets/keyframes/model/keyframemodel.hpp"
+#include "assets/model/assetparametermodel.hpp"
+#include "effects/effectstack/model/effectstackmodel.hpp"
+#include "effects/effectsrepository.hpp"
+#include "effects/effectstack/model/effectitemmodel.hpp"
 
 using namespace fakeit;
 #define RESET()                                                         \

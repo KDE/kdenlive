@@ -101,6 +101,7 @@ template <typename AssetType> void AbstractAssetsRepository<AssetType>::init()
 
 template <typename AssetType> void AbstractAssetsRepository<AssetType>::parseBlackList(const QString &path)
 {
+    qDebug() << "BLACKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK"<<path;
     QFile blacklist_file(path);
     if (blacklist_file.open(QIODevice::ReadOnly)) {
         QTextStream stream(&blacklist_file);

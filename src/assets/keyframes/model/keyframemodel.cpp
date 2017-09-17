@@ -475,9 +475,12 @@ void KeyframeModel::parseAnimProperty(const QString &prop)
 
     Mlt::Properties mlt_prop;
     mlt_prop.set("key", prop.toUtf8().constData());
+    // This is a fake query to force the animation to be parsed
+    (void)mlt_prop.anim_get_int("key", 0, 0);
 
     Mlt::Animation *anim = mlt_prop.get_anim("key");
 
+    qDebug() << "Found"<<anim->key_count()<<"animation properties";
     for (int i = 0; i < anim->key_count(); ++i) {
         int frame;
         mlt_keyframe_type type;
@@ -584,6 +587,7 @@ void KeyframeModel::refresh()
             addKeyframe(GenTime(), KeyframeType::Linear, value, false, undo, redo);
             qDebug() << "KEYFRAME ADDED"<<value;
         } else if (type == ParamType::KeyframeParam) {
+            qDebug() << "parsing keyframe"<<data;
             parseAnimProperty(data);
         } else {
             Q_ASSERT(false); //Not implemented, TODO
