@@ -53,7 +53,6 @@ AssetParameterModel::AssetParameterModel(Mlt::Properties *asset, const QDomEleme
     }
 
     qDebug() << "XML parsing of " << assetId << ". found : " << nodeList.count();
-    qDebug() << assetXml.text();
     for (int i = 0; i < nodeList.count(); ++i) {
         QDomElement currentParameter = nodeList.item(i).toElement();
 

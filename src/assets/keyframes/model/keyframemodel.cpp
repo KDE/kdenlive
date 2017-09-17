@@ -143,6 +143,7 @@ bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, Fun &undo, Fun &re
     KeyframeType oldType = m_keyframeList[oldPos].first;
     double oldValue = m_keyframeList[oldPos].second;
     if (oldPos == pos ) return true;
+    if ( hasKeyframe(pos) ) return false;
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
     qDebug() << getAnimProperty();

@@ -161,4 +161,58 @@ TEST_CASE("Keyframe model", "[KeyframeModel]")
         undoStack->undo(); state3();
         undoStack->redo(); state0();
     }
+
+    SECTION("Move keyframes + undo")
+    {
+        auto state0 = [&]() {
+            REQUIRE(model->rowCount() == 1);
+            REQUIRE(check_anim_identity(model));
+        };
+        state0();
+
+        REQUIRE(model->addKeyframe(GenTime(1.1), KeyframeType::Linear, 42));
+        auto state1 = [&](double pos) {
+            REQUIRE(model->rowCount() == 2);
+            REQUIRE(check_anim_identity(model));
+            REQUIRE(model->hasKeyframe(GenTime(pos)));
+            bool ok;
+            auto k = model->getKeyframe(GenTime(pos), &ok);
+            REQUIRE(ok);
+            auto k0 = model->getKeyframe(GenTime(0), &ok);
+            REQUIRE(ok);
+            auto k1 = model->getClosestKeyframe(GenTime(pos + 10), &ok);
+            REQUIRE(ok);
+            REQUIRE(k == k1);
+            auto k2 = model->getNextKeyframe(GenTime(pos - 0.3), &ok);
+            REQUIRE(ok);
+            REQUIRE(k == k2);
+            auto k3 = model->getPrevKeyframe(GenTime(pos - 0.3), &ok);
+            REQUIRE(ok);
+            REQUIRE(k3 == k0);
+            auto k4 = model->getPrevKeyframe(GenTime(pos + 0.3), &ok);
+            REQUIRE(ok);
+            REQUIRE(k == k4);
+            model->getNextKeyframe(GenTime(pos + 0.3), &ok);
+            REQUIRE_FALSE(ok);
+        };
+        state1(1.1);
+
+        REQUIRE(model->moveKeyframe(GenTime(1.1), GenTime(2.6), true));
+        state1(2.6);
+
+        undoStack->undo(); state1(1.1);
+        undoStack->redo(); state1(2.6);
+
+        REQUIRE(model->moveKeyframe(GenTime(2.6), GenTime(6.1), true));
+        state1(6.1);
+
+        undoStack->undo(); state1(2.6);
+        undoStack->undo(); state1(1.1);
+        undoStack->redo(); state1(2.6);
+        undoStack->redo(); state1(6.1);
+
+        REQUIRE(model->addKeyframe(GenTime(12.6), KeyframeType::Discrete, 33));
+        REQUIRE_FALSE(model->moveKeyframe(GenTime(6.1), GenTime(12.6), true));
+        undoStack->undo(); state1(6.1);
+    }
 }

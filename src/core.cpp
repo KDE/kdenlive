@@ -515,6 +515,7 @@ std::shared_ptr<ProjectItemModel> Core::projectItemModel()
 
 void Core::invalidateItem(ObjectId itemId)
 {
+    if (!m_mainWindow) return;
     switch (itemId.first) {
         case ObjectType::TimelineClip:
             m_mainWindow->getCurrentTimeline()->controller()->invalidateClip(itemId.second);
