@@ -378,7 +378,7 @@ void CollapsibleEffectView::slotEffectUp()
 
 void CollapsibleEffectView::slotEffectDown()
 {
-    emit moveEffect(m_model->row() + 1, m_model);
+    emit moveEffect(m_model->row() + 2, m_model);
 }
 
 void CollapsibleEffectView::slotSaveEffect()
