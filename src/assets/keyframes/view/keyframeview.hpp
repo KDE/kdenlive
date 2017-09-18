@@ -81,6 +81,7 @@ private:
 signals:
     void seekToPos(int pos);
     void atKeyframe(bool);
+    void modified();
 };
 
 #endif

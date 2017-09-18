@@ -78,8 +78,9 @@ public:
     /* @brief updates the value of a keyframe
        @param old is the position of the keyframe
        @param value is the new value of the param
+       @param index is the index of the wanted keyframe
     */
-    bool updateKeyframe(GenTime pos, double value);
+    bool updateKeyframe(GenTime pos, double value, const QPersistentModelIndex &index);
 
     /* @brief Returns a keyframe data at given pos
        ok is a return parameter, set to true if everything went good
@@ -107,6 +108,11 @@ public:
        Notice that add/remove queries are done in real time (gentime), but this request is made in frame
      */
     Q_INVOKABLE bool hasKeyframe(int frame) const;
+
+    /* @brief Return the interpolated value of a parameter.
+       @param pos is the position where we interpolate
+       @param index is the index of the queried parameter. */
+    double getInterpolatedValue(int pos, const QPersistentModelIndex& index) const;
 
     void refresh();
 

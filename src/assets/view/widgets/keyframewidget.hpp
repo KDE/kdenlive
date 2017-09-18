@@ -24,10 +24,14 @@
 
 #include <QPersistentModelIndex>
 #include <memory>
+#include <unordered_map>
+#include "definitions.h"
 
 class AssetParameterModel;
-class KeyframeModelList;
+class DoubleWidget;
 class KeyframeView;
+class KeyframeModelList;
+class QGridLayout;
 class QToolButton;
 class TimecodeDisplay;
 
@@ -39,6 +43,8 @@ public:
     explicit KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent = nullptr);
     ~KeyframeWidget();
 
+    /* @brief Add a new parameter to be managed using the same keyframe viewer */
+    void addParameter(const QPersistentModelIndex& index);
     int getPosition() const;
     void addKeyframe(int pos = -1);
 
@@ -50,9 +56,12 @@ public slots:
     void slotSetPosition(int pos = -1, bool update = true);
 
 private slots:
+    /* brief Update the value of the widgets to reflect keyframe change */
+    void slotRefreshParams();
     void slotAtKeyframe(bool atKeyframe);
 
 private:
+    QGridLayout *m_lay;
     std::shared_ptr<KeyframeModelList> m_keyframes;
 
     KeyframeView *m_keyframeview;
@@ -60,6 +69,8 @@ private:
     QToolButton *m_buttonPrevious;
     QToolButton *m_buttonNext;
     TimecodeDisplay *m_time;
+
+    std::unordered_map<QPersistentModelIndex, DoubleWidget*> m_parameters;
 };
 
 #endif

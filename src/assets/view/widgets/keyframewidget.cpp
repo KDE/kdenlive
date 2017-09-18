@@ -26,6 +26,7 @@
 #include "timecode.h"
 #include "timecodedisplay.h"
 #include "utils/KoIconUtils.h"
+#include "widgets/doublewidget.h"
 
 #include <QGridLayout>
 #include <QToolButton>
@@ -39,7 +40,7 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
 
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 
-    auto *l = new QGridLayout(this);
+    m_lay = new QGridLayout(this);
 
     bool ok = false;
     int duration = m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt(&ok);
@@ -66,20 +67,23 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     m_time = new TimecodeDisplay(pCore->getMonitor(m_model->monitorId)->timecode(), this);
     m_time->setRange(0, duration);
 
-    l->addWidget(m_keyframeview, 0, 0, 1, -1);
-    l->addWidget(m_buttonPrevious, 1, 0);
-    l->addWidget(m_buttonAddDelete, 1, 1);
-    l->addWidget(m_buttonNext, 1, 2);
-    l->addWidget(m_time, 1, 3, Qt::AlignRight);
+    m_lay->addWidget(m_keyframeview, 0, 0, 1, -1);
+    m_lay->addWidget(m_buttonPrevious, 1, 0);
+    m_lay->addWidget(m_buttonAddDelete, 1, 1);
+    m_lay->addWidget(m_buttonNext, 1, 2);
+    m_lay->addWidget(m_time, 1, 3, Qt::AlignRight);
+    slotSetPosition(0, false);
 
     connect(m_time, &TimecodeDisplay::timeCodeEditingFinished, [&](){slotSetPosition(-1, true);});
     connect(m_keyframeview, &KeyframeView::seekToPos, [&](int p){slotSetPosition(p, true);});
     connect(m_keyframeview, &KeyframeView::atKeyframe, this, &KeyframeWidget::slotAtKeyframe);
+    connect(m_keyframeview, &KeyframeView::modified, this, &KeyframeWidget::slotRefreshParams);
 
     connect(m_buttonAddDelete, &QAbstractButton::pressed, m_keyframeview, &KeyframeView::slotAddRemove);
     connect(m_buttonPrevious, &QAbstractButton::pressed, m_keyframeview, &KeyframeView::slotGoToPrev);
     connect(m_buttonNext, &QAbstractButton::pressed, m_keyframeview, &KeyframeView::slotGoToNext);
 
+    addParameter(index);
 }
 
 KeyframeWidget::~KeyframeWidget()
@@ -91,6 +95,13 @@ KeyframeWidget::~KeyframeWidget()
     delete m_time;
 }
 
+void KeyframeWidget::slotRefreshParams()
+{
+    int pos = getPosition();
+    for (const auto & w : m_parameters) {
+        w.second->setValue(m_keyframes->getInterpolatedValue(pos, w.first));
+    }
+}
 void KeyframeWidget::slotSetPosition(int pos, bool update)
 {
     if (pos < 0) {
@@ -100,6 +111,8 @@ void KeyframeWidget::slotSetPosition(int pos, bool update)
         m_time->setValue(pos);
         m_keyframeview->slotSetPosition(pos);
     }
+
+    slotRefreshParams();
 
     if (update) {
         emit seekToPos(pos);
@@ -134,6 +147,9 @@ void KeyframeWidget::slotAtKeyframe(bool atKeyframe)
         m_buttonAddDelete->setIcon(KoIconUtils::themedIcon(QStringLiteral("list-add")));
         m_buttonAddDelete->setToolTip(i18n("Add keyframe"));
     }
+    for (const auto &w : m_parameters) {
+        w.second->setEnabled(atKeyframe);
+    }
 }
 
 void KeyframeWidget::slotSetRange(QPair<int, int> /*range*/)
@@ -152,4 +168,30 @@ void KeyframeWidget::slotRefresh()
 
     // refresh keyframes
     m_keyframes->refresh();
+}
+
+void KeyframeWidget::addParameter(const QPersistentModelIndex& index)
+{
+    QLocale locale;
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
+    // Retrieve parameters from the model
+    QString name = m_model->data(m_index, Qt::DisplayRole).toString();
+    double value = m_keyframes->getInterpolatedValue(getPosition(), index);
+    double min = m_model->data(m_index, AssetParameterModel::MinRole).toDouble();
+    double max = m_model->data(m_index, AssetParameterModel::MaxRole).toDouble();
+    double defaultValue = locale.toDouble(m_model->data(m_index, AssetParameterModel::DefaultRole).toString());
+    QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
+    QString suffix = m_model->data(m_index, AssetParameterModel::SuffixRole).toString();
+    int decimals = m_model->data(m_index, AssetParameterModel::DecimalsRole).toInt();
+    double factor = m_model->data(m_index, AssetParameterModel::FactorRole).toDouble();
+    // Construct object
+    auto doubleWidget = new DoubleWidget(name, value, min, max, defaultValue, comment, -1, suffix, decimals, this);
+    doubleWidget->factor = factor;
+
+    m_parameters[index] = doubleWidget;
+    m_lay->addWidget(doubleWidget, 1 + (int)m_parameters.size(), 0, 1, -1);
+
+    connect(doubleWidget, &DoubleWidget::valueChanged, [this, index](double v){
+            m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), v, index);
+        });
 }

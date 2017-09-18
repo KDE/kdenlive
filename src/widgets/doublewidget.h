@@ -80,6 +80,9 @@ private:
 
 signals:
     void valueChanged(double);
+
+    // same signal as valueChanged, but add an extra boolean to tell if user is dragging value or not
+    void valueChanging(double, bool);
 };
 
 #endif

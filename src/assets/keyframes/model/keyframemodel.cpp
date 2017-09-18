@@ -182,11 +182,11 @@ bool KeyframeModel::updateKeyframe(GenTime pos, double value, Fun &undo, Fun &re
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_keyframeList.count(pos) > 0);
-    KeyframeType oldType = m_keyframeList[pos].first;
+    KeyframeType type = m_keyframeList[pos].first;
     double oldValue = m_keyframeList[pos].second;
     if (qAbs(oldValue - value) < 1e-6) return true;
-    auto operation = updateKeyframe_lambda(pos, oldType, oldValue, true);
-    auto reverse = updateKeyframe_lambda(pos, oldType, value, true);
+    auto operation = updateKeyframe_lambda(pos, type, value, true);
+    auto reverse = updateKeyframe_lambda(pos, type, oldValue, true);
     bool res = operation();
     if (res) {
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);

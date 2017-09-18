@@ -57,6 +57,7 @@ KeyframeView::KeyframeView(std::shared_ptr<KeyframeModelList> model, QWidget *pa
 void KeyframeView::slotModelChanged()
 {
     emit atKeyframe(m_model->hasKeyframe(m_position));
+    emit modified();
     update();
 }
 void KeyframeView::slotSetPosition(int pos)
