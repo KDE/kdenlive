@@ -32,6 +32,7 @@
 #include <memory>
 #include <mlt++/MltProperties.h>
 
+class KeyframeModelList;
 /* @brief This class is the model for a list of parameters.
    The behaviour of a transition or an effect is typically  controlled by several parameters. This class exposes this parameters as a list that can be rendered
    using the relevant widgets.
@@ -117,6 +118,14 @@ public:
     /* @brief Returns the id of the actual object associated with this asset */
     ObjectId getOwnerId() const;
 
+    /* @brief Returns the keyframe model associated with this asset
+       Return empty ptr if there is no keyframable parameter in the asset or if prepareKeyframes was not called
+     */
+    std::shared_ptr<KeyframeModelList> getKeyframeModel();
+
+    /* @brief Must be called before using the keyframes of this model */
+    void prepareKeyframes();
+
 protected:
     /* @brief Helper function to retrieve the type of a parameter given the string corresponding to it*/
     static ParamType paramTypeFromStr(const QString &type);
@@ -129,6 +138,12 @@ protected:
        If keywords are found, mathematical operations are supported for double type params. For example "%width -1" is a valid value.
     */
     static QVariant parseAttribute(const QString &attribute, const QDomElement &element, QVariant defaultValue = QVariant());
+
+    /* @brief Helper function to register one more parameter that is keyframable.
+       @param index is the index corresponding to this parameter
+    */
+    void addKeyframeParam(const QModelIndex index);
+
     struct ParamRow
     {
         ParamType type;
@@ -145,6 +160,8 @@ protected:
     QVector<QString> m_rows;                             // We store the params name in order of parsing. The order is important (cf some effects like sox)
 
     std::unique_ptr<Mlt::Properties> m_asset;
+
+    std::shared_ptr<KeyframeModelList> m_keyframes;
 };
 
 #endif

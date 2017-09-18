@@ -37,6 +37,7 @@ TEST_CASE("Keyframe model", "[KeyframeModel]")
     REQUIRE(effectstack->checkConsistency());
     REQUIRE(effectstack->rowCount() == 1);
     auto effect = std::dynamic_pointer_cast<EffectItemModel>(effectstack->getEffectStackRow(0));
+    effect->prepareKeyframes();
     qDebug() << effect->getAssetId() << effect->getAllParameters();
 
     REQUIRE(effect->rowCount() == 1);

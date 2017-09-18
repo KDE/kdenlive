@@ -51,12 +51,14 @@ KeyframeView::KeyframeView(std::shared_ptr<KeyframeModelList> model, QWidget *pa
     m_lineHeight = m_size / 2;
     setMinimumHeight(m_size);
     setMaximumHeight(m_size);
-    connect(m_model.get(), &KeyframeModelList::modelChanged, [&](){
-            emit atKeyframe(m_model->hasKeyframe(m_position));
-            update();
-        });
+    connect(m_model.get(), &KeyframeModelList::modelChanged, this, &KeyframeView::slotModelChanged);
 }
 
+void KeyframeView::slotModelChanged()
+{
+    emit atKeyframe(m_model->hasKeyframe(m_position));
+    update();
+}
 void KeyframeView::slotSetPosition(int pos)
 {
     if (pos != m_position) {

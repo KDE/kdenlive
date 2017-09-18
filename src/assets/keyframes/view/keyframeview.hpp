@@ -52,6 +52,7 @@ public slots:
     void slotAddRemove();
     void slotGoToNext();
     void slotGoToPrev();
+    void slotModelChanged();
 
 protected:
     void paintEvent(QPaintEvent *event) override;

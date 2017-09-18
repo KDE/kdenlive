@@ -48,6 +48,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
     unsetModel();
     QMutexLocker lock(&m_lock);
     m_model = model;
+    m_model->prepareKeyframes();
     connect(m_model.get(), &AssetParameterModel::dataChanged, this, &AssetParameterView::refresh);
     AnimationWidget *animWidget = nullptr;
     for (int i = 0; i < model->rowCount(); ++i) {

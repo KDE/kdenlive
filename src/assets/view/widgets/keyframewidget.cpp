@@ -35,7 +35,7 @@
 KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
     : AbstractParamWidget(model, index, parent)
 {
-    m_keyframes = std::shared_ptr<KeyframeModelList>(new KeyframeModelList(model, index, pCore->undoStack()));
+    m_keyframes = model->getKeyframeModel();
 
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 

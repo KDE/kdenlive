@@ -20,6 +20,7 @@
  ***************************************************************************/
 
 #include "assetparametermodel.hpp"
+#include "assets/keyframes/model/keyframemodellist.hpp"
 #include "core.h"
 #include "kdenlivesettings.h"
 #include "klocalizedstring.h"
@@ -96,8 +97,20 @@ AssetParameterModel::AssetParameterModel(Mlt::Properties *asset, const QDomEleme
         currentRow.name = title.isEmpty() ? name : title;
         m_params[name] = currentRow;
         m_rows.push_back(name);
+
     }
     qDebug() << "END parsing of "<<assetId<<". Number of found parameters"<<m_rows.size();
+}
+
+void AssetParameterModel::prepareKeyframes()
+{
+    if (m_keyframes)
+        return;
+    for (const auto& name: m_rows) {
+        if (m_params[name].type == ParamType::KeyframeParam) {
+           addKeyframeParam(index(m_rows.size() -1, 0));
+        }
+    }
 }
 
 void AssetParameterModel::setParameter(const QString &name, const QString &value)
@@ -355,3 +368,18 @@ ObjectId AssetParameterModel::getOwnerId() const
 {
     return m_ownerId;
 }
+
+void AssetParameterModel::addKeyframeParam(const QModelIndex index)
+{
+    if (m_keyframes) {
+        m_keyframes->addParameter(index);
+    } else {
+        m_keyframes.reset(new KeyframeModelList(shared_from_this(), index, pCore->undoStack()));
+    }
+}
+
+std::shared_ptr<KeyframeModelList> AssetParameterModel::getKeyframeModel()
+{
+    return m_keyframes;
+}
+
