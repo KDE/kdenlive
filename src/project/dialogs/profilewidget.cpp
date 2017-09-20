@@ -98,14 +98,8 @@ ProfileWidget::ProfileWidget(QWidget *parent)
     lay->addWidget(profileSplitter);
     profileSplitter->setStretchFactor(0, 2);
     profileSplitter->setStretchFactor(1, 1);
-    auto all_fps = ProfileRepository::get()->getAllFps();
 
-    QLocale locale;
-    locale.setNumberOptions(QLocale::OmitGroupSeparator);
-    fpsFilt->addItem("Any", -1);
-    for (double fps : all_fps) {
-        fpsFilt->addItem(locale.toString(fps), fps);
-    }
+    refreshFpsCombo();
     auto updateFps = [&]() {
         double current = fpsFilt->currentData().toDouble();
         KdenliveSettings::setProfile_fps_filter(fpsFilt->currentText());
@@ -140,6 +134,29 @@ ProfileWidget::~ProfileWidget()
 {
 }
 
+void ProfileWidget::refreshFpsCombo()
+{
+    QLocale locale;
+    QVariant currentValue;
+    if (fpsFilt->count() > 1) {
+        // remember last selected value
+        currentValue = fpsFilt->currentData();
+    }
+    fpsFilt->clear();
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
+    fpsFilt->addItem("Any", -1);
+    auto all_fps = ProfileRepository::get()->getAllFps();
+    for (double fps : all_fps) {
+        fpsFilt->addItem(locale.toString(fps), fps);
+    }
+    if (currentValue.isValid()) {
+        int ix = fpsFilt->findData(currentValue);
+        if (ix > -1) {
+            fpsFilt->setCurrentIndex(ix);
+        }
+    }
+}
+
 void ProfileWidget::loadProfile(const QString &profile)
 {
     auto index = m_treeModel->findProfile(profile);
@@ -162,7 +179,14 @@ void ProfileWidget::slotEditProfiles()
 {
     auto *w = new ProfilesDialog(m_currentProfile);
     w->exec();
-    loadProfile(m_currentProfile);
+    if (w->profileTreeChanged()) {
+        // Rebuild profiles tree
+        m_treeModel.reset();
+        m_treeModel = ProfileTreeModel::construct(this);
+        m_filter->setSourceModel(m_treeModel.get());
+        refreshFpsCombo();
+        loadProfile(m_currentProfile);
+    }
     delete w;
 }
 

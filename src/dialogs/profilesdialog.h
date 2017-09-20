@@ -35,6 +35,7 @@ public:
     /** @brief Using this constructor, the dialog only allows editing one profile. */
     explicit ProfilesDialog(const QString &profilePath, bool, QWidget *parent = nullptr);
     void fillList(const QString &selectedProfile = QString());
+    bool profileTreeChanged() const;
 
 protected:
     void closeEvent(QCloseEvent *event) override;
@@ -58,6 +59,8 @@ private:
     bool m_isCustomProfile;
     /** @brief If we are in single profile editing, should contain the path for this profile. */
     QString m_customProfilePath;
+    /** @brief True if a profile was saved / deleted and profile tree requires a reload. */
+    bool m_profilesChanged;
     KMessageWidget *m_infoMessage;
     void saveProfile(const QString &path);
     bool askForSave();

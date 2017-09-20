@@ -45,7 +45,7 @@ public:
     static std::unique_ptr<ProfileRepository> &get();
 
     /* @brief Reloads all the profiles from the disk */
-    void refresh();
+    void refresh(bool fullRefresh = false);
 
     /* @brief Returns a list of all the pairs (description, path) of all the profiles loaded */
     QVector<QPair<QString, QString>> getAllProfiles() const;

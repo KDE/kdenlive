@@ -49,9 +49,14 @@ std::unique_ptr<ProfileRepository> &ProfileRepository::get()
     return instance;
 }
 
-void ProfileRepository::refresh()
+void ProfileRepository::refresh(bool fullRefresh)
 {
     QWriteLocker locker(&m_mutex);
+
+    if (fullRefresh) {
+        // Reset all profiles
+        m_profiles.clear();
+    }
 
     // Helper function to check a profile and print debug info
     auto check_profile = [&](std::unique_ptr<ProfileModel> &profile, const QString &file) {
@@ -202,7 +207,7 @@ void ProfileRepository::saveProfile(ProfileInfo *profile, QString profilePath)
         KMessageBox::error(nullptr, i18n("Cannot write to file %1", profilePath));
     }
     file.close();
-    refresh();
+    refresh(true);
 }
 
 bool ProfileRepository::deleteProfile(const QString &path)
@@ -214,5 +219,6 @@ bool ProfileRepository::deleteProfile(const QString &path)
     if (!success) {
         qCDebug(KDENLIVE_LOG) << "//// Cannot delete profile " << path << ", does not seem to be custom one";
     }
+    refresh(true);
     return success;
 }

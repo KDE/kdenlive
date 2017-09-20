@@ -37,6 +37,7 @@ ProfilesDialog::ProfilesDialog(const QString &profileDescription, QWidget *paren
     : QDialog(parent)
     , m_profileIsModified(false)
     , m_isCustomProfile(false)
+    , m_profilesChanged(false)
 {
 
     // ask profile repository for a refresh
@@ -94,6 +95,7 @@ ProfilesDialog::ProfilesDialog(const QString &profilePath, bool, QWidget *parent
     , m_profileIsModified(false)
     , m_isCustomProfile(true)
     , m_customProfilePath(profilePath)
+    , m_profilesChanged(false)
 {
     m_view.setupUi(this);
 
@@ -281,6 +283,7 @@ bool ProfilesDialog::slotSaveProfile()
     m_profileIsModified = false;
     fillList(profileDesc);
     m_view.button_create->setEnabled(true);
+    m_profilesChanged = true;
     return true;
 }
 
@@ -306,6 +309,7 @@ void ProfilesDialog::slotDeleteProfile()
     const QString path = m_view.profiles_list->itemData(m_view.profiles_list->currentIndex()).toString();
     bool success = ProfileRepository::get()->deleteProfile(path);
     if (success) {
+        m_profilesChanged = true;
         fillList();
     }
 }
@@ -354,4 +358,9 @@ void ProfilesDialog::slotUpdateDisplay(QString currentProfile)
         m_view.colorspace->setCurrentIndex(colorix);
     }
     m_profileIsModified = false;
+}
+
+bool ProfilesDialog::profileTreeChanged() const
+{
+    return m_profilesChanged;
 }

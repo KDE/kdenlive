@@ -81,6 +81,9 @@ private:
     /** @brief Slot to be called whenever filtering changes */
     void slotFilterChanged();
 
+    /** @brief Reload available fps values */
+    void refreshFpsCombo();
+
 signals:
     void profileChanged();
 };
