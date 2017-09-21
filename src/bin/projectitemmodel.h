@@ -87,6 +87,9 @@ public:
     /* @brief Convenience method to retrieve a pointer to an element given its index */
     std::shared_ptr<AbstractProjectItem> getBinItemByIndex(const QModelIndex &index) const;
 
+    /* @brief Load the folders given the property containing them */
+    bool loadFolders(Mlt::Properties& folders);
+
     /** @brief Returns item data depending on role requested */
     QVariant data(const QModelIndex &index, int role) const override;
     /** @brief Called when user edits an item */
@@ -113,7 +116,7 @@ public:
     bool requestBinClipDeletion(std::shared_ptr<AbstractProjectItem> clip, Fun &undo, Fun &redo);
 
     /* @brief Request creation of a bin folder
-       @param id Id of the requested bin. If this is empty, it will be used as a return parameter to give the automatic bin id used.
+       @param id Id of the requested bin. If this is empty or invalid (already used, for example), it will be used as a return parameter to give the automatic bin id used.
        @param name Name of the folder
        @param parentId Bin id of the parent folder
        @param undo,redo: lambdas that are updated to accumulate operation.
@@ -164,6 +167,10 @@ protected:
 public slots:
     /** @brief An item in the list was modified, notify */
     void onItemUpdated(std::shared_ptr<AbstractProjectItem> item);
+
+
+    /** @brief Check whether a given id is currently used or not*/
+    bool isIdFree(const QString& id) const;
 
 private:
     /** @brief Return reference to column specific data */

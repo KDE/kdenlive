@@ -373,8 +373,6 @@ public slots:
      */
     void slotProducerReady(const requestClipInfo &info, std::shared_ptr<Mlt::Producer> producer);
     void slotRemoveInvalidClip(const QString &id, bool replace, const QString &errorMessage);
-    /** @brief Create a folder when opening a document */
-    void slotLoadFolders(const QMap<QString, QString> &foldersData);
     /** @brief Reload clip thumbnail - when frame for thumbnail changed */
     void slotRefreshClipThumbnail(const QString &id);
     void slotDeleteClip();

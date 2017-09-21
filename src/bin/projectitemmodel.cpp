@@ -37,6 +37,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QIcon>
 #include <QMimeData>
 #include <mlt++/Mlt.h>
+#include <queue>
 #include <qvarlengtharray.h>
 
 ProjectItemModel::ProjectItemModel(QObject *parent)
@@ -458,6 +459,9 @@ bool ProjectItemModel::addItem(std::shared_ptr<AbstractProjectItem> item, const 
 bool ProjectItemModel::requestAddFolder(QString &id, const QString &name, const QString &parentId, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
+    if (!id.isEmpty() && !isIdFree(id)) {
+        id = QString();
+    }
     if (id.isEmpty()) {
         id = QString::number(getFreeFolderId());
     }
@@ -571,4 +575,72 @@ std::vector<QString> ProjectItemModel::getAllClipIds() const
         }
     }
     return result;
+}
+
+
+bool ProjectItemModel::loadFolders(Mlt::Properties& folders)
+{
+    // At this point, we expect the folders properties to have a name of the form "x.y" where x is the id of the parent folder and y the id of the child.
+    // Note that for root folder, x = -1
+    // The value of the property is the name of the child folder
+
+    std::unordered_map<int, std::vector<int>> downLinks; //key are parents, value are children
+    std::unordered_map<int, int> upLinks; //key are children, value are parent
+    std::unordered_map<int, QString> newIds; // we store the correspondance to the new ids
+    std::unordered_map<int, QString> folderNames;
+    newIds[-1] = getRootFolder()->clipId();
+
+    if (folders.count() == 0) return true;
+
+    qDebug() << "found "<<folders.count()<<"folders";
+    for (int i = 0; i < folders.count(); i++) {
+        QString folderName = folders.get(i);
+        QString id = folders.get_name(i);
+
+        int parentId = id.section(QLatin1Char('.'), 0, 0).toInt();
+        int folderId = id.section(QLatin1Char('.'), 1, 1).toInt();
+        qDebug() << folderName<<id<<parentId<<folderId;
+        downLinks[parentId].push_back(folderId);
+        upLinks[folderId] = parentId;
+        folderNames[folderId] = folderName;
+    }
+
+    // We now do a BFS to construct the folders in order
+    Q_ASSERT(downLinks.count(-1) > 0);
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    std::queue<int> queue;
+    std::unordered_set<int> seen;
+    queue.push(-1);
+    while (!queue.empty()) {
+        int current = queue.front();
+        seen.insert(current);
+        queue.pop();
+        if (current != -1) {
+            QString id = QString::number(current);
+            bool res = requestAddFolder(id, folderNames[current], newIds[upLinks[current]], undo, redo);
+            if (!res) {
+                bool undone = undo();
+                Q_ASSERT(undone);
+                return false;
+            }
+            newIds[current] = id;
+        }
+        for (int c : downLinks[current]) {
+            queue.push(c);
+        }
+    }
+    return true;
+}
+
+
+bool ProjectItemModel::isIdFree(const QString& id) const
+{
+    for (const auto &clip : m_allItems) {
+        auto c = std::static_pointer_cast<AbstractProjectItem>(clip.second.lock());
+        if (c->clipId() == id) {
+            return false;
+        }
+    }
+    return true;
 }

@@ -186,7 +186,6 @@ private:
     void pasteEffects(const QString &id, const std::shared_ptr<Mlt::Producer> &producer);
 
 signals:
-    void loadFolders(const QMap<QString, QString> &);
     void loadThumb(const QString &, const QImage &, bool);
     void createThumb(const QDomElement &, const QString &, int);
     void requestAudioThumb(const QString &);

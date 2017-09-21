@@ -1370,62 +1370,6 @@ void Bin::selectClipById(const QString &clipId, int frame, const QPoint &zone)
     }
 }
 
-
-void Bin::slotLoadFolders(const QMap<QString, QString> &foldersData)
-{
-    // Folder parent is saved in folderId, separated by a dot. for example "1.3" means parent folder id is "1" and new folder id is "3".
-    std::shared_ptr<ProjectFolder> parentFolder;
-    QStringList folderIds = foldersData.keys();
-    int maxIterations = folderIds.count() * folderIds.count();
-    int iterations = 0;
-    while (!folderIds.isEmpty()) {
-        QString id = folderIds.takeFirst();
-        QString parentId = id.section(QLatin1Char('.'), 0, 0);
-        if (parentId == QLatin1String("-1")) {
-            parentFolder = m_itemModel->getRootFolder();
-        } else {
-            // This is a sub-folder
-            parentFolder = m_itemModel->getFolderByBinId(parentId);
-            if (parentFolder->depth() == 0) { // check if this is root
-                // parent folder not yet created, create unnamed placeholder
-                std::shared_ptr<ProjectFolder> newFolder = ProjectFolder::construct(parentId, QString(), m_itemModel);
-                parentFolder->appendChild(newFolder);
-                parentFolder = newFolder;
-            } else if (parentFolder == nullptr) {
-                // Parent folder not yet created in hierarchy
-                if (iterations > maxIterations) {
-                    // Give up, place folder in root
-                    std::shared_ptr<ProjectFolder> newFolder = ProjectFolder::construct(parentId, i18n("Folder"), m_itemModel);
-                    parentFolder->appendChild(newFolder);
-                    parentFolder = newFolder;
-                } else {
-                    // Try to process again at end of queue
-                    folderIds.append(id);
-                    iterations++;
-                    continue;
-                }
-            }
-        }
-        // parent was found, create our folder
-        QString folderId = id.section(QLatin1Char('.'), 1, 1);
-        int numericId = folderId.toInt();
-        if (numericId >= m_folderCounter) {
-            m_folderCounter = numericId + 1;
-        }
-        // Check if placeholder folder was created
-        std::shared_ptr<ProjectFolder> placeHolder = parentFolder->folder(folderId);
-        if (placeHolder) {
-            // Rename placeholder
-            placeHolder->setName(foldersData.value(id));
-        } else {
-            // Create new folder
-            std::shared_ptr<ProjectFolder> newFolder = ProjectFolder::construct(folderId, foldersData.value(id), m_itemModel);
-            parentFolder->appendChild(newFolder);
-        }
-    }
-}
-
-
 void Bin::removeSubClip(const QString &id, QUndoCommand *deleteCommand)
 {
     // Check parent item

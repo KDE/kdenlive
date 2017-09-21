@@ -19,8 +19,10 @@
 
 #include "bincontroller.h"
 #include "bin/model/markerlistmodel.hpp"
+#include "bin/projectitemmodel.h"
 #include "clip.h"
 #include "clipcontroller.h"
+#include "core.h"
 #include "kdenlivesettings.h"
 
 static const char *kPlaylistTrackId = "main bin";
@@ -78,12 +80,7 @@ void BinController::initializeBin(Mlt::Playlist playlist)
     Mlt::Properties folderProperties;
     Mlt::Properties playlistProps(playlist.get_properties());
     folderProperties.pass_values(playlistProps, "kdenlive:folder.");
-    QMap<QString, QString> foldersData;
-    for (int i = 0; i < folderProperties.count(); i++) {
-        foldersData.insert(folderProperties.get_name(i), folderProperties.get(i));
-    }
-    qDebug() << "Found " << folderProperties.count() << "folders";
-    emit loadFolders(foldersData);
+    pCore->projectItemModel()->loadFolders(folderProperties);
 
     // Read notes
     QString notes = playlistProps.get("kdenlive:documentnotes");
