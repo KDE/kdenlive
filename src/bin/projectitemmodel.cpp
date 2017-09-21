@@ -415,13 +415,13 @@ bool ProjectItemModel::requestBinClipDeletion(std::shared_ptr<AbstractProjectIte
 void ProjectItemModel::registerItem(const std::shared_ptr<TreeItem> &item)
 {
     auto clip = std::static_pointer_cast<AbstractProjectItem>(item);
-    m_binPlaylist->manageBinClipInsertion(clip);
+    m_binPlaylist->manageBinItemInsertion(clip);
     AbstractTreeModel::registerItem(item);
 }
 void ProjectItemModel::deregisterItem(int id, TreeItem *item)
 {
     auto clip = static_cast<AbstractProjectItem *>(item);
-    m_binPlaylist->manageBinClipDeletion(clip);
+    m_binPlaylist->manageBinItemDeletion(clip);
     AbstractTreeModel::deregisterItem(id, item);
 }
 

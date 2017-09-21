@@ -43,7 +43,6 @@ class BinPlaylist : public QObject
 {
 
 public:
-    // Constructor is protected because class is a Singleton
     BinPlaylist();
 
 
@@ -51,12 +50,12 @@ public:
        @param binElem is the bin item deleted. Note that exceptionnally, this function takes a raw pointer instead of a smart one.
        This is because the function will be called in the middle of the element's destructor, so no smart pointer is available at that time.
     */
-    void manageBinClipDeletion(AbstractProjectItem *binElem);
+    void manageBinItemDeletion(AbstractProjectItem *binElem);
 
     /* @brief This function updates the underlying binPlaylist object to reflect insertion of a bin item
        @param binElem is the bin item inserted
     */
-    void manageBinClipInsertion(const std::shared_ptr<AbstractProjectItem> &binElem);
+    void manageBinItemInsertion(const std::shared_ptr<AbstractProjectItem> &binElem);
 
 protected:
     /* @brief This is an helper function that removes a clip from the playlist given its id

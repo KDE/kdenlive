@@ -32,7 +32,7 @@ BinPlaylist::BinPlaylist()
 {
 }
 
-void BinPlaylist::manageBinClipInsertion(const std::shared_ptr<AbstractProjectItem> &binElem)
+void BinPlaylist::manageBinItemInsertion(const std::shared_ptr<AbstractProjectItem> &binElem)
 {
     QString id = binElem->clipId();
     switch (binElem->itemType()) {
@@ -64,7 +64,7 @@ void BinPlaylist::manageBinClipInsertion(const std::shared_ptr<AbstractProjectIt
     }
 }
 
-void BinPlaylist::manageBinClipDeletion(AbstractProjectItem *binElem)
+void BinPlaylist::manageBinItemDeletion(AbstractProjectItem *binElem)
 {
     QString id = binElem->clipId();
     switch (binElem->itemType()) {
