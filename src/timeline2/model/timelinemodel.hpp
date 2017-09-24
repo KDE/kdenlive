@@ -589,9 +589,9 @@ protected:
     std::unique_ptr<Mlt::Producer> m_blackClip;
 
     mutable QReadWriteLock m_lock; // This is a lock that ensures safety in case of concurrent access
-
+#ifdef LOGGING
     std::ofstream m_logFile; // this is a temporary debug member to help reproduce issues
-
+#endif
     bool m_timelineEffectsEnabled;
 
     bool m_id; // id of the timeline itself
