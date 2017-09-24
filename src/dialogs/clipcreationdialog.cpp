@@ -413,7 +413,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QList<QUrl> 
         if (isOnRemovableDevice(file) && !isOnRemovableDevice(pCore->currentDoc()->projectDataFolder())) {
             int answer =
                 KMessageBox::messageBox(QApplication::activeWindow(), KMessageBox::DialogType::WarningContinueCancel,
-                                        i18n("Clip <b>%1</b><br /> is on a removable device, will not be available when device is unplugged or mounted at a different position. Would you like to add it anyways?", file.path()),
+                                        i18n("Clip <b>%1</b><br /> is on a removable device, will not be available when device is unplugged or mounted at a different position. You may want to copy it first to your hard-drive. Would you like to add it anyways?", file.path()),
                                         i18n("Removable device"), KStandardGuiItem::yes(), KStandardGuiItem::no(), KStandardGuiItem::cancel(), QStringLiteral("removable"));
 
             if (answer == KMessageBox::Cancel) continue;
