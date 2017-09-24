@@ -245,6 +245,7 @@ private:
     QListWidget *m_effectBasket;
     /** @brief Update widget style. */
     void doChangeStyle();
+    void updateActionsToolTip();
 
 public slots:
     void slotGotProgressInfo(const QString &message, int progress, MessageType type = DefaultMessage);
@@ -466,6 +467,7 @@ private slots:
     /** @brief Set timeline toolbar icon size. */
     void setTimelineToolbarIconSize(QAction *a);
     void slotChangeSpeed(int speed);
+    void updateAction();
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

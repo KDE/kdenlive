@@ -381,22 +381,6 @@ void MainWindow::init()
     m_extraFactory = new KXMLGUIClient(this);
     buildDynamicActions();
 
-    // Add shortcut to action tooltips
-    QList<KActionCollection *> collections = KActionCollection::allCollections();
-    for (int i = 0; i < collections.count(); ++i) {
-        KActionCollection *coll = collections.at(i);
-        for (QAction *tempAction : coll->actions()) {
-            // find the shortcut pattern and delete (note the preceding space in the RegEx)
-            QString strippedTooltip = tempAction->toolTip().remove(QRegExp(QStringLiteral("\\s\\(.*\\)")));
-            // append shortcut if it exists for action
-            if (tempAction->shortcut() == QKeySequence(0)) {
-                tempAction->setToolTip(strippedTooltip);
-            } else {
-                tempAction->setToolTip(strippedTooltip + QStringLiteral(" (") + tempAction->shortcut().toString() + QLatin1Char(')'));
-            }
-        }
-    }
-
     // Create Effect Basket (dropdown list of favorites)
     m_effectBasket = new EffectBasket(m_effectList);
     connect(m_effectBasket, SIGNAL(addEffect(QDomElement)), this, SLOT(slotAddEffect(QDomElement)));
@@ -457,12 +441,13 @@ void MainWindow::init()
             }
         }
     }
+    updateActionsToolTip();
+    m_timelineToolBar->setToolButtonStyle(Qt::ToolButtonFollowStyle);
+    m_timelineToolBar->setProperty("otherToolbar", true);
     timelinePreview->setToolButtonStyle(m_timelineToolBar->toolButtonStyle());
     connect(m_timelineToolBar, &QToolBar::toolButtonStyleChanged, timelinePreview, &ProgressButton::setToolButtonStyle);
 
     timelineRender->setToolButtonStyle(toolBar()->toolButtonStyle());
-    /*connect(m_timelineToolBar, &QToolBar::toolButtonStyleChanged, timelinePreview, &ProgressButton::setToolButtonStyle);*/
-
     /*ScriptingPart* sp = new ScriptingPart(this, QStringList());
     guiFactory()->addClient(sp);*/
 
@@ -712,6 +697,34 @@ bool MainWindow::event(QEvent *e)
         break;
     }
     return KXmlGuiWindow::event(e);
+}
+
+void MainWindow::updateActionsToolTip()
+{
+    // Add shortcut to action tooltips
+    QList<KActionCollection *> collections = KActionCollection::allCollections();
+    for (int i = 0; i < collections.count(); ++i) {
+        KActionCollection *coll = collections.at(i);
+        for (QAction *tempAction : coll->actions()) {
+            // find the shortcut pattern and delete (note the preceding space in the RegEx)
+            QString strippedTooltip = tempAction->toolTip().remove(QRegExp(QStringLiteral("\\s\\(.*\\)")));
+            // append shortcut if it exists for action
+            if (tempAction->shortcut() == QKeySequence(0)) {
+                tempAction->setToolTip(strippedTooltip);
+            } else {
+                tempAction->setToolTip(strippedTooltip + QStringLiteral(" (") + tempAction->shortcut().toString() + QLatin1Char(')'));
+            }
+            connect(tempAction, &QAction::changed, this, &MainWindow::updateAction);
+        }
+    }
+}
+
+void MainWindow::updateAction()
+{
+    QAction *action = qobject_cast<QAction *>(sender());
+    QString toolTip = KLocalizedString::removeAcceleratorMarker(action->toolTip());
+    QString strippedTooltip = toolTip.remove(QRegExp(QStringLiteral("\\s\\(.*\\)")));
+    action->setToolTip(i18nc("@info:tooltip Tooltip of toolbar button", "%1 (%2)", strippedTooltip, action->shortcut().toString()));
 }
 
 void MainWindow::slotReloadTheme()
