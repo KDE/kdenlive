@@ -3,6 +3,7 @@ set(kdenlive_SRCS
   utils/KoIconUtils.cpp
   utils/abstractservice.cpp
   utils/archiveorg.cpp
+  utils/devices.cpp
   utils/flowlayout.cpp
   utils/freesound.cpp
   utils/openclipart.cpp

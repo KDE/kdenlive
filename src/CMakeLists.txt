@@ -278,6 +278,7 @@ target_link_libraries(kdenliveLib
     KF5::Declarative
     KF5::IconThemes
     KF5::Crash
+    KF5::Solid
     Qt5::Svg
     ${OPENGL_LIBRARIES}
     ${OPENGLES_LIBRARIES}

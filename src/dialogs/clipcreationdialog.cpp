@@ -24,6 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "bin/bincommands.h"
 #include "bin/clipcreator.hpp"
 #include "bin/projectclip.h"
+#include "core.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
 #include "kdenlive_debug.h"
@@ -34,6 +35,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "titletemplatedialog.h"
 #include "ui_colorclip_ui.h"
 #include "ui_qtextclip_ui.h"
+#include "utils/devices.hpp"
 #include "xml/xml.hpp"
 
 #include "klocalizedstring.h"
@@ -343,7 +345,6 @@ void ClipCreationDialog::createTitleTemplateClip(KdenliveDoc *doc, const QString
     delete dia;
 }
 
-
 void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QList<QUrl> &urls, const QStringList &groupInfo, Bin *bin,
                                             const QMap<QString, QString> &data)
 {
@@ -409,6 +410,14 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QList<QUrl> 
     }*/
 
     for (const QUrl &file : urls) {
+        if (isOnRemovableDevice(file) && !isOnRemovableDevice(pCore->currentDoc()->projectDataFolder())) {
+            int answer =
+                KMessageBox::messageBox(QApplication::activeWindow(), KMessageBox::DialogType::WarningContinueCancel,
+                                        i18n("Clip <b>%1</b><br /> is on a removable device, will not be available when device is unplugged or mounted at a different position. Would you like to add it anyways?", file.path()),
+                                        i18n("Removable device"), KStandardGuiItem::yes(), KStandardGuiItem::no(), KStandardGuiItem::cancel(), QStringLiteral("removable"));
+
+            if (answer == KMessageBox::Cancel) continue;
+        }
         QDomDocument xml;
         QDomElement prod = xml.createElement(QStringLiteral("producer"));
         xml.appendChild(prod);
@@ -474,6 +483,8 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QList<QUrl> 
         Xml::addXmlProperties(prod, properties);
         new AddClipCommand(bin, xml.documentElement(), QString::number(id), true, addClips);
     }
+    // We reset the state of the "don't ask again" for the question about removable devices
+    KMessageBox::enableMessage(QStringLiteral("removable"));
     if (addClips->childCount() > 0) {
         addClips->setText(i18np("Add clip", "Add clips", addClips->childCount()));
         doc->commandStack()->push(addClips);

@@ -38,10 +38,6 @@
 #include <KIO/MkdirJob>
 #include <KJobWidgets/KJobWidgets>
 #include <klocalizedstring.h>
-#include <solid/device.h>
-#include <solid/storageaccess.h>
-#include <solid/storagedrive.h>
-#include <solid/storagevolume.h>
 
 #include <QApplication>
 #include <QCheckBox>
@@ -254,27 +250,6 @@ void ClipManager::slotClipAvailable(const QString &path)
     }
 }
 */
-
-bool ClipManager::isOnRemovableDevice(const QUrl &url)
-{
-    // SolidVolumeInfo volume;
-    QString path = url.adjusted(QUrl::StripTrailingSlash).toLocalFile();
-    int volumeMatch = 0;
-
-    // FIXME: Network shares! Here we get only the volume of the mount path...
-    // This is probably not really clean. But Solid does not help us.
-    for (const SolidVolumeInfo &v : m_removableVolumes) {
-        if (v.isMounted && !v.path.isEmpty() && path.startsWith(v.path)) {
-            int length = v.path.length();
-            if (length > volumeMatch) {
-                volumeMatch = v.path.length();
-                // volume = v;
-            }
-        }
-    }
-
-    return volumeMatch != 0;
-}
 
 void ClipManager::projectTreeThumbReady(const QString &id, int frame, const QImage &img, int type)
 {

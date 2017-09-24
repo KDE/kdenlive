@@ -104,14 +104,10 @@ private: // Private attributes
     bool m_abortAudioThumb;
     /** @brief The id of currently processed clip for audio thumbs creation. */
     QString m_processingAudioThumbId;
-    /** @brief The list of removable drives. */
-    QVector<SolidVolumeInfo> m_removableVolumes;
     QMutex m_groupsMutex;
 
     QPoint m_projectTreeThumbSize;
 
-    /** @brief Check if added file is on a removable drive. */
-    bool isOnRemovableDevice(const QUrl &url);
 
 signals:
     void reloadClip(const QString &);
