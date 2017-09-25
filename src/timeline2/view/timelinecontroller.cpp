@@ -882,6 +882,9 @@ int TimelineController::workingPreview() const
 
 void TimelineController::loadPreview(QString chunks, QString dirty, const QDateTime &documentDate, int enable)
 {
+    if (chunks.isEmpty() && dirty.isEmpty()) {
+        return;
+    }
     if (!m_timelinePreview) {
         initializePreview();
     }
@@ -995,15 +998,35 @@ void TimelineController::switchCompositing(int mode)
             Mlt::Transition t((mlt_transition)service->get_service());
             QString serviceName = t.get("mlt_service");
             if (t.get_int("internal_added") == 237 && serviceName != QLatin1String("mix")) {
-                if (mode <= 0) {
-                    // No compositing wanted, remove
-                    field->disconnect_service(t);
-                    qDebug()<<"//// DELETING TRANSITION!!!";
-                }
+                // remove all compositing transitions
+                field->disconnect_service(t);
             }
         }
         service.reset(service->producer());
     }
+    if (mode > 0) {
+        const QString compositeGeometry = QStringLiteral("0=0/0:%1x%2").arg(m_model->m_tractor->profile()->width()).arg(m_model->m_tractor->profile()->height());
+
+        //Loop through tracks
+        for (int track = 1; track < m_model->getTracksCount(); track++) {
+            if (m_model->getTrackById(m_model->getTrackIndexFromPosition(track))->getProperty("kdenlive:audio_track").toInt() == 0) {
+                // This is a video track
+                Mlt::Transition t(*m_model->m_tractor->profile(), mode == 1 ? "composite" : TransitionsRepository::get()->getCompositingTransition().toUtf8().constData());
+                t.set("always_active", 1);
+                t.set("a_track", 0);
+                t.set("b_track", track + 1);
+                if (mode == 1) {
+                    t.set("valign", "middle");
+                    t.set("halign", "centre");
+                    t.set("fill", 1);
+                    t.set("geometry", compositeGeometry.toUtf8().constData());
+                }
+                t.set("internal_added", 237);
+                field->plant_transition(t, 0, track + 1);
+            }
+        }
+    }
     field->unlock();
     delete field;
+    pCore->requestMonitorRefresh();
 }
