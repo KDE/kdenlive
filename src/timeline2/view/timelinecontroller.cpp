@@ -1030,3 +1030,20 @@ void TimelineController::switchCompositing(int mode)
     delete field;
     pCore->requestMonitorRefresh();
 }
+
+void TimelineController::extractZone()
+{
+    QVariant returnedValue;
+    QMetaObject::invokeMethod(m_root, "currentTrackId", Q_RETURN_ARG(QVariant, returnedValue));
+    int currenTrackId = returnedValue.toInt();
+    TimelineFunctions::extractZone(m_model, currenTrackId, m_zone, false);
+}
+
+void TimelineController::liftZone()
+{
+    QVariant returnedValue;
+    QMetaObject::invokeMethod(m_root, "currentTrackId", Q_RETURN_ARG(QVariant, returnedValue));
+    int currenTrackId = returnedValue.toInt();
+    TimelineFunctions::extractZone(m_model, currenTrackId, m_zone, true);
+}
+

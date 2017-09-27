@@ -50,6 +50,7 @@ struct TimelineFunctions {
 
     static int requestSpacerStartOperation(std::shared_ptr<TimelineItemModel> timeline, int trackId, int position);
     static bool requestSpacerEndOperation(std::shared_ptr<TimelineItemModel> timeline, int clipId, int startPosition, int endPosition);
+    static bool extractZone(std::shared_ptr<TimelineItemModel> timeline, int trackId, QPoint zone, bool liftOnly);
 };
 
 #endif

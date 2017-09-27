@@ -145,3 +145,49 @@ bool TimelineFunctions::requestSpacerEndOperation(std::shared_ptr<TimelineItemMo
     }
     return false;
 }
+
+bool TimelineFunctions::extractZone(std::shared_ptr<TimelineItemModel> timeline, int trackId, QPoint zone, bool liftOnly)
+{
+    // Check if there is a clip at start point
+    int startClipId = timeline->getClipByPosition(trackId, zone.x());
+    // Start undoable command
+    std::function<bool(void)> undo = []() { return true; };
+    std::function<bool(void)> redo = []() { return true; };
+    int startCutId = -1;
+    if (startClipId > -1) {
+        // There is a clip, cut it
+        TimelineFunctions::requestClipCut(timeline, startClipId, zone.x(), startCutId, undo, redo);
+    }
+    int endCutId = -1;
+    int endClipId = timeline->getClipByPosition(trackId, zone.y());
+    if (endClipId > -1) {
+        // There is a clip, cut it
+        TimelineFunctions::requestClipCut(timeline, endClipId, zone.y(), endCutId, undo, redo);
+    }
+    std::unordered_set<int> clips = timeline->getItemsAfterPosition(trackId, zone.x(), zone.y() - 1);
+    for (const auto &clipId : clips) {
+        timeline->requestClipDeletion(clipId, undo, redo);
+    }
+    if (!liftOnly) {
+        clips = timeline->getItemsAfterPosition(-1, zone.y() - 1, -1, true);
+        bool final = false;
+        if (clips.size() > 0) {
+            int clipId = *clips.begin();
+            if (clips.size() > 1) {
+                int res = timeline->requestClipsGroup(clips, undo, redo);
+                if (res > -1) {
+                    final = timeline->requestGroupMove(clipId, res, 0, zone.x() - zone.y(), true, true, undo, redo);
+                    if (final) {
+                        final = timeline->requestClipUngroup(clipId, undo, redo);
+                    }
+                }
+            } else {
+                // only 1 clip to be moved
+                int clipStart = timeline->getItemPosition(clipId);
+                final = timeline->requestClipMove(clipId, timeline->getItemTrackId(clipId), clipStart - (zone.y() - zone.x()), true, true, undo, redo);
+            }
+        }
+    }
+    pCore->pushUndo(undo, redo, i18n("Extract zone"));
+    return true;
+}

@@ -596,7 +596,7 @@ std::unordered_set<int> TimelineModel::getItemsAfterPosition(int trackId, int po
     } else {
         int target_track_position = getTrackPosition(trackId);
         std::advance(it, target_track_position);
-        std::unordered_set<int> clipTracks = (*it)->getClipsAfterPosition(position);
+        std::unordered_set<int> clipTracks = (*it)->getClipsAfterPosition(position, end);
         allClips.insert(clipTracks.begin(), clipTracks.end());
     }
     return allClips;

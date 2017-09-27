@@ -2527,22 +2527,12 @@ void MainWindow::slotInsertClipInsert()
 
 void MainWindow::slotExtractZone()
 {
-    // TODO refac
-    /*
-    if (pCore->projectManager()->currentTimeline()) {
-        pCore->projectManager()->currentTimeline()->projectView()->extractZone(QPoint(), true);
-    }
-    */
+    getMainTimeline()->controller()->extractZone();
 }
 
 void MainWindow::slotLiftZone()
 {
-    // TODO refac
-    /*
-    if (pCore->projectManager()->currentTimeline()) {
-        pCore->projectManager()->currentTimeline()->projectView()->extractZone(QPoint(), false);
-    }
-    */
+    getMainTimeline()->controller()->liftZone();
 }
 
 void MainWindow::slotPreviewRender()
