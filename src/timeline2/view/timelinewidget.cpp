@@ -50,7 +50,7 @@ TimelineWidget::TimelineWidget(KActionCollection *actionCollection, std::shared_
     : QQuickWidget(parent)
     , m_binController(binController)
 {
-    registerTimelineItems();
+            registerTimelineItems();
     m_transitionModel = TransitionTreeModel::construct(true, this);
 
     m_transitionProxyModel.reset(new AssetFilter(this));
@@ -89,6 +89,7 @@ void TimelineWidget::setModel(std::shared_ptr<TimelineItemModel> model)
     rootContext()->setContextProperty("transitionModel", m_transitionProxyModel.get());
     rootContext()->setContextProperty("guidesModel", pCore->projectManager()->current()->getGuideModel().get());
     setSource(QUrl(QStringLiteral("qrc:/qml/timeline.qml")));
+    connect(rootObject(), SIGNAL(mousePosChanged(int)), pCore->window(), SLOT(slotUpdateMousePosition(int)));
     m_proxy->setRoot(rootObject());
     setVisible(true);
     m_proxy->checkDuration();

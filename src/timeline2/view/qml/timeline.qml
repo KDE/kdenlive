@@ -16,6 +16,7 @@ Rectangle {
     color: activePalette.window
 
     signal clipClicked()
+    signal mousePosChanged(int position)
 
     FontMetrics {
         id: fontMetrics
@@ -516,6 +517,7 @@ Rectangle {
                 scim = false
             }
             onPositionChanged: {
+                root.mousePosChanged(Math.round((mouse.x + scrollView.flickableItem.contentX) / timeline.scaleFactor))
                 if (rubberSelect.visible) {
                     var newX = mouse.x
                     var newY = mouse.y
