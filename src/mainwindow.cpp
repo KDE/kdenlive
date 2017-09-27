@@ -2502,27 +2502,22 @@ void MainWindow::slotCutTimelineClip()
 
 void MainWindow::slotInsertClipOverwrite()
 {
-    // TODO refac
-    /*
-    if (pCore->projectManager()->currentTimeline()) {
-        QPoint binZone = m_clipMonitor->getZoneInfo();
-        pCore->projectManager()->currentTimeline()->projectView()->insertZone(TimelineMode::OverwriteEdit, m_clipMonitor->activeClipId(), binZone);
+    const QString &binId = m_clipMonitor->activeClipId();
+    if (binId.isEmpty()) {
+        // No clip in monitor
+        return;
     }
-    */
+    getMainTimeline()->controller()->insertZone(binId, m_clipMonitor->getZoneInfo(), true);
 }
 
 void MainWindow::slotInsertClipInsert()
 {
-    // TODO refac
-    /*
-    if (pCore->projectManager()->currentTimeline()) {
-        QPoint binZone = m_clipMonitor->getZoneInfo();
-        int pos = pCore->projectManager()->currentTimeline()->projectView()->insertZone(TimelineMode::InsertEdit, m_clipMonitor->activeClipId(), binZone);
-        if (pos > 0) {
-            m_projectMonitor->requestSeek(pos);
-        }
+    const QString &binId = m_clipMonitor->activeClipId();
+    if (binId.isEmpty()) {
+        // No clip in monitor
+        return;
     }
-    */
+    getMainTimeline()->controller()->insertZone(binId, m_clipMonitor->getZoneInfo(), false);
 }
 
 void MainWindow::slotExtractZone()

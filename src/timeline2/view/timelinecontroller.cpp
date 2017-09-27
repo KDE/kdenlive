@@ -1047,3 +1047,11 @@ void TimelineController::liftZone()
     TimelineFunctions::extractZone(m_model, currenTrackId, m_zone, true);
 }
 
+bool TimelineController::insertZone(const QString &binId, QPoint zone, bool overwrite)
+{
+    QVariant returnedValue;
+    QMetaObject::invokeMethod(m_root, "currentTrackId", Q_RETURN_ARG(QVariant, returnedValue));
+    int currenTrackId = returnedValue.toInt();
+    return TimelineFunctions::insertZone(m_model, currenTrackId, binId, m_position, zone, overwrite);
+}
+

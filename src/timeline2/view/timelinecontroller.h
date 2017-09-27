@@ -289,6 +289,7 @@ public:
     void extractZone();
     /** @brief Delete selected zone */
     void liftZone();
+    bool insertZone(const QString &binId, QPoint zone, bool overwrite);
 
 public slots:
     void selectMultitrack();

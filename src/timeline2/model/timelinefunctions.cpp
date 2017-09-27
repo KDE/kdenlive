@@ -148,11 +148,45 @@ bool TimelineFunctions::requestSpacerEndOperation(std::shared_ptr<TimelineItemMo
 
 bool TimelineFunctions::extractZone(std::shared_ptr<TimelineItemModel> timeline, int trackId, QPoint zone, bool liftOnly)
 {
-    // Check if there is a clip at start point
-    int startClipId = timeline->getClipByPosition(trackId, zone.x());
     // Start undoable command
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
+    bool result = TimelineFunctions::liftZone(timeline, trackId, zone, undo, redo);
+    if (result && !liftOnly) {
+        result = TimelineFunctions::removeSpace(timeline, trackId, zone, undo, redo);
+    }
+    pCore->pushUndo(undo, redo, liftOnly ? i18n("Lift zone") : i18n("Extract zone"));
+    return result;
+}
+
+bool TimelineFunctions::insertZone(std::shared_ptr<TimelineItemModel> timeline, int trackId, const QString &binId, int insertFrame, QPoint zone, bool overwrite)
+{
+    // Start undoable command
+    std::function<bool(void)> undo = []() { return true; };
+    std::function<bool(void)> redo = []() { return true; };
+    bool result = false;
+    if (overwrite) {
+        result = TimelineFunctions::liftZone(timeline, trackId, QPoint(insertFrame, insertFrame + (zone.y() - zone.x())), undo, redo);
+    } else {
+        int startClipId = timeline->getClipByPosition(trackId, insertFrame);
+        int startCutId = -1;
+        if (startClipId > -1) {
+            // There is a clip, cut it
+            TimelineFunctions::requestClipCut(timeline, startClipId, insertFrame, startCutId, undo, redo);
+        }
+        result = TimelineFunctions::insertSpace(timeline, trackId, QPoint(insertFrame, insertFrame + (zone.y() - zone.x())), undo, redo);
+    }
+    int newId = -1;
+    QString binClipId = QString("%1#%2#%3").arg(binId).arg(zone.x()).arg(zone.y() - 1);
+    timeline->requestClipInsertion(binClipId, trackId, insertFrame, newId, true, true, undo, redo);
+    pCore->pushUndo(undo, redo, overwrite ? i18n("Overwrite zone") : i18n("Insert zone"));
+    return result;
+}
+
+bool TimelineFunctions::liftZone(std::shared_ptr<TimelineItemModel> timeline, int trackId, QPoint zone, Fun &undo, Fun &redo)
+{
+    // Check if there is a clip at start point
+    int startClipId = timeline->getClipByPosition(trackId, zone.x());
     int startCutId = -1;
     if (startClipId > -1) {
         // There is a clip, cut it
@@ -168,26 +202,51 @@ bool TimelineFunctions::extractZone(std::shared_ptr<TimelineItemModel> timeline,
     for (const auto &clipId : clips) {
         timeline->requestClipDeletion(clipId, undo, redo);
     }
-    if (!liftOnly) {
-        clips = timeline->getItemsAfterPosition(-1, zone.y() - 1, -1, true);
-        bool final = false;
-        if (clips.size() > 0) {
-            int clipId = *clips.begin();
-            if (clips.size() > 1) {
-                int res = timeline->requestClipsGroup(clips, undo, redo);
-                if (res > -1) {
-                    final = timeline->requestGroupMove(clipId, res, 0, zone.x() - zone.y(), true, true, undo, redo);
-                    if (final) {
-                        final = timeline->requestClipUngroup(clipId, undo, redo);
-                    }
+    return true;
+}
+
+bool TimelineFunctions::removeSpace(std::shared_ptr<TimelineItemModel> timeline, int trackId, QPoint zone, Fun &undo, Fun &redo)
+{
+    std::unordered_set<int> clips = timeline->getItemsAfterPosition(-1, zone.y() - 1, -1, true);
+    bool result = false;
+    if (clips.size() > 0) {
+        int clipId = *clips.begin();
+        if (clips.size() > 1) {
+            int res = timeline->requestClipsGroup(clips, undo, redo);
+            if (res > -1) {
+                result = timeline->requestGroupMove(clipId, res, 0, zone.x() - zone.y(), true, true, undo, redo);
+                if (result) {
+                    result = timeline->requestClipUngroup(clipId, undo, redo);
                 }
-            } else {
-                // only 1 clip to be moved
-                int clipStart = timeline->getItemPosition(clipId);
-                final = timeline->requestClipMove(clipId, timeline->getItemTrackId(clipId), clipStart - (zone.y() - zone.x()), true, true, undo, redo);
             }
+        } else {
+            // only 1 clip to be moved
+            int clipStart = timeline->getItemPosition(clipId);
+            result = timeline->requestClipMove(clipId, timeline->getItemTrackId(clipId), clipStart - (zone.y() - zone.x()), true, true, undo, redo);
         }
     }
-    pCore->pushUndo(undo, redo, i18n("Extract zone"));
-    return true;
+    return result;
+}
+
+bool TimelineFunctions::insertSpace(std::shared_ptr<TimelineItemModel> timeline, int trackId, QPoint zone, Fun &undo, Fun &redo)
+{
+    std::unordered_set<int> clips = timeline->getItemsAfterPosition(-1, zone.x(), -1, true);
+    bool result = false;
+    if (clips.size() > 0) {
+        int clipId = *clips.begin();
+        if (clips.size() > 1) {
+            int res = timeline->requestClipsGroup(clips, undo, redo);
+            if (res > -1) {
+                result = timeline->requestGroupMove(clipId, res, 0, zone.y() - zone.x(), true, true, undo, redo);
+                if (result) {
+                    result = timeline->requestClipUngroup(clipId, undo, redo);
+                }
+            }
+        } else {
+            // only 1 clip to be moved
+            int clipStart = timeline->getItemPosition(clipId);
+            result = timeline->requestClipMove(clipId, timeline->getItemTrackId(clipId), clipStart + (zone.y() - zone.x()), true, true, undo, redo);
+        }
+    }
+    return result;
 }
