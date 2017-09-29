@@ -89,6 +89,9 @@ public:
     /** @brief Retrieves a list of all available title templates. */
     static void refreshTitleTemplates(const QString &projectPath);
 
+    /** @brief Returns a title name suggestion based on content */
+    const QString titleSuggest();
+
 protected:
     void resizeEvent(QResizeEvent *event) override;
     void keyPressEvent(QKeyEvent *e) override;

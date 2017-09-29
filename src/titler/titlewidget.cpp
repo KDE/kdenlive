@@ -2910,3 +2910,22 @@ void TitleWidget::slotUpdateShadow()
         item->updateShadow(shadowBox->isChecked(), blur_radius->value(), shadowX->value(), shadowY->value(), shadowColor->color());
     }
 }
+
+const QString TitleWidget::titleSuggest()
+{
+    // Find top item to extract title proposal
+    QList<QGraphicsItem *> list = graphicsView->scene()->items();
+    int y = m_frameHeight;
+    QString title;
+    for (QGraphicsItem *qgItem : list) {
+        if (qgItem->pos().y() < y && qgItem->type() == TEXTITEM) {
+            MyTextItem *i = static_cast<MyTextItem *>(qgItem);
+            QString currentTitle = i->toPlainText();
+            if (currentTitle.length() > 2) {
+                title = currentTitle.length() > 12 ? currentTitle.left(12) + QStringLiteral("...") : currentTitle;
+                y = qgItem->pos().y();
+            }
+        }
+    }
+    return title;
+}

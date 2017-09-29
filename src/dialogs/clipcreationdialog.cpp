@@ -279,7 +279,8 @@ void ClipCreationDialog::createTitleClip(KdenliveDoc *doc, const QStringList &gr
 
         QMap<QString, QString> properties;
         properties.insert(QStringLiteral("xmldata"), dia_ui->xml().toString());
-        properties.insert(QStringLiteral("kdenlive:clipname"), i18n("Title clip"));
+        QString titleSuggestion = dia_ui->titleSuggest();
+        properties.insert(QStringLiteral("kdenlive:clipname"), titleSuggestion.isEmpty() ? i18n("Title clip") : titleSuggestion);
         if (!groupInfo.isEmpty()) {
             properties.insert(QStringLiteral("kdenlive:folderid"), groupInfo.at(0));
         }
