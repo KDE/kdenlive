@@ -331,12 +331,12 @@ Rectangle {
         MenuItem {
             text: i18n('Add Track')
             shortcut: 'Ctrl+U'
-            onTriggered: timeline.addTrack(currentTrack);
+            onTriggered: timeline.addTrack(tracksRepeater.itemAt(currentTrack).trackId);
         }
         MenuItem {
             text: i18n('Delete Track')
             //shortcut: 'Ctrl+U'
-            onTriggered: timeline.deleteTrack(currentTrack);
+            onTriggered: timeline.deleteTrack(tracksRepeater.itemAt(currentTrack).trackId);
         }
     }
 
@@ -357,7 +357,7 @@ Rectangle {
                     anchors.fill: parent
                     acceptedButtons: Qt.LeftButton
                     onClicked: {
-                        timeline.selectMultitrack()
+                        //timeline.selectMultitrack()
                     }
                 }
             }

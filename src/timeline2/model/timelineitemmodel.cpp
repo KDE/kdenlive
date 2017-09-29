@@ -194,6 +194,7 @@ QHash<int, QByteArray> TimelineItemModel::roleNames() const
     roles[ItemATrack] = "a_track";
     roles[HasAudio] = "hasAudio";
     roles[ReloadThumb] = "reloadThumb";
+    roles[TrackPositionRole] = "trackPosition";
     return roles;
 }
 
@@ -277,6 +278,8 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             QString tName = getTrackById_const(id)->getProperty("kdenlive:track_name").toString();
             return tName;
         }
+        case TrackPositionRole:
+            return getTrackMltIndex(id);
         case DurationRole:
             // qDebug() << "DATA yielding duration" << m_tractor->get_playtime();
             return m_tractor->get_playtime();

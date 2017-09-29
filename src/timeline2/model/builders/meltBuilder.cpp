@@ -27,6 +27,7 @@
 #include "../undohelper.hpp"
 #include "bin/bin.h"
 #include "core.h"
+#include "kdenlivesettings.h"
 #include "mltcontroller/bincontroller.h"
 #include <QDebug>
 #include <QSet>
@@ -75,7 +76,7 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
             qDebug() << "Adding track: " << track->get("id");
             int tid;
             ok = timeline->requestTrackInsertion(-1, tid, undo, redo);
-            timeline->setTrackProperty(tid, "kdenlive:trackheight", "100");
+            timeline->setTrackProperty(tid, "kdenlive:trackheight", QString::number(KdenliveSettings::trackheight()));
             Mlt::Playlist local_playlist(*track);
             ok = ok && constructTrackFromMelt(timeline, tid, local_playlist, undo, redo);
             QString trackName = local_playlist.get("kdenlive:track_name");
@@ -85,7 +86,7 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
             int audioTrack = local_playlist.get_int("kdenlive:audio_track");
             if (audioTrack == 1) {
                 // This is an audio track
-                timeline->setTrackProperty(tid, QStringLiteral(""), QStringLiteral("1"));
+                timeline->setTrackProperty(tid, QStringLiteral("kdenlive:audio_track"), QStringLiteral("1"));
             }
             break;
         }

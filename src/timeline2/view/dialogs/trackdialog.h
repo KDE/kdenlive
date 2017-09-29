@@ -17,19 +17,27 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#ifndef TRACKDIALOG_H
-#define TRACKDIALOG_H
+#ifndef TRACKDIALOG2_H
+#define TRACKDIALOG2_H
 
 #include "ui_addtrack_ui.h"
-
-class Timeline;
+#include "timeline2/model/timelineitemmodel.hpp"
 
 class TrackDialog : public QDialog, public Ui::AddTrack_UI
 {
     Q_OBJECT
 
 public:
-    explicit TrackDialog(Timeline *timeline, QWidget *parent = nullptr);
+    explicit TrackDialog(std::shared_ptr<TimelineItemModel> model, int trackIndex = -1, QWidget *parent = nullptr);
+    /** @brief: returns the selected track's trackId
+     */
+    int selectedTrack() const;
+    /** @brief: returns true if we want to insert an audio track
+     */
+    bool addAudioTrack() const;
+    /** @brief: returns the newly created track name
+    */
+    const QString trackName() const;
 };
 
 #endif

@@ -36,6 +36,7 @@
 #include "timeline2/model/compositionmodel.hpp"
 #include "timeline2/model/groupsmodel.hpp"
 #include "transitions/transitionsrepository.hpp"
+#include "timeline2/view/dialogs/trackdialog.h"
 #include "dialogs/spacerdialog.h"
 #include "timelinewidget.h"
 #include "utils/KoIconUtils.h"
@@ -339,7 +340,33 @@ bool TimelineController::showWaveforms() const
 
 void TimelineController::addTrack(int tid)
 {
-    qDebug() << "Adding track: " << tid;
+    qDebug() << "Adding track: " << tid<< " = " << m_model->getTrackMltIndex(tid);
+    QPointer<TrackDialog> d = new TrackDialog(m_model, m_model->getTrackMltIndex(tid), qApp->activeWindow());
+    if (d->exec() == QDialog::Accepted) {
+        int mltIndex = d->selectedTrack();
+        int tid;
+        qDebug()<<"// INSERT TRACK: "<<mltIndex;
+        m_model->requestTrackInsertion(mltIndex, tid);
+        m_model->setTrackProperty(tid, "kdenlive:trackheight", QString::number(KdenliveSettings::trackheight()));
+        m_model->setTrackProperty(tid, QStringLiteral("kdenlive:track_name"), d->trackName().toUtf8().constData());
+        if (d->addAudioTrack()) {
+            m_model->setTrackProperty(tid, QStringLiteral("kdenlive:audio_track"), QStringLiteral("1"));
+        }
+    }
+    /*d->comboTracks->setCurrentIndex(m_timeline->visibleTracksCount() - ix);
+    d->label->setText(i18n("Insert track"));
+    QStringList existingTrackNames = m_timeline->getTrackNames();
+    int i = 1;
+    QString proposedName = i18n("Video %1", i);
+    while (existingTrackNames.contains(proposedName)) {
+        proposedName = i18n("Video %1", ++i);
+    }
+    d->track_name->setText(proposedName);
+    d->setWindowTitle(i18n("Insert New Track"));*/
+
+    //info.trackName = d->track_name->text();
+    //auto *addTrack = new AddTrackCommand(this, ix, info, true);
+    //m_commandStack->push(addTrack);
 }
 
 void TimelineController::deleteTrack(int tid)

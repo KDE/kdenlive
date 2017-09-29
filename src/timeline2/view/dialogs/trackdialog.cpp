@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2008 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
+ *   Copyright (C) 2017 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -20,21 +20,55 @@
 #include "trackdialog.h"
 
 #include "kdenlivesettings.h"
-#include "timeline.h"
 
 #include <QIcon>
 
-TrackDialog::TrackDialog(Timeline *timeline, QWidget *parent) :
+TrackDialog::TrackDialog(std::shared_ptr<TimelineItemModel> model, int trackIndex, QWidget *parent) :
     QDialog(parent)
 {
     //setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     QIcon videoIcon = QIcon::fromTheme(QStringLiteral("kdenlive-show-video"));
     QIcon audioIcon = QIcon::fromTheme(QStringLiteral("kdenlive-show-audio"));
     setupUi(this);
-    for (int i = timeline->tracksCount() - 1; i > 0; i--) {
-        TrackInfo info = timeline->getTrackInfo(i);
-        comboTracks->addItem(info.type == VideoTrack ? videoIcon : audioIcon,
-                             info.trackName.isEmpty() ? QString::number(i) : info.trackName);
+    QStringList existingTrackNames;
+    for (int i = model->getTracksCount() - 1; i >= 0; i--) {
+        int tid = model->getTrackIndexFromPosition(i);
+        bool audioTrack = model->getTrackProperty(tid, QStringLiteral("kdenlive:audio_track")) == QLatin1String("1");
+        const QString trackName = model->getTrackProperty(tid, QStringLiteral("kdenlive:track_name")).toString();
+        existingTrackNames << trackName;
+        // Track index in in MLT, so add + 1 to compensate black track
+        comboTracks->addItem(audioTrack ? audioIcon : videoIcon,
+                             trackName.isEmpty() ? QString::number(i) : trackName, i + 1);
     }
+    if (trackIndex > -1) {
+        int ix = comboTracks->findData(trackIndex);
+        comboTracks->setCurrentIndex(ix);
+    }
+    trackIndex--;
+    QString proposedName = i18n("Video %1", trackIndex);
+    while (existingTrackNames.contains(proposedName)) {
+        proposedName = i18n("Video %1", ++trackIndex);
+    }
+    track_name->setText(proposedName);
 }
 
+int TrackDialog::selectedTrack() const
+{
+    if (comboTracks->count() > 0) {
+        int ix = comboTracks->currentData().toInt();
+        if (before_select->currentIndex() == 1) {
+            ix++;
+        }
+        return ix;
+    }
+    return -1;
+}
+
+bool TrackDialog::addAudioTrack() const
+{
+    return !video_track->isChecked();
+}
+const QString TrackDialog::trackName() const
+{
+    return track_name->text();
+}

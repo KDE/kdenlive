@@ -121,6 +121,7 @@ public:
         IsAudioRole,
         AudioLevelsRole,   /// clip only
         IsCompositeRole,   /// track only
+        TrackPositionRole,  /// track only
         IsLockedRole,      /// track only
         HeightRole,        /// track only
         FadeInRole,        /// clip only
