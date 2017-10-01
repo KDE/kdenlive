@@ -150,12 +150,13 @@ void EffectStackView::dropEvent(QDropEvent *event)
     }
 }
 
-void EffectStackView::setModel(std::shared_ptr<EffectStackModel> model, QPair<int, int> range)
+void EffectStackView::setModel(std::shared_ptr<EffectStackModel> model, QPair<int, int> range, const QSize frameSize)
 {
     qDebug()<<"MUTEX LOCK!!!!!!!!!!!! setmodel";
     m_mutex.lock();
     unsetModel();
     m_model = model;
+    m_sourceFrameSize = frameSize;
     m_effectsTree->setModel(m_model.get());
     m_effectsTree->setItemDelegateForColumn(0, new WidgetDelegate(this));
     m_effectsTree->setColumnHidden(1, true);
@@ -189,7 +190,7 @@ void EffectStackView::loadEffects(QPair<int, int> range, int start, int end)
         }
         std::shared_ptr<EffectItemModel> effectModel = std::static_pointer_cast<EffectItemModel>(item);
         QImage effectIcon = m_thumbnailer->requestImage(effectModel->getAssetId(), &size, QSize(QStyle::PM_SmallIconSize, QStyle::PM_SmallIconSize));
-        CollapsibleEffectView *view = new CollapsibleEffectView(effectModel, range, effectIcon, this);
+        CollapsibleEffectView *view = new CollapsibleEffectView(effectModel, range, m_sourceFrameSize, effectIcon, this);
         qDebug() << "__ADDING EFFECT: " << effectModel->filter().get("id") << ", ACT: " << active;
         if (i == active) {
             view->slotActivateEffect(m_model->getIndexFromItem(effectModel));

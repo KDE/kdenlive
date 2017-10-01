@@ -32,23 +32,23 @@
 #include <QLabel>
 #include <QSlider>
 
-GeometryEditWidget::GeometryEditWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QPair<int, int> range, QWidget *parent)
+GeometryEditWidget::GeometryEditWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QPair<int, int> range, QSize frameSize, QWidget *parent)
     : AbstractParamWidget(std::move(model), index, parent)
-    , m_min(range.first)
-    , m_max(range.second)
-    , m_active(false)
 {
     auto *layout = new QVBoxLayout(this);
     QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
-    const QString value = m_model->data(m_index, AssetParameterModel::ValueRole).toString();
-    m_geom = new GeometryWidget(QRect(100, 100, 500, 500), false, this);
+    const QString value = m_model->data(m_index, AssetParameterModel::ValueRole).toString().simplified();
+    QRect rect;
+    QStringList vals = value.split(QLatin1Char(' '));
+    if (vals.count() == 4) {
+        rect = QRect(vals.at(0).toInt(), vals.at(1).toInt(), vals.at(2).toInt(), vals.at(3).toInt());
+    }
+    m_geom = new GeometryWidget(pCore->getMonitor(m_model->monitorId), range, rect, frameSize, false, this);
     m_geom->setSizePolicy(QSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred));
     /*QString name = m_model->data(m_index, AssetParameterModel::NameRole).toString();
     QLabel *label = new QLabel(name, this);
     layout->addWidget(label);*/
     layout->addWidget(m_geom);
-    m_monitor = pCore->getMonitor(m_model->monitorId);
-    connect(m_monitor, &Monitor::seekPosition, this, &GeometryEditWidget::monitorSeek, Qt::UniqueConnection);
 
     // emit the signal of the base class when appropriate
     connect(this->m_geom, &GeometryWidget::valueChanged, [this](const QString val) { 
@@ -63,8 +63,7 @@ GeometryEditWidget::~GeometryEditWidget()
 
 void GeometryEditWidget::slotSetRange(QPair <int, int> range)
 {
-    m_min = range.first;
-    m_max = range.second;
+    m_geom->slotSetRange(range);
 }
 
 void GeometryEditWidget::slotRefresh()
@@ -84,40 +83,4 @@ void GeometryEditWidget::slotShowComment(bool show)
     Q_UNUSED(show);
 }
 
-void GeometryEditWidget::monitorSeek(int pos)
-{
-    // Update monitor scene for geometry params
-    if (pos >= m_min && pos < m_max) {
-        connectMonitor(true);
-        m_monitor->slotShowEffectScene(MonitorSceneGeometry);
-        m_monitor->setEffectKeyframe(true);
-    } else {
-        connectMonitor(false);
-        m_monitor->slotShowEffectScene(MonitorSceneDefault);
-    }
-}
-
-void GeometryEditWidget::connectMonitor(bool activate)
-{
-    if (m_active == activate) {
-        return;
-    }
-    m_active = activate;
-    if (activate) {
-        connect(m_monitor, &Monitor::effectChanged, m_geom, &GeometryWidget::slotUpdateGeometryRect, Qt::UniqueConnection);
-        /*double ratio = (double)m_spinWidth->value() / m_spinHeight->value();
-        if (m_frameSize.width() != m_monitorSize.width() || m_frameSize.height() != m_monitorSize.height()) {
-            // Source frame size different than project frame size, enable original size option accordingly
-            bool isOriginalSize =
-                qAbs((double)m_frameSize.width() / m_frameSize.height() - ratio) < qAbs((double)m_monitorSize.width() / m_monitorSize.height() - ratio);
-            if (isOriginalSize) {
-                m_originalSize->blockSignals(true);
-                m_originalSize->setChecked(true);
-                m_originalSize->blockSignals(false);
-            }
-        }*/
-    } else {
-        disconnect(m_monitor, &Monitor::effectChanged, m_geom, &GeometryWidget::slotUpdateGeometryRect);
-    }
-}
 

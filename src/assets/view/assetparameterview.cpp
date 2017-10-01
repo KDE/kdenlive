@@ -42,7 +42,7 @@ AssetParameterView::AssetParameterView(QWidget *parent)
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
 }
 
-void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &model, QPair<int, int> range, bool addSpacer)
+void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &model, QPair<int, int> range, QSize frameSize, bool addSpacer)
 {
     qDebug() << "set model " << model.get();
     unsetModel();
@@ -59,7 +59,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
             // TODO refac
             // animWidget->addParameter(index);
         } else {
-            auto w = AbstractParamWidget::construct(model, index, range, this);
+            auto w = AbstractParamWidget::construct(model, index, range, frameSize, this);
             if (type == ParamType::Geometry || type == ParamType::Animated || type == ParamType::RestrictedAnim || type == ParamType::AnimatedRect) {
                 animWidget = static_cast<AnimationWidget *>(w);
             }

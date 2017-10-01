@@ -500,7 +500,7 @@ void TimelineController::showAsset(int id)
         QModelIndex clipIx = m_model->makeClipIndexFromID(id);
         QString clipName = m_model->data(clipIx, Qt::DisplayRole).toString();
         emit showClipEffectStack(clipName, m_model->getClipEffectStackModel(id),
-                                 QPair<int, int>(m_model->getClipPosition(id), m_model->getClipPosition(id) + m_model->getClipPlaytime(id)));
+                                 QPair<int, int>(m_model->getClipPosition(id), m_model->getClipPosition(id) + m_model->getClipPlaytime(id)), m_model->getClipFrameSize(id));
     }
 }
 

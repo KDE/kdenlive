@@ -204,6 +204,14 @@ int TimelineModel::getClipPlaytime(int clipId) const
     return playtime;
 }
 
+QSize TimelineModel::getClipFrameSize(int clipId) const
+{
+    READ_LOCK();
+    Q_ASSERT(isClip(clipId));
+    const auto clip = m_allClips.at(clipId);
+    return clip->getFrameSize();
+}
+
 int TimelineModel::getTrackClipsCount(int trackId) const
 {
     READ_LOCK();

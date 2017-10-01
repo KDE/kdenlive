@@ -171,6 +171,15 @@ int ClipModel::getIntProperty(const QString &name) const
     return service()->get_int(name.toUtf8().constData());
 }
 
+QSize ClipModel::getFrameSize() const
+{
+    READ_LOCK();
+    if (service()->parent().is_valid()) {
+        return QSize(service()->parent().get_int("meta.media.width"), service()->parent().get_int("meta.media.height"));
+    }
+    return QSize(service()->get_int("meta.media.width"), service()->get_int("meta.media.height"));
+}
+
 double ClipModel::getDoubleProperty(const QString &name) const
 {
     READ_LOCK();

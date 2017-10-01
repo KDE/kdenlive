@@ -58,7 +58,7 @@ class EffectStackView : public QWidget
 public:
     EffectStackView(AssetPanel *parent);
     virtual ~EffectStackView();
-    void setModel(std::shared_ptr<EffectStackModel> model, QPair<int, int> range);
+    void setModel(std::shared_ptr<EffectStackModel> model, QPair<int, int> range, const QSize frameSize);
     void unsetModel(bool reset = true);
     void setRange(int in, int out);
     ObjectId stackOwner() const;
@@ -75,7 +75,12 @@ private:
     std::shared_ptr<EffectStackModel> m_model;
     std::vector<CollapsibleEffectView *> m_widgets;
     AssetIconProvider *m_thumbnailer;
+    /** @brief the in/out point of the clip in timeline
+    */
     QPair<int, int> m_range;
+    /** @brief the frame size of the original clip this effect is applied on
+    */
+    QSize m_sourceFrameSize;
     const QString getStyleSheet();
     void loadEffects(QPair<int, int> range, int start = 0, int end = -1);
 

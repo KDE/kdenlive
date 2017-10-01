@@ -30,7 +30,6 @@
 
 class QSlider;
 class GeometryWidget;
-class Monitor;
 
 /*@brief This class is used to display a parameter with time value */
 class GeometryEditWidget : public AbstractParamWidget
@@ -38,7 +37,7 @@ class GeometryEditWidget : public AbstractParamWidget
     Q_OBJECT
 public:
     /** @brief Sets up the parameter's GUI.*/
-    explicit GeometryEditWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QPair<int, int> range, QWidget *parent = nullptr);
+    explicit GeometryEditWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QPair<int, int> range, QSize frameSize, QWidget *parent = nullptr);
     ~GeometryEditWidget();
 
 public slots:
@@ -56,15 +55,6 @@ public slots:
 
 private:
     GeometryWidget *m_geom;
-    int m_min;
-    int m_max;
-    bool m_active;
-    Monitor *m_monitor;
-    void connectMonitor(bool activate);
-
-private slots:
-    /** @brief monitor seek pos changed. */
-    void monitorSeek(int pos);
 
 signals:
     void valueChanged();

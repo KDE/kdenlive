@@ -29,6 +29,7 @@ class QAction;
 class QMenu;
 class KSelectAction;
 class DragValue;
+class Monitor;
 
 /**
  * @brief A widget for modifying numbers by dragging, using the mouse wheel or entering them with the keyboard.
@@ -41,30 +42,35 @@ class GeometryWidget : public QWidget
 public:
     /**
     * @brief Default constructor.
-    * @param label The label that will be displayed in the progress bar
-    * @param defaultValue The default value
-    * @param decimals The number of decimals for the parameter. 0 means it is an integer
-    * @param min The minimum value
-    * @param max The maximum value
-    * @param id Used to identify this widget. If this parameter is set, "Show in Timeline" will be available in context menu.
-    * @param suffix The suffix that will be displayed in the spinbox (for example '%')
-    * @param showSlider If disabled, user can still drag on the label but no progress bar is shown
+    * @param monitor The monitor attached to this stack
+    * @param range The in / out points of the clip, useful to desactivate monitor scene when out of bounds
+    * @param rect The default geometry value
+    * @param frameSize The frame size of the original source video
+    * @param useRatioLock When true, width/height will keep the profile's aspect ratio on resize
     */
-    explicit GeometryWidget(const QRect &rect, bool useRatioLock, QWidget *parent = nullptr);
+    explicit GeometryWidget(Monitor *monitor, QPair<int, int> range, const QRect &rect, const QSize frameSize, bool useRatioLock, QWidget *parent = nullptr);
 
 private:
+    int m_min;
+    int m_max;
+    bool m_active;
+    Monitor *m_monitor;
+    void connectMonitor(bool activate);
     DragValue *m_spinX;
     DragValue *m_spinY;
     DragValue *m_spinWidth;
     DragValue *m_spinHeight;
     DragValue *m_spinSize;
     QSize m_defaultSize;
+    QSize m_sourceSize;
     QAction *m_originalSize;
     QAction *m_lockRatio;
     const QString getValue() const;
+    void adjustSizeValue();
 
 public slots:
     void slotUpdateGeometryRect(const QRect r);
+    void slotSetRange(QPair<int, int>);
 
 private slots:
     void slotAdjustRectKeyframeValue();
@@ -89,10 +95,11 @@ private slots:
     void slotLockRatio();
     void slotAdjustRectHeight();
     void slotAdjustRectWidth();
+    /** @brief monitor seek pos changed. */
+    void monitorSeek(int pos);
 
 signals:
     void valueChanged(const QString val);
-
 };
 
 #endif

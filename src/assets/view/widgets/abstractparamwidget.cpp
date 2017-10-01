@@ -59,8 +59,7 @@ AbstractParamWidget::AbstractParamWidget(std::shared_ptr<AssetParameterModel> mo
 {
 }
 
-AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetParameterModel> &model, QModelIndex index, QPair<int, int> range,
-                                                    QWidget *parent)
+AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetParameterModel> &model, QModelIndex index, QPair<int, int> range, QSize frameSize, QWidget *parent)
 {
     // We retrieve the parameter type
     auto type = model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
@@ -84,7 +83,7 @@ AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetP
         widget = new KeyframeWidget(model, index, parent);
         break;
     case ParamType::Geometry:
-        widget = new GeometryEditWidget(model, index, range, parent);
+        widget = new GeometryEditWidget(model, index, range, frameSize, parent);
         break;
     case ParamType::Animated:
     case ParamType::RestrictedAnim:

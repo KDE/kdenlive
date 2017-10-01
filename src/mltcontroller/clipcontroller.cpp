@@ -494,6 +494,22 @@ ClipType ClipController::clipType() const
     return m_clipType;
 }
 
+const QSize ClipController::getFrameSize() const
+{
+    if (m_masterProducer == nullptr) {
+        return QSize();
+    }
+    int width = m_masterProducer->get_int("meta.media.width");
+    if (width == 0) {
+        width = m_masterProducer->get_int("width");
+    }
+    int height = m_masterProducer->get_int("meta.media.height");
+    if (height == 0) {
+        height = m_masterProducer->get_int("height");
+    }
+    return QSize(width, height);
+}
+
 QPixmap ClipController::pixmap(int framePosition, int width, int height)
 {
     m_masterProducer->seek(framePosition);

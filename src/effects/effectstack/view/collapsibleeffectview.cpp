@@ -52,7 +52,7 @@
 #include <KRecentDirs>
 #include <klocalizedstring.h>
 
-CollapsibleEffectView::CollapsibleEffectView(std::shared_ptr<EffectItemModel> effectModel, QPair<int, int> range, QImage icon, QWidget *parent)
+CollapsibleEffectView::CollapsibleEffectView(std::shared_ptr<EffectItemModel> effectModel, QPair<int, int> range, QSize frameSize, QImage icon, QWidget *parent)
     : AbstractCollapsibleWidget(parent)
     /*    , m_effect(effect)
         , m_itemInfo(info)
@@ -131,7 +131,7 @@ CollapsibleEffectView::CollapsibleEffectView(std::shared_ptr<EffectItemModel> ef
     title->setText(effectName);
 
     m_view = new AssetParameterView(this);
-    m_view->setModel(std::static_pointer_cast<AssetParameterModel>(effectModel), range);
+    m_view->setModel(std::static_pointer_cast<AssetParameterModel>(effectModel), range, frameSize);
     connect(m_view, &AssetParameterView::seekToPos, this, &AbstractCollapsibleWidget::seekToPos);
     QVBoxLayout *lay = new QVBoxLayout(widgetFrame);
     lay->setContentsMargins(0, 0, 0, 0);

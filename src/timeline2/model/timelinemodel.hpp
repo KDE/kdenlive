@@ -214,6 +214,10 @@ public:
     */
     int getClipPlaytime(int clipId) const;
 
+    /* @brief Returns the duration of a clip
+       @param clipId Id of the clip to test
+    */
+    QSize getClipFrameSize(int clipId) const;
     /* @brief Returns the number of clips in a given track
        @param trackId Id of the track to test
     */

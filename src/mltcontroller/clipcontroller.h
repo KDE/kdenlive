@@ -125,7 +125,7 @@ public:
     QString videoCodecProperty(const QString &property) const;
     const QString codec(bool audioCodec) const;
     const QString getClipHash() const;
-
+    const QSize getFrameSize() const;
     /** @brief Returns the clip duration as a string like 00:00:02:01. */
     const QString getStringDuration();
 

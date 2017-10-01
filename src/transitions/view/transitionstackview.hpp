@@ -32,7 +32,7 @@ class TransitionStackView : public AssetParameterView
 
 public:
     TransitionStackView(QWidget *parent = nullptr);
-    void setModel(const std::shared_ptr<AssetParameterModel> &model, QPair<int, int> range, bool addSpacer = false);
+    void setModel(const std::shared_ptr<AssetParameterModel> &model, QPair<int, int> range, QSize frameSize, bool addSpacer = false);
 
 private slots:
     void updateTrack(int newTrack);

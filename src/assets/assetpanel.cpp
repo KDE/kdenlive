@@ -84,10 +84,10 @@ void AssetPanel::showTransition(int tid, std::shared_ptr<AssetParameterModel> tr
     QString transitionName = TransitionsRepository::get()->getName(transitionId);
     m_assetTitle->setText(i18n("Properties of transition %1", transitionName));
     m_transitionWidget->setVisible(true);
-    m_transitionWidget->setModel(transitionModel, QPair<int, int>(-1, -1), true);
+    m_transitionWidget->setModel(transitionModel, QPair<int, int>(-1, -1), QSize(), true);
 }
 
-void AssetPanel::showEffectStack(const QString &clipName, std::shared_ptr<EffectStackModel> effectsModel, QPair<int, int> range)
+void AssetPanel::showEffectStack(const QString &clipName, std::shared_ptr<EffectStackModel> effectsModel, QPair<int, int> range, QSize frameSize)
 {
     clear();
     if (effectsModel == nullptr) {
@@ -98,7 +98,7 @@ void AssetPanel::showEffectStack(const QString &clipName, std::shared_ptr<Effect
     m_splitButton->setVisible(true);
     m_switchBuiltStack->setVisible(true);
     m_effectStackWidget->setVisible(true);
-    m_effectStackWidget->setModel(effectsModel, range);
+    m_effectStackWidget->setModel(effectsModel, range, frameSize);
 }
 
 void AssetPanel::clearAssetPanel(int itemId)
