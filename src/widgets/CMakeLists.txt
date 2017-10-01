@@ -6,5 +6,6 @@ set(kdenlive_SRCS
   widgets/dragvalue.cpp
   widgets/positionwidget.cpp
   widgets/progressbutton.cpp
+  widgets/geometrywidget.cpp
   PARENT_SCOPE
 )

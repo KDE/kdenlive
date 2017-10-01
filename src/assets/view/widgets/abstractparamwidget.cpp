@@ -23,6 +23,7 @@
 #include "boolparamwidget.hpp"
 #include "doubleparamwidget.hpp"
 #include "keyframeedit.h"
+#include "geometryeditwidget.hpp"
 #include "keyframewidget.hpp"
 #include "listparamwidget.h"
 #include "positioneditwidget.hpp"
@@ -83,6 +84,8 @@ AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetP
         widget = new KeyframeWidget(model, index, parent);
         break;
     case ParamType::Geometry:
+        widget = new GeometryEditWidget(model, index, range, parent);
+        break;
     case ParamType::Animated:
     case ParamType::RestrictedAnim:
     case ParamType::AnimatedRect:
