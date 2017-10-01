@@ -56,7 +56,7 @@ KeyframeView::KeyframeView(std::shared_ptr<KeyframeModelList> model, QWidget *pa
 
 void KeyframeView::slotModelChanged()
 {
-    emit atKeyframe(m_model->hasKeyframe(m_position));
+    emit atKeyframe(m_model->hasKeyframe(m_position), m_model->singleKeyframe());
     emit modified();
     update();
 }
@@ -64,7 +64,7 @@ void KeyframeView::slotSetPosition(int pos)
 {
     if (pos != m_position) {
         m_position = pos;
-        emit atKeyframe(m_model->hasKeyframe(pos));
+        emit atKeyframe(m_model->hasKeyframe(pos), m_model->singleKeyframe());
         emit seekToPos(pos);
         update();
     }
@@ -221,7 +221,7 @@ void KeyframeView::mouseDoubleClickEvent(QMouseEvent *event)
                 m_currentKeyframe = m_currentKeyframeOriginal = -1;
             }
             if (keyframe.first.frames(pCore->getCurrentFps()) == m_position) {
-                emit atKeyframe(false);
+                emit atKeyframe(false, m_model->singleKeyframe());
             }
             return;
         }

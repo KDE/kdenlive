@@ -117,6 +117,11 @@ bool KeyframeModelList::updateKeyframe(GenTime pos, double value, const QPersist
     Q_ASSERT(m_parameters.count(index) > 0);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
+    if (singleKeyframe()) {
+        bool ok = false;
+        Keyframe kf = m_parameters.begin()->second->getNextKeyframe(GenTime(-1), &ok);
+        pos = kf.first;
+    }
     bool res = m_parameters.at(index)->updateKeyframe(pos, value, undo, redo);
     if (res) {
         PUSH_UNDO(undo, redo, i18n("Update keyframe"));
@@ -130,6 +135,13 @@ Keyframe KeyframeModelList::getKeyframe(const GenTime &pos, bool *ok) const
     READ_LOCK();
     Q_ASSERT(m_parameters.size() > 0);
     return m_parameters.begin()->second->getKeyframe(pos, ok);
+}
+
+bool KeyframeModelList::singleKeyframe() const
+{
+    READ_LOCK();
+    Q_ASSERT(m_parameters.size() > 0);
+    return m_parameters.begin()->second->singleKeyframe();
 }
 
 Keyframe KeyframeModelList::getNextKeyframe(const GenTime &pos, bool *ok) const

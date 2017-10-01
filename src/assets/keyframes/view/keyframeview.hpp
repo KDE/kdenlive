@@ -17,8 +17,8 @@
  *   along with Kdenlive.  If not, see <http://www.gnu.org/licenses/>.     *
  ***************************************************************************/
 
-#ifndef KEYFRAMEVIEW_H
-#define KEYFRAMEVIEW_H
+#ifndef KEYFRAMEVIEW2_H
+#define KEYFRAMEVIEW2_H
 
 #include "assets/keyframes/model/keyframemodel.hpp"
 #include "assets/keyframes/model/keyframemodellist.hpp"
@@ -80,7 +80,7 @@ private:
 
 signals:
     void seekToPos(int pos);
-    void atKeyframe(bool);
+    void atKeyframe(bool isKeyframe, bool singleKeyframe);
     void modified();
 };
 

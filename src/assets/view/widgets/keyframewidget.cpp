@@ -138,7 +138,7 @@ void KeyframeWidget::updateTimecodeFormat()
     m_time->slotUpdateTimeCodeFormat();
 }
 
-void KeyframeWidget::slotAtKeyframe(bool atKeyframe)
+void KeyframeWidget::slotAtKeyframe(bool atKeyframe, bool singleKeyframe)
 {
     if (atKeyframe) {
         m_buttonAddDelete->setIcon(KoIconUtils::themedIcon(QStringLiteral("list-remove")));
@@ -148,7 +148,7 @@ void KeyframeWidget::slotAtKeyframe(bool atKeyframe)
         m_buttonAddDelete->setToolTip(i18n("Add keyframe"));
     }
     for (const auto &w : m_parameters) {
-        w.second->setEnabled(atKeyframe);
+        w.second->setEnabled(atKeyframe || singleKeyframe);
     }
 }
 

@@ -306,6 +306,12 @@ int KeyframeModel::rowCount(const QModelIndex &parent) const
     return static_cast<int>(m_keyframeList.size());
 }
 
+bool KeyframeModel::singleKeyframe() const
+{
+    READ_LOCK();
+    return m_keyframeList.size() <= 1;
+}
+
 Keyframe KeyframeModel::getKeyframe(const GenTime &pos, bool *ok) const
 {
     READ_LOCK();
