@@ -39,8 +39,8 @@ Column{
     signal clipDragged(var clip, int x, int y)
     signal clipDropped(var clip)
     signal compositionDropped(var clip)
-    signal clipDraggedToTrack(var clip, int pos)
-    signal compositionDraggedToTrack(var composition, int pos)
+    signal clipDraggedToTrack(var clip, int pos, int xpos)
+    signal compositionDraggedToTrack(var composition, int pos, int xpos)
 
     function redrawWaveforms() {
         for (var i = 0; i < repeater.count; i++)

@@ -895,11 +895,12 @@ Rectangle {
             }
             onClipDraggedToTrack: {
                 var y = pos - ruler.height
-                currentTrack = Logic.getTrackIndexFromPos(y)
+                var activeTrack = Logic.getTrackIndexFromPos(y)
                 var frame = Math.max(0, Math.round(clip.x / timeScale))
-                if (currentTrack >= 0  && currentTrack < tracksRepeater.count) {
-                    var track = tracksRepeater.itemAt(currentTrack)
+                if (activeTrack >= 0  && activeTrack < tracksRepeater.count) {
+                    var track = tracksRepeater.itemAt(activeTrack)
                     if (controller.requestClipMove(clip.clipId, track.trackId, frame, false, false, false)) {
+                        currentTrack = activeTrack;
                         clip.reparent(track)
                         clip.trackIndex = track.DelegateModel.itemsIndex
                         clip.trackId = track.trackId
@@ -911,6 +912,13 @@ Rectangle {
                                 clip.x = clip.draggedX
                             } else {
                                 clip.x = frame * timeScale
+                                var delta = Math.round((clip.x - clip.originalX) / timeline.scaleFactor)
+                                var s = timeline.timecode(Math.abs(delta))
+                                // remove leading zeroes
+                                if (s.substring(0, 3) === '00:')
+                                s = s.substring(3)
+                                s = ((delta < 0)? '-' : (delta > 0)? '+' : '') + s
+                                bubbleHelp.show(xpos, activeTrack.y + height/2, s)
                             }
                         }
                     }

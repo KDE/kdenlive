@@ -62,7 +62,7 @@ Rectangle {
     signal moved(var clip)
     signal dragged(var clip, var mouse)
     signal dropped(var clip)
-    signal draggedToTrack(var clip, int pos)
+    signal draggedToTrack(var clip, int pos, int xpos)
     signal trimmingIn(var clip, real newDuration, var mouse)
     signal trimmedIn(var clip)
     signal trimmingOut(var clip, real newDuration, var mouse)
@@ -191,7 +191,8 @@ Rectangle {
         onPositionChanged: {
             if (pressed) {
                 if (mouse.y < 0 || mouse.y > height) {
-                    parent.draggedToTrack(clipRoot, mapToItem(null, 0, mouse.y).y)
+                    var mapped = trackRoot.mapFromItem(clipRoot, mouse.x, mouse.y).x
+                    parent.draggedToTrack(clipRoot, mapToItem(null, 0, mouse.y).y, mapped)
                 } else {
                     parent.dragged(clipRoot, mouse)
                 }

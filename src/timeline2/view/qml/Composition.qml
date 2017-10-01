@@ -62,7 +62,7 @@ Item {
     signal moved(var clip)
     signal dragged(var clip, var mouse)
     signal dropped(var clip)
-    signal draggedToTrack(var clip, int pos)
+    signal draggedToTrack(var clip, int pos, int xpos)
     signal trimmingIn(var clip, real newDuration, var mouse)
     signal trimmedIn(var clip)
     signal trimmingOut(var clip, real newDuration, var mouse)
@@ -172,7 +172,8 @@ Item {
         }
         onPositionChanged: {
             if (mouse.y < -height || mouse.y > height) {
-                compositionRoot.draggedToTrack(compositionRoot, mapToItem(null, 0, mouse.y).y)
+                var mapped = trackRoot.mapFromItem(compositionRoot, mouse.x, mouse.y).x
+                compositionRoot.draggedToTrack(compositionRoot, mapToItem(null, 0, mouse.y).y, mapped)
             } else {
                 compositionRoot.dragged(compositionRoot, mouse)
             }
