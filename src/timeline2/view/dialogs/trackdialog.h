@@ -28,7 +28,7 @@ class TrackDialog : public QDialog, public Ui::AddTrack_UI
     Q_OBJECT
 
 public:
-    explicit TrackDialog(std::shared_ptr<TimelineItemModel> model, int trackIndex = -1, QWidget *parent = nullptr);
+    explicit TrackDialog(std::shared_ptr<TimelineItemModel> model, int trackIndex = -1, QWidget *parent = nullptr, bool deleteMode = false);
     /** @brief: returns the selected track's trackId
      */
     int selectedTrack() const;

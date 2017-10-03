@@ -66,7 +66,7 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
         case tractor_type: {
             // that is a double track
             int tid;
-            ok = timeline->requestTrackInsertion(-1, tid, undo, redo);
+            ok = timeline->requestTrackInsertion(-1, tid, QString(), false, undo, redo);
             Mlt::Tractor local_tractor(*track);
             ok = ok && constructTrackFromMelt(timeline, tid, local_tractor, undo, redo);
             break;
@@ -75,26 +75,17 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
             // that is a single track
             qDebug() << "Adding track: " << track->get("id");
             int tid;
-            ok = timeline->requestTrackInsertion(-1, tid, undo, redo);
-            timeline->setTrackProperty(tid, "kdenlive:trackheight", QString::number(KdenliveSettings::trackheight()));
             Mlt::Playlist local_playlist(*track);
-            ok = ok && constructTrackFromMelt(timeline, tid, local_playlist, undo, redo);
-            QString trackName = local_playlist.get("kdenlive:track_name");
-            if (!trackName.isEmpty()) {
-                timeline->setTrackProperty(tid, QStringLiteral("kdenlive:track_name"), trackName.toUtf8().constData());
-            }
+            const QString trackName = local_playlist.get("kdenlive:track_name");
             int audioTrack = local_playlist.get_int("kdenlive:audio_track");
-            if (audioTrack == 1) {
-                // This is an audio track
-                timeline->setTrackProperty(tid, QStringLiteral("kdenlive:audio_track"), QStringLiteral("1"));
-            }
+            ok = timeline->requestTrackInsertion(-1, tid, trackName, audioTrack == 1, undo, redo);
+            ok = ok && constructTrackFromMelt(timeline, tid, local_playlist, undo, redo);
             break;
         }
         default:
             qDebug() << "ERROR: Unexpected item in the timeline";
         }
     }
-
 
     // build internal track compositing
     timeline->buildTrackCompositing();

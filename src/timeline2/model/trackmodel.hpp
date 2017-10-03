@@ -55,7 +55,7 @@ public:
 
 private:
     /* This constructor is private, call the static construct instead */
-    TrackModel(const std::weak_ptr<TimelineModel> &parent, int id = -1);
+    TrackModel(const std::weak_ptr<TimelineModel> &parent, int id = -1, const QString &trackName = QString(), bool audioTrack = false);
     TrackModel(const std::weak_ptr<TimelineModel> &parent, Mlt::Tractor mltTrack, int id = -1);
 
 public:
@@ -64,7 +64,7 @@ public:
        @param id Requested id of the track. Automatic if id = -1
        @param pos is the optional position of the track. If left to -1, it will be added at the end
      */
-    static int construct(const std::weak_ptr<TimelineModel> &parent, int id = -1, int pos = -1);
+    static int construct(const std::weak_ptr<TimelineModel> &parent, int id = -1, int pos = -1, const QString &trackName = QString(), bool audioTrack = false);
 
     /* @brief returns the number of clips */
     int getClipsCount();

@@ -876,7 +876,7 @@ bool TimelineModel::requestClipUngroup(int id, Fun &undo, Fun &redo, bool tempor
     return m_groups->ungroupItem(id, undo, redo, temporarySelection);
 }
 
-bool TimelineModel::requestTrackInsertion(int position, int &id)
+bool TimelineModel::requestTrackInsertion(int position, int &id, const QString &trackName, bool audioTrack)
 {
 #ifdef LOGGING
     m_logFile << "timeline->requestTrackInsertion(" << position << ", dummy_id ); " << std::endl;
@@ -884,14 +884,14 @@ bool TimelineModel::requestTrackInsertion(int position, int &id)
     QWriteLocker locker(&m_lock);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    bool result = requestTrackInsertion(position, id, undo, redo);
+    bool result = requestTrackInsertion(position, id, trackName, audioTrack, undo, redo);
     if (result) {
         PUSH_UNDO(undo, redo, i18n("Insert Track"));
     }
     return result;
 }
 
-bool TimelineModel::requestTrackInsertion(int position, int &id, Fun &undo, Fun &redo)
+bool TimelineModel::requestTrackInsertion(int position, int &id, const QString &trackName, bool audioTrack, Fun &undo, Fun &redo)
 {
     // TODO: make sure we disable overlayTrack before inserting a track
     if (position == -1) {
@@ -902,8 +902,8 @@ bool TimelineModel::requestTrackInsertion(int position, int &id, Fun &undo, Fun 
     }
     int trackId = TimelineModel::getNextId();
     id = trackId;
-    Fun local_undo = deregisterTrack_lambda(trackId);
-    TrackModel::construct(shared_from_this(), trackId, position);
+    Fun local_undo = deregisterTrack_lambda(trackId, true);
+    TrackModel::construct(shared_from_this(), trackId, position, trackName, audioTrack);
     auto track = getTrackById(trackId);
     Fun local_redo = [track, position, this]() {
         // We capture a shared_ptr to the track, which means that as long as this undo object lives, the track object is not deleted. To insert it back it is
@@ -1021,14 +1021,14 @@ Fun TimelineModel::deregisterTrack_lambda(int id, bool updateView)
         qDebug() << "DEREGISTER TRACK" << id;
         auto it = m_iteratorTable[id];    // iterator to the element
         int index = getTrackPosition(id); // compute index in list
-        if (updateView) {
-            QModelIndex root;
-            _resetView();
-        }
         m_tractor->remove_track(static_cast<int>(index + 1)); // melt operation, add 1 to account for black background track
         // send update to the model
         m_allTracks.erase(it);     // actual deletion of object
         m_iteratorTable.erase(id); // clean table
+        if (updateView) {
+            QModelIndex root;
+            _resetView();
+        }
         return true;
     };
 }

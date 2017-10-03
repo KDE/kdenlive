@@ -330,12 +330,10 @@ Rectangle {
         id: headerMenu
         MenuItem {
             text: i18n('Add Track')
-            shortcut: 'Ctrl+U'
             onTriggered: timeline.addTrack(tracksRepeater.itemAt(currentTrack).trackId);
         }
         MenuItem {
             text: i18n('Delete Track')
-            //shortcut: 'Ctrl+U'
             onTriggered: timeline.deleteTrack(tracksRepeater.itemAt(currentTrack).trackId);
         }
     }

@@ -23,7 +23,7 @@
 
 #include <QIcon>
 
-TrackDialog::TrackDialog(std::shared_ptr<TimelineItemModel> model, int trackIndex, QWidget *parent) :
+TrackDialog::TrackDialog(std::shared_ptr<TimelineItemModel> model, int trackIndex, QWidget *parent, bool deleteMode) :
     QDialog(parent)
 {
     //setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
@@ -45,11 +45,20 @@ TrackDialog::TrackDialog(std::shared_ptr<TimelineItemModel> model, int trackInde
         comboTracks->setCurrentIndex(ix);
     }
     trackIndex--;
-    QString proposedName = i18n("Video %1", trackIndex);
-    while (existingTrackNames.contains(proposedName)) {
-        proposedName = i18n("Video %1", ++trackIndex);
+    if (deleteMode) {
+        track_name->setVisible(false);
+        video_track->setVisible(false);
+        audio_track->setVisible(false);
+        name_label->setVisible(false);
+        before_select->setVisible(false);
+        label->setText(i18n("Delete Track"));
+    } else {
+        QString proposedName = i18n("Video %1", trackIndex);
+        while (existingTrackNames.contains(proposedName)) {
+            proposedName = i18n("Video %1", ++trackIndex);
+        }
+        track_name->setText(proposedName);
     }
-    track_name->setText(proposedName);
 }
 
 int TrackDialog::selectedTrack() const

@@ -24,12 +24,13 @@
 #include "compositionmodel.hpp"
 #include "snapmodel.hpp"
 #include "timelinemodel.hpp"
+#include "kdenlivesettings.h"
 #include <QDebug>
 #include <QModelIndex>
 #include <mlt++/MltProfile.h>
 #include <mlt++/MltTransition.h>
 
-TrackModel::TrackModel(const std::weak_ptr<TimelineModel> &parent, int id)
+TrackModel::TrackModel(const std::weak_ptr<TimelineModel> &parent, int id, const QString &trackName, bool audioTrack)
     : m_parent(parent)
     , m_id(id == -1 ? TimelineModel::getNextId() : id)
     , m_lock(QReadWriteLock::Recursive)
@@ -40,6 +41,16 @@ TrackModel::TrackModel(const std::weak_ptr<TimelineModel> &parent, int id)
         m_playlists[1].set_profile(*ptr->getProfile());
         m_track->insert_track(m_playlists[0], 0);
         m_track->insert_track(m_playlists[1], 1);
+        if (!trackName.isEmpty()) {
+            m_track->set("kdenlive:track_name", trackName.toUtf8().constData());
+        }
+        if (audioTrack) {
+            m_track->set("kdenlive:audio_track", 1);
+            for (int i = 0; i < 2; i++) {
+                m_playlists[i].set("hide", 1);
+            }
+        }
+        m_track->set("kdenlive:trackheight", KdenliveSettings::trackheight());
     } else {
         qDebug() << "Error : construction of track failed because parent timeline is not available anymore";
         Q_ASSERT(false);
@@ -66,9 +77,9 @@ TrackModel::~TrackModel()
     m_track->remove_track(0);
 }
 
-int TrackModel::construct(const std::weak_ptr<TimelineModel> &parent, int id, int pos)
+int TrackModel::construct(const std::weak_ptr<TimelineModel> &parent, int id, int pos, const QString &trackName, bool audioTrack)
 {
-    std::shared_ptr<TrackModel> track(new TrackModel(parent, id));
+    std::shared_ptr<TrackModel> track(new TrackModel(parent, id, trackName, audioTrack));
     id = track->m_id;
     if (auto ptr = parent.lock()) {
         ptr->registerTrack(std::move(track), pos);
