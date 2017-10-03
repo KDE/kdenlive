@@ -113,6 +113,7 @@ Rectangle {
     property real timeScale: timeline.scaleFactor
     property real snapping: timeline.snap ? 10 / Math.sqrt(timeScale) : -1
     property int trackHeight
+    property int copiedClip: -1
 
     //onCurrentTrackChanged: timeline.selection = []
     onTimeScaleChanged: {
@@ -252,6 +253,15 @@ Rectangle {
         property int clickedX
         property int clickedY
         MenuItem {
+            text: i18n('Paste')
+            visible: copiedClip != -1
+            onTriggered: {
+                var track = Logic.getTrackIdFromPos(menu.clickedY - ruler.height)
+                var frame = Math.round((menu.clickedX + scrollView.flickableItem.contentX) / timeline.scaleFactor)
+                timeline.copyClip(copiedClip, track, frame)
+            }
+        }
+        MenuItem {
             text: i18n('Insert Space')
             onTriggered: {
                 var track = Logic.getTrackIdFromPos(menu.clickedY - ruler.height)
@@ -289,11 +299,6 @@ Rectangle {
             onTriggered: {
                 timeline.editGuide(timeline.position);
             }
-        }
-        MenuItem {
-            text: i18n('Add Audio Track')
-            shortcut: 'Ctrl+U'
-            onTriggered: timeline.addAudioTrack();
         }
         AssetMenu {
             title: i18n('Insert a composition...')

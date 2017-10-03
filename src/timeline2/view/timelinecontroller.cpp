@@ -300,6 +300,25 @@ void TimelineController::deleteSelectedClips()
     }
 }
 
+int TimelineController::copyClip(int clipId, int tid, int position)
+{
+    int id;
+    if (tid == -1) {
+        QVariant returnedValue;
+        QMetaObject::invokeMethod(m_root, "currentTrackId", Q_RETURN_ARG(QVariant, returnedValue));
+        tid = returnedValue.toInt();
+    }
+    if (position == -1) {
+        position = m_position;
+    }
+    if (m_model->isClip(clipId)) {
+        if (!m_model->requestClipCopy(clipId, tid, position, id)) {
+            id = -1;
+        }
+    }
+    return id;
+}
+
 void TimelineController::triggerAction(const QString &name)
 {
     QAction *action = m_actionCollection->action(name);

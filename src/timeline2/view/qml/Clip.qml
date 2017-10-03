@@ -688,7 +688,7 @@ Rectangle {
         MenuItem {
             visible: true
             text: i18n('Copy')
-            onTriggered: timeline.copyClip(trackIndex, index)
+            onTriggered: root.copiedClip = clipId
         }
         MenuSeparator {
             visible: true

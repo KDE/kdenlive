@@ -459,6 +459,25 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
     return result;
 }
 
+bool TimelineModel::requestClipCopy(int clipId, int trackId, int position, int &id)
+{
+    int in = getClipIn(clipId);
+    int out = in + getClipPlaytime(clipId);
+    QString clipData = QString("%1#%2#%3").arg(getClipBinId(clipId)).arg(in).arg(out);
+
+    QWriteLocker locker(&m_lock);
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    bool result = requestClipInsertion(clipData, trackId, position, id, true, true, undo, redo);
+    if (result) {
+        std::shared_ptr<EffectStackModel> sourceStack = getClipEffectStack(clipId);
+        result = m_allClips.at(id)->importEffects(sourceStack);
+        PUSH_UNDO(undo, redo, i18n("Copy Clip"));
+    }
+    return result;
+
+}
+
 bool TimelineModel::requestClipCreation(const QString &binClipId, int &id, Fun &undo, Fun &redo)
 {
     int clipId = TimelineModel::getNextId();
@@ -1099,7 +1118,7 @@ bool TimelineModel::copyClipEffect(int clipId, const QString &sourceId)
     int itemId = source.at(1).toInt();
     int itemRow = source.at(2).toInt();
     std::shared_ptr<EffectStackModel> effectStack = pCore->getItemEffectStack(itemType, itemId);
-    return m_allClips.at(clipId)->copyEffect(effectStack, itemRow);;
+    return m_allClips.at(clipId)->copyEffect(effectStack, itemRow);
 }
 
 bool TimelineModel::adjustEffectLength(int clipId, const QString &effectId, int duration)

@@ -109,6 +109,7 @@ public:
        @return the id of the inserted clip
      */
     Q_INVOKABLE int insertClip(int tid, int position, const QString &xml, bool logUndo, bool refreshView);
+    Q_INVOKABLE int copyClip(int clipId, int tid, int position);
 
     /* @brief Request inserting a new composition in timeline (dragged from compositions list)
        @param tid is the destination track

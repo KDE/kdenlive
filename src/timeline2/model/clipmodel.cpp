@@ -221,6 +221,13 @@ bool ClipModel::copyEffect(std::shared_ptr<EffectStackModel> stackModel, int row
     return true;
 }
 
+bool ClipModel::importEffects(std::shared_ptr<EffectStackModel> stackModel)
+{
+    READ_LOCK();
+    m_effectStack->importEffects(stackModel);
+    return true;
+}
+
 bool ClipModel::removeFade(bool fromStart)
 {
     READ_LOCK();

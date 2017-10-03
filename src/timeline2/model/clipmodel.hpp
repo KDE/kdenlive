@@ -89,6 +89,7 @@ public:
 
     bool addEffect(const QString &effectId);
     bool copyEffect(std::shared_ptr<EffectStackModel> stackModel, int rowId);
+    bool importEffects(std::shared_ptr<EffectStackModel> stackModel);
     bool removeFade(bool fromStart);
     bool adjustEffectLength(const QString &effectName, int duration);
 
