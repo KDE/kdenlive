@@ -1233,9 +1233,7 @@ void Monitor::seekCursor(int pos)
     if (m_ruler->slotNewValue(pos)) {
         m_timePos->setValue(pos);
         checkOverlay(pos);
-        if (m_id != Kdenlive::ClipMonitor) {
-            emit renderPosition(pos);
-        }
+        emit renderPosition(pos);
     }
 }
 
