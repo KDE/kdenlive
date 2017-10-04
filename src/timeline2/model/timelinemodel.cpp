@@ -461,13 +461,22 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
 
 bool TimelineModel::requestClipCopy(int clipId, int trackId, int position, int &id)
 {
-    int in = getClipIn(clipId);
-    int out = in + getClipPlaytime(clipId) - 1;
-    QString clipData = QString("%1#%2#%3").arg(getClipBinId(clipId)).arg(in).arg(out);
-
     QWriteLocker locker(&m_lock);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
+    if (m_groups->isInGroup(clipId)) {
+        int groupId = m_groups->getRootId(clipId);
+        return requestGroupCopy(clipId, groupId, getTrackPosition(trackId) - getTrackPosition(getClipTrackId(clipId)), position - getClipPosition(clipId), undo, redo);
+    }
+    return processClipCopy(clipId, trackId, position, id, undo, redo);
+}
+
+
+bool TimelineModel::processClipCopy(int clipId, int trackId, int position, int &id, Fun &undo, Fun &redo)
+{
+    int in = getClipIn(clipId);
+    int out = in + getClipPlaytime(clipId) - 1;
+    QString clipData = QString("%1#%2#%3").arg(getClipBinId(clipId)).arg(in).arg(out);
     bool result = requestClipInsertion(clipData, trackId, position, id, true, true, undo, redo);
     if (result) {
         std::shared_ptr<EffectStackModel> sourceStack = getClipEffectStack(clipId);
@@ -476,6 +485,55 @@ bool TimelineModel::requestClipCopy(int clipId, int trackId, int position, int &
     }
     return result;
 
+}
+
+bool TimelineModel::requestGroupCopy(int clipId, int groupId, int delta_track, int delta_pos, Fun &undo, Fun &redo)
+{
+    QWriteLocker locker(&m_lock);
+    Q_ASSERT(m_allGroups.count(groupId) > 0);
+    bool ok = true;
+    auto all_clips = m_groups->getLeaves(groupId);
+    std::vector<int> sorted_clips(all_clips.begin(), all_clips.end());
+    // we have to sort clip in an order that allows to do the move without self conflicts
+    // If we move up, we move first the clips on the upper tracks (and conversely).
+    // If we move left, we move first the leftmost clips (and conversely).
+    std::sort(sorted_clips.begin(), sorted_clips.end(), [delta_track, delta_pos, this](int clipId1, int clipId2) {
+        int trackId1 = getClipTrackId(clipId1);
+        int trackId2 = getClipTrackId(clipId2);
+        int track_pos1 = getTrackPosition(trackId1);
+        int track_pos2 = getTrackPosition(trackId2);
+        if (trackId1 == trackId2) {
+            int p1 = m_allClips[clipId1]->getPosition();
+            int p2 = m_allClips[clipId2]->getPosition();
+            return !(p1 <= p2) == !(delta_pos <= 0);
+        }
+        return !(track_pos1 <= track_pos2) == !(delta_track <= 0);
+    });
+    std::unordered_set<int> ids;
+    for (int clip : sorted_clips) {
+        int current_track_id = getClipTrackId(clip);
+        int current_track_position = getTrackPosition(current_track_id);
+        int target_track_position = current_track_position + delta_track;
+        if (target_track_position >= 0 && target_track_position < getTracksCount()) {
+            auto it = m_allTracks.cbegin();
+            std::advance(it, target_track_position);
+            int target_track = (*it)->getId();
+            int target_position = m_allClips[clip]->getPosition() + delta_pos;
+            int newId;
+            ok = processClipCopy(clip, target_track, target_position, newId, undo, redo);
+            ids.insert(newId);
+        } else {
+            ok = false;
+        }
+        if (!ok) {
+            bool undone = undo();
+            Q_ASSERT(undone);
+            return false;
+        }
+    }
+    // rebuild groups
+    requestClipsGroup(ids, undo, redo, false);
+    return true;
 }
 
 bool TimelineModel::requestClipCreation(const QString &binClipId, int &id, Fun &undo, Fun &redo)
@@ -583,7 +641,7 @@ bool TimelineModel::requestClipDeletion(int clipId, Fun &undo, Fun &redo)
 }
 
 bool TimelineModel::requestCompositionDeletion(int compositionId, Fun &undo, Fun &redo)
-{
+    {
     int trackId = getCompositionTrackId(compositionId);
     if (trackId != -1) {
         bool res = getTrackById(trackId)->requestCompositionDeletion(compositionId, true, undo, redo);
