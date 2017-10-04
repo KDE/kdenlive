@@ -83,6 +83,10 @@ Rectangle {
         return (scrollView.flickableItem.contentX + tracksArea.mouseX) / timeline.scaleFactor;
     }
 
+    function getMouseTrack() {
+        return Logic.getTrackIdFromPos(tracksArea.mouseY - ruler.height)
+    }
+
     function getTrackColor(audio, header) {
         var col = activePalette.alternateBase
         if (audio) {
@@ -258,7 +262,7 @@ Rectangle {
             onTriggered: {
                 var track = Logic.getTrackIdFromPos(menu.clickedY - ruler.height)
                 var frame = Math.round((menu.clickedX + scrollView.flickableItem.contentX) / timeline.scaleFactor)
-                timeline.copyClip(copiedClip, track, frame)
+                timeline.pasteItem(copiedClip, track, frame)
             }
         }
         MenuItem {

@@ -300,9 +300,31 @@ void TimelineController::deleteSelectedClips()
     }
 }
 
-int TimelineController::copyClip(int clipId, int tid, int position)
+void TimelineController::copyItem()
+{
+    int clipId = -1;
+    if (!m_selection.selectedClips.isEmpty()) {
+        clipId = m_selection.selectedClips.first();
+    } else { 
+        return;
+    }
+    m_root->setProperty("copiedClip", clipId);
+}
+
+int TimelineController::pasteItem(int clipId, int tid, int position)
 {
     int id;
+    //TODO: copy multiple clips / groups
+    if (clipId == -1) {
+        clipId = m_root->property("copiedClip").toInt();
+        if (clipId == -1) {
+            return -1;
+        }
+    }
+    if (tid == -1 && position == -1) {
+        tid = getMouseTrack();
+        position = getMousePos();
+    }
     if (tid == -1) {
         QVariant returnedValue;
         QMetaObject::invokeMethod(m_root, "currentTrackId", Q_RETURN_ARG(QVariant, returnedValue));
@@ -311,11 +333,13 @@ int TimelineController::copyClip(int clipId, int tid, int position)
     if (position == -1) {
         position = m_position;
     }
+    qDebug()<< "PASTING CLIP: "<<clipId<<", "<<tid<<", "<<position;
     if (m_model->isClip(clipId)) {
         if (!m_model->requestClipCopy(clipId, tid, position, id)) {
             id = -1;
         }
     }
+    //TODO copy composition
     return id;
 }
 
@@ -636,6 +660,13 @@ int TimelineController::getMousePos()
 {
     QVariant returnedValue;
     QMetaObject::invokeMethod(m_root, "getMousePos", Q_RETURN_ARG(QVariant, returnedValue));
+    return returnedValue.toInt();
+}
+
+int TimelineController::getMouseTrack()
+{
+    QVariant returnedValue;
+    QMetaObject::invokeMethod(m_root, "getMouseTrack", Q_RETURN_ARG(QVariant, returnedValue));
     return returnedValue.toInt();
 }
 

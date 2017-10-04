@@ -109,8 +109,8 @@ public:
        @return the id of the inserted clip
      */
     Q_INVOKABLE int insertClip(int tid, int position, const QString &xml, bool logUndo, bool refreshView);
-    Q_INVOKABLE int copyClip(int clipId, int tid, int position);
-
+    Q_INVOKABLE void copyItem();
+    Q_INVOKABLE int pasteItem(int clipId = -1, int tid = -1, int position = -1);
     /* @brief Request inserting a new composition in timeline (dragged from compositions list)
        @param tid is the destination track
        @param position is the timeline position
@@ -246,6 +246,9 @@ public:
     /* @brief Get the frame where mouse is positionned
      */
     int getMousePos();
+    /* @brief Get the frame where mouse is positionned
+     */
+    int getMouseTrack();
     /* @brief Returns a map of track ids/track names
      */
     QMap<int, QString> getTrackNames(bool videoOnly);

@@ -2864,22 +2864,12 @@ void MainWindow::slotSetTool(ProjectTool tool)
 
 void MainWindow::slotCopy()
 {
-    //TODO refac
-    /*
-    if (pCore->projectManager()->currentTimeline()) {
-        pCore->projectManager()->currentTimeline()->projectView()->copyClip();
-    }
-    */
+    getMainTimeline()->controller()->copyItem();
 }
 
 void MainWindow::slotPaste()
 {
-    //TODO refac
-    /*
-    if (pCore->projectManager()->currentTimeline()) {
-        pCore->projectManager()->currentTimeline()->projectView()->pasteClip();
-    }
-    */
+    getMainTimeline()->controller()->pasteItem();
 }
 
 void MainWindow::slotPasteEffects()

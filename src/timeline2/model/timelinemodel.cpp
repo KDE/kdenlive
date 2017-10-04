@@ -462,7 +462,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
 bool TimelineModel::requestClipCopy(int clipId, int trackId, int position, int &id)
 {
     int in = getClipIn(clipId);
-    int out = in + getClipPlaytime(clipId);
+    int out = in + getClipPlaytime(clipId) - 1;
     QString clipData = QString("%1#%2#%3").arg(getClipBinId(clipId)).arg(in).arg(out);
 
     QWriteLocker locker(&m_lock);
