@@ -12,6 +12,7 @@
   <name xml:lang="cs">Kdenlive</name>
   <name xml:lang="da">Kdenlive</name>
   <name xml:lang="de">Kdenlive</name>
+  <name xml:lang="el">Kdenlive</name>
   <name xml:lang="en-GB">Kdenlive</name>
   <name xml:lang="es">Kdenlive</name>
   <name xml:lang="et">Kdenlive</name>
@@ -40,6 +41,7 @@
   <summary xml:lang="cs">Editor videa</summary>
   <summary xml:lang="da">Videoredigering</summary>
   <summary xml:lang="de">Video-Editor</summary>
+  <summary xml:lang="el">Επεξεργαστής βίντεο</summary>
   <summary xml:lang="en-GB">Video Editor</summary>
   <summary xml:lang="es">Editor de video</summary>
   <summary xml:lang="et">Videoredaktor</summary>
@@ -67,6 +69,7 @@
     <p xml:lang="ca-valencia">El Kdenlive és un editor no lineal de vídeo. Està basat en l'entorn de treball MLT i accepta molts formats d'àudio i vídeo, permetent afegir efectes, transicions i representacions en el format de la vostra elecció.</p>
     <p xml:lang="cs">Kdenlive je nelineární video editor. Je založený na frameworku MLT a přehrává mnoho zvukových a video formátů, umožňuje přidat efekty, přechody a renderuje do formátu podle vašeho výběru.</p>
     <p xml:lang="de">Kdenlive ist ein Video-Editor für nichtlinearen Schnitt. Es basiert auf MLT und verarbeitet viele Audio- und Video-Formate. Sie können Effekte und Übergänge benutzen und in Formate Ihrer Wahl umwandeln.</p>
+    <p xml:lang="el">Το Kdenlive είναι ένας μη γραμμικός επεξεργαστής βίντεο. Βασίζεται στο πλαίσιο εργασίας MLT και δέχεται πολλούς τύπους ήχου και βίντεο, επιτρέπει την προσθήκη εφέ, μεταβάσεων και αποτύπωσης στον τύπο αποθήκευσης της επιλογής σας.</p>
     <p xml:lang="en-GB">Kdenlive is a non linear video editor. It is based on the MLT framework and accepts many audio and video formats, allows you to add effects, transitions and render into the format of your choice.</p>
     <p xml:lang="es">Kdenlive es un editor no lineal de video. Está basado en la infraestructura MLT y acepta numerosos formatos de audio y video, permitiendo agregar efectos, transiciones y procesar el video final en el formato deseado.</p>
     <p xml:lang="et">Kdenline on mittelineaarne videoredaktor. See tugineb MLT raamistikule ja võimaldab tarvitada paljusid heli- ja videovorminguid, lisada efekte ja üleminekuid ning renderdada tulemuse vajalikku vormingusse.</p>
@@ -95,6 +98,7 @@
     <p xml:lang="cs">Vlastnosti:</p>
     <p xml:lang="da">Funktioner:</p>
     <p xml:lang="de">Funktionen:</p>
+    <p xml:lang="el">Χαρακτηριστικά:</p>
     <p xml:lang="en-GB">Features:</p>
     <p xml:lang="es">Características:</p>
     <p xml:lang="et">Omadused:</p>
@@ -121,6 +125,7 @@
       <li xml:lang="ca-valencia">Interfície multipista intuïtiva.</li>
       <li xml:lang="cs">Intuitivní vícepohledové rozhraní.</li>
       <li xml:lang="de">Intuitive Mehrspur-Benutzeroberfläche.</li>
+      <li xml:lang="el">Διαισθητική πολυκάναλη διεπαφή.</li>
       <li xml:lang="en-GB">Intuitive multitrack interface.</li>
       <li xml:lang="es">Interfaz multipista intuitiva.</li>
       <li xml:lang="et">Hõlpsasti mõistetav mitme paneeliga liides</li>
@@ -147,6 +152,7 @@
       <li xml:lang="ca-valencia">Molts efectes i transicions.</li>
       <li xml:lang="cs">Spousta efektů a přechodů.</li>
       <li xml:lang="de">Viele Effekte und Übergänge.</li>
+      <li xml:lang="el">Πολλά εφέ και μεταβάσεις.</li>
       <li xml:lang="en-GB">Many effects and transitions.</li>
       <li xml:lang="es">Muchos efectos y transiciones.</li>
       <li xml:lang="et">Palju efekte ja üleminekuid</li>
@@ -173,6 +179,7 @@
       <li xml:lang="ca-valencia">Àmbits de color</li>
       <li xml:lang="cs">Rozsahy barev</li>
       <li xml:lang="de">Farbbereiche</li>
+      <li xml:lang="el">Εμβέλειες χρωμάτων</li>
       <li xml:lang="en-GB">Colour scopes</li>
       <li xml:lang="es">Indicadores de color</li>
       <li xml:lang="et">Värviskoobid</li>
@@ -199,6 +206,7 @@
       <li xml:lang="ca-valencia">Assistent bàsic per als DVD</li>
       <li xml:lang="cs">Základní průvodce DVD</li>
       <li xml:lang="de">Einfacher DVD-Assistent</li>
+      <li xml:lang="el">Βασικός οδηγός DVD</li>
       <li xml:lang="en-GB">Basic DVD Wizard</li>
       <li xml:lang="es">Asistente básico de DVD</li>
       <li xml:lang="et">Lihtne DVD nõustaja</li>
