@@ -121,7 +121,7 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
     }
     // fix mantis#3160
     QUrl startFile = QUrl::fromLocalFile(KdenliveSettings::defaultprojectfolder() + QStringLiteral("/_untitled.kdenlive"));
-    if (checkForBackupFile(startFile)) {
+    if (checkForBackupFile(startFile, true)) {
         return;
     }
     m_fileRevert->setEnabled(false);
@@ -299,12 +299,14 @@ bool ProjectManager::saveFileAs(const QString &outputFileName)
     // saved under file name
     // actual saving by KdenliveDoc::slotAutoSave() called by a timer 3 seconds after the document has been edited
     // This timer is set by KdenliveDoc::setModified()
+    const QString projectId = QCryptographicHash::hash(url.fileName().toUtf8(), QCryptographicHash::Md5).toHex();
+    QUrl autosaveUrl = QUrl::fromLocalFile(QFileInfo(outputFileName).absoluteDir().absoluteFilePath(projectId + QStringLiteral(".kdenlive")));
     if (m_project->m_autosave == nullptr) {
         // The temporary file is not opened or created until actually needed.
         // The file filename does not have to exist for KAutoSaveFile to be constructed (if it exists, it will not be touched).
-        m_project->m_autosave = new KAutoSaveFile(url, this);
+        m_project->m_autosave = new KAutoSaveFile(autosaveUrl, m_project);
     } else {
-        m_project->m_autosave->setManagedFile(url);
+        m_project->m_autosave->setManagedFile(autosaveUrl);
     }
 
     pCore->window()->setWindowTitle(m_project->description());
@@ -421,10 +423,12 @@ void ProjectManager::openLastFile()
 
 // fix mantis#3160 separate check from openFile() so we can call it from newFile()
 // to find autosaved files (in ~/.local/share/stalefiles/kdenlive) and recover it
-bool ProjectManager::checkForBackupFile(const QUrl &url)
+bool ProjectManager::checkForBackupFile(const QUrl &url, bool newFile)
 {
     // Check for autosave file that belong to the url we passed in.
-    QList<KAutoSaveFile *> staleFiles = KAutoSaveFile::staleFiles(url);
+    const QString projectId = QCryptographicHash::hash(url.fileName().toUtf8(), QCryptographicHash::Md5).toHex();
+    QUrl autosaveUrl = newFile ? url : QUrl::fromLocalFile(QFileInfo(url.path()).absoluteDir().absoluteFilePath(projectId + QStringLiteral(".kdenlive")));
+    QList<KAutoSaveFile *> staleFiles = KAutoSaveFile::staleFiles(autosaveUrl);
     KAutoSaveFile *orphanedFile = nullptr;
     // Check if we can have a lock on one of the file,
     // meaning it is not handled by any Kdenlive instancce
@@ -498,7 +502,6 @@ void ProjectManager::openFile(const QUrl &url)
     if (!closeCurrentDocument()) {
         return;
     }
-
     if (checkForBackupFile(url)) {
         return;
     }
@@ -531,7 +534,9 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     m_notesPlugin->clear();
     KdenliveDoc *doc = new KdenliveDoc(stale ? QUrl::fromLocalFile(stale->fileName()) : url, QString(), pCore->window()->m_commandStack, KdenliveSettings::default_profile().isEmpty() ? KdenliveSettings::current_profile() : KdenliveSettings::default_profile(), QMap<QString, QString> (), QMap<QString, QString> (), QPoint(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks()), pCore->monitorManager()->projectMonitor()->render, m_notesPlugin, &openBackup, pCore->window());
     if (stale == nullptr) {
-        stale = new KAutoSaveFile(url, doc);
+        const QString projectId = QCryptographicHash::hash(url.fileName().toUtf8(), QCryptographicHash::Md5).toHex();
+        QUrl autosaveUrl = QUrl::fromLocalFile(QFileInfo(url.path()).absoluteDir().absoluteFilePath(projectId + QStringLiteral(".kdenlive")));
+        stale = new KAutoSaveFile(autosaveUrl, doc);
         doc->m_autosave = stale;
     } else {
         doc->m_autosave = stale;

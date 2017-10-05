@@ -137,7 +137,7 @@ private:
     * @return The mimetype */
     QString getMimeType(bool open = true);
     /** @brief checks if autoback files exists, recovers from it if user says yes, returns true if files were recovered. */
-    bool checkForBackupFile(const QUrl &url);
+    bool checkForBackupFile(const QUrl &url, bool newFile = false);
 
     KdenliveDoc *m_project;
     Timeline *m_trackView;
