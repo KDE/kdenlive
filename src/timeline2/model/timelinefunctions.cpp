@@ -21,10 +21,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "timelinefunctions.hpp"
 #include "clipmodel.hpp"
-#include "groupsmodel.hpp"
 #include "core.h"
-#include "timelineitemmodel.hpp"
 #include "effects/effectstack/model/effectstackmodel.hpp"
+#include "groupsmodel.hpp"
+#include "timelineitemmodel.hpp"
+#include "trackmodel.hpp"
 
 #include <QDebug>
 #include <klocalizedstring.h>
@@ -88,9 +89,7 @@ bool TimelineFunctions::requestClipCut(std::shared_ptr<TimelineItemModel> timeli
     if (count > 0 && timeline->m_groups->isInGroup(clipId)) {
         // we now split the group hiearchy.
         // As a splitting criterion, we compare start point with split position
-        auto criterion = [timeline, position](int cid) {
-            return timeline->getClipPosition(cid) < position;
-        };
+        auto criterion = [timeline, position](int cid) { return timeline->getClipPosition(cid) < position; };
         int root = timeline->m_groups->getRootId(clipId);
         bool res = timeline->m_groups->split(root, criterion, undo, redo);
         if (!res) {
@@ -250,3 +249,35 @@ bool TimelineFunctions::insertSpace(std::shared_ptr<TimelineItemModel> timeline,
     }
     return result;
 }
+
+bool TimelineFunctions::requestClipCopy(std::shared_ptr<TimelineItemModel> timeline, int clipId, int trackId, int position)
+{
+    Q_ASSERT(timeline->isClip(clipId) || timeline->isComposition(clipId));
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    int deltaTrack = timeline->getTrackPosition(trackId) - timeline->getTrackPosition(timeline->getClipTrackId(clipId));
+    int deltaPos = position - timeline->getClipPosition(clipId);
+    std::unordered_set<int> allIds = timeline->getGroupElements(clipId);
+    for (int id : allIds) {
+        int newId = -1;
+        bool res = copyClip(timeline, id, newId, undo, redo);
+        res = res && (res != -1);
+        int target_position = timeline->getClipPosition(id) + deltaPos;
+        int target_track_position = timeline->getTrackPosition(timeline->getClipTrackId(id)) + deltaTrack;
+        if (target_track_position >= 0 && target_track_position < timeline->getTracksCount()) {
+            auto it = timeline->m_allTracks.cbegin();
+            std::advance(it, target_track_position);
+            int target_track = (*it)->getId();
+            res = res && timeline->requestClipMove(newId, target_track, target_position, true, false, undo, redo);
+        } else {
+            res = false;
+        }
+        if (!res) {
+            bool undone = undo();
+            Q_ASSERT(undone);
+            return false;
+        }
+    }
+    return true;
+}
+

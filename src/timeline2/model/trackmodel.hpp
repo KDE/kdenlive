@@ -47,11 +47,12 @@ public:
     TrackModel() = delete;
     ~TrackModel();
 
-    friend class TimelineModel;
-    friend class TimelineItemModel;
     friend class ClipModel;
     friend class CompositionModel;
     friend class TimelineController;
+    friend class TimelineFunctions;
+    friend class TimelineItemModel;
+    friend class TimelineModel;
 
 private:
     /* This constructor is private, call the static construct instead */

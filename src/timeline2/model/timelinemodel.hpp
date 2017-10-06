@@ -302,9 +302,6 @@ public:
     bool requestClipInsertion(const QString &binClipId, int trackId, int position, int &id, bool logUndo = true, bool refreshView = false);
     /* Same function, but accumulates undo and redo*/
     bool requestClipInsertion(const QString &binClipId, int trackId, int position, int &id, bool logUndo, bool refreshView, Fun &undo, Fun &redo);
-    bool requestClipCopy(int clipId, int trackId, int position, int &id);
-    bool processClipCopy(int clipId, int trackId, int position, int &id, Fun &undo, Fun &redo);
-    bool requestGroupCopy(int clipId, int groupId, int delta_track, int delta_pos, Fun &undo, Fun &redo);
     /* @brief Creates a new clip instance without inserting it.
        This action is undoable, returns true on success
        @param binClipId: Bin id of the clip to insert

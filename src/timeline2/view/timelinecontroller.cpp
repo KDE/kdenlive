@@ -311,9 +311,8 @@ void TimelineController::copyItem()
     m_root->setProperty("copiedClip", clipId);
 }
 
-int TimelineController::pasteItem(int clipId, int tid, int position)
+bool TimelineController::pasteItem(int clipId, int tid, int position)
 {
-    int id;
     //TODO: copy multiple clips / groups
     if (clipId == -1) {
         clipId = m_root->property("copiedClip").toInt();
@@ -335,12 +334,10 @@ int TimelineController::pasteItem(int clipId, int tid, int position)
     }
     qDebug()<< "PASTING CLIP: "<<clipId<<", "<<tid<<", "<<position;
     if (m_model->isClip(clipId)) {
-        if (!m_model->requestClipCopy(clipId, tid, position, id)) {
-            id = -1;
-        }
+        return TimelineFunctions::requestClipCopy(m_model, clipId, tid, position);
     }
     //TODO copy composition
-    return id;
+    return false;
 }
 
 void TimelineController::triggerAction(const QString &name)

@@ -21,8 +21,8 @@
 
 #include "timelinemodel.hpp"
 #include "assets/model/assetparametermodel.hpp"
-#include "bin/projectitemmodel.h"
 #include "bin/projectclip.h"
+#include "bin/projectitemmodel.h"
 #include "clipmodel.hpp"
 #include "compositionmodel.hpp"
 #include "core.h"
@@ -91,7 +91,7 @@ TimelineModel::~TimelineModel()
     for (auto tracks : all_ids) {
         deregisterTrack_lambda(tracks, false)();
     }
-    for (const auto & clip : m_allClips) {
+    for (const auto &clip : m_allClips) {
         clip.second->deregisterClipToBin();
     }
 }
@@ -268,7 +268,7 @@ int TimelineModel::getPreviousVideoTrackPos(int trackId) const
 
 bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool updateView, bool invalidateTimeline, Fun &undo, Fun &redo)
 {
-    qDebug()<<"// FINAL MOVE: "<<invalidateTimeline<< ", UPDATE VIEW: "<<updateView;
+    qDebug() << "// FINAL MOVE: " << invalidateTimeline << ", UPDATE VIEW: " << updateView;
     if (trackId == -1) {
         return false;
     }
@@ -459,83 +459,6 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
     return result;
 }
 
-bool TimelineModel::requestClipCopy(int clipId, int trackId, int position, int &id)
-{
-    QWriteLocker locker(&m_lock);
-    Fun undo = []() { return true; };
-    Fun redo = []() { return true; };
-    if (m_groups->isInGroup(clipId)) {
-        int groupId = m_groups->getRootId(clipId);
-        return requestGroupCopy(clipId, groupId, getTrackPosition(trackId) - getTrackPosition(getClipTrackId(clipId)), position - getClipPosition(clipId), undo, redo);
-    }
-    return processClipCopy(clipId, trackId, position, id, undo, redo);
-}
-
-
-bool TimelineModel::processClipCopy(int clipId, int trackId, int position, int &id, Fun &undo, Fun &redo)
-{
-    int in = getClipIn(clipId);
-    int out = in + getClipPlaytime(clipId) - 1;
-    QString clipData = QString("%1#%2#%3").arg(getClipBinId(clipId)).arg(in).arg(out);
-    bool result = requestClipInsertion(clipData, trackId, position, id, true, true, undo, redo);
-    if (result) {
-        std::shared_ptr<EffectStackModel> sourceStack = getClipEffectStack(clipId);
-        result = m_allClips.at(id)->importEffects(sourceStack);
-        PUSH_UNDO(undo, redo, i18n("Copy Clip"));
-    }
-    return result;
-
-}
-
-bool TimelineModel::requestGroupCopy(int clipId, int groupId, int delta_track, int delta_pos, Fun &undo, Fun &redo)
-{
-    QWriteLocker locker(&m_lock);
-    Q_ASSERT(m_allGroups.count(groupId) > 0);
-    bool ok = true;
-    auto all_clips = m_groups->getLeaves(groupId);
-    std::vector<int> sorted_clips(all_clips.begin(), all_clips.end());
-    // we have to sort clip in an order that allows to do the move without self conflicts
-    // If we move up, we move first the clips on the upper tracks (and conversely).
-    // If we move left, we move first the leftmost clips (and conversely).
-    std::sort(sorted_clips.begin(), sorted_clips.end(), [delta_track, delta_pos, this](int clipId1, int clipId2) {
-        int trackId1 = getClipTrackId(clipId1);
-        int trackId2 = getClipTrackId(clipId2);
-        int track_pos1 = getTrackPosition(trackId1);
-        int track_pos2 = getTrackPosition(trackId2);
-        if (trackId1 == trackId2) {
-            int p1 = m_allClips[clipId1]->getPosition();
-            int p2 = m_allClips[clipId2]->getPosition();
-            return !(p1 <= p2) == !(delta_pos <= 0);
-        }
-        return !(track_pos1 <= track_pos2) == !(delta_track <= 0);
-    });
-    std::unordered_set<int> ids;
-    for (int clip : sorted_clips) {
-        int current_track_id = getClipTrackId(clip);
-        int current_track_position = getTrackPosition(current_track_id);
-        int target_track_position = current_track_position + delta_track;
-        if (target_track_position >= 0 && target_track_position < getTracksCount()) {
-            auto it = m_allTracks.cbegin();
-            std::advance(it, target_track_position);
-            int target_track = (*it)->getId();
-            int target_position = m_allClips[clip]->getPosition() + delta_pos;
-            int newId;
-            ok = processClipCopy(clip, target_track, target_position, newId, undo, redo);
-            ids.insert(newId);
-        } else {
-            ok = false;
-        }
-        if (!ok) {
-            bool undone = undo();
-            Q_ASSERT(undone);
-            return false;
-        }
-    }
-    // rebuild groups
-    requestClipsGroup(ids, undo, redo, false);
-    return true;
-}
-
 bool TimelineModel::requestClipCreation(const QString &binClipId, int &id, Fun &undo, Fun &redo)
 {
     int clipId = TimelineModel::getNextId();
@@ -641,7 +564,7 @@ bool TimelineModel::requestClipDeletion(int clipId, Fun &undo, Fun &redo)
 }
 
 bool TimelineModel::requestCompositionDeletion(int compositionId, Fun &undo, Fun &redo)
-    {
+{
     int trackId = getCompositionTrackId(compositionId);
     if (trackId != -1) {
         bool res = getTrackById(trackId)->requestCompositionDeletion(compositionId, true, undo, redo);
@@ -877,7 +800,6 @@ bool TimelineModel::requestItemResize(int itemId, int size, bool right, bool log
     return result;
 }
 
-
 int TimelineModel::requestClipsGroup(const std::unordered_set<int> &ids, bool logUndo, bool temporarySelection)
 {
     QWriteLocker locker(&m_lock);
@@ -994,7 +916,7 @@ bool TimelineModel::requestTrackInsertion(int position, int &id, const QString &
 
 bool TimelineModel::requestTrackDeletion(int trackId)
 {
-    // TODO: make sure we disable overlayTrack before deleting a track
+// TODO: make sure we disable overlayTrack before deleting a track
 #ifdef LOGGING
     m_logFile << "timeline->requestTrackDeletion(" << trackId << "); " << std::endl;
 #endif
@@ -1096,8 +1018,8 @@ Fun TimelineModel::deregisterTrack_lambda(int id, bool updateView)
 {
     return [this, id, updateView]() {
         qDebug() << "DEREGISTER TRACK" << id;
-        auto it = m_iteratorTable[id];    // iterator to the element
-        int index = getTrackPosition(id); // compute index in list
+        auto it = m_iteratorTable[id];                        // iterator to the element
+        int index = getTrackPosition(id);                     // compute index in list
         m_tractor->remove_track(static_cast<int>(index + 1)); // melt operation, add 1 to account for black background track
         // send update to the model
         m_allTracks.erase(it);     // actual deletion of object
@@ -1313,7 +1235,8 @@ bool TimelineModel::requestCompositionInsertion(const QString &transitionId, int
     return result;
 }
 
-bool TimelineModel::requestCompositionInsertion(const QString &transitionId, int trackId, int compositionTrack, int position, int length, int &id, Fun &undo, Fun &redo)
+bool TimelineModel::requestCompositionInsertion(const QString &transitionId, int trackId, int compositionTrack, int position, int length, int &id, Fun &undo,
+                                                Fun &redo)
 {
     qDebug() << "Inserting compo track" << trackId << "pos" << position << "length" << length;
     int compositionId = TimelineModel::getNextId();
@@ -1441,7 +1364,7 @@ bool TimelineModel::requestCompositionMove(int compoId, int trackId, int composi
     Q_ASSERT(isComposition(compoId));
     Q_ASSERT(isTrack(trackId));
     if (compositionTrack == -1) {
-        qDebug()<<"// compo track: "<<trackId<<", PREVIOUS TK: "<<getPreviousVideoTrackPos(trackId);
+        qDebug() << "// compo track: " << trackId << ", PREVIOUS TK: " << getPreviousVideoTrackPos(trackId);
         compositionTrack = getPreviousVideoTrackPos(trackId);
     }
     if (compositionTrack == -1) {
@@ -1582,7 +1505,7 @@ bool TimelineModel::checkConsistency()
 {
     for (const auto &tck : m_iteratorTable) {
         auto track = (*tck.second);
-        //Check parent/children link for tracks
+        // Check parent/children link for tracks
         if (auto ptr = track->m_parent.lock()) {
             if (ptr.get() != this) {
                 qDebug() << "Wrong parent for track" << tck.first;
@@ -1601,10 +1524,10 @@ bool TimelineModel::checkConsistency()
 
     // We store all in/outs of clips to check snap points
     std::map<int, int> snaps;
-    //Check parent/children link for clips
+    // Check parent/children link for clips
     for (const auto &cp : m_allClips) {
         auto clip = (cp.second);
-        //Check parent/children link for tracks
+        // Check parent/children link for tracks
         if (auto ptr = clip->m_parent.lock()) {
             if (ptr.get() != this) {
                 qDebug() << "Wrong parent for clip" << cp.first;
@@ -1627,7 +1550,7 @@ bool TimelineModel::checkConsistency()
     }
     for (auto i = snaps.begin(), j = stored_snaps.begin(); i != snaps.end(); ++i, ++j) {
         if (*i != *j) {
-            qDebug() << "Wrong snap info at point"<<(*i).first;
+            qDebug() << "Wrong snap info at point" << (*i).first;
             return false;
         }
     }
@@ -1639,7 +1562,7 @@ bool TimelineModel::checkConsistency()
         auto projClip = pCore->projectItemModel()->getClipByBinID(binClip);
         for (const auto &insertedClip : projClip->m_registeredClips) {
             if (auto ptr = insertedClip.second.lock()) {
-                if (ptr.get() == this) {  // check we are talking of this timeline
+                if (ptr.get() == this) { // check we are talking of this timeline
                     if (!isClip(insertedClip.first)) {
                         qDebug() << "Bin model registers a bad clip ID" << insertedClip.first;
                         return false;
@@ -1661,7 +1584,6 @@ bool TimelineModel::checkConsistency()
             return false;
         }
     }
-
 
     // We now check consistency of the compositions. For that, we list all compositions of the tractor, and see if we have a matching one in our
     // m_allCompositions
@@ -1847,20 +1769,19 @@ void TimelineModel::requestClipUpdate(int clipId, QVector<int> roles)
     notifyChange(modelIndex, modelIndex, roles);
 }
 
-
 bool TimelineModel::requestClipTimeWarp(int clipId, double speed)
 {
     QWriteLocker locker(&m_lock);
     std::function<bool(void)> local_undo = []() { return true; };
     std::function<bool(void)> local_redo = []() { return true; };
-    qDebug()<<"// CHANGING SPEED TO: "<<speed;
+    qDebug() << "// CHANGING SPEED TO: " << speed;
 
     // in order to make the producer change effective, we need to unplant / replant the clip in int track
     int old_trackId = getClipTrackId(clipId);
     int oldPos = getClipPosition(clipId);
     if (old_trackId != -1) {
         int blankSpace = getTrackById(old_trackId)->getBlankSizeNearClip(clipId, true);
-        qDebug()<<"// FOUND BLANK AFTER CLIP: "<<blankSpace;
+        qDebug() << "// FOUND BLANK AFTER CLIP: " << blankSpace;
         getTrackById(old_trackId)->requestClipDeletion(clipId, false, true, local_undo, local_redo);
         m_allClips[clipId]->useTimewarpProducer(speed, blankSpace);
         getTrackById(old_trackId)->requestClipInsertion(clipId, oldPos, false, true, local_undo, local_redo);
@@ -1877,12 +1798,8 @@ bool TimelineModel::changeItemSpeed(int clipId, int speed)
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
     double currentSpeed = m_allClips[clipId]->getSpeed();
-    Fun operation = [this, clipId, speed]() {
-        return requestClipTimeWarp(clipId, speed / 100.0);
-    };
-    Fun reverse = [this, clipId, currentSpeed]() {
-        return requestClipTimeWarp(clipId, currentSpeed);
-    };
+    Fun operation = [this, clipId, speed]() { return requestClipTimeWarp(clipId, speed / 100.0); };
+    Fun reverse = [this, clipId, currentSpeed]() { return requestClipTimeWarp(clipId, currentSpeed); };
     if (operation()) {
         UPDATE_UNDO_REDO(operation, reverse, local_undo, local_redo);
         return true;
