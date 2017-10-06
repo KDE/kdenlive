@@ -499,7 +499,7 @@ bool GroupsModel::processCopy(int gid, std::unordered_map<int, int> &mapping, Fu
         targetGroup.insert(mapping.at(child));
     }
     qDebug() << "processCopy" << gid << "success of child" << ok;
-    if (ok) {
+    if (ok && gid != m_selectionGroup) {
         int id = groupItems(targetGroup, undo, redo);
         qDebug() << "processCopy" << gid << "created id" << id;
         if (id != -1) {
@@ -507,7 +507,7 @@ bool GroupsModel::processCopy(int gid, std::unordered_map<int, int> &mapping, Fu
             return true;
         }
     }
-    return false;
+    return ok;
 }
 
 bool GroupsModel::copyGroups(std::unordered_map<int, int> &mapping, Fun &undo, Fun &redo)
