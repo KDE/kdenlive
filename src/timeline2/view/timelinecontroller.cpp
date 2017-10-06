@@ -189,15 +189,17 @@ void TimelineController::setSelection(const QList<int> &newSelection, int trackI
         m_selection.selectedClips = newSelection;
         m_selection.selectedTrack = trackIndex;
         m_selection.isMultitrackSelected = isMultitrack;
-        std::unordered_set<int> ids;
-        ids.insert(m_selection.selectedClips.cbegin(), m_selection.selectedClips.cend());
-        m_model->requestClipsGroup(ids, true, true);
-        emit selectionChanged();
 
-        if (!m_selection.selectedClips.isEmpty())
+        if (!m_selection.selectedClips.isEmpty()) {
+            std::unordered_set<int> ids;
+            ids.insert(m_selection.selectedClips.cbegin(), m_selection.selectedClips.cend());
+            m_model->requestClipsGroup(ids, true, true);
             emitSelectedFromSelection();
-        else
+        }
+        else {
             emit selected(nullptr);
+        }
+        emit selectionChanged();
     }
 }
 

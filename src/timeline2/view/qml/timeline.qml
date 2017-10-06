@@ -502,6 +502,7 @@ Rectangle {
                             spacerFrame = controller.getClipPosition(spacerGroup)
                         }
                     } else if (root.activeTool === 0 || mouse.y <= ruler.height) {
+                        timeline.selection = []
                         timeline.seekPosition = (scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor
                         timeline.position = timeline.seekPosition
                     } else if (root.activeTool === 1) {
