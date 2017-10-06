@@ -341,7 +341,7 @@ bool GroupsModel::mergeSingleGroups(int id, Fun &undo, Fun &redo)
     return true;
 }
 
-bool GroupsModel::split(int id, std::function<bool(int)> criterion, Fun &undo, Fun &redo)
+bool GroupsModel::split(int id, const std::function<bool(int)> &criterion, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
     // This function is valid only for roots (otherwise it is not clear what should be the new parent of the created tree)

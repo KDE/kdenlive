@@ -90,7 +90,7 @@ public:
        Both tree are subsequently simplified to avoid weird structure.
        @param id is the root of the tree
      */
-    bool split(int id, std::function<bool(int)> criterion, Fun &undo, Fun &redo);
+    bool split(int id, const std::function<bool(int)> &criterion, Fun &undo, Fun &redo);
 
     /* @brief Get the overall father of a given groupItem
        If the element has no father, it is returned as is.
