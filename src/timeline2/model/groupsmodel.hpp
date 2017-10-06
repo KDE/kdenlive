@@ -92,7 +92,6 @@ public:
      */
     bool split(int id, std::function<bool(int)> criterion, Fun &undo, Fun &redo);
 
-
     /* @brief Get the overall father of a given groupItem
        If the element has no father, it is returned as is.
        @param id id of the groupitem
@@ -130,8 +129,8 @@ public:
 
     /* @brief Returns group data for saving
      */
-    std::unordered_map<int, int>groupsData();
-    std::unordered_map<int, std::unordered_set<int>>groupsDataDownlink();
+    std::unordered_map<int, int> groupsData();
+    std::unordered_map<int, std::unordered_set<int>> groupsDataDownlink();
 
 protected:
     /* @brief Destruct a groupItem in the hierarchy.
@@ -165,6 +164,8 @@ private:
 
     std::unordered_set<int> m_groupIds; // this keeps track of "real" groups (non-leaf elements)
     mutable QReadWriteLock m_lock;      // This is a lock that ensures safety in case of concurrent access
+
+    int m_selectionGroup{-1}; // this is the id of the group that is used to simulate a selection
 };
 
 #endif

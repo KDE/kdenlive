@@ -27,8 +27,8 @@
 #include <queue>
 #include <utility>
 
-GroupsModel::GroupsModel(std::weak_ptr<TimelineItemModel> parent) :
-    m_parent(std::move(parent))
+GroupsModel::GroupsModel(std::weak_ptr<TimelineItemModel> parent)
+    : m_parent(std::move(parent))
     , m_lock(QReadWriteLock::Recursive)
 {
 }
@@ -38,6 +38,10 @@ Fun GroupsModel::groupItems_lambda(int gid, const std::unordered_set<int> &ids, 
     QWriteLocker locker(&m_lock);
     return [gid, ids, parent, temporarySelection, this]() {
         createGroupItem(gid);
+        if (temporarySelection) {
+            Q_ASSERT(m_selectionGroup == -1);
+            m_selectionGroup = gid;
+        }
         if (parent != -1) {
             setGroup(gid, parent);
         }
@@ -128,6 +132,9 @@ Fun GroupsModel::destructGroupItem_lambda(int id)
         }
         m_downLink.erase(id);
         m_upLink.erase(id);
+        if (m_selectionGroup == id) {
+            m_selectionGroup = -1;
+        }
         return true;
     };
 }
@@ -236,11 +243,11 @@ void GroupsModel::setGroup(int id, int groupId)
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_upLink.count(id) > 0);
     Q_ASSERT(groupId == -1 || m_downLink.count(groupId) > 0);
+    Q_ASSERT(groupId == -1 || m_selectionGroup != id);
     Q_ASSERT(id != groupId);
     removeFromGroup(id);
     m_upLink[id] = groupId;
-    if (groupId != -1)
-        m_downLink[groupId].insert(id);
+    if (groupId != -1) m_downLink[groupId].insert(id);
 }
 
 void GroupsModel::removeFromGroup(int id)
@@ -255,12 +262,12 @@ void GroupsModel::removeFromGroup(int id)
     m_upLink[id] = -1;
 }
 
-std::unordered_map<int, int>GroupsModel::groupsData()
+std::unordered_map<int, int> GroupsModel::groupsData()
 {
     return m_upLink;
 }
 
-std::unordered_map<int, std::unordered_set<int>>GroupsModel::groupsDataDownlink()
+std::unordered_map<int, std::unordered_set<int>> GroupsModel::groupsDataDownlink()
 {
     return m_downLink;
 }
@@ -275,10 +282,10 @@ bool GroupsModel::mergeSingleGroups(int id, Fun &undo, Fun &redo)
     std::unordered_map<int, int> old_parents, new_parents;
     std::vector<int> to_delete;
     std::unordered_set<int> processed; // to avoid going twice along the same branch
-    for(int leaf : leaves) {
+    for (int leaf : leaves) {
         int current = m_upLink[leaf];
         int start = leaf;
-        while (current != m_upLink[id] && processed.count(current) == 0  ) {
+        while (current != m_upLink[id] && processed.count(current) == 0) {
             processed.insert(current);
             if (m_downLink[current].size() == 1) {
                 to_delete.push_back(current);
@@ -296,13 +303,13 @@ bool GroupsModel::mergeSingleGroups(int id, Fun &undo, Fun &redo)
             new_parents[start] = current;
         }
     }
-    auto parent_changer = [this](const std::unordered_map<int, int>& parents){
+    auto parent_changer = [this](const std::unordered_map<int, int> &parents) {
         auto ptr = m_parent.lock();
         if (!ptr) {
             qDebug() << "Impossible to create group because the timeline is not available anymore";
             return false;
         }
-        for (const auto& group : parents) {
+        for (const auto &group : parents) {
             int old = m_upLink[group.first];
             setGroup(group.first, group.second);
             if (old == -1 && group.second != -1 && ptr->isClip(group.first)) {
@@ -342,13 +349,13 @@ bool GroupsModel::split(int id, std::function<bool(int)> criterion, Fun &undo, F
 
     // We do a BFS on the tree to copy it
     // We store corresponding nodes
-    std::unordered_map<int, int> corresp; //keys are id in the original tree, values are temporary negative id assigned for creation of the new tree
+    std::unordered_map<int, int> corresp; // keys are id in the original tree, values are temporary negative id assigned for creation of the new tree
     corresp[-1] = -1;
     // These are the nodes to be moved to new tree
-    std::vector<int > to_move;
+    std::vector<int> to_move;
     // We store the groups (ie the nodes) that are going to be part of the new tree
     // Keys are temporary id (negative) and values are the set of children (true ids in the case of leaves and temporary ids for other nodes)
-    std::unordered_map<int, std::unordered_set<int> > new_groups;
+    std::unordered_map<int, std::unordered_set<int>> new_groups;
     std::queue<int> queue;
     queue.push(id);
     int tempId = -10;
@@ -361,8 +368,7 @@ bool GroupsModel::split(int id, std::function<bool(int)> criterion, Fun &undo, F
                 new_groups[corresp[m_upLink[current]]].insert(current);
             } else {
                 corresp[current] = tempId;
-                if (m_upLink[current] != -1)
-                    new_groups[corresp[m_upLink[current]]].insert(tempId);
+                if (m_upLink[current] != -1) new_groups[corresp[m_upLink[current]]].insert(tempId);
                 tempId--;
             }
         }
@@ -397,10 +403,10 @@ bool GroupsModel::split(int id, std::function<bool(int)> criterion, Fun &undo, F
 
     // We prune the new_groups to remove empty ones
     bool finished = false;
-    while(!finished) {
+    while (!finished) {
         finished = true;
         int selected = INT_MAX;
-        for (const auto &it: new_groups) {
+        for (const auto &it : new_groups) {
             if (it.second.size() == 0) { // empty group
                 finished = false;
                 selected = it.first;
@@ -443,7 +449,7 @@ bool GroupsModel::split(int id, std::function<bool(int)> criterion, Fun &undo, F
                 break;
             }
         }
-        Q_ASSERT(selected!=INT_MAX);
+        Q_ASSERT(selected != INT_MAX);
         std::unordered_set<int> group;
         for (int elem : new_groups[selected]) {
             group.insert(elem < -1 ? created_id[elem] : elem);
@@ -459,17 +465,16 @@ bool GroupsModel::split(int id, std::function<bool(int)> criterion, Fun &undo, F
     return res;
 }
 
-
 void GroupsModel::setInGroupOf(int id, int targetId, Fun &undo, Fun &redo)
 {
     Q_ASSERT(m_upLink.count(targetId) > 0);
-    int oldGroup = m_upLink[id];
-    Fun operation = [this, id, targetId]() {
-        setGroup(id, m_upLink[targetId]);
+    Fun operation = [ this, id, group = m_upLink[targetId] ]()
+    {
+        setGroup(id, group);
         return true;
     };
-    Fun reverse = [this, id, oldGroup]() {
-        setGroup(id, oldGroup);
+    Fun reverse = [this, id, group = m_upLink[id]]() {
+        setGroup(id, group);
         return true;
     };
     operation();
