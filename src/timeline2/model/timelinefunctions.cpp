@@ -258,10 +258,11 @@ bool TimelineFunctions::requestClipCopy(std::shared_ptr<TimelineItemModel> timel
     int deltaTrack = timeline->getTrackPosition(trackId) - timeline->getTrackPosition(timeline->getClipTrackId(clipId));
     int deltaPos = position - timeline->getClipPosition(clipId);
     std::unordered_set<int> allIds = timeline->getGroupElements(clipId);
+    std::unordered_map<int, int> mapping; //keys are ids of the source clips, values are ids of the copied clips
     for (int id : allIds) {
         int newId = -1;
         bool res = copyClip(timeline, id, newId, undo, redo);
-        res = res && (res != -1);
+        res = res && (newId != -1);
         int target_position = timeline->getClipPosition(id) + deltaPos;
         int target_track_position = timeline->getTrackPosition(timeline->getClipTrackId(id)) + deltaTrack;
         if (target_track_position >= 0 && target_track_position < timeline->getTracksCount()) {
@@ -277,6 +278,14 @@ bool TimelineFunctions::requestClipCopy(std::shared_ptr<TimelineItemModel> timel
             Q_ASSERT(undone);
             return false;
         }
+        mapping[id] = newId;
+    }
+    qDebug() << "Sucessful copy, coping groups...";
+    bool res = timeline->m_groups->copyGroups(mapping, undo, redo);
+    if (!res) {
+        bool undone = undo();
+        Q_ASSERT(undone);
+        return false;
     }
     return true;
 }

@@ -473,10 +473,65 @@ void GroupsModel::setInGroupOf(int id, int targetId, Fun &undo, Fun &redo)
         setGroup(id, group);
         return true;
     };
-    Fun reverse = [this, id, group = m_upLink[id]]() {
+    Fun reverse = [ this, id, group = m_upLink[id] ]()
+    {
         setGroup(id, group);
         return true;
     };
     operation();
     UPDATE_UNDO_REDO(operation, reverse, undo, redo);
+}
+
+bool GroupsModel::processCopy(int gid, std::unordered_map<int, int> &mapping, Fun &undo, Fun &redo)
+{
+    qDebug() << "processCopy" << gid;
+    if (isLeaf(gid)) {
+        qDebug() << "it is a leaf";
+        return true;
+    }
+    bool ok = true;
+    std::unordered_set<int> targetGroup;
+    for (int child : m_downLink.at(gid)) {
+        ok = ok && processCopy(child, mapping, undo, redo);
+        if (!ok) {
+            break;
+        }
+        targetGroup.insert(mapping.at(child));
+    }
+    qDebug() << "processCopy" << gid << "success of child" << ok;
+    if (ok) {
+        int id = groupItems(targetGroup, undo, redo);
+        qDebug() << "processCopy" << gid << "created id" << id;
+        if (id != -1) {
+            mapping[gid] = id;
+            return true;
+        }
+    }
+    return false;
+}
+
+bool GroupsModel::copyGroups(std::unordered_map<int, int> &mapping, Fun &undo, Fun &redo)
+{
+    Fun local_undo = []() { return true; };
+    Fun local_redo = []() { return true; };
+    // destruct old groups for the targets items
+    for (const auto &corresp : mapping) {
+        ungroupItem(corresp.second, local_undo, local_redo);
+    }
+    std::unordered_set<int> roots;
+    std::transform(mapping.begin(), mapping.end(), std::inserter(roots, roots.begin()),
+                   [&](decltype(*mapping.begin()) corresp) { return getRootId(corresp.first); });
+    bool res = true;
+    qDebug() << "found" << roots.size() << "roots";
+    for (int r : roots) {
+        qDebug() << "processing copy for root " << r;
+        res = res && processCopy(r, mapping, local_undo, local_redo);
+        if (!res) {
+            bool undone = local_undo();
+            Q_ASSERT(undone);
+            return false;
+        }
+    }
+    UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
+    return true;
 }

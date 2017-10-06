@@ -42,7 +42,7 @@ public:
 
     /* @brief Create a group that contains all the given items and returns the id of the created group.
        Note that if an item is already part of a group, its topmost group will be considered instead and added in the newly created group.
-       If only one id is provided, no group is created.
+       If only one id is provided, no group is created, unless force = true.
        @param ids set containing the items to group.
        @param undo Lambda function containing the current undo stack. Will be updated with current operation
        @param redo Lambda function containing the current redo queue. Will be updated with current operation
@@ -91,6 +91,14 @@ public:
        @param id is the root of the tree
      */
     bool split(int id, const std::function<bool(int)> &criterion, Fun &undo, Fun &redo);
+
+    /* @brief Copy a group hierarchy.
+       @param mapping describes the correspondence between the ids of the items in the source group hierarchy,
+       and their counterpart in the hierarchy that we create.
+       It will also be used as a return parameter, by adding the mapping between the groups of the hierarchy
+       Note that if the target items should not belong to a group.
+    */
+    bool copyGroups(std::unordered_map<int, int> &mapping, Fun &undo, Fun &redo);
 
     /* @brief Get the overall father of a given groupItem
        If the element has no father, it is returned as is.
@@ -155,6 +163,9 @@ protected:
        @param id of the groupItem
     */
     void removeFromGroup(int id);
+
+    /* @brief This is the actual recursive implementation of the copy function. */
+    bool processCopy(int gid, std::unordered_map<int, int> &mapping, Fun &undo, Fun &redo);
 
 private:
     std::weak_ptr<TimelineItemModel> m_parent;
