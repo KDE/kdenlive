@@ -36,7 +36,7 @@
 #include <QJsonObject>
 #include <klocalizedstring.h>
 
-std::array<QColor, 5> MarkerListModel::markerTypes = {{Qt::red, Qt::blue, Qt::green, Qt::yellow, Qt::cyan}};
+std::array<QColor, 5> MarkerListModel::markerTypes{{Qt::red, Qt::blue, Qt::green, Qt::yellow, Qt::cyan}};
 
 MarkerListModel::MarkerListModel(const QString &clipId, std::weak_ptr<DocUndoStack> undo_stack, QObject *parent)
     : QAbstractListModel(parent)

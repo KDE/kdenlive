@@ -25,8 +25,9 @@
 #include "abstractmodel/treeitem.hpp"
 #include "utils/KoIconUtils.h"
 #include <KLocalizedString>
-#include <vector>
+#include <array>
 #include <functional>
+#include <vector>
 
 ProfileTreeModel::ProfileTreeModel(QObject *parent)
     : AbstractTreeModel(parent)

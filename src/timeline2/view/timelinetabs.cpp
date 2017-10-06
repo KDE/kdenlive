@@ -39,7 +39,9 @@ TimelineTabs::TimelineTabs(QWidget *parent)
     connectTimeline(m_mainTimeline);
 
     // Resize to 0 the size of the close button of the main timeline, so that the user cannnot close it.
-    tabBar()->tabButton(0, QTabBar::RightSide)->resize(0, 0);
+    if (tabBar()->tabButton(0, QTabBar::RightSide) != nullptr) {
+        tabBar()->tabButton(0, QTabBar::RightSide)->resize(0, 0);
+    }
     connect(pCore->monitorManager()->projectMonitor(), &Monitor::zoneUpdated, m_mainTimeline, &TimelineWidget::zoneUpdated);
     connect(m_mainTimeline, &TimelineWidget::zoneMoved, pCore->monitorManager()->projectMonitor(), &Monitor::slotLoadClipZone);
     connect(pCore->monitorManager()->projectMonitor(), &Monitor::addEffect, m_mainTimeline->controller(), &TimelineController::addEffectToCurrentClip);

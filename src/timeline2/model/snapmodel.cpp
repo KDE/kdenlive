@@ -21,6 +21,7 @@
 #include "snapmodel.hpp"
 #include <QDebug>
 #include <limits.h>
+#include <cstdlib>
 
 SnapModel::SnapModel() = default;
 
@@ -57,7 +58,7 @@ int SnapModel::getClosestPoint(int position)
         --it;
         prev = (*it).first;
     }
-    if (std::abs((long long)position - prev) < std::abs((long long)position - next)) {
+    if (std::llabs((long long)position - prev) < std::llabs((long long)position - next)) {
         return (int)prev;
     }
     return (int)next;

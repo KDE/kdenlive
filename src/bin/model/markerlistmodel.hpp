@@ -29,6 +29,7 @@
 #include <QAbstractListModel>
 #include <QReadWriteLock>
 
+#include <array>
 #include <map>
 #include <memory>
 
@@ -119,7 +120,7 @@ public:
        @param clip: pointer to the clip if we are editing a marker
        @return true if dialog was accepted and modification successful
      */
-    bool editMarkerGui(const GenTime &pos, QWidget *parent, bool createIfNotFound, ClipController* clip = nullptr);
+    bool editMarkerGui(const GenTime &pos, QWidget *parent, bool createIfNotFound, ClipController *clip = nullptr);
 
     // Mandatory overloads
     QVariant data(const QModelIndex &index, int role) const override;
@@ -127,14 +128,14 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 
 public slots:
-        /* @brief Imports a list of markers from json data
-       The data should be formated as follows:
-       [{"pos":0.2, "comment":"marker 1", "type":1}, {...}, ...]
-       return true on succes and logs undo object
-       @param ignoreConflicts: if set to false, it aborts if the data contains a marker with same position but different comment and/or type. If set to true,
-       such markers are overridden silently
-       @param pushUndo: if true, create an undo object
-     */
+    /* @brief Imports a list of markers from json data
+   The data should be formated as follows:
+   [{"pos":0.2, "comment":"marker 1", "type":1}, {...}, ...]
+   return true on succes and logs undo object
+   @param ignoreConflicts: if set to false, it aborts if the data contains a marker with same position but different comment and/or type. If set to true,
+   such markers are overridden silently
+   @param pushUndo: if true, create an undo object
+ */
     bool importFromJson(const QString &data, bool ignoreConflicts, bool pushUndo = true);
 
 protected:
@@ -160,6 +161,7 @@ protected:
 
     /* @brief Connects the signals of this object */
     void setup();
+
 private:
     std::weak_ptr<DocUndoStack> m_undoStack;
 
