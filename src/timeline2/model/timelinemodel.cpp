@@ -718,7 +718,7 @@ bool TimelineModel::requestGroupDeletion(int clipId, bool logUndo)
     return true;
 }
 
-bool TimelineModel::requestItemResize(int itemId, int size, bool right, bool logUndo, int snapDistance)
+int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logUndo, int snapDistance)
 {
 #ifdef LOGGING
     m_logFile << "timeline->requestItemResize(" << itemId << "," << size << " ," << (right ? "true" : "false") << ", " << (logUndo ? "true" : "false") << ", "
@@ -763,7 +763,7 @@ bool TimelineModel::requestItemResize(int itemId, int size, bool right, bool log
             PUSH_UNDO(undo, redo, i18n("Resize composition"));
         }
     }
-    return result;
+    return result ? size : -1;
 }
 
 bool TimelineModel::requestItemResize(int itemId, int size, bool right, bool logUndo, Fun &undo, Fun &redo, bool blockUndo)

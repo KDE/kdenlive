@@ -286,12 +286,11 @@ Rectangle {
         Rectangle {
             // text background
             id: labelRect
-            color: 'lightgray'
-            opacity: 0.7
+            color: clipRoot.selected ? 'darkred' : '#66000000'
             anchors.top: parent.top
-                // + ((isAudio || !settings.timelineShowThumbnails) ? 0 : inThumbnail.width)
             width: label.width + 2
             height: label.height
+            visible: clipRoot.width > width / 2
             Text {
                 id: label
                 text: clipName
@@ -303,7 +302,9 @@ Rectangle {
                     leftMargin: 1
                     // + ((isAudio || !settings.timelineShowThumbnails) ? 0 : inThumbnail.width) + 1
                 }
-                color: 'black'
+                color: 'white'
+                style: Text.Outline
+                styleColor: 'black'
             }
         }
 
