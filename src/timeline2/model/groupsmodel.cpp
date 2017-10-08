@@ -531,3 +531,9 @@ bool GroupsModel::copyGroups(std::unordered_map<int, int> &mapping, Fun &undo, F
     UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
     return true;
 }
+
+GroupType GroupsModel::getType(int id) const
+{
+    Q_ASSERT(m_groupIds.count(id) > 0);
+    return m_groupIds.at(id);
+}

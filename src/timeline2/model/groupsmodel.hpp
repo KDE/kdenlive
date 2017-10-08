@@ -138,6 +138,11 @@ public:
      */
     std::unordered_set<int> getDirectChildren(int id) const;
 
+    /* @brief Get the type of the group
+       @param id of the groupItem. Must be a proper group, not a leaf
+    */
+    GroupType getType(int id) const;
+
     /* @brief Returns group data for saving
      */
     std::unordered_map<int, int> groupsData();
@@ -177,8 +182,7 @@ private:
     std::unordered_map<int, std::unordered_set<int>> m_downLink; // edges toward children
 
     std::unordered_map<int, GroupType> m_groupIds; // this keeps track of "real" groups (non-leaf elements), and their types
-    mutable QReadWriteLock m_lock;      // This is a lock that ensures safety in case of concurrent access
-
+    mutable QReadWriteLock m_lock;                 // This is a lock that ensures safety in case of concurrent access
 };
 
 #endif
