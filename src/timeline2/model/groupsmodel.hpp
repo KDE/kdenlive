@@ -143,10 +143,12 @@ public:
     */
     GroupType getType(int id) const;
 
-    /* @brief Returns group data for saving
-     */
-    std::unordered_map<int, int> groupsData();
-    std::unordered_map<int, std::unordered_set<int>> groupsDataDownlink();
+    /* @brief Convert the group hierarchy to json.
+       Note that we cannot expect clipId nor groupId to be the same on project reopening, thus we cannot rely on them for saving.
+       To workaround that, we currently identify clips by their position + track
+    */
+    const QString toJson() const;
+    bool fromJson(const QString &data);
 
 protected:
     /* @brief Destruct a groupItem in the hierarchy.
@@ -174,6 +176,14 @@ protected:
 
     /* @brief This is the actual recursive implementation of the copy function. */
     bool processCopy(int gid, std::unordered_map<int, int> &mapping, Fun &undo, Fun &redo);
+
+    /* @brief This is the actual recursive implementation of the conversion to json */
+    QJsonObject toJson(int gid) const;
+
+    /* @brief This is the actual recursive implementation of the parsing from json
+       Returns the id of the created group
+    */
+  int fromJson(const QJsonObject &o, Fun &undo, Fun &redo);
 
 private:
     std::weak_ptr<TimelineItemModel> m_parent;

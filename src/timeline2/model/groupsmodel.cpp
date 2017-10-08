@@ -23,6 +23,9 @@
 #include "macros.hpp"
 #include "timelineitemmodel.hpp"
 #include <QDebug>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
 #include <QModelIndex>
 #include <queue>
 #include <utility>
@@ -36,6 +39,7 @@ GroupsModel::GroupsModel(std::weak_ptr<TimelineItemModel> parent)
 Fun GroupsModel::groupItems_lambda(int gid, const std::unordered_set<int> &ids, GroupType type, int parent)
 {
     QWriteLocker locker(&m_lock);
+    Q_ASSERT(type != GroupType::Leaf);
     return [gid, ids, parent, type, this]() {
         createGroupItem(gid);
         if (parent != -1) {
@@ -68,6 +72,7 @@ Fun GroupsModel::groupItems_lambda(int gid, const std::unordered_set<int> &ids, 
 int GroupsModel::groupItems(const std::unordered_set<int> &ids, Fun &undo, Fun &redo, GroupType type, bool force)
 {
     QWriteLocker locker(&m_lock);
+    Q_ASSERT(type != GroupType::Leaf);
     Q_ASSERT(!ids.empty());
     if (ids.size() == 1 && !force) {
         // We do not create a group with only one element. Instead, we return the id of that element
@@ -256,16 +261,6 @@ void GroupsModel::removeFromGroup(int id)
         m_downLink[parent].erase(id);
     }
     m_upLink[id] = -1;
-}
-
-std::unordered_map<int, int> GroupsModel::groupsData()
-{
-    return m_upLink;
-}
-
-std::unordered_map<int, std::unordered_set<int>> GroupsModel::groupsDataDownlink()
-{
-    return m_downLink;
 }
 
 bool GroupsModel::mergeSingleGroups(int id, Fun &undo, Fun &redo)
@@ -534,6 +529,125 @@ bool GroupsModel::copyGroups(std::unordered_map<int, int> &mapping, Fun &undo, F
 
 GroupType GroupsModel::getType(int id) const
 {
-    Q_ASSERT(m_groupIds.count(id) > 0);
-    return m_groupIds.at(id);
+    if (m_groupIds.count(id) > 0) {
+        return m_groupIds.at(id);
+    }
+    return GroupType::Leaf;
+}
+
+QJsonObject GroupsModel::toJson(int gid) const
+{
+    QJsonObject currentGroup;
+    currentGroup.insert(QLatin1String("type"), QJsonValue(groupTypeToStr(getType(gid))));
+    if (m_groupIds.count(gid) > 0) {
+        // in that case, we have a proper group
+        QJsonArray array;
+        Q_ASSERT(m_downLink.count(gid) > 0);
+        for (int c : m_downLink.at(gid)) {
+            array.push_back(toJson(c));
+        }
+        currentGroup.insert(QLatin1String("children"), array);
+    } else {
+        // in that case we have a clip or composition
+        if (auto ptr = m_parent.lock()) {
+            Q_ASSERT(ptr->isClip(gid) || ptr->isComposition(gid));
+            currentGroup.insert(QLatin1String("leaf"), QJsonValue(QLatin1String(ptr->isClip(gid) ? "clip" : "composition")));
+            int track = ptr->getTrackPosition(ptr->getItemTrackId(gid));
+            int pos = ptr->getItemPosition(gid);
+            currentGroup.insert(QLatin1String("data"), QJsonValue(QString("%1:%2").arg(track).arg(pos)));
+        } else {
+            qDebug() << "Impossible to create group because the timeline is not available anymore";
+            Q_ASSERT(false);
+        }
+    }
+    return currentGroup;
+}
+
+const QString GroupsModel::toJson() const
+{
+    std::unordered_set<int> roots;
+    std::transform(m_groupIds.begin(), m_groupIds.end(), std::inserter(roots, roots.begin()),
+                   [&](decltype(*m_groupIds.begin()) g) { return getRootId(g.first); });
+    QJsonArray list;
+    for (int r : roots) {
+        list.push_back(toJson(r));
+    }
+    QJsonDocument json(list);
+    return QString(json.toJson());
+}
+
+int GroupsModel::fromJson(const QJsonObject &o, Fun &undo, Fun &redo)
+{
+    if (!o.contains(QLatin1String("type"))) {
+        return -1;
+    }
+    auto type = groupTypeFromStr(o.value(QLatin1String("type")).toString());
+    if (type == GroupType::Leaf) {
+        if (auto ptr = m_parent.lock()) {
+            if (!o.contains(QLatin1String("data")) || !o.contains(QLatin1String("leaf"))) {
+                qDebug() << "Error: missing info in the group structure while parsing json";
+                return -1;
+            }
+            QString data = o.value(QLatin1String("data")).toString();
+            QString leaf = o.value(QLatin1String("leaf")).toString();
+            int trackId = ptr->getTrackIndexFromPosition(data.section(":", 0, 0).toInt());
+            int pos = data.section(":", 1, 1).toInt();
+            int id = -1;
+            if (leaf == QLatin1String("clip")) {
+                id = ptr->getClipByPosition(trackId, pos);
+            } else if (leaf == QLatin1String("clip")) {
+                id = ptr->getCompositionByPosition(trackId, pos);
+            }
+            return id;
+        } else {
+            qDebug() << "Impossible to create group because the timeline is not available anymore";
+            Q_ASSERT(false);
+        }
+    } else {
+        if (!o.contains(QLatin1String("children"))) {
+            qDebug() << "Error: missing info in the group structure while parsing json";
+            return -1;
+        }
+        auto value = o.value(QLatin1String("children"));
+        if (!value.isArray()) {
+            qDebug() << "Error : Expected json array of children while parsing groups";
+            return -1;
+        }
+        const auto children = value.toArray();
+        std::unordered_set<int> ids;
+        for (const auto &c : children) {
+            if (!c.isObject()) {
+                qDebug() << "Error : Expected json object while parsing groups";
+                return -1;
+            }
+            ids.insert(fromJson(c.toObject(), undo, redo));
+        }
+        if (ids.count(-1) > 0) {
+            return -1;
+        }
+        return groupItems(ids, undo, redo, type);
+    }
+    return -1;
+}
+
+bool GroupsModel::fromJson(const QString &data)
+{
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    auto json = QJsonDocument::fromJson(data.toUtf8());
+    if (!json.isArray()) {
+        qDebug() << "Error : Json file should be an array";
+        return false;
+    }
+    const auto list = json.array();
+    bool ok = true;
+    for (const auto &elem : list) {
+        if (!elem.isObject()) {
+            qDebug() << "Error : Expected json object while parsing groups";
+            undo();
+            return false;
+        }
+        ok = ok && fromJson(elem.toObject(), undo, redo);
+    }
+    return ok;
 }

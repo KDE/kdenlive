@@ -40,21 +40,21 @@ TEST_CASE("Basic creation/deletion of a track", "[TrackModel]")
     REQUIRE(timeline->getTrackPosition(id1) == 0);
     // In the current implementation, when a track is added/removed, the model is notified with _resetView
     Verify(Method(timMock, _resetView)).Exactly(Once);
-    RESET();
+    RESET(timMock);
 
     int id2 = TrackModel::construct(timeline);
     REQUIRE(timeline->checkConsistency());
     REQUIRE(timeline->getTracksCount() == 2);
     REQUIRE(timeline->getTrackPosition(id2) == 1);
     Verify(Method(timMock, _resetView)).Exactly(Once);
-    RESET();
+    RESET(timMock);
 
     int id3 = TrackModel::construct(timeline);
     REQUIRE(timeline->checkConsistency());
     REQUIRE(timeline->getTracksCount() == 3);
     REQUIRE(timeline->getTrackPosition(id3) == 2);
     Verify(Method(timMock, _resetView)).Exactly(Once);
-    RESET();
+    RESET(timMock);
 
     int id4;
     REQUIRE(timeline->requestTrackInsertion(1, id4));
@@ -65,32 +65,32 @@ TEST_CASE("Basic creation/deletion of a track", "[TrackModel]")
     REQUIRE(timeline->getTrackPosition(id2) == 2);
     REQUIRE(timeline->getTrackPosition(id3) == 3);
     Verify(Method(timMock, _resetView)).Exactly(Once);
-    RESET();
+    RESET(timMock);
 
     // Test deletion
     REQUIRE(timeline->requestTrackDeletion(id3));
     REQUIRE(timeline->checkConsistency());
     REQUIRE(timeline->getTracksCount() == 3);
     Verify(Method(timMock, _resetView)).Exactly(Once);
-    RESET();
+    RESET(timMock);
 
     REQUIRE(timeline->requestTrackDeletion(id1));
     REQUIRE(timeline->checkConsistency());
     REQUIRE(timeline->getTracksCount() == 2);
     Verify(Method(timMock, _resetView)).Exactly(Once);
-    RESET();
+    RESET(timMock);
 
     REQUIRE(timeline->requestTrackDeletion(id4));
     REQUIRE(timeline->checkConsistency());
     REQUIRE(timeline->getTracksCount() == 1);
     Verify(Method(timMock, _resetView)).Exactly(Once);
-    RESET();
+    RESET(timMock);
 
     REQUIRE(timeline->requestTrackDeletion(id2));
     REQUIRE(timeline->checkConsistency());
     REQUIRE(timeline->getTracksCount() == 0);
     Verify(Method(timMock, _resetView)).Exactly(Once);
-    RESET();
+    RESET(timMock);
 
     SECTION("Delete a track with groups") {
         int tid1, tid2;
@@ -220,7 +220,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
     int cid4 = ClipModel::construct(timeline, binId2);
 
     Verify(Method(timMock, _resetView)).Exactly(3_Times);
-    RESET();
+    RESET(timMock);
 
     // for testing purposes, we make sure the clip will behave as regular clips
     // (ie their size is fixed, we cannot resize them past their original size)
@@ -815,7 +815,7 @@ TEST_CASE("Check id unicity", "[ClipModel]")
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(),[](...){});
     TimelineItemModel::finishConstruct(timeline, guideModel);
 
-    RESET();
+    RESET(timMock);
 
     QString binId = createProducer(profile_model, "red", binModel);
 
@@ -869,7 +869,7 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(),[](...){});
     TimelineItemModel::finishConstruct(timeline, guideModel);
 
-    RESET();
+    RESET(timMock);
 
     QString binId = createProducer(profile_model, "red", binModel);
     QString binId2 = createProducer(profile_model, "blue", binModel);
@@ -1416,7 +1416,7 @@ TEST_CASE("Snapping", "[Snapping]") {
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(),[](...){});
     TimelineItemModel::finishConstruct(timeline, guideModel);
 
-    RESET();
+    RESET(timMock);
 
     QString binId = createProducer(profile_model, "red", binModel, 50);
     QString binId2 = createProducer(profile_model, "blue", binModel);
@@ -1533,7 +1533,7 @@ TEST_CASE("Advanced trimming operations", "[Trimming]")
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(),[](...){});
     TimelineItemModel::finishConstruct(timeline, guideModel);
 
-    RESET();
+    RESET(timMock);
 
     QString binId = createProducer(profile_model, "red", binModel);
     QString binId2 = createProducer(profile_model, "blue", binModel);

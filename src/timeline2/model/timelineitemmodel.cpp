@@ -38,10 +38,6 @@
 #include <mlt++/MltTransition.h>
 #include <mlt++/MltField.h>
 
-#include <QJsonArray>
-#include <QJsonDocument>
-#include <QJsonObject>
-
 #include <utility>
 
 TimelineItemModel::TimelineItemModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack)
@@ -400,101 +396,12 @@ void TimelineItemModel::buildTrackCompositing()
 
 const QString TimelineItemModel::groupsData()
 {
-    std::unordered_map<int, int>upLinks = m_groups->groupsData();
-    std::unordered_map<int, std::unordered_set<int>>downLinks = m_groups->groupsDataDownlink();
-
-    QJsonArray list;
-    for (const auto &uplink : upLinks) {
-        QJsonObject currentGroup;
-        int cid = uplink.first;
-        if (isClip(cid) || isComposition(cid)) {
-            continue;
-        } else {
-            // encountering a group
-            currentGroup.insert(QLatin1String("id"), QJsonValue(cid));
-            currentGroup.insert(QLatin1String("parent"), QJsonValue(uplink.second));
-            std::unordered_set<int> children = downLinks[cid];
-            QJsonArray array;
-            for (const int &child : children) {
-                if (isClip(child) || isComposition(child)) {
-                    array.append(QString("%1:%2").arg(getTrackMltIndex(getItemTrackId(child))).arg(getItemPosition(child)));
-                } else {
-                    // this is a subgroup
-                    array.append(child);
-                }
-            }
-            currentGroup.insert(QLatin1String("leaves"), QJsonValue(array));
-        }
-        list.push_back(currentGroup);
-    }
-    QJsonDocument json(list);
-    return QString(json.toJson());
+    return m_groups->toJson();
 }
 
 bool TimelineItemModel::loadGroups(const QString &groupsData)
 {
-    auto json = QJsonDocument::fromJson(groupsData.toUtf8());
-    if (!json.isArray()) {
-        qDebug() << "Error : Json file should be an array";
-        return false;
-    }
-    QMap <int, int> processedIds;
-    auto list = json.array();
-    int i = 0;
-    while (processedIds.count() < list.count()) {
-        if (i >= list.count()) {
-            // loop
-            i = 0;
-        }
-        auto entry = list.at(i);
-        if (!entry.isObject()) {
-            qDebug() << "Warning : Skipping invalid marker data";
-            continue;
-        }
-        auto entryObj = entry.toObject();
-        if (!entryObj.contains(QLatin1String("leaves"))) {
-            qDebug() << "Warning : Skipping invalid empty group";
-            continue;
-        }
-        int previousId = entryObj[QLatin1String("id")].toInt();
-        int parentId = entryObj[QLatin1String("parent")].toInt();
-        if (processedIds.contains(previousId)) {
-            //already processed
-            i++;
-            continue;
-        }
-        auto clipList = entryObj[QLatin1String("leaves")].toArray();
-        std::unordered_set<int> ids;
-        bool validGroup = true;
-        for (int j = 0; j < clipList.count(); j++) {
-            if (clipList[j].isString()) {
-                QString clip = clipList[j].toString();
-                if (clip.contains(QStringLiteral(":"))) {
-                    int track = getTrackIndexFromPosition(clip.section(":", 0, 0).toInt() - 1);
-                    int position = clip.section(":", 1, 1).toInt();
-                    int cid = getClipByPosition(track, position);
-                    ids.insert(cid);
-                } else {
-                    qDebug()<<"// PARSING UNKNOWN OBJECT IN GROUP: "<<parentId<<" = "<<clip;
-                }
-            } else {
-                // subgroup
-                int clip = clipList[j].toInt();
-                if (!processedIds.contains(clip)) {
-                    // subgroup has not yet been created, so wait until it is
-                    validGroup = false;
-                    break;
-                }
-                ids.insert(processedIds.value(clip));
-            }
-        }
-        if (validGroup) {
-            int newGroupId = requestClipsGroup(ids, false, GroupType::Normal);
-            processedIds.insert(previousId, newGroupId);
-        }
-        i++;
-    }
-    return true;
+    return m_groups->fromJson(groupsData);
 }
 
 bool TimelineItemModel::isInSelection(int cid) const

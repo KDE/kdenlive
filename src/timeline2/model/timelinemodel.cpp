@@ -227,6 +227,13 @@ int TimelineModel::getClipByPosition(int trackId, int position) const
     return getTrackById_const(trackId)->getClipByPosition(position);
 }
 
+int TimelineModel::getCompositionByPosition(int trackId, int position) const
+{
+    READ_LOCK();
+    Q_ASSERT(isTrack(trackId));
+    return getTrackById_const(trackId)->getCompositionByPosition(position);
+}
+
 int TimelineModel::getTrackPosition(int trackId) const
 {
     READ_LOCK();

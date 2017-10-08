@@ -460,9 +460,13 @@ public:
      */
     void setTimelineEffectsEnabled(bool enabled);
 
-    /* @brief Get a timeline clip id by its position
+    /* @brief Get a timeline clip id by its position or -1 if not found
      */
     int getClipByPosition(int trackId, int position) const;
+
+    /* @brief Get a timeline composition id by its starting position or -1 if not found
+     */
+    int getCompositionByPosition(int trackId, int position) const;
 
     /* @brief Returns a list of all items that are at or after a given position.
      * @param trackId is the id of the track for concerned items. Setting trackId to -1 returns items on all tracks

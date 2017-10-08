@@ -465,7 +465,14 @@ TEST_CASE("Undo/redo", "[GroupsModel]")
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline, guideModel);
 
-    RESET();
+    TimelineItemModel tim2(new Mlt::Profile(), undoStack);
+    Mock<TimelineItemModel> timMock2(tim2);
+    TimelineItemModel &tt2 = timMock2.get();
+    auto timeline2 = std::shared_ptr<TimelineItemModel>(&timMock2.get(), [](...) {});
+    TimelineItemModel::finishConstruct(timeline2, guideModel);
+
+    RESET(timMock);
+    RESET(timMock2);
 
     Mlt::Profile *pr = new Mlt::Profile();
     QString binId = createProducer(*pr, "red", binModel);
@@ -477,10 +484,17 @@ TEST_CASE("Undo/redo", "[GroupsModel]")
     for (int i = 0; i < 4; i++) {
         clips.push_back(ClipModel::construct(timeline, binId));
     }
+    std::vector<int> clips2;
+    for (int i = 0; i < 4; i++) {
+        clips2.push_back(ClipModel::construct(timeline2, binId));
+    }
     int tid1 = TrackModel::construct(timeline);
+    int tid2 = TrackModel::construct(timeline);
+    int tid1_2 = TrackModel::construct(timeline2);
+    int tid2_2 = TrackModel::construct(timeline2);
 
     int init_index = undoStack->index();
-    SECTION("Basic Creation")
+    SECTION("Basic Creation and export/import from json")
     {
         auto check_roots = [&](int r1, int r2, int r3, int r4) {
             REQUIRE(timeline->m_groups->getRootId(clips[0]) == r1);
@@ -488,13 +502,85 @@ TEST_CASE("Undo/redo", "[GroupsModel]")
             REQUIRE(timeline->m_groups->getRootId(clips[2]) == r3);
             REQUIRE(timeline->m_groups->getRootId(clips[3]) == r4);
         };
+
+        // the following function is a recursive function to check the correctness of a json import
+        // Basically, it takes as input a groupId in the imported (target) group hierarchy, and outputs the corresponding groupId from the original one. If no
+        // match is found, it returns -1
+        std::function<int(int)> rec_check;
+        rec_check = [&](int gid) {
+            // we first check if the gid is a leaf
+            if (timeline2->m_groups->isLeaf(gid)) {
+                // then it must be a clip/composition
+                int found = -1;
+                for (int i = 0; i < 4; i++) {
+                    if (clips2[i] == gid) {
+                        found = i;
+                        break;
+                    }
+                }
+                if (found != -1) {
+                    return clips[found];
+                } else {
+                    qDebug() << "ERROR: did not find correspondance for group" << gid;
+                }
+            } else {
+                // we find correspondances of all the children
+                auto children = timeline2->m_groups->getDirectChildren(gid);
+                std::unordered_set<int> corresp;
+                for (int c : children) {
+                    corresp.insert(rec_check(c));
+                }
+                if (corresp.count(-1) > 0) {
+                    return -1; // something went wrong
+                }
+                std::unordered_set<int> parents;
+                for (int c : corresp) {
+                    // we find the parents of the corresponding groups in the original hierarchy
+                    parents.insert(timeline->m_groups->m_upLink[c]);
+                }
+                // if the matching is correct, we should have found only one parent
+                if (parents.size() != 1) {
+                    return -1; // something went wrong
+                }
+                return *parents.begin();
+            }
+            return -1;
+        };
+        auto checkJsonParsing = [&]() {
+            // we first destroy all groups in target timeline
+            Fun undo = []() { return true; };
+            Fun redo = []() { return true; };
+            for (int i = 0; i < 4; i++) {
+                while (timeline2->m_groups->getRootId(clips2[i]) != clips2[i]) {
+                    timeline2->m_groups->ungroupItem(clips2[i], undo, redo);
+                }
+            }
+            // we do the export then import
+            REQUIRE(timeline2->m_groups->fromJson(timeline->m_groups->toJson()));
+            std::unordered_map<int, int> roots;
+            for (int i = 0; i < 4; i++) {
+                int r = timeline2->m_groups->getRootId(clips2[0]);
+                if (roots.count(r) == 0) {
+                    roots[r] = rec_check(r);
+                    REQUIRE(roots[r] != -1);
+                }
+            }
+            for (int i = 0; i < 4; i++) {
+                int r = timeline->m_groups->getRootId(clips[0]);
+                int r2 = timeline2->m_groups->getRootId(clips2[0]);
+                REQUIRE(roots[r2] == r);
+            }
+        };
         auto g1 = std::unordered_set<int>({clips[0], clips[1]});
         int gid1, gid2, gid3;
         // this fails because clips are not inserted
         REQUIRE(timeline->requestClipsGroup(g1) == -1);
 
         for (int i = 0; i < 4; i++) {
-            REQUIRE(timeline->requestClipMove(clips[i], tid1, i * length));
+            REQUIRE(timeline->requestClipMove(clips[i], (i % 2 == 0) ? tid1 : tid2, i * length));
+        }
+        for (int i = 0; i < 4; i++) {
+            REQUIRE(timeline2->requestClipMove(clips2[i], (i % 2 == 0) ? tid1_2 : tid2_2, i * length));
         }
         init_index = undoStack->index();
         REQUIRE(timeline->requestClipsGroup(g1, true, GroupType::Normal) > 0);
@@ -507,6 +593,7 @@ TEST_CASE("Undo/redo", "[GroupsModel]")
             REQUIRE(undoStack->index() == init_index + 1);
         };
         INFO("Test 1");
+        checkJsonParsing();
         state1();
 
         auto g2 = std::unordered_set<int>({clips[2], clips[3]});
@@ -523,6 +610,7 @@ TEST_CASE("Undo/redo", "[GroupsModel]")
             REQUIRE(undoStack->index() == init_index + 2);
         };
         INFO("Test 2");
+        checkJsonParsing();
         state2();
 
         auto g3 = std::unordered_set<int>({clips[0], clips[3]});
@@ -543,39 +631,51 @@ TEST_CASE("Undo/redo", "[GroupsModel]")
         };
 
         INFO("Test 3");
+        checkJsonParsing();
         state3();
 
         undoStack->undo();
         INFO("Test 4");
+        checkJsonParsing();
         state2();
         undoStack->redo();
         INFO("Test 5");
+        checkJsonParsing();
         state3();
         undoStack->undo();
         INFO("Test 6");
+        checkJsonParsing();
         state2();
         undoStack->undo();
         INFO("Test 8");
+        checkJsonParsing();
         state1();
         undoStack->undo();
         INFO("Test 9");
+        checkJsonParsing();
         check_roots(clips[0], clips[1], clips[2], clips[3]);
         undoStack->redo();
         INFO("Test 10");
+        checkJsonParsing();
         state1();
         undoStack->redo();
         INFO("Test 11");
+        checkJsonParsing();
         state2();
 
         REQUIRE(timeline->requestClipsGroup(g3) > 0);
+        checkJsonParsing();
         state3();
 
         undoStack->undo();
+        checkJsonParsing();
         state2();
 
         undoStack->undo();
+        checkJsonParsing();
         state1();
         undoStack->undo();
+        checkJsonParsing();
         check_roots(clips[0], clips[1], clips[2], clips[3]);
     }
 

@@ -31,7 +31,6 @@ QDebug operator<<(QDebug qd, const ItemInfo &info)
     return qd.maybeSpace();
 }
 
-
 CommentedTime::CommentedTime()
     : m_time(GenTime(0))
     , m_type(0)
@@ -131,4 +130,31 @@ bool CommentedTime::operator==(const CommentedTime &op) const
 bool CommentedTime::operator!=(const CommentedTime &op) const
 {
     return m_time != op.time();
+}
+
+const QString groupTypeToStr(GroupType t)
+{
+    switch (t) {
+    case GroupType::Normal:
+        return QStringLiteral("Normal");
+    case GroupType::Selection:
+        return QStringLiteral("Selection");
+    case GroupType::AVSplit:
+        return QStringLiteral("AVSplit");
+    case GroupType::Leaf:
+        return QStringLiteral("Leaf");
+    }
+    Q_ASSERT(false);
+    return QString();
+}
+GroupType groupTypeFromStr(const QString &s)
+{
+    std::vector<GroupType> types{GroupType::Selection, GroupType::Normal, GroupType::AVSplit, GroupType::Leaf};
+    for (const auto &t : types) {
+        if (s == groupTypeToStr(t)) {
+            return t;
+        }
+    }
+    Q_ASSERT(false);
+    return GroupType::Normal;
 }

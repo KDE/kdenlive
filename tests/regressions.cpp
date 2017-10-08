@@ -23,7 +23,7 @@ TEST_CASE("Regression") {
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(),[](...){});
     TimelineItemModel::finishConstruct(timeline, guideModel);
 
-    RESET();
+    RESET(timMock);
     TimelineModel::next_id = 0;
     undoStack->undo();
     undoStack->redo();
@@ -85,7 +85,7 @@ TEST_CASE("Regression2") {
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(),[](...){});
     TimelineItemModel::finishConstruct(timeline, guideModel);
 
-    RESET();
+    RESET(timMock);
     TimelineModel::next_id = 0;
     int dummy_id;
     undoStack->undo();

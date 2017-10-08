@@ -22,9 +22,9 @@
 #include "trackmodel.hpp"
 #include "clipmodel.hpp"
 #include "compositionmodel.hpp"
+#include "kdenlivesettings.h"
 #include "snapmodel.hpp"
 #include "timelinemodel.hpp"
-#include "kdenlivesettings.h"
 #include <QDebug>
 #include <QModelIndex>
 #include <mlt++/MltProfile.h>
@@ -140,7 +140,7 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
                     ptr->checkRefresh(new_in, new_out);
                 }
                 if (!audioOnly && finalMove) {
-                    qDebug()<<"/// INVALIDATE CLIP ON INSERTT!!!!!!";
+                    qDebug() << "/// INVALIDATE CLIP ON INSERTT!!!!!!";
                     ptr->invalidateClip(clip->getId());
                 }
             }
@@ -231,7 +231,7 @@ Fun TrackModel::requestClipDeletion_lambda(int clipId, bool updateView, bool fin
         if (prod != nullptr) {
             if (finalMove && !audioOnly) {
                 if (auto ptr = m_parent.lock()) {
-                    qDebug()<<"/// INVALIDATE CLIP ON DELETE!!!!!!";
+                    qDebug() << "/// INVALIDATE CLIP ON DELETE!!!!!!";
                     ptr->invalidateClip(clipId);
                 }
             }
@@ -491,6 +491,17 @@ int TrackModel::getClipByPosition(int position)
         return -1;
     }
     return prod->get_int("_kdenlive_cid");
+}
+
+int TrackModel::getCompositionByPosition(int position)
+{
+    READ_LOCK();
+    for (const auto &comp : m_compoPos) {
+        if (comp.second == position) {
+            return comp.first;
+        }
+    }
+    return -1;
 }
 
 int TrackModel::getClipByRow(int row) const

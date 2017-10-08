@@ -26,8 +26,8 @@
 #include "kdenlive_debug.h"
 
 #include <QHash>
-#include <QString>
 #include <QPersistentModelIndex>
+#include <QString>
 #include <QTreeWidgetItem>
 #include <memory>
 #include <cassert>
@@ -39,15 +39,17 @@ namespace Kdenlive {
 enum MonitorId { NoMonitor = 0x01, ClipMonitor = 0x02, ProjectMonitor = 0x04, RecordMonitor = 0x08, StopMotionMonitor = 0x10, DvdMonitor = 0x20 };
 
 const int DefaultThumbHeight = 100;
-}
-
+} // namespace Kdenlive
 
 enum class GroupType {
     Normal,
     Selection, // in that case, the group is used to emulate a selection
-    AVSplit    // in that case, the group links the audio and video of the same clip
+    AVSplit,   // in that case, the group links the audio and video of the same clip
+    Leaf       // This is a leaf (clip or composition)
 };
 
+const QString groupTypeToStr(GroupType t);
+GroupType groupTypeFromStr(const QString &s);
 
 enum class ObjectType { TimelineClip, TimelineComposition, TimelineTrack, BinClip, NoItem };
 using ObjectId = std::pair<ObjectType, int>;
@@ -148,7 +150,6 @@ public:
     }
 };
 
-
 struct requestClipInfo
 {
     QDomElement xml;
@@ -212,7 +213,6 @@ public:
     }
 };
 
-
 class CommentedTime
 {
 public:
@@ -260,69 +260,61 @@ template <> struct hash<QPersistentModelIndex>
 {
     std::size_t operator()(const QPersistentModelIndex &k) const { return qHash(k); }
 };
-}
+} // namespace std
 
 // The following is a hack that allows to use shared_from_this in the case of a multiple inheritance.
 // Credit: https://stackoverflow.com/questions/14939190/boost-shared-from-this-and-multiple-inheritance
-template<typename T> struct enable_shared_from_this_virtual;
+template <typename T> struct enable_shared_from_this_virtual;
 
 class enable_shared_from_this_virtual_base : public std::enable_shared_from_this<enable_shared_from_this_virtual_base>
 {
     typedef std::enable_shared_from_this<enable_shared_from_this_virtual_base> base_type;
-    template<typename T>
-    friend struct enable_shared_from_this_virtual;
+    template <typename T> friend struct enable_shared_from_this_virtual;
 
-    std::shared_ptr<enable_shared_from_this_virtual_base> shared_from_this()
-    {
-        return base_type::shared_from_this();
-    }
-    std::shared_ptr<enable_shared_from_this_virtual_base const> shared_from_this() const
-    {
-       return base_type::shared_from_this();
-    }
+    std::shared_ptr<enable_shared_from_this_virtual_base> shared_from_this() { return base_type::shared_from_this(); }
+    std::shared_ptr<enable_shared_from_this_virtual_base const> shared_from_this() const { return base_type::shared_from_this(); }
 };
 
-template<typename T>
-struct enable_shared_from_this_virtual: virtual enable_shared_from_this_virtual_base
+template <typename T> struct enable_shared_from_this_virtual : virtual enable_shared_from_this_virtual_base
 {
     typedef enable_shared_from_this_virtual_base base_type;
 
 public:
     std::shared_ptr<T> shared_from_this()
     {
-       std::shared_ptr<T> result(base_type::shared_from_this(), static_cast<T*>(this));
-       return result;
+        std::shared_ptr<T> result(base_type::shared_from_this(), static_cast<T *>(this));
+        return result;
     }
 
     std::shared_ptr<T const> shared_from_this() const
     {
-        std::shared_ptr<T const> result(base_type::shared_from_this(), static_cast<T const*>(this));
+        std::shared_ptr<T const> result(base_type::shared_from_this(), static_cast<T const *>(this));
         return result;
     }
 };
 
-
 // This is a small trick to have a QAbstractItemModel with shared_from_this enabled without multiple inheritance
 // Be careful, if you use this class, you have to make sure to init weak_this_ when you construct a shared_ptr to your object
-template<class T>
-class QAbstractItemModel_shared_from_this : public QAbstractItemModel
+template <class T> class QAbstractItemModel_shared_from_this : public QAbstractItemModel
 {
 protected:
-QAbstractItemModel_shared_from_this() : QAbstractItemModel() {}
+    QAbstractItemModel_shared_from_this()
+        : QAbstractItemModel()
+    {
+    }
 
 public:
-
     std::shared_ptr<T> shared_from_this()
     {
-        std::shared_ptr<T> p( weak_this_ );
-        assert( p.get() == this );
+        std::shared_ptr<T> p(weak_this_);
+        assert(p.get() == this);
         return p;
     }
 
     std::shared_ptr<T const> shared_from_this() const
     {
-        std::shared_ptr<T const> p( weak_this_ );
-        assert( p.get() == this );
+        std::shared_ptr<T const> p(weak_this_);
+        assert(p.get() == this);
         return p;
     }
 

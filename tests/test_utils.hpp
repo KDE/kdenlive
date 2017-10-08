@@ -36,16 +36,16 @@
 #include "effects/effectstack/model/effectitemmodel.hpp"
 
 using namespace fakeit;
-#define RESET()                                                         \
-    timMock.Reset();                                                    \
-    Fake(Method(timMock, adjustAssetRange));                            \
-    Spy(Method(timMock, _resetView));                                   \
-    Spy(Method(timMock, _beginInsertRows));                             \
-    Spy(Method(timMock, _beginRemoveRows));                             \
-    Spy(Method(timMock, _endInsertRows));                               \
-    Spy(Method(timMock, _endRemoveRows));                               \
-    Spy(OverloadedMethod(timMock, notifyChange, void(const QModelIndex&, const QModelIndex&, bool, bool, bool))); \
-    Spy(OverloadedMethod(timMock, notifyChange, void(const QModelIndex&, const QModelIndex&, QVector<int>)));
+#define RESET(mock)                                                         \
+    mock.Reset();                                                    \
+    Fake(Method(mock, adjustAssetRange));                            \
+    Spy(Method(mock, _resetView));                                   \
+    Spy(Method(mock, _beginInsertRows));                             \
+    Spy(Method(mock, _beginRemoveRows));                             \
+    Spy(Method(mock, _endInsertRows));                               \
+    Spy(Method(mock, _endRemoveRows));                               \
+    Spy(OverloadedMethod(mock, notifyChange, void(const QModelIndex&, const QModelIndex&, bool, bool, bool))); \
+    Spy(OverloadedMethod(mock, notifyChange, void(const QModelIndex&, const QModelIndex&, QVector<int>)));
 
 #define NO_OTHERS() \
     VerifyNoOtherInvocations(Method(timMock, _beginRemoveRows));  \
@@ -54,7 +54,7 @@ using namespace fakeit;
     VerifyNoOtherInvocations(Method(timMock, _endInsertRows));    \
     VerifyNoOtherInvocations(OverloadedMethod(timMock, notifyChange, void(const QModelIndex&, const QModelIndex&, bool, bool, bool))); \
     VerifyNoOtherInvocations(OverloadedMethod(timMock, notifyChange, void(const QModelIndex&, const QModelIndex&, QVector<int>))); \
-    RESET();
+    RESET(timMock);
 
 #define CHECK_MOVE(times)                                         \
     Verify(Method(timMock, _beginRemoveRows) +                    \
