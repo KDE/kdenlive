@@ -75,7 +75,7 @@ bool KeyframeModelList::addKeyframe(GenTime pos, KeyframeType type)
     Q_ASSERT(m_parameters.size() > 0);
     bool update = (m_parameters.begin()->second->hasKeyframe(pos) > 0);
     auto op = [pos, type](std::shared_ptr<KeyframeModel> param, Fun &undo, Fun &redo){
-        double value = param->getInterpolatedValue(pos);
+        QVariant value = param->getInterpolatedValue(pos);
         return param->addKeyframe(pos, type, value, true, undo, redo);
     };
     return applyOperation(op, update ? i18n("Change keyframe type") : i18n("Add keyframe"));
@@ -111,7 +111,7 @@ bool KeyframeModelList::moveKeyframe(GenTime oldPos, GenTime pos, bool logUndo)
     return applyOperation(op, logUndo ? i18n("Move keyframe") : QString());
 }
 
-bool KeyframeModelList::updateKeyframe(GenTime pos, double value, const QPersistentModelIndex &index)
+bool KeyframeModelList::updateKeyframe(GenTime pos, QVariant value, const QPersistentModelIndex &index)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_parameters.count(index) > 0);
@@ -181,7 +181,7 @@ void KeyframeModelList::refresh()
     }
 }
 
-double KeyframeModelList::getInterpolatedValue(int pos, const QPersistentModelIndex& index) const
+QVariant KeyframeModelList::getInterpolatedValue(int pos, const QPersistentModelIndex& index) const
 {
     READ_LOCK();
     Q_ASSERT(m_parameters.count(index) > 0);

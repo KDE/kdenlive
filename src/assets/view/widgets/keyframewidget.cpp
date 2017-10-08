@@ -27,6 +27,7 @@
 #include "timecodedisplay.h"
 #include "utils/KoIconUtils.h"
 #include "widgets/doublewidget.h"
+#include "widgets/geometrywidget.h"
 
 #include <QGridLayout>
 #include <QToolButton>
@@ -99,7 +100,18 @@ void KeyframeWidget::slotRefreshParams()
 {
     int pos = getPosition();
     for (const auto & w : m_parameters) {
-        w.second->setValue(m_keyframes->getInterpolatedValue(pos, w.first));
+        ParamType type = m_model->data(m_index, AssetParameterModel::TypeRole).value<ParamType>();
+        if (type == ParamType::KeyframeParam) {
+            ((DoubleWidget *) w.second)->setValue(m_keyframes->getInterpolatedValue(pos, w.first).toDouble());
+        } else if (type == ParamType::AnimatedRect) {
+            const QString val = m_keyframes->getInterpolatedValue(pos, w.first).toString();
+            const QStringList vals = val.split(QLatin1Char(' '));
+            QRect rect;
+            if (vals.count() >= 4) {
+                rect = QRect(vals.at(0).toInt(), vals.at(1).toInt(), vals.at(2).toInt(), vals.at(3).toInt());
+            }
+            ((GeometryWidget *) w.second)->setValue(rect);
+        }
     }
 }
 void KeyframeWidget::slotSetPosition(int pos, bool update)
@@ -176,22 +188,43 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex& index)
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
     // Retrieve parameters from the model
     QString name = m_model->data(m_index, Qt::DisplayRole).toString();
-    double value = m_keyframes->getInterpolatedValue(getPosition(), index);
-    double min = m_model->data(m_index, AssetParameterModel::MinRole).toDouble();
-    double max = m_model->data(m_index, AssetParameterModel::MaxRole).toDouble();
-    double defaultValue = locale.toDouble(m_model->data(m_index, AssetParameterModel::DefaultRole).toString());
     QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
     QString suffix = m_model->data(m_index, AssetParameterModel::SuffixRole).toString();
-    int decimals = m_model->data(m_index, AssetParameterModel::DecimalsRole).toInt();
-    double factor = m_model->data(m_index, AssetParameterModel::FactorRole).toDouble();
+
+    ParamType type = m_model->data(m_index, AssetParameterModel::TypeRole).value<ParamType>();
     // Construct object
-    auto doubleWidget = new DoubleWidget(name, value, min, max, defaultValue, comment, -1, suffix, decimals, this);
-    doubleWidget->factor = factor;
-
-    m_parameters[index] = doubleWidget;
-    m_lay->addWidget(doubleWidget, 1 + (int)m_parameters.size(), 0, 1, -1);
-
-    connect(doubleWidget, &DoubleWidget::valueChanged, [this, index](double v){
-            m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), v, index);
+    QWidget *paramWidget = nullptr;
+    if (type == ParamType::AnimatedRect) {
+        int inPos = m_model->data(m_index, AssetParameterModel::ParentInRole).toInt();
+        QPair <int, int>range(inPos, inPos + m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt());
+        QSize frameSize = pCore->getCurrentFrameSize();
+        const QString value = m_keyframes->getInterpolatedValue(getPosition(), index).toString();
+        QRect rect;
+        QStringList vals = value.split(QLatin1Char(' '));
+        if (vals.count() >= 4) {
+            rect = QRect(vals.at(0).toInt(), vals.at(1).toInt(), vals.at(2).toInt(), vals.at(3).toInt());
+        }
+        GeometryWidget *geomWidget = new GeometryWidget(pCore->getMonitor(m_model->monitorId), range, rect, frameSize, false, this);
+        connect(geomWidget, &GeometryWidget::valueChanged, [this, index](const QString v){
+            m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), QVariant(v), index);
         });
+        paramWidget = geomWidget;
+    } else {
+        double value = m_keyframes->getInterpolatedValue(getPosition(), index).toDouble();
+        double min = m_model->data(m_index, AssetParameterModel::MinRole).toDouble();
+        double max = m_model->data(m_index, AssetParameterModel::MaxRole).toDouble();
+        double defaultValue = locale.toDouble(m_model->data(m_index, AssetParameterModel::DefaultRole).toString());
+        int decimals = m_model->data(m_index, AssetParameterModel::DecimalsRole).toInt();
+        double factor = m_model->data(m_index, AssetParameterModel::FactorRole).toDouble();
+        auto doubleWidget = new DoubleWidget(name, value, min, max, defaultValue, comment, -1, suffix, decimals, this);
+        doubleWidget->factor = factor;
+        connect(doubleWidget, &DoubleWidget::valueChanged, [this, index](double v){
+            m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), QVariant(v), index);
+        });
+        paramWidget = doubleWidget;
+    }
+    if (paramWidget) {
+        m_parameters[index] = paramWidget;
+        m_lay->addWidget(paramWidget, 1 + (int)m_parameters.size(), 0, 1, -1);
+    }
 }

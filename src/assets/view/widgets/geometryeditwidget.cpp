@@ -40,7 +40,7 @@ GeometryEditWidget::GeometryEditWidget(std::shared_ptr<AssetParameterModel> mode
     const QString value = m_model->data(m_index, AssetParameterModel::ValueRole).toString().simplified();
     QRect rect;
     QStringList vals = value.split(QLatin1Char(' '));
-    if (vals.count() == 4) {
+    if (vals.count() >= 4) {
         rect = QRect(vals.at(0).toInt(), vals.at(1).toInt(), vals.at(2).toInt(), vals.at(3).toInt());
     }
     m_geom = new GeometryWidget(pCore->getMonitor(m_model->monitorId), range, rect, frameSize, false, this);
@@ -76,6 +76,13 @@ void GeometryEditWidget::slotRefresh()
     m_slider->setValue(val);
     m_display->setValue(val);
     m_slider->blockSignals(false);*/
+    const QString value = m_model->data(m_index, AssetParameterModel::ValueRole).toString().simplified();
+    QRect rect;
+    QStringList vals = value.split(QLatin1Char(' '));
+    if (vals.count() >= 4) {
+        rect = QRect(vals.at(0).toInt(), vals.at(1).toInt(), vals.at(2).toInt(), vals.at(3).toInt());
+        m_geom->setValue(rect);
+    }
 }
 
 void GeometryEditWidget::slotShowComment(bool show)

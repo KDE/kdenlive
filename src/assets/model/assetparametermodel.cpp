@@ -106,10 +106,12 @@ void AssetParameterModel::prepareKeyframes()
 {
     if (m_keyframes)
         return;
+    int ix = 0;
     for (const auto& name: m_rows) {
-        if (m_params[name].type == ParamType::KeyframeParam) {
-           addKeyframeParam(index(m_rows.size() -1, 0));
+        if (m_params[name].type == ParamType::KeyframeParam || m_params[name].type == ParamType::AnimatedRect) {
+           addKeyframeParam(index(ix, 0));
         }
+        ix++;
     }
 }
 

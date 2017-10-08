@@ -44,7 +44,7 @@ AssetParameterView::AssetParameterView(QWidget *parent)
 
 void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &model, QPair<int, int> range, QSize frameSize, bool addSpacer)
 {
-    qDebug() << "set model " << model.get();
+    qDebug() << "**************\nset ASSETPARAMVIEW model " << model.get();
     unsetModel();
     QMutexLocker lock(&m_lock);
     m_model = model;
@@ -60,9 +60,9 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
             // animWidget->addParameter(index);
         } else {
             auto w = AbstractParamWidget::construct(model, index, range, frameSize, this);
-            if (type == ParamType::Geometry || type == ParamType::Animated || type == ParamType::RestrictedAnim || type == ParamType::AnimatedRect) {
+            /*if (type == ParamType::Geometry || type == ParamType::Animated || type == ParamType::RestrictedAnim || type == ParamType::AnimatedRect) {
                 animWidget = static_cast<AnimationWidget *>(w);
-            }
+            }*/
             connect(w, &AbstractParamWidget::valueChanged, this, &AssetParameterView::commitChanges);
             connect(w, &AbstractParamWidget::seekToPos, this, &AssetParameterView::seekToPos);
             m_lay->addWidget(w);

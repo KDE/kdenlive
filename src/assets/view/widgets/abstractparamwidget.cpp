@@ -80,6 +80,7 @@ AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetP
         widget = new BoolParamWidget(model, index, parent);
         break;
     case ParamType::KeyframeParam:
+    case ParamType::AnimatedRect:
         widget = new KeyframeWidget(model, index, parent);
         break;
     case ParamType::Geometry:
@@ -87,7 +88,6 @@ AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetP
         break;
     case ParamType::Animated:
     case ParamType::RestrictedAnim:
-    case ParamType::AnimatedRect:
 //        widget = new AnimationWidget(model, index, range, parent);
 //        break;
 //  case ParamType::KeyframeParam:

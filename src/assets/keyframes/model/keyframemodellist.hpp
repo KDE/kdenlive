@@ -80,7 +80,7 @@ public:
        @param value is the new value of the param
        @param index is the index of the wanted keyframe
     */
-    bool updateKeyframe(GenTime pos, double value, const QPersistentModelIndex &index);
+    bool updateKeyframe(GenTime pos, QVariant value, const QPersistentModelIndex &index);
 
     /* @brief Returns a keyframe data at given pos
        ok is a return parameter, set to true if everything went good
@@ -116,7 +116,7 @@ public:
     /* @brief Return the interpolated value of a parameter.
        @param pos is the position where we interpolate
        @param index is the index of the queried parameter. */
-    double getInterpolatedValue(int pos, const QPersistentModelIndex& index) const;
+    QVariant getInterpolatedValue(int pos, const QPersistentModelIndex& index) const;
 
     void refresh();
 

@@ -25,6 +25,7 @@
 #include "definitions.h"
 #include "gentime.h"
 #include "undohelper.hpp"
+#include "assets/model/assetparametermodel.hpp"
 
 #include <QAbstractListModel>
 #include <QReadWriteLock>
@@ -69,13 +70,13 @@ public:
        @param pos defines the position of the keyframe, relative to the clip
        @param type is the type of the keyframe.
      */
-    bool addKeyframe(GenTime pos, KeyframeType type, double value);
+    bool addKeyframe(GenTime pos, KeyframeType type, QVariant value);
 
 protected:
     /* @brief Same function but accumulates undo/redo
        @param notify: if true, send a signal to model
      */
-    bool addKeyframe(GenTime pos, KeyframeType type, double value, bool notify, Fun &undo, Fun &redo);
+    bool addKeyframe(GenTime pos, KeyframeType type, QVariant value, bool notify, Fun &undo, Fun &redo);
 
 public:
     /* @brief Removes the keyframe at the given position. */
@@ -101,8 +102,8 @@ public:
        @param old is the position of the keyframe
        @param value is the new value of the param
     */
-    bool updateKeyframe(GenTime pos, double value);
-    bool updateKeyframe(GenTime pos, double value, Fun &undo, Fun &redo);
+    bool updateKeyframe(GenTime pos, QVariant value);
+    bool updateKeyframe(GenTime pos, QVariant value, Fun &undo, Fun &redo);
 
     /* @brief Returns a keyframe data at given pos
        ok is a return parameter, set to true if everything went good
@@ -139,8 +140,8 @@ public:
     void refresh();
 
     /* @brief Return the interpolated value at given pos */
-    double getInterpolatedValue(int pos) const;
-    double getInterpolatedValue(const GenTime &pos) const;
+    QVariant getInterpolatedValue(int pos) const;
+    QVariant getInterpolatedValue(const GenTime &pos) const;
 
     // Mandatory overloads
     QVariant data(const QModelIndex &index, int role) const override;
@@ -150,10 +151,10 @@ public:
 protected:
 
     /** @brief Helper function that generate a lambda to change type / value of given keyframe */
-    Fun updateKeyframe_lambda(GenTime pos, KeyframeType type, double value, bool notify);
+    Fun updateKeyframe_lambda(GenTime pos, KeyframeType type, QVariant value, bool notify);
 
     /** @brief Helper function that generate a lambda to add given keyframe */
-    Fun addKeyframe_lambda(GenTime pos, KeyframeType type, double value, bool notify);
+    Fun addKeyframe_lambda(GenTime pos, KeyframeType type, QVariant value, bool notify);
 
     /** @brief Helper function that generate a lambda to remove given keyframe */
     Fun deleteKeyframe_lambda(GenTime pos, bool notify);
@@ -180,10 +181,10 @@ private:
     std::weak_ptr<DocUndoStack> m_undoStack;
     QPersistentModelIndex m_index;
     QString m_lastData;
-
+    ParamType m_paramType;
     mutable QReadWriteLock m_lock; // This is a lock that ensures safety in case of concurrent access
 
-    std::map<GenTime, std::pair<KeyframeType, double>> m_keyframeList;
+    std::map<GenTime, std::pair<KeyframeType, QVariant>> m_keyframeList;
 
 signals:
     void modelChanged();

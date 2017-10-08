@@ -22,7 +22,6 @@
 #include "keyframemodel.hpp"
 #include "doc/docundostack.hpp"
 #include "core.h"
-#include "assets/model/assetparametermodel.hpp"
 #include "macros.hpp"
 
 #include <QDebug>
@@ -38,6 +37,9 @@ KeyframeModel::KeyframeModel(std::weak_ptr<AssetParameterModel> model, const QMo
     , m_lock(QReadWriteLock::Recursive)
 {
     qDebug() <<"Construct keyframemodel. Checking model:"<<m_model.expired();
+    if (auto ptr = m_model.lock()) {
+        m_paramType = ptr->data(m_index, AssetParameterModel::TypeRole).value<ParamType>();
+    }
     setup();
     refresh();
 }
@@ -57,7 +59,7 @@ void KeyframeModel::setup()
     connect(this, &KeyframeModel::modelChanged, this, &KeyframeModel::sendModification);
 }
 
-bool KeyframeModel::addKeyframe(GenTime pos, KeyframeType type, double value, bool notify, Fun &undo, Fun &redo)
+bool KeyframeModel::addKeyframe(GenTime pos, KeyframeType type, QVariant value, bool notify, Fun &undo, Fun &redo)
 {
     qDebug() << "ADD keyframe"<<pos.frames(pCore->getCurrentFps())<<value<<notify;
     QWriteLocker locker(&m_lock);
@@ -65,13 +67,13 @@ bool KeyframeModel::addKeyframe(GenTime pos, KeyframeType type, double value, bo
     Fun local_redo = []() { return true; };
     if (m_keyframeList.count(pos) > 0) {
         qDebug() << "already there";
-        if (std::pair<KeyframeType, double>({type, value}) == m_keyframeList.at(pos)) {
+        if (std::pair<KeyframeType, QVariant>({type, value}) == m_keyframeList.at(pos)) {
             qDebug() << "nothing to do";
             return true; // nothing to do
         }
         // In this case we simply change the type and value
         KeyframeType oldType = m_keyframeList[pos].first;
-        double oldValue = m_keyframeList[pos].second;
+        QVariant oldValue = m_keyframeList[pos].second;
         local_undo = updateKeyframe_lambda(pos, oldType, oldValue, notify);
         local_redo = updateKeyframe_lambda(pos, type, value, notify);
     } else {
@@ -86,7 +88,7 @@ bool KeyframeModel::addKeyframe(GenTime pos, KeyframeType type, double value, bo
     return false;
 }
 
-bool KeyframeModel::addKeyframe(GenTime pos, KeyframeType type, double value)
+bool KeyframeModel::addKeyframe(GenTime pos, KeyframeType type, QVariant value)
 {
     QWriteLocker locker(&m_lock);
     Fun undo = []() { return true; };
@@ -107,7 +109,7 @@ bool KeyframeModel::removeKeyframe(GenTime pos, Fun &undo, Fun &redo)
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_keyframeList.count(pos) > 0);
     KeyframeType oldType = m_keyframeList[pos].first;
-    double oldValue = m_keyframeList[pos].second;
+    QVariant oldValue = m_keyframeList[pos].second;
     Fun local_undo = addKeyframe_lambda(pos, oldType, oldValue, true);
     Fun local_redo = deleteKeyframe_lambda(pos, true);
     qDebug() << "before2"<<getAnimProperty();
@@ -141,7 +143,7 @@ bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, Fun &undo, Fun &re
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_keyframeList.count(oldPos) > 0);
     KeyframeType oldType = m_keyframeList[oldPos].first;
-    double oldValue = m_keyframeList[oldPos].second;
+    QVariant oldValue = m_keyframeList[oldPos].second;
     if (oldPos == pos ) return true;
     if ( hasKeyframe(pos) ) return false;
     Fun local_undo = []() { return true; };
@@ -178,13 +180,16 @@ bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, bool logUndo)
     return res;
 }
 
-bool KeyframeModel::updateKeyframe(GenTime pos, double value, Fun &undo, Fun &redo)
+bool KeyframeModel::updateKeyframe(GenTime pos, QVariant value, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_keyframeList.count(pos) > 0);
     KeyframeType type = m_keyframeList[pos].first;
-    double oldValue = m_keyframeList[pos].second;
-    if (qAbs(oldValue - value) < 1e-6) return true;
+    QVariant oldValue = m_keyframeList[pos].second;
+    // Chek if keyframe is different
+    if (m_paramType == ParamType::KeyframeParam) {
+        if (qAbs(oldValue.toDouble() - value.toDouble()) < 1e-6) return true;
+    }
     auto operation = updateKeyframe_lambda(pos, type, value, true);
     auto reverse = updateKeyframe_lambda(pos, type, oldValue, true);
     bool res = operation();
@@ -194,7 +199,7 @@ bool KeyframeModel::updateKeyframe(GenTime pos, double value, Fun &undo, Fun &re
     return res;
 }
 
-bool KeyframeModel::updateKeyframe(GenTime pos, double value)
+bool KeyframeModel::updateKeyframe(GenTime pos, QVariant value)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_keyframeList.count(pos) > 0);
@@ -208,7 +213,7 @@ bool KeyframeModel::updateKeyframe(GenTime pos, double value)
     return res;
 }
 
-Fun KeyframeModel::updateKeyframe_lambda(GenTime pos, KeyframeType type, double value, bool notify)
+Fun KeyframeModel::updateKeyframe_lambda(GenTime pos, KeyframeType type, QVariant value, bool notify)
 {
     QWriteLocker locker(&m_lock);
     return [this, pos, type, value, notify]() {
@@ -223,7 +228,7 @@ Fun KeyframeModel::updateKeyframe_lambda(GenTime pos, KeyframeType type, double 
     };
 }
 
-Fun KeyframeModel::addKeyframe_lambda(GenTime pos, KeyframeType type, double value, bool notify)
+Fun KeyframeModel::addKeyframe_lambda(GenTime pos, KeyframeType type, QVariant value, bool notify)
 {
     QWriteLocker locker(&m_lock);
     return [this, notify, pos, type, value]() {
@@ -445,7 +450,14 @@ QString KeyframeModel::getAnimProperty() const
             prop += QStringLiteral("~=");
             break;
         }
-        prop += QString::number(keyframe.second.second);
+        switch (m_paramType) {
+            case ParamType::AnimatedRect:
+                prop += keyframe.second.second.toString();
+                break;
+            default:
+                prop += QString::number(keyframe.second.second.toDouble());
+                break;
+        }
     }
     return prop;
 }
@@ -492,7 +504,17 @@ void KeyframeModel::parseAnimProperty(const QString &prop)
         int frame;
         mlt_keyframe_type type;
         anim->key_get(i, frame, type);
-        double value = mlt_prop.anim_get_double("key", frame);
+        QVariant value;
+        switch (m_paramType) {
+            case ParamType::AnimatedRect: {
+                mlt_rect rect = mlt_prop.anim_get_rect("key", frame);
+                value = QVariant(QString("%1 %2 %3 %4 %5").arg(rect.x).arg(rect.y).arg(rect.w).arg(rect.h).arg(rect.o));
+                break;
+            }
+            default:
+                value = QVariant(mlt_prop.anim_get_double("key", frame));
+                break;
+        }
         addKeyframe(GenTime(frame, pCore->getCurrentFps()), convertFromMltType(type), value, false, undo, redo);
     }
 
@@ -526,12 +548,13 @@ void KeyframeModel::parseAnimProperty(const QString &prop)
 }
 
 
-double KeyframeModel::getInterpolatedValue(int p) const
+QVariant KeyframeModel::getInterpolatedValue(int p) const
 {
     auto pos = GenTime(p, pCore->getCurrentFps());
     return getInterpolatedValue(pos);
 }
-double KeyframeModel::getInterpolatedValue(const GenTime &pos) const
+
+QVariant KeyframeModel::getInterpolatedValue(const GenTime &pos) const
 {
     int p = pos.frames(pCore->getCurrentFps());
     if (m_keyframeList.count(pos) > 0) {
@@ -548,21 +571,53 @@ double KeyframeModel::getInterpolatedValue(const GenTime &pos) const
     auto prev = next;
     --prev;
     // We now have surrounding keyframes, we use mlt to compute the value
-
     Mlt::Properties prop;
-    prop.anim_set("keyframe", prev->second.second, prev->first.frames(pCore->getCurrentFps()), 0, convertToMltType(prev->second.first) );
-    prop.anim_set("keyframe", next->second.second, next->first.frames(pCore->getCurrentFps()), 0, convertToMltType(next->second.first) );
-    return prop.anim_get_double("keyframe", p);
+    if (m_paramType == ParamType::KeyframeParam) {
+        prop.anim_set("keyframe", prev->second.second.toDouble(), prev->first.frames(pCore->getCurrentFps()), next->first.frames(pCore->getCurrentFps()), convertToMltType(prev->second.first) );
+        prop.anim_set("keyframe", next->second.second.toDouble(), next->first.frames(pCore->getCurrentFps()), next->first.frames(pCore->getCurrentFps()), convertToMltType(next->second.first) );
+        return QVariant(prop.anim_get_double("keyframe", p));
+    } else if (m_paramType == ParamType::AnimatedRect) {
+        mlt_rect rect;
+        QStringList vals = prev->second.second.toString().split(QLatin1Char(' '));
+        if (vals.count() >= 4) {
+            rect.x = vals.at(0).toInt();
+            rect.y = vals.at(1).toInt();
+            rect.w = vals.at(2).toInt();
+            rect.h = vals.at(3).toInt();
+            if (vals.count() > 4) {
+                rect.o = vals.at(4).toInt();
+            } else {
+                rect.o = 1;
+            }
+        }
+        prop.anim_set("keyframe", rect, prev->first.frames(pCore->getCurrentFps()), next->first.frames(pCore->getCurrentFps()), convertToMltType(prev->second.first) );
+        vals = next->second.second.toString().split(QLatin1Char(' '));
+        if (vals.count() >= 4) {
+            rect.x = vals.at(0).toInt();
+            rect.y = vals.at(1).toInt();
+            rect.w = vals.at(2).toInt();
+            rect.h = vals.at(3).toInt();
+            if (vals.count() > 4) {
+                rect.o = vals.at(4).toInt();
+            } else {
+                rect.o = 1;
+            }
+        }
+        prop.anim_set("keyframe", rect, next->first.frames(pCore->getCurrentFps()), next->first.frames(pCore->getCurrentFps()), convertToMltType(next->second.first) );
+        rect = prop.anim_get_rect("keyframe", p);
+        const QString res = QString("%1 %2 %3 %4 %5").arg((int)rect.x).arg((int)rect.y).arg((int)rect.w).arg((int)rect.h).arg((int)rect.o);
+        return QVariant(res);
+    }
+    return QVariant();
 }
 
 void KeyframeModel::sendModification()
 {
     if (auto ptr = m_model.lock()) {
         Q_ASSERT(m_index.isValid());
-        QString name =  ptr->data(m_index, AssetParameterModel::NameRole).toString();
-        auto type = ptr->data(m_index, AssetParameterModel::TypeRole).value<ParamType>();
+        QString name = ptr->data(m_index, AssetParameterModel::NameRole).toString();
         QString data;
-        if (type == ParamType::KeyframeParam) {
+        if (m_paramType == ParamType::KeyframeParam || m_paramType == ParamType::AnimatedRect) {
             data = getAnimProperty();
             ptr->setParameter(name, data);
         } else {
@@ -575,29 +630,28 @@ void KeyframeModel::sendModification()
 
 void KeyframeModel::refresh()
 {
-    qDebug() << "REFRESHING KEYFRAME";
     if (auto ptr = m_model.lock()) {
         Q_ASSERT(m_index.isValid());
-        auto type = ptr->data(m_index, AssetParameterModel::TypeRole).value<ParamType>();
         QString data = ptr->data(m_index, AssetParameterModel::ValueRole).toString();
-        qDebug() << "FOUND DATA KEYFRAME" << data;
         if (data == m_lastData) {
             // nothing to do
             return;
         }
-        // first, try to convert to double
-        bool ok = false;
-        double value = data.toDouble(&ok);
-        if (ok) {
-            Fun undo = []() { return true; };
-            Fun redo = []() { return true; };
-            addKeyframe(GenTime(), KeyframeType::Linear, value, false, undo, redo);
-            qDebug() << "KEYFRAME ADDED"<<value;
-        } else if (type == ParamType::KeyframeParam) {
+        if (m_paramType == ParamType::KeyframeParam || m_paramType == ParamType::AnimatedRect) {
             qDebug() << "parsing keyframe"<<data;
             parseAnimProperty(data);
         } else {
-            Q_ASSERT(false); //Not implemented, TODO
+            // first, try to convert to double
+            bool ok = false;
+            double value = data.toDouble(&ok);
+            if (ok) {
+                Fun undo = []() { return true; };
+                Fun redo = []() { return true; };
+                addKeyframe(GenTime(), KeyframeType::Linear, QVariant(value), false, undo, redo);
+                qDebug() << "KEYFRAME ADDED"<<value;
+            } else {
+                Q_ASSERT(false); //Not implemented, TODO
+            }
         }
     } else {
         qDebug() << "WARNING : unable to access keyframe's model";

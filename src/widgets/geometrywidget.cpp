@@ -368,18 +368,41 @@ void GeometryWidget::slotUpdateGeometryRect(const QRect r)
     m_spinY->blockSignals(false);
     m_spinWidth->blockSignals(false);
     m_spinHeight->blockSignals(false);
-    slotAdjustRectKeyframeValue();
+    m_monitor->setUpEffectGeometry(r);
+    //slotAdjustRectKeyframeValue();
     emit valueChanged(getValue());
     //setupMonitor();
 }
 
+void GeometryWidget::setValue(const QRect r)
+{
+    if (!r.isValid()) {
+        return;
+    }
+    m_spinX->blockSignals(true);
+    m_spinY->blockSignals(true);
+    m_spinWidth->blockSignals(true);
+    m_spinHeight->blockSignals(true);
+    m_spinX->setValue(r.x());
+    m_spinY->setValue(r.y());
+    m_spinWidth->setValue(r.width());
+    m_spinHeight->setValue(r.height());
+    m_spinX->blockSignals(false);
+    m_spinY->blockSignals(false);
+    m_spinWidth->blockSignals(false);
+    m_spinHeight->blockSignals(false);
+    m_monitor->setUpEffectGeometry(r);
+}
+
+
 const QString GeometryWidget::getValue() const
 {
-    return QStringLiteral("%1 %2 %3 %4").arg(m_spinX->value()).arg(m_spinY->value()).arg(m_spinWidth->value()).arg( m_spinHeight->value());
+    return QStringLiteral("%1 %2 %3 %4 1").arg(m_spinX->value()).arg(m_spinY->value()).arg(m_spinWidth->value()).arg( m_spinHeight->value());
 }
 void GeometryWidget::monitorSeek(int pos)
 {
     // Update monitor scene for geometry params
+    qDebug()<<"/// MONITOR SEEK: "<<pos<<" = "<<m_min<<"-"<<m_max;
     if (pos >= m_min && pos < m_max) {
         m_monitor->slotShowEffectScene(MonitorSceneGeometry);
         m_monitor->setEffectKeyframe(true);

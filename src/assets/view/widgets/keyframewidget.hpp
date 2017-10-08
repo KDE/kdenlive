@@ -70,7 +70,7 @@ private:
     QToolButton *m_buttonNext;
     TimecodeDisplay *m_time;
 
-    std::unordered_map<QPersistentModelIndex, DoubleWidget*> m_parameters;
+    std::unordered_map<QPersistentModelIndex, QWidget*> m_parameters;
 };
 
 #endif
