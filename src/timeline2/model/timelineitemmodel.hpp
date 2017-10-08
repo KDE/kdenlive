@@ -75,7 +75,7 @@ public:
     /* @brief Creates an index based on the ID of the clip*/
     QModelIndex makeClipIndexFromID(int clipId) const override;
     /* @brief Creates an index based on the ID of the compoition*/
-    QModelIndex makeCompositionIndexFromID(int compoId) const;
+    QModelIndex makeCompositionIndexFromID(int compoId) const override;
     /* @brief Creates an index based on the ID of the track*/
     QModelIndex makeTrackIndexFromID(int trackId) const override;
     QModelIndex parent(const QModelIndex &index) const override;

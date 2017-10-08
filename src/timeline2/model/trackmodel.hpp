@@ -50,7 +50,7 @@ public:
     friend class ClipModel;
     friend class CompositionModel;
     friend class TimelineController;
-    friend class TimelineFunctions;
+    friend struct TimelineFunctions;
     friend class TimelineItemModel;
     friend class TimelineModel;
 

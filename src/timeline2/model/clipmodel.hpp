@@ -100,7 +100,7 @@ public:
     friend class TimelineModel;
     friend class TimelineItemModel;
     friend class TimelineController;
-    friend class TimelineFunctions;
+    friend struct TimelineFunctions;
 
 protected:
     Mlt::Producer *service() const override;
