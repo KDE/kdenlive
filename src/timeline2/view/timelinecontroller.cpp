@@ -106,7 +106,7 @@ void TimelineController::addSelection(int newSelection)
     m_selection.selectedClips << newSelection;
     std::unordered_set<int> ids;
     ids.insert(m_selection.selectedClips.cbegin(), m_selection.selectedClips.cend());
-    m_model->requestClipsGroup(ids, true, true);
+    m_model->requestClipsGroup(ids, true, GroupType::Selection);
     emit selectionChanged();
 
     if (!m_selection.selectedClips.isEmpty())
@@ -193,7 +193,7 @@ void TimelineController::setSelection(const QList<int> &newSelection, int trackI
         if (!m_selection.selectedClips.isEmpty()) {
             std::unordered_set<int> ids;
             ids.insert(m_selection.selectedClips.cbegin(), m_selection.selectedClips.cend());
-            m_model->requestClipsGroup(ids, true, true);
+            m_model->requestClipsGroup(ids, true, GroupType::Selection);
             emitSelectedFromSelection();
         }
         else {
@@ -580,7 +580,7 @@ void TimelineController::selectItems(QVariantList arg, int startFrame, int endFr
     for (int x: clipsToSelect) {
         m_selection.selectedClips << x;
     }
-    m_model->requestClipsGroup(clipsToSelect, true, true);
+    m_model->requestClipsGroup(clipsToSelect, true, GroupType::Selection);
     emit selectionChanged();
 }
 

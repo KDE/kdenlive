@@ -800,26 +800,26 @@ bool TimelineModel::requestItemResize(int itemId, int size, bool right, bool log
     return result;
 }
 
-int TimelineModel::requestClipsGroup(const std::unordered_set<int> &ids, bool logUndo, bool temporarySelection)
+int TimelineModel::requestClipsGroup(const std::unordered_set<int> &ids, bool logUndo, GroupType type)
 {
     QWriteLocker locker(&m_lock);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     if (m_temporarySelectionGroup > -1) {
-        requestClipUngroup(m_temporarySelectionGroup, undo, redo, true);
+        requestClipUngroup(m_temporarySelectionGroup, undo, redo);
         m_temporarySelectionGroup = -1;
     }
-    int result = requestClipsGroup(ids, undo, redo, temporarySelection);
-    if (temporarySelection) {
+    int result = requestClipsGroup(ids, undo, redo, type);
+    if (type == GroupType::Selection) {
         m_temporarySelectionGroup = result;
     }
-    if (result > -1 && logUndo && !temporarySelection) {
+    if (result > -1 && logUndo && type != GroupType::Selection) {
         PUSH_UNDO(undo, redo, i18n("Group clips"));
     }
     return result;
 }
 
-int TimelineModel::requestClipsGroup(const std::unordered_set<int> &ids, Fun &undo, Fun &redo, bool temporarySelection)
+int TimelineModel::requestClipsGroup(const std::unordered_set<int> &ids, Fun &undo, Fun &redo, GroupType type)
 {
 #ifdef LOGGING
     std::stringstream group;
@@ -847,8 +847,8 @@ int TimelineModel::requestClipsGroup(const std::unordered_set<int> &ids, Fun &un
             return -1;
         }
     }
-    int groupId = m_groups->groupItems(ids, undo, redo, temporarySelection);
-    if (temporarySelection && *(ids.begin()) == groupId) {
+    int groupId = m_groups->groupItems(ids, undo, redo, type);
+    if (type == GroupType::Selection && *(ids.begin()) == groupId) {
         // only one element selected, no group created
         return -1;
     }
@@ -870,9 +870,9 @@ bool TimelineModel::requestClipUngroup(int id, bool logUndo)
     return result;
 }
 
-bool TimelineModel::requestClipUngroup(int id, Fun &undo, Fun &redo, bool temporarySelection)
+bool TimelineModel::requestClipUngroup(int id, Fun &undo, Fun &redo)
 {
-    return m_groups->ungroupItem(id, undo, redo, temporarySelection);
+    return m_groups->ungroupItem(id, undo, redo);
 }
 
 bool TimelineModel::requestTrackInsertion(int position, int &id, const QString &trackName, bool audioTrack)

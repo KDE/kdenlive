@@ -22,6 +22,7 @@
 #ifndef GROUPMODEL_H
 #define GROUPMODEL_H
 
+#include "definitions.h"
 #include "undohelper.hpp"
 #include <QReadWriteLock>
 #include <memory>
@@ -33,6 +34,7 @@ class TimelineItemModel;
 /* @brief This class represents the group hiearchy. This is basically a tree structure
    In this class, we consider that a groupItem is either a clip or a group
 */
+
 class GroupsModel
 {
 
@@ -46,13 +48,14 @@ public:
        @param ids set containing the items to group.
        @param undo Lambda function containing the current undo stack. Will be updated with current operation
        @param redo Lambda function containing the current redo queue. Will be updated with current operation
+       @param type indicates the type of group we create
        Returns the id of the new group, or -1 on error.
     */
-    int groupItems(const std::unordered_set<int> &ids, Fun &undo, Fun &redo, bool temporarySelection = false, bool force = false);
+    int groupItems(const std::unordered_set<int> &ids, Fun &undo, Fun &redo, GroupType type = GroupType::Normal, bool force = false);
 
 protected:
     /* Lambda version */
-    Fun groupItems_lambda(int gid, const std::unordered_set<int> &ids, bool temporarySelection = false, int parent = -1);
+    Fun groupItems_lambda(int gid, const std::unordered_set<int> &ids, GroupType type = GroupType::Normal, int parent = -1);
 
 public:
     /* Deletes the topmost group containing given element
@@ -62,7 +65,7 @@ public:
        @param undo Lambda function containing the current undo stack. Will be updated with current operation
        @param redo Lambda function containing the current redo queue. Will be updated with current operation
      */
-    bool ungroupItem(int id, Fun &undo, Fun &redo, bool temporarySelection = false);
+    bool ungroupItem(int id, Fun &undo, Fun &redo);
 
     /* @brief Create a groupItem in the hierarchy. Initially it is not part of a group
        @param id id of the groupItem
@@ -149,7 +152,7 @@ protected:
        @param undo Lambda function containing the current undo stack. Will be updated with current operation
        @param redo Lambda function containing the current redo queue. Will be updated with current operation
     */
-    bool destructGroupItem(int id, bool deleteOrphan, Fun &undo, Fun &redo, bool temporarySelection = false);
+    bool destructGroupItem(int id, bool deleteOrphan, Fun &undo, Fun &redo);
     /* Lambda version */
     Fun destructGroupItem_lambda(int id);
 
@@ -173,10 +176,9 @@ private:
     std::unordered_map<int, int> m_upLink;                       // edges toward parent
     std::unordered_map<int, std::unordered_set<int>> m_downLink; // edges toward children
 
-    std::unordered_set<int> m_groupIds; // this keeps track of "real" groups (non-leaf elements)
+    std::unordered_map<int, GroupType> m_groupIds; // this keeps track of "real" groups (non-leaf elements), and their types
     mutable QReadWriteLock m_lock;      // This is a lock that ensures safety in case of concurrent access
 
-    int m_selectionGroup{-1}; // this is the id of the group that is used to simulate a selection
 };
 
 #endif

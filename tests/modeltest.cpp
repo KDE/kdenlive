@@ -1674,10 +1674,10 @@ TEST_CASE("Advanced trimming operations", "[Trimming]")
         REQUIRE(timeline->requestClipMove(cid5, tid2, l));
         REQUIRE(timeline->requestClipMove(cid6, tid2, 2*l));
         REQUIRE(timeline->requestClipMove(cid7, tid1, 200));
-        int gid1 =timeline->requestClipsGroup(std::unordered_set<int>({cid1, cid4}), true, false);
-        int gid2 =timeline->requestClipsGroup(std::unordered_set<int>({cid2, cid5}), true, false);
-        int gid3 =timeline->requestClipsGroup(std::unordered_set<int>({cid3, cid6}), true, false);
-        int gid4 =timeline->requestClipsGroup(std::unordered_set<int>({cid1, cid2, cid3, cid4, cid5, cid6, cid7}), true, false);
+        int gid1 =timeline->requestClipsGroup(std::unordered_set<int>({cid1, cid4}), true, GroupType::Normal);
+        int gid2 =timeline->requestClipsGroup(std::unordered_set<int>({cid2, cid5}), true, GroupType::Normal);
+        int gid3 =timeline->requestClipsGroup(std::unordered_set<int>({cid3, cid6}), true, GroupType::Normal);
+        int gid4 =timeline->requestClipsGroup(std::unordered_set<int>({cid1, cid2, cid3, cid4, cid5, cid6, cid7}), true, GroupType::Normal);
         auto state = [&](){
             REQUIRE(timeline->checkConsistency());
             int p = 0;

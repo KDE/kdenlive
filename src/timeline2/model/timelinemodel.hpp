@@ -22,6 +22,7 @@
 #ifndef TIMELINEMODEL_H
 #define TIMELINEMODEL_H
 
+#include "definitions.h"
 #include "undohelper.hpp"
 #include <assert.h>
 #include "definitions.h"
@@ -370,8 +371,8 @@ public:
        Typically, ids would be ids of clips, but for convenience, some of them can be ids of groups as well.
        @param ids Set of ids to group
     */
-    int requestClipsGroup(const std::unordered_set<int> &ids, bool logUndo = true, bool temporarySelection = false);
-    int requestClipsGroup(const std::unordered_set<int> &ids, Fun &undo, Fun &redo, bool temporarySelection = false);
+    int requestClipsGroup(const std::unordered_set<int> &ids, bool logUndo = true, GroupType type = GroupType::Normal);
+    int requestClipsGroup(const std::unordered_set<int> &ids, Fun &undo, Fun &redo, GroupType type = GroupType::Normal);
 
     /* @brief Destruct the topmost group containing clip
        This action is undoable
@@ -380,7 +381,7 @@ public:
     */
     bool requestClipUngroup(int id, bool logUndo = true);
     /* Same function, but accumulates undo and redo*/
-    bool requestClipUngroup(int id, Fun &undo, Fun &redo, bool temporarySelection = false);
+    bool requestClipUngroup(int id, Fun &undo, Fun &redo);
 
     /* @brief Create a track at given position
        This action is undoable

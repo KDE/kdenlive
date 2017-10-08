@@ -489,7 +489,7 @@ bool TimelineItemModel::loadGroups(const QString &groupsData)
             }
         }
         if (validGroup) {
-            int newGroupId = requestClipsGroup(ids, false, false);
+            int newGroupId = requestClipsGroup(ids, false, GroupType::Normal);
             processedIds.insert(previousId, newGroupId);
         }
         i++;
