@@ -30,6 +30,7 @@
 #include <QPersistentModelIndex>
 #include <QTreeWidgetItem>
 #include <memory>
+#include <cassert>
 
 const int MAXCLIPDURATION = 15000;
 
