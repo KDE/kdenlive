@@ -82,7 +82,7 @@ public:
     */
     bool updateKeyframe(GenTime pos, QVariant value, const QPersistentModelIndex &index);
     bool updateKeyframeType(GenTime pos, int type, const QPersistentModelIndex &index);
-
+    KeyframeType keyframeType(GenTime pos) const;
     /* @brief Returns a keyframe data at given pos
        ok is a return parameter, set to true if everything went good
      */

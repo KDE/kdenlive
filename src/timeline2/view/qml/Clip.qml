@@ -393,6 +393,9 @@ Rectangle {
                         x: model.frame * timeScale
                         height: parent.height * model.normalizedValue
                         anchors.bottom: parent.bottom
+                        onFrameTypeChanged: {
+                            keyframecanvas.requestPaint()
+                        }
                         onHeightChanged: {
                             keyframecanvas.requestPaint()
                         }

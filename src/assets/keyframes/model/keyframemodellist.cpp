@@ -147,6 +147,19 @@ bool KeyframeModelList::updateKeyframeType(GenTime pos, int type, const QPersist
     return res;
 }
 
+KeyframeType KeyframeModelList::keyframeType(GenTime pos) const
+{
+    QWriteLocker locker(&m_lock);
+    if (singleKeyframe()) {
+        bool ok = false;
+        Keyframe kf = m_parameters.begin()->second->getNextKeyframe(GenTime(-1), &ok);
+        return kf.second;
+    }
+    bool ok = false;
+    Keyframe kf = m_parameters.begin()->second->getKeyframe(pos, &ok);
+    return kf.second;
+}
+
 Keyframe KeyframeModelList::getKeyframe(const GenTime &pos, bool *ok) const
 {
     READ_LOCK();

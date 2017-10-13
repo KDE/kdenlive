@@ -66,14 +66,14 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
 
     // Keyframe type widget
     m_selectType = new KSelectAction(KoIconUtils::themedIcon(QStringLiteral("keyframes")), i18n("Keyframe interpolation"), this);
-    QAction *discrete = new QAction(KoIconUtils::themedIcon(QStringLiteral("discrete")), i18n("Discrete"), this);
-    discrete->setData((int)mlt_keyframe_discrete);
-    discrete->setCheckable(true);
-    m_selectType->addAction(discrete);
     QAction *linear = new QAction(KoIconUtils::themedIcon(QStringLiteral("linear")), i18n("Linear"), this);
     linear->setData((int)mlt_keyframe_linear);
     linear->setCheckable(true);
     m_selectType->addAction(linear);
+    QAction *discrete = new QAction(KoIconUtils::themedIcon(QStringLiteral("discrete")), i18n("Discrete"), this);
+    discrete->setData((int)mlt_keyframe_discrete);
+    discrete->setCheckable(true);
+    m_selectType->addAction(discrete);
     QAction *curve = new QAction(KoIconUtils::themedIcon(QStringLiteral("smooth")), i18n("Smooth"), this);
     curve->setData((int)mlt_keyframe_smooth);
     curve->setCheckable(true);
@@ -135,6 +135,8 @@ void KeyframeWidget::slotEditKeyframeType(QAction *action)
 void KeyframeWidget::slotRefreshParams()
 {
     int pos = getPosition();
+    KeyframeType type = m_keyframes->keyframeType(GenTime(pos, pCore->getCurrentFps()));
+    m_selectType->setCurrentItem((int) type);
     for (const auto & w : m_parameters) {
         ParamType type = m_model->data(m_index, AssetParameterModel::TypeRole).value<ParamType>();
         if (type == ParamType::KeyframeParam) {
@@ -195,6 +197,7 @@ void KeyframeWidget::slotAtKeyframe(bool atKeyframe, bool singleKeyframe)
         m_buttonAddDelete->setIcon(KoIconUtils::themedIcon(QStringLiteral("list-add")));
         m_buttonAddDelete->setToolTip(i18n("Add keyframe"));
     }
+    m_selectType->setEnabled(atKeyframe || singleKeyframe);
     for (const auto &w : m_parameters) {
         w.second->setEnabled(atKeyframe || singleKeyframe);
     }
