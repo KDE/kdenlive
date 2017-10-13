@@ -129,6 +129,23 @@ bool KeyframeModelList::updateKeyframe(GenTime pos, QVariant value, const QPersi
     return res;
 }
 
+bool KeyframeModelList::updateKeyframeType(GenTime pos, int type, const QPersistentModelIndex &index)
+{
+    QWriteLocker locker(&m_lock);
+    Q_ASSERT(m_parameters.count(index) > 0);
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    if (singleKeyframe()) {
+        bool ok = false;
+        Keyframe kf = m_parameters.begin()->second->getNextKeyframe(GenTime(-1), &ok);
+        pos = kf.first;
+    }
+    bool res = m_parameters.at(index)->updateKeyframeType(pos, type, undo, redo);
+    if (res) {
+        PUSH_UNDO(undo, redo, i18n("Update keyframe"));
+    }
+    return res;
+}
 
 Keyframe KeyframeModelList::getKeyframe(const GenTime &pos, bool *ok) const
 {

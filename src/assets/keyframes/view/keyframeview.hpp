@@ -53,6 +53,7 @@ public slots:
     void slotGoToNext();
     void slotGoToPrev();
     void slotModelChanged();
+    void slotEditType(int type, const QPersistentModelIndex &index);
 
 protected:
     void paintEvent(QPaintEvent *event) override;

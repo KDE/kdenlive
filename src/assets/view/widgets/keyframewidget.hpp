@@ -31,9 +31,10 @@ class AssetParameterModel;
 class DoubleWidget;
 class KeyframeView;
 class KeyframeModelList;
-class QGridLayout;
+class QVBoxLayout;
 class QToolButton;
 class TimecodeDisplay;
+class KSelectAction;
 
 class KeyframeWidget : public AbstractParamWidget
 {
@@ -60,15 +61,17 @@ private slots:
     void slotRefreshParams();
     void slotAtKeyframe(bool atKeyframe, bool singleKeyframe);
     void monitorSeek(int pos);
+    void slotEditKeyframeType(QAction *action);
 
 private:
-    QGridLayout *m_lay;
+    QVBoxLayout *m_lay;
     std::shared_ptr<KeyframeModelList> m_keyframes;
 
     KeyframeView *m_keyframeview;
     QToolButton *m_buttonAddDelete;
     QToolButton *m_buttonPrevious;
     QToolButton *m_buttonNext;
+    KSelectAction *m_selectType;
     TimecodeDisplay *m_time;
 
     std::unordered_map<QPersistentModelIndex, QWidget*> m_parameters;

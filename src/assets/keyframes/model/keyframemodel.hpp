@@ -44,7 +44,7 @@ class EffectItemModel;
 
 enum class KeyframeType
 {
-    Linear,
+    Linear = 0,
     Discrete,
     Curve
 };
@@ -106,6 +106,7 @@ public:
        @param value is the new value of the param
     */
     bool updateKeyframe(GenTime pos, QVariant value);
+    bool updateKeyframeType(GenTime pos, int type, Fun &undo, Fun &redo);
     bool updateKeyframe(GenTime pos, QVariant value, Fun &undo, Fun &redo);
 
     /* @brief Returns a keyframe data at given pos

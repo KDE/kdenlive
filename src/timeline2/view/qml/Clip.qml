@@ -389,7 +389,7 @@ Rectangle {
                     Rectangle {
                         id: keyframe
                         property int frame : model.frame
-                        property int type : model.type
+                        property int frameType : model.type
                         x: model.frame * timeScale
                         height: parent.height * model.normalizedValue
                         anchors.bottom: parent.bottom
@@ -455,13 +455,13 @@ Rectangle {
                         var ypos
                         for(var i = 0; i < keyframes.count; i++)
                         {
+                            var type = keyframes.itemAt(i).frameType
                             xpos = keyframes.itemAt(i).x
                             if (type == 1) {
                                 // discrete
                                 paths.push(compline.createObject(keyframecanvas, {"x": xpos, "y": ypos} ))
                             }
                             ypos = parent.height - keyframes.itemAt(i).height
-                            var type = keyframes.itemAt(i).type
                             if (type < 2) {
                                 // linear
                                 paths.push(compline.createObject(keyframecanvas, {"x": xpos, "y": ypos} ))

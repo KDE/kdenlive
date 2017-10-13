@@ -240,6 +240,40 @@ bool KeyframeModel::updateKeyframe(GenTime pos, QVariant value)
     return res;
 }
 
+KeyframeType convertFromMltType(mlt_keyframe_type type)
+{
+    switch (type) {
+    case mlt_keyframe_linear:
+        return KeyframeType::Linear;
+    case mlt_keyframe_discrete:
+        return KeyframeType::Discrete;
+    case mlt_keyframe_smooth:
+        return KeyframeType::Curve;
+    }
+    return KeyframeType::Linear;
+}
+
+bool KeyframeModel::updateKeyframeType(GenTime pos, int type, Fun &undo, Fun &redo)
+{
+    QWriteLocker locker(&m_lock);
+    Q_ASSERT(m_keyframeList.count(pos) > 0);
+    KeyframeType oldType = m_keyframeList[pos].first;
+    KeyframeType newType = convertFromMltType((mlt_keyframe_type) type);
+    QVariant value = m_keyframeList[pos].second;
+
+    // Check if keyframe is different
+    if (m_paramType == ParamType::KeyframeParam) {
+        if (oldType == newType) return true;
+    }
+    auto operation = updateKeyframe_lambda(pos, newType, value, true);
+    auto reverse = updateKeyframe_lambda(pos, oldType, value, true);
+    bool res = operation();
+    if (res) {
+        UPDATE_UNDO_REDO(operation, reverse, undo, redo);
+    }
+    return res;
+}
+
 Fun KeyframeModel::updateKeyframe_lambda(GenTime pos, KeyframeType type, QVariant value, bool notify)
 {
     QWriteLocker locker(&m_lock);
@@ -250,7 +284,7 @@ Fun KeyframeModel::updateKeyframe_lambda(GenTime pos, KeyframeType type, QVarian
         m_keyframeList[pos].first = type;
         m_keyframeList[pos].second = value;
         if (notify)
-            emit dataChanged(index(row), index(row), {ValueRole,NormalizedValueRole});
+            emit dataChanged(index(row), index(row), {ValueRole,NormalizedValueRole,TypeRole});
         return true;
     };
 }
@@ -514,18 +548,6 @@ mlt_keyframe_type convertToMltType(KeyframeType type)
         return mlt_keyframe_smooth;
     }
     return mlt_keyframe_linear;
-}
-KeyframeType convertFromMltType(mlt_keyframe_type type)
-{
-    switch (type) {
-    case mlt_keyframe_linear:
-        return KeyframeType::Linear;
-    case mlt_keyframe_discrete:
-        return KeyframeType::Discrete;
-    case mlt_keyframe_smooth:
-        return KeyframeType::Curve;
-    }
-    return KeyframeType::Linear;
 }
 
 void KeyframeModel::parseAnimProperty(const QString &prop)

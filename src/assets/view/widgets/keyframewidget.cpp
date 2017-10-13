@@ -29,9 +29,9 @@
 #include "widgets/doublewidget.h"
 #include "widgets/geometrywidget.h"
 
-#include <QGridLayout>
+#include <QVBoxLayout>
 #include <QToolButton>
-
+#include <KSelectAction>
 #include <klocalizedstring.h>
 
 KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
@@ -41,7 +41,7 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
 
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 
-    m_lay = new QGridLayout(this);
+    m_lay = new QVBoxLayout(this);
 
     bool ok = false;
     int duration = m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt(&ok);
@@ -64,15 +64,37 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     m_buttonNext->setIcon(KoIconUtils::themedIcon(QStringLiteral("media-skip-forward")));
     m_buttonNext->setToolTip(i18n("Go to next keyframe"));
 
+    // Keyframe type widget
+    m_selectType = new KSelectAction(KoIconUtils::themedIcon(QStringLiteral("keyframes")), i18n("Keyframe interpolation"), this);
+    QAction *discrete = new QAction(KoIconUtils::themedIcon(QStringLiteral("discrete")), i18n("Discrete"), this);
+    discrete->setData((int)mlt_keyframe_discrete);
+    discrete->setCheckable(true);
+    m_selectType->addAction(discrete);
+    QAction *linear = new QAction(KoIconUtils::themedIcon(QStringLiteral("linear")), i18n("Linear"), this);
+    linear->setData((int)mlt_keyframe_linear);
+    linear->setCheckable(true);
+    m_selectType->addAction(linear);
+    QAction *curve = new QAction(KoIconUtils::themedIcon(QStringLiteral("smooth")), i18n("Smooth"), this);
+    curve->setData((int)mlt_keyframe_smooth);
+    curve->setCheckable(true);
+    m_selectType->addAction(curve);
+    m_selectType->setCurrentAction(linear);
+    connect(m_selectType, SIGNAL(triggered(QAction *)), this, SLOT(slotEditKeyframeType(QAction *)));
+    m_selectType->setToolBarMode(KSelectAction::ComboBoxMode);
+    QToolBar *toolbar = new QToolBar(this);
+
     Monitor *monitor = pCore->getMonitor(m_model->monitorId);
     m_time = new TimecodeDisplay(monitor->timecode(), this);
     m_time->setRange(0, duration);
 
-    m_lay->addWidget(m_keyframeview, 0, 0, 1, -1);
-    m_lay->addWidget(m_buttonPrevious, 1, 0);
-    m_lay->addWidget(m_buttonAddDelete, 1, 1);
-    m_lay->addWidget(m_buttonNext, 1, 2);
-    m_lay->addWidget(m_time, 1, 3, Qt::AlignRight);
+    toolbar->addWidget(m_buttonPrevious);
+    toolbar->addWidget(m_buttonAddDelete);
+    toolbar->addWidget(m_buttonNext);
+    toolbar->addAction(m_selectType);
+    toolbar->addWidget(m_time);
+
+    m_lay->addWidget(m_keyframeview);
+    m_lay->addWidget(toolbar);
     slotSetPosition(0, false);
 
     connect(m_time, &TimecodeDisplay::timeCodeEditingFinished, [&](){slotSetPosition(-1, true);});
@@ -102,6 +124,13 @@ void KeyframeWidget::monitorSeek(int pos)
     int out = in + pCore->getItemDuration(m_model->getOwnerId());
     m_keyframeview->slotSetPosition(qBound(in, pos, out) - in);
 }
+
+void KeyframeWidget::slotEditKeyframeType(QAction *action)
+{
+    int type = action->data().toInt();
+    m_keyframeview->slotEditType(type, m_index);
+}
+
 
 void KeyframeWidget::slotRefreshParams()
 {
@@ -232,6 +261,6 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex& index)
     }
     if (paramWidget) {
         m_parameters[index] = paramWidget;
-        m_lay->addWidget(paramWidget, 1 + (int)m_parameters.size(), 0, 1, -1);
+        m_lay->addWidget(paramWidget);
     }
 }

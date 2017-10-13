@@ -87,6 +87,13 @@ void KeyframeView::slotAddRemove()
     }
 }
 
+void KeyframeView::slotEditType(int type, const QPersistentModelIndex &index)
+{
+    if (m_model->hasKeyframe(m_position)) {
+        m_model->updateKeyframeType(GenTime(m_position, pCore->getCurrentFps()), type, index);
+    }
+}
+
 void KeyframeView::slotRemoveKeyframe(int pos)
 {
     if (pos < 0) {
@@ -258,9 +265,22 @@ void KeyframeView::paintEvent(QPaintEvent *event)
         } else {
             p.setBrush(m_colKeyframe);
         }
-        int scaledPos = pos * m_scale;
-        p.drawLine(scaledPos, headOffset, scaledPos, m_lineHeight + (headOffset / 2));
-        p.drawEllipse(scaledPos - headOffset / 2, 0, headOffset, headOffset);
+        double scaledPos = pos * m_scale;
+        p.drawLine(QPointF(scaledPos, headOffset), QPointF(scaledPos, m_lineHeight + headOffset / 2.0));
+        switch (keyframe.second.first) {
+            case KeyframeType::Linear: {
+                QPolygonF position = QPolygonF() << QPointF(-headOffset / 2.0, headOffset / 2.0) << QPointF(0, 0) << QPointF(headOffset / 2.0, headOffset / 2.0) << QPointF(0, headOffset);
+                position.translate(scaledPos, 0);
+                p.drawPolygon(position);
+                break;
+            }
+            case KeyframeType::Discrete:
+                p.drawRect(QRectF(scaledPos - headOffset / 2.0, 0, headOffset, headOffset));
+                break;
+            default:
+                p.drawEllipse(QRectF(scaledPos - headOffset / 2.0, 0, headOffset, headOffset));
+                break;
+        }
     }
 
     p.setPen(palette().dark().color());
