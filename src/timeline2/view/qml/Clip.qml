@@ -36,9 +36,11 @@ Rectangle {
     property int clipDuration: 0
     property bool isAudio: false
     property bool isComposition: false
+    property bool showKeyframes: false
     property bool grouped: false
     property var audioLevels
     property var markers
+    property var keyframeModel
     property int fadeIn: 0
     property int fadeOut: 0
     property int binId: 0
@@ -67,6 +69,11 @@ Rectangle {
     signal trimmedIn(var clip)
     signal trimmingOut(var clip, real newDuration, var mouse)
     signal trimmedOut(var clip)
+
+    onKeyframeModelChanged: {
+        console.log('keyframe model changed............')
+        keyframecanvas.requestPaint()
+    }
 
     onClipDurationChanged: {
         width = clipDuration * timeScale;
@@ -228,6 +235,7 @@ Rectangle {
 
     Item {
         // Clipping container
+        id: container
         anchors.fill: parent
         anchors.margins:1.5
         clip: true
@@ -235,9 +243,9 @@ Rectangle {
             id: outThumbnail
             visible: timeline.showThumbnails && mltService != 'color' && !isAudio
             opacity: trackRoot.isAudio || trackRoot.isHidden ? 0.2 : 1
-            anchors.right: parent.right
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
+            anchors.top: container.top
+            anchors.right: container.right
+            anchors.bottom: container.bottom
             width: height * 16.0/9.0
             fillMode: Image.PreserveAspectFit
             asynchronous: true
@@ -248,9 +256,9 @@ Rectangle {
             id: inThumbnail
             visible: timeline.showThumbnails && mltService != 'color' && !isAudio
             opacity: trackRoot.isAudio || trackRoot.isHidden ? 0.2 : 1
-            anchors.left: parent.left
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
+            anchors.left: container.left
+            anchors.bottom: container.bottom
+            anchors.top: container.top
             width: height * 16.0/9.0
             fillMode: Image.PreserveAspectFit
             asynchronous: true
@@ -260,10 +268,10 @@ Rectangle {
         Row {
             id: waveform
             visible: hasAudio && timeline.showAudioThumbnails  && !trackRoot.isMute
-            height: isAudio || trackRoot.isAudio ? parent.height - 1 : (parent.height - 1) / 2
+            height: isAudio || trackRoot.isAudio ? container.height - 1 : (container.height - 1) / 2
             anchors.left: parent.left
             anchors.right: parent.right
-            anchors.bottom: parent.bottom
+            anchors.bottom: container.bottom
             property int maxWidth: 10000
             property int innerWidth: clipRoot.width - clipRoot.border.width * 2
 
@@ -287,7 +295,6 @@ Rectangle {
             // text background
             id: labelRect
             color: clipRoot.selected ? 'darkred' : '#66000000'
-            anchors.top: parent.top
             width: label.width + 2
             height: label.height
             visible: clipRoot.width > width / 2
@@ -353,6 +360,109 @@ Rectangle {
                         leftMargin: 2
                     }
                     color: 'white'
+                }
+            }
+        }
+
+        Rectangle {
+                id: effectRow
+                anchors.fill: parent
+                color: Qt.rgba(1,1,1, 0.6)
+                visible: clipRoot.showKeyframes
+
+                Repeater {
+                    id: keyframes
+                    model: keyframeModel
+                    Rectangle {
+                        id: keyframe
+                        property int frame : model.frame
+                        property int type : model.type
+                        x: model.frame * timeScale
+                        height: parent.height * model.normalizedValue
+                        anchors.bottom: parent.bottom
+                        onHeightChanged: {
+                            keyframecanvas.requestPaint()
+                        }
+                        width: Math.max(2, timeScale)
+                        color: 'darkred'
+                        border.color: 'red'
+                        MouseArea {
+                            id: kfMouseArea
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            cursorShape: Qt.PointingHandCursor
+                            drag.target: parent
+                            drag.axis: Drag.XAxis
+                            onReleased: {
+                                root.stopScrolling = false
+                                var newPos = Math.round(parent.x / timeScale)
+                                if (newPos != frame) {
+                                    keyframeModel.moveKeyframe(frame, newPos, true)
+                                }
+                            }
+                            onPositionChanged: {
+                                if (mouse.buttons === Qt.LeftButton) {
+                                    var newPos = Math.round(parent.x / timeScale)
+                                    parent.x = newPos * timeScale
+                                    keyframecanvas.requestPaint()
+                                }
+                            }
+                            onDoubleClicked: {
+                                keyframeModel.removeKeyframe(frame);
+                            }
+                        }
+                    }
+                }
+                Canvas {
+                    id: keyframecanvas
+                    anchors.fill: parent
+                    contextType: "2d"
+                    Component {
+                        id: comp
+                        PathCurve { }
+                    }
+                    Component {
+                        id: compline
+                        PathLine { }
+                    }
+                    property var paths : []
+                    Path {
+                        id: myPath
+                        startX: 0; startY: parent.height
+                    }
+
+                    onPaint: {
+                    context.beginPath()
+                    context.fillStyle = Qt.rgba(0,0,0.8, 0.4);
+                    //context.moveTo(0, parent.height)
+                    paths = []
+                    var xpos
+                    var ypos
+                    for(var i = 0; i < keyframes.count; i++)
+                    {
+                        xpos = keyframes.itemAt(i).x
+                        if (type == 1) {
+                            // discrete
+                            // linear
+                            paths.push(compline.createObject(keyframecanvas, {"x": xpos, "y": ypos} ))
+                        }
+                        ypos = parent.height - keyframes.itemAt(i).height
+                        var type = keyframes.itemAt(i).type
+                        if (type < 2) {
+                            // linear
+                            paths.push(compline.createObject(keyframecanvas, {"x": xpos, "y": ypos} ))
+                        } else if (type == 2) {
+                            // curve
+                            paths.push(comp.createObject(keyframecanvas, {"x": xpos, "y": ypos} ))
+                        }
+                    }
+                    paths.push(compline.createObject(keyframecanvas, {"x": parent.width, "y": ypos} ))
+                    paths.push(compline.createObject(keyframecanvas, {"x": parent.width, "y": parent.height} ))
+                    myPath.pathElements = paths
+                    context.clearRect(0,0, width, height);
+                    context.path = myPath;
+                    context.closePath()
+                    context.fill()
                 }
             }
         }

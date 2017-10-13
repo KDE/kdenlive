@@ -364,3 +364,20 @@ double ClipModel::getSpeed() const
     }
     return 1.0;
 }
+
+KeyframeModel *ClipModel::getKeyframeModel()
+{
+    return m_effectStack->getEffectKeyframeModel();
+}
+
+bool ClipModel::showKeyframes() const
+{
+    READ_LOCK();
+    return service()->get_int("kdenlive:timeline_display");
+}
+
+void ClipModel::setShowKeyframes(bool show)
+{
+    QWriteLocker locker(&m_lock);
+    service()->set("kdenlive:timeline_display", (int) show);
+}

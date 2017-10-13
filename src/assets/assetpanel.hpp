@@ -53,7 +53,7 @@ public:
     void showTransition(int tid, std::shared_ptr<AssetParameterModel> transition_model);
 
     /* @brief Shows the parameters of the given effect stack model */
-    void showEffectStack(const QString &clipName, std::shared_ptr<EffectStackModel> effectsModel, QPair<int, int> range, QSize frameSize);
+    void showEffectStack(const QString &clipName, std::shared_ptr<EffectStackModel> effectsModel, QPair<int, int> range, QSize frameSize, bool showKeyframes);
 
     /* @brief Clear the panel so that it doesn't display anything */
     void clear();
@@ -80,9 +80,12 @@ protected:
 private:
     QToolButton *m_switchBuiltStack;
     QToolButton *m_splitButton;
+    QToolButton *m_timelineButton;
 
 private slots:
     void processSplitEffect(bool enable);
+    /** Displays the owner clip keyframes in timeline */
+    void showKeyframes(bool enable);
 
 signals:
     void doSplitEffect(bool);

@@ -63,7 +63,7 @@ public:
      */
     explicit KeyframeModel(std::weak_ptr<AssetParameterModel> model, const QModelIndex &index, std::weak_ptr<DocUndoStack> undo_stack, QObject *parent = nullptr);
 
-    enum { TypeRole = Qt::UserRole + 1, PosRole, FrameRole, ValueRole};
+    enum { TypeRole = Qt::UserRole + 1, PosRole, FrameRole, ValueRole, NormalizedValueRole};
     friend class KeyframeModelList;
 
     /* @brief Adds a keyframe at the given position. If there is already one then we update it.
@@ -80,6 +80,7 @@ protected:
 
 public:
     /* @brief Removes the keyframe at the given position. */
+    Q_INVOKABLE bool removeKeyframe(int frame);
     bool removeKeyframe(GenTime pos);
     /* @brief Delete all the keyframes of the model */
     bool removeAllKeyframes();
@@ -95,6 +96,7 @@ public:
        @param pos defines the new position of the keyframe, relative to the clip
        @param logUndo if true, then an undo object is created
     */
+    Q_INVOKABLE bool moveKeyframe(int oldPos, int pos, bool logUndo);
     bool moveKeyframe(GenTime oldPos, GenTime pos, bool logUndo);
     bool moveKeyframe(GenTime oldPos, GenTime pos, Fun &undo, Fun &redo);
 
@@ -144,7 +146,7 @@ public:
     QVariant getInterpolatedValue(const GenTime &pos) const;
 
     // Mandatory overloads
-    QVariant data(const QModelIndex &index, int role) const override;
+    Q_INVOKABLE QVariant data(const QModelIndex &index, int role) const override;
     QHash<int, QByteArray> roleNames() const override;
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 

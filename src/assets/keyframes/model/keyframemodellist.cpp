@@ -187,3 +187,12 @@ QVariant KeyframeModelList::getInterpolatedValue(int pos, const QPersistentModel
     Q_ASSERT(m_parameters.count(index) > 0);
     return m_parameters.at(index)->getInterpolatedValue(pos);
 }
+
+KeyframeModel *KeyframeModelList::getKeyModel()
+{
+    if (m_parameters.size() > 0) {
+        return m_parameters.begin()->second.get();
+    }
+    return nullptr;
+}
+

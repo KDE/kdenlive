@@ -22,6 +22,7 @@
 #include "timelineitemmodel.hpp"
 
 #include "bin/model/markerlistmodel.hpp"
+#include "assets/keyframes/model/keyframemodel.hpp"
 #include "clipmodel.hpp"
 #include "compositionmodel.hpp"
 #include "doc/docundostack.hpp"
@@ -170,6 +171,8 @@ QHash<int, QByteArray> TimelineItemModel::roleNames() const
     roles[StartRole] = "start";
     roles[DurationRole] = "duration";
     roles[MarkersRole] = "markers";
+    roles[KeyframesRole] = "keyframeModel";
+    roles[ShowKeyframesRole] = "showKeyframes";
     roles[InPointRole] = "in";
     roles[OutPointRole] = "out";
     roles[FramerateRole] = "fps";
@@ -245,6 +248,9 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
         case MarkersRole: {
             return QVariant::fromValue<MarkerListModel *>(clip->getMarkerModel().get());
         }
+        case KeyframesRole: {
+            return QVariant::fromValue<KeyframeModel *>(clip->getKeyframeModel());
+        }
         case StartRole:
             return clip->getPosition();
         case DurationRole:
@@ -257,6 +263,8 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             return clip->getOut();
         case IsCompositionRole:
             return false;
+        case ShowKeyframesRole:
+            return clip->showKeyframes();
         case FadeInRole:
             return clip->fadeIn();
         case FadeOutRole:

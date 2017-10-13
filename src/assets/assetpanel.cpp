@@ -30,6 +30,7 @@
 #include "view/assetparameterview.hpp"
 #include "utils/KoIconUtils.h"
 #include "definitions.h"
+#include "core.cpp"
 
 #include <KColorScheme>
 #include <KColorUtils>
@@ -67,6 +68,15 @@ AssetPanel::AssetPanel(QWidget *parent)
     m_splitButton->setVisible(false);
     connect(m_splitButton, &QToolButton::toggled, this, &AssetPanel::processSplitEffect);
     tLayout->addWidget(m_splitButton);
+
+    m_timelineButton = new QToolButton(this);
+    m_timelineButton->setIcon(KoIconUtils::themedIcon(QStringLiteral("adjustlevels")));
+    m_timelineButton->setToolTip(i18n("Display keyframes in timeline"));
+    m_timelineButton->setCheckable(true);
+    m_timelineButton->setVisible(false);
+    connect(m_timelineButton, &QToolButton::toggled, this, &AssetPanel::showKeyframes);
+    tLayout->addWidget(m_timelineButton);
+
     m_lay->addLayout(tLayout);
     m_lay->addWidget(m_transitionWidget);
     m_lay->addWidget(m_effectStackWidget);
@@ -87,7 +97,7 @@ void AssetPanel::showTransition(int tid, std::shared_ptr<AssetParameterModel> tr
     m_transitionWidget->setModel(transitionModel, QPair<int, int>(-1, -1), QSize(), true);
 }
 
-void AssetPanel::showEffectStack(const QString &clipName, std::shared_ptr<EffectStackModel> effectsModel, QPair<int, int> range, QSize frameSize)
+void AssetPanel::showEffectStack(const QString &clipName, std::shared_ptr<EffectStackModel> effectsModel, QPair<int, int> range, QSize frameSize, bool showKeyframes)
 {
     clear();
     if (effectsModel == nullptr) {
@@ -96,6 +106,8 @@ void AssetPanel::showEffectStack(const QString &clipName, std::shared_ptr<Effect
     }
     m_assetTitle->setText(i18n("%1 effects", clipName));
     m_splitButton->setVisible(true);
+    m_timelineButton->setVisible(true);
+    m_timelineButton->setChecked(showKeyframes);
     m_switchBuiltStack->setVisible(true);
     m_effectStackWidget->setVisible(true);
     m_effectStackWidget->setModel(effectsModel, range, frameSize);
@@ -122,6 +134,7 @@ void AssetPanel::clear()
     m_transitionWidget->unsetModel();
     m_effectStackWidget->setVisible(false);
     m_splitButton->setVisible(false);
+    m_timelineButton->setVisible(false);
     m_switchBuiltStack->setVisible(false);
     m_effectStackWidget->setProperty("clipId", QVariant());
     m_effectStackWidget->unsetModel();
@@ -208,6 +221,11 @@ void AssetPanel::processSplitEffect(bool enable)
     } else if (id == ObjectType::BinClip) {
         emit doSplitBinEffect(enable);
     }
+}
+
+void AssetPanel::showKeyframes(bool enable)
+{
+    pCore->showClipKeyframes(m_effectStackWidget->stackOwner(), enable);
 }
 
 ObjectId AssetPanel::effectStackOwner()

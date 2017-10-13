@@ -35,6 +35,7 @@ class MarkerListModel;
 class ProjectClip;
 class TimelineModel;
 class TrackModel;
+class KeyframeModel;
 
 /* @brief This class represents a Clip object, as viewed by the backend.
    In general, the Gui associated with it will send modification queries (such as resize or move), and this class authorize them or not depending on the
@@ -50,7 +51,6 @@ protected:
 
 public:
     ~ClipModel();
-
     /* @brief Creates a clip, which references itself to the parent timeline
        Returns the (unique) id of the created clip
        @param parent is a pointer to the timeline
@@ -73,6 +73,8 @@ public:
     int getIntProperty(const QString &name) const;
     double getDoubleProperty(const QString &name) const;
     QSize getFrameSize() const;
+    Q_INVOKABLE bool showKeyframes() const;
+    Q_INVOKABLE void setShowKeyframes(bool show);
 
     /* @brief returns the length of the item on the timeline
      */
@@ -92,6 +94,7 @@ public:
     bool importEffects(std::shared_ptr<EffectStackModel> stackModel);
     bool removeFade(bool fromStart);
     bool adjustEffectLength(const QString &effectName, int duration);
+    KeyframeModel *getKeyframeModel();
 
     int fadeIn() const;
     int fadeOut() const;

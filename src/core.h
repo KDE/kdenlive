@@ -155,6 +155,10 @@ public:
     double getClipSpeed(int id) const;
     void invalidateItem(ObjectId itemId);
     void prepareShutdown();
+    /** the keyframe model changed (effect added, deleted, active effect changed), inform timeline */
+    void updateItemKeyframes(ObjectId id);
+    /** Show / hide keyframes for a timeline clip */
+    void showClipKeyframes(ObjectId id, bool enable);
 
 private:
     explicit Core();

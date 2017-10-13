@@ -108,7 +108,18 @@ Column{
                     value: model.fadeOut
                     when: loader.status == Loader.Ready && !loader.item.isComposition
                 }
-
+                Binding {
+                    target: loader.item
+                    property: "showKeyframes"
+                    value: model.showKeyframes
+                    when: loader.status == Loader.Ready && !loader.item.isComposition
+                }
+                Binding {
+                    target: loader.item
+                    property: "keyframeModel"
+                    value: model.keyframeModel
+                    when: loader.status == Loader.Ready && !loader.item.isComposition
+                }
                 Binding {
                     target: loader.item
                     property: "aTrack"

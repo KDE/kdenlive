@@ -55,13 +55,13 @@ Item {
       onPaint:
       {
         if (context && root.centerPoints.length > 0) {
-            context.clearRect(0,0, width, height);
             context.beginPath()
             context.strokeStyle = Qt.rgba(1, 0, 0, 0.5)
             context.fillStyle = Qt.rgba(1, 0, 0, 0.5)
             context.lineWidth = 2
             var p1 = convertPoint(root.centerPoints[0])
             context.moveTo(p1.x, p1.y)
+            context.clearRect(0,0, width, height);
             context.fillRect(p1.x - handleSize, p1.y - handleSize, 2 * handleSize, 2 * handleSize);
             for(var i = 0; i < root.centerPoints.length; i++)
             {

@@ -524,8 +524,10 @@ void TimelineController::showAsset(int id)
     } else if (m_model->isClip(id)) {
         QModelIndex clipIx = m_model->makeClipIndexFromID(id);
         QString clipName = m_model->data(clipIx, Qt::DisplayRole).toString();
+        bool showKeyframes = m_model->data(clipIx, TimelineModel::ShowKeyframesRole).toInt();
+        qDebug()<<"-----\n// SHOW KEYFRAMES: "<<showKeyframes;
         emit showClipEffectStack(clipName, m_model->getClipEffectStackModel(id),
-                                 QPair<int, int>(m_model->getClipPosition(id), m_model->getClipPosition(id) + m_model->getClipPlaytime(id)), m_model->getClipFrameSize(id));
+                                 QPair<int, int>(m_model->getClipPosition(id), m_model->getClipPosition(id) + m_model->getClipPlaytime(id)), m_model->getClipFrameSize(id), showKeyframes);
     }
 }
 
@@ -1114,3 +1116,13 @@ bool TimelineController::insertZone(const QString &binId, QPoint zone, bool over
     return TimelineFunctions::insertZone(m_model, currenTrackId, binId, m_position, zone, overwrite);
 }
 
+void TimelineController::updateClip(int clipId, QVector <int> roles)
+{
+    QModelIndex ix = m_model->makeClipIndexFromID(clipId);
+    m_model->dataChanged(ix, ix, roles);
+}
+
+void TimelineController::showClipKeyframes(int clipId, bool value)
+{
+    TimelineFunctions::showClipKeyframes(m_model, clipId, value);
+}

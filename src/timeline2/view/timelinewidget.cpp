@@ -22,6 +22,7 @@
 #include "timelinewidget.h"
 #include "../model/builders/meltBuilder.hpp"
 #include "assets/model/assetparametermodel.hpp"
+#include "assets/keyframes/model/keyframemodel.hpp"
 #include "core.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"

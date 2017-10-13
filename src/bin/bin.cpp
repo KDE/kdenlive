@@ -1439,7 +1439,7 @@ void Bin::selectProxyModel(const QModelIndex &id)
         emit findInTimeline(QString());
         emit requestClipShow(nullptr);
         // clear effect stack
-        emit requestShowEffectStack(QString(), nullptr, QPair<int, int>(), QSize());
+        emit requestShowEffectStack(QString(), nullptr, QPair<int, int>(), QSize(), false);
         // Display black bg in clip monitor
         emit openClip(std::shared_ptr<ProjectClip>());
     }
@@ -2411,18 +2411,18 @@ void Bin::editMasterEffect(std::shared_ptr<AbstractProjectItem> clip)
     if (clip) {
         if (clip->itemType() == AbstractProjectItem::ClipItem) {
             std::shared_ptr<ProjectClip>clp = std::static_pointer_cast<ProjectClip>(clip);
-            emit requestShowEffectStack(clp->clipName(), clp->m_effectStack, QPair<int, int>(0, clp->frameDuration()), clp->getFrameSize());
+            emit requestShowEffectStack(clp->clipName(), clp->m_effectStack, QPair<int, int>(0, clp->frameDuration()), clp->getFrameSize(), false);
             return;
         }
         if (clip->itemType() == AbstractProjectItem::SubClipItem) {
             if (auto ptr = clip->parentItem().lock()) {
                 std::shared_ptr<ProjectClip>clp = std::static_pointer_cast<ProjectClip>(ptr);
-                emit requestShowEffectStack(clp->clipName(), clp->m_effectStack, QPair<int, int>(0, clp->frameDuration()), clp->getFrameSize());
+                emit requestShowEffectStack(clp->clipName(), clp->m_effectStack, QPair<int, int>(0, clp->frameDuration()), clp->getFrameSize(), false);
             }
             return;
         }
     }
-    emit requestShowEffectStack(QString(), nullptr, QPair<int, int>(), QSize());
+    emit requestShowEffectStack(QString(), nullptr, QPair<int, int>(), QSize(), false);
 }
 
 void Bin::slotGotFocus()
@@ -3412,7 +3412,7 @@ void Bin::setCurrent(std::shared_ptr<AbstractProjectItem> item)
     case AbstractProjectItem::ClipItem: {
         openProducer(std::static_pointer_cast<ProjectClip>(item));
         std::shared_ptr<ProjectClip>clp = std::static_pointer_cast<ProjectClip>(item);
-        emit requestShowEffectStack(clp->clipName(), clp->m_effectStack, QPair<int, int>(0, clp->frameDuration()), clp->getFrameSize());
+        emit requestShowEffectStack(clp->clipName(), clp->m_effectStack, QPair<int, int>(0, clp->frameDuration()), clp->getFrameSize(), false);
         break;
     }
     case AbstractProjectItem::SubClipItem: {

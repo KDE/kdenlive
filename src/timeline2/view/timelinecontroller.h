@@ -294,6 +294,8 @@ public:
     /** @brief Delete selected zone */
     void liftZone();
     bool insertZone(const QString &binId, QPoint zone, bool overwrite);
+    void updateClip(int clipId, QVector <int> roles);
+    void showClipKeyframes(int clipId, bool value);
 
 public slots:
     void selectMultitrack();
@@ -348,7 +350,7 @@ signals:
     void zoneMoved(const QPoint &zone);
     /* @brief Requests that a given parameter model is displayed in the asset panel */
     void showTransitionModel(int tid, std::shared_ptr<AssetParameterModel>);
-    void showClipEffectStack(const QString &clipName, std::shared_ptr<EffectStackModel>, QPair<int, int> range, QSize frameSize);
+    void showClipEffectStack(const QString &clipName, std::shared_ptr<EffectStackModel>, QPair<int, int> range, QSize frameSize, bool showKeyframes);
     /* @brief notify of chunks change
      */
     void dirtyChunksChanged();

@@ -532,3 +532,18 @@ double Core::getClipSpeed(int id) const
 {
     return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getClipSpeed(id);
 }
+
+void Core::updateItemKeyframes(ObjectId id)
+{
+    if (id.first == ObjectType::TimelineClip) {
+        m_mainWindow->getCurrentTimeline()->controller()->updateClip(id.second, {TimelineModel::KeyframesRole});
+    }
+}
+
+void Core::showClipKeyframes(ObjectId id, bool enable)
+{
+    if (id.first == ObjectType::TimelineClip) {
+        m_mainWindow->getCurrentTimeline()->controller()->showClipKeyframes(id.second, enable);
+    }
+
+}

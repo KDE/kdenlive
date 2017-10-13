@@ -38,6 +38,7 @@ class AssetParameterModel;
 class DocUndoStack;
 class EffectItemModel;
 class TreeItem;
+class KeyframeModel;
 
 class EffectStackModel : public AbstractTreeModel
 {
@@ -91,6 +92,8 @@ public:
     Q_INVOKABLE void adjust(const QString &effectId, const QString &effectName, double value);
     Q_INVOKABLE bool hasFilter(const QString &effectId);
     Q_INVOKABLE double getFilter(const QString &effectId, const QString &paramName);
+    /** get the active effect's keyframe model */
+    Q_INVOKABLE KeyframeModel *getEffectKeyframeModel();
 
 public slots:
     /* @brief Delete an effect from the stack */

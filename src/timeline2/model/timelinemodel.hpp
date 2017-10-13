@@ -111,6 +111,7 @@ public:
         StartRole,    /// clip only
         BinIdRole,    /// clip only
         MarkersRole,  /// clip only
+        KeyframesRole,
         DurationRole,
         InPointRole,   /// clip only
         OutPointRole,  /// clip only
@@ -120,6 +121,7 @@ public:
         IsMuteRole,    /// track only
         IsHiddenRole,  /// track only
         IsAudioRole,
+        ShowKeyframesRole,
         AudioLevelsRole,   /// clip only
         IsCompositeRole,   /// track only
         TrackPositionRole,  /// track only

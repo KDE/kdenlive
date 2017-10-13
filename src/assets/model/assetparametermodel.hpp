@@ -121,7 +121,7 @@ public:
     /* @brief Returns the keyframe model associated with this asset
        Return empty ptr if there is no keyframable parameter in the asset or if prepareKeyframes was not called
      */
-    std::shared_ptr<KeyframeModelList> getKeyframeModel();
+    Q_INVOKABLE std::shared_ptr<KeyframeModelList> getKeyframeModel();
 
     /* @brief Must be called before using the keyframes of this model */
     void prepareKeyframes();

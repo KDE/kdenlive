@@ -120,6 +120,13 @@ bool KeyframeModel::removeKeyframe(GenTime pos, Fun &undo, Fun &redo)
     return false;
 }
 
+bool KeyframeModel::removeKeyframe(int frame)
+{
+    GenTime pos(frame, pCore->getCurrentFps());
+    return removeKeyframe(pos);
+}
+
+
 bool KeyframeModel::removeKeyframe(GenTime pos)
 {
     QWriteLocker locker(&m_lock);
@@ -164,6 +171,13 @@ bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, Fun &undo, Fun &re
         Q_ASSERT(undone);
     }
     return res;
+}
+
+bool KeyframeModel::moveKeyframe(int oldPos, int pos, bool logUndo)
+{
+    GenTime oPos(oldPos, pCore->getCurrentFps());
+    GenTime nPos(pos, pCore->getCurrentFps());
+    return moveKeyframe(oPos, nPos, logUndo);
 }
 
 bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, bool logUndo)
@@ -223,7 +237,7 @@ Fun KeyframeModel::updateKeyframe_lambda(GenTime pos, KeyframeType type, QVarian
         m_keyframeList[pos].first = type;
         m_keyframeList[pos].second = value;
         if (notify)
-            emit dataChanged(index(row), index(row), QVector<int>() << TypeRole << ValueRole);
+            emit dataChanged(index(row), index(row), {ValueRole,NormalizedValueRole});
         return true;
     };
 }
@@ -276,6 +290,7 @@ QHash<int, QByteArray> KeyframeModel::roleNames() const
     roles[FrameRole] = "frame";
     roles[TypeRole] = "type";
     roles[ValueRole] = "value";
+    roles[NormalizedValueRole] = "normalizedValue";
     return roles;
 }
 
@@ -293,6 +308,18 @@ QVariant KeyframeModel::data(const QModelIndex &index, int role) const
     case Qt::EditRole:
     case ValueRole:
         return it->second.second;
+    case NormalizedValueRole: {
+        double val = it->second.second.toDouble();
+        if (auto ptr = m_model.lock()) {
+            Q_ASSERT(m_index.isValid());
+            double min = ptr->data(m_index, AssetParameterModel::MinRole).toDouble();
+            double max = ptr->data(m_index, AssetParameterModel::MaxRole).toDouble();
+            return (val - min) / (max - min);
+        } else {
+            qDebug()<<"// CANNOT LOCK effect MODEL";
+        }
+        return 1;
+    }
     case PosRole:
         return it->first.seconds();
     case FrameRole:
@@ -316,6 +343,7 @@ bool KeyframeModel::singleKeyframe() const
     READ_LOCK();
     return m_keyframeList.size() <= 1;
 }
+
 
 Keyframe KeyframeModel::getKeyframe(const GenTime &pos, bool *ok) const
 {
@@ -504,6 +532,10 @@ void KeyframeModel::parseAnimProperty(const QString &prop)
         int frame;
         mlt_keyframe_type type;
         anim->key_get(i, frame, type);
+        if (!prop.contains(QLatin1Char('='))) {
+            //TODO: use a default user defined type
+            type = mlt_keyframe_linear;
+        }
         QVariant value;
         switch (m_paramType) {
             case ParamType::AnimatedRect: {

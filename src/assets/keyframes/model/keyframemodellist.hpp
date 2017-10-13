@@ -119,6 +119,7 @@ public:
     QVariant getInterpolatedValue(int pos, const QPersistentModelIndex& index) const;
 
     void refresh();
+    Q_INVOKABLE KeyframeModel *getKeyModel();
 
 protected:
 

@@ -290,3 +290,9 @@ bool TimelineFunctions::requestClipCopy(std::shared_ptr<TimelineItemModel> timel
     return true;
 }
 
+void TimelineFunctions::showClipKeyframes(std::shared_ptr<TimelineItemModel> timeline, int clipId, bool value)
+{
+    timeline->m_allClips[clipId]->setShowKeyframes(value);
+    QModelIndex modelIndex = timeline->makeClipIndexFromID(clipId);
+    timeline->dataChanged(modelIndex, modelIndex, {TimelineModel::KeyframesRole});
+}

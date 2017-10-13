@@ -20,7 +20,7 @@
  ***************************************************************************/
 #include "effectstackmodel.hpp"
 #include "effects/effectsrepository.hpp"
-
+#include "assets/keyframes/model/keyframemodellist.hpp"
 #include "core.h"
 #include "doc/docundostack.hpp"
 #include "effectgroupmodel.hpp"
@@ -87,6 +87,8 @@ void EffectStackModel::removeEffect(std::shared_ptr<EffectItemModel> effect)
         QString effectName = EffectsRepository::get()->getName(effect->getAssetId());
         PUSH_UNDO(undo, redo, i18n("Delete effect %1", effectName));
     }
+    //TODO: integrate in undo/redo, change active effect
+    pCore->updateItemKeyframes(m_ownerId);
 }
 
 void EffectStackModel::copyEffect(std::shared_ptr<AbstractEffectItem> sourceItem)
@@ -125,6 +127,8 @@ void EffectStackModel::appendEffect(const QString &effectId)
         QString effectName = EffectsRepository::get()->getName(effectId);
         PUSH_UNDO(undo, redo, i18n("Add effect %1", effectName));
     }
+    //TODO: integrate in undo/redo, change active effect
+    pCore->updateItemKeyframes(m_ownerId);
 }
 
 bool EffectStackModel::adjustFadeLength(int duration, bool fromStart, bool audioFade, bool videoFade)
@@ -310,6 +314,7 @@ void EffectStackModel::setActiveEffect(int ix)
     if (ptr) {
         ptr->set("kdenlive:activeeffect", ix);
     }
+    pCore->updateItemKeyframes(m_ownerId);
 }
 
 int EffectStackModel::getActiveEffect() const
@@ -416,3 +421,18 @@ double EffectStackModel::getFilter(const QString &effectId, const QString &param
     return 0.0;
 }
 
+KeyframeModel *EffectStackModel::getEffectKeyframeModel()
+{
+    if (rootItem->childCount() == 0) return nullptr;
+    auto ptr = m_service.lock();
+    int ix = 0;
+    if (ptr) {
+        ix = ptr->get_int("kdenlive:activeeffect");
+    }
+    std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(rootItem->child(ix));
+    std::shared_ptr<KeyframeModelList> listModel = sourceEffect->getKeyframeModel();
+    if (listModel) {
+        return listModel->getKeyModel();
+    }
+    return nullptr;
+}
