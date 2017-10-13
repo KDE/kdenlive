@@ -71,6 +71,7 @@ public:
        @param type is the type of the keyframe.
      */
     bool addKeyframe(GenTime pos, KeyframeType type, QVariant value);
+    Q_INVOKABLE bool addKeyframe(int frame, double normalizedValue);
 
 protected:
     /* @brief Same function but accumulates undo/redo

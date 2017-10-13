@@ -58,6 +58,7 @@ Rectangle {
     property double speed: 1.0
     property color borderColor: 'black'
     property bool reloadThumb: false
+    property alias kfrCount : keyframes.count
     width : clipDuration * timeScale;
 
     signal clicked(var clip, int shiftClick)
@@ -75,6 +76,9 @@ Rectangle {
         keyframecanvas.requestPaint()
     }
 
+    onKfrCountChanged: {
+        keyframecanvas.requestPaint()
+    }
     onClipDurationChanged: {
         width = clipDuration * timeScale;
     }
@@ -229,7 +233,16 @@ Rectangle {
                 menu.show()
             }
         }
-        onDoubleClicked: timeline.position = clipRoot.x / timeline.scaleFactor
+        onDoubleClicked: {
+            if (showKeyframes) {
+                // Add new keyframe
+                var xPos = mouse.x  / timeline.scaleFactor
+                var yPos = (clipRoot.height - mouse.y) / clipRoot.height
+                keyframeModel.addKeyframe(xPos, yPos)
+            } else {
+                timeline.position = clipRoot.x / timeline.scaleFactor
+            }
+        }
         onWheel: zoomByWheel(wheel)
     }
 
@@ -432,41 +445,42 @@ Rectangle {
                     }
 
                     onPaint: {
-                    context.beginPath()
-                    context.fillStyle = Qt.rgba(0,0,0.8, 0.4);
-                    //context.moveTo(0, parent.height)
-                    paths = []
-                    var xpos
-                    var ypos
-                    for(var i = 0; i < keyframes.count; i++)
-                    {
-                        xpos = keyframes.itemAt(i).x
-                        if (type == 1) {
-                            // discrete
-                            // linear
-                            paths.push(compline.createObject(keyframecanvas, {"x": xpos, "y": ypos} ))
+                        if (keyframes.count == 0) {
+                            return
                         }
-                        ypos = parent.height - keyframes.itemAt(i).height
-                        var type = keyframes.itemAt(i).type
-                        if (type < 2) {
-                            // linear
-                            paths.push(compline.createObject(keyframecanvas, {"x": xpos, "y": ypos} ))
-                        } else if (type == 2) {
-                            // curve
-                            paths.push(comp.createObject(keyframecanvas, {"x": xpos, "y": ypos} ))
+                        context.beginPath()
+                        context.fillStyle = Qt.rgba(0,0,0.8, 0.4);
+                        paths = []
+                        var xpos
+                        var ypos
+                        for(var i = 0; i < keyframes.count; i++)
+                        {
+                            xpos = keyframes.itemAt(i).x
+                            if (type == 1) {
+                                // discrete
+                                paths.push(compline.createObject(keyframecanvas, {"x": xpos, "y": ypos} ))
+                            }
+                            ypos = parent.height - keyframes.itemAt(i).height
+                            var type = keyframes.itemAt(i).type
+                            if (type < 2) {
+                                // linear
+                                paths.push(compline.createObject(keyframecanvas, {"x": xpos, "y": ypos} ))
+                            } else if (type == 2) {
+                                // curve
+                                paths.push(comp.createObject(keyframecanvas, {"x": xpos, "y": ypos} ))
+                            }
                         }
+                        paths.push(compline.createObject(keyframecanvas, {"x": parent.width, "y": ypos} ))
+                        paths.push(compline.createObject(keyframecanvas, {"x": parent.width, "y": parent.height} ))
+                        myPath.pathElements = paths
+                        context.clearRect(0,0, width, height);
+                        context.path = myPath;
+                        context.closePath()
+                        context.fill()
                     }
-                    paths.push(compline.createObject(keyframecanvas, {"x": parent.width, "y": ypos} ))
-                    paths.push(compline.createObject(keyframecanvas, {"x": parent.width, "y": parent.height} ))
-                    myPath.pathElements = paths
-                    context.clearRect(0,0, width, height);
-                    context.path = myPath;
-                    context.closePath()
-                    context.fill()
                 }
             }
         }
-    }
 
     states: [
         State {

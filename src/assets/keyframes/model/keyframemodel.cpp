@@ -88,6 +88,19 @@ bool KeyframeModel::addKeyframe(GenTime pos, KeyframeType type, QVariant value, 
     return false;
 }
 
+bool KeyframeModel::addKeyframe(int frame, double normalizedValue)
+{
+    if (auto ptr = m_model.lock()) {
+        Q_ASSERT(m_index.isValid());
+        double min = ptr->data(m_index, AssetParameterModel::MinRole).toDouble();
+        double max = ptr->data(m_index, AssetParameterModel::MaxRole).toDouble();
+        double realValue = normalizedValue * (max - min) + min;
+        //TODO: Use default configurable kf type
+        return addKeyframe(GenTime(frame, pCore->getCurrentFps()), KeyframeType::Linear, realValue);
+    }
+    return false;
+}
+
 bool KeyframeModel::addKeyframe(GenTime pos, KeyframeType type, QVariant value)
 {
     QWriteLocker locker(&m_lock);
