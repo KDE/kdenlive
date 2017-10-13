@@ -64,8 +64,8 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     m_buttonNext->setIcon(KoIconUtils::themedIcon(QStringLiteral("media-skip-forward")));
     m_buttonNext->setToolTip(i18n("Go to next keyframe"));
 
-
-    m_time = new TimecodeDisplay(pCore->getMonitor(m_model->monitorId)->timecode(), this);
+    Monitor *monitor = pCore->getMonitor(m_model->monitorId);
+    m_time = new TimecodeDisplay(monitor->timecode(), this);
     m_time->setRange(0, duration);
 
     m_lay->addWidget(m_keyframeview, 0, 0, 1, -1);
@@ -83,7 +83,7 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     connect(m_buttonAddDelete, &QAbstractButton::pressed, m_keyframeview, &KeyframeView::slotAddRemove);
     connect(m_buttonPrevious, &QAbstractButton::pressed, m_keyframeview, &KeyframeView::slotGoToPrev);
     connect(m_buttonNext, &QAbstractButton::pressed, m_keyframeview, &KeyframeView::slotGoToNext);
-
+    connect(monitor, &Monitor::seekPosition, this, &KeyframeWidget::monitorSeek, Qt::UniqueConnection);
     addParameter(index);
 }
 
@@ -94,6 +94,13 @@ KeyframeWidget::~KeyframeWidget()
     delete m_buttonPrevious;
     delete m_buttonNext;
     delete m_time;
+}
+
+void KeyframeWidget::monitorSeek(int pos)
+{
+    int in = pCore->getItemIn(m_model->getOwnerId());
+    int out = in + pCore->getItemDuration(m_model->getOwnerId());
+    m_keyframeview->slotSetPosition(qBound(in, pos, out) - in);
 }
 
 void KeyframeWidget::slotRefreshParams()

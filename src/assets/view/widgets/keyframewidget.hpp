@@ -59,6 +59,7 @@ private slots:
     /* brief Update the value of the widgets to reflect keyframe change */
     void slotRefreshParams();
     void slotAtKeyframe(bool atKeyframe, bool singleKeyframe);
+    void monitorSeek(int pos);
 
 private:
     QGridLayout *m_lay;

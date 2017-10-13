@@ -60,12 +60,12 @@ void KeyframeView::slotModelChanged()
     emit modified();
     update();
 }
+
 void KeyframeView::slotSetPosition(int pos)
 {
     if (pos != m_position) {
         m_position = pos;
         emit atKeyframe(m_model->hasKeyframe(pos), m_model->singleKeyframe());
-        emit seekToPos(pos);
         update();
     }
 }
@@ -110,10 +110,10 @@ void KeyframeView::slotGoToNext()
     auto next = m_model->getNextKeyframe(GenTime(m_position, pCore->getCurrentFps()), &ok);
 
     if (ok) {
-        slotSetPosition(next.first.frames(pCore->getCurrentFps()));
+        emit seekToPos(next.first.frames(pCore->getCurrentFps()));
     } else {
         // no keyframe after current position
-        slotSetPosition(m_duration);
+        emit seekToPos(m_duration);
     }
 }
 
@@ -127,10 +127,10 @@ void KeyframeView::slotGoToPrev()
     auto prev = m_model->getPrevKeyframe(GenTime(m_position, pCore->getCurrentFps()), &ok);
 
     if (ok) {
-        slotSetPosition(prev.first.frames(pCore->getCurrentFps()));
+        emit seekToPos(prev.first.frames(pCore->getCurrentFps()));
     } else {
         // no keyframe after current position
-        slotSetPosition(m_duration);
+        emit seekToPos(m_duration);
     }
 }
 
@@ -145,7 +145,7 @@ void KeyframeView::mousePressEvent(QMouseEvent *event)
             m_currentKeyframeOriginal = keyframe.first.frames(pCore->getCurrentFps());
             if (m_model->moveKeyframe(keyframe.first, position, false)) {
                 m_currentKeyframe = pos;
-                slotSetPosition(pos);
+                emit seekToPos(pos);
                 return;
             }
         }
@@ -153,7 +153,7 @@ void KeyframeView::mousePressEvent(QMouseEvent *event)
 
     // no keyframe next to mouse
     m_currentKeyframe = m_currentKeyframeOriginal = -1;
-    slotSetPosition(pos);
+    emit seekToPos(pos);
     update();
 }
 
@@ -174,7 +174,7 @@ void KeyframeView::mouseMoveEvent(QMouseEvent *event)
                 }
             }
         }
-        slotSetPosition(pos);
+        emit seekToPos(pos);
         return;
     }
     if (event->y() < m_lineHeight) {
@@ -198,7 +198,6 @@ void KeyframeView::mouseMoveEvent(QMouseEvent *event)
 void KeyframeView::mouseReleaseEvent(QMouseEvent *event)
 {
     Q_UNUSED(event)
-
     if (m_currentKeyframe >= 0) {
         GenTime initPos(m_currentKeyframeOriginal, pCore->getCurrentFps());
         GenTime targetPos(m_currentKeyframe, pCore->getCurrentFps());
@@ -237,7 +236,7 @@ void KeyframeView::wheelEvent(QWheelEvent *event)
 {
     int change = event->delta() < 0 ? -1 : 1;
     int pos = qBound(0, m_position + change, m_duration);
-    slotSetPosition(pos);
+    emit seekToPos(pos);
 }
 
 void KeyframeView::paintEvent(QPaintEvent *event)
