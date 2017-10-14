@@ -108,7 +108,8 @@ void AssetPanel::showEffectStack(const QString &clipName, std::shared_ptr<Effect
     m_splitButton->setVisible(true);
     m_timelineButton->setVisible(true);
     m_timelineButton->setChecked(showKeyframes);
-    m_switchBuiltStack->setVisible(true);
+    // Disable built stack until properly implemented
+    //m_switchBuiltStack->setVisible(true);
     m_effectStackWidget->setVisible(true);
     m_effectStackWidget->setModel(effectsModel, range, frameSize);
 }
