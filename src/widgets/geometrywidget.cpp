@@ -77,10 +77,15 @@ GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QR
     horLayout->addStretch(10);
 
     auto *horLayout2 = new QHBoxLayout;
+    horLayout2->setSpacing(2);
     m_spinSize = new DragValue(i18n("Size"), 100, 2, 1, 99000, -1, i18n("%"), false, this);
     m_spinSize->setStep(5);
     connect(m_spinSize, &DragValue::valueChanged, this, &GeometryWidget::slotResize);
     horLayout2->addWidget(m_spinSize);
+
+    m_opacity = new DragValue(i18n("Opacity"), 100, 0, 0, 100, -1, i18n("%"), true, this);
+    connect(m_opacity, &DragValue::valueChanged, this, &GeometryWidget::slotAdjustRectKeyframeValue);
+    horLayout2->addWidget(m_opacity);
     horLayout2->addStretch(10);
 
     // Build buttons
@@ -374,7 +379,7 @@ void GeometryWidget::slotUpdateGeometryRect(const QRect r)
     //setupMonitor();
 }
 
-void GeometryWidget::setValue(const QRect r)
+void GeometryWidget::setValue(const QRect r, double opacity)
 {
     if (!r.isValid()) {
         return;
@@ -383,31 +388,36 @@ void GeometryWidget::setValue(const QRect r)
     m_spinY->blockSignals(true);
     m_spinWidth->blockSignals(true);
     m_spinHeight->blockSignals(true);
+    m_opacity->blockSignals(true);
     m_spinX->setValue(r.x());
     m_spinY->setValue(r.y());
     m_spinWidth->setValue(r.width());
     m_spinHeight->setValue(r.height());
+    m_opacity->setValue((int) (opacity * 100));
     m_spinX->blockSignals(false);
     m_spinY->blockSignals(false);
     m_spinWidth->blockSignals(false);
     m_spinHeight->blockSignals(false);
+    m_opacity->blockSignals(false);
     m_monitor->setUpEffectGeometry(r);
 }
 
 
 const QString GeometryWidget::getValue() const
 {
-    return QStringLiteral("%1 %2 %3 %4 1").arg(m_spinX->value()).arg(m_spinY->value()).arg(m_spinWidth->value()).arg( m_spinHeight->value());
+    return QStringLiteral("%1 %2 %3 %4 %5").arg(m_spinX->value()).arg(m_spinY->value()).arg(m_spinWidth->value()).arg( m_spinHeight->value()).arg(m_opacity->isVisible() ? m_opacity->value() / 100.0 : 1);
 }
 void GeometryWidget::monitorSeek(int pos)
 {
     // Update monitor scene for geometry params
     qDebug()<<"/// MONITOR SEEK: "<<pos<<" = "<<m_min<<"-"<<m_max;
     if (pos >= m_min && pos < m_max) {
-        m_monitor->slotShowEffectScene(MonitorSceneGeometry);
-        m_monitor->setEffectKeyframe(true);
-        connectMonitor(true);
-    } else {
+        if (!m_active) {
+            m_monitor->slotShowEffectScene(MonitorSceneGeometry);
+            m_monitor->setEffectKeyframe(true);
+            connectMonitor(true);
+        }
+    } else if (m_active){
         connectMonitor(false);
         m_monitor->slotShowEffectScene(MonitorSceneDefault);
     }

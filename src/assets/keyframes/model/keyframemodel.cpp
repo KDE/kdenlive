@@ -356,6 +356,11 @@ QVariant KeyframeModel::data(const QModelIndex &index, int role) const
     case ValueRole:
         return it->second.second;
     case NormalizedValueRole: {
+        if (m_paramType == ParamType::AnimatedRect) {
+            const QString &data = it->second.second.toString();
+            QLocale locale;
+            return locale.toDouble(data.section(QLatin1Char(' '), -1));
+        }
         double val = it->second.second.toDouble();
         if (auto ptr = m_model.lock()) {
             Q_ASSERT(m_index.isValid());

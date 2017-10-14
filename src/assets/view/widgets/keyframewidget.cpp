@@ -122,6 +122,7 @@ void KeyframeWidget::monitorSeek(int pos)
 {
     int in = pCore->getItemIn(m_model->getOwnerId());
     int out = in + pCore->getItemDuration(m_model->getOwnerId());
+    m_buttonAddDelete->setEnabled(pos -in > 0);
     m_keyframeview->slotSetPosition(qBound(in, pos, out) - in);
 }
 
@@ -135,8 +136,8 @@ void KeyframeWidget::slotEditKeyframeType(QAction *action)
 void KeyframeWidget::slotRefreshParams()
 {
     int pos = getPosition();
-    KeyframeType type = m_keyframes->keyframeType(GenTime(pos, pCore->getCurrentFps()));
-    m_selectType->setCurrentItem((int) type);
+    KeyframeType keyType = m_keyframes->keyframeType(GenTime(pos, pCore->getCurrentFps()));
+    m_selectType->setCurrentItem((int) keyType);
     for (const auto & w : m_parameters) {
         ParamType type = m_model->data(m_index, AssetParameterModel::TypeRole).value<ParamType>();
         if (type == ParamType::KeyframeParam) {
@@ -145,10 +146,15 @@ void KeyframeWidget::slotRefreshParams()
             const QString val = m_keyframes->getInterpolatedValue(pos, w.first).toString();
             const QStringList vals = val.split(QLatin1Char(' '));
             QRect rect;
+            double opacity = 1.0;
             if (vals.count() >= 4) {
                 rect = QRect(vals.at(0).toInt(), vals.at(1).toInt(), vals.at(2).toInt(), vals.at(3).toInt());
+                if (vals.count() > 4) {
+                    QLocale locale;
+                    opacity = locale.toDouble(vals.at(4));
+                }
             }
-            ((GeometryWidget *) w.second)->setValue(rect);
+            ((GeometryWidget *) w.second)->setValue(rect, opacity);
         }
     }
 }
