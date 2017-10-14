@@ -644,6 +644,7 @@ QVariant KeyframeModel::getInterpolatedValue(const GenTime &pos) const
     --prev;
     // We now have surrounding keyframes, we use mlt to compute the value
     Mlt::Properties prop;
+    QLocale locale;
     if (m_paramType == ParamType::KeyframeParam) {
         prop.anim_set("keyframe", prev->second.second.toDouble(), prev->first.frames(pCore->getCurrentFps()), next->first.frames(pCore->getCurrentFps()), convertToMltType(prev->second.first) );
         prop.anim_set("keyframe", next->second.second.toDouble(), next->first.frames(pCore->getCurrentFps()), next->first.frames(pCore->getCurrentFps()), convertToMltType(next->second.first) );
@@ -657,7 +658,7 @@ QVariant KeyframeModel::getInterpolatedValue(const GenTime &pos) const
             rect.w = vals.at(2).toInt();
             rect.h = vals.at(3).toInt();
             if (vals.count() > 4) {
-                rect.o = vals.at(4).toInt();
+                rect.o = locale.toDouble(vals.at(4));
             } else {
                 rect.o = 1;
             }
@@ -670,14 +671,14 @@ QVariant KeyframeModel::getInterpolatedValue(const GenTime &pos) const
             rect.w = vals.at(2).toInt();
             rect.h = vals.at(3).toInt();
             if (vals.count() > 4) {
-                rect.o = vals.at(4).toInt();
+                rect.o = locale.toDouble(vals.at(4));
             } else {
                 rect.o = 1;
             }
         }
         prop.anim_set("keyframe", rect, next->first.frames(pCore->getCurrentFps()), next->first.frames(pCore->getCurrentFps()), convertToMltType(next->second.first) );
         rect = prop.anim_get_rect("keyframe", p);
-        const QString res = QString("%1 %2 %3 %4 %5").arg((int)rect.x).arg((int)rect.y).arg((int)rect.w).arg((int)rect.h).arg((int)rect.o);
+        const QString res = QString("%1 %2 %3 %4 %5").arg((int)rect.x).arg((int)rect.y).arg((int)rect.w).arg((int)rect.h).arg(rect.o);
         return QVariant(res);
     }
     return QVariant();
