@@ -50,13 +50,13 @@ public:
     */
     explicit GeometryWidget(Monitor *monitor, QPair<int, int> range, const QRect &rect, const QSize frameSize, bool useRatioLock, QWidget *parent = nullptr);
     void setValue(const QRect r, double opacity = 1);
+    void connectMonitor(bool activate);
 
 private:
     int m_min;
     int m_max;
     bool m_active;
     Monitor *m_monitor;
-    void connectMonitor(bool activate);
     DragValue *m_spinX;
     DragValue *m_spinY;
     DragValue *m_spinWidth;
@@ -97,8 +97,6 @@ private slots:
     void slotLockRatio();
     void slotAdjustRectHeight();
     void slotAdjustRectWidth();
-    /** @brief monitor seek pos changed. */
-    void monitorSeek(int pos);
 
 signals:
     void valueChanged(const QString val);

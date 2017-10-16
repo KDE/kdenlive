@@ -99,11 +99,16 @@ void AssetPanel::showTransition(int tid, std::shared_ptr<AssetParameterModel> tr
 
 void AssetPanel::showEffectStack(const QString &clipName, std::shared_ptr<EffectStackModel> effectsModel, QPair<int, int> range, QSize frameSize, bool showKeyframes)
 {
-    clear();
     if (effectsModel == nullptr) {
         // Item is not ready
+        clear();
         return;
     }
+    if (m_effectStackWidget->stackOwner() == effectsModel->getOwnerId()) {
+        // already on this effect stack, do nothing
+        return;
+    }
+    clear();
     m_assetTitle->setText(i18n("%1 effects", clipName));
     m_splitButton->setVisible(true);
     m_timelineButton->setVisible(true);

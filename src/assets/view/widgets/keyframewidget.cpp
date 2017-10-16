@@ -95,7 +95,7 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
 
     m_lay->addWidget(m_keyframeview);
     m_lay->addWidget(toolbar);
-    slotSetPosition(0, false);
+    //slotSetPosition(0, false);
 
     connect(m_time, &TimecodeDisplay::timeCodeEditingFinished, [&](){slotSetPosition(-1, true);});
     connect(m_keyframeview, &KeyframeView::seekToPos, [&](int p){slotSetPosition(p, true);});
@@ -123,6 +123,13 @@ void KeyframeWidget::monitorSeek(int pos)
     int in = pCore->getItemIn(m_model->getOwnerId());
     int out = in + pCore->getItemDuration(m_model->getOwnerId());
     m_buttonAddDelete->setEnabled(pos -in > 0);
+    for (const auto & w : m_parameters) {
+        ParamType type = m_model->data(m_index, AssetParameterModel::TypeRole).value<ParamType>();
+        if (type == ParamType::AnimatedRect) {
+            ((GeometryWidget *) w.second)->connectMonitor(pos >= in && pos < out);
+            break;
+        }
+    }
     m_keyframeview->slotSetPosition(qBound(in, pos, out) - in);
 }
 
@@ -203,6 +210,7 @@ void KeyframeWidget::slotAtKeyframe(bool atKeyframe, bool singleKeyframe)
         m_buttonAddDelete->setIcon(KoIconUtils::themedIcon(QStringLiteral("list-add")));
         m_buttonAddDelete->setToolTip(i18n("Add keyframe"));
     }
+    pCore->getMonitor(m_model->monitorId)->setEffectKeyframe(atKeyframe || singleKeyframe);
     m_selectType->setEnabled(atKeyframe || singleKeyframe);
     for (const auto &w : m_parameters) {
         w.second->setEnabled(atKeyframe || singleKeyframe);

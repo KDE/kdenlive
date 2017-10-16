@@ -198,6 +198,7 @@ void TimelineController::setSelection(const QList<int> &newSelection, int trackI
         }
         else {
             emit selected(nullptr);
+            emit showClipEffectStack(QString(), nullptr, QPair<int, int>(), QSize(), false);
         }
         emit selectionChanged();
     }

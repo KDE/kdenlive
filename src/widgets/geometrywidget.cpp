@@ -41,7 +41,6 @@ GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QR
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
     m_defaultSize = pCore->getCurrentFrameSize();
-    connect(m_monitor, &Monitor::seekPosition, this, &GeometryWidget::monitorSeek, Qt::UniqueConnection);
     m_sourceSize = frameSize.isValid() ? frameSize : m_defaultSize;
     /*QString paramName = i18n(paramTag.toUtf8().data());
     QString comment = m_model->data(ix, AssetParameterModel::CommentRole).toString();
@@ -407,21 +406,6 @@ const QString GeometryWidget::getValue() const
 {
     return QStringLiteral("%1 %2 %3 %4 %5").arg(m_spinX->value()).arg(m_spinY->value()).arg(m_spinWidth->value()).arg( m_spinHeight->value()).arg(m_opacity->isVisible() ? m_opacity->value() / 100.0 : 1);
 }
-void GeometryWidget::monitorSeek(int pos)
-{
-    // Update monitor scene for geometry params
-    qDebug()<<"/// MONITOR SEEK: "<<pos<<" = "<<m_min<<"-"<<m_max;
-    if (pos >= m_min && pos < m_max) {
-        if (!m_active) {
-            m_monitor->slotShowEffectScene(MonitorSceneGeometry);
-            m_monitor->setEffectKeyframe(true);
-            connectMonitor(true);
-        }
-    } else if (m_active){
-        connectMonitor(false);
-        m_monitor->slotShowEffectScene(MonitorSceneDefault);
-    }
-}
 
 void GeometryWidget::connectMonitor(bool activate)
 {
@@ -430,6 +414,7 @@ void GeometryWidget::connectMonitor(bool activate)
     }
     m_active = activate;
     if (activate) {
+        m_monitor->slotShowEffectScene(MonitorSceneGeometry);
         connect(m_monitor, &Monitor::effectChanged, this, &GeometryWidget::slotUpdateGeometryRect, Qt::UniqueConnection);
         QRect rect(m_spinX->value(), m_spinY->value(), m_spinWidth->value(), m_spinHeight->value());
         m_monitor->setUpEffectGeometry(rect);
@@ -445,6 +430,7 @@ void GeometryWidget::connectMonitor(bool activate)
             }
         }*/
     } else {
+        m_monitor->slotShowEffectScene(MonitorSceneDefault);
         disconnect(m_monitor, &Monitor::effectChanged, this, &GeometryWidget::slotUpdateGeometryRect);
     }
 }
