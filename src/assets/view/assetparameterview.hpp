@@ -35,6 +35,7 @@
 class QVBoxLayout;
 class AbstractParamWidget;
 class AssetParameterModel;
+class KeyframeWidget;
 
 class AssetParameterView : public QWidget
 {
@@ -69,6 +70,7 @@ protected:
     QMutex m_lock;
     std::shared_ptr<AssetParameterModel> m_model;
     std::vector<AbstractParamWidget *> m_widgets;
+    KeyframeWidget *m_mainKeyframeWidget;
 
 private slots:
     /** @brief Apply a change of parameter sent by the view

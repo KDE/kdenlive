@@ -26,6 +26,7 @@
 #include "assets/view/widgets/abstractparamwidget.hpp"
 #include "core.h"
 #include "widgets/animationwidget.h"
+#include "assets/view/widgets/keyframewidget.hpp"
 
 #include <QDebug>
 #include <QFontDatabase>
@@ -35,6 +36,7 @@
 
 AssetParameterView::AssetParameterView(QWidget *parent)
     : QWidget(parent)
+    , m_mainKeyframeWidget(nullptr)
 {
     m_lay = new QVBoxLayout(this);
     m_lay->setContentsMargins(2, 2, 2, 2);
@@ -50,19 +52,22 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
     m_model = model;
     m_model->prepareKeyframes();
     connect(m_model.get(), &AssetParameterModel::dataChanged, this, &AssetParameterView::refresh);
-    AnimationWidget *animWidget = nullptr;
     for (int i = 0; i < model->rowCount(); ++i) {
         QModelIndex index = model->index(i, 0);
         auto type = model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
-        if (animWidget && (type == ParamType::Geometry || type == ParamType::Animated || type == ParamType::RestrictedAnim)) {
-            // Animation widget can have some extra params that should'nt build a new widget
-            // TODO refac
-            // animWidget->addParameter(index);
+        if (m_mainKeyframeWidget && (type == ParamType::Geometry || type == ParamType::Animated || type == ParamType::RestrictedAnim || type == ParamType::KeyframeParam)) {
+            // Keyframe widget can have some extra params that should'nt build a new widget
+            qDebug()<<"// FOUND ADDED PARAM";
+            m_mainKeyframeWidget->addParameter(index);
         } else {
             auto w = AbstractParamWidget::construct(model, index, range, frameSize, this);
+            qDebug()<<"// FOUND GEOM PARAM";
             /*if (type == ParamType::Geometry || type == ParamType::Animated || type == ParamType::RestrictedAnim || type == ParamType::AnimatedRect) {
                 animWidget = static_cast<AnimationWidget *>(w);
             }*/
+            if (type == ParamType::KeyframeParam || type == ParamType::AnimatedRect) {
+                m_mainKeyframeWidget = static_cast<KeyframeWidget *>(w);
+            }
             connect(w, &AbstractParamWidget::valueChanged, this, &AssetParameterView::commitChanges);
             connect(w, &AbstractParamWidget::seekToPos, this, &AssetParameterView::seekToPos);
             m_lay->addWidget(w);
@@ -115,6 +120,7 @@ void AssetParameterView::unsetModel()
         // if a model is already there, we have to disconnect signals first
         disconnect(m_model.get(), &AssetParameterModel::dataChanged, this, &AssetParameterView::refresh);
     }
+    m_mainKeyframeWidget = nullptr;
 
     // clear layout
     m_widgets.clear();

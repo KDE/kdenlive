@@ -124,7 +124,7 @@ void KeyframeWidget::monitorSeek(int pos)
     int out = in + pCore->getItemDuration(m_model->getOwnerId());
     m_buttonAddDelete->setEnabled(pos -in > 0);
     for (const auto & w : m_parameters) {
-        ParamType type = m_model->data(m_index, AssetParameterModel::TypeRole).value<ParamType>();
+        ParamType type = m_model->data(w.first, AssetParameterModel::TypeRole).value<ParamType>();
         if (type == ParamType::AnimatedRect) {
             ((GeometryWidget *) w.second)->connectMonitor(pos >= in && pos < out);
             break;
@@ -146,7 +146,7 @@ void KeyframeWidget::slotRefreshParams()
     KeyframeType keyType = m_keyframes->keyframeType(GenTime(pos, pCore->getCurrentFps()));
     m_selectType->setCurrentItem((int) keyType);
     for (const auto & w : m_parameters) {
-        ParamType type = m_model->data(m_index, AssetParameterModel::TypeRole).value<ParamType>();
+        ParamType type = m_model->data(w.first, AssetParameterModel::TypeRole).value<ParamType>();
         if (type == ParamType::KeyframeParam) {
             ((DoubleWidget *) w.second)->setValue(m_keyframes->getInterpolatedValue(pos, w.first).toDouble());
         } else if (type == ParamType::AnimatedRect) {
@@ -240,16 +240,16 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex& index)
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
     // Retrieve parameters from the model
-    QString name = m_model->data(m_index, Qt::DisplayRole).toString();
-    QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
-    QString suffix = m_model->data(m_index, AssetParameterModel::SuffixRole).toString();
+    QString name = m_model->data(index, Qt::DisplayRole).toString();
+    QString comment = m_model->data(index, AssetParameterModel::CommentRole).toString();
+    QString suffix = m_model->data(index, AssetParameterModel::SuffixRole).toString();
 
-    ParamType type = m_model->data(m_index, AssetParameterModel::TypeRole).value<ParamType>();
+    ParamType type = m_model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
     // Construct object
     QWidget *paramWidget = nullptr;
     if (type == ParamType::AnimatedRect) {
-        int inPos = m_model->data(m_index, AssetParameterModel::ParentInRole).toInt();
-        QPair <int, int>range(inPos, inPos + m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt());
+        int inPos = m_model->data(index, AssetParameterModel::ParentInRole).toInt();
+        QPair <int, int>range(inPos, inPos + m_model->data(index, AssetParameterModel::ParentDurationRole).toInt());
         QSize frameSize = pCore->getCurrentFrameSize();
         const QString value = m_keyframes->getInterpolatedValue(getPosition(), index).toString();
         QRect rect;
@@ -264,11 +264,11 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex& index)
         paramWidget = geomWidget;
     } else {
         double value = m_keyframes->getInterpolatedValue(getPosition(), index).toDouble();
-        double min = m_model->data(m_index, AssetParameterModel::MinRole).toDouble();
-        double max = m_model->data(m_index, AssetParameterModel::MaxRole).toDouble();
-        double defaultValue = locale.toDouble(m_model->data(m_index, AssetParameterModel::DefaultRole).toString());
-        int decimals = m_model->data(m_index, AssetParameterModel::DecimalsRole).toInt();
-        double factor = m_model->data(m_index, AssetParameterModel::FactorRole).toDouble();
+        double min = m_model->data(index, AssetParameterModel::MinRole).toDouble();
+        double max = m_model->data(index, AssetParameterModel::MaxRole).toDouble();
+        double defaultValue = locale.toDouble(m_model->data(index, AssetParameterModel::DefaultRole).toString());
+        int decimals = m_model->data(index, AssetParameterModel::DecimalsRole).toInt();
+        double factor = m_model->data(index, AssetParameterModel::FactorRole).toDouble();
         auto doubleWidget = new DoubleWidget(name, value, min, max, defaultValue, comment, -1, suffix, decimals, this);
         doubleWidget->factor = factor;
         connect(doubleWidget, &DoubleWidget::valueChanged, [this, index](double v){
