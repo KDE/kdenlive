@@ -25,6 +25,7 @@
 #include "kdenlivesettings.h"
 #include "snapmodel.hpp"
 #include "timelinemodel.hpp"
+#include "effects/effectstack/model/effectstackmodel.hpp"
 #include <QDebug>
 #include <QModelIndex>
 #include <mlt++/MltProfile.h>
@@ -51,6 +52,7 @@ TrackModel::TrackModel(const std::weak_ptr<TimelineModel> &parent, int id, const
             }
         }
         m_track->set("kdenlive:trackheight", KdenliveSettings::trackheight());
+        m_effectStack = EffectStackModel::construct(m_track, {ObjectType::TimelineTrack, m_id}, ptr->m_undoStack);
     } else {
         qDebug() << "Error : construction of track failed because parent timeline is not available anymore";
         Q_ASSERT(false);
@@ -65,6 +67,7 @@ TrackModel::TrackModel(const std::weak_ptr<TimelineModel> &parent, Mlt::Tractor 
         m_track = std::shared_ptr<Mlt::Tractor>(new Mlt::Tractor(mltTrack));
         m_playlists[0] = *m_track->track(0);
         m_playlists[1] = *m_track->track(1);
+        m_effectStack = EffectStackModel::construct(m_track, {ObjectType::TimelineTrack, m_id}, ptr->m_undoStack);
     } else {
         qDebug() << "Error : construction of track failed because parent timeline is not available anymore";
         Q_ASSERT(false);
@@ -883,3 +886,11 @@ bool TrackModel::hasIntersectingComposition(int in, int out) const
 
     return false;
 }
+
+bool TrackModel::addEffect(const QString &effectId)
+{
+    READ_LOCK();
+    m_effectStack->appendEffect(effectId);
+    return true;
+}
+

@@ -1073,6 +1073,13 @@ const std::shared_ptr<TrackModel> TimelineModel::getTrackById_const(int trackId)
     return *m_iteratorTable.at(trackId);
 }
 
+bool TimelineModel::addTrackEffect(int trackId, const QString &effectId)
+{
+    Q_ASSERT(m_iteratorTable.count(trackId) > 0);
+    return (*m_iteratorTable.at(trackId))->addEffect(effectId);
+}
+
+
 std::shared_ptr<ClipModel> TimelineModel::getClipPtr(int clipId) const
 {
     Q_ASSERT(m_allClips.count(clipId) > 0);
@@ -1735,6 +1742,13 @@ std::shared_ptr<EffectStackModel> TimelineModel::getClipEffectStackModel(int cli
     READ_LOCK();
     Q_ASSERT(isClip(clipId));
     return std::static_pointer_cast<EffectStackModel>(m_allClips.at(clipId)->m_effectStack);
+}
+
+std::shared_ptr<EffectStackModel> TimelineModel::getTrackEffectStackModel(int trackId)
+{
+    READ_LOCK();
+    Q_ASSERT(isTrack(trackId));
+    return getTrackById(trackId)->m_effectStack;
 }
 
 QStringList TimelineModel::extractCompositionLumas() const

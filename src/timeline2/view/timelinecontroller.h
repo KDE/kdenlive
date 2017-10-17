@@ -165,6 +165,7 @@ public:
        If the id corresponds to a composition, we show its properties
     */
     Q_INVOKABLE void showAsset(int id);
+    Q_INVOKABLE void showTrackAsset(int trackId);
 
     Q_INVOKABLE void selectItems(QVariantList arg, int startFrame, int endFrame);
 
@@ -350,7 +351,7 @@ signals:
     void zoneMoved(const QPoint &zone);
     /* @brief Requests that a given parameter model is displayed in the asset panel */
     void showTransitionModel(int tid, std::shared_ptr<AssetParameterModel>);
-    void showClipEffectStack(const QString &clipName, std::shared_ptr<EffectStackModel>, QPair<int, int> range, QSize frameSize, bool showKeyframes);
+    void showItemEffectStack(const QString &clipName, std::shared_ptr<EffectStackModel>, QPair<int, int> range, QSize frameSize, bool showKeyframes);
     /* @brief notify of chunks change
      */
     void dirtyChunksChanged();

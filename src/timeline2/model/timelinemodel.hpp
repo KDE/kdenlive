@@ -193,6 +193,7 @@ public:
     */
     Q_INVOKABLE int getClipPosition(int clipId) const;
     Q_INVOKABLE bool addClipEffect(int clipId, const QString &effectId);
+    Q_INVOKABLE bool addTrackEffect(int trackId, const QString &effectId);
     double getClipSpeed(int clipId) const;
     bool removeFade(int clipId, bool fromStart);
     Q_INVOKABLE bool copyClipEffect(int clipId, const QString &sourceId);
@@ -490,6 +491,7 @@ public:
 
     /** @brief Returns the effectstack of a given clip. */
     std::shared_ptr<EffectStackModel> getClipEffectStack(int itemId);
+    std::shared_ptr<EffectStackModel> getTrackEffectStackModel(int trackId);
 
     /** @brief Add slowmotion effect to clip in timeline. */
     bool requestClipTimeWarp(int clipId, double speed);

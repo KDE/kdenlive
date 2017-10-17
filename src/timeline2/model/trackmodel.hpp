@@ -34,6 +34,7 @@
 class TimelineModel;
 class ClipModel;
 class CompositionModel;
+class EffectStackModel;
 
 /* @brief This class represents a Track object, as viewed by the backend.
    To allow same track transitions, a Track object corresponds to two Mlt::Playlist, between which we can switch when required by the transitions.
@@ -192,6 +193,8 @@ protected:
 
     /* @brief Returns the composition id on this track starting position requested, or -1 if not found */
     int getCompositionByPosition(int position);
+
+    bool addEffect(const QString &effectId);
 public slots:
     /*Delete the current track and all its associated clips */
     void slotDelete();
@@ -216,6 +219,9 @@ private:
                                    // those positions here to check for moves and resize
 
     mutable QReadWriteLock m_lock; // This is a lock that ensures safety in case of concurrent access
+
+protected:
+    std::shared_ptr<EffectStackModel> m_effectStack;
 };
 
 #endif

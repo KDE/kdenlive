@@ -96,8 +96,12 @@ Rectangle {
             parent.clicked()
             parent.forceActiveFocus()
             nameEdit.visible = false
-            if (mouse.button == Qt.RightButton)
+            if (mouse.button == Qt.LeftButton) {
+                timeline.showTrackAsset(trackId)
+            }
+            else if (mouse.button == Qt.RightButton) {
                 headerMenu.popup()
+            }
         }
     }
     ColumnLayout {
@@ -318,6 +322,29 @@ Rectangle {
                     }
                 }
             }
+        }
+    }
+    DropArea { //Drop area for tracks
+        anchors.fill: trackHeadRoot
+        keys: 'kdenlive/effect'
+        property string dropData
+        property string dropSource
+        property int dropRow: -1
+        onEntered: {
+            dropData = drag.getDataAsString('kdenlive/effect')
+            dropSource = drag.getDataAsString('kdenlive/effectsource')
+        }
+        onDropped: {
+            console.log("Add effect: ", dropData)
+            if (dropSource == '') {
+                // drop from effects list
+                controller.addTrackEffect(trackHeadRoot.trackId, dropData);
+            } else {
+                controller.copyTrackEffect(trackHeadRoot.trackId, dropSource);
+            }
+            dropSource = ''
+            dropRow = -1
+            drag.acceptProposedAction
         }
     }
 }

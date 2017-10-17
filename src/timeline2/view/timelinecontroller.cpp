@@ -198,7 +198,7 @@ void TimelineController::setSelection(const QList<int> &newSelection, int trackI
         }
         else {
             emit selected(nullptr);
-            emit showClipEffectStack(QString(), nullptr, QPair<int, int>(), QSize(), false);
+            emit showItemEffectStack(QString(), nullptr, QPair<int, int>(), QSize(), false);
         }
         emit selectionChanged();
     }
@@ -527,9 +527,15 @@ void TimelineController::showAsset(int id)
         QString clipName = m_model->data(clipIx, Qt::DisplayRole).toString();
         bool showKeyframes = m_model->data(clipIx, TimelineModel::ShowKeyframesRole).toInt();
         qDebug()<<"-----\n// SHOW KEYFRAMES: "<<showKeyframes;
-        emit showClipEffectStack(clipName, m_model->getClipEffectStackModel(id),
+        emit showItemEffectStack(clipName, m_model->getClipEffectStackModel(id),
                                  QPair<int, int>(m_model->getClipPosition(id), m_model->getClipPosition(id) + m_model->getClipPlaytime(id)), m_model->getClipFrameSize(id), showKeyframes);
     }
+}
+
+void TimelineController::showTrackAsset(int trackId)
+{
+    emit showItemEffectStack(getTrackNameFromIndex(trackId), m_model->getTrackEffectStackModel(trackId),
+                                 QPair<int, int>(), pCore->getCurrentFrameSize(), false);
 }
 
 void TimelineController::setPosition(int position)
