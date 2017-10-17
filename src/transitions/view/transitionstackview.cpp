@@ -55,10 +55,23 @@ void TransitionStackView::setModel(const std::shared_ptr<AssetParameterModel> &m
     lay->addWidget(m_trackBox);
     m_lay->insertLayout(0, lay);
     connect(m_trackBox, SIGNAL(currentIndexChanged(int)), this, SLOT(updateTrack(int)));
+    connect(this, &AssetParameterView::seekToPos, [this](int pos){
+                // at this point, the effects returns a pos relative to the clip. We need to convert it to a global time
+                int clipIn = pCore->getItemIn(m_model->getOwnerId());
+                emit seekToTransPos(pos + clipIn);
+            });
 }
 
 void TransitionStackView::updateTrack(int newTrack)
 {
     qDebug()<<"// Update transitiino TRACK to: "<<m_trackBox->currentData().toInt();
     pCore->setCompositionATrack(m_model->getOwnerId().second, m_trackBox->currentData().toInt());
+}
+
+ObjectId TransitionStackView::stackOwner() const
+{
+    if (m_model) {
+        return m_model->getOwnerId();
+    }
+    return ObjectId(ObjectType::NoItem, -1);
 }

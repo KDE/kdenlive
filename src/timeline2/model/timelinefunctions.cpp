@@ -21,6 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "timelinefunctions.hpp"
 #include "clipmodel.hpp"
+#include "compositionmodel.hpp"
 #include "core.h"
 #include "effects/effectstack/model/effectstackmodel.hpp"
 #include "groupsmodel.hpp"
@@ -296,3 +297,12 @@ void TimelineFunctions::showClipKeyframes(std::shared_ptr<TimelineItemModel> tim
     QModelIndex modelIndex = timeline->makeClipIndexFromID(clipId);
     timeline->dataChanged(modelIndex, modelIndex, {TimelineModel::KeyframesRole});
 }
+
+void TimelineFunctions::showCompositionKeyframes(std::shared_ptr<TimelineItemModel> timeline, int compoId, bool value)
+{
+    timeline->m_allCompositions[compoId]->setShowKeyframes(value);
+    QModelIndex modelIndex = timeline->makeCompositionIndexFromID(compoId);
+    timeline->dataChanged(modelIndex, modelIndex, {TimelineModel::KeyframesRole});
+}
+
+

@@ -544,6 +544,8 @@ void Core::showClipKeyframes(ObjectId id, bool enable)
 {
     if (id.first == ObjectType::TimelineClip) {
         m_mainWindow->getCurrentTimeline()->controller()->showClipKeyframes(id.second, enable);
+    } else if (id.first == ObjectType::TimelineComposition) {
+        m_mainWindow->getCurrentTimeline()->controller()->showCompositionKeyframes(id.second, enable);
     }
 
 }

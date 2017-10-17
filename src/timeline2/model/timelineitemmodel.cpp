@@ -330,6 +330,11 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             return 100;
         case BinIdRole:
             return 5;
+        case KeyframesRole: {
+            return QVariant::fromValue<KeyframeModel *>(compo->getEffectKeyframeModel());
+        }
+        case ShowKeyframesRole:
+            return compo->showKeyframes();
         case ItemATrack:
             return compo->getATrack();
         case MarkersRole: {

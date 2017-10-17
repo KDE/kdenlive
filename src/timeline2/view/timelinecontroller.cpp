@@ -1133,3 +1133,8 @@ void TimelineController::showClipKeyframes(int clipId, bool value)
 {
     TimelineFunctions::showClipKeyframes(m_model, clipId, value);
 }
+
+void TimelineController::showCompositionKeyframes(int clipId, bool value)
+{
+    TimelineFunctions::showCompositionKeyframes(m_model, clipId, value);
+}

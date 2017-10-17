@@ -23,6 +23,7 @@
 #define TRANSITIONSTACKVIEW_H
 
 #include "assets/view/assetparameterview.hpp"
+#include "definitions.h"
 
 class QComboBox;
 
@@ -33,9 +34,13 @@ class TransitionStackView : public AssetParameterView
 public:
     TransitionStackView(QWidget *parent = nullptr);
     void setModel(const std::shared_ptr<AssetParameterModel> &model, QPair<int, int> range, QSize frameSize, bool addSpacer = false);
+    ObjectId stackOwner() const;
 
 private slots:
     void updateTrack(int newTrack);
+
+signals:
+    void seekToTransPos(int pos);
 
 private:
     QComboBox *m_trackBox;

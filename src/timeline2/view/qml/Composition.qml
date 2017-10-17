@@ -40,6 +40,8 @@ Item {
     property int clipDuration: 0
     property bool isAudio: false
     property bool isComposition: true
+    property bool showKeyframes: false
+    property var keyframeModel
     property bool grouped: false
     property int binId: 0
     property int scrollX: 0
@@ -67,6 +69,11 @@ Item {
     signal trimmedIn(var clip)
     signal trimmingOut(var clip, real newDuration, var mouse)
     signal trimmedOut(var clip)
+
+    onKeyframeModelChanged: {
+        console.log('keyframe model changed............')
+        effectRow.keyframecanvas.requestPaint()
+    }
 
     onModelStartChanged: {
         x = modelStart * timeScale;
@@ -128,6 +135,10 @@ Item {
                     }
                     color: 'black'
                 }
+            }
+            KeyframeView {
+                id: effectRow
+                visible: compositionRoot.showKeyframes
             }
         }
         Drag.active: mouseArea.drag.active

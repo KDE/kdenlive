@@ -33,6 +33,7 @@ class Transition;
 }
 class TimelineModel;
 class TrackModel;
+class KeyframeModel;
 
 /* @brief This class represents a Composition object, as viewed by the backend.
    In general, the Gui associated with it will send modification queries (such as resize or move), and this class authorize them or not depending on the
@@ -74,6 +75,12 @@ public:
     /* @brief returns a property of the current item
      */
     const QString getProperty(const QString &name) const override;
+
+    /* @brief returns the active effect's keyframe model
+     */
+    KeyframeModel *getEffectKeyframeModel();
+    Q_INVOKABLE bool showKeyframes() const;
+    Q_INVOKABLE void setShowKeyframes(bool show);
 
 protected:
     Mlt::Transition *service() const override;

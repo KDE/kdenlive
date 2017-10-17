@@ -72,7 +72,7 @@ Rectangle {
 
     onKeyframeModelChanged: {
         console.log('keyframe model changed............')
-        keyframecanvas.requestPaint()
+        effectRow.keyframecanvas.requestPaint()
     }
 
     onClipDurationChanged: {

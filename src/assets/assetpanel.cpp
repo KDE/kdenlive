@@ -84,6 +84,7 @@ AssetPanel::AssetPanel(QWidget *parent)
     m_effectStackWidget->setVisible(false);
     updatePalette();
     connect(m_effectStackWidget, &EffectStackView::seekToPos, this, &AssetPanel::seekToPos);
+    connect(m_transitionWidget, &TransitionStackView::seekToTransPos, this, &AssetPanel::seekToPos);
 }
 
 void AssetPanel::showTransition(int tid, std::shared_ptr<AssetParameterModel> transitionModel)
@@ -94,6 +95,7 @@ void AssetPanel::showTransition(int tid, std::shared_ptr<AssetParameterModel> tr
     QString transitionName = TransitionsRepository::get()->getName(transitionId);
     m_assetTitle->setText(i18n("Properties of transition %1", transitionName));
     m_transitionWidget->setVisible(true);
+    m_timelineButton->setVisible(true);
     m_transitionWidget->setModel(transitionModel, QPair<int, int>(-1, -1), QSize(), true);
 }
 
@@ -258,7 +260,11 @@ void AssetPanel::processSplitEffect(bool enable)
 
 void AssetPanel::showKeyframes(bool enable)
 {
-    pCore->showClipKeyframes(m_effectStackWidget->stackOwner(), enable);
+    if (m_transitionWidget->isVisible()) {
+        pCore->showClipKeyframes(m_transitionWidget->stackOwner(), enable);
+    } else {
+        pCore->showClipKeyframes(m_effectStackWidget->stackOwner(), enable);
+    }
 }
 
 ObjectId AssetPanel::effectStackOwner()

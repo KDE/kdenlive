@@ -297,6 +297,7 @@ public:
     bool insertZone(const QString &binId, QPoint zone, bool overwrite);
     void updateClip(int clipId, QVector <int> roles);
     void showClipKeyframes(int clipId, bool value);
+    void showCompositionKeyframes(int clipId, bool value);
 
 public slots:
     void selectMultitrack();

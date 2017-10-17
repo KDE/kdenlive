@@ -22,6 +22,7 @@
 #include "timelinemodel.hpp"
 #include "trackmodel.hpp"
 #include "transitions/transitionsrepository.hpp"
+#include "assets/keyframes/model/keyframemodellist.hpp"
 #include "undohelper.hpp"
 #include <QDebug>
 #include <mlt++/MltTransition.h>
@@ -140,4 +141,24 @@ void CompositionModel::setATrack(int trackId)
     if (a_track >= 0) {
         service()->set("a_track", trackId);
     }
+}
+
+KeyframeModel *CompositionModel::getEffectKeyframeModel()
+{
+    if (getKeyframeModel()) {
+        return getKeyframeModel()->getKeyModel();
+    }
+    return nullptr;
+}
+
+bool CompositionModel::showKeyframes() const
+{
+    READ_LOCK();
+    return service()->get_int("kdenlive:timeline_display");
+}
+
+void CompositionModel::setShowKeyframes(bool show)
+{
+    QWriteLocker locker(&m_lock);
+    service()->set("kdenlive:timeline_display", (int) show);
 }

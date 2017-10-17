@@ -112,13 +112,13 @@ Column{
                     target: loader.item
                     property: "showKeyframes"
                     value: model.showKeyframes
-                    when: loader.status == Loader.Ready && !loader.item.isComposition
+                    when: loader.status == Loader.Ready
                 }
                 Binding {
                     target: loader.item
                     property: "keyframeModel"
                     value: model.keyframeModel
-                    when: loader.status == Loader.Ready && !loader.item.isComposition
+                    when: loader.status == Loader.Ready
                 }
                 Binding {
                     target: loader.item
