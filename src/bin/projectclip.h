@@ -57,6 +57,7 @@ class ProjectClip : public AbstractProjectItem, public ClipController
     Q_OBJECT
 
 public:
+    friend class Bin;
     friend bool TimelineModel::checkConsistency(); // for testing
     /**
      * @brief Constructor; used when loading a project and the producer is already available.
@@ -192,10 +193,9 @@ public:
         Note that this function does not account for children, use TreeItem::accumulate if you want to get that information as well.
     */
     bool isIncludedInTimeline() override;
-    /** @brief Replace instance of this clip in timeline */
-    void replaceInTimeline();
     /** @brief Returns a list of all timeline clip ids for this bin clip */
     QList <int> timelineInstances() const;
+    Mlt::Producer *cloneProducer();
 
 protected:
     friend class ClipModel;
@@ -211,6 +211,10 @@ protected:
     void deregisterTimelineClip(int clipId);
 
     void emitProducerChanged(const QString& id, const std::shared_ptr<Mlt::Producer> &producer) override {emit producerChanged(id, producer);};
+    /** @brief Replace instance of this clip in timeline */
+    void replaceInTimeline();
+    void connectEffectStack();
+
 public slots:
     void updateAudioThumbnail(const QVariantList &audioLevels);
     /** @brief Extract image thumbnails for timeline. */

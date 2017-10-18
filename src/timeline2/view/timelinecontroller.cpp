@@ -1044,7 +1044,6 @@ void TimelineController::invalidateClip(int cid)
     }
     int start = m_model->getItemPosition(cid);
     int end = start + m_model->getItemPlaytime(cid);
-    qDebug()<<"invalid range: "<<start<<"-"<<end;
     m_timelinePreview->invalidatePreview(start, end);
 }
 
@@ -1137,4 +1136,9 @@ void TimelineController::showClipKeyframes(int clipId, bool value)
 void TimelineController::showCompositionKeyframes(int clipId, bool value)
 {
     TimelineFunctions::showCompositionKeyframes(m_model, clipId, value);
+}
+
+void TimelineController::setClipStatus(int clipId, int status)
+{
+    TimelineFunctions::changeClipState(m_model, clipId, (PlaylistState::ClipState) status);
 }

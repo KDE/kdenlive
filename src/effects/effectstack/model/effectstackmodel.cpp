@@ -52,6 +52,10 @@ void EffectStackModel::loadEffects()
     if (ptr) {
         qDebug()<<"// FOUND FILTERS IN CLIP: "<<ptr->filter_count();
         for (int i = 0; i < ptr->filter_count(); i++) {
+            if (ptr->filter(i)->get("kdenlive_id") == nullptr) {
+                // don't consider internal MLT stuff
+                continue;
+            }
             auto effect = EffectItemModel::construct(ptr->filter(i), shared_from_this());
             //effect->setParameters
             qDebug()<<"// Adding effect: "<<effect->getAssetId();

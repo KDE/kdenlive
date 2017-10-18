@@ -130,6 +130,7 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
         emitProducerChanged(m_controllerBinId, producer);
         setProducerProperty(QStringLiteral("kdenlive:id"), m_controllerBinId);
     }
+    connectEffectStack();
 }
 
 void ClipController::getProducerXML(QDomDocument &document, bool includeMeta)

@@ -75,6 +75,10 @@ public:
     QSize getFrameSize() const;
     Q_INVOKABLE bool showKeyframes() const;
     Q_INVOKABLE void setShowKeyframes(bool show);
+    /** @brief Returns the timeline clip status (video / audio only) */
+    PlaylistState::ClipState clipState() const;
+    /** @brief Sets the timeline clip status (video / audio only) */
+    bool setClipState(PlaylistState::ClipState state);
 
     /* @brief returns the length of the item on the timeline
      */

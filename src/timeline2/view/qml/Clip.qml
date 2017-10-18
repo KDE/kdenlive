@@ -41,6 +41,7 @@ Rectangle {
     property var audioLevels
     property var markers
     property var keyframeModel
+    property int clipStatus
     property int fadeIn: 0
     property int fadeOut: 0
     property int binId: 0
@@ -248,7 +249,7 @@ Rectangle {
         clip: true
         Image {
             id: outThumbnail
-            visible: timeline.showThumbnails && mltService != 'color' && !isAudio
+            visible: timeline.showThumbnails && mltService != 'color' && !isAudio && clipStatus < 2
             opacity: trackRoot.isAudio || trackRoot.isHidden ? 0.2 : 1
             anchors.top: container.top
             anchors.right: container.right
@@ -261,7 +262,7 @@ Rectangle {
 
         Image {
             id: inThumbnail
-            visible: timeline.showThumbnails && mltService != 'color' && !isAudio
+            visible: timeline.showThumbnails && mltService != 'color' && !isAudio && clipStatus < 2
             opacity: trackRoot.isAudio || trackRoot.isHidden ? 0.2 : 1
             anchors.left: container.left
             anchors.bottom: container.bottom
@@ -274,8 +275,8 @@ Rectangle {
 
         Row {
             id: waveform
-            visible: hasAudio && timeline.showAudioThumbnails  && !trackRoot.isMute
-            height: isAudio || trackRoot.isAudio ? container.height - 1 : (container.height - 1) / 2
+            visible: hasAudio && timeline.showAudioThumbnails  && !trackRoot.isMute && (clipStatus == 0 || clipStatus == 2)
+            height: isAudio || trackRoot.isAudio || clipStatus == 2 ? container.height - 1 : (container.height - 1) / 2
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.bottom: container.bottom
@@ -733,6 +734,40 @@ Rectangle {
             visible: true
             text: i18n('Split At Playhead')
             onTriggered: timeline.triggerAction('cut_timeline_clip')
+        }
+        Menu {
+            title: i18n('Clip Type...')
+            ExclusiveGroup {
+                id: clipTypeGroup
+            }
+            MenuItem {
+                text: i18n('Original')
+                checkable: true
+                checked: clipStatus == 0
+                exclusiveGroup: clipTypeGroup
+                onTriggered: timeline.setClipStatus(clipRoot.clipId, 0)
+            }
+            MenuItem {
+                text: i18n('Video Only')
+                checkable: true
+                checked: clipStatus == 1
+                exclusiveGroup: clipTypeGroup
+                onTriggered: timeline.setClipStatus(clipRoot.clipId, 1)
+            }
+            MenuItem {
+                text: i18n('Audio Only')
+                checkable: true
+                checked: clipStatus == 2
+                exclusiveGroup: clipTypeGroup
+                onTriggered: timeline.setClipStatus(clipRoot.clipId, 2)
+            }
+            MenuItem {
+                text: i18n('Disabled')
+                checkable: true
+                checked: clipStatus == 3
+                exclusiveGroup: clipTypeGroup
+                onTriggered: timeline.setClipStatus(clipRoot.clipId, 3)
+            }
         }
         /*MenuItem {
             id: mergeItem

@@ -24,6 +24,7 @@
 
 #include "timeline2/model/timelineitemmodel.hpp"
 #include "timelinewidget.h"
+#include "definitions.h"
 
 class PreviewManager;
 class QAction;
@@ -219,7 +220,9 @@ public:
      */
     Q_INVOKABLE void insertSpace(int trackId = -1, int frame = -1);
     Q_INVOKABLE void removeSpace(int trackId = -1, int frame = -1, bool affectAllTracks = false);
-
+    /* @brief Change a clip status (normal / audio only / video only)
+     */
+    Q_INVOKABLE void setClipStatus(int clipId, int status);
     const QString getTrackNameFromIndex(int trackIndex);
     /* @brief Seeks to selected clip start / end
      */

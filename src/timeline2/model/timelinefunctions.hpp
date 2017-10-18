@@ -25,6 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <memory>
 #include <unordered_set>
 #include "undohelper.hpp"
+#include "definitions.h"
 
 /**
  * @namespace TimelineFunction
@@ -59,6 +60,7 @@ struct TimelineFunctions {
     static bool requestClipCopy(std::shared_ptr<TimelineItemModel> timeline, int clipId, int trackId, int position);
     static void showClipKeyframes(std::shared_ptr<TimelineItemModel> timeline, int clipId, bool value);
     static void showCompositionKeyframes(std::shared_ptr<TimelineItemModel> timeline, int compoId, bool value);
+    static bool changeClipState(std::shared_ptr<TimelineItemModel> timeline, int clipId, PlaylistState::ClipState status);
 };
 
 #endif

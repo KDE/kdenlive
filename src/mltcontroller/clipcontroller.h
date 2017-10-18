@@ -203,6 +203,7 @@ public:
 
 protected:
     virtual void emitProducerChanged(const QString& , const std::shared_ptr<Mlt::Producer> &) {};
+    virtual void connectEffectStack() {};
 
     std::shared_ptr<Mlt::Producer> m_masterProducer;
     Mlt::Properties *m_properties;

@@ -65,6 +65,7 @@ bool TimelineFunctions::requestClipCut(std::shared_ptr<TimelineItemModel> timeli
     res = res && timeline->requestClipMove(newId, timeline->getClipTrackId(clipId), position, true, false, undo, redo);
     return res;
 }
+
 bool TimelineFunctions::requestClipCut(std::shared_ptr<TimelineItemModel> timeline, int clipId, int position)
 {
     std::function<bool(void)> undo = []() { return true; };
@@ -305,4 +306,38 @@ void TimelineFunctions::showCompositionKeyframes(std::shared_ptr<TimelineItemMod
     timeline->dataChanged(modelIndex, modelIndex, {TimelineModel::KeyframesRole});
 }
 
+bool TimelineFunctions::changeClipState(std::shared_ptr<TimelineItemModel> timeline, int clipId, PlaylistState::ClipState status)
+{
+    PlaylistState::ClipState oldState = timeline->m_allClips[clipId]->clipState();
+    if (oldState == status) {
+        return false;
+    }
+    std::function<bool(void)> undo = []() { return true; };
+    std::function<bool(void)> redo = []() { return true; };
+    redo = [timeline, clipId, status]() {
+        bool res = timeline->m_allClips[clipId]->setClipState(status);
+        QModelIndex ix = timeline->makeClipIndexFromID(clipId);
+        timeline->dataChanged(ix, ix, {TimelineModel::StatusRole});
+        timeline->invalidateClip(clipId);
+        int start = timeline->getItemPosition(clipId);
+        int end = start + timeline->getItemPlaytime(clipId);
+        timeline->checkRefresh(start, end);
+        return res;
+    };
+    undo = [timeline, clipId, oldState]() {
+        bool res = timeline->m_allClips[clipId]->setClipState(oldState);
+        QModelIndex ix = timeline->makeClipIndexFromID(clipId);
+        timeline->dataChanged(ix, ix, {TimelineModel::StatusRole});
+        timeline->invalidateClip(clipId);
+        int start = timeline->getItemPosition(clipId);
+        int end = start + timeline->getItemPlaytime(clipId);
+        timeline->checkRefresh(start, end);
+        return res;
+    };
+    bool result = redo();
+    if (result) {
+        pCore->pushUndo(undo, redo, i18n("Change clip state"));
+    }
+    return result;
+}
 

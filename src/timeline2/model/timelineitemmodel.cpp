@@ -173,6 +173,7 @@ QHash<int, QByteArray> TimelineItemModel::roleNames() const
     roles[MarkersRole] = "markers";
     roles[KeyframesRole] = "keyframeModel";
     roles[ShowKeyframesRole] = "showKeyframes";
+    roles[StatusRole] = "clipStatus";
     roles[InPointRole] = "in";
     roles[OutPointRole] = "out";
     roles[FramerateRole] = "fps";
@@ -251,6 +252,8 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
         case KeyframesRole: {
             return QVariant::fromValue<KeyframeModel *>(clip->getKeyframeModel());
         }
+        case StatusRole:
+            return clip->clipState();
         case StartRole:
             return clip->getPosition();
         case DurationRole:

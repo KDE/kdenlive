@@ -54,8 +54,9 @@ ClipModel::ClipModel(std::shared_ptr<TimelineModel> parent, std::shared_ptr<Mlt:
 int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QString &binClipId, int id)
 {
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(binClipId);
-    std::shared_ptr<Mlt::Producer> originalProducer = binClip->originalProducer();
-    std::shared_ptr<Mlt::Producer> cutProducer(originalProducer->cut());
+    //std::shared_ptr<Mlt::Producer> originalProducer = binClip->originalProducer();
+    //std::shared_ptr<Mlt::Producer> cutProducer(originalProducer->cut());
+    std::shared_ptr<Mlt::Producer> cutProducer(binClip->cloneProducer());
     return construct(parent, binClipId, cutProducer, id);
 }
 
@@ -380,4 +381,46 @@ void ClipModel::setShowKeyframes(bool show)
 {
     QWriteLocker locker(&m_lock);
     service()->set("kdenlive:timeline_display", (int) show);
+}
+
+bool ClipModel::setClipState(PlaylistState::ClipState state)
+{
+    if (!getProperty("mlt_service").startsWith(QStringLiteral("avformat"))) {
+        return false;
+    }
+    switch (state) {
+        case PlaylistState::Original:
+            m_producer->parent().set("audio_index", 0);
+            m_producer->parent().set("video_index", 0);
+            break;
+        case PlaylistState::AudioOnly:
+            m_producer->parent().set("video_index", -1);
+            m_producer->parent().set("audio_index", 0);
+            break;
+        case PlaylistState::VideoOnly:
+            m_producer->parent().set("audio_index", -1);
+            m_producer->parent().set("video_index", 0);
+            break;
+        case PlaylistState::Disabled:
+            m_producer->parent().set("audio_index", -1);
+            m_producer->parent().set("video_index", -1);
+            break;
+        default:
+            break;
+    }
+    return true;
+}
+
+PlaylistState::ClipState ClipModel::clipState() const
+{
+    if (m_producer->parent().get_int("audio_index") == -1) {
+        if (m_producer->parent().get_int("video_index") == -1) {
+            return PlaylistState::Disabled;
+        } else {
+            return PlaylistState::VideoOnly;
+        }
+    } else if (m_producer->parent().get_int("video_index") == -1) {
+        return PlaylistState::AudioOnly;
+    }
+    return PlaylistState::Original;
 }

@@ -35,6 +35,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "model/markerlistmodel.hpp"
 #include "profiles/profilemodel.hpp"
 #include "project/projectcommands.h"
+#include "effects/effectstack/model/effectstackmodel.hpp"
 #include "project/projectmanager.h"
 #include "projectfolder.h"
 #include "projectitemmodel.h"
@@ -80,6 +81,7 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, std::shared_ptr<
     connect(m_markerModel.get(), &MarkerListModel::modelChanged, [&](){
             setProducerProperty(QStringLiteral("kdenlive:markers"), m_markerModel->toJson());
         });
+    connectEffectStack();
     QString markers = getProducerProperty(QStringLiteral("kdenlive:markers"));
     if (!markers.isEmpty()) {
         QMetaObject::invokeMethod(m_markerModel.get(), "importFromJson", Qt::QueuedConnection, Q_ARG(const QString &, markers), Q_ARG(bool, true), Q_ARG(bool, false));
@@ -125,6 +127,7 @@ ProjectClip::ProjectClip(const QString &id, const QDomElement &description, cons
     connect(m_markerModel.get(), &MarkerListModel::modelChanged, [&](){
             setProducerProperty(QStringLiteral("kdenlive:markers"), m_markerModel->toJson());
         });
+    connectEffectStack();
 }
 
 std::shared_ptr<ProjectClip> ProjectClip::construct(const QString &id, const QDomElement &description, const QIcon &thumb, std::shared_ptr<ProjectItemModel> model)
@@ -145,6 +148,14 @@ ProjectClip::~ProjectClip()
     m_thumbThread.waitForFinished();
     delete m_thumbsProducer;
     audioFrameCache.clear();
+}
+
+void ProjectClip::connectEffectStack()
+{
+    connect(m_effectStack.get(), &EffectStackModel::dataChanged, [&](QModelIndex,QModelIndex,QVector<int>){
+        replaceInTimeline();
+    });
+
 }
 
 void ProjectClip::abortAudioThumbs()
@@ -390,6 +401,32 @@ Mlt::Producer *ProjectClip::thumbProducer()
         m_thumbsProducer = clip.clone();
     }
     return m_thumbsProducer;
+}
+
+Mlt::Producer *ProjectClip::cloneProducer()
+{
+    Mlt::Consumer c(*m_masterProducer->profile(), "xml", "string");
+    Mlt::Service s(m_masterProducer->get_service());
+    int ignore = s.get_int("ignore_points");
+    if (ignore) {
+        s.set("ignore_points", 0);
+    }
+    c.connect(s);
+    c.set("time_format", "frames");
+    c.set("no_meta", 1);
+    c.set("no_root", 1);
+    c.set("no_profile", 1);
+    c.set("root", "/");
+    c.set("store", "kdenlive");
+    c.start();
+    if (ignore) {
+        s.set("ignore_points", ignore);
+    }
+    const QByteArray clipXml = c.get("string");
+    QScopedPointer<Mlt::Producer> master(new Mlt::Producer(*m_masterProducer->profile(), "xml-string", clipXml.constData()));
+    Mlt::Producer *clone = master->cut();
+    clone->set("kdenlive:id", m_binId.toUtf8().constData());
+    return clone;
 }
 
 bool ProjectClip::isReady() const

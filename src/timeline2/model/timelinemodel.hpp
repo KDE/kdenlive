@@ -111,6 +111,7 @@ public:
         StartRole,    /// clip only
         BinIdRole,    /// clip only
         MarkersRole,  /// clip only
+        StatusRole,  /// clip only
         KeyframesRole,
         DurationRole,
         InPointRole,   /// clip only

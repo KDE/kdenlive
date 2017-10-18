@@ -104,6 +104,12 @@ Column{
                 }
                 Binding {
                     target: loader.item
+                    property: "clipStatus"
+                    value: model.clipStatus
+                    when: loader.status == Loader.Ready && !loader.item.isComposition
+                }
+                Binding {
+                    target: loader.item
                     property: "fadeOut"
                     value: model.fadeOut
                     when: loader.status == Loader.Ready && !loader.item.isComposition
