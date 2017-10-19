@@ -208,6 +208,26 @@ bool TrackModel::requestClipInsertion(int clipId, int position, bool updateView,
     return false;
 }
 
+void TrackModel::replugClip(int clipId)
+{
+    int clip_position = m_allClips[clipId]->getPosition();
+    qDebug()<<"--------------replugging clp";
+    auto clip_loc = getClipIndexAt(clip_position);
+    int target_track = clip_loc.first;
+    int target_clip = clip_loc.second;
+    // lock MLT playlist so that we don't end up with invalid frames in monitor
+    m_playlists[target_track].lock();
+    Q_ASSERT(target_clip < m_playlists[target_track].count());
+    Q_ASSERT(!m_playlists[target_track].is_blank(target_clip));
+    auto prod = m_playlists[target_track].replace_with_blank(target_clip);
+    if (auto ptr = m_parent.lock()) {
+        std::shared_ptr<ClipModel> clip = ptr->getClipPtr(clipId);
+        int index = m_playlists[target_track].insert_at(clip_position, *clip, 1);
+    }
+    delete prod;
+    m_playlists[target_track].unlock();
+}
+
 Fun TrackModel::requestClipDeletion_lambda(int clipId, bool updateView, bool finalMove)
 {
     QWriteLocker locker(&m_lock);

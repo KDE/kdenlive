@@ -497,6 +497,7 @@ public:
     /** @brief Add slowmotion effect to clip in timeline. */
     bool requestClipTimeWarp(int clipId, double speed);
     bool changeItemSpeed(int clipId, int speed);
+    void replugClip(int clipId);
 
 protected:
     /* @brief Register a new track. This is a call-back meant to be called from TrackModel

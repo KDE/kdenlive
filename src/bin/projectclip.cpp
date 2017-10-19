@@ -148,12 +148,17 @@ ProjectClip::~ProjectClip()
     m_thumbThread.waitForFinished();
     delete m_thumbsProducer;
     audioFrameCache.clear();
+    // delete all timeline producers
+    std::map<int, std::shared_ptr<Mlt::Producer>>::iterator itr = m_timelineProducers.begin();
+    while (itr != m_timelineProducers.end()) {
+        itr = m_timelineProducers.erase(itr);
+    }
 }
 
 void ProjectClip::connectEffectStack()
 {
     connect(m_effectStack.get(), &EffectStackModel::dataChanged, [&](QModelIndex,QModelIndex,QVector<int>){
-        replaceInTimeline();
+        updateChildProducers();
     });
 
 }
@@ -403,7 +408,38 @@ Mlt::Producer *ProjectClip::thumbProducer()
     return m_thumbsProducer;
 }
 
-Mlt::Producer *ProjectClip::cloneProducer()
+std::shared_ptr<Mlt::Producer> ProjectClip::timelineProducer(PlaylistState::ClipState state, int track)
+{
+    if (!m_service.startsWith(QLatin1String("avformat"))) {
+        return originalProducer();
+    }
+    if (state == PlaylistState::VideoOnly) {
+        if (m_timelineProducers.count(0) > 0) {
+            return m_timelineProducers.find(0)->second;
+        }
+        std::shared_ptr<Mlt::Producer> videoProd = cloneProducer();
+        videoProd->set("audio_index", -1);
+        m_timelineProducers[0] = videoProd;
+        return videoProd;
+    }
+    if (state == PlaylistState::AudioOnly) {
+        if (m_timelineProducers.count(-track) > 0) {
+            return m_timelineProducers.find(-track)->second;
+        }
+        std::shared_ptr<Mlt::Producer> audioProd = cloneProducer();
+        audioProd->set("video_index", -1);
+        m_timelineProducers[-track] = audioProd;
+        return audioProd;
+    }
+    if (m_timelineProducers.count(track) > 0) {
+        return m_timelineProducers.find(track)->second;
+    }
+    std::shared_ptr<Mlt::Producer> normalProd = cloneProducer();
+    m_timelineProducers[track] = normalProd;
+    return normalProd;
+}
+
+std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer()
 {
     Mlt::Consumer c(*m_masterProducer->profile(), "xml", "string");
     Mlt::Service s(m_masterProducer->get_service());
@@ -423,10 +459,8 @@ Mlt::Producer *ProjectClip::cloneProducer()
         s.set("ignore_points", ignore);
     }
     const QByteArray clipXml = c.get("string");
-    QScopedPointer<Mlt::Producer> master(new Mlt::Producer(*m_masterProducer->profile(), "xml-string", clipXml.constData()));
-    Mlt::Producer *clone = master->cut();
-    clone->set("kdenlive:id", m_binId.toUtf8().constData());
-    return clone;
+    std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(*m_masterProducer->profile(), "xml-string", clipXml.constData()));
+    return prod;
 }
 
 bool ProjectClip::isReady() const
@@ -1305,6 +1339,16 @@ bool ProjectClip::selfSoftDelete(Fun &undo, Fun &redo)
 bool ProjectClip::isIncludedInTimeline()
 {
     return m_registeredClips.size() > 0;
+}
+
+void ProjectClip::updateChildProducers()
+{
+    // pass effect stack on all child producers
+    for (const auto &clip : m_timelineProducers) {
+        if (auto producer = clip.second) {
+            Clip(*producer.get()).replaceEffects(*m_masterProducer);
+        }
+    }
 }
 
 void ProjectClip::replaceInTimeline()

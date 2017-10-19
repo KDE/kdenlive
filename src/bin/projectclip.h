@@ -195,7 +195,8 @@ public:
     bool isIncludedInTimeline() override;
     /** @brief Returns a list of all timeline clip ids for this bin clip */
     QList <int> timelineInstances() const;
-    Mlt::Producer *cloneProducer();
+    std::shared_ptr<Mlt::Producer> timelineProducer(PlaylistState::ClipState state = PlaylistState::Original, int track = 1);
+    std::shared_ptr<Mlt::Producer> cloneProducer();
 
 protected:
     friend class ClipModel;
@@ -212,6 +213,7 @@ protected:
 
     void emitProducerChanged(const QString& id, const std::shared_ptr<Mlt::Producer> &producer) override {emit producerChanged(id, producer);};
     /** @brief Replace instance of this clip in timeline */
+    void updateChildProducers();
     void replaceInTimeline();
     void connectEffectStack();
 
@@ -248,6 +250,7 @@ private:
     void updateTimelineClips(QVector<int> roles);
 
     std::map<int, std::weak_ptr<TimelineModel>> m_registeredClips;
+    std::map<int, std::shared_ptr<Mlt::Producer>> m_timelineProducers;
 
 private slots:
     void updateFfmpegProgress();

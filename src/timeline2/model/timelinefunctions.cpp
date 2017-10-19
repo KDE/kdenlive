@@ -315,22 +315,35 @@ bool TimelineFunctions::changeClipState(std::shared_ptr<TimelineItemModel> timel
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
     redo = [timeline, clipId, status]() {
+        int trackId = timeline->getClipTrackId(clipId);
         bool res = timeline->m_allClips[clipId]->setClipState(status);
+        // in order to make the producer change effective, we need to unplant / replant the clip in int track
+        int start = timeline->getItemPosition(clipId);
+        int end = start + timeline->getItemPlaytime(clipId);
+        if (trackId != -1) {
+            timeline->getTrackById(trackId)->replugClip(clipId);
+        }
         QModelIndex ix = timeline->makeClipIndexFromID(clipId);
         timeline->dataChanged(ix, ix, {TimelineModel::StatusRole});
         timeline->invalidateClip(clipId);
-        int start = timeline->getItemPosition(clipId);
-        int end = start + timeline->getItemPlaytime(clipId);
         timeline->checkRefresh(start, end);
         return res;
     };
     undo = [timeline, clipId, oldState]() {
         bool res = timeline->m_allClips[clipId]->setClipState(oldState);
+        // in order to make the producer change effective, we need to unplant / replant the clip in int track
+        int start = timeline->getItemPosition(clipId);
+        int end = start + timeline->getItemPlaytime(clipId);
+        int trackId = timeline->getClipTrackId(clipId);
+        std::function<bool(void)> local_undo = []() { return true; };
+        std::function<bool(void)> local_redo = []() { return true; };
+        if (trackId != -1) {
+            timeline->getTrackById(trackId)->requestClipDeletion(clipId, false, false, local_undo, local_redo);
+            timeline->getTrackById(trackId)->requestClipInsertion(clipId, start, true, true, local_undo, local_redo);
+        }
         QModelIndex ix = timeline->makeClipIndexFromID(clipId);
         timeline->dataChanged(ix, ix, {TimelineModel::StatusRole});
         timeline->invalidateClip(clipId);
-        int start = timeline->getItemPosition(clipId);
-        int end = start + timeline->getItemPlaytime(clipId);
         timeline->checkRefresh(start, end);
         return res;
     };

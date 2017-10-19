@@ -193,8 +193,10 @@ protected:
 
     /* @brief Returns the composition id on this track starting position requested, or -1 if not found */
     int getCompositionByPosition(int position);
-
+    /* @brief Add a track effect */
     bool addEffect(const QString &effectId);
+    void replugClip(int clipId);
+
 public slots:
     /*Delete the current track and all its associated clips */
     void slotDelete();

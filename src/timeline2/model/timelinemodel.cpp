@@ -1784,6 +1784,14 @@ void TimelineModel::requestClipReload(int clipId)
     }
 }
 
+void TimelineModel::replugClip(int clipId)
+{
+    int old_trackId = getClipTrackId(clipId);
+    if (old_trackId != -1) {
+        getTrackById(old_trackId)->replugClip(clipId);
+    }
+}
+
 void TimelineModel::requestClipUpdate(int clipId, QVector<int> roles)
 {
     QModelIndex modelIndex = makeClipIndexFromID(clipId);
