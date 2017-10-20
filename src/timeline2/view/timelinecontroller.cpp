@@ -1158,3 +1158,9 @@ void TimelineController::setClipStatus(int clipId, int status)
 {
     TimelineFunctions::changeClipState(m_model, clipId, (PlaylistState::ClipState) status);
 }
+
+void TimelineController::splitAudio(int clipId)
+{
+    TimelineFunctions::requestSplitAudio(m_model, clipId);
+}
+

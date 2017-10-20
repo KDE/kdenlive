@@ -716,6 +716,11 @@ Rectangle {
             visible: true
         }
         MenuItem {
+            text: i18n('Split Audio')
+            onTriggered: timeline.splitAudio(clipRoot.clipId)
+            visible: clipStatus == 0
+        }
+        MenuItem {
             text: i18n('Remove')
             onTriggered: timeline.triggerAction('delete_timeline_clip')
         }

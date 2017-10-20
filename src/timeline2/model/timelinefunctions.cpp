@@ -322,11 +322,11 @@ bool TimelineFunctions::changeClipState(std::shared_ptr<TimelineItemModel> timel
         int end = start + timeline->getItemPlaytime(clipId);
         if (trackId != -1) {
             timeline->getTrackById(trackId)->replugClip(clipId);
+            QModelIndex ix = timeline->makeClipIndexFromID(clipId);
+            timeline->dataChanged(ix, ix, {TimelineModel::StatusRole});
+            timeline->invalidateClip(clipId);
+            timeline->checkRefresh(start, end);
         }
-        QModelIndex ix = timeline->makeClipIndexFromID(clipId);
-        timeline->dataChanged(ix, ix, {TimelineModel::StatusRole});
-        timeline->invalidateClip(clipId);
-        timeline->checkRefresh(start, end);
         return res;
     };
     undo = [timeline, clipId, oldState]() {
@@ -354,3 +354,32 @@ bool TimelineFunctions::changeClipState(std::shared_ptr<TimelineItemModel> timel
     return result;
 }
 
+bool TimelineFunctions::requestSplitAudio(std::shared_ptr<TimelineItemModel> timeline, int clipId)
+{
+    std::function<bool(void)> undo = []() { return true; };
+    std::function<bool(void)> redo = []() { return true; };
+    const std::unordered_set<int> clips = timeline->getGroupElements(clipId);
+    int count = 0;
+    for (int cid : clips) {
+        int position = timeline->getClipPosition(cid);
+        int duration = timeline->getClipPlaytime(cid);
+        int track = timeline->getClipTrackId(cid);
+        int newTrack = timeline->getNextTrackId(track);
+        int newId;
+        bool res = copyClip(timeline, cid, newId, undo, redo);
+        TimelineFunctions::changeClipState(timeline, clipId, PlaylistState::VideoOnly);
+        res = res && timeline->requestClipMove(newId, newTrack, position, true, false, undo, redo);
+        TimelineFunctions::changeClipState(timeline, newId, PlaylistState::AudioOnly);
+        std::unordered_set<int> clips;
+        clips.insert(clipId);
+        clips.insert(newId);
+        timeline->requestClipsGroup(clips, true);
+        if (!res) {
+            bool undone = undo();
+            Q_ASSERT(undone);
+            return false;
+        }
+    }
+    pCore->pushUndo(undo, redo, i18n("Split Audio"));
+    return true;
+}
