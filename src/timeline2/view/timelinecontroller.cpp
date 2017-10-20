@@ -593,6 +593,14 @@ void TimelineController::selectItems(QVariantList arg, int startFrame, int endFr
     emit selectionChanged();
 }
 
+void TimelineController::requestClipCut(int clipId, int position)
+{
+    if (position == -1) {
+        position = m_position;
+    }
+    TimelineFunctions::requestClipCut(m_model, clipId, position);
+}
+
 void TimelineController::cutClipUnderCursor(int position, int track)
 {
     if (position == -1) {
@@ -1104,6 +1112,14 @@ void TimelineController::extractZone()
     QMetaObject::invokeMethod(m_root, "currentTrackId", Q_RETURN_ARG(QVariant, returnedValue));
     int currenTrackId = returnedValue.toInt();
     TimelineFunctions::extractZone(m_model, currenTrackId, m_zone, false);
+}
+
+void TimelineController::extract(int clipId)
+{
+    int in = m_model->getClipPosition(clipId);
+    QPoint zone(in, in + m_model->getClipPlaytime(clipId));
+    int track = m_model->getClipTrackId(clipId);
+    TimelineFunctions::extractZone(m_model, track, zone, false);
 }
 
 void TimelineController::liftZone()

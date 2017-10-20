@@ -688,8 +688,9 @@ Rectangle {
             visible: true
             text: i18n('Cut')
             onTriggered: {
+                console.log('cutting clip:', clipRoot.clipId)
                 if (!trackRoot.isLocked) {
-                    controller.requestClipCut(clipId, timeline.position)
+                    timeline.requestClipCut(clipRoot.clipId, timeline.position)
                 } else {
                     root.pulseLockButtonOnTrack(currentTrack)
                 }
@@ -709,7 +710,7 @@ Rectangle {
         MenuItem {
             visible: true
             text: i18n('Copy')
-            onTriggered: root.copiedClip = clipId
+            onTriggered: root.copiedClip = clipRoot.clipId
         }
         MenuSeparator {
             visible: true
@@ -720,8 +721,8 @@ Rectangle {
         }
         MenuItem {
             visible: true 
-            text: i18n('Lift')
-            onTriggered: timeline.lift(trackIndex, index)
+            text: i18n('Extract')
+            onTriggered: timeline.extract(clipRoot.clipId)
         }
         MenuSeparator {
             visible: true

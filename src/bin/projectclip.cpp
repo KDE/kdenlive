@@ -418,28 +418,28 @@ std::shared_ptr<Mlt::Producer> ProjectClip::timelineProducer(PlaylistState::Clip
     }
     if (state == PlaylistState::VideoOnly) {
         if (m_timelineProducers.count(0) > 0) {
-            return m_timelineProducers.find(0)->second;
+            return std::shared_ptr<Mlt::Producer>(m_timelineProducers.find(0)->second->cut());
         }
         std::shared_ptr<Mlt::Producer> videoProd = cloneProducer();
-        videoProd->parent().set("audio_index", -1);
+        videoProd->set("audio_index", -1);
         m_timelineProducers[0] = videoProd;
-        return videoProd;
+        return std::shared_ptr<Mlt::Producer>(videoProd->cut());
     }
     if (state == PlaylistState::AudioOnly) {
         if (m_timelineProducers.count(-track) > 0) {
-            return m_timelineProducers.find(-track)->second;
+            return std::shared_ptr<Mlt::Producer>(m_timelineProducers.find(-track)->second->cut());
         }
         std::shared_ptr<Mlt::Producer> audioProd = cloneProducer();
-        audioProd->parent().set("video_index", -1);
+        audioProd->set("video_index", -1);
         m_timelineProducers[-track] = audioProd;
-        return audioProd;
+        return std::shared_ptr<Mlt::Producer>(audioProd->cut());
     }
     if (m_timelineProducers.count(track) > 0) {
-        return m_timelineProducers.find(track)->second;
+        return std::shared_ptr<Mlt::Producer>(m_timelineProducers.find(track)->second->cut());
     }
     std::shared_ptr<Mlt::Producer> normalProd = cloneProducer();
     m_timelineProducers[track] = normalProd;
-    return normalProd;
+    return std::shared_ptr<Mlt::Producer>(normalProd->cut());
 }
 
 std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer()
@@ -462,8 +462,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer()
         s.set("ignore_points", ignore);
     }
     const QByteArray clipXml = c.get("string");
-    QScopedPointer<Mlt::Producer> parent(new Mlt::Producer(*m_masterProducer->profile(), "xml-string", clipXml.constData()));
-    std::shared_ptr<Mlt::Producer> prod(parent->cut());
+    std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(*m_masterProducer->profile(), "xml-string", clipXml.constData()));
     return prod;
 }
 

@@ -223,6 +223,11 @@ public:
     /* @brief Change a clip status (normal / audio only / video only)
      */
     Q_INVOKABLE void setClipStatus(int clipId, int status);
+
+    Q_INVOKABLE void requestClipCut(int clipId, int position);
+
+    Q_INVOKABLE void extract(int clipId);
+
     const QString getTrackNameFromIndex(int trackIndex);
     /* @brief Seeks to selected clip start / end
      */
