@@ -130,7 +130,9 @@ void KeyframeWidget::monitorSeek(int pos)
             break;
         }
     }
-    m_keyframeview->slotSetPosition(qBound(in, pos, out) - in);
+    int framePos = qBound(in, pos, out) - in;
+    m_keyframeview->slotSetPosition(framePos);
+    m_time->setValue(framePos);
 }
 
 void KeyframeWidget::slotEditKeyframeType(QAction *action)
