@@ -100,6 +100,7 @@ AssetParameterModel::AssetParameterModel(Mlt::Properties *asset, const QDomEleme
 
     }
     qDebug() << "END parsing of "<<assetId<<". Number of found parameters"<<m_rows.size();
+    emit modelChanged();
 }
 
 void AssetParameterModel::prepareKeyframes()
@@ -138,6 +139,7 @@ void AssetParameterModel::setParameter(const QString &name, const QString &value
             m_fixedParams[name] = value;
         }
     }
+    emit modelChanged();
     pCore->refreshProjectItem(m_ownerId);
     pCore->invalidateItem(m_ownerId);
 }
@@ -151,6 +153,7 @@ void AssetParameterModel::setParameter(const QString &name, double &value)
     } else {
         m_fixedParams[name] = value;
     }
+    emit modelChanged();
     pCore->refreshProjectItem(m_ownerId);
     pCore->invalidateItem(m_ownerId);
 }

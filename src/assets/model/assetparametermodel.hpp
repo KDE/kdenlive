@@ -162,6 +162,9 @@ protected:
     std::unique_ptr<Mlt::Properties> m_asset;
 
     std::shared_ptr<KeyframeModelList> m_keyframes;
+
+signals:
+    void modelChanged();
 };
 
 #endif

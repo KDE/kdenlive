@@ -23,7 +23,6 @@
 #define ABSTRACTEFFECTITEM_H
 
 #include "abstractmodel/treeitem.hpp"
-#include "assets/model/assetparametermodel.hpp"
 #include <mlt++/MltFilter.h>
 
 enum class EffectItemType {Effect, Group};

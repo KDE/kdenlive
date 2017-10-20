@@ -119,6 +119,9 @@ private:
     mutable QReadWriteLock m_lock;
     QList <int> fadeIns;
     QList <int> fadeOuts;
+
+signals:
+    void modelChanged();
 };
 
 #endif

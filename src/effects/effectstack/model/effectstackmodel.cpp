@@ -50,7 +50,6 @@ void EffectStackModel::loadEffects()
 {
     auto ptr = m_service.lock();
     if (ptr) {
-        qDebug()<<"// FOUND FILTERS IN CLIP: "<<ptr->filter_count();
         for (int i = 0; i < ptr->filter_count(); i++) {
             if (ptr->filter(i)->get("kdenlive_id") == nullptr) {
                 // don't consider internal MLT stuff
@@ -58,13 +57,14 @@ void EffectStackModel::loadEffects()
             }
             auto effect = EffectItemModel::construct(ptr->filter(i), shared_from_this());
             //effect->setParameters
-            qDebug()<<"// Adding effect: "<<effect->getAssetId();
             Fun redo = addItem_lambda(effect, rootItem->getId());
             bool res = redo();
+            connect(effect.get(), &AssetParameterModel::modelChanged, this, &EffectStackModel::modelChanged);
         }
     } else {
         qDebug()<<"// CANNOT LOCK CLIP SEEVCE";
     }
+    this->modelChanged();
 
 }
 
@@ -108,6 +108,7 @@ void EffectStackModel::copyEffect(std::shared_ptr<AbstractEffectItem> sourceItem
     Fun undo = removeItem_lambda(effect->getId());
     // TODO the parent should probably not always be the root
     Fun redo = addItem_lambda(effect, rootItem->getId());
+    connect(effect.get(), &AssetParameterModel::modelChanged, this, &EffectStackModel::modelChanged);
     bool res = redo();
     if (res) {
         QString effectName = EffectsRepository::get()->getName(effectId);
@@ -121,6 +122,7 @@ void EffectStackModel::appendEffect(const QString &effectId)
     Fun undo = removeItem_lambda(effect->getId());
     // TODO the parent should probably not always be the root
     Fun redo = addItem_lambda(effect, rootItem->getId());
+    connect(effect.get(), &AssetParameterModel::modelChanged, this, &EffectStackModel::modelChanged);
     bool res = redo();
     if (res) {
         if (effectId == QLatin1String("fadein") || effectId == QLatin1String("fade_from_black")) {
@@ -308,6 +310,7 @@ void EffectStackModel::importEffects(std::shared_ptr<EffectStackModel> sourceSta
         clone->setParameters(effect->getAllParameters());
         // TODO parent should not always be root
         Fun redo = addItem_lambda(clone, rootItem->getId());
+        connect(effect.get(), &AssetParameterModel::modelChanged, this, &EffectStackModel::modelChanged);
         redo();
     }
 }

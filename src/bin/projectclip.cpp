@@ -157,9 +157,12 @@ ProjectClip::~ProjectClip()
 
 void ProjectClip::connectEffectStack()
 {
-    connect(m_effectStack.get(), &EffectStackModel::dataChanged, [&](QModelIndex,QModelIndex,QVector<int>){
+    connect(m_effectStack.get(), &EffectStackModel::modelChanged, this, &ProjectClip::updateChildProducers);
+    connect(m_effectStack.get(), &EffectStackModel::dataChanged, this, &ProjectClip::updateChildProducers);
+    /*connect(m_effectStack.get(), &EffectStackModel::modelChanged, [&](){
+        qDebug()<<"/ / / STACK CHANGED";
         updateChildProducers();
-    });
+    });*/
 
 }
 
@@ -418,7 +421,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::timelineProducer(PlaylistState::Clip
             return m_timelineProducers.find(0)->second;
         }
         std::shared_ptr<Mlt::Producer> videoProd = cloneProducer();
-        videoProd->set("audio_index", -1);
+        videoProd->parent().set("audio_index", -1);
         m_timelineProducers[0] = videoProd;
         return videoProd;
     }
@@ -427,7 +430,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::timelineProducer(PlaylistState::Clip
             return m_timelineProducers.find(-track)->second;
         }
         std::shared_ptr<Mlt::Producer> audioProd = cloneProducer();
-        audioProd->set("video_index", -1);
+        audioProd->parent().set("video_index", -1);
         m_timelineProducers[-track] = audioProd;
         return audioProd;
     }
@@ -459,7 +462,8 @@ std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer()
         s.set("ignore_points", ignore);
     }
     const QByteArray clipXml = c.get("string");
-    std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(*m_masterProducer->profile(), "xml-string", clipXml.constData()));
+    QScopedPointer<Mlt::Producer> parent(new Mlt::Producer(*m_masterProducer->profile(), "xml-string", clipXml.constData()));
+    std::shared_ptr<Mlt::Producer> prod(parent->cut());
     return prod;
 }
 
@@ -1344,9 +1348,12 @@ bool ProjectClip::isIncludedInTimeline()
 void ProjectClip::updateChildProducers()
 {
     // pass effect stack on all child producers
+    QMutexLocker locker(&m_producerMutex);
     for (const auto &clip : m_timelineProducers) {
         if (auto producer = clip.second) {
-            Clip(*producer.get()).replaceEffects(*m_masterProducer);
+            Clip clp(producer->parent());
+            clp.deleteEffects();
+            clp.replaceEffects(*m_masterProducer);
         }
     }
 }

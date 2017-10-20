@@ -49,7 +49,6 @@ std::shared_ptr<EffectItemModel> EffectItemModel::construct(const QString &effec
     std::shared_ptr<EffectItemModel> self(new EffectItemModel(data, effect, xml, effectId, std::move(stack)));
 
     baseFinishConstruct(self);
-
     return self;
 }
 
