@@ -785,7 +785,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
 
         std::function<bool(void)> undo = []() { return true; };
         std::function<bool(void)> redo = []() { return true; };
-        REQUIRE(TimelineFunctions::copyClip(timeline, cid6, newId, undo, redo));
+        REQUIRE(TimelineFunctions::copyClip(timeline, cid6, newId, PlaylistState::Original, undo, redo));
         REQUIRE(timeline->m_allClips[cid6]->binId() == timeline->m_allClips[newId]->binId());
         // TODO check effects
     }
@@ -897,7 +897,7 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
         {
             Fun undo = [](){return true;};
             Fun redo = [](){return true;};
-            REQUIRE(timeline->requestClipCreation(binId3, cid3, undo, redo));
+            REQUIRE(timeline->requestClipCreation(binId3, cid3, PlaylistState::Original, undo, redo));
             pCore->pushUndo(undo, redo, QString());
         }
 
@@ -914,7 +914,7 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
         {
             Fun undo = [](){return true;};
             Fun redo = [](){return true;};
-            REQUIRE(timeline->requestClipCreation(binId4, cid4, undo, redo));
+            REQUIRE(timeline->requestClipCreation(binId4, cid4,PlaylistState::Original, undo, redo));
             pCore->pushUndo(undo, redo, QString());
         }
 
@@ -1326,7 +1326,7 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
         {
             std::function<bool(void)> undo = []() { return true; };
             std::function<bool(void)> redo = []() { return true; };
-            REQUIRE(timeline->requestClipCreation(binId, cid6,undo,redo));
+            REQUIRE(timeline->requestClipCreation(binId, cid6,PlaylistState::Original,undo,redo));
             pCore->pushUndo(undo, redo, QString());
         }
         int l = timeline->getClipPlaytime(cid6);

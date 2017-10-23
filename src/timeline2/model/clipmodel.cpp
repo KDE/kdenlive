@@ -51,12 +51,12 @@ ClipModel::ClipModel(std::shared_ptr<TimelineModel> parent, std::shared_ptr<Mlt:
     }
 }
 
-int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QString &binClipId, int id)
+int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QString &binClipId, int id, PlaylistState::ClipState state)
 {
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(binClipId);
     //std::shared_ptr<Mlt::Producer> originalProducer = binClip->originalProducer();
     //std::shared_ptr<Mlt::Producer> cutProducer(originalProducer->cut());
-    std::shared_ptr<Mlt::Producer> cutProducer = binClip->timelineProducer();
+    std::shared_ptr<Mlt::Producer> cutProducer = binClip->timelineProducer(state);
     return construct(parent, binClipId, cutProducer, id);
 }
 

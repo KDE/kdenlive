@@ -57,7 +57,7 @@ public:
        @param binClip is the id of the bin clip associated
        @param id Requested id of the clip. Automatic if -1
     */
-    static int construct(const std::shared_ptr<TimelineModel> &parent, const QString &binClipId, int id = -1);
+    static int construct(const std::shared_ptr<TimelineModel> &parent, const QString &binClipId, int id = -1, PlaylistState::ClipState state = PlaylistState::Original);
     /* @brief Creates a clip from an instance in MLT's playlist,
        Returns the (unique) id of the created clip
        @param parent is a pointer to the timeline

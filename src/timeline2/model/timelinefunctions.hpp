@@ -47,7 +47,7 @@ struct TimelineFunctions {
     static bool requestClipCut(std::shared_ptr<TimelineItemModel> timeline, int clipId, int position, int &newId, Fun &undo, Fun &redo);
 
     /* @brief Makes a perfect copy of a given clip, but do not insert it */
-    static bool copyClip(std::shared_ptr<TimelineItemModel> timeline, int clipId, int &newId, Fun &undo, Fun &redo);
+    static bool copyClip(std::shared_ptr<TimelineItemModel> timeline, int clipId, int &newId, PlaylistState::ClipState state, Fun &undo, Fun &redo);
 
     static int requestSpacerStartOperation(std::shared_ptr<TimelineItemModel> timeline, int trackId, int position);
     static bool requestSpacerEndOperation(std::shared_ptr<TimelineItemModel> timeline, int clipId, int startPosition, int endPosition);

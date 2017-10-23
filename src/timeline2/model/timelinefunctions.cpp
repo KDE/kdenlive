@@ -31,9 +31,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QDebug>
 #include <klocalizedstring.h>
 
-bool TimelineFunctions::copyClip(std::shared_ptr<TimelineItemModel> timeline, int clipId, int &newId, Fun &undo, Fun &redo)
+bool TimelineFunctions::copyClip(std::shared_ptr<TimelineItemModel> timeline, int clipId, int &newId, PlaylistState::ClipState state, Fun &undo, Fun &redo)
 {
-    bool res = timeline->requestClipCreation(timeline->getClipBinId(clipId), newId, undo, redo);
+    bool res = timeline->requestClipCreation(timeline->getClipBinId(clipId), newId, state, undo, redo);
     timeline->m_allClips[newId]->m_endlessResize = timeline->m_allClips[clipId]->m_endlessResize;
     int duration = timeline->getClipPlaytime(clipId);
     int init_duration = timeline->getClipPlaytime(newId);
@@ -58,7 +58,8 @@ bool TimelineFunctions::requestClipCut(std::shared_ptr<TimelineItemModel> timeli
     if (start > position || (start + duration) < position) {
         return false;
     }
-    bool res = copyClip(timeline, clipId, newId, undo, redo);
+    PlaylistState::ClipState state = timeline->m_allClips[clipId]->clipState();
+    bool res = copyClip(timeline, clipId, newId, state, undo, redo);
     res = res && timeline->requestItemResize(clipId, position - start, true, true, undo, redo);
     int newDuration = timeline->getClipPlaytime(clipId);
     res = res && timeline->requestItemResize(newId, duration - newDuration, false, true, undo, redo);
@@ -263,7 +264,8 @@ bool TimelineFunctions::requestClipCopy(std::shared_ptr<TimelineItemModel> timel
     std::unordered_map<int, int> mapping; //keys are ids of the source clips, values are ids of the copied clips
     for (int id : allIds) {
         int newId = -1;
-        bool res = copyClip(timeline, id, newId, undo, redo);
+        PlaylistState::ClipState state = timeline->m_allClips[id]->clipState();
+        bool res = copyClip(timeline, id, newId, state, undo, redo);
         res = res && (newId != -1);
         int target_position = timeline->getClipPosition(id) + deltaPos;
         int target_track_position = timeline->getTrackPosition(timeline->getClipTrackId(id)) + deltaTrack;
@@ -366,10 +368,10 @@ bool TimelineFunctions::requestSplitAudio(std::shared_ptr<TimelineItemModel> tim
         int track = timeline->getClipTrackId(cid);
         int newTrack = timeline->getNextTrackId(track);
         int newId;
-        bool res = copyClip(timeline, cid, newId, undo, redo);
+        bool res = copyClip(timeline, cid, newId, PlaylistState::AudioOnly, undo, redo);
         TimelineFunctions::changeClipState(timeline, clipId, PlaylistState::VideoOnly);
         res = res && timeline->requestClipMove(newId, newTrack, position, true, false, undo, redo);
-        TimelineFunctions::changeClipState(timeline, newId, PlaylistState::AudioOnly);
+        //TimelineFunctions::changeClipState(timeline, newId, PlaylistState::AudioOnly);
         std::unordered_set<int> clips;
         clips.insert(clipId);
         clips.insert(newId);

@@ -29,7 +29,7 @@
 #include "groupsmodel.hpp"
 #include "snapmodel.hpp"
 #include "trackmodel.hpp"
-
+#include "kdenlivesettings.h"
 #include "doc/docundostack.hpp"
 
 #include <QDebug>
@@ -466,7 +466,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
     return result;
 }
 
-bool TimelineModel::requestClipCreation(const QString &binClipId, int &id, Fun &undo, Fun &redo)
+bool TimelineModel::requestClipCreation(const QString &binClipId, int &id, PlaylistState::ClipState state, Fun &undo, Fun &redo)
 {
     int clipId = TimelineModel::getNextId();
     id = clipId;
@@ -475,7 +475,7 @@ bool TimelineModel::requestClipCreation(const QString &binClipId, int &id, Fun &
     if (binClipId.contains(QLatin1Char('#'))) {
         bid = binClipId.section(QLatin1Char('#'), 0, 0);
     }
-    ClipModel::construct(shared_from_this(), bid, clipId);
+    ClipModel::construct(shared_from_this(), bid, clipId, state);
     auto clip = m_allClips[clipId];
     Fun local_redo = [clip, this]() {
         // We capture a shared_ptr to the clip, which means that as long as this undo object lives, the clip object is not deleted. To insert it back it is
@@ -505,8 +505,14 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
 {
     std::function<bool(void)> local_undo = []() { return true; };
     std::function<bool(void)> local_redo = []() { return true; };
-    bool res = requestClipCreation(binClipId, id, local_undo, local_redo);
-    res = res && requestClipMove(id, trackId, position, refreshView, logUndo, local_undo, local_redo);
+    bool res = false;
+    if (KdenliveSettings::splitaudio()) {
+        res = requestClipCreation(binClipId, id, PlaylistState::VideoOnly, local_undo, local_redo);
+        res = res && requestClipMove(id, trackId, position, refreshView, logUndo, local_undo, local_redo);
+    } else {
+        res = requestClipCreation(binClipId, id, PlaylistState::Original, local_undo, local_redo);
+        res = res && requestClipMove(id, trackId, position, refreshView, logUndo, local_undo, local_redo);
+    }
     if (!res) {
         bool undone = local_undo();
         Q_ASSERT(undone);
