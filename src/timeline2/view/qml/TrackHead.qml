@@ -133,6 +133,24 @@ Rectangle {
                     width: height
                     radius: height
                     border.width: 1
+                    MouseArea {
+                        anchors.fill: parent
+                        onDoubleClicked: {
+                            if (trackHeadRoot.isAudio) {
+                                if (trackHeadRoot.trackId == timeline.audioTarget) {
+                                    timeline.audioTarget = -1;
+                                } else {
+                                    timeline.audioTarget = trackHeadRoot.trackId;
+                                }
+                            } else {
+                                if (trackHeadRoot.trackId == timeline.videoTarget) {
+                                    timeline.videoTarget = -1;
+                                } else {
+                                    timeline.videoTarget = trackHeadRoot.trackId;
+                                }
+                            }
+                        }
+                    }
                     state:  'normalled'
                     states: [
                         State {
@@ -141,6 +159,14 @@ Rectangle {
                             PropertyChanges {
                                 target: trackLed
                                 color: 'red'
+                            }
+                        },
+                        State {
+                            name: 'target'
+                            when: (trackHeadRoot.isAudio && trackHeadRoot.trackId == timeline.audioTarget) || (!trackHeadRoot.isAudio && trackHeadRoot.trackId == timeline.videoTarget)
+                            PropertyChanges {
+                                target: trackLed
+                                color: 'yellow'
                             }
                         },
                         State {

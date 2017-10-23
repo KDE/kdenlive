@@ -53,6 +53,8 @@ TimelineController::TimelineController(KActionCollection *actionCollection, QObj
     , m_actionCollection(actionCollection)
     , m_position(0)
     , m_seekPosition(-1)
+    , m_audioTarget(-1)
+    , m_videoTarget(-1)
     , m_scale(3.0)
     , m_usePreview(false)
     , m_timelinePreview(nullptr)
@@ -542,6 +544,18 @@ void TimelineController::setPosition(int position)
 {
     setSeekPosition(position);
     emit seeked(position);
+}
+
+void TimelineController::setAudioTarget(int track)
+{
+    m_audioTarget = track;
+    emit audioTargetChanged();
+}
+
+void TimelineController::setVideoTarget(int track)
+{
+    m_videoTarget = track;
+    emit videoTargetChanged();
 }
 
 void TimelineController::setSeekPosition(int position)
