@@ -343,8 +343,7 @@ bool TimelineFunctions::changeClipState(std::shared_ptr<TimelineItemModel> timel
         std::function<bool(void)> local_undo = []() { return true; };
         std::function<bool(void)> local_redo = []() { return true; };
         if (trackId != -1) {
-            timeline->getTrackById(trackId)->requestClipDeletion(clipId, false, false, local_undo, local_redo);
-            timeline->getTrackById(trackId)->requestClipInsertion(clipId, start, true, true, local_undo, local_redo);
+            timeline->getTrackById(trackId)->replugClip(clipId);
         }
         QModelIndex ix = timeline->makeClipIndexFromID(clipId);
         timeline->dataChanged(ix, ix, {TimelineModel::StatusRole});

@@ -836,6 +836,7 @@ int TrackModel::getCompositionByRow(int row) const
     if (row < (int)m_allClips.size()) {
         return -1;
     }
+    //Q_ASSERT(row <= (int)m_allClips.size() + m_allCompositions.size());
     auto it = m_allCompositions.cbegin();
     std::advance(it, row - (int)m_allClips.size());
     return (*it).first;
