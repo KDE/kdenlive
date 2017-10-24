@@ -372,7 +372,6 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
     createAudioThumbs();
     if (replaceProducer) {
         // Recreate thumbnail
-        
     }
     return true;
 }
@@ -414,7 +413,7 @@ Mlt::Producer *ProjectClip::thumbProducer()
 std::shared_ptr<Mlt::Producer> ProjectClip::timelineProducer(PlaylistState::ClipState state, int track)
 {
     if (!m_service.startsWith(QLatin1String("avformat"))) {
-        return originalProducer();
+        return std::shared_ptr<Mlt::Producer>(originalProducer()->cut());
     }
     if (state == PlaylistState::VideoOnly) {
         if (m_timelineProducers.count(0) > 0) {

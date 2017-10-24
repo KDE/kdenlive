@@ -148,14 +148,17 @@ bool TimelineFunctions::requestSpacerEndOperation(std::shared_ptr<TimelineItemMo
     return false;
 }
 
-bool TimelineFunctions::extractZone(std::shared_ptr<TimelineItemModel> timeline, int trackId, QPoint zone, bool liftOnly)
+bool TimelineFunctions::extractZone(std::shared_ptr<TimelineItemModel> timeline, QVector <int> tracks, QPoint zone, bool liftOnly)
 {
     // Start undoable command
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
-    bool result = TimelineFunctions::liftZone(timeline, trackId, zone, undo, redo);
-    if (result && !liftOnly) {
-        result = TimelineFunctions::removeSpace(timeline, trackId, zone, undo, redo);
+    bool result = false;
+    for (int trackId : tracks) {
+        result = TimelineFunctions::liftZone(timeline, trackId, zone, undo, redo);
+        if (result && !liftOnly) {
+            result = TimelineFunctions::removeSpace(timeline, trackId, zone, undo, redo);
+        }
     }
     pCore->pushUndo(undo, redo, liftOnly ? i18n("Lift zone") : i18n("Extract zone"));
     return result;
