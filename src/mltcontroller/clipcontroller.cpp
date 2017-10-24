@@ -343,6 +343,18 @@ GenTime ClipController::getPlaytime() const
     return GenTime(m_masterProducer->get_playtime(), fps);
 }
 
+int ClipController::getFramePlaytime() const
+{
+    if (!m_masterProducer || !m_masterProducer->is_valid()) {
+        return 0;
+    }
+    if (!m_hasLimitedDuration) {
+        int playtime = m_masterProducer->get_int("kdenlive:duration");
+        return playtime == 0 ? m_masterProducer->get_playtime() : playtime;
+    }
+    return m_masterProducer->get_playtime();
+}
+
 QString ClipController::getProducerProperty(const QString &name) const
 {
     if (!m_properties) {
@@ -560,7 +572,7 @@ void ClipController::setZone(const QPoint &zone)
 QPoint ClipController::zone() const
 {
     int in = getProducerIntProperty(QStringLiteral("kdenlive:zone_in"));
-    int max = getPlaytime().frames(pCore->getCurrentFps()) - 1;
+    int max = getFramePlaytime() - 1;
     int out = qMin(getProducerIntProperty(QStringLiteral("kdenlive:zone_out")), max);
     if (out <= in) {
         out = max;

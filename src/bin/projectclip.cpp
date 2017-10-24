@@ -479,6 +479,9 @@ QPoint ProjectClip::zone() const
 {
     int x = getProducerIntProperty(QStringLiteral("kdenlive:zone_in"));
     int y = getProducerIntProperty(QStringLiteral("kdenlive:zone_out"));
+    if (y <= x) {
+        y = getFramePlaytime() - 1;
+    }
     return QPoint(x, y);
 }
 

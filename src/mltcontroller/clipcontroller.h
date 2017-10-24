@@ -93,6 +93,7 @@ public:
 
     /** @brief Returns the clip's duration */
     GenTime getPlaytime() const;
+    int getFramePlaytime() const;
     /**
      * @brief Sets a property.
      * @param name name of the property
