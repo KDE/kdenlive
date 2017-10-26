@@ -42,7 +42,7 @@ ClipModel::ClipModel(std::shared_ptr<TimelineModel> parent, std::shared_ptr<Mlt:
     , m_binClipId(binClipId)
 {
     m_producer->set("kdenlive:id", binClipId.toUtf8().constData());
-    m_producer->set("_kdenlive_cid", getId());
+    m_producer->set("_kdenlive_cid", id);
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
     if (binClip) {
         m_endlessResize = !binClip->hasLimitedDuration();
@@ -54,8 +54,6 @@ ClipModel::ClipModel(std::shared_ptr<TimelineModel> parent, std::shared_ptr<Mlt:
 int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QString &binClipId, int id, PlaylistState::ClipState state)
 {
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(binClipId);
-    //std::shared_ptr<Mlt::Producer> originalProducer = binClip->originalProducer();
-    //std::shared_ptr<Mlt::Producer> cutProducer(originalProducer->cut());
     std::shared_ptr<Mlt::Producer> cutProducer = binClip->timelineProducer(state);
     return construct(parent, binClipId, cutProducer, id);
 }
@@ -257,7 +255,7 @@ bool ClipModel::isAudioOnly() const
     return service.contains(QStringLiteral("avformat")) && (getIntProperty(QStringLiteral("video_index")) == -1);
 }
 
-void ClipModel::refreshProducerFromBin()
+void ClipModel::refreshProducerFromBin(PlaylistState::ClipState state)
 {
     if (getProperty("mlt_service") == QLatin1String("timewarp")) {
         // slowmotion producer, keep it
@@ -276,8 +274,10 @@ void ClipModel::refreshProducerFromBin()
     int in = getIn();
     int out = getOut();
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
-    std::shared_ptr<Mlt::Producer> binProducer = binClip->timelineProducer(PlaylistState::Original, m_currentTrackId);
-    m_producer.reset(binProducer->cut(in, out));
+    std::shared_ptr<Mlt::Producer> binProducer = binClip->timelineProducer(state, m_currentTrackId);
+    m_producer = std::move(binProducer);
+    m_producer->set_in_and_out(in, out);
+    //m_producer.reset(binProducer->cut(in, out));
     // replant effect stack in updated service
     m_effectStack->resetService(m_producer);
     m_producer->set("kdenlive:id", binClip->AbstractProjectItem::clipId().toUtf8().constData());
@@ -392,7 +392,11 @@ bool ClipModel::setClipState(PlaylistState::ClipState state)
     std::shared_ptr<Mlt::Producer> binProducer = binClip->timelineProducer(state, m_currentTrackId);
     int in = getIn();
     int out = getOut();
-    m_producer.reset(binProducer->cut(in, out));
+    m_producer = std::move(binProducer);
+    m_producer->set_in_and_out(in, out);
+    m_producer->set("kdenlive:id", m_binClipId.toUtf8().constData());
+    m_producer->set("_kdenlive_cid", m_id);
+
     // replant effect stack in updated service
     m_effectStack->resetService(m_producer);
     return true;

@@ -161,6 +161,7 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
                 m_playlists[0].lock();
                 std::shared_ptr<ClipModel> clip = ptr->getClipPtr(clipId);
                 int index = m_playlists[0].insert_at(position, *clip, 1);
+                m_playlists[0].consolidate_blanks();
                 m_playlists[0].unlock();
                 return index != -1 && end_function();
             }
@@ -183,6 +184,7 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
                     m_playlists[0].lock();
                     std::shared_ptr<ClipModel> clip = ptr->getClipPtr(clipId);
                     int index = m_playlists[0].insert_at(position, *clip, 1);
+                    m_playlists[0].consolidate_blanks();
                     m_playlists[0].unlock();
                     return index != -1 && end_function();
                 }
@@ -211,7 +213,6 @@ bool TrackModel::requestClipInsertion(int clipId, int position, bool updateView,
 void TrackModel::replugClip(int clipId)
 {
     int clip_position = m_allClips[clipId]->getPosition();
-    qDebug()<<"--------------replugging clp";
     auto clip_loc = getClipIndexAt(clip_position);
     int target_track = clip_loc.first;
     int target_clip = clip_loc.second;
@@ -224,6 +225,7 @@ void TrackModel::replugClip(int clipId)
         std::shared_ptr<ClipModel> clip = ptr->getClipPtr(clipId);
         int index = m_playlists[target_track].insert_at(clip_position, *clip, 1);
     }
+    m_playlists[target_track].consolidate_blanks();
     delete prod;
     m_playlists[target_track].unlock();
 }

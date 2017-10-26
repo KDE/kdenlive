@@ -151,7 +151,7 @@ public:
 
     /* @brief returns the number of tracks */
     int getTracksCount() const;
-    
+
     /* @brief returns the track index (id) from its position */
     int getTrackIndexFromPosition(int pos) const;
 

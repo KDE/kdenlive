@@ -128,7 +128,7 @@ protected:
     void setTimelineEffectsEnabled(bool enabled);
 
     /* @brief This functions should be called when the producer of the binClip changes, to allow refresh */
-    void refreshProducerFromBin();
+    void refreshProducerFromBin(PlaylistState::ClipState state = PlaylistState::Original);
     /* @brief This functions replaces the current producer with a slowmotion one */
     void useTimewarpProducer(double speed, int extraSpace);
 

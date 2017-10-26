@@ -477,11 +477,11 @@ bool TimelineModel::requestClipCreation(const QString &binClipId, int &id, Playl
     }
     ClipModel::construct(shared_from_this(), bid, clipId, state);
     auto clip = m_allClips[clipId];
-    Fun local_redo = [clip, this]() {
+    Fun local_redo = [clip, this,state]() {
         // We capture a shared_ptr to the clip, which means that as long as this undo object lives, the clip object is not deleted. To insert it back it is
         // sufficient to register it.
         registerClip(clip);
-        clip->refreshProducerFromBin();
+        clip->refreshProducerFromBin(state);
         return true;
     };
 

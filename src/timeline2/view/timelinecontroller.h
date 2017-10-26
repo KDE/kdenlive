@@ -57,6 +57,7 @@ class TimelineController : public QObject
     Q_PROPERTY(QVariantList dirtyChunks READ dirtyChunks NOTIFY dirtyChunksChanged)
     Q_PROPERTY(QVariantList renderedChunks READ renderedChunks NOTIFY renderedChunksChanged)
     Q_PROPERTY(int workingPreview READ workingPreview NOTIFY workingPreviewChanged)
+    Q_PROPERTY(int activeTrack READ activeTrack WRITE setActiveTrack NOTIFY activeTrackChanged)
     Q_PROPERTY(int audioTarget READ audioTarget WRITE setAudioTarget NOTIFY audioTargetChanged)
     Q_PROPERTY(int videoTarget READ videoTarget WRITE setVideoTarget NOTIFY videoTargetChanged)
 
@@ -90,6 +91,7 @@ public:
     Q_INVOKABLE int seekPosition() const { return m_seekPosition; }
     Q_INVOKABLE int audioTarget() const { return m_audioTarget; }
     Q_INVOKABLE int videoTarget() const { return m_videoTarget; }
+    Q_INVOKABLE int activeTrack() const { return m_activeTrack; }
     /* @brief Request a seek operation
        @param position is the desired new timeline position
      */
@@ -318,6 +320,7 @@ public slots:
     Q_INVOKABLE void setSeekPosition(int position);
     Q_INVOKABLE void setAudioTarget(int track);
     Q_INVOKABLE void setVideoTarget(int track);
+    Q_INVOKABLE void setActiveTrack(int track);
     void onSeeked(int position);
     void addEffectToCurrentClip(const QStringList &effectData);
     /** @brief Dis / enable timeline preview. */
@@ -339,6 +342,7 @@ private:
     int m_seekPosition;
     int m_audioTarget;
     int m_videoTarget;
+    int m_activeTrack;
     QPoint m_zone;
     double m_scale;
     static int m_duration;
@@ -362,6 +366,7 @@ signals:
     void seekPositionChanged();
     void audioTargetChanged();
     void videoTargetChanged();
+    void activeTrackChanged();
     void showThumbnailsChanged();
     void showAudioThumbnailsChanged();
     void showMarkersChanged();

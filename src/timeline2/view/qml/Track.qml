@@ -174,6 +174,18 @@ Column{
                     value: model.resource
                     when: loader.status == Loader.Ready && !loader.item.isComposition
                 }
+                Binding {
+                    target: loader.item
+                    property: "clipId"
+                    value: model.item
+                    when: loader.status == Loader.Ready
+                }
+                Binding {
+                    target: loader.item
+                    property: "binId"
+                    value: model.binId
+                    when: loader.status == Loader.Ready && !loader.item.isComposition
+                }
                 sourceComponent: {
                     if (model.isComposition) {
                         return compositionDelegate
@@ -183,8 +195,8 @@ Column{
                 }
                 onLoaded: {
                     console.log('loaded clip: ', model.start)
-                    item.clipId= model.item
-                    item.binId= model.binId
+                    //item.clipId= model.item
+                    //item.binId= model.binId
                     item.isComposition= model.isComposition
                     if (!model.isComposition) {
                         item.audioLevels= model.audioLevels

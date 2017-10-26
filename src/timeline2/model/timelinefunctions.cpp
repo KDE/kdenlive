@@ -323,13 +323,13 @@ bool TimelineFunctions::changeClipState(std::shared_ptr<TimelineItemModel> timel
         int trackId = timeline->getClipTrackId(clipId);
         bool res = timeline->m_allClips[clipId]->setClipState(status);
         // in order to make the producer change effective, we need to unplant / replant the clip in int track
-        int start = timeline->getItemPosition(clipId);
-        int end = start + timeline->getItemPlaytime(clipId);
         if (trackId != -1) {
             timeline->getTrackById(trackId)->replugClip(clipId);
             QModelIndex ix = timeline->makeClipIndexFromID(clipId);
             timeline->dataChanged(ix, ix, {TimelineModel::StatusRole});
             timeline->invalidateClip(clipId);
+            int start = timeline->getItemPosition(clipId);
+            int end = start + timeline->getItemPlaytime(clipId);
             timeline->checkRefresh(start, end);
         }
         return res;
@@ -337,18 +337,18 @@ bool TimelineFunctions::changeClipState(std::shared_ptr<TimelineItemModel> timel
     undo = [timeline, clipId, oldState]() {
         bool res = timeline->m_allClips[clipId]->setClipState(oldState);
         // in order to make the producer change effective, we need to unplant / replant the clip in int track
-        int start = timeline->getItemPosition(clipId);
-        int end = start + timeline->getItemPlaytime(clipId);
         int trackId = timeline->getClipTrackId(clipId);
         std::function<bool(void)> local_undo = []() { return true; };
         std::function<bool(void)> local_redo = []() { return true; };
         if (trackId != -1) {
+            int start = timeline->getItemPosition(clipId);
+            int end = start + timeline->getItemPlaytime(clipId);
             timeline->getTrackById(trackId)->replugClip(clipId);
+            QModelIndex ix = timeline->makeClipIndexFromID(clipId);
+            timeline->dataChanged(ix, ix, {TimelineModel::StatusRole});
+            timeline->invalidateClip(clipId);
+            timeline->checkRefresh(start, end);
         }
-        QModelIndex ix = timeline->makeClipIndexFromID(clipId);
-        timeline->dataChanged(ix, ix, {TimelineModel::StatusRole});
-        timeline->invalidateClip(clipId);
-        timeline->checkRefresh(start, end);
         return res;
     };
     bool result = redo();
@@ -370,10 +370,9 @@ bool TimelineFunctions::requestSplitAudio(std::shared_ptr<TimelineItemModel> tim
         int track = timeline->getClipTrackId(cid);
         int newTrack = timeline->getNextTrackId(track);
         int newId;
-        bool res = copyClip(timeline, cid, newId, PlaylistState::AudioOnly, undo, redo);
         TimelineFunctions::changeClipState(timeline, clipId, PlaylistState::VideoOnly);
+        bool res = copyClip(timeline, cid, newId, PlaylistState::AudioOnly, undo, redo);
         res = res && timeline->requestClipMove(newId, newTrack, position, true, false, undo, redo);
-        //TimelineFunctions::changeClipState(timeline, newId, PlaylistState::AudioOnly);
         std::unordered_set<int> clips;
         clips.insert(clipId);
         clips.insert(newId);

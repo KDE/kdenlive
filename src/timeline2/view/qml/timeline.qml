@@ -23,10 +23,6 @@ Rectangle {
         font.family: "Arial"
     }
 
-    function currentTrackId() {
-        return tracksRepeater.itemAt(root.currentTrack).trackId
-    }
-
     function moveSelectedTrack(offset) {
         var newTrack = root.currentTrack + offset
         var max = tracksRepeater.count;
@@ -37,6 +33,7 @@ Rectangle {
         }
         console.log('Setting curr tk: ', newTrack, 'MAX: ',max)
         root.currentTrack = newTrack
+        timeline.activeTrack = tracksRepeater.itemAt(root.currentTrack).trackId
     }
 
     function zoomByWheel(wheel) {
@@ -202,13 +199,16 @@ Rectangle {
         keys: 'kdenlive/producerslist'
         onEntered: {
             if (clipBeingMovedId == -1) {
-                var track = Logic.getTrackIdFromPos(drag.y)
-                if (track >= 0) {
+                //var track = Logic.getTrackIdFromPos(drag.y)
+                var track = Logic.getTrackIndexFromPos(drag.y)
+                if (track >= 0  && track < tracksRepeater.count) {
                     var frame = Math.round((drag.x + scrollView.flickableItem.contentX) / timeline.scaleFactor)
                     droppedPosition = frame
+                    root.currentTrack = track
+                    timeline.activeTrack = tracksRepeater.itemAt(track).trackId
                     //drag.acceptProposedAction()
                     clipBeingDroppedData = drag.getDataAsString('kdenlive/producerslist')
-                    clipBeingDroppedId = timeline.insertClip(track, frame, clipBeingDroppedData, false, true)
+                    clipBeingDroppedId = timeline.insertClip(timeline.activeTrack, frame, clipBeingDroppedData, false, true)
                     continuousScrolling(drag.x + scrollView.flickableItem.contentX)
                 } else {
                     drag.accepted = false
@@ -226,15 +226,19 @@ Rectangle {
         }
         onPositionChanged: {
             if (clipBeingMovedId == -1) {
-                var track = Logic.getTrackIdFromPos(drag.y)
-                var frame = Math.round((drag.x + scrollView.flickableItem.contentX) / timeline.scaleFactor)
-                frame = controller.suggestSnapPoint(frame, root.snapping)
-                if (clipBeingDroppedId >= 0){
-                    controller.requestClipMove(clipBeingDroppedId, track, frame, true, false, false)
-                    continuousScrolling(drag.x + scrollView.flickableItem.contentX)
-                } else {
-                    clipBeingDroppedId = timeline.insertClip(track, frame, drag.getDataAsString('kdenlive/producerslist'), false, true)
-                    continuousScrolling(drag.x + scrollView.flickableItem.contentX)
+                var track = Logic.getTrackIndexFromPos(drag.y)
+                if (track >= 0  && track < tracksRepeater.count) {
+                    root.currentTrack = track
+                    timeline.activeTrack = tracksRepeater.itemAt(track).trackId
+                    var frame = Math.round((drag.x + scrollView.flickableItem.contentX) / timeline.scaleFactor)
+                    frame = controller.suggestSnapPoint(frame, root.snapping)
+                    if (clipBeingDroppedId >= 0){
+                        controller.requestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, true, false, false)
+                        continuousScrolling(drag.x + scrollView.flickableItem.contentX)
+                    } else {
+                        clipBeingDroppedId = timeline.insertClip(timeline.activeTrack, frame, drag.getDataAsString('kdenlive/producerslist'), false, true)
+                        continuousScrolling(drag.x + scrollView.flickableItem.contentX)
+                    }
                 }
             }
         }
@@ -391,7 +395,7 @@ Rectangle {
                             width: headerWidth
                             height: model.trackHeight
                             selected: false
-                            current: index === currentTrack
+                            current: item === timeline.activeTrack
                             trackId: item
                             onIsLockedChanged: tracksRepeater.itemAt(index).isLocked = isLocked
                             onMyTrackHeightChanged: {
@@ -406,6 +410,7 @@ Rectangle {
                             }
                             onClicked: {
                                 currentTrack = index
+                                timeline.activeTrack = tracksRepeater.itemAt(currentTrack).trackId
                                 console.log('track name: ',index, ' = ', model.name)
                                 //timeline.selectTrackHead(currentTrack)
                             }
@@ -519,6 +524,7 @@ Rectangle {
                     menu.clickedX = mouse.x
                     menu.clickedY = mouse.y
                     currentTrack = Logic.getTrackIndexFromPos(mouse.y - ruler.height)
+                    timeline.activeTrack = tracksRepeater.itemAt(currentTrack).trackId
                     menu.popup() 
                 }
             }
@@ -719,7 +725,7 @@ Rectangle {
                                     border.color: Qt.rgba(activePalette.windowText.r, activePalette.windowText.g, activePalette.windowText.b, 0.1)
                                     //Layout.fillWidth: true
                                     height: model.trackHeight
-                                    color: tracksRepeater.itemAt(index) ? ((index === currentTrack) ? Qt.tint(getTrackColor(tracksRepeater.itemAt(index).isAudio, false), selectedTrackColor) : getTrackColor(tracksRepeater.itemAt(index).isAudio, false)) : 'red'
+                                    color: tracksRepeater.itemAt(index) ? ((tracksRepeater.itemAt(index).trackId === timeline.activeTrack) ? Qt.tint(getTrackColor(tracksRepeater.itemAt(index).isAudio, false), selectedTrackColor) : getTrackColor(tracksRepeater.itemAt(index).isAudio, false)) : 'red'
                                 }
                             }
                         }
@@ -865,11 +871,12 @@ Rectangle {
             isAudio: audio
             isMute: mute
             isHidden: hidden
-            isCurrentTrack: currentTrack === index
+            isCurrentTrack: item === timeline.activeTrack
             trackId: item
             selection: timeline.selection
             onClipClicked: {
                 root.currentTrack = index
+                timeline.activeTrack = tracksRepeater.itemAt(index).trackId
                 if (shiftClick === 1) {
                     timeline.addSelection(clip.clipId)
                 } else {
@@ -910,6 +917,7 @@ Rectangle {
                     var track = tracksRepeater.itemAt(activeTrack)
                     if (controller.requestClipMove(clip.clipId, track.trackId, frame, false, false, false)) {
                         currentTrack = activeTrack;
+                        timeline.activeTrack = track.trackId
                         clip.reparent(track)
                         clip.trackIndex = track.DelegateModel.itemsIndex
                         clip.trackId = track.trackId
@@ -931,14 +939,18 @@ Rectangle {
                             }
                         }
                     }
+                } else {
+                    console.log('+ + + + +\nWARNING CLIP DRAGGED TO INVALID TRACK: ',activeTrack,'\n+ + + +');
                 }
             }
             onCompositionDraggedToTrack: {
                 var y = pos - ruler.height
-                currentTrack = Logic.getTrackIndexFromPos(y)
+                var tk = Logic.getTrackIndexFromPos(y)
                 var frame = Math.round(composition.x / timeScale)
-                if (currentTrack >= 0  && currentTrack < tracksRepeater.count) {
+                if (tk >= 0  && tk < tracksRepeater.count) {
+                    currentTrack = tk
                     var track = tracksRepeater.itemAt(currentTrack)
+                    timeline.activeTrack = track.trackId
                     if (controller.requestCompositionMove(composition.clipId, track.trackId, frame, false, false)) {
                         composition.reparent(track)
                         composition.trackIndex = track.DelegateModel.itemsIndex

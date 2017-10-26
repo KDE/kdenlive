@@ -55,6 +55,7 @@ TimelineController::TimelineController(KActionCollection *actionCollection, QObj
     , m_seekPosition(-1)
     , m_audioTarget(-1)
     , m_videoTarget(-1)
+    , m_activeTrack(0)
     , m_scale(3.0)
     , m_usePreview(false)
     , m_timelinePreview(nullptr)
@@ -273,9 +274,7 @@ int TimelineController::insertClip(int tid, int position, const QString &data_st
 {
     int id;
     if (tid == -1) {
-        QVariant returnedValue;
-        QMetaObject::invokeMethod(m_root, "currentTrackId", Q_RETURN_ARG(QVariant, returnedValue));
-        tid = returnedValue.toInt();
+        tid = m_activeTrack;
     }
     if (position == -1) {
         position = m_position;
@@ -303,6 +302,7 @@ void TimelineController::deleteSelectedClips()
     for (int cid : m_selection.selectedClips) {
         m_model->requestItemDeletion(cid);
     }
+    m_selection.selectedClips.clear();
 }
 
 void TimelineController::copyItem()
@@ -330,9 +330,7 @@ bool TimelineController::pasteItem(int clipId, int tid, int position)
         position = getMousePos();
     }
     if (tid == -1) {
-        QVariant returnedValue;
-        QMetaObject::invokeMethod(m_root, "currentTrackId", Q_RETURN_ARG(QVariant, returnedValue));
-        tid = returnedValue.toInt();
+        tid = m_activeTrack;
     }
     if (position == -1) {
         position = m_position;
@@ -558,6 +556,12 @@ void TimelineController::setVideoTarget(int track)
     emit videoTargetChanged();
 }
 
+void TimelineController::setActiveTrack(int track)
+{
+    m_activeTrack = track;
+    emit activeTrackChanged();
+}
+
 void TimelineController::setSeekPosition(int position)
 {
     m_seekPosition = position;
@@ -628,9 +632,7 @@ void TimelineController::cutClipUnderCursor(int position, int track)
     }
     if (!foundClip) {
         if (track == -1) {
-            QVariant returnedValue;
-            QMetaObject::invokeMethod(m_root, "currentTrackId", Q_RETURN_ARG(QVariant, returnedValue));
-            track = returnedValue.toInt();
+            track = m_activeTrack;
         }
         if (track >= 0) {
             int cid = m_model->getClipByPosition(track, position);
@@ -755,9 +757,7 @@ void TimelineController::adjustFade(int cid, const QString &effectId, int durati
     } else {
         m_model->adjustEffectLength(cid, effectId, duration);
         QModelIndex ix = m_model->makeClipIndexFromID(cid);
-        QVector <int> roles;
-        roles << TimelineModel::FadeInRole;
-        m_model->dataChanged(ix, ix, roles);
+        m_model->dataChanged(ix, ix, {TimelineModel::FadeInRole});
     }
 }
 
@@ -774,9 +774,7 @@ void TimelineController::setCompositionATrack(int cid, int aTrack)
     field->unlock();
     refreshItem(cid);
     QModelIndex modelIndex = m_model->makeCompositionIndexFromID(cid);
-    QVector <int> roles;
-    roles << TimelineModel::ItemATrack;
-    m_model->dataChanged(modelIndex, modelIndex, roles);
+    m_model->dataChanged(modelIndex, modelIndex, {TimelineModel::ItemATrack});
 }
 
 const QString TimelineController::getClipBinId(int clipId) const
@@ -1018,9 +1016,7 @@ void TimelineController::insertSpace(int trackId, int frame)
         frame = m_position;
     }
     if (trackId == -1) {
-        QVariant returnedValue;
-        QMetaObject::invokeMethod(m_root, "currentTrackId", Q_RETURN_ARG(QVariant, returnedValue));
-        trackId = returnedValue.toInt();
+        trackId = m_activeTrack;
     }
     QPointer<SpacerDialog> d = new SpacerDialog(GenTime(65, pCore->getCurrentFps()), pCore->currentDoc()->timecode(), qApp->activeWindow());
     if (d->exec() != QDialog::Accepted) {
@@ -1044,9 +1040,7 @@ void TimelineController::removeSpace(int trackId, int frame, bool affectAllTrack
         frame = m_position;
     }
     if (trackId == -1) {
-        QVariant returnedValue;
-        QMetaObject::invokeMethod(m_root, "currentTrackId", Q_RETURN_ARG(QVariant, returnedValue));
-        trackId = returnedValue.toInt();
+        trackId = m_activeTrack;
     }
     // find blank duration
     int spaceDuration = m_model->getTrackById(trackId)->getBlankSizeAtPos(frame);
@@ -1130,9 +1124,7 @@ void TimelineController::extractZone()
         tracks << m_videoTarget;
     }
     if (tracks.isEmpty()) {
-        QVariant returnedValue;
-        QMetaObject::invokeMethod(m_root, "currentTrackId", Q_RETURN_ARG(QVariant, returnedValue));
-        tracks << returnedValue.toInt();
+        tracks << m_activeTrack;
     }
     TimelineFunctions::extractZone(m_model, tracks, m_zone, false);
 }
@@ -1156,9 +1148,7 @@ void TimelineController::liftZone()
         tracks << m_videoTarget;
     }
     if (tracks.isEmpty()) {
-        QVariant returnedValue;
-        QMetaObject::invokeMethod(m_root, "currentTrackId", Q_RETURN_ARG(QVariant, returnedValue));
-        tracks << returnedValue.toInt();
+        tracks << m_activeTrack;
     }
     TimelineFunctions::extractZone(m_model, tracks, m_zone, true);
 }
@@ -1173,9 +1163,7 @@ bool TimelineController::insertZone(const QString &binId, QPoint zone, bool over
         targetTrack = m_videoTarget;
     }
     if (targetTrack == -1) {
-        QVariant returnedValue;
-        QMetaObject::invokeMethod(m_root, "currentTrackId", Q_RETURN_ARG(QVariant, returnedValue));
-        targetTrack = returnedValue.toInt();
+        targetTrack = m_activeTrack;
     }
     return TimelineFunctions::insertZone(m_model, targetTrack, binId, m_position, zone, overwrite);
 }
