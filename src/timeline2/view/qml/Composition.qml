@@ -35,6 +35,7 @@ Item {
     property string mltService: ''
     property int modelStart: x
     property int displayHeight: 0
+    property var parentTrack: trackRoot
     property int inPoint: 0
     property int outPoint: 0
     property int clipDuration: 0
@@ -93,6 +94,7 @@ Item {
     function reparent(track) {
         parent = track
         isAudio = track.isAudio
+        parentTrack = track
         displayHeight = track.height / 2
     }
 
@@ -183,7 +185,7 @@ Item {
         }
         onPositionChanged: {
             if (mouse.y < -height || mouse.y > height) {
-                var mapped = trackRoot.mapFromItem(compositionRoot, mouse.x, mouse.y).x
+                var mapped = parentTrack.mapFromItem(compositionRoot, mouse.x, mouse.y).x
                 compositionRoot.draggedToTrack(compositionRoot, mapToItem(null, 0, mouse.y).y, mapped)
             } else {
                 compositionRoot.dragged(compositionRoot, mouse)
@@ -316,7 +318,7 @@ Item {
             GradientStop { position: 1.0; color: "#00000000" }
         }
         visible: compositionRoot.aTrack > 0
-        y: root.getTrackYFromMltIndex(compositionRoot.aTrack) - trackRoot.mapToItem(null, 0, 0).y + ruler.height
+        y: root.getTrackYFromMltIndex(compositionRoot.aTrack) - parentTrack.mapToItem(null, 0, 0).y + ruler.height
         height: clabel.height + 4
         Text {
             id: clabel
@@ -339,7 +341,7 @@ Item {
         MenuItem {
             text: i18n('Cut')
             onTriggered: {
-                if (!trackRoot.isLocked) {
+                if (!parentTrack.isLocked) {
                     timeline.copyClip(trackIndex, index)
                     timeline.remove(trackIndex, index)
                 } else {
@@ -348,7 +350,7 @@ Item {
             }
         }
         MenuItem {
-            visible: !grouped && trackRoot.selection.length > 1
+            visible: !grouped && parentTrack.selection.length > 1
             text: i18n('Group')
             onTriggered: timeline.groupSelection()
         }

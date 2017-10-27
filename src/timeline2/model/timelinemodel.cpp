@@ -725,6 +725,9 @@ bool TimelineModel::requestGroupDeletion(int clipId, bool logUndo)
             return false;
         }
     }
+    if (m_temporarySelectionGroup == clipId) {
+        m_temporarySelectionGroup = -1;
+    }
     if (logUndo) {
         PUSH_UNDO(undo, redo, i18n("Remove group"));
     }

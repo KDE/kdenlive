@@ -299,8 +299,13 @@ void TimelineController::deleteSelectedClips()
     if (m_selection.selectedClips.isEmpty()) {
         return;
     }
-    for (int cid : m_selection.selectedClips) {
-        m_model->requestItemDeletion(cid);
+    if (m_model->m_temporarySelectionGroup != -1) {
+        // selection is grouped, delete group only
+        m_model->requestGroupDeletion(m_model->m_temporarySelectionGroup);
+    } else {
+        for (int cid : m_selection.selectedClips) {
+            m_model->requestItemDeletion(cid);
+        }
     }
     m_selection.selectedClips.clear();
 }

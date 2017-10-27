@@ -74,6 +74,18 @@ Column{
                 }
                 Binding {
                     target: loader.item
+                    property: "trackIndex"
+                    value: trackRoot.DelegateModel.itemsIndex
+                    when: loader.status == Loader.Ready
+                }
+                Binding {
+                    target: loader.item
+                    property: "trackId"
+                    value: trackRoot.trackId
+                    when: loader.status == Loader.Ready
+                }
+                Binding {
+                    target: loader.item
                     property: "mltService"
                     value: model.mlt_service
                     when: loader.status == Loader.Ready
@@ -182,6 +194,12 @@ Column{
                 }
                 Binding {
                     target: loader.item
+                    property: "isComposition"
+                    value: model.isComposition
+                    when: loader.status == Loader.Ready
+                }
+                Binding {
+                    target: loader.item
                     property: "binId"
                     value: model.binId
                     when: loader.status == Loader.Ready && !loader.item.isComposition
@@ -197,7 +215,7 @@ Column{
                     console.log('loaded clip: ', model.start)
                     //item.clipId= model.item
                     //item.binId= model.binId
-                    item.isComposition= model.isComposition
+                    //item.isComposition= model.isComposition
                     if (!model.isComposition) {
                         item.audioLevels= model.audioLevels
                         item.isAudio= model.audio
@@ -206,13 +224,13 @@ Column{
                         item.fadeOut = model.fadeOut
                         item.hasAudio = model.hasAudio
                     } else {
-                        item.aTrack = model.a_track
+                        //item.aTrack = model.a_track
                     }
-                    item.trackIndex= trackRoot.DelegateModel.itemsIndex
-                    item.trackId= trackRoot.trackId
+                    //item.trackIndex= trackRoot.DelegateModel.itemsIndex
+                    //item.trackId= trackRoot.trackId
                     //hash= model.hash
                     item.speed= 1 //model.speed
-                    item.selected= trackRoot.selection.indexOf(item.clipId) !== -1
+                    //item.selected= trackRoot.selection.indexOf(item.clipId) !== -1
                     console.log(width, height);
                 }
             }

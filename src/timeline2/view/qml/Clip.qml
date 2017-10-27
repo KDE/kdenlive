@@ -45,6 +45,7 @@ Rectangle {
     property int fadeIn: 0
     property int fadeOut: 0
     property int binId: 0
+    property var parentTrack: trackRoot
     property int trackIndex //Index in track repeater
     property int trackId: -42    //Id in the model
     property int clipId     //Id of the clip in the model
@@ -127,6 +128,7 @@ Rectangle {
     function reparent(track) {
         parent = track
         height = track.height
+        parentTrack = track
         generateWaveform()
     }
 
@@ -197,7 +199,7 @@ Rectangle {
         onPositionChanged: {
             if (pressed) {
                 if (mouse.y < 0 || mouse.y > height) {
-                    var mapped = trackRoot.mapFromItem(clipRoot, mouse.x, mouse.y).x
+                    var mapped = parentTrack.mapFromItem(clipRoot, mouse.x, mouse.y).x
                     parent.draggedToTrack(clipRoot, mapToItem(null, 0, mouse.y).y, mapped)
                 } else {
                     parent.dragged(clipRoot, mouse)
@@ -250,7 +252,7 @@ Rectangle {
         Image {
             id: outThumbnail
             visible: timeline.showThumbnails && mltService != 'color' && !isAudio && clipStatus < 2
-            opacity: trackRoot.isAudio || trackRoot.isHidden ? 0.2 : 1
+            opacity: parentTrack.isAudio || parentTrack.isHidden ? 0.2 : 1
             anchors.top: container.top
             anchors.right: container.right
             anchors.bottom: container.bottom
@@ -263,7 +265,7 @@ Rectangle {
         Image {
             id: inThumbnail
             visible: timeline.showThumbnails && mltService != 'color' && !isAudio && clipStatus < 2
-            opacity: trackRoot.isAudio || trackRoot.isHidden ? 0.2 : 1
+            opacity: parentTrack.isAudio || parentTrack.isHidden ? 0.2 : 1
             anchors.left: container.left
             anchors.bottom: container.bottom
             anchors.top: container.top
@@ -275,8 +277,8 @@ Rectangle {
 
         Row {
             id: waveform
-            visible: hasAudio && timeline.showAudioThumbnails  && !trackRoot.isMute && (clipStatus == 0 || clipStatus == 2)
-            height: isAudio || trackRoot.isAudio || clipStatus == 2 ? container.height - 1 : (container.height - 1) / 2
+            visible: hasAudio && timeline.showAudioThumbnails  && !parentTrack.isMute && (clipStatus == 0 || clipStatus == 2)
+            height: isAudio || parentTrack.isAudio || clipStatus == 2 ? container.height - 1 : (container.height - 1) / 2
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.bottom: container.bottom
@@ -446,7 +448,7 @@ Rectangle {
                 parent.anchors.horizontalCenter = undefined
                 parent.opacity = 1
                 fadeInTriangle.opacity = 0.5
-                // trackRoot.clipSelected(clipRoot, trackRoot) TODO
+                // parentTrack.clipSelected(clipRoot, parentTrack) TODO
             }
             onReleased: {
                 root.stopScrolling = false
@@ -467,7 +469,7 @@ Rectangle {
 
                     // Show fade duration as time in a "bubble" help.
                     var s = timeline.timecode(Math.max(duration, 0))
-                    bubbleHelp.show(clipRoot.x, trackRoot.y + clipRoot.height, s.substring(6))
+                    bubbleHelp.show(clipRoot.x, parentTrack.y + clipRoot.height, s.substring(6))
                 }
             }
         }
@@ -557,7 +559,7 @@ Rectangle {
 
                     // Show fade duration as time in a "bubble" help.
                     var s = timeline.timecode(Math.max(duration, 0))
-                    bubbleHelp.show(clipRoot.x + clipRoot.width, trackRoot.y + clipRoot.height, s.substring(6))
+                    bubbleHelp.show(clipRoot.x + clipRoot.width, parentTrack.y + clipRoot.height, s.substring(6))
                 }
             }
         }
@@ -689,7 +691,7 @@ Rectangle {
             text: i18n('Cut')
             onTriggered: {
                 console.log('cutting clip:', clipRoot.clipId)
-                if (!trackRoot.isLocked) {
+                if (!parentTrack.isLocked) {
                     timeline.requestClipCut(clipRoot.clipId, timeline.position)
                 } else {
                     root.pulseLockButtonOnTrack(currentTrack)
@@ -697,7 +699,7 @@ Rectangle {
             }
         }
         MenuItem {
-            visible: !grouped && trackRoot.selection.length > 1
+            visible: !grouped && parentTrack.selection.length > 1
             text: i18n('Group')
             onTriggered: timeline.triggerAction('group_clip')
         }
