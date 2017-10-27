@@ -42,14 +42,16 @@ void TransitionStackView::setModel(const std::shared_ptr<AssetParameterModel> &m
     m_trackBox = new QComboBox(this);
     m_trackBox->addItem(i18n("Background"), 0);
     QMapIterator<int, QString> i(pCore->getVideoTrackNames());
+    QPair <int,int> aTrack = pCore->getCompositionATrack(model->getOwnerId().second);
     while (i.hasNext()) {
         i.next();
-        m_trackBox->addItem(i.value(), i.key());
+        if (i.key() != aTrack.second) {
+            m_trackBox->addItem(i.value(), i.key());
+        }
     }
     AssetParameterView::setModel(model, range, frameSize, addSpacer);
 
-    int aTrack = pCore->getCompositionATrack(m_model->getOwnerId().second);
-    m_trackBox->setCurrentIndex(m_trackBox->findData(aTrack));
+    m_trackBox->setCurrentIndex(m_trackBox->findData(aTrack.first));
     QLabel *title = new QLabel(i18n("Composition track: "), this);
     lay->addWidget(title);
     lay->addWidget(m_trackBox);

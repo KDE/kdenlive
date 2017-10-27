@@ -1382,11 +1382,10 @@ bool TimelineModel::requestCompositionMove(int compoId, int trackId, int positio
 
 bool TimelineModel::requestCompositionMove(int compoId, int trackId, int compositionTrack, int position, bool updateView, Fun &undo, Fun &redo)
 {
-    qDebug() << "Requesting composition move" << trackId << "," << position;
     QWriteLocker locker(&m_lock);
     Q_ASSERT(isComposition(compoId));
     Q_ASSERT(isTrack(trackId));
-    if (compositionTrack == -1) {
+    if (compositionTrack == -1 || (compositionTrack > 0 && trackId == getTrackIndexFromPosition(compositionTrack - 1))) {
         qDebug() << "// compo track: " << trackId << ", PREVIOUS TK: " << getPreviousVideoTrackPos(trackId);
         compositionTrack = getPreviousVideoTrackPos(trackId);
     }
@@ -1395,6 +1394,8 @@ bool TimelineModel::requestCompositionMove(int compoId, int trackId, int composi
         qDebug() << "Move failed because of last track";
         return false;
     }
+    qDebug() << "Requesting composition move" << trackId << "," << position<<" ( "<<compositionTrack<<" / "<<(compositionTrack > 0 ? getTrackIndexFromPosition(compositionTrack - 1) : 0);
+
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
     bool ok = true;
@@ -1405,12 +1406,12 @@ bool TimelineModel::requestCompositionMove(int compoId, int trackId, int composi
         if (old_trackId != trackId) {
             delete_operation = [this, compoId]() {
                 bool res = unplantComposition(compoId);
-                if (res) m_allCompositions[compoId]->setATrack(-1);
+                if (res) m_allCompositions[compoId]->setATrack(-1, -1);
                 return res;
             };
             int oldAtrack = m_allCompositions[compoId]->getATrack();
             delete_reverse = [this, compoId, oldAtrack]() {
-                m_allCompositions[compoId]->setATrack(oldAtrack);
+                m_allCompositions[compoId]->setATrack(oldAtrack, oldAtrack <= 0 ? -1 : getTrackIndexFromPosition(oldAtrack - 1));
                 return replantCompositions(compoId);
             };
         }
@@ -1435,12 +1436,13 @@ bool TimelineModel::requestCompositionMove(int compoId, int trackId, int composi
         Fun insert_reverse = []() { return true; };
         if (old_trackId != trackId) {
             insert_operation = [this, compoId, trackId, compositionTrack]() {
-                m_allCompositions[compoId]->setATrack(compositionTrack);
+                qDebug()<<"-------------- ATRACK ----------------\n"<<compositionTrack<<" = "<<getTrackIndexFromPosition(compositionTrack);
+                m_allCompositions[compoId]->setATrack(compositionTrack, compositionTrack <= 0 ? -1 : getTrackIndexFromPosition(compositionTrack - 1));
                 return replantCompositions(compoId);
             };
             insert_reverse = [this, compoId]() {
                 bool res = unplantComposition(compoId);
-                if (res) m_allCompositions[compoId]->setATrack(-1);
+                if (res) m_allCompositions[compoId]->setATrack(-1, -1);
                 return res;
             };
         }

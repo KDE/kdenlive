@@ -269,9 +269,9 @@ public:
     /* @brief Returns a map of track ids/track names
      */
     QMap<int, QString> getTrackNames(bool videoOnly);
-    /* @brief Returns the transition a track index for a composition
+    /* @brief Returns the transition a track index for a composition (MLT index / Track id)
      */
-    int getCompositionATrack(int cid) const;
+    QPair<int,int>getCompositionATrack(int cid) const;
     void setCompositionATrack(int cid, int aTrack);
     const QString getClipBinId(int clipId) const;
     void focusItem(int itemId);

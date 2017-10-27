@@ -133,13 +133,13 @@ int CompositionModel::getATrack() const
     return a_track == -1 ? -1 : service()->get_int("a_track");
 }
 
-void CompositionModel::setATrack(int trackId)
+void CompositionModel::setATrack(int trackMltPosition, int trackId)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(trackId != getCurrentTrackId()); // can't compose with same track
-    a_track = trackId;
+    a_track = trackMltPosition;
     if (a_track >= 0) {
-        service()->set("a_track", trackId);
+        service()->set("a_track", trackMltPosition);
     }
 }
 

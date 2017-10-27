@@ -493,10 +493,10 @@ QMap<int, QString> Core::getVideoTrackNames()
     return m_mainWindow->getCurrentTimeline()->controller()->getTrackNames(true);
 }
 
-int Core::getCompositionATrack(int cid) const
+QPair<int,int> Core::getCompositionATrack(int cid) const
 {
     if (!m_guiConstructed)
-        return -1;
+        return QPair<int,int>();
     return m_mainWindow->getCurrentTimeline()->controller()->getCompositionATrack(cid);
 }
 

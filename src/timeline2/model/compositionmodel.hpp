@@ -70,7 +70,7 @@ public:
     int getATrack() const;
 
     /* @brief Sets the id of the second track involved in the composition*/
-    void setATrack(int trackId);
+    void setATrack(int trackMltPosition, int trackId);
 
     /* @brief returns a property of the current item
      */

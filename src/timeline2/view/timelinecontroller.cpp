@@ -766,16 +766,21 @@ void TimelineController::adjustFade(int cid, const QString &effectId, int durati
     }
 }
 
-int TimelineController::getCompositionATrack(int cid) const
+QPair<int,int> TimelineController::getCompositionATrack(int cid) const
 {
-    return m_model->getCompositionPtr(cid)->getATrack();
+    QPair<int,int> result;
+    std::shared_ptr<CompositionModel> compo = m_model->getCompositionPtr(cid);
+    if (compo) {
+        result = QPair<int,int>(compo->getATrack(), m_model->getTrackMltIndex(compo->getCurrentTrackId()));
+    }
+    return result;
 }
 
 void TimelineController::setCompositionATrack(int cid, int aTrack)
 {
     QScopedPointer<Mlt::Field> field(m_model->m_tractor->field());
     field->lock();
-    m_model->getCompositionPtr(cid)->setATrack(aTrack);
+    m_model->getCompositionPtr(cid)->setATrack(aTrack, aTrack <= 0 ? -1 : m_model->getTrackIndexFromPosition(aTrack - 1));
     field->unlock();
     refreshItem(cid);
     QModelIndex modelIndex = m_model->makeCompositionIndexFromID(cid);
