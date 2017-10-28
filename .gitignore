@@ -2,3 +2,4 @@
 build/*
 CMakeLists.txt.user*
 po
+*.patch
