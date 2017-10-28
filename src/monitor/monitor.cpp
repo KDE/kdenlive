@@ -1364,7 +1364,6 @@ void Monitor::slotOpenClip(std::shared_ptr<ProjectClip> controller, int in, int 
         }
         m_glMonitor->setProducer(m_controller->originalProducer().get(), isActive(), in);
         m_audioMeterWidget->audioChannels = controller->audioInfo() ? controller->audioInfo()->channels() : 0;
-        emit requestAudioThumb(controller->AbstractProjectItem::clipId());
         // hasEffects =  controller->hasEffects();
     } else {
         m_glMonitor->setProducer(nullptr, isActive());

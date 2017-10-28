@@ -20,6 +20,7 @@
 #include "kdenlivedoc.h"
 #include "bin/bin.h"
 #include "bin/bincommands.h"
+#include "bin/clipcreator.hpp"
 #include "bin/model/markerlistmodel.hpp"
 #include "bin/projectclip.h"
 #include "core.h"
@@ -28,12 +29,12 @@
 #include "documentvalidator.h"
 #include "docundostack.hpp"
 #include "effectslist/initeffects.h"
+#include "jobs/jobmanager.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "mltcontroller/bincontroller.h"
 #include "mltcontroller/clipcontroller.h"
 #include "mltcontroller/effectscontroller.h"
-#include "mltcontroller/producerqueue.h"
 #include "profiles/profilemodel.hpp"
 #include "profiles/profilerepository.hpp"
 #include "project/clipmanager.h"
@@ -47,8 +48,8 @@
 #include <KBookmark>
 #include <KBookmarkManager>
 #include <KIO/CopyJob>
-#include <KIO/JobUiDelegate>
 #include <KIO/FileCopyJob>
+#include <KIO/JobUiDelegate>
 #include <KMessageBox>
 #include <klocalizedstring.h>
 
@@ -92,7 +93,6 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGro
     bool success = false;
     connect(m_commandStack.get(), &QUndoStack::indexChanged, this, &KdenliveDoc::slotModified);
     connect(m_commandStack.get(), &DocUndoStack::invalidate, this, &KdenliveDoc::checkPreviewStack);
-    connect(pCore->producerQueue(), &ProducerQueue::switchProfile, this, &KdenliveDoc::switchProfile);
     // connect(m_commandStack, SIGNAL(cleanChanged(bool)), this, SLOT(setModified(bool)));
 
     // init default document properties
@@ -282,7 +282,7 @@ KdenliveDoc::~KdenliveDoc()
         }
     }
     // qCDebug(KDENLIVE_LOG) << "// DEL CLP MAN";
-    //Clean up guide model
+    // Clean up guide model
     m_guideModel.reset();
     delete m_clipManager;
     // qCDebug(KDENLIVE_LOG) << "// DEL CLP MAN done";
@@ -297,15 +297,6 @@ KdenliveDoc::~KdenliveDoc()
 const QByteArray KdenliveDoc::getProjectXml()
 {
     return m_document.toString().toUtf8();
-}
-
-void KdenliveDoc::loadThumbs()
-{
-    bool ok = false;
-    QDir thumbsFolder = getCacheDir(CacheThumbs, &ok);
-    if (ok) {
-        pCore->binController()->checkThumbnails(thumbsFolder);
-    }
 }
 
 QDomDocument KdenliveDoc::createEmptyDocument(int videotracks, int audiotracks)
@@ -379,7 +370,7 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList<TrackInfo> &tracks)
     }
     QScopedPointer<Mlt::Field> field(tractor.field());
     QString compositeService = TransitionsRepository::get()->getCompositingTransition();
-    if (!compositeService.isEmpty()){
+    if (!compositeService.isEmpty()) {
         for (int i = 0; i <= tracks.count(); i++) {
             if (i > 0) {
                 Mlt::Transition tr(docProfile, "mix");
@@ -577,8 +568,9 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene)
             m_documentOpenStatus = CleanProject;
         } else {
             KMessageBox::information(
-                QApplication::activeWindow(), i18n("Your project file was upgraded to the latest Kdenlive document version, but it was not possible to create the backup copy %1.",
-                           backupFile));
+                QApplication::activeWindow(),
+                i18n("Your project file was upgraded to the latest Kdenlive document version, but it was not possible to create the backup copy %1.",
+                     backupFile));
         }
     }
     QFile file(path);
@@ -652,7 +644,7 @@ void KdenliveDoc::moveProjectData(const QString & /*src*/, const QString &dest)
     QList<QUrl> cacheUrls;
     for (int i = 0; i < list.count(); ++i) {
         const std::shared_ptr<ClipController> &clip = list.at(i);
-        if (clip->clipType() == Text) {
+        if (clip->clipType() == ClipType::Text) {
             // the image for title clip must be moved
             QUrl oldUrl = QUrl::fromLocalFile(clip->clipUrl());
             if (!oldUrl.isEmpty()) {
@@ -786,9 +778,9 @@ QString KdenliveDoc::searchFileRecursively(const QDir &dir, const QString &match
         if (file.open(QIODevice::ReadOnly)) {
             if (QString::number(file.size()) == matchSize) {
                 /*
-                * 1 MB = 1 second per 450 files (or faster)
-                * 10 MB = 9 seconds per 450 files (or faster)
-                */
+                 * 1 MB = 1 second per 450 files (or faster)
+                 * 10 MB = 9 seconds per 450 files (or faster)
+                 */
                 if (file.size() > 1000000 * 2) {
                     fileData = file.read(1000000);
                     if (file.seek(file.size() - 1000000)) {
@@ -817,11 +809,7 @@ QString KdenliveDoc::searchFileRecursively(const QDir &dir, const QString &match
     return foundFileName;
 }
 
-void KdenliveDoc::deleteClip(const QString &clipId, ClipType type, const QString &url)
-{
-    pCore->binController()->removeBinClip(clipId);
-}
-
+// TODO refac : delete
 std::shared_ptr<ProjectClip> KdenliveDoc::getBinClip(const QString &clipId)
 {
     return pCore->bin()->getBinClip(clipId);
@@ -834,6 +822,7 @@ QStringList KdenliveDoc::getBinFolderClipIds(const QString &folderId) const
 
 void KdenliveDoc::slotCreateTextTemplateClip(const QString &group, const QString &groupId, QUrl path)
 {
+    // TODO refac: this seem to be a duplicate of ClipCreationDialog::createTitleTemplateClip. See if we can merge
     QString titlesFolder = QDir::cleanPath(m_projectFolder + QStringLiteral("/titles/"));
     if (path.isEmpty()) {
         QPointer<QFileDialog> d = new QFileDialog(QApplication::activeWindow(), i18n("Enter Template Path"), titlesFolder);
@@ -850,8 +839,8 @@ void KdenliveDoc::slotCreateTextTemplateClip(const QString &group, const QString
     }
 
     // TODO: rewrite with new title system (just set resource)
-    m_clipManager->slotAddTextTemplateClip(i18n("Template title clip"), path, group, groupId);
-    emit selectLastAddedClip(QString::number(m_clipManager->lastClipId()));
+    QString id = ClipCreator::createTitleTemplate(path.toString(), QString(), i18n("Template title clip"), groupId, pCore->projectItemModel());
+    emit selectLastAddedClip(id);
 }
 
 void KdenliveDoc::cacheImage(const QString &fileId, const QImage &img) const
@@ -1181,18 +1170,17 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy, QList<std::shared_ptr<Proje
         std::shared_ptr<ProjectClip> item = clipList.at(i);
         ClipType t = item->clipType();
         // Only allow proxy on some clip types
-        if ((t == Video || t == AV || t == Unknown || t == Image || t == Playlist || t == SlideShow) && item->isReady()) {
+        if ((t == ClipType::Video || t == ClipType::AV || t == ClipType::Unknown || t == ClipType::Image || t == ClipType::Playlist ||
+             t == ClipType::SlideShow) &&
+            item->isReady()) {
             if ((doProxy && !force && item->hasProxy()) ||
                 (!doProxy && !item->hasProxy() && pCore->binController()->hasClip(item->AbstractProjectItem::clipId()))) {
-                continue;
-            }
-            if (pCore->producerQueue()->isProcessing(item->AbstractProjectItem::clipId())) {
                 continue;
             }
 
             if (doProxy) {
                 newProps.clear();
-                QString path = dir.absoluteFilePath(item->hash() + (t == Image ? QStringLiteral(".png") : extension));
+                QString path = dir.absoluteFilePath(item->hash() + (t == ClipType::Image ? QStringLiteral(".png") : extension));
                 // insert required duration for proxy
                 newProps.insert(QStringLiteral("proxy_out"), item->getProducerProperty(QStringLiteral("out")));
                 newProps.insert(QStringLiteral("kdenlive:proxy"), path);
@@ -1201,7 +1189,7 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy, QList<std::shared_ptr<Proje
                 // oldProps = clip->currentProperties(newProps);
                 oldProps.insert(QStringLiteral("kdenlive:proxy"), QStringLiteral("-"));
             } else {
-                if (t == SlideShow) {
+                if (t == ClipType::SlideShow) {
                     // Revert to picture aspect ratio
                     newProps.insert(QStringLiteral("aspect_ratio"), QStringLiteral("1"));
                 }
@@ -1272,7 +1260,8 @@ void KdenliveDoc::loadDocumentProperties()
                 } else if (name == QStringLiteral("guides")) {
                     QString guides = e.firstChild().nodeValue();
                     if (!guides.isEmpty()) {
-                        QMetaObject::invokeMethod(m_guideModel.get(), "importFromJson", Qt::QueuedConnection, Q_ARG(const QString &, guides), Q_ARG(bool, true), Q_ARG(bool, false));
+                        QMetaObject::invokeMethod(m_guideModel.get(), "importFromJson", Qt::QueuedConnection, Q_ARG(const QString &, guides), Q_ARG(bool, true),
+                                                  Q_ARG(bool, false));
                     }
                 } else {
                     m_documentProperties.insert(name, e.firstChild().nodeValue());
@@ -1309,7 +1298,7 @@ void KdenliveDoc::loadDocumentProperties()
 void KdenliveDoc::updateProjectProfile(bool reloadProducers)
 {
     pCore->bin()->abortAudioThumbs();
-    pCore->producerQueue()->abortOperations();
+    pCore->jobManager()->slotCancelJobs();
     double fps = pCore->getCurrentFps();
     double fpsChanged = m_timecode.fps() / fps;
     m_timecode.setFormat(fps);
@@ -1366,7 +1355,6 @@ void KdenliveDoc::switchProfile(std::unique_ptr<ProfileParam> &profile, const QS
                 pCore->setCurrentProfile(profile->path());
                 updateProjectProfile(true);
                 emit docModified(true);
-                pCore->producerQueue()->getFileProperties(xml, id, 150, true);
                 return;
                 break;
             case KMessageBox::No:
@@ -1380,9 +1368,7 @@ void KdenliveDoc::switchProfile(std::unique_ptr<ProfileParam> &profile, const QS
         // Build actions for the info message (switch / cancel)
         QList<QAction *> list;
         QAction *ac = new QAction(KoIconUtils::themedIcon(QStringLiteral("dialog-ok")), i18n("Switch"), this);
-        connect(ac, &QAction::triggered, [this, &profile]() {
-                this->slotSwitchProfile(profile->path());
-            });
+        connect(ac, &QAction::triggered, [this, &profile]() { this->slotSwitchProfile(profile->path()); });
         QAction *ac2 = new QAction(KoIconUtils::themedIcon(QStringLiteral("dialog-cancel")), i18n("Cancel"), this);
         list << ac << ac2;
         pCore->bin()->doDisplayMessage(i18n("Switch to clip profile %1?", profile->descriptiveString()), KMessageWidget::Information, list);
@@ -1426,26 +1412,15 @@ void KdenliveDoc::switchProfile(std::unique_ptr<ProfileParam> &profile, const QS
                                                     profile->m_height, QString::number((double)profile->m_frame_rate_num / profile->m_frame_rate_den, 'f', 2),
                                                     adjustMessage)) == KMessageBox::Continue) {
             profile->m_description = QStringLiteral("%1x%2 %3fps")
-                                      .arg(profile->m_width)
-                                      .arg(profile->m_height)
-                                      .arg(QString::number((double)profile->m_frame_rate_num / profile->m_frame_rate_den, 'f', 2));
+                                         .arg(profile->m_width)
+                                         .arg(profile->m_height)
+                                         .arg(QString::number((double)profile->m_frame_rate_num / profile->m_frame_rate_den, 'f', 2));
             ProfileRepository::get()->saveProfile(profile.get());
             pCore->setCurrentProfile(profile->m_path);
             updateProjectProfile(true);
             emit docModified(true);
-            pCore->producerQueue()->getFileProperties(xml, id, 150, true);
         }
     }
-}
-
-void KdenliveDoc::forceProcessing(const QString &id)
-{
-    pCore->producerQueue()->forceProcessing(id);
-}
-
-void KdenliveDoc::getFileProperties(const QDomElement &xml, const QString &clipId, int imageHeight, bool replaceProducer)
-{
-    pCore->producerQueue()->getFileProperties(xml, clipId, imageHeight, replaceProducer);
 }
 
 void KdenliveDoc::doAddAction(const QString &name, QAction *a, const QKeySequence &shortcut)

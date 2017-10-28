@@ -21,41 +21,41 @@
 #ifndef CLIPSTABILIZE_H
 #define CLIPSTABILIZE_H
 
+#include "definitions.h"
 #include "timecode.h"
 #include "ui_clipstabilize_ui.h"
 #include <QUrl>
+#include <unordered_map>
 
 class ClipStabilize : public QDialog, public Ui::ClipStabilize_UI
 {
     Q_OBJECT
 
 public:
-    explicit ClipStabilize(const QStringList &urls, const QString &filterName, int out, QWidget *parent = nullptr);
+    explicit ClipStabilize(const std::vector<QString> &binIds, const QString &filterName, int out, QWidget *parent = nullptr);
     ~ClipStabilize();
     /** @brief Should the generated clip be added to current project. */
     bool autoAddClip() const;
-    /** @brief Return the producer parameters, producer name as value of "producer" entry. */
-    QMap<QString, QString> producerParams() const;
     /** @brief Return the filter parameters, filter name as value of "filter" entry. */
-    QMap<QString, QString> filterParams() const;
-    /** @brief Return the consumer parameters, consumer name as value of "consumer" entry. */
-    QMap<QString, QString> consumerParams() const;
+    std::unordered_map<QString, QString> filterParams() const;
     /** @brief Return the destination file or folder. */
     QString destination() const;
     /** @brief Return the job description. */
     QString desc() const;
 
+    /* Return the name of the actual mlt filter used */
+    QString filterName() const;
 private slots:
     void slotUpdateParams();
     void slotValidate();
 
 private:
     QString m_filtername;
-    QStringList m_urls;
+    std::vector<QString> m_binIds;
     QHash<QString, QHash<QString, QString>> m_ui_params;
     QVBoxLayout *vbox;
     void fillParameters(QStringList);
-    QMap<QString, QString> m_fixedParams;
+    std::unordered_map<QString, QString> m_fixedParams;
     Timecode m_tc;
 
 signals:

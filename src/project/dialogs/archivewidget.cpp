@@ -113,27 +113,27 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc
         const std::shared_ptr<ClipController> &clip = list.at(i);
         ClipType t = clip->clipType();
         QString id = clip->binId();
-        if (t == Color) {
+        if (t == ClipType::Color) {
             continue;
         }
-        if (t == SlideShow) {
+        if (t == ClipType::SlideShow) {
             // TODO: Slideshow files
             slideUrls.insert(id, clip->clipUrl());
-        } else if (t == Image) {
+        } else if (t == ClipType::Image) {
             imageUrls.insert(id, clip->clipUrl());
-        } else if (t == QText) {
+        } else if (t == ClipType::QText) {
             allFonts << clip->getProducerProperty(QStringLiteral("family"));
-        } else if (t == Text) {
+        } else if (t == ClipType::Text) {
             QStringList imagefiles = TitleWidget::extractImageList(clip->getProducerProperty(QStringLiteral("xmldata")));
             QStringList fonts = TitleWidget::extractFontList(clip->getProducerProperty(QStringLiteral("xmldata")));
             extraImageUrls << imagefiles;
             allFonts << fonts;
-        } else if (t == Playlist) {
+        } else if (t == ClipType::Playlist) {
             playlistUrls.insert(id, clip->clipUrl());
             QStringList files = ProjectSettings::extractPlaylistUrls(clip->clipUrl());
             otherUrls << files;
         } else if (!clip->clipUrl().isEmpty()) {
-            if (t == Audio) {
+            if (t == ClipType::Audio) {
                 audioUrls.insert(id, clip->clipUrl());
             } else {
                 videoUrls.insert(id, clip->clipUrl());

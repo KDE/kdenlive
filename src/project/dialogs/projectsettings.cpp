@@ -326,11 +326,11 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
 
     for (int i = 0; i < list.count(); ++i) {
         const std::shared_ptr<ClipController> &clip = list.at(i);
-        if (clip->clipType() == Color) {
+        if (clip->clipType() == ClipType::Color) {
             // ignore color clips in list, there is no real file
             continue;
         }
-        if (clip->clipType() == SlideShow) {
+        if (clip->clipType() == ClipType::SlideShow) {
             const QStringList subfiles = extractSlideshowUrls(clip->clipUrl());
             for (const QString &file : subfiles) {
                 count++;
@@ -340,19 +340,19 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
         } else if (!clip->clipUrl().isEmpty()) {
             // allFiles.append(clip->fileURL().path());
             switch (clip->clipType()) {
-            case Text:
+            case ClipType::Text:
                 new QTreeWidgetItem(texts, QStringList() << clip->clipUrl());
                 break;
-            case Audio:
+            case ClipType::Audio:
                 new QTreeWidgetItem(sounds, QStringList() << clip->clipUrl());
                 break;
-            case Image:
+            case ClipType::Image:
                 new QTreeWidgetItem(images, QStringList() << clip->clipUrl());
                 break;
-            case Playlist:
+            case ClipType::Playlist:
                 new QTreeWidgetItem(playlists, QStringList() << clip->clipUrl());
                 break;
-            case Unknown:
+            case ClipType::Unknown:
                 new QTreeWidgetItem(others, QStringList() << clip->clipUrl());
                 break;
             default:
@@ -361,7 +361,7 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
             }
             count++;
         }
-        if (clip->clipType() == Text) {
+        if (clip->clipType() == ClipType::Text) {
             const QStringList imagefiles = TitleWidget::extractImageList(clip->getProducerProperty(QStringLiteral("xmldata")));
             const QStringList fonts = TitleWidget::extractFontList(clip->getProducerProperty(QStringLiteral("xmldata")));
             for (const QString &file : imagefiles) {
@@ -369,7 +369,7 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
                 new QTreeWidgetItem(images, QStringList() << file);
             }
             allFonts << fonts;
-        } else if (clip->clipType() == Playlist) {
+        } else if (clip->clipType() == ClipType::Playlist) {
             const QStringList files = extractPlaylistUrls(clip->clipUrl());
             for (const QString &file : files) {
                 count++;

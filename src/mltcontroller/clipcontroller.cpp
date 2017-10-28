@@ -24,11 +24,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "bin/model/markerlistmodel.hpp"
 #include "bincontroller.h"
 #include "doc/docundostack.hpp"
+#include "doc/kdenlivedoc.h"
 #include "effects/effectstack/model/effectstackmodel.hpp"
 #include "lib/audio/audioStreamInfo.h"
 #include "mltcontroller/effectscontroller.h"
 #include "profiles/profilemodel.hpp"
-#include "doc/kdenlivedoc.h"
 
 #include "core.h"
 #include "kdenlive_debug.h"
@@ -48,7 +48,7 @@ ClipController::ClipController(const QString clipId, std::shared_ptr<BinControll
     , m_audioInfo(nullptr)
     , m_audioIndex(0)
     , m_videoIndex(0)
-    , m_clipType(Unknown)
+    , m_clipType(ClipType::Unknown)
     , m_hasLimitedDuration(true)
     , m_binController(bincontroller)
     , m_effectStack(producer ? EffectStackModel::construct(producer, {ObjectType::BinClip, clipId.toInt()}, pCore->undoStack()) : nullptr)
@@ -84,7 +84,6 @@ ClipController::~ClipController()
 {
     delete m_properties;
     m_masterProducer.reset();
-    delete m_audioInfo;
 }
 
 const QString ClipController::binId() const
@@ -92,14 +91,14 @@ const QString ClipController::binId() const
     return m_controllerBinId;
 }
 
-
-AudioStreamInfo *ClipController::audioInfo() const
+const std::unique_ptr<AudioStreamInfo> &ClipController::audioInfo() const
 {
     return m_audioInfo;
 }
 
 void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &producer)
 {
+    qDebug() << "################### ClipController::addmasterproducer";
     QString documentRoot = pCore->currentDoc()->documentRoot();
     m_masterProducer = producer;
     m_properties = new Mlt::Properties(m_masterProducer->get_properties());
@@ -135,6 +134,7 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
 
 void ClipController::getProducerXML(QDomDocument &document, bool includeMeta)
 {
+    // TODO refac this is a probable duplicate with Clip::xml
     if (m_masterProducer) {
         QString xml = BinController::getProducerXML(m_masterProducer, includeMeta);
         document.setContent(xml);
@@ -145,50 +145,51 @@ void ClipController::getProducerXML(QDomDocument &document, bool includeMeta)
 
 void ClipController::getInfoForProducer()
 {
+    qDebug() << "################### ClipController::getinfoforproducer";
     date = QFileInfo(m_path).lastModified();
     m_audioIndex = -1;
     m_videoIndex = -1;
     // special case: playlist with a proxy clip have to be detected separately
     if (m_usesProxy && m_path.endsWith(QStringLiteral(".mlt"))) {
-        m_clipType = Playlist;
+        m_clipType = ClipType::Playlist;
     } else if (m_service == QLatin1String("avformat") || m_service == QLatin1String("avformat-novalidate")) {
         m_audioIndex = getProducerIntProperty(QStringLiteral("audio_index"));
         m_videoIndex = getProducerIntProperty(QStringLiteral("video_index"));
         if (m_audioIndex == -1) {
-            m_clipType = Video;
+            m_clipType = ClipType::Video;
         } else if (m_videoIndex == -1) {
-            m_clipType = Audio;
+            m_clipType = ClipType::Audio;
         } else {
-            m_clipType = AV;
+            m_clipType = ClipType::AV;
         }
     } else if (m_service == QLatin1String("qimage") || m_service == QLatin1String("pixbuf")) {
         if (m_path.contains(QLatin1Char('%')) || m_path.contains(QStringLiteral("/.all."))) {
-            m_clipType = SlideShow;
+            m_clipType = ClipType::SlideShow;
         } else {
-            m_clipType = Image;
+            m_clipType = ClipType::Image;
         }
         m_hasLimitedDuration = false;
     } else if (m_service == QLatin1String("colour") || m_service == QLatin1String("color")) {
-        m_clipType = Color;
+        m_clipType = ClipType::Color;
         m_hasLimitedDuration = false;
     } else if (m_service == QLatin1String("kdenlivetitle")) {
         if (!m_path.isEmpty()) {
-            m_clipType = TextTemplate;
+            m_clipType = ClipType::TextTemplate;
         } else {
-            m_clipType = Text;
+            m_clipType = ClipType::Text;
         }
         m_hasLimitedDuration = false;
     } else if (m_service == QLatin1String("xml") || m_service == QLatin1String("consumer")) {
-        m_clipType = Playlist;
+        m_clipType = ClipType::Playlist;
     } else if (m_service == QLatin1String("webvfx")) {
-        m_clipType = WebVfx;
+        m_clipType = ClipType::WebVfx;
     } else if (m_service == QLatin1String("qtext")) {
-        m_clipType = QText;
+        m_clipType = ClipType::QText;
     } else {
-        m_clipType = Unknown;
+        m_clipType = ClipType::Unknown;
     }
-    if (m_audioIndex > -1 || m_clipType == Playlist) {
-        m_audioInfo = new AudioStreamInfo(m_masterProducer.get(), m_audioIndex);
+    if (m_audioIndex > -1 || m_clipType == ClipType::Playlist) {
+        m_audioInfo.reset(new AudioStreamInfo(m_masterProducer.get(), m_audioIndex));
     }
 
     if (!m_hasLimitedDuration) {
@@ -249,6 +250,7 @@ QMap<QString, QString> ClipController::getPropertiesFromPrefix(const QString &pr
 
 void ClipController::updateProducer(const std::shared_ptr<Mlt::Producer> &producer)
 {
+    qDebug() << "################### ClipController::updateProducer";
     // TODO replace all track producers
     if (!m_properties) {
         // producer has not been initialized
@@ -435,7 +437,7 @@ QString ClipController::videoCodecProperty(const QString &property) const
 
 const QString ClipController::codec(bool audioCodec) const
 {
-    if ((m_properties == nullptr) || (m_clipType != AV && m_clipType != Video && m_clipType != Audio)) {
+    if ((m_properties == nullptr) || (m_clipType != ClipType::AV && m_clipType != ClipType::Video && m_clipType != ClipType::Audio)) {
         return QString();
     }
     QString propertyName = QStringLiteral("meta.media.%1.codec.name").arg(audioCodec ? m_audioIndex : m_videoIndex);
@@ -458,7 +460,7 @@ QString ClipController::clipName() const
 
 QString ClipController::description() const
 {
-    if (m_clipType == TextTemplate) {
+    if (m_clipType == ClipType::TextTemplate) {
         QString name = getProducerProperty(QStringLiteral("templatetext"));
         return name;
     }
@@ -525,6 +527,7 @@ const QSize ClipController::getFrameSize() const
 
 QPixmap ClipController::pixmap(int framePosition, int width, int height)
 {
+    // TODO refac this should use the new thumb infrastructure
     m_masterProducer->seek(framePosition);
     Mlt::Frame *frame = m_masterProducer->get_frame();
     if (frame == nullptr || !frame->is_valid()) {
@@ -561,7 +564,6 @@ QPixmap ClipController::pixmap(int framePosition, int width, int height)
     delete frame;
     return pixmap;
 }
-
 
 void ClipController::setZone(const QPoint &zone)
 {
@@ -661,7 +663,6 @@ void ClipController::moveEffect(int oldPos, int newPos)
     effect.moveEffect(oldPos, newPos);
     */
 }
-
 
 void ClipController::reloadTrackProducers()
 {

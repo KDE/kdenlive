@@ -24,7 +24,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define ABSTRACTPROJECTITEM_H
 
 #include "abstractmodel/treeitem.hpp"
-#include "project/jobs/abstractclipjob.h"
 #include "undohelper.hpp"
 
 #include <QDateTime>
@@ -60,15 +59,6 @@ public:
      * @param isRoot is true if this is the topmost folder
      */
     AbstractProjectItem(PROJECTITEMTYPE type, const QString &id, const std::shared_ptr<ProjectItemModel> &model, bool isRoot = false);
-    /**
-     * @brief Creates a project item upon project load.
-     * @param description element for this item.
-     * @param model pointer to the model this item is added to.
-     * @param parent parent this item should be added to
-     *
-     * We try to read the attributes "name" and "description"
-     */
-    AbstractProjectItem(PROJECTITEMTYPE type, const QString &id, const QDomElement &description, const std::shared_ptr<ProjectItemModel> &model);
 
     bool operator==(const std::shared_ptr<AbstractProjectItem> &projectItem) const;
 
@@ -136,6 +126,7 @@ public:
         JobProgress,
         // error message if job crashes (not fully implemented)
         JobMessage,
+        JobStatus,
         // Item status (ready or not, missing, waiting, ...)
         ClipStatus
     };
@@ -206,10 +197,7 @@ protected:
     QString m_binId;
     uint m_usage;
     CLIPSTATUS m_clipStatus;
-    AbstractClipJob::JOBTYPE m_jobType;
-    int m_jobProgress;
 
-    QString m_jobMessage;
     PROJECTITEMTYPE m_itemType;
 
     QString m_lastParentId;

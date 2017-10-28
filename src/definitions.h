@@ -86,7 +86,7 @@ namespace TimelineMode {
 enum EditMode { NormalEdit = 0, OverwriteEdit = 1, InsertEdit = 2 };
 }
 
-enum ClipType {
+enum class ClipType {
     Unknown = 0,
     Audio = 1,
     Video = 2,
@@ -122,7 +122,6 @@ enum MessageType { DefaultMessage, ProcessingJobMessage, OperationCompletedMessa
 
 enum TrackType { AudioTrack = 0, VideoTrack = 1 };
 
-enum ClipJobStatus { NoJob = 0, JobWaiting = -1, JobWorking = -2, JobDone = -3, JobCrashed = -4, JobAborted = -5 };
 
 enum CacheType { SystemCacheRoot = -1, CacheRoot = 0, CacheBase = 1, CachePreview = 2, CacheProxy = 3, CacheAudio = 4, CacheThumbs = 5 };
 

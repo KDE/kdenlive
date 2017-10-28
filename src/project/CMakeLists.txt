@@ -1,5 +1,4 @@
 add_subdirectory(dialogs)
-add_subdirectory(jobs)
 set(kdenlive_SRCS
   ${kdenlive_SRCS}
   project/clipmanager.cpp

@@ -183,6 +183,11 @@ const QByteArray Clip::xml()
     return c.get("string");
 }
 
+const QByteArray Clip::xml(std::shared_ptr<Mlt::Producer> prod)
+{
+    Clip clp(*prod.get());
+    return clp.xml();
+}
 Mlt::Producer *Clip::clone()
 {
     QByteArray prodXml = xml();
@@ -197,6 +202,13 @@ Mlt::Producer *Clip::clone()
     }
     Mlt::Producer *clone = new Mlt::Producer(*m_producer.profile(), "xml-string", doc.toByteArray().constData());
     return clone;
+}
+
+std::shared_ptr<Mlt::Producer> Clip::clone(std::shared_ptr<Mlt::Producer> prod)
+{
+
+    Clip clp(*prod.get());
+    return std::shared_ptr<Mlt::Producer>(clp.clone());
 }
 
 Mlt::Producer *Clip::softClone(const char *list)

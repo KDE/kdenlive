@@ -72,20 +72,6 @@ private:
     int m_out;
 };
 
-class AddBinClipCutCommand : public QUndoCommand
-{
-public:
-    explicit AddBinClipCutCommand(Bin *bin, const QString &clipId, int in, int out, bool add, QUndoCommand *parent = nullptr);
-    void undo() override;
-    void redo() override;
-
-private:
-    Bin *m_bin;
-    QString m_clipId;
-    int m_in;
-    int m_out;
-    bool m_addCut;
-};
 
 class EditClipCommand : public QUndoCommand
 {
@@ -109,18 +95,5 @@ private:
     bool m_firstExec;
 };
 
-class AddClipCommand : public QUndoCommand
-{
-public:
-    AddClipCommand(Bin *bin, const QDomElement &xml, const QString &id, bool doIt, QUndoCommand *parent = nullptr);
-    void undo() override;
-    void redo() override;
-
-private:
-    Bin *m_bin;
-    QDomElement m_xml;
-    QString m_id;
-    bool m_doIt;
-};
 
 #endif

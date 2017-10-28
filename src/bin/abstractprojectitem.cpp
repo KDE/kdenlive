@@ -22,6 +22,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "abstractprojectitem.h"
 #include "bin.h"
+#include "core.h"
+#include "jobs/jobmanager.h"
 #include "macros.hpp"
 #include "projectitemmodel.h"
 
@@ -38,29 +40,11 @@ AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QString &id
     , m_binId(id)
     , m_usage(0)
     , m_clipStatus(StatusReady)
-    , m_jobType(AbstractClipJob::NOJOBTYPE)
-    , m_jobProgress(0)
     , m_itemType(type)
-    , m_isCurrent(false)
     , m_lock(QReadWriteLock::Recursive)
-{
-}
-
-AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QString &id, const QDomElement &description, const std::shared_ptr<ProjectItemModel> &model)
-    : TreeItem(QList<QVariant>(), std::static_pointer_cast<AbstractTreeModel>(model), false)
-    , m_name()
-    , m_description()
-    , m_thumbnail(QIcon())
-    , m_date()
-    , m_binId(id)
-    , m_usage(0)
-    , m_clipStatus(StatusReady)
-    , m_jobType(AbstractClipJob::NOJOBTYPE)
-    , m_jobProgress(0)
-    , m_itemType(type)
     , m_isCurrent(false)
-    , m_lock(QReadWriteLock::Recursive)
 {
+    Q_ASSERT(!isRoot || type == FolderItem);
 }
 
 bool AbstractProjectItem::operator==(const std::shared_ptr<AbstractProjectItem> &projectItem) const
@@ -155,13 +139,52 @@ QVariant AbstractProjectItem::getData(DataType type) const
         data = QVariant(m_itemType);
         break;
     case JobType:
-        data = QVariant(m_jobType);
+        if (itemType() == ClipItem) {
+            auto jobIds = pCore->jobManager()->getPendingJobsIds(clipId());
+            if (jobIds.empty()) {
+                jobIds = pCore->jobManager()->getFinishedJobsIds(clipId());
+            }
+            if (jobIds.size() > 0) {
+                data = QVariant(pCore->jobManager()->getJobType(jobIds[0]));
+            }
+        }
+        break;
+    case JobStatus:
+        if (itemType() == ClipItem) {
+            auto jobIds = pCore->jobManager()->getPendingJobsIds(clipId());
+            if (jobIds.empty()) {
+                jobIds = pCore->jobManager()->getFinishedJobsIds(clipId());
+            }
+            if (jobIds.size() > 0) {
+                data = QVariant(pCore->jobManager()->getJobType(jobIds[0]));
+            } else {
+                data = QVariant::fromValue(JobStatus::NoJob);
+            }
+        }
         break;
     case JobProgress:
-        data = QVariant(m_jobProgress);
+        if (itemType() == ClipItem) {
+            auto jobIds = pCore->jobManager()->getPendingJobsIds(clipId());
+            if (jobIds.size() > 0) {
+                data = QVariant(pCore->jobManager()->getJobProgressForClip(jobIds[0], clipId()));
+            } else {
+                data = QVariant(0);
+            }
+        }
         break;
     case JobMessage:
-        data = QVariant(m_jobMessage);
+        if (itemType() == ClipItem) {
+            QString messages;
+            auto jobIds = pCore->jobManager()->getPendingJobsIds(clipId());
+            for (int job : jobIds) {
+                messages.append(pCore->jobManager()->getJobMessageForClip(job, clipId()));
+            }
+            jobIds = pCore->jobManager()->getFinishedJobsIds(clipId());
+            for (int job : jobIds) {
+                messages.append(pCore->jobManager()->getJobMessageForClip(job, clipId()));
+            }
+            data = QVariant(messages);
+        }
         break;
     case ClipStatus:
         data = QVariant(m_clipStatus);

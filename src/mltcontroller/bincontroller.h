@@ -186,8 +186,6 @@ private:
     void pasteEffects(const QString &id, const std::shared_ptr<Mlt::Producer> &producer);
 
 signals:
-    void loadThumb(const QString &, const QImage &, bool);
-    void createThumb(const QDomElement &, const QString &, int);
     void requestAudioThumb(const QString &);
     void abortAudioThumbs();
     void setDocumentNotes(const QString &);

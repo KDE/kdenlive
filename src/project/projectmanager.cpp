@@ -12,6 +12,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "bin/bin.h"
 #include "core.h"
 #include "doc/kdenlivedoc.h"
+#include "jobs/jobmanager.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "mltcontroller/bincontroller.h"
@@ -80,9 +81,7 @@ ProjectManager::ProjectManager(QObject *parent)
     dir.mkdir(QStringLiteral("titles"));
 }
 
-ProjectManager::~ProjectManager()
-{
-}
+ProjectManager::~ProjectManager() {}
 
 void ProjectManager::slotLoadOnOpen()
 {
@@ -226,7 +225,7 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
         }
     }
     emit docOpened(m_project);
-    //pCore->monitorManager()->activateMonitor(Kdenlive::ClipMonitor);
+    // pCore->monitorManager()->activateMonitor(Kdenlive::ClipMonitor);
     m_lastSave.start();
     pCore->monitorManager()->activateMonitor(Kdenlive::ClipMonitor, true);
 }
@@ -258,7 +257,7 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
     if (!quit && !qApp->isSavingSession()) {
         m_autoSaveTimer.stop();
         if (m_project) {
-            pCore->producerQueue()->abortOperations();
+            pCore->jobManager()->slotCancelJobs();
             pCore->bin()->abortOperations();
             pCore->monitorManager()->clipMonitor()->slotOpenClip(nullptr);
             pCore->window()->clearAssetPanel();
@@ -325,14 +324,14 @@ void ProjectManager::saveRecentFiles()
 void ProjectManager::slotSaveSelection(const QString &path)
 {
     // TODO refac : look at this
-    //m_trackView->projectView()->exportTimelineSelection(path);
+    // m_trackView->projectView()->exportTimelineSelection(path);
 }
 
 bool ProjectManager::hasSelection() const
 {
     return false;
     // TODO refac : look at this
-    //return m_trackView->projectView()->hasSelection();
+    // return m_trackView->projectView()->hasSelection();
 }
 
 bool ProjectManager::saveFileAs()
@@ -538,6 +537,8 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
         stale->setParent(doc);
     }
     m_progressDialog->setLabelText(i18n("Loading clips"));
+
+    // TODO refac delete this
     pCore->bin()->setDocument(doc);
     QList<QAction *> rulerActions;
     rulerActions << pCore->window()->actionCollection()->action(QStringLiteral("set_render_timeline_zone"));
@@ -570,7 +571,9 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     updateTimeline(m_project->getDocumentProperty("position").toInt());
     pCore->window()->connectDocument();
     QDateTime documentDate = QFileInfo(m_project->url().toLocalFile()).lastModified();
-    pCore->window()->getMainTimeline()->controller()->loadPreview(m_project->getDocumentProperty(QStringLiteral("previewchunks")), m_project->getDocumentProperty(QStringLiteral("dirtypreviewchunks")), documentDate, m_project->getDocumentProperty(QStringLiteral("disablepreview")).toInt());
+    pCore->window()->getMainTimeline()->controller()->loadPreview(m_project->getDocumentProperty(QStringLiteral("previewchunks")),
+                                                                  m_project->getDocumentProperty(QStringLiteral("dirtypreviewchunks")), documentDate,
+                                                                  m_project->getDocumentProperty(QStringLiteral("disablepreview")).toInt());
 
     emit docOpened(m_project);
 
@@ -594,7 +597,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     delete m_progressDialog;
     m_progressDialog = nullptr;
     pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor, true);
-    //pCore->monitorManager()->projectMonitor()->refreshMonitorIfActive();
+    // pCore->monitorManager()->projectMonitor()->refreshMonitorIfActive();
 }
 
 void ProjectManager::adjustProjectDuration()
@@ -659,7 +662,6 @@ void ProjectManager::slotOpenBackup(const QUrl &url)
     }
     delete dia;
 }
-
 
 KRecentFilesAction *ProjectManager::recentFilesAction()
 {
@@ -737,7 +739,8 @@ QString ProjectManager::documentNotes() const
 
 void ProjectManager::prepareSave()
 {
-    pCore->binController()->saveDocumentProperties(pCore->window()->getMainTimeline()->controller()->documentProperties(), m_project->metadata(), m_project->getGuideModel());
+    pCore->binController()->saveDocumentProperties(pCore->window()->getMainTimeline()->controller()->documentProperties(), m_project->metadata(),
+                                                   m_project->getGuideModel());
     pCore->binController()->saveProperty(QStringLiteral("kdenlive:documentnotes"), documentNotes());
     pCore->binController()->saveProperty(QStringLiteral("kdenlive:docproperties.groups"), m_mainTimelineModel->groupsData());
 }
@@ -751,8 +754,8 @@ void ProjectManager::slotResetProfiles()
 
 void ProjectManager::slotExpandClip()
 {
-    //TODO refac
-    //m_trackView->projectView()->expandActiveClip();
+    // TODO refac
+    // m_trackView->projectView()->expandActiveClip();
 }
 
 void ProjectManager::disableBinEffects(bool disable)
@@ -782,19 +785,19 @@ void ProjectManager::slotDisableTimelineEffects(bool disable)
 void ProjectManager::slotSwitchTrackLock()
 {
     // TODO refac
-    //m_trackView->projectView()->switchTrackLock();
+    // m_trackView->projectView()->switchTrackLock();
 }
 
 void ProjectManager::slotSwitchAllTrackLock()
 {
     // TODO refac
-    //m_trackView->projectView()->switchAllTrackLock();
+    // m_trackView->projectView()->switchAllTrackLock();
 }
 
 void ProjectManager::slotSwitchTrackTarget()
 {
     // TODO refac
-    //m_trackView->switchTrackTarget();
+    // m_trackView->switchTrackTarget();
 }
 
 QString ProjectManager::getDefaultProjectFormat()
@@ -859,7 +862,7 @@ void ProjectManager::slotMoveFinished(KJob *job)
 
 void ProjectManager::updateTimeline(int pos)
 {
-    pCore->producerQueue()->abortOperations();
+    pCore->jobManager()->slotCancelJobs();
     // qDebug() << "Loading xml"<<m_project->getProjectXml().constData();
     QScopedPointer<Mlt::Producer> xmlProd(new Mlt::Producer(pCore->getCurrentProfile()->profile(), "xml-string", m_project->getProjectXml().constData()));
     Mlt::Service s(*xmlProd);
@@ -870,7 +873,6 @@ void ProjectManager::updateTimeline(int pos)
     if (!groupsData.isEmpty()) {
         m_mainTimelineModel->loadGroups(groupsData);
     }
-    m_project->loadThumbs();
 
     pCore->monitorManager()->projectMonitor()->setProducer(m_mainTimelineModel->producer(), pos);
     pCore->window()->getMainTimeline()->setModel(m_mainTimelineModel);
@@ -888,7 +890,6 @@ void ProjectManager::activateAsset(const QVariantMap effectData)
         pCore->bin()->slotAddEffect(QString(), effectString);
     }
 }
-
 
 std::shared_ptr<MarkerListModel> ProjectManager::getGuideModel()
 {

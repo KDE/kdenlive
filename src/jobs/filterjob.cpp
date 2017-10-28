@@ -21,6 +21,7 @@
 #include "filterjob.h"
 #include "bin/model/markerlistmodel.hpp"
 #include "bin/projectclip.h"
+#include "bin/projectitemmodel.h"
 #include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
 #include "meltjob.h"
@@ -78,7 +79,9 @@ QHash<ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(const QList<Projec
         // Reverse clip using project profile since playlists can only be included with same fps
         // extraParams.insert(QStringLiteral("producer_profile"), QStringLiteral("1"));
         bool multipleSelection = clips.count() > 1;
-        QPointer<ClipSpeed> d = new ClipSpeed(clips.count() == 1 ? QUrl::fromLocalFile(sources.constFirst() + QStringLiteral(".mlt")) : QUrl::fromLocalFile(sources.constFirst()).adjusted(QUrl::RemoveFilename), multipleSelection, QApplication::activeWindow());
+        QPointer<ClipSpeed> d = new ClipSpeed(clips.count() == 1 ? QUrl::fromLocalFile(sources.constFirst() + QStringLiteral(".mlt"))
+                                                                 : QUrl::fromLocalFile(sources.constFirst()).adjusted(QUrl::RemoveFilename),
+                                              multipleSelection, QApplication::activeWindow());
         if (d->exec() == QDialog::Accepted) {
             QLocale locale;
             QString speedString = QStringLiteral("timewarp:%1:").arg(locale.toString(d->speed() / 100));

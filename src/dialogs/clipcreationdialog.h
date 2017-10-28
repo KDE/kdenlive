@@ -40,15 +40,11 @@ namespace ClipCreationDialog {
 
 QStringList getExtensions();
 void createColorClip(KdenliveDoc *doc, const QString &parentFolder, std::shared_ptr<ProjectItemModel> model);
-void createQTextClip(KdenliveDoc *doc, const QStringList &groupInfo, Bin *bin, ProjectClip *clip = nullptr);
-void createClipFromXml(KdenliveDoc *doc, QDomElement &xml, const QStringList &groupInfo, Bin *bin);
-void createSlideshowClip(KdenliveDoc *doc, const QStringList &groupInfo, Bin *bin);
+void createQTextClip(KdenliveDoc *doc, const QString &parentId, Bin *bin, ProjectClip *clip = nullptr);
+void createSlideshowClip(KdenliveDoc *doc, const QString &parentId, std::shared_ptr<ProjectItemModel> model);
 void createTitleClip(KdenliveDoc *doc, const QStringList &groupInfo, const QString &templatePath, Bin *bin);
-void createTitleTemplateClip(KdenliveDoc *doc, const QStringList &groupInfo, Bin *bin);
-void createClipsCommand(KdenliveDoc *doc, const QList<QUrl> &urls, const QStringList &groupInfo, Bin *bin,
-                        const QMap<QString, QString> &data = QMap<QString, QString>());
-void createClipsCommand(Bin *bin, const QDomElement &producer, const QString &id, QUndoCommand *command);
-void createClipsCommand(KdenliveDoc *doc, const QStringList &groupInfo, Bin *bin);
+void createTitleTemplateClip(KdenliveDoc *doc, const QString &parentFolder, std::shared_ptr<ProjectItemModel> model);
+void createClipsCommand(KdenliveDoc *doc, const QString &parentFolder, std::shared_ptr<ProjectItemModel> model);
 }
 
 #endif

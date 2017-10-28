@@ -64,6 +64,7 @@ public:
     KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap<QString, QString> &properties,
                 const QMap<QString, QString> &metadata, const QPoint &tracks, bool *openBackup, MainWindow *parent = nullptr);
     ~KdenliveDoc();
+    friend class LoadJob;
     /** @brief Get current document's producer. */
     const QByteArray getProjectXml();
     QDomNodeList producersList();
@@ -77,7 +78,6 @@ public:
     std::shared_ptr<DocUndoStack> commandStack();
     ClipManager *clipManager();
 
-    void deleteClip(const QString &clipId, ClipType type, const QString &url);
     int getFramePos(const QString &duration);
     /** @brief Get a bin's clip from its id. */
     std::shared_ptr<ProjectClip> getBinClip(const QString &clipId);
@@ -129,9 +129,6 @@ public:
     /** @brief Saves effects embedded in project file. */
     void saveCustomEffects(const QDomNodeList &customeffects);
     void resetProfile();
-    /** @brief Force processing of clip id in producer queue. */
-    void forceProcessing(const QString &id);
-    void getFileProperties(const QDomElement &xml, const QString &clipId, int imageHeight, bool replaceProducer = true);
     /** @brief Returns true if the profile file has changed. */
     bool profileChanged(const QString &profile) const;
     /** @brief Get an action from main actioncollection. */
@@ -154,9 +151,6 @@ public:
 
     /** @brief Returns a pointer to the guide model */
     std::shared_ptr<MarkerListModel> getGuideModel() const;
-
-    /** @brief Load bin thumbnails after document opening */
-    void loadThumbs();
 
     // TODO REFAC: delete */
     Render *renderer();

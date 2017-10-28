@@ -25,9 +25,12 @@
 #define CLIP_H
 
 #include <QObject>
+#include <memory>
 #include <mlt++/MltProducer.h>
 #include <mlt++/MltService.h>
 
+
+//TODO refac: extract methods that are/shoud be static into utils and delete the rest
 class Clip : public QObject
 {
     Q_OBJECT
@@ -39,8 +42,11 @@ public:
     ~Clip();
     Clip &operator=(Clip &other);
     const QByteArray xml();
+    /* @brief Return the xml associated to a given producer */
+    static const QByteArray xml(std::shared_ptr<Mlt::Producer> prod);
     /** @brief: Clone a producer (creates a completely independent copy). */
-    Mlt::Producer *clone();
+    static std::shared_ptr<Mlt::Producer> clone(std::shared_ptr<Mlt::Producer> prod);
+    Mlt::Producer* clone();
     /** @brief: Clone a producer without using xml-string producer.
      *          When Movit is used, we must use this because xml-string crashes (probably attaches some normalizers)
      */

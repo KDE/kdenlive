@@ -25,6 +25,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "binplaylist.hpp"
 #include "core.h"
 #include "doc/kdenlivedoc.h"
+#include "jobs/audiothumbjob.hpp"
+#include "jobs/jobmanager.h"
+#include "jobs/loadjob.hpp"
+#include "jobs/thumbjob.hpp"
 #include "kdenlivesettings.h"
 #include "macros.hpp"
 #include "profiles/profilemodel.hpp"
@@ -47,14 +51,9 @@ ProjectItemModel::ProjectItemModel(QObject *parent)
     , m_nextId(1)
     , m_blankThumb()
 {
-    KImageCache::deleteCache(QStringLiteral("kdenlive-thumbs"));
-    m_pixmapCache.reset(new KImageCache(QStringLiteral("kdenlive-thumbs"), 10000000));
-    m_pixmapCache->setEvictionPolicy(KSharedDataCache::EvictOldest);
-
     QPixmap pix(QSize(160, 90));
     pix.fill(Qt::lightGray);
     m_blankThumb.addPixmap(pix);
-
 }
 
 std::shared_ptr<ProjectItemModel> ProjectItemModel::construct(QObject *parent)
@@ -64,9 +63,7 @@ std::shared_ptr<ProjectItemModel> ProjectItemModel::construct(QObject *parent)
     return self;
 }
 
-ProjectItemModel::~ProjectItemModel()
-{
-}
+ProjectItemModel::~ProjectItemModel() {}
 
 int ProjectItemModel::mapToColumn(int column) const
 {
@@ -190,7 +187,8 @@ bool ProjectItemModel::dropMimeData(const QMimeData *data, Qt::DropAction action
 
     if (data->hasFormat(QStringLiteral("kdenlive/clip"))) {
         const QStringList list = QString(data->data(QStringLiteral("kdenlive/clip"))).split(QLatin1Char(';'));
-        emit addClipCut(list.at(0), list.at(1).toInt(), list.at(2).toInt());
+        QString id;
+        return requestAddBinSubClip(id, list.at(1).toInt(), list.at(2).toInt(), list.at(0));
     }
 
     return false;
@@ -287,6 +285,10 @@ void ProjectItemModel::onItemUpdated(std::shared_ptr<AbstractProjectItem> item)
     }
 }
 
+void ProjectItemModel::onItemUpdated(const QString &binId)
+{
+    onItemUpdated(getItemByBinId(binId));
+}
 std::shared_ptr<ProjectClip> ProjectItemModel::getClipByBinID(const QString &binId)
 {
     if (binId.contains(QLatin1Char('_'))) {
@@ -307,6 +309,17 @@ std::shared_ptr<ProjectFolder> ProjectItemModel::getFolderByBinId(const QString 
         auto c = std::static_pointer_cast<AbstractProjectItem>(clip.second.lock());
         if (c->itemType() == AbstractProjectItem::FolderItem && c->clipId() == binId) {
             return std::static_pointer_cast<ProjectFolder>(c);
+        }
+    }
+    return nullptr;
+}
+
+std::shared_ptr<AbstractProjectItem> ProjectItemModel::getItemByBinId(const QString &binId)
+{
+    for (const auto &clip : m_allItems) {
+        auto c = std::static_pointer_cast<AbstractProjectItem>(clip.second.lock());
+        if (c->clipId() == binId) {
+            return c;
         }
     }
     return nullptr;
@@ -350,7 +363,6 @@ void ProjectItemModel::clean()
     }
     Q_ASSERT(rootItem->childCount() == 0);
     m_nextId = 1;
-    m_pixmapCache->clear();
 }
 
 std::shared_ptr<ProjectFolder> ProjectItemModel::getRootFolder() const
@@ -367,6 +379,8 @@ void ProjectItemModel::loadSubClips(const QString &id, const QMap<QString, QStri
     QMapIterator<QString, QString> i(dataMap);
     QList<int> missingThumbs;
     int maxFrame = clip->duration().frames(pCore->getCurrentFps()) - 1;
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
     while (i.hasNext()) {
         i.next();
         if (!i.value().contains(QLatin1Char(';'))) {
@@ -378,15 +392,9 @@ void ProjectItemModel::loadSubClips(const QString &id, const QMap<QString, QStri
         if (maxFrame > 0) {
             out = qMin(out, maxFrame);
         }
-        missingThumbs << in;
-        // TODO remove access to doc here
-        auto self = std::static_pointer_cast<ProjectItemModel>(shared_from_this());
-        ProjectSubClip::construct(clip, self, in, out, pCore->currentDoc()->timecode().getDisplayTimecodeFromFrames(in, KdenliveSettings::frametimecode()),
-                                  i.key());
-    }
-    if (!missingThumbs.isEmpty()) {
-        // generate missing subclip thumbnails
-        clip->slotExtractImage(missingThumbs);
+
+        QString subId;
+        requestAddBinSubClip(subId, in, out, id, undo, redo);
     }
 }
 
@@ -423,9 +431,9 @@ void ProjectItemModel::deregisterItem(int id, TreeItem *item)
 {
     auto clip = static_cast<AbstractProjectItem *>(item);
     m_binPlaylist->manageBinItemDeletion(clip);
+    // TODO : here, we should suspend jobs belonging to the item we delete. They can be restarted if the item is reinserted by undo
     AbstractTreeModel::deregisterItem(id, item);
 }
-
 
 int ProjectItemModel::getFreeFolderId()
 {
@@ -440,12 +448,20 @@ int ProjectItemModel::getFreeClipId()
 bool ProjectItemModel::addItem(std::shared_ptr<AbstractProjectItem> item, const QString &parentId, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
-    std::shared_ptr<ProjectFolder> parentFolder = getFolderByBinId(parentId);
-    if (!parentFolder) {
+    std::shared_ptr<AbstractProjectItem> parentItem = getItemByBinId(parentId);
+    if (!parentItem) {
         qCDebug(KDENLIVE_LOG) << "  / / ERROR IN PARENT FOLDER";
         return false;
     }
-    Fun operation = addItem_lambda(item, parentFolder->getId());
+    if (item->itemType() == AbstractProjectItem::ClipItem && parentItem->itemType() != AbstractProjectItem::FolderItem) {
+        qCDebug(KDENLIVE_LOG) << "  / / ERROR when inserting clip: a clip should be inserted in a folder";
+        return false;
+    }
+    if (item->itemType() == AbstractProjectItem::SubClipItem && parentItem->itemType() != AbstractProjectItem::ClipItem) {
+        qCDebug(KDENLIVE_LOG) << "  / / ERROR when inserting subclip: a subclip should be inserted in a clip";
+        return false;
+    }
+    Fun operation = addItem_lambda(item, parentItem->getId());
     int itemId = item->getId();
     Fun reverse = removeItem_lambda(itemId);
     bool res = operation();
@@ -471,16 +487,26 @@ bool ProjectItemModel::requestAddFolder(QString &id, const QString &name, const 
 
 bool ProjectItemModel::requestAddBinClip(QString &id, const QDomElement &description, const QString &parentId, Fun &undo, Fun &redo)
 {
+    qDebug() << "/////////// requestAddBinClip"<<parentId;
     QWriteLocker locker(&m_lock);
     if (id.isEmpty()) {
-        QString defaultId = QString::number(getFreeClipId());
-        id = Xml::getTagContentByAttribute(description, QStringLiteral("property"), QStringLiteral("name"), QStringLiteral("kdenlive:id"), defaultId);
+        id =
+            Xml::getTagContentByAttribute(description, QStringLiteral("property"), QStringLiteral("name"), QStringLiteral("kdenlive:id"), QStringLiteral("-1"));
+        if (id == QStringLiteral("-1") || !isIdFree(id)) {
+            id = QString::number(getFreeClipId());
+        }
     }
-    std::shared_ptr<ProjectClip> new_clip = ProjectClip::construct(id, description, m_blankThumb, std::static_pointer_cast<ProjectItemModel>(shared_from_this()));
+    Q_ASSERT(!id.isEmpty() && isIdFree(id));
+    qDebug() << "/////////// found id"<<id;
+    std::shared_ptr<ProjectClip> new_clip =
+        ProjectClip::construct(id, description, m_blankThumb, std::static_pointer_cast<ProjectItemModel>(shared_from_this()));
+    qDebug() << "/////////// constructed ";
     bool res = addItem(new_clip, parentId, undo, redo);
+    qDebug() << "/////////// added "<<res;
     if (res) {
-        //TODO Not very clean, improve (should pass pointer to projectClip instead of xml)
-        pCore->currentDoc()->getFileProperties(description, new_clip->clipId(), 150, true);
+        int loadJob = pCore->jobManager()->startJob<LoadJob>({id}, {}, QString(), description);
+        pCore->jobManager()->startJob<ThumbJob>({id}, {loadJob}, QString(), 150, -1, true);
+        pCore->jobManager()->startJob<AudioThumbJob>({id}, {loadJob}, QString());
     }
     return res;
 }
@@ -491,7 +517,51 @@ bool ProjectItemModel::requestAddBinClip(QString &id, const QDomElement &descrip
     Fun redo = []() { return true; };
     bool res = requestAddBinClip(id, description, parentId, undo, redo);
     if (res) {
-        pCore->pushUndo(undo, redo, undoText.isEmpty() ? i18n("Rename Folder") : undoText);
+        pCore->pushUndo(undo, redo, undoText.isEmpty() ? i18n("Add bin clip") : undoText);
+    }
+    return res;
+}
+
+bool ProjectItemModel::requestAddBinClip(QString &id, std::shared_ptr<Mlt::Producer> producer, const QString &parentId, Fun &undo, Fun &redo)
+{
+    QWriteLocker locker(&m_lock);
+    if (id.isEmpty()) {
+        id = QString::number(producer->get_int("kdenlive:id"));
+        if (!isIdFree(id)) {
+            id = QString::number(getFreeClipId());
+        }
+    }
+    Q_ASSERT(!id.isEmpty() && isIdFree(id));
+    std::shared_ptr<ProjectClip> new_clip = ProjectClip::construct(id, m_blankThumb, std::static_pointer_cast<ProjectItemModel>(shared_from_this()), producer);
+    bool res = addItem(new_clip, parentId, undo, redo);
+    return res;
+}
+
+bool ProjectItemModel::requestAddBinSubClip(QString &id, int in, int out, const QString &parentId, Fun &undo, Fun &redo)
+{
+    QWriteLocker locker(&m_lock);
+    if (id.isEmpty()) {
+        id = QString::number(getFreeClipId());
+    }
+    Q_ASSERT(!id.isEmpty() && isIdFree(id));
+    auto clip = getClipByBinID(parentId);
+    Q_ASSERT(clip->itemType() == AbstractProjectItem::ClipItem);
+    auto tc = pCore->currentDoc()->timecode().getDisplayTimecodeFromFrames(in, KdenliveSettings::frametimecode());
+    std::shared_ptr<ProjectSubClip> new_clip = ProjectSubClip::construct(id, clip, std::static_pointer_cast<ProjectItemModel>(shared_from_this()), in, out, tc);
+    bool res = addItem(new_clip, parentId, undo, redo);
+    if (res) {
+        auto parentJobs = pCore->jobManager()->getPendingJobsIds(parentId, AbstractClipJob::LOADJOB);
+        pCore->jobManager()->startJob<ThumbJob>({id}, parentJobs, QString(), 150, -1, true);
+    }
+    return res;
+}
+bool ProjectItemModel::requestAddBinSubClip(QString &id, int in, int out, const QString &parentId)
+{
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    bool res = requestAddBinSubClip(id, in, out, parentId, undo, redo);
+    if (res) {
+        pCore->pushUndo(undo, redo, i18n("Add a sub clip"));
     }
     return res;
 }
@@ -537,7 +607,6 @@ bool ProjectItemModel::requestRenameFolder(std::shared_ptr<AbstractProjectItem> 
     return res;
 }
 
-
 bool ProjectItemModel::requestCleanup()
 {
     Fun undo = []() { return true; };
@@ -577,16 +646,15 @@ std::vector<QString> ProjectItemModel::getAllClipIds() const
     return result;
 }
 
-
-bool ProjectItemModel::loadFolders(Mlt::Properties& folders)
+bool ProjectItemModel::loadFolders(Mlt::Properties &folders)
 {
     // At this point, we expect the folders properties to have a name of the form "x.y" where x is the id of the parent folder and y the id of the child.
     // Note that for root folder, x = -1
     // The value of the property is the name of the child folder
 
-    std::unordered_map<int, std::vector<int>> downLinks; //key are parents, value are children
-    std::unordered_map<int, int> upLinks; //key are children, value are parent
-    std::unordered_map<int, QString> newIds; // we store the correspondance to the new ids
+    std::unordered_map<int, std::vector<int>> downLinks; // key are parents, value are children
+    std::unordered_map<int, int> upLinks;                // key are children, value are parent
+    std::unordered_map<int, QString> newIds;             // we store the correspondance to the new ids
     std::unordered_map<int, QString> folderNames;
     newIds[-1] = getRootFolder()->clipId();
 
@@ -604,9 +672,9 @@ bool ProjectItemModel::loadFolders(Mlt::Properties& folders)
     }
 
     // In case there are some non-existant parent, we fall back to root
-    for (const auto & f : downLinks) {
+    for (const auto &f : downLinks) {
         if (downLinks.count(upLinks[f.first]) == 0) {
-            qDebug() << "Warning: parent folder " << upLinks[f.first] << "for folder"<<f.first << "is invalid. Folder will be placed in topmost directory.";
+            qDebug() << "Warning: parent folder " << upLinks[f.first] << "for folder" << f.first << "is invalid. Folder will be placed in topmost directory.";
             upLinks[f.first] = -1;
         }
     }
@@ -639,8 +707,7 @@ bool ProjectItemModel::loadFolders(Mlt::Properties& folders)
     return true;
 }
 
-
-bool ProjectItemModel::isIdFree(const QString& id) const
+bool ProjectItemModel::isIdFree(const QString &id) const
 {
     for (const auto &clip : m_allItems) {
         auto c = std::static_pointer_cast<AbstractProjectItem>(clip.second.lock());

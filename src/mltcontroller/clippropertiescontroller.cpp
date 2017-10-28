@@ -77,7 +77,7 @@ QMimeData *AnalysisTree::mimeData(const QList<QTreeWidgetItem *> list) const
 {
     QString data;
     for (QTreeWidgetItem *item : list) {
-        if (item->flags() & Qt::ItemIsDragEnabled != 0) {
+        if ((item->flags() & Qt::ItemIsDragEnabled) != 0) {
             data.append(item->text(1));
         }
     }
@@ -239,12 +239,12 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
 
     // Force properties
     auto *vbox = new QVBoxLayout;
-    if (m_type == Text || m_type == SlideShow || m_type == TextTemplate) {
+    if (m_type == ClipType::Text || m_type == ClipType::SlideShow || m_type == ClipType::TextTemplate) {
         QPushButton *editButton = new QPushButton(i18n("Edit Clip"), this);
         connect(editButton, &QAbstractButton::clicked, this, &ClipPropertiesController::editClip);
         vbox->addWidget(editButton);
     }
-    if (m_type == Color || m_type == Image || m_type == AV || m_type == Video || m_type == TextTemplate) {
+    if (m_type == ClipType::Color || m_type == ClipType::Image || m_type == ClipType::AV || m_type == ClipType::Video || m_type == ClipType::TextTemplate) {
         // Edit duration widget
         m_originalProperties.insert(QStringLiteral("out"), m_properties.get("out"));
         int kdenlive_length = m_properties.get_int("kdenlive:duration");
@@ -273,7 +273,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         connect(this, &ClipPropertiesController::updateTimeCodeFormat, timePos, &TimecodeDisplay::slotUpdateTimeCodeFormat);
         connect(this, SIGNAL(modified(int)), timePos, SLOT(setValue(int)));
     }
-    if (m_type == TextTemplate) {
+    if (m_type == ClipType::TextTemplate) {
         // Edit text widget
         QString currentText = m_properties.get("templatetext");
         m_originalProperties.insert(QStringLiteral("templatetext"), currentText);
@@ -285,7 +285,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         QPushButton *button = new QPushButton(i18n("Apply"), this);
         vbox->addWidget(button);
         connect(button, &QPushButton::clicked, this, &ClipPropertiesController::slotTextChanged);
-    } else if (m_type == Color) {
+    } else if (m_type == ClipType::Color) {
         // Edit color widget
         m_originalProperties.insert(QStringLiteral("resource"), m_properties.get("resource"));
         mlt_color color = m_properties.get_color("resource");
@@ -294,7 +294,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         // connect(choosecolor, SIGNAL(displayMessage(QString,int)), this, SIGNAL(displayMessage(QString,int)));
         connect(choosecolor, &ChooseColorWidget::modified, this, &ClipPropertiesController::slotColorModified);
         connect(this, SIGNAL(modified(QColor)), choosecolor, SLOT(slotColorModified(QColor)));
-    } else if (m_type == Image) {
+    } else if (m_type == ClipType::Image) {
         int transparency = m_properties.get_int("kdenlive:transparency");
         m_originalProperties.insert(QStringLiteral("kdenlive:transparency"), QString::number(transparency));
         auto *hlay = new QHBoxLayout;
@@ -305,7 +305,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         hlay->addWidget(box);
         vbox->addLayout(hlay);
     }
-    if (m_type == AV || m_type == Video || m_type == Image) {
+    if (m_type == ClipType::AV || m_type == ClipType::Video || m_type == ClipType::Image) {
         // Aspect ratio
         int force_ar_num = m_properties.get_int("force_aspect_num");
         int force_ar_den = m_properties.get_int("force_aspect_den");
@@ -352,7 +352,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         vbox->addLayout(hlay);
     }
 
-    if (m_type == AV || m_type == Video) {
+    if (m_type == ClipType::AV || m_type == ClipType::Video) {
         QLocale locale;
 
         // Fps
@@ -542,7 +542,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
     m_tabWidget->setTabIcon(4, KoIconUtils::themedIcon(QStringLiteral("visibility")));
     m_tabWidget->setTabToolTip(4, i18n("Analysis"));
     m_tabWidget->setCurrentIndex(KdenliveSettings::properties_panel_page());
-    if (m_type == Color) {
+    if (m_type == ClipType::Color) {
         m_tabWidget->setTabEnabled(0, false);
     }
     connect(m_tabWidget, &QTabWidget::currentChanged, this, &ClipPropertiesController::updateTab);
@@ -567,7 +567,7 @@ void ClipPropertiesController::slotReloadProperties()
     mlt_color color;
     m_clipLabel->setText(m_properties.get("kdenlive:clipname"));
     switch (m_type) {
-    case Color:
+    case ClipType::Color:
         m_originalProperties.insert(QStringLiteral("resource"), m_properties.get("resource"));
         m_originalProperties.insert(QStringLiteral("out"), m_properties.get("out"));
         m_originalProperties.insert(QStringLiteral("length"), m_properties.get("length"));
@@ -575,7 +575,7 @@ void ClipPropertiesController::slotReloadProperties()
         color = m_properties.get_color("resource");
         emit modified(QColor::fromRgb(color.r, color.g, color.b));
         break;
-    case TextTemplate:
+    case ClipType::TextTemplate:
         m_textEdit->setPlainText(m_properties.get("templatetext"));
         break;
     default:
@@ -772,12 +772,12 @@ void ClipPropertiesController::fillProperties()
 #endif
 
     // Get MLT's metadata
-    if (m_type == Image) {
+    if (m_type == ClipType::Image) {
         int width = m_controller->getProducerIntProperty(QStringLiteral("meta.media.width"));
         int height = m_controller->getProducerIntProperty(QStringLiteral("meta.media.height"));
         propertyMap.append(QStringList() << i18n("Image size") << QString::number(width) + QLatin1Char('x') + QString::number(height));
     }
-    if (m_type == AV || m_type == Video || m_type == Audio) {
+    if (m_type == ClipType::AV || m_type == ClipType::Video || m_type == ClipType::Audio) {
         int vindex = m_controller->getProducerIntProperty(QStringLiteral("video_index"));
         int video_max = 0;
         int default_audio = m_controller->getProducerIntProperty(QStringLiteral("audio_index"));
@@ -973,7 +973,7 @@ void ClipPropertiesController::slotLoadMarkers()
 void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
 {
     tree->clear();
-    if (m_type != AV && m_type != Video && m_type != Image) {
+    if (m_type != ClipType::AV && m_type != ClipType::Video && m_type != ClipType::Image) {
         // Currently, we only use exiftool on video files
         return;
     }
@@ -1022,20 +1022,20 @@ void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
                 }
             }
         } else {
-            if (m_type == Image || m_controller->codec(false) == QLatin1String("h264")) {
+            if (m_type == ClipType::Image || m_controller->codec(false) == QLatin1String("h264")) {
                 QProcess p;
                 QStringList args;
                 args << QStringLiteral("-g") << QStringLiteral("-args") << m_controller->clipUrl();
                 p.start(QStringLiteral("exiftool"), args);
                 p.waitForFinished();
                 QString res = p.readAllStandardOutput();
-                if (m_type != Image) {
+                if (m_type != ClipType::Image) {
                     m_controller->setProducerProperty(QStringLiteral("kdenlive:exiftool"), 1);
                 }
                 QTreeWidgetItem *exif = nullptr;
                 QStringList list = res.split(QLatin1Char('\n'));
                 for (const QString &tagline : list) {
-                    if (m_type != Image && !tagline.startsWith(QLatin1String("-H264"))) {
+                    if (m_type != ClipType::Image && !tagline.startsWith(QLatin1String("-H264"))) {
                         continue;
                     }
                     QString tag = tagline.section(QLatin1Char(':'), 1);
@@ -1046,7 +1046,7 @@ void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
                         exif = new QTreeWidgetItem(tree, QStringList() << i18n("Exif") << QString());
                         exif->setExpanded(true);
                     }
-                    if (m_type != Image) {
+                    if (m_type != ClipType::Image) {
                         // Do not store image exif metadata in project file, would be too much noise
                         m_controller->setProducerProperty("kdenlive:meta.exiftool." + tag.section(QLatin1Char('='), 0, 0),
                                                           tag.section(QLatin1Char('='), 1).simplified());
@@ -1070,7 +1070,7 @@ void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
             }
             new QTreeWidgetItem(magicL, QStringList() << subProperties.get_name(i) << subProperties.get(i));
         }
-    } else if (m_type != Image && KdenliveSettings::use_magicLantern()) {
+    } else if (m_type != ClipType::Image && KdenliveSettings::use_magicLantern()) {
         QString url = m_controller->clipUrl();
         url = url.section(QLatin1Char('.'), 0, -2) + QStringLiteral(".LOG");
         if (QFile::exists(url)) {

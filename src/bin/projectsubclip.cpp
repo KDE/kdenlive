@@ -29,9 +29,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class ClipController;
 
-ProjectSubClip::ProjectSubClip(const std::shared_ptr<ProjectClip> &parent, const std::shared_ptr<ProjectItemModel> &model, int in, int out,
+ProjectSubClip::ProjectSubClip(const QString &id, const std::shared_ptr<ProjectClip> &parent, const std::shared_ptr<ProjectItemModel> &model, int in, int out,
                                const QString &timecode, const QString &name)
-    : AbstractProjectItem(AbstractProjectItem::SubClipItem, parent->AbstractProjectItem::clipId(), model)
+    : AbstractProjectItem(AbstractProjectItem::SubClipItem, id, model)
     , m_masterClip(parent)
     , m_in(in)
     , m_out(out)
@@ -52,11 +52,10 @@ ProjectSubClip::ProjectSubClip(const std::shared_ptr<ProjectClip> &parent, const
     connect(parent.get(), &ProjectClip::thumbReady, this, &ProjectSubClip::gotThumb);
 }
 
-std::shared_ptr<ProjectSubClip> ProjectSubClip::construct(std::shared_ptr<ProjectClip> parent, std::shared_ptr<ProjectItemModel> model, int in, int out,
-                                                          const QString &timecode, const QString &name)
+std::shared_ptr<ProjectSubClip> ProjectSubClip::construct(const QString &id, std::shared_ptr<ProjectClip> parent, std::shared_ptr<ProjectItemModel> model,
+                                                          int in, int out, const QString &timecode, const QString &name)
 {
-    std::shared_ptr<ProjectSubClip> self(new ProjectSubClip(parent, std::move(model), in, out, timecode, name));
-    parent->appendChild(self);
+    std::shared_ptr<ProjectSubClip> self(new ProjectSubClip(id, parent, std::move(model), in, out, timecode, name));
     baseFinishConstruct(self);
     return self;
 }
@@ -98,9 +97,7 @@ std::shared_ptr<ProjectFolder> ProjectSubClip::folder(const QString &id)
     return std::shared_ptr<ProjectFolder>();
 }
 
-void ProjectSubClip::setBinEffectsEnabled(bool)
-{
-}
+void ProjectSubClip::setBinEffectsEnabled(bool) {}
 
 GenTime ProjectSubClip::duration() const
 {
@@ -140,8 +137,12 @@ void ProjectSubClip::setThumbnail(const QImage &img)
 {
     QPixmap thumb = roundedPixmap(QPixmap::fromImage(img));
     m_thumbnail = QIcon(thumb);
-    if (auto ptr = m_model.lock())
-        std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectSubClip>(shared_from_this()));
+    if (auto ptr = m_model.lock()) std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectSubClip>(shared_from_this()));
+}
+
+QPixmap ProjectSubClip::thumbnail(int width, int height)
+{
+    return m_thumbnail.pixmap(width, height);
 }
 
 bool ProjectSubClip::rename(const QString &name, int column)
@@ -152,7 +153,7 @@ bool ProjectSubClip::rename(const QString &name, int column)
         return false;
     }
     // Rename folder
-    //if (auto ptr = m_model.lock()) std::static_pointer_cast<ProjectItemModel>(ptr)->bin()->renameSubClipCommand(m_binId, name, m_name, m_in, m_out);
+    // if (auto ptr = m_model.lock()) std::static_pointer_cast<ProjectItemModel>(ptr)->bin()->renameSubClipCommand(m_binId, name, m_name, m_in, m_out);
     return true;
 }
 

@@ -86,35 +86,6 @@ void RenameBinSubClipCommand::redo()
     m_bin->renameSubClip(m_clipId, m_newName, m_oldName, m_in, m_out);
 }
 
-AddBinClipCutCommand::AddBinClipCutCommand(Bin *bin, const QString &clipId, int in, int out, bool add, QUndoCommand *parent)
-    : QUndoCommand(parent)
-    , m_bin(bin)
-    , m_clipId(clipId)
-    , m_in(in)
-    , m_out(out)
-    , m_addCut(add)
-{
-    setText(i18n("Add Sub Clip"));
-}
-
-// virtual
-void AddBinClipCutCommand::undo()
-{
-    if (m_addCut) {
-        m_bin->removeClipCut(m_clipId, m_in, m_out);
-    } else {
-        m_bin->addClipCut(m_clipId, m_in, m_out);
-    }
-}
-// virtual
-void AddBinClipCutCommand::redo()
-{
-    if (m_addCut) {
-        m_bin->addClipCut(m_clipId, m_in, m_out);
-    } else {
-        m_bin->removeClipCut(m_clipId, m_in, m_out);
-    }
-}
 
 EditClipCommand::EditClipCommand(Bin *bin, const QString &id, const QMap<QString, QString> &oldparams, const QMap<QString, QString> &newparams, bool doIt,
                                  QUndoCommand *parent)
@@ -143,34 +114,3 @@ void EditClipCommand::redo()
     m_firstExec = false;
 }
 
-AddClipCommand::AddClipCommand(Bin *bin, const QDomElement &xml, const QString &id, bool doIt, QUndoCommand *parent)
-    : QUndoCommand(parent)
-    , m_bin(bin)
-    , m_xml(xml)
-    , m_id(id)
-    , m_doIt(doIt)
-{
-    if (doIt) {
-        setText(i18n("Add clip"));
-    } else {
-        setText(i18n("Delete clip"));
-    }
-}
-// virtual
-void AddClipCommand::undo()
-{
-    if (m_doIt) {
-        m_bin->deleteClip(m_id);
-    } else {
-        m_bin->addClip(m_xml, m_id);
-    }
-}
-// virtual
-void AddClipCommand::redo()
-{
-    if (m_doIt) {
-        m_bin->addClip(m_xml, m_id);
-    } else {
-        m_bin->deleteClip(m_id);
-    }
-}

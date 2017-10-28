@@ -19,6 +19,9 @@
  ***************************************************************************/
 
 #include "clipstabilize.h"
+#include "bin/projectclip.h"
+#include "bin/projectitemmodel.h"
+#include "core.h"
 #include "widgets/doublewidget.h"
 #include "widgets/positionwidget.h"
 
@@ -28,35 +31,38 @@
 #include <klocalizedstring.h>
 #include <mlt++/Mlt.h>
 
-ClipStabilize::ClipStabilize(const QStringList &urls, const QString &filterName, int out, QWidget *parent)
+ClipStabilize::ClipStabilize(const std::vector<QString> &binIds, const QString &filterName, int out, QWidget *parent)
     : QDialog(parent)
     , m_filtername(filterName)
-    , m_urls(urls)
+    , m_binIds(binIds)
     , vbox(nullptr)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
     setWindowTitle(i18n("Stabilize Clip"));
-    auto_add->setText(i18np("Add clip to project", "Add clips to project", urls.count()));
+    auto_add->setText(i18np("Add clip to project", "Add clips to project", m_binIds.size()));
     auto_add->setChecked(KdenliveSettings::add_new_clip());
 
-    //QString stylesheet = EffectStackView2::getStyleSheet();
-    //setStyleSheet(stylesheet);
+    // QString stylesheet = EffectStackView2::getStyleSheet();
+    // setStyleSheet(stylesheet);
 
-    if (m_urls.count() == 1) {
-        QString newFile = m_urls.constFirst();
+    Q_ASSERT(binIds.size() > 0);
+    auto firstBinClip = pCore->projectItemModel()->getClipByBinID(m_binIds.front());
+    auto firstUrl = firstBinClip->url();
+    if (m_binIds.size() == 1) {
+        QString newFile = firstUrl;
         newFile.append(QStringLiteral(".mlt"));
         dest_url->setMode(KFile::File);
         dest_url->setUrl(QUrl(newFile));
     } else {
         label_dest->setText(i18n("Destination folder"));
         dest_url->setMode(KFile::Directory | KFile::ExistingOnly);
-        dest_url->setUrl(QUrl(m_urls.constFirst()).adjusted(QUrl::RemoveFilename));
+        dest_url->setUrl(QUrl(firstUrl).adjusted(QUrl::RemoveFilename));
     }
 
     if (m_filtername == QLatin1String("vidstab") || m_filtername == QLatin1String("videostab2")) {
-        m_fixedParams.insert(QStringLiteral("algo"), QStringLiteral("1"));
-        m_fixedParams.insert(QStringLiteral("relative"), QStringLiteral("1"));
+        m_fixedParams[QStringLiteral("algo")] = QStringLiteral("1");
+        m_fixedParams[QStringLiteral("relative")] = QStringLiteral("1");
         fillParameters(
             QStringList() << QStringLiteral("accuracy,type,int,value,8,min,1,max,10,tooltip,Accuracy of Shakiness detection")
                           << QStringLiteral("shakiness,type,int,value,4,min,1,max,10,tooltip,How shaky is the Video")
@@ -70,6 +76,7 @@ ClipStabilize::ClipStabilize(const QStringList &urls, const QString &filterName,
                           << QStringLiteral("optzoom,type,bool,value,1,min,0,max,1,tooltip,use optimal zoom (calulated from transforms)")
                           << QStringLiteral("sharpen,type,double,value,0.8,min,0,max,1,decimals,1,tooltip,sharpen transformed image")
                           << QStringLiteral("tripod,type,position,value,0,min,0,max,100000,tooltip,reference frame"));
+
     } else if (m_filtername == QLatin1String("videostab")) {
         fillParameters(QStringList(QStringLiteral("shutterangle,type,int,value,0,min,0,max,180,tooltip,Angle that Images could be maximum rotated")));
     }
@@ -118,44 +125,31 @@ ClipStabilize::~ClipStabilize()
     KdenliveSettings::setAdd_new_clip(auto_add->isChecked());
 }
 
-QMap<QString, QString> ClipStabilize::producerParams() const
+std::unordered_map<QString, QString> ClipStabilize::filterParams() const
 {
-    return QMap<QString, QString>();
-}
+    std::unordered_map<QString, QString> params;
 
-QMap<QString, QString> ClipStabilize::filterParams() const
-{
-    QMap<QString, QString> params;
-    params.insert(QStringLiteral("filter"), m_filtername);
-
-    QMapIterator<QString, QString> i(m_fixedParams);
-    while (i.hasNext()) {
-        i.next();
-        params.insert(i.key(), i.value());
+    for (const auto &it : m_fixedParams) {
+        params[it.first] = it.second;
     }
 
     QHashIterator<QString, QHash<QString, QString>> it(m_ui_params);
     while (it.hasNext()) {
         it.next();
-        params.insert(it.key(), it.value().value(QStringLiteral("value")));
+        params[it.key()] =  it.value().value(QStringLiteral("value"));
     }
     return params;
 }
 
-QMap<QString, QString> ClipStabilize::consumerParams() const
+QString ClipStabilize::filterName() const
 {
-    // consumer params
-    QMap<QString, QString> params;
-    params.insert(QStringLiteral("consumer"), QStringLiteral("xml"));
-    params.insert(QStringLiteral("all"), QStringLiteral("1"));
-    params.insert(QStringLiteral("title"), i18n("Stabilised"));
-    return params;
+    return m_filtername;
 }
 
 QString ClipStabilize::destination() const
 {
     QString path = dest_url->url().toLocalFile();
-    if (m_urls.count() > 1 && !path.endsWith(QDir::separator())) {
+    if (m_binIds.size() > 1 && !path.endsWith(QDir::separator())) {
         path.append(QDir::separator());
     }
     return path;
@@ -212,7 +206,7 @@ void ClipStabilize::fillParameters(QStringList lst)
 
 void ClipStabilize::slotValidate()
 {
-    if (m_urls.count() == 1) {
+    if (m_binIds.size() == 1) {
         if (QFile::exists(dest_url->url().toLocalFile())) {
             if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", dest_url->url().toLocalFile())) ==
                 KMessageBox::No) {
@@ -222,9 +216,11 @@ void ClipStabilize::slotValidate()
     } else {
         QDir folder(dest_url->url().toLocalFile());
         QStringList existingFiles;
-        for (const QString &path : m_urls) {
-            if (folder.exists(path + QStringLiteral(".mlt"))) {
-                existingFiles.append(folder.absoluteFilePath(path + QStringLiteral(".mlt")));
+        for (const QString &binId : m_binIds) {
+            auto binClip = pCore->projectItemModel()->getClipByBinID(binId);
+            auto url = binClip->url();
+            if (folder.exists(url + QStringLiteral(".mlt"))) {
+                existingFiles.append(folder.absoluteFilePath(url + QStringLiteral(".mlt")));
             }
         }
         if (!existingFiles.isEmpty()) {

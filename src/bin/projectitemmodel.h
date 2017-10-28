@@ -26,11 +26,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "abstractmodel/abstracttreemodel.hpp"
 #include "mltcontroller/bincontroller.h"
-#include "project/jobs/abstractclipjob.h"
 #include "undohelper.hpp"
 #include <QReadWriteLock>
 #include <QSize>
-#include <kimagecache.h>
 
 class AbstractProjectItem;
 class BinPlaylist;
@@ -63,6 +61,10 @@ public:
      */
     std::shared_ptr<ProjectFolder> getFolderByBinId(const QString &binId);
 
+    /** @brief Gets any item by its id.
+     */
+    std::shared_ptr<AbstractProjectItem> getItemByBinId(const QString &binId);
+
     /** @brief This function change the global enabled state of the bin effects
      */
     void setBinEffectsEnabled(bool enabled);
@@ -88,7 +90,7 @@ public:
     std::shared_ptr<AbstractProjectItem> getBinItemByIndex(const QModelIndex &index) const;
 
     /* @brief Load the folders given the property containing them */
-    bool loadFolders(Mlt::Properties& folders);
+    bool loadFolders(Mlt::Properties &folders);
 
     /** @brief Returns item data depending on role requested */
     QVariant data(const QModelIndex &index, int role) const override;
@@ -116,7 +118,8 @@ public:
     bool requestBinClipDeletion(std::shared_ptr<AbstractProjectItem> clip, Fun &undo, Fun &redo);
 
     /* @brief Request creation of a bin folder
-       @param id Id of the requested bin. If this is empty or invalid (already used, for example), it will be used as a return parameter to give the automatic bin id used.
+       @param id Id of the requested bin. If this is empty or invalid (already used, for example), it will be used as a return parameter to give the automatic
+       bin id used.
        @param name Name of the folder
        @param parentId Bin id of the parent folder
        @param undo,redo: lambdas that are updated to accumulate operation.
@@ -131,6 +134,18 @@ public:
     */
     bool requestAddBinClip(QString &id, const QDomElement &description, const QString &parentId, Fun &undo, Fun &redo);
     bool requestAddBinClip(QString &id, const QDomElement &description, const QString &parentId, const QString &undoText = QString());
+
+    /* @brief This is the addition function when we already have a producer for the clip*/
+    bool requestAddBinClip(QString &id, std::shared_ptr<Mlt::Producer> producer, const QString &parentId, Fun &undo, Fun &redo);
+
+    /* @brief Create a subClip
+       @param id Id of the requested bin. If this is empty, it will be used as a return parameter to give the automatic bin id used.
+       @param parentId Bin id of the parent clip
+       @param in,out : zone that corresponds to the subclip
+       @param undo,redo: lambdas that are updated to accumulate operation.
+    */
+    bool requestAddBinSubClip(QString &id, int in, int out, const QString &parentId, Fun &undo, Fun &redo);
+    bool requestAddBinSubClip(QString &id, int in, int out, const QString &parentId);
 
     /* @brief Request that a folder's name is changed
        @param clip : pointer to the folder to rename
@@ -149,6 +164,7 @@ public:
 
     /* @brief Retrieves the next id available for attribution to a clip */
     int getFreeClipId();
+
 protected:
     /* @brief Register the existence of a new element
      */
@@ -156,21 +172,19 @@ protected:
     /* @brief Deregister the existence of a new element*/
     void deregisterItem(int id, TreeItem *item) override;
 
-
     /* @brief Helper function to generate a lambda that rename a folder */
     Fun requestRenameFolder_lambda(std::shared_ptr<AbstractProjectItem> folder, const QString &newName);
 
     /* @brief Helper function to add a given item to the tree */
     bool addItem(std::shared_ptr<AbstractProjectItem> item, const QString &parentId, Fun &undo, Fun &redo);
 
-    std::unique_ptr<KImageCache> m_pixmapCache;
 public slots:
     /** @brief An item in the list was modified, notify */
     void onItemUpdated(std::shared_ptr<AbstractProjectItem> item);
-
+    void onItemUpdated(const QString &binId);
 
     /** @brief Check whether a given id is currently used or not*/
-    bool isIdFree(const QString& id) const;
+    bool isIdFree(const QString &id) const;
 
 private:
     /** @brief Return reference to column specific data */
@@ -184,15 +198,11 @@ private:
 
     QIcon m_blankThumb;
 signals:
-    void discardJobs(const QString &id, AbstractClipJob::JOBTYPE type);
-    void startJob(const QString &id, AbstractClipJob::JOBTYPE type);
+    // thumbs of the given clip were modified, request update of the monitor if need be
+    void refreshAudioThumbs(const QString &id);
     void refreshClip(const QString &id);
     void emitMessage(const QString &, int, MessageType);
     void updateTimelineProducers(const QString &id, const QMap<QString, QString> &passProperties);
-    void updateThumbProgress(long ms);
-    void abortAudioThumb(const QString &id, long duration);
-    void refreshAudioThumbs(const QString &id);
-    void reloadProducer(const QString &id, const QDomElement &xml);
     void refreshPanel(const QString &id);
     void requestAudioThumbs(const QString &id, long duration);
     // TODO

@@ -173,7 +173,7 @@ public:
     /** @brief Returns true if the bin clip has effects */
     bool hasEffects() const;
     /** @brief Returns info about clip audio */
-    AudioStreamInfo *audioInfo() const;
+    const std::unique_ptr<AudioStreamInfo>& audioInfo() const;
     /** @brief Returns true if audio thumbnails for this clip are cached */
     bool m_audioThumbCreated;
     /** @brief When replacing a producer, it is important that we keep some properties, for exemple force_ stuff and url for proxies
@@ -209,7 +209,7 @@ protected:
     std::shared_ptr<Mlt::Producer> m_masterProducer;
     Mlt::Properties *m_properties;
     bool m_usesProxy;
-    AudioStreamInfo *m_audioInfo;
+    std::unique_ptr<AudioStreamInfo> m_audioInfo;
     QString m_service;
     QString m_path;
     int m_audioIndex;

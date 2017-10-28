@@ -316,30 +316,30 @@ bool DocumentChecker::hasErrorInClips()
         if (service == QLatin1String("avformat") || service == QLatin1String("avformat-novalidate") || service == QLatin1String("framebuffer") ||
             service == QLatin1String("timewarp")) {
             clipType = i18n("Video clip");
-            type = AV;
+            type = ClipType::AV;
         } else if (service == QLatin1String("qimage") || service == QLatin1String("pixbuf")) {
             if (slideshow) {
                 clipType = i18n("Slideshow clip");
-                type = SlideShow;
+                type = ClipType::SlideShow;
             } else {
                 clipType = i18n("Image clip");
-                type = Image;
+                type = ClipType::Image;
             }
         } else if (service == QLatin1String("mlt") || service == QLatin1String("xml")) {
             clipType = i18n("Playlist clip");
-            type = Playlist;
+            type = ClipType::Playlist;
         } else if (e.tagName() == QLatin1String("missingtitle")) {
             clipType = i18n("Title Image");
             status = TITLE_IMAGE_ELEMENT;
-            type = Text;
+            type = ClipType::Text;
         } else {
             clipType = i18n("Unknown");
-            type = Unknown;
+            type = ClipType::Unknown;
         }
 
         QTreeWidgetItem *item = new QTreeWidgetItem(m_ui.treeWidget, QStringList() << clipType);
         item->setData(0, statusRole, CLIPMISSING);
-        item->setData(0, clipTypeRole, type);
+        item->setData(0, clipTypeRole, (int)type);
         item->setData(0, idRole, e.attribute(QStringLiteral("id")));
         item->setToolTip(0, i18n("Missing item"));
 
@@ -574,7 +574,7 @@ void DocumentChecker::slotSearchClips()
             bool perfectMatch = true;
             ClipType type = (ClipType)child->data(0, clipTypeRole).toInt();
             QString clipPath;
-            if (type != SlideShow) {
+            if (type != ClipType::SlideShow) {
                 // Slideshows cannot be found with hash / size
                 clipPath = searchFileRecursively(searchDir, child->data(0, sizeRole).toString(), child->data(0, hashRole).toString(), child->text(1));
             }
@@ -658,7 +658,7 @@ QString DocumentChecker::searchPathRecursively(const QDir &dir, const QString &f
 {
     QString foundFileName;
     QStringList filters;
-    if (type == SlideShow) {
+    if (type == ClipType::SlideShow) {
         if (fileName.contains(QLatin1Char('%'))) {
             filters << fileName.section(QLatin1Char('%'), 0, -2) + QLatin1Char('*');
         } else {
@@ -672,7 +672,7 @@ QString DocumentChecker::searchPathRecursively(const QDir &dir, const QString &f
     QStringList filesAndDirs = searchDir.entryList(QDir::Files | QDir::Readable);
     if (!filesAndDirs.isEmpty()) {
         // File Found
-        if (type == SlideShow) {
+        if (type == ClipType::SlideShow) {
             return searchDir.absoluteFilePath(fileName);
         }
         return searchDir.absoluteFilePath(filesAndDirs.at(0));
@@ -747,7 +747,7 @@ void DocumentChecker::slotEditItem(QTreeWidgetItem *item, int)
     item->setText(1, url.toLocalFile());
     ClipType type = (ClipType)item->data(0, clipTypeRole).toInt();
     bool fixed = false;
-    if (type == SlideShow && QFile::exists(url.adjusted(QUrl::RemoveFilename).toLocalFile())) {
+    if (type == ClipType::SlideShow && QFile::exists(url.adjusted(QUrl::RemoveFilename).toLocalFile())) {
         fixed = true;
     }
     if (fixed || QFile::exists(url.toLocalFile())) {

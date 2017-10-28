@@ -13,20 +13,20 @@ the Free Software Foundation, either version 3 of the License, or
 #include "bin/projectitemmodel.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
+#include "jobs/jobmanager.h"
 #include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
 #include "library/librarywidget.h"
 #include "mainwindow.h"
 #include "mltconnection.h"
 #include "mltcontroller/bincontroller.h"
-#include "mltcontroller/producerqueue.h"
 #include "monitor/monitormanager.h"
 #include "profiles/profilemodel.hpp"
 #include "profiles/profilerepository.hpp"
 #include "project/projectmanager.h"
-#include "timeline2/view/timelinewidget.h"
-#include "timeline2/view/timelinecontroller.h"
 #include "timeline2/model/timelineitemmodel.hpp"
+#include "timeline2/view/timelinecontroller.h"
+#include "timeline2/view/timelinewidget.h"
 
 #include <mlt++/MltRepository.h>
 
@@ -46,7 +46,6 @@ Core::Core()
     : m_mainWindow(nullptr)
     , m_projectManager(nullptr)
     , m_monitorManager(nullptr)
-    , m_producerQueue(nullptr)
     , m_binWidget(nullptr)
     , m_library(nullptr)
 {
@@ -63,7 +62,7 @@ Core::~Core()
         delete m_monitorManager;
     }
     m_binController->destroyBin();
-    //delete m_binWidget;
+    // delete m_binWidget;
     delete m_projectManager;
 }
 
@@ -163,15 +162,17 @@ void Core::initGUI(const QUrl &Url)
     connect(this, &Core::updateLibraryPath, m_library, &LibraryWidget::slotUpdateLibraryPath);
     connect(m_binWidget, SIGNAL(storeFolder(QString, QString, QString, QString)), m_binController.get(),
             SLOT(slotStoreFolder(QString, QString, QString, QString)));
-    connect(m_binController.get(), &BinController::slotProducerReady, m_binWidget, &Bin::slotProducerReady, Qt::DirectConnection);
-    connect(m_binController.get(), &BinController::prepareTimelineReplacement, m_binWidget, &Bin::prepareTimelineReplacement, Qt::DirectConnection);
+    // connect(m_binController.get(), &BinController::slotProducerReady, m_binWidget, &Bin::slotProducerReady, Qt::DirectConnection);
+    // connect(m_binController.get(), &BinController::prepareTimelineReplacement, m_binWidget, &Bin::prepareTimelineReplacement, Qt::DirectConnection);
 
-    connect(m_binController.get(), &BinController::requestAudioThumb, m_binWidget, &Bin::slotCreateAudioThumb);
+    // connect(m_binController.get(), &BinController::requestAudioThumb, m_binWidget, &Bin::slotCreateAudioThumb);
     connect(m_binController.get(), &BinController::abortAudioThumbs, m_binWidget, &Bin::abortAudioThumbs);
     connect(m_binController.get(), SIGNAL(loadThumb(QString, QImage, bool)), m_binWidget, SLOT(slotThumbnailReady(QString, QImage, bool)));
     connect(m_binController.get(), &BinController::setDocumentNotes, m_projectManager, &ProjectManager::setDocumentNotes);
     m_monitorManager = new MonitorManager(this);
+    m_jobManager.reset(new JobManager());
     // Producer queue, creating MLT::Producers on request
+    /*
     m_producerQueue = new ProducerQueue(m_binController);
     connect(m_producerQueue, &ProducerQueue::gotFileProperties, m_binWidget, &Bin::slotProducerReady);
     connect(m_producerQueue, &ProducerQueue::replyGetImage, m_binWidget, &Bin::slotThumbnailReady);
@@ -180,7 +181,7 @@ void Core::initGUI(const QUrl &Url)
     connect(m_binController.get(), SIGNAL(createThumb(QDomElement, QString, int)), m_producerQueue, SLOT(getFileProperties(QDomElement, QString, int)));
     connect(m_binWidget, &Bin::producerReady, m_producerQueue, &ProducerQueue::slotProcessingDone, Qt::DirectConnection);
     // TODO
-    /*connect(m_producerQueue, SIGNAL(removeInvalidProxy(QString,bool)), m_binWidget, SLOT(slotRemoveInvalidProxy(QString,bool)));*/
+    connect(m_producerQueue, SIGNAL(removeInvalidProxy(QString,bool)), m_binWidget, SLOT(slotRemoveInvalidProxy(QString,bool)));*/
 
     m_mainWindow->init();
     projectManager()->init(Url, QString());
@@ -233,9 +234,9 @@ Bin *Core::bin()
     return m_binWidget;
 }
 
-ProducerQueue *Core::producerQueue()
+std::shared_ptr<JobManager> Core::jobManager()
 {
-    return m_producerQueue;
+    return m_jobManager;
 }
 
 LibraryWidget *Core::library()
@@ -330,30 +331,27 @@ QSize Core::getCurrentFrameSize() const
 
 void Core::requestMonitorRefresh()
 {
-    if (!m_guiConstructed)
-        return;
+    if (!m_guiConstructed) return;
     m_monitorManager->refreshProjectMonitor();
 }
 
 void Core::refreshProjectRange(QSize range)
 {
-    if (!m_guiConstructed)
-        return;
+    if (!m_guiConstructed) return;
     m_monitorManager->refreshProjectRange(range);
 }
 
 int Core::getItemIn(const ObjectId &id)
 {
-    if (!m_guiConstructed)
-        return 0;
-    switch(id.first) {
+    if (!m_guiConstructed) return 0;
+    switch (id.first) {
     case ObjectType::TimelineClip:
-        if(m_mainWindow->getCurrentTimeline()->controller()->getModel()->isClip(id.second)) {
+        if (m_mainWindow->getCurrentTimeline()->controller()->getModel()->isClip(id.second)) {
             return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getClipPosition(id.second);
         }
         break;
     case ObjectType::TimelineComposition:
-        if(m_mainWindow->getCurrentTimeline()->controller()->getModel()->isComposition(id.second)) {
+        if (m_mainWindow->getCurrentTimeline()->controller()->getModel()->isComposition(id.second)) {
             return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getCompositionPosition(id.second);
         }
         break;
@@ -365,16 +363,15 @@ int Core::getItemIn(const ObjectId &id)
 
 int Core::getItemDuration(const ObjectId &id)
 {
-    if (!m_guiConstructed)
-        return 0;
-    switch(id.first) {
+    if (!m_guiConstructed) return 0;
+    switch (id.first) {
     case ObjectType::TimelineClip:
-        if(m_mainWindow->getCurrentTimeline()->controller()->getModel()->isClip(id.second)) {
+        if (m_mainWindow->getCurrentTimeline()->controller()->getModel()->isClip(id.second)) {
             return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getClipPlaytime(id.second);
         }
         break;
     case ObjectType::TimelineComposition:
-        if(m_mainWindow->getCurrentTimeline()->controller()->getModel()->isComposition(id.second)) {
+        if (m_mainWindow->getCurrentTimeline()->controller()->getModel()->isComposition(id.second)) {
             return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getCompositionPlaytime(id.second);
         }
         break;
@@ -386,9 +383,8 @@ int Core::getItemDuration(const ObjectId &id)
 
 int Core::getItemTrack(const ObjectId &id)
 {
-    if (!m_guiConstructed)
-        return 0;
-    switch(id.first) {
+    if (!m_guiConstructed) return 0;
+    switch (id.first) {
     case ObjectType::TimelineClip:
     case ObjectType::TimelineComposition:
         return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getItemTrackId(id.second);
@@ -401,21 +397,20 @@ int Core::getItemTrack(const ObjectId &id)
 
 void Core::refreshProjectItem(const ObjectId &id)
 {
-    if (!m_guiConstructed)
-        return;
-    switch(id.first) {
+    if (!m_guiConstructed) return;
+    switch (id.first) {
     case ObjectType::TimelineClip:
-        if(m_mainWindow->getCurrentTimeline()->controller()->getModel()->isClip(id.second)) {
+        if (m_mainWindow->getCurrentTimeline()->controller()->getModel()->isClip(id.second)) {
             m_mainWindow->getCurrentTimeline()->controller()->refreshItem(id.second);
         }
         break;
     case ObjectType::TimelineComposition:
-        if(m_mainWindow->getCurrentTimeline()->controller()->getModel()->isComposition(id.second)) {
+        if (m_mainWindow->getCurrentTimeline()->controller()->getModel()->isComposition(id.second)) {
             m_mainWindow->getCurrentTimeline()->controller()->refreshItem(id.second);
         }
         break;
     case ObjectType::TimelineTrack:
-        if(m_mainWindow->getCurrentTimeline()->controller()->getModel()->isTrack(id.second)) {
+        if (m_mainWindow->getCurrentTimeline()->controller()->getModel()->isTrack(id.second)) {
             requestMonitorRefresh();
         }
         break;
@@ -454,8 +449,7 @@ void Core::displayMessage(const QString &message, MessageType type, int timeout)
 
 void Core::clearAssetPanel(int itemId)
 {
-    if (m_guiConstructed)
-        m_mainWindow->clearAssetPanel(itemId);
+    if (m_guiConstructed) m_mainWindow->clearAssetPanel(itemId);
 }
 
 void Core::adjustAssetRange(int itemId, int in, int out)
@@ -465,19 +459,18 @@ void Core::adjustAssetRange(int itemId, int in, int out)
 
 std::shared_ptr<EffectStackModel> Core::getItemEffectStack(int itemType, int itemId)
 {
-    if (!m_guiConstructed)
-        return nullptr;
+    if (!m_guiConstructed) return nullptr;
     switch (itemType) {
-        case (int) ObjectType::TimelineClip:
-            return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getClipEffectStack(itemId);
-        case (int) ObjectType::TimelineTrack:
-            //TODO
-            return nullptr;
-            break;
-        case (int) ObjectType::BinClip:
-            return m_binWidget->getClipEffectStack(itemId);
-        default:
-            return nullptr;
+    case (int)ObjectType::TimelineClip:
+        return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getClipEffectStack(itemId);
+    case (int)ObjectType::TimelineTrack:
+        // TODO
+        return nullptr;
+        break;
+    case (int)ObjectType::BinClip:
+        return m_binWidget->getClipEffectStack(itemId);
+    default:
+        return nullptr;
     }
 }
 
@@ -488,8 +481,7 @@ std::shared_ptr<DocUndoStack> Core::undoStack()
 
 QMap<int, QString> Core::getVideoTrackNames()
 {
-    if (!m_guiConstructed)
-        return QMap<int, QString>();
+    if (!m_guiConstructed) return QMap<int, QString>();
     return m_mainWindow->getCurrentTimeline()->controller()->getTrackNames(true);
 }
 
@@ -502,8 +494,7 @@ QPair<int,int> Core::getCompositionATrack(int cid) const
 
 void Core::setCompositionATrack(int cid, int aTrack)
 {
-    if (!m_guiConstructed)
-        return;
+    if (!m_guiConstructed) return;
     m_mainWindow->getCurrentTimeline()->controller()->setCompositionATrack(cid, aTrack);
 }
 
@@ -516,15 +507,15 @@ void Core::invalidateItem(ObjectId itemId)
 {
     if (!m_mainWindow) return;
     switch (itemId.first) {
-        case ObjectType::TimelineClip:
-            m_mainWindow->getCurrentTimeline()->controller()->invalidateClip(itemId.second);
-            break;
-        case ObjectType::TimelineTrack:
-            //TODO: invalidate all clips in track
-            break;
-        default:
-            // bin clip should automatically be reloaded, compositions should not have effects
-            break;
+    case ObjectType::TimelineClip:
+        m_mainWindow->getCurrentTimeline()->controller()->invalidateClip(itemId.second);
+        break;
+    case ObjectType::TimelineTrack:
+        // TODO: invalidate all clips in track
+        break;
+    default:
+        // bin clip should automatically be reloaded, compositions should not have effects
+        break;
     }
 }
 

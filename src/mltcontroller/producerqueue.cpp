@@ -215,19 +215,19 @@ void ProducerQueue::processFileProperties()
         QUrl url = QUrl::fromLocalFile(path);
         std::shared_ptr<Mlt::Producer> producer;
         ClipType type = (ClipType)info.xml.attribute(QStringLiteral("type")).toInt();
-        if (type == Unknown) {
+        if (type == ClipType::Unknown) {
             type = getTypeForService(ProjectClip::getXmlProperty(info.xml, QStringLiteral("mlt_service")), path);
         }
-        if (type == Color) {
+        if (type == ClipType::Color) {
             path.prepend(QStringLiteral("color:"));
             producer = std::make_shared<Mlt::Producer>(pCore->getCurrentProfile()->profile(), nullptr, path.toUtf8().constData());
-        } else if (type == Text || type == TextTemplate) {
+        } else if (type == ClipType::Text || type == ClipType::TextTemplate) {
             path.prepend(QStringLiteral("kdenlivetitle:"));
             producer = std::make_shared<Mlt::Producer>(pCore->getCurrentProfile()->profile(), nullptr, path.toUtf8().constData());
-        } else if (type == QText) {
+        } else if (type == ClipType::QText) {
             path.prepend(QStringLiteral("qtext:"));
             producer = std::make_shared<Mlt::Producer>(pCore->getCurrentProfile()->profile(), nullptr, path.toUtf8().constData());
-        } else if (type == Playlist && !proxyProducer) {
+        } else if (type == ClipType::Playlist && !proxyProducer) {
             // TODO: "xml" seems to corrupt project fps if different, and "consumer" crashed on audio transition
             std::unique_ptr<Mlt::Profile> xmlProfile(new Mlt::Profile());
             xmlProfile->set_explicit(0);
@@ -251,7 +251,7 @@ void ProducerQueue::processFileProperties()
             }
             pCore->getCurrentProfile()->set_explicit(1);
             producer = std::make_shared<Mlt::Producer>(pCore->getCurrentProfile()->profile(), nullptr, path.toUtf8().constData());
-        } else if (type == SlideShow) {
+        } else if (type == ClipType::SlideShow) {
             producer = std::make_shared<Mlt::Producer>(pCore->getCurrentProfile()->profile(), nullptr, path.toUtf8().constData());
         } else if (!url.isValid()) {
             // WARNING: when is this case used? Not sure it is working.. JBM/
@@ -417,7 +417,7 @@ void ProducerQueue::processFileProperties()
             clipOut = info.xml.attribute(QStringLiteral("out")).toInt();
         }
         // setup length here as otherwise default length (currently 15000 frames in MLT) will be taken even if outpoint is larger
-        if (type == Color || type == Text || type == TextTemplate || type == QText || type == Image || type == SlideShow) {
+        if (type == ClipType::Color || type == ClipType::Text || type == ClipType::TextTemplate || type == ClipType::QText || type == ClipType::Image || type == ClipType::SlideShow) {
             int length;
             if (info.xml.hasAttribute(QStringLiteral("length"))) {
                 length = info.xml.attribute(QStringLiteral("length")).toInt();
@@ -520,7 +520,7 @@ void ProducerQueue::processFileProperties()
         }
         duration = duration > 0 ? duration : producer->get_playtime();
         // qCDebug(KDENLIVE_LOG) << "///////  PRODUCER: " << url.path() << " IS: " << producer->get_playtime();
-        if (type == SlideShow) {
+        if (type == ClipType::SlideShow) {
             int ttl = EffectsList::property(info.xml, QStringLiteral("ttl")).toInt();
             QString anim = EffectsList::property(info.xml, QStringLiteral("animation"));
             if (!anim.isEmpty()) {
@@ -652,7 +652,7 @@ void ProducerQueue::processFileProperties()
                 }
             }
         }
-        if (!filePropertyMap.contains(QStringLiteral("fps")) && type == Unknown) {
+        if (!filePropertyMap.contains(QStringLiteral("fps")) && type == ClipType::Unknown) {
             // something wrong, maybe audio file with embedded image
             QMimeDatabase db;
             QString mime = db.mimeTypeForFile(path).name();
@@ -840,26 +840,26 @@ ClipType ProducerQueue::getTypeForService(const QString &id, const QString &path
     if (id.isEmpty()) {
         QString ext = path.section(QLatin1Char('.'), -1);
         if (ext == QLatin1String("mlt") || ext == QLatin1String("kdenlive")) {
-            return Playlist;
+            return ClipType::Playlist;
         }
-        return Unknown;
+        return ClipType::Unknown;
     }
     if (id == QLatin1String("color") || id == QLatin1String("colour")) {
-        return Color;
+        return ClipType::Color;
     }
     if (id == QLatin1String("kdenlivetitle")) {
-        return Text;
+        return ClipType::Text;
     }
     if (id == QLatin1String("qtext")) {
-        return QText;
+        return ClipType::QText;
     }
     if (id == QLatin1String("xml") || id == QLatin1String("consumer")) {
-        return Playlist;
+        return ClipType::Playlist;
     }
     if (id == QLatin1String("webvfx")) {
-        return WebVfx;
+        return ClipType::WebVfx;
     }
-    return Unknown;
+    return ClipType::Unknown;
 }
 
 void ProducerQueue::processProducerProperties(Mlt::Producer *prod, const QDomElement &xml)

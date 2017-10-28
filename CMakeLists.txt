@@ -129,7 +129,7 @@ if (BUILD_TESTS)
     message(STATUS "Building TESTS")
     add_subdirectory(tests)
 
-    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -fexceptions")
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -Wall -fexceptions")
     include_directories(
         ${CMAKE_BINARY_DIR}
         ${CMAKE_BINARY_DIR}/src

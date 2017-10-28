@@ -418,8 +418,11 @@ void BinController::updateTrackProducer(const QString &id)
     emit updateTimelineProducer(id);
 }
 
+
 void BinController::checkThumbnails(const QDir &thumbFolder)
 {
+    // TODO refac: this has to use the new thumb job
+    /*
     // Parse all controllers and load thumbnails
     QMapIterator<QString, std::shared_ptr<ClipController>> i(m_clipList);
     while (i.hasNext()) {
@@ -448,10 +451,13 @@ void BinController::checkThumbnails(const QDir &thumbFolder)
             }
         }
     }
+    */
 }
 
 void BinController::checkAudioThumbs()
 {
+    // TODO refac: this has to use the new audio thumb job
+    /*
     QMapIterator<QString, std::shared_ptr<ClipController>> i(m_clipList);
     while (i.hasNext()) {
         i.next();
@@ -467,6 +473,7 @@ void BinController::checkAudioThumbs()
             }
         }
     }
+    */
 }
 
 void BinController::saveDocumentProperties(const QMap<QString, QString> &props, const QMap<QString, QString> &metadata,

@@ -62,17 +62,17 @@ MarkerDialog::MarkerDialog(ClipController *clip, const CommentedTime &t, const T
         QPixmap p(width, Kdenlive::DefaultThumbHeight);
         p.fill(Qt::transparent);
         switch (m_clip->clipType()) {
-        case Video:
-        case AV:
-        case SlideShow:
-        case Playlist:
+        case ClipType::Video:
+        case ClipType::AV:
+        case ClipType::SlideShow:
+        case ClipType::Playlist:
             m_previewTimer->start();
             connect(this, SIGNAL(updateThumb()), m_previewTimer, SLOT(start()));
             break;
-        case Image:
-        case Text:
-        case QText:
-        case Color:
+        case ClipType::Image:
+        case ClipType::Text:
+        case ClipType::QText:
+        case ClipType::Color:
             m_previewTimer->start();
             // p = m_clip->pixmap(m_in->getValue(), width, height);
             break;

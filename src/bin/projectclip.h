@@ -44,7 +44,7 @@ class QUndoCommand;
 namespace Mlt {
 class Producer;
 class Properties;
-}
+} // namespace Mlt
 
 /**
  * @class ProjectClip
@@ -68,7 +68,8 @@ public:
      * @brief Constructor.
      * @param description element describing the clip; the "kdenlive:id" attribute and "resource" property are used
      */
-    static std::shared_ptr<ProjectClip> construct(const QString &id, const QDomElement &description, const QIcon &thumb, std::shared_ptr<ProjectItemModel> model);
+    static std::shared_ptr<ProjectClip> construct(const QString &id, const QDomElement &description, const QIcon &thumb,
+                                                  std::shared_ptr<ProjectItemModel> model);
 
 protected:
     ProjectClip(const QString &id, const QIcon &thumb, std::shared_ptr<ProjectItemModel> model, std::shared_ptr<Mlt::Producer> producer);
@@ -168,24 +169,17 @@ public:
     /** @brief Returns true if the clip matched a condition, for example vcodec=mpeg1video. */
     bool matches(const QString &condition);
 
-    /** @brief Create audio thumbnail for this clip. */
-    void createAudioThumbs();
     /** @brief Returns the number of audio channels. */
     int audioChannels() const;
     /** @brief get data analysis value. */
     QStringList updatedAnalysisData(const QString &name, const QString &data, int offset);
     QMap<QString, QString> analysisData(bool withPrefix = false);
-    /** @brief Abort running audio thumb process if any. */
-    void abortAudioThumbs();
     /** @brief Returns the list of this clip's subclip's ids. */
     QStringList subClipIds() const;
     /** @brief Delete cached audio thumb - needs to be recreated */
     void discardAudioThumb();
     /** @brief Get path for this clip's audio thumbnail */
-    const QString getAudioThumbPath(AudioStreamInfo *audioInfo);
-    /** @brief Returns a cached pixmap for a frame of this clip */
-    QImage findCachedThumb(int pos);
-    void slotQueryIntraThumbs(const QList<int> &frames);
+    const QString getAudioThumbPath();
     /** @brief Returns true if this producer has audio and can be splitted on timeline*/
     bool isSplittable() const;
 
@@ -194,7 +188,7 @@ public:
     */
     bool isIncludedInTimeline() override;
     /** @brief Returns a list of all timeline clip ids for this bin clip */
-    QList <int> timelineInstances() const;
+    QList<int> timelineInstances() const;
     std::shared_ptr<Mlt::Producer> timelineProducer(PlaylistState::ClipState state = PlaylistState::Original, int track = 1);
     std::shared_ptr<Mlt::Producer> cloneProducer();
 
@@ -211,26 +205,19 @@ protected:
     */
     void deregisterTimelineClip(int clipId);
 
-    void emitProducerChanged(const QString& id, const std::shared_ptr<Mlt::Producer> &producer) override {emit producerChanged(id, producer);};
+    void emitProducerChanged(const QString &id, const std::shared_ptr<Mlt::Producer> &producer) override { emit producerChanged(id, producer); };
     /** @brief Replace instance of this clip in timeline */
     void updateChildProducers();
     void replaceInTimeline();
     void connectEffectStack();
 
 public slots:
-    void updateAudioThumbnail(const QVariantList &audioLevels);
+    /* @brief Store the audio thumbnails once computed. Note that the parameter is a value and not a reference, fill free to use it as a sink (use std::move to avoid copy). */
+    void updateAudioThumbnail(QVariantList audioLevels);
     /** @brief Extract image thumbnails for timeline. */
     void slotExtractImage(const QList<int> &frames);
-    void slotCreateAudioThumbs();
-    /** @brief Set the Job status on a clip.
-     * @param jobType The job type
-     * @param status The job status (see definitions.h)
-     * @param progress The job progress (in percents)
-     * @param statusMessage The job info message */
-    void setJobStatus(int jobType, int status, int progress = 0, const QString &statusMessage = QString());
 
 private:
-    bool m_abortAudioThumb;
     /** @brief Generate and store file hash if not available. */
     const QString getFileHash();
     /** @brief Store clip url temporarily while the clip controller has not been created. */
@@ -238,36 +225,24 @@ private:
     Mlt::Producer *m_thumbsProducer;
     QMutex m_producerMutex;
     QMutex m_thumbMutex;
-    QMutex m_intraThumbMutex;
-    QMutex m_audioMutex;
     QFuture<void> m_thumbThread;
     QList<int> m_requestedThumbs;
-    QFuture<void> m_intraThread;
-    QList<int> m_intraThumbs;
     const QString geometryWithOffset(const QString &data, int offset);
     void doExtractImage();
-    void doExtractIntra();
     void updateTimelineClips(QVector<int> roles);
 
     std::map<int, std::weak_ptr<TimelineModel>> m_registeredClips;
     std::map<int, std::shared_ptr<Mlt::Producer>> m_timelineProducers;
 
-private slots:
-    void updateFfmpegProgress();
-
 signals:
-    void producerChanged(const QString& , const std::shared_ptr<Mlt::Producer> &);
+    void producerChanged(const QString &, const std::shared_ptr<Mlt::Producer> &);
     void gotAudioData();
     void refreshPropertiesPanel();
     void refreshAnalysisPanel();
     void refreshClipDisplay();
     void thumbReady(int, const QImage &);
-    void updateJobStatus(int jobType, int status, int progress = 0, const QString &statusMessage = QString());
     /** @brief Clip is ready, load properties. */
     void loadPropertiesPanel();
-    /** @brief Terminate running audio proxy job. */
-    void doAbortAudioThumbs();
-    void updateThumbProgress(long);
 };
 
 #endif

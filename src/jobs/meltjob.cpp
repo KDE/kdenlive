@@ -1,11 +1,16 @@
 /***************************************************************************
- *                                                                         *
  *   Copyright (C) 2011 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
+ *   Copyright (C) 2017 by Nicolas Carion                                  *
+ *                                                                         *
+ *   This file is part of Kdenlive. See www.kdenlive.org.                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
+ *   (at your option) version 3 or any later version accepted by the       *
+ *   membership of KDE e.V. (or its successor approved  by the membership  *
+ *   of KDE e.V.), which shall act as a proxy defined in Section 14 of     *
+ *   version 3 of the license.                                             *
  *                                                                         *
  *   This program is distributed in the hope that it will be useful,       *
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
@@ -13,14 +18,13 @@
  *   GNU General Public License for more details.                          *
  *                                                                         *
  *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
+ *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
 #include "meltjob.h"
+#include "bin/projectclip.h"
+#include "bin/projectitemmodel.h"
 #include "core.h"
-#include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
 #include "profiles/profilemodel.hpp"
 
@@ -31,40 +35,29 @@
 static void consumer_frame_render(mlt_consumer, MeltJob *self, mlt_frame frame_ptr)
 {
     Mlt::Frame frame(frame_ptr);
-    self->emitFrameNumber((int)frame.get_position());
+    self->mltFrameCallback((int)frame.get_position());
 }
 
-MeltJob::MeltJob(ClipType cType, const QString &id, const QMap<QString, QString> &producerParams, const QMap<QString, QString> &filterParams,
-                 const QMap<QString, QString> &consumerParams, const QMap<QString, QString> &extraParams)
-    : AbstractClipJob(MLTJOB, cType, id)
-    , addClipToProject(0)
-    , m_consumer(nullptr)
-    , m_producer(nullptr)
-    , m_profile(nullptr)
-    , m_filter(nullptr)
-    , m_showFrameEvent(nullptr)
-    , m_producerParams(producerParams)
-    , m_filterParams(filterParams)
-    , m_consumerParams(consumerParams)
-    , m_length(0)
-    , m_extra(extraParams)
+MeltJob::MeltJob(const QString &binId, JOBTYPE type, bool useProducerProfile, int in, int out)
+    : AbstractClipJob(type, binId)
+    , m_profile(pCore->getCurrentProfile()->profile())
+    , m_useProducerProfile(useProducerProfile)
+    , m_in(in)
+    , m_out(out)
 {
-    m_jobStatus = JobWaiting;
-    description = i18n("Processing clip");
-    QString consum = m_consumerParams.value(QStringLiteral("consumer"));
-    if (consum.contains(QLatin1Char(':'))) {
-        m_dest = consum.section(QLatin1Char(':'), 1);
-    }
-    m_url = producerParams.value(QStringLiteral("producer"));
 }
 
-void MeltJob::startJob()
+bool MeltJob::startJob()
 {
+    auto binClip = pCore->projectItemModel()->getClipByBinID(m_clipId);
+    m_url = binClip->url();
     if (m_url.isEmpty()) {
         m_errorMessage.append(i18n("No producer for this clip."));
-        setStatus(JobCrashed);
-        return;
+        m_successful = false;
+        m_done = true;
+        return false;
     }
+    /*
     QString consumerName = m_consumerParams.value(QStringLiteral("consumer"));
     // safety check, make sure we don't overwrite a source clip
     if (!m_dest.isEmpty() && !m_dest.endsWith(QStringLiteral(".mlt"))) {
@@ -100,44 +93,48 @@ void MeltJob::startJob()
         setStatus(JobCrashed);
         return;
     }
-    Mlt::Profile *projectProfile = new Mlt::Profile(pCore->getCurrentProfile()->profile());
-    bool producerProfile = m_extra.contains(QStringLiteral("producer_profile"));
-    if (producerProfile) {
-        m_profile = new Mlt::Profile;
-        m_profile->set_explicit(0);
+    */
+    auto &projectProfile = pCore->getCurrentProfile();
+    Mlt::Profile producerProfile;
+    // bool producerProfile = m_extra.contains(QStringLiteral("producer_profile"));
+    if (m_useProducerProfile) {
+        m_profile = producerProfile;
+        m_profile.set_explicit(0);
     } else {
-        m_profile = projectProfile;
+        m_profile = projectProfile->profile();
     }
+    /*
     if (m_extra.contains(QStringLiteral("resize_profile"))) {
         m_profile->set_height(m_extra.value(QStringLiteral("resize_profile")).toInt());
         m_profile->set_width(m_profile->height() * m_profile->sar());
     }
+    */
     double fps = projectProfile->fps();
     int fps_num = projectProfile->frame_rate_num();
     int fps_den = projectProfile->frame_rate_den();
-    Mlt::Producer *producer = new Mlt::Producer(*m_profile, m_url.toUtf8().constData());
-    if ((producer != nullptr) && producerProfile) {
-        m_profile->from_producer(*producer);
-        m_profile->set_explicit(1);
+
+    m_producer.reset(new Mlt::Producer(m_profile, m_url.toUtf8().constData()));
+    if (m_producer && m_useProducerProfile) {
+        m_profile.from_producer(*m_producer.get());
+        m_profile.set_explicit(1);
     }
-    if (qAbs(m_profile->fps() - fps) > 0.01 || producerProfile) {
+    configureProfile();
+    if (qAbs(m_profile.fps() - fps) > 0.01 || m_useProducerProfile) {
         // Reload producer
-        delete producer;
         // Force same fps as projec profile or the resulting .mlt will not load in our project
-        m_profile->set_frame_rate(fps_num, fps_den);
-        producer = new Mlt::Producer(*m_profile, m_url.toUtf8().constData());
-    }
-    if (producerProfile) {
-        delete projectProfile;
+        m_profile.set_frame_rate(fps_num, fps_den);
+        m_producer.reset(new Mlt::Producer(m_profile, m_url.toUtf8().constData()));
     }
 
-    if ((producer == nullptr) || !producer->is_valid()) {
+    if ((m_producer == nullptr) || !m_producer->is_valid()) {
         // Clip was removed or something went wrong, Notify user?
-        // m_errorMessage.append(i18n("Invalid clip"));
-        setStatus(JobCrashed);
-        return;
+        m_errorMessage.append(i18n("Invalid clip"));
+        m_successful = false;
+        m_done = true;
+        return false;
     }
 
+    /*
     // Process producer params
     QMapIterator<QString, QString> i(m_producerParams);
     QStringList ignoredProps;
@@ -149,29 +146,49 @@ void MeltJob::startJob()
             producer->set(i.key().toUtf8().constData(), i.value().toUtf8().constData());
         }
     }
+    */
 
-    if (out == -1 && in == -1) {
-        m_producer = producer;
-    } else {
-        m_producer = producer->cut(in, out);
-        delete producer;
+    if (m_out == -1) {
+        m_out = m_producer->get_playtime() - 1;
+    }
+    if (m_in == -1) {
+        m_in = 0;
+    }
+    if (m_out != m_producer->get_playtime() - 1 || m_in != 0) {
+        std::swap(m_wholeProducer, m_producer);
+        m_producer.reset(m_wholeProducer->cut(m_in, m_out));
+    }
+    configureProducer();
+    if ((m_producer == nullptr) || !m_producer->is_valid()) {
+        // Clip was removed or something went wrong, Notify user?
+        m_errorMessage.append(i18n("Invalid clip"));
+        m_successful = false;
+        m_done = true;
+        return false;
     }
 
     // Build consumer
-    if (consumerName.contains(QLatin1String(":"))) {
-        m_consumer = new Mlt::Consumer(*m_profile, consumerName.section(QLatin1Char(':'), 0, 0).toUtf8().constData(), m_dest.toUtf8().constData());
+    configureConsumer();
+    /*
+    if (m_consumerName.contains(QLatin1String(":"))) {
+      m_consumer.reset(new Mlt::Consumer(*m_profile, consumerName.section(QLatin1Char(':'), 0, 0).toUtf8().constData(), m_dest.toUtf8().constData()));
     } else {
         m_consumer = new Mlt::Consumer(*m_profile, consumerName.toUtf8().constData());
-    }
+        }*/
     if ((m_consumer == nullptr) || !m_consumer->is_valid()) {
-        m_errorMessage.append(i18n("Cannot create consumer %1.", consumerName));
-        setStatus(JobCrashed);
-        return;
+        m_errorMessage.append(i18n("Cannot create consumer."));
+        m_successful = false;
+        m_done = true;
+        return false;
     }
+    /*
     if (!m_consumerParams.contains(QStringLiteral("real_time"))) {
         m_consumer->set("real_time", -KdenliveSettings::mltthreads());
     }
+    */
+
     // Process consumer params
+    /*
     QMapIterator<QString, QString> j(m_consumerParams);
     ignoredProps.clear();
     ignoredProps << QStringLiteral("consumer");
@@ -186,8 +203,11 @@ void MeltJob::startJob()
         // Use relative path in xml
         m_consumer->set("root", QFileInfo(m_dest).absolutePath().toUtf8().constData());
     }
+    */
 
     // Build filter
+    configureFilter();
+    /*
     if (!filterName.isEmpty()) {
         m_filter = new Mlt::Filter(*m_profile, filterName.toUtf8().data());
         if ((m_filter == nullptr) || !m_filter->is_valid()) {
@@ -208,9 +228,17 @@ void MeltJob::startJob()
             }
         }
     }
-    Mlt::Tractor tractor(*m_profile);
+    */
+    if ((m_filter == nullptr) || !m_filter->is_valid()) {
+        m_errorMessage.append(i18n("Cannot create filter."));
+        m_successful = false;
+        m_done = true;
+        return false;
+    }
+
+    Mlt::Tractor tractor(m_profile);
     Mlt::Playlist playlist;
-    playlist.append(*m_producer);
+    playlist.append(*m_producer.get());
     tractor.set_track(playlist, 0);
     m_consumer->connect(tractor);
     m_producer->set_speed(0);
@@ -220,12 +248,13 @@ void MeltJob::startJob()
         m_length = m_producer->get_length();
     }
     if (m_filter) {
-        m_producer->attach(*m_filter);
+        m_producer->attach(*m_filter.get());
     }
-    m_showFrameEvent = m_consumer->listen("consumer-frame-render", this, (mlt_listener)consumer_frame_render);
+    m_showFrameEvent.reset(m_consumer->listen("consumer-frame-render", this, (mlt_listener)consumer_frame_render));
     m_producer->set_speed(1);
     m_consumer->run();
 
+    /*
     QMap<QString, QString> jobResults;
     if (m_jobStatus != JobAborted && m_extra.contains(QStringLiteral("key"))) {
         QString result = QString::fromLatin1(m_filter->get(m_extra.value(QStringLiteral("key")).toUtf8().constData()));
@@ -237,55 +266,14 @@ void MeltJob::startJob()
     if (m_jobStatus == JobWorking) {
         m_jobStatus = JobDone;
     }
+    */
+    m_successful = m_done = true;
+    return true;
 }
 
-MeltJob::~MeltJob()
+void MeltJob::mltFrameCallback(int pos)
 {
-    delete m_showFrameEvent;
-    delete m_filter;
-    delete m_producer;
-    delete m_consumer;
-    delete m_profile;
-}
-
-const QString MeltJob::destination() const
-{
-    return m_dest;
-}
-
-stringMap MeltJob::cancelProperties()
-{
-    QMap<QString, QString> props;
-    return props;
-}
-
-const QString MeltJob::statusMessage()
-{
-    QString statusInfo;
-    switch (m_jobStatus) {
-    case JobWorking:
-        statusInfo = description;
-        break;
-    case JobWaiting:
-        statusInfo = i18n("Waiting to process clip");
-        break;
-    default:
-        break;
-    }
-    return statusInfo;
-}
-
-void MeltJob::emitFrameNumber(int pos)
-{
-    if (m_length > 0 && m_jobStatus == JobWorking) {
-        emit jobProgress(m_clipId, (int)(100 * pos / m_length), jobType);
-    }
-}
-
-void MeltJob::setStatus(ClipJobStatus status)
-{
-    m_jobStatus = status;
-    if (status == JobAborted && (m_consumer != nullptr)) {
-        m_consumer->stop();
+    if (m_length > 0) {
+        emit jobProgress((int)(100 * pos / m_length));
     }
 }

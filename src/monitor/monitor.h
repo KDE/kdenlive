@@ -359,7 +359,6 @@ signals:
     void passKeyPress(QKeyEvent *);
     /** @brief Enable / disable project monitor multitrack view (split view with one track in each quarter). */
     void multitrackView(bool);
-    void requestAudioThumb(const QString &);
     void timeCodeUpdated(const QString &);
     void addMarker();
     void deleteMarker(bool deleteGuide = true);

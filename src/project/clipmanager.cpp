@@ -83,7 +83,6 @@ void ClipManager::clear()
     m_modifiedClips.clear();
 }
 
-
 void ClipManager::slotRequestThumbs(const QString &id, const QList<int> &frames)
 {
     m_thumbsMutex.lock();
@@ -173,59 +172,15 @@ void ClipManager::slotGetThumbs()
     emit displayMessage(QString(), -1);
 }
 
-
 void ClipManager::slotAddCopiedClip(KIO::Job *, const QUrl &, const QUrl &dst)
 {
     pCore->bin()->droppedUrls(QList<QUrl>() << dst);
 }
 
-void ClipManager::slotAddTextTemplateClip(const QString &titleName, const QUrl &path, const QString &group, const QString &groupId)
-{
-    QDomDocument doc;
-    QDomElement prod = doc.createElement(QStringLiteral("producer"));
-    doc.appendChild(prod);
-    prod.setAttribute(QStringLiteral("name"), titleName);
-    prod.setAttribute(QStringLiteral("resource"), path.toLocalFile());
-    int id = pCore->bin()->getFreeClipId();
-    prod.setAttribute(QStringLiteral("id"), QString::number(id));
-    if (!group.isEmpty()) {
-        prod.setAttribute(QStringLiteral("groupname"), group);
-        prod.setAttribute(QStringLiteral("groupid"), groupId);
-    }
-    prod.setAttribute(QStringLiteral("type"), (int)Text);
-    prod.setAttribute(QStringLiteral("transparency"), QStringLiteral("1"));
-    prod.setAttribute(QStringLiteral("in"), QStringLiteral("0"));
-
-    int duration = 0;
-    QDomDocument titledoc;
-    QFile txtfile(path.toLocalFile());
-    if (txtfile.open(QIODevice::ReadOnly) && titledoc.setContent(&txtfile)) {
-        if (titledoc.documentElement().hasAttribute(QStringLiteral("duration"))) {
-            duration = titledoc.documentElement().attribute(QStringLiteral("duration")).toInt();
-        } else {
-            // keep some time for backwards compatibility - 26/12/12
-            duration = titledoc.documentElement().attribute(QStringLiteral("out")).toInt();
-        }
-    }
-    txtfile.close();
-
-    if (duration == 0) {
-        duration = m_doc->getFramePos(KdenliveSettings::title_duration());
-    }
-    prod.setAttribute(QStringLiteral("duration"), duration - 1);
-    prod.setAttribute(QStringLiteral("out"), duration - 1);
-
-    AddClipCommand *command = new AddClipCommand(pCore->bin(), doc.documentElement(), QString::number(id), true);
-    m_doc->commandStack()->push(command);
-}
-
-
 int ClipManager::lastClipId() const
 {
     return pCore->bin()->lastClipId();
 }
-
-
 
 /*
 void ClipManager::slotClipMissing(const QString &path)

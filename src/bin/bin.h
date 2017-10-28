@@ -24,9 +24,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define KDENLIVE_BIN_H
 
 #include "abstractprojectitem.h"
-#include "timecode.h"
-#include "filewatcher.hpp"
 #include "effects/effectstack/model/effectstackmodel.hpp"
+#include "filewatcher.hpp"
+#include "timecode.h"
 
 #include <KMessageWidget>
 
@@ -59,7 +59,6 @@ class ProjectFolder;
 class AbstractProjectItem;
 class Monitor;
 class ProjectSortProxyModel;
-class JobManager;
 class ProjectFolderUp;
 class InvalidDialog;
 class BinItemDelegate;
@@ -197,26 +196,16 @@ public:
     void openProducer(std::shared_ptr<ProjectClip> controller);
     void openProducer(std::shared_ptr<ProjectClip> controller, int in, int out);
 
-    /** @brief Trigger deletion of an item */
-    void deleteClip(const QString &id);
-
     /** @brief Get a clip from it's id */
     std::shared_ptr<ProjectClip> getBinClip(const QString &id);
 
-    /** @brief Returns a list of selected clips  */
+    /** @brief Returns a list of selected clip ids
+     @param excludeFolders: if true, ids of folders are not returned
+     */
+    std::vector<QString> selectedClipsIds(bool excludeFolders = true);
+
+    // Returns the selected clips
     QList<std::shared_ptr<ProjectClip>> selectedClips();
-
-    /** @brief Start a job of selected type for a clip  */
-    void startJob(const QString &id, AbstractClipJob::JOBTYPE type);
-
-    /** @brief Discard jobs from a chosen type, use NOJOBTYPE to discard all jobs for this clip */
-    void discardJobs(const QString &id, AbstractClipJob::JOBTYPE type = AbstractClipJob::NOJOBTYPE);
-
-    /** @brief Check if there is a job waiting / running for this clip  */
-    bool hasPendingJob(const QString &id, AbstractClipJob::JOBTYPE type);
-
-    /** @brief Reload / replace a producer */
-    void reloadProducer(const QString &id, const QDomElement &xml);
 
     /** @brief Current producer has changed, refresh monitor and timeline*/
     void refreshClip(const QString &id);
@@ -243,15 +232,9 @@ public:
     /** @brief Ask MLT to reload this clip's producer  */
     void reloadClip(const QString &id);
 
-    /** @brief Add a folder  */
-    void removeSubClip(const QString &id, QUndoCommand *deleteCommand);
     void doMoveClip(const QString &id, const QString &newParentId);
     void doMoveFolder(const QString &id, const QString &newParentId);
     void setupGeneratorMenu();
-    void startClipJob(const QStringList &params);
-
-    void addClipCut(const QString &id, int in, int out);
-    void removeClipCut(const QString &id, int in, int out);
 
     /** @brief Set focus to the Bin view. */
     void focusBinView() const;
@@ -283,8 +266,6 @@ public:
     void refreshProxySettings();
     /** @brief A clip is ready, update its info panel if displayed. */
     void emitRefreshPanel(const QString &id);
-    /** @brief Audio thumbs just finished creating, update on monitor display. */
-    void emitRefreshAudioThumbs(const QString &id);
     /** @brief Returns true if there is no clip. */
     bool isEmpty() const;
     /** @brief Trigger reload of all clips. */
@@ -320,7 +301,7 @@ private slots:
     void slotShowDescColumn(bool show);
 
     /** @brief Setup the bin view type (icon view, tree view, ...).
-    * @param action The action whose data defines the view type or nullptr to keep default view */
+     * @param action The action whose data defines the view type or nullptr to keep default view */
     void slotInitView(QAction *action);
 
     /** @brief Update status for clip jobs  */
@@ -333,13 +314,7 @@ private slots:
     void slotItemDropped(const QList<QUrl> &urls, const QModelIndex &parent);
     void slotEffectDropped(const QStringList &effectData, const QModelIndex &parent);
     void slotItemEdited(const QModelIndex &, const QModelIndex &, const QVector<int> &);
-    void slotAddUrl(const QString &url, int folderId, const QMap<QString, QString> &data = QMap<QString, QString>());
-    void slotAddUrl(const QString &url, const QMap<QString, QString> &data = QMap<QString, QString>());
 
-    void slotPrepareJobsMenu();
-    void slotShowJobLog();
-    /** @brief process clip job result. */
-    void slotGotFilterJobResults(const QString &, int, int, const stringMap &, const stringMap &);
     /** @brief Reset all text and log data from info message widget. */
     void slotResetInfoMessage();
     /** @brief Show dialog prompting for removal of invalid clips. */
@@ -367,11 +342,6 @@ private slots:
 
 public slots:
     void slotThumbnailReady(const QString &id, const QImage &img, bool fromFile = false);
-    /** @brief The producer for this clip is ready.
-     *  @param id the clip id
-     *  @param controller The Controller for this clip
-     */
-    void slotProducerReady(const requestClipInfo &info, std::shared_ptr<Mlt::Producer> producer);
     void slotRemoveInvalidClip(const QString &id, bool replace, const QString &errorMessage);
     /** @brief Reload clip thumbnail - when frame for thumbnail changed */
     void slotRefreshClipThumbnail(const QString &id);
@@ -382,25 +352,14 @@ public slots:
     /** @brief Creates a new folder with optional name, and returns new folder's id */
     QString slotAddFolder(const QString &folderName = QString());
     void slotCreateProjectClip();
-    /** @brief Start a Cut Clip job on this clip (extract selected zone using FFmpeg) */
-    void slotStartCutJob(const QString &id);
-    /** @brief Triggered by a clip job action, start the job */
-    void slotStartClipJob(bool enable);
     void slotEditClipCommand(const QString &id, const QMap<QString, QString> &oldProps, const QMap<QString, QString> &newProps);
-    void slotCancelRunningJob(const QString &id, const QMap<QString, QString> &newProps);
     /** @brief Start a filter job requested by a filter applied in timeline */
     void slotStartFilterJob(const ItemInfo &info, const QString &id, QMap<QString, QString> &filterParams, QMap<QString, QString> &consumerParams,
                             QMap<QString, QString> &extraParams);
-    /** @brief Add a sub clip */
-    void slotAddClipCut(const QString &id, int in, int out);
     /** @brief Open current clip in an external editing application */
     void slotOpenClip();
     void slotDuplicateClip();
     void slotLocateClip();
-    /** @brief Request audio thumbnail for clip with id */
-    void slotCreateAudioThumb(const QString &id);
-    /** @brief Abort audio thumbnail for clip with id */
-    void slotAbortAudioThumb(const QString &id, long duration);
     /** @brief Add extra data to a clip. */
     void slotAddClipExtraData(const QString &id, const QString &key, const QString &data = QString(), QUndoCommand *groupCommand = nullptr);
     void slotUpdateClipProperties(const QString &id, const QMap<QString, QString> &properties, bool refreshPropertiesPanel);
@@ -411,7 +370,7 @@ public slots:
     /** @brief Request current frame from project monitor.
      *  @param clipId is the id of a clip we want to hide from screenshot
      *  @param request true to start capture process, false to end it. It is necessary to emit a false after image is received
-    **/
+     **/
     void slotGetCurrentProjectImage(const QString &clipId, bool request);
     void slotExpandUrl(const ItemInfo &info, const QString &url, QUndoCommand *command);
     void abortAudioThumbs();
@@ -423,12 +382,10 @@ public slots:
     /** @brief Select a clip in the Bin from its id. */
     void selectClipById(const QString &id, int frame = -1, const QPoint &zone = QPoint());
     void slotAddClipToProject(const QUrl &url);
-    void doUpdateThumbsProgress(long ms);
     void droppedUrls(const QList<QUrl> &urls, const QStringList &folderInfo = QStringList());
-    /** @brief A clip producer was changed and needs to be replaced in timeline. */
-    void prepareTimelineReplacement(const requestClipInfo &info, const std::shared_ptr<Mlt::Producer> &producer);
     /** @brief Returns the effectstack of a given clip. */
     std::shared_ptr<EffectStackModel> getClipEffectStack(int itemId);
+
 protected:
     /* This function is called whenever an item is selected to propagate signals
        (for ex request to show the clip in the monitor)
@@ -445,7 +402,6 @@ private:
     std::shared_ptr<ProjectFolderUp> m_folderUp;
     BinItemDelegate *m_binTreeViewDelegate;
     ProjectSortProxyModel *m_proxyModel;
-    JobManager *m_jobManager;
     QToolBar *m_toolbar;
     KdenliveDoc *m_doc;
     FileWatcher m_fileWatcher;
@@ -530,12 +486,10 @@ signals:
     void updateAnalysisData(const QString &);
     void openClip(std::shared_ptr<ProjectClip> c, int in = -1, int out = -1);
     /** @brief Fill context menu with occurrences of this clip in timeline. */
-    void findInTimeline(const QString &, QList <int> ids = QList <int>());
+    void findInTimeline(const QString &, QList<int> ids = QList<int>());
     void clipNameChanged(const QString &);
     /** @brief A clip was updated, request panel update. */
     void refreshPanel(const QString &id);
-    /** @brief A clip audio data was updated, request refresh. */
-    void refreshAudioThumbs(const QString &id);
 };
 
 #endif

@@ -55,7 +55,8 @@ QVector<QDomNode> Xml::getDirectChildrenByTagName(const QDomElement &element, co
     return result;
 }
 
-QString Xml::getTagContentByAttribute(const QDomElement &element, const QString &tagName, const QString &attribute, const QString &value, const QString &defaultReturn, bool directChildren)
+QString Xml::getTagContentByAttribute(const QDomElement &element, const QString &tagName, const QString &attribute, const QString &value,
+                                      const QString &defaultReturn, bool directChildren)
 {
     QDomNodeList nodes;
     if (directChildren) {
@@ -78,7 +79,18 @@ QString Xml::getTagContentByAttribute(const QDomElement &element, const QString 
     return defaultReturn;
 }
 
-void Xml::addXmlProperties(QDomElement &element, QMap<QString, QString> &properties)
+void Xml::addXmlProperties(QDomElement &element, const std::unordered_map<QString, QString> &properties)
+{
+    for (const auto &p : properties) {
+        QDomElement prop = element.ownerDocument().createElement(QStringLiteral("property"));
+        prop.setAttribute(QStringLiteral("name"), p.first);
+        QDomText value = element.ownerDocument().createTextNode(p.second);
+        prop.appendChild(value);
+        element.appendChild(prop);
+    }
+}
+
+void Xml::addXmlProperties(QDomElement &element, const QMap<QString, QString> &properties)
 {
     QMapIterator<QString, QString> i(properties);
     while (i.hasNext()) {
@@ -89,4 +101,9 @@ void Xml::addXmlProperties(QDomElement &element, QMap<QString, QString> &propert
         prop.appendChild(value);
         element.appendChild(prop);
     }
+}
+
+QString Xml::getXmlProperty(const QDomElement &element, const QString &propertyName, const QString &defaultReturn)
+{
+    return Xml::getTagContentByAttribute(element, QStringLiteral("property"), QStringLiteral("name"), propertyName, defaultReturn, false);
 }

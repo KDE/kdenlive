@@ -29,6 +29,8 @@
    recursive.
 
     See for example TimelineModel.
+
+    Note that there also exists a version of update_undo_redo without the need for a lock (but prefer the mutex version where applicable)
 */
 
 /* This convenience macro adds lock/unlock ability to a given lambda function
@@ -72,11 +74,9 @@ reading a Read-protected property. In that case, we try to write lock it first (
 
 /* @brief This macro takes as parameter one atomic operation and its reverse, and update
    the undo and redo functional stacks/queue accordingly
-   It will also ensure that operation and reverse are dealing with mutexes
+   This should be used in the rare case where we don't need a lock mutex. In general, prefer the other version
 */
-#define UPDATE_UNDO_REDO(operation, reverse, undo, redo)                                                                                                       \
-    LOCK_IN_LAMBDA(operation)                                                                                                                                  \
-    LOCK_IN_LAMBDA(reverse)                                                                                                                                    \
+#define UPDATE_UNDO_REDO_NOLOCK(operation, reverse, undo, redo)                                                                                                \
     undo = [reverse, undo]() {                                                                                                                                 \
         bool v = reverse();                                                                                                                                    \
         return undo() && v;                                                                                                                                    \
@@ -85,4 +85,13 @@ reading a Read-protected property. In that case, we try to write lock it first (
         bool v = redo();                                                                                                                                       \
         return operation() && v;                                                                                                                               \
     };
+/* @brief This macro takes as parameter one atomic operation and its reverse, and update
+   the undo and redo functional stacks/queue accordingly
+   It will also ensure that operation and reverse are dealing with mutexes
+*/
+#define UPDATE_UNDO_REDO(operation, reverse, undo, redo)                                                                                                       \
+    LOCK_IN_LAMBDA(operation)                                                                                                                                  \
+    LOCK_IN_LAMBDA(reverse)                                                                                                                                    \
+    UPDATE_UNDO_REDO_NOLOCK(operation, reverse, undo, redo)
+
 #endif

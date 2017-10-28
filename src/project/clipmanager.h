@@ -63,7 +63,6 @@ class ClipManager : public QObject
         explicit ClipManager(KdenliveDoc *doc);
     virtual ~ClipManager();
 
-    void slotAddTextTemplateClip(const QString &titleName, const QUrl &path, const QString &group, const QString &groupId);
     int lastClipId() const;
     /** @brief Prepare deletion of clips and folders from the Bin. */
     void clear();

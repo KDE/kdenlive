@@ -23,12 +23,12 @@ class Bin;
 class BinController;
 class DocUndoStack;
 class EffectStackModel;
+class JobManager;
 class KdenliveDoc;
 class LibraryWidget;
 class MainWindow;
 class Monitor;
 class MonitorManager;
-class ProducerQueue;
 class ProfileModel;
 class ProjectItemModel;
 class ProjectManager;
@@ -93,8 +93,8 @@ public:
     Bin *bin();
     /** @brief Returns a pointer to the model of the project bin. */
     std::shared_ptr<ProjectItemModel> projectItemModel();
-    /** @brief Returns a pointer to the producer queue. */
-    ProducerQueue *producerQueue();
+    /** @brief Returns a pointer to the job manager. Please do not store it. */
+    std::shared_ptr<JobManager> jobManager();
     /** @brief Returns a pointer to the library. */
     LibraryWidget *library();
 
@@ -173,7 +173,7 @@ private:
     MonitorManager *m_monitorManager;
     std::shared_ptr<BinController> m_binController;
     std::shared_ptr<ProjectItemModel> m_projectItemModel;
-    ProducerQueue *m_producerQueue;
+    std::shared_ptr<JobManager> m_jobManager;
     Bin *m_binWidget;
     LibraryWidget *m_library;
     /** @brief Current project's profile path */

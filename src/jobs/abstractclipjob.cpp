@@ -22,81 +22,37 @@
 #include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
 
-AbstractClipJob::AbstractClipJob(JOBTYPE type, ClipType cType, const QString &id, QObject *parent)
+AbstractClipJob::AbstractClipJob(JOBTYPE type, const QString &id, QObject *parent)
     : QObject(parent)
-    , clipType(cType)
-    , jobType(type)
-    , replaceClip(false)
-    , m_jobStatus(NoJob)
+    , m_jobType(type)
     , m_clipId(id)
-    , m_addClipToProject(-100)
-    , m_jobProcess(nullptr)
 {
 }
 
-AbstractClipJob::~AbstractClipJob()
-{
-}
-
-int AbstractClipJob::addClipToProject() const
-{
-    return m_addClipToProject;
-}
-
-void AbstractClipJob::setAddClipToProject(int add)
-{
-    m_addClipToProject = add;
-}
-
-void AbstractClipJob::setStatus(ClipJobStatus status)
-{
-    m_jobStatus = status;
-}
-
-ClipJobStatus AbstractClipJob::status()
-{
-    return m_jobStatus;
-}
+AbstractClipJob::~AbstractClipJob() {}
 
 const QString AbstractClipJob::clipId() const
 {
     return m_clipId;
 }
 
-const QString AbstractClipJob::errorMessage() const
+const QString AbstractClipJob::getErrorMessage() const
 {
     return m_errorMessage;
 }
 
-const QString AbstractClipJob::logDetails() const
+const QString AbstractClipJob::getLogDetails() const
 {
     return m_logDetails;
 }
 
-void AbstractClipJob::startJob()
+// static
+bool AbstractClipJob::execute(std::shared_ptr<AbstractClipJob> job)
 {
+    return job->startJob();
 }
 
-const QString AbstractClipJob::destination() const
+AbstractClipJob::JOBTYPE AbstractClipJob::jobType() const
 {
-    return QString();
-}
-
-stringMap AbstractClipJob::cancelProperties()
-{
-    return QMap<QString, QString>();
-}
-
-void AbstractClipJob::processLogInfo()
-{
-}
-
-const QString AbstractClipJob::statusMessage()
-{
-    return QString();
-}
-
-bool AbstractClipJob::isExclusive()
-{
-    return true;
+    return m_jobType;
 }

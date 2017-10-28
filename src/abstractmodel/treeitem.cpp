@@ -152,7 +152,7 @@ bool TreeItem::changeParent(std::shared_ptr<TreeItem> newParent)
     Q_ASSERT(!m_isRoot);
     if (m_isRoot) return false;
     std::shared_ptr<TreeItem> oldParent;
-    if (oldParent = m_parentItem.lock()) {
+    if ((oldParent = m_parentItem.lock())) {
         oldParent->removeChild(shared_from_this());
     }
     bool res = true;

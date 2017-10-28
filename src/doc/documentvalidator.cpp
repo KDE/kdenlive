@@ -636,7 +636,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                         markers.insertAfter(mark, QDomNode());
                     }
                     prod.removeChild(m);
-                } else if (prod.attribute(QStringLiteral("type")).toInt() == Text) {
+                } else if (prod.attribute(QStringLiteral("type")).toInt() == (int)ClipType::Text) {
                     // convert title clip
                     if (m.toElement().tagName() == QLatin1String("textclip")) {
                         QDomDocument tdoc;
@@ -754,7 +754,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 }
                 // We have to do slightly different things, depending on the type
                 // qCDebug(KDENLIVE_LOG) << "Converting producer element with type" << wproducer.attribute("type");
-                if (wproducer.attribute(QStringLiteral("type")).toInt() == Text) {
+                if (wproducer.attribute(QStringLiteral("type")).toInt() == (int)ClipType::Text) {
                     // qCDebug(KDENLIVE_LOG) << "Found TEXT element in producer" << endl;
                     QDomElement kproducer = wproducer.cloneNode(true).toElement();
                     kproducer.setTagName(QStringLiteral("kdenlive_producer"));
@@ -929,7 +929,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             QDomNodeList kproducerNodes = m_doc.elementsByTagName(QStringLiteral("kdenlive_producer"));
             for (int i = 0; i < kproducerNodes.count() && convert != KMessageBox::No; ++i) {
                 QDomElement kproducer = kproducerNodes.at(i).toElement();
-                if (kproducer.attribute(QStringLiteral("type")).toInt() == Text) {
+                if (kproducer.attribute(QStringLiteral("type")).toInt() == (int)ClipType::Text) {
                     QDomDocument data;
                     data.setContent(kproducer.attribute(QStringLiteral("xmldata")));
                     QDomNodeList items = data.firstChild().childNodes();
@@ -984,7 +984,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         QDomNodeList kproducerNodes = m_doc.elementsByTagName(QStringLiteral("kdenlive_producer"));
         for (int i = 0; i < kproducerNodes.count(); ++i) {
             QDomElement kproducer = kproducerNodes.at(i).toElement();
-            if (kproducer.attribute(QStringLiteral("type")).toInt() == Text) {
+            if (kproducer.attribute(QStringLiteral("type")).toInt() == (int)ClipType::Text) {
                 QString data = kproducer.attribute(QStringLiteral("xmldata"));
                 QString datafile = kproducer.attribute(QStringLiteral("resource"));
                 if (!datafile.endsWith(QLatin1String(".kdenlivetitle"))) {

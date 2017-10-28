@@ -9,6 +9,7 @@ set(kdenlive_SRCS
   utils/openclipart.cpp
   utils/resourcewidget.cpp
   utils/thememanager.cpp
+  utils/thumbnailcache.cpp
   PARENT_SCOPE
 )
 

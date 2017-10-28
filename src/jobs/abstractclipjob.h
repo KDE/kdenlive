@@ -25,6 +25,8 @@
 #include <QProcess>
 
 #include "definitions.h"
+#include "undohelper.hpp"
+#include <memory>
 
 /**
  * @class AbstractClipJob
@@ -32,44 +34,64 @@
  *
  */
 
+struct Job_t;
 class AbstractClipJob : public QObject
 {
     Q_OBJECT
 
 public:
-    enum JOBTYPE { NOJOBTYPE = 0, PROXYJOB = 1, CUTJOB = 2, MLTJOB = 3, TRANSCODEJOB = 4, FILTERCLIPJOB = 5, THUMBJOB = 5, ANALYSECLIPJOB = 6 };
-    AbstractClipJob(JOBTYPE type, ClipType cType, const QString &id, QObject *parent = nullptr);
+    enum JOBTYPE {
+        NOJOBTYPE = 0,
+        PROXYJOB = 1,
+        CUTJOB = 2,
+        STABILIZEJOB = 3,
+        TRANSCODEJOB = 4,
+        FILTERCLIPJOB = 5,
+        THUMBJOB = 5,
+        ANALYSECLIPJOB = 6,
+        LOADJOB = 7,
+        AUDIOTHUMBJOB = 8
+    };
+    AbstractClipJob(JOBTYPE type, const QString &id, QObject *parent = nullptr);
     virtual ~AbstractClipJob();
-    ClipType clipType;
-    JOBTYPE jobType;
-    QString description;
-    bool replaceClip;
+
+    template <typename T, typename... Args> static std::shared_ptr<T> make(const QString &binId, Args &&... args)
+    {
+        auto m = std::make_shared<T>(binId, std::forward<Args>(args)...);
+        return m;
+    }
+
     const QString clipId() const;
-    const QString errorMessage() const;
-    const QString logDetails() const;
-    ClipJobStatus status();
-    virtual void setStatus(ClipJobStatus status);
-    virtual const QString destination() const;
-    virtual void startJob();
-    virtual stringMap cancelProperties();
-    virtual void processLogInfo();
-    virtual const QString statusMessage();
-    /** @brief Returns true if only one instance of this job can be run on a clip. */
-    virtual bool isExclusive();
-    int addClipToProject() const;
-    void setAddClipToProject(int add);
+    const QString getErrorMessage() const;
+    const QString getLogDetails() const;
+    virtual const QString getDescription() const = 0;
+
+    virtual bool startJob() = 0;
+
+    /** @brief This is to be called after the job finished.
+        By design, the job should store the result of the computation but not share it with the rest of the code. This happens when we call commitResult
+        This methods return true on success
+    */
+    virtual bool commitResult(Fun &undo, Fun &redo) = 0;
+
+    // brief run a given job
+    static bool execute(std::shared_ptr<AbstractClipJob> job);
+
+    /* @brief return the type of this job */
+    JOBTYPE jobType() const;
 
 protected:
-    ClipJobStatus m_jobStatus;
     QString m_clipId;
     QString m_errorMessage;
     QString m_logDetails;
     int m_addClipToProject;
-    QProcess *m_jobProcess;
+    JOBTYPE m_jobType;
+
+    bool m_resultConsumed{false};
 
 signals:
-    void jobProgress(const QString &, int, int);
-    void cancelRunningJob(const QString &, const QMap<QString, QString> &);
+    // send an int between 0 and 100 to reflect computation progress
+    void jobProgress(int);
 };
 
 #endif
