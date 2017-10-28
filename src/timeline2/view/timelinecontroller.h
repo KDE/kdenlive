@@ -22,9 +22,9 @@
 #ifndef TIMELINECONTROLLER_H
 #define TIMELINECONTROLLER_H
 
+#include "definitions.h"
 #include "timeline2/model/timelineitemmodel.hpp"
 #include "timelinewidget.h"
-#include "definitions.h"
 
 class PreviewManager;
 class QAction;
@@ -271,7 +271,7 @@ public:
     QMap<int, QString> getTrackNames(bool videoOnly);
     /* @brief Returns the transition a track index for a composition (MLT index / Track id)
      */
-    QPair<int,int>getCompositionATrack(int cid) const;
+    QPair<int, int> getCompositionATrack(int cid) const;
     void setCompositionATrack(int cid, int aTrack);
     const QString getClipBinId(int clipId) const;
     void focusItem(int itemId);
@@ -311,7 +311,7 @@ public:
     /** @brief Delete selected zone */
     void liftZone();
     bool insertZone(const QString &binId, QPoint zone, bool overwrite);
-    void updateClip(int clipId, QVector <int> roles);
+    void updateClip(int clipId, QVector<int> roles);
     void showClipKeyframes(int clipId, bool value);
     void showCompositionKeyframes(int clipId, bool value);
 

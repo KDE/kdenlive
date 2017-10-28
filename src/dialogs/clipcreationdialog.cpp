@@ -302,64 +302,64 @@ void ClipCreationDialog::createTitleTemplateClip(KdenliveDoc *doc, const QString
 // {
 //     auto *addClips = new QUndoCommand();
 
-    // TODO: check files on removable volume
-    /*listRemovableVolumes();
-    for (const QUrl &file :  urls) {
-        if (QFile::exists(file.path())) {
-            //TODO check for duplicates
-            if (!data.contains("bypassDuplicate") && !getClipByResource(file.path()).empty()) {
-                if (KMessageBox::warningContinueCancel(QApplication::activeWindow(), i18n("Clip <b>%1</b><br />already exists in project, what do you want to
-    do?", file.path()), i18n("Clip already exists")) == KMessageBox::Cancel)
-                    continue;
-            }
-            if (isOnRemovableDevice(file) && !isOnRemovableDevice(m_doc->projectFolder())) {
-                int answer = KMessageBox::warningYesNoCancel(QApplication::activeWindow(), i18n("Clip <b>%1</b><br /> is on a removable device, will not be
-    available when device is unplugged", file.path()), i18n("File on a Removable Device"), KGuiItem(i18n("Copy file to project folder")),
-    KGuiItem(i18n("Continue")), KStandardGuiItem::cancel(), QString("copyFilesToProjectFolder"));
+// TODO: check files on removable volume
+/*listRemovableVolumes();
+for (const QUrl &file :  urls) {
+    if (QFile::exists(file.path())) {
+        //TODO check for duplicates
+        if (!data.contains("bypassDuplicate") && !getClipByResource(file.path()).empty()) {
+            if (KMessageBox::warningContinueCancel(QApplication::activeWindow(), i18n("Clip <b>%1</b><br />already exists in project, what do you want to
+do?", file.path()), i18n("Clip already exists")) == KMessageBox::Cancel)
+                continue;
+        }
+        if (isOnRemovableDevice(file) && !isOnRemovableDevice(m_doc->projectFolder())) {
+            int answer = KMessageBox::warningYesNoCancel(QApplication::activeWindow(), i18n("Clip <b>%1</b><br /> is on a removable device, will not be
+available when device is unplugged", file.path()), i18n("File on a Removable Device"), KGuiItem(i18n("Copy file to project folder")),
+KGuiItem(i18n("Continue")), KStandardGuiItem::cancel(), QString("copyFilesToProjectFolder"));
 
-                if (answer == KMessageBox::Cancel) continue;
-                else if (answer == KMessageBox::Yes) {
-                    // Copy files to project folder
-                    QDir sourcesFolder(m_doc->projectFolder().toLocalFile());
-                    sourcesFolder.cd("clips");
-                    KIO::MkdirJob *mkdirJob = KIO::mkdir(QUrl::fromLocalFile(sourcesFolder.absolutePath()));
-                    KJobWidgets::setWindow(mkdirJob, QApplication::activeWindow());
-                    if (!mkdirJob->exec()) {
-                        KMessageBox::sorry(QApplication::activeWindow(), i18n("Cannot create directory %1", sourcesFolder.absolutePath()));
-                        continue;
-                    }
-                    //KIO::filesize_t m_requestedSize;
-                    KIO::CopyJob *copyjob = KIO::copy(file, QUrl::fromLocalFile(sourcesFolder.absolutePath()));
-                    //TODO: for some reason, passing metadata does not work...
-                    copyjob->addMetaData("group", data.value("group"));
-                    copyjob->addMetaData("groupId", data.value("groupId"));
-                    copyjob->addMetaData("comment", data.value("comment"));
-                    KJobWidgets::setWindow(copyjob, QApplication::activeWindow());
-                    connect(copyjob, &KIO::CopyJob::copyingDone, this, &ClipManager::slotAddCopiedClip);
+            if (answer == KMessageBox::Cancel) continue;
+            else if (answer == KMessageBox::Yes) {
+                // Copy files to project folder
+                QDir sourcesFolder(m_doc->projectFolder().toLocalFile());
+                sourcesFolder.cd("clips");
+                KIO::MkdirJob *mkdirJob = KIO::mkdir(QUrl::fromLocalFile(sourcesFolder.absolutePath()));
+                KJobWidgets::setWindow(mkdirJob, QApplication::activeWindow());
+                if (!mkdirJob->exec()) {
+                    KMessageBox::sorry(QApplication::activeWindow(), i18n("Cannot create directory %1", sourcesFolder.absolutePath()));
                     continue;
                 }
-            }*/
-
-    // TODO check folders
-    /*QList< QList<QUrl> > foldersList;
-    QMimeDatabase db;
-    for (const QUrl & file :  list) {
-        // Check there is no folder here
-        QMimeType type = db.mimeTypeForUrl(file);
-        if (type.inherits("inode/directory")) {
-            // user dropped a folder, import its files
-            list.removeAll(file);
-            QDir dir(file.path());
-            QStringList result = dir.entryList(QDir::Files);
-            QList<QUrl> folderFiles;
-            folderFiles << file;
-            for (const QString & path :  result) {
-                // TODO: create folder command
-                folderFiles.append(QUrl::fromLocalFile(dir.absoluteFilePath(path)));
+                //KIO::filesize_t m_requestedSize;
+                KIO::CopyJob *copyjob = KIO::copy(file, QUrl::fromLocalFile(sourcesFolder.absolutePath()));
+                //TODO: for some reason, passing metadata does not work...
+                copyjob->addMetaData("group", data.value("group"));
+                copyjob->addMetaData("groupId", data.value("groupId"));
+                copyjob->addMetaData("comment", data.value("comment"));
+                KJobWidgets::setWindow(copyjob, QApplication::activeWindow());
+                connect(copyjob, &KIO::CopyJob::copyingDone, this, &ClipManager::slotAddCopiedClip);
+                continue;
             }
-            if (folderFiles.count() > 1) foldersList.append(folderFiles);
+        }*/
+
+// TODO check folders
+/*QList< QList<QUrl> > foldersList;
+QMimeDatabase db;
+for (const QUrl & file :  list) {
+    // Check there is no folder here
+    QMimeType type = db.mimeTypeForUrl(file);
+    if (type.inherits("inode/directory")) {
+        // user dropped a folder, import its files
+        list.removeAll(file);
+        QDir dir(file.path());
+        QStringList result = dir.entryList(QDir::Files);
+        QList<QUrl> folderFiles;
+        folderFiles << file;
+        for (const QString & path :  result) {
+            // TODO: create folder command
+            folderFiles.append(QUrl::fromLocalFile(dir.absoluteFilePath(path)));
         }
-    }*/
+        if (folderFiles.count() > 1) foldersList.append(folderFiles);
+    }
+}*/
 //}
 
 void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QString &parentFolder, std::shared_ptr<ProjectItemModel> model)
@@ -439,7 +439,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QString &par
             }
         }
     }
-    qDebug() << "/////////// found list"<<list;
+    qDebug() << "/////////// found list" << list;
     KConfigGroup group = conf->group("FileDialogSize");
     if (handle) {
         KWindowConfig::saveWindowSize(handle, group);

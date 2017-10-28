@@ -20,10 +20,11 @@
  ***************************************************************************/
 
 #include "filewatcher.hpp"
-#include "core.h"
 #include "bin/bin.h"
+#include "core.h"
 
-FileWatcher::FileWatcher(QObject *parent) : QObject(parent)
+FileWatcher::FileWatcher(QObject *parent)
+    : QObject(parent)
 {
     m_fileWatcher = KDirWatch::self();
     // Init clip modification tracker
@@ -59,7 +60,7 @@ void FileWatcher::removeFile(const QString &binId, const QString &url)
         m_fileWatcher->removeFile(url);
         m_occurences.remove(url);
     } else {
-        m_occurences[url]=currentIds;
+        m_occurences[url] = currentIds;
     }
 }
 

@@ -57,6 +57,7 @@ protected:
 public slots:
     void slotChangeZoom(int value, bool zoomOnMouse);
     void zoneUpdated(const QPoint &zone);
+
 private:
     std::shared_ptr<BinController> m_binController;
     ThumbnailProvider *m_thumbnailer;

@@ -38,7 +38,8 @@ class GeometryEditWidget : public AbstractParamWidget
     Q_OBJECT
 public:
     /** @brief Sets up the parameter's GUI.*/
-    explicit GeometryEditWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QPair<int, int> range, QSize frameSize, QWidget *parent = nullptr);
+    explicit GeometryEditWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QPair<int, int> range, QSize frameSize,
+                                QWidget *parent = nullptr);
     ~GeometryEditWidget();
 
 public slots:
@@ -61,7 +62,7 @@ private slots:
 private:
     GeometryWidget *m_geom;
     Monitor *m_monitor;
-    QPair <int, int> m_range;
+    QPair<int, int> m_range;
 
 signals:
     void valueChanged();

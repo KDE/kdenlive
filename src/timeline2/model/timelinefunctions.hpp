@@ -22,10 +22,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef TIMELINEFUNCTIONS_H
 #define TIMELINEFUNCTIONS_H
 
+#include "definitions.h"
+#include "undohelper.hpp"
 #include <memory>
 #include <unordered_set>
-#include "undohelper.hpp"
-#include "definitions.h"
 
 /**
  * @namespace TimelineFunction
@@ -34,7 +34,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 class TimelineItemModel;
-struct TimelineFunctions {
+struct TimelineFunctions
+{
     /* @brief Cuts a clip at given position
        If the clip is part of the group, all clips of the groups are cut at the same position. The group structure is then preserved for clips on both sides
        Returns true on success
@@ -51,7 +52,7 @@ struct TimelineFunctions {
 
     static int requestSpacerStartOperation(std::shared_ptr<TimelineItemModel> timeline, int trackId, int position);
     static bool requestSpacerEndOperation(std::shared_ptr<TimelineItemModel> timeline, int clipId, int startPosition, int endPosition);
-    static bool extractZone(std::shared_ptr<TimelineItemModel> timeline, QVector <int> tracks, QPoint zone, bool liftOnly);
+    static bool extractZone(std::shared_ptr<TimelineItemModel> timeline, QVector<int> tracks, QPoint zone, bool liftOnly);
     static bool liftZone(std::shared_ptr<TimelineItemModel> timeline, int trackId, QPoint zone, Fun &undo, Fun &redo);
     static bool removeSpace(std::shared_ptr<TimelineItemModel> timeline, int trackId, QPoint zone, Fun &undo, Fun &redo);
     static bool insertSpace(std::shared_ptr<TimelineItemModel> timeline, int trackId, QPoint zone, Fun &undo, Fun &redo);

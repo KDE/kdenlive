@@ -413,18 +413,17 @@ QString MarkerListModel::toJson() const
     return QString(json.toJson());
 }
 
-
 bool MarkerListModel::removeAllMarkers()
 {
     QWriteLocker locker(&m_lock);
     std::vector<GenTime> all_pos;
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
-    for (const auto& m : m_markerList) {
+    for (const auto &m : m_markerList) {
         all_pos.push_back(m.first);
     }
     bool res = true;
-    for (const auto& p : all_pos) {
+    for (const auto &p : all_pos) {
         res = removeMarker(p, local_undo, local_redo);
         if (!res) {
             bool undone = local_undo();
@@ -436,7 +435,7 @@ bool MarkerListModel::removeAllMarkers()
     return true;
 }
 
-bool MarkerListModel::editMarkerGui(const GenTime &pos, QWidget *parent, bool createIfNotFound, ClipController* clip)
+bool MarkerListModel::editMarkerGui(const GenTime &pos, QWidget *parent, bool createIfNotFound, ClipController *clip)
 {
     bool exists;
     auto marker = getMarker(pos, &exists);
@@ -446,7 +445,8 @@ bool MarkerListModel::editMarkerGui(const GenTime &pos, QWidget *parent, bool cr
         marker = CommentedTime(pos, QString());
     }
 
-    QScopedPointer<MarkerDialog> dialog(new MarkerDialog(clip, marker, pCore->bin()->projectTimecode(), m_guide ? i18n("Edit guide") : i18n("Edit marker"), parent));
+    QScopedPointer<MarkerDialog> dialog(
+        new MarkerDialog(clip, marker, pCore->bin()->projectTimecode(), m_guide ? i18n("Edit guide") : i18n("Edit marker"), parent));
 
     if (dialog->exec() == QDialog::Accepted) {
         marker = dialog->newMarker();

@@ -20,8 +20,8 @@
  ***************************************************************************/
 
 #include "transitionsrepository.hpp"
-#include "kdenlivesettings.h"
 #include "core.h"
+#include "kdenlivesettings.h"
 #include "xml/xml.hpp"
 #include <QDir>
 #include <QFile>

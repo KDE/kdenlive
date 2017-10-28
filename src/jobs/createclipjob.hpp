@@ -23,10 +23,8 @@
 
 #include "abstractclipjob.h"
 
-
 /* @brief This class represents the job that corresponds to loading a clip from disk
  */
-
 
 class CreateClipJob : public AbstractClipJob
 {
@@ -37,13 +35,11 @@ public:
 
     const QString getDescription() const override;
 
-
     void startJob() override;
 
     /** @brief This is to be called after the job finished.
         By design, the job should store the result of the computation but not share it with the rest of the code. This happens when we call commitResult */
     void commitResult(Fun &undo, Fun &redo) override;
-
 };
 
 #endif

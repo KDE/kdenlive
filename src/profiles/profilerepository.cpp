@@ -24,19 +24,17 @@
 #include "kdenlivesettings.h"
 #include "profilemodel.hpp"
 #include <KLocalizedString>
+#include <KMessageBox>
+#include <KMessageWidget>
 #include <QDir>
 #include <QStandardPaths>
 #include <algorithm>
 #include <mlt++/MltProfile.h>
-#include <KMessageBox>
-#include <KMessageWidget>
 
 std::unique_ptr<ProfileRepository> ProfileRepository::instance;
 std::once_flag ProfileRepository::m_onceFlag;
 std::vector<std::pair<int, QString>> ProfileRepository::colorProfiles{
-    {601,QStringLiteral("ITU-R 601")},
-    {709, QStringLiteral("ITU-R 709")},
-    {240, QStringLiteral("SMPTE240M")}};
+    {601, QStringLiteral("ITU-R 601")}, {709, QStringLiteral("ITU-R 709")}, {240, QStringLiteral("SMPTE240M")}};
 
 ProfileRepository::ProfileRepository()
 {
@@ -107,7 +105,7 @@ QVector<QPair<QString, QString>> ProfileRepository::getAllProfiles() const
 std::unique_ptr<ProfileModel> &ProfileRepository::getProfile(const QString &path)
 {
     QReadLocker locker(&m_mutex);
-    qDebug()<<"// GET PROFILE: "<<path;
+    qDebug() << "// GET PROFILE: " << path;
     if (m_profiles.count(path) == 0) {
         qCWarning(KDENLIVE_LOG) << "//// WARNING: profile not found: " << path << ". Returning default profile instead.";
         QString default_profile = KdenliveSettings::default_profile();
@@ -131,9 +129,8 @@ bool ProfileRepository::profileExists(const QString &path) const
 QString ProfileRepository::getColorspaceDescription(int colorspace)
 {
     // TODO: should the descriptions be translated?
-    for (const auto& cs : colorProfiles) {
-        if (cs.first == colorspace)
-            return cs.second;
+    for (const auto &cs : colorProfiles) {
+        if (cs.first == colorspace) return cs.second;
     }
     return i18n("Unknown");
 }
@@ -141,9 +138,8 @@ QString ProfileRepository::getColorspaceDescription(int colorspace)
 // static
 int ProfileRepository::getColorspaceFromDescription(const QString &description)
 {
-    for (const auto& cs : colorProfiles) {
-        if (cs.second == description)
-            return cs.first;
+    for (const auto &cs : colorProfiles) {
+        if (cs.second == description) return cs.first;
     }
     return 0;
 }

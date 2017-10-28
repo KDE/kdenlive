@@ -23,13 +23,12 @@
 #define PROFILEMODEL_H
 
 #include "profileinfo.hpp"
+#include <QDomElement>
 #include <QString>
 #include <memory>
-#include <QDomElement>
 
-
-namespace Mlt{
-    class Profile;
+namespace Mlt {
+class Profile;
 }
 
 /** @brief This is a wrapper around Mlt::Profile to be used by the rest of kdenlive.
@@ -79,7 +78,6 @@ protected:
 
     std::unique_ptr<Mlt::Profile> m_profile;
 };
-
 
 /* @brief This class serves to describe the parameters of a profile
  */

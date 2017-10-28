@@ -788,33 +788,38 @@ void KdenliveSettingsDialog::updateSettings()
     // Check encoding profiles
     // FFmpeg
     QString profilestr = m_configCapture.kcfg_v4l_profile->itemData(m_configCapture.kcfg_v4l_profile->currentIndex()).toString();
-    if (!profilestr.isEmpty() && (profilestr.section(QLatin1Char(';'), 0, 0) != KdenliveSettings::v4l_parameters() || profilestr.section(QLatin1Char(';'), 1, 1) != KdenliveSettings::v4l_extension())) {
+    if (!profilestr.isEmpty() && (profilestr.section(QLatin1Char(';'), 0, 0) != KdenliveSettings::v4l_parameters() ||
+                                  profilestr.section(QLatin1Char(';'), 1, 1) != KdenliveSettings::v4l_extension())) {
         KdenliveSettings::setV4l_parameters(profilestr.section(QLatin1Char(';'), 0, 0));
         KdenliveSettings::setV4l_extension(profilestr.section(QLatin1Char(';'), 1, 1));
     }
     // screengrab
     profilestr = m_configCapture.kcfg_grab_profile->itemData(m_configCapture.kcfg_grab_profile->currentIndex()).toString();
-    if (!profilestr.isEmpty() && (profilestr.section(QLatin1Char(';'), 0, 0) != KdenliveSettings::grab_parameters() || profilestr.section(QLatin1Char(';'), 1, 1) != KdenliveSettings::grab_extension())) {
+    if (!profilestr.isEmpty() && (profilestr.section(QLatin1Char(';'), 0, 0) != KdenliveSettings::grab_parameters() ||
+                                  profilestr.section(QLatin1Char(';'), 1, 1) != KdenliveSettings::grab_extension())) {
         KdenliveSettings::setGrab_parameters(profilestr.section(QLatin1Char(';'), 0, 0));
         KdenliveSettings::setGrab_extension(profilestr.section(QLatin1Char(';'), 1, 1));
     }
 
     // decklink
     profilestr = m_configCapture.kcfg_decklink_profile->itemData(m_configCapture.kcfg_decklink_profile->currentIndex()).toString();
-    if (!profilestr.isEmpty() && (profilestr.section(QLatin1Char(';'), 0, 0) != KdenliveSettings::decklink_parameters() || profilestr.section(QLatin1Char(';'), 1, 1) != KdenliveSettings::decklink_extension())) {
+    if (!profilestr.isEmpty() && (profilestr.section(QLatin1Char(';'), 0, 0) != KdenliveSettings::decklink_parameters() ||
+                                  profilestr.section(QLatin1Char(';'), 1, 1) != KdenliveSettings::decklink_extension())) {
         KdenliveSettings::setDecklink_parameters(profilestr.section(QLatin1Char(';'), 0, 0));
         KdenliveSettings::setDecklink_extension(profilestr.section(QLatin1Char(';'), 1, 1));
     }
     // proxies
     profilestr = m_configProject.kcfg_proxy_profile->itemData(m_configProject.kcfg_proxy_profile->currentIndex()).toString();
-    if (!profilestr.isEmpty() && (profilestr.section(QLatin1Char(';'), 0, 0) != KdenliveSettings::proxyparams() || profilestr.section(QLatin1Char(';'), 1, 1) != KdenliveSettings::proxyextension())) {
+    if (!profilestr.isEmpty() && (profilestr.section(QLatin1Char(';'), 0, 0) != KdenliveSettings::proxyparams() ||
+                                  profilestr.section(QLatin1Char(';'), 1, 1) != KdenliveSettings::proxyextension())) {
         KdenliveSettings::setProxyparams(profilestr.section(QLatin1Char(';'), 0, 0));
         KdenliveSettings::setProxyextension(profilestr.section(QLatin1Char(';'), 1, 1));
     }
 
     // timeline preview
     profilestr = m_configProject.kcfg_preview_profile->itemData(m_configProject.kcfg_preview_profile->currentIndex()).toString();
-    if (!profilestr.isEmpty() && (profilestr.section(QLatin1Char(';'), 0, 0) != KdenliveSettings::previewparams() || profilestr.section(QLatin1Char(';'), 1, 1) != KdenliveSettings::previewextension())) {
+    if (!profilestr.isEmpty() && (profilestr.section(QLatin1Char(';'), 0, 0) != KdenliveSettings::previewparams() ||
+                                  profilestr.section(QLatin1Char(';'), 1, 1) != KdenliveSettings::previewextension())) {
         KdenliveSettings::setPreviewparams(profilestr.section(QLatin1Char(';'), 0, 0));
         KdenliveSettings::setPreviewextension(profilestr.section(QLatin1Char(';'), 1, 1));
     }

@@ -210,7 +210,7 @@ void KeyframeView::mouseReleaseEvent(QMouseEvent *event)
         GenTime targetPos(m_currentKeyframe, pCore->getCurrentFps());
         bool ok1 = m_model->moveKeyframe(targetPos, initPos, false);
         bool ok2 = m_model->moveKeyframe(initPos, targetPos, true);
-        qDebug() << "RELEASING keyframe move"<<ok1<<ok2<<initPos.frames(pCore->getCurrentFps())<<targetPos.frames(pCore->getCurrentFps());
+        qDebug() << "RELEASING keyframe move" << ok1 << ok2 << initPos.frames(pCore->getCurrentFps()) << targetPos.frames(pCore->getCurrentFps());
     }
 }
 
@@ -268,18 +268,19 @@ void KeyframeView::paintEvent(QPaintEvent *event)
         double scaledPos = pos * m_scale;
         p.drawLine(QPointF(scaledPos, headOffset), QPointF(scaledPos, m_lineHeight + headOffset / 2.0));
         switch (keyframe.second.first) {
-            case KeyframeType::Linear: {
-                QPolygonF position = QPolygonF() << QPointF(-headOffset / 2.0, headOffset / 2.0) << QPointF(0, 0) << QPointF(headOffset / 2.0, headOffset / 2.0) << QPointF(0, headOffset);
-                position.translate(scaledPos, 0);
-                p.drawPolygon(position);
-                break;
-            }
-            case KeyframeType::Discrete:
-                p.drawRect(QRectF(scaledPos - headOffset / 2.0, 0, headOffset, headOffset));
-                break;
-            default:
-                p.drawEllipse(QRectF(scaledPos - headOffset / 2.0, 0, headOffset, headOffset));
-                break;
+        case KeyframeType::Linear: {
+            QPolygonF position = QPolygonF() << QPointF(-headOffset / 2.0, headOffset / 2.0) << QPointF(0, 0) << QPointF(headOffset / 2.0, headOffset / 2.0)
+                                             << QPointF(0, headOffset);
+            position.translate(scaledPos, 0);
+            p.drawPolygon(position);
+            break;
+        }
+        case KeyframeType::Discrete:
+            p.drawRect(QRectF(scaledPos - headOffset / 2.0, 0, headOffset, headOffset));
+            break;
+        default:
+            p.drawEllipse(QRectF(scaledPos - headOffset / 2.0, 0, headOffset, headOffset));
+            break;
         }
     }
 

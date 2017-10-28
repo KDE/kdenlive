@@ -22,9 +22,9 @@
 #ifndef COLLAPSIBLEEFFECTVIEW_H
 #define COLLAPSIBLEEFFECTVIEW_H
 
+#include "abstractcollapsiblewidget.h"
 #include "mltcontroller/effectscontroller.h"
 #include "timecode.h"
-#include "abstractcollapsiblewidget.h"
 
 #include <QDomElement>
 #include <memory>
@@ -45,7 +45,8 @@ class CollapsibleEffectView : public AbstractCollapsibleWidget
     Q_OBJECT
 
 public:
-    explicit CollapsibleEffectView(std::shared_ptr<EffectItemModel> effectModel, QPair<int, int> range, QSize frameSize, QImage icon, QWidget *parent = nullptr);
+    explicit CollapsibleEffectView(std::shared_ptr<EffectItemModel> effectModel, QPair<int, int> range, QSize frameSize, QImage icon,
+                                   QWidget *parent = nullptr);
     ~CollapsibleEffectView();
     QLabel *title;
 

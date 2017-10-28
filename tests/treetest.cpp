@@ -10,9 +10,8 @@
 
 #define private public
 #define protected public
-#include "abstractmodel/treeitem.hpp"
 #include "abstractmodel/abstracttreemodel.hpp"
-
+#include "abstractmodel/treeitem.hpp"
 
 TEST_CASE("Basic tree testing", "[TreeModel]")
 {
@@ -34,7 +33,6 @@ TEST_CASE("Basic tree testing", "[TreeModel]")
         // check that the item is not yet registered (not valid parent)
         REQUIRE(model->m_allItems.size() == 1);
 
-
         // Assign this to a parent
         model->getRoot()->appendChild(item);
         REQUIRE(model->checkConsistency());
@@ -47,7 +45,6 @@ TEST_CASE("Basic tree testing", "[TreeModel]")
 
         // Retrieve data member
         REQUIRE(model->data(model->getIndexFromItem(item), 0) == QStringLiteral("test"));
-
 
         // Try joint creation / assignation
         auto item2 = item->appendChild(QList<QVariant>{QString("test2")});
@@ -124,10 +121,10 @@ TEST_CASE("Basic tree testing", "[TreeModel]")
         // valid move
         REQUIRE(item4->changeParent(item2));
         REQUIRE(model->checkConsistency());
-
     }
 
-    SECTION ("Deregistration tests") {
+    SECTION("Deregistration tests")
+    {
         // we construct a non trivial structure
         auto item = model->getRoot()->appendChild(QList<QVariant>{QString("test")});
         auto item2 = item->appendChild(QList<QVariant>{QString("test2")});
@@ -189,5 +186,4 @@ TEST_CASE("Basic tree testing", "[TreeModel]")
         REQUIRE(item5->changeParent(item2));
         state();
     }
-
 }

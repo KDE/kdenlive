@@ -18,12 +18,12 @@
  ***************************************************************************/
 
 #include "previewmanager.h"
+#include "core.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
-#include "timeline2/view/timelinecontroller.h"
-#include "core.h"
-#include "monitor/monitor.h"
 #include "kdenlivesettings.h"
+#include "monitor/monitor.h"
+#include "timeline2/view/timelinecontroller.h"
 
 #include <KLocalizedString>
 #include <QProcess>
@@ -113,7 +113,7 @@ bool PreviewManager::buildPreviewTrack()
         return false;
     }
     // Create overlay track
-    qDebug()<<"/// BUILDING PREVIEW TRACK\n----------------------\n----------------__";
+    qDebug() << "/// BUILDING PREVIEW TRACK\n----------------------\n----------------__";
     m_previewTrack = new Mlt::Playlist(*m_tractor->profile());
     m_tractor->lock();
     reconnectTrack();
@@ -186,14 +186,14 @@ void PreviewManager::reconnectTrack()
     int increment = 0;
     if (m_previewTrack) {
         m_tractor->insert_track(*m_previewTrack, m_previewTrackIndex);
-        std::shared_ptr<Mlt::Producer>tk(m_tractor->track(m_previewTrackIndex));
+        std::shared_ptr<Mlt::Producer> tk(m_tractor->track(m_previewTrackIndex));
         tk->set("hide", 2);
         tk->set("id", "timeline_preview");
         increment++;
     }
     if (m_overlayTrack) {
         m_tractor->insert_track(*m_overlayTrack, m_previewTrackIndex + increment);
-        std::shared_ptr<Mlt::Producer>tk(m_tractor->track(m_previewTrackIndex + increment));
+        std::shared_ptr<Mlt::Producer> tk(m_tractor->track(m_previewTrackIndex + increment));
         tk->set("hide", 2);
         tk->set("id", "timeline_overlay");
     }
@@ -216,7 +216,7 @@ void PreviewManager::disconnectTrack()
             delete prod;
         }
     }
-    qDebug()<<"// DISCONNECTING PREV TK.............";
+    qDebug() << "// DISCONNECTING PREV TK.............";
     m_previewTrackIndex = -1;
 }
 
@@ -315,7 +315,7 @@ void PreviewManager::invalidatePreviews(const QVariantList chunks)
                     m_dirtyChunks.removeAll(i);
                     m_renderedChunks << i;
                 } else {
-                    qDebug()<<"// ERROR PROCESSE CHUNK: "<<i<<", "<<cacheFileName;
+                    qDebug() << "// ERROR PROCESSE CHUNK: " << i << ", " << cacheFileName;
                 }
             }
         }
@@ -385,7 +385,7 @@ void PreviewManager::addPreviewRange(const QPoint zone, bool add)
     int startChunk = zone.x() / chunkSize;
     int endChunk = rintl(zone.y() / chunkSize);
     QList<int> toRemove;
-    qDebug()<<" // / RESUQEST CHUNKS; "<<startChunk<<" = "<<endChunk;
+    qDebug() << " // / RESUQEST CHUNKS; " << startChunk << " = " << endChunk;
     for (int i = startChunk; i <= endChunk; i++) {
         int frame = i * chunkSize;
         if (add) {
@@ -401,7 +401,7 @@ void PreviewManager::addPreviewRange(const QPoint zone, bool add)
         }
     }
     if (add) {
-        qDebug()<<"CHUNKS CHANGED: "<<m_dirtyChunks;
+        qDebug() << "CHUNKS CHANGED: " << m_dirtyChunks;
         m_controller->dirtyChunksChanged();
         if (!m_previewThread.isRunning() && KdenliveSettings::autopreview()) {
             m_previewTimer.start();
@@ -457,7 +457,7 @@ void PreviewManager::startPreviewRender()
         m_waitingThumbs.clear();
         const QString sceneList = QStringLiteral("xml:") + m_cacheDir.absoluteFilePath(QStringLiteral("preview.mlt"));
         pCore->getMonitor(Kdenlive::ProjectMonitor)->sceneList(m_cacheDir.absolutePath(), sceneList);
-        //pCore->currentDoc()->saveMltPlaylist(sceneList);
+        // pCore->currentDoc()->saveMltPlaylist(sceneList);
         m_previewThread = QtConcurrent::run(this, &PreviewManager::doPreviewRender, sceneList);
     }
 }
@@ -597,7 +597,7 @@ void PreviewManager::reloadChunks(const QVariantList chunks)
             const QString fileName = m_cacheDir.absoluteFilePath(QStringLiteral("%1.%2").arg(ix.toInt()).arg(m_extension));
             Mlt::Producer prod(*m_tractor->profile(), nullptr, fileName.toUtf8().constData());
             if (prod.is_valid()) {
-                //m_ruler->updatePreview(ix, true);
+                // m_ruler->updatePreview(ix, true);
                 prod.set("mlt_service", "avformat-novalidate");
                 m_previewTrack->insert_at(ix.toInt(), &prod, 1);
             }
@@ -628,7 +628,7 @@ void PreviewManager::gotPreviewRender(int frame, const QString &file, int progre
         if (prod.is_valid()) {
             m_renderedChunks << frame;
             m_controller->renderedChunksChanged();
-            //m_ruler->updatePreview(frame, true, true);
+            // m_ruler->updatePreview(frame, true, true);
             prod.set("mlt_service", "avformat-novalidate");
             m_previewTrack->insert_at(frame, &prod, 1);
         } else {

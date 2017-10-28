@@ -20,12 +20,11 @@
  ***************************************************************************/
 
 #include "binplaylist.hpp"
-#include <mlt++/Mlt.h>
 #include "abstractprojectitem.h"
 #include "core.h"
-#include "projectclip.h"
 #include "profiles/profilemodel.hpp"
-
+#include "projectclip.h"
+#include <mlt++/Mlt.h>
 
 BinPlaylist::BinPlaylist()
     : m_binPlaylist(new Mlt::Playlist(pCore->getCurrentProfile()->profile()))
@@ -80,7 +79,7 @@ void BinPlaylist::manageBinItemDeletion(AbstractProjectItem *binElem)
         Q_ASSERT(m_allClips.count(id) > 0);
         m_allClips.erase(id);
         removeBinClip(id);
-        disconnect(static_cast<ProjectClip*>(binElem), &ProjectClip::producerChanged, this, &BinPlaylist::changeProducer);
+        disconnect(static_cast<ProjectClip *>(binElem), &ProjectClip::producerChanged, this, &BinPlaylist::changeProducer);
     }
     default:
         break;

@@ -212,7 +212,8 @@ protected:
     void connectEffectStack();
 
 public slots:
-    /* @brief Store the audio thumbnails once computed. Note that the parameter is a value and not a reference, fill free to use it as a sink (use std::move to avoid copy). */
+    /* @brief Store the audio thumbnails once computed. Note that the parameter is a value and not a reference, fill free to use it as a sink (use std::move to
+     * avoid copy). */
     void updateAudioThumbnail(QVariantList audioLevels);
     /** @brief Extract image thumbnails for timeline. */
     void slotExtractImage(const QList<int> &frames);

@@ -77,6 +77,7 @@ public:
 
     /** @brief Delete a (custom) profile*/
     bool deleteProfile(const QString &path);
+
 protected:
     // Constructor is protected because class is a Singleton
     ProfileRepository();

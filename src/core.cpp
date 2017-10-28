@@ -485,10 +485,9 @@ QMap<int, QString> Core::getVideoTrackNames()
     return m_mainWindow->getCurrentTimeline()->controller()->getTrackNames(true);
 }
 
-QPair<int,int> Core::getCompositionATrack(int cid) const
+QPair<int, int> Core::getCompositionATrack(int cid) const
 {
-    if (!m_guiConstructed)
-        return QPair<int,int>();
+    if (!m_guiConstructed) return QPair<int, int>();
     return m_mainWindow->getCurrentTimeline()->controller()->getCompositionATrack(cid);
 }
 
@@ -538,5 +537,4 @@ void Core::showClipKeyframes(ObjectId id, bool enable)
     } else if (id.first == ObjectType::TimelineComposition) {
         m_mainWindow->getCurrentTimeline()->controller()->showCompositionKeyframes(id.second, enable);
     }
-
 }

@@ -71,7 +71,7 @@ public:
     int proposeSize(int in, int out, int size, bool right, int maxSnapDist);
 
     // For testing only
-    std::map<int, int> _snaps() { return m_snaps;}
+    std::map<int, int> _snaps() { return m_snaps; }
 
 private:
     std::map<int, int> m_snaps; // This represents the snappoints internally. The keys are the positions and the values are the number of elements at this

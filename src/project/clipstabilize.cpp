@@ -136,7 +136,7 @@ std::unordered_map<QString, QString> ClipStabilize::filterParams() const
     QHashIterator<QString, QHash<QString, QString>> it(m_ui_params);
     while (it.hasNext()) {
         it.next();
-        params[it.key()] =  it.value().value(QStringLiteral("value"));
+        params[it.key()] = it.value().value(QStringLiteral("value"));
     }
     return params;
 }

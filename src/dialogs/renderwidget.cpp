@@ -34,8 +34,8 @@
 #include <KMimeTypeTrader>
 #include <KNotification>
 #include <KRun>
-#include <knotifications_version.h>
 #include <kio_version.h>
+#include <knotifications_version.h>
 
 #include "kdenlive_debug.h"
 #include <QDBusConnectionInterface>
@@ -305,7 +305,7 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, QWidg
     // m_view.splitter->setStretchFactor(0, 2);
 
     m_view.out_file->setMode(KFile::File);
-#if KIO_VERSION >= QT_VERSION_CHECK(5,33,0)
+#if KIO_VERSION >= QT_VERSION_CHECK(5, 33, 0)
     m_view.out_file->setAcceptMode(QFileDialog::AcceptSave);
 #elif !defined(KIOWIDGETS_DEPRECATED)
     m_view.out_file->fileDialog()->setAcceptMode(QFileDialog::AcceptSave);
@@ -1167,7 +1167,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
                     resizeProfile = true;
                 }
             }
-            if ((double) profile->display_aspect_num() / profile->display_aspect_den() > 1.5) {
+            if ((double)profile->display_aspect_num() / profile->display_aspect_den() > 1.5) {
                 dvstd += QLatin1String("_wide");
             }
             renderArgs.replace(QLatin1String("%dv_standard"), dvstd);
@@ -1212,8 +1212,8 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
                 render_process_args << parser.resultingArguments().join(QLatin1Char(' '));
             } else {
                 // no service found to play MIME type
-                //TODO: inform user
-                //errorMessage(PlaybackError, i18n("No service found to play %1", mime.name()));
+                // TODO: inform user
+                // errorMessage(PlaybackError, i18n("No service found to play %1", mime.name()));
                 render_process_args << QStringLiteral("-");
             }
         } else {
@@ -2034,7 +2034,7 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
 
             // Check if item with same name already exists and replace it,
             // allowing to override default profiles
-            QTreeWidgetItem *childitem  = nullptr;
+            QTreeWidgetItem *childitem = nullptr;
             for (int j = 0; j < groupItem->childCount(); ++j) {
                 if (groupItem->child(j)->text(0) == profileName) {
                     childitem = groupItem->child(j);
@@ -2184,8 +2184,8 @@ void RenderWidget::setRenderJob(const QString &dest, int progress)
         qint64 remaining = elapsedTime * (100 - progress) / progress;
         int days = static_cast<int>(remaining / 86400);
         int remainingSecs = static_cast<int>(remaining % 86400);
-        QTime when = QTime ( 0, 0, 0, 0 ) ;
-        when = when.addSecs (remainingSecs) ;
+        QTime when = QTime(0, 0, 0, 0);
+        when = when.addSecs(remainingSecs);
         QString est = (days > 0) ? i18np("%1 day ", "%1 days ", days) : QString();
         est.append(when.toString(QStringLiteral("hh:mm:ss")));
         QString t = i18n("Remaining time %1", est);
@@ -2212,8 +2212,8 @@ void RenderWidget::setRenderStatus(const QString &dest, int status, const QStrin
         qint64 elapsedTime = startTime.secsTo(QDateTime::currentDateTime());
         int days = static_cast<int>(elapsedTime / 86400);
         int secs = static_cast<int>(elapsedTime % 86400);
-        QTime when = QTime ( 0, 0, 0, 0 ) ;
-        when = when.addSecs (secs) ;
+        QTime when = QTime(0, 0, 0, 0);
+        when = when.addSecs(secs);
         QString est = (days > 0) ? i18np("%1 day ", "%1 days ", days) : QString();
         est.append(when.toString(QStringLiteral("hh:mm:ss")));
         QString t = i18n("Rendering finished in %1", est);
@@ -2558,7 +2558,7 @@ bool RenderWidget::startWaitingRenderJobs()
         }
         item = static_cast<RenderJobItem *>(m_view.running_jobs->itemBelow(item));
     }
-    // erase itself when rendering is finished
+// erase itself when rendering is finished
 #ifndef Q_OS_WIN
     outStream << "rm \"" << autoscriptFile << "\"\n";
 #else

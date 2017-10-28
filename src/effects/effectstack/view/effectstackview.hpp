@@ -22,11 +22,11 @@
 #ifndef EFFECTSTACKVIEW_H
 #define EFFECTSTACKVIEW_H
 
+#include "definitions.h"
+#include <QMutex>
 #include <QStyledItemDelegate>
 #include <QWidget>
-#include <QMutex>
 #include <memory>
-#include "definitions.h"
 
 class QVBoxLayout;
 class QTreeView;

@@ -80,7 +80,7 @@ QString ClipCreator::createClipFromFile(const QString &path, const QString &pare
     QMimeDatabase db;
     QMimeType type = db.mimeTypeForUrl(url);
 
-    qDebug() << "/////////// createClipFromFile"<<path<<parentFolder<<url<<type.name();
+    qDebug() << "/////////// createClipFromFile" << path << parentFolder << url << type.name();
     QDomElement prod;
     if (type.name().startsWith(QLatin1String("image/"))) {
         int duration = pCore->currentDoc()->getFramePos(KdenliveSettings::image_duration());
@@ -129,10 +129,10 @@ QString ClipCreator::createClipFromFile(const QString &path, const QString &pare
         QMap<QString, QString> properties;
         properties.insert(QStringLiteral("resource"), path);
         Xml::addXmlProperties(prod, properties);
-        qDebug() << "/////////// normal"<<url.toLocalFile() << properties <<url;
+        qDebug() << "/////////// normal" << url.toLocalFile() << properties << url;
     }
 
-    qDebug() << "/////////// final xml"<<xml.toString();
+    qDebug() << "/////////// final xml" << xml.toString();
     QString id;
     bool res = model->requestAddBinClip(id, xml.documentElement(), parentFolder, undo, redo);
     return res ? id : QStringLiteral("-1");
@@ -199,7 +199,7 @@ QString ClipCreator::createTitleTemplate(const QString &path, const QString &tex
 bool ClipCreator::createClipsFromList(const QList<QUrl> &list, bool checkRemovable, const QString &parentFolder, std::shared_ptr<ProjectItemModel> model,
                                       Fun &undo, Fun &redo)
 {
-    qDebug() << "/////////// creatclipsfromlist"<<list<<checkRemovable<<parentFolder;
+    qDebug() << "/////////// creatclipsfromlist" << list << checkRemovable << parentFolder;
     bool created = false;
     QMimeDatabase db;
     for (const QUrl &file : list) {

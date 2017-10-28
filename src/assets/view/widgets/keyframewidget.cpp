@@ -18,8 +18,8 @@
  ***************************************************************************/
 
 #include "keyframewidget.hpp"
-#include "assets/keyframes/view/keyframeview.hpp"
 #include "assets/keyframes/model/keyframemodellist.hpp"
+#include "assets/keyframes/view/keyframeview.hpp"
 #include "assets/model/assetparametermodel.hpp"
 #include "core.h"
 #include "monitor/monitor.h"
@@ -29,9 +29,9 @@
 #include "widgets/doublewidget.h"
 #include "widgets/geometrywidget.h"
 
-#include <QVBoxLayout>
-#include <QToolButton>
 #include <KSelectAction>
+#include <QToolButton>
+#include <QVBoxLayout>
 #include <klocalizedstring.h>
 
 KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
@@ -95,10 +95,10 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
 
     m_lay->addWidget(m_keyframeview);
     m_lay->addWidget(toolbar);
-    //slotSetPosition(0, false);
+    // slotSetPosition(0, false);
 
-    connect(m_time, &TimecodeDisplay::timeCodeEditingFinished, [&](){slotSetPosition(-1, true);});
-    connect(m_keyframeview, &KeyframeView::seekToPos, [&](int p){slotSetPosition(p, true);});
+    connect(m_time, &TimecodeDisplay::timeCodeEditingFinished, [&]() { slotSetPosition(-1, true); });
+    connect(m_keyframeview, &KeyframeView::seekToPos, [&](int p) { slotSetPosition(p, true); });
     connect(m_keyframeview, &KeyframeView::atKeyframe, this, &KeyframeWidget::slotAtKeyframe);
     connect(m_keyframeview, &KeyframeView::modified, this, &KeyframeWidget::slotRefreshParams);
 
@@ -122,11 +122,11 @@ void KeyframeWidget::monitorSeek(int pos)
 {
     int in = pCore->getItemIn(m_model->getOwnerId());
     int out = in + pCore->getItemDuration(m_model->getOwnerId());
-    m_buttonAddDelete->setEnabled(pos -in > 0);
-    for (const auto & w : m_parameters) {
+    m_buttonAddDelete->setEnabled(pos - in > 0);
+    for (const auto &w : m_parameters) {
         ParamType type = m_model->data(w.first, AssetParameterModel::TypeRole).value<ParamType>();
         if (type == ParamType::AnimatedRect) {
-            ((GeometryWidget *) w.second)->connectMonitor(pos >= in && pos < out);
+            ((GeometryWidget *)w.second)->connectMonitor(pos >= in && pos < out);
             break;
         }
     }
@@ -141,16 +141,15 @@ void KeyframeWidget::slotEditKeyframeType(QAction *action)
     m_keyframeview->slotEditType(type, m_index);
 }
 
-
 void KeyframeWidget::slotRefreshParams()
 {
     int pos = getPosition();
     KeyframeType keyType = m_keyframes->keyframeType(GenTime(pos, pCore->getCurrentFps()));
-    m_selectType->setCurrentItem((int) keyType);
-    for (const auto & w : m_parameters) {
+    m_selectType->setCurrentItem((int)keyType);
+    for (const auto &w : m_parameters) {
         ParamType type = m_model->data(w.first, AssetParameterModel::TypeRole).value<ParamType>();
         if (type == ParamType::KeyframeParam) {
-            ((DoubleWidget *) w.second)->setValue(m_keyframes->getInterpolatedValue(pos, w.first).toDouble());
+            ((DoubleWidget *)w.second)->setValue(m_keyframes->getInterpolatedValue(pos, w.first).toDouble());
         } else if (type == ParamType::AnimatedRect) {
             const QString val = m_keyframes->getInterpolatedValue(pos, w.first).toString();
             const QStringList vals = val.split(QLatin1Char(' '));
@@ -163,7 +162,7 @@ void KeyframeWidget::slotRefreshParams()
                     opacity = locale.toDouble(vals.at(4));
                 }
             }
-            ((GeometryWidget *) w.second)->setValue(rect, opacity);
+            ((GeometryWidget *)w.second)->setValue(rect, opacity);
         }
     }
 }
@@ -188,7 +187,6 @@ int KeyframeWidget::getPosition() const
 {
     return m_time->getValue();
 }
-
 
 void KeyframeWidget::addKeyframe(int pos)
 {
@@ -231,13 +229,13 @@ void KeyframeWidget::slotSetRange(QPair<int, int> /*range*/)
 void KeyframeWidget::slotRefresh()
 {
     // update duration
-    slotSetRange(QPair<int,int>(-1, -1));
+    slotSetRange(QPair<int, int>(-1, -1));
 
     // refresh keyframes
     m_keyframes->refresh();
 }
 
-void KeyframeWidget::addParameter(const QPersistentModelIndex& index)
+void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
 {
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
@@ -251,7 +249,7 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex& index)
     QWidget *paramWidget = nullptr;
     if (type == ParamType::AnimatedRect) {
         int inPos = m_model->data(index, AssetParameterModel::ParentInRole).toInt();
-        QPair <int, int>range(inPos, inPos + m_model->data(index, AssetParameterModel::ParentDurationRole).toInt());
+        QPair<int, int> range(inPos, inPos + m_model->data(index, AssetParameterModel::ParentDurationRole).toInt());
         QSize frameSize = pCore->getCurrentFrameSize();
         const QString value = m_keyframes->getInterpolatedValue(getPosition(), index).toString();
         QRect rect;
@@ -260,9 +258,8 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex& index)
             rect = QRect(vals.at(0).toInt(), vals.at(1).toInt(), vals.at(2).toInt(), vals.at(3).toInt());
         }
         GeometryWidget *geomWidget = new GeometryWidget(pCore->getMonitor(m_model->monitorId), range, rect, frameSize, false, this);
-        connect(geomWidget, &GeometryWidget::valueChanged, [this, index](const QString v){
-            m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), QVariant(v), index);
-        });
+        connect(geomWidget, &GeometryWidget::valueChanged,
+                [this, index](const QString v) { m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), QVariant(v), index); });
         paramWidget = geomWidget;
     } else {
         double value = m_keyframes->getInterpolatedValue(getPosition(), index).toDouble();
@@ -273,9 +270,8 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex& index)
         double factor = m_model->data(index, AssetParameterModel::FactorRole).toDouble();
         auto doubleWidget = new DoubleWidget(name, value, min, max, defaultValue, comment, -1, suffix, decimals, this);
         doubleWidget->factor = factor;
-        connect(doubleWidget, &DoubleWidget::valueChanged, [this, index](double v){
-            m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), QVariant(v), index);
-        });
+        connect(doubleWidget, &DoubleWidget::valueChanged,
+                [this, index](double v) { m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), QVariant(v), index); });
         paramWidget = doubleWidget;
     }
     if (paramWidget) {

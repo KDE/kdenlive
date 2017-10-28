@@ -22,10 +22,10 @@
 #include "trackmodel.hpp"
 #include "clipmodel.hpp"
 #include "compositionmodel.hpp"
+#include "effects/effectstack/model/effectstackmodel.hpp"
 #include "kdenlivesettings.h"
 #include "snapmodel.hpp"
 #include "timelinemodel.hpp"
-#include "effects/effectstack/model/effectstackmodel.hpp"
 #include <QDebug>
 #include <QModelIndex>
 #include <mlt++/MltProfile.h>
@@ -838,7 +838,7 @@ int TrackModel::getCompositionByRow(int row) const
     if (row < (int)m_allClips.size()) {
         return -1;
     }
-    //Q_ASSERT(row <= (int)m_allClips.size() + m_allCompositions.size());
+    // Q_ASSERT(row <= (int)m_allClips.size() + m_allCompositions.size());
     auto it = m_allCompositions.cbegin();
     std::advance(it, row - (int)m_allClips.size());
     return (*it).first;
@@ -916,4 +916,3 @@ bool TrackModel::addEffect(const QString &effectId)
     m_effectStack->appendEffect(effectId);
     return true;
 }
-

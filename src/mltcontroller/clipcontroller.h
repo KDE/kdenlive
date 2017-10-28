@@ -173,7 +173,7 @@ public:
     /** @brief Returns true if the bin clip has effects */
     bool hasEffects() const;
     /** @brief Returns info about clip audio */
-    const std::unique_ptr<AudioStreamInfo>& audioInfo() const;
+    const std::unique_ptr<AudioStreamInfo> &audioInfo() const;
     /** @brief Returns true if audio thumbnails for this clip are cached */
     bool m_audioThumbCreated;
     /** @brief When replacing a producer, it is important that we keep some properties, for exemple force_ stuff and url for proxies
@@ -201,10 +201,9 @@ public:
     /** @brief Append an effect to this producer's effect list */
     void addEffect(const QString &effectId);
 
-
 protected:
-    virtual void emitProducerChanged(const QString& , const std::shared_ptr<Mlt::Producer> &) {};
-    virtual void connectEffectStack() {};
+    virtual void emitProducerChanged(const QString &, const std::shared_ptr<Mlt::Producer> &){};
+    virtual void connectEffectStack(){};
 
     std::shared_ptr<Mlt::Producer> m_masterProducer;
     Mlt::Properties *m_properties;

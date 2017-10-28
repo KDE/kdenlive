@@ -68,6 +68,7 @@ protected:
 
     // This should be called from commitResult (that is, from the GUI thread) to deal with multi stream videos
     void processMultiStream();
+
 private:
     QDomElement m_xml;
 

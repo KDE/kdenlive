@@ -351,7 +351,7 @@ private slots:
     void slotClipStart();
     void slotClipEnd();
     void slotSelectClipInTimeline();
-    void slotClipInTimeline(const QString &clipId, QList <int> ids);
+    void slotClipInTimeline(const QString &clipId, QList<int> ids);
 
     void slotInsertSpace();
     void slotRemoveSpace();
@@ -428,7 +428,7 @@ private slots:
     void slotDownloadResources();
 
     /** @brief Process keyframe data sent from a clip to effect / transition stack. */
-    void slotProcessImportKeyframes(GraphicsRectItem type, const QString& tag, const QString& keyframes);
+    void slotProcessImportKeyframes(GraphicsRectItem type, const QString &tag, const QString &keyframes);
     /** @brief Move playhead to mouse curser position if defined key is pressed */
     void slotAlignPlayheadToMousePos();
 

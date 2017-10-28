@@ -150,7 +150,7 @@ public:
     /** @brief Get a list of video track names with indexes */
     QMap<int, QString> getVideoTrackNames();
     /** @brief Returns the composition A track (MLT index / Track id) */
-    QPair<int,int>getCompositionATrack(int cid) const;
+    QPair<int, int> getCompositionATrack(int cid) const;
     void setCompositionATrack(int cid, int aTrack);
     std::shared_ptr<DocUndoStack> undoStack();
     double getClipSpeed(int id) const;

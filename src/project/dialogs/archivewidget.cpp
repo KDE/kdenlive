@@ -963,7 +963,7 @@ void ArchiveWidget::slotExtractProgress()
 void ArchiveWidget::slotGotProgress(KJob *job)
 {
     if (!job->error()) {
-        KIO::DirectorySizeJob *j = static_cast <KIO::DirectorySizeJob *>(job);
+        KIO::DirectorySizeJob *j = static_cast<KIO::DirectorySizeJob *>(job);
         progressBar->setValue(static_cast<int>(100 * j->totalSize() / m_requestedSize));
     }
     job->deleteLater();

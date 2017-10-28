@@ -81,9 +81,9 @@ QImage AudioSignal::renderAudioScope(uint, const audioShortVector &audioFrame, c
     bool showdb = width() > (dbsize + 40);
     // valpixel=1.0 for 127, 1.0+(1/40) for 1 short oversample, 1.0+(2/40) for longer oversample
     for (int i = 0; i < numchan; ++i) {
-        //int maxx= (unsigned char)channels[i] * (horiz ? width() : height() ) / 127;
+        // int maxx= (unsigned char)channels[i] * (horiz ? width() : height() ) / 127;
         double valpixel = valueToPixel((double)(unsigned char)chanAvg[i] / 127.0);
-        int maxx =  height() * valpixel;
+        int maxx = height() * valpixel;
         int xdelta = height() / 42;
         int _y2 = (showdb ? width() - dbsize : width()) / numchan - 1;
         int _y1 = (showdb ? width() - dbsize : width()) * i / numchan;

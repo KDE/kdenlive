@@ -22,10 +22,10 @@
 
 #include "abstractparamwidget.hpp"
 
+#include "definitions.h"
 #include <QPersistentModelIndex>
 #include <memory>
 #include <unordered_map>
-#include "definitions.h"
 
 class AssetParameterModel;
 class DoubleWidget;
@@ -45,7 +45,7 @@ public:
     ~KeyframeWidget();
 
     /* @brief Add a new parameter to be managed using the same keyframe viewer */
-    void addParameter(const QPersistentModelIndex& index);
+    void addParameter(const QPersistentModelIndex &index);
     int getPosition() const;
     void addKeyframe(int pos = -1);
 
@@ -74,7 +74,7 @@ private:
     KSelectAction *m_selectType;
     TimecodeDisplay *m_time;
 
-    std::unordered_map<QPersistentModelIndex, QWidget*> m_parameters;
+    std::unordered_map<QPersistentModelIndex, QWidget *> m_parameters;
 };
 
 #endif

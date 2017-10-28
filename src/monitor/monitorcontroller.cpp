@@ -79,8 +79,8 @@ QImage MonitorController::extractFrame(int frame_position, const QString &path, 
             Mlt::Filter converter(*tmpProfile, "avcolor_space");
             tmpProd->attach(scaler);
             tmpProd->attach(converter);
-            //TODO: paste effects
-            //Clip(*tmpProd).addEffects(*m_glWidget->m_producer);
+            // TODO: paste effects
+            // Clip(*tmpProd).addEffects(*m_glWidget->m_producer);
             tmpProd->seek(m_glWidget->m_producer->position());
             frame = tmpProd->get_frame();
             img = KThumb::getFrame(frame, width, height);
@@ -88,7 +88,8 @@ QImage MonitorController::extractFrame(int frame_position, const QString &path, 
         }
     } else if (KdenliveSettings::gpu_accel()) {
         QString service = m_glWidget->m_producer->get("mlt_service");
-        QScopedPointer <Mlt::Producer> tmpProd(new Mlt::Producer(*m_glWidget->m_monitorProfile, service.toUtf8().constData(), m_glWidget->m_producer->get("resource")));
+        QScopedPointer<Mlt::Producer> tmpProd(
+            new Mlt::Producer(*m_glWidget->m_monitorProfile, service.toUtf8().constData(), m_glWidget->m_producer->get("resource")));
         Mlt::Filter scaler(*m_glWidget->m_monitorProfile, "swscale");
         Mlt::Filter converter(*m_glWidget->m_monitorProfile, "avcolor_space");
         tmpProd->attach(scaler);
@@ -104,5 +105,3 @@ QImage MonitorController::extractFrame(int frame_position, const QString &path, 
     }
     return img;
 }
-
-

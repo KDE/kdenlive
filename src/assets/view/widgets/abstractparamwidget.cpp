@@ -22,8 +22,8 @@
 #include "assets/model/assetparametermodel.hpp"
 #include "boolparamwidget.hpp"
 #include "doubleparamwidget.hpp"
-#include "keyframeedit.h"
 #include "geometryeditwidget.hpp"
+#include "keyframeedit.h"
 #include "keyframewidget.hpp"
 #include "listparamwidget.h"
 #include "positioneditwidget.hpp"
@@ -59,7 +59,8 @@ AbstractParamWidget::AbstractParamWidget(std::shared_ptr<AssetParameterModel> mo
 {
 }
 
-AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetParameterModel> &model, QModelIndex index, QPair<int, int> range, QSize frameSize, QWidget *parent)
+AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetParameterModel> &model, QModelIndex index, QPair<int, int> range,
+                                                    QSize frameSize, QWidget *parent)
 {
     // We retrieve the parameter type
     auto type = model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
@@ -88,14 +89,14 @@ AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetP
         break;
     case ParamType::Animated:
     case ParamType::RestrictedAnim:
-//        widget = new AnimationWidget(model, index, range, parent);
-//        break;
-//  case ParamType::KeyframeParam:
-//        widget = new KeyframeEdit(model, index, parent);
-//        break;
+    //        widget = new AnimationWidget(model, index, range, parent);
+    //        break;
+    //  case ParamType::KeyframeParam:
+    //        widget = new KeyframeEdit(model, index, parent);
+    //        break;
     case ParamType::Position:
-//        widget = new PositionEditWidget(model, index, parent);
-//        break;
+    //        widget = new PositionEditWidget(model, index, parent);
+    //        break;
     case ParamType::Switch:
     case ParamType::Addedgeometry:
     case ParamType::Color:

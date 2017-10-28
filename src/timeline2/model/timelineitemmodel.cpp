@@ -21,23 +21,23 @@
 
 #include "timelineitemmodel.hpp"
 
-#include "bin/model/markerlistmodel.hpp"
 #include "assets/keyframes/model/keyframemodel.hpp"
+#include "bin/model/markerlistmodel.hpp"
 #include "clipmodel.hpp"
 #include "compositionmodel.hpp"
+#include "core.h"
 #include "doc/docundostack.hpp"
 #include "groupsmodel.hpp"
+#include "kdenlivesettings.h"
 #include "macros.hpp"
 #include "trackmodel.hpp"
 #include "transitions/transitionsrepository.hpp"
-#include "kdenlivesettings.h"
-#include "core.h"
 #include <QDebug>
 #include <QFileInfo>
+#include <mlt++/MltField.h>
 #include <mlt++/MltProfile.h>
 #include <mlt++/MltTractor.h>
 #include <mlt++/MltTransition.h>
-#include <mlt++/MltField.h>
 
 #include <utility>
 
@@ -52,7 +52,6 @@ void TimelineItemModel::finishConstruct(std::shared_ptr<TimelineItemModel> ptr, 
     ptr->m_groups = std::unique_ptr<GroupsModel>(new GroupsModel(ptr));
     guideModel->registerSnapModel(ptr->m_snaps);
 }
-
 
 std::shared_ptr<TimelineItemModel> TimelineItemModel::construct(Mlt::Profile *profile, std::shared_ptr<MarkerListModel> guideModel,
                                                                 std::weak_ptr<DocUndoStack> undo_stack)
@@ -408,7 +407,6 @@ void TimelineItemModel::buildTrackCompositing()
         pCore->displayMessage(i18n("Could not setup track compositing, check your install"), MessageType::ErrorMessage);
     }
 }
-
 
 const QString TimelineItemModel::groupsData()
 {

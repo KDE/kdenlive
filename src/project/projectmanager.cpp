@@ -81,7 +81,9 @@ ProjectManager::ProjectManager(QObject *parent)
     dir.mkdir(QStringLiteral("titles"));
 }
 
-ProjectManager::~ProjectManager() {}
+ProjectManager::~ProjectManager()
+{
+}
 
 void ProjectManager::slotLoadOnOpen()
 {

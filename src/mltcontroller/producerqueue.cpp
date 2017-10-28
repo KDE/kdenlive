@@ -21,17 +21,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "producerqueue.h"
 #include "bin/projectclip.h"
-#include "bincontroller.h"
 #include "bin/projectitemmodel.h"
+#include "bincontroller.h"
 #include "clipcontroller.h"
-#include "doc/kdenlivedoc.h"
 #include "core.h"
 #include "dialogs/profilesdialog.h"
+#include "doc/kdenlivedoc.h"
 #include "doc/kthumb.h"
 #include "kdenlivesettings.h"
+#include "mltcontroller/clip.h"
 #include "profiles/profilemodel.hpp"
 #include "project/dialogs/slideshowclip.h"
-#include "mltcontroller/clip.h"
 
 #include <QtConcurrent>
 
@@ -417,7 +417,8 @@ void ProducerQueue::processFileProperties()
             clipOut = info.xml.attribute(QStringLiteral("out")).toInt();
         }
         // setup length here as otherwise default length (currently 15000 frames in MLT) will be taken even if outpoint is larger
-        if (type == ClipType::Color || type == ClipType::Text || type == ClipType::TextTemplate || type == ClipType::QText || type == ClipType::Image || type == ClipType::SlideShow) {
+        if (type == ClipType::Color || type == ClipType::Text || type == ClipType::TextTemplate || type == ClipType::QText || type == ClipType::Image ||
+            type == ClipType::SlideShow) {
             int length;
             if (info.xml.hasAttribute(QStringLiteral("length"))) {
                 length = info.xml.attribute(QStringLiteral("length")).toInt();
@@ -458,9 +459,9 @@ void ProducerQueue::processFileProperties()
         int frameNumber = ProjectClip::getXmlProperty(info.xml, QStringLiteral("kdenlive:thumbnailFrame"), QStringLiteral("-1")).toInt();
         producer->set("kdenlive:id", info.clipId.toUtf8().constData());
 
-        qDebug()<<" * * * ** * * *REQUEST CLIP RELOAD: "<<info.clipId<<" = "<<info.replaceProducer;
+        qDebug() << " * * * ** * * *REQUEST CLIP RELOAD: " << info.clipId << " = " << info.replaceProducer;
         if ((info.replaceProducer && !EffectsList::property(info.xml, QStringLiteral("kdenlive:file_hash")).isEmpty()) || proxyProducer) {
-            qDebug()<<" * * * ** * * *REQUEST CLIP RELOAD NAD REPLACVE!!: "<<info.clipId;
+            qDebug() << " * * * ** * * *REQUEST CLIP RELOAD NAD REPLACVE!!: " << info.clipId;
             // Clip  already has all properties
             // We want to replace an existing producer.
             // Recreate clip thumb
@@ -468,7 +469,7 @@ void ProducerQueue::processFileProperties()
             QImage img;
             if (KdenliveSettings::gpu_accel()) {
                 Clip clp(*producer);
-                QScopedPointer<Mlt::Producer> glProd( clp.softClone(ClipController::getPassPropertiesList()));
+                QScopedPointer<Mlt::Producer> glProd(clp.softClone(ClipController::getPassPropertiesList()));
                 if (frameNumber > 0) {
                     glProd->seek(frameNumber);
                 }

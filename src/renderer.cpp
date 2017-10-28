@@ -30,10 +30,10 @@
 #include "doc/kthumb.h"
 #include "kdenlivesettings.h"
 #include "mltcontroller/bincontroller.h"
+#include "mltcontroller/clip.h"
 #include "mltcontroller/clipcontroller.h"
 #include "monitor/glwidget.h"
 #include "project/dialogs/slideshowclip.h"
-#include "mltcontroller/clip.h"
 #include <mlt++/Mlt.h>
 
 #include "kdenlive_debug.h"
@@ -80,7 +80,7 @@ Render::Render(Kdenlive::MonitorId rendererName, BinController *binController, G
         m_blackClip->set("aspect_ratio", 1);
         m_blackClip->set("set.test_audio", 0);
         m_mltProducer = m_blackClip->cut(0, 1);
-        //m_qmlView->setProducer(m_mltProducer);
+        // m_qmlView->setProducer(m_mltProducer);
         m_mltConsumer = qmlView->consumer();
     }
     /*m_mltConsumer->connect(*m_mltProducer);
@@ -90,9 +90,9 @@ Render::Render(Kdenlive::MonitorId rendererName, BinController *binController, G
     connect(&m_refreshTimer, &QTimer::timeout, this, &Render::refresh);
     connect(this, &Render::checkSeeking, this, &Render::slotCheckSeeking);
     if (m_name == Kdenlive::ProjectMonitor) {
-        //connect(m_binController, &BinController::prepareTimelineReplacement, this, &Render::prepareTimelineReplacement, Qt::DirectConnection);
-        //connect(m_binController, &BinController::replaceTimelineProducer, this, &Render::replaceTimelineProducer, Qt::DirectConnection);
-        //connect(m_binController, &BinController::updateTimelineProducer, this, &Render::updateTimelineProducer);
+        // connect(m_binController, &BinController::prepareTimelineReplacement, this, &Render::prepareTimelineReplacement, Qt::DirectConnection);
+        // connect(m_binController, &BinController::replaceTimelineProducer, this, &Render::replaceTimelineProducer, Qt::DirectConnection);
+        // connect(m_binController, &BinController::updateTimelineProducer, this, &Render::updateTimelineProducer);
     }
 }
 
@@ -215,7 +215,7 @@ QImage Render::extractFrame(int frame_position, const QString &path, int width, 
     bool profileFromSource = m_mltProducer->get_int("meta.media.width") > width;
     if (KdenliveSettings::gpu_accel() && !profileFromSource) {
         QString service = m_mltProducer->get("mlt_service");
-        QScopedPointer <Mlt::Producer> tmpProd(new Mlt::Producer(*m_qmlView->profile(), service.toUtf8().constData(), m_mltProducer->get("resource")));
+        QScopedPointer<Mlt::Producer> tmpProd(new Mlt::Producer(*m_qmlView->profile(), service.toUtf8().constData(), m_mltProducer->get("resource")));
         Mlt::Filter scaler(*m_qmlView->profile(), "swscale");
         Mlt::Filter converter(*m_qmlView->profile(), "avcolor_space");
         tmpProd->attach(scaler);
@@ -237,7 +237,7 @@ QImage Render::extractFrame(int frame_position, const QString &path, int width, 
             Mlt::Filter converter(*tmpProfile, "avcolor_space");
             tmpProd->attach(scaler);
             tmpProd->attach(converter);
-            //Clip clp2(*m_mltProducer);
+            // Clip clp2(*m_mltProducer);
             Clip(*tmpProd).addEffects(*m_mltProducer);
             tmpProd->seek(m_mltProducer->position());
             frame = tmpProd->get_frame();
@@ -345,7 +345,7 @@ bool Render::updateProducer(Mlt::Producer *producer)
     m_fps = producer->get_fps();
     m_mltProducer = producer;
     if (m_qmlView) {
-        //m_qmlView->setProducer(producer);
+        // m_qmlView->setProducer(producer);
         m_mltConsumer = m_qmlView->consumer();
     }
     return true;
@@ -400,7 +400,7 @@ bool Render::setProducer(Mlt::Producer *producer, int position, bool isActive)
     m_mltProducer = producer;
     m_mltProducer->set_speed(0);
     if (m_qmlView) {
-        //m_qmlView->setProducer(producer);
+        // m_qmlView->setProducer(producer);
         m_mltConsumer = m_qmlView->consumer();
         // m_mltConsumer->set("refresh", 1);
     }
@@ -500,7 +500,7 @@ int Render::setSceneList(QString playlist, int position)
     }
 
     // init MLT's document root, useful to find full urls
-    //m_binController->setDocumentRoot(doc.documentElement().attribute(QStringLiteral("root")));
+    // m_binController->setDocumentRoot(doc.documentElement().attribute(QStringLiteral("root")));
 
     // Fill Bin's playlist
     Mlt::Service service(m_mltProducer->parent().get_service());
@@ -544,7 +544,7 @@ int Render::setSceneList(QString playlist, int position)
         info.imageHeight = 0;
         info.clipId = id;
         info.replaceProducer = true;
-        //emit gotFileProperties(info, m_binController->getController(id).get());
+        // emit gotFileProperties(info, m_binController->getController(id).get());
     }
 
     ////qCDebug(KDENLIVE_LOG)<<"// SETSCN LST, POS: "<<position;

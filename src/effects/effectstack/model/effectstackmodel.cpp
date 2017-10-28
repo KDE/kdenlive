@@ -19,16 +19,16 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 #include "effectstackmodel.hpp"
-#include "effects/effectsrepository.hpp"
 #include "assets/keyframes/model/keyframemodellist.hpp"
 #include "core.h"
 #include "doc/docundostack.hpp"
 #include "effectgroupmodel.hpp"
 #include "effectitemmodel.hpp"
+#include "effects/effectsrepository.hpp"
 #include "macros.hpp"
+#include <stack>
 #include <utility>
 #include <vector>
-#include <stack>
 
 EffectStackModel::EffectStackModel(std::weak_ptr<Mlt::Service> service, ObjectId ownerId, std::weak_ptr<DocUndoStack> undo_stack)
     : AbstractTreeModel()
@@ -56,16 +56,15 @@ void EffectStackModel::loadEffects()
                 continue;
             }
             auto effect = EffectItemModel::construct(ptr->filter(i), shared_from_this());
-            //effect->setParameters
+            // effect->setParameters
             Fun redo = addItem_lambda(effect, rootItem->getId());
             bool res = redo();
             connect(effect.get(), &AssetParameterModel::modelChanged, this, &EffectStackModel::modelChanged);
         }
     } else {
-        qDebug()<<"// CANNOT LOCK CLIP SEEVCE";
+        qDebug() << "// CANNOT LOCK CLIP SEEVCE";
     }
     this->modelChanged();
-
 }
 
 void EffectStackModel::resetService(std::weak_ptr<Mlt::Service> service)
@@ -91,7 +90,7 @@ void EffectStackModel::removeEffect(std::shared_ptr<EffectItemModel> effect)
         QString effectName = EffectsRepository::get()->getName(effect->getAssetId());
         PUSH_UNDO(undo, redo, i18n("Delete effect %1", effectName));
     }
-    //TODO: integrate in undo/redo, change active effect
+    // TODO: integrate in undo/redo, change active effect
     pCore->updateItemKeyframes(m_ownerId);
 }
 
@@ -133,7 +132,7 @@ void EffectStackModel::appendEffect(const QString &effectId)
         QString effectName = EffectsRepository::get()->getName(effectId);
         PUSH_UNDO(undo, redo, i18n("Add effect %1", effectName));
     }
-    //TODO: integrate in undo/redo, change active effect
+    // TODO: integrate in undo/redo, change active effect
     pCore->updateItemKeyframes(m_ownerId);
 }
 
@@ -149,7 +148,7 @@ bool EffectStackModel::adjustFadeLength(int duration, bool fromStart, bool audio
                 appendEffect(QStringLiteral("fade_from_black"));
             }
         }
-        QList <QModelIndex> indexes;
+        QList<QModelIndex> indexes;
         for (int i = 0; i < rootItem->childCount(); ++i) {
             if (fadeIns.contains(std::static_pointer_cast<TreeItem>(rootItem->child(i))->getId())) {
                 std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
@@ -171,7 +170,7 @@ bool EffectStackModel::adjustFadeLength(int duration, bool fromStart, bool audio
             }
         }
         int out = pCore->getItemDuration(m_ownerId);
-        QList <QModelIndex> indexes;
+        QList<QModelIndex> indexes;
         for (int i = 0; i < rootItem->childCount(); ++i) {
             if (fadeOuts.contains(std::static_pointer_cast<TreeItem>(rootItem->child(i))->getId())) {
                 std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
@@ -215,14 +214,15 @@ int EffectStackModel::getFadePosition(bool fromStart)
 
 bool EffectStackModel::removeFade(bool fromStart)
 {
-    QList <int> toRemove;
+    QList<int> toRemove;
     for (int i = 0; i < rootItem->childCount(); ++i) {
-        if ((fromStart && fadeIns.contains(std::static_pointer_cast<TreeItem>(rootItem->child(i))->getId())) || (!fromStart && fadeOuts.contains(std::static_pointer_cast<TreeItem>(rootItem->child(i))->getId()))) {
+        if ((fromStart && fadeIns.contains(std::static_pointer_cast<TreeItem>(rootItem->child(i))->getId())) ||
+            (!fromStart && fadeOuts.contains(std::static_pointer_cast<TreeItem>(rootItem->child(i))->getId()))) {
             toRemove << i;
         }
     }
-    qSort(toRemove.begin(),toRemove.end(),qGreater<int>());
-    foreach(int i, toRemove) {
+    qSort(toRemove.begin(), toRemove.end(), qGreater<int>());
+    foreach (int i, toRemove) {
         std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
         if (fromStart) {
             fadeIns.removeAll(rootItem->child(i)->getId());
@@ -270,7 +270,7 @@ void EffectStackModel::registerItem(const std::shared_ptr<TreeItem> &item)
 void EffectStackModel::deregisterItem(int id, TreeItem *item)
 {
     if (!item->isRoot()) {
-        auto effectItem = static_cast<AbstractEffectItem*>(item);
+        auto effectItem = static_cast<AbstractEffectItem *>(item);
         effectItem->unplant(this->m_service);
         if (!effectItem->isAudio()) {
             pCore->refreshProjectItem(m_ownerId);
@@ -351,17 +351,17 @@ bool EffectStackModel::checkConsistency()
         return false;
     }
 
-    std::vector<std::shared_ptr<EffectItemModel> > allFilters;
+    std::vector<std::shared_ptr<EffectItemModel>> allFilters;
     // We do a DFS on the tree to retrieve all the filters
     std::stack<std::shared_ptr<AbstractEffectItem>> stck;
     stck.push(std::static_pointer_cast<AbstractEffectItem>(rootItem));
 
-    while(!stck.empty()) {
+    while (!stck.empty()) {
         auto current = stck.top();
         stck.pop();
 
         if (current->effectItemType() == EffectItemType::Effect) {
-            if (current->childCount() > 0 ) {
+            if (current->childCount() > 0) {
                 qDebug() << "ERROR: Found an effect with children";
                 return false;
             }
@@ -395,7 +395,7 @@ bool EffectStackModel::checkConsistency()
     return true;
 }
 
-void EffectStackModel::adjust(const QString &effectId,const QString &effectName, double value)
+void EffectStackModel::adjust(const QString &effectId, const QString &effectName, double value)
 {
     for (int i = 0; i < rootItem->childCount(); ++i) {
         std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));

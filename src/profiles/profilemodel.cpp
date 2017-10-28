@@ -127,7 +127,6 @@ int ProfileModel::colorspace() const
     return m_profile->colorspace();
 }
 
-
 QString ProfileModel::path() const
 {
     return m_path;
@@ -161,7 +160,7 @@ ProfileParam::ProfileParam(ProfileInfo *p)
     , m_frame_rate_den(p->frame_rate_den())
     , m_width(p->width())
     , m_height(p->height())
-    , m_progressive(p-> progressive())
+    , m_progressive(p->progressive())
     , m_sample_aspect_num(p->sample_aspect_num())
     , m_sample_aspect_den(p->sample_aspect_den())
     , m_display_aspect_num(p->display_aspect_num())
@@ -178,7 +177,7 @@ ProfileParam::ProfileParam(Mlt::Profile *p)
     , m_frame_rate_den(p->frame_rate_den())
     , m_width(p->width())
     , m_height(p->height())
-    , m_progressive(p-> progressive())
+    , m_progressive(p->progressive())
     , m_sample_aspect_num(p->sample_aspect_num())
     , m_sample_aspect_den(p->sample_aspect_den())
     , m_display_aspect_num(p->display_aspect_num())

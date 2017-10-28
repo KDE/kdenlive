@@ -22,10 +22,10 @@
 #ifndef KEYFRAMELISTMODEL_H
 #define KEYFRAMELISTMODEL_H
 
+#include "assets/model/assetparametermodel.hpp"
 #include "definitions.h"
 #include "gentime.h"
 #include "undohelper.hpp"
-#include "assets/model/assetparametermodel.hpp"
 
 #include <QAbstractListModel>
 #include <QReadWriteLock>
@@ -42,12 +42,7 @@ class EffectItemModel;
    We store them in a sorted fashion using a std::map
  */
 
-enum class KeyframeType
-{
-    Linear = 0,
-    Discrete,
-    Curve
-};
+enum class KeyframeType { Linear = 0, Discrete, Curve };
 Q_DECLARE_METATYPE(KeyframeType)
 using Keyframe = std::pair<GenTime, KeyframeType>;
 
@@ -61,9 +56,10 @@ public:
        @param model is the asset this parameter belong to
        @param index is the index of this parameter in its model
      */
-    explicit KeyframeModel(std::weak_ptr<AssetParameterModel> model, const QModelIndex &index, std::weak_ptr<DocUndoStack> undo_stack, QObject *parent = nullptr);
+    explicit KeyframeModel(std::weak_ptr<AssetParameterModel> model, const QModelIndex &index, std::weak_ptr<DocUndoStack> undo_stack,
+                           QObject *parent = nullptr);
 
-    enum { TypeRole = Qt::UserRole + 1, PosRole, FrameRole, ValueRole, NormalizedValueRole};
+    enum { TypeRole = Qt::UserRole + 1, PosRole, FrameRole, ValueRole, NormalizedValueRole };
     friend class KeyframeModelList;
 
     /* @brief Adds a keyframe at the given position. If there is already one then we update it.
@@ -153,7 +149,6 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 
 protected:
-
     /** @brief Helper function that generate a lambda to change type / value of given keyframe */
     Fun updateKeyframe_lambda(GenTime pos, KeyframeType type, QVariant value, bool notify);
 
@@ -179,8 +174,8 @@ protected:
 
     /* @brief this function does the opposite: given a MLT representation of an animation, build the corresponding model */
     void parseAnimProperty(const QString &prop);
-private:
 
+private:
     std::weak_ptr<AssetParameterModel> m_model;
     std::weak_ptr<DocUndoStack> m_undoStack;
     QPersistentModelIndex m_index;
@@ -198,6 +193,6 @@ public:
     auto begin() -> decltype(m_keyframeList.begin()) { return m_keyframeList.begin(); }
     auto end() -> decltype(m_keyframeList.end()) { return m_keyframeList.end(); }
 };
-//Q_DECLARE_METATYPE(KeyframeModel *)
+// Q_DECLARE_METATYPE(KeyframeModel *)
 
 #endif

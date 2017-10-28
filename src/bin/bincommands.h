@@ -26,7 +26,6 @@
 
 class Bin;
 
-
 class MoveBinClipCommand : public QUndoCommand
 {
 public:
@@ -72,7 +71,6 @@ private:
     int m_out;
 };
 
-
 class EditClipCommand : public QUndoCommand
 {
 public:
@@ -94,6 +92,5 @@ private:
      * only on the later executions of the command, since on the first execution, the properties panel already contains the correct info. */
     bool m_firstExec;
 };
-
 
 #endif

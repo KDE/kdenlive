@@ -58,7 +58,6 @@ class GLWidget : public QQuickView, protected QOpenGLFunctions
     Q_PROPERTY(QPoint offset READ offset NOTIFY offsetChanged)
 
 public:
-
     friend class MonitorController;
     friend class Monitor;
 

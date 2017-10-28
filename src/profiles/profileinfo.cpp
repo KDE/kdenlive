@@ -20,7 +20,6 @@
  **************************************************************************/
 
 #include "profileinfo.hpp"
-#include "profileinfo.hpp"
 #include <klocalizedstring.h>
 #include <mlt++/MltProfile.h>
 
@@ -37,7 +36,6 @@ bool ProfileInfo::operator==(const ProfileInfo &other) const
            other.display_aspect_num() * 100 / other.display_aspect_den() == dar && other.colorspace() == colorspace();
 }
 
-
 bool ProfileInfo::isCompatible(std::unique_ptr<ProfileInfo> &other) const
 {
     return frame_rate_num() * 100 / frame_rate_den() == other->frame_rate_num() * 100 / other->frame_rate_den();
@@ -47,7 +45,6 @@ bool ProfileInfo::isCompatible(Mlt::Profile *other) const
 {
     return frame_rate_num() * 100 / frame_rate_den() == other->frame_rate_num() * 100 / other->frame_rate_den();
 }
-
 
 QString ProfileInfo::colorspaceDescription() const
 {

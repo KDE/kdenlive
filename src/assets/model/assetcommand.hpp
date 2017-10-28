@@ -23,9 +23,9 @@
 #define ASSETCOMMAND_H
 
 #include "assetparametermodel.hpp"
+#include <QPersistentModelIndex>
 #include <QTime>
 #include <QUndoCommand>
-#include <QPersistentModelIndex>
 
 class AssetCommand : public QUndoCommand
 {

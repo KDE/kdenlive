@@ -46,7 +46,8 @@ public:
         @param range For timeline clips, the in/out point in playlist
         @param parent parent widget
     */
-    static AbstractParamWidget *construct(const std::shared_ptr<AssetParameterModel> &model, QModelIndex index, QPair<int, int> range, QSize frameSize, QWidget *parent);
+    static AbstractParamWidget *construct(const std::shared_ptr<AssetParameterModel> &model, QModelIndex index, QPair<int, int> range, QSize frameSize,
+                                          QWidget *parent);
 
 signals:
     /** @brief Signal sent when the parameters hold by the widgets are modified

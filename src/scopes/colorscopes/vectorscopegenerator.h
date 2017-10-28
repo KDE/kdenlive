@@ -11,8 +11,8 @@
 #ifndef VECTORSCOPEGENERATOR_H
 #define VECTORSCOPEGENERATOR_H
 
-#include <QObject>
 #include <QImage>
+#include <QObject>
 
 class QImage;
 class QPoint;

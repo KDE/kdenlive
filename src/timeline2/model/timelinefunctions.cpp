@@ -148,7 +148,7 @@ bool TimelineFunctions::requestSpacerEndOperation(std::shared_ptr<TimelineItemMo
     return false;
 }
 
-bool TimelineFunctions::extractZone(std::shared_ptr<TimelineItemModel> timeline, QVector <int> tracks, QPoint zone, bool liftOnly)
+bool TimelineFunctions::extractZone(std::shared_ptr<TimelineItemModel> timeline, QVector<int> tracks, QPoint zone, bool liftOnly)
 {
     // Start undoable command
     std::function<bool(void)> undo = []() { return true; };
@@ -264,7 +264,7 @@ bool TimelineFunctions::requestClipCopy(std::shared_ptr<TimelineItemModel> timel
     int deltaTrack = timeline->getTrackPosition(trackId) - timeline->getTrackPosition(timeline->getClipTrackId(clipId));
     int deltaPos = position - timeline->getClipPosition(clipId);
     std::unordered_set<int> allIds = timeline->getGroupElements(clipId);
-    std::unordered_map<int, int> mapping; //keys are ids of the source clips, values are ids of the copied clips
+    std::unordered_map<int, int> mapping; // keys are ids of the source clips, values are ids of the copied clips
     for (int id : allIds) {
         int newId = -1;
         PlaylistState::ClipState state = timeline->m_allClips[id]->clipState();

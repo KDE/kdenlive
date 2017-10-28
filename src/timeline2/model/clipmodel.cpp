@@ -19,8 +19,8 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 #include "clipmodel.hpp"
-#include "bin/projectitemmodel.h"
 #include "bin/projectclip.h"
+#include "bin/projectitemmodel.h"
 #include "core.h"
 #include "effects/effectstack/model/effectstackmodel.hpp"
 #include "macros.hpp"
@@ -73,7 +73,7 @@ void ClipModel::registerClipToBin()
     if (!binClip) {
         qDebug() << "Error : Bin clip for id: " << m_binClipId << " NOT AVAILABLE!!!";
     }
-    qDebug() << "REGISTRATION " << m_id << "ptr count"<<m_parent.use_count();
+    qDebug() << "REGISTRATION " << m_id << "ptr count" << m_parent.use_count();
     binClip->registerTimelineClip(m_parent, m_id);
 }
 
@@ -90,7 +90,7 @@ ClipModel::~ClipModel()
 bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
-    qDebug() << "RESIZE CLIP" << m_id << "target size="<<size<<"right="<<right<<"endless="<<m_endlessResize<<"length"<<m_producer->get_length();
+    qDebug() << "RESIZE CLIP" << m_id << "target size=" << size << "right=" << right << "endless=" << m_endlessResize << "length" << m_producer->get_length();
     if (!m_endlessResize && (size <= 0 || size > m_producer->get_length())) {
         return false;
     }
@@ -110,7 +110,7 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo)
     } else {
         in += delta;
     }
-    qDebug() << "Resize facts delta ="<<delta<<"old in"<<old_in<<"old_out"<<old_out<<"in"<<in<<"out"<<out;
+    qDebug() << "Resize facts delta =" << delta << "old in" << old_in << "old_out" << old_out << "in" << in << "out" << out;
     std::function<bool(void)> track_operation = []() { return true; };
     std::function<bool(void)> track_reverse = []() { return true; };
     if (m_currentTrackId != -1) {
@@ -277,7 +277,7 @@ void ClipModel::refreshProducerFromBin(PlaylistState::ClipState state)
     std::shared_ptr<Mlt::Producer> binProducer = binClip->timelineProducer(state, m_currentTrackId);
     m_producer = std::move(binProducer);
     m_producer->set_in_and_out(in, out);
-    //m_producer.reset(binProducer->cut(in, out));
+    // m_producer.reset(binProducer->cut(in, out));
     // replant effect stack in updated service
     m_effectStack->resetService(m_producer);
     m_producer->set("kdenlive:id", binClip->AbstractProjectItem::clipId().toUtf8().constData());
@@ -294,7 +294,7 @@ void ClipModel::useTimewarpProducer(double speed, int extraSpace)
     int warp_in;
     int warp_out;
     double currentSpeed = 1.0;
-    qDebug()<<"// SLOWMO CLIP SERVICE: "<<getProperty("mlt_service");
+    qDebug() << "// SLOWMO CLIP SERVICE: " << getProperty("mlt_service");
     if (getProperty("mlt_service") == QLatin1String("timewarp")) {
         // slowmotion producer, get current speed
         warp_in = m_producer->get_int("warp_in");
@@ -305,7 +305,7 @@ void ClipModel::useTimewarpProducer(double speed, int extraSpace)
         warp_in = in;
         warp_out = out;
     }
-    qDebug()<<"++++\n//// USING TIMEWARP: "<<warp_in<<"-"<<warp_out;
+    qDebug() << "++++\n//// USING TIMEWARP: " << warp_in << "-" << warp_out;
     in = warp_in / speed;
     out = warp_out / speed;
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
@@ -380,7 +380,7 @@ bool ClipModel::showKeyframes() const
 void ClipModel::setShowKeyframes(bool show)
 {
     QWriteLocker locker(&m_lock);
-    service()->set("kdenlive:timeline_display", (int) show);
+    service()->set("kdenlive:timeline_display", (int)show);
 }
 
 bool ClipModel::setClipState(PlaylistState::ClipState state)

@@ -26,6 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
 #include "doc/kthumb.h"
+#include "effects/effectstack/model/effectstackmodel.hpp"
 #include "jobs/jobmanager.h"
 #include "jobs/thumbjob.hpp"
 #include "kdenlivesettings.h"
@@ -37,7 +38,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "model/markerlistmodel.hpp"
 #include "profiles/profilemodel.hpp"
 #include "project/projectcommands.h"
-#include "effects/effectstack/model/effectstackmodel.hpp"
 #include "project/projectmanager.h"
 #include "projectfolder.h"
 #include "projectitemmodel.h"
@@ -155,9 +155,7 @@ void ProjectClip::connectEffectStack()
         qDebug()<<"/ / / STACK CHANGED";
         updateChildProducers();
     });*/
-
 }
-
 
 QString ProjectClip::getToolTip() const
 {

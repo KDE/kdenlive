@@ -38,8 +38,8 @@
 #include "effectslist/initeffects.h"
 #include "hidetitlebars.h"
 #include "jobs/jobmanager.h"
-#include "jobs/stabilizejob.hpp"
 #include "jobs/scenesplitjob.hpp"
+#include "jobs/stabilizejob.hpp"
 #include "kdenlivesettings.h"
 #include "layoutmanagement.h"
 #include "library/librarywidget.h"
@@ -767,11 +767,10 @@ bool MainWindow::queryClose()
     if (m_renderWidget) {
         int waitingJobs = m_renderWidget->waitingJobsCount();
         if (waitingJobs > 0) {
-            switch (
-                KMessageBox::warningYesNoCancel(this,
-                                                i18np("You have 1 rendering job waiting in the queue.\nWhat do you want to do with this job?",
-                                                      "You have %1 rendering jobs waiting in the queue.\nWhat do you want to do with these jobs?", waitingJobs),
-                                                QString(), KGuiItem(i18n("Start them now")), KGuiItem(i18n("Delete them")))) {
+            switch (KMessageBox::warningYesNoCancel(this, i18np("You have 1 rendering job waiting in the queue.\nWhat do you want to do with this job?",
+                                                                "You have %1 rendering jobs waiting in the queue.\nWhat do you want to do with these jobs?",
+                                                                waitingJobs),
+                                                    QString(), KGuiItem(i18n("Start them now")), KGuiItem(i18n("Delete them")))) {
             case KMessageBox::Yes:
                 // create script with waiting jobs and start it
                 if (!m_renderWidget->startWaitingRenderJobs()) {
@@ -1839,9 +1838,9 @@ void MainWindow::slotRenderProject()
             m_renderWidget->setRenderProfile(project->getRenderProperties());
         }
         if (m_compositeAction->currentAction()) {
-            m_renderWidget->errorMessage(RenderWidget::CompositeError, m_compositeAction->currentAction()->data().toInt() == 1
-                                                                           ? i18n("Rendering using low quality track compositing")
-                                                                           : QString());
+            m_renderWidget->errorMessage(RenderWidget::CompositeError,
+                                         m_compositeAction->currentAction()->data().toInt() == 1 ? i18n("Rendering using low quality track compositing")
+                                                                                                 : QString());
         }
     }
     slotCheckRenderStatus();
@@ -4152,7 +4151,6 @@ void MainWindow::slotChangeSpeed(int speed)
         getCurrentTimeline()->controller()->changeItemSpeed(owner.second, speed);
     }
 }
-
 
 #ifdef DEBUG_MAINW
 #undef DEBUG_MAINW

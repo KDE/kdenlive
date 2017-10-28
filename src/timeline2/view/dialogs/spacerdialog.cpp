@@ -72,5 +72,5 @@ bool SpacerDialog::affectAllTracks() const
 
 int SpacerDialog::selectedTrack() const
 {
-    return 0; //track_number->currentData().toInt();
+    return 0; // track_number->currentData().toInt();
 }

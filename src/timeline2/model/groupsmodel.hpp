@@ -183,7 +183,7 @@ protected:
     /* @brief This is the actual recursive implementation of the parsing from json
        Returns the id of the created group
     */
-  int fromJson(const QJsonObject &o, Fun &undo, Fun &redo);
+    int fromJson(const QJsonObject &o, Fun &undo, Fun &redo);
 
 private:
     std::weak_ptr<TimelineItemModel> m_parent;

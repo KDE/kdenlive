@@ -63,6 +63,6 @@ private:
     QImage m_result;
     bool m_done{false};
     bool m_persistent;
-    bool m_inCache {false};
-    bool m_subClip {false}; // true if we operate on a subclip
+    bool m_inCache{false};
+    bool m_subClip{false}; // true if we operate on a subclip
 };

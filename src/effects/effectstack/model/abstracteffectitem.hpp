@@ -25,7 +25,7 @@
 #include "abstractmodel/treeitem.hpp"
 #include <mlt++/MltFilter.h>
 
-enum class EffectItemType {Effect, Group};
+enum class EffectItemType { Effect, Group };
 class EffectStackModel;
 /* @brief This represents an effect of the effectstack
  */

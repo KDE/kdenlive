@@ -26,11 +26,11 @@
 #include "clipmodel.hpp"
 #include "compositionmodel.hpp"
 #include "core.h"
+#include "doc/docundostack.hpp"
 #include "groupsmodel.hpp"
+#include "kdenlivesettings.h"
 #include "snapmodel.hpp"
 #include "trackmodel.hpp"
-#include "kdenlivesettings.h"
-#include "doc/docundostack.hpp"
 
 #include <QDebug>
 #include <QModelIndex>
@@ -477,7 +477,7 @@ bool TimelineModel::requestClipCreation(const QString &binClipId, int &id, Playl
     }
     ClipModel::construct(shared_from_this(), bid, clipId, state);
     auto clip = m_allClips[clipId];
-    Fun local_redo = [clip, this,state]() {
+    Fun local_redo = [clip, this, state]() {
         // We capture a shared_ptr to the clip, which means that as long as this undo object lives, the clip object is not deleted. To insert it back it is
         // sufficient to register it.
         registerClip(clip);
@@ -1088,7 +1088,6 @@ bool TimelineModel::addTrackEffect(int trackId, const QString &effectId)
     return (*m_iteratorTable.at(trackId))->addEffect(effectId);
 }
 
-
 std::shared_ptr<ClipModel> TimelineModel::getClipPtr(int clipId) const
 {
     Q_ASSERT(m_allClips.count(clipId) > 0);
@@ -1394,7 +1393,8 @@ bool TimelineModel::requestCompositionMove(int compoId, int trackId, int composi
         qDebug() << "Move failed because of last track";
         return false;
     }
-    qDebug() << "Requesting composition move" << trackId << "," << position<<" ( "<<compositionTrack<<" / "<<(compositionTrack > 0 ? getTrackIndexFromPosition(compositionTrack - 1) : 0);
+    qDebug() << "Requesting composition move" << trackId << "," << position << " ( " << compositionTrack << " / "
+             << (compositionTrack > 0 ? getTrackIndexFromPosition(compositionTrack - 1) : 0);
 
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
@@ -1436,7 +1436,7 @@ bool TimelineModel::requestCompositionMove(int compoId, int trackId, int composi
         Fun insert_reverse = []() { return true; };
         if (old_trackId != trackId) {
             insert_operation = [this, compoId, trackId, compositionTrack]() {
-                qDebug()<<"-------------- ATRACK ----------------\n"<<compositionTrack<<" = "<<getTrackIndexFromPosition(compositionTrack);
+                qDebug() << "-------------- ATRACK ----------------\n" << compositionTrack << " = " << getTrackIndexFromPosition(compositionTrack);
                 m_allCompositions[compoId]->setATrack(compositionTrack, compositionTrack <= 0 ? -1 : getTrackIndexFromPosition(compositionTrack - 1));
                 return replantCompositions(compoId);
             };

@@ -19,7 +19,6 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-
 #ifndef FILEWATCHER_H
 #define FILEWATCHER_H
 
@@ -27,10 +26,9 @@
 #include <QMap>
 #include <QTimer>
 
-/** @brief This class is responsible for watching all files used in the project 
+/** @brief This class is responsible for watching all files used in the project
     and triggers a reload notification when a file changes.
  */
-
 
 class FileWatcher : public QObject
 {
@@ -53,7 +51,7 @@ private slots:
 private:
     KDirWatch *m_fileWatcher;
     // A list with urls as keys, and the corresponding clip ids as value
-    QMap <QString, QStringList> m_occurences;
+    QMap<QString, QStringList> m_occurences;
     QStringList m_modifiedUrls;
     QTimer m_modifiedTimer;
 };

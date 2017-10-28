@@ -17,8 +17,8 @@
  */
 
 #include "thumbnailprovider.h"
-#include "bin/projectitemmodel.h"
 #include "bin/projectclip.h"
+#include "bin/projectitemmodel.h"
 #include "core.h"
 
 #include <QCryptographicHash>
@@ -36,7 +36,7 @@ ThumbnailProvider::ThumbnailProvider()
     m_cache->clear();
     m_cache->setEvictionPolicy(KSharedDataCache::EvictOldest);
     int width = 180 * m_profile.dar();
-    width += width %8;
+    width += width % 8;
     m_profile.set_height(180);
     m_profile.set_width(width);
     m_producers.setMaxCost(6);
@@ -89,7 +89,8 @@ QImage ThumbnailProvider::requestImage(const QString &id, QSize *size, const QSi
                     std::shared_ptr<Mlt::Producer> projectProducer = binClip->originalProducer();
                     Mlt::Properties original(projectProducer->get_properties());
                     Mlt::Properties cloneProps(producer->get_properties());
-                    cloneProps.pass_list(original, "video_index,force_aspect_num,force_aspect_den,force_aspect_ratio,force_fps,force_progressive,force_tff,force_colorspace,set.force_full_luma,templatetext,autorotate,xmldata");
+                    cloneProps.pass_list(original, "video_index,force_aspect_num,force_aspect_den,force_aspect_ratio,force_fps,force_progressive,force_tff,"
+                                                   "force_colorspace,set.force_full_luma,templatetext,autorotate,xmldata");
                 }
                 Mlt::Filter scaler(m_profile, "swscale");
                 Mlt::Filter padder(m_profile, "resize");

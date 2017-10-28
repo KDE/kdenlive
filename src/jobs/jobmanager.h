@@ -49,7 +49,7 @@ struct Job_t
 {
     std::vector<std::shared_ptr<AbstractClipJob>> m_job; // List of the jobs
     std::vector<int> m_progress;                         // progress of the job, for each clip
-    std::unordered_map<QString, size_t> m_indices;          // keys are binIds, value are ids in the vectors m_job and m_progress;
+    std::unordered_map<QString, size_t> m_indices;       // keys are binIds, value are ids in the vectors m_job and m_progress;
     QFutureWatcher<bool> m_future;                       // future of the job
     QFuture<bool> m_actualFuture;
     QMutex m_completionMutex; // mutex that is locked during execution of the process

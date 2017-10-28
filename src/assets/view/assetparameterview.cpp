@@ -24,9 +24,9 @@
 #include "assets/model/assetcommand.hpp"
 #include "assets/model/assetparametermodel.hpp"
 #include "assets/view/widgets/abstractparamwidget.hpp"
+#include "assets/view/widgets/keyframewidget.hpp"
 #include "core.h"
 #include "widgets/animationwidget.h"
-#include "assets/view/widgets/keyframewidget.hpp"
 
 #include <QDebug>
 #include <QFontDatabase>
@@ -55,13 +55,14 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
     for (int i = 0; i < model->rowCount(); ++i) {
         QModelIndex index = model->index(i, 0);
         auto type = model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
-        if (m_mainKeyframeWidget && (type == ParamType::Geometry || type == ParamType::Animated || type == ParamType::RestrictedAnim || type == ParamType::KeyframeParam)) {
+        if (m_mainKeyframeWidget &&
+            (type == ParamType::Geometry || type == ParamType::Animated || type == ParamType::RestrictedAnim || type == ParamType::KeyframeParam)) {
             // Keyframe widget can have some extra params that should'nt build a new widget
-            qDebug()<<"// FOUND ADDED PARAM";
+            qDebug() << "// FOUND ADDED PARAM";
             m_mainKeyframeWidget->addParameter(index);
         } else {
             auto w = AbstractParamWidget::construct(model, index, range, frameSize, this);
-            qDebug()<<"// FOUND GEOM PARAM";
+            qDebug() << "// FOUND GEOM PARAM";
             /*if (type == ParamType::Geometry || type == ParamType::Animated || type == ParamType::RestrictedAnim || type == ParamType::AnimatedRect) {
                 animWidget = static_cast<AnimationWidget *>(w);
             }*/
@@ -93,7 +94,7 @@ void AssetParameterView::resetValues()
 
 void AssetParameterView::setRange(QPair<int, int> range)
 {
-    qDebug() << "SETTING RANGE"<<range;
+    qDebug() << "SETTING RANGE" << range;
     QMutexLocker lock(&m_lock);
     for (int i = 0; i < m_widgets.size(); ++i) {
         auto w = m_widgets[i];

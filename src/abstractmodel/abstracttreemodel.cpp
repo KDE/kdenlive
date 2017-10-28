@@ -148,8 +148,7 @@ QModelIndex AbstractTreeModel::getIndexFromId(int id) const
         return QModelIndex();
     }
     Q_ASSERT(m_allItems.count(id) > 0);
-    if (auto ptr = m_allItems.at(id).lock())
-        return getIndexFromItem(ptr);
+    if (auto ptr = m_allItems.at(id).lock()) return getIndexFromItem(ptr);
 
     Q_ASSERT(false);
     return QModelIndex();
@@ -313,17 +312,17 @@ Fun AbstractTreeModel::removeItem_lambda(int id)
 
 Fun AbstractTreeModel::moveItem_lambda(int id, int destRow)
 {
-    Fun lambda = [](){return true;};
+    Fun lambda = []() { return true; };
 
-    std::vector<std::shared_ptr<TreeItem> > oldStack;
+    std::vector<std::shared_ptr<TreeItem>> oldStack;
     auto item = getItemById(id);
     if (item->row() == destRow) {
-        //nothing to do
+        // nothing to do
         return lambda;
     }
     if (auto parent = item->parentItem().lock()) {
         if (destRow > parent->childCount() || destRow < 0) {
-            return [](){return false;};
+            return []() { return false; };
         }
         int parentId = parent->getId();
         // remove the element to move
@@ -340,11 +339,11 @@ Fun AbstractTreeModel::moveItem_lambda(int id, int destRow)
             }
         }
         // insert back in order
-        for (const auto & elem : oldStack) {
+        for (const auto &elem : oldStack) {
             oper = addItem_lambda(elem, parentId);
             PUSH_LAMBDA(oper, lambda);
         }
         return lambda;
     }
-    return [](){return false;};
+    return []() { return false; };
 }

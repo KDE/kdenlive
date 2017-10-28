@@ -20,13 +20,12 @@
  ***************************************************************************/
 
 #include "keyframemodel.hpp"
-#include "doc/docundostack.hpp"
 #include "core.h"
+#include "doc/docundostack.hpp"
 #include "macros.hpp"
 
 #include <QDebug>
 #include <mlt++/Mlt.h>
-
 
 KeyframeModel::KeyframeModel(std::weak_ptr<AssetParameterModel> model, const QModelIndex &index, std::weak_ptr<DocUndoStack> undo_stack, QObject *parent)
     : QAbstractListModel(parent)
@@ -36,14 +35,13 @@ KeyframeModel::KeyframeModel(std::weak_ptr<AssetParameterModel> model, const QMo
     , m_lastData()
     , m_lock(QReadWriteLock::Recursive)
 {
-    qDebug() <<"Construct keyframemodel. Checking model:"<<m_model.expired();
+    qDebug() << "Construct keyframemodel. Checking model:" << m_model.expired();
     if (auto ptr = m_model.lock()) {
         m_paramType = ptr->data(m_index, AssetParameterModel::TypeRole).value<ParamType>();
     }
     setup();
     refresh();
 }
-
 
 void KeyframeModel::setup()
 {
@@ -61,7 +59,7 @@ void KeyframeModel::setup()
 
 bool KeyframeModel::addKeyframe(GenTime pos, KeyframeType type, QVariant value, bool notify, Fun &undo, Fun &redo)
 {
-    qDebug() << "ADD keyframe"<<pos.frames(pCore->getCurrentFps())<<value<<notify;
+    qDebug() << "ADD keyframe" << pos.frames(pCore->getCurrentFps()) << value << notify;
     QWriteLocker locker(&m_lock);
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
@@ -95,7 +93,7 @@ bool KeyframeModel::addKeyframe(int frame, double normalizedValue)
         double min = ptr->data(m_index, AssetParameterModel::MinRole).toDouble();
         double max = ptr->data(m_index, AssetParameterModel::MaxRole).toDouble();
         double realValue = normalizedValue * (max - min) + min;
-        //TODO: Use default configurable kf type
+        // TODO: Use default configurable kf type
         return addKeyframe(GenTime(frame, pCore->getCurrentFps()), KeyframeType::Linear, realValue);
     }
     return false;
@@ -117,15 +115,15 @@ bool KeyframeModel::addKeyframe(GenTime pos, KeyframeType type, QVariant value)
 
 bool KeyframeModel::removeKeyframe(GenTime pos, Fun &undo, Fun &redo)
 {
-    qDebug() << "Going to remove keyframe at "<<pos.frames(pCore->getCurrentFps());
-    qDebug() << "before"<<getAnimProperty();
+    qDebug() << "Going to remove keyframe at " << pos.frames(pCore->getCurrentFps());
+    qDebug() << "before" << getAnimProperty();
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_keyframeList.count(pos) > 0);
     KeyframeType oldType = m_keyframeList[pos].first;
     QVariant oldValue = m_keyframeList[pos].second;
     Fun local_undo = addKeyframe_lambda(pos, oldType, oldValue, true);
     Fun local_redo = deleteKeyframe_lambda(pos, true);
-    qDebug() << "before2"<<getAnimProperty();
+    qDebug() << "before2" << getAnimProperty();
     if (local_redo()) {
         UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
         return true;
@@ -139,7 +137,6 @@ bool KeyframeModel::removeKeyframe(int frame)
     return removeKeyframe(pos);
 }
 
-
 bool KeyframeModel::removeKeyframe(GenTime pos)
 {
     QWriteLocker locker(&m_lock);
@@ -147,7 +144,7 @@ bool KeyframeModel::removeKeyframe(GenTime pos)
     Fun redo = []() { return true; };
 
     if (m_keyframeList.count(pos) > 0 && m_keyframeList.find(pos) == m_keyframeList.begin()) {
-        return false;  // initial point must stay
+        return false; // initial point must stay
     }
 
     bool res = removeKeyframe(pos, undo, redo);
@@ -159,22 +156,22 @@ bool KeyframeModel::removeKeyframe(GenTime pos)
 
 bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, Fun &undo, Fun &redo)
 {
-    qDebug() << "starting to move keyframe"<<oldPos.frames(pCore->getCurrentFps())<<pos.frames(pCore->getCurrentFps());
+    qDebug() << "starting to move keyframe" << oldPos.frames(pCore->getCurrentFps()) << pos.frames(pCore->getCurrentFps());
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_keyframeList.count(oldPos) > 0);
     KeyframeType oldType = m_keyframeList[oldPos].first;
     QVariant oldValue = m_keyframeList[oldPos].second;
-    if (oldPos == pos ) return true;
-    if ( hasKeyframe(pos) ) return false;
+    if (oldPos == pos) return true;
+    if (hasKeyframe(pos)) return false;
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
     qDebug() << getAnimProperty();
     bool res = removeKeyframe(oldPos, local_undo, local_redo);
-    qDebug() << "Move keyframe finished deletion:"<<res;
+    qDebug() << "Move keyframe finished deletion:" << res;
     qDebug() << getAnimProperty();
     if (res) {
         res = addKeyframe(pos, oldType, oldValue, true, local_undo, local_redo);
-        qDebug() << "Move keyframe finished insertion:"<<res;
+        qDebug() << "Move keyframe finished insertion:" << res;
         qDebug() << getAnimProperty();
     }
     if (res) {
@@ -197,7 +194,7 @@ bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, bool logUndo)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_keyframeList.count(oldPos) > 0);
-    if (oldPos == pos ) return true;
+    if (oldPos == pos) return true;
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     bool res = moveKeyframe(oldPos, pos, undo, redo);
@@ -258,7 +255,7 @@ bool KeyframeModel::updateKeyframeType(GenTime pos, int type, Fun &undo, Fun &re
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_keyframeList.count(pos) > 0);
     KeyframeType oldType = m_keyframeList[pos].first;
-    KeyframeType newType = convertFromMltType((mlt_keyframe_type) type);
+    KeyframeType newType = convertFromMltType((mlt_keyframe_type)type);
     QVariant value = m_keyframeList[pos].second;
 
     // Check if keyframe is different
@@ -278,13 +275,12 @@ Fun KeyframeModel::updateKeyframe_lambda(GenTime pos, KeyframeType type, QVarian
 {
     QWriteLocker locker(&m_lock);
     return [this, pos, type, value, notify]() {
-        qDebug() << "udpate lambda"<<pos.frames(pCore->getCurrentFps())<<value<<notify;
+        qDebug() << "udpate lambda" << pos.frames(pCore->getCurrentFps()) << value << notify;
         Q_ASSERT(m_keyframeList.count(pos) > 0);
         int row = static_cast<int>(std::distance(m_keyframeList.begin(), m_keyframeList.find(pos)));
         m_keyframeList[pos].first = type;
         m_keyframeList[pos].second = value;
-        if (notify)
-            emit dataChanged(index(row), index(row), {ValueRole,NormalizedValueRole,TypeRole});
+        if (notify) emit dataChanged(index(row), index(row), {ValueRole, NormalizedValueRole, TypeRole});
         return true;
     };
 }
@@ -293,7 +289,7 @@ Fun KeyframeModel::addKeyframe_lambda(GenTime pos, KeyframeType type, QVariant v
 {
     QWriteLocker locker(&m_lock);
     return [this, notify, pos, type, value]() {
-        qDebug() << "add lambda"<<pos.frames(pCore->getCurrentFps())<<value<<notify;
+        qDebug() << "add lambda" << pos.frames(pCore->getCurrentFps()) << value << notify;
         Q_ASSERT(m_keyframeList.count(pos) == 0);
         // We determine the row of the newly added marker
         auto insertionIt = m_keyframeList.lower_bound(pos);
@@ -301,12 +297,10 @@ Fun KeyframeModel::addKeyframe_lambda(GenTime pos, KeyframeType type, QVariant v
         if (insertionIt != m_keyframeList.end()) {
             insertionRow = static_cast<int>(std::distance(m_keyframeList.begin(), insertionIt));
         }
-        if (notify)
-            beginInsertRows(QModelIndex(), insertionRow, insertionRow);
+        if (notify) beginInsertRows(QModelIndex(), insertionRow, insertionRow);
         m_keyframeList[pos].first = type;
         m_keyframeList[pos].second = value;
-        if (notify)
-            endInsertRows();
+        if (notify) endInsertRows();
         return true;
     };
 }
@@ -315,17 +309,15 @@ Fun KeyframeModel::deleteKeyframe_lambda(GenTime pos, bool notify)
 {
     QWriteLocker locker(&m_lock);
     return [this, pos, notify]() {
-        qDebug() << "delete lambda"<<pos.frames(pCore->getCurrentFps())<<notify;
-        qDebug() << "before"<<getAnimProperty();
+        qDebug() << "delete lambda" << pos.frames(pCore->getCurrentFps()) << notify;
+        qDebug() << "before" << getAnimProperty();
         Q_ASSERT(m_keyframeList.count(pos) > 0);
         Q_ASSERT(pos != GenTime()); // cannot delete initial point
         int row = static_cast<int>(std::distance(m_keyframeList.begin(), m_keyframeList.find(pos)));
-        if (notify)
-            beginRemoveRows(QModelIndex(), row, row);
+        if (notify) beginRemoveRows(QModelIndex(), row, row);
         m_keyframeList.erase(pos);
-        if (notify)
-            endRemoveRows();
-        qDebug() << "after"<<getAnimProperty();
+        if (notify) endRemoveRows();
+        qDebug() << "after" << getAnimProperty();
         return true;
     };
 }
@@ -340,7 +332,6 @@ QHash<int, QByteArray> KeyframeModel::roleNames() const
     roles[NormalizedValueRole] = "normalizedValue";
     return roles;
 }
-
 
 QVariant KeyframeModel::data(const QModelIndex &index, int role) const
 {
@@ -368,7 +359,7 @@ QVariant KeyframeModel::data(const QModelIndex &index, int role) const
             double max = ptr->data(m_index, AssetParameterModel::MaxRole).toDouble();
             return (val - min) / (max - min);
         } else {
-            qDebug()<<"// CANNOT LOCK effect MODEL";
+            qDebug() << "// CANNOT LOCK effect MODEL";
         }
         return 1;
     }
@@ -395,7 +386,6 @@ bool KeyframeModel::singleKeyframe() const
     READ_LOCK();
     return m_keyframeList.size() <= 1;
 }
-
 
 Keyframe KeyframeModel::getKeyframe(const GenTime &pos, bool *ok) const
 {
@@ -458,7 +448,6 @@ Keyframe KeyframeModel::getClosestKeyframe(const GenTime &pos, bool *ok) const
     return {GenTime(), KeyframeType::Linear};
 }
 
-
 bool KeyframeModel::hasKeyframe(int frame) const
 {
     return hasKeyframe(GenTime(frame, pCore->getCurrentFps()));
@@ -475,12 +464,12 @@ bool KeyframeModel::removeAllKeyframes(Fun &undo, Fun &redo)
     std::vector<GenTime> all_pos;
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
-    for (const auto& m : m_keyframeList) {
+    for (const auto &m : m_keyframeList) {
         all_pos.push_back(m.first);
     }
     bool res = true;
     bool first = true;
-    for (const auto& p : all_pos) {
+    for (const auto &p : all_pos) {
         if (first) { // skip first point
             first = false;
             continue;
@@ -531,12 +520,12 @@ QString KeyframeModel::getAnimProperty() const
             break;
         }
         switch (m_paramType) {
-            case ParamType::AnimatedRect:
-                prop += keyframe.second.second.toString();
-                break;
-            default:
-                prop += QString::number(keyframe.second.second.toDouble());
-                break;
+        case ParamType::AnimatedRect:
+            prop += keyframe.second.second.toString();
+            break;
+        default:
+            prop += QString::number(keyframe.second.second.toDouble());
+            break;
         }
     }
     return prop;
@@ -567,31 +556,30 @@ void KeyframeModel::parseAnimProperty(const QString &prop)
 
     Mlt::Animation *anim = mlt_prop.get_anim("key");
 
-    qDebug() << "Found"<<anim->key_count()<<"animation properties";
+    qDebug() << "Found" << anim->key_count() << "animation properties";
     for (int i = 0; i < anim->key_count(); ++i) {
         int frame;
         mlt_keyframe_type type;
         anim->key_get(i, frame, type);
         if (!prop.contains(QLatin1Char('='))) {
-            //TODO: use a default user defined type
+            // TODO: use a default user defined type
             type = mlt_keyframe_linear;
         }
         QVariant value;
         switch (m_paramType) {
-            case ParamType::AnimatedRect: {
-                mlt_rect rect = mlt_prop.anim_get_rect("key", frame);
-                value = QVariant(QString("%1 %2 %3 %4 %5").arg(rect.x).arg(rect.y).arg(rect.w).arg(rect.h).arg(rect.o));
-                break;
-            }
-            default:
-                value = QVariant(mlt_prop.anim_get_double("key", frame));
-                break;
+        case ParamType::AnimatedRect: {
+            mlt_rect rect = mlt_prop.anim_get_rect("key", frame);
+            value = QVariant(QString("%1 %2 %3 %4 %5").arg(rect.x).arg(rect.y).arg(rect.w).arg(rect.h).arg(rect.o));
+            break;
+        }
+        default:
+            value = QVariant(mlt_prop.anim_get_double("key", frame));
+            break;
         }
         addKeyframe(GenTime(frame, pCore->getCurrentFps()), convertFromMltType(type), value, false, undo, redo);
     }
 
     delete anim;
-
 
     /*
     std::vector<std::pair<QString, KeyframeType> > separators({QStringLiteral("="), QStringLiteral("|="), QStringLiteral("~=")});
@@ -619,7 +607,6 @@ void KeyframeModel::parseAnimProperty(const QString &prop)
     */
 }
 
-
 QVariant KeyframeModel::getInterpolatedValue(int p) const
 {
     auto pos = GenTime(p, pCore->getCurrentFps());
@@ -646,8 +633,10 @@ QVariant KeyframeModel::getInterpolatedValue(const GenTime &pos) const
     Mlt::Properties prop;
     QLocale locale;
     if (m_paramType == ParamType::KeyframeParam) {
-        prop.anim_set("keyframe", prev->second.second.toDouble(), prev->first.frames(pCore->getCurrentFps()), next->first.frames(pCore->getCurrentFps()), convertToMltType(prev->second.first) );
-        prop.anim_set("keyframe", next->second.second.toDouble(), next->first.frames(pCore->getCurrentFps()), next->first.frames(pCore->getCurrentFps()), convertToMltType(next->second.first) );
+        prop.anim_set("keyframe", prev->second.second.toDouble(), prev->first.frames(pCore->getCurrentFps()), next->first.frames(pCore->getCurrentFps()),
+                      convertToMltType(prev->second.first));
+        prop.anim_set("keyframe", next->second.second.toDouble(), next->first.frames(pCore->getCurrentFps()), next->first.frames(pCore->getCurrentFps()),
+                      convertToMltType(next->second.first));
         return QVariant(prop.anim_get_double("keyframe", p));
     } else if (m_paramType == ParamType::AnimatedRect) {
         mlt_rect rect;
@@ -663,7 +652,8 @@ QVariant KeyframeModel::getInterpolatedValue(const GenTime &pos) const
                 rect.o = 1;
             }
         }
-        prop.anim_set("keyframe", rect, prev->first.frames(pCore->getCurrentFps()), next->first.frames(pCore->getCurrentFps()), convertToMltType(prev->second.first) );
+        prop.anim_set("keyframe", rect, prev->first.frames(pCore->getCurrentFps()), next->first.frames(pCore->getCurrentFps()),
+                      convertToMltType(prev->second.first));
         vals = next->second.second.toString().split(QLatin1Char(' '));
         if (vals.count() >= 4) {
             rect.x = vals.at(0).toInt();
@@ -676,7 +666,8 @@ QVariant KeyframeModel::getInterpolatedValue(const GenTime &pos) const
                 rect.o = 1;
             }
         }
-        prop.anim_set("keyframe", rect, next->first.frames(pCore->getCurrentFps()), next->first.frames(pCore->getCurrentFps()), convertToMltType(next->second.first) );
+        prop.anim_set("keyframe", rect, next->first.frames(pCore->getCurrentFps()), next->first.frames(pCore->getCurrentFps()),
+                      convertToMltType(next->second.first));
         rect = prop.anim_get_rect("keyframe", p);
         const QString res = QString("%1 %2 %3 %4 %5").arg((int)rect.x).arg((int)rect.y).arg((int)rect.w).arg((int)rect.h).arg(rect.o);
         return QVariant(res);
@@ -694,7 +685,7 @@ void KeyframeModel::sendModification()
             data = getAnimProperty();
             ptr->setParameter(name, data);
         } else {
-            Q_ASSERT(false); //Not implemented, TODO
+            Q_ASSERT(false); // Not implemented, TODO
         }
         m_lastData = data;
         ptr->dataChanged(m_index, m_index);
@@ -711,7 +702,7 @@ void KeyframeModel::refresh()
             return;
         }
         if (m_paramType == ParamType::KeyframeParam || m_paramType == ParamType::AnimatedRect) {
-            qDebug() << "parsing keyframe"<<data;
+            qDebug() << "parsing keyframe" << data;
             parseAnimProperty(data);
         } else {
             // first, try to convert to double
@@ -721,9 +712,9 @@ void KeyframeModel::refresh()
                 Fun undo = []() { return true; };
                 Fun redo = []() { return true; };
                 addKeyframe(GenTime(), KeyframeType::Linear, QVariant(value), false, undo, redo);
-                qDebug() << "KEYFRAME ADDED"<<value;
+                qDebug() << "KEYFRAME ADDED" << value;
             } else {
-                Q_ASSERT(false); //Not implemented, TODO
+                Q_ASSERT(false); // Not implemented, TODO
             }
         }
     } else {

@@ -63,7 +63,9 @@ std::shared_ptr<ProjectItemModel> ProjectItemModel::construct(QObject *parent)
     return self;
 }
 
-ProjectItemModel::~ProjectItemModel() {}
+ProjectItemModel::~ProjectItemModel()
+{
+}
 
 int ProjectItemModel::mapToColumn(int column) const
 {
@@ -487,7 +489,7 @@ bool ProjectItemModel::requestAddFolder(QString &id, const QString &name, const 
 
 bool ProjectItemModel::requestAddBinClip(QString &id, const QDomElement &description, const QString &parentId, Fun &undo, Fun &redo)
 {
-    qDebug() << "/////////// requestAddBinClip"<<parentId;
+    qDebug() << "/////////// requestAddBinClip" << parentId;
     QWriteLocker locker(&m_lock);
     if (id.isEmpty()) {
         id =
@@ -497,12 +499,12 @@ bool ProjectItemModel::requestAddBinClip(QString &id, const QDomElement &descrip
         }
     }
     Q_ASSERT(!id.isEmpty() && isIdFree(id));
-    qDebug() << "/////////// found id"<<id;
+    qDebug() << "/////////// found id" << id;
     std::shared_ptr<ProjectClip> new_clip =
         ProjectClip::construct(id, description, m_blankThumb, std::static_pointer_cast<ProjectItemModel>(shared_from_this()));
     qDebug() << "/////////// constructed ";
     bool res = addItem(new_clip, parentId, undo, redo);
-    qDebug() << "/////////// added "<<res;
+    qDebug() << "/////////// added " << res;
     if (res) {
         int loadJob = pCore->jobManager()->startJob<LoadJob>({id}, {}, QString(), description);
         pCore->jobManager()->startJob<ThumbJob>({id}, {loadJob}, QString(), 150, -1, true);

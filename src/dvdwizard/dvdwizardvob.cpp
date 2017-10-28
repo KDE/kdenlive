@@ -291,7 +291,8 @@ void DvdWizardVob::slotAddVobFile(const QUrl &url, const QString &chapters, bool
 
     Mlt::Profile profile;
     profile.set_explicit(false);
-    QTreeWidgetItem *item = new QTreeWidgetItem(m_vobList, QStringList() << url.toLocalFile() << QString() << QString::number(static_cast<KIO::filesize_t>(fileSize)));
+    QTreeWidgetItem *item =
+        new QTreeWidgetItem(m_vobList, QStringList() << url.toLocalFile() << QString() << QString::number(static_cast<KIO::filesize_t>(fileSize)));
     item->setData(2, Qt::UserRole, fileSize);
     item->setData(0, Qt::DecorationRole, QIcon::fromTheme(QStringLiteral("video-x-generic")).pixmap(60, 45));
     item->setToolTip(0, url.toLocalFile());
@@ -537,7 +538,7 @@ void DvdWizardVob::slotCheckVobList()
         }
     }
 
-    qint64 maxSize = (qint64) 47000 * 100000;
+    qint64 maxSize = (qint64)47000 * 100000;
     m_capacityBar->setValue(static_cast<int>(100 * totalSize / maxSize));
     m_capacityBar->setText(KIO::convertSize(static_cast<KIO::filesize_t>(totalSize)));
 }

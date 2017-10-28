@@ -54,7 +54,7 @@ bool EffectGroupModel::isAudio() const
 {
     bool result = false;
     for (int i = 0; i < childCount() && !result; ++i) {
-        result = result ||  std::static_pointer_cast<AbstractEffectItem>(child(i))->isAudio();
+        result = result || std::static_pointer_cast<AbstractEffectItem>(child(i))->isAudio();
     }
     return result;
 }
@@ -64,12 +64,10 @@ void EffectGroupModel::plant(const std::weak_ptr<Mlt::Service> &service)
     for (int i = 0; i < childCount(); ++i) {
         std::static_pointer_cast<AbstractEffectItem>(child(i))->plant(service);
     }
-
 }
 void EffectGroupModel::unplant(const std::weak_ptr<Mlt::Service> &service)
 {
     for (int i = 0; i < childCount(); ++i) {
         std::static_pointer_cast<AbstractEffectItem>(child(i))->unplant(service);
     }
-
 }

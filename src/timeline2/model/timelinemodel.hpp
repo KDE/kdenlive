@@ -24,10 +24,9 @@
 
 #include "definitions.h"
 #include "undohelper.hpp"
-#include <assert.h>
-#include "definitions.h"
 #include <QAbstractItemModel>
 #include <QReadWriteLock>
+#include <assert.h>
 #include <memory>
 #include <mlt++/MltTractor.h>
 #include <unordered_map>
@@ -111,7 +110,7 @@ public:
         StartRole,    /// clip only
         BinIdRole,    /// clip only
         MarkersRole,  /// clip only
-        StatusRole,  /// clip only
+        StatusRole,   /// clip only
         KeyframesRole,
         DurationRole,
         InPointRole,   /// clip only
@@ -125,7 +124,7 @@ public:
         ShowKeyframesRole,
         AudioLevelsRole,   /// clip only
         IsCompositeRole,   /// track only
-        TrackPositionRole,  /// track only
+        TrackPositionRole, /// track only
         IsLockedRole,      /// track only
         HeightRole,        /// track only
         FadeInRole,        /// clip only
@@ -630,6 +629,5 @@ protected:
     virtual QModelIndex makeCompositionIndexFromID(int) const = 0;
     virtual QModelIndex makeTrackIndexFromID(int) const = 0;
     virtual void _resetView() = 0;
-
 };
 #endif

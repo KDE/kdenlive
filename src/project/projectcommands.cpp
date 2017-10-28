@@ -153,4 +153,3 @@ void EditFolderCommand::redo()
 {
     // if (m_doIt) m_view->slotAddFolder(m_name, m_id, false, true);
 }
-

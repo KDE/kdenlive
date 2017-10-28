@@ -25,8 +25,8 @@
 #include <QString>
 #include <memory>
 
-namespace Mlt{
-    class Profile;
+namespace Mlt {
+class Profile;
 }
 
 /* @brief This is a virtual class that represents any profile that we can get info from

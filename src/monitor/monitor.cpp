@@ -18,7 +18,6 @@
  ***************************************************************************/
 
 #include "monitor.h"
-#include "monitorcontroller.hpp"
 #include "bin/bin.h"
 #include "bin/projectclip.h"
 #include "core.h"
@@ -31,6 +30,7 @@
 #include "mainwindow.h"
 #include "mltcontroller/bincontroller.h"
 #include "mltcontroller/clipcontroller.h"
+#include "monitorcontroller.hpp"
 #include "project/projectmanager.h"
 #include "qmlmanager.h"
 #include "recmanager.h"
@@ -39,16 +39,16 @@
 #include "timeline/clip.h"
 #include "timeline/transitionhandler.h"
 #include "timeline2/model/snapmodel.hpp"
-#include "utils/KoIconUtils.h"
 #include "transitions/transitionsrepository.hpp"
+#include "utils/KoIconUtils.h"
 
 #include "klocalizedstring.h"
 #include <KDualAction>
+#include <KFileWidget>
 #include <KMessageBox>
 #include <KMessageWidget>
 #include <KRecentDirs>
 #include <KSelectAction>
-#include <KFileWidget>
 #include <KWindowConfig>
 #include <kio_version.h>
 
@@ -977,15 +977,11 @@ void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
         // the suggestion bases on the clip file name currently shown.
         // Finally, the frame number is added to this suggestion, prefixed
         // with "-f", so we get something like clip-f#.png.
-        QString suggestedImageName = QFileInfo(currentController()
-                                               ? currentController()->clipName()
-                                               : pCore->currentDoc()->url().isValid()
-                                               ? pCore->currentDoc()->url().fileName()
-                                               : i18n("untitled")
-                                              ).completeBaseName()
-                                     + QStringLiteral("-f")
-                                     + QString::number(m_glMonitor->getCurrentPos()).rightJustified(6, QLatin1Char('0'))
-                                     + QStringLiteral(".png");
+        QString suggestedImageName =
+            QFileInfo(currentController() ? currentController()->clipName()
+                                          : pCore->currentDoc()->url().isValid() ? pCore->currentDoc()->url().fileName() : i18n("untitled"))
+                .completeBaseName() +
+            QStringLiteral("-f") + QString::number(m_glMonitor->getCurrentPos()).rightJustified(6, QLatin1Char('0')) + QStringLiteral(".png");
         frameName = QFileInfo(frameName, suggestedImageName).fileName();
     }
 
@@ -994,7 +990,7 @@ void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
         framesFolder = QDir::homePath();
     }
     QScopedPointer<QDialog> dlg(new QDialog(this));
-    QScopedPointer<KFileWidget> fileWidget (new KFileWidget(QUrl::fromLocalFile(framesFolder), dlg.data()));
+    QScopedPointer<KFileWidget> fileWidget(new KFileWidget(QUrl::fromLocalFile(framesFolder), dlg.data()));
     dlg->setWindowTitle(addToProject ? i18n("Save Image") : i18n("Save Image to Project"));
     auto *layout = new QVBoxLayout;
     layout->addWidget(fileWidget.data());
@@ -1017,7 +1013,7 @@ void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
     fileWidget->setOperationMode(KFileWidget::Saving);
     QUrl relativeUrl;
     relativeUrl.setPath(frameName);
-#if KIO_VERSION >= QT_VERSION_CHECK(5,33,0)
+#if KIO_VERSION >= QT_VERSION_CHECK(5, 33, 0)
     fileWidget->setSelectedUrl(relativeUrl);
 #else
     fileWidget->setSelection(relativeUrl.toString());
@@ -1037,7 +1033,9 @@ void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
             if ((m_controller != nullptr) && !m_controller->getProducerProperty(QStringLiteral("kdenlive:proxy")).isEmpty() &&
                 m_controller->getProducerProperty(QStringLiteral("kdenlive:proxy")) != QLatin1String("-")) {
                 // using proxy, use original clip url to get frame
-                frame = m_monitorController->extractFrame(m_glMonitor->getCurrentPos(), m_controller->getProducerProperty(QStringLiteral("kdenlive:originalurl")), -1, -1, b != nullptr ? b->isChecked() : false);
+                frame =
+                    m_monitorController->extractFrame(m_glMonitor->getCurrentPos(), m_controller->getProducerProperty(QStringLiteral("kdenlive:originalurl")),
+                                                      -1, -1, b != nullptr ? b->isChecked() : false);
             } else {
                 frame = m_monitorController->extractFrame(m_glMonitor->getCurrentPos(), QString(), -1, -1, b != nullptr ? b->isChecked() : false);
             }
@@ -1328,9 +1326,9 @@ void Monitor::updateClipProducer(Mlt::Producer *prod)
 
 void Monitor::updateClipProducer(const QString &playlist)
 {
-    //TODO
+    // TODO
     Mlt::Producer *prod = new Mlt::Producer(*m_glMonitor->profile(), playlist.toUtf8().constData());
-    //m_glMonitor->setProducer(prod, isActive(), render->seekFramePosition());
+    // m_glMonitor->setProducer(prod, isActive(), render->seekFramePosition());
     m_glMonitor->switchPlay(true);
 }
 
@@ -1384,9 +1382,9 @@ const QString Monitor::activeClipId()
 
 void Monitor::slotOpenDvdFile(const QString &file)
 {
-    //TODO
+    // TODO
     m_glMonitor->initializeGL();
-    //render->loadUrl(file);
+    // render->loadUrl(file);
 }
 
 void Monitor::slotSaveZone()
@@ -1397,13 +1395,13 @@ void Monitor::slotSaveZone()
 
 void Monitor::setCustomProfile(const QString &profile, const Timecode &tc)
 {
-    //TODO or deprecate
+    // TODO or deprecate
     m_timePos->updateTimeCode(tc);
     if (true) {
         return;
     }
     slotActivateMonitor();
-    //render->prepareProfileReset(tc.fps());
+    // render->prepareProfileReset(tc.fps());
     if (m_multitrackView) {
         m_multitrackView->setChecked(false);
     }
@@ -1795,7 +1793,7 @@ void Monitor::slotSwitchCompare(bool enable)
         }
         buildSplitEffect(m_controller->masterProducer());
     } else if (m_splitEffect) {
-        //TODO
+        // TODO
         m_glMonitor->setProducer(m_controller->originalProducer().get(), isActive(), position());
         delete m_splitEffect;
         m_splitProducer = nullptr;
@@ -1807,7 +1805,7 @@ void Monitor::slotSwitchCompare(bool enable)
 
 void Monitor::buildSplitEffect(Mlt::Producer *original)
 {
-    qDebug()<<"// BUILDING SPLIT EFFECT!!!";
+    qDebug() << "// BUILDING SPLIT EFFECT!!!";
     m_splitEffect = new Mlt::Filter(*profile(), "frei0r.alphagrad");
     if ((m_splitEffect != nullptr) && m_splitEffect->is_valid()) {
         m_splitEffect->set("0", 0.5);    // 0 is the Clip left parameter
@@ -1826,7 +1824,7 @@ void Monitor::buildSplitEffect(Mlt::Producer *original)
         return;
     }
     Mlt::Tractor trac(*profile());
-    //TODO: remove usage of Clip class
+    // TODO: remove usage of Clip class
     Clip clp(*original);
     Mlt::Producer *clone = clp.clone();
     Clip clp2(*clone);
@@ -1858,9 +1856,8 @@ void Monitor::loadQmlScene(MonitorSceneType type)
         // User doesn't want effect scenes
         type = MonitorSceneDefault;
     }
-    double ratio = (double) m_glMonitor->profileSize().width() / (int) (m_glMonitor->profileSize().height() * m_glMonitor->profile()->dar() + 0.5);
-    m_qmlManager->setScene(m_id, type, m_glMonitor->profileSize(), ratio, m_glMonitor->displayRect(),
-                           m_glMonitor->zoom());
+    double ratio = (double)m_glMonitor->profileSize().width() / (int)(m_glMonitor->profileSize().height() * m_glMonitor->profile()->dar() + 0.5);
+    m_qmlManager->setScene(m_id, type, m_glMonitor->profileSize(), ratio, m_glMonitor->displayRect(), m_glMonitor->zoom());
     QQuickItem *root = m_glMonitor->rootObject();
     root->setProperty("showToolbar", m_zoomVisibilityAction->isChecked());
     connectQmlToolbar(root);
@@ -1963,7 +1960,6 @@ void Monitor::slotAdjustEffectCompare()
     m_glMonitor->refresh();
 }
 
-
 Mlt::Profile *Monitor::profile()
 {
     return m_glMonitor->profile();
@@ -1986,9 +1982,9 @@ void Monitor::slotSwitchRec(bool enable)
 
 bool Monitor::startCapture(const QString &params, const QString &path, Mlt::Producer *p)
 {
-    //TODO
+    // TODO
     m_controller = nullptr;
-    if (false) {//render->updateProducer(p)) {
+    if (false) { // render->updateProducer(p)) {
         m_glMonitor->reconfigureMulti(params, path, p->profile());
         return true;
     }

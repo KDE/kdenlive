@@ -23,8 +23,8 @@
 #define EFFECTSTACKMODEL_H
 
 #include "abstractmodel/abstracttreemodel.hpp"
-#include "undohelper.hpp"
 #include "definitions.h"
+#include "undohelper.hpp"
 
 #include <QReadWriteLock>
 #include <memory>
@@ -117,8 +117,8 @@ protected:
 
 private:
     mutable QReadWriteLock m_lock;
-    QList <int> fadeIns;
-    QList <int> fadeOuts;
+    QList<int> fadeIns;
+    QList<int> fadeOuts;
 
 signals:
     void modelChanged();

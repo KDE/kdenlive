@@ -97,7 +97,9 @@ std::shared_ptr<ProjectFolder> ProjectSubClip::folder(const QString &id)
     return std::shared_ptr<ProjectFolder>();
 }
 
-void ProjectSubClip::setBinEffectsEnabled(bool) {}
+void ProjectSubClip::setBinEffectsEnabled(bool)
+{
+}
 
 GenTime ProjectSubClip::duration() const
 {

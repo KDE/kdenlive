@@ -22,11 +22,10 @@
 #ifndef BINPLAYLIST_H
 #define BINPLAYLIST_H
 
-#include <memory>
-#include <QObject>
-#include <unordered_set>
 #include "definitions.h"
-
+#include <QObject>
+#include <memory>
+#include <unordered_set>
 
 /** @brief This class is a wrapper around a melt playlist that allows to store the Bin.
     Clips that are in the bin must be added into this playlist so that they are savedn in the project's xml even if not inserted in the actual timeline.
@@ -35,8 +34,8 @@
 
 class AbstractProjectItem;
 namespace Mlt {
-    class Playlist;
-    class Producer;
+class Playlist;
+class Producer;
 }
 
 class BinPlaylist : public QObject
@@ -44,7 +43,6 @@ class BinPlaylist : public QObject
 
 public:
     BinPlaylist();
-
 
     /* @brief This function updates the underlying binPlaylist object to reflect deletion of a bin item
        @param binElem is the bin item deleted. Note that exceptionnally, this function takes a raw pointer instead of a smart one.
@@ -68,13 +66,13 @@ protected:
        @param producer : new producer
     */
     void changeProducer(const QString &id, const std::shared_ptr<Mlt::Producer> &producer);
+
 private:
     /** @brief The MLT playlist holding our Producers */
     std::unique_ptr<Mlt::Playlist> m_binPlaylist;
 
     /** @brief Set of the bin inserted */
     std::unordered_set<QString> m_allClips;
-
 };
 
 #endif

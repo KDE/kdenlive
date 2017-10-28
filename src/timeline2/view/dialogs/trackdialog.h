@@ -20,8 +20,8 @@
 #ifndef TRACKDIALOG2_H
 #define TRACKDIALOG2_H
 
-#include "ui_addtrack_ui.h"
 #include "timeline2/model/timelineitemmodel.hpp"
+#include "ui_addtrack_ui.h"
 
 class TrackDialog : public QDialog, public Ui::AddTrack_UI
 {

@@ -36,7 +36,7 @@ public:
       If not the full rect should be filled, set circleOnly to true.
       See also: http://en.wikipedia.org/wiki/YUV and http://de.wikipedia.org/wiki/Vektorskop
      */
-    QImage yuvColorWheel(const QSize& size, int Y, float scaling, bool modifiedVersion, bool circleOnly);
+    QImage yuvColorWheel(const QSize &size, int Y, float scaling, bool modifiedVersion, bool circleOnly);
     /**
       @brief Draws a UV plane with given UV angle (ratio u:v stays constant)
       scaling defines how far to zoom in (or out). Lower value = zoom in.
@@ -44,7 +44,7 @@ public:
       is then laid through the UV plane, with the defined angle.
       @see yuvColorWheel()
      */
-    QImage yuvVerticalPlane(const QSize& size, int angle, float scaling);
+    QImage yuvVerticalPlane(const QSize &size, int angle, float scaling);
     /**
       @brief Draws a RGB plane with two values on one axis and one on the other.
       This is e.g. useful as background for a curves dialog. On the line from bottom left to top right

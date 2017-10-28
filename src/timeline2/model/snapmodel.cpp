@@ -20,8 +20,8 @@
  ***************************************************************************/
 #include "snapmodel.hpp"
 #include <QDebug>
-#include <limits.h>
 #include <cstdlib>
+#include <limits.h>
 
 SnapModel::SnapModel() = default;
 

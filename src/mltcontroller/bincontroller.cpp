@@ -36,15 +36,14 @@ BinController::BinController(const QString &profileName)
 BinController::~BinController()
 {
     qDebug() << "/// delete bincontroller";
-    qDebug()<<"REMAINING CLIPS: "<<m_clipList.keys();
+    qDebug() << "REMAINING CLIPS: " << m_clipList.keys();
     destroyBin();
 }
-
 
 void BinController::destroyBin()
 {
     if (m_binPlaylist) {
-        //m_binPlaylist.release();
+        // m_binPlaylist.release();
         m_binPlaylist->clear();
     }
     qDeleteAll(m_extraClipList);
@@ -284,7 +283,7 @@ std::shared_ptr<Mlt::Producer> BinController::getBinProducer(const QString &id)
 {
     // TODO: framebuffer speed clips
     if (!m_clipList.contains(id)) {
-        qDebug() << "ERROR: requesting invalid bin producer: "<<id;
+        qDebug() << "ERROR: requesting invalid bin producer: " << id;
         return nullptr;
     }
     return m_clipList[id]->originalProducer();
@@ -417,7 +416,6 @@ void BinController::updateTrackProducer(const QString &id)
 {
     emit updateTimelineProducer(id);
 }
-
 
 void BinController::checkThumbnails(const QDir &thumbFolder)
 {

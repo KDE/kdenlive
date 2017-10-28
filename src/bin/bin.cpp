@@ -2271,13 +2271,13 @@ void Bin::editMasterEffect(std::shared_ptr<AbstractProjectItem> clip)
     }
     if (clip) {
         if (clip->itemType() == AbstractProjectItem::ClipItem) {
-            std::shared_ptr<ProjectClip>clp = std::static_pointer_cast<ProjectClip>(clip);
+            std::shared_ptr<ProjectClip> clp = std::static_pointer_cast<ProjectClip>(clip);
             emit requestShowEffectStack(clp->clipName(), clp->m_effectStack, QPair<int, int>(0, clp->frameDuration()), clp->getFrameSize(), false);
             return;
         }
         if (clip->itemType() == AbstractProjectItem::SubClipItem) {
             if (auto ptr = clip->parentItem().lock()) {
-                std::shared_ptr<ProjectClip>clp = std::static_pointer_cast<ProjectClip>(ptr);
+                std::shared_ptr<ProjectClip> clp = std::static_pointer_cast<ProjectClip>(ptr);
                 emit requestShowEffectStack(clp->clipName(), clp->m_effectStack, QPair<int, int>(0, clp->frameDuration()), clp->getFrameSize(), false);
             }
             return;
@@ -2759,10 +2759,9 @@ void Bin::showTitleWidget(std::shared_ptr<ProjectClip> clip)
         newprops.insert(QStringLiteral("force_reload"), QStringLiteral("2"));
         if (!path.isEmpty()) {
             // we are editing an external file, asked if we want to detach from that file or save the result to that title file.
-            if (KMessageBox::questionYesNo(pCore->window(),
-                                           i18n("You are editing an external title clip (%1). Do you want to save your changes to the title "
-                                                "file or save the changes for this project only?",
-                                                path),
+            if (KMessageBox::questionYesNo(pCore->window(), i18n("You are editing an external title clip (%1). Do you want to save your changes to the title "
+                                                                 "file or save the changes for this project only?",
+                                                                 path),
                                            i18n("Save Title"), KGuiItem(i18n("Save to title file")),
                                            KGuiItem(i18n("Save in project only"))) == KMessageBox::Yes) {
                 // save to external file

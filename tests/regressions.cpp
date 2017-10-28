@@ -1,7 +1,8 @@
 #include "test_utils.hpp"
 
 Mlt::Profile reg_profile;
-TEST_CASE("Regression") {
+TEST_CASE("Regression")
+{
     auto binModel = pCore->projectItemModel();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
@@ -20,7 +21,7 @@ TEST_CASE("Regression") {
     TimelineItemModel tim(new Mlt::Profile(), undoStack);
     Mock<TimelineItemModel> timMock(tim);
     TimelineItemModel &tt = timMock.get();
-    auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(),[](...){});
+    auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline, guideModel);
 
     RESET(timMock);
@@ -30,18 +31,14 @@ TEST_CASE("Regression") {
     undoStack->redo();
     undoStack->undo();
     QString binId0 = createProducer(reg_profile, "red", binModel);
-    int c = ClipModel::construct(timeline, binId0 );
+    int c = ClipModel::construct(timeline, binId0);
     timeline->m_allClips[c]->m_endlessResize = false;
     TrackModel::construct(timeline);
     REQUIRE(timeline->getTrackById(1)->checkConsistency());
     REQUIRE(timeline->getTrackById(1)->checkConsistency());
-    REQUIRE(timeline->requestClipMove(0,1 ,0 ));
+    REQUIRE(timeline->requestClipMove(0, 1, 0));
     REQUIRE(timeline->getTrackById(1)->checkConsistency());
-    REQUIRE(timeline->requestItemResize(0,16 ,false ));
-    REQUIRE(timeline->getTrackById(1)->checkConsistency());
-    undoStack->undo();
-    REQUIRE(timeline->getTrackById(1)->checkConsistency());
-    undoStack->redo();
+    REQUIRE(timeline->requestItemResize(0, 16, false));
     REQUIRE(timeline->getTrackById(1)->checkConsistency());
     undoStack->undo();
     REQUIRE(timeline->getTrackById(1)->checkConsistency());
@@ -51,7 +48,11 @@ TEST_CASE("Regression") {
     REQUIRE(timeline->getTrackById(1)->checkConsistency());
     undoStack->redo();
     REQUIRE(timeline->getTrackById(1)->checkConsistency());
-    REQUIRE_FALSE(timeline->requestItemResize(0,0 ,false ));
+    undoStack->undo();
+    REQUIRE(timeline->getTrackById(1)->checkConsistency());
+    undoStack->redo();
+    REQUIRE(timeline->getTrackById(1)->checkConsistency());
+    REQUIRE_FALSE(timeline->requestItemResize(0, 0, false));
     REQUIRE(timeline->getTrackById(1)->checkConsistency());
     TrackModel::construct(timeline);
     REQUIRE(timeline->getTrackById(1)->checkConsistency());
@@ -63,14 +64,15 @@ TEST_CASE("Regression") {
     REQUIRE(timeline->getTrackById(1)->checkConsistency());
 }
 
-TEST_CASE("Regression2") {
+TEST_CASE("Regression2")
+{
     auto binModel = pCore->projectItemModel();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
 
-// Here we do some trickery to enable testing.
-// We mock the project class so that the undoStack function returns our undoStack
+    // Here we do some trickery to enable testing.
+    // We mock the project class so that the undoStack function returns our undoStack
 
     Mock<ProjectManager> pmMock;
     When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
@@ -78,11 +80,11 @@ TEST_CASE("Regression2") {
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
 
-// We also mock timeline object to spy few functions and mock others
+    // We also mock timeline object to spy few functions and mock others
     TimelineItemModel tim(new Mlt::Profile(), undoStack);
     Mock<TimelineItemModel> timMock(tim);
     TimelineItemModel &tt = timMock.get();
-    auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(),[](...){});
+    auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline, guideModel);
 
     RESET(timMock);
@@ -97,7 +99,7 @@ TEST_CASE("Regression2") {
     REQUIRE(timeline->getTrackById(0)->checkConsistency());
     {
         QString binId0 = createProducer(reg_profile, "red", binModel);
-        bool ok = timeline->requestClipInsertion(binId0, 0, 10, dummy_id );
+        bool ok = timeline->requestClipInsertion(binId0, 0, 10, dummy_id);
         timeline->m_allClips[dummy_id]->m_endlessResize = false;
         REQUIRE(ok);
     }
@@ -111,14 +113,14 @@ TEST_CASE("Regression2") {
     REQUIRE(timeline->getTrackById(2)->checkConsistency());
     {
         QString binId0 = createProducer(reg_profile, "red", binModel);
-        bool ok = timeline->requestClipInsertion(binId0, 2 ,10, dummy_id );
+        bool ok = timeline->requestClipInsertion(binId0, 2, 10, dummy_id);
         timeline->m_allClips[3]->m_endlessResize = false;
         REQUIRE(ok);
     }
     REQUIRE(timeline->getTrackById(0)->checkConsistency());
     REQUIRE(timeline->getTrackById(2)->checkConsistency());
     {
-        bool ok = timeline->requestClipMove(1,0 ,10 );
+        bool ok = timeline->requestClipMove(1, 0, 10);
         REQUIRE(ok);
     }
     REQUIRE(timeline->getTrackById(0)->checkConsistency());
@@ -131,7 +133,7 @@ TEST_CASE("Regression2") {
     REQUIRE(timeline->getTrackById(0)->checkConsistency());
     REQUIRE(timeline->getTrackById(2)->checkConsistency());
     {
-        bool ok = timeline->requestItemResize(3,0 ,false );
+        bool ok = timeline->requestItemResize(3, 0, false);
         REQUIRE_FALSE(ok);
     }
     REQUIRE(timeline->getTrackById(0)->checkConsistency());
@@ -142,7 +144,7 @@ TEST_CASE("Regression2") {
     REQUIRE(timeline->getTrackById(4)->checkConsistency());
     {
         QString binId0 = createProducer(reg_profile, "red", binModel);
-        int c = ClipModel::construct(timeline, binId0 );
+        int c = ClipModel::construct(timeline, binId0);
         timeline->m_allClips[c]->m_endlessResize = false;
     }
     REQUIRE(timeline->getTrackById(0)->checkConsistency());
@@ -154,7 +156,7 @@ TEST_CASE("Regression2") {
     REQUIRE(timeline->getTrackById(4)->checkConsistency());
     REQUIRE(timeline->getTrackById(6)->checkConsistency());
     {
-        bool ok = timeline->requestItemResize(3,15 ,true );
+        bool ok = timeline->requestItemResize(3, 15, true);
         REQUIRE(ok);
     }
     REQUIRE(timeline->getTrackById(0)->checkConsistency());
@@ -162,7 +164,7 @@ TEST_CASE("Regression2") {
     REQUIRE(timeline->getTrackById(4)->checkConsistency());
     REQUIRE(timeline->getTrackById(6)->checkConsistency());
     {
-        bool ok = timeline->requestClipMove(3,0 ,0 );
+        bool ok = timeline->requestClipMove(3, 0, 0);
         REQUIRE_FALSE(ok);
     }
     REQUIRE(timeline->getTrackById(0)->checkConsistency());
@@ -170,7 +172,7 @@ TEST_CASE("Regression2") {
     REQUIRE(timeline->getTrackById(4)->checkConsistency());
     REQUIRE(timeline->getTrackById(6)->checkConsistency());
     {
-        bool ok = timeline->requestItemResize(3,16 ,false );
+        bool ok = timeline->requestItemResize(3, 16, false);
         REQUIRE_FALSE(ok);
     }
     REQUIRE(timeline->getTrackById(0)->checkConsistency());
@@ -178,7 +180,7 @@ TEST_CASE("Regression2") {
     REQUIRE(timeline->getTrackById(4)->checkConsistency());
     REQUIRE(timeline->getTrackById(6)->checkConsistency());
     {
-        bool ok = timeline->requestItemResize(3,16 ,true );
+        bool ok = timeline->requestItemResize(3, 16, true);
         REQUIRE(ok);
     }
     REQUIRE(timeline->getTrackById(0)->checkConsistency());
@@ -197,7 +199,7 @@ TEST_CASE("Regression2") {
     REQUIRE(timeline->getTrackById(6)->checkConsistency());
     {
         QString binId0 = createProducer(reg_profile, "red", binModel);
-        bool ok = timeline->requestClipInsertion(binId0,0 ,1, dummy_id );
+        bool ok = timeline->requestClipInsertion(binId0, 0, 1, dummy_id);
         REQUIRE_FALSE(ok);
     }
     REQUIRE(timeline->getTrackById(0)->checkConsistency());

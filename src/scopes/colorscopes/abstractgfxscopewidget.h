@@ -11,9 +11,9 @@
 #ifndef ABSTRACTGFXSCOPEWIDGET_H
 #define ABSTRACTGFXSCOPEWIDGET_H
 
-#include <QtCore>
 #include <QString>
 #include <QWidget>
+#include <QtCore>
 
 #include "../abstractscopewidget.h"
 

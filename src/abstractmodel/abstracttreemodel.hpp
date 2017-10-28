@@ -22,10 +22,10 @@
 #ifndef ABSTRACTTREEMODEL_H
 #define ABSTRACTTREEMODEL_H
 
+#include "undohelper.hpp"
 #include <QAbstractItemModel>
 #include <memory>
 #include <unordered_map>
-#include "undohelper.hpp"
 
 /* @brief This class represents a generic tree hierarchy
  */

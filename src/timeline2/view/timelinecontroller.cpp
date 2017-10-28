@@ -23,22 +23,22 @@
 #include "../model/timelinefunctions.hpp"
 #include "bin/bin.h"
 #include "bin/model/markerlistmodel.hpp"
-#include "bin/projectitemmodel.h"
 #include "bin/projectclip.h"
-#include "previewmanager.h"
+#include "bin/projectitemmodel.h"
 #include "core.h"
+#include "dialogs/spacerdialog.h"
 #include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
+#include "previewmanager.h"
 #include "project/projectmanager.h"
-#include "timeline2/model/timelineitemmodel.hpp"
-#include "timeline2/model/trackmodel.hpp"
 #include "timeline2/model/clipmodel.hpp"
 #include "timeline2/model/compositionmodel.hpp"
 #include "timeline2/model/groupsmodel.hpp"
-#include "transitions/transitionsrepository.hpp"
+#include "timeline2/model/timelineitemmodel.hpp"
+#include "timeline2/model/trackmodel.hpp"
 #include "timeline2/view/dialogs/trackdialog.h"
-#include "dialogs/spacerdialog.h"
 #include "timelinewidget.h"
+#include "transitions/transitionsrepository.hpp"
 #include "utils/KoIconUtils.h"
 
 #include <KActionCollection>
@@ -71,19 +71,14 @@ TimelineController::~TimelineController()
     m_timelinePreview = nullptr;
 }
 
-
 void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
 {
     delete m_timelinePreview;
     m_timelinePreview = nullptr;
     m_model = std::move(model);
-    connect(m_model.get(), &TimelineItemModel::requestClearAssetView,
-            [&](int id){pCore->clearAssetPanel(id);});
-    connect(m_model.get(), &TimelineItemModel::requestMonitorRefresh,
-            [&](){pCore->requestMonitorRefresh();});
-    connect(m_model.get(), &TimelineModel::invalidateClip, this,
-            &TimelineController::invalidateClip, Qt::DirectConnection);
-
+    connect(m_model.get(), &TimelineItemModel::requestClearAssetView, [&](int id) { pCore->clearAssetPanel(id); });
+    connect(m_model.get(), &TimelineItemModel::requestMonitorRefresh, [&]() { pCore->requestMonitorRefresh(); });
+    connect(m_model.get(), &TimelineModel::invalidateClip, this, &TimelineController::invalidateClip, Qt::DirectConnection);
 }
 
 std::shared_ptr<TimelineItemModel> TimelineController::getModel() const
@@ -120,11 +115,11 @@ void TimelineController::addSelection(int newSelection)
 
 int TimelineController::getCurrentItem()
 {
-    //TODO: if selection is empty, return topmost clip under timeline cursor
+    // TODO: if selection is empty, return topmost clip under timeline cursor
     if (m_selection.selectedClips.isEmpty()) {
         return -1;
     }
-    //TODO: if selection contains more than 1 clip, return topmost clip under timeline cursor in selection
+    // TODO: if selection contains more than 1 clip, return topmost clip under timeline cursor in selection
     return m_selection.selectedClips.constFirst();
 }
 
@@ -141,7 +136,7 @@ const QString TimelineController::getTrackNameFromMltIndex(int trackPos)
     if (trackPos == 0) {
         return i18n("Black");
     }
-    return m_model->getTrackById(m_model->getTrackIndexFromPosition(trackPos -1))->getProperty(QStringLiteral("kdenlive:track_name")).toString();
+    return m_model->getTrackById(m_model->getTrackIndexFromPosition(trackPos - 1))->getProperty(QStringLiteral("kdenlive:track_name")).toString();
 }
 
 const QString TimelineController::getTrackNameFromIndex(int trackIndex)
@@ -198,8 +193,7 @@ void TimelineController::setSelection(const QList<int> &newSelection, int trackI
             ids.insert(m_selection.selectedClips.cbegin(), m_selection.selectedClips.cend());
             m_model->requestClipsGroup(ids, true, GroupType::Selection);
             emitSelectedFromSelection();
-        }
-        else {
+        } else {
             emit selected(nullptr);
             emit showItemEffectStack(QString(), nullptr, QPair<int, int>(), QSize(), false);
         }
@@ -315,7 +309,7 @@ void TimelineController::copyItem()
     int clipId = -1;
     if (!m_selection.selectedClips.isEmpty()) {
         clipId = m_selection.selectedClips.first();
-    } else { 
+    } else {
         return;
     }
     m_root->setProperty("copiedClip", clipId);
@@ -323,7 +317,7 @@ void TimelineController::copyItem()
 
 bool TimelineController::pasteItem(int clipId, int tid, int position)
 {
-    //TODO: copy multiple clips / groups
+    // TODO: copy multiple clips / groups
     if (clipId == -1) {
         clipId = m_root->property("copiedClip").toInt();
         if (clipId == -1) {
@@ -340,11 +334,11 @@ bool TimelineController::pasteItem(int clipId, int tid, int position)
     if (position == -1) {
         position = m_position;
     }
-    qDebug()<< "PASTING CLIP: "<<clipId<<", "<<tid<<", "<<position;
+    qDebug() << "PASTING CLIP: " << clipId << ", " << tid << ", " << position;
     if (m_model->isClip(clipId)) {
         return TimelineFunctions::requestClipCopy(m_model, clipId, tid, position);
     }
-    //TODO copy composition
+    // TODO copy composition
     return false;
 }
 
@@ -531,16 +525,17 @@ void TimelineController::showAsset(int id)
         QModelIndex clipIx = m_model->makeClipIndexFromID(id);
         QString clipName = m_model->data(clipIx, Qt::DisplayRole).toString();
         bool showKeyframes = m_model->data(clipIx, TimelineModel::ShowKeyframesRole).toInt();
-        qDebug()<<"-----\n// SHOW KEYFRAMES: "<<showKeyframes;
+        qDebug() << "-----\n// SHOW KEYFRAMES: " << showKeyframes;
         emit showItemEffectStack(clipName, m_model->getClipEffectStackModel(id),
-                                 QPair<int, int>(m_model->getClipPosition(id), m_model->getClipPosition(id) + m_model->getClipPlaytime(id)), m_model->getClipFrameSize(id), showKeyframes);
+                                 QPair<int, int>(m_model->getClipPosition(id), m_model->getClipPosition(id) + m_model->getClipPlaytime(id)),
+                                 m_model->getClipFrameSize(id), showKeyframes);
     }
 }
 
 void TimelineController::showTrackAsset(int trackId)
 {
-    emit showItemEffectStack(getTrackNameFromIndex(trackId), m_model->getTrackEffectStackModel(trackId),
-                                 QPair<int, int>(), pCore->getCurrentFrameSize(), false);
+    emit showItemEffectStack(getTrackNameFromIndex(trackId), m_model->getTrackEffectStackModel(trackId), QPair<int, int>(), pCore->getCurrentFrameSize(),
+                             false);
 }
 
 void TimelineController::setPosition(int position)
@@ -604,12 +599,12 @@ void TimelineController::setZoneOut(int outPoint)
 void TimelineController::selectItems(QVariantList arg, int startFrame, int endFrame)
 {
     m_selection.selectedClips.clear();
-    std::unordered_set<int>clipsToSelect;
+    std::unordered_set<int> clipsToSelect;
     for (int i = 0; i < arg.count(); i++) {
         std::unordered_set<int> trackClips = m_model->getTrackById(arg.at(i).toInt())->getClipsAfterPosition(startFrame, endFrame);
         clipsToSelect.insert(trackClips.begin(), trackClips.end());
     }
-    for (int x: clipsToSelect) {
+    for (int x : clipsToSelect) {
         m_selection.selectedClips << x;
     }
     m_model->requestClipsGroup(clipsToSelect, true, GroupType::Selection);
@@ -736,7 +731,7 @@ QStringList TimelineController::extractCompositionLumas() const
 
 void TimelineController::addEffectToCurrentClip(const QStringList &effectData)
 {
-    QList <int> activeClips;
+    QList<int> activeClips;
     for (int track = m_model->getTracksCount() - 1; track > 0; track--) {
         int trackIx = m_model->getTrackIndexFromPosition(track);
         int cid = m_model->getClipByPosition(trackIx, m_position);
@@ -766,12 +761,12 @@ void TimelineController::adjustFade(int cid, const QString &effectId, int durati
     }
 }
 
-QPair<int,int> TimelineController::getCompositionATrack(int cid) const
+QPair<int, int> TimelineController::getCompositionATrack(int cid) const
 {
-    QPair<int,int> result;
+    QPair<int, int> result;
     std::shared_ptr<CompositionModel> compo = m_model->getCompositionPtr(cid);
     if (compo) {
-        result = QPair<int,int>(compo->getATrack(), m_model->getTrackMltIndex(compo->getCurrentTrackId()));
+        result = QPair<int, int>(compo->getATrack(), m_model->getTrackMltIndex(compo->getCurrentTrackId()));
     }
     return result;
 }
@@ -822,7 +817,7 @@ bool TimelineController::createSplitOverlay(Mlt::Filter *filter)
     const QString binId = clip->binId();
 
     // Get clean bin copy of the clip
-    std::shared_ptr< ProjectClip > binClip = pCore->projectItemModel()->getClipByBinID(binId);
+    std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(binId);
     std::shared_ptr<Mlt::Producer> binProd(binClip->masterProducer()->cut(clip->getIn(), clip->getOut()));
 
     // Get copy of timeline producer
@@ -856,7 +851,6 @@ bool TimelineController::createSplitOverlay(Mlt::Filter *filter)
     m_timelinePreview->setOverlayTrack(overlay);
     m_model->m_overlayTrackCount = m_timelinePreview->addedTracks();
     return true;
-
 }
 
 void TimelineController::removeSplitOverlay()
@@ -895,7 +889,7 @@ void TimelineController::startPreviewRender()
     if (m_timelinePreview) {
         if (!m_usePreview) {
             m_timelinePreview->buildPreviewTrack();
-            qDebug()<<"// STARTING PREVIEW TRACK";
+            qDebug() << "// STARTING PREVIEW TRACK";
             m_usePreview = true;
             m_model->m_overlayTrackCount = m_timelinePreview->addedTracks();
         }
@@ -1008,9 +1002,9 @@ void TimelineController::loadPreview(QString chunks, QString dirty, const QDateT
 QMap<QString, QString> TimelineController::documentProperties()
 {
     QMap<QString, QString> props = pCore->currentDoc()->documentProperties();
-    //TODO
-    //props.insert(QStringLiteral("audiotargettrack"), QString::number(audioTarget));
-    //props.insert(QStringLiteral("videotargettrack"), QString::number(videoTarget));
+    // TODO
+    // props.insert(QStringLiteral("audiotargettrack"), QString::number(audioTarget));
+    // props.insert(QStringLiteral("videotargettrack"), QString::number(videoTarget));
     if (m_timelinePreview) {
         QPair<QStringList, QStringList> chunks = m_timelinePreview->previewChunks();
         props.insert(QStringLiteral("previewchunks"), chunks.first.join(QLatin1Char(',')));
@@ -1078,11 +1072,10 @@ void TimelineController::changeItemSpeed(int clipId, int speed)
     m_model->changeItemSpeed(clipId, speed);
 }
 
-
 void TimelineController::switchCompositing(int mode)
 {
-    //m_model->m_tractor->lock();
-    qDebug()<<"//// SWITCH COMPO: "<<mode;
+    // m_model->m_tractor->lock();
+    qDebug() << "//// SWITCH COMPO: " << mode;
     QScopedPointer<Mlt::Service> service(m_model->m_tractor->field());
     Mlt::Field *field = m_model->m_tractor->field();
     field->lock();
@@ -1098,13 +1091,15 @@ void TimelineController::switchCompositing(int mode)
         service.reset(service->producer());
     }
     if (mode > 0) {
-        const QString compositeGeometry = QStringLiteral("0=0/0:%1x%2").arg(m_model->m_tractor->profile()->width()).arg(m_model->m_tractor->profile()->height());
+        const QString compositeGeometry =
+            QStringLiteral("0=0/0:%1x%2").arg(m_model->m_tractor->profile()->width()).arg(m_model->m_tractor->profile()->height());
 
-        //Loop through tracks
+        // Loop through tracks
         for (int track = 1; track < m_model->getTracksCount(); track++) {
             if (m_model->getTrackById(m_model->getTrackIndexFromPosition(track))->getProperty("kdenlive:audio_track").toInt() == 0) {
                 // This is a video track
-                Mlt::Transition t(*m_model->m_tractor->profile(), mode == 1 ? "composite" : TransitionsRepository::get()->getCompositingTransition().toUtf8().constData());
+                Mlt::Transition t(*m_model->m_tractor->profile(),
+                                  mode == 1 ? "composite" : TransitionsRepository::get()->getCompositingTransition().toUtf8().constData());
                 t.set("always_active", 1);
                 t.set("a_track", 0);
                 t.set("b_track", track + 1);
@@ -1141,7 +1136,7 @@ void TimelineController::extractZone()
 
 void TimelineController::extract(int clipId)
 {
-    //TODO: grouped clips?
+    // TODO: grouped clips?
     int in = m_model->getClipPosition(clipId);
     QPoint zone(in, in + m_model->getClipPlaytime(clipId));
     int track = m_model->getClipTrackId(clipId);
@@ -1178,7 +1173,7 @@ bool TimelineController::insertZone(const QString &binId, QPoint zone, bool over
     return TimelineFunctions::insertZone(m_model, targetTrack, binId, m_position, zone, overwrite);
 }
 
-void TimelineController::updateClip(int clipId, QVector <int> roles)
+void TimelineController::updateClip(int clipId, QVector<int> roles)
 {
     QModelIndex ix = m_model->makeClipIndexFromID(clipId);
     m_model->dataChanged(ix, ix, roles);
@@ -1196,11 +1191,10 @@ void TimelineController::showCompositionKeyframes(int clipId, bool value)
 
 void TimelineController::setClipStatus(int clipId, int status)
 {
-    TimelineFunctions::changeClipState(m_model, clipId, (PlaylistState::ClipState) status);
+    TimelineFunctions::changeClipState(m_model, clipId, (PlaylistState::ClipState)status);
 }
 
 void TimelineController::splitAudio(int clipId)
 {
     TimelineFunctions::requestSplitAudio(m_model, clipId);
 }
-

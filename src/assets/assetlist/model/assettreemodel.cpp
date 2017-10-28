@@ -89,4 +89,3 @@ QVariant AssetTreeModel::data(const QModelIndex &index, int role) const
     }
     return item->dataColumn(index.column());
 }
-

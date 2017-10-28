@@ -19,10 +19,10 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 #include "compositionmodel.hpp"
+#include "assets/keyframes/model/keyframemodellist.hpp"
 #include "timelinemodel.hpp"
 #include "trackmodel.hpp"
 #include "transitions/transitionsrepository.hpp"
-#include "assets/keyframes/model/keyframemodellist.hpp"
 #include "undohelper.hpp"
 #include <QDebug>
 #include <mlt++/MltTransition.h>
@@ -160,5 +160,5 @@ bool CompositionModel::showKeyframes() const
 void CompositionModel::setShowKeyframes(bool show)
 {
     QWriteLocker locker(&m_lock);
-    service()->set("kdenlive:timeline_display", (int) show);
+    service()->set("kdenlive:timeline_display", (int)show);
 }

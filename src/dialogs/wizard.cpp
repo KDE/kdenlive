@@ -19,16 +19,16 @@
 
 #include "wizard.h"
 #include "kdenlivesettings.h"
-#include "profilesdialog.h"
-#include "profiles/profilerepository.hpp"
 #include "profiles/profilemodel.hpp"
+#include "profiles/profilerepository.hpp"
+#include "profilesdialog.h"
 #include "utils/KoIconUtils.h"
 #include "utils/thememanager.h"
 #ifdef USE_V4L
 #include "capture/v4lcapture.h"
 #endif
-#include <config-kdenlive.h>
 #include "core.h"
+#include <config-kdenlive.h>
 
 #include <framework/mlt_version.h>
 #include <mlt++/Mlt.h>
@@ -284,11 +284,12 @@ void Wizard::slotUpdateCaptureParameters()
     }
 
     if (ProfileRepository::get()->profileExists(dir.absoluteFilePath(QStringLiteral("video4linux")))) {
-        auto& profileInfo = ProfileRepository::get()->getProfile(dir.absoluteFilePath(QStringLiteral("video4linux")));
-        m_capture.v4l_formats->addItem(
-            i18n("Current settings (%1x%2, %3/%4fps)", profileInfo->width(), profileInfo->height(), profileInfo->frame_rate_num(), profileInfo->frame_rate_den()),
-            QStringList() << QStringLiteral("unknown") << QString::number(profileInfo->width()) << QString::number(profileInfo->height())
-            << QString::number(profileInfo->frame_rate_num()) << QString::number(profileInfo->frame_rate_den()));
+        auto &profileInfo = ProfileRepository::get()->getProfile(dir.absoluteFilePath(QStringLiteral("video4linux")));
+        m_capture.v4l_formats->addItem(i18n("Current settings (%1x%2, %3/%4fps)", profileInfo->width(), profileInfo->height(), profileInfo->frame_rate_num(),
+                                            profileInfo->frame_rate_den()),
+                                       QStringList() << QStringLiteral("unknown") << QString::number(profileInfo->width())
+                                                     << QString::number(profileInfo->height()) << QString::number(profileInfo->frame_rate_num())
+                                                     << QString::number(profileInfo->frame_rate_den()));
     }
     QStringList pixelformats = formats.split('>', QString::SkipEmptyParts);
     QString itemSize;
@@ -330,10 +331,11 @@ void Wizard::slotUpdateCaptureParameters()
             profileInfo->m_progressive = 1;
             profileInfo->m_colorspace = 601;
             ProfileRepository::get()->saveProfile(profileInfo.get(), dir.absoluteFilePath(QStringLiteral("video4linux")));
-            m_capture.v4l_formats->addItem(
-                i18n("Default settings (%1x%2, %3/%4fps)", profileInfo->width(), profileInfo->height(), profileInfo->frame_rate_num(), profileInfo->frame_rate_den()),
-                QStringList() << QStringLiteral("unknown") << QString::number(profileInfo->width()) << QString::number(profileInfo->height())
-                << QString::number(profileInfo->frame_rate_num()) << QString::number(profileInfo->frame_rate_den()));
+            m_capture.v4l_formats->addItem(i18n("Default settings (%1x%2, %3/%4fps)", profileInfo->width(), profileInfo->height(),
+                                                profileInfo->frame_rate_num(), profileInfo->frame_rate_den()),
+                                           QStringList()
+                                               << QStringLiteral("unknown") << QString::number(profileInfo->width()) << QString::number(profileInfo->height())
+                                               << QString::number(profileInfo->frame_rate_num()) << QString::number(profileInfo->frame_rate_den()));
         }
     }
     m_capture.v4l_formats->blockSignals(false);
@@ -762,10 +764,10 @@ void Wizard::slotCheckStandard()
         const QString infoString = ("<strong>" + i18n("Frame size:") + QStringLiteral(" </strong>%1x%2<br /><strong>") + i18n("Frame rate:") +
                                     QStringLiteral(" </strong>%3/%4<br /><strong>") + i18n("Pixel aspect ratio:") +
                                     QStringLiteral("</strong>%5/%6<br /><strong>") + i18n("Display aspect ratio:") + QStringLiteral(" </strong>%7/%8"))
-            .arg(QString::number(curProfile->width()), QString::number(curProfile->height()),
-                 QString::number(curProfile->frame_rate_num()), QString::number(curProfile->frame_rate_den()),
-                 QString::number(curProfile->sample_aspect_num()), QString::number(curProfile->sample_aspect_den()),
-                 QString::number(curProfile->display_aspect_num()), QString::number(curProfile->display_aspect_den()));
+                                       .arg(QString::number(curProfile->width()), QString::number(curProfile->height()),
+                                            QString::number(curProfile->frame_rate_num()), QString::number(curProfile->frame_rate_den()),
+                                            QString::number(curProfile->sample_aspect_num()), QString::number(curProfile->sample_aspect_den()),
+                                            QString::number(curProfile->display_aspect_num()), QString::number(curProfile->display_aspect_den()));
         item->setToolTip(infoString);
     }
 

@@ -22,11 +22,11 @@
 #ifndef TREEITEM_H
 #define TREEITEM_H
 
+#include "definitions.h"
 #include <QList>
 #include <QVariant>
 #include <memory>
 #include <unordered_map>
-#include "definitions.h"
 
 /* @brief This class is a generic class to represent items of a tree-like model
    It works in tandem with AbstractTreeModel or one of its derived classes.
@@ -43,7 +43,7 @@
  */
 
 class AbstractTreeModel;
-class TreeItem :  public enable_shared_from_this_virtual<TreeItem>
+class TreeItem : public enable_shared_from_this_virtual<TreeItem>
 {
 public:
     /* @brief Construct a TreeItem
@@ -134,6 +134,7 @@ public:
        Note that it should be consistent with what the model thinks, but it may have been
        messed up at some point if someone wrongly constructed the object with isRoot = true */
     bool isRoot() const;
+
 protected:
     /* @brief Finish construction of object given its pointer
        This is a separated function so that it can be called from derived classes */

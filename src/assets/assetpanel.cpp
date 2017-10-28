@@ -20,27 +20,27 @@
  ***************************************************************************/
 
 #include "assetpanel.hpp"
+#include "core.cpp"
+#include "definitions.h"
 #include "effects/effectstack/model/effectitemmodel.hpp"
 #include "effects/effectstack/model/effectstackmodel.hpp"
 #include "effects/effectstack/view/effectstackview.hpp"
-#include "transitions/view/transitionstackview.hpp"
 #include "kdenlivesettings.h"
 #include "model/assetparametermodel.hpp"
 #include "transitions/transitionsrepository.hpp"
-#include "view/assetparameterview.hpp"
+#include "transitions/view/transitionstackview.hpp"
 #include "utils/KoIconUtils.h"
-#include "definitions.h"
-#include "core.cpp"
+#include "view/assetparameterview.hpp"
 
 #include <KColorScheme>
 #include <KColorUtils>
 #include <KSqueezedTextLabel>
 #include <QApplication>
 #include <QDebug>
-#include <QLabel>
-#include <QVBoxLayout>
 #include <QHBoxLayout>
+#include <QLabel>
 #include <QToolButton>
+#include <QVBoxLayout>
 #include <klocalizedstring.h>
 
 AssetPanel::AssetPanel(QWidget *parent)
@@ -99,7 +99,8 @@ void AssetPanel::showTransition(int tid, std::shared_ptr<AssetParameterModel> tr
     m_transitionWidget->setModel(transitionModel, QPair<int, int>(-1, -1), QSize(), true);
 }
 
-void AssetPanel::showEffectStack(const QString &itemName, std::shared_ptr<EffectStackModel> effectsModel, QPair<int, int> range, QSize frameSize, bool showKeyframes)
+void AssetPanel::showEffectStack(const QString &itemName, std::shared_ptr<EffectStackModel> effectsModel, QPair<int, int> range, QSize frameSize,
+                                 bool showKeyframes)
 {
     if (effectsModel == nullptr) {
         // Item is not ready
@@ -116,34 +117,34 @@ void AssetPanel::showEffectStack(const QString &itemName, std::shared_ptr<Effect
     bool showSplit = false;
     bool enableKeyframes = false;
     switch (id.first) {
-        case ObjectType::TimelineClip:
-            title = i18n("%1 effects", itemName);
-            showSplit = true;
-            enableKeyframes = true;
-            break;
-        case ObjectType::TimelineComposition:
-            title = i18n("%1 parameters", itemName);
-            enableKeyframes = true;
-            break;
-        case ObjectType::TimelineTrack:
-            title = i18n("Track %1 effects", itemName);
-            //TODO: track keyframes
-            //enableKeyframes = true;
-            break;
-        case ObjectType::BinClip:
-            title = i18n("Bin %1 effects", itemName);
-            showSplit = true;
-            break;
-        default:
-            title = itemName;
-            break;
+    case ObjectType::TimelineClip:
+        title = i18n("%1 effects", itemName);
+        showSplit = true;
+        enableKeyframes = true;
+        break;
+    case ObjectType::TimelineComposition:
+        title = i18n("%1 parameters", itemName);
+        enableKeyframes = true;
+        break;
+    case ObjectType::TimelineTrack:
+        title = i18n("Track %1 effects", itemName);
+        // TODO: track keyframes
+        // enableKeyframes = true;
+        break;
+    case ObjectType::BinClip:
+        title = i18n("Bin %1 effects", itemName);
+        showSplit = true;
+        break;
+    default:
+        title = itemName;
+        break;
     }
     m_assetTitle->setText(title);
     m_splitButton->setVisible(showSplit);
     m_timelineButton->setVisible(enableKeyframes);
     m_timelineButton->setChecked(showKeyframes);
     // Disable built stack until properly implemented
-    //m_switchBuiltStack->setVisible(true);
+    // m_switchBuiltStack->setVisible(true);
     m_effectStackWidget->setVisible(true);
     m_effectStackWidget->setModel(effectsModel, range, frameSize);
 }

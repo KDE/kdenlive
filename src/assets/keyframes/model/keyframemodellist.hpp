@@ -22,18 +22,18 @@
 #ifndef KEYFRAMELISTMODELLIST_H
 #define KEYFRAMELISTMODELLIST_H
 
-#include "gentime.h"
 #include "definitions.h"
+#include "gentime.h"
 #include "keyframemodel.hpp"
 #include "undohelper.hpp"
 
 #include <QAbstractListModel>
 #include <QReadWriteLock>
 
+#include <QObject>
 #include <map>
 #include <memory>
 #include <unordered_map>
-#include <QObject>
 
 class AssetParameterModel;
 class DocUndoStack;
@@ -42,7 +42,6 @@ class DocUndoStack;
    If an asset has several keyframable parameters, each one has its own keyframeModel,
    but we regroup all of these in a common class to provide unified access.
  */
-
 
 class KeyframeModelList : public QObject
 {
@@ -117,21 +116,19 @@ public:
     /* @brief Return the interpolated value of a parameter.
        @param pos is the position where we interpolate
        @param index is the index of the queried parameter. */
-    QVariant getInterpolatedValue(int pos, const QPersistentModelIndex& index) const;
+    QVariant getInterpolatedValue(int pos, const QPersistentModelIndex &index) const;
 
     void refresh();
     Q_INVOKABLE KeyframeModel *getKeyModel();
 
 protected:
-
     /** @brief Helper function to apply a given operation on all parameters */
-    bool applyOperation(const std::function<bool(std::shared_ptr<KeyframeModel>, Fun&, Fun&)> &op, const QString &undoString);
+    bool applyOperation(const std::function<bool(std::shared_ptr<KeyframeModel>, Fun &, Fun &)> &op, const QString &undoString);
 
 signals:
     void modelChanged();
 
 private:
-
     std::weak_ptr<AssetParameterModel> m_model;
     std::weak_ptr<DocUndoStack> m_undoStack;
     std::unordered_map<QPersistentModelIndex, std::shared_ptr<KeyframeModel>> m_parameters;

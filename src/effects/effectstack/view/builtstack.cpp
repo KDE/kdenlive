@@ -39,12 +39,11 @@ BuiltStack::BuiltStack(AssetPanel *parent)
     qmlRegisterType<ColorWheelItem>("Kdenlive.Controls", 1, 0, "ColorWheelItem");
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     setMinimumHeight(300);
-    //setClearColor(palette().base().color());
+    // setClearColor(palette().base().color());
     setSource(QUrl(QStringLiteral("qrc:/qml/BuiltStack.qml")));
     setFocusPolicy(Qt::StrongFocus);
     QQuickItem *root = rootObject();
-    QObject::connect(root, SIGNAL(valueChanged(QString, int)),
-                  parent, SLOT(parameterChanged(QString, int)));
+    QObject::connect(root, SIGNAL(valueChanged(QString, int)), parent, SLOT(parameterChanged(QString, int)));
     setResizeMode(QQuickWidget::SizeRootObjectToView);
 }
 
@@ -56,11 +55,10 @@ void BuiltStack::setModel(std::shared_ptr<EffectStackModel> model, ObjectId owne
 {
     m_model = model;
     if (ownerId.first == ObjectType::TimelineClip) {
-        QVariant current_speed((int) (100.0 * pCore->getClipSpeed(ownerId.second)));
-        qDebug()<<" CLIP SPEED OFR: "<<ownerId.second<<" = "<<current_speed;
+        QVariant current_speed((int)(100.0 * pCore->getClipSpeed(ownerId.second)));
+        qDebug() << " CLIP SPEED OFR: " << ownerId.second << " = " << current_speed;
         QMetaObject::invokeMethod(rootObject(), "setSpeed", Qt::QueuedConnection, Q_ARG(QVariant, current_speed));
     }
     rootContext()->setContextProperty("effectstackmodel", model.get());
     QMetaObject::invokeMethod(rootObject(), "resetStack", Qt::QueuedConnection);
 }
-

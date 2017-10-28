@@ -18,10 +18,10 @@
  ***************************************************************************/
 
 #include "profilesdialog.h"
+#include "core.h"
 #include "kdenlivesettings.h"
 #include "profiles/profilemodel.hpp"
 #include "profiles/profilerepository.hpp"
-#include "core.h"
 #include "utils/KoIconUtils.h"
 
 #include "klocalizedstring.h"
@@ -314,7 +314,6 @@ void ProfilesDialog::slotDeleteProfile()
     }
 }
 
-
 void ProfilesDialog::slotUpdateDisplay(QString currentProfile)
 {
     if (!askForSave()) {
@@ -346,11 +345,9 @@ void ProfilesDialog::slotUpdateDisplay(QString currentProfile)
     m_view.frame_den->setValue(curProfile->frame_rate_den());
     m_view.progressive->setChecked(curProfile->progressive() != 0);
     if (curProfile->progressive() != 0) {
-        m_view.fields->setText(
-            locale.toString((double)curProfile->frame_rate_num() / curProfile->frame_rate_den(), 'f', 2));
+        m_view.fields->setText(locale.toString((double)curProfile->frame_rate_num() / curProfile->frame_rate_den(), 'f', 2));
     } else {
-        m_view.fields->setText(locale.toString(
-            (double)2 * curProfile->frame_rate_num() / curProfile->frame_rate_den(), 'f', 2));
+        m_view.fields->setText(locale.toString((double)2 * curProfile->frame_rate_num() / curProfile->frame_rate_den(), 'f', 2));
     }
 
     int colorix = m_view.colorspace->findData(curProfile->colorspace());

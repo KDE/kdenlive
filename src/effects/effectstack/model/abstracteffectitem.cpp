@@ -24,8 +24,8 @@
 #include "core.h"
 #include "effects/effectsrepository.hpp"
 #include "effectstackmodel.hpp"
-#include <utility>
 #include <KLocalizedString>
+#include <utility>
 
 AbstractEffectItem::AbstractEffectItem(EffectItemType type, const QList<QVariant> &data, const std::shared_ptr<AbstractTreeModel> &stack, bool isRoot)
     : TreeItem(data, stack, isRoot)

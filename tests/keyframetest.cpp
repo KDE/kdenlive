@@ -5,7 +5,7 @@ using namespace fakeit;
 bool test_model_equality(std::shared_ptr<KeyframeModel> m1, std::shared_ptr<KeyframeModel> m2)
 {
     // we cheat a bit by simply comparing the underlying map
-    qDebug() << "Equality test"<<m1->m_keyframeList.size()<<m2->m_keyframeList.size();
+    qDebug() << "Equality test" << m1->m_keyframeList.size() << m2->m_keyframeList.size();
     return m1->m_keyframeList == m2->m_keyframeList;
 }
 
@@ -80,8 +80,10 @@ TEST_CASE("Keyframe model", "[KeyframeModel]")
         };
         state1();
 
-        undoStack->undo(); state0();
-        undoStack->redo(); state1();
+        undoStack->undo();
+        state0();
+        undoStack->redo();
+        state1();
 
         REQUIRE(model->addKeyframe(GenTime(12.6), KeyframeType::Discrete, 33));
         auto state2 = [&]() {
@@ -114,11 +116,14 @@ TEST_CASE("Keyframe model", "[KeyframeModel]")
         };
         state2();
 
-        undoStack->undo(); state1();
-        undoStack->undo(); state0();
-        undoStack->redo(); state1();
-        undoStack->redo(); state2();
-
+        undoStack->undo();
+        state1();
+        undoStack->undo();
+        state0();
+        undoStack->redo();
+        state1();
+        undoStack->redo();
+        state2();
 
         REQUIRE(model->removeKeyframe(GenTime(1.1)));
         auto state3 = [&]() {
@@ -150,17 +155,25 @@ TEST_CASE("Keyframe model", "[KeyframeModel]")
         };
         state3();
 
-        undoStack->undo(); state2();
-        undoStack->undo(); state1();
-        undoStack->undo(); state0();
-        undoStack->redo(); state1();
-        undoStack->redo(); state2();
-        undoStack->redo(); state3();
+        undoStack->undo();
+        state2();
+        undoStack->undo();
+        state1();
+        undoStack->undo();
+        state0();
+        undoStack->redo();
+        state1();
+        undoStack->redo();
+        state2();
+        undoStack->redo();
+        state3();
 
         REQUIRE(model->removeAllKeyframes());
         state0();
-        undoStack->undo(); state3();
-        undoStack->redo(); state0();
+        undoStack->undo();
+        state3();
+        undoStack->redo();
+        state0();
     }
 
     SECTION("Move keyframes + undo")
@@ -201,19 +214,26 @@ TEST_CASE("Keyframe model", "[KeyframeModel]")
         REQUIRE(model->moveKeyframe(GenTime(1.1), GenTime(2.6), true));
         state1(2.6);
 
-        undoStack->undo(); state1(1.1);
-        undoStack->redo(); state1(2.6);
+        undoStack->undo();
+        state1(1.1);
+        undoStack->redo();
+        state1(2.6);
 
         REQUIRE(model->moveKeyframe(GenTime(2.6), GenTime(6.1), true));
         state1(6.1);
 
-        undoStack->undo(); state1(2.6);
-        undoStack->undo(); state1(1.1);
-        undoStack->redo(); state1(2.6);
-        undoStack->redo(); state1(6.1);
+        undoStack->undo();
+        state1(2.6);
+        undoStack->undo();
+        state1(1.1);
+        undoStack->redo();
+        state1(2.6);
+        undoStack->redo();
+        state1(6.1);
 
         REQUIRE(model->addKeyframe(GenTime(12.6), KeyframeType::Discrete, 33));
         REQUIRE_FALSE(model->moveKeyframe(GenTime(6.1), GenTime(12.6), true));
-        undoStack->undo(); state1(6.1);
+        undoStack->undo();
+        state1(6.1);
     }
 }

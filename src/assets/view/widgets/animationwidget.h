@@ -22,9 +22,9 @@
 #ifndef ANIMATIONWIDGET_H
 #define ANIMATIONWIDGET_H
 
+#include <QDomElement>
 #include <QList>
 #include <QWidget>
-#include <QDomElement>
 
 #include "assets/view/widgets/abstractparamwidget.hpp"
 #include "mlt++/MltAnimation.h"
@@ -88,7 +88,7 @@ private:
     /** @brief the keyframe position which should be attached to end (negative frame) */
     int m_attachedToEnd;
     QDomElement m_xml;
-    QList< QPair<QModelIndex, QString>> m_parameters;
+    QList<QPair<QModelIndex, QString>> m_parameters;
     QString m_effectId;
     Mlt::Animation m_animController;
     Mlt::Properties m_animProperties;

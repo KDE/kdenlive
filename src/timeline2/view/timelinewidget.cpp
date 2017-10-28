@@ -21,8 +21,8 @@
 
 #include "timelinewidget.h"
 #include "../model/builders/meltBuilder.hpp"
-#include "assets/model/assetparametermodel.hpp"
 #include "assets/keyframes/model/keyframemodel.hpp"
+#include "assets/model/assetparametermodel.hpp"
 #include "core.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
@@ -51,7 +51,7 @@ TimelineWidget::TimelineWidget(KActionCollection *actionCollection, std::shared_
     : QQuickWidget(parent)
     , m_binController(binController)
 {
-            registerTimelineItems();
+    registerTimelineItems();
     m_transitionModel = TransitionTreeModel::construct(true, this);
 
     m_transitionProxyModel.reset(new AssetFilter(this));

@@ -217,7 +217,7 @@ void ThemeManager::slotConfigColors()
 
     if (ret > 0) {
         KMessageBox::error(nullptr, i18n("Cannot start Colors panel from System Settings. "
-                                   "Please check your system..."));
+                                         "Please check your system..."));
     }
 }
 

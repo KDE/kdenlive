@@ -20,23 +20,23 @@
  ***************************************************************************/
 
 #include "effectstackview.hpp"
-#include "builtstack.hpp"
 #include "assets/assetlist/view/qmltypes/asseticonprovider.hpp"
-#include "assets/view/assetparameterview.hpp"
 #include "assets/assetpanel.hpp"
+#include "assets/view/assetparameterview.hpp"
+#include "builtstack.hpp"
 #include "collapsibleeffectview.hpp"
-#include "kdenlivesettings.h"
 #include "core.h"
 #include "effects/effectstack/model/effectitemmodel.hpp"
 #include "effects/effectstack/model/effectstackmodel.hpp"
+#include "kdenlivesettings.h"
 
 #include <QDrag>
 #include <QDragEnterEvent>
 #include <QFontDatabase>
 #include <QMimeData>
+#include <QMutexLocker>
 #include <QTreeView>
 #include <QVBoxLayout>
-#include <QMutexLocker>
 
 WidgetDelegate::WidgetDelegate(QObject *parent)
     : QStyledItemDelegate(parent)
@@ -152,7 +152,7 @@ void EffectStackView::dropEvent(QDropEvent *event)
 
 void EffectStackView::setModel(std::shared_ptr<EffectStackModel> model, QPair<int, int> range, const QSize frameSize)
 {
-    qDebug()<<"MUTEX LOCK!!!!!!!!!!!! setmodel";
+    qDebug() << "MUTEX LOCK!!!!!!!!!!!! setmodel";
     m_mutex.lock();
     unsetModel();
     m_model = model;
@@ -165,7 +165,7 @@ void EffectStackView::setModel(std::shared_ptr<EffectStackModel> model, QPair<in
     m_effectsTree->setDragEnabled(true);
     m_effectsTree->setUniformRowHeights(false);
     m_mutex.unlock();
-    qDebug()<<"MUTEX UNLOCK!!!!!!!!!!!! setmodel";
+    qDebug() << "MUTEX UNLOCK!!!!!!!!!!!! setmodel";
     loadEffects(range);
     connect(m_model.get(), &EffectStackModel::dataChanged, this, &EffectStackView::refresh);
     m_builtStack->setModel(model, stackOwner());
@@ -173,8 +173,8 @@ void EffectStackView::setModel(std::shared_ptr<EffectStackModel> model, QPair<in
 
 void EffectStackView::loadEffects(QPair<int, int> range, int start, int end)
 {
-    qDebug()<<"MUTEX LOCK!!!!!!!!!!!! loadEffects";
-    QMutexLocker lock (&m_mutex);
+    qDebug() << "MUTEX LOCK!!!!!!!!!!!! loadEffects";
+    QMutexLocker lock(&m_mutex);
     m_range = range;
     int max = m_model->rowCount();
     if (end == -1) {
@@ -203,26 +203,26 @@ void EffectStackView::loadEffects(QPair<int, int> range, int start, int end)
         connect(view, &CollapsibleEffectView::startDrag, this, &EffectStackView::slotStartDrag);
         connect(view, &CollapsibleEffectView::createGroup, m_model.get(), &EffectStackModel::slotCreateGroup);
         connect(view, &CollapsibleEffectView::activateEffect, this, &EffectStackView::slotActivateEffect);
-        connect(view, &CollapsibleEffectView::seekToPos, [this](int pos){
-                // at this point, the effects returns a pos relative to the clip. We need to convert it to a global time
-                int clipIn = pCore->getItemIn(m_model->getOwnerId());
-                emit seekToPos(pos + clipIn);
-            });
+        connect(view, &CollapsibleEffectView::seekToPos, [this](int pos) {
+            // at this point, the effects returns a pos relative to the clip. We need to convert it to a global time
+            int clipIn = pCore->getItemIn(m_model->getOwnerId());
+            emit seekToPos(pos + clipIn);
+        });
         connect(this, &EffectStackView::doActivateEffect, view, &CollapsibleEffectView::slotActivateEffect);
         QModelIndex ix = m_model->getIndexFromItem(effectModel);
         m_effectsTree->setIndexWidget(ix, view);
     }
-    qDebug()<<"MUTEX UNLOCK!!!!!!!!!!!! loadEffects";
+    qDebug() << "MUTEX UNLOCK!!!!!!!!!!!! loadEffects";
 }
 
 void EffectStackView::slotActivateEffect(std::shared_ptr<EffectItemModel> effectModel)
 {
-    qDebug()<<"MUTEX LOCK!!!!!!!!!!!! slotactivateeffect";
-    QMutexLocker lock (&m_mutex);
+    qDebug() << "MUTEX LOCK!!!!!!!!!!!! slotactivateeffect";
+    QMutexLocker lock(&m_mutex);
     m_model->setActiveEffect(effectModel->row());
     QModelIndex activeIx = m_model->getIndexFromItem(effectModel);
     emit doActivateEffect(activeIx);
-    qDebug()<<"MUTEX UNLOCK!!!!!!!!!!!! slotactivateeffect";
+    qDebug() << "MUTEX UNLOCK!!!!!!!!!!!! slotactivateeffect";
 }
 
 void EffectStackView::slotStartDrag(QPixmap pix, std::shared_ptr<EffectItemModel> effectModel)
@@ -233,13 +233,13 @@ void EffectStackView::slotStartDrag(QPixmap pix, std::shared_ptr<EffectItemModel
     mime->setData(QStringLiteral("kdenlive/effect"), effectModel->getAssetId().toUtf8());
     // TODO this will break if source effect is not on the stack of a timeline clip
     QByteArray effectSource;
-    effectSource += QString::number((int) effectModel->getOwnerId().first).toUtf8();
+    effectSource += QString::number((int)effectModel->getOwnerId().first).toUtf8();
     effectSource += '-';
-    effectSource += QString::number((int) effectModel->getOwnerId().second).toUtf8();
+    effectSource += QString::number((int)effectModel->getOwnerId().second).toUtf8();
     effectSource += '-';
     effectSource += QString::number(effectModel->row()).toUtf8();
     mime->setData(QStringLiteral("kdenlive/effectsource"), effectSource);
-    //mime->setData(QStringLiteral("kdenlive/effectrow"), QString::number(effectModel->row()).toUtf8());
+    // mime->setData(QStringLiteral("kdenlive/effectrow"), QString::number(effectModel->row()).toUtf8());
 
     // Assign ownership of the QMimeData object to the QDrag object.
     drag->setMimeData(mime);
@@ -249,12 +249,12 @@ void EffectStackView::slotStartDrag(QPixmap pix, std::shared_ptr<EffectItemModel
 
 void EffectStackView::slotAdjustDelegate(std::shared_ptr<EffectItemModel> effectModel, int height)
 {
-    qDebug()<<"MUTEX LOCK!!!!!!!!!!!! adjustdelegate";
-    QMutexLocker lock (&m_mutex);
+    qDebug() << "MUTEX LOCK!!!!!!!!!!!! adjustdelegate";
+    QMutexLocker lock(&m_mutex);
     QModelIndex ix = m_model->getIndexFromItem(effectModel);
     WidgetDelegate *del = static_cast<WidgetDelegate *>(m_effectsTree->itemDelegate(ix));
     del->setHeight(ix, height);
-    qDebug()<<"MUTEX UNLOCK!!!!!!!!!!!! adjustdelegate";
+    qDebug() << "MUTEX UNLOCK!!!!!!!!!!!! adjustdelegate";
 }
 
 void EffectStackView::refresh(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles)
@@ -272,8 +272,8 @@ void EffectStackView::unsetModel(bool reset)
 
 void EffectStackView::setRange(int in, int out)
 {
-    qDebug()<<"MUTEX LOCK!!!!!!!!!!!! setrange";
-    QMutexLocker lock (&m_mutex);
+    qDebug() << "MUTEX LOCK!!!!!!!!!!!! setrange";
+    QMutexLocker lock(&m_mutex);
     m_range.first = in;
     m_range.second = out;
     int max = m_model->rowCount();

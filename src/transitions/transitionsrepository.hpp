@@ -53,6 +53,7 @@ public:
 
     /* @brief Returns the id of the transition to be used for compositing */
     const QString getCompositingTransition();
+
 protected:
     // Constructor is protected because class is a Singleton
     TransitionsRepository();

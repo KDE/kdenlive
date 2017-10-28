@@ -100,10 +100,11 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
             QString internal(t.get("internal_added"));
             if (internal.isEmpty()) {
                 if (id.isEmpty()) {
-                    qDebug()<<"// Warning, this should not happen, transition without id: "<<t.get("id")<<" = "<<t.get("mlt_service");
+                    qDebug() << "// Warning, this should not happen, transition without id: " << t.get("id") << " = " << t.get("mlt_service");
                     id = t.get("mlt_service");
                 }
-                ok = timeline->requestCompositionInsertion(id, timeline->getTrackIndexFromPosition(t.get_b_track() - 1), t.get_a_track(), t.get_in(), t.get_length(), compoId, undo, redo);
+                ok = timeline->requestCompositionInsertion(id, timeline->getTrackIndexFromPosition(t.get_b_track() - 1), t.get_a_track(), t.get_in(),
+                                                           t.get_length(), compoId, undo, redo);
                 if (!ok) {
                     qDebug() << "ERROR : failed to insert composition in track " << t.get_b_track() << ", position" << t.get_in();
                     break;
@@ -171,7 +172,7 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
                 int cid = ClipModel::construct(timeline, binId, clip);
                 ok = timeline->requestClipMove(cid, tid, position, true, false, undo, redo);
             } else {
-                qDebug() << "// Cannot find bin clip: " << binId<<" - "<< clip->get("id");
+                qDebug() << "// Cannot find bin clip: " << binId << " - " << clip->get("id");
             }
             if (!ok) {
                 qDebug() << "ERROR : failed to insert clip in track" << tid << "position" << position;

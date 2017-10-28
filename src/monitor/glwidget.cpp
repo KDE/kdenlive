@@ -437,13 +437,12 @@ void GLWidget::paintGL()
     } else if (m_glslManager) {
         m_mutex.lock();
         if (m_sharedFrame.is_valid()) {
-            m_texture[0] = *((GLuint*) m_sharedFrame.get_image());
+            m_texture[0] = *((GLuint *)m_sharedFrame.get_image());
         }
     }
 
     if (!m_texture[0]) {
-        if (m_glslManager)
-            m_mutex.unlock();
+        if (m_glslManager) m_mutex.unlock();
         return;
     }
 
@@ -548,7 +547,8 @@ void GLWidget::paintGL()
     f->glActiveTexture(GL_TEXTURE0);
     check_error(f);
     if (m_glslManager) {
-        glFinish(); check_error(f);
+        glFinish();
+        check_error(f);
         m_mutex.unlock();
     }
 }
@@ -1214,7 +1214,6 @@ Mlt::Profile *GLWidget::profile()
     return m_monitorProfile;
 }
 
-
 void GLWidget::reloadProfile()
 {
     auto &profile = pCore->getCurrentProfile();
@@ -1569,7 +1568,6 @@ void FrameRenderer::showGLNoSyncFrame(Mlt::Frame frame)
     m_semaphore.release();
 }
 
-
 void FrameRenderer::cleanup()
 {
     if ((m_renderTexture[0] != 0u) && (m_renderTexture[1] != 0u) && (m_renderTexture[2] != 0u)) {
@@ -1796,8 +1794,6 @@ void GLWidget::stop()
         }
     }
 }
-
-
 
 double GLWidget::playSpeed() const
 {

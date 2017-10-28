@@ -30,8 +30,8 @@
 
 #include <QDomElement>
 #include <QElapsedTimer>
-#include <QToolBar>
 #include <QMutex>
+#include <QToolBar>
 
 #include <memory>
 #include <unordered_set>
@@ -53,8 +53,8 @@ class MonitorAudioLevel;
 class MonitorController;
 
 namespace Mlt {
-    class Profile;
-    class Filter;
+class Profile;
+class Filter;
 }
 
 class QuickEventEater : public QObject
@@ -67,7 +67,7 @@ protected:
     bool eventFilter(QObject *obj, QEvent *event) override;
 
 signals:
-    void addEffect(const QStringList&);
+    void addEffect(const QStringList &);
 };
 
 class QuickMonitorEventEater : public QObject

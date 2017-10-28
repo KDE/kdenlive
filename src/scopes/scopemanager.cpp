@@ -185,9 +185,9 @@ void ScopeManager::slotRequestFrame(const QString &widgetName)
         }
     }
     if (m_lastConnectedRenderer) {
-        //TODO: trigger refresh?
+        // TODO: trigger refresh?
         m_lastConnectedRenderer->refreshMonitorIfActive();
-        //m_lastConnectedRenderer->sendFrameUpdate();
+        // m_lastConnectedRenderer->sendFrameUpdate();
     }
 }
 

@@ -42,10 +42,10 @@
 
 #include <QUrl>
 
-#include <qdom.h>
-#include <QString>
-#include <QMap>
 #include <QList>
+#include <QMap>
+#include <QString>
+#include <qdom.h>
 
 #include <QEvent>
 #include <QMutex>

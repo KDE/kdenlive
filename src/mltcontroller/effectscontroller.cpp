@@ -21,9 +21,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "effectscontroller.h"
-#include "dialogs/profilesdialog.h"
 #include "assets/view/widgets/animationwidget.h"
 #include "core.h"
+#include "dialogs/profilesdialog.h"
 #include "profiles/profilemodel.hpp"
 
 #include "kdenlive_debug.h"
@@ -237,8 +237,10 @@ void EffectsController::adjustEffectParameters(EffectsParameterList &parameters,
 
 double EffectsController::getStringEval(QString eval, const QPoint &frameSize)
 {
-    eval.replace(QLatin1String("%maxWidth"), QString::number(pCore->getCurrentProfile()->width() > frameSize.x() ? pCore->getCurrentProfile()->width() : frameSize.x()))
-        .replace(QLatin1String("%maxHeight"), QString::number(pCore->getCurrentProfile()->height() > frameSize.y() ? pCore->getCurrentProfile()->height() : frameSize.y()))
+    eval.replace(QLatin1String("%maxWidth"),
+                 QString::number(pCore->getCurrentProfile()->width() > frameSize.x() ? pCore->getCurrentProfile()->width() : frameSize.x()))
+        .replace(QLatin1String("%maxHeight"),
+                 QString::number(pCore->getCurrentProfile()->height() > frameSize.y() ? pCore->getCurrentProfile()->height() : frameSize.y()))
         .replace(QLatin1String("%width"), QString::number(pCore->getCurrentProfile()->width()))
         .replace(QLatin1String("%height"), QString::number(pCore->getCurrentProfile()->height()));
     Mlt::Properties p;
@@ -298,8 +300,7 @@ void EffectsController::initTrackEffect(const QDomElement &effect)
     */
 }
 
-void EffectsController::initEffect(const ItemInfo &info, const EffectsList &list, const QString &proxy, QDomElement effect, int diff,
-                                   int offset)
+void EffectsController::initEffect(const ItemInfo &info, const EffectsList &list, const QString &proxy, QDomElement effect, int diff, int offset)
 {
     // the kdenlive_ix int is used to identify an effect in mlt's playlist, should
     // not be changed

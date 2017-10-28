@@ -22,7 +22,6 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QFile>
 #include <QStandardPaths>
 
-
 std::unique_ptr<MltConnection> MltConnection::m_self;
 MltConnection::MltConnection(const QString &mltPath)
 {
@@ -45,7 +44,7 @@ MltConnection::MltConnection(const QString &mltPath)
     refreshLumas();
 }
 
-void MltConnection::construct(const QString& mltPath)
+void MltConnection::construct(const QString &mltPath)
 {
     if (MltConnection::m_self) {
         qDebug() << "DEBUG: Warning : trying to open a second mlt connection";
@@ -73,7 +72,8 @@ void MltConnection::locateMeltAndProfilesPath(const QString &mltPath)
 #else
     if (profilePath.isEmpty() || !QFile::exists(profilePath)) profilePath = KdenliveSettings::mltpath();
     // build-time definition
-    if ((profilePath.isEmpty() || !QFile::exists(profilePath)) && !QStringLiteral(MLT_DATADIR).isEmpty()) profilePath = QStringLiteral(MLT_DATADIR) + QStringLiteral("/profiles/");
+    if ((profilePath.isEmpty() || !QFile::exists(profilePath)) && !QStringLiteral(MLT_DATADIR).isEmpty())
+        profilePath = QStringLiteral(MLT_DATADIR) + QStringLiteral("/profiles/");
 #endif
     KdenliveSettings::setMltpath(profilePath);
 

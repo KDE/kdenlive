@@ -86,7 +86,6 @@ void RenameBinSubClipCommand::redo()
     m_bin->renameSubClip(m_clipId, m_newName, m_oldName, m_in, m_out);
 }
 
-
 EditClipCommand::EditClipCommand(Bin *bin, const QString &id, const QMap<QString, QString> &oldparams, const QMap<QString, QString> &newparams, bool doIt,
                                  QUndoCommand *parent)
     : QUndoCommand(parent)
@@ -113,4 +112,3 @@ void EditClipCommand::redo()
     m_doIt = true;
     m_firstExec = false;
 }
-

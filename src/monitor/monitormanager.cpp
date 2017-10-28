@@ -18,12 +18,12 @@
  ***************************************************************************/
 
 #include "monitormanager.h"
-#include "monitorcontroller.hpp"
 #include "core.h"
 #include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "mltcontroller/bincontroller.h"
+#include "monitorcontroller.hpp"
 #include "renderer.h"
 #include "utils/KoIconUtils.h"
 

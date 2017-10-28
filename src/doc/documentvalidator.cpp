@@ -1689,12 +1689,12 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         QDomElement main_playlist = m_doc.documentElement().firstChildElement(QStringLiteral("playlist"));
         QDomNodeList props = main_playlist.elementsByTagName(QStringLiteral("property"));
         QJsonArray guidesList;
-        QMap <QString, QJsonArray> markersList;
+        QMap<QString, QJsonArray> markersList;
         for (int i = 0; i < props.count(); ++i) {
             QDomNode n = props.at(i);
             QString prop = n.toElement().attribute(QStringLiteral("name"));
             if (prop.startsWith(QLatin1String("kdenlive:guide."))) {
-                //Process guide
+                // Process guide
                 double guidePos = prop.section(QLatin1Char('.'), 1).toDouble();
                 QJsonObject currentGuide;
                 currentGuide.insert(QStringLiteral("pos"), QJsonValue(GenTime(guidePos).frames(pCore->getCurrentFps())));
@@ -1704,7 +1704,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 n.toElement().setAttribute(QStringLiteral("name"), QStringLiteral("_"));
                 guidesList.push_back(currentGuide);
             } else if (prop.startsWith(QLatin1String("kdenlive:marker."))) {
-                //Process marker
+                // Process marker
                 double markerPos = prop.section(QLatin1Char(':'), -1).toDouble();
                 QString markerBinClip = prop.section(QLatin1Char('.'), 1).section(QLatin1Char(':'), 0, 0);
                 QString markerData = n.firstChild().nodeValue();

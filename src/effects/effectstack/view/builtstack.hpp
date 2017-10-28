@@ -22,9 +22,9 @@
 #ifndef BUILTSTACK_H
 #define BUILTSTACK_H
 
+#include "definitions.h"
 #include <QQuickWidget>
 #include <memory>
-#include "definitions.h"
 
 class AssetPanel;
 class EffectStackModel;
@@ -40,7 +40,6 @@ public:
 
 private:
     std::shared_ptr<EffectStackModel> m_model;
-
 };
 
 #endif

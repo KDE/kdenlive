@@ -29,8 +29,8 @@
 #include <QLocale>
 #include <QString>
 
-AssetParameterModel::AssetParameterModel(Mlt::Properties *asset, const QDomElement &assetXml, const QString &assetId, ObjectId ownerId, Kdenlive::MonitorId monitor,
-                                         QObject *parent)
+AssetParameterModel::AssetParameterModel(Mlt::Properties *asset, const QDomElement &assetXml, const QString &assetId, ObjectId ownerId,
+                                         Kdenlive::MonitorId monitor, QObject *parent)
     : QAbstractListModel(parent)
     , monitorId(monitor)
     , m_xml(assetXml)
@@ -83,7 +83,7 @@ AssetParameterModel::AssetParameterModel(Mlt::Properties *asset, const QDomEleme
         if (isFixed) {
             m_fixedParams[name] = value;
         }
-        qDebug() << "PARAMETER"<<name<<type<<value<<isFixed;
+        qDebug() << "PARAMETER" << name << type << value << isFixed;
         setParameter(name, value);
         if (isFixed) {
             // fixed parameters are not displayed so we don't store them.
@@ -97,20 +97,18 @@ AssetParameterModel::AssetParameterModel(Mlt::Properties *asset, const QDomEleme
         currentRow.name = title.isEmpty() ? name : title;
         m_params[name] = currentRow;
         m_rows.push_back(name);
-
     }
-    qDebug() << "END parsing of "<<assetId<<". Number of found parameters"<<m_rows.size();
+    qDebug() << "END parsing of " << assetId << ". Number of found parameters" << m_rows.size();
     emit modelChanged();
 }
 
 void AssetParameterModel::prepareKeyframes()
 {
-    if (m_keyframes)
-        return;
+    if (m_keyframes) return;
     int ix = 0;
-    for (const auto& name: m_rows) {
+    for (const auto &name : m_rows) {
         if (m_params[name].type == ParamType::KeyframeParam || m_params[name].type == ParamType::AnimatedRect) {
-           addKeyframeParam(index(ix, 0));
+            addKeyframeParam(index(ix, 0));
         }
         ix++;
     }
@@ -387,4 +385,3 @@ std::shared_ptr<KeyframeModelList> AssetParameterModel::getKeyframeModel()
 {
     return m_keyframes;
 }
-

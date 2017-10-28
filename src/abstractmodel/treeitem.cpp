@@ -264,4 +264,3 @@ bool TreeItem::isRoot() const
 {
     return m_isRoot;
 }
-

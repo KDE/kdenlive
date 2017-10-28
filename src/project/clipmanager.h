@@ -20,10 +20,10 @@
 #ifndef CLIPMANAGER_H
 #define CLIPMANAGER_H
 
-#include <qdom.h>
-#include <QObject>
-#include <QMutex>
 #include <QFuture>
+#include <QMutex>
+#include <QObject>
+#include <qdom.h>
 
 #include <KIO/CopyJob>
 #include <QUrl>
@@ -106,7 +106,6 @@ private: // Private attributes
     QMutex m_groupsMutex;
 
     QPoint m_projectTreeThumbSize;
-
 
 signals:
     void reloadClip(const QString &);

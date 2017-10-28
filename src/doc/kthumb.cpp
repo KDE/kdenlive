@@ -41,9 +41,9 @@ QPixmap KThumb::getImage(const QUrl &url, int width, int height)
 // static
 QPixmap KThumb::getImage(const QUrl &url, int frame, int width, int height)
 {
-    QScopedPointer <Mlt::Profile> profile(new Mlt::Profile(pCore->getCurrentProfilePath().toUtf8().constData()));
+    QScopedPointer<Mlt::Profile> profile(new Mlt::Profile(pCore->getCurrentProfilePath().toUtf8().constData()));
     if (height == -1) {
-        height = width * (double) profile->height() / profile->width();
+        height = width * (double)profile->height() / profile->width();
     }
     QPixmap pix(width, height);
     if (!url.isValid()) {
