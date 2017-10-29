@@ -149,10 +149,16 @@ bool EffectStackModel::adjustFadeLength(int duration, bool fromStart, bool audio
             }
         }
         QList<QModelIndex> indexes;
+        auto ptr = m_service.lock();
+        int in = 0;
+        if (ptr) {
+            in = ptr->get_int("in");
+        }
         for (int i = 0; i < rootItem->childCount(); ++i) {
             if (fadeIns.contains(std::static_pointer_cast<TreeItem>(rootItem->child(i))->getId())) {
                 std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
-                effect->filter().set("out", duration);
+                effect->filter().set("in", in);
+                effect->filter().set("out", in + duration);
                 indexes << getIndexFromItem(effect);
             }
         }
@@ -169,7 +175,12 @@ bool EffectStackModel::adjustFadeLength(int duration, bool fromStart, bool audio
                 appendEffect(QStringLiteral("fade_to_black"));
             }
         }
-        int out = pCore->getItemDuration(m_ownerId);
+        int in = 0;
+        auto ptr = m_service.lock();
+        if (ptr) {
+            in = ptr->get_int("in");
+        }
+        int out = in + pCore->getItemDuration(m_ownerId);
         QList<QModelIndex> indexes;
         for (int i = 0; i < rootItem->childCount(); ++i) {
             if (fadeOuts.contains(std::static_pointer_cast<TreeItem>(rootItem->child(i))->getId())) {
