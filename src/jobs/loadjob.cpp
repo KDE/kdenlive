@@ -239,7 +239,7 @@ bool LoadJob::startJob()
     if (m_done) {
         return true;
     }
-    QString m_resource = Xml::getXmlProperty(m_xml, QStringLiteral("resource"));
+    m_resource = Xml::getXmlProperty(m_xml, QStringLiteral("resource"));
     ClipType type = static_cast<ClipType>(m_xml.attribute(QStringLiteral("type")).toInt());
     if (type == ClipType::Unknown) {
         type = getTypeForService(Xml::getXmlProperty(m_xml, QStringLiteral("mlt_service")), m_resource);
@@ -505,7 +505,9 @@ bool LoadJob::commitResult(Fun &undo, Fun &redo)
         return false;
     }
     m_resultConsumed = true;
+    auto m_binClip = pCore->projectItemModel()->getClipByBinID(m_clipId);
     if (!m_successful) {
+        pCore->projectItemModel()->requestBinClipDeletion(m_binClip, undo, redo);
         return false;
     }
     if (m_xml.hasAttribute(QStringLiteral("checkProfile")) && m_producer->get_int("video_index") > -1) {
@@ -515,7 +517,6 @@ bool LoadJob::commitResult(Fun &undo, Fun &redo)
         processMultiStream();
     }
 
-    auto m_binClip = pCore->projectItemModel()->getClipByBinID(m_clipId);
     // note that the image is moved into lambda, it won't be available from this class anymore
     auto operation = [ clip = m_binClip, prod = std::move(m_producer) ]()
     {
