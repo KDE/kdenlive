@@ -256,7 +256,7 @@ Column{
 
             onClicked: {
                 console.log("Clip clicked",clip.clipId)
-                trackRoot.clipClicked(clip, trackRoot, shiftClick);
+                trackRoot.clipClicked(clip, clip.parentTrack, shiftClick);
                 clip.draggedX = clip.x
             }
             onMoved: { //called when the movement is finished

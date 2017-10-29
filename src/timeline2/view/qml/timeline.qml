@@ -875,8 +875,8 @@ Rectangle {
             trackId: item
             selection: timeline.selection
             onClipClicked: {
-                root.currentTrack = index
-                timeline.activeTrack = tracksRepeater.itemAt(index).trackId
+                root.currentTrack = track.DelegateModel.itemsIndex
+                timeline.activeTrack = track.trackId
                 if (shiftClick === 1) {
                     timeline.addSelection(clip.clipId)
                 } else {
@@ -919,8 +919,6 @@ Rectangle {
                         currentTrack = activeTrack;
                         timeline.activeTrack = track.trackId
                         clip.reparent(track)
-                        clip.trackIndex = track.DelegateModel.itemsIndex
-                        clip.trackId = track.trackId
                     } else {
                         if (track.trackId != clip.trackId) {
                             // check if we can move on existing track

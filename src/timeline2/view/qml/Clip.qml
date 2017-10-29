@@ -143,10 +143,10 @@ Rectangle {
     }
 
     function imagePath(time) {
-        console.log('get clip thumb for sercvie: ', mltService)
         if (isAudio || mltService === 'color' || mltService === '') {
             return ''
         } else {
+            console.log('get clip thumb for service: ', mltService)
             return 'image://thumbnail/' + binId + '/' + mltService + '/' + clipResource + '#' + time
         }
     }
