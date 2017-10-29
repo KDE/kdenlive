@@ -121,10 +121,10 @@ public:
         IsMuteRole,    /// track only
         IsHiddenRole,  /// track only
         IsAudioRole,
+        SortRole,
         ShowKeyframesRole,
         AudioLevelsRole,   /// clip only
         IsCompositeRole,   /// track only
-        TrackPositionRole, /// track only
         IsLockedRole,      /// track only
         HeightRole,        /// track only
         FadeInRole,        /// clip only

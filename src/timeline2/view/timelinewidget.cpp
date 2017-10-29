@@ -81,7 +81,7 @@ void TimelineWidget::setModel(std::shared_ptr<TimelineItemModel> model)
     m_thumbnailer->resetProject();
     auto sortModel = new QSortFilterProxyModel(this);
     sortModel->setSourceModel(model.get());
-    sortModel->setSortRole(TimelineItemModel::TrackPositionRole);
+    sortModel->setSortRole(TimelineItemModel::SortRole);
     sortModel->sort(0, Qt::DescendingOrder);
     m_proxy->setModel(model);
     rootContext()->setContextProperty("multitrack", sortModel);
