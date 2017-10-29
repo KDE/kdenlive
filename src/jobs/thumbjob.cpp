@@ -68,6 +68,10 @@ bool ThumbJob::startJob()
     } else {
         m_binClip = pCore->projectItemModel()->getClipByBinID(m_clipId);
     }
+    if (m_binClip->clipType() == ClipType::Audio) {
+        // Don't create thumbnail for audio clips
+        return true;
+    }
     m_prod = m_binClip->originalProducer();
     if ((m_prod == nullptr) || !m_prod->is_valid()) {
         return false;
