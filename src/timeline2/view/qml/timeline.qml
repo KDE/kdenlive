@@ -910,7 +910,7 @@ Rectangle {
                 clipBeingMovedId = -1
             }
             onClipDraggedToTrack: {
-                var y = pos - ruler.height
+                var y = Math.max(0, pos - ruler.height)
                 var activeTrack = Logic.getTrackIndexFromPos(y)
                 var frame = Math.max(0, Math.round(clip.x / timeScale))
                 if (activeTrack >= 0  && activeTrack < tracksRepeater.count) {
@@ -937,6 +937,9 @@ Rectangle {
                                 s = ((delta < 0)? '-' : (delta > 0)? '+' : '') + s
                                 bubbleHelp.show(xpos, activeTrack.y + height/2, s)
                             }
+                        } else {
+                            // Abort move
+                            clip.x = clip.draggedX
                         }
                     }
                 } else {

@@ -129,6 +129,7 @@ Rectangle {
         parent = track
         height = track.height
         parentTrack = track
+        trackId = parentTrack.trackId
         generateWaveform()
     }
 
@@ -193,7 +194,9 @@ Rectangle {
             startX = parent.x
             root.stopScrolling = true
             clipRoot.forceActiveFocus();
-            clipRoot.clicked(clipRoot, mouse.modifiers == Qt.ShiftModifier)
+            if (mouse.button == Qt.LeftButton || !clipRoot.selected) {
+                clipRoot.clicked(clipRoot, mouse.modifiers == Qt.ShiftModifier)
+            }
             drag.target = clipRoot
         }
         onPositionChanged: {

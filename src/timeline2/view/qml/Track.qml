@@ -72,18 +72,13 @@ Column{
                     value: trackRoot.selection.indexOf(loader.item.clipId) !== -1
                     when: loader.status == Loader.Ready
                 }
-                Binding {
-                    target: loader.item
-                    property: "trackIndex"
-                    value: trackRoot.DelegateModel.itemsIndex
-                    when: loader.status == Loader.Ready
-                }
+                /*
                 Binding {
                     target: loader.item
                     property: "trackId"
                     value: trackRoot.trackId
                     when: loader.status == Loader.Ready
-                }
+                }*/
                 Binding {
                     target: loader.item
                     property: "mltService"
@@ -186,7 +181,7 @@ Column{
                     value: model.resource
                     when: loader.status == Loader.Ready && !loader.item.isComposition
                 }
-                Binding {
+                /*Binding {
                     target: loader.item
                     property: "clipId"
                     value: model.item
@@ -197,7 +192,7 @@ Column{
                     property: "isComposition"
                     value: model.isComposition
                     when: loader.status == Loader.Ready
-                }
+                }*/
                 Binding {
                     target: loader.item
                     property: "binId"
@@ -212,10 +207,10 @@ Column{
                     }
                 }
                 onLoaded: {
-                    console.log('loaded clip: ', model.start)
-                    //item.clipId= model.item
-                    //item.binId= model.binId
-                    //item.isComposition= model.isComposition
+                    console.log('loaded clip: ', model.start, ', ID: ', model.item, ', index: ', trackRoot.DelegateModel.itemsIndex)
+                    item.clipId= model.item
+                    item.binId= model.binId
+                    item.isComposition= model.isComposition
                     if (!model.isComposition) {
                         item.audioLevels= model.audioLevels
                         item.isAudio= model.audio
@@ -226,8 +221,7 @@ Column{
                     } else {
                         //item.aTrack = model.a_track
                     }
-                    //item.trackIndex= trackRoot.DelegateModel.itemsIndex
-                    //item.trackId= trackRoot.trackId
+                    item.trackId= trackRoot.trackId
                     //hash= model.hash
                     item.speed= 1 //model.speed
                     //item.selected= trackRoot.selection.indexOf(item.clipId) !== -1
@@ -262,7 +256,7 @@ Column{
 
             onClicked: {
                 console.log("Clip clicked",clip.clipId)
-                trackRoot.clipClicked(clip, clip.trackIndex, shiftClick);
+                trackRoot.clipClicked(clip, trackRoot, shiftClick);
                 clip.draggedX = clip.x
             }
             onMoved: { //called when the movement is finished

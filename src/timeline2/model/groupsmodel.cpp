@@ -62,7 +62,7 @@ Fun GroupsModel::groupItems_lambda(int gid, const std::unordered_set<int> &ids, 
             setGroup(getRootId(id), gid);
             if (type != GroupType::Selection && ptr->isClip(id)) {
                 QModelIndex ix = ptr->makeClipIndexFromID(id);
-                ptr->dataChanged(ix, ix, {TimelineItemModel::GroupedRole});
+                ptr->dataChanged(ix, ix, {TimelineModel::GroupedRole});
             }
         }
         return true;
@@ -128,7 +128,7 @@ Fun GroupsModel::destructGroupItem_lambda(int id)
             m_upLink[child] = -1;
             if (ptr->isClip(child)) {
                 QModelIndex ix = ptr->makeClipIndexFromID(child);
-                ptr->dataChanged(ix, ix, {TimelineItemModel::GroupedRole});
+                ptr->dataChanged(ix, ix, {TimelineModel::GroupedRole});
             }
         }
         m_downLink.erase(id);
@@ -305,7 +305,7 @@ bool GroupsModel::mergeSingleGroups(int id, Fun &undo, Fun &redo)
             setGroup(group.first, group.second);
             if (old == -1 && group.second != -1 && ptr->isClip(group.first)) {
                 QModelIndex ix = ptr->makeClipIndexFromID(group.first);
-                ptr->dataChanged(ix, ix, {TimelineItemModel::GroupedRole});
+                ptr->dataChanged(ix, ix, {TimelineModel::GroupedRole});
             }
         }
         return true;

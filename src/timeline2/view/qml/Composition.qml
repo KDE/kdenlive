@@ -363,7 +363,7 @@ Item {
         MenuItem {
             visible: true
             text: i18n('Copy')
-            onTriggered: timeline.copyClip(trackIndex, index)
+            onTriggered: timeline.copyClip(parentTrack.trackId, index)
         }
         MenuSeparator {
             visible: !isComposition
@@ -375,7 +375,7 @@ Item {
         MenuItem {
             visible: true
             text: i18n('Lift')
-            onTriggered: timeline.lift(trackIndex, index)
+            onTriggered: timeline.lift(parentTrack.trackId, index)
         }
         MenuSeparator {
             visible: true
@@ -383,17 +383,17 @@ Item {
         MenuItem {
             visible: true
             text: i18n('Split At Playhead (S)')
-            onTriggered: timeline.splitClip(trackIndex, index)
+            onTriggered: timeline.splitClip(parentTrack.trackId, index)
         }
         MenuItem {
             id: mergeItem
             text: i18n('Merge with next clip')
-            onTriggered: timeline.mergeClipWithNext(trackIndex, index, false)
+            onTriggered: timeline.mergeClipWithNext(parentTrack.trackId, index, false)
         }
         MenuItem {
             visible: !isComposition
             text: i18n('Rebuild Audio Waveform')
-            onTriggered: timeline.remakeAudioLevels(trackIndex, index)
+            onTriggered: timeline.remakeAudioLevels(parentTrack.trackId, index)
         }
         /*onPopupVisibleChanged: {
             if (visible && application.OS !== 'OS X' && __popupGeometry.height > 0) {

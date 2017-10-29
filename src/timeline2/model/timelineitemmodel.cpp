@@ -97,7 +97,8 @@ QModelIndex TimelineItemModel::makeClipIndexFromID(int clipId) const
 {
     Q_ASSERT(m_allClips.count(clipId) > 0);
     int trackId = m_allClips.at(clipId)->getCurrentTrackId();
-    return index(getTrackById_const(trackId)->getRowfromClip(clipId), 0, makeTrackIndexFromID(trackId));
+    int row = getTrackById_const(trackId)->getRowfromClip(clipId);
+    return index(row, 0, makeTrackIndexFromID(trackId));
 }
 
 QModelIndex TimelineItemModel::makeCompositionIndexFromID(int compoId) const
@@ -205,6 +206,9 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
     }
     const int id = (int)index.internalId();
     if (role == ItemIdRole) {
+        if (isClip(id)) {
+            qDebug()<<"// INTERNAL ID: "<<id<<" = "<<m_allClips.at(id)->getId();
+        }
         return id;
     }
     if (role == SortRole) {

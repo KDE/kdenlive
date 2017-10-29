@@ -449,6 +449,7 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
                 if (err == 0) {
                     update_snaps(m_allClips[clipId]->getPosition(), m_allClips[clipId]->getPosition() + out - in + 1);
                 }
+                m_playlists[target_track].consolidate_blanks();
                 return err == 0;
             };
         }
@@ -489,6 +490,7 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
                 if (err == 0) {
                     update_snaps(m_allClips[clipId]->getPosition(), m_allClips[clipId]->getPosition() + out - in + 1);
                 }
+                m_playlists[target_track].consolidate_blanks();
                 return err == 0;
             };
         }
