@@ -203,9 +203,9 @@ Rectangle {
             if (pressed) {
                 if (mouse.y < 0 || mouse.y > height) {
                     var mapped = parentTrack.mapFromItem(clipRoot, mouse.x, mouse.y).x
-                    parent.draggedToTrack(clipRoot, mapToItem(null, 0, mouse.y).y, mapped)
+                    clipRoot.draggedToTrack(clipRoot, mapToItem(null, 0, mouse.y).y, mapped)
                 } else {
-                    parent.dragged(clipRoot, mouse)
+                    clipRoot.dragged(clipRoot, mouse)
                 }
             }
         }
