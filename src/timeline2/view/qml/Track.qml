@@ -72,13 +72,6 @@ Column{
                     value: trackRoot.selection.indexOf(loader.item.clipId) !== -1
                     when: loader.status == Loader.Ready
                 }
-                /*
-                Binding {
-                    target: loader.item
-                    property: "trackId"
-                    value: trackRoot.trackId
-                    when: loader.status == Loader.Ready
-                }*/
                 Binding {
                     target: loader.item
                     property: "mltService"

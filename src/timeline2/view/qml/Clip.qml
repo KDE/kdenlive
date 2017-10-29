@@ -83,7 +83,6 @@ Rectangle {
     onModelStartChanged: {
         x = modelStart * timeScale;
     }
-
     onReloadThumbChanged: {
         if (mltService === 'color') {
             var newColor = getColor()
@@ -127,9 +126,11 @@ Rectangle {
 
     function reparent(track) {
         parent = track
+        y = 0
         height = track.height
         parentTrack = track
         trackId = parentTrack.trackId
+        //console.log('Reparenting clip to Track: ', trackId)
         generateWaveform()
     }
 

@@ -133,7 +133,7 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
             ptr->m_snaps->addPoint(new_in);
             ptr->m_snaps->addPoint(new_out);
             if (updateView) {
-                int clip_index = getRowfromClip(clip->getId());
+                int clip_index = getRowfromClip(clipId);
                 ptr->_beginInsertRows(ptr->makeTrackIndexFromID(getId()), clip_index, clip_index);
                 ptr->_endInsertRows();
                 int state = m_track->get_int("hide");
@@ -144,7 +144,7 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
                 }
                 if (!audioOnly && finalMove) {
                     qDebug() << "/// INVALIDATE CLIP ON INSERTT!!!!!!";
-                    ptr->invalidateClip(clip->getId());
+                    ptr->invalidateClip(clipId);
                 }
             }
             return true;

@@ -24,7 +24,8 @@ Rectangle {
     }
 
     function moveSelectedTrack(offset) {
-        var newTrack = root.currentTrack + offset
+        var cTrack = Logic.getTrackIndexFromId(timeline.activeTrack)
+        var newTrack = cTrack + offset
         var max = tracksRepeater.count;
         if (newTrack < 0) {
             newTrack = max - 1;
@@ -32,8 +33,7 @@ Rectangle {
             newTrack = 0;
         }
         console.log('Setting curr tk: ', newTrack, 'MAX: ',max)
-        root.currentTrack = newTrack
-        timeline.activeTrack = tracksRepeater.itemAt(root.currentTrack).trackId
+        timeline.activeTrack = tracksRepeater.itemAt(newTrack).trackId
     }
 
     function zoomByWheel(wheel) {
@@ -98,7 +98,6 @@ Rectangle {
     property int headerWidth: timeline.headerWidth()
     property int activeTool: 0
     property real baseUnit: fontMetrics.font.pointSize
-    property int currentTrack: 0
     property color selectedTrackColor: Qt.rgba(activePalette.highlight.r, activePalette.highlight.g, activePalette.highlight.b, 0.4)
     property bool stopScrolling: false
     property int duration: timeline.duration
@@ -204,7 +203,6 @@ Rectangle {
                 if (track >= 0  && track < tracksRepeater.count) {
                     var frame = Math.round((drag.x + scrollView.flickableItem.contentX) / timeline.scaleFactor)
                     droppedPosition = frame
-                    root.currentTrack = track
                     timeline.activeTrack = tracksRepeater.itemAt(track).trackId
                     //drag.acceptProposedAction()
                     clipBeingDroppedData = drag.getDataAsString('kdenlive/producerslist')
@@ -228,7 +226,6 @@ Rectangle {
             if (clipBeingMovedId == -1) {
                 var track = Logic.getTrackIndexFromPos(drag.y)
                 if (track >= 0  && track < tracksRepeater.count) {
-                    root.currentTrack = track
                     timeline.activeTrack = tracksRepeater.itemAt(track).trackId
                     var frame = Math.round((drag.x + scrollView.flickableItem.contentX) / timeline.scaleFactor)
                     frame = controller.suggestSnapPoint(frame, root.snapping)
@@ -343,11 +340,11 @@ Rectangle {
         id: headerMenu
         MenuItem {
             text: i18n('Add Track')
-            onTriggered: timeline.addTrack(tracksRepeater.itemAt(currentTrack).trackId);
+            onTriggered: timeline.addTrack(timeline.activeTrack);
         }
         MenuItem {
             text: i18n('Delete Track')
-            onTriggered: timeline.deleteTrack(tracksRepeater.itemAt(currentTrack).trackId);
+            onTriggered: timeline.deleteTrack(timeline.activeTrack);
         }
     }
 
@@ -409,8 +406,7 @@ Rectangle {
                                 root.trackHeight = root.trackHeight === 1 ? 0 : 1
                             }
                             onClicked: {
-                                currentTrack = index
-                                timeline.activeTrack = tracksRepeater.itemAt(currentTrack).trackId
+                                timeline.activeTrack = tracksRepeater.itemAt(index).trackId
                                 console.log('track name: ',index, ' = ', model.name)
                                 //timeline.selectTrackHead(currentTrack)
                             }
@@ -523,8 +519,7 @@ Rectangle {
                 if (mouse.button & Qt.RightButton) {
                     menu.clickedX = mouse.x
                     menu.clickedY = mouse.y
-                    currentTrack = Logic.getTrackIndexFromPos(mouse.y - ruler.height)
-                    timeline.activeTrack = tracksRepeater.itemAt(currentTrack).trackId
+                    timeline.activeTrack = tracksRepeater.itemAt(Logic.getTrackIndexFromPos(mouse.y - ruler.height)).trackId
                     menu.popup() 
                 }
             }
@@ -875,7 +870,6 @@ Rectangle {
             trackId: item
             selection: timeline.selection
             onClipClicked: {
-                root.currentTrack = track.DelegateModel.itemsIndex
                 timeline.activeTrack = track.trackId
                 if (shiftClick === 1) {
                     timeline.addSelection(clip.clipId)
@@ -915,8 +909,8 @@ Rectangle {
                 var frame = Math.max(0, Math.round(clip.x / timeScale))
                 if (activeTrack >= 0  && activeTrack < tracksRepeater.count) {
                     var track = tracksRepeater.itemAt(activeTrack)
+                    console.log('Dragging clip to track: ', activeTrack, ' - ', y)
                     if (controller.requestClipMove(clip.clipId, track.trackId, frame, false, false, false)) {
-                        currentTrack = activeTrack;
                         timeline.activeTrack = track.trackId
                         clip.reparent(track)
                     } else {
@@ -949,8 +943,7 @@ Rectangle {
                 var tk = Logic.getTrackIndexFromPos(y)
                 var frame = Math.round(composition.x / timeScale)
                 if (tk >= 0  && tk < tracksRepeater.count) {
-                    currentTrack = tk
-                    var track = tracksRepeater.itemAt(currentTrack)
+                    var track = tracksRepeater.itemAt(tk)
                     timeline.activeTrack = track.trackId
                     if (controller.requestCompositionMove(composition.clipId, track.trackId, frame, false, false)) {
                         composition.reparent(track)
