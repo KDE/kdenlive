@@ -125,7 +125,6 @@ bool AudioThumbJob::computeWithFFMPEG()
 #else
     args << QStringLiteral("/dev/stdout");
 #endif
-    args << QStringLiteral("-filter_complex:a");
     bool isFFmpeg = KdenliveSettings::ffmpegpath().contains(QLatin1String("ffmpeg"));
     args << QStringLiteral("-filter_complex:a");
     if (m_channels == 1) {
@@ -147,11 +146,11 @@ bool AudioThumbJob::computeWithFFMPEG()
                  << QStringLiteral("-f") << QStringLiteral("data") << channelFiles[size_t(i)]->fileName();
         }
     }
-    m_ffmpegProcess.start(KdenliveSettings::ffmpegpath(), args);
-    connect(&m_ffmpegProcess, &QProcess::readyReadStandardOutput, this, &AudioThumbJob::updateFfmpegProgress);
-    m_ffmpegProcess.waitForFinished(-1);
-    if (m_ffmpegProcess.exitStatus() != QProcess::CrashExit) {
-
+    QProcess ffmpegProcess;
+    ffmpegProcess.start(KdenliveSettings::ffmpegpath(), args);
+    connect(&ffmpegProcess, &QProcess::readyReadStandardOutput, this, &AudioThumbJob::updateFfmpegProgress);
+    ffmpegProcess.waitForFinished(-1);
+    if (ffmpegProcess.exitStatus() != QProcess::CrashExit) {
         int dataSize = 0;
         std::vector<const qint16 *> rawChannels;
         std::vector<QByteArray> sourceChannels;
@@ -206,24 +205,25 @@ bool AudioThumbJob::computeWithFFMPEG()
         m_done = true;
         return true;
     }
+    QString err = ffmpegProcess.readAllStandardError();
+    m_errorMessage += err;
     m_errorMessage.append(i18n("Failed to create FFmpeg audio thumbnails, we now try to use MLT"));
     return false;
 }
 
 void AudioThumbJob::updateFfmpegProgress()
 {
-    QString result = m_ffmpegProcess.readAllStandardOutput();
+    QProcess *ffmpegProcess = qobject_cast<QProcess *>(QObject::sender());
+    QString result = ffmpegProcess->readAllStandardOutput();
     const QStringList lines = result.split(QLatin1Char('\n'));
     for (const QString &data : lines) {
         if (data.startsWith(QStringLiteral("out_time_ms"))) {
             long ms = data.section(QLatin1Char('='), 1).toLong();
-            emit jobProgress(ms / m_binClip->duration().ms() * 80.);
+            emit jobProgress((int) (ms / m_binClip->duration().ms() / 10));
         } else {
             m_logDetails += data + QStringLiteral("\n");
         }
     }
-    QString err = m_ffmpegProcess.readAllStandardError();
-    m_errorMessage += err;
 }
 
 bool AudioThumbJob::startJob()

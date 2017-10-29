@@ -156,7 +156,7 @@ QVariant AbstractProjectItem::getData(DataType type) const
                 jobIds = pCore->jobManager()->getFinishedJobsIds(clipId());
             }
             if (jobIds.size() > 0) {
-                data = QVariant(pCore->jobManager()->getJobType(jobIds[0]));
+                data = QVariant::fromValue(pCore->jobManager()->getJobStatus(jobIds[0]));
             } else {
                 data = QVariant::fromValue(JobManagerStatus::NoJob);
             }

@@ -492,12 +492,12 @@ public:
                     }
                     QString jobText = index.data(AbstractProjectItem::JobMessage).toString();
                     if (!jobText.isEmpty()) {
-                        QRectF txtBounding = painter->boundingRect(r2, Qt::AlignRight | Qt::AlignVCenter, " " + jobText + " ");
+                        //QRectF txtBounding = painter->boundingRect(r2, Qt::AlignRight | Qt::AlignVCenter, " " + jobText + " ");
                         painter->setPen(Qt::NoPen);
                         painter->setBrush(option.palette.highlight());
-                        painter->drawRoundedRect(txtBounding, 2, 2);
+                        //painter->drawRoundedRect(txtBounding, 2, 2);
                         painter->setPen(option.palette.highlightedText().color());
-                        painter->drawText(txtBounding, Qt::AlignCenter, jobText);
+                        painter->drawText(r2, Qt::AlignCenter, jobText);
                     }
                 }
             } else {
@@ -2610,7 +2610,7 @@ void Bin::slotGotFilterJobResults(const QString &id, int startPos, int track, co
                 ctl->updateEffect(newEffect, effect.attribute(QStringLiteral("kdenlive_ix")).toInt());
                 emit requestClipShow(currentItem);
                 // TODO use undo / redo for bin clip edit effect
-                // /*
+                //
                 EditEffectCommand *command = new EditEffectCommand(this, clip->track(), clip->startPos(), effect, newEffect, clip->selectedEffectIndex(),
                 true, true);
                 m_commandStack->push(command);
