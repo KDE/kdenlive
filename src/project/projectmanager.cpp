@@ -16,7 +16,6 @@ the Free Software Foundation, either version 3 of the License, or
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "mltcontroller/bincontroller.h"
-#include "mltcontroller/producerqueue.h"
 #include "monitor/monitormanager.h"
 #include "profiles/profilemodel.hpp"
 #include "project/dialogs/archivewidget.h"

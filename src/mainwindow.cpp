@@ -47,7 +47,6 @@
 #include "mltconnection.h"
 #include "mltcontroller/bincontroller.h"
 #include "mltcontroller/clipcontroller.h"
-#include "mltcontroller/producerqueue.h"
 #include "monitor/monitor.h"
 #include "monitor/monitormanager.h"
 #include "monitor/scopes/audiographspectrum.h"
