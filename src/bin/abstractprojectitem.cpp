@@ -158,7 +158,7 @@ QVariant AbstractProjectItem::getData(DataType type) const
             if (jobIds.size() > 0) {
                 data = QVariant(pCore->jobManager()->getJobType(jobIds[0]));
             } else {
-                data = QVariant::fromValue(JobStatus::NoJob);
+                data = QVariant::fromValue(JobManagerStatus::NoJob);
             }
         }
         break;

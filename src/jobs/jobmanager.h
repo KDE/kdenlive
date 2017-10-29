@@ -43,8 +43,8 @@ class AbstractClipJob;
  *
  */
 
-enum class JobStatus { NoJob, Pending, Running, Finished, Canceled };
-Q_DECLARE_METATYPE(JobStatus)
+enum class JobManagerStatus { NoJob, Pending, Running, Finished, Canceled };
+Q_DECLARE_METATYPE(JobManagerStatus)
 struct Job_t
 {
     std::vector<std::shared_ptr<AbstractClipJob>> m_job; // List of the jobs
@@ -122,7 +122,7 @@ public:
     AbstractClipJob::JOBTYPE getJobType(int jobId) const;
 
     /** @brief return the type of a given job */
-    JobStatus getJobStatus(int jobId) const;
+    JobManagerStatus getJobStatus(int jobId) const;
 
     /** @brief return the progress of a given job on a given clip */
     int getJobProgressForClip(int jobId, const QString &binId) const;

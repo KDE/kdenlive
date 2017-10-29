@@ -468,15 +468,15 @@ public:
                     }
 
                     int jobProgress = index.data(AbstractProjectItem::JobProgress).toInt();
-                    JobStatus status = index.data(AbstractProjectItem::JobStatus).value<JobStatus>();
-                    if (status == JobStatus::Pending || status == JobStatus::Running) {
+                    JobManagerStatus status = index.data(AbstractProjectItem::JobStatus).value<JobManagerStatus>();
+                    if (status == JobManagerStatus::Pending || status == JobManagerStatus::Running) {
                         // Draw job progress bar
                         int progressWidth = option.fontMetrics.averageCharWidth() * 8;
                         int progressHeight = option.fontMetrics.ascent() / 4;
                         QRect progress(r1.x() + 1, opt.rect.bottom() - progressHeight - 2, progressWidth, progressHeight);
                         painter->setPen(Qt::NoPen);
                         painter->setBrush(Qt::darkGray);
-                        if (status == JobStatus::Running) {
+                        if (status == JobManagerStatus::Running) {
                             painter->drawRoundedRect(progress, 2, 2);
                             painter->setBrush((option.state & static_cast<int>((QStyle::State_Selected) != 0)) != 0 ? option.palette.text()
                                                                                                                     : option.palette.highlight());

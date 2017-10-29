@@ -278,21 +278,21 @@ AbstractClipJob::JOBTYPE JobManager::getJobType(int jobId) const
     return m_jobs.at(jobId)->m_type;
 }
 
-JobStatus JobManager::getJobStatus(int jobId) const
+JobManagerStatus JobManager::getJobStatus(int jobId) const
 {
     READ_LOCK();
     Q_ASSERT(m_jobs.count(jobId) > 0);
     auto job = m_jobs.at(jobId);
     if (job->m_future.isFinished()) {
-        return JobStatus::Finished;
+        return JobManagerStatus::Finished;
     }
     if (job->m_future.isCanceled()) {
-        return JobStatus::Canceled;
+        return JobManagerStatus::Canceled;
     }
     if (job->m_future.isRunning()) {
-        return JobStatus::Running;
+        return JobManagerStatus::Running;
     }
-    return JobStatus::Pending;
+    return JobManagerStatus::Pending;
 }
 
 int JobManager::getJobProgressForClip(int jobId, const QString &binId) const
