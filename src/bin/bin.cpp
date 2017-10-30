@@ -2159,7 +2159,7 @@ void Bin::slotCreateProjectClip()
         ClipCreationDialog::createSlideshowClip(m_doc, parentFolder, m_itemModel);
         break;
     case ClipType::Text:
-        ClipCreationDialog::createTitleClip(m_doc, folderInfo, QString(), this);
+        ClipCreationDialog::createTitleClip(m_doc, parentFolder, QString(), m_itemModel);
         break;
     case ClipType::TextTemplate:
         ClipCreationDialog::createTitleTemplateClip(m_doc, parentFolder, m_itemModel);

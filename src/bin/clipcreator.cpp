@@ -36,17 +36,13 @@
 #include <QWindow>
 
 namespace {
-QDomElement createProducer(QDomDocument &xml, ClipType type, const QString &resource, const QString &name, int duration, const QString &service,
-                           const QString &transparency)
+QDomElement createProducer(QDomDocument &xml, ClipType type, const QString &resource, const QString &name, int duration, const QString &service)
 {
     QDomElement prod = xml.createElement(QStringLiteral("producer"));
     xml.appendChild(prod);
     prod.setAttribute(QStringLiteral("type"), (int)type);
     prod.setAttribute(QStringLiteral("in"), QStringLiteral("0"));
     prod.setAttribute(QStringLiteral("length"), duration);
-    if (!transparency.isEmpty()) {
-        prod.setAttribute(QStringLiteral("transparency"), transparency);
-    }
     std::unordered_map<QString, QString> properties;
     properties[QStringLiteral("resource")] = resource;
     if (!name.isEmpty()) {
@@ -61,12 +57,25 @@ QDomElement createProducer(QDomDocument &xml, ClipType type, const QString &reso
 
 } // namespace
 
+QString ClipCreator::createTitleClip(const std::unordered_map<QString, QString> &properties, int duration, const QString &name, const QString &parentFolder,
+                                     std::shared_ptr<ProjectItemModel> model)
+{
+    QDomDocument xml;
+
+    auto prod = createProducer(xml, ClipType::Text, QString(), name, duration, QStringLiteral("kdenlivetitle"));
+    Xml::addXmlProperties(prod, properties);
+
+    QString id;
+    bool res = model->requestAddBinClip(id, xml.documentElement(), parentFolder, i18n("Create title clip"));
+    return res ? id : QStringLiteral("-1");
+}
+
 QString ClipCreator::createColorClip(const QString &color, int duration, const QString &name, const QString &parentFolder,
                                      std::shared_ptr<ProjectItemModel> model)
 {
     QDomDocument xml;
 
-    auto prod = createProducer(xml, ClipType::Color, color, name, duration, QStringLiteral("color"), QString());
+    auto prod = createProducer(xml, ClipType::Color, color, name, duration, QStringLiteral("color"));
 
     QString id;
     bool res = model->requestAddBinClip(id, xml.documentElement(), parentFolder, i18n("Create color clip"));
@@ -84,7 +93,7 @@ QString ClipCreator::createClipFromFile(const QString &path, const QString &pare
     QDomElement prod;
     if (type.name().startsWith(QLatin1String("image/"))) {
         int duration = pCore->currentDoc()->getFramePos(KdenliveSettings::image_duration());
-        prod = createProducer(xml, ClipType::Image, path, QString(), duration, QString(), QString());
+        prod = createProducer(xml, ClipType::Image, path, QString(), duration, QString());
     } else if (type.inherits(QStringLiteral("application/x-kdenlivetitle"))) {
         // opening a title file
         QDomDocument txtdoc(QStringLiteral("titledocument"));
@@ -114,7 +123,7 @@ QString ClipCreator::createClipFromFile(const QString &path, const QString &pare
             if (duration <= 0) {
                 duration = pCore->currentDoc()->getFramePos(KdenliveSettings::title_duration()) - 1;
             }
-            prod = createProducer(xml, ClipType::Text, path, QString(), duration, QString(), QString());
+            prod = createProducer(xml, ClipType::Text, path, QString(), duration, QString());
             txtdoc.documentElement().setAttribute(QStringLiteral("duration"), duration);
             QString titleData = txtdoc.toString();
             prod.setAttribute(QStringLiteral("xmldata"), titleData);
@@ -155,7 +164,7 @@ QString ClipCreator::createSlideshowClip(const QString &path, int duration, cons
 {
     QDomDocument xml;
 
-    auto prod = createProducer(xml, ClipType::SlideShow, path, name, duration, QString(), QString());
+    auto prod = createProducer(xml, ClipType::SlideShow, path, name, duration, QString());
     Xml::addXmlProperties(prod, properties);
 
     QString id;
@@ -186,7 +195,7 @@ QString ClipCreator::createTitleTemplate(const QString &path, const QString &tex
     if (duration == 0) {
         duration = pCore->currentDoc()->getFramePos(KdenliveSettings::title_duration());
     }
-    auto prod = createProducer(xml, ClipType::TextTemplate, path, name, duration, QString(), QStringLiteral("1"));
+    auto prod = createProducer(xml, ClipType::TextTemplate, path, name, duration, QString());
     if (!text.isEmpty()) {
         prod.setAttribute(QStringLiteral("templatetext"), text);
     }

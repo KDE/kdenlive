@@ -250,39 +250,20 @@ void ClipCreationDialog::createSlideshowClip(KdenliveDoc *doc, const QString &pa
     }
 }
 
-void ClipCreationDialog::createTitleClip(KdenliveDoc *doc, const QStringList &groupInfo, const QString &templatePath, Bin *bin)
+void ClipCreationDialog::createTitleClip(KdenliveDoc *doc, const QString &parentFolder, const QString &templatePath, std::shared_ptr<ProjectItemModel> model)
 {
     // Make sure the titles folder exists
     QDir dir(doc->projectDataFolder() + QStringLiteral("/titles"));
     dir.mkpath(QStringLiteral("."));
-    QPointer<TitleWidget> dia_ui = new TitleWidget(QUrl::fromLocalFile(templatePath), doc->timecode(), dir.absolutePath(), bin->monitor(), bin);
-    QObject::connect(dia_ui.data(), &TitleWidget::requestBackgroundFrame, bin, &Bin::slotGetCurrentProjectImage);
+    QPointer<TitleWidget> dia_ui = new TitleWidget(QUrl::fromLocalFile(templatePath), doc->timecode(), dir.absolutePath(), pCore->getMonitor(Kdenlive::ProjectMonitor), pCore->bin());
+    QObject::connect(dia_ui.data(), &TitleWidget::requestBackgroundFrame, pCore->bin(), &Bin::slotGetCurrentProjectImage);
     if (dia_ui->exec() == QDialog::Accepted) {
         // Ready, create clip xml
-        QDomDocument xml;
-        QDomElement prod = xml.createElement(QStringLiteral("producer"));
-        xml.appendChild(prod);
-        // prod.setAttribute("resource", imagePath);
-        int id = bin->getFreeClipId();
-        prod.setAttribute(QStringLiteral("id"), QString::number(id));
-
-        QMap<QString, QString> properties;
-        properties.insert(QStringLiteral("xmldata"), dia_ui->xml().toString());
+        std::unordered_map<QString, QString> properties;
+        properties[QStringLiteral("xmldata")] = dia_ui->xml().toString();
         QString titleSuggestion = dia_ui->titleSuggest();
-        properties.insert(QStringLiteral("kdenlive:clipname"), titleSuggestion.isEmpty() ? i18n("Title clip") : titleSuggestion);
-        if (!groupInfo.isEmpty()) {
-            properties.insert(QStringLiteral("kdenlive:folderid"), groupInfo.at(0));
-        }
-        Xml::addXmlProperties(prod, properties);
-        prod.setAttribute(QStringLiteral("type"), (int)ClipType::Text);
-        prod.setAttribute(QStringLiteral("transparency"), QStringLiteral("1"));
-        prod.setAttribute(QStringLiteral("in"), QStringLiteral("0"));
-        prod.setAttribute(QStringLiteral("out"), dia_ui->duration() - 1);
-        // TODO refac
-        /*
-        AddClipCommand *command = new AddClipCommand(bin, xml.documentElement(), QString::number(id), true);
-        doc->commandStack()->push(command);
-        */
+
+        ClipCreator::createTitleClip(properties, dia_ui->duration() - 1, titleSuggestion.isEmpty() ? i18n("Title clip") : titleSuggestion, parentFolder, model);
     }
     delete dia_ui;
 }

@@ -43,6 +43,17 @@ namespace ClipCreator {
 */
 QString createColorClip(const QString &color, int duration, const QString &name, const QString &parentFolder, std::shared_ptr<ProjectItemModel> model);
 
+/* @brief Create a title clip
+   @param properties : title properties (xmldata, etc)
+   @param duration : duration of the clip
+   @param name: name of the clip
+   @param parentFolder: the binId of the containing folder
+   @param model: a shared pointer to the bin item model
+*/
+
+QString createTitleClip(const std::unordered_map<QString, QString> &properties, int duration, const QString &name, const QString &parentFolder,
+                                     std::shared_ptr<ProjectItemModel> model);
+
 /* @brief Create a title template
    @param path : path to the template
    @param text : text of the template (optional)
