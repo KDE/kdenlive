@@ -273,10 +273,10 @@ Column{
                     clip.x = clip.draggedX
                 } else {
                     clip.x = frame * timeScale
+                    var mapped = trackRoot.mapFromItem(clip, mouse.x, mouse.y)
+                    trackRoot.clipDragged(clip, mapped.x, mapped.y)
+                    clip.draggedX = clip.x
                 }
-                var mapped = trackRoot.mapFromItem(clip, mouse.x, mouse.y)
-                trackRoot.clipDragged(clip, mapped.x, mapped.y)
-                clip.draggedX = clip.x
             }
             onTrimmingIn: {
                 var new_duration = controller.requestItemResize(clip.clipId, newDuration, false, false, root.snapping)
@@ -374,10 +374,10 @@ Column{
                     clip.x = clip.draggedX
                 } else {
                     clip.x = frame * timeScale
+                    var mapped = trackRoot.mapFromItem(clip, mouse.x, mouse.y)
+                    trackRoot.clipDragged(clip, mapped.x, mapped.y)
+                    clip.draggedX = clip.x
                 }
-                var mapped = trackRoot.mapFromItem(clip, mouse.x, mouse.y)
-                trackRoot.clipDragged(clip, mapped.x, mapped.y)
-                clip.draggedX = clip.x
             }
             onTrimmingIn: {
                 if (controller.requestItemResize(clip.clipId, newDuration, false, false, root.snapping)) {

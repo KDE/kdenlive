@@ -881,15 +881,17 @@ Rectangle {
             onClipDragged: {
                 continuousScrolling(x)
                 // Show distance moved as time in a "bubble" help.
-                var track = tracksRepeater.itemAt(clip.trackIndex)
                 var delta = Math.round((clip.x - clip.originalX) / timeline.scaleFactor)
-                var s = timeline.timecode(Math.abs(delta))
-                // remove leading zeroes
-                if (s.substring(0, 3) === '00:')
-                    s = s.substring(3)
-                s = ((delta < 0)? '-' : (delta > 0)? '+' : '') + s
-                bubbleHelp.show(x, track.y + height/2, s)
-                clipBeingMovedId = clip.clipId
+                if (delta != 0) {
+                    var track = tracksRepeater.itemAt(clip.trackIndex)
+                    var s = timeline.timecode(Math.abs(delta))
+                    // remove leading zeroes
+                    if (s.substring(0, 3) === '00:')
+                        s = s.substring(3)
+                    s = ((delta < 0)? '-' : (delta > 0)? '+' : '') + s
+                    bubbleHelp.show(x, track.y + height/2, s)
+                    clipBeingMovedId = clip.clipId
+                }
             }
             onClipDropped: {
                 console.log(" + + + ++ + DROPPED  + + + + + + +");
