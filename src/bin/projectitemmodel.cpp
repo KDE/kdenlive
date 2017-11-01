@@ -173,7 +173,19 @@ bool ProjectItemModel::dropMimeData(const QMimeData *data, Qt::DropAction action
     if (data->hasFormat(QStringLiteral("kdenlive/producerslist"))) {
         // Dropping an Bin item
         const QStringList ids = QString(data->data(QStringLiteral("kdenlive/producerslist"))).split(QLatin1Char(';'));
-        emit itemDropped(ids, parent);
+        if (ids.constFirst().contains(QLatin1Char('#'))) {
+            // subclip zone
+            QStringList clipData = ids.constFirst().split(QLatin1Char('#'));
+            if (clipData.length() >= 3) {
+                QString id;
+                return requestAddBinSubClip(id, clipData.at(1).toInt(), clipData.at(2).toInt(), clipData.at(0));
+            } else {
+                // error, malformed clip zone, abort
+                return false;
+            }
+        } else  {
+            emit itemDropped(ids, parent);
+        }
         return true;
     }
 

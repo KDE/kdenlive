@@ -36,6 +36,7 @@ ProjectSubClip::ProjectSubClip(const QString &id, const std::shared_ptr<ProjectC
     , m_in(in)
     , m_out(out)
 {
+    m_duration = timecode;
     QPixmap pix(64, 36);
     pix.fill(Qt::lightGray);
     m_thumbnail = QIcon(pix);
@@ -45,8 +46,6 @@ ProjectSubClip::ProjectSubClip(const QString &id, const std::shared_ptr<ProjectC
         m_name = name;
     }
     m_clipStatus = StatusReady;
-    changeParent(parent);
-    m_duration = timecode;
     // Save subclip in MLT
     parent->setProducerProperty("kdenlive:clipzone." + m_name, QString::number(in) + QLatin1Char(';') + QString::number(out));
     connect(parent.get(), &ProjectClip::thumbReady, this, &ProjectSubClip::gotThumb);
@@ -55,8 +54,9 @@ ProjectSubClip::ProjectSubClip(const QString &id, const std::shared_ptr<ProjectC
 std::shared_ptr<ProjectSubClip> ProjectSubClip::construct(const QString &id, std::shared_ptr<ProjectClip> parent, std::shared_ptr<ProjectItemModel> model,
                                                           int in, int out, const QString &timecode, const QString &name)
 {
-    std::shared_ptr<ProjectSubClip> self(new ProjectSubClip(id, parent, std::move(model), in, out, timecode, name));
+    std::shared_ptr<ProjectSubClip> self(new ProjectSubClip(id, parent, model, in, out, timecode, name));
     baseFinishConstruct(self);
+    self->changeParent(parent);
     return self;
 }
 

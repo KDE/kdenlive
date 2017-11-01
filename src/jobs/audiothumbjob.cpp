@@ -39,6 +39,7 @@
 
 AudioThumbJob::AudioThumbJob(const QString &binId)
     : AbstractClipJob(AUDIOTHUMBJOB, binId)
+    , m_ffmpegProcess(nullptr)
 {
 }
 
@@ -146,11 +147,11 @@ bool AudioThumbJob::computeWithFFMPEG()
                  << QStringLiteral("-f") << QStringLiteral("data") << channelFiles[size_t(i)]->fileName();
         }
     }
-    QProcess ffmpegProcess;
-    ffmpegProcess.start(KdenliveSettings::ffmpegpath(), args);
-    connect(&ffmpegProcess, &QProcess::readyReadStandardOutput, this, &AudioThumbJob::updateFfmpegProgress);
-    ffmpegProcess.waitForFinished(-1);
-    if (ffmpegProcess.exitStatus() != QProcess::CrashExit) {
+    m_ffmpegProcess = new QProcess;
+    m_ffmpegProcess->start(KdenliveSettings::ffmpegpath(), args);
+    connect(m_ffmpegProcess, &QProcess::readyReadStandardOutput, this, &AudioThumbJob::updateFfmpegProgress);
+    m_ffmpegProcess->waitForFinished(-1);
+    if (m_ffmpegProcess->exitStatus() != QProcess::CrashExit) {
         int dataSize = 0;
         std::vector<const qint16 *> rawChannels;
         std::vector<QByteArray> sourceChannels;
@@ -205,7 +206,8 @@ bool AudioThumbJob::computeWithFFMPEG()
         m_done = true;
         return true;
     }
-    QString err = ffmpegProcess.readAllStandardError();
+    QString err = m_ffmpegProcess->readAllStandardError();
+    delete m_ffmpegProcess;
     m_errorMessage += err;
     m_errorMessage.append(i18n("Failed to create FFmpeg audio thumbnails, we now try to use MLT"));
     return false;
@@ -213,8 +215,8 @@ bool AudioThumbJob::computeWithFFMPEG()
 
 void AudioThumbJob::updateFfmpegProgress()
 {
-    QProcess *ffmpegProcess = qobject_cast<QProcess *>(QObject::sender());
-    QString result = ffmpegProcess->readAllStandardOutput();
+    //QProcess *m_ffmpegProcess = qobject_cast<QProcess *>(QObject::sender());
+    QString result = m_ffmpegProcess->readAllStandardOutput();
     const QStringList lines = result.split(QLatin1Char('\n'));
     for (const QString &data : lines) {
         if (data.startsWith(QStringLiteral("out_time_ms"))) {

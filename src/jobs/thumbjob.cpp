@@ -80,9 +80,9 @@ bool ThumbJob::startJob()
     m_frameNumber = std::min(max - 1, m_frameNumber);
 
     // m_frameNumber = ProjectClip::getXmlProperty(info.xml, QStringLiteral("kdenlive:thumbnailFrame"), QStringLiteral("-1")).toInt();
-    if (ThumbnailCache::get()->hasThumbnail(m_clipId, m_frameNumber, !m_persistent)) {
+    if (ThumbnailCache::get()->hasThumbnail(m_binClip->clipId(), m_frameNumber, !m_persistent)) {
         m_done = true;
-        m_result = ThumbnailCache::get()->getThumbnail(m_clipId, m_frameNumber);
+        m_result = ThumbnailCache::get()->getThumbnail(m_binClip->clipId(), m_frameNumber);
         m_inCache = true;
         return true;
     }
@@ -109,7 +109,7 @@ bool ThumbJob::commitResult(Fun &undo, Fun &redo)
     }
     m_resultConsumed = true;
     if (!m_inCache) {
-        ThumbnailCache::get()->storeThumbnail(m_clipId, m_frameNumber, m_result, m_persistent);
+        ThumbnailCache::get()->storeThumbnail(m_binClip->clipId(), m_frameNumber, m_result, m_persistent);
     }
 
     // TODO a refactor of ProjectClip and ProjectSubClip should make that possible without branching (both classes implement setThumbnail)
