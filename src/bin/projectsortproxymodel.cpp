@@ -95,8 +95,16 @@ bool ProjectSortProxyModel::lessThan(const QModelIndex &left, const QModelIndex 
     int rightType = sourceModel()->data(right, AbstractProjectItem::ItemTypeRole).toInt();
     if (leftType == rightType) {
         // Let the normal alphabetical sort happen
-        QVariant leftData = sourceModel()->data(left, Qt::DisplayRole);
-        QVariant rightData = sourceModel()->data(right, Qt::DisplayRole);
+        QVariant leftData;
+        QVariant rightData;
+        if (leftType == AbstractProjectItem::SubClipItem) {
+            // Subclips, sort by start position
+            leftData = sourceModel()->data(left, AbstractProjectItem::DataDuration);
+            rightData = sourceModel()->data(right, AbstractProjectItem::DataDuration);
+        } else {
+            leftData = sourceModel()->data(left, Qt::DisplayRole);
+            rightData = sourceModel()->data(right, Qt::DisplayRole);
+        }
         if (leftData.type() == QVariant::DateTime) {
             return leftData.toDateTime() < rightData.toDateTime();
         }

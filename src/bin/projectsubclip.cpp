@@ -34,6 +34,7 @@ ProjectSubClip::ProjectSubClip(ProjectClip *parent, int in, int out, const QStri
     , m_in(in)
     , m_out(out)
 {
+    m_duration = timecode;
     QPixmap pix(64, 36);
     pix.fill(Qt::lightGray);
     m_thumbnail = QIcon(pix);
@@ -44,7 +45,6 @@ ProjectSubClip::ProjectSubClip(ProjectClip *parent, int in, int out, const QStri
     }
     m_clipStatus = StatusReady;
     setParent(parent);
-    m_duration = timecode;
     // Save subclip in MLT
     parent->setProducerProperty("kdenlive:clipzone." + m_name, QString::number(in) + QLatin1Char(';') +  QString::number(out));
     connect(parent, &ProjectClip::thumbReady, this, &ProjectSubClip::gotThumb);
