@@ -341,7 +341,6 @@ private slots:
     void showClearButton(bool show);
 
 public slots:
-    void slotThumbnailReady(const QString &id, const QImage &img, bool fromFile = false);
     void slotRemoveInvalidClip(const QString &id, bool replace, const QString &errorMessage);
     /** @brief Reload clip thumbnail - when frame for thumbnail changed */
     void slotRefreshClipThumbnail(const QString &id);

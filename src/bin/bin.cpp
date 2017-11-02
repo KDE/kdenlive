@@ -1756,18 +1756,6 @@ void Bin::reloadClip(const QString &id)
     }
 }
 
-void Bin::slotThumbnailReady(const QString &id, const QImage &img, bool fromFile)
-{
-    std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(id);
-    if (clip) {
-        clip->setThumbnail(img);
-        // Save thumbnail for later reuse
-        bool ok = false;
-        if (!fromFile && clip->clipStatus() == ProjectClip::StatusReady) {
-            img.save(m_doc->getCacheDir(CacheThumbs, &ok).absoluteFilePath(clip->hash() + QStringLiteral(".png")));
-        }
-    }
-}
 
 QStringList Bin::getBinFolderClipIds(const QString &id) const
 {
