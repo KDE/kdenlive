@@ -26,7 +26,9 @@
 #include "kxmlgui_version.h"
 
 #include <KAboutData>
+#ifdef KF5_USE_CRASH
 #include <KCrash>
+#endif
 #include <KIconLoader>
 #include <KSharedConfig>
 #include <KConfigGroup>
@@ -142,7 +144,9 @@ int main(int argc, char *argv[])
     parser.process(app);
     aboutData.processCommandLine(&parser);
 
+#ifdef KF5_USE_CRASH
     KCrash::initialize();
+#endif
 
     QString clipsToLoad = parser.value(QStringLiteral("i"));
     QString mltPath = parser.value(QStringLiteral("mlt-path"));
