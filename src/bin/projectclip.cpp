@@ -395,7 +395,12 @@ Mlt::Producer *ProjectClip::thumbProducer()
 std::shared_ptr<Mlt::Producer> ProjectClip::timelineProducer(PlaylistState::ClipState state, int track)
 {
     if (!m_service.startsWith(QLatin1String("avformat"))) {
-        return std::shared_ptr<Mlt::Producer>(originalProducer()->cut());
+        std::shared_ptr<Mlt::Producer>prod(originalProducer()->cut());
+        int length = getProducerIntProperty(QStringLiteral("kdenlive:duration"));
+        if (length > 0) {
+            prod->set_in_and_out(0, length);
+        }
+        return prod;
     }
     if (state == PlaylistState::VideoOnly) {
         if (m_timelineProducers.count(0) > 0) {
