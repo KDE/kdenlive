@@ -1,6 +1,7 @@
 import QtQuick 2.4
 import QtQml.Models 2.2
-import QtQuick.Controls 1.4
+import QtQuick.Controls 1.4 as OLD
+import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 import QtQuick.Dialogs 1.2
 import Kdenlive.Controls 1.0
@@ -691,12 +692,13 @@ Rectangle {
                         }
                     }
                 }
-                ScrollView {
+                OLD.ScrollView {
                     id: scrollView
                     width: root.width - headerWidth
                     height: root.height - ruler.height
                     // Click and drag should seek, not scroll the timeline view
                     flickableItem.interactive: false
+                    clip: true
                     Rectangle {
                         width: ruler.width
                         height: trackHeaders.height

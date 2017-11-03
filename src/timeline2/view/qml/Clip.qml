@@ -17,7 +17,7 @@
  */
 
 import QtQuick 2.6
-import QtQuick.Controls 1.4
+import QtQuick.Controls 2.2
 import Kdenlive.Controls 1.0
 import QtGraphicalEffects 1.0
 import QtQml.Models 2.2
@@ -71,6 +71,21 @@ Rectangle {
     signal trimmedIn(var clip)
     signal trimmingOut(var clip, real newDuration, var mouse)
     signal trimmedOut(var clip)
+
+    ToolTip {
+        visible: mouseArea.containsMouse
+        font.pixelSize: root.baseUnit
+        delay: 1000
+        timeout: 5000
+        background: Rectangle {
+            color: activePalette.alternateBase
+            border.color: activePalette.light
+        }
+        contentItem: Label {
+            color: activePalette.text
+            text: clipRoot.clipName + ' (' + clipRoot.inPoint + '-' + clipRoot.outPoint + ')'
+        }
+    }
 
     onKeyframeModelChanged: {
         console.log('keyframe model changed............')
@@ -126,7 +141,6 @@ Rectangle {
 
     function reparent(track) {
         parent = track
-        y = 0
         height = track.height
         parentTrack = track
         trackId = parentTrack.trackId
@@ -180,7 +194,7 @@ Rectangle {
     MouseArea {
         id: mouseArea
         visible: root.activeTool === 0
-        anchors.fill: parent
+        anchors.fill: clipRoot
         acceptedButtons: Qt.LeftButton | Qt.RightButton
         drag.target: parent
         drag.axis: Drag.XAxis
@@ -749,35 +763,32 @@ Rectangle {
         }
         Menu {
             title: i18n('Clip Type...')
-            ExclusiveGroup {
-                id: clipTypeGroup
-            }
             MenuItem {
                 text: i18n('Original')
                 checkable: true
                 checked: clipStatus == 0
-                exclusiveGroup: clipTypeGroup
+                autoExclusive: true
                 onTriggered: timeline.setClipStatus(clipRoot.clipId, 0)
             }
             MenuItem {
                 text: i18n('Video Only')
                 checkable: true
                 checked: clipStatus == 1
-                exclusiveGroup: clipTypeGroup
+                autoExclusive: true
                 onTriggered: timeline.setClipStatus(clipRoot.clipId, 1)
             }
             MenuItem {
                 text: i18n('Audio Only')
                 checkable: true
                 checked: clipStatus == 2
-                exclusiveGroup: clipTypeGroup
+                autoExclusive: true
                 onTriggered: timeline.setClipStatus(clipRoot.clipId, 2)
             }
             MenuItem {
                 text: i18n('Disabled')
                 checkable: true
                 checked: clipStatus == 3
-                exclusiveGroup: clipTypeGroup
+                autoExclusive: true
                 onTriggered: timeline.setClipStatus(clipRoot.clipId, 3)
             }
         }
