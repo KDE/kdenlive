@@ -83,7 +83,7 @@ Rectangle {
         }
         contentItem: Label {
             color: activePalette.text
-            text: clipRoot.clipName + ' (' + clipRoot.inPoint + '-' + clipRoot.outPoint + ')'
+            text: clipRoot.clipName + ' (' + timeline.timecode(clipRoot.inPoint) + '-' + timeline.timecode(clipRoot.outPoint) + ')'
         }
     }
 
