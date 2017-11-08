@@ -482,7 +482,6 @@ Rectangle {
                 focus = true
                 if (mouse.modifiers & Qt.ShiftModifier) {
                         // rubber selection
-                        rubberSelect.visible = true
                         rubberSelect.x = mouse.x + tracksArea.x
                         rubberSelect.y = mouse.y
                         rubberSelect.originX = mouse.x
@@ -530,6 +529,10 @@ Rectangle {
             }
             onPositionChanged: {
                 root.mousePosChanged(Math.round((mouse.x + scrollView.flickableItem.contentX) / timeline.scaleFactor))
+                if ((mouse.modifiers & Qt.ShiftModifier) && mouse.buttons === Qt.LeftButton && !rubberSelect.visible) {
+                    // rubber selection
+                    rubberSelect.visible = true
+                }
                 if (rubberSelect.visible) {
                     var newX = mouse.x
                     var newY = mouse.y

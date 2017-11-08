@@ -314,6 +314,8 @@ public:
     void updateClip(int clipId, QVector<int> roles);
     void showClipKeyframes(int clipId, bool value);
     void showCompositionKeyframes(int clipId, bool value);
+    /** @brief Returns last usable timeline position (seek request or current pos) */
+    int timelinePosition() const;
 
 public slots:
     void selectMultitrack();
