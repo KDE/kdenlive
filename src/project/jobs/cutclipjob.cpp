@@ -35,6 +35,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QJsonDocument>
+#include <kio_version.h>
 
 CutClipJob::CutClipJob(ClipType cType, const QString &id, const QStringList &parameters) : AbstractClipJob(CUTJOB, cType, id)
 {
@@ -395,7 +396,14 @@ QHash<ProjectClip *, AbstractClipJob *> CutClipJob::prepareTranscodeJob(double f
     d->setWindowTitle(i18n("Transcoding"));
     ui.extra_params->setMaximumHeight(QFontMetrics(qApp->font()).lineSpacing() * 5);
     if (clips.count() == 1) {
-        ui.file_url->setUrl(QUrl(destinations.constFirst()));
+        ui.file_url->setMode(KFile::File);
+#if KIO_VERSION >= QT_VERSION_CHECK(5,33,0)
+        ui.file_url->setAcceptMode(QFileDialog::AcceptSave);
+#elif !defined(KIOWIDGETS_DEPRECATED)
+        ui.file_url->fileDialog()->setAcceptMode(QFileDialog::AcceptSave);
+#endif
+        ui.file_url->setUrl(QUrl::fromLocalFile(destinations.constFirst()));
+        ui.file_url->setFilter("*." + destinations.constFirst().section(QLatin1Char('.'), -1));
     } else {
         ui.destination_label->setVisible(false);
         ui.file_url->setVisible(false);
