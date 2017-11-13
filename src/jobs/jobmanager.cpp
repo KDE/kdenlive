@@ -187,7 +187,7 @@ void JobManager::createJob(std::shared_ptr<Job_t> job, const std::vector<int> &p
     while (!ok) {
         ok = true;
         for (int p : parents) {
-            if (!m_jobs[p]->m_completionMutex.try_lock()) {
+            if (!m_jobs[p]->m_completionMutex.tryLock()) {
                 ok = false;
                 break;
             } else {
