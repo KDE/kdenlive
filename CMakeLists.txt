@@ -90,8 +90,8 @@ else()
 endif()
 
 find_package(KF5 REQUIRED COMPONENTS Archive Bookmarks CoreAddons Config ConfigWidgets 
-                            DBusAddons KIO WidgetsAddons NotifyConfig NewStuff XmlGui Notifications GuiAddons TextWidgets IconThemes Crash
-                 OPTIONAL_COMPONENTS DocTools FileMetaData)
+                            DBusAddons KIO WidgetsAddons NotifyConfig NewStuff XmlGui Notifications GuiAddons TextWidgets IconThemes
+                 OPTIONAL_COMPONENTS DocTools FileMetaData Crash)
 
 if (KF5FileMetaData_FOUND)
   message(STATUS "Found KF5 FileMetadata to extract file metadata")
