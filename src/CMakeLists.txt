@@ -277,7 +277,6 @@ target_link_libraries(kdenlive
     KF5::Notifications
     KF5::TextWidgets
     KF5::IconThemes
-    KF5::Crash
     Qt5::Svg
     ${OPENGL_LIBRARIES}
     ${OPENGLES_LIBRARIES}
@@ -293,6 +292,11 @@ message(STATUS "Found MLT++: ${MLTPP_LIBRARIES}")
 if (KF5_FILEMETADATA)
     add_definitions(-DKF5_USE_FILEMETADATA)
     target_link_libraries(kdenlive KF5::FileMetaData)
+endif()
+
+if (KF5Crash_FOUND)
+    add_definitions(-DKF5_USE_CRASH)
+    target_link_libraries(kdenlive KF5::Crash)
 endif()
 
 qt5_use_modules( kdenlive Script Widgets Concurrent Qml Quick)
