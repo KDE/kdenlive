@@ -254,7 +254,7 @@ Rectangle {
             scrollTimer.running = false
         }
     }
-    Menu {
+    OLD.Menu {
         id: menu
         property int clickedX
         property int clickedY
@@ -520,7 +520,7 @@ Rectangle {
                     menu.clickedX = mouse.x
                     menu.clickedY = mouse.y
                     timeline.activeTrack = tracksRepeater.itemAt(Logic.getTrackIndexFromPos(mouse.y - ruler.height)).trackId
-                    menu.popup() 
+                    menu.popup()
                 }
             }
             property bool scim: false
@@ -573,15 +573,21 @@ Rectangle {
             onReleased: {
                 if (rubberSelect.visible) {
                     rubberSelect.visible = false
-                    var topTrack = Logic.getTrackIndexFromPos(rubberSelect.y - ruler.height)
+                    var topTrack = Logic.getTrackIndexFromPos(Math.max(0, rubberSelect.y - ruler.height))
                     var bottomTrack = Logic.getTrackIndexFromPos(rubberSelect.y - ruler.height + rubberSelect.height)
-                    var t = []
-                    for (var i = topTrack; i <= bottomTrack; i++) {
-                        t.push(tracksRepeater.itemAt(i).trackId)
+                    if (bottomTrack >= topTrack) {
+                        var t = []
+                        for (var i = topTrack; i <= bottomTrack; i++) {
+                            t.push(tracksRepeater.itemAt(i).trackId)
+                        }
+                        var startFrame = (scrollView.flickableItem.contentX - tracksArea.x + rubberSelect.x) / timeline.scaleFactor
+                        var endFrame = (scrollView.flickableItem.contentX - tracksArea.x + rubberSelect.x + rubberSelect.width) / timeline.scaleFactor
+                        timeline.selectItems(t, startFrame, endFrame);
                     }
-                    var startFrame = (scrollView.flickableItem.contentX - tracksArea.x + rubberSelect.x) / timeline.scaleFactor
-                    var endFrame = (scrollView.flickableItem.contentX - tracksArea.x + rubberSelect.x + rubberSelect.width) / timeline.scaleFactor
-                    timeline.selectItems(t, startFrame, endFrame);
+                } else if (mouse.modifiers & Qt.ShiftModifier) {
+                    // Shift click, process seek
+                    timeline.seekPosition = (scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor
+                    timeline.position = timeline.seekPosition
                 }
                 if (spacerGroup > -1) {
                     var frame = controller.getClipPosition(spacerGroup)
@@ -916,10 +922,13 @@ Rectangle {
                 var frame = Math.max(0, Math.round(clip.x / timeScale))
                 if (activeTrack >= 0  && activeTrack < tracksRepeater.count) {
                     var track = tracksRepeater.itemAt(activeTrack)
-                    console.log('Dragging clip to track: ', activeTrack, ' - ', y)
+                    console.log('Dragging clip ',clip.clipId,' to track: ', activeTrack, ' - ', y)
                     if (controller.requestClipMove(clip.clipId, track.trackId, frame, false, false, false)) {
                         timeline.activeTrack = track.trackId
-                        clip.reparent(track)
+                        //clip.reparent(track)
+                        var originalY = Logic.getTrackById(clip.originalTrackId).y
+                        clip.y = track.y - originalY
+                        clip.trackId = track.trackId
                     } else {
                         if (track.trackId != clip.trackId) {
                             // check if we can move on existing track

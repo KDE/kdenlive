@@ -256,7 +256,7 @@ Fun TrackModel::requestClipDeletion_lambda(int clipId, bool updateView, bool fin
         if (prod != nullptr) {
             if (finalMove && !audioOnly) {
                 if (auto ptr = m_parent.lock()) {
-                    qDebug() << "/// INVALIDATE CLIP ON DELETE!!!!!!";
+                    //qDebug() << "/// INVALIDATE CLIP ON DELETE!!!!!!";
                     ptr->invalidateClip(clipId);
                 }
             }

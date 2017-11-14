@@ -256,10 +256,18 @@ Column{
                 var toTrack = clip.trackId
                 var cIndex = clip.clipId
                 var frame = Math.round(clip.x / timeScale)
-                var origFrame = Math.round(clip.originalX / timeScale)
-                console.log("Asking move ",toTrack, cIndex, frame)
+                var origFrame = clip.modelStart //Math.round(clip.originalX / timeScale + 0.5)
+                console.log("Asking move ",toTrack, cIndex, frame,  '>', origFrame, '(', clip.originalX, ') ',' > ', clip.modelStart)
                 controller.requestClipMove(cIndex, clip.originalTrackId, origFrame, false, false, false)
-                var val = controller.requestClipMove(cIndex, toTrack, frame, true, true, true)
+                controller.requestClipMove(cIndex, toTrack, frame, true, true, true)
+            }
+            onDropped: { //called when the movement is finished
+                var toTrack = clip.trackId
+                var cIndex = clip.clipId
+                var frame = Math.round(clip.x / timeScale)
+                var origFrame = clip.modelStart
+                controller.requestClipMove(cIndex, toTrack, origFrame, false, false, false)
+                controller.requestClipMove(cIndex, toTrack, frame, true, true, true)
             }
             onDragged: { //called when the move is in process
                 var toTrack = clip.trackId
@@ -320,7 +328,7 @@ Column{
                 moved.connect(trackRoot.clipDropped)
                 dropped.connect(trackRoot.clipDropped)
                 draggedToTrack.connect(trackRoot.clipDraggedToTrack)
-                console.log('Showing CLIP item ', model.clipId, 'name', model.name, ' service: ',mltService)
+                //console.log('Showing CLIP item ', model.clipId, 'name', model.name, ' service: ',mltService)
             }
         }
     }

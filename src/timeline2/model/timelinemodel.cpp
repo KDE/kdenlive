@@ -292,8 +292,10 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
             return false;
         }
     }
-    ok = getTrackById(trackId)->requestClipInsertion(clipId, position, updateView, invalidateTimeline, local_undo, local_redo);
+    ok = getTrackById(trackId)->requestClipInsertion(clipId, position, updateView, invalidateTimeline,
+ local_undo, local_redo);
     if (!ok) {
+        //qDebug()<<"-------------\n\nINSERTION FAILED, REVERTING\n\n-------------------";
         bool undone = local_undo();
         Q_ASSERT(undone);
         return false;
@@ -362,7 +364,7 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int sn
         }
 
         int snapped = requestBestSnapPos(position, m_allClips[clipId]->getPlaytime(), ignored_pts, snapDistance);
-        qDebug() << "Starting suggestion " << clipId << position << currentPos << "snapped to " << snapped;
+        //qDebug() << "Starting suggestion " << clipId << position << currentPos << "snapped to " << snapped;
         if (snapped >= 0) {
             position = snapped;
         }
@@ -1051,7 +1053,7 @@ Fun TimelineModel::deregisterTrack_lambda(int id, bool updateView)
 Fun TimelineModel::deregisterClip_lambda(int clipId)
 {
     return [this, clipId]() {
-        qDebug() << " // /REQUEST TL CLP DELETION: " << clipId << "\n--------\nCLIPS COUNT: " << m_allClips.size();
+        //qDebug() << " // /REQUEST TL CLP DELETION: " << clipId << "\n--------\nCLIPS COUNT: " << m_allClips.size();
         clearAssetView(clipId);
         Q_ASSERT(m_allClips.count(clipId) > 0);
         Q_ASSERT(getClipTrackId(clipId) == -1); // clip must be deleted from its track at this point

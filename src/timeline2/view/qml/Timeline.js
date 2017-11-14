@@ -69,6 +69,16 @@ function getTrackIndexFromId(id) {
     return i
 }
 
+function getTrackById(id) {
+    var i = 0;
+    for (; i < trackHeaderRepeater.count; i++) {
+        if (trackHeaderRepeater.itemAt(i).trackId == id) {
+            return tracksRepeater.itemAt(i);
+        }
+    }
+    return 0
+}
+
 function getTrackYFromMltIndex(id) {
     if (id <= 0) {
         return 0

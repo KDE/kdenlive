@@ -18,10 +18,12 @@
 
 import QtQuick 2.6
 import QtQuick.Controls 2.2
+import QtQuick.Controls 1.4 as OLD
 import Kdenlive.Controls 1.0
 import QtGraphicalEffects 1.0
 import QtQml.Models 2.2
 import QtQuick.Window 2.2
+import 'Timeline.js' as Logic
 
 Rectangle {
     id: clipRoot
@@ -73,7 +75,7 @@ Rectangle {
     signal trimmedOut(var clip)
 
     ToolTip {
-        visible: mouseArea.containsMouse
+        visible: mouseArea.containsMouse && !mouseArea.pressed
         font.pixelSize: root.baseUnit
         delay: 1000
         timeout: 5000
@@ -89,7 +91,9 @@ Rectangle {
 
     onKeyframeModelChanged: {
         console.log('keyframe model changed............')
-        effectRow.keyframecanvas.requestPaint()
+        if (effectRow.keyframecanvas) {
+            effectRow.keyframecanvas.requestPaint()
+        }
     }
 
     onClipDurationChanged: {
@@ -226,26 +230,27 @@ Rectangle {
         }
         onReleased: {
             root.stopScrolling = false
-            parent.y = 0
             var delta = parent.x - startX
             var moved = false
             drag.target = undefined
             cursorShape = Qt.OpenHandCursor
-            if (Math.abs(delta) >= 1.0 || trackId !== originalTrackId) {
+            if (trackId !== originalTrackId) {
                 moved = true
+                var track = Logic.getTrackById(trackId)
                 parent.moved(clipRoot)
+                reparent(track)
                 originalX = parent.x
+                clipRoot.y = 0
                 originalTrackId = trackId
-            } else {
-                if (Math.abs(delta) >= 1.0) {
-                    parent.dropped(clipRoot)
-                    moved = true;
-                }
+            } else if (Math.abs(delta) >= 1.0) {
+                parent.dropped(clipRoot)
+                moved = true;
+                originalX = parent.x
             }
         }
         onClicked: {
             if (mouse.button == Qt.RightButton) {
-                menu.show()
+                menu.popup()
             }
         }
         onDoubleClicked: {
@@ -698,13 +703,13 @@ Rectangle {
             onExited: parent.opacity = 0
         }
     }
-    Menu {
+    OLD.Menu {
         id: menu
         function show() {
             //mergeItem.visible = timeline.mergeClipWithNext(trackIndex, index, true)
-            popup()
+            menu.popup()
         }
-        MenuItem {
+        OLD.MenuItem {
             visible: true
             text: i18n('Cut')
             onTriggered: {
@@ -716,79 +721,82 @@ Rectangle {
                 }
             }
         }
-        MenuItem {
+        OLD.MenuItem {
             visible: !grouped && parentTrack.selection.length > 1
             text: i18n('Group')
             onTriggered: timeline.triggerAction('group_clip')
         }
-        MenuItem {
+        OLD.MenuItem {
             visible: grouped
             text: i18n('Ungroup')
             onTriggered: timeline.unGroupSelection(clipId)
         }
 
-        MenuItem {
+        OLD.MenuItem {
             visible: true
             text: i18n('Copy')
             onTriggered: root.copiedClip = clipRoot.clipId
         }
-        MenuSeparator {
+        OLD.MenuSeparator {
             visible: true
         }
-        MenuItem {
+        OLD.MenuItem {
             text: i18n('Split Audio')
             onTriggered: timeline.splitAudio(clipRoot.clipId)
             visible: clipStatus == 0
         }
-        MenuItem {
+        OLD.MenuItem {
             text: i18n('Remove')
             onTriggered: timeline.triggerAction('delete_timeline_clip')
         }
-        MenuItem {
+        OLD.MenuItem {
             visible: true 
             text: i18n('Extract')
             onTriggered: timeline.extract(clipRoot.clipId)
         }
-        MenuSeparator {
+        OLD.MenuSeparator {
             visible: true
         }
-        MenuItem {
+        OLD.MenuItem {
             text: i18n('Clip in Project Bin')
             onTriggered: timeline.triggerAction('clip_in_project_tree')
         }
-        MenuItem {
+        OLD.MenuItem {
             visible: true
             text: i18n('Split At Playhead')
             onTriggered: timeline.triggerAction('cut_timeline_clip')
         }
-        Menu {
+        OLD.Menu {
             title: i18n('Clip Type...')
-            MenuItem {
+            OLD.ExclusiveGroup {
+                id: radioInputGroup
+            }
+            OLD.MenuItem {
                 text: i18n('Original')
                 checkable: true
                 checked: clipStatus == 0
-                autoExclusive: true
+                exclusiveGroup: radioInputGroup
                 onTriggered: timeline.setClipStatus(clipRoot.clipId, 0)
             }
-            MenuItem {
+            OLD.MenuItem {
                 text: i18n('Video Only')
                 checkable: true
                 checked: clipStatus == 1
-                autoExclusive: true
+                exclusiveGroup: radioInputGroup
                 onTriggered: timeline.setClipStatus(clipRoot.clipId, 1)
             }
-            MenuItem {
+            OLD.MenuItem {
                 text: i18n('Audio Only')
                 checkable: true
                 checked: clipStatus == 2
-                autoExclusive: true
+                exclusiveGroup: radioInputGroup
                 onTriggered: timeline.setClipStatus(clipRoot.clipId, 2)
             }
-            MenuItem {
+            OLD.MenuItem {
                 text: i18n('Disabled')
                 checkable: true
                 checked: clipStatus == 3
-                autoExclusive: true
+                exclusiveGroup: radioInputGroup
                 onTriggered: timeline.setClipStatus(clipRoot.clipId, 3)
             }
         }
