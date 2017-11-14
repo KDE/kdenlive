@@ -138,7 +138,6 @@ ProjectClip::~ProjectClip()
     m_requestedThumbs.clear();
     m_thumbMutex.unlock();
     m_thumbThread.waitForFinished();
-    delete m_thumbsProducer;
     audioFrameCache.clear();
     // delete all timeline producers
     std::map<int, std::shared_ptr<Mlt::Producer>>::iterator itr = m_timelineProducers.begin();
@@ -366,7 +365,7 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
     return true;
 }
 
-Mlt::Producer *ProjectClip::thumbProducer()
+std::shared_ptr<Mlt::Producer> ProjectClip::thumbProducer()
 {
     QMutexLocker locker(&m_producerMutex);
     if (m_thumbsProducer) {
@@ -381,13 +380,13 @@ Mlt::Producer *ProjectClip::thumbProducer()
     }
     Clip clip(*prod.get());
     if (KdenliveSettings::gpu_accel()) {
-        m_thumbsProducer = clip.softClone(ClipController::getPassPropertiesList());
+        m_thumbsProducer = std::make_shared<Mlt::Producer>(clip.softClone(ClipController::getPassPropertiesList()));
         Mlt::Filter scaler(*prod->profile(), "swscale");
         Mlt::Filter converter(*prod->profile(), "avcolor_space");
         m_thumbsProducer->attach(scaler);
         m_thumbsProducer->attach(converter);
     } else {
-        m_thumbsProducer = clip.clone();
+        m_thumbsProducer = std::make_shared<Mlt::Producer>(clip.clone());
     }
     return m_thumbsProducer;
 }
@@ -732,7 +731,7 @@ void ProjectClip::slotExtractImage(const QList<int> &frames)
 void ProjectClip::doExtractImage()
 {
     // TODO refac: we can probably move that into a ThumbJob
-    Mlt::Producer *prod = thumbProducer();
+    std::shared_ptr<Mlt::Producer> prod = thumbProducer();
     if (prod == nullptr || !prod->is_valid()) {
         return;
     }

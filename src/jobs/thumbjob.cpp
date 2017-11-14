@@ -72,7 +72,7 @@ bool ThumbJob::startJob()
         // Don't create thumbnail for audio clips
         return true;
     }
-    m_prod = m_binClip->originalProducer();
+    m_prod = m_binClip->thumbProducer();
     if ((m_prod == nullptr) || !m_prod->is_valid()) {
         return false;
     }
