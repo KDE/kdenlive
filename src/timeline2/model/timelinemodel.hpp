@@ -33,7 +33,7 @@
 #include <unordered_set>
 #include <vector>
 
-#define LOGGING 1 // If set to 1, we log the actions requested to the timeline as a reproducer script
+//#define LOGGING 1 // If set to 1, we log the actions requested to the timeline as a reproducer script
 #ifdef LOGGING
 #include <fstream>
 #endif
