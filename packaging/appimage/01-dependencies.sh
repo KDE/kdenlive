@@ -41,7 +41,7 @@ fi
 
 if [[ ! -f /etc/yum.repos.d/epel.repo ]] ; then
 
-    yum install epel-release
+    yum -y install epel-release
 
     # we need to be up to date in order to install the xcb-keysyms dependency
     yum -y update
@@ -109,7 +109,8 @@ yum -y install wget \
                openal-soft-devel \
                pixman-devel \
                alsa-lib-devel \
-               sox-devel
+               sox-devel \
+               polkit-devel
 
 
 
