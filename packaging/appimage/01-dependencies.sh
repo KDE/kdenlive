@@ -107,7 +107,10 @@ yum -y install wget \
                openssl-devel \
                cups-devel \
                openal-soft-devel \
-               pixman-devel
+               pixman-devel \
+               alsa-lib-devel \
+               sox-devel
+
 
 
 # Newer compiler than what comes with offcial CentOS 6 (only 64 bits)
@@ -141,7 +144,7 @@ cd  /app/usr
 rm -Rf lib64
 ln -s lib lib64
 
-QTVERSION=5.9.1
+QTVERSION=5.9.2
 QVERSION_SHORT=5.9
 QTDIR=/usr/local/Qt-${QTVERSION}/
 
@@ -348,7 +351,7 @@ function build_framework
             git pull --rebase
         else
             git fetch --tags
-            git checkout v5.38.0
+            git checkout v5.40.0
         fi
         #git checkout master
         #git reset --hard
@@ -363,7 +366,7 @@ function build_framework
             git pull --rebase
         else
             git fetch --tags
-            git checkout v5.38.0
+            git checkout v5.40.0
         fi
         cd ..
     fi
