@@ -603,10 +603,12 @@ void TimelineController::selectItems(QVariantList arg, int startFrame, int endFr
         std::unordered_set<int> trackClips = m_model->getTrackById(arg.at(i).toInt())->getClipsAfterPosition(startFrame, endFrame);
         clipsToSelect.insert(trackClips.begin(), trackClips.end());
     }
-    for (int x : clipsToSelect) {
-        m_selection.selectedClips << x;
+    if (clipsToSelect.size() > 0) {
+        for (int x : clipsToSelect) {
+            m_selection.selectedClips << x;
+        }
+        m_model->requestClipsGroup(clipsToSelect, true, GroupType::Selection);
     }
-    m_model->requestClipsGroup(clipsToSelect, true, GroupType::Selection);
     emit selectionChanged();
 }
 
