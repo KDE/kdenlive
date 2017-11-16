@@ -411,6 +411,10 @@ void TimelineController::gotoPreviousSnap()
 
 void TimelineController::groupSelection()
 {
+    if (m_selection.selectedClips.size() < 2) {
+        pCore->displayMessage(i18n("Select at least 2 items to group"), InformationMessage, 500);
+        return;
+    }
     std::unordered_set<int> clips;
     for (int id : m_selection.selectedClips) {
         clips.insert(id);
@@ -421,6 +425,7 @@ void TimelineController::groupSelection()
 void TimelineController::unGroupSelection(int cid)
 {
     if (cid == -1 && m_selection.selectedClips.isEmpty()) {
+        pCore->displayMessage(i18n("Select at least 1 item to ungroup"), InformationMessage, 500);
         return;
     }
     if (cid == -1) {
