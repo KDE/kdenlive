@@ -46,10 +46,12 @@ std::vector<int> JobManager::getPendingJobsIds(const QString &id, AbstractClipJo
 {
     READ_LOCK();
     std::vector<int> result;
-    for (int jobId : m_jobsByClip.at(id)) {
-        if (!m_jobs.at(jobId)->m_future.isFinished() && !m_jobs.at(jobId)->m_future.isCanceled()) {
-            if (type == AbstractClipJob::NOJOBTYPE || m_jobs.at(jobId)->m_type == type) {
-                result.push_back(jobId);
+    if (m_jobsByClip.count(id) > 0) {
+        for (int jobId : m_jobsByClip.at(id)) {
+            if (!m_jobs.at(jobId)->m_future.isFinished() && !m_jobs.at(jobId)->m_future.isCanceled()) {
+                if (type == AbstractClipJob::NOJOBTYPE || m_jobs.at(jobId)->m_type == type) {
+                    result.push_back(jobId);
+                }
             }
         }
     }
@@ -60,10 +62,12 @@ std::vector<int> JobManager::getFinishedJobsIds(const QString &id, AbstractClipJ
 {
     READ_LOCK();
     std::vector<int> result;
-    for (int jobId : m_jobsByClip.at(id)) {
-        if (m_jobs.at(jobId)->m_future.isFinished() || m_jobs.at(jobId)->m_future.isCanceled()) {
-            if (type == AbstractClipJob::NOJOBTYPE || m_jobs.at(jobId)->m_type == type) {
-                result.push_back(jobId);
+    if (m_jobsByClip.count(id) > 0) {
+        for (int jobId : m_jobsByClip.at(id)) {
+            if (m_jobs.at(jobId)->m_future.isFinished() || m_jobs.at(jobId)->m_future.isCanceled()) {
+                if (type == AbstractClipJob::NOJOBTYPE || m_jobs.at(jobId)->m_type == type) {
+                    result.push_back(jobId);
+                }
             }
         }
     }
@@ -86,17 +90,19 @@ void JobManager::discardJobs(const QString &binId, AbstractClipJob::JOBTYPE type
 bool JobManager::hasPendingJob(const QString &clipId, AbstractClipJob::JOBTYPE type, int *foundId)
 {
     READ_LOCK();
-    for (int jobId : m_jobsByClip.at(clipId)) {
-        if ((type == AbstractClipJob::NOJOBTYPE || m_jobs.at(jobId)->m_type == type) && !m_jobs.at(jobId)->m_future.isFinished() &&
-            !m_jobs.at(jobId)->m_future.isCanceled()) {
-            if (foundId) {
-                *foundId = jobId;
+    if (m_jobsByClip.count(clipId) > 0) {
+        for (int jobId : m_jobsByClip.at(clipId)) {
+            if ((type == AbstractClipJob::NOJOBTYPE || m_jobs.at(jobId)->m_type == type) && !m_jobs.at(jobId)->m_future.isFinished() &&
+                !m_jobs.at(jobId)->m_future.isCanceled()) {
+                if (foundId) {
+                    *foundId = jobId;
+                }
+                return true;
             }
-            return true;
         }
-    }
-    if (foundId) {
-        *foundId = -1;
+        if (foundId) {
+            *foundId = -1;
+        }
     }
     return false;
 }
@@ -155,9 +161,11 @@ void JobManager::prepareJobs(const QList<ProjectClip *> &clips, double fps, Abst
 void JobManager::slotDiscardClipJobs(const QString &binId)
 {
     QWriteLocker locker(&m_lock);
-    for (int jobId : m_jobsByClip.at(binId)) {
-        Q_ASSERT(m_jobs.count(jobId) > 0);
-        m_jobs[jobId]->m_future.cancel();
+    if (m_jobsByClip.count(binId) > 0) {
+        for (int jobId : m_jobsByClip.at(binId)) {
+            Q_ASSERT(m_jobs.count(jobId) > 0);
+            m_jobs[jobId]->m_future.cancel();
+        }
     }
 }
 
@@ -181,7 +189,7 @@ void JobManager::slotCancelJobs()
 
 void JobManager::createJob(std::shared_ptr<Job_t> job, const std::vector<int> &parents)
 {
-    qDebug() << "################### Createq JOB"<<job->m_id;
+    qDebug() << "################### Createq JOB" << job->m_id;
     bool ok = false;
     // wait for parents to finish
     while (!ok) {
@@ -198,7 +206,7 @@ void JobManager::createJob(std::shared_ptr<Job_t> job, const std::vector<int> &p
             QThread::sleep(1);
         }
     }
-    qDebug() << "################### Create JOB STARTING"<<job->m_id;
+    qDebug() << "################### Create JOB STARTING" << job->m_id;
     // connect progress signals
     for (const auto &it : job->m_indices) {
         size_t i = it.second;
@@ -241,7 +249,7 @@ void JobManager::slotManageCanceledJob(int id)
 }
 void JobManager::slotManageFinishedJob(int id)
 {
-    qDebug() << "################### JOB finished"<<id;
+    qDebug() << "################### JOB finished" << id;
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_jobs.count(id) > 0);
     if (m_jobs[id]->m_processed) return;
