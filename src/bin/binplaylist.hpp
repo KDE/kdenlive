@@ -36,6 +36,7 @@ class AbstractProjectItem;
 namespace Mlt {
 class Playlist;
 class Producer;
+class Tractor;
 }
 
 class BinPlaylist : public QObject
@@ -55,6 +56,13 @@ public:
     */
     void manageBinItemInsertion(const std::shared_ptr<AbstractProjectItem> &binElem);
 
+    /* @brief Make sure bin playlist is saved in given tractor.
+       This has a side effect on the tractor
+    */
+    void setRetainIn(Mlt::Tractor *modelTractor);
+
+    // id of the mlt object
+    static QString binPlaylistId;
 protected:
     /* @brief This is an helper function that removes a clip from the playlist given its id
      */

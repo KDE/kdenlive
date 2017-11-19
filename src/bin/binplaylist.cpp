@@ -26,9 +26,11 @@
 #include "projectclip.h"
 #include <mlt++/Mlt.h>
 
+QString BinPlaylist::binPlaylistId = "main bin";
 BinPlaylist::BinPlaylist()
     : m_binPlaylist(new Mlt::Playlist(pCore->getCurrentProfile()->profile()))
 {
+    m_binPlaylist->set("id", binPlaylistId.toUtf8().constData());
 }
 
 void BinPlaylist::manageBinItemInsertion(const std::shared_ptr<AbstractProjectItem> &binElem)
@@ -107,4 +109,10 @@ void BinPlaylist::changeProducer(const QString &id, const std::shared_ptr<Mlt::P
     Q_ASSERT(m_allClips.count(id) > 0);
     removeBinClip(id);
     m_binPlaylist->append(*producer.get());
+}
+
+void BinPlaylist::setRetainIn(Mlt::Tractor* modelTractor)
+{
+    QString retain = QStringLiteral("xml_retain %1").arg(binPlaylistId);
+    modelTractor->set(retain.toUtf8().constData(), m_binPlaylist->get_service(), 0);
 }

@@ -32,6 +32,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "kdenlivesettings.h"
 #include "macros.hpp"
 #include "profiles/profilemodel.hpp"
+#include "project/projectmanager.h"
 #include "projectclip.h"
 #include "projectfolder.h"
 #include "projectsubclip.h"
@@ -183,7 +184,7 @@ bool ProjectItemModel::dropMimeData(const QMimeData *data, Qt::DropAction action
                 // error, malformed clip zone, abort
                 return false;
             }
-        } else  {
+        } else {
             emit itemDropped(ids, parent);
         }
         return true;
@@ -730,4 +731,70 @@ bool ProjectItemModel::isIdFree(const QString &id) const
         }
     }
     return true;
+}
+
+void ProjectItemModel::loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tractor *modelTractor)
+{
+    clean();
+    Mlt::Properties retainList((mlt_properties)documentTractor->get_data("xml_retain"));
+    qDebug() << "Loading bin playlist...";
+    if (retainList.is_valid() && (retainList.get_data(BinPlaylist::binPlaylistId.toUtf8().constData()) != nullptr)) {
+        Mlt::Playlist playlist((mlt_playlist)retainList.get_data(BinPlaylist::binPlaylistId.toUtf8().constData()));
+        qDebug() << "retain is valid";
+        if (playlist.is_valid() && playlist.type() == playlist_type) {
+            qDebug() << "playlist is valid";
+
+            // Load bin clips
+            qDebug() << "init bin";
+            // Load folders
+            Mlt::Properties folderProperties;
+            Mlt::Properties playlistProps(playlist.get_properties());
+            folderProperties.pass_values(playlistProps, "kdenlive:folder.");
+            loadFolders(folderProperties);
+
+            // Read notes
+            QString notes = playlistProps.get("kdenlive:documentnotes");
+            pCore->projectManager()->setDocumentNotes(notes);
+
+            Fun undo = []() { return true; };
+            Fun redo = []() { return true; };
+            qDebug() << "Found " << playlist.count() << "clips";
+            int max = playlist.count();
+            for (int i = 0; i < max; i++) {
+                QScopedPointer<Mlt::Producer> prod(playlist.get_clip(i));
+                std::shared_ptr<Mlt::Producer> producer(new Mlt::Producer(prod->parent()));
+                qDebug() << "dealing with bin clip" << i;
+                if (producer->is_blank() || !producer->is_valid()) {
+                    qDebug() << "producer is not valid or blank";
+                    continue;
+                }
+                QString id = qstrdup(producer->get("kdenlive:id"));
+                QString parentId = qstrdup(producer->get("kdenlive:folderid"));
+                qDebug() << "clip id" << id;
+                if (id.contains(QLatin1Char('_'))) {
+                    // TODO refac ?
+                    /*
+                    // This is a track producer
+                    QString mainId = id.section(QLatin1Char('_'), 0, 0);
+                    // QString track = id.section(QStringLiteral("_"), 1, 1);
+                    if (m_clipList.contains(mainId)) {
+                        // The controller for this track producer already exists
+                    } else {
+                        // Create empty controller for this clip
+                        requestClipInfo info;
+                        info.imageHeight = 0;
+                        info.clipId = id;
+                        info.replaceProducer = true;
+                        emit slotProducerReady(info, ClipController::mediaUnavailable);
+                    }
+                    */
+                } else {
+
+                    // TODO we need a fallback in case the id is for some reason unavailable
+                    requestAddBinClip(id, producer, parentId, undo, redo);
+                }
+            }
+            m_binPlaylist->setRetainIn(modelTractor);
+        }
+    }
 }

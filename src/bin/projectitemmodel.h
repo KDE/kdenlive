@@ -92,6 +92,9 @@ public:
     /* @brief Load the folders given the property containing them */
     bool loadFolders(Mlt::Properties &folders);
 
+    /* @brief Parse a bin playlist from the document tractor and reconstruct the tree */
+    void loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tractor *modelTractor);
+
     /** @brief Returns item data depending on role requested */
     QVariant data(const QModelIndex &index, int role) const override;
     /** @brief Called when user edits an item */
