@@ -549,6 +549,10 @@ bool ProjectItemModel::requestAddBinClip(QString &id, std::shared_ptr<Mlt::Produ
     Q_ASSERT(!id.isEmpty() && isIdFree(id));
     std::shared_ptr<ProjectClip> new_clip = ProjectClip::construct(id, m_blankThumb, std::static_pointer_cast<ProjectItemModel>(shared_from_this()), producer);
     bool res = addItem(new_clip, parentId, undo, redo);
+    if (res) {
+        pCore->jobManager()->startJob<ThumbJob>({id}, {}, QString(), 150, -1, true);
+        pCore->jobManager()->startJob<AudioThumbJob>({id}, {}, QString());
+    }
     return res;
 }
 
