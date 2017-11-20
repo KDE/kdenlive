@@ -452,12 +452,16 @@ void ProjectItemModel::deregisterItem(int id, TreeItem *item)
 
 int ProjectItemModel::getFreeFolderId()
 {
-    return m_nextId++;
+    while (!isIdFree(QString::number(++m_nextId))) {
+    };
+    return m_nextId;
 }
 
 int ProjectItemModel::getFreeClipId()
 {
-    return m_nextId++;
+    while (!isIdFree(QString::number(++m_nextId))) {
+    };
+    return m_nextId;
 }
 
 bool ProjectItemModel::addItem(std::shared_ptr<AbstractProjectItem> item, const QString &parentId, Fun &undo, Fun &redo)
@@ -693,6 +697,9 @@ bool ProjectItemModel::loadFolders(Mlt::Properties &folders)
 
     // In case there are some non-existant parent, we fall back to root
     for (const auto &f : downLinks) {
+        if (upLinks.count(f.first) == 0) {
+            upLinks[f.first] = -1;
+        }
         if (f.first != QStringLiteral("-1") && downLinks.count(upLinks[f.first]) == 0) {
             qDebug() << "Warning: parent folder " << upLinks[f.first] << "for folder" << f.first << "is invalid. Folder will be placed in topmost directory.";
             upLinks[f.first] = -1;
@@ -738,7 +745,7 @@ bool ProjectItemModel::isIdFree(const QString &id) const
     return true;
 }
 
-void ProjectItemModel::loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tractor *modelTractor)
+void ProjectItemModel::loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tractor *modelTractor, std::unordered_map<QString, QString> &binIdCorresp)
 {
     clean();
     Mlt::Properties retainList((mlt_properties)documentTractor->get_data("xml_retain"));
@@ -794,9 +801,10 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tract
                     }
                     */
                 } else {
-
-                    // TODO we need a fallback in case the id is for some reason unavailable
-                    requestAddBinClip(id, producer, parentId, undo, redo);
+                    QString newId = isIdFree(id) ? id : QString::number(getFreeClipId());
+                    requestAddBinClip(newId, producer, parentId, undo, redo);
+                    binIdCorresp[id] = newId;
+                    qDebug() << "Loaded clip "<< id <<"under id"<<newId;
                 }
             }
             m_binPlaylist->setRetainIn(modelTractor);
