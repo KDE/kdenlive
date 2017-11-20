@@ -10,6 +10,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include "projectmanager.h"
 #include "bin/bin.h"
+#include "bin/projectitemmodel.h"
 #include "core.h"
 #include "doc/kdenlivedoc.h"
 #include "jobs/jobmanager.h"
@@ -740,10 +741,10 @@ QString ProjectManager::documentNotes() const
 
 void ProjectManager::prepareSave()
 {
-    pCore->binController()->saveDocumentProperties(pCore->window()->getMainTimeline()->controller()->documentProperties(), m_project->metadata(),
+    pCore->projectItemModel()->saveDocumentProperties(pCore->window()->getMainTimeline()->controller()->documentProperties(), m_project->metadata(),
                                                    m_project->getGuideModel());
-    pCore->binController()->saveProperty(QStringLiteral("kdenlive:documentnotes"), documentNotes());
-    pCore->binController()->saveProperty(QStringLiteral("kdenlive:docproperties.groups"), m_mainTimelineModel->groupsData());
+    pCore->projectItemModel()->saveProperty(QStringLiteral("kdenlive:documentnotes"), documentNotes());
+    pCore->projectItemModel()->saveProperty(QStringLiteral("kdenlive:docproperties.groups"), m_mainTimelineModel->groupsData());
 }
 
 void ProjectManager::slotResetProfiles()

@@ -95,6 +95,12 @@ public:
     /* @brief Parse a bin playlist from the document tractor and reconstruct the tree */
     void loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tractor *modelTractor);
 
+    /** @brief Save document properties in MLT's bin playlist */
+    void saveDocumentProperties(const QMap<QString, QString> &props, const QMap<QString, QString> &metadata, std::shared_ptr<MarkerListModel> guideModel);
+
+    /** @brief Save a property to main bin */
+    void saveProperty(const QString &name, const QString &value);
+
     /** @brief Returns item data depending on role requested */
     QVariant data(const QModelIndex &index, int role) const override;
     /** @brief Called when user edits an item */

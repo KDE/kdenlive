@@ -688,11 +688,12 @@ bool ProjectItemModel::loadFolders(Mlt::Properties &folders)
         downLinks[parentId].push_back(folderId);
         upLinks[folderId] = parentId;
         folderNames[folderId] = folderName;
+        qDebug() << "Found folder " << folderId << "name = " << folderName << "parent=" << parentId;
     }
 
     // In case there are some non-existant parent, we fall back to root
     for (const auto &f : downLinks) {
-        if (downLinks.count(upLinks[f.first]) == 0) {
+        if (f.first != QStringLiteral("-1") && downLinks.count(upLinks[f.first]) == 0) {
             qDebug() << "Warning: parent folder " << upLinks[f.first] << "for folder" << f.first << "is invalid. Folder will be placed in topmost directory.";
             upLinks[f.first] = -1;
         }
@@ -801,4 +802,16 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tract
             m_binPlaylist->setRetainIn(modelTractor);
         }
     }
+}
+
+/** @brief Save document properties in MLT's bin playlist */
+void ProjectItemModel::saveDocumentProperties(const QMap<QString, QString> &props, const QMap<QString, QString> &metadata,
+                                              std::shared_ptr<MarkerListModel> guideModel)
+{
+    m_binPlaylist->saveDocumentProperties(props, metadata, guideModel);
+}
+
+void ProjectItemModel::saveProperty(const QString &name, const QString &value)
+{
+    m_binPlaylist->saveProperty(name, value);
 }

@@ -21,6 +21,7 @@
 
 #include "binplaylist.hpp"
 #include "abstractprojectitem.h"
+#include "bin/model/markerlistmodel.hpp"
 #include "core.h"
 #include "profiles/profilemodel.hpp"
 #include "projectclip.h"
@@ -111,8 +112,46 @@ void BinPlaylist::changeProducer(const QString &id, const std::shared_ptr<Mlt::P
     m_binPlaylist->append(*producer.get());
 }
 
-void BinPlaylist::setRetainIn(Mlt::Tractor* modelTractor)
+void BinPlaylist::setRetainIn(Mlt::Tractor *modelTractor)
 {
     QString retain = QStringLiteral("xml_retain %1").arg(binPlaylistId);
     modelTractor->set(retain.toUtf8().constData(), m_binPlaylist->get_service(), 0);
+}
+
+void BinPlaylist::saveDocumentProperties(const QMap<QString, QString> &props, const QMap<QString, QString> &metadata,
+                                         std::shared_ptr<MarkerListModel> guideModel)
+{
+    // Clear previous properites
+    Mlt::Properties playlistProps(m_binPlaylist->get_properties());
+    Mlt::Properties docProperties;
+    docProperties.pass_values(playlistProps, "kdenlive:docproperties.");
+    for (int i = 0; i < docProperties.count(); i++) {
+        QString propName = QStringLiteral("kdenlive:docproperties.") + docProperties.get_name(i);
+        playlistProps.set(propName.toUtf8().constData(), (char *)nullptr);
+    }
+
+    // Clear previous metadata
+    Mlt::Properties docMetadata;
+    docMetadata.pass_values(playlistProps, "kdenlive:docmetadata.");
+    for (int i = 0; i < docMetadata.count(); i++) {
+        QString propName = QStringLiteral("kdenlive:docmetadata.") + docMetadata.get_name(i);
+        playlistProps.set(propName.toUtf8().constData(), (char *)nullptr);
+    }
+
+    QMapIterator<QString, QString> i(props);
+    while (i.hasNext()) {
+        i.next();
+        playlistProps.set(("kdenlive:docproperties." + i.key()).toUtf8().constData(), i.value().toUtf8().constData());
+    }
+
+    QMapIterator<QString, QString> j(metadata);
+    while (j.hasNext()) {
+        j.next();
+        playlistProps.set(("kdenlive:docmetadata." + j.key()).toUtf8().constData(), j.value().toUtf8().constData());
+    }
+}
+
+void BinPlaylist::saveProperty(const QString &name, const QString &value)
+{
+    m_binPlaylist->set(name.toUtf8().constData(), value.toUtf8().constData());
 }

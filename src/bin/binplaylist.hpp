@@ -39,6 +39,8 @@ class Producer;
 class Tractor;
 }
 
+class MarkerListModel;
+
 class BinPlaylist : public QObject
 {
 
@@ -60,6 +62,12 @@ public:
        This has a side effect on the tractor
     */
     void setRetainIn(Mlt::Tractor *modelTractor);
+
+    /** @brief Save document properties in MLT's bin playlist */
+    void saveDocumentProperties(const QMap<QString, QString> &props, const QMap<QString, QString> &metadata, std::shared_ptr<MarkerListModel> guideModel);
+
+    /** @brief Save a property to main bin */
+    void saveProperty(const QString &name, const QString &value);
 
     // id of the mlt object
     static QString binPlaylistId;
