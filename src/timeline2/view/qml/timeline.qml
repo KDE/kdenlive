@@ -473,7 +473,7 @@ Rectangle {
             // This provides continuous scrubbing and scimming at the left/right edges.
             hoverEnabled: true
             acceptedButtons: Qt.RightButton | Qt.LeftButton
-            cursorShape: root.activeTool === 0 ? Qt.ArrowCursor : root.activeTool === 1 ? Qt.IBeamCursor : Qt.SplitHCursor
+            cursorShape: tracksArea.mouseY < ruler.height || root.activeTool === 0 ? Qt.ArrowCursor : root.activeTool === 1 ? Qt.IBeamCursor : Qt.SplitHCursor
             onWheel: {
                 timeline.seekPosition = timeline.position + (wheel.angleDelta.y > 0 ? 1 : -1)
                 timeline.position = timeline.seekPosition
@@ -551,7 +551,7 @@ Rectangle {
                         rubberSelect.height= newY - rubberSelect.originY
                     }
                 } else if (mouse.buttons === Qt.LeftButton) {
-                    if (root.activeTool === 0) {
+                    if (root.activeTool === 0 || mouse.y < ruler.height) {
                         timeline.seekPosition = (scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor
                         timeline.position = timeline.seekPosition
                     } else if (root.activeTool === 2 && spacerGroup > -1) {
@@ -781,7 +781,7 @@ Rectangle {
             }
             Rectangle {
                 id: cutLine
-                visible: root.activeTool == 1
+                visible: root.activeTool == 1 && tracksArea.mouseY > ruler.height
                 color: 'red'
                 width: Math.max(1, 1 * timeline.scaleFactor)
                 opacity: (width > 2) ? 0.5 : 1
