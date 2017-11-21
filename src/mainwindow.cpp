@@ -1280,6 +1280,7 @@ void MainWindow::setupActions()
     QAction *dropFrames = new QAction(QIcon(), i18n("Real Time (drop frames)"), this);
     dropFrames->setCheckable(true);
     dropFrames->setChecked(KdenliveSettings::monitor_dropframes());
+    addAction(QStringLiteral("mlt_realtime"), dropFrames);
     connect(dropFrames, &QAction::toggled, this, &MainWindow::slotSwitchDropFrames);
 
     KSelectAction *monitorGamma = new KSelectAction(i18n("Monitor Gamma"), this);

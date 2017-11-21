@@ -19,6 +19,6 @@ set(kdenlive_SRCS
   assets/view/widgets/keyframewidget.cpp
   assets/view/widgets/listparamwidget.cpp
   assets/view/widgets/geometryeditwidget.cpp
-  #assets/view/widgets/positioneditwidget.cpp
+  assets/view/widgets/positioneditwidget.cpp
   PARENT_SCOPE)
 

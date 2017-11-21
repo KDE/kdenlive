@@ -208,8 +208,6 @@ Column{
                         item.audioLevels= model.audioLevels
                         item.isAudio= model.audio
                         item.markers= model.markers
-                        item.fadeIn = model.fadeIn
-                        item.fadeOut = model.fadeOut
                         item.hasAudio = model.hasAudio
                     } else {
                         //item.aTrack = model.a_track
@@ -234,18 +232,6 @@ Column{
         id: clipDelegate
         Clip {
             height: trackRoot.height
-            onGroupedChanged: {
-                console.log('Clip ', clipId, ' is grouped : ', grouped)
-                flashclip.start()
-            }
-
-            SequentialAnimation on color {
-                id: flashclip
-                loops: 2
-                running: false
-                ColorAnimation { from: Qt.darker(getColor()); to: "#ff3300"; duration: 100 }
-                ColorAnimation { from: "#ff3300"; to: Qt.darker(getColor()); duration: 100 }
-            }
 
             onClicked: {
                 console.log("Clip clicked",clip.clipId)
@@ -341,7 +327,7 @@ Column{
 
             onGroupedChanged: {
                 console.log('Composition ', clipId, ' is grouped : ', grouped)
-                flashclip.start()
+                //flashclip.start()
             }
 
             SequentialAnimation on color {

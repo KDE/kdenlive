@@ -138,6 +138,8 @@ void AssetParameterModel::setParameter(const QString &name, const QString &value
         }
     }
     emit modelChanged();
+    // Update timeline view if necessary
+    pCore->updateItemModel(m_ownerId, m_asset->get("kdenlive_id"));
     pCore->refreshProjectItem(m_ownerId);
     pCore->invalidateItem(m_ownerId);
 }

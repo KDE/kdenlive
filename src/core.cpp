@@ -529,6 +529,14 @@ void Core::updateItemKeyframes(ObjectId id)
     }
 }
 
+void Core::updateItemModel(ObjectId id, const QString &service)
+{
+    if (service.startsWith(QLatin1String("fade")) && id.first == ObjectType::TimelineClip) {
+        bool startFade = service == QLatin1String("fadein") || service == QLatin1String("fade_from_black");
+        m_mainWindow->getCurrentTimeline()->controller()->updateClip(id.second, {startFade ?TimelineModel::FadeInRole : TimelineModel::FadeOutRole});
+    }
+}
+
 void Core::showClipKeyframes(ObjectId id, bool enable)
 {
     if (id.first == ObjectType::TimelineClip) {

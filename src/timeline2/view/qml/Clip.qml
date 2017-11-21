@@ -74,6 +74,19 @@ Rectangle {
     signal trimmingOut(var clip, real newDuration, var mouse)
     signal trimmedOut(var clip)
 
+    onGroupedChanged: {
+        //console.log('Clip ', clipId, ' is grouped : ', grouped)
+        flashclip.start()
+    }
+
+    SequentialAnimation on color {
+        id: flashclip
+        loops: 2
+        running: false
+        ColorAnimation { from: Qt.darker(getColor()); to: "#ff3300"; duration: 100 }
+        ColorAnimation { from: "#ff3300"; to: Qt.darker(getColor()); duration: 100 }
+    }
+
     ToolTip {
         visible: mouseArea.containsMouse && !mouseArea.pressed
         font.pixelSize: root.baseUnit

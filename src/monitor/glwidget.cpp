@@ -1130,11 +1130,6 @@ int GLWidget::reconfigure(Mlt::Profile *profile)
         delete m_threadCreateEvent;
         delete m_threadJoinEvent;
         if (m_consumer) {
-            int dropFrames = realTime();
-            if (!KdenliveSettings::monitor_dropframes()) {
-                dropFrames = -dropFrames;
-            }
-            m_consumer->set("real_time", dropFrames);
             m_threadCreateEvent = m_consumer->listen("consumer-thread-create", this, (mlt_listener)onThreadCreate);
             m_threadJoinEvent = m_consumer->listen("consumer-thread-join", this, (mlt_listener)onThreadJoin);
         }
@@ -1143,8 +1138,13 @@ int GLWidget::reconfigure(Mlt::Profile *profile)
         // Connect the producer to the consumer - tell it to "run" later
         if (m_producer) {
             m_consumer->connect(*m_producer);
-            m_producer->set_speed(0.0);
+            //m_producer->set_speed(0.0);
         }
+        int dropFrames = realTime();
+        if (!KdenliveSettings::monitor_dropframes()) {
+            dropFrames = -dropFrames;
+        }
+        m_consumer->set("real_time", dropFrames);
         if (m_glslManager) {
             if (!m_threadStartEvent) {
                 m_threadStartEvent = m_consumer->listen("consumer-thread-started", this, (mlt_listener)onThreadStarted);
@@ -1180,10 +1180,15 @@ int GLWidget::reconfigure(Mlt::Profile *profile)
         }
         /*if (!m_monitorProfile->progressive())
             m_consumer->set("progressive", property("progressive").toBool());*/
-        m_consumer->set("volume", (double)volume / 100);
+        m_consumer->set("volume", volume / 100.0);
         // m_consumer->set("progressive", 1);
         m_consumer->set("rescale", KdenliveSettings::mltinterpolation().toUtf8().constData());
         m_consumer->set("deinterlace_method", KdenliveSettings::mltdeinterlacer().toUtf8().constData());
+#ifdef Q_OS_WIN
+            m_consumer->set("audio_buffer", 2048);
+#else
+            m_consumer->set("audio_buffer", 512);
+#endif
         m_consumer->set("buffer", 25);
         m_consumer->set("prefill", 1);
         m_consumer->set("scrub_audio", 1);

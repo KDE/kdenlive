@@ -158,6 +158,8 @@ public:
     void prepareShutdown();
     /** the keyframe model changed (effect added, deleted, active effect changed), inform timeline */
     void updateItemKeyframes(ObjectId id);
+    /** A fade for clip id changed, update timeline */
+    void updateItemModel(ObjectId id, const QString &service);
     /** Show / hide keyframes for a timeline clip */
     void showClipKeyframes(ObjectId id, bool enable);
 

@@ -322,15 +322,15 @@
       <label>Volume used for SDL output.</label>
       <default>100</default>
     </entry>
-    
+
     <entry name="monitor_dropframes" type="Bool">
       <label>Allow framedropping in monitor playback.</label>
       <default>true</default>
     </entry>
-    
+
     <entry name="monitor_gamma" type="Int">
       <label>Monitor gamma (rbg / rec 709).</label>
-      <default>0</default>
+      <default>1</default>
     </entry>
 
     <entry name="external_display" type="Bool">
