@@ -241,12 +241,9 @@ bool CollapsibleEffectView::eventFilter(QObject *o, QEvent *e)
             return false;
         }
         if (qobject_cast<QAbstractSpinBox *>(o)) {
-            if (qobject_cast<QAbstractSpinBox *>(o)->focusPolicy() == Qt::WheelFocus) {
-                e->accept();
-                return false;
-            }
-            e->ignore();
-            return true;
+            //if (qobject_cast<QAbstractSpinBox *>(o)->focusPolicy() == Qt::WheelFocus) {
+            e->accept();
+            return false;
         }
         if (qobject_cast<KComboBox *>(o)) {
             if (qobject_cast<KComboBox *>(o)->focusPolicy() == Qt::WheelFocus) {
@@ -257,12 +254,9 @@ bool CollapsibleEffectView::eventFilter(QObject *o, QEvent *e)
             return true;
         }
         if (qobject_cast<QProgressBar *>(o)) {
-            if (qobject_cast<QProgressBar *>(o)->focusPolicy() == Qt::WheelFocus) {
-                e->accept();
-                return false;
-            }
-            e->ignore();
-            return true;
+            //if (qobject_cast<QProgressBar *>(o)->focusPolicy() == Qt::WheelFocus)*/ {
+            e->accept();
+            return false;
         }
     }
     return QWidget::eventFilter(o, e);

@@ -81,6 +81,13 @@ void EffectStackModel::removeEffect(std::shared_ptr<EffectItemModel> effect)
     Q_ASSERT(m_allItems.count(effect->getId()) > 0);
     int parentId = -1;
     if (auto ptr = effect->parentItem().lock()) parentId = ptr->getId();
+    int current = 0;
+    if (auto srv = m_service.lock()) {
+        current = srv->get_int("kdenlive:activeeffect");
+        if (current >= rootItem->childCount() - 1) {
+            srv->set("kdenlive:activeeffect", --current);
+        }
+    }
     Fun undo = addItem_lambda(effect, parentId);
     Fun redo = removeItem_lambda(effect->getId());
     bool res = redo();
@@ -446,6 +453,9 @@ KeyframeModel *EffectStackModel::getEffectKeyframeModel()
     int ix = 0;
     if (ptr) {
         ix = ptr->get_int("kdenlive:activeeffect");
+    }
+    if (ix < 0) {
+        return nullptr;
     }
     std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(rootItem->child(ix));
     std::shared_ptr<KeyframeModelList> listModel = sourceEffect->getKeyframeModel();
