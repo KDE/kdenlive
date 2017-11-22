@@ -1,6 +1,6 @@
 import QtQuick 2.4
 import QtQml.Models 2.2
-import QtQuick.Controls 1.4 as OLD
+import QtQuick.Controls 1.5 as OLD
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 import QtQuick.Dialogs 1.2
@@ -258,7 +258,7 @@ Rectangle {
         id: menu
         property int clickedX
         property int clickedY
-        MenuItem {
+        OLD.MenuItem {
             text: i18n('Paste')
             visible: copiedClip != -1
             onTriggered: {
@@ -267,7 +267,7 @@ Rectangle {
                 timeline.pasteItem(copiedClip, track, frame)
             }
         }
-        MenuItem {
+        OLD.MenuItem {
             text: i18n('Insert Space')
             onTriggered: {
                 var track = Logic.getTrackIdFromPos(menu.clickedY - ruler.height)
@@ -275,7 +275,7 @@ Rectangle {
                 timeline.insertSpace(track, frame);
             }
         }
-        MenuItem {
+        OLD.MenuItem {
             text: i18n('Remove Space On Active Track')
             onTriggered: {
                 var track = Logic.getTrackIdFromPos(menu.clickedY - ruler.height)
@@ -283,7 +283,7 @@ Rectangle {
                 timeline.removeSpace(track, frame);
             }
         }
-        MenuItem {
+        OLD.MenuItem {
             text: i18n('Remove Space')
             onTriggered: {
                 var track = Logic.getTrackIdFromPos(menu.clickedY - ruler.height)
@@ -291,14 +291,14 @@ Rectangle {
                 timeline.removeSpace(track, frame, true);
             }
         }
-        MenuItem {
+        OLD.MenuItem {
             id: addGuideMenu
             text: i18n('Add Guide')
             onTriggered: {
                 timeline.switchGuide(timeline.position);
             }
         }
-        MenuItem {
+        OLD.MenuItem {
             id: editGuideMenu
             text: i18n('Edit Guide')
             visible: false
@@ -337,13 +337,13 @@ Rectangle {
         text: i18n("Impossible to add a composition at that position. There might not be enough space")
         standardButtons: StandardButton.Ok
     }
-    Menu {
+    OLD.Menu {
         id: headerMenu
-        MenuItem {
+        OLD.MenuItem {
             text: i18n('Add Track')
             onTriggered: timeline.addTrack(timeline.activeTrack);
         }
-        MenuItem {
+        OLD.MenuItem {
             text: i18n('Delete Track')
             onTriggered: timeline.deleteTrack(timeline.activeTrack);
         }
