@@ -265,6 +265,9 @@ void EffectStackView::refresh(const QModelIndex &topLeft, const QModelIndex &bot
 void EffectStackView::unsetModel(bool reset)
 {
     // Release ownership of smart pointer
+    if (m_model) {
+        disconnect(m_model.get(), &EffectStackModel::dataChanged, this, &EffectStackView::refresh);
+    }
     if (reset) {
         m_model.reset();
     }
