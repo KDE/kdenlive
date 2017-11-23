@@ -234,7 +234,7 @@ bool AudioThumbJob::startJob()
         return true;
     }
     m_binClip = pCore->projectItemModel()->getClipByBinID(m_clipId);
-    if (m_binClip->audioChannels() == 0) {
+    if (m_binClip->audioChannels() == 0 || m_binClip->audioThumbCreated()) {
         // nothing to do
         m_done = true;
         return true;

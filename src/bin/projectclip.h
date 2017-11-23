@@ -237,7 +237,6 @@ private:
 
 signals:
     void producerChanged(const QString &, const std::shared_ptr<Mlt::Producer> &);
-    void gotAudioData();
     void refreshPropertiesPanel();
     void refreshAnalysisPanel();
     void refreshClipDisplay();

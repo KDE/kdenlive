@@ -178,8 +178,10 @@ void ProjectClip::updateAudioThumbnail(QVariantList audioLevels)
 {
     std::swap(audioFrameCache, audioLevels); // avoid second copy
     m_audioThumbCreated = true;
-    if (auto ptr = m_model.lock()) emit std::static_pointer_cast<ProjectItemModel>(ptr)->refreshAudioThumbs(m_binId);
-    emit gotAudioData();
+    if (auto ptr = m_model.lock()) {
+        emit std::static_pointer_cast<ProjectItemModel>(ptr)->refreshAudioThumbs(m_binId);
+    }
+    updateTimelineClips({TimelineModel::AudioLevelsRole});
 }
 
 bool ProjectClip::audioThumbCreated() const

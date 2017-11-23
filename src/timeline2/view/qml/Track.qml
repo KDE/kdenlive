@@ -116,6 +116,12 @@ Column{
                 }
                 Binding {
                     target: loader.item
+                    property: "audioLevels"
+                    value: model.audioLevels
+                    when: loader.status == Loader.Ready && !loader.item.isComposition
+                }
+                Binding {
+                    target: loader.item
                     property: "showKeyframes"
                     value: model.showKeyframes
                     when: loader.status == Loader.Ready
@@ -205,7 +211,6 @@ Column{
                     item.binId= model.binId
                     item.isComposition= model.isComposition
                     if (!model.isComposition) {
-                        item.audioLevels= model.audioLevels
                         item.isAudio= model.audio
                         item.markers= model.markers
                         item.hasAudio = model.hasAudio

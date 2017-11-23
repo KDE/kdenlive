@@ -107,7 +107,7 @@ ClipItem::ClipItem(ProjectClip *clip, const ItemInfo &info, double fps, double s
     } else if (m_clipType == Audio) {
         m_baseColor = QColor(141, 215, 166);
     }
-    connect(m_binClip, &ProjectClip::gotAudioData, this, &ClipItem::slotGotAudioData);
+    //connect(m_binClip, &ProjectClip::gotAudioData, this, &ClipItem::slotGotAudioData);
     m_paintColor = m_baseColor;
 }
 
