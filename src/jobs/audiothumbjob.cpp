@@ -215,7 +215,6 @@ bool AudioThumbJob::computeWithFFMPEG()
 
 void AudioThumbJob::updateFfmpegProgress()
 {
-    //QProcess *m_ffmpegProcess = qobject_cast<QProcess *>(QObject::sender());
     QString result = m_ffmpegProcess->readAllStandardOutput();
     const QStringList lines = result.split(QLatin1Char('\n'));
     for (const QString &data : lines) {

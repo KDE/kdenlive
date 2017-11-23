@@ -302,7 +302,10 @@ void ProjectItemModel::onItemUpdated(std::shared_ptr<AbstractProjectItem> item)
 
 void ProjectItemModel::onItemUpdated(const QString &binId)
 {
-    onItemUpdated(getItemByBinId(binId));
+    std::shared_ptr<AbstractProjectItem> item = getItemByBinId(binId);
+    if (item) {
+        onItemUpdated(item);
+    }
 }
 std::shared_ptr<ProjectClip> ProjectItemModel::getClipByBinID(const QString &binId)
 {

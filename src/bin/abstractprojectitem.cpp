@@ -27,6 +27,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "macros.hpp"
 #include "projectitemmodel.h"
 
+#include "jobs/audiothumbjob.hpp"
+#include "jobs/loadjob.hpp"
+#include "jobs/thumbjob.hpp"
+
 #include <QDomElement>
 #include <QPainter>
 #include <QVariant>
@@ -256,6 +260,7 @@ std::shared_ptr<AbstractProjectItem> AbstractProjectItem::getEnclosingFolder(boo
 
 bool AbstractProjectItem::selfSoftDelete(Fun &undo, Fun &redo)
 {
+    pCore->jobManager()->slotDiscardClipJobs(clipId());
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
     for (const auto &child : m_childItems) {
@@ -277,9 +282,15 @@ QString AbstractProjectItem::lastParentId() const
 
 bool AbstractProjectItem::changeParent(std::shared_ptr<TreeItem> newParent)
 {
+    bool reload = !m_lastParentId.isEmpty();
     m_lastParentId.clear();
     if (newParent) {
         m_lastParentId = std::static_pointer_cast<AbstractProjectItem>(newParent)->clipId();
     }
-    return TreeItem::changeParent(newParent);
+    bool result = TreeItem::changeParent(newParent);
+    if (reload && result) {
+        pCore->jobManager()->startJob<ThumbJob>({clipId()}, {}, QString(), 150, -1, true);
+        pCore->jobManager()->startJob<AudioThumbJob>({clipId()}, {}, QString());
+    }
+    return result;
 }
