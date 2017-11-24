@@ -168,9 +168,12 @@ Rectangle {
     function generateWaveform() {
         // This is needed to make the model have the correct count.
         // Model as a property expression is not working in all cases.
-        waveformRepeater.model = Math.ceil(waveform.innerWidth / waveform.maxWidth)
-        for (var i = 0; i < waveformRepeater.count; i++) {
-            waveformRepeater.itemAt(0).update()
+        if (timeline.showAudioThumbnails) {
+            waveformRepeater.model = Math.ceil(waveform.innerWidth / waveform.maxWidth)
+            for (var i = 0; i < waveformRepeater.count; i++) {
+                // This looks suspicious. Why not itemAt(i) ?? code borrowed from Shotcut
+                waveformRepeater.itemAt(0).update();
+            }
         }
     }
 

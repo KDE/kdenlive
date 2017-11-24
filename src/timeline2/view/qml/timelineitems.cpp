@@ -48,6 +48,8 @@ public:
     TimelineWaveform()
     {
         setAntialiasing(true);
+        setClip(true);
+        setEnabled(false);
         connect(this, SIGNAL(propertyChanged()), this, SLOT(update()));
         // Fill gradient
         m_gradient.setStart(0, 0);
