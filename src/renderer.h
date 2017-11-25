@@ -109,18 +109,6 @@ class Render : public AbstractRender
     void seek(const GenTime &time);
     void seekToFrameDiff(int diff);
 
-    /** @brief Sets the current MLT producer playlist.
-     * @param list The xml describing the playlist
-     * @param position (optional) time to seek to */
-    int setSceneList(const QDomDocument &list, int position = 0);
-
-    /** @brief Sets the current MLT producer playlist.
-     * @param list new playlist
-     * @param position (optional) time to seek to
-     * @return 0 when it has success, different from 0 otherwise
-     *
-     * Creates the producer from the text playlist. */
-    int setSceneList(QString playlist, int position = 0);
     bool updateProducer(Mlt::Producer *producer);
     bool setProducer(Mlt::Producer *producer, int position, bool isActive);
 
