@@ -157,12 +157,13 @@ Rectangle {
     }
 
     function reparent(track) {
+        console.log('TrackId: ',trackId)
         parent = track
         height = track.height
         parentTrack = track
         trackId = parentTrack.trackId
         //console.log('Reparenting clip to Track: ', trackId)
-        generateWaveform()
+        //generateWaveform()
     }
 
     function generateWaveform() {
@@ -172,7 +173,7 @@ Rectangle {
             waveformRepeater.model = Math.ceil(waveform.innerWidth / waveform.maxWidth)
             for (var i = 0; i < waveformRepeater.count; i++) {
                 // This looks suspicious. Why not itemAt(i) ?? code borrowed from Shotcut
-                waveformRepeater.itemAt(0).update();
+                waveformRepeater.itemAt(i).update();
             }
         }
     }
@@ -321,15 +322,17 @@ Rectangle {
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.bottom: container.bottom
-            property int maxWidth: 10000
+            property int maxWidth: 1000
             property int innerWidth: clipRoot.width - clipRoot.border.width * 2
+            property int scrollEnd: ((scrollView.flickableItem.contentX + scrollView.width) / timeScale - clipRoot.modelStart) * timeScale
+            property int scrollStart: (scrollView.flickableItem.contentX / timeScale - clipRoot.modelStart) * timeScale
 
             Repeater {
                 id: waveformRepeater
                 TimelineWaveform {
                     width: Math.min(waveform.innerWidth, waveform.maxWidth)
                     height: waveform.height
-                    showItem: clipRoot.modelStart + (index * waveform.maxWidth / timeScale) < (scrollView.flickableItem.contentX + scrollView.width) / timeScale && clipRoot.modelStart + ((index * waveform.maxWidth + width) / timeScale) > scrollView.flickableItem.contentX / timeScale
+                    showItem: (index * waveform.maxWidth) < waveform.scrollEnd && (index * waveform.maxWidth + width) > waveform.scrollStart
                     fillColor: 'red'
                     format: timeline.audioThumbFormat
                     property int channels: 2

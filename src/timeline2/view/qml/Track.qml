@@ -42,10 +42,10 @@ Column{
     signal clipDraggedToTrack(var clip, int pos, int xpos)
     signal compositionDraggedToTrack(var composition, int pos, int xpos)
 
-    function redrawWaveforms() {
+    /*function redrawWaveforms() {
         for (var i = 0; i < repeater.count; i++)
             repeater.itemAt(i).generateWaveform()
-    }
+    }*/
 
     function clipAt(index) {
         return repeater.itemAt(index)

@@ -42,14 +42,17 @@ class TimelineWaveform : public QQuickPaintedItem
     Q_PROPERTY(int inPoint MEMBER m_inPoint NOTIFY inPointChanged)
     Q_PROPERTY(int outPoint MEMBER m_outPoint NOTIFY outPointChanged)
     Q_PROPERTY(bool format MEMBER m_format NOTIFY propertyChanged)
-    Q_PROPERTY(bool showItem MEMBER m_showItem NOTIFY propertyChanged)
+    Q_PROPERTY(bool showItem MEMBER m_showItem)
 
 public:
     TimelineWaveform()
     {
-        setAntialiasing(true);
+        setAntialiasing(false);
         setClip(true);
         setEnabled(false);
+        setRenderTarget(QQuickPaintedItem::FramebufferObject);
+        setMipmap(true);
+        setTextureSize(QSize(width(),height()));
         connect(this, SIGNAL(propertyChanged()), this, SLOT(update()));
         // Fill gradient
         m_gradient.setStart(0, 0);
@@ -63,8 +66,9 @@ public:
 
     void paint(QPainter *painter) override
     {
+        if (!m_showItem) return;
         QVariantList data = m_audioLevels.toList();
-        if (data.isEmpty() || !m_showItem) return;
+        if (data.isEmpty()) return;
 
         const qreal indicesPrPixel = qreal(m_outPoint - m_inPoint) / width();
         QPen pen = painter->pen();
@@ -79,8 +83,13 @@ public:
             QPainterPath path;
             path.moveTo(-1, height());
             int i = 0;
+            int lastIdx = -1;
             for (; i < width(); ++i) {
                 int idx = m_inPoint + int(i * indicesPrPixel);
+                if (lastIdx == idx) {
+                    continue;
+                }
+                lastIdx = idx;
                 if (idx + 1 >= data.length()) break;
                 qreal level = qMax(data.at(idx).toReal(), data.at(idx + 1).toReal()) / 256;
                 path.lineTo(i, height() - level * height());
@@ -104,8 +113,13 @@ public:
                 negativeChannelPaths[channel].moveTo(-1, y);
                 // Draw channel median line
                 painter->drawLine(0, y, width(), y);
+                int lastIdx = -1;
                 for (i = 0; i < width(); ++i) {
                     int idx = m_inPoint + int(i * indicesPrPixel);
+                    if (lastIdx == idx) {
+                        continue;
+                    }
+                    lastIdx = idx;
                     if (idx + channel >= data.length()) break;
                     qreal level = data.at(idx + channel).toReal() / 256;
                     positiveChannelPaths[channel].lineTo(i, y - level * height() / 4);
