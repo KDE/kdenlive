@@ -78,6 +78,7 @@ protected:
 public:
     /* @brief Removes the keyframe at the given position. */
     Q_INVOKABLE bool removeKeyframe(int frame);
+    Q_INVOKABLE bool moveKeyframe(int oldPos, int pos, double newVal);
     bool removeKeyframe(GenTime pos);
     /* @brief Delete all the keyframes of the model */
     bool removeAllKeyframes();
@@ -94,8 +95,8 @@ public:
        @param logUndo if true, then an undo object is created
     */
     Q_INVOKABLE bool moveKeyframe(int oldPos, int pos, bool logUndo);
-    bool moveKeyframe(GenTime oldPos, GenTime pos, bool logUndo);
-    bool moveKeyframe(GenTime oldPos, GenTime pos, Fun &undo, Fun &redo);
+    bool moveKeyframe(GenTime oldPos, GenTime pos, double newVal, bool logUndo);
+    bool moveKeyframe(GenTime oldPos, GenTime pos, double newVal, Fun &undo, Fun &redo);
 
     /* @brief updates the value of a keyframe
        @param old is the position of the keyframe

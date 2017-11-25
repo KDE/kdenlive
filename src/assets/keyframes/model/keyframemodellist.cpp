@@ -99,7 +99,7 @@ bool KeyframeModelList::moveKeyframe(GenTime oldPos, GenTime pos, bool logUndo)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_parameters.size() > 0);
-    auto op = [oldPos, pos](std::shared_ptr<KeyframeModel> param, Fun &undo, Fun &redo) { return param->moveKeyframe(oldPos, pos, undo, redo); };
+    auto op = [oldPos, pos](std::shared_ptr<KeyframeModel> param, Fun &undo, Fun &redo) { return param->moveKeyframe(oldPos, pos, -1, undo, redo); };
     return applyOperation(op, logUndo ? i18n("Move keyframe") : QString());
 }
 

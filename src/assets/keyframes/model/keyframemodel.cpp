@@ -154,7 +154,7 @@ bool KeyframeModel::removeKeyframe(GenTime pos)
     return res;
 }
 
-bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, Fun &undo, Fun &redo)
+bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, double newVal, Fun &undo, Fun &redo)
 {
     qDebug() << "starting to move keyframe" << oldPos.frames(pCore->getCurrentFps()) << pos.frames(pCore->getCurrentFps());
     QWriteLocker locker(&m_lock);
@@ -170,7 +170,16 @@ bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, Fun &undo, Fun &re
     qDebug() << "Move keyframe finished deletion:" << res;
     qDebug() << getAnimProperty();
     if (res) {
-        res = addKeyframe(pos, oldType, oldValue, true, local_undo, local_redo);
+        if (newVal > -1) {
+            if (auto ptr = m_model.lock()) {
+                double min = ptr->data(m_index, AssetParameterModel::MinRole).toDouble();
+                double max = ptr->data(m_index, AssetParameterModel::MaxRole).toDouble();
+                double realValue = newVal * (max - min) + min;
+                res = addKeyframe(pos, oldType, realValue, true, local_undo, local_redo);
+            }
+        } else {
+            res = addKeyframe(pos, oldType, oldValue, true, local_undo, local_redo);
+        }
         qDebug() << "Move keyframe finished insertion:" << res;
         qDebug() << getAnimProperty();
     }
@@ -187,17 +196,24 @@ bool KeyframeModel::moveKeyframe(int oldPos, int pos, bool logUndo)
 {
     GenTime oPos(oldPos, pCore->getCurrentFps());
     GenTime nPos(pos, pCore->getCurrentFps());
-    return moveKeyframe(oPos, nPos, logUndo);
+    return moveKeyframe(oPos, nPos, -1, logUndo);
 }
 
-bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, bool logUndo)
+bool KeyframeModel::moveKeyframe(int oldPos, int pos, double newVal)
+{
+    GenTime oPos(oldPos, pCore->getCurrentFps());
+    GenTime nPos(pos, pCore->getCurrentFps());
+    return moveKeyframe(oPos, nPos, newVal, true);
+}
+
+bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, double newVal, bool logUndo)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_keyframeList.count(oldPos) > 0);
     if (oldPos == pos) return true;
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    bool res = moveKeyframe(oldPos, pos, undo, redo);
+    bool res = moveKeyframe(oldPos, pos, newVal, undo, redo);
     if (res && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Move keyframe"));
     }

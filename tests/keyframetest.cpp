@@ -211,7 +211,7 @@ TEST_CASE("Keyframe model", "[KeyframeModel]")
         };
         state1(1.1);
 
-        REQUIRE(model->moveKeyframe(GenTime(1.1), GenTime(2.6), true));
+        REQUIRE(model->moveKeyframe(GenTime(1.1), GenTime(2.6), -1, true));
         state1(2.6);
 
         undoStack->undo();
@@ -219,7 +219,7 @@ TEST_CASE("Keyframe model", "[KeyframeModel]")
         undoStack->redo();
         state1(2.6);
 
-        REQUIRE(model->moveKeyframe(GenTime(2.6), GenTime(6.1), true));
+        REQUIRE(model->moveKeyframe(GenTime(2.6), GenTime(6.1), -1, true));
         state1(6.1);
 
         undoStack->undo();
@@ -232,7 +232,7 @@ TEST_CASE("Keyframe model", "[KeyframeModel]")
         state1(6.1);
 
         REQUIRE(model->addKeyframe(GenTime(12.6), KeyframeType::Discrete, 33));
-        REQUIRE_FALSE(model->moveKeyframe(GenTime(6.1), GenTime(12.6), true));
+        REQUIRE_FALSE(model->moveKeyframe(GenTime(6.1), GenTime(12.6),  -1, true));
         undoStack->undo();
         state1(6.1);
     }

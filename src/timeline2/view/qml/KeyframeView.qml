@@ -28,6 +28,7 @@ Rectangle
     property alias kfrCount : keyframes.count
     anchors.fill: parent
     color: Qt.rgba(1,1,1, 0.6)
+    id: keyframeContainer
 
     onKfrCountChanged: {
         keyframecanvas.requestPaint()
@@ -40,7 +41,8 @@ Rectangle
             property int frame : model.frame
             property int frameType : model.type
             x: model.frame * timeScale
-            height: parent.height * model.normalizedValue
+            height: parent.height // * model.normalizedValue
+            property int value: parent.height * model.normalizedValue
             anchors.bottom: parent.bottom
             onFrameTypeChanged: {
                 keyframecanvas.requestPaint()
@@ -48,15 +50,50 @@ Rectangle
             onHeightChanged: {
                 keyframecanvas.requestPaint()
             }
-            width: Math.max(2, timeScale)
+            width: 1 //Math.max(2, timeScale)
             color: 'darkred'
             border.color: 'red'
+            Rectangle {
+                x: - root.baseUnit / 2
+                y: parent.height - keyframe.value - root.baseUnit / 2
+                width: root.baseUnit
+                height: width
+                radius: width / 2
+                color: Qt.rgba(1,0,0, 0.4)
+                border.color: kf1MouseArea.containsMouse ? 'red' : 'transparent'
+                MouseArea {
+                    id: kf1MouseArea
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    cursorShape: Qt.PointingHandCursor
+                    drag.target: parent
+                    drag.smoothed: false
+                    onReleased: {
+                        root.stopScrolling = false
+                        var newPos = Math.round((keyframe.x + parent.x + root.baseUnit / 2) / timeScale)
+                        var newVal = (keyframeContainer.height - (parent.y + mouse.y)) / keyframeContainer.height
+                        console.log('.............\n\nKFRHGT: ', clipRoot.height,' - ', mouse.y)
+                        keyframeModel.moveKeyframe(frame, newPos, newVal)
+                    }
+                    onPositionChanged: {
+                        if (mouse.buttons === Qt.LeftButton) {
+                            var newPos = Math.round(parent.x / timeScale)
+                            parent.x = newPos * timeScale
+                            keyframecanvas.requestPaint()
+                        }
+                    }
+                    onDoubleClicked: {
+                        keyframeModel.removeKeyframe(frame);
+                    }
+                }
+            }
             MouseArea {
                 id: kfMouseArea
                 anchors.fill: parent
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
                 drag.target: parent
+                drag.smoothed: false
                 drag.axis: Drag.XAxis
                 onReleased: {
                     root.stopScrolling = false
@@ -71,9 +108,6 @@ Rectangle
                         parent.x = newPos * timeScale
                         keyframecanvas.requestPaint()
                     }
-                }
-                onDoubleClicked: {
-                    keyframeModel.removeKeyframe(frame);
                 }
             }
         }
@@ -113,7 +147,7 @@ Rectangle
                     // discrete
                     paths.push(compline.createObject(keyframecanvas, {"x": xpos, "y": ypos} ))
                 }
-                ypos = parent.height - keyframes.itemAt(i).height
+                ypos = parent.height - keyframes.itemAt(i).value
                 if (type < 2) {
                     // linear
                     paths.push(compline.createObject(keyframecanvas, {"x": xpos, "y": ypos} ))
