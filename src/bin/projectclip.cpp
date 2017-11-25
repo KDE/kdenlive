@@ -31,7 +31,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "jobs/thumbjob.hpp"
 #include "kdenlivesettings.h"
 #include "lib/audio/audioStreamInfo.h"
-#include "mltcontroller/bincontroller.h"
 #include "mltcontroller/clip.h"
 #include "mltcontroller/clipcontroller.h"
 #include "mltcontroller/clippropertiescontroller.h"
@@ -62,7 +61,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, std::shared_ptr<ProjectItemModel> model, std::shared_ptr<Mlt::Producer> producer)
     : AbstractProjectItem(AbstractProjectItem::ClipItem, id, model)
-    , ClipController(id, pCore->binController(), producer)
+    , ClipController(id, producer)
     , m_thumbsProducer(nullptr)
 {
     m_markerModel = std::make_shared<MarkerListModel>(id, pCore->projectManager()->undoStack());
@@ -98,7 +97,7 @@ std::shared_ptr<ProjectClip> ProjectClip::construct(const QString &id, const QIc
 
 ProjectClip::ProjectClip(const QString &id, const QDomElement &description, const QIcon &thumb, std::shared_ptr<ProjectItemModel> model)
     : AbstractProjectItem(AbstractProjectItem::ClipItem, id, model)
-    , ClipController(id, pCore->binController())
+    , ClipController(id)
     , m_thumbsProducer(nullptr)
 {
     m_clipStatus = StatusWaiting;

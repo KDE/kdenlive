@@ -22,7 +22,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "clipcontroller.h"
 #include "bin/model/markerlistmodel.hpp"
-#include "bincontroller.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
 #include "effects/effectstack/model/effectstackmodel.hpp"
@@ -39,7 +38,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 std::shared_ptr<Mlt::Producer> ClipController::mediaUnavailable;
 
-ClipController::ClipController(const QString clipId, std::shared_ptr<BinController> bincontroller, std::shared_ptr<Mlt::Producer> producer)
+ClipController::ClipController(const QString clipId, std::shared_ptr<Mlt::Producer> producer)
     : selectedEffectIndex(1)
     , m_audioThumbCreated(false)
     , m_masterProducer(producer)
@@ -50,7 +49,6 @@ ClipController::ClipController(const QString clipId, std::shared_ptr<BinControll
     , m_videoIndex(0)
     , m_clipType(ClipType::Unknown)
     , m_hasLimitedDuration(true)
-    , m_binController(bincontroller)
     , m_effectStack(producer ? EffectStackModel::construct(producer, {ObjectType::BinClip, clipId.toInt()}, pCore->undoStack()) : nullptr)
     , m_controllerBinId(clipId)
 {
@@ -132,11 +130,39 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
     connectEffectStack();
 }
 
+namespace {
+QString producerXml(const std::shared_ptr<Mlt::Producer> &producer, bool includeMeta)
+{
+    Mlt::Consumer c(*producer->profile(), "xml", "string");
+    Mlt::Service s(producer->get_service());
+    if (!s.is_valid()) {
+        return QString();
+    }
+    int ignore = s.get_int("ignore_points");
+    if (ignore != 0) {
+        s.set("ignore_points", 0);
+    }
+    c.set("time_format", "frames");
+    if (!includeMeta) {
+        c.set("no_meta", 1);
+    }
+    c.set("store", "kdenlive");
+    c.set("no_root", 1);
+    c.set("root", "/");
+    c.connect(s);
+    c.start();
+    if (ignore != 0) {
+        s.set("ignore_points", ignore);
+    }
+    return QString::fromUtf8(c.get("string"));
+}
+}
+
 void ClipController::getProducerXML(QDomDocument &document, bool includeMeta)
 {
     // TODO refac this is a probable duplicate with Clip::xml
     if (m_masterProducer) {
-        QString xml = BinController::getProducerXML(m_masterProducer, includeMeta);
+        QString xml = producerXml(m_masterProducer, includeMeta);
         document.setContent(xml);
     } else {
         qCDebug(KDENLIVE_LOG) << " + + ++ NO MASTER PROD";
@@ -667,10 +693,6 @@ void ClipController::moveEffect(int oldPos, int newPos)
     */
 }
 
-void ClipController::reloadTrackProducers()
-{
-    if (auto ptr = m_binController.lock()) ptr->updateTrackProducer(m_controllerBinId);
-}
 
 int ClipController::effectsCount()
 {

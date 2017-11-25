@@ -35,7 +35,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class QPixmap;
 class Bin;
-class BinController;
 class AudioStreamInfo;
 class EffectStackModel;
 class MarkerListModel;
@@ -57,7 +56,7 @@ public:
      * @param bincontroller reference to the bincontroller
      * @param producer producer to create reference to
      */
-    explicit ClipController(const QString id, std::shared_ptr<BinController> bincontroller, std::shared_ptr<Mlt::Producer> producer = nullptr);
+    explicit ClipController(const QString id, std::shared_ptr<Mlt::Producer> producer = nullptr);
 
 public:
     virtual ~ClipController();
@@ -187,8 +186,6 @@ public:
     int effectsCount();
     /** @brief Move an effect in stack for this bin clip */
     void moveEffect(int oldPos, int newPos);
-    /** @brief Request an update of all track producers */
-    void reloadTrackProducers();
     /** @brief Save an xml playlist of current clip with in/out points as zone.x()/y() */
     void saveZone(QPoint zone, const QDir &dir);
 
@@ -215,7 +212,6 @@ protected:
     int m_videoIndex;
     ClipType m_clipType;
     bool m_hasLimitedDuration;
-    std::weak_ptr<BinController> m_binController;
     QMutex m_effectMutex;
     void getInfoForProducer();
     // void rebuildEffectList(ProfileInfo info);
