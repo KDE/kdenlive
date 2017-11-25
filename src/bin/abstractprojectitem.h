@@ -171,8 +171,8 @@ public:
        Return the empty string if the element was parentless */
     QString lastParentId() const;
 
-    /* @brief This is an overload of TreeItem::changeParent that tracks the id of the id of the parent */
-    bool changeParent(std::shared_ptr<TreeItem> newParent) override;
+    /* @brief This is an overload of TreeItem::updateParent that tracks the id of the id of the parent */
+    void updateParent(std::shared_ptr<TreeItem> newParent) override;
 
     /* Returns a ptr to the enclosing dir, and nullptr if none is found.
        @param strict if set to false, the enclosing dir of a dir is itself, otherwise we try to find a "true" parent

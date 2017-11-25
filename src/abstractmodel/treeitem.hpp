@@ -144,6 +144,12 @@ protected:
     static void registerSelf(std::shared_ptr<TreeItem> self);
     void deregisterSelf();
 
+    /* @brief Reflect update of the parent ptr (for example set the correct depth)
+       This is meant to be overriden in derived classes
+       @param ptr is the pointer to the new parent
+    */
+    virtual void updateParent(std::shared_ptr<TreeItem> parent);
+
     std::list<std::shared_ptr<TreeItem>> m_childItems;
     std::unordered_map<int, std::list<std::shared_ptr<TreeItem>>::iterator>
         m_iteratorTable; // this logs the iterator associated which each child id. This allows easy access of a child based on its id.

@@ -478,18 +478,21 @@ QString ClipController::serviceName() const
 
 void ClipController::setProducerProperty(const QString &name, int value)
 {
+    if (!m_masterProducer) return;
     // TODO: also set property on all track producers
     m_masterProducer->parent().set(name.toUtf8().constData(), value);
 }
 
 void ClipController::setProducerProperty(const QString &name, double value)
 {
+    if (!m_masterProducer) return;
     // TODO: also set property on all track producers
     m_masterProducer->parent().set(name.toUtf8().constData(), value);
 }
 
 void ClipController::setProducerProperty(const QString &name, const QString &value)
 {
+    if (!m_masterProducer) return;
     // TODO: also set property on all track producers
     if (value.isEmpty()) {
         m_masterProducer->parent().set(name.toUtf8().constData(), (char *)nullptr);

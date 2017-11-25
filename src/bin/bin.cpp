@@ -2287,9 +2287,7 @@ void Bin::doMoveClip(const QString &id, const QString &newParentId)
     }
     std::shared_ptr<AbstractProjectItem> currentParent = currentItem->parent();
     std::shared_ptr<ProjectFolder> newParent = m_itemModel->getFolderByBinId(newParentId);
-    currentParent->removeChild(currentItem);
     currentItem->changeParent(newParent);
-    currentItem->updateParentInfo(newParentId, newParent->name());
 }
 
 void Bin::doMoveFolder(const QString &id, const QString &newParentId)

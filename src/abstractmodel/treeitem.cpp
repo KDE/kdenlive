@@ -85,8 +85,7 @@ bool TreeItem::appendChild(std::shared_ptr<TreeItem> child)
     }
     if (auto ptr = m_model.lock()) {
         ptr->notifyRowAboutToAppend(shared_from_this());
-        child->m_depth = m_depth + 1;
-        child->m_parentItem = shared_from_this();
+        child->updateParent(shared_from_this());
         int id = child->getId();
         auto it = m_childItems.insert(m_childItems.end(), child);
         m_iteratorTable[id] = it;
@@ -102,17 +101,16 @@ bool TreeItem::appendChild(std::shared_ptr<TreeItem> child)
 void TreeItem::moveChild(int ix, std::shared_ptr<TreeItem> child)
 {
     if (auto ptr = m_model.lock()) {
-        auto childPtr = child->m_parentItem.lock();
-        if (childPtr && childPtr->getId() != m_id) {
-            childPtr->removeChild(child);
+        auto parentPtr = child->m_parentItem.lock();
+        if (parentPtr && parentPtr->getId() != m_id) {
+            parentPtr->removeChild(child);
         } else {
             // deletion of child
             auto it = m_iteratorTable[child->getId()];
             m_childItems.erase(it);
         }
         ptr->notifyRowAboutToAppend(shared_from_this());
-        child->m_depth = m_depth + 1;
-        child->m_parentItem = shared_from_this();
+        child->updateParent(shared_from_this());
         int id = child->getId();
         auto pos = m_childItems.begin();
         std::advance(pos, ix);
@@ -263,4 +261,12 @@ bool TreeItem::hasAncestor(int id)
 bool TreeItem::isRoot() const
 {
     return m_isRoot;
+}
+
+void TreeItem::updateParent(std::shared_ptr<TreeItem> parent)
+{
+    m_parentItem = parent;
+    if (parent) {
+        m_depth = parent->m_depth + 1;
+    }
 }

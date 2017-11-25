@@ -451,7 +451,7 @@ int Render::setSceneList(QString playlist, int position)
     // if (m_winid == -1) return -1;
     int error = 0;
 
-    // qCDebug(KDENLIVE_LOG) << "//////  RENDER, SET SCENE LIST:\n" << playlist <<"\n..........:::.";
+    qDebug() << "//////  RENDER, SET SCENE LIST:\n" << playlist <<"\n..........:::.";
 
     // Remove previous profile info
     QDomDocument doc;

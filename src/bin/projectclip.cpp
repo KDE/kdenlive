@@ -364,6 +364,8 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
     }
     // Make sure we have a hash for this clip
     getFileHash();
+    // set parent again (some info need to be stored in producer)
+    updateParent(parentItem().lock());
     return true;
 }
 
@@ -396,7 +398,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::thumbProducer()
 std::shared_ptr<Mlt::Producer> ProjectClip::timelineProducer(PlaylistState::ClipState state, int track)
 {
     if (!m_service.startsWith(QLatin1String("avformat"))) {
-        std::shared_ptr<Mlt::Producer>prod(originalProducer()->cut());
+        std::shared_ptr<Mlt::Producer> prod(originalProducer()->cut());
         int length = getProducerIntProperty(QStringLiteral("kdenlive:duration"));
         if (length > 0) {
             prod->set_in_and_out(0, length);
@@ -653,10 +655,14 @@ ClipPropertiesController *ProjectClip::buildProperties(QWidget *parent)
     return panel;
 }
 
-void ProjectClip::updateParentInfo(const QString &folderid, const QString &foldername)
+void ProjectClip::updateParent(std::shared_ptr<TreeItem> parent)
 {
-    Q_UNUSED(foldername);
-    ClipController::setProducerProperty(QStringLiteral("kdenlive:folderid"), folderid);
+    if (parent) {
+        auto item = std::static_pointer_cast<AbstractProjectItem>(parent);
+        ClipController::setProducerProperty(QStringLiteral("kdenlive:folderid"), item->clipId());
+        qDebug() << "Setting parent to " << item->clipId();
+    }
+    AbstractProjectItem::updateParent(parent);
 }
 
 bool ProjectClip::matches(const QString &condition)

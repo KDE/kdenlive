@@ -164,7 +164,6 @@ public:
     QVariantList audioFrameCache;
     bool audioThumbCreated() const;
 
-    void updateParentInfo(const QString &folderid, const QString &foldername);
     void setWaitingStatus(const QString &id);
     /** @brief Returns true if the clip matched a condition, for example vcodec=mpeg1video. */
     bool matches(const QString &condition);
@@ -199,6 +198,9 @@ protected:
         @param clipId id of the inserted clip
      */
     void registerTimelineClip(std::weak_ptr<TimelineModel> timeline, int clipId);
+
+    /* @brief update the producer to reflect new parent folder */
+    void updateParent(std::shared_ptr<TreeItem> parent) override;
 
     /** @brief This is a call-back called by a ClipModel when it is deleted
         @param clipId id of the deleted clip

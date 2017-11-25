@@ -280,14 +280,14 @@ QString AbstractProjectItem::lastParentId() const
     return m_lastParentId;
 }
 
-bool AbstractProjectItem::changeParent(std::shared_ptr<TreeItem> newParent)
+void AbstractProjectItem::updateParent(std::shared_ptr<TreeItem> newParent)
 {
     bool reload = !m_lastParentId.isEmpty();
     m_lastParentId.clear();
     if (newParent) {
         m_lastParentId = std::static_pointer_cast<AbstractProjectItem>(newParent)->clipId();
     }
-    bool result = TreeItem::changeParent(newParent);
+    bool result = TreeItem::updateParent(newParent);
     if (reload && result) {
         pCore->jobManager()->startJob<ThumbJob>({clipId()}, {}, QString(), 150, -1, true);
         pCore->jobManager()->startJob<AudioThumbJob>({clipId()}, {}, QString());

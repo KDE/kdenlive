@@ -865,7 +865,7 @@ void ProjectManager::slotMoveFinished(KJob *job)
 void ProjectManager::updateTimeline(int pos)
 {
     pCore->jobManager()->slotCancelJobs();
-    // qDebug() << "Loading xml"<<m_project->getProjectXml().constData();
+    qDebug() << "Loading xml"<<m_project->getProjectXml().constData();
     QScopedPointer<Mlt::Producer> xmlProd(new Mlt::Producer(pCore->getCurrentProfile()->profile(), "xml-string", m_project->getProjectXml().constData()));
     Mlt::Service s(*xmlProd);
     Mlt::Tractor tractor(s);

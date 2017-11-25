@@ -36,6 +36,7 @@ BinPlaylist::BinPlaylist()
 
 void BinPlaylist::manageBinItemInsertion(const std::shared_ptr<AbstractProjectItem> &binElem)
 {
+    qDebug() << "MANAGE BIN ITEM INSERT"<<binElem->clipId();
     QString id = binElem->clipId();
     switch (binElem->itemType()) {
     case AbstractProjectItem::FolderItem: {
@@ -49,9 +50,12 @@ void BinPlaylist::manageBinItemInsertion(const std::shared_ptr<AbstractProjectIt
     case AbstractProjectItem::ClipItem: {
         Q_ASSERT(m_allClips.count(id) == 0);
         auto clip = std::static_pointer_cast<ProjectClip>(binElem);
+        qDebug() << "Inserting clip"<<binElem->clipId();
         if (clip->isValid()) {
+            qDebug() << "Inserting valid clip"<<binElem->clipId();
             m_binPlaylist->append(*clip->originalProducer().get());
         } else {
+            qDebug() << "Inserting invalid clip"<<binElem->clipId();
             // if clip is not loaded yet, we insert a dummy producer
             Mlt::Producer dummy(pCore->getCurrentProfile()->profile(), "color:blue");
             dummy.set("kdenlive:id", id.toUtf8().constData());
@@ -108,6 +112,7 @@ void BinPlaylist::removeBinClip(const QString &id)
 void BinPlaylist::changeProducer(const QString &id, const std::shared_ptr<Mlt::Producer> &producer)
 {
     Q_ASSERT(m_allClips.count(id) > 0);
+    qDebug() << "888888888 Changing producer"<<id;
     removeBinClip(id);
     m_binPlaylist->append(*producer.get());
 }
