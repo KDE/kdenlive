@@ -29,9 +29,47 @@ Rectangle
     anchors.fill: parent
     color: Qt.rgba(1,1,1, 0.6)
     id: keyframeContainer
+    property int activeFrame
+    property int activeIndex
 
     onKfrCountChanged: {
         keyframecanvas.requestPaint()
+    }
+    Keys.onShortcutOverride: {
+        if (event.key == Qt.Key_Left) {
+            if (event.modifiers & Qt.AltModifier) {
+                activeFrame = keyframes.itemAt(Math.max(0, --activeIndex)).frame
+            } else {
+                var oldFrame = activeFrame
+                activeFrame -= 1
+                if (activeFrame < 0) {
+                    activeFrame = 0
+                } else {
+                    keyframeModel.moveKeyframe(oldFrame, activeFrame, true)
+                }
+            }
+            event.accepted = true
+        }
+        if (event.key == Qt.Key_Right) {
+            if (event.modifiers & Qt.AltModifier) {
+                activeFrame = keyframes.itemAt(Math.min(keyframes.count - 1, ++activeIndex)).frame
+            } else {
+                var oldFrame = activeFrame
+                activeFrame += 1
+                keyframeModel.moveKeyframe(oldFrame, activeFrame, true)
+            }
+            event.accepted = true
+        }
+        if (event.key == Qt.Key_Return || event.key == Qt.Key_Escape) {
+            focus = false
+            event.accepted = true
+        }
+        if (event.key == Qt.Key_Tab) {
+            activeFrame = keyframes.itemAt(++activeIndex).frame
+            console.log('------------------------- TAB: ', activeFrame)
+            event.accepted = true
+            focus = true
+        }
     }
     Repeater {
         id: keyframes
@@ -88,7 +126,7 @@ Rectangle
                 height: width
                 radius: width / 2
                 color: Qt.rgba(1,0,0, 0.4)
-                border.color: kf1MouseArea.containsMouse ? 'red' : 'transparent'
+                border.color: keyframeContainer.activeFrame == keyframe.frame ? 'black' : kf1MouseArea.containsMouse ? 'blue' : 'transparent'
                 MouseArea {
                     id: kf1MouseArea
                     anchors.fill: parent
@@ -96,6 +134,11 @@ Rectangle
                     cursorShape: Qt.PointingHandCursor
                     drag.target: parent
                     drag.smoothed: false
+                    onClicked: {
+                        keyframeContainer.activeFrame = frame
+                        keyframeContainer.activeIndex = index
+                        keyframeContainer.focus = true
+                    }
                     onReleased: {
                         root.stopScrolling = false
                         var newPos = Math.round((keyframe.x + parent.x + root.baseUnit / 2) / timeScale)
