@@ -100,8 +100,12 @@ Rectangle
                         root.stopScrolling = false
                         var newPos = Math.round((keyframe.x + parent.x + root.baseUnit / 2) / timeScale)
                         var newVal = (keyframeContainer.height - (parent.y + mouse.y)) / keyframeContainer.height
-                        console.log('.............\n\nKFRHGT: ', clipRoot.height,' - ', mouse.y)
-                        keyframeModel.moveKeyframe(frame, newPos, newVal)
+                        if (newVal > 1.5 || newVal < -0.5) {
+                            keyframeModel.removeKeyframe(frame);
+                        } else {
+                            newVal = newVal < 0 ? 0 : newVal > 1 ? 1 : newVal
+                            keyframeModel.moveKeyframe(frame, newPos, newVal)
+                        }
                     }
                     onPositionChanged: {
                         if (mouse.buttons === Qt.LeftButton) {
