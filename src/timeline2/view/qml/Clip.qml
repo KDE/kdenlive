@@ -418,7 +418,7 @@ Rectangle {
 
         KeyframeView {
             id: effectRow
-            visible: clipRoot.showKeyframes
+            visible: clipRoot.showKeyframes && keyframeModel
         }
     }
 

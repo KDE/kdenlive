@@ -154,11 +154,11 @@ KeyframeModel *CompositionModel::getEffectKeyframeModel()
 bool CompositionModel::showKeyframes() const
 {
     READ_LOCK();
-    return service()->get_int("kdenlive:timeline_display");
+    return !service()->get_int("kdenlive:hide_keyframes");
 }
 
 void CompositionModel::setShowKeyframes(bool show)
 {
     QWriteLocker locker(&m_lock);
-    service()->set("kdenlive:timeline_display", (int)show);
+    service()->set("kdenlive:hide_keyframes", (int)!show);
 }
