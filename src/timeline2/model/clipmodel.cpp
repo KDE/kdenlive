@@ -424,3 +424,10 @@ PlaylistState::ClipState ClipModel::clipState() const
     }
     return PlaylistState::Original;
 }
+
+void ClipModel::passTimelineProperties(std::shared_ptr <ClipModel> other)
+{
+    Mlt::Properties source(m_producer->get_properties());
+    Mlt::Properties dest(other->service()->get_properties());
+    dest.pass_list(source, "kdenlive:hide_keyframes,kdenlive:activeeffect");
+}

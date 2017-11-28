@@ -35,6 +35,9 @@ bool TimelineFunctions::copyClip(std::shared_ptr<TimelineItemModel> timeline, in
 {
     bool res = timeline->requestClipCreation(timeline->getClipBinId(clipId), newId, state, undo, redo);
     timeline->m_allClips[newId]->m_endlessResize = timeline->m_allClips[clipId]->m_endlessResize;
+    // copy useful timeline properties
+    timeline->m_allClips[clipId]->passTimelineProperties(timeline->m_allClips[newId]);
+
     int duration = timeline->getClipPlaytime(clipId);
     int init_duration = timeline->getClipPlaytime(newId);
     if (duration != init_duration) {

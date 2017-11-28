@@ -419,6 +419,8 @@ Rectangle {
         KeyframeView {
             id: effectRow
             visible: clipRoot.showKeyframes && keyframeModel
+            inPoint: clipRoot.inPoint
+            outPoint: clipRoot.outPoint
         }
     }
 

@@ -99,6 +99,7 @@ public:
     bool importEffects(std::shared_ptr<EffectStackModel> stackModel);
     bool removeFade(bool fromStart);
     bool adjustEffectLength(const QString &effectName, int duration);
+    void passTimelineProperties(std::shared_ptr <ClipModel> other);
     KeyframeModel *getKeyframeModel();
 
     int fadeIn() const;

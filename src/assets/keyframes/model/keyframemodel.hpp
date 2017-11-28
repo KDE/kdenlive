@@ -95,6 +95,7 @@ public:
        @param logUndo if true, then an undo object is created
     */
     Q_INVOKABLE bool moveKeyframe(int oldPos, int pos, bool logUndo);
+    Q_INVOKABLE bool offsetKeyframes(int oldPos, int pos, bool logUndo);
     bool moveKeyframe(GenTime oldPos, GenTime pos, double newVal, bool logUndo);
     bool moveKeyframe(GenTime oldPos, GenTime pos, double newVal, Fun &undo, Fun &redo);
 

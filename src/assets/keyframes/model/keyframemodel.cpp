@@ -92,7 +92,8 @@ bool KeyframeModel::addKeyframe(int frame, double normalizedValue)
         Q_ASSERT(m_index.isValid());
         double min = ptr->data(m_index, AssetParameterModel::MinRole).toDouble();
         double max = ptr->data(m_index, AssetParameterModel::MaxRole).toDouble();
-        double realValue = normalizedValue * (max - min) + min;
+        double factor = ptr->data(m_index, AssetParameterModel::FactorRole).toDouble();
+        double realValue = (normalizedValue * (max - min) + min) / factor;
         // TODO: Use default configurable kf type
         return addKeyframe(GenTime(frame, pCore->getCurrentFps()), KeyframeType::Linear, realValue);
     }
@@ -174,7 +175,8 @@ bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, double newVal, Fun
             if (auto ptr = m_model.lock()) {
                 double min = ptr->data(m_index, AssetParameterModel::MinRole).toDouble();
                 double max = ptr->data(m_index, AssetParameterModel::MaxRole).toDouble();
-                double realValue = newVal * (max - min) + min;
+                double factor = ptr->data(m_index, AssetParameterModel::FactorRole).toDouble();
+                double realValue = (newVal * (max - min) + min) / factor;
                 res = addKeyframe(pos, oldType, realValue, true, local_undo, local_redo);
             }
         } else {
@@ -197,6 +199,30 @@ bool KeyframeModel::moveKeyframe(int oldPos, int pos, bool logUndo)
     GenTime oPos(oldPos, pCore->getCurrentFps());
     GenTime nPos(pos, pCore->getCurrentFps());
     return moveKeyframe(oPos, nPos, -1, logUndo);
+}
+
+bool KeyframeModel::offsetKeyframes(int oldPos, int pos, bool logUndo)
+{
+    if (oldPos == pos) return true;
+    GenTime oldFrame(oldPos, pCore->getCurrentFps());
+    Q_ASSERT(m_keyframeList.count(oldFrame) > 0);
+    GenTime diff(pos - oldPos, pCore->getCurrentFps());
+    QWriteLocker locker(&m_lock);
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    QList <GenTime> times;
+    for (const auto &m : m_keyframeList) {
+        if (m.first < oldFrame) continue;
+        times << m.first;
+    }
+    bool res;
+    for (const auto &t : times) {
+        res = moveKeyframe(t, t + diff, -1, undo, redo);
+    }
+    if (res && logUndo) {
+        PUSH_UNDO(undo, redo, i18n("Move keyframes"));
+    }
+    return res;
 }
 
 bool KeyframeModel::moveKeyframe(int oldPos, int pos, double newVal)
@@ -373,7 +399,8 @@ QVariant KeyframeModel::data(const QModelIndex &index, int role) const
             Q_ASSERT(m_index.isValid());
             double min = ptr->data(m_index, AssetParameterModel::MinRole).toDouble();
             double max = ptr->data(m_index, AssetParameterModel::MaxRole).toDouble();
-            return (val - min) / (max - min);
+            double factor = ptr->data(m_index, AssetParameterModel::FactorRole).toDouble();
+            return (val * factor - min) / (max - min);
         } else {
             qDebug() << "// CANNOT LOCK effect MODEL";
         }

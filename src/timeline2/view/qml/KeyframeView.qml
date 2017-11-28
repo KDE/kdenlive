@@ -31,6 +31,8 @@ Rectangle
     id: keyframeContainer
     property int activeFrame
     property int activeIndex
+    property int inPoint
+    property int outPoint
 
     onKfrCountChanged: {
         keyframecanvas.requestPaint()
@@ -78,7 +80,7 @@ Rectangle
             id: keyframe
             property int frame : model.frame
             property int frameType : model.type
-            x: model.frame * timeScale
+            x: (model.frame - inPoint) * timeScale
             height: parent.height // * model.normalizedValue
             property int value: parent.height * model.normalizedValue
             property int tmpVal : keyframeVal.y + root.baseUnit / 2
@@ -107,7 +109,12 @@ Rectangle
                     root.stopScrolling = false
                     var newPos = Math.round(parent.x / timeScale)
                     if (newPos != frame) {
-                        keyframeModel.moveKeyframe(frame, newPos, true)
+                        if (mouse.modifiers & Qt.ShiftModifier) {
+                            // offset all subsequent keyframes
+                            keyframeModel.offsetKeyframes(frame, newPos, true)
+                        } else {
+                            keyframeModel.moveKeyframe(frame, newPos, true)
+                        }
                     }
                 }
                 onPositionChanged: {
