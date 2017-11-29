@@ -810,9 +810,9 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tract
                     qDebug() << "Loaded clip "<< id <<"under id"<<newId;
                 }
             }
-            m_binPlaylist->setRetainIn(modelTractor);
         }
     }
+    m_binPlaylist->setRetainIn(modelTractor);
 }
 
 /** @brief Save document properties in MLT's bin playlist */
