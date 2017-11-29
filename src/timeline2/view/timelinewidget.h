@@ -24,7 +24,6 @@
 
 #include "assets/assetlist/model/assetfilter.hpp"
 #include "assets/assetlist/model/assettreemodel.hpp"
-#include "mltcontroller/bincontroller.h"
 #include "timeline2/model/timelineitemmodel.hpp"
 #include <QQuickWidget>
 
@@ -38,7 +37,7 @@ class TimelineWidget : public QQuickWidget
     Q_OBJECT
 
 public:
-    TimelineWidget(KActionCollection *actionCollection, std::shared_ptr<BinController> binController, QWidget *parent = Q_NULLPTR);
+    TimelineWidget(KActionCollection *actionCollection, QWidget *parent = Q_NULLPTR);
     ~TimelineWidget();
     /* @brief Sets the model shown by this widget */
     void setModel(std::shared_ptr<TimelineItemModel> model);
@@ -59,7 +58,6 @@ public slots:
     void zoneUpdated(const QPoint &zone);
 
 private:
-    std::shared_ptr<BinController> m_binController;
     ThumbnailProvider *m_thumbnailer;
     TimelineController *m_proxy;
     static const int comboScale[];

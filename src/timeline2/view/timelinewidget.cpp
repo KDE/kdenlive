@@ -47,9 +47,8 @@
 
 const int TimelineWidget::comboScale[] = {1, 2, 5, 10, 25, 50, 125, 250, 500, 750, 1500, 3000, 6000, 12000};
 
-TimelineWidget::TimelineWidget(KActionCollection *actionCollection, std::shared_ptr<BinController> binController, QWidget *parent)
+TimelineWidget::TimelineWidget(KActionCollection *actionCollection, QWidget *parent)
     : QQuickWidget(parent)
-    , m_binController(binController)
 {
     registerTimelineItems();
     m_transitionModel = TransitionTreeModel::construct(true, this);
