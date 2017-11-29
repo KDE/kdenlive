@@ -25,15 +25,24 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define PROJECTITEMMODEL_H
 
 #include "abstractmodel/abstracttreemodel.hpp"
-#include "mltcontroller/bincontroller.h"
+#include "definitions.h"
 #include "undohelper.hpp"
+#include <QDomElement>
 #include <QReadWriteLock>
 #include <QSize>
+#include <QIcon>
 
 class AbstractProjectItem;
 class BinPlaylist;
+class MarkerListModel;
 class ProjectClip;
 class ProjectFolder;
+
+namespace Mlt {
+class Producer;
+class Properties;
+class Tractor;
+}
 
 /**
  * @class ProjectItemModel
