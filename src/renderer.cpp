@@ -750,7 +750,7 @@ void Render::switchPlay(bool play, double speed)
     }
     if (play) {
         double currentSpeed = m_mltProducer->get_speed();
-        if (m_name == Kdenlive::ClipMonitor && m_mltConsumer->position() == m_mltProducer->get_out()) {
+        if (m_name == Kdenlive::ClipMonitor && m_mltConsumer->position() == m_mltProducer->get_out() && speed > 0) {
             m_mltProducer->seek(0);
         }
         if (m_mltConsumer->get_int("real_time") != m_qmlView->realTime()) {
