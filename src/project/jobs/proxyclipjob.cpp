@@ -118,9 +118,9 @@ void ProxyJob::startJob()
         // Images are scaled to profile size.
         //TODO: Make it be configurable?
         if (i.width() > i.height()) {
-            proxy = i.scaledToWidth(m_renderWidth);
+            proxy = i.scaledToWidth(960);
         } else {
-            proxy = i.scaledToHeight(m_renderHeight);
+            proxy = i.scaledToHeight(540);
         }
         if (m_exif > 1) {
             // Rotate image according to exif data
