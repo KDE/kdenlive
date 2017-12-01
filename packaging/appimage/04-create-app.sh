@@ -79,6 +79,9 @@ PLUGINS=$(dirname $QTDIR/plugins/bearer)
 /bin/cp -r $PLUGINS/{bearer,generic,imageformats,platforms,iconengines,platforminputcontexts,xcbglintegrations} ./usr/lib/qt5/plugins/
 /bin/cp -r $PLUGINS/kf5 ./usr/lib/qt5/plugins/
 /bin/cp -r $PLUGINS/mltpreview.so ./usr/lib/qt5/plugins/
+mkdir -p ./usr/lib/qt5/plugins/styles/
+/bin/cp -r /usr/plugins/styles/breeze.so ./usr/lib/qt5/plugins/styles/
+/bin/cp -r /usr/plugins/kstyle_breeze_config.so ./usr/lib/qt5/plugins/
 
 /bin/cp -r $QTDIR/qml ./usr/lib/qt5/
 cp -ru /usr/share/mime/* /app/usr/share/mime
