@@ -767,6 +767,7 @@ void Render::switchPlay(bool play, double speed)
             m_isRefreshing = true;
             m_mltConsumer->set("refresh", 1);
         } else {
+            m_mltProducer->seek(m_mltConsumer->position() + 1);
             m_mltConsumer->purge();
         }
         m_mltProducer->set_speed(speed);
