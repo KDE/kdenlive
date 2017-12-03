@@ -193,7 +193,7 @@ public:
     void addMarkers(QList<CommentedTime> &markers);
     /** @brief Add an effect to bin clip. */
     void addEffect(const ProfileInfo &pInfo, QDomElement &effect);
-    void updateEffect(const ProfileInfo &pInfo, QDomElement &effect, int ix, bool refreshStack);
+    void updateEffect(const ProfileInfo &pInfo, QDomElement &effect, int ix, bool refreshStack, bool updateClip);
     void removeEffect(int ix);
     /** @brief Create audio thumbnail for this clip. */
     void createAudioThumbs();

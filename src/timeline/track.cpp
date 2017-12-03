@@ -475,12 +475,13 @@ bool Track::replace(qreal t, Mlt::Producer *prod, PlaylistState::ClipState state
     return ok;
 }
 
-void Track::updateEffects(const QString &id, Mlt::Producer *original)
+const QList<ItemInfo> Track::updateEffects(const QString &id, Mlt::Producer *original)
 {
     QString idForAudioTrack;
     QString idForVideoTrack;
     QString service = original->parent().get("mlt_service");
     QString idForTrack = original->parent().get("id");
+    QList<ItemInfo> range;
     if (needsDuplicate(service)) {
         // We have to use the track clip duplication functions, because of audio glitches in MLT's multitrack
         idForAudioTrack = idForTrack + QLatin1Char('_') + m_playlist.get("id") + QStringLiteral("_audio");
@@ -491,21 +492,37 @@ void Track::updateEffects(const QString &id, Mlt::Producer *original)
     for (int i = 0; i < m_playlist.count(); i++) {
         if (m_playlist.is_blank(i)) continue;
         QScopedPointer<Mlt::Producer> p(m_playlist.get_clip(i));
-	Mlt::Producer origin = p->parent();
+        Mlt::Producer origin = p->parent();
         QString current = origin.get("id");
-	if (current.startsWith(QLatin1String("slowmotion:"))) {
+        if (current.startsWith(QLatin1String("slowmotion:"))) {
             if (current.section(QLatin1Char(':'), 1, 1) == id) {
-		Clip(origin).replaceEffects(*original);
+                Clip(origin).replaceEffects(*original);
+                ItemInfo cInfo;
+                cInfo.startPos = GenTime(m_playlist.clip_start(i), fps());
+                cInfo.endPos = cInfo.startPos + GenTime(m_playlist.clip_length(i), fps());
+                cInfo.track = m_index;
+                range << cInfo;
             }
-	}
-	else if (current == id) {
+        }
+        else if (current == id) {
             // we are directly using original producer, no need to update effects
+            ItemInfo cInfo;
+            cInfo.startPos = GenTime(m_playlist.clip_start(i), fps());
+            cInfo.endPos = cInfo.startPos + GenTime(m_playlist.clip_length(i), fps());
+            cInfo.track = m_index;
+            range << cInfo;
             continue;
-	}
-    else if (current.section(QLatin1Char('_'), 0, 0) == id) {
+        }
+        else if (current.section(QLatin1Char('_'), 0, 0) == id) {
             Clip(origin).replaceEffects(*original);
-	}
+            ItemInfo cInfo;
+            cInfo.startPos = GenTime(m_playlist.clip_start(i), fps());
+            cInfo.endPos = cInfo.startPos + GenTime(m_playlist.clip_length(i), fps());
+            cInfo.track = m_index;
+            range << cInfo;
+        }
     }
+    return range;
 }
 
 /*Mlt::Producer &Track::find(const QByteArray &name, const QByteArray &value, int startindex) {
@@ -904,7 +921,7 @@ bool Track::addTrackEffect(const EffectsParameterList &params)
     return effect.addEffect(params, duration);
 }
 
-bool Track::editEffect(double start, const EffectsParameterList &params, bool replace)
+bool Track::editEffect(double start, const EffectsParameterList &params, bool replace, bool updateClip)
 {
     int pos = frame(start);
     int clipIndex = m_playlist.get_clip_index_at(pos);

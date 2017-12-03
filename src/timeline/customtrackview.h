@@ -90,7 +90,7 @@ public:
     void slotAddGroupEffect(const QDomElement &effect, AbstractGroupItem *group, AbstractClipItem *dropTarget = nullptr);
     void addEffect(int track, GenTime pos, const QDomElement &effect);
     void deleteEffect(int track, const GenTime &pos, const QDomElement &effect);
-    void updateEffect(int track, GenTime pos, const QDomElement &insertedEffect, bool refreshEffectStack = false, bool replaceEffect = false, bool refreshMonitor = true);
+    void updateEffect(int track, GenTime pos, const QDomElement &insertedEffect, bool refreshEffectStack = false, bool replaceEffect = false, bool refreshMonitor = true, bool updateClip = true);
     /** @brief Enable / disable a list of effects */
     void updateEffectState(int track, GenTime pos, const QList<int> &effectIndexes, bool disable, bool updateEffectStack);
     void moveEffect(int track, const GenTime &pos, const QList<int> &oldPos, const QList<int> &newPos);
@@ -337,7 +337,7 @@ public slots:
     void slotDeleteEffect(ClipItem *clip, int track, const QDomElement &effect, bool affectGroup = true, QUndoCommand *parentCommand = nullptr);
     void slotChangeEffectState(ClipItem *clip, int track, QList<int> effectIndexes, bool disable);
     void slotChangeEffectPosition(ClipItem *clip, int track, const QList<int> &currentPos, int newPos);
-    void slotUpdateClipEffect(ClipItem *clip, int track, const QDomElement &oldeffect, const QDomElement &effect, int ix, bool refreshEffectStack = true);
+    void slotUpdateClipEffect(ClipItem *clip, int track, const QDomElement &oldeffect, const QDomElement &effect, int ix, bool refreshEffectStack = true, bool updateClip = true);
     void slotUpdateClipRegion(ClipItem *clip, int ix, const QString &region);
     void slotRefreshEffects(ClipItem *clip);
     void setDuration(int duration);

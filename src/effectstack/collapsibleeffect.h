@@ -141,7 +141,7 @@ protected:
     void dropEvent(QDropEvent *event) Q_DECL_OVERRIDE;
 
 signals:
-    void parameterChanged(const QDomElement &, const QDomElement &, int);
+    void parameterChanged(const QDomElement &, const QDomElement &, int, bool update = true);
     void syncEffectsPos(int);
     void effectStateChanged(bool, int ix, MonitorSceneType effectNeedsMonitorScene);
     void deleteEffect(const QDomElement &);

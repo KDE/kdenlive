@@ -279,7 +279,7 @@ void SelectManager::mouseRelease(QMouseEvent *event, GenTime pos)
 
         QDomElement newEffect = item->selectedEffect().cloneNode().toElement();
 
-        EditEffectCommand *command = new EditEffectCommand(m_view, item->track(), item->startPos(), oldEffect, newEffect, item->selectedEffectIndex(), false, false, true);
+        EditEffectCommand *command = new EditEffectCommand(m_view, item->track(), item->startPos(), oldEffect, newEffect, item->selectedEffectIndex(), false, true, false, true);
         m_commandStack->push(command);
         m_view->updateEffect(item->track(), item->startPos(), item->selectedEffect());
         m_view->clipItemSelected(item);

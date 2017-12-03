@@ -142,7 +142,7 @@ public:
      * @param newSlowMos the slowmotion producers required for replacement
      * @return list of in/out that were replaced */
     QList<ItemInfo> replaceAll(const QString &id, Mlt::Producer *original, Mlt::Producer *videoOnlyProducer, const QMap<QString, Mlt::Producer *> &newSlowMos);
-    void updateEffects(const QString &id, Mlt::Producer *original);
+    const QList<ItemInfo> updateEffects(const QString &id, Mlt::Producer *original);
     /** @brief replace an instance of a clip with another resource
      * @param t is the clip time in playlist
      * @param prod is the replacement clip
@@ -199,7 +199,7 @@ public:
     bool isLastClip(qreal t);
     bool addEffect(double start, const EffectsParameterList &params);
     bool addTrackEffect(const EffectsParameterList &params);
-    bool editEffect(double start, const EffectsParameterList &params, bool replace);
+    bool editEffect(double start, const EffectsParameterList &params, bool replace, bool updateClip = true);
     bool editTrackEffect(const EffectsParameterList &params, bool replace);
     bool removeEffect(double start, int effectIndex, bool updateIndex);
     bool removeTrackEffect(int effectIndex, bool updateIndex);

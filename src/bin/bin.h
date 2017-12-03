@@ -301,7 +301,7 @@ public:
     /** @brief Add an effect to a bin clip. */
     void addEffect(const QString &id, QDomElement &effect);
     /** @brief Update a bin clip effect. */
-    void updateEffect(const QString &id, QDomElement &effect, int ix, bool refreshStackWidget);
+    void updateEffect(const QString &id, QDomElement &effect, int ix, bool refreshStackWidget, bool updateClip);
     void changeEffectState(const QString &id, const QList<int> &indexes, bool disable, bool refreshStack);
     /** @brief Edit an effect settings to a bin clip. */
     void editMasterEffect(ClipController *ctl);
@@ -370,7 +370,7 @@ private slots:
     void slotItemDropped(const QStringList &ids, const QModelIndex &parent);
     void slotItemDropped(const QList<QUrl> &urls, const QModelIndex &parent);
     void slotEffectDropped(const QString &effect, const QModelIndex &parent);
-    void slotUpdateEffect(QString id, QDomElement oldEffect, QDomElement newEffect, int ix, bool refreshStack = false);
+    void slotUpdateEffect(QString id, QDomElement oldEffect, QDomElement newEffect, int ix, bool refreshStack = false, bool updateClip = true);
     void slotChangeEffectState(QString id, const QList<int> &indexes, bool disable);
     void slotItemEdited(const QModelIndex &, const QModelIndex &, const QVector<int> &);
     void slotAddUrl(const QString &url, int folderId, const QMap<QString, QString> &data = QMap<QString, QString>());

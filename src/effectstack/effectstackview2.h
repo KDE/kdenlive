@@ -196,7 +196,7 @@ private slots:
     /** @brief Checks whether the monitor scene has to be displayed. */
     void slotCheckMonitorPosition(int renderPos);
 
-    void slotUpdateEffectParams(const QDomElement &old, const QDomElement &e, int ix);
+    void slotUpdateEffectParams(const QDomElement &old, const QDomElement &e, int ix, bool update);
 
     /** @brief Move an effect in the stack.
      * @param indexes The list of effect index in the stack
@@ -261,9 +261,9 @@ signals:
     void removeMasterEffect(const QString &id, const QDomElement &);
     void addMasterEffect(const QString &id, const QDomElement &);
     /**  Parameters for an effect changed, update the filter in timeline */
-    void updateEffect(ClipItem *, int, const QDomElement &, const QDomElement &, int, bool);
+    void updateEffect(ClipItem *, int, const QDomElement &, const QDomElement &, int, bool refreshStack, bool updateClip = true);
     /**  Parameters for an effect changed, update the filter in timeline */
-    void updateMasterEffect(QString, const QDomElement &, const QDomElement &, int ix,bool refreshStack = false);
+    void updateMasterEffect(QString, const QDomElement &, const QDomElement &, int ix,bool refreshStack = false, bool updateClip = true);
     /** An effect in stack was moved, we need to regenerate
         all effects for this clip in the playlist */
     void refreshEffectStack(ClipItem *);
