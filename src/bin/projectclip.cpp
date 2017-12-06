@@ -29,6 +29,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "effects/effectstack/model/effectstackmodel.hpp"
 #include "jobs/jobmanager.h"
 #include "jobs/thumbjob.hpp"
+#include "jobs/loadjob.hpp"
+#include <jobs/proxyclipjob.h>
 #include "kdenlivesettings.h"
 #include "lib/audio/audioStreamInfo.h"
 #include "mltcontroller/clip.h"
@@ -292,8 +294,12 @@ void ProjectClip::reloadProducer(bool refreshOnly)
         pCore->jobManager()->startJob<ThumbJob>({clipId()}, parentJobs, QString(), 150, -1, true);
 
     } else {
-        // TODO refac: launch load job
-        // if (auto ptr = m_model.lock()) emit std::static_pointer_cast<ProjectItemModel>(ptr)->reloadProducer(m_binId, xml);
+        //TODO: check if another load job is running?
+        QDomDocument doc;
+        QDomElement xml = toXml(doc);
+        if (!xml.isNull()) {
+            pCore->jobManager()->startJob<LoadJob>({clipId()}, {}, QString(), xml);
+        }
     }
 }
 
@@ -585,18 +591,12 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         // If value is "-", that means user manually disabled proxy on this clip
         if (value.isEmpty() || value == QLatin1String("-")) {
             // reset proxy
-            if (auto ptr = m_model.lock()) {
-                // TODO refac
-                // emit std::static_pointer_cast<ProjectItemModel>(ptr)->discardJobs(m_binId, AbstractClipJob::PROXYJOB);
-                reloadProducer();
-            }
+            pCore->jobManager()->discardJobs(clipId(), AbstractClipJob::PROXYJOB);
+            reloadProducer();
         } else {
             // A proxy was requested, make sure to keep original url
             setProducerProperty(QStringLiteral("kdenlive:originalurl"), url());
-            if (auto ptr = m_model.lock()) {
-                // TODO refac
-                //  emit std::static_pointer_cast<ProjectItemModel>(ptr)->startJob(m_binId, AbstractClipJob::PROXYJOB);
-            }
+            pCore->jobManager()->startJob<ProxyJob>({clipId()}, {}, QString());
         }
     } else if (properties.contains(QStringLiteral("resource")) || properties.contains(QStringLiteral("templatetext")) ||
                properties.contains(QStringLiteral("autorotate"))) {

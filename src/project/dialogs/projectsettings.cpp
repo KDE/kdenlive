@@ -97,6 +97,7 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
         m_proxyparameters = doc->getDocumentProperty(QStringLiteral("proxyparams"));
         generate_imageproxy->setChecked(doc->getDocumentProperty(QStringLiteral("generateimageproxy")).toInt() != 0);
         proxy_imageminsize->setValue(doc->getDocumentProperty(QStringLiteral("proxyimageminsize")).toInt());
+        proxy_imagesize->setValue(doc->getDocumentProperty(QStringLiteral("proxyimagesize")).toInt());
         m_proxyextension = doc->getDocumentProperty(QStringLiteral("proxyextension"));
         m_previewparams = doc->getDocumentProperty(QStringLiteral("previewparameters"));
         m_previewextension = doc->getDocumentProperty(QStringLiteral("previewextension"));
@@ -497,6 +498,11 @@ int ProjectSettings::proxyMinSize() const
 int ProjectSettings::proxyImageMinSize() const
 {
     return proxy_imageminsize->value();
+}
+
+int ProjectSettings::proxyImageSize() const
+{
+    return proxy_imagesize->value();
 }
 
 QString ProjectSettings::proxyParams() const

@@ -21,48 +21,80 @@
 #include "proxyclipjob.h"
 #include "bin/bin.h"
 #include "bin/projectclip.h"
+#include "bin/projectitemmodel.h"
 #include "core.h"
 #include "doc/kdenlivedoc.h"
 #include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
+#include "macros.hpp"
+
 #include <QProcess>
 #include <QTemporaryFile>
+#include <QProcess>
 
 #include <klocalizedstring.h>
 
-ProxyJob::ProxyJob(ClipType cType, const QString &id, const QStringList &parameters, QTemporaryFile *playlist)
-    : AbstractClipJob(PROXYJOB, cType, id)
+
+ProxyJob::ProxyJob(const QString &binId)
+    : AbstractClipJob(PROXYJOB, binId)
     , m_jobDuration(0)
     , m_isFfmpegJob(true)
+    , m_done(false)
 {
-    m_jobStatus = JobWaiting;
-    description = i18n("proxy");
-    m_dest = parameters.at(0);
-    m_src = parameters.at(1);
-    m_exif = parameters.at(2).toInt();
-    m_proxyParams = parameters.at(3);
-    m_renderWidth = parameters.at(4).toInt();
-    m_renderHeight = parameters.at(5).toInt();
-    m_playlist = playlist;
-    replaceClip = true;
 }
 
-void ProxyJob::startJob()
+const QString ProxyJob::getDescription() const
 {
-    // Special case: playlist clips (.mlt or .kdenlive project files)
-    m_jobDuration = 0;
-    if (clipType == Playlist || clipType == SlideShow) {
+    return i18n("Creating proxy %1", m_clipId);
+}
+
+
+bool ProxyJob::startJob()
+{
+    auto binClip = pCore->projectItemModel()->getClipByBinID(m_clipId);
+    const QString dest = binClip->getProducerProperty(QStringLiteral("kdenlive:proxy"));
+    if (QFile::exists(dest)) {
+        // Proxy clip already created
+        m_done = true;
+        return true;
+    }
+    ClipType type = binClip->clipType();
+    bool result;
+    QString source = binClip->getProducerProperty(QStringLiteral("kdenlive:originalurl"));
+    int exif = binClip->getProducerIntProperty(QStringLiteral("_exif_orientation"));
+    if (type == ClipType::Playlist || type == ClipType::SlideShow) {
         // change FFmpeg params to MLT format
         m_isFfmpegJob = false;
         QStringList mltParameters;
-        mltParameters << m_src;
-        mltParameters << QStringLiteral("-consumer") << QStringLiteral("avformat:") + m_dest;
-        QStringList params = m_proxyParams.split(QLatin1Char('-'), QString::SkipEmptyParts);
-        double display_ratio;
-        if (m_src.startsWith(QLatin1String("consumer:"))) {
-            display_ratio = KdenliveDoc::getDisplayRatio(m_src.section(QLatin1Char(':'), 1));
+        QTemporaryFile *playlist = nullptr;
+        // set clip origin
+        if (type == ClipType::Playlist) {
+            // Special case: playlists use the special 'consumer' producer to support resizing
+            source.prepend(QStringLiteral("consumer:"));
         } else {
-            display_ratio = KdenliveDoc::getDisplayRatio(m_src);
+            // create temporary playlist to generate proxy
+            // we save a temporary .mlt clip for rendering
+            QDomDocument doc;
+            QDomElement xml = binClip->toXml(doc, false);
+            playlist = new QTemporaryFile();
+            playlist->setFileTemplate(playlist->fileTemplate() + QStringLiteral(".mlt"));
+            if (playlist->open()) {
+                source = playlist->fileName();
+                QTextStream out(playlist);
+                out << doc.toString();
+                playlist->close();
+            }
+        }
+        mltParameters << source;
+        // set destination
+        mltParameters << QStringLiteral("-consumer") << QStringLiteral("avformat:") + dest;
+        QString parameter = pCore->currentDoc()->getDocumentProperty(QStringLiteral("proxyparams")).simplified();
+        QStringList params = parameter.split(QLatin1Char('-'), QString::SkipEmptyParts);
+        double display_ratio;
+        if (source.startsWith(QLatin1String("consumer:"))) {
+            display_ratio = KdenliveDoc::getDisplayRatio(source.section(QLatin1Char(':'), 1));
+        } else {
+            display_ratio = KdenliveDoc::getDisplayRatio(source);
         }
         if (display_ratio < 1e-6) {
             display_ratio = 1;
@@ -103,32 +135,35 @@ void ProxyJob::startJob()
 
         m_jobProcess = new QProcess;
         m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
+        connect(m_jobProcess, &QProcess::readyReadStandardOutput, this, &ProxyJob::processLogInfo);
         m_jobProcess->start(KdenliveSettings::rendererpath(), mltParameters);
-        m_jobProcess->waitForStarted();
-    } else if (clipType == Image) {
+        m_jobProcess->waitForFinished(-1);
+        result = m_jobProcess->exitStatus() == QProcess::NormalExit;
+        delete playlist;
+    } else if (type == ClipType::Image) {
         m_isFfmpegJob = false;
         // Image proxy
-        QImage i(m_src);
+        QImage i(source);
         if (i.isNull()) {
-            m_errorMessage.append(i18n("Cannot load image %1.", m_src));
-            setStatus(JobCrashed);
-            return;
+            m_done = false;
+            m_errorMessage.append(i18n("Cannot load image %1.", source));
+            return false;
         }
 
         QImage proxy;
         // Images are scaled to profile size.
         // TODO: Make it be configurable?
         if (i.width() > i.height()) {
-            proxy = i.scaledToWidth(m_renderWidth);
+            proxy = i.scaledToWidth(KdenliveSettings::proxyimagesize());
         } else {
-            proxy = i.scaledToHeight(m_renderHeight);
+            proxy = i.scaledToHeight(KdenliveSettings::proxyimagesize());
         }
-        if (m_exif > 1) {
+        if (exif > 1) {
             // Rotate image according to exif data
             QImage processed;
             QMatrix matrix;
 
-            switch (m_exif) {
+            switch (exif) {
             case 2:
                 matrix.scale(-1, 1);
                 break;
@@ -154,94 +189,75 @@ void ProxyJob::startJob()
                 break;
             }
             processed = proxy.transformed(matrix);
-            processed.save(m_dest);
+            processed.save(dest);
         } else {
-            proxy.save(m_dest);
+            proxy.save(dest);
         }
-        setStatus(JobDone);
-        return;
+        m_done = true;
+        return true;
     } else {
         m_isFfmpegJob = true;
+        QStringList parameters;
         if (KdenliveSettings::ffmpegpath().isEmpty()) {
             // FFmpeg not detected, cannot process the Job
             m_errorMessage.prepend(i18n("Failed to create proxy. FFmpeg not found, please set path in Kdenlive's settings Environment"));
-            setStatus(JobCrashed);
-            return;
+            m_done = true;
+            return false;
         }
-        QStringList parameters;
-        if (m_proxyParams.contains(QStringLiteral("-noautorotate"))) {
+        const QString proxyParams = pCore->currentDoc()->getDocumentProperty(QStringLiteral("proxyparams")).simplified();
+        if (proxyParams.contains(QStringLiteral("-noautorotate"))) {
             // The noautorotate flag must be passed before input source
             parameters << QStringLiteral("-noautorotate");
         }
-        if (m_proxyParams.contains(QLatin1String("-i "))) {
+        if (proxyParams.contains(QLatin1String("-i "))) {
             // we have some pre-filename parameters, filename will be inserted later
         } else {
-            parameters << QStringLiteral("-i") << m_src;
+            parameters << QStringLiteral("-i") << source;
         }
-        QString params = m_proxyParams;
+        QString params = proxyParams;
         for (const QString &s : params.split(QLatin1Char(' '))) {
             QString t = s.simplified();
             if (t != QLatin1String("-noautorotate")) {
                 parameters << t;
                 if (t == QLatin1String("-i")) {
-                    parameters << m_src;
+                    parameters << source;
                 }
             }
         }
 
         // Make sure we don't block when proxy file already exists
         parameters << QStringLiteral("-y");
-        parameters << m_dest;
+        parameters << dest;
         m_jobProcess = new QProcess;
         m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
+        connect(m_jobProcess, &QProcess::readyReadStandardOutput, this, &ProxyJob::processLogInfo);
         m_jobProcess->start(KdenliveSettings::ffmpegpath(), parameters, QIODevice::ReadOnly);
-        m_jobProcess->waitForStarted();
-    }
-    while (m_jobProcess->state() != QProcess::NotRunning) {
-        processLogInfo();
-        if (m_jobStatus == JobAborted) {
-            emit cancelRunningJob(m_clipId, cancelProperties());
-            m_jobProcess->close();
-            m_jobProcess->waitForFinished();
-            QFile::remove(m_dest);
-        }
-        m_jobProcess->waitForFinished(400);
+        m_jobProcess->waitForFinished(-1);
+        result = m_jobProcess->exitStatus() == QProcess::NormalExit;
     }
     // remove temporary playlist if it exists
-    delete m_playlist;
-    if (m_jobStatus != JobAborted) {
-        int result = m_jobProcess->exitStatus();
-        if (result == QProcess::NormalExit) {
-            if (QFileInfo(m_dest).size() == 0) {
-                // File was not created
-                processLogInfo();
-                m_errorMessage.append(i18n("Failed to create proxy clip."));
-                setStatus(JobCrashed);
-            } else {
-                setStatus(JobDone);
-            }
-        } else if (result == QProcess::CrashExit) {
-            // Proxy process crashed
-            QFile::remove(m_dest);
-            setStatus(JobCrashed);
+    if (result) {
+        if (QFileInfo(dest).size() == 0) {
+            // File was not created
+            m_done = false;
+            m_errorMessage.append(i18n("Failed to create proxy clip."));
+        } else {
+            m_done = true;
         }
+    } else {
+        // Proxy process crashed
+        QFile::remove(dest);
+        m_done = false;
+        m_errorMessage.append(QString::fromUtf8(m_jobProcess->readAll()));
     }
     delete m_jobProcess;
+    return result;
 }
 
 void ProxyJob::processLogInfo()
 {
-    if ((m_jobProcess == nullptr) || m_jobStatus == JobAborted) {
-        return;
-    }
-    QString log = QString::fromUtf8(m_jobProcess->readAll());
-    if (!log.isEmpty()) {
-        m_logDetails.append(log + QLatin1Char('\n'));
-    } else {
-        return;
-    }
-
     int progress;
+    const QString log = QString::fromUtf8(m_jobProcess->readAll());
     if (m_isFfmpegJob) {
         // Parse FFmpeg output
         if (m_jobDuration == 0) {
@@ -258,113 +274,47 @@ void ProxyJob::processLogInfo()
             } else {
                 progress = (int)time.toDouble();
             }
-            emit jobProgress(m_clipId, (int)(100.0 * progress / m_jobDuration), jobType);
+            emit jobProgress((int)(100.0 * progress / m_jobDuration));
         }
     } else {
         // Parse MLT output
         if (log.contains(QLatin1String("percentage:"))) {
             progress = log.section(QStringLiteral("percentage:"), 1).simplified().section(QLatin1Char(' '), 0, 0).toInt();
-            emit jobProgress(m_clipId, progress, jobType);
+            emit jobProgress(progress);
         }
     }
 }
 
-ProxyJob::~ProxyJob()
+bool ProxyJob::commitResult(Fun &undo, Fun &redo)
 {
-}
-
-const QString ProxyJob::destination() const
-{
-    return m_dest;
-}
-
-stringMap ProxyJob::cancelProperties()
-{
-    QMap<QString, QString> props;
-    props.insert(QStringLiteral("kdenlive:proxy"), QStringLiteral("-"));
-    return props;
-}
-
-const QString ProxyJob::statusMessage()
-{
-    QString statusInfo;
-    switch (m_jobStatus) {
-    case JobWorking:
-        statusInfo = i18n("Creating proxy");
-        break;
-    case JobWaiting:
-        statusInfo = i18n("Waiting - proxy");
-        break;
-    default:
-        break;
+    Q_ASSERT(!m_resultConsumed);
+    if (!m_done) {
+        qDebug() << "ERROR: Trying to consume invalid results";
+        auto binClip = pCore->projectItemModel()->getClipByBinID(m_clipId);
+        binClip->setProducerProperty(QStringLiteral("kdenlive:proxy"), QStringLiteral("-"));
+        return false;
     }
-    return statusInfo;
-}
-
-// static
-QList<ProjectClip *> ProxyJob::filterClips(const QList<ProjectClip *> &clips)
-{
-    QList<ProjectClip *> result;
-    for (int i = 0; i < clips.count(); i++) {
-        ProjectClip *clip = clips.at(i);
-        ClipType type = clip->clipType();
-        if (type != AV && type != Video && type != Playlist && type != Image && type != SlideShow) {
-            // Clip will not be processed by this job
-            continue;
-        }
-        result << clip;
+    m_resultConsumed = true;
+    auto operation = [ clipId = m_clipId ]()
+    {
+        auto binClip = pCore->projectItemModel()->getClipByBinID(clipId);
+        const QString dest = binClip->getProducerProperty(QStringLiteral("kdenlive:proxy"));
+        binClip->setProducerProperty(QStringLiteral("resource"), dest);
+        pCore->bin()->reloadClip(clipId);
+        return true;
+    };
+    auto reverse = [ clipId = m_clipId ]()
+    {
+        auto binClip = pCore->projectItemModel()->getClipByBinID(clipId);
+        const QString dest = binClip->getProducerProperty(QStringLiteral("kdenlive:originalurl"));
+        binClip->setProducerProperty(QStringLiteral("resource"), dest);
+        pCore->bin()->reloadClip(clipId);
+        return true;
+    };
+    bool ok = operation();
+    if (ok) {
+        UPDATE_UNDO_REDO_NOLOCK(operation, reverse, undo, redo);
     }
-    return result;
-}
-
-// static
-QHash<ProjectClip *, AbstractClipJob *> ProxyJob::prepareJob(Bin *bin, const QList<ProjectClip *> &clips)
-{
-    QHash<ProjectClip *, AbstractClipJob *> jobs;
-    QSize renderSize = pCore->getCurrentFrameSize();
-    QString params = bin->getDocumentProperty(QStringLiteral("proxyparams")).simplified();
-    for (int i = 0; i < clips.count(); i++) {
-        ProjectClip *item = clips.at(i);
-        QString id = item->AbstractProjectItem::clipId();
-        QString path = item->getProducerProperty(QStringLiteral("kdenlive:proxy"));
-        if (path.isEmpty()) {
-            item->setJobStatus(AbstractClipJob::PROXYJOB, JobCrashed, -1, i18n("Failed to create proxy, empty path."));
-            continue;
-        }
-        // Reset proxy path until it is really created
-        item->setProducerProperty(QStringLiteral("kdenlive:proxy"), QString());
-        if (QFileInfo(path).size() > 0) {
-            // Proxy already created
-            item->setJobStatus(AbstractClipJob::PROXYJOB, JobDone);
-            bin->gotProxy(id, path);
-            continue;
-        }
-        QString sourcePath = item->url();
-        if (item->clipType() == Playlist) {
-            // Special case: playlists use the special 'consumer' producer to support resizing
-            sourcePath.prepend(QStringLiteral("consumer:"));
-        }
-        QStringList parameters;
-        QTemporaryFile *playlist = nullptr;
-        if (item->clipType() == SlideShow) {
-            // we save a temporary .mlt clip for rendering
-            QDomDocument doc;
-            // TODO FIXME what we will do with xml ?
-            QDomElement xml = item->toXml(doc, false);
-            playlist = new QTemporaryFile();
-            playlist->setFileTemplate(playlist->fileTemplate() + QStringLiteral(".mlt"));
-            if (playlist->open()) {
-                sourcePath = playlist->fileName();
-                QTextStream out(playlist);
-                out << doc.toString();
-                playlist->close();
-            }
-        }
-        qCDebug(KDENLIVE_LOG) << " * *PROXY PATH: " << path << ", " << sourcePath;
-        parameters << path << sourcePath << item->getProducerProperty(QStringLiteral("_exif_orientation")) << params << QString::number(renderSize.width())
-                   << QString::number(renderSize.height());
-        auto *job = new ProxyJob(item->clipType(), id, parameters, playlist);
-        jobs.insert(item, job);
-    }
-    return jobs;
+    return ok;
+    return true;
 }

@@ -6,11 +6,25 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>809</width>
-    <height>818</height>
+    <width>467</width>
+    <height>578</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
+   <item row="5" column="0" colspan="3">
+    <widget class="QCheckBox" name="kcfg_disable_effect_parameters">
+     <property name="text">
+      <string>Disable parameters when the effect is disabled</string>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="0" colspan="3">
+    <widget class="QCheckBox" name="kcfg_use_exiftool">
+     <property name="text">
+      <string>Get clip metadata with exiftool</string>
+     </property>
+    </widget>
+   </item>
    <item row="11" column="0" colspan="3">
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
@@ -70,21 +84,28 @@
      </layout>
     </widget>
    </item>
-   <item row="8" column="0" colspan="3">
-    <widget class="QCheckBox" name="kcfg_use_exiftool">
+   <item row="4" column="0" colspan="3">
+    <widget class="QCheckBox" name="kcfg_projectloading_avformatnovalidate">
      <property name="text">
-      <string>Get clip metadata with exiftool</string>
+      <string>Do not validate the video files when loading a project (faster)</string>
      </property>
     </widget>
    </item>
-   <item row="5" column="0" colspan="3">
-    <widget class="QCheckBox" name="kcfg_disable_effect_parameters">
+   <item row="1" column="0">
+    <widget class="QCheckBox" name="kcfg_crashrecovery">
      <property name="text">
-      <string>Disable parameters when the effect is disabled</string>
+      <string>Activate crash recovery (auto save)</string>
      </property>
     </widget>
    </item>
-   <item row="14" column="1">
+   <item row="12" column="0" colspan="3">
+    <widget class="QCheckBox" name="kcfg_autoimagesequence">
+     <property name="text">
+      <string>Automatically import image sequences</string>
+     </property>
+    </widget>
+   </item>
+   <item row="13" column="1">
     <spacer>
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -96,62 +117,6 @@
       </size>
      </property>
     </spacer>
-   </item>
-   <item row="10" column="0">
-    <widget class="QLabel" name="label_4">
-     <property name="text">
-      <string>Tab position</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="0" colspan="3">
-    <widget class="QCheckBox" name="kcfg_openlastproject">
-     <property name="text">
-      <string>Open last project on startup</string>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="0" colspan="3">
-    <widget class="QCheckBox" name="kcfg_automultistreams">
-     <property name="text">
-      <string>Automatically import all streams in multi stream clips</string>
-     </property>
-    </widget>
-   </item>
-   <item row="9" column="0" colspan="3">
-    <widget class="QCheckBox" name="kcfg_use_magicLantern">
-     <property name="text">
-      <string>Get clip metadata created by Magic Lantern</string>
-     </property>
-    </widget>
-   </item>
-   <item row="12" column="0" colspan="3">
-    <widget class="QCheckBox" name="kcfg_autoimagesequence">
-     <property name="text">
-      <string>Automatically import image sequences</string>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="0" colspan="3">
-    <widget class="QCheckBox" name="kcfg_bypasscodeccheck">
-     <property name="text">
-      <string>Bypass codec verification</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0" colspan="3">
-    <widget class="QCheckBox" name="kcfg_checkfirstprojectclip">
-     <property name="text">
-      <string>Check if first added clip matches project profile</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="0" colspan="3">
-    <widget class="QCheckBox" name="kcfg_usekuiserver">
-     <property name="text">
-      <string>Use KDE job tracking for render jobs</string>
-     </property>
-    </widget>
    </item>
    <item row="10" column="1">
     <widget class="QComboBox" name="kcfg_tabposition">
@@ -177,13 +142,6 @@
      </item>
     </widget>
    </item>
-   <item row="4" column="0" colspan="3">
-    <widget class="QCheckBox" name="kcfg_projectloading_avformatnovalidate">
-     <property name="text">
-      <string>Do not validate the video files when loading a project (faster)</string>
-     </property>
-    </widget>
-   </item>
    <item row="10" column="2">
     <spacer name="horizontalSpacer">
      <property name="orientation">
@@ -197,17 +155,52 @@
      </property>
     </spacer>
    </item>
-   <item row="13" column="0" colspan="3">
-    <widget class="QCheckBox" name="kcfg_autoimagetransparency">
+   <item row="2" column="0" colspan="3">
+    <widget class="QCheckBox" name="kcfg_checkfirstprojectclip">
      <property name="text">
-      <string>Transparent background for imported images</string>
+      <string>Check if first added clip matches project profile</string>
      </property>
     </widget>
    </item>
-   <item row="1" column="0">
-    <widget class="QCheckBox" name="kcfg_crashrecovery">
+   <item row="0" column="0" colspan="3">
+    <widget class="QCheckBox" name="kcfg_openlastproject">
      <property name="text">
-      <string>Activate crash recovery (auto save)</string>
+      <string>Open last project on startup</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0" colspan="3">
+    <widget class="QCheckBox" name="kcfg_usekuiserver">
+     <property name="text">
+      <string>Use KDE job tracking for render jobs</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="0" colspan="3">
+    <widget class="QCheckBox" name="kcfg_bypasscodeccheck">
+     <property name="text">
+      <string>Bypass codec verification</string>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="0">
+    <widget class="QLabel" name="label_4">
+     <property name="text">
+      <string>Tab position</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="0" colspan="3">
+    <widget class="QCheckBox" name="kcfg_automultistreams">
+     <property name="text">
+      <string>Automatically import all streams in multi stream clips</string>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="0" colspan="3">
+    <widget class="QCheckBox" name="kcfg_use_magicLantern">
+     <property name="text">
+      <string>Get clip metadata created by Magic Lantern</string>
      </property>
     </widget>
    </item>

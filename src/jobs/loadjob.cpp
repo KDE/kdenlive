@@ -272,9 +272,10 @@ bool LoadJob::startJob()
     }
     processProducerProperties(m_producer, m_xml);
     QString clipName = Xml::getXmlProperty(m_xml, QStringLiteral("kdenlive:clipname"));
-    if (!clipName.isEmpty()) {
-        m_producer->set("kdenlive:clipname", clipName.toUtf8().constData());
+    if (clipName.isEmpty()) {
+        clipName = QFileInfo(Xml::getXmlProperty(m_xml, QStringLiteral("kdenlive:originalurl"))).fileName();
     }
+    m_producer->set("kdenlive:clipname", clipName.toUtf8().constData());
     QString groupId = Xml::getXmlProperty(m_xml, QStringLiteral("kdenlive:folderid"));
     if (!groupId.isEmpty()) {
         m_producer->set("kdenlive:folderid", groupId.toUtf8().constData());

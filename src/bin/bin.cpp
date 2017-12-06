@@ -1749,11 +1749,7 @@ void Bin::reloadClip(const QString &id)
     if (!clip) {
         return;
     }
-    QDomDocument doc;
-    QDomElement xml = clip->toXml(doc);
-    if (!xml.isNull()) {
-        pCore->jobManager()->startJob<LoadJob>({id}, {}, QString(), xml);
-    }
+    clip->reloadProducer();
 }
 
 

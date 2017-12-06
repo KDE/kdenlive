@@ -150,7 +150,10 @@
       <label>Minimum source size for proxy creation.</label>
       <default>2000</default>
     </entry>
-    
+    <entry name="proxyimagesize" type="Int">
+      <label>Rescale size for image proxy creation.</label>
+      <default>800</default>
+    </entry>
     <entry name="proxyextension" type="String">
       <label>File extension for proxy clips.</label>
       <default></default>

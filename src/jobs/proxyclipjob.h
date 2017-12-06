@@ -26,32 +26,28 @@
 class QTemporaryFile;
 class Bin;
 class ProjectClip;
+class QProcess;
 
 class ProxyJob : public AbstractClipJob
 {
     Q_OBJECT
 
 public:
-    ProxyJob(ClipType cType, const QString &id, const QStringList &parameters, QTemporaryFile *playlist);
-    virtual ~ProxyJob();
-    const QString destination() const override;
-    void startJob() override;
-    stringMap cancelProperties() override;
-    const QString statusMessage() override;
-    void processLogInfo() override;
-    static QList<ProjectClip *> filterClips(const QList<ProjectClip *> &clips);
-    static QHash<ProjectClip *, AbstractClipJob *> prepareJob(Bin *bin, const QList<ProjectClip *> &clips);
+    ProxyJob(const QString &binId);
+    const QString getDescription() const override;
+    bool startJob() override;
+    /** @brief This is to be called after the job finished.
+    By design, the job should store the result of the computation but not share it with the rest of the code. This happens when we call commitResult */
+    bool commitResult(Fun &undo, Fun &redo) override;
+
+private slots:
+    void processLogInfo();
 
 private:
-    QString m_dest;
-    QString m_src;
-    int m_exif;
-    QString m_proxyParams;
-    int m_renderWidth;
-    int m_renderHeight;
     int m_jobDuration;
     bool m_isFfmpegJob;
-    QTemporaryFile *m_playlist;
+    QProcess *m_jobProcess;
+    bool m_done;
 };
 
 #endif
