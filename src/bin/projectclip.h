@@ -241,7 +241,6 @@ private:
     QMutex m_producerMutex;
     QMutex m_thumbMutex;
     QMutex m_intraThumbMutex;
-    QMutex m_audioMutex;
     QFuture <void> m_thumbThread;
     QList<int> m_requestedThumbs;
     QFuture <void> m_intraThread;

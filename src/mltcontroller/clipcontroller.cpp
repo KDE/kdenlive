@@ -251,7 +251,7 @@ void ClipController::updateProducer(const QString &id, Mlt::Producer *producer)
 {
     //TODO replace all track producers
     Q_UNUSED(id)
-
+    QMutexLocker locker(&producerMutex);
     Mlt::Properties passProperties;
     // Keep track of necessary properties
     QString proxy = producer->get("kdenlive:proxy");

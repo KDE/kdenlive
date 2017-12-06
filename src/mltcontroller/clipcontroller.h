@@ -60,6 +60,8 @@ public:
     explicit ClipController(BinController *bincontroller);
     virtual ~ClipController();
 
+    QMutex producerMutex;
+
     /** @brief Returns true if the master producer is valid */
     bool isValid();
 

@@ -104,7 +104,9 @@ ProjectClip::~ProjectClip()
     // controller is deleted in bincontroller
     abortAudioThumbs();
     bin()->slotAbortAudioThumb(m_id, duration().ms());
-    QMutexLocker audioLock(&m_audioMutex);
+    if (m_controller) {
+        QMutexLocker locker(&m_controller->producerMutex);
+    }
     m_thumbMutex.lock();
     m_requestedThumbs.clear();
     m_thumbMutex.unlock();
@@ -399,13 +401,13 @@ Mlt::Producer *ProjectClip::originalProducer()
 
 Mlt::Producer *ProjectClip::thumbProducer()
 {
-    QMutexLocker locker(&m_producerMutex);
     if (m_thumbsProducer) {
         return m_thumbsProducer;
     }
     if (!m_controller || m_controller->clipType() == Unknown) {
         return nullptr;
     }
+    QMutexLocker locker(&m_controller->producerMutex);
     Mlt::Producer prod = m_controller->originalProducer();
     if (!prod.is_valid()) {
         return nullptr;
@@ -1023,7 +1025,10 @@ const QString ProjectClip::getAudioThumbPath(AudioStreamInfo *audioInfo)
 
 void ProjectClip::slotCreateAudioThumbs()
 {
-    QMutexLocker lock(&m_audioMutex);
+    if (!m_controller) {
+        return;
+    }
+    QMutexLocker locker(&m_controller->producerMutex);
     Mlt::Producer *prod = originalProducer();
     if (!prod || !prod->is_valid()) {
         return;
