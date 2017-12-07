@@ -6,7 +6,7 @@ MPEG=qscale=4 ab=192k vcodec=mpeg2video acodec=mp2 threads=%threads;mpg
 [proxy]
 x264=-vf scale=960:-2 -g 1 -bf 0 -vb 0 -crf 20 -vcodec libx264 -ab 128k -acodec aac -preset veryfast;mov
 MPEG2=-vf scale=960:-2 -g 1 -bf 0 -vb 0 -qscale 6 -ab 128k -vcodec mpeg2video -acodec ac3;mpg
-MJPEG=-vf yadif,scale=960:-2 -qscale 3 -vcodec mjpeg -ab 128k -acodec pcm_s16le ;mkv
+MJPEG=-vf yadif,scale=960:-2 -qscale 3 -vcodec mjpeg -acodec pcm_s16le;mkv
 
 [screengrab]
 X264 mute=-crf 25 -vcodec libx264 -preset veryfast -threads 0;mov
