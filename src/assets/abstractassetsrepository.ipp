@@ -88,14 +88,16 @@ template <typename AssetType> void AbstractAssetsRepository<AssetType>::init()
 
     // We add the custom assets
     for (const auto &custom : customAssets) {
-        if (m_assets.count(custom.second.mltId) > 0) {
+        // Custom assets should override default ones
+        m_assets[custom.first] = custom.second;
+        /*if (m_assets.count(custom.second.mltId) > 0) {
             m_assets.erase(custom.second.mltId);
         }
         if (m_assets.count(custom.first) == 0) {
             m_assets[custom.first] = custom.second;
         } else {
             qDebug() << "Error: conflicting asset name " << custom.first;
-        }
+        }*/
     }
 }
 

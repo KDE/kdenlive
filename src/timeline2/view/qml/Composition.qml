@@ -73,7 +73,9 @@ Item {
 
     onKeyframeModelChanged: {
         console.log('keyframe model changed............')
-        effectRow.keyframecanvas.requestPaint()
+        if (effectRow.keyframecanvas) {
+            effectRow.keyframecanvas.requestPaint()
+        }
     }
 
     onModelStartChanged: {
@@ -140,7 +142,9 @@ Item {
             }
             KeyframeView {
                 id: effectRow
-                visible: compositionRoot.showKeyframes
+                visible: compositionRoot.showKeyframes && keyframeModel
+                inPoint: 0
+                outPoint: compositionRoot.clipDuration
             }
         }
         Drag.active: mouseArea.drag.active
