@@ -117,7 +117,12 @@ bool ProxyJob::startJob()
                     width = 640;
                 }
                 int height = width / display_ratio;
+                // Make sure we get an even height
+                height += height % 2;
                 mltParameters << QStringLiteral("s=%1x%2").arg(width).arg(height);
+                if (t.contains(QStringLiteral("yadif"))) {
+                    mltParameters << QStringLiteral("progressive=1");
+                }
                 continue;
             } else {
                 t.replace(QLatin1Char(' '), QLatin1String("="));
