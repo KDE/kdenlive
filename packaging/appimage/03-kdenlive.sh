@@ -19,7 +19,7 @@ rm -f functions.sh
 #necessary ?
 #pulseaudio-libs 
 
-QTVERSION=5.9.1
+QTVERSION=5.9.2
 QVERSION_SHORT=5.9
 QTDIR=/usr/local/Qt-${QTVERSION}/
 

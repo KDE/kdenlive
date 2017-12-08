@@ -295,7 +295,7 @@ function build_framework
     then
         echo "$FRAMEWORK already cloned"
         cd $FRAMEWORK
-        if [ "$FRAMEWORK" = "polkit-qt-1" ] || [ "$FRAMEWORK" = "knotifications" ] || [ "$FRAMEWORK" = "breeze" ] || [ "$FRAMEWORK" = "kdecoration" ]; then
+        if [ "$FRAMEWORK" = "polkit-qt-1" ] || [ "$FRAMEWORK" = "breeze" ] || [ "$FRAMEWORK" = "kdecoration" ]; then
             git checkout .
             git checkout master
             git reset --hard
@@ -311,10 +311,14 @@ function build_framework
     else
         git clone git://anongit.kde.org/$FRAMEWORK
         cd $FRAMEWORK
-        if [ "$FRAMEWORK" = "polkit-qt-1" ] || [ "$FRAMEWORK" = "knotifications" ] || [ "$FRAMEWORK" = "breeze" ] || [ "$FRAMEWORK" = "kdecoration" ]; then
+        if [ "$FRAMEWORK" = "polkit-qt-1" ] || [ "$FRAMEWORK" = "breeze" ] || [ "$FRAMEWORK" = "kdecoration" ]; then
             git checkout master
             git reset --hard
             git pull --rebase
+	elif [ "$FRAMEWORK" = "knotifications" ]; then
+	    git reset --hard
+            git fetch --tags
+	    git checkout v5.40.0
         else
             git fetch --tags
             git checkout v5.40.0
@@ -325,25 +329,28 @@ function build_framework
     if [ "$FRAMEWORK" = "knotifications" ]; then
 	cd $FRAMEWORK
         echo "patching knotifications"
-	git reset --hard
 	cat > no_phonon.patch << EOF
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index b97425f..8f15f08 100644
+index 0104c73..de44e9a 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -59,10 +59,10 @@ find_package(KF5Config ${KF5_DEP_VERSION} REQUIRED)
+@@ -59,11 +59,11 @@ find_package(KF5Config ${KF5_DEP_VERSION} REQUIRED)
  find_package(KF5Codecs ${KF5_DEP_VERSION} REQUIRED)
  find_package(KF5CoreAddons ${KF5_DEP_VERSION} REQUIRED)
  
 -find_package(Phonon4Qt5 4.6.60 REQUIRED NO_MODULE)
-+find_package(Phonon4Qt5 4.6.60 NO_MODULE)
- set_package_properties(Phonon4Qt5 PROPERTIES
-    DESCRIPTION "Qt-based audio library"
+-set_package_properties(Phonon4Qt5 PROPERTIES
+-   DESCRIPTION "Qt-based audio library"
 -   TYPE REQUIRED
-+   TYPE OPTIONAL
-    PURPOSE "Required to build audio notification support")
+-   PURPOSE "Required to build audio notification support")
++#find_package(Phonon4Qt5 4.6.60 REQUIRED NO_MODULE)
++#set_package_properties(Phonon4Qt5 PROPERTIES
++#   DESCRIPTION "Qt-based audio library"
++#   TYPE REQUIRED
++#   PURPOSE "Required to build audio notification support")
  if (Phonon4Qt5_FOUND)
    add_definitions(-DHAVE_PHONON4QT5)
+ endif()
 EOF
 	cat no_phonon.patch |patch -p1
 	cd ..
