@@ -93,7 +93,19 @@ bool KeyframeModel::addKeyframe(int frame, double normalizedValue)
         double min = ptr->data(m_index, AssetParameterModel::MinRole).toDouble();
         double max = ptr->data(m_index, AssetParameterModel::MaxRole).toDouble();
         double factor = ptr->data(m_index, AssetParameterModel::FactorRole).toDouble();
-        double realValue = (normalizedValue * (max - min) + min) / factor;
+        double norm = ptr->data(m_index, AssetParameterModel::DefaultRole).toDouble();
+        int logRole = ptr->data(m_index, AssetParameterModel::ScaleRole).toInt();
+        double realValue;
+        if (logRole == -1) {
+            // Logarythmic scale for lower than norm values
+            if (normalizedValue >= 0.5) {
+                realValue = norm + (2 * (normalizedValue - 0.5) * (max / factor - norm));
+            } else {
+                realValue = norm - pow(2 * (0.5 - normalizedValue), 10.0/6) * (norm - min / factor);
+            }
+        } else {
+            realValue = (normalizedValue * (max - min) + min) / factor;
+        }
         // TODO: Use default configurable kf type
         return addKeyframe(GenTime(frame, pCore->getCurrentFps()), KeyframeType::Linear, realValue);
     }
@@ -176,7 +188,19 @@ bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, double newVal, Fun
                 double min = ptr->data(m_index, AssetParameterModel::MinRole).toDouble();
                 double max = ptr->data(m_index, AssetParameterModel::MaxRole).toDouble();
                 double factor = ptr->data(m_index, AssetParameterModel::FactorRole).toDouble();
-                double realValue = (newVal * (max - min) + min) / factor;
+                double norm = ptr->data(m_index, AssetParameterModel::DefaultRole).toDouble();
+                int logRole = ptr->data(m_index, AssetParameterModel::ScaleRole).toInt();
+                double realValue;
+                if (logRole == -1) {
+                    // Logarythmic scale for lower than norm values
+                    if (newVal >= 0.5) {
+                        realValue = norm + (2 * (newVal - 0.5) * (max / factor - norm));
+                    } else {
+                        realValue = norm - pow(2 * (0.5 - newVal), 10.0/6) * (norm - min / factor);
+                    }
+                } else {
+                    realValue = (newVal * (max - min) + min) / factor;
+                }
                 res = addKeyframe(pos, oldType, realValue, true, local_undo, local_redo);
             }
         } else {
@@ -400,7 +424,20 @@ QVariant KeyframeModel::data(const QModelIndex &index, int role) const
             double min = ptr->data(m_index, AssetParameterModel::MinRole).toDouble();
             double max = ptr->data(m_index, AssetParameterModel::MaxRole).toDouble();
             double factor = ptr->data(m_index, AssetParameterModel::FactorRole).toDouble();
-            return (val * factor - min) / (max - min);
+            double norm = ptr->data(m_index, AssetParameterModel::DefaultRole).toDouble();
+            int logRole = ptr->data(m_index, AssetParameterModel::ScaleRole).toInt();
+            double linear = val * factor;
+            if (logRole == -1) {
+                // Logarythmic scale for lower than norm values
+                if (linear >= norm) {
+                    return 0.5 + (linear - norm) / (max * factor - norm) * 0.5;
+                }
+                // transform current value to 0..1 scale
+                double scaled = (linear - norm) / (min * factor - norm);
+                // Log scale
+                return 0.5 - pow(scaled, 0.6) * 0.5;
+            }
+            return (linear - min) / (max - min);
         } else {
             qDebug() << "// CANNOT LOCK effect MODEL";
         }

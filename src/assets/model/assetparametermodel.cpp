@@ -198,6 +198,8 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
         return parseAttribute(QStringLiteral("max"), element);
     case FactorRole:
         return parseAttribute(QStringLiteral("factor"), element, 1);
+    case ScaleRole:
+        return parseAttribute(QStringLiteral("scale"), element, 0);
     case DecimalsRole:
         return parseAttribute(QStringLiteral("decimals"), element);
     case DefaultRole:
