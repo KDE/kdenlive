@@ -448,10 +448,10 @@ Rectangle {
     TimelineTriangle {
         id: fadeInTriangle
         width: clipRoot.fadeIn * timeScale
-        height: parent.height - parent.border.width * 2
-        anchors.left: parent.left
-        anchors.top: parent.top
-        anchors.margins: parent.border.width
+        height: clipRoot.height - clipRoot.border.width * 2
+        anchors.left: clipRoot.left
+        anchors.top: clipRoot.top
+        anchors.margins: clipRoot.border.width
         opacity: 0.3
     }
     Rectangle {
@@ -538,10 +538,10 @@ Rectangle {
     TimelineTriangle {
         id: fadeOutCanvas
         width: clipRoot.fadeOut * timeScale
-        height: parent.height - parent.border.width * 2
-        anchors.right: parent.right
-        anchors.top: parent.top
-        anchors.margins: parent.border.width
+        height: clipRoot.height - clipRoot.border.width * 2
+        anchors.right: clipRoot.right
+        anchors.top: clipRoot.top
+        anchors.margins: clipRoot.border.width
         opacity: 0.3
         transform: Scale { xScale: -1; origin.x: fadeOutCanvas.width / 2}
     }

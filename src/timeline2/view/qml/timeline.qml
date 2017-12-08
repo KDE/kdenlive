@@ -408,7 +408,7 @@ Rectangle {
                             }
                             onClicked: {
                                 timeline.activeTrack = tracksRepeater.itemAt(index).trackId
-                                console.log('track name: ',index, ' = ', model.name)
+                                console.log('track name: ',index, ' = ', model.name,'/',tracksRepeater.itemAt(index).trackId)
                                 //timeline.selectTrackHead(currentTrack)
                             }
                         }

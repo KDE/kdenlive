@@ -230,7 +230,9 @@ bool DocumentValidator::validate(const double currentVersion)
         return false;
     }
 
-    checkOrphanedProducers();
+    if (version < 0.97) {
+        checkOrphanedProducers();
+    }
 
     return true;
     /*
