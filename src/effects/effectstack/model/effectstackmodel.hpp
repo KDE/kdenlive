@@ -119,6 +119,10 @@ private:
     mutable QReadWriteLock m_lock;
     QList<int> fadeIns;
     QList<int> fadeOuts;
+    /** @brief: When loading a project, we load filters/effects that are already planted
+     *          in the producer, so we shouldn't plant them again. Setting this value to
+     *          true will prevent planting in the producer */
+    bool m_loadingExisting;
 
 signals:
     void modelChanged();

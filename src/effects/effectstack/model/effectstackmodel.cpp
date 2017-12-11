@@ -36,6 +36,7 @@ EffectStackModel::EffectStackModel(std::weak_ptr<Mlt::Service> service, ObjectId
     , m_effectStackEnabled(true)
     , m_ownerId(ownerId)
     , m_undoStack(undo_stack)
+    , m_loadingExisting(false)
 {
 }
 
@@ -49,6 +50,7 @@ std::shared_ptr<EffectStackModel> EffectStackModel::construct(std::weak_ptr<Mlt:
 void EffectStackModel::loadEffects()
 {
     auto ptr = m_service.lock();
+    m_loadingExisting = true;
     if (ptr) {
         for (int i = 0; i < ptr->filter_count(); i++) {
             if (ptr->filter(i)->get("kdenlive_id") == nullptr) {
@@ -65,6 +67,7 @@ void EffectStackModel::loadEffects()
         qDebug() << "// CANNOT LOCK CLIP SEEVCE";
     }
     this->modelChanged();
+    m_loadingExisting = false;
 }
 
 void EffectStackModel::resetService(std::weak_ptr<Mlt::Service> service)
@@ -271,10 +274,12 @@ void EffectStackModel::registerItem(const std::shared_ptr<TreeItem> &item)
     QModelIndex ix;
     if (!item->isRoot()) {
         auto effectItem = std::static_pointer_cast<AbstractEffectItem>(item);
-        effectItem->plant(m_service);
+        if (!m_loadingExisting) {
+            effectItem->plant(m_service);
+        }
         effectItem->setEffectStackEnabled(m_effectStackEnabled);
         ix = getIndexFromItem(effectItem);
-        if (!effectItem->isAudio()) {
+        if (!effectItem->isAudio() && !m_loadingExisting) {
             pCore->refreshProjectItem(m_ownerId);
             pCore->invalidateItem(m_ownerId);
         }

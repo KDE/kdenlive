@@ -38,7 +38,9 @@ public:
        @param is a ptr to the model this item belongs to. This is required to send update signals
      */
     static std::shared_ptr<EffectItemModel> construct(const QString &effectId, std::shared_ptr<AbstractTreeModel> stack);
-
+    /* This construct an effect with an already existing filter
+       Only used when loading an existing clip
+     */
     static std::shared_ptr<EffectItemModel> construct(Mlt::Properties *effect, std::shared_ptr<AbstractTreeModel> stack);
 
     /* @brief This function plants the effect into the given service in last position
