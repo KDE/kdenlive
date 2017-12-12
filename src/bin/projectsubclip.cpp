@@ -56,7 +56,6 @@ std::shared_ptr<ProjectSubClip> ProjectSubClip::construct(const QString &id, std
 {
     std::shared_ptr<ProjectSubClip> self(new ProjectSubClip(id, parent, model, in, out, timecode, name));
     baseFinishConstruct(self);
-    self->changeParent(parent);
     return self;
 }
 
