@@ -181,14 +181,17 @@ void MainWindow::init()
             } else if (availableStyles.contains(QStringLiteral("fusion"), Qt::CaseInsensitive)) {
                 KdenliveSettings::setWidgetstyle(QStringLiteral("Fusion"));
             }
+        } else {
+            KdenliveSettings::setWidgetstyle(QStringLiteral("Default"));
         }
     }
 
     // Add default style action
     QAction *defaultStyle = new QAction(i18n("Default"), stylesGroup);
+    defaultStyle->setData(QStringLiteral("Default"));
     defaultStyle->setCheckable(true);
     stylesAction->addAction(defaultStyle);
-    if (KdenliveSettings::widgetstyle().isEmpty()) {
+    if (KdenliveSettings::widgetstyle() == QLatin1String("Default") || KdenliveSettings::widgetstyle().isEmpty()) {
         defaultStyle->setChecked(true);
     }
 
