@@ -908,7 +908,7 @@ bool TimelineModel::requestTrackInsertion(int position, int &id, const QString &
     return result;
 }
 
-bool TimelineModel::requestTrackInsertion(int position, int &id, const QString &trackName, bool audioTrack, Fun &undo, Fun &redo)
+bool TimelineModel::requestTrackInsertion(int position, int &id, const QString &trackName, bool audioTrack, Fun &undo, Fun &redo, bool updateView)
 {
     // TODO: make sure we disable overlayTrack before inserting a track
     if (position == -1) {
@@ -922,10 +922,10 @@ bool TimelineModel::requestTrackInsertion(int position, int &id, const QString &
     Fun local_undo = deregisterTrack_lambda(trackId, true);
     TrackModel::construct(shared_from_this(), trackId, position, trackName, audioTrack);
     auto track = getTrackById(trackId);
-    Fun local_redo = [track, position, this]() {
+    Fun local_redo = [track, position, updateView, this]() {
         // We capture a shared_ptr to the track, which means that as long as this undo object lives, the track object is not deleted. To insert it back it is
         // sufficient to register it.
-        registerTrack(track, position);
+        registerTrack(track, position, updateView);
         return true;
     };
     UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
@@ -989,7 +989,7 @@ bool TimelineModel::requestTrackDeletion(int trackId, Fun &undo, Fun &redo)
     return false;
 }
 
-void TimelineModel::registerTrack(std::shared_ptr<TrackModel> track, int pos, bool doInsert)
+void TimelineModel::registerTrack(std::shared_ptr<TrackModel> track, int pos, bool doInsert, bool reloadView)
 {
     qDebug() << "REGISTER TRACK" << track->getId() << pos;
     int id = track->getId();
@@ -1012,7 +1012,10 @@ void TimelineModel::registerTrack(std::shared_ptr<TrackModel> track, int pos, bo
     // it now contains the iterator to the inserted element, we store it
     Q_ASSERT(m_iteratorTable.count(id) == 0); // check that id is not used (shouldn't happen)
     m_iteratorTable[id] = it;
-    _resetView();
+    if (reloadView) {
+        // don't reload view on each track load on project opening
+        _resetView();
+    }
 }
 
 void TimelineModel::registerClip(const std::shared_ptr<ClipModel> &clip)

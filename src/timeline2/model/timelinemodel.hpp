@@ -395,7 +395,7 @@ public:
     */
     bool requestTrackInsertion(int pos, int &id, const QString &trackName = QString(), bool audioTrack = false);
     /* Same function, but accumulates undo and redo*/
-    bool requestTrackInsertion(int pos, int &id, const QString &trackName, bool audioTrack, Fun &undo, Fun &redo);
+    bool requestTrackInsertion(int pos, int &id, const QString &trackName, bool audioTrack, Fun &undo, Fun &redo, bool updateView = true);
 
     /* @brief Delete track with given id
        This also deletes all the clips contained in the track.
@@ -503,7 +503,7 @@ protected:
     /* @brief Register a new track. This is a call-back meant to be called from TrackModel
        @param pos indicates the number of the track we are adding. If this is -1, then we add at the end.
      */
-    void registerTrack(std::shared_ptr<TrackModel> track, int pos = -1, bool doInsert = true);
+    void registerTrack(std::shared_ptr<TrackModel> track, int pos = -1, bool doInsert = true, bool reloadView = true);
 
     /* @brief Register a new clip. This is a call-back meant to be called from ClipModel
     */

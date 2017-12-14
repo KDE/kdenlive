@@ -67,7 +67,7 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
         case tractor_type: {
             // that is a double track
             int tid;
-            ok = timeline->requestTrackInsertion(-1, tid, QString(), false, undo, redo);
+            ok = timeline->requestTrackInsertion(-1, tid, QString(), false, undo, redo, false);
             Mlt::Tractor local_tractor(*track);
             ok = ok && constructTrackFromMelt(timeline, tid, local_tractor, binIdCorresp, undo, redo);
             break;
@@ -79,7 +79,7 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
             Mlt::Playlist local_playlist(*track);
             const QString trackName = local_playlist.get("kdenlive:track_name");
             int audioTrack = local_playlist.get_int("kdenlive:audio_track");
-            ok = timeline->requestTrackInsertion(-1, tid, trackName, audioTrack == 1, undo, redo);
+            ok = timeline->requestTrackInsertion(-1, tid, trackName, audioTrack == 1, undo, redo, false);
             ok = ok && constructTrackFromMelt(timeline, tid, local_playlist, binIdCorresp, undo, redo);
             break;
         }
