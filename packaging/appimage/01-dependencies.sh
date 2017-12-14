@@ -32,7 +32,7 @@ fi
 #	libudev-devel libusbx-devel libcurl-devel libssh2-devel mesa-libGL-devel sqlite-devel #\
 #	tar gzip which make autoconf automake gstreamer-devel mesa-libEGL coreutils grep \
 #	media-player-info.noarch alsa-lib-devel polkit-devel sox-devel mesa-libGLU
-	
+
 #yum --enablerepo=epel -y install fuse-sshfs # install from EPEL
 
 #if [[ "$(arch)" = "x86_64" ]] ; then
@@ -113,7 +113,6 @@ yum -y install wget \
                polkit-devel
 
 
-
 # Newer compiler than what comes with offcial CentOS 6 (only 64 bits)
 yum -y install centos-release-scl-rh
 yum -y install devtoolset-3-gcc devtoolset-3-gcc-c++
@@ -174,7 +173,7 @@ cmake3 --build . --config RelWithDebInfo --target ext_exiv2      -- -j$CPU_CORES
 
 
 #necessary ?
-#pulseaudio-libs 
+#pulseaudio-libs
 
 # qjsonparser, used to add metadata to the plugins needs to work in a en_US.UTF-8 environment. That's
 # not always set correctly in CentOS 6.7
@@ -263,14 +262,14 @@ build_external $EXTERNAL
 #sdl
 cd /external
 if ( test -d /external/SDL2-2.0.7 )
-then 
+then
 	echo "SDL already downloaded"
 else
 	wget http://libsdl.org/release/SDL2-2.0.7.tar.gz
 	tar -xf SDL2-2.0.7.tar.gz
 fi
 cd /external/SDL2-2.0.7
-./configure --prefix=$WLD 
+./configure --prefix=$WLD
 make
 make install
 
@@ -300,6 +299,10 @@ function build_framework
             git checkout master
             git reset --hard
             git pull --rebase
+	elif [ "$FRAMEWORK" = "knotifications" ]; then
+            git checkout .
+            git checkout master
+            git checkout v5.40.0
         else
             git fetch --tags
             git checkout v5.40.0

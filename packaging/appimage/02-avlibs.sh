@@ -12,7 +12,7 @@ grep -r "CentOS release 6" /etc/redhat-release || exit 1
 . /opt/rh/devtoolset-3/enable
 
 #necessary ?
-#pulseaudio-libs 
+#pulseaudio-libs
 
 QTVERSION=5.9.1
 QVERSION_SHORT=5.9
@@ -105,6 +105,35 @@ export PATH=$WLD/bin:$PATH
 export ACLOCAL_PATH=$WLD/share/aclocal
 export ACLOCAL="aclocal -I $ACLOCAL_PATH"
 
+#libsndfile
+cd /external
+if ( test -d /external/libsndfile-1.0.28 )
+then
+        echo "libsndfile already downloaded"
+else
+	wget http://www.mega-nerd.com/libsndfile/files/libsndfile-1.0.28.tar.gz
+	tar -xf libsndfile-1.0.28.tar.gz
+fi
+cd libsndfile-1.0.28
+./configure --prefix=$WLD
+make -j5
+make install
+
+#libsamplerate
+cd /external
+if ( test -d /external/libsamplerate-0.1.9 )
+then
+        echo "libsamplerate already downloaded"
+else
+	wget http://www.mega-nerd.com/SRC/libsamplerate-0.1.9.tar.gz
+	tar -xf libsamplerate-0.1.9.tar.gz
+fi
+cd libsamplerate-0.1.9
+./configure --prefix=$WLD
+make -j5
+make install
+
+
 #libx264
 cd /external
 if ( test -d /external/x264 )
@@ -122,14 +151,15 @@ else
 	git clone https://anonscm.debian.org/git/pkg-multimedia/x264.git
 fi
 cd x264
-./configure --enable-static --enable-shared --prefix=$WLD 
+./configure --enable-static --enable-shared --prefix=$WLD
 make -j5
 make install
+
 
 #libx265
 cd /external
 if ( test -d /external/x265 )
-then 
+then
 	echo "libx265 already downloaded"
         cd x265
 if [ $# -eq 0 ]; then
@@ -162,7 +192,7 @@ else
 	git clone https://anonscm.debian.org/git/pkg-multimedia/libvpx.git
 fi
 cd libvpx
-./configure --enable-static --enable-shared --prefix=$WLD 
+./configure --enable-static --enable-shared --prefix=$WLD
 make -j5
 make install
 
@@ -174,7 +204,8 @@ then
 if [ $# -eq 0 ]; then
         cd ffmpeg
         git reset --hard
-        git pull --rebase
+#        git pull --rebase
+	git checkout debian/7%3.3.4-2
         cd ..
 fi
 else
@@ -193,7 +224,7 @@ make install
 
 
 if ( test -d /external/cairo-1.14.10 )
-then 
+then
     echo "cairo already downloaded"
     cd /external/cairo-1.14.10
 else
@@ -302,7 +333,7 @@ else
 fi
 
 #opencv
-IN=opencv,https://github.com/opencv/opencv.git,true,"" 
+IN=opencv,https://github.com/opencv/opencv.git,true,""
 IFS=',' read -a external_options <<< $IN
 EXTERNAL="${external_options[0]}"
 EXTERNAL_ADDRESS="${external_options[1]}"
@@ -332,7 +363,7 @@ make install
 
 
 #vidstab
-IN=vid.stab,https://github.com/georgmartius/vid.stab.git,true,"" 
+IN=vid.stab,https://github.com/georgmartius/vid.stab.git,true,""
 IFS=',' read -a external_options <<< $IN
 EXTERNAL="${external_options[0]}"
 EXTERNAL_ADDRESS="${external_options[1]}"

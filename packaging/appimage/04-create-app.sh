@@ -221,6 +221,8 @@ rm -rf usr/share/gettext || true
 rm -rf usr/share/pkgconfig || true
 rm -rf rm -rf ./usr/mkspecs/ || true
 
+# Remove 
+
 strip -g $(find usr) || true
 
 if [ ! -z "$(ls -A usr/lib/libexec/kf5)" ]; then
@@ -258,7 +260,7 @@ export APPIMAGE_ORIGINAL_MLT_REPOSITORY=\$MLT_REPOSITORY
 export APPIMAGE_ORIGINAL_MLT_DATA=\$MLT_DATA
 export APPIMAGE_ORIGINAL_MLT_ROOT_DIR=\$MLT_ROOT_DIR
 export APPIMAGE_ORIGINAL_MLT_PROFILES_PATH=\$MLT_PROFILES_PATH
-export APPIMAGE_ORIGINAL_MLT_PRESETS_PATH=\$MLT_PRESTES_PATH
+export APPIMAGE_ORIGINAL_MLT_PRESETS_PATH=\$MLT_PRESETS_PATH
 
 
 export QML2_IMPORT_PATH=\$DIR/usr/lib/qt5/qml:\$QML2_IMPORT_PATH
@@ -315,6 +317,18 @@ mkdir -p /$APP/$APP.AppDir
 cd /$APP/
 cp -R ../app/* $APP.AppDir/
 
+# Remove useless stuff
+rm -Rf $APP.AppDir/usr/share/wallpapers/ || true
+rm -Rf $APP.AppDir/usr/share/kconf_update/ || true
+rm -Rf $APP.AppDir/usr/share/gtk-2.0/ || true
+rm -Rf $APP.AppDir/usr/share/gtk-doc/ || true
+rm -Rf $APP.AppDir/usr/share/kf5/kdoctools/ || true
+rm -Rf $APP.AppDir/usr/share/kservices5/searchproviders/ || true
+rm -Rf $APP.AppDir/usr/share/kservices5/useragentstrings/ || true
+rm -Rf $APP.AppDir/usr/share/man/ || true
+rm -Rf $APP.AppDir/usr/bin/ffserver || true
+rm -Rf $APP.AppDir/usr/bin/gtk-demo || true
+rm -Rf $APP.AppDir/usr/lib/kconf_update_bin/ || true
 
 
 

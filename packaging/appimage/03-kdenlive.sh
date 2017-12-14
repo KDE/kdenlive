@@ -182,6 +182,7 @@ if [ $# -eq 0 ]; then
         git pull
         git reset --hard
         git pull --rebase
+#	git checkout d351ac1
         cd ..
 fi
 else
