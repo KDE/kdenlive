@@ -396,7 +396,7 @@ int Core::getItemTrack(const ObjectId &id)
 
 void Core::refreshProjectItem(const ObjectId &id)
 {
-    if (!m_guiConstructed) return;
+    if (!m_guiConstructed || m_mainWindow->getCurrentTimeline()->loading) return;
     switch (id.first) {
     case ObjectType::TimelineClip:
         if (m_mainWindow->getCurrentTimeline()->controller()->getModel()->isClip(id.second)) {
@@ -503,7 +503,7 @@ std::shared_ptr<ProjectItemModel> Core::projectItemModel()
 
 void Core::invalidateItem(ObjectId itemId)
 {
-    if (!m_mainWindow) return;
+    if (!m_mainWindow || m_mainWindow->getCurrentTimeline()->loading) return;
     switch (itemId.first) {
     case ObjectType::TimelineClip:
         m_mainWindow->getCurrentTimeline()->controller()->invalidateClip(itemId.second);
@@ -531,7 +531,7 @@ void Core::updateItemKeyframes(ObjectId id)
 
 void Core::updateItemModel(ObjectId id, const QString &service)
 {
-    if (service.startsWith(QLatin1String("fade")) && id.first == ObjectType::TimelineClip) {
+    if (!m_mainWindow->getCurrentTimeline()->loading && service.startsWith(QLatin1String("fade")) && id.first == ObjectType::TimelineClip) {
         bool startFade = service == QLatin1String("fadein") || service == QLatin1String("fade_from_black");
         m_mainWindow->getCurrentTimeline()->controller()->updateClip(id.second, {startFade ?TimelineModel::FadeInRole : TimelineModel::FadeOutRole});
     }

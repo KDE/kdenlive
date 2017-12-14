@@ -893,7 +893,6 @@ void TimelineController::startPreviewRender()
     if (m_timelinePreview) {
         if (!m_usePreview) {
             m_timelinePreview->buildPreviewTrack();
-            qDebug() << "// STARTING PREVIEW TRACK";
             m_usePreview = true;
             m_model->m_overlayTrackCount = m_timelinePreview->addedTracks();
         }
@@ -999,6 +998,8 @@ void TimelineController::loadPreview(QString chunks, QString dirty, const QDateT
     m_disablePreview->blockSignals(false);
     if (!enable) {
         m_timelinePreview->buildPreviewTrack();
+        m_usePreview = true;
+        m_model->m_overlayTrackCount = m_timelinePreview->addedTracks();
     }
     m_timelinePreview->loadChunks(renderedChunks, dirtyChunks, documentDate);
 }

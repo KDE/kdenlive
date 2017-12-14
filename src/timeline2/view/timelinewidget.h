@@ -48,6 +48,7 @@ public:
     TimelineController *controller();
     void setTool(ProjectTool tool);
     QPoint getTracksCount() const;
+    bool loading;
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;

@@ -484,6 +484,7 @@ bool ProjectItemModel::addItem(std::shared_ptr<AbstractProjectItem> item, const 
         return false;
     }
     Fun operation = addItem_lambda(item, parentItem->getId());
+
     int itemId = item->getId();
     Fun reverse = removeItem_lambda(itemId);
     bool res = operation();
@@ -805,6 +806,7 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tract
                     */
                 } else {
                     QString newId = isIdFree(id) ? id : QString::number(getFreeClipId());
+                    producer->set("_kdenlive_processed", 1);
                     requestAddBinClip(newId, producer, parentId, undo, redo);
                     binIdCorresp[id] = newId;
                     qDebug() << "Loaded clip "<< id <<"under id"<<newId;

@@ -865,7 +865,13 @@ void ProjectManager::slotMoveFinished(KJob *job)
 void ProjectManager::updateTimeline(int pos)
 {
     pCore->jobManager()->slotCancelJobs();
-    qDebug() << "Loading xml"<<m_project->getProjectXml().constData();
+    /*qDebug() << "Loading xml"<<m_project->getProjectXml().constData();
+    QFile file("/tmp/data.xml");
+    if (file.open(QIODevice::ReadWrite)) {
+        QTextStream stream(&file);
+        stream << m_project->getProjectXml() << endl;
+    }*/
+    pCore->window()->getMainTimeline()->loading = true;
     QScopedPointer<Mlt::Producer> xmlProd(new Mlt::Producer(pCore->getCurrentProfile()->profile(), "xml-string", m_project->getProjectXml().constData()));
     Mlt::Service s(*xmlProd);
     Mlt::Tractor tractor(s);

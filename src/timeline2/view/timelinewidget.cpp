@@ -52,7 +52,6 @@ TimelineWidget::TimelineWidget(KActionCollection *actionCollection, QWidget *par
 {
     registerTimelineItems();
     m_transitionModel = TransitionTreeModel::construct(true, this);
-
     m_transitionProxyModel.reset(new AssetFilter(this));
     m_transitionProxyModel->setSourceModel(m_transitionModel.get());
     m_transitionProxyModel->setSortRole(AssetTreeModel::NameRole);
@@ -92,6 +91,7 @@ void TimelineWidget::setModel(std::shared_ptr<TimelineItemModel> model)
     connect(rootObject(), SIGNAL(mousePosChanged(int)), pCore->window(), SLOT(slotUpdateMousePosition(int)));
     m_proxy->setRoot(rootObject());
     setVisible(true);
+    loading = false;
     m_proxy->setActiveTrack(model->getTrackIndexFromPosition(model->getTracksCount() - 1));
     m_proxy->checkDuration();
 }

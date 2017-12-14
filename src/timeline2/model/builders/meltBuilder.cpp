@@ -45,7 +45,6 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
     Fun redo = []() { return true; };
     // First, we destruct the previous tracks
     timeline->requestReset(undo, redo);
-
     std::unordered_map<QString, QString> binIdCorresp;
     pCore->projectItemModel()->loadBinPlaylist(&tractor, timeline->tractor(), binIdCorresp);
 
@@ -169,9 +168,15 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
         switch (clip->type()) {
         case unknown_type:
         case producer_type: {
-            qDebug() << "Looking for clip clip "<< clip->parent().get("kdenlive:id");
-            Q_ASSERT(binIdCorresp.count(clip->parent().get("kdenlive:id")) > 0);
-            QString binId = binIdCorresp.at(QString(clip->parent().get("kdenlive:id")));
+            //qDebug() << "Looking for clip clip "<< clip->parent().get("kdenlive:id")<<" = "<<clip->parent().get("kdenlive:clipname");
+            QString binId;
+            if (clip->parent().get_int("_kdenlive_processed") == 1) {
+                // This is a bin clip, already processed no need to change id
+                binId = QString(clip->parent().get("kdenlive:id"));
+            } else {
+                Q_ASSERT(binIdCorresp.count(clip->parent().get("kdenlive:id")) > 0);
+                binId = binIdCorresp.at(QString(clip->parent().get("kdenlive:id")));
+            }
             bool ok = false;
             if (pCore->bin()->getBinClip(binId)) {
                 int cid = ClipModel::construct(timeline, binId, clip);
