@@ -233,6 +233,11 @@ Bin *Core::bin()
     return m_binWidget;
 }
 
+void Core::selectBinClip(const QString &clipId, int frame, const QPoint &zone)
+{
+    m_binWidget->selectClipById(clipId, frame, zone);
+}
+
 std::shared_ptr<JobManager> Core::jobManager()
 {
     return m_jobManager;

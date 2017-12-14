@@ -78,6 +78,9 @@ public:
     /* @brief Helper function to generate a lambda that changes the row of an item */
     Fun moveItem_lambda(int id, int destRow);
 
+    /* @brief Returns the number of clips in bin */
+    int clipsCount() const;
+
     friend class TreeItem;
     friend class AbstractProjectItem;
 

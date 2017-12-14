@@ -197,6 +197,11 @@ void AbstractTreeModel::deregisterItem(int id, TreeItem *item)
     m_allItems.erase(id);
 }
 
+int AbstractTreeModel::clipsCount() const
+{
+    return m_allItems.size();
+}
+
 std::shared_ptr<TreeItem> AbstractTreeModel::getItemById(int id) const
 {
     if (id == rootItem->getId()) {

@@ -531,6 +531,10 @@ bool LoadJob::commitResult(Fun &undo, Fun &redo)
     };
     bool ok = operation();
     if (ok) {
+        if (pCore->projectItemModel()->clipsCount() == 2) {
+            // Always select first added clip
+            pCore->selectBinClip(m_clipId);
+        }
         UPDATE_UNDO_REDO_NOLOCK(operation, reverse, undo, redo);
     }
     return ok;

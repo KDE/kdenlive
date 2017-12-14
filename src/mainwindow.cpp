@@ -1901,7 +1901,7 @@ void MainWindow::addTimelineClip(const QString &url)
     if (pCore->currentDoc()) {
         QStringList ids = pCore->binController()->getBinIdsByResource(QFileInfo(url));
         if (!ids.isEmpty()) {
-            pCore->bin()->selectClipById(ids.constFirst());
+            pCore->selectBinClip(ids.constFirst());
             slotInsertClipInsert();
         }
     }
@@ -2942,7 +2942,7 @@ void MainWindow::slotClipInProjectTree()
         if (m_projectMonitor->isActive()) {
             slotSwitchMonitors();
         }
-        pCore->bin()->selectClipById(getMainTimeline()->controller()->getClipBinId(ids.constFirst()), -1, zone);
+        pCore->selectBinClip(getMainTimeline()->controller()->getClipBinId(ids.constFirst()), -1, zone);
     }
 }
 
