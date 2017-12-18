@@ -67,7 +67,12 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
         case tractor_type: {
             // that is a double track
             int tid;
-            ok = timeline->requestTrackInsertion(-1, tid, QString(), false, undo, redo, false);
+            bool audioTrack = track->get_int("kdenlive:audio_track") == 1;
+            ok = timeline->requestTrackInsertion(-1, tid, QString(), audioTrack, undo, redo, false);
+            int lockState = track->get_int("kdenlive:locked_track");
+            if (lockState > 0) {
+                timeline->setTrackProperty(tid, QStringLiteral("kdenlive:locked_track"), QString::number(lockState));
+            }
             Mlt::Tractor local_tractor(*track);
             ok = ok && constructTrackFromMelt(timeline, tid, local_tractor, binIdCorresp, undo, redo);
             break;
@@ -78,8 +83,16 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
             int tid;
             Mlt::Playlist local_playlist(*track);
             const QString trackName = local_playlist.get("kdenlive:track_name");
-            int audioTrack = local_playlist.get_int("kdenlive:audio_track");
-            ok = timeline->requestTrackInsertion(-1, tid, trackName, audioTrack == 1, undo, redo, false);
+            bool audioTrack = local_playlist.get_int("kdenlive:audio_track") == 1;
+            ok = timeline->requestTrackInsertion(-1, tid, trackName, audioTrack, undo, redo, false);
+            int muteState = track->get_int("hide");
+            if (muteState > 0 && (!audioTrack || (audioTrack && muteState != 1))) {
+                timeline->setTrackProperty(tid, QStringLiteral("hide"), QString::number(muteState));
+            }
+            int lockState = local_playlist.get_int("kdenlive:locked_track");
+            if (lockState > 0) {
+                timeline->setTrackProperty(tid, QStringLiteral("kdenlive:locked_track"), QString::number(lockState));
+            }
             ok = ok && constructTrackFromMelt(timeline, tid, local_playlist, binIdCorresp, undo, redo);
             break;
         }
@@ -147,9 +160,14 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
             if (!trackName.isEmpty()) {
                 timeline->setTrackProperty(tid, QStringLiteral("kdenlive:track_name"), trackName.toUtf8().constData());
             }
-            if (track.get_int("kdenlive:audio_track") == 1) {
+            bool audioTrack = track.get_int("kdenlive:audio_track") == 1;
+            if (audioTrack) {
                 // This is an audio track
                 timeline->setTrackProperty(tid, QStringLiteral("kdenlive:audio_track"), QStringLiteral("1"));
+            }
+            int muteState = playlist.get_int("hide");
+            if (muteState > 0 && (!audioTrack || (audioTrack && muteState != 1))) {
+                timeline->setTrackProperty(tid, QStringLiteral("hide"), QString::number(muteState));
             }
         }
     }

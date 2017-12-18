@@ -591,9 +591,10 @@ void TrackModel::setProperty(const QString &name, const QString &value)
 {
     QWriteLocker locker(&m_lock);
     m_track->set(name.toUtf8().constData(), value.toUtf8().constData());
-    if (name == QLatin1String("kdenlive:audio_track") && value.toInt() == 1) {
+    // Hide property mus be defined at playlist level or it won't be saved
+    if (name == QLatin1String("kdenlive:audio_track") || name == QLatin1String("hide")) {
         for (int i = 0; i < 2; i++) {
-            m_playlists[i].set("hide", 1);
+            m_playlists[i].set(name.toUtf8().constData(), value.toInt());
         }
     }
 }
