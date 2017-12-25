@@ -11,9 +11,6 @@ grep -r "CentOS release 6" /etc/redhat-release || exit 1
 
 . /opt/rh/devtoolset-3/enable
 
-#necessary ?
-#pulseaudio-libs
-
 QTVERSION=5.9.1
 QVERSION_SHORT=5.9
 QTDIR=/usr/local/Qt-${QTVERSION}/
@@ -129,6 +126,21 @@ else
 	tar -xf libsamplerate-0.1.9.tar.gz
 fi
 cd libsamplerate-0.1.9
+./configure --prefix=$WLD
+make -j5
+make install
+
+
+#alsa-lib
+cd /external
+if ( test -d /external/alsa-lib-1.1.5 )
+then
+        echo "alsa-lib already downloaded"
+else
+	wget ftp://ftp.alsa-project.org/pub/lib/alsa-lib-1.1.5.tar.bz2
+	tar -xf alsa-lib-1.1.5.tar.bz2
+fi
+cd alsa-lib-1.1.5
 ./configure --prefix=$WLD
 make -j5
 make install

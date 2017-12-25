@@ -16,9 +16,6 @@ rm -f functions.sh
 
 . /opt/rh/devtoolset-3/enable
 
-#necessary ?
-#pulseaudio-libs 
-
 QTVERSION=5.9.2
 QVERSION_SHORT=5.9
 QTDIR=/usr/local/Qt-${QTVERSION}/
@@ -53,6 +50,22 @@ export LD_LIBRARY_PATH=/usr/lib64/:/usr/lib:/app/usr/lib:$QTDIR/lib/:/opt/python
 # between Ubuntu and CentOS 6
 
 #ln -sf /usr/share/pkgconfig /usr/lib/pkgconfig
+
+#update ruby
+yum -y remove ruby ruby-devel
+if ( test -d /external/ruby-2.1.2 )
+then
+        echo "RUBY already cloned"
+else
+	cd /external
+	wget http://cache.ruby-lang.org/pub/ruby/2.1/ruby-2.1.2.tar.gz
+	tar xvfvz ruby-2.1.2.tar.gz
+fi
+cd /external/ruby-2.1.2
+./configure
+make
+make install
+gem update --system
 
 # Get project
 if [ ! -d /kdenlive ] ; then
@@ -182,7 +195,7 @@ if [ $# -eq 0 ]; then
         git pull
         git reset --hard
         git pull --rebase
-#	git checkout d351ac1
+	git checkout master
         cd ..
 fi
 else
@@ -200,7 +213,7 @@ index e501888..55f0307 100755
 @@ -19,7 +19,8 @@ then
 		exit 0
 	fi
- 
+
 -	echo > config.mak
 +	echo "CFLAGS += $(pkg-config --cflags vidstab)" > config.mak
 +	echo "LDFLAGS += $(pkg-config --libs vidstab)" >> config.mak
@@ -219,12 +232,19 @@ make install
 
 # Build kdenlive
 mkdir -p /kdenlive_build
+mkdir -p /kdenlive_build/po
+
+if [ ! -d /kdenlive/po ] ; then
+ln -s /kdenlive_build/po /kdenlive/po
+fi
+
 cd /kdenlive_build
 cmake3 ../kdenlive \
     -DCMAKE_INSTALL_PREFIX:PATH=/app/usr/ \
     -DCMAKE_BUILD_TYPE=RelWithDebInfo \
     -DPACKAGERS_BUILD=1 \
     -DKDE_INSTALL_USE_QT_SYS_PATHS:BOOL=ON \
+    -DKDE_L10N_AUTO_TRANSLATIONS:BOOL=ON \
     -DBUILD_TESTS=FALSE
 make -j8 install
 

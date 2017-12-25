@@ -25,20 +25,6 @@ else
   exit 1
 fi
 
-
-#yum -y install wget epel-release git make autoconf automake libtool \
-#	gettext perl-URI.noarch bzip2-devel libnuma-devel xz-devel \
-#	libzip-devel libxml2-devel libxslt-devel libsqlite3x-devel \
-#	libudev-devel libusbx-devel libcurl-devel libssh2-devel mesa-libGL-devel sqlite-devel #\
-#	tar gzip which make autoconf automake gstreamer-devel mesa-libEGL coreutils grep \
-#	media-player-info.noarch alsa-lib-devel polkit-devel sox-devel mesa-libGLU
-
-#yum --enablerepo=epel -y install fuse-sshfs # install from EPEL
-
-#if [[ "$(arch)" = "x86_64" ]] ; then
-#    yum upgrade ca-certificates --disablerepo=epel
-#fi
-
 if [[ ! -f /etc/yum.repos.d/epel.repo ]] ; then
 
     yum -y install epel-release
@@ -47,13 +33,26 @@ if [[ ! -f /etc/yum.repos.d/epel.repo ]] ; then
     yum -y update
 fi
 
+# Required for GAVL install (used in frei0r crop,scale,tilt effect)
+if [[ ! -f /etc/yum.repos.d/linuxtech.repo ]] ; then
+    cat > /etc/yum.repos.d/linuxtech.repo << 'EOF'
+[linuxtech]
+name=LinuxTECH
+baseurl=http://pkgrepo.linuxtech.net/el6/release/
+enabled=1
+gpgcheck=1
+gpgkey=http://pkgrepo.linuxtech.net/el6/release/RPM-GPG-KEY-LinuxTECH.NET
+EOF
+    yum -y update
+fi
+
+
 # Packages for base dependencies and Qt5.
 yum -y install wget \
                tar \
                bzip2 \
                xz \
                gettext \
-               git \
                subversion \
                libtool \
                which \
@@ -67,7 +66,6 @@ yum -y install wget \
                xcb-util \
                xkeyboard-config \
                gperf \
-               ruby \
                bison \
                flex \
                zlib-devel \
@@ -104,21 +102,26 @@ yum -y install wget \
                xz-devel \
                lz4-devel \
                inotify-tools-devel \
-               openssl-devel \
                cups-devel \
                openal-soft-devel \
                pixman-devel \
-               alsa-lib-devel \
-               sox-devel \
-               polkit-devel
+               polkit-devel \
+ 	       perl-ExtUtils-MakeMaker \
+	       curl-devel \
+	       pulseaudio-libs-devel \
+	       libgavl-devel \
+	       sox-devel
 
+if ( !test -d /usr/bin/cmake ) ; then
+    ln -s /usr/bin/cmake3 /usr/bin/cmake
+fi
 
 # Newer compiler than what comes with offcial CentOS 6 (only 64 bits)
 yum -y install centos-release-scl-rh
 yum -y install devtoolset-3-gcc devtoolset-3-gcc-c++
 
 # required for Kdenlive related libs
-yum -y install libXft-devel atk-devel libtiff-devel libjpeg-devel libXcomposite-devel
+yum -y install libXft-devel atk-devel libXcomposite-devel
 
 # Get helper functions
 wget -q https://github.com/probonopd/AppImages/raw/master/functions.sh -O ./functions.sh
@@ -128,7 +131,7 @@ rm -f functions.sh
 echo -e "---------- Clean-up Old Packages\n"
 
 # Remove system based devel package to prevent conflict with new one.
-yum -y erase boost-devel libgphoto2 sane-backends libjpeg-devel jasper-devel libpng-devel libtiff-devel
+yum -y erase boost-devel libgphoto2 sane-backends libjpeg-devel jasper-devel libpng-devel libtiff-devel git
 
 # Prepare the install location
 # rm -rf /app/ || true
@@ -154,11 +157,23 @@ QTDIR=/usr/local/Qt-${QTVERSION}/
 BUILDING_DIR="/external/build"
 DOWNLOAD_DIR="/external/download"
 
+# install recent git
+if [ ! -d /external/git-2.7.4 ]; then
+  cd /external
+  wget https://www.kernel.org/pub/software/scm/git/git-2.7.4.tar.gz
+  tar xzf git-2.7.4.tar.gz
+fi
+cd /external/git-2.7.4
+make prefix=/usr/local/git all
+make prefix=/usr/local/git install
+echo 'export PATH=$PATH:/usr/local/git/bin' >> /etc/bashrc
+source /etc/bashrc
+
 cd $BUILDING_DIR
 
 rm -rf $BUILDING_DIR/* || true
 
-cmake3 /kdenlive/packaging/appimage/3rdparty \
+cmake3 /appimage-scripts/3rdparty \
        -DCMAKE_INSTALL_PREFIX:PATH=/usr \
        -DINSTALL_ROOT=/usr \
        -DEXTERNALS_DOWNLOAD_DIR=$DOWNLOAD_DIR
@@ -168,12 +183,9 @@ cmake3 --build . --config RelWithDebInfo --target ext_jasper     -- -j$CPU_CORES
 cmake3 --build . --config RelWithDebInfo --target ext_png        -- -j$CPU_CORES
 cmake3 --build . --config RelWithDebInfo --target ext_tiff       -- -j$CPU_CORES
 #cmake3 --build . --config RelWithDebInfo --target ext_opencv     -- -j$CPU_CORES
-cmake3 --build . --config RelWithDebInfo --target ext_qt         -- -j$CPU_CORES
+#cmake3 --build . --config RelWithDebInfo --target ext_qt         -- -j$CPU_CORES
 cmake3 --build . --config RelWithDebInfo --target ext_exiv2      -- -j$CPU_CORES
 
-
-#necessary ?
-#pulseaudio-libs
 
 # qjsonparser, used to add metadata to the plugins needs to work in a en_US.UTF-8 environment. That's
 # not always set correctly in CentOS 6.7
@@ -259,6 +271,49 @@ EXTERNAL_CMAKE="${external_options[2]}"
 EXTERNAL_CONFIGURE="${external_options[3]}"
 build_external $EXTERNAL
 
+#libsndfile
+cd /external
+if ( test -d /external/libsndfile-1.0.28 )
+then
+        echo "libsndfile already downloaded"
+else
+        wget http://www.mega-nerd.com/libsndfile/files/libsndfile-1.0.28.tar.gz
+        tar -xf libsndfile-1.0.28.tar.gz
+fi
+cd libsndfile-1.0.28
+./configure --prefix=$WLD
+make -j5
+make install
+
+#libsamplerate
+cd /external
+if ( test -d /external/libsamplerate-0.1.9 )
+then
+        echo "libsamplerate already downloaded"
+else
+        wget http://www.mega-nerd.com/SRC/libsamplerate-0.1.9.tar.gz
+        tar -xf libsamplerate-0.1.9.tar.gz
+fi
+cd libsamplerate-0.1.9
+./configure --prefix=$WLD
+make -j5
+make install
+
+
+#alsa-lib
+cd /external
+if ( test -d /external/alsa-lib-1.1.5 )
+then
+        echo "alsa-lib already downloaded"
+else
+        wget ftp://ftp.alsa-project.org/pub/lib/alsa-lib-1.1.5.tar.bz2
+        tar -xf alsa-lib-1.1.5.tar.bz2
+fi
+cd alsa-lib-1.1.5
+./configure --prefix=$WLD
+make -j5
+make install
+
 #sdl
 cd /external
 if ( test -d /external/SDL2-2.0.7 )
@@ -269,7 +324,7 @@ else
 	tar -xf SDL2-2.0.7.tar.gz
 fi
 cd /external/SDL2-2.0.7
-./configure --prefix=$WLD
+./configure --prefix=$WLD --with-alsa-prefix=/app/usr/lib --with-alsa-inc-prefix=/app/usr/include/
 make
 make install
 

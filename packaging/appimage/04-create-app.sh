@@ -277,7 +277,7 @@ export MLT_ROOT_DIR=\$DIR/usr/
 export FREI0R_PATH=\$DIR/usr/lib/frei0r-1
 export MLT_PROFILES_PATH=\$DIR/usr/share/mlt/profiles/
 export MLT_PRESETS_PATH=\$DIR/usr/share/mlt/presets/
-export SDL_AUDIODRIVER=alsa
+export SDL_AUDIODRIVER=pulseaudio
 export XDG_CURRENT_DESKTOP=
 
 export APPIMAGE_STARTUP_QML2_IMPORT_PATH=\$QML2_IMPORT_PATH
@@ -328,6 +328,15 @@ rm -Rf $APP.AppDir/usr/share/kservices5/useragentstrings/ || true
 rm -Rf $APP.AppDir/usr/share/man/ || true
 rm -Rf $APP.AppDir/usr/bin/ffserver || true
 rm -Rf $APP.AppDir/usr/bin/gtk-demo || true
+rm -Rf $APP.AppDir/usr/bin/yasm || true
+rm -Rf $APP.AppDir/usr/bin/ytasm || true
+rm -Rf $APP.AppDir/usr/bin/x264 || true
+rm -Rf $APP.AppDir/usr/bin/x265 || true
+rm -Rf $APP.AppDir/usr/bin/vsyasm || true
+rm -Rf $APP.AppDir/usr/bin/vpxdec || true
+rm -Rf $APP.AppDir/usr/bin/vpxenc || true
+rm -Rf $APP.AppDir/usr/bin/meinproc5 || true
+rm -Rf $APP.AppDir/usr/bin/desktoptojson || true
 rm -Rf $APP.AppDir/usr/lib/kconf_update_bin/ || true
 
 
