@@ -994,6 +994,7 @@ Rectangle {
         id: guidesDelegateModel
         model: guidesModel
             Item {
+                id: guideRoot
                 Rectangle {
                     id: guideBase
                     width: 1
@@ -1016,7 +1017,31 @@ Rectangle {
                         acceptedButtons: Qt.LeftButton
                         cursorShape: Qt.PointingHandCursor
                         hoverEnabled: true
-                        onDoubleClicked: timeline.editGuide(model.frame)
+                        property int startX
+                        drag.axis: Drag.XAxis
+                        drag.target: guideRoot
+                        onPressed: {
+                            drag.target = guideRoot
+                            startX = guideRoot.x
+                        }
+                        onReleased: {
+                            if (startX != guideRoot.x) {
+                                timeline.moveGuide(model.frame,  model.frame + guideRoot.x / timeline.scaleFactor)
+                            }
+                            drag.target = undefined
+                        }
+                        onPositionChanged: {
+                            if (pressed) {
+                                var frame = Math.round(model.frame + guideRoot.x / timeline.scaleFactor)
+                                frame = controller.suggestSnapPoint(frame, root.snapping)
+                                guideRoot.x = (frame - model.frame) * timeline.scaleFactor
+                            }
+                        }
+                        drag.smoothed: false
+                        onDoubleClicked: {
+                            timeline.editGuide(model.frame)
+                            drag.target = undefined
+                        }
                         onClicked: timeline.position = guideBase.x / timeline.scaleFactor
                     }
                 }

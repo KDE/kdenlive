@@ -86,7 +86,7 @@ public:
        @param comment is the text associated with the marker
        @param type is the type (color) associated with the marker. If -1 is passed, then the value is pulled from kdenlive's defaults
     */
-    bool editMarker(GenTime oldPos, GenTime pos, const QString &comment, int type = -1);
+    bool editMarker(GenTime oldPos, GenTime pos, QString comment = QString(), int type = -1);
 
     /* @brief This describes the available markers type and their corresponding colors */
     static std::array<QColor, 5> markerTypes;

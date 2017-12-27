@@ -485,6 +485,14 @@ void TimelineController::editGuide(int frame)
     guideModel->editMarkerGui(pos, qApp->activeWindow(), false);
 }
 
+void TimelineController::moveGuide(int frame, int newFrame)
+{
+    auto guideModel = pCore->projectManager()->current()->getGuideModel();
+    GenTime pos(frame, pCore->getCurrentFps());
+    GenTime newPos(newFrame, pCore->getCurrentFps());
+    guideModel->editMarker(pos, newPos);
+}
+
 void TimelineController::switchGuide(int frame, bool deleteOnly)
 {
     bool markerFound = false;

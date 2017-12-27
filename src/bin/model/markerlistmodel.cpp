@@ -141,11 +141,14 @@ bool MarkerListModel::removeMarker(GenTime pos)
     return res;
 }
 
-bool MarkerListModel::editMarker(GenTime oldPos, GenTime pos, const QString &comment, int type)
+bool MarkerListModel::editMarker(GenTime oldPos, GenTime pos, QString comment, int type)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_markerList.count(oldPos) > 0);
     QString oldComment = m_markerList[oldPos].first;
+    if (comment.isEmpty()) {
+        comment = oldComment;
+    }
     int oldType = m_markerList[oldPos].second;
     if (oldPos == pos && oldComment == comment && oldType == type) return true;
     Fun undo = []() { return true; };

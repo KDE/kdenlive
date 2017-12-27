@@ -160,6 +160,7 @@ public:
     /* @brief Ask for edit timeline guide dialog
      */
     Q_INVOKABLE void editGuide(int frame = -1);
+    Q_INVOKABLE void moveGuide(int frame, int newFrame);
     /* @brief Add a timeline guide
      */
     Q_INVOKABLE void switchGuide(int frame = -1, bool deleteOnly = false);
