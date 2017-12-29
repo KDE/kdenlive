@@ -208,7 +208,7 @@ public slots:
                               QUndoCommand *masterCommand = nullptr);
     /** @brief Saves the current project at the autosave location.
      * @description The autosave files are in ~/.kde/data/stalefiles/kdenlive/ */
-    void slotAutoSave();
+    void slotAutoSave(const QString &scene);
     /** @brief Groups were changed, save to MLT. */
     void groupsChanged(const QString &groups);
 

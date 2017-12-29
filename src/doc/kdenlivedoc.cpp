@@ -417,25 +417,20 @@ bool KdenliveDoc::autoGenerateImageProxy(int width) const
            width > m_documentProperties.value(QStringLiteral("proxyimageminsize")).toInt();
 }
 
-void KdenliveDoc::slotAutoSave()
+void KdenliveDoc::slotAutoSave(const QString &scene)
 {
-    // TODO: re-enable when qml timeline is ready
-    return;
     if (m_autosave != nullptr) {
         if (!m_autosave->isOpen() && !m_autosave->open(QIODevice::ReadWrite)) {
             // show error: could not open the autosave file
             qCDebug(KDENLIVE_LOG) << "ERROR; CANNOT CREATE AUTOSAVE FILE";
         }
-        // qCDebug(KDENLIVE_LOG) << "// AUTOSAVE FILE: " << m_autosave->fileName();
-        QDomDocument sceneList =
-            xmlSceneList(pCore->monitorManager()->projectMonitor()->sceneList(m_url.adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile()));
-        if (sceneList.isNull()) {
+        if (scene.isEmpty()) {
             // Make sure we don't save if scenelist is corrupted
             KMessageBox::error(QApplication::activeWindow(), i18n("Cannot write to file %1, scene list is corrupted.", m_autosave->fileName()));
             return;
         }
         m_autosave->resize(0);
-        m_autosave->write(sceneList.toString().toUtf8());
+        m_autosave->write(scene.toUtf8());
         m_autosave->flush();
     }
 }

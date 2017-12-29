@@ -672,8 +672,6 @@ KRecentFilesAction *ProjectManager::recentFilesAction()
 
 void ProjectManager::slotStartAutoSave()
 {
-    // TODO REFAC: port to new timeline
-    return;
     if (m_lastSave.elapsed() > 300000) {
         // If the project was not saved in the last 5 minute, force save
         m_autoSaveTimer.stop();
@@ -685,23 +683,18 @@ void ProjectManager::slotStartAutoSave()
 
 void ProjectManager::slotAutoSave()
 {
-    // TODO refac: repair this
-    /*
     prepareSave();
-    bool multitrackEnabled = m_trackView->multitrackView;
-    if (multitrackEnabled) {
-        // Multitrack view was enabled, disable for auto save
-        m_trackView->slotMultitrackView(false);
+    QString saveFolder = m_project->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile();
+    QString scene = projectSceneList(saveFolder);
+    if (!m_replacementPattern.isEmpty()) {
+        QMapIterator<QString, QString> i(m_replacementPattern);
+        while (i.hasNext()) {
+            i.next();
+            scene.replace(i.key(), i.value());
+        }
     }
-    m_trackView->connectOverlayTrack(false);
-    m_project->slotAutoSave();
-    m_trackView->connectOverlayTrack(true);
-    if (multitrackEnabled) {
-        // Multitrack view was enabled, re-enable for auto save
-        m_trackView->slotMultitrackView(true);
-    }
+    m_project->slotAutoSave(scene);
     m_lastSave.start();
-    */
 }
 
 QString ProjectManager::projectSceneList(const QString &outputFolder)
