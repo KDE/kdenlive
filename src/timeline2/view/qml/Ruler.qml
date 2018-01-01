@@ -45,7 +45,6 @@ Rectangle {
         rulerRoot.labelSize = fontMetrics.tightBoundingRect(timeline.timecode(36000)).width
         adjustStepSize()
     }
-    enabled: false
     height: fontMetrics.font.pixelSize * 2
     color: activePalette.window
 
@@ -120,6 +119,78 @@ Rectangle {
         anchors.bottom: parent.bottom
         height: parent.height / 3
         opacity: 0.4
+        Rectangle {
+                id: trimIn
+                anchors.left: parent.left
+                anchors.leftMargin: 0
+                height: parent.height
+                width: 5
+                color: 'lawngreen'
+                opacity: 0
+                Drag.active: trimInMouseArea.drag.active
+                Drag.proposedAction: Qt.MoveAction
+
+                MouseArea {
+                    id: trimInMouseArea
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    cursorShape: Qt.SizeHorCursor
+                    drag.target: parent
+                    drag.axis: Drag.XAxis
+                    drag.smoothed: false
+
+                    onPressed: {
+                        parent.anchors.left = undefined
+                        parent.opacity = 1
+                    }
+                    onReleased: {
+                        parent.anchors.left = zone.left
+                    }
+                    onPositionChanged: {
+                        if (mouse.buttons === Qt.LeftButton) {
+                            timeline.zoneIn = controller.suggestSnapPoint(timeline.zoneIn + Math.round(trimIn.x / rulerRoot.timeScale), root.snapping)
+                        }
+                    }
+                    onEntered: parent.opacity = 1
+                    onExited: parent.opacity = 0
+                }
+            }
+            Rectangle {
+                id: trimOut
+                anchors.right: parent.right
+                anchors.rightMargin: 0
+                height: parent.height
+                width: 5
+                color: 'darkred'
+                opacity: 0
+                Drag.active: trimOutMouseArea.drag.active
+                Drag.proposedAction: Qt.MoveAction
+
+                MouseArea {
+                    id: trimOutMouseArea
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    cursorShape: Qt.SizeHorCursor
+                    drag.target: parent
+                    drag.axis: Drag.XAxis
+                    drag.smoothed: false
+
+                    onPressed: {
+                        parent.anchors.right = undefined
+                        parent.opacity = 1
+                    }
+                    onReleased: {
+                        parent.anchors.right = zone.right
+                    }
+                    onPositionChanged: {
+                        if (mouse.buttons === Qt.LeftButton) {
+                            timeline.zoneOut = controller.suggestSnapPoint(timeline.zoneIn + Math.round((trimOut.x + trimOut.width) / rulerRoot.timeScale), root.snapping)
+                        }
+                    }
+                    onEntered: parent.opacity = 1
+                    onExited: parent.opacity = 0
+                }
+            }
     }
 }
 
