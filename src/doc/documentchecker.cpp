@@ -19,7 +19,7 @@
 
 #include "documentchecker.h"
 #include "kthumb.h"
-
+#include "effects/effectsrepository.hpp"
 #include "kdenlivesettings.h"
 #include "titler/titlewidget.h"
 #include "utils/KoIconUtils.h"
@@ -55,7 +55,7 @@ const int LUMAMISSING = 10;
 const int LUMAOK = 11;
 const int LUMAPLACEHOLDER = 12;
 
-enum TITLECLIPTYPE { TITLE_IMAGE_ELEMENT = 20, TITLE_FONT_ELEMENT = 21 };
+enum MISSINGTYPE { TITLE_IMAGE_ELEMENT = 20, TITLE_FONT_ELEMENT = 21 };
 
 DocumentChecker::DocumentChecker(const QUrl &url, const QDomDocument &doc)
     : m_url(url)
@@ -286,8 +286,35 @@ bool DocumentChecker::hasErrorInClips()
             }
         }
     }
+    
+    // Check for missing effects
+    QDomNodeList effs = m_doc.elementsByTagName(QStringLiteral("filter"));
+    max = effs.count();
+    QStringList filters;
+    for (int i = 0; i < max; ++i) {
+        QDomElement transition = effs.at(i).toElement();
+        QString service = getProperty(transition, QStringLiteral("kdenlive_id"));
+        filters << service;
+    }
+    for (const QString &id : filters) {
+        if (!EffectsRepository::get()->exists(id)) {
+            m_missingFilters << id;
+        }
+    }
 
-    if (m_missingClips.isEmpty() && missingLumas.isEmpty() && missingProxies.isEmpty() && missingSources.isEmpty() && m_missingFonts.isEmpty()) {
+    if (!m_missingFilters.isEmpty()) {
+        // Delete missing effects
+        for (int i = 0; i < effs.count(); ++i) {
+            QDomElement e = effs.item(i).toElement();
+            if (m_missingFilters.contains(getProperty(e, QStringLiteral("kdenlive_id")))) {
+                // Remove clip
+                e.parentNode().removeChild(e);
+                --i;
+            }
+        }
+    }
+    
+    if (m_missingClips.isEmpty() && missingLumas.isEmpty() && missingProxies.isEmpty() && missingSources.isEmpty() && m_missingFonts.isEmpty() && m_missingFilters.isEmpty()) {
         return false;
     }
 
@@ -386,25 +413,35 @@ bool DocumentChecker::hasErrorInClips()
         item->setIcon(0, KoIconUtils::themedIcon(QStringLiteral("dialog-warning")));
         QString newft = QFontInfo(QFont(font)).family();
         item->setText(1, i18n("%1 will be replaced by %2", font, newft));
-        item->setData(0, typeRole, CLIPMISSING);
+        item->setData(0, typeRole, TITLE_FONT_ELEMENT);
     }
-
+    
+    QString infoLabel;
     if (!m_missingClips.isEmpty()) {
-        m_ui.infoLabel->setText(i18n("The project file contains missing clips or files"));
+        infoLabel = i18n("The project file contains missing clips or files.");
+    }
+    if (!m_missingFilters.isEmpty()) {
+        if (!infoLabel.isEmpty()) {
+            infoLabel.append(QStringLiteral("\n"));
+        }
+        infoLabel.append(i18np("Missing effect: %2 will be removed from project.", "Missing effects: %2 will be removed from project.", m_missingFilters.count(), m_missingFilters.join(",")));
     }
     if (!missingProxies.isEmpty()) {
-        if (!m_ui.infoLabel->text().isEmpty()) {
-            m_ui.infoLabel->setText(m_ui.infoLabel->text() + QStringLiteral(". "));
+        if (!infoLabel.isEmpty()) {
+            infoLabel.append(QStringLiteral("\n"));
         }
-        m_ui.infoLabel->setText(m_ui.infoLabel->text() + i18n("Missing proxies will be recreated after opening."));
+        infoLabel.append(i18n("Missing proxies will be recreated after opening."));
     }
     if (!missingSources.isEmpty()) {
-        if (!m_ui.infoLabel->text().isEmpty()) {
-            m_ui.infoLabel->setText(m_ui.infoLabel->text() + QStringLiteral(". "));
+        if (!infoLabel.isEmpty()) {
+            infoLabel.append(QStringLiteral("\n"));
         }
-        m_ui.infoLabel->setText(m_ui.infoLabel->text() + i18np("The project file contains a missing clip, you can still work with its proxy.",
+        infoLabel.append(i18np("The project file contains a missing clip, you can still work with its proxy.",
                                                                "The project file contains %1 missing clips, you can still work with their proxies.",
                                                                missingSources.count()));
+    }
+    if (!infoLabel.isEmpty()) {
+        m_ui.infoLabel->setText(infoLabel);
     }
 
     m_ui.removeSelected->setEnabled(!m_missingClips.isEmpty());
@@ -779,6 +816,9 @@ void DocumentChecker::acceptDialog()
     // prepare transitions
     QDomNodeList trans = m_doc.elementsByTagName(QStringLiteral("transition"));
 
+    // prepare filters
+    QDomNodeList filters = m_doc.elementsByTagName(QStringLiteral("filter"));
+    
     // Mark document as modified
     m_doc.documentElement().setAttribute(QStringLiteral("modified"), 1);
 
@@ -1037,20 +1077,9 @@ void DocumentChecker::slotDeleteSelected()
     if (!deletedIds.isEmpty()) {
         QDomElement e;
         QDomNodeList producers = m_doc.elementsByTagName(QStringLiteral("producer"));
-        // QDomNodeList infoproducers = m_doc.elementsByTagName("kdenlive_producer");
 
         QDomNode mlt = m_doc.elementsByTagName(QStringLiteral("mlt")).at(0);
         QDomNode kdenlivedoc = m_doc.elementsByTagName(QStringLiteral("kdenlivedoc")).at(0);
-
-        /*for (int i = 0, j = 0; i < infoproducers.count() && j < deletedIds.count(); ++i) {
-            e = infoproducers.item(i).toElement();
-            if (deletedIds.contains(e.attribute("id"))) {
-                // Remove clip
-                kdenlivedoc.removeChild(e);
-                --i;
-                j++;
-            }
-        }*/
 
         for (int i = 0; i < producers.count(); ++i) {
             e = producers.item(i).toElement();
