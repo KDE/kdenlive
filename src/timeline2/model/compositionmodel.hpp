@@ -81,6 +81,7 @@ public:
     KeyframeModel *getEffectKeyframeModel();
     Q_INVOKABLE bool showKeyframes() const;
     Q_INVOKABLE void setShowKeyframes(bool show);
+    const QString &displayName() const;
 
 protected:
     Mlt::Transition *service() const override;
@@ -98,6 +99,7 @@ protected:
 
 private:
     int a_track;
+    QString m_compositionName;
 };
 
 #endif

@@ -296,10 +296,12 @@ bool DocumentChecker::hasErrorInClips()
         QString service = getProperty(transition, QStringLiteral("kdenlive_id"));
         filters << service;
     }
+    QStringList processed;
     for (const QString &id : filters) {
-        if (!EffectsRepository::get()->exists(id)) {
+        if (!processed.contains(id) && !EffectsRepository::get()->exists(id)) {
             m_missingFilters << id;
         }
+        processed << id;
     }
 
     if (!m_missingFilters.isEmpty()) {

@@ -34,6 +34,11 @@ CompositionModel::CompositionModel(std::weak_ptr<TimelineModel> parent, Mlt::Tra
     , AssetParameterModel(transition, transitionXml, transitionId, {ObjectType::TimelineComposition, m_id})
     , a_track(-1)
 {
+    QDomElement namenode = transitionXml.firstChildElement(QStringLiteral("name"));
+    m_compositionName = transitionXml.attribute(QStringLiteral("id"));
+    if (!namenode.isNull() && !namenode.text().isEmpty()) {
+        m_compositionName = i18n(namenode.text().toUtf8().data());
+    }
 }
 
 int CompositionModel::construct(const std::weak_ptr<TimelineModel> &parent, const QString &transitionId, int id)
@@ -161,4 +166,9 @@ void CompositionModel::setShowKeyframes(bool show)
 {
     QWriteLocker locker(&m_lock);
     service()->set("kdenlive:hide_keyframes", (int)!show);
+}
+
+const QString &CompositionModel::displayName() const
+{
+    return m_compositionName;
 }

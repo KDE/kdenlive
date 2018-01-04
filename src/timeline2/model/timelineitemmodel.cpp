@@ -323,7 +323,7 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
         case Qt::DisplayRole:
         case ResourceRole:
         case ServiceRole:
-            return compo->getProperty("mlt_service");
+            return compo->displayName();
             break;
         case IsBlankRole: // probably useless
             return false;
