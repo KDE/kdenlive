@@ -121,7 +121,7 @@ int SnapModel::proposeSize(int in, int out, int size, bool right, int maxSnapDis
         int target_pos = out + 1 - size;
         int snapped_pos = getClosestPoint(target_pos);
         if (snapped_pos != -1 && qAbs(target_pos - snapped_pos) <= maxSnapDist) {
-            proposed_size = out + 2 - snapped_pos;
+            proposed_size = out - snapped_pos;
         }
     }
     unIgnore();
