@@ -148,7 +148,8 @@ Rectangle {
                     }
                     onPositionChanged: {
                         if (mouse.buttons === Qt.LeftButton) {
-                            timeline.zoneIn = controller.suggestSnapPoint(timeline.zoneIn + Math.round(trimIn.x / rulerRoot.timeScale), root.snapping)
+                            var newPos = controller.suggestSnapPoint(timeline.zoneIn + Math.round(trimIn.x / rulerRoot.timeScale), root.snapping)
+                            timeline.zoneIn = timeline.zoneOut > -1 ? Math.min(newPos, timeline.zoneOut - 1) : newPos
                         }
                     }
                     onEntered: parent.opacity = 1
@@ -184,7 +185,7 @@ Rectangle {
                     }
                     onPositionChanged: {
                         if (mouse.buttons === Qt.LeftButton) {
-                            timeline.zoneOut = controller.suggestSnapPoint(timeline.zoneIn + Math.round((trimOut.x + trimOut.width) / rulerRoot.timeScale), root.snapping)
+                            timeline.zoneOut = Math.max(controller.suggestSnapPoint(timeline.zoneIn + Math.round((trimOut.x + trimOut.width) / rulerRoot.timeScale), root.snapping), timeline.zoneIn + 1)
                         }
                     }
                     onEntered: parent.opacity = 1

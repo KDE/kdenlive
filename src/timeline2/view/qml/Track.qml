@@ -186,12 +186,7 @@ Column{
                     value: model.item
                     when: loader.status == Loader.Ready
                 }
-                Binding {
-                    target: loader.item
-                    property: "isComposition"
-                    value: model.isComposition
-                    when: loader.status == Loader.Ready
-                }*/
+                */
                 Binding {
                     target: loader.item
                     property: "binId"
@@ -206,15 +201,15 @@ Column{
                     }
                 }
                 onLoaded: {
-                    console.log('loaded clip: ', model.start, ', ID: ', model.item, ', index: ', trackRoot.DelegateModel.itemsIndex)
                     item.clipId= model.item
-                    item.binId= model.binId
-                    item.isComposition= model.isComposition
-                    if (!model.isComposition) {
+                    if (loader.item.isComposition === false) {
+                        console.log('loaded clip: ', model.start, ', ID: ', model.item, ', index: ', trackRoot.DelegateModel.itemsIndex)
                         item.isAudio= model.audio
                         item.markers= model.markers
                         item.hasAudio = model.hasAudio
+                        //item.binId= model.binId
                     } else {
+                        console.log('loaded composition: ', model.start, ', ID: ', model.item, ', index: ', trackRoot.DelegateModel.itemsIndex)
                         //item.aTrack = model.a_track
                     }
                     item.trackId= trackRoot.trackId

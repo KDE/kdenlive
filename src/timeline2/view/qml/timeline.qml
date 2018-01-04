@@ -121,8 +121,6 @@ Rectangle {
         scrollView.flickableItem.contentX = Math.max(0, (timeline.seekPosition > -1 ? timeline.seekPosition : timeline.position) * timeline.scaleFactor - (scrollView.width / 2))
         root.snapping = timeline.snap ? 10 / Math.sqrt(root.timeScale) : -1
         ruler.adjustStepSize()
-        zoneTrimOut.x = timeline.zoneOut * timeScale - zoneTrimOut.width
-        zoneTrimIn.x = timeline.zoneIn * timeScale
     }
 
     DropArea { //Drop area for compositions
