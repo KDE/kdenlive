@@ -120,7 +120,7 @@ void KeyframeView::slotGoToNext()
         emit seekToPos(next.first.frames(pCore->getCurrentFps()));
     } else {
         // no keyframe after current position
-        emit seekToPos(m_duration);
+        emit seekToPos(m_duration - 1);
     }
 }
 
@@ -290,7 +290,7 @@ void KeyframeView::paintEvent(QPaintEvent *event)
      * Time-"line"
      */
     p.setPen(m_colKeyframe);
-    p.drawLine(0, m_lineHeight + (headOffset / 2), width(), m_lineHeight + (headOffset / 2));
+    p.drawLine(0, m_lineHeight + (headOffset / 2), (m_duration -1) * m_scale, m_lineHeight + (headOffset / 2));
 
     /*
      * current position

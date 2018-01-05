@@ -85,7 +85,7 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
 
     Monitor *monitor = pCore->getMonitor(m_model->monitorId);
     m_time = new TimecodeDisplay(monitor->timecode(), this);
-    m_time->setRange(0, duration);
+    m_time->setRange(0, duration - 1);
 
     toolbar->addWidget(m_buttonPrevious);
     toolbar->addWidget(m_buttonAddDelete);
@@ -223,7 +223,7 @@ void KeyframeWidget::slotSetRange(QPair<int, int> /*range*/)
     int duration = m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt(&ok);
     Q_ASSERT(ok);
     m_keyframeview->setDuration(duration);
-    m_time->setRange(0, duration);
+    m_time->setRange(0, duration - 1);
 }
 
 void KeyframeWidget::slotRefresh()
