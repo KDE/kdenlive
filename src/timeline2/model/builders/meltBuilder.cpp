@@ -101,15 +101,12 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
         }
     }
 
-    // build internal track compositing
-    timeline->buildTrackCompositing();
-
     // Loading compositions
     QScopedPointer<Mlt::Service> service(tractor.producer());
+    QList <Mlt::Transition *> compositions;
     while ((service != nullptr) && service->is_valid()) {
         if (service->type() == transition_type) {
             Mlt::Transition t((mlt_transition)service->get_service());
-            int compoId;
             QString id(t.get("kdenlive_id"));
             QString internal(t.get("internal_added"));
             if (internal.isEmpty()) {
@@ -117,17 +114,31 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
                     qDebug() << "// Warning, this should not happen, transition without id: " << t.get("id") << " = " << t.get("mlt_service");
                     id = t.get("mlt_service");
                 }
-                Mlt::Properties transProps(t.get_properties());
-                ok = timeline->requestCompositionInsertion(id, timeline->getTrackIndexFromPosition(t.get_b_track() - 1), t.get_a_track(), t.get_in(), t.get_length(), &transProps, compoId, undo, redo);
-                if (!ok) {
-                    qDebug() << "ERROR : failed to insert composition in track " << t.get_b_track() << ", position" << t.get_in();
-                    break;
-                }
-                qDebug() << "Inserted composition in track " << t.get_b_track() << ", position" << t.get_in();
+                compositions << new Mlt::Transition(t);
             }
         }
         service.reset(service->producer());
     }
+
+    // Sort compositions and insert
+    if (!compositions.isEmpty()) {
+        std::sort(compositions.begin(), compositions.end(), [](Mlt::Transition *a, Mlt::Transition *b) { return a->get_b_track() < b->get_b_track(); });
+        while (!compositions.isEmpty()) {
+            QScopedPointer<Mlt::Transition>t(compositions.takeFirst());
+            Mlt::Properties transProps(t->get_properties());
+            QString id(t->get("kdenlive_id"));
+            int compoId;
+            ok = timeline->requestCompositionInsertion(id, timeline->getTrackIndexFromPosition(t->get_b_track() - 1), t->get_a_track(), t->get_in(), t->get_length(), &transProps, compoId, undo, redo);
+            if (!ok) {
+                qDebug() << "ERROR : failed to insert composition in track " << t->get_b_track() << ", position" << t->get_in();
+                break;
+            }
+            qDebug() << "Inserted composition in track " << t->get_b_track() << ", position" << t->get_in()<<"/"<< t->get_out();
+        }
+    }
+    
+    // build internal track compositing
+    timeline->buildTrackCompositing();
 
     if (!ok) {
         // TODO log error
