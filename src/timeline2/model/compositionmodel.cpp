@@ -41,13 +41,17 @@ CompositionModel::CompositionModel(std::weak_ptr<TimelineModel> parent, Mlt::Tra
     }
 }
 
-int CompositionModel::construct(const std::weak_ptr<TimelineModel> &parent, const QString &transitionId, int id)
+int CompositionModel::construct(const std::weak_ptr<TimelineModel> &parent, const QString &transitionId, int id, Mlt::Properties *sourceProperties)
 {
     auto xml = TransitionsRepository::get()->getXml(transitionId);
     Mlt::Transition *transition = TransitionsRepository::get()->getTransition(transitionId);
     transition->set_in_and_out(0, 0);
     std::shared_ptr<CompositionModel> composition(new CompositionModel(parent, transition, id, xml, transitionId));
     id = composition->m_id;
+    if (sourceProperties != nullptr) {
+        Mlt::Properties transProps(composition->service()->get_properties());
+        transProps.inherit(*sourceProperties);
+    }
     if (auto ptr = parent.lock()) {
         ptr->registerComposition(composition);
     } else {

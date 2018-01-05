@@ -282,7 +282,7 @@ int TimelineController::insertClip(int tid, int position, const QString &data_st
 int TimelineController::insertComposition(int tid, int position, const QString &transitionId, bool logUndo)
 {
     int id;
-    if (!m_model->requestCompositionInsertion(transitionId, tid, position, 100, id, logUndo)) {
+    if (!m_model->requestCompositionInsertion(transitionId, tid, position, 100, nullptr, id, logUndo)) {
         id = -1;
     }
     return id;

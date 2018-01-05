@@ -1246,7 +1246,7 @@ void TimelineModel::registerComposition(const std::shared_ptr<CompositionModel> 
     m_groups->createGroupItem(id);
 }
 
-bool TimelineModel::requestCompositionInsertion(const QString &transitionId, int trackId, int position, int length, int &id, bool logUndo)
+bool TimelineModel::requestCompositionInsertion(const QString &transitionId, int trackId, int position, int length, Mlt::Properties *transProps, int &id, bool logUndo)
 {
 #ifdef LOGGING
     m_logFile << "timeline->requestCompositionInsertion(\"composite\"," << trackId << " ," << position << "," << length << ", dummy_id );" << std::endl;
@@ -1254,7 +1254,7 @@ bool TimelineModel::requestCompositionInsertion(const QString &transitionId, int
     QWriteLocker locker(&m_lock);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    bool result = requestCompositionInsertion(transitionId, trackId, -1, position, length, id, undo, redo);
+    bool result = requestCompositionInsertion(transitionId, trackId, -1, position, length, transProps, id, undo, redo);
     if (result && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Insert Composition"));
     }
@@ -1262,14 +1262,14 @@ bool TimelineModel::requestCompositionInsertion(const QString &transitionId, int
     return result;
 }
 
-bool TimelineModel::requestCompositionInsertion(const QString &transitionId, int trackId, int compositionTrack, int position, int length, int &id, Fun &undo,
+bool TimelineModel::requestCompositionInsertion(const QString &transitionId, int trackId, int compositionTrack, int position, int length, Mlt::Properties *transProps, int &id, Fun &undo,
                                                 Fun &redo)
 {
     qDebug() << "Inserting compo track" << trackId << "pos" << position << "length" << length;
     int compositionId = TimelineModel::getNextId();
     id = compositionId;
     Fun local_undo = deregisterComposition_lambda(compositionId);
-    CompositionModel::construct(shared_from_this(), transitionId, compositionId);
+    CompositionModel::construct(shared_from_this(), transitionId, compositionId, transProps);
     auto composition = m_allCompositions[compositionId];
     Fun local_redo = [composition, this]() {
         // We capture a shared_ptr to the composition, which means that as long as this undo object lives, the composition object is not deleted. To insert it

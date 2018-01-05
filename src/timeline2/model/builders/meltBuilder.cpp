@@ -117,8 +117,8 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
                     qDebug() << "// Warning, this should not happen, transition without id: " << t.get("id") << " = " << t.get("mlt_service");
                     id = t.get("mlt_service");
                 }
-                ok = timeline->requestCompositionInsertion(id, timeline->getTrackIndexFromPosition(t.get_b_track() - 1), t.get_a_track(), t.get_in(),
-                                                           t.get_length(), compoId, undo, redo);
+                Mlt::Properties transProps(t.get_properties());
+                ok = timeline->requestCompositionInsertion(id, timeline->getTrackIndexFromPosition(t.get_b_track() - 1), t.get_a_track(), t.get_in(), t.get_length(), &transProps, compoId, undo, redo);
                 if (!ok) {
                     qDebug() << "ERROR : failed to insert composition in track " << t.get_b_track() << ", position" << t.get_in();
                     break;
