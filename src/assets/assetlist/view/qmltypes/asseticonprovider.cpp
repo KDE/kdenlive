@@ -77,7 +77,7 @@ QImage AssetIconProvider::makeIcon(const QString &effectId, const QString &effec
     QFont ft = QFont();
     ft.setBold(true);
     uint hex = qHash(effectName);
-    QString t = "#" + QString::number(hex, 16).toUpper().left(6);
+    QString t = QStringLiteral("#") + QString::number(hex, 16).toUpper().left(6);
     QColor col(t);
     bool isAudio = false;
     if (m_effect) {

@@ -139,7 +139,8 @@ void AssetParameterModel::setParameter(const QString &name, const QString &value
     }
     emit modelChanged();
     // Update timeline view if necessary
-    pCore->updateItemModel(m_ownerId, m_asset->get("kdenlive_id"));
+    const QString assetId(m_asset->get("kdenlive_id"));
+    pCore->updateItemModel(m_ownerId, assetId);
     pCore->refreshProjectItem(m_ownerId);
     pCore->invalidateItem(m_ownerId);
 }
@@ -209,7 +210,7 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
     case OpacityRole:
         return element.attribute(QStringLiteral("opacity")) != QLatin1String("false");
     case ValueRole: {
-        QString value = m_asset->get(paramName.toUtf8().constData());
+        QString value(m_asset->get(paramName.toUtf8().constData()));
         return value.isEmpty() ? (element.attribute(QStringLiteral("value")).isNull() ? parseAttribute(QStringLiteral("default"), element)
                                                                                       : element.attribute(QStringLiteral("value")))
                                : value;

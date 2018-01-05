@@ -522,14 +522,12 @@ void KdenliveSettingsDialog::initDevices()
                 if (line.contains(QStringLiteral("playback"))) {
                     deviceId = line.section(QLatin1Char(':'), 0, 0);
                     m_configSdl.kcfg_audio_device->addItem(line.section(QLatin1Char(':'), 1, 1),
-                                                           "plughw:" + QString::number(deviceId.section(QLatin1Char('-'), 0, 0).toInt()) + QLatin1Char(',') +
-                                                               QString::number(deviceId.section(QLatin1Char('-'), 1, 1).toInt()));
+                                                           QStringLiteral("plughw:%1,%2").arg(deviceId.section(QLatin1Char('-'), 0, 0).toInt()).arg(deviceId.section(QLatin1Char('-'), 1, 1).toInt()));
                 }
                 if (line.contains(QStringLiteral("capture"))) {
                     deviceId = line.section(QLatin1Char(':'), 0, 0);
                     m_configCapture.kcfg_v4l_alsadevice->addItem(line.section(QLatin1Char(':'), 1, 1).simplified(),
-                                                                 "hw:" + QString::number(deviceId.section(QLatin1Char('-'), 0, 0).toInt()) + QLatin1Char(',') +
-                                                                     QString::number(deviceId.section(QLatin1Char('-'), 1, 1).toInt()));
+                                                                 QStringLiteral("hw:%1,%2").arg(deviceId.section(QLatin1Char('-'), 0, 0).toInt()).arg(deviceId.section(QLatin1Char('-'), 1, 1).toInt()));
                 }
                 line = stream.readLine();
             }
@@ -580,8 +578,8 @@ void KdenliveSettingsDialog::slotReadAudioDevices()
         if (!devicestr.startsWith(QLatin1Char(' ')) && devicestr.count(QLatin1Char(':')) > 1) {
             QString card = devicestr.section(QLatin1Char(':'), 0, 0).section(QLatin1Char(' '), -1);
             QString device = devicestr.section(QLatin1Char(':'), 1, 1).section(QLatin1Char(' '), -1);
-            m_configSdl.kcfg_audio_device->addItem(devicestr.section(QLatin1Char(':'), -1).simplified(), "plughw:" + card + QLatin1Char(',') + device);
-            m_configCapture.kcfg_v4l_alsadevice->addItem(devicestr.section(QLatin1Char(':'), -1).simplified(), "hw:" + card + QLatin1Char(',') + device);
+            m_configSdl.kcfg_audio_device->addItem(devicestr.section(QLatin1Char(':'), -1).simplified(), QStringLiteral("plughw:%1,%2").arg(card).arg(device));
+            m_configCapture.kcfg_v4l_alsadevice->addItem(devicestr.section(QLatin1Char(':'), -1).simplified(), QStringLiteral("hw:%1,%2").arg(card).arg(device));
         }
     }
 }

@@ -649,7 +649,7 @@ void KeyframeModel::parseAnimProperty(const QString &prop)
         switch (m_paramType) {
         case ParamType::AnimatedRect: {
             mlt_rect rect = mlt_prop.anim_get_rect("key", frame);
-            value = QVariant(QString("%1 %2 %3 %4 %5").arg(rect.x).arg(rect.y).arg(rect.w).arg(rect.h).arg(rect.o));
+            value = QVariant(QStringLiteral("%1 %2 %3 %4 %5").arg(rect.x).arg(rect.y).arg(rect.w).arg(rect.h).arg(rect.o));
             break;
         }
         default:
@@ -749,7 +749,7 @@ QVariant KeyframeModel::getInterpolatedValue(const GenTime &pos) const
         prop.anim_set("keyframe", rect, next->first.frames(pCore->getCurrentFps()), next->first.frames(pCore->getCurrentFps()),
                       convertToMltType(next->second.first));
         rect = prop.anim_get_rect("keyframe", p);
-        const QString res = QString("%1 %2 %3 %4 %5").arg((int)rect.x).arg((int)rect.y).arg((int)rect.w).arg((int)rect.h).arg(rect.o);
+        const QString res = QStringLiteral("%1 %2 %3 %4 %5").arg((int)rect.x).arg((int)rect.y).arg((int)rect.w).arg((int)rect.h).arg(rect.o);
         return QVariant(res);
     }
     return QVariant();

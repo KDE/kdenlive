@@ -148,7 +148,7 @@ void Core::initGUI(const QUrl &Url)
             KMessageBox::error(
                 m_mainWindow,
                 i18n("The given profile is invalid. We default to the profile \"dv_pal\", but you can change this from Kdenlive's settings panel"));
-            m_profile = "dv_pal";
+            m_profile = QStringLiteral("dv_pal");
         }
         KdenliveSettings::setDefault_profile(m_profile);
         profileChanged();

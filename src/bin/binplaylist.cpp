@@ -27,7 +27,7 @@
 #include "projectclip.h"
 #include <mlt++/Mlt.h>
 
-QString BinPlaylist::binPlaylistId = "main bin";
+QString BinPlaylist::binPlaylistId = QStringLiteral("main bin");
 BinPlaylist::BinPlaylist()
     : m_binPlaylist(new Mlt::Playlist(pCore->getCurrentProfile()->profile()))
 {
@@ -100,7 +100,7 @@ void BinPlaylist::removeBinClip(const QString &id)
     int size = m_binPlaylist->count();
     for (int i = 0; !ok && i < size; i++) {
         QScopedPointer<Mlt::Producer> prod(m_binPlaylist->get_clip(i));
-        QString prodId = prod->parent().get("kdenlive:id");
+        QString prodId(prod->parent().get("kdenlive:id"));
         if (prodId == id) {
             m_binPlaylist->remove(i);
             ok = true;
@@ -131,7 +131,7 @@ void BinPlaylist::saveDocumentProperties(const QMap<QString, QString> &props, co
     Mlt::Properties docProperties;
     docProperties.pass_values(playlistProps, "kdenlive:docproperties.");
     for (int i = 0; i < docProperties.count(); i++) {
-        QString propName = QStringLiteral("kdenlive:docproperties.") + docProperties.get_name(i);
+        QString propName = QStringLiteral("kdenlive:docproperties.%1").arg(docProperties.get_name(i));
         playlistProps.set(propName.toUtf8().constData(), (char *)nullptr);
     }
 
@@ -139,7 +139,7 @@ void BinPlaylist::saveDocumentProperties(const QMap<QString, QString> &props, co
     Mlt::Properties docMetadata;
     docMetadata.pass_values(playlistProps, "kdenlive:docmetadata.");
     for (int i = 0; i < docMetadata.count(); i++) {
-        QString propName = QStringLiteral("kdenlive:docmetadata.") + docMetadata.get_name(i);
+        QString propName = QStringLiteral("kdenlive:docmetadata.%1").arg(docMetadata.get_name(i));
         playlistProps.set(propName.toUtf8().constData(), (char *)nullptr);
     }
 

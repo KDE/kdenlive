@@ -213,7 +213,7 @@ bool ClipCreator::createClipsFromList(const QList<QUrl> &list, bool checkRemovab
     QMimeDatabase db;
     for (const QUrl &file : list) {
         QMimeType type = db.mimeTypeForUrl(file);
-        if (type.inherits("inode/directory")) {
+        if (type.inherits(QLatin1String("inode/directory"))) {
             // user dropped a folder, import its files
             QDir dir(file.path());
             QStringList result = dir.entryList(QDir::Files);
