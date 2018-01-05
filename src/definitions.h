@@ -102,7 +102,7 @@ enum class ClipType {
     QText
 };
 
-enum ProjectItemType { ProjectClipType = QTreeWidgetItem::UserType, ProjectFoldeType, ProjectSubclipType };
+enum ProjectItemType { ProjectClipType = 0, ProjectFolderType, ProjectSubclipType };
 
 enum GraphicsRectItem { AVWidget = 70000, LabelWidget, TransitionWidget, GroupWidget };
 

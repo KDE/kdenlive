@@ -288,7 +288,7 @@ void AbstractProjectItem::updateParent(std::shared_ptr<TreeItem> newParent)
         m_lastParentId = std::static_pointer_cast<AbstractProjectItem>(newParent)->clipId();
     }
     TreeItem::updateParent(newParent);
-    if (reload) {
+    if (reload && itemType() != ProjectItemType::ProjectFolderType) {
         pCore->jobManager()->startJob<ThumbJob>({clipId()}, {}, QString(), 150, -1, true);
         pCore->jobManager()->startJob<AudioThumbJob>({clipId()}, {}, QString());
     }
