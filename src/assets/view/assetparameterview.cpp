@@ -96,7 +96,7 @@ void AssetParameterView::setRange(QPair<int, int> range)
 {
     qDebug() << "SETTING RANGE" << range;
     QMutexLocker lock(&m_lock);
-    for (int i = 0; i < m_widgets.size(); ++i) {
+    for (uint i = 0; i < m_widgets.size(); ++i) {
         auto w = m_widgets[i];
         w->slotSetRange(range);
     }
@@ -155,7 +155,7 @@ void AssetParameterView::refresh(const QModelIndex &topLeft, const QModelIndex &
     // We make sure the range is valid
     Q_ASSERT(bottomRight.row() < (int)m_widgets.size());
 
-    for (auto i = (size_t)topLeft.row(); i <= (size_t)bottomRight.row(); ++i) {
+    for (int i = topLeft.row(); i <= bottomRight.row(); ++i) {
         m_widgets[i]->slotRefresh();
     }
 }

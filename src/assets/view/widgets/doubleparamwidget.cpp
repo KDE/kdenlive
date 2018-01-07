@@ -65,7 +65,7 @@ void DoubleParamWidget::slotRefresh()
 
     // Connect signal
     connect(m_doubleWidget, &DoubleWidget::valueChanged,
-            [this, locale](double value) { emit valueChanged(m_index, locale.toString(value / m_doubleWidget->factor), true); });
+            [this, locale](double val) { emit valueChanged(m_index, locale.toString(val / m_doubleWidget->factor), true); });
 }
 
 void DoubleParamWidget::slotShowComment(bool show)

@@ -60,7 +60,7 @@ void EffectStackModel::loadEffects()
             auto effect = EffectItemModel::construct(ptr->filter(i), shared_from_this());
             // effect->setParameters
             Fun redo = addItem_lambda(effect, rootItem->getId());
-            bool res = redo();
+            redo();
             connect(effect.get(), &AssetParameterModel::modelChanged, this, &EffectStackModel::modelChanged);
         }
     } else {
@@ -406,7 +406,7 @@ bool EffectStackModel::checkConsistency()
         return false;
     }
 
-    for (int i = 0; i < allFilters.size(); ++i) {
+    for (uint i = 0; i < allFilters.size(); ++i) {
         auto mltFilter = ptr->filter(i)->get_filter();
         auto currentFilter = allFilters[i]->filter().get_filter();
         if (mltFilter != currentFilter) {

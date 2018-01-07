@@ -52,7 +52,7 @@
 #else
 #define check_error(fn)                                                                                                                                        \
     {                                                                                                                                                          \
-        int err = fn->glGetError();                                                                                                                            \
+        uint err = fn->glGetError();                                                                                                                            \
         if (err != GL_NO_ERROR) {                                                                                                                              \
             qCCritical(KDENLIVE_LOG) << "GL error" << hex << err << dec << "at" << __FILE__ << ":" << __LINE__;                                                \
         }                                                                                                                                                      \
@@ -75,11 +75,11 @@ using namespace Mlt;
 GLWidget::GLWidget(int id, QObject *parent)
     : QQuickView((QWindow *)parent)
     , sendFrameForAnalysis(false)
-    , m_id(id)
-    , m_shader(nullptr)
     , m_glslManager(nullptr)
     , m_consumer(nullptr)
     , m_producer(nullptr)
+    , m_id(id)
+    , m_shader(nullptr)
     , m_initSem(0)
     , m_analyseSem(1)
     , m_isInitialized(false)
@@ -437,7 +437,7 @@ void GLWidget::paintGL()
     } else if (m_glslManager) {
         m_mutex.lock();
         if (m_sharedFrame.is_valid()) {
-            m_texture[0] = *((GLuint *)m_sharedFrame.get_image());
+            m_texture[0] = *((const GLuint *)m_sharedFrame.get_image());
         }
     }
 
@@ -468,7 +468,7 @@ void GLWidget::paintGL()
 
     // Setup an orthographic projection.
     QMatrix4x4 projection;
-    projection.scale(2.0f / width, 2.0f / height);
+    projection.scale(2.0f / (float)width, 2.0f / (float)height);
     m_shader->setUniformValue(m_projectionLocation, projection);
     check_error(f);
 
@@ -524,7 +524,7 @@ void GLWidget::paintGL()
         f->glViewport(0, 0, fullWidth, fullHeight);
 
         QMatrix4x4 projection2;
-        projection2.scale(2.0f / width, 2.0f / height);
+        projection2.scale(2.0f / (float)width, 2.0f / (float)height);
         m_shader->setUniformValue(m_projectionLocation, projection2);
 
         f->glDrawArrays(GL_TRIANGLE_STRIP, 0, vertices.size());
@@ -555,13 +555,14 @@ void GLWidget::paintGL()
 
 void GLWidget::slotZoomScene(double value)
 {
-    if (value >= 3) {
+    int val = value;
+    if (val >= 3) {
         setZoom(value - 2.0f);
-    } else if (value == 2) {
+    } else if (val == 2) {
         setZoom(0.5);
-    } else if (value == 1) {
+    } else if (val == 1) {
         setZoom(0.25);
-    } else if (value == 0) {
+    } else if (val == 0) {
         setZoom(0.125);
     }
 }
@@ -1514,7 +1515,7 @@ void FrameRenderer::showGLFrame(Mlt::Frame frame)
 
         frame.set("movit.convert.use_texture", 1);
         mlt_image_format format = mlt_image_glsl_texture;
-        const GLuint *textureId = (GLuint *)frame.get_image(format, width, height);
+        frame.get_image(format, width, height);
         m_context->makeCurrent(m_surface);
         GLsync sync = (GLsync)frame.get_data("movit.convert.fence");
         if (sync) {
@@ -1558,7 +1559,7 @@ void FrameRenderer::showGLNoSyncFrame(Mlt::Frame frame)
 
         frame.set("movit.convert.use_texture", 1);
         mlt_image_format format = mlt_image_glsl_texture;
-        const GLuint *textureId = (GLuint *)frame.get_image(format, width, height);
+        frame.get_image(format, width, height);
         m_context->makeCurrent(m_surface);
         m_context->functions()->glFinish();
 

@@ -89,7 +89,7 @@ void PositionEditWidget::slotUpdatePosition()
 
 void PositionEditWidget::setAbsolute(bool absolute)
 {
-    m_absolute = true;
+    m_absolute = absolute;
 }
 
 void PositionEditWidget::slotSetRange(QPair <int, int> range)

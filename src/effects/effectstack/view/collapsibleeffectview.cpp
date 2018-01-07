@@ -58,8 +58,8 @@ CollapsibleEffectView::CollapsibleEffectView(std::shared_ptr<EffectItemModel> ef
         , m_itemInfo(info)
         , m_original_effect(original_effect)
         , m_isMovable(true)*/
-    , m_model(effectModel)
     , m_view(nullptr)
+    , m_model(effectModel)
     , m_regionEffect(false)
 {
     QString effectId = effectModel->getAssetId();
@@ -298,6 +298,7 @@ void CollapsibleEffectView::slotActivateEffect(QModelIndex ix)
 
 void CollapsibleEffectView::setActive(bool activate)
 {
+    Q_UNUSED(activate)
     /*
     decoframe->setProperty("active", activate);
     decoframe->setStyleSheet(decoframe->styleSheet());
@@ -559,6 +560,7 @@ void CollapsibleEffectView::updateFrameInfo()
 
 void CollapsibleEffectView::setActiveKeyframe(int kf)
 {
+    Q_UNUSED(kf)
     /*
     if (m_paramWidget) {
         m_paramWidget->setActiveKeyframe(kf);
@@ -568,6 +570,7 @@ void CollapsibleEffectView::setActiveKeyframe(int kf)
 
 void CollapsibleEffectView::setupWidget(const ItemInfo &info)
 {
+    Q_UNUSED(info)
     /*
     if (m_effect.isNull()) {
         //         //qCDebug(KDENLIVE_LOG) << "// EMPTY EFFECT STACK";
@@ -655,6 +658,7 @@ void CollapsibleEffectView::slotSyncEffectsPos(int pos)
 
 void CollapsibleEffectView::dragEnterEvent(QDragEnterEvent *event)
 {
+    Q_UNUSED(event)
     /*
     if (event->mimeData()->hasFormat(QStringLiteral("kdenlive/effectslist"))) {
         frame->setProperty("target", true);
@@ -786,6 +790,8 @@ void CollapsibleEffectView::setRange(QPair<int, int> range)
 
 void CollapsibleEffectView::setKeyframes(const QString &tag, const QString &keyframes)
 {
+    Q_UNUSED(tag)
+    Q_UNUSED(keyframes)
     /*
     m_paramWidget->setKeyframes(tag, keyframes);
     */

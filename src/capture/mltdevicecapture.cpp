@@ -212,7 +212,7 @@ void MltDeviceCapture::emitFrameUpdated(Mlt::Frame &frame)
     const uchar *image = frame.get_image(format, width, height);
     QImage qimage(width, height, QImage::Format_RGB888);
     // QImage qimage(width, height, QImage::Format_ARGB32_Premultiplied);
-    memcpy(qimage.bits(), image, width * height * 3);
+    memcpy(qimage.bits(), image, (size_t)width * height * 3);
     emit frameUpdated(qimage);
 }
 

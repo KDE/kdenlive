@@ -75,14 +75,14 @@ AnalysisTree::AnalysisTree(QWidget *parent)
 // virtual
 QMimeData *AnalysisTree::mimeData(const QList<QTreeWidgetItem *> list) const
 {
-    QString data;
+    QString mimeData;
     for (QTreeWidgetItem *item : list) {
         if ((item->flags() & Qt::ItemIsDragEnabled) != 0) {
-            data.append(item->text(1));
+            mimeData.append(item->text(1));
         }
     }
     auto *mime = new QMimeData;
-    mime->setData(QStringLiteral("kdenlive/geometry"), data.toUtf8());
+    mime->setData(QStringLiteral("kdenlive/geometry"), mimeData.toUtf8());
     return mime;
 }
 

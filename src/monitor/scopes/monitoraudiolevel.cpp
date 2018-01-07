@@ -31,12 +31,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 const double log_factor = 1.0 / log10(1.0 / 127);
 
-static inline double levelToDB(double dB)
+static inline double levelToDB(double level)
 {
-    if (dB == 0) {
-        return 0;
+    if (level <= 0) {
+        return -100;
     }
-    return 100 * (1.0 - log10(dB) * log_factor);
+    return 100 * (1.0 - log10(level) * log_factor);
 }
 
 MonitorAudioLevel::MonitorAudioLevel(Mlt::Profile *profile, int height, QWidget *parent)
@@ -82,12 +82,7 @@ void MonitorAudioLevel::refreshScope(const QSize & /*size*/, bool /*full*/)
             QVector<int> levels;
             for (int i = 0; i < audioChannels; i++) {
                 QString s = QStringLiteral("meta.media.audio_level.%1").arg(i);
-                double audioLevel = mFrame.get_double(s.toLatin1().constData());
-                if (audioLevel == 0.0) {
-                    levels << -100;
-                } else {
-                    levels << (int)levelToDB(audioLevel);
-                }
+                levels << (int)levelToDB(mFrame.get_double(s.toLatin1().constData()));
             }
             QMetaObject::invokeMethod(this, "setAudioValues", Qt::QueuedConnection, Q_ARG(const QVector<int> &, levels));
         }

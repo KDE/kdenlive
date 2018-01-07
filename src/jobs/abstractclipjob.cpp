@@ -24,8 +24,8 @@
 
 AbstractClipJob::AbstractClipJob(JOBTYPE type, const QString &id, QObject *parent)
     : QObject(parent)
-    , m_jobType(type)
     , m_clipId(id)
+    , m_jobType(type)
 {
 }
 

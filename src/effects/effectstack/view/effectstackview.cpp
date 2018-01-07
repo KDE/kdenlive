@@ -63,17 +63,14 @@ void WidgetDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option
     QStyleOptionViewItem opt(option);
     initStyleOption(&opt, index);
     QStyle *style = opt.widget ? opt.widget->style() : QApplication::style();
-    const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
-    // QRect r = QStyle::alignedRect(opt.direction, Qt::AlignVCenter | Qt::AlignLeft, opt.decorationSize, r1);
-
     style->drawPrimitive(QStyle::PE_PanelItemViewItem, &opt, painter, opt.widget);
 }
 
 EffectStackView::EffectStackView(AssetPanel *parent)
     : QWidget(parent)
+    , m_model(nullptr)
     , m_thumbnailer(new AssetIconProvider(true))
     , m_range(-1, -1)
-    , m_model(nullptr)
 {
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     m_lay = new QVBoxLayout(this);
@@ -173,6 +170,7 @@ void EffectStackView::setModel(std::shared_ptr<EffectStackModel> model, QPair<in
 
 void EffectStackView::loadEffects(QPair<int, int> range, int start, int end)
 {
+    Q_UNUSED(start)
     qDebug() << "MUTEX LOCK!!!!!!!!!!!! loadEffects";
     QMutexLocker lock(&m_mutex);
     m_range = range;
@@ -259,6 +257,7 @@ void EffectStackView::slotAdjustDelegate(std::shared_ptr<EffectItemModel> effect
 
 void EffectStackView::refresh(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles)
 {
+    Q_UNUSED(roles)
     loadEffects(m_range, topLeft.row(), bottomRight.row() + 1);
 }
 
