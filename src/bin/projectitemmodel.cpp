@@ -290,21 +290,21 @@ QMimeData *ProjectItemModel::mimeData(const QModelIndexList &indices) const
     return mimeData;
 }
 
-void ProjectItemModel::onItemUpdated(std::shared_ptr<AbstractProjectItem> item)
+void ProjectItemModel::onItemUpdated(std::shared_ptr<AbstractProjectItem> item, int role)
 {
     auto tItem = std::static_pointer_cast<TreeItem>(item);
     auto ptr = tItem->parentItem().lock();
     if (ptr) {
         auto index = getIndexFromItem(tItem);
-        emit dataChanged(index, index);
+        emit dataChanged(index, index, QVector<int>() << role);
     }
 }
 
-void ProjectItemModel::onItemUpdated(const QString &binId)
+void ProjectItemModel::onItemUpdated(const QString &binId, int role)
 {
     std::shared_ptr<AbstractProjectItem> item = getItemByBinId(binId);
     if (item) {
-        onItemUpdated(item);
+        onItemUpdated(item, role);
     }
 }
 std::shared_ptr<ProjectClip> ProjectItemModel::getClipByBinID(const QString &binId)
@@ -528,7 +528,7 @@ bool ProjectItemModel::requestAddBinClip(QString &id, const QDomElement &descrip
     qDebug() << "/////////// added " << res;
     if (res) {
         int loadJob = pCore->jobManager()->startJob<LoadJob>({id}, {}, QString(), description);
-        pCore->jobManager()->startJob<ThumbJob>({id}, {loadJob}, QString(), 150, -1, true);
+        pCore->jobManager()->startJob<ThumbJob>({id}, {loadJob}, QString(), 150, 0, true);
         pCore->jobManager()->startJob<AudioThumbJob>({id}, {loadJob}, QString());
     }
     return res;

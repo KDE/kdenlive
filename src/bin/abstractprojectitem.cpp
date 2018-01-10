@@ -68,7 +68,7 @@ void AbstractProjectItem::setRefCount(uint count)
 {
     m_usage = count;
     if (auto ptr = m_model.lock())
-        std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<AbstractProjectItem>(shared_from_this()));
+        std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<AbstractProjectItem>(shared_from_this()), AbstractProjectItem::UsageCount);
 }
 
 uint AbstractProjectItem::refCount() const
@@ -80,14 +80,14 @@ void AbstractProjectItem::addRef()
 {
     m_usage++;
     if (auto ptr = m_model.lock())
-        std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<AbstractProjectItem>(shared_from_this()));
+        std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<AbstractProjectItem>(shared_from_this()), AbstractProjectItem::UsageCount);
 }
 
 void AbstractProjectItem::removeRef()
 {
     m_usage--;
     if (auto ptr = m_model.lock())
-        std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<AbstractProjectItem>(shared_from_this()));
+        std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<AbstractProjectItem>(shared_from_this()), AbstractProjectItem::UsageCount);
 }
 
 const QString &AbstractProjectItem::clipId() const
@@ -282,14 +282,10 @@ QString AbstractProjectItem::lastParentId() const
 
 void AbstractProjectItem::updateParent(std::shared_ptr<TreeItem> newParent)
 {
-    bool reload = !m_lastParentId.isEmpty();
+    //bool reload = !m_lastParentId.isEmpty();
     m_lastParentId.clear();
     if (newParent) {
         m_lastParentId = std::static_pointer_cast<AbstractProjectItem>(newParent)->clipId();
     }
     TreeItem::updateParent(newParent);
-    if (reload && itemType() != ProjectItemType::ProjectFolderType) {
-        pCore->jobManager()->startJob<ThumbJob>({clipId()}, {}, QString(), 150, -1, true);
-        pCore->jobManager()->startJob<AudioThumbJob>({clipId()}, {}, QString());
-    }
 }

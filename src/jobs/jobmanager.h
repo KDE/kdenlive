@@ -71,7 +71,7 @@ class JobManager : public QAbstractListModel, public enable_shared_from_this_vir
     Q_OBJECT
 
 public:
-    explicit JobManager();
+    explicit JobManager(QObject *parent);
     virtual ~JobManager();
 
     /** @brief Start a job

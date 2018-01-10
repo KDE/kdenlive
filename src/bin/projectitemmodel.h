@@ -198,8 +198,8 @@ protected:
 
 public slots:
     /** @brief An item in the list was modified, notify */
-    void onItemUpdated(std::shared_ptr<AbstractProjectItem> item);
-    void onItemUpdated(const QString &binId);
+    void onItemUpdated(std::shared_ptr<AbstractProjectItem> item, int role);
+    void onItemUpdated(const QString &binId, int role);
 
     /** @brief Check whether a given id is currently used or not*/
     bool isIdFree(const QString &id) const;

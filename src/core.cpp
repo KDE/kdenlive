@@ -155,6 +155,8 @@ void Core::initGUI(const QUrl &Url)
     }
 
     m_projectManager = new ProjectManager(this);
+    // Job manger must be created before bin to correctly connect
+    m_jobManager.reset(new JobManager(this));
     m_binWidget = new Bin(m_projectItemModel);
     m_binController = std::make_shared<BinController>();
     m_library = new LibraryWidget(m_projectManager);
@@ -169,7 +171,6 @@ void Core::initGUI(const QUrl &Url)
     connect(m_binController.get(), &BinController::abortAudioThumbs, m_binWidget, &Bin::abortAudioThumbs);
     connect(m_binController.get(), &BinController::setDocumentNotes, m_projectManager, &ProjectManager::setDocumentNotes);
     m_monitorManager = new MonitorManager(this);
-    m_jobManager.reset(new JobManager());
     // Producer queue, creating MLT::Producers on request
     /*
     m_producerQueue = new ProducerQueue(m_binController);

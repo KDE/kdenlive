@@ -58,6 +58,7 @@ const QString ThumbJob::getDescription() const
 
 bool ThumbJob::startJob()
 {
+    qDebug()<<"&&&&&&&&&&&&&&&&&& THUMB JOB STARTING: "<<m_clipId<<"\n\n&&&&&&&&&&&&&&&&&&&&&&&";
     if (m_done) {
         return true;
     }
@@ -70,6 +71,7 @@ bool ThumbJob::startJob()
     }
     if (m_binClip->clipType() == ClipType::Audio) {
         // Don't create thumbnail for audio clips
+        m_done = true;
         return true;
     }
     m_prod = m_binClip->thumbProducer();
@@ -93,10 +95,12 @@ bool ThumbJob::startJob()
     QScopedPointer<Mlt::Frame> frame(m_prod->get_frame());
     frame->set("deinterlace_method", "onefield");
     frame->set("top_field_first", -1);
+    frame->set("rescale.interp", "nearest");
     if ((frame != nullptr) && frame->is_valid()) {
         m_result = KThumb::getFrame(frame.data(), m_fullWidth, m_imageHeight, true);
         m_done = true;
     }
+    qDebug()<<"&&&&&&&&&&&&&&&&&& THUMB JOB DONE: "<<m_clipId<<"\n\n&&&&&&&&&&&&&&&&&&&&&&&";
     return m_done;
 }
 
@@ -108,9 +112,7 @@ bool ThumbJob::commitResult(Fun &undo, Fun &redo)
         return false;
     }
     m_resultConsumed = true;
-    if (!m_inCache) {
-        ThumbnailCache::get()->storeThumbnail(m_binClip->clipId(), m_frameNumber, m_result, m_persistent);
-    }
+    qDebug()<<"&&&&&&&&&&&&&&&&&& THUMB JOB RESULTS COMMITTED: "<<m_clipId<<"\n\n&&&&&&&&&&&&&&&&&&&&&&&";
 
     // TODO a refactor of ProjectClip and ProjectSubClip should make that possible without branching (both classes implement setThumbnail)
     bool ok = false;
@@ -151,6 +153,9 @@ bool ThumbJob::commitResult(Fun &undo, Fun &redo)
         if (ok) {
             UPDATE_UNDO_REDO_NOLOCK(operation, reverse, undo, redo);
         }
+    }
+    if (!m_inCache) {
+        ThumbnailCache::get()->storeThumbnail(m_binClip->clipId(), m_frameNumber, m_result, m_persistent);
     }
     return ok;
 }

@@ -47,10 +47,10 @@ public:
         STABILIZEJOB = 3,
         TRANSCODEJOB = 4,
         FILTERCLIPJOB = 5,
-        THUMBJOB = 5,
-        ANALYSECLIPJOB = 6,
-        LOADJOB = 7,
-        AUDIOTHUMBJOB = 8
+        THUMBJOB = 6,
+        ANALYSECLIPJOB = 7,
+        LOADJOB = 8,
+        AUDIOTHUMBJOB = 9
     };
     AbstractClipJob(JOBTYPE type, const QString &id, QObject *parent = nullptr);
     virtual ~AbstractClipJob();

@@ -237,6 +237,7 @@ bool AudioThumbJob::startJob()
     if (m_binClip->audioChannels() == 0 || m_binClip->audioThumbCreated()) {
         // nothing to do
         m_done = true;
+        m_successful = true;
         return true;
     }
     m_prod = m_binClip->originalProducer();

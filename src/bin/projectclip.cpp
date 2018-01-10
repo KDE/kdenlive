@@ -85,6 +85,7 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, std::shared_ptr<
         QMetaObject::invokeMethod(m_markerModel.get(), "importFromJson", Qt::QueuedConnection, Q_ARG(const QString &, markers), Q_ARG(bool, true),
                                   Q_ARG(bool, false));
     }
+    connectEffectStack();
 }
 
 // static
@@ -121,7 +122,6 @@ ProjectClip::ProjectClip(const QString &id, const QDomElement &description, cons
         m_name = i18n("Untitled");
     }
     connect(m_markerModel.get(), &MarkerListModel::modelChanged, [&]() { setProducerProperty(QStringLiteral("kdenlive:markers"), m_markerModel->toJson()); });
-    connectEffectStack();
 }
 
 std::shared_ptr<ProjectClip> ProjectClip::construct(const QString &id, const QDomElement &description, const QIcon &thumb,
@@ -331,7 +331,9 @@ void ProjectClip::setThumbnail(const QImage &img)
     }
     m_thumbnail = QIcon(thumb);
     updateTimelineClips(QVector<int>() << TimelineModel::ReloadThumb);
-    if (auto ptr = m_model.lock()) std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()));
+    if (auto ptr = m_model.lock()) {
+        std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()), AbstractProjectItem::DataThumbnail);
+    }
 }
 
 QPixmap ProjectClip::thumbnail(int width, int height)
@@ -343,6 +345,7 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
 {
     qDebug() << "################### ProjectClip::setproducer";
     updateProducer(std::move(producer));
+    connectEffectStack();
 
     // Update info
     if (m_name.isEmpty()) {
@@ -365,7 +368,7 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
         if (auto ptr = m_model.lock()) emit std::static_pointer_cast<ProjectItemModel>(ptr)->refreshPanel(m_binId);
     }
     if (auto ptr = m_model.lock()) {
-        std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()));
+        std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()), AbstractProjectItem::DataDuration);
     }
     // Make sure we have a hash for this clip
     getFileHash();
@@ -562,7 +565,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
     if (properties.contains(QStringLiteral("templatetext"))) {
         m_description = properties.value(QStringLiteral("templatetext"));
         if (auto ptr = m_model.lock())
-            std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()));
+            std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()), AbstractProjectItem::ClipStatus);
         refreshPanel = true;
     }
     timelineProperties << QStringLiteral("force_aspect_ratio") << QStringLiteral("video_index") << QStringLiteral("audio_index")
@@ -616,7 +619,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
     if (properties.contains(QStringLiteral("length")) || properties.contains(QStringLiteral("kdenlive:duration"))) {
         m_duration = getStringDuration();
         if (auto ptr = m_model.lock())
-            std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()));
+            std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()), AbstractProjectItem::DataDuration);
         refreshOnly = false;
         reload = true;
     }
@@ -625,7 +628,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         m_name = properties.value(QStringLiteral("kdenlive:clipname"));
         refreshPanel = true;
         if (auto ptr = m_model.lock()) {
-            std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()));
+            std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()), AbstractProjectItem::DataName);
         }
         // update timeline clips
         updateTimelineClips(QVector<int>() << TimelineModel::NameRole);
