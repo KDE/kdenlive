@@ -229,7 +229,6 @@ void AudioThumbJob::updateFfmpegProgress()
 
 bool AudioThumbJob::startJob()
 {
-    qDebug() << "################### audiothumbjob START";
     if (m_done) {
         return true;
     }

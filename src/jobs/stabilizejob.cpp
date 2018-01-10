@@ -80,7 +80,7 @@ std::unordered_set<QString> StabilizeJob::supportedFilters()
 }
 
 // static
-int StabilizeJob::prepareJob(std::shared_ptr<JobManager> ptr, const std::vector<QString> &binIds, const std::vector<int> &parents, QString undoString,
+int StabilizeJob::prepareJob(std::shared_ptr<JobManager> ptr, const std::vector<QString> &binIds, int parentId, QString undoString,
                              const QString &filterName)
 {
     Q_ASSERT(supportedFilters().count(filterName) > 0);
@@ -113,7 +113,7 @@ int StabilizeJob::prepareJob(std::shared_ptr<JobManager> ptr, const std::vector<
             // We are now all set to create the job. Note that we pass all the parameters directly through the lambda, hence there are no extra parameters to
             // the function
             using local_createFn_t = std::function<std::shared_ptr<StabilizeJob>(const QString &)>;
-            return ptr->startJob<StabilizeJob>(binIds, parents, std::move(undoString), local_createFn_t(std::move(createFn)));
+            return ptr->startJob<StabilizeJob>(binIds, parentId, std::move(undoString), local_createFn_t(std::move(createFn)));
         }
     }
     return -1;

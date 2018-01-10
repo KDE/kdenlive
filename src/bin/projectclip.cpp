@@ -289,16 +289,14 @@ void ProjectClip::reloadProducer(bool refreshOnly)
     if (refreshOnly) {
         // In that case, we only want a new thumbnail.
         // We thus set up a thumb job. We must make sure that there is no pending LOADJOB
-        std::vector<int> parentJobs;
-        if (loadjobId != -1) parentJobs.push_back(loadjobId);
-        pCore->jobManager()->startJob<ThumbJob>({clipId()}, parentJobs, QString(), 150, -1, true);
+        pCore->jobManager()->startJob<ThumbJob>({clipId()}, loadjobId, QString(), 150, -1, true);
 
     } else {
         //TODO: check if another load job is running?
         QDomDocument doc;
         QDomElement xml = toXml(doc);
         if (!xml.isNull()) {
-            pCore->jobManager()->startJob<LoadJob>({clipId()}, {}, QString(), xml);
+            pCore->jobManager()->startJob<LoadJob>({clipId()}, -1, QString(), xml);
         }
     }
 }
@@ -599,7 +597,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         } else {
             // A proxy was requested, make sure to keep original url
             setProducerProperty(QStringLiteral("kdenlive:originalurl"), url());
-            pCore->jobManager()->startJob<ProxyJob>({clipId()}, {}, QString());
+            pCore->jobManager()->startJob<ProxyJob>({clipId()}, -1, QString());
         }
     } else if (properties.contains(QStringLiteral("resource")) || properties.contains(QStringLiteral("templatetext")) ||
                properties.contains(QStringLiteral("autorotate"))) {

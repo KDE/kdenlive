@@ -43,6 +43,22 @@ JobManager::~JobManager()
     slotCancelJobs();
 }
 
+int JobManager::getBlockingJobId(const QString &id, AbstractClipJob::JOBTYPE type)
+{
+    READ_LOCK();
+    std::vector<int> result;
+    if (m_jobsByClip.count(id) > 0) {
+        for (int jobId : m_jobsByClip.at(id)) {
+            if (!m_jobs.at(jobId)->m_future.isFinished() && !m_jobs.at(jobId)->m_future.isCanceled()) {
+                if (type == AbstractClipJob::NOJOBTYPE || m_jobs.at(jobId)->m_type == type) {
+                    return jobId;
+                }
+            }
+        }
+    }
+    return -1;
+}
+
 std::vector<int> JobManager::getPendingJobsIds(const QString &id, AbstractClipJob::JOBTYPE type)
 {
     READ_LOCK();
@@ -189,18 +205,16 @@ void JobManager::slotCancelJobs()
     }
 }
 
-void JobManager::createJob(std::shared_ptr<Job_t> job, const std::vector<int> &parents)
+void JobManager::createJob(std::shared_ptr<Job_t> job)
 {
-    qDebug() << "################### Created JOB" << job->m_id<<", TYPE: "<<job->m_type;
+    /*
+    // This thread wait mechanism was broken and caused a race condition locking the application
+    // so I switched to a simpler model
     bool ok = false;
     // wait for parents to finish
     while (!ok) {
         ok = true;
         for (int p : parents) {
-            if (!m_jobs[p]->m_processed) {
-                ok = false;
-                break;
-            }
             if (!m_jobs[p]->m_completionMutex.tryLock()) {
                 ok = false;
                 qDebug()<<"********\nWAITING FOR JOB COMPLETION MUTEX!!: "<<job->m_id<<" : "<<m_jobs[p]->m_id<<"="<<m_jobs[p]->m_type;
@@ -213,9 +227,9 @@ void JobManager::createJob(std::shared_ptr<Job_t> job, const std::vector<int> &p
         if (!ok) {
             QThread::msleep(10);
         }
-    }
-    qDebug() << "################### Create JOB STARTING" << job->m_id;
+    }*/
     // connect progress signals
+    QReadLocker locker(&m_lock);
     for (const auto &it : job->m_indices) {
         size_t i = it.second;
         auto binId = it.first;
@@ -224,32 +238,26 @@ void JobManager::createJob(std::shared_ptr<Job_t> job, const std::vector<int> &p
             pCore->projectItemModel()->onItemUpdated(binId, AbstractProjectItem::JobProgress);
         });
     }
-    QWriteLocker locker(&m_lock);
     connect(&job->m_future, &QFutureWatcher<bool>::started, this, &JobManager::updateJobCount);
     connect(&job->m_future, &QFutureWatcher<bool>::finished, [ this, id = job->m_id ]() { slotManageFinishedJob(id); });
     connect(&job->m_future, &QFutureWatcher<bool>::canceled, [ this, id = job->m_id ]() { slotManageCanceledJob(id); });
-    qDebug() << "################### Create JOB READY TO EXEC" << job->m_id<<", JOBS: "<<job->m_job.size();
-    //AbstractClipJob::execute(job->m_job.front());
     job->m_actualFuture = QtConcurrent::mapped(job->m_job, AbstractClipJob::execute);
     job->m_future.setFuture(job->m_actualFuture);
-    qDebug() << "################### Create JOB READY EXEC DONE" << job->m_id;
-    //connect(&job->m_future, &QFutureWatcher<bool>::finished, this, &JobManager::updateJobCount);
-    //connect(&job->m_future, &QFutureWatcher<bool>::canceled, this, &JobManager::updateJobCount);
 
     // In the unlikely event that the job finished before the signal connection was made, we check manually for finish and cancel
     /*if (job->m_future.isFinished()) {
-        emit job->m_future.finished();
+        //emit job->m_future.finished();
         slotManageFinishedJob(job->m_id);
     }
     if (job->m_future.isCanceled()) {
-        emit job->m_future.canceled();
+        //emit job->m_future.canceled();
         slotManageCanceledJob(job->m_id);
     }*/
 }
 
 void JobManager::slotManageCanceledJob(int id)
 {
-    QWriteLocker locker(&m_lock);
+    QReadLocker locker(&m_lock);
     Q_ASSERT(m_jobs.count(id) > 0);
     if (m_jobs[id]->m_processed) return;
     m_jobs[id]->m_processed = true;
@@ -258,12 +266,13 @@ void JobManager::slotManageCanceledJob(int id)
     for (const auto &it : m_jobs[id]->m_indices) {
         pCore->projectItemModel()->onItemUpdated(it.first, AbstractProjectItem::JobStatus);
     }
+    //TODO: delete child jobs
     updateJobCount();
 }
 void JobManager::slotManageFinishedJob(int id)
 {
     qDebug() << "################### JOB finished" << id;
-    QWriteLocker locker(&m_lock);
+    QReadLocker locker(&m_lock);
     Q_ASSERT(m_jobs.count(id) > 0);
     if (m_jobs[id]->m_processed) return;
 
@@ -275,7 +284,13 @@ void JobManager::slotManageFinishedJob(int id)
     for (bool res : m_jobs[id]->m_future.future()) {
         ok = ok && res;
     }
-    if (!ok) return;
+    if (!ok) {
+        qDebug()<<" * * * ** * * *\nWARNING + + +\nJOB NOT CORRECT FINISH: "<<id<<"\n------------------------";
+        //TODO: delete child jobs
+        m_jobs[id]->m_completionMutex.unlock();
+        updateJobCount();
+        return;
+    }
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     for (const auto &j : m_jobs[id]->m_job) {
@@ -286,10 +301,17 @@ void JobManager::slotManageFinishedJob(int id)
         qDebug() << "ERROR: Job " << id << " failed";
         m_jobs[id]->m_failed = true;
     }
+    m_jobs[id]->m_completionMutex.unlock();
     if (ok && !m_jobs[id]->m_undoString.isEmpty()) {
         pCore->pushUndo(undo, redo, m_jobs[id]->m_undoString);
     }
-    m_jobs[id]->m_completionMutex.unlock();
+    if (m_jobsByParents.count(id) > 0) {
+        std::vector<int> children = m_jobsByParents[id];
+        for (int cid : children) {
+            QtConcurrent::run(this, &JobManager::createJob, m_jobs[cid]);
+        }
+        m_jobsByParents.erase(id);
+    }
     updateJobCount();
 }
 

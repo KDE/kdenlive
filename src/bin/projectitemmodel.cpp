@@ -527,9 +527,9 @@ bool ProjectItemModel::requestAddBinClip(QString &id, const QDomElement &descrip
     bool res = addItem(new_clip, parentId, undo, redo);
     qDebug() << "/////////// added " << res;
     if (res) {
-        int loadJob = pCore->jobManager()->startJob<LoadJob>({id}, {}, QString(), description);
-        pCore->jobManager()->startJob<ThumbJob>({id}, {loadJob}, QString(), 150, 0, true);
-        pCore->jobManager()->startJob<AudioThumbJob>({id}, {loadJob}, QString());
+        int loadJob = pCore->jobManager()->startJob<LoadJob>({id}, -1, QString(), description);
+        pCore->jobManager()->startJob<ThumbJob>({id}, loadJob, QString(), 150, 0, true);
+        pCore->jobManager()->startJob<AudioThumbJob>({id}, loadJob, QString());
     }
     return res;
 }
@@ -558,8 +558,9 @@ bool ProjectItemModel::requestAddBinClip(QString &id, std::shared_ptr<Mlt::Produ
     std::shared_ptr<ProjectClip> new_clip = ProjectClip::construct(id, m_blankThumb, std::static_pointer_cast<ProjectItemModel>(shared_from_this()), producer);
     bool res = addItem(new_clip, parentId, undo, redo);
     if (res) {
-        pCore->jobManager()->startJob<ThumbJob>({id}, {}, QString(), 150, -1, true);
-        pCore->jobManager()->startJob<AudioThumbJob>({id}, {}, QString());
+        int blocking = pCore->jobManager()->getBlockingJobId(id, AbstractClipJob::LOADJOB);
+        pCore->jobManager()->startJob<ThumbJob>({id}, blocking, QString(), 150, -1, true);
+        pCore->jobManager()->startJob<AudioThumbJob>({id}, blocking, QString());
     }
     return res;
 }
@@ -577,8 +578,8 @@ bool ProjectItemModel::requestAddBinSubClip(QString &id, int in, int out, const 
     std::shared_ptr<ProjectSubClip> new_clip = ProjectSubClip::construct(id, clip, std::static_pointer_cast<ProjectItemModel>(shared_from_this()), in, out, tc);
     bool res = addItem(new_clip, parentId, undo, redo);
     if (res) {
-        auto parentJobs = pCore->jobManager()->getPendingJobsIds(parentId, AbstractClipJob::LOADJOB);
-        pCore->jobManager()->startJob<ThumbJob>({id}, parentJobs, QString(), 150, -1, true);
+        int parentJob = pCore->jobManager()->getBlockingJobId(parentId, AbstractClipJob::LOADJOB);
+        pCore->jobManager()->startJob<ThumbJob>({id}, parentJob, QString(), 150, -1, true);
     }
     return res;
 }

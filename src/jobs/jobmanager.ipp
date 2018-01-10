@@ -23,13 +23,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QtConcurrent>
 #include <type_traits>
 template <typename T, typename... Args>
-int JobManager::startJob(const std::vector<QString> &binIds, const std::vector<int> &parents, QString undoString,
+int JobManager::startJob(const std::vector<QString> &binIds, int parentId, QString undoString,
                          std::function<std::shared_ptr<T>(const QString &, Args...)> createFn, Args &&... args)
 {
     static_assert(std::is_base_of<AbstractClipJob, T>::value, "Your job must inherit from AbstractClipJob");
-    QWriteLocker locker(&m_lock);
+    //QWriteLocker locker(&m_lock);
     int jobId = m_currentId++;
     std::shared_ptr<Job_t> job(new Job_t());
+    job->m_completionMutex.lock();
     job->m_undoString = std::move(undoString);
     job->m_id = jobId;
     for (const auto &id : binIds) {
@@ -39,13 +40,21 @@ int JobManager::startJob(const std::vector<QString> &binIds, const std::vector<i
         job->m_type = job->m_job.back()->jobType();
         m_jobsByClip[id].push_back(jobId);
     }
-    job->m_completionMutex.lock();
+    m_lock.lockForWrite();
     int insertionRow = static_cast<int>(m_jobs.size());
     beginInsertRows(QModelIndex(), insertionRow, insertionRow);
     Q_ASSERT(m_jobs.count(jobId) == 0);
     m_jobs[jobId] = job;
     endInsertRows();
-    QtConcurrent::run(this, &JobManager::createJob, job, parents);
+    m_lock.unlock();
+    if (parentId == -1 || m_jobs[parentId]->m_completionMutex.tryLock()) {
+        if (parentId != -1) {
+            m_jobs[parentId]->m_completionMutex.unlock();
+        }
+        QtConcurrent::run(this, &JobManager::createJob, job);
+    } else {
+        m_jobsByParents[parentId].push_back(jobId);
+    }
     return jobId;
 }
 
@@ -82,31 +91,31 @@ struct dummy
 
     template <typename T, bool Noprepare, typename... Args>
     static typename std::enable_if<!Detect_prepareJob<T>::value || Noprepare, int>::type
-    exec(std::shared_ptr<JobManager> ptr, const std::vector<QString> &binIds, const std::vector<int> &parents, QString undoString, Args &&... args)
+    exec(std::shared_ptr<JobManager> ptr, const std::vector<QString> &binIds, int parentId, QString undoString, Args &&... args)
     {
         auto defaultCreate = [](const QString &id, Args... local_args) { return AbstractClipJob::make<T>(id, std::forward<Args>(local_args)...); };
         using local_createFn_t = std::function<std::shared_ptr<T>(const QString &, Args...)>;
-        return ptr->startJob<T, Args...>(binIds, parents, std::move(undoString), local_createFn_t(std::move(defaultCreate)), std::forward<Args>(args)...);
+        return ptr->startJob<T, Args...>(binIds, parentId, std::move(undoString), local_createFn_t(std::move(defaultCreate)), std::forward<Args>(args)...);
     }
     template <typename T, bool Noprepare, typename... Args>
     static typename std::enable_if<Detect_prepareJob<T>::value && !Noprepare, int>::type
-    exec(std::shared_ptr<JobManager> ptr, const std::vector<QString> &binIds, const std::vector<int> &parents, QString undoString, Args &&... args)
+    exec(std::shared_ptr<JobManager> ptr, const std::vector<QString> &binIds, int parentId, QString undoString, Args &&... args)
     {
         // For job stabilization, there is a custom preparation function
-        return T::prepareJob(ptr, binIds, parents, std::move(undoString), std::forward<Args>(args)...);
+        return T::prepareJob(ptr, binIds, parentId, std::move(undoString), std::forward<Args>(args)...);
     }
 };
 
 } // namespace impl
 
 template <typename T, typename... Args>
-int JobManager::startJob(const std::vector<QString> &binIds, const std::vector<int> &parents, QString undoString, Args &&... args)
+int JobManager::startJob(const std::vector<QString> &binIds, int parentId, QString undoString, Args &&... args)
 {
-    return impl::dummy::exec<T, false, Args...>(shared_from_this(), binIds, parents, std::move(undoString), std::forward<Args>(args)...);
+    return impl::dummy::exec<T, false, Args...>(shared_from_this(), binIds, parentId, std::move(undoString), std::forward<Args>(args)...);
 }
 
 template <typename T, typename... Args>
-int JobManager::startJob_noprepare(const std::vector<QString> &binIds, const std::vector<int> &parents, QString undoString, Args &&... args)
+int JobManager::startJob_noprepare(const std::vector<QString> &binIds, int parentId, QString undoString, Args &&... args)
 {
-    return impl::dummy::exec<T, true, Args...>(shared_from_this(), binIds, parents, std::move(undoString), std::forward<Args>(args)...);
+    return impl::dummy::exec<T, true, Args...>(shared_from_this(), binIds, parentId, std::move(undoString), std::forward<Args>(args)...);
 }

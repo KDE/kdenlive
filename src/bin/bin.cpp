@@ -1039,7 +1039,7 @@ void Bin::slotReloadClip()
                 // We need to set a temporary id before all outdated producers are replaced;
                 // TODO refac
                 // m_doc->getFileProperties(xml, currentItem->AbstractProjectItem::clipId(), 150, true);
-                pCore->jobManager()->startJob<LoadJob>({currentItem->AbstractProjectItem::clipId()}, {}, QString(), xml);
+                pCore->jobManager()->startJob<LoadJob>({currentItem->AbstractProjectItem::clipId()}, -1, QString(), xml);
             }
         }
     }
@@ -2105,7 +2105,7 @@ void Bin::gotProxy(const QString &id, const QString &path)
         clip->setProducerProperty(QStringLiteral("kdenlive:proxy"), path);
         QDomElement xml = clip->toXml(doc, true);
         if (!xml.isNull()) {
-            pCore->jobManager()->startJob<LoadJob>({id}, {}, QString(), xml);
+            pCore->jobManager()->startJob<LoadJob>({id}, -1, QString(), xml);
         }
     }
 }
@@ -3015,7 +3015,7 @@ void Bin::reloadAllProducers()
             clip->setClipStatus(AbstractProjectItem::StatusWaiting);
             clip->discardAudioThumb();
             // We need to set a temporary id before all outdated producers are replaced;
-            pCore->jobManager()->startJob<LoadJob>({clip->AbstractProjectItem::clipId()}, {}, QString(), xml);
+            pCore->jobManager()->startJob<LoadJob>({clip->AbstractProjectItem::clipId()}, -1, QString(), xml);
         }
     }
 }
@@ -3060,7 +3060,7 @@ bool Bin::addClip(QDomElement elem, const QString &clipId)
         elem.setAttribute(QStringLiteral("checkProfile"), 1);
     }
     createClip(elem);
-    pCore->jobManager()->startJob<LoadJob>({producerId}, {}, QString(), elem);
+    pCore->jobManager()->startJob<LoadJob>({producerId}, -1, QString(), elem);
     return true;
 }
 

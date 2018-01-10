@@ -83,15 +83,15 @@ public:
         @param return the id of the created job
     */
     template <typename T, typename... Args>
-    int startJob(const std::vector<QString> &binIds, const std::vector<int> &parents, QString undoString, Args &&... args);
+    int startJob(const std::vector<QString> &binIds, int parentId, QString undoString, Args &&... args);
     // Same function, but we specify the function used to create a new job
     template <typename T, typename... Args>
-    int startJob(const std::vector<QString> &binIds, const std::vector<int> &parents, QString undoString,
+    int startJob(const std::vector<QString> &binIds, int parentId, QString undoString,
                  std::function<std::shared_ptr<T>(const QString &, Args...)> createFn, Args &&... args);
 
     // Same function, but do not call prepareJob
     template <typename T, typename... Args>
-    int startJob_noprepare(const std::vector<QString> &binIds, const std::vector<int> &parents, QString undoString, Args &&... args);
+    int startJob_noprepare(const std::vector<QString> &binIds, int parentId, QString undoString, Args &&... args);
 
     /** @brief Discard specific job type for a clip.
      *  @param binId the clip id
@@ -111,6 +111,7 @@ public:
      *  @param type The type of job that you want to query. Leave to NOJOBTYPE to match all
      */
     std::vector<int> getPendingJobsIds(const QString &binId, AbstractClipJob::JOBTYPE type = AbstractClipJob::NOJOBTYPE);
+    int getBlockingJobId(const QString &id, AbstractClipJob::JOBTYPE type);
 
     /** @brief Get the list of finished or cancelled job ids for given clip.
      *  @param binId the clip id
@@ -137,7 +138,7 @@ public:
 protected:
     // Helper function to launch a given job.
     // This has to be launched asynchrnously since it blocks until all parents are finished
-    void createJob(std::shared_ptr<Job_t> job, const std::vector<int> &parents);
+    void createJob(std::shared_ptr<Job_t> job);
 
     void updateJobCount();
 
@@ -161,6 +162,7 @@ private:
     std::map<int, std::shared_ptr<Job_t>> m_jobs;
     /** @brief List of all the jobs by clip. */
     std::unordered_map<QString, std::vector<int>> m_jobsByClip;
+    std::unordered_map<int, std::vector<int>> m_jobsByParents;
 
 signals:
     void jobCount(int);

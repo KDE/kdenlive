@@ -82,7 +82,7 @@ void SceneSplitJob::configureProfile()
 }
 
 // static
-int SceneSplitJob::prepareJob(std::shared_ptr<JobManager> ptr, const std::vector<QString> &binIds, const std::vector<int> &parents, QString undoString)
+int SceneSplitJob::prepareJob(std::shared_ptr<JobManager> ptr, const std::vector<QString> &binIds, int parentId, QString undoString)
 {
     // Show config dialog
     QScopedPointer<QDialog> d(new QDialog(QApplication::activeWindow()));
@@ -102,7 +102,7 @@ int SceneSplitJob::prepareJob(std::shared_ptr<JobManager> ptr, const std::vector
     int markersType = ui.add_markers->isChecked() ? ui.marker_type->currentIndex() : -1;
     bool subclips = ui.cut_scenes->isChecked();
 
-    return ptr->startJob_noprepare<SceneSplitJob>(binIds, parents, std::move(undoString), subclips, markersType);
+    return ptr->startJob_noprepare<SceneSplitJob>(binIds, parentId, std::move(undoString), subclips, markersType);
 }
 
 bool SceneSplitJob::commitResult(Fun &undo, Fun &redo)
