@@ -1189,7 +1189,9 @@ bool TimelineController::insertZone(const QString &binId, QPoint zone, bool over
 void TimelineController::updateClip(int clipId, QVector<int> roles)
 {
     QModelIndex ix = m_model->makeClipIndexFromID(clipId);
-    m_model->dataChanged(ix, ix, roles);
+    if (ix.isValid()) {
+        m_model->dataChanged(ix, ix, roles);
+    }
 }
 
 void TimelineController::showClipKeyframes(int clipId, bool value)
