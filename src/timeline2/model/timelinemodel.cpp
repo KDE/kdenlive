@@ -83,7 +83,6 @@ TimelineModel::TimelineModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> 
 
 TimelineModel::~TimelineModel()
 {
-    // Remove black background
     std::vector<int> all_ids;
     for (auto tracks : m_iteratorTable) {
         all_ids.push_back(tracks.first);
@@ -525,6 +524,15 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
     return true;
 }
 
+bool TimelineModel::requestItemDeletion(int clipId, Fun &undo, Fun &redo)
+{
+    QWriteLocker locker(&m_lock);
+    if (m_groups->isInGroup(clipId)) {
+        return requestGroupDeletion(clipId, undo, redo);
+    }
+    return requestClipDeletion(clipId, undo, redo);
+}
+
 bool TimelineModel::requestItemDeletion(int itemId, bool logUndo)
 {
 #ifdef LOGGING
@@ -692,12 +700,24 @@ bool TimelineModel::requestGroupDeletion(int clipId, bool logUndo)
     QWriteLocker locker(&m_lock);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
+    bool res = requestGroupDeletion(clipId, undo, redo);
+    if (res && logUndo) {
+        PUSH_UNDO(undo, redo, i18n("Remove group"));
+    }
+    return res;
+}
+
+bool TimelineModel::requestGroupDeletion(int clipId, Fun &undo, Fun &redo)
+{
     // we do a breadth first exploration of the group tree, ungroup (delete) every inner node, and then delete all the leaves.
     std::queue<int> group_queue;
     group_queue.push(m_groups->getRootId(clipId));
     std::unordered_set<int> all_clips;
     while (!group_queue.empty()) {
         int current_group = group_queue.front();
+        if (m_temporarySelectionGroup == current_group) {
+            m_temporarySelectionGroup = -1;
+        }
         group_queue.pop();
         Q_ASSERT(isGroup(current_group));
         auto children = m_groups->getDirectChildren(current_group);
@@ -726,12 +746,6 @@ bool TimelineModel::requestGroupDeletion(int clipId, bool logUndo)
             undo();
             return false;
         }
-    }
-    if (m_temporarySelectionGroup == clipId) {
-        m_temporarySelectionGroup = -1;
-    }
-    if (logUndo) {
-        PUSH_UNDO(undo, redo, i18n("Remove group"));
     }
     return true;
 }
@@ -824,7 +838,8 @@ int TimelineModel::requestClipsGroup(const std::unordered_set<int> &ids, bool lo
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     if (m_temporarySelectionGroup > -1) {
-        requestClipUngroup(m_temporarySelectionGroup, undo, redo);
+        int firstChild = *m_groups->getDirectChildren(m_temporarySelectionGroup).begin();
+        requestClipUngroup(firstChild, undo, redo);
         m_temporarySelectionGroup = -1;
     }
     int result = requestClipsGroup(ids, undo, redo, type);

@@ -320,9 +320,8 @@ public:
        requestGroupDeletion @param clipId is the ID of the clip/composition
        @param logUndo if set to false, no undo object is stored */
     Q_INVOKABLE bool requestItemDeletion(int clipId, bool logUndo = true);
-    /* Same function, but accumulates undo and redo, and doesn't check for group*/
-    bool requestClipDeletion(int clipId, Fun &undo, Fun &redo);
-    bool requestCompositionDeletion(int compositionId, Fun &undo, Fun &redo);
+    /* Same function, but accumulates undo and redo*/
+    bool requestItemDeletion(int clipId, Fun &undo, Fun &redo);
 
     /* @brief Move a group to a specific position
        This action is undoable
@@ -345,6 +344,7 @@ public:
        @param clipId is the id of the clip that triggers the group deletion
     */
     Q_INVOKABLE bool requestGroupDeletion(int clipId, bool logUndo = true);
+    bool requestGroupDeletion(int clipId, Fun &undo, Fun &redo);
 
     /* @brief Change the duration of an item (clip or composition)
        This action is undoable
@@ -557,6 +557,10 @@ protected:
 
     /* @brief Unplant the composition with given Id */
     bool unplantComposition(int compoId);
+
+    /* Same function, but accumulates undo and redo, and doesn't check for group*/
+    bool requestClipDeletion(int clipId, Fun &undo, Fun &redo);
+    bool requestCompositionDeletion(int compositionId, Fun &undo, Fun &redo);
 
 public:
     /* @brief Debugging function that checks consistency with Mlt objects */

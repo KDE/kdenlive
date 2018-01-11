@@ -230,7 +230,7 @@ Rectangle {
             startX = parent.x
             root.stopScrolling = true
             clipRoot.forceActiveFocus();
-            if (mouse.button == Qt.LeftButton || !clipRoot.selected) {
+            if (!clipRoot.selected) {
                 clipRoot.clicked(clipRoot, mouse.modifiers == Qt.ShiftModifier)
             }
             drag.target = clipRoot

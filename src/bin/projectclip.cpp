@@ -936,8 +936,12 @@ bool ProjectClip::selfSoftDelete(Fun &undo, Fun &redo)
 {
     auto toDelete = m_registeredClips; // we cannot use m_registeredClips directly, because it will be modified during loop
     for (const auto &clip : toDelete) {
+        if (m_registeredClips.count(clip.first) == 0) {
+            // clip already deleted, was probably grouped with another one
+            continue;
+        }
         if (auto timeline = clip.second.lock()) {
-            timeline->requestClipDeletion(clip.first, undo, redo);
+            timeline->requestItemDeletion(clip.first, undo, redo);
         } else {
             qDebug() << "Error while deleting clip: timeline unavailable";
             Q_ASSERT(false);
