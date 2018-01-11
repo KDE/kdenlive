@@ -262,6 +262,7 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, QWidg
     connect(m_view.export_audio, &QCheckBox::stateChanged, this, &RenderWidget::slotUpdateAudioLabel);
     m_view.export_audio->setCheckState(Qt::PartiallyChecked);
 
+    checkCodecs();
     parseProfiles();
     parseScriptFiles();
     m_view.running_jobs->setUniformRowHeights(false);
@@ -347,7 +348,6 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, QWidg
         (!interface->isServiceRegistered(QStringLiteral("org.kde.ksmserver")) && !interface->isServiceRegistered(QStringLiteral("org.gnome.SessionManager")))) {
         m_view.shutdown->setEnabled(false);
     }
-    checkCodecs();
     refreshView();
     focusFirstVisibleItem();
     adjustSize();
