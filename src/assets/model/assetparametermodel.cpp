@@ -76,6 +76,7 @@ AssetParameterModel::AssetParameterModel(Mlt::Properties *asset, const QDomEleme
         QString name = currentParameter.attribute(QStringLiteral("name"));
         QString type = currentParameter.attribute(QStringLiteral("type"));
         QString value = currentParameter.attribute(QStringLiteral("value"));
+        
         if (value.isNull()) {
             value = parseAttribute(QStringLiteral("default"), currentParameter).toString();
         }
@@ -83,8 +84,11 @@ AssetParameterModel::AssetParameterModel(Mlt::Properties *asset, const QDomEleme
         if (isFixed) {
             m_fixedParams[name] = value;
         }
-        qDebug() << "PARAMETER" << name << type << value << isFixed;
-        setParameter(name, value);
+        if (!name.isEmpty()) {
+            setParameter(name, value, false);
+            // Keep track of param order
+            m_paramOrder.push_back(name);
+        }
         if (isFixed) {
             // fixed parameters are not displayed so we don't store them.
             continue;
@@ -97,6 +101,14 @@ AssetParameterModel::AssetParameterModel(Mlt::Properties *asset, const QDomEleme
         currentRow.name = title.isEmpty() ? name : title;
         m_params[name] = currentRow;
         m_rows.push_back(name);
+    }
+    if (m_assetId.startsWith(QStringLiteral("sox_"))) {
+        // Sox effects need to have a special "Effect" value set
+        QStringList effectParam = {m_assetId.section(QLatin1Char('_'), 1)};
+        for (const QString &pName : m_paramOrder) {
+            effectParam << m_asset->get(pName.toUtf8().constData());
+        }
+        m_asset->set("effect", effectParam.join(QLatin1Char(' ')).toUtf8().constData());
     }
     qDebug() << "END parsing of " << assetId << ". Number of found parameters" << m_rows.size();
     emit modelChanged();
@@ -114,7 +126,7 @@ void AssetParameterModel::prepareKeyframes()
     }
 }
 
-void AssetParameterModel::setParameter(const QString &name, const QString &value)
+void AssetParameterModel::setParameter(const QString &name, const QString &value, bool update)
 {
     Q_ASSERT(m_asset->is_valid());
     QLocale locale;
@@ -137,12 +149,24 @@ void AssetParameterModel::setParameter(const QString &name, const QString &value
             m_fixedParams[name] = value;
         }
     }
-    emit modelChanged();
-    // Update timeline view if necessary
-    const QString assetId(m_asset->get("kdenlive_id"));
-    pCore->updateItemModel(m_ownerId, assetId);
-    pCore->refreshProjectItem(m_ownerId);
-    pCore->invalidateItem(m_ownerId);
+    if (update) {
+        if (m_assetId.startsWith(QStringLiteral("sox_"))) {
+            // Warning, SOX effect, need unplug/replug
+            qDebug()<<"// Warning, SOX effect, need unplug/replug";
+            QStringList effectParam = {m_assetId.section(QLatin1Char('_'), 1)};
+            for (const QString &pName : m_paramOrder) {
+                effectParam << m_asset->get(pName.toUtf8().constData());
+            }
+            m_asset->set("effect", effectParam.join(QLatin1Char(' ')).toUtf8().constData());
+            emit replugEffect(shared_from_this());
+        } else {
+            emit modelChanged();
+        }
+        // Update timeline view if necessary
+        pCore->updateItemModel(m_ownerId, m_assetId);
+        pCore->refreshProjectItem(m_ownerId);
+        pCore->invalidateItem(m_ownerId);
+    }
 }
 
 void AssetParameterModel::setParameter(const QString &name, double &value)
@@ -154,7 +178,18 @@ void AssetParameterModel::setParameter(const QString &name, double &value)
     } else {
         m_fixedParams[name] = value;
     }
-    emit modelChanged();
+    if (m_assetId.startsWith(QStringLiteral("sox_"))) {
+        // Warning, SOX effect, need unplug/replug
+        qDebug()<<"// Warning, SOX effect, need unplug/replug";
+        QStringList effectParam = {m_assetId.section(QLatin1Char('_'), 1)};
+        for (const QString &pName : m_paramOrder) {
+            effectParam << m_asset->get(pName.toUtf8().constData());
+        }
+        m_asset->set("effect", effectParam.join(QLatin1Char(' ')).toUtf8().constData());
+        emit replugEffect(shared_from_this());
+    } else {
+        emit modelChanged();
+    }
     pCore->refreshProjectItem(m_ownerId);
     pCore->invalidateItem(m_ownerId);
 }
@@ -389,4 +424,9 @@ void AssetParameterModel::addKeyframeParam(const QModelIndex index)
 std::shared_ptr<KeyframeModelList> AssetParameterModel::getKeyframeModel()
 {
     return m_keyframes;
+}
+
+void AssetParameterModel::resetAsset(Mlt::Properties *asset)
+{
+    m_asset.reset(asset);
 }

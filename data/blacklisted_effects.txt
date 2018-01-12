@@ -13,8 +13,7 @@ frei0r.3dflippo
 frei0r.perspective
 
 #Effects not usable with a simple GUI
-sox
-ladspa
+#ladspa
 jackrack
 luma
 data_show

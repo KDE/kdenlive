@@ -98,7 +98,7 @@ public:
 
     /* @brief Set the parameter with given name to the given value
      */
-    Q_INVOKABLE void setParameter(const QString &name, const QString &value);
+    Q_INVOKABLE void setParameter(const QString &name, const QString &value, bool update = true);
     Q_INVOKABLE void setParameter(const QString &name, double &value);
 
     /* @brief Return all the parameters as pairs (parameter name, parameter value) */
@@ -126,6 +126,7 @@ public:
 
     /* @brief Must be called before using the keyframes of this model */
     void prepareKeyframes();
+    void resetAsset(Mlt::Properties *asset);
 
 protected:
     /* @brief Helper function to retrieve the type of a parameter given the string corresponding to it*/
@@ -156,6 +157,7 @@ protected:
     QDomElement m_xml;
     QString m_assetId;
     ObjectId m_ownerId;
+    std::vector<QString> m_paramOrder;                   // Keep track of parameter order, important for sox
     std::unordered_map<QString, ParamRow> m_params;      // Store all parameters by name
     std::unordered_map<QString, QVariant> m_fixedParams; // We store values of fixed parameters aside
     QVector<QString> m_rows;                             // We store the params name in order of parsing. The order is important (cf some effects like sox)
@@ -166,6 +168,7 @@ protected:
 
 signals:
     void modelChanged();
+    void replugEffect(std::shared_ptr<AssetParameterModel> asset);
 };
 
 #endif

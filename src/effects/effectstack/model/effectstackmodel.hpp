@@ -123,6 +123,11 @@ private:
      *          in the producer, so we shouldn't plant them again. Setting this value to
      *          true will prevent planting in the producer */
     bool m_loadingExisting;
+    
+private slots:
+    /** @brief: Some effects do not support dynamic changes like sox, and need to be unplugged / replugged on each param change
+     */
+    void replugEffect(std::shared_ptr<AssetParameterModel> asset);
 
 signals:
     void modelChanged();

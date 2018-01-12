@@ -62,6 +62,7 @@ void EffectStackModel::loadEffects()
             Fun redo = addItem_lambda(effect, rootItem->getId());
             redo();
             connect(effect.get(), &AssetParameterModel::modelChanged, this, &EffectStackModel::modelChanged);
+            connect(effect.get(), &AssetParameterModel::replugEffect, this, &EffectStackModel::replugEffect);
         }
     } else {
         qDebug() << "// CANNOT LOCK CLIP SEEVCE";
@@ -118,6 +119,7 @@ void EffectStackModel::copyEffect(std::shared_ptr<AbstractEffectItem> sourceItem
     // TODO the parent should probably not always be the root
     Fun redo = addItem_lambda(effect, rootItem->getId());
     connect(effect.get(), &AssetParameterModel::modelChanged, this, &EffectStackModel::modelChanged);
+    connect(effect.get(), &AssetParameterModel::replugEffect, this, &EffectStackModel::replugEffect);
     bool res = redo();
     if (res) {
         QString effectName = EffectsRepository::get()->getName(effectId);
@@ -132,6 +134,7 @@ void EffectStackModel::appendEffect(const QString &effectId)
     // TODO the parent should probably not always be the root
     Fun redo = addItem_lambda(effect, rootItem->getId());
     connect(effect.get(), &AssetParameterModel::modelChanged, this, &EffectStackModel::modelChanged);
+    connect(effect.get(), &AssetParameterModel::replugEffect, this, &EffectStackModel::replugEffect);
     bool res = redo();
     if (res) {
         if (effectId == QLatin1String("fadein") || effectId == QLatin1String("fade_from_black")) {
@@ -334,6 +337,7 @@ void EffectStackModel::importEffects(std::shared_ptr<EffectStackModel> sourceSta
         // TODO parent should not always be root
         Fun redo = addItem_lambda(clone, rootItem->getId());
         connect(effect.get(), &AssetParameterModel::modelChanged, this, &EffectStackModel::modelChanged);
+        connect(effect.get(), &AssetParameterModel::replugEffect, this, &EffectStackModel::replugEffect);
         redo();
     }
 }
@@ -469,3 +473,22 @@ KeyframeModel *EffectStackModel::getEffectKeyframeModel()
     }
     return nullptr;
 }
+
+void EffectStackModel::replugEffect(std::shared_ptr<AssetParameterModel> asset)
+{
+    auto effectItem = std::static_pointer_cast<EffectItemModel>(asset);
+    int oldRow = effectItem->row();
+    int count = rowCount();
+    for (int ix = oldRow; ix < count; ix++) {
+        auto item = std::static_pointer_cast<EffectItemModel>(rootItem->child(ix));
+        item->unplant(this->m_service);
+    }
+    Mlt::Properties *effect = EffectsRepository::get()->getEffect(effectItem->getAssetId());
+    effect->inherit(effectItem->filter());
+    effectItem->resetAsset(effect);
+    for (int ix = oldRow; ix < count; ix++) {
+        auto item = std::static_pointer_cast<EffectItemModel>(rootItem->child(ix));
+        item->plant(this->m_service);
+    }
+}
+

@@ -22,6 +22,7 @@
 #include "xml/xml.hpp"
 #include <QDir>
 #include <QFile>
+#include <QString>
 #include <QStandardPaths>
 #include <QTextStream>
 
@@ -49,10 +50,15 @@ template <typename AssetType> void AbstractAssetsRepository<AssetType>::init()
     // Retrieve the list of MLT's available assets.
     QScopedPointer<Mlt::Properties> assets(retrieveListFromMlt());
     int max = assets->count();
+    QString sox = QStringLiteral("sox.");
     for (int i = 0; i < max; ++i) {
         Info info;
         QString name = assets->get_name(i);
         info.id = name;
+        if (name.startsWith(sox)) {
+            // sox effects are not usage directly (parameters not available)
+            continue;
+        }
         if (!m_blacklist.contains(name) && parseInfoFromMlt(name, info)) {
             m_assets[name] = info;
         } else {
