@@ -203,8 +203,12 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
                 // This is a bin clip, already processed no need to change id
                 binId = QString(clip->parent().get("kdenlive:id"));
             } else {
-                Q_ASSERT(binIdCorresp.count(clip->parent().get("kdenlive:id")) > 0);
-                binId = binIdCorresp.at(QString(clip->parent().get("kdenlive:id")));
+                QString clipId = clip->parent().get("kdenlive:id");
+                if (clipId.startsWith(QStringLiteral("slowmotion"))) {
+                    clipId = clipId.section(QLatin1Char(':'), 1, 1);
+                }
+                Q_ASSERT(binIdCorresp.count(clipId) > 0);
+                binId = binIdCorresp.at(clipId);
             }
             bool ok = false;
             if (pCore->bin()->getBinClip(binId)) {
