@@ -248,11 +248,9 @@ Rectangle {
         onReleased: {
             root.stopScrolling = false
             var delta = parent.x - startX
-            var moved = false
             drag.target = undefined
             cursorShape = Qt.OpenHandCursor
             if (trackId !== originalTrackId) {
-                moved = true
                 var track = Logic.getTrackById(trackId)
                 parent.moved(clipRoot)
                 reparent(track)
@@ -261,7 +259,6 @@ Rectangle {
                 originalTrackId = trackId
             } else if (Math.abs(delta) >= 1.0) {
                 parent.dropped(clipRoot)
-                moved = true;
                 originalX = parent.x
             }
         }

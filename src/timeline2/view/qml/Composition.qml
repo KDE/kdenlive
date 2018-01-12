@@ -71,8 +71,13 @@ Item {
     signal trimmingOut(var clip, real newDuration, var mouse)
     signal trimmedOut(var clip)
 
+    onATrackChanged: {
+        if (compositionRoot.aTrack > 0 && compositionRoot.trackId > 0) {
+            targetTrack.y = root.getTrackYFromMltIndex(compositionRoot.aTrack) - root.getTrackYFromId(compositionRoot.trackId)
+        }
+    }
+
     onKeyframeModelChanged: {
-        console.log('keyframe model changed............')
         if (effectRow.keyframecanvas) {
             effectRow.keyframecanvas.requestPaint()
         }
@@ -98,6 +103,12 @@ Item {
         isAudio = track.isAudio
         parentTrack = track
         displayHeight = track.height / 2
+        compositionRoot.trackId = parentTrack.trackId
+    }
+    onTrackIdChanged: {
+        if (compositionRoot.aTrack > 0 && compositionRoot.trackId > 0) {
+            targetTrack.y = root.getTrackYFromMltIndex(compositionRoot.aTrack) - root.getTrackYFromId(compositionRoot.trackId)
+        }
     }
 
     SystemPalette { id: activePalette }
@@ -323,8 +334,9 @@ Item {
             GradientStop { position: 0.0; color: selected ? 'red' : 'mediumpurple' }
             GradientStop { position: 1.0; color: "#00000000" }
         }
-        visible: compositionRoot.aTrack > 0
+        visible: compositionRoot.aTrack > 0 && compositionRoot.trackId > 0
         y: root.getTrackYFromMltIndex(compositionRoot.aTrack) - parentTrack.mapToItem(null, 0, 0).y + ruler.height
+        //y: root.getTrackYFromMltIndex(compositionRoot.aTrack) - root.getTrackYFromId(compositionRoot.trackId)
         height: clabel.height + 4
         Text {
             id: clabel

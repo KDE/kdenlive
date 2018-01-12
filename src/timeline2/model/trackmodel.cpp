@@ -873,11 +873,9 @@ Fun TrackModel::requestCompositionInsertion_lambda(int compoId, int position, bo
                 int new_out = new_in + composition->getPlaytime();
                 composition->setInOut(new_in, new_out - 1);
                 if (updateView) {
-                    qDebug() << "* * *ADDING COMPOSITION ON TK: " << composition->getCurrentTrackId();
                     int composition_index = getRowfromComposition(composition->getId());
                     ptr->_beginInsertRows(ptr->makeTrackIndexFromID(composition->getCurrentTrackId()), composition_index, composition_index);
                     ptr->_endInsertRows();
-                    qDebug() << "* * *ADDING COMPOSITION DONE TK: " << composition->getCurrentTrackId();
                 }
                 ptr->m_snaps->addPoint(new_in);
                 ptr->m_snaps->addPoint(new_out);

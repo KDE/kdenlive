@@ -213,10 +213,9 @@ Column{
                         //item.aTrack = model.a_track
                     }
                     item.trackId= trackRoot.trackId
-                    //hash= model.hash
                     item.speed= 1 //model.speed
                     //item.selected= trackRoot.selection.indexOf(item.clipId) !== -1
-                    console.log(width, height);
+                    //console.log(width, height);
                 }
             }
         }

@@ -1498,13 +1498,12 @@ bool TimelineModel::replantCompositions(int currentCompo)
             unplantComposition(compo.first);
         }
     }
-        
     // sort by decreasing b_track
     std::sort(compos.begin(), compos.end(), [](const std::pair<int, int> &a, const std::pair<int, int> &b) { return a.first > b.first; });
     // replant
     QScopedPointer<Mlt::Field> field(m_tractor->field());
     field->lock();
-    
+
     // Unplant track compositing
     mlt_service nextservice = mlt_service_get_producer(field->get_service());
     mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
@@ -1532,7 +1531,7 @@ bool TimelineModel::replantCompositions(int currentCompo)
     }
     // Sort track compositing
     std::sort(trackCompositions.begin(), trackCompositions.end(), [](Mlt::Transition *a, Mlt::Transition *b) { return a->get_b_track() < b->get_b_track(); });
-    
+
     for (const auto &compo : compos) {
         int aTrack = m_allCompositions[compo.second]->getATrack();
         Q_ASSERT(aTrack != -1);
@@ -1543,7 +1542,7 @@ bool TimelineModel::replantCompositions(int currentCompo)
                 field->plant_transition(*firstTr, firstTr->get_a_track(), compositingB);
             }
         }
-        
+
         int ret = field->plant_transition(*m_allCompositions[compo.second].get(), aTrack, compo.first);
         qDebug() << "Planting composition " << compo.second << "in " << aTrack << "/" << compo.first << "IN = " << m_allCompositions[compo.second]->getIn()
                  << "OUT = " << m_allCompositions[compo.second]->getOut() << "ret=" << ret;
@@ -1557,7 +1556,6 @@ bool TimelineModel::replantCompositions(int currentCompo)
             return false;
         }
     }
-    
     // Replant last tracks compositing
     while (!trackCompositions.isEmpty()) {
         Mlt::Transition *firstTr = trackCompositions.takeFirst();
