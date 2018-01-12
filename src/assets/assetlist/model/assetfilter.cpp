@@ -162,3 +162,16 @@ QVariantList AssetFilter::getCategories()
     }
     return list;
 }
+
+QModelIndex AssetFilter::getModelIndex(QModelIndex current)
+{
+    QModelIndex sourceIndex = mapToSource(current);
+    return sourceIndex;//this returns an integer
+}
+
+QModelIndex AssetFilter::getProxyIndex(QModelIndex current)
+{
+    QModelIndex sourceIndex = mapFromSource(current);
+    return sourceIndex;//this returns an integer
+}
+

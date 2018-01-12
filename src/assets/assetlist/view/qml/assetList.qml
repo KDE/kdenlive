@@ -188,10 +188,13 @@ Rectangle {
             ]
             onTextChanged: {
                 var current = sel.currentIndex
+                var rowModelIndex = assetListModel.getModelIndex(sel.currentIndex);
                 assetlist.setFilterName(text)
                 if (text.length > 0) {
-                    sel.clear
-                    sel.setCurrentIndex(assetListModel.firstVisibleItem(current), ItemSelectionModel.Select)
+                    sel.setCurrentIndex(assetListModel.firstVisibleItem(current), ItemSelectionModel.ClearAndSelect)
+                } else {
+                    sel.clearCurrentIndex()
+                    sel.setCurrentIndex(assetListModel.getProxyIndex(rowModelIndex), ItemSelectionModel.ClearAndSelect)
                 }
                 treeView.__listView.positionViewAtIndex(rowPosition(assetListModel, sel.currentIndex), ListView.Visible)
             }
