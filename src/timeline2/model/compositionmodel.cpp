@@ -28,24 +28,19 @@
 #include <mlt++/MltTransition.h>
 #include <utility>
 
-CompositionModel::CompositionModel(std::weak_ptr<TimelineModel> parent, Mlt::Transition *transition, int id, const QDomElement &transitionXml,
-                                   const QString &transitionId)
+CompositionModel::CompositionModel(std::weak_ptr<TimelineModel> parent, Mlt::Transition *transition, int id, const QDomElement &transitionXml, const QString &transitionId)
     : MoveableItem<Mlt::Transition>(std::move(parent), id)
     , AssetParameterModel(transition, transitionXml, transitionId, {ObjectType::TimelineComposition, m_id})
     , a_track(-1)
 {
-    QDomElement namenode = transitionXml.firstChildElement(QStringLiteral("name"));
-    m_compositionName = transitionXml.attribute(QStringLiteral("id"));
-    if (!namenode.isNull() && !namenode.text().isEmpty()) {
-        m_compositionName = i18n(namenode.text().toUtf8().data());
-    }
+    m_compositionName = TransitionsRepository::get()->getName(transitionId);
 }
 
 int CompositionModel::construct(const std::weak_ptr<TimelineModel> &parent, const QString &transitionId, int id, Mlt::Properties *sourceProperties)
 {
-    auto xml = TransitionsRepository::get()->getXml(transitionId);
     Mlt::Transition *transition = TransitionsRepository::get()->getTransition(transitionId);
     transition->set_in_and_out(0, 0);
+    auto xml = TransitionsRepository::get()->getXml(transitionId);
     std::shared_ptr<CompositionModel> composition(new CompositionModel(parent, transition, id, xml, transitionId));
     id = composition->m_id;
     if (sourceProperties != nullptr) {
