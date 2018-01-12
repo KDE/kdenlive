@@ -103,9 +103,9 @@ Item {
     SystemPalette { id: activePalette }
     Rectangle {
         id: displayRect
-        anchors.top: parent.top
-        anchors.right: parent.right
-        anchors.left: parent.left
+        anchors.top: compositionRoot.top
+        anchors.right: compositionRoot.right
+        anchors.left: compositionRoot.left
         anchors.topMargin: displayHeight
         height: displayHeight
         color: Qt.darker('mediumpurple')
@@ -114,7 +114,8 @@ Item {
         opacity: Drag.active? 0.5 : 1.0
         Item {
             // clipping container
-            anchors.fill: parent
+            id: container
+            anchors.fill: displayRect
             anchors.margins:1.5
             clip: true
 
@@ -123,7 +124,7 @@ Item {
                 id: labelRect
                 color: 'lightgray'
                 opacity: 0.7
-                anchors.top: parent.top
+                anchors.top: container.top
                 // + ((isAudio || !settings.timelineShowThumbnails) ? 0 : inThumbnail.width)
                 width: label.width + 2
                 height: label.height
@@ -132,8 +133,8 @@ Item {
                     text: clipName
                     font.pixelSize: root.baseUnit
                     anchors {
-                        top: parent.top
-                        left: parent.left
+                        top: labelRect.top
+                        left: labelRect.left
                         topMargin: 1
                         leftMargin: 1
                     }
@@ -228,9 +229,9 @@ Item {
 
     Rectangle {
         id: trimIn
-        anchors.left: parent.left
+        anchors.left: displayRect.left
         anchors.leftMargin: 0
-        height: parent.height
+        height: displayRect.height
         width: 5
         color: isAudio? 'green' : 'lawngreen'
         opacity: 0
@@ -316,7 +317,8 @@ Item {
 }
     // target track
     Rectangle {
-        width: parent.width
+        id: targetTrack
+        width: displayRect.width
         gradient: Gradient {
             GradientStop { position: 0.0; color: selected ? 'red' : 'mediumpurple' }
             GradientStop { position: 1.0; color: "#00000000" }
@@ -329,7 +331,7 @@ Item {
             text: timeline.getTrackNameFromMltIndex(compositionRoot.aTrack)
             font.pixelSize: root.baseUnit
             anchors {
-                top: parent.top
+                top: targetTrack.top
                 topMargin: 2
                 leftMargin: 2
             }
