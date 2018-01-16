@@ -651,8 +651,10 @@ bool GLWidget::checkFrameNumber(int pos)
     rootObject()->setProperty("consumerPosition", pos);
     if (pos == m_proxy->seekPosition()) {
         m_proxy->setSeekPosition(SEEK_INACTIVE);
-    } else if (m_proxy->seekPosition() != SEEK_INACTIVE) {
-        double speed = m_producer->get_speed();
+        return true;
+    }
+    const double speed = m_producer->get_speed();
+    if (m_proxy->seekPosition() != SEEK_INACTIVE) {
         m_producer->set_speed(0);
         m_producer->seek(m_proxy->seekPosition());
         if (speed == 0.) {
@@ -660,7 +662,7 @@ bool GLWidget::checkFrameNumber(int pos)
         } else {
             m_producer->set_speed(speed);
         }
-    } else if (m_producer->get_speed() == 0.) {
+    } else if (speed == 0.) {
         if (m_isLoopMode) {
             if (pos >= m_producer->get_int("out") - 1) {
                 m_consumer->purge();
@@ -672,6 +674,9 @@ bool GLWidget::checkFrameNumber(int pos)
         } else {
             return pos < m_producer->get_int("out") - 1.;
         }
+    } else if (speed < 0. && pos <= 0) {
+        m_producer->set_speed(0);
+        return false;
     }
     return true;
 }
