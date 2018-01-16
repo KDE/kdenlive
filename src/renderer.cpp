@@ -1015,14 +1015,20 @@ bool Render::checkFrameNumber(int pos)
     if (pos == requestedSeekPosition) {
         requestedSeekPosition = SEEK_INACTIVE;
     }
+    const double speed = m_mltProducer->get_speed();
     if (requestedSeekPosition != SEEK_INACTIVE) {
-        double speed = m_mltProducer->get_speed();
         m_mltProducer->set_speed(0);
         m_mltProducer->seek(requestedSeekPosition);
         if (speed == 0) {
             m_mltConsumer->set("refresh", 1);
         } else {
             m_mltProducer->set_speed(speed);
+        }
+    } else if (speed < 0){
+        m_isRefreshing = false;
+        if (pos <= 0) {
+            m_mltProducer->set_speed(0);
+            return false;
         }
     } else {
         m_isRefreshing = false;
@@ -1034,7 +1040,7 @@ bool Render::checkFrameNumber(int pos)
                     m_mltProducer->set_speed(1.0);
                     m_mltConsumer->set("refresh", 1);
                 } else {
-                    if (m_mltProducer->get_speed() == 0) {
+                    if (speed == 0) {
                         return false;
                     }
                 }
