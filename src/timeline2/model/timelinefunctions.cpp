@@ -66,6 +66,11 @@ bool TimelineFunctions::requestClipCut(std::shared_ptr<TimelineItemModel> timeli
     res = res && timeline->requestItemResize(clipId, position - start, true, true, undo, redo);
     int newDuration = timeline->getClipPlaytime(clipId);
     res = res && timeline->requestItemResize(newId, duration - newDuration, false, true, undo, redo);
+    // parse effects
+    std::shared_ptr<EffectStackModel> sourceStack = timeline->getClipEffectStackModel(clipId);
+    sourceStack->cleanFadeEffects(true, undo, redo);
+    std::shared_ptr<EffectStackModel> destStack = timeline->getClipEffectStackModel(newId);
+    destStack->cleanFadeEffects(false, undo, redo);
     res = res && timeline->requestClipMove(newId, timeline->getClipTrackId(clipId), position, true, false, undo, redo);
     return res;
 }

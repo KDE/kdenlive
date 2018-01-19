@@ -30,7 +30,7 @@ PositionEditWidget::PositionEditWidget(std::shared_ptr<AssetParameterModel> mode
     : AbstractParamWidget(std::move(model), index, parent)
 {
     auto *layout = new QHBoxLayout(this);
-    QString name = m_model->data(m_index, AssetParameterModel::NameRole).toString();
+    QString name = m_model->data(m_index, Qt::DisplayRole).toString();
     QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
     //TODO: take absolute from effect data
     m_absolute = false;

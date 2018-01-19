@@ -76,7 +76,6 @@ AssetParameterModel::AssetParameterModel(Mlt::Properties *asset, const QDomEleme
         QString name = currentParameter.attribute(QStringLiteral("name"));
         QString type = currentParameter.attribute(QStringLiteral("type"));
         QString value = currentParameter.attribute(QStringLiteral("value"));
-        
         if (value.isNull()) {
             value = parseAttribute(QStringLiteral("default"), currentParameter).toString();
         }

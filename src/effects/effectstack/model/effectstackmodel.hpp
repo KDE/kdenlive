@@ -95,6 +95,8 @@ public:
     Q_INVOKABLE double getFilter(const QString &effectId, const QString &paramName);
     /** get the active effect's keyframe model */
     Q_INVOKABLE KeyframeModel *getEffectKeyframeModel();
+    /** Remove unwanted fade effects, mostly after a cut operation */
+    void cleanFadeEffects(bool outEffects, Fun &undo, Fun &redo);
 
 public slots:
     /* @brief Delete an effect from the stack */
@@ -124,7 +126,7 @@ private:
      *          in the producer, so we shouldn't plant them again. Setting this value to
      *          true will prevent planting in the producer */
     bool m_loadingExisting;
-    
+
 private slots:
     /** @brief: Some effects do not support dynamic changes like sox, and need to be unplugged / replugged on each param change
      */

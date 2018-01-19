@@ -428,6 +428,13 @@ void EffectStackModel::importEffects(std::shared_ptr<EffectStackModel> sourceSta
         auto clone = EffectItemModel::construct(effect->getAssetId(), shared_from_this());
         rootItem->appendChild(clone);
         clone->setParameters(effect->getAllParameters());
+        const QString effectId = effect->getAssetId();
+        if (effectId == QLatin1String("fadein") || effectId == QLatin1String("fade_from_black")) {
+            fadeIns << clone->getId();
+        } else if (effectId == QLatin1String("fadeout") || effectId == QLatin1String("fade_to_black")) {
+            fadeOuts << clone->getId();
+        }
+
         // TODO parent should not always be root
         Fun redo = addItem_lambda(clone, rootItem->getId());
         connect(effect.get(), &AssetParameterModel::modelChanged, this, &EffectStackModel::modelChanged);
@@ -586,3 +593,25 @@ void EffectStackModel::replugEffect(std::shared_ptr<AssetParameterModel> asset)
     }
 }
 
+void EffectStackModel::cleanFadeEffects(bool outEffects, Fun &undo, Fun &redo)
+{
+    QList<int> toDelete = outEffects ? fadeOuts : fadeIns;
+    for (int id : toDelete) {
+        auto effect = std::static_pointer_cast<EffectItemModel>(getItemById(id));
+        Fun operation = removeItem_lambda(id);
+        if (operation()) {
+            Fun reverse = addItem_lambda(effect, rootItem->getId());
+            PUSH_LAMBDA(operation, redo);
+            PUSH_LAMBDA(reverse, undo);
+        }
+    }
+    if (!toDelete.isEmpty()) {
+        Fun update = [this]() {
+            //TODO: only update if effect is fade or keyframe
+            pCore->updateItemKeyframes(m_ownerId);
+            return true;
+        };
+        update();
+        PUSH_LAMBDA(update, redo);
+    }
+}
