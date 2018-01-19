@@ -175,7 +175,7 @@ public:
     Q_INVOKABLE void showAsset(int id);
     Q_INVOKABLE void showTrackAsset(int trackId);
 
-    Q_INVOKABLE void selectItems(QVariantList arg, int startFrame, int endFrame);
+    Q_INVOKABLE void selectItems(QVariantList arg, int startFrame, int endFrame, bool addToSelect);
 
     Q_INVOKABLE int headerWidth() const;
     Q_INVOKABLE void setHeaderWidth(int width);

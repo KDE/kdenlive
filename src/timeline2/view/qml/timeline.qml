@@ -580,7 +580,7 @@ Rectangle {
                         }
                         var startFrame = (scrollView.flickableItem.contentX - tracksArea.x + rubberSelect.x) / timeline.scaleFactor
                         var endFrame = (scrollView.flickableItem.contentX - tracksArea.x + rubberSelect.x + rubberSelect.width) / timeline.scaleFactor
-                        timeline.selectItems(t, startFrame, endFrame);
+                        timeline.selectItems(t, startFrame, endFrame, mouse.modifiers & Qt.ControlModifier);
                     }
                 } else if (mouse.modifiers & Qt.ShiftModifier) {
                     // Shift click, process seek
