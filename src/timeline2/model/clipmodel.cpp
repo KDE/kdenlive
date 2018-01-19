@@ -96,7 +96,7 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
     }
     int delta = getPlaytime() - size;
     if (delta == 0) {
-        return 0;
+        return true;
     }
     int in = m_producer->get_in();
     int out = m_producer->get_out();
