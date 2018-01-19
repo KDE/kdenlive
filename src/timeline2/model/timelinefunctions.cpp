@@ -198,13 +198,17 @@ bool TimelineFunctions::liftZone(std::shared_ptr<TimelineItemModel> timeline, in
     int startCutId = -1;
     if (startClipId > -1) {
         // There is a clip, cut it
-        TimelineFunctions::requestClipCut(timeline, startClipId, zone.x(), startCutId, undo, redo);
+        if (timeline->getClipPosition(startClipId) < zone.x()) {
+            TimelineFunctions::requestClipCut(timeline, startClipId, zone.x(), startCutId, undo, redo);
+        }
     }
     int endCutId = -1;
     int endClipId = timeline->getClipByPosition(trackId, zone.y());
     if (endClipId > -1) {
         // There is a clip, cut it
-        TimelineFunctions::requestClipCut(timeline, endClipId, zone.y(), endCutId, undo, redo);
+        if (timeline->getClipPosition(endClipId) + timeline->getClipPlaytime(endClipId) > zone.y()) {
+            TimelineFunctions::requestClipCut(timeline, endClipId, zone.y(), endCutId, undo, redo);
+        }
     }
     std::unordered_set<int> clips = timeline->getItemsAfterPosition(trackId, zone.x(), zone.y() - 1);
     for (const auto &clipId : clips) {
