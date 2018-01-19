@@ -428,13 +428,14 @@ void EffectStackModel::importEffects(std::shared_ptr<EffectStackModel> sourceSta
         auto clone = EffectItemModel::construct(effect->getAssetId(), shared_from_this());
         rootItem->appendChild(clone);
         clone->setParameters(effect->getAllParameters());
+        clone->filter().set("in", effect->filter().get_int("in"));
+        clone->filter().set("out", effect->filter().get_int("out"));
         const QString effectId = effect->getAssetId();
         if (effectId == QLatin1String("fadein") || effectId == QLatin1String("fade_from_black")) {
             fadeIns << clone->getId();
         } else if (effectId == QLatin1String("fadeout") || effectId == QLatin1String("fade_to_black")) {
             fadeOuts << clone->getId();
         }
-
         // TODO parent should not always be root
         Fun redo = addItem_lambda(clone, rootItem->getId());
         connect(effect.get(), &AssetParameterModel::modelChanged, this, &EffectStackModel::modelChanged);
