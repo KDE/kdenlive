@@ -143,10 +143,100 @@ void EffectStackModel::appendEffect(const QString &effectId)
             fadeOuts << effect->getId();
         }
         QString effectName = EffectsRepository::get()->getName(effectId);
+        Fun update = [this]() {
+            //TODO: only update if effect is fade or keyframe
+            pCore->updateItemKeyframes(m_ownerId);
+            return true;
+        };
+        PUSH_LAMBDA(update, redo);
+        PUSH_LAMBDA(update, undo);
         PUSH_UNDO(undo, redo, i18n("Add effect %1", effectName));
     }
-    // TODO: integrate in undo/redo, change active effect
-    pCore->updateItemKeyframes(m_ownerId);
+}
+
+bool EffectStackModel::adjustStackLength(bool adjustFromEnd, int oldIn, int newIn, int duration, bool hasAudio, bool audioOnly, Fun &undo, Fun &redo, bool logUndo)
+{
+    const int fadeInDuration = getFadePosition(true);
+    const int fadeOutDuration = getFadePosition(false);
+    QList<QModelIndex> indexes;
+    auto ptr = m_service.lock();
+    int out = newIn + duration;
+    for (int i = 0; i < rootItem->childCount(); ++i) {
+        if (fadeInDuration > 0 && fadeIns.contains(std::static_pointer_cast<TreeItem>(rootItem->child(i))->getId())) {
+            std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
+            int oldEffectIn = qMax(0, effect->filter().get_int("in"));
+            int oldEffectOut = effect->filter().get_int("out");
+            int effectDuration = qMin(oldEffectOut - oldEffectIn, duration);
+            indexes << getIndexFromItem(effect);
+            if (!adjustFromEnd && oldIn != newIn) {
+                // Clip start was resized, adjust effect in / out
+                Fun operation = [this, effect, newIn, effectDuration]() {
+                    effect->setParameter(QStringLiteral("in"), newIn, false);
+                    effect->setParameter(QStringLiteral("out"), effectDuration, false);
+                    return true;
+                };
+                operation();
+                Fun reverse = [this, effect, oldEffectIn, oldEffectOut]() {
+                    effect->setParameter(QStringLiteral("in"), oldEffectIn, false);
+                    effect->setParameter(QStringLiteral("out"), oldEffectOut, false);
+                    return true;
+                };
+                PUSH_LAMBDA(operation, redo);
+                PUSH_LAMBDA(reverse, undo);
+            } else if (effectDuration < oldEffectOut - oldEffectIn || (logUndo && effect->filter().get_int("_refout") > 0)) {
+                // Clip length changed, shorter than effect length so resize
+                int referenceEffectOut = effect->filter().get_int("_refout");
+                if (referenceEffectOut <= 0) {
+                    referenceEffectOut = oldEffectOut;
+                    effect->filter().set("_refout", referenceEffectOut);
+                }
+                Fun operation = [this, effect, oldEffectIn, effectDuration]() {
+                    effect->setParameter(QStringLiteral("out"), oldEffectIn + effectDuration, false);
+                    return true;
+                };
+                if (operation() && logUndo) {
+                    Fun reverse = [this, effect, referenceEffectOut]() {
+                        effect->setParameter(QStringLiteral("out"), referenceEffectOut, false);
+                        effect->filter().set("_refout", (char*) nullptr);
+                        return true;
+                    };
+                    PUSH_LAMBDA(operation, redo);
+                    PUSH_LAMBDA(reverse, undo);
+                }
+            }
+        } else if (fadeOutDuration > 0 && fadeOuts.contains(std::static_pointer_cast<TreeItem>(rootItem->child(i))->getId())) {
+            std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
+            int effectDuration = qMin(fadeOutDuration, duration);
+            int newIn = out - effectDuration;
+            int oldIn = effect->filter().get_int("in");
+            int oldOut = effect->filter().get_int("out");
+            int referenceEffectIn = effect->filter().get_int("_refin");
+            if (referenceEffectIn <= 0) {
+                referenceEffectIn = oldIn;
+                effect->filter().set("_refin", referenceEffectIn);
+            }
+            Fun operation = [this, effect, newIn, out]() {
+                effect->setParameter(QStringLiteral("in"), newIn, false);
+                effect->setParameter(QStringLiteral("out"), out, false);
+                return true;
+            };
+            if (operation() && logUndo) {
+                Fun reverse = [this, effect, referenceEffectIn, oldOut]() {
+                    effect->setParameter(QStringLiteral("in"), referenceEffectIn, false);
+                    effect->setParameter(QStringLiteral("out"), oldOut, false);
+                    effect->filter().set("_refin", (char*) nullptr);
+                    return true;
+                };
+                PUSH_LAMBDA(operation, redo);
+                PUSH_LAMBDA(reverse, undo);
+            }
+            indexes << getIndexFromItem(effect);
+        }
+    }
+    if (!indexes.isEmpty()) {
+        emit dataChanged(indexes.first(), indexes.last(), QVector<int>());
+    }
+    return true;
 }
 
 bool EffectStackModel::adjustFadeLength(int duration, bool fromStart, bool audioFade, bool videoFade)
@@ -171,12 +261,14 @@ bool EffectStackModel::adjustFadeLength(int duration, bool fromStart, bool audio
             if (fadeIns.contains(std::static_pointer_cast<TreeItem>(rootItem->child(i))->getId())) {
                 std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
                 effect->filter().set("in", in);
+                duration = qMin(pCore->getItemDuration(m_ownerId), duration);
                 effect->filter().set("out", in + duration);
                 indexes << getIndexFromItem(effect);
             }
         }
         if (!indexes.isEmpty()) {
             emit dataChanged(indexes.first(), indexes.last(), QVector<int>());
+            pCore->updateItemKeyframes(m_ownerId);
         }
     } else {
         // Fade out
@@ -199,12 +291,14 @@ bool EffectStackModel::adjustFadeLength(int duration, bool fromStart, bool audio
             if (fadeOuts.contains(std::static_pointer_cast<TreeItem>(rootItem->child(i))->getId())) {
                 std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
                 effect->filter().set("out", out);
+                duration = qMin(pCore->getItemDuration(m_ownerId), duration);
                 effect->filter().set("in", out - duration);
                 indexes << getIndexFromItem(effect);
             }
         }
         if (!indexes.isEmpty()) {
             emit dataChanged(indexes.first(), indexes.last(), QVector<int>());
+            pCore->updateItemKeyframes(m_ownerId);
         }
     }
     return true;

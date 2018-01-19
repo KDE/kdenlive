@@ -197,7 +197,7 @@ public:
     double getClipSpeed(int clipId) const;
     bool removeFade(int clipId, bool fromStart);
     Q_INVOKABLE bool copyClipEffect(int clipId, const QString &sourceId);
-    bool adjustEffectLength(int clipId, const QString &effectId, int duration);
+    bool adjustEffectLength(int clipId, const QString &effectId, int duration, int initialDuration);
 
     /* @brief Returns the closest snap point within snapDistance
      */

@@ -126,6 +126,36 @@ void AssetParameterModel::prepareKeyframes()
     }
 }
 
+void AssetParameterModel::setParameter(const QString &name, const int value, bool update)
+{
+    Q_ASSERT(m_asset->is_valid());
+
+    m_asset->set(name.toLatin1().constData(), value);
+    if (m_fixedParams.count(name) == 0) {
+        m_params[name].value = value;
+    } else {
+        m_fixedParams[name] = value;
+    }
+    if (update) {
+        if (m_assetId.startsWith(QStringLiteral("sox_"))) {
+            // Warning, SOX effect, need unplug/replug
+            qDebug()<<"// Warning, SOX effect, need unplug/replug";
+            QStringList effectParam = {m_assetId.section(QLatin1Char('_'), 1)};
+            for (const QString &pName : m_paramOrder) {
+                effectParam << m_asset->get(pName.toUtf8().constData());
+            }
+            m_asset->set("effect", effectParam.join(QLatin1Char(' ')).toUtf8().constData());
+            emit replugEffect(shared_from_this());
+        } else {
+            emit modelChanged();
+        }
+        // Update timeline view if necessary
+        pCore->updateItemModel(m_ownerId, m_assetId);
+        pCore->refreshProjectItem(m_ownerId);
+        pCore->invalidateItem(m_ownerId);
+    }
+}
+
 void AssetParameterModel::setParameter(const QString &name, const QString &value, bool update)
 {
     Q_ASSERT(m_asset->is_valid());

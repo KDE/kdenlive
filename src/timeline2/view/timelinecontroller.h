@@ -220,7 +220,7 @@ public:
     Q_INVOKABLE bool requestSpacerEndOperation(int clipId, int startPosition, int endPosition);
     /* @brief Request a Fade in effect for clip
      */
-    Q_INVOKABLE void adjustFade(int cid, const QString &effectId, int duration);
+    Q_INVOKABLE void adjustFade(int cid, const QString &effectId, int duration, int initialDuration);
 
     Q_INVOKABLE const QString getTrackNameFromMltIndex(int trackPos);
     /* @brief Request inserting space in a track

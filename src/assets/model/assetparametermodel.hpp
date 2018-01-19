@@ -99,6 +99,7 @@ public:
     /* @brief Set the parameter with given name to the given value
      */
     Q_INVOKABLE void setParameter(const QString &name, const QString &value, bool update = true);
+    void setParameter(const QString &name, const int value, bool update = true);
     Q_INVOKABLE void setParameter(const QString &name, double &value);
 
     /* @brief Return all the parameters as pairs (parameter name, parameter value) */

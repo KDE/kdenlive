@@ -98,7 +98,9 @@ public:
     bool copyEffect(std::shared_ptr<EffectStackModel> stackModel, int rowId);
     bool importEffects(std::shared_ptr<EffectStackModel> stackModel);
     bool removeFade(bool fromStart);
-    bool adjustEffectLength(const QString &effectName, int duration);
+    /** @brief Adjust effects duration. Should be called after each resize / cut operation */
+    bool adjustEffectLength(bool adjustFromEnd, int oldIn, int newIn, int duration, Fun &undo, Fun &redo, bool logUndo);
+    bool adjustEffectLength(const QString &effectName, int duration, int originalDuration, Fun &undo, Fun &redo);
     void passTimelineProperties(std::shared_ptr <ClipModel> other);
     KeyframeModel *getKeyframeModel();
 
@@ -123,7 +125,7 @@ protected:
        @param undo Lambda function containing the current undo stack. Will be updated with current operation
        @param redo Lambda function containing the current redo queue. Will be updated with current operation
     */
-    bool requestResize(int size, bool right, Fun &undo, Fun &redo) override;
+    bool requestResize(int size, bool right, Fun &undo, Fun &redo, bool logUndo = true) override;
 
     /* @brief This function change the global (timeline-wise) enabled state of the effects
     */

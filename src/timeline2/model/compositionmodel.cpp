@@ -57,7 +57,7 @@ int CompositionModel::construct(const std::weak_ptr<TimelineModel> &parent, cons
     return id;
 }
 
-bool CompositionModel::requestResize(int size, bool right, Fun &undo, Fun &redo)
+bool CompositionModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool /*logUndo*/)
 {
     QWriteLocker locker(&m_lock);
     if (size <= 0) {

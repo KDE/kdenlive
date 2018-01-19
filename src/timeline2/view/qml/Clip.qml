@@ -499,18 +499,21 @@ Rectangle {
                     parent.anchors.horizontalCenter = fadeInTriangle.right
                 else
                     parent.anchors.left = fadeInTriangle.left
+                timeline.adjustFade(clipRoot.clipId, 'fadein', clipRoot.fadeIn, startFadeIn)
                 bubbleHelp.hide()
             }
             onPositionChanged: {
                 if (mouse.buttons === Qt.LeftButton) {
                     var delta = Math.round((parent.x - startX) / timeScale)
                     var duration = Math.max(0, startFadeIn + delta)
-                    clipRoot.fadeIn = duration;
-                    timeline.adjustFade(clipRoot.clipId, 'fadein', duration)
-
+                    duration = Math.min(duration, clipRoot.clipDuration)
+                    if (clipRoot.fadeIn != duration) {
+                        clipRoot.fadeIn = duration
+                        timeline.adjustFade(clipRoot.clipId, 'fadein', duration, -1)
+                    }
                     // Show fade duration as time in a "bubble" help.
                     var s = timeline.timecode(Math.max(duration, 0))
-                    bubbleHelp.show(clipRoot.x, parentTrack.y + clipRoot.height, s.substring(6))
+                    bubbleHelp.show(clipRoot.x, parentTrack.y + clipRoot.height, s)
                 }
             }
         }
@@ -589,18 +592,21 @@ Rectangle {
                     parent.anchors.horizontalCenter = fadeOutCanvas.left
                 else
                     parent.anchors.right = fadeOutCanvas.right
+                timeline.adjustFade(clipRoot.clipId, 'fadeout', clipRoot.fadeOut, startFadeOut)
                 bubbleHelp.hide()
             }
             onPositionChanged: {
                 if (mouse.buttons === Qt.LeftButton) {
                     var delta = Math.round((startX - parent.x) / timeScale)
                     var duration = Math.max(0, startFadeOut + delta)
-                    clipRoot.fadeOut = duration
-                    timeline.adjustFade(clipRoot.clipId, 'fadeout', duration)
-
+                    duration = Math.min(duration, clipRoot.clipDuration)
+                    if (clipRoot.fadeOut != duration) {
+                        clipRoot.fadeOut = duration
+                        timeline.adjustFade(clipRoot.clipId, 'fadeout', duration, -1)
+                    }
                     // Show fade duration as time in a "bubble" help.
                     var s = timeline.timecode(Math.max(duration, 0))
-                    bubbleHelp.show(clipRoot.x + clipRoot.width, parentTrack.y + clipRoot.height, s.substring(6))
+                    bubbleHelp.show(clipRoot.x + clipRoot.width, parentTrack.y + clipRoot.height, s)
                 }
             }
         }

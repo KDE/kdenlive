@@ -763,13 +763,13 @@ void TimelineController::addEffectToCurrentClip(const QStringList &effectData)
     }
 }
 
-void TimelineController::adjustFade(int cid, const QString &effectId, int duration)
+void TimelineController::adjustFade(int cid, const QString &effectId, int duration, int initialDuration)
 {
     if (duration <= 0) {
         // remove fade
         m_model->removeFade(cid, effectId == QLatin1String("fadein"));
     } else {
-        m_model->adjustEffectLength(cid, effectId, duration);
+        m_model->adjustEffectLength(cid, effectId, duration, initialDuration);
     }
 }
 

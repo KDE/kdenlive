@@ -758,7 +758,7 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
 #endif
     QWriteLocker locker(&m_lock);
     Q_ASSERT(isClip(itemId) || isComposition(itemId));
-    if (size <= 0) return false;
+    if (size <= 0) return -1;
     if (snapDistance > 0) {
         Fun temp_undo = []() { return true; };
         Fun temp_redo = []() { return true; };
@@ -816,7 +816,7 @@ bool TimelineModel::requestItemResize(int itemId, int size, bool right, bool log
     };
     bool result = false;
     if (isClip(itemId)) {
-        result = m_allClips[itemId]->requestResize(size, right, local_undo, local_redo);
+        result = m_allClips[itemId]->requestResize(size, right, local_undo, local_redo, logUndo);
     } else {
         Q_ASSERT(isComposition(itemId));
         result = m_allCompositions[itemId]->requestResize(size, right, local_undo, local_redo);
@@ -1143,10 +1143,15 @@ bool TimelineModel::copyClipEffect(int clipId, const QString &sourceId)
     return m_allClips.at(clipId)->copyEffect(effectStack, itemRow);
 }
 
-bool TimelineModel::adjustEffectLength(int clipId, const QString &effectId, int duration)
+bool TimelineModel::adjustEffectLength(int clipId, const QString &effectId, int duration, int initialDuration)
 {
     Q_ASSERT(m_allClips.count(clipId));
-    bool res = m_allClips.at(clipId)->adjustEffectLength(effectId, duration);
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    bool res = m_allClips.at(clipId)->adjustEffectLength(effectId, duration, initialDuration, undo, redo);
+    if (res && initialDuration > 0) {
+        PUSH_UNDO(undo, redo, i18n("Adjust Fade"));
+    }
     return res;
 }
 
