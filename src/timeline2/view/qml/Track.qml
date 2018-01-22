@@ -251,15 +251,16 @@ Column{
                 var cIndex = clip.clipId
                 var frame = Math.round(clip.x / timeScale)
                 var origFrame = clip.modelStart
-                controller.requestClipMove(cIndex, toTrack, origFrame, false, false, false)
-                controller.requestClipMove(cIndex, toTrack, frame, true, true, true)
+                if (frame != origFrame) {
+                    controller.requestClipMove(cIndex, toTrack, origFrame, false, false, false)
+                    controller.requestClipMove(cIndex, toTrack, frame, true, true, true)
+                }
             }
             onDragged: { //called when the move is in process
                 var toTrack = clip.trackId
                 var cIndex = clip.clipId
                 clip.x = Math.max(0, clip.x)
                 var frame = Math.round(clip.x / timeScale)
-
                 frame = controller.suggestClipMove(cIndex, toTrack, frame, root.snapping);
                 if (!controller.requestClipMove(cIndex, toTrack, frame, false, false, false)) {
                     // Abort move
@@ -323,19 +324,6 @@ Column{
             displayHeight: trackRoot.height / 2
             opacity: 0.8
             selected: trackRoot.selection.indexOf(clipId) !== -1
-
-            onGroupedChanged: {
-                console.log('Composition ', clipId, ' is grouped : ', grouped)
-                //flashclip.start()
-            }
-
-            SequentialAnimation on color {
-                id: flashclip
-                loops: 2
-                running: false
-                ColorAnimation { from: Qt.darker('mediumpurple'); to: "#ff3300"; duration: 100 }
-                ColorAnimation { from: "#ff3300"; to: Qt.darker('mediumpurple'); duration: 100 }
-            }
 
             onClicked: {
                 console.log("Composition clicked",clip.clipId)

@@ -815,7 +815,7 @@ Rectangle {
             onClipDragged: {
                 continuousScrolling(x)
                 // Show distance moved as time in a "bubble" help.
-                var delta = Math.round((clip.x - clip.originalX) / timeline.scaleFactor)
+                var delta = Math.round((clip.x / timeline.scaleFactor) - Math.round(clip.originalX) / timeline.scaleFactor)
                 if (delta != 0) {
                     var track = tracksRepeater.itemAt(clip.trackIndex)
                     var s = timeline.timecode(Math.abs(delta))
@@ -825,7 +825,7 @@ Rectangle {
                     s = ((delta < 0)? '-' : (delta > 0)? '+' : '') + s
                     bubbleHelp.show(x, track.y + height/2, s)
                     clipBeingMovedId = clip.clipId
-                }
+                } else bubbleHelp.hide()
             }
             onClipDropped: {
                 console.log(" + + + ++ + DROPPED  + + + + + + +");

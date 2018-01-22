@@ -76,7 +76,7 @@ Rectangle {
 
     onGroupedChanged: {
         //console.log('Clip ', clipId, ' is grouped : ', grouped)
-        flashclip.start()
+        //flashclip.start()
     }
 
     SequentialAnimation on color {
@@ -257,7 +257,7 @@ Rectangle {
                 originalX = parent.x
                 clipRoot.y = 0
                 originalTrackId = trackId
-            } else if (Math.abs(delta) >= 1.0) {
+            } else {
                 parent.dropped(clipRoot)
                 originalX = parent.x
             }
