@@ -67,7 +67,9 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
     app.setApplicationName(QStringLiteral("kdenlive"));
     app.setOrganizationDomain(QStringLiteral("kde.org"));
+#if  (QT_VERSION >= QT_VERSION_CHECK(5, 7, 0))
     app.setDesktopFileName(QStringLiteral("org.kde.kdenlive"));
+#endif
     app.setWindowIcon(QIcon(QStringLiteral(":/pics/kdenlive.png")));
     KLocalizedString::setApplicationDomain("kdenlive");
     KSharedConfigPtr config = KSharedConfig::openConfig();
