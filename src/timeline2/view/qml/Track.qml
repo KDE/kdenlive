@@ -16,8 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import QtQml.Models 2.1
+import QtQuick 2.6
+import QtQml.Models 2.2
 
 Column{
     id: trackRoot
