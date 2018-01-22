@@ -45,13 +45,7 @@
 int main(int argc, char *argv[])
 {
 // Force QDomDocument to use a deterministic XML attribute order
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
     qSetGlobalQHashSeed(0);
-#else
-    extern Q_CORE_EXPORT QBasicAtomicInt qt_qhash_seed;
-    qt_qhash_seed.store(0);
-#endif
-
     QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts, true);
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
     QCoreApplication::setAttribute(Qt::AA_X11InitThreads);
