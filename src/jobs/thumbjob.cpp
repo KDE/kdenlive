@@ -58,7 +58,6 @@ const QString ThumbJob::getDescription() const
 
 bool ThumbJob::startJob()
 {
-    qDebug()<<"&&&&&&&&&&&&&&&&&& THUMB JOB STARTING: "<<m_clipId<<"\n\n&&&&&&&&&&&&&&&&&&&&&&&";
     if (m_done) {
         return true;
     }
@@ -71,7 +70,7 @@ bool ThumbJob::startJob()
     }
     if (m_binClip->clipType() == ClipType::Audio) {
         // Don't create thumbnail for audio clips
-        m_done = true;
+        m_done = false;
         return true;
     }
     m_prod = m_binClip->thumbProducer();
@@ -100,7 +99,6 @@ bool ThumbJob::startJob()
         m_result = KThumb::getFrame(frame.data(), m_fullWidth, m_imageHeight, true);
         m_done = true;
     }
-    qDebug()<<"&&&&&&&&&&&&&&&&&& THUMB JOB DONE: "<<m_clipId<<"\n\n&&&&&&&&&&&&&&&&&&&&&&&";
     return m_done;
 }
 
@@ -108,11 +106,14 @@ bool ThumbJob::commitResult(Fun &undo, Fun &redo)
 {
     Q_ASSERT(!m_resultConsumed);
     if (!m_done) {
+        if (m_binClip->clipType() == ClipType::Audio) {
+            // audio files get standard audio icon, ok
+            return true;
+        }
         qDebug() << "ERROR: Trying to consume invalid results";
         return false;
     }
     m_resultConsumed = true;
-    qDebug()<<"&&&&&&&&&&&&&&&&&& THUMB JOB RESULTS COMMITTED: "<<m_clipId<<"\n\n&&&&&&&&&&&&&&&&&&&&&&&";
 
     // TODO a refactor of ProjectClip and ProjectSubClip should make that possible without branching (both classes implement setThumbnail)
     bool ok = false;
