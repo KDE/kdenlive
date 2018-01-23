@@ -394,7 +394,7 @@ bool TimelineFunctions::requestSplitAudio(std::shared_ptr<TimelineItemModel> tim
         std::unordered_set<int> clips;
         clips.insert(clipId);
         clips.insert(newId);
-        timeline->requestClipsGroup(clips, true);
+        timeline->requestClipsGroup(clips, undo, redo);
         if (!res) {
             bool undone = undo();
             Q_ASSERT(undone);
