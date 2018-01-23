@@ -245,7 +245,7 @@ public:
        Return -1 if we give the last track
        @param trackId Id of the track to test
     */
-    int getNextTrackId(int trackId) const;
+    int getLowerTrackId(int trackId, TrackType type = TrackType::AnyTrack) const;
 
     /* @brief Returns the MLT track index of the video track just below the given trackC
        @param trackId Id of the track to test

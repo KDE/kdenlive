@@ -249,13 +249,29 @@ int TimelineModel::getTrackMltIndex(int trackId) const
     return getTrackPosition(trackId) + 1;
 }
 
-int TimelineModel::getNextTrackId(int trackId) const
+int TimelineModel::getLowerTrackId(int trackId, TrackType type) const
 {
     READ_LOCK();
     Q_ASSERT(isTrack(trackId));
     auto it = m_iteratorTable.at(trackId);
-    --it;
-    return (it != m_allTracks.begin()) ? (*it)->getId() : -1;
+    while (it != m_allTracks.begin()) {
+        --it;
+        if (it == m_allTracks.begin()) {
+            // no track available
+            return -1;
+        }
+        if (type == TrackType::AnyTrack) {
+            return (*it)->getId();
+        }
+        int audioTrack = (*it)->getProperty("kdenlive:audio_track").toInt();
+        if (type == TrackType::AudioTrack && audioTrack == 1) {
+            return (*it)->getId();
+        }
+        if (type == TrackType::VideoTrack && audioTrack == 0) {
+            return (*it)->getId();
+        }
+    }
+    return -1;
 }
 
 int TimelineModel::getPreviousVideoTrackPos(int trackId) const

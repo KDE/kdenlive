@@ -380,7 +380,13 @@ bool TimelineFunctions::requestSplitAudio(std::shared_ptr<TimelineItemModel> tim
         int position = timeline->getClipPosition(cid);
         int duration = timeline->getClipPlaytime(cid);
         int track = timeline->getClipTrackId(cid);
-        int newTrack = timeline->getNextTrackId(track);
+        int newTrack = timeline->getLowerTrackId(track, TrackType::AudioTrack);
+        if (newTrack == -1) {
+            // No available audio track for splitting, abort
+            undo();
+            pCore->displayMessage(i18n("No available audio track for split operation"), ErrorMessage);
+            return false;
+        }
         int newId;
         TimelineFunctions::changeClipState(timeline, clipId, PlaylistState::VideoOnly);
         bool res = copyClip(timeline, cid, newId, PlaylistState::AudioOnly, undo, redo);

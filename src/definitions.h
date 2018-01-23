@@ -120,7 +120,7 @@ enum MonitorSceneType {
 
 enum MessageType { DefaultMessage, ProcessingJobMessage, OperationCompletedMessage, InformationMessage, ErrorMessage, MltError };
 
-enum TrackType { AudioTrack = 0, VideoTrack = 1 };
+enum TrackType { AudioTrack = 0, VideoTrack = 1, AnyTrack = 2 };
 
 enum CacheType { SystemCacheRoot = -1, CacheRoot = 0, CacheBase = 1, CachePreview = 2, CacheProxy = 3, CacheAudio = 4, CacheThumbs = 5 };
 
