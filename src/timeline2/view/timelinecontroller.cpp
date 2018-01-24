@@ -385,8 +385,8 @@ void TimelineController::addTrack(int tid)
     QPointer<TrackDialog> d = new TrackDialog(m_model, m_model->getTrackMltIndex(tid), qApp->activeWindow());
     if (d->exec() == QDialog::Accepted) {
         int mltIndex = d->selectedTrack();
-        int tid;
-        m_model->requestTrackInsertion(mltIndex, tid, d->trackName(), d->addAudioTrack());
+        int newTid;
+        m_model->requestTrackInsertion(mltIndex, newTid, d->trackName(), d->addAudioTrack());
     }
 }
 

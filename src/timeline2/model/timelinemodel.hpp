@@ -241,11 +241,11 @@ public:
      */
     int getTrackMltIndex(int trackId) const;
 
-    /* @brief Returns the id of the track just below the given track in the order of the tracks
-       Return -1 if we give the last track
+    /* @brief Returns the ids of the tracks below the given track in the order of the tracks
+       Returns an empty list if no track available
        @param trackId Id of the track to test
     */
-    int getLowerTrackId(int trackId, TrackType type = TrackType::AnyTrack) const;
+    QList <int> getLowerTracksId(int trackId, TrackType type = TrackType::AnyTrack) const;
 
     /* @brief Returns the MLT track index of the video track just below the given trackC
        @param trackId Id of the track to test

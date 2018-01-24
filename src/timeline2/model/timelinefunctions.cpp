@@ -331,7 +331,20 @@ bool TimelineFunctions::changeClipState(std::shared_ptr<TimelineItemModel> timel
     }
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
-    redo = [timeline, clipId, status]() {
+    bool result = changeClipState(timeline, clipId, status, undo, redo);
+    if (result) {
+        pCore->pushUndo(undo, redo, i18n("Change clip state"));
+    }
+    return result;
+}
+
+bool TimelineFunctions::changeClipState(std::shared_ptr<TimelineItemModel> timeline, int clipId, PlaylistState::ClipState status, Fun &undo, Fun &redo)
+{
+    PlaylistState::ClipState oldState = timeline->m_allClips[clipId]->clipState();
+    if (oldState == status) {
+        return false;
+    }
+    Fun local_redo = [timeline, clipId, status]() {
         int trackId = timeline->getClipTrackId(clipId);
         bool res = timeline->m_allClips[clipId]->setClipState(status);
         // in order to make the producer change effective, we need to unplant / replant the clip in int track
@@ -346,7 +359,7 @@ bool TimelineFunctions::changeClipState(std::shared_ptr<TimelineItemModel> timel
         }
         return res;
     };
-    undo = [timeline, clipId, oldState]() {
+    Fun local_undo = [timeline, clipId, oldState]() {
         bool res = timeline->m_allClips[clipId]->setClipState(oldState);
         // in order to make the producer change effective, we need to unplant / replant the clip in int track
         int trackId = timeline->getClipTrackId(clipId);
@@ -363,9 +376,10 @@ bool TimelineFunctions::changeClipState(std::shared_ptr<TimelineItemModel> timel
         }
         return res;
     };
-    bool result = redo();
+    bool result = local_redo();
     if (result) {
-        pCore->pushUndo(undo, redo, i18n("Change clip state"));
+        PUSH_LAMBDA(local_undo, undo);
+        PUSH_LAMBDA(local_redo, redo);
     }
     return result;
 }
@@ -380,26 +394,31 @@ bool TimelineFunctions::requestSplitAudio(std::shared_ptr<TimelineItemModel> tim
         int position = timeline->getClipPosition(cid);
         int duration = timeline->getClipPlaytime(cid);
         int track = timeline->getClipTrackId(cid);
-        int newTrack = audioTarget >= 0 ? audioTarget : timeline->getLowerTrackId(track, TrackType::AudioTrack);
-        if (newTrack == -1) {
+        QList<int> possibleTracks = audioTarget >= 0 ? QList<int>() <<audioTarget : timeline->getLowerTracksId(track, TrackType::AudioTrack);
+        if (possibleTracks.isEmpty()) {
             // No available audio track for splitting, abort
             undo();
             pCore->displayMessage(i18n("No available audio track for split operation"), ErrorMessage);
             return false;
         }
         int newId;
-        TimelineFunctions::changeClipState(timeline, clipId, PlaylistState::VideoOnly);
         bool res = copyClip(timeline, cid, newId, PlaylistState::AudioOnly, undo, redo);
-        res = res && timeline->requestClipMove(newId, newTrack, position, true, false, undo, redo);
+        bool move = false;
+        while (!move && !possibleTracks.isEmpty()) {
+            int newTrack = possibleTracks.takeFirst();
+            move = timeline->requestClipMove(newId, newTrack, position, true, false, undo, redo);
+        }
         std::unordered_set<int> clips;
-        clips.insert(clipId);
+        clips.insert(cid);
         clips.insert(newId);
-        timeline->requestClipsGroup(clips, undo, redo);
-        if (!res) {
+        if (!res || !move) {
             bool undone = undo();
             Q_ASSERT(undone);
+            pCore->displayMessage(i18n("Audio split failed"), ErrorMessage);
             return false;
         }
+        TimelineFunctions::changeClipState(timeline, cid, PlaylistState::VideoOnly, undo, redo);
+        timeline->requestClipsGroup(clips, undo, redo);
     }
     pCore->pushUndo(undo, redo, i18n("Split Audio"));
     return true;

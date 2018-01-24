@@ -774,7 +774,7 @@ Rectangle {
             onTriggered: timeline.triggerAction('delete_timeline_clip')
         }
         OLD.MenuItem {
-            visible: true 
+            visible: true
             text: i18n('Extract')
             onTriggered: timeline.extract(clipRoot.clipId)
         }

@@ -62,6 +62,7 @@ struct TimelineFunctions
     static void showClipKeyframes(std::shared_ptr<TimelineItemModel> timeline, int clipId, bool value);
     static void showCompositionKeyframes(std::shared_ptr<TimelineItemModel> timeline, int compoId, bool value);
     static bool changeClipState(std::shared_ptr<TimelineItemModel> timeline, int clipId, PlaylistState::ClipState status);
+    static bool changeClipState(std::shared_ptr<TimelineItemModel> timeline, int clipId, PlaylistState::ClipState status, Fun &undo, Fun &redo);
     static bool requestSplitAudio(std::shared_ptr<TimelineItemModel> timeline, int clipId, int audioTarget);
 };
 
