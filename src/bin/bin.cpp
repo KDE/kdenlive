@@ -1105,7 +1105,6 @@ void Bin::setMonitor(Monitor *monitor)
 {
     m_monitor = monitor;
     connect(m_monitor, SIGNAL(addClipToProject(QUrl)), this, SLOT(slotAddClipToProject(QUrl)));
-    connect(m_monitor, SIGNAL(requestAudioThumb(QString)), this, SLOT(slotSendAudioThumb(QString)));
     connect(m_monitor, &Monitor::refreshCurrentClip, this, &Bin::slotOpenCurrent);
     connect(this, &Bin::openClip, [&](std::shared_ptr<ProjectClip> clip) { m_monitor->slotOpenClip(clip); });
 }

@@ -156,6 +156,7 @@ MainWindow::MainWindow(QWidget *parent)
     , m_projectMonitor(nullptr)
     , m_renderWidget(nullptr)
     , m_messageLabel(nullptr)
+    , m_timelineTabs(nullptr)
     , m_themeInitialized(false)
     , m_isDarkTheme(false)
 {
@@ -163,13 +164,26 @@ MainWindow::MainWindow(QWidget *parent)
 
 void MainWindow::init()
 {
+    QString desktopStyle = QApplication::style()->objectName();
+    // Init color theme
+    KActionMenu *themeAction = new KActionMenu(i18n("Theme"), this);
+    ThemeManager::instance()->setThemeMenuAction(themeAction);
+    connect(ThemeManager::instance(), &ThemeManager::signalThemeChanged, this, &MainWindow::slotThemeChanged, Qt::DirectConnection);
+    ThemeManager::instance()->setCurrentTheme(KdenliveSettings::colortheme());
+
+    if (!KdenliveSettings::widgetstyle().isEmpty() && QString::compare(desktopStyle, KdenliveSettings::widgetstyle(), Qt::CaseInsensitive) != 0) {
+        // User wants a custom widget style, init
+        doChangeStyle();
+    } else {
+        ThemeManager::instance()->slotChangePalette();
+    }
+    
     // Widget themes for non KDE users
     KActionMenu *stylesAction = new KActionMenu(i18n("Style"), this);
     auto *stylesGroup = new QActionGroup(stylesAction);
 
     // GTK theme does not work well with Kdenlive, and does not support color theming, so avoid it
     QStringList availableStyles = QStyleFactory::keys();
-    QString desktopStyle = QApplication::style()->objectName();
     if (KdenliveSettings::widgetstyle().isEmpty()) {
         // First run
         QStringList incompatibleStyles;
@@ -286,19 +300,6 @@ void MainWindow::init()
 
     m_timelineTabs = new TimelineTabs(this);
     ctnLay->addWidget(m_timelineTabs);
-
-    // Color schemes
-    KActionMenu *themeAction = new KActionMenu(i18n("Theme"), this);
-    ThemeManager::instance()->setThemeMenuAction(themeAction);
-    ThemeManager::instance()->setCurrentTheme(KdenliveSettings::colortheme());
-    connect(ThemeManager::instance(), &ThemeManager::signalThemeChanged, this, &MainWindow::slotThemeChanged, Qt::DirectConnection);
-
-    if (!KdenliveSettings::widgetstyle().isEmpty() && QString::compare(desktopStyle, KdenliveSettings::widgetstyle(), Qt::CaseInsensitive) != 0) {
-        // User wants a custom widget style, init
-        doChangeStyle();
-    } else {
-        ThemeManager::instance()->slotChangePalette();
-    }
 
     // Audio spectrum scope
     m_audioSpectrum = new AudioGraphSpectrum(pCore->monitorManager());
@@ -653,7 +654,9 @@ void MainWindow::slotThemeChanged(const QString &theme)
     if (m_projectMonitor) {
         m_projectMonitor->setPalette(plt);
     }
-    m_timelineTabs->setPalette(plt);
+    if (m_timelineTabs) {
+        m_timelineTabs->setPalette(plt);
+    }
 
 #if KXMLGUI_VERSION_MINOR < 23 && KXMLGUI_VERSION_MAJOR == 5
     // Not required anymore with auto colored icons since KF5 5.23
