@@ -32,6 +32,8 @@ Rectangle {
     property string clipResource: ''
     property string mltService: ''
     property int modelStart: x
+    // Used to store the current frame on move
+    property int currentFrame: -1
     property int scrollX: 0
     property int inPoint: 0
     property int outPoint: 0
@@ -225,9 +227,9 @@ Rectangle {
         cursorShape: containsMouse ? pressed ? Qt.ClosedHandCursor : Qt.OpenHandCursor : tracksArea.cursorShape
         onPressed: {
             root.stopScrolling = true
-            originalX = parent.x
+            originalX = clipRoot.x
             originalTrackId = clipRoot.trackId
-            startX = parent.x
+            startX = clipRoot.x
             root.stopScrolling = true
             clipRoot.forceActiveFocus();
             if (!clipRoot.selected) {
@@ -247,19 +249,19 @@ Rectangle {
         }
         onReleased: {
             root.stopScrolling = false
-            var delta = parent.x - startX
+            var delta = clipRoot.x - startX
             drag.target = undefined
             cursorShape = Qt.OpenHandCursor
             if (trackId !== originalTrackId) {
                 var track = Logic.getTrackById(trackId)
                 parent.moved(clipRoot)
                 reparent(track)
-                originalX = parent.x
+                originalX = clipRoot.x
                 clipRoot.y = 0
                 originalTrackId = trackId
             } else {
                 parent.dropped(clipRoot)
-                originalX = parent.x
+                originalX = clipRoot.x
             }
         }
         onClicked: {

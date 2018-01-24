@@ -240,21 +240,24 @@ Column{
             onMoved: { //called when the movement is finished
                 var toTrack = clip.trackId
                 var cIndex = clip.clipId
-                var frame = Math.round(clip.x / timeScale)
+                var frame = clip.currentFrame
                 var origFrame = clip.modelStart //Math.round(clip.originalX / timeScale + 0.5)
-                console.log("Asking move ",toTrack, cIndex, frame,  '>', origFrame, '(', clip.originalX, ') ',' > ', clip.modelStart)
-                controller.requestClipMove(cIndex, clip.originalTrackId, origFrame, false, false, false)
-                controller.requestClipMove(cIndex, toTrack, frame, true, true, true)
+                if (frame > -1) {
+                    controller.requestClipMove(cIndex, clip.originalTrackId, origFrame, false, false, false)
+                    controller.requestClipMove(cIndex, toTrack, frame, true, true, true)
+                }
+                clip.currentFrame = -1
             }
             onDropped: { //called when the movement is finished
                 var toTrack = clip.trackId
                 var cIndex = clip.clipId
-                var frame = Math.round(clip.x / timeScale)
+                var frame = clip.currentFrame
                 var origFrame = clip.modelStart
-                if (frame != origFrame) {
+                if (frame != origFrame && frame > -1) {
                     controller.requestClipMove(cIndex, toTrack, origFrame, false, false, false)
                     controller.requestClipMove(cIndex, toTrack, frame, true, true, true)
                 }
+                clip.currentFrame = -1
             }
             onDragged: { //called when the move is in process
                 var toTrack = clip.trackId
@@ -267,6 +270,7 @@ Column{
                     clip.x = clip.draggedX
                 } else {
                     clip.x = frame * timeScale
+                    clip.currentFrame = frame
                     var mapped = trackRoot.mapFromItem(clip, mouse.x, mouse.y)
                     trackRoot.clipDragged(clip, mapped.x, mapped.y)
                     clip.draggedX = clip.x
