@@ -32,7 +32,7 @@ function getTrackIndexFromPos(pos) {
         for (var i = 0; i < tracksRepeater.count; i++) {
             var trackY = tracksRepeater.itemAt(i).y - scrollView.flickableItem.contentY
             var trackH = tracksRepeater.itemAt(i).height
-            if (pos >= trackY && pos < trackY + trackH) {
+            if (pos >= trackY && (pos < trackY + trackH || i == tracksRepeater.count - 1)) {
                 return i
             }
         }

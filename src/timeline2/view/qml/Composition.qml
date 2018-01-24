@@ -200,7 +200,7 @@ Item {
             compositionRoot.clicked(compositionRoot, mouse.modifiers === Qt.ShiftModifier)
         }
         onPositionChanged: {
-            if (mouse.y < -height || mouse.y > height) {
+            if (mouse.y < -height || (mouse.y > height && parentTrack.rootIndex.row < tracksRepeater.count - 1)) {
                 var mapped = parentTrack.mapFromItem(compositionRoot, mouse.x, mouse.y).x
                 compositionRoot.draggedToTrack(compositionRoot, mapToItem(null, 0, mouse.y).y, mapped)
             } else {
