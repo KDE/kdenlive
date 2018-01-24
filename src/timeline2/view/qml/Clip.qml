@@ -316,8 +316,8 @@ Rectangle {
             id: waveform
             visible: hasAudio && timeline.showAudioThumbnails  && !parentTrack.isMute && (clipStatus == 0 || clipStatus == 2)
             height: isAudio || parentTrack.isAudio || clipStatus == 2 ? container.height - 1 : (container.height - 1) / 2
-            anchors.left: parent.left
-            anchors.right: parent.right
+            anchors.left: container.left
+            anchors.right: container.right
             anchors.bottom: container.bottom
             property int maxWidth: 1000
             property int innerWidth: clipRoot.width - clipRoot.border.width * 2
@@ -352,8 +352,8 @@ Rectangle {
                 text: clipName
                 font.pixelSize: root.baseUnit
                 anchors {
-                    top: parent.top
-                    left: parent.left
+                    top: labelRect.top
+                    left: labelRect.left
                     topMargin: 1
                     leftMargin: 1
                     // + ((isAudio || !settings.timelineShowThumbnails) ? 0 : inThumbnail.width) + 1
@@ -630,7 +630,7 @@ Rectangle {
 
     Rectangle {
         id: trimIn
-        anchors.left: parent.left
+        anchors.left: clipRoot.left
         anchors.leftMargin: 0
         height: parent.height
         width: 5
@@ -682,7 +682,7 @@ Rectangle {
     }
     Rectangle {
         id: trimOut
-        anchors.right: parent.right
+        anchors.right: clipRoot.right
         anchors.rightMargin: 0
         height: parent.height
         width: 5
