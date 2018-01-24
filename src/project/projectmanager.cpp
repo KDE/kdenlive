@@ -779,20 +779,17 @@ void ProjectManager::slotDisableTimelineEffects(bool disable)
 
 void ProjectManager::slotSwitchTrackLock()
 {
-    // TODO refac
-    // m_trackView->projectView()->switchTrackLock();
+    pCore->window()->getMainTimeline()->controller()->switchTrackLock();
 }
 
 void ProjectManager::slotSwitchAllTrackLock()
 {
-    // TODO refac
-    // m_trackView->projectView()->switchAllTrackLock();
+    pCore->window()->getMainTimeline()->controller()->switchTrackLock(true);
 }
 
 void ProjectManager::slotSwitchTrackTarget()
 {
-    // TODO refac
-    // m_trackView->switchTrackTarget();
+    pCore->window()->getMainTimeline()->controller()->switchTargetTrack();
 }
 
 QString ProjectManager::getDefaultProjectFormat()

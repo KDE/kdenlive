@@ -751,7 +751,7 @@ QStringList TimelineController::extractCompositionLumas() const
 void TimelineController::addEffectToCurrentClip(const QStringList &effectData)
 {
     QList<int> activeClips;
-    for (int track = m_model->getTracksCount() - 1; track > 0; track--) {
+    for (int track = m_model->getTracksCount() - 1; track >= 0; track--) {
         int trackIx = m_model->getTrackIndexFromPosition(track);
         int cid = m_model->getClipByPosition(trackIx, timelinePosition());
         if (cid > -1) {
@@ -1216,5 +1216,48 @@ void TimelineController::setClipStatus(int clipId, int status)
 
 void TimelineController::splitAudio(int clipId)
 {
-    TimelineFunctions::requestSplitAudio(m_model, clipId);
+    TimelineFunctions::requestSplitAudio(m_model, clipId, m_audioTarget);
+}
+
+void TimelineController::switchTrackLock(bool applyToAll)
+{
+    if (!applyToAll) {
+        // apply to active track only
+        bool locked = m_model->getTrackById_const(m_activeTrack)->getProperty("kdenlive:locked_track").toInt() == 1;
+        m_model->setTrackProperty(m_activeTrack, QStringLiteral("kdenlive:locked_track"), locked ? QStringLiteral("0") : QStringLiteral("1"));
+    }
+    else {
+        // Invert track lock
+        // Get track states first
+        QMap<int, bool> trackLockState;
+        int unlockedTracksCount = 0;
+        int tracksCount = m_model->getTracksCount();
+        for (int track = tracksCount - 1; track >= 0; track--) {
+            int trackIx = m_model->getTrackIndexFromPosition(track);
+            bool isLocked = m_model->getTrackById_const(trackIx)->getProperty("kdenlive:locked_track").toInt() == 1;
+            if (!isLocked) {
+                unlockedTracksCount++;
+            }
+            trackLockState.insert(trackIx, isLocked);
+        }
+        if (unlockedTracksCount == tracksCount) {
+            // do not lock all tracks, leave active track unlocked
+            trackLockState.insert(m_activeTrack, true);
+        }
+        QMapIterator<int, bool> i(trackLockState);
+        while (i.hasNext()) {
+            i.next();
+            m_model->setTrackProperty(i.key(), QStringLiteral("kdenlive:locked_track"), i.value() ? QStringLiteral("0") : QStringLiteral("1"));
+        }
+    }
+}
+
+void TimelineController::switchTargetTrack()
+{
+    bool isAudio = m_model->getTrackById_const(m_activeTrack)->getProperty("kdenlive:audio_track").toInt() == 1;
+    if (isAudio) {
+        setAudioTarget(m_audioTarget == m_activeTrack ? -1 : m_activeTrack);
+    } else {
+        setVideoTarget(m_videoTarget == m_activeTrack ? -1 : m_activeTrack);
+    }
 }

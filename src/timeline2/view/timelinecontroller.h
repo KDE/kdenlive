@@ -236,6 +236,8 @@ public:
     Q_INVOKABLE void extract(int clipId);
 
     Q_INVOKABLE void splitAudio(int clipId);
+    void switchTrackLock(bool applyToAll = false);
+    void switchTargetTrack();
 
     const QString getTrackNameFromIndex(int trackIndex);
     /* @brief Seeks to selected clip start / end

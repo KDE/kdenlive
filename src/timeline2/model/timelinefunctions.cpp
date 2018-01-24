@@ -370,7 +370,7 @@ bool TimelineFunctions::changeClipState(std::shared_ptr<TimelineItemModel> timel
     return result;
 }
 
-bool TimelineFunctions::requestSplitAudio(std::shared_ptr<TimelineItemModel> timeline, int clipId)
+bool TimelineFunctions::requestSplitAudio(std::shared_ptr<TimelineItemModel> timeline, int clipId, int audioTarget)
 {
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
@@ -380,7 +380,7 @@ bool TimelineFunctions::requestSplitAudio(std::shared_ptr<TimelineItemModel> tim
         int position = timeline->getClipPosition(cid);
         int duration = timeline->getClipPlaytime(cid);
         int track = timeline->getClipTrackId(cid);
-        int newTrack = timeline->getLowerTrackId(track, TrackType::AudioTrack);
+        int newTrack = audioTarget >= 0 ? audioTarget : timeline->getLowerTrackId(track, TrackType::AudioTrack);
         if (newTrack == -1) {
             // No available audio track for splitting, abort
             undo();
