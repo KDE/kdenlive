@@ -1,23 +1,26 @@
 Active Kdenlive authors
 
-    Vincent Pinon <vpinon@april.org>
-        Bugs fixing, release
-        2012-present
     Jean-Baptiste Mardelle <jb@kdenlive.org>
-        MLT and KDE SC 4 porting, main developer
+        MLT and KDE SC 4 / KF5 port, main developer and maintainer
         2005-present
-    Laurent Montel <montel@kde.org>
-        Bugs fixing, code clean up, review
-        2013-present
-    Till Theato <root@ttill.de>
-        Bug fixing, etc.
-        2010-present
-    Steve Guilford <s.guilford@dbplugins.com>
-        Bug fixing
-        2014
+    Nicolas Carion <french.ebook.lover@gmail.com>
+        Code re-architecture & timeline rewrite
+        2016-present
+    Vincent Pinon <vpinon@kde.org>
+        KF5 port, Windows cross-build, bugs fixing
+        2012-present
 
 Former Kdenlive authors
 
+    Laurent Montel <montel@kde.org>
+        Bugs fixing, code clean up, review
+        2013-2017
+    Steve Guilford <s.guilford@dbplugins.com>
+        Bug fixing
+        2014
+    Till Theato <root@ttill.de>
+        Rotoscoping, bug fixing, etc.
+        2009-2015
     Simon A. Eugster (Granjow) <simon.eu@gmail.com>
         Colour and audio scopes, titler, manual, bug fixing, etc.
         2009-2012
