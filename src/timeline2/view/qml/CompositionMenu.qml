@@ -39,9 +39,6 @@ Menu {
             text: i18n('Copy')
             onTriggered: root.copiedClip = clipId
         }
-        MenuSeparator {
-            visible: !isComposition
-        }
         MenuItem {
             text: i18n('Remove')
             onTriggered: timeline.triggerAction('delete_timeline_clip')

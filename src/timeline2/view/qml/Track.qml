@@ -241,7 +241,7 @@ Column{
                 var toTrack = clip.trackId
                 var cIndex = clip.clipId
                 var frame = clip.currentFrame
-                var origFrame = clip.modelStart //Math.round(clip.originalX / timeScale + 0.5)
+                var origFrame = clip.modelStart
                 if (frame > -1) {
                     controller.requestClipMove(cIndex, clip.originalTrackId, origFrame, false, false, false)
                     controller.requestClipMove(cIndex, toTrack, frame, true, true, true)
@@ -263,17 +263,21 @@ Column{
                 var toTrack = clip.trackId
                 var cIndex = clip.clipId
                 clip.x = Math.max(0, clip.x)
-                var frame = Math.round(clip.x / timeScale)
-                frame = controller.suggestClipMove(cIndex, toTrack, frame, root.snapping);
-                if (clip.currentFrame == frame) {
-                    // Abort move
-                    clip.x = clip.draggedX
+                if (Math.round(clip.currentFrame * timeScale) == clip.x) {
+                    // No move to perform
                 } else {
-                    clip.x = frame * timeScale
-                    clip.currentFrame = frame
-                    var mapped = trackRoot.mapFromItem(clip, mouse.x, mouse.y)
-                    trackRoot.clipDragged(clip, mapped.x, mapped.y)
-                    clip.draggedX = clip.x
+                    var frame = Math.round(clip.x / timeScale)
+                    frame = controller.suggestClipMove(cIndex, toTrack, frame, root.snapping);
+                    if (clip.currentFrame == frame) {
+                        // Abort move
+                        clip.x = clip.draggedX
+                    } else {
+                        clip.x = frame * timeScale
+                        clip.currentFrame = frame
+                        var mapped = trackRoot.mapFromItem(clip, mouse.x, mouse.y)
+                        trackRoot.clipDragged(clip, mapped.x, mapped.y)
+                        clip.draggedX = clip.x
+                    }
                 }
             }
             onTrimmingIn: {

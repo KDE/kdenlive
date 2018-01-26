@@ -146,6 +146,7 @@ protected:
     */
     int getBlankSizeNearClip(int clipId, bool after);
     int getBlankSizeNearComposition(int compoId, bool after);
+    int getBlankStart(int position);
     int getBlankSizeAtPos(int frame);
 
     /*@brief Returns the (unique) construction id of the track*/

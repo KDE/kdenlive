@@ -356,7 +356,7 @@ Rectangle {
             Text {
                 id: label
                 text: clipName
-                font.pixelSize: root.baseUnit
+                font.pixelSize: root.baseUnit * 1.2
                 anchors {
                     top: labelRect.top
                     left: labelRect.left

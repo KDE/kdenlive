@@ -143,7 +143,6 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
                     ptr->checkRefresh(new_in, new_out);
                 }
                 if (!audioOnly && finalMove) {
-                    qDebug() << "/// INVALIDATE CLIP ON INSERTT!!!!!!";
                     ptr->invalidateClip(clipId);
                 }
             }
@@ -240,8 +239,8 @@ Fun TrackModel::requestClipDeletion_lambda(int clipId, bool updateView, bool fin
     int old_out = old_in + m_allClips[clipId]->getPlaytime();
     return [clip_position, clipId, old_in, old_out, updateView, finalMove, audioOnly, this]() {
         auto clip_loc = getClipIndexAt(clip_position);
-        int old_clip_index = getRowfromClip(clipId);
         if (updateView) {
+            int old_clip_index = getRowfromClip(clipId);
             auto ptr = m_parent.lock();
             ptr->_beginRemoveRows(ptr->makeTrackIndexFromID(getId()), old_clip_index, old_clip_index);
             ptr->_endRemoveRows();
@@ -709,6 +708,27 @@ bool TrackModel::isBlankAt(int position)
     return m_playlists[0].is_blank_at(position) && m_playlists[1].is_blank_at(position);
 }
 
+int TrackModel::getBlankStart(int position)
+{
+    READ_LOCK();
+    int result = 0;
+    for (int j = 0; j < 2; j++) {
+        if (m_playlists[j].count() == 0) {
+            break;
+        }
+        if (!m_playlists[j].is_blank_at(position)) {
+            result = position;
+            break;
+        }
+        int clip_index = m_playlists[j].get_clip_index_at(position);
+        int start = m_playlists[j].clip_start(clip_index);
+        if (start > result) {
+            result = start;
+        }
+    }
+    return result;
+}
+
 int TrackModel::getBlankEnd(int position, int track)
 {
     READ_LOCK();
@@ -725,6 +745,7 @@ int TrackModel::getBlankEnd(int position, int track)
     }
     return INT_MAX;
 }
+
 int TrackModel::getBlankEnd(int position)
 {
     READ_LOCK();

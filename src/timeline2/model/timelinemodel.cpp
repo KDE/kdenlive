@@ -359,6 +359,7 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int sn
     if (currentPos == position) {
         return position;
     }
+    bool after = position > currentPos;
     if (snapDistance > 0) {
         // For snapping, we must ignore all in/outs of the clips of the group being moved
         std::vector<int> ignored_pts;
@@ -396,12 +397,75 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int sn
         qDebug() << "Found blank" << blank_length;
         if (blank_length < INT_MAX) {
             if (after) {
-                return currentPos + blank_length;
+                position = currentPos + blank_length;
+            } else {
+                position = currentPos - blank_length;
             }
-            return currentPos - blank_length;
+        } else {
+            return false;
+        }
+        possible = requestClipMove(clipId, trackId, position, false, false, false);
+        return possible ? position : currentPos;
+    }
+    // find best pos for groups
+    int groupId = m_groups->getRootId(clipId);
+    std::unordered_set<int> all_clips = m_groups->getLeaves(groupId);
+    QMap <int, int> trackPosition;
+
+    // First pass, sort clips by track and keep only the first / last depending on move direction
+    for (int current_clipId : all_clips) {
+        int clipTrack = getClipTrackId(current_clipId);
+        if (clipTrack == -1) {
+            continue;
+        }
+        if (trackPosition.contains(clipTrack)) {
+            int in = getItemPosition(current_clipId);
+            if (after) {
+                // keep only last clip position for track
+                int out = getItemPosition(current_clipId) + getItemPlaytime(current_clipId);
+                if (trackPosition.value(clipTrack) < out) {
+                    trackPosition.insert(clipTrack, out);
+                }
+            } else {
+                // keep only first clip position for track
+                int in = getItemPosition(current_clipId);
+                if (trackPosition.value(clipTrack) > in) {
+                    trackPosition.insert(clipTrack, in);
+                }
+            }
+        }
+        else {
+            int in = getItemPosition(current_clipId);
+            trackPosition.insert(clipTrack, after ? in + getItemPlaytime(current_clipId) : in);
         }
     }
-    //TODO: find best pos for groups
+    // Now check space on each track
+    QMapIterator<int, int> i(trackPosition);
+    int blank_length = -1;
+    while (i.hasNext()) {
+        i.next();
+        int track_space;
+        if (!after) {
+            // Check space before the position
+            track_space = i.value() - getTrackById(i.key())->getBlankStart(i.value() - 1);
+            if (blank_length == -1 || blank_length > track_space) {
+                blank_length = track_space;
+            }
+        } else {
+            // Check after before the position
+            track_space = getTrackById(i.key())->getBlankEnd(i.value() + 1) - i.value();
+            if (blank_length == -1 || blank_length > track_space) {
+                blank_length = track_space;
+            }
+        }
+    }
+    if (blank_length != 0) {
+        int updatedPos = currentPos + (after ? blank_length : -blank_length);
+        possible = requestClipMove(clipId, trackId, updatedPos, false, false, false);
+        if (possible) {
+            return updatedPos;
+        }
+    }
     return currentPos;
 }
 
@@ -695,7 +759,7 @@ bool TimelineModel::requestGroupMove(int clipId, int groupId, int delta_track, i
             std::advance(it, target_track_position);
             int target_track = (*it)->getId();
             int target_position = m_allClips[clip]->getPosition() + delta_pos;
-            ok = requestClipMove(clip, target_track, target_position, updateView || (clip != clipId), finalMove, undo, redo);
+            ok = requestClipMove(clip, target_track, target_position, updateView, finalMove, undo, redo);
         } else {
             ok = false;
         }
