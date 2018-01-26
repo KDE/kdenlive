@@ -23,6 +23,12 @@ Rectangle {
         id: fontMetrics
         font.family: "Arial"
     }
+    ClipMenu {
+        id: clipMenu
+    }
+    CompositionMenu {
+        id: compositionMenu
+    }
 
     function moveSelectedTrack(offset) {
         var cTrack = Logic.getTrackIndexFromId(timeline.activeTrack)

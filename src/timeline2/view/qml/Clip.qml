@@ -18,7 +18,6 @@
 
 import QtQuick 2.6
 import QtQuick.Controls 2.2
-import QtQuick.Controls 1.4 as OLD
 import Kdenlive.Controls 1.0
 import QtGraphicalEffects 1.0
 import QtQml.Models 2.2
@@ -266,7 +265,11 @@ Rectangle {
         }
         onClicked: {
             if (mouse.button == Qt.RightButton) {
-                menu.popup()
+                clipMenu.clipId = clipRoot.clipId
+                clipMenu.clipStatus = clipRoot.clipStatus
+                clipMenu.grouped = clipRoot.grouped
+                clipMenu.trackId = clipRoot.trackId
+                clipMenu.popup()
             }
         }
         onDoubleClicked: {
@@ -729,103 +732,7 @@ Rectangle {
             onExited: parent.opacity = 0
         }
     }
-    OLD.Menu {
-        id: menu
-        function show() {
-            //mergeItem.visible = timeline.mergeClipWithNext(trackIndex, index, true)
-            menu.popup()
-        }
-        OLD.MenuItem {
-            visible: true
-            text: i18n('Cut')
-            onTriggered: {
-                console.log('cutting clip:', clipRoot.clipId)
-                if (!parentTrack.isLocked) {
-                    timeline.requestClipCut(clipRoot.clipId, timeline.position)
-                } else {
-                    root.pulseLockButtonOnTrack(currentTrack)
-                }
-            }
-        }
-        OLD.MenuItem {
-            visible: !grouped && parentTrack.selection.length > 1
-            text: i18n('Group')
-            onTriggered: timeline.triggerAction('group_clip')
-        }
-        OLD.MenuItem {
-            visible: grouped
-            text: i18n('Ungroup')
-            onTriggered: timeline.unGroupSelection(clipId)
-        }
-
-        OLD.MenuItem {
-            visible: true
-            text: i18n('Copy')
-            onTriggered: root.copiedClip = clipRoot.clipId
-        }
-        OLD.MenuSeparator {
-            visible: true
-        }
-        OLD.MenuItem {
-            text: i18n('Split Audio')
-            onTriggered: timeline.splitAudio(clipRoot.clipId)
-            visible: clipStatus == 0
-        }
-        OLD.MenuItem {
-            text: i18n('Remove')
-            onTriggered: timeline.triggerAction('delete_timeline_clip')
-        }
-        OLD.MenuItem {
-            visible: true
-            text: i18n('Extract')
-            onTriggered: timeline.extract(clipRoot.clipId)
-        }
-        OLD.MenuSeparator {
-            visible: true
-        }
-        OLD.MenuItem {
-            text: i18n('Clip in Project Bin')
-            onTriggered: timeline.triggerAction('clip_in_project_tree')
-        }
-        OLD.MenuItem {
-            visible: true
-            text: i18n('Split At Playhead')
-            onTriggered: timeline.triggerAction('cut_timeline_clip')
-        }
-        OLD.Menu {
-            title: i18n('Clip Type...')
-            OLD.ExclusiveGroup {
-                id: radioInputGroup
-            }
-            OLD.MenuItem {
-                text: i18n('Original')
-                checkable: true
-                checked: clipStatus == 0
-                exclusiveGroup: radioInputGroup
-                onTriggered: timeline.setClipStatus(clipRoot.clipId, 0)
-            }
-            OLD.MenuItem {
-                text: i18n('Video Only')
-                checkable: true
-                checked: clipStatus == 1
-                exclusiveGroup: radioInputGroup
-                onTriggered: timeline.setClipStatus(clipRoot.clipId, 1)
-            }
-            OLD.MenuItem {
-                text: i18n('Audio Only')
-                checkable: true
-                checked: clipStatus == 2
-                exclusiveGroup: radioInputGroup
-                onTriggered: timeline.setClipStatus(clipRoot.clipId, 2)
-            }
-            OLD.MenuItem {
-                text: i18n('Disabled')
-                checkable: true
-                checked: clipStatus == 3
-                exclusiveGroup: radioInputGroup
-                onTriggered: timeline.setClipStatus(clipRoot.clipId, 3)
-            }
-        }
+    
         /*MenuItem {
             id: mergeItem
             text: i18n('Merge with next clip')
@@ -842,5 +749,4 @@ Rectangle {
                 menu.__xOffset = Math.min(0, Screen.width - (__popupGeometry.x + __popupGeometry.width))
             }
         }*/
-    }
 }

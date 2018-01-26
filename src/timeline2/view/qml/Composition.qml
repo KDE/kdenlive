@@ -234,7 +234,12 @@ Item {
                     compositionRoot.clicked(compositionRoot, false)
                 }
             }
-            onClicked: menu.show()
+            onClicked: {
+                compositionMenu.clipId = compositionRoot.clipId
+                compositionMenu.grouped = compositionRoot.grouped
+                compositionMenu.trackId = compositionRoot.trackId
+                compositionMenu.popup()
+            }
         }
     }
 
@@ -349,76 +354,5 @@ Item {
             }
             color: 'white'
         }
-    }
-    Menu {
-        id: menu
-        function show() {
-            //mergeItem.visible = timeline.mergeClipWithNext(trackIndex, index, true)
-            popup()
-        }
-        MenuItem {
-            text: i18n('Cut')
-            onTriggered: {
-                if (!parentTrack.isLocked) {
-                    timeline.copyClip(trackIndex, index)
-                    timeline.remove(trackIndex, index)
-                } else {
-                    root.pulseLockButtonOnTrack(currentTrack)
-                }
-            }
-        }
-        MenuItem {
-            visible: !grouped && parentTrack.selection.length > 1
-            text: i18n('Group')
-            onTriggered: timeline.groupSelection()
-        }
-        MenuItem {
-            visible: grouped
-            text: i18n('Ungroup')
-            onTriggered: timeline.unGroupSelection(clipId)
-        }
-
-        MenuItem {
-            visible: true
-            text: i18n('Copy')
-            onTriggered: timeline.copyClip(parentTrack.trackId, index)
-        }
-        MenuSeparator {
-            visible: !isComposition
-        }
-        MenuItem {
-            text: i18n('Remove')
-            onTriggered: timeline.triggerAction('delete_timeline_clip')
-        }
-        MenuItem {
-            visible: true
-            text: i18n('Lift')
-            onTriggered: timeline.lift(parentTrack.trackId, index)
-        }
-        MenuSeparator {
-            visible: true
-        }
-        MenuItem {
-            visible: true
-            text: i18n('Split At Playhead (S)')
-            onTriggered: timeline.splitClip(parentTrack.trackId, index)
-        }
-        MenuItem {
-            id: mergeItem
-            text: i18n('Merge with next clip')
-            onTriggered: timeline.mergeClipWithNext(parentTrack.trackId, index, false)
-        }
-        MenuItem {
-            visible: !isComposition
-            text: i18n('Rebuild Audio Waveform')
-            onTriggered: timeline.remakeAudioLevels(parentTrack.trackId, index)
-        }
-        /*onPopupVisibleChanged: {
-            if (visible && application.OS !== 'OS X' && __popupGeometry.height > 0) {
-                // Try to fix menu running off screen. This only works intermittently.
-                menu.__yOffset = Math.min(0, Screen.height - (__popupGeometry.y + __popupGeometry.height + 40))
-                menu.__xOffset = Math.min(0, Screen.width - (__popupGeometry.x + __popupGeometry.width))
-            }
-        }*/
     }
 }
