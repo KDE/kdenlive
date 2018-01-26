@@ -265,7 +265,7 @@ Column{
                 clip.x = Math.max(0, clip.x)
                 var frame = Math.round(clip.x / timeScale)
                 frame = controller.suggestClipMove(cIndex, toTrack, frame, root.snapping);
-                if (!controller.requestClipMove(cIndex, toTrack, frame, false, false, false)) {
+                if (clip.currentFrame == frame) {
                     // Abort move
                     clip.x = clip.draggedX
                 } else {

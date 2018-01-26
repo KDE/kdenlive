@@ -383,24 +383,26 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int sn
         }
     }
     // we check if move is possible
-    Fun undo = []() { return true; };
-    Fun redo = []() { return true; };
-    bool possible = requestClipMove(clipId, trackId, position, false, false, undo, redo);
-    qDebug() << "Original move success" << possible;
+    bool possible = requestClipMove(clipId, trackId, position, false, false, false);
+    //bool possible = requestClipMove(clipId, trackId, position, false, false, undo, redo);
     if (possible) {
-        undo();
         return position;
     }
-    bool after = position > currentPos;
-    int blank_length = getTrackById(trackId)->getBlankSizeNearClip(clipId, after);
-    qDebug() << "Found blank" << blank_length;
-    if (blank_length < INT_MAX) {
-        if (after) {
-            return currentPos + blank_length;
+    // Find best possible move
+    if (!m_groups->isInGroup(clipId)) {
+        // Easy
+        bool after = position > currentPos;
+        int blank_length = getTrackById(trackId)->getBlankSizeNearClip(clipId, after);
+        qDebug() << "Found blank" << blank_length;
+        if (blank_length < INT_MAX) {
+            if (after) {
+                return currentPos + blank_length;
+            }
+            return currentPos - blank_length;
         }
-        return currentPos - blank_length;
     }
-    return position;
+    //TODO: find best pos for groups
+    return currentPos;
 }
 
 int TimelineModel::suggestCompositionMove(int compoId, int trackId, int position, int snapDistance)

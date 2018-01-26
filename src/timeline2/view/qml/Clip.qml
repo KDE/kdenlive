@@ -238,7 +238,8 @@ Rectangle {
         }
         onPositionChanged: {
             if (pressed) {
-                if (mouse.y < 0 || (mouse.y > height && parentTrack.rootIndex.row < tracksRepeater.count - 1)) {
+                var trackIndex = Logic.getTrackIndexFromId(clipRoot.trackId)
+                if ((mouse.y < 0 && trackIndex > 0) || (mouse.y > height && trackIndex < tracksRepeater.count - 1)) {
                     var mapped = parentTrack.mapFromItem(clipRoot, mouse.x, mouse.y).x
                     clipRoot.draggedToTrack(clipRoot, mapToItem(null, 0, mouse.y).y, mapped)
                 } else {
