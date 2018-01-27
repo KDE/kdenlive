@@ -636,6 +636,7 @@ void ClipController::initEffect(QDomElement &xml)
 
 void ClipController::addEffect(QDomElement &xml)
 {
+    Q_UNUSED(xml)
     // TODO refac: this must be rewritten
     /*
     QMutexLocker lock(&m_effectMutex);
@@ -665,6 +666,8 @@ void ClipController::addEffect(QDomElement &xml)
 
 void ClipController::removeEffect(int effectIndex, bool delayRefresh)
 {
+    Q_UNUSED(effectIndex)
+    Q_UNUSED(delayRefresh)
     // TODO refac: this must be rewritten
     /*
     QMutexLocker lock(&m_effectMutex);
@@ -684,6 +687,8 @@ EffectsList ClipController::effectList()
 
 void ClipController::moveEffect(int oldPos, int newPos)
 {
+    Q_UNUSED(oldPos)
+    Q_UNUSED(newPos)
     // TODO refac: this must be rewritten
     /*
     QMutexLocker lock(&m_effectMutex);
@@ -711,6 +716,8 @@ int ClipController::effectsCount()
 // static
 EffectsList ClipController::xmlEffectList(Mlt::Profile *profile, Mlt::Service &service)
 {
+    Q_UNUSED(profile)
+    Q_UNUSED(service)
     EffectsList effList(true);
     // TODO refac : rewrite this
     /*
@@ -735,6 +742,8 @@ EffectsList ClipController::xmlEffectList(Mlt::Profile *profile, Mlt::Service &s
 
 void ClipController::changeEffectState(const QList<int> &indexes, bool disable)
 {
+    Q_UNUSED(indexes)
+    Q_UNUSED(disable)
     // TODO refac : this must be rewritten
     /*
     Mlt::Service service = m_masterProducer->parent();
@@ -750,6 +759,8 @@ void ClipController::changeEffectState(const QList<int> &indexes, bool disable)
 
 void ClipController::updateEffect(const QDomElement &e, int ix)
 {
+    Q_UNUSED(e)
+    Q_UNUSED(ix)
     // TODO refac : this must be rewritten
     /*
     QString tag = e.attribute(QStringLiteral("id"));

@@ -51,13 +51,13 @@ TimelineController::TimelineController(KActionCollection *actionCollection, QObj
     : QObject(parent)
     , m_root(nullptr)
     , m_actionCollection(actionCollection)
+    , m_usePreview(false)
     , m_position(0)
     , m_seekPosition(-1)
     , m_audioTarget(-1)
     , m_videoTarget(-1)
     , m_activeTrack(0)
     , m_scale(3.0)
-    , m_usePreview(false)
     , m_timelinePreview(nullptr)
 {
     m_disablePreview = pCore->currentDoc()->getAction(QStringLiteral("disable_preview"));
@@ -678,14 +678,12 @@ bool TimelineController::requestSpacerEndOperation(int clipId, int startPosition
 
 void TimelineController::seekCurrentClip(bool seekToEnd)
 {
-    bool foundClip = false;
     for (int cid : m_selection.selectedClips) {
         int start = m_model->getItemPosition(cid);
         if (seekToEnd) {
             start += m_model->getItemPlaytime(cid);
         }
         setPosition(start);
-        foundClip = true;
         break;
     }
 }
@@ -734,8 +732,6 @@ void TimelineController::refreshItem(int id)
 
 QPoint TimelineController::getTracksCount() const
 {
-    int audioTracks = 0;
-    int videoTracks = 0;
     QVariant returnedValue;
     QMetaObject::invokeMethod(m_root, "getTracksCount", Q_RETURN_ARG(QVariant, returnedValue));
     QVariantList tracks = returnedValue.toList();

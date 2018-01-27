@@ -156,6 +156,8 @@ void EffectStackModel::appendEffect(const QString &effectId)
 
 bool EffectStackModel::adjustStackLength(bool adjustFromEnd, int oldIn, int newIn, int duration, bool hasAudio, bool audioOnly, Fun &undo, Fun &redo, bool logUndo)
 {
+    Q_UNUSED(hasAudio)
+    Q_UNUSED(audioOnly)
     const int fadeInDuration = getFadePosition(true);
     const int fadeOutDuration = getFadePosition(false);
     QList<QModelIndex> indexes;

@@ -219,7 +219,7 @@ private:
     void selectItems(int itemType);
 
     /** @brief Appends the shortcut of a QAction to a tooltip text */
-    QString getTooltipWithShortcut(const QString &text, QAction *button);
+    QString getTooltipWithShortcut(const QString& tipText, QAction* button);
     void loadGradients();
     void storeGradient(const QString &gradientData);
 
@@ -306,7 +306,7 @@ private slots:
     /** Called whenever text properties change (font e.g.) */
     void slotUpdateText();
     void slotInsertUnicode();
-    void slotInsertUnicodeString(const QString &);
+    void slotInsertUnicodeString(const QString& string);
 
     void displayBackgroundFrame();
 

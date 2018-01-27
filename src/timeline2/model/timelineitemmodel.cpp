@@ -401,7 +401,7 @@ void TimelineItemModel::buildTrackCompositing()
             Mlt::Transition *transition = TransitionsRepository::get()->getTransition(composite);
             transition->set("internal_added", 237);
             transition->set("always_active", 1);
-            int ret = field->plant_transition(*transition, 0, trackId);
+            field->plant_transition(*transition, 0, trackId);
             transition->set_tracks(0, trackId);
         }
         // audio mix
@@ -409,7 +409,7 @@ void TimelineItemModel::buildTrackCompositing()
         transition->set("internal_added", 237);
         transition->set("always_active", 1);
         transition->set("sum", 1);
-        int ret = field->plant_transition(*transition, 0, trackId);
+        field->plant_transition(*transition, 0, trackId);
         transition->set_tracks(0, trackId);
         ++it;
     }

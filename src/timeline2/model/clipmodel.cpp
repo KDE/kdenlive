@@ -308,19 +308,19 @@ void ClipModel::refreshProducerFromBin(PlaylistState::ClipState state)
 
 void ClipModel::useTimewarpProducer(double speed, int extraSpace)
 {
+    Q_UNUSED(extraSpace)
+
     QWriteLocker locker(&m_lock);
     // TODO: disable timewarp on color clips
     int in = getIn();
     int out = getOut();
     int warp_in;
     int warp_out;
-    double currentSpeed = 1.0;
     qDebug() << "// SLOWMO CLIP SERVICE: " << getProperty("mlt_service");
     if (getProperty("mlt_service") == QLatin1String("timewarp")) {
         // slowmotion producer, get current speed
         warp_in = m_producer->get_int("warp_in");
         warp_out = m_producer->get_int("warp_out");
-        currentSpeed = m_producer->get_double("warp_speed");
     } else {
         // store original in/out
         warp_in = in;

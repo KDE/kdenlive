@@ -133,6 +133,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     : AbstractMonitor(id, manager, parent)
     , m_controller(nullptr)
     , m_glMonitor(nullptr)
+    , m_snaps(new SnapModel())
     , m_splitEffect(nullptr)
     , m_splitProducer(nullptr)
     , m_length(2)
@@ -146,7 +147,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     , m_editMarker(nullptr)
     , m_forceSizeFactor(0)
     , m_lastMonitorSceneType(MonitorSceneDefault)
-    , m_snaps(new SnapModel())
 {
     auto *layout = new QVBoxLayout;
     layout->setContentsMargins(0, 0, 0, 0);
@@ -187,7 +187,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     connect(m_horizontalScroll, &QAbstractSlider::valueChanged, this, &Monitor::setOffsetX);
     connect(m_verticalScroll, &QAbstractSlider::valueChanged, this, &Monitor::setOffsetY);
     connect(m_glMonitor, &GLWidget::frameDisplayed, this, &Monitor::onFrameDisplayed);
-    connect(m_glMonitor, SIGNAL(mouseSeek(int, int)), this, SLOT(slotMouseSeek(int, int)));
+    connect(m_glMonitor, SIGNAL(mouseSeek(int, int)), this, SLOT(slotMouseSeek(int, uint)));
     connect(m_glMonitor, SIGNAL(monitorPlay()), this, SLOT(slotPlay()));
     connect(m_glMonitor, &GLWidget::startDrag, this, &Monitor::slotStartDrag);
     connect(m_glMonitor, SIGNAL(switchFullScreen(bool)), this, SLOT(slotSwitchFullScreen(bool)));
@@ -823,9 +823,9 @@ void Monitor::slotStartDrag()
     QPoint p = m_glMonitor->getControllerProxy()->zone();
     list.append(QString::number(p.x()));
     list.append(QString::number(p.y()));
-    QByteArray data;
-    data.append(list.join(QLatin1Char('#')).toUtf8());
-    mimeData->setData(QStringLiteral("kdenlive/producerslist"), data);
+    QByteArray prodData;
+    prodData.append(list.join(QLatin1Char('#')).toUtf8());
+    mimeData->setData(QStringLiteral("kdenlive/producerslist"), prodData);
     drag->setMimeData(mimeData);
     /*QPixmap pix = m_currentClip->thumbnail();
     drag->setPixmap(pix);
@@ -865,9 +865,9 @@ void Monitor::mouseMoveEvent(QMouseEvent *event)
         QPoint p = m_glMonitor->getControllerProxy()->zone();
         list.append(QString::number(p.x()));
         list.append(QString::number(p.y()));
-        QByteArray data;
-        data.append(list.join(QLatin1Char(';')).toUtf8());
-        mimeData->setData(QStringLiteral("kdenlive/clip"), data);
+        QByteArray clipData;
+        clipData.append(list.join(QLatin1Char(';')).toUtf8());
+        mimeData->setData(QStringLiteral("kdenlive/clip"), clipData);
         drag->setMimeData(mimeData);
         drag->start(Qt::MoveAction);
     }
@@ -898,7 +898,7 @@ QStringList Monitor::mimeTypes() const
 // virtual
 void Monitor::wheelEvent(QWheelEvent *event)
 {
-    slotMouseSeek(event->delta(), (int)event->modifiers());
+    slotMouseSeek(event->delta(), event->modifiers());
     event->accept();
 }
 
@@ -923,7 +923,7 @@ void Monitor::keyPressEvent(QKeyEvent *event)
     QWidget::keyPressEvent(event);
 }
 
-void Monitor::slotMouseSeek(int eventDelta, int modifiers)
+void Monitor::slotMouseSeek(int eventDelta, uint modifiers)
 {
     if ((modifiers & Qt::ControlModifier) != 0u) {
         int delta = m_monitorManager->timecode().fps();
@@ -1193,6 +1193,7 @@ void Monitor::slotForwardOneFrame(int diff)
 
 void Monitor::seekCursor(int pos)
 {
+    Q_UNUSED(pos)
     // Deprecated shoud not be used, instead requestSeek
     /*if (m_ruler->slotNewValue(pos)) {
         m_timePos->setValue(pos);
@@ -1206,7 +1207,6 @@ void Monitor::seekCursor(int pos)
 void Monitor::adjustRulerSize(int length, std::shared_ptr<MarkerListModel> markerModel)
 {
     if (m_controller != nullptr) {
-        QPoint zone = m_controller->zone();
         m_glMonitor->setRulerInfo(length);
     } else {
         m_glMonitor->setRulerInfo(length, markerModel);
@@ -1327,13 +1327,14 @@ void Monitor::updateClipProducer(Mlt::Producer *prod)
 void Monitor::updateClipProducer(const QString &playlist)
 {
     // TODO
-    Mlt::Producer *prod = new Mlt::Producer(*m_glMonitor->profile(), playlist.toUtf8().constData());
+    // Mlt::Producer *prod = new Mlt::Producer(*m_glMonitor->profile(), playlist.toUtf8().constData());
     // m_glMonitor->setProducer(prod, isActive(), render->seekFramePosition());
     m_glMonitor->switchPlay(true);
 }
 
 void Monitor::slotOpenClip(std::shared_ptr<ProjectClip> controller, int in, int out)
 {
+    Q_UNUSED(out)
     if (m_controller) {
         disconnect(m_controller->getMarkerModel().get(), SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &, const QVector<int> &)), this,
                    SLOT(checkOverlay()));
@@ -1383,6 +1384,7 @@ const QString Monitor::activeClipId()
 void Monitor::slotOpenDvdFile(const QString &file)
 {
     // TODO
+    Q_UNUSED(file)
     m_glMonitor->initializeGL();
     // render->loadUrl(file);
 }
@@ -1396,6 +1398,7 @@ void Monitor::slotSaveZone()
 void Monitor::setCustomProfile(const QString &profile, const Timecode &tc)
 {
     // TODO or deprecate
+    Q_UNUSED(profile)
     m_timePos->updateTimeCode(tc);
     if (true) {
         return;

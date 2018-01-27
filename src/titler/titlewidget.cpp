@@ -1566,13 +1566,13 @@ void TitleWidget::slotInsertUnicode()
     m_unicodeDialog->exec();
 }
 
-void TitleWidget::slotInsertUnicodeString(const QString &text)
+void TitleWidget::slotInsertUnicodeString(const QString &string)
 {
     const QList<QGraphicsItem *> l = graphicsView->scene()->selectedItems();
     if (!l.isEmpty()) {
         if (l.at(0)->type() == TEXTITEM) {
             MyTextItem *t = static_cast<MyTextItem *>(l.at(0));
-            t->textCursor().insertText(text);
+            t->textCursor().insertText(string);
         }
     }
 }
@@ -2493,9 +2493,9 @@ void TitleWidget::slotSelectNone()
     selectionChanged();
 }
 
-QString TitleWidget::getTooltipWithShortcut(const QString &text, QAction *button)
+QString TitleWidget::getTooltipWithShortcut(const QString &tipText, QAction *button)
 {
-    return text + QStringLiteral("  <b>") + button->shortcut().toString() + QStringLiteral("</b>");
+    return tipText + QStringLiteral("  <b>") + button->shortcut().toString() + QStringLiteral("</b>");
 }
 
 void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
@@ -2805,16 +2805,16 @@ void TitleWidget::slotEditGradient()
     GradientWidget d(gradients, combo->currentIndex());
     if (d.exec() == QDialog::Accepted) {
         // Save current gradients
-        QMap<QString, QString> gradients = d.gradients();
+        QMap<QString, QString> gradMap = d.gradients();
         QList<QIcon> icons = d.icons();
-        QMap<QString, QString>::const_iterator i = gradients.constBegin();
+        QMap<QString, QString>::const_iterator i = gradMap.constBegin();
         KSharedConfigPtr config = KSharedConfig::openConfig();
         KConfigGroup group(config, "TitleGradients");
         group.deleteGroup();
         combo->clear();
         gradients_rect_combo->clear();
         int ix = 0;
-        while (i != gradients.constEnd()) {
+        while (i != gradMap.constEnd()) {
             group.writeEntry(i.key(), i.value());
             gradients_combo->addItem(icons.at(ix), i.key(), i.value());
             gradients_rect_combo->addItem(icons.at(ix), i.key(), i.value());
@@ -2857,7 +2857,7 @@ void TitleWidget::loadGradients()
     QMap<QString, QString> gradients;
     gradients_combo->blockSignals(true);
     gradients_rect_combo->blockSignals(true);
-    QString data = gradients_combo->currentData().toString();
+    QString grad_data = gradients_combo->currentData().toString();
     QString rect_data = gradients_rect_combo->currentData().toString();
     gradients_combo->clear();
     gradients_rect_combo->clear();
@@ -2883,7 +2883,7 @@ void TitleWidget::loadGradients()
         gradients_combo->addItem(icon, k.key(), k.value());
         gradients_rect_combo->addItem(icon, k.key(), k.value());
     }
-    int ix = gradients_combo->findData(data);
+    int ix = gradients_combo->findData(grad_data);
     if (ix >= 0) {
         gradients_combo->setCurrentIndex(ix);
     }

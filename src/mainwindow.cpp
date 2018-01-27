@@ -148,15 +148,15 @@ static QString defaultStyle(const char *fallback = nullptr)
 
 MainWindow::MainWindow(QWidget *parent)
     : KXmlGuiWindow(parent)
-    , m_assetPanel(nullptr)
     , m_exitCode(EXIT_SUCCESS)
     , m_effectList(nullptr)
     , m_transitionList(nullptr)
+    , m_assetPanel(nullptr)
     , m_clipMonitor(nullptr)
     , m_projectMonitor(nullptr)
+    , m_timelineTabs(nullptr)
     , m_renderWidget(nullptr)
     , m_messageLabel(nullptr)
-    , m_timelineTabs(nullptr)
     , m_themeInitialized(false)
     , m_isDarkTheme(false)
 {
@@ -866,6 +866,7 @@ void MainWindow::slotFullScreen()
 
 void MainWindow::slotAddEffect(const QDomElement &effect)
 {
+    Q_UNUSED(effect)
     // TODO refac : reimplement
     /*
     if (effect.isNull()) {
@@ -1958,6 +1959,7 @@ void MainWindow::slotUpdateMousePosition(int pos)
 
 void MainWindow::slotUpdateProjectDuration(int pos)
 {
+    Q_UNUSED(pos)
     if (pCore->currentDoc()) {
         slotUpdateMousePosition(getMainTimeline()->controller()->getMousePos());
     }
@@ -2271,7 +2273,6 @@ void MainWindow::slotDeleteItem()
 
 void MainWindow::slotAddClipMarker()
 {
-    KdenliveDoc *project = pCore->currentDoc();
     std::shared_ptr<ProjectClip> clip(nullptr);
     GenTime pos;
     if (m_projectMonitor->isActive()) {
@@ -2843,6 +2844,7 @@ void MainWindow::slotChangeTool(QAction *action)
 
 void MainWindow::slotChangeEdit(QAction *action)
 {
+    Q_UNUSED(action)
     // TODO refac
     /*
     if (!pCore->projectManager()->currentTimeline()) {
@@ -2902,6 +2904,7 @@ void MainWindow::slotPasteEffects()
 
 void MainWindow::slotClipInTimeline(const QString &clipId, QList<int> ids)
 {
+    Q_UNUSED(clipId)
     QMenu *inTimelineMenu = static_cast<QMenu *>(factory()->container(QStringLiteral("clip_in_timeline"), this));
 
     QList<QAction *> actionList;
@@ -3119,6 +3122,7 @@ void MainWindow::slotAlignAudio()
 
 void MainWindow::slotUpdateClipType(QAction *action)
 {
+    Q_UNUSED(action)
     // TODO refac
     /*
     if (pCore->projectManager()->currentTimeline()) {
@@ -3198,7 +3202,7 @@ void MainWindow::buildDynamicActions()
     std::unique_ptr<Mlt::Filter> filter;
 
     for (const QString &stab : {QStringLiteral("vidstab"), QStringLiteral("videostab2"), QStringLiteral("videostab")}) {
-        filter.reset(Mlt::Factory::filter(profile, (char *)stab.toUtf8().constData()));
+        filter.reset(Mlt::Factory::filter(profile, stab.toUtf8().data()));
         if ((filter != nullptr) && filter->is_valid()) {
             QAction *action = new QAction(i18n("Stabilize") + QStringLiteral(" (") + stab + QLatin1Char(')'), m_extraFactory->actionCollection());
             ts->addAction(action->text(), action);
@@ -3207,7 +3211,7 @@ void MainWindow::buildDynamicActions()
             break;
         }
     }
-    filter.reset(Mlt::Factory::filter(profile, (char *)"motion_est"));
+    filter.reset(Mlt::Factory::filter(profile, "motion_est"));
     if (filter) {
         if (filter->is_valid()) {
             QAction *action = new QAction(i18n("Automatic scene split"), m_extraFactory->actionCollection());
@@ -3315,6 +3319,7 @@ QList<QAction *> MainWindow::getExtraActions(const QString &name)
 
 void MainWindow::slotTranscode(const QStringList &urls)
 {
+    Q_UNUSED(urls)
     // TODO refac : remove or reimplement transcoding
     /*
     QString params;
@@ -3740,10 +3745,10 @@ void MainWindow::slotUpdateProxySettings()
 
 void MainWindow::slotArchiveProject()
 {
-    QList<std::shared_ptr<ClipController>> list = pCore->binController()->getControllerList();
-    KdenliveDoc *doc = pCore->currentDoc();
     // TODO refac
     /*
+    QList<std::shared_ptr<ClipController>> list = pCore->binController()->getControllerList();
+    KdenliveDoc *doc = pCore->currentDoc();
     pCore->binController()->saveDocumentProperties(pCore->projectManager()->currentTimeline()->documentProperties(), doc->metadata(), doc->getGuideModel());
     QDomDocument xmlDoc = doc->xmlSceneList(m_projectMonitor->sceneList(doc->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile()));
     QScopedPointer<ArchiveWidget> d(
@@ -3769,6 +3774,8 @@ void MainWindow::slotDownloadResources()
 
 void MainWindow::slotProcessImportKeyframes(GraphicsRectItem type, const QString &tag, const QString &keyframes)
 {
+    Q_UNUSED(keyframes)
+    Q_UNUSED(tag)
     if (type == AVWidget) {
         // This data should be sent to the effect stack
         // TODO REFAC reimplement
@@ -3916,6 +3923,7 @@ void MainWindow::updateDockTitleBars(bool isTopLevel)
 
 void MainWindow::slotToggleAutoPreview(bool enable)
 {
+    Q_UNUSED(enable)
     // TODO refac
     /*
     KdenliveSettings::setAutopreview(enable);
@@ -4130,6 +4138,7 @@ void MainWindow::slotSwitchTrimMode()
 
 void MainWindow::setTrimMode(const QString &mode)
 {
+    Q_UNUSED(mode)
     // TODO refac
     /*
     if (pCore->projectManager()->currentTimeline()) {

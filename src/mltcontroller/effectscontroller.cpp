@@ -212,9 +212,9 @@ void EffectsController::adjustEffectParameters(EffectsParameterList &parameters,
             if (!values.isEmpty()) {
                 txtNeu << (int)values[0].toDouble();
             }
-            for (int i = 0; i < separators.size() && i + 1 < values.size(); ++i) {
-                txtNeu << separators[i];
-                txtNeu << (int)(values[i + 1].toDouble());
+            for (int j = 0; j < separators.size() && j + 1 < values.size(); ++j) {
+                txtNeu << separators[j];
+                txtNeu << (int)(values[j + 1].toDouble());
             }
             parameters.addParam(QStringLiteral("start"), neu);
         } else {
@@ -257,6 +257,7 @@ QString EffectsController::getStringRectEval(QString eval)
 
 void EffectsController::initTrackEffect(const QDomElement &effect)
 {
+    Q_UNUSED(effect)
     // TODO refac
     /*
     QDomNodeList params = effect.elementsByTagName(QStringLiteral("parameter"));
@@ -302,6 +303,12 @@ void EffectsController::initTrackEffect(const QDomElement &effect)
 
 void EffectsController::initEffect(const ItemInfo &info, const EffectsList &list, const QString &proxy, QDomElement effect, int diff, int offset)
 {
+    Q_UNUSED(info)
+    Q_UNUSED(list)
+    Q_UNUSED(proxy)
+    Q_UNUSED(effect)
+    Q_UNUSED(diff)
+    Q_UNUSED(offset)
     // the kdenlive_ix int is used to identify an effect in mlt's playlist, should
     // not be changed
     // TODO refac

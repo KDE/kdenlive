@@ -95,7 +95,7 @@ OnlineItemInfo OpenClipArt::displayItemDetails(QListWidgetItem *item)
     }
     info.itemPreview = item->data(previewRole).toString();
     info.itemDownload = item->data(downloadRole).toString();
-    info.itemId = item->data(idRole).toInt();
+    info.itemId = item->data(idRole).toString();
     info.itemName = item->text();
     info.infoUrl = item->data(infoUrl).toString();
     info.author = item->data(authorRole).toString();

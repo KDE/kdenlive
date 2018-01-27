@@ -110,7 +110,7 @@ int TimelineModel::getTracksCount() const
 
 int TimelineModel::getTrackIndexFromPosition(int pos) const
 {
-    Q_ASSERT(pos >= 0 && pos < m_allTracks.size());
+    Q_ASSERT(pos >= 0 && pos < (int)m_allTracks.size());
     READ_LOCK();
     auto it = m_allTracks.begin();
     while (pos > 0) {
@@ -696,6 +696,8 @@ bool TimelineModel::requestCompositionDeletion(int compositionId, Fun &undo, Fun
 
 std::unordered_set<int> TimelineModel::getItemsAfterPosition(int trackId, int position, int end, bool listCompositions)
 {
+    Q_UNUSED(listCompositions)
+
     std::unordered_set<int> allClips;
     auto it = m_allTracks.cbegin();
     if (trackId == -1) {
@@ -1599,8 +1601,6 @@ bool TimelineModel::replantCompositions(int currentCompo)
     while (mlt_type == transition_type) {
         Mlt::Transition transition((mlt_transition)nextservice);
         nextservice = mlt_service_producer(nextservice);
-        int aTrack = transition.get_a_track();
-        int bTrack = transition.get_b_track();
         int internal = transition.get_int("internal_added");
         if (internal > 0 && resource != QLatin1String("mix")) {
             trackCompositions << new Mlt::Transition(transition);

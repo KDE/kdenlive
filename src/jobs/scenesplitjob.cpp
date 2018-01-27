@@ -107,6 +107,8 @@ int SceneSplitJob::prepareJob(std::shared_ptr<JobManager> ptr, const std::vector
 
 bool SceneSplitJob::commitResult(Fun &undo, Fun &redo)
 {
+    Q_UNUSED(undo)
+    Q_UNUSED(redo)
     Q_ASSERT(!m_resultConsumed);
     if (!m_done) {
         qDebug() << "ERROR: Trying to consume invalid results";

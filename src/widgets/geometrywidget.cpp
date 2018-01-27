@@ -31,11 +31,13 @@
 
 GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QRect &rect, const QSize frameSize, bool useRatioLock, QWidget *parent)
     : QWidget(parent)
-    , m_monitor(monitor)
     , m_min(range.first)
     , m_max(range.second)
     , m_active(false)
+    , m_monitor(monitor)
 {
+    Q_UNUSED(useRatioLock)
+
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
     auto *layout = new QVBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);

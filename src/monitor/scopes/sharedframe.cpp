@@ -81,7 +81,7 @@ Mlt::Frame SharedFrame::clone(bool audio, bool image, bool alpha) const
             size = mlt_audio_format_size(get_audio_format(), get_audio_samples(), get_audio_channels());
         }
         copy = mlt_pool_alloc(size);
-        memcpy(copy, data, size);
+        memcpy(copy, data, (unsigned)size);
         cloneFrame.set("audio", copy, size, mlt_pool_release);
     } else {
         cloneFrame.set("audio", 0);
@@ -97,7 +97,7 @@ Mlt::Frame SharedFrame::clone(bool audio, bool image, bool alpha) const
             size = mlt_image_format_size(get_image_format(), get_image_width(), get_image_height(), nullptr);
         }
         copy = mlt_pool_alloc(size);
-        memcpy(copy, data, size);
+        memcpy(copy, data, (unsigned)size);
         cloneFrame.set("image", copy, size, mlt_pool_release);
     } else {
         cloneFrame.set("image", 0);
@@ -112,7 +112,7 @@ Mlt::Frame SharedFrame::clone(bool audio, bool image, bool alpha) const
             size = get_image_width() * get_image_height();
         }
         copy = mlt_pool_alloc(size);
-        memcpy(copy, data, size);
+        memcpy(copy, data, (unsigned)size);
         cloneFrame.set("alpha", copy, size, mlt_pool_release);
     } else {
         cloneFrame.set("alpha", 0);

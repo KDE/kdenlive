@@ -871,7 +871,7 @@ void ClipPropertiesController::fillProperties()
     if (filesize > 0) {
         QLocale locale(QLocale::system()); // use the user's locale for getting proper separators!
         propertyMap.append(QStringList() << i18n("File size")
-                                         << KIO::convertSize(filesize) + QStringLiteral(" (") + locale.toString(filesize) + QLatin1Char(')'));
+                                         << KIO::convertSize((size_t)filesize) + QStringLiteral(" (") + locale.toString(filesize) + QLatin1Char(')'));
     }
 
     for (int i = 0; i < propertyMap.count(); i++) {

@@ -106,7 +106,7 @@ const double log_factor = 1.0 / log10(1.0 / 127);
 
 static inline double levelToDB(double dB)
 {
-    if (dB == 0) {
+    if (dB <= 0) {
         return 0;
     }
     return (1.0 - log10(dB) * log_factor);

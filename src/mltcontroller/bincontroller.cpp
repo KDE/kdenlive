@@ -30,6 +30,7 @@ static const char *kPlaylistTrackId = "main bin";
 BinController::BinController(const QString &profileName)
     : QObject()
 {
+    Q_UNUSED(profileName)
     // resetProfile(profileName.isEmpty() ? KdenliveSettings::current_profile() : profileName);
 }
 
@@ -419,6 +420,7 @@ void BinController::updateTrackProducer(const QString &id)
 
 void BinController::checkThumbnails(const QDir &thumbFolder)
 {
+    Q_UNUSED(thumbFolder)
     // TODO refac: this has to use the new thumb job
     /*
     // Parse all controllers and load thumbnails
@@ -477,6 +479,7 @@ void BinController::checkAudioThumbs()
 void BinController::saveDocumentProperties(const QMap<QString, QString> &props, const QMap<QString, QString> &metadata,
                                            std::shared_ptr<MarkerListModel> guideModel)
 {
+    Q_UNUSED(guideModel)
     // Clear previous properites
     Mlt::Properties playlistProps(m_binPlaylist->get_properties());
     Mlt::Properties docProperties;

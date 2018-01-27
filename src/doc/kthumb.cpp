@@ -116,7 +116,7 @@ QImage KThumb::getFrame(Mlt::Frame *frame, int width, int height, bool forceResc
     const uchar *imagedata = frame->get_image(format, ow, oh);
     if (imagedata) {
         QImage image(ow, oh, QImage::Format_RGBA8888);
-        memcpy(image.bits(), imagedata, ow * oh * 4);
+        memcpy(image.bits(), imagedata, (unsigned)(ow * oh * 4));
         if (!image.isNull()) {
             if (ow > (2 * width)) {
                 // there was a scaling problem, do it manually
@@ -131,16 +131,16 @@ QImage KThumb::getFrame(Mlt::Frame *frame, int width, int height, bool forceResc
 }
 
 // static
-uint KThumb::imageVariance(const QImage &image)
+int KThumb::imageVariance(const QImage &image)
 {
-    uint delta = 0;
-    uint avg = 0;
-    uint bytes = static_cast<uint>(image.byteCount());
-    uint STEPS = bytes / 2;
+    int delta = 0;
+    int avg = 0;
+    int bytes = image.byteCount();
+    int STEPS = bytes / 2;
     QVarLengthArray<uchar> pivot(STEPS);
     const uchar *bits = image.bits();
     // First pass: get pivots and taking average
-    for (uint i = 0; i < STEPS; ++i) {
+    for (int i = 0; i < STEPS; ++i) {
         pivot[i] = bits[2 * i];
         avg += pivot.at(i);
     }
@@ -148,7 +148,7 @@ uint KThumb::imageVariance(const QImage &image)
         avg = avg / STEPS;
     }
     // Second Step: calculate delta (average?)
-    for (uint i = 0; i < STEPS; ++i) {
+    for (int i = 0; i < STEPS; ++i) {
         int curdelta = abs(int(avg - pivot.at(i)));
         delta += curdelta;
     }

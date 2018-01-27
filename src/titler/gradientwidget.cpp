@@ -187,8 +187,8 @@ void GradientWidget::loadGradient()
     if (!item) {
         return;
     }
-    QString data = item->data(Qt::UserRole).toString();
-    QStringList res = data.split(QLatin1Char(';'));
+    QString grad_data = item->data(Qt::UserRole).toString();
+    QStringList res = grad_data.split(QLatin1Char(';'));
     color1->setColor(QColor(res.at(0)));
     color2->setColor(QColor(res.at(1)));
     color1_pos->setValue(res.at(2).toInt());

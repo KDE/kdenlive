@@ -133,6 +133,8 @@ QString ThumbnailProvider::cacheKey(Mlt::Properties &properties, const QString &
 
 QImage ThumbnailProvider::makeThumbnail(Mlt::Producer *producer, int frameNumber, const QSize &requestedSize)
 {
+    Q_UNUSED(requestedSize)
+
     producer->seek(frameNumber);
     Mlt::Frame *frame = producer->get_frame();
     mlt_image_format format = mlt_image_rgb24a;
@@ -142,7 +144,7 @@ QImage ThumbnailProvider::makeThumbnail(Mlt::Producer *producer, int frameNumber
     const uchar *imagedata = frame->get_image(format, ow, oh);
     if (imagedata) {
         result = QImage(ow, oh, QImage::Format_RGBA8888);
-        memcpy(result.bits(), imagedata, ow * oh * 4);
+        memcpy(result.bits(), imagedata, (unsigned)(ow * oh * 4));
     }
     delete frame;
     return result;

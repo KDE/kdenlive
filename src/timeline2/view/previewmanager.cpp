@@ -37,9 +37,9 @@ PreviewManager::PreviewManager(TimelineController *controller, Mlt::Tractor *tra
     , m_tractor(tractor)
     , m_previewTrack(nullptr)
     , m_overlayTrack(nullptr)
+    , m_previewTrackIndex(-1)
     , m_initialized(false)
     , m_abortPreview(false)
-    , m_previewTrackIndex(-1)
 {
     m_previewGatherTimer.setSingleShot(true);
     m_previewGatherTimer.setInterval(200);
@@ -209,11 +209,11 @@ void PreviewManager::disconnectTrack()
         delete prod;
         if (m_tractor->count() == m_previewTrackIndex + 1) {
             // overlay track still here, remove
-            Mlt::Producer *prod = m_tractor->track(m_previewTrackIndex);
-            if (strcmp(prod->get("id"), "timeline_overlay") == 0) {
+            Mlt::Producer *trkprod = m_tractor->track(m_previewTrackIndex);
+            if (strcmp(trkprod->get("id"), "timeline_overlay") == 0) {
                 m_tractor->remove_track(m_previewTrackIndex);
             }
-            delete prod;
+            delete trkprod;
         }
     }
     qDebug() << "// DISCONNECTING PREV TK.............";

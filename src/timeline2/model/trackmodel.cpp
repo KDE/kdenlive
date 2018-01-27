@@ -222,7 +222,7 @@ void TrackModel::replugClip(int clipId)
     auto prod = m_playlists[target_track].replace_with_blank(target_clip);
     if (auto ptr = m_parent.lock()) {
         std::shared_ptr<ClipModel> clip = ptr->getClipPtr(clipId);
-        int index = m_playlists[target_track].insert_at(clip_position, *clip, 1);
+        m_playlists[target_track].insert_at(clip_position, *clip, 1);
     }
     m_playlists[target_track].consolidate_blanks();
     delete prod;

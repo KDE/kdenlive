@@ -65,7 +65,8 @@ void TransitionStackView::setModel(const std::shared_ptr<AssetParameterModel> &m
 
 void TransitionStackView::updateTrack(int newTrack)
 {
-    qDebug() << "// Update transitiino TRACK to: " << m_trackBox->currentData().toInt();
+    Q_UNUSED(newTrack)
+    qDebug() << "// Update transition TRACK to: " << m_trackBox->currentData().toInt();
     pCore->setCompositionATrack(m_model->getOwnerId().second, m_trackBox->currentData().toInt());
 }
 

@@ -48,10 +48,10 @@ static QColor stringToColor(QString strColor)
             // #AARRGGBB
             strColor = strColor.replace('#', QLatin1String("0x"));
             intval = strColor.toUInt(&ok, 16);
-            color.setRgb((intval >> 16) & 0xff,  // r
-                         (intval >> 8) & 0xff,   // g
-                         (intval)&0xff,          // b
-                         (intval >> 24) & 0xff); // a
+            color.setRgb((intval >> 16) & 0x00ff,  // r
+                         (intval >> 8) & 0x00ff,   // g
+                         (intval)&0x00ff,          // b
+                         (intval >> 24) & 0x00ff); // a
         } else if (strColor.length() == 8) {
             // 0xRRGGBB
             strColor = strColor.replace('#', QLatin1String("0x"));

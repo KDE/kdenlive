@@ -610,10 +610,10 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QGraphicsRectItem *start
                 // qCDebug(KDENLIVE_LOG) << items.item(i).attributes().namedItem("color").nodeValue();
                 QColor color = QColor(stringToColor(itemNode.attributes().namedItem(QStringLiteral("color")).nodeValue()));
                 // color.setAlpha(itemNode.attributes().namedItem("alpha").nodeValue().toInt());
-                QList<QGraphicsItem *> items = m_scene->items();
-                for (int i = 0; i < items.size(); ++i) {
-                    if (items.at(i)->zValue() == -1100) {
-                        static_cast<QGraphicsRectItem *>(items.at(i))->setBrush(QBrush(color));
+                QList<QGraphicsItem *> sceneItems = m_scene->items();
+                for (int j = 0; j < sceneItems.size(); ++j) {
+                    if (sceneItems.at(j)->zValue() == -1100) {
+                        static_cast<QGraphicsRectItem *>(sceneItems.at(j))->setBrush(QBrush(color));
                         break;
                     }
                 }

@@ -224,6 +224,8 @@ bool TimelineFunctions::liftZone(std::shared_ptr<TimelineItemModel> timeline, in
 
 bool TimelineFunctions::removeSpace(std::shared_ptr<TimelineItemModel> timeline, int trackId, QPoint zone, Fun &undo, Fun &redo)
 {
+    Q_UNUSED(trackId)
+
     std::unordered_set<int> clips = timeline->getItemsAfterPosition(-1, zone.y() - 1, -1, true);
     bool result = false;
     if (clips.size() > 0) {
@@ -247,6 +249,8 @@ bool TimelineFunctions::removeSpace(std::shared_ptr<TimelineItemModel> timeline,
 
 bool TimelineFunctions::insertSpace(std::shared_ptr<TimelineItemModel> timeline, int trackId, QPoint zone, Fun &undo, Fun &redo)
 {
+    Q_UNUSED(trackId)
+
     std::unordered_set<int> clips = timeline->getItemsAfterPosition(-1, zone.x(), -1, true);
     bool result = false;
     if (clips.size() > 0) {
@@ -389,10 +393,8 @@ bool TimelineFunctions::requestSplitAudio(std::shared_ptr<TimelineItemModel> tim
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
     const std::unordered_set<int> clips = timeline->getGroupElements(clipId);
-    int count = 0;
     for (int cid : clips) {
         int position = timeline->getClipPosition(cid);
-        int duration = timeline->getClipPlaytime(cid);
         int track = timeline->getClipTrackId(cid);
         QList<int> possibleTracks = audioTarget >= 0 ? QList<int>() <<audioTarget : timeline->getLowerTracksId(track, TrackType::AudioTrack);
         if (possibleTracks.isEmpty()) {
@@ -408,9 +410,9 @@ bool TimelineFunctions::requestSplitAudio(std::shared_ptr<TimelineItemModel> tim
             int newTrack = possibleTracks.takeFirst();
             move = timeline->requestClipMove(newId, newTrack, position, true, false, undo, redo);
         }
-        std::unordered_set<int> clips;
-        clips.insert(cid);
-        clips.insert(newId);
+        std::unordered_set<int> groupClips;
+        groupClips.insert(cid);
+        groupClips.insert(newId);
         if (!res || !move) {
             bool undone = undo();
             Q_ASSERT(undone);
@@ -418,7 +420,7 @@ bool TimelineFunctions::requestSplitAudio(std::shared_ptr<TimelineItemModel> tim
             return false;
         }
         TimelineFunctions::changeClipState(timeline, cid, PlaylistState::VideoOnly, undo, redo);
-        timeline->requestClipsGroup(clips, undo, redo);
+        timeline->requestClipsGroup(groupClips, undo, redo);
     }
     pCore->pushUndo(undo, redo, i18n("Split Audio"));
     return true;

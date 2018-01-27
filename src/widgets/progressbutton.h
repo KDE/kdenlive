@@ -50,7 +50,7 @@ protected:
 
 private:
     QAction *m_defaultAction;
-    double m_max;
+    int m_max;
     int m_progress;
     QElapsedTimer m_timer;
     QString m_remainingTime;

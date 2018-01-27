@@ -104,6 +104,7 @@ void TimelineWidget::mousePressEvent(QMouseEvent *event)
 
 void TimelineWidget::slotChangeZoom(int value, bool zoomOnMouse)
 {
+    Q_UNUSED(zoomOnMouse)
     m_proxy->setScaleFactor(100.0 / comboScale[value]);
 }
 

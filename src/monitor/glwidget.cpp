@@ -447,7 +447,7 @@ void GLWidget::paintGL()
     }
 
     // Bind textures.
-    for (int i = 0; i < 3; ++i) {
+    for (uint i = 0; i < 3; ++i) {
         if (m_texture[i] != 0u) {
             f->glActiveTexture(GL_TEXTURE0 + i);
             f->glBindTexture(GL_TEXTURE_2D, m_texture[i]);
@@ -537,7 +537,7 @@ void GLWidget::paintGL()
     m_shader->disableAttributeArray(m_vertexLocation);
     m_shader->disableAttributeArray(m_texCoordLocation);
     m_shader->release();
-    for (int i = 0; i < 3; ++i) {
+    for (uint i = 0; i < 3; ++i) {
         if (m_texture[i] != 0u) {
             f->glActiveTexture(GL_TEXTURE0 + i);
             f->glBindTexture(GL_TEXTURE_2D, 0);
