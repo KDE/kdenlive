@@ -367,8 +367,6 @@ bool TimelineFunctions::changeClipState(std::shared_ptr<TimelineItemModel> timel
         bool res = timeline->m_allClips[clipId]->setClipState(oldState);
         // in order to make the producer change effective, we need to unplant / replant the clip in int track
         int trackId = timeline->getClipTrackId(clipId);
-        std::function<bool(void)> local_undo = []() { return true; };
-        std::function<bool(void)> local_redo = []() { return true; };
         if (trackId != -1) {
             int start = timeline->getItemPosition(clipId);
             int end = start + timeline->getItemPlaytime(clipId);

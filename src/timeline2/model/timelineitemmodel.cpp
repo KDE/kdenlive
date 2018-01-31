@@ -182,6 +182,7 @@ QHash<int, QByteArray> TimelineItemModel::roleNames() const
     roles[OutPointRole] = "out";
     roles[FramerateRole] = "fps";
     roles[GroupedRole] = "grouped";
+    roles[GroupDragRole] = "groupDrag";
     roles[IsMuteRole] = "mute";
     roles[IsHiddenRole] = "hidden";
     roles[IsAudioRole] = "audio";
@@ -210,9 +211,6 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
     }
     const int id = (int)index.internalId();
     if (role == ItemIdRole) {
-        if (isClip(id)) {
-            qDebug()<<"// INTERNAL ID: "<<id<<" = "<<m_allClips.at(id)->getId();
-        }
         return id;
     }
     if (role == SortRole) {
@@ -247,6 +245,8 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             }
             return result;
         }
+        case GroupDragRole:
+            return clip->isInGroupDrag;
         case BinIdRole:
             return clip->binId();
         case ServiceRole:

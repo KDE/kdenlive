@@ -98,6 +98,12 @@ Column{
                 }
                 Binding {
                     target: loader.item
+                    property: "groupDrag"
+                    value: model.groupDrag
+                    when: loader.status == Loader.Ready && !loader.item.isComposition
+                }
+                Binding {
+                    target: loader.item
                     property: "reloadThumb"
                     value: model.reloadThumb
                     when: loader.status == Loader.Ready && loader.item.isComposition === false

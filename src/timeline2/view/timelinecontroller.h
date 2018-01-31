@@ -358,6 +358,8 @@ private:
     void emitSelectedFromSelection();
     int getCurrentItem();
     void initializePreview();
+    // Get a list of currently selected items, including clips grouped with selection
+    std::unordered_set<int> getCurrentSelectionIds() const;
 
 signals:
     void selected(Mlt::Producer *producer);

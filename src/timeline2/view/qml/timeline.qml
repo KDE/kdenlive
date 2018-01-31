@@ -121,6 +121,7 @@ Rectangle {
     property real snapping: timeline.snap ? 10 / Math.sqrt(timeScale) : -1
     property int trackHeight
     property int copiedClip: -1
+    property var dragList: []
 
     //onCurrentTrackChanged: timeline.selection = []
     onTimeScaleChanged: {
@@ -464,6 +465,7 @@ Rectangle {
                 }
             }
         }
+        // DRAG PROXY ITEM
         MouseArea {
             id: tracksArea
             width: root.width - headerWidth
@@ -634,13 +636,14 @@ Rectangle {
                     id: scrollView
                     width: root.width - headerWidth
                     height: root.height - ruler.height
+                    y: ruler.height
                     // Click and drag should seek, not scroll the timeline view
                     flickableItem.interactive: false
                     clip: true
                     Rectangle {
-                        width: ruler.width
-                        height: trackHeaders.height
+                        anchors.fill: parent
                         color: activePalette.window
+                        id: tracksContainerArea
                         MouseArea {
                             anchors.fill: parent
                             acceptedButtons: Qt.NoButton
@@ -855,8 +858,7 @@ Rectangle {
                     if (controller.requestClipMove(clip.clipId, track.trackId, frame, false, false, false)) {
                         timeline.activeTrack = track.trackId
                         //clip.reparent(track)
-                        var originalY = Logic.getTrackById(clip.originalTrackId).y
-                        clip.y = track.y - originalY
+                        clip.y = track.y - Logic.getTrackById(clip.originalTrackId).y
                         clip.trackId = track.trackId
                     } else {
                         if (track.trackId != clip.trackId) {
@@ -995,10 +997,11 @@ Rectangle {
         onDropped: Logic.dropped()
         onDropAccepted: Logic.acceptDrop(xml)*/
         onSelectionChanged: {
-            cornerstone.selected = timeline.isMultitrackSelected()
+            //cornerstone.selected = timeline.isMultitrackSelected()
             var selectedTrack = timeline.selectedTrack()
-            for (var i = 0; i < trackHeaderRepeater.count; i++)
+            for (var i = 0; i < trackHeaderRepeater.count; i++) {
                 trackHeaderRepeater.itemAt(i).selected = (i === selectedTrack)
+            }
         }
     }
 

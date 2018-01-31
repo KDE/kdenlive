@@ -111,6 +111,7 @@ public:
         BinIdRole,    /// clip only
         MarkersRole,  /// clip only
         StatusRole,   /// clip only
+        GroupDragRole, /// indicates if the clip is in current timeline selection, needed for group drag
         KeyframesRole,
         DurationRole,
         InPointRole,   /// clip only

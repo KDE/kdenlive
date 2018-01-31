@@ -982,6 +982,9 @@ bool TimelineModel::requestClipUngroup(int id, bool logUndo)
     if (result && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Ungroup clips"));
     }
+    if (id == m_temporarySelectionGroup) {
+        m_temporarySelectionGroup = -1;
+    }
     return result;
 }
 
