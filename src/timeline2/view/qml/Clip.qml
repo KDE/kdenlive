@@ -170,7 +170,7 @@ Rectangle {
         height = track.height
         parentTrack = track
         trackId = parentTrack.trackId
-        //console.log('Reparenting clip to Track: ', trackId)
+        console.log('Reparenting clip to Track: ', trackId)
         //generateWaveform()
     }
 
@@ -252,7 +252,7 @@ Rectangle {
                 }
                 root.dragList = tmp
                 for (var i = 0; i < root.dragList.length; i++) {
-                    console.log('CHILD: ', root.dragList[i].clipId, ' > ', root.dragList[i].trackId)
+                    //console.log('CHILD: ', root.dragList[i].clipId, ' > ', root.dragList[i].trackId)
                     if (root.dragList[i] != clipRoot) {
                         var clipX = root.dragList[i].x - clipRoot.x
                         var clipY = root.dragList[i].parentTrack.y - clipRoot.parentTrack.y
@@ -296,16 +296,14 @@ Rectangle {
                     tmp.push(root.dragList[i])
             }
             root.dragList = tmp
-            console.log('%%%%%% RELSED%%%%%')
             for (var i = 0; i < root.dragList.length; i++) {
-                console.log('CHILD: ', root.dragList[i].clipId, ' > ', root.dragList[i].trackId)
+                //console.log('CHILD: ', root.dragList[i].clipId, ' > ', root.dragList[i].trackId, ' > ', root.dragList[i].parent.clipId)
                 if (root.dragList[i].parent == clipRoot) {
-                    root.dragList[i].parent = root.dragList[i].parentTrack
+                    root.dragList[i].parent = tracksContainerArea
                     root.dragList[i].x += clipRoot.x
-                    root.dragList[i].y = 0
+                    root.dragList[i].y = root.dragList[i].parentTrack.y
                 }
             }
-            console.log('%%%%%% RELSED%%%%% DONE')
         }
         onClicked: {
             if (mouse.button == Qt.RightButton) {

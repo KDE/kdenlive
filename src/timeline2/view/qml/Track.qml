@@ -328,7 +328,7 @@ Column{
                 moved.connect(trackRoot.clipDropped)
                 dropped.connect(trackRoot.clipDropped)
                 draggedToTrack.connect(trackRoot.clipDraggedToTrack)
-                //console.log('Showing CLIP item ', model.clipId, 'name', model.name, ' service: ',mltService)
+                //console.log('BUILDING CLIP item ', model.clipId, 'name', model.name, ' service: ',mltService)
             }
         }
     }

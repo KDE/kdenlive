@@ -108,17 +108,15 @@ void TimelineController::addSelection(int newSelection)
     m_model->m_temporarySelectionGroup = m_model->requestClipsGroup(ids, true, GroupType::Selection);
 
     std::unordered_set<int> newIds;
+    QVector<int> roles;
+    roles.push_back(TimelineModel::GroupDragRole);
     if (m_model->m_temporarySelectionGroup >= 0) {
         // new items were selected, inform model to prepare for group drag
         newIds = m_model->getGroupElements(m_selection.selectedClips.constFirst());
         for (int i : newIds) {
-            if (previousSelection.find(i) == previousSelection.end()) {
-                m_model->m_allClips[i]->isInGroupDrag = true;
-                QModelIndex modelIndex = m_model->makeClipIndexFromID(i);
-                QVector<int> roles;
-                roles.push_back(TimelineModel::GroupDragRole);
-                m_model->notifyChange(modelIndex, modelIndex, roles);
-            }
+            m_model->m_allClips[i]->isInGroupDrag = true;
+            QModelIndex modelIndex = m_model->makeClipIndexFromID(i);
+            m_model->notifyChange(modelIndex, modelIndex, roles);
         }
     }
     // Make sure to remove items from previous selection
@@ -127,8 +125,6 @@ void TimelineController::addSelection(int newSelection)
             // item not in selection anymore
             m_model->m_allClips[i]->isInGroupDrag = false;
             QModelIndex modelIndex = m_model->makeClipIndexFromID(i);
-            QVector<int> roles;
-            roles.push_back(TimelineModel::GroupDragRole);
             m_model->notifyChange(modelIndex, modelIndex, roles);
         }
     }
@@ -232,6 +228,8 @@ void TimelineController::setSelection(const QList<int> &newSelection, int trackI
             m_model->requestClipUngroup(m_model->m_temporarySelectionGroup, false);
         }
         std::unordered_set<int> newIds;
+        QVector<int> roles;
+        roles.push_back(TimelineModel::GroupDragRole);
         if (m_selection.selectedClips.size() > 0) {
             std::unordered_set<int> ids;
             ids.insert(m_selection.selectedClips.cbegin(), m_selection.selectedClips.cend());
@@ -239,13 +237,9 @@ void TimelineController::setSelection(const QList<int> &newSelection, int trackI
             if (m_model->m_temporarySelectionGroup >= 0 || (!m_selection.selectedClips.isEmpty() && m_model->m_groups->isInGroup(m_selection.selectedClips.constFirst()))) {
                 newIds = m_model->getGroupElements(m_selection.selectedClips.constFirst());
                 for (int i : newIds) {
-                    if (previousSelection.find(i) == previousSelection.end()) {
-                        m_model->m_allClips[i]->isInGroupDrag = true;
-                        QModelIndex modelIndex = m_model->makeClipIndexFromID(i);
-                        QVector<int> roles;
-                        roles.push_back(TimelineModel::GroupDragRole);
-                        m_model->notifyChange(modelIndex, modelIndex, roles);
-                    }
+                    m_model->m_allClips[i]->isInGroupDrag = true;
+                    QModelIndex modelIndex = m_model->makeClipIndexFromID(i);
+                    m_model->notifyChange(modelIndex, modelIndex, roles);
                 }
             } else {
                 qDebug()<<"// NON GROUPED SELCTUIIN: "<<m_selection.selectedClips<<" !!!!!!";
@@ -262,8 +256,6 @@ void TimelineController::setSelection(const QList<int> &newSelection, int trackI
                 // item not in selection anymore
                 m_model->m_allClips[i]->isInGroupDrag = false;
                 QModelIndex modelIndex = m_model->makeClipIndexFromID(i);
-                QVector<int> roles;
-                roles.push_back(TimelineModel::GroupDragRole);
                 m_model->notifyChange(modelIndex, modelIndex, roles);
             }
         }
@@ -703,14 +695,12 @@ void TimelineController::selectItems(QVariantList arg, int startFrame, int endFr
     std::unordered_set<int> newIds;
     if (m_model->m_temporarySelectionGroup >= 0) {
         newIds = m_model->getGroupElements(m_selection.selectedClips.constFirst());
+        QVector<int> roles;
+        roles.push_back(TimelineModel::GroupDragRole);
         for (int i : newIds) {
-            if (previousSelection.find(i) == previousSelection.end()) {
-                m_model->m_allClips[i]->isInGroupDrag = true;
-                QModelIndex modelIndex = m_model->makeClipIndexFromID(i);
-                QVector<int> roles;
-                roles.push_back(TimelineModel::GroupDragRole);
-                m_model->notifyChange(modelIndex, modelIndex, roles);
-            }
+            m_model->m_allClips[i]->isInGroupDrag = true;
+            QModelIndex modelIndex = m_model->makeClipIndexFromID(i);
+            m_model->notifyChange(modelIndex, modelIndex, roles);
         }
     }
     for (int i : previousSelection) {
