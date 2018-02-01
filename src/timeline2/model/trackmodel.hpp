@@ -197,6 +197,7 @@ protected:
     /* @brief Add a track effect */
     bool addEffect(const QString &effectId);
     void replugClip(int clipId);
+    int trackDuration();
 
 public slots:
     /*Delete the current track and all its associated clips */

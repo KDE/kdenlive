@@ -208,7 +208,7 @@ public:
     /* @brief Add an asset (effect, composition)
      */
     void addAsset(const QVariantMap data);
-    void checkDuration();
+
     /* @brief Cuts the clip on current track at timeline position
      */
     Q_INVOKABLE void cutClipUnderCursor(int position = -1, int track = -1);
@@ -331,6 +331,7 @@ public slots:
     /** @brief Dis / enable timeline preview. */
     void disablePreview(bool disable);
     void invalidateClip(int cid);
+    void checkDuration();
 
 private:
     QQuickItem *m_root;

@@ -68,6 +68,7 @@ TimelineModel::TimelineModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> 
     m_blackClip->set("mlt_type", "producer");
     m_blackClip->set("aspect_ratio", 1);
     m_blackClip->set("set.test_audio", 0);
+    m_blackClip->set_in_and_out(0, 10);
     m_tractor->insert_track(*m_blackClip, 0);
 
 #ifdef LOGGING
@@ -392,7 +393,6 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int sn
     // Find best possible move
     if (!m_groups->isInGroup(clipId)) {
         // Easy
-        bool after = position > currentPos;
         int blank_length = getTrackById(trackId)->getBlankSizeNearClip(clipId, after);
         qDebug() << "Found blank" << blank_length;
         if (blank_length < INT_MAX) {
@@ -428,7 +428,6 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int sn
                 }
             } else {
                 // keep only first clip position for track
-                int in = getItemPosition(current_clipId);
                 if (trackPosition.value(clipTrack) > in) {
                     trackPosition.insert(clipTrack, in);
                 }
@@ -1269,6 +1268,21 @@ bool TimelineModel::isTrack(int id) const
 bool TimelineModel::isGroup(int id) const
 {
     return m_allGroups.count(id) > 0;
+}
+
+void TimelineModel::updateDuration()
+{
+    int current = m_blackClip->get_playtime();
+    int duration = 10;
+    for (const auto &tck : m_iteratorTable) {
+        auto track = (*tck.second);
+        duration = qMax(duration, track->trackDuration());
+    }
+    if (duration != current) {
+        // update black track length
+        m_blackClip->set_in_and_out(0, duration);
+        emit durationUpdated();
+    }
 }
 
 int TimelineModel::duration() const

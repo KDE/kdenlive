@@ -563,6 +563,9 @@ protected:
     bool requestClipDeletion(int clipId, Fun &undo, Fun &redo);
     bool requestCompositionDeletion(int compositionId, Fun &undo, Fun &redo);
 
+    /** @brief Check tracks duration and update black track accordingly */
+    void updateDuration();
+
 public:
     /* @brief Debugging function that checks consistency with Mlt objects */
     bool checkConsistency();
@@ -580,6 +583,8 @@ signals:
     void requestMonitorRefresh();
     /* @brief signal triggered by track operations */
     void invalidateClip(int);
+    /* @brief signal triggered when a track duration changed (insertion/deletion) */
+    void durationUpdated();
 
 protected:
     std::unique_ptr<Mlt::Tractor> m_tractor;

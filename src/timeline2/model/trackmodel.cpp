@@ -154,7 +154,7 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
     };
     if (target_clip >= count && isBlankAt(position)) {
         // In that case, we append after, in the first playlist
-        return [this, position, clipId, end_function]() {
+        return [this, position, clipId, end_function, updateView, finalMove]() {
             if (auto ptr = m_parent.lock()) {
                 // Lock MLT playlist so that we don't end up with an invalid frame being displayed
                 m_playlists[0].lock();
@@ -162,6 +162,9 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
                 int index = m_playlists[0].insert_at(position, *clip, 1);
                 m_playlists[0].consolidate_blanks();
                 m_playlists[0].unlock();
+                if (updateView && finalMove) {
+                    ptr->updateDuration();
+                }
                 return index != -1 && end_function();
             }
             qDebug() << "Error : Clip Insertion failed because timeline is not available anymore";
@@ -268,6 +271,10 @@ Fun TrackModel::requestClipDeletion_lambda(int clipId, bool updateView, bool fin
                 ptr->m_snaps->removePoint(old_in);
                 ptr->m_snaps->removePoint(old_out);
                 int state = m_track->get_int("hide");
+                if (updateView && finalMove && m_playlists[target_track].count() - 1 == target_clip) {
+                    // deleted last clip in playlist
+                    ptr->updateDuration();
+                }
                 if (!audioOnly && (state == 0 || state == 2) && m_track->get_int("kdenlive:audio_track") != 1) {
                     // only refresh monitor if not an audio track and not hidden
                     ptr->checkRefresh(old_in, old_out);
@@ -428,6 +435,12 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
             m_playlists[target_track].consolidate_blanks();
             if (err == 0) {
                 update_snaps(m_allClips[clipId]->getPosition(), m_allClips[clipId]->getPosition() + out - in + 1);
+                if (right && m_playlists[target_track].count() - 1 == target_clip_mutable) {
+                    // deleted last clip in playlist
+                    if (auto ptr = m_parent.lock()) {
+                        ptr->updateDuration();
+                    }
+                }
             }
             return err == 0;
         };
@@ -450,6 +463,12 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
                     update_snaps(m_allClips[clipId]->getPosition(), m_allClips[clipId]->getPosition() + out - in + 1);
                 }
                 m_playlists[target_track].consolidate_blanks();
+                if (m_playlists[target_track].count() - 1 == target_clip) {
+                    // deleted last clip in playlist
+                    if (auto ptr = m_parent.lock()) {
+                        ptr->updateDuration();
+                    }
+                }
                 return err == 0;
             };
         }
@@ -939,4 +958,9 @@ bool TrackModel::addEffect(const QString &effectId)
     READ_LOCK();
     m_effectStack->appendEffect(effectId);
     return true;
+}
+
+int TrackModel::trackDuration()
+{
+    return std::max(m_playlists[0].get_playtime(), m_playlists[1].get_playtime());
 }

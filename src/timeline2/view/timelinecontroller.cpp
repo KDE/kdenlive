@@ -79,6 +79,7 @@ void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
     connect(m_model.get(), &TimelineItemModel::requestClearAssetView, [&](int id) { pCore->clearAssetPanel(id); });
     connect(m_model.get(), &TimelineItemModel::requestMonitorRefresh, [&]() { pCore->requestMonitorRefresh(); });
     connect(m_model.get(), &TimelineModel::invalidateClip, this, &TimelineController::invalidateClip, Qt::DirectConnection);
+    connect(m_model.get(), &TimelineModel::durationUpdated, this, &TimelineController::checkDuration);
 }
 
 std::shared_ptr<TimelineItemModel> TimelineController::getModel() const

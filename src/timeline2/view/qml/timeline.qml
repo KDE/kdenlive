@@ -465,7 +465,6 @@ Rectangle {
                 }
             }
         }
-        // DRAG PROXY ITEM
         MouseArea {
             id: tracksArea
             width: root.width - headerWidth
@@ -641,7 +640,8 @@ Rectangle {
                     flickableItem.interactive: false
                     clip: true
                     Rectangle {
-                        anchors.fill: parent
+                        width: Math.max(scrollView.width - scrollView.__verticalScrollBar.width, timeline.duration * timeScale)
+                        height: trackHeaders.height
                         color: activePalette.window
                         id: tracksContainerArea
                         MouseArea {
@@ -658,10 +658,9 @@ Rectangle {
                                 model: multitrack
                                 id: trackBaseRepeater
                                 delegate: Rectangle {
-                                    width: ruler.width
+                                    width: tracksContainerArea.width
                                     border.width: 1
                                     border.color: Qt.rgba(activePalette.windowText.r, activePalette.windowText.g, activePalette.windowText.b, 0.1)
-                                    //Layout.fillWidth: true
                                     height: model.trackHeight
                                     color: tracksRepeater.itemAt(index) ? ((tracksRepeater.itemAt(index).trackId === timeline.activeTrack) ? Qt.tint(getTrackColor(tracksRepeater.itemAt(index).isAudio, false), selectedTrackColor) : getTrackColor(tracksRepeater.itemAt(index).isAudio, false)) : 'red'
                                 }
@@ -805,7 +804,6 @@ Rectangle {
             rootIndex: trackDelegateModel.modelIndex(index)
             height: trackHeight
             timeScale: timeline.scaleFactor
-            width: root.duration * timeScale
             isAudio: audio
             isMute: mute
             isHidden: hidden
