@@ -336,7 +336,9 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
         case DurationRole:
             return compo->getPlaytime();
         case GroupedRole:
-            return false; // m_groups->isInGroup(id);
+            return m_groups->isInGroup(id);
+        case GroupDragRole:
+            return compo->isInGroupDrag;
         case InPointRole:
             return 0;
         case OutPointRole:

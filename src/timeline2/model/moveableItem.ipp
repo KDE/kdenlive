@@ -27,6 +27,7 @@ MoveableItem<Service>::MoveableItem(std::weak_ptr<TimelineModel> parent, int id)
     , m_position(-1)
     , m_currentTrackId(-1)
     , m_lock(QReadWriteLock::Recursive)
+    , isInGroupDrag(false)
 {
 }
 

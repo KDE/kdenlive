@@ -106,7 +106,6 @@ public:
 
     int fadeIn() const;
     int fadeOut() const;
-    bool isInGroupDrag;
 
     friend class TrackModel;
     friend class TimelineModel;
