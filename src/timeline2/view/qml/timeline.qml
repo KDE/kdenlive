@@ -804,6 +804,7 @@ Rectangle {
             rootIndex: trackDelegateModel.modelIndex(index)
             height: trackHeight
             timeScale: timeline.scaleFactor
+            width: tracksContainerArea.width
             isAudio: audio
             isMute: mute
             isHidden: hidden
