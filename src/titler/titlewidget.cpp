@@ -1101,7 +1101,7 @@ void TitleWidget::selectionChanged()
         int firstZindex = l.at(0)->zValue();
         allEqual = true;
         for (int i = 0; i < l.size(); ++i) {
-            if (l[i]->zValue() != firstZindex) {
+            if ((int)l[i]->zValue() != firstZindex) {
                 allEqual = false;
                 break;
             }
@@ -2249,7 +2249,7 @@ void TitleWidget::deleteAnimInfoText()
 
 void TitleWidget::slotKeepAspect(bool keep)
 {
-    if (m_endViewport->zValue() == 1100) {
+    if ((int)m_endViewport->zValue() == 1100) {
         m_endViewport->setData(0, keep ? m_frameWidth : QVariant());
         m_endViewport->setData(1, keep ? m_frameHeight : QVariant());
     } else {
@@ -2260,7 +2260,7 @@ void TitleWidget::slotKeepAspect(bool keep)
 
 void TitleWidget::slotResize50()
 {
-    if (m_endViewport->zValue() == 1100) {
+    if ((int)m_endViewport->zValue() == 1100) {
         m_endViewport->setRect(0, 0, m_frameWidth / 2, m_frameHeight / 2);
     } else {
         m_startViewport->setRect(0, 0, m_frameWidth / 2, m_frameHeight / 2);
@@ -2269,7 +2269,7 @@ void TitleWidget::slotResize50()
 
 void TitleWidget::slotResize100()
 {
-    if (m_endViewport->zValue() == 1100) {
+    if ((int)m_endViewport->zValue() == 1100) {
         m_endViewport->setRect(0, 0, m_frameWidth, m_frameHeight);
     } else {
         m_startViewport->setRect(0, 0, m_frameWidth, m_frameHeight);
@@ -2278,7 +2278,7 @@ void TitleWidget::slotResize100()
 
 void TitleWidget::slotResize200()
 {
-    if (m_endViewport->zValue() == 1100) {
+    if ((int)m_endViewport->zValue() == 1100) {
         m_endViewport->setRect(0, 0, m_frameWidth * 2, m_frameHeight * 2);
     } else {
         m_startViewport->setRect(0, 0, m_frameWidth * 2, m_frameHeight * 2);

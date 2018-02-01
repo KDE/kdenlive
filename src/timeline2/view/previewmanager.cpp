@@ -553,10 +553,8 @@ void PreviewManager::slotRemoveInvalidUndo(int ix)
 void PreviewManager::invalidatePreview(int startFrame, int endFrame)
 {
     int chunkSize = KdenliveSettings::timelinechunks();
-    int start = startFrame / chunkSize;
-    int end = lrintf(endFrame / chunkSize);
-    start *= chunkSize;
-    end *= chunkSize;
+    int start = startFrame - startFrame % chunkSize;
+    int end = endFrame - endFrame % chunkSize + chunkSize;
 
     qSort(m_renderedChunks);
     m_previewGatherTimer.stop();

@@ -419,7 +419,6 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int sn
             continue;
         }
         if (trackPosition.contains(clipTrack)) {
-            int in = getItemPosition(current_clipId);
             if (after) {
                 // keep only last clip position for track
                 int out = getItemPosition(current_clipId) + getItemPlaytime(current_clipId);
@@ -727,6 +726,7 @@ bool TimelineModel::requestGroupMove(int clipId, int groupId, int delta_track, i
 
 bool TimelineModel::requestGroupMove(int clipId, int groupId, int delta_track, int delta_pos, bool updateView, bool finalMove, Fun &undo, Fun &redo)
 {
+    Q_UNUSED(clipId)
 #ifdef LOGGING
     m_logFile << "timeline->requestGroupMove(" << clipId << "," << groupId << " ," << delta_track << ", " << delta_pos << ", "
               << (updateView ? "true" : "false") << " ); " << std::endl;

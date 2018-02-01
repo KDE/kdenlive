@@ -283,7 +283,7 @@ void MyTextItem::blurShadow(QImage &result, int radius)
         p += bpl;
         for (int j = r1; j < r2; j++, p += bpl)
             for (int i = i1; i <= i2; i++) {
-                p[i] = (rgba[i] += ((p[i] << 4) - rgba[i]) * alpha / 16) >> 4;
+                p[i] = (uchar)((rgba[i] += ((p[i] << 4) - rgba[i]) * alpha / 16) >> 4);
             }
     }
 
@@ -296,7 +296,7 @@ void MyTextItem::blurShadow(QImage &result, int radius)
         p += 4;
         for (int j = c1; j < c2; j++, p += 4)
             for (int i = i1; i <= i2; i++) {
-                p[i] = (rgba[i] += ((p[i] << 4) - rgba[i]) * alpha / 16) >> 4;
+                p[i] = (uchar)((rgba[i] += ((p[i] << 4) - rgba[i]) * alpha / 16) >> 4);
             }
     }
 
@@ -309,7 +309,7 @@ void MyTextItem::blurShadow(QImage &result, int radius)
         p -= bpl;
         for (int j = r1; j < r2; j++, p -= bpl)
             for (int i = i1; i <= i2; i++) {
-                p[i] = (rgba[i] += ((p[i] << 4) - rgba[i]) * alpha / 16) >> 4;
+                p[i] = (uchar)((rgba[i] += ((p[i] << 4) - rgba[i]) * alpha / 16) >> 4);
             }
     }
 
@@ -322,7 +322,7 @@ void MyTextItem::blurShadow(QImage &result, int radius)
         p -= 4;
         for (int j = c1; j < c2; j++, p -= 4)
             for (int i = i1; i <= i2; i++) {
-                p[i] = (rgba[i] += ((p[i] << 4) - rgba[i]) * alpha / 16) >> 4;
+                p[i] = (uchar)((rgba[i] += ((p[i] << 4) - rgba[i]) * alpha / 16) >> 4);
             }
     }
 }

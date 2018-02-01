@@ -230,7 +230,7 @@ void TemporaryData::updateDataInfo()
         const QFileInfoList fList = preview.entryInfoList();
         KIO::filesize_t size = 0;
         for (const QFileInfo &info : fList) {
-            size += info.size();
+            size += (uint)info.size();
         }
         gotProxySize(size);
     }

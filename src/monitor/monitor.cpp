@@ -1130,7 +1130,7 @@ void Monitor::slotZoneEnd()
 void Monitor::slotRewind(double speed)
 {
     slotActivateMonitor();
-    if (speed == 0) {
+    if (abs(speed) < 0.001) {
         double currentspeed = m_glMonitor->playSpeed();
         if (currentspeed >= 0) {
             speed = -1;
@@ -1156,7 +1156,7 @@ void Monitor::slotRewind(double speed)
 void Monitor::slotForward(double speed)
 {
     slotActivateMonitor();
-    if (speed == 0) {
+    if (abs(speed) < 0.001) {
         double currentspeed = m_glMonitor->playSpeed();
         if (currentspeed <= 0) {
             speed = 1;
@@ -1326,6 +1326,7 @@ void Monitor::updateClipProducer(Mlt::Producer *prod)
 
 void Monitor::updateClipProducer(const QString &playlist)
 {
+    Q_UNUSED(playlist)
     // TODO
     // Mlt::Producer *prod = new Mlt::Producer(*m_glMonitor->profile(), playlist.toUtf8().constData());
     // m_glMonitor->setProducer(prod, isActive(), render->seekFramePosition());

@@ -254,7 +254,7 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem *startv, QGraphicsRectItem *en
             if (t->data(OriginYTop).toInt() == AxisInverted) {
                 content.setAttribute(QStringLiteral("kdenlive-axis-y-inverted"), t->data(OriginYTop).toInt());
             }
-            if (t->textWidth() != -1) {
+            if (t->textWidth() > 0) {
                 content.setAttribute(QStringLiteral("alignment"), (int)t->alignment());
             }
 
@@ -323,7 +323,7 @@ QColor TitleDocument::getBackgroundColor() const
     if (m_scene) {
         QList<QGraphicsItem *> items = m_scene->items();
         for (int i = 0; i < items.size(); ++i) {
-            if (items.at(i)->zValue() == -1100) {
+            if ((int)items.at(i)->zValue() == -1100) {
                 color = static_cast<QGraphicsRectItem *>(items.at(i))->brush().color();
                 return color;
             }
@@ -612,7 +612,7 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QGraphicsRectItem *start
                 // color.setAlpha(itemNode.attributes().namedItem("alpha").nodeValue().toInt());
                 QList<QGraphicsItem *> sceneItems = m_scene->items();
                 for (int j = 0; j < sceneItems.size(); ++j) {
-                    if (sceneItems.at(j)->zValue() == -1100) {
+                    if ((int)sceneItems.at(j)->zValue() == -1100) {
                         static_cast<QGraphicsRectItem *>(sceneItems.at(j))->setBrush(QBrush(color));
                         break;
                     }
