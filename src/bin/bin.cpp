@@ -2677,7 +2677,7 @@ void Bin::slotGotFilterJobResults(const QString &id, int startPos, int track, co
         int index = 1;
         bool simpleList = false;
         double sourceFps = clip->getOriginalFps();
-        if (qAbs(sourceFps) < 1e-4) {
+        if (qFuzzyIsNull(sourceFps)) {
             sourceFps = pCore->getCurrentFps();
         }
         if (filterInfo.contains(QStringLiteral("simplelist"))) {
@@ -2743,7 +2743,7 @@ void Bin::showTitleWidget(std::shared_ptr<ProjectClip> clip)
     if (dia_ui.exec() == QDialog::Accepted) {
         QMap<QString, QString> newprops;
         newprops.insert(QStringLiteral("xmldata"), dia_ui.xml().toString());
-        if (qAbs(dia_ui.duration() - clip->duration().frames(pCore->getCurrentFps())) > 1e-4) {
+        if (!qFuzzyCompare((double)dia_ui.duration(), clip->duration().frames(pCore->getCurrentFps()))) {
             // duration changed, we need to update duration
             newprops.insert(QStringLiteral("out"), QString::number(dia_ui.duration() - 1));
             int currentLength = clip->getProducerIntProperty(QStringLiteral("kdenlive:duration"));

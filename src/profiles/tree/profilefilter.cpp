@@ -51,7 +51,7 @@ void ProfileFilter::setFilterFps(bool enabled, double fps)
 
 bool ProfileFilter::filterFps(std::unique_ptr<ProfileModel> &ptr) const
 {
-    return !m_fps_enabled || qAbs(ptr->fps() - m_fps_value) < 1e-4;
+    return !m_fps_enabled || qFuzzyCompare(ptr->fps(), m_fps_value);
 }
 
 bool ProfileFilter::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const

@@ -278,7 +278,7 @@ bool KeyframeModel::updateKeyframe(GenTime pos, QVariant value, Fun &undo, Fun &
     QVariant oldValue = m_keyframeList[pos].second;
     // Chek if keyframe is different
     if (m_paramType == ParamType::KeyframeParam) {
-        if (qAbs(oldValue.toDouble() - value.toDouble()) < 1e-6) return true;
+        if (qFuzzyCompare(oldValue.toDouble(), value.toDouble())) return true;
     }
     auto operation = updateKeyframe_lambda(pos, type, value, true);
     auto reverse = updateKeyframe_lambda(pos, type, oldValue, true);

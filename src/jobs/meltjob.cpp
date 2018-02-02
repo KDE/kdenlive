@@ -119,7 +119,7 @@ bool MeltJob::startJob()
         m_profile.set_explicit(1);
     }
     configureProfile();
-    if (qAbs(m_profile.fps() - fps) > 0.01 || m_useProducerProfile) {
+    if (!qFuzzyCompare(m_profile.fps(), fps) || m_useProducerProfile) {
         // Reload producer
         // Force same fps as projec profile or the resulting .mlt will not load in our project
         m_profile.set_frame_rate(fps_num, fps_den);

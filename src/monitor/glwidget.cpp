@@ -474,7 +474,7 @@ void GLWidget::paintGL()
 
     // Set model view.
     QMatrix4x4 modelView;
-    if (qAbs(m_zoom-1.0)>0.01) {
+    if (!qFuzzyCompare(m_zoom, 1.0f)) {
         if ((offset().x() != 0) || (offset().y() != 0)) modelView.translate(-offset().x() * devicePixelRatio(), offset().y() * devicePixelRatio());
         modelView.scale(zoom(), zoom());
     }
@@ -571,17 +571,17 @@ void GLWidget::wheelEvent(QWheelEvent *event)
 {
     if (((event->modifiers() & Qt::ControlModifier) != 0u) && ((event->modifiers() & Qt::ShiftModifier) != 0u)) {
         if (event->delta() > 0) {
-            if (qAbs(m_zoom-1.0)<0.01) {
+            if (qFuzzyCompare(m_zoom, 1.0f)) {
                 setZoom(2.0f);
-            } else if (qAbs(m_zoom-2.0)<0.01) {
+            } else if (qFuzzyCompare(m_zoom, 2.0f)) {
                 setZoom(3.0f);
-            } else if (m_zoom < 1.0) {
+            } else if (m_zoom < 1.0f) {
                 setZoom(m_zoom * 2);
             }
         } else {
-            if (qAbs(m_zoom-3.0)<0.01) {
+            if (qFuzzyCompare(m_zoom, 3.0f)) {
                 setZoom(2.0);
-            } else if (qAbs(m_zoom-2.0)<0.01) {
+            } else if (qFuzzyCompare(m_zoom, 2.0f)) {
                 setZoom(1.0);
             } else if (m_zoom > 0.2) {
                 setZoom(m_zoom / 2);
@@ -599,7 +599,7 @@ void GLWidget::requestSeek()
         return;
     }
     if (m_proxy->seekPosition() != SEEK_INACTIVE) {
-        if (qAbs(m_producer->get_speed()) > 0.001) {
+        if (!qFuzzyIsNull(m_producer->get_speed())) {
             m_consumer->purge();
         }
         m_producer->seek(m_proxy->seekPosition());
@@ -615,7 +615,7 @@ void GLWidget::seek(int pos)
     // Testing puspose only
     if (m_proxy->seekPosition() == SEEK_INACTIVE) {
         m_proxy->setSeekPosition(pos);
-        if (qAbs(m_producer->get_speed()) > 0.001) {
+        if (!qFuzzyIsNull(m_producer->get_speed())) {
             m_consumer->purge();
         }
         m_producer->seek(pos);
@@ -630,7 +630,7 @@ void GLWidget::seek(int pos)
 
 void GLWidget::requestRefresh()
 {
-    if ((m_producer != nullptr) && (qAbs(m_producer->get_speed()) < 0.001)) {
+    if ((m_producer != nullptr) && qFuzzyIsNull(m_producer->get_speed())) {
         m_refreshTimer.start();
     }
 }
@@ -657,12 +657,12 @@ bool GLWidget::checkFrameNumber(int pos)
     if (m_proxy->seekPosition() != SEEK_INACTIVE) {
         m_producer->set_speed(0);
         m_producer->seek(m_proxy->seekPosition());
-        if (qAbs(speed) < 0.001) {
+        if (qFuzzyIsNull(speed)) {
             m_consumer->set("refresh", 1);
         } else {
             m_producer->set_speed(speed);
         }
-    } else if (qAbs(speed) < 0.001) {
+    } else if (qFuzzyIsNull(speed)) {
         if (m_isLoopMode) {
             if (pos >= m_producer->get_int("out") - 1) {
                 m_consumer->purge();
@@ -1699,7 +1699,7 @@ void GLWidget::switchPlay(bool play, double speed)
                 m_consumer->stop();
             }
         }
-        if (qAbs(currentSpeed) < 0.001) {
+        if (qFuzzyIsNull(currentSpeed)) {
             m_consumer->start();
             m_consumer->set("refresh", 1);
         } else {

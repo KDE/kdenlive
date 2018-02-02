@@ -341,7 +341,7 @@ bool LoadJob::startJob()
         original_profile.set_explicit(1);
         double originalFps = original_profile.fps();
         fps = originalFps;
-        if (originalFps > 0 && qAbs(originalFps - pCore->getCurrentFps()) > 1e-4) {
+        if (originalFps > 0 && !qFuzzyCompare(originalFps, pCore->getCurrentFps())) {
             int originalLength = tmpProd->get_length();
             int fixedLength = (int)(originalLength * pCore->getCurrentFps() / originalFps);
             m_producer->set("length", fixedLength);

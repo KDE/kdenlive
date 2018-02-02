@@ -158,7 +158,7 @@ void Render::seek(int time)
     time = qBound(0, time, m_mltProducer->get_length() - 1);
     if (requestedSeekPosition == SEEK_INACTIVE) {
         requestedSeekPosition = time;
-        if (qAbs(m_mltProducer->get_speed()) > 1e-5) {
+        if (!qFuzzyIsNull(m_mltProducer->get_speed())) {
             m_mltConsumer->purge();
         }
         m_mltProducer->seek(time);

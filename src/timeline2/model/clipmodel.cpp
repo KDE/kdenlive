@@ -331,7 +331,7 @@ void ClipModel::useTimewarpProducer(double speed, int extraSpace)
     out = warp_out / speed;
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
     std::shared_ptr<Mlt::Producer> originalProducer = binClip->originalProducer();
-    if (qAbs(speed - 1.0) < 0.001) {
+    if (qFuzzyCompare(speed, 1.0)) {
         m_producer.reset(originalProducer->cut(in, out));
     } else {
         QString resource = QString("%1:%2").arg(speed).arg(originalProducer->get("resource"));

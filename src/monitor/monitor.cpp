@@ -740,7 +740,7 @@ void Monitor::adjustScrollBars(float horizontal, float vertical)
 
 void Monitor::setZoom()
 {
-    if (qAbs(m_glMonitor->zoom() - 1.0) < 0.01) {
+    if (qFuzzyCompare(m_glMonitor->zoom(), 1.0f)) {
         m_horizontalScroll->hide();
         m_verticalScroll->hide();
         m_glMonitor->setOffsetX(m_horizontalScroll->value(), m_horizontalScroll->maximum());
@@ -1130,7 +1130,7 @@ void Monitor::slotZoneEnd()
 void Monitor::slotRewind(double speed)
 {
     slotActivateMonitor();
-    if (abs(speed) < 0.001) {
+    if (qFuzzyIsNull(speed)) {
         double currentspeed = m_glMonitor->playSpeed();
         if (currentspeed >= 0) {
             speed = -1;
@@ -1156,7 +1156,7 @@ void Monitor::slotRewind(double speed)
 void Monitor::slotForward(double speed)
 {
     slotActivateMonitor();
-    if (abs(speed) < 0.001) {
+    if (qFuzzyIsNull(speed)) {
         double currentspeed = m_glMonitor->playSpeed();
         if (currentspeed <= 0) {
             speed = 1;

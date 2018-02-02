@@ -1304,7 +1304,7 @@ void KdenliveDoc::updateProjectProfile(bool reloadProducers)
         return;
     }
     emit updateFps(fpsChanged);
-    if (qAbs(fpsChanged - 1.0) > 1e-6) {
+    if (!qFuzzyCompare(fpsChanged, 1.0)) {
         pCore->bin()->reloadAllProducers();
     }
 }
@@ -1383,18 +1383,18 @@ void KdenliveDoc::switchProfile(std::unique_ptr<ProfileParam> &profile, const QS
             profile->m_frame_rate_den = 1;
         } else {
             // Check for 23.98, 29.97, 59.94
-            if (qAbs(fps_int - 23.0) < 1e-5) {
-                if (qAbs(fps - 23.98) < 0.01) {
+            if (qFuzzyCompare(fps_int, 23.0)) {
+                if (qFuzzyCompare(fps, 23.98)) {
                     profile->m_frame_rate_num = 24000;
                     profile->m_frame_rate_den = 1001;
                 }
-            } else if (qAbs(fps_int - 29.0) < 1e-5) {
-                if (qAbs(fps - 29.97) < 0.01) {
+            } else if (qFuzzyCompare(fps_int, 29.0)) {
+                if (qFuzzyCompare(fps, 29.97)) {
                     profile->m_frame_rate_num = 30000;
                     profile->m_frame_rate_den = 1001;
                 }
-            } else if (qAbs(fps_int - 59.0) < 1e-5) {
-                if (qAbs(fps - 59.94) < 0.01) {
+            } else if (qFuzzyCompare(fps_int, 59.0)) {
+                if (qFuzzyCompare(fps, 59.94)) {
                     profile->m_frame_rate_num = 60000;
                     profile->m_frame_rate_den = 1001;
                 }
@@ -1403,7 +1403,7 @@ void KdenliveDoc::switchProfile(std::unique_ptr<ProfileParam> &profile, const QS
                 adjustMessage = i18n("\nWarning: unknown non integer fps, might cause incorrect duration display.");
             }
         }
-        if (qAbs((double)profile->m_frame_rate_num / profile->m_frame_rate_den - fps) < 1e-4) {
+        if (qFuzzyCompare((double)profile->m_frame_rate_num / profile->m_frame_rate_den, fps)) {
             adjustMessage = i18n("\nProfile fps adjusted from original %1", QString::number(fps, 'f', 4));
         }
         if (KMessageBox::warningContinueCancel(QApplication::activeWindow(),
