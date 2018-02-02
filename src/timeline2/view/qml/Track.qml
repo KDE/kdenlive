@@ -100,7 +100,7 @@ Column{
                     target: loader.item
                     property: "groupDrag"
                     value: model.groupDrag
-                    when: loader.status == Loader.Ready && !loader.item.isComposition
+                    when: loader.status == Loader.Ready
                 }
                 Binding {
                     target: loader.item

@@ -594,6 +594,22 @@ int TrackModel::getRowfromClip(int clipId) const
     return (int)std::distance(m_allClips.begin(), m_allClips.find(clipId));
 }
 
+std::unordered_set<int> TrackModel::getCompositionsAfterPosition(int position, int end)
+{
+    READ_LOCK();
+    // TODO: this function doesn't take into accounts the fact that there are two tracks
+    std::unordered_set<int> ids;
+    for (const auto &compo : m_allCompositions) {
+        int pos = compo.second->getPosition();
+        if (pos > position) {
+            if (compo.second->getPlaytime() < end - position) {
+                ids.insert(compo.first);
+            }
+        }
+    }
+    return ids;
+}
+
 int TrackModel::getRowfromComposition(int tid) const
 {
     READ_LOCK();

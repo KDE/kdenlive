@@ -85,6 +85,7 @@ public:
     QVariant getProperty(const QString &name) const;
     void setProperty(const QString &name, const QString &value);
     std::unordered_set<int> getClipsAfterPosition(int position, int end = -1);
+    std::unordered_set<int> getCompositionsAfterPosition(int position, int end);
 
 protected:
     /* @brief Returns a lambda that performs a resize of the given clip.

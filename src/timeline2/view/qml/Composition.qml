@@ -40,6 +40,7 @@ Item {
     property int outPoint: 0
     property int clipDuration: 0
     property bool isAudio: false
+    property bool groupDrag: false
     property bool isComposition: true
     property bool showKeyframes: false
     property var keyframeModel
@@ -70,6 +71,17 @@ Item {
     signal trimmedIn(var clip)
     signal trimmingOut(var clip, real newDuration, var mouse)
     signal trimmedOut(var clip)
+
+    onGroupDragChanged: {
+        // Clip belonging to current timeline selection changed, update list
+        if (compositionRoot.groupDrag) {
+            if (root.dragList.indexOf(compositionRoot) == -1) {
+                root.dragList.push(compositionRoot)
+            }
+        } else {
+            root.dragList.pop(compositionRoot)
+        }
+    }
 
     onATrackChanged: {
         if (compositionRoot.aTrack > 0 && compositionRoot.trackId > 0) {
@@ -197,7 +209,29 @@ Item {
             originalTrackId = compositionRoot.trackId
             startX = compositionRoot.x
             compositionRoot.forceActiveFocus();
-            compositionRoot.clicked(compositionRoot, mouse.modifiers === Qt.ShiftModifier)
+            if (!compositionRoot.selected) {
+                compositionRoot.clicked(compositionRoot, mouse.modifiers === Qt.ShiftModifier)
+            }
+            if (root.dragList.length > 1) {
+                // Dragging multiple items, reparent all to this dragged clip
+                // Cleanup list
+                var tmp = []
+                for (var i = 0; i < root.dragList.length; i++) {
+                    if (root.dragList[i] && root.dragList[i].clipId != undefined)
+                        tmp.push(root.dragList[i])
+                }
+                root.dragList = tmp
+                for (var i = 0; i < root.dragList.length; i++) {
+                    console.log('CHILD: ', root.dragList[i].clipId, ' > ', root.dragList[i].trackId)
+                    if (root.dragList[i] != compositionRoot) {
+                        var clipX = root.dragList[i].x - compositionRoot.x
+                        var clipY = root.dragList[i].parentTrack.y - compositionRoot.parentTrack.y
+                        root.dragList[i].parent = compositionRoot
+                        root.dragList[i].x = clipX
+                        root.dragList[i].y = clipY
+                    }
+                }
+            }
         }
         onPositionChanged: {
             if (mouse.y < -height || (mouse.y > height && parentTrack.rootIndex.row < tracksRepeater.count - 1)) {
@@ -216,6 +250,20 @@ Item {
                 originalTrackId = trackId
             } else if (Math.abs(delta) >= 1.0) {
                 compositionRoot.dropped(compositionRoot)
+            }
+            var tmp = []
+            for (var i = 0; i < root.dragList.length; i++) {
+                if (root.dragList[i] && root.dragList[i].clipId != undefined)
+                    tmp.push(root.dragList[i])
+            }
+            root.dragList = tmp
+            for (var i = 0; i < root.dragList.length; i++) {
+                //console.log('CHILD: ', root.dragList[i].clipId, ' > ', root.dragList[i].trackId, ' > ', root.dragList[i].parent.clipId)
+                if (root.dragList[i].parent == compositionRoot) {
+                    root.dragList[i].parent = tracksContainerArea
+                    root.dragList[i].x += compositionRoot.x
+                    root.dragList[i].y = root.dragList[i].parentTrack.y
+                }
             }
         }
         onDoubleClicked: timeline.position = compositionRoot.x / timeline.scaleFactor

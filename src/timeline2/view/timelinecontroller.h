@@ -340,7 +340,7 @@ private:
     bool m_usePreview;
     struct Selection
     {
-        QList<int> selectedClips;
+        QList<int> selectedItems;
         int selectedTrack;
         bool isMultitrackSelected;
     };

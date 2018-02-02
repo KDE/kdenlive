@@ -140,8 +140,7 @@ int TimelineModel::getClipTrackId(int clipId) const
     READ_LOCK();
     Q_ASSERT(m_allClips.count(clipId) > 0);
     const auto clip = m_allClips.at(clipId);
-    int trackId = clip->getCurrentTrackId();
-    return trackId;
+    return clip->getCurrentTrackId();
 }
 
 int TimelineModel::getCompositionTrackId(int compoId) const
@@ -370,7 +369,7 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int sn
             all_clips = m_groups->getLeaves(groupId);
         }
         for (int current_clipId : all_clips) {
-            if (getClipTrackId(current_clipId) != -1) {
+            if (getItemTrackId(current_clipId) != -1) {
                 int in = getItemPosition(current_clipId);
                 int out = in + getItemPlaytime(current_clipId);
                 ignored_pts.push_back(in);
@@ -740,27 +739,32 @@ bool TimelineModel::requestGroupMove(int clipId, int groupId, int delta_track, i
     // If we move up, we move first the clips on the upper tracks (and conversely).
     // If we move left, we move first the leftmost clips (and conversely).
     std::sort(sorted_clips.begin(), sorted_clips.end(), [delta_track, delta_pos, this](int clipId1, int clipId2) {
-        int trackId1 = getClipTrackId(clipId1);
-        int trackId2 = getClipTrackId(clipId2);
+        int trackId1 = getItemTrackId(clipId1);
+        int trackId2 = getItemTrackId(clipId2);
         int track_pos1 = getTrackPosition(trackId1);
         int track_pos2 = getTrackPosition(trackId2);
         if (trackId1 == trackId2) {
-            int p1 = m_allClips[clipId1]->getPosition();
-            int p2 = m_allClips[clipId2]->getPosition();
+            int p1 = isClip(clipId1) ? m_allClips[clipId1]->getPosition() : m_allCompositions[clipId1]->getPosition();
+            int p2 = isClip(clipId2) ? m_allClips[clipId2]->getPosition() : m_allCompositions[clipId2]->getPosition();
             return !(p1 <= p2) == !(delta_pos <= 0);
         }
         return !(track_pos1 <= track_pos2) == !(delta_track <= 0);
     });
     for (int clip : sorted_clips) {
-        int current_track_id = getClipTrackId(clip);
+        int current_track_id = getItemTrackId(clip);
         int current_track_position = getTrackPosition(current_track_id);
         int target_track_position = current_track_position + delta_track;
         if (target_track_position >= 0 && target_track_position < getTracksCount()) {
             auto it = m_allTracks.cbegin();
             std::advance(it, target_track_position);
             int target_track = (*it)->getId();
-            int target_position = m_allClips[clip]->getPosition() + delta_pos;
-            ok = requestClipMove(clip, target_track, target_position, updateView, finalMove, undo, redo);
+            if (isClip(clip)) {
+                int target_position = m_allClips[clip]->getPosition() + delta_pos;
+                ok = requestClipMove(clip, target_track, target_position, updateView, finalMove, undo, redo);
+            } else {
+                int target_position = m_allCompositions[clip]->getPosition() + delta_pos;
+                ok = requestCompositionMove(clip, target_track, -1, target_position, updateView, undo, redo);
+            }
         } else {
             ok = false;
         }
@@ -955,6 +959,10 @@ int TimelineModel::requestClipsGroup(const std::unordered_set<int> &ids, Fun &un
     for (int id : ids) {
         if (isClip(id)) {
             if (getClipTrackId(id) == -1) {
+                return -1;
+            }
+        } else if (isComposition(id)) {
+            if (getCompositionTrackId(id) == -1) {
                 return -1;
             }
         } else if (!isGroup(id)) {

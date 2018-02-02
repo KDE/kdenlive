@@ -99,13 +99,13 @@ Mlt::Tractor *TimelineController::tractor()
 
 void TimelineController::addSelection(int newSelection)
 {
-    if (m_selection.selectedClips.contains(newSelection)) {
+    if (m_selection.selectedItems.contains(newSelection)) {
         return;
     }
     std::unordered_set<int> previousSelection = getCurrentSelectionIds();
-    m_selection.selectedClips << newSelection;
+    m_selection.selectedItems << newSelection;
     std::unordered_set<int> ids;
-    ids.insert(m_selection.selectedClips.cbegin(), m_selection.selectedClips.cend());
+    ids.insert(m_selection.selectedItems.cbegin(), m_selection.selectedItems.cend());
     m_model->m_temporarySelectionGroup = m_model->requestClipsGroup(ids, true, GroupType::Selection);
 
     std::unordered_set<int> newIds;
@@ -113,7 +113,7 @@ void TimelineController::addSelection(int newSelection)
     roles.push_back(TimelineModel::GroupDragRole);
     if (m_model->m_temporarySelectionGroup >= 0) {
         // new items were selected, inform model to prepare for group drag
-        newIds = m_model->getGroupElements(m_selection.selectedClips.constFirst());
+        newIds = m_model->getGroupElements(m_selection.selectedItems.constFirst());
         for (int i : newIds) {
             if (m_model->isClip(i)) {
                 m_model->m_allClips[i]->isInGroupDrag = true;
@@ -142,7 +142,7 @@ void TimelineController::addSelection(int newSelection)
         }
     }
     emit selectionChanged();
-    if (!m_selection.selectedClips.isEmpty())
+    if (!m_selection.selectedItems.isEmpty())
         emitSelectedFromSelection();
     else
         emit selected(nullptr);
@@ -151,11 +151,11 @@ void TimelineController::addSelection(int newSelection)
 int TimelineController::getCurrentItem()
 {
     // TODO: if selection is empty, return topmost clip under timeline cursor
-    if (m_selection.selectedClips.isEmpty()) {
+    if (m_selection.selectedItems.isEmpty()) {
         return -1;
     }
     // TODO: if selection contains more than 1 clip, return topmost clip under timeline cursor in selection
-    return m_selection.selectedClips.constFirst();
+    return m_selection.selectedItems.constFirst();
 }
 
 double TimelineController::scaleFactor() const
@@ -218,10 +218,10 @@ void TimelineController::checkDuration()
 std::unordered_set<int> TimelineController::getCurrentSelectionIds() const
 {
     std::unordered_set<int> selection;
-    if (m_model->m_temporarySelectionGroup >= 0 || (!m_selection.selectedClips.isEmpty() && m_model->m_groups->isInGroup(m_selection.selectedClips.constFirst()))) {
-        selection = m_model->getGroupElements(m_selection.selectedClips.constFirst());
+    if (m_model->m_temporarySelectionGroup >= 0 || (!m_selection.selectedItems.isEmpty() && m_model->m_groups->isInGroup(m_selection.selectedItems.constFirst()))) {
+        selection = m_model->getGroupElements(m_selection.selectedItems.constFirst());
     } else {
-        for (int i : m_selection.selectedClips) {
+        for (int i : m_selection.selectedItems) {
             selection.insert(i);
         }
     }
@@ -233,7 +233,7 @@ void TimelineController::setSelection(const QList<int> &newSelection, int trackI
     if (newSelection != selection() || trackIndex != m_selection.selectedTrack || isMultitrack != m_selection.isMultitrackSelected) {
         qDebug() << "Changing selection to" << newSelection << " trackIndex" << trackIndex << "isMultitrack" << isMultitrack;
         std::unordered_set<int> previousSelection = getCurrentSelectionIds();
-        m_selection.selectedClips = newSelection;
+        m_selection.selectedItems = newSelection;
         m_selection.selectedTrack = trackIndex;
         m_selection.isMultitrackSelected = isMultitrack;
         if (m_model->m_temporarySelectionGroup > -1) {
@@ -243,12 +243,12 @@ void TimelineController::setSelection(const QList<int> &newSelection, int trackI
         std::unordered_set<int> newIds;
         QVector<int> roles;
         roles.push_back(TimelineModel::GroupDragRole);
-        if (m_selection.selectedClips.size() > 0) {
+        if (m_selection.selectedItems.size() > 0) {
             std::unordered_set<int> ids;
-            ids.insert(m_selection.selectedClips.cbegin(), m_selection.selectedClips.cend());
+            ids.insert(m_selection.selectedItems.cbegin(), m_selection.selectedItems.cend());
             m_model->m_temporarySelectionGroup = m_model->requestClipsGroup(ids, true, GroupType::Selection);
-            if (m_model->m_temporarySelectionGroup >= 0 || (!m_selection.selectedClips.isEmpty() && m_model->m_groups->isInGroup(m_selection.selectedClips.constFirst()))) {
-                newIds = m_model->getGroupElements(m_selection.selectedClips.constFirst());
+            if (m_model->m_temporarySelectionGroup >= 0 || (!m_selection.selectedItems.isEmpty() && m_model->m_groups->isInGroup(m_selection.selectedItems.constFirst()))) {
+                newIds = m_model->getGroupElements(m_selection.selectedItems.constFirst());
                 for (int i : newIds) {
                     if (m_model->isClip(i)) {
                         m_model->m_allClips[i]->isInGroupDrag = true;
@@ -261,7 +261,7 @@ void TimelineController::setSelection(const QList<int> &newSelection, int trackI
                     }
                 }
             } else {
-                qDebug()<<"// NON GROUPED SELCTUIIN: "<<m_selection.selectedClips<<" !!!!!!";
+                qDebug()<<"// NON GROUPED SELCTUIIN: "<<m_selection.selectedItems<<" !!!!!!";
             }
             emitSelectedFromSelection();
         } else {
@@ -321,7 +321,7 @@ void TimelineController::emitSelectedFromSelection()
 QList<int> TimelineController::selection() const
 {
     if (!m_root) return QList<int>();
-    return m_selection.selectedClips;
+    return m_selection.selectedItems;
 }
 
 void TimelineController::selectMultitrack()
@@ -377,25 +377,25 @@ int TimelineController::insertComposition(int tid, int position, const QString &
 
 void TimelineController::deleteSelectedClips()
 {
-    if (m_selection.selectedClips.isEmpty()) {
+    if (m_selection.selectedItems.isEmpty()) {
         return;
     }
     if (m_model->m_temporarySelectionGroup != -1) {
         // selection is grouped, delete group only
         m_model->requestGroupDeletion(m_model->m_temporarySelectionGroup);
     } else {
-        for (int cid : m_selection.selectedClips) {
+        for (int cid : m_selection.selectedItems) {
             m_model->requestItemDeletion(cid);
         }
     }
-    m_selection.selectedClips.clear();
+    m_selection.selectedItems.clear();
 }
 
 void TimelineController::copyItem()
 {
     int clipId = -1;
-    if (!m_selection.selectedClips.isEmpty()) {
-        clipId = m_selection.selectedClips.first();
+    if (!m_selection.selectedItems.isEmpty()) {
+        clipId = m_selection.selectedItems.first();
     } else {
         return;
     }
@@ -424,8 +424,9 @@ bool TimelineController::pasteItem(int clipId, int tid, int position)
     qDebug() << "PASTING CLIP: " << clipId << ", " << tid << ", " << position;
     if (m_model->isClip(clipId)) {
         return TimelineFunctions::requestClipCopy(m_model, clipId, tid, position);
+    } else {
+        // TODO copy composition
     }
-    // TODO copy composition
     return false;
 }
 
@@ -498,12 +499,12 @@ void TimelineController::gotoPreviousSnap()
 
 void TimelineController::groupSelection()
 {
-    if (m_selection.selectedClips.size() < 2) {
+    if (m_selection.selectedItems.size() < 2) {
         pCore->displayMessage(i18n("Select at least 2 items to group"), InformationMessage, 500);
         return;
     }
     std::unordered_set<int> clips;
-    for (int id : m_selection.selectedClips) {
+    for (int id : m_selection.selectedItems) {
         clips.insert(id);
     }
     m_model->requestClipsGroup(clips);
@@ -511,12 +512,12 @@ void TimelineController::groupSelection()
 
 void TimelineController::unGroupSelection(int cid)
 {
-    if (cid == -1 && m_selection.selectedClips.isEmpty()) {
+    if (cid == -1 && m_selection.selectedItems.isEmpty()) {
         pCore->displayMessage(i18n("Select at least 1 item to ungroup"), InformationMessage, 500);
         return;
     }
     if (cid == -1) {
-        for (int id : m_selection.selectedClips) {
+        for (int id : m_selection.selectedItems) {
             if (m_model->m_groups->isInGroup(id) && !m_model->isInSelection(id)) {
                 cid = id;
                 break;
@@ -525,7 +526,7 @@ void TimelineController::unGroupSelection(int cid)
     }
     if (cid > -1) {
         m_model->requestClipUngroup(cid);
-        m_selection.selectedClips.clear();
+        m_selection.selectedItems.clear();
         emit selectionChanged();
     }
 }
@@ -533,8 +534,8 @@ void TimelineController::unGroupSelection(int cid)
 void TimelineController::setInPoint()
 {
     int cursorPos = timelinePosition();
-    if (!m_selection.selectedClips.isEmpty()) {
-        for (int id : m_selection.selectedClips) {
+    if (!m_selection.selectedItems.isEmpty()) {
+        for (int id : m_selection.selectedItems) {
             m_model->requestItemResizeToPos(id, cursorPos, false);
         }
     }
@@ -548,8 +549,8 @@ int TimelineController::timelinePosition() const
 void TimelineController::setOutPoint()
 {
     int cursorPos = timelinePosition();
-    if (!m_selection.selectedClips.isEmpty()) {
-        for (int id : m_selection.selectedClips) {
+    if (!m_selection.selectedItems.isEmpty()) {
+        for (int id : m_selection.selectedItems) {
             m_model->requestItemResizeToPos(id, cursorPos, true);
         }
     }
@@ -602,9 +603,11 @@ void TimelineController::switchGuide(int frame, bool deleteOnly)
 void TimelineController::addAsset(const QVariantMap data)
 {
     QString effect = data.value(QStringLiteral("kdenlive/effect")).toString();
-    if (!m_selection.selectedClips.isEmpty()) {
-        for (int id : m_selection.selectedClips) {
-            m_model->addClipEffect(id, effect);
+    if (!m_selection.selectedItems.isEmpty()) {
+        for (int id : m_selection.selectedItems) {
+            if (m_model->isClip(id)) {
+                m_model->addClipEffect(id, effect);
+            }
         }
     } else {
         pCore->displayMessage(i18n("Select a clip to apply an effect"), InformationMessage, 500);
@@ -698,37 +701,40 @@ void TimelineController::setZoneOut(int outPoint)
 void TimelineController::selectItems(QVariantList arg, int startFrame, int endFrame, bool addToSelect)
 {
     std::unordered_set<int> previousSelection = getCurrentSelectionIds();
-    std::unordered_set<int> clipsToSelect;
+    std::unordered_set<int> itemsToSelect;
     if (addToSelect) {
-        for (int cid : m_selection.selectedClips) {
-            clipsToSelect.insert(cid);
+        for (int cid : m_selection.selectedItems) {
+            itemsToSelect.insert(cid);
         }
     }
-    m_selection.selectedClips.clear();
+    m_selection.selectedItems.clear();
     for (int i = 0; i < arg.count(); i++) {
         std::unordered_set<int> trackClips = m_model->getTrackById(arg.at(i).toInt())->getClipsAfterPosition(startFrame, endFrame);
-        clipsToSelect.insert(trackClips.begin(), trackClips.end());
+        itemsToSelect.insert(trackClips.begin(), trackClips.end());
+        std::unordered_set<int> trackCompos = m_model->getTrackById(arg.at(i).toInt())->getCompositionsAfterPosition(startFrame, endFrame);
+        itemsToSelect.insert(trackCompos.begin(), trackCompos.end());
     }
-    if (clipsToSelect.size() > 0) {
-        for (int x : clipsToSelect) {
-            m_selection.selectedClips << x;
+    if (itemsToSelect.size() > 0) {
+        for (int x : itemsToSelect) {
+            m_selection.selectedItems << x;
         }
-        m_model->m_temporarySelectionGroup = m_model->requestClipsGroup(clipsToSelect, true, GroupType::Selection);
+        qDebug()<<"// GROUPING ITEMS: "<<m_selection.selectedItems;
+        m_model->m_temporarySelectionGroup = m_model->requestClipsGroup(itemsToSelect, true, GroupType::Selection);
     } else if (m_model->m_temporarySelectionGroup > -1) {
-            m_model->requestClipUngroup(m_model->m_temporarySelectionGroup, false);
+        m_model->requestClipUngroup(m_model->m_temporarySelectionGroup, false);
     }
     std::unordered_set<int> newIds;
     QVector<int> roles;
     roles.push_back(TimelineModel::GroupDragRole);
     if (m_model->m_temporarySelectionGroup >= 0) {
-        newIds = m_model->getGroupElements(m_selection.selectedClips.constFirst());
+        newIds = m_model->getGroupElements(m_selection.selectedItems.constFirst());
         for (int i : newIds) {
             if (m_model->isClip(i)) {
                 m_model->m_allClips[i]->isInGroupDrag = true;
                 QModelIndex modelIndex = m_model->makeClipIndexFromID(i);
                 m_model->notifyChange(modelIndex, modelIndex, roles);
             } else if (m_model->isComposition(i)) {
-                m_model->m_allCompositions[i]->isInGroupDrag = false;
+                m_model->m_allCompositions[i]->isInGroupDrag = true;
                 QModelIndex modelIndex = m_model->makeCompositionIndexFromID(i);
                 m_model->notifyChange(modelIndex, modelIndex, roles);
             }
@@ -765,9 +771,13 @@ void TimelineController::cutClipUnderCursor(int position, int track)
         position = timelinePosition();
     }
     bool foundClip = false;
-    for (int cid : m_selection.selectedClips) {
-        if (TimelineFunctions::requestClipCut(m_model, cid, position)) {
-            foundClip = true;
+    for (int cid : m_selection.selectedItems) {
+        if (m_model->isClip(cid)) {
+            if (TimelineFunctions::requestClipCut(m_model, cid, position)) {
+                foundClip = true;
+            }
+        } else {
+            qDebug()<<"//// TODO: COMPOSITION CUT!!!";
         }
     }
     if (!foundClip) {
@@ -799,7 +809,7 @@ bool TimelineController::requestSpacerEndOperation(int clipId, int startPosition
 
 void TimelineController::seekCurrentClip(bool seekToEnd)
 {
-    for (int cid : m_selection.selectedClips) {
+    for (int cid : m_selection.selectedItems) {
         int start = m_model->getItemPosition(cid);
         if (seekToEnd) {
             start += m_model->getItemPlaytime(cid);
