@@ -118,6 +118,7 @@ Terminal=false
 MimeType=application/x-kdenlive;
 Categories=Qt;KDE;AudioVideo;AudioVideoEditing;
 Keywords=editing;video;audio;mlt;kde;
+Keywords[ar]=تحرير;فيديو;صوت;كدي;واجهة;مسارات;تعدد;
 Keywords[ca]=edició;vídeo;àudio;mlt;kde;
 Keywords[ca@valencia]=edició;vídeo;àudio;mlt;kde;
 Keywords[cs]=úprava;video;zvuk;mlt;kde;
