@@ -537,9 +537,27 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
     QWriteLocker locker(&m_lock);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    bool result = requestClipInsertion(binClipId, trackId, position, id, logUndo, refreshView, undo, redo);
+    QStringList clips = binClipId.split(QLatin1Char(';'), QString::SkipEmptyParts);
+    bool result = false;
+    std::unordered_set<int> createdClips;
+    id = -1;
+    int tmpId;
+    for (const QString bin : clips) {
+        result = requestClipInsertion(bin, trackId, position, tmpId, logUndo, refreshView, undo, redo);
+        if (!result) {
+            break;
+        }
+        position += getClipPlaytime(tmpId);
+        createdClips.insert(tmpId);
+        if (id == -1) {
+            id = tmpId;
+        }
+    }
+    if (result && createdClips.size() > 1) {
+        requestClipsGroup(createdClips, false, GroupType::Selection);
+    }
     if (result && logUndo) {
-        PUSH_UNDO(undo, redo, i18n("Insert Clip"));
+        PUSH_UNDO(undo, redo, i18np("Insert Clip", "Insert Clips", clips.count()));
     }
     return result;
 }

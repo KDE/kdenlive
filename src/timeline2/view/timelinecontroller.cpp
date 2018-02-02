@@ -218,7 +218,9 @@ void TimelineController::checkDuration()
 std::unordered_set<int> TimelineController::getCurrentSelectionIds() const
 {
     std::unordered_set<int> selection;
-    if (m_model->m_temporarySelectionGroup >= 0 || (!m_selection.selectedItems.isEmpty() && m_model->m_groups->isInGroup(m_selection.selectedItems.constFirst()))) {
+    if (m_model->m_temporarySelectionGroup >= 0) {
+        selection = m_model->getGroupElements(m_model->m_temporarySelectionGroup);
+    } else if (!m_selection.selectedItems.isEmpty() && m_model->m_groups->isInGroup(m_selection.selectedItems.constFirst())) {
         selection = m_model->getGroupElements(m_selection.selectedItems.constFirst());
     } else {
         for (int i : m_selection.selectedItems) {
