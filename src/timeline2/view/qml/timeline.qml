@@ -859,6 +859,7 @@ Rectangle {
                         //clip.reparent(track)
                         clip.y = track.y - Logic.getTrackById(clip.originalTrackId).y
                         clip.trackId = track.trackId
+                        clip.currentFrame = frame
                     } else {
                         if (track.trackId != clip.trackId) {
                             // check if we can move on existing track
@@ -867,6 +868,7 @@ Rectangle {
                                 clip.x = clip.draggedX
                             } else {
                                 clip.x = frame * timeScale
+                                clip.currentFrame = frame
                                 var delta = Math.round((clip.x - clip.originalX) / timeline.scaleFactor)
                                 var s = timeline.timecode(Math.abs(delta))
                                 // remove leading zeroes
