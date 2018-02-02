@@ -125,6 +125,12 @@ Mlt::Transition *CompositionModel::service() const
     return static_cast<Mlt::Transition *>(m_asset.get());
 }
 
+Mlt::Properties *CompositionModel::properties()
+{
+    READ_LOCK();
+    return new Mlt::Properties(m_asset.get()->get_properties());
+}
+
 int CompositionModel::getPlaytime() const
 {
     READ_LOCK();

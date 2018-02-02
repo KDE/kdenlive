@@ -82,6 +82,7 @@ public:
     Q_INVOKABLE bool showKeyframes() const;
     Q_INVOKABLE void setShowKeyframes(bool show);
     const QString &displayName() const;
+    Mlt::Properties *properties();
 
 protected:
     Mlt::Transition *service() const override;

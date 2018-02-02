@@ -272,27 +272,36 @@ bool TimelineFunctions::insertSpace(std::shared_ptr<TimelineItemModel> timeline,
     return result;
 }
 
-bool TimelineFunctions::requestClipCopy(std::shared_ptr<TimelineItemModel> timeline, int clipId, int trackId, int position)
+bool TimelineFunctions::requestItemCopy(std::shared_ptr<TimelineItemModel> timeline, int clipId, int trackId, int position)
 {
     Q_ASSERT(timeline->isClip(clipId) || timeline->isComposition(clipId));
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    int deltaTrack = timeline->getTrackPosition(trackId) - timeline->getTrackPosition(timeline->getClipTrackId(clipId));
-    int deltaPos = position - timeline->getClipPosition(clipId);
+    int deltaTrack = timeline->getTrackPosition(trackId) - timeline->getTrackPosition(timeline->getItemTrackId(clipId));
+    int deltaPos = position - timeline->getItemPosition(clipId);
     std::unordered_set<int> allIds = timeline->getGroupElements(clipId);
     std::unordered_map<int, int> mapping; // keys are ids of the source clips, values are ids of the copied clips
+    bool res = true;
     for (int id : allIds) {
         int newId = -1;
-        PlaylistState::ClipState state = timeline->m_allClips[id]->clipState();
-        bool res = copyClip(timeline, id, newId, state, undo, redo);
-        res = res && (newId != -1);
-        int target_position = timeline->getClipPosition(id) + deltaPos;
-        int target_track_position = timeline->getTrackPosition(timeline->getClipTrackId(id)) + deltaTrack;
+        if (timeline->isClip(id)) {
+            PlaylistState::ClipState state = timeline->m_allClips[id]->clipState();
+            res = copyClip(timeline, id, newId, state, undo, redo);
+            res = res && (newId != -1);
+        }
+        int target_position = timeline->getItemPosition(id) + deltaPos;
+        int target_track_position = timeline->getTrackPosition(timeline->getItemTrackId(id)) + deltaTrack;
         if (target_track_position >= 0 && target_track_position < timeline->getTracksCount()) {
             auto it = timeline->m_allTracks.cbegin();
             std::advance(it, target_track_position);
             int target_track = (*it)->getId();
-            res = res && timeline->requestClipMove(newId, target_track, target_position, true, false, undo, redo);
+            if (timeline->isClip(id)) {
+                res = res && timeline->requestClipMove(newId, target_track, target_position, true, false, undo, redo);
+            } else {
+                const QString &transitionId = timeline->m_allCompositions[id]->getAssetId();
+                QScopedPointer <Mlt::Properties> transProps(timeline->m_allCompositions[id]->properties());
+                res = res & timeline->requestCompositionInsertion(transitionId, target_track, -1, target_position, timeline->m_allCompositions[id]->getPlaytime(), transProps.data(), newId, undo, redo);
+            }
         } else {
             res = false;
         }
@@ -304,7 +313,7 @@ bool TimelineFunctions::requestClipCopy(std::shared_ptr<TimelineItemModel> timel
         mapping[id] = newId;
     }
     qDebug() << "Sucessful copy, coping groups...";
-    bool res = timeline->m_groups->copyGroups(mapping, undo, redo);
+    res = timeline->m_groups->copyGroups(mapping, undo, redo);
     if (!res) {
         bool undone = undo();
         Q_ASSERT(undone);

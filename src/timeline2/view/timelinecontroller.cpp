@@ -424,11 +424,7 @@ bool TimelineController::pasteItem(int clipId, int tid, int position)
         position = timelinePosition();
     }
     qDebug() << "PASTING CLIP: " << clipId << ", " << tid << ", " << position;
-    if (m_model->isClip(clipId)) {
-        return TimelineFunctions::requestClipCopy(m_model, clipId, tid, position);
-    } else {
-        // TODO copy composition
-    }
+    return TimelineFunctions::requestItemCopy(m_model, clipId, tid, position);
     return false;
 }
 
