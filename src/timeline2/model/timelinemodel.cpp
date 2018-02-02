@@ -417,10 +417,11 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int sn
         if (clipTrack == -1) {
             continue;
         }
+        int in = getItemPosition(current_clipId);
         if (trackPosition.contains(clipTrack)) {
             if (after) {
                 // keep only last clip position for track
-                int out = getItemPosition(current_clipId) + getItemPlaytime(current_clipId);
+                int out = in + getItemPlaytime(current_clipId);
                 if (trackPosition.value(clipTrack) < out) {
                     trackPosition.insert(clipTrack, out);
                 }
@@ -432,7 +433,6 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int sn
             }
         }
         else {
-            int in = getItemPosition(current_clipId);
             trackPosition.insert(clipTrack, after ? in + getItemPlaytime(current_clipId) : in);
         }
     }

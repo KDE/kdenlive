@@ -79,6 +79,10 @@ Item {
                 root.dragList.push(compositionRoot)
             }
         } else {
+            var index = root.dragList.indexOf(compositionRoot);
+            if (index > -1) {
+                root.dragList.splice(index, 1)
+            }
             root.dragList.pop(compositionRoot)
         }
     }

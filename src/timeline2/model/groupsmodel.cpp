@@ -337,7 +337,7 @@ bool GroupsModel::split(int id, const std::function<bool(int)> &criterion, Fun &
     QWriteLocker locker(&m_lock);
     // This function is valid only for roots (otherwise it is not clear what should be the new parent of the created tree)
     Q_ASSERT(m_upLink[id] == -1);
-
+    bool regroup = m_groupIds[id] != GroupType::Selection;
     // We do a BFS on the tree to copy it
     // We store corresponding nodes
     std::unordered_map<int, int> corresp; // keys are id in the original tree, values are temporary negative id assigned for creation of the new tree
@@ -355,8 +355,10 @@ bool GroupsModel::split(int id, const std::function<bool(int)> &criterion, Fun &
         queue.pop();
         if (!isLeaf(current) || criterion(current)) {
             if (isLeaf(current)) {
-                to_move.push_back(current);
-                new_groups[corresp[m_upLink[current]]].insert(current);
+                if (m_groupIds[getRootId(current)] != GroupType::Selection) {
+                    to_move.push_back(current);
+                    new_groups[corresp[m_upLink[current]]].insert(current);
+                }
             } else {
                 corresp[current] = tempId;
                 if (m_upLink[current] != -1) new_groups[corresp[m_upLink[current]]].insert(tempId);
@@ -450,8 +452,10 @@ bool GroupsModel::split(int id, const std::function<bool(int)> &criterion, Fun &
         new_groups.erase(selected);
     }
 
-    mergeSingleGroups(id, undo, redo);
-    mergeSingleGroups(created_id[corresp[id]], undo, redo);
+    if (regroup) {
+        mergeSingleGroups(id, undo, redo);
+        mergeSingleGroups(created_id[corresp[id]], undo, redo);
+    }
 
     return res;
 }

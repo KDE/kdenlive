@@ -91,7 +91,10 @@ Rectangle {
                 root.dragList.push(clipRoot)
             }
         } else {
-            root.dragList.pop(clipRoot)
+            var index = root.dragList.indexOf(clipRoot);
+            if (index > -1) {
+                root.dragList.splice(index, 1)
+            }
         }
     }
 
