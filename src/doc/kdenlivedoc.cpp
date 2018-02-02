@@ -818,6 +818,7 @@ QStringList KdenliveDoc::getBinFolderClipIds(const QString &folderId) const
 
 void KdenliveDoc::slotCreateTextTemplateClip(const QString &group, const QString &groupId, QUrl path)
 {
+    Q_UNUSED(group)
     // TODO refac: this seem to be a duplicate of ClipCreationDialog::createTitleTemplateClip. See if we can merge
     QString titlesFolder = QDir::cleanPath(m_projectFolder + QStringLiteral("/titles/"));
     if (path.isEmpty()) {
@@ -1323,6 +1324,8 @@ void KdenliveDoc::slotSwitchProfile(const QString &profile_path)
 
 void KdenliveDoc::switchProfile(std::unique_ptr<ProfileParam> &profile, const QString &id, const QDomElement &xml)
 {
+    Q_UNUSED(id)
+    Q_UNUSED(xml)
     // Request profile update
     QString matchingProfile = ProfileRepository::get()->findMatchingProfile(profile.get());
     if (matchingProfile.isEmpty() && (profile->width() % 8 != 0)) {
@@ -1511,6 +1514,7 @@ void KdenliveDoc::checkPreviewStack()
 
 void KdenliveDoc::saveMltPlaylist(const QString &fileName)
 {
+    Q_UNUSED(fileName)
     // TODO REFAC
     // m_render->preparePreviewRendering(fileName);
 }

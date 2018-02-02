@@ -158,7 +158,7 @@ NegQColor ColorWheelItem::colorForPoint(const QPoint &point)
     }
     if (m_isInSquare) {
         qreal value = 1.0 - qreal(point.y() - m_margin) / (wheelSize() - m_margin * 2);
-        if (m_zeroShift != 0) {
+        if (qAbs(m_zeroShift)>0) {
             value = value - m_zeroShift;
         }
         return NegQColor::fromHsvF(m_color.hueF(), m_color.saturationF(), value);
@@ -291,7 +291,7 @@ void ColorWheelItem::drawWheelDot(QPainter &painter)
 void ColorWheelItem::drawSliderBar(QPainter &painter)
 {
     qreal value = 1.0 - m_color.valueF();
-    if (m_zeroShift != 0) {
+    if (qAbs(m_zeroShift) > 0) {
         value -= m_zeroShift;
     }
     int ws = wheelSize() * qApp->devicePixelRatio();

@@ -156,7 +156,7 @@ void AssetParameterView::refresh(const QModelIndex &topLeft, const QModelIndex &
     Q_ASSERT(bottomRight.row() < (int)m_widgets.size());
 
     for (int i = topLeft.row(); i <= bottomRight.row(); ++i) {
-        m_widgets[i]->slotRefresh();
+        m_widgets[(uint)i]->slotRefresh();
     }
 }
 

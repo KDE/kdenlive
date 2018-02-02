@@ -772,7 +772,7 @@ void KdenliveSettingsDialog::updateSettings()
         updateCapturePath = true;
     }
 
-    if (m_configCapture.kcfg_v4l_format->currentIndex() != KdenliveSettings::v4l_format()) {
+    if (m_configCapture.kcfg_v4l_format->currentIndex() != (int)KdenliveSettings::v4l_format()) {
         saveCurrentV4lProfile();
         KdenliveSettings::setV4l_format(0);
     }

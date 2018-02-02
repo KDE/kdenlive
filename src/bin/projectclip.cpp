@@ -341,6 +341,7 @@ QPixmap ProjectClip::thumbnail(int width, int height)
 
 bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool replaceProducer)
 {
+    Q_UNUSED(replaceProducer)
     qDebug() << "################### ProjectClip::setproducer";
     updateProducer(std::move(producer));
     connectEffectStack();
@@ -913,14 +914,14 @@ void ProjectClip::registerTimelineClip(std::weak_ptr<TimelineModel> timeline, in
     Q_ASSERT(m_registeredClips.count(clipId) == 0);
     Q_ASSERT(!timeline.expired());
     m_registeredClips[clipId] = std::move(timeline);
-    setRefCount(m_registeredClips.size());
+    setRefCount((uint)m_registeredClips.size());
 }
 
 void ProjectClip::deregisterTimelineClip(int clipId)
 {
     Q_ASSERT(m_registeredClips.count(clipId) > 0);
     m_registeredClips.erase(clipId);
-    setRefCount(m_registeredClips.size());
+    setRefCount((uint)m_registeredClips.size());
 }
 
 QList<int> ProjectClip::timelineInstances() const

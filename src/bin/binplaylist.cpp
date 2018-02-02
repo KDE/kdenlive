@@ -126,6 +126,7 @@ void BinPlaylist::setRetainIn(Mlt::Tractor *modelTractor)
 void BinPlaylist::saveDocumentProperties(const QMap<QString, QString> &props, const QMap<QString, QString> &metadata,
                                          std::shared_ptr<MarkerListModel> guideModel)
 {
+    Q_UNUSED(guideModel)
     // Clear previous properites
     Mlt::Properties playlistProps(m_binPlaylist->get_properties());
     Mlt::Properties docProperties;

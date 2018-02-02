@@ -702,8 +702,8 @@ void Monitor::resizeEvent(QResizeEvent *event)
 {
     Q_UNUSED(event)
     if (m_glMonitor->zoom() > 0.0f) {
-        float horizontal = float(m_horizontalScroll->value()) / m_horizontalScroll->maximum();
-        float vertical = float(m_verticalScroll->value()) / m_verticalScroll->maximum();
+        float horizontal = float(m_horizontalScroll->value()) / float(m_horizontalScroll->maximum());
+        float vertical = float(m_verticalScroll->value()) / float(m_verticalScroll->maximum());
         adjustScrollBars(horizontal, vertical);
     } else {
         m_horizontalScroll->hide();
@@ -715,24 +715,24 @@ void Monitor::adjustScrollBars(float horizontal, float vertical)
 {
     if (m_glMonitor->zoom() > 1.0f) {
         m_horizontalScroll->setPageStep(m_glWidget->width());
-        m_horizontalScroll->setMaximum(m_glMonitor->profileSize().width() * m_glMonitor->zoom() - m_horizontalScroll->pageStep());
+        m_horizontalScroll->setMaximum((int)((float)m_glMonitor->profileSize().width() * m_glMonitor->zoom()) - m_horizontalScroll->pageStep());
         m_horizontalScroll->setValue(qRound(horizontal * m_horizontalScroll->maximum()));
         emit m_horizontalScroll->valueChanged(m_horizontalScroll->value());
         m_horizontalScroll->show();
     } else {
-        int max = m_glMonitor->profileSize().width() * m_glMonitor->zoom() - m_glWidget->width();
+        int max = (int)((float)m_glMonitor->profileSize().width() * m_glMonitor->zoom()) - m_glWidget->width();
         emit m_horizontalScroll->valueChanged(qRound(0.5 * max));
         m_horizontalScroll->hide();
     }
 
     if (m_glMonitor->zoom() > 1.0f) {
         m_verticalScroll->setPageStep(m_glWidget->height());
-        m_verticalScroll->setMaximum(m_glMonitor->profileSize().height() * m_glMonitor->zoom() - m_verticalScroll->pageStep());
-        m_verticalScroll->setValue(qRound(vertical * m_verticalScroll->maximum()));
+        m_verticalScroll->setMaximum((int)((float)m_glMonitor->profileSize().height() * m_glMonitor->zoom()) - m_verticalScroll->pageStep());
+        m_verticalScroll->setValue((int)((float)m_verticalScroll->maximum()*vertical));
         emit m_verticalScroll->valueChanged(m_verticalScroll->value());
         m_verticalScroll->show();
     } else {
-        int max = m_glMonitor->profileSize().height() * m_glMonitor->zoom() - m_glWidget->height();
+        int max = (int)((float)m_glMonitor->profileSize().height() * m_glMonitor->zoom()) - m_glWidget->height();
         emit m_verticalScroll->valueChanged(qRound(0.5 * max));
         m_verticalScroll->hide();
     }
@@ -740,7 +740,7 @@ void Monitor::adjustScrollBars(float horizontal, float vertical)
 
 void Monitor::setZoom()
 {
-    if (m_glMonitor->zoom() == 1.0f) {
+    if (qAbs(m_glMonitor->zoom() - 1.0) < 0.01) {
         m_horizontalScroll->hide();
         m_verticalScroll->hide();
         m_glMonitor->setOffsetX(m_horizontalScroll->value(), m_horizontalScroll->maximum());

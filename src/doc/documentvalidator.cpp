@@ -371,7 +371,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
     }
 
     // Unsupported document versions
-    if (version == 0.5 || version == 0.7) {
+    if (version <= 0.5 || version == 0.7) {
         // 0.7 is unsupported
         // qCDebug(KDENLIVE_LOG) << "Unable to open document with version " << version;
         KMessageBox::sorry(QApplication::activeWindow(), i18n("This project type is unsupported (version %1) and can't be loaded.", version),

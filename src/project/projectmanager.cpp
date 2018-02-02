@@ -116,6 +116,7 @@ void ProjectManager::init(const QUrl &projectUrl, const QString &clipList)
 
 void ProjectManager::newFile(bool showProjectSettings, bool force)
 {
+    Q_UNUSED(force)
     // fix mantis#3160
     QUrl startFile = QUrl::fromLocalFile(KdenliveSettings::defaultprojectfolder() + QStringLiteral("/_untitled.kdenlive"));
     if (checkForBackupFile(startFile)) {
@@ -325,6 +326,7 @@ void ProjectManager::saveRecentFiles()
 
 void ProjectManager::slotSaveSelection(const QString &path)
 {
+    Q_UNUSED(path)
     // TODO refac : look at this
     // m_trackView->projectView()->exportTimelineSelection(path);
 }

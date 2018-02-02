@@ -92,7 +92,7 @@ Timecode::~Timecode() = default;
 void Timecode::setFormat(double framesPerSecond, Formats format)
 {
     m_displayedFramesPerSecond = (int)(framesPerSecond + 0.5);
-    m_dropFrameTimecode = (framesPerSecond / 1.00 != (int)framesPerSecond);
+    m_dropFrameTimecode = !qFuzzyCompare(framesPerSecond, qRound(framesPerSecond));
     m_format = format;
     m_realFps = framesPerSecond;
     if (m_dropFrameTimecode) {

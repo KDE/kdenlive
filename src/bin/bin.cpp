@@ -2032,6 +2032,12 @@ const QString Bin::getDocumentProperty(const QString &key)
 
 void Bin::slotUpdateJobStatus(const QString &id, int jobType, int status, const QString &label, const QString &actionName, const QString &details)
 {
+    Q_UNUSED(id)
+    Q_UNUSED(jobType)
+    Q_UNUSED(status)
+    Q_UNUSED(label)
+    Q_UNUSED(actionName)
+    Q_UNUSED(details)
     // TODO refac
     /*
     std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(id);
@@ -2331,6 +2337,9 @@ void Bin::slotItemDropped(const QList<QUrl> &urls, const QModelIndex &parent)
 
 void Bin::slotExpandUrl(const ItemInfo &info, const QString &url, QUndoCommand *command)
 {
+    Q_UNUSED(info)
+    Q_UNUSED(url)
+    Q_UNUSED(command)
     // TODO reimplement this
     /*
     // Create folder to hold imported clips
@@ -2493,6 +2502,11 @@ Timecode Bin::projectTimecode() const
 void Bin::slotStartFilterJob(const ItemInfo &info, const QString &id, QMap<QString, QString> &filterParams, QMap<QString, QString> &consumerParams,
                              QMap<QString, QString> &extraParams)
 {
+    Q_UNUSED(info)
+    Q_UNUSED(id)
+    Q_UNUSED(filterParams)
+    Q_UNUSED(consumerParams)
+    Q_UNUSED(extraParams)
     // TODO refac
     /*
     std::shared_ptr<ProjectClip> clip = getBinClip(id);
@@ -2700,6 +2714,7 @@ void Bin::slotGotFilterJobResults(const QString &id, int startPos, int track, co
 
 void Bin::slotGetCurrentProjectImage(const QString &clipId, bool request)
 {
+    Q_UNUSED(clipId)
     // TODO refact : look at this
     //    if (!clipId.isEmpty()) {
     //        (pCore->projectManager()->currentTimeline()->hideClip(clipId, request));
@@ -2858,6 +2873,8 @@ void Bin::slotUpdateClipProperties(const QString &id, const QMap<QString, QStrin
 
 void Bin::updateTimelineProducers(const QString &id, const QMap<QString, QString> &passProperties)
 {
+    Q_UNUSED(id)
+    Q_UNUSED(passProperties)
     // TODO REFAC
     // pCore->projectManager()->currentTimeline()->updateClipProperties(id, passProperties);
     // m_doc->renderer()->updateSlowMotionProducers(id, passProperties);

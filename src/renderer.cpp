@@ -606,7 +606,7 @@ void Render::switchPlay(bool play, double speed)
                 m_mltConsumer->stop();
             }
         }
-        if (currentSpeed == 0) {
+        if (qFuzzyIsNull(currentSpeed)) {
             m_mltConsumer->start();
             m_isRefreshing = true;
             m_mltConsumer->set("refresh", 1);
@@ -631,13 +631,13 @@ void Render::play(double speed)
         return;
     }
     double current_speed = m_mltProducer->get_speed();
-    if (current_speed == speed) {
+    if (qFuzzyCompare(current_speed, speed)) {
         return;
     }
     if (m_isZoneMode) {
         resetZoneMode();
     }
-    if (speed != 0 && m_mltConsumer->get_int("real_time") != m_qmlView->realTime()) {
+    if (qFuzzyIsNull(speed) && m_mltConsumer->get_int("real_time") != m_qmlView->realTime()) {
         m_mltConsumer->set("real_time", m_qmlView->realTime());
         m_mltConsumer->set("buffer", 25);
         m_mltConsumer->set("prefill", 1);
@@ -646,7 +646,7 @@ void Render::play(double speed)
             m_mltConsumer->stop();
         }
     }
-    if (current_speed == 0) {
+    if (qFuzzyIsNull(current_speed)) {
         m_mltConsumer->start();
         m_isRefreshing = true;
         m_mltConsumer->set("refresh", 1);
@@ -735,7 +735,7 @@ void Render::seekToFrameDiff(int diff)
 
 void Render::doRefresh()
 {
-    if ((m_mltProducer != nullptr) && (playSpeed() == 0) && m_isActive) {
+    if ((m_mltProducer != nullptr) && qFuzzyIsNull(playSpeed()) && m_isActive) {
         if (m_isRefreshing) {
             m_refreshTimer.start();
         } else {
@@ -794,7 +794,7 @@ bool Render::isPlaying() const
     if ((m_mltConsumer == nullptr) || m_mltConsumer->is_stopped()) {
         return false;
     }
-    return playSpeed() != 0;
+    return !qFuzzyIsNull(playSpeed());
 }
 
 double Render::playSpeed() const
@@ -815,7 +815,7 @@ GenTime Render::seekPosition() const
 
 int Render::seekFramePosition() const
 {
-    if ((m_mltProducer != nullptr) && m_mltProducer->get_speed() == 0) {
+    if ((m_mltProducer != nullptr) && qFuzzyIsNull(m_mltProducer->get_speed())) {
         return (int)m_mltProducer->position();
     }
     if (m_mltConsumer) {
@@ -859,7 +859,7 @@ bool Render::checkFrameNumber(int pos)
         double speed = m_mltProducer->get_speed();
         m_mltProducer->set_speed(0);
         m_mltProducer->seek(requestedSeekPosition);
-        if (speed == 0) {
+        if (qFuzzyIsNull(speed)) {
             m_mltConsumer->set("refresh", 1);
         } else {
             m_mltProducer->set_speed(speed);
@@ -874,7 +874,7 @@ bool Render::checkFrameNumber(int pos)
                     m_mltProducer->set_speed(1.0);
                     m_mltConsumer->set("refresh", 1);
                 } else {
-                    if (m_mltProducer->get_speed() == 0) {
+                    if (qFuzzyIsNull(m_mltProducer->get_speed())) {
                         return false;
                     }
                 }

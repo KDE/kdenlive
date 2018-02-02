@@ -219,7 +219,7 @@ void AudioThumbJob::updateFfmpegProgress()
     const QStringList lines = result.split(QLatin1Char('\n'));
     for (const QString &data : lines) {
         if (data.startsWith(QStringLiteral("out_time_ms"))) {
-            long ms = data.section(QLatin1Char('='), 1).toLong();
+            double ms = data.section(QLatin1Char('='), 1).toDouble();
             emit jobProgress((int) (ms / m_binClip->duration().ms() / 10));
         } else {
             m_logDetails += data + QStringLiteral("\n");

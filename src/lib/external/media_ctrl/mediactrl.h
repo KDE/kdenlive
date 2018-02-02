@@ -22,6 +22,7 @@
 #define MEDIACTRL_H
 
 #include <sys/time.h>
+#include <linux/input.h>
 
 // just to make the code more readable
 #define KEY_RELEASE 0x00

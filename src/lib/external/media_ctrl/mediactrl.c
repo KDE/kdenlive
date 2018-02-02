@@ -35,7 +35,6 @@
 #include <unistd.h>
 
 #include "mediactrl.h"
-#include <linux/input.h>
 
 static char *_shuttle_name = (char *)"Shuttle";
 static char *_jog_name = (char *)"Jog";

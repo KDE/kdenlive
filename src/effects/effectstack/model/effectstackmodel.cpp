@@ -209,16 +209,16 @@ bool EffectStackModel::adjustStackLength(bool adjustFromEnd, int oldIn, int newI
         } else if (fadeOutDuration > 0 && fadeOuts.contains(std::static_pointer_cast<TreeItem>(rootItem->child(i))->getId())) {
             std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
             int effectDuration = qMin(fadeOutDuration, duration);
-            int newIn = out - effectDuration;
-            int oldIn = effect->filter().get_int("in");
+            int newFadeIn = out - effectDuration;
+            int oldFadeIn = effect->filter().get_int("in");
             int oldOut = effect->filter().get_int("out");
             int referenceEffectIn = effect->filter().get_int("_refin");
             if (referenceEffectIn <= 0) {
-                referenceEffectIn = oldIn;
+                referenceEffectIn = oldFadeIn;
                 effect->filter().set("_refin", referenceEffectIn);
             }
-            Fun operation = [this, effect, newIn, out]() {
-                effect->setParameter(QStringLiteral("in"), newIn, false);
+            Fun operation = [this, effect, newFadeIn, out]() {
+                effect->setParameter(QStringLiteral("in"), newFadeIn, false);
                 effect->setParameter(QStringLiteral("out"), out, false);
                 return true;
             };
@@ -509,13 +509,13 @@ bool EffectStackModel::checkConsistency()
         qDebug() << "ERROR: unavailable service";
         return false;
     }
-    if (ptr->filter_count() != allFilters.size()) {
+    if (ptr->filter_count() != (int)allFilters.size()) {
         qDebug() << "ERROR: Wrong filter count";
         return false;
     }
 
     for (uint i = 0; i < allFilters.size(); ++i) {
-        auto mltFilter = ptr->filter(i)->get_filter();
+        auto mltFilter = ptr->filter((int)i)->get_filter();
         auto currentFilter = allFilters[i]->filter().get_filter();
         if (mltFilter != currentFilter) {
             qDebug() << "ERROR: filter " << i << "differ";

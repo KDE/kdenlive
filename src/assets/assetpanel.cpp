@@ -278,5 +278,6 @@ ObjectId AssetPanel::effectStackOwner()
 
 void AssetPanel::parameterChanged(QString name, int value)
 {
+    Q_UNUSED(name)
     emit changeSpeed(value);
 }

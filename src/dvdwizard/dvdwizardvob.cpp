@@ -304,7 +304,7 @@ void DvdWizardVob::slotAddVobFile(const QUrl &url, const QString &chapters, bool
         double fps = profile.fps();
         profile.from_producer(*producer);
         profile.set_explicit(1);
-        if (profile.fps() != fps) {
+        if (abs(profile.fps()-fps)>0.001) {
             // fps changed, rebuild producer
             delete producer;
             producer = new Mlt::Producer(profile, resource.toUtf8().data());
@@ -793,7 +793,7 @@ void DvdWizardVob::slotTranscodedClip(const QString &src, const QString &transco
                 double fps = profile.fps();
                 profile.from_producer(*producer);
                 profile.set_explicit(1);
-                if (profile.fps() != fps) {
+                if (abs(profile.fps()-fps)>0.001) {
                     // fps changed, rebuild producer
                     delete producer;
                     producer = new Mlt::Producer(profile, resource.toUtf8().data());
