@@ -47,6 +47,7 @@ Rectangle {
     }
     height: fontMetrics.font.pixelSize * 2
     color: activePalette.window
+    clip: true
 
     // Timeline preview stuff
     Repeater {

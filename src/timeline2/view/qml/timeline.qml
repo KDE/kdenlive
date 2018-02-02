@@ -45,12 +45,11 @@ Rectangle {
 
     function zoomByWheel(wheel) {
         if (wheel.modifiers & Qt.ControlModifier) {
-            //TODO
             timeline.setScaleFactor(timeline.scaleFactor + 0.2 * wheel.angleDelta.y / 120);
         } else {
-            scrollView.flickableItem.contentX = Math.max(0, scrollView.flickableItem.contentX + wheel.angleDelta.y)
+            var newScroll = Math.min(scrollView.flickableItem.contentX + wheel.angleDelta.y, timeline.duration * root.timeScale - (scrollView.width - scrollView.__verticalScrollBar.width) + root.projectMargin)
+            scrollView.flickableItem.contentX = Math.max(newScroll, 0)
         }
-        //Logic.scrollIfNeeded()
     }
 
     function continuousScrolling(x) {
@@ -104,6 +103,7 @@ Rectangle {
 
     property int headerWidth: timeline.headerWidth()
     property int activeTool: 0
+    property int projectMargin: 200
     property real baseUnit: fontMetrics.font.pointSize
     property color selectedTrackColor: Qt.rgba(activePalette.highlight.r, activePalette.highlight.g, activePalette.highlight.b, 0.4)
     property bool stopScrolling: false
@@ -363,7 +363,7 @@ Rectangle {
                 // Padding between toolbar and track headers.
                 width: headerWidth
                 height: ruler.height
-                color: selected? shotcutBlue : activePalette.window
+                color: 'transparent' //selected? shotcutBlue : activePalette.window
                 border.color: selected? 'red' : 'transparent'
                 border.width: selected? 1 : 0
                 z: 1
@@ -480,7 +480,7 @@ Rectangle {
             acceptedButtons: Qt.RightButton | Qt.LeftButton
             cursorShape: tracksArea.mouseY < ruler.height || root.activeTool === 0 ? Qt.ArrowCursor : root.activeTool === 1 ? Qt.IBeamCursor : Qt.SplitHCursor
             onWheel: {
-                timeline.seekPosition = timeline.position + (wheel.angleDelta.y > 0 ? 1 : -1)
+                timeline.seekPosition = Math.min(timeline.position + (wheel.angleDelta.y > 0 ? 1 : -1), timeline.duration - 1)
                 timeline.position = timeline.seekPosition
             }
             onPressed: {
@@ -511,7 +511,7 @@ Rectangle {
                         if (mouse.y > ruler.height) {
                             timeline.selection = []
                         }
-                        timeline.seekPosition = (scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor
+                        timeline.seekPosition = Math.min((scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor, timeline.duration - 1)
                         timeline.position = timeline.seekPosition
                     } else if (root.activeTool === 1) {
                         // razor tool
@@ -557,7 +557,7 @@ Rectangle {
                     }
                 } else if (mouse.buttons === Qt.LeftButton) {
                     if (root.activeTool === 0 || mouse.y < ruler.height) {
-                        timeline.seekPosition = (scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor
+                        timeline.seekPosition = Math.min((scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor, timeline.duration - 1)
                         timeline.position = timeline.seekPosition
                     } else if (root.activeTool === 2 && spacerGroup > -1) {
                         // Move group
@@ -591,7 +591,7 @@ Rectangle {
                     }
                 } else if (mouse.modifiers & Qt.ShiftModifier) {
                     // Shift click, process seek
-                    timeline.seekPosition = (scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor
+                    timeline.seekPosition = Math.min((scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor, timeline.duration - 1)
                     timeline.position = timeline.seekPosition
                 }
                 if (spacerGroup > -1) {
@@ -612,9 +612,9 @@ Rectangle {
                          && (timeline.position * timeline.scaleFactor >= 50)
                 onTriggered: {
                     if (parent.mouseX < 50)
-                        timeline.seekPosition = timeline.position - 10
+                        timeline.seekPosition = Math.max(0, timeline.position - 10)
                     else
-                        timeline.seekPosition = timeline.position + 10
+                        timeline.seekPosition = Math.min(timeline.position + 10, timeline.duration - 1)
                 }
             }
 
@@ -625,10 +625,27 @@ Rectangle {
                     width: root.width - headerWidth
                     height: ruler.height
                     interactive: false
-
+                    clip: true
                     Ruler {
                         id: ruler
-                        width: root.duration * timeScale
+                        width: Math.max(root.width - headerWidth, timeline.duration * timeScale + root.projectMargin)
+                        Rectangle {
+                            id: seekCursor
+                            visible: timeline.seekPosition > -1
+                            color: activePalette.highlight
+                            width: 4
+                            height: ruler.height
+                            opacity: 0.5
+                            x: timeline.seekPosition * timeline.scaleFactor
+                        }
+                        TimelinePlayhead {
+                            id: playhead
+                            visible: timeline.position > -1
+                            height: baseUnit
+                            width: baseUnit * 1.5
+                            anchors.bottom: parent.bottom
+                            x: timeline.position * timeline.scaleFactor - (width / 2)
+                        }
                     }
                 }
                 OLD.ScrollView {
@@ -640,7 +657,7 @@ Rectangle {
                     flickableItem.interactive: false
                     clip: true
                     Rectangle {
-                        width: Math.max(scrollView.width - scrollView.__verticalScrollBar.width, timeline.duration * timeScale)
+                        width: Math.max(scrollView.width - scrollView.__verticalScrollBar.width, timeline.duration * timeScale + root.projectMargin)
                         height: trackHeaders.height
                         color: activePalette.window
                         id: tracksContainerArea
@@ -671,6 +688,15 @@ Rectangle {
                             Repeater { id: tracksRepeater; model: trackDelegateModel }
                             Repeater { id: guidesRepeater; model: guidesDelegateModel }
                         }
+                        Rectangle {
+                            id: cursor
+                            visible: timeline.position > -1
+                            color: activePalette.text
+                            width: Math.max(1, 1 * timeline.scaleFactor)
+                            opacity: (width > 2) ? 0.5 : 1
+                            height: parent.height
+                            x: timeline.position * timeline.scaleFactor
+                        }
                     }
                 }
             }
@@ -689,27 +715,6 @@ Rectangle {
                 anchors.right: parent.right
                 mirrorGradient: true
             }*/
-
-            Rectangle {
-                id: cursor
-                visible: timeline.position > -1
-                color: activePalette.text
-                width: Math.max(1, 1 * timeline.scaleFactor)
-                opacity: (width > 2) ? 0.5 : 1
-                height: root.height - scrollView.__horizontalScrollBar.height - ruler.height
-                x: timeline.position * timeline.scaleFactor - scrollView.flickableItem.contentX
-                y: ruler.height
-            }
-            Rectangle {
-                id: seekCursor
-                visible: timeline.seekPosition > -1
-                color: activePalette.highlight
-                width: 4
-                height: ruler.height
-                opacity: 0.5
-                x: timeline.seekPosition * timeline.scaleFactor - scrollView.flickableItem.contentX
-                y: 0
-            }
             Rectangle {
                 id: cutLine
                 visible: root.activeTool == 1 && tracksArea.mouseY > ruler.height
@@ -720,14 +725,6 @@ Rectangle {
                 x: 0
                 //x: timeline.position * timeline.scaleFactor - scrollView.flickableItem.contentX
                 y: ruler.height
-            }
-            TimelinePlayhead {
-                id: playhead
-                visible: timeline.position > -1
-                height: baseUnit
-                width: baseUnit * 1.5
-                y: ruler.height - height
-                x: timeline.position * timeline.scaleFactor - scrollView.flickableItem.contentX - (width / 2)
             }
         }
     }
