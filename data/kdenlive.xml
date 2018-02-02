@@ -2,6 +2,7 @@
 <mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
   <mime-type type="application/x-kdenlive">
     <comment>Kdenlive video project document</comment>
+    <comment xml:lang="ar">مستند مشروع «كدينلايڤ» ڤديوهيّ</comment>
     <comment xml:lang="ast">Documentu de proyeutu de videu Kdenlive</comment>
     <comment xml:lang="bs">Kdenlive video projekt dokument</comment>
     <comment xml:lang="ca">document de projecte de vídeo del Kdenlive</comment>
@@ -36,6 +37,7 @@
   </mime-type>
   <mime-type type="application/x-kdenlivetitle">
     <comment>Kdenlive video title</comment>
+    <comment xml:lang="ar">عنوان «كدينلايڤ» ڤديوهيّ</comment>
     <comment xml:lang="bs">Kdenlive video naslov</comment>
     <comment xml:lang="ca">títol de vídeo del Kdenlive</comment>
     <comment xml:lang="ca@valencia">títol de vídeo del Kdenlive</comment>
