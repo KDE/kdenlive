@@ -79,6 +79,7 @@ public:
     Q_INVOKABLE double scaleFactor() const;
     /* @brief set current timeline's zoom factor
      */
+    void setScaleFactorOnMouse(double scale, bool zoomOnMouse);
     Q_INVOKABLE void setScaleFactor(double scale);
     /* @brief Returns the project's duration (tractor)
      */

@@ -83,7 +83,7 @@ Rectangle {
     }
 
     function getMousePos() {
-        return (scrollView.flickableItem.contentX + tracksArea.mouseX) / timeline.scaleFactor;
+        return (scrollView.flickableItem.contentX + tracksArea.mouseX) / timeline.scaleFactor
     }
 
     function getMouseTrack() {
@@ -122,10 +122,17 @@ Rectangle {
     property int trackHeight
     property int copiedClip: -1
     property var dragList: []
+    property int zoomOnMouse: -1
 
     //onCurrentTrackChanged: timeline.selection = []
     onTimeScaleChanged: {
-        scrollView.flickableItem.contentX = Math.max(0, (timeline.seekPosition > -1 ? timeline.seekPosition : timeline.position) * timeline.scaleFactor - (scrollView.width / 2))
+        if (root.zoomOnMouse >= 0) {
+            var mouseFraction = 
+            scrollView.flickableItem.contentX = Math.max(0, root.zoomOnMouse * timeline.scaleFactor - tracksArea.mouseX)
+            root.zoomOnMouse = -1
+        } else {
+            scrollView.flickableItem.contentX = Math.max(0, (timeline.seekPosition > -1 ? timeline.seekPosition : timeline.position) * timeline.scaleFactor - (scrollView.width / 2))
+        }
         root.snapping = timeline.snap ? 10 / Math.sqrt(root.timeScale) : -1
         ruler.adjustStepSize()
     }
