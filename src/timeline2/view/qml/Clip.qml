@@ -343,6 +343,7 @@ Rectangle {
             anchors.top: container.top
             anchors.right: container.right
             anchors.bottom: container.bottom
+            anchors.rightMargin: Math.min(0, container.width - 2 * inThumbnail.width)
             width: height * 16.0/9.0
             fillMode: Image.PreserveAspectFit
             asynchronous: true
