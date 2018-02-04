@@ -547,7 +547,7 @@ void KdenliveSettingsDialog::initDevices()
         KdenliveSettings::setV4l_alsadevice(ix);
     }
 
-    m_configSdl.kcfg_audio_backend->addItem(i18n("SDL"), "sdl_audio");
+    m_configSdl.kcfg_audio_backend->addItem(i18n("SDL"), KdenliveSettings::sdlAudioBackend());
     m_configSdl.kcfg_audio_backend->addItem(i18n("RtAudio"), "rtaudio");
 
     if (!KdenliveSettings::audiobackend().isEmpty()) {
@@ -555,7 +555,7 @@ void KdenliveSettingsDialog::initDevices()
         m_configSdl.kcfg_audio_backend->setCurrentIndex(ix);
         KdenliveSettings::setAudio_backend(ix);
     }
-    m_configSdl.group_sdl->setEnabled(KdenliveSettings::audiobackend() == QLatin1String("sdl_audio"));
+    m_configSdl.group_sdl->setEnabled(KdenliveSettings::audiobackend().startsWith(QLatin1String("sdl")));
 
     loadCurrentV4lProfileInfo();
 }
@@ -926,7 +926,7 @@ void KdenliveSettingsDialog::slotCheckAlsaDriver()
 void KdenliveSettingsDialog::slotCheckAudioBackend()
 {
     QString value = m_configSdl.kcfg_audio_backend->itemData(m_configSdl.kcfg_audio_backend->currentIndex()).toString();
-    m_configSdl.group_sdl->setEnabled(value == QLatin1String("sdl_audio"));
+    m_configSdl.group_sdl->setEnabled(value.startsWith(QLatin1String("sdl_audio")));
 }
 
 void KdenliveSettingsDialog::loadTranscodeProfiles()

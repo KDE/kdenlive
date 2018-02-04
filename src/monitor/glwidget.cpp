@@ -893,7 +893,7 @@ int GLWidget::reconfigureMulti(const QString &params, const QString &path, Mlt::
         m_consumer->set("0.real_time", 0);
         m_consumer->set("0.volume", (double)volume / 100);
 
-        if (serviceName == QLatin1String("sdl_audio")) {
+        if (serviceName.startsWith(QLatin1String("sdl"))) {
 #ifdef Q_OS_WIN
             m_consumer->set("0.audio_buffer", 2048);
 #else
@@ -963,18 +963,42 @@ int GLWidget::reconfigure(Mlt::Profile *profile)
         //QString audioBackend = m_glslManager == nullptr ? KdenliveSettings::audiobackend() : QStringLiteral("rtaudio");
         QString audioBackend = KdenliveSettings::audiobackend();
         if (serviceName.isEmpty() || serviceName != audioBackend) {
-            m_consumer = new Mlt::FilteredConsumer(*m_monitorProfile, audioBackend.toUtf8().constData());
+            m_consumer = new Mlt::FilteredConsumer(*m_monitorProfile, audioBackend.toLatin1().constData());
             if (m_consumer->is_valid()) {
                 serviceName = audioBackend;
+                setProperty("mlt_service", serviceName);
             } else {
-                // Fallback
-                serviceName = QStringLiteral("sdl_audio");
+                // Warning, audio backend unavailable on system
+                delete m_consumer;
+                m_consumer = nullptr;
+                QStringList backends = {"sdl2_audio", "sdl_audio", "rtaudio"};
+                for (const QString &bk : backends) {
+                    if (bk == audioBackend) {
+                        // Already tested
+                        continue;
+                    }
+                    m_consumer = new Mlt::FilteredConsumer(*m_monitorProfile, bk.toLatin1().constData());
+                    if (m_consumer->is_valid()) {
+                        if (audioBackend == KdenliveSettings::sdlAudioBackend()) {
+                            // switch sdl audio backend
+                            KdenliveSettings::setSdlAudioBackend(bk);
+                        }
+                        qDebug()<<"++++++++\nSwitching audio backend to: "<<bk<<"\n++++++++++";
+                        KdenliveSettings::setAudiobackend(bk);
+                        serviceName = bk;
+                        setProperty("mlt_service", serviceName);
+                        break;
+                    } else {
+                        delete m_consumer;
+                        m_consumer = nullptr;
+                    }
+                }
+                if (!m_consumer) {
+                    qWarning() << "WARNING, NO AUDIO BACKEND FOUND";
+                    return -1;
+                }
             }
-            delete m_consumer;
-            m_consumer = nullptr;
-            setProperty("mlt_service", serviceName);
         }
-        m_consumer = new Mlt::FilteredConsumer(*m_monitorProfile, serviceName.toLatin1().constData());
         delete m_threadStartEvent;
         m_threadStartEvent = nullptr;
         delete m_threadStopEvent;
@@ -1019,7 +1043,7 @@ int GLWidget::reconfigure(Mlt::Profile *profile)
         }
 
         int volume = KdenliveSettings::volume();
-        if (serviceName == QLatin1String("sdl_audio")) {
+        if (serviceName.startsWith(QLatin1String("sdl"))) {
             QString audioDevice = KdenliveSettings::audiodevicename();
             if (!audioDevice.isEmpty()) {
                 m_consumer->set("audio_device", audioDevice.toUtf8().constData());

@@ -281,6 +281,11 @@
       <default>false</default>
     </entry>
 
+    <entry name="sdlAudioBackend" type="String">
+      <label>Detected audio backend.</label>
+      <default></default>
+    </entry>
+
     <entry name="audio_backend" type="Int">
       <label>Audio backend index used for sound output.</label>
       <default>0</default>
@@ -288,7 +293,7 @@
 
     <entry name="audiobackend" type="String">
       <label>Audio backend used for sound output.</label>
-      <default>sdl_audio</default>
+      <default></default>
     </entry>
 
     <entry name="audio_driver" type="UInt">

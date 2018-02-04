@@ -92,7 +92,7 @@ bool MltDeviceCapture::buildConsumer(const QString &profileName)
     }
     qputenv("SDL_VIDEO_ALLOW_SCREENSAVER", "1");
     // OpenGL monitor
-    m_mltConsumer = new Mlt::Consumer(*m_mltProfile, "sdl_audio");
+    m_mltConsumer = new Mlt::Consumer(*m_mltProfile, KdenliveSettings::audiobackend().toUtf8().constData());
     m_mltConsumer->set("preview_off", 1);
     m_mltConsumer->set("preview_format", mlt_image_rgb24);
     m_showFrameEvent = m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_gl_frame_show);
@@ -396,7 +396,7 @@ bool MltDeviceCapture::slotStartCapture(const QString &params, const QString &pa
         qputenv("SDL_VIDEO_ALLOW_SCREENSAVER", "1");
 
         // OpenGL monitor
-        previewProps->set("mlt_service", "sdl_audio");
+        previewProps->set("mlt_service", KdenliveSettings::audiobackend().toUtf8().constData());
         previewProps->set("preview_off", 1);
         previewProps->set("preview_format", mlt_image_rgb24);
         previewProps->set("terminate_on_pause", 0);
