@@ -305,6 +305,7 @@ Item {
         opacity: 0
         Drag.active: trimInMouseArea.drag.active
         Drag.proposedAction: Qt.MoveAction
+        enabled: !clipRoot.grouped
         visible: root.activeTool === 0 && !mouseArea.drag.active
 
         MouseArea {
@@ -351,6 +352,7 @@ Item {
         opacity: 0
         Drag.active: trimOutMouseArea.drag.active
         Drag.proposedAction: Qt.MoveAction
+        enabled: !clipRoot.grouped
         visible: root.activeTool === 0 && !mouseArea.drag.active
 
         MouseArea {

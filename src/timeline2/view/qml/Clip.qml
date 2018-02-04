@@ -688,6 +688,7 @@ Rectangle {
         opacity: 0
         Drag.active: trimInMouseArea.drag.active
         Drag.proposedAction: Qt.MoveAction
+        enabled: !clipRoot.grouped
         visible: root.activeTool === 0 && !mouseArea.drag.active
 
         MouseArea {
@@ -697,11 +698,7 @@ Rectangle {
             drag.target: parent
             drag.axis: Drag.XAxis
             drag.smoothed: false
-            cursorShape: (containsMouse
-                          ? (pressed
-                             ? Qt.SizeHorCursor
-                             : Qt.SizeHorCursor)
-                          : Qt.ClosedHandCursor);
+            cursorShape: (containsMouse ? Qt.SizeHorCursor : Qt.ClosedHandCursor);
             onPressed: {
                 root.stopScrolling = true
                 clipRoot.originalX = clipRoot.x
@@ -740,6 +737,7 @@ Rectangle {
         opacity: 0
         Drag.active: trimOutMouseArea.drag.active
         Drag.proposedAction: Qt.MoveAction
+        enabled: !clipRoot.grouped
         visible: root.activeTool === 0 && !mouseArea.drag.active
 
         MouseArea {
