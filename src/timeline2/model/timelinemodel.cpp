@@ -419,7 +419,6 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int sn
         }
         int in = getItemPosition(current_clipId);
         if (trackPosition.contains(clipTrack)) {
-            int in = getItemPosition(current_clipId);
             if (after) {
                 // keep only last clip position for track
                 int out = in + getItemPlaytime(current_clipId);
