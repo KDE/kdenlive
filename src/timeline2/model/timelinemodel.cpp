@@ -863,17 +863,11 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
     QWriteLocker locker(&m_lock);
     Q_ASSERT(isClip(itemId) || isComposition(itemId));
     if (size <= 0) return -1;
+    int in = getItemPosition(itemId);
+    int out = in + getItemPlaytime(itemId);
     if (snapDistance > 0) {
         Fun temp_undo = []() { return true; };
         Fun temp_redo = []() { return true; };
-        int in, out;
-        if (isClip(itemId)) {
-            in = getClipPosition(itemId);
-            out = in + getClipPlaytime(itemId);
-        } else {
-            in = getCompositionPosition(itemId);
-            out = in + getCompositionPlaytime(itemId);
-        }
         int proposed_size = m_snaps->proposeSize(in, out, size, right, snapDistance);
         if (proposed_size < 0) {
             proposed_size = size;
@@ -891,7 +885,32 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
     }
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    bool result = requestItemResize(itemId, size, right, logUndo, undo, redo);
+    std::unordered_set<int> all_items;
+    if (m_groups->isInGroup(itemId)) {
+        int groupId = m_groups->getRootId(itemId);
+        auto items = m_groups->getLeaves(groupId);
+        for (int id : items) {
+            if (id == itemId) {
+                all_items.insert(id);
+                continue;
+            }
+            int start = getItemPosition(id);
+            int end = in + getItemPlaytime(id);
+            if (right) {
+                if (out == end) {
+                    all_items.insert(id);
+                }
+            } else if (start == in) {
+                all_items.insert(id);
+            }
+        }
+    } else {
+        all_items.insert(itemId);
+    }
+    bool result = false;
+    for (int id : all_items) {
+        result = requestItemResize(id, size, right, logUndo, undo, redo);
+    }
     if (result && logUndo) {
         if (isClip(itemId)) {
             PUSH_UNDO(undo, redo, i18n("Resize clip"));

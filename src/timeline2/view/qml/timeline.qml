@@ -163,7 +163,6 @@ Rectangle {
             }
         }
         onPositionChanged: {
-            console.log('======================== ON POS CHANGED ========================================')
             if (clipBeingMovedId == -1) {
                 var track = Logic.getTrackIdFromPos(drag.y)
                 if (track !=-1) {
