@@ -854,7 +854,7 @@ bool TimelineModel::requestGroupDeletion(int clipId, Fun &undo, Fun &redo)
     return true;
 }
 
-int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logUndo, int snapDistance)
+int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logUndo, int snapDistance, bool allowSingleResize)
 {
 #ifdef LOGGING
     m_logFile << "timeline->requestItemResize(" << itemId << "," << size << " ," << (right ? "true" : "false") << ", " << (logUndo ? "true" : "false") << ", "
@@ -886,7 +886,7 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     std::unordered_set<int> all_items;
-    if (m_groups->isInGroup(itemId)) {
+    if (!allowSingleResize && m_groups->isInGroup(itemId)) {
         int groupId = m_groups->getRootId(itemId);
         auto items = m_groups->getLeaves(groupId);
         for (int id : items) {

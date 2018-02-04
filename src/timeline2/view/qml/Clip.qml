@@ -71,10 +71,10 @@ Rectangle {
     signal dragged(var clip, var mouse)
     signal dropped(var clip)
     signal draggedToTrack(var clip, int pos, int xpos)
-    signal trimmingIn(var clip, real newDuration, var mouse)
-    signal trimmedIn(var clip)
-    signal trimmingOut(var clip, real newDuration, var mouse)
-    signal trimmedOut(var clip)
+    signal trimmingIn(var clip, real newDuration, var mouse, bool shiftTrim)
+    signal trimmedIn(var clip, bool shiftTrim)
+    signal trimmingOut(var clip, real newDuration, var mouse, bool shiftTrim)
+    signal trimmedOut(var clip, bool shiftTrim)
 
     SequentialAnimation on color {
         id: flashclip
@@ -688,7 +688,6 @@ Rectangle {
         opacity: 0
         Drag.active: trimInMouseArea.drag.active
         Drag.proposedAction: Qt.MoveAction
-        enabled: !clipRoot.grouped
         visible: root.activeTool === 0 && !mouseArea.drag.active
 
         MouseArea {
@@ -698,24 +697,26 @@ Rectangle {
             drag.target: parent
             drag.axis: Drag.XAxis
             drag.smoothed: false
+            property bool shiftTrim: false
             cursorShape: (containsMouse ? Qt.SizeHorCursor : Qt.ClosedHandCursor);
             onPressed: {
                 root.stopScrolling = true
                 clipRoot.originalX = clipRoot.x
                 clipRoot.originalDuration = clipDuration
                 parent.anchors.left = undefined
+                shiftTrim = mouse.modifiers & Qt.ShiftModifier
             }
             onReleased: {
                 root.stopScrolling = false
                 parent.anchors.left = clipRoot.left
-                clipRoot.trimmedIn(clipRoot)
+                clipRoot.trimmedIn(clipRoot, shiftTrim)
             }
             onPositionChanged: {
                 if (mouse.buttons === Qt.LeftButton) {
                     var delta = Math.round((trimIn.x) / timeScale)
                     if (delta !== 0) {
                         var newDuration =  clipDuration - delta
-                        clipRoot.trimmingIn(clipRoot, newDuration, mouse)
+                        clipRoot.trimmingIn(clipRoot, newDuration, mouse, shiftTrim)
                     }
                 }
             }
@@ -737,18 +738,14 @@ Rectangle {
         opacity: 0
         Drag.active: trimOutMouseArea.drag.active
         Drag.proposedAction: Qt.MoveAction
-        enabled: !clipRoot.grouped
         visible: root.activeTool === 0 && !mouseArea.drag.active
 
         MouseArea {
             id: trimOutMouseArea
             anchors.fill: parent
             hoverEnabled: true
-            cursorShape: (containsMouse
-                          ? (pressed
-                             ? Qt.SizeHorCursor
-                             : Qt.SizeHorCursor)
-                          : Qt.ClosedHandCursor);
+            property bool shiftTrim: false
+            cursorShape: (containsMouse ? Qt.SizeHorCursor : Qt.ClosedHandCursor);
             drag.target: parent
             drag.axis: Drag.XAxis
             drag.smoothed: false
@@ -757,17 +754,18 @@ Rectangle {
                 root.stopScrolling = true
                 clipRoot.originalDuration = clipDuration
                 parent.anchors.right = undefined
+                shiftTrim = mouse.modifiers & Qt.ShiftModifier
             }
             onReleased: {
                 root.stopScrolling = false
                 parent.anchors.right = clipRoot.right
-                clipRoot.trimmedOut(clipRoot)
+                clipRoot.trimmedOut(clipRoot, shiftTrim)
             }
             onPositionChanged: {
                 if (mouse.buttons === Qt.LeftButton) {
                     var newDuration = Math.round((parent.x + parent.width) / timeScale)
                     if (newDuration != clipDuration) {
-                        clipRoot.trimmingOut(clipRoot, newDuration, mouse)
+                        clipRoot.trimmingOut(clipRoot, newDuration, mouse, shiftTrim)
                     }
                 }
             }

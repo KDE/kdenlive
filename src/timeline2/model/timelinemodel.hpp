@@ -356,7 +356,7 @@ public:
        @param logUndo if set to true, an undo object is created
        @param snap if set to true, the resize order will be coerced to use the snapping grid
     */
-    Q_INVOKABLE int requestItemResize(int itemId, int size, bool right, bool logUndo = true, int snapDistance = -1);
+    Q_INVOKABLE int requestItemResize(int itemId, int size, bool right, bool logUndo = true, int snapDistance = -1, bool allowSingleResize = false);
     /* @brief Change the duration of an item (clip or composition)
        This action is undoable
        Returns true on success. If it fails, nothing is modified.

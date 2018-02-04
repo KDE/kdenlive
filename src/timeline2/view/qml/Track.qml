@@ -287,7 +287,7 @@ Column{
                 }
             }
             onTrimmingIn: {
-                var new_duration = controller.requestItemResize(clip.clipId, newDuration, false, false, root.snapping)
+                var new_duration = controller.requestItemResize(clip.clipId, newDuration, false, false, root.snapping, shiftTrim)
                 if (new_duration > 0) {
                     clip.lastValidDuration = new_duration
                     clip.originalX = clip.draggedX
@@ -295,33 +295,33 @@ Column{
                     var delta = new_duration - clip.originalDuration
                     var s = timeline.timecode(Math.abs(delta))
                     s = '%1%2 = %3'.arg((delta < 0)? '+' : (delta > 0)? '-' : '')
-                        .arg(s.substring(3))
+                        .arg(s)
                         .arg(timeline.timecode(clipDuration))
                     bubbleHelp.show(clip.x - 20, trackRoot.y + trackRoot.height, s)
                 }
             }
             onTrimmedIn: {
                 bubbleHelp.hide()
-                controller.requestItemResize(clip.clipId, clip.originalDuration, false, false, root.snapping)
-                controller.requestItemResize(clip.clipId, clip.lastValidDuration, false, true, root.snapping)
+                controller.requestItemResize(clip.clipId, clip.originalDuration, false, false, root.snapping, shiftTrim)
+                controller.requestItemResize(clip.clipId, clip.lastValidDuration, false, true, root.snapping, shiftTrim)
             }
             onTrimmingOut: {
-                var new_duration = controller.requestItemResize(clip.clipId, newDuration, true, false, root.snapping)
+                var new_duration = controller.requestItemResize(clip.clipId, newDuration, true, false, root.snapping, shiftTrim)
                 if (new_duration > 0) {
                     clip.lastValidDuration = new_duration
                     // Show amount trimmed as a time in a "bubble" help.
                     var delta = clip.originalDuration - new_duration
                     var s = timeline.timecode(Math.abs(delta))
                     s = '%1%2 = %3'.arg((delta < 0)? '+' : (delta > 0)? '-' : '')
-                        .arg(s.substring(3))
+                        .arg(s)
                         .arg(timeline.timecode(new_duration))
                     bubbleHelp.show(clip.x + clip.width - 20, trackRoot.y + trackRoot.height, s)
                 }
             }
             onTrimmedOut: {
                 bubbleHelp.hide()
-                controller.requestItemResize(clip.clipId, clip.originalDuration, true, false, root.snapping)
-                controller.requestItemResize(clip.clipId, clip.lastValidDuration, true, true, root.snapping)
+                controller.requestItemResize(clip.clipId, clip.originalDuration, true, false, root.snapping, shiftTrim)
+                controller.requestItemResize(clip.clipId, clip.lastValidDuration, true, true, root.snapping, shiftTrim)
             }
 
             Component.onCompleted: {
@@ -382,7 +382,7 @@ Column{
                     var delta = newDuration - clip.originalDuration
                     var s = timeline.timecode(Math.abs(delta))
                     s = '%1%2 = %3'.arg((delta < 0)? '+' : (delta > 0)? '-' : '')
-                        .arg(s.substring(3))
+                        .arg(s)
                         .arg(timeline.timecode(clipDuration))
                     bubbleHelp.show(clip.x + clip.width, trackRoot.y + trackRoot.height, s)
                 }
@@ -399,7 +399,7 @@ Column{
                     var delta = newDuration - clip.originalDuration
                     var s = timeline.timecode(Math.abs(delta))
                     s = '%1%2 = %3'.arg((delta < 0)? '+' : (delta > 0)? '-' : '')
-                        .arg(s.substring(3))
+                        .arg(s)
                         .arg(timeline.timecode(clipDuration))
                     bubbleHelp.show(clip.x + clip.width, trackRoot.y + trackRoot.height, s)
                 }
