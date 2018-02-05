@@ -130,7 +130,7 @@ void MltConnection::locateMeltAndProfilesPath(const QString &mltPath)
                 ::exit(0);
             } else {
                 profilePath = getUrl->selectedUrl().toLocalFile();
-                if (mltPath.isEmpty()) {
+                if (profilePath.isEmpty()) {
                     ::exit(0);
                 } else {
                     KdenliveSettings::setMltpath(profilePath);
