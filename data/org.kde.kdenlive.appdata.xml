@@ -238,6 +238,9 @@
       <li xml:lang="zh-TW">基本 DVD 精靈</li>
     </ul>
   </description>
+  <releases>
+    <release date="2018-01-07" version="17.12.1"/>
+  </releases>
   <url type="homepage">https://kdenlive.org/</url>
   <url type="bugtracker">https://bugs.kde.org</url>
   <url type="help">https://userbase.kde.org/Kdenlive/Manual</url>

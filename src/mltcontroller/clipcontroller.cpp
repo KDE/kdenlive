@@ -251,7 +251,7 @@ void ClipController::updateProducer(const QString &id, Mlt::Producer *producer)
 {
     //TODO replace all track producers
     Q_UNUSED(id)
-
+    QMutexLocker locker(&producerMutex);
     Mlt::Properties passProperties;
     // Keep track of necessary properties
     QString proxy = producer->get("kdenlive:proxy");
@@ -784,7 +784,7 @@ void ClipController::changeEffectState(const QList<int> &indexes, bool disable)
     m_binController->updateTrackProducer(clipId());
 }
 
-void ClipController::updateEffect(const ProfileInfo &pInfo, const QDomElement &e, int ix)
+void ClipController::updateEffect(const ProfileInfo &pInfo, const QDomElement &e, int ix, bool updateClip)
 {
     QString tag = e.attribute(QStringLiteral("id"));
     if (tag == QLatin1String("autotrack_rectangle") || tag.startsWith(QLatin1String("ladspa")) || tag == QLatin1String("sox")) {
@@ -813,7 +813,9 @@ void ClipController::updateEffect(const ProfileInfo &pInfo, const QDomElement &e
         }
         service.unlock();
     }
-    m_binController->updateTrackProducer(clipId());
+    if (updateClip) {
+        m_binController->updateTrackProducer(clipId());
+    }
     //slotRefreshTracks();
 }
 

@@ -60,6 +60,8 @@ public:
     explicit ClipController(BinController *bincontroller);
     virtual ~ClipController();
 
+    QMutex producerMutex;
+
     /** @brief Returns true if the master producer is valid */
     bool isValid();
 
@@ -172,7 +174,7 @@ public:
     EffectsList effectList();
     /** @brief Enable/disable an effect. */
     void changeEffectState(const QList<int> &indexes, bool disable);
-    void updateEffect(const ProfileInfo &pInfo, const QDomElement &e, int ix);
+    void updateEffect(const ProfileInfo &pInfo, const QDomElement &e, int ix, bool updateClip);
     /** @brief Returns true if the bin clip has effects */
     bool hasEffects() const;
     /** @brief Returns info about clip audio */

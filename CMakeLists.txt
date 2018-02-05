@@ -115,12 +115,14 @@ if(KF5DocTools_FOUND)
     add_subdirectory(doc)
 endif()
 #add_subdirectory(plugins)
-ecm_optional_add_subdirectory(po)
 add_subdirectory(renderer)
 add_subdirectory(src)
 add_subdirectory(thumbnailer)
 #add_subdirectory(testingArea)
-
+ki18n_install(po)
+if (KF5DocTools_FOUND)
+ kdoctools_install(po)
+endif()
 
 install( FILES kdenlive.categories DESTINATION ${KDE_INSTALL_CONFDIR} )
 

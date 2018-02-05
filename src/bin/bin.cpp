@@ -2617,7 +2617,7 @@ void Bin::slotEffectDropped(QString id, QDomElement effect)
     m_doc->commandStack()->push(command);
 }
 
-void Bin::slotUpdateEffect(QString id, QDomElement oldEffect, QDomElement newEffect, int ix, bool refreshStack)
+void Bin::slotUpdateEffect(QString id, QDomElement oldEffect, QDomElement newEffect, int ix, bool refreshStack, bool updateClip)
 {
     if (id.isEmpty()) {
         id = m_monitor->activeClipId();
@@ -2625,7 +2625,7 @@ void Bin::slotUpdateEffect(QString id, QDomElement oldEffect, QDomElement newEff
     if (id.isEmpty()) {
         return;
     }
-    UpdateBinEffectCommand *command = new UpdateBinEffectCommand(this, id, oldEffect, newEffect, ix, refreshStack);
+    UpdateBinEffectCommand *command = new UpdateBinEffectCommand(this, id, oldEffect, newEffect, ix, refreshStack, updateClip);
     m_doc->commandStack()->push(command);
 }
 
@@ -2728,14 +2728,16 @@ void Bin::addEffect(const QString &id, QDomElement &effect)
     m_monitor->refreshMonitorIfActive();
 }
 
-void Bin::updateEffect(const QString &id, QDomElement &effect, int ix, bool refreshStackWidget)
+void Bin::updateEffect(const QString &id, QDomElement &effect, int ix, bool refreshStackWidget, bool updateClip)
 {
     ProjectClip *currentItem = m_rootFolder->clip(id);
     if (!currentItem) {
         return;
     }
-    currentItem->updateEffect(m_monitor->profileInfo(), effect, ix, refreshStackWidget);
-    m_monitor->refreshMonitorIfActive();
+    currentItem->updateEffect(m_monitor->profileInfo(), effect, ix, refreshStackWidget, updateClip);
+    if (updateClip) {
+        m_monitor->refreshMonitorIfActive();
+    }
 }
 
 void Bin::changeEffectState(const QString &id, const QList<int> &indexes, bool disable, bool refreshStack)
@@ -3260,7 +3262,7 @@ void Bin::slotGotFilterJobResults(const QString &id, int startPos, int track, co
                     EffectsList::setParameter(newEffect, i.key(), i.value());
                     ++i;
                 }
-                ctl->updateEffect(pCore->monitorManager()->projectMonitor()->profileInfo(), newEffect, effect.attribute(QStringLiteral("kdenlive_ix")).toInt());
+                ctl->updateEffect(pCore->monitorManager()->projectMonitor()->profileInfo(), newEffect, effect.attribute(QStringLiteral("kdenlive_ix")).toInt(), true);
                 emit masterClipUpdated(ctl, m_monitor);
                 // TODO use undo / redo for bin clip edit effect
                 /*EditEffectCommand *command = new EditEffectCommand(this, clip->track(), clip->startPos(), effect, newEffect, clip->selectedEffectIndex(), true, true);

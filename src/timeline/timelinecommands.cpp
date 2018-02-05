@@ -287,7 +287,7 @@ void ConfigTracksCommand::redo()
     }
 }
 
-EditEffectCommand::EditEffectCommand(CustomTrackView *view, const int track, const GenTime &pos, const QDomElement &oldeffect, const QDomElement &effect, int stackPos, bool refreshEffectStack, bool doIt, bool refreshMonitor, QUndoCommand *parent) :
+EditEffectCommand::EditEffectCommand(CustomTrackView *view, const int track, const GenTime &pos, const QDomElement &oldeffect, const QDomElement &effect, int stackPos, bool refreshEffectStack, bool updateClip, bool doIt, bool refreshMonitor, QUndoCommand *parent) :
     QUndoCommand(parent),
     m_view(view),
     m_track(track),
@@ -297,6 +297,7 @@ EditEffectCommand::EditEffectCommand(CustomTrackView *view, const int track, con
     m_stackPos(stackPos),
     m_doIt(doIt),
     m_refreshEffectStack(refreshEffectStack),
+    m_updateClip(updateClip),
     m_replaceEffect(false),
     m_refreshMonitor(refreshMonitor)
 {
@@ -343,13 +344,13 @@ bool EditEffectCommand::mergeWith(const QUndoCommand *other)
 // virtual
 void EditEffectCommand::undo()
 {
-    m_view->updateEffect(m_track, m_pos, m_oldeffect, true, m_replaceEffect, m_refreshMonitor);
+    m_view->updateEffect(m_track, m_pos, m_oldeffect, true, m_replaceEffect, m_refreshMonitor, m_updateClip);
 }
 // virtual
 void EditEffectCommand::redo()
 {
     if (m_doIt) {
-        m_view->updateEffect(m_track, m_pos, m_effect, m_refreshEffectStack, m_replaceEffect, m_refreshMonitor);
+        m_view->updateEffect(m_track, m_pos, m_effect, m_refreshEffectStack, m_replaceEffect, m_refreshMonitor, m_updateClip);
     }
     m_doIt = true;
     m_refreshEffectStack = true;

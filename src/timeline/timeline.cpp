@@ -1508,7 +1508,7 @@ bool Timeline::removeTrackEffect(int trackIndex, int effectIndex, const QDomElem
     return success;
 }
 
-void Timeline::setTrackEffect(int trackIndex, int effectIndex, QDomElement effect)
+void Timeline::setTrackEffect(int trackIndex, int effectIndex, QDomElement effect, bool updateTrack)
 {
     if (trackIndex < 0 || trackIndex >= m_tracks.count()) {
         qCWarning(KDENLIVE_LOG) << "Set Track effect outisde of range";
@@ -1523,7 +1523,7 @@ void Timeline::setTrackEffect(int trackIndex, int effectIndex, QDomElement effec
     sourceTrack->effectsList.removeAt(effect.attribute(QStringLiteral("kdenlive_ix")).toInt());
     effect.setAttribute(QStringLiteral("kdenlive_ix"), effectIndex);
     sourceTrack->effectsList.insert(effect);
-    if (effect.attribute(QStringLiteral("type")) != QLatin1String("audio")) {
+    if (updateTrack && effect.attribute(QStringLiteral("type")) != QLatin1String("audio")) {
         invalidateTrack(trackIndex);
     }
 }

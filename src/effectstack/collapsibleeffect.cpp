@@ -450,7 +450,7 @@ void CollapsibleEffect::updateCollapsedState()
     QString info = m_info.toString();
     if (info != m_effect.attribute(QStringLiteral("kdenlive_info"))) {
         m_effect.setAttribute(QStringLiteral("kdenlive_info"), info);
-        emit parameterChanged(m_original_effect, m_effect, effectIndex());
+        emit parameterChanged(m_original_effect, m_effect, effectIndex(), false);
     }
 }
 

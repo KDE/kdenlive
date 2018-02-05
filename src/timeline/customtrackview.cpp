@@ -1497,7 +1497,7 @@ void CustomTrackView::mouseDoubleClickEvent(QMouseEvent *event)
         item->insertKeyframe(m_document->getProfileInfo(), item->getEffectAtIndex(item->selectedEffectIndex()), keyFramePos.frames(m_document->fps()), val);
         //QString next = item->keyframes(item->selectedEffectIndex());
         QDomElement newEffect = item->selectedEffect().cloneNode().toElement();
-        EditEffectCommand *command = new EditEffectCommand(this, item->track(), item->startPos(), oldEffect, newEffect, item->selectedEffectIndex(), false, false, true);
+        EditEffectCommand *command = new EditEffectCommand(this, item->track(), item->startPos(), oldEffect, newEffect, item->selectedEffectIndex(), false, true, false, true);
         m_commandStack->push(command);
         updateEffect(item->track(), item->startPos(), item->selectedEffect());
         emit clipItemSelected(item, item->selectedEffectIndex());
@@ -1646,7 +1646,7 @@ void CustomTrackView::slotAttachKeyframeToEnd(bool attach)
     QDomElement oldEffect = item->selectedEffect().cloneNode().toElement();
     item->attachKeyframeToEnd(item->getEffectAtIndex(item->selectedEffectIndex()), attach);
     QDomElement newEffect = item->selectedEffect().cloneNode().toElement();
-    EditEffectCommand *command = new EditEffectCommand(this, item->track(), item->startPos(), oldEffect, newEffect, item->selectedEffectIndex(), false, false, false);
+    EditEffectCommand *command = new EditEffectCommand(this, item->track(), item->startPos(), oldEffect, newEffect, item->selectedEffectIndex(), false, true, false, false);
     m_commandStack->push(command);
     updateEffect(item->track(), item->startPos(), item->selectedEffect());
     emit clipItemSelected(item, item->selectedEffectIndex());
@@ -1659,7 +1659,7 @@ void CustomTrackView::slotEditKeyframeType(QAction *action)
     QDomElement oldEffect = item->selectedEffect().cloneNode().toElement();
     item->editKeyframeType(item->getEffectAtIndex(item->selectedEffectIndex()), type);
     QDomElement newEffect = item->selectedEffect().cloneNode().toElement();
-    EditEffectCommand *command = new EditEffectCommand(this, item->track(), item->startPos(), oldEffect, newEffect, item->selectedEffectIndex(), false, false, false);
+    EditEffectCommand *command = new EditEffectCommand(this, item->track(), item->startPos(), oldEffect, newEffect, item->selectedEffectIndex(), false, true, false, false);
     m_commandStack->push(command);
     updateEffect(item->track(), item->startPos(), item->selectedEffect());
     emit clipItemSelected(item, item->selectedEffectIndex());
@@ -2471,7 +2471,7 @@ void CustomTrackView::slotDeleteEffect(ClipItem *clip, int track, const QDomElem
     }
 }
 
-void CustomTrackView::updateEffect(int track, GenTime pos, const QDomElement &insertedEffect, bool updateEffectStack, bool replaceEffect, bool refreshMonitor)
+void CustomTrackView::updateEffect(int track, GenTime pos, const QDomElement &insertedEffect, bool updateEffectStack, bool replaceEffect, bool refreshMonitor, bool updateClip)
 {
     if (insertedEffect.isNull()) {
         //qCDebug(KDENLIVE_LOG)<<"// Trying to add null effect";
@@ -2492,11 +2492,13 @@ void CustomTrackView::updateEffect(int track, GenTime pos, const QDomElement &in
         if (!m_timeline->track(track)->editTrackEffect(effectParams, replaceEffect)) {
             emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
         }
-        m_timeline->setTrackEffect(track, ix, effect);
-        if (refreshMonitor && effect.attribute(QStringLiteral("type")) != QLatin1String("audio")) {
+        m_timeline->setTrackEffect(track, ix, effect, updateClip);
+        if (updateClip && refreshMonitor && effect.attribute(QStringLiteral("type")) != QLatin1String("audio")) {
             monitorRefresh();
         }
-        emit updateTrackEffectState(track);
+        if (updateClip) {
+            emit updateTrackEffectState(track);
+        }
         return;
 
     }
@@ -2544,7 +2546,7 @@ void CustomTrackView::updateEffect(int track, GenTime pos, const QDomElement &in
         bool success = m_timeline->track(clip->track())->editEffect(clip->startPos().seconds(), effectParams, replaceEffect);
         if (success) {
             clip->updateEffect(effect);
-            if (refreshMonitor && clip->hasVisibleVideo() && effect.attribute(QStringLiteral("type")) != QLatin1String("audio")) {
+            if (updateClip && refreshMonitor && clip->hasVisibleVideo() && effect.attribute(QStringLiteral("type")) != QLatin1String("audio")) {
                 monitorRefresh(clip->info(), true);
             }
             if (updateEffectStack && clip->isSelected()) {
@@ -2686,7 +2688,7 @@ void CustomTrackView::slotChangeEffectState(ClipItem *clip, int track, QList<int
                 speedEffectIndexes << effectIndexes.at(i);
                 QDomElement newEffect = effect.cloneNode().toElement();
                 newEffect.setAttribute(QStringLiteral("disable"), (int) disable);
-                EditEffectCommand *editcommand = new EditEffectCommand(this, clip->track(), clip->startPos(), effect, newEffect, effectIndexes.at(i), false, true, true);
+                EditEffectCommand *editcommand = new EditEffectCommand(this, clip->track(), clip->startPos(), effect, newEffect, effectIndexes.at(i), false, true, true, true);
                 m_commandStack->push(editcommand);
             }
         }
@@ -2710,13 +2712,13 @@ void CustomTrackView::slotChangeEffectPosition(ClipItem *clip, int track, const 
     m_commandStack->push(command);
 }
 
-void CustomTrackView::slotUpdateClipEffect(ClipItem *clip, int track, const QDomElement &oldeffect, const QDomElement &effect, int ix, bool refreshEffectStack)
+void CustomTrackView::slotUpdateClipEffect(ClipItem *clip, int track, const QDomElement &oldeffect, const QDomElement &effect, int ix, bool refreshEffectStack, bool updateClip)
 {
     EditEffectCommand *command;
     if (clip) {
-        command = new EditEffectCommand(this, clip->track(), clip->startPos(), oldeffect.cloneNode().toElement(), effect.cloneNode().toElement(), ix, refreshEffectStack, true, true);
+        command = new EditEffectCommand(this, clip->track(), clip->startPos(), oldeffect.cloneNode().toElement(), effect.cloneNode().toElement(), ix, refreshEffectStack, updateClip, true, true);
     } else {
-        command = new EditEffectCommand(this, track, GenTime(-1), oldeffect.cloneNode().toElement(), effect.cloneNode().toElement(), ix, refreshEffectStack, true, true);
+        command = new EditEffectCommand(this, track, GenTime(-1), oldeffect.cloneNode().toElement(), effect.cloneNode().toElement(), ix, refreshEffectStack, updateClip, true, true);
     }
     m_commandStack->push(command);
 }
@@ -2726,7 +2728,7 @@ void CustomTrackView::slotUpdateClipRegion(ClipItem *clip, int ix, const QString
     QDomElement effect = clip->getEffectAtIndex(ix);
     QDomElement oldeffect = effect.cloneNode().toElement();
     effect.setAttribute(QStringLiteral("region"), region);
-    EditEffectCommand *command = new EditEffectCommand(this, clip->track(), clip->startPos(), oldeffect, effect, ix, true, true, true);
+    EditEffectCommand *command = new EditEffectCommand(this, clip->track(), clip->startPos(), oldeffect, effect, ix, true, true, true, true);
     m_commandStack->push(command);
 }
 
@@ -8347,7 +8349,7 @@ void CustomTrackView::slotGotFilterJobResults(const QString &/*id*/, int startPo
             EffectsList::setParameter(newEffect, i.key(), i.value());
             ++i;
         }
-        EditEffectCommand *command = new EditEffectCommand(this, clip->track(), clip->startPos(), effect, newEffect, clip->selectedEffectIndex(), true, true, true);
+        EditEffectCommand *command = new EditEffectCommand(this, clip->track(), clip->startPos(), effect, newEffect, clip->selectedEffectIndex(), true, true, true, true);
         m_commandStack->push(command);
         emit clipItemSelected(clip);
     } else {
@@ -8467,7 +8469,11 @@ void CustomTrackView::slotUpdateTimelineProducer(const QString &id)
 {
     Mlt::Producer *prod = m_document->renderer()->getBinProducer(id);
     for (int i = 1; i < m_timeline->tracksCount(); i++) {
-        m_timeline->track(i)->updateEffects(id,  prod);
+        const QList<ItemInfo> range = m_timeline->track(i)->updateEffects(id,  prod);
+        if (!range.isEmpty()) {
+            // TODO: only on video clips
+            monitorRefresh(range, true);
+        }
     }
 }
 

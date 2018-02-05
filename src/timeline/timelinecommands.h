@@ -167,7 +167,7 @@ private:
 class EditEffectCommand : public QUndoCommand
 {
 public:
-    EditEffectCommand(CustomTrackView *view, const int track, const GenTime &pos, const QDomElement &oldeffect, const QDomElement &effect, int stackPos, bool refreshEffectStack, bool doIt, bool refreshMonitor, QUndoCommand *parent = nullptr);
+    EditEffectCommand(CustomTrackView *view, const int track, const GenTime &pos, const QDomElement &oldeffect, const QDomElement &effect, int stackPos, bool refreshEffectStack, bool updateClip, bool doIt, bool refreshMonitor, QUndoCommand *parent = nullptr);
     int id() const Q_DECL_OVERRIDE;
     bool mergeWith(const QUndoCommand *command) Q_DECL_OVERRIDE;
     void undo() Q_DECL_OVERRIDE;
@@ -181,6 +181,7 @@ private:
     int m_stackPos;
     bool m_doIt;
     bool m_refreshEffectStack;
+    bool m_updateClip;
     bool m_replaceEffect;
     bool m_refreshMonitor;
 };

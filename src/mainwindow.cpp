@@ -180,14 +180,17 @@ void MainWindow::init(const QString &MltPath, const QUrl &Url, const QString &cl
             } else if (availableStyles.contains(QStringLiteral("fusion"), Qt::CaseInsensitive)) {
                 KdenliveSettings::setWidgetstyle(QStringLiteral("Fusion"));
             }
+        } else {
+            KdenliveSettings::setWidgetstyle(QStringLiteral("Default"));
         }
     }
 
     // Add default style action
     QAction *defaultStyle = new QAction(i18n("Default"), stylesGroup);
+    defaultStyle->setData(QStringLiteral("Default"));
     defaultStyle->setCheckable(true);
     stylesAction->addAction(defaultStyle);
-    if (KdenliveSettings::widgetstyle().isEmpty()) {
+    if (KdenliveSettings::widgetstyle() == QLatin1String("Default") || KdenliveSettings::widgetstyle().isEmpty()) {
         defaultStyle->setChecked(true);
     }
 
@@ -323,7 +326,7 @@ void MainWindow::init(const QString &MltPath, const QUrl &Url, const QString &cl
     connect(pCore->bin(), &Bin::masterClipSelected, m_effectStack, &EffectStackView2::slotMasterClipItemSelected);
     connect(pCore->bin(), &Bin::masterClipUpdated, m_effectStack, &EffectStackView2::slotRefreshMasterClipEffects);
     connect(m_effectStack, SIGNAL(addMasterEffect(QString, QDomElement)), pCore->bin(), SLOT(slotEffectDropped(QString, QDomElement)));
-    connect(m_effectStack, SIGNAL(updateMasterEffect(QString,QDomElement,QDomElement,int,bool)), pCore->bin(), SLOT(slotUpdateEffect(QString,QDomElement,QDomElement,int,bool)));
+    connect(m_effectStack, SIGNAL(updateMasterEffect(QString,QDomElement,QDomElement,int,bool,bool)), pCore->bin(), SLOT(slotUpdateEffect(QString,QDomElement,QDomElement,int,bool,bool)));
     connect(m_effectStack, SIGNAL(changeMasterEffectState(QString, QList<int>, bool)), pCore->bin(), SLOT(slotChangeEffectState(QString, QList<int>, bool)));
     connect(m_effectStack, &EffectStackView2::removeMasterEffect, pCore->bin(), &Bin::slotDeleteEffect);
     connect(m_effectStack, SIGNAL(changeEffectPosition(QString, QList<int>, int)), pCore->bin(), SLOT(slotMoveEffect(QString, QList<int>, int)));
@@ -1635,7 +1638,7 @@ bool MainWindow::readOptions()
     }
     bool firstRun = false;
     KConfigGroup initialGroup(config, "version");
-    if (!initialGroup.exists()) {
+    if (!initialGroup.exists() || KdenliveSettings::sdlAudioBackend().isEmpty()) {
         // First run, check if user is on a KDE Desktop
         firstRun = true;
         // this is our first run, show Wizard

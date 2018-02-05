@@ -391,7 +391,18 @@ void Wizard::checkMltComponents()
         }
         delete consumers;
 
-        if (!consumersItemList.contains(QStringLiteral("sdl")) && !consumersItemList.contains(QStringLiteral("rtaudio"))) {
+        if (consumersItemList.contains(QStringLiteral("sdl2"))) {
+            // MLT >= 6.6.0 and SDL2 module
+            KdenliveSettings::setSdlAudioBackend(QStringLiteral("sdl2_audio"));
+            KdenliveSettings::setAudiobackend(QStringLiteral("sdl2_audio"));
+        } else if (consumersItemList.contains(QStringLiteral("sdl"))) {
+            // MLT < 6.6.0
+            KdenliveSettings::setSdlAudioBackend(QStringLiteral("sdl_audio"));
+            KdenliveSettings::setAudiobackend(QStringLiteral("sdl_audio"));
+        } else if (consumersItemList.contains(QStringLiteral("rtaudio"))) {
+            KdenliveSettings::setSdlAudioBackend(QStringLiteral("sdl2_audio"));
+            KdenliveSettings::setAudiobackend(QStringLiteral("rtaudio"));
+        } else {
             // SDL module
             m_errors.append(i18n("<li>Missing MLT module: <b>sdl</b> or <b>rtaudio</b><br/>required for audio output</li>"));
             m_systemCheckIsOk = false;
