@@ -42,7 +42,7 @@ class EffectStackView;
 class TransitionStackView;
 class QLabel;
 
-class AssetPanel : public QScrollArea
+class AssetPanel : public QWidget
 {
     Q_OBJECT
 
@@ -74,6 +74,7 @@ protected:
     static const QString getStyleSheet();
     QVBoxLayout *m_lay;
     KSqueezedTextLabel *m_assetTitle;
+    QWidget *m_container;
     TransitionStackView *m_transitionWidget;
     EffectStackView *m_effectStackWidget;
 

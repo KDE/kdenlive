@@ -44,9 +44,10 @@
 #include <klocalizedstring.h>
 
 AssetPanel::AssetPanel(QWidget *parent)
-    : QScrollArea(parent)
+    : QWidget(parent)
     , m_lay(new QVBoxLayout(this))
     , m_assetTitle(new KSqueezedTextLabel(this))
+    , m_container(new QWidget(this))
     , m_transitionWidget(new TransitionStackView(this))
     , m_effectStackWidget(new EffectStackView(this))
 {
@@ -78,8 +79,20 @@ AssetPanel::AssetPanel(QWidget *parent)
     tLayout->addWidget(m_timelineButton);
 
     m_lay->addLayout(tLayout);
-    m_lay->addWidget(m_transitionWidget);
-    m_lay->addWidget(m_effectStackWidget);
+    m_lay->setContentsMargins(0, 0, 0, 0);
+    QVBoxLayout *lay = new QVBoxLayout(m_container);
+    lay->setContentsMargins(0, 0, 0, 0);
+    lay->addWidget(m_transitionWidget);
+    lay->addWidget(m_effectStackWidget);
+    QScrollArea *sc = new QScrollArea;
+    sc->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    sc->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    sc->setFrameStyle(QFrame::NoFrame);
+    sc->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::MinimumExpanding));
+    sc->setWidgetResizable(true);
+
+    m_lay->addWidget(sc);
+    sc->setWidget(m_container);
     m_transitionWidget->setVisible(false);
     m_effectStackWidget->setVisible(false);
     updatePalette();
@@ -93,7 +106,7 @@ void AssetPanel::showTransition(int tid, std::shared_ptr<AssetParameterModel> tr
     QString transitionId = transitionModel->getAssetId();
     m_transitionWidget->setProperty("compositionId", tid);
     QString transitionName = TransitionsRepository::get()->getName(transitionId);
-    m_assetTitle->setText(i18n("Properties of transition %1", transitionName));
+    m_assetTitle->setText(i18n("%1 properties", transitionName));
     m_transitionWidget->setVisible(true);
     m_timelineButton->setVisible(true);
     m_transitionWidget->setModel(transitionModel, QPair<int, int>(-1, -1), QSize(), true);

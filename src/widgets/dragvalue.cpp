@@ -136,7 +136,6 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         connect(m_label, &CustomLabel::setInTimeline, this, &DragValue::slotSetInTimeline);
         m_menu->addAction(timeline);
     }
-
     connect(this, &QWidget::customContextMenuRequested, this, &DragValue::slotShowContextMenu);
     connect(m_scale, SIGNAL(triggered(int)), this, SLOT(slotSetScaleMode(int)));
     connect(m_directUpdate, &QAction::triggered, this, &DragValue::slotSetDirectUpdate);
