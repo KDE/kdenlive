@@ -595,7 +595,7 @@ Bin::Bin(const std::shared_ptr<ProjectItemModel> &model, QWidget *parent)
 
     // Connect models
     m_proxyModel->setSourceModel(m_itemModel.get());
-    connect(m_itemModel.get(), SIGNAL(dataChanged(QModelIndex, QModelIndex)), m_proxyModel, SLOT(slotDataChanged(const QModelIndex &, const QModelIndex &)));
+    connect(m_itemModel.get(), &QAbstractItemModel::dataChanged, m_proxyModel, &ProjectSortProxyModel::slotDataChanged);
     connect(m_proxyModel, &ProjectSortProxyModel::selectModel, this, &Bin::selectProxyModel);
     connect(m_itemModel.get(), SIGNAL(itemDropped(QStringList, QModelIndex)), this, SLOT(slotItemDropped(QStringList, QModelIndex)));
     connect(m_itemModel.get(), SIGNAL(itemDropped(QList<QUrl>, QModelIndex)), this, SLOT(slotItemDropped(QList<QUrl>, QModelIndex)));
@@ -717,7 +717,7 @@ Bin::Bin(const std::shared_ptr<ProjectItemModel> &model, QWidget *parent)
     connect(m_infoMessage, &BinMessageWidget::messageClosing, this, &Bin::slotResetInfoMessage);
     // m_infoMessage->setWordWrap(true);
     m_infoMessage->hide();
-    connect(this, SIGNAL(requesteInvalidRemoval(QString, QString, QString)), this, SLOT(slotQueryRemoval(QString, QString, QString)));
+    connect(this, &Bin::requesteInvalidRemoval, this, &Bin::slotQueryRemoval);
     connect(this, SIGNAL(displayBinMessage(QString, KMessageWidget::MessageType)), this, SLOT(doDisplayMessage(QString, KMessageWidget::MessageType)));
 }
 
@@ -1104,7 +1104,7 @@ void Bin::slotDuplicateClip()
 void Bin::setMonitor(Monitor *monitor)
 {
     m_monitor = monitor;
-    connect(m_monitor, SIGNAL(addClipToProject(QUrl)), this, SLOT(slotAddClipToProject(QUrl)));
+    connect(m_monitor, &Monitor::addClipToProject, this, &Bin::slotAddClipToProject);
     connect(m_monitor, &Monitor::refreshCurrentClip, this, &Bin::slotOpenCurrent);
     connect(this, &Bin::openClip, [&](std::shared_ptr<ProjectClip> clip) { m_monitor->slotOpenClip(clip); });
 }
@@ -1727,8 +1727,8 @@ void Bin::showClipProperties(std::shared_ptr<ProjectClip> clip, bool forceRefres
     }
     ClipPropertiesController *panel = clip->buildProperties(m_propertiesPanel);
     connect(this, &Bin::refreshTimeCode, panel, &ClipPropertiesController::slotRefreshTimeCode);
-    connect(panel, SIGNAL(updateClipProperties(QString, QMap<QString, QString>, QMap<QString, QString>)), this,
-            SLOT(slotEditClipCommand(QString, QMap<QString, QString>, QMap<QString, QString>)));
+    connect(panel, &ClipPropertiesController::updateClipProperties, this,
+            &Bin::slotEditClipCommand);
     connect(panel, SIGNAL(seekToFrame(int)), m_monitor, SLOT(slotSeek(int)));
     connect(panel, &ClipPropertiesController::editClip, this, &Bin::slotEditClip);
     connect(panel, SIGNAL(editAnalysis(QString, QString, QString)), this, SLOT(slotAddClipExtraData(QString, QString, QString)));

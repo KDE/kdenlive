@@ -137,7 +137,7 @@ EffectsListView::EffectsListView(LISTMODE mode, QWidget *parent)
         effectsGPU->setHidden(true);
     }
 
-    connect(m_effectsFavorites, SIGNAL(addEffectToFavorites(QString)), this, SLOT(slotAddFavorite(QString)));
+    connect(m_effectsFavorites, &MyDropButton::addEffectToFavorites, this, &EffectsListView::slotAddFavorite);
 
     connect(effectsAll, &QAbstractButton::clicked, this, &EffectsListView::filterList);
     connect(effectsVideo, &QAbstractButton::clicked, this, &EffectsListView::filterList);

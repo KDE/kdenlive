@@ -162,8 +162,8 @@ void Core::initGUI(const QUrl &Url)
     m_library = new LibraryWidget(m_projectManager);
     connect(m_library, SIGNAL(addProjectClips(QList<QUrl>)), m_binWidget, SLOT(droppedUrls(QList<QUrl>)));
     connect(this, &Core::updateLibraryPath, m_library, &LibraryWidget::slotUpdateLibraryPath);
-    connect(m_binWidget, SIGNAL(storeFolder(QString, QString, QString, QString)), m_binController.get(),
-            SLOT(slotStoreFolder(QString, QString, QString, QString)));
+    connect(m_binWidget, &Bin::storeFolder, m_binController.get(),
+            &BinController::slotStoreFolder);
     // connect(m_binController.get(), &BinController::slotProducerReady, m_binWidget, &Bin::slotProducerReady, Qt::DirectConnection);
     // connect(m_binController.get(), &BinController::prepareTimelineReplacement, m_binWidget, &Bin::prepareTimelineReplacement, Qt::DirectConnection);
 

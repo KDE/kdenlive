@@ -113,7 +113,7 @@ ChooseColorWidget::ChooseColorWidget(const QString &text, const QString &color, 
 
     connect(picker, &ColorPickerWidget::colorPicked, this, &ChooseColorWidget::setColor);
     connect(picker, &ColorPickerWidget::disableCurrentFilter, this, &ChooseColorWidget::disableCurrentFilter);
-    connect(m_button, SIGNAL(changed(QColor)), this, SIGNAL(modified(QColor)));
+    connect(m_button, &KColorButton::changed, this, &ChooseColorWidget::modified);
 
     // connect the signal of the derived class to the signal of the base class
     connect(this, &ChooseColorWidget::modified, [this](const QColor &) { emit valueChanged(); });

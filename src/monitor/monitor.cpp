@@ -208,7 +208,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     if (id == Kdenlive::ClipMonitor) {
         // Add options for recording
         m_recManager = new RecManager(this);
-        connect(m_recManager, SIGNAL(warningMessage(QString, int, QList<QAction *>)), this, SLOT(warningMessage(QString, int, QList<QAction *>)));
+        connect(m_recManager, &RecManager::warningMessage, this, &Monitor::warningMessage);
         connect(m_recManager, &RecManager::addClipToProject, this, &Monitor::addClipToProject);
     }
 
@@ -299,9 +299,9 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     if (id != Kdenlive::ClipMonitor) {
         // TODO: reimplement
         // connect(render, &Render::durationChanged, this, &Monitor::durationChanged);
-        connect(m_glMonitor->getControllerProxy(), SIGNAL(zoneChanged()), this, SLOT(updateTimelineClipZone()));
+        connect(m_glMonitor->getControllerProxy(), &MonitorProxy::zoneChanged, this, &Monitor::updateTimelineClipZone);
     } else {
-        connect(m_glMonitor->getControllerProxy(), SIGNAL(zoneChanged()), this, SLOT(updateClipZone()));
+        connect(m_glMonitor->getControllerProxy(), &MonitorProxy::zoneChanged, this, &Monitor::updateClipZone);
     }
 
     m_sceneVisibilityAction = new QAction(KoIconUtils::themedIcon(QStringLiteral("transform-crop")), i18n("Show/Hide edit mode"), this);

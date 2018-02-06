@@ -106,7 +106,7 @@ ResourceWidget::ResourceWidget(const QString &folder, QWidget *parent)
 
 #ifdef QT5_USE_WEBKIT
     m_pOAuth2 = new OAuth2(this);
-    connect(m_pOAuth2, SIGNAL(accessTokenReceived(QString)), this, SLOT(slotAccessTokenReceived(QString)));
+    connect(m_pOAuth2, &OAuth2::accessTokenReceived, this, &ResourceWidget::slotAccessTokenReceived);
     connect(m_pOAuth2, &OAuth2::accessDenied, this, &ResourceWidget::slotFreesoundAccessDenied);
     connect(m_pOAuth2, &OAuth2::UseHQPreview, this, &ResourceWidget::slotFreesoundUseHQPreview);
     connect(m_pOAuth2, &OAuth2::Canceled, this, &ResourceWidget::slotFreesoundCanceled);

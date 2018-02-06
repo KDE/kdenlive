@@ -213,7 +213,7 @@ LibraryWidget::LibraryWidget(ProjectManager *manager, QWidget *parent)
 
     m_coreLister = new KCoreDirLister(this);
     m_coreLister->setDelayedMimeTypes(false);
-    connect(m_coreLister, SIGNAL(itemsAdded(QUrl, KFileItemList)), this, SLOT(slotItemsAdded(QUrl, KFileItemList)));
+    connect(m_coreLister, &KCoreDirLister::itemsAdded, this, &LibraryWidget::slotItemsAdded);
     connect(m_coreLister, &KCoreDirLister::itemsDeleted, this, &LibraryWidget::slotItemsDeleted);
     connect(m_coreLister, SIGNAL(clear()), this, SLOT(slotClearAll()));
     m_coreLister->openUrl(QUrl::fromLocalFile(m_directory.absolutePath()));
