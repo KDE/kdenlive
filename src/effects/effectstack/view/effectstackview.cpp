@@ -209,8 +209,25 @@ void EffectStackView::loadEffects(QPair<int, int> range, int start, int end)
         connect(this, &EffectStackView::doActivateEffect, view, &CollapsibleEffectView::slotActivateEffect);
         QModelIndex ix = m_model->getIndexFromItem(effectModel);
         m_effectsTree->setIndexWidget(ix, view);
+        WidgetDelegate *del = static_cast<WidgetDelegate *>(m_effectsTree->itemDelegate(ix));
+        del->setHeight(ix, view->height());
     }
+    updateTreeHeight();
     qDebug() << "MUTEX UNLOCK!!!!!!!!!!!! loadEffects";
+}
+
+void EffectStackView::updateTreeHeight()
+{
+    // For some reason, the treeview height does not update correctly, so enforce it
+    int totalHeight = 0;
+    for (int j = 0; j < m_model->rowCount(); j++) {
+        std::shared_ptr<AbstractEffectItem> item2 = m_model->getEffectStackRow(j);
+        std::shared_ptr<EffectItemModel> eff = std::static_pointer_cast<EffectItemModel>(item2);
+        QModelIndex idx = m_model->getIndexFromItem(eff);
+        auto w = m_effectsTree->indexWidget(idx);
+        totalHeight += w->height();
+    }
+    setMinimumHeight(totalHeight);
 }
 
 void EffectStackView::slotActivateEffect(std::shared_ptr<EffectItemModel> effectModel)
@@ -247,11 +264,12 @@ void EffectStackView::slotStartDrag(QPixmap pix, std::shared_ptr<EffectItemModel
 
 void EffectStackView::slotAdjustDelegate(std::shared_ptr<EffectItemModel> effectModel, int height)
 {
-    qDebug() << "MUTEX LOCK!!!!!!!!!!!! adjustdelegate";
+    qDebug() << "MUTEX LOCK!!!!!!!!!!!! adjustdelegate: "<<height;
     QMutexLocker lock(&m_mutex);
     QModelIndex ix = m_model->getIndexFromItem(effectModel);
     WidgetDelegate *del = static_cast<WidgetDelegate *>(m_effectsTree->itemDelegate(ix));
     del->setHeight(ix, height);
+    updateTreeHeight();
     qDebug() << "MUTEX UNLOCK!!!!!!!!!!!! adjustdelegate";
 }
 

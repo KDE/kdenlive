@@ -83,6 +83,7 @@ private:
     QSize m_sourceFrameSize;
     const QString getStyleSheet();
     void loadEffects(QPair<int, int> range, int start = 0, int end = -1);
+    void updateTreeHeight();
 
 private slots:
     void refresh(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles);

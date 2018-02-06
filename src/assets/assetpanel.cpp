@@ -89,6 +89,7 @@ AssetPanel::AssetPanel(QWidget *parent)
     sc->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     sc->setFrameStyle(QFrame::NoFrame);
     sc->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::MinimumExpanding));
+    m_container->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::MinimumExpanding));
     sc->setWidgetResizable(true);
 
     m_lay->addWidget(sc);

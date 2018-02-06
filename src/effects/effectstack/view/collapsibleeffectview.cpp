@@ -185,6 +185,8 @@ CollapsibleEffectView::CollapsibleEffectView(std::shared_ptr<EffectItemModel> ef
         cb->installEventFilter(this);
         cb->setFocusPolicy(Qt::StrongFocus);
     }
+    int height = m_collapse->isActive() ? frame->height() + 4 : frame->height() + m_view->contentHeight() + 4;
+    setFixedHeight(height);
 }
 
 CollapsibleEffectView::~CollapsibleEffectView()
@@ -432,9 +434,10 @@ void CollapsibleEffectView::slotResetEffect()
 void CollapsibleEffectView::slotSwitch(bool expand)
 {
     slotShow(expand);
-    emit switchHeight(m_model, expand ? frame->height() + 4 : frame->height() + m_view->contentHeight() + 4);
-    setFixedHeight(expand ? frame->height() + 4 : frame->height() + m_view->contentHeight() + 4);
+    int height = expand ? frame->height() + 4 : frame->height() + m_view->contentHeight() + 4;
     widgetFrame->setVisible(!expand);
+    setFixedHeight(height);
+    emit switchHeight(m_model, height);
     /*if (!expand) {
         widgetFrame->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
         widgetFrame->setFixedHeight(m_view->contentHeight());
