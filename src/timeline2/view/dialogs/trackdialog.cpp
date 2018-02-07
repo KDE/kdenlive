@@ -66,7 +66,7 @@ int TrackDialog::selectedTrack() const
     if (comboTracks->count() > 0) {
         int ix = comboTracks->currentData().toInt();
         if (before_select->currentIndex() == 1) {
-            ix++;
+            ix--;
         }
         return ix;
     }
