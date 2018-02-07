@@ -784,6 +784,7 @@ bool TimelineModel::requestGroupMove(int clipId, int groupId, int delta_track, i
                 ok = requestCompositionMove(clip, target_track, -1, target_position, updateView, undo, redo);
             }
         } else {
+            qDebug()<<"// ABORTING; MOVE TRIED ON TRACK: "<<target_track_position<<"..\n..\n..";
             ok = false;
         }
         if (!ok) {
@@ -1579,9 +1580,9 @@ bool TimelineModel::requestCompositionMove(int compoId, int trackId, int composi
                 return res;
             };
             int oldAtrack = m_allCompositions[compoId]->getATrack();
-            delete_reverse = [this, compoId, oldAtrack]() {
+            delete_reverse = [this, compoId, oldAtrack, updateView]() {
                 m_allCompositions[compoId]->setATrack(oldAtrack, oldAtrack <= 0 ? -1 : getTrackIndexFromPosition(oldAtrack - 1));
-                return replantCompositions(compoId);
+                return replantCompositions(compoId, updateView);
             };
         }
         ok = delete_operation();
@@ -1604,10 +1605,10 @@ bool TimelineModel::requestCompositionMove(int compoId, int trackId, int composi
         Fun insert_operation = []() { return true; };
         Fun insert_reverse = []() { return true; };
         if (old_trackId != trackId) {
-            insert_operation = [this, compoId, trackId, compositionTrack]() {
+            insert_operation = [this, compoId, trackId, compositionTrack, updateView]() {
                 qDebug() << "-------------- ATRACK ----------------\n" << compositionTrack << " = " << getTrackIndexFromPosition(compositionTrack);
                 m_allCompositions[compoId]->setATrack(compositionTrack, compositionTrack <= 0 ? -1 : getTrackIndexFromPosition(compositionTrack - 1));
-                return replantCompositions(compoId);
+                return replantCompositions(compoId, updateView);
             };
             insert_reverse = [this, compoId]() {
                 bool res = unplantComposition(compoId);
@@ -1630,7 +1631,7 @@ bool TimelineModel::requestCompositionMove(int compoId, int trackId, int composi
     return true;
 }
 
-bool TimelineModel::replantCompositions(int currentCompo)
+bool TimelineModel::replantCompositions(int currentCompo, bool updateView)
 {
     // We ensure that the compositions are planted in a decreasing order of b_track.
     // For that, there is no better option than to disconnect every composition and then reinsert everything in the correct order.
@@ -1709,10 +1710,12 @@ bool TimelineModel::replantCompositions(int currentCompo)
         field->plant_transition(*firstTr, firstTr->get_a_track(), firstTr->get_b_track());
     }
     field->unlock();
-    QModelIndex modelIndex = makeCompositionIndexFromID(currentCompo);
-    QVector<int> roles;
-    roles.push_back(ItemATrack);
-    notifyChange(modelIndex, modelIndex, roles);
+    if (updateView) {
+        QModelIndex modelIndex = makeCompositionIndexFromID(currentCompo);
+        QVector<int> roles;
+        roles.push_back(ItemATrack);
+        notifyChange(modelIndex, modelIndex, roles);
+    }
     return true;
 }
 

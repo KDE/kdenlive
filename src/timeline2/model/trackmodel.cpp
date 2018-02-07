@@ -601,7 +601,7 @@ std::unordered_set<int> TrackModel::getCompositionsAfterPosition(int position, i
     std::unordered_set<int> ids;
     for (const auto &compo : m_allCompositions) {
         int pos = compo.second->getPosition();
-        if (pos > position) {
+        if (pos > position && pos < end) {
             if (compo.second->getPlaytime() < end - position) {
                 ids.insert(compo.first);
             }
