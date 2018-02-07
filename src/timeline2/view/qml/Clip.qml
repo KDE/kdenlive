@@ -188,15 +188,11 @@ Rectangle {
             }
         }
     }
-
-    function imagePath(time) {
-        if (isAudio || mltService === 'color' || mltService === '') {
-            return ''
-        } else {
-            console.log('get clip thumb for service: ', mltService)
-            return 'image://thumbnail/' + binId + '/' + mltService + '/' + clipResource + '#' + time
-        }
-    }
+    property bool variableThumbs: (isAudio || mltService === 'color' || mltService === '')
+    property bool isImage: (mltService === 'qimage' || mltService === 'pixbuf')
+    property string baseThumbPath: variableThumbs ? '' : isImage ? 'image://thumbnail/' + binId + '/' + mltService + '/' + clipResource + '#0' : 'image://thumbnail/' + binId + '/' + mltService + '/' + clipResource + '#'
+    property string inThumbPath: (variableThumbs || isImage ) ? baseThumbPath : baseThumbPath + inPoint
+    property string outThumbPath: (variableThumbs || isImage ) ? baseThumbPath : baseThumbPath + outPoint
 
     DropArea { //Drop area for clips
         anchors.fill: clipRoot
@@ -347,7 +343,7 @@ Rectangle {
             width: height * 16.0/9.0
             fillMode: Image.PreserveAspectFit
             asynchronous: true
-            source: imagePath(outPoint)
+            source: outThumbPath
         }
 
         Image {
@@ -360,7 +356,7 @@ Rectangle {
             width: height * 16.0/9.0
             fillMode: Image.PreserveAspectFit
             asynchronous: true
-            source: imagePath(inPoint)
+            source: inThumbPath
         }
 
         Row {

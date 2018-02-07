@@ -932,7 +932,7 @@ bool TimelineModel::requestItemResize(int itemId, int size, bool right, bool log
             if (right) {
                 notifyChange(modelIndex, modelIndex, false, true, logUndo);
             } else {
-                notifyChange(modelIndex, modelIndex, true, true, logUndo);
+                notifyChange(modelIndex, modelIndex, true, false, logUndo);
             }
         }
         return true;

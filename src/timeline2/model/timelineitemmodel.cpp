@@ -444,15 +444,15 @@ void TimelineItemModel::notifyChange(const QModelIndex &topleft, const QModelInd
 {
     QVector<int> roles;
     if (start) {
-        roles.push_back(StartRole);
+        roles.push_back(TimelineModel::StartRole);
         if (updateThumb) {
-            roles.push_back(InPointRole);
+            roles.push_back(TimelineModel::InPointRole);
         }
     }
     if (duration) {
-        roles.push_back(DurationRole);
+        roles.push_back(TimelineModel::DurationRole);
         if (updateThumb) {
-            roles.push_back(OutPointRole);
+            roles.push_back(TimelineModel::OutPointRole);
         }
     }
     emit dataChanged(topleft, bottomright, roles);
