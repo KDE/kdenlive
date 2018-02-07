@@ -105,7 +105,6 @@ QVector<QPair<QString, QString>> ProfileRepository::getAllProfiles() const
 std::unique_ptr<ProfileModel> &ProfileRepository::getProfile(const QString &path)
 {
     QReadLocker locker(&m_mutex);
-    qDebug() << "// GET PROFILE: " << path;
     if (m_profiles.count(path) == 0) {
         qCWarning(KDENLIVE_LOG) << "//// WARNING: profile not found: " << path << ". Returning default profile instead.";
         QString default_profile = KdenliveSettings::default_profile();

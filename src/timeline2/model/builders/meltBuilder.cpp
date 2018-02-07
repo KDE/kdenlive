@@ -136,9 +136,10 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
             qDebug() << "Inserted composition in track " << t->get_b_track() << ", position" << t->get_in()<<"/"<< t->get_out();
         }
     }
-    
+
     // build internal track compositing
     timeline->buildTrackCompositing();
+    timeline->updateDuration();
 
     if (!ok) {
         // TODO log error

@@ -123,9 +123,11 @@ Rectangle {
     onClipDurationChanged: {
         width = clipDuration * timeScale;
     }
+
     onModelStartChanged: {
         x = modelStart * timeScale;
     }
+
     onReloadThumbChanged: {
         if (mltService === 'color') {
             var newColor = getColor()
@@ -376,8 +378,7 @@ Rectangle {
                 TimelineWaveform {
                     width: Math.min(waveform.innerWidth, waveform.maxWidth)
                     height: waveform.height
-                    showItem: (index * waveform.maxWidth) < waveform.scrollEnd && (index * waveform.maxWidth + width) > waveform.scrollStart
-                    fillColor: 'red'
+                    showItem: visible && (index * waveform.maxWidth) < waveform.scrollEnd && (index * waveform.maxWidth + width) > waveform.scrollStart
                     format: timeline.audioThumbFormat
                     property int channels: 2
                     inPoint: Math.round((clipRoot.inPoint + index * waveform.maxWidth / timeScale) * speed) * channels
@@ -770,7 +771,7 @@ Rectangle {
             onExited: parent.opacity = 0
         }
     }
-    
+
         /*MenuItem {
             id: mergeItem
             text: i18n('Merge with next clip')
