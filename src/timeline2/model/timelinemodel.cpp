@@ -300,15 +300,14 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
     bool ok = true;
     int old_trackId = getClipTrackId(clipId);
     if (old_trackId != -1) {
-        ok = getTrackById(old_trackId)->requestClipDeletion(clipId, updateView, invalidateTimeline, local_undo, local_redo);
+        ok = getTrackById(old_trackId)->requestClipDeletion(clipId, updateView, local_undo, local_redo);
         if (!ok) {
             bool undone = local_undo();
             Q_ASSERT(undone);
             return false;
         }
     }
-    ok = getTrackById(trackId)->requestClipInsertion(clipId, position, updateView, invalidateTimeline,
- local_undo, local_redo);
+    ok = getTrackById(trackId)->requestClipInsertion(clipId, position, updateView, local_undo, local_redo);
     if (!ok) {
         //qDebug()<<"-------------\n\nINSERTION FAILED, REVERTING\n\n-------------------";
         bool undone = local_undo();
@@ -661,7 +660,7 @@ bool TimelineModel::requestClipDeletion(int clipId, Fun &undo, Fun &redo)
 {
     int trackId = getClipTrackId(clipId);
     if (trackId != -1) {
-        bool res = getTrackById(trackId)->requestClipDeletion(clipId, true, true, undo, redo);
+        bool res = getTrackById(trackId)->requestClipDeletion(clipId, true, undo, redo);
         if (!res) {
             undo();
             return false;
@@ -2004,8 +2003,8 @@ void TimelineModel::requestClipReload(int clipId)
     int old_trackId = getClipTrackId(clipId);
     int oldPos = getClipPosition(clipId);
     if (old_trackId != -1) {
-        getTrackById(old_trackId)->requestClipDeletion(clipId, false, false, local_undo, local_redo);
-        getTrackById(old_trackId)->requestClipInsertion(clipId, oldPos, true, true, local_undo, local_redo);
+        getTrackById(old_trackId)->requestClipDeletion(clipId, false, local_undo, local_redo);
+        getTrackById(old_trackId)->requestClipInsertion(clipId, oldPos, true, local_undo, local_redo);
     }
 }
 
@@ -2039,9 +2038,9 @@ bool TimelineModel::requestClipTimeWarp(int clipId, double speed)
     if (old_trackId != -1) {
         int blankSpace = getTrackById(old_trackId)->getBlankSizeNearClip(clipId, true);
         qDebug() << "// FOUND BLANK AFTER CLIP: " << blankSpace;
-        getTrackById(old_trackId)->requestClipDeletion(clipId, false, true, local_undo, local_redo);
+        getTrackById(old_trackId)->requestClipDeletion(clipId, false, local_undo, local_redo);
         m_allClips[clipId]->useTimewarpProducer(speed, blankSpace);
-        getTrackById(old_trackId)->requestClipInsertion(clipId, oldPos, false, true, local_undo, local_redo);
+        getTrackById(old_trackId)->requestClipInsertion(clipId, oldPos, true, local_undo, local_redo);
     } else {
         m_allClips[clipId]->useTimewarpProducer(speed, -1);
     }
