@@ -54,6 +54,9 @@ public:
 
     /* @brief Return true if the effect applies only to audio */
     bool isAudio() const override;
+    
+    void setCollapsed(bool collapsed);
+    bool isCollapsed();
 
 protected:
     EffectItemModel(const QList<QVariant> &data, Mlt::Properties *effect, const QDomElement &xml, const QString &effectId,

@@ -70,7 +70,7 @@ protected:
 private:
     QMutex m_mutex;
     QVBoxLayout *m_lay;
-    BuiltStack *m_builtStack;
+    //BuiltStack *m_builtStack;
     QTreeView *m_effectsTree;
     std::shared_ptr<EffectStackModel> m_model;
     std::vector<CollapsibleEffectView *> m_widgets;
@@ -91,8 +91,7 @@ private slots:
     void slotStartDrag(QPixmap pix, std::shared_ptr<EffectItemModel> effectModel);
     void slotActivateEffect(std::shared_ptr<EffectItemModel> effectModel);
 
-public slots:
-    void switchBuiltStack(bool show);
+//    void switchBuiltStack(bool show);
 
 signals:
     void doActivateEffect(QModelIndex);

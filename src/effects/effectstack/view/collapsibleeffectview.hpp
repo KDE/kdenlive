@@ -73,8 +73,6 @@ public:
     bool isEnabled() const;
     /** @brief Should the wheel event be sent to parent widget for scrolling. */
     bool filterWheelEvent;
-    /** @brief Parent group was collapsed, update. */
-    void groupStateChanged(bool collapsed);
     /** @brief Show / hide up / down buttons. */
     void adjustButtons(int ix, int max);
     /** @brief Returns this effect's monitor scene type if any is needed. */
@@ -103,7 +101,6 @@ private slots:
 
 private slots:
     void slotSwitch(bool expand);
-    void slotShow(bool show);
     void slotDeleteEffect();
     void slotEffectUp();
     void slotEffectDown();
@@ -136,8 +133,6 @@ private:
     QLabel *m_colorIcon;
     QPixmap m_iconPix;
     QPoint m_dragStart;
-    /** @brief Check if collapsed state changed and inform MLT. */
-    void updateCollapsedState();
 
 protected:
     void mouseDoubleClickEvent(QMouseEvent *event) override;

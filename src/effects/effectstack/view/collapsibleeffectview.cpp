@@ -185,6 +185,7 @@ CollapsibleEffectView::CollapsibleEffectView(std::shared_ptr<EffectItemModel> ef
         cb->installEventFilter(this);
         cb->setFocusPolicy(Qt::StrongFocus);
     }
+    m_collapse->setActive(m_model->isCollapsed());
     int height = m_collapse->isActive() ? frame->height() + 4 : frame->height() + m_view->contentHeight() + 4;
     setFixedHeight(height);
 }
@@ -431,27 +432,13 @@ void CollapsibleEffectView::slotResetEffect()
     m_view->resetValues();
 }
 
-void CollapsibleEffectView::slotSwitch(bool expand)
+void CollapsibleEffectView::slotSwitch(bool collapse)
 {
-    slotShow(expand);
-    int height = expand ? frame->height() + 4 : frame->height() + m_view->contentHeight() + 4;
-    widgetFrame->setVisible(!expand);
+    int height = collapse ? frame->height() + 4 : frame->height() + m_view->contentHeight() + 4;
+    widgetFrame->setVisible(!collapse);
     setFixedHeight(height);
     emit switchHeight(m_model, height);
-    /*if (!expand) {
-        widgetFrame->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-        widgetFrame->setFixedHeight(m_view->contentHeight());
-    } else {
-        widgetFrame->setFixedHeight(QWIDGETSIZE_MAX);
-    }*/
-    /*const QRect final_geometry = expand ? QRect(0, 0, width(), title->height()) : QRect(rect().topLeft(), size());
-    QPropertyAnimation *anim = new QPropertyAnimation(this, "geometry", this);
-    anim->setDuration(200);
-    anim->setEasingCurve(QEasingCurve::InOutQuad);
-    anim->setEndValue(final_geometry);
-    //connect(anim, SIGNAL(valueChanged(const QVariant &)), SLOT(animationChanged(const QVariant &)));
-    connect(anim, SIGNAL(finished()), SLOT(animationFinished()));
-    anim->start(QPropertyAnimation::DeleteWhenStopped);*/
+    m_model->setCollapsed(collapse);
 }
 
 void CollapsibleEffectView::animationChanged(const QVariant &geom)
@@ -465,33 +452,6 @@ void CollapsibleEffectView::animationFinished()
         widgetFrame->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Ignored);
     } else {
         widgetFrame->setFixedHeight(m_view->contentHeight());
-    }
-}
-
-void CollapsibleEffectView::slotShow(bool show)
-{
-    if (show) {
-        // collapseButton->setArrowType(Qt::DownArrow);
-        m_info.isCollapsed = false;
-    } else {
-        // collapseButton->setArrowType(Qt::RightArrow);
-        m_info.isCollapsed = true;
-    }
-    updateCollapsedState();
-}
-
-void CollapsibleEffectView::groupStateChanged(bool collapsed)
-{
-    m_info.groupIsCollapsed = collapsed;
-    updateCollapsedState();
-}
-
-void CollapsibleEffectView::updateCollapsedState()
-{
-    QString info = m_info.toString();
-    if (info != m_effect.attribute(QStringLiteral("kdenlive_info"))) {
-        m_effect.setAttribute(QStringLiteral("kdenlive_info"), info);
-        emit parameterChanged(m_original_effect, m_effect, effectIndex());
     }
 }
 

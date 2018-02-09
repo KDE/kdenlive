@@ -118,6 +118,16 @@ void EffectItemModel::updateEnable()
     }
 }
 
+void EffectItemModel::setCollapsed(bool collapsed)
+{
+    filter().set("kdenlive:collapsed", collapsed ? 1 : 0);
+}
+
+bool EffectItemModel::isCollapsed()
+{
+    return filter().get_int("kdenlive:collapsed") == 1;
+}
+
 bool EffectItemModel::isAudio() const
 {
     return EffectsRepository::get()->getType(getAssetId()) == EffectType::Audio;

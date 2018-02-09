@@ -78,10 +78,10 @@ EffectStackView::EffectStackView(AssetPanel *parent)
     m_lay->setSpacing(0);
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setAcceptDrops(true);
-    m_builtStack = new BuiltStack(parent);
+    /*m_builtStack = new BuiltStack(parent);
     m_builtStack->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     m_lay->addWidget(m_builtStack);
-    m_builtStack->setVisible(KdenliveSettings::showbuiltstack());
+    m_builtStack->setVisible(KdenliveSettings::showbuiltstack());*/
     m_effectsTree = new QTreeView(this);
     m_effectsTree->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     m_effectsTree->setHeaderHidden(true);
@@ -165,7 +165,7 @@ void EffectStackView::setModel(std::shared_ptr<EffectStackModel> model, QPair<in
     qDebug() << "MUTEX UNLOCK!!!!!!!!!!!! setmodel";
     loadEffects(range);
     connect(m_model.get(), &EffectStackModel::dataChanged, this, &EffectStackView::refresh);
-    m_builtStack->setModel(model, stackOwner());
+    //m_builtStack->setModel(model, stackOwner());
 }
 
 void EffectStackView::loadEffects(QPair<int, int> range, int start, int end)
@@ -314,9 +314,11 @@ ObjectId EffectStackView::stackOwner() const
     return ObjectId(ObjectType::NoItem, -1);
 }
 
+/*
 void EffectStackView::switchBuiltStack(bool show)
 {
     m_builtStack->setVisible(show);
     m_effectsTree->setVisible(!show);
     KdenliveSettings::setShowbuiltstack(show);
 }
+*/
