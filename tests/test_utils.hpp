@@ -45,7 +45,7 @@ using namespace fakeit;
     Spy(Method(mock, _endInsertRows));                                                                                                                         \
     Spy(Method(mock, _endRemoveRows));                                                                                                                         \
     Spy(OverloadedMethod(mock, notifyChange, void(const QModelIndex &, const QModelIndex &, bool, bool, bool)));                                               \
-    Spy(OverloadedMethod(mock, notifyChange, void(const QModelIndex &, const QModelIndex &, QVector<int>)));
+    Spy(OverloadedMethod(mock, notifyChange, void(const QModelIndex &, const QModelIndex &, const QVector<int> &)));
 
 #define NO_OTHERS()                                                                                                                                            \
     VerifyNoOtherInvocations(Method(timMock, _beginRemoveRows));                                                                                               \
@@ -53,7 +53,7 @@ using namespace fakeit;
     VerifyNoOtherInvocations(Method(timMock, _endRemoveRows));                                                                                                 \
     VerifyNoOtherInvocations(Method(timMock, _endInsertRows));                                                                                                 \
     VerifyNoOtherInvocations(OverloadedMethod(timMock, notifyChange, void(const QModelIndex &, const QModelIndex &, bool, bool, bool)));                       \
-    VerifyNoOtherInvocations(OverloadedMethod(timMock, notifyChange, void(const QModelIndex &, const QModelIndex &, QVector<int>)));                           \
+    VerifyNoOtherInvocations(OverloadedMethod(timMock, notifyChange, void(const QModelIndex &, const QModelIndex &, const QVector<int> &)));                           \
     RESET(timMock);
 
 #define CHECK_MOVE(times)                                                                                                                                      \

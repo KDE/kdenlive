@@ -2016,9 +2016,12 @@ void TimelineModel::replugClip(int clipId)
     }
 }
 
-void TimelineModel::requestClipUpdate(int clipId, QVector<int> roles)
+void TimelineModel::requestClipUpdate(int clipId, const QVector<int> &roles)
 {
     QModelIndex modelIndex = makeClipIndexFromID(clipId);
+    if (roles.contains(TimelineModel::ReloadThumbRole)) {
+        m_allClips[clipId]->forceThumbReload = !m_allClips[clipId]->forceThumbReload;
+    }
     notifyChange(modelIndex, modelIndex, roles);
 }
 

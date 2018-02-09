@@ -63,7 +63,9 @@ Rectangle {
     property string hash: 'ccc' //TODO
     property double speed: 1.0
     property color borderColor: 'black'
-    property bool reloadThumb: false
+    property bool forceReloadThumb: false
+    property alias inSource: inThumbnail.source
+    property alias outSource: outThumbnail.source
     width : clipDuration * timeScale;
 
     signal clicked(var clip, int shiftClick)
@@ -128,10 +130,12 @@ Rectangle {
         x = modelStart * timeScale;
     }
 
-    onReloadThumbChanged: {
-        if (mltService === 'color') {
-            var newColor = getColor()
-            color = selected ? newColor : Qt.darker(newColor)
+    onForceReloadThumbChanged: {
+        if (inThumbnail.visible) {
+            clipRoot.inSource = ''
+            clipRoot.inSource = inThumbPath
+            clipRoot.outSource = ''
+            clipRoot.outSource = outThumbPath
         }
     }
 
@@ -336,15 +340,16 @@ Rectangle {
         clip: true
         Image {
             id: outThumbnail
-            visible: timeline.showThumbnails && mltService != 'color' && !isAudio && clipStatus < 2
-            opacity: parentTrack.isAudio || parentTrack.isHidden ? 0.2 : 1
+            visible: inThumbnail.visible
+            opacity: inThumbnail.opacity
             anchors.top: container.top
             anchors.right: container.right
             anchors.bottom: container.bottom
             anchors.rightMargin: Math.min(0, container.width - 2 * inThumbnail.width)
-            width: height * 16.0/9.0
+            width: inThumbnail.width
             fillMode: Image.PreserveAspectFit
             asynchronous: true
+            cache: false
             source: outThumbPath
         }
 
@@ -358,6 +363,7 @@ Rectangle {
             width: height * 16.0/9.0
             fillMode: Image.PreserveAspectFit
             asynchronous: true
+            cache: false
             source: inThumbPath
         }
 

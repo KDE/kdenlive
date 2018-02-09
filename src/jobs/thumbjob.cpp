@@ -32,12 +32,13 @@
 #include <QScopedPointer>
 #include <mlt++/MltProducer.h>
 
-ThumbJob::ThumbJob(const QString &binId, int imageHeight, int frameNumber, bool persistent)
+ThumbJob::ThumbJob(const QString &binId, int imageHeight, int frameNumber, bool persistent, bool reloadAllThumbs)
     : AbstractClipJob(THUMBJOB, binId)
     , m_frameNumber(frameNumber)
     , m_fullWidth(imageHeight * pCore->getCurrentDar() + 0.5)
     , m_imageHeight(imageHeight)
     , m_persistent(persistent)
+    , m_reloadAll(reloadAllThumbs)
     , m_subClip(false)
 {
     auto item = pCore->projectItemModel()->getItemByBinId(binId);
@@ -77,8 +78,9 @@ bool ThumbJob::startJob()
     if ((m_prod == nullptr) || !m_prod->is_valid()) {
         return false;
     }
+    m_inCache = false;
     int max = m_prod->get_length();
-    m_frameNumber = std::min(max - 1, m_frameNumber);
+    m_frameNumber = m_binClip->clipType() == ClipType::Image ? 0 : qBound(0, m_frameNumber, max - 1);
 
     // m_frameNumber = ProjectClip::getXmlProperty(info.xml, QStringLiteral("kdenlive:thumbnailFrame"), QStringLiteral("-1")).toInt();
     if (ThumbnailCache::get()->hasThumbnail(m_binClip->clipId(), m_frameNumber, !m_persistent)) {
@@ -113,6 +115,13 @@ bool ThumbJob::commitResult(Fun &undo, Fun &redo)
         qDebug() << "ERROR: Trying to consume invalid results";
         return false;
     }
+    if (!m_inCache) {
+        if (m_result.isNull()) {
+            qDebug()<<"+++++\nINVALID RESULT IMAGE\n++++++++++++++";
+        } else {
+            ThumbnailCache::get()->storeThumbnail(m_binClip->clipId(), m_frameNumber, m_result, m_persistent);
+        }
+    }
     m_resultConsumed = true;
 
     // TODO a refactor of ProjectClip and ProjectSubClip should make that possible without branching (both classes implement setThumbnail)
@@ -140,23 +149,26 @@ bool ThumbJob::commitResult(Fun &undo, Fun &redo)
         QImage old = m_binClip->thumbnail(m_result.width(), m_result.height()).toImage();
 
         // note that the image is moved into lambda, it won't be available from this class anymore
-        auto operation = [ clip = m_binClip, image = std::move(m_result) ]()
+        auto operation = [ clip = m_binClip, image = std::move(m_result), this ]()
         {
             clip->setThumbnail(image);
+            if (m_reloadAll) {
+                clip->updateTimelineClips({TimelineModel::ReloadThumbRole});
+            }
             return true;
         };
-        auto reverse = [ clip = m_binClip, image = std::move(old) ]()
+        auto reverse = [ clip = m_binClip, image = std::move(old), this ]()
         {
             clip->setThumbnail(image);
+            if (m_reloadAll) {
+                clip->updateTimelineClips({TimelineModel::ReloadThumbRole});
+            }
             return true;
         };
         ok = operation();
         if (ok) {
             UPDATE_UNDO_REDO_NOLOCK(operation, reverse, undo, redo);
         }
-    }
-    if (!m_inCache) {
-        ThumbnailCache::get()->storeThumbnail(m_binClip->clipId(), m_frameNumber, m_result, m_persistent);
     }
     return ok;
 }

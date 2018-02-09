@@ -82,7 +82,7 @@ public:
     Q_INVOKABLE void setTrackProperty(int tid, const QString &name, const QString &value);
     Q_INVOKABLE QVariant getTrackProperty(int tid, const QString &name);
     void notifyChange(const QModelIndex &topleft, const QModelIndex &bottomright, bool start, bool duration, bool updateThumb) override;
-    void notifyChange(const QModelIndex &topleft, const QModelIndex &bottomright, QVector<int> roles) override;
+    void notifyChange(const QModelIndex &topleft, const QModelIndex &bottomright, const QVector<int> &roles) override;
     void buildTrackCompositing();
     const QString groupsData();
     bool loadGroups(const QString &groupsData);

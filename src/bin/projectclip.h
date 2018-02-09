@@ -190,6 +190,7 @@ public:
     QList<int> timelineInstances() const;
     std::shared_ptr<Mlt::Producer> timelineProducer(PlaylistState::ClipState state = PlaylistState::Original, int track = 1);
     std::shared_ptr<Mlt::Producer> cloneProducer();
+    void updateTimelineClips(QVector<int> roles);
 
 protected:
     friend class ClipModel;
@@ -232,7 +233,6 @@ private:
     QList<int> m_requestedThumbs;
     const QString geometryWithOffset(const QString &data, int offset);
     void doExtractImage();
-    void updateTimelineClips(QVector<int> roles);
 
     std::map<int, std::weak_ptr<TimelineModel>> m_registeredClips;
     std::map<int, std::shared_ptr<Mlt::Producer>> m_timelineProducers;

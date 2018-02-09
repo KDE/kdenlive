@@ -24,6 +24,7 @@
 #include <QQuickImageProvider>
 #include <mlt++/MltProducer.h>
 #include <mlt++/MltProfile.h>
+#include <memory>
 
 class ThumbnailProvider : public QQuickImageProvider
 {
@@ -35,9 +36,8 @@ public:
 
 private:
     QString cacheKey(Mlt::Properties &properties, const QString &service, const QString &resource, const QString &hash, int frameNumber);
-    QImage makeThumbnail(Mlt::Producer *, int frameNumber, const QSize &requestedSize);
+    QImage makeThumbnail(std::shared_ptr<Mlt::Producer> producer, int frameNumber, const QSize &requestedSize);
     Mlt::Profile m_profile;
-    KImageCache *m_cache;
     QCache<int, Mlt::Producer> m_producers;
 };
 

@@ -198,7 +198,7 @@ QHash<int, QByteArray> TimelineItemModel::roleNames() const
     roles[ItemIdRole] = "item";
     roles[ItemATrack] = "a_track";
     roles[HasAudio] = "hasAudio";
-    roles[ReloadThumb] = "reloadThumb";
+    roles[ReloadThumbRole] = "reloadThumb";
     return roles;
 }
 
@@ -219,8 +219,8 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
         }
         return id;
     }
-    // qDebug() << "REQUESTING DATA "<<roleNames()[role]<<index;
     if (isClip(id)) {
+        //qDebug() << "REQUESTING DATA "<<roleNames()[role]<<index;
         std::shared_ptr<ClipModel> clip = m_allClips.at(id);
         // Get data for a clip
         switch (role) {
@@ -284,8 +284,8 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             return clip->fadeIn();
         case FadeOutRole:
             return clip->fadeOut();
-        case ReloadThumb:
-            return false;
+        case ReloadThumbRole:
+            return clip->forceThumbReload;
         default:
             break;
         }
@@ -458,7 +458,7 @@ void TimelineItemModel::notifyChange(const QModelIndex &topleft, const QModelInd
     emit dataChanged(topleft, bottomright, roles);
 }
 
-void TimelineItemModel::notifyChange(const QModelIndex &topleft, const QModelIndex &bottomright, QVector<int> roles)
+void TimelineItemModel::notifyChange(const QModelIndex &topleft, const QModelIndex &bottomright, const QVector<int> &roles)
 {
     emit dataChanged(topleft, bottomright, roles);
 }

@@ -133,7 +133,7 @@ public:
         IsCompositionRole, /// clip only
         FileHashRole,      /// clip only
         SpeedRole,         /// clip only
-        ReloadThumb,       /// clip only
+        ReloadThumbRole,       /// clip only
         ItemATrack,        /// composition only
         ItemIdRole
     };
@@ -489,7 +489,7 @@ public:
     virtual void adjustAssetRange(int clipId, int in, int out);
 
     void requestClipReload(int clipId);
-    void requestClipUpdate(int clipId, QVector<int> roles);
+    void requestClipUpdate(int clipId, const QVector<int> &roles);
 
     /** @brief Returns the effectstack of a given clip. */
     std::shared_ptr<EffectStackModel> getClipEffectStack(int itemId);
@@ -634,7 +634,7 @@ protected:
     virtual void _endRemoveRows() = 0;
     virtual void _endInsertRows() = 0;
     virtual void notifyChange(const QModelIndex &topleft, const QModelIndex &bottomright, bool start, bool duration, bool updateThumb) = 0;
-    virtual void notifyChange(const QModelIndex &topleft, const QModelIndex &bottomright, QVector<int>) = 0;
+    virtual void notifyChange(const QModelIndex &topleft, const QModelIndex &bottomright, const QVector<int> &roles) = 0;
     virtual QModelIndex makeClipIndexFromID(int) const = 0;
     virtual QModelIndex makeCompositionIndexFromID(int) const = 0;
     virtual QModelIndex makeTrackIndexFromID(int) const = 0;

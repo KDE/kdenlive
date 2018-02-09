@@ -289,14 +289,18 @@ void ProjectClip::reloadProducer(bool refreshOnly)
     if (refreshOnly) {
         // In that case, we only want a new thumbnail.
         // We thus set up a thumb job. We must make sure that there is no pending LOADJOB
-        pCore->jobManager()->startJob<ThumbJob>({clipId()}, loadjobId, QString(), 150, -1, true);
+        // Clear cache first
+        ThumbnailCache::get()->invalidateThumbsForClip(clipId());
+        pCore->jobManager()->startJob<ThumbJob>({clipId()}, loadjobId, QString(), 150, -1, true, true);
 
     } else {
         //TODO: check if another load job is running?
         QDomDocument doc;
         QDomElement xml = toXml(doc);
         if (!xml.isNull()) {
-            pCore->jobManager()->startJob<LoadJob>({clipId()}, -1, QString(), xml);
+            ThumbnailCache::get()->invalidateThumbsForClip(clipId());
+            int loadJob = pCore->jobManager()->startJob<LoadJob>({clipId()}, -1, QString(), xml);
+            pCore->jobManager()->startJob<ThumbJob>({clipId()}, loadJob, QString(), 150, -1, true, true);
         }
     }
 }
@@ -328,7 +332,6 @@ void ProjectClip::setThumbnail(const QImage &img)
         p.drawText(r, Qt::AlignCenter, i18nc("The first letter of Proxy, used as abbreviation", "P"));
     }
     m_thumbnail = QIcon(thumb);
-    updateTimelineClips(QVector<int>() << TimelineModel::ReloadThumb);
     if (auto ptr = m_model.lock()) {
         std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()), AbstractProjectItem::DataThumbnail);
     }
@@ -391,13 +394,14 @@ std::shared_ptr<Mlt::Producer> ProjectClip::thumbProducer()
     }
     Clip clip(*prod.get());
     if (KdenliveSettings::gpu_accel()) {
+        //TODO: when the original producer changes, we must reload this thumb producer
         m_thumbsProducer = std::make_shared<Mlt::Producer>(clip.softClone(ClipController::getPassPropertiesList()));
         Mlt::Filter scaler(*prod->profile(), "swscale");
         Mlt::Filter converter(*prod->profile(), "avcolor_space");
         m_thumbsProducer->attach(scaler);
         m_thumbsProducer->attach(converter);
     } else {
-        m_thumbsProducer = std::make_shared<Mlt::Producer>(clip.clone());
+        m_thumbsProducer = std::make_shared<Mlt::Producer>(new Mlt::Producer(prod.get()));
     }
     return m_thumbsProducer;
 }
@@ -501,6 +505,7 @@ const QString ProjectClip::getFileHash()
         fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
         break;
     case ClipType::Text:
+    case ClipType::TextTemplate:
         fileData = getProducerProperty(QStringLiteral("xmldata")).toUtf8();
         fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
         break;
@@ -534,6 +539,7 @@ const QString ProjectClip::getFileHash()
         break;
     }
     if (fileHash.isEmpty()) {
+        qDebug()<<"// WARNING EMPTY CLIP HASH: ";
         return QString();
     }
     QString result = fileHash.toHex();

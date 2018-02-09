@@ -104,12 +104,6 @@ Column{
                 }
                 Binding {
                     target: loader.item
-                    property: "reloadThumb"
-                    value: model.reloadThumb
-                    when: loader.status == Loader.Ready && loader.item.isComposition === false
-                }
-                Binding {
-                    target: loader.item
                     property: "clipStatus"
                     value: model.clipStatus
                     when: loader.status == Loader.Ready && !loader.item.isComposition
@@ -186,13 +180,12 @@ Column{
                     value: model.resource
                     when: loader.status == Loader.Ready && !loader.item.isComposition
                 }
-                /*Binding {
+                Binding {
                     target: loader.item
-                    property: "clipId"
-                    value: model.item
-                    when: loader.status == Loader.Ready
+                    property: "forceReloadThumb"
+                    value: model.reloadThumb
+                    when: loader.status == Loader.Ready && !loader.item.isComposition
                 }
-                */
                 Binding {
                     target: loader.item
                     property: "binId"

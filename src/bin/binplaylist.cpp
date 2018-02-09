@@ -112,7 +112,6 @@ void BinPlaylist::removeBinClip(const QString &id)
 void BinPlaylist::changeProducer(const QString &id, const std::shared_ptr<Mlt::Producer> &producer)
 {
     Q_ASSERT(m_allClips.count(id) > 0);
-    qDebug() << "888888888 Changing producer"<<id;
     removeBinClip(id);
     m_binPlaylist->append(*producer.get());
 }

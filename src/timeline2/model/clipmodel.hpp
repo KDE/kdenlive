@@ -151,6 +151,8 @@ protected:
     QString m_binClipId; // This is the Id of the bin clip this clip corresponds to.
 
     bool m_endlessResize; // Whether this clip can be freely resized
+
+    bool forceThumbReload; // Used to trigger a forced thumb reload, when producer changes
 };
 
 #endif

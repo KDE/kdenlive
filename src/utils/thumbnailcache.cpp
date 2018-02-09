@@ -136,12 +136,22 @@ QImage ThumbnailCache::getThumbnail(const QString &binId, int pos, bool volatile
 void ThumbnailCache::storeThumbnail(const QString &binId, int pos, const QImage &img, bool persistent)
 {
     QMutexLocker locker(&m_mutex);
-    auto key = getKey(binId, pos);
+    const QString key = getKey(binId, pos);
     if (persistent) {
         bool ok = false;
         QDir thumbFolder = getDir(&ok);
         if (ok) {
-            img.save(thumbFolder.absoluteFilePath(key));
+            if (!img.save(thumbFolder.absoluteFilePath(key))) {
+                qDebug()<<".............\nAAAAAAAAAAAARGH ERROR SAVING THUMB";
+            }
+            m_storedOnDisk[binId].push_back(pos);
+            // if volatile cache also contains this entry, update it
+            if (m_volatileCache->contains(key)) {
+                m_volatileCache->remove(key);
+            } else {
+                m_storedVolatile[binId].push_back(pos);
+            }
+            m_volatileCache->insert(key, img, img.byteCount());
         }
     } else {
         m_volatileCache->insert(key, img, img.byteCount());
@@ -152,14 +162,23 @@ void ThumbnailCache::storeThumbnail(const QString &binId, int pos, const QImage 
 void ThumbnailCache::invalidateThumbsForClip(const QString &binId)
 {
     QMutexLocker locker(&m_mutex);
-    for (int pos : m_storedVolatile.at(binId)) {
-        auto key = getKey(binId, pos);
-        m_volatileCache->remove(key);
+    if (m_storedVolatile.find(binId) != m_storedVolatile.end()) {
+        for (int pos : m_storedVolatile.at(binId)) {
+            auto key = getKey(binId, pos);
+            m_volatileCache->remove(key);
+        }
+        m_storedVolatile.erase(binId);
     }
-    m_storedVolatile.erase(binId);
-
-    Q_ASSERT(false);
-    // TODO implement the invalidation for persistent cache
+    bool ok = false;
+    QDir thumbFolder = getDir(&ok);
+    if (ok && m_storedOnDisk.find(binId) != m_storedOnDisk.end()) {
+        // Remove persistent cache
+        for (int pos : m_storedOnDisk.at(binId)) {
+            auto key = getKey(binId, pos);
+            QFile::remove(thumbFolder.absoluteFilePath(key));
+        }
+        m_storedOnDisk.erase(binId);
+    }
 }
 
 // static
