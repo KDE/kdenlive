@@ -106,6 +106,7 @@ int main(int argc, char *argv[])
     aboutData.setOrganizationDomain(QByteArray("kde.org"));
     aboutData.setOtherText(
         i18n("Using:\n<a href=\"https://mltframework.org\">MLT</a> version %1\n<a href=\"https://ffmpeg.org\">FFmpeg</a> libraries", mlt_version_get_string()));
+    aboutData.setDesktopFileName(QStringLiteral("org.kde.kdenlive"));
 
     // Register about data
     KAboutData::setApplicationData(aboutData);
