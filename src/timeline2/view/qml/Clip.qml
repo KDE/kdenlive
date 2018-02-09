@@ -470,6 +470,7 @@ Rectangle {
         KeyframeView {
             id: effectRow
             visible: clipRoot.showKeyframes && keyframeModel
+            selected: clipRoot.selected
             inPoint: clipRoot.inPoint
             outPoint: clipRoot.outPoint
         }

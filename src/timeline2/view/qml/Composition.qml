@@ -171,6 +171,7 @@ Item {
             KeyframeView {
                 id: effectRow
                 visible: compositionRoot.showKeyframes && keyframeModel
+                selected: compositionRoot.selected
                 inPoint: 0
                 outPoint: compositionRoot.clipDuration
             }

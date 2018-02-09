@@ -33,6 +33,7 @@ Rectangle
     property int activeIndex
     property int inPoint
     property int outPoint
+    property bool selected
 
     onKfrCountChanged: {
         keyframecanvas.requestPaint()
@@ -94,7 +95,7 @@ Rectangle
             }
             width: Math.max(1, timeScale)
             color: kfMouseArea.containsMouse ? 'darkred' : 'transparent'
-            visible: clipRoot.selected
+            visible: keyframeContainer.selected
             MouseArea {
                 id: kfMouseArea
                 anchors.fill: parent

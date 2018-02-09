@@ -1424,7 +1424,6 @@ bool TimelineModel::requestCompositionInsertion(const QString &transitionId, int
     if (result && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Insert Composition"));
     }
-    _resetView();
     return result;
 }
 
@@ -1684,13 +1683,6 @@ bool TimelineModel::replantCompositions(int currentCompo, bool updateView)
     for (const auto &compo : compos) {
         int aTrack = m_allCompositions[compo.second]->getATrack();
         Q_ASSERT(aTrack != -1);
-        if (!trackCompositions.isEmpty()) {
-            int compositingB = trackCompositions.first()->get_b_track();
-            if (compositingB < compo.first) {
-                Mlt::Transition *firstTr = trackCompositions.takeFirst();
-                field->plant_transition(*firstTr, firstTr->get_a_track(), compositingB);
-            }
-        }
 
         int ret = field->plant_transition(*m_allCompositions[compo.second].get(), aTrack, compo.first);
         qDebug() << "Planting composition " << compo.second << "in " << aTrack << "/" << compo.first << "IN = " << m_allCompositions[compo.second]->getIn()
