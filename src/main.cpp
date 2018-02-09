@@ -67,9 +67,6 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
     app.setApplicationName(QStringLiteral("kdenlive"));
     app.setOrganizationDomain(QStringLiteral("kde.org"));
-#if  (QT_VERSION >= QT_VERSION_CHECK(5, 7, 0))
-    app.setDesktopFileName(QStringLiteral("org.kde.kdenlive"));
-#endif
     app.setWindowIcon(QIcon(QStringLiteral(":/pics/kdenlive.png")));
     KLocalizedString::setApplicationDomain("kdenlive");
     KSharedConfigPtr config = KSharedConfig::openConfig();
@@ -118,6 +115,7 @@ int main(int argc, char *argv[])
     aboutData.setTranslator(i18n("NAME OF TRANSLATORS"), i18n("EMAIL OF TRANSLATORS"));
     aboutData.setOrganizationDomain(QByteArray("kde.org"));
     aboutData.setOtherText(i18n("Using:\n<a href=\"https://mltframework.org\">MLT</a> version %1\n<a href=\"https://ffmpeg.org\">FFmpeg</a> libraries", mlt_version_get_string()));
+    aboutData.setDesktopFileName(QStringLiteral("org.kde.kdenlive"));
 
     // Register about data
     KAboutData::setApplicationData(aboutData);
