@@ -158,7 +158,7 @@ signals:
     void offsetChanged();
     void monitorPlay();
     void switchFullScreen(bool minimizeOnly = false);
-    void mouseSeek(int eventDelta, int modifiers);
+    void mouseSeek(int eventDelta, uint modifiers);
     void startDrag();
     void analyseFrame(const QImage &);
     void audioSamplesSignal(const audioShortVector &, int, int, int);
