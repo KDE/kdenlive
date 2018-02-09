@@ -7,21 +7,10 @@ Menu {
         property int clipStatus
         property int trackId
         property bool grouped
-        
+
         function show() {
             //mergeItem.visible = timeline.mergeClipWithNext(trackIndex, index, true)
             popup()
-        }
-        MenuItem {
-            text: i18n('Cut')
-            onTriggered: {
-                if (!parentTrack.isLocked) {
-                    timeline.copyClip(trackId, index)
-                    timeline.remove(trackId, index)
-                } else {
-                    root.pulseLockButtonOnTrack(trackId)
-                }
-            }
         }
         MenuItem {
             visible: !grouped && timeline.selection.length > 1
@@ -42,11 +31,6 @@ Menu {
         MenuItem {
             text: i18n('Remove')
             onTriggered: timeline.triggerAction('delete_timeline_clip')
-        }
-        MenuItem {
-            visible: true
-            text: i18n('Lift')
-            onTriggered: timeline.extract(clipId)
         }
         MenuSeparator {
             visible: true
