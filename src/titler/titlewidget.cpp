@@ -149,13 +149,13 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     title_duration->setText(m_tc.reformatSeparators(KdenliveSettings::title_duration()));
 
     connect(backgroundColor, &KColorButton::changed, this, &TitleWidget::slotChangeBackground);
-    connect(backgroundAlpha, SIGNAL(valueChanged(int)), this, SLOT(slotChangeBackground()));
+    connect(backgroundAlpha, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &TitleWidget::slotChangeBackground);
 
     connect(shadowBox, &QGroupBox::toggled, this, &TitleWidget::slotUpdateShadow);
     connect(shadowColor, &KColorButton::changed, this, &TitleWidget::slotUpdateShadow);
-    connect(blur_radius, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateShadow()));
-    connect(shadowX, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateShadow()));
-    connect(shadowY, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateShadow()));
+    connect(blur_radius, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &TitleWidget::slotUpdateShadow);
+    connect(shadowX, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &TitleWidget::slotUpdateShadow);
+    connect(shadowY, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &TitleWidget::slotUpdateShadow);
 
     connect(fontColorButton, &KColorButton::changed, this, &TitleWidget::slotUpdateText);
     connect(plain_color, &QAbstractButton::clicked, this, &TitleWidget::slotUpdateText);
@@ -164,10 +164,10 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
 
     connect(textOutlineColor, &KColorButton::changed, this, &TitleWidget::slotUpdateText);
     connect(font_family, &QFontComboBox::currentFontChanged, this, &TitleWidget::slotUpdateText);
-    connect(font_size, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateText()));
-    connect(letter_spacing, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateText()));
-    connect(line_spacing, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateText()));
-    connect(textOutline, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateText()));
+    connect(font_size, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &TitleWidget::slotUpdateText);
+    connect(letter_spacing, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &TitleWidget::slotUpdateText);
+    connect(line_spacing, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &TitleWidget::slotUpdateText);
+    connect(textOutline, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &TitleWidget::slotUpdateText);
     connect(font_weight_box, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateText()));
 
     connect(rectFColor, &KColorButton::changed, this, &TitleWidget::rectChanged);
@@ -175,13 +175,13 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     connect(plain_rect, &QAbstractButton::clicked, this, &TitleWidget::rectChanged);
     connect(gradient_rect, &QAbstractButton::clicked, this, &TitleWidget::rectChanged);
     connect(gradients_rect_combo, SIGNAL(currentIndexChanged(int)), this, SLOT(rectChanged()));
-    connect(rectLineWidth, SIGNAL(valueChanged(int)), this, SLOT(rectChanged()));
+    connect(rectLineWidth, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &TitleWidget::rectChanged);
 
-    connect(zValue, SIGNAL(valueChanged(int)), this, SLOT(zIndexChanged(int)));
-    connect(itemzoom, SIGNAL(valueChanged(int)), this, SLOT(itemScaled(int)));
-    connect(itemrotatex, SIGNAL(valueChanged(int)), this, SLOT(itemRotateX(int)));
-    connect(itemrotatey, SIGNAL(valueChanged(int)), this, SLOT(itemRotateY(int)));
-    connect(itemrotatez, SIGNAL(valueChanged(int)), this, SLOT(itemRotateZ(int)));
+    connect(zValue, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &TitleWidget::zIndexChanged);
+    connect(itemzoom, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &TitleWidget::itemScaled);
+    connect(itemrotatex, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &TitleWidget::itemRotateX);
+    connect(itemrotatey, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &TitleWidget::itemRotateY);
+    connect(itemrotatez, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &TitleWidget::itemRotateZ);
     connect(itemhcenter, &QAbstractButton::clicked, this, &TitleWidget::itemHCenter);
     connect(itemvcenter, &QAbstractButton::clicked, this, &TitleWidget::itemVCenter);
     connect(itemtop, &QAbstractButton::clicked, this, &TitleWidget::itemTop);
@@ -189,8 +189,8 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     connect(itemleft, &QAbstractButton::clicked, this, &TitleWidget::itemLeft);
     connect(itemright, &QAbstractButton::clicked, this, &TitleWidget::itemRight);
     connect(effect_list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotAddEffect(int)));
-    connect(typewriter_delay, SIGNAL(valueChanged(int)), this, SLOT(slotEditTypewriter(int)));
-    connect(typewriter_start, SIGNAL(valueChanged(int)), this, SLOT(slotEditTypewriter(int)));
+    connect(typewriter_delay, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &TitleWidget::slotEditTypewriter);
+    connect(typewriter_start, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &TitleWidget::slotEditTypewriter);
 
     connect(origin_x_left, &QAbstractButton::clicked, this, &TitleWidget::slotOriginXClicked);
     connect(origin_y_top, &QAbstractButton::clicked, this, &TitleWidget::slotOriginYClicked);
@@ -203,10 +203,10 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     m_signalMapper->setMapping(value_h, ValueHeight);
     m_signalMapper->setMapping(value_x, ValueX);
     m_signalMapper->setMapping(value_y, ValueY);
-    connect(value_w, SIGNAL(valueChanged(int)), m_signalMapper, SLOT(map()));
-    connect(value_h, SIGNAL(valueChanged(int)), m_signalMapper, SLOT(map()));
-    connect(value_x, SIGNAL(valueChanged(int)), m_signalMapper, SLOT(map()));
-    connect(value_y, SIGNAL(valueChanged(int)), m_signalMapper, SLOT(map()));
+    connect(value_w, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), m_signalMapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
+    connect(value_h, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), m_signalMapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
+    connect(value_x, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), m_signalMapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
+    connect(value_y, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), m_signalMapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
     connect(m_signalMapper, SIGNAL(mapped(int)), this, SLOT(slotValueChanged(int)));
 
     connect(buttonFitZoom, &QAbstractButton::clicked, this, &TitleWidget::slotAdjustZoom);
@@ -419,7 +419,7 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     graphicsView->setRubberBandSelectionMode(Qt::ContainsItemBoundingRect);
     m_titledocument.setScene(m_scene, m_frameWidth, m_frameHeight);
     connect(m_scene, &QGraphicsScene::changed, this, &TitleWidget::slotChanged);
-    connect(font_size, SIGNAL(valueChanged(int)), m_scene, SLOT(slotUpdateFontSize(int)));
+    connect(font_size, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), m_scene, &GraphicsSceneRectMove::slotUpdateFontSize);
     connect(use_grid, &QAbstractButton::toggled, m_scene, &GraphicsSceneRectMove::slotUseGrid);
 
     // Video frame rect
@@ -468,7 +468,7 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     connect(m_scene, &GraphicsSceneRectMove::newRect, this, &TitleWidget::slotNewRect);
     connect(m_scene, &GraphicsSceneRectMove::newText, this, &TitleWidget::slotNewText);
     connect(zoom_slider, &QAbstractSlider::valueChanged, this, &TitleWidget::slotUpdateZoom);
-    connect(zoom_spin, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateZoom(int)));
+    connect(zoom_spin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &TitleWidget::slotUpdateZoom);
 
     // mbd: load saved settings
     loadGradients();

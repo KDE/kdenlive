@@ -77,15 +77,15 @@ ProfilesDialog::ProfilesDialog(const QString &profileDescription, QWidget *paren
     connect(m_view.button_default, &QAbstractButton::clicked, this, &ProfilesDialog::slotSetDefaultProfile);
 
     connect(m_view.description, &QLineEdit::textChanged, this, &ProfilesDialog::slotProfileEdited);
-    connect(m_view.frame_num, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
-    connect(m_view.frame_den, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
-    connect(m_view.aspect_num, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
-    connect(m_view.aspect_den, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
-    connect(m_view.display_num, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
-    connect(m_view.display_den, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
+    connect(m_view.frame_num, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ProfilesDialog::slotProfileEdited);
+    connect(m_view.frame_den, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ProfilesDialog::slotProfileEdited);
+    connect(m_view.aspect_num, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ProfilesDialog::slotProfileEdited);
+    connect(m_view.aspect_den, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ProfilesDialog::slotProfileEdited);
+    connect(m_view.display_num, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ProfilesDialog::slotProfileEdited);
+    connect(m_view.display_den, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ProfilesDialog::slotProfileEdited);
     connect(m_view.progressive, &QCheckBox::stateChanged, this, &ProfilesDialog::slotProfileEdited);
-    connect(m_view.size_h, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
-    connect(m_view.size_w, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
+    connect(m_view.size_h, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ProfilesDialog::slotProfileEdited);
+    connect(m_view.size_w, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ProfilesDialog::slotProfileEdited);
     connect(m_view.size_w, &QAbstractSpinBox::editingFinished, this, &ProfilesDialog::slotAdjustWidth);
     m_view.size_w->setSingleStep(8);
 }
@@ -127,15 +127,15 @@ ProfilesDialog::ProfilesDialog(const QString &profilePath, bool, QWidget *parent
     connect(m_view.button_save, &QAbstractButton::clicked, this, &ProfilesDialog::slotSaveProfile);
 
     connect(m_view.description, &QLineEdit::textChanged, this, &ProfilesDialog::slotProfileEdited);
-    connect(m_view.frame_num, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
-    connect(m_view.frame_den, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
-    connect(m_view.aspect_num, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
-    connect(m_view.aspect_den, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
-    connect(m_view.display_num, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
-    connect(m_view.display_den, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
+    connect(m_view.frame_num, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ProfilesDialog::slotProfileEdited);
+    connect(m_view.frame_den, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ProfilesDialog::slotProfileEdited);
+    connect(m_view.aspect_num, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ProfilesDialog::slotProfileEdited);
+    connect(m_view.aspect_den, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ProfilesDialog::slotProfileEdited);
+    connect(m_view.display_num, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ProfilesDialog::slotProfileEdited);
+    connect(m_view.display_den, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ProfilesDialog::slotProfileEdited);
     connect(m_view.progressive, &QCheckBox::stateChanged, this, &ProfilesDialog::slotProfileEdited);
-    connect(m_view.size_h, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
-    connect(m_view.size_w, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
+    connect(m_view.size_h, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ProfilesDialog::slotProfileEdited);
+    connect(m_view.size_w, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ProfilesDialog::slotProfileEdited);
     connect(m_view.size_w, &QAbstractSpinBox::editingFinished, this, &ProfilesDialog::slotAdjustWidth);
     m_view.size_w->setSingleStep(8);
 }

@@ -597,8 +597,10 @@ Bin::Bin(const std::shared_ptr<ProjectItemModel> &model, QWidget *parent)
     m_proxyModel->setSourceModel(m_itemModel.get());
     connect(m_itemModel.get(), &QAbstractItemModel::dataChanged, m_proxyModel, &ProjectSortProxyModel::slotDataChanged);
     connect(m_proxyModel, &ProjectSortProxyModel::selectModel, this, &Bin::selectProxyModel);
-    connect(m_itemModel.get(), SIGNAL(itemDropped(QStringList, QModelIndex)), this, SLOT(slotItemDropped(QStringList, QModelIndex)));
-    connect(m_itemModel.get(), SIGNAL(itemDropped(QList<QUrl>, QModelIndex)), this, SLOT(slotItemDropped(QList<QUrl>, QModelIndex)));
+    connect(m_itemModel.get(), static_cast<void(ProjectItemModel::*)(const QStringList&, const QModelIndex&)>(&ProjectItemModel::itemDropped),
+            this, static_cast<void (Bin::*)(const QStringList&, const QModelIndex&)>(&Bin::slotItemDropped));
+    connect(m_itemModel.get(), static_cast<void(ProjectItemModel::*)(const QList<QUrl>&, const QModelIndex&)>(&ProjectItemModel::itemDropped),
+            this, static_cast<void (Bin::*)(const QList<QUrl>&, const QModelIndex&)>(&Bin::slotItemDropped));
     connect(m_itemModel.get(), &ProjectItemModel::effectDropped, this, &Bin::slotEffectDropped);
     connect(m_itemModel.get(), &QAbstractItemModel::dataChanged, this, &Bin::slotItemEdited);
     connect(this, &Bin::refreshPanel, this, &Bin::doRefreshPanel);
@@ -651,7 +653,7 @@ Bin::Bin(const std::shared_ptr<ProjectItemModel> &model, QWidget *parent)
     pCore->window()->actionCollection()->addAction(QStringLiteral("rename"), m_renameAction);
 
     listType->setToolBarMode(KSelectAction::MenuMode);
-    connect(listType, SIGNAL(triggered(QAction *)), this, SLOT(slotInitView(QAction *)));
+    connect(listType, static_cast<void(KSelectAction::*)(QAction*)>(&KSelectAction::triggered), this, &Bin::slotInitView);
 
     // Settings menu
     QMenu *settingsMenu = new QMenu(i18n("Settings"), this);
@@ -1729,7 +1731,7 @@ void Bin::showClipProperties(std::shared_ptr<ProjectClip> clip, bool forceRefres
     connect(this, &Bin::refreshTimeCode, panel, &ClipPropertiesController::slotRefreshTimeCode);
     connect(panel, &ClipPropertiesController::updateClipProperties, this,
             &Bin::slotEditClipCommand);
-    connect(panel, SIGNAL(seekToFrame(int)), m_monitor, SLOT(slotSeek(int)));
+    connect(panel, &ClipPropertiesController::seekToFrame, m_monitor, static_cast<void(Monitor::*)(int)>(&Monitor::slotSeek));
     connect(panel, &ClipPropertiesController::editClip, this, &Bin::slotEditClip);
     connect(panel, SIGNAL(editAnalysis(QString, QString, QString)), this, SLOT(slotAddClipExtraData(QString, QString, QString)));
 

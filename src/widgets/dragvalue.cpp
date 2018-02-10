@@ -77,7 +77,8 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         m_intEdit->setRange((int)m_minimum, (int)m_maximum);
         m_intEdit->setValue((int)m_default);
         l->addWidget(m_intEdit);
-        connect(m_intEdit, SIGNAL(valueChanged(int)), this, SLOT(slotSetValue(int)));
+        connect(m_intEdit, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+                this, static_cast<void(DragValue::*)(int)>(&DragValue::slotSetValue));
         connect(m_intEdit, &QAbstractSpinBox::editingFinished, this, &DragValue::slotEditingFinished);
     } else {
         m_doubleEdit = new QDoubleSpinBox(this);
@@ -137,7 +138,7 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         m_menu->addAction(timeline);
     }
     connect(this, &QWidget::customContextMenuRequested, this, &DragValue::slotShowContextMenu);
-    connect(m_scale, SIGNAL(triggered(int)), this, SLOT(slotSetScaleMode(int)));
+    connect(m_scale, static_cast<void(KSelectAction::*)(int)>(&KSelectAction::triggered), this, &DragValue::slotSetScaleMode);
     connect(m_directUpdate, &QAction::triggered, this, &DragValue::slotSetDirectUpdate);
 }
 

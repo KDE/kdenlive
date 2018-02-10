@@ -79,7 +79,7 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     curve->setCheckable(true);
     m_selectType->addAction(curve);
     m_selectType->setCurrentAction(linear);
-    connect(m_selectType, SIGNAL(triggered(QAction *)), this, SLOT(slotEditKeyframeType(QAction *)));
+    connect(m_selectType, static_cast<void(KSelectAction::*)(QAction*)>(&KSelectAction::triggered), this, &KeyframeWidget::slotEditKeyframeType);
     m_selectType->setToolBarMode(KSelectAction::ComboBoxMode);
     QToolBar *toolbar = new QToolBar(this);
 

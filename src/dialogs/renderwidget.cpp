@@ -211,7 +211,7 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, QWidg
     m_view.audio->setVisible(m_view.options->isChecked());
     connect(m_view.options, &QAbstractButton::toggled, m_view.audio, &QWidget::setVisible);
     connect(m_view.quality, &QAbstractSlider::valueChanged, this, &RenderWidget::adjustAVQualities);
-    connect(m_view.video, SIGNAL(valueChanged(int)), this, SLOT(adjustQuality(int)));
+    connect(m_view.video, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &RenderWidget::adjustQuality);
     connect(m_view.speed, &QAbstractSlider::valueChanged, this, &RenderWidget::adjustSpeed);
 
     m_view.buttonRender->setEnabled(false);
@@ -243,11 +243,11 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, QWidg
     m_view.encoder_threads->setMaximum(QThread::idealThreadCount());
     m_view.encoder_threads->setToolTip(i18n("Encoding threads (0 is automatic)"));
     m_view.encoder_threads->setValue(KdenliveSettings::encodethreads());
-    connect(m_view.encoder_threads, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateEncodeThreads(int)));
+    connect(m_view.encoder_threads, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &RenderWidget::slotUpdateEncodeThreads);
 
     m_view.rescale_keep->setChecked(KdenliveSettings::rescalekeepratio());
-    connect(m_view.rescale_width, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateRescaleWidth(int)));
-    connect(m_view.rescale_height, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateRescaleHeight(int)));
+    connect(m_view.rescale_width, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &RenderWidget::slotUpdateRescaleWidth);
+    connect(m_view.rescale_height, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &RenderWidget::slotUpdateRescaleHeight);
     m_view.rescale_keep->setIcon(KoIconUtils::themedIcon(QStringLiteral("edit-link")));
     m_view.rescale_keep->setToolTip(i18n("Preserve aspect ratio"));
     connect(m_view.rescale_keep, &QAbstractButton::clicked, this, &RenderWidget::slotSwitchAspectRatio);

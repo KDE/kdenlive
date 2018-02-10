@@ -261,7 +261,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
         freeAction->setData(0);
         m_configMenu->addAction(m_forceSize);
         m_forceSize->setCurrentAction(freeAction);
-        connect(m_forceSize, SIGNAL(triggered(QAction *)), this, SLOT(slotForceSize(QAction *)));
+        connect(m_forceSize, static_cast<void(KSelectAction::*)(QAction*)>(&KSelectAction::triggered), this, &Monitor::slotForceSize);
     }
 
     // Create Volume slider popup

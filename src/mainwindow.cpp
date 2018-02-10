@@ -958,7 +958,7 @@ void MainWindow::setupActions()
     sceneMode->addAction(m_overwriteEditTool);
     sceneMode->addAction(m_insertEditTool);
     sceneMode->setCurrentItem(0);
-    connect(sceneMode, SIGNAL(triggered(QAction *)), this, SLOT(slotChangeEdit(QAction *)));
+    connect(sceneMode, static_cast<void(KSelectAction::*)(QAction*)>(&KSelectAction::triggered), this, &MainWindow::slotChangeEdit);
     addAction(QStringLiteral("timeline_mode"), sceneMode);
 
     KDualAction *ac = new KDualAction(i18n("Don't Use Timeline Zone for Insert"), i18n("Use Timeline Zone for Insert"), this);
@@ -996,7 +996,7 @@ void MainWindow::setupActions()
             m_compositeAction->setCurrentAction(previewComposite);
         }
     }
-    connect(m_compositeAction, SIGNAL(triggered(QAction *)), this, SLOT(slotUpdateCompositing(QAction *)));
+    connect(m_compositeAction, static_cast<void(KSelectAction::*)(QAction*)>(&KSelectAction::triggered), this, &MainWindow::slotUpdateCompositing);
     addAction(QStringLiteral("timeline_compositing"), m_compositeAction);
 
     m_timeFormatButton = new KSelectAction(QStringLiteral("00:00:00:00 / 00:00:00:00"), this);
@@ -1008,7 +1008,8 @@ void MainWindow::setupActions()
     } else {
         m_timeFormatButton->setCurrentItem(0);
     }
-    connect(m_timeFormatButton, SIGNAL(triggered(int)), this, SLOT(slotUpdateTimecodeFormat(int)));
+    connect(m_timeFormatButton, static_cast<void(KSelectAction::*)(int)>(&KSelectAction::triggered),
+            this, &MainWindow::slotUpdateTimecodeFormat);
     m_timeFormatButton->setToolBarMode(KSelectAction::MenuMode);
     m_timeFormatButton->setToolButtonPopupMode(QToolButton::InstantPopup);
     addAction(QStringLiteral("timeline_timecode"), m_timeFormatButton);
@@ -1293,7 +1294,7 @@ void MainWindow::setupActions()
     monitorGamma->addAction(i18n("Rec. 709 (TV)"));
     addAction(QStringLiteral("mlt_gamma"), monitorGamma);
     monitorGamma->setCurrentItem(KdenliveSettings::monitor_gamma());
-    connect(monitorGamma, SIGNAL(triggered(int)), this, SLOT(slotSetMonitorGamma(int)));
+    connect(monitorGamma, static_cast<void(KSelectAction::*)(int)>(&KSelectAction::triggered), this, &MainWindow::slotSetMonitorGamma);
 
     addAction(QStringLiteral("switch_trim"), i18n("Trim Mode"), this, SLOT(slotSwitchTrimMode()), KoIconUtils::themedIcon(QStringLiteral("cursor-arrow")));
     // disable shortcut until fully working, Qt::CTRL + Qt::Key_T);

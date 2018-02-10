@@ -345,8 +345,8 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
             spin1->setValue(force_ar_num);
             spin2->setValue(force_ar_den);
         }
-        connect(spin2, SIGNAL(valueChanged(int)), this, SLOT(slotAspectValueChanged(int)));
-        connect(spin1, SIGNAL(valueChanged(int)), this, SLOT(slotAspectValueChanged(int)));
+        connect(spin2, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ClipPropertiesController::slotAspectValueChanged);
+        connect(spin1, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ClipPropertiesController::slotAspectValueChanged);
         connect(box, &QAbstractButton::toggled, spin1, &QWidget::setEnabled);
         connect(box, &QAbstractButton::toggled, spin2, &QWidget::setEnabled);
         vbox->addLayout(hlay);
@@ -446,7 +446,8 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         } else {
             spinI->setValue(1);
         }
-        connect(spinI, SIGNAL(valueChanged(int)), this, SLOT(slotValueChanged(int)));
+        connect(spinI, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+            this, static_cast<void (ClipPropertiesController::*)(int)>(&ClipPropertiesController::slotValueChanged));
         hlay->addWidget(spinI);
         vbox->addLayout(hlay);
 
@@ -463,7 +464,8 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         } else {
             spinI->setValue(vix.toInt());
         }
-        connect(spinI, SIGNAL(valueChanged(int)), this, SLOT(slotValueChanged(int)));
+        connect(spinI, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+            this, static_cast<void (ClipPropertiesController::*)(int)>(&ClipPropertiesController::slotValueChanged));
         hlay->addWidget(spinI);
         vbox->addLayout(hlay);
 
@@ -480,7 +482,8 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         } else {
             spinI->setValue(aix.toInt());
         }
-        connect(spinI, SIGNAL(valueChanged(int)), this, SLOT(slotValueChanged(int)));
+        connect(spinI, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+            this, static_cast<void (ClipPropertiesController::*)(int)>(&ClipPropertiesController::slotValueChanged));
         hlay->addWidget(spinI);
         vbox->addLayout(hlay);
 

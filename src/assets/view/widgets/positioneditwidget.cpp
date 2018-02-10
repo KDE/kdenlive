@@ -51,7 +51,7 @@ PositionEditWidget::PositionEditWidget(std::shared_ptr<AssetParameterModel> mode
 
     m_slider->setValue(value);
     m_display->setValue(value);
-    connect(m_slider, SIGNAL(valueChanged(int)), m_display, SLOT(setValue(int)));
+    connect(m_slider, &QAbstractSlider::valueChanged, m_display, static_cast<void (TimecodeDisplay::*)(int)>(&TimecodeDisplay::setValue));
     connect(m_slider, &QAbstractSlider::valueChanged, this, &PositionEditWidget::valueChanged);
 
     // emit the signal of the base class when appropriate

@@ -234,7 +234,7 @@ DvdWizardMenu::DvdWizardMenu(DVDFORMAT format, QWidget *parent)
 
     connect(m_view.play_text, &QLineEdit::textChanged, this, &DvdWizardMenu::buildButton);
     connect(m_view.text_color, SIGNAL(changed(QColor)), this, SLOT(updateColor()));
-    connect(m_view.font_size, SIGNAL(valueChanged(int)), this, SLOT(buildButton()));
+    connect(m_view.font_size, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &DvdWizardMenu::buildButton);
     connect(m_view.font_family, &QFontComboBox::currentFontChanged, this, &DvdWizardMenu::buildButton);
     connect(m_view.background_image, &KUrlRequester::textChanged, this, &DvdWizardMenu::buildImage);
     connect(m_view.background_color, &KColorButton::changed, this, &DvdWizardMenu::buildColor);

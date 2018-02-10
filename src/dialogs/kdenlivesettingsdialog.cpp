@@ -146,8 +146,8 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString> &map
             }
         }
     }
-    connect(m_configCapture.kcfg_detectedv4ldevices, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdatev4lDevice()));
-    connect(m_configCapture.kcfg_v4l_format, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdatev4lCaptureProfile()));
+    connect(m_configCapture.kcfg_detectedv4ldevices, static_cast<void(KComboBox::*)(int)>(&KComboBox::currentIndexChanged), this, &KdenliveSettingsDialog::slotUpdatev4lDevice);
+    connect(m_configCapture.kcfg_v4l_format, static_cast<void(KComboBox::*)(int)>(&KComboBox::currentIndexChanged), this, &KdenliveSettingsDialog::slotUpdatev4lCaptureProfile);
     connect(m_configCapture.config_v4l, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotEditVideo4LinuxProfile);
 
     slotUpdatev4lDevice();
@@ -236,10 +236,10 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString> &map
 
     loadEncodingProfiles();
 
-    connect(m_configSdl.kcfg_audio_driver, SIGNAL(currentIndexChanged(int)), this, SLOT(slotCheckAlsaDriver()));
-    connect(m_configSdl.kcfg_audio_backend, SIGNAL(currentIndexChanged(int)), this, SLOT(slotCheckAudioBackend()));
+    connect(m_configSdl.kcfg_audio_driver, static_cast<void(KComboBox::*)(int)>(&KComboBox::currentIndexChanged), this, &KdenliveSettingsDialog::slotCheckAlsaDriver);
+    connect(m_configSdl.kcfg_audio_backend, static_cast<void(KComboBox::*)(int)>(&KComboBox::currentIndexChanged), this, &KdenliveSettingsDialog::slotCheckAudioBackend);
     initDevices();
-    connect(m_configCapture.kcfg_grab_capture_type, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateGrabRegionStatus()));
+    connect(m_configCapture.kcfg_grab_capture_type, static_cast<void(KComboBox::*)(int)>(&KComboBox::currentIndexChanged), this, &KdenliveSettingsDialog::slotUpdateGrabRegionStatus);
 
     slotUpdateGrabRegionStatus();
     loadTranscodeProfiles();
@@ -261,7 +261,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString> &map
     m_configCapture.decklink_parameters->setVisible(false);
     m_configCapture.decklink_parameters->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 4);
     m_configCapture.decklink_parameters->setPlainText(KdenliveSettings::decklink_parameters());
-    connect(m_configCapture.kcfg_decklink_profile, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateDecklinkProfile()));
+    connect(m_configCapture.kcfg_decklink_profile, static_cast<void(KComboBox::*)(int)>(&KComboBox::currentIndexChanged), this, &KdenliveSettingsDialog::slotUpdateDecklinkProfile);
     connect(m_configCapture.decklink_showprofileinfo, &QAbstractButton::clicked, m_configCapture.decklink_parameters, &QWidget::setVisible);
 
     // ffmpeg profile
@@ -274,7 +274,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString> &map
     act->setData(2);
     connect(act, &QAction::triggered, this, &KdenliveSettingsDialog::slotManageEncodingProfile);
     m_configCapture.v4l_manageprofile->setDefaultAction(act);
-    connect(m_configCapture.kcfg_v4l_profile, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateV4lProfile()));
+    connect(m_configCapture.kcfg_v4l_profile, static_cast<void(KComboBox::*)(int)>(&KComboBox::currentIndexChanged), this, &KdenliveSettingsDialog::slotUpdateV4lProfile);
     connect(m_configCapture.v4l_showprofileinfo, &QAbstractButton::clicked, m_configCapture.v4l_parameters, &QWidget::setVisible);
 
     // screen grab profile
@@ -286,7 +286,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString> &map
     act->setData(3);
     connect(act, &QAction::triggered, this, &KdenliveSettingsDialog::slotManageEncodingProfile);
     m_configCapture.grab_manageprofile->setDefaultAction(act);
-    connect(m_configCapture.kcfg_grab_profile, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateGrabProfile()));
+    connect(m_configCapture.kcfg_grab_profile, static_cast<void(KComboBox::*)(int)>(&KComboBox::currentIndexChanged), this, &KdenliveSettingsDialog::slotUpdateGrabProfile);
     connect(m_configCapture.grab_showprofileinfo, &QAbstractButton::clicked, m_configCapture.grab_parameters, &QWidget::setVisible);
 
     // Timeline preview
@@ -294,7 +294,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString> &map
     act->setData(1);
     connect(act, &QAction::triggered, this, &KdenliveSettingsDialog::slotManageEncodingProfile);
     m_configProject.preview_manageprofile->setDefaultAction(act);
-    connect(m_configProject.kcfg_preview_profile, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdatePreviewProfile()));
+    connect(m_configProject.kcfg_preview_profile, static_cast<void(KComboBox::*)(int)>(&KComboBox::currentIndexChanged), this, &KdenliveSettingsDialog::slotUpdatePreviewProfile);
     connect(m_configProject.preview_showprofileinfo, &QAbstractButton::clicked, m_configProject.previewparams, &QWidget::setVisible);
     m_configProject.previewparams->setVisible(false);
     m_configProject.previewparams->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 3);
@@ -321,7 +321,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString> &map
     m_configProject.proxy_manageprofile->setDefaultAction(act);
 
     connect(m_configProject.proxy_showprofileinfo, &QAbstractButton::clicked, m_configProject.proxyparams, &QWidget::setVisible);
-    connect(m_configProject.kcfg_proxy_profile, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateProxyProfile()));
+    connect(m_configProject.kcfg_proxy_profile, static_cast<void(KComboBox::*)(int)>(&KComboBox::currentIndexChanged), this, &KdenliveSettingsDialog::slotUpdateProxyProfile);
 
     slotUpdateProxyProfile(-1);
     slotUpdateV4lProfile(-1);

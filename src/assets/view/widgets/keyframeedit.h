@@ -45,7 +45,7 @@ public:
     {
         if (index.column() == 1) {
             QSpinBox *spin = new QSpinBox(parent);
-            connect(spin, SIGNAL(valueChanged(int)), this, SLOT(commitEditorData()));
+            connect(spin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &KeyItemDelegate::commitEditorData);
             connect(spin, &QAbstractSpinBox::editingFinished, this, &KeyItemDelegate::commitAndCloseEditor);
             return spin;
         } else {

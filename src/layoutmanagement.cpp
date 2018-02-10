@@ -37,7 +37,7 @@ LayoutManagement::LayoutManagement(QObject *parent)
     }
     // Required to enable user to add the load layout action to toolbar
     layoutActions->addAction(QStringLiteral("load_layouts"), m_loadLayout);
-    connect(m_loadLayout, SIGNAL(triggered(QAction *)), SLOT(slotLoadLayout(QAction *)));
+    connect(m_loadLayout, static_cast<void(KSelectAction::*)(QAction*)>(&KSelectAction::triggered), this, &LayoutManagement::slotLoadLayout);
 
     connect(pCore->window(), &MainWindow::GUISetupDone, this, &LayoutManagement::slotOnGUISetupDone);
 }

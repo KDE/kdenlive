@@ -88,7 +88,7 @@ ResourceWidget::ResourceWidget(const QString &folder, QWidget *parent)
     connect(m_networkManager, &QNetworkConfigurationManager::onlineStateChanged, this, &ResourceWidget::slotOnlineChanged);
     connect(page_next, &QAbstractButton::clicked, this, &ResourceWidget::slotNextPage);
     connect(page_prev, &QAbstractButton::clicked, this, &ResourceWidget::slotPreviousPage);
-    connect(page_number, SIGNAL(valueChanged(int)), this, SLOT(slotStartSearch(int)));
+    connect(page_number, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ResourceWidget::slotStartSearch);
     connect(info_browser, &QTextBrowser::anchorClicked, this, &ResourceWidget::slotOpenLink);
 
     m_networkAccessManager = new QNetworkAccessManager(this);
