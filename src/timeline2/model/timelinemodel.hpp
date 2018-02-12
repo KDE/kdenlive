@@ -349,7 +349,8 @@ public:
 
     /* @brief Change the duration of an item (clip or composition)
        This action is undoable
-       Returns true on success. If it fails, nothing is modified.
+       Returns the real size reached (can be different, if snapping occurs).
+       If it fails, nothing is modified, and -1 is returned
        @param itemId is the ID of the item
        @param size is the new size of the item
        @param right is true if we change the right side of the item, false otherwise

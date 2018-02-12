@@ -311,29 +311,29 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
     SECTION("Resize orphan clip")
     {
         REQUIRE(timeline->getClipPlaytime(cid2) == length);
-        REQUIRE(timeline->requestItemResize(cid2, 5, true));
+        REQUIRE(timeline->requestItemResize(cid2, 5, true) == 5);
         REQUIRE(timeline->checkConsistency());
         REQUIRE(binModel->getClipByBinID(binId)->frameDuration() == length);
         auto inOut = std::pair<int, int>{0, 4};
         REQUIRE(timeline->m_allClips[cid2]->getInOut() == inOut);
         REQUIRE(timeline->getClipPlaytime(cid2) == 5);
-        REQUIRE_FALSE(timeline->requestItemResize(cid2, 10, false));
-        REQUIRE_FALSE(timeline->requestItemResize(cid2, length + 1, true));
+        REQUIRE(timeline->requestItemResize(cid2, 10, false) == -1);
+        REQUIRE(timeline->requestItemResize(cid2, length + 1, true) == -1);
         REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->getClipPlaytime(cid2) == 5);
         REQUIRE(timeline->getClipPlaytime(cid2) == 5);
-        REQUIRE(timeline->requestItemResize(cid2, 2, false));
+        REQUIRE(timeline->requestItemResize(cid2, 2, false) == 2);
         REQUIRE(timeline->checkConsistency());
         inOut = std::pair<int, int>{3, 4};
         REQUIRE(timeline->m_allClips[cid2]->getInOut() == inOut);
         REQUIRE(timeline->getClipPlaytime(cid2) == 2);
-        REQUIRE_FALSE(timeline->requestItemResize(cid2, length, true));
+        REQUIRE(timeline->requestItemResize(cid2, length, true) == -1);
         REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->getClipPlaytime(cid2) == 2);
         CAPTURE(timeline->m_allClips[cid2]->m_producer->get_in());
-        REQUIRE_FALSE(timeline->requestItemResize(cid2, length - 2, true));
+        REQUIRE(timeline->requestItemResize(cid2, length - 2, true) == -1);
         REQUIRE(timeline->checkConsistency());
-        REQUIRE(timeline->requestItemResize(cid2, length - 3, true));
+        REQUIRE(timeline->requestItemResize(cid2, length - 3, true) == length - 3);
         REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->getClipPlaytime(cid2) == length - 3);
     }
@@ -344,7 +344,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         REQUIRE(timeline->checkConsistency());
         CHECK_INSERT(Once);
 
-        REQUIRE(timeline->requestItemResize(cid1, 5, true));
+        REQUIRE(timeline->requestItemResize(cid1, 5, true) == 5);
         REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->getClipPlaytime(cid1) == 5);
         REQUIRE(timeline->getClipPosition(cid1) == 0);
@@ -355,17 +355,17 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         REQUIRE(binModel->getClipByBinID(binId)->frameDuration() == length);
         CHECK_INSERT(Once);
 
-        REQUIRE_FALSE(timeline->requestItemResize(cid1, 6, true));
-        REQUIRE_FALSE(timeline->requestItemResize(cid1, 6, false));
+        REQUIRE(timeline->requestItemResize(cid1, 6, true) == -1);
+        REQUIRE(timeline->requestItemResize(cid1, 6, false) == -1);
         REQUIRE(timeline->checkConsistency());
         NO_OTHERS();
 
-        REQUIRE(timeline->requestItemResize(cid2, length - 5, false));
+        REQUIRE(timeline->requestItemResize(cid2, length - 5, false) == length - 5);
         REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->getClipPosition(cid2) == 10);
         CHECK_RESIZE(Once);
 
-        REQUIRE(timeline->requestItemResize(cid1, 10, true));
+        REQUIRE(timeline->requestItemResize(cid1, 10, true) == 10);
         REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->getTrackClipsCount(tid1) == 2);
         CHECK_RESIZE(Once);
@@ -383,7 +383,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->getTrackClipsCount(tid2) == 1);
 
-        REQUIRE(timeline->requestItemResize(cid1, 5, false));
+        REQUIRE(timeline->requestItemResize(cid1, 5, false) == 5);
         REQUIRE(timeline->checkConsistency());
 
         // // REQUIRE(timeline->allowClipMove(cid1, tid1, 0));
@@ -443,7 +443,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         REQUIRE(timeline->getClipPosition(cid1) == length);
         REQUIRE(timeline->getClipPosition(cid2) == 0);
 
-        REQUIRE(timeline->requestItemResize(cid2, length - 5, true));
+        REQUIRE(timeline->requestItemResize(cid2, length - 5, true) == length - 5);
         REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->getClipTrackId(cid1) == tid1);
         REQUIRE(timeline->getClipTrackId(cid2) == tid1);
@@ -458,7 +458,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         REQUIRE(timeline->getClipPosition(cid1) == length - 5);
         REQUIRE(timeline->getClipPosition(cid2) == 0);
 
-        REQUIRE(timeline->requestItemResize(cid2, length - 10, false));
+        REQUIRE(timeline->requestItemResize(cid2, length - 10, false) == length - 10);
         REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->getClipTrackId(cid1) == tid1);
         REQUIRE(timeline->getClipTrackId(cid2) == tid1);
@@ -484,7 +484,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
     SECTION("Move and resize")
     {
         REQUIRE(timeline->requestClipMove(cid1, tid1, 0));
-        REQUIRE(timeline->requestItemResize(cid1, length - 2, false));
+        REQUIRE(timeline->requestItemResize(cid1, length - 2, false) == length - 2);
         REQUIRE(timeline->requestClipMove(cid1, tid1, 0));
         auto state = [&]() {
             REQUIRE(timeline->checkConsistency());
@@ -496,12 +496,12 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         state();
 
         // try to resize past the left end
-        REQUIRE_FALSE(timeline->requestItemResize(cid1, length, false));
+        REQUIRE(timeline->requestItemResize(cid1, length, false) == -1);
         state();
 
-        REQUIRE(timeline->requestItemResize(cid1, length - 4, true));
+        REQUIRE(timeline->requestItemResize(cid1, length - 4, true) == length - 4);
         REQUIRE(timeline->requestClipMove(cid2, tid1, length - 4 + 1));
-        REQUIRE(timeline->requestItemResize(cid2, length - 2, false));
+        REQUIRE(timeline->requestItemResize(cid2, length - 2, false) == length - 2);
         REQUIRE(timeline->requestClipMove(cid2, tid1, length - 4 + 1));
         auto state2 = [&]() {
             REQUIRE(timeline->checkConsistency());
@@ -516,9 +516,9 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         state2();
 
         // the gap between the two clips is 1 frame, we try to resize them by 2 frames
-        REQUIRE_FALSE(timeline->requestItemResize(cid1, length - 2, true));
+        REQUIRE(timeline->requestItemResize(cid1, length - 2, true) == -1);
         state2();
-        REQUIRE_FALSE(timeline->requestItemResize(cid2, length, false));
+        REQUIRE(timeline->requestItemResize(cid2, length, false) == -1);
         state2();
 
         REQUIRE(timeline->requestClipMove(cid2, tid1, length - 4));
@@ -535,16 +535,16 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         state3();
 
         // Now the gap is 0 frames, the resize should still fail
-        REQUIRE_FALSE(timeline->requestItemResize(cid1, length - 2, true));
+        REQUIRE(timeline->requestItemResize(cid1, length - 2, true) == -1);
         state3();
-        REQUIRE_FALSE(timeline->requestItemResize(cid2, length, false));
+        REQUIRE(timeline->requestItemResize(cid2, length, false) == -1);
         state3();
 
         // We move cid1 out of the way
         REQUIRE(timeline->requestClipMove(cid1, tid2, 0));
         // now resize should work
-        REQUIRE(timeline->requestItemResize(cid1, length - 2, true));
-        REQUIRE(timeline->requestItemResize(cid2, length, false));
+        REQUIRE(timeline->requestItemResize(cid1, length - 2, true) == length - 2);
+        REQUIRE(timeline->requestItemResize(cid2, length, false) == length);
         REQUIRE(timeline->checkConsistency());
     }
 
@@ -787,8 +787,8 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
     {
         int cid6 = ClipModel::construct(timeline, binId);
         int l = timeline->getClipPlaytime(cid6);
-        REQUIRE(timeline->requestItemResize(cid6, l - 3, true, true, -1));
-        REQUIRE(timeline->requestItemResize(cid6, l - 7, false, true, -1));
+        REQUIRE(timeline->requestItemResize(cid6, l - 3, true, true, -1) == l - 3);
+        REQUIRE(timeline->requestItemResize(cid6, l - 7, false, true, -1) == l - 7);
 
         int newId;
 
@@ -1077,15 +1077,15 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
     {
         REQUIRE(timeline->getClipPlaytime(cid2) == length);
 
-        REQUIRE(timeline->requestItemResize(cid2, length - 5, true));
+        REQUIRE(timeline->requestItemResize(cid2, length - 5, true) == length - 5);
         REQUIRE(undoStack->index() == init_index + 1);
         REQUIRE(timeline->getClipPlaytime(cid2) == length - 5);
 
-        REQUIRE(timeline->requestItemResize(cid2, length - 10, false));
+        REQUIRE(timeline->requestItemResize(cid2, length - 10, false) == length - 10);
         REQUIRE(undoStack->index() == init_index + 2);
         REQUIRE(timeline->getClipPlaytime(cid2) == length - 10);
 
-        REQUIRE_FALSE(timeline->requestItemResize(cid2, length, false));
+        REQUIRE(timeline->requestItemResize(cid2, length, false) == -1);
         REQUIRE(undoStack->index() == init_index + 2);
         REQUIRE(timeline->getClipPlaytime(cid2) == length - 10);
 
@@ -1121,17 +1121,17 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
         check(5, length);
         REQUIRE(undoStack->index() == init_index + 1);
 
-        REQUIRE(timeline->requestItemResize(cid2, length - 5, true));
+        REQUIRE(timeline->requestItemResize(cid2, length - 5, true) == length - 5);
         INFO("Test 2");
         check(5, length - 5);
         REQUIRE(undoStack->index() == init_index + 2);
 
-        REQUIRE(timeline->requestItemResize(cid2, length - 10, false));
+        REQUIRE(timeline->requestItemResize(cid2, length - 10, false) == length - 10);
         INFO("Test 3");
         check(10, length - 10);
         REQUIRE(undoStack->index() == init_index + 3);
 
-        REQUIRE_FALSE(timeline->requestItemResize(cid2, length, false));
+        REQUIRE(timeline->requestItemResize(cid2, length, false) == -1);
         INFO("Test 4");
         check(10, length - 10);
         REQUIRE(undoStack->index() == init_index + 3);
@@ -1202,7 +1202,7 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
         };
         state3();
 
-        REQUIRE(timeline->requestItemResize(cid3, 1, true));
+        REQUIRE(timeline->requestItemResize(cid3, 1, true) == 1);
         auto state4 = [&]() {
             REQUIRE(timeline->checkConsistency());
             REQUIRE(timeline->getTrackClipsCount(tid1) == 2);
@@ -1597,8 +1597,8 @@ TEST_CASE("Advanced trimming operations", "[Trimming]")
         // Trivial split
         REQUIRE(timeline->requestClipMove(cid1, tid1, 0));
         int l = timeline->getClipPlaytime(cid2);
-        REQUIRE(timeline->requestItemResize(cid2, l - 3, true));
-        REQUIRE(timeline->requestItemResize(cid2, l - 5, false));
+        REQUIRE(timeline->requestItemResize(cid2, l - 3, true) == l - 3);
+        REQUIRE(timeline->requestItemResize(cid2, l - 5, false) == l - 5);
         REQUIRE(timeline->requestClipMove(cid2, tid1, l));
         REQUIRE(timeline->requestClipMove(cid3, tid1, l + l - 5));
         auto state = [&]() {
@@ -1675,10 +1675,10 @@ TEST_CASE("Advanced trimming operations", "[Trimming]")
         state2();
 
         REQUIRE(timeline->requestClipMove(splitted, tid2, 9, true, true));
-        REQUIRE_FALSE(timeline->requestItemResize(splitted, l - 3, true, true));
-        REQUIRE(timeline->requestItemResize(splitted, l, false, true));
-        REQUIRE_FALSE(timeline->requestItemResize(cid1, 5, false, true));
-        REQUIRE(timeline->requestItemResize(cid1, l, true, true));
+        REQUIRE(timeline->requestItemResize(splitted, l - 3, true, true) == -1);
+        REQUIRE(timeline->requestItemResize(splitted, l, false, true) == l);
+        REQUIRE(timeline->requestItemResize(cid1, 5, false, true) == -1);
+        REQUIRE(timeline->requestItemResize(cid1, l, true, true) == l);
         auto state3 = [&]() {
             REQUIRE(timeline->checkConsistency());
             REQUIRE(timeline->getClipTrackId(cid1) == tid1);

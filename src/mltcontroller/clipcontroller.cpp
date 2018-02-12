@@ -156,7 +156,7 @@ QString producerXml(const std::shared_ptr<Mlt::Producer> &producer, bool include
     }
     return QString::fromUtf8(c.get("string"));
 }
-}
+} // namespace
 
 void ClipController::getProducerXML(QDomDocument &document, bool includeMeta)
 {
@@ -231,6 +231,11 @@ void ClipController::getInfoForProducer()
 bool ClipController::hasLimitedDuration() const
 {
     return m_hasLimitedDuration;
+}
+
+void ClipController::forceLimitedDuration()
+{
+    m_hasLimitedDuration = true;
 }
 
 std::shared_ptr<Mlt::Producer> ClipController::originalProducer()
@@ -664,10 +669,8 @@ void ClipController::addEffect(QDomElement &xml)
     */
 }
 
-void ClipController::removeEffect(int effectIndex, bool delayRefresh)
-{
-    Q_UNUSED(effectIndex)
-    Q_UNUSED(delayRefresh)
+void ClipController::removeEffect(int effectIndex, bool delayRefresh){
+    Q_UNUSED(effectIndex) Q_UNUSED(delayRefresh)
     // TODO refac: this must be rewritten
     /*
     QMutexLocker lock(&m_effectMutex);
@@ -697,7 +700,6 @@ void ClipController::moveEffect(int oldPos, int newPos)
     effect.moveEffect(oldPos, newPos);
     */
 }
-
 
 int ClipController::effectsCount()
 {

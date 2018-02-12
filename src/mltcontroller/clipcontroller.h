@@ -160,6 +160,7 @@ public:
     void setZone(const QPoint &zone);
     QPoint zone() const;
     bool hasLimitedDuration() const;
+    void forceLimitedDuration();
     Mlt::Properties &properties();
     void initEffect(QDomElement &xml);
     void addEffect(QDomElement &xml);

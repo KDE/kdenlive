@@ -73,4 +73,4 @@ using namespace fakeit;
     Verify(OverloadedMethod(timMock, notifyChange, void(const QModelIndex &, const QModelIndex &, bool, bool, bool))).Exactly(times);                          \
     NO_OTHERS();
 
-QString createProducer(Mlt::Profile &prof, std::string color, std::shared_ptr<ProjectItemModel> binModel, int length = 20);
+QString createProducer(Mlt::Profile &prof, std::string color, std::shared_ptr<ProjectItemModel> binModel, int length = 20, bool limited = true);
