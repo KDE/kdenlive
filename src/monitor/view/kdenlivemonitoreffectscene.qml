@@ -3,6 +3,7 @@ import QtQuick 2.0
 Item {
     id: root
     objectName: "rooteffectscene"
+    SystemPalette { id: activePalette }
 
     // default size, but scalable by user
     height: 300; width: 400
@@ -18,6 +19,13 @@ Item {
     property double offsetx : 0
     property double offsety : 0
     property double lockratio : -1
+    property int rulerHeight: 20
+    property double timeScale: 1
+    property double frameSize: 10
+    property int duration: 300
+    property bool mouseOverRuler: false
+    property int mouseRulerPos: 0
+    property int consumerPosition: -1
     onScalexChanged: canvas.requestPaint()
     onScaleyChanged: canvas.requestPaint()
     onOffsetxChanged: canvas.requestPaint()
@@ -35,6 +43,18 @@ Item {
     signal toolBarChanged(bool doAccept)
     onZoomChanged: {
         effectToolBar.setZoom(root.zoom)
+    }
+    onDurationChanged: {
+        timeScale = width / duration
+        if (duration < 200) {
+            frameSize = 5 * timeScale
+        } else if (duration < 2500) {
+            frameSize = 25 * timeScale
+        } else if (duration < 10000) {
+            frameSize = 50 * timeScale
+        } else {
+            frameSize = 100 * timeScale
+        }
     }
 
     Text {
@@ -509,5 +529,14 @@ Item {
             height: 1
             color: framerect.hoverColor
         }
+    }
+    MonitorRuler {
+        id: clipMonitorRuler
+        anchors {
+            left: root.left
+            right: root.right
+            bottom: root.bottom
+        }
+        height: root.rulerHeight
     }
 }

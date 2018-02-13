@@ -360,6 +360,9 @@ int Core::getItemIn(const ObjectId &id)
             return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getCompositionPosition(id.second);
         }
         break;
+    case ObjectType::BinClip:
+        return 0;
+        break;
     default:
         qDebug() << "ERROR: unhandled object type";
     }
@@ -379,6 +382,9 @@ int Core::getItemDuration(const ObjectId &id)
         if (m_mainWindow->getCurrentTimeline()->controller()->getModel()->isComposition(id.second)) {
             return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getCompositionPlaytime(id.second);
         }
+        break;
+    case ObjectType::BinClip:
+        return m_binWidget->getClipDuration(id.second);
         break;
     default:
         qDebug() << "ERROR: unhandled object type";

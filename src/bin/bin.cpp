@@ -3165,6 +3165,13 @@ std::shared_ptr<EffectStackModel> Bin::getClipEffectStack(int itemId)
     return effectStack;
 }
 
+int Bin::getClipDuration(int itemId) const
+{
+    std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(QString::number(itemId));
+    Q_ASSERT(clip != nullptr);
+    return clip->frameDuration();
+}
+
 QString Bin::getCurrentFolder()
 {
     // Check parent item

@@ -322,7 +322,22 @@ void MainWindow::init()
     connect(this, &MainWindow::clearAssetPanel, m_assetPanel, &AssetPanel::clearAssetPanel);
     connect(this, &MainWindow::adjustAssetPanelRange, m_assetPanel, &AssetPanel::adjustAssetPanelRange);
 
-    connect(m_assetPanel, &AssetPanel::seekToPos, [this](int pos) { getCurrentTimeline()->controller()->setPosition(pos); });
+    connect(m_assetPanel, &AssetPanel::seekToPos, [this](int pos) {
+        ObjectId oId = m_assetPanel->effectStackOwner();
+        switch (oId.first) {
+            case ObjectType::TimelineTrack:
+            case ObjectType::TimelineClip:
+            case ObjectType::TimelineComposition:
+                getCurrentTimeline()->controller()->setPosition(pos); 
+                break;
+            case ObjectType::BinClip:
+                m_clipMonitor->requestSeek(pos);
+                break;
+            default:
+                qDebug()<<"ERROR unhandled object type";
+                break;
+        }
+    });
 
     m_effectStackDock = addDock(i18n("Properties"), QStringLiteral("effect_stack"), m_assetPanel);
 

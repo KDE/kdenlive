@@ -29,10 +29,9 @@
 #include <QLocale>
 #include <QString>
 
-AssetParameterModel::AssetParameterModel(Mlt::Properties *asset, const QDomElement &assetXml, const QString &assetId, ObjectId ownerId,
-                                         Kdenlive::MonitorId monitor, QObject *parent)
+AssetParameterModel::AssetParameterModel(Mlt::Properties *asset, const QDomElement &assetXml, const QString &assetId, ObjectId ownerId, QObject *parent)
     : QAbstractListModel(parent)
-    , monitorId(monitor)
+    , monitorId(ownerId.first == ObjectType::BinClip ? Kdenlive::ClipMonitor : Kdenlive::ProjectMonitor)
     , m_xml(assetXml)
     , m_assetId(assetId)
     , m_ownerId(ownerId)

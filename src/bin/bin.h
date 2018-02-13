@@ -384,6 +384,7 @@ public slots:
     void droppedUrls(const QList<QUrl> &urls, const QStringList &folderInfo = QStringList());
     /** @brief Returns the effectstack of a given clip. */
     std::shared_ptr<EffectStackModel> getClipEffectStack(int itemId);
+    int getClipDuration(int itemId) const;
 
 protected:
     /* This function is called whenever an item is selected to propagate signals

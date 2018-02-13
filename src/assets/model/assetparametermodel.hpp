@@ -69,8 +69,7 @@ class AssetParameterModel : public QAbstractListModel, public enable_shared_from
     Q_OBJECT
 
 public:
-    explicit AssetParameterModel(Mlt::Properties *asset, const QDomElement &assetXml, const QString &assetId, ObjectId ownerId,
-                                 Kdenlive::MonitorId monitor = Kdenlive::ProjectMonitor, QObject *parent = nullptr);
+    explicit AssetParameterModel(Mlt::Properties *asset, const QDomElement &assetXml, const QString &assetId, ObjectId ownerId, QObject *parent = nullptr);
     virtual ~AssetParameterModel();
     enum {
         NameRole = Qt::UserRole + 1,
