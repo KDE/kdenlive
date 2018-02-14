@@ -36,6 +36,36 @@ GroupsModel::GroupsModel(std::weak_ptr<TimelineItemModel> parent)
 {
 }
 
+void GroupsModel::promoteToGroup(int gid, GroupType type)
+{
+    Q_ASSERT(type != GroupType::Leaf);
+    Q_ASSERT(m_groupIds.count(gid) == 0);
+    m_groupIds.insert({gid, type});
+
+    auto ptr = m_parent.lock();
+    if (ptr) {
+        // qDebug() << "Registering group" << gid << "of type" << groupTypeToStr(getType(gid));
+        ptr->registerGroup(gid);
+    } else {
+        qDebug() << "Impossible to create group because the timeline is not available anymore";
+        Q_ASSERT(false);
+    }
+}
+void GroupsModel::downgradeToLeaf(int gid)
+{
+    Q_ASSERT(m_groupIds.count(gid) != 0);
+    Q_ASSERT(m_downLink.at(gid).size() == 0);
+    auto ptr = m_parent.lock();
+    if (ptr) {
+        // qDebug() << "Deregistering group" << gid << "of type" << groupTypeToStr(getType(gid));
+        ptr->deregisterGroup(gid);
+        m_groupIds.erase(gid);
+    } else {
+        qDebug() << "Impossible to ungroup item because the timeline is not available anymore";
+        Q_ASSERT(false);
+    }
+}
+
 Fun GroupsModel::groupItems_lambda(int gid, const std::unordered_set<int> &ids, GroupType type, int parent)
 {
     QWriteLocker locker(&m_lock);
@@ -46,18 +76,11 @@ Fun GroupsModel::groupItems_lambda(int gid, const std::unordered_set<int> &ids, 
             setGroup(gid, parent);
         }
 
-        Q_ASSERT(m_groupIds.count(gid) == 0);
-        m_groupIds.insert({gid, type});
-
-        auto ptr = m_parent.lock();
-        if (ptr) {
-            ptr->registerGroup(gid);
-        } else {
-            qDebug() << "Impossible to create group because the timeline is not available anymore";
-            Q_ASSERT(false);
-        }
+        promoteToGroup(gid, type);
         std::unordered_set<int> roots;
         std::transform(ids.begin(), ids.end(), std::inserter(roots, roots.begin()), [&](int id) { return getRootId(id); });
+        auto ptr = m_parent.lock();
+        if (!ptr) Q_ASSERT(false);
         for (int id : roots) {
             setGroup(getRootId(id), gid);
             if (type != GroupType::Selection && ptr->isClip(id)) {
@@ -113,23 +136,19 @@ Fun GroupsModel::destructGroupItem_lambda(int id)
 {
     QWriteLocker locker(&m_lock);
     return [this, id]() {
-        auto ptr = m_parent.lock();
-        if (m_groupIds.count(id) > 0) {
-            if (ptr) {
-                ptr->deregisterGroup(id);
-                m_groupIds.erase(id);
-            } else {
-                qDebug() << "Impossible to ungroup item because the timeline is not available anymore";
-                Q_ASSERT(false);
-            }
-        }
         removeFromGroup(id);
+        auto ptr = m_parent.lock();
+        if (!ptr) Q_ASSERT(false);
         for (int child : m_downLink[id]) {
             m_upLink[child] = -1;
             if (ptr->isClip(child)) {
                 QModelIndex ix = ptr->makeClipIndexFromID(child);
                 ptr->dataChanged(ix, ix, {TimelineModel::GroupedRole});
             }
+        }
+        m_downLink[id].clear();
+        if (getType(id) != GroupType::Leaf) {
+            downgradeToLeaf(id);
         }
         m_downLink.erase(id);
         m_upLink.erase(id);
@@ -249,6 +268,9 @@ void GroupsModel::setGroup(int id, int groupId)
     removeFromGroup(id);
     m_upLink[id] = groupId;
     if (groupId != -1) m_downLink[groupId].insert(id);
+    if (getType(groupId) == GroupType::Leaf) {
+        promoteToGroup(groupId, GroupType::Normal);
+    }
 }
 
 void GroupsModel::removeFromGroup(int id)
@@ -258,7 +280,11 @@ void GroupsModel::removeFromGroup(int id)
     Q_ASSERT(m_downLink.count(id) > 0);
     int parent = m_upLink[id];
     if (parent != -1) {
+        Q_ASSERT(getType(parent) != GroupType::Leaf);
         m_downLink[parent].erase(id);
+        if (m_downLink[parent].size() == 0) {
+            downgradeToLeaf(parent);
+        }
     }
     m_upLink[id] = -1;
 }

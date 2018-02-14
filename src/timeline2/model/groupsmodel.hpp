@@ -185,6 +185,12 @@ protected:
     */
     int fromJson(const QJsonObject &o, Fun &undo, Fun &redo);
 
+    /* @brief Transform a leaf node into a group node of given type. This implies doing the registration to the timeline */
+    void promoteToGroup(int gid, GroupType type);
+
+    /* @brief Transform a group node with no children into a leaf. This implies doing the deregistration to the timeline */
+    void downgradeToLeaf(int gid);
+
 private:
     std::weak_ptr<TimelineItemModel> m_parent;
 
