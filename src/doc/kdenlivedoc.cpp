@@ -707,11 +707,6 @@ QDomNodeList KdenliveDoc::producersList()
     return m_document.elementsByTagName(QStringLiteral("producer"));
 }
 
-double KdenliveDoc::projectDuration() const
-{
-    return GenTime(pCore->monitorManager()->projectMonitor()->duration(), pCore->getCurrentFps()).ms() / 1000;
-}
-
 int KdenliveDoc::width() const
 {
     return pCore->getCurrentProfile()->width();

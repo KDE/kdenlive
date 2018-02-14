@@ -153,9 +153,7 @@ public:
     /** @brief Clear monitor display **/
     void clearDisplay();
     void setProducer(Mlt::Producer *producer, int pos = -1);
-    /** @brief Returns current monitor's duration in frames **/
-    int duration() const;
-    void reconfigure();
+   void reconfigure();
     /** @brief Saves current monitor frame to an image file, and add it to project if addToProject is set to true **/
     void slotExtractCurrentFrame(QString frameName = QString(), bool addToProject = false);
 

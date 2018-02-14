@@ -136,7 +136,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     , m_snaps(new SnapModel())
     , m_splitEffect(nullptr)
     , m_splitProducer(nullptr)
-    , m_length(2)
     , m_dragStarted(false)
     , m_recManager(nullptr)
     , m_loopClipAction(nullptr)
@@ -1211,13 +1210,12 @@ void Monitor::adjustRulerSize(int length, std::shared_ptr<MarkerListModel> marke
     } else {
         m_glMonitor->setRulerInfo(length, markerModel);
     }
-    if (length > 0) {
-        m_length = length;
-    }
     m_timePos->setRange(0, length);
-    connect(markerModel.get(), SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &, const QVector<int> &)), this, SLOT(checkOverlay()));
-    connect(markerModel.get(), SIGNAL(rowsInserted(const QModelIndex &, int, int)), this, SLOT(checkOverlay()));
-    connect(markerModel.get(), SIGNAL(rowsRemoved(const QModelIndex &, int, int)), this, SLOT(checkOverlay()));
+    if (markerModel) {
+        connect(markerModel.get(), SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &, const QVector<int> &)), this, SLOT(checkOverlay()));
+        connect(markerModel.get(), SIGNAL(rowsInserted(const QModelIndex &, int, int)), this, SLOT(checkOverlay()));
+        connect(markerModel.get(), SIGNAL(rowsRemoved(const QModelIndex &, int, int)), this, SLOT(checkOverlay()));
+    }
 }
 
 void Monitor::stop()
@@ -1357,6 +1355,7 @@ void Monitor::slotOpenClip(std::shared_ptr<ProjectClip> controller, int in, int 
             return;
         }
         m_glMonitor->setRulerInfo(m_controller->frameDuration(), controller->getMarkerModel());
+        m_timePos->setRange(0, m_controller->frameDuration());
         updateMarkers();
         // Loading new clip / zone, stop if playing
         if (m_playAction->isActive()) {
@@ -1861,7 +1860,7 @@ void Monitor::loadQmlScene(MonitorSceneType type)
         type = MonitorSceneDefault;
     }
     double ratio = (double)m_glMonitor->profileSize().width() / (int)(m_glMonitor->profileSize().height() * m_glMonitor->profile()->dar() + 0.5);
-    m_qmlManager->setScene(m_id, type, m_glMonitor->profileSize(), ratio, m_glMonitor->displayRect(), m_glMonitor->zoom());
+    m_qmlManager->setScene(m_id, type, m_glMonitor->profileSize(), ratio, m_glMonitor->displayRect(), m_glMonitor->zoom(), m_timePos->maximum());
     QQuickItem *root = m_glMonitor->rootObject();
     root->setProperty("showToolbar", m_zoomVisibilityAction->isChecked());
     connectQmlToolbar(root);
@@ -2116,11 +2115,6 @@ void Monitor::setProducer(Mlt::Producer *producer, int pos)
 void Monitor::reconfigure()
 {
     m_glMonitor->reconfigure();
-}
-
-int Monitor::duration() const
-{
-    return m_length;
 }
 
 void Monitor::slotSeekPosition(int pos)

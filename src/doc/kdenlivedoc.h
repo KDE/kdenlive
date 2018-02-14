@@ -97,7 +97,6 @@ public:
     void setZoom(int horizontal, int vertical);
     QPoint zoom() const;
     double dar() const;
-    double projectDuration() const;
     /** @brief Returns the project file xml. */
     QDomDocument xmlSceneList(const QString &scene);
     /** @brief Saves the project file xml to a file. */

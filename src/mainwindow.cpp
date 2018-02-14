@@ -1858,7 +1858,8 @@ void MainWindow::slotRenderProject()
             connect(m_renderWidget, &RenderWidget::abortProcess, this, &MainWindow::abortRenderJob);
             connect(m_renderWidget, &RenderWidget::openDvdWizard, this, &MainWindow::slotDvdWizard);
             connect(this, &MainWindow::updateRenderWidgetProfile, m_renderWidget, &RenderWidget::adjustViewToProfile);
-            m_renderWidget->setGuides(project->getGuideModel()->getAllMarkers(), project->projectDuration());
+            double projectDuration = GenTime(getMainTimeline()->controller()->duration(), pCore->getCurrentFps()).ms() / 1000;
+            m_renderWidget->setGuides(project->getGuideModel()->getAllMarkers(), projectDuration);
             m_renderWidget->setDocumentPath(project->projectDataFolder() + QDir::separator());
             m_renderWidget->setRenderProfile(project->getRenderProperties());
         }
@@ -2126,7 +2127,8 @@ void MainWindow::slotZoneMoved(int start, int end)
 void MainWindow::slotGuidesUpdated()
 {
     if (m_renderWidget) {
-        m_renderWidget->setGuides(pCore->currentDoc()->getGuideModel()->getAllMarkers(), pCore->currentDoc()->projectDuration());
+        double projectDuration = GenTime(getMainTimeline()->controller()->duration(), pCore->getCurrentFps()).ms() / 1000;
+        m_renderWidget->setGuides(pCore->currentDoc()->getGuideModel()->getAllMarkers(), projectDuration);
     }
 }
 
@@ -3438,7 +3440,7 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
         in = getMainTimeline()->controller()->zoneIn();
         out = getMainTimeline()->controller()->zoneOut();
     } else {
-        out = (int)GenTime(project->projectDuration()).frames(pCore->getCurrentFps()) - 2;
+        out = getMainTimeline()->controller()->duration() - 2;
     }
     QString playlistContent = pCore->projectManager()->projectSceneList(project->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile());
     if (!chapterFile.isEmpty()) {

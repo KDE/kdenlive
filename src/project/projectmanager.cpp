@@ -593,7 +593,6 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     m_trackView->setDuration(m_trackView->duration());*/
 
     pCore->window()->slotGotProgressInfo(QString(), 100);
-    pCore->monitorManager()->projectMonitor()->adjustRulerSize(m_mainTimelineModel->duration() - 1, m_project->getGuideModel());
     if (openBackup) {
         slotOpenBackup(url);
     }
@@ -602,11 +601,6 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     m_progressDialog = nullptr;
     pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor, true);
     // pCore->monitorManager()->projectMonitor()->refreshMonitorIfActive();
-}
-
-void ProjectManager::adjustProjectDuration()
-{
-    pCore->monitorManager()->projectMonitor()->adjustRulerSize(m_mainTimelineModel->duration() - 1, m_project->getGuideModel());
 }
 
 void ProjectManager::slotRevert()
@@ -876,7 +870,14 @@ void ProjectManager::updateTimeline(int pos)
 
     pCore->monitorManager()->projectMonitor()->setProducer(m_mainTimelineModel->producer(), pos);
     pCore->window()->getMainTimeline()->setModel(m_mainTimelineModel);
+    pCore->monitorManager()->projectMonitor()->adjustRulerSize(m_mainTimelineModel->duration() - 1, m_project->getGuideModel());
     m_mainTimelineModel->setUndoStack(m_project->commandStack());
+}
+
+
+void ProjectManager::adjustProjectDuration()
+{
+    pCore->monitorManager()->projectMonitor()->adjustRulerSize(m_mainTimelineModel->duration() - 1, nullptr);
 }
 
 void ProjectManager::activateAsset(const QVariantMap effectData)

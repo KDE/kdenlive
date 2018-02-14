@@ -49,7 +49,7 @@ void QmlManager::setProperty(const QString &name, const QVariant &value)
     m_view->rootObject()->setProperty(name.toUtf8().constData(), value);
 }
 
-void QmlManager::setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize profile, double profileStretch, QRect displayRect, double zoom)
+void QmlManager::setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize profile, double profileStretch, QRect displayRect, double zoom, int duration)
 {
     if (type == m_sceneType) {
         // Scene type already active
@@ -111,6 +111,9 @@ void QmlManager::setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize p
         root->setProperty("scalex", (double)displayRect.width() / profile.width() * zoom);
         root->setProperty("scaley", (double)displayRect.width() / profileStretch / profile.width() * zoom);
         break;
+    }
+    if (duration > 0) {
+        root->setProperty("duration", duration);
     }
 
     // m_glMonitor->setAudioThumb();
