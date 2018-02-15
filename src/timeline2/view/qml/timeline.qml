@@ -341,6 +341,37 @@ Rectangle {
             console.log("pop menu")
         }
     }
+    OLD.Menu {
+        id: rulermenu
+        property int clickedX
+        property int clickedY
+        OLD.MenuItem {
+            id: addGuideMenu2
+            text: i18n('Add Guide')
+            onTriggered: {
+                timeline.switchGuide(timeline.position);
+            }
+        }
+        OLD.MenuItem {
+            id: editGuideMenu2
+            text: i18n('Edit Guide')
+            visible: false
+            onTriggered: {
+                timeline.editGuide(timeline.position);
+            }
+        }
+        onAboutToShow: {
+            if (guidesModel.hasMarker(timeline.position)) {
+                // marker at timeline position
+                addGuideMenu2.text = i18n('Remove Guide')
+                editGuideMenu2.visible = true
+            } else {
+                addGuideMenu2.text = i18n('Add Guide')
+                editGuideMenu2.visible = false
+            }
+            console.log("pop menu")
+        }
+    }
     MessageDialog {
         id: compositionFail
         title: i18n("Timeline error")
@@ -530,8 +561,13 @@ Rectangle {
                 if (mouse.button & Qt.RightButton) {
                     menu.clickedX = mouse.x
                     menu.clickedY = mouse.y
-                    timeline.activeTrack = tracksRepeater.itemAt(Logic.getTrackIndexFromPos(mouse.y - ruler.height)).trackId
-                    menu.popup()
+                    if (mouse.y > ruler.height) {
+                        timeline.activeTrack = tracksRepeater.itemAt(Logic.getTrackIndexFromPos(mouse.y - ruler.height)).trackId
+                        menu.popup()
+                    } else {
+                        // ruler menu
+                        rulermenu.popup()
+                    }
                 }
             }
             property bool scim: false
