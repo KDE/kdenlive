@@ -81,6 +81,7 @@ public:
         SuffixRole,
         DecimalsRole,
         ValueRole,
+        AlphaRole,
         ListValuesRole,
         ListNamesRole,
         FactorRole,

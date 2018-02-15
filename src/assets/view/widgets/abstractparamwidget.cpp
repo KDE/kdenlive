@@ -27,6 +27,7 @@
 #include "keyframewidget.hpp"
 #include "listparamwidget.h"
 #include "positioneditwidget.hpp"
+#include "coloreditwidget.hpp"
 
 #include <QLabel>
 #include <QVBoxLayout>
@@ -90,6 +91,9 @@ AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetP
     case ParamType::Position:
         widget = new PositionEditWidget(model, index, parent);
         break;
+    case ParamType::Color:
+        widget = new ColorEditWidget(model, index, parent);
+        break;
     case ParamType::Animated:
     case ParamType::RestrictedAnim:
     //        widget = new AnimationWidget(model, index, range, parent);
@@ -99,7 +103,6 @@ AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetP
     //        break;
     case ParamType::Switch:
     case ParamType::Addedgeometry:
-    case ParamType::Color:
     case ParamType::Curve:
     case ParamType::Bezier_spline:
     case ParamType::Roto_spline:

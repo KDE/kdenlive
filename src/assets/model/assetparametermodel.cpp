@@ -272,6 +272,8 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
         return element.attribute(QStringLiteral("suffix"));
     case OpacityRole:
         return element.attribute(QStringLiteral("opacity")) != QLatin1String("false");
+    case AlphaRole:
+        return element.attribute(QStringLiteral("alpha")) == QLatin1String("1");
     case ValueRole: {
         QString value(m_asset->get(paramName.toUtf8().constData()));
         return value.isEmpty() ? (element.attribute(QStringLiteral("value")).isNull() ? parseAttribute(QStringLiteral("default"), element)

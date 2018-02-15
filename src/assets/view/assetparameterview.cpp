@@ -62,7 +62,6 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
             m_mainKeyframeWidget->addParameter(index);
         } else {
             auto w = AbstractParamWidget::construct(model, index, range, frameSize, this);
-            qDebug() << "// FOUND GEOM PARAM";
             /*if (type == ParamType::Geometry || type == ParamType::Animated || type == ParamType::RestrictedAnim || type == ParamType::AnimatedRect) {
                 animWidget = static_cast<AnimationWidget *>(w);
             }*/
