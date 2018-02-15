@@ -105,7 +105,6 @@ void AssetPanel::showTransition(int tid, std::shared_ptr<AssetParameterModel> tr
 {
     clear();
     QString transitionId = transitionModel->getAssetId();
-    m_transitionWidget->setProperty("compositionId", tid);
     QString transitionName = TransitionsRepository::get()->getName(transitionId);
     m_assetTitle->setText(i18n("%1 properties", transitionName));
     m_transitionWidget->setVisible(true);
@@ -165,28 +164,38 @@ void AssetPanel::showEffectStack(const QString &itemName, std::shared_ptr<Effect
 
 void AssetPanel::clearAssetPanel(int itemId)
 {
-    if (itemId == -1 || m_transitionWidget->property("compositionId").toInt() == itemId || m_effectStackWidget->property("clipId").toInt() == itemId) {
+    ObjectId id = m_effectStackWidget->stackOwner();
+    if (id.first == ObjectType::TimelineClip && id.second == itemId) {
         clear();
+    } else {
+        id = m_transitionWidget->stackOwner();
+        if (id.first == ObjectType::TimelineComposition && id.second == itemId) {
+            clear();
+        }
     }
 }
 
 void AssetPanel::adjustAssetPanelRange(int itemId, int in, int out)
 {
-    if (m_effectStackWidget->property("clipId").toInt() == itemId) {
+    ObjectId id = m_effectStackWidget->stackOwner();
+    if (id.first == ObjectType::TimelineClip && id.second == itemId) {
         m_effectStackWidget->setRange(in, out);
+    } else {
+        id = m_transitionWidget->stackOwner();
+        if (id.first == ObjectType::TimelineComposition && id.second == itemId) {
+            m_transitionWidget->setRange(in, out);
+        }
     }
 }
 
 void AssetPanel::clear()
 {
     m_transitionWidget->setVisible(false);
-    m_transitionWidget->setProperty("compositionId", QVariant());
     m_transitionWidget->unsetModel();
     m_effectStackWidget->setVisible(false);
     m_splitButton->setVisible(false);
     m_timelineButton->setVisible(false);
     m_switchBuiltStack->setVisible(false);
-    m_effectStackWidget->setProperty("clipId", QVariant());
     m_effectStackWidget->unsetModel();
     m_assetTitle->setText(QString());
 }

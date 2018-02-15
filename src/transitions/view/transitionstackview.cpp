@@ -77,3 +77,8 @@ ObjectId TransitionStackView::stackOwner() const
     }
     return ObjectId(ObjectType::NoItem, -1);
 }
+
+void TransitionStackView::setRange(int in, int out)
+{
+    AssetParameterView::setRange(QPair<int, int>(in, out));
+}

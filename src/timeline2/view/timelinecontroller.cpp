@@ -402,6 +402,7 @@ void TimelineController::deleteSelectedClips()
         }
     }
     m_selection.selectedItems.clear();
+    emit selectionChanged();
 }
 
 void TimelineController::copyItem()
