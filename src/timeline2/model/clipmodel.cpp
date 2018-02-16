@@ -291,7 +291,10 @@ void ClipModel::refreshProducerFromBin(PlaylistState::ClipState state)
                 Q_ASSERT(false);
             }
         }
-        return useTimewarpProducer(m_producer->get_double("warp_speed"), space);
+        std::function<bool(void)> local_undo = []() { return true; };
+        std::function<bool(void)> local_redo = []() { return true; };
+        useTimewarpProducer(m_producer->get_double("warp_speed"), space, local_undo, local_redo);
+        return;
     }
     QWriteLocker locker(&m_lock);
     int in = getIn();
@@ -308,7 +311,20 @@ void ClipModel::refreshProducerFromBin(PlaylistState::ClipState state)
     m_endlessResize = !binClip->hasLimitedDuration();
 }
 
-void ClipModel::useTimewarpProducer(double speed, int extraSpace)
+
+bool ClipModel::useTimewarpProducer(double speed, int extraSpace, Fun &undo, Fun &redo)
+{
+    double previousSpeed = getSpeed();
+    auto operation = useTimewarpProducer_lambda(speed, extraSpace);
+    if (operation()) {
+        auto reverse = useTimewarpProducer_lambda(previousSpeed, extraSpace);
+        UPDATE_UNDO_REDO(operation, reverse, undo, redo);
+        return true;
+    }
+    return false;
+}
+
+Fun ClipModel::useTimewarpProducer_lambda(double speed, int extraSpace)
 {
     Q_UNUSED(extraSpace)
 
@@ -318,7 +334,6 @@ void ClipModel::useTimewarpProducer(double speed, int extraSpace)
     int out = getOut();
     int warp_in;
     int warp_out;
-    qDebug() << "// SLOWMO CLIP SERVICE: " << getProperty("mlt_service");
     if (getProperty("mlt_service") == QLatin1String("timewarp")) {
         // slowmotion producer, get current speed
         warp_in = m_producer->get_int("warp_in");
@@ -333,20 +348,28 @@ void ClipModel::useTimewarpProducer(double speed, int extraSpace)
     out = warp_out / speed;
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
     std::shared_ptr<Mlt::Producer> originalProducer = binClip->originalProducer();
-    if (qFuzzyCompare(speed, 1.0)) {
-        m_producer.reset(originalProducer->cut(in, out));
-    } else {
-        QString resource = QString("%1:%2").arg(speed).arg(originalProducer->get("resource"));
-        std::shared_ptr<Mlt::Producer> warpProducer(new Mlt::Producer(*originalProducer->profile(), "timewarp", resource.toUtf8().constData()));
-        m_producer.reset(warpProducer->cut(in, out));
-    }
-    // replant effect stack in updated service
-    m_effectStack->resetService(m_producer);
-    m_producer->set("kdenlive:id", binClip->AbstractProjectItem::clipId().toUtf8().constData());
-    m_producer->set("_kdenlive_cid", m_id);
-    m_producer->set("warp_in", warp_in);
-    m_producer->set("warp_out", warp_out);
-    m_endlessResize = !binClip->hasLimitedDuration();
+    bool limitedDuration = binClip->hasLimitedDuration();
+    
+    return [originalProducer, speed, in, out, warp_in, warp_out, limitedDuration, this]() {
+        if (qFuzzyCompare(speed, 1.0)) {
+            m_producer.reset(originalProducer->cut(in, out));
+        } else {
+            QString resource = QString("timewarp:%1:%2").arg(speed).arg(originalProducer->get("resource"));
+            Mlt::Profile *prof = new Mlt::Profile(pCore->getCurrentProfilePath().toUtf8().constData());
+            std::shared_ptr<Mlt::Producer> warpProducer(new Mlt::Producer(*prof, resource.toUtf8().constData()));
+            m_producer = std::move(warpProducer);
+            setInOut(in, out);
+        }
+        // replant effect stack in updated service
+        m_effectStack->resetService(m_producer);
+        m_producer->set("kdenlive:id", m_binClipId.toUtf8().constData());
+        m_producer->set("_kdenlive_cid", m_id);
+        m_producer->set("warp_in", warp_in);
+        m_producer->set("warp_out", warp_out);
+        m_endlessResize = !limitedDuration;
+        return true;
+    };
+    return []() { return false; };
 }
 
 QVariant ClipModel::getAudioWaveform()

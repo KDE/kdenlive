@@ -60,6 +60,12 @@ OLD.Menu {
             visible: true
         }
         OLD.MenuItem {
+            visible: true
+            text: i18n('Change Speed')
+            onTriggered: timeline.changeItemSpeed(clipId, -1)
+        }
+
+        OLD.MenuItem {
             text: i18n('Clip in Project Bin')
             onTriggered: timeline.triggerAction('clip_in_project_tree')
         }

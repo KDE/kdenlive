@@ -623,9 +623,6 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
                     int newTrack = possibleTracks.takeFirst();
                     move = requestClipMove(newId, newTrack, position, true, false, undo, redo);
                 }
-                /*std::unordered_set<int> groupClips;
-                groupClips.insert(cid);
-                groupClips.insert(newId);*/
                 if (!res || !move) {
                     pCore->displayMessage(i18n("Audio split failed"), ErrorMessage);
                 } else {
@@ -2044,7 +2041,7 @@ void TimelineModel::requestClipUpdate(int clipId, const QVector<int> &roles)
     notifyChange(modelIndex, modelIndex, roles);
 }
 
-bool TimelineModel::requestClipTimeWarp(int clipId, double speed)
+bool TimelineModel::requestClipTimeWarp(int clipId, double speed, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
     std::function<bool(void)> local_undo = []() { return true; };
@@ -2057,26 +2054,27 @@ bool TimelineModel::requestClipTimeWarp(int clipId, double speed)
     if (old_trackId != -1) {
         int blankSpace = getTrackById(old_trackId)->getBlankSizeNearClip(clipId, true);
         qDebug() << "// FOUND BLANK AFTER CLIP: " << blankSpace;
-        getTrackById(old_trackId)->requestClipDeletion(clipId, false, local_undo, local_redo);
-        m_allClips[clipId]->useTimewarpProducer(speed, blankSpace);
+        getTrackById(old_trackId)->requestClipDeletion(clipId, true, local_undo, local_redo);
+        m_allClips[clipId]->useTimewarpProducer(speed, blankSpace, local_undo, local_redo);
         getTrackById(old_trackId)->requestClipInsertion(clipId, oldPos, true, local_undo, local_redo);
     } else {
-        m_allClips[clipId]->useTimewarpProducer(speed, -1);
+        m_allClips[clipId]->useTimewarpProducer(speed, -1, local_undo, local_redo);
     }
     QModelIndex modelIndex = makeClipIndexFromID(clipId);
-    notifyChange(modelIndex, modelIndex, false, true, true);
+    QVector<int> roles;
+    roles.push_back(SpeedRole);
+    notifyChange(modelIndex, modelIndex, roles);
+    UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
     return true;
 }
 
 bool TimelineModel::changeItemSpeed(int clipId, int speed)
 {
-    Fun local_undo = []() { return true; };
-    Fun local_redo = []() { return true; };
-    double currentSpeed = m_allClips[clipId]->getSpeed();
-    Fun operation = [this, clipId, speed]() { return requestClipTimeWarp(clipId, speed / 100.0); };
-    Fun reverse = [this, clipId, currentSpeed]() { return requestClipTimeWarp(clipId, currentSpeed); };
-    if (operation()) {
-        UPDATE_UNDO_REDO(operation, reverse, local_undo, local_redo);
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    bool res = requestClipTimeWarp(clipId, speed / 100.0, undo, redo);
+    if (res) {
+        PUSH_UNDO(undo, redo, i18n("Change clip speed"));
         return true;
     }
     return false;

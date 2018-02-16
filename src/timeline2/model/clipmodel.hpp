@@ -134,7 +134,8 @@ protected:
     /* @brief This functions should be called when the producer of the binClip changes, to allow refresh */
     void refreshProducerFromBin(PlaylistState::ClipState state = PlaylistState::Original);
     /* @brief This functions replaces the current producer with a slowmotion one */
-    void useTimewarpProducer(double speed, int extraSpace);
+    bool useTimewarpProducer(double speed, int extraSpace, Fun &undo, Fun &redo);
+    Fun useTimewarpProducer_lambda(double speed, int extraSpace);
 
     /** @brief Returns the marker model associated with this clip */
     std::shared_ptr<MarkerListModel> getMarkerModel() const;

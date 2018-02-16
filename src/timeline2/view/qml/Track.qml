@@ -181,6 +181,12 @@ Column{
                 }
                 Binding {
                     target: loader.item
+                    property: "speed"
+                    value: model.speed
+                    when: loader.status == Loader.Ready && !loader.item.isComposition
+                }
+                Binding {
+                    target: loader.item
                     property: "forceReloadThumb"
                     value: model.reloadThumb
                     when: loader.status == Loader.Ready && !loader.item.isComposition
@@ -211,7 +217,6 @@ Column{
                         //item.aTrack = model.a_track
                     }
                     item.trackId= trackRoot.trackId
-                    item.speed= 1 //model.speed
                     //item.selected= trackRoot.selection.indexOf(item.clipId) !== -1
                     //console.log(width, height);
                 }

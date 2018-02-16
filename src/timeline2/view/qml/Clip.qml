@@ -403,7 +403,7 @@ Rectangle {
             visible: clipRoot.width > width / 2
             Text {
                 id: label
-                text: clipName
+                text: clipName + (clipRoot.speed != 1.0 ? ' [' + Math.round(clipRoot.speed*100) + '%]': '')
                 font.pixelSize: root.baseUnit * 1.2
                 anchors {
                     top: labelRect.top

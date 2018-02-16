@@ -44,6 +44,7 @@
 #include <KActionCollection>
 #include <QApplication>
 #include <QQuickItem>
+#include <QInputDialog>
 
 int TimelineController::m_duration = 0;
 
@@ -1225,6 +1226,15 @@ void TimelineController::invalidateClip(int cid)
 
 void TimelineController::changeItemSpeed(int clipId, int speed)
 {
+    if (speed == -1) {
+        speed = 100 * m_model->m_allClips[clipId]->getSpeed();
+        bool ok;
+        speed = QInputDialog::getInt(QApplication::activeWindow(), i18n("Clip Speed"), i18n("Percentage"), speed,  -100000, 100000, 1, &ok);
+        if (!ok) {
+            return;
+        }
+        
+    }
     m_model->changeItemSpeed(clipId, speed);
 }
 

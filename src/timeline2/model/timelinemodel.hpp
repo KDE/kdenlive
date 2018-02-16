@@ -497,7 +497,7 @@ public:
     std::shared_ptr<EffectStackModel> getTrackEffectStackModel(int trackId);
 
     /** @brief Add slowmotion effect to clip in timeline. */
-    bool requestClipTimeWarp(int clipId, double speed);
+    bool requestClipTimeWarp(int clipId, double speed, Fun &undo, Fun &redo);
     bool changeItemSpeed(int clipId, int speed);
     void replugClip(int clipId);
 

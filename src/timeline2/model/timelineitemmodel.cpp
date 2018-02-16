@@ -286,6 +286,8 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             return clip->fadeOut();
         case ReloadThumbRole:
             return clip->forceThumbReload;
+        case SpeedRole:
+            return clip->getSpeed();
         default:
             break;
         }
