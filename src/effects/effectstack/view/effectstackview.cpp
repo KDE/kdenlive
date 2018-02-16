@@ -284,10 +284,18 @@ void EffectStackView::unsetModel(bool reset)
     // Release ownership of smart pointer
     if (m_model) {
         disconnect(m_model.get(), &EffectStackModel::dataChanged, this, &EffectStackView::refresh);
+        // Make sure to delete the delegates
+        for (int i = 0; i < m_model->rowCount(); i++) {
+            std::shared_ptr<AbstractEffectItem> item = m_model->getEffectStackRow(i);
+            std::shared_ptr<EffectItemModel> eff = std::static_pointer_cast<EffectItemModel>(item);
+            QModelIndex ix = m_model->getIndexFromItem(eff);
+            auto w = m_effectsTree->indexWidget(ix);
+            delete w;
+        }
     }
     if (reset) {
         m_model.reset();
-    }
+    }    
 }
 
 void EffectStackView::setRange(int in, int out)

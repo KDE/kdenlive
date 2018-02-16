@@ -1341,6 +1341,7 @@ void Monitor::slotOpenClip(std::shared_ptr<ProjectClip> controller, int in, int 
         disconnect(m_controller->getMarkerModel().get(), SIGNAL(rowsRemoved(const QModelIndex &, int, int)), this, SLOT(checkOverlay()));
     }
     m_controller = controller;
+    loadQmlScene(MonitorSceneDefault);
     m_snaps.reset(new SnapModel());
     if (controller) {
         m_controller->getMarkerModel()->registerSnapModel(m_snaps);
