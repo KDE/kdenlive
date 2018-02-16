@@ -90,8 +90,8 @@ public:
     /* @brief Returns the seek request position (-1 = no seek pending)
      */
     Q_INVOKABLE int seekPosition() const { return m_seekPosition; }
-    Q_INVOKABLE int audioTarget() const { return m_audioTarget; }
-    Q_INVOKABLE int videoTarget() const { return m_videoTarget; }
+    Q_INVOKABLE int audioTarget() const;
+    Q_INVOKABLE int videoTarget() const;
     Q_INVOKABLE int activeTrack() const { return m_activeTrack; }
     /* @brief Request a seek operation
        @param position is the desired new timeline position

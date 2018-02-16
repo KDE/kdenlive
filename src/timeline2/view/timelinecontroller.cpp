@@ -54,8 +54,6 @@ TimelineController::TimelineController(KActionCollection *actionCollection, QObj
     , m_usePreview(false)
     , m_position(0)
     , m_seekPosition(-1)
-    , m_audioTarget(-1)
-    , m_videoTarget(-1)
     , m_activeTrack(0)
     , m_scale(3.0)
     , m_timelinePreview(nullptr)
@@ -658,13 +656,13 @@ void TimelineController::setPosition(int position)
 
 void TimelineController::setAudioTarget(int track)
 {
-    m_audioTarget = track;
+    m_model->m_audioTarget = track;
     emit audioTargetChanged();
 }
 
 void TimelineController::setVideoTarget(int track)
 {
-    m_videoTarget = track;
+    m_model->m_videoTarget = track;
     emit videoTargetChanged();
 }
 
@@ -1277,11 +1275,11 @@ void TimelineController::switchCompositing(int mode)
 void TimelineController::extractZone()
 {
     QVector<int> tracks;
-    if (m_audioTarget >= 0) {
-        tracks << m_audioTarget;
+    if (audioTarget() >= 0) {
+        tracks << audioTarget();
     }
-    if (m_videoTarget >= 0) {
-        tracks << m_videoTarget;
+    if (videoTarget() >= 0) {
+        tracks << videoTarget();
     }
     if (tracks.isEmpty()) {
         tracks << m_activeTrack;
@@ -1301,11 +1299,11 @@ void TimelineController::extract(int clipId)
 void TimelineController::liftZone()
 {
     QVector<int> tracks;
-    if (m_audioTarget >= 0) {
-        tracks << m_audioTarget;
+    if (audioTarget() >= 0) {
+        tracks << audioTarget();
     }
-    if (m_videoTarget >= 0) {
-        tracks << m_videoTarget;
+    if (videoTarget() >= 0) {
+        tracks << videoTarget();
     }
     if (tracks.isEmpty()) {
         tracks << m_activeTrack;
@@ -1318,9 +1316,9 @@ bool TimelineController::insertZone(const QString &binId, QPoint zone, bool over
     std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(binId);
     int targetTrack = -1;
     if (clip->clipType() == ClipType::Audio) {
-        targetTrack = m_audioTarget;
+        targetTrack = audioTarget();
     } else {
-        targetTrack = m_videoTarget;
+        targetTrack = videoTarget();
     }
     if (targetTrack == -1) {
         targetTrack = m_activeTrack;
@@ -1353,7 +1351,7 @@ void TimelineController::setClipStatus(int clipId, int status)
 
 void TimelineController::splitAudio(int clipId)
 {
-    TimelineFunctions::requestSplitAudio(m_model, clipId, m_audioTarget);
+    TimelineFunctions::requestSplitAudio(m_model, clipId, audioTarget());
 }
 
 void TimelineController::switchTrackLock(bool applyToAll)
@@ -1393,8 +1391,18 @@ void TimelineController::switchTargetTrack()
 {
     bool isAudio = m_model->getTrackById_const(m_activeTrack)->getProperty("kdenlive:audio_track").toInt() == 1;
     if (isAudio) {
-        setAudioTarget(m_audioTarget == m_activeTrack ? -1 : m_activeTrack);
+        setAudioTarget(audioTarget() == m_activeTrack ? -1 : m_activeTrack);
     } else {
-        setVideoTarget(m_videoTarget == m_activeTrack ? -1 : m_activeTrack);
+        setVideoTarget(videoTarget() == m_activeTrack ? -1 : m_activeTrack);
     }
+}
+
+int TimelineController::audioTarget() const 
+{ 
+    return m_model->m_audioTarget; 
+}
+
+int TimelineController::videoTarget() const 
+{ 
+    return m_model->m_videoTarget; 
 }

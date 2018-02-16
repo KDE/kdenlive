@@ -627,6 +627,11 @@ protected:
 
     // The index of the temporary overlay track in tractor, or -1 if not connected
     int m_overlayTrackCount;
+    
+    // The preferred audio target for clip insertion or -1 if not defined
+    int m_audioTarget;
+    // The preferred video target for clip insertion or -1 if not defined
+    int m_videoTarget;
 
     // what follows are some virtual function that corresponds to the QML. They are implemented in TimelineItemModel
 protected:

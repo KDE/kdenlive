@@ -31,6 +31,7 @@
 #include "kdenlivesettings.h"
 #include "snapmodel.hpp"
 #include "trackmodel.hpp"
+#include "timelinefunctions.hpp"
 
 #include <QDebug>
 #include <QModelIndex>
@@ -62,6 +63,8 @@ TimelineModel::TimelineModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> 
     , m_id(getNextId())
     , m_temporarySelectionGroup(-1)
     , m_overlayTrackCount(-1)
+    , m_audioTarget(-1)
+    , m_videoTarget(-1)
 {
     // Create black background track
     m_blackClip->set("id", "black_track");
@@ -606,6 +609,30 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
     if (KdenliveSettings::splitaudio()) {
         res = requestClipCreation(binClipId, id, PlaylistState::VideoOnly, local_undo, local_redo);
         res = res && requestClipMove(id, trackId, position, refreshView, logUndo, local_undo, local_redo);
+        if (res && logUndo) {
+            QList<int> possibleTracks = m_audioTarget >= 0 ? QList<int>() <<m_audioTarget : getLowerTracksId(trackId, TrackType::AudioTrack);
+            if (possibleTracks.isEmpty()) {
+                // No available audio track for splitting, abort
+                pCore->displayMessage(i18n("No available audio track for split operation"), ErrorMessage);
+                res = false;
+            } else {
+                int newId;
+                res =requestClipCreation(binClipId, newId, PlaylistState::AudioOnly, local_undo, local_redo);
+                bool move = false;
+                while (!move && !possibleTracks.isEmpty()) {
+                    int newTrack = possibleTracks.takeFirst();
+                    move = requestClipMove(newId, newTrack, position, true, false, undo, redo);
+                }
+                /*std::unordered_set<int> groupClips;
+                groupClips.insert(cid);
+                groupClips.insert(newId);*/
+                if (!res || !move) {
+                    pCore->displayMessage(i18n("Audio split failed"), ErrorMessage);
+                } else {
+                    requestClipsGroup({id, newId}, local_undo, local_redo, GroupType::AVSplit);
+                }
+            }
+        }
     } else {
         res = requestClipCreation(binClipId, id, PlaylistState::Original, local_undo, local_redo);
         res = res && requestClipMove(id, trackId, position, refreshView, logUndo, local_undo, local_redo);
