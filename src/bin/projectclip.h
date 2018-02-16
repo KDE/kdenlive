@@ -189,7 +189,7 @@ public:
     /** @brief Returns a list of all timeline clip ids for this bin clip */
     QList<int> timelineInstances() const;
     std::shared_ptr<Mlt::Producer> timelineProducer(PlaylistState::ClipState state = PlaylistState::Original, int track = 1);
-    std::shared_ptr<Mlt::Producer> cloneProducer();
+    std::shared_ptr<Mlt::Producer> cloneProducer(Mlt::Profile *destProfile = nullptr);
     void updateTimelineClips(QVector<int> roles);
 
 protected:

@@ -174,6 +174,7 @@ const QByteArray Clip::xml()
     c.set("time_format", "frames");
     c.set("no_meta", 1);
     c.set("no_root", 1);
+    c.set("no_profile", 1);
     c.set("root", "/");
     c.set("store", "kdenlive");
     c.start();
@@ -186,16 +187,7 @@ const QByteArray Clip::xml()
 Mlt::Producer *Clip::clone()
 {
     QByteArray prodXml = xml();
-    // HACK: currently the MLT xml producer, when parsing a <profile>, does change the global profile accordingly.
-    // causing crash on threaded calls. To avoid this, we discard the profile info from our xml
-    QDomDocument doc;
-    doc.setContent(prodXml, true);
-    QDomNodeList profiles = doc.documentElement().elementsByTagName("profile");
-    if (!profiles.isEmpty()) {
-        QDomNode profile = profiles.item(0);
-        doc.documentElement().removeChild(profile);
-    }
-    Mlt::Producer *clone = new Mlt::Producer(*m_producer.profile(), "xml-string", doc.toByteArray().constData());
+    Mlt::Producer *clone = new Mlt::Producer(*m_producer.profile(), "xml-string", prodXml);
     return clone;
 }
 

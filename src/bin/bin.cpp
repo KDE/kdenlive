@@ -1033,16 +1033,7 @@ void Bin::slotReloadClip()
                     }
                 }
             }
-            QDomDocument doc;
-            QDomElement xml = currentItem->toXml(doc);
-            qCDebug(KDENLIVE_LOG) << "*****************\n" << doc.toString() << "\n******************";
-            if (!xml.isNull()) {
-                currentItem->setClipStatus(AbstractProjectItem::StatusWaiting);
-                // We need to set a temporary id before all outdated producers are replaced;
-                // TODO refac
-                // m_doc->getFileProperties(xml, currentItem->AbstractProjectItem::clipId(), 150, true);
-                pCore->jobManager()->startJob<LoadJob>({currentItem->AbstractProjectItem::clipId()}, -1, QString(), xml);
-            }
+            currentItem->reloadProducer(false);
         }
     }
 }
@@ -1797,6 +1788,16 @@ void Bin::slotRemoveInvalidClip(const QString &id, bool replace, const QString &
         return;
     }
     emit requesteInvalidRemoval(id, clip->url(), errorMessage);
+}
+
+void Bin::addWatchFile(const QString &binId, const QString &url)
+{
+    m_fileWatcher.addFile(binId, url);
+}
+
+void Bin::removeWatchFile(const QString &binId, const QString &url)
+{
+    m_fileWatcher.removeFile(binId, url);
 }
 
 // TODO refac cleanup

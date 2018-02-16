@@ -35,6 +35,7 @@ class ProjectManager;
 
 namespace Mlt {
 class Repository;
+class Profile;
 }
 
 #define EXIT_RESTART (42)
@@ -164,6 +165,7 @@ public:
     void updateItemModel(ObjectId id, const QString &service);
     /** Show / hide keyframes for a timeline clip */
     void showClipKeyframes(ObjectId id, bool enable);
+    Mlt::Profile *thumbProfile();
 
 private:
     explicit Core();
@@ -184,7 +186,7 @@ private:
     QString m_currentProfile;
 
     QString m_profile;
-
+    std::unique_ptr<Mlt::Profile> m_thumbProfile;
     bool m_guiConstructed = false;
 
 signals:

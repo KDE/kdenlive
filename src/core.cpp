@@ -48,6 +48,7 @@ Core::Core()
     , m_monitorManager(nullptr)
     , m_binWidget(nullptr)
     , m_library(nullptr)
+    , m_thumbProfile(nullptr)
 {
 }
 
@@ -302,6 +303,7 @@ bool Core::setCurrentProfile(const QString &profilePath)
     }
     if (ProfileRepository::get()->profileExists(profilePath)) {
         m_currentProfile = profilePath;
+        m_thumbProfile.reset();
         // inform render widget
         m_mainWindow->updateRenderWidgetProfile();
         return true;
@@ -556,4 +558,16 @@ void Core::showClipKeyframes(ObjectId id, bool enable)
     } else if (id.first == ObjectType::TimelineComposition) {
         m_mainWindow->getCurrentTimeline()->controller()->showCompositionKeyframes(id.second, enable);
     }
+}
+
+Mlt::Profile *Core::thumbProfile()
+{
+    if (!m_thumbProfile) {
+        m_thumbProfile = std::unique_ptr<Mlt::Profile>(new Mlt::Profile(m_currentProfile.toStdString().c_str()));
+        m_thumbProfile->set_height(200);
+        int width = 200 * m_thumbProfile->dar();
+        width += width % 8;
+        m_thumbProfile->set_width(width);
+    }
+    return m_thumbProfile.get();
 }

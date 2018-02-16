@@ -77,6 +77,9 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, std::shared_ptr<
     } else {
         m_thumbnail = thumb;
     }
+    if (m_clipType == ClipType::AV || m_clipType == ClipType::Audio || m_clipType == ClipType::Image || m_clipType == ClipType::Video || m_clipType == ClipType::Playlist || m_clipType == ClipType::TextTemplate) {
+        pCore->bin()->addWatchFile(id, clipUrl());
+    }
     // Make sure we have a hash for this clip
     hash();
     connect(m_markerModel.get(), &MarkerListModel::modelChanged, [&]() { setProducerProperty(QStringLiteral("kdenlive:markers"), m_markerModel->toJson()); });
@@ -135,6 +138,9 @@ std::shared_ptr<ProjectClip> ProjectClip::construct(const QString &id, const QDo
 ProjectClip::~ProjectClip()
 {
     // controller is deleted in bincontroller
+    if (m_clipType == ClipType::AV || m_clipType == ClipType::Audio || m_clipType == ClipType::Image || m_clipType == ClipType::Video || m_clipType == ClipType::Playlist || m_clipType == ClipType::TextTemplate) {
+        pCore->bin()->removeWatchFile(clipId(), clipUrl());
+    }
     m_thumbMutex.lock();
     m_requestedThumbs.clear();
     m_thumbMutex.unlock();
@@ -290,6 +296,7 @@ void ProjectClip::reloadProducer(bool refreshOnly)
         // In that case, we only want a new thumbnail.
         // We thus set up a thumb job. We must make sure that there is no pending LOADJOB
         // Clear cache first
+        m_thumbsProducer.reset();
         ThumbnailCache::get()->invalidateThumbsForClip(clipId());
         pCore->jobManager()->startJob<ThumbJob>({clipId()}, loadjobId, QString(), 150, -1, true, true);
 
@@ -298,8 +305,9 @@ void ProjectClip::reloadProducer(bool refreshOnly)
         QDomDocument doc;
         QDomElement xml = toXml(doc);
         if (!xml.isNull()) {
+            m_thumbsProducer.reset();
             ThumbnailCache::get()->invalidateThumbsForClip(clipId());
-            int loadJob = pCore->jobManager()->startJob<LoadJob>({clipId()}, -1, QString(), xml);
+            int loadJob = pCore->jobManager()->startJob<LoadJob>({clipId()}, loadjobId, QString(), xml);
             pCore->jobManager()->startJob<ThumbJob>({clipId()}, loadJob, QString(), 150, -1, true, true);
         }
     }
@@ -346,6 +354,7 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
 {
     Q_UNUSED(replaceProducer)
     qDebug() << "################### ProjectClip::setproducer";
+    QMutexLocker locker(&m_producerMutex);
     updateProducer(std::move(producer));
     connectEffectStack();
 
@@ -374,6 +383,9 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
     }
     // Make sure we have a hash for this clip
     getFileHash();
+    if (m_clipType == ClipType::AV || m_clipType == ClipType::Audio || m_clipType == ClipType::Image || m_clipType == ClipType::Video || m_clipType == ClipType::Playlist || m_clipType == ClipType::TextTemplate) {
+        pCore->bin()->addWatchFile(clipId(), clipUrl());
+    }
     // set parent again (some info need to be stored in producer)
     updateParent(parentItem().lock());
     return true;
@@ -392,16 +404,16 @@ std::shared_ptr<Mlt::Producer> ProjectClip::thumbProducer()
     if (!prod->is_valid()) {
         return nullptr;
     }
-    Clip clip(*prod.get());
     if (KdenliveSettings::gpu_accel()) {
         //TODO: when the original producer changes, we must reload this thumb producer
+        Clip clip(*prod.get());
         m_thumbsProducer = std::make_shared<Mlt::Producer>(clip.softClone(ClipController::getPassPropertiesList()));
         Mlt::Filter scaler(*prod->profile(), "swscale");
         Mlt::Filter converter(*prod->profile(), "avcolor_space");
         m_thumbsProducer->attach(scaler);
         m_thumbsProducer->attach(converter);
     } else {
-        m_thumbsProducer = std::make_shared<Mlt::Producer>(new Mlt::Producer(prod.get()));
+        m_thumbsProducer = cloneProducer(pCore->thumbProfile());
     }
     return m_thumbsProducer;
 }
@@ -442,7 +454,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::timelineProducer(PlaylistState::Clip
     return std::shared_ptr<Mlt::Producer>(normalProd->cut());
 }
 
-std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer()
+std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(Mlt::Profile *destProfile)
 {
     Mlt::Consumer c(*m_masterProducer->profile(), "xml", "string");
     Mlt::Service s(m_masterProducer->get_service());
@@ -462,7 +474,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer()
         s.set("ignore_points", ignore);
     }
     const QByteArray clipXml = c.get("string");
-    std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(*m_masterProducer->profile(), "xml-string", clipXml.constData()));
+    std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(destProfile ? *destProfile : *m_masterProducer->profile(), "xml-string", clipXml.constData()));
     return prod;
 }
 

@@ -30,13 +30,8 @@
 
 ThumbnailProvider::ThumbnailProvider()
     : QQuickImageProvider(QQmlImageProviderBase::Image, QQmlImageProviderBase::ForceAsynchronousImageLoading)
-    , m_profile(pCore->getCurrentProfilePath().toUtf8().constData())
+    //, m_profile(pCore->getCurrentProfilePath().toUtf8().constData())
 {
-    int width = 180 * m_profile.dar();
-    width += width % 8;
-    m_profile.set_height(180);
-    m_profile.set_width(width);
-    m_producers.setMaxCost(6);
 }
 
 ThumbnailProvider::~ThumbnailProvider()
@@ -136,18 +131,21 @@ QString ThumbnailProvider::cacheKey(Mlt::Properties &properties, const QString &
 QImage ThumbnailProvider::makeThumbnail(std::shared_ptr<Mlt::Producer>producer, int frameNumber, const QSize &requestedSize)
 {
     Q_UNUSED(requestedSize)
-
     producer->seek(frameNumber);
-    Mlt::Frame *frame = producer->get_frame();
+    QScopedPointer<Mlt::Frame> frame(producer->get_frame());
+    if (frame == nullptr || !frame->is_valid()) {
+        return QImage();
+    }
     mlt_image_format format = mlt_image_rgb24a;
     int ow = 0;
     int oh = 0;
-    QImage result;
     const uchar *imagedata = frame->get_image(format, ow, oh);
     if (imagedata) {
-        result = QImage(ow, oh, QImage::Format_RGBA8888);
+        QImage result(ow, oh, QImage::Format_RGBA8888);
         memcpy(result.bits(), imagedata, (unsigned)(ow * oh * 4));
+        if (!result.isNull()) {
+            return result;
+        }
     }
-    delete frame;
-    return result;
+    return QImage();
 }

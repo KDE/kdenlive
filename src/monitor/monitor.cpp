@@ -36,7 +36,7 @@
 #include "recmanager.h"
 #include "scopes/monitoraudiolevel.h"
 #include "timeline/abstractclipitem.h"
-#include "timeline/clip.h"
+#include "mltcontroller/clip.h"
 #include "timeline/transitionhandler.h"
 #include "timeline2/model/snapmodel.hpp"
 #include "transitions/transitionsrepository.hpp"

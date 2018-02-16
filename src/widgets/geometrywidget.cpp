@@ -37,7 +37,6 @@ GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QR
     , m_monitor(monitor)
 {
     Q_UNUSED(useRatioLock)
-
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
     auto *layout = new QVBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);

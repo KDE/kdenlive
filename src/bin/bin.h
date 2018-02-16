@@ -288,6 +288,8 @@ public:
     /** @brief Save a clip zone as MLT playlist */
     void saveZone(const QStringList &info, const QDir &dir);
     QVariantList audioFrameCache(const QString &id);
+    void addWatchFile(const QString &binId, const QString &url);
+    void removeWatchFile(const QString &binId, const QString &url);
 
     // TODO refac: remove this and call directly the function in ProjectItemModel
     void cleanup();

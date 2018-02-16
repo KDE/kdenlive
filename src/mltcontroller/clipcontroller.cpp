@@ -306,6 +306,7 @@ void ClipController::updateProducer(const std::shared_ptr<Mlt::Producer> &produc
     if (!m_masterProducer->is_valid()) {
         qCDebug(KDENLIVE_LOG) << "// WARNING, USING INVALID PRODUCER";
     } else {
+        m_effectStack->resetService(m_masterProducer);
         // URL and name shoule not be updated otherwise when proxying a clip we cannot find back the original url
         /*m_url = QUrl::fromLocalFile(m_masterProducer->get("resource"));
         if (m_url.isValid()) {
