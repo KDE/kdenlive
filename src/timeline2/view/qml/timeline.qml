@@ -898,7 +898,7 @@ Rectangle {
                 var frame = Math.max(0, Math.round(clip.x / timeScale))
                 if (activeTrack >= 0  && activeTrack < tracksRepeater.count) {
                     var track = tracksRepeater.itemAt(activeTrack)
-                    console.log('Dragging clip ',clip.clipId,' to track: ', activeTrack, ' - ', y)
+                    //console.log('Dragging clip ',clip.clipId,' to track: ', activeTrack, ' - ', y)
                     if (controller.requestClipMove(clip.clipId, track.trackId, frame, false, false, false)) {
                         timeline.activeTrack = track.trackId
                         //clip.reparent(track)
@@ -938,7 +938,7 @@ Rectangle {
                             // check if we can move on existing track
                             if (!controller.requestClipMove(clip.clipId, clip.trackId, frame, false, false, false)) {
                                 // Abort move
-                                clip.x = clip.draggedX
+                                clip.x = clip.currentFrame * timeScale
                             } else {
                                 clip.x = frame * timeScale
                                 clip.currentFrame = frame

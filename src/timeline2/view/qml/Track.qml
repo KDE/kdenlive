@@ -273,7 +273,7 @@ Column{
                     frame = controller.suggestClipMove(cIndex, toTrack, frame, root.snapping);
                     if (clip.currentFrame == frame) {
                         // Abort move
-                        clip.x = clip.draggedX
+                        clip.x = frame * timeScale
                     } else {
                         clip.x = frame * timeScale
                         clip.currentFrame = frame
