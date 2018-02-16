@@ -45,7 +45,7 @@ Rectangle {
     property var audioLevels
     property var markers
     property var keyframeModel
-    property int clipStatus
+    property int clipStatus: 0
     property int fadeIn: 0
     property int fadeOut: 0
     property int binId: 0
@@ -384,7 +384,7 @@ Rectangle {
                 TimelineWaveform {
                     width: Math.min(waveform.innerWidth, waveform.maxWidth)
                     height: waveform.height
-                    showItem: visible && (index * waveform.maxWidth) < waveform.scrollEnd && (index * waveform.maxWidth + width) > waveform.scrollStart
+                    showItem: waveform.visible && (index * waveform.maxWidth) < waveform.scrollEnd && (index * waveform.maxWidth + width) > waveform.scrollStart
                     format: timeline.audioThumbFormat
                     property int channels: 2
                     inPoint: Math.round((clipRoot.inPoint + index * waveform.maxWidth / timeScale) * speed) * channels
