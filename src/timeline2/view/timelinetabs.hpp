@@ -44,6 +44,7 @@ public:
 
     /* @brief Returns a pointer to the current timeline */
     TimelineWidget *getCurrentTimeline() const;
+    void disconnectTimeline(TimelineWidget *timeline);
 
 protected:
     /** @brief Helper function to connect a timeline's signals/slots*/

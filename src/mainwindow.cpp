@@ -762,6 +762,7 @@ void MainWindow::slotReloadTheme()
 MainWindow::~MainWindow()
 {
     pCore->prepareShutdown();
+    m_timelineTabs->disconnectTimeline(getMainTimeline());
     delete m_audioSpectrum;
     if (m_projectMonitor) {
         m_projectMonitor->stop();
