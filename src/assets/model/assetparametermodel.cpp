@@ -312,7 +312,7 @@ ParamType AssetParameterModel::paramTypeFromStr(const QString &type)
     if (type == QLatin1String("switch")) {
         return ParamType::Switch;
     } else if (type == QLatin1String("simplekeyframe")) {
-        return ParamType::RestrictedAnim;
+        return ParamType::KeyframeParam;
     } else if (type == QLatin1String("animated")) {
         return ParamType::Animated;
     } else if (type == QLatin1String("animatedrect")) {
