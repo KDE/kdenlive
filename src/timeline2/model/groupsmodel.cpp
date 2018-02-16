@@ -267,9 +267,11 @@ void GroupsModel::setGroup(int id, int groupId)
     Q_ASSERT(id != groupId);
     removeFromGroup(id);
     m_upLink[id] = groupId;
-    if (groupId != -1) m_downLink[groupId].insert(id);
-    if (getType(groupId) == GroupType::Leaf) {
-        promoteToGroup(groupId, GroupType::Normal);
+    if (groupId != -1) {
+        m_downLink[groupId].insert(id);
+        if (getType(groupId) == GroupType::Leaf) {
+            promoteToGroup(groupId, GroupType::Normal);
+        }
     }
 }
 
