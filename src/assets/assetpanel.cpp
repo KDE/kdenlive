@@ -293,6 +293,9 @@ void AssetPanel::showKeyframes(bool enable)
 
 ObjectId AssetPanel::effectStackOwner()
 {
+    if (m_transitionWidget->isVisible()) {
+        return m_transitionWidget->stackOwner();
+    }
     if (!m_effectStackWidget->isVisible()) {
         return ObjectId(ObjectType::NoItem, -1);
     }

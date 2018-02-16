@@ -805,7 +805,7 @@ Fun TrackModel::requestCompositionResize_lambda(int compoId, int in, int out)
         out = in + old_out - old_in;
     }
 
-    auto update_snaps = [old_in, old_out, this](int new_in, int new_out) {
+    auto update_snaps = [compoId, old_in, old_out, this](int new_in, int new_out) {
         if (auto ptr = m_parent.lock()) {
             ptr->m_snaps->removePoint(old_in);
             ptr->m_snaps->removePoint(old_out);
@@ -813,6 +813,7 @@ Fun TrackModel::requestCompositionResize_lambda(int compoId, int in, int out)
             ptr->m_snaps->addPoint(new_out);
             ptr->checkRefresh(old_in, old_out);
             ptr->checkRefresh(new_in, new_out);
+            ptr->adjustAssetRange(compoId, new_in, new_out);
         } else {
             qDebug() << "Error : Composition resize failed because parent timeline is not available anymore";
             Q_ASSERT(false);
