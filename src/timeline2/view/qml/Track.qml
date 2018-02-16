@@ -29,7 +29,6 @@ Column{
     property real timeScale: 1.0
     property bool isCurrentTrack: false
     property bool isLocked: false
-    property var selection
     property int trackId : -42
     height: parent.height
 
@@ -69,7 +68,7 @@ Column{
                 Binding {
                     target: loader.item
                     property: "selected"
-                    value: trackRoot.selection.indexOf(loader.item.clipId) !== -1
+                    value: root.timelineSelection.indexOf(loader.item.clipId) !== -1
                     when: loader.status == Loader.Ready
                 }
                 Binding {
@@ -330,7 +329,7 @@ Column{
         Composition {
             displayHeight: trackRoot.height / 2
             opacity: 0.8
-            selected: trackRoot.selection.indexOf(clipId) !== -1
+            selected: root.timelineSelection.indexOf(clipId) !== -1
 
             onClicked: {
                 console.log("Composition clicked",clip.clipId)

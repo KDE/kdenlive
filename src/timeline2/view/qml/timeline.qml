@@ -119,6 +119,7 @@ Rectangle {
     property int spacerClickFrame: -1
     property real timeScale: timeline.scaleFactor
     property real snapping: timeline.snap ? 10 / Math.sqrt(timeScale) : -1
+    property var timelineSelection: timeline.selection
     property int trackHeight
     property int copiedClip: -1
     property var dragList: []
@@ -135,6 +136,12 @@ Rectangle {
         }
         root.snapping = timeline.snap ? 10 / Math.sqrt(root.timeScale) : -1
         ruler.adjustStepSize()
+    }
+    
+    onTimelineSelectionChanged: {
+        if (root.timelineSelection.length == 0) {
+            root.dragList = []
+        }
     }
 
     DropArea { //Drop area for compositions
@@ -849,7 +856,6 @@ Rectangle {
             isHidden: hidden
             isCurrentTrack: item === timeline.activeTrack
             trackId: item
-            selection: timeline.selection
             onClipClicked: {
                 timeline.activeTrack = track.trackId
                 if (shiftClick === 1) {
