@@ -325,6 +325,8 @@ ParamType AssetParameterModel::paramTypeFromStr(const QString &type)
         return ParamType::KeyframeParam;
     } else if (type == QLatin1String("color")) {
         return ParamType::Color;
+    } else if (type == QLatin1String("colorwheel")) {
+        return ParamType::ColorWheel;
     } else if (type == QLatin1String("position")) {
         return ParamType::Position;
     } else if (type == QLatin1String("curve")) {
@@ -406,6 +408,12 @@ QVariant AssetParameterModel::parseAttribute(const QString &attribute, const QDo
     if (attribute == QLatin1String("default")) {
         if (type == ParamType::RestrictedAnim) {
             content = getDefaultKeyframes(0, content, true);
+        } else {
+            if (element.hasAttribute(QStringLiteral("factor"))) {
+                QLocale locale;
+                locale.setNumberOptions(QLocale::OmitGroupSeparator);
+                return QVariant(locale.toDouble(content) / locale.toDouble(element.attribute(QStringLiteral("factor"))));
+            }
         }
     }
     return content;

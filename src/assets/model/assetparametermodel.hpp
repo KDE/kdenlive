@@ -52,6 +52,7 @@ enum class ParamType {
     Addedgeometry,
     KeyframeParam,
     Color,
+    ColorWheel,
     Position,
     Curve,
     Bezier_spline,

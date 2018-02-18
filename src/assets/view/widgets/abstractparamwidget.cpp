@@ -21,6 +21,7 @@
 #include "animationwidget.h"
 #include "assets/model/assetparametermodel.hpp"
 #include "boolparamwidget.hpp"
+#include "lumaliftgainparam.hpp"
 #include "doubleparamwidget.hpp"
 #include "geometryeditwidget.hpp"
 #include "keyframeedit.h"
@@ -93,6 +94,9 @@ AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetP
         break;
     case ParamType::Color:
         widget = new ColorEditWidget(model, index, parent);
+        break;
+    case ParamType::ColorWheel:
+        widget = new LumaLiftGainParam(model, index, parent);
         break;
     case ParamType::Animated:
     case ParamType::RestrictedAnim:

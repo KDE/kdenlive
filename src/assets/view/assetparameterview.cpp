@@ -46,32 +46,41 @@ AssetParameterView::AssetParameterView(QWidget *parent)
 
 void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &model, QPair<int, int> range, QSize frameSize, bool addSpacer)
 {
-    qDebug() << "**************\nset ASSETPARAMVIEW model " << model.get();
     unsetModel();
     QMutexLocker lock(&m_lock);
     m_model = model;
     m_model->prepareKeyframes();
+    const QString paramTag = model->getAssetId();
     connect(m_model.get(), &AssetParameterModel::dataChanged, this, &AssetParameterView::refresh);
-    for (int i = 0; i < model->rowCount(); ++i) {
-        QModelIndex index = model->index(i, 0);
-        auto type = model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
-        if (m_mainKeyframeWidget &&
+    if (paramTag == QStringLiteral("lift_gamma_gain")) {
+        // Special case, the colorwheel widget manages several parameters
+        QModelIndex index = model->index(0, 0);
+        auto w = AbstractParamWidget::construct(model, index, range, frameSize, this);
+        connect(w, &AbstractParamWidget::valueChanged, this, &AssetParameterView::commitChanges);
+        m_lay->addWidget(w);
+        m_widgets.push_back(w);
+    } else {
+        for (int i = 0; i < model->rowCount(); ++i) {
+            QModelIndex index = model->index(i, 0);
+            auto type = model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
+            if (m_mainKeyframeWidget &&
             (type == ParamType::Geometry || type == ParamType::Animated || type == ParamType::RestrictedAnim || type == ParamType::KeyframeParam)) {
-            // Keyframe widget can have some extra params that should'nt build a new widget
-            qDebug() << "// FOUND ADDED PARAM";
-            m_mainKeyframeWidget->addParameter(index);
-        } else {
-            auto w = AbstractParamWidget::construct(model, index, range, frameSize, this);
-            /*if (type == ParamType::Geometry || type == ParamType::Animated || type == ParamType::RestrictedAnim || type == ParamType::AnimatedRect) {
+                // Keyframe widget can have some extra params that should'nt build a new widget
+                qDebug() << "// FOUND ADDED PARAM";
+                m_mainKeyframeWidget->addParameter(index);
+            } else {
+                auto w = AbstractParamWidget::construct(model, index, range, frameSize, this);
+                /*if (type == ParamType::Geometry || type == ParamType::Animated || type == ParamType::RestrictedAnim || type == ParamType::AnimatedRect) {
                 animWidget = static_cast<AnimationWidget *>(w);
-            }*/
-            if (type == ParamType::KeyframeParam || type == ParamType::AnimatedRect) {
-                m_mainKeyframeWidget = static_cast<KeyframeWidget *>(w);
+                }*/
+                if (type == ParamType::KeyframeParam || type == ParamType::AnimatedRect) {
+                    m_mainKeyframeWidget = static_cast<KeyframeWidget *>(w);
+                }
+                connect(w, &AbstractParamWidget::valueChanged, this, &AssetParameterView::commitChanges);
+                connect(w, &AbstractParamWidget::seekToPos, this, &AssetParameterView::seekToPos);
+                m_lay->addWidget(w);
+                m_widgets.push_back(w);
             }
-            connect(w, &AbstractParamWidget::valueChanged, this, &AssetParameterView::commitChanges);
-            connect(w, &AbstractParamWidget::seekToPos, this, &AssetParameterView::seekToPos);
-            m_lay->addWidget(w);
-            m_widgets.push_back(w);
         }
     }
     if (addSpacer) {
@@ -81,13 +90,21 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
 
 void AssetParameterView::resetValues()
 {
-    QMutexLocker lock(&m_lock);
+    auto type = m_model->data(m_model->index(0, 0), AssetParameterModel::TypeRole).value<ParamType>();
     for (int i = 0; i < m_model->rowCount(); ++i) {
         QModelIndex index = m_model->index(i, 0);
         QString name = m_model->data(index, AssetParameterModel::NameRole).toString();
         QString defaultValue = m_model->data(index, AssetParameterModel::DefaultRole).toString();
         m_model->setParameter(name, defaultValue);
-        refresh(index, index, QVector<int>());
+        if (type == ParamType::ColorWheel) {
+            if (i == m_model->rowCount() - 1) {
+                // Special case, the ColorWheel widget handles several params, so only refresh once when all parameters were set.
+                QModelIndex firstIndex = m_model->index(0, 0);
+                refresh(firstIndex, firstIndex, QVector<int>());
+            }
+        } else {
+            refresh(index, index, QVector<int>());
+        }
     }
 }
 
@@ -153,7 +170,6 @@ void AssetParameterView::refresh(const QModelIndex &topLeft, const QModelIndex &
     Q_ASSERT(!topLeft.parent().isValid());
     // We make sure the range is valid
     Q_ASSERT(bottomRight.row() < (int)m_widgets.size());
-
     for (int i = topLeft.row(); i <= bottomRight.row(); ++i) {
         m_widgets[(uint)i]->slotRefresh();
     }
