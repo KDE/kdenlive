@@ -33,4 +33,8 @@
     <file alias="EffectSlider.qml">effects/effectstack/view/qml/EffectSlider.qml</file>
     <file alias="LiftGammaGain.qml">effects/effectstack/view/qml/LiftGammaGain.qml</file>
   </qresource>
+  <qresource prefix="data">
+    <file alias="blacklisted_effects.txt">../data/blacklisted_effects.txt</file>
+    <file alias="blacklisted_transitions.txt">../data/blacklisted_transitions.txt</file>
+  </qresource>
 </RCC>

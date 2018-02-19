@@ -138,7 +138,7 @@ void EffectsRepository::parseType(QScopedPointer<Mlt::Properties> &metadata, Inf
 
 QString EffectsRepository::assetBlackListPath() const
 {
-    return QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("blacklisted_effects.txt"));
+    return QStringLiteral(":data/blacklisted_effects.txt");
 }
 
 Mlt::Filter *EffectsRepository::getEffect(const QString &effectId) const

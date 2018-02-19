@@ -228,7 +228,7 @@ bool initEffects::parseEffectFiles(std::unique_ptr<Mlt::Repository> &repository,
     }
 
     // Remove blacklisted transitions from the list.
-    QFile file(QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("blacklisted_transitions.txt")));
+    QFile file(QStringLiteral(":data/blacklisted_transitions.txt"));
     if (file.open(QIODevice::ReadOnly)) {
         QTextStream in(&file);
         while (!in.atEnd()) {
@@ -246,7 +246,7 @@ bool initEffects::parseEffectFiles(std::unique_ptr<Mlt::Repository> &repository,
     // Remove blacklisted effects from the filters list.
     QStringList mltFiltersList = filtersList;
     QStringList mltBlackList;
-    QFile file2(QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("blacklisted_effects.txt")));
+    QFile file2(QStringLiteral(":data/blacklisted_effects.txt"));
     if (file2.open(QIODevice::ReadOnly)) {
         QTextStream in(&file2);
         while (!in.atEnd()) {

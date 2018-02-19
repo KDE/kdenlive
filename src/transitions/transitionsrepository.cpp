@@ -123,7 +123,7 @@ QSet<QString> TransitionsRepository::getSingleTrackTransitions()
 
 QString TransitionsRepository::assetBlackListPath() const
 {
-    return QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("blacklisted_transitions.txt"));
+    return QStringLiteral(":data/blacklisted_transitions.txt");
 }
 
 Mlt::Transition *TransitionsRepository::getTransition(const QString &transitionId) const

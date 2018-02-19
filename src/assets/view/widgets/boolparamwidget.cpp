@@ -29,7 +29,6 @@ BoolParamWidget::BoolParamWidget(std::shared_ptr<AssetParameterModel> model, QMo
 
     // setup the comment
     QString name = m_model->data(m_index, AssetParameterModel::NameRole).toString();
-    bool checked = m_model->data(m_index, AssetParameterModel::ValueRole).toInt();
     QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
     setToolTip(comment);
     m_labelComment->setText(comment);
@@ -39,7 +38,7 @@ BoolParamWidget::BoolParamWidget(std::shared_ptr<AssetParameterModel> model, QMo
     m_labelName->setText(m_model->data(m_index, Qt::DisplayRole).toString());
 
     // set check state
-    m_checkBox->setChecked(checked);
+    slotRefresh();
 
     // emit the signal of the base class when appropriate
     connect(this->m_checkBox, &QCheckBox::stateChanged, [this](int) { emit valueChanged(m_index, QString::number(m_checkBox->isChecked()), true); });

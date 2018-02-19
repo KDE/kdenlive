@@ -34,23 +34,18 @@ PositionEditWidget::PositionEditWidget(std::shared_ptr<AssetParameterModel> mode
     QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
     //TODO: take absolute from effect data
     m_absolute = false;
-    int value = m_model->data(m_index, AssetParameterModel::ValueRole).toInt();
-    int min = m_model->data(m_index, AssetParameterModel::ParentInRole).toInt();
-    int max = min + m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt();
     QLabel *label = new QLabel(name, this);
     m_slider = new QSlider(Qt::Horizontal, this);
     m_slider->setSizePolicy(QSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred));
 
     m_display = new TimecodeDisplay(pCore->monitorManager()->timecode(), this);
     m_display->setSizePolicy(QSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred));
-    slotSetRange(QPair<int, int>(min, max));
 
     layout->addWidget(label);
     layout->addWidget(m_slider);
     layout->addWidget(m_display);
+    slotRefresh();
 
-    m_slider->setValue(value);
-    m_display->setValue(value);
     connect(m_slider, &QAbstractSlider::valueChanged, m_display, static_cast<void (TimecodeDisplay::*)(int)>(&TimecodeDisplay::setValue));
     connect(m_slider, &QAbstractSlider::valueChanged, this, &PositionEditWidget::valueChanged);
 
