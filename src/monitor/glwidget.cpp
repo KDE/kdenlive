@@ -247,6 +247,7 @@ void GLWidget::resizeGL(int width, int height)
     int x, y, w, h;
     double this_aspect = (double)width / height;
     double video_aspect = m_monitorProfile->dar();
+    height -= rulerHeight();
 
     // Special case optimisation to negate odd effect of sample aspect ratio
     // not corresponding exactly with image resolution.
@@ -419,7 +420,7 @@ void GLWidget::paintGL()
     f->glDisable(GL_BLEND);
     f->glDisable(GL_DEPTH_TEST);
     f->glDepthMask(GL_FALSE);
-    f->glViewport(0, 0, width, height);
+    f->glViewport(0, rulerHeight(), width, height);
     check_error(f);
     QColor color(KdenliveSettings::window_background());
     f->glClearColor(color.redF(), color.greenF(), color.blueF(), color.alphaF());
