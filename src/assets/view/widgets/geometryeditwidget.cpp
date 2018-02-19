@@ -75,14 +75,6 @@ void GeometryEditWidget::slotSetRange(QPair <int, int> /*range*/)
 
 void GeometryEditWidget::slotRefresh()
 {
-/*    int min = m_model->data(m_index, AssetParameterModel::ParentInRole).toInt();
-    int max = min + m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt();
-    int val = m_model->data(m_index, AssetParameterModel::ValueRole).toInt();
-    m_slider->blockSignals(true);
-    slotSetRange(QPair<int, int>(min, max));
-    m_slider->setValue(val);
-    m_display->setValue(val);
-    m_slider->blockSignals(false);*/
     const QString value = m_model->data(m_index, AssetParameterModel::ValueRole).toString().simplified();
     QRect rect;
     QStringList vals = value.split(QLatin1Char(' '));

@@ -233,6 +233,7 @@ void KeyframeWidget::slotRefresh()
 
     // refresh keyframes
     m_keyframes->refresh();
+    slotRefreshParams();
 }
 
 void KeyframeWidget::addParameter(const QPersistentModelIndex &index)

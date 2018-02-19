@@ -96,7 +96,10 @@ void AssetParameterView::resetValues()
         QString name = m_model->data(index, AssetParameterModel::NameRole).toString();
         QString defaultValue = m_model->data(index, AssetParameterModel::DefaultRole).toString();
         m_model->setParameter(name, defaultValue);
-        if (type == ParamType::ColorWheel) {
+        if (m_mainKeyframeWidget) {
+            // Handles additionnal params like rotation so only refresh initial param at the end
+        }
+        else if (type == ParamType::ColorWheel) {
             if (i == m_model->rowCount() - 1) {
                 // Special case, the ColorWheel widget handles several params, so only refresh once when all parameters were set.
                 QModelIndex firstIndex = m_model->index(0, 0);
@@ -105,6 +108,9 @@ void AssetParameterView::resetValues()
         } else {
             refresh(index, index, QVector<int>());
         }
+    }
+    if (m_mainKeyframeWidget) {
+        m_mainKeyframeWidget->slotRefresh();
     }
 }
 
@@ -169,9 +175,13 @@ void AssetParameterView::refresh(const QModelIndex &topLeft, const QModelIndex &
     // We are expecting indexes that are children of the root index, which is "invalid"
     Q_ASSERT(!topLeft.parent().isValid());
     // We make sure the range is valid
-    Q_ASSERT(bottomRight.row() < (int)m_widgets.size());
-    for (int i = topLeft.row(); i <= bottomRight.row(); ++i) {
-        m_widgets[(uint)i]->slotRefresh();
+    if (m_mainKeyframeWidget) {
+        m_mainKeyframeWidget->slotRefresh();
+    } else {
+        Q_ASSERT(bottomRight.row() < (int)m_widgets.size());
+        for (int i = topLeft.row(); i <= bottomRight.row(); ++i) {
+            m_widgets[(uint)i]->slotRefresh();
+        }
     }
 }
 

@@ -193,7 +193,7 @@ CollapsibleEffectView::CollapsibleEffectView(std::shared_ptr<EffectItemModel> ef
 CollapsibleEffectView::~CollapsibleEffectView()
 {
     qDebug() << "deleting collapsibleeffectview";
-    delete m_view;
+    //delete m_view;
     delete m_menu;
 }
 
