@@ -13,8 +13,6 @@ endif()
 
 install(FILES
   banner.png
-  blacklisted_effects.txt
-  blacklisted_transitions.txt
   encodingprofiles.rc
   metadata.properties
   meta_ffmpeg.png
