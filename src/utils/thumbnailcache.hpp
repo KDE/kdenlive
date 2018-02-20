@@ -75,7 +75,7 @@ protected:
     ThumbnailCache();
 
     // Return the key associated to a thumbnail
-    static QString getKey(const QString &binId, int pos);
+    static QString getKey(const QString &binId, int pos, bool *ok);
 
     // Return the dir where the persistent cache lives
     static QDir getDir(bool *ok);

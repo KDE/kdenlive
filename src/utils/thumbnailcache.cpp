@@ -103,14 +103,14 @@ std::unique_ptr<ThumbnailCache> &ThumbnailCache::get()
 bool ThumbnailCache::hasThumbnail(const QString &binId, int pos, bool volatileOnly) const
 {
     QMutexLocker locker(&m_mutex);
-    auto key = getKey(binId, pos);
-    if (m_volatileCache->contains(key)) {
+    bool ok = false;
+    auto key = getKey(binId, pos, &ok);
+    if (ok && m_volatileCache->contains(key)) {
         return true;
     }
-    if (volatileOnly) {
+    if (!ok || volatileOnly) {
         return false;
     }
-    bool ok = false;
     QDir thumbFolder = getDir(&ok);
     return ok && thumbFolder.exists(key);
 }
@@ -118,14 +118,14 @@ bool ThumbnailCache::hasThumbnail(const QString &binId, int pos, bool volatileOn
 QImage ThumbnailCache::getThumbnail(const QString &binId, int pos, bool volatileOnly) const
 {
     QMutexLocker locker(&m_mutex);
-    auto key = getKey(binId, pos);
-    if (m_volatileCache->contains(key)) {
+    bool ok = false;
+    auto key = getKey(binId, pos, &ok);
+    if (ok && m_volatileCache->contains(key)) {
         return m_volatileCache->get(key);
     }
-    if (volatileOnly) {
+    if (!ok || volatileOnly) {
         return QImage();
     }
-    bool ok = false;
     QDir thumbFolder = getDir(&ok);
     if (ok && thumbFolder.exists(key)) {
         return QImage(thumbFolder.absoluteFilePath(key));
@@ -136,9 +136,12 @@ QImage ThumbnailCache::getThumbnail(const QString &binId, int pos, bool volatile
 void ThumbnailCache::storeThumbnail(const QString &binId, int pos, const QImage &img, bool persistent)
 {
     QMutexLocker locker(&m_mutex);
-    const QString key = getKey(binId, pos);
+    bool ok = false;
+    const QString key = getKey(binId, pos, &ok);
+    if (!ok) {
+        return;
+    }
     if (persistent) {
-        bool ok = false;
         QDir thumbFolder = getDir(&ok);
         if (ok) {
             if (!img.save(thumbFolder.absoluteFilePath(key))) {
@@ -163,9 +166,12 @@ void ThumbnailCache::invalidateThumbsForClip(const QString &binId)
 {
     QMutexLocker locker(&m_mutex);
     if (m_storedVolatile.find(binId) != m_storedVolatile.end()) {
+        bool ok = false;
         for (int pos : m_storedVolatile.at(binId)) {
-            auto key = getKey(binId, pos);
-            m_volatileCache->remove(key);
+            auto key = getKey(binId, pos, &ok);
+            if (ok) {
+                m_volatileCache->remove(key);
+            }
         }
         m_storedVolatile.erase(binId);
     }
@@ -174,18 +180,21 @@ void ThumbnailCache::invalidateThumbsForClip(const QString &binId)
     if (ok && m_storedOnDisk.find(binId) != m_storedOnDisk.end()) {
         // Remove persistent cache
         for (int pos : m_storedOnDisk.at(binId)) {
-            auto key = getKey(binId, pos);
-            QFile::remove(thumbFolder.absoluteFilePath(key));
+            auto key = getKey(binId, pos, &ok);
+            if (ok) {
+                QFile::remove(thumbFolder.absoluteFilePath(key));
+            }
         }
         m_storedOnDisk.erase(binId);
     }
 }
 
 // static
-QString ThumbnailCache::getKey(const QString &binId, int pos)
+QString ThumbnailCache::getKey(const QString &binId, int pos, bool *ok)
 {
     auto binClip = pCore->projectItemModel()->getClipByBinID(binId);
-    return binClip->hash() + QLatin1Char('#') + QString::number(pos) + QStringLiteral(".png");
+    *ok = binClip != nullptr;
+    return *ok ? binClip->hash() + QLatin1Char('#') + QString::number(pos) + QStringLiteral(".png") : QString();
 }
 
 // static
