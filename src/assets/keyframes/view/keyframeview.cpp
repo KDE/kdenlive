@@ -169,12 +169,11 @@ void KeyframeView::mouseMoveEvent(QMouseEvent *event)
     int pos = qBound(0, (int)(event->x() / m_scale), m_duration);
     GenTime position(pos, pCore->getCurrentFps());
     if ((event->buttons() & Qt::LeftButton) != 0u) {
+        if (m_currentKeyframe == pos) {
+            return;
+        }
         if (m_currentKeyframe >= 0) {
             if (!m_model->hasKeyframe(pos)) {
-                // snap to position cursor
-                if (KdenliveSettings::snaptopoints() && qAbs(pos - m_position) < 5 && !m_model->hasKeyframe(m_position)) {
-                    pos = m_position;
-                }
                 GenTime currentPos(m_currentKeyframe, pCore->getCurrentFps());
                 if (m_model->moveKeyframe(currentPos, position, false)) {
                     m_currentKeyframe = pos;
