@@ -479,6 +479,9 @@ bool TimelineController::showWaveforms() const
 
 void TimelineController::addTrack(int tid)
 {
+    if (tid == -1) {
+        tid = m_activeTrack;
+    }
     QPointer<TrackDialog> d = new TrackDialog(m_model, m_model->getTrackMltIndex(tid), qApp->activeWindow());
     if (d->exec() == QDialog::Accepted) {
         int mltIndex = d->selectedTrack();
@@ -489,6 +492,9 @@ void TimelineController::addTrack(int tid)
 
 void TimelineController::deleteTrack(int tid)
 {
+    if (tid == -1) {
+        tid = m_activeTrack;
+    }
     QPointer<TrackDialog> d = new TrackDialog(m_model, m_model->getTrackMltIndex(tid), qApp->activeWindow(), true);
     if (d->exec() == QDialog::Accepted) {
         int mltIndex = d->selectedTrack();

@@ -2452,37 +2452,19 @@ void MainWindow::slotRemoveAllSpace()
 void MainWindow::slotInsertTrack()
 {
     pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
-    // TODO refac
-    /*
-    if (pCore->projectManager()->currentTimeline()) {
-        int ix = pCore->projectManager()->currentTimeline()->projectView()->selectedTrack();
-        pCore->projectManager()->currentTimeline()->projectView()->slotInsertTrack(ix);
-    }
-    */
+    getMainTimeline()->controller()->addTrack(-1);
 }
 
 void MainWindow::slotDeleteTrack()
 {
     pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
-    // TODO refac
-    /*
-    if (pCore->projectManager()->currentTimeline()) {
-        int ix = pCore->projectManager()->currentTimeline()->projectView()->selectedTrack();
-        pCore->projectManager()->currentTimeline()->projectView()->slotDeleteTrack(ix);
-    }
-    */
+    getMainTimeline()->controller()->addTrack(-1);
 }
 
 void MainWindow::slotConfigTrack()
 {
     pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
-    // TODO refac
-    /*
-    if (pCore->projectManager()->currentTimeline()) {
-        int ix = pCore->projectManager()->currentTimeline()->projectView()->selectedTrack();
-        pCore->projectManager()->currentTimeline()->projectView()->slotConfigTracks(ix);
-    }
-    */
+    getMainTimeline()->controller()->deleteTrack(-1);
 }
 
 void MainWindow::slotSelectTrack()

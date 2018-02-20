@@ -25,6 +25,8 @@
 
 TrackDialog::TrackDialog(std::shared_ptr<TimelineItemModel> model, int trackIndex, QWidget *parent, bool deleteMode) :
     QDialog(parent)
+    , m_audioCount(1)
+    , m_videoCount(1)
 {
     //setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     QIcon videoIcon = QIcon::fromTheme(QStringLiteral("kdenlive-show-video"));
@@ -34,6 +36,11 @@ TrackDialog::TrackDialog(std::shared_ptr<TimelineItemModel> model, int trackInde
     for (int i = model->getTracksCount() - 1; i >= 0; i--) {
         int tid = model->getTrackIndexFromPosition(i);
         bool audioTrack = model->getTrackProperty(tid, QStringLiteral("kdenlive:audio_track")) == QLatin1String("1");
+        if (audioTrack) {
+            m_audioCount++;
+        } else {
+            m_videoCount++;
+        }
         const QString trackName = model->getTrackProperty(tid, QStringLiteral("kdenlive:track_name")).toString();
         existingTrackNames << trackName;
         // Track index in in MLT, so add + 1 to compensate black track
@@ -59,7 +66,16 @@ TrackDialog::TrackDialog(std::shared_ptr<TimelineItemModel> model, int trackInde
         }
         track_name->setText(proposedName);
     }
+    connect(audio_track, &QRadioButton::toggled, this, &TrackDialog::updateName);
 }
+
+void TrackDialog::updateName(bool audioTrack)
+{
+    QString proposedName = i18n(audioTrack ? "Audio %1" : "Video %1", audioTrack ? m_audioCount : m_videoCount);
+    track_name->setText(proposedName);
+    
+}
+
 
 int TrackDialog::selectedTrack() const
 {

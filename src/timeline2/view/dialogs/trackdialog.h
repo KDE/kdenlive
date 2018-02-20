@@ -38,6 +38,13 @@ public:
     /** @brief: returns the newly created track name
     */
     const QString trackName() const;
+    
+private slots:
+    void updateName(bool audioTrack);
+    
+private:
+    int m_audioCount;
+    int m_videoCount;
 };
 
 #endif
