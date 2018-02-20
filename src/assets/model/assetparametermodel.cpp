@@ -313,15 +313,13 @@ ParamType AssetParameterModel::paramTypeFromStr(const QString &type)
         return ParamType::Switch;
     } else if (type == QLatin1String("simplekeyframe")) {
         return ParamType::KeyframeParam;
-    } else if (type == QLatin1String("animated")) {
-        return ParamType::Animated;
     } else if (type == QLatin1String("animatedrect")) {
         return ParamType::AnimatedRect;
     } else if (type == QLatin1String("geometry")) {
         return ParamType::Geometry;
     } else if (type == QLatin1String("addedgeometry")) {
         return ParamType::Addedgeometry;
-    } else if (type == QLatin1String("keyframe")) {
+    } else if (type == QLatin1String("keyframe") || type == QLatin1String("animated")) {
         return ParamType::KeyframeParam;
     } else if (type == QLatin1String("color")) {
         return ParamType::Color;
