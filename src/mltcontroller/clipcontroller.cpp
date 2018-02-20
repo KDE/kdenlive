@@ -68,10 +68,10 @@ ClipController::ClipController(const QString clipId, std::shared_ptr<Mlt::Produc
                 path.prepend(pCore->currentDoc()->documentRoot());
             }
             m_usesProxy = true;
-        } else if (m_service != QLatin1String("color") && m_service != QLatin1String("colour") && QFileInfo(path).isRelative()) {
+        } else if (m_service != QLatin1String("color") && m_service != QLatin1String("colour") && !path.isEmpty() && QFileInfo(path).isRelative()) {
             path.prepend(pCore->currentDoc()->documentRoot());
         }
-        m_path = QFileInfo(path).absoluteFilePath();
+        m_path = path.isEmpty() ? QString() : QFileInfo(path).absoluteFilePath();
         getInfoForProducer();
     } else {
         m_producerLock.lock();
@@ -119,10 +119,10 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
                 path.prepend(documentRoot);
             }
             m_usesProxy = true;
-        } else if (m_service != QLatin1String("color") && m_service != QLatin1String("colour") && QFileInfo(path).isRelative()) {
+        } else if (m_service != QLatin1String("color") && m_service != QLatin1String("colour") && !path.isEmpty() && QFileInfo(path).isRelative()) {
             path.prepend(documentRoot);
         }
-        m_path = QFileInfo(path).absoluteFilePath();
+        m_path = path.isEmpty() ? QString() : QFileInfo(path).absoluteFilePath();
         getInfoForProducer();
         emitProducerChanged(m_controllerBinId, producer);
         setProducerProperty(QStringLiteral("kdenlive:id"), m_controllerBinId);
@@ -171,7 +171,6 @@ void ClipController::getProducerXML(QDomDocument &document, bool includeMeta)
 
 void ClipController::getInfoForProducer()
 {
-    qDebug() << "################### ClipController::getinfoforproducer";
     date = QFileInfo(m_path).lastModified();
     m_audioIndex = -1;
     m_videoIndex = -1;
