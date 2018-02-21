@@ -320,6 +320,8 @@ public:
     void showCompositionKeyframes(int clipId, bool value);
     /** @brief Returns last usable timeline position (seek request or current pos) */
     int timelinePosition() const;
+    /** @brief Adjust all timeline tracks height */
+    void resetTrackHeight();
 
 public slots:
     void selectMultitrack();

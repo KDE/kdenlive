@@ -35,6 +35,7 @@ Rectangle {
     property bool current: false
     property int myTrackHeight
     property int trackId : -42
+    property int collapsedHeight: nameEdit.height + 2
     border.width: 1
     border.color: Qt.rgba(activePalette.windowText.r, activePalette.windowText.g, activePalette.windowText.b, 0.1)
     signal clicked()
@@ -116,10 +117,9 @@ Rectangle {
             Layout.leftMargin: 2
             ToolButton {
                 id: expandButton
-                iconName: buttonBar.visible ? 'arrow-down' : 'arrow-right'
+                iconName: trackHeadRoot.collapsed ? 'arrow-right' : 'arrow-down'
                 onClicked: {
-                    trackHeadRoot.collapsed = buttonBar.visible
-                    trackHeadRoot.myTrackHeight = buttonBar.visible ? nameEdit.height + 2 : controller.getTrackProperty(trackId, "kdenlive:trackheight")
+                    trackHeadRoot.myTrackHeight = trackHeadRoot.collapsed ? Math.max(collapsedHeight * 1.5, controller.getTrackProperty(trackId, "kdenlive:trackheight")) : collapsedHeight
                 }
                 tooltip: buttonBar.visible? i18n('Minimize') : i18n('Expand')
             }
@@ -342,8 +342,7 @@ Rectangle {
                     if (mouse.buttons === Qt.LeftButton) {
                         parent.opacity = 0.5
                         var newHeight = originalY + (mapToItem(null, x, y).y - startY)
-                        newHeight =  Math.max(trackLabel.height + resizer.height + 3, newHeight)
-                        trackHeadRoot.collapsed = newHeight < nameEdit.height * 2
+                        newHeight =  Math.max(collapsedHeight, newHeight)
                         trackHeadRoot.myTrackHeight = newHeight
                     }
                 }

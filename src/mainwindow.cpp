@@ -2176,6 +2176,7 @@ void MainWindow::slotPreferences(int page, int option)
     connect(dialog, &KdenliveSettingsDialog::restartKdenlive, this, &MainWindow::slotRestart);
     connect(dialog, &KdenliveSettingsDialog::updateLibraryFolder, pCore.get(), &Core::updateLibraryPath);
     connect(dialog, &KdenliveSettingsDialog::audioThumbFormatChanged, m_timelineTabs, &TimelineTabs::audioThumbFormatChanged);
+    connect(dialog, &KdenliveSettingsDialog::resetView, this, &MainWindow::resetTimelineTracks);
 
     dialog->show();
     if (page != -1) {
@@ -4156,6 +4157,14 @@ TimelineWidget *MainWindow::getMainTimeline() const
 TimelineWidget *MainWindow::getCurrentTimeline() const
 {
     return m_timelineTabs->getCurrentTimeline();
+}
+
+void MainWindow::resetTimelineTracks()
+{
+    TimelineWidget *current = getCurrentTimeline();
+    if (current) {
+        current->controller()->resetTrackHeight();
+    }
 }
 
 void MainWindow::slotChangeSpeed(int speed)

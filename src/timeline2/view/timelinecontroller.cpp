@@ -1425,3 +1425,16 @@ int TimelineController::videoTarget() const
 { 
     return m_model->m_videoTarget; 
 }
+
+void TimelineController::resetTrackHeight()
+{ 
+    int tracksCount = m_model->getTracksCount();
+    for (int track = tracksCount - 1; track >= 0; track--) {
+        int trackIx = m_model->getTrackIndexFromPosition(track);
+        m_model->getTrackById(trackIx)->setProperty(QStringLiteral("kdenlive:trackheight"), QString::number(KdenliveSettings::trackheight()));
+    }
+    QModelIndex modelStart = m_model->makeTrackIndexFromID(m_model->getTrackIndexFromPosition(0));
+    QModelIndex modelEnd = m_model->makeTrackIndexFromID(m_model->getTrackIndexFromPosition(tracksCount - 1));
+    m_model->dataChanged(modelStart, modelEnd, {TimelineModel::HeightRole});
+}
+

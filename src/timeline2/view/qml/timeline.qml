@@ -449,6 +449,7 @@ Rectangle {
                                 trackBaseRepeater.itemAt(index).height = myTrackHeight
                                 tracksRepeater.itemAt(index).height = myTrackHeight
                                 height = myTrackHeight
+                                collapsed = height <= collapsedHeight
                                 if (!collapsed) {
                                     controller.setTrackProperty(trackId, "kdenlive:trackheight", myTrackHeight)
                                 }

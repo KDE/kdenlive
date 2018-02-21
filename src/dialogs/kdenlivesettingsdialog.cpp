@@ -65,6 +65,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString> &map
 {
     KdenliveSettings::setV4l_format(0);
     QWidget *p1 = new QWidget;
+    QFontInfo ftInfo(font());
     m_configMisc.setupUi(p1);
     m_page1 = addPage(p1, i18n("Misc"));
     m_page1->setIcon(KoIconUtils::themedIcon(QStringLiteral("configure")));
@@ -97,6 +98,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString> &map
     m_configTimeline.setupUi(p3);
     m_page3 = addPage(p3, i18n("Timeline"));
     m_page3->setIcon(KoIconUtils::themedIcon(QStringLiteral("video-display")));
+    m_configTimeline.kcfg_trackheight->setMinimum(ftInfo.pixelSize() * 1.5);
 
     QWidget *p2 = new QWidget;
     m_configEnv.setupUi(p2);
@@ -911,6 +913,11 @@ void KdenliveSettingsDialog::updateSettings()
         } else {
             m_configSdl.kcfg_gpu_accel->setChecked(KdenliveSettings::gpu_accel());
         }
+    }
+    
+    if (m_configTimeline.kcfg_trackheight->value() != KdenliveSettings::trackheight()) {
+        KdenliveSettings::setTrackheight(m_configTimeline.kcfg_trackheight->value());
+        emit resetView();
     }
 
     // Mimes

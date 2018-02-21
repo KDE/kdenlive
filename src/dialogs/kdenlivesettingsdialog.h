@@ -127,6 +127,8 @@ signals:
     void checkTabPosition();
     /** @brief Switch between merged / separate channels for audio thumbs */
     void audioThumbFormatChanged();
+    /** @brief An important timeline property changed, prepare for a reset */
+    void resetView();
 };
 
 #endif

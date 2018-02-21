@@ -468,6 +468,8 @@ private slots:
     void setTimelineToolbarIconSize(QAction *a);
     void slotChangeSpeed(int speed);
     void updateAction();
+    /** @brief Request adjust of timeline track height */
+    void resetTimelineTracks();
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);
