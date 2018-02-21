@@ -203,7 +203,7 @@ void EffectStackView::loadEffects(QPair<int, int> range, int start, int end)
         connect(view, &CollapsibleEffectView::activateEffect, this, &EffectStackView::slotActivateEffect);
         connect(view, &CollapsibleEffectView::seekToPos, [this](int pos) {
             // at this point, the effects returns a pos relative to the clip. We need to convert it to a global time
-            int clipIn = pCore->getItemIn(m_model->getOwnerId());
+            int clipIn = pCore->getItemPosition(m_model->getOwnerId());
             emit seekToPos(pos + clipIn);
         });
         connect(this, &EffectStackView::doActivateEffect, view, &CollapsibleEffectView::slotActivateEffect);

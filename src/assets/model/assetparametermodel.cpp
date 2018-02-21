@@ -253,7 +253,7 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
     case OutRole:
         return m_asset->get_int("out");
     case ParentInRole:
-        return pCore->getItemIn(m_ownerId);
+        return pCore->getItemPosition(m_ownerId);
     case ParentDurationRole:
         return pCore->getItemDuration(m_ownerId);
     case MinRole:

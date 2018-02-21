@@ -2911,7 +2911,7 @@ void MainWindow::slotClipInTimeline(const QString &clipId, QList<int> ids)
     QList<QAction *> actionList;
     for (int i = 0; i < ids.count(); ++i) {
         QString track = getMainTimeline()->controller()->getTrackNameFromIndex(pCore->getItemTrack(ObjectId(ObjectType::TimelineClip, ids.at(i))));
-        QString start = pCore->currentDoc()->timecode().getTimecodeFromFrames(pCore->getItemIn(ObjectId(ObjectType::TimelineClip, ids.at(i))));
+        QString start = pCore->currentDoc()->timecode().getTimecodeFromFrames(pCore->getItemPosition(ObjectId(ObjectType::TimelineClip, ids.at(i))));
         int j = 0;
         QAction *a = new QAction(track + QStringLiteral(": ") + start, inTimelineMenu);
         a->setData(ids.at(i));
@@ -2943,11 +2943,20 @@ void MainWindow::slotClipInProjectTree()
         m_projectBinDock->raise();
         ObjectId id(ObjectType::TimelineClip, ids.constFirst());
         int start = pCore->getItemIn(id);
-        QPoint zone(start, start + pCore->getItemDuration(id));
+        int duration = pCore->getItemDuration(id);
+        QPoint zone(start, start + duration);
+        qDebug()<<" - - selecting clip on monitor, zone: "<<zone;
         if (m_projectMonitor->isActive()) {
             slotSwitchMonitors();
         }
-        pCore->selectBinClip(getMainTimeline()->controller()->getClipBinId(ids.constFirst()), -1, zone);
+        int pos = m_projectMonitor->position();
+        int itemPos = pCore->getItemPosition(id);
+        if (pos >= itemPos && pos < itemPos + duration) {
+            pos -= itemPos;
+        } else {
+            pos = -1;
+        }
+        pCore->selectBinClip(getMainTimeline()->controller()->getClipBinId(ids.constFirst()), pos, zone);
     }
 }
 

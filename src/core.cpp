@@ -348,7 +348,7 @@ void Core::refreshProjectRange(QSize range)
     m_monitorManager->refreshProjectRange(range);
 }
 
-int Core::getItemIn(const ObjectId &id)
+int Core::getItemPosition(const ObjectId &id)
 {
     if (!m_guiConstructed) return 0;
     switch (id.first) {
@@ -361,6 +361,27 @@ int Core::getItemIn(const ObjectId &id)
         if (m_mainWindow->getCurrentTimeline()->controller()->getModel()->isComposition(id.second)) {
             return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getCompositionPosition(id.second);
         }
+        break;
+    case ObjectType::BinClip:
+        return 0;
+        break;
+    default:
+        qDebug() << "ERROR: unhandled object type";
+    }
+    return 0;
+}
+
+int Core::getItemIn(const ObjectId &id)
+{
+    if (!m_guiConstructed) return 0;
+    switch (id.first) {
+    case ObjectType::TimelineClip:
+        if (m_mainWindow->getCurrentTimeline()->controller()->getModel()->isClip(id.second)) {
+            return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getClipIn(id.second);
+        }
+        break;
+    case ObjectType::TimelineComposition:
+        return 0;
         break;
     case ObjectType::BinClip:
         return 0;

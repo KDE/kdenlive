@@ -120,7 +120,7 @@ KeyframeWidget::~KeyframeWidget()
 
 void KeyframeWidget::monitorSeek(int pos)
 {
-    int in = pCore->getItemIn(m_model->getOwnerId());
+    int in = pCore->getItemPosition(m_model->getOwnerId());
     int out = in + pCore->getItemDuration(m_model->getOwnerId());
     m_buttonAddDelete->setEnabled(pos - in > 0);
     for (const auto &w : m_parameters) {
