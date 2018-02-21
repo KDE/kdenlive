@@ -225,6 +225,7 @@ Rectangle {
                     timeline.activeTrack = tracksRepeater.itemAt(track).trackId
                     //drag.acceptProposedAction()
                     clipBeingDroppedData = drag.getDataAsString('kdenlive/producerslist')
+                    console.log('dropped data: ', clipBeingDroppedData)
                     clipBeingDroppedId = timeline.insertClip(timeline.activeTrack, frame, clipBeingDroppedData, false, true)
                     continuousScrolling(drag.x + scrollView.flickableItem.contentX)
                 } else {

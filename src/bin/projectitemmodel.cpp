@@ -174,9 +174,9 @@ bool ProjectItemModel::dropMimeData(const QMimeData *data, Qt::DropAction action
     if (data->hasFormat(QStringLiteral("kdenlive/producerslist"))) {
         // Dropping an Bin item
         const QStringList ids = QString(data->data(QStringLiteral("kdenlive/producerslist"))).split(QLatin1Char(';'));
-        if (ids.constFirst().contains(QLatin1Char('#'))) {
+        if (ids.constFirst().contains(QLatin1Char('/'))) {
             // subclip zone
-            QStringList clipData = ids.constFirst().split(QLatin1Char('#'));
+            QStringList clipData = ids.constFirst().split(QLatin1Char('/'));
             if (clipData.length() >= 3) {
                 QString id;
                 return requestAddBinSubClip(id, clipData.at(1).toInt(), clipData.at(2).toInt(), clipData.at(0));
@@ -275,7 +275,7 @@ QMimeData *ProjectItemModel::mimeData(const QModelIndexList &indices) const
             duration += (std::static_pointer_cast<ProjectClip>(item))->frameDuration();
         } else if (type == AbstractProjectItem::SubClipItem) {
             QPoint p = item->zone();
-            list << item->clipId() + QLatin1Char('/') + QString::number(p.x()) + QLatin1Char('/') + QString::number(p.y());
+            list << std::static_pointer_cast<ProjectSubClip>(item)->getMasterClip()->clipId() + QLatin1Char('/') + QString::number(p.x()) + QLatin1Char('/') + QString::number(p.y());
         } else if (type == AbstractProjectItem::FolderItem) {
             list << "#" + item->clipId();
         }

@@ -817,13 +817,17 @@ void Monitor::slotStartDrag()
     auto *drag = new QDrag(this);
     auto *mimeData = new QMimeData;
 
-    QStringList list;
-    list.append(m_controller->AbstractProjectItem::clipId());
-    QPoint p = m_glMonitor->getControllerProxy()->zone();
-    list.append(QString::number(p.x()));
-    list.append(QString::number(p.y()));
     QByteArray prodData;
-    prodData.append(list.join(QLatin1Char('#')).toUtf8());
+    QPoint p = m_glMonitor->getControllerProxy()->zone();
+    if (p.x() == -1 || p.y() == -1) {
+        prodData = m_controller->AbstractProjectItem::clipId().toUtf8();
+    } else {
+        QStringList list;
+        list.append(m_controller->AbstractProjectItem::clipId());
+        list.append(QString::number(p.x()));
+        list.append(QString::number(p.y()));
+        prodData.append(list.join(QLatin1Char('/')).toUtf8());
+    }
     mimeData->setData(QStringLiteral("kdenlive/producerslist"), prodData);
     drag->setMimeData(mimeData);
     /*QPixmap pix = m_currentClip->thumbnail();

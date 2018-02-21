@@ -572,8 +572,8 @@ bool TimelineModel::requestClipCreation(const QString &binClipId, int &id, Playl
     id = clipId;
     Fun local_undo = deregisterClip_lambda(clipId);
     QString bid = binClipId;
-    if (binClipId.contains(QLatin1Char('#'))) {
-        bid = binClipId.section(QLatin1Char('#'), 0, 0);
+    if (binClipId.contains(QLatin1Char('/'))) {
+        bid = binClipId.section(QLatin1Char('/'), 0, 0);
     }
     ClipModel::construct(shared_from_this(), bid, clipId, state);
     auto clip = m_allClips[clipId];
@@ -585,9 +585,9 @@ bool TimelineModel::requestClipCreation(const QString &binClipId, int &id, Playl
         return true;
     };
 
-    if (binClipId.contains(QLatin1Char('#'))) {
-        int in = binClipId.section(QLatin1Char('#'), 1, 1).toInt();
-        int out = binClipId.section(QLatin1Char('#'), 2, 2).toInt();
+    if (binClipId.contains(QLatin1Char('/'))) {
+        int in = binClipId.section(QLatin1Char('/'), 1, 1).toInt();
+        int out = binClipId.section(QLatin1Char('/'), 2, 2).toInt();
         int initLength = m_allClips[clipId]->getPlaytime();
         bool res = requestItemResize(clipId, initLength - in, false, true, local_undo, local_redo);
         res = res && requestItemResize(clipId, out - in + 1, true, true, local_undo, local_redo);
@@ -608,7 +608,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
     bool res = false;
     ClipType type = ClipType::Unknown;
     if (KdenliveSettings::splitaudio()) {
-        std::shared_ptr<ProjectClip> master = pCore->projectItemModel()->getClipByBinID(binClipId.section(QLatin1Char('#'), 0, 0));
+        std::shared_ptr<ProjectClip> master = pCore->projectItemModel()->getClipByBinID(binClipId.section(QLatin1Char('/'), 0, 0));
         type = master->clipType();
     }
     if (type == ClipType::AV) {
