@@ -1502,17 +1502,6 @@ double Render::getMltVersionInfo(const QString &tag)
     return version;
 }
 
-Mlt::Producer *Render::getBinProducer(const QString &id)
-{
-    // TODO refac : delete this function
-    return m_binController->getBinProducer(id).get();
-}
-
-Mlt::Producer *Render::getBinVideoProducer(const QString &id)
-{
-    // TODO refac : delete this function
-    return m_binController->getBinVideoProducer(id);
-}
 
 void Render::loadExtraProducer(const QString &id, Mlt::Producer *prod)
 {

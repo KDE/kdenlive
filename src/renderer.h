@@ -222,10 +222,6 @@ class Render : public AbstractRender
     bool externalConsumer;
     /** @brief Returns the current version of an MLT's producer module */
     double getMltVersionInfo(const QString &tag);
-    /** @brief Get a clip's master producer */
-    Mlt::Producer *getBinProducer(const QString &id);
-    /** @brief Get a clip's video only producer */
-    Mlt::Producer *getBinVideoProducer(const QString &id);
     /** @brief Load extra producers (video only, slowmotion) from timeline */
     void loadExtraProducer(const QString &id, Mlt::Producer *prod);
     /** @brief Get a property from the bin's playlist */

@@ -73,106 +73,6 @@ QStringList BinController::getProjectHashes()
     return hashes;
 }
 
-void BinController::initializeBin(Mlt::Playlist playlist)
-{
-    qDebug() << "init bin";
-    // Load folders
-    Mlt::Properties folderProperties;
-    Mlt::Properties playlistProps(playlist.get_properties());
-    folderProperties.pass_values(playlistProps, "kdenlive:folder.");
-    pCore->projectItemModel()->loadFolders(folderProperties);
-
-    // Read notes
-    QString notes = playlistProps.get("kdenlive:documentnotes");
-    emit setDocumentNotes(notes);
-
-    // Fill Controller's list
-    m_binPlaylist.reset(new Mlt::Playlist(playlist));
-    m_binPlaylist->set("id", kPlaylistTrackId);
-    qDebug() << "Found " << m_binPlaylist->count() << "clips";
-    int max = m_binPlaylist->count();
-    for (int i = 0; i < max; i++) {
-        QScopedPointer<Mlt::Producer> prod(m_binPlaylist->get_clip(i));
-        std::shared_ptr<Mlt::Producer> producer(new Mlt::Producer(prod->parent()));
-        qDebug() << "dealing with bin clip" << i;
-        if (producer->is_blank() || !producer->is_valid()) {
-            qDebug() << "producer is not valid or blank";
-            continue;
-        }
-        QString id = qstrdup(producer->get("kdenlive:id"));
-        qDebug() << "clip id" << id;
-        if (id.contains(QLatin1Char('_'))) {
-            // This is a track producer
-            QString mainId = id.section(QLatin1Char('_'), 0, 0);
-            // QString track = id.section(QStringLiteral("_"), 1, 1);
-            if (m_clipList.contains(mainId)) {
-                // The controller for this track producer already exists
-            } else {
-                // Create empty controller for this clip
-                requestClipInfo info;
-                info.imageHeight = 0;
-                info.clipId = id;
-                info.replaceProducer = true;
-                emit slotProducerReady(info, ClipController::mediaUnavailable);
-            }
-        } else {
-            // Controller was already added by a track producer, add master now
-            if (m_clipList.contains(id)) {
-                m_clipList[id]->addMasterProducer(producer);
-            } else {
-                // Controller has not been created yet
-                // fix MLT somehow adding root to color producer's resource (report upstream)
-                if (strcmp(producer->get("mlt_service"), "color") == 0) {
-                    QString color = producer->get("resource");
-                    if (color.contains(QLatin1Char('/'))) {
-                        color = color.section(QLatin1Char('/'), -1, -1);
-                        producer->set("resource", color.toUtf8().constData());
-                    }
-                }
-                requestClipInfo info;
-                info.imageHeight = 0;
-                info.clipId = id;
-                info.replaceProducer = false;
-                emit slotProducerReady(info, producer);
-            }
-        }
-        emit loadingBin(i + 1);
-    }
-}
-
-// TODO REFACTOR: DELETE
-void BinController::createIfNeeded(Mlt::Profile *profile)
-{
-    if (m_binPlaylist.get()) {
-        return;
-    }
-    m_binPlaylist.reset(new Mlt::Playlist(*profile));
-    m_binPlaylist->set("id", kPlaylistTrackId);
-}
-
-void BinController::loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tractor *modelTractor)
-{
-    destroyBin();
-    Mlt::Properties retainList((mlt_properties)documentTractor->get_data("xml_retain"));
-    qDebug() << "Loading bin playlist...";
-    if (retainList.is_valid() && (retainList.get_data(binPlaylistId().toUtf8().constData()) != nullptr)) {
-        Mlt::Playlist playlist((mlt_playlist)retainList.get_data(binPlaylistId().toUtf8().constData()));
-        qDebug() << "retain is valid";
-        if (playlist.is_valid() && playlist.type() == playlist_type) {
-            qDebug() << "playlist is valid";
-            // Load bin clips
-            initializeBin(playlist);
-        }
-    }
-    // If no Playlist found, create new one
-    if (!m_binPlaylist) {
-        qDebug() << "no playlist valid, creating";
-        m_binPlaylist.reset(new Mlt::Playlist(*modelTractor->profile()));
-        m_binPlaylist->set("id", kPlaylistTrackId);
-    }
-    QString retain = QStringLiteral("xml_retain %1").arg(binPlaylistId());
-    modelTractor->set(retain.toUtf8().constData(), m_binPlaylist->get_service(), 0);
-}
 
 void BinController::slotStoreFolder(const QString &folderId, const QString &parentId, const QString &oldParentId, const QString &folderName)
 {
@@ -190,21 +90,6 @@ void BinController::slotStoreFolder(const QString &folderId, const QString &pare
     }
 }
 
-void BinController::storeMarker(const QString &markerId, const QString &markerHash)
-{
-    QString propertyName = "kdenlive:marker." + markerId;
-    if (markerHash.isEmpty()) {
-        // Remove this marker
-        m_binPlaylist->set(propertyName.toUtf8().constData(), (char *)nullptr);
-    } else {
-        m_binPlaylist->set(propertyName.toUtf8().constData(), markerHash.toUtf8().constData());
-    }
-}
-
-mlt_service BinController::service()
-{
-    return m_binPlaylist->get_service();
-}
 
 const QString BinController::binPlaylistId()
 {
@@ -216,20 +101,6 @@ int BinController::clipCount() const
     return m_clipList.size();
 }
 
-void BinController::addClipToBin(const QString &id, const std::shared_ptr<ClipController> &controller, bool fromPlaylist)
-{
-    /** Test: we can use filters on clips in the bin this way
-    Mlt::Filter f(*m_mltProfile, "sepia");
-    producer.attach(f);
-    */
-    // append or replace clip in MLT's retain playlist
-    if (!fromPlaylist && controller->isValid()) {
-        replaceBinPlaylistClip(id, controller->originalProducer());
-    }
-    if (!m_clipList.contains(id)) {
-        m_clipList.insert(id, controller);
-    }
-}
 
 void BinController::replaceBinPlaylistClip(const QString &id, const std::shared_ptr<Mlt::Producer> &producer)
 {
@@ -237,13 +108,6 @@ void BinController::replaceBinPlaylistClip(const QString &id, const std::shared_
     m_binPlaylist->append(*producer.get());
 }
 
-void BinController::pasteEffects(const QString &id, const std::shared_ptr<Mlt::Producer> &producer)
-{
-    std::shared_ptr<ClipController> ctrl = getController(id);
-    if (ctrl) {
-        duplicateFilters(ctrl->originalProducer(), *producer.get());
-    }
-}
 
 void BinController::removeBinPlaylistClip(const QString &id)
 {
@@ -263,22 +127,7 @@ bool BinController::hasClip(const QString &id)
     return m_clipList.contains(id);
 }
 
-bool BinController::removeBinClip(const QString &id)
-{
-    if (!m_clipList.contains(id)) {
-        return false;
-    }
-    removeBinPlaylistClip(id);
-    m_clipList.remove(id);
-    return true;
-}
 
-Mlt::Producer *BinController::cloneProducer(Mlt::Producer &original)
-{
-    Clip clp(original);
-    Mlt::Producer *clone = clp.clone();
-    return clone;
-}
 
 std::shared_ptr<Mlt::Producer> BinController::getBinProducer(const QString &id)
 {
@@ -288,22 +137,6 @@ std::shared_ptr<Mlt::Producer> BinController::getBinProducer(const QString &id)
         return nullptr;
     }
     return m_clipList[id]->originalProducer();
-}
-
-Mlt::Producer *BinController::getBinVideoProducer(const QString &id)
-{
-    QString videoId = id + QStringLiteral("_video");
-    if (!m_extraClipList.contains(videoId)) {
-        // create clone
-        QString originalId = id.section(QLatin1Char('_'), 0, 0);
-        std::shared_ptr<Mlt::Producer> original = getBinProducer(originalId);
-        Mlt::Producer *videoOnly = cloneProducer(*original.get());
-        videoOnly->set("audio_index", -1);
-        videoOnly->set("kdenlive:id", videoId.toUtf8().constData());
-        m_extraClipList.insert(videoId, videoOnly);
-        return videoOnly;
-    }
-    return m_extraClipList.value(videoId);
 }
 
 void BinController::duplicateFilters(std::shared_ptr<Mlt::Producer> original, Mlt::Producer clone)
@@ -335,10 +168,6 @@ void BinController::duplicateFilters(std::shared_ptr<Mlt::Producer> original, Ml
     }
 }
 
-QStringList BinController::getClipIds() const
-{
-    return m_clipList.keys();
-}
 
 QString BinController::xmlFromId(const QString &id)
 {
@@ -418,63 +247,7 @@ void BinController::updateTrackProducer(const QString &id)
     emit updateTimelineProducer(id);
 }
 
-void BinController::checkThumbnails(const QDir &thumbFolder)
-{
-    Q_UNUSED(thumbFolder)
-    // TODO refac: this has to use the new thumb job
-    /*
-    // Parse all controllers and load thumbnails
-    QMapIterator<QString, std::shared_ptr<ClipController>> i(m_clipList);
-    while (i.hasNext()) {
-        i.next();
-        std::shared_ptr<ClipController> ctrl = i.value();
-        if (ctrl->clipType() == Audio) {
-            // no thumbnails for audio clip
-            continue;
-        }
-        bool foundFile = false;
-        if (!ctrl->getClipHash().isEmpty()) {
-            QImage img(thumbFolder.absoluteFilePath(ctrl->getClipHash() + QStringLiteral(".png")));
-            if (!img.isNull()) {
-                emit loadThumb(ctrl->binId(), img, true);
-                foundFile = true;
-            }
-        }
-        if (!foundFile) {
-            // Add clip id to thumbnail generation thread
-            QDomDocument doc;
-            ctrl->getProducerXML(doc);
-            QDomElement xml = doc.documentElement().firstChildElement(QStringLiteral("producer"));
-            if (!xml.isNull()) {
-                xml.setAttribute(QStringLiteral("thumbnailOnly"), 1);
-                emit createThumb(xml, ctrl->binId(), 150);
-            }
-        }
-    }
-    */
-}
 
-void BinController::checkAudioThumbs()
-{
-    // TODO refac: this has to use the new audio thumb job
-    /*
-    QMapIterator<QString, std::shared_ptr<ClipController>> i(m_clipList);
-    while (i.hasNext()) {
-        i.next();
-        std::shared_ptr<ClipController> ctrl = i.value();
-        if (!ctrl->m_audioThumbCreated) {
-            if (KdenliveSettings::audiothumbnails()) {
-                // We want audio thumbnails
-                emit requestAudioThumb(ctrl->binId());
-            } else {
-                // Abort all pending thumb creation
-                emit abortAudioThumbs();
-                break;
-            }
-        }
-    }
-    */
-}
 
 void BinController::saveDocumentProperties(const QMap<QString, QString> &props, const QMap<QString, QString> &metadata,
                                            std::shared_ptr<MarkerListModel> guideModel)

@@ -51,19 +51,11 @@ public:
     explicit BinController(const QString &profileName = QString());
     virtual ~BinController();
 
-    /** @brief Returns the service for the Bin's playlist, used to make sure MLT will save it correctly in its XML. */
-    mlt_service service();
 
     friend class ClipController;
     friend class ProjectClip;
 
 protected:
-    /** @brief Add a new clip producer to the project.
-        This is protected because it should be called only by the ClipController itself upon creation
-     * @param id The clip's id
-     * @param producer The MLT producer for this clip
-     * */
-    void addClipToBin(const QString &id, const std::shared_ptr<ClipController> &controller, bool fromPlaylist = false);
 
 public:
     /** @brief Store a timeline producer in clip list for later re-use
@@ -78,29 +70,12 @@ public:
     /** @brief Clear the bin's playlist */
     void destroyBin();
 
-    /** @brief Load the Bin's main playlist from an existing tractor, and pass it to the model */
-    void loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tractor *modelTractor);
-
-    /** @brief Initialize the bin's playlist from MLT's data
-     * @param playlist The MLT playlist containing our bin's clips
-     */
-    void initializeBin(Mlt::Playlist playlist);
-
-    /** @brief If our bin's playlist does not exist, create a new one */
-    void createIfNeeded(Mlt::Profile *profile);
 
     /** @brief Returns true if a clip with that id is in our bin's playlist
     * @param id The clip's id as stored in DocClipBase
     */
     bool hasClip(const QString &id);
 
-    QStringList getClipIds() const;
-
-    /** @brief Delete a clip from the bin from its id.
-     * @param id The clip's id as stored in DocClipBase
-     * @return true on success, false on error
-     */
-    bool removeBinClip(const QString &id);
 
     /** @brief Get the MLT Producer for a given id.
      @param id The clip id as stored in the DocClipBase class */
@@ -110,9 +85,6 @@ public:
     // @param clipState The state of the clip (if we need an audio only or video only producer).
     // @param speed If the clip has a speed effect (framebuffer producer), we indicate the speed here
     std::shared_ptr<Mlt::Producer> getBinProducer(const QString &id);
-
-    /** @brief returns a video only (no audio) version of this producer  */
-    Mlt::Producer *getBinVideoProducer(const QString &id);
 
     /** @brief Returns the clip data as rendered by MLT's XML consumer, used to duplicate a clip
      * @param producer The clip's original producer
@@ -125,7 +97,6 @@ public:
      */
     QString xmlFromId(const QString &id);
     int clipCount() const;
-    Mlt::Producer *cloneProducer(Mlt::Producer &original);
 
     std::shared_ptr<ClipController> getController(const QString &id);
     const QList<std::shared_ptr<ClipController>> getControllerList() const;
@@ -133,16 +104,10 @@ public:
 
     /** @brief Get the list of ids whose clip have the resource indicated by @param url */
     const QStringList getBinIdsByResource(const QFileInfo &url) const;
-    void storeMarker(const QString &markerId, const QString &markerHash);
 
     /** @brief A Bin clip effect was changed, update track producers */
     void updateTrackProducer(const QString &id);
 
-    /** @brief Load thumbnails for all producers */
-    void checkThumbnails(const QDir &thumbFolder);
-
-    /** @brief Request audio thumbnails for all producers */
-    void checkAudioThumbs();
 
     /** @brief Save document properties in MLT's bin playlist */
     void saveDocumentProperties(const QMap<QString, QString> &props, const QMap<QString, QString> &metadata, std::shared_ptr<MarkerListModel> guideModel);
@@ -181,9 +146,6 @@ private:
 
     /** @brief Remove a clip from MLT's special bin playlist */
     void removeBinPlaylistClip(const QString &id);
-
-    /** @brief Duplicate effects from stored producer */
-    void pasteEffects(const QString &id, const std::shared_ptr<Mlt::Producer> &producer);
 
 signals:
     void requestAudioThumb(const QString &);

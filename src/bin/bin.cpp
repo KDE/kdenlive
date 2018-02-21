@@ -3122,15 +3122,6 @@ void Bin::saveZone(const QStringList &info, const QDir &dir)
     }
 }
 
-QVariantList Bin::audioFrameCache(const QString &id)
-{
-    std::shared_ptr<ProjectClip> clip = getBinClip(id);
-    if (clip) {
-        return clip->audioFrameCache;
-    }
-    return QVariantList();
-}
-
 void Bin::setCurrent(std::shared_ptr<AbstractProjectItem> item)
 {
     switch (item->itemType()) {
