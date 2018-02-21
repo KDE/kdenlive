@@ -606,9 +606,12 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
     std::function<bool(void)> local_undo = []() { return true; };
     std::function<bool(void)> local_redo = []() { return true; };
     bool res = false;
-    std::shared_ptr<ProjectClip> master = pCore->projectItemModel()->getClipByBinID(binClipId);
-    ClipType type = master->clipType();
-    if (KdenliveSettings::splitaudio() && type == ClipType::AV) {
+    ClipType type = ClipType::Unknown;
+    if (KdenliveSettings::splitaudio()) {
+        std::shared_ptr<ProjectClip> master = pCore->projectItemModel()->getClipByBinID(binClipId.section(QLatin1Char('#'), 0, 0));
+        type = master->clipType();
+    }
+    if (type == ClipType::AV) {
         res = requestClipCreation(binClipId, id, PlaylistState::VideoOnly, local_undo, local_redo);
         res = res && requestClipMove(id, trackId, position, refreshView, logUndo, local_undo, local_redo);
         if (res && logUndo) {
