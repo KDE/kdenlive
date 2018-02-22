@@ -956,7 +956,12 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
     }
     bool result = false;
     for (int id : all_items) {
-        result = requestItemResize(id, size, right, logUndo, undo, redo);
+        result = result && requestItemResize(id, size, right, logUndo, undo, redo);
+    }
+    if (!result) {
+        bool undone = undo();
+        Q_ASSERT(undo());
+        return -1;
     }
     if (result && logUndo) {
         if (isClip(itemId)) {
