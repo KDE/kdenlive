@@ -66,6 +66,10 @@ public:
      */
     std::shared_ptr<ProjectClip> getClipByBinID(const QString &binId);
 
+    /** @brief Helper to check whether a clip with a given id exists
+     */
+    bool hasClip(const QString &binId);
+
     /** @brief Gets a folder by its id. If none is found, the root is returned
      */
     std::shared_ptr<ProjectFolder> getFolderByBinId(const QString &binId);

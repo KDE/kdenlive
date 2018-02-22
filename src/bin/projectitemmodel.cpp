@@ -321,6 +321,11 @@ std::shared_ptr<ProjectClip> ProjectItemModel::getClipByBinID(const QString &bin
     return nullptr;
 }
 
+bool ProjectItemModel::hasClip(const QString &binId)
+{
+    return getClipByBinID(binId) != nullptr;
+}
+
 std::shared_ptr<ProjectFolder> ProjectItemModel::getFolderByBinId(const QString &binId)
 {
     for (const auto &clip : m_allItems) {

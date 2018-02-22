@@ -895,6 +895,14 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
 
     SECTION("requestCreateClip")
     {
+        // an invalid clip id shouln't get created
+        {
+            int temp;
+            Fun undo = []() { return true; };
+            Fun redo = []() { return true; };
+            REQUIRE_FALSE(timeline->requestClipCreation("impossible bin id", temp, PlaylistState::Original, undo, redo));
+        }
+
         auto state0 = [&]() {
             REQUIRE(timeline->checkConsistency());
             REQUIRE(timeline->m_allClips.size() == nclips);

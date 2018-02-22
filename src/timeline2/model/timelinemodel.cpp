@@ -575,6 +575,9 @@ bool TimelineModel::requestClipCreation(const QString &binClipId, int &id, Playl
     if (binClipId.contains(QLatin1Char('/'))) {
         bid = binClipId.section(QLatin1Char('/'), 0, 0);
     }
+    if (!pCore->projectItemModel()->hasClip(bid)) {
+        return false;
+    }
     ClipModel::construct(shared_from_this(), bid, clipId, state);
     auto clip = m_allClips[clipId];
     Fun local_redo = [clip, this, state]() {
