@@ -626,17 +626,29 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
                 pCore->displayMessage(i18n("No available audio track for split operation"), ErrorMessage);
                 res = false;
             } else {
+                std::function<bool(void)> audio_undo = []() { return true; };
+                std::function<bool(void)> audio_redo = []() { return true; };
                 int newId;
-                res = requestClipCreation(binClipId, newId, PlaylistState::AudioOnly, local_undo, local_redo);
-                bool move = false;
-                while (!move && !possibleTracks.isEmpty()) {
-                    int newTrack = possibleTracks.takeFirst();
-                    move = requestClipMove(newId, newTrack, position, true, false, undo, redo);
-                }
-                if (!res || !move) {
-                    pCore->displayMessage(i18n("Audio split failed"), ErrorMessage);
+                res = requestClipCreation(binClipId, newId, PlaylistState::AudioOnly, audio_undo, audio_redo);
+                if (res) {
+                    bool move = false;
+                    while (!move && !possibleTracks.isEmpty()) {
+                        int newTrack = possibleTracks.takeFirst();
+                        move = requestClipMove(newId, newTrack, position, true, false, audio_undo, audio_redo);
+                    }
+                    // use lazy evaluation to group only if move was successful
+                    res = res && move && requestClipsGroup({id, newId}, audio_undo, audio_redo, GroupType::AVSplit);
+                    if (!res || !move) {
+                        pCore->displayMessage(i18n("Audio split failed: no viable track"), ErrorMessage);
+                        bool undone = audio_undo();
+                        Q_ASSERT(undone);
+                    } else {
+                        UPDATE_UNDO_REDO(audio_redo, audio_undo, local_undo, local_redo);
+                    }
                 } else {
-                    requestClipsGroup({id, newId}, local_undo, local_redo, GroupType::AVSplit);
+                    pCore->displayMessage(i18n("Audio split failed: impossible to create audio clip"), ErrorMessage);
+                    bool undone = audio_undo();
+                    Q_ASSERT(undone);
                 }
             }
         }
