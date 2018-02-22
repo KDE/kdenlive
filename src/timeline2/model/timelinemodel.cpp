@@ -611,7 +611,11 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
     bool res = false;
     ClipType type = ClipType::Unknown;
     if (KdenliveSettings::splitaudio()) {
-        std::shared_ptr<ProjectClip> master = pCore->projectItemModel()->getClipByBinID(binClipId.section(QLatin1Char('/'), 0, 0));
+        QString bid = binClipId.section(QLatin1Char('/'), 0, 0);
+        if (!pCore->projectItemModel()->hasClip(bid)) {
+            return false;
+        }
+        std::shared_ptr<ProjectClip> master = pCore->projectItemModel()->getClipByBinID(bid);
         type = master->clipType();
     }
     if (type == ClipType::AV) {

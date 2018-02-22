@@ -977,7 +977,7 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
         };
         state1();
 
-        QString binId4 = binId3 + "#1#10";
+        QString binId4 = binId3 + "/1/10";
         int cid4;
         REQUIRE(timeline->requestClipInsertion(binId4, tid2, 17, cid4, true));
 
