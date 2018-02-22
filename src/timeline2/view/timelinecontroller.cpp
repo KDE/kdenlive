@@ -43,8 +43,8 @@
 
 #include <KActionCollection>
 #include <QApplication>
-#include <QQuickItem>
 #include <QInputDialog>
+#include <QQuickItem>
 
 int TimelineController::m_duration = 0;
 
@@ -259,7 +259,8 @@ void TimelineController::setSelection(const QList<int> &newSelection, int trackI
             std::unordered_set<int> ids;
             ids.insert(m_selection.selectedItems.cbegin(), m_selection.selectedItems.cend());
             m_model->m_temporarySelectionGroup = m_model->requestClipsGroup(ids, true, GroupType::Selection);
-            if (m_model->m_temporarySelectionGroup >= 0 || (!m_selection.selectedItems.isEmpty() && m_model->m_groups->isInGroup(m_selection.selectedItems.constFirst()))) {
+            if (m_model->m_temporarySelectionGroup >= 0 ||
+                (!m_selection.selectedItems.isEmpty() && m_model->m_groups->isInGroup(m_selection.selectedItems.constFirst()))) {
                 newIds = m_model->getGroupElements(m_selection.selectedItems.constFirst());
                 for (int i : newIds) {
                     if (m_model->isClip(i)) {
@@ -273,7 +274,7 @@ void TimelineController::setSelection(const QList<int> &newSelection, int trackI
                     }
                 }
             } else {
-                qDebug()<<"// NON GROUPED SELCTUIIN: "<<m_selection.selectedItems<<" !!!!!!";
+                qDebug() << "// NON GROUPED SELCTUIIN: " << m_selection.selectedItems << " !!!!!!";
             }
             emitSelectedFromSelection();
         } else {
@@ -736,7 +737,7 @@ void TimelineController::selectItems(QVariantList arg, int startFrame, int endFr
         for (int x : itemsToSelect) {
             m_selection.selectedItems << x;
         }
-        qDebug()<<"// GROUPING ITEMS: "<<m_selection.selectedItems;
+        qDebug() << "// GROUPING ITEMS: " << m_selection.selectedItems;
         m_model->m_temporarySelectionGroup = m_model->requestClipsGroup(itemsToSelect, true, GroupType::Selection);
     } else if (m_model->m_temporarySelectionGroup > -1) {
         m_model->requestClipUngroup(m_model->m_temporarySelectionGroup, false);
@@ -795,7 +796,7 @@ void TimelineController::cutClipUnderCursor(int position, int track)
                 foundClip = true;
             }
         } else {
-            qDebug()<<"//// TODO: COMPOSITION CUT!!!";
+            qDebug() << "//// TODO: COMPOSITION CUT!!!";
         }
     }
     if (!foundClip) {
@@ -1235,11 +1236,10 @@ void TimelineController::changeItemSpeed(int clipId, int speed)
     if (speed == -1) {
         speed = 100 * m_model->m_allClips[clipId]->getSpeed();
         bool ok;
-        speed = QInputDialog::getInt(QApplication::activeWindow(), i18n("Clip Speed"), i18n("Percentage"), speed,  -100000, 100000, 1, &ok);
+        speed = QInputDialog::getInt(QApplication::activeWindow(), i18n("Clip Speed"), i18n("Percentage"), speed, -100000, 100000, 1, &ok);
         if (!ok) {
             return;
         }
-        
     }
     m_model->changeItemSpeed(clipId, speed);
 }
@@ -1379,8 +1379,7 @@ void TimelineController::switchTrackLock(bool applyToAll)
         // apply to active track only
         bool locked = m_model->getTrackById_const(m_activeTrack)->getProperty("kdenlive:locked_track").toInt() == 1;
         m_model->setTrackProperty(m_activeTrack, QStringLiteral("kdenlive:locked_track"), locked ? QStringLiteral("0") : QStringLiteral("1"));
-    }
-    else {
+    } else {
         // Invert track lock
         // Get track states first
         QMap<int, bool> trackLockState;
@@ -1416,18 +1415,18 @@ void TimelineController::switchTargetTrack()
     }
 }
 
-int TimelineController::audioTarget() const 
-{ 
-    return m_model->m_audioTarget; 
+int TimelineController::audioTarget() const
+{
+    return m_model->m_audioTarget;
 }
 
-int TimelineController::videoTarget() const 
-{ 
-    return m_model->m_videoTarget; 
+int TimelineController::videoTarget() const
+{
+    return m_model->m_videoTarget;
 }
 
 void TimelineController::resetTrackHeight()
-{ 
+{
     int tracksCount = m_model->getTracksCount();
     for (int track = tracksCount - 1; track >= 0; track--) {
         int trackIx = m_model->getTrackIndexFromPosition(track);
@@ -1437,4 +1436,3 @@ void TimelineController::resetTrackHeight()
     QModelIndex modelEnd = m_model->makeTrackIndexFromID(m_model->getTrackIndexFromPosition(tracksCount - 1));
     m_model->dataChanged(modelStart, modelEnd, {TimelineModel::HeightRole});
 }
-

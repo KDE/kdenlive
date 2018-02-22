@@ -30,8 +30,8 @@
 #include "groupsmodel.hpp"
 #include "kdenlivesettings.h"
 #include "snapmodel.hpp"
-#include "trackmodel.hpp"
 #include "timelinefunctions.hpp"
+#include "trackmodel.hpp"
 
 #include <QDebug>
 #include <QModelIndex>
@@ -254,11 +254,11 @@ int TimelineModel::getTrackMltIndex(int trackId) const
     return getTrackPosition(trackId) + 1;
 }
 
-QList <int> TimelineModel::getLowerTracksId(int trackId, TrackType type) const
+QList<int> TimelineModel::getLowerTracksId(int trackId, TrackType type) const
 {
     READ_LOCK();
     Q_ASSERT(isTrack(trackId));
-    QList <int> results;
+    QList<int> results;
     auto it = m_iteratorTable.at(trackId);
     while (it != m_allTracks.begin()) {
         --it;
@@ -269,8 +269,7 @@ QList <int> TimelineModel::getLowerTracksId(int trackId, TrackType type) const
         int audioTrack = (*it)->getProperty("kdenlive:audio_track").toInt();
         if (type == TrackType::AudioTrack && audioTrack == 1) {
             results << (*it)->getId();
-        }
-        else if (type == TrackType::VideoTrack && audioTrack == 0) {
+        } else if (type == TrackType::VideoTrack && audioTrack == 0) {
             results << (*it)->getId();
         }
     }
@@ -312,7 +311,7 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
     }
     ok = getTrackById(trackId)->requestClipInsertion(clipId, position, updateView, local_undo, local_redo);
     if (!ok) {
-        //qDebug()<<"-------------\n\nINSERTION FAILED, REVERTING\n\n-------------------";
+        // qDebug()<<"-------------\n\nINSERTION FAILED, REVERTING\n\n-------------------";
         bool undone = local_undo();
         Q_ASSERT(undone);
         return false;
@@ -382,14 +381,14 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int sn
         }
 
         int snapped = requestBestSnapPos(position, m_allClips[clipId]->getPlaytime(), ignored_pts, snapDistance);
-        //qDebug() << "Starting suggestion " << clipId << position << currentPos << "snapped to " << snapped;
+        // qDebug() << "Starting suggestion " << clipId << position << currentPos << "snapped to " << snapped;
         if (snapped >= 0) {
             position = snapped;
         }
     }
     // we check if move is possible
     bool possible = requestClipMove(clipId, trackId, position, false, false, false);
-    //bool possible = requestClipMove(clipId, trackId, position, false, false, undo, redo);
+    // bool possible = requestClipMove(clipId, trackId, position, false, false, undo, redo);
     if (possible) {
         return position;
     }
@@ -413,7 +412,7 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int sn
     // find best pos for groups
     int groupId = m_groups->getRootId(clipId);
     std::unordered_set<int> all_clips = m_groups->getLeaves(groupId);
-    QMap <int, int> trackPosition;
+    QMap<int, int> trackPosition;
 
     // First pass, sort clips by track and keep only the first / last depending on move direction
     for (int current_clipId : all_clips) {
@@ -435,8 +434,7 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int sn
                     trackPosition.insert(clipTrack, in);
                 }
             }
-        }
-        else {
+        } else {
             trackPosition.insert(clipTrack, after ? in + getItemPlaytime(current_clipId) : in);
         }
     }
@@ -622,14 +620,14 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
         res = requestClipCreation(binClipId, id, PlaylistState::VideoOnly, local_undo, local_redo);
         res = res && requestClipMove(id, trackId, position, refreshView, logUndo, local_undo, local_redo);
         if (res && logUndo) {
-            QList<int> possibleTracks = m_audioTarget >= 0 ? QList<int>() <<m_audioTarget : getLowerTracksId(trackId, TrackType::AudioTrack);
+            QList<int> possibleTracks = m_audioTarget >= 0 ? QList<int>() << m_audioTarget : getLowerTracksId(trackId, TrackType::AudioTrack);
             if (possibleTracks.isEmpty()) {
                 // No available audio track for splitting, abort
                 pCore->displayMessage(i18n("No available audio track for split operation"), ErrorMessage);
                 res = false;
             } else {
                 int newId;
-                res =requestClipCreation(binClipId, newId, PlaylistState::AudioOnly, local_undo, local_redo);
+                res = requestClipCreation(binClipId, newId, PlaylistState::AudioOnly, local_undo, local_redo);
                 bool move = false;
                 while (!move && !possibleTracks.isEmpty()) {
                     int newTrack = possibleTracks.takeFirst();
@@ -821,7 +819,7 @@ bool TimelineModel::requestGroupMove(int clipId, int groupId, int delta_track, i
                 ok = requestCompositionMove(clip, target_track, -1, target_position, updateView, undo, redo);
             }
         } else {
-            qDebug()<<"// ABORTING; MOVE TRIED ON TRACK: "<<target_track_position<<"..\n..\n..";
+            qDebug() << "// ABORTING; MOVE TRIED ON TRACK: " << target_track_position << "..\n..\n..";
             ok = false;
         }
         if (!ok) {
@@ -1238,7 +1236,7 @@ Fun TimelineModel::deregisterTrack_lambda(int id, bool updateView)
 Fun TimelineModel::deregisterClip_lambda(int clipId)
 {
     return [this, clipId]() {
-        //qDebug() << " // /REQUEST TL CLP DELETION: " << clipId << "\n--------\nCLIPS COUNT: " << m_allClips.size();
+        // qDebug() << " // /REQUEST TL CLP DELETION: " << clipId << "\n--------\nCLIPS COUNT: " << m_allClips.size();
         clearAssetView(clipId);
         Q_ASSERT(m_allClips.count(clipId) > 0);
         Q_ASSERT(getClipTrackId(clipId) == -1); // clip must be deleted from its track at this point
@@ -1448,7 +1446,8 @@ void TimelineModel::registerComposition(const std::shared_ptr<CompositionModel> 
     m_groups->createGroupItem(id);
 }
 
-bool TimelineModel::requestCompositionInsertion(const QString &transitionId, int trackId, int position, int length, Mlt::Properties *transProps, int &id, bool logUndo)
+bool TimelineModel::requestCompositionInsertion(const QString &transitionId, int trackId, int position, int length, Mlt::Properties *transProps, int &id,
+                                                bool logUndo)
 {
 #ifdef LOGGING
     m_logFile << "timeline->requestCompositionInsertion(\"composite\"," << trackId << " ," << position << "," << length << ", dummy_id );" << std::endl;
@@ -1463,8 +1462,8 @@ bool TimelineModel::requestCompositionInsertion(const QString &transitionId, int
     return result;
 }
 
-bool TimelineModel::requestCompositionInsertion(const QString &transitionId, int trackId, int compositionTrack, int position, int length, Mlt::Properties *transProps, int &id, Fun &undo,
-                                                Fun &redo)
+bool TimelineModel::requestCompositionInsertion(const QString &transitionId, int trackId, int compositionTrack, int position, int length,
+                                                Mlt::Properties *transProps, int &id, Fun &undo, Fun &redo)
 {
     qDebug() << "Inserting compo track" << trackId << "pos" << position << "length" << length;
     int compositionId = TimelineModel::getNextId();
@@ -1696,7 +1695,7 @@ bool TimelineModel::replantCompositions(int currentCompo, bool updateView)
     QString resource = mlt_properties_get(properties, "mlt_service");
 
     mlt_service_type mlt_type = mlt_service_identify(nextservice);
-    QList <Mlt::Transition *> trackCompositions;
+    QList<Mlt::Transition *> trackCompositions;
     while (mlt_type == transition_type) {
         Mlt::Transition transition((mlt_transition)nextservice);
         nextservice = mlt_service_producer(nextservice);
