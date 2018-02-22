@@ -926,7 +926,7 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
         };
         state1();
 
-        QString binId4 = binId3 + "#1#10";
+        QString binId4 = binId3 + "/1/10";
         int cid4;
         {
             Fun undo = []() { return true; };
