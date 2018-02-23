@@ -189,3 +189,19 @@ int AssetParameterView::contentHeight() const
 {
     return m_lay->sizeHint().height();
 }
+
+MonitorSceneType AssetParameterView::needsMonitorEffectScene() const
+{
+    if (m_mainKeyframeWidget) {
+        return MonitorSceneGeometry;
+    }
+    return MonitorSceneDefault;
+}
+
+void AssetParameterView::initKeyframeView()
+{
+    if (m_mainKeyframeWidget) {
+        m_mainKeyframeWidget->initMonitor();
+    }
+}
+

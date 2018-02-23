@@ -70,6 +70,11 @@ void KeyframeView::slotSetPosition(int pos)
     }
 }
 
+void KeyframeView::initKeyframePos()
+{
+    emit atKeyframe(m_model->hasKeyframe(m_position), m_model->singleKeyframe());
+}
+
 void KeyframeView::slotAddKeyframe(int pos)
 {
     if (pos < 0) {

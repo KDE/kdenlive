@@ -23,6 +23,7 @@
 #include "assets/view/assetparameterview.hpp"
 #include "core.h"
 #include "dialogs/clipcreationdialog.h"
+#include "monitor/monitor.h"
 #include "effects/effectsrepository.hpp"
 #include "effects/effectstack/model/effectitemmodel.hpp"
 #include "effectslist/effectslist.h"
@@ -295,31 +296,14 @@ bool CollapsibleEffectView::isEnabled() const
 
 void CollapsibleEffectView::slotActivateEffect(QModelIndex ix)
 {
-    decoframe->setProperty("active", ix.row() == m_model->row());
+    // m_colorIcon->setEnabled(active);
+    bool active = ix.row() == m_model->row();
+    decoframe->setProperty("active", active);
     decoframe->setStyleSheet(decoframe->styleSheet());
-}
-
-void CollapsibleEffectView::setActive(bool activate)
-{
-    Q_UNUSED(activate)
-    /*
-    decoframe->setProperty("active", activate);
-    decoframe->setStyleSheet(decoframe->styleSheet());
-    if (m_paramWidget) {
-        m_paramWidget->connectMonitor(activate);
+    if (active) {
+        pCore->getMonitor(m_model->monitorId)->slotShowEffectScene(needsMonitorEffectScene());
+        m_view->initKeyframeView();
     }
-    if (activate) {
-        m_colorIcon->setPixmap(m_iconPix);
-    } else {
-        // desaturate icon
-        QPixmap alpha = m_iconPix;
-        QPainter p(&alpha);
-        p.setCompositionMode(QPainter::CompositionMode_DestinationIn);
-        p.fillRect(alpha.rect(), QColor(80, 80, 80, 80));
-        p.end();
-        m_colorIcon->setPixmap(alpha);
-    }
-    */
 }
 
 void CollapsibleEffectView::mousePressEvent(QMouseEvent *e)
@@ -736,12 +720,10 @@ void CollapsibleEffectView::adjustButtons(int ix, int max)
 
 MonitorSceneType CollapsibleEffectView::needsMonitorEffectScene() const
 {
-    /*
-    if ((m_paramWidget != nullptr) && !m_enabledButton->isActive()) {
-        return m_paramWidget->needsMonitorEffectScene();
+    if (!m_model->isEnabled() || !m_view) {
+        return MonitorSceneDefault;
     }
-    */
-    return MonitorSceneDefault;
+    return m_view->needsMonitorEffectScene();
 }
 
 void CollapsibleEffectView::setRange(QPair<int, int> range)

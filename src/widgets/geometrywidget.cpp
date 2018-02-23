@@ -415,7 +415,6 @@ void GeometryWidget::connectMonitor(bool activate)
     }
     m_active = activate;
     if (activate) {
-        m_monitor->slotShowEffectScene(MonitorSceneGeometry);
         connect(m_monitor, &Monitor::effectChanged, this, &GeometryWidget::slotUpdateGeometryRect, Qt::UniqueConnection);
         QRect rect(m_spinX->value(), m_spinY->value(), m_spinWidth->value(), m_spinHeight->value());
         m_monitor->setUpEffectGeometry(rect);
@@ -431,7 +430,6 @@ void GeometryWidget::connectMonitor(bool activate)
             }
         }*/
     } else {
-        m_monitor->slotShowEffectScene(MonitorSceneDefault);
         disconnect(m_monitor, &Monitor::effectChanged, this, &GeometryWidget::slotUpdateGeometryRect);
     }
 }

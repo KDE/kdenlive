@@ -75,6 +75,9 @@ private:
     TimecodeDisplay *m_time;
 
     std::unordered_map<QPersistentModelIndex, QWidget *> m_parameters;
+    
+signals:
+    void initMonitor();
 };
 
 #endif

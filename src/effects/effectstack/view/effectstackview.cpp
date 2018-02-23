@@ -26,6 +26,7 @@
 #include "builtstack.hpp"
 #include "collapsibleeffectview.hpp"
 #include "core.h"
+#include "monitor/monitor.h"
 #include "effects/effectstack/model/effectitemmodel.hpp"
 #include "effects/effectstack/model/effectstackmodel.hpp"
 #include "kdenlivesettings.h"
@@ -134,8 +135,12 @@ void EffectStackView::dropEvent(QDropEvent *event)
         }
     }
     if (event->source() == this) {
-        int oldRow = event->mimeData()->data(QStringLiteral("kdenlive/effectrow")).toInt();
+        QString sourceData = event->mimeData()->data(QStringLiteral("kdenlive/effectsource"));
+        int oldRow = sourceData.section(QLatin1Char('-'), 2, 2).toInt();
         qDebug() << "// MOVING EFFECT FROM : " << oldRow << " TO " << row;
+        if (row == oldRow || (row == m_model->rowCount() && oldRow == row - 1)) {
+            return;
+        }
         m_model->moveEffect(row, m_model->getEffectStackRow(oldRow));
     } else {
         if (row < m_model->rowCount()) {
@@ -143,6 +148,10 @@ void EffectStackView::dropEvent(QDropEvent *event)
             m_model->moveEffect(row, m_model->getEffectStackRow(m_model->rowCount() - 1));
         } else {
             m_model->appendEffect(effectId);
+            std::shared_ptr<AbstractEffectItem> item = m_model->getEffectStackRow(m_model->rowCount() - 1);
+            if (item) {
+                slotActivateEffect(std::static_pointer_cast<EffectItemModel>(item));
+            }
         }
     }
 }
@@ -171,15 +180,23 @@ void EffectStackView::setModel(std::shared_ptr<EffectStackModel> model, QPair<in
 void EffectStackView::loadEffects(QPair<int, int> range, int start, int end)
 {
     Q_UNUSED(start)
-    qDebug() << "MUTEX LOCK!!!!!!!!!!!! loadEffects";
+    qDebug() << "MUTEX LOCK!!!!!!!!!!!! loadEffects: "<<start<<" to "<<end;
     QMutexLocker lock(&m_mutex);
     m_range = range;
     int max = m_model->rowCount();
+    if (max == 0) {
+        // blank stack
+        ObjectId item = m_model->getOwnerId();
+        pCore->getMonitor(item.first == ObjectType::BinClip ? Kdenlive::ClipMonitor : Kdenlive::ProjectMonitor)->slotShowEffectScene(MonitorSceneDefault);
+        return;
+    }
     if (end == -1) {
         end = max;
     }
-    int active = m_model->getActiveEffect();
-    for (int i = 0; i < end; i++) {
+    int active = qBound(0, m_model->getActiveEffect(), max - 1);
+    std::shared_ptr<AbstractEffectItem> activeItem = m_model->getEffectStackRow(active);
+    std::shared_ptr<EffectItemModel> activeModel = std::static_pointer_cast<EffectItemModel>(activeItem);
+    for (int i = 0; i < max; i++) {
         std::shared_ptr<AbstractEffectItem> item = m_model->getEffectStackRow(i);
         QSize size;
         if (item->childCount() > 0) {
@@ -187,30 +204,36 @@ void EffectStackView::loadEffects(QPair<int, int> range, int start, int end)
             continue;
         }
         std::shared_ptr<EffectItemModel> effectModel = std::static_pointer_cast<EffectItemModel>(item);
-        QImage effectIcon = m_thumbnailer->requestImage(effectModel->getAssetId(), &size, QSize(QStyle::PM_SmallIconSize, QStyle::PM_SmallIconSize));
-        CollapsibleEffectView *view = new CollapsibleEffectView(effectModel, range, m_sourceFrameSize, effectIcon, this);
-        qDebug() << "__ADDING EFFECT: " << effectModel->filter().get("id") << ", ACT: " << active;
-        if (i == active) {
-            view->slotActivateEffect(m_model->getIndexFromItem(effectModel));
+        CollapsibleEffectView *view = nullptr;
+        if (i >= start && i <= end) {
+            // We need to rebuild the effect view
+            QImage effectIcon = m_thumbnailer->requestImage(effectModel->getAssetId(), &size, QSize(QStyle::PM_SmallIconSize, QStyle::PM_SmallIconSize));
+            view = new CollapsibleEffectView(effectModel, range, m_sourceFrameSize, effectIcon, this);
+            connect(view, &CollapsibleEffectView::deleteEffect, m_model.get(), &EffectStackModel::removeEffect);
+            connect(view, &CollapsibleEffectView::moveEffect, m_model.get(), &EffectStackModel::moveEffect);
+            connect(view, &CollapsibleEffectView::switchHeight, this, &EffectStackView::slotAdjustDelegate, Qt::DirectConnection);
+            connect(view, &CollapsibleEffectView::startDrag, this, &EffectStackView::slotStartDrag);
+            connect(view, &CollapsibleEffectView::createGroup, m_model.get(), &EffectStackModel::slotCreateGroup);
+            connect(view, &CollapsibleEffectView::activateEffect, this, &EffectStackView::slotActivateEffect);
+            connect(view, &CollapsibleEffectView::seekToPos, [this](int pos) {
+                // at this point, the effects returns a pos relative to the clip. We need to convert it to a global time
+                int clipIn = pCore->getItemPosition(m_model->getOwnerId());
+                emit seekToPos(pos + clipIn);
+            });
+            connect(this, &EffectStackView::doActivateEffect, view, &CollapsibleEffectView::slotActivateEffect);
+            QModelIndex ix = m_model->getIndexFromItem(effectModel);
+            m_effectsTree->setIndexWidget(ix, view);
+            WidgetDelegate *del = static_cast<WidgetDelegate *>(m_effectsTree->itemDelegate(ix));
+            del->setHeight(ix, view->height());
+        } else {
+            QModelIndex ix = m_model->getIndexFromItem(effectModel);
+            auto w = m_effectsTree->indexWidget(ix);
+            view = static_cast<CollapsibleEffectView *>(w);
         }
+        view->slotActivateEffect(m_model->getIndexFromItem(activeModel));
         view->buttonUp->setEnabled(i > 0);
         view->buttonDown->setEnabled(i < max - 1);
-        connect(view, &CollapsibleEffectView::deleteEffect, m_model.get(), &EffectStackModel::removeEffect);
-        connect(view, &CollapsibleEffectView::moveEffect, m_model.get(), &EffectStackModel::moveEffect);
-        connect(view, &CollapsibleEffectView::switchHeight, this, &EffectStackView::slotAdjustDelegate, Qt::DirectConnection);
-        connect(view, &CollapsibleEffectView::startDrag, this, &EffectStackView::slotStartDrag);
-        connect(view, &CollapsibleEffectView::createGroup, m_model.get(), &EffectStackModel::slotCreateGroup);
-        connect(view, &CollapsibleEffectView::activateEffect, this, &EffectStackView::slotActivateEffect);
-        connect(view, &CollapsibleEffectView::seekToPos, [this](int pos) {
-            // at this point, the effects returns a pos relative to the clip. We need to convert it to a global time
-            int clipIn = pCore->getItemPosition(m_model->getOwnerId());
-            emit seekToPos(pos + clipIn);
-        });
-        connect(this, &EffectStackView::doActivateEffect, view, &CollapsibleEffectView::slotActivateEffect);
-        QModelIndex ix = m_model->getIndexFromItem(effectModel);
-        m_effectsTree->setIndexWidget(ix, view);
-        WidgetDelegate *del = static_cast<WidgetDelegate *>(m_effectsTree->itemDelegate(ix));
-        del->setHeight(ix, view->height());
+        
     }
     updateTreeHeight();
     qDebug() << "MUTEX UNLOCK!!!!!!!!!!!! loadEffects";
@@ -276,7 +299,7 @@ void EffectStackView::slotAdjustDelegate(std::shared_ptr<EffectItemModel> effect
 void EffectStackView::refresh(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles)
 {
     Q_UNUSED(roles)
-    loadEffects(m_range, topLeft.row(), bottomRight.row() + 1);
+    loadEffects(m_range, topLeft.row(), bottomRight.row());
 }
 
 void EffectStackView::unsetModel(bool reset)

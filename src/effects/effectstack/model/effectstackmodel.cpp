@@ -87,9 +87,11 @@ void EffectStackModel::removeEffect(std::shared_ptr<EffectItemModel> effect)
     int parentId = -1;
     if (auto ptr = effect->parentItem().lock()) parentId = ptr->getId();
     int current = 0;
+    bool currentChanged = false;
     if (auto srv = m_service.lock()) {
         current = srv->get_int("kdenlive:activeeffect");
         if (current >= rootItem->childCount() - 1) {
+            currentChanged = true;
             srv->set("kdenlive:activeeffect", --current);
         }
     }
@@ -100,10 +102,28 @@ void EffectStackModel::removeEffect(std::shared_ptr<EffectItemModel> effect)
         fadeIns.removeAll(effect->getId());
         fadeOuts.removeAll(effect->getId());
         QString effectName = EffectsRepository::get()->getName(effect->getAssetId());
+        
+        Fun update = [this, current, currentChanged]() {
+            // Required to build the effect view
+            if (currentChanged) {
+                if (current < 0 || rowCount() == 0) {
+                    // Stack is now empty
+                    dataChanged(QModelIndex(), QModelIndex(), QVector<int>());
+                } else {
+                    std::shared_ptr<EffectItemModel> effectItem = std::static_pointer_cast<EffectItemModel>(rootItem->child(current));
+                    QModelIndex ix = getIndexFromItem(effectItem);
+                    dataChanged(ix, ix, QVector<int>());
+                }
+            }
+            //TODO: only update if effect is fade or keyframe
+            pCore->updateItemKeyframes(m_ownerId);
+            return true;
+        };
+        update();
+        PUSH_LAMBDA(update, redo);
+        PUSH_LAMBDA(update, undo);
         PUSH_UNDO(undo, redo, i18n("Delete effect %1", effectName));
     }
-    // TODO: integrate in undo/redo, change active effect
-    pCore->updateItemKeyframes(m_ownerId);
 }
 
 void EffectStackModel::copyEffect(std::shared_ptr<AbstractEffectItem> sourceItem)
@@ -128,7 +148,7 @@ void EffectStackModel::copyEffect(std::shared_ptr<AbstractEffectItem> sourceItem
     }
 }
 
-void EffectStackModel::appendEffect(const QString &effectId)
+void EffectStackModel::appendEffect(const QString &effectId, bool makeCurrent)
 {
     auto effect = EffectItemModel::construct(effectId, shared_from_this());
     Fun undo = removeItem_lambda(effect->getId());
@@ -136,6 +156,13 @@ void EffectStackModel::appendEffect(const QString &effectId)
     Fun redo = addItem_lambda(effect, rootItem->getId());
     connect(effect.get(), &AssetParameterModel::modelChanged, this, &EffectStackModel::modelChanged);
     connect(effect.get(), &AssetParameterModel::replugEffect, this, &EffectStackModel::replugEffect);
+    int currentActive = getActiveEffect();
+    if (makeCurrent) {
+        auto srvPtr = m_service.lock();
+        if (srvPtr) {
+            srvPtr->set("kdenlive:activeeffect", rowCount());
+        }
+    }
     bool res = redo();
     if (res) {
         if (effectId == QLatin1String("fadein") || effectId == QLatin1String("fade_from_black")) {
@@ -152,6 +179,11 @@ void EffectStackModel::appendEffect(const QString &effectId)
         PUSH_LAMBDA(update, redo);
         PUSH_LAMBDA(update, undo);
         PUSH_UNDO(undo, redo, i18n("Add effect %1", effectName));
+    } else if (makeCurrent) {
+        auto srvPtr = m_service.lock();
+        if (srvPtr) {
+            srvPtr->set("kdenlive:activeeffect", currentActive);
+        }
     }
 }
 
@@ -462,7 +494,7 @@ int EffectStackModel::getActiveEffect() const
     if (ptr) {
         return ptr->get_int("kdenlive:activeeffect");
     }
-    return -1;
+    return 0;
 }
 
 void EffectStackModel::slotCreateGroup(std::shared_ptr<EffectItemModel> childEffect)

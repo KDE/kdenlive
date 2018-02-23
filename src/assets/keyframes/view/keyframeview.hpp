@@ -54,6 +54,8 @@ public slots:
     void slotGoToPrev();
     void slotModelChanged();
     void slotEditType(int type, const QPersistentModelIndex &index);
+    /* @brief Emit initial info for monitor. */
+    void initKeyframePos();
 
 protected:
     void paintEvent(QPaintEvent *event) override;

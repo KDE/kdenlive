@@ -58,7 +58,7 @@ protected:
 
 public:
     /* @brief Add an effect at the bottom of the stack */
-    void appendEffect(const QString &effectId);
+    void appendEffect(const QString &effectId, bool makeCurrent = false);
     /* @brief Copy an existing effect and append it at the bottom of the stack */
     void copyEffect(std::shared_ptr<AbstractEffectItem> sourceItem);
     /* @brief Import all effects from the given effect stack

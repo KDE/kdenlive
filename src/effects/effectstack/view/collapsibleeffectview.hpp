@@ -52,7 +52,6 @@ public:
 
     void setupWidget(const ItemInfo &info);
     void updateTimecodeFormat();
-    void setActive(bool activate) override;
     /** @brief Install event filter so that scrolling with mouse wheel does not change parameter value. */
     bool eventFilter(QObject *o, QEvent *e) override;
     /** @brief Update effect GUI to reflect parameted changes. */
