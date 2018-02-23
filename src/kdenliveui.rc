@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="150" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="151" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file" >
       <Action name="dvd_wizard" />
@@ -229,6 +229,7 @@
     <Action name="timeline_compositing" />
     <Action name="timeline_mode" />
     <Separator />
+    <Action name="use_timeline_zone_in_edit" />
     <Action name="select_tool" />
     <Action name="razor_tool" />
     <Action name="spacer_tool" />

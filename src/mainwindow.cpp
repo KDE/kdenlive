@@ -981,6 +981,9 @@ void MainWindow::setupActions()
     ac->setActiveIcon(KoIconUtils::themedIcon(QStringLiteral("timeline-use-zone-on")));
     ac->setInactiveIcon(KoIconUtils::themedIcon(QStringLiteral("timeline-use-zone-off")));
     ac->setShortcut(Qt::Key_G);
+    ac->setActive(KdenliveSettings::useTimelineZoneToEdit());
+    ac->setAutoToggle(true);
+    connect(ac, &KDualAction::activeChangedByUser, this, &MainWindow::slotSwitchTimelineZone);
     addAction(QStringLiteral("use_timeline_zone_in_edit"), ac);
 
     m_compositeAction = new KSelectAction(KoIconUtils::themedIcon(QStringLiteral("composite-track-off")), i18n("Track compositing"), this);
@@ -1250,6 +1253,14 @@ void MainWindow::setupActions()
               KoIconUtils::themedIcon(QStringLiteral("media-record")));
 
     addAction(QStringLiteral("project_clean"), i18n("Clean Project"), this, SLOT(slotCleanProject()), KoIconUtils::themedIcon(QStringLiteral("edit-clear")));
+    
+    
+    /*QAction *timelineZone = new QAction(KoIconUtils::themedIcon(QStringLiteral("insert-horizontal-rule")), i18n("Use Timeline Zone in Edit"), this);
+    timelineZone->setCheckable(true);
+    timelineZone->setChecked(KdenliveSettings::useTimelineZoneToEdit());
+    addAction(QStringLiteral("use_timeline_zone_in_edit"), timelineZone);
+    connect(timelineZone, &QAction::toggled, this, &MainWindow::slotSwitchTimelineZone);*/
+    
     // TODO
     // addAction("project_adjust_profile", i18n("Adjust Profile to Current Clip"), pCore->bin(), SLOT(adjustProjectProfileToItem()));
 
@@ -4183,6 +4194,12 @@ void MainWindow::slotChangeSpeed(int speed)
     if (owner.first == ObjectType::TimelineClip) {
         getCurrentTimeline()->controller()->changeItemSpeed(owner.second, speed);
     }
+}
+
+void MainWindow::slotSwitchTimelineZone(bool toggled)
+{
+    KdenliveSettings::setUseTimelineZoneToEdit(toggled);
+    getCurrentTimeline()->controller()->useRulerChanged();
 }
 
 #ifdef DEBUG_MAINW

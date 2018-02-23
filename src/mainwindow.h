@@ -286,6 +286,7 @@ private slots:
 
     /** @brief Turns automatic splitting of audio and video on/off. */
     void slotSwitchSplitAudio(bool enable);
+    void slotSwitchTimelineZone(bool toggled);
     void slotSwitchMarkersComments();
     void slotSwitchSnap();
     void slotSwitchAutomaticTransition();

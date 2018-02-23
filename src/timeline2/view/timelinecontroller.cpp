@@ -1134,6 +1134,11 @@ int TimelineController::workingPreview() const
     return m_timelinePreview ? m_timelinePreview->workingPreview : -1;
 }
 
+bool TimelineController::useRuler() const
+{
+    return KdenliveSettings::useTimelineZoneToEdit();
+}
+
 void TimelineController::loadPreview(QString chunks, QString dirty, const QDateTime &documentDate, int enable)
 {
     if (chunks.isEmpty() && dirty.isEmpty()) {
@@ -1341,6 +1346,10 @@ bool TimelineController::insertZone(const QString &binId, QPoint zone, bool over
     }
     if (targetTrack == -1) {
         targetTrack = m_activeTrack;
+    }
+    qDebug()<<" // / /INSERTING BIN CLIP: "<<binId;
+    if (KdenliveSettings::useTimelineZoneToEdit()) {
+        return TimelineFunctions::insertZone(m_model, targetTrack, binId, m_zone.x(), QPoint(zone.x(), zone.x() + m_zone.y() - m_zone.x()), overwrite);
     }
     return TimelineFunctions::insertZone(m_model, targetTrack, binId, timelinePosition(), zone, overwrite);
 }

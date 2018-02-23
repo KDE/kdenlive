@@ -29,6 +29,7 @@ Rectangle {
     property real fontUnit: root.baseUnit * 0.9
     property alias rulerZone : zone
     property int workingPreview : timeline.workingPreview
+    property bool useTimelineRuler : timeline.useRuler
     SystemPalette { id: activePalette }
 
     function adjustStepSize() {
@@ -119,7 +120,7 @@ Rectangle {
         width: (timeline.zoneOut - timeline.zoneIn) * rulerRoot.timeScale
         anchors.bottom: parent.bottom
         height: parent.height / 3
-        opacity: 0.4
+        opacity: useTimelineRuler ? 0.4 : 0.1
         Rectangle {
                 id: trimIn
                 anchors.left: parent.left

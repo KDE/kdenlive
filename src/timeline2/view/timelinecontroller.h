@@ -57,6 +57,7 @@ class TimelineController : public QObject
     Q_PROPERTY(QVariantList dirtyChunks READ dirtyChunks NOTIFY dirtyChunksChanged)
     Q_PROPERTY(QVariantList renderedChunks READ renderedChunks NOTIFY renderedChunksChanged)
     Q_PROPERTY(int workingPreview READ workingPreview NOTIFY workingPreviewChanged)
+    Q_PROPERTY(bool useRuler READ useRuler NOTIFY useRulerChanged)
     Q_PROPERTY(int activeTrack READ activeTrack WRITE setActiveTrack NOTIFY activeTrackChanged)
     Q_PROPERTY(int audioTarget READ audioTarget WRITE setAudioTarget NOTIFY audioTargetChanged)
     Q_PROPERTY(int videoTarget READ videoTarget WRITE setVideoTarget NOTIFY videoTargetChanged)
@@ -298,6 +299,7 @@ public:
     /* @brief returns the frame currently processed by timeline preview, -1 if none
      */
     int workingPreview() const;
+    bool useRuler() const;
     /* @brief Load timeline preview from saved doc
      */
     void loadPreview(QString chunks, QString dirty, const QDateTime &documentDate, int enable);
@@ -394,6 +396,7 @@ signals:
     void dirtyChunksChanged();
     void renderedChunksChanged();
     void workingPreviewChanged();
+    void useRulerChanged();
 };
 
 #endif
