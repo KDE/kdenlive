@@ -76,7 +76,7 @@ public:
     Fun removeItem_lambda(int id);
 
     /* @brief Helper function to generate a lambda that changes the row of an item */
-    Fun moveItem_lambda(int id, int destRow);
+    Fun moveItem_lambda(int id, int destRow, bool force = false);
 
     /* @brief Returns the number of clips in bin */
     int clipsCount() const;

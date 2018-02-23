@@ -95,7 +95,12 @@ void EffectStackModel::removeEffect(std::shared_ptr<EffectItemModel> effect)
             srv->set("kdenlive:activeeffect", --current);
         }
     }
+    int currentRow = effect->row();
     Fun undo = addItem_lambda(effect, parentId);
+    if (currentRow != rowCount() - 1) {
+        Fun move = moveItem_lambda(effect->getId(), currentRow, true);
+        PUSH_LAMBDA(move, undo);
+    }
     Fun redo = removeItem_lambda(effect->getId());
     bool res = redo();
     if (res) {
