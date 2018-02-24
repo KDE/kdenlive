@@ -1347,11 +1347,18 @@ bool TimelineController::insertZone(const QString &binId, QPoint zone, bool over
     if (targetTrack == -1) {
         targetTrack = m_activeTrack;
     }
-    qDebug()<<" // / /INSERTING BIN CLIP: "<<binId;
+    int insertPoint;
+    QPoint sourceZone;
     if (KdenliveSettings::useTimelineZoneToEdit()) {
-        return TimelineFunctions::insertZone(m_model, targetTrack, binId, m_zone.x(), QPoint(zone.x(), zone.x() + m_zone.y() - m_zone.x()), overwrite);
+        // We want to use timeline zone for in/out insert points
+        insertPoint = m_zone.x();
+        sourceZone = QPoint(zone.x(), zone.x() + m_zone.y() - m_zone.x());
+    } else {
+        // Use curent timeline pos and clip zone for in/out
+        insertPoint = timelinePosition();
+        sourceZone = zone;
     }
-    return TimelineFunctions::insertZone(m_model, targetTrack, binId, timelinePosition(), zone, overwrite);
+    return TimelineFunctions::insertZone(m_model, targetTrack, binId, insertPoint, sourceZone, overwrite);
 }
 
 void TimelineController::updateClip(int clipId, QVector<int> roles)
