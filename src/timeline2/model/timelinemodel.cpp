@@ -981,11 +981,7 @@ bool TimelineModel::requestItemResize(int itemId, int size, bool right, bool log
         Q_ASSERT(isClip(itemId) || isComposition(itemId));
         if (getItemTrackId(itemId) != -1) {
             QModelIndex modelIndex = isClip(itemId) ? makeClipIndexFromID(itemId) : makeCompositionIndexFromID(itemId);
-            if (right) {
-                notifyChange(modelIndex, modelIndex, false, true, logUndo);
-            } else {
-                notifyChange(modelIndex, modelIndex, true, false, logUndo);
-            }
+            notifyChange(modelIndex, modelIndex, !right, true, logUndo);
         }
         return true;
     };
