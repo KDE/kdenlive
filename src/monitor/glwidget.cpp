@@ -420,7 +420,7 @@ void GLWidget::paintGL()
     f->glDisable(GL_BLEND);
     f->glDisable(GL_DEPTH_TEST);
     f->glDepthMask(GL_FALSE);
-    f->glViewport(0, rulerHeight(), width, height);
+    f->glViewport(0, rulerHeight()/2, width, height);
     check_error(f);
     QColor color(KdenliveSettings::window_background());
     f->glClearColor(color.redF(), color.greenF(), color.blueF(), color.alphaF());
