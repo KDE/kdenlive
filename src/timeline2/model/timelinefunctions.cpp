@@ -427,7 +427,7 @@ bool TimelineFunctions::requestSplitAudio(std::shared_ptr<TimelineItemModel> tim
             return false;
         }
         TimelineFunctions::changeClipState(timeline, cid, PlaylistState::VideoOnly, undo, redo);
-        timeline->requestClipsGroup(groupClips, undo, redo);
+        timeline->requestClipsGroup(groupClips, undo, redo, GroupType::AVSplit);
     }
     pCore->pushUndo(undo, redo, i18n("Split Audio"));
     return true;
