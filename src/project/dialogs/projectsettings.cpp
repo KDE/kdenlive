@@ -71,6 +71,7 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
     setupUi(this);
     tabWidget->setTabBarAutoHide(true);
     auto *vbox = new QVBoxLayout;
+    vbox->setContentsMargins(0, 0, 0, 0);
     m_pw = new ProfileWidget(this);
     vbox->addWidget(m_pw);
     profile_box->setLayout(vbox);

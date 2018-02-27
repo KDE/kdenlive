@@ -40,7 +40,7 @@ ProfileWidget::ProfileWidget(QWidget *parent)
     m_originalProfile = QStringLiteral("invalid");
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     auto *lay = new QVBoxLayout;
-
+    lay->setContentsMargins(0, 0, 0, 0);
     auto *labelLay = new QHBoxLayout;
     QLabel *fpsLabel = new QLabel(i18n("Fps"), this);
     fpsFilt = new QComboBox(this);
