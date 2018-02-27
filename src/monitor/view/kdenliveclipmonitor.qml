@@ -106,6 +106,7 @@ Item {
         anchors {
             left: parent.left
             bottom: parent.bottom
+            bottomMargin: root.rulerHeight
         }
         height: parent.height / 6
         //font.pixelSize * 3
