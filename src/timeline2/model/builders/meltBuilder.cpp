@@ -110,11 +110,11 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
             QString id(t.get("kdenlive_id"));
             QString internal(t.get("internal_added"));
             if (internal.isEmpty()) {
+                compositions << new Mlt::Transition(t);
                 if (id.isEmpty()) {
                     qDebug() << "// Warning, this should not happen, transition without id: " << t.get("id") << " = " << t.get("mlt_service");
-                    id = t.get("mlt_service");
+                    t.set("kdenlive_id", t.get("mlt_service"));
                 }
-                compositions << new Mlt::Transition(t);
             }
         }
         service.reset(service->producer());

@@ -483,12 +483,14 @@ void Core::displayMessage(const QString &message, MessageType type, int timeout)
 
 void Core::clearAssetPanel(int itemId)
 {
-    if (m_guiConstructed) m_mainWindow->clearAssetPanel(itemId);
+    if (m_guiConstructed)
+        m_mainWindow->clearAssetPanel(itemId);
 }
 
 void Core::adjustAssetRange(int itemId, int in, int out)
 {
-    m_mainWindow->adjustAssetPanelRange(itemId, in, out);
+    if (m_guiConstructed)
+        m_mainWindow->adjustAssetPanelRange(itemId, in, out);
 }
 
 std::shared_ptr<EffectStackModel> Core::getItemEffectStack(int itemType, int itemId)

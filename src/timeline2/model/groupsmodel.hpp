@@ -149,6 +149,7 @@ public:
     */
     const QString toJson() const;
     bool fromJson(const QString &data);
+    int getSplitPartner(int id) const;
 
 protected:
     /* @brief Destruct a groupItem in the hierarchy.

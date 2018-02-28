@@ -2065,39 +2065,69 @@ void TimelineModel::requestClipUpdate(int clipId, const QVector<int> &roles)
     notifyChange(modelIndex, modelIndex, roles);
 }
 
-bool TimelineModel::requestClipTimeWarp(int clipId, double speed, Fun &undo, Fun &redo)
+bool TimelineModel::requestClipTimeWarp(int clipId, int trackId, int blankSpace, double speed, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
     std::function<bool(void)> local_undo = []() { return true; };
     std::function<bool(void)> local_redo = []() { return true; };
-    qDebug() << "// CHANGING SPEED TO: " << speed;
-
-    // in order to make the producer change effective, we need to unplant / replant the clip in int track
-    int old_trackId = getClipTrackId(clipId);
     int oldPos = getClipPosition(clipId);
-    if (old_trackId != -1) {
-        int blankSpace = getTrackById(old_trackId)->getBlankSizeNearClip(clipId, true);
-        qDebug() << "// FOUND BLANK AFTER CLIP: " << blankSpace;
-        getTrackById(old_trackId)->requestClipDeletion(clipId, true, local_undo, local_redo);
-        m_allClips[clipId]->useTimewarpProducer(speed, blankSpace, local_undo, local_redo);
-        getTrackById(old_trackId)->requestClipInsertion(clipId, oldPos, true, local_undo, local_redo);
-    } else {
-        m_allClips[clipId]->useTimewarpProducer(speed, -1, local_undo, local_redo);
+    // in order to make the producer change effective, we need to unplant / replant the clip in int track
+    bool success = true;
+    success = getTrackById(trackId)->requestClipDeletion(clipId, true, local_undo, local_redo);
+    if (success) {
+        success = m_allClips[clipId]->useTimewarpProducer(speed, blankSpace, local_undo, local_redo);
     }
-    QModelIndex modelIndex = makeClipIndexFromID(clipId);
-    QVector<int> roles;
-    roles.push_back(SpeedRole);
-    notifyChange(modelIndex, modelIndex, roles);
-    UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
-    return true;
+    if (success) {
+        success = getTrackById(trackId)->requestClipInsertion(clipId, oldPos, true, local_undo, local_redo);
+    }
+    PUSH_LAMBDA(local_undo, undo);
+    PUSH_LAMBDA(local_redo, redo);
+    return success;
 }
 
 bool TimelineModel::changeItemSpeed(int clipId, int speed)
 {
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    bool res = requestClipTimeWarp(clipId, speed / 100.0, undo, redo);
-    if (res) {
+    // Get main clip info
+    int trackId = getClipTrackId(clipId);
+    int splitId = -1;
+    // Check if clip has a split partner
+    bool result = true;
+    if (trackId != -1) {
+        int blankSpace = getTrackById(trackId)->getBlankSizeNearClip(clipId, true);
+        splitId = m_groups->getSplitPartner(clipId);
+        bool success = true;
+        if (splitId > -1) {
+            int split_trackId = getClipTrackId(splitId);
+            blankSpace = qMin(blankSpace, getTrackById(split_trackId)->getBlankSizeNearClip(splitId, true));
+            result = requestClipTimeWarp(splitId, split_trackId, blankSpace, speed / 100.0, undo, redo);
+        }
+        if (result) {
+            result = requestClipTimeWarp(clipId, trackId, blankSpace, speed / 100.0, undo, redo);
+        }
+    } else {
+        m_allClips[clipId]->useTimewarpProducer(speed, -1, undo, redo);
+    }
+    if (result) {
+        QVector<int> roles;
+        roles.push_back(SpeedRole);
+        Fun update_model = [clipId, roles, this]() {
+            QModelIndex modelIndex = makeClipIndexFromID(clipId);
+            notifyChange(modelIndex, modelIndex, roles);
+            return true;
+        };
+        PUSH_LAMBDA(update_model, undo);
+        PUSH_LAMBDA(update_model, redo);
+        if (splitId > -1) {
+            Fun update_model2 = [splitId, roles, this]() {
+                QModelIndex modelIndex = makeClipIndexFromID(splitId);
+                notifyChange(modelIndex, modelIndex, roles);
+                return true;
+            };
+            PUSH_LAMBDA(update_model2, undo);
+            PUSH_LAMBDA(update_model2, redo);
+        }
         PUSH_UNDO(undo, redo, i18n("Change clip speed"));
         return true;
     }

@@ -215,6 +215,29 @@ bool GroupsModel::isInGroup(int id) const
     return getRootId(id) != id;
 }
 
+int GroupsModel::getSplitPartner(int id) const
+{
+    READ_LOCK();
+    Q_ASSERT(m_downLink.count(id) > 0);
+    int groupId = m_upLink.at(id);
+    if (groupId == -1 || getType(groupId) != GroupType::AVSplit) {
+        // clip does not have an AV split partner
+        return -1;
+    }
+    std::unordered_set<int> leaves = getDirectChildren(groupId);
+    if (leaves.size() != 2) {
+        // clip does not have an AV split partner
+        qDebug()<<"WRONG SPLIT GROUP SIZE: "<<leaves.size();
+        return -1;
+    }
+    for (const int &child : leaves) {
+        if (child != id) {
+            return child;
+        }
+    }
+    return -1;
+}
+
 std::unordered_set<int> GroupsModel::getSubtree(int id) const
 {
     READ_LOCK();
