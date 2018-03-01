@@ -29,12 +29,13 @@
 #include <QGridLayout>
 #include <KLocalizedString>
 
-GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QRect &rect, const QSize frameSize, bool useRatioLock, QWidget *parent)
+GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QRect &rect, const QSize frameSize, bool useRatioLock, bool useOpacity, QWidget *parent)
     : QWidget(parent)
     , m_min(range.first)
     , m_max(range.second)
     , m_active(false)
     , m_monitor(monitor)
+    , m_opacity(nullptr)
 {
     Q_UNUSED(useRatioLock)
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
@@ -83,9 +84,11 @@ GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QR
     connect(m_spinSize, &DragValue::valueChanged, this, &GeometryWidget::slotResize);
     horLayout2->addWidget(m_spinSize);
 
-    m_opacity = new DragValue(i18n("Opacity"), 100, 0, 0, 100, -1, i18n("%"), true, this);
-    connect(m_opacity, &DragValue::valueChanged, this, &GeometryWidget::slotAdjustRectKeyframeValue);
-    horLayout2->addWidget(m_opacity);
+    if (useOpacity) {
+        m_opacity = new DragValue(i18n("Opacity"), 100, 0, 0, 100, -1, i18n("%"), true, this);
+        connect(m_opacity, &DragValue::valueChanged, this, &GeometryWidget::slotAdjustRectKeyframeValue);
+        horLayout2->addWidget(m_opacity);
+    }
     horLayout2->addStretch(10);
 
     // Build buttons
@@ -388,24 +391,29 @@ void GeometryWidget::setValue(const QRect r, double opacity)
     m_spinY->blockSignals(true);
     m_spinWidth->blockSignals(true);
     m_spinHeight->blockSignals(true);
-    m_opacity->blockSignals(true);
     m_spinX->setValue(r.x());
     m_spinY->setValue(r.y());
     m_spinWidth->setValue(r.width());
     m_spinHeight->setValue(r.height());
-    m_opacity->setValue((int) (opacity * 100));
+    if (m_opacity) {
+        m_opacity->blockSignals(true);
+        m_opacity->setValue((int) (opacity * 100));
+        m_opacity->blockSignals(false);
+    }
     m_spinX->blockSignals(false);
     m_spinY->blockSignals(false);
     m_spinWidth->blockSignals(false);
     m_spinHeight->blockSignals(false);
-    m_opacity->blockSignals(false);
     m_monitor->setUpEffectGeometry(r);
 }
 
 
 const QString GeometryWidget::getValue() const
 {
-    return QStringLiteral("%1 %2 %3 %4 %5").arg(m_spinX->value()).arg(m_spinY->value()).arg(m_spinWidth->value()).arg( m_spinHeight->value()).arg(m_opacity->isVisible() ? m_opacity->value() / 100.0 : 1);
+    if (m_opacity) {
+        return QStringLiteral("%1 %2 %3 %4 %5").arg(m_spinX->value()).arg(m_spinY->value()).arg(m_spinWidth->value()).arg( m_spinHeight->value()).arg(m_opacity->value() / 100.0);
+    }
+    return QStringLiteral("%1 %2 %3 %4").arg(m_spinX->value()).arg(m_spinY->value()).arg(m_spinWidth->value()).arg( m_spinHeight->value());
 }
 
 void GeometryWidget::connectMonitor(bool activate)
@@ -418,17 +426,6 @@ void GeometryWidget::connectMonitor(bool activate)
         connect(m_monitor, &Monitor::effectChanged, this, &GeometryWidget::slotUpdateGeometryRect, Qt::UniqueConnection);
         QRect rect(m_spinX->value(), m_spinY->value(), m_spinWidth->value(), m_spinHeight->value());
         m_monitor->setUpEffectGeometry(rect);
-        /*double ratio = (double)m_spinWidth->value() / m_spinHeight->value();
-        if (m_sourceSize.width() != m_defaultSize.width() || m_sourceSize.height() != m_defaultSize.height()) {
-            // Source frame size different than project frame size, enable original size option accordingly
-            bool isOriginalSize =
-                qAbs((double)m_sourceSize.width() / m_sourceSize.height() - ratio) < qAbs((double)m_defaultSize.width() / m_defaultSize.height() - ratio);
-            if (isOriginalSize) {
-                m_originalSize->blockSignals(true);
-                m_originalSize->setChecked(true);
-                m_originalSize->blockSignals(false);
-            }
-        }*/
     } else {
         disconnect(m_monitor, &Monitor::effectChanged, this, &GeometryWidget::slotUpdateGeometryRect);
     }

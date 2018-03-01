@@ -70,10 +70,8 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
                 m_mainKeyframeWidget->addParameter(index);
             } else {
                 auto w = AbstractParamWidget::construct(model, index, range, frameSize, this);
-                /*if (type == ParamType::Geometry || type == ParamType::Animated || type == ParamType::RestrictedAnim || type == ParamType::AnimatedRect) {
-                animWidget = static_cast<AnimationWidget *>(w);
-                }*/
-                if (type == ParamType::KeyframeParam || type == ParamType::AnimatedRect) {
+                connect(this, &AssetParameterView::initKeyframeView, w, &AbstractParamWidget::slotInitMonitor);
+                if (type == ParamType::KeyframeParam || type == ParamType::AnimatedRect ) {
                     m_mainKeyframeWidget = static_cast<KeyframeWidget *>(w);
                 }
                 connect(w, &AbstractParamWidget::valueChanged, this, &AssetParameterView::commitChanges);
@@ -195,13 +193,28 @@ MonitorSceneType AssetParameterView::needsMonitorEffectScene() const
     if (m_mainKeyframeWidget) {
         return MonitorSceneGeometry;
     }
+    for (int i = 0; i < m_model->rowCount(); ++i) {
+        QModelIndex index = m_model->index(i, 0);
+        auto type = m_model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
+        if (type == ParamType::Geometry) {
+            return MonitorSceneGeometry;
+        }
+    }
     return MonitorSceneDefault;
 }
 
-void AssetParameterView::initKeyframeView()
+/*void AssetParameterView::initKeyframeView()
 {
     if (m_mainKeyframeWidget) {
         m_mainKeyframeWidget->initMonitor();
+    } else {
+        for (int i = 0; i < m_model->rowCount(); ++i) {
+        QModelIndex index = m_model->index(i, 0);
+        auto type = m_model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
+        if (type == ParamType::Geometry) {
+            return MonitorSceneGeometry;
+        }
     }
-}
+    }
+}*/
 

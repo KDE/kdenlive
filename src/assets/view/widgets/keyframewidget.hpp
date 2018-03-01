@@ -51,8 +51,13 @@ public:
 
     void updateTimecodeFormat();
 
+public slots:
     void slotSetRange(QPair<int, int> range) override;
     void slotRefresh() override;
+    /** @brief intialize qml overlay
+     */
+    void slotInitMonitor(bool active) override;
+
 public slots:
     void slotSetPosition(int pos = -1, bool update = true);
 
@@ -73,11 +78,9 @@ private:
     QToolButton *m_buttonNext;
     KSelectAction *m_selectType;
     TimecodeDisplay *m_time;
-
+    void connectMonitor(bool active);
     std::unordered_map<QPersistentModelIndex, QWidget *> m_parameters;
-    
-signals:
-    void initMonitor();
+
 };
 
 #endif

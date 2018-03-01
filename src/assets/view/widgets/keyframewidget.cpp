@@ -102,12 +102,10 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     connect(m_keyframeview, &KeyframeView::seekToPos, [&](int p) { slotSetPosition(p, true); });
     connect(m_keyframeview, &KeyframeView::atKeyframe, this, &KeyframeWidget::slotAtKeyframe);
     connect(m_keyframeview, &KeyframeView::modified, this, &KeyframeWidget::slotRefreshParams);
-    connect(this, &KeyframeWidget::initMonitor, m_keyframeview, &KeyframeView::initKeyframePos);
 
     connect(m_buttonAddDelete, &QAbstractButton::pressed, m_keyframeview, &KeyframeView::slotAddRemove);
     connect(m_buttonPrevious, &QAbstractButton::pressed, m_keyframeview, &KeyframeView::slotGoToPrev);
     connect(m_buttonNext, &QAbstractButton::pressed, m_keyframeview, &KeyframeView::slotGoToNext);
-    connect(monitor, &Monitor::seekPosition, this, &KeyframeWidget::monitorSeek, Qt::UniqueConnection);
     addParameter(index);
 }
 
@@ -125,13 +123,7 @@ void KeyframeWidget::monitorSeek(int pos)
     int in = pCore->getItemPosition(m_model->getOwnerId());
     int out = in + pCore->getItemDuration(m_model->getOwnerId());
     m_buttonAddDelete->setEnabled(pos - in > 0);
-    for (const auto &w : m_parameters) {
-        ParamType type = m_model->data(w.first, AssetParameterModel::TypeRole).value<ParamType>();
-        if (type == ParamType::AnimatedRect) {
-            ((GeometryWidget *)w.second)->connectMonitor(pos >= in && pos < out);
-            break;
-        }
-    }
+    connectMonitor(pos >= in && pos < out);
     int framePos = qBound(in, pos, out) - in;
     m_keyframeview->slotSetPosition(framePos);
     m_time->setValue(framePos);
@@ -260,7 +252,7 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
         if (vals.count() >= 4) {
             rect = QRect(vals.at(0).toInt(), vals.at(1).toInt(), vals.at(2).toInt(), vals.at(3).toInt());
         }
-        GeometryWidget *geomWidget = new GeometryWidget(pCore->getMonitor(m_model->monitorId), range, rect, frameSize, false, this);
+        GeometryWidget *geomWidget = new GeometryWidget(pCore->getMonitor(m_model->monitorId), range, rect, frameSize, false, m_model->data(m_index, AssetParameterModel::OpacityRole).toBool(), this);
         connect(geomWidget, &GeometryWidget::valueChanged,
                 [this, index](const QString v) { m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), QVariant(v), index); });
         paramWidget = geomWidget;
@@ -280,5 +272,30 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
     if (paramWidget) {
         m_parameters[index] = paramWidget;
         m_lay->addWidget(paramWidget);
+    }
+}
+
+void KeyframeWidget::slotInitMonitor(bool active)
+{
+    if (m_keyframeview) {
+        m_keyframeview->initKeyframePos();
+    }
+    Monitor *monitor = pCore->getMonitor(m_model->monitorId);
+    connectMonitor(active);
+    if (active) {
+        connect(monitor, &Monitor::seekPosition, this, &KeyframeWidget::monitorSeek, Qt::UniqueConnection);
+    } else {
+        disconnect(monitor, &Monitor::seekPosition, this, &KeyframeWidget::monitorSeek);
+    }
+}
+
+void KeyframeWidget::connectMonitor(bool active)
+{
+    for (const auto &w : m_parameters) {
+        ParamType type = m_model->data(w.first, AssetParameterModel::TypeRole).value<ParamType>();
+        if (type == ParamType::AnimatedRect) {
+            ((GeometryWidget *)w.second)->connectMonitor(active);
+            break;
+        }
     }
 }

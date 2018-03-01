@@ -59,12 +59,9 @@ public:
 
     /** The parent clip in/out points changed, update effects */
     void setRange(QPair<int, int> range);
-    
+
     /** Returns the type of monitor overlay required by this effect */
     MonitorSceneType needsMonitorEffectScene() const;
-    
-    /** Make sure the monitor displays correct info depending on current position */
-    void initKeyframeView();
 
 protected:
     /** @brief This is a handler for the dataChanged slot of the model.
@@ -89,6 +86,7 @@ private slots:
 
 signals:
     void seekToPos(int);
+    void initKeyframeView(bool active);
 };
 
 #endif

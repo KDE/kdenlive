@@ -334,7 +334,7 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                     useOffset = true;
                 }
                 m_geometryWidget = new GeometryWidget(m_metaInfo, info.startPos.frames(KdenliveSettings::project_fps()),
-                                                      effect.hasAttribute(QStringLiteral("showrotation")), useOffset, parent);
+                                                      effect.hasAttribute(QStringLiteral("showrotation")), useOffset, false, parent);
                 if (m_conditionParameter && pa.hasAttribute(QStringLiteral("conditional"))) {
                     m_geometryWidget->setEnabled(false);
                     m_conditionalWidgets << m_geometryWidget;

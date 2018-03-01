@@ -127,7 +127,6 @@ void AssetParameterModel::prepareKeyframes()
 void AssetParameterModel::setParameter(const QString &name, const int value, bool update)
 {
     Q_ASSERT(m_asset->is_valid());
-
     m_asset->set(name.toLatin1().constData(), value);
     if (m_fixedParams.count(name) == 0) {
         m_params[name].value = value;
@@ -143,6 +142,9 @@ void AssetParameterModel::setParameter(const QString &name, const int value, boo
                 effectParam << m_asset->get(pName.toUtf8().constData());
             }
             m_asset->set("effect", effectParam.join(QLatin1Char(' ')).toUtf8().constData());
+            emit replugEffect(shared_from_this());
+        } else if (m_assetId == QLatin1String("autotrack_rectangle") || m_assetId.startsWith(QStringLiteral("ladspa"))) {
+            // these effects don't understand param change and need to be rebuild
             emit replugEffect(shared_from_this());
         } else {
             emit modelChanged();
@@ -187,6 +189,9 @@ void AssetParameterModel::setParameter(const QString &name, const QString &value
             }
             m_asset->set("effect", effectParam.join(QLatin1Char(' ')).toUtf8().constData());
             emit replugEffect(shared_from_this());
+        } else if (m_assetId == QLatin1String("autotrack_rectangle") || m_assetId.startsWith(QStringLiteral("ladspa"))) {
+            // these effects don't understand param change and need to be rebuild
+            emit replugEffect(shared_from_this());
         } else {
             emit modelChanged();
         }
@@ -215,7 +220,10 @@ void AssetParameterModel::setParameter(const QString &name, double &value)
         }
         m_asset->set("effect", effectParam.join(QLatin1Char(' ')).toUtf8().constData());
         emit replugEffect(shared_from_this());
-    } else {
+    } else if (m_assetId == QLatin1String("autotrack_rectangle") || m_assetId.startsWith(QStringLiteral("ladspa"))) {
+            // these effects don't understand param change and need to be rebuild
+            emit replugEffect(shared_from_this());
+        } else {
         emit modelChanged();
     }
     pCore->refreshProjectItem(m_ownerId);

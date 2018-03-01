@@ -63,6 +63,7 @@ signals:
     void disableCurrentFilter(bool);
 
     void seekToPos(int);
+
 public slots:
     /** @brief Toggle the comments on or off
      */
@@ -75,6 +76,10 @@ public slots:
     /** @brief update the clip's in/out point
      */
     virtual void slotSetRange(QPair<int, int> range) = 0;
+
+    /** @brief intialize qml keyframe view after creating it
+     */
+    virtual void slotInitMonitor(bool /*active*/) {}
 
 protected:
     std::shared_ptr<AssetParameterModel> m_model;

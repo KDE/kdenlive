@@ -302,8 +302,8 @@ void CollapsibleEffectView::slotActivateEffect(QModelIndex ix)
     decoframe->setStyleSheet(decoframe->styleSheet());
     if (active) {
         pCore->getMonitor(m_model->monitorId)->slotShowEffectScene(needsMonitorEffectScene());
-        m_view->initKeyframeView();
     }
+    m_view->initKeyframeView(active);
 }
 
 void CollapsibleEffectView::mousePressEvent(QMouseEvent *e)

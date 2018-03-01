@@ -30,7 +30,6 @@
 
 class QSlider;
 class GeometryWidget;
-class Monitor;
 
 /*@brief This class is used to display a parameter with time value */
 class GeometryEditWidget : public AbstractParamWidget
@@ -55,17 +54,17 @@ public slots:
      */
     void slotSetRange(QPair<int, int>) override;
 
+    /** @brief intialize qml overlay
+     */
+    void slotInitMonitor(bool active) override;
+
 private slots:
     /** @brief monitor seek pos changed. */
     void monitorSeek(int pos);
 
 private:
     GeometryWidget *m_geom;
-    Monitor *m_monitor;
     QPair<int, int> m_range;
-
-signals:
-    void valueChanged();
 };
 
 #endif

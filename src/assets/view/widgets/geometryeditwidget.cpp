@@ -27,6 +27,7 @@
 #include "widgets/geometrywidget.h"
 #include "monitor/monitormanager.h"
 #include "assets/model/assetparametermodel.hpp"
+#include <mlt++/MltGeometry.h>
 
 #include <QHBoxLayout>
 #include <QLabel>
@@ -34,28 +35,28 @@
 
 GeometryEditWidget::GeometryEditWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QPair<int, int> range, QSize frameSize, QWidget *parent)
     : AbstractParamWidget(std::move(model), index, parent)
-    , m_monitor(pCore->getMonitor(m_model->monitorId))
     , m_range(range)
 {
     auto *layout = new QVBoxLayout(this);
     QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
     const QString value = m_model->data(m_index, AssetParameterModel::ValueRole).toString().simplified();
+    Mlt::Geometry geometry(value.toUtf8().data(), m_range.second, frameSize.width(), frameSize.height());
+    Mlt::GeometryItem item;
     QRect rect;
-    QStringList vals = value.split(QLatin1Char(' '));
-    if (vals.count() >= 4) {
-        rect = QRect(vals.at(0).toInt(), vals.at(1).toInt(), vals.at(2).toInt(), vals.at(3).toInt());
+    if (geometry.fetch(&item, 0) == 0) {
+        rect = QRect(item.x(), item.y(), item.w(), item.h());
+    } else {
+        // Cannot read value, use random default
+        rect = QRect(50, 50, 200, 200);
     }
-    m_geom = new GeometryWidget(m_monitor, range, rect, frameSize, false, this);
+    Monitor *monitor = pCore->getMonitor(m_model->monitorId);
+    m_geom = new GeometryWidget(monitor, range, rect, frameSize, false, m_model->data(m_index, AssetParameterModel::OpacityRole).toBool(), this);
     m_geom->setSizePolicy(QSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred));
-    connect(m_monitor, &Monitor::seekPosition, this, &GeometryEditWidget::monitorSeek, Qt::UniqueConnection);
-    /*QString name = m_model->data(m_index, AssetParameterModel::NameRole).toString();
-    QLabel *label = new QLabel(name, this);
-    layout->addWidget(label);*/
     layout->addWidget(m_geom);
 
     // emit the signal of the base class when appropriate
-    connect(this->m_geom, &GeometryWidget::valueChanged, [this](const QString val) { 
-        emit AbstractParamWidget::valueChanged(m_index, val, true); });
+    connect(this->m_geom, &GeometryWidget::valueChanged, [this](const QString val) {
+        emit valueChanged(m_index, val, true); });
 
     setToolTip(comment);
 }
@@ -94,10 +95,19 @@ void GeometryEditWidget::monitorSeek(int pos)
     // Update monitor scene for geometry params
     if (pos >= m_range.first && pos < m_range.second) {
         m_geom->connectMonitor(true);
-        m_monitor->setEffectKeyframe(true);
     } else {
         m_geom->connectMonitor(false);
-        m_monitor->setEffectKeyframe(false);
     }
 }
 
+void GeometryEditWidget::slotInitMonitor(bool active)
+{
+    m_geom->connectMonitor(active);
+    Monitor * monitor = pCore->getMonitor(m_model->monitorId);
+    if (active) {
+        monitor->setEffectKeyframe(true);
+        connect(monitor, &Monitor::seekPosition, this, &GeometryEditWidget::monitorSeek, Qt::UniqueConnection);
+    } else {
+        disconnect(monitor, &Monitor::seekPosition, this, &GeometryEditWidget::monitorSeek);
+    }
+}

@@ -63,7 +63,7 @@ void EffectStackModel::loadEffects()
             Fun redo = addItem_lambda(effect, rootItem->getId());
             redo();
             connect(effect.get(), &AssetParameterModel::modelChanged, this, &EffectStackModel::modelChanged);
-            connect(effect.get(), &AssetParameterModel::replugEffect, this, &EffectStackModel::replugEffect);
+            connect(effect.get(), &AssetParameterModel::replugEffect, this, &EffectStackModel::replugEffect, Qt::DirectConnection);
         }
     } else {
         qDebug() << "// CANNOT LOCK CLIP SEEVCE";
@@ -145,7 +145,7 @@ void EffectStackModel::copyEffect(std::shared_ptr<AbstractEffectItem> sourceItem
     // TODO the parent should probably not always be the root
     Fun redo = addItem_lambda(effect, rootItem->getId());
     connect(effect.get(), &AssetParameterModel::modelChanged, this, &EffectStackModel::modelChanged);
-    connect(effect.get(), &AssetParameterModel::replugEffect, this, &EffectStackModel::replugEffect);
+    connect(effect.get(), &AssetParameterModel::replugEffect, this, &EffectStackModel::replugEffect, Qt::DirectConnection);
     bool res = redo();
     if (res) {
         QString effectName = EffectsRepository::get()->getName(effectId);
@@ -160,7 +160,7 @@ void EffectStackModel::appendEffect(const QString &effectId, bool makeCurrent)
     // TODO the parent should probably not always be the root
     Fun redo = addItem_lambda(effect, rootItem->getId());
     connect(effect.get(), &AssetParameterModel::modelChanged, this, &EffectStackModel::modelChanged);
-    connect(effect.get(), &AssetParameterModel::replugEffect, this, &EffectStackModel::replugEffect);
+    connect(effect.get(), &AssetParameterModel::replugEffect, this, &EffectStackModel::replugEffect, Qt::DirectConnection);
     int currentActive = getActiveEffect();
     if (makeCurrent) {
         auto srvPtr = m_service.lock();
@@ -479,7 +479,7 @@ void EffectStackModel::importEffects(std::shared_ptr<EffectStackModel> sourceSta
         // TODO parent should not always be root
         Fun redo = addItem_lambda(clone, rootItem->getId());
         connect(effect.get(), &AssetParameterModel::modelChanged, this, &EffectStackModel::modelChanged);
-        connect(effect.get(), &AssetParameterModel::replugEffect, this, &EffectStackModel::replugEffect);
+        connect(effect.get(), &AssetParameterModel::replugEffect, this, &EffectStackModel::replugEffect, Qt::DirectConnection);
         redo();
     }
 }
