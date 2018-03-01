@@ -61,8 +61,13 @@ void KeyframeView::slotModelChanged()
     update();
 }
 
-void KeyframeView::slotSetPosition(int pos)
+void KeyframeView::slotSetPosition(int pos, bool isInRange)
 {
+    if (!isInRange) {
+        m_position = -1;
+        update();
+        return;
+    }
     if (pos != m_position) {
         m_position = pos;
         emit atKeyframe(m_model->hasKeyframe(pos), m_model->singleKeyframe());
@@ -299,10 +304,12 @@ void KeyframeView::paintEvent(QPaintEvent *event)
     /*
      * current position
      */
-    QPolygon pa(3);
-    int cursorwidth = (m_size - (m_lineHeight + headOffset / 2)) / 2 + 1;
-    QPolygonF position = QPolygonF() << QPointF(-cursorwidth, m_size) << QPointF(cursorwidth, m_size) << QPointF(0, m_lineHeight + (headOffset / 2) + 1);
-    position.translate(m_position * m_scale, 0);
-    p.setBrush(m_colKeyframe);
-    p.drawPolygon(position);
+    if (m_position >= 0) {
+        QPolygon pa(3);
+        int cursorwidth = (m_size - (m_lineHeight + headOffset / 2)) / 2 + 1;
+        QPolygonF position = QPolygonF() << QPointF(-cursorwidth, m_size) << QPointF(cursorwidth, m_size) << QPointF(0, m_lineHeight + (headOffset / 2) + 1);
+        position.translate(m_position * m_scale, 0);
+        p.setBrush(m_colKeyframe);
+        p.drawPolygon(position);
+    }
 }

@@ -95,6 +95,7 @@ void GeometryEditWidget::monitorSeek(int pos)
     // Update monitor scene for geometry params
     if (pos >= m_range.first && pos < m_range.second) {
         m_geom->connectMonitor(true);
+        pCore->getMonitor(m_model->monitorId)->setEffectKeyframe(true);
     } else {
         m_geom->connectMonitor(false);
     }

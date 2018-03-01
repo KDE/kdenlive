@@ -427,6 +427,7 @@ void GeometryWidget::connectMonitor(bool activate)
         QRect rect(m_spinX->value(), m_spinY->value(), m_spinWidth->value(), m_spinHeight->value());
         m_monitor->setUpEffectGeometry(rect);
     } else {
+        m_monitor->setEffectKeyframe(false);
         disconnect(m_monitor, &Monitor::effectChanged, this, &GeometryWidget::slotUpdateGeometryRect);
     }
 }

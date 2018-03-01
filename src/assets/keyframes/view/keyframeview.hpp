@@ -37,7 +37,7 @@ public:
 
 public slots:
     /* @brief moves the current position*/
-    void slotSetPosition(int pos);
+    void slotSetPosition(int pos, bool isInRange);
     /* @brief remove the keyframe at given position
        If pos is negative, we remove keyframe at current position
      */

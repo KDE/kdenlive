@@ -122,10 +122,11 @@ void KeyframeWidget::monitorSeek(int pos)
 {
     int in = pCore->getItemPosition(m_model->getOwnerId());
     int out = in + pCore->getItemDuration(m_model->getOwnerId());
-    m_buttonAddDelete->setEnabled(pos - in > 0);
-    connectMonitor(pos >= in && pos < out);
+    bool isInRange = pos >= in && pos < out;
+    m_buttonAddDelete->setEnabled(isInRange);
+    connectMonitor(isInRange);
     int framePos = qBound(in, pos, out) - in;
-    m_keyframeview->slotSetPosition(framePos);
+    m_keyframeview->slotSetPosition(framePos, isInRange);
     m_time->setValue(framePos);
 }
 
@@ -164,10 +165,10 @@ void KeyframeWidget::slotSetPosition(int pos, bool update)
 {
     if (pos < 0) {
         pos = m_time->getValue();
-        m_keyframeview->slotSetPosition(pos);
+        m_keyframeview->slotSetPosition(pos, true);
     } else {
         m_time->setValue(pos);
-        m_keyframeview->slotSetPosition(pos);
+        m_keyframeview->slotSetPosition(pos, true);
     }
 
     slotRefreshParams();
