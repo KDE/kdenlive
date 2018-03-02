@@ -16,7 +16,10 @@ rm -f functions.sh
 
 . /opt/rh/devtoolset-3/enable
 
-QTVERSION=5.9.2
+#necessary ?
+#pulseaudio-libs 
+
+QTVERSION=5.9.4
 QVERSION_SHORT=5.9
 QTDIR=/usr/local/Qt-${QTVERSION}/
 
@@ -64,7 +67,7 @@ fi
 cd /external/ruby-2.1.2
 ./configure
 make
-make install
+make install 
 gem update --system
 
 # Get project
@@ -164,7 +167,7 @@ build_external $EXTERNAL $EXTERNAL_CMAKE_OPTIONS
 #TODO: dependencies for MLT modules (xml, sdl, etc).
 
 #movit - - Requires some adjustments to build with older automake
-# cd /external
+#cd /external
 #if ( test -d /external/movit )
 #then
 #        echo "movit already cloned"
@@ -213,7 +216,7 @@ index e501888..55f0307 100755
 @@ -19,7 +19,8 @@ then
 		exit 0
 	fi
-
+ 
 -	echo > config.mak
 +	echo "CFLAGS += $(pkg-config --cflags vidstab)" > config.mak
 +	echo "LDFLAGS += $(pkg-config --libs vidstab)" >> config.mak

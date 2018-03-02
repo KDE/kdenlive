@@ -11,7 +11,10 @@ grep -r "CentOS release 6" /etc/redhat-release || exit 1
 
 . /opt/rh/devtoolset-3/enable
 
-QTVERSION=5.9.1
+#necessary ?
+#pulseaudio-libs 
+
+QTVERSION=5.9.4
 QVERSION_SHORT=5.9
 QTDIR=/usr/local/Qt-${QTVERSION}/
 
@@ -112,7 +115,7 @@ else
 	tar -xf libsndfile-1.0.28.tar.gz
 fi
 cd libsndfile-1.0.28
-./configure --prefix=$WLD
+./configure --prefix=$WLD 
 make -j5
 make install
 
@@ -126,7 +129,7 @@ else
 	tar -xf libsamplerate-0.1.9.tar.gz
 fi
 cd libsamplerate-0.1.9
-./configure --prefix=$WLD
+./configure --prefix=$WLD 
 make -j5
 make install
 
@@ -141,7 +144,7 @@ else
 	tar -xf alsa-lib-1.1.5.tar.bz2
 fi
 cd alsa-lib-1.1.5
-./configure --prefix=$WLD
+./configure --prefix=$WLD 
 make -j5
 make install
 
@@ -163,7 +166,7 @@ else
 	git clone https://anonscm.debian.org/git/pkg-multimedia/x264.git
 fi
 cd x264
-./configure --enable-static --enable-shared --prefix=$WLD
+./configure --enable-static --enable-shared --prefix=$WLD 
 make -j5
 make install
 
@@ -171,7 +174,7 @@ make install
 #libx265
 cd /external
 if ( test -d /external/x265 )
-then
+then 
 	echo "libx265 already downloaded"
         cd x265
 if [ $# -eq 0 ]; then
@@ -199,12 +202,12 @@ if [ $# -eq 0 ]; then
         git pull --rebase
         cd ..
 fi
-        # make distclean
+        #make clean
 else
 	git clone https://anonscm.debian.org/git/pkg-multimedia/libvpx.git
 fi
 cd libvpx
-./configure --enable-static --enable-shared --prefix=$WLD
+./configure --enable-static --as=yasm --enable-shared --prefix=$WLD 
 make -j5
 make install
 
@@ -236,7 +239,7 @@ make install
 
 
 if ( test -d /external/cairo-1.14.10 )
-then
+then 
     echo "cairo already downloaded"
     cd /external/cairo-1.14.10
 else
@@ -345,7 +348,7 @@ else
 fi
 
 #opencv
-IN=opencv,https://github.com/opencv/opencv.git,true,""
+IN=opencv,https://github.com/opencv/opencv.git,true,"" 
 IFS=',' read -a external_options <<< $IN
 EXTERNAL="${external_options[0]}"
 EXTERNAL_ADDRESS="${external_options[1]}"
@@ -375,7 +378,7 @@ make install
 
 
 #vidstab
-IN=vid.stab,https://github.com/georgmartius/vid.stab.git,true,""
+IN=vid.stab,https://github.com/georgmartius/vid.stab.git,true,"" 
 IFS=',' read -a external_options <<< $IN
 EXTERNAL="${external_options[0]}"
 EXTERNAL_ADDRESS="${external_options[1]}"

@@ -329,6 +329,8 @@ rm -Rf $APP.AppDir/usr/share/man/ || true
 rm -Rf $APP.AppDir/usr/bin/ffserver || true
 rm -Rf $APP.AppDir/usr/bin/gtk-demo || true
 rm -Rf $APP.AppDir/usr/bin/yasm || true
+rm -Rf $APP.AppDir/usr/bin/nasm || true
+rm -Rf $APP.AppDir/usr/bin/ndisasm || true
 rm -Rf $APP.AppDir/usr/bin/ytasm || true
 rm -Rf $APP.AppDir/usr/bin/x264 || true
 rm -Rf $APP.AppDir/usr/bin/x265 || true

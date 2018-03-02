@@ -147,7 +147,7 @@ cd  /app/usr
 rm -Rf lib64
 ln -s lib lib64
 
-QTVERSION=5.9.2
+QTVERSION=5.9.4
 QVERSION_SHORT=5.9
 QTDIR=/usr/local/Qt-${QTVERSION}/
 
@@ -173,7 +173,7 @@ cd $BUILDING_DIR
 
 rm -rf $BUILDING_DIR/* || true
 
-cmake3 /appimage-scripts/3rdparty \
+cmake3 /kdenlive/packaging/appimage/3rdparty \
        -DCMAKE_INSTALL_PREFIX:PATH=/usr \
        -DINSTALL_ROOT=/usr \
        -DEXTERNALS_DOWNLOAD_DIR=$DOWNLOAD_DIR
@@ -183,9 +183,12 @@ cmake3 --build . --config RelWithDebInfo --target ext_jasper     -- -j$CPU_CORES
 cmake3 --build . --config RelWithDebInfo --target ext_png        -- -j$CPU_CORES
 cmake3 --build . --config RelWithDebInfo --target ext_tiff       -- -j$CPU_CORES
 #cmake3 --build . --config RelWithDebInfo --target ext_opencv     -- -j$CPU_CORES
-#cmake3 --build . --config RelWithDebInfo --target ext_qt         -- -j$CPU_CORES
+cmake3 --build . --config RelWithDebInfo --target ext_qt         -- -j$CPU_CORES
 cmake3 --build . --config RelWithDebInfo --target ext_exiv2      -- -j$CPU_CORES
 
+
+#necessary ?
+#pulseaudio-libs 
 
 # qjsonparser, used to add metadata to the plugins needs to work in a en_US.UTF-8 environment. That's
 # not always set correctly in CentOS 6.7
@@ -271,6 +274,21 @@ EXTERNAL_CMAKE="${external_options[2]}"
 EXTERNAL_CONFIGURE="${external_options[3]}"
 build_external $EXTERNAL
 
+#nasm
+cd /external
+if ( test -d /external/nasm-2.13.02 )
+then
+        echo "nasm already downloaded"
+else
+        wget http://www.nasm.us/pub/nasm/releasebuilds/2.13.02/nasm-2.13.02.tar.xz
+        tar -xf nasm-2.13.02.tar.xz
+fi
+cd nasm-2.13.02
+./configure --prefix=$WLD
+make -j5
+make install
+
+
 #libsndfile
 cd /external
 if ( test -d /external/libsndfile-1.0.28 )
@@ -317,7 +335,7 @@ make install
 #sdl
 cd /external
 if ( test -d /external/SDL2-2.0.7 )
-then
+then 
 	echo "SDL already downloaded"
 else
 	wget http://libsdl.org/release/SDL2-2.0.7.tar.gz
@@ -357,10 +375,11 @@ function build_framework
 	elif [ "$FRAMEWORK" = "knotifications" ]; then
             git checkout .
             git checkout master
-            git checkout v5.40.0
+	    git fetch --tags
+            git checkout v5.43.0
         else
             git fetch --tags
-            git checkout v5.40.0
+            git checkout v5.43.0
         fi
         #git checkout master
         #git reset --hard
@@ -376,10 +395,10 @@ function build_framework
 	elif [ "$FRAMEWORK" = "knotifications" ]; then
 	    git reset --hard
             git fetch --tags
-	    git checkout v5.40.0
+	    git checkout v5.43.0
         else
             git fetch --tags
-            git checkout v5.40.0
+            git checkout v5.43.0
         fi
         cd ..
     fi
