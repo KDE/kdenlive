@@ -38,7 +38,7 @@ bool AbstractMonitor::isActive() const
     return m_monitorManager->isActive(m_id);
 }
 
-bool AbstractMonitor::slotActivateMonitor(bool forceRefresh)
+bool AbstractMonitor::slotActivateMonitor()
 {
-    return m_monitorManager->activateMonitor(m_id, forceRefresh);
+    return m_monitorManager->activateMonitor(m_id);
 }

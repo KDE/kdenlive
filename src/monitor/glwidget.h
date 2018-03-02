@@ -167,6 +167,7 @@ signals:
     void passKeyEvent(QKeyEvent *);
     void panView(const QPoint &diff);
     void seekPosition(int);
+    void activateMonitor();
 
 protected:
     Mlt::Filter *m_glslManager;
@@ -305,6 +306,7 @@ public:
     int seekPosition() const { return m_seekPosition; }
     Q_INVOKABLE void requestSeekPosition(int pos)
     {
+        q->activateMonitor();
         m_seekPosition = pos;
         emit seekPositionChanged();
         emit seekRequestChanged();

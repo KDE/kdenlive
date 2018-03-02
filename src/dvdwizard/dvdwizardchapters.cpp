@@ -64,7 +64,8 @@ void DvdWizardChapters::stopMonitor()
 void DvdWizardChapters::slotUpdateChaptersList()
 {
     m_monitor->show();
-    m_manager->activateMonitor(Kdenlive::DvdMonitor, true);
+    m_manager->activateMonitor(Kdenlive::DvdMonitor);
+    m_monitor->start();
     m_monitor->slotOpenDvdFile(m_view.vob_list->currentText());
     m_monitor->adjustRulerSize(m_view.vob_list->itemData(m_view.vob_list->currentIndex(), Qt::UserRole).toInt());
     QStringList currentChaps = m_view.vob_list->itemData(m_view.vob_list->currentIndex(), Qt::UserRole + 1).toStringList();
@@ -162,7 +163,8 @@ void DvdWizardChapters::createMonitor(DVDFORMAT format)
         m_view.video_frame->layout()->addWidget(m_monitor);
         m_manager->appendMonitor(m_monitor);
         m_monitor->setCustomProfile(profile, m_tc);
-        m_manager->activateMonitor(Kdenlive::DvdMonitor, true);
+        m_manager->activateMonitor(Kdenlive::DvdMonitor);
+        m_monitor->start();
     }
 }
 

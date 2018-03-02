@@ -73,7 +73,7 @@ public slots:
 
     /** @brief Activates a monitor.
      * @param name name of the monitor to activate */
-    bool activateMonitor(Kdenlive::MonitorId, bool forceRefresh = false);
+    bool activateMonitor(Kdenlive::MonitorId);
     bool isActive(Kdenlive::MonitorId id) const;
     void slotPlay();
     void slotPause();

@@ -161,6 +161,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     connect(m_glMonitor, &GLWidget::passKeyEvent, this, &Monitor::doKeyPressEvent);
     connect(m_glMonitor, &GLWidget::panView, this, &Monitor::panView);
     connect(m_glMonitor, &GLWidget::seekPosition, this, &Monitor::slotSeekPosition, Qt::DirectConnection);
+    connect(m_glMonitor, &GLWidget::activateMonitor, this, &AbstractMonitor::slotActivateMonitor, Qt::DirectConnection);
     m_monitorController = new MonitorController(m_glMonitor);
     m_videoWidget = QWidget::createWindowContainer(qobject_cast<QWindow *>(m_glMonitor));
     m_videoWidget->setAcceptDrops(true);
@@ -380,7 +381,7 @@ void Monitor::setOffsetY(int y)
 void Monitor::slotGetCurrentImage(bool request)
 {
     m_glMonitor->sendFrameForAnalysis = request;
-    m_monitorManager->activateMonitor(m_id, false);
+    m_monitorManager->activateMonitor(m_id);
     refreshMonitorIfActive();
     if (request) {
         // Update analysis state
@@ -1254,7 +1255,8 @@ void Monitor::start()
 void Monitor::slotRefreshMonitor(bool visible)
 {
     if (visible) {
-        slotActivateMonitor(true);
+        slotActivateMonitor();
+        start();
     }
 }
 
@@ -1752,7 +1754,8 @@ void Monitor::warningMessage(const QString &text, int timeout, const QList<QActi
 void Monitor::activateSplit()
 {
     loadQmlScene(MonitorSceneSplit);
-    slotActivateMonitor(true);
+    slotActivateMonitor();
+    start();
 }
 
 void Monitor::slotSwitchCompare(bool enable)
@@ -1781,7 +1784,8 @@ void Monitor::slotSwitchCompare(bool enable)
         delete m_splitEffect;
         m_splitEffect = nullptr;
         loadQmlScene(MonitorSceneDefault);
-        slotActivateMonitor(true);
+        slotActivateMonitor();
+        start();
 
         return;
     }
