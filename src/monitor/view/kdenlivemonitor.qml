@@ -1,6 +1,9 @@
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
+import QtQuick.Window 2.2
+import Kdenlive.Controls 1.0
 import QtQuick 2.4
+import AudioThumb 1.0
 
 Item {
     id: root
@@ -38,7 +41,6 @@ Item {
         font.family: "Arial"
     }
 
-
     onZoomChanged: {
         sceneToolBar.setZoom(root.zoom)
     }
@@ -58,104 +60,116 @@ Item {
         }
     }
 
-    SceneToolBar {
-        id: sceneToolBar
-        anchors {
-            left: parent.left
-            top: parent.top
-            topMargin: 10
-            leftMargin: 10
-        }
-        visible: root.showToolbar
-    }
-
     Item {
-        id: frame
-        objectName: "referenceframe"
-        width: root.profile.x * root.scalex
-        height: root.profile.y * root.scaley
-        anchors.centerIn: parent
-        visible: root.showSafezone
-        Rectangle {
-            id: safezone
-            objectName: "safezone"
-            color: "transparent"
-            border.color: "cyan"
-            width: parent.width * 0.9
-            height: parent.height * 0.9
+        id: monitorOverlay
+        height: root.height - root.rulerHeight
+        width: root.width
+        SceneToolBar {
+            id: sceneToolBar
+            anchors {
+                left: parent.left
+                top: parent.top
+                topMargin: 10
+                leftMargin: 10
+            }
+            visible: root.showToolbar
+        }
+
+        Item {
+            id: frame
+            objectName: "referenceframe"
+            width: root.profile.x * root.scalex
+            height: root.profile.y * root.scaley
             anchors.centerIn: parent
+            visible: root.showSafezone
+
             Rectangle {
-              id: safetext
-              objectName: "safetext"
-              color: "transparent"
-              border.color: "cyan"
-              width: frame.width * 0.8
-              height: frame.height * 0.8
-              anchors.centerIn: parent
+            id: safezone
+                objectName: "safezone"
+                color: "transparent"
+                border.color: "cyan"
+                width: parent.width * 0.9
+                height: parent.height * 0.9
+                anchors.centerIn: parent
+                Rectangle {
+                    id: safetext
+                    objectName: "safetext"
+                    color: "transparent"
+                    border.color: "cyan"
+                    width: frame.width * 0.8
+                    height: frame.height * 0.8
+                    anchors.centerIn: parent
+                }
+                Rectangle {
+                    color: "cyan"
+                    width: root.width / 5
+                    height: 1
+                    anchors.centerIn: parent
+                }
+                Rectangle {
+                    color: "cyan"
+                    height: root.width / 5
+                    width: 1
+                    anchors.centerIn: parent
+                }
             }
         }
-    }
 
-    Text {
-        id: timecode
-        objectName: "timecode"
-        color: "white"
-        style: Text.Outline; 
-        styleColor: "black"
-        text: root.timecode
-        visible: root.showTimecode
-        font.pixelSize: root.baseUnit
-        anchors {
-            right: root.right
-            bottom: root.bottom
-            rightMargin: 4
-            bottomMargin: root.rulerHeight
-        }
-    }
-
-    Text {
-        id: fpsdropped
-        objectName: "fpsdropped"
-        color: root.dropped ? "red" : "white"
-        style: Text.Outline;
-        styleColor: "black"
-        text: root.fps + "fps"
-        visible: root.showFps
-        font.pixelSize: root.baseUnit
-        anchors {
-            right: timecode.visible ? timecode.left : root.right
-            bottom: root.bottom
-            rightMargin: 10
-            bottomMargin: root.rulerHeight
-        }
-    }
-
-    TextField {
-        id: marker
-        objectName: "markertext"
-        activeFocusOnPress: true
-        onEditingFinished: {
-            root.markerText = marker.displayText
-            marker.focus = false
-            root.editCurrentMarker()
-        }
-
-        anchors {
-            left: parent.left
-            bottom: parent.bottom
-            bottomMargin: root.rulerHeight
-        }
-        visible: root.showMarkers && text != ""
-        maximumLength: 20
-        text: root.markerText
-        style: TextFieldStyle {
-            textColor: "white"
-            background: Rectangle {
-                color: "#990000ff"
-                width: marker.width
+        Text {
+            id: timecode
+            objectName: "timecode"
+            color: "white"
+            style: Text.Outline; 
+            styleColor: "black"
+            text: root.timecode
+            font.pixelSize: root.baseUnit
+            visible: root.showTimecode
+            anchors {
+                right: parent.right
+                bottom: parent.bottom
+                rightMargin: 4
             }
         }
-        font.pixelSize: root.baseUnit
+        Text {
+            id: fpsdropped
+            objectName: "fpsdropped"
+            color: root.dropped ? "red" : "white"
+            style: Text.Outline;
+            styleColor: "black"
+            text: root.fps + "fps"
+            visible: root.showFps
+            font.pixelSize: root.baseUnit
+            anchors {
+                right: timecode.visible ? timecode.left : parent.right
+                bottom: parent.bottom
+                rightMargin: 10
+            }
+        }
+        TextField {
+            id: marker
+            objectName: "markertext"
+            activeFocusOnPress: true
+            onEditingFinished: {
+                root.markerText = marker.displayText
+                marker.focus = false
+                root.editCurrentMarker()
+            }
+            anchors {
+                left: parent.left
+                bottom: parent.bottom
+            }
+            visible: root.showMarkers && text != ""
+            text: root.markerText
+            maximumLength: 20
+            style: TextFieldStyle {
+                textColor: "white"
+                background: Rectangle {
+                    color: "#99ff0000"
+                    width: marker.width
+                }
+            }
+            font.pixelSize: root.baseUnit
+        }
     }
     MonitorRuler {
         id: clipMonitorRuler
