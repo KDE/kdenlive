@@ -299,6 +299,8 @@ public:
     /* @brief returns the frame currently processed by timeline preview, -1 if none
      */
     int workingPreview() const;
+
+    /** @brief Return true if we want to use timeline ruler zone for editing */
     bool useRuler() const;
     /* @brief Load timeline preview from saved doc
      */

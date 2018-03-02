@@ -1255,8 +1255,9 @@ void Monitor::start()
 void Monitor::slotRefreshMonitor(bool visible)
 {
     if (visible) {
-        slotActivateMonitor();
-        start();
+        if (slotActivateMonitor()) {
+            start();
+        }
     }
 }
 
@@ -1376,7 +1377,9 @@ void Monitor::slotOpenClip(std::shared_ptr<ProjectClip> controller, int in, int 
         m_glMonitor->setAudioThumb();
         m_audioMeterWidget->audioChannels = 0;
     }
-    slotActivateMonitor();
+    if (slotActivateMonitor()) {
+        start();
+    }
     checkOverlay();
 }
 
@@ -1754,8 +1757,9 @@ void Monitor::warningMessage(const QString &text, int timeout, const QList<QActi
 void Monitor::activateSplit()
 {
     loadQmlScene(MonitorSceneSplit);
-    slotActivateMonitor();
-    start();
+    if (slotActivateMonitor()) {
+        start();
+    }
 }
 
 void Monitor::slotSwitchCompare(bool enable)
@@ -1784,8 +1788,9 @@ void Monitor::slotSwitchCompare(bool enable)
         delete m_splitEffect;
         m_splitEffect = nullptr;
         loadQmlScene(MonitorSceneDefault);
-        slotActivateMonitor();
-        start();
+        if (slotActivateMonitor()) {
+            start();
+        }
 
         return;
     }

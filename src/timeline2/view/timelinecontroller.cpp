@@ -1347,7 +1347,7 @@ bool TimelineController::insertZone(const QString &binId, QPoint zone, bool over
     }
     int insertPoint;
     QPoint sourceZone;
-    if (KdenliveSettings::useTimelineZoneToEdit()) {
+    if (KdenliveSettings::useTimelineZoneToEdit() && m_zone != QPoint()) {
         // We want to use timeline zone for in/out insert points
         insertPoint = m_zone.x();
         sourceZone = QPoint(zone.x(), zone.x() + m_zone.y() - m_zone.x());
