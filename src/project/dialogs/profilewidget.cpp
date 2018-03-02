@@ -38,7 +38,7 @@ ProfileWidget::ProfileWidget(QWidget *parent)
     : QWidget(parent)
 {
     m_originalProfile = QStringLiteral("invalid");
-    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     auto *lay = new QVBoxLayout;
     lay->setContentsMargins(0, 0, 0, 0);
     auto *labelLay = new QHBoxLayout;
@@ -86,18 +86,18 @@ ProfileWidget::ProfileWidget(QWidget *parent)
         slotChangeSelection(current, old);
     });
     profileSplitter->addWidget(m_treeView);
-    m_treeView->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+    m_treeView->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     m_descriptionPanel = new QTextEdit(this);
     m_descriptionPanel->setReadOnly(true);
     m_descriptionPanel->viewport()->setCursor(Qt::ArrowCursor);
     m_descriptionPanel->viewport()->setBackgroundRole(QPalette::Mid);
-    m_descriptionPanel->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
+    m_descriptionPanel->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     m_descriptionPanel->setFrameStyle(QFrame::NoFrame);
     profileSplitter->addWidget(m_descriptionPanel);
 
     lay->addWidget(profileSplitter);
-    profileSplitter->setStretchFactor(0, 2);
-    profileSplitter->setStretchFactor(1, 1);
+    profileSplitter->setStretchFactor(0, 4);
+    profileSplitter->setStretchFactor(1, 3);
 
     refreshFpsCombo();
     auto updateFps = [&]() {
