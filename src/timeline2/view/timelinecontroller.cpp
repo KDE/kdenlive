@@ -1294,7 +1294,7 @@ void TimelineController::switchCompositing(int mode)
     pCore->requestMonitorRefresh();
 }
 
-void TimelineController::extractZone()
+void TimelineController::extractZone(QPoint zone)
 {
     QVector<int> tracks;
     if (audioTarget() >= 0) {
@@ -1306,7 +1306,12 @@ void TimelineController::extractZone()
     if (tracks.isEmpty()) {
         tracks << m_activeTrack;
     }
-    TimelineFunctions::extractZone(m_model, tracks, m_zone, false);
+    if (m_zone == QPoint()) {
+        // Use current timeline position and clip zone length
+        zone.setY(timelinePosition() + zone.y() - zone.x());
+        zone.setX(timelinePosition());
+    }
+    TimelineFunctions::extractZone(m_model, tracks, m_zone == QPoint() ? zone : m_zone, false);
 }
 
 void TimelineController::extract(int clipId)
@@ -1318,7 +1323,7 @@ void TimelineController::extract(int clipId)
     TimelineFunctions::extractZone(m_model, QVector<int>() << track, zone, false);
 }
 
-void TimelineController::liftZone()
+void TimelineController::liftZone(QPoint zone)
 {
     QVector<int> tracks;
     if (audioTarget() >= 0) {
@@ -1330,7 +1335,12 @@ void TimelineController::liftZone()
     if (tracks.isEmpty()) {
         tracks << m_activeTrack;
     }
-    TimelineFunctions::extractZone(m_model, tracks, m_zone, true);
+    if (m_zone == QPoint()) {
+        // Use current timeline position and clip zone length
+        zone.setY(timelinePosition() + zone.y() - zone.x());
+        zone.setX(timelinePosition());
+    }
+    TimelineFunctions::extractZone(m_model, tracks, m_zone == QPoint() ? zone : m_zone, true);
 }
 
 bool TimelineController::insertZone(const QString &binId, QPoint zone, bool overwrite)

@@ -315,9 +315,9 @@ public:
     /** @brief Change a clip item's speed in timeline */
     Q_INVOKABLE void changeItemSpeed(int clipId, int speed);
     /** @brief Delete selected zone and fill gap by moving following clips*/
-    void extractZone();
+    void extractZone(QPoint zone);
     /** @brief Delete selected zone */
-    void liftZone();
+    void liftZone(QPoint zone);
     bool insertZone(const QString &binId, QPoint zone, bool overwrite);
     void updateClip(int clipId, QVector<int> roles);
     void showClipKeyframes(int clipId, bool value);

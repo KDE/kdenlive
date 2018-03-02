@@ -44,8 +44,10 @@ struct TimelineFunctions
        @param position: position (in frames) where to cut
     */
     static bool requestClipCut(std::shared_ptr<TimelineItemModel> timeline, int clipId, int position);
-    /* This is the same function, except that it accumulates undo/redo and do not deal with groups */
-    static bool requestClipCut(std::shared_ptr<TimelineItemModel> timeline, int clipId, int position, int &newId, Fun &undo, Fun &redo);
+    /* This is the same function, except that it accumulates undo/redo */
+    static bool requestClipCut(std::shared_ptr<TimelineItemModel> timeline, int clipId, int position, Fun &undo, Fun &redo);
+    /* This is the same function, except that it accumulates undo/redo and do not deal with groups. Do not call directly */
+    static bool processClipCut(std::shared_ptr<TimelineItemModel> timeline, int clipId, int position, int &newId, Fun &undo, Fun &redo);
 
     /* @brief Makes a perfect copy of a given clip, but do not insert it */
     static bool copyClip(std::shared_ptr<TimelineItemModel> timeline, int clipId, int &newId, PlaylistState::ClipState state, Fun &undo, Fun &redo);

@@ -54,7 +54,7 @@ bool TimelineFunctions::copyClip(std::shared_ptr<TimelineItemModel> timeline, in
     return res;
 }
 
-bool TimelineFunctions::requestClipCut(std::shared_ptr<TimelineItemModel> timeline, int clipId, int position, int &newId, Fun &undo, Fun &redo)
+bool TimelineFunctions::processClipCut(std::shared_ptr<TimelineItemModel> timeline, int clipId, int position, int &newId, Fun &undo, Fun &redo)
 {
     int start = timeline->getClipPosition(clipId);
     int duration = timeline->getClipPlaytime(clipId);
@@ -79,6 +79,16 @@ bool TimelineFunctions::requestClipCut(std::shared_ptr<TimelineItemModel> timeli
 {
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
+    bool result = TimelineFunctions::requestClipCut(timeline, clipId, position, undo, redo);
+    if (result) {
+        pCore->pushUndo(undo, redo, i18n("Cut clip"));
+    }
+    return result;
+}
+
+
+bool TimelineFunctions::requestClipCut(std::shared_ptr<TimelineItemModel> timeline, int clipId, int position, Fun &undo, Fun &redo)
+{
     const std::unordered_set<int> clips = timeline->getGroupElements(clipId);
     int count = 0;
     for (int cid : clips) {
@@ -87,7 +97,7 @@ bool TimelineFunctions::requestClipCut(std::shared_ptr<TimelineItemModel> timeli
         if (start < position && (start + duration) > position) {
             count++;
             int newId;
-            bool res = requestClipCut(timeline, cid, position, newId, undo, redo);
+            bool res = processClipCut(timeline, cid, position, newId, undo, redo);
             if (!res) {
                 bool undone = undo();
                 Q_ASSERT(undone);
@@ -108,9 +118,6 @@ bool TimelineFunctions::requestClipCut(std::shared_ptr<TimelineItemModel> timeli
             Q_ASSERT(undone);
             return false;
         }
-    }
-    if (count > 0) {
-        pCore->pushUndo(undo, redo, i18n("Cut clip"));
     }
     return count > 0;
 }
@@ -182,10 +189,9 @@ bool TimelineFunctions::insertZone(std::shared_ptr<TimelineItemModel> timeline, 
         result = TimelineFunctions::liftZone(timeline, trackId, QPoint(insertFrame, insertFrame + (zone.y() - zone.x())), undo, redo);
     } else {
         int startClipId = timeline->getClipByPosition(trackId, insertFrame);
-        int startCutId = -1;
         if (startClipId > -1) {
             // There is a clip, cut it
-            TimelineFunctions::requestClipCut(timeline, startClipId, insertFrame, startCutId, undo, redo);
+            TimelineFunctions::requestClipCut(timeline, startClipId, insertFrame, undo, redo);
         }
         result = TimelineFunctions::insertSpace(timeline, trackId, QPoint(insertFrame, insertFrame + (zone.y() - zone.x())), undo, redo);
     }
@@ -200,19 +206,17 @@ bool TimelineFunctions::liftZone(std::shared_ptr<TimelineItemModel> timeline, in
 {
     // Check if there is a clip at start point
     int startClipId = timeline->getClipByPosition(trackId, zone.x());
-    int startCutId = -1;
     if (startClipId > -1) {
         // There is a clip, cut it
         if (timeline->getClipPosition(startClipId) < zone.x()) {
-            TimelineFunctions::requestClipCut(timeline, startClipId, zone.x(), startCutId, undo, redo);
+            TimelineFunctions::requestClipCut(timeline, startClipId, zone.x(), undo, redo);
         }
     }
-    int endCutId = -1;
     int endClipId = timeline->getClipByPosition(trackId, zone.y());
     if (endClipId > -1) {
         // There is a clip, cut it
         if (timeline->getClipPosition(endClipId) + timeline->getClipPlaytime(endClipId) > zone.y()) {
-            TimelineFunctions::requestClipCut(timeline, endClipId, zone.y(), endCutId, undo, redo);
+            TimelineFunctions::requestClipCut(timeline, endClipId, zone.y(), undo, redo);
         }
     }
     std::unordered_set<int> clips = timeline->getItemsAfterPosition(trackId, zone.x(), zone.y() - 1);

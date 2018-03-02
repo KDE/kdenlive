@@ -2553,12 +2553,12 @@ void MainWindow::slotInsertClipInsert()
 
 void MainWindow::slotExtractZone()
 {
-    getMainTimeline()->controller()->extractZone();
+    getMainTimeline()->controller()->extractZone(m_clipMonitor->getZoneInfo());
 }
 
 void MainWindow::slotLiftZone()
 {
-    getMainTimeline()->controller()->liftZone();
+    getMainTimeline()->controller()->liftZone(m_clipMonitor->getZoneInfo());
 }
 
 void MainWindow::slotPreviewRender()
