@@ -936,13 +936,13 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
     } else {
         all_items.insert(itemId);
     }
-    bool result = false;
+    bool result = true;
     for (int id : all_items) {
         result = result && requestItemResize(id, size, right, logUndo, undo, redo);
     }
     if (!result) {
         bool undone = undo();
-        Q_ASSERT(undo());
+        Q_ASSERT(undone);
         return -1;
     }
     if (result && logUndo) {
