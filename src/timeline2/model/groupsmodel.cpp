@@ -71,7 +71,6 @@ Fun GroupsModel::groupItems_lambda(int gid, const std::unordered_set<int> &ids, 
     QWriteLocker locker(&m_lock);
     Q_ASSERT(ids.size() == 0 || type != GroupType::Leaf);
     return [gid, ids, parent, type, this]() {
-        qDebug() << "Create group " << gid << " with " << ids.size() << "children and type" << int(type);
         createGroupItem(gid);
         if (parent != -1) {
             setGroup(gid, parent);
@@ -91,7 +90,6 @@ Fun GroupsModel::groupItems_lambda(int gid, const std::unordered_set<int> &ids, 
                 }
             }
         }
-        qDebug() << "End of creation. Type = " << (int)getType(gid);
         return true;
     };
 }
@@ -140,7 +138,6 @@ Fun GroupsModel::destructGroupItem_lambda(int id)
 {
     QWriteLocker locker(&m_lock);
     return [this, id]() {
-        qDebug() << "removing group " << id << " of type" << int(getType(id));
         removeFromGroup(id);
         auto ptr = m_parent.lock();
         if (!ptr) Q_ASSERT(false);
