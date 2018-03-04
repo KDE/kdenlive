@@ -122,6 +122,40 @@ Rectangle {
         height: parent.height / 3
         opacity: useTimelineRuler ? 0.4 : 0.1
         Rectangle {
+            id: centerDrag
+            anchors.centerIn: parent
+            height: parent.height
+            width: height
+            color: moveMouseArea.containsMouse || moveMouseArea.drag.active ? 'white' : 'transparent'
+            border.color: 'white'
+            border.width: 1.5
+            Drag.active: moveMouseArea.drag.active
+            Drag.proposedAction: Qt.MoveAction
+            MouseArea {
+                id: moveMouseArea
+                anchors.fill: parent
+                property double startX
+                hoverEnabled: true
+                cursorShape: Qt.SizeHorCursor
+                drag.target: zone
+                drag.axis: Drag.XAxis
+                drag.smoothed: false
+                onPressed: {
+                    startX = zone.x
+                }
+                onPositionChanged: {
+                    if (mouse.buttons === Qt.LeftButton) {
+                        var offset = Math.round(zone.x/ rulerRoot.timeScale) - timeline.zoneIn
+                        if (offset != 0) {
+                            var newPos = Math.max(0, controller.suggestSnapPoint(timeline.zoneIn + offset,root.snapping))
+                            timeline.zoneOut += newPos - timeline.zoneIn
+                            timeline.zoneIn = newPos
+                        }
+                    }
+                }
+            }
+        }
+        Rectangle {
                 id: trimIn
                 anchors.left: parent.left
                 anchors.leftMargin: 0
