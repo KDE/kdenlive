@@ -69,25 +69,29 @@ void GroupsModel::downgradeToLeaf(int gid)
 Fun GroupsModel::groupItems_lambda(int gid, const std::unordered_set<int> &ids, GroupType type, int parent)
 {
     QWriteLocker locker(&m_lock);
-    Q_ASSERT(type != GroupType::Leaf);
+    Q_ASSERT(ids.size() == 0 || type != GroupType::Leaf);
     return [gid, ids, parent, type, this]() {
+        qDebug() << "Create group " << gid << " with " << ids.size() << "children and type" << int(type);
         createGroupItem(gid);
         if (parent != -1) {
             setGroup(gid, parent);
         }
 
-        promoteToGroup(gid, type);
-        std::unordered_set<int> roots;
-        std::transform(ids.begin(), ids.end(), std::inserter(roots, roots.begin()), [&](int id) { return getRootId(id); });
-        auto ptr = m_parent.lock();
-        if (!ptr) Q_ASSERT(false);
-        for (int id : roots) {
-            setGroup(getRootId(id), gid);
-            if (type != GroupType::Selection && ptr->isClip(id)) {
-                QModelIndex ix = ptr->makeClipIndexFromID(id);
-                ptr->dataChanged(ix, ix, {TimelineModel::GroupedRole});
+        if (ids.size() > 0) {
+            promoteToGroup(gid, type);
+            std::unordered_set<int> roots;
+            std::transform(ids.begin(), ids.end(), std::inserter(roots, roots.begin()), [&](int id) { return getRootId(id); });
+            auto ptr = m_parent.lock();
+            if (!ptr) Q_ASSERT(false);
+            for (int id : roots) {
+                setGroup(getRootId(id), gid);
+                if (type != GroupType::Selection && ptr->isClip(id)) {
+                    QModelIndex ix = ptr->makeClipIndexFromID(id);
+                    ptr->dataChanged(ix, ix, {TimelineModel::GroupedRole});
+                }
             }
         }
+        qDebug() << "End of creation. Type = " << (int)getType(gid);
         return true;
     };
 }
@@ -136,6 +140,7 @@ Fun GroupsModel::destructGroupItem_lambda(int id)
 {
     QWriteLocker locker(&m_lock);
     return [this, id]() {
+        qDebug() << "removing group " << id << " of type" << int(getType(id));
         removeFromGroup(id);
         auto ptr = m_parent.lock();
         if (!ptr) Q_ASSERT(false);
@@ -162,13 +167,22 @@ bool GroupsModel::destructGroupItem(int id, bool deleteOrphan, Fun &undo, Fun &r
     Q_ASSERT(m_upLink.count(id) > 0);
     int parent = m_upLink[id];
     auto old_children = m_downLink[id];
-    auto old_type = GroupType::Selection;
-    if (m_groupIds.count(id) > 0) {
-        old_type = m_groupIds[id];
+    auto old_type = getType(id);
+    auto old_parent_type = GroupType::Normal;
+    if (parent != -1) {
+        old_parent_type = getType(parent);
     }
     auto operation = destructGroupItem_lambda(id);
     if (operation()) {
         auto reverse = groupItems_lambda(id, old_children, old_type, parent);
+        // we may need to reset the group of the parent
+        if (parent != -1) {
+            auto setParent = [&, old_parent_type, parent]() {
+                setType(parent, old_parent_type);
+                return true;
+            };
+            PUSH_LAMBDA(setParent, reverse);
+        }
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
         if (parent != -1 && m_downLink[parent].empty() && deleteOrphan) {
             return destructGroupItem(parent, true, undo, redo);
@@ -227,7 +241,7 @@ int GroupsModel::getSplitPartner(int id) const
     std::unordered_set<int> leaves = getDirectChildren(groupId);
     if (leaves.size() != 2) {
         // clip does not have an AV split partner
-        qDebug()<<"WRONG SPLIT GROUP SIZE: "<<leaves.size();
+        qDebug() << "WRONG SPLIT GROUP SIZE: " << leaves.size();
         return -1;
     }
     for (const int &child : leaves) {
@@ -401,6 +415,8 @@ bool GroupsModel::split(int id, const std::function<bool(int)> &criterion, Fun &
     // We store the groups (ie the nodes) that are going to be part of the new tree
     // Keys are temporary id (negative) and values are the set of children (true ids in the case of leaves and temporary ids for other nodes)
     std::unordered_map<int, std::unordered_set<int>> new_groups;
+    // We store also the target type of the new groups
+    std::unordered_map<int, GroupType> new_types;
     std::queue<int> queue;
     queue.push(id);
     int tempId = -10;
@@ -415,6 +431,7 @@ bool GroupsModel::split(int id, const std::function<bool(int)> &criterion, Fun &
                 }
             } else {
                 corresp[current] = tempId;
+                new_types[tempId] = getType(current);
                 if (m_upLink[current] != -1) new_groups[corresp[m_upLink[current]]].insert(tempId);
                 tempId--;
             }
@@ -501,7 +518,8 @@ bool GroupsModel::split(int id, const std::function<bool(int)> &criterion, Fun &
         for (int elem : new_groups[selected]) {
             group.insert(elem < -1 ? created_id[elem] : elem);
         }
-        int gid = groupItems(group, undo, redo, GroupType::Normal, true);
+        Q_ASSERT(new_types.count(selected) != 0);
+        int gid = groupItems(group, undo, redo, new_types[selected], true);
         created_id[selected] = gid;
         new_groups.erase(selected);
     }
@@ -708,4 +726,17 @@ bool GroupsModel::fromJson(const QString &data)
         ok = ok && fromJson(elem.toObject(), undo, redo);
     }
     return ok;
+}
+
+void GroupsModel::setType(int gid, GroupType type)
+{
+    Q_ASSERT(m_groupIds.count(gid) != 0);
+    if (type == GroupType::Leaf) {
+        Q_ASSERT(m_downLink[gid].size() == 0);
+        if (m_groupIds.count(gid) > 0) {
+            m_groupIds.erase(gid);
+        }
+    } else {
+        m_groupIds[gid] = type;
+    }
 }

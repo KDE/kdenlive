@@ -1112,4 +1112,83 @@ TEST_CASE("Undo/redo", "[GroupsModel]")
         redo();
         test_tree2();
     }
+    SECTION("Splitting preserves group type")
+    {
+        Fun undo = []() { return true; };
+        Fun redo = []() { return true; };
+        REQUIRE(groups.m_upLink.size() == 0);
+
+        // This is a dummy split criterion
+        auto criterion = [](int a) { return a % 2 == 0; };
+
+        // We create a very simple tree
+        for (int i = 0; i <= 6; i++) {
+            groups.createGroupItem(i);
+        }
+        groups.setGroup(0, 4);
+        groups.setGroup(2, 4);
+        groups.setGroup(1, 5);
+        groups.setGroup(3, 5);
+
+        groups.setGroup(4, 6);
+        groups.setGroup(5, 6);
+
+        groups.setType(4, GroupType::AVSplit);
+        groups.setType(5, GroupType::AVSplit);
+        groups.setType(6, GroupType::Normal);
+
+        auto test_tree = [&]() {
+            REQUIRE(groups.m_upLink.size() == 7);
+            for (int i = 0; i <= 6; i++) {
+                REQUIRE(groups.getRootId(i) == 6);
+            }
+            REQUIRE(groups.getSubtree(6) == std::unordered_set<int>({0, 1, 2, 3, 4, 5, 6}));
+            REQUIRE(groups.getDirectChildren(0) == std::unordered_set<int>({}));
+            REQUIRE(groups.getDirectChildren(1) == std::unordered_set<int>({}));
+            REQUIRE(groups.getDirectChildren(2) == std::unordered_set<int>({}));
+            REQUIRE(groups.getDirectChildren(3) == std::unordered_set<int>({}));
+            REQUIRE(groups.getDirectChildren(4) == std::unordered_set<int>({0, 2}));
+            REQUIRE(groups.getDirectChildren(5) == std::unordered_set<int>({1, 3}));
+            REQUIRE(groups.getDirectChildren(6) == std::unordered_set<int>({4, 5}));
+            REQUIRE(groups.getType(4) == GroupType::AVSplit);
+            REQUIRE(groups.getType(5) == GroupType::AVSplit);
+            REQUIRE(groups.getType(6) == GroupType::Normal);
+        };
+        test_tree();
+        qDebug() << " done testing";
+
+        REQUIRE(groups.split(6, criterion, undo, redo));
+        qDebug() << " done spliting";
+        auto test_tree2 = [&]() {
+            // REQUIRE(groups.m_upLink.size() == 6);
+            int r1 = groups.getRootId(0);
+            int r2 = groups.getRootId(1);
+            bool ok = r1 == 4 || r2 == 5;
+            REQUIRE(ok);
+            REQUIRE(groups.getRootId(2) == r1);
+            REQUIRE(groups.getRootId(3) == r2);
+            REQUIRE(groups.getSubtree(r1) == std::unordered_set<int>({r1, 0, 2}));
+            REQUIRE(groups.getSubtree(r2) == std::unordered_set<int>({r2, 1, 3}));
+            REQUIRE(groups.getDirectChildren(0) == std::unordered_set<int>({}));
+            REQUIRE(groups.getDirectChildren(1) == std::unordered_set<int>({}));
+            REQUIRE(groups.getDirectChildren(2) == std::unordered_set<int>({}));
+            REQUIRE(groups.getDirectChildren(3) == std::unordered_set<int>({}));
+            REQUIRE(groups.getDirectChildren(r1) == std::unordered_set<int>({0, 2}));
+            REQUIRE(groups.getDirectChildren(r2) == std::unordered_set<int>({1, 3}));
+            REQUIRE(groups.getType(r1) == GroupType::AVSplit);
+            REQUIRE(groups.getType(r2) == GroupType::AVSplit);
+        };
+        test_tree2();
+
+        undo();
+        test_tree();
+
+        redo();
+        test_tree2();
+        undo();
+        test_tree();
+        redo();
+        test_tree2();
+        REQUIRE_FALSE(true);
+    }
 }

@@ -192,6 +192,9 @@ protected:
     /* @brief Transform a group node with no children into a leaf. This implies doing the deregistration to the timeline */
     void downgradeToLeaf(int gid);
 
+    /* @brief Simple type setter */
+    void setType(int gid, GroupType type);
+
 private:
     std::weak_ptr<TimelineItemModel> m_parent;
 
