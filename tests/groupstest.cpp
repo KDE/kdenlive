@@ -965,6 +965,36 @@ TEST_CASE("Undo/redo", "[GroupsModel]")
         redo();
         test_tree2();
     }
+    SECTION("Split leaf")
+    {
+        Fun undo = []() { return true; };
+        Fun redo = []() { return true; };
+        REQUIRE(groups.m_upLink.size() == 0);
+
+        // This is a dummy split criterion
+        auto criterion = [](int a) { return a % 2 == 0; };
+        auto criterion2 = [](int a) { return a % 2 != 0; };
+
+        // We create a leaf
+        groups.createGroupItem(1);
+        auto test_leaf = [&]() {
+            REQUIRE(groups.getRootId(1) == 1);
+            REQUIRE(groups.isLeaf(1));
+            REQUIRE(groups.m_upLink.size() == 1);
+        };
+        test_leaf();
+
+        REQUIRE(groups.split(1, criterion, undo, redo));
+        test_leaf();
+        undo();
+        test_leaf();
+        redo();
+        REQUIRE(groups.split(1, criterion2, undo, redo));
+        test_leaf();
+        undo();
+        test_leaf();
+        redo();
+    }
     SECTION("Simple split Tree")
     {
         Fun undo = []() { return true; };
