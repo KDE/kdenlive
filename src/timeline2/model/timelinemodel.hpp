@@ -299,11 +299,14 @@ public:
     Q_INVOKABLE int suggestCompositionMove(int compoId, int trackId, int position, int snapDistance = -1);
 
     /* @brief Request clip insertion at given position. This action is undoable
-       Returns true on success. If it fails, nothing is modified. @param
-       binClipId id of the clip in the bin @param track Id of the track where to
-       insert @param Requested position @param ID return parameter of the id of
-       the inserted clip @param logUndo if set to false, no undo object is
-       stored */
+       Returns true on success. If it fails, nothing is modified.
+       @param binClipId id of the clip in the bin
+       @param track Id of the track where to insert
+       @param position Requested position
+       @param ID return parameter of the id of the inserted clip
+       @param logUndo if set to false, no undo object is stored
+       @param refreshView whether the view should be refreshed
+    */
     bool requestClipInsertion(const QString &binClipId, int trackId, int position, int &id, bool logUndo = true, bool refreshView = false);
     /* Same function, but accumulates undo and redo*/
     bool requestClipInsertion(const QString &binClipId, int trackId, int position, int &id, bool logUndo, bool refreshView, Fun &undo, Fun &redo);

@@ -101,6 +101,13 @@ Rectangle {
         return col
     }
 
+    function clearDropData() {
+        clipBeingDroppedId = -1
+        droppedPosition = -1
+        droppedTrack = -1
+        scrollTimer.running = false
+    }
+
     property int headerWidth: timeline.headerWidth()
     property int activeTool: 0
     property int projectMargin: 200
@@ -190,10 +197,7 @@ Rectangle {
             if (clipBeingDroppedId != -1) {
                 controller.requestItemDeletion(clipBeingDroppedId, false)
             }
-            clipBeingDroppedId = -1
-            droppedPosition = -1
-            droppedTrack = -1
-            scrollTimer.running = false
+            clearDropData()
         }
         onDropped: {
             if (clipBeingDroppedId != -1) {
@@ -203,13 +207,32 @@ Rectangle {
                 controller.requestItemDeletion(clipBeingDroppedId, false)
                 timeline.insertComposition(track, frame, clipBeingDroppedData, true)
             }
-            clipBeingDroppedId = -1
-            droppedPosition = -1
-            droppedTrack = -1
-            scrollTimer.running = false
+            clearDropData()
         }
     }
     DropArea { //Drop area for bin/clips
+        /** @brief local helper function to handle the insertion of multiple dragged items */
+        function insertAndMaybeGroup(track, frame, droppedData) {
+            var binIds = droppedData.split(";")
+            if (binIds.length == 0) {
+                return -1
+            }
+
+            var id = -1
+            if (binIds.length == 1) {
+                id = timeline.insertClip(timeline.activeTrack, frame, clipBeingDroppedData, false, true)
+            } else {
+                var ids = timeline.insertClips(timeline.activeTrack, frame, binIds, false, true)
+
+                // if the clip insertion succeeded, request the clips to be grouped
+                if (ids.length > 0) {
+                    timeline.groupClips(ids)
+                    id = ids[0]
+                }
+            }
+            return id
+        }
+
         width: root.width - headerWidth
         height: root.height - ruler.height
         y: ruler.height
@@ -226,7 +249,7 @@ Rectangle {
                     //drag.acceptProposedAction()
                     clipBeingDroppedData = drag.getDataAsString('kdenlive/producerslist')
                     console.log('dropped data: ', clipBeingDroppedData)
-                    clipBeingDroppedId = timeline.insertClip(timeline.activeTrack, frame, clipBeingDroppedData, false, true)
+                    clipBeingDroppedId = insertAndMaybeGroup(timeline.activeTrack, frame, clipBeingDroppedData)
                     continuousScrolling(drag.x + scrollView.flickableItem.contentX)
                 } else {
                     drag.accepted = false
@@ -237,10 +260,7 @@ Rectangle {
             if (clipBeingDroppedId != -1) {
                 controller.requestItemDeletion(clipBeingDroppedId, false)
             }
-            clipBeingDroppedId = -1
-            droppedPosition = -1
-            droppedTrack = -1
-            scrollTimer.running = false
+            clearDropData()
         }
         onPositionChanged: {
             if (clipBeingMovedId == -1) {
@@ -253,7 +273,7 @@ Rectangle {
                         controller.requestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, true, false, false)
                         continuousScrolling(drag.x + scrollView.flickableItem.contentX)
                     } else {
-                        clipBeingDroppedId = timeline.insertClip(timeline.activeTrack, frame, drag.getDataAsString('kdenlive/producerslist'), false, true)
+                        clipBeingDroppedId = insertAndMaybeGroup(timeline.activeTrack, frame, drag.getDataAsString('kdenlive/producerslist'), false, true)
                         continuousScrolling(drag.x + scrollView.flickableItem.contentX)
                     }
                 }
@@ -263,14 +283,20 @@ Rectangle {
             if (clipBeingDroppedId != -1) {
                 var frame = controller.getClipPosition(clipBeingDroppedId)
                 var track = controller.getClipTrackId(clipBeingDroppedId)
-                // we simulate insertion at the final position so that stored undo has correct value
+                /* We simulate insertion at the final position so that stored undo has correct value
+                 * NOTE: even if dropping multiple clips, requesting the deletion of the first one is
+                 * enough as internally it will request the group deletion
+                 */
                 controller.requestItemDeletion(clipBeingDroppedId, false)
-                timeline.insertClip(track, frame, clipBeingDroppedData, true, true)
+
+                var binIds = clipBeingDroppedData.split(";")
+                if (binIds.length == 1) {
+                    timeline.insertClip(track, frame, clipBeingDroppedData, true, true)
+                } else {
+                    timeline.insertClips(track, frame, binIds, true, true)
+                }
             }
-            clipBeingDroppedId = -1
-            droppedPosition = -1
-            droppedTrack = -1
-            scrollTimer.running = false
+            clearDropData()
         }
     }
     OLD.Menu {

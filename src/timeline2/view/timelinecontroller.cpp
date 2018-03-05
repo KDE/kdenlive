@@ -377,6 +377,20 @@ int TimelineController::insertClip(int tid, int position, const QString &data_st
     return id;
 }
 
+QList<int> TimelineController::insertClips(int tid, int position, const QStringList &binIds, bool logUndo, bool refreshView)
+{
+    QList<int> clipIds;
+    if (tid == -1) {
+        tid = m_activeTrack;
+    }
+    if (position == -1) {
+        position = timelinePosition();
+    }
+    TimelineFunctions::requestMultipleClipsInsertion(m_model, binIds, tid, position, clipIds, logUndo, refreshView);
+    // we don't need to check the return value of the above function, in case of failure it will return an empty list of ids.
+    return clipIds;
+}
+
 int TimelineController::insertComposition(int tid, int position, const QString &transitionId, bool logUndo)
 {
     int id;
@@ -1499,4 +1513,15 @@ void TimelineController::resetTrackHeight()
     QModelIndex modelStart = m_model->makeTrackIndexFromID(m_model->getTrackIndexFromPosition(0));
     QModelIndex modelEnd = m_model->makeTrackIndexFromID(m_model->getTrackIndexFromPosition(tracksCount - 1));
     m_model->dataChanged(modelStart, modelEnd, {TimelineModel::HeightRole});
+}
+
+int TimelineController::groupClips(const QList<int> &clipIds)
+{
+    std::unordered_set<int> theSet(clipIds.begin(), clipIds.end());
+    return m_model->requestClipsGroup(theSet, false, GroupType::Selection);
+}
+
+bool TimelineController::ungroupClips(int clipId)
+{
+    return m_model->requestClipUngroup(clipId);
 }

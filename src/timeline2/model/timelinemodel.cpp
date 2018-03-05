@@ -665,6 +665,7 @@ bool TimelineModel::requestItemDeletion(int clipId, Fun &undo, Fun &redo)
         return requestGroupDeletion(clipId, undo, redo);
     }
     return requestClipDeletion(clipId, undo, redo);
+
 }
 
 bool TimelineModel::requestItemDeletion(int itemId, bool logUndo)

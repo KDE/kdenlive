@@ -60,6 +60,30 @@ bool TimelineFunctions::copyClip(std::shared_ptr<TimelineItemModel> timeline, in
     return res;
 }
 
+bool TimelineFunctions::requestMultipleClipsInsertion(std::shared_ptr<TimelineItemModel> timeline, const QStringList &binIds, int trackId, int position, QList<int> &clipIds, bool logUndo, bool refreshView)
+{
+    std::function<bool(void)> undo = []() { return true; };
+    std::function<bool(void)> redo = []() { return true; };
+
+    for (const QString &binId : binIds) {
+        int clipId;
+        if (timeline->requestClipInsertion(binId, trackId, position, clipId, logUndo, refreshView, undo, redo)) {
+            clipIds.append(clipId);
+            position += timeline->getItemPlaytime(clipId);
+        } else {
+            undo();
+            clipIds.clear();
+            return false;
+        }
+    }
+
+    if (logUndo) {
+        pCore->pushUndo(undo, redo, i18n("Insert Clips"));
+    }
+
+    return true;
+}
+
 bool TimelineFunctions::processClipCut(std::shared_ptr<TimelineItemModel> timeline, int clipId, int position, int &newId, Fun &undo, Fun &redo)
 {
     int trackId = timeline->getClipTrackId(clipId);

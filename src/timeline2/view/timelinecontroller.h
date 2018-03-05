@@ -118,6 +118,24 @@ public:
        @return the id of the inserted clip
      */
     Q_INVOKABLE int insertClip(int tid, int position, const QString &xml, bool logUndo, bool refreshView);
+    /* @brief Request inserting multiple clips into the timeline (dragged from bin or monitor)
+     * @param tid is the destination track
+     * @param position is the timeline position
+     * @param binIds the IDs of the bins being dropped
+     * @param logUndo if set to false, no undo object is stored
+     * @return the ids of the inserted clips
+     */
+    Q_INVOKABLE QList<int> insertClips(int tid, int position, const QStringList &binIds, bool logUndo, bool refreshView);
+    /* @brief Request the grouping of the given clips
+     * @param clipIds the ids to be grouped
+     * @return the group id or -1 in case of faiure
+     */
+    Q_INVOKABLE int groupClips(const QList<int> &clipIds);
+    /* @brief Request the ungrouping of clips
+     * @param clipId the id of a clip belonging to the group
+     * @return true in case of success, false otherwise
+     */
+    Q_INVOKABLE bool ungroupClips(int clipId);
     Q_INVOKABLE void copyItem();
     Q_INVOKABLE bool pasteItem(int clipId = -1, int tid = -1, int position = -1);
     /* @brief Request inserting a new composition in timeline (dragged from compositions list)
