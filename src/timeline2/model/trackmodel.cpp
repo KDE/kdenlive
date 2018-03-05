@@ -982,3 +982,9 @@ int TrackModel::trackDuration()
 {
     return std::max(m_playlists[0].get_playtime(), m_playlists[1].get_playtime());
 }
+
+bool TrackModel::isLocked() const
+{
+    READ_LOCK();
+    return m_track->get_int("kdenlive:locked_track");
+}

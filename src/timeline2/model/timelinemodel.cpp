@@ -302,12 +302,18 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
     bool ok = true;
     int old_trackId = getClipTrackId(clipId);
     if (old_trackId != -1) {
+        if (getTrackById_const(old_trackId)->isLocked()) {
+            return false;
+        }
         ok = getTrackById(old_trackId)->requestClipDeletion(clipId, updateView, local_undo, local_redo);
         if (!ok) {
             bool undone = local_undo();
             Q_ASSERT(undone);
             return false;
         }
+    }
+    if (getTrackById_const(trackId)->isLocked()) {
+        return false;
     }
     ok = getTrackById(trackId)->requestClipInsertion(clipId, position, updateView, local_undo, local_redo);
     if (!ok) {
@@ -589,6 +595,9 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
     std::function<bool(void)> local_undo = []() { return true; };
     std::function<bool(void)> local_redo = []() { return true; };
     bool res = false;
+    if (getTrackById_const(trackId)->isLocked()) {
+        return false;
+    }
     ClipType type = ClipType::Unknown;
     if (KdenliveSettings::splitaudio()) {
         QString bid = binClipId.section(QLatin1Char('/'), 0, 0);

@@ -81,6 +81,10 @@ public:
      */
     operator Mlt::Producer &() { return *m_track.get(); }
 
+    /* Returns true if track is in locked state
+     */
+    bool isLocked() const;
+
     // TODO make protected
     QVariant getProperty(const QString &name) const;
     void setProperty(const QString &name, const QString &value);
