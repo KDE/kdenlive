@@ -297,6 +297,9 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
         return false;
     }
     Q_ASSERT(isClip(clipId));
+    if (getTrackById_const(trackId)->isLocked()) {
+        return false;
+    }
     std::function<bool(void)> local_undo = []() { return true; };
     std::function<bool(void)> local_redo = []() { return true; };
     bool ok = true;
@@ -311,9 +314,6 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
             Q_ASSERT(undone);
             return false;
         }
-    }
-    if (getTrackById_const(trackId)->isLocked()) {
-        return false;
     }
     ok = getTrackById(trackId)->requestClipInsertion(clipId, position, updateView, local_undo, local_redo);
     if (!ok) {
@@ -608,9 +608,10 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
         type = master->clipType();
     }
     if (type == ClipType::AV) {
-        res = requestClipCreation(binClipId, id, PlaylistState::VideoOnly, local_undo, local_redo);
+        bool audioDrop = getTrackById_const(trackId)->isAudioTrack();
+        res = requestClipCreation(binClipId, id, audioDrop ? PlaylistState::AudioOnly : PlaylistState::VideoOnly, local_undo, local_redo);
         res = res && requestClipMove(id, trackId, position, refreshView, logUndo, local_undo, local_redo);
-        if (res && logUndo) {
+        if (res && logUndo && !audioDrop) {
             QList<int> possibleTracks = m_audioTarget >= 0 ? QList<int>() << m_audioTarget : getLowerTracksId(trackId, TrackType::AudioTrack);
             if (possibleTracks.isEmpty()) {
                 // No available audio track for splitting, abort

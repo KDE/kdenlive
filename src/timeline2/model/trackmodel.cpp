@@ -138,7 +138,7 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
                 ptr->_endInsertRows();
                 int state = m_track->get_int("hide");
                 bool audioOnly = clip->isAudioOnly();
-                if (!audioOnly && (state == 0 || state == 2) && m_track->get_int("kdenlive:audio_track") != 1) {
+                if (!audioOnly && (state == 0 || state == 2) && !isAudioTrack()) {
                     // only refresh monitor if not an audio track and not hidden
                     ptr->checkRefresh(new_in, new_out);
                 }
@@ -275,7 +275,7 @@ Fun TrackModel::requestClipDeletion_lambda(int clipId, bool updateView)
                     // deleted last clip in playlist
                     ptr->updateDuration();
                 }
-                if (!audioOnly && (state == 0 || state == 2) && m_track->get_int("kdenlive:audio_track") != 1) {
+                if (!audioOnly && (state == 0 || state == 2) && !isAudioTrack()) {
                     // only refresh monitor if not an audio track and not hidden
                     ptr->checkRefresh(old_in, old_out);
                 }
@@ -393,7 +393,7 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
     int size = out - in + 1;
     int state = m_track->get_int("hide");
     bool checkRefresh = false;
-    if ((state == 0 || state == 2) && m_track->get_int("kdenlive:audio_track") != 1) {
+    if ((state == 0 || state == 2) && !isAudioTrack()) {
         checkRefresh = true;
     }
 
@@ -987,4 +987,9 @@ bool TrackModel::isLocked() const
 {
     READ_LOCK();
     return m_track->get_int("kdenlive:locked_track");
+}
+
+bool TrackModel::isAudioTrack() const
+{
+    return m_track->get_int("kdenlive:audio_track");
 }

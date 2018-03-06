@@ -84,6 +84,9 @@ public:
     /* Returns true if track is in locked state
      */
     bool isLocked() const;
+    /* Returns true if track is an audio track
+     */
+    bool isAudioTrack() const;
 
     // TODO make protected
     QVariant getProperty(const QString &name) const;

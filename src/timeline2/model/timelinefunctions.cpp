@@ -192,6 +192,10 @@ bool TimelineFunctions::insertZone(std::shared_ptr<TimelineItemModel> timeline, 
         auto it = timeline->m_allTracks.cbegin();
         while (it != timeline->m_allTracks.cend()) {
             int target_track = (*it)->getId();
+            if (timeline->getTrackById_const(target_track)->isLocked()) {
+                ++it;
+                continue;
+            }
             int startClipId = timeline->getClipByPosition(target_track, insertFrame);
             if (startClipId > -1) {
                 // There is a clip, cut it
