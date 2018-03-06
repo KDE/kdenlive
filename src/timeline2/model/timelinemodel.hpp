@@ -583,7 +583,7 @@ signals:
     void requestClearAssetView(int);
     void requestMonitorRefresh();
     /* @brief signal triggered by track operations */
-    void invalidateClip(int);
+    void invalidateZone(int in, int out);
     /* @brief signal triggered when a track duration changed (insertion/deletion) */
     void durationUpdated();
 

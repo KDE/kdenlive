@@ -1976,7 +1976,7 @@ Mlt::Producer *TimelineModel::producer()
 void TimelineModel::checkRefresh(int start, int end)
 {
     int currentPos = tractor()->position();
-    if (currentPos > start && currentPos < end) {
+    if (currentPos >= start && currentPos < end) {
         emit requestMonitorRefresh();
     }
 }

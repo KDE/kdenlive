@@ -379,9 +379,9 @@ bool TimelineFunctions::changeClipState(std::shared_ptr<TimelineItemModel> timel
             timeline->getTrackById(trackId)->replugClip(clipId);
             QModelIndex ix = timeline->makeClipIndexFromID(clipId);
             timeline->dataChanged(ix, ix, {TimelineModel::StatusRole});
-            timeline->invalidateClip(clipId);
             int start = timeline->getItemPosition(clipId);
             int end = start + timeline->getItemPlaytime(clipId);
+            timeline->invalidateZone(start, end);
             timeline->checkRefresh(start, end);
         }
         return res;
@@ -396,7 +396,7 @@ bool TimelineFunctions::changeClipState(std::shared_ptr<TimelineItemModel> timel
             timeline->getTrackById(trackId)->replugClip(clipId);
             QModelIndex ix = timeline->makeClipIndexFromID(clipId);
             timeline->dataChanged(ix, ix, {TimelineModel::StatusRole});
-            timeline->invalidateClip(clipId);
+            timeline->invalidateZone(start, end);
             timeline->checkRefresh(start, end);
         }
         return res;

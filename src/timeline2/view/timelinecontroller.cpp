@@ -77,7 +77,7 @@ void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
     m_model = std::move(model);
     connect(m_model.get(), &TimelineItemModel::requestClearAssetView, [&](int id) { pCore->clearAssetPanel(id); });
     connect(m_model.get(), &TimelineItemModel::requestMonitorRefresh, [&]() { pCore->requestMonitorRefresh(); });
-    connect(m_model.get(), &TimelineModel::invalidateClip, this, &TimelineController::invalidateClip, Qt::DirectConnection);
+    connect(m_model.get(), &TimelineModel::invalidateZone, this, &TimelineController::invalidateZone, Qt::DirectConnection);
     connect(m_model.get(), &TimelineModel::durationUpdated, this, &TimelineController::checkDuration);
 }
 
@@ -1232,6 +1232,14 @@ void TimelineController::invalidateClip(int cid)
     int start = m_model->getItemPosition(cid);
     int end = start + m_model->getItemPlaytime(cid);
     m_timelinePreview->invalidatePreview(start, end);
+}
+
+void TimelineController::invalidateZone(int in, int out)
+{
+    if (!m_timelinePreview) {
+        return;
+    }
+    m_timelinePreview->invalidatePreview(in, out);
 }
 
 void TimelineController::changeItemSpeed(int clipId, int speed)

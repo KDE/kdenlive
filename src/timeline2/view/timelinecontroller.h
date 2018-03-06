@@ -338,6 +338,7 @@ public slots:
     /** @brief Dis / enable timeline preview. */
     void disablePreview(bool disable);
     void invalidateClip(int cid);
+    void invalidateZone(int in, int out);
     void checkDuration();
 
 private:

@@ -143,7 +143,7 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
                     ptr->checkRefresh(new_in, new_out);
                 }
                 if (!audioOnly) {
-                    ptr->invalidateClip(clipId);
+                    ptr->invalidateZone(new_in, new_out);
                 }
             }
             return true;
@@ -259,7 +259,7 @@ Fun TrackModel::requestClipDeletion_lambda(int clipId, bool updateView)
             if (updateView && !audioOnly) {
                 if (auto ptr = m_parent.lock()) {
                     //qDebug() << "/// INVALIDATE CLIP ON DELETE!!!!!!";
-                    ptr->invalidateClip(clipId);
+                    ptr->invalidateZone(old_in, old_out);
                 }
             }
             m_playlists[target_track].consolidate_blanks();
