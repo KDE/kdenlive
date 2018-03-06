@@ -188,10 +188,16 @@ bool TimelineFunctions::insertZone(std::shared_ptr<TimelineItemModel> timeline, 
     if (overwrite) {
         result = TimelineFunctions::liftZone(timeline, trackId, QPoint(insertFrame, insertFrame + (zone.y() - zone.x())), undo, redo);
     } else {
-        int startClipId = timeline->getClipByPosition(trackId, insertFrame);
-        if (startClipId > -1) {
-            // There is a clip, cut it
-            TimelineFunctions::requestClipCut(timeline, startClipId, insertFrame, undo, redo);
+        // Cut all tracks
+        auto it = timeline->m_allTracks.cbegin();
+        while (it != timeline->m_allTracks.cend()) {
+            int target_track = (*it)->getId();
+            int startClipId = timeline->getClipByPosition(target_track, insertFrame);
+            if (startClipId > -1) {
+                // There is a clip, cut it
+                TimelineFunctions::requestClipCut(timeline, startClipId, insertFrame, undo, redo);
+            }
+            ++it;
         }
         result = TimelineFunctions::insertSpace(timeline, trackId, QPoint(insertFrame, insertFrame + (zone.y() - zone.x())), undo, redo);
     }
