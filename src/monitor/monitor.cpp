@@ -1365,6 +1365,7 @@ void Monitor::slotOpenClip(std::shared_ptr<ProjectClip> controller, int in, int 
         m_glMonitor->setRulerInfo(m_controller->frameDuration(), controller->getMarkerModel());
         m_timePos->setRange(0, m_controller->frameDuration());
         updateMarkers();
+        m_glMonitor->getControllerProxy()->setZone(m_controller->zone());
         // Loading new clip / zone, stop if playing
         if (m_playAction->isActive()) {
             m_playAction->setActive(false);

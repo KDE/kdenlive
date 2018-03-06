@@ -340,6 +340,12 @@ public:
         m_zoneOut = out;
         emit zoneChanged();
     }
+    void setZone(QPoint zone)
+    {
+        m_zoneIn = zone.x();
+        m_zoneOut = zone.y();
+        emit zoneChanged();
+    }
     QPoint zone() const { return QPoint(m_zoneIn, m_zoneOut); }
 signals:
     void seekPositionChanged();
