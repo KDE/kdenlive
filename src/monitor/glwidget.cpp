@@ -649,7 +649,8 @@ void GLWidget::refresh()
 bool GLWidget::checkFrameNumber(int pos)
 {
     emit seekPosition(pos);
-    rootObject()->setProperty("consumerPosition", pos);
+    //TODO: cleanup and move logic to proper proxy class
+    m_proxy->setPosition(pos);
     if (pos == m_proxy->seekPosition()) {
         m_proxy->setSeekPosition(SEEK_INACTIVE);
         return true;
@@ -918,8 +919,7 @@ int GLWidget::setProducer(Mlt::Producer *producer, bool isActive, int position)
         startConsumer();
     }
     // emit durationChanged(m_producer->get_length() - 1, m_producer->get_in());
-    position = m_producer->position();
-    rootObject()->setProperty("consumerPosition", position);
+    m_proxy->setPosition(m_producer->position());
     return error;
 }
 

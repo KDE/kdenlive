@@ -291,25 +291,43 @@ class MonitorProxy : public QObject
 {
     Q_OBJECT
     // Q_PROPERTY(int consumerPosition READ consumerPosition NOTIFY consumerPositionChanged)
+    Q_PROPERTY(int position READ position NOTIFY positionChanged)
     Q_PROPERTY(int seekPosition READ seekPosition WRITE setSeekPosition NOTIFY seekPositionChanged)
     Q_PROPERTY(int zoneIn READ zoneIn WRITE setZoneIn NOTIFY zoneChanged)
     Q_PROPERTY(int zoneOut READ zoneOut WRITE setZoneOut NOTIFY zoneChanged)
+    Q_PROPERTY(QString markerComment READ markerComment NOTIFY markerCommentChanged)
 public:
     MonitorProxy(GLWidget *parent)
         : QObject(parent)
         , q(parent)
+        , m_position(0)
         , m_seekPosition(-1)
         , m_zoneIn(0)
         , m_zoneOut(-1)
     {
     }
     int seekPosition() const { return m_seekPosition; }
+    int position() const { return m_position; }
+    QString markerComment() const { return m_markerComment; }
     Q_INVOKABLE void requestSeekPosition(int pos)
     {
         q->activateMonitor();
         m_seekPosition = pos;
         emit seekPositionChanged();
         emit seekRequestChanged();
+    }
+    void setPosition(int pos)
+    {
+        m_position = pos;
+        emit positionChanged();
+    }
+    void setMarkerComment(const QString &comment)
+    {
+        if (m_markerComment == comment) {
+            return;
+        }
+        m_markerComment = comment;
+        emit markerCommentChanged();
     }
     void setSeekPosition(int pos)
     {
@@ -348,9 +366,11 @@ public:
     }
     QPoint zone() const { return QPoint(m_zoneIn, m_zoneOut); }
 signals:
+    void positionChanged();
     void seekPositionChanged();
     void seekRequestChanged();
     void zoneChanged();
+    void markerCommentChanged();
 
 private:
     GLWidget *q;
@@ -358,6 +378,7 @@ private:
     int m_seekPosition;
     int m_zoneIn;
     int m_zoneOut;
+    QString m_markerComment;
 };
 
 #endif

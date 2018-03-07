@@ -31,7 +31,6 @@ Item {
     property int duration: 300
     property bool mouseOverRuler: false
     property int mouseRulerPos: 0
-    property int consumerPosition: -1
     property double frameSize: 10
     property double timeScale: 1
     property int rulerHeight: 20
@@ -191,12 +190,12 @@ Item {
                 bottom: parent.bottom
             }
             visible: root.showMarkers && text != ""
-            text: root.markerText
+            text: controller.markerComment
             maximumLength: 20
             style: TextFieldStyle {
                 textColor: "white"
                 background: Rectangle {
-                    color: "#99ff0000"
+                    color: "#66ff0000"
                     width: marker.width
                 }
             }

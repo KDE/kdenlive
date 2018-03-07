@@ -25,7 +25,6 @@ Item {
     property int duration: 300
     property bool mouseOverRuler: false
     property int mouseRulerPos: 0
-    property int consumerPosition: -1
     onScalexChanged: canvas.requestPaint()
     onScaleyChanged: canvas.requestPaint()
     onOffsetxChanged: canvas.requestPaint()

@@ -1105,8 +1105,7 @@ void Monitor::checkOverlay(int pos)
             overlayText = marker.comment();
         }
     }
-    m_glMonitor->rootObject()->setProperty("markerText", overlayText);
-    // m_qmlManager->setProperty(QLatin1String("markerText"), overlayText);
+    m_glMonitor->getControllerProxy()->setMarkerComment(overlayText);
 }
 
 int Monitor::getZoneStart()

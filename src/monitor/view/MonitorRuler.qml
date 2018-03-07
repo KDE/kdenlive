@@ -188,10 +188,10 @@ import QtQuick 2.4
 
         TimelinePlayhead {
             id: playhead
-            visible: root.consumerPosition > -1
+            visible: controller.position > -1
             height: ruler.height * 0.5
             width: ruler.height * 1
             anchors.top: ruler.top
-            x: root.consumerPosition * root.timeScale - (width / 2)
+            x: controller.position * root.timeScale - (width / 2)
         }
     }
