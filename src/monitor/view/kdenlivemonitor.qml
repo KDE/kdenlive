@@ -33,7 +33,6 @@ Item {
     property int mouseRulerPos: 0
     property double frameSize: 10
     property double timeScale: 1
-    property int rulerHeight: 20
 
     FontMetrics {
         id: fontMetrics
@@ -61,7 +60,7 @@ Item {
 
     Item {
         id: monitorOverlay
-        height: root.height - root.rulerHeight
+        height: root.height - controller.rulerHeight
         width: root.width
         SceneToolBar {
             id: sceneToolBar
@@ -177,6 +176,6 @@ Item {
             right: root.right
             bottom: root.bottom
         }
-        height: root.rulerHeight
+        height: controller.rulerHeight
     }
 }

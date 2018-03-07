@@ -245,9 +245,9 @@ void GLWidget::initializeGL()
 void GLWidget::resizeGL(int width, int height)
 {
     int x, y, w, h;
+    height -= m_proxy->rulerHeight();
     double this_aspect = (double)width / height;
     double video_aspect = m_monitorProfile->dar();
-    height -= rulerHeight();
 
     // Special case optimisation to negate odd effect of sample aspect ratio
     // not corresponding exactly with image resolution.
@@ -420,7 +420,7 @@ void GLWidget::paintGL()
     f->glDisable(GL_BLEND);
     f->glDisable(GL_DEPTH_TEST);
     f->glDepthMask(GL_FALSE);
-    f->glViewport(0, rulerHeight()/2, width, height);
+    f->glViewport(0, 0, width, height);
     check_error(f);
     QColor color(KdenliveSettings::window_background());
     f->glClearColor(color.redF(), color.greenF(), color.blueF(), color.alphaF());
@@ -486,10 +486,10 @@ void GLWidget::paintGL()
     QVector<QVector2D> vertices;
     width = m_rect.width() * devicePixelRatio();
     height = m_rect.height() * devicePixelRatio();
-    vertices << QVector2D(float(-width) / 2.0f, float(-height) / 2.0f);
-    vertices << QVector2D(float(-width) / 2.0f, float(height) / 2.0f);
-    vertices << QVector2D(float(width) / 2.0f, float(-height) / 2.0f);
-    vertices << QVector2D(float(width) / 2.0f, float(height) / 2.0f);
+    vertices << QVector2D(float(-width) / 2.0f, float(-height) / 2.0f + m_proxy->rulerHeight());
+    vertices << QVector2D(float(-width) / 2.0f, float(height) / 2.0f + m_proxy->rulerHeight());
+    vertices << QVector2D(float(width) / 2.0f, float(-height) / 2.0f + m_proxy->rulerHeight());
+    vertices << QVector2D(float(width) / 2.0f, float(height) / 2.0f + m_proxy->rulerHeight());
     m_shader->enableAttributeArray(m_vertexLocation);
     check_error(f);
     m_shader->setAttributeArray(m_vertexLocation, vertices.constData());
@@ -1783,11 +1783,6 @@ void GLWidget::setRulerInfo(int duration, std::shared_ptr<MarkerListModel> model
     if (model != nullptr) {
         rootContext()->setContextProperty("markersModel", model.get());
     }
-}
-
-int GLWidget::rulerHeight() const
-{
-    return rootObject()->property("rulerHeight").toInt();
 }
 
 void GLWidget::startConsumer()

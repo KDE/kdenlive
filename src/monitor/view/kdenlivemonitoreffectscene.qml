@@ -19,7 +19,6 @@ Item {
     property double offsetx : 0
     property double offsety : 0
     property double lockratio : -1
-    property int rulerHeight: 20
     property double timeScale: 1
     property double frameSize: 10
     property int duration: 300
@@ -536,6 +535,6 @@ Item {
             right: root.right
             bottom: root.bottom
         }
-        height: root.rulerHeight
+        height: controller.rulerHeight
     }
 }

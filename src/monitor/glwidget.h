@@ -26,6 +26,9 @@
 #include <QOpenGLFunctions>
 #include <QOpenGLShaderProgram>
 #include <QQuickView>
+#include <QApplication>
+#include <QFont>
+#include <QFontMetrics>
 #include <QRect>
 #include <QSemaphore>
 #include <QThread>
@@ -295,6 +298,7 @@ class MonitorProxy : public QObject
     Q_PROPERTY(int seekPosition READ seekPosition WRITE setSeekPosition NOTIFY seekPositionChanged)
     Q_PROPERTY(int zoneIn READ zoneIn WRITE setZoneIn NOTIFY zoneChanged)
     Q_PROPERTY(int zoneOut READ zoneOut WRITE setZoneOut NOTIFY zoneChanged)
+    Q_PROPERTY(int rulerHeight READ rulerHeight NOTIFY rulerHeightChanged)
     Q_PROPERTY(QString markerComment READ markerComment NOTIFY markerCommentChanged)
 public:
     MonitorProxy(GLWidget *parent)
@@ -304,10 +308,12 @@ public:
         , m_seekPosition(-1)
         , m_zoneIn(0)
         , m_zoneOut(-1)
+        , m_rulerHeight(QFontMetrics(QApplication::font()).lineSpacing() * 0.7)
     {
     }
     int seekPosition() const { return m_seekPosition; }
     int position() const { return m_position; }
+    int rulerHeight() const { return m_rulerHeight; }
     QString markerComment() const { return m_markerComment; }
     Q_INVOKABLE void requestSeekPosition(int pos)
     {
@@ -371,6 +377,7 @@ signals:
     void seekRequestChanged();
     void zoneChanged();
     void markerCommentChanged();
+    void rulerHeightChanged();
 
 private:
     GLWidget *q;
@@ -378,6 +385,7 @@ private:
     int m_seekPosition;
     int m_zoneIn;
     int m_zoneOut;
+    int m_rulerHeight;
     QString m_markerComment;
 };
 
