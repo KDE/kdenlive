@@ -504,6 +504,9 @@ void PreviewManager::doPreviewRender(const QString &scene)
                 } else {
                     emit previewRender(workingPreview, previewProcess.readAllStandardError(), -1);
                 }
+                // working chunk failed, re-add it to list
+                m_dirtyChunks << workingPreview;
+                qSort(m_dirtyChunks);
                 QFile::remove(m_cacheDir.absoluteFilePath(fileName));
                 break;
             } else {

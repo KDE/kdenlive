@@ -1741,7 +1741,10 @@ void MainWindow::slotEditProjectSettings()
         QString profile = w->selectedProfile();
         // project->setProjectFolder(w->selectedFolder());
         // TODO: timeline preview
-        // pCore->projectManager()->currentTimeline()->updatePreviewSettings(w->selectedPreview());
+        if (project->updatePreviewSettings(w->selectedPreview())) {
+            // preview setting changed, reset cache and update
+            getMainTimeline()->controller()->resetPreview();
+        }
         bool modified = false;
         if (m_renderWidget) {
             m_renderWidget->setDocumentPath(project->projectDataFolder() + QDir::separator());

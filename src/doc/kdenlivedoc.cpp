@@ -1608,3 +1608,20 @@ const QString KdenliveDoc::documentRoot() const
 {
     return m_documentRoot;
 }
+
+bool KdenliveDoc::updatePreviewSettings(const QString &profile)
+{
+    if (profile.isEmpty()) {
+        return false;
+    }
+    QString params = profile.section(QLatin1Char(';'), 0, 0);
+    QString ext = profile.section(QLatin1Char(';'), 1, 1);
+    if (params != getDocumentProperty(QStringLiteral("previewparameters")) || ext != getDocumentProperty(QStringLiteral("previewextension"))) {
+        // Timeline preview params changed, delete all existing previews.
+        setDocumentProperty(QStringLiteral("previewparameters"), params);
+        setDocumentProperty(QStringLiteral("previewextension"), ext);
+        return true;
+    }
+    return false;
+}
+

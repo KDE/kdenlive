@@ -155,6 +155,8 @@ public:
     Render *renderer();
     /** @brief Returns MLT's root (base path) */
     const QString documentRoot() const;
+    /** @brief Returns true if timeline preview settings changed*/
+    bool updatePreviewSettings(const QString &profile);
 
 private:
     QUrl m_url;

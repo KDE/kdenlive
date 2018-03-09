@@ -1161,6 +1161,14 @@ bool TimelineController::useRuler() const
     return KdenliveSettings::useTimelineZoneToEdit();
 }
 
+void TimelineController::resetPreview()
+{
+    if (m_timelinePreview) {
+        m_timelinePreview->clearPreviewRange();
+        initializePreview();
+    }
+}
+
 void TimelineController::loadPreview(QString chunks, QString dirty, const QDateTime &documentDate, int enable)
 {
     if (chunks.isEmpty() && dirty.isEmpty()) {

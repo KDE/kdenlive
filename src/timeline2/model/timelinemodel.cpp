@@ -308,14 +308,14 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
         if (getTrackById_const(old_trackId)->isLocked()) {
             return false;
         }
-        ok = getTrackById(old_trackId)->requestClipDeletion(clipId, updateView, local_undo, local_redo);
+        ok = getTrackById(old_trackId)->requestClipDeletion(clipId, updateView, invalidateTimeline, local_undo, local_redo);
         if (!ok) {
             bool undone = local_undo();
             Q_ASSERT(undone);
             return false;
         }
     }
-    ok = getTrackById(trackId)->requestClipInsertion(clipId, position, updateView, local_undo, local_redo);
+    ok = getTrackById(trackId)->requestClipInsertion(clipId, position, updateView, invalidateTimeline, local_undo, local_redo);
     if (!ok) {
         // qDebug()<<"-------------\n\nINSERTION FAILED, REVERTING\n\n-------------------";
         bool undone = local_undo();
@@ -698,7 +698,7 @@ bool TimelineModel::requestClipDeletion(int clipId, Fun &undo, Fun &redo)
 {
     int trackId = getClipTrackId(clipId);
     if (trackId != -1) {
-        bool res = getTrackById(trackId)->requestClipDeletion(clipId, true, undo, redo);
+        bool res = getTrackById(trackId)->requestClipDeletion(clipId, true, true, undo, redo);
         if (!res) {
             undo();
             return false;
@@ -2045,8 +2045,8 @@ void TimelineModel::requestClipReload(int clipId)
     int old_trackId = getClipTrackId(clipId);
     int oldPos = getClipPosition(clipId);
     if (old_trackId != -1) {
-        getTrackById(old_trackId)->requestClipDeletion(clipId, false, local_undo, local_redo);
-        getTrackById(old_trackId)->requestClipInsertion(clipId, oldPos, true, local_undo, local_redo);
+        getTrackById(old_trackId)->requestClipDeletion(clipId, false, true, local_undo, local_redo);
+        getTrackById(old_trackId)->requestClipInsertion(clipId, oldPos, true, true, local_undo, local_redo);
     }
 }
 
@@ -2075,12 +2075,12 @@ bool TimelineModel::requestClipTimeWarp(int clipId, int trackId, int blankSpace,
     int oldPos = getClipPosition(clipId);
     // in order to make the producer change effective, we need to unplant / replant the clip in int track
     bool success = true;
-    success = getTrackById(trackId)->requestClipDeletion(clipId, true, local_undo, local_redo);
+    success = getTrackById(trackId)->requestClipDeletion(clipId, true, true, local_undo, local_redo);
     if (success) {
         success = m_allClips[clipId]->useTimewarpProducer(speed, blankSpace, local_undo, local_redo);
     }
     if (success) {
-        success = getTrackById(trackId)->requestClipInsertion(clipId, oldPos, true, local_undo, local_redo);
+        success = getTrackById(trackId)->requestClipInsertion(clipId, oldPos, true, true, local_undo, local_redo);
     }
     PUSH_LAMBDA(local_undo, undo);
     PUSH_LAMBDA(local_redo, redo);

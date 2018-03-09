@@ -326,6 +326,8 @@ public:
     int timelinePosition() const;
     /** @brief Adjust all timeline tracks height */
     void resetTrackHeight();
+    /** @brief timeline preview params changed, reset */
+    void resetPreview();
 
 public slots:
     void selectMultitrack();
