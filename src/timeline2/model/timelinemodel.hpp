@@ -447,6 +447,16 @@ public:
      */
     int requestPreviousSnapPos(int pos);
 
+    /* @brief Add a new snap point
+       @param pos is the current position
+     */
+    void addSnap(int pos);
+
+    /* @brief Remove snap point
+       @param pos is the current position
+     */
+    void removeSnap(int pos);
+
     /* @brief Request composition insertion at given position.
        This action is undoable
        Returns true on success. If it fails, nothing is modified.

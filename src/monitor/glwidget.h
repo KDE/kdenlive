@@ -350,25 +350,52 @@ public:
     int zoneOut() const { return m_zoneOut; }
     void setZoneIn(int pos)
     {
+        if (m_zoneIn > 0) {
+            emit removeSnap(m_zoneIn);
+        }
         m_zoneIn = pos;
+        if (pos > 0) {
+            emit addSnap(pos);
+        }
         emit zoneChanged();
     }
     void setZoneOut(int pos)
     {
+        if (m_zoneOut > 0) {
+            emit removeSnap(m_zoneOut);
+        }
         m_zoneOut = pos;
+        if (pos > 0) {
+            emit addSnap(pos);
+        }
         emit zoneChanged();
     }
     Q_INVOKABLE void setZone(int in, int out)
     {
+        if (m_zoneIn > 0) {
+            emit removeSnap(m_zoneIn);
+        }
+        if (m_zoneOut > 0) {
+            emit removeSnap(m_zoneOut);
+        }
         m_zoneIn = in;
         m_zoneOut = out;
+        if (m_zoneIn > 0) {
+            emit addSnap(m_zoneIn);
+        }
+        if (m_zoneOut > 0) {
+            emit addSnap(m_zoneOut);
+        }
         emit zoneChanged();
     }
     void setZone(QPoint zone)
     {
-        m_zoneIn = zone.x();
-        m_zoneOut = zone.y();
-        emit zoneChanged();
+        setZone(zone.x(), zone.y());
+    }
+    void resetZone()
+    {
+        m_zoneIn = 0;
+        m_zoneOut = -1;
     }
     QPoint zone() const { return QPoint(m_zoneIn, m_zoneOut); }
 signals:
@@ -378,6 +405,8 @@ signals:
     void zoneChanged();
     void markerCommentChanged();
     void rulerHeightChanged();
+    void addSnap(int);
+    void removeSnap(int);
 
 private:
     GLWidget *q;

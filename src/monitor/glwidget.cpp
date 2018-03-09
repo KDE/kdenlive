@@ -1781,6 +1781,8 @@ void GLWidget::setRulerInfo(int duration, std::shared_ptr<MarkerListModel> model
 {
     rootObject()->setProperty("duration", duration);
     if (model != nullptr) {
+        // we are resetting marker/snap model, reset zone
+        m_proxy->resetZone();
         rootContext()->setContextProperty("markersModel", model.get());
     }
 }

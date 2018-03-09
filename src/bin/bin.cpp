@@ -1898,9 +1898,7 @@ void Bin::selectClip(const std::shared_ptr<ProjectClip> &clip)
     if (id.isValid() && id2.isValid()) {
         m_proxyModel->selectionModel()->select(QItemSelection(m_proxyModel->mapFromSource(id), m_proxyModel->mapFromSource(id2)), QItemSelectionModel::Select);
     }
-    selectProxyModel(m_proxyModel->mapFromSource(ix));
     m_itemView->scrollTo(m_proxyModel->mapFromSource(ix));
-    emit openClip(clip);
 }
 
 void Bin::slotOpenCurrent()

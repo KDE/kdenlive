@@ -637,10 +637,6 @@ int Monitor::position()
 
 GenTime Monitor::getSnapForPos(bool previous)
 {
-    QPoint zone = m_glMonitor->getControllerProxy()->zone();
-    // TODO: move points with the zone
-    m_snaps->addPoint(zone.x());
-    m_snaps->addPoint(zone.y());
     int frame = previous ? m_snaps->getPreviousPoint(m_glMonitor->getCurrentPos()) : m_snaps->getNextPoint(m_glMonitor->getCurrentPos());
     return GenTime(frame, pCore->getCurrentFps());
 }
@@ -1219,6 +1215,9 @@ void Monitor::adjustRulerSize(int length, std::shared_ptr<MarkerListModel> marke
         connect(markerModel.get(), SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &, const QVector<int> &)), this, SLOT(checkOverlay()));
         connect(markerModel.get(), SIGNAL(rowsInserted(const QModelIndex &, int, int)), this, SLOT(checkOverlay()));
         connect(markerModel.get(), SIGNAL(rowsRemoved(const QModelIndex &, int, int)), this, SLOT(checkOverlay()));
+        if (m_controller) {
+            markerModel->registerSnapModel(m_snaps);
+        }
     }
 }
 
@@ -1350,13 +1349,11 @@ void Monitor::slotOpenClip(std::shared_ptr<ProjectClip> controller, int in, int 
     loadQmlScene(MonitorSceneDefault);
     m_snaps.reset(new SnapModel());
     if (controller) {
-        m_controller->getMarkerModel()->registerSnapModel(m_snaps);
         connect(m_controller->getMarkerModel().get(), SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &, const QVector<int> &)), this,
                 SLOT(checkOverlay()));
         connect(m_controller->getMarkerModel().get(), SIGNAL(rowsInserted(const QModelIndex &, int, int)), this, SLOT(checkOverlay()));
         connect(m_controller->getMarkerModel().get(), SIGNAL(rowsRemoved(const QModelIndex &, int, int)), this, SLOT(checkOverlay()));
 
-        m_snaps->addPoint(m_controller->frameDuration());
         if (m_recManager->toolbar()->isVisible()) {
             // we are in record mode, don't display clip
             return;
@@ -1364,7 +1361,10 @@ void Monitor::slotOpenClip(std::shared_ptr<ProjectClip> controller, int in, int 
         m_glMonitor->setRulerInfo(m_controller->frameDuration(), controller->getMarkerModel());
         m_timePos->setRange(0, m_controller->frameDuration());
         updateMarkers();
+        connect(m_glMonitor->getControllerProxy(), &MonitorProxy::addSnap, this, &Monitor::addSnapPoint, Qt::DirectConnection);
+        connect(m_glMonitor->getControllerProxy(), &MonitorProxy::removeSnap, this, &Monitor::removeSnapPoint, Qt::DirectConnection);
         m_glMonitor->getControllerProxy()->setZone(m_controller->zone());
+        m_snaps->addPoint(m_controller->frameDuration());
         // Loading new clip / zone, stop if playing
         if (m_playAction->isActive()) {
             m_playAction->setActive(false);
@@ -2151,3 +2151,14 @@ void Monitor::slotEnd()
     m_glMonitor->switchPlay(false);
     m_glMonitor->seek(m_glMonitor->duration());
 }
+
+void Monitor::addSnapPoint(int pos)
+{
+    m_snaps->addPoint(pos);
+}
+
+void Monitor::removeSnapPoint(int pos)
+{
+    m_snaps->removePoint(pos);
+}
+

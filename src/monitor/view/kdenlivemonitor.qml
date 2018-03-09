@@ -162,7 +162,7 @@ Item {
             style: TextFieldStyle {
                 textColor: "white"
                 background: Rectangle {
-                    color: "#99ff0000"
+                    color: controller.position == controller.zoneIn ? "#9900ff00" : controller.position == controller.zoneOut ? "#99ff0000" : "#990000ff"
                     width: marker.width
                 }
             }

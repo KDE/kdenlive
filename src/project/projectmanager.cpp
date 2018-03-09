@@ -902,3 +902,4 @@ std::shared_ptr<DocUndoStack> ProjectManager::undoStack()
 {
     return current()->commandStack();
 }
+

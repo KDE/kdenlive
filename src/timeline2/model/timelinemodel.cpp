@@ -1443,6 +1443,16 @@ int TimelineModel::requestPreviousSnapPos(int pos)
     return m_snaps->getPreviousPoint(pos);
 }
 
+void TimelineModel::addSnap(int pos)
+{
+    return m_snaps->addPoint(pos);
+}
+
+void TimelineModel::removeSnap(int pos)
+{
+    return m_snaps->removePoint(pos);
+}
+
 void TimelineModel::registerComposition(const std::shared_ptr<CompositionModel> &composition)
 {
     int id = composition->getId();

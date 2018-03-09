@@ -699,18 +699,42 @@ void TimelineController::onSeeked(int position)
 
 void TimelineController::setZone(const QPoint &zone)
 {
+    if (m_zone.x() > 0) {
+        m_model->removeSnap(m_zone.x());
+    }
+    if (m_zone.y() > 0) {
+        m_model->removeSnap(m_zone.y());
+    }
+    if (zone.x() > 0) {
+        m_model->addSnap(zone.x());
+    }
+    if (zone.y() > 0) {
+        m_model->addSnap(zone.y());
+    }
     m_zone = zone;
     emit zoneChanged();
 }
 
 void TimelineController::setZoneIn(int inPoint)
 {
+    if (m_zone.x() > 0) {
+        m_model->removeSnap(m_zone.x());
+    }
+    if (inPoint > 0) {
+        m_model->addSnap(inPoint);
+    }
     m_zone.setX(inPoint);
     emit zoneMoved(m_zone);
 }
 
 void TimelineController::setZoneOut(int outPoint)
 {
+    if (m_zone.y() > 0) {
+        m_model->removeSnap(m_zone.y());
+    }
+    if (outPoint > 0) {
+        m_model->addSnap(outPoint);
+    }
     m_zone.setY(outPoint);
     emit zoneMoved(m_zone);
 }

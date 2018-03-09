@@ -275,6 +275,8 @@ private slots:
     /** @brief Project monitor zone changed, inform timeline */
     void updateTimelineClipZone();
     void slotSeekPosition(int);
+    void addSnapPoint(int pos);
+    void removeSnapPoint(int pos);
 
 public slots:
     void slotOpenDvdFile(const QString &);
