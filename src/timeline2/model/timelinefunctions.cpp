@@ -56,6 +56,8 @@ bool TimelineFunctions::copyClip(std::shared_ptr<TimelineItemModel> timeline, in
 
 bool TimelineFunctions::processClipCut(std::shared_ptr<TimelineItemModel> timeline, int clipId, int position, int &newId, Fun &undo, Fun &redo)
 {
+    int trackId = timeline->getClipTrackId(clipId);
+    int trackDuration = timeline->getTrackById_const(trackId)->trackDuration();
     int start = timeline->getClipPosition(clipId);
     int duration = timeline->getClipPlaytime(clipId);
     if (start > position || (start + duration) < position) {
@@ -71,7 +73,18 @@ bool TimelineFunctions::processClipCut(std::shared_ptr<TimelineItemModel> timeli
     sourceStack->cleanFadeEffects(true, undo, redo);
     std::shared_ptr<EffectStackModel> destStack = timeline->getClipEffectStackModel(newId);
     destStack->cleanFadeEffects(false, undo, redo);
-    res = res && timeline->requestClipMove(newId, timeline->getClipTrackId(clipId), position, true, false, undo, redo);
+    // The next requestclipmove does not check for duration change since we don't invalidate timeline, so check duration change now
+    bool durationChanged = trackDuration != timeline->getTrackById_const(trackId)->trackDuration();
+    res = res && timeline->requestClipMove(newId, trackId, position, true, false, undo, redo);
+    if (durationChanged) {
+        // Track length changed, check project duration
+        Fun updateDuration  = [timeline]() {
+            timeline->updateDuration();
+            return true;
+        };
+        updateDuration();
+        PUSH_LAMBDA(updateDuration, redo);
+    }
     return res;
 }
 

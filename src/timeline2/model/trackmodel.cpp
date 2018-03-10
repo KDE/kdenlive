@@ -980,7 +980,7 @@ bool TrackModel::addEffect(const QString &effectId)
 
 int TrackModel::trackDuration()
 {
-    return std::max(m_playlists[0].get_playtime(), m_playlists[1].get_playtime());
+    return m_track->get_length();
 }
 
 bool TrackModel::isLocked() const
