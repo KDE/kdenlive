@@ -187,9 +187,9 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     connect(m_verticalScroll, &QAbstractSlider::valueChanged, this, &Monitor::setOffsetY);
     connect(m_glMonitor, &GLWidget::frameDisplayed, this, &Monitor::onFrameDisplayed);
     connect(m_glMonitor, &GLWidget::mouseSeek, this, &Monitor::slotMouseSeek);
-    connect(m_glMonitor, SIGNAL(monitorPlay()), this, SLOT(slotPlay()));
+    connect(m_glMonitor, &GLWidget::monitorPlay, this, &Monitor::slotPlay);
     connect(m_glMonitor, &GLWidget::startDrag, this, &Monitor::slotStartDrag);
-    connect(m_glMonitor, SIGNAL(switchFullScreen(bool)), this, SLOT(slotSwitchFullScreen(bool)));
+    connect(m_glMonitor, &GLWidget::switchFullScreen, this, &Monitor::slotSwitchFullScreen);
     connect(m_glMonitor, &GLWidget::zoomChanged, this, &Monitor::setZoom);
     connect(m_glMonitor, SIGNAL(lockMonitor(bool)), this, SLOT(slotLockMonitor(bool)), Qt::DirectConnection);
     connect(m_glMonitor, &GLWidget::showContextMenu, this, &Monitor::slotShowMenu);

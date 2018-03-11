@@ -235,15 +235,15 @@ DvdWizardMenu::DvdWizardMenu(DVDFORMAT format, QWidget *parent)
     // m_view.menu_preview->resizefitInView(0, 0, m_width, m_height);
 
     connect(m_view.play_text, &QLineEdit::textChanged, this, &DvdWizardMenu::buildButton);
-    connect(m_view.text_color, SIGNAL(changed(QColor)), this, SLOT(updateColor()));
+    connect(m_view.text_color, &KColorButton::changed, this, static_cast<void (DvdWizardMenu::*)(const QColor&)>(&DvdWizardMenu::updateColor));
     connect(m_view.font_size, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &DvdWizardMenu::buildButton);
     connect(m_view.font_family, &QFontComboBox::currentFontChanged, this, &DvdWizardMenu::buildButton);
     connect(m_view.background_image, &KUrlRequester::textChanged, this, &DvdWizardMenu::buildImage);
     connect(m_view.background_color, &KColorButton::changed, this, &DvdWizardMenu::buildColor);
 
-    connect(m_view.background_list, SIGNAL(currentIndexChanged(int)), this, SLOT(checkBackgroundType(int)));
+    connect(m_view.background_list, static_cast<void (KComboBox::*)(int)>(&KComboBox::currentIndexChanged), this, &DvdWizardMenu::checkBackgroundType);
 
-    connect(m_view.target_list, SIGNAL(activated(int)), this, SLOT(setButtonTarget(int)));
+    connect(m_view.target_list, static_cast<void (KComboBox::*)(int)>(&KComboBox::activated), this, &DvdWizardMenu::setButtonTarget);
     connect(m_view.back_to_menu, &QAbstractButton::toggled, this, &DvdWizardMenu::setBackToMenu);
 
     connect(m_view.add_button, &QAbstractButton::pressed, this, &DvdWizardMenu::addButton);

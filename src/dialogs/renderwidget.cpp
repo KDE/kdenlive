@@ -299,8 +299,8 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, QWidg
     connect(m_view.buttonClose2, &QAbstractButton::clicked, this, &QWidget::hide);
     connect(m_view.buttonClose3, &QAbstractButton::clicked, this, &QWidget::hide);
     connect(m_view.rescale, &QAbstractButton::toggled, this, &RenderWidget::setRescaleEnabled);
-    connect(m_view.out_file, SIGNAL(textChanged(QString)), this, SLOT(slotUpdateButtons()));
-    connect(m_view.out_file, SIGNAL(urlSelected(QUrl)), this, SLOT(slotUpdateButtons(QUrl)));
+    connect(m_view.out_file, &KUrlRequester::textChanged, this, static_cast<void(RenderWidget::*)()>(&RenderWidget::slotUpdateButtons));
+    connect(m_view.out_file, &KUrlRequester::urlSelected, this, static_cast<void(RenderWidget::*)(const QUrl&)>(&RenderWidget::slotUpdateButtons));
 
     connect(m_view.formats, &QTreeWidget::currentItemChanged, this, &RenderWidget::refreshParams);
     connect(m_view.formats, &QTreeWidget::itemDoubleClicked, this, &RenderWidget::slotEditItem);
@@ -309,8 +309,8 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, QWidg
     connect(m_view.render_zone, &QAbstractButton::clicked, this, &RenderWidget::slotUpdateGuideBox);
     connect(m_view.render_full, &QAbstractButton::clicked, this, &RenderWidget::slotUpdateGuideBox);
 
-    connect(m_view.guide_end, SIGNAL(activated(int)), this, SLOT(slotCheckStartGuidePosition()));
-    connect(m_view.guide_start, SIGNAL(activated(int)), this, SLOT(slotCheckEndGuidePosition()));
+    connect(m_view.guide_end, static_cast<void(KComboBox::*)(int)>(&KComboBox::activated), this, &RenderWidget::slotCheckStartGuidePosition);
+    connect(m_view.guide_start, static_cast<void(KComboBox::*)(int)>(&KComboBox::activated), this, &RenderWidget::slotCheckEndGuidePosition);
 
     connect(m_view.tc_overlay, &QAbstractButton::toggled, m_view.tc_type, &QWidget::setEnabled);
 

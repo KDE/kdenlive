@@ -70,7 +70,7 @@ ProfilesDialog::ProfilesDialog(const QString &profileDescription, QWidget *paren
 
     fillList(profileDescription);
     slotUpdateDisplay();
-    connect(m_view.profiles_list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateDisplay()));
+    connect(m_view.profiles_list, static_cast<void (KComboBox::*)(const QString&)>(&KComboBox::currentIndexChanged), this, &ProfilesDialog::slotUpdateDisplay);
     connect(m_view.button_create, &QAbstractButton::clicked, this, &ProfilesDialog::slotCreateProfile);
     connect(m_view.button_save, &QAbstractButton::clicked, this, &ProfilesDialog::slotSaveProfile);
     connect(m_view.button_delete, &QAbstractButton::clicked, this, &ProfilesDialog::slotDeleteProfile);

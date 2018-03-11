@@ -247,7 +247,7 @@ void DvdWizard::generateDvd()
         m_pageMenu->createButtonImages(m_selectedImage.fileName(), m_highlightedImage.fileName(), false);
         m_pageMenu->createBackgroundImage(m_menuImageBackground.fileName(), false);
         images->setIcon(QIcon::fromTheme(QStringLiteral("dialog-ok")));
-        connect(&m_menuJob, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(slotProcessMenuStatus(int, QProcess::ExitStatus)));
+        connect(&m_menuJob, static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), this, &DvdWizard::slotProcessMenuStatus);
         // qCDebug(KDENLIVE_LOG) << "/// STARTING MLT VOB CREATION: "<<m_selectedImage.fileName()<<m_menuImageBackground.fileName();
         if (!m_pageMenu->menuMovie()) {
             // create menu vob file
@@ -690,7 +690,7 @@ void DvdWizard::processDvdauthor(const QString &menuMovieUrl, const QMap<QString
     QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
     env.insert(QStringLiteral("VIDEO_FORMAT"), m_pageVob->dvdFormat() == PAL || m_pageVob->dvdFormat() == PAL_WIDE ? "PAL" : "NTSC");
     m_dvdauthor->setProcessEnvironment(env);
-    connect(m_dvdauthor, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(slotRenderFinished(int, QProcess::ExitStatus)));
+    connect(m_dvdauthor, static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), this, &DvdWizard::slotRenderFinished);
     connect(m_dvdauthor, &QProcess::readyReadStandardOutput, this, &DvdWizard::slotShowRenderInfo);
     m_dvdauthor->setProcessChannelMode(QProcess::MergedChannels);
     m_dvdauthor->start(QStringLiteral("dvdauthor"), args);
@@ -797,7 +797,7 @@ void DvdWizard::slotRenderFinished(int exitCode, QProcess::ExitStatus status)
         m_mkiso = nullptr;
     }
     m_mkiso = new QProcess(this);
-    connect(m_mkiso, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(slotIsoFinished(int, QProcess::ExitStatus)));
+    connect(m_mkiso, static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), this, &DvdWizard::slotIsoFinished);
     connect(m_mkiso, &QProcess::readyReadStandardOutput, this, &DvdWizard::slotShowIsoInfo);
     m_mkiso->setProcessChannelMode(QProcess::MergedChannels);
     QListWidgetItem *isoitem = m_status.job_progress->item(4);

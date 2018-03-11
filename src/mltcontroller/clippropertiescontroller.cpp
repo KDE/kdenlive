@@ -272,6 +272,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         connect(timePos, &TimecodeDisplay::timeCodeEditingFinished, this, &ClipPropertiesController::slotDurationChanged);
         connect(this, &ClipPropertiesController::updateTimeCodeFormat, timePos, &TimecodeDisplay::slotUpdateTimeCodeFormat);
         connect(this, SIGNAL(modified(int)), timePos, SLOT(setValue(int)));
+        //connect(this, static_cast<void(ClipPropertiesController::*)(int)>(&ClipPropertiesController::modified), timePos, &TimecodeDisplay::setValue);
     }
     if (m_type == ClipType::TextTemplate) {
         // Edit text widget
@@ -293,7 +294,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         vbox->addWidget(choosecolor);
         // connect(choosecolor, SIGNAL(displayMessage(QString,int)), this, SIGNAL(displayMessage(QString,int)));
         connect(choosecolor, &ChooseColorWidget::modified, this, &ClipPropertiesController::slotColorModified);
-        connect(this, SIGNAL(modified(QColor)), choosecolor, SLOT(slotColorModified(QColor)));
+        connect(this, static_cast<void(ClipPropertiesController::*)(const QColor&)>(&ClipPropertiesController::modified), choosecolor, &ChooseColorWidget::slotColorModified);
     } else if (m_type == ClipType::Image) {
         int transparency = m_properties.get_int("kdenlive:transparency");
         m_originalProperties.insert(QStringLiteral("kdenlive:transparency"), QString::number(transparency));
@@ -365,6 +366,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         auto *spin = new QDoubleSpinBox(this);
         spin->setMaximum(1000);
         connect(spin, SIGNAL(valueChanged(double)), this, SLOT(slotValueChanged(double)));
+        //connect(spin, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &ClipPropertiesController::slotValueChanged);
         spin->setObjectName(QStringLiteral("force_fps_value"));
         if (force_fps.isEmpty()) {
             spin->setValue(controller->originalFps());
@@ -388,7 +390,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         auto *combo = new QComboBox(this);
         combo->addItem(i18n("Interlaced"), 0);
         combo->addItem(i18n("Progressive"), 1);
-        connect(combo, SIGNAL(currentIndexChanged(int)), this, SLOT(slotComboValueChanged()));
+        connect(combo, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &ClipPropertiesController::slotComboValueChanged);
         combo->setObjectName(QStringLiteral("force_progressive_value"));
         if (!force_prog.isEmpty()) {
             combo->setCurrentIndex(force_prog.toInt());
@@ -410,7 +412,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         combo = new QComboBox(this);
         combo->addItem(i18n("Bottom first"), 0);
         combo->addItem(i18n("Top first"), 1);
-        connect(combo, SIGNAL(currentIndexChanged(int)), this, SLOT(slotComboValueChanged()));
+        connect(combo, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &ClipPropertiesController::slotComboValueChanged);
         combo->setObjectName(QStringLiteral("force_tff_value"));
         if (!force_tff.isEmpty()) {
             combo->setCurrentIndex(force_tff.toInt());
@@ -511,7 +513,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
             combo->setEnabled(false);
         }
         connect(box, &QAbstractButton::toggled, combo, &QWidget::setEnabled);
-        connect(combo, SIGNAL(currentIndexChanged(int)), this, SLOT(slotComboValueChanged()));
+        connect(combo, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &ClipPropertiesController::slotComboValueChanged);
         hlay->addWidget(box);
         hlay->addWidget(combo);
         vbox->addLayout(hlay);

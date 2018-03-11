@@ -85,7 +85,8 @@ RecManager::RecManager(Monitor *parent)
     if (selectedCapture > -1) {
         m_device_selector->setCurrentIndex(selectedCapture);
     }
-    connect(m_device_selector, SIGNAL(currentIndexChanged(int)), this, SLOT(slotVideoDeviceChanged(int)));
+    connect(m_device_selector, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &RecManager::slotVideoDeviceChanged);
+
     m_recToolbar->addWidget(m_device_selector);
     QAction *configureRec = m_recToolbar->addAction(KoIconUtils::themedIcon(QStringLiteral("configure")), i18n("Configure Recording"));
     connect(configureRec, &QAction::triggered, this, &RecManager::showRecConfig);

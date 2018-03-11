@@ -118,7 +118,7 @@ DvdWizardVob::DvdWizardVob(QWidget *parent)
 
     m_view.dvd_profile->addItems(QStringList() << i18n("PAL 4:3") << i18n("PAL 16:9") << i18n("NTSC 4:3") << i18n("NTSC 16:9"));
 
-    connect(m_view.dvd_profile, SIGNAL(activated(int)), this, SLOT(slotCheckProfiles()));
+    connect(m_view.dvd_profile, static_cast<void (KComboBox::*)(int)>(&KComboBox::activated), this, &DvdWizardVob::slotCheckProfiles);
     m_vobList->header()->setStretchLastSection(false);
     m_vobList->header()->setSectionResizeMode(0, QHeaderView::Stretch);
     m_vobList->header()->setSectionResizeMode(1, QHeaderView::Custom);
