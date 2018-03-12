@@ -46,25 +46,16 @@ void ThumbnailProvider::resetProject()
 QImage ThumbnailProvider::requestImage(const QString &id, QSize *size, const QSize &requestedSize)
 {
     QImage result;
-
-    // id is binID/mlt_service/resource#frameNumber
-    int index = id.lastIndexOf('#');
-    if (true /*index != -1*/) {
-        QString binId = id.section('/', 0, 0);
-        QString service = id.section('/', 1, 1);
-        QString resource = id.section('/', 2);
-        int frameNumber = id.mid(index + 1).toInt();
-        resource = resource.left(resource.lastIndexOf('#'));
+    // id is binID/#frameNumber
+    QString binId = id.section('/', 0, 0);
+    bool ok;
+    int frameNumber = id.section('#', -1).toInt(&ok);
+    if (ok) {
         if (ThumbnailCache::get()->hasThumbnail(binId, frameNumber, false)) {
             result = ThumbnailCache::get()->getThumbnail(binId, frameNumber);
             *size = result.size();
             return result;
         }
-        const QString key = binId + "#" + QString::number(frameNumber);
-        if (service == "avformat-novalidate")
-            service = "avformat";
-        else if (service.startsWith("xml"))
-            service = "xml-nogl";
         std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(binId);
         if (binClip) {
             std::shared_ptr<Mlt::Producer> prod = binClip->thumbProducer();

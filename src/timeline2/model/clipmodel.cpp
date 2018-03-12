@@ -268,7 +268,7 @@ bool ClipModel::hasAudio() const
 {
     READ_LOCK();
     QString service = getProperty("mlt_service");
-    return service.contains(QStringLiteral("avformat")) && (getIntProperty(QStringLiteral("audio_index")) > -1);
+    return (service.contains(QStringLiteral("avformat")) || service == QLatin1String("timewarp")) && (getIntProperty(QStringLiteral("audio_index")) > -1);
 }
 
 bool ClipModel::isAudioOnly() const
@@ -349,7 +349,7 @@ Fun ClipModel::useTimewarpProducer_lambda(double speed, int extraSpace)
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
     std::shared_ptr<Mlt::Producer> originalProducer = binClip->originalProducer();
     bool limitedDuration = binClip->hasLimitedDuration();
-    
+
     return [originalProducer, speed, in, out, warp_in, warp_out, limitedDuration, this]() {
         if (qFuzzyCompare(speed, 1.0)) {
             m_producer.reset(originalProducer->cut(in, out));
@@ -357,7 +357,8 @@ Fun ClipModel::useTimewarpProducer_lambda(double speed, int extraSpace)
             QString resource = QString("timewarp:%1:%2").arg(speed).arg(originalProducer->get("resource"));
             Mlt::Profile *prof = new Mlt::Profile(pCore->getCurrentProfilePath().toUtf8().constData());
             std::shared_ptr<Mlt::Producer> warpProducer(new Mlt::Producer(*prof, resource.toUtf8().constData()));
-            m_producer = std::move(warpProducer);
+            // Make sure we use a cut so that the source producer in/out are not modified
+            m_producer.reset(warpProducer->cut(0, warpProducer->get_length()));
             setInOut(in, out);
         }
         // replant effect stack in updated service

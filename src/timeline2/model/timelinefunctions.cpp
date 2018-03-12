@@ -33,8 +33,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 bool TimelineFunctions::copyClip(std::shared_ptr<TimelineItemModel> timeline, int clipId, int &newId, PlaylistState::ClipState state, Fun &undo, Fun &redo)
 {
+    // Special case: slowmotion clips
+    double clipSpeed = timeline->m_allClips[clipId]->getSpeed();
     bool res = timeline->requestClipCreation(timeline->getClipBinId(clipId), newId, state, undo, redo);
     timeline->m_allClips[newId]->m_endlessResize = timeline->m_allClips[clipId]->m_endlessResize;
+    // Apply speed effect if necessary
+    if (!qFuzzyCompare(clipSpeed, 1.0)) {
+        timeline->m_allClips[newId]->useTimewarpProducer(clipSpeed, -1, undo, redo);
+    }
     // copy useful timeline properties
     timeline->m_allClips[clipId]->passTimelineProperties(timeline->m_allClips[newId]);
 
@@ -323,7 +329,7 @@ bool TimelineFunctions::requestItemCopy(std::shared_ptr<TimelineItemModel> timel
             std::advance(it, target_track_position);
             int target_track = (*it)->getId();
             if (timeline->isClip(id)) {
-                res = res && timeline->requestClipMove(newId, target_track, target_position, true, false, undo, redo);
+                res = res && timeline->requestClipMove(newId, target_track, target_position, true, true, undo, redo);
             } else {
                 const QString &transitionId = timeline->m_allCompositions[id]->getAssetId();
                 QScopedPointer <Mlt::Properties> transProps(timeline->m_allCompositions[id]->properties());

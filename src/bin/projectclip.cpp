@@ -475,6 +475,9 @@ std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(Mlt::Profile *destProf
     }
     const QByteArray clipXml = c.get("string");
     std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(destProfile ? *destProfile : *m_masterProducer->profile(), "xml-string", clipXml.constData()));
+    if (strcmp(prod->get("mlt_service"), "avformat") == 0) {
+        prod->set("mlt_service", "avformat-novalidate");
+    }
     return prod;
 }
 

@@ -196,9 +196,10 @@ Rectangle {
     }
     property bool variableThumbs: (isAudio || mltService === 'color' || mltService === '')
     property bool isImage: (mltService === 'qimage' || mltService === 'pixbuf')
-    property string baseThumbPath: variableThumbs ? '' : isImage ? 'image://thumbnail/' + binId + '/' + mltService + '/' + clipResource + '#0' : 'image://thumbnail/' + binId + '/' + mltService + '/' + clipResource + '#'
-    property string inThumbPath: (variableThumbs || isImage ) ? baseThumbPath : baseThumbPath + inPoint
-    property string outThumbPath: (variableThumbs || isImage ) ? baseThumbPath : baseThumbPath + outPoint
+    property string serviceHolder: isImage ? 'image' : (mltService === 'timewarp' ? 'avformat' : mltService)
+    property string baseThumbPath: variableThumbs ? '' : 'image://thumbnail/' + binId + '/' + (isImage ? '#0' : '#')
+    property string inThumbPath: (variableThumbs || isImage ) ? baseThumbPath : baseThumbPath + Math.floor(inPoint * speed)
+    property string outThumbPath: (variableThumbs || isImage ) ? baseThumbPath : baseThumbPath + Math.floor(outPoint * speed)
 
     DropArea { //Drop area for clips
         anchors.fill: clipRoot
