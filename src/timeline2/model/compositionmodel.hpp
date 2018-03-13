@@ -86,6 +86,7 @@ public:
 
 protected:
     Mlt::Transition *service() const override;
+    void setInOut(int in, int out) override;
 
     /* @brief Performs a resize of the given composition.
        Returns true if the operation succeeded, and otherwise nothing is modified

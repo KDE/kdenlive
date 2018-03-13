@@ -109,7 +109,7 @@ protected:
     void setCurrentTrackId(int tid);
 
     /* Set in and out of service */
-    void setInOut(int in, int out);
+    virtual void setInOut(int in, int out);
 
 protected:
     std::weak_ptr<TimelineModel> m_parent;

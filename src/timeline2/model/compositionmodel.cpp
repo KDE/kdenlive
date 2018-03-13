@@ -177,3 +177,9 @@ const QString &CompositionModel::displayName() const
 {
     return m_compositionName;
 }
+
+void CompositionModel::setInOut(int in, int out)
+{
+    m_position = in;
+    MoveableItem::setInOut(in, out);
+}
