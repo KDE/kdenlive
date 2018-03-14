@@ -206,10 +206,7 @@ ki18n_wrap_ui(kdenlive_UIS
     ui/spacerdialog_ui.ui
     ui/spectrogram_ui.ui
     ui/templateclip_ui.ui
-    ui/timeline_ui.ui
-    ui/timelinebuttons_ui.ui
     ui/titlewidget_ui.ui
-    ui/trackheader_ui.ui
     ui/tracksconfigdialog_ui.ui
     ui/transitionsettings_ui.ui
     ui/unicodewidget_ui.ui
