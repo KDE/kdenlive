@@ -208,6 +208,9 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
                 if (clipId.startsWith(QStringLiteral("slowmotion"))) {
                     clipId = clipId.section(QLatin1Char(':'), 1, 1);
                 }
+                if (clipId.isEmpty()) {
+                    clipId = clip->get("kdenlive:id");
+                }
                 Q_ASSERT(binIdCorresp.count(clipId) > 0);
                 binId = binIdCorresp.at(clipId);
             }
