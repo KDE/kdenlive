@@ -87,12 +87,6 @@ Item {
         }
     }
 
-    onATrackChanged: {
-        if (compositionRoot.aTrack > 0 && compositionRoot.trackId > 0) {
-            targetTrack.y = root.getTrackYFromMltIndex(compositionRoot.aTrack) - root.getTrackYFromId(compositionRoot.trackId)
-        }
-    }
-
     onKeyframeModelChanged: {
         if (effectRow.keyframecanvas) {
             effectRow.keyframecanvas.requestPaint()
@@ -121,11 +115,6 @@ Item {
         displayHeight = track.height / 2
         compositionRoot.trackId = parentTrack.trackId
     }
-    onTrackIdChanged: {
-        if (compositionRoot.aTrack > 0 && compositionRoot.trackId > 0) {
-            targetTrack.y = root.getTrackYFromMltIndex(compositionRoot.aTrack) - root.getTrackYFromId(compositionRoot.trackId)
-        }
-    }
 
     SystemPalette { id: activePalette }
     Rectangle {
@@ -149,15 +138,14 @@ Item {
             Rectangle {
                 // text background
                 id: labelRect
-                color: 'lightgray'
+                color: compositionRoot.aTrack >= 0 ? 'yellow' : 'lightgray'
                 opacity: 0.7
                 anchors.top: container.top
-                // + ((isAudio || !settings.timelineShowThumbnails) ? 0 : inThumbnail.width)
                 width: label.width + 2
                 height: label.height
                 Text {
                     id: label
-                    text: clipName
+                    text: clipName + (compositionRoot.aTrack >= 0 ? ' > ' + timeline.getTrackNameFromMltIndex(compositionRoot.aTrack) : '')
                     font.pixelSize: root.baseUnit
                     anchors {
                         top: labelRect.top
@@ -386,28 +374,4 @@ Item {
         }
     }
 }
-    // target track
-    Rectangle {
-        id: targetTrack
-        width: displayRect.width
-        gradient: Gradient {
-            GradientStop { position: 0.0; color: selected ? 'red' : 'mediumpurple' }
-            GradientStop { position: 1.0; color: "#00000000" }
-        }
-        visible: compositionRoot.aTrack > 0 && compositionRoot.trackId > 0
-        y: root.getTrackYFromMltIndex(compositionRoot.aTrack) - parentTrack.mapToItem(null, 0, 0).y + ruler.height
-        //y: root.getTrackYFromMltIndex(compositionRoot.aTrack) - root.getTrackYFromId(compositionRoot.trackId)
-        height: clabel.height + 4
-        Text {
-            id: clabel
-            text: timeline.getTrackNameFromMltIndex(compositionRoot.aTrack)
-            font.pixelSize: root.baseUnit
-            anchors {
-                top: targetTrack.top
-                topMargin: 2
-                leftMargin: 2
-            }
-            color: 'white'
-        }
-    }
 }

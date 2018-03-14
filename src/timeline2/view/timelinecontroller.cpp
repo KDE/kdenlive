@@ -958,13 +958,13 @@ QPair<int, int> TimelineController::getCompositionATrack(int cid) const
 
 void TimelineController::setCompositionATrack(int cid, int aTrack)
 {
-    QScopedPointer<Mlt::Field> field(m_model->m_tractor->field());
-    field->lock();
-    m_model->getCompositionPtr(cid)->setATrack(aTrack, aTrack <= 0 ? -1 : m_model->getTrackIndexFromPosition(aTrack - 1));
-    field->unlock();
-    refreshItem(cid);
-    QModelIndex modelIndex = m_model->makeCompositionIndexFromID(cid);
-    m_model->dataChanged(modelIndex, modelIndex, {TimelineModel::ItemATrack});
+    TimelineFunctions::setCompositionATrack(m_model, cid, aTrack);
+}
+
+bool TimelineController::compositionAutoTrack(int cid) const
+{
+    std::shared_ptr<CompositionModel> compo = m_model->getCompositionPtr(cid);
+    return compo && compo->getForcedTrack() == -1;
 }
 
 const QString TimelineController::getClipBinId(int clipId) const

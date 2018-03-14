@@ -353,7 +353,7 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
         case ShowKeyframesRole:
             return compo->showKeyframes();
         case ItemATrack:
-            return compo->getATrack();
+            return compo->getForcedTrack();
         case MarkersRole: {
             QVariantList markersList;
             return markersList;

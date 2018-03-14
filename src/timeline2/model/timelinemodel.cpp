@@ -518,7 +518,7 @@ int TimelineModel::suggestCompositionMove(int compoId, int trackId, int position
     // we check if move is possible
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    bool possible = requestCompositionMove(compoId, trackId, m_allCompositions[compoId]->getATrack(), position, false, undo, redo);
+    bool possible = requestCompositionMove(compoId, trackId, m_allCompositions[compoId]->getForcedTrack(), position, false, undo, redo);
     qDebug() << "Original move success" << possible;
     if (possible) {
         bool undone = undo();
@@ -820,7 +820,7 @@ bool TimelineModel::requestGroupMove(int clipId, int groupId, int delta_track, i
                 ok = requestClipMove(clip, target_track, target_position, updateView, finalMove, undo, redo);
             } else {
                 int target_position = m_allCompositions[clip]->getPosition() + delta_pos;
-                ok = requestCompositionMove(clip, target_track, -1, target_position, updateView, undo, redo);
+                ok = requestCompositionMove(clip, target_track, m_allCompositions[clip]->getForcedTrack(), target_position, updateView, undo, redo);
             }
         } else {
             qDebug() << "// ABORTING; MOVE TRIED ON TRACK: " << target_track_position << "..\n..\n..";
@@ -1583,7 +1583,7 @@ bool TimelineModel::requestCompositionMove(int compoId, int trackId, int positio
     int min = getCompositionPosition(compoId);
     int max = min + getCompositionPlaytime(compoId);
     int tk = getCompositionTrackId(compoId);
-    bool res = requestCompositionMove(compoId, trackId, m_allCompositions[compoId]->getATrack(), position, updateView, undo, redo);
+    bool res = requestCompositionMove(compoId, trackId, m_allCompositions[compoId]->getForcedTrack(), position, updateView, undo, redo);
     if (tk > -1) {
         min = qMin(min, getCompositionPosition(compoId));
         max = qMax(max, getCompositionPosition(compoId));

@@ -65,9 +65,15 @@ public:
 
     /* @brief Returns the id of the second track involved in the composition (a_track in mlt's vocabulary, the b_track beeing the track where the composition is
        inserted)
-       Important: this function returns a kdenlive id, you cannot use it directly in Mlt functions. Use timelinemodel::getTrackPosition to retrieve mlt's index
      */
     int getATrack() const;
+    /* @brief Defines the forced_track property. If true, the a_track will not change when composition
+     * is moved to another track. When false, the a_track will automatically change to lower video track
+     */
+    void setForceTrack(bool force);
+    /* @brief Returns the id of the second track involved in the composition (a_track) or -1 if the a_track should be automatically updated when the composition changes track
+     */
+    int getForcedTrack() const;
 
     /* @brief Sets the id of the second track involved in the composition*/
     void setATrack(int trackMltPosition, int trackId);

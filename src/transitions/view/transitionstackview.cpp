@@ -39,22 +39,25 @@ void TransitionStackView::setModel(const std::shared_ptr<AssetParameterModel> &m
 {
     QHBoxLayout *lay = new QHBoxLayout;
     m_trackBox = new QComboBox(this);
-    m_trackBox->addItem(i18n("Background"), 0);
     QMapIterator<int, QString> i(pCore->getVideoTrackNames());
     QPair<int, int> aTrack = pCore->getCompositionATrack(model->getOwnerId().second);
+    m_trackBox->addItem(i18n("Automatic"), -1);
     while (i.hasNext()) {
         i.next();
         if (i.key() != aTrack.second) {
             m_trackBox->addItem(i.value(), i.key());
         }
     }
+    m_trackBox->addItem(i18n("Background"), 0);
     AssetParameterView::setModel(model, range, frameSize, addSpacer);
-
-    m_trackBox->setCurrentIndex(m_trackBox->findData(aTrack.first));
+    if (!pCore->compositionAutoTrack(model->getOwnerId().second)) {
+        m_trackBox->setCurrentIndex(m_trackBox->findData(aTrack.first));
+    }
     QLabel *title = new QLabel(i18n("Composition track: "), this);
     lay->addWidget(title);
     lay->addWidget(m_trackBox);
     m_lay->insertLayout(0, lay);
+    connect(model.get(), &AssetParameterModel::compositionTrackChanged, this, &TransitionStackView::checkCompoTrack);
     connect(m_trackBox, SIGNAL(currentIndexChanged(int)), this, SLOT(updateTrack(int)));
     connect(this, &AssetParameterView::seekToPos, [this](int pos) {
         // at this point, the effects returns a pos relative to the clip. We need to convert it to a global time
@@ -81,4 +84,14 @@ ObjectId TransitionStackView::stackOwner() const
 void TransitionStackView::setRange(int in, int out)
 {
     AssetParameterView::setRange(QPair<int, int>(in, out));
+}
+
+void TransitionStackView::checkCompoTrack()
+{
+    bool autoTrack = pCore->compositionAutoTrack(m_model->getOwnerId().second);
+    QPair<int, int> aTrack = autoTrack ? QPair<int, int>(-1, -1) : pCore->getCompositionATrack(m_model->getOwnerId().second);
+    if (m_trackBox->currentData().toInt() != aTrack.first) {
+        const QSignalBlocker blocker(m_trackBox);
+        m_trackBox->setCurrentIndex(m_trackBox->findData(aTrack.first));
+    }
 }

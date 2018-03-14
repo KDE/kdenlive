@@ -527,6 +527,11 @@ QPair<int, int> Core::getCompositionATrack(int cid) const
     return m_mainWindow->getCurrentTimeline()->controller()->getCompositionATrack(cid);
 }
 
+bool Core::compositionAutoTrack(int cid) const
+{
+    return m_mainWindow->getCurrentTimeline()->controller()->compositionAutoTrack(cid);
+}
+
 void Core::setCompositionATrack(int cid, int aTrack)
 {
     if (!m_guiConstructed) return;

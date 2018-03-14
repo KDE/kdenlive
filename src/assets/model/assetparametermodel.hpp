@@ -170,6 +170,7 @@ protected:
 
 signals:
     void modelChanged();
+    void compositionTrackChanged();
     void replugEffect(std::shared_ptr<AssetParameterModel> asset);
     void rebuildEffect(std::shared_ptr<AssetParameterModel> asset);
 };

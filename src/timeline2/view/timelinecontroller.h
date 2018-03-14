@@ -278,6 +278,9 @@ public:
      */
     QPair<int, int> getCompositionATrack(int cid) const;
     void setCompositionATrack(int cid, int aTrack);
+    /* @brief Return true if composition's a_track is automatic (no forced track)
+     */
+    bool compositionAutoTrack(int cid) const;
     const QString getClipBinId(int clipId) const;
     void focusItem(int itemId);
     /* @brief Create and display a split clip view to compare effect

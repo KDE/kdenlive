@@ -143,6 +143,18 @@ int CompositionModel::getATrack() const
     return a_track == -1 ? -1 : service()->get_int("a_track");
 }
 
+void CompositionModel::setForceTrack(bool force)
+{
+    READ_LOCK();
+    service()->set("force_track", force ? 1 : 0);
+}
+
+int CompositionModel::getForcedTrack() const
+{
+    QWriteLocker locker(&m_lock);
+    return (service()->get_int("force_track") == 0 || a_track == -1) ? -1 : service()->get_int("a_track");
+}
+
 void CompositionModel::setATrack(int trackMltPosition, int trackId)
 {
     QWriteLocker locker(&m_lock);
@@ -151,6 +163,7 @@ void CompositionModel::setATrack(int trackMltPosition, int trackId)
     if (a_track >= 0) {
         service()->set("a_track", trackMltPosition);
     }
+    emit compositionTrackChanged();
 }
 
 KeyframeModel *CompositionModel::getEffectKeyframeModel()

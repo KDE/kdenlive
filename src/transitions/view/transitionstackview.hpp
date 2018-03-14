@@ -39,6 +39,7 @@ public:
 
 private slots:
     void updateTrack(int newTrack);
+    void checkCompoTrack();
 
 signals:
     void seekToTransPos(int pos);

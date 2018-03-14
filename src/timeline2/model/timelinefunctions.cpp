@@ -465,3 +465,48 @@ bool TimelineFunctions::requestSplitAudio(std::shared_ptr<TimelineItemModel> tim
     pCore->pushUndo(undo, redo, i18n("Split Audio"));
     return true;
 }
+
+void TimelineFunctions::setCompositionATrack(std::shared_ptr<TimelineItemModel> timeline, int cid, int aTrack)
+{
+    std::function<bool(void)> undo = []() { return true; };
+    std::function<bool(void)> redo = []() { return true; };
+    std::shared_ptr<CompositionModel>compo = timeline->getCompositionPtr(cid);
+    int previousATrack = compo->getATrack();
+    int previousAutoTrack = compo->getForcedTrack() == -1;
+    bool autoTrack = aTrack < 0;
+    if (autoTrack) {
+        // Automatic track compositing, find lower video track
+        aTrack = timeline->getPreviousVideoTrackPos(compo->getCurrentTrackId());
+    }
+    int start = timeline->getItemPosition(cid);
+    int end = start + timeline->getItemPlaytime(cid);
+    Fun local_redo = [timeline, cid, aTrack, autoTrack, start, end]() {
+        QScopedPointer<Mlt::Field> field(timeline->m_tractor->field());
+        field->lock();
+        timeline->getCompositionPtr(cid)->setForceTrack(!autoTrack);
+        timeline->getCompositionPtr(cid)->setATrack(aTrack, aTrack <= 0 ? -1 : timeline->getTrackIndexFromPosition(aTrack - 1));
+        field->unlock();
+        QModelIndex modelIndex = timeline->makeCompositionIndexFromID(cid);
+        timeline->dataChanged(modelIndex, modelIndex, {TimelineModel::ItemATrack});
+        timeline->invalidateZone(start, end);
+        timeline->checkRefresh(start, end);
+        return true;
+    };
+    Fun local_undo = [timeline, cid, previousATrack, previousAutoTrack, start, end]() {
+        QScopedPointer<Mlt::Field> field(timeline->m_tractor->field());
+        field->lock();
+        timeline->getCompositionPtr(cid)->setForceTrack(!previousAutoTrack);
+        timeline->getCompositionPtr(cid)->setATrack(previousATrack, previousATrack<= 0 ? -1 : timeline->getTrackIndexFromPosition(previousATrack - 1));
+        field->unlock();
+        QModelIndex modelIndex = timeline->makeCompositionIndexFromID(cid);
+        timeline->dataChanged(modelIndex, modelIndex, {TimelineModel::ItemATrack});
+        timeline->invalidateZone(start, end);
+        timeline->checkRefresh(start, end);
+        return true;
+    };
+    if (local_redo()) {
+        PUSH_LAMBDA(local_undo, undo);
+        PUSH_LAMBDA(local_redo, redo);
+    }
+    pCore->pushUndo(undo, redo, i18n("Change Composition Track"));
+}
