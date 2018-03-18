@@ -103,6 +103,7 @@ AssetPanel::AssetPanel(QWidget *parent)
 
 void AssetPanel::showTransition(int tid, std::shared_ptr<AssetParameterModel> transitionModel)
 {
+    Q_UNUSED(tid)
     clear();
     QString transitionId = transitionModel->getAssetId();
     QString transitionName = TransitionsRepository::get()->getName(transitionId);

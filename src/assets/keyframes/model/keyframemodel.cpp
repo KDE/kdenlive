@@ -242,9 +242,9 @@ bool KeyframeModel::offsetKeyframes(int oldPos, int pos, bool logUndo)
         if (m.first < oldFrame) continue;
         times << m.first;
     }
-    bool res;
+    bool res = true;
     for (const auto &t : times) {
-        res = moveKeyframe(t, t + diff, -1, undo, redo);
+        res &= moveKeyframe(t, t + diff, -1, undo, redo);
     }
     if (res && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Move keyframes"));
@@ -785,9 +785,9 @@ QVariant KeyframeModel::getInterpolatedValue(const GenTime &pos) const
                       convertToMltType(next->second.first));
         return QVariant(prop.anim_get_double("keyframe", p));
     } else if (m_paramType == ParamType::AnimatedRect) {
-        mlt_rect rect;
         QStringList vals = prev->second.second.toString().split(QLatin1Char(' '));
         if (vals.count() >= 4) {
+            mlt_rect rect;
             rect.x = vals.at(0).toInt();
             rect.y = vals.at(1).toInt();
             rect.w = vals.at(2).toInt();
@@ -797,11 +797,12 @@ QVariant KeyframeModel::getInterpolatedValue(const GenTime &pos) const
             } else {
                 rect.o = 1;
             }
-        }
-        prop.anim_set("keyframe", rect, prev->first.frames(pCore->getCurrentFps()), next->first.frames(pCore->getCurrentFps()),
+            prop.anim_set("keyframe", rect, prev->first.frames(pCore->getCurrentFps()), next->first.frames(pCore->getCurrentFps()),
                       convertToMltType(prev->second.first));
+        }
         vals = next->second.second.toString().split(QLatin1Char(' '));
         if (vals.count() >= 4) {
+            mlt_rect rect;
             rect.x = vals.at(0).toInt();
             rect.y = vals.at(1).toInt();
             rect.w = vals.at(2).toInt();
@@ -811,10 +812,10 @@ QVariant KeyframeModel::getInterpolatedValue(const GenTime &pos) const
             } else {
                 rect.o = 1;
             }
-        }
-        prop.anim_set("keyframe", rect, next->first.frames(pCore->getCurrentFps()), next->first.frames(pCore->getCurrentFps()),
+            prop.anim_set("keyframe", rect, next->first.frames(pCore->getCurrentFps()), next->first.frames(pCore->getCurrentFps()),
                       convertToMltType(next->second.first));
-        rect = prop.anim_get_rect("keyframe", p);
+        }
+        mlt_rect rect = prop.anim_get_rect("keyframe", p);
         const QString res = QStringLiteral("%1 %2 %3 %4 %5").arg((int)rect.x).arg((int)rect.y).arg((int)rect.w).arg((int)rect.h).arg(rect.o);
         return QVariant(res);
     } else if (m_paramType == ParamType::Roto_spline) {

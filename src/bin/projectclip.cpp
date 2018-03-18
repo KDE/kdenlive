@@ -972,7 +972,7 @@ void ProjectClip::doExtractImage()
         frame->set("deinterlace_method", "onefield");
         frame->set("top_field_first", -1);
         if (frame->is_valid()) {
-            img = KThumb::getFrame(frame, frameWidth, 150, prod->profile()->sar() != 1);
+            img = KThumb::getFrame(frame, frameWidth, 150, !qFuzzyCompare(prod->profile()->sar(),1));
             ThumbnailCache::get()->storeThumbnail(clipId(), pos, img, false);
             emit thumbReady(pos, img);
         }
