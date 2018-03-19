@@ -70,6 +70,7 @@
     <p xml:lang="ca">El Kdenlive és un editor no lineal de vídeo. Està basat en l'entorn de treball MLT i accepta molts formats d'àudio i vídeo, permetent afegir efectes, transicions i representacions en el format de la vostra elecció.</p>
     <p xml:lang="ca-valencia">El Kdenlive és un editor no lineal de vídeo. Està basat en l'entorn de treball MLT i accepta molts formats d'àudio i vídeo, permetent afegir efectes, transicions i representacions en el format de la vostra elecció.</p>
     <p xml:lang="cs">Kdenlive je nelineární video editor. Je založený na frameworku MLT a přehrává mnoho zvukových a video formátů, umožňuje přidat efekty, přechody a renderuje do formátu podle vašeho výběru.</p>
+    <p xml:lang="da">Kdenlive er et ikke-lineært videoredigeringsprogram. Det er baseret på MLT-framework og accepterer mange lyd- og videoformater, som giver dig mulighed for at tilføje effekter, overgange og rendere i det format du ønsker.</p>
     <p xml:lang="de">Kdenlive ist ein Video-Editor für nichtlinearen Schnitt. Es basiert auf MLT und verarbeitet viele Audio- und Video-Formate. Sie können Effekte und Übergänge benutzen und in Formate Ihrer Wahl umwandeln.</p>
     <p xml:lang="el">Το Kdenlive είναι ένας μη γραμμικός επεξεργαστής βίντεο. Βασίζεται στο πλαίσιο εργασίας MLT και δέχεται πολλούς τύπους ήχου και βίντεο, επιτρέπει την προσθήκη εφέ, μεταβάσεων και αποτύπωσης στον τύπο αποθήκευσης της επιλογής σας.</p>
     <p xml:lang="en-GB">Kdenlive is a non linear video editor. It is based on the MLT framework and accepts many audio and video formats, allows you to add effects, transitions and render into the format of your choice.</p>
@@ -128,6 +129,7 @@
       <li xml:lang="ca">Interfície multipista intuïtiva.</li>
       <li xml:lang="ca-valencia">Interfície multipista intuïtiva.</li>
       <li xml:lang="cs">Intuitivní vícepohledové rozhraní.</li>
+      <li xml:lang="da">Intuitiv multispor-grænseflade.</li>
       <li xml:lang="de">Intuitive Mehrspur-Benutzeroberfläche.</li>
       <li xml:lang="el">Διαισθητική πολυκάναλη διεπαφή.</li>
       <li xml:lang="en-GB">Intuitive multitrack interface.</li>
@@ -156,6 +158,7 @@
       <li xml:lang="ca">Molts efectes i transicions.</li>
       <li xml:lang="ca-valencia">Molts efectes i transicions.</li>
       <li xml:lang="cs">Spousta efektů a přechodů.</li>
+      <li xml:lang="da">Mange effekter og overgange.</li>
       <li xml:lang="de">Viele Effekte und Übergänge.</li>
       <li xml:lang="el">Πολλά εφέ και μεταβάσεις.</li>
       <li xml:lang="en-GB">Many effects and transitions.</li>
@@ -184,6 +187,7 @@
       <li xml:lang="ca">Àmbits de color</li>
       <li xml:lang="ca-valencia">Àmbits de color</li>
       <li xml:lang="cs">Rozsahy barev</li>
+      <li xml:lang="da">Farveskoper</li>
       <li xml:lang="de">Farbbereiche</li>
       <li xml:lang="el">Εμβέλειες χρωμάτων</li>
       <li xml:lang="en-GB">Colour scopes</li>
@@ -212,6 +216,7 @@
       <li xml:lang="ca">Assistent bàsic per als DVD</li>
       <li xml:lang="ca-valencia">Assistent bàsic per als DVD</li>
       <li xml:lang="cs">Základní průvodce DVD</li>
+      <li xml:lang="da">Grundlæggende dvd-guide</li>
       <li xml:lang="de">Einfacher DVD-Assistent</li>
       <li xml:lang="el">Βασικός οδηγός DVD</li>
       <li xml:lang="en-GB">Basic DVD Wizard</li>
