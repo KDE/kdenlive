@@ -38,6 +38,7 @@
 #include <KRun>
 #include <KOpenWithDialog>
 #include "kdenlive_debug.h"
+#include <QAction>
 #include <QDir>
 #include <QTimer>
 #include <QThread>

@@ -30,6 +30,7 @@
 #include <KRecentDirs>
 
 #include "kdenlive_debug.h"
+#include <QButtonGroup>
 #include <QFontDatabase>
 #include <QFileDialog>
 #include <QDomDocument>

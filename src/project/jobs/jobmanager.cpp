@@ -33,6 +33,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "mlt++/Mlt.h"
 
 #include "kdenlive_debug.h"
+#include <QAction>
 #include <QtConcurrent>
 
 #include <KMessageWidget>

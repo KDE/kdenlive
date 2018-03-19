@@ -32,6 +32,7 @@
 #include <KRecentDirs>
 #include <KMessageBox>
 
+#include <QAction>
 #include <QFileDialog>
 #include <QHBoxLayout>
 #include <QDomDocument>
