@@ -907,7 +907,7 @@ int GLWidget::setProducer(Mlt::Producer *producer, bool isActive, int position)
             removeAudioOverlay();
         }
     } else if (KdenliveSettings::displayAudioOverlay()) {
-        createAudioOverlay(true);
+        createAudioOverlay(false);
     }
     if (position == -1 && m_producer->parent().get("kdenlive:id") == currentId) {
         position = consumerPosition;

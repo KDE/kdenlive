@@ -115,8 +115,6 @@ void QmlManager::setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize p
     if (duration > 0) {
         root->setProperty("duration", duration);
     }
-
-    // m_glMonitor->setAudioThumb();
 }
 
 void QmlManager::effectRectChanged()
