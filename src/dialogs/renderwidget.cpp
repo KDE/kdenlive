@@ -786,7 +786,7 @@ void RenderWidget::slotEditProfile()
     d->setWindowTitle(i18n("Edit Profile"));
 
     if (d->exec() == QDialog::Accepted) {
-        slotDeleteProfile(false);
+        slotDeleteProfile(true);
         QString exportFile = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/export/customprofiles.xml");
         QDomDocument doc;
         QFile file(exportFile);
@@ -889,7 +889,7 @@ void RenderWidget::slotEditProfile()
     }
 }
 
-void RenderWidget::slotDeleteProfile(bool refresh)
+void RenderWidget::slotDeleteProfile(bool dontRefresh)
 {
     // TODO: delete a profile installed by KNewStuff the easy way
     /*
@@ -927,7 +927,6 @@ void RenderWidget::slotDeleteProfile(bool refresh)
         }
         ++i;
     }
-
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         KMessageBox::sorry(this, i18n("Unable to write to file %1", exportFile));
         return;
@@ -940,10 +939,11 @@ void RenderWidget::slotDeleteProfile(bool refresh)
         return;
     }
     file.close();
-    if (refresh) {
-        parseProfiles();
-        focusFirstVisibleItem();
+    if (dontRefresh) {
+        return;
     }
+    parseProfiles();
+    focusFirstVisibleItem();
 }
 
 void RenderWidget::updateButtons()

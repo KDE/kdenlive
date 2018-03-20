@@ -160,7 +160,7 @@ private slots:
     void refreshParams();
     void slotSaveProfile();
     void slotEditProfile();
-    void slotDeleteProfile(bool refresh = true);
+    void slotDeleteProfile(bool dontRefresh = false);
     void slotUpdateGuideBox();
     void slotCheckStartGuidePosition();
     void slotCheckEndGuidePosition();
