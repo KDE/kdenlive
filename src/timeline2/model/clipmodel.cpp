@@ -268,6 +268,10 @@ bool ClipModel::hasAudio() const
 {
     READ_LOCK();
     QString service = getProperty("mlt_service");
+    if (service == QLatin1String("xml")) {
+        // Playlist clip, assume audio
+        return true;
+    }
     return (service.contains(QStringLiteral("avformat")) || service == QLatin1String("timewarp")) && (getIntProperty(QStringLiteral("audio_index")) > -1);
 }
 

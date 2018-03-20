@@ -274,8 +274,8 @@ bool AudioThumbJob::startJob()
         m_successful = true;
         return true;
     }
-    bool ok = computeWithFFMPEG();
-    ok = ok || computeWithMlt();
+    bool ok = m_binClip->clipType() == ClipType::Playlist ? false : computeWithFFMPEG();
+    ok = ok ? ok : computeWithMlt();
     Q_ASSERT(ok == m_done);
 
     if (ok && m_done && !m_audioLevels.isEmpty()) {
