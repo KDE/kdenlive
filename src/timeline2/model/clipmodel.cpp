@@ -355,8 +355,7 @@ Fun ClipModel::useTimewarpProducer_lambda(double speed, int extraSpace)
             m_producer.reset(originalProducer->cut(in, out));
         } else {
             QString resource = QString("timewarp:%1:%2").arg(speed).arg(originalProducer->get("resource"));
-            Mlt::Profile *prof = new Mlt::Profile(pCore->getCurrentProfilePath().toUtf8().constData());
-            std::shared_ptr<Mlt::Producer> warpProducer(new Mlt::Producer(*prof, resource.toUtf8().constData()));
+            std::shared_ptr<Mlt::Producer> warpProducer(new Mlt::Producer(*m_producer->profile(), resource.toUtf8().constData()));
             // Make sure we use a cut so that the source producer in/out are not modified
             m_producer.reset(warpProducer->cut(0, warpProducer->get_length()));
             setInOut(in, out);
