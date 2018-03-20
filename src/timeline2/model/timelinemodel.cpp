@@ -857,6 +857,7 @@ bool TimelineModel::requestGroupDeletion(int clipId, Fun &undo, Fun &redo)
     std::queue<int> group_queue;
     group_queue.push(m_groups->getRootId(clipId));
     std::unordered_set<int> all_clips;
+    std::unordered_set<int> all_compositions;
     while (!group_queue.empty()) {
         int current_group = group_queue.front();
         if (m_temporarySelectionGroup == current_group) {
@@ -869,6 +870,9 @@ bool TimelineModel::requestGroupDeletion(int clipId, Fun &undo, Fun &redo)
         for (int c : children) {
             if (isClip(c)) {
                 all_clips.insert(c);
+                one_child = c;
+            } else if (isComposition(c)) {
+                all_compositions.insert(c);
                 one_child = c;
             } else {
                 Q_ASSERT(isGroup(c));
@@ -886,6 +890,13 @@ bool TimelineModel::requestGroupDeletion(int clipId, Fun &undo, Fun &redo)
     }
     for (int clip : all_clips) {
         bool res = requestClipDeletion(clip, undo, redo);
+        if (!res) {
+            undo();
+            return false;
+        }
+    }
+    for (int compo : all_compositions) {
+        bool res = requestCompositionDeletion(compo, undo, redo);
         if (!res) {
             undo();
             return false;

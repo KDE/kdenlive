@@ -2601,62 +2601,32 @@ void MainWindow::slotClearPreviewRender()
 
 void MainWindow::slotSelectTimelineClip()
 {
-    // TODO refac
-    /*
-    if (pCore->projectManager()->currentTimeline()) {
-        pCore->projectManager()->currentTimeline()->projectView()->selectClip(true);
-    }
-    */
+    getCurrentTimeline()->controller()->selectCurrentItem(ObjectType::TimelineClip, true);
 }
 
 void MainWindow::slotSelectTimelineTransition()
 {
-    // TODO refac
-    /*
-    if (pCore->projectManager()->currentTimeline()) {
-        pCore->projectManager()->currentTimeline()->projectView()->selectTransition(true);
-    }
-    */
+    getCurrentTimeline()->controller()->selectCurrentItem(ObjectType::TimelineComposition, true);
 }
 
 void MainWindow::slotDeselectTimelineClip()
 {
-    // TODO refac
-    /*
-    if (pCore->projectManager()->currentTimeline()) {
-        pCore->projectManager()->currentTimeline()->projectView()->selectClip(false, true);
-    }
-    */
+    getCurrentTimeline()->controller()->selectCurrentItem(ObjectType::TimelineClip, false);
 }
 
 void MainWindow::slotDeselectTimelineTransition()
 {
-    // TODO refac
-    /*
-    if (pCore->projectManager()->currentTimeline()) {
-        pCore->projectManager()->currentTimeline()->projectView()->selectTransition(false, true);
-    }
-    */
+    getCurrentTimeline()->controller()->selectCurrentItem(ObjectType::TimelineComposition, false);
 }
 
 void MainWindow::slotSelectAddTimelineClip()
 {
-    // TODO refac
-    /*
-    if (pCore->projectManager()->currentTimeline()) {
-        pCore->projectManager()->currentTimeline()->projectView()->selectClip(true, true);
-    }
-    */
+    getCurrentTimeline()->controller()->selectCurrentItem(ObjectType::TimelineClip, true, true);
 }
 
 void MainWindow::slotSelectAddTimelineTransition()
 {
-    // TODO refac
-    /*
-    if (pCore->projectManager()->currentTimeline()) {
-        pCore->projectManager()->currentTimeline()->projectView()->selectTransition(true, true);
-    }
-    */
+    getCurrentTimeline()->controller()->selectCurrentItem(ObjectType::TimelineComposition, true, true);
 }
 
 void MainWindow::slotGroupClips()

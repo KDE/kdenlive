@@ -668,7 +668,7 @@ int GroupsModel::fromJson(const QJsonObject &o, Fun &undo, Fun &redo)
             int id = -1;
             if (leaf == QLatin1String("clip")) {
                 id = ptr->getClipByPosition(trackId, pos);
-            } else if (leaf == QLatin1String("clip")) {
+            } else if (leaf == QLatin1String("composition")) {
                 id = ptr->getCompositionByPosition(trackId, pos);
             }
             return id;

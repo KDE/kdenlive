@@ -238,6 +238,28 @@ std::unordered_set<int> TimelineController::getCurrentSelectionIds() const
     return selection;
 }
 
+void TimelineController::selectCurrentItem(ObjectType type, bool select, bool addToCurrent)
+{
+    QList<int> toSelect;
+    int currentClip = type == ObjectType::TimelineClip ? m_model->getClipByPosition(m_activeTrack, timelinePosition()) : m_model->getCompositionByPosition(m_activeTrack, timelinePosition());
+    if (currentClip == -1) {
+        pCore->displayMessage(i18n("No item under timeline cursor in active track"), InformationMessage, 500);
+        return;
+    }
+    if (addToCurrent || !select) {
+        toSelect = m_selection.selectedItems;
+    }
+    if (select) {
+        if (!toSelect.contains(currentClip)) {
+            toSelect << currentClip;
+            setSelection(toSelect);
+        }
+    } else if (toSelect.contains(currentClip)) {
+        toSelect.removeAll(currentClip);
+        setSelection(toSelect);
+    }
+}
+
 void TimelineController::setSelection(const QList<int> &newSelection, int trackIndex, bool isMultitrack)
 {
     if (newSelection != selection() || trackIndex != m_selection.selectedTrack || isMultitrack != m_selection.isMultitrackSelected) {

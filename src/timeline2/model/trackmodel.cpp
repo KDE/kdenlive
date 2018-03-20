@@ -545,8 +545,12 @@ int TrackModel::getCompositionByPosition(int position)
 {
     READ_LOCK();
     for (const auto &comp : m_compoPos) {
-        if (comp.second == position) {
-            return comp.first;
+        if (comp.first == position) {
+            return comp.second;
+        } else if (comp.first < position) {
+            if (comp.first + m_allCompositions[comp.second]->getPlaytime() >= position) {
+                return comp.second;
+            }
         }
     }
     return -1;

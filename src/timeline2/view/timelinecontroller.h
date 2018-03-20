@@ -349,6 +349,8 @@ public:
     void resetTrackHeight();
     /** @brief timeline preview params changed, reset */
     void resetPreview();
+    /** @brief Select the clip in active track under cursor */
+    void selectCurrentItem(ObjectType type, bool select, bool addToCurrent = false);
 
 public slots:
     void selectMultitrack();
