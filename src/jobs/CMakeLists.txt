@@ -6,6 +6,7 @@ set(kdenlive_SRCS
   jobs/loadjob.cpp
   jobs/meltjob.cpp
   jobs/scenesplitjob.cpp
+  jobs/speedjob.cpp
   jobs/stabilizejob.cpp
   jobs/thumbjob.cpp
 #  jobs/cutclipjob.cpp

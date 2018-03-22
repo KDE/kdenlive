@@ -50,7 +50,8 @@ public:
         THUMBJOB = 6,
         ANALYSECLIPJOB = 7,
         LOADJOB = 8,
-        AUDIOTHUMBJOB = 9
+        AUDIOTHUMBJOB = 9,
+        SPEEDJOB = 10
     };
     AbstractClipJob(JOBTYPE type, const QString &id, QObject *parent = nullptr);
     virtual ~AbstractClipJob();

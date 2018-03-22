@@ -39,6 +39,7 @@
 #include "hidetitlebars.h"
 #include "jobs/jobmanager.h"
 #include "jobs/scenesplitjob.hpp"
+#include "jobs/speedjob.hpp"
 #include "jobs/stabilizejob.hpp"
 #include "kdenlivesettings.h"
 #include "layoutmanagement.h"
@@ -3211,20 +3212,16 @@ void MainWindow::buildDynamicActions()
             QAction *action = new QAction(i18n("Automatic scene split"), m_extraFactory->actionCollection());
             ts->addAction(action->text(), action);
             connect(action, &QAction::triggered,
-                    [&]() { pCore->jobManager()->startJob<SceneSplitJob>(pCore->bin()->selectedClipsIds(), {}, i18n("Stabilize clips")); });
+                    [&]() { pCore->jobManager()->startJob<SceneSplitJob>(pCore->bin()->selectedClipsIds(), {}, i18np("Stabilize clip", "Stabilize clips", pCore->bin()->selectedClipsIds().size())); });
         }
     }
-    // TODO refac see if we want to reimplement speed change job. If so, maybe use better algorithm?
-    /*
-    if (KdenliveSettings::producerslist().contains(QStringLiteral("timewarp"))) {
+    if (true /* TODO: check if timewarp producer is available */) {
         QAction *action = new QAction(i18n("Duplicate clip with speed change"), m_extraFactory->actionCollection());
-        QStringList stabJob;
-        stabJob << QString::number((int)AbstractClipJob::FILTERCLIPJOB) << QStringLiteral("timewarp");
-        action->setData(stabJob);
         ts->addAction(action->text(), action);
-        connect(action, &QAction::triggered, pCore->bin(), &Bin::slotStartClipJob);
+        connect(action, &QAction::triggered,
+                    [&]() {
+                        pCore->jobManager()->startJob<SpeedJob>(pCore->bin()->selectedClipsIds(), {}, i18n("Change clip speed")); });
     }
-    */
     // TODO refac reimplement analyseclipjob
     /*
     QAction *action = new QAction(i18n("Analyse keyframes"), m_extraFactory->actionCollection());

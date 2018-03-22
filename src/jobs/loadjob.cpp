@@ -124,6 +124,7 @@ std::shared_ptr<Mlt::Producer> LoadJob::loadPlaylist(QString &resource)
     xmlProfile->set_explicit(0);
     std::unique_ptr<Mlt::Producer> producer(new Mlt::Producer(*xmlProfile, "xml", resource.toUtf8().constData()));
     if (!producer->is_valid()) {
+        qDebug()<<"////// ERROR, CANNOT LOAD SELECTED PLAYLIST: "<<resource;
         return nullptr;
     }
     if (pCore->getCurrentProfile()->isCompatible(xmlProfile.get())) {
@@ -132,6 +133,7 @@ std::shared_ptr<Mlt::Producer> LoadJob::loadPlaylist(QString &resource)
         resource.prepend(QStringLiteral("xml:"));
     } else {
         // This is currently crashing so I guess we'd better reject it for now
+        qDebug()<<"////// ERROR, INCOMPATIBLE PROFILE: "<<resource;
         return nullptr;
         // path.prepend(QStringLiteral("consumer:"));
     }

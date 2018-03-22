@@ -44,6 +44,7 @@ MeltJob::MeltJob(const QString &binId, JOBTYPE type, bool useProducerProfile, in
     , m_useProducerProfile(useProducerProfile)
     , m_in(in)
     , m_out(out)
+    , m_requiresFilter(true)
 {
 }
 
@@ -229,7 +230,8 @@ bool MeltJob::startJob()
         }
     }
     */
-    if ((m_filter == nullptr) || !m_filter->is_valid()) {
+
+    if (m_requiresFilter && (m_filter == nullptr || !m_filter->is_valid())) {
         m_errorMessage.append(i18n("Cannot create filter."));
         m_successful = false;
         m_done = true;
@@ -277,3 +279,4 @@ void MeltJob::mltFrameCallback(int pos)
         emit jobProgress((int)(100 * pos / m_length));
     }
 }
+

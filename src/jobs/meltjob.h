@@ -85,6 +85,8 @@ protected:
     bool m_useProducerProfile;
     int m_in, m_out;
     int m_length;
+    // @brief Does this job require a filter
+    bool m_requiresFilter;
 };
 
 #endif
