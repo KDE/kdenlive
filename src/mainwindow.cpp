@@ -3090,7 +3090,7 @@ int MainWindow::getNewStuff(const QString &configFile)
 
 void MainWindow::slotGetNewTitleStuff()
 {
-    if (getNewStuff(QStringLiteral("kdenlive_titles.knsrc")) > 0) {
+    if (getNewStuff(QStringLiteral(":data/kdenlive_titles.knsrc")) > 0) {
         // get project title path
         QString titlePath = pCore->projectManager()->current()->projectDataFolder() + QStringLiteral("/titles/");
         TitleWidget::refreshTitleTemplates(titlePath);
@@ -3099,7 +3099,7 @@ void MainWindow::slotGetNewTitleStuff()
 
 void MainWindow::slotGetNewLumaStuff()
 {
-    if (getNewStuff(QStringLiteral("kdenlive_wipes.knsrc")) > 0) {
+    if (getNewStuff(QStringLiteral(":data/kdenlive_wipes.knsrc")) > 0) {
         initEffects::refreshLumas();
         pCore->projectManager()->currentTimeline()->projectView()->reloadTransitionLumas();
     }
@@ -3107,7 +3107,7 @@ void MainWindow::slotGetNewLumaStuff()
 
 void MainWindow::slotGetNewRenderStuff()
 {
-    if (getNewStuff(QStringLiteral("kdenlive_renderprofiles.knsrc")) > 0)
+    if (getNewStuff(QStringLiteral(":data/kdenlive_renderprofiles.knsrc")) > 0)
         if (m_renderWidget) {
             m_renderWidget->reloadProfiles();
         }

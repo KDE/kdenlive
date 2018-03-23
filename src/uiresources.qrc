@@ -13,4 +13,9 @@
     <file alias="SceneToolBar.qml">../data/SceneToolBar.qml</file>
     <file alias="EffectToolBar.qml">../data/EffectToolBar.qml</file>
   </qresource>
+  <qresource prefix="data">
+    <file alias="kdenlive_renderprofiles.knsrc">../data/kdenlive_renderprofiles.knsrc</file>
+    <file alias="kdenlive_titles.knsrc">../data/kdenlive_titles.knsrc</file>
+    <file alias="kdenlive_wipes.knsrc">../data/kdenlive_wipes.knsrc</file>
+  </qresource>
 </RCC>
