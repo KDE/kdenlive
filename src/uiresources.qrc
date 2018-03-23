@@ -36,5 +36,8 @@
   <qresource prefix="data">
     <file alias="blacklisted_effects.txt">../data/blacklisted_effects.txt</file>
     <file alias="blacklisted_transitions.txt">../data/blacklisted_transitions.txt</file>
+    <file alias="kdenlive_renderprofiles.knsrc">../data/kdenlive_renderprofiles.knsrc</file>
+    <file alias="kdenlive_titles.knsrc">../data/kdenlive_titles.knsrc</file>
+    <file alias="kdenlive_wipes.knsrc">../data/kdenlive_wipes.knsrc</file>
   </qresource>
 </RCC>
