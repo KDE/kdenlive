@@ -109,6 +109,7 @@ Comment[tr]=KDE için doğrusal olmayan video düzenleyici
 Comment[uk]=Нелінійний редактор відео від KDE
 Comment[x-test]=xxNonlinear video editor by KDExx
 Comment[zh_CN]=KDE 推出的非线性视频编辑器
+Comment[zh_TW]=來自 KDE 的非線性影像編輯器
 Type=Application
 Exec=kdenlive %U
 Icon=kdenlive
