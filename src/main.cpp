@@ -44,8 +44,9 @@
 
 int main(int argc, char *argv[])
 {
-// Force QDomDocument to use a deterministic XML attribute order
+    // Force QDomDocument to use a deterministic XML attribute order
     qSetGlobalQHashSeed(0);
+    QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
     QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts, true);
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
     QCoreApplication::setAttribute(Qt::AA_X11InitThreads);
