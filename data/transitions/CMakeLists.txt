@@ -6,6 +6,7 @@ wipe.xml
 qtblend.xml
 dissolve.xml
 affine.xml
+slide.xml
 
 DESTINATION ${DATA_INSTALL_DIR}/kdenlive/transitions)
 
