@@ -29,6 +29,7 @@
 #include "listparamwidget.h"
 #include "positioneditwidget.hpp"
 #include "coloreditwidget.hpp"
+#include "slidewidget.hpp"
 
 #include <QLabel>
 #include <QVBoxLayout>
@@ -66,7 +67,6 @@ AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetP
 {
     // We retrieve the parameter type
     auto type = model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
-    qDebug() << "paramtype " << (int)type;
 
     QString name = model->data(index, AssetParameterModel::NameRole).toString();
 
@@ -98,6 +98,9 @@ AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetP
     case ParamType::ColorWheel:
         widget = new LumaLiftGainParam(model, index, parent);
         break;
+    case ParamType::Wipe:
+        widget = new SlideWidget(model, index, parent);
+        break;
     case ParamType::Animated:
     case ParamType::RestrictedAnim:
     //        widget = new AnimationWidget(model, index, range, parent);
@@ -110,7 +113,6 @@ AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetP
     case ParamType::Curve:
     case ParamType::Bezier_spline:
     case ParamType::Roto_spline:
-    case ParamType::Wipe:
     case ParamType::Url:
     case ParamType::Keywords:
     case ParamType::Fontfamily:
