@@ -276,6 +276,8 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
         return parseAttribute(QStringLiteral("decimals"), element);
     case DefaultRole:
         return parseAttribute(QStringLiteral("default"), element);
+    case FilterRole:
+        return parseAttribute(QStringLiteral("filter"), element);
     case SuffixRole:
         return element.attribute(QStringLiteral("suffix"));
     case OpacityRole:

@@ -31,6 +31,7 @@
 #include "positioneditwidget.hpp"
 #include "coloreditwidget.hpp"
 #include "slidewidget.hpp"
+#include "urlparamwidget.hpp"
 
 #include <QLabel>
 #include <QVBoxLayout>
@@ -105,6 +106,9 @@ AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetP
     case ParamType::Switch:
         widget = new SwitchParamWidget(model, index, parent);
         break;
+    case ParamType::Url:
+        widget = new UrlParamWidget(model, index, parent);
+        break;
     case ParamType::Animated:
     case ParamType::RestrictedAnim:
     //        widget = new AnimationWidget(model, index, range, parent);
@@ -116,7 +120,6 @@ AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetP
     case ParamType::Curve:
     case ParamType::Bezier_spline:
     case ParamType::Roto_spline:
-    case ParamType::Url:
     case ParamType::Keywords:
     case ParamType::Fontfamily:
     case ParamType::Filterjob:

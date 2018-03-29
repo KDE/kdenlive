@@ -86,6 +86,7 @@ public:
         ListValuesRole,
         ListNamesRole,
         FactorRole,
+        FilterRole,
         ScaleRole,
         OpacityRole,
         InRole,
