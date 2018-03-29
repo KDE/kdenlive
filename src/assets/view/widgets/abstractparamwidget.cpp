@@ -21,6 +21,7 @@
 #include "animationwidget.h"
 #include "assets/model/assetparametermodel.hpp"
 #include "boolparamwidget.hpp"
+#include "switchparamwidget.hpp"
 #include "lumaliftgainparam.hpp"
 #include "doubleparamwidget.hpp"
 #include "geometryeditwidget.hpp"
@@ -101,6 +102,9 @@ AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetP
     case ParamType::Wipe:
         widget = new SlideWidget(model, index, parent);
         break;
+    case ParamType::Switch:
+        widget = new SwitchParamWidget(model, index, parent);
+        break;
     case ParamType::Animated:
     case ParamType::RestrictedAnim:
     //        widget = new AnimationWidget(model, index, range, parent);
@@ -108,7 +112,6 @@ AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetP
     //  case ParamType::KeyframeParam:
     //        widget = new KeyframeEdit(model, index, parent);
     //        break;
-    case ParamType::Switch:
     case ParamType::Addedgeometry:
     case ParamType::Curve:
     case ParamType::Bezier_spline:

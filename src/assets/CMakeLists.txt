@@ -14,6 +14,7 @@ set(kdenlive_SRCS
   assets/view/widgets/abstractparamwidget.cpp
   #assets/view/widgets/animationwidget.cpp
   assets/view/widgets/boolparamwidget.cpp
+  assets/view/widgets/switchparamwidget.cpp
   assets/view/widgets/doubleparamwidget.cpp
   assets/view/widgets/colorwheel.cpp
   assets/view/widgets/slidewidget.cpp
