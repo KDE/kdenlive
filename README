@@ -10,6 +10,9 @@ https://kdenlive.org
 Building from source
 ====================
 
+For more complete instructions see:
+https://community.kde.org/Kdenlive/Development
+
 You will first need to install development headers dependencies
 from your system (mainly KDE and MLT).
 
