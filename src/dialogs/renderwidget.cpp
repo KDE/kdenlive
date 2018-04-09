@@ -400,9 +400,9 @@ void RenderWidget::setDocumentPath(const QString &path)
     if (m_view.out_file->url().adjusted(QUrl::RemoveFilename).toLocalFile() ==
         QUrl::fromLocalFile(m_projectFolder).adjusted(QUrl::RemoveFilename).toLocalFile()) {
         const QString fileName = m_view.out_file->url().fileName();
-        m_view.out_file->setUrl(QUrl::fromLocalFile(path + fileName));
+        m_view.out_file->setUrl(QUrl::fromLocalFile(QDir(path).absoluteFilePath(fileName)));
     }
-    m_projectFolder = path;
+    m_projectFolder = QUrl::fromLocalFile(path).adjusted(QUrl::NormalizePathSegments | QUrl::StripTrailingSlash).toLocalFile() + QDir::separator();
     parseScriptFiles();
 }
 

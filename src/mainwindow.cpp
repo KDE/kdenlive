@@ -1748,7 +1748,7 @@ void MainWindow::slotEditProjectSettings()
         }
         bool modified = false;
         if (m_renderWidget) {
-            m_renderWidget->setDocumentPath(project->projectDataFolder() + QDir::separator());
+            m_renderWidget->setDocumentPath(project->projectDataFolder());
         }
         if (KdenliveSettings::videothumbnails() != w->enableVideoThumbs()) {
             slotSwitchVideoThumbs();
@@ -1876,7 +1876,7 @@ void MainWindow::slotRenderProject()
             connect(this, &MainWindow::updateRenderWidgetProfile, m_renderWidget, &RenderWidget::adjustViewToProfile);
             double projectDuration = GenTime(getMainTimeline()->controller()->duration(), pCore->getCurrentFps()).ms() / 1000;
             m_renderWidget->setGuides(project->getGuideModel()->getAllMarkers(), projectDuration);
-            m_renderWidget->setDocumentPath(project->projectDataFolder() + QDir::separator());
+            m_renderWidget->setDocumentPath(project->projectDataFolder());
             m_renderWidget->setRenderProfile(project->getRenderProperties());
         }
         if (m_compositeAction->currentAction()) {
@@ -2104,7 +2104,7 @@ void MainWindow::connectDocument()
     if (m_renderWidget) {
         slotCheckRenderStatus();
         // m_renderWidget->setGuides(pCore->projectManager()->currentTimeline()->projectView()->guidesData(), project->projectDuration());
-        m_renderWidget->setDocumentPath(project->projectDataFolder() + QDir::separator());
+        m_renderWidget->setDocumentPath(project->projectDataFolder());
         m_renderWidget->setRenderProfile(project->getRenderProperties());
     }
     m_zoomSlider->setValue(project->zoom().x());
