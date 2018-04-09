@@ -610,7 +610,10 @@ QString KdenliveDoc::projectTempFolder() const
 QString KdenliveDoc::projectDataFolder() const
 {
     if (m_projectFolder.isEmpty()) {
-        return KdenliveSettings::defaultprojectfolder();
+        if (KdenliveSettings::customprojectfolder()) {
+            return KdenliveSettings::defaultprojectfolder();
+        }
+        return QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
     }
     return m_projectFolder;
 }
