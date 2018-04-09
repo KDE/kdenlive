@@ -197,8 +197,14 @@ void RecMonitor::slotUpdateCaptureFolder(const QString &currentProjectFolder)
 {
     if (KdenliveSettings::capturetoprojectfolder()) {
         m_capturePath = currentProjectFolder;
+        if (!m_capturePath.endsWith(QDir::separator())) {
+            m_capturePath.append(QDir::separator());
+        }
     } else {
         m_capturePath = KdenliveSettings::capturefolder();
+        if (!m_capturePath.endsWith(QDir::separator())) {
+            m_capturePath.append(QDir::separator());
+        }
     }
     if (m_captureProcess) {
         m_captureProcess->setWorkingDirectory(m_capturePath);
@@ -630,11 +636,11 @@ void RecMonitor::slotRecord()
         } else if (device_selector->currentIndex() == BlackMagic) {
             extension = KdenliveSettings::decklink_extension();
         }
-        QString path = QUrl(m_capturePath).toLocalFile() + QDir::separator() + QStringLiteral("capture0000.") + extension;
+        QString path = QDir(m_capturePath).absoluteFilePath(QStringLiteral("capture0000.") + extension);
         int i = 1;
         while (QFile::exists(path)) {
             QString num = QString::number(i).rightJustified(4, '0', false);
-            path = QUrl(m_capturePath).toLocalFile() + QDir::separator() + QStringLiteral("capture") + num + QLatin1Char('.') + extension;
+            path = QDir(m_capturePath).absoluteFilePath(QStringLiteral("capture") + num + QLatin1Char('.') + extension);
             ++i;
         }
         m_captureFile = QUrl(path);
@@ -1033,12 +1039,12 @@ void RecMonitor::slotPlay()
 
 void RecMonitor::slotReadProcessInfo()
 {
-    QString data = m_captureProcess->readAllStandardError().simplified();
+    QString processData = m_captureProcess->readAllStandardError().simplified();
     if (device_selector->currentIndex() == ScreenBag) {
-        m_error.append(data + QLatin1Char('\n'));
+        m_error.append(processData + QLatin1Char('\n'));
     } else if (device_selector->currentIndex() == Firewire) {
-        data = data.section(QLatin1Char('"'), 2, 2).simplified();
-        m_dvinfo.setText(data.left(11));
+        processData = processData.section(QLatin1Char('"'), 2, 2).simplified();
+        m_dvinfo.setText(processData.left(11));
         m_dvinfo.updateGeometry();
     }
 }
