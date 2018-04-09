@@ -24,6 +24,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "ui_templateclip_ui.h"
 
+class QResizeEvent;
+
 class TitleTemplateDialog : public QDialog
 {
     Q_OBJECT
@@ -32,6 +34,9 @@ public:
     explicit TitleTemplateDialog(const QString &folder, QWidget *parent = nullptr);
     QString selectedTemplate() const;
     QString selectedText() const;
+
+protected:
+    void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
 
 private:
     Ui::TemplateClip_UI m_view;

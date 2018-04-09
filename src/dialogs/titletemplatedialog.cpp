@@ -82,6 +82,12 @@ QString TitleTemplateDialog::selectedText() const
     return m_view.description->toPlainText();
 }
 
+void TitleTemplateDialog::resizeEvent(QResizeEvent *event)
+{
+    updatePreview();
+    QWidget::resizeEvent(event);
+}
+
 void TitleTemplateDialog::updatePreview()
 {
     QString textTemplate = m_view.template_list->comboBox()->itemData(m_view.template_list->comboBox()->currentIndex()).toString();
