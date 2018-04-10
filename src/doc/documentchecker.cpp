@@ -237,6 +237,7 @@ bool DocumentChecker::hasErrorInClips()
     }
 
     QMap<QString, QString> autoFixLuma;
+    QString lumaPath;
     // Check existence of luma files
     foreach (const QString &lumafile, filesToCheck) {
         filePath = lumafile;
@@ -244,16 +245,29 @@ bool DocumentChecker::hasErrorInClips()
             filePath.prepend(root);
         }
         if (!QFile::exists(filePath)) {
-            QString fixedLuma;
+            QString lumaName = filePath.section(QLatin1Char('/'), -1);
             // check if this was an old format luma, not in correct folder
-            fixedLuma = filePath.section(QLatin1Char('/'), 0, -2);
-            fixedLuma.append(hdProfile ? QStringLiteral("/HD/") : QStringLiteral("/PAL/"));
-            fixedLuma.append(filePath.section(QLatin1Char('/'), -1));
+            QString fixedLuma = filePath.section(QLatin1Char('/'), 0, -2);
+            lumaName.prepend(hdProfile ? QStringLiteral("/HD/") : QStringLiteral("/PAL/"));
+            fixedLuma.append(lumaName);
             if (QFile::exists(fixedLuma)) {
                 // Auto replace pgm with png for lumas
                 autoFixLuma.insert(filePath, fixedLuma);
                 continue;
             }
+            // Check MLT folder
+            if (lumaPath.isEmpty()) {
+                QDir dir(QCoreApplication::applicationDirPath());
+                dir.cdUp();
+                dir.cd(QStringLiteral("share/kdenlive/lumas/"));
+                lumaPath = dir.absolutePath();
+            }
+            lumaName.prepend(lumaPath);
+            if (QFile::exists(lumaName)) {
+                autoFixLuma.insert(filePath, lumaName);
+                continue;
+            }
+
             if (filePath.endsWith(QLatin1String(".pgm"))) {
                 fixedLuma = filePath.section(QLatin1Char('.') , 0, -2) + QStringLiteral(".png");
             } else if (filePath.endsWith(QLatin1String(".png"))) {
@@ -282,7 +296,6 @@ bool DocumentChecker::hasErrorInClips()
             }
         }
     }
-
     if (m_missingClips.isEmpty() && missingLumas.isEmpty() && missingProxies.isEmpty() && missingSources.isEmpty() && m_missingFonts.isEmpty()) {
         return false;
     }
