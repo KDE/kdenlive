@@ -607,23 +607,6 @@ void Wizard::slotCheckPrograms()
         else item->setIcon(0, m_okIcon);
     #endif
     */
-    if (QStandardPaths::findExecutable(QStringLiteral("dvdauthor")).isEmpty()) {
-        m_infos.append(i18n("<li>Missing app: <b>dvdauthor</b><br/>required for creation of DVD</li>"));
-        allIsOk = false;
-    }
-
-    if (QStandardPaths::findExecutable(QStringLiteral("genisoimage")).isEmpty()) {
-        // no GenIso, check for mkisofs
-        if (QStandardPaths::findExecutable(QStringLiteral("mkisofs")).isEmpty()) {
-            m_infos.append(i18n("<li>Missing app: <b>genisoimage</b> or <b>mkisofs</b><br/>required for creation of DVD ISO images</li>"));
-            allIsOk = false;
-        }
-    }
-
-    if (QStandardPaths::findExecutable(QStringLiteral("xine")).isEmpty() && QStandardPaths::findExecutable(QStringLiteral("vlc")).isEmpty()) {
-        m_infos.append(i18n("<li>Missing app: <b>vlc</b> or <b>xine</b><br/>recommended to preview DVD</li>"));
-        allIsOk = false;
-    }
 
     // set up some default applications
     QString program;
