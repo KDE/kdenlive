@@ -299,7 +299,7 @@ if (KF5Crash_FOUND)
     target_link_libraries(kdenlive KF5::Crash)
 endif()
 
-qt5_use_modules( kdenlive Script Widgets Concurrent Qml Quick)
+target_link_libraries(kdenlive Qt5::Script Qt5::Widgets Qt5::Concurrent Qt5::Qml Qt5::Quick)
 
 if (Qt5WebKitWidgets_FOUND)
     message(STATUS "Found Qt5 WebKitWidgets. You can use your Freesound.org credentials to download files")
