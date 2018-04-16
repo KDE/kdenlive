@@ -288,6 +288,9 @@ target_link_libraries(kdenliveLib
     KF5::Crash
     KF5::Solid
     Qt5::Svg
+    Qt5::Quick
+    Qt5::QuickWidgets
+    Qt5::Concurrent
     ${OPENGL_LIBRARIES}
     ${OPENGLES_LIBRARIES}
     ${MLT_LIBRARIES}
@@ -303,8 +306,6 @@ if (KF5_FILEMETADATA)
     add_definitions(-DKF5_USE_FILEMETADATA)
     target_link_libraries(kdenliveLib KF5::FileMetaData)
 endif()
-
-qt5_use_modules( kdenliveLib Widgets Concurrent Qml Quick QuickWidgets)
 
 if (Qt5WebKitWidgets_FOUND)
     message(STATUS "Found Qt5 WebKitWidgets. You can use your Freesound.org credentials to download files")
