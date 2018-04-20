@@ -74,8 +74,6 @@ Wizard::Wizard(bool autoClose, QWidget *parent) :
     m_systemCheckIsOk(false),
     m_brokenModule(false)
 {
-    // Check color theme
-    ThemeManager::instance()->initDarkTheme();
     setWindowTitle(i18n("Welcome to Kdenlive"));
     int logoHeight = fontMetrics().height() * 2.5;
     setWizardStyle(QWizard::ModernStyle);

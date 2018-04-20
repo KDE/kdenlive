@@ -1641,6 +1641,8 @@ bool MainWindow::readOptions()
     if (!initialGroup.exists() || KdenliveSettings::sdlAudioBackend().isEmpty()) {
         // First run, check if user is on a KDE Desktop
         firstRun = true;
+        // Check color theme
+        ThemeManager::instance()->initDarkTheme();
         // this is our first run, show Wizard
         QPointer<Wizard> w = new Wizard(true);
         if (w->exec() == QDialog::Accepted && w->isOk()) {
