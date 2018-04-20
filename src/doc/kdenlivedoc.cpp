@@ -741,7 +741,10 @@ QString KdenliveDoc::projectTempFolder() const
 QString KdenliveDoc::projectDataFolder() const
 {
     if (m_projectFolder.isEmpty()) {
-        return KdenliveSettings::defaultprojectfolder();
+        if (KdenliveSettings::customprojectfolder()) {
+            return KdenliveSettings::defaultprojectfolder();
+        }
+        return QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
     }
     return m_projectFolder;
 }
@@ -795,7 +798,7 @@ void KdenliveDoc::moveProjectData(const QString &/*src*/, const QString &dest)
         if (proxyDir.mkpath(QStringLiteral("."))) {
             KIO::CopyJob *job = KIO::move(cacheUrls, QUrl::fromLocalFile(proxyDir.absolutePath()));
             KJobWidgets::setWindow(job, QApplication::activeWindow());
-            if (job->exec() > 0) {
+            if (job->exec() == false) {
                 KMessageBox::sorry(QApplication::activeWindow(), i18n("Moving proxy clips failed: %1", job->errorText()));
             }
         }

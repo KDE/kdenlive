@@ -1641,6 +1641,8 @@ bool MainWindow::readOptions()
     if (!initialGroup.exists() || KdenliveSettings::sdlAudioBackend().isEmpty()) {
         // First run, check if user is on a KDE Desktop
         firstRun = true;
+        // Check color theme
+        ThemeManager::instance()->initDarkTheme();
         // this is our first run, show Wizard
         QPointer<Wizard> w = new Wizard(true);
         if (w->exec() == QDialog::Accepted && w->isOk()) {
@@ -1695,10 +1697,10 @@ void MainWindow::slotEditProjectSettings()
         pCore->projectManager()->currentTimeline()->updatePreviewSettings(w->selectedPreview());
         bool modified = false;
         if (m_recMonitor) {
-            m_recMonitor->slotUpdateCaptureFolder(project->projectDataFolder() + QDir::separator());
+            m_recMonitor->slotUpdateCaptureFolder(project->projectDataFolder());
         }
         if (m_renderWidget) {
-            m_renderWidget->setDocumentPath(project->projectDataFolder() + QDir::separator());
+            m_renderWidget->setDocumentPath(project->projectDataFolder());
         }
         if (KdenliveSettings::videothumbnails() != w->enableVideoThumbs()) {
             slotSwitchVideoThumbs();
@@ -1816,7 +1818,7 @@ void MainWindow::slotRenderProject()
             connect(m_renderWidget, &RenderWidget::openDvdWizard, this, &MainWindow::slotDvdWizard);
             m_renderWidget->setProfile(project->mltProfile().path);
             m_renderWidget->setGuides(pCore->projectManager()->currentTimeline()->projectView()->guidesData(), project->projectDuration());
-            m_renderWidget->setDocumentPath(project->projectDataFolder() + QDir::separator());
+            m_renderWidget->setDocumentPath(project->projectDataFolder());
             m_renderWidget->setRenderProfile(project->getRenderProperties());
         }
         if (m_compositeAction->currentAction()) {
@@ -2026,7 +2028,7 @@ void MainWindow::connectDocument()
         slotCheckRenderStatus();
         m_renderWidget->setProfile(project->mltProfile().path);
         m_renderWidget->setGuides(pCore->projectManager()->currentTimeline()->projectView()->guidesData(), project->projectDuration());
-        m_renderWidget->setDocumentPath(project->projectDataFolder() + QDir::separator());
+        m_renderWidget->setDocumentPath(project->projectDataFolder());
         m_renderWidget->setRenderProfile(project->getRenderProperties());
     }
     m_zoomSlider->setValue(project->zoom().x());
@@ -2041,7 +2043,7 @@ void MainWindow::connectDocument()
     pCore->monitorManager()->setDocument(project);
     trackView->updateProfile(1.0);
     if (m_recMonitor) {
-        m_recMonitor->slotUpdateCaptureFolder(project->projectDataFolder() + QDir::separator());
+        m_recMonitor->slotUpdateCaptureFolder(project->projectDataFolder());
     }
     // Init document zone
     m_projectMonitor->slotZoneMoved(trackView->inPoint(), trackView->outPoint());
@@ -2158,7 +2160,7 @@ void MainWindow::slotUpdateCaptureFolder()
 {
     if (m_recMonitor) {
         if (pCore->projectManager()->current()) {
-            m_recMonitor->slotUpdateCaptureFolder(pCore->projectManager()->current()->projectDataFolder() + QDir::separator());
+            m_recMonitor->slotUpdateCaptureFolder(pCore->projectManager()->current()->projectDataFolder());
         } else {
             m_recMonitor->slotUpdateCaptureFolder(KdenliveSettings::defaultprojectfolder());
         }
