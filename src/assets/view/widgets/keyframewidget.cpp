@@ -212,19 +212,14 @@ void KeyframeWidget::slotAtKeyframe(bool atKeyframe, bool singleKeyframe)
     }
 }
 
-void KeyframeWidget::slotSetRange(QPair<int, int> /*range*/)
+void KeyframeWidget::slotRefresh()
 {
+    // update duration
     bool ok = false;
     int duration = m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt(&ok);
     Q_ASSERT(ok);
     m_keyframeview->setDuration(duration);
     m_time->setRange(0, duration - 1);
-}
-
-void KeyframeWidget::slotRefresh()
-{
-    // update duration
-    slotSetRange(QPair<int, int>(-1, -1));
 
     // refresh keyframes
     m_keyframes->refresh();

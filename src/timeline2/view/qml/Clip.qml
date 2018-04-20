@@ -500,7 +500,8 @@ Rectangle {
 
     TimelineTriangle {
         id: fadeInTriangle
-        width: clipRoot.fadeIn * timeScale
+        fillColor: 'green'
+        width: Math.min(clipRoot.fadeIn * timeScale, clipRoot.width)
         height: clipRoot.height - clipRoot.border.width * 2
         anchors.left: clipRoot.left
         anchors.top: clipRoot.top
@@ -516,9 +517,9 @@ Rectangle {
         width: root.baseUnit * 2
         height: width
         radius: width / 2
-        color: '#66FFFFFF'
+        color: '#FF66FFFF'
         border.width: 2
-        border.color: 'red'
+        border.color: 'green'
         opacity: 0
         Drag.active: fadeInMouseArea.drag.active
         MouseArea {
@@ -563,8 +564,7 @@ Rectangle {
                     var delta = Math.round((parent.x - startX) / timeScale)
                     var duration = Math.max(0, startFadeIn + delta)
                     duration = Math.min(duration, clipRoot.clipDuration)
-                    if (clipRoot.fadeIn != duration) {
-                        clipRoot.fadeIn = duration
+                    if (clipRoot.fadeIn - 1 != duration) {
                         timeline.adjustFade(clipRoot.clipId, 'fadein', duration, -1)
                     }
                     // Show fade duration as time in a "bubble" help.
@@ -593,7 +593,8 @@ Rectangle {
 
     TimelineTriangle {
         id: fadeOutCanvas
-        width: clipRoot.fadeOut * timeScale
+        fillColor: 'red'
+        width: Math.min(clipRoot.fadeOut * timeScale, clipRoot.width)
         height: clipRoot.height - clipRoot.border.width * 2
         anchors.right: clipRoot.right
         anchors.top: clipRoot.top
@@ -656,8 +657,7 @@ Rectangle {
                     var delta = Math.round((startX - parent.x) / timeScale)
                     var duration = Math.max(0, startFadeOut + delta)
                     duration = Math.min(duration, clipRoot.clipDuration)
-                    if (clipRoot.fadeOut != duration) {
-                        clipRoot.fadeOut = duration
+                    if (clipRoot.fadeOut - 1 != duration) {
                         timeline.adjustFade(clipRoot.clipId, 'fadeout', duration, -1)
                     }
                     // Show fade duration as time in a "bubble" help.

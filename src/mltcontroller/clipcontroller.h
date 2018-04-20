@@ -162,7 +162,6 @@ public:
     bool hasLimitedDuration() const;
     void forceLimitedDuration();
     Mlt::Properties &properties();
-    void initEffect(QDomElement &xml);
     void addEffect(QDomElement &xml);
     bool copyEffect(std::shared_ptr<EffectStackModel> stackModel, int rowId);
     void removeEffect(int effectIndex, bool delayRefresh = false);

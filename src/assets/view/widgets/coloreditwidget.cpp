@@ -140,10 +140,6 @@ void ColorEditWidget::slotRefresh()
     m_button->setColor(stringToColor(color));
 }
 
-void ColorEditWidget::slotSetRange(QPair<int, int>)
-{
-}
-
 QString ColorEditWidget::getColor() const
 {
     return colorToString(m_button->color(), m_button->isAlphaChannelEnabled());

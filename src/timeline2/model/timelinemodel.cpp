@@ -911,6 +911,9 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
     m_logFile << "timeline->requestItemResize(" << itemId << "," << size << " ," << (right ? "true" : "false") << ", " << (logUndo ? "true" : "false") << ", "
               << (snapDistance > 0 ? "true" : "false") << " ); " << std::endl;
 #endif
+    if (logUndo) {
+        qDebug()<<"---------------------\n---------------------\nRESIZE W/UNDO CALLED\n++++++++++++++++\n++++";
+    }
     QWriteLocker locker(&m_lock);
     Q_ASSERT(isClip(itemId) || isComposition(itemId));
     if (size <= 0) return -1;
@@ -920,18 +923,19 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
         Fun temp_undo = []() { return true; };
         Fun temp_redo = []() { return true; };
         int proposed_size = m_snaps->proposeSize(in, out, size, right, snapDistance);
-        if (proposed_size < 0) {
-            proposed_size = size;
-        }
-        bool success = false;
-        if (isClip(itemId)) {
-            success = m_allClips[itemId]->requestResize(proposed_size, right, temp_undo, temp_redo);
-        } else {
-            success = m_allCompositions[itemId]->requestResize(proposed_size, right, temp_undo, temp_redo);
-        }
-        if (success) {
-            temp_undo(); // undo temp move
-            size = proposed_size;
+        if (proposed_size >= 0) {
+            // only test move if proposed_size is valid
+            bool success = false;
+            if (isClip(itemId)) {
+                qDebug()<<"+++MODEL REQUEST RESIZE (LOGUNDO) "<<logUndo<<", SIZE: "<<proposed_size;
+                success = m_allClips[itemId]->requestResize(proposed_size, right, temp_undo, temp_redo, false);
+            } else {
+                success = m_allCompositions[itemId]->requestResize(proposed_size, right, temp_undo, temp_redo, false);
+            }
+            if (success) {
+                temp_undo(); // undo temp move
+                size = proposed_size;
+            }
         }
     }
     Fun undo = []() { return true; };
@@ -2044,7 +2048,7 @@ QStringList TimelineModel::extractCompositionLumas() const
 
 void TimelineModel::adjustAssetRange(int clipId, int in, int out)
 {
-    pCore->adjustAssetRange(clipId, in, out);
+    //pCore->adjustAssetRange(clipId, in, out);
 }
 
 void TimelineModel::requestClipReload(int clipId)

@@ -144,7 +144,6 @@ public:
     void displayMessage(const QString &message, MessageType type, int timeout = -1);
     /** @brief Clear asset view if itemId is displayed. */
     void clearAssetPanel(int itemId);
-    void adjustAssetRange(int itemId, int in, int out);
     /** @brief Returns the effectstack of a given bin clip. */
     std::shared_ptr<EffectStackModel> getItemEffectStack(int itemType, int itemId);
     int getItemPosition(const ObjectId &id);

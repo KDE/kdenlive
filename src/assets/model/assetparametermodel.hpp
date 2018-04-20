@@ -89,6 +89,7 @@ public:
         FilterRole,
         ScaleRole,
         OpacityRole,
+        RelativePosRole,
         InRole,
         OutRole,
         ParentInRole,
@@ -142,7 +143,7 @@ protected:
        - %width and %height that are replaced with profile's height and width.
        If keywords are found, mathematical operations are supported for double type params. For example "%width -1" is a valid value.
     */
-    static QVariant parseAttribute(const QString &attribute, const QDomElement &element, QVariant defaultValue = QVariant());
+    static QVariant parseAttribute(const ObjectId owner, const QString &attribute, const QDomElement &element, QVariant defaultValue = QVariant());
 
     /* @brief Helper function to register one more parameter that is keyframable.
        @param index is the index corresponding to this parameter

@@ -9,6 +9,8 @@
 
 class TimelineTriangle : public QQuickPaintedItem
 {
+    Q_OBJECT
+    Q_PROPERTY(QColor fillColor MEMBER m_color)
 public:
     TimelineTriangle() { setAntialiasing(true); }
     void paint(QPainter *painter) override
@@ -17,8 +19,12 @@ public:
         path.moveTo(0, 0);
         path.lineTo(width(), 0);
         path.lineTo(0, height());
-        painter->fillPath(path, Qt::red);
+        painter->fillPath(path, m_color);
+        painter->setPen(Qt::white);
+        painter->drawLine(width(), 0, 0, height());
     }
+private:
+    QColor m_color;
 };
 
 class TimelinePlayhead : public QQuickPaintedItem

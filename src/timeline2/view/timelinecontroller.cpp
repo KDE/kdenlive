@@ -300,7 +300,7 @@ void TimelineController::setSelection(const QList<int> &newSelection, int trackI
         } else {
             // Empty selection
             emit selected(nullptr);
-            emit showItemEffectStack(QString(), nullptr, QPair<int, int>(), QSize(), false);
+            emit showItemEffectStack(QString(), nullptr, QSize(), false);
         }
         for (int i : previousSelection) {
             // Clear previously selcted items
@@ -682,14 +682,13 @@ void TimelineController::showAsset(int id)
         bool showKeyframes = m_model->data(clipIx, TimelineModel::ShowKeyframesRole).toInt();
         qDebug() << "-----\n// SHOW KEYFRAMES: " << showKeyframes;
         emit showItemEffectStack(clipName, m_model->getClipEffectStackModel(id),
-                                 QPair<int, int>(m_model->getClipPosition(id), m_model->getClipPosition(id) + m_model->getClipPlaytime(id)),
                                  m_model->getClipFrameSize(id), showKeyframes);
     }
 }
 
 void TimelineController::showTrackAsset(int trackId)
 {
-    emit showItemEffectStack(getTrackNameFromIndex(trackId), m_model->getTrackEffectStackModel(trackId), QPair<int, int>(), pCore->getCurrentFrameSize(),
+    emit showItemEffectStack(getTrackNameFromIndex(trackId), m_model->getTrackEffectStackModel(trackId), pCore->getCurrentFrameSize(),
                              false);
 }
 

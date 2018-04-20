@@ -53,7 +53,7 @@ public:
     void showTransition(int tid, std::shared_ptr<AssetParameterModel> transition_model);
 
     /* @brief Shows the parameters of the given effect stack model */
-    void showEffectStack(const QString &itemName, std::shared_ptr<EffectStackModel> effectsModel, QPair<int, int> range, QSize frameSize, bool showKeyframes);
+    void showEffectStack(const QString &itemName, std::shared_ptr<EffectStackModel> effectsModel, QSize frameSize, bool showKeyframes);
 
     /* @brief Clear the panel so that it doesn't display anything */
     void clear();
@@ -66,7 +66,6 @@ public:
 public slots:
     /** @brief Clear panel if displaying itemId */
     void clearAssetPanel(int itemId);
-    void adjustAssetPanelRange(int itemId, int in, int out);
     void parameterChanged(QString name, int value);
 
 protected:

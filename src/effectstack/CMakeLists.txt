@@ -5,7 +5,7 @@ set(kdenlive_SRCS
   effectstack/collapsibleeffect.cpp
   effectstack/collapsiblegroup.cpp
   effectstack/effectstackedit.cpp
-  effectstack/effectstackview2.cpp
+#  effectstack/effectstackview2.cpp
   effectstack/graphicsscenerectmove.cpp
   effectstack/keyframehelper.cpp
   effectstack/animkeyframeruler.cpp

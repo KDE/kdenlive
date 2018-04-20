@@ -21,7 +21,6 @@
 #include "timecode.h"
 #include <QString>
 #include <QWidget>
-
 #include "abstractparamwidget.hpp"
 
 class QSlider;
@@ -47,9 +46,6 @@ public:
     /** @brief checks that the allowed time interval is valid
      */
     bool isValid() const;
-    /** @brief Should the range be expressed as min-max or 0-(max-min).
-     */
-    void setAbsolute(bool absolute);
 
 public slots:
     /** @brief Toggle the comments on or off
@@ -60,14 +56,11 @@ public slots:
      */
     void slotRefresh() override;
 
-    /** @brief update the clip's in/out point
-     */
-    void slotSetRange(QPair<int, int>) override;
 
 private:
     TimecodeDisplay *m_display;
     QSlider *m_slider;
-    bool m_absolute;
+    bool m_inverted;
 
 private slots:
     void slotUpdatePosition();

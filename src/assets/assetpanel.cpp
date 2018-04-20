@@ -109,10 +109,10 @@ void AssetPanel::showTransition(int tid, std::shared_ptr<AssetParameterModel> tr
     m_assetTitle->setText(i18n("%1 properties", transitionName));
     m_transitionWidget->setVisible(true);
     m_timelineButton->setVisible(true);
-    m_transitionWidget->setModel(transitionModel, QPair<int, int>(-1, -1), QSize(), true);
+    m_transitionWidget->setModel(transitionModel, QSize(), true);
 }
 
-void AssetPanel::showEffectStack(const QString &itemName, std::shared_ptr<EffectStackModel> effectsModel, QPair<int, int> range, QSize frameSize,
+void AssetPanel::showEffectStack(const QString &itemName, std::shared_ptr<EffectStackModel> effectsModel, QSize frameSize,
                                  bool showKeyframes)
 {
     if (effectsModel == nullptr) {
@@ -159,7 +159,7 @@ void AssetPanel::showEffectStack(const QString &itemName, std::shared_ptr<Effect
     // Disable built stack until properly implemented
     // m_switchBuiltStack->setVisible(true);
     m_effectStackWidget->setVisible(true);
-    m_effectStackWidget->setModel(effectsModel, range, frameSize);
+    m_effectStackWidget->setModel(effectsModel, frameSize);
 }
 
 void AssetPanel::clearAssetPanel(int itemId)
@@ -171,19 +171,6 @@ void AssetPanel::clearAssetPanel(int itemId)
         id = m_transitionWidget->stackOwner();
         if (id.first == ObjectType::TimelineComposition && id.second == itemId) {
             clear();
-        }
-    }
-}
-
-void AssetPanel::adjustAssetPanelRange(int itemId, int in, int out)
-{
-    ObjectId id = m_effectStackWidget->stackOwner();
-    if (id.first == ObjectType::TimelineClip && id.second == itemId) {
-        m_effectStackWidget->setRange(in, out);
-    } else {
-        id = m_transitionWidget->stackOwner();
-        if (id.first == ObjectType::TimelineComposition && id.second == itemId) {
-            m_transitionWidget->setRange(in, out);
         }
     }
 }

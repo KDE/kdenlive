@@ -321,7 +321,6 @@ void MainWindow::init()
     connect(m_timelineTabs, &TimelineTabs::showItemEffectStack, m_assetPanel, &AssetPanel::showEffectStack);
     connect(pCore->bin(), &Bin::requestShowEffectStack, m_assetPanel, &AssetPanel::showEffectStack);
     connect(this, &MainWindow::clearAssetPanel, m_assetPanel, &AssetPanel::clearAssetPanel);
-    connect(this, &MainWindow::adjustAssetPanelRange, m_assetPanel, &AssetPanel::adjustAssetPanelRange);
 
     connect(m_assetPanel, &AssetPanel::seekToPos, [this](int pos) {
         ObjectId oId = m_assetPanel->effectStackOwner();

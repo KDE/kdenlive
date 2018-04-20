@@ -73,6 +73,3 @@ void DoubleParamWidget::slotShowComment(bool show)
     m_doubleWidget->slotShowComment(show);
 }
 
-void DoubleParamWidget::slotSetRange(QPair<int, int>)
-{
-}

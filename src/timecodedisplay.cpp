@@ -208,13 +208,13 @@ void TimecodeDisplay::setValue(int value)
             return;
         }
         m_value = value;
-        lineEdit()->setText(QString::number(value));
+        lineEdit()->setText(QString::number(value - m_minimum));
     } else {
         if (value == m_value && lineEdit()->text() != QLatin1String(":::")) {
             return;
         }
         m_value = value;
-        QString v = m_timecode.getTimecodeFromFrames(value);
+        QString v = m_timecode.getTimecodeFromFrames(value - m_minimum);
         lineEdit()->setText(v);
     }
 }
@@ -237,9 +237,9 @@ void TimecodeDisplay::slotEditingFinished()
 {
     lineEdit()->deselect();
     if (m_frametimecode) {
-        setValue(lineEdit()->text().toInt());
+        setValue(lineEdit()->text().toInt() + m_minimum);
     } else {
-        setValue(lineEdit()->text());
+        setValue(m_timecode.getFrameCount(lineEdit()->text()) + m_minimum);
     }
     emit timeCodeEditingFinished(m_value);
 }

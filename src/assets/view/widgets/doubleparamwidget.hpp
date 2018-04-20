@@ -50,10 +50,6 @@ public slots:
      */
     void slotRefresh() override;
 
-    /** @brief update the clip's in/out point
-     */
-    void slotSetRange(QPair<int, int>) override;
-
 protected:
     DoubleWidget *m_doubleWidget;
     QVBoxLayout *m_lay;

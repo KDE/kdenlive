@@ -52,7 +52,6 @@ public:
     void updateTimecodeFormat();
 
 public slots:
-    void slotSetRange(QPair<int, int> range) override;
     void slotRefresh() override;
     /** @brief intialize qml overlay
      */

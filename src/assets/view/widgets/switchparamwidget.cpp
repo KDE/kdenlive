@@ -56,7 +56,3 @@ void SwitchParamWidget::slotRefresh()
 {
     m_checkBox->setChecked(m_model->data(m_index, AssetParameterModel::ValueRole) == m_model->data(m_index, AssetParameterModel::MaxRole));
 }
-
-void SwitchParamWidget::slotSetRange(QPair<int, int>)
-{
-}

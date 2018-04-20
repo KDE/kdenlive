@@ -46,7 +46,7 @@ public:
     AssetParameterView(QWidget *parent = nullptr);
 
     /** Sets the model to be displayed by current view */
-    virtual void setModel(const std::shared_ptr<AssetParameterModel> &model, QPair<int, int> range, QSize frameSize, bool addSpacer = false);
+    virtual void setModel(const std::shared_ptr<AssetParameterModel> &model, QSize frameSize, bool addSpacer = false);
 
     /** Set the widget to display no model (this yield ownership on the smart-ptr)*/
     void unsetModel();
@@ -57,11 +57,11 @@ public:
     /** Reset all parameter values to default */
     void resetValues();
 
-    /** The parent clip in/out points changed, update effects */
-    void setRange(QPair<int, int> range);
-
     /** Returns the type of monitor overlay required by this effect */
     MonitorSceneType needsMonitorEffectScene() const;
+
+public slots:
+    void slotRefresh();
 
 protected:
     /** @brief This is a handler for the dataChanged slot of the model.

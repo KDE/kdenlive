@@ -99,10 +99,6 @@ void SlideWidget::slotRefresh()
                 end_transp->setValue(w.endTransparency);
 }
 
-void SlideWidget::slotSetRange(QPair<int, int>)
-{
-}
-
 void SlideWidget::updateValue()
 {
     wipeInfo info;

@@ -477,7 +477,7 @@ signals:
     /** @brief Trigger timecode format refresh where needed. */
     void refreshTimeCode();
     /** @brief Request display of effect stack for a Bin clip. */
-    void requestShowEffectStack(const QString &clipName, std::shared_ptr<EffectStackModel>, QPair<int, int> range, QSize frameSize, bool showKeyframes);
+    void requestShowEffectStack(const QString &clipName, std::shared_ptr<EffectStackModel>, QSize frameSize, bool showKeyframes);
     /** @brief Request that the given clip is displayed in the clip monitor */
     void requestClipShow(std::shared_ptr<ProjectClip>);
     void displayBinMessage(const QString &, KMessageWidget::MessageType);

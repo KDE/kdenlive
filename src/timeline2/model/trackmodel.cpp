@@ -406,7 +406,7 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
             if (checkRefresh) {
                 ptr->checkRefresh(old_in, old_out);
                 ptr->checkRefresh(new_in, new_out);
-                ptr->adjustAssetRange(clipId, new_in, new_out);
+                //ptr->adjustAssetRange(clipId, m_allClips[clipId]->getIn(), m_allClips[clipId]->getOut());
             }
         } else {
             qDebug() << "Error : clip resize failed because parent timeline is not available anymore";
@@ -817,7 +817,7 @@ Fun TrackModel::requestCompositionResize_lambda(int compoId, int in, int out)
             ptr->m_snaps->addPoint(new_out);
             ptr->checkRefresh(old_in, old_out);
             ptr->checkRefresh(new_in, new_out);
-            ptr->adjustAssetRange(compoId, new_in, new_out);
+            //ptr->adjustAssetRange(compoId, new_in, new_out);
         } else {
             qDebug() << "Error : Composition resize failed because parent timeline is not available anymore";
             Q_ASSERT(false);

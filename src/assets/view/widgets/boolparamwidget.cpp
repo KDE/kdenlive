@@ -61,7 +61,3 @@ bool BoolParamWidget::getValue()
 {
     return m_checkBox->isChecked();
 }
-
-void BoolParamWidget::slotSetRange(QPair<int, int>)
-{
-}

@@ -90,13 +90,15 @@ ClipModel::~ClipModel()
 
 bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool logUndo)
 {
+    qDebug()<<"++++++++++ PERFORMAING CLIP RESIZE====";
     QWriteLocker locker(&m_lock);
     // qDebug() << "RESIZE CLIP" << m_id << "target size=" << size << "right=" << right << "endless=" << m_endlessResize << "total length" <<
     // m_producer->get_length() << "current length" << getPlaytime();
     if (!m_endlessResize && (size <= 0 || size > m_producer->get_length())) {
         return false;
     }
-    int delta = getPlaytime() - size;
+    int oldDuration = getPlaytime();
+    int delta = oldDuration - size;
     if (delta == 0) {
         return true;
     }
@@ -152,7 +154,8 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
             }
             return false;
         };
-        adjustEffectLength(right, old_in, inPoint, m_producer->get_playtime(), reverse, operation, logUndo);
+        qDebug()<<"// ADJUSTING EFFECT LENGTH, LOGUNDO "<<logUndo<<", "<<old_in<<"/"<<inPoint<<", "<<m_producer->get_playtime();
+        if (logUndo) adjustEffectLength(right, old_in, inPoint, oldDuration, m_producer->get_playtime(), reverse, operation, logUndo);
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
         return true;
     }
@@ -241,22 +244,21 @@ bool ClipModel::removeFade(bool fromStart)
     return true;
 }
 
-bool ClipModel::adjustEffectLength(bool adjustFromEnd, int oldIn, int newIn, int duration, Fun &undo, Fun &redo, bool logUndo)
+bool ClipModel::adjustEffectLength(bool adjustFromEnd, int oldIn, int newIn, int oldDuration, int duration, Fun &undo, Fun &redo, bool logUndo)
 {
-    READ_LOCK();
-    m_effectStack->adjustStackLength(adjustFromEnd, oldIn, newIn, duration, hasAudio(), !isAudioOnly(), undo, redo, logUndo);
-    return true;
+    return m_effectStack->adjustStackLength(adjustFromEnd, oldIn, oldDuration, newIn, duration, hasAudio(), !isAudioOnly(), undo, redo, logUndo);
 }
 
 bool ClipModel::adjustEffectLength(const QString &effectName, int duration, int originalDuration, Fun &undo, Fun &redo)
 {
     READ_LOCK();
+    qDebug()<<".... ADJUSTING FADE LENGTH: "<<duration<<" / "<<effectName;
     Fun operation = [this, duration, effectName]() {
-        return m_effectStack->adjustFadeLength(duration, effectName == QLatin1String("fadein"), hasAudio(), !isAudioOnly());
+        return m_effectStack->adjustFadeLength(duration, effectName == QLatin1String("fadein") || effectName == QLatin1String("fade_to_black"), hasAudio(), !isAudioOnly());
     };
     if (operation() && originalDuration > 0) {
         Fun reverse = [this, originalDuration, effectName]() {
-            return m_effectStack->adjustFadeLength(originalDuration, effectName == QLatin1String("fadein"), hasAudio(), !isAudioOnly());
+            return m_effectStack->adjustFadeLength(originalDuration, effectName == QLatin1String("fadein") || effectName == QLatin1String("fade_to_black"), hasAudio(), !isAudioOnly());
         };
         PUSH_LAMBDA(operation, redo);
         PUSH_LAMBDA(reverse, undo);
@@ -399,7 +401,7 @@ std::shared_ptr<MarkerListModel> ClipModel::getMarkerModel() const
 
 int ClipModel::fadeIn() const
 {
-    return m_effectStack->getFadePosition(true) - getIn();
+    return m_effectStack->getFadePosition(true);
 }
 
 int ClipModel::fadeOut() const

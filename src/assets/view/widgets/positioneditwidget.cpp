@@ -32,8 +32,6 @@ PositionEditWidget::PositionEditWidget(std::shared_ptr<AssetParameterModel> mode
     auto *layout = new QHBoxLayout(this);
     QString name = m_model->data(m_index, Qt::DisplayRole).toString();
     QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
-    //TODO: take absolute from effect data
-    m_absolute = false;
     QLabel *label = new QLabel(name, this);
     m_slider = new QSlider(Qt::Horizontal, this);
     m_slider->setSizePolicy(QSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred));
@@ -44,13 +42,20 @@ PositionEditWidget::PositionEditWidget(std::shared_ptr<AssetParameterModel> mode
     layout->addWidget(label);
     layout->addWidget(m_slider);
     layout->addWidget(m_display);
+    m_inverted = m_model->data(m_index, AssetParameterModel::DefaultRole).toInt() < 0;
     slotRefresh();
 
     connect(m_slider, &QAbstractSlider::valueChanged, m_display, static_cast<void (TimecodeDisplay::*)(int)>(&TimecodeDisplay::setValue));
+    connect(m_display, &TimecodeDisplay::timeCodeEditingFinished, m_slider, &QAbstractSlider::setValue);
     connect(m_slider, &QAbstractSlider::valueChanged, this, &PositionEditWidget::valueChanged);
 
     // emit the signal of the base class when appropriate
-    connect(this->m_slider, &QAbstractSlider::valueChanged, [this](int val) { emit AbstractParamWidget::valueChanged(m_index, QString::number(val), true); });
+    connect(this->m_slider, &QAbstractSlider::valueChanged, [this](int val) {
+        if (m_inverted) { val = m_model->data(m_index, AssetParameterModel::ParentInRole).toInt() + m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt() - val;
+        } else if (!m_model->data(m_index, AssetParameterModel::RelativePosRole).toBool()) {
+            val += m_model->data(m_index, AssetParameterModel::ParentInRole).toInt();
+        }
+        emit AbstractParamWidget::valueChanged(m_index, QString::number(val), true); });
 
     setToolTip(comment);
 }
@@ -82,32 +87,36 @@ void PositionEditWidget::slotUpdatePosition()
     emit valueChanged();
 }
 
-void PositionEditWidget::setAbsolute(bool absolute)
-{
-    m_absolute = absolute;
-}
-
-void PositionEditWidget::slotSetRange(QPair <int, int> range)
-{
-    if (m_absolute) {
-        m_slider->setRange(range.first, range.second);
-        m_display->setRange(range.first, range.second);
-    } else {
-        m_slider->setRange(0, range.second - range.first);
-        m_display->setRange(0, range.second - range.first);
-    }
-}
-
 void PositionEditWidget::slotRefresh()
 {
     int min = m_model->data(m_index, AssetParameterModel::ParentInRole).toInt();
     int max = min + m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt();
-    int val = m_model->data(m_index, AssetParameterModel::ValueRole).toInt();
-    m_slider->blockSignals(true);
-    slotSetRange(QPair<int, int>(min, max));
+    const QSignalBlocker blocker(m_slider);
+    const QSignalBlocker blocker2(m_display);
+    QVariant value = m_model->data(m_index, AssetParameterModel::ValueRole);
+    int val;
+    if (value.isNull()) {
+        val = m_model->data(m_index, AssetParameterModel::DefaultRole).toInt();
+        if (m_inverted) {
+            val = - val;
+        }
+    } else {
+        val = value.toInt();
+        if (m_inverted) {
+            if (val < 0) {
+                val = - val;
+            } else {
+                val = max - value.toInt();
+            }
+        }
+    }
+    m_slider->setRange(0, max - min);
+    m_display->setRange(0, max - min);
+    if (!m_inverted && !m_model->data(m_index, AssetParameterModel::RelativePosRole).toBool()) {
+        val -= min;
+    }
     m_slider->setValue(val);
     m_display->setValue(val);
-    m_slider->blockSignals(false);
 }
 
 

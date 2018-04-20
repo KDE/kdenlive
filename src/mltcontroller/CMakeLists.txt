@@ -4,5 +4,5 @@ set(kdenlive_SRCS
   mltcontroller/clip.cpp
   mltcontroller/clipcontroller.cpp
   mltcontroller/clippropertiescontroller.cpp
-  mltcontroller/effectscontroller.cpp
+#  mltcontroller/effectscontroller.cpp
   PARENT_SCOPE)

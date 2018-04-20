@@ -33,14 +33,15 @@
 #include <QLabel>
 #include <QSlider>
 
-GeometryEditWidget::GeometryEditWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QPair<int, int> range, QSize frameSize, QWidget *parent)
+GeometryEditWidget::GeometryEditWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QSize frameSize, QWidget *parent)
     : AbstractParamWidget(std::move(model), index, parent)
-    , m_range(range)
 {
     auto *layout = new QVBoxLayout(this);
     QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
     const QString value = m_model->data(m_index, AssetParameterModel::ValueRole).toString().simplified();
-    Mlt::Geometry geometry(value.toUtf8().data(), m_range.second, frameSize.width(), frameSize.height());
+    int start = m_model->data(m_index, AssetParameterModel::ParentInRole).toInt();
+    int end = start + m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt();
+    Mlt::Geometry geometry(value.toUtf8().data(), end, frameSize.width(), frameSize.height());
     Mlt::GeometryItem item;
     QRect rect;
     if (geometry.fetch(&item, 0) == 0) {
@@ -50,7 +51,7 @@ GeometryEditWidget::GeometryEditWidget(std::shared_ptr<AssetParameterModel> mode
         rect = QRect(50, 50, 200, 200);
     }
     Monitor *monitor = pCore->getMonitor(m_model->monitorId);
-    m_geom = new GeometryWidget(monitor, range, rect, frameSize, false, m_model->data(m_index, AssetParameterModel::OpacityRole).toBool(), this);
+    m_geom = new GeometryWidget(monitor, QPair<int, int>(start, end), rect, frameSize, false, m_model->data(m_index, AssetParameterModel::OpacityRole).toBool(), this);
     m_geom->setSizePolicy(QSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred));
     layout->addWidget(m_geom);
 
@@ -65,20 +66,14 @@ GeometryEditWidget::~GeometryEditWidget()
 {
 }
 
-void GeometryEditWidget::slotSetRange(QPair <int, int> /*range*/)
-{
-    bool ok;
-    int startPos = m_model->data(m_index, AssetParameterModel::ParentInRole).toInt(&ok);
-    int duration = m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt(&ok);
-    m_range = QPair <int, int>(startPos, startPos + duration);
-    m_geom->slotSetRange(m_range);
-}
-
 void GeometryEditWidget::slotRefresh()
 {
     const QString value = m_model->data(m_index, AssetParameterModel::ValueRole).toString().simplified();
     QRect rect;
     QStringList vals = value.split(QLatin1Char(' '));
+    int start = m_model->data(m_index, AssetParameterModel::ParentInRole).toInt();
+    int end = start + m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt();
+    m_geom->slotSetRange(QPair <int, int>(start, end));
     if (vals.count() >= 4) {
         rect = QRect(vals.at(0).toInt(), vals.at(1).toInt(), vals.at(2).toInt(), vals.at(3).toInt());
         m_geom->setValue(rect);
@@ -93,7 +88,9 @@ void GeometryEditWidget::slotShowComment(bool show)
 void GeometryEditWidget::monitorSeek(int pos)
 {
     // Update monitor scene for geometry params
-    if (pos >= m_range.first && pos < m_range.second) {
+    int start = m_model->data(m_index, AssetParameterModel::ParentInRole).toInt();
+    int end = start + m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt();
+    if (pos >= start && pos < end) {
         m_geom->connectMonitor(true);
         pCore->getMonitor(m_model->monitorId)->setEffectKeyframe(true);
     } else {

@@ -487,12 +487,6 @@ void Core::clearAssetPanel(int itemId)
         m_mainWindow->clearAssetPanel(itemId);
 }
 
-void Core::adjustAssetRange(int itemId, int in, int out)
-{
-    if (m_guiConstructed)
-        m_mainWindow->adjustAssetPanelRange(itemId, in, out);
-}
-
 std::shared_ptr<EffectStackModel> Core::getItemEffectStack(int itemType, int itemId)
 {
     if (!m_guiConstructed) return nullptr;

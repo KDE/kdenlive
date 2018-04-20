@@ -82,7 +82,7 @@ public:
     int getActiveEffect() const;
     /* @brief Adjust an effect duration (useful for fades) */
     bool adjustFadeLength(int duration, bool fromStart, bool audioFade, bool videoFade);
-    bool adjustStackLength(bool adjustFromEnd, int oldIn, int newIn, int duration, bool hasAudio, bool audioOnly, Fun &undo, Fun &redo, bool logUndo);
+    bool adjustStackLength(bool adjustFromEnd, int oldIn, int oldDuration, int newIn, int duration, bool hasAudio, bool audioOnly, Fun &undo, Fun &redo, bool logUndo);
 
     void slotCreateGroup(std::shared_ptr<EffectItemModel> childEffect);
 

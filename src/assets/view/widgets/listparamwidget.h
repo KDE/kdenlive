@@ -83,9 +83,6 @@ public slots:
      */
     void slotRefresh() override;
 
-    /** @brief update the clip's in/out point
-     */
-    void slotSetRange(QPair<int, int>) override;
 };
 
 #endif

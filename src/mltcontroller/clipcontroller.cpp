@@ -627,18 +627,6 @@ Mlt::Properties &ClipController::properties()
     return *m_properties;
 }
 
-// TODO REFAC: this now should be managed from effectstack
-void ClipController::initEffect(QDomElement &xml)
-{
-    QMutexLocker lock(&m_effectMutex);
-    Mlt::Service service = m_masterProducer->parent();
-    ItemInfo info;
-    info.cropStart = GenTime();
-    info.cropDuration = getPlaytime();
-    EffectsList eff = effectList();
-    EffectsController::initEffect(info, eff, getProducerProperty(QStringLiteral("kdenlive:proxy")), xml);
-}
-
 void ClipController::addEffect(QDomElement &xml)
 {
     Q_UNUSED(xml)

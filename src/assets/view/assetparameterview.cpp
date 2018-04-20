@@ -26,7 +26,6 @@
 #include "assets/view/widgets/abstractparamwidget.hpp"
 #include "assets/view/widgets/keyframewidget.hpp"
 #include "core.h"
-#include "widgets/animationwidget.h"
 
 #include <QDebug>
 #include <QFontDatabase>
@@ -44,7 +43,7 @@ AssetParameterView::AssetParameterView(QWidget *parent)
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
 }
 
-void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &model, QPair<int, int> range, QSize frameSize, bool addSpacer)
+void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &model, QSize frameSize, bool addSpacer)
 {
     unsetModel();
     QMutexLocker lock(&m_lock);
@@ -55,7 +54,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
     if (paramTag == QStringLiteral("lift_gamma_gain")) {
         // Special case, the colorwheel widget manages several parameters
         QModelIndex index = model->index(0, 0);
-        auto w = AbstractParamWidget::construct(model, index, range, frameSize, this);
+        auto w = AbstractParamWidget::construct(model, index, frameSize, this);
         connect(w, &AbstractParamWidget::valueChanged, this, &AssetParameterView::commitChanges);
         m_lay->addWidget(w);
         m_widgets.push_back(w);
@@ -69,7 +68,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
                 qDebug() << "// FOUND ADDED PARAM";
                 m_mainKeyframeWidget->addParameter(index);
             } else {
-                auto w = AbstractParamWidget::construct(model, index, range, frameSize, this);
+                auto w = AbstractParamWidget::construct(model, index, frameSize, this);
                 connect(this, &AssetParameterView::initKeyframeView, w, &AbstractParamWidget::slotInitMonitor);
                 if (type == ParamType::KeyframeParam || type == ParamType::AnimatedRect ) {
                     m_mainKeyframeWidget = static_cast<KeyframeWidget *>(w);
@@ -109,16 +108,6 @@ void AssetParameterView::resetValues()
     }
     if (m_mainKeyframeWidget) {
         m_mainKeyframeWidget->slotRefresh();
-    }
-}
-
-void AssetParameterView::setRange(QPair<int, int> range)
-{
-    qDebug() << "SETTING RANGE" << range;
-    QMutexLocker lock(&m_lock);
-    for (uint i = 0; i < m_widgets.size(); ++i) {
-        auto w = m_widgets[i];
-        w->slotSetRange(range);
     }
 }
 
@@ -167,6 +156,7 @@ void AssetParameterView::refresh(const QModelIndex &topLeft, const QModelIndex &
     QMutexLocker lock(&m_lock);
     if (m_widgets.size() == 0) {
         // no visible param for this asset, abort
+        qDebug()<<"/// ASKING REFRESH... EMPTY WIDGET";
         return;
     }
     Q_UNUSED(roles);
@@ -218,3 +208,7 @@ MonitorSceneType AssetParameterView::needsMonitorEffectScene() const
     }
 }*/
 
+void AssetParameterView::slotRefresh()
+{
+    refresh(m_model->index(0, 0), m_model->index(m_model->rowCount() - 1, 0), {});
+}

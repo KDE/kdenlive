@@ -18,14 +18,12 @@
  ***************************************************************************/
 
 #include "abstractparamwidget.hpp"
-#include "animationwidget.h"
 #include "assets/model/assetparametermodel.hpp"
 #include "boolparamwidget.hpp"
 #include "switchparamwidget.hpp"
 #include "lumaliftgainparam.hpp"
 #include "doubleparamwidget.hpp"
 #include "geometryeditwidget.hpp"
-#include "keyframeedit.h"
 #include "keyframewidget.hpp"
 #include "listparamwidget.h"
 #include "positioneditwidget.hpp"
@@ -51,7 +49,6 @@ public:
     }
     void setText(const QString &str) { m_label->setText(str); }
     void slotRefresh() override {}
-    void slotSetRange(QPair<int, int>) override {}
 
 protected:
     QLabel *m_label;
@@ -64,8 +61,7 @@ AbstractParamWidget::AbstractParamWidget(std::shared_ptr<AssetParameterModel> mo
 {
 }
 
-AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetParameterModel> &model, QModelIndex index, QPair<int, int> range,
-                                                    QSize frameSize, QWidget *parent)
+AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetParameterModel> &model, QModelIndex index, QSize frameSize, QWidget *parent)
 {
     // We retrieve the parameter type
     auto type = model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
@@ -89,7 +85,7 @@ AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetP
         widget = new KeyframeWidget(model, index, parent);
         break;
     case ParamType::Geometry:
-        widget = new GeometryEditWidget(model, index, range, frameSize, parent);
+        widget = new GeometryEditWidget(model, index, frameSize, parent);
         break;
     case ParamType::Position:
         widget = new PositionEditWidget(model, index, parent);

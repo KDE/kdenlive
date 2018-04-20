@@ -12,7 +12,7 @@ set(kdenlive_SRCS
   assets/model/assetcommand.cpp
   assets/view/assetparameterview.cpp
   assets/view/widgets/abstractparamwidget.cpp
-  #assets/view/widgets/animationwidget.cpp
+# assets/view/widgets/animationwidget.cpp
   assets/view/widgets/boolparamwidget.cpp
   assets/view/widgets/switchparamwidget.cpp
   assets/view/widgets/urlparamwidget.cpp

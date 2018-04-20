@@ -45,7 +45,8 @@ class CollapsibleEffectView : public AbstractCollapsibleWidget
     Q_OBJECT
 
 public:
-    explicit CollapsibleEffectView(std::shared_ptr<EffectItemModel> effectModel, QPair<int, int> range, QSize frameSize, QImage icon,
+
+    explicit CollapsibleEffectView(std::shared_ptr<EffectItemModel> effectModel, QSize frameSize, QImage icon,
                                    QWidget *parent = nullptr);
     ~CollapsibleEffectView();
     QLabel *title;
@@ -76,8 +77,6 @@ public:
     void adjustButtons(int ix, int max);
     /** @brief Returns this effect's monitor scene type if any is needed. */
     MonitorSceneType needsMonitorEffectScene() const;
-    /** @brief Set clip in / out points. */
-    void setRange(QPair<int, int> range);
     /** @brief Import keyframes from a clip's data. */
     void setKeyframes(const QString &tag, const QString &keyframes);
     /** @brief Pass frame size info (dar, etc). */
@@ -122,7 +121,6 @@ private:
     QDomElement m_original_effect;
     QList<QDomElement> m_subEffects;
     QMenu *m_menu;
-    EffectInfo m_info;
     bool m_isMovable;
     /** @brief True if this is a region effect, which behaves in a special way, like a group. */
     bool m_regionEffect;
@@ -163,6 +161,7 @@ signals:
     void switchHeight(std::shared_ptr<EffectItemModel> model, int height);
     void startDrag(QPixmap, std::shared_ptr<EffectItemModel> effectModel);
     void activateEffect(std::shared_ptr<EffectItemModel> effectModel);
+    void refresh();
 };
 
 #endif

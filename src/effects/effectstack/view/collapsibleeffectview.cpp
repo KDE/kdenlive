@@ -53,7 +53,7 @@
 #include <KRecentDirs>
 #include <klocalizedstring.h>
 
-CollapsibleEffectView::CollapsibleEffectView(std::shared_ptr<EffectItemModel> effectModel, QPair<int, int> range, QSize frameSize, QImage icon, QWidget *parent)
+CollapsibleEffectView::CollapsibleEffectView(std::shared_ptr<EffectItemModel> effectModel, QSize frameSize, QImage icon, QWidget *parent)
     : AbstractCollapsibleWidget(parent)
     /*    , m_effect(effect)
         , m_itemInfo(info)
@@ -132,8 +132,9 @@ CollapsibleEffectView::CollapsibleEffectView(std::shared_ptr<EffectItemModel> ef
     title->setText(effectName);
 
     m_view = new AssetParameterView(this);
-    m_view->setModel(std::static_pointer_cast<AssetParameterModel>(effectModel), range, frameSize);
+    m_view->setModel(std::static_pointer_cast<AssetParameterModel>(effectModel), frameSize);
     connect(m_view, &AssetParameterView::seekToPos, this, &AbstractCollapsibleWidget::seekToPos);
+    connect(this, &CollapsibleEffectView::refresh, m_view, &AssetParameterView::slotRefresh);
     QVBoxLayout *lay = new QVBoxLayout(widgetFrame);
     lay->setContentsMargins(0, 0, 0, 0);
     lay->setSpacing(0);
@@ -148,9 +149,9 @@ CollapsibleEffectView::CollapsibleEffectView(std::shared_ptr<EffectItemModel> ef
     }
     m_menu->addAction(KoIconUtils::themedIcon(QStringLiteral("document-save")), i18n("Save Effect"), this, SLOT(slotSaveEffect()));
     if (!m_regionEffect) {
-        if (m_info.groupIndex == -1) {
+        /*if (m_info.groupIndex == -1) {
             m_menu->addAction(m_groupAction);
-        }
+        }*/
         m_menu->addAction(KoIconUtils::themedIcon(QStringLiteral("folder-new")), i18n("Create Region"), this, SLOT(slotCreateRegion()));
     }
 
@@ -441,40 +442,40 @@ void CollapsibleEffectView::animationFinished()
 
 void CollapsibleEffectView::setGroupIndex(int ix)
 {
-    if (m_info.groupIndex == -1 && ix != -1) {
+    /*if (m_info.groupIndex == -1 && ix != -1) {
         m_menu->removeAction(m_groupAction);
     } else if (m_info.groupIndex != -1 && ix == -1) {
         m_menu->addAction(m_groupAction);
     }
     m_info.groupIndex = ix;
-    m_effect.setAttribute(QStringLiteral("kdenlive_info"), m_info.toString());
+    m_effect.setAttribute(QStringLiteral("kdenlive_info"), m_info.toString());*/
 }
 
 void CollapsibleEffectView::setGroupName(const QString &groupName)
 {
-    m_info.groupName = groupName;
-    m_effect.setAttribute(QStringLiteral("kdenlive_info"), m_info.toString());
+    /*m_info.groupName = groupName;
+    m_effect.setAttribute(QStringLiteral("kdenlive_info"), m_info.toString());*/
 }
 
 QString CollapsibleEffectView::infoString() const
 {
-    return m_info.toString();
+    return QString(); //m_info.toString();
 }
 
 void CollapsibleEffectView::removeFromGroup()
 {
-    if (m_info.groupIndex != -1) {
+    /*if (m_info.groupIndex != -1) {
         m_menu->addAction(m_groupAction);
     }
     m_info.groupIndex = -1;
     m_info.groupName.clear();
     m_effect.setAttribute(QStringLiteral("kdenlive_info"), m_info.toString());
-    emit parameterChanged(m_original_effect, m_effect, effectIndex());
+    emit parameterChanged(m_original_effect, m_effect, effectIndex());*/
 }
 
 int CollapsibleEffectView::groupIndex() const
 {
-    return m_info.groupIndex;
+    return -1;//m_info.groupIndex;
 }
 
 int CollapsibleEffectView::effectIndex() const
@@ -674,10 +675,11 @@ void CollapsibleEffectView::dropEvent(QDropEvent *event)
                 event->ignore();
                 return;
             }
-            EffectInfo info;
-            info.fromString(subeffects.at(0).toElement().attribute(QStringLiteral("kdenlive_info")));
             event->setDropAction(Qt::MoveAction);
             event->accept();
+            /*
+            EffectInfo info;
+            info.fromString(subeffects.at(0).toElement().attribute(QStringLiteral("kdenlive_info")));
             if (info.groupIndex >= 0) {
                 // Moving group
                 QList<int> effectsIds;
@@ -693,15 +695,16 @@ void CollapsibleEffectView::dropEvent(QDropEvent *event)
                     // TODO: Should we merge groups??
                 }
                 emit addEffect(e);
-            }
+            }*/
+            emit addEffect(e);
             return;
         }
         // effect dropped from effects list, add it
         e.setAttribute(QStringLiteral("kdenlive_ix"), ix);
-        if (m_info.groupIndex > -1) {
+        /*if (m_info.groupIndex > -1) {
             // Dropped on a group
             e.setAttribute(QStringLiteral("kdenlive_info"), m_info.toString());
-        }
+        }*/
         event->setDropAction(Qt::CopyAction);
         event->accept();
         emit addEffect(e);
@@ -724,13 +727,6 @@ MonitorSceneType CollapsibleEffectView::needsMonitorEffectScene() const
         return MonitorSceneDefault;
     }
     return m_view->needsMonitorEffectScene();
-}
-
-void CollapsibleEffectView::setRange(QPair<int, int> range)
-{
-    if (m_view) {
-        m_view->setRange(range);
-    }
 }
 
 void CollapsibleEffectView::setKeyframes(const QString &tag, const QString &keyframes)

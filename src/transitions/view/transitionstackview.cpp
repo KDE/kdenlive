@@ -35,7 +35,7 @@ TransitionStackView::TransitionStackView(QWidget *parent)
 {
 }
 
-void TransitionStackView::setModel(const std::shared_ptr<AssetParameterModel> &model, QPair<int, int> range, QSize frameSize, bool addSpacer)
+void TransitionStackView::setModel(const std::shared_ptr<AssetParameterModel> &model, QSize frameSize, bool addSpacer)
 {
     QHBoxLayout *lay = new QHBoxLayout;
     m_trackBox = new QComboBox(this);
@@ -49,7 +49,7 @@ void TransitionStackView::setModel(const std::shared_ptr<AssetParameterModel> &m
         }
     }
     m_trackBox->addItem(i18n("Background"), 0);
-    AssetParameterView::setModel(model, range, frameSize, addSpacer);
+    AssetParameterView::setModel(model, frameSize, addSpacer);
     if (!pCore->compositionAutoTrack(model->getOwnerId().second)) {
         m_trackBox->setCurrentIndex(m_trackBox->findData(aTrack.first));
     }
@@ -79,11 +79,6 @@ ObjectId TransitionStackView::stackOwner() const
         return m_model->getOwnerId();
     }
     return ObjectId(ObjectType::NoItem, -1);
-}
-
-void TransitionStackView::setRange(int in, int out)
-{
-    AssetParameterView::setRange(QPair<int, int>(in, out));
 }
 
 void TransitionStackView::checkCompoTrack()

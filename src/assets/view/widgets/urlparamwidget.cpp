@@ -63,7 +63,3 @@ void UrlParamWidget::slotRefresh()
 {
     urlwidget->setUrl(QUrl::fromLocalFile(m_model->data(m_index, AssetParameterModel::ValueRole).toString()));
 }
-
-void UrlParamWidget::slotSetRange(QPair<int, int>)
-{
-}

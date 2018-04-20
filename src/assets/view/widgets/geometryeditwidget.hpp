@@ -37,8 +37,7 @@ class GeometryEditWidget : public AbstractParamWidget
     Q_OBJECT
 public:
     /** @brief Sets up the parameter's GUI.*/
-    explicit GeometryEditWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QPair<int, int> range, QSize frameSize,
-                                QWidget *parent = nullptr);
+    explicit GeometryEditWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QSize frameSize, QWidget *parent = nullptr);
     ~GeometryEditWidget();
 
 public slots:
@@ -50,10 +49,6 @@ public slots:
      */
     void slotRefresh() override;
 
-    /** @brief update the clip's in/out point
-     */
-    void slotSetRange(QPair<int, int>) override;
-
     /** @brief intialize qml overlay
      */
     void slotInitMonitor(bool active) override;
@@ -64,7 +59,6 @@ private slots:
 
 private:
     GeometryWidget *m_geom;
-    QPair<int, int> m_range;
 };
 
 #endif

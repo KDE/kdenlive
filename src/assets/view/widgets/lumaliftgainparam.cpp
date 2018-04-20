@@ -136,7 +136,3 @@ void LumaLiftGainParam::slotRefresh()
     m_gain->setColor(gain);
     qDebug()<<"//REFRESHING WIDGET START DONE--------------__";
 }
-
-void LumaLiftGainParam::slotSetRange(QPair<int, int>)
-{
-}

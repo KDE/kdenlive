@@ -71,7 +71,6 @@ EffectStackView::EffectStackView(AssetPanel *parent)
     : QWidget(parent)
     , m_model(nullptr)
     , m_thumbnailer(new AssetIconProvider(true))
-    , m_range(-1, -1)
 {
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     m_lay = new QVBoxLayout(this);
@@ -156,7 +155,7 @@ void EffectStackView::dropEvent(QDropEvent *event)
     }
 }
 
-void EffectStackView::setModel(std::shared_ptr<EffectStackModel> model, QPair<int, int> range, const QSize frameSize)
+void EffectStackView::setModel(std::shared_ptr<EffectStackModel> model, const QSize frameSize)
 {
     qDebug() << "MUTEX LOCK!!!!!!!!!!!! setmodel";
     m_mutex.lock();
@@ -172,17 +171,16 @@ void EffectStackView::setModel(std::shared_ptr<EffectStackModel> model, QPair<in
     m_effectsTree->setUniformRowHeights(false);
     m_mutex.unlock();
     qDebug() << "MUTEX UNLOCK!!!!!!!!!!!! setmodel";
-    loadEffects(range);
+    loadEffects();
     connect(m_model.get(), &EffectStackModel::dataChanged, this, &EffectStackView::refresh);
     //m_builtStack->setModel(model, stackOwner());
 }
 
-void EffectStackView::loadEffects(QPair<int, int> range, int start, int end)
+void EffectStackView::loadEffects(int start, int end)
 {
     Q_UNUSED(start)
     qDebug() << "MUTEX LOCK!!!!!!!!!!!! loadEffects: "<<start<<" to "<<end;
     QMutexLocker lock(&m_mutex);
-    m_range = range;
     int max = m_model->rowCount();
     if (max == 0) {
         // blank stack
@@ -208,7 +206,7 @@ void EffectStackView::loadEffects(QPair<int, int> range, int start, int end)
         if (i >= start && i <= end) {
             // We need to rebuild the effect view
             QImage effectIcon = m_thumbnailer->requestImage(effectModel->getAssetId(), &size, QSize(QStyle::PM_SmallIconSize, QStyle::PM_SmallIconSize));
-            view = new CollapsibleEffectView(effectModel, range, m_sourceFrameSize, effectIcon, this);
+            view = new CollapsibleEffectView(effectModel, m_sourceFrameSize, effectIcon, this);
             connect(view, &CollapsibleEffectView::deleteEffect, m_model.get(), &EffectStackModel::removeEffect);
             connect(view, &CollapsibleEffectView::moveEffect, m_model.get(), &EffectStackModel::moveEffect);
             connect(view, &CollapsibleEffectView::switchHeight, this, &EffectStackView::slotAdjustDelegate, Qt::DirectConnection);
@@ -233,7 +231,6 @@ void EffectStackView::loadEffects(QPair<int, int> range, int start, int end)
         view->slotActivateEffect(m_model->getIndexFromItem(activeModel));
         view->buttonUp->setEnabled(i > 0);
         view->buttonDown->setEnabled(i < max - 1);
-        
     }
     updateTreeHeight();
     qDebug() << "MUTEX UNLOCK!!!!!!!!!!!! loadEffects";
@@ -299,7 +296,18 @@ void EffectStackView::slotAdjustDelegate(std::shared_ptr<EffectItemModel> effect
 void EffectStackView::refresh(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles)
 {
     Q_UNUSED(roles)
-    loadEffects(m_range, topLeft.row(), bottomRight.row());
+    if (!topLeft.isValid() || !bottomRight.isValid()) {
+        loadEffects(topLeft.row(), bottomRight.row());
+        return;
+    }
+    for (int i = topLeft.row(); i <= bottomRight.row(); ++i)  {
+        for (int j = topLeft.column(); j <= bottomRight.column(); ++j)  {
+            CollapsibleEffectView *w = static_cast<CollapsibleEffectView *>(m_effectsTree->indexWidget(m_model->index(i, j, topLeft.parent())));
+            if (w) {
+                w->refresh();
+            }
+        }
+    }
 }
 
 void EffectStackView::unsetModel(bool reset)
@@ -310,22 +318,6 @@ void EffectStackView::unsetModel(bool reset)
     }
     if (reset) {
         m_model.reset();
-    }
-}
-
-void EffectStackView::setRange(int in, int out)
-{
-    qDebug() << "MUTEX LOCK!!!!!!!!!!!! setrange";
-    QMutexLocker lock(&m_mutex);
-    m_range.first = in;
-    m_range.second = out;
-    int max = m_model->rowCount();
-    for (int i = 0; i < max; i++) {
-        std::shared_ptr<AbstractEffectItem> item = m_model->getEffectStackRow(i);
-        std::shared_ptr<EffectItemModel> eff = std::static_pointer_cast<EffectItemModel>(item);
-        QModelIndex ix = m_model->getIndexFromItem(eff);
-        auto w = m_effectsTree->indexWidget(ix);
-        static_cast<CollapsibleEffectView *>(w)->setRange(m_range);
     }
 }
 

@@ -58,10 +58,6 @@ public slots:
      */
     void slotRefresh() override;
 
-    /** @brief update the clip's in/out point
-     */
-    void slotSetRange(QPair<int, int>) override;
-
     /** @brief Updates the different color choosing options to have all selected @param color. */
     void setColor(const QColor &color);
 

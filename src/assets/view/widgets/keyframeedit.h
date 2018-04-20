@@ -115,10 +115,6 @@ public slots:
      */
     void slotRefresh() override;
 
-    /** @brief update the clip's in/out point
-     */
-    void slotSetRange(QPair<int, int>) override;
-
 protected:
     /** @brief Gets the position of a keyframe from the table.
      * @param row Row of the keyframe in the table */

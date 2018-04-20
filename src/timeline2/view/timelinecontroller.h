@@ -418,7 +418,7 @@ signals:
     void zoneMoved(const QPoint &zone);
     /* @brief Requests that a given parameter model is displayed in the asset panel */
     void showTransitionModel(int tid, std::shared_ptr<AssetParameterModel>);
-    void showItemEffectStack(const QString &clipName, std::shared_ptr<EffectStackModel>, QPair<int, int> range, QSize frameSize, bool showKeyframes);
+    void showItemEffectStack(const QString &clipName, std::shared_ptr<EffectStackModel>, QSize frameSize, bool showKeyframes);
     /* @brief notify of chunks change
      */
     void dirtyChunksChanged();
