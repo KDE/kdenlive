@@ -110,6 +110,8 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGro
     m_documentProperties[QStringLiteral("generateimageproxy")] = QString::number((int)KdenliveSettings::generateimageproxy());
     m_documentProperties[QStringLiteral("proxyimageminsize")] = QString::number(KdenliveSettings::proxyimageminsize());
     m_documentProperties[QStringLiteral("proxyimagesize")] = QString::number(KdenliveSettings::proxyimagesize());
+    m_documentProperties[QStringLiteral("resizepreview")] = QString::number((int)KdenliveSettings::resizepreview());
+    m_documentProperties[QStringLiteral("previewheight")] = QString::number(KdenliveSettings::previewheight());
 
     // Load properties
     QMapIterator<QString, QString> i(properties);

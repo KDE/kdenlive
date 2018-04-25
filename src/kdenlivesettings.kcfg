@@ -135,17 +135,17 @@
       <label>Auto generate proxy for new clips.</label>
       <default>false</default>
     </entry>
-    
+
     <entry name="generateimageproxy" type="Bool">
       <label>Auto generate proxy for new image clips.</label>
       <default>false</default>
     </entry>
-    
+
     <entry name="proxyminsize" type="Int">
       <label>Minimum source size for proxy creation.</label>
       <default>1000</default>
     </entry>
-    
+
     <entry name="proxyimageminsize" type="Int">
       <label>Minimum source size for proxy creation.</label>
       <default>2000</default>
@@ -158,12 +158,12 @@
       <label>File extension for proxy clips.</label>
       <default></default>
     </entry>
-    
+
     <entry name="proxy_profile" type="Int">
       <label>default proxy encoding profile.</label>
       <default>0</default>
     </entry>
-    
+
     <entry name="proxyparams" type="String">
       <label>Proxy clips transcoding parameters.</label>
       <default></default>
@@ -173,17 +173,28 @@
       <label>File extension for timeline preview.</label>
       <default></default>
     </entry>
-    
+
     <entry name="preview_profile" type="Int">
       <label>default preview encoding profile.</label>
       <default>0</default>
     </entry>
-    
+
     <entry name="previewparams" type="String">
       <label>Timeline preview encoding parameters.</label>
       <default></default>
     </entry>
-  </group>
+
+    <entry name="resizepreview" type="Bool">
+      <label>Resize timeline preview to smaller size for faster rendering.</label>
+      <default>false</default>
+    </entry>
+
+    <entry name="previewheight" type="Int">
+      <label>default height for timeline preview resize.</label>
+      <default>600</default>
+    </entry>
+
+    </group>
 
   <group name="timeline">
     <entry name="headerwidth" type="Int">
