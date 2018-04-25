@@ -24,6 +24,7 @@ Name[tr]=Kdenlive İşleme Profilleri
 Name[uk]=Профілі обробки Kdenlive
 Name[x-test]=xxKdenlive Render Profilesxx
 Name[zh_CN]=Kdenlive 渲染配置文件
+Name[zh_TW]=Kdenlive 繪製設定檔
 ProvidersUrl=http://download.kde.org/ocs/providers.xml
 Categories=Kdenlive Export Profiles
 TargetDir=kdenlive/export
