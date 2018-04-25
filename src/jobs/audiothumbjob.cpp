@@ -134,9 +134,9 @@ bool AudioThumbJob::computeWithFFMPEG()
              << QStringLiteral("-c:a") << QStringLiteral("pcm_s16le") << QStringLiteral("-y") << QStringLiteral("-f") << QStringLiteral("data")
              << channelFiles[0]->fileName();
     } else {
-        QString aformat = QStringLiteral("[0:a%1]%2=100,channelsplit=channel_layout=stereo")
+        QString aformat = QStringLiteral("[0:a%1]%2=100,channelsplit=channel_layout=%3")
                               .arg(m_audioStream > 0 ? ":" + QString::number(m_audioStream) : QString())
-                              .arg(isFFmpeg ? "aresample=async" : "aformat=sample_rates=");
+                              .arg(isFFmpeg ? "aresample=async" : "aformat=sample_rates=").arg(m_channels > 2 ? "5.1" : "stereo");
         for (int i = 0; i < m_channels; ++i) {
             aformat.append(QStringLiteral("[0:%1]").arg(i));
         }
