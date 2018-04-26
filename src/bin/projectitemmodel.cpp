@@ -837,3 +837,8 @@ void ProjectItemModel::saveProperty(const QString &name, const QString &value)
 {
     m_binPlaylist->saveProperty(name, value);
 }
+
+QMap<QString, QString> ProjectItemModel::getProxies(const QString &root)
+{
+    return m_binPlaylist->getProxies(root);
+}

@@ -187,6 +187,9 @@ public:
     /* @brief Retrieves the next id available for attribution to a clip */
     int getFreeClipId();
 
+    /** @brief Retrieve a list of proxy/original urls */
+    QMap<QString, QString> getProxies(const QString &root);
+
 protected:
     /* @brief Register the existence of a new element
      */

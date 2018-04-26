@@ -50,6 +50,7 @@
 #include "macros.hpp"
 
 int TimelineModel::next_id = 0;
+int TimelineModel::seekDuration = 30000;
 
 TimelineModel::TimelineModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack)
     : QAbstractItemModel_shared_from_this()
@@ -73,7 +74,7 @@ TimelineModel::TimelineModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> 
     m_blackClip->set("length", INT_MAX);
     m_blackClip->set("set.test_audio", 0);
     m_blackClip->set("length", INT_MAX);
-    m_blackClip->set_in_and_out(0, 10);
+    m_blackClip->set_in_and_out(0, TimelineModel::seekDuration);
     m_tractor->insert_track(*m_blackClip, 0);
 
 #ifdef LOGGING
@@ -1374,15 +1375,15 @@ bool TimelineModel::isGroup(int id) const
 
 void TimelineModel::updateDuration()
 {
-    int current = m_blackClip->get_playtime();
-    int duration = 10;
+    int current = m_blackClip->get_playtime() - TimelineModel::seekDuration;
+    int duration = 0;
     for (const auto &tck : m_iteratorTable) {
         auto track = (*tck.second);
         duration = qMax(duration, track->trackDuration());
     }
     if (duration != current) {
         // update black track length
-        m_blackClip->set_in_and_out(0, duration);
+        m_blackClip->set_in_and_out(0, duration + TimelineModel::seekDuration);
         emit durationUpdated();
     }
 }

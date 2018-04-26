@@ -69,6 +69,9 @@ public:
     /** @brief Save a property to main bin */
     void saveProperty(const QString &name, const QString &value);
 
+    /** @brief Retrieve a list of proxy/original urls */
+    QMap<QString, QString> getProxies(const QString &root);
+
     // id of the mlt object
     static QString binPlaylistId;
 protected:

@@ -2149,7 +2149,7 @@ void MainWindow::slotZoneMoved(int start, int end)
 void MainWindow::slotGuidesUpdated()
 {
     if (m_renderWidget) {
-        double projectDuration = GenTime(getMainTimeline()->controller()->duration(), pCore->getCurrentFps()).ms() / 1000;
+        double projectDuration = GenTime(getMainTimeline()->controller()->duration() - TimelineModel::seekDuration - 2, pCore->getCurrentFps()).ms() / 1000;
         m_renderWidget->setGuides(pCore->currentDoc()->getGuideModel()->getAllMarkers(), projectDuration);
     }
 }
@@ -3419,8 +3419,9 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
         in = getMainTimeline()->controller()->zoneIn();
         out = getMainTimeline()->controller()->zoneOut();
     } else {
-        out = getMainTimeline()->controller()->duration() - 2;
+        out = getMainTimeline()->controller()->duration() - TimelineModel::seekDuration - 2;
     }
+
     QString playlistContent = pCore->projectManager()->projectSceneList(project->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile());
     if (!chapterFile.isEmpty()) {
         QDomDocument doc;
@@ -3501,8 +3502,7 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
         }
 
         // replace proxy clips with originals
-        // TODO
-        QMap<QString, QString> proxies = pCore->binController()->getProxies(pCore->currentDoc()->documentRoot());
+        QMap<QString, QString> proxies = pCore->projectItemModel()->getProxies(pCore->currentDoc()->documentRoot());
 
         QDomNodeList producers = doc.elementsByTagName(QStringLiteral("producer"));
         QString producerResource;

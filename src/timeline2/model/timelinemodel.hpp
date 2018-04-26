@@ -416,6 +416,7 @@ public:
        Returns the duration in frames
     */
     int duration() const;
+    static int seekDuration; // Duration after project end where seeking is allowed
 
     /* @brief Get all the elements of the same group as the given clip.
        If there is a group hierarchy, only the topmost group is considered.

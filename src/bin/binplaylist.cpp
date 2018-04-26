@@ -160,3 +160,27 @@ void BinPlaylist::saveProperty(const QString &name, const QString &value)
 {
     m_binPlaylist->set(name.toUtf8().constData(), value.toUtf8().constData());
 }
+
+QMap<QString, QString> BinPlaylist::getProxies(const QString &root)
+{
+    QMap<QString, QString> proxies;
+    int size = m_binPlaylist->count();
+    for (int i = 0; i < size; i++) {
+        QScopedPointer<Mlt::Producer> prod(m_binPlaylist->get_clip(i));
+        if (!prod->is_valid() || prod->is_blank()) {
+            continue;
+        }
+        QString proxy = prod->parent().get("kdenlive:proxy");
+        if (proxy.length() > 2) {
+            if (QFileInfo(proxy).isRelative()) {
+                proxy.prepend(root);
+            }
+            QString sourceUrl(prod->parent().get("kdenlive:originalurl"));
+            if (QFileInfo(sourceUrl).isRelative()) {
+                sourceUrl.prepend(root);
+            }
+            proxies.insert(proxy, sourceUrl);
+        }
+    }
+    return proxies;
+}
