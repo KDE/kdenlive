@@ -216,7 +216,6 @@ void PreviewManager::disconnectTrack()
             delete trkprod;
         }
     }
-    qDebug() << "// DISCONNECTING PREV TK.............";
     m_previewTrackIndex = -1;
 }
 

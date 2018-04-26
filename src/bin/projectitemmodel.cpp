@@ -792,6 +792,9 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tract
                 }
                 QString id = qstrdup(producer->get("kdenlive:id"));
                 QString parentId = qstrdup(producer->get("kdenlive:folderid"));
+                if (parentId.isEmpty()) {
+                    parentId = QStringLiteral("-1");
+                }
                 qDebug() << "clip id" << id;
                 if (id.contains(QLatin1Char('_'))) {
                     // TODO refac ?
