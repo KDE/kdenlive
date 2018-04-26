@@ -135,7 +135,7 @@ Rectangle {
                     border.width: 1
                     MouseArea {
                         anchors.fill: parent
-                        onDoubleClicked: {
+                        onClicked: {
                             if (trackHeadRoot.isAudio) {
                                 if (trackHeadRoot.trackId == timeline.audioTarget) {
                                     timeline.audioTarget = -1;
