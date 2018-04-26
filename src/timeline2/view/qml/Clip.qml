@@ -711,6 +711,7 @@ Rectangle {
                 clipRoot.originalDuration = clipDuration
                 parent.anchors.left = undefined
                 shiftTrim = mouse.modifiers & Qt.ShiftModifier
+                parent.opacity = 0
             }
             onReleased: {
                 root.stopScrolling = false
@@ -727,7 +728,9 @@ Rectangle {
                 }
             }
             onEntered: {
-                parent.opacity = 0.5
+                if (!pressed) {
+                    parent.opacity = 0.5
+                }
             }
             onExited: {
                 parent.opacity = 0
@@ -761,6 +764,7 @@ Rectangle {
                 clipRoot.originalDuration = clipDuration
                 parent.anchors.right = undefined
                 shiftTrim = mouse.modifiers & Qt.ShiftModifier
+                parent.opacity = 0
             }
             onReleased: {
                 root.stopScrolling = false
@@ -775,7 +779,11 @@ Rectangle {
                     }
                 }
             }
-            onEntered: parent.opacity = 0.5
+            onEntered: {
+                if (!pressed) {
+                    parent.opacity = 0.5
+                }
+            }
             onExited: parent.opacity = 0
         }
     }
