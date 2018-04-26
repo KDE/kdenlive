@@ -171,6 +171,8 @@ public:
     void updateEffect(const QDomElement &e, int ix);
     /** @brief Returns true if the bin clip has effects */
     bool hasEffects() const;
+    /** @brief Returns true if the clip contains at least one audio stream */
+    bool hasAudio() const;
     /** @brief Returns info about clip audio */
     const std::unique_ptr<AudioStreamInfo> &audioInfo() const;
     /** @brief Returns true if audio thumbnails for this clip are cached */
@@ -202,6 +204,9 @@ protected:
     virtual void emitProducerChanged(const QString &, const std::shared_ptr<Mlt::Producer> &){};
     virtual void connectEffectStack(){};
 
+    // This is the helper function that checks the clip for audio and stores the result
+    void checkAudio();
+
     std::shared_ptr<Mlt::Producer> m_masterProducer;
     Mlt::Properties *m_properties;
     bool m_usesProxy;
@@ -217,6 +222,7 @@ protected:
     // void rebuildEffectList(ProfileInfo info);
     std::shared_ptr<EffectStackModel> m_effectStack;
     std::shared_ptr<MarkerListModel> m_markerModel;
+    bool m_hasAudio;
 
 private:
     QMutex m_producerLock;

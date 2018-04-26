@@ -274,7 +274,14 @@ bool ClipModel::hasAudio() const
         // Playlist clip, assume audio
         return true;
     }
-    return (service.contains(QStringLiteral("avformat")) || service == QLatin1String("timewarp")) && (getIntProperty(QStringLiteral("audio_index")) > -1);
+    qDebug() << "checking audio:" << service
+             << ((service.contains(QStringLiteral("avformat")) || service == QLatin1String("timewarp")) &&
+                 (getIntProperty(QStringLiteral("audio_index")) > -1));
+    if ((service.contains(QStringLiteral("avformat")) || service == QLatin1String("timewarp")) && (getIntProperty(QStringLiteral("audio_index")) > -1)) {
+        return true;
+    }
+    std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
+    return binClip->hasAudio();
 }
 
 bool ClipModel::isAudioOnly() const

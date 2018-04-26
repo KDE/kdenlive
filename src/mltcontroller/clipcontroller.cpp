@@ -56,6 +56,9 @@ ClipController::ClipController(const QString clipId, std::shared_ptr<Mlt::Produc
         qCDebug(KDENLIVE_LOG) << "// WARNING, USING INVALID PRODUCER";
         return;
     }
+    if (m_masterProducer) {
+        checkAudio();
+    }
     if (m_properties) {
         setProducerProperty(QStringLiteral("kdenlive:id"), m_controllerBinId);
         m_service = m_properties->get("mlt_service");
@@ -68,7 +71,8 @@ ClipController::ClipController(const QString clipId, std::shared_ptr<Mlt::Produc
                 path.prepend(pCore->currentDoc()->documentRoot());
             }
             m_usesProxy = true;
-        } else if (m_service != QLatin1String("color") && m_service != QLatin1String("colour") && !path.isEmpty() && QFileInfo(path).isRelative()) {
+        } else if (m_service != QLatin1String("color") && m_service != QLatin1String("colour") && !path.isEmpty() && QFileInfo(path).isRelative() &&
+                   path != QLatin1String("<producer>")) {
             path.prepend(pCore->currentDoc()->documentRoot());
         }
         m_path = path.isEmpty() ? QString() : QFileInfo(path).absoluteFilePath();
@@ -107,6 +111,7 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
         m_producerLock.unlock();
         qCDebug(KDENLIVE_LOG) << "// WARNING, USING INVALID PRODUCER";
     } else {
+        checkAudio();
         m_producerLock.unlock();
         QString proxy = m_properties->get("kdenlive:proxy");
         m_service = m_properties->get("mlt_service");
@@ -298,6 +303,7 @@ void ClipController::updateProducer(const std::shared_ptr<Mlt::Producer> &produc
     passProperties.pass_list(*m_properties, getPassPropertiesList(m_usesProxy));
     delete m_properties;
     *m_masterProducer = producer.get();
+    checkAudio();
     m_properties = new Mlt::Properties(m_masterProducer->get_properties());
     // Pass properties from previous producer
     m_properties->pass_list(passProperties, getPassPropertiesList(m_usesProxy));
@@ -557,6 +563,18 @@ const QSize ClipController::getFrameSize() const
         height = m_masterProducer->get_int("height");
     }
     return QSize(width, height);
+}
+
+bool ClipController::hasAudio() const
+{
+    return m_hasAudio;
+}
+void ClipController::checkAudio()
+{
+    m_masterProducer->seek(0);
+    Mlt::Frame *frame = m_masterProducer->get_frame();
+    // test_audio returns 1 if there is NO audio (strange but at the time this code is written)
+    m_hasAudio = frame->get_int("test_audio") == 0;
 }
 
 QPixmap ClipController::pixmap(int framePosition, int width, int height)
