@@ -122,6 +122,12 @@ public:
     /* @brief Move element id in the same group as targetId */
     void setInGroupOf(int id, int targetId, Fun &undo, Fun &redo);
 
+    /* @brief We replace the leaf node given by id with a group that contains the leaf plus all the clips in to_add.
+     * The created group type is given in parameter
+     * Returns true on success
+     */
+    bool createGroupAtSameLevel(int id, std::unordered_set<int> to_add, GroupType type, Fun &undo, Fun &redo);
+
     /* @brief Returns the id of all the descendant of given item (including item)
        @param id of the groupItem
     */
@@ -137,6 +143,11 @@ public:
        @param id of the groupItem
      */
     std::unordered_set<int> getDirectChildren(int id) const;
+
+    /* @brief Gets direct ancestor of a given group item. Returns -1 if not in a group
+       @param id of the groupItem
+    */
+    int getDirectAncestor(int id) const;
 
     /* @brief Get the type of the group
        @param id of the groupItem. Must be a proper group, not a leaf
@@ -192,7 +203,10 @@ protected:
     /* @brief Transform a group node with no children into a leaf. This implies doing the deregistration to the timeline */
     void downgradeToLeaf(int gid);
 
-    /* @brief Simple type setter */
+    /* @Brief helper function to change the type of a group.
+       @param id of the groupItem
+       @param type: new type of the group
+    */
     void setType(int gid, GroupType type);
 
 private:

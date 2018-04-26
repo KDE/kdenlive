@@ -73,8 +73,18 @@ struct TimelineFunctions
     static bool requestItemCopy(std::shared_ptr<TimelineItemModel> timeline, int clipId, int trackId, int position);
     static void showClipKeyframes(std::shared_ptr<TimelineItemModel> timeline, int clipId, bool value);
     static void showCompositionKeyframes(std::shared_ptr<TimelineItemModel> timeline, int compoId, bool value);
+
+    /* @brief Change the status of the clip to Video+audio, video only, or audio only
+     * @param timeline: pointer to the timeline that we modify
+     * @param clipId: Id of the clip to modify
+     * @param status: target status of the clip
+     This function creates an undo object and returns true on success
+     */
     static bool changeClipState(std::shared_ptr<TimelineItemModel> timeline, int clipId, PlaylistState::ClipState status);
+    /* @brief Same function as above, but accumulates for undo/redo
+     */
     static bool changeClipState(std::shared_ptr<TimelineItemModel> timeline, int clipId, PlaylistState::ClipState status, Fun &undo, Fun &redo);
+
     static bool requestSplitAudio(std::shared_ptr<TimelineItemModel> timeline, int clipId, int audioTarget);
     static void setCompositionATrack(std::shared_ptr<TimelineItemModel> timeline, int cid, int aTrack);
 };

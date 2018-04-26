@@ -292,6 +292,12 @@ std::unordered_set<int> GroupsModel::getDirectChildren(int id) const
     Q_ASSERT(m_downLink.count(id) > 0);
     return m_downLink.at(id);
 }
+int GroupsModel::getDirectAncestor(int id) const
+{
+    READ_LOCK();
+    Q_ASSERT(m_upLink.count(id) > 0);
+    return m_upLink.at(id);
+}
 
 void GroupsModel::setGroup(int id, int groupId)
 {
@@ -531,6 +537,7 @@ bool GroupsModel::split(int id, const std::function<bool(int)> &criterion, Fun &
 
 void GroupsModel::setInGroupOf(int id, int targetId, Fun &undo, Fun &redo)
 {
+    QWriteLocker locker(&m_lock);
     Q_ASSERT(m_upLink.count(targetId) > 0);
     Fun operation = [ this, id, group = m_upLink[targetId] ]()
     {
@@ -544,6 +551,46 @@ void GroupsModel::setInGroupOf(int id, int targetId, Fun &undo, Fun &redo)
     };
     operation();
     UPDATE_UNDO_REDO(operation, reverse, undo, redo);
+}
+
+bool GroupsModel::createGroupAtSameLevel(int id, std::unordered_set<int> to_add, GroupType type, Fun &undo, Fun &redo)
+{
+    QWriteLocker locker(&m_lock);
+    Q_ASSERT(m_upLink.count(id) > 0);
+    Q_ASSERT(isLeaf(id));
+    if (to_add.size() == 0) {
+        return true;
+    }
+    int gid = TimelineModel::getNextId();
+    std::unordered_map<int, int> old_parents;
+    to_add.insert(id);
+    for (int g : to_add) {
+        Q_ASSERT(m_upLink.count(g) > 0);
+        old_parents[g] = m_upLink[g];
+    }
+    Fun operation = [ this, id, gid, type, to_add, parent = m_upLink.at(id) ]()
+    {
+        createGroupItem(gid);
+        setGroup(gid, parent);
+        for (const auto &g : to_add) {
+            setGroup(g, gid);
+        }
+        setType(gid, type);
+        return true;
+    };
+    Fun reverse = [this, id, old_parents, gid]() {
+        for (const auto &g : old_parents) {
+            setGroup(g.first, g.second);
+        }
+        setGroup(gid, -1);
+        destructGroupItem_lambda(gid)();
+        return true;
+    };
+    bool success = operation();
+    if (success) {
+        UPDATE_UNDO_REDO(operation, reverse, undo, redo);
+    }
+    return success;
 }
 
 bool GroupsModel::processCopy(int gid, std::unordered_map<int, int> &mapping, Fun &undo, Fun &redo)

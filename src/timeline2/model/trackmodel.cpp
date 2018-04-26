@@ -214,6 +214,7 @@ bool TrackModel::requestClipInsertion(int clipId, int position, bool updateView,
 
 void TrackModel::replugClip(int clipId)
 {
+    QWriteLocker locker(&m_lock);
     int clip_position = m_allClips[clipId]->getPosition();
     auto clip_loc = getClipIndexAt(clip_position);
     int target_track = clip_loc.first;

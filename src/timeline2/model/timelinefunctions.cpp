@@ -60,7 +60,8 @@ bool TimelineFunctions::copyClip(std::shared_ptr<TimelineItemModel> timeline, in
     return res;
 }
 
-bool TimelineFunctions::requestMultipleClipsInsertion(std::shared_ptr<TimelineItemModel> timeline, const QStringList &binIds, int trackId, int position, QList<int> &clipIds, bool logUndo, bool refreshView)
+bool TimelineFunctions::requestMultipleClipsInsertion(std::shared_ptr<TimelineItemModel> timeline, const QStringList &binIds, int trackId, int position,
+                                                      QList<int> &clipIds, bool logUndo, bool refreshView)
 {
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
@@ -108,7 +109,7 @@ bool TimelineFunctions::processClipCut(std::shared_ptr<TimelineItemModel> timeli
     res = res && timeline->requestClipMove(newId, trackId, position, true, false, undo, redo);
     if (durationChanged) {
         // Track length changed, check project duration
-        Fun updateDuration  = [timeline]() {
+        Fun updateDuration = [timeline]() {
             timeline->updateDuration();
             return true;
         };
@@ -128,7 +129,6 @@ bool TimelineFunctions::requestClipCut(std::shared_ptr<TimelineItemModel> timeli
     }
     return result;
 }
-
 
 bool TimelineFunctions::requestClipCut(std::shared_ptr<TimelineItemModel> timeline, int clipId, int position, Fun &undo, Fun &redo)
 {
@@ -356,8 +356,9 @@ bool TimelineFunctions::requestItemCopy(std::shared_ptr<TimelineItemModel> timel
                 res = res && timeline->requestClipMove(newId, target_track, target_position, true, true, undo, redo);
             } else {
                 const QString &transitionId = timeline->m_allCompositions[id]->getAssetId();
-                QScopedPointer <Mlt::Properties> transProps(timeline->m_allCompositions[id]->properties());
-                res = res & timeline->requestCompositionInsertion(transitionId, target_track, -1, target_position, timeline->m_allCompositions[id]->getPlaytime(), transProps.data(), newId, undo, redo);
+                QScopedPointer<Mlt::Properties> transProps(timeline->m_allCompositions[id]->properties());
+                res = res & timeline->requestCompositionInsertion(transitionId, target_track, -1, target_position,
+                                                                  timeline->m_allCompositions[id]->getPlaytime(), transProps.data(), newId, undo, redo);
             }
         } else {
             res = false;
@@ -397,7 +398,7 @@ bool TimelineFunctions::changeClipState(std::shared_ptr<TimelineItemModel> timel
 {
     PlaylistState::ClipState oldState = timeline->m_allClips[clipId]->clipState();
     if (oldState == status) {
-        return false;
+        return true;
     }
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
@@ -412,13 +413,13 @@ bool TimelineFunctions::changeClipState(std::shared_ptr<TimelineItemModel> timel
 {
     PlaylistState::ClipState oldState = timeline->m_allClips[clipId]->clipState();
     if (oldState == status) {
-        return false;
+        return true;
     }
-    Fun local_redo = [timeline, clipId, status]() {
+    Fun operation = [timeline, clipId, status]() {
         int trackId = timeline->getClipTrackId(clipId);
         bool res = timeline->m_allClips[clipId]->setClipState(status);
         // in order to make the producer change effective, we need to unplant / replant the clip in int track
-        if (trackId != -1) {
+        if (res && trackId != -1) {
             timeline->getTrackById(trackId)->replugClip(clipId);
             QModelIndex ix = timeline->makeClipIndexFromID(clipId);
             timeline->dataChanged(ix, ix, {TimelineModel::StatusRole});
@@ -429,11 +430,11 @@ bool TimelineFunctions::changeClipState(std::shared_ptr<TimelineItemModel> timel
         }
         return res;
     };
-    Fun local_undo = [timeline, clipId, oldState]() {
+    Fun reverse = [timeline, clipId, oldState]() {
         bool res = timeline->m_allClips[clipId]->setClipState(oldState);
         // in order to make the producer change effective, we need to unplant / replant the clip in int track
         int trackId = timeline->getClipTrackId(clipId);
-        if (trackId != -1) {
+        if (res && trackId != -1) {
             int start = timeline->getItemPosition(clipId);
             int end = start + timeline->getItemPlaytime(clipId);
             timeline->getTrackById(trackId)->replugClip(clipId);
@@ -444,10 +445,9 @@ bool TimelineFunctions::changeClipState(std::shared_ptr<TimelineItemModel> timel
         }
         return res;
     };
-    bool result = local_redo();
+    bool result = reverse();
     if (result) {
-        PUSH_LAMBDA(local_undo, undo);
-        PUSH_LAMBDA(local_redo, redo);
+        UPDATE_UNDO_REDO_NOLOCK(operation, reverse, undo, redo);
     }
     return result;
 }
@@ -457,10 +457,15 @@ bool TimelineFunctions::requestSplitAudio(std::shared_ptr<TimelineItemModel> tim
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
     const std::unordered_set<int> clips = timeline->getGroupElements(clipId);
+    bool done = false;
     for (int cid : clips) {
+        if (!timeline->getClipPtr(cid)->hasAudio() || timeline->getClipPtr(cid)->clipState() == PlaylistState::AudioOnly) {
+            // clip without audio or audio only, skip
+            continue;
+        }
         int position = timeline->getClipPosition(cid);
         int track = timeline->getClipTrackId(cid);
-        QList<int> possibleTracks = audioTarget >= 0 ? QList<int>() <<audioTarget : timeline->getLowerTracksId(track, TrackType::AudioTrack);
+        QList<int> possibleTracks = audioTarget >= 0 ? QList<int>() << audioTarget : timeline->getLowerTracksId(track, TrackType::AudioTrack);
         if (possibleTracks.isEmpty()) {
             // No available audio track for splitting, abort
             undo();
@@ -469,32 +474,38 @@ bool TimelineFunctions::requestSplitAudio(std::shared_ptr<TimelineItemModel> tim
         }
         int newId;
         bool res = copyClip(timeline, cid, newId, PlaylistState::AudioOnly, undo, redo);
-        bool move = false;
-        while (!move && !possibleTracks.isEmpty()) {
-            int newTrack = possibleTracks.takeFirst();
-            move = timeline->requestClipMove(newId, newTrack, position, true, false, undo, redo);
-        }
-        std::unordered_set<int> groupClips;
-        groupClips.insert(cid);
-        groupClips.insert(newId);
-        if (!res || !move) {
+        if (!res) {
             bool undone = undo();
             Q_ASSERT(undone);
             pCore->displayMessage(i18n("Audio split failed"), ErrorMessage);
             return false;
         }
+        bool success = false;
+        while (!success && !possibleTracks.isEmpty()) {
+            int newTrack = possibleTracks.takeFirst();
+            success = timeline->requestClipMove(newId, newTrack, position, true, false, undo, redo);
+        }
         TimelineFunctions::changeClipState(timeline, cid, PlaylistState::VideoOnly, undo, redo);
-        timeline->requestClipsGroup(groupClips, undo, redo, GroupType::AVSplit);
+        success = success && timeline->m_groups->createGroupAtSameLevel(cid, std::unordered_set<int>{newId}, GroupType::AVSplit, undo, redo);
+        if (!success) {
+            bool undone = undo();
+            Q_ASSERT(undone);
+            pCore->displayMessage(i18n("Audio split failed"), ErrorMessage);
+            return false;
+        }
+        done = true;
     }
-    pCore->pushUndo(undo, redo, i18n("Split Audio"));
-    return true;
+    if (done) {
+        pCore->pushUndo(undo, redo, i18n("Split Audio"));
+    }
+    return done;
 }
 
 void TimelineFunctions::setCompositionATrack(std::shared_ptr<TimelineItemModel> timeline, int cid, int aTrack)
 {
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
-    std::shared_ptr<CompositionModel>compo = timeline->getCompositionPtr(cid);
+    std::shared_ptr<CompositionModel> compo = timeline->getCompositionPtr(cid);
     int previousATrack = compo->getATrack();
     int previousAutoTrack = compo->getForcedTrack() == -1;
     bool autoTrack = aTrack < 0;
@@ -520,7 +531,7 @@ void TimelineFunctions::setCompositionATrack(std::shared_ptr<TimelineItemModel> 
         QScopedPointer<Mlt::Field> field(timeline->m_tractor->field());
         field->lock();
         timeline->getCompositionPtr(cid)->setForceTrack(!previousAutoTrack);
-        timeline->getCompositionPtr(cid)->setATrack(previousATrack, previousATrack<= 0 ? -1 : timeline->getTrackIndexFromPosition(previousATrack - 1));
+        timeline->getCompositionPtr(cid)->setATrack(previousATrack, previousATrack <= 0 ? -1 : timeline->getTrackIndexFromPosition(previousATrack - 1));
         field->unlock();
         QModelIndex modelIndex = timeline->makeCompositionIndexFromID(cid);
         timeline->dataChanged(modelIndex, modelIndex, {TimelineModel::ItemATrack});

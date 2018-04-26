@@ -1580,6 +1580,7 @@ TEST_CASE("Advanced trimming operations", "[Trimming]")
 
     QString binId = createProducer(profile_model, "red", binModel);
     QString binId2 = createProducer(profile_model, "blue", binModel);
+    QString binId3 = createProducerWithSound(profile_model, binModel);
 
     int cid1 = ClipModel::construct(timeline, binId);
     int tid1 = TrackModel::construct(timeline);
@@ -1591,6 +1592,10 @@ TEST_CASE("Advanced trimming operations", "[Trimming]")
     int cid5 = ClipModel::construct(timeline, binId);
     int cid6 = ClipModel::construct(timeline, binId);
     int cid7 = ClipModel::construct(timeline, binId);
+
+    int audio1 = ClipModel::construct(timeline, binId3);
+    int audio2 = ClipModel::construct(timeline, binId3);
+    int audio3 = ClipModel::construct(timeline, binId3);
 
     timeline->m_allClips[cid1]->m_endlessResize = false;
     timeline->m_allClips[cid2]->m_endlessResize = false;
@@ -1845,5 +1850,151 @@ TEST_CASE("Advanced trimming operations", "[Trimming]")
         undoStack->redo();
         undoStack->redo();
         state3();
+    }
+
+    SECTION("Simple audio split")
+    {
+        int l = timeline->getClipPlaytime(audio1);
+        REQUIRE(timeline->requestClipMove(audio1, tid1, 3));
+
+        auto state = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(audio1) == l);
+            REQUIRE(timeline->getClipPosition(audio1) == 3);
+            REQUIRE(timeline->getClipTrackId(audio1) == tid1);
+            REQUIRE(timeline->getTrackClipsCount(tid1) == 1);
+            REQUIRE(timeline->getTrackClipsCount(tid2) == 0);
+
+            REQUIRE(timeline->getGroupElements(audio1) == std::unordered_set<int>({audio1}));
+        };
+        state();
+
+        REQUIRE(TimelineFunctions::requestSplitAudio(timeline, audio1, tid2));
+        int splitted1 = timeline->getClipByPosition(tid2, 3);
+        auto state2 = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(audio1) == l);
+            REQUIRE(timeline->getClipPosition(audio1) == 3);
+            REQUIRE(timeline->getClipPlaytime(splitted1) == l);
+            REQUIRE(timeline->getClipPosition(splitted1) == 3);
+            REQUIRE(timeline->getClipTrackId(audio1) == tid1);
+            REQUIRE(timeline->getClipTrackId(splitted1) == tid2);
+            REQUIRE(timeline->getTrackClipsCount(tid1) == 1);
+            REQUIRE(timeline->getTrackClipsCount(tid2) == 1);
+
+            REQUIRE(timeline->getGroupElements(audio1) == std::unordered_set<int>({audio1, splitted1}));
+
+            int g1 = timeline->m_groups->getDirectAncestor(audio1);
+            REQUIRE(timeline->m_groups->getDirectChildren(g1) == std::unordered_set<int>({audio1, splitted1}));
+            REQUIRE(timeline->m_groups->getType(g1) == GroupType::AVSplit);
+
+        };
+        state2();
+
+        undoStack->undo();
+        state();
+        undoStack->redo();
+        state2();
+        undoStack->undo();
+        state();
+        undoStack->redo();
+        state2();
+
+        // We also make sure that clips that are audio only cannot be further splitted
+        REQUIRE(timeline->requestClipMove(cid1, tid1, 30));
+        // This is a color clip, shouldn't be splittable
+        REQUIRE_FALSE(TimelineFunctions::requestSplitAudio(timeline, cid1, tid2));
+        REQUIRE_FALSE(TimelineFunctions::requestSplitAudio(timeline, splitted1, tid2));
+    }
+    SECTION("Split audio on a selection")
+    {
+
+        int l = timeline->getClipPlaytime(audio2);
+        REQUIRE(timeline->requestClipMove(audio1, tid1, 0));
+        REQUIRE(timeline->requestClipMove(audio2, tid1, l));
+        REQUIRE(timeline->requestClipMove(audio3, tid1, 2 * l));
+
+        std::unordered_set<int> selection{audio1, audio3, audio2};
+        REQUIRE(timeline->requestClipsGroup(selection, false, GroupType::Selection));
+
+        auto state = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(audio1) == l);
+            REQUIRE(timeline->getClipPlaytime(audio2) == l);
+            REQUIRE(timeline->getClipPlaytime(audio3) == l);
+            REQUIRE(timeline->getClipPosition(audio1) == 0);
+            REQUIRE(timeline->getClipPosition(audio2) == l);
+            REQUIRE(timeline->getClipPosition(audio3) == l + l);
+            REQUIRE(timeline->getClipTrackId(audio1) == tid1);
+            REQUIRE(timeline->getClipTrackId(audio2) == tid1);
+            REQUIRE(timeline->getClipTrackId(audio3) == tid1);
+            REQUIRE(timeline->getTrackClipsCount(tid1) == 3);
+            REQUIRE(timeline->getTrackClipsCount(tid2) == 0);
+
+            REQUIRE(timeline->getGroupElements(audio1) == std::unordered_set<int>({audio1, audio2, audio3}));
+
+            int sel = timeline->m_temporarySelectionGroup;
+            // check that selection is preserved
+            REQUIRE(sel != -1);
+            REQUIRE(timeline->m_groups->getType(sel) == GroupType::Selection);
+        };
+        state();
+
+        REQUIRE(TimelineFunctions::requestSplitAudio(timeline, audio1, tid2));
+        int splitted1 = timeline->getClipByPosition(tid2, 0);
+        int splitted2 = timeline->getClipByPosition(tid2, l);
+        int splitted3 = timeline->getClipByPosition(tid2, 2 * l);
+        auto state2 = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(audio1) == l);
+            REQUIRE(timeline->getClipPlaytime(audio2) == l);
+            REQUIRE(timeline->getClipPlaytime(audio3) == l);
+            REQUIRE(timeline->getClipPosition(audio1) == 0);
+            REQUIRE(timeline->getClipPosition(audio2) == l);
+            REQUIRE(timeline->getClipPosition(audio3) == l + l);
+            REQUIRE(timeline->getClipPlaytime(splitted1) == l);
+            REQUIRE(timeline->getClipPlaytime(splitted2) == l);
+            REQUIRE(timeline->getClipPlaytime(splitted3) == l);
+            REQUIRE(timeline->getClipPosition(splitted1) == 0);
+            REQUIRE(timeline->getClipPosition(splitted2) == l);
+            REQUIRE(timeline->getClipPosition(splitted3) == l + l);
+            REQUIRE(timeline->getClipTrackId(audio1) == tid1);
+            REQUIRE(timeline->getClipTrackId(audio2) == tid1);
+            REQUIRE(timeline->getClipTrackId(audio3) == tid1);
+            REQUIRE(timeline->getClipTrackId(splitted1) == tid2);
+            REQUIRE(timeline->getClipTrackId(splitted2) == tid2);
+            REQUIRE(timeline->getClipTrackId(splitted3) == tid2);
+            REQUIRE(timeline->getTrackClipsCount(tid1) == 3);
+            REQUIRE(timeline->getTrackClipsCount(tid2) == 3);
+
+            REQUIRE(timeline->getGroupElements(audio1) == std::unordered_set<int>({audio1, splitted1, audio2, audio3, splitted2, splitted3}));
+
+            int sel = timeline->m_temporarySelectionGroup;
+            // check that selection is preserved
+            REQUIRE(sel != -1);
+            REQUIRE(timeline->m_groups->getType(sel) == GroupType::Selection);
+
+            REQUIRE(timeline->m_groups->getRootId(audio1) == sel);
+            REQUIRE(timeline->m_groups->getDirectChildren(sel).size() == 3);
+            REQUIRE(timeline->m_groups->getLeaves(sel).size() == 6);
+
+            int g1 = timeline->m_groups->getDirectAncestor(audio1);
+            int g2 = timeline->m_groups->getDirectAncestor(audio2);
+            int g3 = timeline->m_groups->getDirectAncestor(audio3);
+            REQUIRE(timeline->m_groups->getDirectChildren(sel) == std::unordered_set<int>({g1, g2, g3}));
+            REQUIRE(timeline->m_groups->getDirectChildren(g1) == std::unordered_set<int>({audio1, splitted1}));
+            REQUIRE(timeline->m_groups->getDirectChildren(g2) == std::unordered_set<int>({audio2, splitted2}));
+            REQUIRE(timeline->m_groups->getDirectChildren(g3) == std::unordered_set<int>({audio3, splitted3}));
+            REQUIRE(timeline->m_groups->getType(g1) == GroupType::AVSplit);
+            REQUIRE(timeline->m_groups->getType(g2) == GroupType::AVSplit);
+            REQUIRE(timeline->m_groups->getType(g3) == GroupType::AVSplit);
+
+        };
+        state2();
+
+        undoStack->undo();
+        state();
+        undoStack->redo();
+        state2();
     }
 }
