@@ -47,7 +47,7 @@ Rectangle {
         if (wheel.modifiers & Qt.ControlModifier) {
             timeline.setScaleFactor(timeline.scaleFactor + 0.2 * wheel.angleDelta.y / 120);
         } else {
-            var newScroll = Math.min(scrollView.flickableItem.contentX + wheel.angleDelta.y, timeline.duration * root.timeScale - (scrollView.width - scrollView.__verticalScrollBar.width) + root.projectMargin)
+            var newScroll = Math.min(scrollView.flickableItem.contentX - wheel.angleDelta.y, timeline.duration * root.timeScale - (scrollView.width - scrollView.__verticalScrollBar.width) + root.projectMargin)
             scrollView.flickableItem.contentX = Math.max(newScroll, 0)
         }
     }
