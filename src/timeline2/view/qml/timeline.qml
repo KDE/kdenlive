@@ -144,7 +144,7 @@ Rectangle {
         root.snapping = timeline.snap ? 10 / Math.sqrt(root.timeScale) : -1
         ruler.adjustStepSize()
     }
-    
+
     onTimelineSelectionChanged: {
         if (root.timelineSelection.length == 0) {
             root.dragList = []

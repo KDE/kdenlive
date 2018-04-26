@@ -874,6 +874,7 @@ void ProjectManager::updateTimeline(int pos)
     pCore->monitorManager()->projectMonitor()->setProducer(m_mainTimelineModel->producer(), pos);
     pCore->window()->getMainTimeline()->setModel(m_mainTimelineModel);
     pCore->monitorManager()->projectMonitor()->adjustRulerSize(m_mainTimelineModel->duration() - 1, m_project->getGuideModel());
+    pCore->window()->getMainTimeline()->controller()->setZone(m_project->zone());
     m_mainTimelineModel->setUndoStack(m_project->commandStack());
 }
 

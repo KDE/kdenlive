@@ -58,6 +58,7 @@ TimelineController::TimelineController(KActionCollection *actionCollection, QObj
     , m_activeTrack(0)
     , m_scale(3.0)
     , m_timelinePreview(nullptr)
+    , m_zone(-1, -1)
 {
     m_disablePreview = pCore->currentDoc()->getAction(QStringLiteral("disable_preview"));
     connect(m_disablePreview, &QAction::triggered, this, &TimelineController::disablePreview);
@@ -73,6 +74,7 @@ TimelineController::~TimelineController()
 void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
 {
     delete m_timelinePreview;
+    m_zone = QPoint(-1, -1);
     m_timelinePreview = nullptr;
     m_model = std::move(model);
     connect(m_model.get(), &TimelineItemModel::requestClearAssetView, [&](int id) { pCore->clearAssetPanel(id); });
