@@ -135,8 +135,7 @@ Rectangle {
     //onCurrentTrackChanged: timeline.selection = []
     onTimeScaleChanged: {
         if (root.zoomOnMouse >= 0) {
-            var mouseFraction = 
-            scrollView.flickableItem.contentX = Math.max(0, root.zoomOnMouse * timeline.scaleFactor - tracksArea.mouseX)
+            var mouseFraction = scrollView.flickableItem.contentX = Math.max(0, root.zoomOnMouse * timeline.scaleFactor - tracksArea.mouseX)
             root.zoomOnMouse = -1
         } else {
             scrollView.flickableItem.contentX = Math.max(0, (timeline.seekPosition > -1 ? timeline.seekPosition : timeline.position) * timeline.scaleFactor - (scrollView.width / 2))
