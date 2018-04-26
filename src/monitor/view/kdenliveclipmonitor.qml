@@ -100,15 +100,43 @@ Item {
                 }
                 Rectangle {
                     color: "cyan"
-                    width: root.width / 5
+                    width: frame.width / 20
                     height: 1
                     anchors.centerIn: parent
                 }
                 Rectangle {
                     color: "cyan"
-                    height: root.width / 5
+                    height: frame.width / 20
                     width: 1
                     anchors.centerIn: parent
+                }
+                 Rectangle {
+                    color: "cyan"
+                    height: frame.height / 11
+                    width: 1
+                    y: 0
+                    x: parent.width / 2
+                }
+                Rectangle {
+                    color: "cyan"
+                    height: frame.height / 11
+                    width: 1
+                    y: parent.height -height
+                    x: parent.width / 2
+                }
+                Rectangle {
+                    color: "cyan"
+                    width: frame.width / 11
+                    height: 1
+                    y: parent.height / 2
+                    x: 0
+                }
+                Rectangle {
+                    color: "cyan"
+                    width: frame.width / 11
+                    height: 1
+                    y: parent.height / 2
+                    x: parent.width -width
                 }
             }
         }
