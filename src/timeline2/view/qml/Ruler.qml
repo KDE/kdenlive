@@ -55,7 +55,7 @@ Rectangle {
         model: timeline.dirtyChunks
         anchors.fill: parent
         delegate: Rectangle {
-            x: scrollView.flickableItem.contentX / rulerRoot.stepSize + modelData * rulerRoot.timeScale
+            x: modelData * rulerRoot.timeScale
             y: 0
             width: 25 * rulerRoot.timeScale
             height: parent.height / 4
@@ -67,7 +67,7 @@ Rectangle {
         model: timeline.renderedChunks
         anchors.fill: parent
         delegate: Rectangle {
-            x: scrollView.flickableItem.contentX / rulerRoot.stepSize + modelData * rulerRoot.timeScale
+            x: modelData * rulerRoot.timeScale
             y: 0
             width: 25 * rulerRoot.timeScale
             height: parent.height / 4
@@ -76,7 +76,7 @@ Rectangle {
     }
     Rectangle {
         id: working
-        x: scrollView.flickableItem.contentX / rulerRoot.stepSize + rulerRoot.workingPreview * rulerRoot.timeScale
+        x: rulerRoot.workingPreview * rulerRoot.timeScale
         y: 0
         width: 25 * rulerRoot.timeScale
         height: parent.height / 4
