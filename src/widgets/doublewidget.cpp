@@ -65,7 +65,7 @@ void DoubleWidget::setSpinSize(int width)
 void DoubleWidget::setValue(double value)
 {
     m_dragVal->blockSignals(true);
-    m_dragVal->setValue(value);
+    m_dragVal->setValue(value * factor);
     m_dragVal->blockSignals(false);
 }
 
@@ -77,7 +77,7 @@ void DoubleWidget::enableEdit(bool enable)
 void DoubleWidget::slotSetValue(double value, bool final)
 {
     if (final) {
-        emit valueChanged(value);
+        emit valueChanged(value / factor);
     }
 }
 
