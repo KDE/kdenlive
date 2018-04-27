@@ -581,6 +581,7 @@ QString KeyframeModel::getAnimProperty() const
 {
     QString prop;
     bool first = true;
+    QLocale locale;
     for (const auto keyframe : m_keyframeList) {
         if (first) {
             first = false;
@@ -604,7 +605,7 @@ QString KeyframeModel::getAnimProperty() const
             prop += keyframe.second.second.toString();
             break;
         default:
-            prop += QString::number(keyframe.second.second.toDouble());
+            prop += locale.toString(keyframe.second.second.toDouble());
             break;
         }
     }
@@ -647,14 +648,14 @@ void KeyframeModel::parseAnimProperty(const QString &prop)
         }
         QVariant value;
         switch (m_paramType) {
-        case ParamType::AnimatedRect: {
-            mlt_rect rect = mlt_prop.anim_get_rect("key", frame);
-            value = QVariant(QStringLiteral("%1 %2 %3 %4 %5").arg(rect.x).arg(rect.y).arg(rect.w).arg(rect.h).arg(rect.o));
-            break;
-        }
-        default:
-            value = QVariant(mlt_prop.anim_get_double("key", frame));
-            break;
+            case ParamType::AnimatedRect: {
+                mlt_rect rect = mlt_prop.anim_get_rect("key", frame);
+                value = QVariant(QStringLiteral("%1 %2 %3 %4 %5").arg(rect.x).arg(rect.y).arg(rect.w).arg(rect.h).arg(rect.o));
+                break;
+            }
+            default:
+                value = QVariant(mlt_prop.anim_get_double("key", frame));
+                break;
         }
         addKeyframe(GenTime(frame, pCore->getCurrentFps()), convertFromMltType(type), value, false, undo, redo);
     }

@@ -253,12 +253,13 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
                 [this, index](const QString v) { m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), QVariant(v), index); });
         paramWidget = geomWidget;
     } else {
+        QLocale locale;
         double value = m_keyframes->getInterpolatedValue(getPosition(), index).toDouble();
-        double min = m_model->data(index, AssetParameterModel::MinRole).toDouble();
-        double max = m_model->data(index, AssetParameterModel::MaxRole).toDouble();
-        double defaultValue = locale.toDouble(m_model->data(index, AssetParameterModel::DefaultRole).toString());
+        double min = locale.toDouble(m_model->data(index, AssetParameterModel::MinRole).toString());
+        double max = locale.toDouble(m_model->data(index, AssetParameterModel::MaxRole).toString());
+        double defaultValue = m_model->data(index, AssetParameterModel::DefaultRole).toDouble();
         int decimals = m_model->data(index, AssetParameterModel::DecimalsRole).toInt();
-        double factor = m_model->data(index, AssetParameterModel::FactorRole).toDouble();
+        double factor = locale.toDouble(m_model->data(index, AssetParameterModel::FactorRole).toString());
         factor = factor == 0 ? 1 : factor;
         auto doubleWidget = new DoubleWidget(name, value * factor, min, max, defaultValue, comment, -1, suffix, decimals, this);
         doubleWidget->factor = factor;

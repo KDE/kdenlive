@@ -75,8 +75,9 @@ AssetParameterModel::AssetParameterModel(Mlt::Properties *asset, const QDomEleme
         QString name = currentParameter.attribute(QStringLiteral("name"));
         QString type = currentParameter.attribute(QStringLiteral("type"));
         QString value = currentParameter.attribute(QStringLiteral("value"));
+        QLocale locale;
         if (value.isNull()) {
-            value = parseAttribute(m_ownerId, QStringLiteral("default"), currentParameter).toString();
+            value = locale.toString(parseAttribute(m_ownerId, QStringLiteral("default"), currentParameter).toDouble());
         }
         bool isFixed = (type == QLatin1String("fixed"));
         if (isFixed) {
