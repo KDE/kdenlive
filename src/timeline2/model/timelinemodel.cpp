@@ -1018,8 +1018,10 @@ int TimelineModel::requestClipsGroup(const std::unordered_set<int> &ids, bool lo
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     if (m_temporarySelectionGroup > -1) {
-        int firstChild = *m_groups->getDirectChildren(m_temporarySelectionGroup).begin();
-        requestClipUngroup(firstChild, undo, redo);
+        m_groups->destructGroupItem(m_temporarySelectionGroup);
+        // We don't log in undo the selection changes
+        //int firstChild = *m_groups->getDirectChildren(m_temporarySelectionGroup).begin();
+        //requestClipUngroup(firstChild, undo, redo);
         m_temporarySelectionGroup = -1;
     }
     int result = requestClipsGroup(ids, undo, redo, type);

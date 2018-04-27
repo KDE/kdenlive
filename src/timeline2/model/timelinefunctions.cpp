@@ -458,6 +458,8 @@ bool TimelineFunctions::requestSplitAudio(std::shared_ptr<TimelineItemModel> tim
     std::function<bool(void)> redo = []() { return true; };
     const std::unordered_set<int> clips = timeline->getGroupElements(clipId);
     bool done = false;
+    // Now clear selection so we don't mess with groups
+    pCore->clearSelection();
     for (int cid : clips) {
         if (!timeline->getClipPtr(cid)->hasAudio() || timeline->getClipPtr(cid)->clipState() == PlaylistState::AudioOnly) {
             // clip without audio or audio only, skip

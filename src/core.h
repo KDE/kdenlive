@@ -169,6 +169,7 @@ public:
     /** Show / hide keyframes for a timeline clip */
     void showClipKeyframes(ObjectId id, bool enable);
     Mlt::Profile *thumbProfile();
+    void clearSelection();
 
 private:
     explicit Core();

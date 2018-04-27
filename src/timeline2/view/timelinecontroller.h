@@ -75,6 +75,9 @@ public:
     /* @brief Add a clip id to current selection
      */
     Q_INVOKABLE void addSelection(int newSelection);
+    /* @brief Clear current selection and inform the view
+     */
+    void clearSelection();
     /* @brief returns current timeline's zoom factor
      */
     Q_INVOKABLE double scaleFactor() const;

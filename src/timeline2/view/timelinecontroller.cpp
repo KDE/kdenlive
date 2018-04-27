@@ -1548,3 +1548,13 @@ bool TimelineController::ungroupClips(int clipId)
 {
     return m_model->requestClipUngroup(clipId);
 }
+
+void TimelineController::clearSelection()
+{
+    if (m_model->m_temporarySelectionGroup >= 0) {
+        m_model->m_groups->destructGroupItem(m_model->m_temporarySelectionGroup);
+        m_model->m_temporarySelectionGroup = -1;
+    }
+    m_selection.selectedItems.clear();
+    emit selectionChanged();
+}

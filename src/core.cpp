@@ -593,3 +593,8 @@ Mlt::Profile *Core::thumbProfile()
     }
     return m_thumbProfile.get();
 }
+
+void Core::clearSelection()
+{
+    m_mainWindow->getCurrentTimeline()->controller()->clearSelection();
+}

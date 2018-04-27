@@ -309,7 +309,19 @@ void GroupsModel::setGroup(int id, int groupId)
     m_upLink[id] = groupId;
     if (groupId != -1) {
         m_downLink[groupId].insert(id);
-        if (getType(groupId) == GroupType::Leaf) {
+        auto ptr = m_parent.lock();
+        if (ptr) {
+            QModelIndex ix;
+            if (ptr->isClip(id)) {
+                ix = ptr->makeClipIndexFromID(id);
+            } else if (ptr->isComposition(id)) {
+                ix = ptr->makeCompositionIndexFromID(id);
+            }
+            if (ix.isValid()) {
+                ptr->dataChanged(ix, ix, {TimelineModel::GroupedRole});
+            }
+        }
+        if (getType(groupId) == GroupType::Leaf) { 
             promoteToGroup(groupId, GroupType::Normal);
         }
     }
@@ -324,6 +336,17 @@ void GroupsModel::removeFromGroup(int id)
     if (parent != -1) {
         Q_ASSERT(getType(parent) != GroupType::Leaf);
         m_downLink[parent].erase(id);
+        QModelIndex ix;
+        auto ptr = m_parent.lock();
+        if (!ptr) Q_ASSERT(false);
+        if (ptr->isClip(id)) {
+            ix = ptr->makeClipIndexFromID(id);
+        } else if (ptr->isComposition(id)) {
+            ix = ptr->makeCompositionIndexFromID(id);
+        }
+        if (ix.isValid()) {
+            ptr->dataChanged(ix, ix, {TimelineModel::GroupedRole});
+        }
         if (m_downLink[parent].size() == 0) {
             downgradeToLeaf(parent);
         }
@@ -371,10 +394,6 @@ bool GroupsModel::mergeSingleGroups(int id, Fun &undo, Fun &redo)
         for (const auto &group : parents) {
             int old = m_upLink[group.first];
             setGroup(group.first, group.second);
-            if (old == -1 && group.second != -1 && ptr->isClip(group.first)) {
-                QModelIndex ix = ptr->makeClipIndexFromID(group.first);
-                ptr->dataChanged(ix, ix, {TimelineModel::GroupedRole});
-            }
         }
         return true;
     };
@@ -564,6 +583,7 @@ bool GroupsModel::createGroupAtSameLevel(int id, std::unordered_set<int> to_add,
     int gid = TimelineModel::getNextId();
     std::unordered_map<int, int> old_parents;
     to_add.insert(id);
+
     for (int g : to_add) {
         Q_ASSERT(m_upLink.count(g) > 0);
         old_parents[g] = m_upLink[g];
