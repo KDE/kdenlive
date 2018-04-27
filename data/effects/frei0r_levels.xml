@@ -4,10 +4,9 @@
 	<name>Levels</name>
 	<description>Adjust levels</description>
 	<author>Maksim Golovkin</author>
-
-        <parameter type="list" name="Channel" default="3" paramlist="0;1;2;3">
-                <paramlistdisplay>Red,Green,Blue,Luma</paramlistdisplay>
-		<name>Channel</name>
+    <parameter type="list" name="Channel" default="3" paramlist="0;1;2;3">
+        <paramlistdisplay>Red,Green,Blue,Luma</paramlistdisplay>
+	<name>Channel</name>
 	</parameter>
         <parameter type="simplekeyframe" name="Input black level" default="0" min="0" max="1000" factor="1000">
 		<name>Input black level</name>

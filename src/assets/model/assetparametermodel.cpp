@@ -465,8 +465,13 @@ QVector<QPair<QString, QVariant>> AssetParameterModel::getAllParameters() const
 
 void AssetParameterModel::setParameters(const QVector<QPair<QString, QVariant>> &params)
 {
+    QLocale locale;
     for (const auto &param : params) {
-        setParameter(param.first, param.second.toString());
+        if (param.second.type() == QMetaType::Double) {
+            setParameter(param.first, locale.toString(param.second.toDouble()));
+        } else {
+            setParameter(param.first, param.second.toString());
+        }
     }
 }
 
