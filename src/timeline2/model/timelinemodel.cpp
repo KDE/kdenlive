@@ -2127,6 +2127,10 @@ bool TimelineModel::requestClipTimeWarp(int clipId, int trackId, int blankSpace,
     }
     if (success) {
         success = getTrackById(trackId)->requestClipInsertion(clipId, oldPos, true, true, local_undo, local_redo);
+        if (!success) {
+            local_undo();
+            return false;
+        }
     }
     PUSH_LAMBDA(local_undo, undo);
     PUSH_LAMBDA(local_redo, redo);
@@ -2143,7 +2147,7 @@ bool TimelineModel::changeItemSpeed(int clipId, int speed)
     // Check if clip has a split partner
     bool result = true;
     if (trackId != -1) {
-        int blankSpace = getTrackById(trackId)->getBlankSizeNearClip(clipId, true);
+        int blankSpace = getTrackById(trackId)->getBlankSizeNearClip(clipId, true) + getClipPlaytime(clipId) - 1;
         splitId = m_groups->getSplitPartner(clipId);
         bool success = true;
         if (splitId > -1) {

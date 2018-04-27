@@ -356,9 +356,8 @@ Fun ClipModel::useTimewarpProducer_lambda(double speed, int extraSpace)
         warp_in = in;
         warp_out = out;
     }
-    qDebug() << "++++\n//// USING TIMEWARP: " << warp_in << "-" << warp_out;
     in = warp_in / speed;
-    out = warp_out / speed;
+    out = qMin((int) (warp_out / speed), extraSpace);
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
     std::shared_ptr<Mlt::Producer> originalProducer = binClip->originalProducer();
     bool limitedDuration = binClip->hasLimitedDuration();
