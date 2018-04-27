@@ -1558,3 +1558,13 @@ void TimelineController::clearSelection()
     m_selection.selectedItems.clear();
     emit selectionChanged();
 }
+
+void TimelineController::pasteEffects(int targetId, int sourceId)
+{
+    if (!m_model->isClip(targetId) || !m_model->isClip(sourceId)) {
+        return;
+    }
+    std::shared_ptr<EffectStackModel> sourceStack = m_model->getClipEffectStackModel(sourceId);
+    std::shared_ptr<EffectStackModel> destStack = m_model->getClipEffectStackModel(targetId);
+    destStack->importEffects(sourceStack);
+}

@@ -259,6 +259,11 @@ public:
     Q_INVOKABLE void extract(int clipId);
 
     Q_INVOKABLE void splitAudio(int clipId);
+
+    /* @brief Seeks to selected clip start / end
+     */
+    Q_INVOKABLE void pasteEffects(int targetId, int sourceId);
+
     void switchTrackLock(bool applyToAll = false);
     void switchTargetTrack();
 

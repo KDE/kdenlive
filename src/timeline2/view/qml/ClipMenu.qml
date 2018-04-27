@@ -39,6 +39,11 @@ OLD.Menu {
             text: i18n('Copy')
             onTriggered: root.copiedClip = clipId
         }
+        OLD.MenuItem {
+            visible: root.copiedClip != -1 && root.copiedClip != clipId
+            text: i18n('Paste Effects')
+            onTriggered: timeline.pasteEffects(clipId, root.copiedClip)
+        }
         OLD.MenuSeparator {
             visible: true
         }
