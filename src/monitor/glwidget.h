@@ -343,8 +343,7 @@ public:
     void pauseAndSeek(int pos)
     {
         q->switchPlay(false);
-        m_seekPosition = pos;
-        emit seekPositionChanged();
+        requestSeekPosition(pos);
     }
     int zoneIn() const { return m_zoneIn; }
     int zoneOut() const { return m_zoneOut; }
