@@ -609,6 +609,10 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
         type = master->clipType();
     }
     if (type == ClipType::AV) {
+        if (m_audioTarget >= 0 && m_videoTarget == -1) {
+            // If audio target is set but no video target, only insert audio
+            trackId = m_audioTarget;
+        }
         bool audioDrop = getTrackById_const(trackId)->isAudioTrack();
         res = requestClipCreation(binClipId, id, audioDrop ? PlaylistState::AudioOnly : PlaylistState::VideoOnly, local_undo, local_redo);
         res = res && requestClipMove(id, trackId, position, refreshView, logUndo, local_undo, local_redo);
