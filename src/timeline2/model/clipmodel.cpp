@@ -246,7 +246,7 @@ bool ClipModel::removeFade(bool fromStart)
 
 bool ClipModel::adjustEffectLength(bool adjustFromEnd, int oldIn, int newIn, int oldDuration, int duration, Fun &undo, Fun &redo, bool logUndo)
 {
-    return m_effectStack->adjustStackLength(adjustFromEnd, oldIn, oldDuration, newIn, duration, hasAudio(), !isAudioOnly(), undo, redo, logUndo);
+    return m_effectStack->adjustStackLength(adjustFromEnd, oldIn, oldDuration, newIn, duration, undo, redo, logUndo);
 }
 
 bool ClipModel::adjustEffectLength(const QString &effectName, int duration, int originalDuration, Fun &undo, Fun &redo)
