@@ -212,46 +212,47 @@ int ClipModel::getPlaytime() const
 
 void ClipModel::setTimelineEffectsEnabled(bool enabled)
 {
-    READ_LOCK();
+    QWriteLocker locker(&m_lock);
     m_effectStack->setEffectStackEnabled(enabled);
 }
 
 bool ClipModel::addEffect(const QString &effectId)
 {
-    READ_LOCK();
+    QWriteLocker locker(&m_lock);
     m_effectStack->appendEffect(effectId);
     return true;
 }
 
 bool ClipModel::copyEffect(std::shared_ptr<EffectStackModel> stackModel, int rowId)
 {
-    READ_LOCK();
+    QWriteLocker locker(&m_lock);
     m_effectStack->copyEffect(stackModel->getEffectStackRow(rowId));
     return true;
 }
 
 bool ClipModel::importEffects(std::shared_ptr<EffectStackModel> stackModel)
 {
-    READ_LOCK();
+    QWriteLocker locker(&m_lock);
     m_effectStack->importEffects(stackModel);
     return true;
 }
 
 bool ClipModel::removeFade(bool fromStart)
 {
-    READ_LOCK();
+    QWriteLocker locker(&m_lock);
     m_effectStack->removeFade(fromStart);
     return true;
 }
 
 bool ClipModel::adjustEffectLength(bool adjustFromEnd, int oldIn, int newIn, int oldDuration, int duration, Fun &undo, Fun &redo, bool logUndo)
 {
+    QWriteLocker locker(&m_lock);
     return m_effectStack->adjustStackLength(adjustFromEnd, oldIn, oldDuration, newIn, duration, undo, redo, logUndo);
 }
 
 bool ClipModel::adjustEffectLength(const QString &effectName, int duration, int originalDuration, Fun &undo, Fun &redo)
 {
-    READ_LOCK();
+    QWriteLocker locker(&m_lock);
     qDebug()<<".... ADJUSTING FADE LENGTH: "<<duration<<" / "<<effectName;
     Fun operation = [this, duration, effectName]() {
         return m_effectStack->adjustFadeLength(duration, effectName == QLatin1String("fadein") || effectName == QLatin1String("fade_to_black"), hasAudio(), !isAudioOnly());
@@ -260,8 +261,7 @@ bool ClipModel::adjustEffectLength(const QString &effectName, int duration, int 
         Fun reverse = [this, originalDuration, effectName]() {
             return m_effectStack->adjustFadeLength(originalDuration, effectName == QLatin1String("fadein") || effectName == QLatin1String("fade_to_black"), hasAudio(), !isAudioOnly());
         };
-        PUSH_LAMBDA(operation, redo);
-        PUSH_LAMBDA(reverse, undo);
+        UPDATE_UNDO_REDO(operation, reverse, undo, redo);
     }
     return true;
 }
@@ -293,6 +293,7 @@ bool ClipModel::isAudioOnly() const
 
 void ClipModel::refreshProducerFromBin(PlaylistState::ClipState state)
 {
+    QWriteLocker locker(&m_lock);
     if (getProperty("mlt_service") == QLatin1String("timewarp")) {
         // slowmotion producer, keep it
         int space = -1;
@@ -309,7 +310,6 @@ void ClipModel::refreshProducerFromBin(PlaylistState::ClipState state)
         useTimewarpProducer(m_producer->get_double("warp_speed"), space, local_undo, local_redo);
         return;
     }
-    QWriteLocker locker(&m_lock);
     int in = getIn();
     int out = getOut();
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
@@ -444,6 +444,7 @@ void ClipModel::setShowKeyframes(bool show)
 
 bool ClipModel::setClipState(PlaylistState::ClipState state)
 {
+    QWriteLocker locker(&m_lock);
     if (!getProperty("mlt_service").startsWith(QStringLiteral("avformat"))) {
         return false;
     }
@@ -463,6 +464,7 @@ bool ClipModel::setClipState(PlaylistState::ClipState state)
 
 PlaylistState::ClipState ClipModel::clipState() const
 {
+    READ_LOCK();
     if (service()->parent().get_int("audio_index") == -1) {
         if (service()->parent().get_int("video_index") == -1) {
             return PlaylistState::Disabled;
@@ -477,6 +479,7 @@ PlaylistState::ClipState ClipModel::clipState() const
 
 void ClipModel::passTimelineProperties(std::shared_ptr <ClipModel> other)
 {
+    READ_LOCK();
     Mlt::Properties source(m_producer->get_properties());
     Mlt::Properties dest(other->service()->get_properties());
     dest.pass_list(source, "kdenlive:hide_keyframes,kdenlive:activeeffect");
