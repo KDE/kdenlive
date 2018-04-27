@@ -181,7 +181,7 @@ void KeyframeView::mouseMoveEvent(QMouseEvent *event)
         if (m_currentKeyframe == pos) {
             return;
         }
-        if (m_currentKeyframe >= 0) {
+        if (m_currentKeyframe > 0) {
             if (!m_model->hasKeyframe(pos)) {
                 GenTime currentPos(m_currentKeyframe, pCore->getCurrentFps());
                 if (m_model->moveKeyframe(currentPos, position, false)) {
