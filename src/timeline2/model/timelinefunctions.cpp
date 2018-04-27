@@ -318,6 +318,8 @@ bool TimelineFunctions::insertSpace(std::shared_ptr<TimelineItemModel> timeline,
                 result = timeline->requestGroupMove(clipId, res, 0, zone.y() - zone.x(), true, true, undo, redo);
                 if (result) {
                     result = timeline->requestClipUngroup(clipId, undo, redo);
+                } else {
+                    pCore->displayMessage(i18n("Cannot move selected group"), ErrorMessage);
                 }
             }
         } else {

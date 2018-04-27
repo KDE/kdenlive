@@ -612,6 +612,15 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
         bool audioDrop = getTrackById_const(trackId)->isAudioTrack();
         res = requestClipCreation(binClipId, id, audioDrop ? PlaylistState::AudioOnly : PlaylistState::VideoOnly, local_undo, local_redo);
         res = res && requestClipMove(id, trackId, position, refreshView, logUndo, local_undo, local_redo);
+        if (m_videoTarget >= 0 && m_audioTarget == -1) {
+            // No audio target defined, only extract video
+            audioDrop = true;
+        } else if (m_audioTarget >= 0) {
+            if (getTrackById_const(m_audioTarget)->isLocked()) {
+                // Audio target locked, only extract video
+                audioDrop = true;
+            }
+        }
         if (res && logUndo && !audioDrop) {
             QList<int> possibleTracks = m_audioTarget >= 0 ? QList<int>() << m_audioTarget : getLowerTracksId(trackId, TrackType::AudioTrack);
             if (possibleTracks.isEmpty()) {
@@ -809,6 +818,20 @@ bool TimelineModel::requestGroupMove(int clipId, int groupId, int delta_track, i
         }
         return !(track_pos1 <= track_pos2) == !(delta_track <= 0);
     });
+    // Parse all tracks then check none is locked. Maybe find a better way/place to do this
+    QList <int> trackList;
+    for (int clip : sorted_clips) {
+        int current_track_id = getItemTrackId(clip);
+        if (!trackList.contains(current_track_id)) {
+            trackList << current_track_id;
+        }
+    }
+    // Check that the group is not on a locked track
+    for (int tid : trackList) {
+        if (getTrackById_const(tid)->isLocked()) {
+            return false;
+        }
+    }
     for (int clip : sorted_clips) {
         int current_track_id = getItemTrackId(clip);
         int current_track_position = getTrackPosition(current_track_id);
