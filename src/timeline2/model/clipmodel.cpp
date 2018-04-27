@@ -367,7 +367,8 @@ Fun ClipModel::useTimewarpProducer_lambda(double speed, int extraSpace)
         if (qFuzzyCompare(speed, 1.0)) {
             m_producer.reset(originalProducer->cut(in, out));
         } else {
-            QString resource = QString("timewarp:%1:%2").arg(speed).arg(originalProducer->get("resource"));
+            QLocale locale;
+            QString resource = QString("timewarp:%1:%2").arg(locale.toString(speed)).arg(originalProducer->get("resource"));
             std::shared_ptr<Mlt::Producer> warpProducer(new Mlt::Producer(*m_producer->profile(), resource.toUtf8().constData()));
             // Make sure we use a cut so that the source producer in/out are not modified
             m_producer.reset(warpProducer->cut(0, warpProducer->get_length()));
