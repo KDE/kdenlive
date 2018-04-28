@@ -32,6 +32,7 @@ AssetCommand::AssetCommand(std::shared_ptr<AssetParameterModel> model, const QMo
     , m_updateView(false)
     , m_stamp(QTime::currentTime())
 {
+    QLocale locale;
     m_name = m_model->data(index, AssetParameterModel::NameRole).toString();
     const QString id = model->getAssetId();
     if (EffectsRepository::get()->exists(id)) {
@@ -39,21 +40,22 @@ AssetCommand::AssetCommand(std::shared_ptr<AssetParameterModel> model, const QMo
     } else if (TransitionsRepository::get()->exists(id)) {
         setText(i18n("Edit %1", TransitionsRepository::get()->getName(id)));
     }
-    m_oldValue = m_model->data(index, AssetParameterModel::ValueRole).toString();
+    QVariant previousVal = m_model->data(index, AssetParameterModel::ValueRole);
+    m_oldValue = previousVal.type() == QMetaType::Double ? locale.toString(previousVal.toDouble()) : previousVal.toString();
 }
 
 void AssetCommand::undo()
 {
-    m_model->setParameter(m_name, m_oldValue);
-    m_model->dataChanged(m_index, m_index, QVector<int>());
+    m_model->setParameter(m_name, m_oldValue, true, m_index);
+    //m_model->dataChanged(m_index, m_index, QVector<int>());
 }
 // virtual
 void AssetCommand::redo()
 {
-    m_model->setParameter(m_name, m_value);
-    if (m_updateView) {
+    m_model->setParameter(m_name, m_value, m_updateView, m_index);
+    /*if (m_updateView) {
         m_model->dataChanged(m_index, m_index, QVector<int>());
-    }
+    }*/
     m_updateView = true;
 }
 

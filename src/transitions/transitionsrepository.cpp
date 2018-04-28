@@ -118,7 +118,8 @@ void TransitionsRepository::parseType(QScopedPointer<Mlt::Properties> &metadata,
 
 QSet<QString> TransitionsRepository::getSingleTrackTransitions()
 {
-    return {QStringLiteral("composite"), QStringLiteral("dissolve")};
+    // Disabled until same track transitions is implemented
+    return {/*QStringLiteral("composite"), QStringLiteral("dissolve")*/};
 }
 
 QString TransitionsRepository::assetBlackListPath() const

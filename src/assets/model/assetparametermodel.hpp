@@ -101,7 +101,7 @@ public:
 
     /* @brief Set the parameter with given name to the given value
      */
-    Q_INVOKABLE void setParameter(const QString &name, const QString &value, bool update = true);
+    Q_INVOKABLE void setParameter(const QString &name, const QString &value, bool update = true, const QModelIndex &paramIndex = QModelIndex());
     void setParameter(const QString &name, const int value, bool update = true);
     Q_INVOKABLE void setParameter(const QString &name, double &value);
 
