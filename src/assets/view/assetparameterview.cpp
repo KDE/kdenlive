@@ -166,10 +166,14 @@ void AssetParameterView::refresh(const QModelIndex &topLeft, const QModelIndex &
     if (m_mainKeyframeWidget) {
         m_mainKeyframeWidget->slotRefresh();
     } else {
-        //Q_ASSERT(bottomRight.row() < (int)m_widgets.size());
-        // Some special widgets, like colorwheel handle multiple params so we can have cases where param index row is greater than the number of widgets. Should be better managed
-        int min = qMin((int)m_widgets.size() - 1, bottomRight.row());
-        for (int i = topLeft.row(); i <= min; ++i) {
+        auto type = m_model->data(m_model->index(bottomRight.row(), 0), AssetParameterModel::TypeRole).value<ParamType>();
+        if (type == ParamType::ColorWheel) {
+            // Some special widgets, like colorwheel handle multiple params so we can have cases where param index row is greater than the number of widgets. Should be better managed
+            m_widgets[0]->slotRefresh();
+            return;
+        }
+        Q_ASSERT(bottomRight.row() < (int)m_widgets.size());
+        for (int i = topLeft.row(); i <= bottomRight.row(); ++i) {
             m_widgets[(uint)i]->slotRefresh();
         }
     }
