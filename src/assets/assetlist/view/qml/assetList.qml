@@ -147,9 +147,6 @@ Rectangle {
                 tooltip: i18n('Show/hide description of the ') + assetType()
                 onCheckedChanged:{
                     assetlist.showDescription = checked
-                    if (!checked) {
-                        assetDescription.visible = false
-                    }
                 }
                 Component.onCompleted: checked = assetlist.showDescription
             }
@@ -221,8 +218,14 @@ Rectangle {
         ItemSelectionModel {
             id: sel
             model: assetListModel
+            onSelectionChanged: {
+                assetDescription.text = assetlist.getDescription(sel.currentIndex)
+            }
         }
-
+        SplitView {
+            orientation: Qt.Vertical
+            Layout.fillHeight: true
+            Layout.fillWidth: true
         TreeView {
             id: treeView
             Layout.fillHeight: true
@@ -274,7 +277,6 @@ Rectangle {
                     drag.target: parent
                     onPressed: {
                         if (isItem) {
-                            assetDescription.text = assetlist.getDescription(styleData.index)
                             parent.grabToImage(function(result) {
                                 parent.Drag.imageSource = result.url
                             })
@@ -320,13 +322,14 @@ Rectangle {
         TextArea {
             id: assetDescription
             text: ""
-            visible: false
+            visible: showDescription.checked
             readOnly: true
             Layout.fillWidth: true
             states: State {
                 name: "hasDescription"; when: assetDescription.text != '' && showDescription.checked
                 PropertyChanges { target: assetDescription; visible: true}
             }
+        }
 
         }
     }
