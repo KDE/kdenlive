@@ -36,6 +36,8 @@ Rectangle {
     property int myTrackHeight
     property int trackId : -42
     property int collapsedHeight: nameEdit.height + 2
+    property int iconSize: root.baseUnit * 1.7
+    property string trackTag
     border.width: 1
     border.color: Qt.rgba(activePalette.windowText.r, activePalette.windowText.g, activePalette.windowText.b, 0.1)
     signal clicked()
@@ -117,6 +119,8 @@ Rectangle {
             Layout.leftMargin: 2
             ToolButton {
                 id: expandButton
+                implicitHeight: root.baseUnit * 2
+                implicitWidth: root.baseUnit * 2
                 iconName: trackHeadRoot.collapsed ? 'arrow-right' : 'arrow-down'
                 onClicked: {
                     trackHeadRoot.myTrackHeight = trackHeadRoot.collapsed ? Math.max(collapsedHeight * 1.5, controller.getTrackProperty(trackId, "kdenlive:trackheight")) : collapsedHeight
@@ -124,15 +128,20 @@ Rectangle {
                 tooltip: buttonBar.visible? i18n('Minimize') : i18n('Expand')
             }
             Item {
-                width: nameEdit.height / 3
+                width: nameEdit.height
                 height: width
                 Rectangle {
                     id: trackLed
                     color: 'grey'
                     anchors.fill: parent
                     width: height
-                    radius: height
-                    border.width: 1
+                    border.width: 0
+                    Text {
+                        text: trackHeadRoot.trackTag
+                        anchors.fill: parent
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignHCenter
+                    }
                     MouseArea {
                         anchors.fill: parent
                         onClicked: {
@@ -193,17 +202,6 @@ Rectangle {
                         }
                     ]
                 }
-                InnerShadow {
-                    // Led shadow
-                    anchors.fill: trackLed
-                    cached: false
-                    horizontalOffset: -2
-                    verticalOffset: -2
-                    radius: trackLed.height
-                    color: Qt.darker(trackLed.color)
-                    fast: true
-                    source: trackLed
-                }
             }
             Rectangle {
                 id: trackLabel
@@ -238,6 +236,14 @@ Rectangle {
                     visible: false
                     width: parent.width
                     text: trackName
+                    style: TextFieldStyle {
+                        padding.top:0
+                        padding.bottom: 0
+                        background: Rectangle {
+                            color: activePalette.base
+                            anchors.fill: parent
+                        }
+                    }
                     onEditingFinished: {
                         controller.setTrackProperty(trackId, "kdenlive:track_name", text)
                         visible = false
@@ -249,11 +255,18 @@ Rectangle {
             spacing: root.baseUnit / 2
             id: buttonBar
             visible: (trackHeadRoot.height >= trackLabel.height + muteButton.height + resizer.height)
-            Layout.leftMargin: root.baseUnit
+            Layout.rightMargin: 4
+            Rectangle {
+                // Spacer
+                color: "transparent"
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+            }
             ToolButton {
                 id: muteButton
-                implicitHeight: root.baseUnit * 2
-                implicitWidth: root.baseUnit * 2
+                implicitHeight: trackHeadRoot.iconSize
+                implicitWidth: trackHeadRoot.iconSize
+                visible: isAudio
                 iconName: isMute ? 'kdenlive-hide-audio' : 'kdenlive-show-audio'
                 iconSource: isMute ? 'qrc:///pics/kdenlive-hide-audio.svgz' : 'qrc:///pics/kdenlive-show-audio.svgz'
                 onClicked: controller.setTrackProperty(trackId, "hide", isMute ? isHidden ? '1' : '0' : isHidden ? '3' : '2')
@@ -262,8 +275,8 @@ Rectangle {
 
             ToolButton {
                 id: hideButton
-                implicitHeight: root.baseUnit * 2
-                implicitWidth: root.baseUnit * 2
+                implicitHeight: trackHeadRoot.iconSize
+                implicitWidth: trackHeadRoot.iconSize
                 visible: !isAudio
                 iconName: isHidden ? 'kdenlive-hide-video' : 'kdenlive-show-video'
                 iconSource: isHidden? 'qrc:///pics/kdenlive-hide-video.svgz' : 'qrc:///pics/kdenlive-show-video.svgz'
@@ -276,8 +289,8 @@ Rectangle {
 
             ToolButton {
                 id: lockButton
-                implicitHeight: root.baseUnit * 2
-                implicitWidth: root.baseUnit * 2
+                implicitHeight: trackHeadRoot.iconSize
+                implicitWidth: trackHeadRoot.iconSize
                 iconName: isLocked ? 'kdenlive-lock' : 'kdenlive-unlock'
                 iconSource: isLocked ? 'qrc:///pics/kdenlive-lock.svg' : 'qrc:///pics/kdenlive-unlock.svg'
                 onClicked: controller.setTrackProperty(trackId, "kdenlive:locked_track", isLocked ? '0' : '1')

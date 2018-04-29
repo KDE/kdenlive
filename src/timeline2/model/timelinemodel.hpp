@@ -128,6 +128,7 @@ public:
         IsCompositeRole,   /// track only
         IsLockedRole,      /// track only
         HeightRole,        /// track only
+        TrackTagRole,          /// track only
         FadeInRole,        /// clip only
         FadeOutRole,       /// clip only
         IsCompositionRole, /// clip only
@@ -574,12 +575,14 @@ protected:
     /* @brief Unplant the composition with given Id */
     bool unplantComposition(int compoId);
 
-    /* Same function, but accumulates undo and redo, and doesn't check for group*/
+    /* Same function but accumulates undo and redo, and doesn't check for group*/
     bool requestClipDeletion(int clipId, Fun &undo, Fun &redo);
     bool requestCompositionDeletion(int compositionId, Fun &undo, Fun &redo);
 
     /** @brief Check tracks duration and update black track accordingly */
     void updateDuration();
+    /** @brief Get a track tag (A1, V1, V2,...) through its id */
+    const QString getTrackTagById(int trackId) const;
 
 public:
     /* @brief Debugging function that checks consistency with Mlt objects */

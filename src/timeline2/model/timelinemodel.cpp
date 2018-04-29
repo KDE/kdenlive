@@ -2185,3 +2185,29 @@ bool TimelineModel::changeItemSpeed(int clipId, int speed)
     }
     return false;
 }
+
+
+const QString TimelineModel::getTrackTagById(int trackId) const
+{
+    Q_ASSERT(isTrack(trackId));
+    bool isAudio = getTrackById_const(trackId)->isAudioTrack();
+    int count = 1;
+    int totalAudio = 2;
+    auto it = m_allTracks.begin();
+    bool found = false;
+    while ((isAudio || !found) && it != m_allTracks.end()) {
+        if ((*it)->isAudioTrack()) {
+            totalAudio++;
+            if (isAudio && !found) {
+                count++;
+            }
+        } else if (!isAudio) {
+            count++;
+        }
+        if ((*it)->getId() == trackId) {
+            found = true;
+        }
+        it++;
+    }
+    return isAudio ? QStringLiteral("A%1").arg(totalAudio - count) : QStringLiteral("V%1").arg(count-1);
+}

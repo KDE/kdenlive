@@ -460,6 +460,7 @@ Rectangle {
                         model: multitrack
                         TrackHead {
                             trackName: model.name
+                            trackTag: model.trackTag
                             isMute: model.mute
                             isHidden: model.hidden
                             isComposite: model.composite
