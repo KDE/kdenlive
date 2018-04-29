@@ -49,7 +49,14 @@ class Properties;
 /**
  * @class ProjectClip
  * @brief Represents a clip in the project (not timeline).
- *
+ * It will be displayed as a bin item that can be dragged onto the timeline.
+ * A single bin clip can be inserted several times on the timeline, and the ProjectClip
+ * keeps track of all the ids of the corresponding ClipModel.
+ * Note that because of a limitation in melt and AvFilter, it is currently difficult to
+ * mix the audio of two producers that are cut from the same master producer
+ * (that produces small but noticeable clicking artifacts)
+ * To workaround this, we need to have a master clip for each instance of the audio clip in the timeline. This class is tracking them all. This track also holds
+ * a master clip for each clip where the timewarp producer has been applied
  */
 
 class ProjectClip : public AbstractProjectItem, public ClipController
@@ -140,7 +147,7 @@ public:
     bool isReady() const;
 
     /** @brief Returns this clip's producer. */
-    std::shared_ptr< Mlt::Producer > thumbProducer();
+    std::shared_ptr<Mlt::Producer> thumbProducer();
 
     /** @brief Recursively disable/enable bin effects. */
     void setBinEffectsEnabled(bool enabled) override;
@@ -188,7 +195,19 @@ public:
     bool isIncludedInTimeline() override;
     /** @brief Returns a list of all timeline clip ids for this bin clip */
     QList<int> timelineInstances() const;
-    std::shared_ptr<Mlt::Producer> timelineProducer(PlaylistState::ClipState state = PlaylistState::Original, int track = 1);
+    /** @brief This function returns a cut to the master producer associated to the timeline clip with given ID.
+        Each clip must have a different master producer (see comment of the class)
+    */
+    std::shared_ptr<Mlt::Producer> getTimelineProducer(int clipId, PlaylistState st, double speed = 1.0);
+
+    /* @brief This function should only be used at loading. It takes a producer that was read from mlt, and checks whether the master producer is already in
+       use. If yes, then we must create a new one, because of the mixing bug. In any case, we return a cut of the master that can be used in the timeline The
+       bool returned has the following sementic:
+           - if true, then the returned cut still possibly has effect on it. You need to rebuild the effectStack based on this
+           - if false, the the returned cut don't have effects anymore (it's a fresh one), so you need to reload effects from the old producer
+    */
+    std::pair<std::shared_ptr<Mlt::Producer>, bool> giveMasterAndGetTimelineProducer(int clipId, std::shared_ptr<Mlt::Producer> master, PlaylistState state);
+
     std::shared_ptr<Mlt::Producer> cloneProducer(Mlt::Profile *destProfile = nullptr);
     void updateTimelineClips(QVector<int> roles);
 
@@ -234,8 +253,16 @@ private:
     const QString geometryWithOffset(const QString &data, int offset);
     void doExtractImage();
 
+    // This is a helper function that creates the video producer. This is a clone of the original one, with audio disabled
+    void createVideoMasterProducer();
+
     std::map<int, std::weak_ptr<TimelineModel>> m_registeredClips;
-    std::map<int, std::shared_ptr<Mlt::Producer>> m_timelineProducers;
+
+    // the following holds a producer for each audio clip in the timeline
+    // keys are the id of the clips in the timeline, values are their values
+    std::unordered_map<int, std::shared_ptr<Mlt::Producer>> m_audioProducers;
+    std::unordered_map<int, std::shared_ptr<Mlt::Producer>> m_timewarpProducers;
+    std::shared_ptr<Mlt::Producer> m_videoProducer;
 
 signals:
     void producerChanged(const QString &, const std::shared_ptr<Mlt::Producer> &);

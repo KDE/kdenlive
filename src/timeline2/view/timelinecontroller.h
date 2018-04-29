@@ -252,7 +252,7 @@ public:
     Q_INVOKABLE void removeSpace(int trackId = -1, int frame = -1, bool affectAllTracks = false);
     /* @brief Change a clip status (normal / audio only / video only)
      */
-    Q_INVOKABLE void setClipStatus(int clipId, int status);
+    Q_INVOKABLE void setClipStatus(int clipId, PlaylistState status);
 
     Q_INVOKABLE void requestClipCut(int clipId, int position);
 

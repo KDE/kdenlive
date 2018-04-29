@@ -143,15 +143,15 @@ TEST_CASE("Basic creation/deletion of a clip", "[ClipModel]")
     QString binId2 = createProducer(profile_model, "green", binModel);
 
     REQUIRE(timeline->getClipsCount() == 0);
-    int id1 = ClipModel::construct(timeline, binId);
+    int id1 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
     REQUIRE(timeline->getClipsCount() == 1);
     REQUIRE(timeline->checkConsistency());
 
-    int id2 = ClipModel::construct(timeline, binId2);
+    int id2 = ClipModel::construct(timeline, binId2, -1, PlaylistState::VideoOnly);
     REQUIRE(timeline->getClipsCount() == 2);
     REQUIRE(timeline->checkConsistency());
 
-    int id3 = ClipModel::construct(timeline, binId);
+    int id3 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
     REQUIRE(timeline->getClipsCount() == 3);
     REQUIRE(timeline->checkConsistency());
 
@@ -203,13 +203,13 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
     QString binId2 = createProducer(profile_model, "blue", binModel);
     QString binId3 = createProducer(profile_model, "green", binModel);
 
-    int cid1 = ClipModel::construct(timeline, binId);
+    int cid1 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
     int tid1 = TrackModel::construct(timeline);
     int tid2 = TrackModel::construct(timeline);
     int tid3 = TrackModel::construct(timeline);
-    int cid2 = ClipModel::construct(timeline, binId2);
-    int cid3 = ClipModel::construct(timeline, binId3);
-    int cid4 = ClipModel::construct(timeline, binId2);
+    int cid2 = ClipModel::construct(timeline, binId2, -1, PlaylistState::VideoOnly);
+    int cid3 = ClipModel::construct(timeline, binId3, -1, PlaylistState::VideoOnly);
+    int cid4 = ClipModel::construct(timeline, binId2, -1, PlaylistState::VideoOnly);
 
     Verify(Method(timMock, _resetView)).Exactly(3_Times);
     RESET(timMock);
@@ -763,7 +763,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
     SECTION("Group move with non-consecutive track ids")
     {
         int tid5 = TrackModel::construct(timeline);
-        int cid6 = ClipModel::construct(timeline, binId);
+        int cid6 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
         int tid6 = TrackModel::construct(timeline);
         REQUIRE(tid5 + 1 != tid6);
 
@@ -785,7 +785,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
 
     SECTION("Clip copy")
     {
-        int cid6 = ClipModel::construct(timeline, binId);
+        int cid6 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
         int l = timeline->getClipPlaytime(cid6);
         REQUIRE(timeline->requestItemResize(cid6, l - 3, true, true, -1) == l - 3);
         REQUIRE(timeline->requestItemResize(cid6, l - 7, false, true, -1) == l - 7);
@@ -794,7 +794,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
 
         std::function<bool(void)> undo = []() { return true; };
         std::function<bool(void)> redo = []() { return true; };
-        REQUIRE(TimelineFunctions::copyClip(timeline, cid6, newId, PlaylistState::Original, undo, redo));
+        REQUIRE(TimelineFunctions::copyClip(timeline, cid6, newId, PlaylistState::VideoOnly, undo, redo));
         REQUIRE(timeline->m_allClips[cid6]->binId() == timeline->m_allClips[newId]->binId());
         // TODO check effects
     }
@@ -842,7 +842,7 @@ TEST_CASE("Check id unicity", "[ClipModel]")
             track_ids.push_back(tid);
             REQUIRE(timeline->getTracksCount() == track_ids.size());
         } else {
-            int cid = ClipModel::construct(timeline, binId);
+            int cid = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
             REQUIRE(all_ids.count(cid) == 0);
             all_ids.insert(cid);
             REQUIRE(timeline->getClipsCount() == all_ids.size() - track_ids.size());
@@ -882,10 +882,10 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
     QString binId = createProducer(profile_model, "red", binModel);
     QString binId2 = createProducer(profile_model, "blue", binModel);
 
-    int cid1 = ClipModel::construct(timeline, binId);
+    int cid1 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
     int tid1 = TrackModel::construct(timeline);
     int tid2 = TrackModel::construct(timeline);
-    int cid2 = ClipModel::construct(timeline, binId2);
+    int cid2 = ClipModel::construct(timeline, binId2, -1, PlaylistState::VideoOnly);
 
     timeline->m_allClips[cid1]->m_endlessResize = false;
     timeline->m_allClips[cid2]->m_endlessResize = false;
@@ -900,7 +900,7 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
             int temp;
             Fun undo = []() { return true; };
             Fun redo = []() { return true; };
-            REQUIRE_FALSE(timeline->requestClipCreation("impossible bin id", temp, PlaylistState::Original, undo, redo));
+            REQUIRE_FALSE(timeline->requestClipCreation("impossible bin id", temp, PlaylistState::VideoOnly, undo, redo));
         }
 
         auto state0 = [&]() {
@@ -914,7 +914,7 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
         {
             Fun undo = []() { return true; };
             Fun redo = []() { return true; };
-            REQUIRE(timeline->requestClipCreation(binId3, cid3, PlaylistState::Original, undo, redo));
+            REQUIRE(timeline->requestClipCreation(binId3, cid3, PlaylistState::VideoOnly, undo, redo));
             pCore->pushUndo(undo, redo, QString());
         }
 
@@ -931,7 +931,7 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
         {
             Fun undo = []() { return true; };
             Fun redo = []() { return true; };
-            REQUIRE(timeline->requestClipCreation(binId4, cid4, PlaylistState::Original, undo, redo));
+            REQUIRE(timeline->requestClipCreation(binId4, cid4, PlaylistState::VideoOnly, undo, redo));
             pCore->pushUndo(undo, redo, QString());
         }
 
@@ -1358,7 +1358,7 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
         {
             std::function<bool(void)> undo = []() { return true; };
             std::function<bool(void)> redo = []() { return true; };
-            REQUIRE(timeline->requestClipCreation(binId, cid6, PlaylistState::Original, undo, redo));
+            REQUIRE(timeline->requestClipCreation(binId, cid6, PlaylistState::VideoOnly, undo, redo));
             pCore->pushUndo(undo, redo, QString());
         }
         int l = timeline->getClipPlaytime(cid6);
@@ -1463,10 +1463,10 @@ TEST_CASE("Snapping", "[Snapping]")
     QString binId2 = createProducer(profile_model, "blue", binModel);
 
     int tid1 = TrackModel::construct(timeline);
-    int cid1 = ClipModel::construct(timeline, binId);
+    int cid1 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
     int tid2 = TrackModel::construct(timeline);
-    int cid2 = ClipModel::construct(timeline, binId2);
-    int cid3 = ClipModel::construct(timeline, binId2);
+    int cid2 = ClipModel::construct(timeline, binId2, -1, PlaylistState::VideoOnly);
+    int cid3 = ClipModel::construct(timeline, binId2, -1, PlaylistState::VideoOnly);
 
     timeline->m_allClips[cid1]->m_endlessResize = false;
     timeline->m_allClips[cid2]->m_endlessResize = false;
@@ -1582,20 +1582,20 @@ TEST_CASE("Advanced trimming operations", "[Trimming]")
     QString binId2 = createProducer(profile_model, "blue", binModel);
     QString binId3 = createProducerWithSound(profile_model, binModel);
 
-    int cid1 = ClipModel::construct(timeline, binId);
+    int cid1 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
     int tid1 = TrackModel::construct(timeline);
     int tid2 = TrackModel::construct(timeline);
     int tid3 = TrackModel::construct(timeline);
-    int cid2 = ClipModel::construct(timeline, binId2);
-    int cid3 = ClipModel::construct(timeline, binId);
-    int cid4 = ClipModel::construct(timeline, binId);
-    int cid5 = ClipModel::construct(timeline, binId);
-    int cid6 = ClipModel::construct(timeline, binId);
-    int cid7 = ClipModel::construct(timeline, binId);
+    int cid2 = ClipModel::construct(timeline, binId2, -1, PlaylistState::VideoOnly);
+    int cid3 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
+    int cid4 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
+    int cid5 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
+    int cid6 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
+    int cid7 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
 
-    int audio1 = ClipModel::construct(timeline, binId3);
-    int audio2 = ClipModel::construct(timeline, binId3);
-    int audio3 = ClipModel::construct(timeline, binId3);
+    int audio1 = ClipModel::construct(timeline, binId3, -1, PlaylistState::VideoOnly);
+    int audio2 = ClipModel::construct(timeline, binId3, -1, PlaylistState::VideoOnly);
+    int audio3 = ClipModel::construct(timeline, binId3, -1, PlaylistState::VideoOnly);
 
     timeline->m_allClips[cid1]->m_endlessResize = false;
     timeline->m_allClips[cid2]->m_endlessResize = false;

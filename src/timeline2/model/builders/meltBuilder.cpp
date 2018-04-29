@@ -35,7 +35,8 @@
 #include <mlt++/MltProducer.h>
 #include <mlt++/MltTransition.h>
 
-bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, int tid, Mlt::Tractor &track, const std::unordered_map<QString, QString> &binIdCorresp,Fun &undo, Fun &redo);
+bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, int tid, Mlt::Tractor &track,
+                            const std::unordered_map<QString, QString> &binIdCorresp, Fun &undo, Fun &redo);
 bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, int tid, Mlt::Playlist &track,
                             const std::unordered_map<QString, QString> &binIdCorresp, Fun &undo, Fun &redo);
 
@@ -103,7 +104,7 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
 
     // Loading compositions
     QScopedPointer<Mlt::Service> service(tractor.producer());
-    QList <Mlt::Transition *> compositions;
+    QList<Mlt::Transition *> compositions;
     while ((service != nullptr) && service->is_valid()) {
         if (service->type() == transition_type) {
             Mlt::Transition t((mlt_transition)service->get_service());
@@ -124,16 +125,17 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
     if (!compositions.isEmpty()) {
         std::sort(compositions.begin(), compositions.end(), [](Mlt::Transition *a, Mlt::Transition *b) { return a->get_b_track() < b->get_b_track(); });
         while (!compositions.isEmpty()) {
-            QScopedPointer<Mlt::Transition>t(compositions.takeFirst());
+            QScopedPointer<Mlt::Transition> t(compositions.takeFirst());
             Mlt::Properties transProps(t->get_properties());
             QString id(t->get("kdenlive_id"));
             int compoId;
-            ok = timeline->requestCompositionInsertion(id, timeline->getTrackIndexFromPosition(t->get_b_track() - 1), t->get_a_track(), t->get_in(), t->get_length(), &transProps, compoId, undo, redo);
+            ok = timeline->requestCompositionInsertion(id, timeline->getTrackIndexFromPosition(t->get_b_track() - 1), t->get_a_track(), t->get_in(),
+                                                       t->get_length(), &transProps, compoId, undo, redo);
             if (!ok) {
                 qDebug() << "ERROR : failed to insert composition in track " << t->get_b_track() << ", position" << t->get_in();
                 break;
             }
-            qDebug() << "Inserted composition in track " << t->get_b_track() << ", position" << t->get_in()<<"/"<< t->get_out();
+            qDebug() << "Inserted composition in track " << t->get_b_track() << ", position" << t->get_in() << "/" << t->get_out();
         }
     }
 
@@ -149,7 +151,8 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
     return true;
 }
 
-bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, int tid, Mlt::Tractor &track, const std::unordered_map<QString, QString> &binIdCorresp,Fun &undo, Fun &redo)
+bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, int tid, Mlt::Tractor &track,
+                            const std::unordered_map<QString, QString> &binIdCorresp, Fun &undo, Fun &redo)
 {
     if (track.count() != 2) {
         // we expect a tractor with two tracks (a "fake" track)
@@ -186,6 +189,37 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
     return true;
 }
 
+namespace {
+
+// This function tries to recover the state of the producer (audio or video or both)
+PlaylistState inferState(std::shared_ptr<Mlt::Producer> prod)
+{
+    auto getProperty = [prod](const QString &name) {
+        if (prod->parent().is_valid()) {
+            return QString::fromUtf8(prod->parent().get(name.toUtf8().constData()));
+        }
+        return QString::fromUtf8(prod->get(name.toUtf8().constData()));
+    };
+    auto getIntProperty = [prod](const QString &name) {
+        if (prod->parent().is_valid()) {
+            return prod->parent().get_int(name.toUtf8().constData());
+        }
+        return prod->get_int(name.toUtf8().constData());
+    };
+    QString service = getProperty("mlt_service");
+    std::pair<bool, bool> VidAud{true, true};
+    VidAud.first = getIntProperty("set.test_image") == 0;
+    VidAud.second = getIntProperty("set.test_audio") == 0;
+    if (service.contains(QStringLiteral("avformat")) && getIntProperty(QStringLiteral("video_index")) == -1) {
+        VidAud.first = false;
+    }
+    if (service.contains(QStringLiteral("avformat")) && getIntProperty(QStringLiteral("audio_index")) == -1) {
+        VidAud.second = false;
+    }
+    return stateFromBool(VidAud);
+}
+} // namespace
+
 bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, int tid, Mlt::Playlist &track,
                             const std::unordered_map<QString, QString> &binIdCorresp, Fun &undo, Fun &redo)
 {
@@ -198,7 +232,7 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
         switch (clip->type()) {
         case unknown_type:
         case producer_type: {
-            //qDebug() << "Looking for clip clip "<< clip->parent().get("kdenlive:id")<<" = "<<clip->parent().get("kdenlive:clipname");
+            // qDebug() << "Looking for clip clip "<< clip->parent().get("kdenlive:id")<<" = "<<clip->parent().get("kdenlive:clipname");
             QString binId;
             if (clip->parent().get_int("_kdenlive_processed") == 1) {
                 // This is a bin clip, already processed no need to change id
@@ -216,7 +250,8 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
             }
             bool ok = false;
             if (pCore->bin()->getBinClip(binId)) {
-                int cid = ClipModel::construct(timeline, binId, clip);
+                PlaylistState st = inferState(clip);
+                int cid = ClipModel::construct(timeline, binId, clip, st);
                 ok = timeline->requestClipMove(cid, tid, position, true, false, undo, redo);
             } else {
                 qDebug() << "// Cannot find bin clip: " << binId << " - " << clip->get("id");

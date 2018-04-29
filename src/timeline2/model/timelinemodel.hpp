@@ -317,7 +317,7 @@ public:
        @param id: return parameter for the id of the newly created clip.
        @param state: The desired clip state (original, audio/video only).
      */
-    bool requestClipCreation(const QString &binClipId, int &id, PlaylistState::ClipState state, Fun &undo, Fun &redo);
+    bool requestClipCreation(const QString &binClipId, int &id, PlaylistState state, Fun &undo, Fun &redo);
 
     /* @brief Deletes the given clip or composition from the timeline This
        action is undoable Returns true on success. If it fails, nothing is

@@ -1464,9 +1464,9 @@ void TimelineController::showCompositionKeyframes(int clipId, bool value)
     TimelineFunctions::showCompositionKeyframes(m_model, clipId, value);
 }
 
-void TimelineController::setClipStatus(int clipId, int status)
+void TimelineController::setClipStatus(int clipId, PlaylistState status)
 {
-    TimelineFunctions::changeClipState(m_model, clipId, (PlaylistState::ClipState)status);
+    TimelineFunctions::changeClipState(m_model, clipId, status);
 }
 
 void TimelineController::splitAudio(int clipId)

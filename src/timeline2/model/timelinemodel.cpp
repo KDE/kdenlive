@@ -553,7 +553,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
     return result;
 }
 
-bool TimelineModel::requestClipCreation(const QString &binClipId, int &id, PlaylistState::ClipState state, Fun &undo, Fun &redo)
+bool TimelineModel::requestClipCreation(const QString &binClipId, int &id, PlaylistState state, Fun &undo, Fun &redo)
 {
     int clipId = TimelineModel::getNextId();
     id = clipId;
@@ -658,7 +658,8 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
             }
         }
     } else {
-        res = requestClipCreation(binClipId, id, PlaylistState::Original, local_undo, local_redo);
+        std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(binClipId);
+        res = requestClipCreation(binClipId, id, binClip->defaultState(), local_undo, local_redo);
         res = res && requestClipMove(id, trackId, position, refreshView, logUndo, local_undo, local_redo);
     }
     if (!res) {

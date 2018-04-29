@@ -1403,23 +1403,17 @@ void MainWindow::setupActions()
 
     QAction *audioOnly = new QAction(KoIconUtils::themedIcon(QStringLiteral("document-new")), i18n("Audio Only"), this);
     addAction(QStringLiteral("clip_audio_only"), audioOnly);
-    audioOnly->setData(PlaylistState::AudioOnly);
+    audioOnly->setData(QVariant::fromValue(PlaylistState::AudioOnly));
     audioOnly->setCheckable(true);
 
     QAction *videoOnly = new QAction(KoIconUtils::themedIcon(QStringLiteral("document-new")), i18n("Video Only"), this);
     addAction(QStringLiteral("clip_video_only"), videoOnly);
-    videoOnly->setData(PlaylistState::VideoOnly);
+    videoOnly->setData(QVariant::fromValue(PlaylistState::VideoOnly));
     videoOnly->setCheckable(true);
-
-    QAction *audioAndVideo = new QAction(KoIconUtils::themedIcon(QStringLiteral("document-new")), i18n("Audio and Video"), this);
-    addAction(QStringLiteral("clip_audio_and_video"), audioAndVideo);
-    audioAndVideo->setData(PlaylistState::Original);
-    audioAndVideo->setCheckable(true);
 
     m_clipTypeGroup = new QActionGroup(this);
     m_clipTypeGroup->addAction(audioOnly);
     m_clipTypeGroup->addAction(videoOnly);
-    m_clipTypeGroup->addAction(audioAndVideo);
     connect(m_clipTypeGroup, &QActionGroup::triggered, this, &MainWindow::slotUpdateClipType);
     m_clipTypeGroup->setEnabled(false);
 

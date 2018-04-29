@@ -57,7 +57,7 @@ ClipController::ClipController(const QString clipId, std::shared_ptr<Mlt::Produc
         return;
     }
     if (m_masterProducer) {
-        checkAudio();
+        checkAudioVideo();
     }
     if (m_properties) {
         setProducerProperty(QStringLiteral("kdenlive:id"), m_controllerBinId);
@@ -111,7 +111,7 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
         m_producerLock.unlock();
         qCDebug(KDENLIVE_LOG) << "// WARNING, USING INVALID PRODUCER";
     } else {
-        checkAudio();
+        checkAudioVideo();
         m_producerLock.unlock();
         QString proxy = m_properties->get("kdenlive:proxy");
         m_service = m_properties->get("mlt_service");
@@ -303,7 +303,7 @@ void ClipController::updateProducer(const std::shared_ptr<Mlt::Producer> &produc
     passProperties.pass_list(*m_properties, getPassPropertiesList(m_usesProxy));
     delete m_properties;
     *m_masterProducer = producer.get();
-    checkAudio();
+    checkAudioVideo();
     m_properties = new Mlt::Properties(m_masterProducer->get_properties());
     // Pass properties from previous producer
     m_properties->pass_list(passProperties, getPassPropertiesList(m_usesProxy));
@@ -322,40 +322,6 @@ void ClipController::updateProducer(const std::shared_ptr<Mlt::Producer> &produc
     qDebug() << "// replace finished: " << binId() << " : " << m_masterProducer->get("resource");
 }
 
-Mlt::Producer *ClipController::getTrackProducer(const QString &trackName, PlaylistState::ClipState clipState, double speed)
-{
-    // TODO Delete this
-    Q_UNUSED(speed);
-    Q_UNUSED(trackName);
-    Q_UNUSED(clipState);
-    return m_masterProducer.get();
-    /*
-    //TODO
-    Q_UNUSED(speed)
-
-    if (trackName.isEmpty()) {
-        return m_masterProducer;
-    }
-    if (m_clipType != AV && m_clipType != Audio && m_clipType != Playlist) {
-        // Only producers with audio need a different producer for each track (or we have an audio crackle bug)
-        return new Mlt::Producer(m_masterProducer->parent());
-    }
-    QString clipWithTrackId = clipId();
-    clipWithTrackId.append(QLatin1Char('_') + trackName);
-
-    //TODO handle audio / video only producers and framebuffer
-    if (clipState == PlaylistState::AudioOnly) {
-        clipWithTrackId.append(QStringLiteral("_audio"));
-    } else if (clipState == PlaylistState::VideoOnly) {
-        clipWithTrackId.append(QStringLiteral("_video"));
-    }
-
-    Mlt::Producer *clone = m_binController->cloneProducer(*m_masterProducer);
-    clone->set("id", clipWithTrackId.toUtf8().constData());
-    //m_binController->replaceBinPlaylistClip(clipWithTrackId, clone->parent());
-    return clone;
-    */
-}
 
 const QString ClipController::getStringDuration()
 {
@@ -569,12 +535,27 @@ bool ClipController::hasAudio() const
 {
     return m_hasAudio;
 }
-void ClipController::checkAudio()
+void ClipController::checkAudioVideo()
 {
     m_masterProducer->seek(0);
     Mlt::Frame *frame = m_masterProducer->get_frame();
-    // test_audio returns 1 if there is NO audio (strange but at the time this code is written)
+    // test_audio returns 1 if there is NO audio (strange but true at the time this code is written)
     m_hasAudio = frame->get_int("test_audio") == 0;
+    m_hasVideo = frame->get_int("test_image") == 0;
+}
+bool ClipController::hasVideo() const
+{
+    return m_hasVideo;
+}
+PlaylistState ClipController::defaultState() const
+{
+    if (hasVideo()) {
+        return PlaylistState::VideoOnly;
+    }
+    if (hasAudio()) {
+        return PlaylistState::AudioOnly;
+    }
+    return PlaylistState::Disabled;
 }
 
 QPixmap ClipController::pixmap(int framePosition, int width, int height)

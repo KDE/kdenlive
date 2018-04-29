@@ -31,7 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QDebug>
 #include <klocalizedstring.h>
 
-bool TimelineFunctions::copyClip(std::shared_ptr<TimelineItemModel> timeline, int clipId, int &newId, PlaylistState::ClipState state, Fun &undo, Fun &redo)
+bool TimelineFunctions::copyClip(std::shared_ptr<TimelineItemModel> timeline, int clipId, int &newId, PlaylistState state, Fun &undo, Fun &redo)
 {
     // Special case: slowmotion clips
     double clipSpeed = timeline->m_allClips[clipId]->getSpeed();
@@ -94,7 +94,7 @@ bool TimelineFunctions::processClipCut(std::shared_ptr<TimelineItemModel> timeli
     if (start > position || (start + duration) < position) {
         return false;
     }
-    PlaylistState::ClipState state = timeline->m_allClips[clipId]->clipState();
+    PlaylistState state = timeline->m_allClips[clipId]->clipState();
     bool res = copyClip(timeline, clipId, newId, state, undo, redo);
     res = res && timeline->requestItemResize(clipId, position - start, true, true, undo, redo);
     int newDuration = timeline->getClipPlaytime(clipId);
@@ -344,7 +344,7 @@ bool TimelineFunctions::requestItemCopy(std::shared_ptr<TimelineItemModel> timel
     for (int id : allIds) {
         int newId = -1;
         if (timeline->isClip(id)) {
-            PlaylistState::ClipState state = timeline->m_allClips[id]->clipState();
+            PlaylistState state = timeline->m_allClips[id]->clipState();
             res = copyClip(timeline, id, newId, state, undo, redo);
             res = res && (newId != -1);
         }
@@ -396,9 +396,9 @@ void TimelineFunctions::showCompositionKeyframes(std::shared_ptr<TimelineItemMod
     timeline->dataChanged(modelIndex, modelIndex, {TimelineModel::KeyframesRole});
 }
 
-bool TimelineFunctions::changeClipState(std::shared_ptr<TimelineItemModel> timeline, int clipId, PlaylistState::ClipState status)
+bool TimelineFunctions::changeClipState(std::shared_ptr<TimelineItemModel> timeline, int clipId, PlaylistState status)
 {
-    PlaylistState::ClipState oldState = timeline->m_allClips[clipId]->clipState();
+    PlaylistState oldState = timeline->m_allClips[clipId]->clipState();
     if (oldState == status) {
         return true;
     }
@@ -411,9 +411,9 @@ bool TimelineFunctions::changeClipState(std::shared_ptr<TimelineItemModel> timel
     return result;
 }
 
-bool TimelineFunctions::changeClipState(std::shared_ptr<TimelineItemModel> timeline, int clipId, PlaylistState::ClipState status, Fun &undo, Fun &redo)
+bool TimelineFunctions::changeClipState(std::shared_ptr<TimelineItemModel> timeline, int clipId, PlaylistState status, Fun &undo, Fun &redo)
 {
-    PlaylistState::ClipState oldState = timeline->m_allClips[clipId]->clipState();
+    PlaylistState oldState = timeline->m_allClips[clipId]->clipState();
     if (oldState == status) {
         return true;
     }
@@ -463,7 +463,7 @@ bool TimelineFunctions::requestSplitAudio(std::shared_ptr<TimelineItemModel> tim
     // Now clear selection so we don't mess with groups
     pCore->clearSelection();
     for (int cid : clips) {
-        if (!timeline->getClipPtr(cid)->hasAudio() || timeline->getClipPtr(cid)->clipState() == PlaylistState::AudioOnly) {
+        if (!timeline->getClipPtr(cid)->audioEnabled() || timeline->getClipPtr(cid)->clipState() == PlaylistState::AudioOnly) {
             // clip without audio or audio only, skip
             continue;
         }

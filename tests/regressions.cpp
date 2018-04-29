@@ -31,7 +31,7 @@ TEST_CASE("Regression")
     undoStack->redo();
     undoStack->undo();
     QString binId0 = createProducer(reg_profile, "red", binModel);
-    int c = ClipModel::construct(timeline, binId0);
+    int c = ClipModel::construct(timeline, binId0, -1, PlaylistState::VideoOnly);
     timeline->m_allClips[c]->m_endlessResize = false;
     TrackModel::construct(timeline);
     REQUIRE(timeline->getTrackById(1)->checkConsistency());
@@ -144,7 +144,7 @@ TEST_CASE("Regression2")
     REQUIRE(timeline->getTrackById(4)->checkConsistency());
     {
         QString binId0 = createProducer(reg_profile, "red", binModel);
-        int c = ClipModel::construct(timeline, binId0);
+        int c = ClipModel::construct(timeline, binId0, -1, PlaylistState::VideoOnly);
         timeline->m_allClips[c]->m_endlessResize = false;
     }
     REQUIRE(timeline->getTrackById(0)->checkConsistency());

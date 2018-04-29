@@ -145,11 +145,6 @@ public:
 
     /** @brief Holds index of currently selected master clip effect. */
     int selectedEffectIndex;
-    /** @brief Get a clone of master producer for a specific track. Retrieve it if it already exists
-     *  in our list, otherwise we create it.
-     *  Deprecated, track logic should be handled in timeline/track.cpp */
-    Q_DECL_DEPRECATED Mlt::Producer *getTrackProducer(const QString &trackName, PlaylistState::ClipState clipState = PlaylistState::Original,
-                                                      double speed = 1.0);
 
     /** @brief Sets the master producer for this clip when we build the controller without master clip. */
     void addMasterProducer(const std::shared_ptr<Mlt::Producer> &producer);
@@ -173,6 +168,10 @@ public:
     bool hasEffects() const;
     /** @brief Returns true if the clip contains at least one audio stream */
     bool hasAudio() const;
+    /** @brief Returns true if the clip contains at least one video stream */
+    bool hasVideo() const;
+    /** @brief Returns the default state a clip should be in. If the clips contains both video and audio, this defaults to video */
+    PlaylistState defaultState() const;
     /** @brief Returns info about clip audio */
     const std::unique_ptr<AudioStreamInfo> &audioInfo() const;
     /** @brief Returns true if audio thumbnails for this clip are cached */
@@ -204,8 +203,8 @@ protected:
     virtual void emitProducerChanged(const QString &, const std::shared_ptr<Mlt::Producer> &){};
     virtual void connectEffectStack(){};
 
-    // This is the helper function that checks the clip for audio and stores the result
-    void checkAudio();
+    // This is the helper function that checks if the clip has audio and video and stores the result
+    void checkAudioVideo();
 
     std::shared_ptr<Mlt::Producer> m_masterProducer;
     Mlt::Properties *m_properties;
@@ -223,6 +222,7 @@ protected:
     std::shared_ptr<EffectStackModel> m_effectStack;
     std::shared_ptr<MarkerListModel> m_markerModel;
     bool m_hasAudio;
+    bool m_hasVideo;
 
 private:
     QMutex m_producerLock;

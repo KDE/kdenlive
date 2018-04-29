@@ -50,7 +50,7 @@ struct TimelineFunctions
     static bool processClipCut(std::shared_ptr<TimelineItemModel> timeline, int clipId, int position, int &newId, Fun &undo, Fun &redo);
 
     /* @brief Makes a perfect copy of a given clip, but do not insert it */
-    static bool copyClip(std::shared_ptr<TimelineItemModel> timeline, int clipId, int &newId, PlaylistState::ClipState state, Fun &undo, Fun &redo);
+    static bool copyClip(std::shared_ptr<TimelineItemModel> timeline, int clipId, int &newId, PlaylistState state, Fun &undo, Fun &redo);
 
     /* @brief Request the addition of multiple clips to the timeline
      * If the addition of any of the clips fails, the entire operation is undone.
@@ -80,10 +80,10 @@ struct TimelineFunctions
      * @param status: target status of the clip
      This function creates an undo object and returns true on success
      */
-    static bool changeClipState(std::shared_ptr<TimelineItemModel> timeline, int clipId, PlaylistState::ClipState status);
+    static bool changeClipState(std::shared_ptr<TimelineItemModel> timeline, int clipId, PlaylistState status);
     /* @brief Same function as above, but accumulates for undo/redo
      */
-    static bool changeClipState(std::shared_ptr<TimelineItemModel> timeline, int clipId, PlaylistState::ClipState status, Fun &undo, Fun &redo);
+    static bool changeClipState(std::shared_ptr<TimelineItemModel> timeline, int clipId, PlaylistState status, Fun &undo, Fun &redo);
 
     static bool requestSplitAudio(std::shared_ptr<TimelineItemModel> timeline, int clipId, int audioTarget);
     static void setCompositionATrack(std::shared_ptr<TimelineItemModel> timeline, int cid, int aTrack);

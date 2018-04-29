@@ -52,19 +52,47 @@ ClipModel::ClipModel(std::shared_ptr<TimelineModel> parent, std::shared_ptr<Mlt:
     }
 }
 
-int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QString &binClipId, int id, PlaylistState::ClipState state)
+int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QString &binClipId, int id, PlaylistState state)
 {
+    id = (id == -1 ? TimelineModel::getNextId() : id);
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(binClipId);
-    std::shared_ptr<Mlt::Producer> cutProducer = binClip->timelineProducer(state);
-    return construct(parent, binClipId, cutProducer, id);
+
+    // We refine the state according to what the clip can actually produce
+    std::pair<bool, bool> videoAudio = stateToBool(state);
+    videoAudio.first = videoAudio.first && binClip->hasVideo();
+    videoAudio.second = videoAudio.second && binClip->hasAudio();
+    state = stateFromBool(videoAudio);
+
+    std::shared_ptr<Mlt::Producer> cutProducer = binClip->getTimelineProducer(id, state, 1.);
+
+    std::shared_ptr<ClipModel> clip(new ClipModel(parent, cutProducer, binClipId, id));
+    clip->setClipState(state);
+    parent->registerClip(clip);
+    return id;
 }
 
-int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QString &binClipId, std::shared_ptr<Mlt::Producer> producer, int id)
+int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QString &binClipId, std::shared_ptr<Mlt::Producer> producer, PlaylistState state)
 {
-    std::shared_ptr<ClipModel> clip(new ClipModel(parent, producer, binClipId, id));
-    id = clip->m_id;
+
+    // we hand the producer to the bin clip, and in return we get a cut to a good master producer
+    // We might not be able to use directly the producer that we receive as an argument, because it cannot share the same master producer with any other
+    // clipModel (due to a mlt limitation, see ProjectClip doc)
+
+    int id = (id == -1 ? TimelineModel::getNextId() : id);
+    std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(binClipId);
+
+    // We refine the state according to what the clip can actually produce
+    std::pair<bool, bool> videoAudio = stateToBool(state);
+    videoAudio.first = videoAudio.first && binClip->hasVideo();
+    videoAudio.second = videoAudio.second && binClip->hasAudio();
+    state = stateFromBool(videoAudio);
+
+    auto result = binClip->giveMasterAndGetTimelineProducer(id, producer, state);
+    std::shared_ptr<ClipModel> clip(new ClipModel(parent, result.first, binClipId, id));
+    clip->m_effectStack->importEffects(producer, result.second);
+    clip->setClipState(state);
     parent->registerClip(clip);
-    clip->m_effectStack->loadEffects();
+
     return id;
 }
 
@@ -84,13 +112,11 @@ void ClipModel::deregisterClipToBin()
     binClip->deregisterTimelineClip(m_id);
 }
 
-ClipModel::~ClipModel()
-{
-}
+ClipModel::~ClipModel() {}
 
 bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool logUndo)
 {
-    qDebug()<<"++++++++++ PERFORMAING CLIP RESIZE====";
+    qDebug() << "++++++++++ PERFORMAING CLIP RESIZE====";
     QWriteLocker locker(&m_lock);
     // qDebug() << "RESIZE CLIP" << m_id << "target size=" << size << "right=" << right << "endless=" << m_endlessResize << "total length" <<
     // m_producer->get_length() << "current length" << getPlaytime();
@@ -154,7 +180,7 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
             }
             return false;
         };
-        qDebug()<<"// ADJUSTING EFFECT LENGTH, LOGUNDO "<<logUndo<<", "<<old_in<<"/"<<inPoint<<", "<<m_producer->get_playtime();
+        qDebug() << "// ADJUSTING EFFECT LENGTH, LOGUNDO " << logUndo << ", " << old_in << "/" << inPoint << ", " << m_producer->get_playtime();
         if (logUndo) adjustEffectLength(right, old_in, inPoint, oldDuration, m_producer->get_playtime(), reverse, operation, logUndo);
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
         return true;
@@ -237,6 +263,13 @@ bool ClipModel::importEffects(std::shared_ptr<EffectStackModel> stackModel)
     return true;
 }
 
+bool ClipModel::importEffects(std::weak_ptr<Mlt::Service> service)
+{
+    QWriteLocker locker(&m_lock);
+    m_effectStack->importEffects(service);
+    return true;
+}
+
 bool ClipModel::removeFade(bool fromStart)
 {
     QWriteLocker locker(&m_lock);
@@ -253,45 +286,34 @@ bool ClipModel::adjustEffectLength(bool adjustFromEnd, int oldIn, int newIn, int
 bool ClipModel::adjustEffectLength(const QString &effectName, int duration, int originalDuration, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
-    qDebug()<<".... ADJUSTING FADE LENGTH: "<<duration<<" / "<<effectName;
+    qDebug() << ".... ADJUSTING FADE LENGTH: " << duration << " / " << effectName;
     Fun operation = [this, duration, effectName]() {
-        return m_effectStack->adjustFadeLength(duration, effectName == QLatin1String("fadein") || effectName == QLatin1String("fade_to_black"), hasAudio(), !isAudioOnly());
+        return m_effectStack->adjustFadeLength(duration, effectName == QLatin1String("fadein") || effectName == QLatin1String("fade_to_black"), audioEnabled(),
+                                               !isAudioOnly());
     };
     if (operation() && originalDuration > 0) {
         Fun reverse = [this, originalDuration, effectName]() {
-            return m_effectStack->adjustFadeLength(originalDuration, effectName == QLatin1String("fadein") || effectName == QLatin1String("fade_to_black"), hasAudio(), !isAudioOnly());
+            return m_effectStack->adjustFadeLength(originalDuration, effectName == QLatin1String("fadein") || effectName == QLatin1String("fade_to_black"),
+                                                   audioEnabled(), !isAudioOnly());
         };
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
     }
     return true;
 }
 
-bool ClipModel::hasAudio() const
+bool ClipModel::audioEnabled() const
 {
     READ_LOCK();
-    QString service = getProperty("mlt_service");
-    if (service == QLatin1String("xml")) {
-        // Playlist clip, assume audio
-        return true;
-    }
-    qDebug() << "checking audio:" << service
-             << ((service.contains(QStringLiteral("avformat")) || service == QLatin1String("timewarp")) &&
-                 (getIntProperty(QStringLiteral("audio_index")) > -1));
-    if ((service.contains(QStringLiteral("avformat")) || service == QLatin1String("timewarp")) && (getIntProperty(QStringLiteral("audio_index")) > -1)) {
-        return true;
-    }
-    std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
-    return binClip->hasAudio();
+    return stateToBool(m_currentState).second;
 }
 
 bool ClipModel::isAudioOnly() const
 {
     READ_LOCK();
-    QString service = getProperty("mlt_service");
-    return service.contains(QStringLiteral("avformat")) && (getIntProperty(QStringLiteral("video_index")) == -1);
+    return m_currentState == PlaylistState::AudioOnly;
 }
 
-void ClipModel::refreshProducerFromBin(PlaylistState::ClipState state)
+void ClipModel::refreshProducerFromBin(PlaylistState state)
 {
     QWriteLocker locker(&m_lock);
     if (getProperty("mlt_service") == QLatin1String("timewarp")) {
@@ -313,10 +335,9 @@ void ClipModel::refreshProducerFromBin(PlaylistState::ClipState state)
     int in = getIn();
     int out = getOut();
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
-    std::shared_ptr<Mlt::Producer> binProducer = binClip->timelineProducer(state, m_currentTrackId);
+    std::shared_ptr<Mlt::Producer> binProducer = binClip->getTimelineProducer(m_id, state);
     m_producer = std::move(binProducer);
     m_producer->set_in_and_out(in, out);
-    // m_producer.reset(binProducer->cut(in, out));
     // replant effect stack in updated service
     m_effectStack->resetService(m_producer);
     m_producer->set("kdenlive:id", binClip->AbstractProjectItem::clipId().toUtf8().constData());
@@ -324,6 +345,10 @@ void ClipModel::refreshProducerFromBin(PlaylistState::ClipState state)
     m_endlessResize = !binClip->hasLimitedDuration();
 }
 
+void ClipModel::refreshProducerFromBin()
+{
+    refreshProducerFromBin(m_currentState);
+}
 
 bool ClipModel::useTimewarpProducer(double speed, int extraSpace, Fun &undo, Fun &redo)
 {
@@ -357,7 +382,7 @@ Fun ClipModel::useTimewarpProducer_lambda(double speed, int extraSpace)
         warp_out = out;
     }
     in = warp_in / speed;
-    out = qMin((int) (warp_out / speed), extraSpace);
+    out = qMin((int)(warp_out / speed), extraSpace);
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
     std::shared_ptr<Mlt::Producer> originalProducer = binClip->originalProducer();
     bool limitedDuration = binClip->hasLimitedDuration();
@@ -442,29 +467,20 @@ void ClipModel::setShowKeyframes(bool show)
     service()->set("kdenlive:hide_keyframes", (int)!show);
 }
 
-bool ClipModel::setClipState(PlaylistState::ClipState state)
+bool ClipModel::setClipState(PlaylistState state)
 {
     QWriteLocker locker(&m_lock);
-    if (!getProperty("mlt_service").startsWith(QStringLiteral("avformat"))) {
-        return false;
-    }
-    std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
-    std::shared_ptr<Mlt::Producer> binProducer = binClip->timelineProducer(state, m_currentTrackId);
-    int in = getIn();
-    int out = getOut();
-    m_producer = std::move(binProducer);
-    m_producer->set_in_and_out(in, out);
-    m_producer->set("kdenlive:id", m_binClipId.toUtf8().constData());
-    m_producer->set("_kdenlive_cid", m_id);
-
-    // replant effect stack in updated service
-    m_effectStack->resetService(m_producer);
+    std::pair<bool, bool> VidAud = stateToBool(state);
+    m_producer->parent().set("set.test_image", int(VidAud.first ? 0 : 1));
+    m_producer->parent().set("set.test_audio", int(VidAud.second ? 0 : 1));
     return true;
 }
 
-PlaylistState::ClipState ClipModel::clipState() const
+PlaylistState ClipModel::clipState() const
 {
     READ_LOCK();
+    return m_currentState;
+    /*
     if (service()->parent().get_int("audio_index") == -1) {
         if (service()->parent().get_int("video_index") == -1) {
             return PlaylistState::Disabled;
@@ -475,9 +491,10 @@ PlaylistState::ClipState ClipModel::clipState() const
         return PlaylistState::AudioOnly;
     }
     return PlaylistState::Original;
+    */
 }
 
-void ClipModel::passTimelineProperties(std::shared_ptr <ClipModel> other)
+void ClipModel::passTimelineProperties(std::shared_ptr<ClipModel> other)
 {
     READ_LOCK();
     Mlt::Properties source(m_producer->get_properties());

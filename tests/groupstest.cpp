@@ -482,11 +482,11 @@ TEST_CASE("Undo/redo", "[GroupsModel]")
 
     std::vector<int> clips;
     for (int i = 0; i < 4; i++) {
-        clips.push_back(ClipModel::construct(timeline, binId));
+        clips.push_back(ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly));
     }
     std::vector<int> clips2;
     for (int i = 0; i < 4; i++) {
-        clips2.push_back(ClipModel::construct(timeline2, binId));
+        clips2.push_back(ClipModel::construct(timeline2, binId, -1, PlaylistState::VideoOnly));
     }
     int tid1 = TrackModel::construct(timeline);
     int tid2 = TrackModel::construct(timeline);
