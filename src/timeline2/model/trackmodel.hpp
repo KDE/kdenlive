@@ -225,8 +225,6 @@ private:
     std::shared_ptr<Mlt::Tractor> m_track;
     Mlt::Playlist m_playlists[2];
 
-    int m_currentInsertionOrder;
-
     std::map<int, std::shared_ptr<ClipModel>> m_allClips; /*this is important to keep an
                                                                             ordered structure to store the clips, since we use their ids order as row order*/
     std::map<int, std::shared_ptr<CompositionModel>>
