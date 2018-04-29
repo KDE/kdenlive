@@ -176,10 +176,9 @@ void EffectStackView::setModel(std::shared_ptr<EffectStackModel> model, const QS
     //m_builtStack->setModel(model, stackOwner());
 }
 
-void EffectStackView::loadEffects(int start, int end)
+void EffectStackView::loadEffects()
 {
-    Q_UNUSED(start)
-    qDebug() << "MUTEX LOCK!!!!!!!!!!!! loadEffects: "<<start<<" to "<<end;
+    qDebug() << "MUTEX LOCK!!!!!!!!!!!! loadEffects: ";
     QMutexLocker lock(&m_mutex);
     int max = m_model->rowCount();
     if (max == 0) {
@@ -187,9 +186,6 @@ void EffectStackView::loadEffects(int start, int end)
         ObjectId item = m_model->getOwnerId();
         pCore->getMonitor(item.first == ObjectType::BinClip ? Kdenlive::ClipMonitor : Kdenlive::ProjectMonitor)->slotShowEffectScene(MonitorSceneDefault);
         return;
-    }
-    if (end == -1) {
-        end = max;
     }
     int active = qBound(0, m_model->getActiveEffect(), max - 1);
     std::shared_ptr<AbstractEffectItem> activeItem = m_model->getEffectStackRow(active);
@@ -203,7 +199,7 @@ void EffectStackView::loadEffects(int start, int end)
         }
         std::shared_ptr<EffectItemModel> effectModel = std::static_pointer_cast<EffectItemModel>(item);
         CollapsibleEffectView *view = nullptr;
-        if (i >= start && i <= end) {
+        if (i >= 0 && i <= max) {
             // We need to rebuild the effect view
             QImage effectIcon = m_thumbnailer->requestImage(effectModel->getAssetId(), &size, QSize(QStyle::PM_SmallIconSize, QStyle::PM_SmallIconSize));
             view = new CollapsibleEffectView(effectModel, m_sourceFrameSize, effectIcon, this);
@@ -297,7 +293,7 @@ void EffectStackView::refresh(const QModelIndex &topLeft, const QModelIndex &bot
 {
     Q_UNUSED(roles)
     if (!topLeft.isValid() || !bottomRight.isValid()) {
-        loadEffects(topLeft.row(), bottomRight.row());
+        loadEffects();
         return;
     }
     for (int i = topLeft.row(); i <= bottomRight.row(); ++i)  {

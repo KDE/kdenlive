@@ -79,7 +79,6 @@ private:
     */
     QSize m_sourceFrameSize;
     const QString getStyleSheet();
-    void loadEffects(int start = 0, int end = -1);
     void updateTreeHeight();
 
 private slots:
@@ -87,6 +86,7 @@ private slots:
     void slotAdjustDelegate(std::shared_ptr<EffectItemModel> effectModel, int height);
     void slotStartDrag(QPixmap pix, std::shared_ptr<EffectItemModel> effectModel);
     void slotActivateEffect(std::shared_ptr<EffectItemModel> effectModel);
+    void loadEffects();
 
 //    void switchBuiltStack(bool show);
 

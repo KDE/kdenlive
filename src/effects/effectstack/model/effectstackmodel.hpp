@@ -133,6 +133,8 @@ private slots:
     void replugEffect(std::shared_ptr<AssetParameterModel> asset);
 
 signals:
+    /** @brief: This signal is connected to the project clip for bin clips and activates the reload of effects on child (timeline) producers
+     */
     void modelChanged();
 };
 

@@ -443,6 +443,12 @@ void EffectStackModel::moveEffect(int destRow, std::shared_ptr<AbstractEffectIte
     Fun redo = moveItem_lambda(item->getId(), destRow);
     bool res = redo();
     if (res) {
+        Fun update = [this]() {
+            this->dataChanged(QModelIndex(), QModelIndex(), {});
+            return true;
+        };
+        update();
+        UPDATE_UNDO_REDO(update, update, undo, redo);
         auto effectId = std::static_pointer_cast<EffectItemModel>(item)->getAssetId();
         QString effectName = EffectsRepository::get()->getName(effectId);
         PUSH_UNDO(undo, redo, i18n("Move effect %1", effectName));
