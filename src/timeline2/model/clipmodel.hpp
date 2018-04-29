@@ -47,7 +47,8 @@ class ClipModel : public MoveableItem<Mlt::Producer>
 
 protected:
     /* This constructor is not meant to be called, call the static construct instead */
-    ClipModel(std::shared_ptr<TimelineModel> parent, std::shared_ptr<Mlt::Producer> prod, const QString &binClipId, int id = -1);
+    ClipModel(std::shared_ptr<TimelineModel> parent, std::shared_ptr<Mlt::Producer> prod, const QString &binClipId, int id, PlaylistState state,
+              double speed = 1.);
 
 public:
     ~ClipModel();
@@ -160,6 +161,8 @@ protected:
     bool forceThumbReload; // Used to trigger a forced thumb reload, when producer changes
 
     PlaylistState m_currentState;
+
+    double m_speed = -1; // Speed of the clip
 };
 
 #endif

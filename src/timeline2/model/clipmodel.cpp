@@ -35,12 +35,15 @@
 #include "gentime.h"
 #include <effects/effectsrepository.hpp>
 
-ClipModel::ClipModel(std::shared_ptr<TimelineModel> parent, std::shared_ptr<Mlt::Producer> prod, const QString &binClipId, int id)
+ClipModel::ClipModel(std::shared_ptr<TimelineModel> parent, std::shared_ptr<Mlt::Producer> prod, const QString &binClipId, int id, PlaylistState state,
+                     double speed)
     : MoveableItem<Mlt::Producer>(parent, id)
     , m_producer(std::move(prod))
     , m_effectStack(EffectStackModel::construct(m_producer, {ObjectType::TimelineClip, m_id}, parent->m_undoStack))
     , m_binClipId(binClipId)
     , forceThumbReload(false)
+    , m_currentState(state)
+    , m_speed(speed)
 {
     m_producer->set("kdenlive:id", binClipId.toUtf8().constData());
     m_producer->set("_kdenlive_cid", m_id);
@@ -65,7 +68,7 @@ int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QSt
 
     std::shared_ptr<Mlt::Producer> cutProducer = binClip->getTimelineProducer(id, state, 1.);
 
-    std::shared_ptr<ClipModel> clip(new ClipModel(parent, cutProducer, binClipId, id));
+    std::shared_ptr<ClipModel> clip(new ClipModel(parent, cutProducer, binClipId, id, state));
     clip->setClipState(state);
     parent->registerClip(clip);
     return id;
@@ -87,8 +90,12 @@ int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QSt
     videoAudio.second = videoAudio.second && binClip->hasAudio();
     state = stateFromBool(videoAudio);
 
+    double speed = 1.0;
+    if (QString::fromUtf8(producer->get("mlt_service")) == QLatin1String("timewarp")) {
+        speed = producer->get_double("warp_speed");
+    }
     auto result = binClip->giveMasterAndGetTimelineProducer(id, producer, state);
-    std::shared_ptr<ClipModel> clip(new ClipModel(parent, result.first, binClipId, id));
+    std::shared_ptr<ClipModel> clip(new ClipModel(parent, result.first, binClipId, id, state, speed));
     clip->m_effectStack->importEffects(producer, result.second);
     clip->setClipState(state);
     parent->registerClip(clip);
