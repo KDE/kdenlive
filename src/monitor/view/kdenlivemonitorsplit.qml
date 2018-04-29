@@ -5,16 +5,23 @@ import QtQuick.Controls.Styles 1.3
 Item {
     id: root
     objectName: "rootsplit"
+    SystemPalette { id: activePalette }
 
     // default size, but scalable by user
     height: 300; width: 400
-    signal qmlMoveSplit()
+    property double timeScale: 1
+    property double frameSize: 10
+    property int duration: 300
+    property bool mouseOverRuler: false
+    property int mouseRulerPos: 0
     property int splitterPos
     property point center
     // percentage holds splitter pos relative to the scene percentage
     property double percentage
     // realpercent holds splitter pos relative to the frame width percentage
     property double realpercent
+
+    signal qmlMoveSplit()
 
     percentage: 0.5
     realpercent: 0.5
@@ -62,6 +69,15 @@ Item {
                 rightMargin: 10
             }
         }
+    }
+    MonitorRuler {
+        id: clipMonitorRuler
+        anchors {
+            left: root.left
+            right: root.right
+            bottom: root.bottom
+        }
+        height: controller.rulerHeight
     }
 
     Timer {

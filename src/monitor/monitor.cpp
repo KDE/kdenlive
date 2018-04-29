@@ -1756,7 +1756,9 @@ void Monitor::warningMessage(const QString &text, int timeout, const QList<QActi
 void Monitor::activateSplit()
 {
     loadQmlScene(MonitorSceneSplit);
-    if (slotActivateMonitor()) {
+    if (isActive()) {
+        m_glMonitor->requestRefresh();
+    } else if (slotActivateMonitor()) {
         start();
     }
 }
@@ -1787,7 +1789,9 @@ void Monitor::slotSwitchCompare(bool enable)
         delete m_splitEffect;
         m_splitEffect = nullptr;
         loadQmlScene(MonitorSceneDefault);
-        if (slotActivateMonitor()) {
+        if (isActive()) {
+            m_glMonitor->requestRefresh();
+        } else if (slotActivateMonitor()) {
             start();
         }
 
