@@ -22,24 +22,31 @@ import QtQuick.Controls.Styles 1.4
 
 Rectangle {
     id: rulerRoot
-    property real timeScale: timeline.scaleFactor
+    // The standard width for labels. Depends on format used (frame number or full timecode)
     property int labelSize: fontMetrics.tightBoundingRect(timeline.timecode(36000)).width
-    property real stepSize: labelSize
-    property real frameSize: labelSize
+    // The spacing between labels. Depends on labelSize
+    property real labelSpacing: labelSize
+    // The space we want between each ticks in the ruler
+    property real tickSpacing: timeline.scaleFactor
     property real fontUnit: root.baseUnit * 0.9
     property alias rulerZone : zone
     property int workingPreview : timeline.workingPreview
+    property int labelMod: 1
     property bool useTimelineRuler : timeline.useRuler
     SystemPalette { id: activePalette }
 
     function adjustStepSize() {
-        if (rulerRoot.timeScale > 19) {
-            rulerRoot.frameSize = rulerRoot.timeScale
-            rulerRoot.stepSize = rulerRoot.timeScale > rulerRoot.labelSize * 1.3 ? rulerRoot.timeScale : Math.floor(rulerRoot.labelSize/rulerRoot.timeScale+1) * rulerRoot.timeScale
+        if (timeline.scaleFactor > 19) {
+            // Frame size >= 20 pixels
+            rulerRoot.tickSpacing = timeline.scaleFactor
+            // labelSpacing cannot be smaller than 1 frame
+            rulerRoot.labelSpacing = timeline.scaleFactor > rulerRoot.labelSize * 1.3 ? timeline.scaleFactor : Math.floor(rulerRoot.labelSize/timeline.scaleFactor) * timeline.scaleFactor
         } else {
-            rulerRoot.frameSize = rulerRoot.labelSize / 3
-            rulerRoot.stepSize = rulerRoot.labelSize * 4 / 3
+            rulerRoot.tickSpacing = Math.floor(3 * rulerRoot.fontUnit / timeline.scaleFactor) * timeline.scaleFactor
+            rulerRoot.labelSpacing = (Math.floor(rulerRoot.labelSize/rulerRoot.tickSpacing) + 1) * rulerRoot.tickSpacing
         }
+        rulerRoot.labelMod = Math.max((1, Math.ceil((rulerRoot.labelSize + rulerRoot.fontUnit) / rulerRoot.tickSpacing)))
+        //console.log('LABELMOD: ', Math.ceil((rulerRoot.labelSize + rulerRoot.fontUnit) / rulerRoot.tickSpacing)))
     }
 
     function adjustFormat() {
@@ -55,9 +62,9 @@ Rectangle {
         model: timeline.dirtyChunks
         anchors.fill: parent
         delegate: Rectangle {
-            x: modelData * rulerRoot.timeScale
+            x: modelData * timeline.scaleFactor
             y: 0
-            width: 25 * rulerRoot.timeScale
+            width: 25 * timeline.scaleFactor
             height: parent.height / 4
             color: 'darkred'
         }
@@ -67,18 +74,18 @@ Rectangle {
         model: timeline.renderedChunks
         anchors.fill: parent
         delegate: Rectangle {
-            x: modelData * rulerRoot.timeScale
+            x: modelData * timeline.scaleFactor
             y: 0
-            width: 25 * rulerRoot.timeScale
+            width: 25 * timeline.scaleFactor
             height: parent.height / 4
             color: 'darkgreen'
         }
     }
     Rectangle {
         id: working
-        x: rulerRoot.workingPreview * rulerRoot.timeScale
+        x: rulerRoot.workingPreview * timeline.scaleFactor
         y: 0
-        width: 25 * rulerRoot.timeScale
+        width: 25 * timeline.scaleFactor
         height: parent.height / 4
         color: 'orange'
         visible: rulerRoot.workingPreview > -1
@@ -86,28 +93,29 @@ Rectangle {
 
     // Ruler marks
     Repeater {
-        model: scrollView.width / rulerRoot.frameSize + 2
-        Rectangle {
-            property int realPos: scrollView.flickableItem.contentX / rulerRoot.frameSize + index
-            x: realPos * rulerRoot.frameSize
-            anchors.bottom: parent.bottom
-            height: (realPos % 4)? ((realPos % 2) ? 3 : 7) : 12
-            width: 1
-            color: activePalette.windowText
-            opacity: 0.5
-        }
-    }
-    // Ruler labels
-    Repeater {
-        model: scrollView.width / rulerRoot.stepSize + 2
-        Label {
-            property int realPos: scrollView.flickableItem.contentX / rulerRoot.stepSize + index
-            anchors.top: parent.top
-            anchors.topMargin: 2
-            x: realPos * rulerRoot.stepSize
-            text: timeline.timecode(realPos * rulerRoot.stepSize / rulerRoot.timeScale)
-            font.pointSize: rulerRoot.fontUnit
-            color: activePalette.windowText
+        id: tickRepeater
+        model: scrollView.width / rulerRoot.tickSpacing + 2
+        property int offset: Math.floor(scrollView.flickableItem.contentX /rulerRoot.tickSpacing)
+        Item {
+            property int realPos: (tickRepeater.offset + index) * rulerRoot.tickSpacing / timeline.scaleFactor
+            x: realPos * timeline.scaleFactor
+            height: parent.height
+            property bool showText: (tickRepeater.offset + index)%rulerRoot.labelMod == 0
+            Rectangle {
+                anchors.bottom: parent.bottom
+                height: parent.showText ? 8 : 4
+                width: 1
+                color: activePalette.windowText
+                opacity: 0.5
+            }
+            Label {
+                visible: parent.showText
+                anchors.top: parent.top
+                anchors.topMargin: 2
+                text: timeline.timecode(parent.realPos)
+                font.pointSize: rulerRoot.fontUnit
+                color: activePalette.windowText
+            }
         }
     }
 
@@ -116,8 +124,8 @@ Rectangle {
         id: zone
         visible: timeline.zoneOut > timeline.zoneIn
         color: activePalette.highlight
-        x: timeline.zoneIn * rulerRoot.timeScale
-        width: (timeline.zoneOut - timeline.zoneIn) * rulerRoot.timeScale
+        x: timeline.zoneIn * timeline.scaleFactor
+        width: (timeline.zoneOut - timeline.zoneIn) * timeline.scaleFactor
         anchors.bottom: parent.bottom
         height: parent.height / 3
         opacity: useTimelineRuler ? 0.4 : 0.1
@@ -145,7 +153,7 @@ Rectangle {
                 }
                 onPositionChanged: {
                     if (mouse.buttons === Qt.LeftButton) {
-                        var offset = Math.round(zone.x/ rulerRoot.timeScale) - timeline.zoneIn
+                        var offset = Math.round(zone.x/ timeline.scaleFactor) - timeline.zoneIn
                         if (offset != 0) {
                             var newPos = Math.max(0, controller.suggestSnapPoint(timeline.zoneIn + offset,root.snapping))
                             timeline.zoneOut += newPos - timeline.zoneIn
@@ -184,7 +192,7 @@ Rectangle {
                     }
                     onPositionChanged: {
                         if (mouse.buttons === Qt.LeftButton) {
-                            var newPos = controller.suggestSnapPoint(timeline.zoneIn + Math.round(trimIn.x / rulerRoot.timeScale), root.snapping)
+                            var newPos = controller.suggestSnapPoint(timeline.zoneIn + Math.round(trimIn.x / timeline.scaleFactor), root.snapping)
                             timeline.zoneIn = timeline.zoneOut > -1 ? Math.min(newPos, timeline.zoneOut - 1) : newPos
                         }
                     }
@@ -221,7 +229,7 @@ Rectangle {
                     }
                     onPositionChanged: {
                         if (mouse.buttons === Qt.LeftButton) {
-                            timeline.zoneOut = Math.max(controller.suggestSnapPoint(timeline.zoneIn + Math.round((trimOut.x + trimOut.width) / rulerRoot.timeScale), root.snapping), timeline.zoneIn + 1)
+                            timeline.zoneOut = Math.max(controller.suggestSnapPoint(timeline.zoneIn + Math.round((trimOut.x + trimOut.width) / timeline.scaleFactor), root.snapping), timeline.zoneIn + 1)
                         }
                     }
                     onEntered: parent.opacity = 1
