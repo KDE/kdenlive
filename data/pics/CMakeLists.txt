@@ -87,7 +87,7 @@ breeze-light/lt_kdenlive-hide-video.svgz
 breeze-light/lt_kdenlive-insert-edit.svgz
 breeze-light/lt_kdenlive-insert-rect.svgz
 breeze-light/lt_kdenlive-insert-unicode.svgz
-breeze-light/lt_kdenlive-lock.svgz
+breeze-light/lt_kdenlive-lock.svg
 breeze-light/lt_kdenlive-menu.svgz
 breeze-light/lt_kdenlive-normal-edit.svgz
 breeze-light/lt_kdenlive-object-height.svgz
@@ -109,7 +109,7 @@ breeze-light/lt_kdenlive-snap.svgz
 breeze-light/lt_kdenlive-spacer-tool.svgz
 breeze-light/lt_kdenlive-split-audio.svgz
 breeze-light/lt_kdenlive-track_has_effect.svgz
-breeze-light/lt_kdenlive-unlock.svgz
+breeze-light/lt_kdenlive-unlock.svg
 breeze-light/lt_kdenlive-unselect-all.svgz
 breeze-light/lt_kdenlive-up.svgz
 breeze-light/lt_kdenlive-zindex-bottom.svgz

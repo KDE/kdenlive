@@ -379,6 +379,7 @@ private slots:
     void slotSelectAllTracks();
     void slotUnselectAllTracks();
     void slotGetNewLumaStuff();
+    void slotGetNewKeyboardStuff();
     void slotGetNewTitleStuff();
     void slotGetNewRenderStuff();
     void slotAutoTransition();
