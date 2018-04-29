@@ -1110,7 +1110,7 @@ Rectangle {
                     text: model.comment
                     font.pixelSize: root.baseUnit
                     x: guideBase.x + 2
-                    y: scrollView.flickableItem.contentY + 20
+                    y: scrollView.flickableItem.contentY
                     color: 'white'
                 }
             }
