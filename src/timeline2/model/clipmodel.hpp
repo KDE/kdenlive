@@ -106,7 +106,7 @@ public:
     /** @brief Adjust effects duration. Should be called after each resize / cut operation */
     bool adjustEffectLength(bool adjustFromEnd, int oldIn, int newIn, int oldDuration, int duration, Fun &undo, Fun &redo, bool logUndo);
     bool adjustEffectLength(const QString &effectName, int duration, int originalDuration, Fun &undo, Fun &redo);
-    void passTimelineProperties(std::shared_ptr <ClipModel> other);
+    void passTimelineProperties(std::shared_ptr<ClipModel> other);
     KeyframeModel *getKeyframeModel();
 
     int fadeIn() const;
@@ -133,15 +133,19 @@ protected:
     bool requestResize(int size, bool right, Fun &undo, Fun &redo, bool logUndo = true) override;
 
     /* @brief This function change the global (timeline-wise) enabled state of the effects
-    */
+     */
     void setTimelineEffectsEnabled(bool enabled);
 
     /* @brief This functions should be called when the producer of the binClip changes, to allow refresh */
     void refreshProducerFromBin(PlaylistState::ClipState state);
     void refreshProducerFromBin();
-    /* @brief This functions replaces the current producer with a slowmotion one */
+
+    /* @brief This functions replaces the current producer with a slowmotion one
+       It also resizes the producer so that set of frames contained in the clip is the same
+    */
     bool useTimewarpProducer(double speed, int extraSpace, Fun &undo, Fun &redo);
-    Fun useTimewarpProducer_lambda(double speed, int extraSpace);
+    // @brief Lambda that merely changes the speed (in and out are untouched)
+    Fun useTimewarpProducer_lambda(double speed);
 
     /** @brief Returns the marker model associated with this clip */
     std::shared_ptr<MarkerListModel> getMarkerModel() const;

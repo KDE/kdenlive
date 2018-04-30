@@ -189,7 +189,9 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
             return false;
         };
         qDebug() << "// ADJUSTING EFFECT LENGTH, LOGUNDO " << logUndo << ", " << old_in << "/" << inPoint << ", " << m_producer->get_playtime();
-        if (logUndo) adjustEffectLength(right, old_in, inPoint, oldDuration, m_producer->get_playtime(), reverse, operation, logUndo);
+        if (logUndo) {
+            adjustEffectLength(right, old_in, inPoint, oldDuration, m_producer->get_playtime(), reverse, operation, logUndo);
+        }
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
         return true;
     }
@@ -324,26 +326,10 @@ bool ClipModel::isAudioOnly() const
 void ClipModel::refreshProducerFromBin(PlaylistState::ClipState state)
 {
     QWriteLocker locker(&m_lock);
-    if (getProperty("mlt_service") == QLatin1String("timewarp")) {
-        // slowmotion producer, keep it
-        int space = -1;
-        if (m_currentTrackId != -1) {
-            if (auto ptr = m_parent.lock()) {
-                space = ptr->getTrackById(m_currentTrackId)->getBlankSizeNearClip(m_id, true);
-            } else {
-                qDebug() << "Error : Moving clip failed because parent timeline is not available anymore";
-                Q_ASSERT(false);
-            }
-        }
-        std::function<bool(void)> local_undo = []() { return true; };
-        std::function<bool(void)> local_redo = []() { return true; };
-        useTimewarpProducer(m_producer->get_double("warp_speed"), space, local_undo, local_redo);
-        return;
-    }
     int in = getIn();
     int out = getOut();
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
-    std::shared_ptr<Mlt::Producer> binProducer = binClip->getTimelineProducer(m_id, state);
+    std::shared_ptr<Mlt::Producer> binProducer = binClip->getTimelineProducer(m_id, state, m_speed);
     m_producer = std::move(binProducer);
     m_producer->set_in_and_out(in, out);
     // replant effect stack in updated service
@@ -360,62 +346,39 @@ void ClipModel::refreshProducerFromBin()
 
 bool ClipModel::useTimewarpProducer(double speed, int extraSpace, Fun &undo, Fun &redo)
 {
+    if (m_endlessResize) {
+        // no timewarp for endless producers
+        return false;
+    }
+    std::function<bool(void)> local_undo = []() { return true; };
+    std::function<bool(void)> local_redo = []() { return true; };
     double previousSpeed = getSpeed();
-    auto operation = useTimewarpProducer_lambda(speed, extraSpace);
+    int new_in = int(double(getIn()) * previousSpeed / speed);
+    int new_out = int(double(getOut()) * previousSpeed / speed);
+    auto operation = useTimewarpProducer_lambda(speed);
     if (operation()) {
-        auto reverse = useTimewarpProducer_lambda(previousSpeed, extraSpace);
-        UPDATE_UNDO_REDO(operation, reverse, undo, redo);
+        auto reverse = useTimewarpProducer_lambda(previousSpeed);
+        UPDATE_UNDO_REDO(operation, reverse, local_undo, local_redo);
+        bool res = requestResize(new_out - new_in + 1, true, local_undo, local_redo, true);
+        if (!res) {
+            bool undone = local_undo();
+            Q_ASSERT(undone);
+            return false;
+        }
+        UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
         return true;
     }
     return false;
 }
 
-Fun ClipModel::useTimewarpProducer_lambda(double speed, int extraSpace)
+Fun ClipModel::useTimewarpProducer_lambda(double speed)
 {
-    Q_UNUSED(extraSpace)
-
     QWriteLocker locker(&m_lock);
-    // TODO: disable timewarp on color clips
-    int in = getIn();
-    int out = getOut();
-    int warp_in;
-    int warp_out;
-    if (getProperty("mlt_service") == QLatin1String("timewarp")) {
-        // slowmotion producer, get current speed
-        warp_in = m_producer->get_int("warp_in");
-        warp_out = m_producer->get_int("warp_out");
-    } else {
-        // store original in/out
-        warp_in = in;
-        warp_out = out;
-    }
-    in = warp_in / speed;
-    out = qMin((int)(warp_out / speed), extraSpace);
-    std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
-    std::shared_ptr<Mlt::Producer> originalProducer = binClip->originalProducer();
-    bool limitedDuration = binClip->hasLimitedDuration();
-
-    return [originalProducer, speed, in, out, warp_in, warp_out, limitedDuration, this]() {
-        if (qFuzzyCompare(speed, 1.0)) {
-            m_producer.reset(originalProducer->cut(in, out));
-        } else {
-            QLocale locale;
-            QString resource = QString("timewarp:%1:%2").arg(locale.toString(speed)).arg(originalProducer->get("resource"));
-            std::shared_ptr<Mlt::Producer> warpProducer(new Mlt::Producer(*m_producer->profile(), resource.toUtf8().constData()));
-            // Make sure we use a cut so that the source producer in/out are not modified
-            m_producer.reset(warpProducer->cut(0, warpProducer->get_length()));
-            setInOut(in, out);
-        }
-        // replant effect stack in updated service
-        m_effectStack->resetService(m_producer);
-        m_producer->set("kdenlive:id", m_binClipId.toUtf8().constData());
-        m_producer->set("_kdenlive_cid", m_id);
-        m_producer->set("warp_in", warp_in);
-        m_producer->set("warp_out", warp_out);
-        m_endlessResize = !limitedDuration;
+    return [speed, this]() {
+        m_speed = speed;
+        refreshProducerFromBin(m_currentState);
         return true;
     };
-    return []() { return false; };
 }
 
 QVariant ClipModel::getAudioWaveform()
@@ -451,11 +414,7 @@ int ClipModel::fadeOut() const
 
 double ClipModel::getSpeed() const
 {
-    if (getProperty("mlt_service") == QLatin1String("timewarp")) {
-        // slowmotion producer, get current speed
-        return m_producer->parent().get_double("warp_speed");
-    }
-    return 1.0;
+    return m_speed;
 }
 
 KeyframeModel *ClipModel::getKeyframeModel()
