@@ -47,7 +47,7 @@ class ClipModel : public MoveableItem<Mlt::Producer>
 
 protected:
     /* This constructor is not meant to be called, call the static construct instead */
-    ClipModel(std::shared_ptr<TimelineModel> parent, std::shared_ptr<Mlt::Producer> prod, const QString &binClipId, int id, PlaylistState state,
+    ClipModel(std::shared_ptr<TimelineModel> parent, std::shared_ptr<Mlt::Producer> prod, const QString &binClipId, int id, PlaylistState::ClipState state,
               double speed = 1.);
 
 public:
@@ -58,14 +58,15 @@ public:
        @param binClip is the id of the bin clip associated
        @param id Requested id of the clip. Automatic if -1
     */
-    static int construct(const std::shared_ptr<TimelineModel> &parent, const QString &binClipId, int id, PlaylistState state);
+    static int construct(const std::shared_ptr<TimelineModel> &parent, const QString &binClipId, int id, PlaylistState::ClipState state);
 
     /* @brief Creates a clip, which references itself to the parent timeline
        Returns the (unique) id of the created clip
     This variants assumes a producer is already known, which should typically happen only at loading time.
     Note that there is no guarantee that this producer is actually going to be used. It might be discarded.
     */
-    static int construct(const std::shared_ptr<TimelineModel> &parent, const QString &binClipId, std::shared_ptr<Mlt::Producer> producer, PlaylistState state);
+    static int construct(const std::shared_ptr<TimelineModel> &parent, const QString &binClipId, std::shared_ptr<Mlt::Producer> producer,
+                         PlaylistState::ClipState state);
 
     /* @brief returns a property of the clip, or from it's parent if it's a cut
      */
@@ -77,9 +78,9 @@ public:
     Q_INVOKABLE void setShowKeyframes(bool show);
 
     /** @brief Returns the timeline clip status (video / audio only) */
-    PlaylistState clipState() const;
+    PlaylistState::ClipState clipState() const;
     /** @brief Sets the timeline clip status (video / audio only) */
-    bool setClipState(PlaylistState state);
+    bool setClipState(PlaylistState::ClipState state);
 
     /* @brief returns the length of the item on the timeline
      */
@@ -136,7 +137,7 @@ protected:
     void setTimelineEffectsEnabled(bool enabled);
 
     /* @brief This functions should be called when the producer of the binClip changes, to allow refresh */
-    void refreshProducerFromBin(PlaylistState state);
+    void refreshProducerFromBin(PlaylistState::ClipState state);
     void refreshProducerFromBin();
     /* @brief This functions replaces the current producer with a slowmotion one */
     bool useTimewarpProducer(double speed, int extraSpace, Fun &undo, Fun &redo);
@@ -160,7 +161,7 @@ protected:
 
     bool forceThumbReload; // Used to trigger a forced thumb reload, when producer changes
 
-    PlaylistState m_currentState;
+    PlaylistState::ClipState m_currentState;
 
     double m_speed = -1; // Speed of the clip
 };

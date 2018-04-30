@@ -35,8 +35,8 @@
 #include "gentime.h"
 #include <effects/effectsrepository.hpp>
 
-ClipModel::ClipModel(std::shared_ptr<TimelineModel> parent, std::shared_ptr<Mlt::Producer> prod, const QString &binClipId, int id, PlaylistState state,
-                     double speed)
+ClipModel::ClipModel(std::shared_ptr<TimelineModel> parent, std::shared_ptr<Mlt::Producer> prod, const QString &binClipId, int id,
+                     PlaylistState::ClipState state, double speed)
     : MoveableItem<Mlt::Producer>(parent, id)
     , m_producer(std::move(prod))
     , m_effectStack(EffectStackModel::construct(m_producer, {ObjectType::TimelineClip, m_id}, parent->m_undoStack))
@@ -55,7 +55,7 @@ ClipModel::ClipModel(std::shared_ptr<TimelineModel> parent, std::shared_ptr<Mlt:
     }
 }
 
-int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QString &binClipId, int id, PlaylistState state)
+int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QString &binClipId, int id, PlaylistState::ClipState state)
 {
     id = (id == -1 ? TimelineModel::getNextId() : id);
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(binClipId);
@@ -74,7 +74,8 @@ int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QSt
     return id;
 }
 
-int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QString &binClipId, std::shared_ptr<Mlt::Producer> producer, PlaylistState state)
+int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QString &binClipId, std::shared_ptr<Mlt::Producer> producer,
+                         PlaylistState::ClipState state)
 {
 
     // we hand the producer to the bin clip, and in return we get a cut to a good master producer
@@ -320,7 +321,7 @@ bool ClipModel::isAudioOnly() const
     return m_currentState == PlaylistState::AudioOnly;
 }
 
-void ClipModel::refreshProducerFromBin(PlaylistState state)
+void ClipModel::refreshProducerFromBin(PlaylistState::ClipState state)
 {
     QWriteLocker locker(&m_lock);
     if (getProperty("mlt_service") == QLatin1String("timewarp")) {
@@ -474,16 +475,15 @@ void ClipModel::setShowKeyframes(bool show)
     service()->set("kdenlive:hide_keyframes", (int)!show);
 }
 
-bool ClipModel::setClipState(PlaylistState state)
+bool ClipModel::setClipState(PlaylistState::ClipState state)
 {
     QWriteLocker locker(&m_lock);
-    std::pair<bool, bool> VidAud = stateToBool(state);
-    m_producer->parent().set("set.test_image", int(VidAud.first ? 0 : 1));
-    m_producer->parent().set("set.test_audio", int(VidAud.second ? 0 : 1));
+    refreshProducerFromBin(state);
+    m_currentState = state;
     return true;
 }
 
-PlaylistState ClipModel::clipState() const
+PlaylistState::ClipState ClipModel::clipState() const
 {
     READ_LOCK();
     return m_currentState;

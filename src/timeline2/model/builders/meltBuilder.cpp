@@ -192,7 +192,7 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
 namespace {
 
 // This function tries to recover the state of the producer (audio or video or both)
-PlaylistState inferState(std::shared_ptr<Mlt::Producer> prod)
+PlaylistState::ClipState inferState(std::shared_ptr<Mlt::Producer> prod)
 {
     auto getProperty = [prod](const QString &name) {
         if (prod->parent().is_valid()) {
@@ -250,7 +250,7 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
             }
             bool ok = false;
             if (pCore->bin()->getBinClip(binId)) {
-                PlaylistState st = inferState(clip);
+                PlaylistState::ClipState st = inferState(clip);
                 int cid = ClipModel::construct(timeline, binId, clip, st);
                 ok = timeline->requestClipMove(cid, tid, position, true, false, undo, redo);
             } else {

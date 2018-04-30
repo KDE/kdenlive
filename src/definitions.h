@@ -77,12 +77,15 @@ enum OperationType {
     ZoomTimeline
 };
 
-enum class PlaylistState { VideoOnly = 1, AudioOnly = 2, Disabled = 3 };
-Q_DECLARE_METATYPE(PlaylistState)
+namespace PlaylistState {
+Q_NAMESPACE
+enum ClipState { VideoOnly = 1, AudioOnly = 2, Disabled = 3 };
+Q_ENUM_NS(ClipState)
+} // namespace PlaylistState
 
 // returns a pair corresponding to (video, audio)
-std::pair<bool, bool> stateToBool(PlaylistState state);
-PlaylistState stateFromBool(std::pair<bool, bool> av);
+std::pair<bool, bool> stateToBool(PlaylistState::ClipState state);
+PlaylistState::ClipState stateFromBool(std::pair<bool, bool> av);
 
 namespace TimelineMode {
 enum EditMode { NormalEdit = 0, OverwriteEdit = 1, InsertEdit = 2 };

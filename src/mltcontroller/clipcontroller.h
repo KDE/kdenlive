@@ -171,7 +171,7 @@ public:
     /** @brief Returns true if the clip contains at least one video stream */
     bool hasVideo() const;
     /** @brief Returns the default state a clip should be in. If the clips contains both video and audio, this defaults to video */
-    PlaylistState defaultState() const;
+    PlaylistState::ClipState defaultState() const;
     /** @brief Returns info about clip audio */
     const std::unique_ptr<AudioStreamInfo> &audioInfo() const;
     /** @brief Returns true if audio thumbnails for this clip are cached */

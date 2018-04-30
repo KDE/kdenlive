@@ -547,7 +547,7 @@ bool ClipController::hasVideo() const
 {
     return m_hasVideo;
 }
-PlaylistState ClipController::defaultState() const
+PlaylistState::ClipState ClipController::defaultState() const
 {
     if (hasVideo()) {
         return PlaylistState::VideoOnly;

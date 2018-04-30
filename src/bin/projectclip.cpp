@@ -427,7 +427,7 @@ void ProjectClip::createVideoMasterProducer()
         m_videoProducer->set("set.test_image", 0);
     }
 }
-std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int clipId, PlaylistState state, double speed)
+std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int clipId, PlaylistState::ClipState state, double speed)
 {
     if (qFuzzyCompare(speed, 1.0)) {
         // we are requesting a normal speed producer
@@ -476,7 +476,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int clipId, Play
 }
 
 std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTimelineProducer(int clipId, std::shared_ptr<Mlt::Producer> master,
-                                                                                              PlaylistState state)
+                                                                                              PlaylistState::ClipState state)
 {
     int in = master->get_in();
     int out = master->get_out();

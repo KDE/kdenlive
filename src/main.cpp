@@ -31,6 +31,7 @@
 #include <KIconLoader>
 #include <KSharedConfig>
 
+#include "definitions.h"
 #include "kdenlive_debug.h"
 #include <KDBusService>
 #include <QApplication>
@@ -39,6 +40,7 @@
 #include <QDir>
 #include <QIcon>
 #include <QProcess>
+#include <QQmlEngine>
 #include <QUrl> //new
 #include <klocalizedstring.h>
 
@@ -139,6 +141,11 @@ int main(int argc, char *argv[])
 
     KCrash::initialize();
 
+    qmlRegisterUncreatableMetaObject(PlaylistState::staticMetaObject, // static meta object
+                                     "com.enums",                     // import statement
+                                     1, 0,                            // major and minor version of the import
+                                     "ClipState",                     // name in QML
+                                     "Error: only enums");
     QString mltPath = parser.value(QStringLiteral("mlt-path"));
     QUrl url;
     if (parser.positionalArguments().count() != 0) {

@@ -553,8 +553,9 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
     return result;
 }
 
-bool TimelineModel::requestClipCreation(const QString &binClipId, int &id, PlaylistState state, Fun &undo, Fun &redo)
+bool TimelineModel::requestClipCreation(const QString &binClipId, int &id, PlaylistState::ClipState state, Fun &undo, Fun &redo)
 {
+    qDebug() << "requestClipCreation " << binClipId;
     int clipId = TimelineModel::getNextId();
     id = clipId;
     Fun local_undo = deregisterClip_lambda(clipId);
@@ -595,6 +596,8 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
 {
     std::function<bool(void)> local_undo = []() { return true; };
     std::function<bool(void)> local_redo = []() { return true; };
+    qDebug() << "requestClipInsertion " << binClipId << " "
+             << " " << trackId << " " << position;
     bool res = false;
     if (getTrackById_const(trackId)->isLocked()) {
         return false;
