@@ -600,14 +600,13 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
         return false;
     }
     ClipType type = ClipType::Unknown;
-    if (KdenliveSettings::splitaudio()) {
-        QString bid = binClipId.section(QLatin1Char('/'), 0, 0);
-        if (!pCore->projectItemModel()->hasClip(bid)) {
-            return false;
-        }
-        std::shared_ptr<ProjectClip> master = pCore->projectItemModel()->getClipByBinID(bid);
-        type = master->clipType();
+    QString bid = binClipId.section(QLatin1Char('/'), 0, 0);
+    if (!pCore->projectItemModel()->hasClip(bid)) {
+        return false;
     }
+    std::shared_ptr<ProjectClip> master = pCore->projectItemModel()->getClipByBinID(bid);
+    type = master->clipType();
+
     if (type == ClipType::AV) {
         if (m_audioTarget >= 0 && m_videoTarget == -1) {
             // If audio target is set but no video target, only insert audio

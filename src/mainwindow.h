@@ -199,7 +199,6 @@ private:
     QAction *m_buttonVideoThumbs;
     QAction *m_buttonShowMarkers;
     QAction *m_buttonFitZoom;
-    QAction *m_buttonAutomaticSplitAudio;
     QAction *m_buttonAutomaticTransition;
     QAction *m_normalEditTool;
     QAction *m_overwriteEditTool;
@@ -284,8 +283,6 @@ private slots:
     void slotAddEffect(const QDomElement &effect);
     void slotEditProjectSettings();
 
-    /** @brief Turns automatic splitting of audio and video on/off. */
-    void slotSwitchSplitAudio(bool enable);
     void slotSwitchTimelineZone(bool toggled);
     void slotSwitchMarkersComments();
     void slotSwitchSnap();

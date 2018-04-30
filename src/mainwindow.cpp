@@ -1086,13 +1086,6 @@ void MainWindow::setupActions()
 
     connect(toolGroup, &QActionGroup::triggered, this, &MainWindow::slotChangeTool);
 
-    // create automatic audio split button
-    m_buttonAutomaticSplitAudio =
-        new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-split-audio")), i18n("Split audio and video automatically"), this);
-    m_buttonAutomaticSplitAudio->setCheckable(true);
-    m_buttonAutomaticSplitAudio->setChecked(KdenliveSettings::splitaudio());
-    connect(m_buttonAutomaticSplitAudio, &QAction::toggled, this, &MainWindow::slotSwitchSplitAudio);
-
     m_buttonVideoThumbs = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-show-videothumb")), i18n("Show video thumbnails"), this);
 
     m_buttonVideoThumbs->setCheckable(true);
@@ -1175,7 +1168,6 @@ void MainWindow::setupActions()
 
     /*QString styleBorderless = QStringLiteral("QToolButton { border-width: 0px;margin: 1px 3px 0px;padding: 0px;}");*/
     toolbar->addWidget(m_trimLabel);
-    toolbar->addAction(m_buttonAutomaticSplitAudio);
     toolbar->addAction(m_buttonAutomaticTransition);
     toolbar->addAction(m_buttonVideoThumbs);
     toolbar->addAction(m_buttonAudioThumbs);
@@ -1186,26 +1178,6 @@ void MainWindow::setupActions()
     toolbar->addAction(m_zoomOut);
     toolbar->addWidget(m_zoomSlider);
     toolbar->addAction(m_zoomIn);
-
-    /*actionWidget = toolbar->widgetForAction(m_buttonAutomaticSplitAudio);
-    actionWidget->setMaximumWidth(max);
-    actionWidget->setMaximumHeight(max - 4);
-
-    actionWidget = toolbar->widgetForAction(m_buttonVideoThumbs);
-    actionWidget->setMaximumWidth(max);
-    actionWidget->setMaximumHeight(max - 4);
-
-    actionWidget = toolbar->widgetForAction(m_buttonAudioThumbs);
-    actionWidget->setMaximumWidth(max);
-    actionWidget->setMaximumHeight(max - 4);
-
-    actionWidget = toolbar->widgetForAction(m_buttonShowMarkers);
-    actionWidget->setMaximumWidth(max);
-    actionWidget->setMaximumHeight(max - 4);
-
-    actionWidget = toolbar->widgetForAction(m_buttonSnap);
-    actionWidget->setMaximumWidth(max);
-    actionWidget->setMaximumHeight(max - 4);*/
 
     int small = style()->pixelMetric(QStyle::PM_SmallIconSize);
     statusBar()->setMaximumHeight(2 * small);
@@ -1228,7 +1200,6 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("razor_tool"), m_buttonRazorTool);
     addAction(QStringLiteral("spacer_tool"), m_buttonSpacerTool);
 
-    addAction(QStringLiteral("automatic_split_audio"), m_buttonAutomaticSplitAudio);
     addAction(QStringLiteral("automatic_transition"), m_buttonAutomaticTransition);
     addAction(QStringLiteral("show_video_thumbs"), m_buttonVideoThumbs);
     addAction(QStringLiteral("show_audio_thumbs"), m_buttonAudioThumbs);
@@ -2238,22 +2209,11 @@ void MainWindow::updateConfiguration()
     m_buttonAudioThumbs->setChecked(KdenliveSettings::audiothumbnails());
     m_buttonVideoThumbs->setChecked(KdenliveSettings::videothumbnails());
     m_buttonShowMarkers->setChecked(KdenliveSettings::showmarkers());
-    slotSwitchSplitAudio(KdenliveSettings::splitaudio());
     slotSwitchAutomaticTransition();
 
     // Update list of transcoding profiles
     buildDynamicActions();
     loadClipActions();
-}
-
-void MainWindow::slotSwitchSplitAudio(bool enable)
-{
-    KdenliveSettings::setSplitaudio(enable);
-    m_buttonAutomaticSplitAudio->setChecked(KdenliveSettings::splitaudio());
-    // TODO update leds on split mode?
-    /*if (pCore->projectManager()->currentTimeline()) {
-        pCore->projectManager()->currentTimeline()->updateHeaders();
-    }*/
 }
 
 void MainWindow::slotSwitchVideoThumbs()
