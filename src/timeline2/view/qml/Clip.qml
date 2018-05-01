@@ -371,7 +371,7 @@ Rectangle {
 
         Row {
             id: waveform
-            visible: timeline.showAudioThumbnails  && !parentTrack.isMute
+            visible: parentTrack.isAudio && timeline.showAudioThumbnails  && !parentTrack.isMute
             height: isAudio || parentTrack.isAudio || clipStatus == ClipState.AudioOnly ? container.height - 1 : (container.height - 1) / 2
             opacity: clipStatus == ClipState.Disabled ? 0.2 : 1
             anchors.left: container.left
