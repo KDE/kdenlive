@@ -77,11 +77,21 @@ public:
     Q_INVOKABLE bool showKeyframes() const;
     Q_INVOKABLE void setShowKeyframes(bool show);
 
+    /* @brief Returns true if the clip can be converted to a video clip */
+    bool canBeVideo() const;
+    /* @brief Returns true if the clip can be converted to an audio clip */
+    bool canBeAudio() const;
+
     /** @brief Returns the timeline clip status (video / audio only) */
     PlaylistState::ClipState clipState() const;
     /** @brief Sets the timeline clip status (video / audio only) */
-    bool setClipState(PlaylistState::ClipState state);
+    bool setClipState(PlaylistState::ClipState state, Fun &undo, Fun &redo);
 
+protected:
+    // helper fuctions that creates the lambda
+    Fun setClipState_lambda(PlaylistState::ClipState state);
+
+public:
     /* @brief returns the length of the item on the timeline
      */
     int getPlaytime() const override;
@@ -168,6 +178,8 @@ protected:
     PlaylistState::ClipState m_currentState;
 
     double m_speed = -1; // Speed of the clip
+
+    bool m_canBeVideo, m_canBeAudio;
 };
 
 #endif

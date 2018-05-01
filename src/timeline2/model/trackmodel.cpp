@@ -136,9 +136,8 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
                 int clip_index = getRowfromClip(clipId);
                 ptr->_beginInsertRows(ptr->makeTrackIndexFromID(getId()), clip_index, clip_index);
                 ptr->_endInsertRows();
-                int state = m_track->get_int("hide");
                 bool audioOnly = clip->isAudioOnly();
-                if (!audioOnly && (state == 0 || state == 2) && !isAudioTrack()) {
+                if (!audioOnly && !isHidden() && !isAudioTrack()) {
                     // only refresh monitor if not an audio track and not hidden
                     ptr->checkRefresh(new_in, new_out);
                 }
@@ -200,14 +199,33 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
     return []() { return false; };
 }
 
-bool TrackModel::requestClipInsertion(int clipId, int position, bool updateView, bool finalMove,  Fun &undo, Fun &redo)
+bool TrackModel::requestClipInsertion(int clipId, int position, bool updateView, bool finalMove, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
-    auto operation = requestClipInsertion_lambda(clipId, position, updateView, finalMove);
-    if (operation()) {
-        auto reverse = requestClipDeletion_lambda(clipId, updateView, finalMove);
-        UPDATE_UNDO_REDO(operation, reverse, undo, redo);
-        return true;
+    if (auto ptr = m_parent.lock()) {
+        if (isAudioTrack() && !ptr->getClipPtr(clipId)->canBeAudio()) {
+            return false;
+        }
+        if (!isAudioTrack() && !ptr->getClipPtr(clipId)->canBeVideo()) {
+            return false;
+        }
+        Fun local_undo = []() { return true; };
+        Fun local_redo = []() { return true; };
+        bool res = true;
+        if (ptr->getClipPtr(clipId)->clipState() != PlaylistState::Disabled) {
+            res = res && ptr->getClipPtr(clipId)->setClipState(isAudioTrack() ? PlaylistState::AudioOnly : PlaylistState::VideoOnly, local_undo, local_redo);
+        }
+        auto operation = requestClipInsertion_lambda(clipId, position, updateView, finalMove);
+        res = res && operation();
+        if (res) {
+            auto reverse = requestClipDeletion_lambda(clipId, updateView, finalMove);
+            UPDATE_UNDO_REDO(operation, reverse, local_undo, local_redo);
+            UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
+            return true;
+        }
+        bool undone = local_undo();
+        Q_ASSERT(undone);
+        return false;
     }
     return false;
 }
@@ -223,13 +241,19 @@ void TrackModel::replugClip(int clipId)
     m_playlists[target_track].lock();
     Q_ASSERT(target_clip < m_playlists[target_track].count());
     Q_ASSERT(!m_playlists[target_track].is_blank(target_clip));
-    auto prod = m_playlists[target_track].replace_with_blank(target_clip);
+    std::unique_ptr<Mlt::Producer> prod(m_playlists[target_track].replace_with_blank(target_clip));
     if (auto ptr = m_parent.lock()) {
         std::shared_ptr<ClipModel> clip = ptr->getClipPtr(clipId);
         m_playlists[target_track].insert_at(clip_position, *clip, 1);
+        if (!clip->isAudioOnly() && !isAudioTrack()) {
+            ptr->invalidateZone(clip->getIn(), clip->getOut());
+        }
+        if (!clip->isAudioOnly() && !isHidden() && !isAudioTrack()) {
+            // only refresh monitor if not an audio track and not hidden
+            ptr->checkRefresh(clip->getIn(), clip->getOut());
+        }
     }
     m_playlists[target_track].consolidate_blanks();
-    delete prod;
     m_playlists[target_track].unlock();
 }
 
@@ -259,7 +283,7 @@ Fun TrackModel::requestClipDeletion_lambda(int clipId, bool updateView, bool fin
         if (prod != nullptr) {
             if (finalMove && !audioOnly && !isAudioTrack()) {
                 if (auto ptr = m_parent.lock()) {
-                    //qDebug() << "/// INVALIDATE CLIP ON DELETE!!!!!!";
+                    // qDebug() << "/// INVALIDATE CLIP ON DELETE!!!!!!";
                     ptr->invalidateZone(old_in, old_out);
                 }
             }
@@ -271,12 +295,11 @@ Fun TrackModel::requestClipDeletion_lambda(int clipId, bool updateView, bool fin
             if (auto ptr = m_parent.lock()) {
                 ptr->m_snaps->removePoint(old_in);
                 ptr->m_snaps->removePoint(old_out);
-                int state = m_track->get_int("hide");
                 if (finalMove && target_clip >= m_playlists[target_track].count()) {
                     // deleted last clip in playlist
                     ptr->updateDuration();
                 }
-                if (!audioOnly && (state == 0 || state == 2) && !isAudioTrack()) {
+                if (!audioOnly && isHidden() && !isAudioTrack()) {
                     // only refresh monitor if not an audio track and not hidden
                     ptr->checkRefresh(old_in, old_out);
                 }
@@ -294,7 +317,7 @@ bool TrackModel::requestClipDeletion(int clipId, bool updateView, bool finalMove
     Q_ASSERT(m_allClips.count(clipId) > 0);
     auto old_clip = m_allClips[clipId];
     int old_position = old_clip->getPosition();
-    qDebug()<<"/// REQUESTOING CLIP DELETION_: "<<updateView;
+    qDebug() << "/// REQUESTOING CLIP DELETION_: " << updateView;
     auto operation = requestClipDeletion_lambda(clipId, updateView, finalMove);
     if (operation()) {
         auto reverse = requestClipInsertion_lambda(clipId, old_position, updateView, finalMove);
@@ -394,7 +417,7 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
     int size = out - in + 1;
     int state = m_track->get_int("hide");
     bool checkRefresh = false;
-    if ((state == 0 || state == 2) && !isAudioTrack()) {
+    if (!isHidden() && !isAudioTrack()) {
         checkRefresh = true;
     }
 
@@ -407,7 +430,7 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
             if (checkRefresh) {
                 ptr->checkRefresh(old_in, old_out);
                 ptr->checkRefresh(new_in, new_out);
-                //ptr->adjustAssetRange(clipId, m_allClips[clipId]->getIn(), m_allClips[clipId]->getOut());
+                // ptr->adjustAssetRange(clipId, m_allClips[clipId]->getIn(), m_allClips[clipId]->getOut());
             }
         } else {
             qDebug() << "Error : clip resize failed because parent timeline is not available anymore";
@@ -419,7 +442,7 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
     if (delta == 0) {
         return []() { return true; };
     }
-    //qDebug() << "RESIZING CLIP: " << clipId << " FROM: " << delta;
+    // qDebug() << "RESIZING CLIP: " << clipId << " FROM: " << delta;
     if (delta > 0) { // we shrink clip
         return [right, target_clip, target_track, clip_position, delta, in, out, clipId, update_snaps, this]() {
             int target_clip_mutable = target_clip;
@@ -818,7 +841,7 @@ Fun TrackModel::requestCompositionResize_lambda(int compoId, int in, int out)
             ptr->m_snaps->addPoint(new_out);
             ptr->checkRefresh(old_in, old_out);
             ptr->checkRefresh(new_in, new_out);
-            //ptr->adjustAssetRange(compoId, new_in, new_out);
+            // ptr->adjustAssetRange(compoId, new_in, new_out);
         } else {
             qDebug() << "Error : Composition resize failed because parent timeline is not available anymore";
             Q_ASSERT(false);
@@ -996,5 +1019,14 @@ bool TrackModel::isLocked() const
 
 bool TrackModel::isAudioTrack() const
 {
-    return m_track->get_int("kdenlive:audio_track");
+    return m_track->get_int("kdenlive:audio_track") == 1;
+}
+
+bool TrackModel::isHidden() const
+{
+    return m_track->get_int("hide") & 1;
+}
+bool TrackModel::isMute() const
+{
+    return m_track->get_int("hide") & 2;
 }

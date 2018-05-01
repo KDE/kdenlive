@@ -305,11 +305,11 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             return m_tractor->get_playtime();
         case IsMuteRole:
             // qDebug() << "DATA yielding mute" << 0;
-            return getTrackById_const(id)->getProperty("hide").toInt() & 2;
+            return getTrackById_const(id)->isMute();
         case IsHiddenRole:
-            return getTrackById_const(id)->getProperty("hide").toInt() & 1;
+            return getTrackById_const(id)->isHidden();
         case IsAudioRole:
-            return getTrackById_const(id)->getProperty("kdenlive:audio_track").toInt() == 1;
+            return getTrackById_const(id)->isAudioTrack();
         case TrackTagRole:
             return getTrackTagById(id);
         case IsLockedRole:

@@ -402,8 +402,8 @@ bool TimelineFunctions::changeClipState(std::shared_ptr<TimelineItemModel> timel
     if (oldState == status) {
         return true;
     }
-    std::function<bool(void)> undo = []() { return true; };
-    std::function<bool(void)> redo = []() { return true; };
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
     bool result = changeClipState(timeline, clipId, status, undo, redo);
     if (result) {
         pCore->pushUndo(undo, redo, i18n("Change clip state"));
@@ -413,44 +413,26 @@ bool TimelineFunctions::changeClipState(std::shared_ptr<TimelineItemModel> timel
 
 bool TimelineFunctions::changeClipState(std::shared_ptr<TimelineItemModel> timeline, int clipId, PlaylistState::ClipState status, Fun &undo, Fun &redo)
 {
-    PlaylistState::ClipState oldState = timeline->m_allClips[clipId]->clipState();
-    if (oldState == status) {
+    Fun local_undo = []() { return true; };
+    Fun local_redo = []() { return true; };
+    bool result = timeline->m_allClips[clipId]->setClipState(status, local_undo, local_redo);
+    Fun operation = [timeline, clipId]() {
+        int trackId = timeline->getClipTrackId(clipId);
+        // in order to make the producer change effective, we need to unplant / replant the clip in int track
+        if (trackId != -1) {
+            timeline->getTrackById(trackId)->replugClip(clipId);
+        }
         return true;
-    }
-    Fun operation = [timeline, clipId, status]() {
-        int trackId = timeline->getClipTrackId(clipId);
-        bool res = timeline->m_allClips[clipId]->setClipState(status);
-        // in order to make the producer change effective, we need to unplant / replant the clip in int track
-        if (res && trackId != -1) {
-            timeline->getTrackById(trackId)->replugClip(clipId);
-            QModelIndex ix = timeline->makeClipIndexFromID(clipId);
-            timeline->dataChanged(ix, ix, {TimelineModel::StatusRole});
-            int start = timeline->getItemPosition(clipId);
-            int end = start + timeline->getItemPlaytime(clipId);
-            timeline->invalidateZone(start, end);
-            timeline->checkRefresh(start, end);
-        }
-        return res;
     };
-    Fun reverse = [timeline, clipId, oldState]() {
-        bool res = timeline->m_allClips[clipId]->setClipState(oldState);
-        // in order to make the producer change effective, we need to unplant / replant the clip in int track
-        int trackId = timeline->getClipTrackId(clipId);
-        if (res && trackId != -1) {
-            int start = timeline->getItemPosition(clipId);
-            int end = start + timeline->getItemPlaytime(clipId);
-            timeline->getTrackById(trackId)->replugClip(clipId);
-            QModelIndex ix = timeline->makeClipIndexFromID(clipId);
-            timeline->dataChanged(ix, ix, {TimelineModel::StatusRole});
-            timeline->invalidateZone(start, end);
-            timeline->checkRefresh(start, end);
-        }
-        return res;
-    };
-    bool result = operation();
-    if (result) {
-        UPDATE_UNDO_REDO_NOLOCK(operation, reverse, undo, redo);
+    result = result && operation();
+    if (!result) {
+        bool undone = local_undo();
+        Q_ASSERT(undone);
+        return false;
     }
+    auto reverse = operation;
+    UPDATE_UNDO_REDO_NOLOCK(operation, reverse, local_undo, local_redo);
+    UPDATE_UNDO_REDO_NOLOCK(local_redo, local_undo, undo, redo);
     return result;
 }
 

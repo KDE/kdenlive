@@ -81,12 +81,18 @@ public:
      */
     operator Mlt::Producer &() { return *m_track.get(); }
 
-    /* Returns true if track is in locked state
+    /* @brief Returns true if track is in locked state
      */
     bool isLocked() const;
-    /* Returns true if track is an audio track
+    /* @brief Returns true if track is an audio track
      */
     bool isAudioTrack() const;
+    /* @brief Returns true if track is disabled
+     */
+    bool isHidden() const;
+    /* @brief Returns true if track is disabled
+     */
+    bool isMute() const;
 
     // TODO make protected
     QVariant getProperty(const QString &name) const;

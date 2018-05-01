@@ -48,6 +48,8 @@ ClipModel::ClipModel(std::shared_ptr<TimelineModel> parent, std::shared_ptr<Mlt:
     m_producer->set("kdenlive:id", binClipId.toUtf8().constData());
     m_producer->set("_kdenlive_cid", m_id);
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
+    m_canBeVideo = binClip->hasVideo();
+    m_canBeAudio = binClip->hasAudio();
     if (binClip) {
         m_endlessResize = !binClip->hasLimitedDuration();
     } else {
@@ -69,7 +71,7 @@ int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QSt
     std::shared_ptr<Mlt::Producer> cutProducer = binClip->getTimelineProducer(id, state, 1.);
 
     std::shared_ptr<ClipModel> clip(new ClipModel(parent, cutProducer, binClipId, id, state));
-    clip->setClipState(state);
+    clip->setClipState_lambda(state)();
     parent->registerClip(clip);
     return id;
 }
@@ -98,7 +100,7 @@ int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QSt
     auto result = binClip->giveMasterAndGetTimelineProducer(id, producer, state);
     std::shared_ptr<ClipModel> clip(new ClipModel(parent, result.first, binClipId, id, state, speed));
     clip->m_effectStack->importEffects(producer, result.second);
-    clip->setClipState(state);
+    clip->setClipState_lambda(state)();
     parent->registerClip(clip);
 
     return id;
@@ -434,12 +436,39 @@ void ClipModel::setShowKeyframes(bool show)
     service()->set("kdenlive:hide_keyframes", (int)!show);
 }
 
-bool ClipModel::setClipState(PlaylistState::ClipState state)
+Fun ClipModel::setClipState_lambda(PlaylistState::ClipState state)
 {
     QWriteLocker locker(&m_lock);
-    refreshProducerFromBin(state);
-    m_currentState = state;
-    return true;
+    return [this, state]() {
+        if (auto ptr = m_parent.lock()) {
+            refreshProducerFromBin(state);
+            m_currentState = state;
+            if (ptr->isClip(m_id)) { // if this is false, the clip is being created. Don't update model in that case
+                QModelIndex ix = ptr->makeClipIndexFromID(m_id);
+                ptr->dataChanged(ix, ix, {TimelineModel::StatusRole});
+            }
+            return true;
+        }
+        return false;
+    };
+}
+
+bool ClipModel::setClipState(PlaylistState::ClipState state, Fun &undo, Fun &redo)
+{
+    if (state == PlaylistState::VideoOnly && !canBeVideo()) {
+        return false;
+    }
+    if (state == PlaylistState::AudioOnly && !canBeAudio()) {
+        return false;
+    }
+    auto old_state = m_currentState;
+    auto operation = setClipState_lambda(state);
+    if (operation()) {
+        auto reverse = setClipState_lambda(old_state);
+        UPDATE_UNDO_REDO(operation, reverse, undo, redo);
+        return true;
+    }
+    return false;
 }
 
 PlaylistState::ClipState ClipModel::clipState() const
@@ -466,4 +495,13 @@ void ClipModel::passTimelineProperties(std::shared_ptr<ClipModel> other)
     Mlt::Properties source(m_producer->get_properties());
     Mlt::Properties dest(other->service()->get_properties());
     dest.pass_list(source, "kdenlive:hide_keyframes,kdenlive:activeeffect");
+}
+
+bool ClipModel::canBeVideo() const
+{
+    return m_canBeVideo;
+}
+bool ClipModel::canBeAudio() const
+{
+    return m_canBeAudio;
 }
