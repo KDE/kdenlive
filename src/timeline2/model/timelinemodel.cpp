@@ -627,7 +627,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
                 audioDrop = true;
             }
         }
-        if (res && logUndo && !audioDrop) {
+        if (res && !audioDrop) {
             QList<int> possibleTracks = m_audioTarget >= 0 ? QList<int>() << m_audioTarget : getLowerTracksId(trackId, TrackType::AudioTrack);
             if (possibleTracks.isEmpty()) {
                 // No available audio track for splitting, abort
@@ -682,7 +682,6 @@ bool TimelineModel::requestItemDeletion(int clipId, Fun &undo, Fun &redo)
         return requestGroupDeletion(clipId, undo, redo);
     }
     return requestClipDeletion(clipId, undo, redo);
-
 }
 
 bool TimelineModel::requestItemDeletion(int itemId, bool logUndo)
@@ -826,7 +825,7 @@ bool TimelineModel::requestGroupMove(int clipId, int groupId, int delta_track, i
         return !(track_pos1 <= track_pos2) == !(delta_track <= 0);
     });
     // Parse all tracks then check none is locked. Maybe find a better way/place to do this
-    QList <int> trackList;
+    QList<int> trackList;
     for (int clip : sorted_clips) {
         int current_track_id = getItemTrackId(clip);
         if (!trackList.contains(current_track_id)) {
@@ -839,20 +838,35 @@ bool TimelineModel::requestGroupMove(int clipId, int groupId, int delta_track, i
             return false;
         }
     }
+    int audio_delta, video_delta;
+    audio_delta = video_delta = delta_track;
+    // if the topmost group is a AVSplit, then we will apply opposite movement to audio and video
+    if (m_groups->getType(groupId) == GroupType::AVSplit) {
+        if (getTrackById(getItemTrackId(clipId))->isAudioTrack()) {
+            video_delta = -delta_track;
+        } else {
+            audio_delta = -delta_track;
+        }
+    }
     for (int clip : sorted_clips) {
         int current_track_id = getItemTrackId(clip);
         int current_track_position = getTrackPosition(current_track_id);
-        int target_track_position = current_track_position + delta_track;
+        int d = getTrackById(current_track_id)->isAudioTrack() ? audio_delta : video_delta;
+        int target_track_position = current_track_position + d;
+        bool updateThisView = true;
+        if (clip == clipId) {
+            updateThisView = updateView;
+        }
         if (target_track_position >= 0 && target_track_position < getTracksCount()) {
             auto it = m_allTracks.cbegin();
             std::advance(it, target_track_position);
             int target_track = (*it)->getId();
             if (isClip(clip)) {
                 int target_position = m_allClips[clip]->getPosition() + delta_pos;
-                ok = requestClipMove(clip, target_track, target_position, updateView, finalMove, undo, redo);
+                ok = requestClipMove(clip, target_track, target_position, updateThisView, finalMove, undo, redo);
             } else {
                 int target_position = m_allCompositions[clip]->getPosition() + delta_pos;
-                ok = requestCompositionMove(clip, target_track, m_allCompositions[clip]->getForcedTrack(), target_position, updateView, undo, redo);
+                ok = requestCompositionMove(clip, target_track, m_allCompositions[clip]->getForcedTrack(), target_position, updateThisView, undo, redo);
             }
         } else {
             qDebug() << "// ABORTING; MOVE TRIED ON TRACK: " << target_track_position << "..\n..\n..";
@@ -943,7 +957,7 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
               << (snapDistance > 0 ? "true" : "false") << " ); " << std::endl;
 #endif
     if (logUndo) {
-        qDebug()<<"---------------------\n---------------------\nRESIZE W/UNDO CALLED\n++++++++++++++++\n++++";
+        qDebug() << "---------------------\n---------------------\nRESIZE W/UNDO CALLED\n++++++++++++++++\n++++";
     }
     QWriteLocker locker(&m_lock);
     Q_ASSERT(isClip(itemId) || isComposition(itemId));
@@ -958,7 +972,7 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
             // only test move if proposed_size is valid
             bool success = false;
             if (isClip(itemId)) {
-                qDebug()<<"+++MODEL REQUEST RESIZE (LOGUNDO) "<<logUndo<<", SIZE: "<<proposed_size;
+                qDebug() << "+++MODEL REQUEST RESIZE (LOGUNDO) " << logUndo << ", SIZE: " << proposed_size;
                 success = m_allClips[itemId]->requestResize(proposed_size, right, temp_undo, temp_redo, false);
             } else {
                 success = m_allCompositions[itemId]->requestResize(proposed_size, right, temp_undo, temp_redo, false);
@@ -1050,8 +1064,8 @@ int TimelineModel::requestClipsGroup(const std::unordered_set<int> &ids, bool lo
     if (m_temporarySelectionGroup > -1) {
         m_groups->destructGroupItem(m_temporarySelectionGroup);
         // We don't log in undo the selection changes
-        //int firstChild = *m_groups->getDirectChildren(m_temporarySelectionGroup).begin();
-        //requestClipUngroup(firstChild, undo, redo);
+        // int firstChild = *m_groups->getDirectChildren(m_temporarySelectionGroup).begin();
+        // requestClipUngroup(firstChild, undo, redo);
         m_temporarySelectionGroup = -1;
     }
     int result = requestClipsGroup(ids, undo, redo, type);
@@ -2081,7 +2095,7 @@ QStringList TimelineModel::extractCompositionLumas() const
 
 void TimelineModel::adjustAssetRange(int clipId, int in, int out)
 {
-    //pCore->adjustAssetRange(clipId, in, out);
+    // pCore->adjustAssetRange(clipId, in, out);
 }
 
 void TimelineModel::requestClipReload(int clipId)
@@ -2189,7 +2203,6 @@ bool TimelineModel::changeItemSpeed(int clipId, int speed)
     return false;
 }
 
-
 const QString TimelineModel::getTrackTagById(int trackId) const
 {
     Q_ASSERT(isTrack(trackId));
@@ -2212,5 +2225,5 @@ const QString TimelineModel::getTrackTagById(int trackId) const
         }
         it++;
     }
-    return isAudio ? QStringLiteral("A%1").arg(totalAudio - count) : QStringLiteral("V%1").arg(count-1);
+    return isAudio ? QStringLiteral("A%1").arg(totalAudio - count) : QStringLiteral("V%1").arg(count - 1);
 }

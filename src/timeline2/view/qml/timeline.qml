@@ -934,7 +934,7 @@ Rectangle {
                         clip.y = track.y - Logic.getTrackById(clip.originalTrackId).y
                         clip.trackId = track.trackId
                         clip.currentFrame = frame
-                        if (root.dragList.length > 1) {
+                        /*if (root.dragList.length > 1) {
                             var currentMasterY = track.y
                             var sourceTrack = Logic.getTrackIndexFromId(clip.originalTrackId)
                             var destTrack = Logic.getTrackIndexFromId(clip.trackId)
@@ -960,7 +960,7 @@ Rectangle {
                                     }
                                 }
                             }
-                        }
+                        }*/
                     } else {
                         if (track.trackId != clip.trackId) {
                             // check if we can move on existing track
