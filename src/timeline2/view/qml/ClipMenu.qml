@@ -14,6 +14,11 @@ OLD.Menu {
         }
         OLD.MenuItem {
             visible: true
+            text: i18n('Copy')
+            onTriggered: root.copiedClip = clipId
+        }
+        OLD.MenuItem {
+            visible: true
             text: i18n('Cut')
             onTriggered: {
                 console.log('cutting clip:', clipId)
@@ -35,11 +40,6 @@ OLD.Menu {
             onTriggered: timeline.unGroupSelection(clipId)
         }
 
-        OLD.MenuItem {
-            visible: true
-            text: i18n('Copy')
-            onTriggered: root.copiedClip = clipId
-        }
         OLD.MenuItem {
             visible: root.copiedClip != -1 && root.copiedClip != clipId
             text: i18n('Paste Effects')
@@ -80,31 +80,9 @@ OLD.Menu {
             text: i18n('Split At Playhead')
             onTriggered: timeline.triggerAction('cut_timeline_clip')
         }
-        OLD.Menu {
-            title: i18n('Clip Type...')
-            OLD.ExclusiveGroup {
-                id: radioInputGroup
-            }
-            OLD.MenuItem {
-                text: i18n('Video Only')
-                checkable: true
-                checked: clipStatus == ClipState.VideoOnly
-                exclusiveGroup: radioInputGroup
-                onTriggered: timeline.setClipStatus(clipId, ClipState.VideoOnly)
-            }
-            OLD.MenuItem {
-                text: i18n('Audio Only')
-                checkable: true
-                checked: clipStatus == ClipState.AudioOnly
-                exclusiveGroup: radioInputGroup
-                onTriggered: timeline.setClipStatus(clipId, ClipState.AudioOnly)
-            }
-            OLD.MenuItem {
-                text: i18n('Disabled')
-                checkable: true
-                checked: clipStatus == ClipState.Disabled
-                exclusiveGroup: radioInputGroup
-                onTriggered: timeline.setClipStatus(clipId, ClipState.Disabled)
-            }
+        OLD.MenuItem {
+            visible: true
+            text: clipStatus != ClipState.Disabled ? i18n('Disable clip') : i18n('Enable clip')
+            onTriggered: timeline.switchEnableState(clipId)
         }
 }

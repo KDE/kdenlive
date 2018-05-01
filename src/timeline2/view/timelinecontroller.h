@@ -250,9 +250,9 @@ public:
      */
     Q_INVOKABLE void insertSpace(int trackId = -1, int frame = -1);
     Q_INVOKABLE void removeSpace(int trackId = -1, int frame = -1, bool affectAllTracks = false);
-    /* @brief Change a clip status (normal / audio only / video only)
+    /* @brief If clip is enabled, disable, otherwise enable
      */
-    Q_INVOKABLE void setClipStatus(int clipId, PlaylistState::ClipState status);
+    Q_INVOKABLE void switchEnableState(int clipId);
 
     Q_INVOKABLE void requestClipCut(int clipId, int position);
 
