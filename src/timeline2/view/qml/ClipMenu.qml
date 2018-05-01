@@ -81,7 +81,7 @@ OLD.Menu {
             onTriggered: timeline.triggerAction('cut_timeline_clip')
         }
         OLD.Menu {
-            title: i18n('Clip Tape...')
+            title: i18n('Clip Type...')
             OLD.ExclusiveGroup {
                 id: radioInputGroup
             }

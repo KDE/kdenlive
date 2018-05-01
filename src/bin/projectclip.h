@@ -257,13 +257,16 @@ private:
     // This is a helper function that creates the video producer. This is a clone of the original one, with audio disabled
     void createVideoMasterProducer();
 
+    // This is a helper function that creates the disabled producer. This is a clone of the original one, with audio and video disabled
+    void createDisabledMasterProducer();
+
     std::map<int, std::weak_ptr<TimelineModel>> m_registeredClips;
 
     // the following holds a producer for each audio clip in the timeline
     // keys are the id of the clips in the timeline, values are their values
     std::unordered_map<int, std::shared_ptr<Mlt::Producer>> m_audioProducers;
     std::unordered_map<int, std::shared_ptr<Mlt::Producer>> m_timewarpProducers;
-    std::shared_ptr<Mlt::Producer> m_videoProducer;
+    std::shared_ptr<Mlt::Producer> m_videoProducer, m_disabledProducer;
 
 signals:
     void producerChanged(const QString &, const std::shared_ptr<Mlt::Producer> &);
