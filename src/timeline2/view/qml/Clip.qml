@@ -23,6 +23,7 @@ import QtGraphicalEffects 1.0
 import QtQml.Models 2.2
 import QtQuick.Window 2.2
 import 'Timeline.js' as Logic
+import com.enums 1.0
 
 Rectangle {
     id: clipRoot
@@ -45,7 +46,7 @@ Rectangle {
     property var audioLevels
     property var markers
     property var keyframeModel
-    property int clipStatus: 0
+    property var clipStatus: 0
     property int fadeIn: 0
     property int fadeOut: 0
     property int binId: 0
@@ -356,8 +357,8 @@ Rectangle {
 
         Image {
             id: inThumbnail
-            visible: timeline.showThumbnails && mltService != 'color' && !isAudio && clipStatus < 2
-            opacity: parentTrack.isAudio || parentTrack.isHidden ? 0.2 : 1
+            visible: timeline.showThumbnails && mltService != 'color' && !isAudio
+            opacity: parentTrack.isAudio || parentTrack.isHidden || clipStatus == ClipState.Disabled ? 0.2 : 1
             anchors.left: container.left
             anchors.bottom: container.bottom
             anchors.top: container.top
@@ -370,8 +371,9 @@ Rectangle {
 
         Row {
             id: waveform
-            visible: hasAudio && timeline.showAudioThumbnails  && !parentTrack.isMute && (clipStatus == 0 || clipStatus == 2)
-            height: isAudio || parentTrack.isAudio || clipStatus == 2 ? container.height - 1 : (container.height - 1) / 2
+            visible: timeline.showAudioThumbnails  && !parentTrack.isMute
+            height: isAudio || parentTrack.isAudio || clipStatus == ClipState.AudioOnly ? container.height - 1 : (container.height - 1) / 2
+            opacity: clipStatus == ClipState.Disabled ? 0.2 : 1
             anchors.left: container.left
             anchors.right: container.right
             anchors.bottom: container.bottom
