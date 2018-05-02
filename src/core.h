@@ -193,6 +193,9 @@ private:
     std::unique_ptr<Mlt::Profile> m_thumbProfile;
     bool m_guiConstructed = false;
 
+public slots:
+    void triggerAction(const QString &name);
+
 signals:
     void coreIsReady();
     void updateLibraryPath();

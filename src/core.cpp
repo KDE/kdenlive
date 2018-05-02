@@ -598,3 +598,12 @@ void Core::clearSelection()
 {
     m_mainWindow->getCurrentTimeline()->controller()->clearSelection();
 }
+
+void Core::triggerAction(const QString &name)
+{
+    QAction *action = m_mainWindow->actionCollection()->action(name);
+    if (action) {
+        action->trigger();
+    }
+}
+

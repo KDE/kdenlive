@@ -554,40 +554,31 @@ void GLWidget::paintGL()
     }
 }
 
-void GLWidget::slotZoomScene(double value)
+void GLWidget::slotZoom(bool zoomIn)
 {
-    int val = value;
-    if (val >= 3) {
-        setZoom(value - 2.0f);
-    } else if (val == 2) {
-        setZoom(0.5);
-    } else if (val == 1) {
-        setZoom(0.25);
-    } else if (val == 0) {
-        setZoom(0.125);
-    }
-}
-
-void GLWidget::wheelEvent(QWheelEvent *event)
-{
-    if (((event->modifiers() & Qt::ControlModifier) != 0u) && ((event->modifiers() & Qt::ShiftModifier) != 0u)) {
-        if (event->delta() > 0) {
-            if (qFuzzyCompare(m_zoom, 1.0f)) {
+    if (zoomIn) {
+        if (qFuzzyCompare(m_zoom, 1.0f)) {
                 setZoom(2.0f);
             } else if (qFuzzyCompare(m_zoom, 2.0f)) {
                 setZoom(3.0f);
             } else if (m_zoom < 1.0f) {
                 setZoom(m_zoom * 2);
             }
-        } else {
-            if (qFuzzyCompare(m_zoom, 3.0f)) {
-                setZoom(2.0);
-            } else if (qFuzzyCompare(m_zoom, 2.0f)) {
-                setZoom(1.0);
-            } else if (m_zoom > 0.2) {
-                setZoom(m_zoom / 2);
-            }
+    } else {
+        if (qFuzzyCompare(m_zoom, 3.0f)) {
+            setZoom(2.0);
+        } else if (qFuzzyCompare(m_zoom, 2.0f)) {
+            setZoom(1.0);
+        } else if (m_zoom > 0.2) {
+            setZoom(m_zoom / 2);
         }
+    }
+}
+
+void GLWidget::wheelEvent(QWheelEvent *event)
+{
+    if (((event->modifiers() & Qt::ControlModifier) != 0u) && ((event->modifiers() & Qt::ShiftModifier) != 0u)) {
+        slotZoom(event->delta() > 0);
         return;
     }
     emit mouseSeek(event->delta(), (uint)event->modifiers());

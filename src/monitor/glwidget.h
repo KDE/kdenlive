@@ -37,6 +37,7 @@
 #include "bin/model/markerlistmodel.hpp"
 #include "definitions.h"
 #include "scopes/sharedframe.h"
+#include "kdenlivesettings.h"
 
 class QOpenGLFunctions_3_2_Core;
 
@@ -63,6 +64,7 @@ class GLWidget : public QQuickView, protected QOpenGLFunctions
 public:
     friend class MonitorController;
     friend class Monitor;
+    friend class MonitorProxy;
 
     GLWidget(int id, QObject *parent = nullptr);
     ~GLWidget();
@@ -142,7 +144,7 @@ public slots:
     void setOffsetX(int x, int max);
     void setOffsetY(int y, int max);
     void slotSwitchAudioOverlay(bool enable);
-    void slotZoomScene(double value);
+    void slotZoom(bool zoomIn);
     void initializeGL();
     void releaseAnalyse();
     void switchPlay(bool play, double speed = 1.0);
@@ -178,9 +180,9 @@ protected:
     Mlt::Producer *m_producer;
     Mlt::Profile *m_monitorProfile;
     QMutex m_mutex;
+    int m_id;
 
 private:
-    int m_id;
     QRect m_rect;
     QRect m_effectRect;
     GLuint m_texture[3];
@@ -300,6 +302,7 @@ class MonitorProxy : public QObject
     Q_PROPERTY(int zoneOut READ zoneOut WRITE setZoneOut NOTIFY zoneChanged)
     Q_PROPERTY(int rulerHeight READ rulerHeight NOTIFY rulerHeightChanged)
     Q_PROPERTY(QString markerComment READ markerComment NOTIFY markerCommentChanged)
+    Q_PROPERTY(int overlayType READ overlayType WRITE setOverlayType NOTIFY overlayTypeChanged)
 public:
     MonitorProxy(GLWidget *parent)
         : QObject(parent)
@@ -314,6 +317,14 @@ public:
     int seekPosition() const { return m_seekPosition; }
     int position() const { return m_position; }
     int rulerHeight() const { return m_rulerHeight; }
+    int overlayType() const {return (q->m_id == (int)Kdenlive::ClipMonitor ? KdenliveSettings::clipMonitorOverlayGuides() : KdenliveSettings::projectMonitorOverlayGuides()); }
+    void setOverlayType(int ix) {
+        if (q->m_id == (int)Kdenlive::ClipMonitor) {
+            KdenliveSettings::setClipMonitorOverlayGuides(ix);
+        } else {
+            KdenliveSettings::setProjectMonitorOverlayGuides(ix);
+        }
+    }
     QString markerComment() const { return m_markerComment; }
     Q_INVOKABLE void requestSeekPosition(int pos)
     {
@@ -406,6 +417,8 @@ signals:
     void rulerHeightChanged();
     void addSnap(int);
     void removeSnap(int);
+    Q_INVOKABLE void triggerAction(const QString &name);
+    void overlayTypeChanged();
 
 private:
     GLWidget *q;

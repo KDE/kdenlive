@@ -759,6 +759,15 @@
       <default>0x05</default>
     </entry>
 
+    <entry name="clipMonitorOverlayGuides" type="Int">
+      <label>index of current guides overlay for clip monitor.</label>
+      <default>0</default>
+    </entry>
+    <entry name="projectMonitorOverlayGuides" type="Int">
+      <label>index of current guides overlay for project monitor.</label>
+      <default>0</default>
+    </entry>
+
     <entry name="displayAudioOverlay" type="Bool">
       <label>Show audio overlay info on monitor.</label>
       <default>false</default>

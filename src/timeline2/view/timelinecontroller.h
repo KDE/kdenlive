@@ -63,7 +63,7 @@ class TimelineController : public QObject
     Q_PROPERTY(int videoTarget READ videoTarget WRITE setVideoTarget NOTIFY videoTargetChanged)
 
 public:
-    TimelineController(KActionCollection *actionCollection, QObject *parent);
+    TimelineController(QObject *parent);
     virtual ~TimelineController();
     /* @brief Sets the model that this widgets displays */
     void setModel(std::shared_ptr<TimelineItemModel> model);

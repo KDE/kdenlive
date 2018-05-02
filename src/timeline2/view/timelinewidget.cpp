@@ -47,7 +47,7 @@
 
 const int TimelineWidget::comboScale[] = {1, 2, 5, 10, 25, 50, 125, 250, 500, 750, 1500, 3000, 6000, 12000};
 
-TimelineWidget::TimelineWidget(KActionCollection *actionCollection, QWidget *parent)
+TimelineWidget::TimelineWidget(QWidget *parent)
     : QQuickWidget(parent)
 {
     registerTimelineItems();
@@ -56,7 +56,7 @@ TimelineWidget::TimelineWidget(KActionCollection *actionCollection, QWidget *par
     m_transitionProxyModel->setSourceModel(m_transitionModel.get());
     m_transitionProxyModel->setSortRole(AssetTreeModel::NameRole);
     m_transitionProxyModel->sort(0, Qt::AscendingOrder);
-    m_proxy = new TimelineController(actionCollection, this);
+    m_proxy = new TimelineController(this);
     connect(m_proxy, &TimelineController::zoneMoved, this, &TimelineWidget::zoneMoved);
     KDeclarative::KDeclarative kdeclarative;
     kdeclarative.setDeclarativeEngine(engine());

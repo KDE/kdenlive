@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="152" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="153" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file" >
       <Action name="dvd_wizard" />
@@ -170,22 +170,25 @@
 	    <Action name="monitor_seek_snap_forward" />
 	    <Action name="seek_end" />
       </Menu>
-      <Action name="monitor_seek_backward" />
-      <Action name="monitor_seek_backward-one-frame" />
-      <Action name="monitor_seek_backward-one-second" />
-      <Action name="monitor_seek_forward-one-second" />
-      <Action name="monitor_seek_forward-one-frame" />
-      <Action name="monitor_seek_forward" />
+      <Menu name="monitor_seek" ><text>Seek</text>
+        <Action name="monitor_seek_backward" />
+        <Action name="monitor_seek_backward-one-frame" />
+        <Action name="monitor_seek_backward-one-second" />
+        <Action name="monitor_seek_forward-one-second" />
+        <Action name="monitor_seek_forward-one-frame" />
+        <Action name="monitor_seek_forward" />
+      </Menu>
       <Separator />
       <Action name="mark_in" />
       <Action name="mark_out" />
       <Separator />
       <Action name="monitor_fullscreen" />
+      <Action name="monitor_zoomin" />
+      <Action name="monitor_zoomout" />
       <Menu name="monitor_config_overlay" ><text>Current Monitor Overlay</text>
           <Action name="monitor_overlay" />
           <Action name="monitor_overlay_tc" />
           <Action name="monitor_overlay_fps" />
-          <Action name="monitor_overlay_safezone" />
           <Action name="monitor_overlay_markers" />
           <Action name="monitor_overlay_audiothumb" />
       </Menu>

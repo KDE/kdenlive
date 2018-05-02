@@ -33,15 +33,15 @@ Item {
     property int mouseRulerPos: 0
     property double frameSize: 10
     property double timeScale: 1
+    property int overlayType: controller.overlayType
+    property color overlayColor: 'cyan'
+    property bool isClipMonitor: true
 
     FontMetrics {
         id: fontMetrics
         font.family: "Arial"
     }
 
-    onZoomChanged: {
-        sceneToolBar.setZoom(root.zoom)
-    }
     signal editCurrentMarker()
     signal toolBarChanged(bool doAccept)
 
@@ -57,176 +57,151 @@ Item {
             frameSize = 100 * timeScale
         }
     }
+    function switchOverlay() {
+        if (controller.overlayType >= 2) {
+            controller.overlayType = 0
+        } else {
+            controller.overlayType = controller.overlayType + 1;
+        }
+        root.overlayType = controller.overlayType
+    }
+    MouseArea {
+        id: barOverArea
+        hoverEnabled: true
+        acceptedButtons: Qt.NoButton
+        anchors.fill: parent
+    }
+    SceneToolBar {
+        id: sceneToolBar
+        anchors {
+            right: parent.right
+            top: parent.top
+            topMargin: 4
+            rightMargin: 4
+        }
+        visible: barOverArea.mouseX >= x - 10
+    }
 
     Item {
-        id: monitorOverlay
         height: root.height - controller.rulerHeight
         width: root.width
-        SceneToolBar {
-            id: sceneToolBar
-            anchors {
-                left: parent.left
-                top: parent.top
-                topMargin: 10
-                leftMargin: 10
-            }
-            visible: root.showToolbar
-        }
-
         Item {
             id: frame
             objectName: "referenceframe"
             width: root.profile.x * root.scalex
             height: root.profile.y * root.scaley
             anchors.centerIn: parent
-            visible: root.showSafezone
 
-            Rectangle {
-            id: safezone
-                objectName: "safezone"
-                color: "transparent"
-                border.color: "cyan"
-                width: parent.width * 0.9
-                height: parent.height * 0.9
-                anchors.centerIn: parent
-                Rectangle {
-                    id: safetext
-                    objectName: "safetext"
-                    color: "transparent"
-                    border.color: "cyan"
-                    width: frame.width * 0.8
-                    height: frame.height * 0.8
-                    anchors.centerIn: parent
-                }
-                Rectangle {
-                    color: "cyan"
-                    width: frame.width / 20
-                    height: 1
-                    anchors.centerIn: parent
-                }
-                Rectangle {
-                    color: "cyan"
-                    height: frame.width / 20
-                    width: 1
-                    anchors.centerIn: parent
-                }
-                 Rectangle {
-                    color: "cyan"
-                    height: frame.height / 11
-                    width: 1
-                    y: 0
-                    x: parent.width / 2
-                }
-                Rectangle {
-                    color: "cyan"
-                    height: frame.height / 11
-                    width: 1
-                    y: parent.height -height
-                    x: parent.width / 2
-                }
-                Rectangle {
-                    color: "cyan"
-                    width: frame.width / 11
-                    height: 1
-                    y: parent.height / 2
-                    x: 0
-                }
-                Rectangle {
-                    color: "cyan"
-                    width: frame.width / 11
-                    height: 1
-                    y: parent.height / 2
-                    x: parent.width -width
-                }
-            }
-        }
-
-        QmlAudioThumb {
-            id: audioThumb
-            objectName: "audiothumb"
-            property bool stateVisible: true
-            anchors {
-                left: parent.left
-                bottom: parent.bottom
-            }
-            height: parent.height / 6
-            //font.pixelSize * 3
-            width: parent.width
-            visible: root.showAudiothumb
-
-            states: [
-                State { when: audioThumb.stateVisible;
-                        PropertyChanges {   target: audioThumb; opacity: 1.0    } },
-                State { when: !audioThumb.stateVisible;
-                        PropertyChanges {   target: audioThumb; opacity: 0.0    } }
-            ]
-            transitions: [ Transition {
-                NumberAnimation { property: "opacity"; duration: 500}
-            } ]
-
-            MouseArea {
-                hoverEnabled: true
-                onExited: audioThumb.stateVisible = false
-                onEntered: audioThumb.stateVisible = true
-                acceptedButtons: Qt.NoButton
+            Loader {
                 anchors.fill: parent
-            }
-        }
-
-        Text {
-            id: timecode
-            objectName: "timecode"
-            color: "white"
-            style: Text.Outline; 
-            styleColor: "black"
-            text: root.timecode
-            font.pixelSize: root.baseUnit
-            visible: root.showTimecode
-            anchors {
-                right: parent.right
-                bottom: parent.bottom
-                rightMargin: 4
-            }
-        }
-        Text {
-            id: fpsdropped
-            objectName: "fpsdropped"
-            color: root.dropped ? "red" : "white"
-            style: Text.Outline;
-            styleColor: "black"
-            text: root.fps + "fps"
-            visible: root.showFps
-            font.pixelSize: root.baseUnit
-            anchors {
-                right: timecode.visible ? timecode.left : parent.right
-                bottom: parent.bottom
-                rightMargin: 10
-            }
-        }
-        TextField {
-            id: marker
-            objectName: "markertext"
-            activeFocusOnPress: true
-            onEditingFinished: {
-                root.markerText = marker.displayText
-                marker.focus = false
-                root.editCurrentMarker()
-            }
-            anchors {
-                left: parent.left
-                bottom: parent.bottom
-            }
-            visible: root.showMarkers && text != ""
-            text: controller.markerComment
-            maximumLength: 20
-            style: TextFieldStyle {
-                textColor: "white"
-                background: Rectangle {
-                    color: controller.position == controller.zoneIn ? "#9900ff00" : controller.position == controller.zoneOut ? "#99ff0000" : "#990000ff"
-                    width: marker.width
+                source: {
+                    switch(root.overlayType)
+                    {
+                        case 0: {
+                            return '';
+                        }
+                        case 1: {
+                            return "OverlayStandard.qml";
+                        }
+                        case 2:{
+                            return "OverlayMinimal.qml";
+                        }
+                    }
                 }
             }
-            font.pixelSize: root.baseUnit
+        }
+        Item {
+            id: monitorOverlay
+            anchors.fill: parent
+
+            QmlAudioThumb {
+                id: audioThumb
+                objectName: "audiothumb"
+                property bool stateVisible: true
+                anchors {
+                    left: parent.left
+                    bottom: parent.bottom
+                }
+                height: parent.height / 6
+                //font.pixelSize * 3
+                width: parent.width
+                visible: root.showAudiothumb
+
+                MouseArea {
+                    id: mouseOverArea
+                    hoverEnabled: true
+                    onExited: audioThumb.stateVisible = false
+                    onEntered: audioThumb.stateVisible = true
+                    acceptedButtons: Qt.NoButton
+                    anchors.fill: parent
+                }
+
+                states: [
+                    State { when: audioThumb.stateVisible;
+                        PropertyChanges {   target: audioThumb; opacity: 1.0    } },
+                    State { when: !audioThumb.stateVisible;
+                        PropertyChanges {   target: audioThumb; opacity: 0.0    } }
+                ]
+                transitions: [ Transition {
+                    NumberAnimation { property: "opacity"; duration: 500}
+                } ]
+            }
+
+            Text {
+                id: timecode
+                objectName: "timecode"
+                color: "white"
+                style: Text.Outline; 
+                styleColor: "black"
+                text: root.timecode
+                font.pixelSize: root.baseUnit
+                visible: root.showTimecode
+                anchors {
+                    right: parent.right
+                    bottom: parent.bottom
+                    rightMargin: 4
+                }
+            }
+            Text {
+                id: fpsdropped
+                objectName: "fpsdropped"
+                color: root.dropped ? "red" : "white"
+                style: Text.Outline;
+                styleColor: "black"
+                text: root.fps + "fps"
+                visible: root.showFps
+                font.pixelSize: root.baseUnit
+                anchors {
+                    right: timecode.visible ? timecode.left : parent.right
+                    bottom: parent.bottom
+                    rightMargin: 10
+                }
+            }
+            TextField {
+                id: marker
+                objectName: "markertext"
+                activeFocusOnPress: true
+                onEditingFinished: {
+                    root.markerText = marker.displayText
+                    marker.focus = false
+                    root.editCurrentMarker()
+                }
+                anchors {
+                    left: parent.left
+                    bottom: parent.bottom
+                }
+                visible: root.showMarkers && text != ""
+                text: controller.markerComment
+                maximumLength: 20
+                style: TextFieldStyle {
+                    textColor: "white"
+                    background: Rectangle {
+                        color: controller.position == controller.zoneIn ? "#9900ff00" : controller.position == controller.zoneOut ? "#99ff0000" : "#990000ff"
+                        width: marker.width
+                    }
+                }
+                font.pixelSize: root.baseUnit
+            }
         }
     }
     MonitorRuler {

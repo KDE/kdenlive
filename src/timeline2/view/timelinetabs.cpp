@@ -31,7 +31,7 @@
 
 TimelineTabs::TimelineTabs(QWidget *parent)
     : QTabWidget(parent)
-    , m_mainTimeline(new TimelineWidget(pCore->window()->actionCollection(), this))
+    , m_mainTimeline(new TimelineWidget(this))
 {
     setTabBarAutoHide(true);
     setTabsClosable(true);

@@ -380,6 +380,16 @@ void MonitorManager::setupActions()
     pCore->window()->addAction(QStringLiteral("monitor_fullscreen"), fullMonitor);
     connect(fullMonitor, &QAction::triggered, this, &MonitorManager::slotSwitchFullscreen);
 
+    QAction *monitorZoomIn = new QAction(i18n("Zoom in monitor"), this);
+    monitorZoomIn->setIcon(KoIconUtils::themedIcon(QStringLiteral("zoom-in")));
+    pCore->window()->addAction(QStringLiteral("monitor_zoomin"), monitorZoomIn);
+    connect(monitorZoomIn, &QAction::triggered, this, &MonitorManager::slotZoomIn);
+
+    QAction *monitorZoomOut = new QAction(i18n("Zoom out monitor"), this);
+    monitorZoomOut->setIcon(KoIconUtils::themedIcon(QStringLiteral("zoom-out")));
+    pCore->window()->addAction(QStringLiteral("monitor_zoomout"), monitorZoomOut);
+    connect(monitorZoomOut, &QAction::triggered, this, &MonitorManager::slotZoomOut);
+
     QAction *monitorSeekBackward = new QAction(KoIconUtils::themedIcon(QStringLiteral("media-seek-backward")), i18n("Rewind"), this);
     monitorSeekBackward->setShortcut(Qt::Key_J);
     pCore->window()->addAction(QStringLiteral("monitor_seek_backward"), monitorSeekBackward);
@@ -610,5 +620,19 @@ void MonitorManager::slotExtractCurrentFrameToProject()
 {
     if (m_activeMonitor) {
         static_cast<Monitor *>(m_activeMonitor)->slotExtractCurrentFrame(QString(), true);
+    }
+}
+
+void MonitorManager::slotZoomIn()
+{
+    if (m_activeMonitor) {
+        static_cast<Monitor *>(m_activeMonitor)->slotZoomIn();
+    }
+}
+
+void MonitorManager::slotZoomOut()
+{
+    if (m_activeMonitor) {
+        static_cast<Monitor *>(m_activeMonitor)->slotZoomOut();
     }
 }

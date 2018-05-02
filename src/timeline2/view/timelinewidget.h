@@ -37,7 +37,7 @@ class TimelineWidget : public QQuickWidget
     Q_OBJECT
 
 public:
-    TimelineWidget(KActionCollection *actionCollection, QWidget *parent = Q_NULLPTR);
+    TimelineWidget(QWidget *parent = Q_NULLPTR);
     ~TimelineWidget();
     /* @brief Sets the model shown by this widget */
     void setModel(std::shared_ptr<TimelineItemModel> model);

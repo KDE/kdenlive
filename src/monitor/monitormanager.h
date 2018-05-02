@@ -117,6 +117,10 @@ private slots:
     void slotSetInterpolation(int ix);
     /** @brief Switch muting on/off */
     void slotMuteCurrentMonitor(bool active);
+    /** @brief Zoom in active monitor */
+    void slotZoomIn();
+    /** @brief Zoom out active monitor */
+    void slotZoomOut();
 
 private:
     /** @brief Make sure 2 monitors cannot be activated simultaneously*/

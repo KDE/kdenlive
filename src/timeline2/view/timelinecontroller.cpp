@@ -48,10 +48,9 @@
 
 int TimelineController::m_duration = 0;
 
-TimelineController::TimelineController(KActionCollection *actionCollection, QObject *parent)
+TimelineController::TimelineController(QObject *parent)
     : QObject(parent)
     , m_root(nullptr)
-    , m_actionCollection(actionCollection)
     , m_usePreview(false)
     , m_position(0)
     , m_seekPosition(-1)
@@ -478,10 +477,7 @@ bool TimelineController::pasteItem(int clipId, int tid, int position)
 
 void TimelineController::triggerAction(const QString &name)
 {
-    QAction *action = m_actionCollection->action(name);
-    if (action) {
-        action->trigger();
-    }
+    pCore->triggerAction(name);
 }
 
 QString TimelineController::timecode(int frames)

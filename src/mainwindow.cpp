@@ -291,7 +291,7 @@ void MainWindow::init()
     m_projectMonitor = new Monitor(Kdenlive::ProjectMonitor, pCore->monitorManager(), this);
     connect(m_projectMonitor, &Monitor::passKeyPress, this, &MainWindow::triggerKey);
     connect(m_projectMonitor, &Monitor::addMarker, this, &MainWindow::slotAddMarkerGuideQuickly);
-    connect(m_projectMonitor, &Monitor::deleteMarker, this, &MainWindow::slotDeleteClipMarker);
+    connect(m_projectMonitor, &Monitor::deleteMarker, this, &MainWindow::slotDeleteGuide);
     connect(m_projectMonitor, &Monitor::seekToPreviousSnap, this, &MainWindow::slotSnapRewind);
     connect(m_projectMonitor, &Monitor::seekToNextSnap, this, &MainWindow::slotSnapForward);
     connect(m_loopClip, &QAction::triggered, m_projectMonitor, &Monitor::slotLoopClip);
@@ -1271,11 +1271,6 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("monitor_overlay_markers"), overlayMarkerInfo);
     overlayMarkerInfo->setCheckable(true);
     overlayMarkerInfo->setData(0x04);
-
-    QAction *overlaySafeInfo = new QAction(KoIconUtils::themedIcon(QStringLiteral("help-hint")), i18n("Monitor Overlay Safe Zones"), this);
-    addAction(QStringLiteral("monitor_overlay_safezone"), overlaySafeInfo);
-    overlaySafeInfo->setCheckable(true);
-    overlaySafeInfo->setData(0x08);
 
     QAction *overlayAudioInfo = new QAction(KoIconUtils::themedIcon(QStringLiteral("help-hint")), i18n("Monitor Overlay Audio Waveform"), this);
     addAction(QStringLiteral("monitor_overlay_audiothumb"), overlayAudioInfo);

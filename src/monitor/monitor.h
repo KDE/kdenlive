@@ -156,6 +156,10 @@ public:
    void reconfigure();
     /** @brief Saves current monitor frame to an image file, and add it to project if addToProject is set to true **/
     void slotExtractCurrentFrame(QString frameName = QString(), bool addToProject = false);
+    /** @brief Zoom in active monitor */
+    void slotZoomIn();
+    /** @brief Zoom out active monitor */
+    void slotZoomOut();
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
@@ -268,8 +272,6 @@ private slots:
     void gpuError();
     void setOffsetX(int x);
     void setOffsetY(int y);
-    /** @brief Show/hide monitor zoom */
-    void slotEnableSceneZoom(bool enable);
     /** @brief Pan monitor view */
     void panView(QPoint diff);
     /** @brief Project monitor zone changed, inform timeline */
