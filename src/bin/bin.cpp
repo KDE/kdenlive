@@ -28,6 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "doc/documentchecker.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
+#include "effects/effectstack/model/effectstackmodel.hpp"
 #include "jobs/jobmanager.h"
 #include "jobs/loadjob.hpp"
 #include "kdenlive_debug.h"
@@ -492,10 +493,10 @@ public:
                     }
                     QString jobText = index.data(AbstractProjectItem::JobMessage).toString();
                     if (!jobText.isEmpty()) {
-                        //QRectF txtBounding = painter->boundingRect(r2, Qt::AlignRight | Qt::AlignVCenter, " " + jobText + " ");
+                        // QRectF txtBounding = painter->boundingRect(r2, Qt::AlignRight | Qt::AlignVCenter, " " + jobText + " ");
                         painter->setPen(Qt::NoPen);
                         painter->setBrush(option.palette.highlight());
-                        //painter->drawRoundedRect(txtBounding, 2, 2);
+                        // painter->drawRoundedRect(txtBounding, 2, 2);
                         painter->setPen(option.palette.highlightedText().color());
                         painter->drawText(r2, Qt::AlignCenter, jobText);
                     }
@@ -597,10 +598,10 @@ Bin::Bin(const std::shared_ptr<ProjectItemModel> &model, QWidget *parent)
     m_proxyModel->setSourceModel(m_itemModel.get());
     connect(m_itemModel.get(), &QAbstractItemModel::dataChanged, m_proxyModel, &ProjectSortProxyModel::slotDataChanged);
     connect(m_proxyModel, &ProjectSortProxyModel::selectModel, this, &Bin::selectProxyModel);
-    connect(m_itemModel.get(), static_cast<void(ProjectItemModel::*)(const QStringList&, const QModelIndex&)>(&ProjectItemModel::itemDropped),
-            this, static_cast<void (Bin::*)(const QStringList&, const QModelIndex&)>(&Bin::slotItemDropped));
-    connect(m_itemModel.get(), static_cast<void(ProjectItemModel::*)(const QList<QUrl>&, const QModelIndex&)>(&ProjectItemModel::itemDropped),
-            this, static_cast<void (Bin::*)(const QList<QUrl>&, const QModelIndex&)>(&Bin::slotItemDropped));
+    connect(m_itemModel.get(), static_cast<void (ProjectItemModel::*)(const QStringList &, const QModelIndex &)>(&ProjectItemModel::itemDropped), this,
+            static_cast<void (Bin::*)(const QStringList &, const QModelIndex &)>(&Bin::slotItemDropped));
+    connect(m_itemModel.get(), static_cast<void (ProjectItemModel::*)(const QList<QUrl> &, const QModelIndex &)>(&ProjectItemModel::itemDropped), this,
+            static_cast<void (Bin::*)(const QList<QUrl> &, const QModelIndex &)>(&Bin::slotItemDropped));
     connect(m_itemModel.get(), &ProjectItemModel::effectDropped, this, &Bin::slotEffectDropped);
     connect(m_itemModel.get(), &QAbstractItemModel::dataChanged, this, &Bin::slotItemEdited);
     connect(this, &Bin::refreshPanel, this, &Bin::doRefreshPanel);
@@ -653,7 +654,7 @@ Bin::Bin(const std::shared_ptr<ProjectItemModel> &model, QWidget *parent)
     pCore->window()->actionCollection()->addAction(QStringLiteral("rename"), m_renameAction);
 
     listType->setToolBarMode(KSelectAction::MenuMode);
-    connect(listType, static_cast<void(KSelectAction::*)(QAction*)>(&KSelectAction::triggered), this, &Bin::slotInitView);
+    connect(listType, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this, &Bin::slotInitView);
 
     // Settings menu
     QMenu *settingsMenu = new QMenu(i18n("Settings"), this);
@@ -1720,9 +1721,8 @@ void Bin::showClipProperties(std::shared_ptr<ProjectClip> clip, bool forceRefres
     }
     ClipPropertiesController *panel = clip->buildProperties(m_propertiesPanel);
     connect(this, &Bin::refreshTimeCode, panel, &ClipPropertiesController::slotRefreshTimeCode);
-    connect(panel, &ClipPropertiesController::updateClipProperties, this,
-            &Bin::slotEditClipCommand);
-    connect(panel, &ClipPropertiesController::seekToFrame, m_monitor, static_cast<void(Monitor::*)(int)>(&Monitor::slotSeek));
+    connect(panel, &ClipPropertiesController::updateClipProperties, this, &Bin::slotEditClipCommand);
+    connect(panel, &ClipPropertiesController::seekToFrame, m_monitor, static_cast<void (Monitor::*)(int)>(&Monitor::slotSeek));
     connect(panel, &ClipPropertiesController::editClip, this, &Bin::slotEditClip);
     connect(panel, SIGNAL(editAnalysis(QString, QString, QString)), this, SLOT(slotAddClipExtraData(QString, QString, QString)));
 
@@ -1743,7 +1743,6 @@ void Bin::reloadClip(const QString &id)
     }
     clip->reloadProducer();
 }
-
 
 QStringList Bin::getBinFolderClipIds(const QString &id) const
 {
@@ -2756,9 +2755,10 @@ void Bin::showTitleWidget(std::shared_ptr<ProjectClip> clip)
         newprops.insert(QStringLiteral("force_reload"), QStringLiteral("2"));
         if (!path.isEmpty()) {
             // we are editing an external file, asked if we want to detach from that file or save the result to that title file.
-            if (KMessageBox::questionYesNo(pCore->window(), i18n("You are editing an external title clip (%1). Do you want to save your changes to the title "
-                                                                 "file or save the changes for this project only?",
-                                                                 path),
+            if (KMessageBox::questionYesNo(pCore->window(),
+                                           i18n("You are editing an external title clip (%1). Do you want to save your changes to the title "
+                                                "file or save the changes for this project only?",
+                                                path),
                                            i18n("Save Title"), KGuiItem(i18n("Save to title file")),
                                            KGuiItem(i18n("Save in project only"))) == KMessageBox::Yes) {
                 // save to external file

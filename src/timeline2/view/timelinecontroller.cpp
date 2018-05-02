@@ -28,6 +28,7 @@
 #include "core.h"
 #include "dialogs/spacerdialog.h"
 #include "doc/kdenlivedoc.h"
+#include "effects/effectstack/model/effectstackmodel.hpp"
 #include "kdenlivesettings.h"
 #include "previewmanager.h"
 #include "project/projectmanager.h"
@@ -229,7 +230,8 @@ void TimelineController::checkDuration()
 std::unordered_set<int> TimelineController::getCurrentSelectionIds() const
 {
     std::unordered_set<int> selection;
-    if (m_model->m_temporarySelectionGroup >= 0 || (!m_selection.selectedItems.isEmpty() && m_model->m_groups->isInGroup(m_selection.selectedItems.constFirst()))) {
+    if (m_model->m_temporarySelectionGroup >= 0 ||
+        (!m_selection.selectedItems.isEmpty() && m_model->m_groups->isInGroup(m_selection.selectedItems.constFirst()))) {
         selection = m_model->getGroupElements(m_selection.selectedItems.constFirst());
     } else {
         for (int i : m_selection.selectedItems) {
@@ -242,7 +244,8 @@ std::unordered_set<int> TimelineController::getCurrentSelectionIds() const
 void TimelineController::selectCurrentItem(ObjectType type, bool select, bool addToCurrent)
 {
     QList<int> toSelect;
-    int currentClip = type == ObjectType::TimelineClip ? m_model->getClipByPosition(m_activeTrack, timelinePosition()) : m_model->getCompositionByPosition(m_activeTrack, timelinePosition());
+    int currentClip = type == ObjectType::TimelineClip ? m_model->getClipByPosition(m_activeTrack, timelinePosition())
+                                                       : m_model->getCompositionByPosition(m_activeTrack, timelinePosition());
     if (currentClip == -1) {
         pCore->displayMessage(i18n("No item under timeline cursor in active track"), InformationMessage, 500);
         return;
@@ -679,15 +682,13 @@ void TimelineController::showAsset(int id)
         QString clipName = m_model->data(clipIx, Qt::DisplayRole).toString();
         bool showKeyframes = m_model->data(clipIx, TimelineModel::ShowKeyframesRole).toInt();
         qDebug() << "-----\n// SHOW KEYFRAMES: " << showKeyframes;
-        emit showItemEffectStack(clipName, m_model->getClipEffectStackModel(id),
-                                 m_model->getClipFrameSize(id), showKeyframes);
+        emit showItemEffectStack(clipName, m_model->getClipEffectStackModel(id), m_model->getClipFrameSize(id), showKeyframes);
     }
 }
 
 void TimelineController::showTrackAsset(int trackId)
 {
-    emit showItemEffectStack(getTrackNameFromIndex(trackId), m_model->getTrackEffectStackModel(trackId), pCore->getCurrentFrameSize(),
-                             false);
+    emit showItemEffectStack(getTrackNameFromIndex(trackId), m_model->getTrackEffectStackModel(trackId), pCore->getCurrentFrameSize(), false);
 }
 
 void TimelineController::setPosition(int position)

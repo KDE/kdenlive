@@ -24,7 +24,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define KDENLIVE_BIN_H
 
 #include "abstractprojectitem.h"
-#include "effects/effectstack/model/effectstackmodel.hpp"
 #include "filewatcher.hpp"
 #include "timecode.h"
 
@@ -43,26 +42,27 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QUrl>
 #include <QWidget>
 
-class KdenliveDoc;
-class QVBoxLayout;
-class QScrollArea;
-class ClipController;
-class QDockWidget;
-class QTimeLine;
-class QToolBar;
-class QMenu;
-class QToolButton;
-class QUndoCommand;
-class ProjectItemModel;
-class ProjectClip;
-class ProjectFolder;
 class AbstractProjectItem;
-class Monitor;
-class ProjectSortProxyModel;
-class ProjectFolderUp;
-class InvalidDialog;
 class BinItemDelegate;
 class BinMessageWidget;
+class ClipController;
+class EffectStackModel;
+class InvalidDialog;
+class KdenliveDoc;
+class Monitor;
+class ProjectClip;
+class ProjectFolder;
+class ProjectFolderUp;
+class ProjectItemModel;
+class ProjectSortProxyModel;
+class QDockWidget;
+class QMenu;
+class QScrollArea;
+class QTimeLine;
+class QToolBar;
+class QToolButton;
+class QUndoCommand;
+class QVBoxLayout;
 class SmallJobLabel;
 
 namespace Mlt {

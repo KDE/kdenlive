@@ -21,6 +21,8 @@ the Free Software Foundation, either version 3 of the License, or
 #include "kdenlive_debug.h"
 #include <QFile>
 #include <QStandardPaths>
+#include <mlt++/MltFactory.h>
+#include <mlt++/MltRepository.h>
 
 std::unique_ptr<MltConnection> MltConnection::m_self;
 MltConnection::MltConnection(const QString &mltPath)
