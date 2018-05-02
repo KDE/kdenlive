@@ -104,13 +104,13 @@ public:
     /// Two level model: tracks and clips on track
     enum {
         NameRole = Qt::UserRole + 1,
-        ResourceRole, /// clip only
-        ServiceRole,  /// clip only
-        IsBlankRole,  /// clip only
-        StartRole,    /// clip only
-        BinIdRole,    /// clip only
-        MarkersRole,  /// clip only
-        StatusRole,   /// clip only
+        ResourceRole,  /// clip only
+        ServiceRole,   /// clip only
+        IsBlankRole,   /// clip only
+        StartRole,     /// clip only
+        BinIdRole,     /// clip only
+        MarkersRole,   /// clip only
+        StatusRole,    /// clip only
         GroupDragRole, /// indicates if the clip is in current timeline selection, needed for group drag
         KeyframesRole,
         DurationRole,
@@ -128,13 +128,13 @@ public:
         IsCompositeRole,   /// track only
         IsLockedRole,      /// track only
         HeightRole,        /// track only
-        TrackTagRole,          /// track only
+        TrackTagRole,      /// track only
         FadeInRole,        /// clip only
         FadeOutRole,       /// clip only
         IsCompositionRole, /// clip only
         FileHashRole,      /// clip only
         SpeedRole,         /// clip only
-        ReloadThumbRole,       /// clip only
+        ReloadThumbRole,   /// clip only
         ItemATrack,        /// composition only
         ItemIdRole
     };
@@ -247,12 +247,15 @@ public:
        Returns an empty list if no track available
        @param trackId Id of the track to test
     */
-    QList <int> getLowerTracksId(int trackId, TrackType type = TrackType::AnyTrack) const;
+    QList<int> getLowerTracksId(int trackId, TrackType type = TrackType::AnyTrack) const;
 
     /* @brief Returns the MLT track index of the video track just below the given trackC
        @param trackId Id of the track to test
     */
     int getPreviousVideoTrackPos(int trackId) const;
+
+    /* @brief Retuns the Id of the corresponding audio track. If trackId corresponds to video1, this will return audio 1 and so on */
+    int getMirrorAudioTrackId(int trackId) const;
 
     /* @brief Move a clip to a specific position
        This action is undoable
@@ -307,10 +310,13 @@ public:
        @param ID return parameter of the id of the inserted clip
        @param logUndo if set to false, no undo object is stored
        @param refreshView whether the view should be refreshed
+       @param useTargets: if true, the Audio/video split will occur on the set targets. Otherwise, they will be computed as an offset from the middle line
     */
-    bool requestClipInsertion(const QString &binClipId, int trackId, int position, int &id, bool logUndo = true, bool refreshView = false);
+    bool requestClipInsertion(const QString &binClipId, int trackId, int position, int &id, bool logUndo = true, bool refreshView = false,
+                              bool useTargets = true);
     /* Same function, but accumulates undo and redo*/
-    bool requestClipInsertion(const QString &binClipId, int trackId, int position, int &id, bool logUndo, bool refreshView, Fun &undo, Fun &redo);
+    bool requestClipInsertion(const QString &binClipId, int trackId, int position, int &id, bool logUndo, bool refreshView, bool useTargets, Fun &undo,
+                              Fun &redo);
     /* @brief Creates a new clip instance without inserting it.
        This action is undoable, returns true on success
        @param binClipId: Bin id of the clip to insert
@@ -472,9 +478,11 @@ public:
        @param id return parameter of the id of the inserted composition
        @param logUndo if set to false, no undo object is stored
     */
-    bool requestCompositionInsertion(const QString &transitionId, int trackId, int position, int length, Mlt::Properties *transProps, int &id, bool logUndo = true);
+    bool requestCompositionInsertion(const QString &transitionId, int trackId, int position, int length, Mlt::Properties *transProps, int &id,
+                                     bool logUndo = true);
     /* Same function, but accumulates undo and redo*/
-    bool requestCompositionInsertion(const QString &transitionId, int trackId, int compositionTrack, int position, int length, Mlt::Properties *transProps, int &id, Fun &undo, Fun &redo);
+    bool requestCompositionInsertion(const QString &transitionId, int trackId, int compositionTrack, int position, int length, Mlt::Properties *transProps,
+                                     int &id, Fun &undo, Fun &redo);
 
     /* @brief This function change the global (timeline-wise) enabled state of the effects
        It disables/enables track and clip effects (recursively)
@@ -523,11 +531,11 @@ protected:
     void registerTrack(std::shared_ptr<TrackModel> track, int pos = -1, bool doInsert = true, bool reloadView = true);
 
     /* @brief Register a new clip. This is a call-back meant to be called from ClipModel
-    */
+     */
     void registerClip(const std::shared_ptr<ClipModel> &clip);
 
     /* @brief Register a new composition. This is a call-back meant to be called from CompositionModel
-    */
+     */
     void registerComposition(const std::shared_ptr<CompositionModel> &composition);
 
     /* @brief Register a new group. This is a call-back meant to be called from GroupsModel
@@ -644,7 +652,7 @@ protected:
 
     // The index of the temporary overlay track in tractor, or -1 if not connected
     int m_overlayTrackCount;
-    
+
     // The preferred audio target for clip insertion or -1 if not defined
     int m_audioTarget;
     // The preferred video target for clip insertion or -1 if not defined

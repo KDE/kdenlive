@@ -120,7 +120,7 @@ public:
        @param logUndo if set to false, no undo object is stored
        @return the id of the inserted clip
      */
-    Q_INVOKABLE int insertClip(int tid, int position, const QString &xml, bool logUndo, bool refreshView);
+    Q_INVOKABLE int insertClip(int tid, int position, const QString &xml, bool logUndo, bool refreshView, bool useTargets);
     /* @brief Request inserting multiple clips into the timeline (dragged from bin or monitor)
      * @param tid is the destination track
      * @param position is the timeline position

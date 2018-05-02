@@ -68,7 +68,7 @@ bool TimelineFunctions::requestMultipleClipsInsertion(std::shared_ptr<TimelineIt
 
     for (const QString &binId : binIds) {
         int clipId;
-        if (timeline->requestClipInsertion(binId, trackId, position, clipId, logUndo, refreshView, undo, redo)) {
+        if (timeline->requestClipInsertion(binId, trackId, position, clipId, logUndo, refreshView, true, undo, redo)) {
             clipIds.append(clipId);
             position += timeline->getItemPlaytime(clipId);
         } else {
@@ -250,7 +250,7 @@ bool TimelineFunctions::insertZone(std::shared_ptr<TimelineItemModel> timeline, 
     }
     int newId = -1;
     QString binClipId = QString("%1/%2/%3").arg(binId).arg(zone.x()).arg(zone.y() - 1);
-    timeline->requestClipInsertion(binClipId, trackId, insertFrame, newId, true, true, undo, redo);
+    timeline->requestClipInsertion(binClipId, trackId, insertFrame, newId, true, true, true, undo, redo);
     pCore->pushUndo(undo, redo, overwrite ? i18n("Overwrite zone") : i18n("Insert zone"));
     return result;
 }

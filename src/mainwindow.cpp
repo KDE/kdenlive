@@ -3663,7 +3663,7 @@ void MainWindow::slotInsertZoneToTimeline()
 {
     QPoint info = m_clipMonitor->getZoneInfo();
     QString clipData = QString("%1#%2#%3").arg(m_clipMonitor->activeClipId()).arg(info.x()).arg(info.y());
-    int cid = getMainTimeline()->controller()->insertClip(-1, -1, clipData, true, true);
+    int cid = getMainTimeline()->controller()->insertClip(-1, -1, clipData, true, true, true);
     if (cid == -1) {
         pCore->displayMessage(i18n("Cannot insert clip at requested position"), InformationMessage);
     } else {

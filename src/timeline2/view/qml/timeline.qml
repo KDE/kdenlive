@@ -219,9 +219,9 @@ Rectangle {
 
             var id = -1
             if (binIds.length == 1) {
-                id = timeline.insertClip(timeline.activeTrack, frame, clipBeingDroppedData, false, true)
+                id = timeline.insertClip(timeline.activeTrack, frame, clipBeingDroppedData, false, true, false)
             } else {
-                var ids = timeline.insertClips(timeline.activeTrack, frame, binIds, false, true)
+                var ids = timeline.insertClips(timeline.activeTrack, frame, binIds, false, true, false)
 
                 // if the clip insertion succeeded, request the clips to be grouped
                 if (ids.length > 0) {
@@ -290,7 +290,7 @@ Rectangle {
 
                 var binIds = clipBeingDroppedData.split(";")
                 if (binIds.length == 1) {
-                    timeline.insertClip(track, frame, clipBeingDroppedData, true, true)
+                    timeline.insertClip(track, frame, clipBeingDroppedData, true, true, false)
                 } else {
                     timeline.insertClips(track, frame, binIds, true, true)
                 }
