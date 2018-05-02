@@ -67,6 +67,18 @@ void EffectStackModel::addService(std::weak_ptr<Mlt::Service> service)
         std::static_pointer_cast<EffectItemModel>(rootItem->child(i))->plant(m_services.back());
     }
 }
+void EffectStackModel::removeService(std::shared_ptr<Mlt::Service> service)
+{
+    std::vector<int> to_delete;
+    for (int i = int(m_services.size()) - 1; i >= 0; --i) {
+        if (service.get() == m_services[i].lock().get()) {
+            to_delete.push_back(i);
+        }
+    }
+    for (int i : to_delete) {
+        m_services.erase(m_services.begin() + i);
+    }
+}
 
 void EffectStackModel::removeEffect(std::shared_ptr<EffectItemModel> effect)
 {
@@ -445,11 +457,14 @@ void EffectStackModel::moveEffect(int destRow, std::shared_ptr<AbstractEffectIte
 
 void EffectStackModel::registerItem(const std::shared_ptr<TreeItem> &item)
 {
+    qDebug() << "$$$$$$$$$$$$$$$$$$$$$ Planting effect";
     QModelIndex ix;
     if (!item->isRoot()) {
         auto effectItem = std::static_pointer_cast<AbstractEffectItem>(item);
         if (!m_loadingExisting) {
+            qDebug() << "$$$$$$$$$$$$$$$$$$$$$ Planting effect in " << m_services.size();
             for (const auto &service : m_services) {
+                qDebug() << "$$$$$$$$$$$$$$$$$$$$$ Planting effect in " << (void *)service.lock().get();
                 effectItem->plant(service);
             }
         }

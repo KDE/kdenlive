@@ -425,6 +425,7 @@ void ProjectClip::createVideoMasterProducer()
         // disable audio but activate video
         m_videoProducer->set("set.test_audio", 1);
         m_videoProducer->set("set.test_image", 0);
+        m_effectStack->addService(m_videoProducer);
     }
 }
 void ProjectClip::createDisabledMasterProducer()
@@ -433,6 +434,7 @@ void ProjectClip::createDisabledMasterProducer()
         m_disabledProducer = cloneProducer(&pCore->getCurrentProfile()->profile());
         m_disabledProducer->set("set.test_audio", 1);
         m_disabledProducer->set("set.test_image", 1);
+        m_effectStack->addService(m_disabledProducer);
     }
 }
 std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int clipId, PlaylistState::ClipState state, double speed)
@@ -440,17 +442,24 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int clipId, Play
     if (qFuzzyCompare(speed, 1.0)) {
         // we are requesting a normal speed producer
         // We can first cleen the speed producers we have for the current id
-        m_timewarpProducers.erase(clipId);
+        if (m_timewarpProducers.count(clipId) > 0) {
+            m_effectStack->removeService(m_timewarpProducers[clipId]);
+            m_timewarpProducers.erase(clipId);
+        }
         if (state == PlaylistState::AudioOnly) {
             // We need to get an audio producer, if none exists
             if (m_audioProducers.count(clipId) == 0) {
                 m_audioProducers[clipId] = cloneProducer(&pCore->getCurrentProfile()->profile());
                 m_audioProducers[clipId]->set("set.test_audio", 0);
                 m_audioProducers[clipId]->set("set.test_image", 1);
+                m_effectStack->addService(m_audioProducers[clipId]);
             }
             return std::shared_ptr<Mlt::Producer>(m_audioProducers[clipId]->cut());
         }
-        m_audioProducers.erase(clipId);
+        if (m_audioProducers.count(clipId) > 0) {
+            m_effectStack->removeService(m_audioProducers[clipId]);
+            m_audioProducers.erase(clipId);
+        }
         if (state == PlaylistState::VideoOnly) {
             // we return the video producer
             createVideoMasterProducer();
@@ -462,7 +471,10 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int clipId, Play
     }
 
     // in that case, we need to create a warp producer, if we don't have one
-    m_audioProducers.erase(clipId);
+    if (m_audioProducers.count(clipId) > 0) {
+        m_effectStack->removeService(m_audioProducers[clipId]);
+        m_audioProducers.erase(clipId);
+    }
 
     std::shared_ptr<Mlt::Producer> warpProducer;
     if (m_timewarpProducers.count(clipId) > 0) {
@@ -470,6 +482,8 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int clipId, Play
             // the producer we have is good, use it !
             warpProducer = m_timewarpProducers[clipId];
         }
+        // remove in all cases, we add it unconditionally anyways
+        m_effectStack->removeService(m_timewarpProducers[clipId]);
     }
     if (!warpProducer) {
         QString resource = QString("timewarp:%1:%2").arg(speed).arg(originalProducer()->get("resource"));
@@ -485,6 +499,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int clipId, Play
         warpProducer->set("set.test_image", 0);
     }
     m_timewarpProducers[clipId] = warpProducer;
+    m_effectStack->addService(m_timewarpProducers[clipId]);
     return warpProducer;
 }
 
@@ -534,20 +549,24 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
             master->parent().set("loaded", 1);
             if (state == PlaylistState::AudioOnly) {
                 m_audioProducers[clipId] = std::shared_ptr<Mlt::Producer>(&master->parent());
+                m_effectStack->addService(m_audioProducers[clipId]);
                 return {master, true};
             }
             if (timeWarp) {
                 m_timewarpProducers[clipId] = std::shared_ptr<Mlt::Producer>(&master->parent());
+                m_effectStack->addService(m_timewarpProducers[clipId]);
                 return {master, true};
             }
             if (state == PlaylistState::VideoOnly && !m_videoProducer) {
                 // good, we found a master video producer, and we didn't have any
                 m_videoProducer.reset(&master->parent());
+                m_effectStack->addService(m_videoProducer);
                 return {master, true};
             }
             if (state == PlaylistState::Disabled && !m_disabledProducer) {
                 // good, we found a master disabled producer, and we didn't have any
                 m_disabledProducer.reset(&master->parent());
+                m_effectStack->addService(m_disabledProducer);
                 return {master, true};
             }
             qDebug() << "Warning: weird, we found a clip whose master is not loaded but we already have a master";

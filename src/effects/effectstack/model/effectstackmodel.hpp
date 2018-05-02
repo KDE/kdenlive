@@ -112,6 +112,9 @@ public:
     /* @brief Append a new service to be managed by this stack */
     void addService(std::weak_ptr<Mlt::Service> service);
 
+    /* @brief Remove a service from those managed by this stack */
+    void removeService(std::shared_ptr<Mlt::Service> service);
+
 public slots:
     /* @brief Delete an effect from the stack */
     void removeEffect(std::shared_ptr<EffectItemModel> effect);
