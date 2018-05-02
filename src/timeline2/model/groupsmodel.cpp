@@ -321,7 +321,7 @@ void GroupsModel::setGroup(int id, int groupId)
                 ptr->dataChanged(ix, ix, {TimelineModel::GroupedRole});
             }
         }
-        if (getType(groupId) == GroupType::Leaf) { 
+        if (getType(groupId) == GroupType::Leaf) {
             promoteToGroup(groupId, GroupType::Normal);
         }
     }

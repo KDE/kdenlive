@@ -243,7 +243,7 @@ bool PreviewManager::loadParams()
     }
     if (doc->getDocumentProperty(QStringLiteral("resizepreview")).toInt() != 0) {
         int resizeWidth = doc->getDocumentProperty(QStringLiteral("previewheight")).toInt();
-        m_consumerParams << QStringLiteral("s=%1x%2").arg((int) (resizeWidth * pCore->getCurrentDar())).arg(resizeWidth);
+        m_consumerParams << QStringLiteral("s=%1x%2").arg((int)(resizeWidth * pCore->getCurrentDar())).arg(resizeWidth);
     }
     m_consumerParams << QStringLiteral("an=1");
     if (KdenliveSettings::gpu_accel()) {

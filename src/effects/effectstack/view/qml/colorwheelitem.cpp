@@ -158,7 +158,7 @@ NegQColor ColorWheelItem::colorForPoint(const QPoint &point)
     }
     if (m_isInSquare) {
         qreal value = 1.0 - qreal(point.y() - m_margin) / (wheelSize() - m_margin * 2);
-        if (qAbs(m_zeroShift)>0) {
+        if (qAbs(m_zeroShift) > 0) {
             value = value - m_zeroShift;
         }
         return NegQColor::fromHsvF(m_color.hueF(), m_color.saturationF(), value);

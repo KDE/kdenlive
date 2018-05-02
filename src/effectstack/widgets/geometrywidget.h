@@ -40,10 +40,10 @@ class GeometryWidget : public AbstractParamWidget
     Q_OBJECT
 public:
     /** @brief Sets up the UI and connects it.
-    * @param monitor Project monitor
-    * @param timecode Timecode needed by timecode display widget
-    * @param clipPos Position of the clip in timeline
-    * @param parent (optional) Parent widget */
+     * @param monitor Project monitor
+     * @param timecode Timecode needed by timecode display widget
+     * @param clipPos Position of the clip in timeline
+     * @param parent (optional) Parent widget */
     explicit GeometryWidget(EffectMetaInfo *info, int clipPos, bool showRotation, bool useOffset, QWidget *parent = nullptr);
     virtual ~GeometryWidget();
     /** @brief Gets the geometry as a serialized string. */
@@ -63,9 +63,9 @@ public:
 
 public slots:
     /** @brief Sets up the rect and the geometry object.
-    * @param elem DomElement representing this effect parameter
-    * @param minframe In point of the clip
-    * @param maxframe Out point of the clip */
+     * @param elem DomElement representing this effect parameter
+     * @param minframe In point of the clip
+     * @param maxframe Out point of the clip */
     void setupParam(const QDomElement &elem, int minframe, int maxframe);
     /** @brief Updates position of the local timeline to @param relTimelinePos.  */
     void slotSyncPosition(int relTimelinePos);
@@ -123,21 +123,21 @@ private:
 
 private slots:
     /** @brief Updates controls according to position.
-    * @param pos (optional) Position to update to
-    * @param seek (optional, default = true) Whether to seek timleine & project monitor to pos
-    * If pos = -1 (default) the value of m_timePos is used. */
+     * @param pos (optional) Position to update to
+     * @param seek (optional, default = true) Whether to seek timleine & project monitor to pos
+     * If pos = -1 (default) the value of m_timePos is used. */
     void slotPositionChanged(int pos = -1, bool seek = true);
     /** @brief Seeking requested from timeline. */
     void slotRequestSeek(int pos);
     /** @brief Updates settings after a keyframe was moved to @param pos. */
     void slotKeyframeMoved(int pos);
     /** @brief Adds a keyframe.
-    * @param pos (optional) Position where the keyframe should be added
-    * If pos = -1 (default) the value of m_timePos is used. */
+     * @param pos (optional) Position where the keyframe should be added
+     * If pos = -1 (default) the value of m_timePos is used. */
     void slotAddKeyframe(int pos = -1);
     /** @brief Deletes a keyframe.
-    * @param pos (optional) Position of the keyframe which should be deleted
-    * If pos = -1 (default) the value of m_timePos is used. */
+     * @param pos (optional) Position of the keyframe which should be deleted
+     * If pos = -1 (default) the value of m_timePos is used. */
     void slotDeleteKeyframe(int pos = -1);
     /** @brief Goes to the next keyframe or to the end if none is available. */
     void slotNextKeyframe();

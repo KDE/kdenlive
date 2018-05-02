@@ -549,9 +549,7 @@ void AbstractScopeWidget::slotAutoRefreshToggled(bool autoRefresh)
     }
 }
 
-void AbstractScopeWidget::handleMouseDrag(const QPoint &, const RescaleDirection, const Qt::KeyboardModifiers)
-{
-}
+void AbstractScopeWidget::handleMouseDrag(const QPoint &, const RescaleDirection, const Qt::KeyboardModifiers) {}
 
 #ifdef DEBUG_ASW
 #undef DEBUG_ASW

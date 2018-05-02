@@ -49,8 +49,7 @@ public:
     // This is a special function that prepares the stabilize job for a given list of clips.
     // Namely, it displays the required UI to configure the job and call startJob with the right set of parameters
     // Then the job is automatically put in queue. Its id is returned
-    static int prepareJob(std::shared_ptr<JobManager> ptr, const std::vector<QString> &binIds, int parentId, QString undoString,
-                          const QString &filterName);
+    static int prepareJob(std::shared_ptr<JobManager> ptr, const std::vector<QString> &binIds, int parentId, QString undoString, const QString &filterName);
 
     // Return the list of stabilization filters that we support
     static std::unordered_set<QString> supportedFilters();

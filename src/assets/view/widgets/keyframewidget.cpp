@@ -79,7 +79,7 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     curve->setCheckable(true);
     m_selectType->addAction(curve);
     m_selectType->setCurrentAction(linear);
-    connect(m_selectType, static_cast<void(KSelectAction::*)(QAction*)>(&KSelectAction::triggered), this, &KeyframeWidget::slotEditKeyframeType);
+    connect(m_selectType, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this, &KeyframeWidget::slotEditKeyframeType);
     m_selectType->setToolBarMode(KSelectAction::ComboBoxMode);
     QToolBar *toolbar = new QToolBar(this);
 
@@ -248,7 +248,8 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
         if (vals.count() >= 4) {
             rect = QRect(vals.at(0).toInt(), vals.at(1).toInt(), vals.at(2).toInt(), vals.at(3).toInt());
         }
-        GeometryWidget *geomWidget = new GeometryWidget(pCore->getMonitor(m_model->monitorId), range, rect, frameSize, false, m_model->data(m_index, AssetParameterModel::OpacityRole).toBool(), this);
+        GeometryWidget *geomWidget = new GeometryWidget(pCore->getMonitor(m_model->monitorId), range, rect, frameSize, false,
+                                                        m_model->data(m_index, AssetParameterModel::OpacityRole).toBool(), this);
         connect(geomWidget, &GeometryWidget::valueChanged,
                 [this, index](const QString v) { m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), QVariant(v), index); });
         paramWidget = geomWidget;

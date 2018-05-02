@@ -38,8 +38,8 @@ public:
     ~EffectStackEdit();
     static QMap<QString, QImage> iconCache;
     /** @brief Sets attribute @param name to @param value.
-    *
-    * Used to disable the effect, by setting disabled="1" */
+     *
+     * Used to disable the effect, by setting disabled="1" */
     void updateParameter(const QString &name, const QString &value);
     void setFrameSize(const QPoint &p);
     /** @brief Tells the parameters to update their timecode format according to KdenliveSettings. */

@@ -52,7 +52,7 @@
 #else
 #define check_error(fn)                                                                                                                                        \
     {                                                                                                                                                          \
-        uint err = fn->glGetError();                                                                                                                            \
+        uint err = fn->glGetError();                                                                                                                           \
         if (err != GL_NO_ERROR) {                                                                                                                              \
             qCCritical(KDENLIVE_LOG) << "GL error" << hex << err << dec << "at" << __FILE__ << ":" << __LINE__;                                                \
         }                                                                                                                                                      \
@@ -558,12 +558,12 @@ void GLWidget::slotZoom(bool zoomIn)
 {
     if (zoomIn) {
         if (qFuzzyCompare(m_zoom, 1.0f)) {
-                setZoom(2.0f);
-            } else if (qFuzzyCompare(m_zoom, 2.0f)) {
-                setZoom(3.0f);
-            } else if (m_zoom < 1.0f) {
-                setZoom(m_zoom * 2);
-            }
+            setZoom(2.0f);
+        } else if (qFuzzyCompare(m_zoom, 2.0f)) {
+            setZoom(3.0f);
+        } else if (m_zoom < 1.0f) {
+            setZoom(m_zoom * 2);
+        }
     } else {
         if (qFuzzyCompare(m_zoom, 3.0f)) {
             setZoom(2.0);
@@ -640,7 +640,7 @@ void GLWidget::refresh()
 bool GLWidget::checkFrameNumber(int pos)
 {
     emit seekPosition(pos);
-    //TODO: cleanup and move logic to proper proxy class
+    // TODO: cleanup and move logic to proper proxy class
     m_proxy->setPosition(pos);
     if (pos == m_proxy->seekPosition()) {
         m_proxy->setSeekPosition(SEEK_INACTIVE);
@@ -1126,7 +1126,7 @@ int GLWidget::reconfigure(Mlt::Profile *profile)
                             // switch sdl audio backend
                             KdenliveSettings::setSdlAudioBackend(bk);
                         }
-                        qDebug()<<"++++++++\nSwitching audio backend to: "<<bk<<"\n++++++++++";
+                        qDebug() << "++++++++\nSwitching audio backend to: " << bk << "\n++++++++++";
                         KdenliveSettings::setAudiobackend(bk);
                         serviceName = bk;
                         setProperty("mlt_service", serviceName);
@@ -1158,7 +1158,7 @@ int GLWidget::reconfigure(Mlt::Profile *profile)
         // Connect the producer to the consumer - tell it to "run" later
         if (m_producer) {
             m_consumer->connect(*m_producer);
-            //m_producer->set_speed(0.0);
+            // m_producer->set_speed(0.0);
         }
         int dropFrames = realTime();
         if (!KdenliveSettings::monitor_dropframes()) {
@@ -1205,9 +1205,9 @@ int GLWidget::reconfigure(Mlt::Profile *profile)
         m_consumer->set("rescale", KdenliveSettings::mltinterpolation().toUtf8().constData());
         m_consumer->set("deinterlace_method", KdenliveSettings::mltdeinterlacer().toUtf8().constData());
 #ifdef Q_OS_WIN
-            m_consumer->set("audio_buffer", 2048);
+        m_consumer->set("audio_buffer", 2048);
 #else
-            m_consumer->set("audio_buffer", 512);
+        m_consumer->set("audio_buffer", 512);
 #endif
         m_consumer->set("buffer", 25);
         m_consumer->set("prefill", 1);
@@ -1269,7 +1269,7 @@ QRect GLWidget::displayRect() const
 QPoint GLWidget::offset() const
 {
     return QPoint(m_offset.x() - ((int)((float)m_monitorProfile->width() * m_zoom) - width()) / 2,
-                            m_offset.y() - ((int)((float)m_monitorProfile->height() * m_zoom) - height()) / 2);
+                  m_offset.y() - ((int)((float)m_monitorProfile->height() * m_zoom) - height()) / 2);
 }
 
 void GLWidget::setZoom(float zoom)
@@ -1662,9 +1662,8 @@ void GLWidget::refreshSceneLayout()
     }
     rootObject()->setProperty("profile", QPoint(m_monitorProfile->width(), m_monitorProfile->height()));
     rootObject()->setProperty("scalex", (double)m_rect.width() / m_monitorProfile->width() * m_zoom);
-    rootObject()->setProperty("scaley",
-                              (double)m_rect.width() / (((double)m_monitorProfile->height() * m_monitorProfile->dar() / m_monitorProfile->width())) /
-                                  m_monitorProfile->width() * m_zoom);
+    rootObject()->setProperty("scaley", (double)m_rect.width() / (((double)m_monitorProfile->height() * m_monitorProfile->dar() / m_monitorProfile->width())) /
+                                            m_monitorProfile->width() * m_zoom);
 }
 
 void GLWidget::switchPlay(bool play, double speed)

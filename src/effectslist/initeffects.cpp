@@ -893,8 +893,9 @@ void initEffects::fillTransitionsList(std::unique_ptr<Mlt::Repository> &reposito
         QStringLiteral("<ktransition tag=\"composite\" id=\"slide\"><name>") + i18n("Slide") + QStringLiteral("</name><description>") +
         i18n("Slide image from one side to another.") +
         QStringLiteral("</description><parameter tag=\"geometry\" type=\"wipe\" default=\"-100%,0%:100%x100%;-1=0%,0%:100%x100%\" name=\"geometry\"><name>") +
-        i18n("Direction") + QStringLiteral("</name>                                               </parameter><parameter tag=\"aligned\" default=\"0\" "
-                                           "type=\"bool\" name=\"aligned\" ><name>") +
+        i18n("Direction") +
+        QStringLiteral("</name>                                               </parameter><parameter tag=\"aligned\" default=\"0\" "
+                       "type=\"bool\" name=\"aligned\" ><name>") +
         i18n("Align") + QStringLiteral("</name></parameter><parameter tag=\"progressive\" default=\"1\" type=\"bool\" name=\"progressive\" ><name>") +
         i18n("Force Progressive Rendering") +
         QStringLiteral("</name></parameter><parameter tag=\"deinterlace\" default=\"0\" type=\"bool\" name=\"deinterlace\" ><name>") +

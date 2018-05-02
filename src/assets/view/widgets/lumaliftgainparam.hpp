@@ -38,9 +38,9 @@ class LumaLiftGainParam : public AbstractParamWidget
     Q_OBJECT
 public:
     /** @brief Sets up the widget.
-    * @param text (optional) What the color will be used for
-    * @param color (optional) initial color
-    * @param alphaEnabled (optional) Should transparent colors be enabled */
+     * @param text (optional) What the color will be used for
+     * @param color (optional) initial color
+     * @param alphaEnabled (optional) Should transparent colors be enabled */
     explicit LumaLiftGainParam(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent);
     void updateEffect(QDomElement &effect);
 
@@ -64,7 +64,6 @@ public slots:
     /** @brief refresh the properties to reflect changes in the model
      */
     void slotRefresh() override;
-
 };
 
 #endif

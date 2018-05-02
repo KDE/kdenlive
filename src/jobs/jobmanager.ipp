@@ -27,7 +27,7 @@ int JobManager::startJob(const std::vector<QString> &binIds, int parentId, QStri
                          std::function<std::shared_ptr<T>(const QString &, Args...)> createFn, Args &&... args)
 {
     static_assert(std::is_base_of<AbstractClipJob, T>::value, "Your job must inherit from AbstractClipJob");
-    //QWriteLocker locker(&m_lock);
+    // QWriteLocker locker(&m_lock);
     int jobId = m_currentId++;
     std::shared_ptr<Job_t> job(new Job_t());
     job->m_completionMutex.lock();
@@ -108,8 +108,7 @@ struct dummy
 
 } // namespace impl
 
-template <typename T, typename... Args>
-int JobManager::startJob(const std::vector<QString> &binIds, int parentId, QString undoString, Args &&... args)
+template <typename T, typename... Args> int JobManager::startJob(const std::vector<QString> &binIds, int parentId, QString undoString, Args &&... args)
 {
     return impl::dummy::exec<T, false, Args...>(shared_from_this(), binIds, parentId, std::move(undoString), std::forward<Args>(args)...);
 }

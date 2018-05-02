@@ -23,12 +23,12 @@
 #include "assets/view/assetparameterview.hpp"
 #include "core.h"
 #include "dialogs/clipcreationdialog.h"
-#include "monitor/monitor.h"
 #include "effects/effectsrepository.hpp"
 #include "effects/effectstack/model/effectitemmodel.hpp"
 #include "effectslist/effectslist.h"
 #include "kdenlivesettings.h"
 #include "mltcontroller/effectscontroller.h"
+#include "monitor/monitor.h"
 #include "utils/KoIconUtils.h"
 
 #include "kdenlive_debug.h"
@@ -195,7 +195,7 @@ CollapsibleEffectView::CollapsibleEffectView(std::shared_ptr<EffectItemModel> ef
 CollapsibleEffectView::~CollapsibleEffectView()
 {
     qDebug() << "deleting collapsibleeffectview";
-    //delete m_view;
+    // delete m_view;
     delete m_menu;
 }
 
@@ -246,7 +246,7 @@ bool CollapsibleEffectView::eventFilter(QObject *o, QEvent *e)
             return false;
         }
         if (qobject_cast<QAbstractSpinBox *>(o)) {
-            //if (qobject_cast<QAbstractSpinBox *>(o)->focusPolicy() == Qt::WheelFocus) {
+            // if (qobject_cast<QAbstractSpinBox *>(o)->focusPolicy() == Qt::WheelFocus) {
             e->accept();
             return false;
         }
@@ -259,7 +259,7 @@ bool CollapsibleEffectView::eventFilter(QObject *o, QEvent *e)
             return true;
         }
         if (qobject_cast<QProgressBar *>(o)) {
-            //if (qobject_cast<QProgressBar *>(o)->focusPolicy() == Qt::WheelFocus)*/ {
+            // if (qobject_cast<QProgressBar *>(o)->focusPolicy() == Qt::WheelFocus)*/ {
             e->accept();
             return false;
         }
@@ -459,7 +459,7 @@ void CollapsibleEffectView::setGroupName(const QString &groupName)
 
 QString CollapsibleEffectView::infoString() const
 {
-    return QString(); //m_info.toString();
+    return QString(); // m_info.toString();
 }
 
 void CollapsibleEffectView::removeFromGroup()
@@ -475,7 +475,7 @@ void CollapsibleEffectView::removeFromGroup()
 
 int CollapsibleEffectView::groupIndex() const
 {
-    return -1;//m_info.groupIndex;
+    return -1; // m_info.groupIndex;
 }
 
 int CollapsibleEffectView::effectIndex() const

@@ -29,7 +29,7 @@ class MltConnection
 
 public:
     /** @brief Open connection to the MLT framework
-    */
+     */
     static void construct(const QString &mltPath);
 
     /* @brief Returns a pointer to the MLT Repository*/

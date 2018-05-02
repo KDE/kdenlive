@@ -53,7 +53,7 @@ using namespace fakeit;
     VerifyNoOtherInvocations(Method(timMock, _endRemoveRows));                                                                                                 \
     VerifyNoOtherInvocations(Method(timMock, _endInsertRows));                                                                                                 \
     VerifyNoOtherInvocations(OverloadedMethod(timMock, notifyChange, void(const QModelIndex &, const QModelIndex &, bool, bool, bool)));                       \
-    VerifyNoOtherInvocations(OverloadedMethod(timMock, notifyChange, void(const QModelIndex &, const QModelIndex &, const QVector<int> &)));                           \
+    VerifyNoOtherInvocations(OverloadedMethod(timMock, notifyChange, void(const QModelIndex &, const QModelIndex &, const QVector<int> &)));                   \
     RESET(timMock);
 
 #define CHECK_MOVE(times)                                                                                                                                      \

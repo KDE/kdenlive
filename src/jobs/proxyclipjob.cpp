@@ -30,10 +30,8 @@
 
 #include <QProcess>
 #include <QTemporaryFile>
-#include <QProcess>
 
 #include <klocalizedstring.h>
-
 
 ProxyJob::ProxyJob(const QString &binId)
     : AbstractClipJob(PROXYJOB, binId)
@@ -47,7 +45,6 @@ const QString ProxyJob::getDescription() const
 {
     return i18n("Creating proxy %1", m_clipId);
 }
-
 
 bool ProxyJob::startJob()
 {
@@ -300,7 +297,7 @@ bool ProxyJob::commitResult(Fun &undo, Fun &redo)
         return false;
     }
     m_resultConsumed = true;
-    auto operation = [ clipId = m_clipId ]()
+    auto operation = [clipId = m_clipId]()
     {
         auto binClip = pCore->projectItemModel()->getClipByBinID(clipId);
         const QString dest = binClip->getProducerProperty(QStringLiteral("kdenlive:proxy"));
@@ -308,7 +305,7 @@ bool ProxyJob::commitResult(Fun &undo, Fun &redo)
         pCore->bin()->reloadClip(clipId);
         return true;
     };
-    auto reverse = [ clipId = m_clipId ]()
+    auto reverse = [clipId = m_clipId]()
     {
         auto binClip = pCore->projectItemModel()->getClipByBinID(clipId);
         const QString dest = binClip->getProducerProperty(QStringLiteral("kdenlive:originalurl"));

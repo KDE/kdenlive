@@ -18,8 +18,8 @@
  ***************************************************************************/
 
 #include "coloreditwidget.hpp"
-#include "widgets/colorpickerwidget.h"
 #include "assets/model/assetparametermodel.hpp"
+#include "widgets/colorpickerwidget.h"
 
 #include <QHBoxLayout>
 #include <QLabel>
@@ -37,9 +37,9 @@ static QColor stringToColor(QString strColor)
             // 0xRRGGBBAA
             intval = strColor.toUInt(&ok, 16);
             color.setRgb((int)((intval >> 24) & 0xff), // r
-                         (intval >> 16) & 0xff, // g
-                         (intval >> 8) & 0xff,  // b
-                         intval & 0xff);        // a
+                         (intval >> 16) & 0xff,        // g
+                         (intval >> 8) & 0xff,         // b
+                         intval & 0xff);               // a
         } else {
             // 0xRRGGBB, 0xRGB
             color.setNamedColor(strColor.replace(0, 2, QLatin1Char('#')));
@@ -49,9 +49,9 @@ static QColor stringToColor(QString strColor)
             // #AARRGGBB
             strColor = strColor.replace('#', QLatin1String("0x"));
             intval = strColor.toUInt(&ok, 16);
-            color.setRgb((intval >> 16) & 0xff,  // r
-                         (intval >> 8) & 0xff,   // g
-                         intval&0xff,          // b
+            color.setRgb((intval >> 16) & 0xff,         // r
+                         (intval >> 8) & 0xff,          // g
+                         intval & 0xff,                 // b
                          (int)((intval >> 24) & 0xff)); // a
         } else if (strColor.length() == 8) {
             // 0xRRGGBB
@@ -130,13 +130,11 @@ ColorEditWidget::ColorEditWidget(std::shared_ptr<AssetParameterModel> model, QMo
     setToolTip(comment);
 }
 
-void ColorEditWidget::slotShowComment(bool )
-{
-}
+void ColorEditWidget::slotShowComment(bool) {}
 
 void ColorEditWidget::slotRefresh()
 {
-    QString color  = m_model->data(m_index, AssetParameterModel::ValueRole).toString();
+    QString color = m_model->data(m_index, AssetParameterModel::ValueRole).toString();
     m_button->setColor(stringToColor(color));
 }
 

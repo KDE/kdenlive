@@ -73,7 +73,6 @@ QStringList BinController::getProjectHashes()
     return hashes;
 }
 
-
 void BinController::slotStoreFolder(const QString &folderId, const QString &parentId, const QString &oldParentId, const QString &folderName)
 {
     if (!oldParentId.isEmpty()) {
@@ -90,7 +89,6 @@ void BinController::slotStoreFolder(const QString &folderId, const QString &pare
     }
 }
 
-
 const QString BinController::binPlaylistId()
 {
     return kPlaylistTrackId;
@@ -101,13 +99,11 @@ int BinController::clipCount() const
     return m_clipList.size();
 }
 
-
 void BinController::replaceBinPlaylistClip(const QString &id, const std::shared_ptr<Mlt::Producer> &producer)
 {
     removeBinPlaylistClip(id);
     m_binPlaylist->append(*producer.get());
 }
-
 
 void BinController::removeBinPlaylistClip(const QString &id)
 {
@@ -126,8 +122,6 @@ bool BinController::hasClip(const QString &id)
 {
     return m_clipList.contains(id);
 }
-
-
 
 std::shared_ptr<Mlt::Producer> BinController::getBinProducer(const QString &id)
 {
@@ -167,7 +161,6 @@ void BinController::duplicateFilters(std::shared_ptr<Mlt::Producer> original, Ml
         }
     }
 }
-
 
 QString BinController::xmlFromId(const QString &id)
 {
@@ -246,8 +239,6 @@ void BinController::updateTrackProducer(const QString &id)
 {
     emit updateTimelineProducer(id);
 }
-
-
 
 void BinController::saveDocumentProperties(const QMap<QString, QString> &props, const QMap<QString, QString> &metadata,
                                            std::shared_ptr<MarkerListModel> guideModel)

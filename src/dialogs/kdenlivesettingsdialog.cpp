@@ -148,8 +148,10 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString> &map
             }
         }
     }
-    connect(m_configCapture.kcfg_detectedv4ldevices, static_cast<void(KComboBox::*)(int)>(&KComboBox::currentIndexChanged), this, &KdenliveSettingsDialog::slotUpdatev4lDevice);
-    connect(m_configCapture.kcfg_v4l_format, static_cast<void(KComboBox::*)(int)>(&KComboBox::currentIndexChanged), this, &KdenliveSettingsDialog::slotUpdatev4lCaptureProfile);
+    connect(m_configCapture.kcfg_detectedv4ldevices, static_cast<void (KComboBox::*)(int)>(&KComboBox::currentIndexChanged), this,
+            &KdenliveSettingsDialog::slotUpdatev4lDevice);
+    connect(m_configCapture.kcfg_v4l_format, static_cast<void (KComboBox::*)(int)>(&KComboBox::currentIndexChanged), this,
+            &KdenliveSettingsDialog::slotUpdatev4lCaptureProfile);
     connect(m_configCapture.config_v4l, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotEditVideo4LinuxProfile);
 
     slotUpdatev4lDevice();
@@ -238,10 +240,13 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString> &map
 
     loadEncodingProfiles();
 
-    connect(m_configSdl.kcfg_audio_driver, static_cast<void(KComboBox::*)(int)>(&KComboBox::currentIndexChanged), this, &KdenliveSettingsDialog::slotCheckAlsaDriver);
-    connect(m_configSdl.kcfg_audio_backend, static_cast<void(KComboBox::*)(int)>(&KComboBox::currentIndexChanged), this, &KdenliveSettingsDialog::slotCheckAudioBackend);
+    connect(m_configSdl.kcfg_audio_driver, static_cast<void (KComboBox::*)(int)>(&KComboBox::currentIndexChanged), this,
+            &KdenliveSettingsDialog::slotCheckAlsaDriver);
+    connect(m_configSdl.kcfg_audio_backend, static_cast<void (KComboBox::*)(int)>(&KComboBox::currentIndexChanged), this,
+            &KdenliveSettingsDialog::slotCheckAudioBackend);
     initDevices();
-    connect(m_configCapture.kcfg_grab_capture_type, static_cast<void(KComboBox::*)(int)>(&KComboBox::currentIndexChanged), this, &KdenliveSettingsDialog::slotUpdateGrabRegionStatus);
+    connect(m_configCapture.kcfg_grab_capture_type, static_cast<void (KComboBox::*)(int)>(&KComboBox::currentIndexChanged), this,
+            &KdenliveSettingsDialog::slotUpdateGrabRegionStatus);
 
     slotUpdateGrabRegionStatus();
     loadTranscodeProfiles();
@@ -263,7 +268,8 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString> &map
     m_configCapture.decklink_parameters->setVisible(false);
     m_configCapture.decklink_parameters->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 4);
     m_configCapture.decklink_parameters->setPlainText(KdenliveSettings::decklink_parameters());
-    connect(m_configCapture.kcfg_decklink_profile, static_cast<void(KComboBox::*)(int)>(&KComboBox::currentIndexChanged), this, &KdenliveSettingsDialog::slotUpdateDecklinkProfile);
+    connect(m_configCapture.kcfg_decklink_profile, static_cast<void (KComboBox::*)(int)>(&KComboBox::currentIndexChanged), this,
+            &KdenliveSettingsDialog::slotUpdateDecklinkProfile);
     connect(m_configCapture.decklink_showprofileinfo, &QAbstractButton::clicked, m_configCapture.decklink_parameters, &QWidget::setVisible);
 
     // ffmpeg profile
@@ -276,7 +282,8 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString> &map
     act->setData(2);
     connect(act, &QAction::triggered, this, &KdenliveSettingsDialog::slotManageEncodingProfile);
     m_configCapture.v4l_manageprofile->setDefaultAction(act);
-    connect(m_configCapture.kcfg_v4l_profile, static_cast<void(KComboBox::*)(int)>(&KComboBox::currentIndexChanged), this, &KdenliveSettingsDialog::slotUpdateV4lProfile);
+    connect(m_configCapture.kcfg_v4l_profile, static_cast<void (KComboBox::*)(int)>(&KComboBox::currentIndexChanged), this,
+            &KdenliveSettingsDialog::slotUpdateV4lProfile);
     connect(m_configCapture.v4l_showprofileinfo, &QAbstractButton::clicked, m_configCapture.v4l_parameters, &QWidget::setVisible);
 
     // screen grab profile
@@ -288,7 +295,8 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString> &map
     act->setData(3);
     connect(act, &QAction::triggered, this, &KdenliveSettingsDialog::slotManageEncodingProfile);
     m_configCapture.grab_manageprofile->setDefaultAction(act);
-    connect(m_configCapture.kcfg_grab_profile, static_cast<void(KComboBox::*)(int)>(&KComboBox::currentIndexChanged), this, &KdenliveSettingsDialog::slotUpdateGrabProfile);
+    connect(m_configCapture.kcfg_grab_profile, static_cast<void (KComboBox::*)(int)>(&KComboBox::currentIndexChanged), this,
+            &KdenliveSettingsDialog::slotUpdateGrabProfile);
     connect(m_configCapture.grab_showprofileinfo, &QAbstractButton::clicked, m_configCapture.grab_parameters, &QWidget::setVisible);
 
     // Timeline preview
@@ -296,7 +304,8 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString> &map
     act->setData(1);
     connect(act, &QAction::triggered, this, &KdenliveSettingsDialog::slotManageEncodingProfile);
     m_configProject.preview_manageprofile->setDefaultAction(act);
-    connect(m_configProject.kcfg_preview_profile, static_cast<void(KComboBox::*)(int)>(&KComboBox::currentIndexChanged), this, &KdenliveSettingsDialog::slotUpdatePreviewProfile);
+    connect(m_configProject.kcfg_preview_profile, static_cast<void (KComboBox::*)(int)>(&KComboBox::currentIndexChanged), this,
+            &KdenliveSettingsDialog::slotUpdatePreviewProfile);
     connect(m_configProject.preview_showprofileinfo, &QAbstractButton::clicked, m_configProject.previewparams, &QWidget::setVisible);
     m_configProject.previewparams->setVisible(false);
     m_configProject.previewparams->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 3);
@@ -323,7 +332,8 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString> &map
     m_configProject.proxy_manageprofile->setDefaultAction(act);
 
     connect(m_configProject.proxy_showprofileinfo, &QAbstractButton::clicked, m_configProject.proxyparams, &QWidget::setVisible);
-    connect(m_configProject.kcfg_proxy_profile, static_cast<void(KComboBox::*)(int)>(&KComboBox::currentIndexChanged), this, &KdenliveSettingsDialog::slotUpdateProxyProfile);
+    connect(m_configProject.kcfg_proxy_profile, static_cast<void (KComboBox::*)(int)>(&KComboBox::currentIndexChanged), this,
+            &KdenliveSettingsDialog::slotUpdateProxyProfile);
 
     slotUpdateProxyProfile(-1);
     slotUpdateV4lProfile(-1);
@@ -465,9 +475,7 @@ void KdenliveSettingsDialog::setupJogshuttleBtns(const QString &device)
 #endif
 }
 
-KdenliveSettingsDialog::~KdenliveSettingsDialog()
-{
-}
+KdenliveSettingsDialog::~KdenliveSettingsDialog() {}
 
 void KdenliveSettingsDialog::slotUpdateGrabRegionStatus()
 {
@@ -523,13 +531,15 @@ void KdenliveSettingsDialog::initDevices()
             while (!line.isNull()) {
                 if (line.contains(QStringLiteral("playback"))) {
                     deviceId = line.section(QLatin1Char(':'), 0, 0);
-                    m_configSdl.kcfg_audio_device->addItem(line.section(QLatin1Char(':'), 1, 1),
-                                                           QStringLiteral("plughw:%1,%2").arg(deviceId.section(QLatin1Char('-'), 0, 0).toInt()).arg(deviceId.section(QLatin1Char('-'), 1, 1).toInt()));
+                    m_configSdl.kcfg_audio_device->addItem(line.section(QLatin1Char(':'), 1, 1), QStringLiteral("plughw:%1,%2")
+                                                                                                     .arg(deviceId.section(QLatin1Char('-'), 0, 0).toInt())
+                                                                                                     .arg(deviceId.section(QLatin1Char('-'), 1, 1).toInt()));
                 }
                 if (line.contains(QStringLiteral("capture"))) {
                     deviceId = line.section(QLatin1Char(':'), 0, 0);
-                    m_configCapture.kcfg_v4l_alsadevice->addItem(line.section(QLatin1Char(':'), 1, 1).simplified(),
-                                                                 QStringLiteral("hw:%1,%2").arg(deviceId.section(QLatin1Char('-'), 0, 0).toInt()).arg(deviceId.section(QLatin1Char('-'), 1, 1).toInt()));
+                    m_configCapture.kcfg_v4l_alsadevice->addItem(
+                        line.section(QLatin1Char(':'), 1, 1).simplified(),
+                        QStringLiteral("hw:%1,%2").arg(deviceId.section(QLatin1Char('-'), 0, 0).toInt()).arg(deviceId.section(QLatin1Char('-'), 1, 1).toInt()));
                 }
                 line = stream.readLine();
             }
@@ -581,7 +591,8 @@ void KdenliveSettingsDialog::slotReadAudioDevices()
             QString card = devicestr.section(QLatin1Char(':'), 0, 0).section(QLatin1Char(' '), -1);
             QString device = devicestr.section(QLatin1Char(':'), 1, 1).section(QLatin1Char(' '), -1);
             m_configSdl.kcfg_audio_device->addItem(devicestr.section(QLatin1Char(':'), -1).simplified(), QStringLiteral("plughw:%1,%2").arg(card).arg(device));
-            m_configCapture.kcfg_v4l_alsadevice->addItem(devicestr.section(QLatin1Char(':'), -1).simplified(), QStringLiteral("hw:%1,%2").arg(card).arg(device));
+            m_configCapture.kcfg_v4l_alsadevice->addItem(devicestr.section(QLatin1Char(':'), -1).simplified(),
+                                                         QStringLiteral("hw:%1,%2").arg(card).arg(device));
         }
     }
 }
@@ -914,7 +925,7 @@ void KdenliveSettingsDialog::updateSettings()
             m_configSdl.kcfg_gpu_accel->setChecked(KdenliveSettings::gpu_accel());
         }
     }
-    
+
     if (m_configTimeline.kcfg_trackheight->value() != KdenliveSettings::trackheight()) {
         KdenliveSettings::setTrackheight(m_configTimeline.kcfg_trackheight->value());
         emit resetView();

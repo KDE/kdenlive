@@ -298,7 +298,7 @@ void KeyframeView::paintEvent(QPaintEvent *event)
      * Time-"line"
      */
     p.setPen(m_colKeyframe);
-    p.drawLine(0, m_lineHeight + (headOffset / 2), (m_duration -1) * m_scale, m_lineHeight + (headOffset / 2));
+    p.drawLine(0, m_lineHeight + (headOffset / 2), (m_duration - 1) * m_scale, m_lineHeight + (headOffset / 2));
 
     /*
      * current position

@@ -160,63 +160,63 @@ Wizard::Wizard(bool autoClose, QWidget *parent)
         m_startLayout->addWidget(errorLabel);
         errorLabel->show();
     }
-// build profiles lists
-/*QMap<QString, QString> profilesInfo = ProfilesDialog::getProfilesInfo();
-QMap<QString, QString>::const_iterator i = profilesInfo.constBegin();
-while (i != profilesInfo.constEnd()) {
-    QMap< QString, QString > profileData = ProfilesDialog::getSettingsFromFile(i.key());
-    if (profileData.value(QStringLiteral("width")) == QLatin1String("720")) m_dvProfiles.insert(i.value(), i.key());
-    else if (profileData.value(QStringLiteral("width")).toInt() >= 1080) m_hdvProfiles.insert(i.value(), i.key());
-    else m_otherProfiles.insert(i.value(), i.key());
-    ++i;
-}
-
-m_standard.button_all->setChecked(true);
-connect(m_standard.button_all, SIGNAL(toggled(bool)), this, SLOT(slotCheckStandard()));
-connect(m_standard.button_hdv, SIGNAL(toggled(bool)), this, SLOT(slotCheckStandard()));
-connect(m_standard.button_dv, SIGNAL(toggled(bool)), this, SLOT(slotCheckStandard()));
-slotCheckStandard();
-connect(m_standard.profiles_list, SIGNAL(itemSelectionChanged()), this, SLOT(slotCheckSelectedItem()));
-
-// select default profile
-if (!KdenliveSettings::default_profile().isEmpty()) {
-    for (int i = 0; i < m_standard.profiles_list->count(); ++i) {
-        if (m_standard.profiles_list->item(i)->data(Qt::UserRole).toString() == KdenliveSettings::default_profile()) {
-            m_standard.profiles_list->setCurrentRow(i);
-            m_standard.profiles_list->scrollToItem(m_standard.profiles_list->currentItem());
-            break;
+        // build profiles lists
+        /*QMap<QString, QString> profilesInfo = ProfilesDialog::getProfilesInfo();
+        QMap<QString, QString>::const_iterator i = profilesInfo.constBegin();
+        while (i != profilesInfo.constEnd()) {
+            QMap< QString, QString > profileData = ProfilesDialog::getSettingsFromFile(i.key());
+            if (profileData.value(QStringLiteral("width")) == QLatin1String("720")) m_dvProfiles.insert(i.value(), i.key());
+            else if (profileData.value(QStringLiteral("width")).toInt() >= 1080) m_hdvProfiles.insert(i.value(), i.key());
+            else m_otherProfiles.insert(i.value(), i.key());
+            ++i;
         }
-    }
-}
 
-setPage(2, page2);
+        m_standard.button_all->setChecked(true);
+        connect(m_standard.button_all, SIGNAL(toggled(bool)), this, SLOT(slotCheckStandard()));
+        connect(m_standard.button_hdv, SIGNAL(toggled(bool)), this, SLOT(slotCheckStandard()));
+        connect(m_standard.button_dv, SIGNAL(toggled(bool)), this, SLOT(slotCheckStandard()));
+        slotCheckStandard();
+        connect(m_standard.profiles_list, SIGNAL(itemSelectionChanged()), this, SLOT(slotCheckSelectedItem()));
 
-QWizardPage *page3 = new QWizardPage;
-page3->setTitle(i18n("Additional Settings"));
-m_extra.setupUi(page3);
-m_extra.projectfolder->setMode(KFile::Directory);
-m_extra.projectfolder->setUrl(QUrl(KdenliveSettings::defaultprojectfolder()));
-m_extra.videothumbs->setChecked(KdenliveSettings::videothumbnails());
-m_extra.audiothumbs->setChecked(KdenliveSettings::audiothumbnails());
-m_extra.autosave->setChecked(KdenliveSettings::crashrecovery());
-connect(m_extra.videothumbs, SIGNAL(stateChanged(int)), this, SLOT(slotCheckThumbs()));
-connect(m_extra.audiothumbs, SIGNAL(stateChanged(int)), this, SLOT(slotCheckThumbs()));
-slotCheckThumbs();
-addPage(page3);*/
+        // select default profile
+        if (!KdenliveSettings::default_profile().isEmpty()) {
+            for (int i = 0; i < m_standard.profiles_list->count(); ++i) {
+                if (m_standard.profiles_list->item(i)->data(Qt::UserRole).toString() == KdenliveSettings::default_profile()) {
+                    m_standard.profiles_list->setCurrentRow(i);
+                    m_standard.profiles_list->scrollToItem(m_standard.profiles_list->currentItem());
+                    break;
+                }
+            }
+        }
+
+        setPage(2, page2);
+
+        QWizardPage *page3 = new QWizardPage;
+        page3->setTitle(i18n("Additional Settings"));
+        m_extra.setupUi(page3);
+        m_extra.projectfolder->setMode(KFile::Directory);
+        m_extra.projectfolder->setUrl(QUrl(KdenliveSettings::defaultprojectfolder()));
+        m_extra.videothumbs->setChecked(KdenliveSettings::videothumbnails());
+        m_extra.audiothumbs->setChecked(KdenliveSettings::audiothumbnails());
+        m_extra.autosave->setChecked(KdenliveSettings::crashrecovery());
+        connect(m_extra.videothumbs, SIGNAL(stateChanged(int)), this, SLOT(slotCheckThumbs()));
+        connect(m_extra.audiothumbs, SIGNAL(stateChanged(int)), this, SLOT(slotCheckThumbs()));
+        slotCheckThumbs();
+        addPage(page3);*/
 
 #ifndef Q_WS_MAC
-/*QWizardPage *page6 = new QWizardPage;
-page6->setTitle(i18n("Capture device"));
-m_capture.setupUi(page6);
-bool found_decklink = Render::getBlackMagicDeviceList(m_capture.decklink_devices);
-KdenliveSettings::setDecklink_device_found(found_decklink);
-if (found_decklink) m_capture.decklink_status->setText(i18n("Default Blackmagic Decklink card:"));
-else m_capture.decklink_status->setText(i18n("No Blackmagic Decklink device found"));
-connect(m_capture.decklink_devices, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateDecklinkDevice(int)));
-connect(m_capture.button_reload, SIGNAL(clicked()), this, SLOT(slotDetectWebcam()));
-connect(m_capture.v4l_devices, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateCaptureParameters()));
-connect(m_capture.v4l_formats, SIGNAL(currentIndexChanged(int)), this, SLOT(slotSaveCaptureFormat()));
-m_capture.button_reload->setIcon(QIcon::fromTheme(QStringLiteral("view-refresh")));*/
+        /*QWizardPage *page6 = new QWizardPage;
+        page6->setTitle(i18n("Capture device"));
+        m_capture.setupUi(page6);
+        bool found_decklink = Render::getBlackMagicDeviceList(m_capture.decklink_devices);
+        KdenliveSettings::setDecklink_device_found(found_decklink);
+        if (found_decklink) m_capture.decklink_status->setText(i18n("Default Blackmagic Decklink card:"));
+        else m_capture.decklink_status->setText(i18n("No Blackmagic Decklink device found"));
+        connect(m_capture.decklink_devices, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateDecklinkDevice(int)));
+        connect(m_capture.button_reload, SIGNAL(clicked()), this, SLOT(slotDetectWebcam()));
+        connect(m_capture.v4l_devices, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateCaptureParameters()));
+        connect(m_capture.v4l_formats, SIGNAL(currentIndexChanged(int)), this, SLOT(slotSaveCaptureFormat()));
+        m_capture.button_reload->setIcon(QIcon::fromTheme(QStringLiteral("view-refresh")));*/
 
 #endif
 
@@ -306,10 +306,9 @@ void Wizard::slotUpdateCaptureParameters()
                 QString formatDescription =
                     QLatin1Char('[') + format + QStringLiteral("] ") + itemSize + QStringLiteral(" (") + itemRates.at(k) + QLatin1Char(')');
                 if (m_capture.v4l_formats->findText(formatDescription) == -1) {
-                    m_capture.v4l_formats->addItem(formatDescription,
-                                                   QStringList()
-                                                       << format << itemSize.section('x', 0, 0) << itemSize.section('x', 1, 1)
-                                                       << itemRates.at(k).section(QLatin1Char('/'), 0, 0) << itemRates.at(k).section(QLatin1Char('/'), 1, 1));
+                    m_capture.v4l_formats->addItem(formatDescription, QStringList() << format << itemSize.section('x', 0, 0) << itemSize.section('x', 1, 1)
+                                                                                    << itemRates.at(k).section(QLatin1Char('/'), 0, 0)
+                                                                                    << itemRates.at(k).section(QLatin1Char('/'), 1, 1));
                 }
             }
         }
@@ -771,8 +770,13 @@ void Wizard::slotCheckStandard()
         QListWidgetItem *item = m_standard.profiles_list->item(i);
 
         std::unique_ptr<ProfileModel> &curProfile = ProfileRepository::get()->getProfile(item->data(Qt::UserRole).toString());
-        const QString infoString = QStringLiteral("<strong>") + i18n("Frame size:") + QStringLiteral(" </strong>%1x%2<br /><strong>").arg(curProfile->width()).arg(curProfile->height()) + i18n("Frame rate:") + QStringLiteral(" </strong>%1/%2<br /><strong>").arg(curProfile->frame_rate_num()).arg(curProfile->frame_rate_den()) + i18n("Pixel aspect ratio:") + QStringLiteral("</strong>%1/%2<br /><strong>").arg(curProfile->sample_aspect_num()).arg(curProfile->sample_aspect_den()) + i18n("Display aspect ratio:") + QStringLiteral(" </strong>%1/%2").arg(curProfile->display_aspect_num()).arg(curProfile->display_aspect_den());
-        
+        const QString infoString =
+            QStringLiteral("<strong>") + i18n("Frame size:") +
+            QStringLiteral(" </strong>%1x%2<br /><strong>").arg(curProfile->width()).arg(curProfile->height()) + i18n("Frame rate:") +
+            QStringLiteral(" </strong>%1/%2<br /><strong>").arg(curProfile->frame_rate_num()).arg(curProfile->frame_rate_den()) + i18n("Pixel aspect ratio:") +
+            QStringLiteral("</strong>%1/%2<br /><strong>").arg(curProfile->sample_aspect_num()).arg(curProfile->sample_aspect_den()) +
+            i18n("Display aspect ratio:") + QStringLiteral(" </strong>%1/%2").arg(curProfile->display_aspect_num()).arg(curProfile->display_aspect_den());
+
         /*const QString infoString = QStringLiteral("<strong>" + i18n("Frame size:") + QStringLiteral(" </strong>%1x%2<br /><strong>") + i18n("Frame rate:") +
                                     QStringLiteral(" </strong>%3/%4<br /><strong>") + i18n("Pixel aspect ratio:") +
                                     QStringLiteral("</strong>%5/%6<br /><strong>") + i18n("Display aspect ratio:") + QStringLiteral(" </strong>%7/%8"))

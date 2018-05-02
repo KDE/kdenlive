@@ -32,7 +32,7 @@ class TimelineController;
 namespace Mlt {
 class Tractor;
 class Playlist;
-}
+} // namespace Mlt
 
 /**
  * @namespace PreviewManager

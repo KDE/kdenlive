@@ -19,6 +19,9 @@
 #ifndef GLWIDGET_H
 #define GLWIDGET_H
 
+#include <QApplication>
+#include <QFont>
+#include <QFontMetrics>
 #include <QMutex>
 #include <QOffscreenSurface>
 #include <QOpenGLContext>
@@ -26,9 +29,6 @@
 #include <QOpenGLFunctions>
 #include <QOpenGLShaderProgram>
 #include <QQuickView>
-#include <QApplication>
-#include <QFont>
-#include <QFontMetrics>
 #include <QRect>
 #include <QSemaphore>
 #include <QThread>
@@ -36,8 +36,8 @@
 
 #include "bin/model/markerlistmodel.hpp"
 #include "definitions.h"
-#include "scopes/sharedframe.h"
 #include "kdenlivesettings.h"
+#include "scopes/sharedframe.h"
 
 class QOpenGLFunctions_3_2_Core;
 
@@ -46,7 +46,7 @@ class Filter;
 class Producer;
 class Consumer;
 class Profile;
-}
+} // namespace Mlt
 
 class RenderThread;
 class FrameRenderer;
@@ -317,8 +317,12 @@ public:
     int seekPosition() const { return m_seekPosition; }
     int position() const { return m_position; }
     int rulerHeight() const { return m_rulerHeight; }
-    int overlayType() const {return (q->m_id == (int)Kdenlive::ClipMonitor ? KdenliveSettings::clipMonitorOverlayGuides() : KdenliveSettings::projectMonitorOverlayGuides()); }
-    void setOverlayType(int ix) {
+    int overlayType() const
+    {
+        return (q->m_id == (int)Kdenlive::ClipMonitor ? KdenliveSettings::clipMonitorOverlayGuides() : KdenliveSettings::projectMonitorOverlayGuides());
+    }
+    void setOverlayType(int ix)
+    {
         if (q->m_id == (int)Kdenlive::ClipMonitor) {
             KdenliveSettings::setClipMonitorOverlayGuides(ix);
         } else {
@@ -398,10 +402,7 @@ public:
         }
         emit zoneChanged();
     }
-    void setZone(QPoint zone)
-    {
-        setZone(zone.x(), zone.y());
-    }
+    void setZone(QPoint zone) { setZone(zone.x(), zone.y()); }
     void resetZone()
     {
         m_zoneIn = 0;

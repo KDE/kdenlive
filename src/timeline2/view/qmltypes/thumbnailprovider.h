@@ -22,9 +22,9 @@
 #include <KImageCache>
 #include <QCache>
 #include <QQuickImageProvider>
+#include <memory>
 #include <mlt++/MltProducer.h>
 #include <mlt++/MltProfile.h>
-#include <memory>
 
 class ThumbnailProvider : public QQuickImageProvider
 {

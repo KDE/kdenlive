@@ -41,9 +41,7 @@ UnicodeDialog::UnicodeDialog(InputMethod inputMeth, QWidget *parent)
     connect(okButton, &QAbstractButton::clicked, this, &UnicodeDialog::slotAccept);
 }
 
-UnicodeDialog::~UnicodeDialog()
-{
-}
+UnicodeDialog::~UnicodeDialog() {}
 
 void UnicodeDialog::slotAccept()
 {
@@ -84,9 +82,7 @@ UnicodeWidget::UnicodeWidget(UnicodeDialog::InputMethod inputMeth, QWidget *pare
     unicodeNumber->selectAll(); // Selection will be reset by setToolTip and similar, so set it here
 }
 
-UnicodeWidget::~UnicodeWidget()
-{
-}
+UnicodeWidget::~UnicodeWidget() {}
 /// METHODS
 
 void UnicodeWidget::showLastUnicode()

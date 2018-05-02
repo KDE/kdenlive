@@ -115,9 +115,8 @@ int main(int argc, char **argv)
         for (int i = 0; i < args.count(); ++i) {
             if (args.at(i).startsWith(QLatin1String("meta.attr"))) {
                 QString data = args.at(i);
-                args.replace(i,
-                             data.section(QLatin1Char('='), 0, 0) + QStringLiteral("=\"") +
-                                 QUrl::fromPercentEncoding(data.section(QLatin1Char('='), 1).toUtf8()) + QLatin1Char('\"'));
+                args.replace(i, data.section(QLatin1Char('='), 0, 0) + QStringLiteral("=\"") +
+                                    QUrl::fromPercentEncoding(data.section(QLatin1Char('='), 1).toUtf8()) + QLatin1Char('\"'));
             }
         }
 

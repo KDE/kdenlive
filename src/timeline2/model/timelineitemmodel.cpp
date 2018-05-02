@@ -221,7 +221,7 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
         return id;
     }
     if (isClip(id)) {
-        //qDebug() << "REQUESTING DATA "<<roleNames()[role]<<index;
+        // qDebug() << "REQUESTING DATA "<<roleNames()[role]<<index;
         std::shared_ptr<ClipModel> clip = m_allClips.at(id);
         // Get data for a clip
         switch (role) {

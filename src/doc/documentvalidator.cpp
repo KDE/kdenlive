@@ -1150,9 +1150,8 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         for (int i = 0; i < markers.count(); ++i) {
             QDomElement marker = markers.at(i).toElement();
             QDomElement property = m_doc.createElement(QStringLiteral("property"));
-            property.setAttribute(QStringLiteral("name"),
-                                  QStringLiteral("kdenlive:marker.") + marker.attribute(QStringLiteral("id")) + QLatin1Char(':') +
-                                      marker.attribute(QStringLiteral("time")));
+            property.setAttribute(QStringLiteral("name"), QStringLiteral("kdenlive:marker.") + marker.attribute(QStringLiteral("id")) + QLatin1Char(':') +
+                                                              marker.attribute(QStringLiteral("time")));
             QDomText val_node = m_doc.createTextNode(marker.attribute(QStringLiteral("type")) + QLatin1Char(':') + marker.attribute(QStringLiteral("comment")));
             property.appendChild(val_node);
             main_playlist.appendChild(property);
@@ -1574,8 +1573,8 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         // We convert by parsing the start and end tags vor values and adding all to the new animated parameter
         QMap<QString, QStringList> keyframeFilterToConvert;
         keyframeFilterToConvert.insert(QStringLiteral("volume"), QStringList() << QStringLiteral("gain") << QStringLiteral("end") << QStringLiteral("level"));
-        keyframeFilterToConvert.insert(QStringLiteral("brightness"),
-                                       QStringList() << QStringLiteral("start") << QStringLiteral("end") << QStringLiteral("level"));
+        keyframeFilterToConvert.insert(QStringLiteral("brightness"), QStringList()
+                                                                         << QStringLiteral("start") << QStringLiteral("end") << QStringLiteral("level"));
 
         QDomNodeList entries = m_doc.elementsByTagName(QStringLiteral("entry"));
         for (int i = 0; i < entries.count(); i++) {

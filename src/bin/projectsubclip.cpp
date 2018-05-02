@@ -96,9 +96,7 @@ std::shared_ptr<ProjectFolder> ProjectSubClip::folder(const QString &id)
     return std::shared_ptr<ProjectFolder>();
 }
 
-void ProjectSubClip::setBinEffectsEnabled(bool)
-{
-}
+void ProjectSubClip::setBinEffectsEnabled(bool) {}
 
 GenTime ProjectSubClip::duration() const
 {
@@ -138,7 +136,9 @@ void ProjectSubClip::setThumbnail(const QImage &img)
 {
     QPixmap thumb = roundedPixmap(QPixmap::fromImage(img));
     m_thumbnail = QIcon(thumb);
-    if (auto ptr = m_model.lock()) std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectSubClip>(shared_from_this()), AbstractProjectItem::DataThumbnail);
+    if (auto ptr = m_model.lock())
+        std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectSubClip>(shared_from_this()),
+                                                                       AbstractProjectItem::DataThumbnail);
 }
 
 QPixmap ProjectSubClip::thumbnail(int width, int height)

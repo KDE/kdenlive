@@ -101,9 +101,7 @@ template <> void CurveParamWidget<BezierSplineEditor>::slotUpdatePointH1(double 
     p.setH1(QPointF(m_h1X->value(), m_h1Y->value()));
     m_edit->updateCurrentPoint(p, final);
 }
-template <typename CurveWidget_t> void CurveParamWidget<CurveWidget_t>::slotUpdatePointH1(double /*value*/, bool /*final*/)
-{
-}
+template <typename CurveWidget_t> void CurveParamWidget<CurveWidget_t>::slotUpdatePointH1(double /*value*/, bool /*final*/) {}
 
 template <> void CurveParamWidget<BezierSplineEditor>::slotUpdatePointH2(double /*value*/, bool final)
 {
@@ -111,9 +109,7 @@ template <> void CurveParamWidget<BezierSplineEditor>::slotUpdatePointH2(double 
     p.setH2(QPointF(m_h2X->value(), m_h2Y->value()));
     m_edit->updateCurrentPoint(p, final);
 }
-template <typename CurveWidget_t> void CurveParamWidget<CurveWidget_t>::slotUpdatePointH2(double /*value*/, bool /*final*/)
-{
-}
+template <typename CurveWidget_t> void CurveParamWidget<CurveWidget_t>::slotUpdatePointH2(double /*value*/, bool /*final*/) {}
 
 template <> void CurveParamWidget<BezierSplineEditor>::slotSetHandlesLinked(bool linked)
 {
@@ -121,18 +117,14 @@ template <> void CurveParamWidget<BezierSplineEditor>::slotSetHandlesLinked(bool
     p.setHandlesLinked(linked);
     m_edit->updateCurrentPoint(p);
 }
-template <typename CurveWidget_t> void CurveParamWidget<CurveWidget_t>::slotSetHandlesLinked(bool /*linked*/)
-{
-}
+template <typename CurveWidget_t> void CurveParamWidget<CurveWidget_t>::slotSetHandlesLinked(bool /*linked*/) {}
 
 template <> void CurveParamWidget<BezierSplineEditor>::slotShowAllHandles(bool show)
 {
     m_edit->setShowAllHandles(show);
     KdenliveSettings::setBezier_showallhandles(show);
 }
-template <typename CurveWidget_t> void CurveParamWidget<CurveWidget_t>::slotShowAllHandles(bool /*show*/)
-{
-}
+template <typename CurveWidget_t> void CurveParamWidget<CurveWidget_t>::slotShowAllHandles(bool /*show*/) {}
 template <typename CurveWidget_t>
 CurveParamWidget<CurveWidget_t>::CurveParamWidget(const QString &spline, QWidget *parent)
     : AbstractParamWidget(parent)

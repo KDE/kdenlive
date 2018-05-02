@@ -29,13 +29,13 @@
 #include "lib/audio/audioStreamInfo.h"
 #include "mainwindow.h"
 #include "mltcontroller/bincontroller.h"
+#include "mltcontroller/clip.h"
 #include "mltcontroller/clipcontroller.h"
 #include "monitorcontroller.hpp"
 #include "project/projectmanager.h"
 #include "qmlmanager.h"
 #include "recmanager.h"
 #include "scopes/monitoraudiolevel.h"
-#include "mltcontroller/clip.h"
 #include "timeline2/model/snapmodel.hpp"
 #include "transitions/transitionsrepository.hpp"
 #include "utils/KoIconUtils.h"
@@ -259,7 +259,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
         freeAction->setData(0);
         m_configMenu->addAction(m_forceSize);
         m_forceSize->setCurrentAction(freeAction);
-        connect(m_forceSize, static_cast<void(KSelectAction::*)(QAction*)>(&KSelectAction::triggered), this, &Monitor::slotForceSize);
+        connect(m_forceSize, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this, &Monitor::slotForceSize);
     }
 
     // Create Volume slider popup
@@ -717,7 +717,7 @@ void Monitor::adjustScrollBars(float horizontal, float vertical)
     if (m_glMonitor->zoom() > 1.0f) {
         m_verticalScroll->setPageStep(m_glWidget->height());
         m_verticalScroll->setMaximum((int)((float)m_glMonitor->profileSize().height() * m_glMonitor->zoom()) - m_verticalScroll->pageStep());
-        m_verticalScroll->setValue((int)((float)m_verticalScroll->maximum()*vertical));
+        m_verticalScroll->setValue((int)((float)m_verticalScroll->maximum() * vertical));
         emit m_verticalScroll->valueChanged(m_verticalScroll->value());
         m_verticalScroll->show();
     } else {
@@ -1901,7 +1901,7 @@ void Monitor::loadQmlScene(MonitorSceneType type)
 
 void Monitor::connectQmlToolbar(QQuickItem *root)
 {
-    //TODO: get rid of this horrible hack and use triggerAction in qml
+    // TODO: get rid of this horrible hack and use triggerAction in qml
     // Effect monitor toolbar
     QObject *button = root->findChild<QObject *>(QStringLiteral("nextKeyframe"));
     if (button) {

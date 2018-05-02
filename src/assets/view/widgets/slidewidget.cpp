@@ -20,7 +20,6 @@
 #include "slidewidget.hpp"
 #include "assets/model/assetparametermodel.hpp"
 
-
 SlideWidget::SlideWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
     : AbstractParamWidget(std::move(model), index, parent)
 {
@@ -51,52 +50,50 @@ SlideWidget::SlideWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex
     setToolTip(comment);
 }
 
-void SlideWidget::slotShowComment(bool )
-{
-}
+void SlideWidget::slotShowComment(bool) {}
 
 void SlideWidget::slotRefresh()
 {
-    QString value  = m_model->data(m_index, AssetParameterModel::ValueRole).toString();
+    QString value = m_model->data(m_index, AssetParameterModel::ValueRole).toString();
     QColor bg = QPalette().highlight().color();
     setStyleSheet(QStringLiteral("QPushButton:checked {background-color:rgb(%1,%2,%3);}").arg(bg.red()).arg(bg.green()).arg(bg.blue()));
     wipeInfo w = getWipeInfo(value);
     switch (w.start) {
-                case UP:
-                    start_up->setChecked(true);
-                    break;
-                case DOWN:
-                    start_down->setChecked(true);
-                    break;
-                case RIGHT:
-                    start_right->setChecked(true);
-                    break;
-                case LEFT:
-                    start_left->setChecked(true);
-                    break;
-                default:
-                    start_center->setChecked(true);
-                    break;
-                }
-                switch (w.end) {
-                case UP:
-                    end_up->setChecked(true);
-                    break;
-                case DOWN:
-                    end_down->setChecked(true);
-                    break;
-                case RIGHT:
-                    end_right->setChecked(true);
-                    break;
-                case LEFT:
-                    end_left->setChecked(true);
-                    break;
-                default:
-                    end_center->setChecked(true);
-                    break;
-                }
-                start_transp->setValue(w.startTransparency);
-                end_transp->setValue(w.endTransparency);
+    case UP:
+        start_up->setChecked(true);
+        break;
+    case DOWN:
+        start_down->setChecked(true);
+        break;
+    case RIGHT:
+        start_right->setChecked(true);
+        break;
+    case LEFT:
+        start_left->setChecked(true);
+        break;
+    default:
+        start_center->setChecked(true);
+        break;
+    }
+    switch (w.end) {
+    case UP:
+        end_up->setChecked(true);
+        break;
+    case DOWN:
+        end_down->setChecked(true);
+        break;
+    case RIGHT:
+        end_right->setChecked(true);
+        break;
+    case LEFT:
+        end_left->setChecked(true);
+        break;
+    default:
+        end_center->setChecked(true);
+        break;
+    }
+    start_transp->setValue(w.startTransparency);
+    end_transp->setValue(w.endTransparency);
 }
 
 void SlideWidget::updateValue()

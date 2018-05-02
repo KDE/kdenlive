@@ -63,14 +63,14 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
             QModelIndex index = model->index(i, 0);
             auto type = model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
             if (m_mainKeyframeWidget &&
-            (type == ParamType::Geometry || type == ParamType::Animated || type == ParamType::RestrictedAnim || type == ParamType::KeyframeParam)) {
+                (type == ParamType::Geometry || type == ParamType::Animated || type == ParamType::RestrictedAnim || type == ParamType::KeyframeParam)) {
                 // Keyframe widget can have some extra params that should'nt build a new widget
                 qDebug() << "// FOUND ADDED PARAM";
                 m_mainKeyframeWidget->addParameter(index);
             } else {
                 auto w = AbstractParamWidget::construct(model, index, frameSize, this);
                 connect(this, &AssetParameterView::initKeyframeView, w, &AbstractParamWidget::slotInitMonitor);
-                if (type == ParamType::KeyframeParam || type == ParamType::AnimatedRect ) {
+                if (type == ParamType::KeyframeParam || type == ParamType::AnimatedRect) {
                     m_mainKeyframeWidget = static_cast<KeyframeWidget *>(w);
                 }
                 connect(w, &AbstractParamWidget::valueChanged, this, &AssetParameterView::commitChanges);
@@ -95,8 +95,7 @@ void AssetParameterView::resetValues()
         m_model->setParameter(name, defaultValue);
         if (m_mainKeyframeWidget) {
             // Handles additionnal params like rotation so only refresh initial param at the end
-        }
-        else if (type == ParamType::ColorWheel) {
+        } else if (type == ParamType::ColorWheel) {
             if (i == m_model->rowCount() - 1) {
                 // Special case, the ColorWheel widget handles several params, so only refresh once when all parameters were set.
                 QModelIndex firstIndex = m_model->index(0, 0);
@@ -156,7 +155,7 @@ void AssetParameterView::refresh(const QModelIndex &topLeft, const QModelIndex &
     QMutexLocker lock(&m_lock);
     if (m_widgets.size() == 0) {
         // no visible param for this asset, abort
-        qDebug()<<"/// ASKING REFRESH... EMPTY WIDGET";
+        qDebug() << "/// ASKING REFRESH... EMPTY WIDGET";
         return;
     }
     Q_UNUSED(roles);
@@ -168,7 +167,8 @@ void AssetParameterView::refresh(const QModelIndex &topLeft, const QModelIndex &
     } else {
         auto type = m_model->data(m_model->index(bottomRight.row(), 0), AssetParameterModel::TypeRole).value<ParamType>();
         if (type == ParamType::ColorWheel) {
-            // Some special widgets, like colorwheel handle multiple params so we can have cases where param index row is greater than the number of widgets. Should be better managed
+            // Some special widgets, like colorwheel handle multiple params so we can have cases where param index row is greater than the number of widgets.
+            // Should be better managed
             m_widgets[0]->slotRefresh();
             return;
         }

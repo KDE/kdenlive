@@ -30,13 +30,11 @@
 
 ThumbnailProvider::ThumbnailProvider()
     : QQuickImageProvider(QQmlImageProviderBase::Image, QQmlImageProviderBase::ForceAsynchronousImageLoading)
-    //, m_profile(pCore->getCurrentProfilePath().toUtf8().constData())
+//, m_profile(pCore->getCurrentProfilePath().toUtf8().constData())
 {
 }
 
-ThumbnailProvider::~ThumbnailProvider()
-{
-}
+ThumbnailProvider::~ThumbnailProvider() {}
 
 void ThumbnailProvider::resetProject()
 {
@@ -119,7 +117,7 @@ QString ThumbnailProvider::cacheKey(Mlt::Properties &properties, const QString &
     return key;
 }
 
-QImage ThumbnailProvider::makeThumbnail(std::shared_ptr<Mlt::Producer>producer, int frameNumber, const QSize &requestedSize)
+QImage ThumbnailProvider::makeThumbnail(std::shared_ptr<Mlt::Producer> producer, int frameNumber, const QSize &requestedSize)
 {
     Q_UNUSED(requestedSize)
     producer->seek(frameNumber);

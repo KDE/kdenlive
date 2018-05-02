@@ -657,7 +657,7 @@ void ResourceWidget::slotOpenLink(const QUrl &url)
  * @param desc /n
  * The description is either the detailed description of the file or is progress messages on the download process
  *
-*/
+ */
 void ResourceWidget::slotSetDescription(const QString &desc)
 {
     if (m_desc != desc) {
@@ -694,7 +694,7 @@ void ResourceWidget::slotSetImage(const QString &desc)
 /** @brief updates the display with infomation on the seleted item. The title consists of the sounds file name and the author
  *
  * Called by ResourceWidget::slotUpdateCurrentSound()
-*/
+ */
 void ResourceWidget::slotSetTitle(const QString &title)
 {
     if (m_title != title) {

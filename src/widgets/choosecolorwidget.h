@@ -36,12 +36,12 @@ class ChooseColorWidget : public QWidget
     Q_OBJECT
 public:
     /** @brief Sets up the widget.
-    * @param name (optional) What the color will be used for (name of the parameter)
-    * @param color (optional) initial color
-    * @param comment (optional) Comment about the parameter
-    * @param alphaEnabled (optional) Should transparent colors be enabled
-    * @param parent(optional) Parent widget
-    */
+     * @param name (optional) What the color will be used for (name of the parameter)
+     * @param color (optional) initial color
+     * @param comment (optional) Comment about the parameter
+     * @param alphaEnabled (optional) Should transparent colors be enabled
+     * @param parent(optional) Parent widget
+     */
     explicit ChooseColorWidget(const QString &name = QString(), const QString &color = QStringLiteral("0xffffffff"), const QString &comment = QString(),
                                bool alphaEnabled = false, QWidget *parent = 0);
 

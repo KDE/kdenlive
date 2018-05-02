@@ -1629,4 +1629,3 @@ bool KdenliveDoc::updatePreviewSettings(const QString &profile)
     }
     return false;
 }
-

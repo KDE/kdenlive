@@ -37,7 +37,7 @@ namespace Mlt {
 class Playlist;
 class Producer;
 class Tractor;
-}
+} // namespace Mlt
 
 class MarkerListModel;
 
@@ -74,6 +74,7 @@ public:
 
     // id of the mlt object
     static QString binPlaylistId;
+
 protected:
     /* @brief This is an helper function that removes a clip from the playlist given its id
      */

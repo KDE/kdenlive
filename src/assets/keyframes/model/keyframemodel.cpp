@@ -101,7 +101,7 @@ bool KeyframeModel::addKeyframe(int frame, double normalizedValue)
             if (normalizedValue >= 0.5) {
                 realValue = norm + (2 * (normalizedValue - 0.5) * (max / factor - norm));
             } else {
-                realValue = norm - pow(2 * (0.5 - normalizedValue), 10.0/6) * (norm - min / factor);
+                realValue = norm - pow(2 * (0.5 - normalizedValue), 10.0 / 6) * (norm - min / factor);
             }
         } else {
             realValue = (normalizedValue * (max - min) + min) / factor;
@@ -196,7 +196,7 @@ bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, double newVal, Fun
                     if (newVal >= 0.5) {
                         realValue = norm + (2 * (newVal - 0.5) * (max / factor - norm));
                     } else {
-                        realValue = norm - pow(2 * (0.5 - newVal), 10.0/6) * (norm - min / factor);
+                        realValue = norm - pow(2 * (0.5 - newVal), 10.0 / 6) * (norm - min / factor);
                     }
                 } else {
                     realValue = (newVal * (max - min) + min) / factor;
@@ -234,7 +234,7 @@ bool KeyframeModel::offsetKeyframes(int oldPos, int pos, bool logUndo)
     QWriteLocker locker(&m_lock);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    QList <GenTime> times;
+    QList<GenTime> times;
     for (const auto &m : m_keyframeList) {
         if (m.first < oldFrame) continue;
         times << m.first;
@@ -648,14 +648,14 @@ void KeyframeModel::parseAnimProperty(const QString &prop)
         }
         QVariant value;
         switch (m_paramType) {
-            case ParamType::AnimatedRect: {
-                mlt_rect rect = mlt_prop.anim_get_rect("key", frame);
-                value = QVariant(QStringLiteral("%1 %2 %3 %4 %5").arg(rect.x).arg(rect.y).arg(rect.w).arg(rect.h).arg(rect.o));
-                break;
-            }
-            default:
-                value = QVariant(mlt_prop.anim_get_double("key", frame));
-                break;
+        case ParamType::AnimatedRect: {
+            mlt_rect rect = mlt_prop.anim_get_rect("key", frame);
+            value = QVariant(QStringLiteral("%1 %2 %3 %4 %5").arg(rect.x).arg(rect.y).arg(rect.w).arg(rect.h).arg(rect.o));
+            break;
+        }
+        default:
+            value = QVariant(mlt_prop.anim_get_double("key", frame));
+            break;
         }
         addKeyframe(GenTime(frame, pCore->getCurrentFps()), convertFromMltType(type), value, false, undo, redo);
     }

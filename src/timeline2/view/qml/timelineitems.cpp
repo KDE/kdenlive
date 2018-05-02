@@ -23,6 +23,7 @@ public:
         painter->setPen(Qt::white);
         painter->drawLine(width(), 0, 0, height());
     }
+
 private:
     QColor m_color;
 };
@@ -58,7 +59,7 @@ public:
         setEnabled(false);
         setRenderTarget(QQuickPaintedItem::FramebufferObject);
         setMipmap(true);
-        setTextureSize(QSize(width(),height()));
+        setTextureSize(QSize(width(), height()));
         connect(this, SIGNAL(propertyChanged()), this, SLOT(update()));
         // Fill gradient
         m_gradient.setStart(0, 0);

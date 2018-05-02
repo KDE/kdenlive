@@ -21,8 +21,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "jobmanager.h"
-#include "bin/projectitemmodel.h"
 #include "bin/abstractprojectitem.h"
+#include "bin/projectitemmodel.h"
 #include "core.h"
 #include "macros.hpp"
 #include "undohelper.hpp"
@@ -266,7 +266,7 @@ void JobManager::slotManageCanceledJob(int id)
     for (const auto &it : m_jobs[id]->m_indices) {
         pCore->projectItemModel()->onItemUpdated(it.first, AbstractProjectItem::JobStatus);
     }
-    //TODO: delete child jobs
+    // TODO: delete child jobs
     updateJobCount();
 }
 void JobManager::slotManageFinishedJob(int id)
@@ -285,8 +285,8 @@ void JobManager::slotManageFinishedJob(int id)
         ok = ok && res;
     }
     if (!ok) {
-        qDebug()<<" * * * ** * * *\nWARNING + + +\nJOB NOT CORRECT FINISH: "<<id<<"\n------------------------";
-        //TODO: delete child jobs
+        qDebug() << " * * * ** * * *\nWARNING + + +\nJOB NOT CORRECT FINISH: " << id << "\n------------------------";
+        // TODO: delete child jobs
         m_jobs[id]->m_completionMutex.unlock();
         updateJobCount();
         return;

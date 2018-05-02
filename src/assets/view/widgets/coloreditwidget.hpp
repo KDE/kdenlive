@@ -37,7 +37,7 @@ class ColorEditWidget : public AbstractParamWidget
     Q_OBJECT
 public:
     /** @brief Sets up the widget.
-    */
+     */
     explicit ColorEditWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent);
 
     /** @brief Gets the chosen color. */

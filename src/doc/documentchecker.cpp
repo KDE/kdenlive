@@ -18,9 +18,9 @@
  ***************************************************************************/
 
 #include "documentchecker.h"
-#include "kthumb.h"
 #include "effects/effectsrepository.hpp"
 #include "kdenlivesettings.h"
+#include "kthumb.h"
 #include "titler/titlewidget.h"
 #include "utils/KoIconUtils.h"
 
@@ -328,7 +328,8 @@ bool DocumentChecker::hasErrorInClips()
             }
         }
     }
-    if (m_missingClips.isEmpty() && missingLumas.isEmpty() && missingProxies.isEmpty() && missingSources.isEmpty() && m_missingFonts.isEmpty() && m_missingFilters.isEmpty()) {
+    if (m_missingClips.isEmpty() && missingLumas.isEmpty() && missingProxies.isEmpty() && missingSources.isEmpty() && m_missingFonts.isEmpty() &&
+        m_missingFilters.isEmpty()) {
         return false;
     }
 
@@ -429,7 +430,7 @@ bool DocumentChecker::hasErrorInClips()
         item->setText(1, i18n("%1 will be replaced by %2", font, newft));
         item->setData(0, typeRole, TITLE_FONT_ELEMENT);
     }
-    
+
     QString infoLabel;
     if (!m_missingClips.isEmpty()) {
         infoLabel = i18n("The project file contains missing clips or files.");
@@ -438,7 +439,8 @@ bool DocumentChecker::hasErrorInClips()
         if (!infoLabel.isEmpty()) {
             infoLabel.append(QStringLiteral("\n"));
         }
-        infoLabel.append(i18np("Missing effect: %2 will be removed from project.", "Missing effects: %2 will be removed from project.", m_missingFilters.count(), m_missingFilters.join(",")));
+        infoLabel.append(i18np("Missing effect: %2 will be removed from project.", "Missing effects: %2 will be removed from project.",
+                               m_missingFilters.count(), m_missingFilters.join(",")));
     }
     if (!missingProxies.isEmpty()) {
         if (!infoLabel.isEmpty()) {
@@ -451,8 +453,7 @@ bool DocumentChecker::hasErrorInClips()
             infoLabel.append(QStringLiteral("\n"));
         }
         infoLabel.append(i18np("The project file contains a missing clip, you can still work with its proxy.",
-                                                               "The project file contains %1 missing clips, you can still work with their proxies.",
-                                                               missingSources.count()));
+                               "The project file contains %1 missing clips, you can still work with their proxies.", missingSources.count()));
     }
     if (!infoLabel.isEmpty()) {
         m_ui.infoLabel->setText(infoLabel);
@@ -753,9 +754,9 @@ QString DocumentChecker::searchFileRecursively(const QDir &dir, const QString &m
         if (QString::number(file.size()) == matchSize) {
             if (file.open(QIODevice::ReadOnly)) {
                 /*
-                * 1 MB = 1 second per 450 files (or faster)
-                * 10 MB = 9 seconds per 450 files (or faster)
-                */
+                 * 1 MB = 1 second per 450 files (or faster)
+                 * 10 MB = 9 seconds per 450 files (or faster)
+                 */
                 if (file.size() > 1000000 * 2) {
                     fileData = file.read(1000000);
                     if (file.seek(file.size() - 1000000)) {
@@ -832,7 +833,7 @@ void DocumentChecker::acceptDialog()
 
     // prepare filters
     QDomNodeList filters = m_doc.elementsByTagName(QStringLiteral("filter"));
-    
+
     // Mark document as modified
     m_doc.documentElement().setAttribute(QStringLiteral("modified"), 1);
 
@@ -1048,8 +1049,9 @@ void DocumentChecker::checkStatus()
 
 void DocumentChecker::slotDeleteSelected()
 {
-    if (KMessageBox::warningContinueCancel(m_dialog, i18np("This will remove the selected clip from this project",
-                                                           "This will remove the selected clips from this project", m_ui.treeWidget->selectedItems().count()),
+    if (KMessageBox::warningContinueCancel(m_dialog,
+                                           i18np("This will remove the selected clip from this project",
+                                                 "This will remove the selected clips from this project", m_ui.treeWidget->selectedItems().count()),
                                            i18n("Remove clips")) == KMessageBox::Cancel) {
         return;
     }

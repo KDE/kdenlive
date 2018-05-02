@@ -113,7 +113,7 @@ public:
     Keyframe getKeyframe(const GenTime &pos, bool *ok) const;
 
     /* @brief Returns true if we only have 1 keyframe
-    */
+     */
     bool singleKeyframe() const;
     /* @brief Returns the keyframe located after given position.
        If there is a keyframe at given position it is ignored.

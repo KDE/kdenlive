@@ -130,9 +130,7 @@ ProfileWidget::ProfileWidget(QWidget *parent)
     setLayout(lay);
 }
 
-ProfileWidget::~ProfileWidget()
-{
-}
+ProfileWidget::~ProfileWidget() {}
 
 void ProfileWidget::refreshFpsCombo()
 {

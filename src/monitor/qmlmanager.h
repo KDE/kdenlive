@@ -20,10 +20,10 @@
  ***************************************************************************/
 
 /*!
-* @class QmlManager
-* @brief Manages all Qml monitor overlays
-* @author Jean-Baptiste Mardelle
-*/
+ * @class QmlManager
+ * @brief Manages all Qml monitor overlays
+ * @author Jean-Baptiste Mardelle
+ */
 
 #ifndef QMLMANAGER_H
 #define QMLMANAGER_H

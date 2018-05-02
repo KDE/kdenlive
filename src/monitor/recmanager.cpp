@@ -97,9 +97,7 @@ RecManager::RecManager(Monitor *parent)
     slotVideoDeviceChanged();
 }
 
-RecManager::~RecManager()
-{
-}
+RecManager::~RecManager() {}
 
 void RecManager::showRecConfig()
 {

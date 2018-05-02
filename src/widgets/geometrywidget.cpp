@@ -20,16 +20,17 @@
  ***************************************************************************/
 
 #include "geometrywidget.h"
+#include "core.h"
 #include "doublewidget.h"
 #include "dragvalue.h"
-#include "core.h"
 #include "monitor/monitor.h"
 #include "utils/KoIconUtils.h"
 
-#include <QGridLayout>
 #include <KLocalizedString>
+#include <QGridLayout>
 
-GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QRect &rect, const QSize frameSize, bool useRatioLock, bool useOpacity, QWidget *parent)
+GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QRect &rect, const QSize frameSize, bool useRatioLock, bool useOpacity,
+                               QWidget *parent)
     : QWidget(parent)
     , m_min(range.first)
     , m_max(range.second)
@@ -185,9 +186,8 @@ void GeometryWidget::slotAdjustToSource()
     m_spinHeight->blockSignals(false);
     slotAdjustRectKeyframeValue();
     if (m_lockRatio->isChecked()) {
-        m_monitor->setEffectSceneProperty(QStringLiteral("lockratio"),
-                                          m_originalSize->isChecked() ? (double)m_sourceSize.width() / m_sourceSize.height()
-                                                                      : (double)m_defaultSize.width() / m_defaultSize.height());
+        m_monitor->setEffectSceneProperty(QStringLiteral("lockratio"), m_originalSize->isChecked() ? (double)m_sourceSize.width() / m_sourceSize.height()
+                                                                                                   : (double)m_defaultSize.width() / m_defaultSize.height());
     }
 }
 void GeometryWidget::slotAdjustToFrameSize()
@@ -294,9 +294,8 @@ void GeometryWidget::slotLockRatio()
 {
     QAction *lockRatio = qobject_cast<QAction *>(QObject::sender());
     if (lockRatio->isChecked()) {
-        m_monitor->setEffectSceneProperty(QStringLiteral("lockratio"),
-                                          m_originalSize->isChecked() ? (double)m_sourceSize.width() / m_sourceSize.height()
-                                                                      : (double)m_defaultSize.width() / m_defaultSize.height());
+        m_monitor->setEffectSceneProperty(QStringLiteral("lockratio"), m_originalSize->isChecked() ? (double)m_sourceSize.width() / m_sourceSize.height()
+                                                                                                   : (double)m_defaultSize.width() / m_defaultSize.height());
     } else {
         m_monitor->setEffectSceneProperty(QStringLiteral("lockratio"), -1);
     }
@@ -334,7 +333,7 @@ void GeometryWidget::slotAdjustRectWidth()
 void GeometryWidget::adjustSizeValue()
 {
     double size;
-    if ((double) m_spinWidth->value() / m_spinHeight->value() < pCore->getCurrentDar()) {
+    if ((double)m_spinWidth->value() / m_spinHeight->value() < pCore->getCurrentDar()) {
         if (m_originalSize->isChecked()) {
             size = m_spinWidth->value() * 100.0 / m_sourceSize.width();
         } else {
@@ -377,9 +376,9 @@ void GeometryWidget::slotUpdateGeometryRect(const QRect r)
     m_spinWidth->blockSignals(false);
     m_spinHeight->blockSignals(false);
     m_monitor->setUpEffectGeometry(r);
-    //slotAdjustRectKeyframeValue();
+    // slotAdjustRectKeyframeValue();
     emit valueChanged(getValue());
-    //setupMonitor();
+    // setupMonitor();
 }
 
 void GeometryWidget::setValue(const QRect r, double opacity)
@@ -397,7 +396,7 @@ void GeometryWidget::setValue(const QRect r, double opacity)
     m_spinHeight->setValue(r.height());
     if (m_opacity) {
         m_opacity->blockSignals(true);
-        m_opacity->setValue((int) (opacity * 100));
+        m_opacity->setValue((int)(opacity * 100));
         m_opacity->blockSignals(false);
     }
     m_spinX->blockSignals(false);
@@ -407,13 +406,17 @@ void GeometryWidget::setValue(const QRect r, double opacity)
     m_monitor->setUpEffectGeometry(r);
 }
 
-
 const QString GeometryWidget::getValue() const
 {
     if (m_opacity) {
-        return QStringLiteral("%1 %2 %3 %4 %5").arg(m_spinX->value()).arg(m_spinY->value()).arg(m_spinWidth->value()).arg( m_spinHeight->value()).arg(m_opacity->value() / 100.0);
+        return QStringLiteral("%1 %2 %3 %4 %5")
+            .arg(m_spinX->value())
+            .arg(m_spinY->value())
+            .arg(m_spinWidth->value())
+            .arg(m_spinHeight->value())
+            .arg(m_opacity->value() / 100.0);
     }
-    return QStringLiteral("%1 %2 %3 %4").arg(m_spinX->value()).arg(m_spinY->value()).arg(m_spinWidth->value()).arg( m_spinHeight->value());
+    return QStringLiteral("%1 %2 %3 %4").arg(m_spinX->value()).arg(m_spinY->value()).arg(m_spinWidth->value()).arg(m_spinHeight->value());
 }
 
 void GeometryWidget::connectMonitor(bool activate)
@@ -432,7 +435,7 @@ void GeometryWidget::connectMonitor(bool activate)
     }
 }
 
-void GeometryWidget::slotSetRange(QPair <int, int> range)
+void GeometryWidget::slotSetRange(QPair<int, int> range)
 {
     m_min = range.first;
     m_max = range.second;

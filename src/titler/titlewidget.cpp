@@ -203,10 +203,14 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     m_signalMapper->setMapping(value_h, ValueHeight);
     m_signalMapper->setMapping(value_x, ValueX);
     m_signalMapper->setMapping(value_y, ValueY);
-    connect(value_w, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), m_signalMapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
-    connect(value_h, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), m_signalMapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
-    connect(value_x, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), m_signalMapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
-    connect(value_y, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), m_signalMapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
+    connect(value_w, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), m_signalMapper,
+            static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
+    connect(value_h, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), m_signalMapper,
+            static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
+    connect(value_x, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), m_signalMapper,
+            static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
+    connect(value_y, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), m_signalMapper,
+            static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
     connect(m_signalMapper, SIGNAL(mapped(int)), this, SLOT(slotValueChanged(int)));
 
     connect(buttonFitZoom, &QAbstractButton::clicked, this, &TitleWidget::slotAdjustZoom);
@@ -1888,9 +1892,8 @@ void TitleWidget::saveTitle(QUrl url)
             break;
         }
     }
-    if (embed_image &&
-        KMessageBox::questionYesNo(this, i18n("Do you want to embed Images into this TitleDocument?\nThis is most needed for sharing Titles.")) !=
-            KMessageBox::Yes) {
+    if (embed_image && KMessageBox::questionYesNo(
+                           this, i18n("Do you want to embed Images into this TitleDocument?\nThis is most needed for sharing Titles.")) != KMessageBox::Yes) {
         embed_image = false;
     }
     if (!url.isValid()) {

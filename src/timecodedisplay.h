@@ -47,21 +47,21 @@ class TimecodeDisplay : public QAbstractSpinBox
 
 public:
     /** @brief Constructor for the widget, sets value to 0.
-    * @param t Timecode object used to setup correct input (frames or HH:MM:SS:FF)
-    * @param parent parent Widget */
+     * @param t Timecode object used to setup correct input (frames or HH:MM:SS:FF)
+     * @param parent parent Widget */
     explicit TimecodeDisplay(const Timecode &t, QWidget *parent = nullptr);
 
     /** @brief Returns the minimum value, which can be entered.
-    * default is 0 */
+     * default is 0 */
     int minimum() const;
 
     /** @brief Returns the maximum value, which can be entered.
-    * default is no maximum (-1) */
+     * default is no maximum (-1) */
     int maximum() const;
 
     /** @brief Sets the minimum maximum value that can be entered.
-    * @param min the minimum value
-    * @param max the maximum value */
+     * @param min the minimum value
+     * @param max the maximum value */
     void setRange(int min, int max);
 
     /** @brief Returns the current input in frames. */
@@ -74,8 +74,8 @@ public:
     Timecode timecode() const;
 
     /** @brief Sets value's format to frames or HH:MM:SS:FF according to @param frametimecode.
-    * @param frametimecode true = frames, false = HH:MM:SS:FF
-    * @param init true = force the change, false = update only if the frametimecode param changed */
+     * @param frametimecode true = frames, false = HH:MM:SS:FF
+     * @param init true = force the change, false = update only if the frametimecode param changed */
     void setTimeCodeFormat(bool frametimecode, bool init = false);
 
     /** @brief Sets timecode for current project.
@@ -99,14 +99,14 @@ private:
 
 public slots:
     /** @brief Sets the value.
-    * @param value the new value
-    * The value actually set is forced to be within the legal range: minimum <= value <= maximum */
+     * @param value the new value
+     * The value actually set is forced to be within the legal range: minimum <= value <= maximum */
     void setValue(int value);
     void setValue(const QString &value);
     void setValue(const GenTime &value);
 
     /** @brief Sets value's format according to Kdenlive's settings.
-    * @param t (optional, if already existing) Timecode object to use */
+     * @param t (optional, if already existing) Timecode object to use */
     void slotUpdateTimeCodeFormat();
 
 private slots:

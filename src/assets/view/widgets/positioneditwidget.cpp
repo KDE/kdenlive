@@ -16,11 +16,11 @@
  ***************************************************************************/
 
 #include "positioneditwidget.hpp"
-#include "kdenlivesettings.h"
-#include "timecodedisplay.h"
-#include "core.h"
-#include "monitor/monitormanager.h"
 #include "assets/model/assetparametermodel.hpp"
+#include "core.h"
+#include "kdenlivesettings.h"
+#include "monitor/monitormanager.h"
+#include "timecodedisplay.h"
 
 #include <QHBoxLayout>
 #include <QLabel>
@@ -51,18 +51,19 @@ PositionEditWidget::PositionEditWidget(std::shared_ptr<AssetParameterModel> mode
 
     // emit the signal of the base class when appropriate
     connect(this->m_slider, &QAbstractSlider::valueChanged, [this](int val) {
-        if (m_inverted) { val = m_model->data(m_index, AssetParameterModel::ParentInRole).toInt() + m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt() - val;
+        if (m_inverted) {
+            val = m_model->data(m_index, AssetParameterModel::ParentInRole).toInt() + m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt() -
+                  val;
         } else if (!m_model->data(m_index, AssetParameterModel::RelativePosRole).toBool()) {
             val += m_model->data(m_index, AssetParameterModel::ParentInRole).toInt();
         }
-        emit AbstractParamWidget::valueChanged(m_index, QString::number(val), true); });
+        emit AbstractParamWidget::valueChanged(m_index, QString::number(val), true);
+    });
 
     setToolTip(comment);
 }
 
-PositionEditWidget::~PositionEditWidget()
-{
-}
+PositionEditWidget::~PositionEditWidget() {}
 
 void PositionEditWidget::updateTimecodeFormat()
 {
@@ -98,13 +99,13 @@ void PositionEditWidget::slotRefresh()
     if (value.isNull()) {
         val = m_model->data(m_index, AssetParameterModel::DefaultRole).toInt();
         if (m_inverted) {
-            val = - val;
+            val = -val;
         }
     } else {
         val = value.toInt();
         if (m_inverted) {
             if (val < 0) {
-                val = - val;
+                val = -val;
             } else {
                 val = max - value.toInt();
             }
@@ -118,7 +119,6 @@ void PositionEditWidget::slotRefresh()
     m_slider->setValue(val);
     m_display->setValue(val);
 }
-
 
 bool PositionEditWidget::isValid() const
 {

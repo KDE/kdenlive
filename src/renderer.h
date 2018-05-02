@@ -68,7 +68,7 @@ class Producer;
 class Profile;
 class Service;
 class Event;
-}
+} // namespace Mlt
 
 class MltErrorEvent : public QEvent
 {

@@ -39,9 +39,9 @@ class SelectiveColor : public QWidget, public Ui::SelectiveColor
     Q_OBJECT
 public:
     /** @brief Sets up the widget.
-    * @param text (optional) What the color will be used for
-    * @param color (optional) initial color
-    * @param alphaEnabled (optional) Should transparent colors be enabled */
+     * @param text (optional) What the color will be used for
+     * @param color (optional) initial color
+     * @param alphaEnabled (optional) Should transparent colors be enabled */
     explicit SelectiveColor(const QDomElement &effect, QWidget *parent = nullptr);
     ~SelectiveColor();
     void addParam(QDomElement &effect, QString name);

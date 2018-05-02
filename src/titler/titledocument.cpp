@@ -316,7 +316,7 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem *startv, QGraphicsRectItem *en
 }
 
 /** \brief Get the background color (incl. alpha) from the document, if possibly
-  * \returns The background color of the document, inclusive alpha. If none found, returns (0,0,0,0) */
+ * \returns The background color of the document, inclusive alpha. If none found, returns (0,0,0,0) */
 QColor TitleDocument::getBackgroundColor() const
 {
     QColor color(0, 0, 0, 0);
@@ -421,9 +421,10 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QGraphicsRectItem *start
                     font.setUnderline(txtProperties.namedItem(QStringLiteral("font-underline")).nodeValue().toInt() != 0);
                     // Older Kdenlive version did not store pixel size but point size
                     if (txtProperties.namedItem(QStringLiteral("font-pixel-size")).isNull()) {
-                        KMessageBox::information(QApplication::activeWindow(), i18n("Some of your text clips were saved with size in points, which means "
-                                                                                    "different sizes on different displays. They will be converted to pixel "
-                                                                                    "size, making them portable, but you could have to adjust their size."),
+                        KMessageBox::information(QApplication::activeWindow(),
+                                                 i18n("Some of your text clips were saved with size in points, which means "
+                                                      "different sizes on different displays. They will be converted to pixel "
+                                                      "size, making them portable, but you could have to adjust their size."),
                                                  i18n("Text Clips Updated"));
                         QFont f2;
                         f2.setPointSize(txtProperties.namedItem(QStringLiteral("font-size")).nodeValue().toInt());

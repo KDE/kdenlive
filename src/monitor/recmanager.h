@@ -20,10 +20,10 @@
  ***************************************************************************/
 
 /*!
-* @class RecManager
-* @brief All recording specific features are gathered here
-* @author Jean-Baptiste Mardelle
-*/
+ * @class RecManager
+ * @brief All recording specific features are gathered here
+ * @author Jean-Baptiste Mardelle
+ */
 
 #ifndef RECMANAGER_H
 #define RECMANAGER_H

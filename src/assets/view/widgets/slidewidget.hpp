@@ -25,7 +25,6 @@
 
 #include <QWidget>
 
-
 /**
  * @class SlideWidget
  * @brief Provides options to choose slide.
@@ -36,7 +35,6 @@ class SlideWidget : public AbstractParamWidget, public Ui::Wipeval_UI
 {
     Q_OBJECT
 public:
-
     enum WIPE_DIRECTON { UP = 0, DOWN = 1, LEFT = 2, RIGHT = 3, CENTER = 4 };
     struct wipeInfo
     {
@@ -46,7 +44,7 @@ public:
         int endTransparency;
     };
     /** @brief Sets up the widget.
-    */
+     */
     explicit SlideWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent);
 
     /** @brief Gets the chosen slide. */
@@ -71,7 +69,6 @@ public slots:
 signals:
     /** @brief Emitted whenever a different color was chosen. */
     void modified(const QString &);
-
 };
 
 #endif

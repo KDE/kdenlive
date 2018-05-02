@@ -49,7 +49,6 @@ public slots:
     /** @brief refresh the properties to reflect changes in the model
      */
     void slotRefresh() override;
-
 };
 
 #endif

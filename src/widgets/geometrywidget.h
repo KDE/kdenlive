@@ -41,14 +41,15 @@ class GeometryWidget : public QWidget
 
 public:
     /**
-    * @brief Default constructor.
-    * @param monitor The monitor attached to this stack
-    * @param range The in / out points of the clip, useful to desactivate monitor scene when out of bounds
-    * @param rect The default geometry value
-    * @param frameSize The frame size of the original source video
-    * @param useRatioLock When true, width/height will keep the profile's aspect ratio on resize
-    */
-    explicit GeometryWidget(Monitor *monitor, QPair<int, int> range, const QRect &rect, const QSize frameSize, bool useRatioLock, bool useOpacity, QWidget *parent = nullptr);
+     * @brief Default constructor.
+     * @param monitor The monitor attached to this stack
+     * @param range The in / out points of the clip, useful to desactivate monitor scene when out of bounds
+     * @param rect The default geometry value
+     * @param frameSize The frame size of the original source video
+     * @param useRatioLock When true, width/height will keep the profile's aspect ratio on resize
+     */
+    explicit GeometryWidget(Monitor *monitor, QPair<int, int> range, const QRect &rect, const QSize frameSize, bool useRatioLock, bool useOpacity,
+                            QWidget *parent = nullptr);
     void setValue(const QRect r, double opacity = 1);
     void connectMonitor(bool activate);
 

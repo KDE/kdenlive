@@ -59,9 +59,7 @@ BackupWidget::BackupWidget(const QUrl &projectUrl, const QUrl &projectFolder, co
     slotParseBackupFiles();
 }
 
-BackupWidget::~BackupWidget()
-{
-}
+BackupWidget::~BackupWidget() {}
 
 void BackupWidget::slotParseBackupFiles()
 {

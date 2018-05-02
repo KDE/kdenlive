@@ -59,7 +59,7 @@ AssetPanel::AssetPanel(QWidget *parent)
     m_switchBuiltStack->setCheckable(true);
     m_switchBuiltStack->setChecked(KdenliveSettings::showbuiltstack());
     m_switchBuiltStack->setVisible(false);
-    //connect(m_switchBuiltStack, &QToolButton::toggled, m_effectStackWidget, &EffectStackView::switchBuiltStack);
+    // connect(m_switchBuiltStack, &QToolButton::toggled, m_effectStackWidget, &EffectStackView::switchBuiltStack);
     tLayout->addWidget(m_switchBuiltStack);
 
     m_splitButton = new QToolButton(this);
@@ -112,8 +112,7 @@ void AssetPanel::showTransition(int tid, std::shared_ptr<AssetParameterModel> tr
     m_transitionWidget->setModel(transitionModel, QSize(), true);
 }
 
-void AssetPanel::showEffectStack(const QString &itemName, std::shared_ptr<EffectStackModel> effectsModel, QSize frameSize,
-                                 bool showKeyframes)
+void AssetPanel::showEffectStack(const QString &itemName, std::shared_ptr<EffectStackModel> effectsModel, QSize frameSize, bool showKeyframes)
 {
     if (effectsModel == nullptr) {
         // Item is not ready

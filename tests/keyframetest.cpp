@@ -232,7 +232,7 @@ TEST_CASE("Keyframe model", "[KeyframeModel]")
         state1(6.1);
 
         REQUIRE(model->addKeyframe(GenTime(12.6), KeyframeType::Discrete, 33));
-        REQUIRE_FALSE(model->moveKeyframe(GenTime(6.1), GenTime(12.6),  -1, true));
+        REQUIRE_FALSE(model->moveKeyframe(GenTime(6.1), GenTime(12.6), -1, true));
         undoStack->undo();
         state1(6.1);
     }

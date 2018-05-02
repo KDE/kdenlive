@@ -42,7 +42,7 @@ class Frame;
 class Event;
 class Producer;
 class Profile;
-}
+} // namespace Mlt
 
 class MltDeviceCapture : public AbstractRender
 {

@@ -52,7 +52,7 @@ QString createColorClip(const QString &color, int duration, const QString &name,
 */
 
 QString createTitleClip(const std::unordered_map<QString, QString> &properties, int duration, const QString &name, const QString &parentFolder,
-                                     std::shared_ptr<ProjectItemModel> model);
+                        std::shared_ptr<ProjectItemModel> model);
 
 /* @brief Create a title template
    @param path : path to the template

@@ -28,9 +28,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "definitions.h"
 #include "undohelper.hpp"
 #include <QDomElement>
+#include <QIcon>
 #include <QReadWriteLock>
 #include <QSize>
-#include <QIcon>
 
 class AbstractProjectItem;
 class BinPlaylist;
@@ -42,7 +42,7 @@ namespace Mlt {
 class Producer;
 class Properties;
 class Tractor;
-}
+} // namespace Mlt
 
 /**
  * @class ProjectItemModel

@@ -83,8 +83,7 @@ AssetParameterModel::AssetParameterModel(Mlt::Properties *asset, const QDomEleme
         bool isFixed = (type == QLatin1String("fixed"));
         if (isFixed) {
             m_fixedParams[name] = value;
-        }
-        else if (type == QLatin1String("position")) {
+        } else if (type == QLatin1String("position")) {
             int val = value.toInt();
             if (val < 0) {
                 int in = pCore->getItemIn(m_ownerId);
@@ -147,7 +146,7 @@ void AssetParameterModel::setParameter(const QString &name, const int value, boo
     if (update) {
         if (m_assetId.startsWith(QStringLiteral("sox_"))) {
             // Warning, SOX effect, need unplug/replug
-            qDebug()<<"// Warning, SOX effect, need unplug/replug";
+            qDebug() << "// Warning, SOX effect, need unplug/replug";
             QStringList effectParam = {m_assetId.section(QLatin1Char('_'), 1)};
             for (const QString &pName : m_paramOrder) {
                 effectParam << m_asset->get(pName.toUtf8().constData());
@@ -194,7 +193,7 @@ void AssetParameterModel::setParameter(const QString &name, const QString &value
     if (update) {
         if (m_assetId.startsWith(QStringLiteral("sox_"))) {
             // Warning, SOX effect, need unplug/replug
-            qDebug()<<"// Warning, SOX effect, need unplug/replug";
+            qDebug() << "// Warning, SOX effect, need unplug/replug";
             QStringList effectParam = {m_assetId.section(QLatin1Char('_'), 1)};
             for (const QString &pName : m_paramOrder) {
                 effectParam << m_asset->get(pName.toUtf8().constData());
@@ -230,7 +229,7 @@ void AssetParameterModel::setParameter(const QString &name, double &value)
     }
     if (m_assetId.startsWith(QStringLiteral("sox_"))) {
         // Warning, SOX effect, need unplug/replug
-        qDebug()<<"// Warning, SOX effect, need unplug/replug";
+        qDebug() << "// Warning, SOX effect, need unplug/replug";
         QStringList effectParam = {m_assetId.section(QLatin1Char('_'), 1)};
         for (const QString &pName : m_paramOrder) {
             effectParam << m_asset->get(pName.toUtf8().constData());
@@ -238,9 +237,9 @@ void AssetParameterModel::setParameter(const QString &name, double &value)
         m_asset->set("effect", effectParam.join(QLatin1Char(' ')).toUtf8().constData());
         emit replugEffect(shared_from_this());
     } else if (m_assetId == QLatin1String("autotrack_rectangle") || m_assetId.startsWith(QStringLiteral("ladspa"))) {
-            // these effects don't understand param change and need to be rebuild
-            emit replugEffect(shared_from_this());
-        } else {
+        // these effects don't understand param change and need to be rebuild
+        emit replugEffect(shared_from_this());
+    } else {
         emit modelChanged();
     }
     pCore->refreshProjectItem(m_ownerId);

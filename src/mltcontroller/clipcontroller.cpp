@@ -322,7 +322,6 @@ void ClipController::updateProducer(const std::shared_ptr<Mlt::Producer> &produc
     qDebug() << "// replace finished: " << binId() << " : " << m_masterProducer->get("resource");
 }
 
-
 const QString ClipController::getStringDuration()
 {
     if (m_masterProducer) {

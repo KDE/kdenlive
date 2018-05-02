@@ -291,12 +291,12 @@ private slots:
     void slotStopRenderProject();
     void slotFullScreen();
     /** @brief if modified is true adds "modified" to the caption and enables the save button.
-    * (triggered by KdenliveDoc::setModified()) */
+     * (triggered by KdenliveDoc::setModified()) */
     void slotUpdateDocumentState(bool modified);
 
     /** @brief Sets the timeline zoom slider to @param value.
-    *
-    * Also disables zoomIn and zoomOut actions if they cannot be used at the moment. */
+     *
+     * Also disables zoomIn and zoomOut actions if they cannot be used at the moment. */
     void slotSetZoom(int value, bool zoomOnMouse = false);
     /** @brief Makes the timeline zoom level fit the timeline content. */
     void slotFitZoom();
@@ -304,9 +304,9 @@ private slots:
     void slotUpdateZoomSliderToolTip(int zoomlevel);
 
     /** @brief Displays the zoom slider tooltip.
-    * @param zoomlevel (optional) The zoom level to show in the tooltip.
-    *
-    * Adopted from Dolphin (src/statusbar/dolphinstatusbar.cpp) */
+     * @param zoomlevel (optional) The zoom level to show in the tooltip.
+     *
+     * Adopted from Dolphin (src/statusbar/dolphinstatusbar.cpp) */
     void slotShowZoomSliderToolTip(int zoomlevel = -1);
     /** @brief Deletes item in timeline, project tree or effect stack depending on focus. */
     void slotDeleteItem();
@@ -401,7 +401,7 @@ private slots:
     void slotPrepareRendering(bool scriptExport, bool zoneOnly, const QString &chapterFile, QString scriptPath = QString());
 
     /** @brief Switches between displaying frames or timecode.
-    * @param ix 0 = display timecode, 1 = display frames. */
+     * @param ix 0 = display timecode, 1 = display frames. */
     void slotUpdateTimecodeFormat(int ix);
 
     /** @brief Removes the focus of anything. */

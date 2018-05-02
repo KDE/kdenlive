@@ -37,14 +37,14 @@ class DoubleWidget : public QWidget
     Q_OBJECT
 public:
     /** @brief Sets up the parameter's GUI.
-    * @param name Name of the parameter
-    * @param value Value of the parameter
-    * @param min Minimum value
-    * @param max maximum value
-    * @param defaultValue Value used when using reset functionality
-    * @param comment A comment explaining the parameter. Will be shown in a tooltip.
-    * @param suffix (optional) Suffix to display in spinbox
-    * @param parent (optional) Parent Widget */
+     * @param name Name of the parameter
+     * @param value Value of the parameter
+     * @param min Minimum value
+     * @param max maximum value
+     * @param defaultValue Value used when using reset functionality
+     * @param comment A comment explaining the parameter. Will be shown in a tooltip.
+     * @param suffix (optional) Suffix to display in spinbox
+     * @param parent (optional) Parent Widget */
     explicit DoubleWidget(const QString &name, double value, double min, double max, double defaultValue, const QString &comment, int id,
                           const QString &suffix = QString(), int decimals = 0, QWidget *parent = nullptr);
     ~DoubleWidget();

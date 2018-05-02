@@ -34,9 +34,7 @@ AbstractService::AbstractService(QListWidget *listWidget, QObject *parent)
 
 AbstractService::~AbstractService() = default;
 
-void AbstractService::slotStartSearch(const QString &, int)
-{
-}
+void AbstractService::slotStartSearch(const QString &, int) {}
 
 OnlineItemInfo AbstractService::displayItemDetails(QListWidgetItem * /*item*/)
 {
@@ -48,9 +46,7 @@ bool AbstractService::startItemPreview(QListWidgetItem *)
     return false;
 }
 
-void AbstractService::stopItemPreview(QListWidgetItem *)
-{
-}
+void AbstractService::stopItemPreview(QListWidgetItem *) {}
 
 QString AbstractService::getExtension(QListWidgetItem *)
 {

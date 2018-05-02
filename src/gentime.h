@@ -46,7 +46,7 @@ public:
     double ms() const;
 
     /** @brief Gets the time in frames.
-    * @param framesPerSecond Number of frames per second */
+     * @param framesPerSecond Number of frames per second */
     int frames(double framesPerSecond) const;
 
     QString toString() const;

@@ -73,16 +73,16 @@ class DragValue : public QWidget
 
 public:
     /**
-    * @brief Default constructor.
-    * @param label The label that will be displayed in the progress bar
-    * @param defaultValue The default value
-    * @param decimals The number of decimals for the parameter. 0 means it is an integer
-    * @param min The minimum value
-    * @param max The maximum value
-    * @param id Used to identify this widget. If this parameter is set, "Show in Timeline" will be available in context menu.
-    * @param suffix The suffix that will be displayed in the spinbox (for example '%')
-    * @param showSlider If disabled, user can still drag on the label but no progress bar is shown
-    */
+     * @brief Default constructor.
+     * @param label The label that will be displayed in the progress bar
+     * @param defaultValue The default value
+     * @param decimals The number of decimals for the parameter. 0 means it is an integer
+     * @param min The minimum value
+     * @param max The maximum value
+     * @param id Used to identify this widget. If this parameter is set, "Show in Timeline" will be available in context menu.
+     * @param suffix The suffix that will be displayed in the spinbox (for example '%')
+     * @param showSlider If disabled, user can still drag on the label but no progress bar is shown
+     */
     explicit DragValue(const QString &label, double defaultValue, int decimals, double min = 0, double max = 100, int id = -1,
                        const QString &suffix = QString(), bool showSlider = true, QWidget *parent = nullptr);
     virtual ~DragValue();

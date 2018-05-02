@@ -59,8 +59,9 @@ struct TimelineFunctions
      * @param trackId the track where the insertion should happen
      * @param position the position at which the clips should be inserted
      * @param clipIds a return parameter with the ids assigned to the clips if success, empty otherwise
-    */
-    static bool requestMultipleClipsInsertion(std::shared_ptr<TimelineItemModel> timeline, const QStringList &binIds, int trackId, int position, QList<int> &clipIds, bool logUndo, bool refreshView);
+     */
+    static bool requestMultipleClipsInsertion(std::shared_ptr<TimelineItemModel> timeline, const QStringList &binIds, int trackId, int position,
+                                              QList<int> &clipIds, bool logUndo, bool refreshView);
 
     static int requestSpacerStartOperation(std::shared_ptr<TimelineItemModel> timeline, int trackId, int position);
     static bool requestSpacerEndOperation(std::shared_ptr<TimelineItemModel> timeline, int clipId, int startPosition, int endPosition);

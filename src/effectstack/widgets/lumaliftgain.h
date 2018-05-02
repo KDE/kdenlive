@@ -37,9 +37,9 @@ class LumaLiftGain : public QWidget
     Q_OBJECT
 public:
     /** @brief Sets up the widget.
-    * @param text (optional) What the color will be used for
-    * @param color (optional) initial color
-    * @param alphaEnabled (optional) Should transparent colors be enabled */
+     * @param text (optional) What the color will be used for
+     * @param color (optional) initial color
+     * @param alphaEnabled (optional) Should transparent colors be enabled */
     explicit LumaLiftGain(const QDomNodeList &nodes, QWidget *parent = nullptr);
     void updateEffect(QDomElement &effect);
 

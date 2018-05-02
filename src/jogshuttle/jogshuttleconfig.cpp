@@ -27,8 +27,8 @@
 #include <stdlib.h>
 
 using std::string;
-using std::vector;
 using std::stringstream;
+using std::vector;
 
 // these 2 functions will convert the action maps to and from a string representation not unlike this:
 // button1=rewind_one_frame;button2=forward_one_frame;button15=play

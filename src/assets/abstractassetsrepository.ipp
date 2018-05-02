@@ -22,8 +22,8 @@
 #include "xml/xml.hpp"
 #include <QDir>
 #include <QFile>
-#include <QString>
 #include <QStandardPaths>
+#include <QString>
 #include <QTextStream>
 
 #include <locale>
@@ -31,9 +31,7 @@
 #include <xlocale.h>
 #endif
 
-template <typename AssetType> AbstractAssetsRepository<AssetType>::AbstractAssetsRepository()
-{
-}
+template <typename AssetType> AbstractAssetsRepository<AssetType>::AbstractAssetsRepository() {}
 
 template <typename AssetType> void AbstractAssetsRepository<AssetType>::init()
 {

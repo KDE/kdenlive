@@ -72,4 +72,3 @@ void DoubleParamWidget::slotShowComment(bool show)
 {
     m_doubleWidget->slotShowComment(show);
 }
-

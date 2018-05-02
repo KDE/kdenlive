@@ -163,8 +163,7 @@ void Core::initGUI(const QUrl &Url)
     m_library = new LibraryWidget(m_projectManager);
     connect(m_library, SIGNAL(addProjectClips(QList<QUrl>)), m_binWidget, SLOT(droppedUrls(QList<QUrl>)));
     connect(this, &Core::updateLibraryPath, m_library, &LibraryWidget::slotUpdateLibraryPath);
-    connect(m_binWidget, &Bin::storeFolder, m_binController.get(),
-            &BinController::slotStoreFolder);
+    connect(m_binWidget, &Bin::storeFolder, m_binController.get(), &BinController::slotStoreFolder);
     // connect(m_binController.get(), &BinController::slotProducerReady, m_binWidget, &Bin::slotProducerReady, Qt::DirectConnection);
     // connect(m_binController.get(), &BinController::prepareTimelineReplacement, m_binWidget, &Bin::prepareTimelineReplacement, Qt::DirectConnection);
 
@@ -483,8 +482,7 @@ void Core::displayMessage(const QString &message, MessageType type, int timeout)
 
 void Core::clearAssetPanel(int itemId)
 {
-    if (m_guiConstructed)
-        m_mainWindow->clearAssetPanel(itemId);
+    if (m_guiConstructed) m_mainWindow->clearAssetPanel(itemId);
 }
 
 std::shared_ptr<EffectStackModel> Core::getItemEffectStack(int itemType, int itemId)
@@ -569,7 +567,7 @@ void Core::updateItemModel(ObjectId id, const QString &service)
 {
     if (!m_mainWindow->getCurrentTimeline()->loading && service.startsWith(QLatin1String("fade")) && id.first == ObjectType::TimelineClip) {
         bool startFade = service == QLatin1String("fadein") || service == QLatin1String("fade_from_black");
-        m_mainWindow->getCurrentTimeline()->controller()->updateClip(id.second, {startFade ?TimelineModel::FadeInRole : TimelineModel::FadeOutRole});
+        m_mainWindow->getCurrentTimeline()->controller()->updateClip(id.second, {startFade ? TimelineModel::FadeInRole : TimelineModel::FadeOutRole});
     }
 }
 
@@ -606,4 +604,3 @@ void Core::triggerAction(const QString &name)
         action->trigger();
     }
 }
-

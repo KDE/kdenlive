@@ -157,17 +157,17 @@ private:
 
 public slots:
     /** @brief Sets the clip whose effect list should be managed.
-    * @param c Clip whose effect list should be managed */
+     * @param c Clip whose effect list should be managed */
     void slotClipItemSelected(ClipItem *c, Monitor *m = nullptr, bool reloadStack = true);
     /** @brief An effect parameter was changed, refresh effect stack if it was displaying it.
-    * @param c Clip controller whose effect list should be managed */
+     * @param c Clip controller whose effect list should be managed */
     void slotRefreshMasterClipEffects(ClipController *c, Monitor *m);
     /** @brief Display effects for the selected Bin clip.
-    * @param c Clip controller whose effect list should be managed */
+     * @param c Clip controller whose effect list should be managed */
     void slotMasterClipItemSelected(ClipController *c, Monitor *m = nullptr);
 
     /** @brief Update the clip range (in-out points)
-    * @param c Clip whose effect list should be managed */
+     * @param c Clip whose effect list should be managed */
     void slotClipItemUpdate();
 
     void slotTrackItemSelected(int ix, const TrackInfo &info, Monitor *m = nullptr);
@@ -225,11 +225,11 @@ private slots:
     void slotCreateRegion(int ix, const QUrl &url);
 
     /** @brief Move an effect.
-      ** @param currentIndexes the list of effect indexes to move in stack layout
-      ** @param newIndex the position where the effects will be moved
-      ** @param groupIndex the index of the group if any (-1 if none)
-      ** @param groupName the name of the group to paste the effect
-      */
+     ** @param currentIndexes the list of effect indexes to move in stack layout
+     ** @param newIndex the position where the effects will be moved
+     ** @param groupIndex the index of the group if any (-1 if none)
+     ** @param groupName the name of the group to paste the effect
+     */
     void slotMoveEffect(const QList<int> &currentIndexes, int newIndex, int groupIndex, const QString &groupName = QString());
 
     /** @brief Remove effects from a group */

@@ -20,10 +20,10 @@
  ***************************************************************************/
 
 /*!
-* @class LibraryWidget
-* @brief A "library" that contains a list of clips to be used across projects
-* @author Jean-Baptiste Mardelle
-*/
+ * @class LibraryWidget
+ * @brief A "library" that contains a list of clips to be used across projects
+ * @author Jean-Baptiste Mardelle
+ */
 
 #ifndef LIBRARYWIDGET_H
 #define LIBRARYWIDGET_H

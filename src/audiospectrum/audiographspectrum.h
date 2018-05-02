@@ -20,10 +20,10 @@
  ***************************************************************************/
 
 /*!
-* @class AudioGraphSpectrum
-* @brief An audio spectrum allowing to edit audio level / equalize clips or tracks
-* @author Jean-Baptiste Mardelle
-*/
+ * @class AudioGraphSpectrum
+ * @brief An audio spectrum allowing to edit audio level / equalize clips or tracks
+ * @author Jean-Baptiste Mardelle
+ */
 
 #ifndef AUDIOGRAPHSPECTRUM_H
 #define AUDIOGRAPHSPECTRUM_H

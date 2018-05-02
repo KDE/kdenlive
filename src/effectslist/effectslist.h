@@ -20,7 +20,7 @@
  * @brief List for effects objects.
  * @author Jason Wood
  *
-*/
+ */
 
 #ifndef EFFECTSLIST_H
 #define EFFECTSLIST_H

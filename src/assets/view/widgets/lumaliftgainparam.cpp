@@ -56,27 +56,24 @@ LumaLiftGainParam::LumaLiftGainParam(std::shared_ptr<AssetParameterModel> model,
     setLayout(flowLayout);
     slotRefresh();
 
-    connect(this, &LumaLiftGainParam::liftChanged,
-            [this, indexes]() {
-                QColor liftColor = m_lift->color();
-                emit valueChanged(indexes.value(QStringLiteral("lift_r")), m_locale.toString(liftColor.redF()), true);
-                emit valueChanged(indexes.value(QStringLiteral("lift_g")), m_locale.toString(liftColor.greenF()), true);
-                emit valueChanged(indexes.value(QStringLiteral("lift_b")), m_locale.toString(liftColor.blueF()), true);
-            });
-    connect(this, &LumaLiftGainParam::gammaChanged,
-            [this, indexes]() {
-                QColor gammaColor = m_gamma->color();
-                emit valueChanged(indexes.value(QStringLiteral("gamma_r")), m_locale.toString(gammaColor.redF() * GAMMA_FACTOR), true);
-                emit valueChanged(indexes.value(QStringLiteral("gamma_g")), m_locale.toString(gammaColor.greenF() * GAMMA_FACTOR), true);
-                emit valueChanged(indexes.value(QStringLiteral("gamma_b")), m_locale.toString(gammaColor.blueF() * GAMMA_FACTOR), true);
-            });
-    connect(this, &LumaLiftGainParam::gainChanged,
-            [this, indexes]() {
-                QColor gainColor = m_gain->color();
-                emit valueChanged(indexes.value(QStringLiteral("gain_r")), m_locale.toString(gainColor.redF()* GAIN_FACTOR), true);
-                emit valueChanged(indexes.value(QStringLiteral("gain_g")), m_locale.toString(gainColor.greenF()* GAIN_FACTOR), true);
-                emit valueChanged(indexes.value(QStringLiteral("gain_b")), m_locale.toString(gainColor.blueF()* GAIN_FACTOR), true);
-            });
+    connect(this, &LumaLiftGainParam::liftChanged, [this, indexes]() {
+        QColor liftColor = m_lift->color();
+        emit valueChanged(indexes.value(QStringLiteral("lift_r")), m_locale.toString(liftColor.redF()), true);
+        emit valueChanged(indexes.value(QStringLiteral("lift_g")), m_locale.toString(liftColor.greenF()), true);
+        emit valueChanged(indexes.value(QStringLiteral("lift_b")), m_locale.toString(liftColor.blueF()), true);
+    });
+    connect(this, &LumaLiftGainParam::gammaChanged, [this, indexes]() {
+        QColor gammaColor = m_gamma->color();
+        emit valueChanged(indexes.value(QStringLiteral("gamma_r")), m_locale.toString(gammaColor.redF() * GAMMA_FACTOR), true);
+        emit valueChanged(indexes.value(QStringLiteral("gamma_g")), m_locale.toString(gammaColor.greenF() * GAMMA_FACTOR), true);
+        emit valueChanged(indexes.value(QStringLiteral("gamma_b")), m_locale.toString(gammaColor.blueF() * GAMMA_FACTOR), true);
+    });
+    connect(this, &LumaLiftGainParam::gainChanged, [this, indexes]() {
+        QColor gainColor = m_gain->color();
+        emit valueChanged(indexes.value(QStringLiteral("gain_r")), m_locale.toString(gainColor.redF() * GAIN_FACTOR), true);
+        emit valueChanged(indexes.value(QStringLiteral("gain_g")), m_locale.toString(gainColor.greenF() * GAIN_FACTOR), true);
+        emit valueChanged(indexes.value(QStringLiteral("gain_b")), m_locale.toString(gainColor.blueF() * GAIN_FACTOR), true);
+    });
 }
 
 void LumaLiftGainParam::updateEffect(QDomElement &effect)
@@ -110,13 +107,11 @@ void LumaLiftGainParam::updateEffect(QDomElement &effect)
     }
 }
 
-void LumaLiftGainParam::slotShowComment(bool )
-{
-}
+void LumaLiftGainParam::slotShowComment(bool) {}
 
 void LumaLiftGainParam::slotRefresh()
 {
-    qDebug()<<"//REFRESHING WIDGET START--------------__";
+    qDebug() << "//REFRESHING WIDGET START--------------__";
     QMap<QString, double> values;
     for (int i = 0; i < m_model->rowCount(); ++i) {
         QModelIndex local_index = m_model->index(i, 0);
@@ -130,9 +125,9 @@ void LumaLiftGainParam::slotRefresh()
                                     values.value(QStringLiteral("gamma_b")) / GAMMA_FACTOR);
     QColor gain = QColor::fromRgbF(values.value(QStringLiteral("gain_r")) / GAIN_FACTOR, values.value(QStringLiteral("gain_g")) / GAIN_FACTOR,
                                    values.value(QStringLiteral("gain_b")) / GAIN_FACTOR);
-    qDebug()<<"//REFRESHING WIDGET START 2--------------__";
+    qDebug() << "//REFRESHING WIDGET START 2--------------__";
     m_lift->setColor(lift);
     m_gamma->setColor(gamma);
     m_gain->setColor(gain);
-    qDebug()<<"//REFRESHING WIDGET START DONE--------------__";
+    qDebug() << "//REFRESHING WIDGET START DONE--------------__";
 }

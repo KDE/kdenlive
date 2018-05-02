@@ -20,15 +20,15 @@
 #include "abstractparamwidget.hpp"
 #include "assets/model/assetparametermodel.hpp"
 #include "boolparamwidget.hpp"
-#include "switchparamwidget.hpp"
-#include "lumaliftgainparam.hpp"
+#include "coloreditwidget.hpp"
 #include "doubleparamwidget.hpp"
 #include "geometryeditwidget.hpp"
 #include "keyframewidget.hpp"
 #include "listparamwidget.h"
+#include "lumaliftgainparam.hpp"
 #include "positioneditwidget.hpp"
-#include "coloreditwidget.hpp"
 #include "slidewidget.hpp"
+#include "switchparamwidget.hpp"
 #include "urlparamwidget.hpp"
 
 #include <QLabel>

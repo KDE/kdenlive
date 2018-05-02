@@ -126,9 +126,8 @@ void FreeSound::slotShowResults(KJob *job)
                                     item->setData(authorUrl,
                                                   QStringLiteral("http://freesound.org/people/") + soundmap.value(QStringLiteral("username")).toString());
                                     item->setData(licenseRole, soundmap.value(QStringLiteral("license")));
-                                    item->setData(infoData,
-                                                  QStringLiteral("http://www.freesound.org/apiv2/sounds/") + vid.toString() +
-                                                      QStringLiteral("/?format=json&token=") + OAuth2_strClientSecret);
+                                    item->setData(infoData, QStringLiteral("http://www.freesound.org/apiv2/sounds/") + vid.toString() +
+                                                                QStringLiteral("/?format=json&token=") + OAuth2_strClientSecret);
                                 }
                             }
                         }

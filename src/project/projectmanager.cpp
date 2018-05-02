@@ -81,9 +81,7 @@ ProjectManager::ProjectManager(QObject *parent)
     dir.mkdir(QStringLiteral("titles"));
 }
 
-ProjectManager::~ProjectManager()
-{
-}
+ProjectManager::~ProjectManager() {}
 
 void ProjectManager::slotLoadOnOpen()
 {
@@ -734,7 +732,7 @@ QString ProjectManager::documentNotes() const
 void ProjectManager::prepareSave()
 {
     pCore->projectItemModel()->saveDocumentProperties(pCore->window()->getMainTimeline()->controller()->documentProperties(), m_project->metadata(),
-                                                   m_project->getGuideModel());
+                                                      m_project->getGuideModel());
     pCore->projectItemModel()->saveProperty(QStringLiteral("kdenlive:documentnotes"), documentNotes());
     pCore->projectItemModel()->saveProperty(QStringLiteral("kdenlive:docproperties.groups"), m_mainTimelineModel->groupsData());
 }
@@ -878,7 +876,6 @@ void ProjectManager::updateTimeline(int pos)
     m_mainTimelineModel->setUndoStack(m_project->commandStack());
 }
 
-
 void ProjectManager::adjustProjectDuration()
 {
     pCore->monitorManager()->projectMonitor()->adjustRulerSize(m_mainTimelineModel->duration() - 1, nullptr);
@@ -905,4 +902,3 @@ std::shared_ptr<DocUndoStack> ProjectManager::undoStack()
 {
     return current()->commandStack();
 }
-

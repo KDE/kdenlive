@@ -158,7 +158,7 @@ QImage AudioSpectrum::renderBackground(uint)
 QImage AudioSpectrum::renderAudioScope(uint, const audioShortVector &audioFrame, const int freq, const int num_channels, const int num_samples, const int)
 {
     if (audioFrame.size() > 63 && m_innerScopeRect.width() > 0 && m_innerScopeRect.height() > 0 // <= 0 if widget is too small (resized by user)
-        ) {
+    ) {
         if (!m_customFreq) {
             m_freqMax = freq / 2;
         }

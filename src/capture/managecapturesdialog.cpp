@@ -65,9 +65,7 @@ ManageCapturesDialog::ManageCapturesDialog(const QList<QUrl> &files, QWidget *pa
     adjustSize();
 }
 
-ManageCapturesDialog::~ManageCapturesDialog()
-{
-}
+ManageCapturesDialog::~ManageCapturesDialog() {}
 
 void ManageCapturesDialog::slotCheckItemIcon()
 {

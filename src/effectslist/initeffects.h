@@ -25,8 +25,8 @@
 #include <mlt++/Mlt.h>
 
 /**Init the MLT effects
-  *@author Jean-Baptiste Mardelle
-  */
+ *@author Jean-Baptiste Mardelle
+ */
 
 class EffectsList;
 

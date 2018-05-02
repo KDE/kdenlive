@@ -20,13 +20,13 @@
  ***************************************************************************/
 
 #include "geometryeditwidget.hpp"
-#include "kdenlivesettings.h"
-#include "timecodedisplay.h"
-#include "core.h"
-#include "monitor/monitor.h"
-#include "widgets/geometrywidget.h"
-#include "monitor/monitormanager.h"
 #include "assets/model/assetparametermodel.hpp"
+#include "core.h"
+#include "kdenlivesettings.h"
+#include "monitor/monitor.h"
+#include "monitor/monitormanager.h"
+#include "timecodedisplay.h"
+#include "widgets/geometrywidget.h"
 #include <mlt++/MltGeometry.h>
 
 #include <QHBoxLayout>
@@ -51,20 +51,18 @@ GeometryEditWidget::GeometryEditWidget(std::shared_ptr<AssetParameterModel> mode
         rect = QRect(50, 50, 200, 200);
     }
     Monitor *monitor = pCore->getMonitor(m_model->monitorId);
-    m_geom = new GeometryWidget(monitor, QPair<int, int>(start, end), rect, frameSize, false, m_model->data(m_index, AssetParameterModel::OpacityRole).toBool(), this);
+    m_geom = new GeometryWidget(monitor, QPair<int, int>(start, end), rect, frameSize, false, m_model->data(m_index, AssetParameterModel::OpacityRole).toBool(),
+                                this);
     m_geom->setSizePolicy(QSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred));
     layout->addWidget(m_geom);
 
     // emit the signal of the base class when appropriate
-    connect(this->m_geom, &GeometryWidget::valueChanged, [this](const QString val) {
-        emit valueChanged(m_index, val, true); });
+    connect(this->m_geom, &GeometryWidget::valueChanged, [this](const QString val) { emit valueChanged(m_index, val, true); });
 
     setToolTip(comment);
 }
 
-GeometryEditWidget::~GeometryEditWidget()
-{
-}
+GeometryEditWidget::~GeometryEditWidget() {}
 
 void GeometryEditWidget::slotRefresh()
 {
@@ -73,7 +71,7 @@ void GeometryEditWidget::slotRefresh()
     QStringList vals = value.split(QLatin1Char(' '));
     int start = m_model->data(m_index, AssetParameterModel::ParentInRole).toInt();
     int end = start + m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt();
-    m_geom->slotSetRange(QPair <int, int>(start, end));
+    m_geom->slotSetRange(QPair<int, int>(start, end));
     if (vals.count() >= 4) {
         rect = QRect(vals.at(0).toInt(), vals.at(1).toInt(), vals.at(2).toInt(), vals.at(3).toInt());
         m_geom->setValue(rect);
@@ -101,7 +99,7 @@ void GeometryEditWidget::monitorSeek(int pos)
 void GeometryEditWidget::slotInitMonitor(bool active)
 {
     m_geom->connectMonitor(active);
-    Monitor * monitor = pCore->getMonitor(m_model->monitorId);
+    Monitor *monitor = pCore->getMonitor(m_model->monitorId);
     if (active) {
         monitor->setEffectKeyframe(true);
         connect(monitor, &Monitor::seekPosition, this, &GeometryEditWidget::monitorSeek, Qt::UniqueConnection);

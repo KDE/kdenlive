@@ -45,9 +45,7 @@ EffectsListWidget::EffectsListWidget(QWidget *parent)
     connect(this, &EffectsListWidget::activated, this, &EffectsListWidget::slotExpandItem);
 }
 
-EffectsListWidget::~EffectsListWidget()
-{
-}
+EffectsListWidget::~EffectsListWidget() {}
 
 void EffectsListWidget::updatePalette()
 {

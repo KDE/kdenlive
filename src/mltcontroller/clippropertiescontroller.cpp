@@ -137,8 +137,8 @@ public:
                 int val = value.toInt();
                 if (property == KFileMetaData::Property::BitRate) {
                     // Adjust unit for bitrate
-                    new QTreeWidgetItem(
-                        m_tree, QStringList() << info.displayName() << QString::number(val / 1000) + QLatin1Char(' ') + i18nc("Kilobytes per seconds", "kb/s"));
+                    new QTreeWidgetItem(m_tree, QStringList() << info.displayName()
+                                                              << QString::number(val / 1000) + QLatin1Char(' ') + i18nc("Kilobytes per seconds", "kb/s"));
                 } else {
                     new QTreeWidgetItem(m_tree, QStringList() << info.displayName() << QString::number(val));
                 }
@@ -446,8 +446,8 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         } else {
             spinI->setValue(1);
         }
-        connect(spinI, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
-            this, static_cast<void (ClipPropertiesController::*)(int)>(&ClipPropertiesController::slotValueChanged));
+        connect(spinI, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this,
+                static_cast<void (ClipPropertiesController::*)(int)>(&ClipPropertiesController::slotValueChanged));
         hlay->addWidget(spinI);
         vbox->addLayout(hlay);
 
@@ -464,8 +464,8 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         } else {
             spinI->setValue(vix.toInt());
         }
-        connect(spinI, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
-            this, static_cast<void (ClipPropertiesController::*)(int)>(&ClipPropertiesController::slotValueChanged));
+        connect(spinI, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this,
+                static_cast<void (ClipPropertiesController::*)(int)>(&ClipPropertiesController::slotValueChanged));
         hlay->addWidget(spinI);
         vbox->addLayout(hlay);
 
@@ -482,8 +482,8 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         } else {
             spinI->setValue(aix.toInt());
         }
-        connect(spinI, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
-            this, static_cast<void (ClipPropertiesController::*)(int)>(&ClipPropertiesController::slotValueChanged));
+        connect(spinI, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this,
+                static_cast<void (ClipPropertiesController::*)(int)>(&ClipPropertiesController::slotValueChanged));
         hlay->addWidget(spinI);
         vbox->addLayout(hlay);
 
@@ -551,9 +551,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
     connect(m_tabWidget, &QTabWidget::currentChanged, this, &ClipPropertiesController::updateTab);
 }
 
-ClipPropertiesController::~ClipPropertiesController()
-{
-}
+ClipPropertiesController::~ClipPropertiesController() {}
 
 void ClipPropertiesController::updateTab(int ix)
 {
@@ -1097,8 +1095,8 @@ void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
                         magicL->setIcon(0, icon);
                         magicL->setExpanded(true);
                     }
-                    new QTreeWidgetItem(magicL,
-                                        QStringList() << line.section(QLatin1Char(':'), 0, 0).simplified() << line.section(QLatin1Char(':'), 1).simplified());
+                    new QTreeWidgetItem(magicL, QStringList()
+                                                    << line.section(QLatin1Char(':'), 0, 0).simplified() << line.section(QLatin1Char(':'), 1).simplified());
                 }
             }
         }

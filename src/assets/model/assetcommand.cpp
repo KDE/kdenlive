@@ -47,7 +47,7 @@ AssetCommand::AssetCommand(std::shared_ptr<AssetParameterModel> model, const QMo
 void AssetCommand::undo()
 {
     m_model->setParameter(m_name, m_oldValue, true, m_index);
-    //m_model->dataChanged(m_index, m_index, QVector<int>());
+    // m_model->dataChanged(m_index, m_index, QVector<int>());
 }
 // virtual
 void AssetCommand::redo()

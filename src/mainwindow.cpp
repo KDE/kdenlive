@@ -178,7 +178,7 @@ void MainWindow::init()
     } else {
         ThemeManager::instance()->slotChangePalette();
     }
-    
+
     // Widget themes for non KDE users
     KActionMenu *stylesAction = new KActionMenu(i18n("Style"), this);
     auto *stylesGroup = new QActionGroup(stylesAction);
@@ -325,17 +325,17 @@ void MainWindow::init()
     connect(m_assetPanel, &AssetPanel::seekToPos, [this](int pos) {
         ObjectId oId = m_assetPanel->effectStackOwner();
         switch (oId.first) {
-            case ObjectType::TimelineTrack:
-            case ObjectType::TimelineClip:
-            case ObjectType::TimelineComposition:
-                getCurrentTimeline()->controller()->setPosition(pos); 
-                break;
-            case ObjectType::BinClip:
-                m_clipMonitor->requestSeek(pos);
-                break;
-            default:
-                qDebug()<<"ERROR unhandled object type";
-                break;
+        case ObjectType::TimelineTrack:
+        case ObjectType::TimelineClip:
+        case ObjectType::TimelineComposition:
+            getCurrentTimeline()->controller()->setPosition(pos);
+            break;
+        case ObjectType::BinClip:
+            m_clipMonitor->requestSeek(pos);
+            break;
+        default:
+            qDebug() << "ERROR unhandled object type";
+            break;
         }
     });
 
@@ -786,10 +786,11 @@ bool MainWindow::queryClose()
     if (m_renderWidget) {
         int waitingJobs = m_renderWidget->waitingJobsCount();
         if (waitingJobs > 0) {
-            switch (KMessageBox::warningYesNoCancel(this, i18np("You have 1 rendering job waiting in the queue.\nWhat do you want to do with this job?",
-                                                                "You have %1 rendering jobs waiting in the queue.\nWhat do you want to do with these jobs?",
-                                                                waitingJobs),
-                                                    QString(), KGuiItem(i18n("Start them now")), KGuiItem(i18n("Delete them")))) {
+            switch (
+                KMessageBox::warningYesNoCancel(this,
+                                                i18np("You have 1 rendering job waiting in the queue.\nWhat do you want to do with this job?",
+                                                      "You have %1 rendering jobs waiting in the queue.\nWhat do you want to do with these jobs?", waitingJobs),
+                                                QString(), KGuiItem(i18n("Start them now")), KGuiItem(i18n("Delete them")))) {
             case KMessageBox::Yes:
                 // create script with waiting jobs and start it
                 if (!m_renderWidget->startWaitingRenderJobs()) {
@@ -974,7 +975,7 @@ void MainWindow::setupActions()
     sceneMode->addAction(m_overwriteEditTool);
     sceneMode->addAction(m_insertEditTool);
     sceneMode->setCurrentItem(0);
-    connect(sceneMode, static_cast<void(KSelectAction::*)(QAction*)>(&KSelectAction::triggered), this, &MainWindow::slotChangeEdit);
+    connect(sceneMode, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this, &MainWindow::slotChangeEdit);
     addAction(QStringLiteral("timeline_mode"), sceneMode);
 
     KDualAction *ac = new KDualAction(i18n("Don't Use Timeline Zone for Insert"), i18n("Use Timeline Zone for Insert"), this);
@@ -1015,7 +1016,7 @@ void MainWindow::setupActions()
             m_compositeAction->setCurrentAction(previewComposite);
         }
     }
-    connect(m_compositeAction, static_cast<void(KSelectAction::*)(QAction*)>(&KSelectAction::triggered), this, &MainWindow::slotUpdateCompositing);
+    connect(m_compositeAction, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this, &MainWindow::slotUpdateCompositing);
     addAction(QStringLiteral("timeline_compositing"), m_compositeAction);
 
     m_timeFormatButton = new KSelectAction(QStringLiteral("00:00:00:00 / 00:00:00:00"), this);
@@ -1027,8 +1028,7 @@ void MainWindow::setupActions()
     } else {
         m_timeFormatButton->setCurrentItem(0);
     }
-    connect(m_timeFormatButton, static_cast<void(KSelectAction::*)(int)>(&KSelectAction::triggered),
-            this, &MainWindow::slotUpdateTimecodeFormat);
+    connect(m_timeFormatButton, static_cast<void (KSelectAction::*)(int)>(&KSelectAction::triggered), this, &MainWindow::slotUpdateTimecodeFormat);
     m_timeFormatButton->setToolBarMode(KSelectAction::MenuMode);
     m_timeFormatButton->setToolButtonPopupMode(QToolButton::InstantPopup);
     addAction(QStringLiteral("timeline_timecode"), m_timeFormatButton);
@@ -1225,14 +1225,13 @@ void MainWindow::setupActions()
               KoIconUtils::themedIcon(QStringLiteral("media-record")));
 
     addAction(QStringLiteral("project_clean"), i18n("Clean Project"), this, SLOT(slotCleanProject()), KoIconUtils::themedIcon(QStringLiteral("edit-clear")));
-    
-    
+
     /*QAction *timelineZone = new QAction(KoIconUtils::themedIcon(QStringLiteral("insert-horizontal-rule")), i18n("Use Timeline Zone in Edit"), this);
     timelineZone->setCheckable(true);
     timelineZone->setChecked(KdenliveSettings::useTimelineZoneToEdit());
     addAction(QStringLiteral("use_timeline_zone_in_edit"), timelineZone);
     connect(timelineZone, &QAction::toggled, this, &MainWindow::slotSwitchTimelineZone);*/
-    
+
     // TODO
     // addAction("project_adjust_profile", i18n("Adjust Profile to Current Clip"), pCore->bin(), SLOT(adjustProjectProfileToItem()));
 
@@ -1288,7 +1287,7 @@ void MainWindow::setupActions()
     monitorGamma->addAction(i18n("Rec. 709 (TV)"));
     addAction(QStringLiteral("mlt_gamma"), monitorGamma);
     monitorGamma->setCurrentItem(KdenliveSettings::monitor_gamma());
-    connect(monitorGamma, static_cast<void(KSelectAction::*)(int)>(&KSelectAction::triggered), this, &MainWindow::slotSetMonitorGamma);
+    connect(monitorGamma, static_cast<void (KSelectAction::*)(int)>(&KSelectAction::triggered), this, &MainWindow::slotSetMonitorGamma);
 
     addAction(QStringLiteral("switch_trim"), i18n("Trim Mode"), this, SLOT(slotSwitchTrimMode()), KoIconUtils::themedIcon(QStringLiteral("cursor-arrow")));
     // disable shortcut until fully working, Qt::CTRL + Qt::Key_T);
@@ -1847,9 +1846,9 @@ void MainWindow::slotRenderProject()
             m_renderWidget->setRenderProfile(project->getRenderProperties());
         }
         if (m_compositeAction->currentAction()) {
-            m_renderWidget->errorMessage(RenderWidget::CompositeError,
-                                         m_compositeAction->currentAction()->data().toInt() == 1 ? i18n("Rendering using low quality track compositing")
-                                                                                                 : QString());
+            m_renderWidget->errorMessage(RenderWidget::CompositeError, m_compositeAction->currentAction()->data().toInt() == 1
+                                                                           ? i18n("Rendering using low quality track compositing")
+                                                                           : QString());
         }
     }
     slotCheckRenderStatus();
@@ -2886,7 +2885,7 @@ void MainWindow::slotClipInProjectTree()
         int start = pCore->getItemIn(id);
         int duration = pCore->getItemDuration(id);
         QPoint zone(start, start + duration);
-        qDebug()<<" - - selecting clip on monitor, zone: "<<zone;
+        qDebug() << " - - selecting clip on monitor, zone: " << zone;
         if (m_projectMonitor->isActive()) {
             slotSwitchMonitors();
         }
@@ -3026,7 +3025,7 @@ void MainWindow::slotGetNewLumaStuff()
 void MainWindow::slotGetNewKeyboardStuff()
 {
     if (getNewStuff(QStringLiteral(":data/kdenlive_keyboardschemes.knsrc")) > 0) {
-        //Is there something to do ?
+        // Is there something to do ?
     }
 }
 
@@ -3174,16 +3173,17 @@ void MainWindow::buildDynamicActions()
         if (filter->is_valid()) {
             QAction *action = new QAction(i18n("Automatic scene split"), m_extraFactory->actionCollection());
             ts->addAction(action->text(), action);
-            connect(action, &QAction::triggered,
-                    [&]() { pCore->jobManager()->startJob<SceneSplitJob>(pCore->bin()->selectedClipsIds(), {}, i18np("Stabilize clip", "Stabilize clips", pCore->bin()->selectedClipsIds().size())); });
+            connect(action, &QAction::triggered, [&]() {
+                pCore->jobManager()->startJob<SceneSplitJob>(pCore->bin()->selectedClipsIds(), {},
+                                                             i18np("Stabilize clip", "Stabilize clips", pCore->bin()->selectedClipsIds().size()));
+            });
         }
     }
     if (true /* TODO: check if timewarp producer is available */) {
         QAction *action = new QAction(i18n("Duplicate clip with speed change"), m_extraFactory->actionCollection());
         ts->addAction(action->text(), action);
         connect(action, &QAction::triggered,
-                    [&]() {
-                        pCore->jobManager()->startJob<SpeedJob>(pCore->bin()->selectedClipsIds(), {}, i18n("Change clip speed")); });
+                [&]() { pCore->jobManager()->startJob<SpeedJob>(pCore->bin()->selectedClipsIds(), {}, i18n("Change clip speed")); });
     }
     // TODO refac reimplement analyseclipjob
     /*
@@ -4090,8 +4090,7 @@ void MainWindow::slotSwitchTrimMode()
     */
 }
 
-void MainWindow::setTrimMode(const QString &mode)
-{
+void MainWindow::setTrimMode(const QString &mode){
     Q_UNUSED(mode)
     // TODO refac
     /*

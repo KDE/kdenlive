@@ -23,12 +23,12 @@
 
 #include <QIcon>
 
-TrackDialog::TrackDialog(std::shared_ptr<TimelineItemModel> model, int trackIndex, QWidget *parent, bool deleteMode) :
-    QDialog(parent)
+TrackDialog::TrackDialog(std::shared_ptr<TimelineItemModel> model, int trackIndex, QWidget *parent, bool deleteMode)
+    : QDialog(parent)
     , m_audioCount(1)
     , m_videoCount(1)
 {
-    //setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    // setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     QIcon videoIcon = QIcon::fromTheme(QStringLiteral("kdenlive-show-video"));
     QIcon audioIcon = QIcon::fromTheme(QStringLiteral("kdenlive-show-audio"));
     setupUi(this);
@@ -44,8 +44,7 @@ TrackDialog::TrackDialog(std::shared_ptr<TimelineItemModel> model, int trackInde
         const QString trackName = model->getTrackProperty(tid, QStringLiteral("kdenlive:track_name")).toString();
         existingTrackNames << trackName;
         // Track index in in MLT, so add + 1 to compensate black track
-        comboTracks->addItem(audioTrack ? audioIcon : videoIcon,
-                             trackName.isEmpty() ? QString::number(i) : trackName, i + 1);
+        comboTracks->addItem(audioTrack ? audioIcon : videoIcon, trackName.isEmpty() ? QString::number(i) : trackName, i + 1);
     }
     if (trackIndex > -1) {
         int ix = comboTracks->findData(trackIndex);
@@ -73,9 +72,7 @@ void TrackDialog::updateName(bool audioTrack)
 {
     QString proposedName = i18n(audioTrack ? "Audio %1" : "Video %1", audioTrack ? m_audioCount : m_videoCount);
     track_name->setText(proposedName);
-    
 }
-
 
 int TrackDialog::selectedTrack() const
 {

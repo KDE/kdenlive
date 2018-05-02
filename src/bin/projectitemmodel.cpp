@@ -64,9 +64,7 @@ std::shared_ptr<ProjectItemModel> ProjectItemModel::construct(QObject *parent)
     return self;
 }
 
-ProjectItemModel::~ProjectItemModel()
-{
-}
+ProjectItemModel::~ProjectItemModel() {}
 
 int ProjectItemModel::mapToColumn(int column) const
 {
@@ -275,7 +273,8 @@ QMimeData *ProjectItemModel::mimeData(const QModelIndexList &indices) const
             duration += (std::static_pointer_cast<ProjectClip>(item))->frameDuration();
         } else if (type == AbstractProjectItem::SubClipItem) {
             QPoint p = item->zone();
-            list << std::static_pointer_cast<ProjectSubClip>(item)->getMasterClip()->clipId() + QLatin1Char('/') + QString::number(p.x()) + QLatin1Char('/') + QString::number(p.y());
+            list << std::static_pointer_cast<ProjectSubClip>(item)->getMasterClip()->clipId() + QLatin1Char('/') + QString::number(p.x()) + QLatin1Char('/') +
+                        QString::number(p.y());
         } else if (type == AbstractProjectItem::FolderItem) {
             list << "#" + item->clipId();
         }
@@ -818,7 +817,7 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tract
                     producer->set("_kdenlive_processed", 1);
                     requestAddBinClip(newId, producer, parentId, undo, redo);
                     binIdCorresp[id] = newId;
-                    qDebug() << "Loaded clip "<< id <<"under id"<<newId;
+                    qDebug() << "Loaded clip " << id << "under id" << newId;
                 }
             }
         }

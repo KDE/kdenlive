@@ -80,8 +80,7 @@ std::unordered_set<QString> StabilizeJob::supportedFilters()
 }
 
 // static
-int StabilizeJob::prepareJob(std::shared_ptr<JobManager> ptr, const std::vector<QString> &binIds, int parentId, QString undoString,
-                             const QString &filterName)
+int StabilizeJob::prepareJob(std::shared_ptr<JobManager> ptr, const std::vector<QString> &binIds, int parentId, QString undoString, const QString &filterName)
 {
     Q_ASSERT(supportedFilters().count(filterName) > 0);
     if (filterName == QLatin1String("vidstab") || filterName == QLatin1String("videostab2") || filterName == QLatin1String("videostab")) {

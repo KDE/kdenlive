@@ -69,14 +69,14 @@ protected:
 private:
     QMutex m_mutex;
     QVBoxLayout *m_lay;
-    //BuiltStack *m_builtStack;
+    // BuiltStack *m_builtStack;
     QTreeView *m_effectsTree;
     std::shared_ptr<EffectStackModel> m_model;
     std::vector<CollapsibleEffectView *> m_widgets;
     AssetIconProvider *m_thumbnailer;
 
     /** @brief the frame size of the original clip this effect is applied on
-    */
+     */
     QSize m_sourceFrameSize;
     const QString getStyleSheet();
     void updateTreeHeight();
@@ -88,7 +88,7 @@ private slots:
     void slotActivateEffect(std::shared_ptr<EffectItemModel> effectModel);
     void loadEffects();
 
-//    void switchBuiltStack(bool show);
+    //    void switchBuiltStack(bool show);
 
 signals:
     void doActivateEffect(QModelIndex);

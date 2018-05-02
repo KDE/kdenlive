@@ -279,4 +279,3 @@ void MeltJob::mltFrameCallback(int pos)
         emit jobProgress((int)(100 * pos / m_length));
     }
 }
-

@@ -92,8 +92,8 @@ public:
     void setMaximum(qreal max);
 
     /**
-    * The value shown.
-    */
+     * The value shown.
+     */
     qreal value() const;
 
     QSize minimumSizeHint() const override; ///< reimplemented from KComboBox
@@ -102,10 +102,10 @@ public:
 public slots:
 
     /**
-    * Sets the value.
-    * The value actually set is forced to be within the legal range: minimum <= value <= maximum
-    * @param value the new value
-    */
+     * Sets the value.
+     * The value actually set is forced to be within the legal range: minimum <= value <= maximum
+     * @param value the new value
+     */
     void setValue(qreal value);
 
 signals:

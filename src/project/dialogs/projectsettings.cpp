@@ -432,10 +432,12 @@ void ProjectSettings::accept()
     }
     QString params = preview_profile->itemData(preview_profile->currentIndex()).toString();
     if (!params.isEmpty()) {
-        if (params.section(QLatin1Char(';'), 0, 0) != m_previewparams || params.section(QLatin1Char(';'), 1, 1) != m_previewextension || m_resizePreview != resize_preview->isChecked() || m_previewHeight != preview_height->value()) {
+        if (params.section(QLatin1Char(';'), 0, 0) != m_previewparams || params.section(QLatin1Char(';'), 1, 1) != m_previewextension ||
+            m_resizePreview != resize_preview->isChecked() || m_previewHeight != preview_height->value()) {
             // Timeline preview settings changed, warn
-            if (KMessageBox::warningContinueCancel(this, i18n("You changed the timeline preview profile. This will remove all existing timeline previews for "
-                                                              "this project.\n Are you sure you want to proceed?"),
+            if (KMessageBox::warningContinueCancel(this,
+                                                   i18n("You changed the timeline preview profile. This will remove all existing timeline previews for "
+                                                        "this project.\n Are you sure you want to proceed?"),
                                                    i18n("Confirm profile change")) == KMessageBox::Cancel) {
                 return;
             }
@@ -443,8 +445,9 @@ void ProjectSettings::accept()
     }
     if (!m_savedProject && selectedProfile() != pCore->getCurrentProfile()->path()) {
         if (KMessageBox::warningContinueCancel(
-                this, i18n("Changing the profile of your project cannot be undone.\nIt is recommended to save your project before attempting this operation "
-                           "that might cause some corruption in transitions.\n Are you sure you want to proceed?"),
+                this,
+                i18n("Changing the profile of your project cannot be undone.\nIt is recommended to save your project before attempting this operation "
+                     "that might cause some corruption in transitions.\n Are you sure you want to proceed?"),
                 i18n("Confirm profile change")) == KMessageBox::Cancel) {
             return;
         }

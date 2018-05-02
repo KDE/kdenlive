@@ -36,7 +36,7 @@ class ProjectManager;
 namespace Mlt {
 class Repository;
 class Profile;
-}
+} // namespace Mlt
 
 #define EXIT_RESTART (42)
 #define pCore Core::self()

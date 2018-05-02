@@ -30,7 +30,7 @@
 #include <memory>
 
 /* @brief This is the base class for objects that can move, for example clips and compositions
-*/
+ */
 template <typename Service> class MoveableItem
 {
     MoveableItem() = delete;

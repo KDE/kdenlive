@@ -55,7 +55,7 @@ class MonitorController;
 namespace Mlt {
 class Profile;
 class Filter;
-}
+} // namespace Mlt
 
 class QuickEventEater : public QObject
 {
@@ -153,7 +153,7 @@ public:
     /** @brief Clear monitor display **/
     void clearDisplay();
     void setProducer(Mlt::Producer *producer, int pos = -1);
-   void reconfigure();
+    void reconfigure();
     /** @brief Saves current monitor frame to an image file, and add it to project if addToProject is set to true **/
     void slotExtractCurrentFrame(QString frameName = QString(), bool addToProject = false);
     /** @brief Zoom in active monitor */

@@ -103,9 +103,7 @@ DataQueue<T>::DataQueue(int maxSize, OverflowMode mode)
 {
 }
 
-template <class T> DataQueue<T>::~DataQueue()
-{
-}
+template <class T> DataQueue<T>::~DataQueue() {}
 
 template <class T> void DataQueue<T>::push(const T &item)
 {

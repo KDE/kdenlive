@@ -117,7 +117,7 @@ bool ThumbJob::commitResult(Fun &undo, Fun &redo)
     }
     if (!m_inCache) {
         if (m_result.isNull()) {
-            qDebug()<<"+++++\nINVALID RESULT IMAGE\n++++++++++++++";
+            qDebug() << "+++++\nINVALID RESULT IMAGE\n++++++++++++++";
         } else {
             ThumbnailCache::get()->storeThumbnail(m_binClip->clipId(), m_frameNumber, m_result, m_persistent);
         }
@@ -132,15 +132,15 @@ bool ThumbJob::commitResult(Fun &undo, Fun &redo)
 
         // note that the image is moved into lambda, it won't be available from this class anymore
         auto operation = [ clip = subClip, image = std::move(m_result) ]()
-            {
-                clip->setThumbnail(image);
-                return true;
-            };
+        {
+            clip->setThumbnail(image);
+            return true;
+        };
         auto reverse = [ clip = subClip, image = std::move(old) ]()
-            {
-                clip->setThumbnail(image);
-                return true;
-            };
+        {
+            clip->setThumbnail(image);
+            return true;
+        };
         ok = operation();
         if (ok) {
             UPDATE_UNDO_REDO_NOLOCK(operation, reverse, undo, redo);

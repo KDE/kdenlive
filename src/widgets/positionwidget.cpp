@@ -50,9 +50,7 @@ PositionWidget::PositionWidget(const QString &name, int pos, int min, int max, c
     setToolTip(comment);
 }
 
-PositionWidget::~PositionWidget()
-{
-}
+PositionWidget::~PositionWidget() {}
 
 void PositionWidget::updateTimecodeFormat()
 {

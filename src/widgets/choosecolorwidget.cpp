@@ -36,9 +36,9 @@ static QColor stringToColor(QString strColor)
             // 0xRRGGBBAA
             intval = strColor.toUInt(&ok, 16);
             color.setRgb((int)((intval >> 24) & 0xff), // r
-                         (intval >> 16) & 0xff, // g
-                         (intval >> 8) & 0xff,  // b
-                         intval & 0xff);        // a
+                         (intval >> 16) & 0xff,        // g
+                         (intval >> 8) & 0xff,         // b
+                         intval & 0xff);               // a
         } else {
             // 0xRRGGBB, 0xRGB
             color.setNamedColor(strColor.replace(0, 2, QLatin1Char('#')));
@@ -48,9 +48,9 @@ static QColor stringToColor(QString strColor)
             // #AARRGGBB
             strColor = strColor.replace('#', QLatin1String("0x"));
             intval = strColor.toUInt(&ok, 16);
-            color.setRgb((intval >> 16) & 0xff,  // r
-                         (intval >> 8) & 0xff,   // g
-                         intval&0xff,          // b
+            color.setRgb((intval >> 16) & 0xff,         // r
+                         (intval >> 8) & 0xff,          // g
+                         intval & 0xff,                 // b
                          (int)((intval >> 24) & 0xff)); // a
         } else if (strColor.length() == 8) {
             // 0xRRGGBB

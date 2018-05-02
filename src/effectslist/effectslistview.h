@@ -128,23 +128,23 @@ public:
 
 private:
     /** @brief tells us if this is an effect or transition list
-    */
+     */
     LISTMODE m_mode;
     EffectsListWidget *m_effectsList;
     MyTreeWidgetSearchLine *m_search_effect;
     const QString customStyleSheet() const;
     /** @brief Custom button to display favorite effects, accepts drops to add effect to favorites.
-    */
+     */
     MyDropButton *m_effectsFavorites;
     /** @brief Action triggering remove effect from favorites or delete custom effect, depending on active tab.
-    */
+     */
     QAction *m_removeAction;
     QAction *m_favoriteAction;
     QMenu *m_contextMenu;
 
 private slots:
     /** @brief Applies the type filter to the effect list.
-    * @param pos Index of the combo box; where 0 = All, 1 = Video, 2 = Audio, 3 = GPU, 4 = Custom */
+     * @param pos Index of the combo box; where 0 = All, 1 = Video, 2 = Audio, 3 = GPU, 4 = Custom */
     void filterList();
 
     /** @brief Updates the info panel to match the selected effect. */
@@ -157,23 +157,23 @@ private slots:
     void slotEffectSelected();
 
     /** @brief Removes the XML file for the selected effect.
-    *
-    * Only used for custom effects */
+     *
+     * Only used for custom effects */
     void slotRemoveEffect();
 
     /** @brief Makes sure the item fits the type filter.
-    * @param item Current item
-    * @param hidden Hidden or not
-    *
-    * This is necessary to make the search obey to the type filter.
-    * Called when the visibility of this item was changed by searching */
+     * @param item Current item
+     * @param hidden Hidden or not
+     *
+     * This is necessary to make the search obey to the type filter.
+     * Called when the visibility of this item was changed by searching */
     void slotUpdateSearch(QTreeWidgetItem *item, bool hidden);
 
     /** @brief Expands folders that match our search.
-    * @param text Current search string */
+     * @param text Current search string */
     void slotAutoExpand(const QString &text);
     /** @brief Add an effect to the favorites
-    * @param id id of the effect we want */
+     * @param id id of the effect we want */
     void slotAddFavorite(const QString &id);
     /** @brief Add currently selected effect to the favorites */
     void slotAddToFavorites();

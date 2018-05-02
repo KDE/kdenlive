@@ -18,10 +18,10 @@
 #ifndef POSITIONWIDGET_H
 #define POSITIONWIDGET_H
 
+#include "abstractparamwidget.hpp"
 #include "timecode.h"
 #include <QString>
 #include <QWidget>
-#include "abstractparamwidget.hpp"
 
 class QSlider;
 class TimecodeDisplay;
@@ -55,7 +55,6 @@ public slots:
     /** @brief refresh the properties to reflect changes in the model
      */
     void slotRefresh() override;
-
 
 private:
     TimecodeDisplay *m_display;

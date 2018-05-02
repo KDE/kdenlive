@@ -82,16 +82,14 @@ public:
         @param args are the arguments to construct the job
         @param return the id of the created job
     */
-    template <typename T, typename... Args>
-    int startJob(const std::vector<QString> &binIds, int parentId, QString undoString, Args &&... args);
+    template <typename T, typename... Args> int startJob(const std::vector<QString> &binIds, int parentId, QString undoString, Args &&... args);
     // Same function, but we specify the function used to create a new job
     template <typename T, typename... Args>
-    int startJob(const std::vector<QString> &binIds, int parentId, QString undoString,
-                 std::function<std::shared_ptr<T>(const QString &, Args...)> createFn, Args &&... args);
+    int startJob(const std::vector<QString> &binIds, int parentId, QString undoString, std::function<std::shared_ptr<T>(const QString &, Args...)> createFn,
+                 Args &&... args);
 
     // Same function, but do not call prepareJob
-    template <typename T, typename... Args>
-    int startJob_noprepare(const std::vector<QString> &binIds, int parentId, QString undoString, Args &&... args);
+    template <typename T, typename... Args> int startJob_noprepare(const std::vector<QString> &binIds, int parentId, QString undoString, Args &&... args);
 
     /** @brief Discard specific job type for a clip.
      *  @param binId the clip id

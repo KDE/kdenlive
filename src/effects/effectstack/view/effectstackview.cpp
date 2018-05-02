@@ -26,10 +26,10 @@
 #include "builtstack.hpp"
 #include "collapsibleeffectview.hpp"
 #include "core.h"
-#include "monitor/monitor.h"
 #include "effects/effectstack/model/effectitemmodel.hpp"
 #include "effects/effectstack/model/effectstackmodel.hpp"
 #include "kdenlivesettings.h"
+#include "monitor/monitor.h"
 
 #include <QDrag>
 #include <QDragEnterEvent>
@@ -173,7 +173,7 @@ void EffectStackView::setModel(std::shared_ptr<EffectStackModel> model, const QS
     qDebug() << "MUTEX UNLOCK!!!!!!!!!!!! setmodel";
     loadEffects();
     connect(m_model.get(), &EffectStackModel::dataChanged, this, &EffectStackView::refresh);
-    //m_builtStack->setModel(model, stackOwner());
+    // m_builtStack->setModel(model, stackOwner());
 }
 
 void EffectStackView::loadEffects()
@@ -280,7 +280,7 @@ void EffectStackView::slotStartDrag(QPixmap pix, std::shared_ptr<EffectItemModel
 
 void EffectStackView::slotAdjustDelegate(std::shared_ptr<EffectItemModel> effectModel, int height)
 {
-    qDebug() << "MUTEX LOCK!!!!!!!!!!!! adjustdelegate: "<<height;
+    qDebug() << "MUTEX LOCK!!!!!!!!!!!! adjustdelegate: " << height;
     QMutexLocker lock(&m_mutex);
     QModelIndex ix = m_model->getIndexFromItem(effectModel);
     WidgetDelegate *del = static_cast<WidgetDelegate *>(m_effectsTree->itemDelegate(ix));
@@ -296,8 +296,8 @@ void EffectStackView::refresh(const QModelIndex &topLeft, const QModelIndex &bot
         loadEffects();
         return;
     }
-    for (int i = topLeft.row(); i <= bottomRight.row(); ++i)  {
-        for (int j = topLeft.column(); j <= bottomRight.column(); ++j)  {
+    for (int i = topLeft.row(); i <= bottomRight.row(); ++i) {
+        for (int j = topLeft.column(); j <= bottomRight.column(); ++j) {
             CollapsibleEffectView *w = static_cast<CollapsibleEffectView *>(m_effectsTree->indexWidget(m_model->index(i, j, topLeft.parent())));
             if (w) {
                 w->refresh();

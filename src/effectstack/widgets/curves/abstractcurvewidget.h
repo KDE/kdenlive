@@ -75,7 +75,7 @@ public:
     virtual ~AbstractCurveWidget(){};
 
     /** @param parent Optional parent of the widget
-    */
+     */
     AbstractCurveWidget(QWidget *parent = nullptr);
 
     /** @brief Returns whether the points are controlled with additional handles

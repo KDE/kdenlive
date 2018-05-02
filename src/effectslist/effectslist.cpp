@@ -27,9 +27,7 @@ EffectsList::EffectsList(bool indexRequired)
     appendChild(m_baseElement);
 }
 
-EffectsList::~EffectsList()
-{
-}
+EffectsList::~EffectsList() {}
 
 QDomElement EffectsList::getEffectByName(const QString &name) const
 {

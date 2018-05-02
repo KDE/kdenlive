@@ -79,7 +79,6 @@ private:
     TimecodeDisplay *m_time;
     void connectMonitor(bool active);
     std::unordered_map<QPersistentModelIndex, QWidget *> m_parameters;
-
 };
 
 #endif

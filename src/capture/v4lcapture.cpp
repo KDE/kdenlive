@@ -30,9 +30,7 @@
 #include <linux/videodev2.h>
 #include <sys/ioctl.h>
 
-V4lCaptureHandler::V4lCaptureHandler()
-{
-}
+V4lCaptureHandler::V4lCaptureHandler() {}
 
 // static
 

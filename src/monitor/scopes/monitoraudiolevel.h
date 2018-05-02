@@ -28,7 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 namespace Mlt {
 class Profile;
 class Filter;
-}
+} // namespace Mlt
 
 class MonitorAudioLevel : public ScopeWidget
 {

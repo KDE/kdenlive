@@ -67,7 +67,7 @@ MarkerDialog::MarkerDialog(ClipController *clip, const CommentedTime &t, const T
         case ClipType::SlideShow:
         case ClipType::Playlist:
             m_previewTimer->start();
-            connect(this, &MarkerDialog::updateThumb, m_previewTimer, static_cast<void(QTimer::*)()>(&QTimer::start));
+            connect(this, &MarkerDialog::updateThumb, m_previewTimer, static_cast<void (QTimer::*)()>(&QTimer::start));
             break;
         case ClipType::Image:
         case ClipType::Text:

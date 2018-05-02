@@ -114,7 +114,7 @@ public:
     void setParameters(const QVector<QPair<QString, QVariant>> &params);
 
     /* Which monitor is attached to this asset (clip/project)
-    */
+     */
     Kdenlive::MonitorId monitorId;
 
     QVariant data(const QModelIndex &index, int role) const override;

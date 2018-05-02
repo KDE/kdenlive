@@ -51,9 +51,9 @@ class TracksConfigDialog : public QDialog, public Ui::TracksConfigDialog_UI
     Q_OBJECT
 public:
     /** @brief Sets up the table.
-    * @param doc the kdenlive document whose tracks to use
-    * @param selected the track which should be selected by default
-    * @param parent the parent widget */
+     * @param doc the kdenlive document whose tracks to use
+     * @param selected the track which should be selected by default
+     * @param parent the parent widget */
     explicit TracksConfigDialog(Timeline *timeline, int selected = -1, QWidget *parent = nullptr);
 
     /** @brief Returns the new list of tracks created from the table. */

@@ -84,30 +84,30 @@ OAuth2::OAuth2(QWidget *parent)
     connect(this, &OAuth2::AuthCodeObtained, this, &OAuth2::SlotAuthCodeObtained);
 }
 /**
-  * @brief OAuth2::getClientID - returns QString of the "clientID"
-  * @return QString of the "clientID" which is a string that identifies the Kdenlive
-   * applicaiton to the freesound website when the request for authentication is made
-  */
+ * @brief OAuth2::getClientID - returns QString of the "clientID"
+ * @return QString of the "clientID" which is a string that identifies the Kdenlive
+ * applicaiton to the freesound website when the request for authentication is made
+ */
 QString OAuth2::getClientID() const
 {
     return m_strClientID;
 }
 /**
-  * @brief OAuth2::getClientSecret - returns QString of the "client secret"
-  * @return - QString of the "client secret" which is another string that identifies the Kdenlive
-  * applicaiton to the freesound website when the application asks for an access token
-  */
+ * @brief OAuth2::getClientSecret - returns QString of the "client secret"
+ * @return - QString of the "client secret" which is another string that identifies the Kdenlive
+ * applicaiton to the freesound website when the application asks for an access token
+ */
 QString OAuth2::getClientSecret() const
 {
     return OAuth2_strClientSecret;
 }
 
 /**
-* @brief OAuth2::ForgetAccessToken - clear saved access token from settings  and memory /n
-* deletes the saved access token from the settings file and from memory.
-* Used when the authentication process has failed  and has the effect of forcing
-* the user to re-authenticate with freesound the next time they try and download a freesound HQ file
-*/
+ * @brief OAuth2::ForgetAccessToken - clear saved access token from settings  and memory /n
+ * deletes the saved access token from the settings file and from memory.
+ * Used when the authentication process has failed  and has the effect of forcing
+ * the user to re-authenticate with freesound the next time they try and download a freesound HQ file
+ */
 void OAuth2::ForgetAccessToken()
 {
 
@@ -121,9 +121,9 @@ void OAuth2::ForgetAccessToken()
 }
 
 /**
-* @brief OAuth2::loginUrl - returns  QString containing URL to connect to freesound.
-* @return - QString containing URL to connect to freesound.  Substitutes clientid,redirecturi and response types into the string
-*/
+ * @brief OAuth2::loginUrl - returns  QString containing URL to connect to freesound.
+ * @return - QString containing URL to connect to freesound.  Substitutes clientid,redirecturi and response types into the string
+ */
 QString OAuth2::loginUrl()
 {
 
