@@ -32,7 +32,9 @@
 #include <unordered_set>
 
 /* @brief This class an effect stack as viewed by the back-end.
-   It is responsible for planting and managing effects into the producer it holds a pointer to.
+   It is responsible for planting and managing effects into the list of producer it holds a pointer to.
+   It can contains more than one producer for example if it represents the effect stack of a projectClip: this clips contains several producers (audio, video,
+   ...)
  */
 class AbstractEffectItem;
 class AssetParameterModel;
@@ -51,7 +53,6 @@ public:
        @param ownerId is some information about the actual object to which the effects are applied
     */
     static std::shared_ptr<EffectStackModel> construct(std::weak_ptr<Mlt::Service> service, ObjectId ownerId, std::weak_ptr<DocUndoStack> undo_stack);
-    void resetService(std::weak_ptr<Mlt::Service> service);
 
 protected:
     EffectStackModel(std::weak_ptr<Mlt::Service> service, ObjectId ownerId, std::weak_ptr<DocUndoStack> undo_stack);
@@ -105,6 +106,12 @@ public:
     /** Remove unwanted fade effects, mostly after a cut operation */
     void cleanFadeEffects(bool outEffects, Fun &undo, Fun &redo);
 
+    /* Remove all the services associated with this stack and replace them with the given one */
+    void resetService(std::weak_ptr<Mlt::Service> service);
+
+    /* @brief Append a new service to be managed by this stack */
+    void addService(std::weak_ptr<Mlt::Service> service);
+
 public slots:
     /* @brief Delete an effect from the stack */
     void removeEffect(std::shared_ptr<EffectItemModel> effect);
@@ -119,7 +126,7 @@ protected:
     /* @brief This is a convenience function that helps check if the tree is in a valid state */
     bool checkConsistency() override;
 
-    std::weak_ptr<Mlt::Service> m_service;
+    std::vector<std::weak_ptr<Mlt::Service>> m_services;
     bool m_effectStackEnabled;
     ObjectId m_ownerId;
 
