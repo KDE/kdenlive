@@ -279,7 +279,6 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
         paramWidget = roto;
         paramWidget->setMaximumHeight(1);
     } else {
-        QLocale locale;
         double value = m_keyframes->getInterpolatedValue(getPosition(), index).toDouble();
         double min = locale.toDouble(m_model->data(index, AssetParameterModel::MinRole).toString());
         double max = locale.toDouble(m_model->data(index, AssetParameterModel::MaxRole).toString());
