@@ -313,6 +313,9 @@ int TimelineModel::getMirrorAudioTrackId(int trackId) const
         }
         --it;
     }
+    if ((*it)->isAudioTrack() && count == 0) {
+        return (*it)->getId();
+    }
     return -1;
 }
 
