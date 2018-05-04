@@ -39,7 +39,6 @@
 #include "mltcontroller/effectscontroller.h"
 #include "timecode.h"
 
-class ClipManager;
 class MainWindow;
 class TrackInfo;
 class ProjectClip;
@@ -76,7 +75,6 @@ public:
     Timecode timecode() const;
     QDomDocument toXml();
     std::shared_ptr<DocUndoStack> commandStack();
-    ClipManager *clipManager();
 
     int getFramePos(const QString &duration);
     /** @brief Get a bin's clip from its id. */
@@ -165,7 +163,6 @@ private:
     QString m_documentRoot;
     Timecode m_timecode;
     std::shared_ptr<DocUndoStack> m_commandStack;
-    ClipManager *m_clipManager;
     QString m_searchFolder;
 
     /** @brief Tells whether the current document has been changed after being saved. */

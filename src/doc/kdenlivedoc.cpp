@@ -37,7 +37,6 @@
 #include "mltcontroller/effectscontroller.h"
 #include "profiles/profilemodel.hpp"
 #include "profiles/profilerepository.hpp"
-#include "project/clipmanager.h"
 #include "project/projectcommands.h"
 #include "renderer.h"
 #include "titler/titlewidget.h"
@@ -86,9 +85,6 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGro
     m_commandStack = std::make_shared<DocUndoStack>(undoGroup);
     m_guideModel.reset(new MarkerListModel(m_commandStack, this));
     connect(m_guideModel.get(), &MarkerListModel::modelChanged, this, &KdenliveDoc::guidesChanged);
-
-    m_clipManager = new ClipManager(this);
-    connect(m_clipManager, SIGNAL(displayMessage(QString, int)), parent, SLOT(slotGotProgressInfo(QString, int)));
     connect(this, SIGNAL(updateCompositionMode(int)), parent, SLOT(slotUpdateCompositeAction(int)));
     bool success = false;
     connect(m_commandStack.get(), &QUndoStack::indexChanged, this, &KdenliveDoc::slotModified);
@@ -287,7 +283,6 @@ KdenliveDoc::~KdenliveDoc()
     // qCDebug(KDENLIVE_LOG) << "// DEL CLP MAN";
     // Clean up guide model
     m_guideModel.reset();
-    delete m_clipManager;
     // qCDebug(KDENLIVE_LOG) << "// DEL CLP MAN done";
     if (m_autosave) {
         if (!m_autosave->fileName().isEmpty()) {
@@ -594,11 +589,6 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene)
     QDir backupFolder(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/.backup"));
     emit saveTimelinePreview(backupFolder.absoluteFilePath(fileName));
     return true;
-}
-
-ClipManager *KdenliveDoc::clipManager()
-{
-    return m_clipManager;
 }
 
 QString KdenliveDoc::projectTempFolder() const

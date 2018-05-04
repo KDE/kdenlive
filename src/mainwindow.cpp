@@ -52,7 +52,6 @@
 #include "monitor/monitormanager.h"
 #include "monitor/scopes/audiographspectrum.h"
 #include "profiles/profilemodel.hpp"
-#include "project/clipmanager.h"
 #include "project/cliptranscode.h"
 #include "project/dialogs/archivewidget.h"
 #include "project/dialogs/projectsettings.h"
