@@ -11,7 +11,6 @@ Item {
     property rect framesize
     property point profile
     property point center
-    property double zoom
     property double scalex
     property double scaley
     property double stretch : 1
@@ -26,15 +25,9 @@ Item {
     property bool iskeyframe
     property int requestedKeyFrame
     property var centerPoints: []
-    property bool showToolbar: false
     onCenterPointsChanged: canvas.requestPaint()
     signal effectPolygonChanged()
     signal addKeyframe()
-    signal seekToKeyframe()
-    signal toolBarChanged(bool doAccept)
-    onZoomChanged: {
-        effectToolBar.setZoom(root.zoom)
-    }
 
     function refreshdar() {
         canvas.darOffset = root.sourcedar < root.profile.x * root.stretch / root.profile.y ? (root.profile.x * root.stretch - root.profile.y * root.sourcedar) / (2 * root.profile.x * root.stretch) :(root.profile.y - root.profile.x * root.stretch / root.sourcedar) / (2 * root.profile.y);
@@ -193,11 +186,20 @@ Item {
     EffectToolBar {
         id: effectToolBar
         anchors {
-            left: parent.left
+            right: parent.right
             top: parent.top
-            topMargin: 10
-            leftMargin: 10
+            topMargin: 4
+            rightMargin: 4
         }
-        visible: root.showToolbar
+        visible: global.mouseX >= x - 10
+    }
+    MonitorRuler {
+        id: clipMonitorRuler
+        anchors {
+            left: root.left
+            right: root.right
+            bottom: root.bottom
+        }
+        height: controller.rulerHeight
     }
 }

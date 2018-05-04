@@ -1645,11 +1645,15 @@ void AnimationWidget::monitorSeek(int pos)
     if (m_spinX) {
         // Update monitor scene for geometry params
         if (pos > m_inPoint && pos < m_outPoint) {
-            connectMonitor(true);
-            m_monitor->slotShowEffectScene(MonitorSceneGeometry);
+            if (!m_active) {
+                connectMonitor(true);
+                m_monitor->slotShowEffectScene(MonitorSceneGeometry);
+            }
         } else {
-            connectMonitor(false);
-            m_monitor->slotShowEffectScene(MonitorSceneDefault);
+            if (m_active) {
+                connectMonitor(false);
+                m_monitor->slotShowEffectScene(MonitorSceneDefault);
+            }
         }
     }
 }

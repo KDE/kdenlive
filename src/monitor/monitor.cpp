@@ -159,6 +159,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     connect(m_glMonitor, &GLWidget::passKeyEvent, this, &Monitor::doKeyPressEvent);
     connect(m_glMonitor, &GLWidget::panView, this, &Monitor::panView);
     connect(m_glMonitor, &GLWidget::seekPosition, this, &Monitor::slotSeekPosition, Qt::DirectConnection);
+
     connect(m_glMonitor, &GLWidget::activateMonitor, this, &AbstractMonitor::slotActivateMonitor, Qt::DirectConnection);
     m_videoWidget = QWidget::createWindowContainer(qobject_cast<QWindow *>(m_glMonitor));
     m_videoWidget->setAcceptDrops(true);
@@ -301,6 +302,10 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
         connect(m_glMonitor->getControllerProxy(), &MonitorProxy::zoneChanged, this, &Monitor::updateClipZone);
     }
     connect(m_glMonitor->getControllerProxy(), &MonitorProxy::triggerAction, pCore.get(), &Core::triggerAction);
+    connect(m_glMonitor->getControllerProxy(), &MonitorProxy::seekNextKeyframe, this, &Monitor::seekToNextKeyframe);
+    connect(m_glMonitor->getControllerProxy(), &MonitorProxy::seekPreviousKeyframe, this, &Monitor::seekToPreviousKeyframe);
+    connect(m_glMonitor->getControllerProxy(), &MonitorProxy::addRemoveKeyframe, this, &Monitor::addRemoveKeyframe);
+    connect(m_glMonitor->getControllerProxy(), &MonitorProxy::addRemoveKeyframe, this, &Monitor::slotSeekToKeyFrame);
 
     m_sceneVisibilityAction = new QAction(KoIconUtils::themedIcon(QStringLiteral("transform-crop")), i18n("Show/Hide edit mode"), this);
     m_sceneVisibilityAction->setCheckable(true);
@@ -1868,7 +1873,6 @@ void Monitor::loadQmlScene(MonitorSceneType type)
     double ratio = (double)m_glMonitor->profileSize().width() / (int)(m_glMonitor->profileSize().height() * m_glMonitor->profile()->dar() + 0.5);
     m_qmlManager->setScene(m_id, type, m_glMonitor->profileSize(), ratio, m_glMonitor->displayRect(), m_glMonitor->zoom(), m_timePos->maximum());
     QQuickItem *root = m_glMonitor->rootObject();
-    connectQmlToolbar(root);
     switch (type) {
     case MonitorSceneSplit:
         QObject::connect(root, SIGNAL(qmlMoveSplit()), this, SLOT(slotAdjustEffectCompare()), Qt::UniqueConnection);
@@ -1876,8 +1880,6 @@ void Monitor::loadQmlScene(MonitorSceneType type)
     case MonitorSceneGeometry:
     case MonitorSceneCorners:
     case MonitorSceneRoto:
-        QObject::connect(root, SIGNAL(addKeyframe()), this, SIGNAL(addKeyframe()), Qt::UniqueConnection);
-        QObject::connect(root, SIGNAL(seekToKeyframe()), this, SLOT(slotSeekToKeyFrame()), Qt::UniqueConnection);
         break;
     case MonitorSceneRipple:
         QObject::connect(root, SIGNAL(doAcceptRipple(bool)), this, SIGNAL(acceptRipple(bool)), Qt::UniqueConnection);
@@ -1896,28 +1898,6 @@ void Monitor::loadQmlScene(MonitorSceneType type)
         break;
     }
     m_qmlManager->setProperty(QStringLiteral("fps"), QString::number(m_monitorManager->timecode().fps(), 'g', 2));
-}
-
-void Monitor::connectQmlToolbar(QQuickItem *root)
-{
-    // TODO: get rid of this horrible hack and use triggerAction in qml
-    // Effect monitor toolbar
-    QObject *button = root->findChild<QObject *>(QStringLiteral("nextKeyframe"));
-    if (button) {
-        QObject::connect(button, SIGNAL(clicked()), this, SIGNAL(seekToNextKeyframe()), Qt::UniqueConnection);
-    }
-    button = root->findChild<QObject *>(QStringLiteral("prevKeyframe"));
-    if (button) {
-        QObject::connect(button, SIGNAL(clicked()), this, SIGNAL(seekToPreviousKeyframe()), Qt::UniqueConnection);
-    }
-    button = root->findChild<QObject *>(QStringLiteral("addKeyframe"));
-    if (button) {
-        QObject::connect(button, SIGNAL(clicked()), this, SIGNAL(addKeyframe()), Qt::UniqueConnection);
-    }
-    button = root->findChild<QObject *>(QStringLiteral("removeKeyframe"));
-    if (button) {
-        QObject::connect(button, SIGNAL(clicked()), this, SIGNAL(deleteKeyframe()), Qt::UniqueConnection);
-    }
 }
 
 void Monitor::setQmlProperty(const QString &name, const QVariant &value)

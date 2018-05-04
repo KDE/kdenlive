@@ -79,9 +79,13 @@ signals:
     void rulerHeightChanged();
     void addSnap(int);
     void removeSnap(int);
-    Q_INVOKABLE void triggerAction(const QString &name);
+    void triggerAction(const QString &name);
     void overlayTypeChanged();
     void timecodeChanged();
+    void seekNextKeyframe();
+    void seekPreviousKeyframe();
+    void addRemoveKeyframe();
+    void seekToKeyframe();
 
 private:
     GLWidget *q;

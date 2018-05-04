@@ -233,8 +233,6 @@ private:
     void adjustScrollBars(float horizontal, float vertical);
     void loadQmlScene(MonitorSceneType type);
     void updateQmlDisplay(int currentOverlay);
-    /** @brief Connect qml on monitor toolbar buttons */
-    void connectQmlToolbar(QQuickItem *root);
     /** @brief Check and display dropped frames */
     void checkDrops(int dropped);
     /** @brief Create temporary Mlt::Tractor holding a clip and it's effectless clone */
@@ -347,8 +345,7 @@ signals:
     void extractZone(const QString &id);
     void effectChanged(const QRect &);
     void effectPointsChanged(const QVariantList &);
-    void addKeyframe();
-    void deleteKeyframe();
+    void addRemoveKeyframe();
     void seekToNextKeyframe();
     void seekToPreviousKeyframe();
     void seekToKeyframe(int);

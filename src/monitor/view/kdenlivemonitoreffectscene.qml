@@ -13,7 +13,6 @@ Item {
     property rect adjustedFrame
     property point profile
     property point center
-    property double zoom
     property double scalex
     property double scaley
     property double offsetx : 0
@@ -33,15 +32,10 @@ Item {
     property var centerPoints: []
     property var centerPointsTypes: []
     onCenterPointsChanged: canvas.requestPaint()
-    property bool showToolbar: false
     signal effectChanged()
     signal centersChanged()
     signal addKeyframe()
-    signal seekToKeyframe()
-    signal toolBarChanged(bool doAccept)
-    onZoomChanged: {
-        effectToolBar.setZoom(root.zoom)
-    }
+
     onDurationChanged: {
         timeScale = width / duration
         if (duration < 200) {
@@ -210,7 +204,7 @@ Item {
         onPressed: {
             if (mouse.button & Qt.LeftButton) {
                 if (root.requestedKeyFrame >= 0 && !isMoving) {
-                    root.seekToKeyframe();
+                    controller.seekToKeyframe();
                 }
             }
             isMoving = false
@@ -224,16 +218,7 @@ Item {
             isMoving = false;
         }
     }
-    EffectToolBar {
-        id: effectToolBar
-        anchors {
-            left: parent.left
-            top: parent.top
-            topMargin: 10
-            leftMargin: 10
-        }
-        visible: root.showToolbar
-    }
+
     Rectangle {
         id: framerect
         property color hoverColor: "#ffffff"
@@ -527,6 +512,16 @@ Item {
             height: 1
             color: framerect.hoverColor
         }
+    }
+    EffectToolBar {
+        id: effectToolBar
+        anchors {
+            right: parent.right
+            top: parent.top
+            topMargin: 4
+            rightMargin: 4
+        }
+        visible: global.mouseX >= x - 10
     }
     MonitorRuler {
         id: clipMonitorRuler
