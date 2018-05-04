@@ -5,6 +5,8 @@ set(kdenlive_SRCS
   assets/assetlist/model/assetfilter.cpp
   assets/assetlist/model/assettreemodel.cpp
   assets/assetpanel.cpp
+  assets/keyframes/model/rotoscoping/bpoint.cpp
+  assets/keyframes/model/rotoscoping/rotowidget.cpp
   assets/keyframes/model/keyframemodel.cpp
   assets/keyframes/model/keyframemodellist.cpp
   assets/keyframes/view/keyframeview.cpp

@@ -25,7 +25,6 @@ Item {
     property bool showFps
     property bool showSafezone
     property bool showAudiothumb
-    property bool showToolbar: false
     property real baseUnit: fontMetrics.font.pointSize
     property int duration: 300
     property bool mouseOverRuler: false

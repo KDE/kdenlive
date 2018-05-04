@@ -20,11 +20,14 @@
  ***************************************************************************/
 
 #include "keyframemodel.hpp"
+#include "rotoscoping/bpoint.h"
+#include "rotoscoping/rotowidget.hpp"
 #include "core.h"
 #include "doc/docundostack.hpp"
 #include "macros.hpp"
 
 #include <QDebug>
+#include <QJsonDocument>
 #include <mlt++/Mlt.h>
 
 KeyframeModel::KeyframeModel(std::weak_ptr<AssetParameterModel> model, const QModelIndex &index, std::weak_ptr<DocUndoStack> undo_stack, QObject *parent)
@@ -612,6 +615,21 @@ QString KeyframeModel::getAnimProperty() const
     return prop;
 }
 
+QString KeyframeModel::getRotoProperty() const
+{
+    QJsonDocument doc;
+    if (auto ptr = m_model.lock()) {
+        int in = ptr->data(m_index, AssetParameterModel::InRole).toInt();
+        int out = ptr->data(m_index, AssetParameterModel::ParentDurationRole).toInt();
+        QMap<QString, QVariant> map;
+        for (const auto keyframe : m_keyframeList) {
+            map.insert(QString::number(in + keyframe.first.frames(pCore->getCurrentFps())).rightJustified(log10((double)out) + 1, '0'), keyframe.second.second);
+        }
+        doc = QJsonDocument::fromVariant(QVariant(map));
+    }
+    return doc.toJson();
+}
+
 mlt_keyframe_type convertToMltType(KeyframeType type)
 {
     switch (type) {
@@ -688,6 +706,25 @@ void KeyframeModel::parseAnimProperty(const QString &prop)
     */
 }
 
+void KeyframeModel::parseRotoProperty(const QString &prop)
+{
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+
+    QJsonParseError jsonError;
+    QJsonDocument doc = QJsonDocument::fromJson(prop.toLatin1(), &jsonError);
+    QVariant data = doc.toVariant();
+    if (data.canConvert(QVariant::Map)) {
+        QList<int> keyframes;
+        QMap<QString, QVariant> map = data.toMap();
+        QMap<QString, QVariant>::const_iterator i = map.constBegin();
+        while (i != map.constEnd()) {
+            addKeyframe(GenTime(i.key().toInt(), pCore->getCurrentFps()), KeyframeType::Linear, i.value(), false, undo, redo);
+            ++i;
+        }
+    }
+}
+
 QVariant KeyframeModel::getInterpolatedValue(int p) const
 {
     auto pos = GenTime(p, pCore->getCurrentFps());
@@ -696,9 +733,11 @@ QVariant KeyframeModel::getInterpolatedValue(int p) const
 
 QVariant KeyframeModel::getInterpolatedValue(const GenTime &pos) const
 {
-    int p = pos.frames(pCore->getCurrentFps());
     if (m_keyframeList.count(pos) > 0) {
         return m_keyframeList.at(pos).second;
+    }
+    if (m_keyframeList.size() == 0) {
+        return QVariant();
     }
     auto next = m_keyframeList.upper_bound(pos);
     if (next == m_keyframeList.cbegin()) {
@@ -713,6 +752,7 @@ QVariant KeyframeModel::getInterpolatedValue(const GenTime &pos) const
     // We now have surrounding keyframes, we use mlt to compute the value
     Mlt::Properties prop;
     QLocale locale;
+    int p = pos.frames(pCore->getCurrentFps());
     if (m_paramType == ParamType::KeyframeParam) {
         prop.anim_set("keyframe", prev->second.second.toDouble(), prev->first.frames(pCore->getCurrentFps()), next->first.frames(pCore->getCurrentFps()),
                       convertToMltType(prev->second.first));
@@ -752,6 +792,28 @@ QVariant KeyframeModel::getInterpolatedValue(const GenTime &pos) const
         rect = prop.anim_get_rect("keyframe", p);
         const QString res = QStringLiteral("%1 %2 %3 %4 %5").arg((int)rect.x).arg((int)rect.y).arg((int)rect.w).arg((int)rect.h).arg(rect.o);
         return QVariant(res);
+    } else if (m_paramType == ParamType::Roto_spline) {
+        // interpolate
+        QSize frame = pCore->getCurrentFrameSize();
+        QList<BPoint> p1 = RotoWidget::getPoints(prev->second.second, frame);
+        qreal relPos = (p - prev->first.frames(pCore->getCurrentFps())) / (qreal)(((next->first - prev->first).frames(pCore->getCurrentFps())) + 1);
+        QList<BPoint> p2 = RotoWidget::getPoints(next->second.second, frame);
+        int count = qMin(p1.count(), p2.count());
+        QList<QVariant> vlist;
+        for (int i = 0; i < count; ++i) {
+            BPoint bp;
+            QList<QVariant> pl;
+            for (int j = 0; j < 3; ++j) {
+                if (p1.at(i)[j] != p2.at(i)[j]) {
+                    bp[j] = QLineF(p1.at(i)[j], p2.at(i)[j]).pointAt(relPos);
+                } else {
+                    bp[j] = p1.at(i)[j];
+                }
+                pl << QVariant(QList<QVariant>() << QVariant(bp[j].x() / frame.width()) << QVariant(bp[j].y() / frame.height()));
+            }
+            vlist << QVariant(pl);
+        }
+        return vlist;
     }
     return QVariant();
 }
@@ -764,6 +826,9 @@ void KeyframeModel::sendModification()
         QString data;
         if (m_paramType == ParamType::KeyframeParam || m_paramType == ParamType::AnimatedRect) {
             data = getAnimProperty();
+            ptr->setParameter(name, data);
+        } else if (m_paramType == ParamType::Roto_spline) {
+            data = getRotoProperty();
             ptr->setParameter(name, data);
         } else {
             Q_ASSERT(false); // Not implemented, TODO
@@ -785,6 +850,8 @@ void KeyframeModel::refresh()
         if (m_paramType == ParamType::KeyframeParam || m_paramType == ParamType::AnimatedRect) {
             qDebug() << "parsing keyframe" << data;
             parseAnimProperty(data);
+        } else if (m_paramType == ParamType::Roto_spline) {
+            parseRotoProperty(data);
         } else {
             // first, try to convert to double
             bool ok = false;

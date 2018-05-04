@@ -90,6 +90,9 @@ public:
     /* @brief Returns true if we only have 1 keyframe
      */
     bool singleKeyframe() const;
+    /* @brief Returns true if we only have no keyframe
+     */
+    bool isEmpty() const;
 
     /* @brief Returns the keyframe located after given position.
        If there is a keyframe at given position it is ignored.

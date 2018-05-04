@@ -19,6 +19,7 @@
 
 #include "keyframewidget.hpp"
 #include "assets/keyframes/model/keyframemodellist.hpp"
+#include "assets/keyframes/model/rotoscoping/rotowidget.hpp"
 #include "assets/keyframes/view/keyframeview.hpp"
 #include "assets/model/assetparametermodel.hpp"
 #include "core.h"
@@ -36,9 +37,8 @@
 
 KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
     : AbstractParamWidget(model, index, parent)
+    , m_keyframes(model->getKeyframeModel())
 {
-    m_keyframes = model->getKeyframeModel();
-
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 
     m_lay = new QVBoxLayout(this);
@@ -107,6 +107,10 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     connect(m_buttonPrevious, &QAbstractButton::pressed, m_keyframeview, &KeyframeView::slotGoToPrev);
     connect(m_buttonNext, &QAbstractButton::pressed, m_keyframeview, &KeyframeView::slotGoToNext);
     addParameter(index);
+
+    connect(monitor, &Monitor::seekToNextKeyframe, m_keyframeview, &KeyframeView::slotGoToNext, Qt::UniqueConnection);
+    connect(monitor, &Monitor::seekToPreviousKeyframe, m_keyframeview, &KeyframeView::slotGoToPrev, Qt::UniqueConnection);
+    connect(monitor, &Monitor::addRemoveKeyframe, m_keyframeview, &KeyframeView::slotAddRemove, Qt::UniqueConnection);
 }
 
 KeyframeWidget::~KeyframeWidget()
@@ -126,8 +130,9 @@ void KeyframeWidget::monitorSeek(int pos)
     m_buttonAddDelete->setEnabled(isInRange);
     connectMonitor(isInRange);
     int framePos = qBound(in, pos, out) - in;
-    m_keyframeview->slotSetPosition(framePos, isInRange);
-    m_time->setValue(framePos);
+    if (isInRange) {
+        slotSetPosition(framePos, false);
+    }
 }
 
 void KeyframeWidget::slotEditKeyframeType(QAction *action)
@@ -158,6 +163,22 @@ void KeyframeWidget::slotRefreshParams()
                 }
             }
             ((GeometryWidget *)w.second)->setValue(rect, opacity);
+        } else if (type == ParamType::Roto_spline) {
+            QVariantList centerPoints;
+            QVariantList controlPoints;
+            if (!m_keyframes->isEmpty()) {
+                QVariant splineData = m_keyframes->getInterpolatedValue(pos, w.first);
+                QList<BPoint> p = RotoWidget::getPoints(splineData, pCore->getCurrentFrameSize());
+                for (int i = 0; i < p.size(); i++) {
+                    centerPoints << QVariant(p.at(i).p);
+                    controlPoints << QVariant(p.at(i).h1);
+                    controlPoints << QVariant(p.at(i).h2);
+                }
+                Monitor *monitor = pCore->getMonitor(m_model->monitorId);
+                if (monitor) {
+                    monitor->setUpEffectGeometry(QRect(), centerPoints, controlPoints);
+                }
+            }
         }
     }
 }
@@ -170,7 +191,6 @@ void KeyframeWidget::slotSetPosition(int pos, bool update)
         m_time->setValue(pos);
         m_keyframeview->slotSetPosition(pos, true);
     }
-
     slotRefreshParams();
 
     if (update) {
@@ -248,15 +268,16 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
         if (vals.count() >= 4) {
             rect = QRect(vals.at(0).toInt(), vals.at(1).toInt(), vals.at(2).toInt(), vals.at(3).toInt());
         }
-        Monitor *monitor = pCore->getMonitor(m_model->monitorId);
-        GeometryWidget *geomWidget = new GeometryWidget(monitor, range, rect, frameSize, false,
+        GeometryWidget *geomWidget = new GeometryWidget(pCore->getMonitor(m_model->monitorId), range, rect, frameSize, false,
                                                         m_model->data(m_index, AssetParameterModel::OpacityRole).toBool(), this);
         connect(geomWidget, &GeometryWidget::valueChanged,
                 [this, index](const QString v) { m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), QVariant(v), index); });
-        connect(monitor, &Monitor::seekToNextKeyframe, m_keyframeview, &KeyframeView::slotGoToNext, Qt::UniqueConnection);
-        connect(monitor, &Monitor::seekToPreviousKeyframe, m_keyframeview, &KeyframeView::slotGoToPrev, Qt::UniqueConnection);
-        connect(monitor, &Monitor::addRemoveKeyframe, m_keyframeview, &KeyframeView::slotAddRemove, Qt::UniqueConnection);
         paramWidget = geomWidget;
+    } else if (type == ParamType::Roto_spline) {
+        RotoWidget *roto = new RotoWidget(pCore->getMonitor(m_model->monitorId), index, this);
+        connect(roto, &RotoWidget::updateRotoKeyframe, this, &KeyframeWidget::slotUpdateRotoMonitor, Qt::UniqueConnection);
+        paramWidget = roto;
+        paramWidget->setMaximumHeight(1);
     } else {
         QLocale locale;
         double value = m_keyframes->getInterpolatedValue(getPosition(), index).toDouble();
@@ -300,5 +321,23 @@ void KeyframeWidget::connectMonitor(bool active)
             ((GeometryWidget *)w.second)->connectMonitor(active);
             break;
         }
+        if (type == ParamType::Roto_spline) {
+            // Rotoscoping widget, trigger refresh
+            if (((RotoWidget *)w.second)->connectMonitor(active)) {
+                slotRefreshParams();
+            }
+            break;
+        }
+    }
+}
+
+void KeyframeWidget::slotUpdateRotoMonitor(QPersistentModelIndex index, const QVariantList &v)
+{
+    QVariant res = RotoWidget::getSpline(QVariant(v), pCore->getCurrentFrameSize());
+    if (m_keyframes->isEmpty()) {
+        m_keyframes->addKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), KeyframeType::Linear);
+        m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), res, index);
+    } else if (m_keyframes->hasKeyframe(getPosition())) {
+        m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), res, index);
     }
 }

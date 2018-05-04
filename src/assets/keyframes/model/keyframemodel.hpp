@@ -173,9 +173,11 @@ protected:
         |= represents a discrete keyframe, = a linear one and ~= a Catmull-Rom spline
     */
     QString getAnimProperty() const;
+    QString getRotoProperty() const;
 
     /* @brief this function does the opposite: given a MLT representation of an animation, build the corresponding model */
     void parseAnimProperty(const QString &prop);
+    void parseRotoProperty(const QString &prop);
 
 private:
     std::weak_ptr<AssetParameterModel> m_model;

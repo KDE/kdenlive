@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.4
 
 Item {
     id: root
@@ -22,6 +22,7 @@ Item {
     property double frameSize: 10
     property int duration: 300
     property bool mouseOverRuler: false
+    property real baseUnit: fontMetrics.font.pointSize
     property int mouseRulerPos: 0
     onScalexChanged: canvas.requestPaint()
     onScaleyChanged: canvas.requestPaint()
@@ -34,7 +35,6 @@ Item {
     onCenterPointsChanged: canvas.requestPaint()
     signal effectChanged()
     signal centersChanged()
-    signal addKeyframe()
 
     onDurationChanged: {
         timeScale = width / duration
@@ -48,11 +48,9 @@ Item {
             frameSize = 100 * timeScale
         }
     }
-
-    Text {
-        id: fontReference
-        property int fontSize
-        fontSize: font.pointSize
+    FontMetrics {
+        id: fontMetrics
+        font.family: "Arial"
     }
 
     Canvas {
@@ -62,7 +60,7 @@ Item {
       height: root.height
       anchors.centerIn: root
       contextType: "2d";
-      handleSize: fontReference.fontSize / 2
+      handleSize: root.baseUnit / 2
       renderStrategy: Canvas.Threaded;
       onPaint:
       {
@@ -211,7 +209,7 @@ Item {
 
         }
         onDoubleClicked: {
-            root.addKeyframe()
+            controller.addRemoveKeyframe()
         }
         onReleased: {
             root.requestedKeyFrame = -1

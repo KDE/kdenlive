@@ -66,6 +66,7 @@ private slots:
     void slotAtKeyframe(bool atKeyframe, bool singleKeyframe);
     void monitorSeek(int pos);
     void slotEditKeyframeType(QAction *action);
+    void slotUpdateRotoMonitor(QPersistentModelIndex index, const QVariantList &v);
 
 private:
     QVBoxLayout *m_lay;

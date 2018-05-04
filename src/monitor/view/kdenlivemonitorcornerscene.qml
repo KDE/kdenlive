@@ -1,8 +1,9 @@
-import QtQuick 2.0
+import QtQuick 2.4
 
 Item {
     id: root
     objectName: "rootcornerscene"
+    SystemPalette { id: activePalette }
 
     // default size, but scalable by user
     height: 300; width: 400
@@ -24,20 +25,24 @@ Item {
     onSourcedarChanged: refreshdar()
     property bool iskeyframe
     property int requestedKeyFrame
+    property real baseUnit: fontMetrics.font.pointSize
+    property int duration: 300
+    property bool mouseOverRuler: false
+    property int mouseRulerPos: 0
+    property double frameSize: 10
+    property double timeScale: 1
     property var centerPoints: []
     onCenterPointsChanged: canvas.requestPaint()
     signal effectPolygonChanged()
-    signal addKeyframe()
 
     function refreshdar() {
         canvas.darOffset = root.sourcedar < root.profile.x * root.stretch / root.profile.y ? (root.profile.x * root.stretch - root.profile.y * root.sourcedar) / (2 * root.profile.x * root.stretch) :(root.profile.y - root.profile.x * root.stretch / root.sourcedar) / (2 * root.profile.y);
         canvas.requestPaint()
     }
 
-    Text {
-        id: fontReference
-        property int fontSize
-        fontSize: font.pointSize
+    FontMetrics {
+        id: fontMetrics
+        font.family: "Arial"
     }
 
     Canvas {
@@ -48,7 +53,7 @@ Item {
       height: root.height
       anchors.centerIn: root
       contextType: "2d";
-      handleSize: fontReference.fontSize / 2
+      handleSize: root.baseUnit / 2
       renderTarget: Canvas.FramebufferObject
       renderStrategy: Canvas.Cooperative
       onPaint:
@@ -149,7 +154,7 @@ Item {
         cursorShape: containsMouse ? Qt.PointingHandCursor : Qt.ArrowCursor
 
         onDoubleClicked: {
-            root.addKeyframe()
+            controller.addRemoveKeyframe()
         }
 
         onPositionChanged: {

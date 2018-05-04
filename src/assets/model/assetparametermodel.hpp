@@ -93,6 +93,7 @@ public:
         InRole,
         OutRole,
         ParentInRole,
+        ParentPositionRole,
         ParentDurationRole
     };
 

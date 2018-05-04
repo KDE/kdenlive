@@ -187,6 +187,9 @@ int AssetParameterView::contentHeight() const
 MonitorSceneType AssetParameterView::needsMonitorEffectScene() const
 {
     if (m_mainKeyframeWidget) {
+        if (m_model->getAssetId() == QLatin1String("frei0r.c0rners")) {
+            return MonitorSceneCorners;
+        }
         return MonitorSceneGeometry;
     }
     for (int i = 0; i < m_model->rowCount(); ++i) {
@@ -195,6 +198,9 @@ MonitorSceneType AssetParameterView::needsMonitorEffectScene() const
         if (type == ParamType::Geometry) {
             return MonitorSceneGeometry;
         }
+    }
+    if (m_model->getAssetId() == QLatin1String("rotoscoping")) {
+        return MonitorSceneRoto;
     }
     return MonitorSceneDefault;
 }

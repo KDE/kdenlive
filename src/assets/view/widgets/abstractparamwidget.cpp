@@ -82,6 +82,7 @@ AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetP
         break;
     case ParamType::KeyframeParam:
     case ParamType::AnimatedRect:
+    case ParamType::Roto_spline:
         widget = new KeyframeWidget(model, index, parent);
         break;
     case ParamType::Geometry:
@@ -115,7 +116,6 @@ AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetP
     case ParamType::Addedgeometry:
     case ParamType::Curve:
     case ParamType::Bezier_spline:
-    case ParamType::Roto_spline:
     case ParamType::Keywords:
     case ParamType::Fontfamily:
     case ParamType::Filterjob:

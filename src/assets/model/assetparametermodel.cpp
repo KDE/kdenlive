@@ -127,7 +127,7 @@ void AssetParameterModel::prepareKeyframes()
     if (m_keyframes) return;
     int ix = 0;
     for (const auto &name : m_rows) {
-        if (m_params[name].type == ParamType::KeyframeParam || m_params[name].type == ParamType::AnimatedRect) {
+        if (m_params[name].type == ParamType::KeyframeParam || m_params[name].type == ParamType::AnimatedRect || m_params[name].type == ParamType::Roto_spline) {
             addKeyframeParam(index(ix, 0));
         }
         ix++;
@@ -280,6 +280,8 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
         return pCore->getItemIn(m_ownerId);
     case ParentDurationRole:
         return pCore->getItemDuration(m_ownerId);
+    case ParentPositionRole:
+         return pCore->getItemPosition(m_ownerId);
     case MinRole:
         return parseAttribute(m_ownerId, QStringLiteral("min"), element);
     case MaxRole:

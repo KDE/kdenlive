@@ -166,6 +166,12 @@ bool KeyframeModelList::singleKeyframe() const
     return m_parameters.begin()->second->singleKeyframe();
 }
 
+bool KeyframeModelList::isEmpty() const
+{
+    READ_LOCK();
+    return (m_parameters.size() == 0 || m_parameters.begin()->second->rowCount() == 0);
+}
+
 Keyframe KeyframeModelList::getNextKeyframe(const GenTime &pos, bool *ok) const
 {
     READ_LOCK();
