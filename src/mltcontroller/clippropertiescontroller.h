@@ -26,6 +26,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "timecode.h"
 
 #include <QString>
+#include <QTreeWidget>
+
 #include <mlt++/Mlt.h>
 
 class ClipController;

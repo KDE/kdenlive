@@ -33,6 +33,7 @@ class QTextEdit;
 class ProfileTreeModel;
 class ProfileFilter;
 class TreeView;
+class QTreeView;
 
 /**
  * @class ProfileWidget

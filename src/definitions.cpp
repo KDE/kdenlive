@@ -20,6 +20,8 @@
 #include "definitions.h"
 #include <klocalizedstring.h>
 
+#include <QColor>
+
 QDebug operator<<(QDebug qd, const ItemInfo &info)
 {
     qd << "ItemInfo " << &info;

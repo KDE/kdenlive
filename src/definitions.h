@@ -28,7 +28,6 @@
 #include <QHash>
 #include <QPersistentModelIndex>
 #include <QString>
-#include <QTreeWidgetItem>
 #include <cassert>
 #include <memory>
 

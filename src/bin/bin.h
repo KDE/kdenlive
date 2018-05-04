@@ -35,6 +35,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QFuture>
 #include <QLineEdit>
 #include <QListView>
+#include <QTreeView>
 #include <QMutex>
 #include <QPainter>
 #include <QPushButton>

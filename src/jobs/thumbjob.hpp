@@ -24,6 +24,7 @@
 #include "abstractclipjob.h"
 
 #include <memory>
+#include <QImage>
 
 /* @brief This class represents the job that corresponds to computing the thumb of a clip
  */
