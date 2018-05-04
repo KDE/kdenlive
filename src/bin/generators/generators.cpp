@@ -35,6 +35,11 @@
 #include <KMessageBox>
 #include <KRecentDirs>
 
+#include <mlt++/MltConsumer.h>
+#include <mlt++/MltProducer.h>
+#include <mlt++/MltProfile.h>
+#include <mlt++/MltTractor.h>
+
 Generators::Generators(Monitor *monitor, const QString &path, QWidget *parent)
     : QDialog(parent)
     , m_producer(nullptr)

@@ -50,7 +50,6 @@ class QToolButton;
 class QmlManager;
 class GLWidget;
 class MonitorAudioLevel;
-class MonitorController;
 
 namespace Mlt {
 class Profile;
@@ -160,6 +159,8 @@ public:
     void slotZoomIn();
     /** @brief Zoom out active monitor */
     void slotZoomOut();
+    /** @brief Set a property on the MLT consumer */
+    void setConsumerProperty(const QString &name, const QString &value);
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
@@ -178,7 +179,6 @@ protected:
     void enterEvent(QEvent *event) override;
     void leaveEvent(QEvent *event) override;
     virtual QStringList mimeTypes() const;
-    MonitorController *m_monitorController;
 
 private:
     std::shared_ptr<ProjectClip> m_controller;

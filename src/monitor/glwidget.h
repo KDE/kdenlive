@@ -129,6 +129,8 @@ public:
     void setVolume(double volume);
     /** @brief Returns current producer's duration in frames */
     int duration() const;
+    /** @brief Set a property on the MLT consumer */
+    void setConsumerProperty(const QString &name, const QString &value);
 
 protected:
     void mouseReleaseEvent(QMouseEvent *event) override;
@@ -181,6 +183,7 @@ protected:
     Mlt::Profile *m_monitorProfile;
     QMutex m_mutex;
     int m_id;
+    int m_rulerHeight;
 
 private:
     QRect m_rect;
@@ -291,144 +294,4 @@ public:
     QOpenGLFunctions_3_2_Core *m_gl32;
     bool sendAudioForAnalysis;
 };
-
-class MonitorProxy : public QObject
-{
-    Q_OBJECT
-    // Q_PROPERTY(int consumerPosition READ consumerPosition NOTIFY consumerPositionChanged)
-    Q_PROPERTY(int position READ position NOTIFY positionChanged)
-    Q_PROPERTY(int seekPosition READ seekPosition WRITE setSeekPosition NOTIFY seekPositionChanged)
-    Q_PROPERTY(int zoneIn READ zoneIn WRITE setZoneIn NOTIFY zoneChanged)
-    Q_PROPERTY(int zoneOut READ zoneOut WRITE setZoneOut NOTIFY zoneChanged)
-    Q_PROPERTY(int rulerHeight READ rulerHeight NOTIFY rulerHeightChanged)
-    Q_PROPERTY(QString markerComment READ markerComment NOTIFY markerCommentChanged)
-    Q_PROPERTY(int overlayType READ overlayType WRITE setOverlayType NOTIFY overlayTypeChanged)
-public:
-    MonitorProxy(GLWidget *parent)
-        : QObject(parent)
-        , q(parent)
-        , m_position(0)
-        , m_seekPosition(-1)
-        , m_zoneIn(0)
-        , m_zoneOut(-1)
-        , m_rulerHeight(QFontMetrics(QApplication::font()).lineSpacing() * 0.7)
-    {
-    }
-    int seekPosition() const { return m_seekPosition; }
-    int position() const { return m_position; }
-    int rulerHeight() const { return m_rulerHeight; }
-    int overlayType() const
-    {
-        return (q->m_id == (int)Kdenlive::ClipMonitor ? KdenliveSettings::clipMonitorOverlayGuides() : KdenliveSettings::projectMonitorOverlayGuides());
-    }
-    void setOverlayType(int ix)
-    {
-        if (q->m_id == (int)Kdenlive::ClipMonitor) {
-            KdenliveSettings::setClipMonitorOverlayGuides(ix);
-        } else {
-            KdenliveSettings::setProjectMonitorOverlayGuides(ix);
-        }
-    }
-    QString markerComment() const { return m_markerComment; }
-    Q_INVOKABLE void requestSeekPosition(int pos)
-    {
-        q->activateMonitor();
-        m_seekPosition = pos;
-        emit seekPositionChanged();
-        emit seekRequestChanged();
-    }
-    void setPosition(int pos)
-    {
-        m_position = pos;
-        emit positionChanged();
-    }
-    void setMarkerComment(const QString &comment)
-    {
-        if (m_markerComment == comment) {
-            return;
-        }
-        m_markerComment = comment;
-        emit markerCommentChanged();
-    }
-    void setSeekPosition(int pos)
-    {
-        m_seekPosition = pos;
-        emit seekPositionChanged();
-    }
-    void pauseAndSeek(int pos)
-    {
-        q->switchPlay(false);
-        requestSeekPosition(pos);
-    }
-    int zoneIn() const { return m_zoneIn; }
-    int zoneOut() const { return m_zoneOut; }
-    void setZoneIn(int pos)
-    {
-        if (m_zoneIn > 0) {
-            emit removeSnap(m_zoneIn);
-        }
-        m_zoneIn = pos;
-        if (pos > 0) {
-            emit addSnap(pos);
-        }
-        emit zoneChanged();
-    }
-    void setZoneOut(int pos)
-    {
-        if (m_zoneOut > 0) {
-            emit removeSnap(m_zoneOut);
-        }
-        m_zoneOut = pos;
-        if (pos > 0) {
-            emit addSnap(pos);
-        }
-        emit zoneChanged();
-    }
-    Q_INVOKABLE void setZone(int in, int out)
-    {
-        if (m_zoneIn > 0) {
-            emit removeSnap(m_zoneIn);
-        }
-        if (m_zoneOut > 0) {
-            emit removeSnap(m_zoneOut);
-        }
-        m_zoneIn = in;
-        m_zoneOut = out;
-        if (m_zoneIn > 0) {
-            emit addSnap(m_zoneIn);
-        }
-        if (m_zoneOut > 0) {
-            emit addSnap(m_zoneOut);
-        }
-        emit zoneChanged();
-    }
-    void setZone(QPoint zone) { setZone(zone.x(), zone.y()); }
-    void resetZone()
-    {
-        m_zoneIn = 0;
-        m_zoneOut = -1;
-    }
-    QPoint zone() const { return QPoint(m_zoneIn, m_zoneOut); }
-signals:
-    void positionChanged();
-    void seekPositionChanged();
-    void seekRequestChanged();
-    void zoneChanged();
-    void markerCommentChanged();
-    void rulerHeightChanged();
-    void addSnap(int);
-    void removeSnap(int);
-    Q_INVOKABLE void triggerAction(const QString &name);
-    void overlayTypeChanged();
-
-private:
-    GLWidget *q;
-    int m_position;
-    int m_seekPosition;
-    int m_zoneIn;
-    int m_zoneOut;
-    int m_rulerHeight;
-    QString m_markerComment;
-};
-
 #endif

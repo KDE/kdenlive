@@ -31,10 +31,10 @@
 #include "mltcontroller/bincontroller.h"
 #include "mltcontroller/clip.h"
 #include "mltcontroller/clipcontroller.h"
-#include "monitorcontroller.hpp"
 #include "project/projectmanager.h"
 #include "qmlmanager.h"
 #include "recmanager.h"
+#include "monitorproxy.h"
 #include "scopes/monitoraudiolevel.h"
 #include "timeline2/model/snapmodel.hpp"
 #include "transitions/transitionsrepository.hpp"
@@ -160,7 +160,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     connect(m_glMonitor, &GLWidget::panView, this, &Monitor::panView);
     connect(m_glMonitor, &GLWidget::seekPosition, this, &Monitor::slotSeekPosition, Qt::DirectConnection);
     connect(m_glMonitor, &GLWidget::activateMonitor, this, &AbstractMonitor::slotActivateMonitor, Qt::DirectConnection);
-    m_monitorController = new MonitorController(m_glMonitor);
     m_videoWidget = QWidget::createWindowContainer(qobject_cast<QWindow *>(m_glMonitor));
     m_videoWidget->setAcceptDrops(true);
     auto *leventEater = new QuickEventEater(this);
@@ -1027,10 +1026,10 @@ void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
                 m_controller->getProducerProperty(QStringLiteral("kdenlive:proxy")) != QLatin1String("-")) {
                 // using proxy, use original clip url to get frame
                 frame =
-                    m_monitorController->extractFrame(m_glMonitor->getCurrentPos(), m_controller->getProducerProperty(QStringLiteral("kdenlive:originalurl")),
+                    m_glMonitor->getControllerProxy()->extractFrame(m_glMonitor->getCurrentPos(), m_controller->getProducerProperty(QStringLiteral("kdenlive:originalurl")),
                                                       -1, -1, b != nullptr ? b->isChecked() : false);
             } else {
-                frame = m_monitorController->extractFrame(m_glMonitor->getCurrentPos(), QString(), -1, -1, b != nullptr ? b->isChecked() : false);
+                frame = m_glMonitor->getControllerProxy()->extractFrame(m_glMonitor->getCurrentPos(), QString(), -1, -1, b != nullptr ? b->isChecked() : false);
             }
             frame.save(selectedFile);
             if (b != nullptr) {
@@ -2018,7 +2017,7 @@ void Monitor::prepareAudioThumb(int channels, QVariantList &audioCache)
 void Monitor::slotUpdateQmlTimecode(const QString &tc)
 {
     checkDrops(m_glMonitor->droppedFrames());
-    m_glMonitor->rootObject()->setProperty("timecode", tc);
+    m_glMonitor->getControllerProxy()->setTimecode(tc);
 }
 
 void Monitor::slotSwitchAudioMonitor()
@@ -2135,4 +2134,9 @@ void Monitor::slotZoomIn()
 void Monitor::slotZoomOut()
 {
     m_glMonitor->slotZoom(false);
+}
+
+void Monitor::setConsumerProperty(const QString &name, const QString &value)
+{
+    m_glMonitor->setConsumerProperty(name, value);
 }

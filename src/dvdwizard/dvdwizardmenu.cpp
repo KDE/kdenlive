@@ -26,8 +26,10 @@
 #include "klocalizedstring.h"
 #include <KColorScheme>
 #include <QGraphicsDropShadowEffect>
-
 #include "doc/kthumb.h"
+
+#include <mlt++/MltProducer.h>
+#include <mlt++/MltProfile.h>
 
 enum { DvdButtonItem = QGraphicsItem::UserType + 1, DvdButtonUnderlineItem = QGraphicsItem::UserType + 2 };
 

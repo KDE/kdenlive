@@ -31,7 +31,7 @@
 #include "core.h"
 #include "glwidget.h"
 #include "kdenlivesettings.h"
-#include "mltcontroller/bincontroller.h"
+#include "monitorproxy.h"
 #include "profiles/profilemodel.hpp"
 #include "qml/qmlaudiothumb.h"
 #include "timeline2/view/qml/timelineitems.h"
@@ -103,6 +103,7 @@ GLWidget::GLWidget(int id, QObject *parent)
     , m_shareContext(nullptr)
     , m_audioWaveDisplayed(false)
     , m_fbo(nullptr)
+    , m_rulerHeight(QFontMetrics(QApplication::font()).lineSpacing() * 0.7)
 {
     m_texture[0] = m_texture[1] = m_texture[2] = 0;
     qRegisterMetaType<Mlt::Frame>("Mlt::Frame");
@@ -245,7 +246,7 @@ void GLWidget::initializeGL()
 void GLWidget::resizeGL(int width, int height)
 {
     int x, y, w, h;
-    height -= m_proxy->rulerHeight();
+    height -= m_rulerHeight;
     double this_aspect = (double)width / height;
     double video_aspect = m_monitorProfile->dar();
 
@@ -486,10 +487,10 @@ void GLWidget::paintGL()
     QVector<QVector2D> vertices;
     width = m_rect.width() * devicePixelRatio();
     height = m_rect.height() * devicePixelRatio();
-    vertices << QVector2D(float(-width) / 2.0f, float(-height) / 2.0f + m_proxy->rulerHeight());
-    vertices << QVector2D(float(-width) / 2.0f, float(height) / 2.0f + m_proxy->rulerHeight());
-    vertices << QVector2D(float(width) / 2.0f, float(-height) / 2.0f + m_proxy->rulerHeight());
-    vertices << QVector2D(float(width) / 2.0f, float(height) / 2.0f + m_proxy->rulerHeight());
+    vertices << QVector2D(float(-width) / 2.0f, float(-height) / 2.0f + m_rulerHeight);
+    vertices << QVector2D(float(-width) / 2.0f, float(height) / 2.0f + m_rulerHeight);
+    vertices << QVector2D(float(width) / 2.0f, float(-height) / 2.0f + m_rulerHeight);
+    vertices << QVector2D(float(width) / 2.0f, float(height) / 2.0f + m_rulerHeight);
     m_shader->enableAttributeArray(m_vertexLocation);
     check_error(f);
     m_shader->setAttributeArray(m_vertexLocation, vertices.constData());
@@ -1869,4 +1870,15 @@ int GLWidget::duration() const
         return 0;
     }
     return m_producer->get_playtime();
+}
+
+void GLWidget::setConsumerProperty(const QString &name, const QString &value)
+{
+    QMutexLocker locker(&m_mutex);
+    if (m_consumer) {
+        m_consumer->set(name.toUtf8().constData(), value.toUtf8().constData());
+        if (m_consumer->start() == -1) {
+            qCWarning(KDENLIVE_LOG) << "ERROR, Cannot start monitor";
+        }
+    }
 }

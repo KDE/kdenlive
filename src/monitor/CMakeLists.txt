@@ -7,5 +7,5 @@ set(kdenlive_SRCS
   monitor/monitormanager.cpp
   monitor/recmanager.cpp
   monitor/qmlmanager.cpp
-  monitor/monitorcontroller.cpp
+  monitor/monitorproxy.cpp
   PARENT_SCOPE)

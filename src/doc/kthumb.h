@@ -25,8 +25,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QImage>
 #include <QUrl>
 
-#include <mlt++/Mlt.h>
-
 namespace Mlt {
 class Producer;
 class Frame;

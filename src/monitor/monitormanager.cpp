@@ -23,7 +23,6 @@
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "mltcontroller/bincontroller.h"
-#include "monitorcontroller.hpp"
 #include "renderer.h"
 #include "utils/KoIconUtils.h"
 
@@ -94,10 +93,10 @@ AbstractMonitor *MonitorManager::monitor(Kdenlive::MonitorId monitorName)
 void MonitorManager::setConsumerProperty(const QString &name, const QString &value)
 {
     if (m_clipMonitor) {
-        m_clipMonitor->m_monitorController->setConsumerProperty(name, value);
+        m_clipMonitor->setConsumerProperty(name, value);
     }
     if (m_projectMonitor) {
-        m_projectMonitor->m_monitorController->setConsumerProperty(name, value);
+        m_projectMonitor->setConsumerProperty(name, value);
     }
 }
 

@@ -51,6 +51,8 @@
 #include <QStandardPaths>
 #include <iostream>
 
+#include <mlt++/MltProfile.h>
+
 static QList<TitleTemplate> titletemplates;
 
 // What exactly is this variable good for?

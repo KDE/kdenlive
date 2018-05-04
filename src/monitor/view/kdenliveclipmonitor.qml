@@ -14,7 +14,6 @@ Item {
     // default size, but scalable by user
     height: 300; width: 400
     property string markerText
-    property string timecode
     property point profile
     property double zoom
     property double scalex
@@ -153,7 +152,7 @@ Item {
                 color: "white"
                 style: Text.Outline; 
                 styleColor: "black"
-                text: root.timecode
+                text: controller.timecode
                 font.pixelSize: root.baseUnit
                 visible: root.showTimecode
                 anchors {
