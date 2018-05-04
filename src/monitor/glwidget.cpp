@@ -416,12 +416,12 @@ void GLWidget::paintGL()
 {
     QOpenGLFunctions *f = openglContext()->functions();
     int width = this->width() * devicePixelRatio();
-    int height = this->height() * devicePixelRatio();
+    int height = (this->height() - m_rulerHeight) * devicePixelRatio();
 
     f->glDisable(GL_BLEND);
     f->glDisable(GL_DEPTH_TEST);
     f->glDepthMask(GL_FALSE);
-    f->glViewport(0, 0, width, height);
+    f->glViewport(0, m_rulerHeight, width, height);
     check_error(f);
     QColor color(KdenliveSettings::window_background());
     f->glClearColor(color.redF(), color.greenF(), color.blueF(), color.alphaF());
@@ -487,10 +487,10 @@ void GLWidget::paintGL()
     QVector<QVector2D> vertices;
     width = m_rect.width() * devicePixelRatio();
     height = m_rect.height() * devicePixelRatio();
-    vertices << QVector2D(float(-width) / 2.0f, float(-height) / 2.0f + m_rulerHeight);
-    vertices << QVector2D(float(-width) / 2.0f, float(height) / 2.0f + m_rulerHeight);
-    vertices << QVector2D(float(width) / 2.0f, float(-height) / 2.0f + m_rulerHeight);
-    vertices << QVector2D(float(width) / 2.0f, float(height) / 2.0f + m_rulerHeight);
+    vertices << QVector2D(float(-width) / 2.0f, float(-height) / 2.0f);
+    vertices << QVector2D(float(-width) / 2.0f, float(height) / 2.0f);
+    vertices << QVector2D(float(width) / 2.0f, float(-height) / 2.0f);
+    vertices << QVector2D(float(width) / 2.0f, float(height) / 2.0f);
     m_shader->enableAttributeArray(m_vertexLocation);
     check_error(f);
     m_shader->setAttributeArray(m_vertexLocation, vertices.constData());
