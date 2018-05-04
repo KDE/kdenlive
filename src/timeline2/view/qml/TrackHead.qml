@@ -36,7 +36,7 @@ Rectangle {
     property int myTrackHeight
     property int trackId : -42
     property int collapsedHeight: nameEdit.height + 2
-    property int iconSize: root.baseUnit * 1.7
+    property int iconSize: root.baseUnit * 2
     property string trackTag
     border.width: 1
     border.color: Qt.rgba(activePalette.windowText.r, activePalette.windowText.g, activePalette.windowText.b, 0.1)
