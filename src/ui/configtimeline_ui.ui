@@ -6,12 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>478</width>
-    <height>621</height>
+    <width>391</width>
+    <height>450</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="11" column="0">
+   <item row="10" column="0">
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -31,7 +31,7 @@
      </property>
     </widget>
    </item>
-   <item row="7" column="0" colspan="4">
+   <item row="6" column="0" colspan="4">
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
       <widget class="QLabel" name="label">
@@ -75,7 +75,7 @@
      </property>
     </widget>
    </item>
-   <item row="8" column="0">
+   <item row="7" column="0">
     <layout class="QHBoxLayout" name="horizontalLayout_4">
      <item>
       <widget class="QLabel" name="label_2">
@@ -112,13 +112,6 @@
       </spacer>
      </item>
     </layout>
-   </item>
-   <item row="5" column="0" colspan="3">
-    <widget class="QCheckBox" name="kcfg_splitaudio">
-     <property name="text">
-      <string>Automatically split audio and video</string>
-     </property>
-    </widget>
    </item>
    <item row="1" column="0" colspan="4">
     <widget class="QCheckBox" name="kcfg_ffmpegaudiothumbnails">
@@ -184,14 +177,14 @@
      </layout>
     </widget>
    </item>
-   <item row="6" column="0">
+   <item row="5" column="0">
     <widget class="QCheckBox" name="kcfg_automatictransitions">
      <property name="text">
       <string>Create new transitions as automatic transitions</string>
      </property>
     </widget>
    </item>
-   <item row="9" column="0">
+   <item row="8" column="0">
     <widget class="QGroupBox" name="groupBox_2">
      <property name="title">
       <string>Raise properties pane when selecting in timeline</string>
@@ -231,7 +224,6 @@
   <tabstop>kcfg_showmarkers</tabstop>
   <tabstop>kcfg_autoscroll</tabstop>
   <tabstop>kcfg_verticalzoom</tabstop>
-  <tabstop>kcfg_splitaudio</tabstop>
   <tabstop>kcfg_automatictransitions</tabstop>
   <tabstop>kcfg_trackheight</tabstop>
   <tabstop>kcfg_clipcornertype</tabstop>
