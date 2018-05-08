@@ -286,7 +286,6 @@ target_link_libraries(kdenliveLib
     KF5::TextWidgets
     KF5::Declarative
     KF5::IconThemes
-    KF5::Crash
     KF5::Solid
     Qt5::Svg
     Qt5::Quick
@@ -306,6 +305,11 @@ message(STATUS "Found MLT++: ${MLTPP_LIBRARIES}")
 if (KF5_FILEMETADATA)
     add_definitions(-DKF5_USE_FILEMETADATA)
     target_link_libraries(kdenliveLib KF5::FileMetaData)
+endif()
+
+if (KF5Crash_FOUND)
+    add_definitions(-DKF5_USE_CRASH)
+    target_link_libraries(kdenliveLib KF5::Crash)
 endif()
 
 if (KF5_PURPOSE)

@@ -27,7 +27,9 @@
 
 #include <KAboutData>
 #include <KConfigGroup>
+#ifdef KF5_USE_CRASH
 #include <KCrash>
+#endif
 #include <KIconLoader>
 #include <KSharedConfig>
 
@@ -139,7 +141,9 @@ int main(int argc, char *argv[])
     parser.process(app);
     aboutData.processCommandLine(&parser);
 
+#ifdef KF5_USE_CRASH
     KCrash::initialize();
+#endif
 
     qmlRegisterUncreatableMetaObject(PlaylistState::staticMetaObject, // static meta object
                                      "com.enums",                     // import statement
