@@ -46,13 +46,13 @@ EOF
     yum -y update
 fi
 
+#               gettext
 
 # Packages for base dependencies and Qt5.
 yum -y install wget \
                tar \
                bzip2 \
                xz \
-               gettext \
                subversion \
                libtool \
                which \
@@ -106,11 +106,16 @@ yum -y install wget \
                openal-soft-devel \
                pixman-devel \
                polkit-devel \
- 	       perl-ExtUtils-MakeMaker \
-	       curl-devel \
-	       pulseaudio-libs-devel \
-	       libgavl-devel \
-	       sox-devel
+               perl-ExtUtils-MakeMaker \
+               curl-devel \
+               pulseaudio-libs-devel \
+               libgavl-devel \
+               sox-devel \
+               fftw-devel \
+               perl-List-MoreUtils \
+               perl-XML-Parser \
+               jack-audio-connection-kit-devel \
+               ladspa-devel
 
 if ( !test -d /usr/bin/cmake ) ; then
     ln -s /usr/bin/cmake3 /usr/bin/cmake
@@ -186,6 +191,20 @@ cmake3 --build . --config RelWithDebInfo --target ext_tiff       -- -j$CPU_CORES
 cmake3 --build . --config RelWithDebInfo --target ext_qt         -- -j$CPU_CORES
 cmake3 --build . --config RelWithDebInfo --target ext_exiv2      -- -j$CPU_CORES
 
+
+#gettext
+cd /external
+if ( test -d /external/gettext-0.18.3 )
+then
+        echo "gettext already downloaded"
+else
+        wget http://ftp.gnu.org/pub/gnu/gettext/gettext-0.18.3.tar.gz
+        tar -xf gettext-0.18.3.tar.gz
+fi
+cd gettext-0.18.3
+./configure --prefix=/usr
+make -j5
+make install
 
 #necessary ?
 #pulseaudio-libs 
@@ -376,10 +395,10 @@ function build_framework
             git checkout .
             git checkout master
 	    git fetch --tags
-            git checkout v5.43.0
+            git checkout v5.45.0
         else
             git fetch --tags
-            git checkout v5.43.0
+            git checkout v5.45.0
         fi
         #git checkout master
         #git reset --hard
@@ -395,10 +414,10 @@ function build_framework
 	elif [ "$FRAMEWORK" = "knotifications" ]; then
 	    git reset --hard
             git fetch --tags
-	    git checkout v5.43.0
+	    git checkout v5.45.0
         else
             git fetch --tags
-            git checkout v5.43.0
+            git checkout v5.45.0
         fi
         cd ..
     fi
@@ -455,7 +474,7 @@ build_framework extra-cmake-modules "-DKDE_INSTALL_USE_QT_SYS_PATHS:BOOL=ON"
 #Cmake is too old on centos6.... so does this mean no sound for KDE apps? blech.
 #build_framework phonon -DPHONON_BUILD_PHONON4QT5=ON
 
-for FRAMEWORK in karchive kconfig kwidgetsaddons kcompletion kcoreaddons polkit-qt-1 kauth kcodecs kdoctools kguiaddons ki18n kconfigwidgets kwindowsystem kcrash kdbusaddons kitemviews kiconthemes kjobwidgets kservice solid sonnet ktextwidgets attica kglobalaccel kxmlgui kbookmarks kio knotifications knotifyconfig knewstuff kpackage kdeclarative ; do
+for FRAMEWORK in karchive kconfig kwidgetsaddons kcompletion kcoreaddons polkit-qt-1 kauth kcodecs ki18n kdoctools kguiaddons kconfigwidgets kwindowsystem kcrash kdbusaddons kitemviews kiconthemes kjobwidgets kservice solid sonnet ktextwidgets attica kglobalaccel kxmlgui kbookmarks knotifications kio knotifyconfig knewstuff kpackage kdeclarative ; do
   build_framework $FRAMEWORK "-DKDE_INSTALL_USE_QT_SYS_PATHS:BOOL=ON"
 done
 build_framework breeze-icons "-DBINARY_ICONS_RESOURCE=1 -DKDE_INSTALL_USE_QT_SYS_PATHS:BOOL=ON"

@@ -195,10 +195,10 @@ then
         echo "mlt already cloned"
 if [ $# -eq 0 ]; then
         cd mlt
-        git pull
         git reset --hard
         git pull --rebase
-	git checkout master
+        #current git master incompatible (crashes Kdenlive on keyframes)
+        git checkout 15105c4
         cd ..
 fi
 else
@@ -249,7 +249,8 @@ cmake3 ../kdenlive \
     -DKDE_INSTALL_USE_QT_SYS_PATHS:BOOL=ON \
     -DKDE_L10N_AUTO_TRANSLATIONS:BOOL=ON \
     -DBUILD_TESTS=FALSE
-make -j8 install
+make -j8
+make install
 
 echo "++++++++++++++++++\nBUILD FINSHED \n+++++++++++++++++";
 ###############################################################

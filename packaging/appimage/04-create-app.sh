@@ -274,6 +274,7 @@ export KDE_FORK_SLAVES=1
 export MLT_REPOSITORY=\$DIR/usr/lib/mlt/
 export MLT_DATA=\$DIR/usr/share/mlt/
 export MLT_ROOT_DIR=\$DIR/usr/
+export LADSPA_PATH=\$DIR/usr/lib/ladspa
 export FREI0R_PATH=\$DIR/usr/lib/frei0r-1
 export MLT_PROFILES_PATH=\$DIR/usr/share/mlt/profiles/
 export MLT_PRESETS_PATH=\$DIR/usr/share/mlt/presets/

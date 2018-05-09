@@ -133,6 +133,25 @@ cd libsamplerate-0.1.9
 make -j5
 make install
 
+#ladspa-plugins (shw)
+cd /external
+if ( test -d /external/ladspa )
+then
+        echo "ladspa already downloaded, on failure, replace AC_CONFIG_MACRO_DIRS([m4]) with AC_CONFIG_MACRO_DIR([m4])"
+        cd ladspa
+        git reset --hard
+        git pull --rebase
+        cd ..
+else
+	git clone https://github.com/swh/ladspa.git
+fi
+cd ladspa
+echo "Readying ladspa, on failure, replace AC_CONFIG_MACRO_DIRS([m4]) with AC_CONFIG_MACRO_DIR([m4]) in configure.ac"
+autoreconf -i
+./configure --prefix=$WLD
+make -j5
+make install
+
 
 #alsa-lib
 cd /external
