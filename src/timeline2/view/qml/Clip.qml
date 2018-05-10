@@ -87,6 +87,10 @@ Rectangle {
         ColorAnimation { from: "#ff3300"; to: Qt.darker(getColor()); duration: 100 }
     }
 
+    onInPointChanged: {
+        generateWaveform()
+    }
+
     onClipResourceChanged: {
         if (mltService === 'color') {
             color: Qt.darker(getColor())

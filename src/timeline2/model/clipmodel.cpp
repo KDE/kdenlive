@@ -181,6 +181,10 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
         // Now, we are in the state in which the timeline should be when we try to revert current action. So we can build the reverse action from here
         auto ptr = m_parent.lock();
         if (m_currentTrackId != -1 && ptr) {
+            if (!right) {
+                QModelIndex ix = ptr->makeClipIndexFromID(m_id);
+                ptr->dataChanged(ix, ix, {TimelineModel::InPointRole});
+            }
             track_reverse = ptr->getTrackById(m_currentTrackId)->requestClipResize_lambda(m_id, old_in, old_out, right);
         }
         Fun reverse = [this, old_in, old_out, track_reverse]() {
