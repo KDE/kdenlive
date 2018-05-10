@@ -699,7 +699,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
             }
         }
     } else {
-        std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(binClipId);
+        std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(bid);
         res = requestClipCreation(binClipId, id, binClip->defaultState(), local_undo, local_redo);
         res = res && requestClipMove(id, trackId, position, refreshView, logUndo, local_undo, local_redo);
     }
