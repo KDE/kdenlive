@@ -297,8 +297,7 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
         switch (role) {
         case NameRole:
         case Qt::DisplayRole: {
-            QString tName = getTrackById_const(id)->getProperty("kdenlive:track_name").toString();
-            return tName;
+            return getTrackById_const(id)->getProperty("kdenlive:track_name").toString();
         }
         case DurationRole:
             // qDebug() << "DATA yielding duration" << m_tractor->get_playtime();
@@ -390,9 +389,16 @@ void TimelineItemModel::setTrackProperty(int trackId, const QString &name, const
     }
 }
 
-QVariant TimelineItemModel::getTrackProperty(int tid, const QString &name)
+QVariant TimelineItemModel::getTrackProperty(int tid, const QString &name) const
 {
-    return getTrackById(tid)->getProperty(name);
+    return getTrackById_const(tid)->getProperty(name);
+}
+
+const QString TimelineItemModel::getTrackFullName(int tid) const
+{
+    QString tag = getTrackTagById(tid);
+    QString trackName = getTrackById_const(tid)->getProperty(QStringLiteral("kdenlive:track_name")).toString();
+    return trackName.isEmpty() ? tag : tag + QStringLiteral(" - ") + trackName;
 }
 
 void TimelineItemModel::buildTrackCompositing()

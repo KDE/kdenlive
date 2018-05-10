@@ -223,9 +223,31 @@ Rectangle {
                     onClicked: {
                         mouse.accepted = false
                     }
+                    onEntered: {
+                        if (nameEdit.visible == false && trackName == '') {
+                            console.log('entered, making edit visible')
+                            placeHolder.visible = true
+                        }
+                    }
+                    onExited: {
+                        if (placeHolder.visible == true) {
+                            console.log('entered, making edit INvisible')
+                            placeHolder.visible = false
+                        }
+                    }
                 }
                 Label {
                     text: trackName
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.left: parent.left
+                    anchors.leftMargin: 4
+                    elide: Qt.ElideRight
+                }
+                Label {
+                    id: placeHolder
+                    visible: false
+                    enabled: false
+                    text: i18n('Edit track name')
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
                     anchors.leftMargin: 4

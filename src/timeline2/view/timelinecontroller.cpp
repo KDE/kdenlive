@@ -172,12 +172,13 @@ const QString TimelineController::getTrackNameFromMltIndex(int trackPos)
     if (trackPos == 0) {
         return i18n("Black");
     }
-    return m_model->getTrackById(m_model->getTrackIndexFromPosition(trackPos - 1))->getProperty(QStringLiteral("kdenlive:track_name")).toString();
+    return m_model->getTrackTagById(m_model->getTrackIndexFromPosition(trackPos - 1));
 }
 
 const QString TimelineController::getTrackNameFromIndex(int trackIndex)
 {
-    return m_model->getTrackById(trackIndex)->getProperty(QStringLiteral("kdenlive:track_name")).toString();
+    QString trackName = m_model->getTrackById(trackIndex)->getProperty(QStringLiteral("kdenlive:track_name")).toString();
+    return trackName.isEmpty() ? m_model->getTrackTagById(trackIndex) : trackName;
 }
 
 QMap<int, QString> TimelineController::getTrackNames(bool videoOnly)
@@ -187,7 +188,13 @@ QMap<int, QString> TimelineController::getTrackNames(bool videoOnly)
         if (videoOnly && m_model->getTrackById(track.first)->getProperty(QStringLiteral("kdenlive:audio_track")).toInt() == 1) {
             continue;
         }
-        names[m_model->getTrackMltIndex(track.first)] = m_model->getTrackById(track.first)->getProperty("kdenlive:track_name").toString();
+        QString trackName = m_model->getTrackById_const(track.first)->getProperty("kdenlive:track_name").toString();
+        if (trackName.isEmpty()) {
+            trackName = m_model->getTrackTagById(track.first);
+        } else {
+            trackName.prepend(m_model->getTrackTagById(track.first) + QStringLiteral(" - "));
+        }
+        names[m_model->getTrackMltIndex(track.first)] = trackName;
     }
     return names;
 }
@@ -518,11 +525,10 @@ void TimelineController::addTrack(int tid)
     if (tid == -1) {
         tid = m_activeTrack;
     }
-    QPointer<TrackDialog> d = new TrackDialog(m_model, m_model->getTrackMltIndex(tid), qApp->activeWindow());
+    QPointer<TrackDialog> d = new TrackDialog(m_model, tid, qApp->activeWindow());
     if (d->exec() == QDialog::Accepted) {
-        int mltIndex = d->selectedTrack();
         int newTid;
-        m_model->requestTrackInsertion(mltIndex, newTid, d->trackName(), d->addAudioTrack());
+        m_model->requestTrackInsertion(d->selectedTrackPosition(), newTid, d->trackName(), d->addAudioTrack());
     }
 }
 
@@ -531,10 +537,9 @@ void TimelineController::deleteTrack(int tid)
     if (tid == -1) {
         tid = m_activeTrack;
     }
-    QPointer<TrackDialog> d = new TrackDialog(m_model, m_model->getTrackMltIndex(tid), qApp->activeWindow(), true);
+    QPointer<TrackDialog> d = new TrackDialog(m_model, tid, qApp->activeWindow(), true);
     if (d->exec() == QDialog::Accepted) {
-        int mltIndex = d->selectedTrack();
-        m_model->requestTrackDeletion(mltIndex);
+        m_model->requestTrackDeletion(d->selectedTrackId());
     }
 }
 

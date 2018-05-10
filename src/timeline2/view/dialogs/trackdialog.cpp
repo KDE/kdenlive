@@ -41,10 +41,11 @@ TrackDialog::TrackDialog(std::shared_ptr<TimelineItemModel> model, int trackInde
         } else {
             m_videoCount++;
         }
-        const QString trackName = model->getTrackProperty(tid, QStringLiteral("kdenlive:track_name")).toString();
+        const QString trackName = model->getTrackFullName(tid);
         existingTrackNames << trackName;
+        comboTracks->addItem(audioTrack ? audioIcon : videoIcon, trackName.isEmpty() ? QString::number(i) : trackName, tid);
         // Track index in in MLT, so add + 1 to compensate black track
-        comboTracks->addItem(audioTrack ? audioIcon : videoIcon, trackName.isEmpty() ? QString::number(i) : trackName, i + 1);
+        m_positionByIndex.insert(tid, i+1);
     }
     if (trackIndex > -1) {
         int ix = comboTracks->findData(trackIndex);
@@ -59,29 +60,31 @@ TrackDialog::TrackDialog(std::shared_ptr<TimelineItemModel> model, int trackInde
         before_select->setVisible(false);
         label->setText(i18n("Delete Track"));
     } else {
-        QString proposedName = i18n("Video %1", trackIndex);
+        // No default name since we now use tags
+        /*QString proposedName = i18n("Video %1", trackIndex);
         while (existingTrackNames.contains(proposedName)) {
             proposedName = i18n("Video %1", ++trackIndex);
         }
-        track_name->setText(proposedName);
+        track_name->setText(proposedName);*/
     }
-    connect(audio_track, &QRadioButton::toggled, this, &TrackDialog::updateName);
 }
 
-void TrackDialog::updateName(bool audioTrack)
-{
-    QString proposedName = i18n(audioTrack ? "Audio %1" : "Video %1", audioTrack ? m_audioCount : m_videoCount);
-    track_name->setText(proposedName);
-}
-
-int TrackDialog::selectedTrack() const
+int TrackDialog::selectedTrackPosition() const
 {
     if (comboTracks->count() > 0) {
-        int ix = comboTracks->currentData().toInt();
+        int position = m_positionByIndex.value(comboTracks->currentData().toInt());
         if (before_select->currentIndex() == 1) {
-            ix--;
+            position--;
         }
-        return ix;
+        return position;
+    }
+    return -1;
+}
+
+int TrackDialog::selectedTrackId() const
+{
+    if (comboTracks->count() > 0) {
+        return comboTracks->currentData().toInt();
     }
     return -1;
 }

@@ -80,7 +80,8 @@ public:
     QModelIndex makeTrackIndexFromID(int trackId) const override;
     QModelIndex parent(const QModelIndex &index) const override;
     Q_INVOKABLE void setTrackProperty(int tid, const QString &name, const QString &value);
-    Q_INVOKABLE QVariant getTrackProperty(int tid, const QString &name);
+    Q_INVOKABLE QVariant getTrackProperty(int tid, const QString &name) const;
+    const QString getTrackFullName(int tid) const;
     void notifyChange(const QModelIndex &topleft, const QModelIndex &bottomright, bool start, bool duration, bool updateThumb) override;
     void notifyChange(const QModelIndex &topleft, const QModelIndex &bottomright, const QVector<int> &roles) override;
     void buildTrackCompositing();

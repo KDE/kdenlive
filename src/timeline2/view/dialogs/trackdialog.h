@@ -29,9 +29,13 @@ class TrackDialog : public QDialog, public Ui::AddTrack_UI
 
 public:
     explicit TrackDialog(std::shared_ptr<TimelineItemModel> model, int trackIndex = -1, QWidget *parent = nullptr, bool deleteMode = false);
+    /** @brief: returns the selected position in MLT
+     */
+    int selectedTrackPosition() const;
     /** @brief: returns the selected track's trackId
      */
-    int selectedTrack() const;
+    int selectedTrackId() const;
+
     /** @brief: returns true if we want to insert an audio track
      */
     bool addAudioTrack() const;
@@ -39,12 +43,10 @@ public:
      */
     const QString trackName() const;
 
-private slots:
-    void updateName(bool audioTrack);
-
 private:
     int m_audioCount;
     int m_videoCount;
+    QMap<int, int>m_positionByIndex;
 };
 
 #endif
