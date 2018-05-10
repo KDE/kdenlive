@@ -126,10 +126,10 @@ ClipModel::~ClipModel() {}
 
 bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool logUndo)
 {
-    qDebug() << "++++++++++ PERFORMAING CLIP RESIZE====";
+    qDebug() << "++++++++++ PERFORMAING CLIP RESIZE==: "<<size;
     QWriteLocker locker(&m_lock);
-    // qDebug() << "RESIZE CLIP" << m_id << "target size=" << size << "right=" << right << "endless=" << m_endlessResize << "total length" <<
-    // m_producer->get_length() << "current length" << getPlaytime();
+    //qDebug() << "RESIZE CLIP" << m_id << "target size=" << size << "right=" << right << "endless=" << m_endlessResize << "total length" <<
+    //m_producer->get_length() << "current length" << getPlaytime();
     if (!m_endlessResize && (size <= 0 || size > m_producer->get_length())) {
         return false;
     }
@@ -168,6 +168,11 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
         } else {
             qDebug() << "Error : Moving clip failed because parent timeline is not available anymore";
             Q_ASSERT(false);
+        }
+    } else {
+        // Ensure producer is long enough
+        if (m_endlessResize && outPoint > m_producer->parent().get_length()) {
+            m_producer->set("length", outPoint + 1);
         }
     }
     Fun operation = [this, inPoint, outPoint, track_operation]() {

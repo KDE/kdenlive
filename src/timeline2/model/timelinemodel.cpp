@@ -593,7 +593,10 @@ bool TimelineModel::requestClipCreation(const QString &binClipId, int &id, Playl
         int in = binClipId.section(QLatin1Char('/'), 1, 1).toInt();
         int out = binClipId.section(QLatin1Char('/'), 2, 2).toInt();
         int initLength = m_allClips[clipId]->getPlaytime();
-        bool res = requestItemResize(clipId, initLength - in, false, true, local_undo, local_redo);
+        bool res = true;
+        if (in != 0) {
+            res = requestItemResize(clipId, initLength - in, false, true, local_undo, local_redo);
+        }
         res = res && requestItemResize(clipId, out - in + 1, true, true, local_undo, local_redo);
         if (!res) {
             bool undone = local_undo();
