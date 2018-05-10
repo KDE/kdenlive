@@ -370,7 +370,7 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList<TrackInfo> &tracks)
     QString compositeService = TransitionsRepository::get()->getCompositingTransition();
     if (!compositeService.isEmpty()) {
         for (int i = 0; i <= tracks.count(); i++) {
-            if (i > 0) {
+            if (i > 0 && tracks.at(i - 1).type == AudioTrack) {
                 Mlt::Transition tr(docProfile, "mix");
                 tr.set("a_track", 0);
                 tr.set("b_track", i);

@@ -400,7 +400,7 @@ int TimelineItemModel::getFirstVideoTrackIndex() const
     auto it = m_allTracks.cbegin();
     while (it != m_allTracks.cend()) {
         trackId = getTrackMltIndex((*it)->getId());
-        if ((*it)->getProperty("kdenlive:audio_track").toInt() != 1) {
+        if (!(*it)->isAudioTrack()) {
             break;
         }
         ++it;
@@ -423,21 +423,22 @@ void TimelineItemModel::buildTrackCompositing()
     QString composite = TransitionsRepository::get()->getCompositingTransition();
     while (it != m_allTracks.cend()) {
         int trackId = getTrackMltIndex((*it)->getId());
-        if (!composite.isEmpty() && (*it)->getProperty("kdenlive:audio_track").toInt() != 1) {
+        if (!composite.isEmpty() && !(*it)->isAudioTrack()) {
             // video track, add composition
             Mlt::Transition *transition = TransitionsRepository::get()->getTransition(composite);
             transition->set("internal_added", 237);
             transition->set("always_active", 1);
             field->plant_transition(*transition, 0, trackId);
             transition->set_tracks(0, trackId);
+        } else if ((*it)->isAudioTrack()) {
+            // audio mix
+            Mlt::Transition *transition = TransitionsRepository::get()->getTransition(QStringLiteral("mix"));
+            transition->set("internal_added", 237);
+            transition->set("always_active", 1);
+            transition->set("sum", 1);
+            field->plant_transition(*transition, 0, trackId);
+            transition->set_tracks(0, trackId);
         }
-        // audio mix
-        Mlt::Transition *transition = TransitionsRepository::get()->getTransition(QStringLiteral("mix"));
-        transition->set("internal_added", 237);
-        transition->set("always_active", 1);
-        transition->set("sum", 1);
-        field->plant_transition(*transition, 0, trackId);
-        transition->set_tracks(0, trackId);
         ++it;
     }
     field->unlock();
