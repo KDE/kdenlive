@@ -409,6 +409,9 @@ bool GroupsModel::mergeSingleGroups(int id, Fun &undo, Fun &redo)
 
     for (int gid : to_delete) {
         Q_ASSERT(m_downLink[gid].size() == 0);
+        if (getType(gid) == GroupType::Selection) {
+            continue;
+        }
         res = destructGroupItem(gid, false, undo, redo);
         if (!res) {
             bool undone = undo();
@@ -427,7 +430,8 @@ bool GroupsModel::split(int id, const std::function<bool(int)> &criterion, Fun &
     }
     // This function is valid only for roots (otherwise it is not clear what should be the new parent of the created tree)
     Q_ASSERT(m_upLink[id] == -1);
-    bool regroup = m_groupIds[id] != GroupType::Selection;
+    Q_ASSERT(m_groupIds[id] != GroupType::Selection);
+    bool regroup = true; // we don't support splitting if selection group is active
     // We do a BFS on the tree to copy it
     // We store corresponding nodes
     std::unordered_map<int, int> corresp; // keys are id in the original tree, values are temporary negative id assigned for creation of the new tree
@@ -447,10 +451,8 @@ bool GroupsModel::split(int id, const std::function<bool(int)> &criterion, Fun &
         queue.pop();
         if (!isLeaf(current) || criterion(current)) {
             if (isLeaf(current)) {
-                if (m_groupIds[getRootId(current)] != GroupType::Selection) {
-                    to_move.push_back(current);
-                    new_groups[corresp[m_upLink[current]]].insert(current);
-                }
+                to_move.push_back(current);
+                new_groups[corresp[m_upLink[current]]].insert(current);
             } else {
                 corresp[current] = tempId;
                 new_types[tempId] = getType(current);
@@ -519,6 +521,7 @@ bool GroupsModel::split(int id, const std::function<bool(int)> &criterion, Fun &
     // This is equivalent to creating the tree bottom up (starting from the leaves)
     // At each iteration, we create a new node by grouping together elements that are either leaves or already created nodes.
     std::unordered_map<int, int> created_id; // to keep track of node that we create
+
     while (!new_groups.empty()) {
         int selected = INT_MAX;
         for (const auto &group : new_groups) {
@@ -547,8 +550,12 @@ bool GroupsModel::split(int id, const std::function<bool(int)> &criterion, Fun &
     }
 
     if (regroup) {
-        mergeSingleGroups(id, undo, redo);
-        mergeSingleGroups(created_id[corresp[id]], undo, redo);
+        if (m_groupIds.count(id) > 0) {
+            mergeSingleGroups(id, undo, redo);
+        }
+        if (created_id[corresp[id]]) {
+            mergeSingleGroups(created_id[corresp[id]], undo, redo);
+        }
     }
 
     return res;
@@ -710,7 +717,8 @@ const QString GroupsModel::toJson() const
                    [&](decltype(*m_groupIds.begin()) g) { return getRootId(g.first); });
     QJsonArray list;
     for (int r : roots) {
-        list.push_back(toJson(r));
+        if (getType(r) != GroupType::Selection)
+            list.push_back(toJson(r));
     }
     QJsonDocument json(list);
     return QString(json.toJson());

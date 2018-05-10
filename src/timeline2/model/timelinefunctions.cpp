@@ -133,6 +133,15 @@ bool TimelineFunctions::requestClipCut(std::shared_ptr<TimelineItemModel> timeli
 bool TimelineFunctions::requestClipCut(std::shared_ptr<TimelineItemModel> timeline, int clipId, int position, Fun &undo, Fun &redo)
 {
     const std::unordered_set<int> clips = timeline->getGroupElements(clipId);
+    int root = timeline->m_groups->getRootId(clipId);
+    std::unordered_set<int> topElements;
+    if (timeline->m_temporarySelectionGroup == root) {
+        topElements = timeline->m_groups->getDirectChildren(root);
+    } else {
+        topElements.insert(root);
+    }
+    // We need to call clearSelection before attempting the split or the group split will be corrupted by the selection group (no undo support)
+    pCore->clearSelection();
     int count = 0;
     for (int cid : clips) {
         int start = timeline->getClipPosition(cid);
@@ -154,8 +163,10 @@ bool TimelineFunctions::requestClipCut(std::shared_ptr<TimelineItemModel> timeli
         // we now split the group hiearchy.
         // As a splitting criterion, we compare start point with split position
         auto criterion = [timeline, position](int cid) { return timeline->getClipPosition(cid) < position; };
-        int root = timeline->m_groups->getRootId(clipId);
-        bool res = timeline->m_groups->split(root, criterion, undo, redo);
+        bool res = true;
+        for (const int topId : topElements) {
+            res = res & timeline->m_groups->split(topId, criterion, undo, redo);
+        }
         if (!res) {
             bool undone = undo();
             Q_ASSERT(undone);
