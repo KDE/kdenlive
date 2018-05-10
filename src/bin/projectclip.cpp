@@ -428,6 +428,7 @@ void ProjectClip::createVideoMasterProducer()
         m_effectStack->addService(m_videoProducer);
     }
 }
+
 void ProjectClip::createDisabledMasterProducer()
 {
     if (!m_disabledProducer) {
@@ -763,6 +764,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
     QStringList keys;
     keys << QStringLiteral("luma_duration") << QStringLiteral("luma_file") << QStringLiteral("fade") << QStringLiteral("ttl") << QStringLiteral("softness")
          << QStringLiteral("crop") << QStringLiteral("animation");
+    QVector<int> updateRoles;
     while (i.hasNext()) {
         i.next();
         setProducerProperty(i.key(), i.value());
@@ -796,6 +798,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
             reloadProducer();
         } else {
             reload = true;
+            updateRoles << TimelineModel::ResourceRole;
         }
     }
     if (properties.contains(QStringLiteral("xmldata")) || !passProperties.isEmpty()) {
@@ -830,7 +833,12 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
     if (reload) {
         // producer has changed, refresh monitor and thumbnail
         reloadProducer(refreshOnly);
-        if (auto ptr = m_model.lock()) emit std::static_pointer_cast<ProjectItemModel>(ptr)->refreshClip(m_binId);
+        if (auto ptr = m_model.lock()) {
+            emit std::static_pointer_cast<ProjectItemModel>(ptr)->refreshClip(m_binId);
+        }
+        if (!updateRoles.isEmpty()) {
+            updateTimelineClips(updateRoles);
+        }
     }
     if (!passProperties.isEmpty()) {
         if (auto ptr = m_model.lock()) emit std::static_pointer_cast<ProjectItemModel>(ptr)->updateTimelineProducers(m_binId, passProperties);

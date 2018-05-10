@@ -87,6 +87,12 @@ Rectangle {
         ColorAnimation { from: "#ff3300"; to: Qt.darker(getColor()); duration: 100 }
     }
 
+    onClipResourceChanged: {
+        if (mltService === 'color') {
+            color: Qt.darker(getColor())
+        }
+    }
+
     onGroupDragChanged: {
         // Clip belonging to current timeline selection changed, update list
         if (clipRoot.groupDrag) {
@@ -161,17 +167,13 @@ Rectangle {
 
     function getColor() {
         if (mltService === 'color') {
-            //console.log('clip color', clipResource, " / ", '#' + clipResource.substring(3, 9))
-            if (clipResource.length == 10) {
-                // 0xRRGGBBAA
-                return '#' + clipResource.substring(2, 8)
-            } else if (clipResource.length == 9) {
-                // 0xAARRGGBB
-                return '#' + clipResource.substring(3, 9)
+            var color = clipResource.substring(clipResource.length - 9)
+            if (color[0] == '#') {
+                return color
             }
+            return '#' + color.substring(color.length - 8, color.length - 2)
         }
         return isAudio? '#445f5a' : '#416e8c'
-        //root.shotcutBlue
     }
 
     function reparent(track) {
