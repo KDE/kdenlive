@@ -131,6 +131,7 @@ Rectangle {
     property int copiedClip: -1
     property var dragList: []
     property int zoomOnMouse: -1
+    property int viewActiveTrack: timeline.activeTrack
 
     //onCurrentTrackChanged: timeline.selection = []
     onTimeScaleChanged: {
@@ -142,6 +143,15 @@ Rectangle {
         }
         root.snapping = timeline.snap ? 10 / Math.sqrt(root.timeScale) : -1
         ruler.adjustStepSize()
+    }
+
+    onViewActiveTrackChanged: {
+        var tk = Logic.getTrackById(timeline.activeTrack)
+        if (tk.y < scrollView.flickableItem.contentY) {
+            scrollView.flickableItem.contentY = Math.max(0, tk.y - scrollView.height / 3)
+        } else if (tk.y + tk.height > scrollView.flickableItem.contentY + scrollView.viewport.height) {
+            scrollView.flickableItem.contentY = Math.min(scrollView.flickableItem.height, tk.y - scrollView.height / 3)
+        }
     }
 
     onTimelineSelectionChanged: {

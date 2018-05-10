@@ -81,6 +81,9 @@ public:
     QModelIndex parent(const QModelIndex &index) const override;
     Q_INVOKABLE void setTrackProperty(int tid, const QString &name, const QString &value);
     Q_INVOKABLE QVariant getTrackProperty(int tid, const QString &name) const;
+    /** @brief returns the lower video track index in timeline.
+     **/
+    int getFirstVideoTrackIndex() const;
     const QString getTrackFullName(int tid) const;
     void notifyChange(const QModelIndex &topleft, const QModelIndex &bottomright, bool start, bool duration, bool updateThumb) override;
     void notifyChange(const QModelIndex &topleft, const QModelIndex &bottomright, const QVector<int> &roles) override;

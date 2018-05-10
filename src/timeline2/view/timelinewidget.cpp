@@ -92,7 +92,7 @@ void TimelineWidget::setModel(std::shared_ptr<TimelineItemModel> model)
     m_proxy->setRoot(rootObject());
     setVisible(true);
     loading = false;
-    m_proxy->setActiveTrack(model->getTrackIndexFromPosition(model->getTracksCount() - 1));
+    m_proxy->setActiveTrack(model->getFirstVideoTrackIndex());
     m_proxy->checkDuration();
 }
 
