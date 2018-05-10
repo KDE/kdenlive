@@ -225,13 +225,11 @@ Rectangle {
                     }
                     onEntered: {
                         if (nameEdit.visible == false && trackName == '') {
-                            console.log('entered, making edit visible')
                             placeHolder.visible = true
                         }
                     }
                     onExited: {
                         if (placeHolder.visible == true) {
-                            console.log('entered, making edit INvisible')
                             placeHolder.visible = false
                         }
                     }
