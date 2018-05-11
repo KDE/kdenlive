@@ -421,11 +421,12 @@ std::shared_ptr<Mlt::Producer> ProjectClip::thumbProducer()
 void ProjectClip::createVideoMasterProducer()
 {
     if (!m_videoProducer) {
-        m_videoProducer = cloneProducer(&pCore->getCurrentProfile()->profile());
-        // disable audio but activate video
-        m_videoProducer->set("set.test_audio", 1);
-        m_videoProducer->set("set.test_image", 0);
-        m_effectStack->addService(m_videoProducer);
+        m_videoProducer = std::shared_ptr<Mlt::Producer>(m_masterProducer->cut());
+        if (hasAudio()) {
+            // disable audio but activate video
+            m_videoProducer->set("set.test_audio", 1);
+            m_videoProducer->set("set.test_image", 0);
+        }
     }
 }
 
@@ -518,12 +519,13 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
             speed = master->parent().get_double("warp_speed");
             timeWarp = true;
         }
-        if (master->parent().get_int("loaded") == 1) {
+        if (master->parent().get_int("_loaded") == 1) {
             // we already have a clip that shares the same master
 
             if (state == PlaylistState::AudioOnly || timeWarp) {
                 // In that case, we must create copies
-                return {getTimelineProducer(clipId, state, speed), false};
+                std::shared_ptr<Mlt::Producer> prod(getTimelineProducer(clipId, state, speed)->cut(in, out));
+                return {prod, false};
             }
             // if it's a video or disabled clip, we must make sure that its master clip matches our video master
             if (state == PlaylistState::VideoOnly && !m_videoProducer) {
@@ -547,7 +549,7 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
             // We have a good id, this clip can be used
             return {master, true};
         } else {
-            master->parent().set("loaded", 1);
+            master->parent().set("_loaded", 1);
             if (state == PlaylistState::AudioOnly) {
                 m_audioProducers[clipId] = std::shared_ptr<Mlt::Producer>(&master->parent());
                 m_effectStack->addService(m_audioProducers[clipId]);
@@ -576,6 +578,7 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
     } else if (master->is_valid()) {
         // in that case, we have a master
         qDebug() << "Warning: weird, we received a master clip in lieue of a cut";
+        exit(1);
         double speed = 1.0;
         if (QString::fromUtf8(master->get("mlt_service")) == QLatin1String("timewarp")) {
             speed = master->get_double("warp_speed");

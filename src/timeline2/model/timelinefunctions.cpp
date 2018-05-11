@@ -431,22 +431,6 @@ bool TimelineFunctions::changeClipState(std::shared_ptr<TimelineItemModel> timel
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
     bool result = timeline->m_allClips[clipId]->setClipState(status, local_undo, local_redo);
-    Fun operation = [timeline, clipId]() {
-        int trackId = timeline->getClipTrackId(clipId);
-        // in order to make the producer change effective, we need to unplant / replant the clip in int track
-        if (trackId != -1) {
-            timeline->getTrackById(trackId)->replugClip(clipId);
-        }
-        return true;
-    };
-    result = result && operation();
-    if (!result) {
-        bool undone = local_undo();
-        Q_ASSERT(undone);
-        return false;
-    }
-    auto reverse = operation;
-    UPDATE_UNDO_REDO_NOLOCK(operation, reverse, local_undo, local_redo);
     UPDATE_UNDO_REDO_NOLOCK(local_redo, local_undo, undo, redo);
     return result;
 }

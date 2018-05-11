@@ -102,7 +102,6 @@ int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QSt
     clip->m_effectStack->importEffects(producer, result.second);
     clip->setClipState_lambda(state)();
     parent->registerClip(clip);
-
     return id;
 }
 
@@ -450,7 +449,21 @@ Fun ClipModel::setClipState_lambda(PlaylistState::ClipState state)
     QWriteLocker locker(&m_lock);
     return [this, state]() {
         if (auto ptr = m_parent.lock()) {
-            refreshProducerFromBin(state);
+            switch (state) {
+                case PlaylistState::Disabled:
+                    m_producer->set("set.test_audio", 1);
+                    m_producer->set("set.test_image", 1);
+                    break;
+                case PlaylistState::VideoOnly:
+                    m_producer->set("set.test_image", 0);
+                    break;
+                case PlaylistState::AudioOnly:
+                    m_producer->set("set.test_audio", 0);
+                    break;
+                default:
+                    //error
+                    break;
+            }
             m_currentState = state;
             if (ptr->isClip(m_id)) { // if this is false, the clip is being created. Don't update model in that case
                 QModelIndex ix = ptr->makeClipIndexFromID(m_id);

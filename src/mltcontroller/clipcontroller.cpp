@@ -51,6 +51,8 @@ ClipController::ClipController(const QString clipId, std::shared_ptr<Mlt::Produc
     , m_hasLimitedDuration(true)
     , m_effectStack(producer ? EffectStackModel::construct(producer, {ObjectType::BinClip, clipId.toInt()}, pCore->undoStack()) : nullptr)
     , m_controllerBinId(clipId)
+    , m_hasVideo(false)
+    , m_hasAudio(false)
 {
     if (m_masterProducer && !m_masterProducer->is_valid()) {
         qCDebug(KDENLIVE_LOG) << "// WARNING, USING INVALID PRODUCER";
@@ -537,7 +539,7 @@ bool ClipController::hasAudio() const
 void ClipController::checkAudioVideo()
 {
     m_masterProducer->seek(0);
-    Mlt::Frame *frame = m_masterProducer->get_frame();
+    QScopedPointer<Mlt::Frame> frame(m_masterProducer->get_frame());
     // test_audio returns 1 if there is NO audio (strange but true at the time this code is written)
     m_hasAudio = frame->get_int("test_audio") == 0;
     m_hasVideo = frame->get_int("test_image") == 0;
