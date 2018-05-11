@@ -1,36 +1,14 @@
-About Kdenlive
-==============
+# About Kdenlive
 
-Kdenlive is a video editing application,
-based on MLT Framework and KDE Frameworks 5
+Kdenlive (https://kdenlive.org) is a Free and Open Source video editing application, based on MLT Framework and KDE Frameworks 5. It is distributed under the GNU General Public Licence Version 2.
 
-Please check the project page for more information:
-https://kdenlive.org
+# Builing from source
 
-Building from source
-====================
+Instructions to build Kdenlive are available on the KDE wiki : https://community.kde.org/Kdenlive/Development
 
-You will first need to install development headers dependencies
-from your system (mainly KDE and MLT).
+# Contributing to Kdenlive
 
-Then in the directory where you extracted the source archive
-(with custom /install/path):
-
-mkdir build
-cd build
-cmake .. -DCMAKE_INSTALL_PREFIX=/install/path
-make -j4
-make install
-
-and then run
-/install/path/bin/kdenlive
-
-Alternately, to get kdenlive with an up-to-date multimedia stack
-(isolated from your system), you can use the build-kdenlive.sh from:
-https://github.com/mltframework/mlt-scripts/
-
-Contributing
-============
+Please note that Kdenlive's Github repo is just a mirror: see https://community.kde.org/Infrastructure/Github_Mirror for detailed explanations on how to submit patches.
 
 We welcome all feedback and offers for help!
 
@@ -49,4 +27,3 @@ We welcome all feedback and offers for help!
   we don't test every (any?) other video editor, so give precise explanations
 * Code! Help fixing bugs, improving usability, optimizing, porting...
   register on KDE infrastructure, study its guidelines, and pick from roadmap:
-  http://community.kde.org/Kdenlive/Roadmap
