@@ -399,7 +399,7 @@ int TimelineItemModel::getFirstVideoTrackIndex() const
     int trackId;
     auto it = m_allTracks.cbegin();
     while (it != m_allTracks.cend()) {
-        trackId = getTrackMltIndex((*it)->getId());
+        trackId = (*it)->getId();
         if (!(*it)->isAudioTrack()) {
             break;
         }
