@@ -84,7 +84,7 @@ int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QSt
     // We might not be able to use directly the producer that we receive as an argument, because it cannot share the same master producer with any other
     // clipModel (due to a mlt limitation, see ProjectClip doc)
 
-    int id = (id == -1 ? TimelineModel::getNextId() : id);
+    int id = TimelineModel::getNextId();
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(binClipId);
 
     // We refine the state according to what the clip can actually produce
