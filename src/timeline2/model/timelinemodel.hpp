@@ -344,9 +344,10 @@ public:
        @param delta_pos is the requested position change
        @param updateView if set to false, no signal is sent to qml for the clip clipId
        @param logUndo if set to true, an undo object is created
+       @param allowViewRefresh if false, the view will never get updated (useful for suggestMove)
     */
     bool requestGroupMove(int clipId, int groupId, int delta_track, int delta_pos, bool updateView = true, bool logUndo = true);
-    bool requestGroupMove(int clipId, int groupId, int delta_track, int delta_pos, bool updateView, bool finalMove, Fun &undo, Fun &redo);
+    bool requestGroupMove(int clipId, int groupId, int delta_track, int delta_pos, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool allowViewRefresh = true);
 
     /* @brief Deletes all clips inside the group that contains the given clip.
        This action is undoable
@@ -591,6 +592,9 @@ protected:
     void updateDuration();
     /** @brief Get a track tag (A1, V1, V2,...) through its id */
     const QString getTrackTagById(int trackId) const;
+
+    /** @brief Attempt to make a clip move without ever updating the view */
+    bool requestClipMoveAttempt(int clipId, int trackId, int position);
 
 public:
     /* @brief Debugging function that checks consistency with Mlt objects */

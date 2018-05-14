@@ -180,7 +180,7 @@ int TimelineFunctions::requestSpacerStartOperation(std::shared_ptr<TimelineItemM
 {
     std::unordered_set<int> clips = timeline->getItemsAfterPosition(trackId, position, -1);
     if (clips.size() > 0) {
-        timeline->requestClipsGroup(clips, false);
+        timeline->requestClipsGroup(clips, false, GroupType::Selection);
         return (*clips.cbegin());
     }
     return -1;
@@ -193,7 +193,7 @@ bool TimelineFunctions::requestSpacerEndOperation(std::shared_ptr<TimelineItemMo
     timeline->requestClipMove(clipId, track, startPosition, false, false);
     std::unordered_set<int> clips = timeline->getGroupElements(clipId);
     // break group
-    timeline->requestClipUngroup(clipId, false);
+    pCore->clearSelection();
     // Start undoable command
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };

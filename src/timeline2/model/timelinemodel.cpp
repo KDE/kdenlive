@@ -385,6 +385,37 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
     return res;
 }
 
+bool TimelineModel::requestClipMoveAttempt(int clipId, int trackId, int position)
+{
+#ifdef LOGGING
+    m_logFile << "timeline->requestClipMove(" << clipId << "," << trackId << " ," << position << std::endl;
+#endif
+    QWriteLocker locker(&m_lock);
+    Q_ASSERT(m_allClips.count(clipId) > 0);
+    if (m_allClips[clipId]->getPosition() == position && getClipTrackId(clipId) == trackId) {
+        return true;
+    }
+    std::function<bool(void)> undo = []() { return true; };
+    std::function<bool(void)> redo = []() { return true; };
+    bool res = true;
+    if (m_groups->isInGroup(clipId)) {
+        // element is in a group.
+        int groupId = m_groups->getRootId(clipId);
+        int current_trackId = getClipTrackId(clipId);
+        int track_pos1 = getTrackPosition(trackId);
+        int track_pos2 = getTrackPosition(current_trackId);
+        int delta_track = track_pos1 - track_pos2;
+        int delta_pos = position - m_allClips[clipId]->getPosition();
+        res = requestGroupMove(clipId, groupId, delta_track, delta_pos, false, false, undo, redo, false);
+    } else {
+        res = requestClipMove(clipId, trackId, position, false, false, undo, redo);
+    }
+    if (res) {
+        undo();
+    }
+    return res;
+}
+
 int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int snapDistance)
 {
 #ifdef LOGGING
@@ -422,7 +453,7 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int sn
         }
     }
     // we check if move is possible
-    bool possible = requestClipMove(clipId, trackId, position, false, false, false);
+    bool possible = requestClipMoveAttempt(clipId, trackId, position);
     // bool possible = requestClipMove(clipId, trackId, position, false, false, undo, redo);
     if (possible) {
         return position;
@@ -441,7 +472,7 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int sn
         } else {
             return false;
         }
-        possible = requestClipMove(clipId, trackId, position, false, false, false);
+        possible = requestClipMoveAttempt(clipId, trackId, position);
         return possible ? position : currentPos;
     }
     // find best pos for groups
@@ -495,7 +526,7 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int sn
     }
     if (blank_length != 0) {
         int updatedPos = currentPos + (after ? blank_length : -blank_length);
-        possible = requestClipMove(clipId, trackId, updatedPos, false, false, false);
+        possible = requestClipMoveAttempt(clipId, trackId, updatedPos);
         if (possible) {
             return updatedPos;
         }
@@ -838,9 +869,8 @@ bool TimelineModel::requestGroupMove(int clipId, int groupId, int delta_track, i
     return res;
 }
 
-bool TimelineModel::requestGroupMove(int clipId, int groupId, int delta_track, int delta_pos, bool updateView, bool finalMove, Fun &undo, Fun &redo)
+bool TimelineModel::requestGroupMove(int clipId, int groupId, int delta_track, int delta_pos, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool allowViewRefresh)
 {
-    Q_UNUSED(clipId)
 #ifdef LOGGING
     m_logFile << "timeline->requestGroupMove(" << clipId << "," << groupId << " ," << delta_track << ", " << delta_pos << ", "
               << (updateView ? "true" : "false") << " ); " << std::endl;
@@ -894,7 +924,7 @@ bool TimelineModel::requestGroupMove(int clipId, int groupId, int delta_track, i
         int current_track_position = getTrackPosition(current_track_id);
         int d = getTrackById(current_track_id)->isAudioTrack() ? audio_delta : video_delta;
         int target_track_position = current_track_position + d;
-        bool updateThisView = true;
+        bool updateThisView = allowViewRefresh;
         if (clip == clipId) {
             updateThisView = updateView;
         }
