@@ -658,7 +658,8 @@ void Monitor::slotSetZoneStart()
 
 void Monitor::slotSetZoneEnd(bool discardLastFrame)
 {
-    int pos = m_glMonitor->getCurrentPos() - (discardLastFrame ? 1 : 0);
+    Q_UNUSED(discardLastFrame);
+    int pos = m_glMonitor->getCurrentPos() + 1;
     m_glMonitor->getControllerProxy()->setZoneOut(pos);
     if (m_controller) {
         m_controller->setZone(m_glMonitor->getControllerProxy()->zone());
@@ -1256,10 +1257,14 @@ void Monitor::slotRefreshMonitor(bool visible)
     }
 }
 
-void Monitor::refreshMonitorIfActive()
+void Monitor::refreshMonitorIfActive(bool directUpdate)
 {
     if (isActive()) {
-        m_glMonitor->requestRefresh();
+        if (directUpdate) {
+            m_glMonitor->refresh();
+        } else {
+            m_glMonitor->requestRefresh();
+        }
     }
 }
 

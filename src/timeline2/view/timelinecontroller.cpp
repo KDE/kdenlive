@@ -1422,7 +1422,7 @@ void TimelineController::liftZone(QPoint zone)
     TimelineFunctions::extractZone(m_model, tracks, m_zone == QPoint() ? zone : m_zone, true);
 }
 
-bool TimelineController::insertZone(const QString &binId, QPoint zone, bool overwrite)
+int TimelineController::insertZone(const QString &binId, QPoint zone, bool overwrite)
 {
     std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(binId);
     int targetTrack = -1;
@@ -1445,7 +1445,7 @@ bool TimelineController::insertZone(const QString &binId, QPoint zone, bool over
         insertPoint = timelinePosition();
         sourceZone = zone;
     }
-    return TimelineFunctions::insertZone(m_model, targetTrack, binId, insertPoint, sourceZone, overwrite);
+    return TimelineFunctions::insertZone(m_model, targetTrack, binId, insertPoint, sourceZone, overwrite) ? insertPoint + (zone.y() -zone.x()) : -1;
 }
 
 void TimelineController::updateClip(int clipId, QVector<int> roles)

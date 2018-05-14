@@ -347,7 +347,10 @@ public:
     void extractZone(QPoint zone);
     /** @brief Delete selected zone */
     void liftZone(QPoint zone);
-    bool insertZone(const QString &binId, QPoint zone, bool overwrite);
+    /** @brief Insert clip monitor into timeline
+     *  @returns the zone end position or -1 on fail
+     */
+    int insertZone(const QString &binId, QPoint zone, bool overwrite);
     void updateClip(int clipId, QVector<int> roles);
     void showClipKeyframes(int clipId, bool value);
     void showCompositionKeyframes(int clipId, bool value);

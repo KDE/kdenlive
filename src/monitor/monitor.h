@@ -328,7 +328,7 @@ public slots:
     void requestSeek(int pos);
     /** @brief Check current position to show relevant infos in qml view (markers, zone in/out, etc). */
     void checkOverlay(int pos = -1);
-    void refreshMonitorIfActive() override;
+    void refreshMonitorIfActive(bool directUpdate = false) override;
 
 signals:
     void seekPosition(int);

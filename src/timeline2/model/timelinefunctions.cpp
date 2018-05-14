@@ -320,7 +320,7 @@ bool TimelineFunctions::insertSpace(std::shared_ptr<TimelineItemModel> timeline,
     Q_UNUSED(trackId)
 
     std::unordered_set<int> clips = timeline->getItemsAfterPosition(-1, zone.x(), -1, true);
-    bool result = false;
+    bool result = true;
     if (clips.size() > 0) {
         int clipId = *clips.begin();
         if (clips.size() > 1) {
