@@ -1456,7 +1456,7 @@ int TimelineController::insertZone(const QString &binId, QPoint zone, bool overw
         insertPoint = timelinePosition();
         sourceZone = zone;
     }
-    return TimelineFunctions::insertZone(m_model, targetTrack, binId, insertPoint, sourceZone, overwrite) ? insertPoint + (zone.y() -zone.x()) : -1;
+    return TimelineFunctions::insertZone(m_model, targetTrack, binId, insertPoint, sourceZone, overwrite) ? insertPoint + (sourceZone.y() -sourceZone.x()) : -1;
 }
 
 void TimelineController::updateClip(int clipId, QVector<int> roles)
