@@ -362,6 +362,8 @@ public:
     void resetPreview();
     /** @brief Select the clip in active track under cursor */
     void selectCurrentItem(ObjectType type, bool select, bool addToCurrent = false);
+    /** @brief Set target tracks (video, audio) */
+    void setTargetTracks(QPair<int, int> targets);
 
 public slots:
     void selectMultitrack();

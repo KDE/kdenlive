@@ -1119,10 +1119,6 @@ int Bin::lastClipId() const
 
 void Bin::setDocument(KdenliveDoc *project)
 {
-    // Remove clip from Bin's monitor
-    if (m_doc) {
-        emit openClip(std::shared_ptr<ProjectClip>());
-    }
     m_infoMessage->hide();
     blockSignals(true);
     m_proxyModel->selectionModel()->blockSignals(true);

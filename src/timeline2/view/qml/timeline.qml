@@ -715,6 +715,8 @@ Rectangle {
                     clip: true
                     Ruler {
                         id: ruler
+                        y: 0
+                        x: 0
                         width: Math.max(root.width - headerWidth, timeline.duration * timeScale + root.projectMargin)
                         Rectangle {
                             id: seekCursor

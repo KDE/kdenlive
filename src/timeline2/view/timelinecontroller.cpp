@@ -83,6 +83,13 @@ void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
     connect(m_model.get(), &TimelineModel::durationUpdated, this, &TimelineController::checkDuration);
 }
 
+void TimelineController::setTargetTracks(QPair<int, int> targets)
+{
+    setVideoTarget(targets.first >= 0 ? m_model->getTrackIndexFromPosition(targets.first) : -1);
+    setAudioTarget(targets.second >= 0 ? m_model->getTrackIndexFromPosition(targets.second) : -1);
+}
+
+
 std::shared_ptr<TimelineItemModel> TimelineController::getModel() const
 {
     return m_model;
@@ -1240,9 +1247,13 @@ void TimelineController::loadPreview(QString chunks, QString dirty, const QDateT
 QMap<QString, QString> TimelineController::documentProperties()
 {
     QMap<QString, QString> props = pCore->currentDoc()->documentProperties();
-    // TODO
-    // props.insert(QStringLiteral("audiotargettrack"), QString::number(audioTarget));
-    // props.insert(QStringLiteral("videotargettrack"), QString::number(videoTarget));
+    int audioTarget = m_model->m_audioTarget == -1 ? -1 : m_model->getTrackPosition(m_model->m_audioTarget);
+    int videoTarget = m_model->m_videoTarget == -1 ? -1 : m_model->getTrackPosition(m_model->m_videoTarget);
+    int activeTrack = m_activeTrack == -1 ? -1 : m_model->getTrackPosition(m_activeTrack);
+    props.insert(QStringLiteral("audioTarget"), QString::number(audioTarget));
+    props.insert(QStringLiteral("videoTarget"), QString::number(videoTarget));
+    props.insert(QStringLiteral("activeTrack"), QString::number(activeTrack));
+    props.insert(QStringLiteral("position"), QString::number(timelinePosition()));
     if (m_timelinePreview) {
         QPair<QStringList, QStringList> chunks = m_timelinePreview->previewChunks();
         props.insert(QStringLiteral("previewchunks"), chunks.first.join(QLatin1Char(',')));

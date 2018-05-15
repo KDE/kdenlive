@@ -105,6 +105,8 @@ public:
     void setProjectFolder(const QUrl &url);
     void setZone(int start, int end);
     QPoint zone() const;
+    /** @brief Returns target tracks (video, audio). */
+    QPair<int, int> targetTracks() const;
     void setDocumentProperty(const QString &name, const QString &value);
     const QString getDocumentProperty(const QString &name, const QString &defaultValue = QString()) const;
 

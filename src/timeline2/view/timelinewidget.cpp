@@ -92,8 +92,8 @@ void TimelineWidget::setModel(std::shared_ptr<TimelineItemModel> model)
     m_proxy->setRoot(rootObject());
     setVisible(true);
     loading = false;
-    m_proxy->setActiveTrack(model->getFirstVideoTrackIndex());
     m_proxy->checkDuration();
+    m_proxy->positionChanged();
 }
 
 void TimelineWidget::mousePressEvent(QMouseEvent *event)

@@ -108,6 +108,9 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGro
     m_documentProperties[QStringLiteral("proxyimagesize")] = QString::number(KdenliveSettings::proxyimagesize());
     m_documentProperties[QStringLiteral("resizepreview")] = QString::number((int)KdenliveSettings::resizepreview());
     m_documentProperties[QStringLiteral("previewheight")] = QString::number(KdenliveSettings::previewheight());
+    m_documentProperties[QStringLiteral("videoTarget")] = QString::number(tracks.y());
+    m_documentProperties[QStringLiteral("audioTarget")] = QString::number(tracks.y() - 1);
+    m_documentProperties[QStringLiteral("activeTrack")] = QString::number(tracks.y());
 
     // Load properties
     QMapIterator<QString, QString> i(properties);
@@ -452,6 +455,11 @@ void KdenliveDoc::setZone(int start, int end)
 QPoint KdenliveDoc::zone() const
 {
     return QPoint(m_documentProperties.value(QStringLiteral("zonein")).toInt(), m_documentProperties.value(QStringLiteral("zoneout")).toInt());
+}
+
+QPair<int, int> KdenliveDoc::targetTracks() const
+{
+    return {m_documentProperties.value(QStringLiteral("videoTarget")).toInt(), m_documentProperties.value(QStringLiteral("audioTarget")).toInt()};
 }
 
 QDomDocument KdenliveDoc::xmlSceneList(const QString &scene)
@@ -1208,8 +1216,7 @@ QMap<QString, QString> KdenliveDoc::documentProperties()
         m_documentProperties.insert(QStringLiteral("storagefolder"),
                                     m_projectFolder + QLatin1Char('/') + m_documentProperties.value(QStringLiteral("documentid")));
     }
-    m_documentProperties.insert(QStringLiteral("profile"), pCore->getCurrentProfile()->path());
-    m_documentProperties.insert(QStringLiteral("position"), QString::number(pCore->monitorManager()->projectMonitor()->position()));
+    m_documentProperties.insert(QStringLiteral("profile"), pCore->getCurrentProfile()->path());;
     if (!m_documentProperties.contains(QStringLiteral("decimalPoint"))) {
         m_documentProperties.insert(QStringLiteral("decimalPoint"), QLocale().decimalPoint());
     }

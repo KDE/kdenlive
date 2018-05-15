@@ -864,6 +864,7 @@ int GLWidget::setProducer(Mlt::Producer *producer, bool isActive, int position)
         m_producer->set_speed(0);
         if (m_consumer) {
             consumerPosition = m_consumer->position();
+            m_consumer->stop();
             if (!m_consumer->is_stopped()) {
                 m_consumer->stop();
             }
