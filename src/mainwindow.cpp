@@ -2528,7 +2528,7 @@ void MainWindow::slotExtractZone()
 
 void MainWindow::slotLiftZone()
 {
-    getMainTimeline()->controller()->liftZone(m_clipMonitor->getZoneInfo());
+    getMainTimeline()->controller()->extractZone(m_clipMonitor->getZoneInfo(), true);
 }
 
 void MainWindow::slotPreviewRender()

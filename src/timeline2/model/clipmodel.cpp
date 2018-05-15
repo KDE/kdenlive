@@ -69,7 +69,6 @@ int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QSt
     state = stateFromBool(videoAudio);
 
     std::shared_ptr<Mlt::Producer> cutProducer = binClip->getTimelineProducer(id, state, 1.);
-
     std::shared_ptr<ClipModel> clip(new ClipModel(parent, cutProducer, binClipId, id, state));
     clip->setClipState_lambda(state)();
     parent->registerClip(clip);
@@ -482,6 +481,9 @@ bool ClipModel::setClipState(PlaylistState::ClipState state, Fun &undo, Fun &red
     }
     if (state == PlaylistState::AudioOnly && !canBeAudio()) {
         return false;
+    }
+    if (state == m_currentState) {
+        return true;
     }
     auto old_state = m_currentState;
     auto operation = setClipState_lambda(state);

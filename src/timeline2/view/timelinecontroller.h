@@ -343,10 +343,10 @@ public:
 
     /** @brief Change a clip item's speed in timeline */
     Q_INVOKABLE void changeItemSpeed(int clipId, int speed);
-    /** @brief Delete selected zone and fill gap by moving following clips*/
-    void extractZone(QPoint zone);
-    /** @brief Delete selected zone */
-    void liftZone(QPoint zone);
+    /** @brief Delete selected zone and fill gap by moving following clips
+     *  @param lift if true, the zone will simply be deleted but clips won't be moved
+     */
+    void extractZone(QPoint zone, bool liftOnly = false);
     /** @brief Insert clip monitor into timeline
      *  @returns the zone end position or -1 on fail
      */

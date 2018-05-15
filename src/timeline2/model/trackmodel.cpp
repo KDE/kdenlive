@@ -594,24 +594,15 @@ int TrackModel::getClipByRow(int row) const
 std::unordered_set<int> TrackModel::getClipsAfterPosition(int position, int end)
 {
     READ_LOCK();
-    // TODO: this function doesn't take into accounts the fact that there are two tracks
     std::unordered_set<int> ids;
-    int ix = m_playlists[0].get_clip_index_at(position);
-    if (end > -1) {
-        end = m_playlists[0].get_clip_index_at(end);
-        if (end < m_playlists[0].count()) {
-            end++;
-        }
-    } else {
-        end = m_playlists[0].count();
-    }
-    while (ix < end) {
-        QSharedPointer<Mlt::Producer> prod(m_playlists[0].get_clip(ix));
-        ix++;
-        if (prod->is_blank()) {
+    for (auto clp : m_allClips) {
+        int pos = clp.second->getPosition();
+        if (end > -1 && pos >= end) {
             continue;
         }
-        ids.insert(prod->get_int("_kdenlive_cid"));
+        if (pos >= position) {
+            ids.insert(clp.first);
+        }
     }
     return ids;
 }

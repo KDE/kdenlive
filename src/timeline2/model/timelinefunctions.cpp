@@ -222,12 +222,12 @@ bool TimelineFunctions::extractZone(std::shared_ptr<TimelineItemModel> timeline,
     // Start undoable command
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
-    bool result = false;
+    bool result = true;
     for (int trackId : tracks) {
-        result = TimelineFunctions::liftZone(timeline, trackId, zone, undo, redo);
-        if (result && !liftOnly) {
-            result = TimelineFunctions::removeSpace(timeline, trackId, zone, undo, redo);
-        }
+        result = result && TimelineFunctions::liftZone(timeline, trackId, zone, undo, redo);
+    }
+    if (result && !liftOnly) {
+        result = TimelineFunctions::removeSpace(timeline, -1, zone, undo, redo);
     }
     pCore->pushUndo(undo, redo, liftOnly ? i18n("Lift zone") : i18n("Extract zone"));
     return result;
@@ -304,6 +304,9 @@ bool TimelineFunctions::removeSpace(std::shared_ptr<TimelineItemModel> timeline,
                 result = timeline->requestGroupMove(clipId, res, 0, zone.x() - zone.y(), true, true, undo, redo);
                 if (result) {
                     result = timeline->requestClipUngroup(clipId, undo, redo);
+                }
+                if (!result) {
+                    undo();
                 }
             }
         } else {
