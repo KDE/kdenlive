@@ -78,12 +78,6 @@ Rectangle {
             }
         }
     ]
-    transitions: [
-        Transition {
-            to: '*'
-            ColorAnimation { target: trackHeadRoot; duration: 150 }
-        }
-    ]
 
     Keys.onDownPressed: {
         root.moveSelectedTrack(1)
