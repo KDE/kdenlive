@@ -261,6 +261,7 @@ public:
     Q_INVOKABLE void extract(int clipId);
 
     Q_INVOKABLE void splitAudio(int clipId);
+    Q_INVOKABLE void splitVideo(int clipId);
 
     /* @brief Seeks to selected clip start / end
      */

@@ -447,7 +447,7 @@ bool TimelineFunctions::requestSplitAudio(std::shared_ptr<TimelineItemModel> tim
     // Now clear selection so we don't mess with groups
     pCore->clearSelection();
     for (int cid : clips) {
-        if (!timeline->getClipPtr(cid)->audioEnabled() || timeline->getClipPtr(cid)->clipState() == PlaylistState::AudioOnly) {
+        if (!timeline->getClipPtr(cid)->canBeAudio() || timeline->getClipPtr(cid)->clipState() == PlaylistState::AudioOnly) {
             // clip without audio or audio only, skip
             continue;
         }
@@ -485,6 +485,57 @@ bool TimelineFunctions::requestSplitAudio(std::shared_ptr<TimelineItemModel> tim
     }
     if (done) {
         pCore->pushUndo(undo, redo, i18n("Split Audio"));
+    }
+    return done;
+}
+
+bool TimelineFunctions::requestSplitVideo(std::shared_ptr<TimelineItemModel> timeline, int clipId, int videoTarget)
+{
+    std::function<bool(void)> undo = []() { return true; };
+    std::function<bool(void)> redo = []() { return true; };
+    const std::unordered_set<int> clips = timeline->getGroupElements(clipId);
+    bool done = false;
+    // Now clear selection so we don't mess with groups
+    pCore->clearSelection();
+    for (int cid : clips) {
+        if (!timeline->getClipPtr(cid)->canBeVideo() || timeline->getClipPtr(cid)->clipState() == PlaylistState::VideoOnly) {
+            // clip without audio or audio only, skip
+            continue;
+        }
+        int position = timeline->getClipPosition(cid);
+        int track = timeline->getClipTrackId(cid);
+        QList<int> possibleTracks = QList<int>() << videoTarget;
+        if (possibleTracks.isEmpty()) {
+            // No available audio track for splitting, abort
+            undo();
+            pCore->displayMessage(i18n("No available video track for split operation"), ErrorMessage);
+            return false;
+        }
+        int newId;
+        bool res = copyClip(timeline, cid, newId, PlaylistState::VideoOnly, undo, redo);
+        if (!res) {
+            bool undone = undo();
+            Q_ASSERT(undone);
+            pCore->displayMessage(i18n("Video split failed"), ErrorMessage);
+            return false;
+        }
+        bool success = false;
+        while (!success && !possibleTracks.isEmpty()) {
+            int newTrack = possibleTracks.takeFirst();
+            success = timeline->requestClipMove(newId, newTrack, position, true, false, undo, redo);
+        }
+        TimelineFunctions::changeClipState(timeline, cid, PlaylistState::AudioOnly, undo, redo);
+        success = success && timeline->m_groups->createGroupAtSameLevel(cid, std::unordered_set<int>{newId}, GroupType::AVSplit, undo, redo);
+        if (!success) {
+            bool undone = undo();
+            Q_ASSERT(undone);
+            pCore->displayMessage(i18n("Video split failed"), ErrorMessage);
+            return false;
+        }
+        done = true;
+    }
+    if (done) {
+        pCore->pushUndo(undo, redo, i18n("Split Video"));
     }
     return done;
 }

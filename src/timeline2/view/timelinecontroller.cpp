@@ -1472,6 +1472,11 @@ void TimelineController::splitAudio(int clipId)
     TimelineFunctions::requestSplitAudio(m_model, clipId, audioTarget());
 }
 
+void TimelineController::splitVideo(int clipId)
+{
+    TimelineFunctions::requestSplitVideo(m_model, clipId, videoTarget());
+}
+
 void TimelineController::switchTrackLock(bool applyToAll)
 {
     if (!applyToAll) {

@@ -211,6 +211,8 @@ Column{
                         item.isAudio= model.audio
                         item.markers= model.markers
                         item.hasAudio = model.hasAudio
+                        item.canBeAudio = model.canBeAudio
+                        item.canBeVideo = model.canBeVideo
                         //item.binId= model.binId
                     } else {
                         console.log('loaded composition: ', model.start, ', ID: ', model.item, ', index: ', trackRoot.DelegateModel.itemsIndex)

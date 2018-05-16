@@ -61,6 +61,8 @@ Rectangle {
     property int draggedX: x
     property bool selected: false
     property bool hasAudio
+    property bool canBeAudio
+    property bool canBeVideo
     property string hash: 'ccc' //TODO
     property double speed: 1.0
     property color borderColor: 'black'
@@ -280,7 +282,7 @@ Rectangle {
             }
         }
         onPositionChanged: {
-            if (pressed) {
+            if (pressed && mouse.buttons === Qt.LeftButton) {
                 var trackIndex = Logic.getTrackIndexFromId(clipRoot.trackId)
                 if ((mouse.y < 0 && trackIndex > 0) || (mouse.y > height && trackIndex < tracksRepeater.count - 1)) {
                     var mapped = parentTrack.mapFromItem(clipRoot, mouse.x, mouse.y).x
@@ -327,6 +329,8 @@ Rectangle {
                 clipMenu.clipStatus = clipRoot.clipStatus
                 clipMenu.grouped = clipRoot.grouped
                 clipMenu.trackId = clipRoot.trackId
+                clipMenu.canBeAudio = clipRoot.canBeAudio
+                clipMenu.canBeVideo = clipRoot.canBeVideo
                 clipMenu.popup()
             }
         }

@@ -125,7 +125,7 @@ Rectangle {
                 onClicked: {
                     trackHeadRoot.myTrackHeight = trackHeadRoot.collapsed ? Math.max(collapsedHeight * 1.5, controller.getTrackProperty(trackId, "kdenlive:trackheight")) : collapsedHeight
                 }
-                tooltip: buttonBar.visible? i18n('Minimize') : i18n('Expand')
+                tooltip: trackLabel.visible? i18n('Minimize') : i18n('Expand')
             }
             Item {
                 width: nameEdit.height
@@ -204,12 +204,73 @@ Rectangle {
                 }
             }
             Rectangle {
+                // Spacer
+                color: "transparent"
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+            }
+            ToolButton {
+                id: muteButton
+                implicitHeight: trackHeadRoot.iconSize
+                implicitWidth: trackHeadRoot.iconSize
+                visible: isAudio
+                iconName: isMute ? 'kdenlive-hide-audio' : 'kdenlive-show-audio'
+                iconSource: isMute ? 'qrc:///pics/kdenlive-hide-audio.svgz' : 'qrc:///pics/kdenlive-show-audio.svgz'
+                onClicked: controller.setTrackProperty(trackId, "hide", isMute ? isHidden ? '1' : '0' : isHidden ? '3' : '2')
+                tooltip: isMute? i18n('Unmute') : i18n('Mute')
+            }
+
+            ToolButton {
+                id: hideButton
+                implicitHeight: trackHeadRoot.iconSize
+                implicitWidth: trackHeadRoot.iconSize
+                visible: !isAudio
+                iconName: isHidden ? 'kdenlive-hide-video' : 'kdenlive-show-video'
+                iconSource: isHidden? 'qrc:///pics/kdenlive-hide-video.svgz' : 'qrc:///pics/kdenlive-show-video.svgz'
+                onClicked: {
+                    controller.setTrackProperty(trackId, "hide", isHidden ? isMute ? '2' : '0' : isMute ? '3' : '1')
+                    timeline.requestRefresh()
+                }
+                tooltip: isHidden? i18n('Show') : i18n('Hide')
+            }
+
+            ToolButton {
+                id: lockButton
+                implicitHeight: trackHeadRoot.iconSize
+                implicitWidth: trackHeadRoot.iconSize
+                iconName: isLocked ? 'kdenlive-lock' : 'kdenlive-unlock'
+                iconSource: isLocked ? 'qrc:///pics/kdenlive-lock.svg' : 'qrc:///pics/kdenlive-unlock.svg'
+                onClicked: controller.setTrackProperty(trackId, "kdenlive:locked_track", isLocked ? '0' : '1')
+                tooltip: isLocked? i18n('Unlock track') : i18n('Lock track')
+
+                 SequentialAnimation {
+                    id: flashLock
+                    loops: 1
+                    ScaleAnimator {
+                        target: lockButton
+                        from: 1
+                        to: 2
+                        duration: 500
+                    }
+                    ScaleAnimator {
+                        target: lockButton
+                        from: 2
+                        to: 1
+                        duration: 500
+                    }
+                 }
+            }
+            Layout.rightMargin: 4
+        }
+        RowLayout {
+            Rectangle {
                 id: trackLabel
                 color: 'transparent'
                 Layout.fillWidth: true
                 radius: 2
                 border.color: trackNameMouseArea.containsMouse ? activePalette.highlight : 'transparent'
                 height: nameEdit.height
+                visible: (trackHeadRoot.height >= trackLabel.height + muteButton.height + resizer.height)
                 MouseArea {
                     id: trackNameMouseArea
                     anchors.fill: parent
@@ -269,69 +330,6 @@ Rectangle {
                         visible = false
                     }
                 }
-            }
-        }
-        RowLayout {
-            spacing: root.baseUnit / 2
-            id: buttonBar
-            visible: (trackHeadRoot.height >= trackLabel.height + muteButton.height + resizer.height)
-            Layout.rightMargin: 4
-            Rectangle {
-                // Spacer
-                color: "transparent"
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-            }
-            ToolButton {
-                id: muteButton
-                implicitHeight: trackHeadRoot.iconSize
-                implicitWidth: trackHeadRoot.iconSize
-                visible: isAudio
-                iconName: isMute ? 'kdenlive-hide-audio' : 'kdenlive-show-audio'
-                iconSource: isMute ? 'qrc:///pics/kdenlive-hide-audio.svgz' : 'qrc:///pics/kdenlive-show-audio.svgz'
-                onClicked: controller.setTrackProperty(trackId, "hide", isMute ? isHidden ? '1' : '0' : isHidden ? '3' : '2')
-                tooltip: isMute? i18n('Unmute') : i18n('Mute')
-            }
-
-            ToolButton {
-                id: hideButton
-                implicitHeight: trackHeadRoot.iconSize
-                implicitWidth: trackHeadRoot.iconSize
-                visible: !isAudio
-                iconName: isHidden ? 'kdenlive-hide-video' : 'kdenlive-show-video'
-                iconSource: isHidden? 'qrc:///pics/kdenlive-hide-video.svgz' : 'qrc:///pics/kdenlive-show-video.svgz'
-                onClicked: {
-                    controller.setTrackProperty(trackId, "hide", isHidden ? isMute ? '2' : '0' : isMute ? '3' : '1')
-                    timeline.requestRefresh()
-                }
-                tooltip: isHidden? i18n('Show') : i18n('Hide')
-            }
-
-            ToolButton {
-                id: lockButton
-                implicitHeight: trackHeadRoot.iconSize
-                implicitWidth: trackHeadRoot.iconSize
-                iconName: isLocked ? 'kdenlive-lock' : 'kdenlive-unlock'
-                iconSource: isLocked ? 'qrc:///pics/kdenlive-lock.svg' : 'qrc:///pics/kdenlive-unlock.svg'
-                onClicked: controller.setTrackProperty(trackId, "kdenlive:locked_track", isLocked ? '0' : '1')
-                tooltip: isLocked? i18n('Unlock track') : i18n('Lock track')
-
-                 SequentialAnimation {
-                    id: flashLock
-                    loops: 1
-                    ScaleAnimator {
-                        target: lockButton
-                        from: 1
-                        to: 2
-                        duration: 500
-                    }
-                    ScaleAnimator {
-                        target: lockButton
-                        from: 2
-                        to: 1
-                        duration: 500
-                    }
-                 }
             }
         }
         Rectangle {

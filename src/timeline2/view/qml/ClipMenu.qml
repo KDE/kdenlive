@@ -8,6 +8,8 @@ OLD.Menu {
         property int clipStatus
         property int trackId
         property bool grouped
+        property bool canBeAudio
+        property bool canBeVideo
         function show() {
             //mergeItem.visible = timeline.mergeClipWithNext(trackIndex, index, true)
             menu.popup()
@@ -51,7 +53,12 @@ OLD.Menu {
         OLD.MenuItem {
             text: i18n('Split Audio')
             onTriggered: timeline.splitAudio(clipId)
-            visible: clipStatus == ClipState.VideoOnly
+            visible: canBeAudio && clipStatus == ClipState.VideoOnly
+        }
+        OLD.MenuItem {
+            text: i18n('Split Video')
+            onTriggered: timeline.splitVideo(clipId)
+            visible: canBeVideo && clipStatus == ClipState.AudioOnly
         }
         OLD.MenuItem {
             text: i18n('Remove')

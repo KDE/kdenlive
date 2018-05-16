@@ -119,6 +119,8 @@ public:
         FramerateRole, /// clip only
         GroupedRole,   /// clip only
         HasAudio,      /// clip only
+        CanBeAudioRole,    /// clip only
+        CanBeVideoRole,    /// clip only
         IsMuteRole,    /// track only
         IsHiddenRole,  /// track only
         IsAudioRole,
