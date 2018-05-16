@@ -42,6 +42,7 @@ class TimelineController : public QObject
     /* @brief holds the current project duration
      */
     Q_PROPERTY(int duration READ duration NOTIFY durationChanged)
+    Q_PROPERTY(int fullDuration READ fullDuration NOTIFY durationChanged)
     Q_PROPERTY(bool audioThumbFormat READ audioThumbFormat NOTIFY audioThumbFormatChanged)
     /* @brief holds the current timeline position
      */
@@ -88,6 +89,7 @@ public:
     /* @brief Returns the project's duration (tractor)
      */
     Q_INVOKABLE int duration() const;
+    Q_INVOKABLE int fullDuration() const;
     /* @brief Returns the current cursor position (frame currently displayed by MLT)
      */
     Q_INVOKABLE int position() const { return m_position; }

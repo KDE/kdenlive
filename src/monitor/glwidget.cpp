@@ -638,7 +638,7 @@ void GLWidget::refresh()
     m_consumer->set("refresh", 1);
 }
 
-bool GLWidget::checkFrameNumber(int pos)
+bool GLWidget::checkFrameNumber(int pos, int offset)
 {
     emit seekPosition(pos);
     // TODO: cleanup and move logic to proper proxy class
@@ -656,9 +656,9 @@ bool GLWidget::checkFrameNumber(int pos)
         } else {
             m_producer->set_speed(speed);
         }
-    } else if (qFuzzyIsNull(speed)) {
+    } else if (!qFuzzyIsNull(speed)) {
         if (m_isLoopMode) {
-            if (pos >= m_producer->get_int("out") - 1) {
+            if (pos >= m_producer->get_int("out") - offset) {
                 m_consumer->purge();
                 m_producer->seek(m_proxy->zoneIn());
                 m_producer->set_speed(1.0);
@@ -666,7 +666,13 @@ bool GLWidget::checkFrameNumber(int pos)
             }
             return true;
         } else {
-            return pos < m_producer->get_int("out") - 1.;
+            if (pos >= m_producer->get_int("out") - offset) {
+                m_consumer->purge();
+                m_producer->seek(m_producer->get_int("out") - offset);
+                m_producer->set_speed(0);
+                return false;
+            }
+            return true;
         }
     } else if (speed < 0. && pos <= 0) {
         m_producer->set_speed(0);

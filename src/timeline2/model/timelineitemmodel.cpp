@@ -301,7 +301,7 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
         }
         case DurationRole:
             // qDebug() << "DATA yielding duration" << m_tractor->get_playtime();
-            return m_tractor->get_playtime();
+            return getTrackById_const(id)->trackDuration();
         case IsMuteRole:
             // qDebug() << "DATA yielding mute" << 0;
             return getTrackById_const(id)->isMute();

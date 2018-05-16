@@ -170,6 +170,8 @@ public:
     void showClipKeyframes(ObjectId id, bool enable);
     Mlt::Profile *thumbProfile();
     void clearSelection();
+    /** @brief Returns the current project duration */
+    int projectDuration() const;
 
 private:
     explicit Core();

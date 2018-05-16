@@ -460,6 +460,14 @@ KdenliveDoc *Core::currentDoc()
     return m_projectManager->current();
 }
 
+int Core::projectDuration() const
+{
+    if (!m_guiConstructed) {
+        return 0;
+    }
+    return m_mainWindow->getCurrentTimeline()->controller()->duration();
+}
+
 void Core::profileChanged()
 {
     GenTime::setFps(getCurrentFps());

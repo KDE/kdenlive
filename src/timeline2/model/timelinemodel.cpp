@@ -1507,7 +1507,7 @@ void TimelineModel::updateDuration()
 
 int TimelineModel::duration() const
 {
-    return m_tractor->get_playtime();
+    return m_tractor->get_playtime() - TimelineModel::seekDuration;
 }
 
 std::unordered_set<int> TimelineModel::getGroupElements(int clipId)

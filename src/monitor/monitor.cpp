@@ -1653,11 +1653,9 @@ void Monitor::onFrameDisplayed(const SharedFrame &frame)
 {
     m_monitorManager->frameDisplayed(frame);
     int position = frame.get_position();
-    if (!m_glMonitor->checkFrameNumber(position)) {
+    if (!m_glMonitor->checkFrameNumber(position, m_id == Kdenlive::ClipMonitor ? 1 : TimelineModel::seekDuration + 1)) {
         m_playAction->setActive(false);
-    } /* else if (position >= m_length) {
-         m_playAction->setActive(false);
-     }*/
+    }
 }
 
 void Monitor::checkDrops(int dropped)
@@ -2098,7 +2096,11 @@ void Monitor::slotEnd()
 {
     slotActivateMonitor();
     m_glMonitor->switchPlay(false);
-    m_glMonitor->seek(m_glMonitor->duration());
+    if (m_id == Kdenlive::ClipMonitor) {
+        m_glMonitor->seek(m_glMonitor->duration());
+    } else {
+        m_glMonitor->seek(pCore->projectDuration());
+    }
 }
 
 void Monitor::addSnapPoint(int pos)

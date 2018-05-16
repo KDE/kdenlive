@@ -107,7 +107,7 @@ public:
     void setAudioThumb(int channels = 0, const QVariantList &audioCache = QList<QVariant>());
     int droppedFrames() const;
     void resetDrops();
-    bool checkFrameNumber(int pos);
+    bool checkFrameNumber(int pos, int offset);
     /** @brief Return current timeline position */
     int getCurrentPos() const;
     /** @brief Requests a monitor refresh */

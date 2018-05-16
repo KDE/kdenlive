@@ -79,14 +79,14 @@ import QtQuick 2.4
             onExited: root.mouseOverRuler = false;
             onPressed: {
                 if (mouse.buttons === Qt.LeftButton) {
-                    controller.requestSeekPosition(mouseX / root.timeScale);
+                    controller.requestSeekPosition(Math.min(mouseX / root.timeScale, root.duration));
                 }
             }
             onPositionChanged: {
                 if (mouse.buttons === Qt.LeftButton) {
                     root.mouseRulerPos = mouseX
                     if (pressed) {
-                        controller.requestSeekPosition(mouseX / root.timeScale);
+                        controller.requestSeekPosition(Math.min(mouseX / root.timeScale, root.duration));
                     }
                 }
             }
