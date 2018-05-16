@@ -47,7 +47,7 @@ Rectangle {
         if (wheel.modifiers & Qt.ControlModifier) {
             timeline.setScaleFactor(timeline.scaleFactor + 0.2 * wheel.angleDelta.y / 120);
         } else {
-            var newScroll = Math.min(scrollView.flickableItem.contentX - wheel.angleDelta.y, timeline.fullDuration * root.timeScale - (scrollView.width - scrollView.__verticalScrollBar.width) + root.projectMargin)
+            var newScroll = Math.min(scrollView.flickableItem.contentX - wheel.angleDelta.y, timeline.fullDuration * root.timeScale - (scrollView.width - scrollView.__verticalScrollBar.width))
             scrollView.flickableItem.contentX = Math.max(newScroll, 0)
         }
     }
@@ -110,7 +110,6 @@ Rectangle {
 
     property int headerWidth: timeline.headerWidth()
     property int activeTool: 0
-    property int projectMargin: 200
     property real baseUnit: fontMetrics.font.pointSize
     property color selectedTrackColor: Qt.rgba(activePalette.highlight.r, activePalette.highlight.g, activePalette.highlight.b, 0.4)
     property bool stopScrolling: false
@@ -708,16 +707,17 @@ Rectangle {
             Column {
                 Flickable {
                     // Non-slider scroll area for the Ruler.
-                    contentX: scrollView.flickableItem.contentX
+                    id: rulercontainer
                     width: root.width - headerWidth
-                    height: ruler.height
+                    height: fontMetrics.font.pixelSize * 2
+                    contentX: scrollView.flickableItem.contentX
+                    contentWidth: Math.max(parent.width, timeline.fullDuration * timeScale)
                     interactive: false
                     clip: true
                     Ruler {
                         id: ruler
-                        y: 0
-                        x: 0
-                        width: Math.max(root.width - headerWidth, timeline.fullDuration * timeScale + root.projectMargin)
+                        width: rulercontainer.contentWidth
+                        height: parent.height
                         Rectangle {
                             id: seekCursor
                             visible: timeline.seekPosition > -1
@@ -746,7 +746,7 @@ Rectangle {
                     flickableItem.interactive: false
                     clip: true
                     Rectangle {
-                        width: Math.max(root.width - headerWidth - scrollView.__verticalScrollBar.width, timeline.fullDuration * timeScale + root.projectMargin)
+                        width: Math.max(root.width - headerWidth - scrollView.__verticalScrollBar.width, timeline.fullDuration * timeScale)
                         height: trackHeaders.height
                         color: activePalette.window
                         id: tracksContainerArea

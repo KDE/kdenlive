@@ -53,7 +53,7 @@ Rectangle {
         rulerRoot.labelSize = fontMetrics.tightBoundingRect(timeline.timecode(36000)).width
         adjustStepSize()
     }
-    height: fontMetrics.font.pixelSize * 2
+
     color: activePalette.window
     clip: true
 
