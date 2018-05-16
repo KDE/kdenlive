@@ -543,6 +543,8 @@ Rectangle {
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
             drag.target: parent
+            drag.minimumX: -parent.width
+            drag.maximumX: container.width
             drag.axis: Drag.XAxis
             property int startX
             property int startFadeIn
@@ -638,6 +640,8 @@ Rectangle {
             cursorShape: Qt.PointingHandCursor
             drag.target: parent
             drag.axis: Drag.XAxis
+            drag.minimumX: -parent.width
+            drag.maximumX: container.width
             property int startX
             property int startFadeOut
             onEntered: parent.opacity = 0.7
