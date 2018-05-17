@@ -1571,3 +1571,8 @@ void TimelineController::pasteEffects(int targetId, int sourceId)
     std::shared_ptr<EffectStackModel> destStack = m_model->getClipEffectStackModel(targetId);
     destStack->importEffects(sourceStack);
 }
+
+double TimelineController::fps() const
+{
+    return pCore->getCurrentFps();
+}

@@ -44,7 +44,13 @@ Rectangle {
     }
 
     function zoomByWheel(wheel) {
-        if (wheel.modifiers & Qt.ControlModifier) {
+        if (wheel.modifiers & Qt.AltModifier) {
+            if (wheel.angleDelta.x > 0) {
+                timeline.triggerAction('monitor_seek_snap_backward')
+            } else {
+                timeline.triggerAction('monitor_seek_snap_forward')
+            }
+        } else if (wheel.modifiers & Qt.ControlModifier) {
             timeline.setScaleFactor(timeline.scaleFactor + 0.2 * wheel.angleDelta.y / 120);
         } else {
             var newScroll = Math.min(scrollView.flickableItem.contentX - wheel.angleDelta.y, timeline.fullDuration * root.timeScale - (scrollView.width - scrollView.__verticalScrollBar.width))
@@ -561,8 +567,22 @@ Rectangle {
             acceptedButtons: Qt.RightButton | Qt.LeftButton
             cursorShape: tracksArea.mouseY < ruler.height || root.activeTool === 0 ? Qt.ArrowCursor : root.activeTool === 1 ? Qt.IBeamCursor : Qt.SplitHCursor
             onWheel: {
-                timeline.seekPosition = Math.min(timeline.position + (wheel.angleDelta.y > 0 ? 1 : -1), timeline.fullDuration - 1)
-                timeline.position = timeline.seekPosition
+                if (wheel.modifiers & Qt.AltModifier) {
+                    // Alt + wheel = seek to next snap point
+                    if (wheel.angleDelta.x > 0) {
+                        timeline.triggerAction('monitor_seek_snap_backward')
+                    } else {
+                        timeline.triggerAction('monitor_seek_snap_forward')
+                    }
+                } else {
+                    var delta = wheel.modifiers & Qt.ShiftModifier ? timeline.fps() : 1
+                    if (timeline.seekPosition > -1) {
+                        timeline.seekPosition = Math.min(timeline.seekPosition - (wheel.angleDelta.y > 0 ? delta : -delta), timeline.fullDuration - 1)
+                    } else {
+                        timeline.seekPosition = Math.min(timeline.position - (wheel.angleDelta.y > 0 ? delta : -delta), timeline.fullDuration - 1)
+                    }
+                    timeline.position = timeline.seekPosition
+                }
             }
             onPressed: {
                 focus = true
