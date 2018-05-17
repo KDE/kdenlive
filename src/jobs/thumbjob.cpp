@@ -74,21 +74,22 @@ bool ThumbJob::startJob()
         m_done = false;
         return true;
     }
-    m_prod = m_binClip->thumbProducer();
-    if ((m_prod == nullptr) || !m_prod->is_valid()) {
-        return false;
-    }
     m_inCache = false;
-    int max = m_prod->get_length();
-    m_frameNumber = m_binClip->clipType() == ClipType::Image ? 0 : qBound(0, m_frameNumber, max - 1);
-
-    // m_frameNumber = ProjectClip::getXmlProperty(info.xml, QStringLiteral("kdenlive:thumbnailFrame"), QStringLiteral("-1")).toInt();
+    if (m_frameNumber < 0) {
+        m_frameNumber = qMax(0, m_binClip->getProducerIntProperty(QStringLiteral("kdenlive:thumbnailFrame")));
+    }
     if (ThumbnailCache::get()->hasThumbnail(m_binClip->clipId(), m_frameNumber, !m_persistent)) {
         m_done = true;
         m_result = ThumbnailCache::get()->getThumbnail(m_binClip->clipId(), m_frameNumber);
         m_inCache = true;
         return true;
     }
+    m_prod = m_binClip->thumbProducer();
+    if ((m_prod == nullptr) || !m_prod->is_valid()) {
+        return false;
+    }
+    int max = m_prod->get_length();
+    m_frameNumber = m_binClip->clipType() == ClipType::Image ? 0 : qMin(m_frameNumber, max - 1);
 
     if (m_frameNumber > 0) {
         m_prod->seek(m_frameNumber);
