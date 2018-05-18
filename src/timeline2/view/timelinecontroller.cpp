@@ -292,7 +292,7 @@ void TimelineController::setSelection(const QList<int> &newSelection, int trackI
         m_selection.selectedTrack = trackIndex;
         m_selection.isMultitrackSelected = isMultitrack;
         if (m_model->m_temporarySelectionGroup > -1) {
-            // CLear current selection
+            // Clear current selection
             m_model->requestClipUngroup(m_model->m_temporarySelectionGroup, false);
         }
         std::unordered_set<int> newIds;
@@ -1560,6 +1560,30 @@ void TimelineController::clearSelection()
     }
     m_selection.selectedItems.clear();
     emit selectionChanged();
+}
+
+void TimelineController::selectAll()
+{
+    QList <int> ids;
+    for (auto clp : m_model->m_allClips) {
+        ids << clp.first;
+    }
+    for (auto clp : m_model->m_allCompositions) {
+        ids << clp.first;
+    }
+    setSelection(ids);
+}
+
+void TimelineController::selectCurrentTrack()
+{
+    QList <int> ids;
+    for (auto clp : m_model->getTrackById_const(m_activeTrack)->m_allClips) {
+        ids << clp.first;
+    }
+    for (auto clp : m_model->getTrackById_const(m_activeTrack)->m_allCompositions) {
+        ids << clp.first;
+    }
+    setSelection(ids);
 }
 
 void TimelineController::pasteEffects(int targetId, int sourceId)

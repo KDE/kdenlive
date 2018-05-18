@@ -2438,35 +2438,18 @@ void MainWindow::slotConfigTrack()
 
 void MainWindow::slotSelectTrack()
 {
-    pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
-    // TODO refac
-    /*
-    if (pCore->projectManager()->currentTimeline()) {
-        pCore->projectManager()->currentTimeline()->projectView()->slotSelectClipsInTrack();
-    }
-    */
+    getMainTimeline()->controller()->selectCurrentTrack();
 }
 
 void MainWindow::slotSelectAllTracks()
 {
-    // TODO refac
-    /*
-    pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
-    if (pCore->projectManager()->currentTimeline()) {
-        pCore->projectManager()->currentTimeline()->projectView()->slotSelectAllClips();
-    }
-    */
+
+    getMainTimeline()->controller()->selectAll();
 }
 
 void MainWindow::slotUnselectAllTracks()
 {
-    // TODO refac
-    /*
-    pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
-    if (pCore->projectManager()->currentTimeline()) {
-        pCore->projectManager()->currentTimeline()->projectView()->clearSelection();
-    }
-    */
+    getMainTimeline()->controller()->clearSelection();
 }
 
 void MainWindow::slotEditGuide()

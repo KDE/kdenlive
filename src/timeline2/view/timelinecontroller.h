@@ -79,6 +79,12 @@ public:
     /* @brief Clear current selection and inform the view
      */
     void clearSelection();
+    /* @brief Select all timeline items
+     */
+    void selectAll();
+    /* @brief Select all items in one track
+     */
+    void selectCurrentTrack();
     /* @brief returns current timeline's zoom factor
      */
     Q_INVOKABLE double scaleFactor() const;
