@@ -50,7 +50,8 @@ private slots:
     void slotPlaceholders();
     void slotDeleteSelected();
     QString getProperty(const QDomElement &effect, const QString &name);
-    void setProperty(const QDomElement &effect, const QString &name, const QString &value);
+    void updateProperty(const QDomElement &effect, const QString &name, const QString &value);
+    void setProperty(QDomElement &effect, const QString &name, const QString &value);
     QString searchLuma(const QDir &dir, const QString &file) const;
     /** @brief Check if images and fonts in this clip exists, returns a list of images that do exist so we don't check twice. */
     void checkMissingImagesAndFonts(const QStringList &images, const QStringList &fonts, const QString &id, const QString &baseClip);

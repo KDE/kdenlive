@@ -296,7 +296,7 @@ bool DocumentChecker::hasErrorInClips()
                 luma = getProperty(transition, QStringLiteral("luma"));
             }
             if (!luma.isEmpty() && autoFixLuma.contains(luma)) {
-                setProperty(transition, service == QLatin1String("luma") ? QStringLiteral("resource") : QStringLiteral("luma"), autoFixLuma.value(luma));
+                updateProperty(transition, service == QLatin1String("luma") ? QStringLiteral("resource") : QStringLiteral("luma"), autoFixLuma.value(luma));
             }
         }
     }
@@ -584,14 +584,40 @@ QString DocumentChecker::getProperty(const QDomElement &effect, const QString &n
     return QString();
 }
 
-void DocumentChecker::setProperty(const QDomElement &effect, const QString &name, const QString &value)
+void DocumentChecker::updateProperty(const QDomElement &effect, const QString &name, const QString &value)
 {
     QDomNodeList params = effect.elementsByTagName(QStringLiteral("property"));
     for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
         if (e.attribute(QStringLiteral("name")) == name) {
             e.firstChild().setNodeValue(value);
+            break;
         }
+    }
+}
+
+
+void DocumentChecker::setProperty(QDomElement &effect, const QString &name, const QString &value)
+{
+    QDomNodeList params = effect.elementsByTagName(QStringLiteral("property"));
+    bool found = false;
+    for (int i = 0; i < params.count(); ++i) {
+        QDomElement e = params.item(i).toElement();
+        if (e.attribute(QStringLiteral("name")) == name) {
+            e.firstChild().setNodeValue(value);
+            found = true;
+            break;
+        }
+    }
+
+    if (!found) {
+        // create property
+        QDomDocument doc = effect.ownerDocument();
+        QDomElement e = doc.createElement(QStringLiteral("property"));
+        e.setAttribute(QStringLiteral("name"), name);
+        QDomText val = doc.createTextNode(value);
+        e.appendChild(val);
+        effect.appendChild(e);
     }
 }
 
@@ -920,8 +946,8 @@ void DocumentChecker::fixClipItem(QTreeWidgetItem *child, const QDomNodeList &pr
     QDomElement e, property;
     QDomNodeList properties;
     int t = child->data(0, typeRole).toInt();
+    QString id = child->data(0, idRole).toString();
     if (child->data(0, statusRole).toInt() == CLIPOK) {
-        QString id = child->data(0, idRole).toString();
         QString fixedResource = child->text(1);
         if (t == TITLE_IMAGE_ELEMENT) {
             // edit images embedded in titles
@@ -965,23 +991,24 @@ void DocumentChecker::fixClipItem(QTreeWidgetItem *child, const QDomNodeList &pr
                         updatedResource.append(QLatin1Char('?') + resource.section(QLatin1Char('?'), -1));
                     }
                     if (service == QLatin1String("timewarp")) {
-                        setProperty(e, QStringLiteral("warp_resource"), updatedResource);
+                        updateProperty(e, QStringLiteral("warp_resource"), updatedResource);
                         updatedResource.prepend(getProperty(e, QStringLiteral("warp_speed")) + QLatin1Char(':'));
                     }
-                    setProperty(e, QStringLiteral("resource"), updatedResource);
+                    updateProperty(e, QStringLiteral("resource"), updatedResource);
                 }
             }
         }
     } else if (child->data(0, statusRole).toInt() == CLIPPLACEHOLDER && t != TITLE_FONT_ELEMENT && t != TITLE_IMAGE_ELEMENT) {
         // QString id = child->data(0, idRole).toString();
-        /*for (int i = 0; i < infoproducers.count(); ++i) {
-            e = infoproducers.item(i).toElement();
+        for (int i = 0; i < producers.count(); ++i) {
+            e = producers.item(i).toElement();
             if (e.attribute("id") == id) {
                 // Fix clip
-                e.setAttribute("placeholder", '1');
+                setProperty(e, QStringLiteral("_placeholder"), QStringLiteral("1"));
+                setProperty(e, QStringLiteral("kdenlive:orig_service"), getProperty(e, QStringLiteral("mlt_service")));
                 break;
             }
-        }*/
+        }
     } else if (child->data(0, statusRole).toInt() == LUMAOK) {
         for (int i = 0; i < trans.count(); ++i) {
             QString service = getProperty(trans.at(i).toElement(), QStringLiteral("mlt_service"));
@@ -992,7 +1019,7 @@ void DocumentChecker::fixClipItem(QTreeWidgetItem *child, const QDomNodeList &pr
                 luma = getProperty(trans.at(i).toElement(), QStringLiteral("luma"));
             }
             if (!luma.isEmpty() && luma == child->data(0, idRole).toString()) {
-                setProperty(trans.at(i).toElement(), service == QLatin1String("luma") ? QStringLiteral("resource") : QStringLiteral("luma"), child->text(1));
+                updateProperty(trans.at(i).toElement(), service == QLatin1String("luma") ? QStringLiteral("resource") : QStringLiteral("luma"), child->text(1));
                 // qCDebug(KDENLIVE_LOG) << "replace with; " << child->text(1);
             }
         }
@@ -1006,7 +1033,7 @@ void DocumentChecker::fixClipItem(QTreeWidgetItem *child, const QDomNodeList &pr
                 luma = getProperty(trans.at(i).toElement(), QStringLiteral("luma"));
             }
             if (!luma.isEmpty() && luma == child->data(0, idRole).toString()) {
-                setProperty(trans.at(i).toElement(), service == QLatin1String("luma") ? QStringLiteral("resource") : QStringLiteral("luma"), QString());
+                updateProperty(trans.at(i).toElement(), service == QLatin1String("luma") ? QStringLiteral("resource") : QStringLiteral("luma"), QString());
             }
         }
     }

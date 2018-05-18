@@ -539,6 +539,19 @@ bool ClipController::hasAudio() const
 void ClipController::checkAudioVideo()
 {
     m_masterProducer->seek(0);
+    if (m_masterProducer->get_int("_placeholder") == 1) {
+        // This is a placeholder file, try to guess from its properties
+        QString orig_service = m_masterProducer->get("kdenlive:orig_service");
+        if (orig_service.startsWith(QStringLiteral("avformat"))) {
+            m_hasAudio = m_masterProducer->get_int("audio_index") >= 0;
+            m_hasVideo = m_masterProducer->get_int("video_index") >= 0;
+        } else {
+            // Assume image or text producer
+            m_hasAudio = false;
+            m_hasVideo = true;
+        }
+        return;
+    }
     QScopedPointer<Mlt::Frame> frame(m_masterProducer->get_frame());
     // test_audio returns 1 if there is NO audio (strange but true at the time this code is written)
     m_hasAudio = frame->get_int("test_audio") == 0;
