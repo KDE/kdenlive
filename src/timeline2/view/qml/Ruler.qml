@@ -33,6 +33,7 @@ Rectangle {
     property int workingPreview : timeline.workingPreview
     property int labelMod: 1
     property bool useTimelineRuler : timeline.useRuler
+    property bool showZoneLabels: false
     SystemPalette { id: activePalette }
 
     function adjustStepSize() {
@@ -123,20 +124,22 @@ Rectangle {
     Rectangle {
         id: zone
         visible: timeline.zoneOut > timeline.zoneIn
-        color: activePalette.highlight
+        color: Qt.rgba(activePalette.highlight.r,activePalette.highlight.g,activePalette.highlight.b,0.5)
         x: timeline.zoneIn * timeline.scaleFactor
         width: (timeline.zoneOut - timeline.zoneIn) * timeline.scaleFactor
         anchors.bottom: parent.bottom
         height: parent.height / 3
-        opacity: useTimelineRuler ? 0.4 : 0.1
+        opacity: useTimelineRuler ? 1 : 0.5
         Rectangle {
             id: centerDrag
+            visible: !durationRect.visible
             anchors.centerIn: parent
             height: parent.height
             width: height
             color: moveMouseArea.containsMouse || moveMouseArea.drag.active ? 'white' : 'transparent'
             border.color: 'white'
             border.width: 1.5
+            opacity: 0.5
             Drag.active: moveMouseArea.drag.active
             Drag.proposedAction: Qt.MoveAction
             MouseArea {
@@ -161,6 +164,79 @@ Rectangle {
                         }
                     }
                 }
+            }
+        }
+        // Zone frame indicator
+        Rectangle {
+            visible: trimInMouseArea.drag.active || moveMouseArea2.drag.active || (useTimelineRuler && showZoneLabels && labelSize * 2 < zone.width)
+            width: inLabel.contentWidth
+            height: zone.height
+            color: activePalette.highlight
+            opacity: 0.8
+            Label {
+                id: inLabel
+                anchors.fill: parent
+                text: timeline.timecode(timeline.zoneIn)
+                font.pixelSize: zone.height
+                color: activePalette.highlightedText
+            }
+        }
+        Rectangle {
+            visible: trimOutMouseArea.drag.active || (useTimelineRuler && showZoneLabels && labelSize * 2 < zone.width)
+            width: outLabel.contentWidth
+            height: zone.height
+            color: activePalette.highlight
+            opacity: 0.8
+            x: zone.width - outLabel.contentWidth
+            Label {
+                id: outLabel
+                anchors.fill: parent
+                text: timeline.timecode(timeline.zoneOut)
+                font.pixelSize: zone.height
+                color: activePalette.highlightedText
+            }
+        }
+        Rectangle {
+            id: durationRect
+            visible: parent.width > 2 * width && !trimInMouseArea.drag.active && !trimOutMouseArea.drag.active
+            anchors.horizontalCenter: parent.horizontalCenter
+            width: durationLabel.contentWidth
+            height: zone.height
+            color: activePalette.highlight
+            opacity: moveMouseArea2.drag.active ? 0 : 1
+            MouseArea {
+                id: moveMouseArea2
+                anchors.fill: parent
+                property double startX
+                hoverEnabled: true
+                cursorShape: Qt.SizeHorCursor
+                drag.target: zone
+                drag.axis: Drag.XAxis
+                drag.smoothed: false
+                onEntered: {
+                    showZoneLabels = true
+                }
+                onPressed: {
+                    startX = zone.x
+                }
+                onPositionChanged: {
+                    if (mouse.buttons === Qt.LeftButton) {
+                        var offset = Math.round(zone.x/ timeline.scaleFactor) - timeline.zoneIn
+                        if (offset != 0) {
+                            var newPos = Math.max(0, controller.suggestSnapPoint(timeline.zoneIn + offset,root.snapping))
+                            timeline.zoneOut += newPos - timeline.zoneIn
+                            timeline.zoneIn = newPos
+                        }
+                    }
+                }
+            }
+
+            Label {
+                id: durationLabel
+                anchors.fill: parent
+                text: timeline.timecode(timeline.zoneOut - timeline.zoneIn)
+                font.pixelSize: zone.height
+                color: activePalette.highlightedText
             }
         }
         Rectangle {

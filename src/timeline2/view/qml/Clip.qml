@@ -543,7 +543,7 @@ Rectangle {
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
             drag.target: parent
-            drag.minimumX: -parent.width
+            drag.minimumX: -root.baseUnit * 2
             drag.maximumX: container.width
             drag.axis: Drag.XAxis
             property int startX
@@ -640,7 +640,7 @@ Rectangle {
             cursorShape: Qt.PointingHandCursor
             drag.target: parent
             drag.axis: Drag.XAxis
-            drag.minimumX: -parent.width
+            drag.minimumX: -root.baseUnit * 2
             drag.maximumX: container.width
             property int startX
             property int startFadeOut

@@ -640,6 +640,7 @@ Rectangle {
             }
             onPositionChanged: {
                 root.mousePosChanged(Math.round((mouse.x + scrollView.flickableItem.contentX) / timeline.scaleFactor))
+                ruler.showZoneLabels = mouse.y < ruler.height
                 if ((mouse.modifiers & Qt.ShiftModifier) && mouse.buttons === Qt.LeftButton && !rubberSelect.visible) {
                     // rubber selection
                     rubberSelect.visible = true
