@@ -35,6 +35,7 @@
 #include "xml/xml.hpp"
 #include <QMimeDatabase>
 #include <QWidget>
+#include <KMessageWidget>
 #include <mlt++/MltProducer.h>
 #include <mlt++/MltProfile.h>
 
@@ -269,6 +270,7 @@ bool LoadJob::startJob()
         qCDebug(KDENLIVE_LOG) << " / / / / / / / / ERROR / / / / // CANNOT LOAD PRODUCER: " << m_resource;
         m_done = true;
         m_successful = false;
+        QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(const QString &, i18n("Cannot open file %1", m_resource)), Q_ARG(int, (int)KMessageWidget::Warning));
         m_errorMessage.append(i18n("ERROR: Could not load clip %1: producer is invalid", m_resource));
         return false;
     }
@@ -510,6 +512,7 @@ bool LoadJob::commitResult(Fun &undo, Fun &redo)
     m_resultConsumed = true;
     auto m_binClip = pCore->projectItemModel()->getClipByBinID(m_clipId);
     if (!m_successful) {
+        // TODO: Deleting cannot happen at this stage or we endup in a mutex lock
         pCore->projectItemModel()->requestBinClipDeletion(m_binClip, undo, redo);
         return false;
     }

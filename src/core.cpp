@@ -491,6 +491,11 @@ void Core::displayMessage(const QString &message, MessageType type, int timeout)
     m_mainWindow->displayMessage(message, type, timeout);
 }
 
+void Core::displayBinMessage(const QString &text, int type, const QList<QAction *> &actions)
+{
+    m_binWidget->doDisplayMessage(text, (KMessageWidget::MessageType) type, actions);
+}
+
 void Core::clearAssetPanel(int itemId)
 {
     if (m_guiConstructed) m_mainWindow->clearAssetPanel(itemId);
