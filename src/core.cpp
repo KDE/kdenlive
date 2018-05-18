@@ -305,6 +305,9 @@ bool Core::setCurrentProfile(const QString &profilePath)
         m_thumbProfile.reset();
         // inform render widget
         m_mainWindow->updateRenderWidgetProfile();
+        if (m_guiConstructed) {
+            m_mainWindow->getCurrentTimeline()->controller()->getModel()->updateProfile(&getCurrentProfile()->profile());
+        }
         return true;
     }
     return false;

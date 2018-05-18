@@ -2298,3 +2298,9 @@ const QString TimelineModel::getTrackTagById(int trackId) const
     }
     return isAudio ? QStringLiteral("A%1").arg(totalAudio - count) : QStringLiteral("V%1").arg(count - 1);
 }
+
+void TimelineModel::updateProfile(Mlt::Profile *profile)
+{
+    m_profile = profile;
+    m_tractor->set_profile(*m_profile);
+}

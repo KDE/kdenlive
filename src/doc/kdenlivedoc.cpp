@@ -1363,8 +1363,9 @@ void KdenliveDoc::switchProfile(std::unique_ptr<ProfileParam> &profile, const QS
 
         // Build actions for the info message (switch / cancel)
         QList<QAction *> list;
+        const QString profilePath = profile->path();
         QAction *ac = new QAction(KoIconUtils::themedIcon(QStringLiteral("dialog-ok")), i18n("Switch"), this);
-        connect(ac, &QAction::triggered, [this, &profile]() { this->slotSwitchProfile(profile->path()); });
+        connect(ac, &QAction::triggered, [this, profilePath]() { this->slotSwitchProfile(profilePath); });
         QAction *ac2 = new QAction(KoIconUtils::themedIcon(QStringLiteral("dialog-cancel")), i18n("Cancel"), this);
         list << ac << ac2;
         pCore->bin()->doDisplayMessage(i18n("Switch to clip profile %1?", profile->descriptiveString()), KMessageWidget::Information, list);

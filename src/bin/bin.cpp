@@ -3064,18 +3064,6 @@ QDir Bin::getCacheDir(CacheType type, bool *ok) const
     return m_doc->getCacheDir(type, ok);
 }
 
-bool Bin::addClip(QDomElement elem, const QString &clipId)
-{
-    const QString producerId = clipId.section(QLatin1Char('_'), 0, 0);
-    elem.setAttribute(QStringLiteral("id"), producerId);
-    if ((KdenliveSettings::default_profile().isEmpty() || KdenliveSettings::checkfirstprojectclip()) && isEmpty()) {
-        elem.setAttribute(QStringLiteral("checkProfile"), 1);
-    }
-    createClip(elem);
-    pCore->jobManager()->startJob<LoadJob>({producerId}, -1, QString(), elem);
-    return true;
-}
-
 void Bin::rebuildProxies()
 {
     QList<std::shared_ptr<ProjectClip>> clipList = m_itemModel->getRootFolder()->childClips();

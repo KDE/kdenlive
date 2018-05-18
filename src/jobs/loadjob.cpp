@@ -172,7 +172,7 @@ void LoadJob::checkProfile()
         clipProfile->adjustWidth();
         if (clipProfile != projectProfile) {
             // Profiles do not match, propose profile adjustment
-            pCore->currentDoc()->switchProfile(projectProfile, m_clipId, m_xml);
+            pCore->currentDoc()->switchProfile(clipProfile, m_clipId, m_xml);
         } else if (KdenliveSettings::default_profile().isEmpty()) {
             // Confirm default project format
             KdenliveSettings::setDefault_profile(pCore->getCurrentProfile()->path());
@@ -513,7 +513,7 @@ bool LoadJob::commitResult(Fun &undo, Fun &redo)
         pCore->projectItemModel()->requestBinClipDeletion(m_binClip, undo, redo);
         return false;
     }
-    if (m_xml.hasAttribute(QStringLiteral("checkProfile")) && m_producer->get_int("video_index") > -1) {
+    if (m_xml.hasAttribute(QStringLiteral("_checkProfile")) && m_producer->get_int("video_index") > -1) {
         checkProfile();
     }
     if (m_video_list.size() > 1) {

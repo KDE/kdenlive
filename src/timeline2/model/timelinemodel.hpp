@@ -526,6 +526,8 @@ public:
     bool requestClipTimeWarp(int clipId, int trackId, int blankSpace, double speed, Fun &undo, Fun &redo);
     bool changeItemSpeed(int clipId, int speed);
     void replugClip(int clipId);
+    /** @brief Refresh the tractor profile in case a change was requested. */
+    void updateProfile(Mlt::Profile *profile);
 
 protected:
     /* @brief Register a new track. This is a call-back meant to be called from TrackModel

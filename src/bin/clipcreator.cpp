@@ -21,6 +21,7 @@
 
 #include "clipcreator.hpp"
 #include "core.h"
+#include "bin/bin.h"
 #include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
 #include "klocalizedstring.h"
@@ -139,6 +140,9 @@ QString ClipCreator::createClipFromFile(const QString &path, const QString &pare
         properties.insert(QStringLiteral("resource"), path);
         Xml::addXmlProperties(prod, properties);
         qDebug() << "/////////// normal" << url.toLocalFile() << properties << url;
+    }
+    if (pCore->bin()->isEmpty() && (KdenliveSettings::default_profile().isEmpty() || KdenliveSettings::checkfirstprojectclip())) {
+        prod.setAttribute(QStringLiteral("_checkProfile"), 1);
     }
 
     qDebug() << "/////////// final xml" << xml.toString();
