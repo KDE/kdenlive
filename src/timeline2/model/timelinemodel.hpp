@@ -111,7 +111,6 @@ public:
         BinIdRole,     /// clip only
         MarkersRole,   /// clip only
         StatusRole,    /// clip only
-        GroupDragRole, /// indicates if the clip is in current timeline selection, needed for group drag
         KeyframesRole,
         DurationRole,
         InPointRole,   /// clip only
@@ -300,8 +299,10 @@ public:
        @param trackId id of the target track
        @param position target position
        @param snapDistance the maximum distance for a snap result, -1 for no snapping
-        of the clip */
-    Q_INVOKABLE int suggestClipMove(int clipId, int trackId, int position, int snapDistance = -1);
+        of the clip 
+       @param dontRefreshMasterClip when false, no view refresh is attempted
+        */
+    Q_INVOKABLE int suggestClipMove(int clipId, int trackId, int position, int snapDistance = -1, bool allowViewUpdate = true);
     Q_INVOKABLE int suggestCompositionMove(int compoId, int trackId, int position, int snapDistance = -1);
 
     /* @brief Request clip insertion at given position. This action is undoable

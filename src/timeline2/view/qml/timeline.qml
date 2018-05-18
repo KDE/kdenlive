@@ -134,7 +134,6 @@ Rectangle {
     property var timelineSelection: timeline.selection
     property int trackHeight
     property int copiedClip: -1
-    property var dragList: []
     property int zoomOnMouse: -1
     property int viewActiveTrack: timeline.activeTrack
 
@@ -156,12 +155,6 @@ Rectangle {
             scrollView.flickableItem.contentY = Math.max(0, tk.y - scrollView.height / 3)
         } else if (tk.y + tk.height > scrollView.flickableItem.contentY + scrollView.viewport.height) {
             scrollView.flickableItem.contentY = Math.min(scrollView.flickableItem.height, tk.y - scrollView.height / 3)
-        }
-    }
-
-    onTimelineSelectionChanged: {
-        if (root.timelineSelection.length == 0) {
-            root.dragList = []
         }
     }
 
@@ -670,7 +663,7 @@ Rectangle {
                         // Move group
                         var track = controller.getClipTrackId(spacerGroup)
                         var frame = Math.round((mouse.x + scrollView.flickableItem.contentX) / timeline.scaleFactor) + spacerFrame - spacerClickFrame
-                        frame = controller.suggestClipMove(spacerGroup, track, frame, root.snapping);
+                        frame = controller.suggestClipMove(spacerGroup, track, frame, root.snapping, false);
                         controller.requestClipMove(spacerGroup, track, frame, true, false, false)
                         continuousScrolling(mouse.x + scrollView.flickableItem.contentX)
                     }
@@ -967,33 +960,6 @@ Rectangle {
                         clip.y = track.y - Logic.getTrackById(clip.originalTrackId).y
                         clip.trackId = track.trackId
                         clip.currentFrame = frame
-                        /*if (root.dragList.length > 1) {
-                            var currentMasterY = track.y
-                            var sourceTrack = Logic.getTrackIndexFromId(clip.originalTrackId)
-                            var destTrack = Logic.getTrackIndexFromId(clip.trackId)
-                            var trackOffset = destTrack - sourceTrack
-                            for (var i = 0; i < root.dragList.length; i++) {
-                                if (root.dragList[i] != clip) {
-                                    if (root.dragList[i].originalTrackId == clip.originalTrackId) {
-                                        if (root.dragList[i].isComposition == false) {
-                                            root.dragList[i].height = clip.height
-                                        } else {
-                                            root.dragList[i].displayHeight = clip.height / 2
-                                        }
-                                    } else {
-                                        var newTrackIndex = Logic.getTrackIndexFromId(root.dragList[i].originalTrackId) + trackOffset
-                                        var newTrack = tracksRepeater.itemAt(newTrackIndex)
-                                        if (root.dragList[i].isComposition == false) {
-                                            root.dragList[i].height = newTrack.height
-                                            root.dragList[i].y = newTrack.y - currentMasterY
-                                        } else {
-                                            root.dragList[i].displayHeight = newTrack.height / 2
-                                            root.dragList[i].y = newTrack.y - currentMasterY
-                                        }
-                                    }
-                                }
-                            }
-                        }*/
                     } else {
                         if (track.trackId != clip.trackId) {
                             // check if we can move on existing track
@@ -1031,33 +997,6 @@ Rectangle {
                         composition.reparent(track)
                         composition.trackIndex = track.DelegateModel.itemsIndex
                         composition.trackId = track.trackId
-                        if (root.dragList.length > 1) {
-                            var currentMasterY = track.y
-                            var sourceTrack = Logic.getTrackIndexFromId(composition.originalTrackId)
-                            var destTrack = Logic.getTrackIndexFromId(composition.trackId)
-                            var trackOffset = destTrack - sourceTrack
-                            for (var i = 0; i < root.dragList.length; i++) {
-                                if (root.dragList[i] != composition) {
-                                    if (root.dragList[i].originalTrackId == composition.originalTrackId) {
-                                        if (root.dragList[i].isComposition == false) {
-                                            root.dragList[i].height = track.height
-                                        } else {
-                                            root.dragList[i].displayHeight = composition.displayHeight
-                                        }
-                                    } else {
-                                        var newTrackIndex = Logic.getTrackIndexFromId(root.dragList[i].originalTrackId) + trackOffset
-                                        var newTrack = tracksRepeater.itemAt(newTrackIndex)
-                                        if (root.dragList[i].isComposition == false) {
-                                            root.dragList[i].height = newTrack.height
-                                            root.dragList[i].y = newTrack.y - currentMasterY
-                                        } else {
-                                            root.dragList[i].displayHeight = newTrack.height / 2
-                                            root.dragList[i].y = newTrack.y - currentMasterY
-                                        }
-                                    }
-                                }
-                            }
-                        }
                     }
                 }
             }

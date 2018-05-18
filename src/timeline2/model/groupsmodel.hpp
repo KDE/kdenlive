@@ -178,8 +178,9 @@ protected:
     /* @brief change the group of a given item
        @param id of the groupItem
        @param groupId id of the group to assign it to
+       @param changeState when false, the grouped role for item won't be updated (for selection)
     */
-    void setGroup(int id, int groupId);
+    void setGroup(int id, int groupId, bool changeState = true);
 
     /* @brief Remove an item from all the groups it belongs to.
        @param id of the groupItem

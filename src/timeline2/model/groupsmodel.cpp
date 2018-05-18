@@ -83,11 +83,7 @@ Fun GroupsModel::groupItems_lambda(int gid, const std::unordered_set<int> &ids, 
             auto ptr = m_parent.lock();
             if (!ptr) Q_ASSERT(false);
             for (int id : roots) {
-                setGroup(getRootId(id), gid);
-                if (type != GroupType::Selection && ptr->isClip(id)) {
-                    QModelIndex ix = ptr->makeClipIndexFromID(id);
-                    ptr->dataChanged(ix, ix, {TimelineModel::GroupedRole});
-                }
+                setGroup(getRootId(id), gid, type != GroupType::Selection);
             }
         }
         return true;
@@ -299,7 +295,7 @@ int GroupsModel::getDirectAncestor(int id) const
     return m_upLink.at(id);
 }
 
-void GroupsModel::setGroup(int id, int groupId)
+void GroupsModel::setGroup(int id, int groupId, bool changeState)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_upLink.count(id) > 0);
@@ -310,7 +306,7 @@ void GroupsModel::setGroup(int id, int groupId)
     if (groupId != -1) {
         m_downLink[groupId].insert(id);
         auto ptr = m_parent.lock();
-        if (ptr) {
+        if (changeState && ptr) {
             QModelIndex ix;
             if (ptr->isClip(id)) {
                 ix = ptr->makeClipIndexFromID(id);

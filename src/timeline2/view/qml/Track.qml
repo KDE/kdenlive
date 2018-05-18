@@ -97,12 +97,6 @@ Column{
                 }
                 Binding {
                     target: loader.item
-                    property: "groupDrag"
-                    value: model.groupDrag
-                    when: loader.status == Loader.Ready
-                }
-                Binding {
-                    target: loader.item
                     property: "clipStatus"
                     value: model.clipStatus
                     when: loader.status == Loader.Ready && !loader.item.isComposition

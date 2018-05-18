@@ -117,37 +117,9 @@ void TimelineController::addSelection(int newSelection)
     m_model->m_temporarySelectionGroup = m_model->requestClipsGroup(ids, true, GroupType::Selection);
 
     std::unordered_set<int> newIds;
-    QVector<int> roles;
-    roles.push_back(TimelineModel::GroupDragRole);
     if (m_model->m_temporarySelectionGroup >= 0) {
         // new items were selected, inform model to prepare for group drag
         newIds = m_model->getGroupElements(m_selection.selectedItems.constFirst());
-        for (int i : newIds) {
-            if (m_model->isClip(i)) {
-                m_model->m_allClips[i]->isInGroupDrag = true;
-                QModelIndex modelIndex = m_model->makeClipIndexFromID(i);
-                m_model->notifyChange(modelIndex, modelIndex, roles);
-            } else if (m_model->isComposition(i)) {
-                m_model->m_allCompositions[i]->isInGroupDrag = false;
-                QModelIndex modelIndex = m_model->makeCompositionIndexFromID(i);
-                m_model->notifyChange(modelIndex, modelIndex, roles);
-            }
-        }
-    }
-    // Make sure to remove items from previous selection
-    for (int i : previousSelection) {
-        if (newIds.find(i) == newIds.end()) {
-            // item not in selection anymore
-            if (m_model->isClip(i)) {
-                m_model->m_allClips[i]->isInGroupDrag = false;
-                QModelIndex modelIndex = m_model->makeClipIndexFromID(i);
-                m_model->notifyChange(modelIndex, modelIndex, roles);
-            } else if (m_model->isComposition(i)) {
-                m_model->m_allCompositions[i]->isInGroupDrag = false;
-                QModelIndex modelIndex = m_model->makeCompositionIndexFromID(i);
-                m_model->notifyChange(modelIndex, modelIndex, roles);
-            }
-        }
     }
     emit selectionChanged();
     if (!m_selection.selectedItems.isEmpty())
@@ -296,8 +268,6 @@ void TimelineController::setSelection(const QList<int> &newSelection, int trackI
             m_model->requestClipUngroup(m_model->m_temporarySelectionGroup, false);
         }
         std::unordered_set<int> newIds;
-        QVector<int> roles;
-        roles.push_back(TimelineModel::GroupDragRole);
         if (m_selection.selectedItems.size() > 0) {
             std::unordered_set<int> ids;
             ids.insert(m_selection.selectedItems.cbegin(), m_selection.selectedItems.cend());
@@ -305,17 +275,6 @@ void TimelineController::setSelection(const QList<int> &newSelection, int trackI
             if (m_model->m_temporarySelectionGroup >= 0 ||
                 (!m_selection.selectedItems.isEmpty() && m_model->m_groups->isInGroup(m_selection.selectedItems.constFirst()))) {
                 newIds = m_model->getGroupElements(m_selection.selectedItems.constFirst());
-                for (int i : newIds) {
-                    if (m_model->isClip(i)) {
-                        m_model->m_allClips[i]->isInGroupDrag = true;
-                        QModelIndex modelIndex = m_model->makeClipIndexFromID(i);
-                        m_model->notifyChange(modelIndex, modelIndex, roles);
-                    } else if (m_model->isComposition(i)) {
-                        m_model->m_allCompositions[i]->isInGroupDrag = true;
-                        QModelIndex modelIndex = m_model->makeCompositionIndexFromID(i);
-                        m_model->notifyChange(modelIndex, modelIndex, roles);
-                    }
-                }
             } else {
                 qDebug() << "// NON GROUPED SELCTUIIN: " << m_selection.selectedItems << " !!!!!!";
             }
@@ -324,21 +283,6 @@ void TimelineController::setSelection(const QList<int> &newSelection, int trackI
             // Empty selection
             emit selected(nullptr);
             emit showItemEffectStack(QString(), nullptr, QSize(), false);
-        }
-        for (int i : previousSelection) {
-            // Clear previously selcted items
-            if (newIds.find(i) == newIds.end()) {
-                // item not in selection anymore
-                if (m_model->isClip(i)) {
-                    m_model->m_allClips[i]->isInGroupDrag = false;
-                    QModelIndex modelIndex = m_model->makeClipIndexFromID(i);
-                    m_model->notifyChange(modelIndex, modelIndex, roles);
-                } else if (m_model->isComposition(i)) {
-                    m_model->m_allCompositions[i]->isInGroupDrag = false;
-                    QModelIndex modelIndex = m_model->makeCompositionIndexFromID(i);
-                    m_model->notifyChange(modelIndex, modelIndex, roles);
-                }
-            }
         }
         emit selectionChanged();
     }
@@ -812,39 +756,14 @@ void TimelineController::selectItems(QVariantList arg, int startFrame, int endFr
         }
         qDebug() << "// GROUPING ITEMS: " << m_selection.selectedItems;
         m_model->m_temporarySelectionGroup = m_model->requestClipsGroup(itemsToSelect, true, GroupType::Selection);
+        qDebug() << "// GROUPING ITEMS DONE";
     } else if (m_model->m_temporarySelectionGroup > -1) {
         m_model->requestClipUngroup(m_model->m_temporarySelectionGroup, false);
     }
     std::unordered_set<int> newIds;
-    QVector<int> roles;
-    roles.push_back(TimelineModel::GroupDragRole);
     if (m_model->m_temporarySelectionGroup >= 0) {
         newIds = m_model->getGroupElements(m_selection.selectedItems.constFirst());
-        for (int i : newIds) {
-            if (m_model->isClip(i)) {
-                m_model->m_allClips[i]->isInGroupDrag = true;
-                QModelIndex modelIndex = m_model->makeClipIndexFromID(i);
-                m_model->notifyChange(modelIndex, modelIndex, roles);
-            } else if (m_model->isComposition(i)) {
-                m_model->m_allCompositions[i]->isInGroupDrag = true;
-                QModelIndex modelIndex = m_model->makeCompositionIndexFromID(i);
-                m_model->notifyChange(modelIndex, modelIndex, roles);
-            }
-        }
-    }
-    for (int i : previousSelection) {
-        if (newIds.find(i) == newIds.end()) {
-            // item not in selection anymore
-            if (m_model->isClip(i)) {
-                m_model->m_allClips[i]->isInGroupDrag = false;
-                QModelIndex modelIndex = m_model->makeClipIndexFromID(i);
-                m_model->notifyChange(modelIndex, modelIndex, roles);
-            } else if (m_model->isComposition(i)) {
-                m_model->m_allCompositions[i]->isInGroupDrag = false;
-                QModelIndex modelIndex = m_model->makeCompositionIndexFromID(i);
-                m_model->notifyChange(modelIndex, modelIndex, roles);
-            }
-        }
+        
     }
     emit selectionChanged();
 }

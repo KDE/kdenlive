@@ -77,10 +77,6 @@ public:
      */
     virtual const QString getProperty(const QString &name) const = 0;
 
-    /* @brief true if the item is in current selection and should be moved within a group
-     */
-    bool isInGroupDrag;
-
 protected:
     /* @brief Returns a pointer to the service. It may be used but do NOT store it*/
     virtual Service *service() const = 0;

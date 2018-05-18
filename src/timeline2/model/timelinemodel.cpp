@@ -416,7 +416,7 @@ bool TimelineModel::requestClipMoveAttempt(int clipId, int trackId, int position
     return res;
 }
 
-int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int snapDistance)
+int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int snapDistance, bool allowViewUpdate)
 {
 #ifdef LOGGING
     m_logFile << "timeline->suggestClipMove(" << clipId << "," << trackId << " ," << position << "); " << std::endl;
@@ -453,8 +453,12 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int sn
         }
     }
     // we check if move is possible
-    bool possible = requestClipMoveAttempt(clipId, trackId, position);
-    // bool possible = requestClipMove(clipId, trackId, position, false, false, undo, redo);
+    bool possible;
+    if (allowViewUpdate) {
+        possible = requestClipMove(clipId, trackId, position, false, false, false);
+    } else {
+        possible = requestClipMoveAttempt(clipId, trackId, position);
+    }
     if (possible) {
         return position;
     }
@@ -472,7 +476,11 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int sn
         } else {
             return false;
         }
-        possible = requestClipMoveAttempt(clipId, trackId, position);
+        if (allowViewUpdate) {
+            possible = requestClipMove(clipId, trackId, position, false, false, false);
+        } else {
+            possible = requestClipMoveAttempt(clipId, trackId, position);
+        }
         return possible ? position : currentPos;
     }
     // find best pos for groups
@@ -526,7 +534,11 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int sn
     }
     if (blank_length != 0) {
         int updatedPos = currentPos + (after ? blank_length : -blank_length);
-        possible = requestClipMoveAttempt(clipId, trackId, updatedPos);
+        if (allowViewUpdate) {
+            possible = requestClipMove(clipId, trackId, updatedPos, false, false, false);
+        } else {
+            possible = requestClipMoveAttempt(clipId, trackId, updatedPos);
+        }
         if (possible) {
             return updatedPos;
         }

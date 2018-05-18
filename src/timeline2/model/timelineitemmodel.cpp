@@ -182,7 +182,6 @@ QHash<int, QByteArray> TimelineItemModel::roleNames() const
     roles[OutPointRole] = "out";
     roles[FramerateRole] = "fps";
     roles[GroupedRole] = "grouped";
-    roles[GroupDragRole] = "groupDrag";
     roles[IsMuteRole] = "mute";
     roles[IsHiddenRole] = "hidden";
     roles[IsAudioRole] = "audio";
@@ -248,8 +247,6 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             }
             return result;
         }
-        case GroupDragRole:
-            return clip->isInGroupDrag;
         case BinIdRole:
             return clip->binId();
         case ServiceRole:
@@ -347,8 +344,6 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             return compo->getPlaytime();
         case GroupedRole:
             return m_groups->isInGroup(id);
-        case GroupDragRole:
-            return compo->isInGroupDrag;
         case InPointRole:
             return 0;
         case OutPointRole:

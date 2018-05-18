@@ -39,7 +39,6 @@ Rectangle {
     property int outPoint: 0
     property int clipDuration: 0
     property bool isAudio: false
-    property bool groupDrag: false
     property bool isComposition: false
     property bool showKeyframes: false
     property bool grouped: false
@@ -96,20 +95,6 @@ Rectangle {
     onClipResourceChanged: {
         if (mltService === 'color') {
             color: Qt.darker(getColor())
-        }
-    }
-
-    onGroupDragChanged: {
-        // Clip belonging to current timeline selection changed, update list
-        if (clipRoot.groupDrag) {
-            if (root.dragList.indexOf(clipRoot) == -1) {
-                root.dragList.push(clipRoot)
-            }
-        } else {
-            var index = root.dragList.indexOf(clipRoot);
-            if (index > -1) {
-                root.dragList.splice(index, 1)
-            }
         }
     }
 
@@ -260,26 +245,6 @@ Rectangle {
                 clipRoot.clicked(clipRoot, mouse.modifiers == Qt.ShiftModifier)
             }
             drag.target = clipRoot
-            if (root.dragList.length > 1) {
-                // Dragging multiple items, reparent all to this dragged clip
-                // Cleanup list
-                var tmp = []
-                for (var i = 0; i < root.dragList.length; i++) {
-                    if (root.dragList[i] && root.dragList[i].clipId != undefined)
-                        tmp.push(root.dragList[i])
-                }
-                root.dragList = tmp
-                for (var i = 0; i < root.dragList.length; i++) {
-                    //console.log('CHILD: ', root.dragList[i].clipId, ' > ', root.dragList[i].trackId)
-                    if (root.dragList[i] != clipRoot) {
-                        var clipX = root.dragList[i].x - clipRoot.x
-                        var clipY = root.dragList[i].parentTrack.y - clipRoot.parentTrack.y
-                        root.dragList[i].parent = clipRoot
-                        root.dragList[i].x = clipX
-                        root.dragList[i].y = clipY
-                    }
-                }
-            }
         }
         onPositionChanged: {
             if (pressed && mouse.buttons === Qt.LeftButton) {
@@ -307,20 +272,6 @@ Rectangle {
             } else if (delta != 0) {
                 parent.dropped(clipRoot)
                 originalX = clipRoot.x
-            }
-            var tmp = []
-            for (var i = 0; i < root.dragList.length; i++) {
-                if (root.dragList[i] && root.dragList[i].clipId != undefined)
-                    tmp.push(root.dragList[i])
-            }
-            root.dragList = tmp
-            for (var i = 0; i < root.dragList.length; i++) {
-                //console.log('CHILD: ', root.dragList[i].clipId, ' > ', root.dragList[i].trackId, ' > ', root.dragList[i].parent.clipId)
-                if (root.dragList[i].parent == clipRoot) {
-                    root.dragList[i].parent = tracksContainerArea
-                    root.dragList[i].x += clipRoot.x
-                    root.dragList[i].y = root.dragList[i].parentTrack.y
-                }
             }
         }
         onClicked: {
