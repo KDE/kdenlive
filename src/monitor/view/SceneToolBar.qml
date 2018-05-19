@@ -20,7 +20,10 @@ Rectangle {
             objectName: "fullScreen"
             iconName: "view-fullscreen"
             tooltip: "Switch Full Screen"
-            onClicked: controller.triggerAction('monitor_fullscreen')
+            onClicked: {
+                controller.activateClipMonitor(root.isClipMonitor)
+                controller.triggerAction('monitor_fullscreen')
+            }
         }
         ToolButton {
             objectName: "switchOverlay"
@@ -33,24 +36,36 @@ Rectangle {
         ToolButton {
             iconName: "zoom-in"
             tooltip: "Zoom in"
-            onClicked: controller.triggerAction('monitor_zoomin')
+            onClicked: {
+                controller.activateClipMonitor(root.isClipMonitor)
+                controller.triggerAction('monitor_zoomin')
+            }
         }
         ToolButton {
             iconName: "zoom-out"
             tooltip: "Zoom out"
-            onClicked: controller.triggerAction('monitor_zoomout')
+            onClicked: {
+                controller.activateClipMonitor(root.isClipMonitor)
+                controller.triggerAction('monitor_zoomout')
+            }
         }
         ToolButton {
             objectName: "addMarker"
             iconName: "list-add"
             tooltip: root.isClipMonitor ? "Add Marker" : "Add Guide"
-            onClicked: controller.triggerAction('add_marker_guide_quickly')
+            onClicked: {
+                controller.activateClipMonitor(root.isClipMonitor)
+                controller.triggerAction('add_marker_guide_quickly')
+            }
         }
         ToolButton {
             objectName: "removeMarker"
             iconName: "list-remove"
             tooltip: root.isClipMonitor ? "Remove Marker" : "Remove Guide"
-            onClicked: root.isClipMonitor ? controller.triggerAction('delete_clip_marker') : controller.triggerAction('delete_guide')
+            onClicked: {
+                controller.activateClipMonitor(root.isClipMonitor)
+                root.isClipMonitor ? controller.triggerAction('delete_clip_marker') : controller.triggerAction('delete_guide')
+            }
         }
     }
 }

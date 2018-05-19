@@ -63,6 +63,9 @@ public:
     void setZoneIn(int pos);
     void setZoneOut(int pos);
     Q_INVOKABLE void setZone(int in, int out);
+    /** brief: Activate clip monitor if param is true, project monitor otherwise
+     * */
+    Q_INVOKABLE void activateClipMonitor(bool isClipMonitor);
     void setZone(QPoint zone);
     void resetZone();
     QPoint zone() const;

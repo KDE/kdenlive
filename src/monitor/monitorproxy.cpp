@@ -20,6 +20,8 @@
  ***************************************************************************/
 
 #include "monitorproxy.h"
+#include "core.h"
+#include "monitormanager.h"
 #include "glwidget.h"
 #include "kdenlivesettings.h"
 #include "definitions.h"
@@ -252,3 +254,9 @@ QImage MonitorProxy::extractFrame(int frame_position, const QString &path, int w
     }
     return img;
 }
+
+void MonitorProxy::activateClipMonitor(bool isClipMonitor)
+{
+    pCore->monitorManager()->activateMonitor(isClipMonitor ? Kdenlive::ClipMonitor : Kdenlive::ProjectMonitor);
+}
+
