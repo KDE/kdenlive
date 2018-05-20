@@ -156,7 +156,7 @@ const QString TimelineController::getTrackNameFromMltIndex(int trackPos)
 
 const QString TimelineController::getTrackNameFromIndex(int trackIndex)
 {
-    QString trackName = m_model->getTrackById(trackIndex)->getProperty(QStringLiteral("kdenlive:track_name")).toString();
+    QString trackName = m_model->getTrackFullName(trackIndex);
     return trackName.isEmpty() ? m_model->getTrackTagById(trackIndex) : trackName;
 }
 
@@ -167,12 +167,7 @@ QMap<int, QString> TimelineController::getTrackNames(bool videoOnly)
         if (videoOnly && m_model->getTrackById(track.first)->getProperty(QStringLiteral("kdenlive:audio_track")).toInt() == 1) {
             continue;
         }
-        QString trackName = m_model->getTrackById_const(track.first)->getProperty("kdenlive:track_name").toString();
-        if (trackName.isEmpty()) {
-            trackName = m_model->getTrackTagById(track.first);
-        } else {
-            trackName.prepend(m_model->getTrackTagById(track.first) + QStringLiteral(" - "));
-        }
+        QString trackName = m_model->getTrackFullName(track.first);
         names[m_model->getTrackMltIndex(track.first)] = trackName;
     }
     return names;
