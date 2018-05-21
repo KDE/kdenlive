@@ -341,6 +341,7 @@ if(BUILD_JogShuttle)
         )
 endif()
 
+set_property(SOURCE definitions.h PROPERTY SKIP_AUTOMOC ON)
 install(TARGETS kdenlive DESTINATION ${BIN_INSTALL_DIR})
 install(FILES kdenliveui.rc DESTINATION ${KXMLGUI_INSTALL_DIR}/kdenlive)
 
