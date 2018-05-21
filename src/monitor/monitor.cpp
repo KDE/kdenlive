@@ -956,21 +956,21 @@ void Monitor::slotMouseSeek(int eventDelta, int modifiers)
             delta = 0 - delta;
         }
         if (render->requestedSeekPosition != SEEK_INACTIVE) {
-            slotSeek(render->requestedSeekPosition - delta);
+            slotSeek(render->requestedSeekPosition + delta);
         } else {
-            slotSeek(render->seekFramePosition() - delta);
+            slotSeek(render->seekFramePosition() + delta);
         }
     } else if (modifiers & Qt::AltModifier) {
         if (eventDelta >= 0) {
-            emit seekToNextSnap();
-        } else {
             emit seekToPreviousSnap();
+        } else {
+            emit seekToNextSnap();
         }
     } else {
         if (eventDelta >= 0) {
-            slotForwardOneFrame();
-        } else {
             slotRewindOneFrame();
+        } else {
+            slotForwardOneFrame();
         }
     }
 }

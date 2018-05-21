@@ -410,8 +410,8 @@ bool CustomTrackView::checkTrackHeight(bool force)
  *
  * If mousewheel+Ctrl, zooms in/out on the timeline.
  *
- * With Ctrl, moves viewport towards end of timeline if down/back,
- * opposite on up/forward.
+ * With Alt, moves viewport towards end of timeline if down,
+ * opposite on up.
  *
  * See also http://www.kdenlive.org/mantis/view.php?id=265 */
 void CustomTrackView::wheelEvent(QWheelEvent *e)
@@ -427,9 +427,9 @@ void CustomTrackView::wheelEvent(QWheelEvent *e)
     } else if (e->modifiers() == Qt::AltModifier) {
         if (m_moveOpMode == None || m_moveOpMode == WaitingForConfirm || m_moveOpMode == ZoomTimeline) {
             if (e->delta() > 0) {
-                slotSeekToNextSnap();
-            } else {
                 slotSeekToPreviousSnap();
+            } else {
+                slotSeekToNextSnap();
             }
         }
     } else {
@@ -4286,9 +4286,9 @@ void CustomTrackView::moveCursorPos(int delta)
 {
     int currentPos = m_document->renderer()->requestedSeekPosition;
     if (currentPos == SEEK_INACTIVE) {
-        currentPos = m_document->renderer()->seekFramePosition() + delta;
+        currentPos = m_document->renderer()->seekFramePosition() - delta;
     } else {
-        currentPos += delta;
+        currentPos -= delta;
     }
     emit updateRuler(currentPos);
     m_document->renderer()->seek(qMax(0, currentPos));
