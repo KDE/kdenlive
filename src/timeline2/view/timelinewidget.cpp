@@ -35,6 +35,7 @@
 #include "timelinecontroller.h"
 #include "transitions/transitionlist/model/transitiontreemodel.hpp"
 #include "utils/KoIconUtils.h"
+#include "utils/clipboardproxy.hpp"
 
 #include <KDeclarative/KDeclarative>
 // #include <QUrl>
@@ -87,6 +88,7 @@ void TimelineWidget::setModel(std::shared_ptr<TimelineItemModel> model)
     rootContext()->setContextProperty("timeline", m_proxy);
     rootContext()->setContextProperty("transitionModel", m_transitionProxyModel.get());
     rootContext()->setContextProperty("guidesModel", pCore->projectManager()->current()->getGuideModel().get());
+    rootContext()->setContextProperty("clipboard", new ClipboardProxy(this));
     setSource(QUrl(QStringLiteral("qrc:/qml/timeline.qml")));
     connect(rootObject(), SIGNAL(mousePosChanged(int)), pCore->window(), SLOT(slotUpdateMousePosition(int)));
     m_proxy->setRoot(rootObject());
