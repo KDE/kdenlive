@@ -2247,12 +2247,19 @@ bool TimelineModel::changeItemSpeed(int clipId, int speed)
     // Check if clip has a split partner
     bool result = true;
     if (trackId != -1) {
-        int blankSpace = getTrackById(trackId)->getBlankSizeNearClip(clipId, true) + getClipPlaytime(clipId) - 1;
+        int blankSpace = getTrackById(trackId)->getBlankSizeNearClip(clipId, true);
         splitId = m_groups->getSplitPartner(clipId);
         bool success = true;
         if (splitId > -1) {
             int split_trackId = getClipTrackId(splitId);
-            blankSpace = qMin(blankSpace, getTrackById(split_trackId)->getBlankSizeNearClip(splitId, true));
+            int partnerSpace = getTrackById(split_trackId)->getBlankSizeNearClip(splitId, true);
+            if (partnerSpace > 0) {
+                if (blankSpace < 0) {
+                    blankSpace = partnerSpace;
+                } else {
+                    blankSpace = qMin(blankSpace, partnerSpace);
+                }
+            }
             result = requestClipTimeWarp(splitId, split_trackId, blankSpace, speed / 100.0, undo, redo);
         }
         if (result) {

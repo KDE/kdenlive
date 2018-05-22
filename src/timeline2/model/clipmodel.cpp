@@ -138,14 +138,28 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
     }
     int in = m_producer->get_in();
     int out = m_producer->get_out();
-    int old_in = in, old_out = out;
+
+    if (!m_endlessResize && (size <= 0 || size > m_producer->get_length())) {
+        return false;
+    }
+    return requestResize(in, out, oldDuration, delta, right, undo, redo, logUndo);
+}
+
+
+bool ClipModel::requestResize(int old_in, int old_out, int oldDuration, int delta, bool right, Fun &undo, Fun &redo, bool logUndo)
+{
+    QWriteLocker locker(&m_lock);
+    //qDebug() << "RESIZE CLIP" << m_id << "target size=" << size << "right=" << right << "endless=" << m_endlessResize << "total length" <<
+    //m_producer->get_length() << "current length" << getPlaytime();
     // check if there is enough space on the chosen side
-    if (!right && in + delta < 0 && !m_endlessResize) {
+    if (!right && old_in + delta < 0 && !m_endlessResize) {
         return false;
     }
-    if (!m_endlessResize && right && out - delta >= m_producer->get_length()) {
+    if (!m_endlessResize && right && old_out - delta >= m_producer->get_length()) {
         return false;
     }
+    int in = old_in;
+    int out = old_out;
     if (right) {
         out -= delta;
     } else {
@@ -362,13 +376,22 @@ bool ClipModel::useTimewarpProducer(double speed, int extraSpace, Fun &undo, Fun
     std::function<bool(void)> local_undo = []() { return true; };
     std::function<bool(void)> local_redo = []() { return true; };
     double previousSpeed = getSpeed();
-    int new_in = int(double(getIn()) * previousSpeed / speed);
-    int new_out = int(double(getOut()) * previousSpeed / speed);
+    int old_in = getIn();
+    int old_out = getOut();
+    int oldDuration = getPlaytime();
+    int new_in = int(double(old_in) * previousSpeed / speed);
+    int new_out = int(double(old_out) * previousSpeed / speed);
+    int delta = oldDuration - (new_out - new_in);
+    if (extraSpace > 0 && (new_out - old_out >= extraSpace)) {
+        delta = -extraSpace;
+    }
     auto operation = useTimewarpProducer_lambda(speed);
     if (operation()) {
         auto reverse = useTimewarpProducer_lambda(previousSpeed);
         UPDATE_UNDO_REDO(operation, reverse, local_undo, local_redo);
-        bool res = requestResize(new_out - new_in + 1, true, local_undo, local_redo, true);
+        // timewarp can change the clip out, so we need to 
+        bool res = requestResize(old_in, old_out, oldDuration, delta, true, local_undo, local_redo, true);
+        UPDATE_UNDO_REDO(operation, reverse, local_undo, local_redo);
         if (!res) {
             bool undone = local_undo();
             Q_ASSERT(undone);

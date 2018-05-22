@@ -141,6 +141,11 @@ protected:
        @param redo Lambda function containing the current redo queue. Will be updated with current operation
     */
     bool requestResize(int size, bool right, Fun &undo, Fun &redo, bool logUndo = true) override;
+    /* @brief Performs a resize of the given clip.
+       Returns true if the operation succeeded, and otherwise nothing is modified
+       This method should only be called if some operation before the resize did alter the previous duration, like when using timewarp operation. Otherwise the normal requestResize should be used with only size passed.
+       */
+    bool requestResize(int old_in, int old_out, int oldDuration, int delta, bool right, Fun &undo, Fun &redo, bool logUndo);
 
     /* @brief This function change the global (timeline-wise) enabled state of the effects
      */
