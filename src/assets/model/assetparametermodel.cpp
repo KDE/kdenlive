@@ -75,6 +75,9 @@ AssetParameterModel::AssetParameterModel(Mlt::Properties *asset, const QDomEleme
         QString name = currentParameter.attribute(QStringLiteral("name"));
         QString type = currentParameter.attribute(QStringLiteral("type"));
         QString value = currentParameter.attribute(QStringLiteral("value"));
+        ParamRow currentRow;
+        currentRow.type = paramTypeFromStr(type);
+        currentRow.xml = currentParameter;
         QLocale locale;
         if (value.isNull()) {
             QVariant defaultValue = parseAttribute(m_ownerId, QStringLiteral("default"), currentParameter);
@@ -83,13 +86,17 @@ AssetParameterModel::AssetParameterModel(Mlt::Properties *asset, const QDomEleme
         bool isFixed = (type == QLatin1String("fixed"));
         if (isFixed) {
             m_fixedParams[name] = value;
-        } else if (type == QLatin1String("position")) {
+        } else if (currentRow.type == ParamType::Position) {
             int val = value.toInt();
             if (val < 0) {
                 int in = pCore->getItemIn(m_ownerId);
                 int out = in + pCore->getItemDuration(m_ownerId);
                 val += out;
                 value = QString::number(val);
+            }
+        } else if (currentRow.type == ParamType::KeyframeParam) {
+            if (!value.contains(QLatin1Char('='))) {
+                value.prepend(QStringLiteral("0="));
             }
         }
         if (!name.isEmpty()) {
@@ -101,9 +108,6 @@ AssetParameterModel::AssetParameterModel(Mlt::Properties *asset, const QDomEleme
             // fixed parameters are not displayed so we don't store them.
             continue;
         }
-        ParamRow currentRow;
-        currentRow.type = paramTypeFromStr(type);
-        currentRow.xml = currentParameter;
         currentRow.value = value;
         QString title = currentParameter.firstChildElement(QStringLiteral("name")).text();
         currentRow.name = title.isEmpty() ? name : title;
