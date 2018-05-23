@@ -391,7 +391,6 @@ bool ClipModel::useTimewarpProducer(double speed, int extraSpace, Fun &undo, Fun
         UPDATE_UNDO_REDO(operation, reverse, local_undo, local_redo);
         // timewarp can change the clip out, so we need to 
         bool res = requestResize(old_in, old_out, oldDuration, delta, true, local_undo, local_redo, true);
-        UPDATE_UNDO_REDO(operation, reverse, local_undo, local_redo);
         if (!res) {
             bool undone = local_undo();
             Q_ASSERT(undone);
