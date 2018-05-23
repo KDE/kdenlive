@@ -628,6 +628,11 @@ void GLWidget::requestRefresh()
     }
 }
 
+QString GLWidget::frameToTime(int frames) const
+{
+    return m_consumer ? m_consumer->frames_to_time(frames, mlt_time_smpte_df) : QStringLiteral("-");
+}
+
 void GLWidget::refresh()
 {
     m_refreshTimer.stop();

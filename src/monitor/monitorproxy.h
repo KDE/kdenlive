@@ -43,7 +43,6 @@ class MonitorProxy : public QObject
     Q_PROPERTY(int rulerHeight READ rulerHeight NOTIFY rulerHeightChanged)
     Q_PROPERTY(QString markerComment READ markerComment NOTIFY markerCommentChanged)
     Q_PROPERTY(int overlayType READ overlayType WRITE setOverlayType NOTIFY overlayTypeChanged)
-    Q_PROPERTY(QString timecode READ timecode NOTIFY timecodeChanged)
 
 public:
     MonitorProxy(GLWidget *parent);
@@ -69,9 +68,8 @@ public:
     void setZone(QPoint zone);
     void resetZone();
     QPoint zone() const;
-    const QString &timecode() const;
-    void setTimecode(const QString &tc);
     QImage extractFrame(int frame_position, const QString &path = QString(), int width = -1, int height = -1, bool useSourceProfile = false);
+    Q_INVOKABLE QString toTimecode(int frames) const;
 
 signals:
     void positionChanged();
@@ -84,7 +82,6 @@ signals:
     void removeSnap(int);
     void triggerAction(const QString &name);
     void overlayTypeChanged();
-    void timecodeChanged();
     void seekNextKeyframe();
     void seekPreviousKeyframe();
     void addRemoveKeyframe();
@@ -97,7 +94,6 @@ private:
     int m_zoneIn;
     int m_zoneOut;
     QString m_markerComment;
-    QString m_timecode;
 };
 
 #endif

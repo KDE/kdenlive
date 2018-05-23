@@ -138,6 +138,7 @@ protected:
     void wheelEvent(QWheelEvent *event) override;
     /** @brief Update producer, should ONLY be called from monitor */
     int setProducer(Mlt::Producer *producer, bool isActive, int position = -1);
+    QString frameToTime(int frames) const;
 
 public slots:
     void seek(int pos);

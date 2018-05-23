@@ -224,15 +224,6 @@ void TimecodeDisplay::setValue(const GenTime &value)
     setValue((int)value.frames(m_timecode.fps()));
 }
 
-void TimecodeDisplay::sendTimecode(bool send)
-{
-    if (send) {
-        connect(lineEdit(), &QLineEdit::textChanged, this, &TimecodeDisplay::emitTimeCode, Qt::UniqueConnection);
-    } else {
-        disconnect(lineEdit(), &QLineEdit::textChanged, this, &TimecodeDisplay::emitTimeCode);
-    }
-}
-
 void TimecodeDisplay::slotEditingFinished()
 {
     lineEdit()->deselect();

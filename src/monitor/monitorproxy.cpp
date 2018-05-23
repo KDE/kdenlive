@@ -181,17 +181,6 @@ QPoint MonitorProxy::zone() const
     return QPoint(m_zoneIn, m_zoneOut);
 }
 
-const QString &MonitorProxy::timecode() const
-{
-    return m_timecode;
-}
-
-void MonitorProxy::setTimecode(const QString &tc)
-{
-    m_timecode = tc;
-    emit timecodeChanged();
-}
-
 QImage MonitorProxy::extractFrame(int frame_position, const QString &path, int width, int height, bool useSourceProfile)
 {
     if (width == -1) {
@@ -260,3 +249,7 @@ void MonitorProxy::activateClipMonitor(bool isClipMonitor)
     pCore->monitorManager()->activateMonitor(isClipMonitor ? Kdenlive::ClipMonitor : Kdenlive::ProjectMonitor);
 }
 
+QString MonitorProxy::toTimecode(int frames) const
+{
+    return KdenliveSettings::frametimecode() ? QString::number(frames) : q->frameToTime(frames);
+}

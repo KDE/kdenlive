@@ -1656,6 +1656,7 @@ void Monitor::onFrameDisplayed(const SharedFrame &frame)
     if (!m_glMonitor->checkFrameNumber(position, m_id == Kdenlive::ClipMonitor ? 1 : TimelineModel::seekDuration + 1)) {
         m_playAction->setActive(false);
     }
+    checkDrops(m_glMonitor->droppedFrames());
 }
 
 void Monitor::checkDrops(int dropped)
@@ -1997,12 +1998,6 @@ void Monitor::prepareAudioThumb(int channels, QVariantList &audioCache)
     m_glMonitor->setAudioThumb(channels, audioCache);
 }
 
-void Monitor::slotUpdateQmlTimecode(const QString &tc)
-{
-    checkDrops(m_glMonitor->droppedFrames());
-    m_glMonitor->getControllerProxy()->setTimecode(tc);
-}
-
 void Monitor::slotSwitchAudioMonitor()
 {
     if (!m_audioMeterWidget->isValid) {
@@ -2037,13 +2032,6 @@ void Monitor::updateQmlDisplay(int currentOverlay)
     m_glMonitor->rootObject()->setProperty("showMarkers", currentOverlay & 0x04);
     m_glMonitor->rootObject()->setProperty("showFps", currentOverlay & 0x20);
     m_glMonitor->rootObject()->setProperty("showTimecode", currentOverlay & 0x02);
-    bool showTimecodeRelatedInfo = ((currentOverlay & 0x02) != 0) || ((currentOverlay & 0x20) != 0);
-    m_timePos->sendTimecode(showTimecodeRelatedInfo);
-    if (showTimecodeRelatedInfo) {
-        connect(m_timePos, &TimecodeDisplay::emitTimeCode, this, &Monitor::slotUpdateQmlTimecode, Qt::UniqueConnection);
-    } else {
-        disconnect(m_timePos, &TimecodeDisplay::emitTimeCode, this, &Monitor::slotUpdateQmlTimecode);
-    }
     m_glMonitor->rootObject()->setProperty("showAudiothumb", currentOverlay & 0x10);
 }
 

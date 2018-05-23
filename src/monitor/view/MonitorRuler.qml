@@ -9,6 +9,12 @@ Rectangle {
     id: ruler
     color: activePalette.window
 
+    Timer {
+        id: zoneToolTipTimer
+        interval: 3000; running: false;
+    }
+
+
     function updateRuler()
     {
         root.timeScale = width / root.duration
@@ -55,12 +61,24 @@ Rectangle {
                 opacity: 0.7
                 x: markerBase.x
                 radius: 2
-                width: mlabel.width + 4
-                height: mlabel.height
+                width: mlabel.contentWidth
+                height: mlabel.contentHeight
                 anchors {
-                    bottom: parent.verticalCenter
+                    bottom: parent.top
                 }
                 color: model.color
+                Text {
+                    id: mlabel
+                    visible: true //mouseOverRuler && Math.abs(root.mouseRulerPos - markerBase.x) < 4
+                    text: model.comment
+                    font.pixelSize: root.baseUnit
+                    anchors {
+                        fill: parent
+                        //topMargin: 2
+                        //leftMargin: 2
+                    }
+                    color: 'white'
+                }
                 MouseArea {
                     z: 10
                     anchors.fill: parent
@@ -68,25 +86,15 @@ Rectangle {
                     cursorShape: Qt.PointingHandCursor
                     hoverEnabled: true
                     //onDoubleClicked: timeline.editMarker(clipRoot.binId, model.frame)
-                    //onClicked: timeline.position = (clipRoot.x + markerBase.x) / timeline.scaleFactor
+                    onClicked: {
+                        controller.requestSeekPosition(markerBase.x / root.timeScale)
+                    }
                 }
-            }
-            Text {
-                id: mlabel
-                visible: mouseOverRuler && Math.abs(root.mouseRulerPos - markerBase.x) < 4
-                text: model.comment
-                font.pixelSize: root.baseUnit
-                x: markerBase.x
-                anchors {
-                    bottom: parent.verticalCenter
-                    topMargin: 2
-                    leftMargin: 2
-                }
-                color: 'white'
             }
         }
     }
     MouseArea {
+        id: rulerMouseArea
         anchors.fill: parent
         hoverEnabled: true
         onEntered: root.mouseOverRuler = true;
@@ -105,6 +113,24 @@ Rectangle {
             }
         }
     }
+    // Zone duration indicator
+    Rectangle {
+        visible: zoneToolTipTimer.running || rulerMouseArea.containsMouse || trimInMouseArea.containsMouse || trimInMouseArea.pressed || trimOutMouseArea.containsMouse || trimOutMouseArea.pressed
+        width: inLabel.contentWidth
+        height: inLabel.contentHeight
+        property int centerPos: zone.x + zone.width / 2 - inLabel.contentWidth / 2
+        x: centerPos < 0 ? 0 : centerPos > ruler.width - inLabel.contentWidth ? ruler.width - inLabel.contentWidth : centerPos
+        color: activePalette.highlight
+        anchors.bottom: ruler.top
+        Label {
+            id: inLabel
+            anchors.fill: parent
+            text: trimInMouseArea.containsMouse || trimInMouseArea.pressed ? controller.toTimecode(controller.zoneIn) + '>' + controller.toTimecode(controller.zoneOut - controller.zoneIn) : trimOutMouseArea.containsMouse || trimOutMouseArea.pressed ? controller.toTimecode(controller.zoneOut - controller.zoneIn) + '<' + controller.toTimecode(controller.zoneOut) : controller.toTimecode(controller.zoneOut - controller.zoneIn)
+            font.pixelSize: root.baseUnit
+            color: activePalette.highlightedText
+        }
+    }
+
     // monitor zone
     Rectangle {
         id: zone
@@ -115,75 +141,60 @@ Rectangle {
         anchors.bottom: parent.bottom
         height: ruler.height / 2
         opacity: 0.4
-
-        Rectangle {
-            id: trimIn
-            anchors.left: parent.left
-            anchors.leftMargin: 0
-            height: parent.height
-            width: 5
-            color: 'lawngreen'
-            opacity: 0
-            Drag.active: trimInMouseArea.drag.active
-            Drag.proposedAction: Qt.MoveAction
-
-            MouseArea {
-                id: trimInMouseArea
-                anchors.fill: parent
-                hoverEnabled: true
-                cursorShape: Qt.SizeHorCursor
-                drag.target: parent
-                drag.axis: Drag.XAxis
-                drag.smoothed: false
-
-                onPressed: {
-                    parent.anchors.left = undefined
+        onXChanged: zoneToolTipTimer.start()
+        onWidthChanged: zoneToolTipTimer.start()
+    }
+    Rectangle {
+        id: trimIn
+        x: zone.x
+        y: zone.y
+        height: zone.height
+        width: 5
+        color: 'lawngreen'
+        opacity: trimInMouseArea.containsMouse || trimInMouseArea.drag.active ? 0.5 : 0
+        Drag.active: trimInMouseArea.drag.active
+        Drag.proposedAction: Qt.MoveAction
+        MouseArea {
+            id: trimInMouseArea
+            anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: Qt.SizeHorCursor
+            drag.target: parent
+            drag.axis: Drag.XAxis
+            drag.smoothed: false
+            drag.minimumX: 0
+            drag.maximumX: ruler.width
+            onPositionChanged: {
+                if (mouse.buttons === Qt.LeftButton) {
+                    controller.zoneIn = Math.round(trimIn.x / root.timeScale)
                 }
-                onReleased: {
-                    parent.anchors.left = zone.left
-                }
-                onPositionChanged: {
-                    if (mouse.buttons === Qt.LeftButton) {
-                        controller.zoneIn = controller.zoneIn + Math.round(trimIn.x / root.timeScale)
-                    }
-                }
-                onEntered: parent.opacity = 0.5
-                onExited: parent.opacity = 0
             }
         }
-        Rectangle {
-            id: trimOut
-            anchors.right: parent.right
-            anchors.rightMargin: 0
-            height: parent.height
-            width: 5
-            color: 'darkred'
-            opacity: 0
-            Drag.active: trimOutMouseArea.drag.active
-            Drag.proposedAction: Qt.MoveAction
-
-            MouseArea {
-                id: trimOutMouseArea
-                anchors.fill: parent
-                hoverEnabled: true
-                cursorShape: Qt.SizeHorCursor
-                drag.target: parent
-                drag.axis: Drag.XAxis
-                drag.smoothed: false
-
-                onPressed: {
-                    parent.anchors.right = undefined
+    }
+    Rectangle {
+        id: trimOut
+        x: zone.x + zone.width - width
+        y: zone.y
+        height: zone.height
+        width: 5
+        color: 'darkred'
+        opacity: trimOutMouseArea.containsMouse || trimOutMouseArea.drag.active ? 0.5 : 0
+        Drag.active: trimOutMouseArea.drag.active
+        Drag.proposedAction: Qt.MoveAction
+        MouseArea {
+            id: trimOutMouseArea
+            anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: Qt.SizeHorCursor
+            drag.target: parent
+            drag.axis: Drag.XAxis
+            drag.smoothed: false
+            drag.minimumX: 0
+            drag.maximumX: ruler.width
+            onPositionChanged: {
+                if (mouse.buttons === Qt.LeftButton) {
+                    controller.zoneOut = Math.round((trimOut.x + trimOut.width) / root.timeScale)
                 }
-                onReleased: {
-                    parent.anchors.right = zone.right
-                }
-                onPositionChanged: {
-                    if (mouse.buttons === Qt.LeftButton) {
-                        controller.zoneOut = controller.zoneIn + Math.round((trimOut.x + trimOut.width) / root.timeScale)
-                    }
-                }
-                onEntered: parent.opacity = 0.5
-                onExited: parent.opacity = 0
             }
         }
     }

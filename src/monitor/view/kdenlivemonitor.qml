@@ -114,7 +114,7 @@ Item {
                 color: "white"
                 style: Text.Outline; 
                 styleColor: "black"
-                text: controller.timecode
+                text: controller.toTimecode(controller.position)
                 font.pixelSize: root.baseUnit
                 visible: root.showTimecode
                 anchors {
