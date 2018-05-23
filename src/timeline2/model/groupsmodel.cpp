@@ -22,12 +22,14 @@
 #include "groupsmodel.hpp"
 #include "macros.hpp"
 #include "timelineitemmodel.hpp"
+#include "trackmodel.hpp"
 #include <QDebug>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QModelIndex>
 #include <queue>
+#include <stack>
 #include <utility>
 
 GroupsModel::GroupsModel(std::weak_ptr<TimelineItemModel> parent)
@@ -713,8 +715,7 @@ const QString GroupsModel::toJson() const
                    [&](decltype(*m_groupIds.begin()) g) { return getRootId(g.first); });
     QJsonArray list;
     for (int r : roots) {
-        if (getType(r) != GroupType::Selection)
-            list.push_back(toJson(r));
+        if (getType(r) != GroupType::Selection) list.push_back(toJson(r));
     }
     QJsonDocument json(list);
     return QString(json.toJson());
@@ -807,4 +808,135 @@ void GroupsModel::setType(int gid, GroupType type)
     } else {
         m_groupIds[gid] = type;
     }
+}
+
+bool GroupsModel::checkConsistency(bool failOnSingleGroups, bool checkTimelineConsistency)
+{
+    // check that all element with up link have a down link
+    for (const auto &elem : m_upLink) {
+        if (m_downLink.count(elem.first) == 0) {
+            qDebug() << "ERROR: Group model has missing up/down links";
+            return false;
+        }
+    }
+    // check that all element with down link have a up link
+    for (const auto &elem : m_downLink) {
+        if (m_upLink.count(elem.first) == 0) {
+            qDebug() << "ERROR: Group model has missing up/down links";
+            return false;
+        }
+    }
+
+    for (const auto &elem : m_upLink) {
+        // iterate through children to check links
+        for (const auto &child : m_downLink[elem.first]) {
+            if (m_upLink[child] != elem.first) {
+                qDebug() << "ERROR: Group model has inconsistent up/down links";
+                return false;
+            }
+        }
+        bool isLeaf = m_downLink[elem.first].empty();
+        if (isLeaf) {
+            if (m_groupIds.count(elem.first) > 0) {
+                qDebug() << "ERROR: Group model has wrong tracking of non-leaf groups";
+                return false;
+            }
+        } else {
+            if (m_groupIds.count(elem.first) == 0) {
+                qDebug() << "ERROR: Group model has wrong tracking of non-leaf groups";
+                return false;
+            }
+            if (m_downLink[elem.first].size() == 1 && failOnSingleGroups) {
+                qDebug() << "ERROR: Group model contains groups with single element";
+                return false;
+            }
+            if (elem.second != -1 && getType(elem.first) == GroupType::Selection) {
+                qDebug() << "ERROR: Group model contains inner groups of selection type";
+                return false;
+            }
+            if (getType(elem.first) == GroupType::Leaf) {
+                qDebug() << "ERROR: Group model contains groups of Leaf type";
+                return false;
+            }
+        }
+    }
+
+    // Finally, we do a depth first visit of the tree to check for loops
+    std::unordered_set<int> visited;
+    for (const auto &elem : m_upLink) {
+        if (elem.second == -1) {
+            // this is a root, traverse the tree from here
+            std::stack<int> stack;
+            stack.push(elem.first);
+            while (!stack.empty()) {
+                int cur = stack.top();
+                stack.pop();
+                if (visited.count(cur) > 0) {
+                    qDebug() << "ERROR: Group model contains a cycle";
+                    return false;
+                }
+                visited.insert(cur);
+                for (int child : m_downLink[cur]) {
+                    stack.push(child);
+                }
+            }
+        }
+    }
+
+    // Do a last pass to check everybody was visited
+    for (const auto &elem : m_upLink) {
+        if (visited.count(elem.first) == 0) {
+            qDebug() << "ERROR: Group model contains unreachable elements";
+            return false;
+        }
+    }
+
+    if (checkTimelineConsistency) {
+        if (auto ptr = m_parent.lock()) {
+            auto isTimelineObject = [&](int cid) { return ptr->isClip(cid) || ptr->isComposition(cid); };
+            for (int g : ptr->m_allGroups) {
+                if (m_upLink.count(g) == 0 || getType(g) == GroupType::Leaf) {
+                    qDebug() << "ERROR: Timeline contains inconsistent group data";
+                    return false;
+                }
+            }
+            for (const auto &elem : m_upLink) {
+                if (getType(elem.first) == GroupType::Leaf) {
+                    if (!isTimelineObject(elem.first)) {
+                        qDebug() << "ERROR: Group model contains leaf element that is not a clip nor a composition";
+                        return false;
+                    }
+                } else {
+                    if (ptr->m_allGroups.count(elem.first) == 0) {
+                        qDebug() << "ERROR: Group model contains group element that is not  registered on timeline";
+                        Q_ASSERT(false);
+                        return false;
+                    }
+                    if (getType(elem.first) == GroupType::AVSplit) {
+                        if (m_downLink[elem.first].size() != 2) {
+                            qDebug() << "ERROR: Group model contains a AVSplit group with a children count != 2";
+                            return false;
+                        }
+                        auto it = m_downLink[elem.first].begin();
+                        int cid1 = (*it);
+                        ++it;
+                        int cid2 = (*it);
+                        if (!isTimelineObject(cid1) || !isTimelineObject(cid2)) {
+                            qDebug() << "ERROR: Group model contains an AVSplit group with invalid members";
+                            return false;
+                        }
+                        int tid1 = ptr->getClipTrackId(cid1);
+                        bool isAudio1 = ptr->getTrackById(tid1)->isAudioTrack();
+                        int tid2 = ptr->getClipTrackId(cid2);
+                        bool isAudio2 = ptr->getTrackById(tid2)->isAudioTrack();
+                        if (isAudio1 == isAudio2) {
+                            qDebug() << "ERROR: Group model contains an AVSplit formed with members that are both on an audio track or on a video track";
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return true;
 }

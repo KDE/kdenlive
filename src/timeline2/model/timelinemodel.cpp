@@ -2074,6 +2074,11 @@ bool TimelineModel::checkConsistency()
         }
         return false;
     }
+
+    // We check consistency of groups
+    if (!m_groups->checkConsistency(true, true)) {
+        return false;
+    }
     return true;
 }
 

@@ -162,6 +162,12 @@ public:
     bool fromJson(const QString &data);
     int getSplitPartner(int id) const;
 
+    /* @brief Check the internal consistency of the model. Returns false if something is wrong
+       @param failOnSingleGroups: if true, we make sure that a non-leaf node has at least two children
+       @param checkTimelineConsistency: if true, we make sure that the group data of the parent timeline are consistent
+    */
+    bool checkConsistency(bool failOnSingleGroups = true, bool checkTimelineConsistency = false);
+
 protected:
     /* @brief Destruct a groupItem in the hierarchy.
        All its children will become their own roots

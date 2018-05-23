@@ -259,6 +259,7 @@ TEST_CASE("Interface test of the group hierarchy", "[GroupsModel]")
         REQUIRE(groups.isLeaf(i));
         REQUIRE(groups.getLeaves(i).size() == 1);
         REQUIRE(groups.getSubtree(i).size() == 1);
+        REQUIRE(groups.checkConsistency(false));
     }
 
     auto g1 = std::unordered_set<int>({4, 6, 7, 9});
@@ -279,6 +280,7 @@ TEST_CASE("Interface test of the group hierarchy", "[GroupsModel]")
         auto g1b = g1;
         g1b.insert(gid1);
         REQUIRE(groups.getSubtree(gid1) == g1b);
+        REQUIRE(groups.checkConsistency(false));
     }
     SECTION("Twice the same group")
     {
@@ -300,6 +302,7 @@ TEST_CASE("Interface test of the group hierarchy", "[GroupsModel]")
         REQUIRE(groups.getSubtree(old_gid1) == g1b);
         g1b.insert(gid1);
         REQUIRE(groups.getSubtree(gid1) == g1b);
+        REQUIRE(groups.checkConsistency(false));
     }
 
     auto g2 = std::unordered_set<int>({3, 5, 7});
@@ -323,6 +326,7 @@ TEST_CASE("Interface test of the group hierarchy", "[GroupsModel]")
         }
         REQUIRE(groups.getLeaves(gid1) == g1);
         REQUIRE(groups.getLeaves(gid2) == all_g2);
+        REQUIRE(groups.checkConsistency(false));
     }
 
     auto g3 = std::unordered_set<int>({0, 1});
@@ -350,6 +354,7 @@ TEST_CASE("Interface test of the group hierarchy", "[GroupsModel]")
         REQUIRE(groups.getLeaves(gid2) == all_g2);
         REQUIRE(groups.getLeaves(gid3) == g3);
         REQUIRE(groups.getLeaves(gid4) == all_g4);
+        REQUIRE(groups.checkConsistency(false));
     }
 
     // the following should delete g4
@@ -370,6 +375,7 @@ TEST_CASE("Interface test of the group hierarchy", "[GroupsModel]")
             REQUIRE(groups.getLeaves(i) == std::unordered_set<int>({i}));
         }
         REQUIRE(groups.getLeaves(gid1) == g1);
+        REQUIRE(groups.checkConsistency(false));
         REQUIRE(groups.getLeaves(gid2) == all_g2);
         REQUIRE(groups.getLeaves(gid3) == g3);
     }
@@ -409,20 +415,24 @@ TEST_CASE("Orphan groups deletion", "[GroupsModel]")
     int gid3 = groups.groupItems(g3, undo, redo);
 
     REQUIRE(groups.getLeaves(gid3) == std::unordered_set<int>({0, 1, 2, 3}));
+    REQUIRE(groups.checkConsistency(false));
 
     groups.destructGroupItem(0, true, undo, redo);
 
     REQUIRE(groups.getLeaves(gid3) == std::unordered_set<int>({1, 2, 3}));
+    REQUIRE(groups.checkConsistency(false));
 
     SECTION("Normal deletion")
     {
         groups.destructGroupItem(1, false, undo, redo);
 
         REQUIRE(groups.getLeaves(gid3) == std::unordered_set<int>({gid1, 2, 3}));
+        REQUIRE(groups.checkConsistency(false));
 
         groups.destructGroupItem(gid1, true, undo, redo);
 
         REQUIRE(groups.getLeaves(gid3) == std::unordered_set<int>({2, 3}));
+        REQUIRE(groups.checkConsistency(false));
     }
 
     SECTION("Cascade deletion")
@@ -430,19 +440,22 @@ TEST_CASE("Orphan groups deletion", "[GroupsModel]")
         groups.destructGroupItem(1, true, undo, redo);
 
         REQUIRE(groups.getLeaves(gid3) == std::unordered_set<int>({2, 3}));
+        REQUIRE(groups.checkConsistency(false));
 
         groups.destructGroupItem(2, true, undo, redo);
 
         REQUIRE(groups.getLeaves(gid3) == std::unordered_set<int>({3}));
+        REQUIRE(groups.checkConsistency(false));
 
         REQUIRE(groups.m_downLink.count(gid3) > 0);
         groups.destructGroupItem(3, true, undo, redo);
         REQUIRE(groups.m_downLink.count(gid3) == 0);
         REQUIRE(groups.m_downLink.size() == 0);
+        REQUIRE(groups.checkConsistency(false));
     }
 }
 
-TEST_CASE("Undo/redo", "[GroupsModel]")
+TEST_CASE("Integration with timeline", "[GroupsModel]")
 {
     qDebug() << "STARTING PASS";
     auto binModel = pCore->projectItemModel();
@@ -476,22 +489,35 @@ TEST_CASE("Undo/redo", "[GroupsModel]")
 
     Mlt::Profile *pr = new Mlt::Profile();
     QString binId = createProducer(*pr, "red", binModel);
+    QString binId2 = createProducerWithSound(*pr, binModel);
 
     int length = binModel->getClipByBinID(binId)->frameDuration();
     GroupsModel groups(timeline);
 
     std::vector<int> clips;
     for (int i = 0; i < 4; i++) {
-        clips.push_back(ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly));
+        if (i % 2 == 0) {
+            clips.push_back(ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly));
+        } else {
+            clips.push_back(ClipModel::construct(timeline, binId, -1, PlaylistState::AudioOnly));
+            timeline->m_allClips[clips.back()]->m_canBeAudio = true;
+        }
     }
     std::vector<int> clips2;
     for (int i = 0; i < 4; i++) {
-        clips2.push_back(ClipModel::construct(timeline2, binId, -1, PlaylistState::VideoOnly));
+        if (i % 2 == 0) {
+            clips2.push_back(ClipModel::construct(timeline2, binId, -1, PlaylistState::VideoOnly));
+        } else {
+            clips2.push_back(ClipModel::construct(timeline2, binId, -1, PlaylistState::AudioOnly));
+            timeline2->m_allClips[clips2.back()]->m_canBeAudio = true;
+        }
     }
     int tid1 = TrackModel::construct(timeline);
     int tid2 = TrackModel::construct(timeline);
+    int tid3 = TrackModel::construct(timeline, -1, -1, QStringLiteral("audio"), true);
     int tid1_2 = TrackModel::construct(timeline2);
     int tid2_2 = TrackModel::construct(timeline2);
+    int tid3_2 = TrackModel::construct(timeline2, -1, -1, QStringLiteral("audio2"), true);
 
     int init_index = undoStack->index();
     SECTION("Basic Creation and export/import from json")
@@ -570,18 +596,26 @@ TEST_CASE("Undo/redo", "[GroupsModel]")
                 int r2 = timeline2->m_groups->getRootId(clips2[0]);
                 REQUIRE(roots[r2] == r);
             }
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline2->checkConsistency());
         };
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline2->checkConsistency());
         auto g1 = std::unordered_set<int>({clips[0], clips[1]});
         int gid1, gid2, gid3;
         // this fails because clips are not inserted
         REQUIRE(timeline->requestClipsGroup(g1) == -1);
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline2->checkConsistency());
 
         for (int i = 0; i < 4; i++) {
-            REQUIRE(timeline->requestClipMove(clips[i], (i % 2 == 0) ? tid1 : tid2, i * length));
+            REQUIRE(timeline->requestClipMove(clips[i], (i % 2 == 0) ? tid1 : tid3, i * length));
         }
         for (int i = 0; i < 4; i++) {
-            REQUIRE(timeline2->requestClipMove(clips2[i], (i % 2 == 0) ? tid1_2 : tid2_2, i * length));
+            REQUIRE(timeline2->requestClipMove(clips2[i], (i % 2 == 0) ? tid1_2 : tid3_2, i * length));
         }
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline2->checkConsistency());
         init_index = undoStack->index();
         REQUIRE(timeline->requestClipsGroup(g1, true, GroupType::Normal) > 0);
         auto state1 = [&]() {
@@ -591,8 +625,10 @@ TEST_CASE("Undo/redo", "[GroupsModel]")
             REQUIRE(timeline->m_groups->getSubtree(gid1) == std::unordered_set<int>({gid1, clips[0], clips[1]}));
             REQUIRE(timeline->m_groups->getLeaves(gid1) == std::unordered_set<int>({clips[0], clips[1]}));
             REQUIRE(undoStack->index() == init_index + 1);
+            REQUIRE(timeline->checkConsistency());
         };
         INFO("Test 1");
+        state1();
         checkJsonParsing();
         state1();
 
@@ -608,6 +644,7 @@ TEST_CASE("Undo/redo", "[GroupsModel]")
             REQUIRE(timeline->m_groups->getSubtree(gid1) == std::unordered_set<int>({gid1, clips[0], clips[1]}));
             REQUIRE(timeline->m_groups->getLeaves(gid1) == std::unordered_set<int>({clips[0], clips[1]}));
             REQUIRE(undoStack->index() == init_index + 2);
+            REQUIRE(timeline->checkConsistency());
         };
         INFO("Test 2");
         checkJsonParsing();
@@ -628,6 +665,7 @@ TEST_CASE("Undo/redo", "[GroupsModel]")
             REQUIRE(timeline->m_groups->getLeaves(gid2) == std::unordered_set<int>({clips[2], clips[3]}));
             REQUIRE(timeline->m_groups->getSubtree(gid1) == std::unordered_set<int>({gid1, clips[0], clips[1]}));
             REQUIRE(timeline->m_groups->getLeaves(gid1) == std::unordered_set<int>({clips[0], clips[1]}));
+            REQUIRE(timeline->checkConsistency());
         };
 
         INFO("Test 3");
@@ -681,26 +719,29 @@ TEST_CASE("Undo/redo", "[GroupsModel]")
 
     SECTION("Group deletion undo")
     {
-        int tid1 = TrackModel::construct(timeline);
         CAPTURE(clips[0]);
         CAPTURE(clips[1]);
         CAPTURE(clips[2]);
         CAPTURE(clips[3]);
         REQUIRE(timeline->requestClipMove(clips[0], tid1, 10));
-        REQUIRE(timeline->requestClipMove(clips[1], tid1, 10 + length));
+        REQUIRE(timeline->requestClipMove(clips[1], tid3, 10 + length));
         REQUIRE(timeline->requestClipMove(clips[2], tid1, 15 + 2 * length));
-        REQUIRE(timeline->requestClipMove(clips[3], tid1, 50 + 3 * length));
+        REQUIRE(timeline->requestClipMove(clips[3], tid3, 50 + 3 * length));
 
         auto state0 = [&]() {
             REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
-            REQUIRE(timeline->getTrackClipsCount(tid1) == 4);
-            for (int i = 0; i < 4; i++) {
-                REQUIRE(timeline->getClipTrackId(clips[i]) == tid1);
-            }
+            REQUIRE(timeline->getTrackClipsCount(tid1) == 2);
+            REQUIRE(timeline->getTrackClipsCount(tid3) == 2);
+            REQUIRE(timeline->getClipsCount() == 4);
+            REQUIRE(timeline->getClipTrackId(clips[0]) == tid1);
+            REQUIRE(timeline->getClipTrackId(clips[2]) == tid1);
+            REQUIRE(timeline->getClipTrackId(clips[1]) == tid3);
+            REQUIRE(timeline->getClipTrackId(clips[3]) == tid3);
             REQUIRE(timeline->getClipPosition(clips[0]) == 10);
             REQUIRE(timeline->getClipPosition(clips[1]) == 10 + length);
             REQUIRE(timeline->getClipPosition(clips[2]) == 15 + 2 * length);
             REQUIRE(timeline->getClipPosition(clips[3]) == 50 + 3 * length);
+            REQUIRE(timeline->checkConsistency());
         };
 
         auto state = [&](int gid1, int gid2, int gid3) {
@@ -708,6 +749,7 @@ TEST_CASE("Undo/redo", "[GroupsModel]")
             REQUIRE(timeline->m_groups->getType(gid1) == GroupType::AVSplit);
             REQUIRE(timeline->m_groups->getType(gid2) == GroupType::AVSplit);
             REQUIRE(timeline->m_groups->getType(gid3) == GroupType::Normal);
+            REQUIRE(timeline->checkConsistency());
         };
         state0();
         auto g1 = std::unordered_set<int>({clips[0], clips[1]});
@@ -722,18 +764,23 @@ TEST_CASE("Undo/redo", "[GroupsModel]")
         REQUIRE(gid3 > 0);
         state(gid1, gid2, gid3);
 
+        std::vector<int> all_clips{clips[0], clips[2], clips[1], clips[3]};
         for (int i = 0; i < 4; i++) {
-            REQUIRE(timeline->requestItemDeletion(clips[i]));
+            REQUIRE(timeline->requestItemDeletion(all_clips[i]));
             REQUIRE(timeline->getTrackClipsCount(tid1) == 0);
+            REQUIRE(timeline->getTrackClipsCount(tid3) == 0);
             REQUIRE(timeline->getClipsCount() == 0);
             REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
+            REQUIRE(timeline->getTrackById(tid3)->checkConsistency());
+            REQUIRE(timeline->checkConsistency());
 
             undoStack->undo();
             state(gid1, gid2, gid3);
             undoStack->redo();
             REQUIRE(timeline->getTrackClipsCount(tid1) == 0);
+            REQUIRE(timeline->getTrackClipsCount(tid3) == 0);
             REQUIRE(timeline->getClipsCount() == 0);
-            REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
+            REQUIRE(timeline->checkConsistency());
             undoStack->undo();
             state(gid1, gid2, gid3);
         }
@@ -757,6 +804,7 @@ TEST_CASE("Undo/redo", "[GroupsModel]")
             REQUIRE(timeline->getGroupElements(clips[1]) == std::unordered_set<int>({clips[1]}));
             REQUIRE(timeline->getGroupElements(clips[3]) == std::unordered_set<int>({clips[3]}));
             REQUIRE(timeline->getGroupElements(clips[0]) == std::unordered_set<int>({clips[0]}));
+            REQUIRE(timeline->checkConsistency());
         };
         state1();
 
@@ -768,6 +816,7 @@ TEST_CASE("Undo/redo", "[GroupsModel]")
             REQUIRE(timeline->getGroupElements(clips[3]) == g1);
             REQUIRE(timeline->getGroupElements(clips[2]) == std::unordered_set<int>({clips[2]}));
             REQUIRE(timeline->getGroupElements(clips[1]) == std::unordered_set<int>({clips[1]}));
+            REQUIRE(timeline->checkConsistency());
         };
         state2();
 
@@ -790,6 +839,7 @@ TEST_CASE("Undo/redo", "[GroupsModel]")
             REQUIRE(timeline->getGroupElements(clips[3]) == g1);
             REQUIRE(timeline->getGroupElements(clips[2]) == g2);
             REQUIRE(timeline->getGroupElements(clips[1]) == g2);
+            REQUIRE(timeline->checkConsistency());
         };
         state3();
 
@@ -807,6 +857,7 @@ TEST_CASE("Undo/redo", "[GroupsModel]")
             REQUIRE(timeline->getGroupElements(clips[3]) == all_g);
             REQUIRE(timeline->getGroupElements(clips[2]) == all_g);
             REQUIRE(timeline->getGroupElements(clips[1]) == all_g);
+            REQUIRE(timeline->checkConsistency());
         };
         state4();
 
@@ -840,7 +891,35 @@ TEST_CASE("Undo/redo", "[GroupsModel]")
         REQUIRE(timeline->requestClipUngroup(clips[1]));
         state1();
     }
+}
 
+TEST_CASE("Complex Functions", "[GroupsModel]")
+{
+    auto binModel = pCore->projectItemModel();
+    binModel->clean();
+    std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
+    std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
+
+    // Here we do some trickery to enable testing.
+    // We mock the project class so that the undoStack function returns our undoStack
+
+    Mock<ProjectManager> pmMock;
+    When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
+
+    ProjectManager &mocked = pmMock.get();
+    pCore->m_projectManager = &mocked;
+
+    TimelineItemModel tim(new Mlt::Profile(), undoStack);
+    Mock<TimelineItemModel> timMock(tim);
+    TimelineItemModel &tt = timMock.get();
+    auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
+    TimelineItemModel::finishConstruct(timeline, guideModel);
+
+    RESET(timMock);
+
+    GroupsModel groups(timeline);
+
+    int init_index = undoStack->index();
     SECTION("MergeSingleGroups")
     {
         Fun undo = []() { return true; };
@@ -864,6 +943,7 @@ TEST_CASE("Undo/redo", "[GroupsModel]")
             REQUIRE(groups.getDirectChildren(3) == std::unordered_set<int>({0}));
             REQUIRE(groups.getDirectChildren(4) == std::unordered_set<int>({2}));
             REQUIRE(groups.getDirectChildren(5) == std::unordered_set<int>({}));
+            REQUIRE(groups.checkConsistency(false));
         };
         test_tree();
 
@@ -873,6 +953,7 @@ TEST_CASE("Undo/redo", "[GroupsModel]")
             REQUIRE(groups.getDirectChildren(1) == std::unordered_set<int>({2, 5}));
             REQUIRE(groups.getDirectChildren(2) == std::unordered_set<int>({}));
             REQUIRE(groups.getDirectChildren(5) == std::unordered_set<int>({}));
+            REQUIRE(groups.checkConsistency());
         };
         test_tree2();
 
@@ -900,6 +981,7 @@ TEST_CASE("Undo/redo", "[GroupsModel]")
             REQUIRE(groups.getDirectChildren(0) == std::unordered_set<int>({1}));
             REQUIRE(groups.getDirectChildren(1) == std::unordered_set<int>({2}));
             REQUIRE(groups.getDirectChildren(2) == std::unordered_set<int>({}));
+            REQUIRE(groups.checkConsistency(false));
         };
         test_tree();
 
@@ -908,6 +990,7 @@ TEST_CASE("Undo/redo", "[GroupsModel]")
             REQUIRE(groups.getSubtree(2) == std::unordered_set<int>({2}));
             REQUIRE(groups.getDirectChildren(2) == std::unordered_set<int>({}));
             REQUIRE(groups.getRootId(2) == 2);
+            REQUIRE(groups.checkConsistency());
         };
         test_tree2();
 
@@ -944,6 +1027,7 @@ TEST_CASE("Undo/redo", "[GroupsModel]")
             REQUIRE(groups.getDirectChildren(3) == std::unordered_set<int>({}));
             REQUIRE(groups.getDirectChildren(4) == std::unordered_set<int>({5}));
             REQUIRE(groups.getDirectChildren(5) == std::unordered_set<int>({}));
+            REQUIRE(groups.checkConsistency(false));
         };
         test_tree();
 
@@ -956,6 +1040,7 @@ TEST_CASE("Undo/redo", "[GroupsModel]")
             REQUIRE(groups.getDirectChildren(1) == std::unordered_set<int>({3, 5}));
             REQUIRE(groups.getDirectChildren(3) == std::unordered_set<int>({}));
             REQUIRE(groups.getDirectChildren(5) == std::unordered_set<int>({}));
+            REQUIRE(groups.checkConsistency());
         };
         test_tree2();
 
@@ -981,6 +1066,7 @@ TEST_CASE("Undo/redo", "[GroupsModel]")
             REQUIRE(groups.getRootId(1) == 1);
             REQUIRE(groups.isLeaf(1));
             REQUIRE(groups.m_upLink.size() == 1);
+            REQUIRE(groups.checkConsistency());
         };
         test_leaf();
 
@@ -1019,6 +1105,7 @@ TEST_CASE("Undo/redo", "[GroupsModel]")
             REQUIRE(groups.getDirectChildren(0) == std::unordered_set<int>({1, 2}));
             REQUIRE(groups.getDirectChildren(1) == std::unordered_set<int>({}));
             REQUIRE(groups.getDirectChildren(2) == std::unordered_set<int>({}));
+            REQUIRE(groups.checkConsistency());
         };
         test_tree();
 
@@ -1030,6 +1117,7 @@ TEST_CASE("Undo/redo", "[GroupsModel]")
             REQUIRE(groups.getSubtree(1) == std::unordered_set<int>({1}));
             REQUIRE(groups.getDirectChildren(2) == std::unordered_set<int>({}));
             REQUIRE(groups.getDirectChildren(1) == std::unordered_set<int>({}));
+            REQUIRE(groups.checkConsistency());
         };
         test_tree2();
 
@@ -1075,6 +1163,7 @@ TEST_CASE("Undo/redo", "[GroupsModel]")
             REQUIRE(groups.getDirectChildren(6) == std::unordered_set<int>({}));
             REQUIRE(groups.getDirectChildren(7) == std::unordered_set<int>({}));
             REQUIRE(groups.getDirectChildren(8) == std::unordered_set<int>({5, 7}));
+            REQUIRE(groups.checkConsistency());
         };
         test_tree();
 
@@ -1103,6 +1192,7 @@ TEST_CASE("Undo/redo", "[GroupsModel]")
             REQUIRE(groups.getDirectChildren(7) == std::unordered_set<int>({}));
             REQUIRE(groups.getDirectChildren(newRoot) == std::unordered_set<int>({1, other}));
             REQUIRE(groups.getDirectChildren(other) == std::unordered_set<int>({5, 7}));
+            REQUIRE(groups.checkConsistency());
         };
         test_tree2();
 
@@ -1153,6 +1243,7 @@ TEST_CASE("Undo/redo", "[GroupsModel]")
             REQUIRE(groups.getType(4) == GroupType::AVSplit);
             REQUIRE(groups.getType(5) == GroupType::AVSplit);
             REQUIRE(groups.getType(6) == GroupType::Normal);
+            REQUIRE(groups.checkConsistency());
         };
         test_tree();
         qDebug() << " done testing";
@@ -1177,6 +1268,7 @@ TEST_CASE("Undo/redo", "[GroupsModel]")
             REQUIRE(groups.getDirectChildren(r2) == std::unordered_set<int>({1, 3}));
             REQUIRE(groups.getType(r1) == GroupType::AVSplit);
             REQUIRE(groups.getType(r2) == GroupType::AVSplit);
+            REQUIRE(groups.checkConsistency());
         };
         test_tree2();
 
@@ -1189,6 +1281,5 @@ TEST_CASE("Undo/redo", "[GroupsModel]")
         test_tree();
         redo();
         test_tree2();
-        REQUIRE_FALSE(true);
     }
 }
