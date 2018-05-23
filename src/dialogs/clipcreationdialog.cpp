@@ -177,7 +177,7 @@ void ClipCreationDialog::createQTextClip(KdenliveDoc *doc, const QString &parent
         QDomElement prod = xml.createElement(QStringLiteral("producer"));
         xml.appendChild(prod);
         prod.setAttribute(QStringLiteral("type"), (int)ClipType::QText);
-        int id = bin->getFreeClipId();
+        int id = pCore->projectItemModel()->getFreeClipId();
         prod.setAttribute(QStringLiteral("id"), QString::number(id));
 
         prod.setAttribute(QStringLiteral("in"), QStringLiteral("0"));

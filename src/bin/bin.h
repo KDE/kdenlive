@@ -221,15 +221,6 @@ public:
     /** @brief A proxy clip was just created, pass it to the responsible item  */
     void gotProxy(const QString &id, const QString &path);
 
-    /** @brief Give a number available for a clip id, used when adding a new clip to the project. Id must be unique */
-    int getFreeClipId();
-
-    /** @brief Give a number available for a folder id, used when adding a new folder to the project. Id must be unique */
-    int getFreeFolderId();
-
-    /** @brief Returns the id of the last inserted clip */
-    int lastClipId() const;
-
     /** @brief Ask MLT to reload this clip's producer  */
     void reloadClip(const QString &id);
 
@@ -413,10 +404,6 @@ private:
     QAction *m_inTimelineAction;
     QAction *m_showDate;
     QAction *m_showDesc;
-    /** @brief Holds an available unique id for a clip to be created */
-    int m_clipCounter;
-    /** @brief Holds an available unique id for a folder to be created */
-    int m_folderCounter;
     /** @brief Default view type (icon, tree, ...) */
     BinViewType m_listType;
     /** @brief Default icon size for the views. */

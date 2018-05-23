@@ -1102,21 +1102,6 @@ void Bin::setMonitor(Monitor *monitor)
     connect(this, &Bin::openClip, [&](std::shared_ptr<ProjectClip> clip) { m_monitor->slotOpenClip(clip); });
 }
 
-int Bin::getFreeFolderId()
-{
-    return m_folderCounter++;
-}
-
-int Bin::getFreeClipId()
-{
-    return m_clipCounter++;
-}
-
-int Bin::lastClipId() const
-{
-    return qMax(0, m_clipCounter - 1);
-}
-
 void Bin::setDocument(KdenliveDoc *project)
 {
     m_infoMessage->hide();
@@ -1129,8 +1114,6 @@ void Bin::setDocument(KdenliveDoc *project)
     m_fileWatcher.clear();
     delete m_itemView;
     m_itemView = nullptr;
-    m_clipCounter = 1;
-    m_folderCounter = 1;
     m_doc = project;
     int iconHeight = QFontInfo(font()).pixelSize() * 3.5;
     m_iconSize = QSize(iconHeight * pCore->getCurrentDar(), iconHeight);
@@ -3004,7 +2987,7 @@ void Bin::slotSendAudioThumb(const QString &id)
 bool Bin::isEmpty() const
 {
     // TODO: return true if we only have folders
-    if (m_clipCounter == 1 || m_itemModel->getRootFolder() == nullptr) {
+    if (m_itemModel->getRootFolder() == nullptr) {
         return true;
     }
     return m_itemModel->getRootFolder()->childCount() == 0;
