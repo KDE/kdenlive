@@ -40,6 +40,13 @@ Item {
         canvas.requestPaint()
     }
 
+    onDurationChanged: {
+        clipMonitorRuler.updateRuler()
+    }
+    onWidthChanged: {
+        clipMonitorRuler.updateRuler()
+    }
+
     FontMetrics {
         id: fontMetrics
         font.family: "Arial"

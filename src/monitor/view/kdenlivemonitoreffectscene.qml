@@ -37,17 +37,12 @@ Item {
     signal centersChanged()
 
     onDurationChanged: {
-        timeScale = width / duration
-        if (duration < 200) {
-            frameSize = 5 * timeScale
-        } else if (duration < 2500) {
-            frameSize = 25 * timeScale
-        } else if (duration < 10000) {
-            frameSize = 50 * timeScale
-        } else {
-            frameSize = 100 * timeScale
-        }
+        clipMonitorRuler.updateRuler()
     }
+    onWidthChanged: {
+        clipMonitorRuler.updateRuler()
+    }
+
     FontMetrics {
         id: fontMetrics
         font.family: "Arial"

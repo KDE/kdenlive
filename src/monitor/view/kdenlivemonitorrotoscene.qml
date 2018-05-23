@@ -42,6 +42,13 @@ Item {
     signal addKeyframe()
     signal seekToKeyframe()
 
+    onDurationChanged: {
+        clipMonitorRuler.updateRuler()
+    }
+    onWidthChanged: {
+        clipMonitorRuler.updateRuler()
+    }
+
     onIskeyframeChanged: {
         console.log('KEYFRAME CHANGED: ', iskeyframe)
         canvas.requestPaint()
