@@ -546,7 +546,12 @@ void TimelineController::setInPoint()
     int cursorPos = timelinePosition();
     if (!m_selection.selectedItems.isEmpty()) {
         for (int id : m_selection.selectedItems) {
-            m_model->requestItemResizeToPos(id, cursorPos, false);
+            int start = m_model->getItemPosition(id);
+            if (start == cursorPos) {
+                continue;
+            }
+            int size = start + m_model->getItemPlaytime(id) - cursorPos;
+            m_model->requestItemResize(id, size, false, true, 0, false);
         }
     }
 }
@@ -561,7 +566,12 @@ void TimelineController::setOutPoint()
     int cursorPos = timelinePosition();
     if (!m_selection.selectedItems.isEmpty()) {
         for (int id : m_selection.selectedItems) {
-            m_model->requestItemResizeToPos(id, cursorPos, true);
+            int start = m_model->getItemPosition(id);
+            if (start + m_model->getItemPlaytime(id) == cursorPos) {
+                continue;
+            }
+            int size = cursorPos - start;
+            m_model->requestItemResize(id, size, true, true, 0, false);
         }
     }
 }
