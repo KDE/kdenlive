@@ -490,7 +490,8 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int clipId, Play
         }
     }
     if (!warpProducer) {
-        QString resource = QString("timewarp:%1:%2").arg(speed).arg(originalProducer()->get("resource"));
+        QLocale locale;
+        QString resource = QString("timewarp:%1:%2").arg(locale.toString(speed)).arg(originalProducer()->get("resource"));
         warpProducer.reset(new Mlt::Producer(*originalProducer()->profile(), resource.toUtf8().constData()));
     }
 
