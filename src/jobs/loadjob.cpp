@@ -171,12 +171,14 @@ void LoadJob::checkProfile()
         std::unique_ptr<ProfileParam> clipProfile(new ProfileParam(blankProfile.get()));
         std::unique_ptr<ProfileParam> projectProfile(new ProfileParam(pCore->getCurrentProfile().get()));
         clipProfile->adjustWidth();
-        if (clipProfile != projectProfile) {
+        if (*clipProfile.get() == *projectProfile.get()) {
+            if (KdenliveSettings::default_profile().isEmpty()) {
+                // Confirm default project format
+                KdenliveSettings::setDefault_profile(pCore->getCurrentProfile()->path());
+            }
+        } else {
             // Profiles do not match, propose profile adjustment
             pCore->currentDoc()->switchProfile(clipProfile, m_clipId, m_xml);
-        } else if (KdenliveSettings::default_profile().isEmpty()) {
-            // Confirm default project format
-            KdenliveSettings::setDefault_profile(pCore->getCurrentProfile()->path());
         }
     }
 }
