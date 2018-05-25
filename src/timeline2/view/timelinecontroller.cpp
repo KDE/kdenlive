@@ -1183,6 +1183,8 @@ QMap<QString, QString> TimelineController::documentProperties()
     props.insert(QStringLiteral("videoTarget"), QString::number(videoTarget));
     props.insert(QStringLiteral("activeTrack"), QString::number(activeTrack));
     props.insert(QStringLiteral("position"), QString::number(timelinePosition()));
+    props.insert(QStringLiteral("zonein"), QString::number(m_zone.x()));
+    props.insert(QStringLiteral("zoneout"), QString::number(m_zone.y()));
     if (m_timelinePreview) {
         QPair<QStringList, QStringList> chunks = m_timelinePreview->previewChunks();
         props.insert(QStringLiteral("previewchunks"), chunks.first.join(QLatin1Char(',')));

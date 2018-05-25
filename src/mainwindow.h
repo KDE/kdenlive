@@ -270,6 +270,8 @@ public slots:
     void slotZoomIn(bool zoomOnMouse = false);
     /** @brief Increases the timeline zoom level by 1. */
     void slotZoomOut(bool zoomOnMouse = false);
+    /** @brief Enable or disable the use of timeline zone for edits. */
+    void slotSwitchTimelineZone(bool toggled);
 
 private slots:
     /** @brief Shows the shortcut dialog. */
@@ -282,8 +284,6 @@ private slots:
     void slotUpdateProjectDuration(int pos);
     void slotAddEffect(const QDomElement &effect);
     void slotEditProjectSettings();
-
-    void slotSwitchTimelineZone(bool toggled);
     void slotSwitchMarkersComments();
     void slotSwitchSnap();
     void slotSwitchAutomaticTransition();

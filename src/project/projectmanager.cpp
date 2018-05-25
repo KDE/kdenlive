@@ -825,6 +825,7 @@ void ProjectManager::updateTimeline(int pos)
         stream << m_project->getProjectXml() << endl;
     }*/
     pCore->window()->getMainTimeline()->loading = true;
+    pCore->window()->slotSwitchTimelineZone(false);
     QScopedPointer<Mlt::Producer> xmlProd(new Mlt::Producer(pCore->getCurrentProfile()->profile(), "xml-string", m_project->getProjectXml().constData()));
     Mlt::Service s(*xmlProd);
     Mlt::Tractor tractor(s);
