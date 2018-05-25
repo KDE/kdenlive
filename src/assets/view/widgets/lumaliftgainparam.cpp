@@ -25,6 +25,7 @@
 
 #include <KLocalizedString>
 
+static const double LIFT_FACTOR = 2.0;
 static const double GAMMA_FACTOR = 2.0;
 static const double GAIN_FACTOR = 4.0;
 
@@ -37,11 +38,14 @@ LumaLiftGainParam::LumaLiftGainParam(std::shared_ptr<AssetParameterModel> model,
     layout->setSpacing(0);
 */
     m_locale.setNumberOptions(QLocale::OmitGroupSeparator);
-    m_lift = new ColorWheel(QStringLiteral("lift"), i18n("Lift"), QColor(), this);
+    m_lift = new ColorWheel(QStringLiteral("lift"), i18n("Lift"), NegQColor(), this);
+    m_lift->setFactorDefaultZero(LIFT_FACTOR, 0, 0.5);
     connect(m_lift, &ColorWheel::colorChange, this, &LumaLiftGainParam::liftChanged);
-    m_gamma = new ColorWheel(QStringLiteral("gamma"), i18n("Gamma"), QColor(), this);
+    m_gamma = new ColorWheel(QStringLiteral("gamma"), i18n("Gamma"), NegQColor(), this);
+    m_gamma->setFactorDefaultZero(GAMMA_FACTOR, 1, 0);
     connect(m_gamma, &ColorWheel::colorChange, this, &LumaLiftGainParam::gammaChanged);
-    m_gain = new ColorWheel(QStringLiteral("gain"), i18n("Gain"), QColor(), this);
+    m_gain = new ColorWheel(QStringLiteral("gain"), i18n("Gain"), NegQColor(), this);
+    m_gain->setFactorDefaultZero(GAIN_FACTOR, 1, 0);
     connect(m_gain, &ColorWheel::colorChange, this, &LumaLiftGainParam::gainChanged);
     QMap<QString, QModelIndex> indexes;
     for (int i = 0; i < m_model->rowCount(); ++i) {
@@ -57,19 +61,19 @@ LumaLiftGainParam::LumaLiftGainParam(std::shared_ptr<AssetParameterModel> model,
     slotRefresh();
 
     connect(this, &LumaLiftGainParam::liftChanged, [this, indexes]() {
-        QColor liftColor = m_lift->color();
+        NegQColor liftColor = m_lift->color();
         emit valueChanged(indexes.value(QStringLiteral("lift_r")), m_locale.toString(liftColor.redF()), true);
         emit valueChanged(indexes.value(QStringLiteral("lift_g")), m_locale.toString(liftColor.greenF()), true);
         emit valueChanged(indexes.value(QStringLiteral("lift_b")), m_locale.toString(liftColor.blueF()), true);
     });
     connect(this, &LumaLiftGainParam::gammaChanged, [this, indexes]() {
-        QColor gammaColor = m_gamma->color();
+        NegQColor gammaColor = m_gamma->color();
         emit valueChanged(indexes.value(QStringLiteral("gamma_r")), m_locale.toString(gammaColor.redF() * GAMMA_FACTOR), true);
         emit valueChanged(indexes.value(QStringLiteral("gamma_g")), m_locale.toString(gammaColor.greenF() * GAMMA_FACTOR), true);
         emit valueChanged(indexes.value(QStringLiteral("gamma_b")), m_locale.toString(gammaColor.blueF() * GAMMA_FACTOR), true);
     });
     connect(this, &LumaLiftGainParam::gainChanged, [this, indexes]() {
-        QColor gainColor = m_gain->color();
+        NegQColor gainColor = m_gain->color();
         emit valueChanged(indexes.value(QStringLiteral("gain_r")), m_locale.toString(gainColor.redF() * GAIN_FACTOR), true);
         emit valueChanged(indexes.value(QStringLiteral("gain_g")), m_locale.toString(gainColor.greenF() * GAIN_FACTOR), true);
         emit valueChanged(indexes.value(QStringLiteral("gain_b")), m_locale.toString(gainColor.blueF() * GAIN_FACTOR), true);
@@ -78,13 +82,13 @@ LumaLiftGainParam::LumaLiftGainParam(std::shared_ptr<AssetParameterModel> model,
 
 void LumaLiftGainParam::updateEffect(QDomElement &effect)
 {
-    QColor lift = m_lift->color();
-    QColor gamma = m_gamma->color();
-    QColor gain = m_gain->color();
+    NegQColor lift = m_lift->color();
+    NegQColor gamma = m_gamma->color();
+    NegQColor gain = m_gain->color();
     QMap<QString, double> values;
-    values.insert(QStringLiteral("lift_r"), lift.redF());
-    values.insert(QStringLiteral("lift_g"), lift.greenF());
-    values.insert(QStringLiteral("lift_b"), lift.blueF());
+    values.insert(QStringLiteral("lift_r"), lift.redF() * LIFT_FACTOR);
+    values.insert(QStringLiteral("lift_g"), lift.greenF() * LIFT_FACTOR);
+    values.insert(QStringLiteral("lift_b"), lift.blueF() * LIFT_FACTOR);
 
     values.insert(QStringLiteral("gamma_r"), gamma.redF() * GAMMA_FACTOR);
     values.insert(QStringLiteral("gamma_g"), gamma.greenF() * GAMMA_FACTOR);
@@ -120,11 +124,21 @@ void LumaLiftGainParam::slotRefresh()
         values.insert(name, val);
     }
 
-    QColor lift = QColor::fromRgbF(values.value(QStringLiteral("lift_r")), values.value(QStringLiteral("lift_g")), values.value(QStringLiteral("lift_b")));
+    NegQColor lift = NegQColor::fromRgbF(values.value(QStringLiteral("lift_r")) / LIFT_FACTOR,
+                                   values.value(QStringLiteral("lift_g")) / LIFT_FACTOR,
+                                   values.value(QStringLiteral("lift_b")) / LIFT_FACTOR);
+    NegQColor gamma = NegQColor::fromRgbF(values.value(QStringLiteral("gamma_r")) / GAMMA_FACTOR,
+                                    values.value(QStringLiteral("gamma_g")) / GAMMA_FACTOR,
+                                    values.value(QStringLiteral("gamma_b")) / GAMMA_FACTOR);
+    NegQColor gain = NegQColor::fromRgbF(values.value(QStringLiteral("gain_r")) / GAIN_FACTOR,
+                                   values.value(QStringLiteral("gain_g")) / GAIN_FACTOR,
+                                   values.value(QStringLiteral("gain_b")) / GAIN_FACTOR);
+
+    /*QColor lift = QColor::fromRgbF(values.value(QStringLiteral("lift_r")), values.value(QStringLiteral("lift_g")), values.value(QStringLiteral("lift_b")));
     QColor gamma = QColor::fromRgbF(values.value(QStringLiteral("gamma_r")) / GAMMA_FACTOR, values.value(QStringLiteral("gamma_g")) / GAMMA_FACTOR,
                                     values.value(QStringLiteral("gamma_b")) / GAMMA_FACTOR);
     QColor gain = QColor::fromRgbF(values.value(QStringLiteral("gain_r")) / GAIN_FACTOR, values.value(QStringLiteral("gain_g")) / GAIN_FACTOR,
-                                   values.value(QStringLiteral("gain_b")) / GAIN_FACTOR);
+                                   values.value(QStringLiteral("gain_b")) / GAIN_FACTOR);*/
     qDebug() << "//REFRESHING WIDGET START 2--------------__";
     m_lift->setColor(lift);
     m_gamma->setColor(gamma);

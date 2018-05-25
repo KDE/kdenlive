@@ -21,7 +21,55 @@
 #include "colorwheel.h"
 #include <qmath.h>
 
-ColorWheel::ColorWheel(const QString &id, const QString &name, const QColor &color, QWidget *parent)
+NegQColor NegQColor::fromHsvF(qreal h, qreal s, qreal l, qreal a)
+{
+    NegQColor color;
+    color.qcolor = QColor::fromHsvF(h,s,l<0?-l:l,a);
+    color.sign_r = l<0?-1:1;
+    color.sign_g = l<0?-1:1;
+    color.sign_b = l<0?-1:1;
+    return color;
+}
+
+NegQColor NegQColor::fromRgbF(qreal r, qreal g, qreal b, qreal a)
+{
+    NegQColor color;
+    color.qcolor = QColor::fromRgbF(r<0?-r:r,g<0?-g:g,b<0?-b:b,a);
+    color.sign_r = r<0?-1:1;
+    color.sign_g = g<0?-1:1;
+    color.sign_b = b<0?-1:1;
+    return color;
+}
+
+qreal NegQColor::redF() {
+    return qcolor.redF()*sign_r;
+}
+
+qreal NegQColor::greenF() {
+    return qcolor.greenF()*sign_g;
+}
+
+qreal NegQColor::blueF() {
+    return qcolor.blueF()*sign_b;
+}
+
+qreal NegQColor::valueF() {
+    return qcolor.valueF()*sign_g;
+}
+
+int NegQColor::hue() {
+    return qcolor.hue();
+}
+
+qreal NegQColor::hueF() {
+    return qcolor.hueF();
+}
+
+qreal NegQColor::saturationF() {
+    return qcolor.saturationF();
+}
+
+ColorWheel::ColorWheel(const QString &id, const QString &name, const NegQColor &color, QWidget *parent)
     : QWidget(parent)
     , m_id(id)
     , m_isMouseDown(false)
@@ -41,12 +89,18 @@ ColorWheel::ColorWheel(const QString &id, const QString &name, const QColor &col
     setCursor(Qt::CrossCursor);
 }
 
-QColor ColorWheel::color()
+void ColorWheel::setFactorDefaultZero(qreal factor, qreal defvalue, qreal zero) {
+    m_sizeFactor = factor;
+    m_defaultValue = defvalue;
+    m_zeroShift = zero;
+}
+
+NegQColor ColorWheel::color() const
 {
     return m_color;
 }
 
-void ColorWheel::setColor(const QColor &color)
+void ColorWheel::setColor(const NegQColor &color)
 {
     m_color = color;
 }
@@ -56,10 +110,10 @@ int ColorWheel::wheelSize() const
     return qMin(width() - m_sliderWidth, height() - m_unitSize);
 }
 
-QColor ColorWheel::colorForPoint(const QPoint &point)
+NegQColor ColorWheel::colorForPoint(const QPoint &point)
 {
     if (!m_image.valid(point)) {
-        return QColor();
+        return NegQColor();
     }
     if (m_isInWheel) {
         qreal w = wheelSize();
@@ -74,13 +128,16 @@ QColor ColorWheel::colorForPoint(const QPoint &point)
             theta += 2.0 * M_PI;
         }
         qreal hue = (theta * 180.0 / M_PI) / 360.0;
-        return QColor::fromHsvF(hue, rad, m_color.valueF());
+        return NegQColor::fromHsvF(hue, rad, m_color.valueF());
     }
     if (m_isInSquare) {
         qreal value = 1.0 - qreal(point.y() - m_margin) / (wheelSize() - m_margin * 2);
-        return QColor::fromHsvF(m_color.hueF(), m_color.saturationF(), value);
+        if (!qFuzzyCompare(m_zeroShift, 0.)) {
+            value=value-m_zeroShift;
+        }
+        return NegQColor::fromHsvF(m_color.hueF(), m_color.saturationF(), value);
     }
-    return QColor();
+    return NegQColor();
 }
 
 QSize ColorWheel::sizeHint() const
@@ -107,7 +164,7 @@ void ColorWheel::mousePressEvent(QMouseEvent *event)
             qreal g = m_color.greenF();
             qreal max = qMax(r, b);
             max = qMax(max, g);
-            changeColor(QColor::fromRgbF(max, max, max));
+            changeColor(NegQColor::fromRgbF(max, max, max));
         }
     } else if (m_sliderRegion.contains(m_lastPoint)) {
         m_isInWheel = false;
@@ -115,14 +172,8 @@ void ColorWheel::mousePressEvent(QMouseEvent *event)
         if (event->button() != Qt::MidButton) {
             changeColor(colorForPoint(m_lastPoint));
         } else {
-            QColor c;
-            if (m_id == QLatin1String("lift")) {
-                c = QColor::fromRgbF(0, 0, 0);
-            } else if (m_id == QLatin1String("gamma")) {
-                c = QColor::fromRgbF(0.5, 0.5, 0.5);
-            } else {
-                c = QColor::fromRgbF(0.25, 0.25, 0.25);
-            }
+            NegQColor c;
+            c = NegQColor::fromRgbF(m_defaultValue/m_sizeFactor, m_defaultValue/m_sizeFactor, m_defaultValue/m_sizeFactor);
             changeColor(c);
         }
     }
@@ -136,10 +187,10 @@ void ColorWheel::mouseMoveEvent(QMouseEvent *event)
         return;
     }
     if (m_wheelRegion.contains(m_lastPoint) && m_isInWheel) {
-        const QColor color = colorForPoint(m_lastPoint);
+        const NegQColor color = colorForPoint(m_lastPoint);
         changeColor(color);
     } else if (m_sliderRegion.contains(m_lastPoint) && m_isInSquare) {
-        const QColor color = colorForPoint(m_lastPoint);
+        const NegQColor color = colorForPoint(m_lastPoint);
         changeColor(color);
     }
 }
@@ -164,17 +215,7 @@ void ColorWheel::resizeEvent(QResizeEvent *event)
 
 QString ColorWheel::getParamValues()
 {
-    if (m_id == QLatin1String("gamma")) {
-        return QString::number(m_color.redF() * 2, 'g', 2) + QLatin1Char(',') + QString::number(m_color.greenF() * 2, 'g', 2) + QLatin1Char(',') +
-               QString::number(m_color.blueF() * 2, 'g', 2);
-    }
-    if (m_id == QLatin1String("gain")) {
-        return QString::number(m_color.redF() * 4, 'g', 2) + QLatin1Char(',') + QString::number(m_color.greenF() * 4, 'g', 2) + QLatin1Char(',') +
-               QString::number(m_color.blueF() * 4, 'g', 2);
-    }
-    // default (lift)
-    return QString::number(m_color.redF(), 'g', 2) + QLatin1Char(',') + QString::number(m_color.greenF(), 'g', 2) + QLatin1Char(',') +
-           QString::number(m_color.blueF(), 'g', 2);
+    return QString::number(m_color.redF() * m_sizeFactor, 'g', 2) + QLatin1Char(',') + QString::number(m_color.greenF() * m_sizeFactor, 'g', 2) + QLatin1Char(',') + QString::number(m_color.blueF() * m_sizeFactor, 'g', 2);
 }
 
 void ColorWheel::paintEvent(QPaintEvent *event)
@@ -265,6 +306,9 @@ void ColorWheel::drawWheelDot(QPainter &painter)
 void ColorWheel::drawSliderBar(QPainter &painter)
 {
     qreal value = 1.0 - m_color.valueF();
+    if (m_id == QLatin1String("lift")) {
+        value -= m_zeroShift;
+    }
     int ws = wheelSize();
     qreal scale = qreal(ws + m_sliderWidth) / maximumWidth();
     int w = m_sliderWidth * scale;
@@ -278,7 +322,7 @@ void ColorWheel::drawSliderBar(QPainter &painter)
     painter.resetTransform();
 }
 
-void ColorWheel::changeColor(const QColor &color)
+void ColorWheel::changeColor(const NegQColor &color)
 {
     m_color = color;
     drawWheel();

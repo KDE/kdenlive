@@ -23,7 +23,7 @@
 #include "assets/assetpanel.hpp"
 #include "core.h"
 #include "effects/effectstack/model/effectstackmodel.hpp"
-#include "qml/colorwheelitem.h"
+//#include "qml/colorwheelitem.h"
 
 #include <KDeclarative/KDeclarative>
 #include <QQmlContext>
@@ -36,11 +36,11 @@ BuiltStack::BuiltStack(AssetPanel *parent)
     KDeclarative::KDeclarative kdeclarative;
     kdeclarative.setDeclarativeEngine(engine());
     kdeclarative.setupBindings();
-    qmlRegisterType<ColorWheelItem>("Kdenlive.Controls", 1, 0, "ColorWheelItem");
+    //qmlRegisterType<ColorWheelItem>("Kdenlive.Controls", 1, 0, "ColorWheelItem");
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     setMinimumHeight(300);
     // setClearColor(palette().base().color());
-    setSource(QUrl(QStringLiteral("qrc:/qml/BuiltStack.qml")));
+    //setSource(QUrl(QStringLiteral("qrc:/qml/BuiltStack.qml")));
     setFocusPolicy(Qt::StrongFocus);
     QQuickItem *root = rootObject();
     QObject::connect(root, SIGNAL(valueChanged(QString, int)), parent, SLOT(parameterChanged(QString, int)));
