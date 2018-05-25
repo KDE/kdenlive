@@ -480,12 +480,14 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int clipId, Play
 
     std::shared_ptr<Mlt::Producer> warpProducer;
     if (m_timewarpProducers.count(clipId) > 0) {
+        // remove in all cases, we add it unconditionally anyways
+        m_effectStack->removeService(m_timewarpProducers[clipId]);
         if (qFuzzyCompare(m_timewarpProducers[clipId]->get_double("warp_speed"), speed)) {
             // the producer we have is good, use it !
             warpProducer = m_timewarpProducers[clipId];
+        } else {
+            m_timewarpProducers.erase(clipId);
         }
-        // remove in all cases, we add it unconditionally anyways
-        m_effectStack->removeService(m_timewarpProducers[clipId]);
     }
     if (!warpProducer) {
         QString resource = QString("timewarp:%1:%2").arg(speed).arg(originalProducer()->get("resource"));
@@ -502,7 +504,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int clipId, Play
     }
     m_timewarpProducers[clipId] = warpProducer;
     m_effectStack->addService(m_timewarpProducers[clipId]);
-    return warpProducer;
+    return std::shared_ptr<Mlt::Producer>(warpProducer->cut());
 }
 
 std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTimelineProducer(int clipId, std::shared_ptr<Mlt::Producer> master,

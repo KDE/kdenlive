@@ -122,9 +122,9 @@ void ClipModel::deregisterClipToBin()
 
 ClipModel::~ClipModel() {}
 
+
 bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool logUndo)
 {
-    qDebug() << "++++++++++ PERFORMAING CLIP RESIZE==: "<<size;
     QWriteLocker locker(&m_lock);
     //qDebug() << "RESIZE CLIP" << m_id << "target size=" << size << "right=" << right << "endless=" << m_endlessResize << "total length" <<
     //m_producer->get_length() << "current length" << getPlaytime();
@@ -136,13 +136,7 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
     if (delta == 0) {
         return true;
     }
-    int in = m_producer->get_in();
-    int out = m_producer->get_out();
-
-    if (!m_endlessResize && (size <= 0 || size > m_producer->get_length())) {
-        return false;
-    }
-    return requestResize(in, out, oldDuration, delta, right, undo, redo, logUndo);
+    return requestResize(m_producer->get_in(), m_producer->get_out(), oldDuration, delta, right, undo, redo, logUndo);
 }
 
 
@@ -369,7 +363,7 @@ void ClipModel::refreshProducerFromBin()
 
 bool ClipModel::useTimewarpProducer(double speed, int extraSpace, Fun &undo, Fun &redo)
 {
-    if (m_endlessResize) {
+    if (m_endlessResize || qFuzzyCompare(speed, m_speed)) {
         // no timewarp for endless producers
         return false;
     }
@@ -378,28 +372,60 @@ bool ClipModel::useTimewarpProducer(double speed, int extraSpace, Fun &undo, Fun
     double previousSpeed = getSpeed();
     int old_in = getIn();
     int old_out = getOut();
-    int oldDuration = getPlaytime();
-    int new_in = int(double(old_in) * previousSpeed / speed);
-    int new_out = int(double(old_out) * previousSpeed / speed);
-    int delta = oldDuration - (new_out - new_in);
-    if (extraSpace > 0 && (new_out - old_out >= extraSpace)) {
-        delta = -extraSpace;
-    }
+    int oldDuration = old_out - old_in;
+    int newIn = old_in * previousSpeed / speed;
     auto operation = useTimewarpProducer_lambda(speed);
-    if (operation()) {
-        auto reverse = useTimewarpProducer_lambda(previousSpeed);
-        UPDATE_UNDO_REDO(operation, reverse, local_undo, local_redo);
-        // timewarp can change the clip out, so we need to 
-        bool res = requestResize(old_in, old_out, oldDuration, delta, true, local_undo, local_redo, true);
-        if (!res) {
-            bool undone = local_undo();
-            Q_ASSERT(undone);
-            return false;
-        }
-        UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
+    Fun newInOperation = [this, newIn]() {
+        int duration = m_producer->get_playtime() - 1;
+        m_producer->set_in_and_out(newIn, newIn + duration);
         return true;
+    };
+    Fun oldInOperation = [this, old_in]() {
+        int duration = m_producer->get_playtime() - 1;
+        m_producer->set_in_and_out(old_in, old_in + duration);
+        return true;
+    };
+    int newDuration = int(double(oldDuration) * previousSpeed / speed);
+    int delta = oldDuration - newDuration;
+    if (extraSpace > 0 && (newDuration >= extraSpace)) {
+        newDuration = extraSpace;
     }
-    return false;
+    auto reverse = useTimewarpProducer_lambda(previousSpeed);
+    bool res = false;
+    // We have 2 different cases here to have a working undo. If the speed is slowed (<1), duration will be increased
+    // So the new out point might be outside current clip. So we perform the producer change, then resize
+    if (speed < previousSpeed) {
+        // Update to timewarp producer, duration is longer.
+        res = operation();
+        if (res) {
+            UPDATE_UNDO_REDO(operation, reverse, local_undo, local_redo);
+            // Adjust length
+            res = requestResize(old_in, old_out, oldDuration, oldDuration - newDuration, true, local_undo, local_redo, true);
+            if (res) {
+                // Set the new in point
+                newInOperation();
+                UPDATE_UNDO_REDO(newInOperation, oldInOperation, local_undo, local_redo);
+            }
+        }
+    } else {
+        // Speed is increased (>1), duration will be shortened
+        // So we first resize to the new duration, then change the producer
+        // Resize to shortened length
+        // Switch to timewarp producer
+        res = requestResize(old_in, old_out, oldDuration, oldDuration - newDuration, true, local_undo, local_redo, true);
+        if (res) {
+            UPDATE_UNDO_REDO(newInOperation, oldInOperation, local_undo, local_redo);
+            UPDATE_UNDO_REDO(operation, reverse, local_undo, local_redo);
+            // Update in point
+            newInOperation();
+            res = operation();
+        }
+    }
+    if (!res) {
+        return false;
+    }
+    UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
+    return true;
 }
 
 Fun ClipModel::useTimewarpProducer_lambda(double speed)

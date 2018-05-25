@@ -2082,41 +2082,6 @@ bool TimelineModel::checkConsistency()
     return true;
 }
 
-bool TimelineModel::requestItemResizeToPos(int itemId, int position, bool right)
-{
-    QWriteLocker locker(&m_lock);
-    Q_ASSERT(isClip(itemId) || isComposition(itemId));
-    int in, out;
-    if (isClip(itemId)) {
-        in = getClipPosition(itemId);
-        out = in + getClipPlaytime(itemId) - 1;
-    } else {
-        in = getCompositionPosition(itemId);
-        out = in + getCompositionPlaytime(itemId) - 1;
-    }
-    int size = 0;
-    if (!right) {
-        if (position < out) {
-            size = out - position;
-        }
-    } else {
-        if (position > in) {
-            size = position - in;
-        }
-    }
-    Fun undo = []() { return true; };
-    Fun redo = []() { return true; };
-    bool result = requestItemResize(itemId, size, right, true, undo, redo);
-    if (result) {
-        if (isClip(itemId)) {
-            PUSH_UNDO(undo, redo, i18n("Resize clip"));
-        } else {
-            PUSH_UNDO(undo, redo, i18n("Resize composition"));
-        }
-    }
-    return result;
-}
-
 void TimelineModel::setTimelineEffectsEnabled(bool enabled)
 {
     m_timelineEffectsEnabled = enabled;
@@ -2232,10 +2197,10 @@ bool TimelineModel::requestClipTimeWarp(int clipId, int trackId, int blankSpace,
     }
     if (success) {
         success = getTrackById(trackId)->requestClipInsertion(clipId, oldPos, true, true, local_undo, local_redo);
-        if (!success) {
-            local_undo();
-            return false;
-        }
+    }
+    if (!success) {
+        local_undo();
+        return false;
     }
     PUSH_LAMBDA(local_undo, undo);
     PUSH_LAMBDA(local_redo, redo);
@@ -2269,6 +2234,9 @@ bool TimelineModel::changeItemSpeed(int clipId, int speed)
         }
         if (result) {
             result = requestClipTimeWarp(clipId, trackId, blankSpace, speed / 100.0, undo, redo);
+        } else {
+            pCore->displayMessage(i18n("Change speed failed"), ErrorMessage);
+            undo();
         }
     } else {
         m_allClips[clipId]->useTimewarpProducer(speed, -1, undo, redo);
