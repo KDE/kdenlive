@@ -20,7 +20,6 @@ Item {
     property double frameSize: 10
     property int duration: 300
     property double timeScale: 1
-    property bool mouseOverRuler: false
     property real baseUnit: fontMetrics.font.pointSize
     property int mouseRulerPos: 0
     onOffsetxChanged: canvas.requestPaint()

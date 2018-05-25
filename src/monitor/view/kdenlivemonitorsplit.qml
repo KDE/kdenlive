@@ -12,7 +12,6 @@ Item {
     property double timeScale: 1
     property double frameSize: 10
     property int duration: 300
-    property bool mouseOverRuler: false
     property int mouseRulerPos: 0
     property int splitterPos
     property point center

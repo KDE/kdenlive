@@ -1092,7 +1092,7 @@ void Monitor::checkOverlay(int pos)
         if (!found) {
             if (pos == zone.x()) {
                 overlayText = i18n("In Point");
-            } else if (pos == zone.y()) {
+            } else if (pos == zone.y() - 1) {
                 overlayText = i18n("Out Point");
             }
         } else {
@@ -1213,9 +1213,6 @@ void Monitor::adjustRulerSize(int length, std::shared_ptr<MarkerListModel> marke
         connect(markerModel.get(), SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &, const QVector<int> &)), this, SLOT(checkOverlay()));
         connect(markerModel.get(), SIGNAL(rowsInserted(const QModelIndex &, int, int)), this, SLOT(checkOverlay()));
         connect(markerModel.get(), SIGNAL(rowsRemoved(const QModelIndex &, int, int)), this, SLOT(checkOverlay()));
-        if (m_controller) {
-            markerModel->registerSnapModel(m_snaps);
-        }
     }
 }
 
@@ -1374,6 +1371,7 @@ void Monitor::slotOpenClip(std::shared_ptr<ProjectClip> controller, int in, int 
         m_glMonitor->setProducer(m_controller->originalProducer().get(), isActive(), in);
         m_audioMeterWidget->audioChannels = controller->audioInfo() ? controller->audioInfo()->channels() : 0;
         m_glMonitor->setAudioThumb(controller->audioChannels(), controller->audioFrameCache);
+        m_controller->getMarkerModel()->registerSnapModel(m_snaps);
         // hasEffects =  controller->hasEffects();
     } else {
         m_glMonitor->setProducer(nullptr, isActive());

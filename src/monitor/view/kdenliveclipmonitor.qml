@@ -28,7 +28,6 @@ Item {
     property bool showToolbar: false
     property real baseUnit: fontMetrics.font.pointSize
     property int duration: 300
-    property bool mouseOverRuler: false
     property int mouseRulerPos: 0
     property double frameSize: 10
     property double timeScale: 1

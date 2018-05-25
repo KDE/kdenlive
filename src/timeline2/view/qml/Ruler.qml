@@ -168,23 +168,25 @@ Rectangle {
         }
         // Zone frame indicator
         Rectangle {
-            visible: trimInMouseArea.drag.active || moveMouseArea2.drag.active || (useTimelineRuler && showZoneLabels && labelSize * 2 < zone.width)
+            visible: useTimelineRuler && (trimInMouseArea.drag.active || moveMouseArea2.drag.active || (useTimelineRuler && showZoneLabels && labelSize * 2 < zone.width))
             width: inLabel.contentWidth
-            height: zone.height
+            height: inLabel.contentHeight
+            anchors.bottom: zone.top
             color: activePalette.highlight
             opacity: 0.8
             Label {
                 id: inLabel
                 anchors.fill: parent
                 text: timeline.timecode(timeline.zoneIn)
-                font.pixelSize: zone.height
+                font.pointSize: root.baseUnit
                 color: activePalette.highlightedText
             }
         }
         Rectangle {
-            visible: trimOutMouseArea.drag.active || (useTimelineRuler && showZoneLabels && labelSize * 2 < zone.width)
+            visible: useTimelineRuler && (trimOutMouseArea.drag.active || (useTimelineRuler && showZoneLabels && labelSize * 2 < zone.width))
             width: outLabel.contentWidth
-            height: zone.height
+            height: outLabel.contentHeight
+            anchors.bottom: zone.top
             color: activePalette.highlight
             opacity: 0.8
             x: zone.width - outLabel.contentWidth
@@ -192,16 +194,17 @@ Rectangle {
                 id: outLabel
                 anchors.fill: parent
                 text: timeline.timecode(timeline.zoneOut)
-                font.pixelSize: zone.height
+                font.pointSize: root.baseUnit
                 color: activePalette.highlightedText
             }
         }
         Rectangle {
             id: durationRect
-            visible: parent.width > 2 * width && !trimInMouseArea.drag.active && !trimOutMouseArea.drag.active
+            anchors.bottom: zone.top
+            visible: useTimelineRuler && (parent.width > 2 * width && !trimInMouseArea.drag.active && !trimOutMouseArea.drag.active)
             anchors.horizontalCenter: parent.horizontalCenter
-            width: durationLabel.contentWidth
-            height: zone.height
+            width: durationLabel.contentWidth + 4
+            height: durationLabel.contentHeight
             color: activePalette.highlight
             opacity: moveMouseArea2.drag.active ? 0 : 1
             MouseArea {
@@ -234,8 +237,9 @@ Rectangle {
             Label {
                 id: durationLabel
                 anchors.fill: parent
+                horizontalAlignment: Text.AlignHCenter
                 text: timeline.timecode(timeline.zoneOut - timeline.zoneIn)
-                font.pixelSize: zone.height
+                font.pointSize: root.baseUnit
                 color: activePalette.highlightedText
             }
         }

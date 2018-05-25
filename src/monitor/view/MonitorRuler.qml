@@ -42,63 +42,10 @@ Rectangle {
             opacity: 0.5
         }
     }
-
-    // markers
-    Repeater {
-        model: markersModel
-        delegate:
-        Item {
-            anchors.fill: parent
-            Rectangle {
-                id: markerBase
-                width: 1
-                height: parent.height
-                x: (model.frame) * root.timeScale;
-                color: model.color
-            }
-            Rectangle {
-                visible: mlabel.visible
-                opacity: 0.7
-                x: markerBase.x
-                radius: 2
-                width: mlabel.contentWidth
-                height: mlabel.contentHeight
-                anchors {
-                    bottom: parent.top
-                }
-                color: model.color
-                Text {
-                    id: mlabel
-                    visible: true //mouseOverRuler && Math.abs(root.mouseRulerPos - markerBase.x) < 4
-                    text: model.comment
-                    font.pixelSize: root.baseUnit
-                    anchors {
-                        fill: parent
-                        //topMargin: 2
-                        //leftMargin: 2
-                    }
-                    color: 'white'
-                }
-                MouseArea {
-                    z: 10
-                    anchors.fill: parent
-                    acceptedButtons: Qt.LeftButton
-                    cursorShape: Qt.PointingHandCursor
-                    hoverEnabled: true
-                    //onDoubleClicked: timeline.editMarker(clipRoot.binId, model.frame)
-                    onClicked: {
-                        controller.requestSeekPosition(markerBase.x / root.timeScale)
-                    }
-                }
-            }
-        }
-    }
     MouseArea {
         id: rulerMouseArea
         anchors.fill: parent
         hoverEnabled: true
-        onEntered: root.mouseOverRuler = true;
-        onExited: root.mouseOverRuler = false;
         onPressed: {
             if (mouse.buttons === Qt.LeftButton) {
                 controller.requestSeekPosition(Math.min(mouseX / root.timeScale, root.duration));
@@ -116,7 +63,7 @@ Rectangle {
     // Zone duration indicator
     Rectangle {
         visible: zoneToolTipTimer.running || rulerMouseArea.containsMouse || trimInMouseArea.containsMouse || trimInMouseArea.pressed || trimOutMouseArea.containsMouse || trimOutMouseArea.pressed
-        width: inLabel.contentWidth
+        width: inLabel.contentWidth + 4
         height: inLabel.contentHeight
         property int centerPos: zone.x + zone.width / 2 - inLabel.contentWidth / 2
         x: centerPos < 0 ? 0 : centerPos > ruler.width - inLabel.contentWidth ? ruler.width - inLabel.contentWidth : centerPos
@@ -125,8 +72,9 @@ Rectangle {
         Label {
             id: inLabel
             anchors.fill: parent
+            horizontalAlignment: Text.AlignHCenter
             text: trimInMouseArea.containsMouse || trimInMouseArea.pressed ? controller.toTimecode(controller.zoneIn) + '>' + controller.toTimecode(controller.zoneOut - controller.zoneIn) : trimOutMouseArea.containsMouse || trimOutMouseArea.pressed ? controller.toTimecode(controller.zoneOut - controller.zoneIn) + '<' + controller.toTimecode(controller.zoneOut) : controller.toTimecode(controller.zoneOut - controller.zoneIn)
-            font.pixelSize: root.baseUnit
+            font.pointSize: root.baseUnit
             color: activePalette.highlightedText
         }
     }
@@ -194,6 +142,57 @@ Rectangle {
             onPositionChanged: {
                 if (mouse.buttons === Qt.LeftButton) {
                     controller.zoneOut = Math.round((trimOut.x + trimOut.width) / root.timeScale)
+                }
+            }
+        }
+    }
+
+    // markers
+    Repeater {
+        model: markersModel
+        delegate:
+        Item {
+            anchors.fill: parent
+            Rectangle {
+                id: markerBase
+                width: 1
+                height: parent.height
+                x: (model.frame) * root.timeScale;
+                color: model.color
+            }
+            Rectangle {
+                visible: !rulerMouseArea.pressed && (guideArea.containsMouse || (rulerMouseArea.containsMouse && Math.abs(rulerMouseArea.mouseX - markerBase.x) < 4))
+                opacity: 0.7
+                property int guidePos: markerBase.x - mlabel.contentWidth / 2
+                x: guidePos < 0 ? 0 : (guidePos > (parent.width - mlabel.contentWidth) ? parent.width - mlabel.contentWidth : guidePos)
+                radius: 2
+                width: mlabel.contentWidth
+                height: mlabel.contentHeight * .8
+                anchors {
+                    bottom: parent.top
+                }
+                color: model.color
+                Text {
+                    id: mlabel
+                    text: model.comment
+                    font.pointSize: root.baseUnit
+                    verticalAlignment: Text.AlignVCenter
+                    anchors {
+                        fill: parent
+                    }
+                    color: 'white'
+                }
+                MouseArea {
+                    z: 10
+                    id: guideArea
+                    anchors.fill: parent
+                    acceptedButtons: Qt.LeftButton
+                    cursorShape: Qt.PointingHandCursor
+                    hoverEnabled: true
+                    //onDoubleClicked: timeline.editMarker(clipRoot.binId, model.frame)
+                    onClicked: {
+                        controller.requestSeekPosition(model.frame)
+                    }
                 }
             }
         }
