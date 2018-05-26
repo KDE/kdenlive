@@ -703,13 +703,13 @@ void TimelineController::setZone(const QPoint &zone)
         m_model->removeSnap(m_zone.x());
     }
     if (m_zone.y() > 0) {
-        m_model->removeSnap(m_zone.y());
+        m_model->removeSnap(m_zone.y() - 1);
     }
     if (zone.x() > 0) {
         m_model->addSnap(zone.x());
     }
     if (zone.y() > 0) {
-        m_model->addSnap(zone.y());
+        m_model->addSnap(zone.y() - 1);
     }
     m_zone = zone;
     emit zoneChanged();
@@ -730,10 +730,10 @@ void TimelineController::setZoneIn(int inPoint)
 void TimelineController::setZoneOut(int outPoint)
 {
     if (m_zone.y() > 0) {
-        m_model->removeSnap(m_zone.y());
+        m_model->removeSnap(m_zone.y() - 1);
     }
     if (outPoint > 0) {
-        m_model->addSnap(outPoint);
+        m_model->addSnap(outPoint - 1);
     }
     m_zone.setY(outPoint);
     emit zoneMoved(m_zone);

@@ -137,11 +137,11 @@ void MonitorProxy::setZoneIn(int pos)
 void MonitorProxy::setZoneOut(int pos)
 {
     if (m_zoneOut > 0) {
-        emit removeSnap(m_zoneOut);
+        emit removeSnap(m_zoneOut - 1);
     }
     m_zoneOut = pos;
     if (pos > 0) {
-        emit addSnap(pos);
+        emit addSnap(pos - 1);
     }
     emit zoneChanged();
 }
@@ -152,7 +152,7 @@ void MonitorProxy::setZone(int in, int out)
         emit removeSnap(m_zoneIn);
     }
     if (m_zoneOut > 0) {
-        emit removeSnap(m_zoneOut);
+        emit removeSnap(m_zoneOut - 1);
     }
     m_zoneIn = in;
     m_zoneOut = out;
@@ -160,7 +160,7 @@ void MonitorProxy::setZone(int in, int out)
         emit addSnap(m_zoneIn);
     }
     if (m_zoneOut > 0) {
-        emit addSnap(m_zoneOut);
+        emit addSnap(m_zoneOut - 1);
     }
     emit zoneChanged();
 }
