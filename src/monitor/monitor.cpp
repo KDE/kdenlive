@@ -1121,7 +1121,7 @@ void Monitor::slotZoneStart()
 void Monitor::slotZoneEnd()
 {
     slotActivateMonitor();
-    m_glMonitor->getControllerProxy()->pauseAndSeek(m_glMonitor->getControllerProxy()->zoneOut());
+    m_glMonitor->getControllerProxy()->pauseAndSeek(m_glMonitor->getControllerProxy()->zoneOut() - 1);
 }
 
 void Monitor::slotRewind(double speed)
