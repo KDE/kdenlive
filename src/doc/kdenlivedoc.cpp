@@ -95,7 +95,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGro
     m_documentProperties[QStringLiteral("zoom")] = QLatin1Char('7');
     m_documentProperties[QStringLiteral("verticalzoom")] = QLatin1Char('1');
     m_documentProperties[QStringLiteral("zonein")] = QLatin1Char('0');
-    m_documentProperties[QStringLiteral("zoneout")] = QStringLiteral("100");
+    m_documentProperties[QStringLiteral("zoneout")] = QStringLiteral("-1");
     m_documentProperties[QStringLiteral("enableproxy")] = QString::number((int)KdenliveSettings::enableproxy());
     m_documentProperties[QStringLiteral("proxyparams")] = KdenliveSettings::proxyparams();
     m_documentProperties[QStringLiteral("proxyextension")] = KdenliveSettings::proxyextension();

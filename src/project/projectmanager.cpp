@@ -209,7 +209,8 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
     pCore->window()->m_timelineArea->addTab(m_trackView, QIcon::fromTheme(QStringLiteral("kdenlive")), doc->description());*/
     // END of things to delete
     m_project = doc;
-    updateTimeline();
+    pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
+    updateTimeline(0);
     /*if (!ok) {
         // MLT is broken
         //pCore->window()->m_timelineArea->setEnabled(false);
@@ -217,7 +218,6 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
         pCore->window()->slotPreferences(6);
         return;
     }*/
-    pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
     pCore->window()->connectDocument();
     bool disabled = m_project->getDocumentProperty(QStringLiteral("disabletimelineeffects")) == QLatin1String("1");
     QAction *disableEffects = pCore->window()->actionCollection()->action(QStringLiteral("disable_timeline_effects"));
