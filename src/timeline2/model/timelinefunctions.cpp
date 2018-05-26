@@ -259,10 +259,15 @@ bool TimelineFunctions::insertZone(std::shared_ptr<TimelineItemModel> timeline, 
         }
         result = TimelineFunctions::insertSpace(timeline, trackId, QPoint(insertFrame, insertFrame + (zone.y() - zone.x())), undo, redo);
     }
-    int newId = -1;
-    QString binClipId = QString("%1/%2/%3").arg(binId).arg(zone.x()).arg(zone.y() - 1);
-    timeline->requestClipInsertion(binClipId, trackId, insertFrame, newId, true, true, true, undo, redo);
-    pCore->pushUndo(undo, redo, overwrite ? i18n("Overwrite zone") : i18n("Insert zone"));
+    if (result) {
+        int newId = -1;
+        QString binClipId = QString("%1/%2/%3").arg(binId).arg(zone.x()).arg(zone.y() - 1);
+        result = timeline->requestClipInsertion(binClipId, trackId, insertFrame, newId, true, true, true, undo, redo);
+        pCore->pushUndo(undo, redo, overwrite ? i18n("Overwrite zone") : i18n("Insert zone"));
+    }
+    if (!result){
+        undo();
+    }
     return result;
 }
 
