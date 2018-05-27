@@ -352,7 +352,7 @@ public:
     void switchCompositing(int mode);
 
     /** @brief Change a clip item's speed in timeline */
-    Q_INVOKABLE void changeItemSpeed(int clipId, int speed);
+    Q_INVOKABLE void changeItemSpeed(int clipId, double speed);
     /** @brief Delete selected zone and fill gap by moving following clips
      *  @param lift if true, the zone will simply be deleted but clips won't be moved
      */

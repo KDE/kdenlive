@@ -160,6 +160,8 @@ public:
     */
     const QString toJson() const;
     bool fromJson(const QString &data);
+
+    /* @brief if the clip belongs to a AVSplit group, then return the id of the other corresponding clip. Otherwise, returns -1 */
     int getSplitPartner(int id) const;
 
     /* @brief Check the internal consistency of the model. Returns false if something is wrong

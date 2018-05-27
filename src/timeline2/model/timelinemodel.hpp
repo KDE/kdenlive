@@ -174,6 +174,26 @@ public:
     /* @brief Convenience function that calls either of the previous ones based on item type*/
     int getItemTrackId(int itemId) const;
 
+    Q_INVOKABLE int getCompositionPosition(int compoId) const;
+    int getCompositionPlaytime(int compoId) const;
+
+    /* Returns an item position, item can be clip or composition */
+    int getItemPosition(int itemId) const;
+    /* Returns an item duration, item can be clip or composition */
+    int getItemPlaytime(int itemId) const;
+
+    /* Returns the current speed of a clip */
+    double getClipSpeed(int clipId) const;
+
+    /* @brief Helper function to query the amount of free space around a clip
+     * @param clipId: the queried clip. If it is not inserted on a track, this functions returns 0
+     * @param after: if true, we return the blank after the clip, otherwise, before.
+     */
+    int getBlankSizeNearClip(int clipId, bool after) const;
+
+    /* @brief if the clip belongs to a AVSplit group, then return the id of the other corresponding clip. Otherwise, returns -1 */
+    int getClipSplitPartner(int clipId) const;
+
     /* @brief Helper function that returns true if the given ID corresponds to a clip */
     bool isClip(int id) const;
 
@@ -197,7 +217,6 @@ public:
     Q_INVOKABLE int getClipPosition(int clipId) const;
     Q_INVOKABLE bool addClipEffect(int clipId, const QString &effectId);
     Q_INVOKABLE bool addTrackEffect(int trackId, const QString &effectId);
-    double getClipSpeed(int clipId) const;
     bool removeFade(int clipId, bool fromStart);
     Q_INVOKABLE bool copyClipEffect(int clipId, const QString &sourceId);
     bool adjustEffectLength(int clipId, const QString &effectId, int duration, int initialDuration);
@@ -283,14 +302,6 @@ public:
        for group*/
     bool requestClipMove(int clipId, int trackId, int position, bool updateView, bool invalidateTimeline, Fun &undo, Fun &redo);
     bool requestCompositionMove(int transid, int trackId, int compositionTrack, int position, bool updateView, Fun &undo, Fun &redo);
-
-    Q_INVOKABLE int getCompositionPosition(int compoId) const;
-    int getCompositionPlaytime(int compoId) const;
-
-    /* Returns an item position, item can be clip or composition */
-    int getItemPosition(int itemId) const;
-    /* Returns an item duration, item can be clip or composition */
-    int getItemPlaytime(int itemId) const;
 
     /* @brief Given an intended move, try to suggest a more valid one
        (accounting for snaps and missing UI calls)
@@ -517,7 +528,7 @@ public:
 
     /** @brief Add slowmotion effect to clip in timeline. */
     bool requestClipTimeWarp(int clipId, int trackId, int blankSpace, double speed, Fun &undo, Fun &redo);
-    bool changeItemSpeed(int clipId, int speed);
+    bool changeItemSpeed(int clipId, double speed);
     void replugClip(int clipId);
     /** @brief Refresh the tractor profile in case a change was requested. */
     void updateProfile(Mlt::Profile *profile);

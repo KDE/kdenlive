@@ -1255,12 +1255,27 @@ void TimelineController::invalidateZone(int in, int out)
     m_timelinePreview->invalidatePreview(in, out);
 }
 
-void TimelineController::changeItemSpeed(int clipId, int speed)
+void TimelineController::changeItemSpeed(int clipId, double speed)
 {
     if (speed == -1) {
-        speed = 100 * m_model->m_allClips[clipId]->getSpeed();
-        bool ok;
-        speed = QInputDialog::getInt(QApplication::activeWindow(), i18n("Clip Speed"), i18n("Percentage"), speed, -100000, 100000, 1, &ok);
+        speed = 100 * m_model->getClipSpeed(clipId);
+        bool ok = false;
+        double duration = m_model->getItemPlaytime(clipId);
+        // this is the max speed so that the clip is at least one frame long
+        double maxSpeed = 100. * duration * qAbs(m_model->getClipSpeed(clipId));
+        // this is the min speed so that the clip doesn't bump into the next one on track
+        double minSpeed = 100. * duration * qAbs(m_model->getClipSpeed(clipId)) / (duration + double(m_model->getBlankSizeNearClip(clipId, true)) - 1);
+
+        // if there is a split partner, we must also take it into account
+        int partner = m_model->getClipSplitPartner(clipId);
+        if (partner != -1) {
+            double duration2 = m_model->getItemPlaytime(partner);
+            double maxSpeed2 = 100. * duration2 * qAbs(m_model->getClipSpeed(partner));
+            double minSpeed2 = 100. * duration2 * qAbs(m_model->getClipSpeed(partner)) / (duration2 + double(m_model->getBlankSizeNearClip(partner, true)) - 1);
+            minSpeed = std::max(minSpeed, minSpeed2);
+            maxSpeed = std::min(maxSpeed, maxSpeed2);
+        }
+        speed = QInputDialog::getDouble(QApplication::activeWindow(), i18n("Clip Speed"), i18n("Percentage"), speed, minSpeed, maxSpeed, 2, &ok);
         if (!ok) {
             return;
         }

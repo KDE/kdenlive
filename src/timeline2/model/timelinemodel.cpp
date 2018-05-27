@@ -182,6 +182,13 @@ double TimelineModel::getClipSpeed(int clipId) const
     return m_allClips.at(clipId)->getSpeed();
 }
 
+int TimelineModel::getClipSplitPartner(int clipId) const
+{
+    READ_LOCK();
+    Q_ASSERT(m_allClips.count(clipId) > 0);
+    return m_groups->getSplitPartner(clipId);
+}
+
 int TimelineModel::getClipIn(int clipId) const
 {
     READ_LOCK();
@@ -881,7 +888,8 @@ bool TimelineModel::requestGroupMove(int clipId, int groupId, int delta_track, i
     return res;
 }
 
-bool TimelineModel::requestGroupMove(int clipId, int groupId, int delta_track, int delta_pos, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool allowViewRefresh)
+bool TimelineModel::requestGroupMove(int clipId, int groupId, int delta_track, int delta_pos, bool updateView, bool finalMove, Fun &undo, Fun &redo,
+                                     bool allowViewRefresh)
 {
 #ifdef LOGGING
     m_logFile << "timeline->requestGroupMove(" << clipId << "," << groupId << " ," << delta_track << ", " << delta_pos << ", "
@@ -2186,6 +2194,9 @@ void TimelineModel::requestClipUpdate(int clipId, const QVector<int> &roles)
 bool TimelineModel::requestClipTimeWarp(int clipId, int trackId, int blankSpace, double speed, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
+    if (qFuzzyCompare(speed, m_allClips[clipId]->getSpeed())) {
+        return true;
+    }
     std::function<bool(void)> local_undo = []() { return true; };
     std::function<bool(void)> local_redo = []() { return true; };
     int oldPos = getClipPosition(clipId);
@@ -2206,18 +2217,17 @@ bool TimelineModel::requestClipTimeWarp(int clipId, int trackId, int blankSpace,
     return success;
 }
 
-bool TimelineModel::changeItemSpeed(int clipId, int speed)
+bool TimelineModel::changeItemSpeed(int clipId, double speed)
 {
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     // Get main clip info
     int trackId = getClipTrackId(clipId);
-    int splitId = -1;
-    // Check if clip has a split partner
     bool result = true;
     if (trackId != -1) {
         int blankSpace = getTrackById(trackId)->getBlankSizeNearClip(clipId, true);
-        splitId = m_groups->getSplitPartner(clipId);
+        // Check if clip has a split partner
+        int splitId = m_groups->getSplitPartner(clipId);
         bool success = true;
         if (splitId > -1) {
             int split_trackId = getClipTrackId(splitId);
@@ -2238,6 +2248,7 @@ bool TimelineModel::changeItemSpeed(int clipId, int speed)
             undo();
         }
     } else {
+        // If clip is not inserted on a track, we just change the producer
         m_allClips[clipId]->useTimewarpProducer(speed, -1, undo, redo);
     }
     if (result) {
@@ -2249,6 +2260,7 @@ bool TimelineModel::changeItemSpeed(int clipId, int speed)
 
 const QString TimelineModel::getTrackTagById(int trackId) const
 {
+    READ_LOCK();
     Q_ASSERT(isTrack(trackId));
     bool isAudio = getTrackById_const(trackId)->isAudioTrack();
     int count = 1;
@@ -2276,4 +2288,15 @@ void TimelineModel::updateProfile(Mlt::Profile *profile)
 {
     m_profile = profile;
     m_tractor->set_profile(*m_profile);
+}
+
+int TimelineModel::getBlankSizeNearClip(int clipId, bool after) const
+{
+    READ_LOCK();
+    Q_ASSERT(m_allClips.count(clipId) > 0);
+    int trackId = getClipTrackId(clipId);
+    if (trackId != -1) {
+        return getTrackById_const(trackId)->getBlankSizeNearClip(clipId, after);
+    }
+    return 0;
 }
