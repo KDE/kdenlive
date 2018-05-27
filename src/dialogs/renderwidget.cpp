@@ -50,8 +50,14 @@
 #include <QThread>
 #include <QTimer>
 #include <QTreeWidgetItem>
+#include <QJsonObject>
 #include <qglobal.h>
 #include <qstring.h>
+
+#ifdef KF5_USE_PURPOSE
+#include <Purpose/AlternativesModel>
+#include <PurposeWidgets/Menu>
+#endif
 
 #include <locale>
 #ifdef Q_OS_MAC
@@ -348,6 +354,13 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, QWidg
         (!interface->isServiceRegistered(QStringLiteral("org.kde.ksmserver")) && !interface->isServiceRegistered(QStringLiteral("org.gnome.SessionManager")))) {
         m_view.shutdown->setEnabled(false);
     }
+
+#ifdef KF5_USE_PURPOSE
+    m_shareMenu = new Purpose::Menu();
+    m_view.shareButton->setMenu(m_shareMenu);
+#else
+    m_view.shareButton->setEnabled(false);
+#endif
     refreshView();
     focusFirstVisibleItem();
     adjustSize();
@@ -2219,6 +2232,12 @@ void RenderWidget::setRenderStatus(const QString &dest, int status, const QStrin
         est.append(when.toString(QStringLiteral("hh:mm:ss")));
         QString t = i18n("Rendering finished in %1", est);
         item->setData(1, Qt::UserRole, t);
+
+#ifdef KF5_USE_PURPOSE
+        m_shareMenu->model()->setInputData(QJsonObject{ {QStringLiteral("mimeType"), QStringLiteral("video/mp4")}, {QStringLiteral("urls"), item->text(1)}});
+        m_shareMenu->model()->setPluginType(QStringLiteral("Export"));
+        m_shareMenu->reload();
+#endif
         QString notif = i18n("Rendering of %1 finished in %2", item->text(1), est);
         KNotification *notify = new KNotification(QStringLiteral("RenderFinished"));
         notify->setText(notif);
@@ -2288,6 +2307,16 @@ void RenderWidget::slotCheckJob()
             m_view.start_job->setEnabled(current->status() == WAITINGJOB);
         }
         activate = true;
+#ifdef KF5_USE_PURPOSE
+        if (current->status() == FINISHEDJOB) {
+            m_shareMenu->model()->setInputData(QJsonObject{ {QStringLiteral("mimeType"), QMimeDatabase().mimeTypeForFile(current->text(1)).name()}, {QStringLiteral("urls"), current->text(1)}});
+            m_shareMenu->model()->setPluginType(QStringLiteral("Export"));
+            m_shareMenu->reload();
+            m_view.shareButton->setEnabled(true);
+        } else {
+            m_view.shareButton->setEnabled(false);
+        }
+#endif
     }
     m_view.abort_job->setEnabled(activate);
     /*

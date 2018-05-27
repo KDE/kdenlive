@@ -26,6 +26,10 @@
 #include <QPushButton>
 #include <QStyledItemDelegate>
 
+#ifdef KF5_USE_PURPOSE
+namespace Purpose { class Menu; }
+#endif
+
 #include "definitions.h"
 #include "ui_renderwidget_ui.h"
 
@@ -204,6 +208,9 @@ private:
     KMessageWidget *m_infoMessage;
     QMap<int, QString> m_errorMessages;
 
+#ifdef KF5_USE_PURPOSE
+    Purpose::Menu *m_shareMenu;
+#endif
     void parseMltPresets();
     void parseProfiles(const QString &selectedProfile = QString());
     void parseFile(const QString &exportFile, bool editable);

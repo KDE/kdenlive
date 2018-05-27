@@ -95,13 +95,20 @@ else()
   set(KF5_ICON_COMPATIBILITY TRUE)
 endif()
 
-find_package(KF5 REQUIRED COMPONENTS Archive Bookmarks CoreAddons Config ConfigWidgets DBusAddons KIO WidgetsAddons NotifyConfig NewStuff XmlGui Notifications GuiAddons TextWidgets IconThemes Crash Declarative Solid OPTIONAL_COMPONENTS DocTools FileMetaData)
+find_package(KF5 REQUIRED COMPONENTS Archive Bookmarks CoreAddons Config ConfigWidgets DBusAddons KIO WidgetsAddons NotifyConfig NewStuff XmlGui Notifications GuiAddons TextWidgets IconThemes Crash Declarative Solid OPTIONAL_COMPONENTS DocTools FileMetaData Purpose PurposeWidgets)
 
 if (KF5FileMetaData_FOUND)
   message(STATUS "Found KF5 FileMetadata to extract file metadata")
   set(KF5_FILEMETADATA TRUE)
 else()
   message(STATUS "KF5 FileMetadata not found, file metadata will not be available")
+endif()
+
+if (KF5Purpose_FOUND)
+  message(STATUS "Found KF5 Purpose, filesharing enabled")
+  set(KF5_PURPOSE TRUE)
+else()
+  message(STATUS "KF5 Purpose not found, filesharing disabled")
 endif()
 
 # Search MLT package.

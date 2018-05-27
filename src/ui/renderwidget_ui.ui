@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1504</width>
-    <height>816</height>
+    <width>1236</width>
+    <height>622</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -58,11 +58,7 @@
              </widget>
             </item>
             <item>
-             <widget class="KUrlRequester" name="out_file">
-              <property name="mode">
-               <set>KFile::File|KFile::LocalOnly</set>
-              </property>
-             </widget>
+             <widget class="KUrlRequester" name="out_file" native="true"/>
             </item>
            </layout>
           </item>
@@ -785,14 +781,14 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="4">
+       <item row="2" column="5">
         <widget class="QPushButton" name="buttonClose2">
          <property name="text">
           <string>Close</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="0" colspan="5">
+       <item row="0" column="0" colspan="6">
         <widget class="QSplitter" name="splitter">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -863,7 +859,7 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="0" colspan="5">
+       <item row="1" column="0" colspan="6">
         <widget class="QCheckBox" name="shutdown">
          <property name="text">
           <string>Shutdown computer after renderings</string>
@@ -874,6 +870,22 @@
         <widget class="QPushButton" name="start_job">
          <property name="text">
           <string>Start Job</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="4">
+        <widget class="QToolButton" name="shareButton">
+         <property name="text">
+          <string>Share</string>
+         </property>
+         <property name="popupMode">
+          <enum>QToolButton::InstantPopup</enum>
+         </property>
+         <property name="toolButtonStyle">
+          <enum>Qt::ToolButtonTextBesideIcon</enum>
+         </property>
+         <property name="arrowType">
+          <enum>Qt::DownArrow</enum>
          </property>
         </widget>
        </item>
