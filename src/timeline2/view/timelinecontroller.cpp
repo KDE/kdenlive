@@ -1133,7 +1133,7 @@ int TimelineController::workingPreview() const
 
 bool TimelineController::useRuler() const
 {
-    return KdenliveSettings::useTimelineZoneToEdit();
+    return pCore->currentDoc()->getDocumentProperty(QStringLiteral("enableTimelineZone")).toInt() == 1;
 }
 
 void TimelineController::resetPreview()
@@ -1358,7 +1358,7 @@ int TimelineController::insertZone(const QString &binId, QPoint zone, bool overw
     }
     int insertPoint;
     QPoint sourceZone;
-    if (KdenliveSettings::useTimelineZoneToEdit() && m_zone != QPoint()) {
+    if (useRuler() && m_zone != QPoint()) {
         // We want to use timeline zone for in/out insert points
         insertPoint = m_zone.x();
         sourceZone = QPoint(zone.x(), zone.x() + m_zone.y() - m_zone.x());

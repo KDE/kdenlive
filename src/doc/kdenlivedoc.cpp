@@ -111,6 +111,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGro
     m_documentProperties[QStringLiteral("videoTarget")] = QString::number(tracks.y());
     m_documentProperties[QStringLiteral("audioTarget")] = QString::number(tracks.y() - 1);
     m_documentProperties[QStringLiteral("activeTrack")] = QString::number(tracks.y());
+    m_documentProperties[QStringLiteral("enableTimelineZone")] = QLatin1Char('0');
 
     // Load properties
     QMapIterator<QString, QString> i(properties);

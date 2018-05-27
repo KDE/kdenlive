@@ -552,15 +552,14 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     // Set default target tracks to upper audio / lower video tracks
     m_project = doc;
 
-    updateTimeline(m_project->getDocumentProperty(QStringLiteral("position")).toInt());
     pCore->window()->connectDocument();
+    updateTimeline(m_project->getDocumentProperty(QStringLiteral("position")).toInt());
     QDateTime documentDate = QFileInfo(m_project->url().toLocalFile()).lastModified();
     pCore->window()->getMainTimeline()->controller()->loadPreview(m_project->getDocumentProperty(QStringLiteral("previewchunks")),
                                                                   m_project->getDocumentProperty(QStringLiteral("dirtypreviewchunks")), documentDate,
                                                                   m_project->getDocumentProperty(QStringLiteral("disablepreview")).toInt());
 
     emit docOpened(m_project);
-
     pCore->window()->slotGotProgressInfo(QString(), 100);
     if (openBackup) {
         slotOpenBackup(url);
@@ -825,7 +824,7 @@ void ProjectManager::updateTimeline(int pos)
         stream << m_project->getProjectXml() << endl;
     }*/
     pCore->window()->getMainTimeline()->loading = true;
-    pCore->window()->slotSwitchTimelineZone(false);
+    pCore->window()->slotSwitchTimelineZone(m_project->getDocumentProperty(QStringLiteral("enableTimelineZone")).toInt() == 1);
     QScopedPointer<Mlt::Producer> xmlProd(new Mlt::Producer(pCore->getCurrentProfile()->profile(), "xml-string", m_project->getProjectXml().constData()));
     Mlt::Service s(*xmlProd);
     Mlt::Tractor tractor(s);

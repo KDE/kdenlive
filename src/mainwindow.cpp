@@ -977,15 +977,13 @@ void MainWindow::setupActions()
     connect(sceneMode, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this, &MainWindow::slotChangeEdit);
     addAction(QStringLiteral("timeline_mode"), sceneMode);
 
-    KDualAction *ac = new KDualAction(i18n("Don't Use Timeline Zone for Insert"), i18n("Use Timeline Zone for Insert"), this);
-    ac->setActiveIcon(KoIconUtils::themedIcon(QStringLiteral("timeline-use-zone-on")));
-    ac->setInactiveIcon(KoIconUtils::themedIcon(QStringLiteral("timeline-use-zone-off")));
-    ac->setShortcut(Qt::Key_G);
-    KdenliveSettings::setUseTimelineZoneToEdit(false);
-    ac->setActive(KdenliveSettings::useTimelineZoneToEdit());
-    ac->setAutoToggle(true);
-    connect(ac, &KDualAction::activeChangedByUser, this, &MainWindow::slotSwitchTimelineZone);
-    addAction(QStringLiteral("use_timeline_zone_in_edit"), ac);
+    m_useTimelineZone = new KDualAction(i18n("Don't Use Timeline Zone for Insert"), i18n("Use Timeline Zone for Insert"), this);
+    m_useTimelineZone->setActiveIcon(KoIconUtils::themedIcon(QStringLiteral("timeline-use-zone-on")));
+    m_useTimelineZone->setInactiveIcon(KoIconUtils::themedIcon(QStringLiteral("timeline-use-zone-off")));
+    m_useTimelineZone->setShortcut(Qt::Key_G);
+    m_useTimelineZone->setAutoToggle(true);
+    connect(m_useTimelineZone, &KDualAction::activeChangedByUser, this, &MainWindow::slotSwitchTimelineZone);
+    addAction(QStringLiteral("use_timeline_zone_in_edit"), m_useTimelineZone);
 
     m_compositeAction = new KSelectAction(KoIconUtils::themedIcon(QStringLiteral("composite-track-off")), i18n("Track compositing"), this);
     m_compositeAction->setToolTip(i18n("Track compositing"));
@@ -2088,6 +2086,7 @@ void MainWindow::connectDocument()
 
     // set tool to select tool
     setTrimMode(QString());
+
     m_buttonSelectTool->setChecked(true);
     connect(m_projectMonitorDock, &QDockWidget::visibilityChanged, m_projectMonitor, &Monitor::slotRefreshMonitor, Qt::UniqueConnection);
     connect(m_clipMonitorDock, &QDockWidget::visibilityChanged, m_clipMonitor, &Monitor::slotRefreshMonitor, Qt::UniqueConnection);
@@ -4117,15 +4116,13 @@ void MainWindow::slotChangeSpeed(int speed)
     }
 }
 
-void MainWindow::slotSwitchTimelineZone(bool toggled)
+void MainWindow::slotSwitchTimelineZone(bool active)
 {
-    KdenliveSettings::setUseTimelineZoneToEdit(toggled);
+    qDebug()<<"* * * *\nSETTING ENABLE TL ZONE: "<<(active ? QStringLiteral("1") : QStringLiteral("0"));
+    pCore->currentDoc()->setDocumentProperty(QStringLiteral("enableTimelineZone"), active ? QStringLiteral("1") : QStringLiteral("0"));
     getCurrentTimeline()->controller()->useRulerChanged();
-    QAction *action = actionCollection()->action(QStringLiteral("use_timeline_zone_in_edit"));
-    if (action) {
-        QSignalBlocker blocker(action);
-        static_cast<KDualAction *>(action)->setActive(toggled);
-    }
+    QSignalBlocker blocker(m_useTimelineZone);
+    m_useTimelineZone->setActive(active);
 }
 
 #ifdef DEBUG_MAINW

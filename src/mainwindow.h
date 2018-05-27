@@ -182,6 +182,7 @@ private:
     QMenu *m_timelineContextMenu;
     QMenu *m_timelineContextClipMenu;
     QMenu *m_timelineContextTransitionMenu;
+    KDualAction *m_useTimelineZone;
 
     /** Action names that can be used in the slotDoAction() slot, with their i18n() names */
     QStringList m_actionNames;

@@ -254,11 +254,6 @@
       <default>0</default>
     </entry>
 
-    <entry name="useTimelineZoneToEdit" type="Bool">
-    <label>Use timeline zone as in/out editing points.</label>
-      <default>false</default>
-    </entry>
-
     <entry name="clipcornertype" type="Int">
         <label>Timeline clip corners.</label>
         <default>1</default>
