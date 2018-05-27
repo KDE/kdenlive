@@ -2202,8 +2202,7 @@ bool TimelineModel::requestClipTimeWarp(int clipId, int trackId, int blankSpace,
         local_undo();
         return false;
     }
-    PUSH_LAMBDA(local_undo, undo);
-    PUSH_LAMBDA(local_redo, redo);
+    UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
     return success;
 }
 
@@ -2242,24 +2241,6 @@ bool TimelineModel::changeItemSpeed(int clipId, int speed)
         m_allClips[clipId]->useTimewarpProducer(speed, -1, undo, redo);
     }
     if (result) {
-        QVector<int> roles;
-        roles.push_back(SpeedRole);
-        Fun update_model = [clipId, roles, this]() {
-            QModelIndex modelIndex = makeClipIndexFromID(clipId);
-            notifyChange(modelIndex, modelIndex, roles);
-            return true;
-        };
-        PUSH_LAMBDA(update_model, undo);
-        PUSH_LAMBDA(update_model, redo);
-        if (splitId > -1) {
-            Fun update_model2 = [splitId, roles, this]() {
-                QModelIndex modelIndex = makeClipIndexFromID(splitId);
-                notifyChange(modelIndex, modelIndex, roles);
-                return true;
-            };
-            PUSH_LAMBDA(update_model2, undo);
-            PUSH_LAMBDA(update_model2, redo);
-        }
         PUSH_UNDO(undo, redo, i18n("Change clip speed"));
         return true;
     }

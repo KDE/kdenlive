@@ -122,12 +122,11 @@ void ClipModel::deregisterClipToBin()
 
 ClipModel::~ClipModel() {}
 
-
 bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool logUndo)
 {
     QWriteLocker locker(&m_lock);
-    //qDebug() << "RESIZE CLIP" << m_id << "target size=" << size << "right=" << right << "endless=" << m_endlessResize << "total length" <<
-    //m_producer->get_length() << "current length" << getPlaytime();
+    // qDebug() << "RESIZE CLIP" << m_id << "target size=" << size << "right=" << right << "endless=" << m_endlessResize << "total length" <<
+    // m_producer->get_length() << "current length" << getPlaytime();
     if (!m_endlessResize && (size <= 0 || size > m_producer->get_length())) {
         return false;
     }
@@ -139,12 +138,11 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
     return requestResize(m_producer->get_in(), m_producer->get_out(), oldDuration, delta, right, undo, redo, logUndo);
 }
 
-
 bool ClipModel::requestResize(int old_in, int old_out, int oldDuration, int delta, bool right, Fun &undo, Fun &redo, bool logUndo)
 {
     QWriteLocker locker(&m_lock);
-    //qDebug() << "RESIZE CLIP" << m_id << "target size=" << size << "right=" << right << "endless=" << m_endlessResize << "total length" <<
-    //m_producer->get_length() << "current length" << getPlaytime();
+    // qDebug() << "RESIZE CLIP" << m_id << "target size=" << size << "right=" << right << "endless=" << m_endlessResize << "total length" <<
+    // m_producer->get_length() << "current length" << getPlaytime();
     // check if there is enough space on the chosen side
     if (!right && old_in + delta < 0 && !m_endlessResize) {
         return false;
@@ -434,6 +432,10 @@ Fun ClipModel::useTimewarpProducer_lambda(double speed)
     return [speed, this]() {
         m_speed = speed;
         refreshProducerFromBin(m_currentState);
+        if (auto ptr = m_parent.lock()) {
+            QModelIndex ix = ptr->makeClipIndexFromID(m_id);
+            ptr->notifyChange(ix, ix, {TimelineModel::SpeedRole});
+        }
         return true;
     };
 }
@@ -497,19 +499,19 @@ Fun ClipModel::setClipState_lambda(PlaylistState::ClipState state)
     return [this, state]() {
         if (auto ptr = m_parent.lock()) {
             switch (state) {
-                case PlaylistState::Disabled:
-                    m_producer->set("set.test_audio", 1);
-                    m_producer->set("set.test_image", 1);
-                    break;
-                case PlaylistState::VideoOnly:
-                    m_producer->set("set.test_image", 0);
-                    break;
-                case PlaylistState::AudioOnly:
-                    m_producer->set("set.test_audio", 0);
-                    break;
-                default:
-                    //error
-                    break;
+            case PlaylistState::Disabled:
+                m_producer->set("set.test_audio", 1);
+                m_producer->set("set.test_image", 1);
+                break;
+            case PlaylistState::VideoOnly:
+                m_producer->set("set.test_image", 0);
+                break;
+            case PlaylistState::AudioOnly:
+                m_producer->set("set.test_audio", 0);
+                break;
+            default:
+                // error
+                break;
             }
             m_currentState = state;
             if (ptr->isClip(m_id)) { // if this is false, the clip is being created. Don't update model in that case
