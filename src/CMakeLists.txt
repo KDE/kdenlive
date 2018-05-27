@@ -301,6 +301,11 @@ endif()
 
 target_link_libraries(kdenlive Qt5::Script Qt5::Widgets Qt5::Concurrent Qt5::Qml Qt5::Quick)
 
+if (KF5_PURPOSE)
+    add_definitions(-DKF5_USE_PURPOSE)
+    target_link_libraries(kdenlive KF5::Purpose KF5::PurposeWidgets)
+endif()
+
 if (Qt5WebKitWidgets_FOUND)
     message(STATUS "Found Qt5 WebKitWidgets. You can use your Freesound.org credentials to download files")
     add_definitions(-DQT5_USE_WEBKIT)
