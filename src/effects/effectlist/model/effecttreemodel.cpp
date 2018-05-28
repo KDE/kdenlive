@@ -22,6 +22,7 @@
 #include "effecttreemodel.hpp"
 #include "abstractmodel/treeitem.hpp"
 #include "effects/effectsrepository.hpp"
+#include "kdenlivesettings.h"
 #include <KLocalizedString>
 #include <QDomDocument>
 #include <QFile>
@@ -58,6 +59,9 @@ std::shared_ptr<EffectTreeModel> EffectTreeModel::construct(const QString &categ
 
         for (int i = 0; i < groups.count(); i++) {
             QString groupName = i18n(groups.at(i).firstChild().firstChild().nodeValue().toUtf8().constData());
+            if (!KdenliveSettings::gpu_accel() && groupName == i18n("GPU effects")) {
+                continue;
+            }
             QStringList list = groups.at(i).toElement().attribute(QStringLiteral("list")).split(QLatin1Char(','), QString::SkipEmptyParts);
 
             auto groupItem = self->rootItem->appendChild(QList<QVariant>{groupName, QStringLiteral("root")});
@@ -75,6 +79,9 @@ std::shared_ptr<EffectTreeModel> EffectTreeModel::construct(const QString &categ
     // We parse effects
     auto allEffects = EffectsRepository::get()->getNames();
     for (const auto &effect : allEffects) {
+        if (!KdenliveSettings::gpu_accel() && effect.first.contains(QLatin1String("movit."))) {
+            continue;
+        }
         auto targetCategory = miscCategory;
         EffectType type = EffectsRepository::get()->getType(effect.first);
         if (effectCategory.contains(effect.first)) {
