@@ -94,7 +94,7 @@ AssetParameterModel::AssetParameterModel(Mlt::Properties *asset, const QDomEleme
                 val += out;
                 value = QString::number(val);
             }
-        } else if (currentRow.type == ParamType::KeyframeParam) {
+        } else if (currentRow.type == ParamType::KeyframeParam || currentRow.type == ParamType::AnimatedRect) {
             if (!value.contains(QLatin1Char('='))) {
                 value.prepend(QStringLiteral("0="));
             }
