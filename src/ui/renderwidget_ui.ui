@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1236</width>
-    <height>622</height>
+    <width>1508</width>
+    <height>832</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -58,7 +58,7 @@
              </widget>
             </item>
             <item>
-             <widget class="KUrlRequester" name="out_file" native="true"/>
+             <widget class="KUrlRequester" name="out_file"/>
             </item>
            </layout>
           </item>
@@ -761,7 +761,7 @@
        <string>Job Queue</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout2">
-       <item row="2" column="3">
+       <item row="3" column="3">
         <spacer name="jobSpace">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -774,17 +774,54 @@
          </property>
         </spacer>
        </item>
-       <item row="2" column="0">
+       <item row="3" column="0">
         <widget class="QPushButton" name="abort_job">
          <property name="text">
           <string>Abort Job</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="5">
+       <item row="3" column="5">
         <widget class="QPushButton" name="buttonClose2">
          <property name="text">
           <string>Close</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="2">
+        <widget class="QPushButton" name="clean_up">
+         <property name="text">
+          <string>Clean Up</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0" colspan="6">
+        <widget class="QCheckBox" name="shutdown">
+         <property name="text">
+          <string>Shutdown computer after renderings</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QPushButton" name="start_job">
+         <property name="text">
+          <string>Start Job</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="4">
+        <widget class="QToolButton" name="shareButton">
+         <property name="text">
+          <string>Share</string>
+         </property>
+         <property name="popupMode">
+          <enum>QToolButton::InstantPopup</enum>
+         </property>
+         <property name="toolButtonStyle">
+          <enum>Qt::ToolButtonTextBesideIcon</enum>
+         </property>
+         <property name="arrowType">
+          <enum>Qt::DownArrow</enum>
          </property>
         </widget>
        </item>
@@ -852,42 +889,8 @@
          </widget>
         </widget>
        </item>
-       <item row="2" column="2">
-        <widget class="QPushButton" name="clean_up">
-         <property name="text">
-          <string>Clean Up</string>
-         </property>
-        </widget>
-       </item>
        <item row="1" column="0" colspan="6">
-        <widget class="QCheckBox" name="shutdown">
-         <property name="text">
-          <string>Shutdown computer after renderings</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="QPushButton" name="start_job">
-         <property name="text">
-          <string>Start Job</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="4">
-        <widget class="QToolButton" name="shareButton">
-         <property name="text">
-          <string>Share</string>
-         </property>
-         <property name="popupMode">
-          <enum>QToolButton::InstantPopup</enum>
-         </property>
-         <property name="toolButtonStyle">
-          <enum>Qt::ToolButtonTextBesideIcon</enum>
-         </property>
-         <property name="arrowType">
-          <enum>Qt::DownArrow</enum>
-         </property>
-        </widget>
+        <layout class="QHBoxLayout" name="jobInfo"/>
        </item>
       </layout>
      </widget>
@@ -960,15 +963,15 @@
  </widget>
  <customwidgets>
   <customwidget>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header>kcombobox.h</header>
+  </customwidget>
+  <customwidget>
    <class>KUrlRequester</class>
    <extends>QWidget</extends>
    <header>kurlrequester.h</header>
    <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>KComboBox</class>
-   <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

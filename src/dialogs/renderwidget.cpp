@@ -51,6 +51,7 @@
 #include <QTimer>
 #include <QTreeWidgetItem>
 #include <QJsonObject>
+#include <QJsonArray>
 #include <qglobal.h>
 #include <qstring.h>
 
@@ -245,6 +246,11 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, QWidg
     m_infoMessage->setCloseButtonVisible(false);
     m_infoMessage->hide();
 
+    m_jobInfoMessage = new KMessageWidget;
+    m_view.jobInfo->addWidget(m_jobInfoMessage);
+    m_jobInfoMessage->setCloseButtonVisible(false);
+    m_jobInfoMessage->hide();
+
     m_view.encoder_threads->setMinimum(0);
     m_view.encoder_threads->setMaximum(QThread::idealThreadCount());
     m_view.encoder_threads->setToolTip(i18n("Encoding threads (0 is automatic)"));
@@ -358,6 +364,7 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, QWidg
 #ifdef KF5_USE_PURPOSE
     m_shareMenu = new Purpose::Menu();
     m_view.shareButton->setMenu(m_shareMenu);
+    connect(m_shareMenu, &Purpose::Menu::finished, this, &RenderWidget::slotShareActionFinished);
 #else
     m_view.shareButton->setEnabled(false);
 #endif
@@ -365,6 +372,28 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, QWidg
     focusFirstVisibleItem();
     adjustSize();
 }
+
+#if KF5_USE_PURPOSE
+void RenderWidget::slotShareActionFinished(const QJsonObject &output, int error, const QString &message)
+{
+    m_jobInfoMessage->hide();
+    if (error) {
+        KMessageBox::error(this, i18n("There was a problem sharing the document: %1", message),
+                           i18n("Share"));
+    } else {
+        const QString url = output["url"].toString();
+        if (url.isEmpty()) {
+            m_jobInfoMessage->setMessageType(KMessageWidget::Positive);
+            m_jobInfoMessage->setText(i18n("Document shared successfully"));
+            m_jobInfoMessage->show();
+        } else {
+            KMessageBox::information(this, i18n("You can find the shared document at: <a href=\"%1\">%1</a>", url),
+                                     i18n("Share"), QString(),
+                                     KMessageBox::Notify | KMessageBox::AllowLink);
+        }
+    }
+}
+#endif
 
 QSize RenderWidget::sizeHint() const
 {
@@ -381,6 +410,7 @@ RenderWidget::~RenderWidget()
     delete m_jobsDelegate;
     delete m_scriptsDelegate;
     delete m_infoMessage;
+    delete m_jobInfoMessage;
 }
 
 void RenderWidget::slotEditItem(QTreeWidgetItem *item)
@@ -2234,7 +2264,7 @@ void RenderWidget::setRenderStatus(const QString &dest, int status, const QStrin
         item->setData(1, Qt::UserRole, t);
 
 #ifdef KF5_USE_PURPOSE
-        m_shareMenu->model()->setInputData(QJsonObject{ {QStringLiteral("mimeType"), QStringLiteral("video/mp4")}, {QStringLiteral("urls"), item->text(1)}});
+        m_shareMenu->model()->setInputData(QJsonObject{ {QStringLiteral("mimeType"), QMimeDatabase().mimeTypeForFile(item->text(1)).name()}, {QStringLiteral("urls"), QJsonArray({item->text(1)})}});
         m_shareMenu->model()->setPluginType(QStringLiteral("Export"));
         m_shareMenu->reload();
 #endif
@@ -2309,7 +2339,7 @@ void RenderWidget::slotCheckJob()
         activate = true;
 #ifdef KF5_USE_PURPOSE
         if (current->status() == FINISHEDJOB) {
-            m_shareMenu->model()->setInputData(QJsonObject{ {QStringLiteral("mimeType"), QMimeDatabase().mimeTypeForFile(current->text(1)).name()}, {QStringLiteral("urls"), current->text(1)}});
+            m_shareMenu->model()->setInputData(QJsonObject{ {QStringLiteral("mimeType"), QMimeDatabase().mimeTypeForFile(current->text(1)).name()}, {QStringLiteral("urls"), QJsonArray({current->text(1)})}});
             m_shareMenu->model()->setPluginType(QStringLiteral("Export"));
             m_shareMenu->reload();
             m_view.shareButton->setEnabled(true);

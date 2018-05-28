@@ -197,6 +197,8 @@ private slots:
     void adjustSpeed(int videoQuality);
     /** @brief Display warning on proxy rendering. */
     void slotProxyWarn(bool enableProxy);
+    /** @brief User shared a rendered file, give feedback. */
+    void slotShareActionFinished(const QJsonObject &output, int error, const QString &message);
 
 private:
     Ui::RenderWidget_UI m_view;
@@ -206,6 +208,7 @@ private:
     bool m_blockProcessing;
     QString m_renderer;
     KMessageWidget *m_infoMessage;
+    KMessageWidget *m_jobInfoMessage;
     QMap<int, QString> m_errorMessages;
 
 #ifdef KF5_USE_PURPOSE
