@@ -416,7 +416,7 @@ void GLWidget::paintGL()
 {
     QOpenGLFunctions *f = openglContext()->functions();
     int width = this->width() * devicePixelRatio();
-    int height = (this->height()) * devicePixelRatio();
+    int height = this->height() * devicePixelRatio();
 
     f->glDisable(GL_BLEND);
     f->glDisable(GL_DEPTH_TEST);

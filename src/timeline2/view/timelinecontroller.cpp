@@ -1348,13 +1348,19 @@ int TimelineController::insertZone(const QString &binId, QPoint zone, bool overw
 {
     std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(binId);
     int targetTrack = -1;
-    if (clip->clipType() == ClipType::Audio) {
+    if (audioTarget() == -1 && videoTarget() == -1) {
+        // No target tracks defined, use active track
+        targetTrack = m_activeTrack;
+    } else if (clip->clipType() == ClipType::Audio) {
+        // Audio clip, only allowed on audio track
         targetTrack = audioTarget();
     } else {
+        // Video clip
         targetTrack = videoTarget();
-    }
-    if (targetTrack == -1) {
-        targetTrack = m_activeTrack;
+        if (targetTrack == -1 && clip->hasAudio()) {
+            // No video target defined, switch to audio if available
+            targetTrack = audioTarget();
+        }
     }
     int insertPoint;
     QPoint sourceZone;
