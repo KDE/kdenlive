@@ -71,11 +71,11 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
             bool audioTrack = track->get_int("kdenlive:audio_track") == 1;
             ok = timeline->requestTrackInsertion(-1, tid, QString(), audioTrack, undo, redo, false);
             int lockState = track->get_int("kdenlive:locked_track");
+            Mlt::Tractor local_tractor(*track);
+            ok = ok && constructTrackFromMelt(timeline, tid, local_tractor, binIdCorresp, undo, redo);
             if (lockState > 0) {
                 timeline->setTrackProperty(tid, QStringLiteral("kdenlive:locked_track"), QString::number(lockState));
             }
-            Mlt::Tractor local_tractor(*track);
-            ok = ok && constructTrackFromMelt(timeline, tid, local_tractor, binIdCorresp, undo, redo);
             break;
         }
         case playlist_type: {
