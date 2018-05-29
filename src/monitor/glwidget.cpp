@@ -21,6 +21,9 @@
  */
 
 #include <KMessageBox>
+#include <KDeclarative/KDeclarative>
+#include <KDeclarative/KDeclarative>
+#include <kdeclarative_version.h>
 #include <QApplication>
 #include <QOpenGLFunctions_3_2_Core>
 #include <QPainter>
@@ -105,6 +108,15 @@ GLWidget::GLWidget(int id, QObject *parent)
     , m_fbo(nullptr)
     , m_rulerHeight(QFontMetrics(QApplication::font()).lineSpacing() * 0.7)
 {
+    KDeclarative::KDeclarative kdeclarative;
+    kdeclarative.setDeclarativeEngine(engine());
+#if KDECLARATIVE_VERSION >= QT_VERSION_CHECK(5, 45, 0)
+    kdeclarative.setupEngine(engine());
+    kdeclarative.setupContext();
+#else
+    kdeclarative.setupBindings();
+#endif
+
     m_texture[0] = m_texture[1] = m_texture[2] = 0;
     qRegisterMetaType<Mlt::Frame>("Mlt::Frame");
     qRegisterMetaType<SharedFrame>("SharedFrame");

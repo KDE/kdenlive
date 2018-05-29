@@ -443,12 +443,6 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId owner, const QString
     if (attribute == QLatin1String("default")) {
         if (type == ParamType::RestrictedAnim) {
             content = getDefaultKeyframes(0, content, true);
-        } else {
-            if (element.hasAttribute(QStringLiteral("factor"))) {
-                QLocale locale;
-                locale.setNumberOptions(QLocale::OmitGroupSeparator);
-                return QVariant(locale.toDouble(content) / locale.toDouble(element.attribute(QStringLiteral("factor"))));
-            }
         }
     }
     return content;

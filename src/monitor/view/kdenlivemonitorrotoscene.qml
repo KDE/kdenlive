@@ -1,4 +1,5 @@
-import QtQuick 2.4
+import QtQuick 2.6
+import QtQuick.Controls 1.4
 
 Item {
     id: root
@@ -66,19 +67,6 @@ Item {
     function checkDefined() {
         root.isDefined = root.centerPointsTypes.length > 0
         canvas.requestPaint()
-    }
-
-    onDurationChanged: {
-        timeScale = width / duration
-        if (duration < 200) {
-            frameSize = 5 * timeScale
-        } else if (duration < 2500) {
-            frameSize = 25 * timeScale
-        } else if (duration < 10000) {
-            frameSize = 50 * timeScale
-        } else {
-            frameSize = 100 * timeScale
-        }
     }
 
     Item {
@@ -197,14 +185,34 @@ Item {
         border.color: "#ffffff00"
     }
 
+    Rectangle {
+        anchors.centerIn: parent
+        width: label.contentWidth + 6
+        height: label.contentHeight + 6
+        visible: !root.isDefined && !global.containsMouse
+        opacity: 0.8
+        Text {
+            id: label
+            text: i18n('Click to add points,\nleft click to close shape.')
+            font.pointSize: root.baseUnit
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
+            anchors {
+                fill: parent
+            }
+            color: 'black'
+         }
+        color: "yellow"
+    }
+
     MouseArea {
         id: global
         objectName: "global"
         acceptedButtons: Qt.LeftButton | Qt.RightButton
         anchors.fill: parent
-        property bool containsMouse
+        property bool pointContainsMouse
         hoverEnabled: true
-        cursorShape: containsMouse ? Qt.PointingHandCursor : Qt.ArrowCursor
+        cursorShape: !root.isDefined ? Qt.PointingHandCursor : pointContainsMouse ? Qt.PointingHandCursor : Qt.ArrowCursor
 
         onClicked: {
             if (!root.isDefined) {
@@ -269,12 +277,12 @@ Item {
                 var p1 = canvas.convertPoint(root.centerPoints[i])
                 if (Math.abs(p1.x - mouseX) <= canvas.handleSize && Math.abs(p1.y - mouseY) <= canvas.handleSize) {
                     if (i == root.requestedKeyFrame) {
-                        containsMouse = true;
+                        pointContainsMouse = true;
                         return;
                     }
                     root.requestedKeyFrame = i
                     canvas.requestPaint()
-                    containsMouse = true;
+                    pointContainsMouse = true;
                     return;
                 }
               }
@@ -283,12 +291,12 @@ Item {
                 var p1 = canvas.convertPoint(root.centerPointsTypes[i])
                 if (Math.abs(p1.x - mouseX) <= canvas.handleSize/2 && Math.abs(p1.y - mouseY) <= canvas.handleSize/2) {
                     if (i == root.requestedSubKeyFrame) {
-                        containsMouse = true;
+                        pointContainsMouse = true;
                         return;
                     }
                     root.requestedSubKeyFrame = i
                     canvas.requestPaint()
-                    containsMouse = true;
+                    pointContainsMouse = true;
                     return;
                 } 
               }
@@ -297,7 +305,7 @@ Item {
               }
               root.requestedKeyFrame = -1
               root.requestedSubKeyFrame = -1
-              containsMouse = false;
+              pointContainsMouse = false;
               canvas.requestPaint()
             }
         }

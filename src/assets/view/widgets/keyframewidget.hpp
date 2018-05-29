@@ -48,7 +48,9 @@ public:
     void addParameter(const QPersistentModelIndex &index);
     int getPosition() const;
     void addKeyframe(int pos = -1);
-
+    /** @brief Returns the monitor scene required for this asset
+     */
+    MonitorSceneType requiredScene() const;
     void updateTimecodeFormat();
 
 public slots:
@@ -78,6 +80,7 @@ private:
     QToolButton *m_buttonNext;
     KSelectAction *m_selectType;
     TimecodeDisplay *m_time;
+    MonitorSceneType m_neededScene;
     void connectMonitor(bool active);
     std::unordered_map<QPersistentModelIndex, QWidget *> m_parameters;
 };

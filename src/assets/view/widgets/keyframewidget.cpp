@@ -38,6 +38,7 @@
 KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
     : AbstractParamWidget(model, index, parent)
     , m_keyframes(model->getKeyframeModel())
+    , m_neededScene(MonitorSceneDefault)
 {
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 
@@ -259,6 +260,7 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
     // Construct object
     QWidget *paramWidget = nullptr;
     if (type == ParamType::AnimatedRect) {
+        m_neededScene = MonitorSceneGeometry;
         int inPos = m_model->data(index, AssetParameterModel::ParentInRole).toInt();
         QPair<int, int> range(inPos, inPos + m_model->data(index, AssetParameterModel::ParentDurationRole).toInt());
         QSize frameSize = pCore->getCurrentFrameSize();
@@ -278,7 +280,11 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
         connect(roto, &RotoWidget::updateRotoKeyframe, this, &KeyframeWidget::slotUpdateRotoMonitor, Qt::UniqueConnection);
         paramWidget = roto;
         paramWidget->setMaximumHeight(1);
+        m_neededScene = MonitorSceneRoto;
     } else {
+        if (m_neededScene == MonitorSceneDefault && m_model->getAssetId() == QLatin1String("frei0r.c0rners")) {
+            m_neededScene = MonitorSceneCorners;
+        }
         double value = m_keyframes->getInterpolatedValue(getPosition(), index).toDouble();
         double min = locale.toDouble(m_model->data(index, AssetParameterModel::MinRole).toString());
         double max = locale.toDouble(m_model->data(index, AssetParameterModel::MaxRole).toString());
@@ -339,4 +345,10 @@ void KeyframeWidget::slotUpdateRotoMonitor(QPersistentModelIndex index, const QV
     } else if (m_keyframes->hasKeyframe(getPosition())) {
         m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), res, index);
     }
+}
+
+MonitorSceneType KeyframeWidget::requiredScene() const
+{
+    qDebug()<<"// // // RESULTING REQUIRED SCENE: "<<m_neededScene;
+    return m_neededScene;
 }

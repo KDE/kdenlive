@@ -70,7 +70,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
             } else {
                 auto w = AbstractParamWidget::construct(model, index, frameSize, this);
                 connect(this, &AssetParameterView::initKeyframeView, w, &AbstractParamWidget::slotInitMonitor);
-                if (type == ParamType::KeyframeParam || type == ParamType::AnimatedRect) {
+                if (type == ParamType::KeyframeParam || type == ParamType::AnimatedRect || type == ParamType::Roto_spline || paramTag == QLatin1String("frei0r.c0rners")) {
                     m_mainKeyframeWidget = static_cast<KeyframeWidget *>(w);
                 }
                 connect(w, &AbstractParamWidget::valueChanged, this, &AssetParameterView::commitChanges);
@@ -187,10 +187,7 @@ int AssetParameterView::contentHeight() const
 MonitorSceneType AssetParameterView::needsMonitorEffectScene() const
 {
     if (m_mainKeyframeWidget) {
-        if (m_model->getAssetId() == QLatin1String("frei0r.c0rners")) {
-            return MonitorSceneCorners;
-        }
-        return MonitorSceneGeometry;
+        return m_mainKeyframeWidget->requiredScene();
     }
     for (int i = 0; i < m_model->rowCount(); ++i) {
         QModelIndex index = m_model->index(i, 0);
@@ -198,9 +195,6 @@ MonitorSceneType AssetParameterView::needsMonitorEffectScene() const
         if (type == ParamType::Geometry) {
             return MonitorSceneGeometry;
         }
-    }
-    if (m_model->getAssetId() == QLatin1String("rotoscoping")) {
-        return MonitorSceneRoto;
     }
     return MonitorSceneDefault;
 }
