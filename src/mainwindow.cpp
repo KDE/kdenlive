@@ -3363,9 +3363,9 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
     int out;
     if (zoneOnly) {
         in = getMainTimeline()->controller()->zoneIn();
-        out = getMainTimeline()->controller()->zoneOut();
+        out = getMainTimeline()->controller()->zoneOut() - 1;
     } else {
-        out = getMainTimeline()->controller()->duration() - TimelineModel::seekDuration - 2;
+        out = getMainTimeline()->controller()->duration() - 2;
     }
 
     QString playlistContent = pCore->projectManager()->projectSceneList(project->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile());
