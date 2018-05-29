@@ -288,7 +288,7 @@ bool TimelineFunctions::liftZone(std::shared_ptr<TimelineItemModel> timeline, in
             TimelineFunctions::requestClipCut(timeline, endClipId, zone.y(), undo, redo);
         }
     }
-    std::unordered_set<int> clips = timeline->getItemsAfterPosition(trackId, zone.x(), zone.y() - 1);
+    std::unordered_set<int> clips = timeline->getItemsAfterPosition(trackId, zone.x(), zone.y());
     for (const auto &clipId : clips) {
         timeline->requestItemDeletion(clipId, undo, redo);
     }
