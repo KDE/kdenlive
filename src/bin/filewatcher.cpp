@@ -20,57 +20,58 @@
  ***************************************************************************/
 
 #include "filewatcher.hpp"
-#include "bin/bin.h"
-#include "core.h"
+
+#include <QDebug>
+#include <QFileInfo>
 
 FileWatcher::FileWatcher(QObject *parent)
     : QObject(parent)
+    , m_fileWatcher(new KDirWatch())
 {
-    m_fileWatcher = KDirWatch::self();
     // Init clip modification tracker
     m_modifiedTimer.setInterval(1500);
-    connect(m_fileWatcher, &KDirWatch::dirty, this, &FileWatcher::slotUrlModified);
-    connect(m_fileWatcher, &KDirWatch::deleted, this, &FileWatcher::slotUrlMissing);
+    connect(m_fileWatcher.get(), &KDirWatch::dirty, this, &FileWatcher::slotUrlModified);
+    connect(m_fileWatcher.get(), &KDirWatch::deleted, this, &FileWatcher::slotUrlMissing);
     connect(&m_modifiedTimer, &QTimer::timeout, this, &FileWatcher::slotProcessModifiedUrls);
 }
 
 void FileWatcher::addFile(const QString &binId, const QString &url)
 {
-    if (m_occurences.contains(url)) {
-        QStringList currentIds = m_occurences.value(url);
-        if (!currentIds.contains(binId)) {
-            currentIds << binId;
-            m_occurences[url] = currentIds;
-        }
-    } else {
-        // Unknown file, add to list
-        m_occurences.insert(url, QStringList() << binId);
-        m_fileWatcher->addFile(url);
-    }
-}
-
-void FileWatcher::removeFile(const QString &binId, const QString &url)
-{
-    if (!m_occurences.contains(url)) {
+    if (url.isEmpty()) {
         return;
     }
-    QStringList currentIds = m_occurences.value(url);
-    currentIds.removeAll(binId);
-    if (currentIds.isEmpty()) {
+    QFileInfo check_file(url);
+    // check if file exists and if yes: Is it really a file and no directory?
+    if (!check_file.exists() || !check_file.isFile()) {
+        return;
+    }
+    if (m_occurences.count(url) == 0) {
+        m_fileWatcher->addFile(url);
+    }
+    m_occurences[url].insert(binId);
+    m_binClipPaths[binId] = url;
+}
+
+void FileWatcher::removeFile(const QString &binId)
+{
+    if (m_binClipPaths.count(binId) == 0) {
+        return;
+    }
+    QString url = m_binClipPaths[binId];
+    m_occurences[url].erase(binId);
+    m_binClipPaths.erase(binId);
+    if (m_occurences[url].empty()) {
         m_fileWatcher->removeFile(url);
-        m_occurences.remove(url);
-    } else {
-        m_occurences[url] = currentIds;
+        m_occurences.erase(url);
     }
 }
 
 void FileWatcher::slotUrlModified(const QString &path)
 {
-    if (!m_modifiedUrls.contains(path)) {
-        m_modifiedUrls << path;
-        const QStringList ids = m_occurences.value(path);
-        for (const QString &id : ids) {
-            pCore->bin()->setWaitingStatus(id);
+    if (m_modifiedUrls.count(path) == 0) {
+        m_modifiedUrls.insert(path);
+        for (const QString &id : m_occurences[path]) {
+            emit binClipWaiting(id);
         }
     }
     if (!m_modifiedTimer.isActive()) {
@@ -81,7 +82,7 @@ void FileWatcher::slotUrlModified(const QString &path)
 void FileWatcher::slotUrlMissing(const QString &path)
 {
     // TODO handle missing clips by replacing producer with an invalid producer
-    const QStringList ids = m_occurences.value(path);
+    // const QStringList ids = m_occurences.value(path);
     /*for (const QString &id :  ids) {
         emit missingClip(id);
     }*/
@@ -89,17 +90,16 @@ void FileWatcher::slotUrlMissing(const QString &path)
 
 void FileWatcher::slotProcessModifiedUrls()
 {
-    QStringList checkList = m_modifiedUrls;
+    auto checkList = m_modifiedUrls;
     for (const QString &path : checkList) {
         if (m_fileWatcher->ctime(path).msecsTo(QDateTime::currentDateTime()) > 1000) {
-            const QStringList ids = m_occurences.value(path);
-            for (const QString &id : ids) {
-                pCore->bin()->reloadClip(id);
+            for (const QString &id : m_occurences[path]) {
+                emit binClipModified(id);
             }
-            m_modifiedUrls.removeAll(path);
+            m_modifiedUrls.erase(path);
         }
     }
-    if (m_modifiedUrls.isEmpty()) {
+    if (m_modifiedUrls.empty()) {
         m_modifiedTimer.stop();
     }
 }
@@ -107,10 +107,11 @@ void FileWatcher::slotProcessModifiedUrls()
 void FileWatcher::clear()
 {
     m_fileWatcher->stopScan();
-    const QList<QString> files = m_occurences.keys();
-    for (const QString &url : files) {
-        m_fileWatcher->removeFile(url);
+    for (const auto &f : m_occurences) {
+        m_fileWatcher->removeFile(f.first);
     }
     m_occurences.clear();
+    m_modifiedUrls.clear();
+    m_binClipPaths.clear();
     m_fileWatcher->startScan();
 }

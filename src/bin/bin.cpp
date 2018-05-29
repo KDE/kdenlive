@@ -1111,7 +1111,6 @@ void Bin::setDocument(KdenliveDoc *project)
 
     // Cleanup previous project
     m_itemModel->clean();
-    m_fileWatcher.clear();
     delete m_itemView;
     m_itemView = nullptr;
     m_doc = project;
@@ -1767,15 +1766,6 @@ void Bin::slotRemoveInvalidClip(const QString &id, bool replace, const QString &
     emit requesteInvalidRemoval(id, clip->url(), errorMessage);
 }
 
-void Bin::addWatchFile(const QString &binId, const QString &url)
-{
-    m_fileWatcher.addFile(binId, url);
-}
-
-void Bin::removeWatchFile(const QString &binId, const QString &url)
-{
-    m_fileWatcher.removeFile(binId, url);
-}
 
 // TODO refac cleanup
 /*

@@ -1,7 +1,7 @@
 /*
 Copyright (C) 2012  Till Theato <root@ttill.de>
 Copyright (C) 2014  Jean-Baptiste Mardelle <jb@kdenlive.org>
-Copyright (C) 2017 by Nicolas Carion
+Copyright (C) 2017  Nicolas Carion
 This file is part of Kdenlive. See www.kdenlive.org.
 
 This program is free software; you can redistribute it and/or
@@ -34,6 +34,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class AbstractProjectItem;
 class BinPlaylist;
+class FileWatcher;
 class MarkerListModel;
 class ProjectClip;
 class ProjectFolder;
@@ -62,24 +63,19 @@ public:
 
     friend class ProjectClip;
 
-    /** @brief Returns a clip from the hierarchy, given its id
-     */
+    /** @brief Returns a clip from the hierarchy, given its id */
     std::shared_ptr<ProjectClip> getClipByBinID(const QString &binId);
 
-    /** @brief Helper to check whether a clip with a given id exists
-     */
+    /** @brief Helper to check whether a clip with a given id exists */
     bool hasClip(const QString &binId);
 
-    /** @brief Gets a folder by its id. If none is found, the root is returned
-     */
+    /** @brief Gets a folder by its id. If none is found, the root is returned */
     std::shared_ptr<ProjectFolder> getFolderByBinId(const QString &binId);
 
-    /** @brief Gets any item by its id.
-     */
+    /** @brief Gets any item by its id. */
     std::shared_ptr<AbstractProjectItem> getItemByBinId(const QString &binId);
 
-    /** @brief This function change the global enabled state of the bin effects
-     */
+    /** @brief This function change the global enabled state of the bin effects */
     void setBinEffectsEnabled(bool enabled);
 
     /** @brief Returns some info about the folder containing the given index */
@@ -190,6 +186,12 @@ public:
     /** @brief Retrieve a list of proxy/original urls */
     QMap<QString, QString> getProxies(const QString &root);
 
+    /** @brief Request that the producer of a given clip is reloaded */
+    void reloadClip(const QString &binId);
+
+    /** @brief Set the status of the clip to "waiting". This happens when the corresponding file has changed*/
+    void setClipWaiting(const QString &binId);
+
 protected:
     /* @brief Register the existence of a new element
      */
@@ -202,6 +204,9 @@ protected:
 
     /* @brief Helper function to add a given item to the tree */
     bool addItem(std::shared_ptr<AbstractProjectItem> item, const QString &parentId, Fun &undo, Fun &redo);
+
+    /* @brief Function to be called when the url of a clip changes */
+    void updateWatcher(std::shared_ptr<ProjectClip> item);
 
 public slots:
     /** @brief An item in the list was modified, notify */
@@ -218,6 +223,8 @@ private:
     mutable QReadWriteLock m_lock; // This is a lock that ensures safety in case of concurrent access
 
     std::unique_ptr<BinPlaylist> m_binPlaylist;
+
+    std::unique_ptr<FileWatcher> m_fileWatcher;
 
     int m_nextId;
 

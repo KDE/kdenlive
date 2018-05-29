@@ -24,7 +24,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define KDENLIVE_BIN_H
 
 #include "abstractprojectitem.h"
-#include "filewatcher.hpp"
 #include "timecode.h"
 
 #include <KMessageWidget>
@@ -277,8 +276,6 @@ public:
     QString getCurrentFolder();
     /** @brief Save a clip zone as MLT playlist */
     void saveZone(const QStringList &info, const QDir &dir);
-    void addWatchFile(const QString &binId, const QString &url);
-    void removeWatchFile(const QString &binId, const QString &url);
 
     // TODO refac: remove this and call directly the function in ProjectItemModel
     void cleanup();
@@ -395,7 +392,6 @@ private:
     ProjectSortProxyModel *m_proxyModel;
     QToolBar *m_toolbar;
     KdenliveDoc *m_doc;
-    FileWatcher m_fileWatcher;
     QLineEdit *m_searchLine;
     QToolButton *m_addButton;
     QMenu *m_extractAudioAction;

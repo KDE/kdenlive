@@ -1,6 +1,7 @@
 /*
 Copyright (C) 2012  Till Theato <root@ttill.de>
 Copyright (C) 2014  Jean-Baptiste Mardelle <jb@kdenlive.org>
+Copyright (C) 2017  Nicolas Carion
 This file is part of Kdenlive. See www.kdenlive.org.
 
 This program is free software; you can redistribute it and/or
@@ -25,6 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "binplaylist.hpp"
 #include "core.h"
 #include "doc/kdenlivedoc.h"
+#include "filewatcher.hpp"
 #include "jobs/audiothumbjob.hpp"
 #include "jobs/jobmanager.h"
 #include "jobs/loadjob.hpp"
@@ -49,12 +51,15 @@ ProjectItemModel::ProjectItemModel(QObject *parent)
     : AbstractTreeModel(parent)
     , m_lock(QReadWriteLock::Recursive)
     , m_binPlaylist(new BinPlaylist())
+    , m_fileWatcher(new FileWatcher())
     , m_nextId(1)
     , m_blankThumb()
 {
     QPixmap pix(QSize(160, 90));
     pix.fill(Qt::lightGray);
     m_blankThumb.addPixmap(pix);
+    connect(m_fileWatcher.get(), &FileWatcher::binClipModified, this, &ProjectItemModel::reloadClip);
+    connect(m_fileWatcher.get(), &FileWatcher::binClipWaiting, this, &ProjectItemModel::setClipWaiting);
 }
 
 std::shared_ptr<ProjectItemModel> ProjectItemModel::construct(QObject *parent)
@@ -385,6 +390,7 @@ void ProjectItemModel::clean()
     }
     Q_ASSERT(rootItem->childCount() == 0);
     m_nextId = 1;
+    m_fileWatcher->clear();
 }
 
 std::shared_ptr<ProjectFolder> ProjectItemModel::getRootFolder() const
@@ -448,6 +454,10 @@ void ProjectItemModel::registerItem(const std::shared_ptr<TreeItem> &item)
     auto clip = std::static_pointer_cast<AbstractProjectItem>(item);
     m_binPlaylist->manageBinItemInsertion(clip);
     AbstractTreeModel::registerItem(item);
+    if (clip->itemType() == AbstractProjectItem::ClipItem) {
+        auto clipItem = std::static_pointer_cast<ProjectClip>(clip);
+        updateWatcher(clipItem);
+    }
 }
 void ProjectItemModel::deregisterItem(int id, TreeItem *item)
 {
@@ -455,6 +465,10 @@ void ProjectItemModel::deregisterItem(int id, TreeItem *item)
     m_binPlaylist->manageBinItemDeletion(clip);
     // TODO : here, we should suspend jobs belonging to the item we delete. They can be restarted if the item is reinserted by undo
     AbstractTreeModel::deregisterItem(id, item);
+    if (clip->itemType() == AbstractProjectItem::ClipItem) {
+        auto clipItem = static_cast<ProjectClip *>(clip);
+        m_fileWatcher->addFile(clipItem->clipId(), clipItem->clipUrl());
+    }
 }
 
 int ProjectItemModel::getFreeFolderId()
@@ -840,4 +854,29 @@ void ProjectItemModel::saveProperty(const QString &name, const QString &value)
 QMap<QString, QString> ProjectItemModel::getProxies(const QString &root)
 {
     return m_binPlaylist->getProxies(root);
+}
+
+void ProjectItemModel::reloadClip(const QString &binId)
+{
+    std::shared_ptr<ProjectClip> clip = getClipByBinID(binId);
+    if (clip) {
+        clip->reloadProducer();
+    }
+}
+
+void ProjectItemModel::setClipWaiting(const QString &binId)
+{
+    std::shared_ptr<ProjectClip> clip = getClipByBinID(binId);
+    if (clip) {
+        clip->setClipStatus(AbstractProjectItem::StatusWaiting);
+    }
+}
+
+void ProjectItemModel::updateWatcher(std::shared_ptr<ProjectClip> clipItem)
+{
+    if (clipItem->clipType() == ClipType::AV || clipItem->clipType() == ClipType::Audio || clipItem->clipType() == ClipType::Image ||
+        clipItem->clipType() == ClipType::Video || clipItem->clipType() == ClipType::Playlist || clipItem->clipType() == ClipType::TextTemplate) {
+        m_fileWatcher->removeFile(clipItem->clipId());
+        m_fileWatcher->addFile(clipItem->clipId(), clipItem->clipUrl());
+    }
 }

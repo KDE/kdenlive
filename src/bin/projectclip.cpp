@@ -54,6 +54,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "kdenlive_debug.h"
 #include <KLocalizedString>
 #include <KMessageBox>
+#include <QApplication>
 #include <QCryptographicHash>
 #include <QDir>
 #include <QDomElement>
@@ -76,10 +77,6 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, std::shared_ptr<
         m_thumbnail = KoIconUtils::themedIcon(QStringLiteral("audio-x-generic"));
     } else {
         m_thumbnail = thumb;
-    }
-    if (m_clipType == ClipType::AV || m_clipType == ClipType::Audio || m_clipType == ClipType::Image || m_clipType == ClipType::Video ||
-        m_clipType == ClipType::Playlist || m_clipType == ClipType::TextTemplate) {
-        pCore->bin()->addWatchFile(id, clipUrl());
     }
     // Make sure we have a hash for this clip
     hash();
@@ -139,10 +136,6 @@ std::shared_ptr<ProjectClip> ProjectClip::construct(const QString &id, const QDo
 ProjectClip::~ProjectClip()
 {
     // controller is deleted in bincontroller
-    if (m_clipType == ClipType::AV || m_clipType == ClipType::Audio || m_clipType == ClipType::Image || m_clipType == ClipType::Video ||
-        m_clipType == ClipType::Playlist || m_clipType == ClipType::TextTemplate) {
-        pCore->bin()->removeWatchFile(clipId(), clipUrl());
-    }
     m_thumbMutex.lock();
     m_requestedThumbs.clear();
     m_thumbMutex.unlock();
@@ -379,13 +372,10 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
     if (auto ptr = m_model.lock()) {
         std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()),
                                                                        AbstractProjectItem::DataDuration);
+        std::static_pointer_cast<ProjectItemModel>(ptr)->updateWatcher(std::static_pointer_cast<ProjectClip>(shared_from_this()));
     }
     // Make sure we have a hash for this clip
     getFileHash();
-    if (m_clipType == ClipType::AV || m_clipType == ClipType::Audio || m_clipType == ClipType::Image || m_clipType == ClipType::Video ||
-        m_clipType == ClipType::Playlist || m_clipType == ClipType::TextTemplate) {
-        pCore->bin()->addWatchFile(clipId(), clipUrl());
-    }
     // set parent again (some info need to be stored in producer)
     updateParent(parentItem().lock());
     return true;
