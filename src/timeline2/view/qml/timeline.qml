@@ -315,7 +315,7 @@ Rectangle {
             visible: copiedClip != -1
             onTriggered: {
                 var track = Logic.getTrackIdFromPos(menu.clickedY - ruler.height)
-                var frame = Math.round((menu.clickedX + scrollView.flickableItem.contentX) / timeline.scaleFactor)
+                var frame = Math.floor((menu.clickedX + scrollView.flickableItem.contentX) / timeline.scaleFactor)
                 timeline.pasteItem(copiedClip, track, frame)
             }
         }
@@ -323,7 +323,7 @@ Rectangle {
             text: i18n('Insert Space')
             onTriggered: {
                 var track = Logic.getTrackIdFromPos(menu.clickedY - ruler.height)
-                var frame = Math.round((menu.clickedX + scrollView.flickableItem.contentX) / timeline.scaleFactor)
+                var frame = Math.floor((menu.clickedX + scrollView.flickableItem.contentX) / timeline.scaleFactor)
                 timeline.insertSpace(track, frame);
             }
         }
@@ -331,7 +331,7 @@ Rectangle {
             text: i18n('Remove Space On Active Track')
             onTriggered: {
                 var track = Logic.getTrackIdFromPos(menu.clickedY - ruler.height)
-                var frame = Math.round((menu.clickedX + scrollView.flickableItem.contentX) / timeline.scaleFactor)
+                var frame = Math.floor((menu.clickedX + scrollView.flickableItem.contentX) / timeline.scaleFactor)
                 timeline.removeSpace(track, frame);
             }
         }
@@ -339,7 +339,7 @@ Rectangle {
             text: i18n('Remove Space')
             onTriggered: {
                 var track = Logic.getTrackIdFromPos(menu.clickedY - ruler.height)
-                var frame = Math.round((menu.clickedX + scrollView.flickableItem.contentX) / timeline.scaleFactor)
+                var frame = Math.floor((menu.clickedX + scrollView.flickableItem.contentX) / timeline.scaleFactor)
                 timeline.removeSpace(track, frame, true);
             }
         }
