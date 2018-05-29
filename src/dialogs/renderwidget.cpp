@@ -373,9 +373,9 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, QWidg
     adjustSize();
 }
 
-#if KF5_USE_PURPOSE
 void RenderWidget::slotShareActionFinished(const QJsonObject &output, int error, const QString &message)
 {
+#ifdef KF5_USE_PURPOSE
     m_jobInfoMessage->hide();
     if (error) {
         KMessageBox::error(this, i18n("There was a problem sharing the document: %1", message),
@@ -392,8 +392,8 @@ void RenderWidget::slotShareActionFinished(const QJsonObject &output, int error,
                                      KMessageBox::Notify | KMessageBox::AllowLink);
         }
     }
-}
 #endif
+}
 
 QSize RenderWidget::sizeHint() const
 {
