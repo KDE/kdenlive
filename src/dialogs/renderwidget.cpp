@@ -364,6 +364,7 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, QWidg
 #ifdef KF5_USE_PURPOSE
     m_shareMenu = new Purpose::Menu();
     m_view.shareButton->setMenu(m_shareMenu);
+    m_view.shareButton->setIcon( KoIconUtils::themedIcon(QStringLiteral("document-share")));
     connect(m_shareMenu, &Purpose::Menu::finished, this, &RenderWidget::slotShareActionFinished);
 #else
     m_view.shareButton->setEnabled(false);
