@@ -48,30 +48,34 @@ Rectangle
                 if (activeFrame < 0) {
                     activeFrame = 0
                 } else {
-                    keyframeModel.moveKeyframe(oldFrame + inPoint, activeFrame + inPoint, true)
+                    keyframeModel.moveKeyframe(oldFrame, activeFrame, true)
                 }
             }
             event.accepted = true
         }
-        if (event.key == Qt.Key_Right) {
+        else if (event.key == Qt.Key_Right) {
             if (event.modifiers & Qt.AltModifier) {
                 activeFrame = keyframes.itemAt(Math.min(keyframes.count - 1, ++activeIndex)).frame
             } else {
                 var oldFrame = activeFrame
                 activeFrame += 1
-                keyframeModel.moveKeyframe(oldFrame + inPoint, activeFrame + inPoint, true)
+                keyframeModel.moveKeyframe(oldFrame + inPoint, activeFrame, true)
             }
             event.accepted = true
         }
-        if (event.key == Qt.Key_Return || event.key == Qt.Key_Escape) {
-            focus = false
+        else if (event.key == Qt.Key_Return || event.key == Qt.Key_Escape) {
+            keyframeContainer.focus = false
             event.accepted = true
         }
-        if (event.key == Qt.Key_Tab) {
-            activeFrame = keyframes.itemAt(++activeIndex).frame
-            console.log('------------------------- TAB: ', activeFrame)
+        if (event.key == Qt.Key_Plus) {
+            var newVal = Math.min(keyframes.itemAt(activeIndex).value / parent.height + .05, 1)
+            keyframeModel.updateKeyframe(activeFrame, newVal)
             event.accepted = true
-            focus = true
+        }
+        else if (event.key == Qt.Key_Minus) {
+            var newVal = Math.max(keyframes.itemAt(activeIndex).value / parent.height - .05, 0)
+            keyframeModel.updateKeyframe(activeFrame, newVal)
+            event.accepted = true
         }
     }
     Repeater {

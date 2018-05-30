@@ -288,9 +288,9 @@ Rectangle {
         onDoubleClicked: {
             if (showKeyframes) {
                 // Add new keyframe
-                var xPos = mouse.x  / timeline.scaleFactor
+                var xPos = Math.round(mouse.x  / timeline.scaleFactor)
                 var yPos = (clipRoot.height - mouse.y) / clipRoot.height
-                keyframeModel.addKeyframe(xPos, yPos)
+                keyframeModel.addKeyframe(xPos + clipRoot.inPoint, yPos)
             } else {
                 timeline.position = clipRoot.x / timeline.scaleFactor
             }

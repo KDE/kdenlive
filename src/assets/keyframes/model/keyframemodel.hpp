@@ -103,6 +103,7 @@ public:
        @param old is the position of the keyframe
        @param value is the new value of the param
     */
+    Q_INVOKABLE bool updateKeyframe(int pos, double newVal);
     bool updateKeyframe(GenTime pos, QVariant value);
     bool updateKeyframeType(GenTime pos, int type, Fun &undo, Fun &redo);
     bool updateKeyframe(GenTime pos, QVariant value, Fun &undo, Fun &redo);
