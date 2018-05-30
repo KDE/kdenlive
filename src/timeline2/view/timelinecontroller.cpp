@@ -179,9 +179,13 @@ void TimelineController::setScaleFactorOnMouse(double scale, bool zoomOnMouse)
         // Don't allow scaling less than full project's width
         scale = (width() - 160.0) / m_duration;
     }*/
-    m_root->setProperty("zoomOnMouse", zoomOnMouse ? qMin(getMousePos(), duration()) : -1);
-    m_scale = scale;
-    emit scaleFactorChanged();
+    if (m_root) {
+        m_root->setProperty("zoomOnMouse", zoomOnMouse ? qMin(getMousePos(), duration()) : -1);
+        m_scale = scale;
+        emit scaleFactorChanged();
+    } else {
+        qWarning("Timeline root not created, impossible to zoom in");
+    }
 }
 
 void TimelineController::setScaleFactor(double scale)
