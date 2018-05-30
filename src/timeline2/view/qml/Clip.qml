@@ -150,7 +150,7 @@ Rectangle {
     SystemPalette { id: activePalette }
     color: Qt.darker(getColor())
 
-    border.color: selected? 'red' : grouped ? 'yellow' : borderColor
+    border.color: selected? 'red' : grouped ? 'yellowgreen' : borderColor
     border.width: 1.5
     Drag.active: mouseArea.drag.active
     Drag.proposedAction: Qt.MoveAction
@@ -524,20 +524,23 @@ Rectangle {
                     parent.anchors.horizontalCenter = fadeInTriangle.right
                 else
                     parent.anchors.left = fadeInTriangle.left
+                console.log('released fade: ', clipRoot.fadeIn)
                 timeline.adjustFade(clipRoot.clipId, 'fadein', clipRoot.fadeIn, startFadeIn)
                 bubbleHelp.hide()
             }
             onPositionChanged: {
                 if (mouse.buttons === Qt.LeftButton) {
                     var delta = Math.round((parent.x - startX) / timeScale)
-                    var duration = Math.max(0, startFadeIn + delta)
-                    duration = Math.min(duration, clipRoot.clipDuration)
-                    if (clipRoot.fadeIn - 1 != duration) {
-                        timeline.adjustFade(clipRoot.clipId, 'fadein', duration, -1)
+                    if (delta != 0) {
+                        var duration = Math.max(0, startFadeIn + delta)
+                        duration = Math.min(duration, clipRoot.clipDuration)
+                        if (clipRoot.fadeIn - 1 != duration) {
+                            timeline.adjustFade(clipRoot.clipId, 'fadein', duration, -1)
+                        }
+                        // Show fade duration as time in a "bubble" help.
+                        var s = timeline.timecode(Math.max(duration, 0))
+                        bubbleHelp.show(clipRoot.x, parentTrack.y + clipRoot.height, s)
                     }
-                    // Show fade duration as time in a "bubble" help.
-                    var s = timeline.timecode(Math.max(duration, 0))
-                    bubbleHelp.show(clipRoot.x, parentTrack.y + clipRoot.height, s)
                 }
             }
         }
@@ -625,14 +628,16 @@ Rectangle {
             onPositionChanged: {
                 if (mouse.buttons === Qt.LeftButton) {
                     var delta = Math.round((startX - parent.x) / timeScale)
-                    var duration = Math.max(0, startFadeOut + delta)
-                    duration = Math.min(duration, clipRoot.clipDuration)
-                    if (clipRoot.fadeOut - 1 != duration) {
-                        timeline.adjustFade(clipRoot.clipId, 'fadeout', duration, -1)
+                    if (delta != 0) {
+                        var duration = Math.max(0, startFadeOut + delta)
+                        duration = Math.min(duration, clipRoot.clipDuration)
+                        if (clipRoot.fadeOut - 1 != duration) {
+                            timeline.adjustFade(clipRoot.clipId, 'fadeout', duration, -1)
+                        }
+                        // Show fade duration as time in a "bubble" help.
+                        var s = timeline.timecode(Math.max(duration, 0))
+                        bubbleHelp.show(clipRoot.x + clipRoot.width, parentTrack.y + clipRoot.height, s)
                     }
-                    // Show fade duration as time in a "bubble" help.
-                    var s = timeline.timecode(Math.max(duration, 0))
-                    bubbleHelp.show(clipRoot.x + clipRoot.width, parentTrack.y + clipRoot.height, s)
                 }
             }
         }

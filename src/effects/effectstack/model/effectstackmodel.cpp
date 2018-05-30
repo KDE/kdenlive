@@ -425,11 +425,6 @@ bool EffectStackModel::removeFade(bool fromStart)
     }
     for (int i : toRemove) {
         std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
-        if (fromStart) {
-            fadeIns.erase(rootItem->child(i)->getId());
-        } else {
-            fadeOuts.erase(rootItem->child(i)->getId());
-        }
         removeEffect(effect);
     }
     return true;
