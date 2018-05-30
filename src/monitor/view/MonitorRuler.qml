@@ -74,7 +74,7 @@ Rectangle {
             anchors.fill: parent
             horizontalAlignment: Text.AlignHCenter
             text: trimInMouseArea.containsMouse || trimInMouseArea.pressed ? controller.toTimecode(controller.zoneIn) + '>' + controller.toTimecode(controller.zoneOut - controller.zoneIn) : trimOutMouseArea.containsMouse || trimOutMouseArea.pressed ? controller.toTimecode(controller.zoneOut - controller.zoneIn) + '<' + controller.toTimecode(controller.zoneOut) : controller.toTimecode(controller.zoneOut - controller.zoneIn)
-            font.pointSize: root.baseUnit
+            font.pixelSize: root.baseUnit
             color: activePalette.highlightedText
         }
     }
@@ -175,7 +175,7 @@ Rectangle {
                 Text {
                     id: mlabel
                     text: model.comment
-                    font.pointSize: root.baseUnit
+                    font.pixelSize: root.baseUnit
                     verticalAlignment: Text.AlignVCenter
                     anchors {
                         fill: parent

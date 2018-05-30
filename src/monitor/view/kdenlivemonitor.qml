@@ -25,7 +25,7 @@ Item {
     property bool showFps
     property bool showSafezone
     property bool showAudiothumb
-    property real baseUnit: fontMetrics.font.pointSize
+    property real baseUnit: fontMetrics.font.pixelSize * 0.8
     property int duration: 300
     property int mouseRulerPos: 0
     property double frameSize: 10

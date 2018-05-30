@@ -122,7 +122,7 @@ Rectangle {
                 tooltip: trackLabel.visible? i18n('Minimize') : i18n('Expand')
             }
             Item {
-                width: nameEdit.height
+                width: trackTag.contentWidth + 4
                 height: width
                 Rectangle {
                     id: trackLed
@@ -131,6 +131,7 @@ Rectangle {
                     width: height
                     border.width: 0
                     Text {
+                        id: trackTag
                         text: trackHeadRoot.trackTag
                         anchors.fill: parent
                         verticalAlignment: Text.AlignVCenter
@@ -295,6 +296,7 @@ Rectangle {
                     anchors.left: parent.left
                     anchors.leftMargin: 4
                     elide: Qt.ElideRight
+                    font.pointSize: root.baseUnit * 0.9
                 }
                 Label {
                     id: placeHolder
@@ -305,12 +307,14 @@ Rectangle {
                     anchors.left: parent.left
                     anchors.leftMargin: 4
                     elide: Qt.ElideRight
+                    font.pointSize: root.baseUnit * 0.9
                 }
                 TextField {
                     id: nameEdit
                     visible: false
                     width: parent.width
                     text: trackName
+                    font.pointSize: root.baseUnit * 0.9
                     style: TextFieldStyle {
                         padding.top:0
                         padding.bottom: 0
