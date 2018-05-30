@@ -32,6 +32,7 @@
 #include <mlt++/MltProfile.h>
 #include <mlt++/MltFilter.h>
 
+#define SEEK_INACTIVE (-1)
 
 MonitorProxy::MonitorProxy(GLWidget *parent) :
         QObject(parent)
@@ -46,6 +47,11 @@ MonitorProxy::MonitorProxy(GLWidget *parent) :
 int MonitorProxy::seekPosition() const 
 {
     return m_seekPosition;
+}
+
+bool MonitorProxy::seeking() const
+{
+    return m_seekPosition != SEEK_INACTIVE;
 }
 
 int MonitorProxy::position() const 
@@ -85,9 +91,20 @@ void MonitorProxy::requestSeekPosition(int pos)
     emit seekRequestChanged();
 }
 
-void MonitorProxy::setPosition(int pos)
+int MonitorProxy::seekOrCurrentPosition() const
+{
+    return m_seekPosition == SEEK_INACTIVE ? m_position : m_seekPosition;
+}
+
+void MonitorProxy::setPosition(int pos, bool *seekStopped)
 {
     m_position = pos;
+    if (m_seekPosition == m_position) {
+        m_seekPosition = SEEK_INACTIVE;
+        *seekStopped = true;
+    } else {
+        *seekStopped = false;
+    }
     emit positionChanged();
 }
 

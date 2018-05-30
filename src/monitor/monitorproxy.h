@@ -47,13 +47,19 @@ class MonitorProxy : public QObject
 public:
     MonitorProxy(GLWidget *parent);
     int seekPosition() const;
+    /** brief: Returns true if we are still in a seek operation
+     * */
+    bool seeking() const;
     int position() const;
     int rulerHeight() const;
     int overlayType() const;
     void setOverlayType(int ix);
     QString markerComment() const;
     Q_INVOKABLE void requestSeekPosition(int pos);
-    void setPosition(int pos);
+    /** brief: Returns seek position or consumer position when not seeking
+     * */
+    int seekOrCurrentPosition() const;
+    void setPosition(int pos, bool *seekStopped);
     void setMarkerComment(const QString &comment);
     void setSeekPosition(int pos);
     void pauseAndSeek(int pos);
