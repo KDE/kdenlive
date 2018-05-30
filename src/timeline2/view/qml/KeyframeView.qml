@@ -48,7 +48,7 @@ Rectangle
                 if (activeFrame < 0) {
                     activeFrame = 0
                 } else {
-                    keyframeModel.moveKeyframe(oldFrame, activeFrame, true)
+                    keyframeModel.moveKeyframe(oldFrame + inPoint, activeFrame + inPoint, true)
                 }
             }
             event.accepted = true
@@ -59,7 +59,7 @@ Rectangle
             } else {
                 var oldFrame = activeFrame
                 activeFrame += 1
-                keyframeModel.moveKeyframe(oldFrame, activeFrame, true)
+                keyframeModel.moveKeyframe(oldFrame + inPoint, activeFrame + inPoint, true)
             }
             event.accepted = true
         }
@@ -108,7 +108,7 @@ Rectangle
                 drag.axis: Drag.XAxis
                 onReleased: {
                     root.stopScrolling = false
-                    var newPos = Math.round(parent.x / timeScale)
+                    var newPos = Math.round(parent.x / timeScale) + inPoint
                     if (newPos != frame) {
                         if (mouse.modifiers & Qt.ShiftModifier) {
                             // offset all subsequent keyframes
@@ -149,11 +149,11 @@ Rectangle
                     }
                     onReleased: {
                         root.stopScrolling = false
-                        var newPos = Math.round((keyframe.x + parent.x + root.baseUnit / 2) / timeScale)
+                        var newPos = Math.round((keyframe.x + parent.x + root.baseUnit / 2) / timeScale) + inPoint
                         var newVal = (keyframeContainer.height - (parent.y + mouse.y)) / keyframeContainer.height
                         if (newVal > 1.5 || newVal < -0.5) {
                             keyframeModel.removeKeyframe(frame);
-                        } else {
+                        } else if (frame != newPos) {
                             newVal = newVal < 0 ? 0 : newVal > 1 ? 1 : newVal
                             keyframeModel.moveKeyframe(frame, newPos, newVal)
                         }
