@@ -455,11 +455,13 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int clipId, Play
         if (state == PlaylistState::VideoOnly) {
             // we return the video producer
             createVideoMasterProducer();
-            return std::shared_ptr<Mlt::Producer>(m_videoProducer->cut());
+            int duration = m_masterProducer->get_int("kdenlive:duration");
+            return std::shared_ptr<Mlt::Producer>(m_videoProducer->cut(-1, duration > 0 ? duration: -1));
         }
         Q_ASSERT(state == PlaylistState::Disabled);
         createDisabledMasterProducer();
-        return std::shared_ptr<Mlt::Producer>(m_disabledProducer->cut());
+        int duration = m_masterProducer->get_int("kdenlive:duration");
+        return std::shared_ptr<Mlt::Producer>(m_disabledProducer->cut(-1, duration > 0 ? duration: -1));
     }
 
     // in that case, we need to create a warp producer, if we don't have one
