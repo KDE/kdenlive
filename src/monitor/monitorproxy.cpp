@@ -101,6 +101,7 @@ void MonitorProxy::setPosition(int pos, bool *seekStopped)
     m_position = pos;
     if (m_seekPosition == m_position) {
         m_seekPosition = SEEK_INACTIVE;
+        emit seekPositionChanged();
         *seekStopped = true;
     } else {
         *seekStopped = false;
