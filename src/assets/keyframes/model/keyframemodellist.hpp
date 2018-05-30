@@ -123,6 +123,8 @@ public:
 
     void refresh();
     Q_INVOKABLE KeyframeModel *getKeyModel();
+    /** @brief Returns parent asset owner id*/
+    ObjectId getOwnerId() const;
 
 protected:
     /** @brief Helper function to apply a given operation on all parameters */

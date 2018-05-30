@@ -619,7 +619,7 @@ QString KeyframeModel::getRotoProperty() const
 {
     QJsonDocument doc;
     if (auto ptr = m_model.lock()) {
-        int in = ptr->data(m_index, AssetParameterModel::InRole).toInt();
+        int in = ptr->data(m_index, AssetParameterModel::ParentInRole).toInt();
         int out = ptr->data(m_index, AssetParameterModel::ParentDurationRole).toInt();
         QMap<QString, QVariant> map;
         for (const auto keyframe : m_keyframeList) {

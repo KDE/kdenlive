@@ -56,7 +56,8 @@ KeyframeView::KeyframeView(std::shared_ptr<KeyframeModelList> model, QWidget *pa
 
 void KeyframeView::slotModelChanged()
 {
-    emit atKeyframe(m_model->hasKeyframe(m_position), m_model->singleKeyframe());
+    int offset = pCore->getItemIn(m_model->getOwnerId());
+    emit atKeyframe(m_model->hasKeyframe(m_position + offset), m_model->singleKeyframe());
     emit modified();
     update();
 }
@@ -70,7 +71,8 @@ void KeyframeView::slotSetPosition(int pos, bool isInRange)
     }
     if (pos != m_position) {
         m_position = pos;
-        emit atKeyframe(m_model->hasKeyframe(pos), m_model->singleKeyframe());
+        int offset = pCore->getItemIn(m_model->getOwnerId());
+        emit atKeyframe(m_model->hasKeyframe(pos + offset), m_model->singleKeyframe());
         update();
     }
 }
@@ -85,12 +87,14 @@ void KeyframeView::slotAddKeyframe(int pos)
     if (pos < 0) {
         pos = m_position;
     }
-    m_model->addKeyframe(GenTime(pos, pCore->getCurrentFps()), m_currentType);
+    int offset = pCore->getItemIn(m_model->getOwnerId());
+    m_model->addKeyframe(GenTime(pos + offset, pCore->getCurrentFps()), m_currentType);
 }
 
 void KeyframeView::slotAddRemove()
 {
-    if (m_model->hasKeyframe(m_position)) {
+    int offset = pCore->getItemIn(m_model->getOwnerId());
+    if (m_model->hasKeyframe(m_position + offset)) {
         slotRemoveKeyframe(m_position);
     } else {
         slotAddKeyframe(m_position);
@@ -99,8 +103,9 @@ void KeyframeView::slotAddRemove()
 
 void KeyframeView::slotEditType(int type, const QPersistentModelIndex &index)
 {
-    if (m_model->hasKeyframe(m_position)) {
-        m_model->updateKeyframeType(GenTime(m_position, pCore->getCurrentFps()), type, index);
+    int offset = pCore->getItemIn(m_model->getOwnerId());
+    if (m_model->hasKeyframe(m_position + offset)) {
+        m_model->updateKeyframeType(GenTime(m_position + offset, pCore->getCurrentFps()), type, index);
     }
 }
 
@@ -109,7 +114,8 @@ void KeyframeView::slotRemoveKeyframe(int pos)
     if (pos < 0) {
         pos = m_position;
     }
-    m_model->removeKeyframe(GenTime(pos, pCore->getCurrentFps()));
+    int offset = pCore->getItemIn(m_model->getOwnerId());
+    m_model->removeKeyframe(GenTime(pos + offset, pCore->getCurrentFps()));
 }
 
 void KeyframeView::setDuration(int dur)
@@ -124,10 +130,11 @@ void KeyframeView::slotGoToNext()
     }
 
     bool ok;
-    auto next = m_model->getNextKeyframe(GenTime(m_position, pCore->getCurrentFps()), &ok);
+    int offset = pCore->getItemIn(m_model->getOwnerId());
+    auto next = m_model->getNextKeyframe(GenTime(m_position + offset, pCore->getCurrentFps()), &ok);
 
     if (ok) {
-        emit seekToPos(next.first.frames(pCore->getCurrentFps()));
+        emit seekToPos(next.first.frames(pCore->getCurrentFps()) - offset);
     } else {
         // no keyframe after current position
         emit seekToPos(m_duration - 1);
@@ -141,10 +148,11 @@ void KeyframeView::slotGoToPrev()
     }
 
     bool ok;
-    auto prev = m_model->getPrevKeyframe(GenTime(m_position, pCore->getCurrentFps()), &ok);
+    int offset = pCore->getItemIn(m_model->getOwnerId());
+    auto prev = m_model->getPrevKeyframe(GenTime(m_position + offset, pCore->getCurrentFps()), &ok);
 
     if (ok) {
-        emit seekToPos(prev.first.frames(pCore->getCurrentFps()));
+        emit seekToPos(prev.first.frames(pCore->getCurrentFps()) - offset);
     } else {
         // no keyframe after current position
         emit seekToPos(m_duration);
@@ -153,13 +161,14 @@ void KeyframeView::slotGoToPrev()
 
 void KeyframeView::mousePressEvent(QMouseEvent *event)
 {
+    int offset = pCore->getItemIn(m_model->getOwnerId());
     int pos = event->x() / m_scale;
     if (event->y() < m_lineHeight && event->button() == Qt::LeftButton) {
         bool ok;
-        GenTime position(pos, pCore->getCurrentFps());
+        GenTime position(pos + offset, pCore->getCurrentFps());
         auto keyframe = m_model->getClosestKeyframe(position, &ok);
         if (ok && qAbs(keyframe.first.frames(pCore->getCurrentFps()) - pos) < 5) {
-            m_currentKeyframeOriginal = keyframe.first.frames(pCore->getCurrentFps());
+            m_currentKeyframeOriginal = keyframe.first.frames(pCore->getCurrentFps()) - offset;
             // Select and seek to keyframe
             m_currentKeyframe = m_currentKeyframeOriginal;
             emit seekToPos(m_currentKeyframeOriginal);
@@ -175,15 +184,16 @@ void KeyframeView::mousePressEvent(QMouseEvent *event)
 
 void KeyframeView::mouseMoveEvent(QMouseEvent *event)
 {
+    int offset = pCore->getItemIn(m_model->getOwnerId());
     int pos = qBound(0, (int)(event->x() / m_scale), m_duration);
-    GenTime position(pos, pCore->getCurrentFps());
+    GenTime position(pos + offset, pCore->getCurrentFps());
     if ((event->buttons() & Qt::LeftButton) != 0u) {
         if (m_currentKeyframe == pos) {
             return;
         }
         if (m_currentKeyframe > 0) {
-            if (!m_model->hasKeyframe(pos)) {
-                GenTime currentPos(m_currentKeyframe, pCore->getCurrentFps());
+            if (!m_model->hasKeyframe(pos + offset)) {
+                GenTime currentPos(m_currentKeyframe + offset, pCore->getCurrentFps());
                 if (m_model->moveKeyframe(currentPos, position, false)) {
                     m_currentKeyframe = pos;
                 }
@@ -195,8 +205,8 @@ void KeyframeView::mouseMoveEvent(QMouseEvent *event)
     if (event->y() < m_lineHeight) {
         bool ok;
         auto keyframe = m_model->getClosestKeyframe(position, &ok);
-        if (ok && qAbs(keyframe.first.frames(pCore->getCurrentFps()) - pos) < 5) {
-            m_hoverKeyframe = keyframe.first.frames(pCore->getCurrentFps());
+        if (ok && qAbs(keyframe.first.frames(pCore->getCurrentFps()) - pos - offset) < 5) {
+            m_hoverKeyframe = keyframe.first.frames(pCore->getCurrentFps()) - offset;
             setCursor(Qt::PointingHandCursor);
             update();
             return;
@@ -214,8 +224,9 @@ void KeyframeView::mouseReleaseEvent(QMouseEvent *event)
 {
     Q_UNUSED(event)
     if (m_currentKeyframe >= 0) {
-        GenTime initPos(m_currentKeyframeOriginal, pCore->getCurrentFps());
-        GenTime targetPos(m_currentKeyframe, pCore->getCurrentFps());
+        int offset = pCore->getItemIn(m_model->getOwnerId());
+        GenTime initPos(m_currentKeyframeOriginal + offset, pCore->getCurrentFps());
+        GenTime targetPos(m_currentKeyframe + offset, pCore->getCurrentFps());
         bool ok1 = m_model->moveKeyframe(targetPos, initPos, false);
         bool ok2 = m_model->moveKeyframe(initPos, targetPos, true);
         qDebug() << "RELEASING keyframe move" << ok1 << ok2 << initPos.frames(pCore->getCurrentFps()) << targetPos.frames(pCore->getCurrentFps());
@@ -226,15 +237,16 @@ void KeyframeView::mouseDoubleClickEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton && event->y() < m_lineHeight) {
         int pos = qBound(0, (int)(event->x() / m_scale), m_duration);
-        GenTime position(pos, pCore->getCurrentFps());
+        int offset = pCore->getItemIn(m_model->getOwnerId());
+        GenTime position(pos + offset, pCore->getCurrentFps());
         bool ok;
         auto keyframe = m_model->getClosestKeyframe(position, &ok);
         if (ok && qAbs(keyframe.first.frames(pCore->getCurrentFps()) - pos) < 5) {
             m_model->removeKeyframe(keyframe.first);
-            if (keyframe.first.frames(pCore->getCurrentFps()) == m_currentKeyframe) {
+            if (keyframe.first.frames(pCore->getCurrentFps()) == m_currentKeyframe + offset) {
                 m_currentKeyframe = m_currentKeyframeOriginal = -1;
             }
-            if (keyframe.first.frames(pCore->getCurrentFps()) == m_position) {
+            if (keyframe.first.frames(pCore->getCurrentFps()) == m_position + offset) {
                 emit atKeyframe(false, m_model->singleKeyframe());
             }
             return;
@@ -259,6 +271,7 @@ void KeyframeView::wheelEvent(QWheelEvent *event)
     }
     int change = event->delta() > 0 ? -1 : 1;
     int pos = qBound(0, m_position + change, m_duration);
+    int offset = pCore->getItemIn(m_model->getOwnerId());
     emit seekToPos(pos);
 }
 
@@ -270,12 +283,13 @@ void KeyframeView::paintEvent(QPaintEvent *event)
     m_scale = width() / (double)(m_duration);
     // p.translate(0, m_lineHeight);
     int headOffset = m_lineHeight / 1.5;
+    int offset = pCore->getItemIn(m_model->getOwnerId());
 
     /*
      * keyframes
      */
     for (const auto &keyframe : *m_model.get()) {
-        int pos = keyframe.first.frames(pCore->getCurrentFps());
+        int pos = keyframe.first.frames(pCore->getCurrentFps()) - offset;
         if (pos == m_currentKeyframe || pos == m_hoverKeyframe) {
             p.setBrush(m_colSelected);
         } else {

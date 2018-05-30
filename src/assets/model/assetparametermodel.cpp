@@ -96,7 +96,7 @@ AssetParameterModel::AssetParameterModel(Mlt::Properties *asset, const QDomEleme
             }
         } else if (currentRow.type == ParamType::KeyframeParam || currentRow.type == ParamType::AnimatedRect) {
             if (!value.contains(QLatin1Char('='))) {
-                value.prepend(QStringLiteral("0="));
+                value.prepend(QStringLiteral("%1=").arg(pCore->getItemIn(m_ownerId)));
             }
         }
         if (!name.isEmpty()) {

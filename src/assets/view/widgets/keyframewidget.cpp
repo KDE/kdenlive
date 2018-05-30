@@ -201,7 +201,7 @@ void KeyframeWidget::slotSetPosition(int pos, bool update)
 
 int KeyframeWidget::getPosition() const
 {
-    return m_time->getValue();
+    return m_time->getValue() + pCore->getItemIn(m_model->getOwnerId());;
 }
 
 void KeyframeWidget::addKeyframe(int pos)

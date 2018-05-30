@@ -39,6 +39,14 @@ KeyframeModelList::KeyframeModelList(std::weak_ptr<AssetParameterModel> model, c
     connect(m_parameters.begin()->second.get(), &KeyframeModel::modelChanged, this, &KeyframeModelList::modelChanged);
 }
 
+ObjectId KeyframeModelList::getOwnerId() const
+{
+    if (auto ptr = m_model.lock()) {
+        return ptr->getOwnerId();
+    }
+    return ObjectId();
+}
+
 void KeyframeModelList::addParameter(const QModelIndex &index)
 {
     std::shared_ptr<KeyframeModel> parameter(new KeyframeModel(m_model, index, m_undoStack));
