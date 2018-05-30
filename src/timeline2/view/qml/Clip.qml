@@ -19,7 +19,6 @@
 import QtQuick 2.6
 import QtQuick.Controls 2.2
 import Kdenlive.Controls 1.0
-import QtGraphicalEffects 1.0
 import QtQml.Models 2.2
 import QtQuick.Window 2.2
 import 'Timeline.js' as Logic

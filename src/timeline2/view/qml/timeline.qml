@@ -5,7 +5,6 @@ import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 import QtQuick.Dialogs 1.2
 import Kdenlive.Controls 1.0
-//import QtGraphicalEffects 1.0
 import QtQuick.Window 2.2
 import 'Timeline.js' as Logic
 
