@@ -1644,7 +1644,7 @@ bool MainWindow::readOptions()
         // Check color theme
         ThemeManager::instance()->initDarkTheme();
         // this is our first run, show Wizard
-        QPointer<Wizard> w = new Wizard(true);
+        QPointer<Wizard> w = new Wizard(true, false);
         if (w->exec() == QDialog::Accepted && w->isOk()) {
             w->adjustSettings();
             delete w;
@@ -1654,7 +1654,7 @@ bool MainWindow::readOptions()
         }
     } else if (!KdenliveSettings::ffmpegpath().isEmpty() && !QFile::exists(KdenliveSettings::ffmpegpath())) {
         // Invalid entry for FFmpeg, check system
-        QPointer<Wizard> w = new Wizard(true);
+        QPointer<Wizard> w = new Wizard(true, config->name().contains(QLatin1String("appimage")));
         if (w->exec() == QDialog::Accepted && w->isOk()) {
             w->adjustSettings();
         }
@@ -1666,7 +1666,7 @@ bool MainWindow::readOptions()
 
 void MainWindow::slotRunWizard()
 {
-    QPointer<Wizard> w = new Wizard(false, this);
+    QPointer<Wizard> w = new Wizard(false, false, this);
     if (w->exec() == QDialog::Accepted && w->isOk()) {
         w->adjustSettings();
     }
