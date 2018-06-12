@@ -73,7 +73,7 @@ bool MyWizardPage::isComplete() const
     return m_isComplete;
 }
 
-Wizard::Wizard(bool autoClose, QWidget *parent)
+Wizard::Wizard(bool autoClose, bool appImageCheck, QWidget *parent)
     : QWizard(parent)
     , m_systemCheckIsOk(false)
     , m_brokenModule(false)

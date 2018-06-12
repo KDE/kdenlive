@@ -217,7 +217,7 @@ private:
     bool m_isLoopMode;
     SharedFrame m_sharedFrame;
     QPoint m_offset;
-    QOffscreenSurface *m_offscreenSurface;
+    QOffscreenSurface m_offscreenSurface;
     QOpenGLContext *m_shareContext;
     bool m_audioWaveDisplayed;
     MonitorProxy *m_proxy;
