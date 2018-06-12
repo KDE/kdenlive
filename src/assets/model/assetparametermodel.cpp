@@ -81,7 +81,7 @@ AssetParameterModel::AssetParameterModel(Mlt::Properties *asset, const QDomEleme
         QLocale locale;
         if (value.isNull()) {
             QVariant defaultValue = parseAttribute(m_ownerId, QStringLiteral("default"), currentParameter);
-            value = defaultValue.type() == QMetaType::Double ? locale.toString(defaultValue.toDouble()) : defaultValue.toString();
+            value = defaultValue.type() == QVariant::Double ? locale.toString(defaultValue.toDouble()) : defaultValue.toString();
         }
         bool isFixed = (type == QLatin1String("fixed"));
         if (isFixed) {
@@ -471,7 +471,7 @@ void AssetParameterModel::setParameters(const QVector<QPair<QString, QVariant>> 
 {
     QLocale locale;
     for (const auto &param : params) {
-        if (param.second.type() == QMetaType::Double) {
+        if (param.second.type() == QVariant::Double) {
             setParameter(param.first, locale.toString(param.second.toDouble()));
         } else {
             setParameter(param.first, param.second.toString());

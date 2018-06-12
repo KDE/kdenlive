@@ -271,7 +271,6 @@ void KeyframeView::wheelEvent(QWheelEvent *event)
     }
     int change = event->delta() > 0 ? -1 : 1;
     int pos = qBound(0, m_position + change, m_duration);
-    int offset = pCore->getItemIn(m_model->getOwnerId());
     emit seekToPos(pos);
 }
 
