@@ -242,9 +242,9 @@ void AnimKeyframeRuler::mouseReleaseEvent(QMouseEvent *event)
 void AnimKeyframeRuler::wheelEvent(QWheelEvent *e)
 {
     if (e->delta() < 0) {
-        --m_position;
-    } else {
         ++m_position;
+    } else {
+        --m_position;
     }
     m_position = qMax(0, m_position);
     m_position = qMin(frameLength, m_position);

@@ -48,12 +48,12 @@ Item {
         height: root.profile.y * root.scaley
         anchors.centerIn: parent
         visible: root.showSafezone
-
+        property color overlayColor: 'cyan'
         Rectangle {
             id: safezone
             objectName: "safezone"
             color: "transparent"
-            border.color: "cyan"
+            border.color: frame.overlayColor
             width: parent.width * 0.9
             height: parent.height * 0.9
             anchors.centerIn: parent
@@ -61,10 +61,50 @@ Item {
               id: safetext
               objectName: "safetext"
               color: "transparent"
-              border.color: "cyan"
+              border.color: frame.overlayColor
               width: frame.width * 0.8
               height: frame.height * 0.8
               anchors.centerIn: parent
+            }
+            Rectangle {
+                color: frame.overlayColor
+                width: frame.width / 20
+                height: 1
+                anchors.centerIn: parent
+            }
+            Rectangle {
+                color: frame.overlayColor
+                height: frame.width / 20
+                width: 1
+                anchors.centerIn: parent
+            }
+            Rectangle {
+                color: frame.overlayColor
+                height: frame.height / 11
+                width: 1
+                y: 0
+                x: parent.width / 2
+            }
+            Rectangle {
+                color: frame.overlayColor
+                height: frame.height / 11
+                width: 1
+                y: parent.height -height
+                x: parent.width / 2
+            }
+            Rectangle {
+                color: frame.overlayColor
+                width: frame.width / 11
+                height: 1
+                y: parent.height / 2
+                x: 0
+            }
+            Rectangle {
+                color: frame.overlayColor
+                width: frame.width / 11
+                height: 1
+                y: parent.height / 2
+                x: parent.width -width
             }
         }
     }

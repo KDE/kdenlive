@@ -842,8 +842,8 @@ void TitleWidget::displayBackgroundFrame()
     QRectF r = m_frameBorder->sceneBoundingRect();
     if (!displayBg->isChecked()) {
         QPixmap pattern(20, 20);
-        pattern.fill();
-        QColor bgcolor(210, 210, 210);
+        pattern.fill(Qt::gray);
+        QColor bgcolor(180, 180, 180);
         QPainter p(&pattern);
         p.fillRect(QRect(0, 0, 10, 10), bgcolor);
         p.fillRect(QRect(10, 10, 20, 20), bgcolor);

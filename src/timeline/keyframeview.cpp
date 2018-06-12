@@ -599,7 +599,9 @@ void KeyframeView::updateKeyFramePos(const QRectF &br, int frame, const double y
             }
             // Remove kfr at previous position
             m_keyAnim = m_keyProperties.get_animation(paramName.toUtf8().constData());
-            m_keyAnim.remove(activeKeyframe);
+            if (m_keyAnim.is_valid()) {
+                m_keyAnim.remove(activeKeyframe);
+            }
         }
         m_keyAnim = m_keyProperties.get_animation(m_inTimeline.toUtf8().constData());
     }
@@ -718,7 +720,9 @@ void KeyframeView::removeKeyframe(int frame)
     paramNames.removeAll(m_inTimeline);
     foreach (const QString &paramName, paramNames) {
         m_keyAnim = m_keyProperties.get_animation(paramName.toUtf8().constData());
-        m_keyAnim.remove(frame);
+        if (m_keyAnim.is_valid()) {
+            m_keyAnim.remove(frame);
+        }
     }
     m_keyAnim = m_keyProperties.get_animation(m_inTimeline.toUtf8().constData());
 }
@@ -771,6 +775,9 @@ const QString KeyframeView::serialize(const QString &name, bool rectAnimation)
 {
     if (!name.isEmpty()) {
         m_keyAnim = m_keyProperties.get_animation(name.toUtf8().constData());
+    }
+    if (!m_keyAnim.is_valid()) {
+        return m_keyProperties.get(name.toUtf8().constData());
     }
     if (attachToEnd == -2 || rectAnimation) {
         return m_keyAnim.serialize_cut();
@@ -946,7 +953,7 @@ bool KeyframeView::loadKeyframes(const QLocale &locale, const QDomElement &effec
         }
         if (paramName == m_inTimeline) {
             m_keyAnim = m_keyProperties.get_animation(m_inTimeline.toUtf8().constData());
-            if (m_keyAnim.next_key(activeKeyframe) <= activeKeyframe) {
+            if (m_keyAnim.is_valid() && m_keyAnim.next_key(activeKeyframe) <= activeKeyframe) {
                 activeKeyframe = -1;
             }
         }
