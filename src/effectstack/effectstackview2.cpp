@@ -782,7 +782,7 @@ CollapsibleEffect *EffectStackView2::getEffectByIndex(int ix)
     return nullptr;
 }
 
-void EffectStackView2::slotUpdateEffectParams(const QDomElement &old, const QDomElement &e, int ix)
+void EffectStackView2::slotUpdateEffectParams(const QDomElement &old, const QDomElement &e, int ix, bool update)
 {
     if (m_status == TIMELINE_TRACK) {
         emit updateEffect(nullptr, m_trackindex, old, e, ix, false);

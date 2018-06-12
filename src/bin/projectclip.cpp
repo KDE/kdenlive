@@ -383,7 +383,6 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
 
 std::shared_ptr<Mlt::Producer> ProjectClip::thumbProducer()
 {
-    QMutexLocker locker(&m_producerMutex);
     if (m_thumbsProducer) {
         return m_thumbsProducer;
     }

@@ -1,11 +1,12 @@
 [Desktop Entry]
 Type=Service
 Name=MLT Playlist
+Name[ar]=قائمة تشغيل MLT
 Name[bs]=MLT lista izvođenja
 Name[ca]=Llista de reproducció del MLT
 Name[ca@valencia]=Llista de reproducció del MLT
 Name[cs]=Seznam skladeb MLT
-Name[da]=MLT-spilleliste
+Name[da]=MLT-afspilningsliste
 Name[de]=MLT-Wiedergabeliste
 Name[el]=Λίστα αναπαραγωγής MLT
 Name[en_GB]=MLT Playlist
@@ -19,6 +20,7 @@ Name[hu]=MLT lejátszólista
 Name[it]=Scaletta MLT
 Name[ja]=MLT プレイリスト
 Name[km]=បញ្ជី​ចាក់ MLT
+Name[ko]=MLT 재생 목록
 Name[lt]=MTL grojaraštis
 Name[lv]=MLT repertuārs
 Name[mr]=MLT प्लेलिस्ट

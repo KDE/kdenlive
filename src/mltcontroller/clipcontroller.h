@@ -61,6 +61,8 @@ public:
 public:
     virtual ~ClipController();
 
+    QMutex producerMutex;
+
     /** @brief Returns true if the master producer is valid */
     bool isValid();
 

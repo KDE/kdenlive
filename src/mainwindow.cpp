@@ -1640,8 +1640,10 @@ bool MainWindow::readOptions()
     if (!initialGroup.exists() || KdenliveSettings::sdlAudioBackend().isEmpty()) {
         // First run, check if user is on a KDE Desktop
         firstRun = true;
+        // Check color theme
+        ThemeManager::instance()->initDarkTheme();
         // this is our first run, show Wizard
-        QPointer<Wizard> w = new Wizard(true);
+        QPointer<Wizard> w = new Wizard(true, false);
         if (w->exec() == QDialog::Accepted && w->isOk()) {
             w->adjustSettings();
             delete w;
@@ -1651,7 +1653,7 @@ bool MainWindow::readOptions()
         }
     } else if (!KdenliveSettings::ffmpegpath().isEmpty() && !QFile::exists(KdenliveSettings::ffmpegpath())) {
         // Invalid entry for FFmpeg, check system
-        QPointer<Wizard> w = new Wizard(true);
+        QPointer<Wizard> w = new Wizard(true, config->name().contains(QLatin1String("appimage")));
         if (w->exec() == QDialog::Accepted && w->isOk()) {
             w->adjustSettings();
         }
@@ -1663,7 +1665,7 @@ bool MainWindow::readOptions()
 
 void MainWindow::slotRunWizard()
 {
-    QPointer<Wizard> w = new Wizard(false, this);
+    QPointer<Wizard> w = new Wizard(false, false, this);
     if (w->exec() == QDialog::Accepted && w->isOk()) {
         w->adjustSettings();
     }
@@ -2177,9 +2179,6 @@ void MainWindow::closeEvent(QCloseEvent *event)
 {
     KXmlGuiWindow::closeEvent(event);
     if (event->isAccepted()) {
-#ifdef Q_OS_WIN
-        QProcess::startDetached(QStandardPaths::findExecutable(QStringLiteral("kdeinit5")) + " --terminate");
-#endif
         QApplication::exit(m_exitCode);
         return;
     }

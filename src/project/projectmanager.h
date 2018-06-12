@@ -165,7 +165,7 @@ private:
      * @return The MIME type */
     QString getMimeType(bool open = true);
     /** @brief checks if autoback files exists, recovers from it if user says yes, returns true if files were recovered. */
-    bool checkForBackupFile(const QUrl &url);
+    bool checkForBackupFile(const QUrl &url, bool newFile = false);
 
     KdenliveDoc *m_project;
     std::shared_ptr<TimelineItemModel> m_mainTimelineModel;

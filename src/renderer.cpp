@@ -593,7 +593,7 @@ void Render::switchPlay(bool play, double speed)
     }
     if (play) {
         double currentSpeed = m_mltProducer->get_speed();
-        if (m_name == Kdenlive::ClipMonitor && m_mltConsumer->position() == m_mltProducer->get_out()) {
+        if (m_name == Kdenlive::ClipMonitor && m_mltConsumer->position() == m_mltProducer->get_out() && speed > 0) {
             m_mltProducer->seek(0);
         }
         if (m_mltConsumer->get_int("real_time") != m_qmlView->realTime()) {
@@ -610,6 +610,7 @@ void Render::switchPlay(bool play, double speed)
             m_isRefreshing = true;
             m_mltConsumer->set("refresh", 1);
         } else {
+            m_mltProducer->seek(m_mltConsumer->position() + 1);
             m_mltConsumer->purge();
         }
         m_mltProducer->set_speed(speed);
@@ -854,14 +855,20 @@ bool Render::checkFrameNumber(int pos)
     if (pos == requestedSeekPosition) {
         requestedSeekPosition = SEEK_INACTIVE;
     }
+    const double speed = m_mltProducer->get_speed();
     if (requestedSeekPosition != SEEK_INACTIVE) {
-        double speed = m_mltProducer->get_speed();
         m_mltProducer->set_speed(0);
         m_mltProducer->seek(requestedSeekPosition);
         if (qFuzzyIsNull(speed)) {
             m_mltConsumer->set("refresh", 1);
         } else {
             m_mltProducer->set_speed(speed);
+        }
+    } else if (speed < 0){
+        m_isRefreshing = false;
+        if (pos <= 0) {
+            m_mltProducer->set_speed(0);
+            return false;
         }
     } else {
         m_isRefreshing = false;

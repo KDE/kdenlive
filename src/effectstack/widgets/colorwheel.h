@@ -23,11 +23,29 @@
 #include <QResizeEvent>
 #include <QWidget>
 
+class NegQColor
+{
+public:
+    int8_t sign_r=1;
+    int8_t sign_g=1;
+    int8_t sign_b=1;
+    QColor qcolor;
+    static NegQColor fromHsvF(qreal h, qreal s, qreal l, qreal a = 1.0);
+    static NegQColor fromRgbF(qreal r, qreal g, qreal b, qreal a = 1.0);
+    qreal redF();
+    qreal greenF();
+    qreal blueF();
+    qreal valueF();
+    int hue();
+    qreal hueF();
+    qreal saturationF();
+};
+
 class ColorWheel : public QWidget
 {
     Q_OBJECT
 public:
-    explicit ColorWheel(const QString &id, const QString &name, const QColor &color, QWidget *parent = nullptr);
+    explicit ColorWheel(const QString &id, const QString &name, const NegQColor &color, QWidget *parent = nullptr);
 
     QSize sizeHint() const override;
     QSize minimumSizeHint() const override;
@@ -35,10 +53,10 @@ public:
     void setColor(const QColor &color);
 
 signals:
-    void colorChange(const QColor &color);
+    void colorChange(const NegQColor &color);
 
 public slots:
-    void changeColor(const QColor &color);
+    void changeColor(const NegQColor &color);
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
@@ -57,14 +75,18 @@ private:
     int m_sliderWidth;
     QRegion m_wheelRegion;
     QRegion m_sliderRegion;
-    QColor m_color;
+    NegQColor m_color;
     bool m_isInWheel;
     bool m_isInSquare;
     int m_unitSize;
     QString m_name;
 
+    qreal m_sizeFactor = 1;
+    qreal m_defaultValue = 1;
+    qreal m_zeroShift = 0;
+
     int wheelSize() const;
-    QColor colorForPoint(const QPoint &point);
+    NegQColor colorForPoint(const QPoint &point);
     void drawWheel();
     void drawWheelDot(QPainter &painter);
     void drawSliderBar(QPainter &painter);

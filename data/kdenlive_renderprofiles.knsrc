@@ -1,14 +1,19 @@
 [KNewStuff3]
 Name=Kdenlive Render Profiles
+Name[ar]=لاحات «كدينلايڤ» للتّصيير
 Name[ca]=Perfils de renderització del Kdenlive
 Name[ca@valencia]=Perfils de renderització del Kdenlive
 Name[cs]=Profily renderování Kdenlive
+Name[da]=Kdenlive-renderingsprofiler
 Name[de]=Kdenlive-Render-Profile
+Name[el]=Προφίλ αποτύπωσης του Kdenlive
 Name[en_GB]=Kdenlive Render Profiles
 Name[es]=Perfiles de procesamiento de Kdenlive
+Name[fi]=Kdenliven hahmonnusprofiilit
 Name[fr]=Profils de rendu Kdenlive
 Name[gl]=Perfís de renderización de Kdenlive
 Name[it]=Profilo di resa di Kdenlive
+Name[ko]=Kdenlive 렌더 속성
 Name[nl]=Renderprofielen van Kdenlive
 Name[pl]=Profile renderowania Kdenlive
 Name[pt]=Perfis de Visualização do Kdenlive
@@ -19,6 +24,7 @@ Name[tr]=Kdenlive İşleme Profilleri
 Name[uk]=Профілі обробки Kdenlive
 Name[x-test]=xxKdenlive Render Profilesxx
 Name[zh_CN]=Kdenlive 渲染配置文件
+Name[zh_TW]=Kdenlive 繪製設定檔
 ProvidersUrl=http://download.kde.org/ocs/providers.xml
 Categories=Kdenlive Export Profiles
 TargetDir=kdenlive/export

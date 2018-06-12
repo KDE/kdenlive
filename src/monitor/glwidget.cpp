@@ -101,6 +101,7 @@ GLWidget::GLWidget(int id, QObject *parent)
     , m_isZoneMode(false)
     , m_isLoopMode(false)
     , m_offset(QPoint(0, 0))
+    , m_offscreenSurface(nullptr)
     , m_shareContext(nullptr)
     , m_audioWaveDisplayed(false)
     , m_fbo(nullptr)
@@ -238,7 +239,7 @@ void GLWidget::initializeGL()
         m_shareContext->setShareContext(openglContext());
         m_shareContext->create();
     }
-    m_frameRenderer = new FrameRenderer(openglContext(), &m_offscreenSurface);
+    m_frameRenderer = new FrameRenderer(openglContext(), m_offscreenSurface);
     m_frameRenderer->sendAudioForAnalysis = KdenliveSettings::monitor_audio();
     openglContext()->makeCurrent(this);
     // openglContext()->blockSignals(false);
@@ -773,7 +774,7 @@ void GLWidget::createThread(RenderThread **thread, thread_function_t function, v
         m_initSem.acquire();
     }
 #endif
-    (*thread) = new RenderThread(function, data, m_shareContext, &m_offscreenSurface);
+    (*thread) = new RenderThread(function, data, m_shareContext, m_offscreenSurface);
     (*thread)->start();
 }
 

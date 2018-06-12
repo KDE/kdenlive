@@ -24,6 +24,7 @@
 
 #include <KLocalizedString>
 
+static const double LIFT_FACTOR = 2.0;
 static const double GAMMA_FACTOR = 2.0;
 static const double GAIN_FACTOR = 4.0;
 
@@ -52,10 +53,13 @@ LumaLiftGain::LumaLiftGain(const QDomNodeList &nodes, QWidget *parent)
                                    values.value(QStringLiteral("gain_b")) / GAIN_FACTOR);
 
     m_lift = new ColorWheel(QStringLiteral("lift"), i18n("Lift"), lift, this);
+	m_lift->setFactorDefaultZero(LIFT_FACTOR, 0, 0.5);
     connect(m_lift, &ColorWheel::colorChange, this, &LumaLiftGain::valueChanged);
     m_gamma = new ColorWheel(QStringLiteral("gamma"), i18n("Gamma"), gamma, this);
+	m_gamma->setFactorDefaultZero(GAMMA_FACTOR, 1, 0);
     connect(m_gamma, &ColorWheel::colorChange, this, &LumaLiftGain::valueChanged);
     m_gain = new ColorWheel(QStringLiteral("gain"), i18n("Gain"), gain, this);
+	m_gain->setFactorDefaultZero(GAIN_FACTOR, 1, 0);
     connect(m_gain, &ColorWheel::colorChange, this, &LumaLiftGain::valueChanged);
 
     flowLayout->addWidget(m_lift);
@@ -74,13 +78,13 @@ LumaLiftGain::LumaLiftGain(const QDomNodeList &nodes, QWidget *parent)
 
 void LumaLiftGain::updateEffect(QDomElement &effect)
 {
-    QColor lift = m_lift->color();
-    QColor gamma = m_gamma->color();
-    QColor gain = m_gain->color();
+    NegQColor lift = m_lift->color();
+    NegQColor gamma = m_gamma->color();
+    NegQColor gain = m_gain->color();
     QMap<QString, double> values;
-    values.insert(QStringLiteral("lift_r"), lift.redF());
-    values.insert(QStringLiteral("lift_g"), lift.greenF());
-    values.insert(QStringLiteral("lift_b"), lift.blueF());
+    values.insert(QStringLiteral("lift_r"), lift.redF() * LIFT_FACTOR);
+    values.insert(QStringLiteral("lift_g"), lift.greenF() * LIFT_FACTOR);
+    values.insert(QStringLiteral("lift_b"), lift.blueF() * LIFT_FACTOR);
 
     values.insert(QStringLiteral("gamma_r"), gamma.redF() * GAMMA_FACTOR);
     values.insert(QStringLiteral("gamma_g"), gamma.greenF() * GAMMA_FACTOR);

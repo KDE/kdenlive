@@ -2,6 +2,7 @@
 <mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
   <mime-type type="application/x-kdenlive">
     <comment>Kdenlive video project document</comment>
+    <comment xml:lang="ar">مستند مشروع «كدينلايڤ» ڤديوهيّ</comment>
     <comment xml:lang="ast">Documentu de proyeutu de videu Kdenlive</comment>
     <comment xml:lang="bs">Kdenlive video projekt dokument</comment>
     <comment xml:lang="ca">document de projecte de vídeo del Kdenlive</comment>
@@ -13,6 +14,7 @@
     <comment xml:lang="en_GB">Kdenlive video project document</comment>
     <comment xml:lang="es">Documento de proyecto de video de Kdenlive</comment>
     <comment xml:lang="et">Kdenlive'i videoprojekti dokument</comment>
+    <comment xml:lang="eu">Kdenlive bideo proiektu dokumentua</comment>
     <comment xml:lang="fi">Kdenlive-videoprojektitiedosto</comment>
     <comment xml:lang="fr">Projet vidéo Kdenlive</comment>
     <comment xml:lang="gl">Documento dun proxecto de vídeo de Kdenlive</comment>
@@ -36,6 +38,7 @@
   </mime-type>
   <mime-type type="application/x-kdenlivetitle">
     <comment>Kdenlive video title</comment>
+    <comment xml:lang="ar">عنوان «كدينلايڤ» ڤديوهيّ</comment>
     <comment xml:lang="bs">Kdenlive video naslov</comment>
     <comment xml:lang="ca">títol de vídeo del Kdenlive</comment>
     <comment xml:lang="ca@valencia">títol de vídeo del Kdenlive</comment>
@@ -46,6 +49,7 @@
     <comment xml:lang="en_GB">Kdenlive video title</comment>
     <comment xml:lang="es">Título de video de Kdenlive</comment>
     <comment xml:lang="et">Kdenlive'i videotiitel</comment>
+    <comment xml:lang="eu">Kdenlive video izenburua</comment>
     <comment xml:lang="fi">Kdenlive-video-otsikko</comment>
     <comment xml:lang="fr">Titre vidéo  Kdenlive</comment>
     <comment xml:lang="gl">Título de vídeo de Kdenlive</comment>

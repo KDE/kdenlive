@@ -128,7 +128,7 @@ private:
     bool m_conditionParameter;
 
 signals:
-    void parameterChanged(const QDomElement &, const QDomElement &, int);
+    void parameterChanged(const QDomElement &, const QDomElement &, int, bool update = true);
     void syncEffectsPos(int);
     void disableCurrentFilter(bool);
     void checkMonitorPosition(int);

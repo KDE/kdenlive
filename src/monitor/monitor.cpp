@@ -932,15 +932,15 @@ void Monitor::slotMouseSeek(int eventDelta, uint modifiers)
         m_glMonitor->seek(m_glMonitor->getCurrentPos() - delta);
     } else if ((modifiers & Qt::AltModifier) != 0u) {
         if (eventDelta >= 0) {
-            emit seekToNextSnap();
-        } else {
             emit seekToPreviousSnap();
+        } else {
+            emit seekToNextSnap();
         }
     } else {
         if (eventDelta >= 0) {
-            slotForwardOneFrame();
-        } else {
             slotRewindOneFrame();
+        } else {
+            slotForwardOneFrame();
         }
     }
 }
