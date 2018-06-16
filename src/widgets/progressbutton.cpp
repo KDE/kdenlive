@@ -32,13 +32,13 @@ ProgressButton::ProgressButton(const QString &text, double max, QWidget *parent)
 {
     setPopupMode(MenuButtonPopup);
     m_progress = width() - 6;
-    QPixmap pix(1, 1);
-    pix.fill(Qt::transparent);
-    m_dummyAction = new QAction(QIcon(pix), text, this);
-    initStyleOption(&m_buttonStyle);
     m_iconSize = height() - 4;
     m_progressFont = font();
     m_progressFont.setPixelSize(m_iconSize / 2);
+    initStyleOption(&m_buttonStyle);
+    QPixmap pix(1, 1);
+    pix.fill(Qt::transparent);
+    m_dummyAction = new QAction(QIcon(pix), text, this);
 }
 
 ProgressButton::~ProgressButton()

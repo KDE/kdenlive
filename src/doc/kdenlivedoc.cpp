@@ -78,12 +78,12 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGro
     : QObject(parent)
     , m_autosave(nullptr)
     , m_url(url)
+    , m_commandStack(std::make_shared<DocUndoStack>(undoGroup))
     , m_modified(false)
     , m_documentOpenStatus(CleanProject)
     , m_projectFolder(projectFolder)
 {
-    m_commandStack = std::make_shared<DocUndoStack>(undoGroup);
-    m_guideModel.reset(new MarkerListModel(m_commandStack, this));
+        m_guideModel.reset(new MarkerListModel(m_commandStack, this));
     connect(m_guideModel.get(), &MarkerListModel::modelChanged, this, &KdenliveDoc::guidesChanged);
     connect(this, SIGNAL(updateCompositionMode(int)), parent, SLOT(slotUpdateCompositeAction(int)));
     bool success = false;

@@ -149,24 +149,21 @@ QImage Waveform::renderHUD(uint)
 
         if (scopeRect().width() > 0) {
             // Draw a vertical line and the x position of the source clip
-            bool ok;
             const int profileWidth = pCore->getCurrentProfile()->width();
 
-            if (ok) {
-                const int clipX = (float)x / (scopeRect().width() - m_textWidth.width() - 1) * (profileWidth - 1);
+            const int clipX = (float)x / (scopeRect().width() - m_textWidth.width() - 1) * (profileWidth - 1);
 
-                if (clipX >= 0 && clipX <= profileWidth) {
-                    int valX = x - 15;
-                    if (valX < 0) {
-                        valX = 0;
-                    }
-                    if (valX > scopeRect().width() - 55 - m_textWidth.width()) {
-                        valX = scopeRect().width() - 55 - m_textWidth.width();
-                    }
-
-                    davinci.drawLine(x, y, x, scopeRect().height() - m_paddingBottom);
-                    davinci.drawText(valX, scopeRect().height() - 5, QVariant(clipX).toString() + QStringLiteral(" px"));
+            if (clipX >= 0 && clipX <= profileWidth) {
+                int valX = x - 15;
+                if (valX < 0) {
+                    valX = 0;
                 }
+                if (valX > scopeRect().width() - 55 - m_textWidth.width()) {
+                    valX = scopeRect().width() - 55 - m_textWidth.width();
+                }
+
+                davinci.drawLine(x, y, x, scopeRect().height() - m_paddingBottom);
+                davinci.drawText(valX, scopeRect().height() - 5, QVariant(clipX).toString() + QStringLiteral(" px"));
             }
         }
     }

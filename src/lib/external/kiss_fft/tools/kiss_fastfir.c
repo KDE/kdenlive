@@ -428,4 +428,3 @@ int main(int argc,char**argv)
     free(h);
     return 0;
 }
-#endif

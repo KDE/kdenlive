@@ -34,13 +34,13 @@ const QString ThumbJob::getDescription() const
     return i18n("Extracting thumb from clip %1", m_clipId);
 }
 
-void ThumbJob::startJob()
+bool ThumbJob::startJob()
 {
     // Special case, we just want the thumbnail for existing producer
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(info.clipId);
     Mlt::Producer *prod = new Mlt::Producer(*binClip->originalProducer());
     if ((prod == nullptr) || !prod->is_valid()) {
-        continue;
+        return false;
     }
 
     int frameNumber = ProjectClip::getXmlProperty(info.xml, QStringLiteral("kdenlive:thumbnailFrame"), QStringLiteral("-1")).toInt();
@@ -61,11 +61,5 @@ void ThumbJob::startJob()
         // inform timeline about change
         emit refreshTimelineProducer(info.clipId);
     }
+    return true;
 }
-/** @brief This is to be called after the job finished.
-    By design, the job should store the result of the computation but not share it with the rest of the code. This happens when we call commitResult */
-void commitResult(Fun &undo, Fun &redo) override;
-}
-;
-
-#endif
