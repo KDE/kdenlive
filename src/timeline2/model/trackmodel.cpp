@@ -415,7 +415,6 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
     int target_clip = clip_loc.second;
     Q_ASSERT(target_clip < m_playlists[target_track].count());
     int size = out - in + 1;
-    int state = m_track->get_int("hide");
     bool checkRefresh = false;
     if (!isHidden() && !isAudioTrack()) {
         checkRefresh = true;

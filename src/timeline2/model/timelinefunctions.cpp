@@ -508,7 +508,6 @@ bool TimelineFunctions::requestSplitVideo(std::shared_ptr<TimelineItemModel> tim
             continue;
         }
         int position = timeline->getClipPosition(cid);
-        int track = timeline->getClipTrackId(cid);
         QList<int> possibleTracks = QList<int>() << videoTarget;
         if (possibleTracks.isEmpty()) {
             // No available audio track for splitting, abort

@@ -837,7 +837,7 @@ void ClipPropertiesController::fillProperties()
             propertyMap.append(QStringList() << i18n("Scanning") << (scan == 1 ? i18n("Progressive") : i18n("Interlaced")));
             snprintf(property, sizeof(property), "meta.media.%d.codec.sample_aspect_ratio", vindex);
             double par = m_controller->getProducerDoubleProperty(property);
-            if (par == 0) {
+            if (qFuzzyIsNull(par)) {
                 // Read media aspect ratio
                 par = m_controller->getProducerDoubleProperty(QStringLiteral("aspect_ratio"));
             }

@@ -711,7 +711,7 @@ void Monitor::adjustScrollBars(float horizontal, float vertical)
     if (m_glMonitor->zoom() > 1.0f) {
         m_horizontalScroll->setPageStep(m_glWidget->width());
         m_horizontalScroll->setMaximum((int)((float)m_glMonitor->profileSize().width() * m_glMonitor->zoom()) - m_horizontalScroll->pageStep());
-        m_horizontalScroll->setValue(qRound(horizontal * m_horizontalScroll->maximum()));
+        m_horizontalScroll->setValue(qRound(horizontal * float(m_horizontalScroll->maximum())));
         emit m_horizontalScroll->valueChanged(m_horizontalScroll->value());
         m_horizontalScroll->show();
     } else {

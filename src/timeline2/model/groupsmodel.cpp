@@ -390,7 +390,6 @@ bool GroupsModel::mergeSingleGroups(int id, Fun &undo, Fun &redo)
             return false;
         }
         for (const auto &group : parents) {
-            int old = m_upLink[group.first];
             setGroup(group.first, group.second);
         }
         return true;

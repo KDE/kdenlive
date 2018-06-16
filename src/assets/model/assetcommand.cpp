@@ -41,7 +41,7 @@ AssetCommand::AssetCommand(std::shared_ptr<AssetParameterModel> model, const QMo
         setText(i18n("Edit %1", TransitionsRepository::get()->getName(id)));
     }
     QVariant previousVal = m_model->data(index, AssetParameterModel::ValueRole);
-    m_oldValue = previousVal.type() == QMetaType::Double ? locale.toString(previousVal.toDouble()) : previousVal.toString();
+    m_oldValue = previousVal.type() == QVariant::Double ? locale.toString(previousVal.toDouble()) : previousVal.toString();
 }
 
 void AssetCommand::undo()

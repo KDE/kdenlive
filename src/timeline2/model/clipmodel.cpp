@@ -384,7 +384,6 @@ bool ClipModel::useTimewarpProducer(double speed, int extraSpace, Fun &undo, Fun
         return true;
     };
     int newDuration = int(double(oldDuration) * previousSpeed / speed);
-    int delta = oldDuration - newDuration;
     if (extraSpace > 0 && (newDuration >= extraSpace)) {
         newDuration = extraSpace;
     }

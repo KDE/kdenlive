@@ -441,6 +441,7 @@ void CollapsibleEffectView::animationFinished()
 
 void CollapsibleEffectView::setGroupIndex(int ix)
 {
+	Q_UNUSED(ix)
     /*if (m_info.groupIndex == -1 && ix != -1) {
         m_menu->removeAction(m_groupAction);
     } else if (m_info.groupIndex != -1 && ix == -1) {
@@ -452,6 +453,7 @@ void CollapsibleEffectView::setGroupIndex(int ix)
 
 void CollapsibleEffectView::setGroupName(const QString &groupName)
 {
+	Q_UNUSED(groupName)
     /*m_info.groupName = groupName;
     m_effect.setAttribute(QStringLiteral("kdenlive_info"), m_info.toString());*/
 }

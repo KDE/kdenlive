@@ -205,7 +205,7 @@ qreal DragValue::value() const
 
 void DragValue::setMaximum(qreal max)
 {
-    if (m_maximum != max) {
+    if (!qFuzzyCompare(m_maximum, max)) {
         m_maximum = max;
         if (m_intEdit) {
             m_intEdit->setRange(m_minimum, m_maximum);
@@ -217,7 +217,7 @@ void DragValue::setMaximum(qreal max)
 
 void DragValue::setMinimum(qreal min)
 {
-    if (m_minimum != min) {
+    if (!qFuzzyCompare(m_minimum, min)) {
         m_minimum = min;
         if (m_intEdit) {
             m_intEdit->setRange(m_minimum, m_maximum);
@@ -450,12 +450,12 @@ void CustomLabel::mouseMoveEvent(QMouseEvent *e)
                 }
 
                 double nv = value() + diff * m_step;
-                if (nv != value()) {
+                if (!qFuzzyCompare(nv, value())) {
                     setNewValue(nv, KdenliveSettings::dragvalue_directupdate());
                 }
             } else {
                 double nv = minimum() + ((double)maximum() - minimum()) / width() * e->pos().x();
-                if (nv != value()) {
+                if (!qFuzzyCompare(nv, value())) {
                     setNewValue(nv, KdenliveSettings::dragvalue_directupdate());
                 }
             }

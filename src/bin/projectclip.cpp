@@ -516,7 +516,7 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
         if (master->parent().get_int("_loaded") == 1) {
             // we already have a clip that shares the same master
 
-            if (state == PlaylistState::AudioOnly || timeWarp) {
+            if (state == PlaylistState::AudioOnly || !qFuzzyIsNull(timeWarp)) {
                 // In that case, we must create copies
                 std::shared_ptr<Mlt::Producer> prod(getTimelineProducer(clipId, state, speed)->cut(in, out));
                 return {prod, false};
@@ -549,7 +549,7 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
                 m_effectStack->addService(m_audioProducers[clipId]);
                 return {master, true};
             }
-            if (timeWarp) {
+            if (!qFuzzyIsNull(timeWarp)) {
                 m_timewarpProducers[clipId] = std::shared_ptr<Mlt::Producer>(&master->parent());
                 m_effectStack->addService(m_timewarpProducers[clipId]);
                 return {master, true};

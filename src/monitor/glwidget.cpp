@@ -80,6 +80,7 @@ GLWidget::GLWidget(int id, QObject *parent)
     , m_consumer(nullptr)
     , m_producer(nullptr)
     , m_id(id)
+    , m_rulerHeight(QFontMetrics(QApplication::font()).lineSpacing() * 0.7)
     , m_shader(nullptr)
     , m_initSem(0)
     , m_analyseSem(1)
@@ -104,7 +105,6 @@ GLWidget::GLWidget(int id, QObject *parent)
     , m_shareContext(nullptr)
     , m_audioWaveDisplayed(false)
     , m_fbo(nullptr)
-    , m_rulerHeight(QFontMetrics(QApplication::font()).lineSpacing() * 0.7)
 {
     KDeclarative::KDeclarative kdeclarative;
     kdeclarative.setDeclarativeEngine(engine());

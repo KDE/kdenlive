@@ -54,8 +54,8 @@ QImage ColorTools::yuvColorWheel(const QSize &size, int Y, float scaling, bool m
                 // Ellipsis equation: x²/a² + y²/b² = 1
                 // Here: x=ru, y=rv, a=w/2, b=h/2, 1=rr
                 // For rr > 1, the point lies outside. Don't draw it.
-                ru = u - w2;
-                rv = v - h2;
+                ru = u - double(w2);
+                rv = v - double(h2);
                 rr = ru * ru / (w2 * w2) + rv * rv / (h2 * h2);
                 if (rr > 1) {
                     continue;
@@ -278,8 +278,8 @@ QImage ColorTools::yPbPrColorWheel(const QSize &size, int Y, float scaling, bool
 
             if (circleOnly) {
                 // see yuvColorWheel
-                rB = b - w2;
-                rR = r - h2;
+                rB = b - double(w2);
+                rR = r - double(h2);
                 rr = rB * rB / (w2 * w2) + rR * rR / (h2 * h2);
                 if (rr > 1) {
                     continue;
@@ -424,7 +424,7 @@ QImage ColorTools::hsvCurvePlane(const QSize &size, const QColor &baseColor, con
             if (!shear) {
                 plane.setPixel(x, y, col.rgba());
             } else {
-                plane.setPixel(x, int(2 * size.height() + y - x * size.width() / size.height() - offsetY * size.height()) % size.height(), col.rgba());
+                plane.setPixel(x, (2 * size.height() + y - x * size.width() / size.height() - int(offsetY) * size.height()) % size.height(), col.rgba());
             }
         }
     }

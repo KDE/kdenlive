@@ -54,8 +54,8 @@ void EffectStackModel::resetService(std::weak_ptr<Mlt::Service> service)
     m_services.emplace_back(std::move(service));
     // replant all effects in new service
     for (int i = 0; i < rootItem->childCount(); ++i) {
-        for (const auto &service : m_services) {
-            std::static_pointer_cast<EffectItemModel>(rootItem->child(i))->plant(service);
+        for (const auto &s : m_services) {
+            std::static_pointer_cast<EffectItemModel>(rootItem->child(i))->plant(s);
         }
     }
 }
@@ -71,7 +71,7 @@ void EffectStackModel::removeService(std::shared_ptr<Mlt::Service> service)
 {
     std::vector<int> to_delete;
     for (int i = int(m_services.size()) - 1; i >= 0; --i) {
-        if (service.get() == m_services[i].lock().get()) {
+        if (service.get() == m_services[uint(i)].lock().get()) {
             to_delete.push_back(i);
         }
     }
@@ -105,12 +105,12 @@ void EffectStackModel::removeEffect(std::shared_ptr<EffectItemModel> effect)
     Fun redo = removeItem_lambda(effect->getId());
     bool res = redo();
     if (res) {
-        int inFades = fadeIns.size();
-        int outFades = fadeOuts.size();
+        int inFades = int(fadeIns.size());
+        int outFades = int(fadeOuts.size());
         fadeIns.erase(effect->getId());
         fadeOuts.erase(effect->getId());
-        inFades = fadeIns.size() - inFades;
-        outFades = fadeOuts.size() - outFades;
+        inFades = int(fadeIns.size()) - inFades;
+        outFades = int(fadeOuts.size()) - outFades;
         QString effectName = EffectsRepository::get()->getName(effect->getAssetId());
         Fun update = [this, current, currentChanged, inFades, outFades]() {
             // Required to build the effect view

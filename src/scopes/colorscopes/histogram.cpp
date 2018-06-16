@@ -135,7 +135,7 @@ QImage Histogram::renderGfxScope(uint accelFactor, const QImage &qimage)
 
     QImage histogram = m_histogramGenerator->calculateHistogram(m_scopeRect.size(), qimage, componentFlags, rec, m_aUnscaled->isChecked(), accelFactor);
 
-    emit signalScopeRenderingFinished(start.elapsed(), accelFactor);
+    emit signalScopeRenderingFinished(uint(start.elapsed()), accelFactor);
     return histogram;
 }
 QImage Histogram::renderBackground(uint)

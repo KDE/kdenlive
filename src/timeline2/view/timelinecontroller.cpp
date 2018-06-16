@@ -56,9 +56,9 @@ TimelineController::TimelineController(QObject *parent)
     , m_position(0)
     , m_seekPosition(-1)
     , m_activeTrack(0)
+    , m_zone(-1, -1)
     , m_scale(3.0)
     , m_timelinePreview(nullptr)
-    , m_zone(-1, -1)
 {
     m_disablePreview = pCore->currentDoc()->getAction(QStringLiteral("disable_preview"));
     connect(m_disablePreview, &QAction::triggered, this, &TimelineController::disablePreview);
@@ -1261,7 +1261,7 @@ void TimelineController::invalidateZone(int in, int out)
 
 void TimelineController::changeItemSpeed(int clipId, double speed)
 {
-    if (speed == -1) {
+    if (qFuzzyCompare(speed,-1)) {
         speed = 100 * m_model->getClipSpeed(clipId);
         bool ok = false;
         double duration = m_model->getItemPlaytime(clipId);

@@ -2156,6 +2156,9 @@ QStringList TimelineModel::extractCompositionLumas() const
 
 void TimelineModel::adjustAssetRange(int clipId, int in, int out)
 {
+	Q_UNUSED(clipId)
+	Q_UNUSED(in)
+	Q_UNUSED(out)
     // pCore->adjustAssetRange(clipId, in, out);
 }
 
@@ -2228,7 +2231,6 @@ bool TimelineModel::changeItemSpeed(int clipId, double speed)
         int blankSpace = getTrackById(trackId)->getBlankSizeNearClip(clipId, true);
         // Check if clip has a split partner
         int splitId = m_groups->getSplitPartner(clipId);
-        bool success = true;
         if (splitId > -1) {
             int split_trackId = getClipTrackId(splitId);
             int partnerSpace = getTrackById(split_trackId)->getBlankSizeNearClip(splitId, true);
