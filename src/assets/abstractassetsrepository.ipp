@@ -235,5 +235,5 @@ template <typename AssetType> QDomElement AbstractAssetsRepository<AssetType>::g
         qDebug() << "Error : Requesting info on unknown transition " << assetId;
         return QDomElement();
     }
-    return m_assets.at(assetId).xml;
+    return m_assets.at(assetId).xml.cloneNode().toElement();
 }

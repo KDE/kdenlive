@@ -32,19 +32,18 @@
 AssetParameterModel::AssetParameterModel(Mlt::Properties *asset, const QDomElement &assetXml, const QString &assetId, ObjectId ownerId, QObject *parent)
     : QAbstractListModel(parent)
     , monitorId(ownerId.first == ObjectType::BinClip ? Kdenlive::ClipMonitor : Kdenlive::ProjectMonitor)
-    , m_xml(assetXml)
     , m_assetId(assetId)
     , m_ownerId(ownerId)
     , m_asset(asset)
 {
     Q_ASSERT(asset->is_valid());
-    QDomNodeList nodeList = m_xml.elementsByTagName(QStringLiteral("parameter"));
+    QDomNodeList nodeList = assetXml.elementsByTagName(QStringLiteral("parameter"));
 
     bool needsLocaleConversion = false;
     QChar separator, oldSeparator;
     // Check locale
-    if (m_xml.hasAttribute(QStringLiteral("LC_NUMERIC"))) {
-        QLocale locale = QLocale(m_xml.attribute(QStringLiteral("LC_NUMERIC")));
+    if (assetXml.hasAttribute(QStringLiteral("LC_NUMERIC"))) {
+        QLocale locale = QLocale(assetXml.attribute(QStringLiteral("LC_NUMERIC")));
         if (locale.decimalPoint() != QLocale().decimalPoint()) {
             needsLocaleConversion = true;
             separator = QLocale().decimalPoint();

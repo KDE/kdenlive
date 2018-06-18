@@ -159,7 +159,6 @@ protected:
         QString name;
     };
 
-    QDomElement m_xml;
     QString m_assetId;
     ObjectId m_ownerId;
     std::vector<QString> m_paramOrder;                   // Keep track of parameter order, important for sox
