@@ -62,7 +62,6 @@ QString ClipCreator::createTitleClip(const std::unordered_map<QString, QString> 
                                      std::shared_ptr<ProjectItemModel> model)
 {
     QDomDocument xml;
-
     auto prod = createProducer(xml, ClipType::Text, QString(), name, duration, QStringLiteral("kdenlivetitle"));
     Xml::addXmlProperties(prod, properties);
 
@@ -86,11 +85,10 @@ QString ClipCreator::createColorClip(const QString &color, int duration, const Q
 QString ClipCreator::createClipFromFile(const QString &path, const QString &parentFolder, std::shared_ptr<ProjectItemModel> model, Fun &undo, Fun &redo)
 {
     QDomDocument xml;
-    QUrl url(path);
     QMimeDatabase db;
-    QMimeType type = db.mimeTypeForUrl(url);
+    QMimeType type = db.mimeTypeForUrl(QUrl::fromLocalFile(path));
 
-    qDebug() << "/////////// createClipFromFile" << path << parentFolder << url << type.name();
+    qDebug() << "/////////// createClipFromFile" << path << parentFolder << path << type.name();
     QDomElement prod;
     if (type.name().startsWith(QLatin1String("image/"))) {
         int duration = pCore->currentDoc()->getFramePos(KdenliveSettings::image_duration());
@@ -98,7 +96,7 @@ QString ClipCreator::createClipFromFile(const QString &path, const QString &pare
     } else if (type.inherits(QStringLiteral("application/x-kdenlivetitle"))) {
         // opening a title file
         QDomDocument txtdoc(QStringLiteral("titledocument"));
-        QFile txtfile(url.toLocalFile());
+        QFile txtfile(path);
         if (txtfile.open(QIODevice::ReadOnly) && txtdoc.setContent(&txtfile)) {
             txtfile.close();
             // extract embedded images
@@ -125,7 +123,7 @@ QString ClipCreator::createClipFromFile(const QString &path, const QString &pare
                 duration = pCore->currentDoc()->getFramePos(KdenliveSettings::title_duration()) - 1;
             }
             prod = createProducer(xml, ClipType::Text, path, QString(), duration, QString());
-            txtdoc.documentElement().setAttribute(QStringLiteral("duration"), duration);
+            txtdoc.documentElement().setAttribute(QStringLiteral("kdenlive:duration"), duration);
             QString titleData = txtdoc.toString();
             prod.setAttribute(QStringLiteral("xmldata"), titleData);
         } else {
@@ -139,7 +137,6 @@ QString ClipCreator::createClipFromFile(const QString &path, const QString &pare
         QMap<QString, QString> properties;
         properties.insert(QStringLiteral("resource"), path);
         Xml::addXmlProperties(prod, properties);
-        qDebug() << "/////////// normal" << url.toLocalFile() << properties << url;
     }
     if (pCore->bin()->isEmpty() && (KdenliveSettings::default_profile().isEmpty() || KdenliveSettings::checkfirstprojectclip())) {
         prod.setAttribute(QStringLiteral("_checkProfile"), 1);
