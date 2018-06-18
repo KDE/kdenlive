@@ -71,7 +71,7 @@ QStringList ClipCreationDialog::getExtensions()
               << QStringLiteral("video/3gpp") << QStringLiteral("video/mp2t");
 
     // Audio MIMEs
-    mimeTypes << QStringLiteral("audio/x-flac") << QStringLiteral("audio/x-matroska") << QStringLiteral("audio/mp4") << QStringLiteral("audio/mpeg")
+    mimeTypes << QStringLiteral("audio/AMR") << QStringLiteral("audio/x-flac") << QStringLiteral("audio/x-matroska") << QStringLiteral("audio/mp4") << QStringLiteral("audio/mpeg")
               << QStringLiteral("audio/x-mp3") << QStringLiteral("audio/ogg") << QStringLiteral("audio/x-wav") << QStringLiteral("audio/x-aiff")
               << QStringLiteral("audio/aiff") << QStringLiteral("application/ogg") << QStringLiteral("application/mxf")
               << QStringLiteral("application/x-shockwave-flash") << QStringLiteral("audio/ac3");
