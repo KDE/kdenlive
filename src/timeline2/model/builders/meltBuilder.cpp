@@ -179,6 +179,10 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
             if (audioTrack) {
                 // This is an audio track
                 timeline->setTrackProperty(tid, QStringLiteral("kdenlive:audio_track"), QStringLiteral("1"));
+                timeline->setTrackProperty(tid, QStringLiteral("hide"), QStringLiteral("1"));
+            } else {
+                // video track, hide audio
+                timeline->setTrackProperty(tid, QStringLiteral("hide"), QStringLiteral("2"));
             }
             int muteState = playlist.get_int("hide");
             if (muteState > 0 && (!audioTrack || (audioTrack && muteState != 1))) {
