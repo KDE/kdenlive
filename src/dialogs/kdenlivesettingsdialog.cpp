@@ -43,6 +43,7 @@
 #include <KService>
 #include <QDir>
 #include <QThread>
+#include <QAction>
 #include <QTimer>
 
 #include <fcntl.h>
