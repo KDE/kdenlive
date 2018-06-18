@@ -197,10 +197,11 @@ void ClipController::getInfoForProducer()
     } else if (m_service == QLatin1String("qimage") || m_service == QLatin1String("pixbuf")) {
         if (m_path.contains(QLatin1Char('%')) || m_path.contains(QStringLiteral("/.all."))) {
             m_clipType = ClipType::SlideShow;
+            m_hasLimitedDuration = true;
         } else {
             m_clipType = ClipType::Image;
+            m_hasLimitedDuration = false;
         }
-        m_hasLimitedDuration = false;
     } else if (m_service == QLatin1String("colour") || m_service == QLatin1String("color")) {
         m_clipType = ClipType::Color;
         m_hasLimitedDuration = false;
