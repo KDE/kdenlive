@@ -2880,7 +2880,7 @@ void MainWindow::slotClipInProjectTree()
         int pos = m_projectMonitor->position();
         int itemPos = pCore->getItemPosition(id);
         if (pos >= itemPos && pos < itemPos + duration) {
-            pos -= itemPos;
+            pos -= (itemPos - start);
         } else {
             pos = -1;
         }
