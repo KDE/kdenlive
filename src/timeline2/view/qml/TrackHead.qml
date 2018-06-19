@@ -24,9 +24,8 @@ import QtQuick.Layouts 1.3
 Rectangle {
     id: trackHeadRoot
     property string trackName
-    property bool isMute
+    property bool isDisabled
     property bool collapsed: false
-    property bool isHidden
     property int isComposite
     property bool isLocked
     property bool isAudio
@@ -174,7 +173,7 @@ Rectangle {
                         },
                         State {
                             name: 'mute'
-                            when: trackHeadRoot.isMute || trackHeadRoot.isHidden
+                            when: trackHeadRoot.isDisabled
                             PropertyChanges {
                                 target: trackLed
                                 color: 'orange'
@@ -182,7 +181,7 @@ Rectangle {
                         },
                         State {
                             name: 'normalled'
-                            when: !trackHeadRoot.isLocked && !trackHeadRoot.isMute && !trackHeadRoot.isHidden
+                            when: !trackHeadRoot.isLocked && !trackHeadRoot.isDisabled
                             PropertyChanges {
                                 target: trackLed
                                 color: trackHeadRoot.selected ? 'green' : 'grey'
@@ -207,25 +206,10 @@ Rectangle {
                 id: muteButton
                 implicitHeight: trackHeadRoot.iconSize
                 implicitWidth: trackHeadRoot.iconSize
-                visible: isAudio
-                iconName: isMute ? 'kdenlive-hide-audio' : 'kdenlive-show-audio'
-                iconSource: isMute ? 'qrc:///pics/kdenlive-hide-audio.svgz' : 'qrc:///pics/kdenlive-show-audio.svgz'
-                onClicked: controller.setTrackProperty(trackId, "hide", isMute ? isHidden ? '1' : '0' : isHidden ? '3' : '2')
-                tooltip: isMute? i18n('Unmute') : i18n('Mute')
-            }
-
-            ToolButton {
-                id: hideButton
-                implicitHeight: trackHeadRoot.iconSize
-                implicitWidth: trackHeadRoot.iconSize
-                visible: !isAudio
-                iconName: isHidden ? 'kdenlive-hide-video' : 'kdenlive-show-video'
-                iconSource: isHidden? 'qrc:///pics/kdenlive-hide-video.svgz' : 'qrc:///pics/kdenlive-show-video.svgz'
-                onClicked: {
-                    controller.setTrackProperty(trackId, "hide", isHidden ? isMute ? '2' : '0' : isMute ? '3' : '1')
-                    timeline.requestRefresh()
-                }
-                tooltip: isHidden? i18n('Show') : i18n('Hide')
+                iconName: isAudio ? (isDisabled ? 'kdenlive-hide-audio' : 'kdenlive-show-audio') : (isDisabled ? 'kdenlive-hide-video' : 'kdenlive-show-video')
+                iconSource: isAudio ? (isDisabled ? 'qrc:///pics/kdenlive-hide-audio.svgz' : 'qrc:///pics/kdenlive-show-audio.svgz') : (isDisabled ? 'qrc:///pics/kdenlive-hide-video.svgz' : 'qrc:///pics/kdenlive-show-video.svgz')
+                onClicked: controller.setTrackProperty(trackId, "hide", isDisabled ? (isAudio ? '1' : '2') : '3')
+                tooltip: isAudio ? (isDisabled? i18n('Unmute') : i18n('Mute')) : (isDisabled? i18n('Show') : i18n('Hide'))
             }
 
             ToolButton {

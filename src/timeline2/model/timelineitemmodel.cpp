@@ -182,8 +182,7 @@ QHash<int, QByteArray> TimelineItemModel::roleNames() const
     roles[OutPointRole] = "out";
     roles[FramerateRole] = "fps";
     roles[GroupedRole] = "grouped";
-    roles[IsMuteRole] = "mute";
-    roles[IsHiddenRole] = "hidden";
+    roles[IsDisabledRole] = "disabled";
     roles[IsAudioRole] = "audio";
     roles[AudioLevelsRole] = "audioLevels";
     roles[IsCompositeRole] = "composite";
@@ -305,11 +304,9 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
         case DurationRole:
             // qDebug() << "DATA yielding duration" << m_tractor->get_playtime();
             return getTrackById_const(id)->trackDuration();
-        case IsMuteRole:
+        case IsDisabledRole:
             // qDebug() << "DATA yielding mute" << 0;
-            return getTrackById_const(id)->isMute();
-        case IsHiddenRole:
-            return getTrackById_const(id)->isHidden();
+            return getTrackById_const(id)->isAudioTrack() ? getTrackById_const(id)->isMute() : getTrackById_const(id)->isHidden();
         case IsAudioRole:
             return getTrackById_const(id)->isAudioTrack();
         case TrackTagRole:
@@ -381,8 +378,7 @@ void TimelineItemModel::setTrackProperty(int trackId, const QString &name, const
     } else if (name == QLatin1String("kdenlive:locked_track")) {
         roles.push_back(IsLockedRole);
     } else if (name == QLatin1String("hide")) {
-        roles.push_back(IsMuteRole);
-        roles.push_back(IsHiddenRole);
+        roles.push_back(IsDisabledRole);
     }
     if (!roles.isEmpty()) {
         QModelIndex ix = makeTrackIndexFromID(trackId);

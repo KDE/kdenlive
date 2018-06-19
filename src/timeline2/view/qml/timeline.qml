@@ -468,8 +468,7 @@ Rectangle {
                         TrackHead {
                             trackName: model.name
                             trackTag: model.trackTag
-                            isMute: model.mute
-                            isHidden: model.hidden
+                            isDisabled: model.disabled
                             isComposite: model.composite
                             isLocked: model.locked
                             isAudio: model.audio
@@ -905,8 +904,6 @@ Rectangle {
             timeScale: timeline.scaleFactor
             width: tracksContainerArea.width
             isAudio: audio
-            isMute: mute
-            isHidden: hidden
             isCurrentTrack: item === timeline.activeTrack
             trackId: item
             onClipClicked: {

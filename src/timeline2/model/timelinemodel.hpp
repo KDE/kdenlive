@@ -120,8 +120,7 @@ public:
         HasAudio,      /// clip only
         CanBeAudioRole,    /// clip only
         CanBeVideoRole,    /// clip only
-        IsMuteRole,    /// track only
-        IsHiddenRole,  /// track only
+        IsDisabledRole,    /// track only
         IsAudioRole,
         SortRole,
         ShowKeyframesRole,
