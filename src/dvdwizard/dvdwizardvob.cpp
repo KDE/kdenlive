@@ -37,6 +37,7 @@
 #include <QHBoxLayout>
 #include <QHeaderView>
 #include <QMimeData>
+#include <QAction>
 #include <QStandardPaths>
 #include <QTreeWidgetItem>
 #include <unistd.h>
