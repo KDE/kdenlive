@@ -269,6 +269,8 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
         }
         case StatusRole:
             return QVariant::fromValue(clip->clipState());
+        case TypeRole:
+            return QVariant::fromValue(clip->clipType());
         case StartRole:
             return clip->getPosition();
         case DurationRole:

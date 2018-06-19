@@ -94,7 +94,7 @@ private:
     QLabel *m_clipLabel;
     Timecode m_tc;
     QString m_id;
-    ClipType m_type;
+    ClipType::ProducerType m_type;
     Mlt::Properties m_properties;
     QMap<QString, QString> m_originalProperties;
     QMap<QString, QString> m_clipProperties;

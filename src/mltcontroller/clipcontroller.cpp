@@ -512,7 +512,7 @@ void ClipController::resetProducerProperty(const QString &name)
     m_masterProducer->parent().set(name.toUtf8().constData(), (char *)nullptr);
 }
 
-ClipType ClipController::clipType() const
+ClipType::ProducerType ClipController::clipType() const
 {
     return m_clipType;
 }

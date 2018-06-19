@@ -45,6 +45,7 @@ Rectangle {
     property var markers
     property var keyframeModel
     property var clipStatus: 0
+    property var clipType: 0
     property int fadeIn: 0
     property int fadeOut: 0
     property int binId: 0
@@ -92,7 +93,7 @@ Rectangle {
     }
 
     onClipResourceChanged: {
-        if (mltService === 'color') {
+        if (clipType == ProducerType.Color) {
             color: Qt.darker(getColor())
         }
     }
@@ -159,7 +160,7 @@ Rectangle {
         if (clipStatus == ClipState.Disabled) {
             return 'grey'
         }
-        if (mltService === 'color') {
+        if (clipType == ProducerType.Color) {
             var color = clipResource.substring(clipResource.length - 9)
             if (color[0] == '#') {
                 return color
@@ -190,9 +191,8 @@ Rectangle {
             }
         }
     }
-    property bool variableThumbs: (isAudio || mltService === 'color' || mltService === '')
-    property bool isImage: (mltService === 'qimage' || mltService === 'pixbuf')
-    property string serviceHolder: isImage ? 'image' : (mltService === 'timewarp' ? 'avformat' : mltService)
+    property bool variableThumbs: (isAudio || clipType == ProducerType.Color || mltService === '')
+    property bool isImage: clipType == ProducerType.Image
     property string baseThumbPath: variableThumbs ? '' : 'image://thumbnail/' + binId + '/' + (isImage ? '#0' : '#')
     property string inThumbPath: (variableThumbs || isImage ) ? baseThumbPath : baseThumbPath + Math.floor(inPoint * speed)
     property string outThumbPath: (variableThumbs || isImage ) ? baseThumbPath : baseThumbPath + Math.floor(outPoint * speed)

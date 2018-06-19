@@ -37,7 +37,7 @@
 #include <QWindow>
 
 namespace {
-QDomElement createProducer(QDomDocument &xml, ClipType type, const QString &resource, const QString &name, int duration, const QString &service)
+QDomElement createProducer(QDomDocument &xml, ClipType::ProducerType type, const QString &resource, const QString &name, int duration, const QString &service)
 {
     QDomElement prod = xml.createElement(QStringLiteral("producer"));
     xml.appendChild(prod);

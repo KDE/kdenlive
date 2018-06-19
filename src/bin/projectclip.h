@@ -101,7 +101,7 @@ public:
     std::shared_ptr<ProjectClip> clipAt(int ix) override;
 
     /** @brief Returns the clip type as defined in definitions.h */
-    ClipType clipType() const;
+    ClipType::ProducerType clipType() const;
 
     bool selfSoftDelete(Fun &undo, Fun &redo) override;
 

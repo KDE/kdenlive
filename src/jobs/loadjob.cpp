@@ -51,7 +51,7 @@ const QString LoadJob::getDescription() const
 }
 
 namespace {
-ClipType getTypeForService(const QString &id, const QString &path)
+ClipType::ProducerType getTypeForService(const QString &id, const QString &path)
 {
     if (id.isEmpty()) {
         QString ext = path.section(QLatin1Char('.'), -1);
@@ -245,7 +245,7 @@ bool LoadJob::startJob()
         return true;
     }
     m_resource = Xml::getXmlProperty(m_xml, QStringLiteral("resource"));
-    ClipType type = static_cast<ClipType>(m_xml.attribute(QStringLiteral("type")).toInt());
+    ClipType::ProducerType type = static_cast<ClipType::ProducerType>(m_xml.attribute(QStringLiteral("type")).toInt());
     if (type == ClipType::Unknown) {
         type = getTypeForService(Xml::getXmlProperty(m_xml, QStringLiteral("mlt_service")), m_resource);
     }

@@ -108,7 +108,7 @@ ProjectClip::ProjectClip(const QString &id, const QDomElement &description, cons
     m_thumbnail = thumb;
     m_markerModel = std::make_shared<MarkerListModel>(m_binId, pCore->projectManager()->undoStack());
     if (description.hasAttribute(QStringLiteral("type"))) {
-        m_clipType = (ClipType)description.attribute(QStringLiteral("type")).toInt();
+        m_clipType = (ClipType::ProducerType)description.attribute(QStringLiteral("type")).toInt();
         if (m_clipType == ClipType::Audio) {
             m_thumbnail = KoIconUtils::themedIcon(QStringLiteral("audio-x-generic"));
         }
@@ -186,7 +186,7 @@ bool ProjectClip::audioThumbCreated() const
     return (m_audioThumbCreated);
 }
 
-ClipType ProjectClip::clipType() const
+ClipType::ProducerType ProjectClip::clipType() const
 {
     return m_clipType;
 }

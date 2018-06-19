@@ -349,7 +349,7 @@ bool DocumentChecker::hasErrorInClips()
     for (int i = 0; i < max; ++i) {
         QDomElement e = m_missingClips.at(i).toElement();
         QString clipType;
-        ClipType type;
+        ClipType::ProducerType type;
         int status = CLIPMISSING;
         const QString service = EffectsList::property(e, QStringLiteral("mlt_service"));
         QString resource = service == QLatin1String("timewarp") ? EffectsList::property(e, QStringLiteral("warp_resource"))
@@ -650,7 +650,7 @@ void DocumentChecker::slotSearchClips()
             }
         } else if (child->data(0, statusRole).toInt() == CLIPMISSING) {
             bool perfectMatch = true;
-            ClipType type = (ClipType)child->data(0, clipTypeRole).toInt();
+            ClipType::ProducerType type = (ClipType::ProducerType)child->data(0, clipTypeRole).toInt();
             QString clipPath;
             if (type != ClipType::SlideShow) {
                 // Slideshows cannot be found with hash / size
@@ -732,7 +732,7 @@ QString DocumentChecker::searchLuma(const QDir &dir, const QString &file) const
     return searchPathRecursively(dir, fname);
 }
 
-QString DocumentChecker::searchPathRecursively(const QDir &dir, const QString &fileName, ClipType type) const
+QString DocumentChecker::searchPathRecursively(const QDir &dir, const QString &fileName, ClipType::ProducerType type) const
 {
     QString foundFileName;
     QStringList filters;
@@ -823,7 +823,7 @@ void DocumentChecker::slotEditItem(QTreeWidgetItem *item, int)
         return;
     }
     item->setText(1, url.toLocalFile());
-    ClipType type = (ClipType)item->data(0, clipTypeRole).toInt();
+    ClipType::ProducerType type = (ClipType::ProducerType)item->data(0, clipTypeRole).toInt();
     bool fixed = false;
     if (type == ClipType::SlideShow && QFile::exists(url.adjusted(QUrl::RemoveFilename).toLocalFile())) {
         fixed = true;

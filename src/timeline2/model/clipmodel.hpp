@@ -84,6 +84,8 @@ public:
 
     /** @brief Returns the timeline clip status (video / audio only) */
     PlaylistState::ClipState clipState() const;
+    /** @brief Returns the bin clip type (image, color, AV, ...) */
+    ClipType::ProducerType clipType() const;
     /** @brief Sets the timeline clip status (video / audio only) */
     bool setClipState(PlaylistState::ClipState state, Fun &undo, Fun &redo);
 
@@ -181,6 +183,7 @@ protected:
     bool forceThumbReload; // Used to trigger a forced thumb reload, when producer changes
 
     PlaylistState::ClipState m_currentState;
+    ClipType::ProducerType m_clipType;
 
     double m_speed = -1; // Speed of the clip
 

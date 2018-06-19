@@ -90,7 +90,9 @@ namespace TimelineMode {
 enum EditMode { NormalEdit = 0, OverwriteEdit = 1, InsertEdit = 2 };
 }
 
-enum class ClipType {
+namespace ClipType {
+Q_NAMESPACE
+enum ProducerType {
     Unknown = 0,
     Audio = 1,
     Video = 2,
@@ -105,6 +107,8 @@ enum class ClipType {
     TextTemplate = 11,
     QText
 };
+Q_ENUM_NS(ProducerType)
+}
 
 enum ProjectItemType { ProjectClipType = 0, ProjectFolderType, ProjectSubclipType };
 

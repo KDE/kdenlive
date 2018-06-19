@@ -1261,7 +1261,7 @@ void Bin::selectProxyModel(const QModelIndex &id)
                 m_locateAction->setEnabled(true);
                 m_duplicateAction->setEnabled(true);
                 std::shared_ptr<ProjectClip> clip = std::static_pointer_cast<ProjectClip>(currentItem);
-                ClipType type = clip->clipType();
+                ClipType::ProducerType type = clip->clipType();
                 m_openAction->setEnabled(type == ClipType::Image || type == ClipType::Audio || type == ClipType::Text || type == ClipType::TextTemplate);
                 showClipProperties(clip, false);
                 m_deleteAction->setText(i18n("Delete Clip"));
@@ -1455,7 +1455,7 @@ void Bin::rebuildMenu()
 void Bin::contextMenuEvent(QContextMenuEvent *event)
 {
     bool enableClipActions = false;
-    ClipType type = ClipType::Unknown;
+    ClipType::ProducerType type = ClipType::Unknown;
     bool isFolder = false;
     bool isImported = false;
     QString clipService;
@@ -2105,7 +2105,7 @@ void Bin::slotCreateProjectClip()
         qCDebug(KDENLIVE_LOG) << "// Error in clip creation action";
         return;
     }
-    ClipType type = (ClipType)act->data().toInt();
+    ClipType::ProducerType type = (ClipType::ProducerType)act->data().toInt();
     QStringList folderInfo = getFolderInfo();
     QString parentFolder = getCurrentFolder();
     switch (type) {
@@ -2925,7 +2925,7 @@ void Bin::refreshProxySettings()
     } else {
         QList<std::shared_ptr<ProjectClip>> toProxy;
         for (std::shared_ptr<ProjectClip> clp : clipList) {
-            ClipType t = clp->clipType();
+            ClipType::ProducerType t = clp->clipType();
             if (t == ClipType::Playlist) {
                 toProxy << clp;
                 continue;

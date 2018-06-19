@@ -87,7 +87,7 @@ public:
     const QString clipUrl() const;
 
     /** @brief Returns the clip's type as defined in definitions.h */
-    ClipType clipType() const;
+    ClipType::ProducerType clipType() const;
 
     /** @brief Returns the MLT's producer id */
     const QString binId() const;
@@ -216,7 +216,7 @@ protected:
     QString m_path;
     int m_audioIndex;
     int m_videoIndex;
-    ClipType m_clipType;
+    ClipType::ProducerType m_clipType;
     bool m_hasLimitedDuration;
     QMutex m_effectMutex;
     void getInfoForProducer();

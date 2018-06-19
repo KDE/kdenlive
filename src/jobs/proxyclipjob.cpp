@@ -55,7 +55,7 @@ bool ProxyJob::startJob()
         m_done = true;
         return true;
     }
-    ClipType type = binClip->clipType();
+    ClipType::ProducerType type = binClip->clipType();
     bool result;
     QString source = binClip->getProducerProperty(QStringLiteral("kdenlive:originalurl"));
     int exif = binClip->getProducerIntProperty(QStringLiteral("_exif_orientation"));

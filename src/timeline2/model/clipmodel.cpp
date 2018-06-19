@@ -50,6 +50,7 @@ ClipModel::ClipModel(std::shared_ptr<TimelineModel> parent, std::shared_ptr<Mlt:
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
     m_canBeVideo = binClip->hasVideo();
     m_canBeAudio = binClip->hasAudio();
+    m_clipType = binClip->clipType();
     if (binClip) {
         m_endlessResize = !binClip->hasLimitedDuration();
     } else {
@@ -548,18 +549,12 @@ PlaylistState::ClipState ClipModel::clipState() const
 {
     READ_LOCK();
     return m_currentState;
-    /*
-    if (service()->parent().get_int("audio_index") == -1) {
-        if (service()->parent().get_int("video_index") == -1) {
-            return PlaylistState::Disabled;
-        } else {
-            return PlaylistState::VideoOnly;
-        }
-    } else if (service()->parent().get_int("video_index") == -1) {
-        return PlaylistState::AudioOnly;
-    }
-    return PlaylistState::Original;
-    */
+}
+
+ClipType::ProducerType ClipModel::clipType() const
+{
+    READ_LOCK();
+    return m_clipType;
 }
 
 void ClipModel::passTimelineProperties(std::shared_ptr<ClipModel> other)

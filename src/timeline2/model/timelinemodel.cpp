@@ -684,7 +684,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
     if (getTrackById_const(trackId)->isLocked()) {
         return false;
     }
-    ClipType type = ClipType::Unknown;
+    ClipType::ProducerType type = ClipType::Unknown;
     QString bid = binClipId.section(QLatin1Char('/'), 0, 0);
     if (!pCore->projectItemModel()->hasClip(bid)) {
         return false;

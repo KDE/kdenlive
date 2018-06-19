@@ -200,6 +200,7 @@ Column{
                 }
                 onLoaded: {
                     item.clipId= model.item
+                    item.clipType = model.clipType
                     if (loader.item.isComposition === false) {
                         console.log('loaded clip: ', model.start, ', ID: ', model.item, ', index: ', trackRoot.DelegateModel.itemsIndex)
                         item.isAudio= model.audio
