@@ -34,6 +34,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QSplitter>
 #include <QTextEdit>
 #include <QTreeView>
+#include <QHeaderView>
 
 ProfileWidget::ProfileWidget(QWidget *parent)
     : QWidget(parent)
