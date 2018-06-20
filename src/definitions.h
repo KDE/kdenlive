@@ -108,7 +108,7 @@ enum ProducerType {
     QText
 };
 Q_ENUM_NS(ProducerType)
-}
+} // namespace ClipType
 
 enum ProjectItemType { ProjectClipType = 0, ProjectFolderType, ProjectSubclipType };
 

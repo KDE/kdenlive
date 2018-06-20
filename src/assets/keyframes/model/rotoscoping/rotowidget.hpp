@@ -24,9 +24,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "bpoint.h"
 
+#include <QPersistentModelIndex>
 #include <QVariant>
 #include <QWidget>
-#include <QPersistentModelIndex>
 
 class Monitor;
 
@@ -65,8 +65,7 @@ private slots:
     void slotUpdateRotoMonitor(const QVariantList &v);
 
 signals:
-    void updateRotoKeyframe(QPersistentModelIndex, const QVariantList&);
+    void updateRotoKeyframe(QPersistentModelIndex, const QVariantList &);
 };
 
 #endif
-

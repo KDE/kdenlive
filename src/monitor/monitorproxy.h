@@ -19,16 +19,15 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-
-/** @brief  This class is a wrapper around the monitor / glwidget and handles communication 
+/** @brief  This class is a wrapper around the monitor / glwidget and handles communication
  *          with the qml overlay through its properties.
  */
 
 #ifndef MONITORPROXY_H
 #define MONITORPROXY_H
 
-#include <QObject>
 #include <QImage>
+#include <QObject>
 
 class GLWidget;
 

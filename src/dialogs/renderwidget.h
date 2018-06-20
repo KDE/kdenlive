@@ -27,7 +27,9 @@
 #include <QStyledItemDelegate>
 
 #ifdef KF5_USE_PURPOSE
-namespace Purpose { class Menu; }
+namespace Purpose {
+class Menu;
+}
 #endif
 
 #include "definitions.h"

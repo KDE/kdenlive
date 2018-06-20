@@ -27,9 +27,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "undohelper.hpp"
 
 #include <QDateTime>
+#include <QIcon>
 #include <QObject>
 #include <QReadWriteLock>
-#include <QIcon>
 
 class ProjectClip;
 class ProjectFolder;

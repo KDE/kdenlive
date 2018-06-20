@@ -76,7 +76,7 @@ using namespace fakeit;
 
 #define CHECK_UPDATE(role)                                                                                                                                     \
     Verify(OverloadedMethod(timMock, notifyChange, void(const QModelIndex &, const QModelIndex &, int))                                                        \
-               .Matching([](const QModelIndex &, const QModelIndex &, int c) { return c == role; }))                                       \
+               .Matching([](const QModelIndex &, const QModelIndex &, int c) { return c == role; }))                                                           \
         .Exactly(1);                                                                                                                                           \
     NO_OTHERS();
 

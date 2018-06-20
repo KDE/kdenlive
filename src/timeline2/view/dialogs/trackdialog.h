@@ -46,7 +46,7 @@ public:
 private:
     int m_audioCount;
     int m_videoCount;
-    QMap<int, int>m_positionByIndex;
+    QMap<int, int> m_positionByIndex;
 };
 
 #endif

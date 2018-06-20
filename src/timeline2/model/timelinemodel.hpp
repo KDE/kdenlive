@@ -104,24 +104,24 @@ public:
     /// Two level model: tracks and clips on track
     enum {
         NameRole = Qt::UserRole + 1,
-        ResourceRole,  /// clip only
-        ServiceRole,   /// clip only
-        IsBlankRole,   /// clip only
-        StartRole,     /// clip only
-        BinIdRole,     /// clip only
-        MarkersRole,   /// clip only
-        StatusRole,    /// clip only
-        TypeRole,    /// clip only
+        ResourceRole, /// clip only
+        ServiceRole,  /// clip only
+        IsBlankRole,  /// clip only
+        StartRole,    /// clip only
+        BinIdRole,    /// clip only
+        MarkersRole,  /// clip only
+        StatusRole,   /// clip only
+        TypeRole,     /// clip only
         KeyframesRole,
         DurationRole,
-        InPointRole,   /// clip only
-        OutPointRole,  /// clip only
-        FramerateRole, /// clip only
-        GroupedRole,   /// clip only
-        HasAudio,      /// clip only
-        CanBeAudioRole,    /// clip only
-        CanBeVideoRole,    /// clip only
-        IsDisabledRole,    /// track only
+        InPointRole,    /// clip only
+        OutPointRole,   /// clip only
+        FramerateRole,  /// clip only
+        GroupedRole,    /// clip only
+        HasAudio,       /// clip only
+        CanBeAudioRole, /// clip only
+        CanBeVideoRole, /// clip only
+        IsDisabledRole, /// track only
         IsAudioRole,
         SortRole,
         ShowKeyframesRole,
@@ -310,7 +310,7 @@ public:
        @param trackId id of the target track
        @param position target position
        @param snapDistance the maximum distance for a snap result, -1 for no snapping
-        of the clip 
+        of the clip
        @param dontRefreshMasterClip when false, no view refresh is attempted
         */
     Q_INVOKABLE int suggestClipMove(int clipId, int trackId, int position, int snapDistance = -1, bool allowViewUpdate = true);
@@ -361,7 +361,8 @@ public:
        @param allowViewRefresh if false, the view will never get updated (useful for suggestMove)
     */
     bool requestGroupMove(int clipId, int groupId, int delta_track, int delta_pos, bool updateView = true, bool logUndo = true);
-    bool requestGroupMove(int clipId, int groupId, int delta_track, int delta_pos, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool allowViewRefresh = true);
+    bool requestGroupMove(int clipId, int groupId, int delta_track, int delta_pos, bool updateView, bool finalMove, Fun &undo, Fun &redo,
+                          bool allowViewRefresh = true);
 
     /* @brief Deletes all clips inside the group that contains the given clip.
        This action is undoable

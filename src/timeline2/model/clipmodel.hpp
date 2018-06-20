@@ -145,7 +145,8 @@ protected:
     bool requestResize(int size, bool right, Fun &undo, Fun &redo, bool logUndo = true) override;
     /* @brief Performs a resize of the given clip.
        Returns true if the operation succeeded, and otherwise nothing is modified
-       This method should only be called if some operation before the resize did alter the previous duration, like when using timewarp operation. Otherwise the normal requestResize should be used with only size passed.
+       This method should only be called if some operation before the resize did alter the previous duration, like when using timewarp operation. Otherwise the
+       normal requestResize should be used with only size passed.
        */
     bool requestResize(int old_in, int old_out, int oldDuration, int delta, bool right, Fun &undo, Fun &redo, bool logUndo);
 
@@ -155,7 +156,8 @@ protected:
 
     /* @brief This functions should be called when the producer of the binClip changes, to allow refresh
      * @param state corresponds to the state of the clip we want (audio or video)
-     * @param speed corresponds to the speed we need. Leave to 0 to keep current speed. Warning: this function doesn't notify the model. Unless you know what you are doing, better use uteTimewarProducer to change the speed
+     * @param speed corresponds to the speed we need. Leave to 0 to keep current speed. Warning: this function doesn't notify the model. Unless you know what
+     * you are doing, better use uteTimewarProducer to change the speed
      */
     void refreshProducerFromBin(PlaylistState::ClipState state, double speed = 0);
     void refreshProducerFromBin();
