@@ -890,6 +890,7 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
     timeline->m_allClips[cid1]->m_endlessResize = false;
     timeline->m_allClips[cid2]->m_endlessResize = false;
 
+
     int length = 20;
     int nclips = timeline->m_allClips.size();
 
@@ -1432,6 +1433,7 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
         undoStack->redo();
         state4();
     }
+
 }
 
 TEST_CASE("Snapping", "[Snapping]")

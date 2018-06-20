@@ -20,19 +20,14 @@ QString createProducer(Mlt::Profile &prof, std::string color, std::shared_ptr<Pr
     return binId;
 }
 
-QString createProducerWithSound(Mlt::Profile &prof, std::shared_ptr<ProjectItemModel> binModel, int length, bool limited)
+QString createProducerWithSound(Mlt::Profile &prof, std::shared_ptr<ProjectItemModel> binModel)
 {
-    std::shared_ptr<Mlt::Producer> producer = std::make_shared<Mlt::Producer>(prof, "blipflash:");
-    producer->set("length", length);
-    producer->set("out", length - 1);
+    std::shared_ptr<Mlt::Producer> producer = std::make_shared<Mlt::Producer>(prof, QFileInfo("../tests/small.mkv").absoluteFilePath().toStdString().c_str());
 
     REQUIRE(producer->is_valid());
 
     QString binId = QString::number(binModel->getFreeClipId());
     auto binClip = ProjectClip::construct(binId, QIcon(), binModel, producer);
-    if (limited) {
-        binClip->forceLimitedDuration();
-    }
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     REQUIRE(binModel->addItem(binClip, binModel->getRootFolder()->clipId(), undo, redo));

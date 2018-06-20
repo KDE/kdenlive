@@ -153,8 +153,11 @@ protected:
      */
     void setTimelineEffectsEnabled(bool enabled);
 
-    /* @brief This functions should be called when the producer of the binClip changes, to allow refresh */
-    void refreshProducerFromBin(PlaylistState::ClipState state);
+    /* @brief This functions should be called when the producer of the binClip changes, to allow refresh
+     * @param state corresponds to the state of the clip we want (audio or video)
+     * @param speed corresponds to the speed we need. Leave to 0 to keep current speed. Warning: this function doesn't notify the model. Unless you know what you are doing, better use uteTimewarProducer to change the speed
+     */
+    void refreshProducerFromBin(PlaylistState::ClipState state, double speed = 0);
     void refreshProducerFromBin();
 
     /* @brief This functions replaces the current producer with a slowmotion one

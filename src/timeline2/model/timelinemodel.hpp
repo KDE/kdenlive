@@ -527,7 +527,7 @@ public:
     std::shared_ptr<EffectStackModel> getTrackEffectStackModel(int trackId);
 
     /** @brief Add slowmotion effect to clip in timeline. */
-    bool requestClipTimeWarp(int clipId, int trackId, int blankSpace, double speed, Fun &undo, Fun &redo);
+    bool requestClipTimeWarp(int clipId, int blankSpace, double speed, Fun &undo, Fun &redo);
     bool changeItemSpeed(int clipId, double speed);
     void replugClip(int clipId);
     /** @brief Refresh the tractor profile in case a change was requested. */
@@ -678,6 +678,7 @@ protected:
     virtual void _endInsertRows() = 0;
     virtual void notifyChange(const QModelIndex &topleft, const QModelIndex &bottomright, bool start, bool duration, bool updateThumb) = 0;
     virtual void notifyChange(const QModelIndex &topleft, const QModelIndex &bottomright, const QVector<int> &roles) = 0;
+    virtual void notifyChange(const QModelIndex &topleft, const QModelIndex &bottomright, int role) = 0;
     virtual QModelIndex makeClipIndexFromID(int) const = 0;
     virtual QModelIndex makeCompositionIndexFromID(int) const = 0;
     virtual QModelIndex makeTrackIndexFromID(int) const = 0;

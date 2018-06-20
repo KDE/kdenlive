@@ -430,6 +430,7 @@ void ProjectClip::createDisabledMasterProducer()
 }
 std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int clipId, PlaylistState::ClipState state, double speed)
 {
+    qDebug() << "producer request"<<clipId<<speed;
     if (qFuzzyCompare(speed, 1.0)) {
         // we are requesting a normal speed producer
         // We can first cleen the speed producers we have for the current id
@@ -476,6 +477,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int clipId, Play
         if (qFuzzyCompare(m_timewarpProducers[clipId]->get_double("warp_speed"), speed)) {
             // the producer we have is good, use it !
             warpProducer = m_timewarpProducers[clipId];
+            qDebug() << "Reusing producer!";
         } else {
             m_timewarpProducers.erase(clipId);
         }
@@ -484,8 +486,10 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int clipId, Play
         QLocale locale;
         QString resource = QString("timewarp:%1:%2").arg(locale.toString(speed)).arg(originalProducer()->get("resource"));
         warpProducer.reset(new Mlt::Producer(*originalProducer()->profile(), resource.toUtf8().constData()));
+        qDebug() << "new producer!";
     }
 
+    qDebug() << "warp LENGTH" << warpProducer->get_length();
     warpProducer->set("set.test_audio", 1);
     warpProducer->set("set.test_image", 1);
     if (state == PlaylistState::AudioOnly) {

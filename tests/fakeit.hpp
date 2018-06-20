@@ -2,7 +2,7 @@
 /*
  *  FakeIt - A Simplified C++ Mocking Framework
  *  Copyright (c) Eran Pe'er 2013
- *  Generated: 2017-04-09 00:27:34.306415
+ *  Generated: 2017-11-05 20:30:40.182814
  *  Distributed under the MIT License. Please refer to the LICENSE file at:
  *  https://github.com/eranpeer/FakeIt
  */
@@ -375,10 +375,16 @@ namespace fakeit {
 
 namespace fakeit {
 
+	struct ActualInvocationsContainer {
+		virtual void clear() = 0;
+
+		virtual ~ActualInvocationsContainer() NO_THROWS { }
+	};
+
     struct ActualInvocationsSource {
         virtual void getActualInvocations(std::unordered_set<fakeit::Invocation *> &into) const = 0;
 
-        virtual ~ActualInvocationsSource() NO_THROWS { };
+        virtual ~ActualInvocationsSource() NO_THROWS { }
     };
 
     struct InvocationsSourceProxy : public ActualInvocationsSource {
@@ -746,6 +752,9 @@ namespace fakeit {
         void handle(const UnexpectedMethodCallEvent &e) override {
             fireEvent(e);
             auto &eh = getTestingFrameworkAdapter();
+            #ifdef FAKEIT_ASSERT_ON_UNEXPECTED_METHOD_INVOCATION
+            assert(!"Unexpected method invocation");
+            #endif
             eh.handle(e);
         }
 
@@ -864,6 +873,17 @@ namespace fakeit {
             return out.str();
         }
 
+        static std::string formatExpectedPattern(const std::vector<fakeit::Sequence *> &expectedPattern) {
+            std::string expectedPatternStr;
+            for (unsigned int i = 0; i < expectedPattern.size(); i++) {
+                Sequence *s = expectedPattern[i];
+                expectedPatternStr += formatSequence(*s);
+                if (i < expectedPattern.size() - 1)
+                    expectedPatternStr += " ... ";
+            }
+            return expectedPatternStr;
+        }
+
     private:
 
         static std::string formatSequence(const Sequence &val) {
@@ -928,17 +948,6 @@ namespace fakeit {
 
             out << " * " << val.getTimes();
             return out.str();
-        }
-
-        static std::string formatExpectedPattern(const std::vector<fakeit::Sequence *> &expectedPattern) {
-            std::string expectedPatternStr;
-            for (unsigned int i = 0; i < expectedPattern.size(); i++) {
-                Sequence *s = expectedPattern[i];
-                expectedPatternStr += formatSequence(*s);
-                if (i < expectedPattern.size() - 1)
-                    expectedPatternStr += " ... ";
-            }
-            return expectedPatternStr;
         }
     };
 }
@@ -1064,6 +1073,20 @@ namespace fakeit {
 
     };
 }
+#include <string>
+#include <sstream>
+#include <iomanip>
+
+namespace fakeit {
+
+    template<typename T>
+    static std::string to_string(const T &n) {
+        std::ostringstream stm;
+        stm << n;
+        return stm.str();
+    }
+
+}
 
 namespace fakeit {
 
@@ -1127,9 +1150,9 @@ namespace fakeit {
 
         std::string formatLineNumber(std::string file, int num) {
 #ifndef __GNUG__
-            return file + std::string("(") + std::to_string(num) + std::string(")");
+            return file + std::string("(") + fakeit::to_string(num) + std::string(")");
 #else
-            return file + std::string(":") + std::to_string(num);
+            return file + std::string(":") + fakeit::to_string(num);
 #endif
         }
 
@@ -1140,36 +1163,36 @@ namespace fakeit {
         CatchAdapter(EventFormatter &formatter)
                 : _formatter(formatter) {}
 
+        void fail(
+                std::string vetificationType,
+                Catch::SourceLineInfo sourceLineInfo,
+                std::string failingExpression,
+                std::string fomattedMessage,
+                Catch::ResultWas::OfType resultWas = Catch::ResultWas::OfType::ExpressionFailed ){
+            Catch::AssertionHandler catchAssertionHandler( vetificationType, sourceLineInfo, failingExpression, Catch::ResultDisposition::Normal );
+            INTERNAL_CATCH_TRY( catchAssertionHandler ) { \
+                CATCH_INTERNAL_SUPPRESS_PARENTHESES_WARNINGS \
+                catchAssertionHandler.handle( resultWas , fomattedMessage); \
+                CATCH_INTERNAL_UNSUPPRESS_PARENTHESES_WARNINGS \
+            } INTERNAL_CATCH_CATCH( catchAssertionHandler ) \
+            INTERNAL_CATCH_REACT( catchAssertionHandler )
+        }
+
         virtual void handle(const UnexpectedMethodCallEvent &evt) override {
             std::string format = _formatter.format(evt);
-            Catch::ResultBuilder __catchResult("FAIL", ::Catch::SourceLineInfo(),
-                                               "", Catch::ResultDisposition::Normal);
-            __catchResult << format + ::Catch::StreamEndStop();
-            __catchResult.captureResult(Catch::ResultWas::ExplicitFailure);
-            INTERNAL_CATCH_REACT(__catchResult)
-            throw Catch::TestFailureException();
+            fail("UnexpectedMethodCall",::Catch::SourceLineInfo("Unknown file",0),"",format, Catch::ResultWas::OfType::ExplicitFailure);
         }
 
         virtual void handle(const SequenceVerificationEvent &evt) override {
             std::string format(formatLineNumber(evt.file(), evt.line()) + ": " + _formatter.format(evt));
-            Catch::ResultBuilder __catchResult("FAIL", ::Catch::SourceLineInfo(evt.file(),
-                                                                               static_cast<std::size_t>( evt.line())),
-                                               "", Catch::ResultDisposition::Normal);
-            __catchResult << format + ::Catch::StreamEndStop();
-            __catchResult.captureResult(Catch::ResultWas::ExplicitFailure);
-            INTERNAL_CATCH_REACT(__catchResult)
-            throw Catch::TestFailureException();
+            std::string expectedPattern {DefaultEventFormatter::formatExpectedPattern(evt.expectedPattern())};
+            fail("Verify",::Catch::SourceLineInfo(evt.file(),evt.line()),expectedPattern,format);
         }
+
 
         virtual void handle(const NoMoreInvocationsVerificationEvent &evt) override {
             std::string format(formatLineNumber(evt.file(), evt.line()) + ": " + _formatter.format(evt));
-            Catch::ResultBuilder __catchResult("FAIL", ::Catch::SourceLineInfo(evt.file(),
-                                                                               static_cast<std::size_t>( evt.line())),
-                                               "", Catch::ResultDisposition::Normal);
-            __catchResult << format + ::Catch::StreamEndStop();
-            __catchResult.captureResult(Catch::ResultWas::ExplicitFailure);
-            INTERNAL_CATCH_REACT(__catchResult)
-            throw Catch::TestFailureException();
+            fail("VerifyNoMoreInvocations",::Catch::SourceLineInfo(evt.file(),evt.line()),"",format);
         }
 
     };
@@ -5302,7 +5325,7 @@ namespace fakeit {
 #ifdef _MSC_VER
 namespace fakeit {
 
-    typedef unsigned long DWORD;
+    typedef unsigned long dword_;
 
     struct TypeDescriptor {
         TypeDescriptor() :
@@ -5315,7 +5338,7 @@ namespace fakeit {
         }
 
 		char *ptrToVTable;
-        DWORD spare;
+        dword_ spare;
         char name[8];
     };
 
@@ -5339,9 +5362,9 @@ namespace fakeit {
         }
 
         const std::type_info *pTypeDescriptor;
-        DWORD numContainedBases;
+        dword_ numContainedBases;
         struct PMD where;
-        DWORD attributes;
+        dword_ attributes;
     };
 
     template<typename C, typename... baseclasses>
@@ -5363,9 +5386,9 @@ namespace fakeit {
             delete[] pBaseClassArray;
         }
 
-        DWORD signature;
-        DWORD attributes;
-        DWORD numBaseClasses;
+        dword_ signature;
+        dword_ attributes;
+        dword_ numBaseClasses;
         RTTIBaseClassDescriptor **pBaseClassArray;
 
         template<typename BaseType>
@@ -5398,11 +5421,11 @@ namespace fakeit {
 		{
 		}
 
-		DWORD signature;
-		DWORD offset;
-		DWORD cdOffset;
-		DWORD typeDescriptorOffset;
-		DWORD classDescriptorOffset;
+		dword_ signature;
+		dword_ offset;
+		dword_ cdOffset;
+		dword_ typeDescriptorOffset;
+		dword_ classDescriptorOffset;
 #else
 		RTTICompleteObjectLocator(const std::type_info &info) :
 			signature(0), offset(0), cdOffset(0),
@@ -5414,9 +5437,9 @@ namespace fakeit {
 			delete pClassDescriptor;
 		}
 
-		DWORD signature;
-		DWORD offset;
-		DWORD cdOffset;
+		dword_ signature;
+		dword_ offset;
+		dword_ cdOffset;
 		const std::type_info *pTypeDescriptor;
 		struct RTTIClassHierarchyDescriptor<C, baseclasses...> *pClassDescriptor;
 #endif
@@ -5896,7 +5919,8 @@ namespace fakeit {
         std::vector<std::shared_ptr<Destructible>> &_methodMocks;
         std::vector<unsigned int> &_offsets;
 
-        unsigned int getOffset(unsigned int id) {
+        unsigned int getOffset(unsigned int id) const
+        {
             unsigned int offset = 0;
             for (; offset < _offsets.size(); offset++) {
                 if (_offsets[offset] == id) {
@@ -5950,12 +5974,16 @@ namespace fakeit {
         }
 
         void Reset() {
-            _methodMocks = {{}};
+			_methodMocks = {};
             _methodMocks.resize(VTUtils::getVTSize<C>());
             _members = {};
-            _offsets = {};
+			_offsets = {};
             _offsets.resize(VTUtils::getVTSize<C>());
             _cloneVt.copyFrom(originalVtHandle.restore());
+        }
+
+		void Clear()
+        {
         }
 
         template<int id, typename R, typename ... arglist>
@@ -6369,7 +6397,7 @@ namespace fakeit {
             }
 
             struct Matcher : public TypedMatcher<T> {
-                virtual bool matches(const T &) const {
+                virtual bool matches(const T &) const override {
                     return true;
                 }
 
@@ -6756,7 +6784,7 @@ namespace fakeit {
 
 
     template<typename R, typename ... arglist>
-    class RecordedMethodBody : public MethodInvocationHandler<R, arglist...>, public ActualInvocationsSource {
+    class RecordedMethodBody : public MethodInvocationHandler<R, arglist...>, public ActualInvocationsSource, public ActualInvocationsContainer {
 
         struct MatchedInvocationHandler : ActualInvocationHandler<R, arglist...> {
 
@@ -6844,11 +6872,14 @@ namespace fakeit {
             _invocationHandlers.push_back(destructable);
         }
 
-        void clear() {
+        void reset() {
             _invocationHandlers.clear();
             _actualInvocations.clear();
         }
 
+		void clear() override {
+			_actualInvocations.clear();
+		}
 
         R handleMethodInvocation(const typename fakeit::production_arg<arglist>::type... args) override {
             unsigned int ordinal = Invocation::nextInvocationOrdinal();
@@ -7896,12 +7927,27 @@ namespace fakeit {
             }
         }
 
-        void reset() {
+	    void initDataMembersIfOwner()
+	    {
+		    if (_isOwner) {
+			    FakeObject<C, baseclasses...> *fake = reinterpret_cast<FakeObject<C, baseclasses...> *>(_instance);
+			    fake->initializeDataMembersArea();
+		    }
+	    }
+
+	    void reset() {
             _proxy.Reset();
-            if (_isOwner) {
-                FakeObject<C, baseclasses...> *fake = reinterpret_cast<FakeObject<C, baseclasses...> *>(_instance);
-                fake->initializeDataMembersArea();
-            }
+		    initDataMembersIfOwner();
+	    }
+
+		void clear()
+        {
+			std::vector<ActualInvocationsContainer *> vec;
+			_proxy.getMethodMocks(vec);
+			for (ActualInvocationsContainer *s : vec) {
+				s->clear();
+			}
+			initDataMembersIfOwner();
         }
 
         virtual C &get() override {
@@ -8166,7 +8212,6 @@ namespace fakeit {
 namespace fakeit {
     namespace internal {
     }
-    using namespace fakeit;
     using namespace fakeit::internal;
 
     template<typename C, typename ... baseclasses>
@@ -8194,6 +8239,10 @@ namespace fakeit {
         void Reset() {
             impl.reset();
         }
+
+		void ClearInvocationHistory() {
+			impl.clear();
+		}
 
         template<class DATA_TYPE, typename ... arglist,
                 class = typename std::enable_if<std::is_member_object_pointer<DATA_TYPE C::*>::value>::type>
@@ -8742,20 +8791,6 @@ namespace fakeit {
             throw false;
         }
     };
-}
-#include <string>
-#include <sstream>
-#include <iomanip>
-
-namespace fakeit {
-
-    template<typename T>
-    static std::string to_string(const T &n) {
-        std::ostringstream stm;
-        stm << n;
-        return stm.str();
-    }
-
 }
 
 

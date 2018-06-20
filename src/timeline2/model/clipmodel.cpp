@@ -126,8 +126,8 @@ ClipModel::~ClipModel() {}
 bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool logUndo)
 {
     QWriteLocker locker(&m_lock);
-    // qDebug() << "RESIZE CLIP" << m_id << "target size=" << size << "right=" << right << "endless=" << m_endlessResize << "total length" <<
-    // m_producer->get_length() << "current length" << getPlaytime();
+    qDebug() << "RESIZE CLIP" << m_id << "target size=" << size << "right=" << right << "endless=" << m_endlessResize << "total length"
+             << m_producer->get_length() << "current length" << getPlaytime();
     if (!m_endlessResize && (size <= 0 || size > m_producer->get_length())) {
         return false;
     }
@@ -142,13 +142,14 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
 bool ClipModel::requestResize(int old_in, int old_out, int oldDuration, int delta, bool right, Fun &undo, Fun &redo, bool logUndo)
 {
     QWriteLocker locker(&m_lock);
-    // qDebug() << "RESIZE CLIP" << m_id << "target size=" << size << "right=" << right << "endless=" << m_endlessResize << "total length" <<
-    // m_producer->get_length() << "current length" << getPlaytime();
+    qDebug() << "requestResize" << old_in << old_out << oldDuration << delta << right << m_producer->get_length();
     // check if there is enough space on the chosen side
     if (!right && old_in + delta < 0 && !m_endlessResize) {
+        qDebug() << "fail 1";
         return false;
     }
     if (!m_endlessResize && right && old_out - delta >= m_producer->get_length()) {
+        qDebug() << "fail 2";
         return false;
     }
     int in = old_in;
@@ -339,11 +340,18 @@ bool ClipModel::isAudioOnly() const
     return m_currentState == PlaylistState::AudioOnly;
 }
 
-void ClipModel::refreshProducerFromBin(PlaylistState::ClipState state)
+void ClipModel::refreshProducerFromBin(PlaylistState::ClipState state, double speed)
 {
     QWriteLocker locker(&m_lock);
     int in = getIn();
     int out = getOut();
+    qDebug() << "refresh " << speed << m_speed << in << out;
+    if (!qFuzzyCompare(speed, m_speed) && speed != 0.) {
+        in = in * m_speed / speed;
+        out = in + getPlaytime() - 1;
+        m_speed = speed;
+        qDebug() << "changing speed" << in << out << m_speed;
+    }
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
     std::shared_ptr<Mlt::Producer> binProducer = binClip->getTimelineProducer(m_id, state, m_speed);
     m_producer = std::move(binProducer);
@@ -362,79 +370,43 @@ void ClipModel::refreshProducerFromBin()
 
 bool ClipModel::useTimewarpProducer(double speed, int extraSpace, Fun &undo, Fun &redo)
 {
-    if (m_endlessResize || qFuzzyCompare(speed, m_speed)) {
+    if (m_endlessResize) {
         // no timewarp for endless producers
         return false;
+    }
+    if (qFuzzyCompare(speed, m_speed)) {
+        // nothing to do
+        return true;
     }
     std::function<bool(void)> local_undo = []() { return true; };
     std::function<bool(void)> local_redo = []() { return true; };
     double previousSpeed = getSpeed();
-    int old_in = getIn();
-    int old_out = getOut();
-    int oldDuration = old_out - old_in;
-    int newIn = old_in * previousSpeed / speed;
-    auto operation = useTimewarpProducer_lambda(speed);
-    Fun newInOperation = [this, newIn]() {
-        int duration = m_producer->get_playtime() - 1;
-        m_producer->set_in_and_out(newIn, newIn + duration);
-        return true;
-    };
-    Fun oldInOperation = [this, old_in]() {
-        int duration = m_producer->get_playtime() - 1;
-        m_producer->set_in_and_out(old_in, old_in + duration);
-        return true;
-    };
+    int oldDuration = getPlaytime();
     int newDuration = int(double(oldDuration) * previousSpeed / speed);
-    if (extraSpace > 0 && (newDuration >= extraSpace)) {
-        newDuration = extraSpace;
-    }
+    auto operation = useTimewarpProducer_lambda(speed);
     auto reverse = useTimewarpProducer_lambda(previousSpeed);
-    bool res = false;
-    // We have 2 different cases here to have a working undo. If the speed is slowed (<1), duration will be increased
-    // So the new out point might be outside current clip. So we perform the producer change, then resize
-    if (speed < previousSpeed) {
-        // Update to timewarp producer, duration is longer.
-        res = operation();
-        if (res) {
-            UPDATE_UNDO_REDO(operation, reverse, local_undo, local_redo);
-            // Adjust length
-            res = requestResize(old_in, old_out, oldDuration, oldDuration - newDuration, true, local_undo, local_redo, true);
-            if (res) {
-                // Set the new in point
-                newInOperation();
-                UPDATE_UNDO_REDO(newInOperation, oldInOperation, local_undo, local_redo);
-            }
+    if (operation()) {
+        UPDATE_UNDO_REDO(operation, reverse, local_undo, local_redo);
+        bool res = requestResize(newDuration, true, local_undo, local_redo, true);
+        if (!res) {
+            local_undo();
+            return false;
         }
-    } else {
-        // Speed is increased (>1), duration will be shortened
-        // So we first resize to the new duration, then change the producer
-        // Resize to shortened length
-        // Switch to timewarp producer
-        res = requestResize(old_in, old_out, oldDuration, oldDuration - newDuration, true, local_undo, local_redo, true);
-        if (res) {
-            UPDATE_UNDO_REDO(newInOperation, oldInOperation, local_undo, local_redo);
-            UPDATE_UNDO_REDO(operation, reverse, local_undo, local_redo);
-            // Update in point
-            newInOperation();
-            res = operation();
-        }
+        UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
+        return true;
     }
-    if (!res) {
-        return false;
-    }
-    UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
-    return true;
+    return false;
 }
 
 Fun ClipModel::useTimewarpProducer_lambda(double speed)
 {
     QWriteLocker locker(&m_lock);
     return [speed, this]() {
-        m_speed = speed;
-        refreshProducerFromBin(m_currentState);
+        qDebug() << "timeWarp producer" << speed;
+        refreshProducerFromBin(m_currentState, speed);
         if (auto ptr = m_parent.lock()) {
             QModelIndex ix = ptr->makeClipIndexFromID(m_id);
-            ptr->notifyChange(ix, ix, {TimelineModel::SpeedRole});
+            ptr->notifyChange(ix, ix, TimelineModel::SpeedRole);
         }
         return true;
     };

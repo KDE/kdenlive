@@ -149,6 +149,7 @@ if (BUILD_TESTS)
         src
         )
     ADD_EXECUTABLE(runTests ${Tests_SRCS})
+    set_property(TARGET runTests PROPERTY CXX_STANDARD 14)
     target_link_libraries(runTests kdenliveLib)
     ADD_TEST(runTests runTests -d yes)
 else()

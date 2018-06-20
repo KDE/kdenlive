@@ -87,6 +87,7 @@ public:
     const QString getTrackFullName(int tid) const;
     void notifyChange(const QModelIndex &topleft, const QModelIndex &bottomright, bool start, bool duration, bool updateThumb) override;
     void notifyChange(const QModelIndex &topleft, const QModelIndex &bottomright, const QVector<int> &roles) override;
+    void notifyChange(const QModelIndex &topleft, const QModelIndex &bottomright, int role) override;
     void buildTrackCompositing();
     const QString groupsData();
     bool loadGroups(const QString &groupsData);

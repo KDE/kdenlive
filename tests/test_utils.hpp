@@ -45,7 +45,8 @@ using namespace fakeit;
     Spy(Method(mock, _endInsertRows));                                                                                                                         \
     Spy(Method(mock, _endRemoveRows));                                                                                                                         \
     Spy(OverloadedMethod(mock, notifyChange, void(const QModelIndex &, const QModelIndex &, bool, bool, bool)));                                               \
-    Spy(OverloadedMethod(mock, notifyChange, void(const QModelIndex &, const QModelIndex &, const QVector<int> &)));
+    Spy(OverloadedMethod(mock, notifyChange, void(const QModelIndex &, const QModelIndex &, const QVector<int> &)));                                           \
+    Spy(OverloadedMethod(mock, notifyChange, void(const QModelIndex &, const QModelIndex &, int)));
 
 #define NO_OTHERS()                                                                                                                                            \
     VerifyNoOtherInvocations(Method(timMock, _beginRemoveRows));                                                                                               \
@@ -73,6 +74,12 @@ using namespace fakeit;
     Verify(OverloadedMethod(timMock, notifyChange, void(const QModelIndex &, const QModelIndex &, bool, bool, bool))).Exactly(times);                          \
     NO_OTHERS();
 
+#define CHECK_UPDATE(role)                                                                                                                                     \
+    Verify(OverloadedMethod(timMock, notifyChange, void(const QModelIndex &, const QModelIndex &, int))                                                        \
+               .Matching([](const QModelIndex &, const QModelIndex &, int c) { return c == role; }))                                       \
+        .Exactly(1);                                                                                                                                           \
+    NO_OTHERS();
+
 QString createProducer(Mlt::Profile &prof, std::string color, std::shared_ptr<ProjectItemModel> binModel, int length = 20, bool limited = true);
 
-QString createProducerWithSound(Mlt::Profile &prof, std::shared_ptr<ProjectItemModel> binModel, int length = 20, bool limited = true);
+QString createProducerWithSound(Mlt::Profile &prof, std::shared_ptr<ProjectItemModel> binModel);

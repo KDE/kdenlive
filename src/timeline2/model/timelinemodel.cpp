@@ -2194,7 +2194,7 @@ void TimelineModel::requestClipUpdate(int clipId, const QVector<int> &roles)
     notifyChange(modelIndex, modelIndex, roles);
 }
 
-bool TimelineModel::requestClipTimeWarp(int clipId, int trackId, int blankSpace, double speed, Fun &undo, Fun &redo)
+bool TimelineModel::requestClipTimeWarp(int clipId, int blankSpace, double speed, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
     if (qFuzzyCompare(speed, m_allClips[clipId]->getSpeed())) {
@@ -2205,12 +2205,15 @@ bool TimelineModel::requestClipTimeWarp(int clipId, int trackId, int blankSpace,
     int oldPos = getClipPosition(clipId);
     // in order to make the producer change effective, we need to unplant / replant the clip in int track
     bool success = true;
-    success = getTrackById(trackId)->requestClipDeletion(clipId, true, true, local_undo, local_redo);
+    int trackId = getClipTrackId(clipId);
+    if (trackId != -1) {
+        success = success && getTrackById(trackId)->requestClipDeletion(clipId, true, true, local_undo, local_redo);
+    }
     if (success) {
         success = m_allClips[clipId]->useTimewarpProducer(speed, blankSpace, local_undo, local_redo);
     }
-    if (success) {
-        success = getTrackById(trackId)->requestClipInsertion(clipId, oldPos, true, true, local_undo, local_redo);
+    if (trackId != -1) {
+        success = success && getTrackById(trackId)->requestClipInsertion(clipId, oldPos, true, true, local_undo, local_redo);
     }
     if (!success) {
         local_undo();
@@ -2241,10 +2244,10 @@ bool TimelineModel::changeItemSpeed(int clipId, double speed)
                     blankSpace = qMin(blankSpace, partnerSpace);
                 }
             }
-            result = requestClipTimeWarp(splitId, split_trackId, blankSpace, speed / 100.0, undo, redo);
+            result = requestClipTimeWarp(splitId, blankSpace, speed / 100.0, undo, redo);
         }
         if (result) {
-            result = requestClipTimeWarp(clipId, trackId, blankSpace, speed / 100.0, undo, redo);
+            result = requestClipTimeWarp(clipId, blankSpace, speed / 100.0, undo, redo);
         } else {
             pCore->displayMessage(i18n("Change speed failed"), ErrorMessage);
             undo();
