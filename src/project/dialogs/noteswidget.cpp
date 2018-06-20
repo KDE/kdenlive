@@ -67,3 +67,12 @@ void NotesWidget::mousePressEvent(QMouseEvent *e)
     emit seekProject(anchor.toInt());
     e->setAccepted(true);
 }
+
+void NotesWidget::addProjectNote()
+{
+    if (!textCursor().atBlockStart()) {
+        textCursor().movePosition(QTextCursor::EndOfBlock);
+        insertPlainText(QStringLiteral("\n"));
+    }
+    emit insertNotesTimecode();
+}

@@ -699,6 +699,13 @@ QString ProjectManager::documentNotes() const
     return m_notesPlugin->widget()->toHtml();
 }
 
+void ProjectManager::slotAddProjectNote()
+{
+    m_notesPlugin->widget()->raise();
+    m_notesPlugin->widget()->setFocus();
+    m_notesPlugin->widget()->addProjectNote();
+}
+
 void ProjectManager::prepareSave()
 {
     pCore->projectItemModel()->saveDocumentProperties(pCore->window()->getMainTimeline()->controller()->documentProperties(), m_project->metadata(),

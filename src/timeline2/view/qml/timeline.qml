@@ -400,6 +400,13 @@ Rectangle {
                 timeline.editGuide(timeline.position);
             }
         }
+        OLD.MenuItem {
+            id: addProjectNote
+            text: i18n('Add Project Note')
+            onTriggered: {
+                timeline.triggerAction('add_project_note')
+            }
+        }
         onAboutToShow: {
             if (guidesModel.hasMarker(timeline.position)) {
                 // marker at timeline position

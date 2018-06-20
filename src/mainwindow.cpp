@@ -1571,6 +1571,8 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("switch_track_target"), i18n("Toggle Track Target"), pCore->projectManager(), SLOT(slotSwitchTrackTarget()), QIcon(),
               Qt::SHIFT + Qt::Key_T);
 
+    addAction(QStringLiteral("add_project_note"), i18n("Add Project Note"), pCore->projectManager(), SLOT(slotAddProjectNote()), KoIconUtils::themedIcon(QStringLiteral("bookmark")));
+
     QHash<QString, QAction *> actions;
     actions.insert(QStringLiteral("locate"), locateClip);
     actions.insert(QStringLiteral("reload"), reloadClip);

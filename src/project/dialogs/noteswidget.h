@@ -34,7 +34,8 @@ class NotesWidget : public QTextEdit
 public:
     explicit NotesWidget(QWidget *parent = nullptr);
     ~NotesWidget();
-
+    /** @brief insert current timeline timecode and focus widget to allow entering quick note */
+    void addProjectNote();
 protected:
     void mouseMoveEvent(QMouseEvent *e) override;
     void mousePressEvent(QMouseEvent *e) override;

@@ -141,6 +141,8 @@ public slots:
     void adjustProjectDuration();
     /** @brief Add an asset in timeline (effect, transition). */
     void activateAsset(const QVariantMap effectData);
+    /** @brief insert current timeline timecode in notes widget and focus widget to allow entering quick note */
+    void slotAddProjectNote();
 
 private slots:
     void slotRevert();
