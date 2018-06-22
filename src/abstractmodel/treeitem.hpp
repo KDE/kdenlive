@@ -129,6 +129,7 @@ public:
        @param is the binary op to apply (signature should be (T, shared_ptr<TreeItem>)->T)
     */
     template <class T, class BinaryOperation> T accumulate(T init, BinaryOperation op);
+    template <class T, class BinaryOperation> T accumulate_const(T init, BinaryOperation op) const;
 
     /* @brief Return true if the current item has the item with given id as an ancestor */
     bool hasAncestor(int id);
@@ -171,6 +172,17 @@ protected:
 template <class T, class BinaryOperation> T TreeItem::accumulate(T init, BinaryOperation op)
 {
     T res = op(init, shared_from_this());
-    return std::accumulate(m_childItems.begin(), m_childItems.end(), res, op);
+    for (const auto &c : m_childItems) {
+        res = c->accumulate(res, op);
+    }
+    return res;
+}
+template <class T, class BinaryOperation> T TreeItem::accumulate_const(T init, BinaryOperation op) const
+{
+    T res = op(init, shared_from_this());
+    for (const auto &c : m_childItems) {
+        res = c->accumulate_const(res, op);
+    }
+    return res;
 }
 #endif
