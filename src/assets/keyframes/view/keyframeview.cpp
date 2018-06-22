@@ -137,7 +137,7 @@ void KeyframeView::slotGoToNext()
     auto next = m_model->getNextKeyframe(GenTime(m_position + offset, pCore->getCurrentFps()), &ok);
 
     if (ok) {
-        emit seekToPos(next.first.frames(pCore->getCurrentFps()) - offset);
+        emit seekToPos(qMin(next.first.frames(pCore->getCurrentFps()) - offset, m_duration - 1));
     } else {
         // no keyframe after current position
         emit seekToPos(m_duration - 1);
@@ -155,7 +155,7 @@ void KeyframeView::slotGoToPrev()
     auto prev = m_model->getPrevKeyframe(GenTime(m_position + offset, pCore->getCurrentFps()), &ok);
 
     if (ok) {
-        emit seekToPos(prev.first.frames(pCore->getCurrentFps()) - offset);
+        emit seekToPos(qMax(0, prev.first.frames(pCore->getCurrentFps()) - offset));
     } else {
         // no keyframe after current position
         emit seekToPos(m_duration);
