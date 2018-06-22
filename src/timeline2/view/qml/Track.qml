@@ -200,14 +200,14 @@ Column{
                 }
                 onLoaded: {
                     item.clipId= model.item
-                    item.clipType = model.clipType
                     if (loader.item.isComposition === false) {
-                        console.log('loaded clip: ', model.start, ', ID: ', model.item, ', index: ', trackRoot.DelegateModel.itemsIndex)
+                        console.log('loaded clip: ', model.start, ', ID: ', model.item, ', index: ', trackRoot.DelegateModel.itemsIndex,', TYPE:', model.clipType)
                         item.isAudio= model.audio
                         item.markers= model.markers
                         item.hasAudio = model.hasAudio
                         item.canBeAudio = model.canBeAudio
                         item.canBeVideo = model.canBeVideo
+                        item.clipType = model.clipType
                         //item.binId= model.binId
                     } else {
                         console.log('loaded composition: ', model.start, ', ID: ', model.item, ', index: ', trackRoot.DelegateModel.itemsIndex)

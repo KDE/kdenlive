@@ -178,6 +178,7 @@ QHash<int, QByteArray> TimelineItemModel::roleNames() const
     roles[KeyframesRole] = "keyframeModel";
     roles[ShowKeyframesRole] = "showKeyframes";
     roles[StatusRole] = "clipStatus";
+    roles[TypeRole] = "clipType";
     roles[InPointRole] = "in";
     roles[OutPointRole] = "out";
     roles[FramerateRole] = "fps";
