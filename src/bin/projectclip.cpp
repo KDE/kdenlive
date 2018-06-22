@@ -487,6 +487,10 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int clipId, Play
         QString resource = QString("timewarp:%1:%2").arg(locale.toString(speed)).arg(originalProducer()->get("resource"));
         warpProducer.reset(new Mlt::Producer(*originalProducer()->profile(), resource.toUtf8().constData()));
         qDebug() << "new producer!";
+        qDebug() << "warp LENGTH before" << warpProducer->get_length();
+        int original_length = originalProducer()->get_length();
+        // this is a workaround to cope with Mlt erroneous rounding
+        warpProducer->set("length", double(original_length) / speed);
     }
 
     qDebug() << "warp LENGTH" << warpProducer->get_length();

@@ -349,6 +349,8 @@ void ClipModel::refreshProducerFromBin(PlaylistState::ClipState state, double sp
     if (!qFuzzyCompare(speed, m_speed) && speed != 0.) {
         in = in * m_speed / speed;
         out = in + getPlaytime() - 1;
+        // prevent going out of the clip's range
+        out = std::min(out, int(double(m_producer->get_length()) * m_speed / speed) - 1);
         m_speed = speed;
         qDebug() << "changing speed" << in << out << m_speed;
     }
@@ -383,8 +385,20 @@ bool ClipModel::useTimewarpProducer(double speed, int extraSpace, Fun &undo, Fun
     double previousSpeed = getSpeed();
     int oldDuration = getPlaytime();
     int newDuration = int(double(oldDuration) * previousSpeed / speed);
+    int oldOut = getOut();
+    int oldIn = getIn();
     auto operation = useTimewarpProducer_lambda(speed);
     auto reverse = useTimewarpProducer_lambda(previousSpeed);
+    if (oldOut >= newDuration) {
+        // in that case, we are going to shrink the clip when changing the producer. We must undo that when reloading the old producer
+        reverse = [reverse, oldIn, oldOut, this]() {
+            bool res = reverse();
+            if (res) {
+                setInOut(oldIn, oldOut);
+            }
+            return res;
+        };
+    }
     if (operation()) {
         UPDATE_UNDO_REDO(operation, reverse, local_undo, local_redo);
         bool res = requestResize(newDuration, true, local_undo, local_redo, true);
@@ -395,6 +409,7 @@ bool ClipModel::useTimewarpProducer(double speed, int extraSpace, Fun &undo, Fun
         UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
         return true;
     }
+    qDebug() << "tw: operation fail";
     return false;
 }
 

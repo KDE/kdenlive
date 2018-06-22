@@ -3,7 +3,6 @@
 using namespace fakeit;
 Mlt::Profile profile_timewarp;
 
-
 TEST_CASE("Test of timewarping", "[Timewarp]")
 {
     auto binModel = pCore->projectItemModel();
@@ -43,7 +42,8 @@ TEST_CASE("Test of timewarping", "[Timewarp]")
     timeline->m_allClips[cid2]->m_endlessResize = false;
     timeline->m_allClips[cid3]->m_endlessResize = false;
 
-    SECTION("Timewarping orphan clip") {
+    SECTION("Timewarping orphan clip")
+    {
         int originalDuration = timeline->getClipPlaytime(cid3);
         REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->getClipTrackId(cid3) == -1);
@@ -72,16 +72,20 @@ TEST_CASE("Test of timewarping", "[Timewarp]")
         REQUIRE(timeline->getClipSpeed(cid3) == 0.1);
         REQUIRE(timeline->getClipPlaytime(cid3) == originalDuration / 0.1);
 
-
         std::function<bool(void)> undo2 = []() { return true; };
         std::function<bool(void)> redo2 = []() { return true; };
         REQUIRE(timeline->requestClipTimeWarp(cid3, 100000, 1.2, undo2, redo2));
 
         CHECK_UPDATE(TimelineModel::SpeedRole);
         REQUIRE(timeline->getClipSpeed(cid3) == 1.2);
-        REQUIRE(timeline->getClipPlaytime(cid3) == originalDuration / 1.2);
+        REQUIRE(timeline->getClipPlaytime(cid3) == int(originalDuration / 1.2));
 
         undo2();
+        CHECK_UPDATE(TimelineModel::SpeedRole);
+        REQUIRE(timeline->getClipSpeed(cid3) == 0.1);
+        REQUIRE(timeline->getClipPlaytime(cid3) == originalDuration / 0.1);
+
+        undo();
         CHECK_UPDATE(TimelineModel::SpeedRole);
         REQUIRE(timeline->getClipSpeed(cid3) == 1.);
         REQUIRE(timeline->getClipPlaytime(cid3) == originalDuration);
@@ -91,12 +95,13 @@ TEST_CASE("Test of timewarping", "[Timewarp]")
         int curLength = timeline->getClipPlaytime(cid3);
 
         // This is the limit, should work
-        REQUIRE(timeline->requestClipTimeWarp(cid3, 100000, curLength, undo2, redo2));
+        REQUIRE(timeline->requestClipTimeWarp(cid3, 100000, double(curLength), undo2, redo2));
 
         CHECK_UPDATE(TimelineModel::SpeedRole);
-        REQUIRE(timeline->getClipSpeed(cid3) == curLength);
+        REQUIRE(timeline->getClipSpeed(cid3) == double(curLength));
         REQUIRE(timeline->getClipPlaytime(cid3) == 1);
 
-        REQUIRE_FALSE(true);
+        // This is the higher than the limit, should not work
+        REQUIRE_FALSE(timeline->requestClipTimeWarp(cid3, 100000, double(curLength) + 0.1, undo2, redo2));
     }
 }
