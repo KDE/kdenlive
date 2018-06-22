@@ -43,6 +43,7 @@
 #include <QTextCursor>
 #include <QTimer>
 #include <QToolBar>
+#include <QButtonGroup>
 
 #include <QGraphicsBlurEffect>
 #include <QGraphicsDropShadowEffect>
