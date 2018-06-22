@@ -319,6 +319,34 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
         QDomElement namesElem = element.firstChildElement(QStringLiteral("paramlistdisplay"));
         return i18n(namesElem.text().toUtf8().data()).split(QLatin1Char(','));
     }
+    case List1Role:
+        return parseAttribute(m_ownerId, QStringLiteral("list1"), element);
+    case List2Role:
+        return parseAttribute(m_ownerId, QStringLiteral("list2"), element);
+    case Enum1Role:
+        return parseAttribute(m_ownerId, QStringLiteral("1"), element);
+    case Enum2Role:
+        return parseAttribute(m_ownerId, QStringLiteral("2"), element);
+    case Enum3Role:
+        return parseAttribute(m_ownerId, QStringLiteral("3"), element);
+    case Enum4Role:
+        return parseAttribute(m_ownerId, QStringLiteral("4"), element);
+    case Enum5Role:
+        return parseAttribute(m_ownerId, QStringLiteral("5"), element);
+    case Enum6Role:
+        return parseAttribute(m_ownerId, QStringLiteral("6"), element);
+    case Enum7Role:
+        return parseAttribute(m_ownerId, QStringLiteral("7"), element);
+    case Enum8Role:
+        return parseAttribute(m_ownerId, QStringLiteral("8"), element);
+    case Enum9Role:
+        return parseAttribute(m_ownerId, QStringLiteral("9"), element);
+    case Enum10Role:
+        return parseAttribute(m_ownerId, QStringLiteral("10"), element);
+    case Enum11Role:
+        return parseAttribute(m_ownerId, QStringLiteral("11"), element);
+    case Enum12Role:
+        return parseAttribute(m_ownerId, QStringLiteral("12"), element);
     }
     return QVariant();
 }

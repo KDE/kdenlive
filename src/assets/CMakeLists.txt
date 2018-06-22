@@ -28,5 +28,14 @@ set(kdenlive_SRCS
   assets/view/widgets/geometryeditwidget.cpp
   assets/view/widgets/positioneditwidget.cpp
   assets/view/widgets/coloreditwidget.cpp
+
+  # curves widget
+  assets/view/widgets/curves/abstractcurvewidget.h
+  assets/view/widgets/curves/bezier/beziersplineeditor.cpp
+  assets/view/widgets/curves/bezier/bpoint.cpp
+  assets/view/widgets/curves/bezier/cubicbezierspline.cpp
+  assets/view/widgets/curves/cubic/kis_curve_widget.cpp
+  assets/view/widgets/curves/cubic/kis_cubic_curve.cpp
   PARENT_SCOPE)
+
 

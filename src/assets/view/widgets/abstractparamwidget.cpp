@@ -27,6 +27,10 @@
 #include "listparamwidget.h"
 #include "lumaliftgainparam.hpp"
 #include "positioneditwidget.hpp"
+#include "curves/bezier/beziersplineeditor.h"
+#include "curves/cubic/kis_cubic_curve.h"
+#include "curves/cubic/kis_curve_widget.h"
+#include "curves/curveparamwidget.h"
 #include "slidewidget.hpp"
 #include "switchparamwidget.hpp"
 #include "urlparamwidget.hpp"
@@ -106,6 +110,18 @@ AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetP
     case ParamType::Url:
         widget = new UrlParamWidget(model, index, parent);
         break;
+    case ParamType::Bezier_spline:
+    {
+        using Widget_t = CurveParamWidget<BezierSplineEditor>;
+        widget = new Widget_t(model, index, parent);
+        break;
+    }
+    case ParamType::Curve:
+    {
+        using Widget_t = CurveParamWidget<KisCurveWidget>;
+        widget = new Widget_t(model, index, parent);
+        break;
+    }
     case ParamType::Animated:
     case ParamType::RestrictedAnim:
     //        widget = new AnimationWidget(model, index, range, parent);
@@ -114,8 +130,6 @@ AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetP
     //        widget = new KeyframeEdit(model, index, parent);
     //        break;
     case ParamType::Addedgeometry:
-    case ParamType::Curve:
-    case ParamType::Bezier_spline:
     case ParamType::Keywords:
     case ParamType::Fontfamily:
     case ParamType::Filterjob:

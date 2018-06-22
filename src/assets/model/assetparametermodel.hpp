@@ -72,7 +72,7 @@ class AssetParameterModel : public QAbstractListModel, public enable_shared_from
 public:
     explicit AssetParameterModel(Mlt::Properties *asset, const QDomElement &assetXml, const QString &assetId, ObjectId ownerId, QObject *parent = nullptr);
     virtual ~AssetParameterModel();
-    enum {
+    enum DataRoles {
         NameRole = Qt::UserRole + 1,
         TypeRole,
         CommentRole,
@@ -94,7 +94,25 @@ public:
         OutRole,
         ParentInRole,
         ParentPositionRole,
-        ParentDurationRole
+        ParentDurationRole,
+        List1Role,
+        List2Role,
+        Enum1Role,
+        Enum2Role,
+        Enum3Role,
+        Enum4Role,
+        Enum5Role,
+        Enum6Role,
+        Enum7Role,
+        Enum8Role,
+        Enum9Role,
+        Enum10Role,
+        Enum11Role,
+        Enum12Role,
+        Enum13Role,
+        Enum14Role,
+        Enum15Role,
+        Enum16Role
     };
 
     /* @brief Returns the id of the asset represented by this object */
