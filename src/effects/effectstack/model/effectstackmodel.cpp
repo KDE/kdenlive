@@ -227,16 +227,19 @@ bool EffectStackModel::adjustStackLength(bool adjustFromEnd, int oldIn, int oldD
 {
     const int fadeInDuration = getFadePosition(true);
     const int fadeOutDuration = getFadePosition(false);
-    QList<QModelIndex> indexes;
     int out = newIn + duration;
-    for (int i = 0; i < rootItem->childCount(); ++i) {
-        if (fadeInDuration > 0 && fadeIns.count(std::static_pointer_cast<TreeItem>(rootItem->child(i))->getId()) > 0) {
-            std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
+    for (const auto &leaf : rootItem->getLeaves()) {
+        std::shared_ptr<AbstractEffectItem> item = std::static_pointer_cast<AbstractEffectItem>(leaf);
+        if (item->effectItemType() == EffectItemType::Group) {
+            // probably an empty group, ignore
+            continue;
+        }
+        std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(leaf);
+        if (fadeInDuration > 0 && fadeIns.count(leaf->getId()) > 0) {
             int oldEffectIn = qMax(0, effect->filter().get_in());
             int oldEffectOut = effect->filter().get_out();
             qDebug() << "--previous effect: " << oldEffectIn << "-" << oldEffectOut;
             int effectDuration = qMin(effect->filter().get_length() - 1, duration);
-            indexes << getIndexFromItem(effect);
             if (!adjustFromEnd && (oldIn != newIn || duration != oldDuration)) {
                 // Clip start was resized, adjust effect in / out
                 Fun operation = [this, effect, newIn, effectDuration, logUndo]() {
@@ -245,7 +248,10 @@ bool EffectStackModel::adjustStackLength(bool adjustFromEnd, int oldIn, int oldD
                     qDebug() << "--new effect: " << newIn << "-" << newIn + effectDuration;
                     return true;
                 };
-                operation();
+                bool res = operation();
+                if (!res) {
+                    return false;
+                }
                 Fun reverse = [this, effect, oldEffectIn, oldEffectOut, logUndo]() {
                     effect->setParameter(QStringLiteral("in"), oldEffectIn, false);
                     effect->setParameter(QStringLiteral("out"), oldEffectOut, logUndo);
@@ -264,7 +270,11 @@ bool EffectStackModel::adjustStackLength(bool adjustFromEnd, int oldIn, int oldD
                     effect->setParameter(QStringLiteral("out"), oldEffectIn + effectDuration, logUndo);
                     return true;
                 };
-                if (operation() && logUndo) {
+                bool res = operation();
+                if (!res) {
+                    return false;
+                }
+                if (logUndo) {
                     Fun reverse = [this, effect, referenceEffectOut]() {
                         effect->setParameter(QStringLiteral("out"), referenceEffectOut, true);
                         effect->filter().set("_refout", (char *)nullptr);
@@ -274,8 +284,7 @@ bool EffectStackModel::adjustStackLength(bool adjustFromEnd, int oldIn, int oldD
                     PUSH_LAMBDA(reverse, undo);
                 }
             }
-        } else if (fadeOutDuration > 0 && fadeOuts.count(std::static_pointer_cast<TreeItem>(rootItem->child(i))->getId()) > 0) {
-            std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
+        } else if (fadeOutDuration > 0 && fadeOuts.count(leaf->getId()) > 0) {
             int effectDuration = qMin(fadeOutDuration, duration);
             int newFadeIn = out - effectDuration;
             int oldFadeIn = effect->filter().get_int("in");
@@ -290,7 +299,11 @@ bool EffectStackModel::adjustStackLength(bool adjustFromEnd, int oldIn, int oldD
                 effect->setParameter(QStringLiteral("out"), out, logUndo);
                 return true;
             };
-            if (operation() && logUndo) {
+            bool res = operation();
+            if (!res) {
+                return false;
+            }
+            if (logUndo) {
                 Fun reverse = [this, effect, referenceEffectIn, oldOut]() {
                     effect->setParameter(QStringLiteral("in"), referenceEffectIn, false);
                     effect->setParameter(QStringLiteral("out"), oldOut, true);
@@ -300,10 +313,8 @@ bool EffectStackModel::adjustStackLength(bool adjustFromEnd, int oldIn, int oldD
                 PUSH_LAMBDA(operation, redo);
                 PUSH_LAMBDA(reverse, undo);
             }
-            indexes << getIndexFromItem(effect);
         } else {
             // Not a fade effect, check for keyframes
-            std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
             std::shared_ptr<KeyframeModelList> keyframes = effect->getKeyframeModel();
             if (keyframes != nullptr) {
                 // Effect has keyframes, update these
