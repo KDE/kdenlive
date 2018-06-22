@@ -4120,7 +4120,6 @@ void MainWindow::slotChangeSpeed(int speed)
 
 void MainWindow::slotSwitchTimelineZone(bool active)
 {
-    qDebug()<<"* * * *\nSETTING ENABLE TL ZONE: "<<(active ? QStringLiteral("1") : QStringLiteral("0"));
     pCore->currentDoc()->setDocumentProperty(QStringLiteral("enableTimelineZone"), active ? QStringLiteral("1") : QStringLiteral("0"));
     getCurrentTimeline()->controller()->useRulerChanged();
     QSignalBlocker blocker(m_useTimelineZone);

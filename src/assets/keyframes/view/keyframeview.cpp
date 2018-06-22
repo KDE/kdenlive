@@ -121,6 +121,9 @@ void KeyframeView::slotRemoveKeyframe(int pos)
 void KeyframeView::setDuration(int dur)
 {
     m_duration = dur;
+    int offset = pCore->getItemIn(m_model->getOwnerId());
+    emit atKeyframe(m_model->hasKeyframe(m_position + offset), m_model->singleKeyframe());
+    update();
 }
 
 void KeyframeView::slotGoToNext()

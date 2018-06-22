@@ -301,6 +301,14 @@ bool EffectStackModel::adjustStackLength(bool adjustFromEnd, int oldIn, int oldD
                 PUSH_LAMBDA(reverse, undo);
             }
             indexes << getIndexFromItem(effect);
+        } else {
+            // Not a fade effect, check for keyframes
+            std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
+            if (effect->getKeyframeModel() != nullptr) {
+                // Effect has keyframes, update these
+                QModelIndex index = getIndexFromItem(effect);
+                effect->dataChanged(index, index, QVector<int>());
+            }
         }
     }
     /*Fun checkLength = [this, newIn, duration, out]() {

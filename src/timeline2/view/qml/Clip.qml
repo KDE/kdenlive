@@ -678,6 +678,7 @@ Rectangle {
             drag.axis: Drag.XAxis
             drag.smoothed: false
             property bool shiftTrim: false
+            property bool sizeChanged: false
             cursorShape: (containsMouse ? Qt.SizeHorCursor : Qt.ClosedHandCursor);
             onPressed: {
                 root.stopScrolling = true
@@ -690,13 +691,17 @@ Rectangle {
             onReleased: {
                 root.stopScrolling = false
                 parent.anchors.left = clipRoot.left
-                clipRoot.trimmedIn(clipRoot, shiftTrim)
+                if (sizeChanged) {
+                    clipRoot.trimmedIn(clipRoot, shiftTrim)
+                    sizeChanged = false
+                }
             }
             onPositionChanged: {
                 if (mouse.buttons === Qt.LeftButton) {
                     var delta = Math.round((trimIn.x) / timeScale)
                     if (delta !== 0) {
                         var newDuration =  clipDuration - delta
+                        sizeChanged = true
                         clipRoot.trimmingIn(clipRoot, newDuration, mouse, shiftTrim)
                     }
                 }
@@ -728,6 +733,7 @@ Rectangle {
             anchors.fill: parent
             hoverEnabled: true
             property bool shiftTrim: false
+            property bool sizeChanged: false
             cursorShape: (containsMouse ? Qt.SizeHorCursor : Qt.ClosedHandCursor);
             drag.target: parent
             drag.axis: Drag.XAxis
@@ -743,12 +749,16 @@ Rectangle {
             onReleased: {
                 root.stopScrolling = false
                 parent.anchors.right = clipRoot.right
-                clipRoot.trimmedOut(clipRoot, shiftTrim)
+                if (sizeChanged) {
+                    clipRoot.trimmedOut(clipRoot, shiftTrim)
+                    sizeChanged = false
+                }
             }
             onPositionChanged: {
                 if (mouse.buttons === Qt.LeftButton) {
                     var newDuration = Math.round((parent.x + parent.width) / timeScale)
                     if (newDuration != clipDuration) {
+                        sizeChanged = true
                         clipRoot.trimmingOut(clipRoot, newDuration, mouse, shiftTrim)
                     }
                 }
