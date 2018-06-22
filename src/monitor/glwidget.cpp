@@ -296,8 +296,8 @@ void GLWidget::resizeGL(int width, int height)
 
 void GLWidget::resizeEvent(QResizeEvent *event)
 {
-    QQuickView::resizeEvent(event);
     resizeGL(event->size().width(), event->size().height());
+    QQuickView::resizeEvent(event);
 }
 
 void GLWidget::createShader()
@@ -431,7 +431,7 @@ void GLWidget::paintGL()
     f->glDisable(GL_BLEND);
     f->glDisable(GL_DEPTH_TEST);
     f->glDepthMask(GL_FALSE);
-    f->glViewport(0, m_rulerHeight, width, height);
+    f->glViewport(0, (m_rulerHeight * devicePixelRatio() * 0.5 + 0.5), width, height);
     check_error(f);
     QColor color(KdenliveSettings::window_background());
     f->glClearColor(color.redF(), color.greenF(), color.blueF(), color.alphaF());
