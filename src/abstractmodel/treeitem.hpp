@@ -91,6 +91,9 @@ public:
     */
     std::shared_ptr<TreeItem> child(int row) const;
 
+    /* @brief Returns a vector containing a pointer to all the leaves in the subtree rooted in this element */
+    std::vector<std::shared_ptr<TreeItem>> getLeaves();
+
     /* @brief Return the number of children */
     int childCount() const;
 

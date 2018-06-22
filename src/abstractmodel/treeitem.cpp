@@ -270,3 +270,17 @@ void TreeItem::updateParent(std::shared_ptr<TreeItem> parent)
         m_depth = parent->m_depth + 1;
     }
 }
+
+std::vector<std::shared_ptr<TreeItem>> TreeItem::getLeaves()
+{
+    if (childCount() == 0) {
+        return {shared_from_this()};
+    }
+    std::vector<std::shared_ptr<TreeItem>> leaves;
+    for (const auto &c : m_childItems) {
+        for (const auto &l : c->getLeaves()) {
+            leaves.push_back(l);
+        }
+    }
+    return leaves;
+}
