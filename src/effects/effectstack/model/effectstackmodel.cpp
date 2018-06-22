@@ -304,28 +304,21 @@ bool EffectStackModel::adjustStackLength(bool adjustFromEnd, int oldIn, int oldD
         } else {
             // Not a fade effect, check for keyframes
             std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
-            if (effect->getKeyframeModel() != nullptr) {
+            std::shared_ptr<KeyframeModelList> keyframes = effect->getKeyframeModel();
+            if (keyframes != nullptr) {
                 // Effect has keyframes, update these
+                keyframes->resizeKeyframes(oldIn, oldIn+oldDuration - 1, newIn, out - 1, undo, redo);
                 QModelIndex index = getIndexFromItem(effect);
-                effect->dataChanged(index, index, QVector<int>());
+                Fun refresh = [this, effect, index]() {
+                    effect->dataChanged(index, index, QVector<int>());
+                    return true;
+                };
+                refresh();
+                PUSH_LAMBDA(refresh, redo);
+                PUSH_LAMBDA(refresh, undo);
             }
         }
     }
-    /*Fun checkLength = [this, newIn, duration, out]() {
-        pCore->adjustAssetRange(m_ownerId.second, newIn, newIn + duration);
-        return true;
-    };
-    Fun checkOldLength = [this, oldIn, duration, out]() {
-        pCore->adjustAssetRange(m_ownerId.second, oldIn, oldIn + duration);
-        return true;
-    };
-    if (logUndo && checkLength()) {
-        PUSH_LAMBDA(checkOldLength, redo);
-        PUSH_LAMBDA(checkLength, undo);
-    }*/
-    /*if (!indexes.isEmpty()) {
-        emit dataChanged(indexes.first(), indexes.last(), QVector<int>());
-    }*/
     return true;
 }
 

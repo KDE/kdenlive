@@ -607,6 +607,9 @@ bool KeyframeModel::removeAllKeyframes()
 
 QString KeyframeModel::getAnimProperty() const
 {
+    if (m_paramType == ParamType::Roto_spline) {
+        return getRotoProperty();
+    }
     QString prop;
     bool first = true;
     QLocale locale;
@@ -850,11 +853,8 @@ void KeyframeModel::sendModification()
         Q_ASSERT(m_index.isValid());
         QString name = ptr->data(m_index, AssetParameterModel::NameRole).toString();
         QString data;
-        if (m_paramType == ParamType::KeyframeParam || m_paramType == ParamType::AnimatedRect) {
+        if (m_paramType == ParamType::KeyframeParam || m_paramType == ParamType::AnimatedRect || m_paramType == ParamType::Roto_spline) {
             data = getAnimProperty();
-            ptr->setParameter(name, data);
-        } else if (m_paramType == ParamType::Roto_spline) {
-            data = getRotoProperty();
             ptr->setParameter(name, data);
         } else {
             Q_ASSERT(false); // Not implemented, TODO

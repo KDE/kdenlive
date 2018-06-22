@@ -126,6 +126,9 @@ public:
     /** @brief Returns parent asset owner id*/
     ObjectId getOwnerId() const;
 
+    /** @brief Parent item size change, update keyframes*/
+    void resizeKeyframes(int oldIn, int oldOut, int in, int out, Fun &undo, Fun &redo);
+
 protected:
     /** @brief Helper function to apply a given operation on all parameters */
     bool applyOperation(const std::function<bool(std::shared_ptr<KeyframeModel>, Fun &, Fun &)> &op, const QString &undoString);
