@@ -37,6 +37,7 @@ EffectStackModel::EffectStackModel(std::weak_ptr<Mlt::Service> service, ObjectId
     , m_ownerId(ownerId)
     , m_undoStack(undo_stack)
     , m_loadingExisting(false)
+    , m_lock(QReadWriteLock::Recursive)
 {
     m_services.emplace_back(std::move(service));
 }
@@ -50,6 +51,7 @@ std::shared_ptr<EffectStackModel> EffectStackModel::construct(std::weak_ptr<Mlt:
 
 void EffectStackModel::resetService(std::weak_ptr<Mlt::Service> service)
 {
+    QWriteLocker locker(&m_lock);
     m_services.clear();
     m_services.emplace_back(std::move(service));
     // replant all effects in new service
@@ -62,6 +64,7 @@ void EffectStackModel::resetService(std::weak_ptr<Mlt::Service> service)
 
 void EffectStackModel::addService(std::weak_ptr<Mlt::Service> service)
 {
+    QWriteLocker locker(&m_lock);
     m_services.emplace_back(std::move(service));
     for (int i = 0; i < rootItem->childCount(); ++i) {
         std::static_pointer_cast<EffectItemModel>(rootItem->child(i))->plant(m_services.back());
@@ -69,6 +72,7 @@ void EffectStackModel::addService(std::weak_ptr<Mlt::Service> service)
 }
 void EffectStackModel::removeService(std::shared_ptr<Mlt::Service> service)
 {
+    QWriteLocker locker(&m_lock);
     std::vector<int> to_delete;
     for (int i = int(m_services.size()) - 1; i >= 0; --i) {
         if (service.get() == m_services[uint(i)].lock().get()) {
@@ -82,6 +86,7 @@ void EffectStackModel::removeService(std::shared_ptr<Mlt::Service> service)
 
 void EffectStackModel::removeEffect(std::shared_ptr<EffectItemModel> effect)
 {
+    QWriteLocker locker(&m_lock);
     Q_ASSERT(m_allItems.count(effect->getId()) > 0);
     int parentId = -1;
     if (auto ptr = effect->parentItem().lock()) parentId = ptr->getId();
@@ -142,6 +147,7 @@ void EffectStackModel::removeEffect(std::shared_ptr<EffectItemModel> effect)
 
 void EffectStackModel::copyEffect(std::shared_ptr<AbstractEffectItem> sourceItem, bool logUndo)
 {
+    QWriteLocker locker(&m_lock);
     if (sourceItem->childCount() > 0) {
         // TODO: group
         return;
@@ -171,6 +177,7 @@ void EffectStackModel::copyEffect(std::shared_ptr<AbstractEffectItem> sourceItem
 
 void EffectStackModel::appendEffect(const QString &effectId, bool makeCurrent)
 {
+    QWriteLocker locker(&m_lock);
     auto effect = EffectItemModel::construct(effectId, shared_from_this());
     Fun undo = removeItem_lambda(effect->getId());
     // TODO the parent should probably not always be the root
@@ -225,6 +232,7 @@ void EffectStackModel::appendEffect(const QString &effectId, bool makeCurrent)
 
 bool EffectStackModel::adjustStackLength(bool adjustFromEnd, int oldIn, int oldDuration, int newIn, int duration, Fun &undo, Fun &redo, bool logUndo)
 {
+    QWriteLocker locker(&m_lock);
     const int fadeInDuration = getFadePosition(true);
     const int fadeOutDuration = getFadePosition(false);
     int out = newIn + duration;
@@ -318,7 +326,7 @@ bool EffectStackModel::adjustStackLength(bool adjustFromEnd, int oldIn, int oldD
             std::shared_ptr<KeyframeModelList> keyframes = effect->getKeyframeModel();
             if (keyframes != nullptr) {
                 // Effect has keyframes, update these
-                keyframes->resizeKeyframes(oldIn, oldIn+oldDuration - 1, newIn, out - 1, undo, redo);
+                keyframes->resizeKeyframes(oldIn, oldIn + oldDuration - 1, newIn, out - 1, undo, redo);
                 QModelIndex index = getIndexFromItem(effect);
                 Fun refresh = [this, effect, index]() {
                     effect->dataChanged(index, index, QVector<int>());
@@ -335,6 +343,7 @@ bool EffectStackModel::adjustStackLength(bool adjustFromEnd, int oldIn, int oldD
 
 bool EffectStackModel::adjustFadeLength(int duration, bool fromStart, bool audioFade, bool videoFade)
 {
+    QWriteLocker locker(&m_lock);
     if (fromStart) {
         // Fade in
         if (fadeIns.empty()) {
@@ -402,6 +411,7 @@ bool EffectStackModel::adjustFadeLength(int duration, bool fromStart, bool audio
 
 int EffectStackModel::getFadePosition(bool fromStart)
 {
+    QWriteLocker locker(&m_lock);
     if (fromStart) {
         if (fadeIns.empty()) {
             return 0;
@@ -428,6 +438,7 @@ int EffectStackModel::getFadePosition(bool fromStart)
 
 bool EffectStackModel::removeFade(bool fromStart)
 {
+    QWriteLocker locker(&m_lock);
     std::vector<int> toRemove;
     for (int i = 0; i < rootItem->childCount(); ++i) {
         if ((fromStart && fadeIns.count(std::static_pointer_cast<TreeItem>(rootItem->child(i))->getId()) > 0) ||
@@ -444,6 +455,7 @@ bool EffectStackModel::removeFade(bool fromStart)
 
 void EffectStackModel::moveEffect(int destRow, std::shared_ptr<AbstractEffectItem> item)
 {
+    QWriteLocker locker(&m_lock);
     Q_ASSERT(m_allItems.count(item->getId()) > 0);
     int oldRow = item->row();
     Fun undo = moveItem_lambda(item->getId(), oldRow);
@@ -464,6 +476,7 @@ void EffectStackModel::moveEffect(int destRow, std::shared_ptr<AbstractEffectIte
 
 void EffectStackModel::registerItem(const std::shared_ptr<TreeItem> &item)
 {
+    QWriteLocker locker(&m_lock);
     qDebug() << "$$$$$$$$$$$$$$$$$$$$$ Planting effect";
     QModelIndex ix;
     if (!item->isRoot()) {
@@ -490,6 +503,7 @@ void EffectStackModel::registerItem(const std::shared_ptr<TreeItem> &item)
 }
 void EffectStackModel::deregisterItem(int id, TreeItem *item)
 {
+    QWriteLocker locker(&m_lock);
     if (!item->isRoot()) {
         auto effectItem = static_cast<AbstractEffectItem *>(item);
         for (const auto &service : m_services) {
@@ -505,6 +519,7 @@ void EffectStackModel::deregisterItem(int id, TreeItem *item)
 
 void EffectStackModel::setEffectStackEnabled(bool enabled)
 {
+    QWriteLocker locker(&m_lock);
     m_effectStackEnabled = enabled;
 
     // Recursively updates children states
@@ -520,6 +535,7 @@ std::shared_ptr<AbstractEffectItem> EffectStackModel::getEffectStackRow(int row,
 
 void EffectStackModel::importEffects(std::shared_ptr<EffectStackModel> sourceStack)
 {
+    QWriteLocker locker(&m_lock);
     // TODO: manage fades, keyframes if clips don't have same size / in point
     for (int i = 0; i < sourceStack->rowCount(); i++) {
         auto item = sourceStack->getEffectStackRow(i);
@@ -530,6 +546,7 @@ void EffectStackModel::importEffects(std::shared_ptr<EffectStackModel> sourceSta
 
 void EffectStackModel::importEffects(std::weak_ptr<Mlt::Service> service, bool alreadyExist)
 {
+    QWriteLocker locker(&m_lock);
     m_loadingExisting = alreadyExist;
     if (auto ptr = service.lock()) {
         for (int i = 0; i < ptr->filter_count(); i++) {
@@ -548,6 +565,7 @@ void EffectStackModel::importEffects(std::weak_ptr<Mlt::Service> service, bool a
 
 void EffectStackModel::setActiveEffect(int ix)
 {
+    QWriteLocker locker(&m_lock);
     for (const auto &service : m_services) {
         auto ptr = service.lock();
         if (ptr) {
@@ -559,6 +577,7 @@ void EffectStackModel::setActiveEffect(int ix)
 
 int EffectStackModel::getActiveEffect() const
 {
+    QWriteLocker locker(&m_lock);
     auto ptr = m_services.front().lock();
     if (ptr) {
         return ptr->get_int("kdenlive:activeeffect");
@@ -568,6 +587,7 @@ int EffectStackModel::getActiveEffect() const
 
 void EffectStackModel::slotCreateGroup(std::shared_ptr<EffectItemModel> childEffect)
 {
+    QWriteLocker locker(&m_lock);
     auto groupItem = EffectGroupModel::construct(QStringLiteral("group"), shared_from_this());
     rootItem->appendChild(groupItem);
     groupItem->appendChild(childEffect);
@@ -632,6 +652,7 @@ bool EffectStackModel::checkConsistency()
 
 void EffectStackModel::adjust(const QString &effectId, const QString &effectName, double value)
 {
+    QWriteLocker locker(&m_lock);
     for (int i = 0; i < rootItem->childCount(); ++i) {
         std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
         if (effectId == sourceEffect->getAssetId()) {
@@ -684,6 +705,7 @@ KeyframeModel *EffectStackModel::getEffectKeyframeModel()
 
 void EffectStackModel::replugEffect(std::shared_ptr<AssetParameterModel> asset)
 {
+    QWriteLocker locker(&m_lock);
     auto effectItem = std::static_pointer_cast<EffectItemModel>(asset);
     int oldRow = effectItem->row();
     int count = rowCount();
@@ -706,6 +728,7 @@ void EffectStackModel::replugEffect(std::shared_ptr<AssetParameterModel> asset)
 
 void EffectStackModel::cleanFadeEffects(bool outEffects, Fun &undo, Fun &redo)
 {
+    QWriteLocker locker(&m_lock);
     const auto &toDelete = outEffects ? fadeOuts : fadeIns;
     for (int id : toDelete) {
         auto effect = std::static_pointer_cast<EffectItemModel>(getItemById(id));
