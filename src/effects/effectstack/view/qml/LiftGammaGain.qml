@@ -18,17 +18,17 @@ Item {
             gammawheel.setColor(1.0 / gammaFactor, 1.0 / gammaFactor, 1.0 / gammaFactor, 1.0);
             gainwheel.setColor(1.0 / gainFactor, 1.0 / gainFactor, 1.0 / gainFactor, 1.0);
         } else {
-            liftwheel.setColor(effectstackmodel.getFilter(liftgammagain.effectName, 'lift_r') / liftFactor,
-                                   effectstackmodel.getFilter(liftgammagain.effectName, 'lift_g') / liftFactor,
-                                   effectstackmodel.getFilter(liftgammagain.effectName, 'lift_b') / liftFactor,
+            liftwheel.setColor(effectstackmodel.getFilterParam(liftgammagain.effectName, 'lift_r') / liftFactor,
+                                   effectstackmodel.getFilterParam(liftgammagain.effectName, 'lift_g') / liftFactor,
+                                   effectstackmodel.getFilterParam(liftgammagain.effectName, 'lift_b') / liftFactor,
                                    1.0 )
-            gammawheel.setColor(effectstackmodel.getFilter(liftgammagain.effectName, 'gamma_r') / gammaFactor,
-                                    effectstackmodel.getFilter(liftgammagain.effectName, 'gamma_g') / gammaFactor,
-                                    effectstackmodel.getFilter(liftgammagain.effectName, 'gamma_b') / gammaFactor,
+            gammawheel.setColor(effectstackmodel.getFilterParam(liftgammagain.effectName, 'gamma_r') / gammaFactor,
+                                    effectstackmodel.getFilterParam(liftgammagain.effectName, 'gamma_g') / gammaFactor,
+                                    effectstackmodel.getFilterParam(liftgammagain.effectName, 'gamma_b') / gammaFactor,
                                     1.0 )
-            gainwheel.setColor(effectstackmodel.getFilter(liftgammagain.effectName, 'gain_r') / gainFactor,
-                                   effectstackmodel.getFilter(liftgammagain.effectName, 'gain_g') / gainFactor,
-                                   effectstackmodel.getFilter(liftgammagain.effectName, 'gain_b') / gainFactor,
+            gainwheel.setColor(effectstackmodel.getFilterParam(liftgammagain.effectName, 'gain_r') / gainFactor,
+                                   effectstackmodel.getFilterParam(liftgammagain.effectName, 'gain_g') / gainFactor,
+                                   effectstackmodel.getFilterParam(liftgammagain.effectName, 'gain_b') / gainFactor,
                                    1.0 )
         }
     }

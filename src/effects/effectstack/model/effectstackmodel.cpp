@@ -662,19 +662,23 @@ void EffectStackModel::adjust(const QString &effectId, const QString &effectName
     }
 }
 
-bool EffectStackModel::hasFilter(const QString &effectId)
+bool EffectStackModel::hasFilter(const QString &effectId) const
 {
-    for (int i = 0; i < rootItem->childCount(); ++i) {
-        std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
-        if (effectId == sourceEffect->getAssetId()) {
-            return true;
+    READ_LOCK();
+    return rootItem->accumulate_const(false, [effectId](bool b, std::shared_ptr<const TreeItem> it) {
+        if (b) return true;
+        auto item = std::static_pointer_cast<const AbstractEffectItem>(it);
+        if (item->effectItemType() == EffectItemType::Group) {
+            return false;
         }
-    }
-    return false;
+        auto sourceEffect = std::static_pointer_cast<const EffectItemModel>(it);
+        return effectId == sourceEffect->getAssetId();
+    });
 }
 
-double EffectStackModel::getFilter(const QString &effectId, const QString &paramName)
+double EffectStackModel::getFilterParam(const QString &effectId, const QString &paramName)
 {
+    READ_LOCK();
     for (int i = 0; i < rootItem->childCount(); ++i) {
         std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
         if (effectId == sourceEffect->getAssetId()) {

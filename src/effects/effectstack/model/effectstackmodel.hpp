@@ -99,8 +99,11 @@ public:
 
     int getFadePosition(bool fromStart);
     Q_INVOKABLE void adjust(const QString &effectId, const QString &effectName, double value);
-    Q_INVOKABLE bool hasFilter(const QString &effectId);
-    Q_INVOKABLE double getFilter(const QString &effectId, const QString &paramName);
+
+    /* @brief Returns true if the stack contains an effect with the given Id */
+    Q_INVOKABLE bool hasFilter(const QString &effectId) const;
+    // TODO: this break the encapsulation, remove
+    Q_INVOKABLE double getFilterParam(const QString &effectId, const QString &paramName);
     /** get the active effect's keyframe model */
     Q_INVOKABLE KeyframeModel *getEffectKeyframeModel();
     /** Remove unwanted fade effects, mostly after a cut operation */
