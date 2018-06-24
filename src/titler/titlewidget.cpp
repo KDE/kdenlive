@@ -2926,7 +2926,7 @@ const QString TitleWidget::titleSuggest()
     for (QGraphicsItem *qgItem : list) {
         if (qgItem->pos().y() < y && qgItem->type() == TEXTITEM) {
             MyTextItem *i = static_cast<MyTextItem *>(qgItem);
-            QString currentTitle = i->toPlainText();
+            QString currentTitle = i->toPlainText().simplified();
             if (currentTitle.length() > 2) {
                 title = currentTitle.length() > 12 ? currentTitle.left(12) + QStringLiteral("...") : currentTitle;
                 y = qgItem->pos().y();
