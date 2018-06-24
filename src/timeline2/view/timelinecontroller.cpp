@@ -628,10 +628,18 @@ void TimelineController::addAsset(const QVariantMap data)
 {
     QString effect = data.value(QStringLiteral("kdenlive/effect")).toString();
     if (!m_selection.selectedItems.isEmpty()) {
+        QList<int> effectSelection;
         for (int id : m_selection.selectedItems) {
             if (m_model->isClip(id)) {
-                m_model->addClipEffect(id, effect);
+                effectSelection << id;
+                int partner = m_model->getClipSplitPartner(id);
+                if (partner > -1 && !effectSelection.contains(partner)) {
+                    effectSelection << partner;
+                }
             }
+        }
+        for (int id : effectSelection) {
+            m_model->addClipEffect(id, effect);
         }
     } else {
         pCore->displayMessage(i18n("Select a clip to apply an effect"), InformationMessage, 500);

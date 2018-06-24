@@ -272,6 +272,13 @@ void ClipModel::setTimelineEffectsEnabled(bool enabled)
 bool ClipModel::addEffect(const QString &effectId)
 {
     QWriteLocker locker(&m_lock);
+    if (EffectsRepository::get()->getType(effectId) == EffectType::Audio) {
+        if (m_currentState == PlaylistState::VideoOnly) {
+            return false;
+        }
+    } else if (m_currentState == PlaylistState::AudioOnly) {
+        return false;
+    }
     m_effectStack->appendEffect(effectId);
     return true;
 }
