@@ -554,9 +554,19 @@ void EffectStackModel::importEffects(std::weak_ptr<Mlt::Service> service, bool a
                 // don't consider internal MLT stuff
                 continue;
             }
-            QString effectId = ptr->filter(i)->get("kdenlive_id");
+            // The MLT filter already exists, use it directly to create the effect
             auto effect = EffectItemModel::construct(ptr->filter(i), shared_from_this());
-            copyEffect(effect, false);
+            const QString effectId = effect->getAssetId();
+            connect(effect.get(), &AssetParameterModel::modelChanged, this, &EffectStackModel::modelChanged);
+            connect(effect.get(), &AssetParameterModel::replugEffect, this, &EffectStackModel::replugEffect, Qt::DirectConnection);
+            Fun redo = addItem_lambda(effect, rootItem->getId());
+            if (redo()) {
+                if (effectId == QLatin1String("fadein") || effectId == QLatin1String("fade_from_black")) {
+                    fadeIns.insert(effect->getId());
+                } else if (effectId == QLatin1String("fadeout") || effectId == QLatin1String("fade_to_black")) {
+                    fadeOuts.insert(effect->getId());
+                }
+            }
         }
     }
     m_loadingExisting = false;
