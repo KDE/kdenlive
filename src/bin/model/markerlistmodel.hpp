@@ -137,6 +137,7 @@ public slots:
    @param pushUndo: if true, create an undo object
  */
     bool importFromJson(const QString &data, bool ignoreConflicts, bool pushUndo = true);
+    bool importFromJson(const QString &data, bool ignoreConflicts, Fun &undo, Fun &redo);
 
 protected:
     /* @brief Adds a snap point at marker position in the registered snap models

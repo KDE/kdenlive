@@ -124,6 +124,22 @@ bool SceneSplitJob::commitResult(Fun &undo, Fun &redo)
     }
 
     auto binClip = pCore->projectItemModel()->getClipByBinID(m_clipId);
+    if (m_markersType >= 0) {
+        // Build json data for markers
+        QJsonArray list;
+        QStringList markerData = result.split(QLatin1Char(';'));
+        int ix = 1;
+        for (const QString marker : markerData) {
+            QJsonObject currentMarker;
+            currentMarker.insert(QLatin1String("pos"), QJsonValue(marker.section(QLatin1Char('='), 0, 0).toInt()));
+            currentMarker.insert(QLatin1String("comment"), QJsonValue(i18n("Scene %1", ix)));
+            currentMarker.insert(QLatin1String("type"), QJsonValue(m_markersType));
+            list.push_back(currentMarker);
+            ix++;
+        }
+        QJsonDocument json(list);
+        binClip->getMarkerModel()->importFromJson(QString(json.toJson()), true, undo, redo);
+    }
     qDebug() << "RESULT of the SCENESPLIT filter:" << result;
 
     // TODO refac: reimplement add markers and subclips
