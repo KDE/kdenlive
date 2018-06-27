@@ -43,7 +43,7 @@ public:
         @param subClips if true, we create a subclip per found scene
         @param markersType The type of markers that will be created to denote scene. Leave -1 for no markers
      */
-    SceneSplitJob(const QString &binId, bool subClips, int markersType = -1);
+    SceneSplitJob(const QString &binId, bool subClips, int markersType = -1, int minInterval = 0);
 
     // This is a special function that prepares the stabilize job for a given list of clips.
     // Namely, it displays the required UI to configure the job and call startJob with the right set of parameters
@@ -65,4 +65,6 @@ protected:
 
     bool m_subClips;
     int m_markersType;
+    // @brief minimum scene duration.
+    int m_minInterval;
 };

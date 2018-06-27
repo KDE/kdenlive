@@ -38,10 +38,11 @@
 
 #include <mlt++/Mlt.h>
 
-SceneSplitJob::SceneSplitJob(const QString &binId, bool subClips, int markersType)
+SceneSplitJob::SceneSplitJob(const QString &binId, bool subClips, int markersType, int minInterval)
     : MeltJob(binId, STABILIZEJOB, true, -1, -1)
     , m_subClips(subClips)
     , m_markersType(markersType)
+    , m_minInterval(minInterval)
 {
 }
 
@@ -100,8 +101,9 @@ int SceneSplitJob::prepareJob(std::shared_ptr<JobManager> ptr, const std::vector
     }
     int markersType = ui.add_markers->isChecked() ? ui.marker_type->currentIndex() : -1;
     bool subclips = ui.cut_scenes->isChecked();
+    int minInterval = ui.minDuration->value();
 
-    return ptr->startJob_noprepare<SceneSplitJob>(binIds, parentId, std::move(undoString), subclips, markersType);
+    return ptr->startJob_noprepare<SceneSplitJob>(binIds, parentId, std::move(undoString), subclips, markersType, minInterval);
 }
 
 bool SceneSplitJob::commitResult(Fun &undo, Fun &redo)
@@ -129,9 +131,15 @@ bool SceneSplitJob::commitResult(Fun &undo, Fun &redo)
         QJsonArray list;
         QStringList markerData = result.split(QLatin1Char(';'));
         int ix = 1;
+        int lastCut = 0;
         for (const QString marker : markerData) {
+            int pos = marker.section(QLatin1Char('='), 0, 0).toInt();
+            if (m_minInterval > 0 && ix > 1 && pos - lastCut < m_minInterval) {
+                continue;
+            }
+            lastCut = pos;
             QJsonObject currentMarker;
-            currentMarker.insert(QLatin1String("pos"), QJsonValue(marker.section(QLatin1Char('='), 0, 0).toInt()));
+            currentMarker.insert(QLatin1String("pos"), QJsonValue(pos));
             currentMarker.insert(QLatin1String("comment"), QJsonValue(i18n("Scene %1", ix)));
             currentMarker.insert(QLatin1String("type"), QJsonValue(m_markersType));
             list.push_back(currentMarker);
