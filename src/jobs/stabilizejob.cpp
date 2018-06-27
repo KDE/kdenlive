@@ -50,7 +50,7 @@ const QString StabilizeJob::getDescription() const
 }
 void StabilizeJob::configureConsumer()
 {
-    m_consumer.reset(new Mlt::Consumer(m_profile, "xml", m_destUrl.toUtf8().constData()));
+    m_consumer.reset(new Mlt::Consumer(*m_profile.get(), "xml", m_destUrl.toUtf8().constData()));
     m_consumer->set("all", 1);
     m_consumer->set("title", "Stabilized");
     m_consumer->set("real_time", -KdenliveSettings::mltthreads());
@@ -59,7 +59,7 @@ void StabilizeJob::configureConsumer()
 void StabilizeJob::configureFilter()
 {
 
-    m_filter.reset(new Mlt::Filter(m_profile, m_filterName.toUtf8().data()));
+    m_filter.reset(new Mlt::Filter(*m_profile.get(), m_filterName.toUtf8().data()));
     if ((m_filter == nullptr) || !m_filter->is_valid()) {
         m_errorMessage.append(i18n("Cannot create filter %1", m_filterName));
         return;

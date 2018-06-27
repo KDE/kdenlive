@@ -53,7 +53,7 @@ const QString SpeedJob::getDescription() const
 
 void SpeedJob::configureConsumer()
 {
-    m_consumer.reset(new Mlt::Consumer(m_profile, "xml", m_destUrl.toUtf8().constData()));
+    m_consumer.reset(new Mlt::Consumer(*m_profile.get(), "xml", m_destUrl.toUtf8().constData()));
     m_consumer->set("terminate_on_pause", 1);
     m_consumer->set("title", "Speed Change");
     m_consumer->set("real_time", -KdenliveSettings::mltthreads());
@@ -63,7 +63,7 @@ void SpeedJob::configureProducer()
 {
     if (!qFuzzyCompare(m_speed, 1.0)) {
         QString resource = m_producer->get("resource");
-        m_producer.reset(new Mlt::Producer(m_profile, "timewarp", QStringLiteral("%1:%2").arg(m_speed).arg(resource).toUtf8().constData()));
+        m_producer.reset(new Mlt::Producer(*m_profile.get(), "timewarp", QStringLiteral("%1:%2").arg(m_speed).arg(resource).toUtf8().constData()));
     }
 }
 

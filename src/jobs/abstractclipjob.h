@@ -62,6 +62,7 @@ public:
         return m;
     }
 
+    /** @brief Returns the id of the bin clip that this job is working on. */
     const QString clipId() const;
     const QString getErrorMessage() const;
     const QString getLogDetails() const;

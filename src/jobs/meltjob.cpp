@@ -40,7 +40,6 @@ static void consumer_frame_render(mlt_consumer, MeltJob *self, mlt_frame frame_p
 
 MeltJob::MeltJob(const QString &binId, JOBTYPE type, bool useProducerProfile, int in, int out)
     : AbstractClipJob(type, binId)
-    , m_profile(pCore->getCurrentProfile()->profile())
     , m_useProducerProfile(useProducerProfile)
     , m_in(in)
     , m_out(out)
@@ -96,35 +95,30 @@ bool MeltJob::startJob()
     }
     */
     auto &projectProfile = pCore->getCurrentProfile();
-    Mlt::Profile producerProfile;
     // bool producerProfile = m_extra.contains(QStringLiteral("producer_profile"));
     if (m_useProducerProfile) {
-        m_profile = producerProfile;
-        m_profile.set_explicit(0);
+        m_profile.reset(new Mlt::Profile());
+        m_profile->set_explicit(0);
     } else {
-        m_profile = projectProfile->profile();
+        m_profile.reset(&projectProfile->profile());
     }
-    /*
-    if (m_extra.contains(QStringLiteral("resize_profile"))) {
-        m_profile->set_height(m_extra.value(QStringLiteral("resize_profile")).toInt());
-        m_profile->set_width(m_profile->height() * m_profile->sar());
-    }
-    */
     double fps = projectProfile->fps();
     int fps_num = projectProfile->frame_rate_num();
     int fps_den = projectProfile->frame_rate_den();
 
-    m_producer.reset(new Mlt::Producer(m_profile, m_url.toUtf8().constData()));
+    m_producer.reset(new Mlt::Producer(*m_profile.get(), m_url.toUtf8().constData()));
     if (m_producer && m_useProducerProfile) {
-        m_profile.from_producer(*m_producer.get());
-        m_profile.set_explicit(1);
+        m_profile->from_producer(*m_producer.get());
+        m_profile->set_explicit(1);
     }
-    configureProfile();
-    if (!qFuzzyCompare(m_profile.fps(), fps) || m_useProducerProfile) {
+    if (m_useProducerProfile) {
+        configureProfile();
+    }
+    if (!qFuzzyCompare(m_profile->fps(), fps) && m_useProducerProfile) {
         // Reload producer
         // Force same fps as projec profile or the resulting .mlt will not load in our project
-        m_profile.set_frame_rate(fps_num, fps_den);
-        m_producer.reset(new Mlt::Producer(m_profile, m_url.toUtf8().constData()));
+        m_profile->set_frame_rate(fps_num, fps_den);
+        m_producer.reset(new Mlt::Producer(*m_profile.get(), m_url.toUtf8().constData()));
     }
 
     if ((m_producer == nullptr) || !m_producer->is_valid()) {
@@ -238,7 +232,7 @@ bool MeltJob::startJob()
         return false;
     }
 
-    Mlt::Tractor tractor(m_profile);
+    Mlt::Tractor tractor(*m_profile.get());
     Mlt::Playlist playlist;
     playlist.append(*m_producer.get());
     tractor.set_track(playlist, 0);

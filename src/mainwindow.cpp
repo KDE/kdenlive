@@ -3147,25 +3147,24 @@ void MainWindow::buildDynamicActions()
 
     Mlt::Profile profile;
     std::unique_ptr<Mlt::Filter> filter;
-
     for (const QString &stab : {QStringLiteral("vidstab"), QStringLiteral("videostab2"), QStringLiteral("videostab")}) {
-        filter.reset(Mlt::Factory::filter(profile, stab.toUtf8().data()));
+        filter.reset(new Mlt::Filter(profile, stab.toUtf8().constData()));
         if ((filter != nullptr) && filter->is_valid()) {
             QAction *action = new QAction(i18n("Stabilize") + QStringLiteral(" (") + stab + QLatin1Char(')'), m_extraFactory->actionCollection());
             ts->addAction(action->text(), action);
             connect(action, &QAction::triggered,
-                    [&]() { pCore->jobManager()->startJob<StabilizeJob>(pCore->bin()->selectedClipsIds(), {}, i18n("Stabilize clips"), stab); });
+                    [this, stab]() { pCore->jobManager()->startJob<StabilizeJob>(pCore->bin()->selectedClipsIds(), {}, i18np("Stabilize clip", "Stabilize clips", pCore->bin()->selectedClipsIds().size()), stab); });
             break;
         }
     }
-    filter.reset(Mlt::Factory::filter(profile, "motion_est"));
+    filter.reset(new Mlt::Filter(profile, "motion_est"));
     if (filter) {
         if (filter->is_valid()) {
             QAction *action = new QAction(i18n("Automatic scene split"), m_extraFactory->actionCollection());
             ts->addAction(action->text(), action);
             connect(action, &QAction::triggered, [&]() {
                 pCore->jobManager()->startJob<SceneSplitJob>(pCore->bin()->selectedClipsIds(), {},
-                                                             i18np("Stabilize clip", "Stabilize clips", pCore->bin()->selectedClipsIds().size()));
+                                                             i18n("Scene detection"));
             });
         }
     }

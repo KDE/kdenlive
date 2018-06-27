@@ -51,11 +51,11 @@ const QString SceneSplitJob::getDescription() const
 }
 void SceneSplitJob::configureConsumer()
 {
-    m_consumer.reset(new Mlt::Consumer(m_profile, "null"));
+    m_consumer.reset(new Mlt::Consumer(*m_profile.get(), "null"));
     m_consumer->set("all", 1);
     m_consumer->set("terminate_on_pause", 1);
     m_consumer->set("real_time", -KdenliveSettings::mltthreads());
-    // We just want to find scene change, set all mathods to the fastests
+    // We just want to find scene change, set all methods to the fastests
     m_consumer->set("rescale", "nearest");
     m_consumer->set("deinterlace_method", "onefield");
     m_consumer->set("top_field_first", -1);
@@ -64,7 +64,7 @@ void SceneSplitJob::configureConsumer()
 void SceneSplitJob::configureFilter()
 {
 
-    m_filter.reset(new Mlt::Filter(m_profile, "motion_est"));
+    m_filter.reset(new Mlt::Filter(*m_profile.get(), "motion_est"));
     if ((m_filter == nullptr) || !m_filter->is_valid()) {
         m_errorMessage.append(i18n("Cannot create filter motion_est. Cannot split scenes"));
         return;
@@ -76,9 +76,8 @@ void SceneSplitJob::configureFilter()
 
 void SceneSplitJob::configureProfile()
 {
-
-    m_profile.set_height(160);
-    m_profile.set_width(m_profile.height() * m_profile.sar());
+    m_profile->set_height(160);
+    m_profile->set_width(m_profile->height() * m_profile->sar());
 }
 
 // static

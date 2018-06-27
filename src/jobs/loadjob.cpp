@@ -272,6 +272,9 @@ bool LoadJob::startJob()
         qCDebug(KDENLIVE_LOG) << " / / / / / / / / ERROR / / / / // CANNOT LOAD PRODUCER: " << m_resource;
         m_done = true;
         m_successful = false;
+        if (m_producer) {
+            m_producer.reset();
+        }
         QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(const QString &, i18n("Cannot open file %1", m_resource)), Q_ARG(int, (int)KMessageWidget::Warning));
         m_errorMessage.append(i18n("ERROR: Could not load clip %1: producer is invalid", m_resource));
         return false;

@@ -51,7 +51,6 @@ public:
         in and out represent the portion of the clip we deal with. Leave to -1 for default (whole clip)
      */
     MeltJob(const QString &binId, JOBTYPE type, bool useProducerProfile = false, int in = -1, int out = -1);
-
     bool startJob() override;
 
     /* @brief this is public for convenience reason, but it should not be called directly */
@@ -74,7 +73,7 @@ protected:
     std::unique_ptr<Mlt::Consumer> m_consumer;
     std::unique_ptr<Mlt::Producer> m_producer;
     std::unique_ptr<Mlt::Producer> m_wholeProducer; // in the case of a job on a part on the clip, this is set to the whole producer
-    Mlt::Profile &m_profile;
+    std::shared_ptr<Mlt::Profile> m_profile;
     std::unique_ptr<Mlt::Filter> m_filter;
     std::unique_ptr<Mlt::Event> m_showFrameEvent;
 

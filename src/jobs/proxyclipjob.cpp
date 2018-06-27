@@ -50,7 +50,7 @@ bool ProxyJob::startJob()
 {
     auto binClip = pCore->projectItemModel()->getClipByBinID(m_clipId);
     const QString dest = binClip->getProducerProperty(QStringLiteral("kdenlive:proxy"));
-    if (QFile::exists(dest)) {
+    if (QFile::exists(dest) && QFileInfo(dest).size() > 0) {
         // Proxy clip already created
         m_done = true;
         return true;
@@ -240,6 +240,7 @@ bool ProxyJob::startJob()
     // remove temporary playlist if it exists
     if (result) {
         if (QFileInfo(dest).size() == 0) {
+            QFile::remove(dest);
             // File was not created
             m_done = false;
             m_errorMessage.append(i18n("Failed to create proxy clip."));
@@ -259,7 +260,7 @@ bool ProxyJob::startJob()
 void ProxyJob::processLogInfo()
 {
     int progress;
-    const QString log = QString::fromUtf8(m_jobProcess->readAll());
+    const QString log = QString::fromUtf8(m_jobProcess->readAllStandardOutput());
     if (m_isFfmpegJob) {
         // Parse FFmpeg output
         if (m_jobDuration == 0) {

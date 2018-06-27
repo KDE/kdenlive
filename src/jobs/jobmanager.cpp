@@ -22,6 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "jobmanager.h"
 #include "bin/abstractprojectitem.h"
+#include "bin/projectclip.h"
 #include "bin/projectitemmodel.h"
 #include "core.h"
 #include "macros.hpp"
@@ -284,15 +285,32 @@ void JobManager::slotManageFinishedJob(int id)
     for (bool res : m_jobs[id]->m_future.future()) {
         ok = ok && res;
     }
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
     if (!ok) {
         qDebug() << " * * * ** * * *\nWARNING + + +\nJOB NOT CORRECT FINISH: " << id << "\n------------------------";
         // TODO: delete child jobs
         m_jobs[id]->m_completionMutex.unlock();
+        locker.unlock();
+        if (m_jobs.at(id)->m_type == AbstractClipJob::LOADJOB) {
+            // loading failed, remove clip
+            for (const auto &it : m_jobs[id]->m_indices) {
+                std::shared_ptr<AbstractProjectItem> item = pCore->projectItemModel()->getItemByBinId(it.first);
+                if (item && item->itemType() == AbstractProjectItem::ClipItem) {
+                    auto clipItem = std::static_pointer_cast<ProjectClip>(item);
+                    if (!clipItem->isReady()) {
+                        // We were trying to load a new clip, delete it
+                        pCore->projectItemModel()->requestBinClipDeletion(item, undo, redo);
+                    }
+                }
+            }
+        }
         updateJobCount();
         return;
     }
-    Fun undo = []() { return true; };
-    Fun redo = []() { return true; };
+    // unlock mutex to allow further processing
+    // TODO: the lock mechanism should handle this better!
+    locker.unlock();
     for (const auto &j : m_jobs[id]->m_job) {
         ok = ok && j->commitResult(undo, redo);
     }
