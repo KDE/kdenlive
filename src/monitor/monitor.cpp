@@ -1338,7 +1338,6 @@ void Monitor::updateClipProducer(const QString &playlist)
 
 void Monitor::slotOpenClip(std::shared_ptr<ProjectClip> controller, int in, int out)
 {
-    Q_UNUSED(out)
     if (m_controller) {
         disconnect(m_controller->getMarkerModel().get(), SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &, const QVector<int> &)), this,
                    SLOT(checkOverlay()));
@@ -1364,7 +1363,11 @@ void Monitor::slotOpenClip(std::shared_ptr<ProjectClip> controller, int in, int 
         updateMarkers();
         connect(m_glMonitor->getControllerProxy(), &MonitorProxy::addSnap, this, &Monitor::addSnapPoint, Qt::DirectConnection);
         connect(m_glMonitor->getControllerProxy(), &MonitorProxy::removeSnap, this, &Monitor::removeSnapPoint, Qt::DirectConnection);
-        m_glMonitor->getControllerProxy()->setZone(m_controller->zone());
+        if (out == -1) {
+            m_glMonitor->getControllerProxy()->setZone(m_controller->zone());
+        } else {
+            m_glMonitor->getControllerProxy()->setZone(in, out);
+        }
         m_snaps->addPoint(m_controller->frameDuration());
         // Loading new clip / zone, stop if playing
         if (m_playAction->isActive()) {

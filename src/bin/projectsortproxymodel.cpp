@@ -97,8 +97,8 @@ bool ProjectSortProxyModel::lessThan(const QModelIndex &left, const QModelIndex 
         QVariant rightData;
         if (leftType == AbstractProjectItem::SubClipItem) {
             // Subclips, sort by start position
-            leftData = sourceModel()->data(left, AbstractProjectItem::DataDuration);
-            rightData = sourceModel()->data(right, AbstractProjectItem::DataDuration);
+            leftData = sourceModel()->data(left, AbstractProjectItem::DataInPoint);
+            rightData = sourceModel()->data(right, AbstractProjectItem::DataInPoint);
         } else {
             leftData = sourceModel()->data(left, Qt::DisplayRole);
             rightData = sourceModel()->data(right, Qt::DisplayRole);

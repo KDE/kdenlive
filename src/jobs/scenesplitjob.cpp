@@ -155,7 +155,7 @@ bool SceneSplitJob::commitResult(Fun &undo, Fun &redo)
         QMap <QString, QString> zoneData;
         for (const QString marker : markerData) {
             int pos = marker.section(QLatin1Char('='), 0, 0).toInt();
-            if (pos == lastCut || pos - lastCut < m_minInterval) {
+            if (pos <= lastCut + 1 || pos - lastCut < m_minInterval) {
                 continue;
             }
             zoneData.insert(i18n("Scene %1", ix), QString("%1;%2").arg(lastCut).arg(pos - 1));

@@ -136,6 +136,9 @@ QVariant AbstractProjectItem::getData(DataType type) const
     case DataDuration:
         data = QVariant(m_duration);
         break;
+    case DataInPoint:
+        data = QVariant(m_inPoint);
+        break;
     case DataDate:
         data = QVariant(m_date);
         break;

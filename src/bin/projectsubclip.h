@@ -84,7 +84,6 @@ public:
 
 private:
     std::shared_ptr<ProjectClip> m_masterClip;
-    int m_in;
     int m_out;
 
 private slots:

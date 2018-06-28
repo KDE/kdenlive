@@ -71,6 +71,7 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, std::shared_ptr<
     m_clipStatus = StatusReady;
     m_name = clipName();
     m_duration = getStringDuration();
+    m_inPoint = 0;
     m_date = date;
     m_description = ClipController::description();
     if (m_clipType == ClipType::Audio) {

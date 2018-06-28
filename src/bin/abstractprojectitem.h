@@ -121,6 +121,8 @@ public:
         ItemTypeRole,
         // Duration of the clip
         DataDuration,
+        // Inpoint of the subclip (0 for clips)
+        DataInPoint,
         // If there is a running job, which type
         JobType,
         // Current progress of the job
@@ -194,6 +196,7 @@ protected:
     QString m_description;
     QIcon m_thumbnail;
     QString m_duration;
+    int m_inPoint;
     QDateTime m_date;
     QString m_binId;
     uint m_usage;

@@ -3640,7 +3640,7 @@ void MainWindow::slotInsertZoneToTree()
     }
     QPoint info = m_clipMonitor->getZoneInfo();
     QString id;
-    pCore->projectItemModel()->requestAddBinSubClip(id, info.x(), info.y(), m_clipMonitor->activeClipId());
+    pCore->projectItemModel()->requestAddBinSubClip(id, info.x(), info.y(), QString(), m_clipMonitor->activeClipId());
 }
 
 void MainWindow::slotInsertZoneToTimeline()

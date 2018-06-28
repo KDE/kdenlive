@@ -182,7 +182,7 @@ bool ProjectItemModel::dropMimeData(const QMimeData *data, Qt::DropAction action
             QStringList clipData = ids.constFirst().split(QLatin1Char('/'));
             if (clipData.length() >= 3) {
                 QString id;
-                return requestAddBinSubClip(id, clipData.at(1).toInt(), clipData.at(2).toInt(), clipData.at(0));
+                return requestAddBinSubClip(id, clipData.at(1).toInt(), clipData.at(2).toInt(), QString(), clipData.at(0));
             } else {
                 // error, malformed clip zone, abort
                 return false;
@@ -206,7 +206,7 @@ bool ProjectItemModel::dropMimeData(const QMimeData *data, Qt::DropAction action
     if (data->hasFormat(QStringLiteral("kdenlive/clip"))) {
         const QStringList list = QString(data->data(QStringLiteral("kdenlive/clip"))).split(QLatin1Char(';'));
         QString id;
-        return requestAddBinSubClip(id, list.at(1).toInt(), list.at(2).toInt(), list.at(0));
+        return requestAddBinSubClip(id, list.at(1).toInt(), list.at(2).toInt(), QString(), list.at(0));
     }
 
     return false;
@@ -427,7 +427,7 @@ void ProjectItemModel::loadSubClips(const QString &id, const QMap<QString, QStri
         }
 
         QString subId;
-        requestAddBinSubClip(subId, in, out, id, undo, redo);
+        requestAddBinSubClip(subId, in, out, i.key(), id, undo, redo);
     }
 }
 
@@ -588,7 +588,7 @@ bool ProjectItemModel::requestAddBinClip(QString &id, std::shared_ptr<Mlt::Produ
     return res;
 }
 
-bool ProjectItemModel::requestAddBinSubClip(QString &id, int in, int out, const QString &parentId, Fun &undo, Fun &redo)
+bool ProjectItemModel::requestAddBinSubClip(QString &id, int in, int out, const QString &zoneName, const QString &parentId, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
     if (id.isEmpty()) {
@@ -598,7 +598,7 @@ bool ProjectItemModel::requestAddBinSubClip(QString &id, int in, int out, const 
     auto clip = getClipByBinID(parentId);
     Q_ASSERT(clip->itemType() == AbstractProjectItem::ClipItem);
     auto tc = pCore->currentDoc()->timecode().getDisplayTimecodeFromFrames(in, KdenliveSettings::frametimecode());
-    std::shared_ptr<ProjectSubClip> new_clip = ProjectSubClip::construct(id, clip, std::static_pointer_cast<ProjectItemModel>(shared_from_this()), in, out, tc);
+    std::shared_ptr<ProjectSubClip> new_clip = ProjectSubClip::construct(id, clip, std::static_pointer_cast<ProjectItemModel>(shared_from_this()), in, out, tc, zoneName);
     bool res = addItem(new_clip, parentId, undo, redo);
     if (res) {
         int parentJob = pCore->jobManager()->getBlockingJobId(parentId, AbstractClipJob::LOADJOB);
@@ -606,11 +606,11 @@ bool ProjectItemModel::requestAddBinSubClip(QString &id, int in, int out, const 
     }
     return res;
 }
-bool ProjectItemModel::requestAddBinSubClip(QString &id, int in, int out, const QString &parentId)
+bool ProjectItemModel::requestAddBinSubClip(QString &id, int in, int out, const QString &zoneName, const QString &parentId)
 {
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    bool res = requestAddBinSubClip(id, in, out, parentId, undo, redo);
+    bool res = requestAddBinSubClip(id, in, out, zoneName, parentId, undo, redo);
     if (res) {
         pCore->pushUndo(undo, redo, i18n("Add a sub clip"));
     }

@@ -66,8 +66,12 @@ bool ThumbJob::startJob()
     if (m_subClip) {
         auto item = pCore->projectItemModel()->getItemByBinId(m_clipId);
         m_binClip = std::static_pointer_cast<ProjectClip>(item->parent());
+        m_frameNumber = item->zone().x();
     } else {
         m_binClip = pCore->projectItemModel()->getClipByBinID(m_clipId);
+        if (m_frameNumber < 0) {
+            m_frameNumber = qMax(0, m_binClip->getProducerIntProperty(QStringLiteral("kdenlive:thumbnailFrame")));
+        }
     }
     if (m_binClip->clipType() == ClipType::Audio) {
         // Don't create thumbnail for audio clips
@@ -75,9 +79,6 @@ bool ThumbJob::startJob()
         return true;
     }
     m_inCache = false;
-    if (m_frameNumber < 0) {
-        m_frameNumber = qMax(0, m_binClip->getProducerIntProperty(QStringLiteral("kdenlive:thumbnailFrame")));
-    }
     if (ThumbnailCache::get()->hasThumbnail(m_binClip->clipId(), m_frameNumber, !m_persistent)) {
         m_done = true;
         m_result = ThumbnailCache::get()->getThumbnail(m_binClip->clipId(), m_frameNumber);

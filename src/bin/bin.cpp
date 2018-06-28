@@ -1099,7 +1099,7 @@ void Bin::setMonitor(Monitor *monitor)
     m_monitor = monitor;
     connect(m_monitor, &Monitor::addClipToProject, this, &Bin::slotAddClipToProject);
     connect(m_monitor, &Monitor::refreshCurrentClip, this, &Bin::slotOpenCurrent);
-    connect(this, &Bin::openClip, [&](std::shared_ptr<ProjectClip> clip) { m_monitor->slotOpenClip(clip); });
+    connect(this, &Bin::openClip, [&](std::shared_ptr<ProjectClip> clip, int in, int out) { m_monitor->slotOpenClip(clip, in, out); });
 }
 
 void Bin::setDocument(KdenliveDoc *project)
