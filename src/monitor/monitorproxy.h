@@ -66,11 +66,11 @@ public:
     int zoneOut() const;
     void setZoneIn(int pos);
     void setZoneOut(int pos);
-    Q_INVOKABLE void setZone(int in, int out);
+    Q_INVOKABLE void setZone(int in, int out, bool sendUpdate = true);
     /** brief: Activate clip monitor if param is true, project monitor otherwise
      * */
     Q_INVOKABLE void activateClipMonitor(bool isClipMonitor);
-    void setZone(QPoint zone);
+    void setZone(QPoint zone, bool sendUpdate = true);
     void resetZone();
     QPoint zone() const;
     QImage extractFrame(int frame_position, const QString &path = QString(), int width = -1, int height = -1, bool useSourceProfile = false);
@@ -81,6 +81,7 @@ signals:
     void seekPositionChanged();
     void seekRequestChanged();
     void zoneChanged();
+    void saveZone();
     void markerCommentChanged();
     void rulerHeightChanged();
     void addSnap(int);

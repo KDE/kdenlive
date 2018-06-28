@@ -298,9 +298,9 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     if (id != Kdenlive::ClipMonitor) {
         // TODO: reimplement
         // connect(render, &Render::durationChanged, this, &Monitor::durationChanged);
-        connect(m_glMonitor->getControllerProxy(), &MonitorProxy::zoneChanged, this, &Monitor::updateTimelineClipZone);
+        connect(m_glMonitor->getControllerProxy(), &MonitorProxy::saveZone, this, &Monitor::updateTimelineClipZone);
     } else {
-        connect(m_glMonitor->getControllerProxy(), &MonitorProxy::zoneChanged, this, &Monitor::updateClipZone);
+        connect(m_glMonitor->getControllerProxy(), &MonitorProxy::saveZone, this, &Monitor::updateClipZone);
     }
     connect(m_glMonitor->getControllerProxy(), &MonitorProxy::triggerAction, pCore.get(), &Core::triggerAction);
     connect(m_glMonitor->getControllerProxy(), &MonitorProxy::seekNextKeyframe, this, &Monitor::seekToNextKeyframe);
@@ -1364,9 +1364,10 @@ void Monitor::slotOpenClip(std::shared_ptr<ProjectClip> controller, int in, int 
         connect(m_glMonitor->getControllerProxy(), &MonitorProxy::addSnap, this, &Monitor::addSnapPoint, Qt::DirectConnection);
         connect(m_glMonitor->getControllerProxy(), &MonitorProxy::removeSnap, this, &Monitor::removeSnapPoint, Qt::DirectConnection);
         if (out == -1) {
-            m_glMonitor->getControllerProxy()->setZone(m_controller->zone());
+            m_glMonitor->getControllerProxy()->setZone(m_controller->zone(), false);
+            qDebug()<<m_controller->zone();
         } else {
-            m_glMonitor->getControllerProxy()->setZone(in, out);
+            m_glMonitor->getControllerProxy()->setZone(in, out, false);
         }
         m_snaps->addPoint(m_controller->frameDuration());
         // Loading new clip / zone, stop if playing
