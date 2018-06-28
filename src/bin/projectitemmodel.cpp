@@ -400,6 +400,13 @@ std::shared_ptr<ProjectFolder> ProjectItemModel::getRootFolder() const
 
 void ProjectItemModel::loadSubClips(const QString &id, const QMap<QString, QString> &dataMap)
 {
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    loadSubClips(id, dataMap, undo, redo);
+}
+
+void ProjectItemModel::loadSubClips(const QString &id, const QMap<QString, QString> &dataMap, Fun &undo, Fun &redo)
+{
     std::shared_ptr<ProjectClip> clip = getClipByBinID(id);
     if (!clip) {
         return;
@@ -407,8 +414,6 @@ void ProjectItemModel::loadSubClips(const QString &id, const QMap<QString, QStri
     QMapIterator<QString, QString> i(dataMap);
     QList<int> missingThumbs;
     int maxFrame = clip->duration().frames(pCore->getCurrentFps()) - 1;
-    Fun undo = []() { return true; };
-    Fun redo = []() { return true; };
     while (i.hasNext()) {
         i.next();
         if (!i.value().contains(QLatin1Char(';'))) {

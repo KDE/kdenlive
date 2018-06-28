@@ -94,6 +94,7 @@ public:
         @param id is the id of the parent clip
         @param data is a definition of the subclips (keys are subclips' names, value are "in:out")*/
     void loadSubClips(const QString &id, const QMap<QString, QString> &data);
+    void loadSubClips(const QString &id, const QMap<QString, QString> &dataMap, Fun &undo, Fun &redo);
 
     /* @brief Convenience method to retrieve a pointer to an element given its index */
     std::shared_ptr<AbstractProjectItem> getBinItemByIndex(const QModelIndex &index) const;

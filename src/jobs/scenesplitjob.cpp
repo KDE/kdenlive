@@ -126,10 +126,10 @@ bool SceneSplitJob::commitResult(Fun &undo, Fun &redo)
     }
 
     auto binClip = pCore->projectItemModel()->getClipByBinID(m_clipId);
+    QStringList markerData = result.split(QLatin1Char(';'));
     if (m_markersType >= 0) {
         // Build json data for markers
         QJsonArray list;
-        QStringList markerData = result.split(QLatin1Char(';'));
         int ix = 1;
         int lastCut = 0;
         for (const QString marker : markerData) {
@@ -147,6 +147,24 @@ bool SceneSplitJob::commitResult(Fun &undo, Fun &redo)
         }
         QJsonDocument json(list);
         binClip->getMarkerModel()->importFromJson(QString(json.toJson()), true, undo, redo);
+    }
+    if (m_subClips) {
+        // Create zones
+        int ix = 1;
+        int lastCut = 0;
+        QMap <QString, QString> zoneData;
+        for (const QString marker : markerData) {
+            int pos = marker.section(QLatin1Char('='), 0, 0).toInt();
+            if (pos == lastCut || pos - lastCut < m_minInterval) {
+                continue;
+            }
+            zoneData.insert(i18n("Scene %1", ix), QString("%1;%2").arg(lastCut).arg(pos - 1));
+            lastCut = pos;
+            ix++;
+        }
+        if (!zoneData.isEmpty()) {
+            pCore->projectItemModel()->loadSubClips(m_clipId, zoneData, undo, redo);
+        }
     }
     qDebug() << "RESULT of the SCENESPLIT filter:" << result;
 
