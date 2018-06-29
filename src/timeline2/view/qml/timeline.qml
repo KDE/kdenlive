@@ -931,13 +931,12 @@ Rectangle {
                 // Show distance moved as time in a "bubble" help.
                 var delta = Math.round((clip.x / timeline.scaleFactor) - Math.round(clip.originalX) / timeline.scaleFactor)
                 if (delta != 0) {
-                    var track = tracksRepeater.itemAt(clip.trackIndex)
                     var s = timeline.timecode(Math.abs(delta))
                     // remove leading zeroes
                     if (s.substring(0, 3) === '00:')
                         s = s.substring(3)
                     s = ((delta < 0)? '-' : (delta > 0)? '+' : '') + s
-                    bubbleHelp.show(x, track.y + height/2, s)
+                    bubbleHelp.show(x, mapToItem(null, x, clip.y).y, s)
                     clipBeingMovedId = clip.clipId
                 } else bubbleHelp.hide()
             }
@@ -982,7 +981,7 @@ Rectangle {
                                 if (s.substring(0, 3) === '00:')
                                 s = s.substring(3)
                                 s = ((delta < 0)? '-' : (delta > 0)? '+' : '') + s
-                                bubbleHelp.show(xpos, activeTrack.y + height/2, s)
+                                bubbleHelp.show(xpos, mapToItem(null, x, clip.y).y, s)
                             }
                         } else {
                             // Abort move
