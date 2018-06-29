@@ -171,6 +171,7 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
             // Pass track properties
             int height = track.get_int("kdenlive:trackheight");
             timeline->setTrackProperty(tid, "kdenlive:trackheight", height == 0 ? "100" : QString::number(height));
+            timeline->setTrackProperty(tid, "kdenlive:collapsed", QString::number(track.get_int("kdenlive:collapsed")));
             QString trackName = track.get("kdenlive:track_name");
             if (!trackName.isEmpty()) {
                 timeline->setTrackProperty(tid, QStringLiteral("kdenlive:track_name"), trackName.toUtf8().constData());

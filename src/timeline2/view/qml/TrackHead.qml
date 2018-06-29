@@ -196,9 +196,8 @@ Rectangle {
                     ]
                 }
             }
-            Rectangle {
+            Item {
                 // Spacer
-                color: "transparent"
                 Layout.fillWidth: true
                 Layout.fillHeight: true
             }
@@ -313,9 +312,9 @@ Rectangle {
                 }
             }
         }
-        Rectangle {
+        Item {
             // Spacer
-            color: "transparent"
+            id: spacer
             Layout.fillWidth: true
             Layout.fillHeight: true
         }
@@ -347,6 +346,7 @@ Rectangle {
                 onReleased: {
                     root.stopScrolling = false
                     parent.opacity = 0
+                    resizer.y = spacer.y + spacer.height
                 }
                 onEntered: parent.opacity = 0.5
                 onExited: parent.opacity = 0

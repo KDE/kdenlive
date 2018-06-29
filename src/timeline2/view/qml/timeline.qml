@@ -485,6 +485,7 @@ Rectangle {
                             current: item === timeline.activeTrack
                             trackId: item
                             onIsLockedChanged: tracksRepeater.itemAt(index).isLocked = isLocked
+                            collapsed: height <= collapsedHeight
                             onMyTrackHeightChanged: {
                                 trackBaseRepeater.itemAt(index).height = myTrackHeight
                                 tracksRepeater.itemAt(index).height = myTrackHeight
@@ -492,6 +493,9 @@ Rectangle {
                                 collapsed = height <= collapsedHeight
                                 if (!collapsed) {
                                     controller.setTrackProperty(trackId, "kdenlive:trackheight", myTrackHeight)
+                                    controller.setTrackProperty(trackId, "kdenlive:collapsed", "0")
+                                } else {
+                                    controller.setTrackProperty(trackId, "kdenlive:collapsed", collapsedHeight)
                                 }
                                 // hack: change property to trigger transition adjustment
                                 root.trackHeight = root.trackHeight === 1 ? 0 : 1

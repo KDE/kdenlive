@@ -317,6 +317,10 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
         case IsLockedRole:
             return getTrackById_const(id)->getProperty("kdenlive:locked_track").toInt() == 1;
         case HeightRole: {
+            int collapsed = getTrackById_const(id)->getProperty("kdenlive:collapsed").toInt();
+            if ( collapsed > 0) {
+                return collapsed;
+            }
             int height = getTrackById_const(id)->getProperty("kdenlive:trackheight").toInt();
             // qDebug() << "DATA yielding height" << height;
             return (height > 0 ? height : 60);
