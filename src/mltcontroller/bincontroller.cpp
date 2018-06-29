@@ -25,8 +25,6 @@
 #include "core.h"
 #include "kdenlivesettings.h"
 
-static const char *kPlaylistTrackId = "main bin";
-
 BinController::BinController(const QString &profileName)
     : QObject()
 {
@@ -87,11 +85,6 @@ void BinController::slotStoreFolder(const QString &folderId, const QString &pare
     } else {
         m_binPlaylist->set(propertyName.toUtf8().constData(), folderName.toUtf8().constData());
     }
-}
-
-const QString BinController::binPlaylistId()
-{
-    return kPlaylistTrackId;
 }
 
 int BinController::clipCount() const

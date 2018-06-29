@@ -21,6 +21,7 @@
 #include "effects/effectsrepository.hpp"
 #include "kdenlivesettings.h"
 #include "kthumb.h"
+#include "bin/binplaylist.hpp"
 #include "titler/titlewidget.h"
 #include "utils/KoIconUtils.h"
 
@@ -87,7 +88,7 @@ bool DocumentChecker::hasErrorInClips()
     QDir projectDir(m_url.adjusted(QUrl::RemoveFilename).toLocalFile());
     QDomNodeList playlists = m_doc.elementsByTagName(QStringLiteral("playlist"));
     for (int i = 0; i < playlists.count(); ++i) {
-        if (playlists.at(i).toElement().attribute(QStringLiteral("id")) == QStringLiteral("main bin")) {
+        if (playlists.at(i).toElement().attribute(QStringLiteral("id")) == BinPlaylist::binPlaylistId) {
             QString documentid = EffectsList::property(playlists.at(i).toElement(), QStringLiteral("kdenlive:docproperties.documentid"));
             if (documentid.isEmpty()) {
                 // invalid document id, recreate one

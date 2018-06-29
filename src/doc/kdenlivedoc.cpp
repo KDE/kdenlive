@@ -20,6 +20,7 @@
 #include "kdenlivedoc.h"
 #include "bin/bin.h"
 #include "bin/bincommands.h"
+#include "bin/binplaylist.hpp"
 #include "bin/clipcreator.hpp"
 #include "bin/model/markerlistmodel.hpp"
 #include "bin/projectclip.h"
@@ -70,7 +71,7 @@
 #include <xlocale.h>
 #endif
 
-const double DOCUMENTVERSION = 0.97;
+const double DOCUMENTVERSION = 0.98;
 
 KdenliveDoc::KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGroup *undoGroup, const QString &profileName,
                          const QMap<QString, QString> &properties, const QMap<QString, QString> &metadata, const QPoint &tracks, bool *openBackup,
@@ -487,7 +488,7 @@ QDomDocument KdenliveDoc::xmlSceneList(const QString &scene)
     QDomNodeList pls = mlt.elementsByTagName(QStringLiteral("playlist"));
     QDomElement mainPlaylist;
     for (int i = 0; i < pls.count(); ++i) {
-        if (pls.at(i).toElement().attribute(QStringLiteral("id")) == pCore->binController()->binPlaylistId()) {
+        if (pls.at(i).toElement().attribute(QStringLiteral("id")) == BinPlaylist::binPlaylistId) {
             mainPlaylist = pls.at(i).toElement();
             break;
         }

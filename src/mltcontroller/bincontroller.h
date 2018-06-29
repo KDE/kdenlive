@@ -62,8 +62,6 @@ public:
      * */
     void loadExtraProducer(const QString &id, Mlt::Producer *prod);
 
-    /** @brief Returns the name MLT will use to store our bin's playlist */
-    static const QString binPlaylistId();
 
     /** @brief Clear the bin's playlist */
     void destroyBin();

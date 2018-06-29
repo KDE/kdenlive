@@ -778,9 +778,10 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tract
     clean();
     Mlt::Properties retainList((mlt_properties)documentTractor->get_data("xml_retain"));
     qDebug() << "Loading bin playlist...";
-    if (retainList.is_valid() && (retainList.get_data(BinPlaylist::binPlaylistId.toUtf8().constData()) != nullptr)) {
-        Mlt::Playlist playlist((mlt_playlist)retainList.get_data(BinPlaylist::binPlaylistId.toUtf8().constData()));
+    Mlt::Playlist playlist;
+    if (retainList.is_valid()) {
         qDebug() << "retain is valid";
+        Mlt::Playlist playlist((mlt_playlist) retainList.get_data(BinPlaylist::binPlaylistId.toUtf8().constData()));
         if (playlist.is_valid() && playlist.type() == playlist_type) {
             qDebug() << "playlist is valid";
 

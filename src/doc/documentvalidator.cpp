@@ -24,6 +24,7 @@
 #include "effectslist/initeffects.h"
 #include "mainwindow.h"
 #include "mltcontroller/bincontroller.h"
+#include "bin/binplaylist.hpp"
 
 #include "kdenlive_debug.h"
 #include <KMessageBox>
@@ -1180,8 +1181,8 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         }
 
         QDomNode mlt = m_doc.firstChildElement(QStringLiteral("mlt"));
-        main_playlist.setAttribute(QStringLiteral("id"), pCore->binController()->binPlaylistId());
-        mlt.toElement().setAttribute(QStringLiteral("producer"), pCore->binController()->binPlaylistId());
+        main_playlist.setAttribute(QStringLiteral("id"), BinPlaylist::binPlaylistId);
+        mlt.toElement().setAttribute(QStringLiteral("producer"), BinPlaylist::binPlaylistId);
         QStringList ids;
         QStringList slowmotionIds;
         QDomNode firstProd = m_doc.firstChildElement(QStringLiteral("producer"));
@@ -1500,7 +1501,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         playlists = m_doc.elementsByTagName(QStringLiteral("playlist"));
         QDomElement playlist;
         for (int i = 0; i < playlists.count(); i++) {
-            if (playlists.at(i).toElement().attribute(QStringLiteral("id")) == pCore->binController()->binPlaylistId()) {
+            if (playlists.at(i).toElement().attribute(QStringLiteral("id")) == BinPlaylist::binPlaylistId) {
                 playlist = playlists.at(i).toElement();
                 break;
             }
@@ -1756,6 +1757,17 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                     resource.replace(QStringLiteral("?begin:"), QStringLiteral("?begin="));
                     EffectsList::setProperty(prod, QStringLiteral("resource"), resource);
                 }
+            }
+        }
+    }
+    if (version < 0.98) {
+        // rename main bin playlist
+        QDomNodeList playlists = m_doc.elementsByTagName(QStringLiteral("playlist"));
+        QDomElement playlist;
+        for (int i = 0; i < playlists.count(); i++) {
+            if (playlists.at(i).toElement().attribute(QStringLiteral("id")) == QLatin1String("main bin")) {
+                playlists.at(i).toElement().setAttribute(QStringLiteral("id"), BinPlaylist::binPlaylistId);
+                break;
             }
         }
     }
