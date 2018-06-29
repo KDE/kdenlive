@@ -77,6 +77,8 @@ void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
     m_zone = QPoint(-1, -1);
     m_timelinePreview = nullptr;
     m_model = std::move(model);
+    m_selection.selectedItems.clear();
+    m_selection.selectedTrack = -1;
     connect(m_model.get(), &TimelineItemModel::requestClearAssetView, [&](int id) { pCore->clearAssetPanel(id); });
     connect(m_model.get(), &TimelineItemModel::requestMonitorRefresh, [&]() { pCore->requestMonitorRefresh(); });
     connect(m_model.get(), &TimelineModel::invalidateZone, this, &TimelineController::invalidateZone, Qt::DirectConnection);
