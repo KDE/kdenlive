@@ -19,18 +19,21 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef ROTOHELPER_H
-#define ROTOHELPER_H
+#ifndef CORNERHELPER_H
+#define CORNERHELPER_H
 
-#include "bpoint.h"
+#include "assets/keyframes/model/keyframemonitorhelper.hpp"
 
 #include <QPersistentModelIndex>
 #include <QVariant>
-#include <QWidget>
+#include <QObject>
+
+#include <memory>
 
 class Monitor;
+class AssetParameterModel;
 
-class RotoWidget : public QWidget
+class CornersHelper : public KeyframeMonitorHelper
 {
     Q_OBJECT
 
@@ -40,32 +43,14 @@ public:
        @param model is the asset this parameter belong to
        @param index is the index of this parameter in its model
      */
-    explicit RotoWidget(Monitor *monitor, QPersistentModelIndex index, QWidget *parent = nullptr);
-    /** @brief Send signals to the monitor to update the qml overlay.
-       @param returns : true if the monitor's connection was changed to active.
+    explicit CornersHelper(Monitor *monitor, std::shared_ptr< AssetParameterModel> model, QPersistentModelIndex index, QObject *parent = nullptr);
+    /** @brief Send data update to the monitor
     */
-    bool connectMonitor(bool activate);
-    /** @brief Returns a spline defined as string, based on its control points and frame size
-       @param value : the control points
-       @param frame: the frame size
-    */
-    static QVariant getSpline(QVariant value, const QSize frame);
-    /** @brief Returns a list of spline control points, based on its string definition and frame size
-       @param value : the spline's string definition
-       @param frame: the frame size
-    */
-    static QList<BPoint> getPoints(QVariant value, const QSize frame);
-
-private:
-    Monitor *m_monitor;
-    QPersistentModelIndex m_index;
-    bool m_active;
+    void refreshParams(int pos) override;
 
 private slots:
-    void slotUpdateRotoMonitor(const QVariantList &v);
+    void slotUpdateFromMonitorData(const QVariantList &v) override;
 
-signals:
-    void updateRotoKeyframe(QPersistentModelIndex, const QVariantList &);
 };
 
 #endif

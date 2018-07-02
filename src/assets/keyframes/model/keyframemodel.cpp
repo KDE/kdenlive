@@ -21,7 +21,7 @@
 
 #include "keyframemodel.hpp"
 #include "rotoscoping/bpoint.h"
-#include "rotoscoping/rotowidget.hpp"
+#include "rotoscoping/rotohelper.hpp"
 #include "core.h"
 #include "doc/docundostack.hpp"
 #include "macros.hpp"
@@ -824,9 +824,9 @@ QVariant KeyframeModel::getInterpolatedValue(const GenTime &pos) const
     } else if (m_paramType == ParamType::Roto_spline) {
         // interpolate
         QSize frame = pCore->getCurrentFrameSize();
-        QList<BPoint> p1 = RotoWidget::getPoints(prev->second.second, frame);
+        QList<BPoint> p1 = RotoHelper::getPoints(prev->second.second, frame);
         qreal relPos = (p - prev->first.frames(pCore->getCurrentFps())) / (qreal)(((next->first - prev->first).frames(pCore->getCurrentFps())) + 1);
-        QList<BPoint> p2 = RotoWidget::getPoints(next->second.second, frame);
+        QList<BPoint> p2 = RotoHelper::getPoints(next->second.second, frame);
         int count = qMin(p1.count(), p2.count());
         QList<QVariant> vlist;
         for (int i = 0; i < count; ++i) {

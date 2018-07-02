@@ -34,20 +34,6 @@ DoubleParamWidget::DoubleParamWidget(std::shared_ptr<AssetParameterModel> model,
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
 
-    // Construct object
-    slotRefresh();
-}
-
-void DoubleParamWidget::slotRefresh()
-{
-    // A double paramwidget is not too expansive to create, we can afford to recreate it from scratch
-    delete m_lay;
-    delete m_doubleWidget;
-
-    QLocale locale;
-    locale.setNumberOptions(QLocale::OmitGroupSeparator);
-    m_lay = new QVBoxLayout(this);
-    m_lay->setContentsMargins(4, 0, 4, 0);
     // Retrieve parameters from the model
     QString name = m_model->data(m_index, Qt::DisplayRole).toString();
     double value = locale.toDouble(m_model->data(m_index, AssetParameterModel::ValueRole).toString());
@@ -66,6 +52,15 @@ void DoubleParamWidget::slotRefresh()
     // Connect signal
     connect(m_doubleWidget, &DoubleWidget::valueChanged,
             [this, locale](double val) { emit valueChanged(m_index, locale.toString(val / m_doubleWidget->factor), true); });
+    slotRefresh();
+}
+
+void DoubleParamWidget::slotRefresh()
+{
+    QLocale locale;
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
+    double value = locale.toDouble(m_model->data(m_index, AssetParameterModel::ValueRole).toString());
+    m_doubleWidget->setValue(value);
 }
 
 void DoubleParamWidget::slotShowComment(bool show)

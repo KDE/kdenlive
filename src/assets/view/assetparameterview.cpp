@@ -70,7 +70,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
             } else {
                 auto w = AbstractParamWidget::construct(model, index, frameSize, this);
                 connect(this, &AssetParameterView::initKeyframeView, w, &AbstractParamWidget::slotInitMonitor);
-                if (type == ParamType::KeyframeParam || type == ParamType::AnimatedRect || type == ParamType::Roto_spline || paramTag == QLatin1String("frei0r.c0rners")) {
+                if (type == ParamType::KeyframeParam || type == ParamType::AnimatedRect || type == ParamType::Roto_spline) {
                     m_mainKeyframeWidget = static_cast<KeyframeWidget *>(w);
                 }
                 connect(w, &AbstractParamWidget::valueChanged, this, &AssetParameterView::commitChanges);

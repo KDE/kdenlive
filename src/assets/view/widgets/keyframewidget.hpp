@@ -35,6 +35,7 @@ class QVBoxLayout;
 class QToolButton;
 class TimecodeDisplay;
 class KSelectAction;
+class KeyframeMonitorHelper;
 
 class KeyframeWidget : public AbstractParamWidget
 {
@@ -68,13 +69,13 @@ private slots:
     void slotAtKeyframe(bool atKeyframe, bool singleKeyframe);
     void monitorSeek(int pos);
     void slotEditKeyframeType(QAction *action);
-    void slotUpdateRotoMonitor(QPersistentModelIndex index, const QVariantList &v);
+    void slotUpdateKeyframesFromMonitor(QPersistentModelIndex index, const QVariant &res);
 
 private:
     QVBoxLayout *m_lay;
     std::shared_ptr<KeyframeModelList> m_keyframes;
-
     KeyframeView *m_keyframeview;
+    KeyframeMonitorHelper *m_monitorHelper;
     QToolButton *m_buttonAddDelete;
     QToolButton *m_buttonPrevious;
     QToolButton *m_buttonNext;
@@ -83,6 +84,9 @@ private:
     MonitorSceneType m_neededScene;
     void connectMonitor(bool active);
     std::unordered_map<QPersistentModelIndex, QWidget *> m_parameters;
+
+signals:
+    void addIndex(QPersistentModelIndex ix);
 };
 
 #endif

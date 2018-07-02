@@ -19,41 +19,27 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "rotowidget.hpp"
+#include "rotohelper.hpp"
 #include "gentime.h"
+#include "core.h"
 #include "monitor/monitor.h"
+#include "assets/keyframes/model/keyframemodellist.hpp"
 
 #include <QSize>
 
-RotoWidget::RotoWidget(Monitor *monitor, QPersistentModelIndex index, QWidget *parent)
-    : QWidget(parent)
-    , m_monitor(monitor)
-    , m_index(index)
-    , m_active(false)
+RotoHelper::RotoHelper(Monitor *monitor, std::shared_ptr< AssetParameterModel> model, QPersistentModelIndex index, QObject *parent)
+    : KeyframeMonitorHelper(monitor, model, index, parent)
 {
 }
 
-bool RotoWidget::connectMonitor(bool activate)
+void RotoHelper::slotUpdateFromMonitorData(const QVariantList &v)
 {
-    if (activate == m_active) {
-        return false;
-    }
-    m_active = activate;
-    if (activate) {
-        connect(m_monitor, &Monitor::effectPointsChanged, this, &RotoWidget::slotUpdateRotoMonitor, Qt::UniqueConnection);
-    } else {
-        disconnect(m_monitor, &Monitor::effectPointsChanged, this, &RotoWidget::slotUpdateRotoMonitor);
-    }
-    return m_active;
-}
-
-void RotoWidget::slotUpdateRotoMonitor(const QVariantList &v)
-{
-    emit updateRotoKeyframe(m_index, v);
+    const QVariant res = RotoHelper::getSpline(QVariant(v), pCore->getCurrentFrameSize());
+    emit updateKeyframeData(m_indexes.first(), res);
 }
 
 
-QVariant RotoWidget::getSpline(QVariant value, const QSize frame)
+QVariant RotoHelper::getSpline(QVariant value, const QSize frame)
 {
     QList<BPoint> bPoints;
     const QVariantList points = value.toList();
@@ -72,7 +58,26 @@ QVariant RotoWidget::getSpline(QVariant value, const QSize frame)
     return vlist;
 }
 
-QList<BPoint> RotoWidget::getPoints(QVariant value, const QSize frame)
+void RotoHelper::refreshParams(int pos)
+{
+    QVariantList centerPoints;
+    QVariantList controlPoints;
+    std::shared_ptr<KeyframeModelList> keyframes = m_model->getKeyframeModel();
+    if (!keyframes->isEmpty()) {
+        QVariant splineData = keyframes->getInterpolatedValue(pos, m_indexes.first());
+        QList<BPoint> p = getPoints(splineData, pCore->getCurrentFrameSize());
+        for (int i = 0; i < p.size(); i++) {
+            centerPoints << QVariant(p.at(i).p);
+            controlPoints << QVariant(p.at(i).h1);
+            controlPoints << QVariant(p.at(i).h2);
+        }
+        if (m_monitor) {
+            m_monitor->setUpEffectGeometry(QRect(), centerPoints, controlPoints);
+        }
+    }
+}
+
+QList<BPoint> RotoHelper::getPoints(QVariant value, const QSize frame)
 {
     QList<BPoint> points;
     QList<QVariant> data = value.toList();

@@ -19,7 +19,8 @@
 
 #include "keyframewidget.hpp"
 #include "assets/keyframes/model/keyframemodellist.hpp"
-#include "assets/keyframes/model/rotoscoping/rotowidget.hpp"
+#include "assets/keyframes/model/rotoscoping/rotohelper.hpp"
+#include "assets/keyframes/model/corners/cornershelper.hpp"
 #include "assets/keyframes/view/keyframeview.hpp"
 #include "assets/model/assetparametermodel.hpp"
 #include "core.h"
@@ -38,7 +39,8 @@
 KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
     : AbstractParamWidget(model, index, parent)
     , m_keyframes(model->getKeyframeModel())
-    , m_neededScene(MonitorSceneDefault)
+    , m_monitorHelper(nullptr)
+    , m_neededScene(MonitorSceneType::MonitorSceneDefault)
 {
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 
@@ -164,23 +166,11 @@ void KeyframeWidget::slotRefreshParams()
                 }
             }
             ((GeometryWidget *)w.second)->setValue(rect, opacity);
-        } else if (type == ParamType::Roto_spline) {
-            QVariantList centerPoints;
-            QVariantList controlPoints;
-            if (!m_keyframes->isEmpty()) {
-                QVariant splineData = m_keyframes->getInterpolatedValue(pos, w.first);
-                QList<BPoint> p = RotoWidget::getPoints(splineData, pCore->getCurrentFrameSize());
-                for (int i = 0; i < p.size(); i++) {
-                    centerPoints << QVariant(p.at(i).p);
-                    controlPoints << QVariant(p.at(i).h1);
-                    controlPoints << QVariant(p.at(i).h2);
-                }
-                Monitor *monitor = pCore->getMonitor(m_model->monitorId);
-                if (monitor) {
-                    monitor->setUpEffectGeometry(QRect(), centerPoints, controlPoints);
-                }
-            }
         }
+    }
+    if (m_monitorHelper) {
+        m_monitorHelper->refreshParams(pos);
+        return;
     }
 }
 void KeyframeWidget::slotSetPosition(int pos, bool update)
@@ -201,7 +191,7 @@ void KeyframeWidget::slotSetPosition(int pos, bool update)
 
 int KeyframeWidget::getPosition() const
 {
-    return m_time->getValue() + pCore->getItemIn(m_model->getOwnerId());;
+    return m_time->getValue() + pCore->getItemIn(m_model->getOwnerId());
 }
 
 void KeyframeWidget::addKeyframe(int pos)
@@ -259,7 +249,7 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
     // Construct object
     QWidget *paramWidget = nullptr;
     if (type == ParamType::AnimatedRect) {
-        m_neededScene = MonitorSceneGeometry;
+        m_neededScene = MonitorSceneType::MonitorSceneGeometry;
         int inPos = m_model->data(index, AssetParameterModel::ParentInRole).toInt();
         QPair<int, int> range(inPos, inPos + m_model->data(index, AssetParameterModel::ParentDurationRole).toInt());
         QSize frameSize = pCore->getCurrentFrameSize();
@@ -275,14 +265,24 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
                 [this, index](const QString v) { m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), QVariant(v), index); });
         paramWidget = geomWidget;
     } else if (type == ParamType::Roto_spline) {
-        RotoWidget *roto = new RotoWidget(pCore->getMonitor(m_model->monitorId), index, this);
-        connect(roto, &RotoWidget::updateRotoKeyframe, this, &KeyframeWidget::slotUpdateRotoMonitor, Qt::UniqueConnection);
-        paramWidget = roto;
-        paramWidget->setMaximumHeight(1);
-        m_neededScene = MonitorSceneRoto;
+        m_monitorHelper = new RotoHelper(pCore->getMonitor(m_model->monitorId), m_model, index, this);
+        connect(m_monitorHelper, &KeyframeMonitorHelper::updateKeyframeData, this, &KeyframeWidget::slotUpdateKeyframesFromMonitor, Qt::UniqueConnection);
+        m_neededScene = MonitorSceneType::MonitorSceneRoto;
     } else {
-        if (m_neededScene == MonitorSceneDefault && m_model->getAssetId() == QLatin1String("frei0r.c0rners")) {
-            m_neededScene = MonitorSceneCorners;
+        if (m_model->getAssetId() == QLatin1String("frei0r.c0rners")) {
+            if (m_neededScene == MonitorSceneDefault && !m_monitorHelper) {
+                m_neededScene = MonitorSceneType::MonitorSceneCorners;
+                m_monitorHelper = new CornersHelper(pCore->getMonitor(m_model->monitorId), m_model, index, this);
+                connect(m_monitorHelper, &KeyframeMonitorHelper::updateKeyframeData, this, &KeyframeWidget::slotUpdateKeyframesFromMonitor, Qt::UniqueConnection);
+                connect(this, &KeyframeWidget::addIndex, m_monitorHelper, &CornersHelper::addIndex);
+            } else {
+                if (type == ParamType::KeyframeParam) {
+                    int paramName = m_model->data(index, AssetParameterModel::NameRole).toInt();
+                    if (paramName < 8) {
+                        emit addIndex(index);
+                    }
+                }
+            }
         }
         double value = m_keyframes->getInterpolatedValue(getPosition(), index).toDouble();
         double min = locale.toDouble(m_model->data(index, AssetParameterModel::MinRole).toString());
@@ -319,29 +319,26 @@ void KeyframeWidget::slotInitMonitor(bool active)
 
 void KeyframeWidget::connectMonitor(bool active)
 {
+    if (m_monitorHelper) {
+        if (m_monitorHelper->connectMonitor(active)) {
+            slotRefreshParams();
+        }
+    }
     for (const auto &w : m_parameters) {
         ParamType type = m_model->data(w.first, AssetParameterModel::TypeRole).value<ParamType>();
         if (type == ParamType::AnimatedRect) {
             ((GeometryWidget *)w.second)->connectMonitor(active);
             break;
         }
-        if (type == ParamType::Roto_spline) {
-            // Rotoscoping widget, trigger refresh
-            if (((RotoWidget *)w.second)->connectMonitor(active)) {
-                slotRefreshParams();
-            }
-            break;
-        }
     }
 }
 
-void KeyframeWidget::slotUpdateRotoMonitor(QPersistentModelIndex index, const QVariantList &v)
+void KeyframeWidget::slotUpdateKeyframesFromMonitor(QPersistentModelIndex index, const QVariant &res)
 {
-    QVariant res = RotoWidget::getSpline(QVariant(v), pCore->getCurrentFrameSize());
     if (m_keyframes->isEmpty()) {
         m_keyframes->addKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), KeyframeType::Linear);
         m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), res, index);
-    } else if (m_keyframes->hasKeyframe(getPosition())) {
+    } else if (m_keyframes->hasKeyframe(getPosition()) || m_keyframes->singleKeyframe()) {
         m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), res, index);
     }
 }
