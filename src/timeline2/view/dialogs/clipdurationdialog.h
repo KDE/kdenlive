@@ -20,8 +20,6 @@
 #ifndef CLIPDURATIONDIALOG_H
 #define CLIPDURATIONDIALOG_H
 
-#include "timeline/abstractclipitem.h"
-
 #include "timecodedisplay.h"
 #include "ui_clipdurationdialog_ui.h"
 
@@ -36,7 +34,7 @@ class ClipDurationDialog : public QDialog, public Ui::ClipDurationDialog_UI
     Q_OBJECT
 
 public:
-    explicit ClipDurationDialog(AbstractClipItem *clip, const Timecode &tc, const GenTime &min, const GenTime &max, QWidget *parent = nullptr);
+    explicit ClipDurationDialog(int clipId, const Timecode &tc, int pos, int minpos, int in, int out, int length, int maxpos, QWidget *parent = nullptr);
     ~ClipDurationDialog();
     GenTime startPos() const;
     GenTime cropStart() const;
@@ -49,7 +47,7 @@ private slots:
     void slotCheckEnd();
 
 private:
-    AbstractClipItem *m_clip;
+    int m_clipId;
     TimecodeDisplay *m_pos;
     TimecodeDisplay *m_dur;
     TimecodeDisplay *m_cropStart;
@@ -57,6 +55,7 @@ private:
     GenTime m_min;
     GenTime m_max;
     GenTime m_crop;
+    GenTime m_length;
 };
 
 #endif

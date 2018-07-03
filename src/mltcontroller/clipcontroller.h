@@ -130,6 +130,7 @@ public:
     const QSize getFrameSize() const;
     /** @brief Returns the clip duration as a string like 00:00:02:01. */
     const QString getStringDuration();
+    int getProducerDuration() const;
 
     /**
      * @brief Returns a pixmap created from a frame of the producer.

@@ -285,13 +285,17 @@ Rectangle {
             }
         }
         onDoubleClicked: {
-            if (showKeyframes) {
-                // Add new keyframe
-                var xPos = Math.round(mouse.x  / timeline.scaleFactor)
-                var yPos = (clipRoot.height - mouse.y) / clipRoot.height
-                keyframeModel.addKeyframe(xPos + clipRoot.inPoint, yPos)
+            if (mouse.modifiers & Qt.ShiftModifier) {
+                if (keyframeModel && showKeyframes) {
+                    // Add new keyframe
+                    var xPos = Math.round(mouse.x  / timeline.scaleFactor)
+                    var yPos = (clipRoot.height - mouse.y) / clipRoot.height
+                    keyframeModel.addKeyframe(xPos + clipRoot.inPoint, yPos)
+                } else {
+                    timeline.position = clipRoot.x / timeline.scaleFactor
+                }
             } else {
-                timeline.position = clipRoot.x / timeline.scaleFactor
+                timeline.editItemDuration(clipId)
             }
         }
         onWheel: zoomByWheel(wheel)

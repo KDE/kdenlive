@@ -66,20 +66,23 @@ class TimelineController : public QObject
 public:
     TimelineController(QObject *parent);
     virtual ~TimelineController();
-    /* @brief Sets the model that this widgets displays */
+    /** @brief Sets the model that this widgets displays */
     void setModel(std::shared_ptr<TimelineItemModel> model);
     std::shared_ptr<TimelineItemModel> getModel() const;
     void setRoot(QQuickItem *root);
 
     Q_INVOKABLE bool isMultitrackSelected() const { return m_selection.isMultitrackSelected; }
     Q_INVOKABLE int selectedTrack() const { return m_selection.selectedTrack; }
-    /* @brief Add a clip id to current selection
+    /** @brief Add a clip id to current selection
      */
     Q_INVOKABLE void addSelection(int newSelection);
-    /* @brief Clear current selection and inform the view
+    /** @brief Edit an item's in/out points with a dialog
+     */
+    Q_INVOKABLE void editItemDuration(int itemId);
+    /** @brief Clear current selection and inform the view
      */
     void clearSelection();
-    /* @brief Select all timeline items
+    /** @brief Select all timeline items
      */
     void selectAll();
     /* @brief Select all items in one track

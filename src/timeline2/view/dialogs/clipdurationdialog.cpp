@@ -18,17 +18,17 @@
  ***************************************************************************/
 
 #include "clipdurationdialog.h"
-#include "clipitem.h"
 
 #include <QFontDatabase>
 
 #include <QWheelEvent>
 
-ClipDurationDialog::ClipDurationDialog(AbstractClipItem *clip, const Timecode &tc, const GenTime &min, const GenTime &max, QWidget *parent):
+ClipDurationDialog::ClipDurationDialog(int clipId, const Timecode &tc, int pos, int minpos, int in, int out, int length, int maxpos, QWidget *parent):
     QDialog(parent),
-    m_clip(clip),
-    m_min(min),
-    m_max(max)
+    m_clipId(clipId),
+    m_min(GenTime(minpos, tc.fps())),
+    m_max(GenTime(maxpos, tc.fps())),
+    m_length(GenTime(length, tc.fps()))
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
@@ -43,28 +43,21 @@ ClipDurationDialog::ClipDurationDialog(AbstractClipItem *clip, const Timecode &t
     clip_duration_box->addWidget(m_dur);
     crop_end_box->addWidget(m_cropEnd);
 
-    bool allowCrop = true;
-    if (clip->type() == AVWidget) {
-        ClipItem *item = static_cast <ClipItem *>(clip);
-        const int t = item->clipType();
-        if (t == Color || t == Image || t == Text) {
-            allowCrop = false;
-        }
-    }
+    bool allowCrop = length != -1;
 
-    if (!allowCrop || clip->type() == TransitionWidget) {
+    if (!allowCrop) {
         m_cropStart->setHidden(true);
         crop_label->hide();
         m_cropEnd->setHidden(true),
-                  end_label->hide();
+        end_label->hide();
     }
 
-    m_crop = m_clip->cropStart();
+    m_crop = GenTime(in, tc.fps());
 
-    m_pos->setValue(m_clip->startPos());
-    m_dur->setValue(m_clip->cropDuration());
-    m_cropStart->setValue(m_clip->cropStart());
-    m_cropEnd->setValue(m_clip->maxDuration() - m_clip->cropDuration() - m_clip->cropStart());
+    m_pos->setValue(GenTime(pos, tc.fps()));
+    m_dur->setValue(GenTime(out - in, tc.fps()));
+    m_cropStart->setValue(GenTime(in, tc.fps()));
+    m_cropEnd->setValue(GenTime(length - out, tc.fps()));
 
     connect(m_pos,       &TimecodeDisplay::timeCodeEditingFinished, this, &ClipDurationDialog::slotCheckStart);
     connect(m_dur,       &TimecodeDisplay::timeCodeEditingFinished, this, &ClipDurationDialog::slotCheckDuration);
@@ -100,10 +93,10 @@ void ClipDurationDialog::slotCheckDuration()
     GenTime cropStart = m_cropStart->gentime();
     GenTime maxDuration;
 
-    if (m_clip->maxDuration() == GenTime()) {
+    if (m_length <= GenTime()) {
         maxDuration = m_max;
     } else {
-        maxDuration = m_max == GenTime() ? start + m_clip->maxDuration() - cropStart : qMin(m_max, start + m_clip->maxDuration() - cropStart);
+        maxDuration = m_max == GenTime() ? start + m_length - cropStart : qMin(m_max, start + m_length - cropStart);
     }
 
     if (maxDuration != GenTime() && start + duration > maxDuration) {
@@ -113,7 +106,7 @@ void ClipDurationDialog::slotCheckDuration()
     }
 
     m_cropEnd->blockSignals(true);
-    m_cropEnd->setValue(m_clip->maxDuration() - m_dur->gentime() - cropStart);
+    m_cropEnd->setValue(m_length - m_dur->gentime() - cropStart);
     m_cropEnd->blockSignals(false);
 }
 
@@ -121,7 +114,6 @@ void ClipDurationDialog::slotCheckCrop()
 {
     GenTime duration = m_dur->gentime();
     GenTime cropStart = m_cropStart->gentime();
-    GenTime maxDuration = m_clip->maxDuration();
 
     GenTime diff = cropStart - m_crop;
     if ((diff > GenTime() && diff < duration) || diff < GenTime()) {
@@ -131,7 +123,7 @@ void ClipDurationDialog::slotCheckCrop()
         return;
     }
 
-    if (maxDuration != GenTime() && cropStart + duration > maxDuration) {
+    if (m_length > GenTime() && cropStart + duration > m_length) {
         m_cropStart->setValue(m_crop);
     } else {
         m_crop = cropStart;
@@ -145,14 +137,14 @@ void ClipDurationDialog::slotCheckEnd()
 {
     GenTime cropStart = m_cropStart->gentime();
     GenTime cropEnd = m_cropEnd->gentime();
-    GenTime duration = m_clip->maxDuration() - cropEnd - cropStart;
+    GenTime duration = m_length - cropEnd - cropStart;
 
     if (duration >= GenTime()) {
         m_dur->setValue(duration);
         slotCheckDuration();
     } else {
         m_cropEnd->blockSignals(true);
-        m_cropEnd->setValue(m_clip->maxDuration() - m_dur->gentime() - cropStart);
+        m_cropEnd->setValue(m_length - m_dur->gentime() - cropStart);
         m_cropEnd->blockSignals(false);
     }
 }

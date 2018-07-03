@@ -240,7 +240,7 @@ public:
     */
     int getClipPlaytime(int clipId) const;
 
-    /* @brief Returns the duration of a clip
+    /* @brief Returns the size of the clip's frame (widthxheight)
        @param clipId Id of the clip to test
     */
     QSize getClipFrameSize(int clipId) const;

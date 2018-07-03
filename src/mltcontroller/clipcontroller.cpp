@@ -337,6 +337,18 @@ const QString ClipController::getStringDuration()
     return i18n("Unknown");
 }
 
+int ClipController::getProducerDuration() const
+{
+    if (m_masterProducer) {
+        int playtime = m_masterProducer->get_int("kdenlive:duration");
+        if (playtime <= 0) {
+            return playtime = m_masterProducer->get_length();
+        }
+        return playtime;
+    }
+    return -1;
+}
+
 GenTime ClipController::getPlaytime() const
 {
     if (!m_masterProducer || !m_masterProducer->is_valid()) {

@@ -38,6 +38,7 @@
 #include "timeline2/model/timelineitemmodel.hpp"
 #include "timeline2/model/trackmodel.hpp"
 #include "timeline2/view/dialogs/trackdialog.h"
+#include "timeline2/view/dialogs/clipdurationdialog.h"
 #include "timelinewidget.h"
 #include "transitions/transitionsrepository.hpp"
 #include "utils/KoIconUtils.h"
@@ -1560,3 +1561,83 @@ double TimelineController::fps() const
 {
     return pCore->getCurrentFps();
 }
+
+void TimelineController::editItemDuration(int id)
+{
+    int start = m_model->getItemPosition(id);
+    int in = 0;
+    int duration = m_model->getItemPlaytime(id);
+    int maxLength = -1;
+    if (m_model->isClip(id)) {
+        in = m_model->getClipIn(id);
+        std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(getClipBinId(id));
+        if (clip && clip->hasLimitedDuration()) {
+            maxLength = clip->getProducerDuration();
+        }
+    }
+    int trackId = m_model->getItemTrackId(id);
+    int maxFrame = m_model->getTrackById(trackId)->getBlankSizeNearClip(id, true);
+    int minFrame = in - m_model->getTrackById(trackId)->getBlankSizeNearClip(id, false);
+    int partner = m_model->getClipSplitPartner(id);
+    QPointer<ClipDurationDialog> dialog = new ClipDurationDialog(id, pCore->currentDoc()->timecode(), start, minFrame, in, in + duration, maxLength, maxFrame, qApp->activeWindow());
+    if (dialog->exec() == QDialog::Accepted) {
+        std::function<bool(void)> undo = []() { return true; };
+        std::function<bool(void)> redo = []() { return true; };
+        int newPos = dialog->startPos().frames(pCore->getCurrentFps());
+        int newIn = dialog->cropStart().frames(pCore->getCurrentFps());
+        int newDuration = dialog->duration().frames(pCore->getCurrentFps());
+        bool result = true;
+        if (newPos < start) {
+            if (m_model->isClip(id)) {
+                result = m_model->requestClipMove(id, trackId, newPos, true, true, undo, redo);
+                if (result && partner > -1) {
+                    result = m_model->requestClipMove(partner, m_model->getItemTrackId(partner), newPos, true, true, undo, redo);
+                }
+            } else {
+                result = m_model->requestCompositionMove(id, trackId, newPos, m_model->m_allCompositions[id]->getForcedTrack(), true, undo, redo);
+            }
+            if (result && newIn != in) {
+                m_model->requestItemResize(id, duration + (in - newIn), false, true, undo, redo);
+                if (result && partner > -1) {
+                    result = m_model->requestItemResize(partner, duration + (in - newIn), false, true, undo, redo);
+                }
+            }
+            if (newDuration != duration + (in - newIn)) {
+                result = result && m_model->requestItemResize(id, newDuration, true, true, undo, redo);
+                if (result && partner > -1) {
+                    result = m_model->requestItemResize(partner, newDuration, false, true, undo, redo);
+                }
+            }
+        } else {
+            // perform resize first
+            if (newIn != in) {
+                result = m_model->requestItemResize(id, duration + (in - newIn), false, true, undo, redo);
+                if (result && partner > -1) {
+                    result = m_model->requestItemResize(partner, duration + (in - newIn), false, true, undo, redo);
+                }
+            }
+            if (newDuration != duration + (in - newIn)) {
+                result = result && m_model->requestItemResize(id, newDuration, false, true, undo, redo);
+                if (result && partner > -1) {
+                    result = m_model->requestItemResize(partner, newDuration, false, true, undo, redo);
+                }
+            }
+            if (start != newPos || newIn != in) {
+                if (m_model->isClip(id)) {
+                    result = result && m_model->requestClipMove(id, trackId, newPos, true, true, undo, redo);
+                    if (result && partner > -1) {
+                        result = m_model->requestClipMove(partner, m_model->getItemTrackId(partner), newPos, true, true, undo, redo);
+                    }
+                } else {
+                    result = result && m_model->requestCompositionMove(id, trackId, newPos, m_model->m_allCompositions[id]->getForcedTrack(), true, undo, redo);
+                }
+            }
+        }
+        if (result) {
+            pCore->pushUndo(undo, redo, i18n("Edit item"));
+        } else {
+            undo();
+        }
+    }
+}
+
