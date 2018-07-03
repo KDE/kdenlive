@@ -816,14 +816,13 @@ void TimelineController::cutClipUnderCursor(int position, int track)
         }
         if (track >= 0) {
             int cid = m_model->getClipByPosition(track, position);
-            if (cid >= 0) {
-                TimelineFunctions::requestClipCut(m_model, cid, position);
+            if (cid >= 0 && TimelineFunctions::requestClipCut(m_model, cid, position)) {
                 foundClip = true;
             }
         }
     }
     if (!foundClip) {
-        // TODO: display warning, no clip found
+        pCore->displayMessage(i18n("No clip to cut"), InformationMessage, 500);
     }
 }
 
