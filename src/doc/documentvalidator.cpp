@@ -1773,6 +1773,10 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             if (playlists.at(i).toElement().attribute(QStringLiteral("id")) == QLatin1String("main bin")) {
                 playlists.at(i).toElement().setAttribute(QStringLiteral("id"), BinPlaylist::binPlaylistId);
             } else {
+                if (EffectsList::property(playlists.at(i).toElement(), QStringLiteral("kdenlive:audio_track")) == QLatin1String("1")) {
+                    // Audio track, no need to process
+                    continue;
+                }
                 const QString playlistName = QString("_%1").arg(playlists.at(i).toElement().attribute(QStringLiteral("id")));
                 QDomElement duplicate_playlist = m_doc.createElement(QStringLiteral("playlist"));
                 duplicate_playlist.setAttribute(QStringLiteral("id"), QString("%1_duplicate").arg(playlistName));
@@ -1790,10 +1794,6 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 QDomNodeList producers = playlists.at(i).childNodes();
                 bool duplicationRequested = false;
                 for (int j = 0; j < producers.count(); j++) {
-                    if (producers.at(j).nodeName() == QLatin1String("property") && producers.at(j).toElement().attribute(QStringLiteral("name"))== QLatin1String("kdenlive:audio_track")) {
-                        duplicationRequested = false;
-                        break;
-                    }
                     if (producers.at(j).nodeName() == QLatin1String("blank")) {
                         // blank, duplicate
                         duplicate_playlist.appendChild(producers.at(j).cloneNode());
