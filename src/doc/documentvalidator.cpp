@@ -1763,6 +1763,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
     if (version < 0.98) {
         // rename main bin playlist
         QDomNodeList playlists = m_doc.elementsByTagName(QStringLiteral("playlist"));
+        QDomNodeList masterProducers = m_doc.elementsByTagName(QStringLiteral("producer"));
         QDomElement playlist;
         QDomNode mlt = m_doc.firstChildElement(QStringLiteral("mlt"));
         QDomNode tractor = mlt.firstChildElement(QStringLiteral("tractor"));
@@ -1788,8 +1789,11 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 duplicate_playlist.appendChild(plname);
                 QDomNodeList producers = playlists.at(i).childNodes();
                 bool duplicationRequested = false;
-                qDebug()<<"// processing playlist: "<<playlists.at(i).toElement().attribute(QStringLiteral("id"));
                 for (int j = 0; j < producers.count(); j++) {
+                    if (producers.at(j).nodeName() == QLatin1String("property") && producers.at(j).toElement().attribute(QStringLiteral("name"))== QLatin1String("kdenlive:audio_track")) {
+                        duplicationRequested = false;
+                        break;
+                    }
                     if (producers.at(j).nodeName() == QLatin1String("blank")) {
                         // blank, duplicate
                         duplicate_playlist.appendChild(producers.at(j).cloneNode());
@@ -1798,6 +1802,18 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                         QDomNode prod = producers.at(j).cloneNode();
                         prod.toElement().setAttribute(QLatin1String("set.test_video"), QStringLiteral("1"));
                         duplicate_playlist.appendChild(prod);
+                        // Check if that is an audio clip on a video track
+                        for (int k = 0; k < masterProducers.count(); k++) {
+                            if (masterProducers.at(k).toElement().attribute(QStringLiteral("id")) == prod.toElement().attribute(QStringLiteral("producer"))) {
+                                if (EffectsList::property(masterProducers.at(k).toElement(), QStringLiteral("video_index")) == QLatin1String("-1")) {
+                                    // Audio clip on a video track, replace with blank and duplicate
+                                    int in = producers.at(j).toElement().attribute(QStringLiteral("in")).toInt();
+                                    int out = producers.at(j).toElement().attribute(QStringLiteral("out")).toInt();
+                                    producers.at(j).toElement().setTagName("blank");
+                                    producers.at(j).toElement().setAttribute("length", QString::number(out - in));
+                                }
+                            }
+                        }
                         duplicationRequested = true;
                     } else {
                         // no duplication needed, replace with blank
