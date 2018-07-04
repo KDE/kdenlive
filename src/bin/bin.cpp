@@ -2152,6 +2152,9 @@ void Bin::slotItemDropped(const QStringList &ids, const QModelIndex &parent)
             continue;
         }
         std::shared_ptr<ProjectClip> currentItem = m_itemModel->getClipByBinID(id);
+        if (!currentItem) {
+            continue;
+        }
         std::shared_ptr<AbstractProjectItem> currentParent = currentItem->parent();
         if (currentParent != parentItem) {
             // Item was dropped on a different folder
@@ -2162,6 +2165,9 @@ void Bin::slotItemDropped(const QStringList &ids, const QModelIndex &parent)
         for (QString id : folderIds) {
             id.remove(0, 1);
             std::shared_ptr<ProjectFolder> currentItem = m_itemModel->getFolderByBinId(id);
+            if (!currentItem) {
+                continue;
+            }
             std::shared_ptr<AbstractProjectItem> currentParent = currentItem->parent();
             if (currentParent != parentItem) {
                 // Item was dropped on a different folder
@@ -2169,7 +2175,11 @@ void Bin::slotItemDropped(const QStringList &ids, const QModelIndex &parent)
             }
         }
     }
-    m_doc->commandStack()->push(moveCommand);
+    if (moveCommand->childCount() == 0) {
+        pCore->displayMessage(i18n("No valid clip to insert"), InformationMessage, 500);
+    } else {
+        m_doc->commandStack()->push(moveCommand);
+    }
 }
 
 void Bin::slotAddEffect(QString id, const QStringList &effectData)
