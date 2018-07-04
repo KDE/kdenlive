@@ -60,6 +60,20 @@ class TrackModel;
    out, and then asks the track if there is enough room for extension. To avoid any confusion on which function to call first, rembember to always call the
    version in timeline. This is also required to generate the Undo/Redo operators
 
+   The undo/redo system is designed around lambda functions. Each time a function executes an elementary change to the model, it writes the corresponding
+   operation and its reverse, respectively in the redo and the undo lambdas. This way, if an operation fails for some reason, we can easily cancel the steps
+   that have been done so far without corrupting anything. The other advantage is that operations are easy to compose, and you get a undo/redo pair for free no
+   matter in which way you combine them.
+
+   Most of the modification functions are named requestObjectAction. Eg, if the object is a clip and we want to move it, we call requestClipMove. These
+   functions always return a bool indicating success, and when they return false they should guarantee than nothing has been modified. Most of the time, these
+   functions come in two versions: the first one is the entry point if you want to perform only the action (and not compose it with other actions). This version
+   will generally automatically push and Undo object on the Application stack, in case the user later wants to cancel the operation. It also generally goes the
+   extra mile to ensure the operation is done in a way that match the user's expectation: for example requestClipMove checks whether the clip belongs to a group
+   and in that case actually mouves the full group. The other version of the function, if it exists, is intended for composition (using the action as part of a
+   complex operation). It takes as input the undo/redo lambda corresponding to the action that is being performed and accumulates on them. Note that this
+   version does the minimal job: in the example of the requestClipMove, it will not move the full group if the clip is in a group.
+
    Generally speaking, we don't check ahead of time if an action is going to succeed or not before applying it.
    We just apply it naively, and if it fails at some point, we use the undo operator that we are constructing on the fly to revert what we have done so far.
    For example, when we move a group of clips, we apply the move operation to all the clips inside this group (in the right order). If none fails, we are good,
