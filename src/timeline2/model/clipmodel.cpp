@@ -126,34 +126,25 @@ ClipModel::~ClipModel() {}
 bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool logUndo)
 {
     QWriteLocker locker(&m_lock);
-    qDebug() << "RESIZE CLIP" << m_id << "target size=" << size << "right=" << right << "endless=" << m_endlessResize << "total length"
-             << m_producer->get_length() << "current length" << getPlaytime();
+    // qDebug() << "RESIZE CLIP" << m_id << "target size=" << size << "right=" << right << "endless=" << m_endlessResize << "length" <<
+    // m_producer->get_length();
     if (!m_endlessResize && (size <= 0 || size > m_producer->get_length())) {
         return false;
     }
-    int oldDuration = getPlaytime();
-    int delta = oldDuration - size;
+    int delta = getPlaytime() - size;
     if (delta == 0) {
         return true;
     }
-    return requestResize(m_producer->get_in(), m_producer->get_out(), oldDuration, delta, right, undo, redo, logUndo);
-}
-
-bool ClipModel::requestResize(int old_in, int old_out, int oldDuration, int delta, bool right, Fun &undo, Fun &redo, bool logUndo)
-{
-    QWriteLocker locker(&m_lock);
-    qDebug() << "requestResize" << old_in << old_out << oldDuration << delta << right << m_producer->get_length();
+    int in = m_producer->get_in();
+    int out = m_producer->get_out();
+    int old_in = in, old_out = out;
     // check if there is enough space on the chosen side
-    if (!right && old_in + delta < 0 && !m_endlessResize) {
-        qDebug() << "fail 1";
+    if (!right && in + delta < 0 && !m_endlessResize) {
         return false;
     }
-    if (!m_endlessResize && right && old_out - delta >= m_producer->get_length()) {
-        qDebug() << "fail 2";
+    if (!m_endlessResize && right && out - delta >= m_producer->get_length()) {
         return false;
     }
-    int in = old_in;
-    int out = old_out;
     if (right) {
         out -= delta;
     } else {
@@ -207,7 +198,7 @@ bool ClipModel::requestResize(int old_in, int old_out, int oldDuration, int delt
         };
         qDebug() << "// ADJUSTING EFFECT LENGTH, LOGUNDO " << logUndo << ", " << old_in << "/" << inPoint << ", " << m_producer->get_playtime();
         if (logUndo) {
-            adjustEffectLength(right, old_in, inPoint, oldDuration, m_producer->get_playtime(), reverse, operation, logUndo);
+            // adjustEffectLength(right, old_in, inPoint, oldDuration, m_producer->get_playtime(), reverse, operation, logUndo);
         }
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
         return true;
@@ -349,11 +340,14 @@ bool ClipModel::isAudioOnly() const
 
 void ClipModel::refreshProducerFromBin(PlaylistState::ClipState state, double speed)
 {
+    // We require that the producer is not in the track when we refresh the producer, because otherwise the modification will not be propagated. Remove the clip
+    // first, refresh, and then replant.
+    Q_ASSERT(m_currentTrackId == -1);
     QWriteLocker locker(&m_lock);
     int in = getIn();
     int out = getOut();
     qDebug() << "refresh " << speed << m_speed << in << out;
-    if (!qFuzzyCompare(speed, m_speed) && speed != 0.) {
+    if (!qFuzzyCompare(speed, m_speed) && !qFuzzyCompare(speed, 0.)) {
         in = in * m_speed / speed;
         out = in + getPlaytime() - 1;
         // prevent going out of the clip's range

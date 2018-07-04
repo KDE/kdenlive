@@ -2156,9 +2156,9 @@ QStringList TimelineModel::extractCompositionLumas() const
 
 void TimelineModel::adjustAssetRange(int clipId, int in, int out)
 {
-	Q_UNUSED(clipId)
-	Q_UNUSED(in)
-	Q_UNUSED(out)
+    Q_UNUSED(clipId)
+    Q_UNUSED(in)
+    Q_UNUSED(out)
     // pCore->adjustAssetRange(clipId, in, out);
 }
 
@@ -2166,13 +2166,15 @@ void TimelineModel::requestClipReload(int clipId)
 {
     std::function<bool(void)> local_undo = []() { return true; };
     std::function<bool(void)> local_redo = []() { return true; };
-    m_allClips[clipId]->refreshProducerFromBin();
 
     // in order to make the producer change effective, we need to unplant / replant the clip in int track
     int old_trackId = getClipTrackId(clipId);
     int oldPos = getClipPosition(clipId);
     if (old_trackId != -1) {
         getTrackById(old_trackId)->requestClipDeletion(clipId, false, true, local_undo, local_redo);
+    }
+    m_allClips[clipId]->refreshProducerFromBin();
+    if (old_trackId != -1) {
         getTrackById(old_trackId)->requestClipInsertion(clipId, oldPos, true, true, local_undo, local_redo);
     }
 }
