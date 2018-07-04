@@ -1764,10 +1764,59 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         // rename main bin playlist
         QDomNodeList playlists = m_doc.elementsByTagName(QStringLiteral("playlist"));
         QDomElement playlist;
+        QDomNode mlt = m_doc.firstChildElement(QStringLiteral("mlt"));
+        QDomNode tractor = mlt.firstChildElement(QStringLiteral("tractor"));
+        // AV clips are not supported anymore. Check if we have some and add extra audio tracks if necessary
+        // Update the main bin name as well to be xml compliant
         for (int i = 0; i < playlists.count(); i++) {
             if (playlists.at(i).toElement().attribute(QStringLiteral("id")) == QLatin1String("main bin")) {
                 playlists.at(i).toElement().setAttribute(QStringLiteral("id"), BinPlaylist::binPlaylistId);
-                break;
+            } else {
+                const QString playlistName = QString("_%1").arg(playlists.at(i).toElement().attribute(QStringLiteral("id")));
+                QDomElement duplicate_playlist = m_doc.createElement(QStringLiteral("playlist"));
+                duplicate_playlist.setAttribute(QStringLiteral("id"), QString("%1_duplicate").arg(playlistName));
+                QDomElement pltype = m_doc.createElement(QStringLiteral("property"));
+                pltype.setAttribute(QStringLiteral("name"), QStringLiteral("kdenlive:audio_track"));
+                pltype.setNodeValue(QStringLiteral("1"));
+                QDomText value1 = m_doc.createTextNode(QStringLiteral("1"));
+                pltype.appendChild(value1);
+                duplicate_playlist.appendChild(pltype);
+                QDomElement plname = m_doc.createElement(QStringLiteral("property"));
+                plname.setAttribute(QStringLiteral("name"), QStringLiteral("kdenlive:track_name"));
+                QDomText value = m_doc.createTextNode(i18n("extra audio"));
+                plname.appendChild(value);
+                duplicate_playlist.appendChild(plname);
+                QDomNodeList producers = playlists.at(i).childNodes();
+                bool duplicationRequested = false;
+                qDebug()<<"// processing playlist: "<<playlists.at(i).toElement().attribute(QStringLiteral("id"));
+                for (int j = 0; j < producers.count(); j++) {
+                    if (producers.at(j).nodeName() == QLatin1String("blank")) {
+                        // blank, duplicate
+                        duplicate_playlist.appendChild(producers.at(j).cloneNode());
+                    } else if (producers.at(j).toElement().attribute(QStringLiteral("producer")).endsWith(playlistName)) {
+                        // This is an AV clip
+                        QDomNode prod = producers.at(j).cloneNode();
+                        prod.toElement().setAttribute(QLatin1String("set.test_video"), QStringLiteral("1"));
+                        duplicate_playlist.appendChild(prod);
+                        duplicationRequested = true;
+                    } else {
+                        // no duplication needed, replace with blank
+                        QDomElement duplicate = m_doc.createElement(QStringLiteral("blank"));
+                        int in = producers.at(j).toElement().attribute(QStringLiteral("in")).toInt();
+                        int out = producers.at(j).toElement().attribute(QStringLiteral("out")).toInt();
+                        duplicate.setAttribute(QStringLiteral("length"), QString::number(out - in));
+                        duplicate_playlist.appendChild(duplicate);
+                    }
+                }
+                if (duplicationRequested) {
+                    // Plant the playlist at the end
+                    mlt.insertBefore(duplicate_playlist, tractor);
+                    QDomNode lastTrack = tractor.firstChildElement(QStringLiteral("track"));
+                    QDomElement duplicate = m_doc.createElement(QStringLiteral("track"));
+                    duplicate.setAttribute(QStringLiteral("producer"), QString("%1_duplicate").arg(playlistName));
+                    duplicate.setAttribute(QStringLiteral("hide"), QStringLiteral("video"));
+                    tractor.insertAfter(duplicate, lastTrack);
+                }
             }
         }
     }
