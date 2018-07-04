@@ -1294,7 +1294,7 @@ void TimelineController::changeItemSpeed(int clipId, double speed)
             return;
         }
     }
-    m_model->changeItemSpeed(clipId, speed);
+    m_model->requestClipTimeWarp(clipId, speed);
 }
 
 void TimelineController::switchCompositing(int mode)

@@ -371,7 +371,7 @@ void ClipModel::refreshProducerFromBin()
     refreshProducerFromBin(m_currentState);
 }
 
-bool ClipModel::useTimewarpProducer(double speed, int extraSpace, Fun &undo, Fun &redo)
+bool ClipModel::useTimewarpProducer(double speed, Fun &undo, Fun &redo)
 {
     if (m_endlessResize) {
         // no timewarp for endless producers

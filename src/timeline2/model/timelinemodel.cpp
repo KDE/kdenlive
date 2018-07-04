@@ -2196,7 +2196,7 @@ void TimelineModel::requestClipUpdate(int clipId, const QVector<int> &roles)
     notifyChange(modelIndex, modelIndex, roles);
 }
 
-bool TimelineModel::requestClipTimeWarp(int clipId, int blankSpace, double speed, Fun &undo, Fun &redo)
+bool TimelineModel::requestClipTimeWarp(int clipId, double speed, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
     if (qFuzzyCompare(speed, m_allClips[clipId]->getSpeed())) {
@@ -2212,7 +2212,7 @@ bool TimelineModel::requestClipTimeWarp(int clipId, int blankSpace, double speed
         success = success && getTrackById(trackId)->requestClipDeletion(clipId, true, true, local_undo, local_redo);
     }
     if (success) {
-        success = m_allClips[clipId]->useTimewarpProducer(speed, blankSpace, local_undo, local_redo);
+        success = m_allClips[clipId]->useTimewarpProducer(speed, local_undo, local_redo);
     }
     if (trackId != -1) {
         success = success && getTrackById(trackId)->requestClipInsertion(clipId, oldPos, true, true, local_undo, local_redo);
@@ -2225,7 +2225,7 @@ bool TimelineModel::requestClipTimeWarp(int clipId, int blankSpace, double speed
     return success;
 }
 
-bool TimelineModel::changeItemSpeed(int clipId, double speed)
+bool TimelineModel::requestClipTimeWarp(int clipId, double speed)
 {
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
@@ -2237,26 +2237,18 @@ bool TimelineModel::changeItemSpeed(int clipId, double speed)
         // Check if clip has a split partner
         int splitId = m_groups->getSplitPartner(clipId);
         if (splitId > -1) {
-            int split_trackId = getClipTrackId(splitId);
-            int partnerSpace = getTrackById(split_trackId)->getBlankSizeNearClip(splitId, true);
-            if (partnerSpace > 0) {
-                if (blankSpace < 0) {
-                    blankSpace = partnerSpace;
-                } else {
-                    blankSpace = qMin(blankSpace, partnerSpace);
-                }
-            }
-            result = requestClipTimeWarp(splitId, blankSpace, speed / 100.0, undo, redo);
+            result = requestClipTimeWarp(splitId, speed / 100.0, undo, redo);
         }
         if (result) {
-            result = requestClipTimeWarp(clipId, blankSpace, speed / 100.0, undo, redo);
+            result = requestClipTimeWarp(clipId, speed / 100.0, undo, redo);
         } else {
             pCore->displayMessage(i18n("Change speed failed"), ErrorMessage);
             undo();
+            return false;
         }
     } else {
         // If clip is not inserted on a track, we just change the producer
-        m_allClips[clipId]->useTimewarpProducer(speed, -1, undo, redo);
+        m_allClips[clipId]->useTimewarpProducer(speed, undo, redo);
     }
     if (result) {
         PUSH_UNDO(undo, redo, i18n("Change clip speed"));

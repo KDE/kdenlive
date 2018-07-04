@@ -527,9 +527,17 @@ public:
     std::shared_ptr<EffectStackModel> getClipEffectStack(int itemId);
     std::shared_ptr<EffectStackModel> getTrackEffectStackModel(int trackId);
 
-    /** @brief Add slowmotion effect to clip in timeline. */
-    bool requestClipTimeWarp(int clipId, int blankSpace, double speed, Fun &undo, Fun &redo);
-    bool changeItemSpeed(int clipId, double speed);
+    /** @brief Add slowmotion effect to clip in timeline.
+     @param clipId id of the target clip
+    @param speed: speed in percentage. 100 corresponds to original speed, 50 to half the speed
+    This functions create an undo object and also apply the effect to the corresponding audio if there is any.
+    Returns true on success, false otherwise (and nothing is modifed)
+    */
+    bool requestClipTimeWarp(int clipId, double speed);
+    /* @brief Same function as above, but doesn't check for paired audio and accumulate undo/redo
+     */
+    bool requestClipTimeWarp(int clipId, double speed, Fun &undo, Fun &redo);
+
     void replugClip(int clipId);
     /** @brief Refresh the tractor profile in case a change was requested. */
     void updateProfile(Mlt::Profile *profile);

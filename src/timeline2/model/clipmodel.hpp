@@ -151,7 +151,7 @@ protected:
     /* @brief This functions should be called when the producer of the binClip changes, to allow refresh
      * @param state corresponds to the state of the clip we want (audio or video)
      * @param speed corresponds to the speed we need. Leave to 0 to keep current speed. Warning: this function doesn't notify the model. Unless you know what
-     * you are doing, better use uteTimewarProducer to change the speed
+     * you are doing, better use useTimewarProducer to change the speed
      */
     void refreshProducerFromBin(PlaylistState::ClipState state, double speed = 0);
     void refreshProducerFromBin();
@@ -159,7 +159,7 @@ protected:
     /* @brief This functions replaces the current producer with a slowmotion one
        It also resizes the producer so that set of frames contained in the clip is the same
     */
-    bool useTimewarpProducer(double speed, int extraSpace, Fun &undo, Fun &redo);
+    bool useTimewarpProducer(double speed, Fun &undo, Fun &redo);
     // @brief Lambda that merely changes the speed (in and out are untouched)
     Fun useTimewarpProducer_lambda(double speed);
 
