@@ -97,8 +97,6 @@ public:
     // TODO make protected
     QVariant getProperty(const QString &name) const;
     void setProperty(const QString &name, const QString &value);
-    std::unordered_set<int> getClipsAfterPosition(int position, int end = -1);
-    std::unordered_set<int> getCompositionsAfterPosition(int position, int end);
 
 protected:
     /* @brief Returns a lambda that performs a resize of the given clip.
@@ -219,6 +217,10 @@ protected:
 
     int trackDuration();
 
+    /* @brief Returns the list of the ids of the clips that intersect the given range */
+    std::unordered_set<int> getClipsInRange(int position, int end = -1);
+    /* @brief Returns the list of the ids of the compositions that intersect the given range */
+    std::unordered_set<int> getCompositionsInRange(int position, int end);
 public slots:
     /*Delete the current track and all its associated clips */
     void slotDelete();

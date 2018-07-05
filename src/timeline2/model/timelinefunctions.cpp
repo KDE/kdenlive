@@ -178,7 +178,7 @@ bool TimelineFunctions::requestClipCut(std::shared_ptr<TimelineItemModel> timeli
 
 int TimelineFunctions::requestSpacerStartOperation(std::shared_ptr<TimelineItemModel> timeline, int trackId, int position)
 {
-    std::unordered_set<int> clips = timeline->getItemsAfterPosition(trackId, position, -1);
+    std::unordered_set<int> clips = timeline->getItemsInRange(trackId, position, -1);
     if (clips.size() > 0) {
         timeline->requestClipsGroup(clips, false, GroupType::Selection);
         return (*clips.cbegin());
@@ -288,7 +288,7 @@ bool TimelineFunctions::liftZone(std::shared_ptr<TimelineItemModel> timeline, in
             TimelineFunctions::requestClipCut(timeline, endClipId, zone.y(), undo, redo);
         }
     }
-    std::unordered_set<int> clips = timeline->getItemsAfterPosition(trackId, zone.x(), zone.y());
+    std::unordered_set<int> clips = timeline->getItemsInRange(trackId, zone.x(), zone.y());
     for (const auto &clipId : clips) {
         timeline->requestItemDeletion(clipId, undo, redo);
     }
@@ -299,7 +299,7 @@ bool TimelineFunctions::removeSpace(std::shared_ptr<TimelineItemModel> timeline,
 {
     Q_UNUSED(trackId)
 
-    std::unordered_set<int> clips = timeline->getItemsAfterPosition(-1, zone.y() - 1, -1, true);
+    std::unordered_set<int> clips = timeline->getItemsInRange(-1, zone.y() - 1, -1, true);
     bool result = false;
     if (clips.size() > 0) {
         int clipId = *clips.begin();
@@ -327,7 +327,7 @@ bool TimelineFunctions::insertSpace(std::shared_ptr<TimelineItemModel> timeline,
 {
     Q_UNUSED(trackId)
 
-    std::unordered_set<int> clips = timeline->getItemsAfterPosition(-1, zone.x(), -1, true);
+    std::unordered_set<int> clips = timeline->getItemsInRange(-1, zone.x(), -1, true);
     bool result = true;
     if (clips.size() > 0) {
         int clipId = *clips.begin();

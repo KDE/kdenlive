@@ -856,23 +856,23 @@ bool TimelineModel::requestCompositionDeletion(int compositionId, Fun &undo, Fun
     return false;
 }
 
-std::unordered_set<int> TimelineModel::getItemsAfterPosition(int trackId, int position, int end, bool listCompositions)
+std::unordered_set<int> TimelineModel::getItemsInRange(int trackId, int start, int end, bool listCompositions)
 {
     Q_UNUSED(listCompositions)
 
     std::unordered_set<int> allClips;
-    auto it = m_allTracks.cbegin();
     if (trackId == -1) {
-        while (it != m_allTracks.cend()) {
-            std::unordered_set<int> clipTracks = (*it)->getClipsAfterPosition(position, end);
+        for (const auto &track : m_allTracks) {
+            std::unordered_set<int> clipTracks = getItemsInRange(track->getId(), start, end, listCompositions);
             allClips.insert(clipTracks.begin(), clipTracks.end());
-            ++it;
         }
     } else {
-        int target_track_position = getTrackPosition(trackId);
-        std::advance(it, target_track_position);
-        std::unordered_set<int> clipTracks = (*it)->getClipsAfterPosition(position, end);
+        std::unordered_set<int> clipTracks = getTrackById(trackId)->getClipsInRange(start, end);
         allClips.insert(clipTracks.begin(), clipTracks.end());
+        if (listCompositions) {
+            std::unordered_set<int> compoTracks = getTrackById(trackId)->getCompositionsInRange(start, end);
+            allClips.insert(compoTracks.begin(), compoTracks.end());
+        }
     }
     return allClips;
 }
@@ -2233,7 +2233,6 @@ bool TimelineModel::requestClipTimeWarp(int clipId, double speed)
     int trackId = getClipTrackId(clipId);
     bool result = true;
     if (trackId != -1) {
-        int blankSpace = getTrackById(trackId)->getBlankSizeNearClip(clipId, true);
         // Check if clip has a split partner
         int splitId = m_groups->getSplitPartner(clipId);
         if (splitId > -1) {

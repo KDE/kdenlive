@@ -37,8 +37,8 @@
 #include "timeline2/model/groupsmodel.hpp"
 #include "timeline2/model/timelineitemmodel.hpp"
 #include "timeline2/model/trackmodel.hpp"
-#include "timeline2/view/dialogs/trackdialog.h"
 #include "timeline2/view/dialogs/clipdurationdialog.h"
+#include "timeline2/view/dialogs/trackdialog.h"
 #include "timelinewidget.h"
 #include "transitions/transitionsrepository.hpp"
 #include "utils/KoIconUtils.h"
@@ -91,7 +91,6 @@ void TimelineController::setTargetTracks(QPair<int, int> targets)
     setVideoTarget(targets.first >= 0 ? m_model->getTrackIndexFromPosition(targets.first) : -1);
     setAudioTarget(targets.second >= 0 ? m_model->getTrackIndexFromPosition(targets.second) : -1);
 }
-
 
 std::shared_ptr<TimelineItemModel> TimelineController::getModel() const
 {
@@ -765,10 +764,8 @@ void TimelineController::selectItems(QVariantList arg, int startFrame, int endFr
     }
     m_selection.selectedItems.clear();
     for (int i = 0; i < arg.count(); i++) {
-        std::unordered_set<int> trackClips = m_model->getTrackById(arg.at(i).toInt())->getClipsAfterPosition(startFrame, endFrame);
-        itemsToSelect.insert(trackClips.begin(), trackClips.end());
-        std::unordered_set<int> trackCompos = m_model->getTrackById(arg.at(i).toInt())->getCompositionsAfterPosition(startFrame, endFrame);
-        itemsToSelect.insert(trackCompos.begin(), trackCompos.end());
+        auto currentClips = m_model->getItemsInRange(arg.at(i).toInt(), startFrame, endFrame, true);
+        itemsToSelect.insert(currentClips.begin(), currentClips.end());
     }
     if (itemsToSelect.size() > 0) {
         for (int x : itemsToSelect) {
@@ -783,7 +780,6 @@ void TimelineController::selectItems(QVariantList arg, int startFrame, int endFr
     std::unordered_set<int> newIds;
     if (m_model->m_temporarySelectionGroup >= 0) {
         newIds = m_model->getGroupElements(m_selection.selectedItems.constFirst());
-        
     }
     emit selectionChanged();
 }
@@ -1271,7 +1267,7 @@ void TimelineController::invalidateZone(int in, int out)
 
 void TimelineController::changeItemSpeed(int clipId, double speed)
 {
-    if (qFuzzyCompare(speed,-1)) {
+    if (qFuzzyCompare(speed, -1)) {
         speed = 100 * m_model->getClipSpeed(clipId);
         bool ok = false;
         double duration = m_model->getItemPlaytime(clipId);
@@ -1402,7 +1398,8 @@ int TimelineController::insertZone(const QString &binId, QPoint zone, bool overw
         insertPoint = timelinePosition();
         sourceZone = zone;
     }
-    return TimelineFunctions::insertZone(m_model, targetTrack, binId, insertPoint, sourceZone, overwrite) ? insertPoint + (sourceZone.y() -sourceZone.x()) : -1;
+    return TimelineFunctions::insertZone(m_model, targetTrack, binId, insertPoint, sourceZone, overwrite) ? insertPoint + (sourceZone.y() - sourceZone.x())
+                                                                                                          : -1;
 }
 
 void TimelineController::updateClip(int clipId, QVector<int> roles)
@@ -1525,7 +1522,7 @@ void TimelineController::clearSelection()
 
 void TimelineController::selectAll()
 {
-    QList <int> ids;
+    QList<int> ids;
     for (auto clp : m_model->m_allClips) {
         ids << clp.first;
     }
@@ -1537,7 +1534,7 @@ void TimelineController::selectAll()
 
 void TimelineController::selectCurrentTrack()
 {
-    QList <int> ids;
+    QList<int> ids;
     for (auto clp : m_model->getTrackById_const(m_activeTrack)->m_allClips) {
         ids << clp.first;
     }
@@ -1579,7 +1576,8 @@ void TimelineController::editItemDuration(int id)
     int maxFrame = m_model->getTrackById(trackId)->getBlankSizeNearClip(id, true);
     int minFrame = in - m_model->getTrackById(trackId)->getBlankSizeNearClip(id, false);
     int partner = m_model->getClipSplitPartner(id);
-    QPointer<ClipDurationDialog> dialog = new ClipDurationDialog(id, pCore->currentDoc()->timecode(), start, minFrame, in, in + duration, maxLength, maxFrame, qApp->activeWindow());
+    QPointer<ClipDurationDialog> dialog =
+        new ClipDurationDialog(id, pCore->currentDoc()->timecode(), start, minFrame, in, in + duration, maxLength, maxFrame, qApp->activeWindow());
     if (dialog->exec() == QDialog::Accepted) {
         std::function<bool(void)> undo = []() { return true; };
         std::function<bool(void)> redo = []() { return true; };
@@ -1640,4 +1638,3 @@ void TimelineController::editItemDuration(int id)
         }
     }
 }
-

@@ -590,16 +590,17 @@ int TrackModel::getClipByRow(int row) const
     return (*it).first;
 }
 
-std::unordered_set<int> TrackModel::getClipsAfterPosition(int position, int end)
+std::unordered_set<int> TrackModel::getClipsInRange(int position, int end)
 {
     READ_LOCK();
     std::unordered_set<int> ids;
-    for (auto clp : m_allClips) {
+    for (const auto &clp : m_allClips) {
         int pos = clp.second->getPosition();
+        int length = clp.second->getPlaytime();
         if (end > -1 && pos >= end) {
             continue;
         }
-        if (pos >= position) {
+        if (pos >= position || pos + length - 1 >= position) {
             ids.insert(clp.first);
         }
     }
@@ -613,17 +614,19 @@ int TrackModel::getRowfromClip(int clipId) const
     return (int)std::distance(m_allClips.begin(), m_allClips.find(clipId));
 }
 
-std::unordered_set<int> TrackModel::getCompositionsAfterPosition(int position, int end)
+std::unordered_set<int> TrackModel::getCompositionsInRange(int position, int end)
 {
     READ_LOCK();
     // TODO: this function doesn't take into accounts the fact that there are two tracks
     std::unordered_set<int> ids;
     for (const auto &compo : m_allCompositions) {
         int pos = compo.second->getPosition();
-        if (pos > position && pos < end) {
-            if (compo.second->getPlaytime() < end - position) {
-                ids.insert(compo.first);
-            }
+        int length = compo.second->getPlaytime();
+        if (end > -1 && pos >= end) {
+            continue;
+        }
+        if (pos >= position || pos + length - 1 >= position) {
+            ids.insert(compo.first);
         }
     }
     return ids;
