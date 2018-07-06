@@ -118,7 +118,7 @@
   <group name="project">
     <entry name="videotracks" type="Int">
       <label>Default number of video tracks.</label>
-      <default>3</default>
+      <default>2</default>
     </entry>
 
     <entry name="audiotracks" type="Int">
