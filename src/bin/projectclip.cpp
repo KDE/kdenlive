@@ -379,19 +379,21 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
     getFileHash();
     // set parent again (some info need to be stored in producer)
     updateParent(parentItem().lock());
-    QList<std::shared_ptr<ProjectClip>> clipList;
-    // automatic proxy generation enabled
-    if (m_clipType == ClipType::Image && KdenliveSettings::generateimageproxy()) {
-        if (getProducerIntProperty(QStringLiteral("meta.media.width")) >= KdenliveSettings::proxyimageminsize() && getProducerProperty(QStringLiteral("kdenlive:proxy")) == QStringLiteral()) {
-            clipList << std::static_pointer_cast<ProjectClip>(shared_from_this());
+    if (KdenliveSettings::enableproxy()) {
+        QList<std::shared_ptr<ProjectClip>> clipList;
+        // automatic proxy generation enabled
+        if (m_clipType == ClipType::Image && KdenliveSettings::generateimageproxy()) {
+            if (getProducerIntProperty(QStringLiteral("meta.media.width")) >= KdenliveSettings::proxyimageminsize() && getProducerProperty(QStringLiteral("kdenlive:proxy")) == QStringLiteral()) {
+                clipList << std::static_pointer_cast<ProjectClip>(shared_from_this());
+            }
+        } else if (KdenliveSettings::generateproxy() && (m_clipType == ClipType::AV || m_clipType == ClipType::Video)) {
+            if (getProducerIntProperty(QStringLiteral("meta.media.width")) >= KdenliveSettings::proxyminsize() && getProducerProperty(QStringLiteral("kdenlive:proxy")) == QStringLiteral()) {
+                clipList << std::static_pointer_cast<ProjectClip>(shared_from_this());
+            }
         }
-    } else if (KdenliveSettings::generateproxy() && (m_clipType == ClipType::AV || m_clipType == ClipType::Video)) {
-        if (getProducerIntProperty(QStringLiteral("meta.media.width")) >= KdenliveSettings::proxyminsize() && getProducerProperty(QStringLiteral("kdenlive:proxy")) == QStringLiteral()) {
-            clipList << std::static_pointer_cast<ProjectClip>(shared_from_this());
+        if (!clipList.isEmpty()) {
+            pCore->currentDoc()->slotProxyCurrentItem(true, clipList, false);
         }
-    }
-    if (!clipList.isEmpty()) {
-        pCore->currentDoc()->slotProxyCurrentItem(true, clipList, false);
     }
     pCore->bin()->reloadMonitorIfActive(clipId());
     return true;
