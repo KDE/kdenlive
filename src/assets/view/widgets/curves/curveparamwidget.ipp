@@ -42,7 +42,6 @@ public:
     {
         if (m_isVert) {
             setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred);
-            setMaximumSize(10, 500);
             setFixedWidth(10);
         } else {
             setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
@@ -140,27 +139,26 @@ CurveParamWidget<CurveWidget_t>::CurveParamWidget(std::shared_ptr<AssetParameter
 
     // construct and fill layout
     QVBoxLayout *layout = new QVBoxLayout(this);
-
-    // grid layout containing the curve and the optional param values
-    QGridLayout *curve_layout = new QGridLayout();
-    curve_layout->addWidget(m_edit, 0, 1);
+    layout->setSpacing(0);
+    setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
+    layout->addWidget(m_edit);
 
     m_leftParam = new ValueLabel<CurveWidget_t>(true, m_mode, this);
     m_leftParam->setFrameStyle(QFrame::StyledPanel | QFrame::Plain);
     m_leftParam->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    curve_layout->addWidget(m_leftParam, 0, 0);
 
     m_bottomParam = new ValueLabel<CurveWidget_t>(false, m_mode, this);
     m_bottomParam->setFrameStyle(QFrame::StyledPanel | QFrame::Plain);
     m_bottomParam->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
-    curve_layout->addWidget(m_bottomParam, 1, 1);
 
     // horizontal layout to make sure that everything is centered
     QHBoxLayout *horiz_layout = new QHBoxLayout;
-    horiz_layout->addLayout(curve_layout);
+    horiz_layout->addWidget(m_leftParam);
+    horiz_layout->addWidget(m_bottomParam);
 
     layout->addLayout(horiz_layout);
     QWidget *widget = new QWidget(this);
+    widget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
     m_ui.setupUi(widget);
     layout->addWidget(widget);
 

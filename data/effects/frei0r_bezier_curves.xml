@@ -8,7 +8,6 @@
                 <paramlistdisplay>RGB,Red,Green,Blue,Alpha,Luma,Hue,Saturation</paramlistdisplay>
                 <name>Channel</name>
         </parameter>
-
         <parameter type="list" name="4" default="1" paramlist="0;1">
                 <paramlistdisplay>Rec. 601,Rec. 709</paramlistdisplay>
                 <name>Luma formula</name>

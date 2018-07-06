@@ -37,7 +37,6 @@ AbstractCurveWidget<Curve_t>::AbstractCurveWidget(QWidget *parent)
     setAutoFillBackground(false);
     setAttribute(Qt::WA_OpaquePaintEvent);
     setMinimumSize(150, 150);
-    setMaximumSize(500, 500);
     QSizePolicy sp(QSizePolicy::Preferred, QSizePolicy::Preferred);
     sp.setHeightForWidth(true); // force widget to have a height dependent on width;
     setSizePolicy(sp);
