@@ -1623,7 +1623,7 @@ bool MainWindow::readOptions()
     pCore->projectManager()->recentFilesAction()->loadEntries(KConfigGroup(config, "Recent Files"));
 
     if (KdenliveSettings::defaultprojectfolder().isEmpty()) {
-        QDir dir(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
+        QDir dir(QStandardPaths::writableLocation(QStandardPaths::MoviesLocation));
         dir.mkpath(QStringLiteral("."));
         KdenliveSettings::setDefaultprojectfolder(dir.absolutePath());
     }

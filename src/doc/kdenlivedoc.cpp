@@ -615,7 +615,7 @@ QString KdenliveDoc::projectDataFolder() const
         if (KdenliveSettings::customprojectfolder()) {
             return KdenliveSettings::defaultprojectfolder();
         }
-        return QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+        return QStandardPaths::writableLocation(QStandardPaths::MoviesLocation);
     }
     return m_projectFolder;
 }
