@@ -41,6 +41,7 @@
 #include <QCommandLineParser>
 #include <QDir>
 #include <QIcon>
+#include <KIconTheme>
 #include <QProcess>
 #include <QQmlEngine>
 #include <QUrl> //new
@@ -75,8 +76,13 @@ int main(int argc, char *argv[])
             qCDebug(KDENLIVE_LOG) << "KDE Desktop detected, using system icons";
         } else {
             // We are not on a KDE desktop, force breeze icon theme
-            grp.writeEntry("force_breeze", true);
-            qCDebug(KDENLIVE_LOG) << "Non KDE Desktop detected, forcing Breeze icon theme";
+            // Check if breeze theme is available
+            QStringList iconThemes = KIconTheme::list();
+            if (iconThemes.contains(QStringLiteral("breeze"))) {
+                grp.writeEntry("force_breeze", true);
+                grp.writeEntry("use_dark_breeze", true);
+                qCDebug(KDENLIVE_LOG) << "Non KDE Desktop detected, forcing Breeze icon theme";
+            }
         }
     }
 

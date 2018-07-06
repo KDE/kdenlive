@@ -168,9 +168,8 @@ void MainWindow::init()
     // Init color theme
     KActionMenu *themeAction = new KActionMenu(i18n("Theme"), this);
     ThemeManager::instance()->setThemeMenuAction(themeAction);
-    connect(ThemeManager::instance(), &ThemeManager::signalThemeChanged, this, &MainWindow::slotThemeChanged, Qt::DirectConnection);
     ThemeManager::instance()->setCurrentTheme(KdenliveSettings::colortheme());
-
+    connect(ThemeManager::instance(), &ThemeManager::signalThemeChanged, this, &MainWindow::slotThemeChanged, Qt::DirectConnection);
     if (!KdenliveSettings::widgetstyle().isEmpty() && QString::compare(desktopStyle, KdenliveSettings::widgetstyle(), Qt::CaseInsensitive) != 0) {
         // User wants a custom widget style, init
         doChangeStyle();
@@ -644,7 +643,9 @@ void MainWindow::slotThemeChanged(const QString &theme)
 
     QColor background = plt.window().color();
     bool useDarkIcons = background.value() < 100;
-    if (KdenliveSettings::force_breeze() && useDarkIcons != KdenliveSettings::use_dark_breeze()) {
+    KSharedConfigPtr kconfig = KSharedConfig::openConfig();
+    KConfigGroup initialGroup(kconfig, "version");
+    if (initialGroup.exists() && KdenliveSettings::force_breeze() && useDarkIcons != KdenliveSettings::use_dark_breeze()) {
         // We need to reload icon theme
         KdenliveSettings::setUse_dark_breeze(useDarkIcons);
         if (KMessageBox::warningContinueCancel(this, i18n("Kdenlive needs to be restarted to apply color theme change. Restart now ?")) ==
