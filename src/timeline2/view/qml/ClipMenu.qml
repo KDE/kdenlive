@@ -24,11 +24,7 @@ OLD.Menu {
             text: i18n('Cut')
             onTriggered: {
                 console.log('cutting clip:', clipId)
-                if (!parentTrack.isLocked) {
-                    timeline.requestClipCut(clipId, timeline.position)
-                } else {
-                    root.pulseLockButtonOnTrack(trackId)
-                }
+                timeline.requestClipCut(clipId, timeline.position)
             }
         }
         OLD.MenuItem {
