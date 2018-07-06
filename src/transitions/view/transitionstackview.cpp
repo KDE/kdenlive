@@ -21,6 +21,7 @@
 
 #include "transitionstackview.hpp"
 #include "assets/model/assetparametermodel.hpp"
+#include "assets/keyframes/model/keyframemodellist.hpp"
 #include "core.h"
 
 #include <QComboBox>
@@ -57,6 +58,10 @@ void TransitionStackView::setModel(const std::shared_ptr<AssetParameterModel> &m
     lay->addWidget(title);
     lay->addWidget(m_trackBox);
     m_lay->insertLayout(0, lay);
+    auto kfr = model->getKeyframeModel();
+    if (kfr) {
+        connect(kfr.get(), &KeyframeModelList::modelChanged, this, &AssetParameterView::slotRefresh);
+    }
     connect(model.get(), &AssetParameterModel::compositionTrackChanged, this, &TransitionStackView::checkCompoTrack);
     connect(m_trackBox, SIGNAL(currentIndexChanged(int)), this, SLOT(updateTrack(int)));
     connect(this, &AssetParameterView::seekToPos, [this](int pos) {
@@ -64,6 +69,7 @@ void TransitionStackView::setModel(const std::shared_ptr<AssetParameterModel> &m
         int clipIn = pCore->getItemPosition(m_model->getOwnerId());
         emit seekToTransPos(pos + clipIn);
     });
+    initKeyframeView(true);
 }
 
 void TransitionStackView::updateTrack(int newTrack)

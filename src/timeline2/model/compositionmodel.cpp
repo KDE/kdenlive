@@ -68,6 +68,7 @@ bool CompositionModel::requestResize(int size, bool right, Fun &undo, Fun &redo,
     qDebug() << "compo request resize " << size << right << delta;
     int in = getIn();
     int out = getOut();
+    int oldDuration = out - in;
     int old_in = in, old_out = out;
     if (right) {
         out -= delta;
@@ -108,6 +109,18 @@ bool CompositionModel::requestResize(int size, bool right, Fun &undo, Fun &redo,
             }
             return false;
         };
+
+        auto kfr = getKeyframeModel();
+        if (kfr) {
+            // Adjust keyframe length
+            kfr->resizeKeyframes(0, oldDuration, 0, out, undo, redo);
+            Fun refresh = [kfr, this]() {
+                kfr->modelChanged();
+                return true;
+            };
+            refresh();
+            UPDATE_UNDO_REDO(refresh, refresh, undo, redo);
+        }
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
         return true;
     }
