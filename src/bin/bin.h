@@ -217,11 +217,11 @@ public:
 
     const QString getDocumentProperty(const QString &key);
 
-    /** @brief A proxy clip was just created, pass it to the responsible item  */
-    void gotProxy(const QString &id, const QString &path);
-
     /** @brief Ask MLT to reload this clip's producer  */
     void reloadClip(const QString &id);
+
+    /** @brief refresh monitor (if clip changed)  */
+    void reloadMonitorIfActive(const QString &id);
 
     void doMoveClip(const QString &id, const QString &newParentId);
     void doMoveFolder(const QString &id, const QString &newParentId);

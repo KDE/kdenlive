@@ -253,7 +253,7 @@ bool ProxyJob::startJob()
         m_done = false;
         m_errorMessage.append(QString::fromUtf8(m_jobProcess->readAll()));
     }
-    delete m_jobProcess;
+    m_jobProcess->deleteLater();
     return result;
 }
 

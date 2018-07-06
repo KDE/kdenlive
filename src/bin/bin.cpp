@@ -1721,6 +1721,13 @@ void Bin::reloadClip(const QString &id)
     clip->reloadProducer();
 }
 
+void Bin::reloadMonitorIfActive(const QString &id)
+{
+    if (m_monitor->activeClipId() == id) {
+        slotOpenCurrent();
+    }
+}
+
 QStringList Bin::getBinFolderClipIds(const QString &id) const
 {
     QStringList ids;
@@ -2066,20 +2073,6 @@ void Bin::doDisplayMessage(const QString &text, KMessageWidget::MessageType type
     m_infoMessage->setMessageType(type);
     if (m_infoMessage->isHidden()) {
         m_infoMessage->animatedShow();
-    }
-}
-
-void Bin::gotProxy(const QString &id, const QString &path)
-{
-    // TODO refac : delete this
-    std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(id);
-    if (clip) {
-        QDomDocument doc;
-        clip->setProducerProperty(QStringLiteral("kdenlive:proxy"), path);
-        QDomElement xml = clip->toXml(doc, true);
-        if (!xml.isNull()) {
-            pCore->jobManager()->startJob<LoadJob>({id}, -1, QString(), xml);
-        }
     }
 }
 
