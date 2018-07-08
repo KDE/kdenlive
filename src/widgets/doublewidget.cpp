@@ -22,10 +22,10 @@
 
 #include <QGridLayout>
 
-DoubleWidget::DoubleWidget(const QString &name, double value, double min, double max, double defaultValue, const QString &comment, int id,
+DoubleWidget::DoubleWidget(const QString &name, double value, double min, double max, double factor, double defaultValue, const QString &comment, int id,
                            const QString &suffix, int decimals, QWidget *parent)
     : QWidget(parent)
-    , factor(1)
+    , m_factor(factor)
 {
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
     auto *layout = new QGridLayout(this);
@@ -38,7 +38,7 @@ DoubleWidget::DoubleWidget(const QString &name, double value, double min, double
     if (!comment.isEmpty()) {
         setToolTip(comment);
     }
-    m_dragVal->setValue(value, false);
+    m_dragVal->setValue(value * factor, false);
     connect(m_dragVal, &DragValue::valueChanged, this, &DoubleWidget::slotSetValue);
 }
 
@@ -65,7 +65,7 @@ void DoubleWidget::setSpinSize(int width)
 void DoubleWidget::setValue(double value)
 {
     m_dragVal->blockSignals(true);
-    m_dragVal->setValue(value * factor);
+    m_dragVal->setValue(value * m_factor);
     m_dragVal->blockSignals(false);
 }
 
@@ -77,7 +77,7 @@ void DoubleWidget::enableEdit(bool enable)
 void DoubleWidget::slotSetValue(double value, bool final)
 {
     if (final) {
-        emit valueChanged(value / factor);
+        emit valueChanged(value / m_factor);
     }
 }
 

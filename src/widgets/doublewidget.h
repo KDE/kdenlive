@@ -41,16 +41,14 @@ public:
      * @param value Value of the parameter
      * @param min Minimum value
      * @param max maximum value
+     * @param factor value, if we want a range 0-1000 for a 0-1 parameter, we can set a factor of 1000
      * @param defaultValue Value used when using reset functionality
      * @param comment A comment explaining the parameter. Will be shown in a tooltip.
      * @param suffix (optional) Suffix to display in spinbox
      * @param parent (optional) Parent Widget */
-    explicit DoubleWidget(const QString &name, double value, double min, double max, double defaultValue, const QString &comment, int id,
+    explicit DoubleWidget(const QString &name, double value, double min, double max, double factor, double defaultValue, const QString &comment, int id,
                           const QString &suffix = QString(), int decimals = 0, QWidget *parent = nullptr);
     ~DoubleWidget();
-
-    /** @brief The factor by which real param value is multiplicated to give the slider value. */
-    double factor;
 
     /** @brief Gets the parameter's value. */
     double getValue();
@@ -77,6 +75,7 @@ private slots:
 
 private:
     DragValue *m_dragVal;
+    double m_factor;
 
 signals:
     void valueChanged(double);

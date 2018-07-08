@@ -309,9 +309,7 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
         return element.attribute(QStringLiteral("alpha")) == QLatin1String("1");
     case ValueRole: {
         QString value(m_asset->get(paramName.toUtf8().constData()));
-        return value.isEmpty() ? (element.attribute(QStringLiteral("value")).isNull() ? parseAttribute(m_ownerId, QStringLiteral("default"), element)
-                                                                                      : element.attribute(QStringLiteral("value")))
-                               : value;
+        return value.isEmpty() ? (element.attribute(QStringLiteral("value")).isNull() ? parseAttribute(m_ownerId, QStringLiteral("default"), element) : element.attribute(QStringLiteral("value"))) : value;
     }
     case ListValuesRole:
         return element.attribute(QStringLiteral("paramlist")).split(QLatin1Char(';'));
@@ -465,6 +463,12 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId owner, const QString
     } else if (type == ParamType::Double) {
         QLocale locale;
         locale.setNumberOptions(QLocale::OmitGroupSeparator);
+        if (attribute == QLatin1String("default")) {
+            int factor = element.attribute(QStringLiteral("factor"), QStringLiteral("1")).toInt();
+            if (factor > 0) {
+                return locale.toDouble(content) / factor;
+            }
+        }
         return locale.toDouble(content);
     }
     if (attribute == QLatin1String("default")) {

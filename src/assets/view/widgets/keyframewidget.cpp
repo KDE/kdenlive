@@ -291,10 +291,9 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
         int decimals = m_model->data(index, AssetParameterModel::DecimalsRole).toInt();
         double factor = locale.toDouble(m_model->data(index, AssetParameterModel::FactorRole).toString());
         factor = qFuzzyIsNull(factor) ? 1 : factor;
-        auto doubleWidget = new DoubleWidget(name, value * factor, min, max, defaultValue, comment, -1, suffix, decimals, this);
-        doubleWidget->factor = factor;
+        auto doubleWidget = new DoubleWidget(name, value * factor, min, max, factor, defaultValue, comment, -1, suffix, decimals, this);
         connect(doubleWidget, &DoubleWidget::valueChanged,
-                [this, index, factor](double v) { m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), QVariant(v), index); });
+                [this, index](double v) { m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), QVariant(v), index); });
         paramWidget = doubleWidget;
     }
     if (paramWidget) {

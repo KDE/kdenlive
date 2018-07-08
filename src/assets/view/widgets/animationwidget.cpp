@@ -793,14 +793,12 @@ void AnimationWidget::buildSliderWidget(const QString &paramTag, QModelIndex ix)
 
     int index = m_params.count() - 1;
 
-    double factor = m_model->data(ix, AssetParameterModel::FactorRole).toDouble();
     DoubleWidget *doubleparam =
-        new DoubleWidget(paramName, 0, m_model->data(ix, AssetParameterModel::MinRole).toDouble(), m_model->data(ix, AssetParameterModel::MaxRole).toDouble(),
-                         m_model->data(ix, AssetParameterModel::DefaultRole).toDouble() * factor, comment, index,
+        new DoubleWidget(paramName, 0, m_model->data(ix, AssetParameterModel::MinRole).toDouble(), m_model->data(ix, AssetParameterModel::MaxRole).toDouble(), m_model->data(ix, AssetParameterModel::FactorRole).toDouble()
+                         m_model->data(ix, AssetParameterModel::DefaultRole).toDouble(), comment, index,
                          m_model->data(ix, AssetParameterModel::SuffixRole).toString(), m_model->data(ix, AssetParameterModel::DecimalsRole).toInt(), this);
     doubleparam->setObjectName(paramTag);
     doubleparam->setProperty("index", ix);
-    doubleparam->factor = factor;
     connect(doubleparam, &DoubleWidget::valueChanged, this, &AnimationWidget::slotAdjustKeyframeValue);
     layout()->addWidget(doubleparam);
 
