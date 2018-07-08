@@ -1223,12 +1223,37 @@ bool TimelineModel::requestClipUngroup(int id, bool logUndo)
     QWriteLocker locker(&m_lock);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    bool result = requestClipUngroup(id, undo, redo);
+    bool result = true;
+    if (id == m_temporarySelectionGroup) {
+        // Ungrouping selection group, so get id of all children
+        std::unordered_set<int> leaves = m_groups->getDirectChildren(id);
+        // Delete selection group without undo
+        Fun tmp_undo = []() { return true; };
+        Fun tmp_redo = []() { return true; };
+        requestClipUngroup(id, tmp_undo, tmp_redo);
+        m_temporarySelectionGroup = -1;
+
+        // Parse children to find groups
+        std::unordered_set<int> groups;
+        for (int item : leaves) {
+            if (m_groups->getLeaves(item).size() > 0) {
+                if (groups.count(item) <= 0) {
+                    leaves.insert(item);
+                }
+            }
+        }
+        // destroy groups
+        for (int leave : leaves) {
+            result = requestClipUngroup(leave, undo, redo);
+            if (!result) {
+                break;
+            }
+        }
+    } else {
+        result = requestClipUngroup(id, undo, redo);
+    }
     if (result && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Ungroup clips"));
-    }
-    if (id == m_temporarySelectionGroup) {
-        m_temporarySelectionGroup = -1;
     }
     return result;
 }
