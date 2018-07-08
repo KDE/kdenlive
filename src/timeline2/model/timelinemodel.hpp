@@ -553,6 +553,7 @@ public:
     bool requestClipTimeWarp(int clipId, double speed, Fun &undo, Fun &redo);
 
     void replugClip(int clipId);
+
     /** @brief Refresh the tractor profile in case a change was requested. */
     void updateProfile(Mlt::Profile *profile);
 

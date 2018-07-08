@@ -495,6 +495,7 @@ void TimelineController::addTrack(int tid)
     if (d->exec() == QDialog::Accepted) {
         int newTid;
         m_model->requestTrackInsertion(d->selectedTrackPosition(), newTid, d->trackName(), d->addAudioTrack());
+        m_model->buildTrackCompositing(true);
     }
 }
 
@@ -506,6 +507,7 @@ void TimelineController::deleteTrack(int tid)
     QPointer<TrackDialog> d = new TrackDialog(m_model, tid, qApp->activeWindow(), true);
     if (d->exec() == QDialog::Accepted) {
         m_model->requestTrackDeletion(d->selectedTrackId());
+        m_model->buildTrackCompositing(true);
     }
 }
 

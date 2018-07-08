@@ -88,7 +88,10 @@ public:
     void notifyChange(const QModelIndex &topleft, const QModelIndex &bottomright, bool start, bool duration, bool updateThumb) override;
     void notifyChange(const QModelIndex &topleft, const QModelIndex &bottomright, const QVector<int> &roles) override;
     void notifyChange(const QModelIndex &topleft, const QModelIndex &bottomright, int role) override;
-    void buildTrackCompositing();
+
+    /** @brief Rebuild track compositing */
+    void buildTrackCompositing(bool rebuild = false);
+
     const QString groupsData();
     bool loadGroups(const QString &groupsData);
     /* @brief returns true if clip is in temporary selection group.

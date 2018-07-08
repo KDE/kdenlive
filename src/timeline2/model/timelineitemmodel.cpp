@@ -419,38 +419,6 @@ const QString TimelineItemModel::getTrackFullName(int tid) const
     return trackName.isEmpty() ? tag : tag + QStringLiteral(" - ") + trackName;
 }
 
-void TimelineItemModel::buildTrackCompositing()
-{
-    auto it = m_allTracks.cbegin();
-    QScopedPointer<Mlt::Field> field(m_tractor->field());
-    field->lock();
-    QString composite = TransitionsRepository::get()->getCompositingTransition();
-    while (it != m_allTracks.cend()) {
-        int trackId = getTrackMltIndex((*it)->getId());
-        if (!composite.isEmpty() && !(*it)->isAudioTrack()) {
-            // video track, add composition
-            Mlt::Transition *transition = TransitionsRepository::get()->getTransition(composite);
-            transition->set("internal_added", 237);
-            transition->set("always_active", 1);
-            field->plant_transition(*transition, 0, trackId);
-            transition->set_tracks(0, trackId);
-        } else if ((*it)->isAudioTrack()) {
-            // audio mix
-            Mlt::Transition *transition = TransitionsRepository::get()->getTransition(QStringLiteral("mix"));
-            transition->set("internal_added", 237);
-            transition->set("always_active", 1);
-            transition->set("sum", 1);
-            field->plant_transition(*transition, 0, trackId);
-            transition->set_tracks(0, trackId);
-        }
-        ++it;
-    }
-    field->unlock();
-    if (composite.isEmpty()) {
-        pCore->displayMessage(i18n("Could not setup track compositing, check your install"), MessageType::ErrorMessage);
-    }
-}
-
 const QString TimelineItemModel::groupsData()
 {
     return m_groups->toJson();
@@ -491,6 +459,53 @@ void TimelineItemModel::notifyChange(const QModelIndex &topleft, const QModelInd
 void TimelineItemModel::notifyChange(const QModelIndex &topleft, const QModelIndex &bottomright, const QVector<int> &roles)
 {
     emit dataChanged(topleft, bottomright, roles);
+}
+
+void TimelineItemModel::buildTrackCompositing(bool rebuild)
+{
+    auto it = m_allTracks.cbegin();
+    QScopedPointer<Mlt::Field> field(m_tractor->field());
+    field->lock();
+    // Make sure all previous track compositing is removed
+    if (rebuild) {
+        QScopedPointer<Mlt::Service> service(new Mlt::Service(field->get_service()));
+        while ((service != nullptr) && service->is_valid()) {
+            if (service->type() == transition_type) {
+                Mlt::Transition t((mlt_transition)service->get_service());
+                QString serviceName = t.get("mlt_service");
+                if (t.get_int("internal_added") == 237) {
+                    // remove all compositing transitions
+                    field->disconnect_service(t);
+                }
+            }
+            service.reset(service->producer());
+        }
+    }
+    QString composite = TransitionsRepository::get()->getCompositingTransition();
+    while (it != m_allTracks.cend()) {
+        int trackId = getTrackMltIndex((*it)->getId());
+        if (!composite.isEmpty() && !(*it)->isAudioTrack()) {
+            // video track, add composition
+            Mlt::Transition *transition = TransitionsRepository::get()->getTransition(composite);
+            transition->set("internal_added", 237);
+            transition->set("always_active", 1);
+            field->plant_transition(*transition, 0, trackId);
+            transition->set_tracks(0, trackId);
+        } else if ((*it)->isAudioTrack()) {
+            // audio mix
+            Mlt::Transition *transition = TransitionsRepository::get()->getTransition(QStringLiteral("mix"));
+            transition->set("internal_added", 237);
+            transition->set("always_active", 1);
+            transition->set("sum", 1);
+            field->plant_transition(*transition, 0, trackId);
+            transition->set_tracks(0, trackId);
+        }
+        ++it;
+    }
+    field->unlock();
+    if (composite.isEmpty()) {
+        pCore->displayMessage(i18n("Could not setup track compositing, check your install"), MessageType::ErrorMessage);
+    }
 }
 
 void TimelineItemModel::notifyChange(const QModelIndex &topleft, const QModelIndex &bottomright, int role)
