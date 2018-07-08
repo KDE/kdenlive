@@ -299,7 +299,7 @@ Fun TrackModel::requestClipDeletion_lambda(int clipId, bool updateView, bool fin
                     // deleted last clip in playlist
                     ptr->updateDuration();
                 }
-                if (!audioOnly && isHidden() && !isAudioTrack()) {
+                if (!audioOnly && !isHidden() && !isAudioTrack()) {
                     // only refresh monitor if not an audio track and not hidden
                     ptr->checkRefresh(old_in, old_out);
                 }
