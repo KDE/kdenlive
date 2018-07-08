@@ -37,6 +37,7 @@ ProxyJob::ProxyJob(const QString &binId)
     : AbstractClipJob(PROXYJOB, binId)
     , m_jobDuration(0)
     , m_isFfmpegJob(true)
+    , m_jobProcess(nullptr)
     , m_done(false)
 {
 }
@@ -259,30 +260,48 @@ bool ProxyJob::startJob()
 
 void ProxyJob::processLogInfo()
 {
+    m_buffer.append(QString::fromUtf8(m_jobProcess->readAllStandardOutput()));
+    // reading data from process sometimes returns half a line. To get a correct parsing
+    // we need to store it in a buffer and cut the lines manually
+    int lineFeed = m_buffer.lastIndexOf(QRegExp("[\n\r]"));
+    if (lineFeed == -1) {
+        return;
+    }
+    const QString buffer = m_buffer.left(lineFeed);
+    m_buffer.remove(0, lineFeed + 1);
     int progress;
-    const QString log = QString::fromUtf8(m_jobProcess->readAllStandardOutput());
     if (m_isFfmpegJob) {
         // Parse FFmpeg output
         if (m_jobDuration == 0) {
-            if (log.contains(QLatin1String("Duration:"))) {
-                QString data = log.section(QStringLiteral("Duration:"), 1, 1).section(QLatin1Char(','), 0, 0).simplified();
-                QStringList numbers = data.split(QLatin1Char(':'));
-                m_jobDuration = (int)(numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toDouble());
+            if (buffer.contains(QLatin1String("Duration:"))) {
+                QString data = buffer.section(QStringLiteral("Duration:"), 1, 1).section(QLatin1Char(','), 0, 0).simplified();
+                if (!data.isEmpty()) {
+                    QStringList numbers = data.split(QLatin1Char(':'));
+                    if (numbers.size() < 3) {
+                        return;
+                    }
+                    m_jobDuration = (int)(numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toDouble());
+                }
             }
-        } else if (log.contains(QLatin1String("time="))) {
-            QString time = log.section(QStringLiteral("time="), 1, 1).simplified().section(QLatin1Char(' '), 0, 0);
-            if (time.contains(QLatin1Char(':'))) {
+        } else if (buffer.contains(QLatin1String("time="))) {
+            QString time = buffer.section(QStringLiteral("time="), 1, 1).simplified().section(QLatin1Char(' '), 0, 0);
+            if (!time.isEmpty()) {
                 QStringList numbers = time.split(QLatin1Char(':'));
-                progress = numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toDouble();
-            } else {
-                progress = (int)time.toDouble();
+                if (numbers.size() < 3) {
+                    progress = (int)time.toDouble();
+                    if (progress == 0) {
+                        return;
+                    }
+                } else {
+                    progress = numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toDouble();
+                }
             }
             emit jobProgress((int)(100.0 * progress / m_jobDuration));
         }
     } else {
         // Parse MLT output
-        if (log.contains(QLatin1String("percentage:"))) {
-            progress = log.section(QStringLiteral("percentage:"), 1).simplified().section(QLatin1Char(' '), 0, 0).toInt();
+        if (buffer.contains(QLatin1String("percentage:"))) {
+            progress = buffer.section(QStringLiteral("percentage:"), 1).simplified().section(QLatin1Char(' '), 0, 0).toInt();
             emit jobProgress(progress);
         }
     }
