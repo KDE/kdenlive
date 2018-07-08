@@ -380,6 +380,10 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
         int track_pos1 = getTrackPosition(trackId);
         int track_pos2 = getTrackPosition(current_trackId);
         int delta_track = track_pos1 - track_pos2;
+        // Make sure we move on the same track type
+        if (getTrackById_const(current_trackId)->isAudioTrack() != getTrackById_const(trackId)->isAudioTrack()) {
+            delta_track = 0;
+        }
         int delta_pos = position - m_allClips[clipId]->getPosition();
         return requestGroupMove(clipId, groupId, delta_track, delta_pos, updateView, logUndo);
     }
@@ -693,7 +697,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
     type = master->clipType();
 
     if (type == ClipType::AV) {
-        if (m_audioTarget >= 0 && m_videoTarget == -1 && !useTargets) {
+        if (m_audioTarget >= 0 && m_videoTarget == -1 && useTargets) {
             // If audio target is set but no video target, only insert audio
             trackId = m_audioTarget;
         }
