@@ -20,14 +20,6 @@ OLD.Menu {
             onTriggered: root.copiedClip = clipId
         }
         OLD.MenuItem {
-            visible: true
-            text: i18n('Cut')
-            onTriggered: {
-                console.log('cutting clip:', clipId)
-                timeline.requestClipCut(clipId, timeline.position)
-            }
-        }
-        OLD.MenuItem {
             visible: !grouped && timeline.selection.length > 1
             text: i18n('Group')
             onTriggered: timeline.triggerAction('group_clip')
@@ -49,12 +41,12 @@ OLD.Menu {
         OLD.MenuItem {
             text: i18n('Split Audio')
             onTriggered: timeline.splitAudio(clipId)
-            visible: canBeAudio && clipStatus == ClipState.VideoOnly
+            visible: !grouped && canBeAudio && clipStatus == ClipState.VideoOnly
         }
         OLD.MenuItem {
             text: i18n('Split Video')
             onTriggered: timeline.splitVideo(clipId)
-            visible: canBeVideo && clipStatus == ClipState.AudioOnly
+            visible: !grouped && canBeVideo && clipStatus == ClipState.AudioOnly
         }
         OLD.MenuItem {
             text: i18n('Remove')
