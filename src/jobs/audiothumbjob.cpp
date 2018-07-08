@@ -196,7 +196,7 @@ bool AudioThumbJob::computeWithFFMPEG()
                 if (steps != 0) {
                     channelsData[k] /= steps;
                 }
-                m_audioLevels << channelsData[k] * factor;
+                m_audioLevels << (int) (channelsData[k] * factor);
             }
             int p = 80 + (i * 20 / m_lengthInFrames);
             if (p != progress) {
