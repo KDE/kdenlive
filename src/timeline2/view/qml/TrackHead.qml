@@ -87,15 +87,17 @@ Rectangle {
     MouseArea {
         anchors.fill: parent
         acceptedButtons: Qt.LeftButton | Qt.RightButton
-        onClicked: {
+        onPressed: {
             parent.clicked()
+            if (mouse.button == Qt.RightButton) {
+                headerMenu.popup()
+            }
+        }
+        onClicked: {
             parent.forceActiveFocus()
             nameEdit.visible = false
             if (mouse.button == Qt.LeftButton) {
                 timeline.showTrackAsset(trackId)
-            }
-            else if (mouse.button == Qt.RightButton) {
-                headerMenu.popup()
             }
         }
     }

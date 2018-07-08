@@ -214,7 +214,6 @@ Item {
         MouseArea {
             anchors.fill: parent
             acceptedButtons: Qt.RightButton
-            propagateComposedEvents: true
             cursorShape: (trimInMouseArea.drag.active || trimOutMouseArea.drag.active)? Qt.SizeHorCursor :
                 drag.active? Qt.ClosedHandCursor : Qt.OpenHandCursor
             onPressed: {
@@ -223,12 +222,12 @@ Item {
                 if (!compositionRoot.selected) {
                     compositionRoot.clicked(compositionRoot, false)
                 }
-            }
-            onClicked: {
-                compositionMenu.clipId = compositionRoot.clipId
-                compositionMenu.grouped = compositionRoot.grouped
-                compositionMenu.trackId = compositionRoot.trackId
-                compositionMenu.popup()
+                if (mouse.button == Qt.RightButton) {
+                    compositionMenu.clipId = compositionRoot.clipId
+                    compositionMenu.grouped = compositionRoot.grouped
+                    compositionMenu.trackId = compositionRoot.trackId
+                    compositionMenu.popup()
+                }
             }
         }
     }

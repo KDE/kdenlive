@@ -243,7 +243,18 @@ Rectangle {
             if (!clipRoot.selected) {
                 clipRoot.clicked(clipRoot, mouse.modifiers == Qt.ShiftModifier)
             }
-            drag.target = clipRoot
+            if (mouse.button == Qt.LeftButton) {
+                drag.target = clipRoot
+            } else if (mouse.button == Qt.RightButton) {
+                drag.target = undefined
+                clipMenu.clipId = clipRoot.clipId
+                clipMenu.clipStatus = clipRoot.clipStatus
+                clipMenu.grouped = clipRoot.grouped
+                clipMenu.trackId = clipRoot.trackId
+                clipMenu.canBeAudio = clipRoot.canBeAudio
+                clipMenu.canBeVideo = clipRoot.canBeVideo
+                clipMenu.popup()
+            }
         }
         onPositionChanged: {
             if (pressed && mouse.buttons === Qt.LeftButton) {
@@ -258,30 +269,21 @@ Rectangle {
         }
         onReleased: {
             root.stopScrolling = false
-            var delta = clipRoot.x - startX
-            drag.target = undefined
-            cursorShape = Qt.OpenHandCursor
-            if (trackId !== originalTrackId) {
-                var track = Logic.getTrackById(trackId)
-                parent.moved(clipRoot)
-                reparent(track)
-                originalX = clipRoot.x
-                clipRoot.y = 0
-                originalTrackId = trackId
-            } else if (delta != 0) {
-                parent.dropped(clipRoot)
-                originalX = clipRoot.x
-            }
-        }
-        onClicked: {
-            if (mouse.button == Qt.RightButton) {
-                clipMenu.clipId = clipRoot.clipId
-                clipMenu.clipStatus = clipRoot.clipStatus
-                clipMenu.grouped = clipRoot.grouped
-                clipMenu.trackId = clipRoot.trackId
-                clipMenu.canBeAudio = clipRoot.canBeAudio
-                clipMenu.canBeVideo = clipRoot.canBeVideo
-                clipMenu.popup()
+            if (mouse.button == Qt.LeftButton) {
+                var delta = clipRoot.x - startX
+                drag.target = undefined
+                cursorShape = Qt.OpenHandCursor
+                if (trackId !== originalTrackId) {
+                    var track = Logic.getTrackById(trackId)
+                    parent.moved(clipRoot)
+                    reparent(track)
+                    originalX = clipRoot.x
+                    clipRoot.y = 0
+                    originalTrackId = trackId
+                } else if (delta != 0) {
+                    parent.dropped(clipRoot)
+                    originalX = clipRoot.x
+                }
             }
         }
         onDoubleClicked: {

@@ -621,10 +621,7 @@ Rectangle {
                         var y = mouse.y - ruler.height
                         timeline.cutClipUnderCursor((scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor, tracksRepeater.itemAt(Logic.getTrackIndexFromPos(y)).trackId)
                     }
-                }
-            }
-            onClicked: {
-                if (mouse.button & Qt.RightButton) {
+                } else if (mouse.button & Qt.RightButton) {
                     menu.clickedX = mouse.x
                     menu.clickedY = mouse.y
                     if (mouse.y > ruler.height) {
