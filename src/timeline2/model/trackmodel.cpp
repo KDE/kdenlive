@@ -281,12 +281,6 @@ Fun TrackModel::requestClipDeletion_lambda(int clipId, bool updateView, bool fin
         Q_ASSERT(!m_playlists[target_track].is_blank(target_clip));
         auto prod = m_playlists[target_track].replace_with_blank(target_clip);
         if (prod != nullptr) {
-            if (finalMove && !audioOnly && !isAudioTrack()) {
-                if (auto ptr = m_parent.lock()) {
-                    // qDebug() << "/// INVALIDATE CLIP ON DELETE!!!!!!";
-                    ptr->invalidateZone(old_in, old_out);
-                }
-            }
             m_playlists[target_track].consolidate_blanks();
             m_allClips[clipId]->setCurrentTrackId(-1);
             m_allClips.erase(clipId);
@@ -295,9 +289,14 @@ Fun TrackModel::requestClipDeletion_lambda(int clipId, bool updateView, bool fin
             if (auto ptr = m_parent.lock()) {
                 ptr->m_snaps->removePoint(old_in);
                 ptr->m_snaps->removePoint(old_out);
-                if (finalMove && target_clip >= m_playlists[target_track].count()) {
-                    // deleted last clip in playlist
-                    ptr->updateDuration();
+                if (finalMove) {
+                    if (!audioOnly && !isAudioTrack()) {
+                        ptr->invalidateZone(old_in, old_out);
+                    }
+                    if (target_clip >= m_playlists[target_track].count()) {
+                        // deleted last clip in playlist
+                        ptr->updateDuration();
+                    }
                 }
                 if (!audioOnly && !isHidden() && !isAudioTrack()) {
                     // only refresh monitor if not an audio track and not hidden

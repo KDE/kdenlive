@@ -84,6 +84,7 @@ void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
     connect(m_model.get(), &TimelineItemModel::requestMonitorRefresh, [&]() { pCore->requestMonitorRefresh(); });
     connect(m_model.get(), &TimelineModel::invalidateZone, this, &TimelineController::invalidateZone, Qt::DirectConnection);
     connect(m_model.get(), &TimelineModel::durationUpdated, this, &TimelineController::checkDuration);
+    connect(m_model.get(), &TimelineModel::removeFromSelection, this, &TimelineController::slotUpdateSelection);
 }
 
 void TimelineController::setTargetTracks(QPair<int, int> targets)
@@ -405,6 +406,14 @@ void TimelineController::deleteSelectedClips()
     }
     m_selection.selectedItems.clear();
     emit selectionChanged();
+}
+
+void TimelineController::slotUpdateSelection(int itemId)
+{
+    if (m_selection.selectedItems.contains(itemId)) {
+        m_selection.selectedItems.removeAll(itemId);
+        emit selectionChanged();
+    }
 }
 
 void TimelineController::copyItem()

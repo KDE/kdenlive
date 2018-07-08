@@ -646,6 +646,8 @@ signals:
     void invalidateZone(int in, int out);
     /* @brief signal triggered when a track duration changed (insertion/deletion) */
     void durationUpdated();
+    /* @brief an item was deleted, make sure it is removed from selection */
+    void removeFromSelection(int id);
 
 protected:
     std::unique_ptr<Mlt::Tractor> m_tractor;

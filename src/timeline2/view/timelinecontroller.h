@@ -392,6 +392,9 @@ public slots:
     void invalidateZone(int in, int out);
     void checkDuration();
 
+private slots:
+    void slotUpdateSelection(int itemId);
+
 private:
     QQuickItem *m_root;
     KActionCollection *m_actionCollection;

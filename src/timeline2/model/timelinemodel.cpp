@@ -821,6 +821,7 @@ bool TimelineModel::requestClipDeletion(int clipId, Fun &undo, Fun &redo)
         return true;
     };
     if (operation()) {
+        emit removeFromSelection(clipId);
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
         return true;
     }
@@ -849,6 +850,7 @@ bool TimelineModel::requestCompositionDeletion(int compositionId, Fun &undo, Fun
         return true;
     };
     if (operation()) {
+        emit removeFromSelection(compositionId);
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
         return true;
     }
