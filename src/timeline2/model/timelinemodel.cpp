@@ -333,17 +333,11 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
         return false;
     }
     Q_ASSERT(isClip(clipId));
-    if (getTrackById_const(trackId)->isLocked()) {
-        return false;
-    }
     std::function<bool(void)> local_undo = []() { return true; };
     std::function<bool(void)> local_redo = []() { return true; };
     bool ok = true;
     int old_trackId = getClipTrackId(clipId);
     if (old_trackId != -1) {
-        if (getTrackById_const(old_trackId)->isLocked()) {
-            return false;
-        }
         ok = getTrackById(old_trackId)->requestClipDeletion(clipId, updateView, invalidateTimeline, local_undo, local_redo);
         if (!ok) {
             bool undone = local_undo();
@@ -685,9 +679,6 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
     qDebug() << "requestClipInsertion " << binClipId << " "
              << " " << trackId << " " << position;
     bool res = false;
-    if (getTrackById_const(trackId)->isLocked()) {
-        return false;
-    }
     ClipType::ProducerType type = ClipType::Unknown;
     QString bid = binClipId.section(QLatin1Char('/'), 0, 0);
     if (!pCore->projectItemModel()->hasClip(bid)) {
