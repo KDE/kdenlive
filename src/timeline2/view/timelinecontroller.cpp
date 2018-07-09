@@ -540,13 +540,22 @@ void TimelineController::unGroupSelection(int cid)
         pCore->displayMessage(i18n("Select at least 1 item to ungroup"), InformationMessage, 500);
         return;
     }
-    if (cid == -1 && m_model->m_temporarySelectionGroup >= 0) {
-        cid = m_model->m_temporarySelectionGroup;
-    }
-    if (m_model->m_groups->isInGroup(cid)) {
-        cid = m_model->m_groups->getRootId(cid);
+    if (cid == -1) {
+        if (m_model->m_temporarySelectionGroup >= 0) {
+            cid = m_model->m_temporarySelectionGroup;
+        } else {
+            for (int id : m_selection.selectedItems) {
+                if (m_model->m_groups->getRootId(id)) {
+                    cid = id;
+                    break;
+                }
+            }
+        }
     }
     if (cid > -1) {
+        if (m_model->m_groups->isInGroup(cid)) {
+            cid = m_model->m_groups->getRootId(cid);
+        }
         m_model->requestClipUngroup(cid);
     }
     if (m_model->m_temporarySelectionGroup >= 0) {
