@@ -299,6 +299,7 @@ Rectangle {
             } else {
                 timeline.editItemDuration(clipId)
             }
+            drag.target = undefined
         }
         onWheel: zoomByWheel(wheel)
     }
