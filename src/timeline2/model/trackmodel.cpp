@@ -202,6 +202,9 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
 bool TrackModel::requestClipInsertion(int clipId, int position, bool updateView, bool finalMove, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
+    if (isLocked()) {
+        return false;
+    }
     if (auto ptr = m_parent.lock()) {
         if (isAudioTrack() && !ptr->getClipPtr(clipId)->canBeAudio()) {
             return false;
@@ -314,6 +317,9 @@ bool TrackModel::requestClipDeletion(int clipId, bool updateView, bool finalMove
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_allClips.count(clipId) > 0);
+    if (isLocked()) {
+        return false;
+    }
     auto old_clip = m_allClips[clipId];
     int old_position = old_clip->getPosition();
     qDebug() << "/// REQUESTOING CLIP DELETION_: " << updateView;
@@ -866,6 +872,9 @@ Fun TrackModel::requestCompositionResize_lambda(int compoId, int in, int out)
 bool TrackModel::requestCompositionInsertion(int compoId, int position, bool updateView, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
+    if (isLocked()) {
+        return false;
+    }
     auto operation = requestCompositionInsertion_lambda(compoId, position, updateView);
     if (operation()) {
         auto reverse = requestCompositionDeletion_lambda(compoId, updateView);
@@ -878,6 +887,9 @@ bool TrackModel::requestCompositionInsertion(int compoId, int position, bool upd
 bool TrackModel::requestCompositionDeletion(int compoId, bool updateView, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
+    if (isLocked()) {
+        return false;
+    }
     Q_ASSERT(m_allCompositions.count(compoId) > 0);
     auto old_composition = m_allCompositions[compoId];
     int old_position = old_composition->getPosition();
