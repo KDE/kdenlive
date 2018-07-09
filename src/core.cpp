@@ -488,12 +488,16 @@ void Core::pushUndo(QUndoCommand *command)
 
 void Core::displayMessage(const QString &message, MessageType type, int timeout)
 {
-    m_mainWindow->displayMessage(message, type, timeout);
+    if (m_mainWindow) {
+        m_mainWindow->displayMessage(message, type, timeout);
+    } else {
+        qDebug() << message;
+    }
 }
 
 void Core::displayBinMessage(const QString &text, int type, const QList<QAction *> &actions)
 {
-    m_binWidget->doDisplayMessage(text, (KMessageWidget::MessageType) type, actions);
+    m_binWidget->doDisplayMessage(text, (KMessageWidget::MessageType)type, actions);
 }
 
 void Core::clearAssetPanel(int itemId)
