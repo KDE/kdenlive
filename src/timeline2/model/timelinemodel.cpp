@@ -374,10 +374,6 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
         int track_pos1 = getTrackPosition(trackId);
         int track_pos2 = getTrackPosition(current_trackId);
         int delta_track = track_pos1 - track_pos2;
-        // Make sure we move on the same track type
-        if (getTrackById_const(current_trackId)->isAudioTrack() != getTrackById_const(trackId)->isAudioTrack()) {
-            delta_track = 0;
-        }
         int delta_pos = position - m_allClips[clipId]->getPosition();
         return requestGroupMove(clipId, groupId, delta_track, delta_pos, updateView, logUndo);
     }
@@ -437,12 +433,12 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int sn
     if (snapDistance > 0) {
         // For snapping, we must ignore all in/outs of the clips of the group being moved
         std::vector<int> ignored_pts;
-        std::unordered_set<int> all_clips = {clipId};
+        std::unordered_set<int> all_items = {clipId};
         if (m_groups->isInGroup(clipId)) {
             int groupId = m_groups->getRootId(clipId);
-            all_clips = m_groups->getLeaves(groupId);
+            all_items = m_groups->getLeaves(groupId);
         }
-        for (int current_clipId : all_clips) {
+        for (int current_clipId : all_items) {
             if (getItemTrackId(current_clipId) != -1) {
                 int in = getItemPosition(current_clipId);
                 int out = in + getItemPlaytime(current_clipId);
@@ -490,11 +486,11 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int sn
     }
     // find best pos for groups
     int groupId = m_groups->getRootId(clipId);
-    std::unordered_set<int> all_clips = m_groups->getLeaves(groupId);
+    std::unordered_set<int> all_items = m_groups->getLeaves(groupId);
     QMap<int, int> trackPosition;
 
     // First pass, sort clips by track and keep only the first / last depending on move direction
-    for (int current_clipId : all_clips) {
+    for (int current_clipId : all_items) {
         int clipTrack = getClipTrackId(current_clipId);
         if (clipTrack == -1) {
             continue;
@@ -570,8 +566,8 @@ int TimelineModel::suggestCompositionMove(int compoId, int trackId, int position
         std::vector<int> ignored_pts;
         if (m_groups->isInGroup(compoId)) {
             int groupId = m_groups->getRootId(compoId);
-            auto all_clips = m_groups->getLeaves(groupId);
-            for (int current_compoId : all_clips) {
+            auto all_items = m_groups->getLeaves(groupId);
+            for (int current_compoId : all_items) {
                 // TODO: fix for composition
                 int in = getItemPosition(current_compoId);
                 int out = in + getItemPlaytime(current_compoId);
@@ -895,66 +891,63 @@ bool TimelineModel::requestGroupMove(int clipId, int groupId, int delta_track, i
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_allGroups.count(groupId) > 0);
     bool ok = true;
-    auto all_clips = m_groups->getLeaves(groupId);
-    std::vector<int> sorted_clips(all_clips.begin(), all_clips.end());
-    // we have to sort clip in an order that allows to do the move without self conflicts
-    // If we move up, we move first the clips on the upper tracks (and conversely).
-    // If we move left, we move first the leftmost clips (and conversely).
-    std::sort(sorted_clips.begin(), sorted_clips.end(), [delta_track, delta_pos, this](int clipId1, int clipId2) {
-        int trackId1 = getItemTrackId(clipId1);
-        int trackId2 = getItemTrackId(clipId2);
-        int track_pos1 = getTrackPosition(trackId1);
-        int track_pos2 = getTrackPosition(trackId2);
-        if (trackId1 == trackId2) {
-            int p1 = isClip(clipId1) ? m_allClips[clipId1]->getPosition() : m_allCompositions[clipId1]->getPosition();
-            int p2 = isClip(clipId2) ? m_allClips[clipId2]->getPosition() : m_allCompositions[clipId2]->getPosition();
-            return !(p1 <= p2) == !(delta_pos <= 0);
-        }
-        return !(track_pos1 <= track_pos2) == !(delta_track <= 0);
-    });
-    // Parse all tracks then check none is locked. Maybe find a better way/place to do this
-    QList<int> trackList;
-    for (int clip : sorted_clips) {
-        int current_track_id = getItemTrackId(clip);
-        if (!trackList.contains(current_track_id)) {
-            trackList << current_track_id;
-        }
-    }
-    // Check that the group is not on a locked track
-    for (int tid : trackList) {
-        if (getTrackById_const(tid)->isLocked()) {
-            return false;
+    auto all_items = m_groups->getLeaves(groupId);
+    Fun local_undo = []() { return true; };
+    Fun local_redo = []() { return true; };
+
+    // Moving groups is a two stage process: first we remove the clips from the tracks, and then try to insert them back at their calculated new positions.
+    // This way, we ensure that no conflict will arise with clips inside the group being moved
+
+    // First, remove clips
+    std::unordered_map<int, int> old_track_ids, old_position, old_forced_track;
+    for (int item : all_items) {
+        int old_trackId = getItemTrackId(item);
+        old_track_ids[item] = old_trackId;
+        if (old_trackId != -1) {
+            bool updateThisView = (item == clipId) ? updateView : allowViewRefresh;
+            if (isClip(item)) {
+                ok = ok && getTrackById(old_trackId)->requestClipDeletion(item, updateThisView, finalMove, local_undo, local_redo);
+                old_position[item] = m_allClips[item]->getPosition();
+            } else {
+                ok = ok && getTrackById(old_trackId)->requestCompositionDeletion(item, updateThisView, local_undo, local_redo);
+                old_position[item] = m_allCompositions[item]->getPosition();
+                old_forced_track[item] = m_allCompositions[item]->getForcedTrack();
+            }
+            if (!ok) {
+                bool undone = local_undo();
+                Q_ASSERT(undone);
+                return false;
+            }
         }
     }
+
+    // Second step, reinsert clips at correct positions
     int audio_delta, video_delta;
     audio_delta = video_delta = delta_track;
     // if the topmost group is a AVSplit, then we will apply opposite movement to audio and video
     if (m_groups->getType(groupId) == GroupType::AVSplit) {
-        if (getTrackById(getItemTrackId(clipId))->isAudioTrack()) {
+        if (getTrackById(old_track_ids[clipId])->isAudioTrack()) {
             video_delta = -delta_track;
         } else {
             audio_delta = -delta_track;
         }
     }
-    for (int clip : sorted_clips) {
-        int current_track_id = getItemTrackId(clip);
+    for (int item : all_items) {
+        int current_track_id = old_track_ids[item];
         int current_track_position = getTrackPosition(current_track_id);
         int d = getTrackById(current_track_id)->isAudioTrack() ? audio_delta : video_delta;
         int target_track_position = current_track_position + d;
-        bool updateThisView = allowViewRefresh;
-        if (clip == clipId) {
-            updateThisView = updateView;
-        }
+        bool updateThisView = (item == clipId) ? updateView : allowViewRefresh;
+
         if (target_track_position >= 0 && target_track_position < getTracksCount()) {
             auto it = m_allTracks.cbegin();
             std::advance(it, target_track_position);
             int target_track = (*it)->getId();
-            if (isClip(clip)) {
-                int target_position = m_allClips[clip]->getPosition() + delta_pos;
-                ok = requestClipMove(clip, target_track, target_position, updateThisView, finalMove, undo, redo);
+            int target_position = old_position[item] + delta_pos;
+            if (isClip(item)) {
+                ok = ok && requestClipMove(item, target_track, target_position, updateThisView, finalMove, local_undo, local_redo);
             } else {
-                int target_position = m_allCompositions[clip]->getPosition() + delta_pos;
-                ok = requestCompositionMove(clip, target_track, m_allCompositions[clip]->getForcedTrack(), target_position, updateThisView, undo, redo);
+                ok = ok && requestCompositionMove(item, target_track, old_forced_track[item], target_position, updateThisView, local_undo, local_redo);
             }
         } else {
             qDebug() << "// ABORTING; MOVE TRIED ON TRACK: " << target_track_position << "..\n..\n..";
@@ -966,6 +959,7 @@ bool TimelineModel::requestGroupMove(int clipId, int groupId, int delta_track, i
             return false;
         }
     }
+    UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
     return true;
 }
 
@@ -989,7 +983,7 @@ bool TimelineModel::requestGroupDeletion(int clipId, Fun &undo, Fun &redo)
     // we do a breadth first exploration of the group tree, ungroup (delete) every inner node, and then delete all the leaves.
     std::queue<int> group_queue;
     group_queue.push(m_groups->getRootId(clipId));
-    std::unordered_set<int> all_clips;
+    std::unordered_set<int> all_items;
     std::unordered_set<int> all_compositions;
     while (!group_queue.empty()) {
         int current_group = group_queue.front();
@@ -1002,7 +996,7 @@ bool TimelineModel::requestGroupDeletion(int clipId, Fun &undo, Fun &redo)
         int one_child = -1; // we need the id on any of the indices of the elements of the group
         for (int c : children) {
             if (isClip(c)) {
-                all_clips.insert(c);
+                all_items.insert(c);
                 one_child = c;
             } else if (isComposition(c)) {
                 all_compositions.insert(c);
@@ -1021,7 +1015,7 @@ bool TimelineModel::requestGroupDeletion(int clipId, Fun &undo, Fun &redo)
             }
         }
     }
-    for (int clip : all_clips) {
+    for (int clip : all_items) {
         bool res = requestClipDeletion(clip, undo, redo);
         if (!res) {
             undo();

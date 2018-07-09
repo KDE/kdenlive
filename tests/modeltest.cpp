@@ -783,6 +783,123 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         state(tid6);
     }
 
+    SECTION("Movement of AV groups")
+    {
+        int tid6b = TrackModel::construct(timeline, -1, -1, QString(), true);
+        int tid6 = TrackModel::construct(timeline, -1, -1, QString(), true);
+        int tid5 = TrackModel::construct(timeline);
+        int tid5b = TrackModel::construct(timeline);
+
+        QString binId3 = createProducerWithSound(profile_model, binModel);
+
+        int cid6 = -1;
+        REQUIRE(timeline->requestClipInsertion(binId3, tid5, 3, cid6, true, true, false));
+        int cid7 = timeline->m_groups->getSplitPartner(cid6);
+
+        auto state = [&](int pos) {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getTrackClipsCount(tid5) == 1);
+            REQUIRE(timeline->getTrackClipsCount(tid6) == 1);
+            REQUIRE(timeline->getClipTrackId(cid6) == tid5);
+            REQUIRE(timeline->getClipTrackId(cid7) == tid6);
+            REQUIRE(timeline->getClipPosition(cid6) == pos);
+            REQUIRE(timeline->getClipPosition(cid7) == pos);
+            REQUIRE(timeline->getClipPtr(cid6)->clipState() == PlaylistState::VideoOnly);
+            REQUIRE(timeline->getClipPtr(cid7)->clipState() == PlaylistState::AudioOnly);
+        };
+        state(3);
+
+        // simple translation on the right
+        REQUIRE(timeline->requestClipMove(cid6, tid5, 10, true, true, true));
+
+        state(10);
+        undoStack->undo();
+        state(3);
+        undoStack->redo();
+        state(10);
+
+        // simple translation on the left, moving the audio clip this time
+        REQUIRE(timeline->requestClipMove(cid7, tid6, 1, true, true, true));
+        state(1);
+        undoStack->undo();
+        state(10);
+        undoStack->redo();
+        state(1);
+
+        // change track, moving video
+        REQUIRE(timeline->requestClipMove(cid6, tid5b, 7, true, true, true));
+        auto state2 = [&](int pos) {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getTrackClipsCount(tid5b) == 1);
+            REQUIRE(timeline->getTrackClipsCount(tid6b) == 1);
+            REQUIRE(timeline->getClipTrackId(cid6) == tid5b);
+            REQUIRE(timeline->getClipTrackId(cid7) == tid6b);
+            REQUIRE(timeline->getClipPosition(cid6) == pos);
+            REQUIRE(timeline->getClipPosition(cid7) == pos);
+            REQUIRE(timeline->getClipPtr(cid6)->clipState() == PlaylistState::VideoOnly);
+            REQUIRE(timeline->getClipPtr(cid7)->clipState() == PlaylistState::AudioOnly);
+        };
+        state2(7);
+        undoStack->undo();
+        state(1);
+        undoStack->redo();
+        state2(7);
+
+        // change track, moving audio
+        REQUIRE(timeline->requestClipMove(cid7, tid6b, 2, true, true, true));
+        state2(2);
+        undoStack->undo();
+        state2(7);
+        undoStack->redo();
+        state2(2);
+
+        undoStack->undo();
+        undoStack->undo();
+        state(1);
+
+        // Switching audio and video, going to the extra track
+        REQUIRE(timeline->requestClipMove(cid7, tid5b, 2, true, true, true));
+        auto state3 = [&](int pos) {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getTrackClipsCount(tid5b) == 1);
+            REQUIRE(timeline->getTrackClipsCount(tid6b) == 1);
+            REQUIRE(timeline->getClipTrackId(cid6) == tid6b);
+            REQUIRE(timeline->getClipTrackId(cid7) == tid5b);
+            REQUIRE(timeline->getClipPosition(cid6) == pos);
+            REQUIRE(timeline->getClipPosition(cid7) == pos);
+            REQUIRE(timeline->getClipPtr(cid7)->clipState() == PlaylistState::VideoOnly);
+            REQUIRE(timeline->getClipPtr(cid6)->clipState() == PlaylistState::AudioOnly);
+        };
+        state3(2);
+        undoStack->undo();
+        state(1);
+        undoStack->redo();
+        state3(2);
+        undoStack->undo();
+        state(1);
+
+        // Switching audio and video, switching tracks in place
+        REQUIRE(timeline->requestClipMove(cid6, tid6, 1, true, true, true));
+        auto state4 = [&](int pos) {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getTrackClipsCount(tid5) == 1);
+            REQUIRE(timeline->getTrackClipsCount(tid6) == 1);
+            REQUIRE(timeline->getClipTrackId(cid6) == tid6);
+            REQUIRE(timeline->getClipTrackId(cid7) == tid5);
+            REQUIRE(timeline->getClipPosition(cid6) == pos);
+            REQUIRE(timeline->getClipPosition(cid7) == pos);
+            REQUIRE(timeline->getClipPtr(cid7)->clipState() == PlaylistState::VideoOnly);
+            REQUIRE(timeline->getClipPtr(cid6)->clipState() == PlaylistState::AudioOnly);
+        };
+        state4(1);
+        undoStack->undo();
+        state(1);
+        undoStack->redo();
+        state4(1);
+
+        REQUIRE(false);
+    }
+
     SECTION("Clip copy")
     {
         int cid6 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
@@ -889,7 +1006,6 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
 
     timeline->m_allClips[cid1]->m_endlessResize = false;
     timeline->m_allClips[cid2]->m_endlessResize = false;
-
 
     int length = 20;
     int nclips = timeline->m_allClips.size();
@@ -1433,7 +1549,6 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
         undoStack->redo();
         state4();
     }
-
 }
 
 TEST_CASE("Snapping", "[Snapping]")
