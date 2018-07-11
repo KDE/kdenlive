@@ -895,12 +895,20 @@ bool TimelineModel::requestGroupMove(int clipId, int groupId, int delta_track, i
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
 
+    // Sort clips. We need to delete from right to left to avoid confusing the view
+    std::vector<int> sorted_clips(all_items.begin(), all_items.end());
+    std::sort(sorted_clips.begin(), sorted_clips.end(), [this](int clipId1, int clipId2) {
+        int p1 = isClip(clipId1) ? m_allClips[clipId1]->getPosition() : m_allCompositions[clipId1]->getPosition();
+        int p2 = isClip(clipId2) ? m_allClips[clipId2]->getPosition() : m_allCompositions[clipId2]->getPosition();
+        return p2 <= p1;
+    });
+
     // Moving groups is a two stage process: first we remove the clips from the tracks, and then try to insert them back at their calculated new positions.
     // This way, we ensure that no conflict will arise with clips inside the group being moved
 
     // First, remove clips
     std::unordered_map<int, int> old_track_ids, old_position, old_forced_track;
-    for (int item : all_items) {
+    for (int item : sorted_clips) {
         int old_trackId = getItemTrackId(item);
         old_track_ids[item] = old_trackId;
         if (old_trackId != -1) {
@@ -932,7 +940,9 @@ bool TimelineModel::requestGroupMove(int clipId, int groupId, int delta_track, i
             audio_delta = -delta_track;
         }
     }
-    for (int item : all_items) {
+    // Reverse sort. We need to insert from left to right to avoid confusing the view
+    std::reverse(std::begin(sorted_clips), std::end(sorted_clips));
+    for (int item : sorted_clips) {
         int current_track_id = old_track_ids[item];
         int current_track_position = getTrackPosition(current_track_id);
         int d = getTrackById(current_track_id)->isAudioTrack() ? audio_delta : video_delta;
