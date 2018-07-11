@@ -3218,21 +3218,18 @@ void MainWindow::buildDynamicActions()
     ts = new KActionCategory(i18n("Clip Jobs"), m_extraFactory->actionCollection());
 
     Mlt::Profile profile;
-    Mlt::Filter *filter;
-
+    std::unique_ptr<Mlt::Filter> filter;
     foreach (const QString &stab, QStringList() << "vidstab" << "videostab2" << "videostab") {
-        filter = Mlt::Factory::filter(profile, (char*)stab.toUtf8().constData());
+        filter.reset(new Mlt::Filter(profile, stab.toUtf8().constData()));
         if (filter && filter->is_valid()) {
             QAction *action = new QAction(i18n("Stabilize") + QStringLiteral(" (") + stab + QLatin1Char(')'), m_extraFactory->actionCollection());
             action->setData(QStringList() << QString::number((int) AbstractClipJob::FILTERCLIPJOB) << stab);
             ts->addAction(action->text(), action);
             connect(action, &QAction::triggered, pCore->bin(), &Bin::slotStartClipJob);
-            delete filter;
             break;
         }
-        delete filter;
     }
-    filter = Mlt::Factory::filter(profile, (char*)"motion_est");
+    filter.reset(new Mlt::Filter(profile, "motion_est"));
     if (filter) {
         if (filter->is_valid()) {
             QAction *action = new QAction(i18n("Automatic scene split"), m_extraFactory->actionCollection());
@@ -3242,7 +3239,6 @@ void MainWindow::buildDynamicActions()
             ts->addAction(action->text(), action);
             connect(action, &QAction::triggered, pCore->bin(), &Bin::slotStartClipJob);
         }
-        delete filter;
     }
     if (KdenliveSettings::producerslist().contains(QStringLiteral("timewarp"))) {
         QAction *action = new QAction(i18n("Duplicate clip with speed change"), m_extraFactory->actionCollection());
