@@ -957,8 +957,9 @@ Rectangle {
                     var track = tracksRepeater.itemAt(activeTrack)
                     //console.log('Dragging clip ',clip.clipId,' to track: ', activeTrack, ' - ', y)
                     if (controller.requestClipMove(clip.clipId, track.trackId, frame, false, false, false)) {
-                        timeline.activeTrack = track.trackId
-                        //clip.reparent(track)
+                        // Query the model to make sure on which track the clip is
+                        timeline.activeTrack = controller.getClipTrackId(clip.clipId)
+                        track = Logic.getTrackById(timeline.activeTrack)
                         clip.height = track.height
                         clip.y = track.y - Logic.getTrackById(clip.originalTrackId).y
                         clip.trackId = track.trackId
