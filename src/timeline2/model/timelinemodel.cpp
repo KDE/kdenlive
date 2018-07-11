@@ -262,6 +262,41 @@ int TimelineModel::getTrackMltIndex(int trackId) const
     return getTrackPosition(trackId) + 1;
 }
 
+int TimelineModel::getTrackSortValue(int trackId, bool separated) const
+{
+    if (separated) {
+        return getTrackPosition(trackId) + 1;
+    }
+    auto it = m_allTracks.end();
+    int aCount = 0;
+    int vCount = 0;
+    bool isAudio = false;
+    int trackPos = 0;
+    while (it != m_allTracks.begin()) {
+        --it;
+        bool audioTrack = (*it)->isAudioTrack();
+        if (audioTrack) {
+            aCount++;
+        } else {
+            vCount++;
+        }
+        if (trackId == (*it)->getId()) {
+            isAudio = audioTrack;
+            trackPos = audioTrack ? aCount : vCount;
+        }
+    }
+    int trackDiff = aCount - vCount;
+    if (trackDiff > 0) {
+        // more audio tracks
+        if (!isAudio) {
+            trackPos -= trackDiff;
+        } else if (trackPos > vCount) {
+            return -trackPos;
+        }
+    }
+    return isAudio ? ((aCount * trackPos) - 1) : (vCount + 1 - trackPos) * 2;
+}
+
 QList<int> TimelineModel::getLowerTracksId(int trackId, TrackType type) const
 {
     READ_LOCK();

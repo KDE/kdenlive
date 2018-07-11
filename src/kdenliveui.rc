@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="153" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="155" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file" >
       <Action name="dvd_wizard" />
@@ -64,18 +64,17 @@
 
     <Menu name="clip" ><text>Clip</text>
           <Menu name="marker_menu" ><text>Markers</text>
-		<Action name="add_clip_marker" />
-		<Action name="add_marker_guide_quickly" />
-		<Action name="edit_clip_marker" />
-		<Action name="delete_clip_marker" />
-		<Action name="delete_all_clip_markers" />
-	  </Menu>
+        <Action name="add_clip_marker" />
+        <Action name="add_marker_guide_quickly" />
+        <Action name="edit_clip_marker" />
+        <Action name="delete_clip_marker" />
+        <Action name="delete_all_clip_markers" />
+        </Menu>
 	  <Action name="auto_transition" />
 	  <Action name="split_audio" />
 	  <Separator />
-	  <Action name="clip_audio_and_video" />
-          <Action name="clip_video_only" />
-          <Action name="clip_audio_only" />
+      <Action name="clip_video_only" />
+      <Action name="clip_audio_only" />
     </Menu>
 
     <Menu name="timeline" ><text>Timeline</text>
@@ -230,7 +229,7 @@
   </MenuBar>
   <ToolBar name="timelineToolBar" fullWidth="true" newline="true" noMerge="1" position="bottom">
     <text>Timeline Toolbar</text>
-    <Action name="timeline_compositing" />
+    <Action name="timeline_settings" />
     <Action name="timeline_mode" />
     <Separator />
     <Action name="use_timeline_zone_in_edit" />

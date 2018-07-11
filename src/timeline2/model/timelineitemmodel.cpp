@@ -217,7 +217,7 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
     }
     if (role == SortRole) {
         if (isTrack(id)) {
-            return getTrackMltIndex(id);
+            return getTrackSortValue(id, KdenliveSettings::audiotracksbelow());
         }
         return id;
     }

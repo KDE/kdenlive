@@ -393,6 +393,7 @@ private slots:
     void slotSetAudioAlignReference();
     void slotAlignAudio();
     void slotUpdateClipType(QAction *action);
+    void slotUpdateTimelineView(QAction *action);
     void slotShowTimeline(bool show);
     void slotTranscode(const QStringList &urls = QStringList());
     void slotTranscodeClip();

@@ -1018,6 +1018,31 @@ void MainWindow::setupActions()
     connect(m_compositeAction, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this, &MainWindow::slotUpdateCompositing);
     addAction(QStringLiteral("timeline_compositing"), m_compositeAction);
 
+
+    QAction *splitView = new QAction(KoIconUtils::themedIcon(QStringLiteral("view-split-top-bottom")), i18n("Split Audio Tracks"), this);
+    addAction(QStringLiteral("timeline_view_split"), splitView);
+    splitView->setData(QVariant::fromValue(1));
+    splitView->setCheckable(true);
+    splitView->setChecked(KdenliveSettings::audiotracksbelow());
+
+    QAction *mixedView = new QAction(KoIconUtils::themedIcon(QStringLiteral("document-new")), i18n("Mixed Audio tracks"), this);
+    addAction(QStringLiteral("timeline_mixed_view"), mixedView);
+    mixedView->setData(QVariant::fromValue(0));
+    mixedView->setCheckable(true);
+    mixedView->setChecked(!KdenliveSettings::audiotracksbelow());
+
+    QActionGroup *clipTypeGroup = new QActionGroup(this);
+    clipTypeGroup->addAction(mixedView);
+    clipTypeGroup->addAction(splitView);
+    connect(clipTypeGroup, &QActionGroup::triggered, this, &MainWindow::slotUpdateTimelineView);
+
+    auto tlsettings = new QMenu(this);
+    tlsettings->setIcon(KoIconUtils::themedIcon(QStringLiteral("configure")));
+    tlsettings->addAction(m_compositeAction);
+    tlsettings->addAction(mixedView);
+    tlsettings->addAction(splitView);
+    addAction(QStringLiteral("timeline_settings"), tlsettings->menuAction());
+
     m_timeFormatButton = new KSelectAction(QStringLiteral("00:00:00:00 / 00:00:00:00"), this);
     m_timeFormatButton->setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
     m_timeFormatButton->addAction(i18n("hh:mm:ss:ff"));
@@ -3078,6 +3103,13 @@ void MainWindow::slotUpdateClipType(QAction *action)
         pCore->projectManager()->currentTimeline()->projectView()->setClipType(state);
     }
     */
+}
+
+void MainWindow::slotUpdateTimelineView(QAction *action)
+{
+    int viewMode = action->data().toInt();
+    KdenliveSettings::setAudiotracksbelow(viewMode == 1);
+    getMainTimeline()->controller()->getModel()->_resetView();
 }
 
 void MainWindow::slotDvdWizard(const QString &url)

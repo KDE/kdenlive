@@ -276,6 +276,11 @@ public:
     /* @brief Returns the track's index in terms of mlt's internal representation
      */
     int getTrackMltIndex(int trackId) const;
+    /* @brief Returns a sort position for tracks.
+     * @param separated: if true, the tracks will be sorted like: V2,V1,A1,A2
+     * Otherwise, the tracks will be sorted like V2,A2,V1,A1
+     */
+    int getTrackSortValue(int trackId, bool separated) const;
 
     /* @brief Returns the ids of the tracks below the given track in the order of the tracks
        Returns an empty list if no track available
