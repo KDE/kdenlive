@@ -964,7 +964,7 @@ bool TimelineModel::requestGroupMove(int clipId, int groupId, int delta_track, i
             ok = false;
         }
         if (!ok) {
-            bool undone = undo();
+            bool undone = local_undo();
             Q_ASSERT(undone);
             return false;
         }
