@@ -11,7 +11,6 @@ Menu {
         property bool canBeAudio
         property bool canBeVideo
         MenuItem {
-            visible: true
             text: i18n('Copy')
             onTriggered: root.copiedClip = clipId
         }
@@ -25,7 +24,13 @@ Menu {
             text: i18n('Ungroup')
             onTriggered: timeline.unGroupSelection(clipId)
         }
-
+        MenuItem {
+            text: i18n('Edit Duration')
+            onTriggered: {
+                clipMenu.close()
+                timeline.editItemDuration(clipId)
+            }
+        }
         MenuItem {
             visible: root.copiedClip != -1 && root.copiedClip != clipId
             text: i18n('Paste Effects')
@@ -59,7 +64,10 @@ Menu {
         MenuItem {
             visible: true
             text: i18n('Change Speed')
-            onTriggered: timeline.changeItemSpeed(clipId, -1)
+            onTriggered: {
+                clipMenu.close()
+                timeline.changeItemSpeed(clipId, -1)
+            }
         }
 
         MenuItem {
