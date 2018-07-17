@@ -109,19 +109,6 @@ void TimelineWidget::slotChangeZoom(int value, bool zoomOnMouse)
     m_proxy->setScaleFactorOnMouse(100.0 / comboScale[value], zoomOnMouse);
 }
 
-void TimelineWidget::wheelEvent(QWheelEvent *event)
-{
-    if ((event->modifiers() & Qt::ControlModifier) != 0u) {
-        if (event->delta() > 0) {
-            emit zoomIn(true);
-        } else {
-            emit zoomOut(true);
-        }
-    } else {
-        QQuickWidget::wheelEvent(event);
-    }
-}
-
 Mlt::Tractor *TimelineWidget::tractor()
 {
     return m_proxy->tractor();

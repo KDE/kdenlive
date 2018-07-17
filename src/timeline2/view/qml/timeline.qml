@@ -766,8 +766,8 @@ Rectangle {
                     flickableItem.interactive: false
                     clip: true
                     Rectangle {
-                        width: Math.max(root.width - headerWidth - scrollView.__verticalScrollBar.width, timeline.fullDuration * timeScale)
-                        height: trackHeaders.height
+                        width: Math.max(scrollView.width - scrollView.__verticalScrollBar.width, timeline.fullDuration * timeScale)
+                        height: Math.max(trackHeaders.height, scrollView.height - scrollView.__horizontalScrollBar.height)
                         color: activePalette.window
                         id: tracksContainerArea
                         MouseArea {
