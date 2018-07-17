@@ -15,6 +15,9 @@
     <file alias="MonitorRuler.qml">monitor/view/MonitorRuler.qml</file>
     <file alias="OverlayStandard.qml">monitor/view/OverlayStandard.qml</file>
     <file alias="OverlayMinimal.qml">monitor/view/OverlayMinimal.qml</file>
+    <file alias="OverlayCenter.qml">monitor/view/OverlayCenter.qml</file>
+    <file alias="OverlayCenterDiagonal.qml">monitor/view/OverlayCenterDiagonal.qml</file>
+    <file alias="OverlayThirds.qml">monitor/view/OverlayThirds.qml</file>
     <file alias="timeline.qml">timeline2/view/qml/timeline.qml</file>
     <file alias="TrackHead.qml">timeline2/view/qml/TrackHead.qml</file>
     <file alias="Track.qml">timeline2/view/qml/Track.qml</file>

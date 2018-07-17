@@ -51,7 +51,7 @@ Item {
     }
 
     function switchOverlay() {
-        if (controller.overlayType >= 2) {
+        if (controller.overlayType >= 5) {
             controller.overlayType = 0
         } else {
             controller.overlayType = controller.overlayType + 1;
@@ -98,6 +98,15 @@ Item {
                         }
                         case 2:{
                             return "OverlayMinimal.qml";
+                        }
+                        case 3:{
+                            return "OverlayCenter.qml";
+                        }
+                        case 4:{
+                            return "OverlayCenterDiagonal.qml";
+                        }
+                        case 5:{
+                            return "OverlayThirds.qml";
                         }
                     }
                 }
