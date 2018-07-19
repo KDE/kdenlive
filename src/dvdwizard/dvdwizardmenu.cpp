@@ -254,7 +254,7 @@ DvdWizardMenu::DvdWizardMenu(DVDFORMAT format, QWidget *parent)
     connect(m_scene, &DvdScene::sceneChanged, this, &QWizardPage::completeChanged);
 
     // red background for error message
-    KColorScheme scheme(palette().currentColorGroup(), KColorScheme::Window, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
+    KColorScheme scheme(palette().currentColorGroup(), KColorScheme::Window);
     QPalette p = m_view.error_message->palette();
     p.setColor(QPalette::Background, scheme.background(KColorScheme::NegativeBackground).color());
     m_view.error_message->setAutoFillBackground(true);

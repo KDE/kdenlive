@@ -240,7 +240,7 @@ SmallJobLabel::SmallJobLabel(QWidget *parent)
 
 const QString SmallJobLabel::getStyleSheet(const QPalette &p)
 {
-    KColorScheme scheme(p.currentColorGroup(), KColorScheme::Window, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
+    KColorScheme scheme(p.currentColorGroup(), KColorScheme::Window);
     QColor bg = scheme.background(KColorScheme::LinkBackground).color();
     QColor fg = scheme.foreground(KColorScheme::LinkText).color();
     QString style =

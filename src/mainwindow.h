@@ -226,7 +226,6 @@ private:
     /** @brief initialize startup values, return true if first run. */
     bool readOptions();
     void saveOptions();
-    bool event(QEvent *e) override;
 
     void loadGenerators();
     /** @brief Instantiates a "Get Hot New Stuff" dialog.
@@ -433,8 +432,7 @@ private slots:
     /** @brief Move playhead to mouse curser position if defined key is pressed */
     void slotAlignPlayheadToMousePos();
 
-    void slotThemeChanged(const QString &);
-    void slotReloadTheme();
+    void slotThemeChanged(const QString &name);
     /** @brief Close Kdenlive and try to restart it */
     void slotRestart();
     void triggerKey(QKeyEvent *ev);
@@ -476,7 +474,6 @@ signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);
     void configurationChanged();
     void GUISetupDone();
-    void reloadTheme();
     void setPreviewProgress(int);
     void setRenderProgress(int);
     void displayMessage(const QString &, MessageType, int);

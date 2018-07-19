@@ -233,7 +233,7 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, QWidg
     m_view.checkTwoPass->setEnabled(false);
     m_view.proxy_render->setHidden(!enableProxy);
     connect(m_view.proxy_render, &QCheckBox::toggled, this, &RenderWidget::slotProxyWarn);
-    KColorScheme scheme(palette().currentColorGroup(), KColorScheme::Window, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
+    KColorScheme scheme(palette().currentColorGroup(), KColorScheme::Window);
     QColor bg = scheme.background(KColorScheme::NegativeBackground).color();
     m_view.errorBox->setStyleSheet(
         QStringLiteral("QGroupBox { background-color: rgb(%1, %2, %3); border-radius: 5px;}; ").arg(bg.red()).arg(bg.green()).arg(bg.blue()));

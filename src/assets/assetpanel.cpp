@@ -198,7 +198,7 @@ void AssetPanel::updatePalette()
 // static
 const QString AssetPanel::getStyleSheet()
 {
-    KColorScheme scheme(QApplication::palette().currentColorGroup(), KColorScheme::View, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
+    KColorScheme scheme(QApplication::palette().currentColorGroup(), KColorScheme::View);
     QColor selected_bg = scheme.decoration(KColorScheme::FocusColor).color();
     QColor hgh = KColorUtils::mix(QApplication::palette().window().color(), selected_bg, 0.2);
     QColor hover_bg = scheme.decoration(KColorScheme::HoverColor).color();

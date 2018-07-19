@@ -55,7 +55,7 @@ AnimKeyframeRuler::AnimKeyframeRuler(int min, int max, QWidget *parent)
     m_lineHeight = m_size / 2;
     setMinimumHeight(m_size);
     setMaximumHeight(m_size);
-    KColorScheme scheme(p.currentColorGroup(), KColorScheme::Window, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
+    KColorScheme scheme(p.currentColorGroup(), KColorScheme::Window);
     m_selected = palette().highlight().color();
     m_keyframe = scheme.foreground(KColorScheme::LinkText).color();
 }

@@ -44,7 +44,7 @@ KeyframeView::KeyframeView(std::shared_ptr<KeyframeModelList> model, QWidget *pa
     setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum));
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     QPalette p = palette();
-    KColorScheme scheme(p.currentColorGroup(), KColorScheme::Window, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
+    KColorScheme scheme(p.currentColorGroup(), KColorScheme::Window);
     m_colSelected = palette().highlight().color();
     m_colKeyframe = scheme.foreground(KColorScheme::NormalText).color();
     m_size = QFontInfo(font()).pixelSize() * 1.8;

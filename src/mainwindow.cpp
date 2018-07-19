@@ -165,16 +165,14 @@ MainWindow::MainWindow(QWidget *parent)
 void MainWindow::init()
 {
     QString desktopStyle = QApplication::style()->objectName();
-    // Init color theme
-    KActionMenu *themeAction = new KActionMenu(i18n("Theme"), this);
-    ThemeManager::instance()->setThemeMenuAction(themeAction);
-    ThemeManager::instance()->setCurrentTheme(KdenliveSettings::colortheme());
-    connect(ThemeManager::instance(), &ThemeManager::signalThemeChanged, this, &MainWindow::slotThemeChanged, Qt::DirectConnection);
+    // Load themes
+    auto themeManager = new ThemeManager(actionCollection());
+    actionCollection()->addAction(QStringLiteral("themes_menu"), themeManager);
+    connect(themeManager, &ThemeManager::themeChanged, this, &MainWindow::slotThemeChanged);
+
     if (!KdenliveSettings::widgetstyle().isEmpty() && QString::compare(desktopStyle, KdenliveSettings::widgetstyle(), Qt::CaseInsensitive) != 0) {
         // User wants a custom widget style, init
         doChangeStyle();
-    } else {
-        ThemeManager::instance()->slotChangePalette();
     }
 
     // Widget themes for non KDE users
@@ -303,7 +301,6 @@ void MainWindow::init()
     // Audio spectrum scope
     m_audioSpectrum = new AudioGraphSpectrum(pCore->monitorManager());
     QDockWidget *spectrumDock = addDock(i18n("Audio Spectrum"), QStringLiteral("audiospectrum"), m_audioSpectrum);
-    connect(this, &MainWindow::reloadTheme, m_audioSpectrum, &AudioGraphSpectrum::refreshPixmap);
     // Close library and audiospectrum on first run
     libraryDock->close();
     spectrumDock->close();
@@ -363,7 +360,6 @@ void MainWindow::init()
     m_undoViewDock = addDock(i18n("Undo History"), QStringLiteral("undo_history"), m_undoView);
 
     // Color and icon theme stuff
-    addAction(QStringLiteral("themes_menu"), themeAction);
     connect(m_commandStack, &QUndoGroup::cleanChanged, m_saveAction, &QAction::setDisabled);
     addAction(QStringLiteral("styles_menu"), stylesAction);
 
@@ -620,7 +616,6 @@ void MainWindow::init()
         KdenliveSettings::setCurrenttmpfolder(QStandardPaths::writableLocation(QStandardPaths::TempLocation));
 
     QTimer::singleShot(0, this, &MainWindow::GUISetupDone);
-    connect(this, &MainWindow::reloadTheme, this, &MainWindow::slotReloadTheme, Qt::UniqueConnection);
 
 #ifdef USE_JOGSHUTTLE
     new JogManager(this);
@@ -629,30 +624,16 @@ void MainWindow::init()
     // m_messageLabel->setMessage(QStringLiteral("This is a beta version. Always backup your data"), MltError);
 }
 
-void MainWindow::slotThemeChanged(const QString &theme)
+void MainWindow::slotThemeChanged(const QString &name)
 {
-    disconnect(this, &MainWindow::reloadTheme, this, &MainWindow::slotReloadTheme);
-    KSharedConfigPtr config = KSharedConfig::openConfig(theme);
-
+    KSharedConfigPtr config = KSharedConfig::openConfig(name);
     QPalette plt = KColorScheme::createApplicationPalette(config);
-    setPalette(plt);
-    qApp->setPalette(palette());
+    //qApp->setPalette(plt);
     // Required for qml palette change
     QGuiApplication::setPalette(plt);
-    KdenliveSettings::setColortheme(theme);
 
     QColor background = plt.window().color();
     bool useDarkIcons = background.value() < 100;
-    KSharedConfigPtr kconfig = KSharedConfig::openConfig();
-    KConfigGroup initialGroup(kconfig, "version");
-    if (initialGroup.exists() && KdenliveSettings::force_breeze() && useDarkIcons != KdenliveSettings::use_dark_breeze()) {
-        // We need to reload icon theme
-        KdenliveSettings::setUse_dark_breeze(useDarkIcons);
-        if (KMessageBox::warningContinueCancel(this, i18n("Kdenlive needs to be restarted to apply color theme change. Restart now ?")) ==
-            KMessageBox::Continue) {
-            slotRestart();
-        }
-    }
 
     if (m_assetPanel) {
         m_assetPanel->updatePalette();
@@ -671,7 +652,20 @@ void MainWindow::slotThemeChanged(const QString &theme)
     }
     if (m_timelineTabs) {
         m_timelineTabs->setPalette(plt);
+        getMainTimeline()->controller()->getModel()->_resetView();
     }
+    if (m_audioSpectrum) {
+        m_audioSpectrum->refreshPixmap();
+    }
+
+    KSharedConfigPtr kconfig = KSharedConfig::openConfig();
+    KConfigGroup initialGroup(kconfig, "version");
+    if (initialGroup.exists() && KdenliveSettings::force_breeze() && useDarkIcons != KdenliveSettings::use_dark_breeze()) {
+        // We need to reload icon theme
+        QIcon::setThemeName(useDarkIcons ? QStringLiteral("breeze-dark") : QStringLiteral("breeze"));
+        KdenliveSettings::setUse_dark_breeze(useDarkIcons);
+    }
+
 
 #if KXMLGUI_VERSION_MINOR < 23 && KXMLGUI_VERSION_MAJOR == 5
     // Not required anymore with auto colored icons since KF5 5.23
@@ -710,20 +704,6 @@ void MainWindow::slotThemeChanged(const QString &theme)
     m_themeInitialized = true;
     m_isDarkTheme = useDarkIcons;
 #endif
-    connect(this, &MainWindow::reloadTheme, this, &MainWindow::slotReloadTheme, Qt::UniqueConnection);
-}
-
-bool MainWindow::event(QEvent *e)
-{
-    switch (e->type()) {
-    case QEvent::ApplicationPaletteChange:
-        emit reloadTheme();
-        e->accept();
-        break;
-    default:
-        break;
-    }
-    return KXmlGuiWindow::event(e);
 }
 
 void MainWindow::updateActionsToolTip()
@@ -752,11 +732,6 @@ void MainWindow::updateAction()
     QString toolTip = KLocalizedString::removeAcceleratorMarker(action->toolTip());
     QString strippedTooltip = toolTip.remove(QRegExp(QStringLiteral("\\s\\(.*\\)")));
     action->setToolTip(i18nc("@info:tooltip Tooltip of toolbar button", "%1 (%2)", strippedTooltip, action->shortcut().toString()));
-}
-
-void MainWindow::slotReloadTheme()
-{
-    ThemeManager::instance()->slotSettingsChanged();
 }
 
 MainWindow::~MainWindow()
@@ -1668,8 +1643,6 @@ bool MainWindow::readOptions()
     if (!initialGroup.exists() || KdenliveSettings::sdlAudioBackend().isEmpty()) {
         // First run, check if user is on a KDE Desktop
         firstRun = true;
-        // Check color theme
-        ThemeManager::instance()->initDarkTheme();
         // this is our first run, show Wizard
         QPointer<Wizard> w = new Wizard(true, false);
         if (w->exec() == QDialog::Accepted && w->isOk()) {
@@ -3837,8 +3810,6 @@ void MainWindow::doChangeStyle()
         newStyle = defaultStyle("Breeze");
     }
     QApplication::setStyle(QStyleFactory::create(newStyle));
-    // Changing widget style resets color theme, so update color theme again
-    ThemeManager::instance()->slotChangePalette();
 }
 
 bool MainWindow::isTabbedWith(QDockWidget *widget, const QString &otherWidget)

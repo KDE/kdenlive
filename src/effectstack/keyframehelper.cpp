@@ -52,7 +52,7 @@ KeyframeHelper::KeyframeHelper(QWidget *parent)
     m_lineHeight = m_size / 2;
     setMinimumHeight(m_size);
     setMaximumHeight(m_size);
-    KColorScheme scheme(p.currentColorGroup(), KColorScheme::Window, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
+    KColorScheme scheme(p.currentColorGroup(), KColorScheme::Window);
     m_selected = scheme.decoration(KColorScheme::HoverColor).color();
     m_keyframe = scheme.foreground(KColorScheme::LinkText).color();
 }

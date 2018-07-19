@@ -84,6 +84,9 @@ int main(int argc, char *argv[])
                 qCDebug(KDENLIVE_LOG) << "Non KDE Desktop detected, forcing Breeze icon theme";
             }
         }
+        // Set breeze dark as default on first opening
+        KConfigGroup cg(config, "UiSettings");
+        cg.writeEntry("ColorScheme", "Breeze Dark");
     }
 
     // Init DBus services

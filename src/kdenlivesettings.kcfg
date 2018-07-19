@@ -793,11 +793,6 @@
       <default></default>
     </entry>
 
-    <entry name="colortheme" type="String">
-      <label>Name of the chosen color theme.</label>
-      <default></default>
-    </entry>
-
     <entry name="widgetstyle" type="String">
       <label>Name of the chosen widget style.</label>
       <default></default>
