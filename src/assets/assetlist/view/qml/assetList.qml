@@ -57,16 +57,14 @@ Rectangle {
 
     ColumnLayout {
         anchors.fill: parent
-        spacing: 2
+        spacing: 0
         RowLayout {
             Layout.fillWidth: true
             Layout.fillHeight: false
-            spacing: 6
+            spacing: 4
             ExclusiveGroup { id: filterGroup}
             ToolButton {
                 id: searchList
-                implicitWidth: 40
-                implicitHeight: 40
                 iconName: "edit-find"
                 checkable: true
                 tooltip: isEffectList ? i18n('Find effect') : i18n('Find composition')
@@ -81,8 +79,6 @@ Rectangle {
             }
             ToolButton {
                 id: showAll
-                implicitWidth: 40
-                implicitHeight: 40
                 iconName: "show-all-effects"
                 checkable:true
                 exclusiveGroup: filterGroup
@@ -94,8 +90,6 @@ Rectangle {
             ToolButton {
                 id: showVideo
                 visible: isEffectList
-                implicitWidth: 40
-                implicitHeight: 40
                 iconName: "kdenlive-show-video"
                 iconSource: 'qrc:///pics/kdenlive-show-video.svgz'
                 checkable:true
@@ -108,8 +102,6 @@ Rectangle {
             ToolButton {
                 id: showAudio
                 visible: isEffectList
-                implicitWidth: 40
-                implicitHeight: 40
                 iconName: "kdenlive-show-audio"
                 iconSource: 'qrc:///pics/kdenlive-show-audio.svgz'
                 checkable:true
@@ -122,8 +114,6 @@ Rectangle {
             ToolButton {
                 id: showCustom
                 visible: isEffectList
-                implicitWidth: 40
-                implicitHeight: 40
                 iconName: "kdenlive-custom-effect"
                 checkable:true
                 exclusiveGroup: filterGroup
@@ -134,14 +124,12 @@ Rectangle {
             }
             Rectangle {
                 //This is a spacer
-                Layout.fillHeight: true
+                Layout.fillHeight: false
                 Layout.fillWidth: true
                 color: "transparent"
             }
             ToolButton {
                 id: showDescription
-                implicitWidth: 40
-                implicitHeight: 40
                 iconName: "help-about"
                 checkable:true
                 tooltip: i18n('Show/hide description of the ') + assetType()

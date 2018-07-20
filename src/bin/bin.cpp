@@ -569,7 +569,8 @@ Bin::Bin(const std::shared_ptr<ProjectItemModel> &model, QWidget *parent)
     m_toolbar = new QToolBar(this);
     m_toolbar->setToolButtonStyle(Qt::ToolButtonIconOnly);
     m_layout->addWidget(m_toolbar);
-
+    m_layout->setSpacing(0);
+    m_layout->setContentsMargins(0, 0, 0, 0);
     // Search line
     m_proxyModel = new ProjectSortProxyModel(this);
     m_proxyModel->setDynamicSortFilter(true);
