@@ -29,7 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KConfigGroup>
 #include <KSharedConfig>
 
-#include "utils/KoIconUtils.h"
+
 
 GradientWidget::GradientWidget(const QMap<QString, QString> &gradients, int ix, QWidget *parent)
     : QDialog(parent)
@@ -42,8 +42,8 @@ GradientWidget::GradientWidget(const QMap<QString, QString> &gradients, int ix, 
     connect(angle, &QAbstractSlider::valueChanged, this, &GradientWidget::updatePreview);
     connect(color1, &KColorButton::changed, this, &GradientWidget::updatePreview);
     connect(color2, &KColorButton::changed, this, &GradientWidget::updatePreview);
-    add_gradient->setIcon(KoIconUtils::themedIcon(QStringLiteral("list-add")));
-    remove_gradient->setIcon(KoIconUtils::themedIcon(QStringLiteral("list-remove")));
+    add_gradient->setIcon(QIcon::fromTheme(QStringLiteral("list-add")));
+    remove_gradient->setIcon(QIcon::fromTheme(QStringLiteral("list-remove")));
     connect(add_gradient, SIGNAL(clicked()), this, SLOT(saveGradient()));
     connect(remove_gradient, &QAbstractButton::clicked, this, &GradientWidget::deleteGradient);
     QFontMetrics metrics(font());

@@ -44,7 +44,7 @@
 #include "mainwindow.h"
 #include "mltcontroller/effectscontroller.h"
 #include "onmonitoritems/rotoscoping/rotowidget.h"
-#include "utils/KoIconUtils.h"
+
 
 #include "ui_fontval_ui.h"
 #include "ui_keywordval_ui.h"

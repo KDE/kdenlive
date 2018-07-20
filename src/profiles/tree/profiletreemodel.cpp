@@ -23,11 +23,12 @@
 #include "../profilemodel.hpp"
 #include "../profilerepository.hpp"
 #include "abstractmodel/treeitem.hpp"
-#include "utils/KoIconUtils.h"
+
 #include <KLocalizedString>
 #include <array>
 #include <functional>
 #include <vector>
+#include <QIcon>
 
 ProfileTreeModel::ProfileTreeModel(QObject *parent)
     : AbstractTreeModel(parent)
@@ -118,9 +119,9 @@ QVariant ProfileTreeModel::data(const QModelIndex &index, int role) const
     auto item = getItemById((int)index.internalId());
     if (role == Qt::DecorationRole) {
         if (item->depth() == 1) {
-            return KoIconUtils::themedIcon(QStringLiteral("folder"));
+            return QIcon::fromTheme(QStringLiteral("folder"));
         }
-        return KoIconUtils::themedIcon(QStringLiteral("file"));
+        return QIcon::fromTheme(QStringLiteral("file"));
     }
 
     if (role != Qt::DisplayRole) {

@@ -30,7 +30,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "timeline2/model/builders/meltBuilder.hpp"
 #include "timeline2/view/timelinecontroller.h"
 #include "timeline2/view/timelinewidget.h"
-#include "utils/KoIconUtils.h"
+
 
 #include <KActionCollection>
 #include <KJob>
@@ -55,18 +55,18 @@ ProjectManager::ProjectManager(QObject *parent)
     , m_progressDialog(nullptr)
 {
     m_fileRevert = KStandardAction::revert(this, SLOT(slotRevert()), pCore->window()->actionCollection());
-    m_fileRevert->setIcon(KoIconUtils::themedIcon(QStringLiteral("document-revert")));
+    m_fileRevert->setIcon(QIcon::fromTheme(QStringLiteral("document-revert")));
     m_fileRevert->setEnabled(false);
 
     QAction *a = KStandardAction::open(this, SLOT(openFile()), pCore->window()->actionCollection());
-    a->setIcon(KoIconUtils::themedIcon(QStringLiteral("document-open")));
+    a->setIcon(QIcon::fromTheme(QStringLiteral("document-open")));
     a = KStandardAction::saveAs(this, SLOT(saveFileAs()), pCore->window()->actionCollection());
-    a->setIcon(KoIconUtils::themedIcon(QStringLiteral("document-save-as")));
+    a->setIcon(QIcon::fromTheme(QStringLiteral("document-save-as")));
     a = KStandardAction::openNew(this, SLOT(newFile()), pCore->window()->actionCollection());
-    a->setIcon(KoIconUtils::themedIcon(QStringLiteral("document-new")));
+    a->setIcon(QIcon::fromTheme(QStringLiteral("document-new")));
     m_recentFilesAction = KStandardAction::openRecent(this, SLOT(openFile(QUrl)), pCore->window()->actionCollection());
 
-    QAction *backupAction = new QAction(KoIconUtils::themedIcon(QStringLiteral("edit-undo")), i18n("Open Backup File"), this);
+    QAction *backupAction = new QAction(QIcon::fromTheme(QStringLiteral("edit-undo")), i18n("Open Backup File"), this);
     pCore->window()->addAction(QStringLiteral("open_backup"), backupAction);
     connect(backupAction, SIGNAL(triggered(bool)), SLOT(slotOpenBackup()));
 

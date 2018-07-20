@@ -27,7 +27,7 @@
 #include "monitor/monitor.h"
 #include "timecode.h"
 #include "timecodedisplay.h"
-#include "utils/KoIconUtils.h"
+
 #include "widgets/doublewidget.h"
 #include "widgets/geometrywidget.h"
 
@@ -54,30 +54,30 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
 
     m_buttonAddDelete = new QToolButton(this);
     m_buttonAddDelete->setAutoRaise(true);
-    m_buttonAddDelete->setIcon(KoIconUtils::themedIcon(QStringLiteral("list-add")));
+    m_buttonAddDelete->setIcon(QIcon::fromTheme(QStringLiteral("list-add")));
     m_buttonAddDelete->setToolTip(i18n("Add keyframe"));
 
     m_buttonPrevious = new QToolButton(this);
     m_buttonPrevious->setAutoRaise(true);
-    m_buttonPrevious->setIcon(KoIconUtils::themedIcon(QStringLiteral("media-skip-backward")));
+    m_buttonPrevious->setIcon(QIcon::fromTheme(QStringLiteral("media-skip-backward")));
     m_buttonPrevious->setToolTip(i18n("Go to previous keyframe"));
 
     m_buttonNext = new QToolButton(this);
     m_buttonNext->setAutoRaise(true);
-    m_buttonNext->setIcon(KoIconUtils::themedIcon(QStringLiteral("media-skip-forward")));
+    m_buttonNext->setIcon(QIcon::fromTheme(QStringLiteral("media-skip-forward")));
     m_buttonNext->setToolTip(i18n("Go to next keyframe"));
 
     // Keyframe type widget
-    m_selectType = new KSelectAction(KoIconUtils::themedIcon(QStringLiteral("keyframes")), i18n("Keyframe interpolation"), this);
-    QAction *linear = new QAction(KoIconUtils::themedIcon(QStringLiteral("linear")), i18n("Linear"), this);
+    m_selectType = new KSelectAction(QIcon::fromTheme(QStringLiteral("keyframes")), i18n("Keyframe interpolation"), this);
+    QAction *linear = new QAction(QIcon::fromTheme(QStringLiteral("linear")), i18n("Linear"), this);
     linear->setData((int)mlt_keyframe_linear);
     linear->setCheckable(true);
     m_selectType->addAction(linear);
-    QAction *discrete = new QAction(KoIconUtils::themedIcon(QStringLiteral("discrete")), i18n("Discrete"), this);
+    QAction *discrete = new QAction(QIcon::fromTheme(QStringLiteral("discrete")), i18n("Discrete"), this);
     discrete->setData((int)mlt_keyframe_discrete);
     discrete->setCheckable(true);
     m_selectType->addAction(discrete);
-    QAction *curve = new QAction(KoIconUtils::themedIcon(QStringLiteral("smooth")), i18n("Smooth"), this);
+    QAction *curve = new QAction(QIcon::fromTheme(QStringLiteral("smooth")), i18n("Smooth"), this);
     curve->setData((int)mlt_keyframe_smooth);
     curve->setCheckable(true);
     m_selectType->addAction(curve);
@@ -210,10 +210,10 @@ void KeyframeWidget::updateTimecodeFormat()
 void KeyframeWidget::slotAtKeyframe(bool atKeyframe, bool singleKeyframe)
 {
     if (atKeyframe) {
-        m_buttonAddDelete->setIcon(KoIconUtils::themedIcon(QStringLiteral("list-remove")));
+        m_buttonAddDelete->setIcon(QIcon::fromTheme(QStringLiteral("list-remove")));
         m_buttonAddDelete->setToolTip(i18n("Delete keyframe"));
     } else {
-        m_buttonAddDelete->setIcon(KoIconUtils::themedIcon(QStringLiteral("list-add")));
+        m_buttonAddDelete->setIcon(QIcon::fromTheme(QStringLiteral("list-add")));
         m_buttonAddDelete->setToolTip(i18n("Add keyframe"));
     }
     pCore->getMonitor(m_model->monitorId)->setEffectKeyframe(atKeyframe || singleKeyframe);

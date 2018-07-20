@@ -21,7 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "projectfolderup.h"
 #include "projectclip.h"
-#include "utils/KoIconUtils.h"
+
 
 #include <KLocalizedString>
 #include <QDomElement>
@@ -29,7 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ProjectFolderUp::ProjectFolderUp(std::shared_ptr<ProjectItemModel> model)
     : AbstractProjectItem(AbstractProjectItem::FolderUpItem, QString(), model)
 {
-    m_thumbnail = KoIconUtils::themedIcon(QStringLiteral("go-previous"));
+    m_thumbnail = QIcon::fromTheme(QStringLiteral("go-previous"));
     m_name = i18n("Back");
 }
 

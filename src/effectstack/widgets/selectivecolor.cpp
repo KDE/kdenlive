@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "effectstack/widgets/selectivecolor.h"
-#include "utils/KoIconUtils.h"
+
 
 #include <KLocalizedString>
 
@@ -69,7 +69,7 @@ void SelectiveColor::addParam(QDomElement &effect, QString name)
     }
     QIcon icon;
     if (!value.isEmpty()) {
-        icon = KoIconUtils::themedIcon(QStringLiteral("dialog-ok-apply"));
+        icon = QIcon::fromTheme(QStringLiteral("dialog-ok-apply"));
     }
     range->addItem(icon, name, QStringList() << effect.attribute(QStringLiteral("name")) << value);
 }
@@ -121,7 +121,7 @@ void SelectiveColor::effectChanged()
         return;
     }
     if (values.at(1).isEmpty() && !result.isEmpty()) {
-        range->setItemIcon(range->currentIndex(), KoIconUtils::themedIcon(QStringLiteral("dialog-ok-apply")));
+        range->setItemIcon(range->currentIndex(), QIcon::fromTheme(QStringLiteral("dialog-ok-apply")));
     } else if (!values.at(1).isEmpty() && result.isEmpty()) {
         range->setItemIcon(range->currentIndex(), QIcon());
     }

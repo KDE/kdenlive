@@ -24,7 +24,7 @@
 #include "doublewidget.h"
 #include "dragvalue.h"
 #include "monitor/monitor.h"
-#include "utils/KoIconUtils.h"
+
 
 #include <KLocalizedString>
 #include <QGridLayout>
@@ -66,7 +66,7 @@ GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QR
     horLayout->addWidget(m_spinWidth);
 
     // Lock ratio stuff
-    m_lockRatio = new QAction(KoIconUtils::themedIcon(QStringLiteral("link")), i18n("Lock aspect ratio"), this);
+    m_lockRatio = new QAction(QIcon::fromTheme(QStringLiteral("link")), i18n("Lock aspect ratio"), this);
     m_lockRatio->setCheckable(true);
     connect(m_lockRatio, &QAction::triggered, this, &GeometryWidget::slotLockRatio);
     auto *ratioButton = new QToolButton;
@@ -93,27 +93,27 @@ GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QR
     horLayout2->addStretch(10);
 
     // Build buttons
-    m_originalSize = new QAction(KoIconUtils::themedIcon(QStringLiteral("zoom-original")), i18n("Adjust to original size"), this);
+    m_originalSize = new QAction(QIcon::fromTheme(QStringLiteral("zoom-original")), i18n("Adjust to original size"), this);
     connect(m_originalSize, &QAction::triggered, this, &GeometryWidget::slotAdjustToSource);
     m_originalSize->setCheckable(true);
-    QAction *adjustSize = new QAction(KoIconUtils::themedIcon(QStringLiteral("zoom-fit-best")), i18n("Adjust and center in frame"), this);
+    QAction *adjustSize = new QAction(QIcon::fromTheme(QStringLiteral("zoom-fit-best")), i18n("Adjust and center in frame"), this);
     connect(adjustSize, &QAction::triggered, this, &GeometryWidget::slotAdjustToFrameSize);
-    QAction *fitToWidth = new QAction(KoIconUtils::themedIcon(QStringLiteral("zoom-fit-width")), i18n("Fit to width"), this);
+    QAction *fitToWidth = new QAction(QIcon::fromTheme(QStringLiteral("zoom-fit-width")), i18n("Fit to width"), this);
     connect(fitToWidth, &QAction::triggered, this, &GeometryWidget::slotFitToWidth);
-    QAction *fitToHeight = new QAction(KoIconUtils::themedIcon(QStringLiteral("zoom-fit-height")), i18n("Fit to height"), this);
+    QAction *fitToHeight = new QAction(QIcon::fromTheme(QStringLiteral("zoom-fit-height")), i18n("Fit to height"), this);
     connect(fitToHeight, &QAction::triggered, this, &GeometryWidget::slotFitToHeight);
 
-    QAction *alignleft = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-align-left")), i18n("Align left"), this);
+    QAction *alignleft = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-align-left")), i18n("Align left"), this);
     connect(alignleft, &QAction::triggered, this, &GeometryWidget::slotMoveLeft);
-    QAction *alignhcenter = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-align-hor")), i18n("Center horizontally"), this);
+    QAction *alignhcenter = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-align-hor")), i18n("Center horizontally"), this);
     connect(alignhcenter, &QAction::triggered, this, &GeometryWidget::slotCenterH);
-    QAction *alignright = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-align-right")), i18n("Align right"), this);
+    QAction *alignright = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-align-right")), i18n("Align right"), this);
     connect(alignright, &QAction::triggered, this, &GeometryWidget::slotMoveRight);
-    QAction *aligntop = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-align-top")), i18n("Align top"), this);
+    QAction *aligntop = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-align-top")), i18n("Align top"), this);
     connect(aligntop, &QAction::triggered, this, &GeometryWidget::slotMoveTop);
-    QAction *alignvcenter = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-align-vert")), i18n("Center vertically"), this);
+    QAction *alignvcenter = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-align-vert")), i18n("Center vertically"), this);
     connect(alignvcenter, &QAction::triggered, this, &GeometryWidget::slotCenterV);
-    QAction *alignbottom = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-align-bottom")), i18n("Align bottom"), this);
+    QAction *alignbottom = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-align-bottom")), i18n("Align bottom"), this);
     connect(alignbottom, &QAction::triggered, this, &GeometryWidget::slotMoveBottom);
 
     auto *alignLayout = new QHBoxLayout;

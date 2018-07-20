@@ -22,7 +22,7 @@
 #include "profiles/profilemodel.hpp"
 #include "profiles/profilerepository.hpp"
 #include "profilesdialog.h"
-#include "utils/KoIconUtils.h"
+
 #include "utils/thememanager.h"
 #ifdef USE_V4L
 #include "capture/v4lcapture.h"
@@ -86,7 +86,7 @@ Wizard::Wizard(bool autoClose, bool appImageCheck, QWidget *parent)
     m_page = new MyWizardPage(this);
     m_page->setTitle(i18n("Welcome to Kdenlive %1", QString(kdenlive_version)));
     m_page->setSubTitle(i18n("Using MLT %1", mlt_version_get_string()));
-    setPixmap(QWizard::LogoPixmap, KoIconUtils::themedIcon(QStringLiteral(":/pics/kdenlive.png")).pixmap(logoHeight, logoHeight));
+    setPixmap(QWizard::LogoPixmap, QIcon::fromTheme(QStringLiteral(":/pics/kdenlive.png")).pixmap(logoHeight, logoHeight));
     m_startLayout = new QVBoxLayout;
     m_errorWidget = new KMessageWidget(this);
     m_startLayout->addWidget(m_errorWidget);

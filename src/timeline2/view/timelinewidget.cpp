@@ -34,7 +34,7 @@
 #include "qmltypes/thumbnailprovider.h"
 #include "timelinecontroller.h"
 #include "transitions/transitionlist/model/transitiontreemodel.hpp"
-#include "utils/KoIconUtils.h"
+
 #include "utils/clipboardproxy.hpp"
 
 #include <KDeclarative/KDeclarative>

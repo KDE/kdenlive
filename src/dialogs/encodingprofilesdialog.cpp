@@ -20,7 +20,7 @@
 #include "encodingprofilesdialog.h"
 
 #include "kdenlivesettings.h"
-#include "utils/KoIconUtils.h"
+
 
 #include "klocalizedstring.h"
 #include <QLineEdit>
@@ -40,10 +40,10 @@ EncodingProfilesDialog::EncodingProfilesDialog(int profileType, QWidget *parent)
     profile_type->addItem(i18n("Screen capture"), 3);
     profile_type->addItem(i18n("Decklink capture"), 4);
 
-    button_add->setIcon(KoIconUtils::themedIcon(QStringLiteral("list-add")));
-    button_edit->setIcon(KoIconUtils::themedIcon(QStringLiteral("document-edit")));
-    button_delete->setIcon(KoIconUtils::themedIcon(QStringLiteral("list-remove")));
-    button_download->setIcon(KoIconUtils::themedIcon(QStringLiteral("download")));
+    button_add->setIcon(QIcon::fromTheme(QStringLiteral("list-add")));
+    button_edit->setIcon(QIcon::fromTheme(QStringLiteral("document-edit")));
+    button_delete->setIcon(QIcon::fromTheme(QStringLiteral("list-remove")));
+    button_download->setIcon(QIcon::fromTheme(QStringLiteral("download")));
 
     m_configFile = new KConfig(QStringLiteral("encodingprofiles.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
     profile_type->setCurrentIndex(profileType);

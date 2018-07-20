@@ -74,7 +74,7 @@
 #include <config-kdenlive.h>
 
 #include "project/dialogs/temporarydata.h"
-#include "utils/KoIconUtils.h"
+
 #ifdef USE_JOGSHUTTLE
 #include "jogshuttle/jogmanager.h"
 #endif
@@ -337,7 +337,6 @@ void MainWindow::init()
     m_effectStackDock = addDock(i18n("Properties"), QStringLiteral("effect_stack"), m_assetPanel);
 
     m_effectList = new EffectsListView();
-    // m_effectListDock = addDock(i18n("Effects"), QStringLiteral("effect_list"), m_effectList);
 
     m_effectList2 = new EffectListWidget(this);
     connect(m_effectList2, &EffectListWidget::activateAsset, pCore->projectManager(), &ProjectManager::activateAsset);
@@ -354,7 +353,7 @@ void MainWindow::init()
     m_projectMonitorDock = addDock(i18n("Project Monitor"), QStringLiteral("project_monitor"), m_projectMonitor);
 
     m_undoView = new QUndoView();
-    m_undoView->setCleanIcon(KoIconUtils::themedIcon(QStringLiteral("edit-clear")));
+    m_undoView->setCleanIcon(QIcon::fromTheme(QStringLiteral("edit-clear")));
     m_undoView->setEmptyLabel(i18n("Clean"));
     m_undoView->setGroup(m_commandStack);
     m_undoViewDock = addDock(i18n("Undo History"), QStringLiteral("undo_history"), m_undoView);
@@ -407,7 +406,7 @@ void MainWindow::init()
     widgetlist->setDefaultWidget(m_effectBasket);
     // widgetlist->setText(i18n("Favorite Effects"));
     widgetlist->setToolTip(i18n("Favorite Effects"));
-    widgetlist->setIcon(KoIconUtils::themedIcon(QStringLiteral("favorite")));
+    widgetlist->setIcon(QIcon::fromTheme(QStringLiteral("favorite")));
     auto *menu = new QMenu(this);
     menu->addAction(widgetlist);
 
@@ -418,11 +417,11 @@ void MainWindow::init()
     basketButton->setPopupMode(QToolButton::InstantPopup);
     // basketButton->setText(i18n("Favorite Effects"));
     basketButton->setToolTip(i18n("Favorite Effects"));
-    basketButton->setIcon(KoIconUtils::themedIcon(QStringLiteral("favorite")));
+    basketButton->setIcon(QIcon::fromTheme(QStringLiteral("favorite")));
 
     auto *toolButtonAction = new QWidgetAction(this);
     toolButtonAction->setText(i18n("Favorite Effects"));
-    toolButtonAction->setIcon(KoIconUtils::themedIcon(QStringLiteral("favorite")));
+    toolButtonAction->setIcon(QIcon::fromTheme(QStringLiteral("favorite")));
     toolButtonAction->setDefaultWidget(basketButton);
     addAction(QStringLiteral("favorite_effects"), toolButtonAction);
     connect(toolButtonAction, &QAction::triggered, basketButton, &QToolButton::showMenu);
@@ -434,7 +433,7 @@ void MainWindow::init()
     connect(this, &MainWindow::setRenderProgress, timelineRender, &ProgressButton::setProgress);
     auto *renderButtonAction = new QWidgetAction(this);
     renderButtonAction->setText(i18n("Render Button"));
-    renderButtonAction->setIcon(KoIconUtils::themedIcon(QStringLiteral("media-record")));
+    renderButtonAction->setIcon(QIcon::fromTheme(QStringLiteral("media-record")));
     renderButtonAction->setDefaultWidget(timelineRender);
     addAction(QStringLiteral("project_render_button"), renderButtonAction);
 
@@ -445,7 +444,7 @@ void MainWindow::init()
     connect(this, &MainWindow::setPreviewProgress, timelinePreview, &ProgressButton::setProgress);
     auto *previewButtonAction = new QWidgetAction(this);
     previewButtonAction->setText(i18n("Timeline Preview"));
-    previewButtonAction->setIcon(KoIconUtils::themedIcon(QStringLiteral("preview-render-on")));
+    previewButtonAction->setIcon(QIcon::fromTheme(QStringLiteral("preview-render-on")));
     previewButtonAction->setDefaultWidget(timelinePreview);
     addAction(QStringLiteral("timeline_preview_button"), previewButtonAction);
 
@@ -484,7 +483,7 @@ void MainWindow::init()
                              static_cast<QMenu *>(factory()->container(QStringLiteral("marker_menu"), this)));
 
     QMenu *clipInTimeline = static_cast<QMenu *>(factory()->container(QStringLiteral("clip_in_timeline"), this));
-    clipInTimeline->setIcon(KoIconUtils::themedIcon(QStringLiteral("go-jump")));
+    clipInTimeline->setIcon(QIcon::fromTheme(QStringLiteral("go-jump")));
     pCore->bin()->setupGeneratorMenu();
 
     connect(pCore->monitorManager(), &MonitorManager::updateOverlayInfos, this, &MainWindow::slotUpdateMonitorOverlays);
@@ -549,7 +548,7 @@ void MainWindow::init()
     tlMenu->addAction(actionCollection()->action(QStringLiteral("clear_render_timeline_zone")));
 
     // Automatic timeline preview action
-    QAction *autoRender = new QAction(KoIconUtils::themedIcon(QStringLiteral("view-refresh")), i18n("Automatic Preview"), this);
+    QAction *autoRender = new QAction(QIcon::fromTheme(QStringLiteral("view-refresh")), i18n("Automatic Preview"), this);
     autoRender->setCheckable(true);
     autoRender->setChecked(KdenliveSettings::autopreview());
     connect(autoRender, &QAction::triggered, this, &MainWindow::slotToggleAutoPreview);
@@ -641,8 +640,16 @@ void MainWindow::slotThemeChanged(const QString &name)
     if (m_effectList) {
         m_effectList->updatePalette();
     }
+    if (m_effectList2) {
+        // Trigger a repaint to have icons adapted
+        m_effectList2->reset();
+    }
     if (m_transitionList) {
         m_transitionList->updatePalette();
+    }
+    if (m_transitionList2) {
+        // Trigger a repaint to have icons adapted
+        m_transitionList2->reset();
     }
     if (m_clipMonitor) {
         m_clipMonitor->setPalette(plt);
@@ -694,7 +701,7 @@ void MainWindow::slotThemeChanged(const QString &name)
                 continue;
             }
             QString iconName = icon.name();
-            QIcon newIcon = KoIconUtils::themedIcon(iconName);
+            QIcon newIcon = QIcon::fromTheme(iconName);
             if (newIcon.isNull()) {
                 continue;
             }
@@ -932,16 +939,16 @@ QAction *MainWindow::addAction(const QString &name, const QString &text, const Q
 void MainWindow::setupActions()
 {
     // create edit mode buttons
-    m_normalEditTool = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-normal-edit")), i18n("Normal mode"), this);
+    m_normalEditTool = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-normal-edit")), i18n("Normal mode"), this);
     m_normalEditTool->setShortcut(i18nc("Normal editing", "n"));
     m_normalEditTool->setCheckable(true);
     m_normalEditTool->setChecked(true);
 
-    m_overwriteEditTool = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-overwrite-edit")), i18n("Overwrite mode"), this);
+    m_overwriteEditTool = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-overwrite-edit")), i18n("Overwrite mode"), this);
     m_overwriteEditTool->setCheckable(true);
     m_overwriteEditTool->setChecked(false);
 
-    m_insertEditTool = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-insert-edit")), i18n("Insert mode"), this);
+    m_insertEditTool = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-insert-edit")), i18n("Insert mode"), this);
     m_insertEditTool->setCheckable(true);
     m_insertEditTool->setChecked(false);
 
@@ -954,34 +961,34 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("timeline_mode"), sceneMode);
 
     m_useTimelineZone = new KDualAction(i18n("Don't Use Timeline Zone for Insert"), i18n("Use Timeline Zone for Insert"), this);
-    m_useTimelineZone->setActiveIcon(KoIconUtils::themedIcon(QStringLiteral("timeline-use-zone-on")));
-    m_useTimelineZone->setInactiveIcon(KoIconUtils::themedIcon(QStringLiteral("timeline-use-zone-off")));
+    m_useTimelineZone->setActiveIcon(QIcon::fromTheme(QStringLiteral("timeline-use-zone-on")));
+    m_useTimelineZone->setInactiveIcon(QIcon::fromTheme(QStringLiteral("timeline-use-zone-off")));
     m_useTimelineZone->setShortcut(Qt::Key_G);
     m_useTimelineZone->setAutoToggle(true);
     connect(m_useTimelineZone, &KDualAction::activeChangedByUser, this, &MainWindow::slotSwitchTimelineZone);
     addAction(QStringLiteral("use_timeline_zone_in_edit"), m_useTimelineZone);
 
-    m_compositeAction = new KSelectAction(KoIconUtils::themedIcon(QStringLiteral("composite-track-off")), i18n("Track compositing"), this);
+    m_compositeAction = new KSelectAction(QIcon::fromTheme(QStringLiteral("composite-track-off")), i18n("Track compositing"), this);
     m_compositeAction->setToolTip(i18n("Track compositing"));
-    QAction *noComposite = new QAction(KoIconUtils::themedIcon(QStringLiteral("composite-track-off")), i18n("None"), this);
+    QAction *noComposite = new QAction(QIcon::fromTheme(QStringLiteral("composite-track-off")), i18n("None"), this);
     noComposite->setCheckable(true);
     noComposite->setData(0);
     m_compositeAction->addAction(noComposite);
     QString compose = TransitionsRepository::get()->getCompositingTransition();
     if (compose == QStringLiteral("movit.overlay")) {
         // Movit, do not show "preview" option since movit is faster
-        QAction *hqComposite = new QAction(KoIconUtils::themedIcon(QStringLiteral("composite-track-on")), i18n("High Quality"), this);
+        QAction *hqComposite = new QAction(QIcon::fromTheme(QStringLiteral("composite-track-on")), i18n("High Quality"), this);
         hqComposite->setCheckable(true);
         hqComposite->setData(2);
         m_compositeAction->addAction(hqComposite);
         m_compositeAction->setCurrentAction(hqComposite);
     } else {
-        QAction *previewComposite = new QAction(KoIconUtils::themedIcon(QStringLiteral("composite-track-preview")), i18n("Preview"), this);
+        QAction *previewComposite = new QAction(QIcon::fromTheme(QStringLiteral("composite-track-preview")), i18n("Preview"), this);
         previewComposite->setCheckable(true);
         previewComposite->setData(1);
         m_compositeAction->addAction(previewComposite);
         if (compose != QStringLiteral("composite")) {
-            QAction *hqComposite = new QAction(KoIconUtils::themedIcon(QStringLiteral("composite-track-on")), i18n("High Quality"), this);
+            QAction *hqComposite = new QAction(QIcon::fromTheme(QStringLiteral("composite-track-on")), i18n("High Quality"), this);
             hqComposite->setData(2);
             hqComposite->setCheckable(true);
             m_compositeAction->addAction(hqComposite);
@@ -994,13 +1001,13 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("timeline_compositing"), m_compositeAction);
 
 
-    QAction *splitView = new QAction(KoIconUtils::themedIcon(QStringLiteral("view-split-top-bottom")), i18n("Split Audio Tracks"), this);
+    QAction *splitView = new QAction(QIcon::fromTheme(QStringLiteral("view-split-top-bottom")), i18n("Split Audio Tracks"), this);
     addAction(QStringLiteral("timeline_view_split"), splitView);
     splitView->setData(QVariant::fromValue(1));
     splitView->setCheckable(true);
     splitView->setChecked(KdenliveSettings::audiotracksbelow());
 
-    QAction *mixedView = new QAction(KoIconUtils::themedIcon(QStringLiteral("document-new")), i18n("Mixed Audio tracks"), this);
+    QAction *mixedView = new QAction(QIcon::fromTheme(QStringLiteral("document-new")), i18n("Mixed Audio tracks"), this);
     addAction(QStringLiteral("timeline_mixed_view"), mixedView);
     mixedView->setData(QVariant::fromValue(0));
     mixedView->setCheckable(true);
@@ -1012,7 +1019,7 @@ void MainWindow::setupActions()
     connect(clipTypeGroup, &QActionGroup::triggered, this, &MainWindow::slotUpdateTimelineView);
 
     auto tlsettings = new QMenu(this);
-    tlsettings->setIcon(KoIconUtils::themedIcon(QStringLiteral("configure")));
+    tlsettings->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
     tlsettings->addAction(m_compositeAction);
     tlsettings->addAction(mixedView);
     tlsettings->addAction(splitView);
@@ -1033,19 +1040,19 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("timeline_timecode"), m_timeFormatButton);
 
     // create tools buttons
-    m_buttonSelectTool = new QAction(KoIconUtils::themedIcon(QStringLiteral("cursor-arrow")), i18n("Selection tool"), this);
+    m_buttonSelectTool = new QAction(QIcon::fromTheme(QStringLiteral("cursor-arrow")), i18n("Selection tool"), this);
     m_buttonSelectTool->setShortcut(i18nc("Selection tool shortcut", "s"));
     // toolbar->addAction(m_buttonSelectTool);
     m_buttonSelectTool->setCheckable(true);
     m_buttonSelectTool->setChecked(true);
 
-    m_buttonRazorTool = new QAction(KoIconUtils::themedIcon(QStringLiteral("edit-cut")), i18n("Razor tool"), this);
+    m_buttonRazorTool = new QAction(QIcon::fromTheme(QStringLiteral("edit-cut")), i18n("Razor tool"), this);
     m_buttonRazorTool->setShortcut(i18nc("Razor tool shortcut", "x"));
     // toolbar->addAction(m_buttonRazorTool);
     m_buttonRazorTool->setCheckable(true);
     m_buttonRazorTool->setChecked(false);
 
-    m_buttonSpacerTool = new QAction(KoIconUtils::themedIcon(QStringLiteral("distribute-horizontal-x")), i18n("Spacer tool"), this);
+    m_buttonSpacerTool = new QAction(QIcon::fromTheme(QStringLiteral("distribute-horizontal-x")), i18n("Spacer tool"), this);
     m_buttonSpacerTool->setShortcut(i18nc("Spacer tool shortcut", "m"));
     // toolbar->addAction(m_buttonSpacerTool);
     m_buttonSpacerTool->setCheckable(true);
@@ -1085,41 +1092,41 @@ void MainWindow::setupActions()
 
     connect(toolGroup, &QActionGroup::triggered, this, &MainWindow::slotChangeTool);
 
-    m_buttonVideoThumbs = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-show-videothumb")), i18n("Show video thumbnails"), this);
+    m_buttonVideoThumbs = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-show-videothumb")), i18n("Show video thumbnails"), this);
 
     m_buttonVideoThumbs->setCheckable(true);
     m_buttonVideoThumbs->setChecked(KdenliveSettings::videothumbnails());
     connect(m_buttonVideoThumbs, &QAction::triggered, this, &MainWindow::slotSwitchVideoThumbs);
 
-    m_buttonAudioThumbs = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-show-audiothumb")), i18n("Show audio thumbnails"), this);
+    m_buttonAudioThumbs = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-show-audiothumb")), i18n("Show audio thumbnails"), this);
 
     m_buttonAudioThumbs->setCheckable(true);
     m_buttonAudioThumbs->setChecked(KdenliveSettings::audiothumbnails());
     connect(m_buttonAudioThumbs, &QAction::triggered, this, &MainWindow::slotSwitchAudioThumbs);
 
-    m_buttonShowMarkers = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-show-markers")), i18n("Show markers comments"), this);
+    m_buttonShowMarkers = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-show-markers")), i18n("Show markers comments"), this);
 
     m_buttonShowMarkers->setCheckable(true);
     m_buttonShowMarkers->setChecked(KdenliveSettings::showmarkers());
     connect(m_buttonShowMarkers, &QAction::triggered, this, &MainWindow::slotSwitchMarkersComments);
 
-    m_buttonSnap = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-snap")), i18n("Snap"), this);
+    m_buttonSnap = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-snap")), i18n("Snap"), this);
 
     m_buttonSnap->setCheckable(true);
     m_buttonSnap->setChecked(KdenliveSettings::snaptopoints());
     connect(m_buttonSnap, &QAction::triggered, this, &MainWindow::slotSwitchSnap);
 
-    m_buttonAutomaticTransition = new QAction(KoIconUtils::themedIcon(QStringLiteral("auto-transition")), i18n("Automatic transitions"), this);
+    m_buttonAutomaticTransition = new QAction(QIcon::fromTheme(QStringLiteral("auto-transition")), i18n("Automatic transitions"), this);
 
     m_buttonAutomaticTransition->setCheckable(true);
     m_buttonAutomaticTransition->setChecked(KdenliveSettings::automatictransitions());
     connect(m_buttonAutomaticTransition, &QAction::triggered, this, &MainWindow::slotSwitchAutomaticTransition);
 
-    m_buttonFitZoom = new QAction(KoIconUtils::themedIcon(QStringLiteral("zoom-fit-best")), i18n("Fit zoom to project"), this);
+    m_buttonFitZoom = new QAction(QIcon::fromTheme(QStringLiteral("zoom-fit-best")), i18n("Fit zoom to project"), this);
 
     m_buttonFitZoom->setCheckable(false);
 
-    m_zoomOut = new QAction(KoIconUtils::themedIcon(QStringLiteral("zoom-out")), i18n("Zoom Out"), this);
+    m_zoomOut = new QAction(QIcon::fromTheme(QStringLiteral("zoom-out")), i18n("Zoom Out"), this);
     m_zoomOut->setShortcut(Qt::CTRL + Qt::Key_Minus);
 
     m_zoomSlider = new QSlider(Qt::Horizontal, this);
@@ -1131,7 +1138,7 @@ void MainWindow::setupActions()
     m_zoomSlider->setMaximumWidth(150);
     m_zoomSlider->setMinimumWidth(100);
 
-    m_zoomIn = new QAction(KoIconUtils::themedIcon(QStringLiteral("zoom-in")), i18n("Zoom In"), this);
+    m_zoomIn = new QAction(QIcon::fromTheme(QStringLiteral("zoom-in")), i18n("Zoom In"), this);
     m_zoomIn->setShortcut(Qt::CTRL + Qt::Key_Plus);
 
     /*actionWidget = toolbar->widgetForAction(m_buttonFitZoom);
@@ -1213,58 +1220,58 @@ void MainWindow::setupActions()
     KNS3::standardAction(i18n("Download New Render Profiles..."), this, SLOT(slotGetNewRenderStuff()), actionCollection(), "get_new_profiles");
     KNS3::standardAction(i18n("Download New Title Templates..."), this, SLOT(slotGetNewTitleStuff()), actionCollection(), "get_new_titles");
 
-    addAction(QStringLiteral("run_wizard"), i18n("Run Config Wizard"), this, SLOT(slotRunWizard()), KoIconUtils::themedIcon(QStringLiteral("tools-wizard")));
+    addAction(QStringLiteral("run_wizard"), i18n("Run Config Wizard"), this, SLOT(slotRunWizard()), QIcon::fromTheme(QStringLiteral("tools-wizard")));
     addAction(QStringLiteral("project_settings"), i18n("Project Settings"), this, SLOT(slotEditProjectSettings()),
-              KoIconUtils::themedIcon(QStringLiteral("configure")));
+              QIcon::fromTheme(QStringLiteral("configure")));
 
-    addAction(QStringLiteral("project_render"), i18n("Render"), this, SLOT(slotRenderProject()), KoIconUtils::themedIcon(QStringLiteral("media-record")),
+    addAction(QStringLiteral("project_render"), i18n("Render"), this, SLOT(slotRenderProject()), QIcon::fromTheme(QStringLiteral("media-record")),
               Qt::CTRL + Qt::Key_Return);
 
     addAction(QStringLiteral("stop_project_render"), i18n("Stop Render"), this, SLOT(slotStopRenderProject()),
-              KoIconUtils::themedIcon(QStringLiteral("media-record")));
+              QIcon::fromTheme(QStringLiteral("media-record")));
 
-    addAction(QStringLiteral("project_clean"), i18n("Clean Project"), this, SLOT(slotCleanProject()), KoIconUtils::themedIcon(QStringLiteral("edit-clear")));
+    addAction(QStringLiteral("project_clean"), i18n("Clean Project"), this, SLOT(slotCleanProject()), QIcon::fromTheme(QStringLiteral("edit-clear")));
 
     // TODO
     // addAction("project_adjust_profile", i18n("Adjust Profile to Current Clip"), pCore->bin(), SLOT(adjustProjectProfileToItem()));
 
     m_playZone = addAction(QStringLiteral("monitor_play_zone"), i18n("Play Zone"), pCore->monitorManager(), SLOT(slotPlayZone()),
-                           KoIconUtils::themedIcon(QStringLiteral("media-playback-start")), Qt::CTRL + Qt::Key_Space);
+                           QIcon::fromTheme(QStringLiteral("media-playback-start")), Qt::CTRL + Qt::Key_Space);
     m_loopZone = addAction(QStringLiteral("monitor_loop_zone"), i18n("Loop Zone"), pCore->monitorManager(), SLOT(slotLoopZone()),
-                           KoIconUtils::themedIcon(QStringLiteral("media-playback-start")), Qt::ALT + Qt::Key_Space);
-    m_loopClip = new QAction(KoIconUtils::themedIcon(QStringLiteral("media-playback-start")), i18n("Loop selected clip"), this);
+                           QIcon::fromTheme(QStringLiteral("media-playback-start")), Qt::ALT + Qt::Key_Space);
+    m_loopClip = new QAction(QIcon::fromTheme(QStringLiteral("media-playback-start")), i18n("Loop selected clip"), this);
     addAction(QStringLiteral("monitor_loop_clip"), m_loopClip);
     m_loopClip->setEnabled(false);
 
-    addAction(QStringLiteral("dvd_wizard"), i18n("DVD Wizard"), this, SLOT(slotDvdWizard()), KoIconUtils::themedIcon(QStringLiteral("media-optical")));
-    addAction(QStringLiteral("transcode_clip"), i18n("Transcode Clips"), this, SLOT(slotTranscodeClip()), KoIconUtils::themedIcon(QStringLiteral("edit-copy")));
+    addAction(QStringLiteral("dvd_wizard"), i18n("DVD Wizard"), this, SLOT(slotDvdWizard()), QIcon::fromTheme(QStringLiteral("media-optical")));
+    addAction(QStringLiteral("transcode_clip"), i18n("Transcode Clips"), this, SLOT(slotTranscodeClip()), QIcon::fromTheme(QStringLiteral("edit-copy")));
     addAction(QStringLiteral("archive_project"), i18n("Archive Project"), this, SLOT(slotArchiveProject()),
-              KoIconUtils::themedIcon(QStringLiteral("document-save-all")));
+              QIcon::fromTheme(QStringLiteral("document-save-all")));
     addAction(QStringLiteral("switch_monitor"), i18n("Switch monitor"), this, SLOT(slotSwitchMonitors()), QIcon(), Qt::Key_T);
     addAction(QStringLiteral("expand_timeline_clip"), i18n("Expand Clip"), pCore->projectManager(), SLOT(slotExpandClip()),
-              KoIconUtils::themedIcon(QStringLiteral("document-open")));
+              QIcon::fromTheme(QStringLiteral("document-open")));
 
-    QAction *overlayInfo = new QAction(KoIconUtils::themedIcon(QStringLiteral("help-hint")), i18n("Monitor Info Overlay"), this);
+    QAction *overlayInfo = new QAction(QIcon::fromTheme(QStringLiteral("help-hint")), i18n("Monitor Info Overlay"), this);
     addAction(QStringLiteral("monitor_overlay"), overlayInfo);
     overlayInfo->setCheckable(true);
     overlayInfo->setData(0x01);
 
-    QAction *overlayTCInfo = new QAction(KoIconUtils::themedIcon(QStringLiteral("help-hint")), i18n("Monitor Overlay Timecode"), this);
+    QAction *overlayTCInfo = new QAction(QIcon::fromTheme(QStringLiteral("help-hint")), i18n("Monitor Overlay Timecode"), this);
     addAction(QStringLiteral("monitor_overlay_tc"), overlayTCInfo);
     overlayTCInfo->setCheckable(true);
     overlayTCInfo->setData(0x02);
 
-    QAction *overlayFpsInfo = new QAction(KoIconUtils::themedIcon(QStringLiteral("help-hint")), i18n("Monitor Overlay Playback Fps"), this);
+    QAction *overlayFpsInfo = new QAction(QIcon::fromTheme(QStringLiteral("help-hint")), i18n("Monitor Overlay Playback Fps"), this);
     addAction(QStringLiteral("monitor_overlay_fps"), overlayFpsInfo);
     overlayFpsInfo->setCheckable(true);
     overlayFpsInfo->setData(0x20);
 
-    QAction *overlayMarkerInfo = new QAction(KoIconUtils::themedIcon(QStringLiteral("help-hint")), i18n("Monitor Overlay Markers"), this);
+    QAction *overlayMarkerInfo = new QAction(QIcon::fromTheme(QStringLiteral("help-hint")), i18n("Monitor Overlay Markers"), this);
     addAction(QStringLiteral("monitor_overlay_markers"), overlayMarkerInfo);
     overlayMarkerInfo->setCheckable(true);
     overlayMarkerInfo->setData(0x04);
 
-    QAction *overlayAudioInfo = new QAction(KoIconUtils::themedIcon(QStringLiteral("help-hint")), i18n("Monitor Overlay Audio Waveform"), this);
+    QAction *overlayAudioInfo = new QAction(QIcon::fromTheme(QStringLiteral("help-hint")), i18n("Monitor Overlay Audio Waveform"), this);
     addAction(QStringLiteral("monitor_overlay_audiothumb"), overlayAudioInfo);
     overlayAudioInfo->setCheckable(true);
     overlayAudioInfo->setData(0x10);
@@ -1282,7 +1289,7 @@ void MainWindow::setupActions()
     monitorGamma->setCurrentItem(KdenliveSettings::monitor_gamma());
     connect(monitorGamma, static_cast<void (KSelectAction::*)(int)>(&KSelectAction::triggered), this, &MainWindow::slotSetMonitorGamma);
 
-    addAction(QStringLiteral("switch_trim"), i18n("Trim Mode"), this, SLOT(slotSwitchTrimMode()), KoIconUtils::themedIcon(QStringLiteral("cursor-arrow")));
+    addAction(QStringLiteral("switch_trim"), i18n("Trim Mode"), this, SLOT(slotSwitchTrimMode()), QIcon::fromTheme(QStringLiteral("cursor-arrow")));
     // disable shortcut until fully working, Qt::CTRL + Qt::Key_T);
 
     addAction(QStringLiteral("insert_project_tree"), i18n("Insert Zone in Project Bin"), this, SLOT(slotInsertZoneToTree()), QIcon(), Qt::CTRL + Qt::Key_I);
@@ -1300,15 +1307,15 @@ void MainWindow::setupActions()
     connect(resizeEnd, &QAction::triggered, this, &MainWindow::slotResizeItemEnd);
 
     addAction(QStringLiteral("monitor_seek_snap_backward"), i18n("Go to Previous Snap Point"), this, SLOT(slotSnapRewind()),
-              KoIconUtils::themedIcon(QStringLiteral("media-seek-backward")), Qt::ALT + Qt::Key_Left);
+              QIcon::fromTheme(QStringLiteral("media-seek-backward")), Qt::ALT + Qt::Key_Left);
     addAction(QStringLiteral("seek_clip_start"), i18n("Go to Clip Start"), this, SLOT(slotClipStart()),
-              KoIconUtils::themedIcon(QStringLiteral("media-seek-backward")), Qt::Key_Home);
-    addAction(QStringLiteral("seek_clip_end"), i18n("Go to Clip End"), this, SLOT(slotClipEnd()), KoIconUtils::themedIcon(QStringLiteral("media-seek-forward")),
+              QIcon::fromTheme(QStringLiteral("media-seek-backward")), Qt::Key_Home);
+    addAction(QStringLiteral("seek_clip_end"), i18n("Go to Clip End"), this, SLOT(slotClipEnd()), QIcon::fromTheme(QStringLiteral("media-seek-forward")),
               Qt::Key_End);
     addAction(QStringLiteral("monitor_seek_snap_forward"), i18n("Go to Next Snap Point"), this, SLOT(slotSnapForward()),
-              KoIconUtils::themedIcon(QStringLiteral("media-seek-forward")), Qt::ALT + Qt::Key_Right);
+              QIcon::fromTheme(QStringLiteral("media-seek-forward")), Qt::ALT + Qt::Key_Right);
     addAction(QStringLiteral("delete_timeline_clip"), i18n("Delete Selected Item"), this, SLOT(slotDeleteItem()),
-              KoIconUtils::themedIcon(QStringLiteral("edit-delete")), Qt::Key_Delete);
+              QIcon::fromTheme(QStringLiteral("edit-delete")), Qt::Key_Delete);
     addAction(QStringLiteral("align_playhead"), i18n("Align Playhead to Mouse Position"), this, SLOT(slotAlignPlayheadToMousePos()), QIcon(), Qt::Key_P);
 
     QAction *stickTransition = new QAction(i18n("Automatic Transition"), this);
@@ -1318,65 +1325,65 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("auto_transition"), stickTransition);
     connect(stickTransition, &QAction::triggered, this, &MainWindow::slotAutoTransition);
 
-    addAction(QStringLiteral("group_clip"), i18n("Group Clips"), this, SLOT(slotGroupClips()), KoIconUtils::themedIcon(QStringLiteral("object-group")),
+    addAction(QStringLiteral("group_clip"), i18n("Group Clips"), this, SLOT(slotGroupClips()), QIcon::fromTheme(QStringLiteral("object-group")),
               Qt::CTRL + Qt::Key_G);
 
     QAction *ungroupClip = addAction(QStringLiteral("ungroup_clip"), i18n("Ungroup Clips"), this, SLOT(slotUnGroupClips()),
-                                     KoIconUtils::themedIcon(QStringLiteral("object-ungroup")), Qt::CTRL + Qt::SHIFT + Qt::Key_G);
+                                     QIcon::fromTheme(QStringLiteral("object-ungroup")), Qt::CTRL + Qt::SHIFT + Qt::Key_G);
     ungroupClip->setData("ungroup_clip");
 
     addAction(QStringLiteral("edit_item_duration"), i18n("Edit Duration"), this, SLOT(slotEditItemDuration()),
-              KoIconUtils::themedIcon(QStringLiteral("measure")));
+              QIcon::fromTheme(QStringLiteral("measure")));
     addAction(QStringLiteral("clip_in_project_tree"), i18n("Clip in Project Bin"), this, SLOT(slotClipInProjectTree()),
-              KoIconUtils::themedIcon(QStringLiteral("go-jump-definition")));
+              QIcon::fromTheme(QStringLiteral("go-jump-definition")));
     addAction(QStringLiteral("overwrite_to_in_point"), i18n("Overwrite Clip Zone in Timeline"), this, SLOT(slotInsertClipOverwrite()),
-              KoIconUtils::themedIcon(QStringLiteral("timeline-overwrite")), Qt::Key_B);
+              QIcon::fromTheme(QStringLiteral("timeline-overwrite")), Qt::Key_B);
     addAction(QStringLiteral("insert_to_in_point"), i18n("Insert Clip Zone in Timeline"), this, SLOT(slotInsertClipInsert()),
-              KoIconUtils::themedIcon(QStringLiteral("timeline-insert")), Qt::Key_V);
+              QIcon::fromTheme(QStringLiteral("timeline-insert")), Qt::Key_V);
     addAction(QStringLiteral("remove_extract"), i18n("Extract Timeline Zone"), this, SLOT(slotExtractZone()),
-              KoIconUtils::themedIcon(QStringLiteral("timeline-extract")), Qt::SHIFT + Qt::Key_X);
-    addAction(QStringLiteral("remove_lift"), i18n("Lift Timeline Zone"), this, SLOT(slotLiftZone()), KoIconUtils::themedIcon(QStringLiteral("timeline-lift")),
+              QIcon::fromTheme(QStringLiteral("timeline-extract")), Qt::SHIFT + Qt::Key_X);
+    addAction(QStringLiteral("remove_lift"), i18n("Lift Timeline Zone"), this, SLOT(slotLiftZone()), QIcon::fromTheme(QStringLiteral("timeline-lift")),
               Qt::Key_Z);
     addAction(QStringLiteral("set_render_timeline_zone"), i18n("Add Preview Zone"), this, SLOT(slotDefinePreviewRender()),
-              KoIconUtils::themedIcon(QStringLiteral("preview-add-zone")));
+              QIcon::fromTheme(QStringLiteral("preview-add-zone")));
     addAction(QStringLiteral("unset_render_timeline_zone"), i18n("Remove Preview Zone"), this, SLOT(slotRemovePreviewRender()),
-              KoIconUtils::themedIcon(QStringLiteral("preview-remove-zone")));
+              QIcon::fromTheme(QStringLiteral("preview-remove-zone")));
     addAction(QStringLiteral("clear_render_timeline_zone"), i18n("Remove All Preview Zones"), this, SLOT(slotClearPreviewRender()),
-              KoIconUtils::themedIcon(QStringLiteral("preview-remove-all")));
+              QIcon::fromTheme(QStringLiteral("preview-remove-all")));
     addAction(QStringLiteral("prerender_timeline_zone"), i18n("Start Preview Render"), this, SLOT(slotPreviewRender()),
-              KoIconUtils::themedIcon(QStringLiteral("preview-render-on")), QKeySequence(Qt::SHIFT + Qt::Key_Return));
+              QIcon::fromTheme(QStringLiteral("preview-render-on")), QKeySequence(Qt::SHIFT + Qt::Key_Return));
     addAction(QStringLiteral("stop_prerender_timeline"), i18n("Stop Preview Render"), this, SLOT(slotStopPreviewRender()),
-              KoIconUtils::themedIcon(QStringLiteral("preview-render-off")));
+              QIcon::fromTheme(QStringLiteral("preview-render-off")));
 
     addAction(QStringLiteral("select_timeline_clip"), i18n("Select Clip"), this, SLOT(slotSelectTimelineClip()),
-              KoIconUtils::themedIcon(QStringLiteral("edit-select")), Qt::Key_Plus);
+              QIcon::fromTheme(QStringLiteral("edit-select")), Qt::Key_Plus);
     addAction(QStringLiteral("deselect_timeline_clip"), i18n("Deselect Clip"), this, SLOT(slotDeselectTimelineClip()),
-              KoIconUtils::themedIcon(QStringLiteral("edit-select")), Qt::Key_Minus);
+              QIcon::fromTheme(QStringLiteral("edit-select")), Qt::Key_Minus);
     addAction(QStringLiteral("select_add_timeline_clip"), i18n("Add Clip To Selection"), this, SLOT(slotSelectAddTimelineClip()),
-              KoIconUtils::themedIcon(QStringLiteral("edit-select")), Qt::ALT + Qt::Key_Plus);
+              QIcon::fromTheme(QStringLiteral("edit-select")), Qt::ALT + Qt::Key_Plus);
     addAction(QStringLiteral("select_timeline_transition"), i18n("Select Transition"), this, SLOT(slotSelectTimelineTransition()),
-              KoIconUtils::themedIcon(QStringLiteral("edit-select")), Qt::SHIFT + Qt::Key_Plus);
+              QIcon::fromTheme(QStringLiteral("edit-select")), Qt::SHIFT + Qt::Key_Plus);
     addAction(QStringLiteral("deselect_timeline_transition"), i18n("Deselect Transition"), this, SLOT(slotDeselectTimelineTransition()),
-              KoIconUtils::themedIcon(QStringLiteral("edit-select")), Qt::SHIFT + Qt::Key_Minus);
+              QIcon::fromTheme(QStringLiteral("edit-select")), Qt::SHIFT + Qt::Key_Minus);
     addAction(QStringLiteral("select_add_timeline_transition"), i18n("Add Transition To Selection"), this, SLOT(slotSelectAddTimelineTransition()),
-              KoIconUtils::themedIcon(QStringLiteral("edit-select")), Qt::ALT + Qt::SHIFT + Qt::Key_Plus);
-    addAction(QStringLiteral("cut_timeline_clip"), i18n("Cut Clip"), this, SLOT(slotCutTimelineClip()), KoIconUtils::themedIcon(QStringLiteral("edit-cut")),
+              QIcon::fromTheme(QStringLiteral("edit-select")), Qt::ALT + Qt::SHIFT + Qt::Key_Plus);
+    addAction(QStringLiteral("cut_timeline_clip"), i18n("Cut Clip"), this, SLOT(slotCutTimelineClip()), QIcon::fromTheme(QStringLiteral("edit-cut")),
               Qt::SHIFT + Qt::Key_R);
-    addAction(QStringLiteral("add_clip_marker"), i18n("Add Marker"), this, SLOT(slotAddClipMarker()), KoIconUtils::themedIcon(QStringLiteral("bookmark-new")));
+    addAction(QStringLiteral("add_clip_marker"), i18n("Add Marker"), this, SLOT(slotAddClipMarker()), QIcon::fromTheme(QStringLiteral("bookmark-new")));
     addAction(QStringLiteral("delete_clip_marker"), i18n("Delete Marker"), this, SLOT(slotDeleteClipMarker()),
-              KoIconUtils::themedIcon(QStringLiteral("edit-delete")));
+              QIcon::fromTheme(QStringLiteral("edit-delete")));
     addAction(QStringLiteral("delete_all_clip_markers"), i18n("Delete All Markers"), this, SLOT(slotDeleteAllClipMarkers()),
-              KoIconUtils::themedIcon(QStringLiteral("edit-delete")));
+              QIcon::fromTheme(QStringLiteral("edit-delete")));
 
     QAction *editClipMarker = addAction(QStringLiteral("edit_clip_marker"), i18n("Edit Marker"), this, SLOT(slotEditClipMarker()),
-                                        KoIconUtils::themedIcon(QStringLiteral("document-properties")));
+                                        QIcon::fromTheme(QStringLiteral("document-properties")));
     editClipMarker->setData(QStringLiteral("edit_marker"));
 
     addAction(QStringLiteral("add_marker_guide_quickly"), i18n("Add Marker/Guide quickly"), this, SLOT(slotAddMarkerGuideQuickly()),
-              KoIconUtils::themedIcon(QStringLiteral("bookmark-new")), Qt::Key_Asterisk);
+              QIcon::fromTheme(QStringLiteral("bookmark-new")), Qt::Key_Asterisk);
 
     QAction *splitAudio =
-        addAction(QStringLiteral("split_audio"), i18n("Split Audio"), this, SLOT(slotSplitAudio()), KoIconUtils::themedIcon(QStringLiteral("document-new")));
+        addAction(QStringLiteral("split_audio"), i18n("Split Audio"), this, SLOT(slotSplitAudio()), QIcon::fromTheme(QStringLiteral("document-new")));
     // "A+V" as data means this action should only be available for clips with audio AND video
     splitAudio->setData("A+V");
 
@@ -1388,12 +1395,12 @@ void MainWindow::setupActions()
     // "A" as data means this action should only be available for clips with audio
     alignAudio->setData("A");
 
-    QAction *audioOnly = new QAction(KoIconUtils::themedIcon(QStringLiteral("document-new")), i18n("Audio Only"), this);
+    QAction *audioOnly = new QAction(QIcon::fromTheme(QStringLiteral("document-new")), i18n("Audio Only"), this);
     addAction(QStringLiteral("clip_audio_only"), audioOnly);
     audioOnly->setData(QVariant::fromValue(PlaylistState::AudioOnly));
     audioOnly->setCheckable(true);
 
-    QAction *videoOnly = new QAction(KoIconUtils::themedIcon(QStringLiteral("document-new")), i18n("Video Only"), this);
+    QAction *videoOnly = new QAction(QIcon::fromTheme(QStringLiteral("document-new")), i18n("Video Only"), this);
     addAction(QStringLiteral("clip_video_only"), videoOnly);
     videoOnly->setData(QVariant::fromValue(PlaylistState::VideoOnly));
     videoOnly->setCheckable(true);
@@ -1418,7 +1425,7 @@ void MainWindow::setupActions()
     timelineActions->addAction(QStringLiteral("delete_track"), deleteTrack);
     deleteTrack->setData("delete_track");
 
-    QAction *configTracks = new QAction(KoIconUtils::themedIcon(QStringLiteral("configure")), i18n("Configure Tracks"), this);
+    QAction *configTracks = new QAction(QIcon::fromTheme(QStringLiteral("configure")), i18n("Configure Tracks"), this);
     connect(configTracks, &QAction::triggered, this, &MainWindow::slotConfigTrack);
     timelineActions->addAction(QStringLiteral("config_tracks"), configTracks);
 
@@ -1427,12 +1434,12 @@ void MainWindow::setupActions()
     timelineActions->addAction(QStringLiteral("select_track"), selectTrack);
 
     QAction *selectAll = KStandardAction::selectAll(this, SLOT(slotSelectAllTracks()), this);
-    selectAll->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-select-all")));
+    selectAll->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-select-all")));
     selectAll->setShortcutContext(Qt::WidgetWithChildrenShortcut);
     timelineActions->addAction(QStringLiteral("select_all_tracks"), selectAll);
 
     QAction *unselectAll = KStandardAction::deselect(this, SLOT(slotUnselectAllTracks()), this);
-    unselectAll->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-unselect-all")));
+    unselectAll->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-unselect-all")));
     unselectAll->setShortcutContext(Qt::WidgetWithChildrenShortcut);
     timelineActions->addAction(QStringLiteral("unselect_all_tracks"), unselectAll);
 
@@ -1440,122 +1447,122 @@ void MainWindow::setupActions()
 
     // Cached data management
     addAction(QStringLiteral("manage_cache"), i18n("Manage Cached Data"), this, SLOT(slotManageCache()),
-              KoIconUtils::themedIcon(QStringLiteral("network-server-database")));
+              QIcon::fromTheme(QStringLiteral("network-server-database")));
 
     QAction *disablePreview = new QAction(i18n("Disable Timeline Preview"), this);
     disablePreview->setCheckable(true);
     addAction(QStringLiteral("disable_preview"), disablePreview);
 
-    addAction(QStringLiteral("add_guide"), i18n("Add Guide"), this, SLOT(slotAddGuide()), KoIconUtils::themedIcon(QStringLiteral("list-add")));
-    addAction(QStringLiteral("delete_guide"), i18n("Delete Guide"), this, SLOT(slotDeleteGuide()), KoIconUtils::themedIcon(QStringLiteral("edit-delete")));
-    addAction(QStringLiteral("edit_guide"), i18n("Edit Guide"), this, SLOT(slotEditGuide()), KoIconUtils::themedIcon(QStringLiteral("document-properties")));
+    addAction(QStringLiteral("add_guide"), i18n("Add Guide"), this, SLOT(slotAddGuide()), QIcon::fromTheme(QStringLiteral("list-add")));
+    addAction(QStringLiteral("delete_guide"), i18n("Delete Guide"), this, SLOT(slotDeleteGuide()), QIcon::fromTheme(QStringLiteral("edit-delete")));
+    addAction(QStringLiteral("edit_guide"), i18n("Edit Guide"), this, SLOT(slotEditGuide()), QIcon::fromTheme(QStringLiteral("document-properties")));
     addAction(QStringLiteral("delete_all_guides"), i18n("Delete All Guides"), this, SLOT(slotDeleteAllGuides()),
-              KoIconUtils::themedIcon(QStringLiteral("edit-delete")));
+              QIcon::fromTheme(QStringLiteral("edit-delete")));
 
     QAction *pasteEffects = addAction(QStringLiteral("paste_effects"), i18n("Paste Effects"), this, SLOT(slotPasteEffects()),
-                                      KoIconUtils::themedIcon(QStringLiteral("edit-paste")));
+                                      QIcon::fromTheme(QStringLiteral("edit-paste")));
     pasteEffects->setData("paste_effects");
 
     m_saveAction = KStandardAction::save(pCore->projectManager(), SLOT(saveFile()), actionCollection());
-    m_saveAction->setIcon(KoIconUtils::themedIcon(QStringLiteral("document-save")));
+    m_saveAction->setIcon(QIcon::fromTheme(QStringLiteral("document-save")));
 
     addAction(QStringLiteral("save_selection"), i18n("Save Selection"), pCore->projectManager(), SLOT(slotSaveSelection()),
-              KoIconUtils::themedIcon(QStringLiteral("document-save")));
+              QIcon::fromTheme(QStringLiteral("document-save")));
 
     QAction *sentToLibrary = addAction(QStringLiteral("send_library"), i18n("Add Timeline Selection to Library"), pCore->library(), SLOT(slotAddToLibrary()),
-                                       KoIconUtils::themedIcon(QStringLiteral("bookmark-new")));
+                                       QIcon::fromTheme(QStringLiteral("bookmark-new")));
     pCore->library()->setupActions(QList<QAction *>() << sentToLibrary);
 
     KStandardAction::showMenubar(this, SLOT(showMenuBar(bool)), actionCollection());
 
     QAction *a = KStandardAction::quit(this, SLOT(close()), actionCollection());
-    a->setIcon(KoIconUtils::themedIcon(QStringLiteral("application-exit")));
+    a->setIcon(QIcon::fromTheme(QStringLiteral("application-exit")));
     // TODO: make the following connection to slotEditKeys work
     // KStandardAction::keyBindings(this,            SLOT(slotEditKeys()),           actionCollection());
     a = KStandardAction::preferences(this, SLOT(slotPreferences()), actionCollection());
-    a->setIcon(KoIconUtils::themedIcon(QStringLiteral("configure")));
+    a->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
     a = KStandardAction::configureNotifications(this, SLOT(configureNotifications()), actionCollection());
-    a->setIcon(KoIconUtils::themedIcon(QStringLiteral("configure")));
+    a->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
     a = KStandardAction::copy(this, SLOT(slotCopy()), actionCollection());
-    a->setIcon(KoIconUtils::themedIcon(QStringLiteral("edit-copy")));
+    a->setIcon(QIcon::fromTheme(QStringLiteral("edit-copy")));
     a = KStandardAction::paste(this, SLOT(slotPaste()), actionCollection());
-    a->setIcon(KoIconUtils::themedIcon(QStringLiteral("edit-paste")));
+    a->setIcon(QIcon::fromTheme(QStringLiteral("edit-paste")));
     a = KStandardAction::fullScreen(this, SLOT(slotFullScreen()), this, actionCollection());
-    a->setIcon(KoIconUtils::themedIcon(QStringLiteral("view-fullscreen")));
+    a->setIcon(QIcon::fromTheme(QStringLiteral("view-fullscreen")));
 
     QAction *undo = KStandardAction::undo(m_commandStack, SLOT(undo()), actionCollection());
-    undo->setIcon(KoIconUtils::themedIcon(QStringLiteral("edit-undo")));
+    undo->setIcon(QIcon::fromTheme(QStringLiteral("edit-undo")));
     undo->setEnabled(false);
     connect(m_commandStack, &QUndoGroup::canUndoChanged, undo, &QAction::setEnabled);
 
     QAction *redo = KStandardAction::redo(m_commandStack, SLOT(redo()), actionCollection());
-    redo->setIcon(KoIconUtils::themedIcon(QStringLiteral("edit-redo")));
+    redo->setIcon(QIcon::fromTheme(QStringLiteral("edit-redo")));
     redo->setEnabled(false);
     connect(m_commandStack, &QUndoGroup::canRedoChanged, redo, &QAction::setEnabled);
 
     auto *addClips = new QMenu(this);
 
     QAction *addClip = addAction(QStringLiteral("add_clip"), i18n("Add Clip"), pCore->bin(), SLOT(slotAddClip()),
-                                 KoIconUtils::themedIcon(QStringLiteral("kdenlive-add-clip")));
+                                 QIcon::fromTheme(QStringLiteral("kdenlive-add-clip")));
     addClips->addAction(addClip);
     QAction *action = addAction(QStringLiteral("add_color_clip"), i18n("Add Color Clip"), pCore->bin(), SLOT(slotCreateProjectClip()),
-                                KoIconUtils::themedIcon(QStringLiteral("kdenlive-add-color-clip")));
+                                QIcon::fromTheme(QStringLiteral("kdenlive-add-color-clip")));
     action->setData((int)ClipType::Color);
     addClips->addAction(action);
     action = addAction(QStringLiteral("add_slide_clip"), i18n("Add Slideshow Clip"), pCore->bin(), SLOT(slotCreateProjectClip()),
-                       KoIconUtils::themedIcon(QStringLiteral("kdenlive-add-slide-clip")));
+                       QIcon::fromTheme(QStringLiteral("kdenlive-add-slide-clip")));
     action->setData((int)ClipType::SlideShow);
     addClips->addAction(action);
     action = addAction(QStringLiteral("add_text_clip"), i18n("Add Title Clip"), pCore->bin(), SLOT(slotCreateProjectClip()),
-                       KoIconUtils::themedIcon(QStringLiteral("kdenlive-add-text-clip")));
+                       QIcon::fromTheme(QStringLiteral("kdenlive-add-text-clip")));
     action->setData((int)ClipType::Text);
     addClips->addAction(action);
     action = addAction(QStringLiteral("add_text_template_clip"), i18n("Add Template Title"), pCore->bin(), SLOT(slotCreateProjectClip()),
-                       KoIconUtils::themedIcon(QStringLiteral("kdenlive-add-text-clip")));
+                       QIcon::fromTheme(QStringLiteral("kdenlive-add-text-clip")));
     action->setData((int)ClipType::TextTemplate);
     addClips->addAction(action);
     /*action = addAction(QStringLiteral("add_qtext_clip"), i18n("Add Simple Text Clip"), pCore->bin(), SLOT(slotCreateProjectClip()),
-    KoIconUtils::themedIcon(QStringLiteral("kdenlive-add-text-clip")));
+    QIcon::fromTheme(QStringLiteral("kdenlive-add-text-clip")));
     action->setData((int) QText);
     addClips->addAction(action);*/
 
     QAction *addFolder = addAction(QStringLiteral("add_folder"), i18n("Create Folder"), pCore->bin(), SLOT(slotAddFolder()),
-                                   KoIconUtils::themedIcon(QStringLiteral("folder-new")));
+                                   QIcon::fromTheme(QStringLiteral("folder-new")));
     addClips->addAction(addAction(QStringLiteral("download_resource"), i18n("Online Resources"), this, SLOT(slotDownloadResources()),
-                                  KoIconUtils::themedIcon(QStringLiteral("edit-download"))));
+                                  QIcon::fromTheme(QStringLiteral("edit-download"))));
 
     QAction *clipProperties = addAction(QStringLiteral("clip_properties"), i18n("Clip Properties"), pCore->bin(), SLOT(slotSwitchClipProperties()),
-                                        KoIconUtils::themedIcon(QStringLiteral("document-edit")));
+                                        QIcon::fromTheme(QStringLiteral("document-edit")));
     clipProperties->setData("clip_properties");
 
     QAction *openClip =
-        addAction(QStringLiteral("edit_clip"), i18n("Edit Clip"), pCore->bin(), SLOT(slotOpenClip()), KoIconUtils::themedIcon(QStringLiteral("document-open")));
+        addAction(QStringLiteral("edit_clip"), i18n("Edit Clip"), pCore->bin(), SLOT(slotOpenClip()), QIcon::fromTheme(QStringLiteral("document-open")));
     openClip->setData("edit_clip");
     openClip->setEnabled(false);
 
     QAction *deleteClip = addAction(QStringLiteral("delete_clip"), i18n("Delete Clip"), pCore->bin(), SLOT(slotDeleteClip()),
-                                    KoIconUtils::themedIcon(QStringLiteral("edit-delete")));
+                                    QIcon::fromTheme(QStringLiteral("edit-delete")));
     deleteClip->setData("delete_clip");
     deleteClip->setEnabled(false);
 
     QAction *reloadClip = addAction(QStringLiteral("reload_clip"), i18n("Reload Clip"), pCore->bin(), SLOT(slotReloadClip()),
-                                    KoIconUtils::themedIcon(QStringLiteral("view-refresh")));
+                                    QIcon::fromTheme(QStringLiteral("view-refresh")));
     reloadClip->setData("reload_clip");
     reloadClip->setEnabled(false);
 
     QAction *disableEffects = addAction(QStringLiteral("disable_timeline_effects"), i18n("Disable Timeline Effects"), pCore->projectManager(),
-                                        SLOT(slotDisableTimelineEffects(bool)), KoIconUtils::themedIcon(QStringLiteral("favorite")));
+                                        SLOT(slotDisableTimelineEffects(bool)), QIcon::fromTheme(QStringLiteral("favorite")));
     disableEffects->setData("disable_timeline_effects");
     disableEffects->setCheckable(true);
     disableEffects->setChecked(false);
 
     QAction *locateClip = addAction(QStringLiteral("locate_clip"), i18n("Locate Clip..."), pCore->bin(), SLOT(slotLocateClip()),
-                                    KoIconUtils::themedIcon(QStringLiteral("edit-file")));
+                                    QIcon::fromTheme(QStringLiteral("edit-file")));
     locateClip->setData("locate_clip");
     locateClip->setEnabled(false);
 
     QAction *duplicateClip = addAction(QStringLiteral("duplicate_clip"), i18n("Duplicate Clip"), pCore->bin(), SLOT(slotDuplicateClip()),
-                                       KoIconUtils::themedIcon(QStringLiteral("edit-copy")));
+                                       QIcon::fromTheme(QStringLiteral("edit-copy")));
     duplicateClip->setData("duplicate_clip");
     duplicateClip->setEnabled(false);
 
@@ -1572,7 +1579,7 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("switch_track_target"), i18n("Toggle Track Target"), pCore->projectManager(), SLOT(slotSwitchTrackTarget()), QIcon(),
               Qt::SHIFT + Qt::Key_T);
 
-    addAction(QStringLiteral("add_project_note"), i18n("Add Project Note"), pCore->projectManager(), SLOT(slotAddProjectNote()), KoIconUtils::themedIcon(QStringLiteral("bookmark")));
+    addAction(QStringLiteral("add_project_note"), i18n("Add Project Note"), pCore->projectManager(), SLOT(slotAddProjectNote()), QIcon::fromTheme(QStringLiteral("bookmark")));
 
     QHash<QString, QAction *> actions;
     actions.insert(QStringLiteral("locate"), locateClip);
@@ -1606,10 +1613,10 @@ void MainWindow::setupActions()
 
     // monitor actions
     addAction(QStringLiteral("extract_frame"), i18n("Extract frame..."), pCore->monitorManager(), SLOT(slotExtractCurrentFrame()),
-              KoIconUtils::themedIcon(QStringLiteral("insert-image")));
+              QIcon::fromTheme(QStringLiteral("insert-image")));
 
     addAction(QStringLiteral("extract_frame_to_project"), i18n("Extract frame to project..."), pCore->monitorManager(),
-              SLOT(slotExtractCurrentFrameToProject()), KoIconUtils::themedIcon(QStringLiteral("insert-image")));
+              SLOT(slotExtractCurrentFrameToProject()), QIcon::fromTheme(QStringLiteral("insert-image")));
 }
 
 void MainWindow::saveOptions()

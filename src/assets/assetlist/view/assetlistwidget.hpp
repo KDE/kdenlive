@@ -59,6 +59,9 @@ public:
 
     void activate(const QModelIndex &ix);
 
+    /* @brief Rebuild the view by resetting the source. Is there a better way? */
+    void reset();
+
 protected:
     void setup();
     std::shared_ptr<AssetTreeModel> m_model;

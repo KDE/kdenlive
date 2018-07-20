@@ -19,7 +19,7 @@
 
 #include "clipspeed.h"
 #include "kdenlivesettings.h"
-#include "utils/KoIconUtils.h"
+
 
 #include <QFontDatabase>
 #include <QMenu>
@@ -38,7 +38,7 @@ ClipSpeed::ClipSpeed(const QUrl &destination, bool isDirectory, QWidget *parent)
         m_view.kurlrequester->setMode(KFile::File);
     }
     m_view.kurlrequester->setUrl(destination);
-    m_view.toolButton->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-menu")));
+    m_view.toolButton->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-menu")));
     auto *settingsMenu = new QMenu(this);
     m_view.toolButton->setMenu(settingsMenu);
     QAction *a = settingsMenu->addAction(i18n("Reverse clip"));

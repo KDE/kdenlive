@@ -32,7 +32,7 @@
 #include "project/dialogs/profilewidget.h"
 #include "project/dialogs/temporarydata.h"
 #include "titler/titlewidget.h"
-#include "utils/KoIconUtils.h"
+
 
 #include "kdenlive_debug.h"
 #include <KIO/FileCopyJob>
@@ -145,9 +145,9 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
     loadPreviewProfiles();
 
     // Proxy GUI stuff
-    proxy_showprofileinfo->setIcon(KoIconUtils::themedIcon(QStringLiteral("help-about")));
+    proxy_showprofileinfo->setIcon(QIcon::fromTheme(QStringLiteral("help-about")));
     proxy_showprofileinfo->setToolTip(i18n("Show default profile parameters"));
-    proxy_manageprofile->setIcon(KoIconUtils::themedIcon(QStringLiteral("configure")));
+    proxy_manageprofile->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
     proxy_manageprofile->setToolTip(i18n("Manage proxy profiles"));
 
     connect(proxy_manageprofile, &QAbstractButton::clicked, this, &ProjectSettings::slotManageEncodingProfile);
@@ -159,9 +159,9 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
     connect(proxy_showprofileinfo, &QAbstractButton::clicked, proxyparams, &QWidget::setVisible);
 
     // Preview GUI stuff
-    preview_showprofileinfo->setIcon(KoIconUtils::themedIcon(QStringLiteral("help-about")));
+    preview_showprofileinfo->setIcon(QIcon::fromTheme(QStringLiteral("help-about")));
     preview_showprofileinfo->setToolTip(i18n("Show default profile parameters"));
-    preview_manageprofile->setIcon(KoIconUtils::themedIcon(QStringLiteral("configure")));
+    preview_manageprofile->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
     preview_manageprofile->setToolTip(i18n("Manage timeline preview profiles"));
 
     connect(preview_manageprofile, &QAbstractButton::clicked, this, &ProjectSettings::slotManagePreviewProfile);
@@ -231,8 +231,8 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
 
     connect(add_metadata, &QAbstractButton::clicked, this, &ProjectSettings::slotAddMetadataField);
     connect(delete_metadata, &QAbstractButton::clicked, this, &ProjectSettings::slotDeleteMetadataField);
-    add_metadata->setIcon(KoIconUtils::themedIcon(QStringLiteral("list-add")));
-    delete_metadata->setIcon(KoIconUtils::themedIcon(QStringLiteral("list-remove")));
+    add_metadata->setIcon(QIcon::fromTheme(QStringLiteral("list-add")));
+    delete_metadata->setIcon(QIcon::fromTheme(QStringLiteral("list-remove")));
 
     if (doc != nullptr) {
         slotUpdateFiles();
@@ -308,25 +308,25 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
 
     // Setup categories
     QTreeWidgetItem *videos = new QTreeWidgetItem(files_list, QStringList() << i18n("Video clips"));
-    videos->setIcon(0, KoIconUtils::themedIcon(QStringLiteral("video-x-generic")));
+    videos->setIcon(0, QIcon::fromTheme(QStringLiteral("video-x-generic")));
     videos->setExpanded(true);
     QTreeWidgetItem *sounds = new QTreeWidgetItem(files_list, QStringList() << i18n("Audio clips"));
-    sounds->setIcon(0, KoIconUtils::themedIcon(QStringLiteral("audio-x-generic")));
+    sounds->setIcon(0, QIcon::fromTheme(QStringLiteral("audio-x-generic")));
     sounds->setExpanded(true);
     QTreeWidgetItem *images = new QTreeWidgetItem(files_list, QStringList() << i18n("Image clips"));
-    images->setIcon(0, KoIconUtils::themedIcon(QStringLiteral("image-x-generic")));
+    images->setIcon(0, QIcon::fromTheme(QStringLiteral("image-x-generic")));
     images->setExpanded(true);
     QTreeWidgetItem *slideshows = new QTreeWidgetItem(files_list, QStringList() << i18n("Slideshow clips"));
-    slideshows->setIcon(0, KoIconUtils::themedIcon(QStringLiteral("image-x-generic")));
+    slideshows->setIcon(0, QIcon::fromTheme(QStringLiteral("image-x-generic")));
     slideshows->setExpanded(true);
     QTreeWidgetItem *texts = new QTreeWidgetItem(files_list, QStringList() << i18n("Text clips"));
-    texts->setIcon(0, KoIconUtils::themedIcon(QStringLiteral("text-plain")));
+    texts->setIcon(0, QIcon::fromTheme(QStringLiteral("text-plain")));
     texts->setExpanded(true);
     QTreeWidgetItem *playlists = new QTreeWidgetItem(files_list, QStringList() << i18n("Playlist clips"));
-    playlists->setIcon(0, KoIconUtils::themedIcon(QStringLiteral("video-mlt-playlist")));
+    playlists->setIcon(0, QIcon::fromTheme(QStringLiteral("video-mlt-playlist")));
     playlists->setExpanded(true);
     QTreeWidgetItem *others = new QTreeWidgetItem(files_list, QStringList() << i18n("Other clips"));
-    others->setIcon(0, KoIconUtils::themedIcon(QStringLiteral("unknown")));
+    others->setIcon(0, QIcon::fromTheme(QStringLiteral("unknown")));
     others->setExpanded(true);
     int count = 0;
     QStringList allFonts;

@@ -22,7 +22,7 @@
 #include "kdenlivesettings.h"
 #include "profiles/profilemodel.hpp"
 #include "profiles/profilerepository.hpp"
-#include "utils/KoIconUtils.h"
+
 
 #include "klocalizedstring.h"
 #include <KMessageBox>
@@ -61,11 +61,11 @@ ProfilesDialog::ProfilesDialog(const QString &profileDescription, QWidget *paren
     QStringList profilesFilter;
     profilesFilter << QStringLiteral("*");
 
-    m_view.button_delete->setIcon(KoIconUtils::themedIcon(QStringLiteral("trash-empty")));
+    m_view.button_delete->setIcon(QIcon::fromTheme(QStringLiteral("trash-empty")));
     m_view.button_delete->setToolTip(i18n("Delete profile"));
-    m_view.button_save->setIcon(KoIconUtils::themedIcon(QStringLiteral("document-save")));
+    m_view.button_save->setIcon(QIcon::fromTheme(QStringLiteral("document-save")));
     m_view.button_save->setToolTip(i18n("Save profile"));
-    m_view.button_create->setIcon(KoIconUtils::themedIcon(QStringLiteral("document-new")));
+    m_view.button_create->setIcon(QIcon::fromTheme(QStringLiteral("document-new")));
     m_view.button_create->setToolTip(i18n("Create new profile"));
 
     fillList(profileDescription);
@@ -115,7 +115,7 @@ ProfilesDialog::ProfilesDialog(const QString &profilePath, bool, QWidget *parent
     QStringList profilesFilter;
     profilesFilter << QStringLiteral("*");
 
-    m_view.button_save->setIcon(KoIconUtils::themedIcon(QStringLiteral("document-save")));
+    m_view.button_save->setIcon(QIcon::fromTheme(QStringLiteral("document-save")));
     m_view.button_save->setToolTip(i18n("Save profile"));
     m_view.button_create->setHidden(true);
     m_view.profiles_list->setHidden(true);

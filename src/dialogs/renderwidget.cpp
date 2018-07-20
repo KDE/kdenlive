@@ -25,7 +25,7 @@
 #include "profiles/profilerepository.hpp"
 #include "timecode.h"
 #include "ui_saveprofile_ui.h"
-#include "utils/KoIconUtils.h"
+
 
 #include "klocalizedstring.h"
 #include <KColorScheme>
@@ -136,22 +136,22 @@ void RenderJobItem::setStatus(int status)
     m_status = status;
     switch (status) {
     case WAITINGJOB:
-        setIcon(0, KoIconUtils::themedIcon(QStringLiteral("media-playback-pause")));
+        setIcon(0, QIcon::fromTheme(QStringLiteral("media-playback-pause")));
         setData(1, Qt::UserRole, i18n("Waiting..."));
         break;
     case FINISHEDJOB:
         setData(1, Qt::UserRole, i18n("Rendering finished"));
-        setIcon(0, KoIconUtils::themedIcon(QStringLiteral("dialog-ok")));
+        setIcon(0, QIcon::fromTheme(QStringLiteral("dialog-ok")));
         setData(1, ProgressRole, 100);
         break;
     case FAILEDJOB:
         setData(1, Qt::UserRole, i18n("Rendering crashed"));
-        setIcon(0, KoIconUtils::themedIcon(QStringLiteral("dialog-close")));
+        setIcon(0, QIcon::fromTheme(QStringLiteral("dialog-close")));
         setData(1, ProgressRole, 100);
         break;
     case ABORTEDJOB:
         setData(1, Qt::UserRole, i18n("Rendering aborted"));
-        setIcon(0, KoIconUtils::themedIcon(QStringLiteral("dialog-cancel")));
+        setIcon(0, QIcon::fromTheme(QStringLiteral("dialog-cancel")));
         setData(1, ProgressRole, 100);
     default:
         break;
@@ -188,20 +188,20 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, QWidg
     m_view.buttonSave->setIconSize(iconSize);
     m_view.buttonFavorite->setIconSize(iconSize);
 
-    m_view.buttonDelete->setIcon(KoIconUtils::themedIcon(QStringLiteral("trash-empty")));
+    m_view.buttonDelete->setIcon(QIcon::fromTheme(QStringLiteral("trash-empty")));
     m_view.buttonDelete->setToolTip(i18n("Delete profile"));
     m_view.buttonDelete->setEnabled(false);
 
-    m_view.buttonEdit->setIcon(KoIconUtils::themedIcon(QStringLiteral("document-edit")));
+    m_view.buttonEdit->setIcon(QIcon::fromTheme(QStringLiteral("document-edit")));
     m_view.buttonEdit->setToolTip(i18n("Edit profile"));
     m_view.buttonEdit->setEnabled(false);
 
-    m_view.buttonSave->setIcon(KoIconUtils::themedIcon(QStringLiteral("document-new")));
+    m_view.buttonSave->setIcon(QIcon::fromTheme(QStringLiteral("document-new")));
     m_view.buttonSave->setToolTip(i18n("Create new profile"));
 
-    m_view.hide_log->setIcon(KoIconUtils::themedIcon(QStringLiteral("go-down")));
+    m_view.hide_log->setIcon(QIcon::fromTheme(QStringLiteral("go-down")));
 
-    m_view.buttonFavorite->setIcon(KoIconUtils::themedIcon(QStringLiteral("favorite")));
+    m_view.buttonFavorite->setIcon(QIcon::fromTheme(QStringLiteral("favorite")));
     m_view.buttonFavorite->setToolTip(i18n("Copy profile to favorites"));
 
     m_view.out_file->button()->setToolTip(i18n("Select output destination"));
@@ -238,7 +238,7 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, QWidg
     m_view.errorBox->setStyleSheet(
         QStringLiteral("QGroupBox { background-color: rgb(%1, %2, %3); border-radius: 5px;}; ").arg(bg.red()).arg(bg.green()).arg(bg.blue()));
     int height = QFontInfo(font()).pixelSize();
-    m_view.errorIcon->setPixmap(KoIconUtils::themedIcon(QStringLiteral("dialog-warning")).pixmap(height, height));
+    m_view.errorIcon->setPixmap(QIcon::fromTheme(QStringLiteral("dialog-warning")).pixmap(height, height));
     m_view.errorBox->setHidden(true);
 
     m_infoMessage = new KMessageWidget;
@@ -260,7 +260,7 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, QWidg
     m_view.rescale_keep->setChecked(KdenliveSettings::rescalekeepratio());
     connect(m_view.rescale_width, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &RenderWidget::slotUpdateRescaleWidth);
     connect(m_view.rescale_height, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &RenderWidget::slotUpdateRescaleHeight);
-    m_view.rescale_keep->setIcon(KoIconUtils::themedIcon(QStringLiteral("edit-link")));
+    m_view.rescale_keep->setIcon(QIcon::fromTheme(QStringLiteral("edit-link")));
     m_view.rescale_keep->setToolTip(i18n("Preserve aspect ratio"));
     connect(m_view.rescale_keep, &QAbstractButton::clicked, this, &RenderWidget::slotSwitchAspectRatio);
 
@@ -364,7 +364,7 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, QWidg
 #ifdef KF5_USE_PURPOSE
     m_shareMenu = new Purpose::Menu();
     m_view.shareButton->setMenu(m_shareMenu);
-    m_view.shareButton->setIcon( KoIconUtils::themedIcon(QStringLiteral("document-share")));
+    m_view.shareButton->setIcon( QIcon::fromTheme(QStringLiteral("document-share")));
     connect(m_shareMenu, &Purpose::Menu::finished, this, &RenderWidget::slotShareActionFinished);
 #else
     m_view.shareButton->setEnabled(false);
@@ -1443,7 +1443,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
             } else {
                 renderItem->setData(1, ProgressRole, 0);
                 renderItem->setStatus(WAITINGJOB);
-                renderItem->setIcon(0, KoIconUtils::themedIcon(QStringLiteral("media-playback-pause")));
+                renderItem->setIcon(0, QIcon::fromTheme(QStringLiteral("media-playback-pause")));
                 renderItem->setData(1, Qt::UserRole, i18n("Waiting..."));
                 renderItem->setData(1, ParametersRole, dest);
             }
@@ -1569,8 +1569,8 @@ void RenderWidget::adjustViewToProfile()
 void RenderWidget::refreshView()
 {
     m_view.formats->blockSignals(true);
-    QIcon brokenIcon = KoIconUtils::themedIcon(QStringLiteral("dialog-close"));
-    QIcon warningIcon = KoIconUtils::themedIcon(QStringLiteral("dialog-warning"));
+    QIcon brokenIcon = QIcon::fromTheme(QStringLiteral("dialog-close"));
+    QIcon warningIcon = QIcon::fromTheme(QStringLiteral("dialog-warning"));
 
     KColorScheme scheme(palette().currentColorGroup(), KColorScheme::Window);
     const QColor disabled = scheme.foreground(KColorScheme::InactiveText).color();
@@ -2113,7 +2113,7 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
             if (editable) {
                 childitem->setData(0, EditableRole, exportFile);
                 if (exportFile.endsWith(QLatin1String("customprofiles.xml"))) {
-                    childitem->setIcon(0, KoIconUtils::themedIcon(QStringLiteral("favorite")));
+                    childitem->setIcon(0, QIcon::fromTheme(QStringLiteral("favorite")));
                 } else {
                     childitem->setIcon(0, QIcon::fromTheme(QStringLiteral("applications-internet")));
                 }
@@ -2220,7 +2220,7 @@ void RenderWidget::setRenderJob(const QString &dest, int progress)
     item->setData(1, ProgressRole, progress);
     item->setStatus(RUNNINGJOB);
     if (progress == 0) {
-        item->setIcon(0, KoIconUtils::themedIcon(QStringLiteral("media-record")));
+        item->setIcon(0, QIcon::fromTheme(QStringLiteral("media-record")));
         item->setData(1, TimeRole, QDateTime::currentDateTime());
         slotCheckJob();
     } else {

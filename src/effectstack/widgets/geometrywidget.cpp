@@ -28,7 +28,7 @@
 #include "onmonitoritems/onmonitorrectitem.h"
 #include "renderer.h"
 #include "timecodedisplay.h"
-#include "utils/KoIconUtils.h"
+
 
 #include "klocalizedstring.h"
 #include <QGraphicsView>
@@ -55,7 +55,7 @@ GeometryWidget::GeometryWidget(EffectMetaInfo *info, int clipPos, bool showRotat
     /*
         Setup of timeline and keyframe controls
     */
-    m_originalSize = new QAction(KoIconUtils::themedIcon(QStringLiteral("zoom-original")), i18n("Adjust to original size"), this);
+    m_originalSize = new QAction(QIcon::fromTheme(QStringLiteral("zoom-original")), i18n("Adjust to original size"), this);
     connect(m_originalSize, &QAction::triggered, this, &GeometryWidget::slotAdjustToSource);
     m_originalSize->setCheckable(true);
     if (m_frameSize == QPoint() || m_frameSize.x() == 0 || m_frameSize.y() == 0) {
@@ -72,13 +72,13 @@ GeometryWidget::GeometryWidget(EffectMetaInfo *info, int clipPos, bool showRotat
     int size = style()->pixelMetric(QStyle::PM_SmallIconSize);
     QSize iconSize(size, size);
 
-    m_ui.buttonPrevious->setIcon(KoIconUtils::themedIcon(QStringLiteral("media-skip-backward")));
+    m_ui.buttonPrevious->setIcon(QIcon::fromTheme(QStringLiteral("media-skip-backward")));
     m_ui.buttonPrevious->setToolTip(i18n("Go to previous keyframe"));
     m_ui.buttonPrevious->setIconSize(iconSize);
-    m_ui.buttonNext->setIcon(KoIconUtils::themedIcon(QStringLiteral("media-skip-forward")));
+    m_ui.buttonNext->setIcon(QIcon::fromTheme(QStringLiteral("media-skip-forward")));
     m_ui.buttonNext->setToolTip(i18n("Go to next keyframe"));
     m_ui.buttonNext->setIconSize(iconSize);
-    m_ui.buttonAddDelete->setIcon(KoIconUtils::themedIcon(QStringLiteral("list-add")));
+    m_ui.buttonAddDelete->setIcon(QIcon::fromTheme(QStringLiteral("list-add")));
     m_ui.buttonAddDelete->setToolTip(i18n("Add keyframe"));
     m_ui.buttonAddDelete->setIconSize(iconSize);
 
@@ -101,7 +101,7 @@ GeometryWidget::GeometryWidget(EffectMetaInfo *info, int clipPos, bool showRotat
     m_ui.horizontalLayout->addWidget(m_spinWidth, 0, 2);
 
     // Lock ratio stuff
-    m_lockRatio = new QAction(KoIconUtils::themedIcon(QStringLiteral("link")), i18n("Lock aspect ratio"), this);
+    m_lockRatio = new QAction(QIcon::fromTheme(QStringLiteral("link")), i18n("Lock aspect ratio"), this);
     m_lockRatio->setCheckable(true);
     connect(m_lockRatio, &QAction::triggered, this, &GeometryWidget::slotLockRatio);
     auto *ratioButton = new QToolButton;
@@ -114,14 +114,14 @@ GeometryWidget::GeometryWidget(EffectMetaInfo *info, int clipPos, bool showRotat
     m_ui.horizontalLayout->setColumnStretch(5, 10);
 
     auto *menu = new QMenu(this);
-    m_originalSize = new QAction(KoIconUtils::themedIcon(QStringLiteral("zoom-original")), i18n("Adjust to original size"), this);
+    m_originalSize = new QAction(QIcon::fromTheme(QStringLiteral("zoom-original")), i18n("Adjust to original size"), this);
     connect(m_originalSize, &QAction::triggered, this, &GeometryWidget::slotAdjustToSource);
     m_originalSize->setCheckable(true);
-    QAction *adjustSize = new QAction(KoIconUtils::themedIcon(QStringLiteral("zoom-fit-best")), i18n("Adjust and center in frame"), this);
+    QAction *adjustSize = new QAction(QIcon::fromTheme(QStringLiteral("zoom-fit-best")), i18n("Adjust and center in frame"), this);
     connect(adjustSize, &QAction::triggered, this, &GeometryWidget::slotAdjustToFrameSize);
-    QAction *fitToWidth = new QAction(KoIconUtils::themedIcon(QStringLiteral("zoom-fit-width")), i18n("Fit to width"), this);
+    QAction *fitToWidth = new QAction(QIcon::fromTheme(QStringLiteral("zoom-fit-width")), i18n("Fit to width"), this);
     connect(fitToWidth, &QAction::triggered, this, &GeometryWidget::slotFitToWidth);
-    QAction *fitToHeight = new QAction(KoIconUtils::themedIcon(QStringLiteral("zoom-fit-height")), i18n("Fit to height"), this);
+    QAction *fitToHeight = new QAction(QIcon::fromTheme(QStringLiteral("zoom-fit-height")), i18n("Fit to height"), this);
     connect(fitToHeight, &QAction::triggered, this, &GeometryWidget::slotFitToHeight);
 
     QAction *importKeyframes = new QAction(i18n("Import keyframes from clip"), this);
@@ -139,27 +139,27 @@ GeometryWidget::GeometryWidget(EffectMetaInfo *info, int clipPos, bool showRotat
     menu->addAction(resetPreviousKeyframes);
     menu->addSeparator();
 
-    QAction *syncTimeline = new QAction(KoIconUtils::themedIcon(QStringLiteral("edit-link")), i18n("Synchronize with timeline cursor"), this);
+    QAction *syncTimeline = new QAction(QIcon::fromTheme(QStringLiteral("edit-link")), i18n("Synchronize with timeline cursor"), this);
     syncTimeline->setCheckable(true);
     syncTimeline->setChecked(KdenliveSettings::transitionfollowcursor());
     connect(syncTimeline, &QAction::toggled, this, &GeometryWidget::slotSetSynchronize);
     menu->addAction(syncTimeline);
 
-    QAction *alignleft = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-align-left")), i18n("Align left"), this);
+    QAction *alignleft = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-align-left")), i18n("Align left"), this);
     connect(alignleft, &QAction::triggered, this, &GeometryWidget::slotMoveLeft);
-    QAction *alignhcenter = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-align-hor")), i18n("Center horizontally"), this);
+    QAction *alignhcenter = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-align-hor")), i18n("Center horizontally"), this);
     connect(alignhcenter, &QAction::triggered, this, &GeometryWidget::slotCenterH);
-    QAction *alignright = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-align-right")), i18n("Align right"), this);
+    QAction *alignright = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-align-right")), i18n("Align right"), this);
     connect(alignright, &QAction::triggered, this, &GeometryWidget::slotMoveRight);
-    QAction *aligntop = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-align-top")), i18n("Align top"), this);
+    QAction *aligntop = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-align-top")), i18n("Align top"), this);
     connect(aligntop, &QAction::triggered, this, &GeometryWidget::slotMoveTop);
-    QAction *alignvcenter = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-align-vert")), i18n("Center vertically"), this);
+    QAction *alignvcenter = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-align-vert")), i18n("Center vertically"), this);
     connect(alignvcenter, &QAction::triggered, this, &GeometryWidget::slotCenterV);
-    QAction *alignbottom = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-align-bottom")), i18n("Align bottom"), this);
+    QAction *alignbottom = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-align-bottom")), i18n("Align bottom"), this);
     connect(alignbottom, &QAction::triggered, this, &GeometryWidget::slotMoveBottom);
 
     m_ui.buttonOptions->setMenu(menu);
-    m_ui.buttonOptions->setIcon(KoIconUtils::themedIcon(QStringLiteral("configure")));
+    m_ui.buttonOptions->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
     m_ui.buttonOptions->setToolTip(i18n("Options"));
     m_ui.buttonOptions->setIconSize(iconSize);
 
@@ -479,13 +479,13 @@ void GeometryWidget::slotPositionChanged(int pos, bool seek)
             m_monitor->setEffectKeyframe(false);
             m_ui.widgetGeometry->setEnabled(false);
         }
-        m_ui.buttonAddDelete->setIcon(KoIconUtils::themedIcon(QStringLiteral("list-add")));
+        m_ui.buttonAddDelete->setIcon(QIcon::fromTheme(QStringLiteral("list-add")));
         m_ui.buttonAddDelete->setToolTip(i18n("Add keyframe"));
     } else {
         // keyframe
         m_monitor->setEffectKeyframe(true);
         m_ui.widgetGeometry->setEnabled(true);
-        m_ui.buttonAddDelete->setIcon(KoIconUtils::themedIcon(QStringLiteral("list-remove")));
+        m_ui.buttonAddDelete->setIcon(QIcon::fromTheme(QStringLiteral("list-remove")));
         m_ui.buttonAddDelete->setToolTip(i18n("Delete keyframe"));
     }
     m_opacity->blockSignals(true);

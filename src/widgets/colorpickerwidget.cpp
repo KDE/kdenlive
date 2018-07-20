@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 #include "colorpickerwidget.h"
-#include "utils/KoIconUtils.h"
+
 
 #include <QApplication>
 #include <QDesktopWidget>
@@ -64,7 +64,7 @@ ColorPickerWidget::ColorPickerWidget(QWidget *parent)
     layout->setContentsMargins(0, 0, 0, 0);
 
     auto *button = new QToolButton(this);
-    button->setIcon(KoIconUtils::themedIcon(QStringLiteral("color-picker")));
+    button->setIcon(QIcon::fromTheme(QStringLiteral("color-picker")));
     button->setToolTip(QStringLiteral("<p>") +
                        i18n("Pick a color on the screen. By pressing the mouse button and then moving your mouse you can select a "
                             "section of the screen from which to get an average color.") +
@@ -187,7 +187,7 @@ void ColorPickerWidget::slotSetupEventFilter()
     m_filterActive = true;
     setFocus();
     installEventFilter(this);
-    grabMouse(QCursor(KoIconUtils::themedIcon(QStringLiteral("color-picker")).pixmap(32, 32), 16, 2));
+    grabMouse(QCursor(QIcon::fromTheme(QStringLiteral("color-picker")).pixmap(32, 32), 16, 2));
     grabKeyboard();
 }
 

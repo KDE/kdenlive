@@ -21,9 +21,9 @@
 
 #include "bezier/beziersplineeditor.h"
 #include "colortools.h"
+#include "kdenlivesettings.h"
 #include "cubic/kis_curve_widget.h"
 #include "widgets/dragvalue.h"
-#include "utils/KoIconUtils.h"
 #include <klocalizedstring.h>
 
 /*@brief this label is a pixmap corresponding to a legend of the axis*/
@@ -163,14 +163,14 @@ CurveParamWidget<CurveWidget_t>::CurveParamWidget(std::shared_ptr<AssetParameter
     layout->addWidget(widget);
 
     // set up icons and initial button states
-    m_ui.buttonLinkHandles->setIcon(KoIconUtils::themedIcon(QStringLiteral("edit-link")));
-    m_ui.buttonDeletePoint->setIcon(KoIconUtils::themedIcon(QStringLiteral("list-remove")));
-    m_ui.buttonZoomIn->setIcon(KoIconUtils::themedIcon(QStringLiteral("zoom-in")));
-    m_ui.buttonZoomOut->setIcon(KoIconUtils::themedIcon(QStringLiteral("zoom-out")));
-    m_ui.buttonGridChange->setIcon(KoIconUtils::themedIcon(QStringLiteral("view-grid")));
+    m_ui.buttonLinkHandles->setIcon(QIcon::fromTheme(QStringLiteral("edit-link")));
+    m_ui.buttonDeletePoint->setIcon(QIcon::fromTheme(QStringLiteral("list-remove")));
+    m_ui.buttonZoomIn->setIcon(QIcon::fromTheme(QStringLiteral("zoom-in")));
+    m_ui.buttonZoomOut->setIcon(QIcon::fromTheme(QStringLiteral("zoom-out")));
+    m_ui.buttonGridChange->setIcon(QIcon::fromTheme(QStringLiteral("view-grid")));
     m_ui.buttonShowPixmap->setIcon(QIcon(QPixmap::fromImage(ColorTools::rgbCurvePlane(QSize(16, 16), ColorTools::ColorsRGB::Luma, 0.8))));
-    m_ui.buttonResetSpline->setIcon(KoIconUtils::themedIcon(QStringLiteral("view-refresh")));
-    m_ui.buttonShowAllHandles->setIcon(KoIconUtils::themedIcon(QStringLiteral("draw-bezier-curves")));
+    m_ui.buttonResetSpline->setIcon(QIcon::fromTheme(QStringLiteral("view-refresh")));
+    m_ui.buttonShowAllHandles->setIcon(QIcon::fromTheme(QStringLiteral("draw-bezier-curves")));
     m_ui.widgetPoint->setEnabled(false);
     m_edit->setGridLines(KdenliveSettings::bezier_gridlines());
     m_ui.buttonShowPixmap->setChecked(KdenliveSettings::bezier_showpixmap());

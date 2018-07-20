@@ -23,7 +23,7 @@
 #include "doc/kthumb.h"
 #include "kdenlivesettings.h"
 #include "project/projectmanager.h"
-#include "utils/KoIconUtils.h"
+
 
 #include <QAction>
 #include <QDropEvent>
@@ -225,13 +225,13 @@ LibraryWidget::LibraryWidget(ProjectManager *manager, QWidget *parent)
 void LibraryWidget::setupActions(const QList<QAction *> &list)
 {
     QList<QAction *> menuList;
-    m_addAction = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-add-clip")), i18n("Add Clip to Project"), this);
+    m_addAction = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-add-clip")), i18n("Add Clip to Project"), this);
     connect(m_addAction, &QAction::triggered, this, &LibraryWidget::slotAddToProject);
     m_addAction->setData(1);
-    m_deleteAction = new QAction(KoIconUtils::themedIcon(QStringLiteral("edit-delete")), i18n("Delete Clip from Library"), this);
+    m_deleteAction = new QAction(QIcon::fromTheme(QStringLiteral("edit-delete")), i18n("Delete Clip from Library"), this);
     connect(m_deleteAction, &QAction::triggered, this, &LibraryWidget::slotDeleteFromLibrary);
     m_deleteAction->setData(1);
-    QAction *addFolder = new QAction(KoIconUtils::themedIcon(QStringLiteral("folder-new")), i18n("Create Library Folder"), this);
+    QAction *addFolder = new QAction(QIcon::fromTheme(QStringLiteral("folder-new")), i18n("Create Library Folder"), this);
     connect(addFolder, &QAction::triggered, this, &LibraryWidget::slotAddFolder);
     QAction *renameFolder = new QAction(QIcon(), i18n("Rename Library Clip"), this);
     renameFolder->setData(1);
@@ -609,7 +609,7 @@ void LibraryWidget::slotItemsAdded(const QUrl &url, const KFileItemList &list)
         } else {
             treeItem->setData(0, Qt::UserRole + 2, (int)LibraryItem::Clip);
         }
-        treeItem->setData(0, Qt::DecorationRole, KoIconUtils::themedIcon(fitem.iconName()));
+        treeItem->setData(0, Qt::DecorationRole, QIcon::fromTheme(fitem.iconName()));
         treeItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | Qt::ItemIsEditable);
     }
     QStringList plugins = KIO::PreviewJob::availablePlugins();

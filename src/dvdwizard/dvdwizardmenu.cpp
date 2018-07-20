@@ -20,7 +20,7 @@
 #include "dvdwizardmenu.h"
 
 #include "kdenlivesettings.h"
-#include "utils/KoIconUtils.h"
+
 
 #include "kdenlive_debug.h"
 #include "klocalizedstring.h"
@@ -174,10 +174,10 @@ DvdWizardMenu::DvdWizardMenu(DVDFORMAT format, QWidget *parent)
     connect(m_view.create_menu, &QAbstractButton::toggled, m_view.menu_box, &QWidget::setEnabled);
     connect(m_view.create_menu, &QAbstractButton::toggled, this, &QWizardPage::completeChanged);
 
-    m_view.add_button->setIcon(KoIconUtils::themedIcon(QStringLiteral("document-new")));
-    m_view.delete_button->setIcon(KoIconUtils::themedIcon(QStringLiteral("trash-empty")));
-    m_view.zoom_button->setIcon(KoIconUtils::themedIcon(QStringLiteral("zoom-in")));
-    m_view.unzoom_button->setIcon(KoIconUtils::themedIcon(QStringLiteral("zoom-out")));
+    m_view.add_button->setIcon(QIcon::fromTheme(QStringLiteral("document-new")));
+    m_view.delete_button->setIcon(QIcon::fromTheme(QStringLiteral("trash-empty")));
+    m_view.zoom_button->setIcon(QIcon::fromTheme(QStringLiteral("zoom-in")));
+    m_view.unzoom_button->setIcon(QIcon::fromTheme(QStringLiteral("zoom-out")));
 
     m_view.add_button->setToolTip(i18n("Add new button"));
     m_view.delete_button->setToolTip(i18n("Delete current button"));
@@ -440,7 +440,7 @@ void DvdWizardMenu::setTargets(const QStringList &list, const QStringList &targe
         if (targetlist.at(i).contains(QStringLiteral("chapter"))) {
             m_view.target_list->addItem(list.at(i), targetlist.at(i));
         } else {
-            m_view.target_list->addItem(KoIconUtils::themedIcon(QStringLiteral("video-x-generic")), list.at(i), targetlist.at(i));
+            m_view.target_list->addItem(QIcon::fromTheme(QStringLiteral("video-x-generic")), list.at(i), targetlist.at(i));
             movieCount++;
         }
     }

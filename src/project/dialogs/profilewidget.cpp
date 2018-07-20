@@ -22,11 +22,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "profilewidget.h"
 #include "kxmlgui_version.h"
+#include "kdenlivesettings.h"
 #include "profiles/profilemodel.hpp"
 #include "profiles/profilerepository.hpp"
 #include "profiles/tree/profilefilter.hpp"
 #include "profiles/tree/profiletreemodel.hpp"
-#include "utils/KoIconUtils.h"
+
 
 #include <KLocalizedString>
 #include <QComboBox>
@@ -59,7 +60,7 @@ ProfileWidget::ProfileWidget(QWidget *parent)
 
     auto *manage_profiles = new QToolButton(this);
     labelLay->addWidget(manage_profiles);
-    manage_profiles->setIcon(KoIconUtils::themedIcon(QStringLiteral("configure")));
+    manage_profiles->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
     manage_profiles->setToolTip(i18n("Manage project profiles"));
     connect(manage_profiles, &QAbstractButton::clicked, this, &ProfileWidget::slotEditProfiles);
     lay->addLayout(labelLay);

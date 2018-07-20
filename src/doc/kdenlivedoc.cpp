@@ -42,7 +42,7 @@
 #include "renderer.h"
 #include "titler/titlewidget.h"
 #include "transitions/transitionsrepository.hpp"
-#include "utils/KoIconUtils.h"
+
 #include <config-kdenlive.h>
 
 #include <KBookmark>
@@ -1366,9 +1366,9 @@ void KdenliveDoc::switchProfile(std::unique_ptr<ProfileParam> &profile, const QS
         // Build actions for the info message (switch / cancel)
         QList<QAction *> list;
         const QString profilePath = profile->path();
-        QAction *ac = new QAction(KoIconUtils::themedIcon(QStringLiteral("dialog-ok")), i18n("Switch"), this);
+        QAction *ac = new QAction(QIcon::fromTheme(QStringLiteral("dialog-ok")), i18n("Switch"), this);
         connect(ac, &QAction::triggered, [this, profilePath]() { this->slotSwitchProfile(profilePath); });
-        QAction *ac2 = new QAction(KoIconUtils::themedIcon(QStringLiteral("dialog-cancel")), i18n("Cancel"), this);
+        QAction *ac2 = new QAction(QIcon::fromTheme(QStringLiteral("dialog-cancel")), i18n("Cancel"), this);
         list << ac << ac2;
         pCore->displayBinMessage(i18n("Switch to clip profile %1?", profile->descriptiveString()), KMessageWidget::Information, list);
     } else {

@@ -44,7 +44,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "projectsubclip.h"
 #include "timecode.h"
 #include "timeline2/model/snapmodel.hpp"
-#include "utils/KoIconUtils.h"
+
 #include "utils/thumbnailcache.hpp"
 #include "xml/xml.hpp"
 #include <QPainter>
@@ -75,7 +75,7 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, std::shared_ptr<
     m_date = date;
     m_description = ClipController::description();
     if (m_clipType == ClipType::Audio) {
-        m_thumbnail = KoIconUtils::themedIcon(QStringLiteral("audio-x-generic"));
+        m_thumbnail = QIcon::fromTheme(QStringLiteral("audio-x-generic"));
     } else {
         m_thumbnail = thumb;
     }
@@ -111,7 +111,7 @@ ProjectClip::ProjectClip(const QString &id, const QDomElement &description, cons
     if (description.hasAttribute(QStringLiteral("type"))) {
         m_clipType = (ClipType::ProducerType)description.attribute(QStringLiteral("type")).toInt();
         if (m_clipType == ClipType::Audio) {
-            m_thumbnail = KoIconUtils::themedIcon(QStringLiteral("audio-x-generic"));
+            m_thumbnail = QIcon::fromTheme(QStringLiteral("audio-x-generic"));
         }
     }
     m_temporaryUrl = getXmlProperty(description, QStringLiteral("resource"));
@@ -358,7 +358,7 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
     m_description = ClipController::description();
     m_temporaryUrl.clear();
     if (m_clipType == ClipType::Audio) {
-        m_thumbnail = KoIconUtils::themedIcon(QStringLiteral("audio-x-generic"));
+        m_thumbnail = QIcon::fromTheme(QStringLiteral("audio-x-generic"));
     } else if (m_clipType == ClipType::Image) {
         if (getProducerIntProperty(QStringLiteral("meta.media.width")) < 8 || getProducerIntProperty(QStringLiteral("meta.media.height")) < 8) {
             KMessageBox::information(QApplication::activeWindow(),

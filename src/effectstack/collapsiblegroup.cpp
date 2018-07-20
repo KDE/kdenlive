@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 #include "collapsiblegroup.h"
-#include "utils/KoIconUtils.h"
+
 
 #include "kdenlive_debug.h"
 #include <QDir>
@@ -66,12 +66,12 @@ CollapsibleGroup::CollapsibleGroup(int ix, bool firstGroup, bool lastGroup, cons
     m_title->setText(info.groupName.isEmpty() ? i18n("Effect Group") : info.groupName);
     m_info.groupName = m_title->text();
     connect(m_title, &QLineEdit::editingFinished, this, &CollapsibleGroup::slotRenameGroup);
-    buttonUp->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-up")));
+    buttonUp->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-up")));
     buttonUp->setToolTip(i18n("Move effect up"));
-    buttonDown->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-down")));
+    buttonDown->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-down")));
     buttonDown->setToolTip(i18n("Move effect down"));
 
-    buttonDel->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-deleffect")));
+    buttonDel->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-deleffect")));
     buttonDel->setToolTip(i18n("Delete effect"));
     if (firstGroup) {
         buttonUp->setVisible(false);
@@ -80,17 +80,17 @@ CollapsibleGroup::CollapsibleGroup(int ix, bool firstGroup, bool lastGroup, cons
         buttonDown->setVisible(false);
     }
     m_menu = new QMenu;
-    m_menu->addAction(KoIconUtils::themedIcon(QStringLiteral("view-refresh")), i18n("Reset Group"), this, SLOT(slotResetGroup()));
-    m_menu->addAction(KoIconUtils::themedIcon(QStringLiteral("document-save")), i18n("Save Group"), this, SLOT(slotSaveGroup()));
+    m_menu->addAction(QIcon::fromTheme(QStringLiteral("view-refresh")), i18n("Reset Group"), this, SLOT(slotResetGroup()));
+    m_menu->addAction(QIcon::fromTheme(QStringLiteral("document-save")), i18n("Save Group"), this, SLOT(slotSaveGroup()));
 
-    m_menu->addAction(KoIconUtils::themedIcon(QStringLiteral("list-remove")), i18n("Ungroup"), this, SLOT(slotUnGroup()));
+    m_menu->addAction(QIcon::fromTheme(QStringLiteral("list-remove")), i18n("Ungroup"), this, SLOT(slotUnGroup()));
     setAcceptDrops(true);
-    menuButton->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-menu")));
+    menuButton->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-menu")));
     menuButton->setMenu(m_menu);
 
     m_enabledButton = new KDualAction(i18n("Disable Effect"), i18n("Enable Effect"), this);
-    m_enabledButton->setActiveIcon(KoIconUtils::themedIcon(QStringLiteral("hint")));
-    m_enabledButton->setInactiveIcon(KoIconUtils::themedIcon(QStringLiteral("visibility")));
+    m_enabledButton->setActiveIcon(QIcon::fromTheme(QStringLiteral("hint")));
+    m_enabledButton->setInactiveIcon(QIcon::fromTheme(QStringLiteral("visibility")));
     enabledButton->setDefaultAction(m_enabledButton);
 
     if (info.groupIsCollapsed) {

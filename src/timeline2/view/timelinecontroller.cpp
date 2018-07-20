@@ -41,7 +41,7 @@
 #include "timeline2/view/dialogs/trackdialog.h"
 #include "timelinewidget.h"
 #include "transitions/transitionsrepository.hpp"
-#include "utils/KoIconUtils.h"
+
 
 #include <KActionCollection>
 #include <QApplication>

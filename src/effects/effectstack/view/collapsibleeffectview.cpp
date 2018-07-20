@@ -29,7 +29,7 @@
 #include "kdenlivesettings.h"
 #include "mltcontroller/effectscontroller.h"
 #include "monitor/monitor.h"
-#include "utils/KoIconUtils.h"
+
 
 #include "kdenlive_debug.h"
 #include <QDialog>
@@ -73,7 +73,7 @@ CollapsibleEffectView::CollapsibleEffectView(std::shared_ptr<EffectItemModel> ef
     // decoframe->setProperty("active", true);
     // m_info.fromString(effect.attribute(QStringLiteral("kdenlive_info")));
     // setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
-    buttonUp->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-up")));
+    buttonUp->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-up")));
     QSize iconSize = buttonUp->iconSize();
     buttonUp->setMaximumSize(iconSize);
     buttonDown->setMaximumSize(iconSize);
@@ -81,9 +81,9 @@ CollapsibleEffectView::CollapsibleEffectView(std::shared_ptr<EffectItemModel> ef
     enabledButton->setMaximumSize(iconSize);
     buttonDel->setMaximumSize(iconSize);
     buttonUp->setToolTip(i18n("Move effect up"));
-    buttonDown->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-down")));
+    buttonDown->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-down")));
     buttonDown->setToolTip(i18n("Move effect down"));
-    buttonDel->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-deleffect")));
+    buttonDel->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-deleffect")));
     buttonDel->setToolTip(i18n("Delete effect"));
     // buttonUp->setEnabled(canMoveUp);
     // buttonDown->setEnabled(!lastEffect);
@@ -99,12 +99,12 @@ CollapsibleEffectView::CollapsibleEffectView(std::shared_ptr<EffectItemModel> ef
     }
 
     // checkAll->setToolTip(i18n("Enable/Disable all effects"));
-    // buttonShowComments->setIcon(KoIconUtils::themedIcon("help-about"));
+    // buttonShowComments->setIcon(QIcon::fromTheme("help-about"));
     // buttonShowComments->setToolTip(i18n("Show additional information for the parameters"));
 
     m_collapse = new KDualAction(i18n("Collapse Effect"), i18n("Expand Effect"), this);
-    m_collapse->setActiveIcon(KoIconUtils::themedIcon(QStringLiteral("arrow-right")));
-    m_collapse->setInactiveIcon(KoIconUtils::themedIcon(QStringLiteral("arrow-down")));
+    m_collapse->setActiveIcon(QIcon::fromTheme(QStringLiteral("arrow-right")));
+    m_collapse->setInactiveIcon(QIcon::fromTheme(QStringLiteral("arrow-down")));
     collapseButton->setDefaultAction(m_collapse);
     connect(m_collapse, &KDualAction::activeChanged, this, &CollapsibleEffectView::slotSwitch);
 
@@ -116,11 +116,11 @@ CollapsibleEffectView::CollapsibleEffectView(std::shared_ptr<EffectItemModel> ef
     l->insertWidget(2, title);
 
     m_enabledButton = new KDualAction(i18n("Disable Effect"), i18n("Enable Effect"), this);
-    m_enabledButton->setActiveIcon(KoIconUtils::themedIcon(QStringLiteral("hint")));
-    m_enabledButton->setInactiveIcon(KoIconUtils::themedIcon(QStringLiteral("visibility")));
+    m_enabledButton->setActiveIcon(QIcon::fromTheme(QStringLiteral("hint")));
+    m_enabledButton->setInactiveIcon(QIcon::fromTheme(QStringLiteral("visibility")));
     enabledButton->setDefaultAction(m_enabledButton);
 
-    m_groupAction = new QAction(KoIconUtils::themedIcon(QStringLiteral("folder-new")), i18n("Create Group"), this);
+    m_groupAction = new QAction(QIcon::fromTheme(QStringLiteral("folder-new")), i18n("Create Group"), this);
     connect(m_groupAction, &QAction::triggered, this, &CollapsibleEffectView::slotCreateGroup);
 
     if (m_regionEffect) {
@@ -142,21 +142,21 @@ CollapsibleEffectView::CollapsibleEffectView(std::shared_ptr<EffectItemModel> ef
 
     m_menu = new QMenu(this);
     if (effectModel->rowCount() > 0) {
-        m_menu->addAction(KoIconUtils::themedIcon(QStringLiteral("view-refresh")), i18n("Reset Effect"), this, SLOT(slotResetEffect()));
+        m_menu->addAction(QIcon::fromTheme(QStringLiteral("view-refresh")), i18n("Reset Effect"), this, SLOT(slotResetEffect()));
     } else {
         collapseButton->setEnabled(false);
         m_view->setVisible(false);
     }
-    m_menu->addAction(KoIconUtils::themedIcon(QStringLiteral("document-save")), i18n("Save Effect"), this, SLOT(slotSaveEffect()));
+    m_menu->addAction(QIcon::fromTheme(QStringLiteral("document-save")), i18n("Save Effect"), this, SLOT(slotSaveEffect()));
     if (!m_regionEffect) {
         /*if (m_info.groupIndex == -1) {
             m_menu->addAction(m_groupAction);
         }*/
-        m_menu->addAction(KoIconUtils::themedIcon(QStringLiteral("folder-new")), i18n("Create Region"), this, SLOT(slotCreateRegion()));
+        m_menu->addAction(QIcon::fromTheme(QStringLiteral("folder-new")), i18n("Create Region"), this, SLOT(slotCreateRegion()));
     }
 
     // setupWidget(info, metaInfo);
-    menuButton->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-menu")));
+    menuButton->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-menu")));
     menuButton->setMenu(m_menu);
 
     if (!effectModel->isEnabled()) {

@@ -30,7 +30,7 @@
 #include "project/transitionsettings.h"
 #include "timeline/clipitem.h"
 #include "timeline/transition.h"
-#include "utils/KoIconUtils.h"
+
 
 #include "kdenlive_debug.h"
 #include <KColorScheme>
@@ -105,7 +105,7 @@ void EffectStackView2::refreshIcons()
         if (ic.isNull() || ic.name().isEmpty()) {
             continue;
         }
-        QIcon newIcon = KoIconUtils::themedIcon(ic.name());
+        QIcon newIcon = QIcon::fromTheme(ic.name());
         m->setIcon(newIcon);
     }
     QList<QToolButton *> allButtons = this->findChildren<QToolButton *>();
@@ -115,7 +115,7 @@ void EffectStackView2::refreshIcons()
         if (ic.isNull() || ic.name().isEmpty()) {
             continue;
         }
-        QIcon newIcon = KoIconUtils::themedIcon(ic.name());
+        QIcon newIcon = QIcon::fromTheme(ic.name());
         m->setIcon(newIcon);
     }
 }

@@ -22,7 +22,7 @@
 #include "asseticonprovider.hpp"
 #include "effects/effectsrepository.hpp"
 #include "transitions/transitionsrepository.hpp"
-#include "utils/KoIconUtils.h"
+
 #include <QDebug>
 #include <QFont>
 #include <QIcon>
@@ -45,7 +45,7 @@ QImage AssetIconProvider::requestImage(const QString &id, QSize *size, const QSi
 
     if (m_effect && EffectsRepository::get()->exists(id)) {
         if (EffectsRepository::get()->getType(id) == EffectType::Custom) {
-            QIcon folder_icon = KoIconUtils::themedIcon(QStringLiteral("folder"));
+            QIcon folder_icon = QIcon::fromTheme(QStringLiteral("folder"));
             result = folder_icon.pixmap(30, 30).toImage();
         } else {
             QString name = EffectsRepository::get()->getName(id);

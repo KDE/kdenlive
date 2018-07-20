@@ -21,7 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "temporarydata.h"
 #include "doc/kdenlivedoc.h"
-#include "utils/KoIconUtils.h"
+
 
 #include <KLocalizedString>
 #include <KMessageBox>
@@ -110,7 +110,7 @@ TemporaryData::TemporaryData(KdenliveDoc *doc, bool currentProjectOnly, QWidget 
     m_previewSize = new QLabel(this);
     m_grid->addWidget(m_previewSize, 0, 3);
     auto *del = new QToolButton(this);
-    del->setIcon(KoIconUtils::themedIcon(QStringLiteral("trash-empty")));
+    del->setIcon(QIcon::fromTheme(QStringLiteral("trash-empty")));
     connect(del, &QToolButton::clicked, this, &TemporaryData::deletePreview);
     del->setEnabled(false);
     m_grid->addWidget(del, 0, 4);
@@ -127,7 +127,7 @@ TemporaryData::TemporaryData(KdenliveDoc *doc, bool currentProjectOnly, QWidget 
     m_proxySize = new QLabel(this);
     m_grid->addWidget(m_proxySize, 1, 3);
     del = new QToolButton(this);
-    del->setIcon(KoIconUtils::themedIcon(QStringLiteral("trash-empty")));
+    del->setIcon(QIcon::fromTheme(QStringLiteral("trash-empty")));
     connect(del, &QToolButton::clicked, this, &TemporaryData::deleteProxy);
     del->setEnabled(false);
     m_grid->addWidget(del, 1, 4);
@@ -144,7 +144,7 @@ TemporaryData::TemporaryData(KdenliveDoc *doc, bool currentProjectOnly, QWidget 
     m_audioSize = new QLabel(this);
     m_grid->addWidget(m_audioSize, 2, 3);
     del = new QToolButton(this);
-    del->setIcon(KoIconUtils::themedIcon(QStringLiteral("trash-empty")));
+    del->setIcon(QIcon::fromTheme(QStringLiteral("trash-empty")));
     connect(del, &QToolButton::clicked, this, &TemporaryData::deleteAudio);
     del->setEnabled(false);
     m_grid->addWidget(del, 2, 4);
@@ -161,7 +161,7 @@ TemporaryData::TemporaryData(KdenliveDoc *doc, bool currentProjectOnly, QWidget 
     m_thumbSize = new QLabel(this);
     m_grid->addWidget(m_thumbSize, 3, 3);
     del = new QToolButton(this);
-    del->setIcon(KoIconUtils::themedIcon(QStringLiteral("trash-empty")));
+    del->setIcon(QIcon::fromTheme(QStringLiteral("trash-empty")));
     connect(del, &QToolButton::clicked, this, &TemporaryData::deleteThumbs);
     del->setEnabled(false);
     m_grid->addWidget(del, 3, 4);
@@ -182,7 +182,7 @@ TemporaryData::TemporaryData(KdenliveDoc *doc, bool currentProjectOnly, QWidget 
     m_currentSize = new QLabel(this);
     m_grid->addWidget(m_currentSize, 6, 3);
     del = new QToolButton(this);
-    del->setIcon(KoIconUtils::themedIcon(QStringLiteral("trash-empty")));
+    del->setIcon(QIcon::fromTheme(QStringLiteral("trash-empty")));
     connect(del, &QToolButton::clicked, this, &TemporaryData::deleteCurrentCacheData);
     del->setEnabled(false);
     m_grid->addWidget(del, 6, 4);
@@ -530,14 +530,14 @@ void TemporaryData::gotFolderSize(KJob *job)
         path.remove(0, 1);
         item->setText(0, m_processingDirectory + QStringLiteral(" (%1)").arg(QUrl::fromLocalFile(path).fileName()));
         if (QFile::exists(path)) {
-            item->setIcon(0, KoIconUtils::themedIcon(QStringLiteral("kdenlive")));
+            item->setIcon(0, QIcon::fromTheme(QStringLiteral("kdenlive")));
         } else {
-            item->setIcon(0, KoIconUtils::themedIcon(QStringLiteral("dialog-close")));
+            item->setIcon(0, QIcon::fromTheme(QStringLiteral("dialog-close")));
         }
     } else {
         item->setText(0, m_processingDirectory);
         if (m_processingDirectory == QLatin1String("proxy")) {
-            item->setIcon(0, KoIconUtils::themedIcon(QStringLiteral("kdenlive-show-video")));
+            item->setIcon(0, QIcon::fromTheme(QStringLiteral("kdenlive-show-video")));
         }
     }
     item->setData(0, Qt::UserRole, m_processingDirectory);

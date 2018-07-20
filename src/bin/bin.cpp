@@ -51,7 +51,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "titler/titlewidget.h"
 #include "ui_qtextclip_ui.h"
 #include "undohelper.hpp"
-#include "utils/KoIconUtils.h"
+
 #include "xml/xml.hpp"
 
 #include <KColorScheme>
@@ -616,9 +616,9 @@ Bin::Bin(const std::shared_ptr<ProjectItemModel> &model, QWidget *parent)
     widgetslider->setDefaultWidget(m_slider);
 
     // View type
-    KSelectAction *listType = new KSelectAction(KoIconUtils::themedIcon(QStringLiteral("view-list-tree")), i18n("View Mode"), this);
+    KSelectAction *listType = new KSelectAction(QIcon::fromTheme(QStringLiteral("view-list-tree")), i18n("View Mode"), this);
     pCore->window()->actionCollection()->addAction(QStringLiteral("bin_view_mode"), listType);
-    QAction *treeViewAction = listType->addAction(KoIconUtils::themedIcon(QStringLiteral("view-list-tree")), i18n("Tree View"));
+    QAction *treeViewAction = listType->addAction(QIcon::fromTheme(QStringLiteral("view-list-tree")), i18n("Tree View"));
     listType->addAction(treeViewAction);
     treeViewAction->setData(BinTreeView);
     if (m_listType == treeViewAction->data().toInt()) {
@@ -626,7 +626,7 @@ Bin::Bin(const std::shared_ptr<ProjectItemModel> &model, QWidget *parent)
     }
     pCore->window()->actionCollection()->addAction(QStringLiteral("bin_view_mode_tree"), treeViewAction);
 
-    QAction *iconViewAction = listType->addAction(KoIconUtils::themedIcon(QStringLiteral("view-list-icons")), i18n("Icon View"));
+    QAction *iconViewAction = listType->addAction(QIcon::fromTheme(QStringLiteral("view-list-icons")), i18n("Icon View"));
     iconViewAction->setData(BinIconView);
     if (m_listType == iconViewAction->data().toInt()) {
         listType->setCurrentAction(iconViewAction);
@@ -635,7 +635,7 @@ Bin::Bin(const std::shared_ptr<ProjectItemModel> &model, QWidget *parent)
 
     QAction *disableEffects = new QAction(i18n("Disable Bin Effects"), this);
     connect(disableEffects, &QAction::triggered, [this](bool disable) { this->setBinEffectsEnabled(!disable); });
-    disableEffects->setIcon(KoIconUtils::themedIcon(QStringLiteral("favorite")));
+    disableEffects->setIcon(QIcon::fromTheme(QStringLiteral("favorite")));
     disableEffects->setData("disable_bin_effects");
     disableEffects->setCheckable(true);
     disableEffects->setChecked(false);
@@ -659,7 +659,7 @@ Bin::Bin(const std::shared_ptr<ProjectItemModel> &model, QWidget *parent)
     QMenu *settingsMenu = new QMenu(i18n("Settings"), this);
     settingsMenu->addAction(listType);
     QMenu *sliderMenu = new QMenu(i18n("Zoom"), this);
-    sliderMenu->setIcon(KoIconUtils::themedIcon(QStringLiteral("zoom-in")));
+    sliderMenu->setIcon(QIcon::fromTheme(QStringLiteral("zoom-in")));
     sliderMenu->addAction(widgetslider);
     settingsMenu->addMenu(sliderMenu);
 
@@ -674,7 +674,7 @@ Bin::Bin(const std::shared_ptr<ProjectItemModel> &model, QWidget *parent)
     settingsMenu->addAction(m_showDesc);
     settingsMenu->addAction(disableEffects);
     auto *button = new QToolButton;
-    button->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-menu")));
+    button->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-menu")));
     button->setToolTip(i18n("Options"));
     button->setMenu(settingsMenu);
     button->setPopupMode(QToolButton::InstantPopup);
@@ -868,7 +868,7 @@ void Bin::refreshIcons()
         if (ic.isNull() || ic.name().isEmpty()) {
             continue;
         }
-        QIcon newIcon = KoIconUtils::themedIcon(ic.name());
+        QIcon newIcon = QIcon::fromTheme(ic.name());
         m->setIcon(newIcon);
     }
     QList<QToolButton *> allButtons = this->findChildren<QToolButton *>();
@@ -878,7 +878,7 @@ void Bin::refreshIcons()
         if (ic.isNull() || ic.name().isEmpty()) {
             continue;
         }
-        QIcon newIcon = KoIconUtils::themedIcon(ic.name());
+        QIcon newIcon = QIcon::fromTheme(ic.name());
         m->setIcon(newIcon);
     }
 }

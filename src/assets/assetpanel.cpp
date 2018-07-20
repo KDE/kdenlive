@@ -29,7 +29,7 @@
 #include "model/assetparametermodel.hpp"
 #include "transitions/transitionsrepository.hpp"
 #include "transitions/view/transitionstackview.hpp"
-#include "utils/KoIconUtils.h"
+
 #include "view/assetparameterview.hpp"
 
 #include <KColorScheme>
@@ -54,7 +54,7 @@ AssetPanel::AssetPanel(QWidget *parent)
     QHBoxLayout *tLayout = new QHBoxLayout;
     tLayout->addWidget(m_assetTitle);
     m_switchBuiltStack = new QToolButton(this);
-    m_switchBuiltStack->setIcon(KoIconUtils::themedIcon(QStringLiteral("adjustlevels")));
+    m_switchBuiltStack->setIcon(QIcon::fromTheme(QStringLiteral("adjustlevels")));
     m_switchBuiltStack->setToolTip(i18n("Adjust clip"));
     m_switchBuiltStack->setCheckable(true);
     m_switchBuiltStack->setChecked(KdenliveSettings::showbuiltstack());
@@ -63,7 +63,7 @@ AssetPanel::AssetPanel(QWidget *parent)
     tLayout->addWidget(m_switchBuiltStack);
 
     m_splitButton = new QToolButton(this);
-    m_splitButton->setIcon(KoIconUtils::themedIcon(QStringLiteral("view-split-left-right")));
+    m_splitButton->setIcon(QIcon::fromTheme(QStringLiteral("view-split-left-right")));
     m_splitButton->setToolTip(i18n("Compare effect"));
     m_splitButton->setCheckable(true);
     m_splitButton->setVisible(false);
@@ -71,7 +71,7 @@ AssetPanel::AssetPanel(QWidget *parent)
     tLayout->addWidget(m_splitButton);
 
     m_timelineButton = new QToolButton(this);
-    m_timelineButton->setIcon(KoIconUtils::themedIcon(QStringLiteral("adjustlevels")));
+    m_timelineButton->setIcon(QIcon::fromTheme(QStringLiteral("adjustlevels")));
     m_timelineButton->setToolTip(i18n("Display keyframes in timeline"));
     m_timelineButton->setCheckable(true);
     m_timelineButton->setVisible(false);

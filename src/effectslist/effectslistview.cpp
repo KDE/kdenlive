@@ -21,7 +21,7 @@
 #include "effectslist.h"
 #include "effectslistwidget.h"
 #include "kdenlivesettings.h"
-#include "utils/KoIconUtils.h"
+
 
 #include "kdenlive_debug.h"
 #include <klocalizedstring.h>
@@ -89,7 +89,7 @@ EffectsListView::EffectsListView(LISTMODE mode, QWidget *parent)
 
     int size = style()->pixelMetric(QStyle::PM_SmallIconSize);
     QSize iconSize(size, size);
-    buttonInfo->setIcon(KoIconUtils::themedIcon(QStringLiteral("help-about")));
+    buttonInfo->setIcon(QIcon::fromTheme(QStringLiteral("help-about")));
     buttonInfo->setToolTip(i18n("Show/Hide effect description"));
     buttonInfo->setIconSize(iconSize);
     setFocusPolicy(Qt::StrongFocus);
@@ -102,15 +102,15 @@ EffectsListView::EffectsListView(LISTMODE mode, QWidget *parent)
         infopanel->hide();
     }
 
-    m_contextMenu->addAction(KoIconUtils::themedIcon(QStringLiteral("list-add")), i18n("Add Effect to Selected Clip"), this, SLOT(slotEffectSelected()));
+    m_contextMenu->addAction(QIcon::fromTheme(QStringLiteral("list-add")), i18n("Add Effect to Selected Clip"), this, SLOT(slotEffectSelected()));
     m_favoriteAction =
-        m_contextMenu->addAction(KoIconUtils::themedIcon(QStringLiteral("favorite")), i18n("Add Effect to Favorites"), this, SLOT(slotAddToFavorites()));
-    m_removeAction = m_contextMenu->addAction(KoIconUtils::themedIcon(QStringLiteral("edit-delete")), i18n("Delete effect"), this, SLOT(slotRemoveEffect()));
+        m_contextMenu->addAction(QIcon::fromTheme(QStringLiteral("favorite")), i18n("Add Effect to Favorites"), this, SLOT(slotAddToFavorites()));
+    m_removeAction = m_contextMenu->addAction(QIcon::fromTheme(QStringLiteral("edit-delete")), i18n("Delete effect"), this, SLOT(slotRemoveEffect()));
 
     m_effectsFavorites = new MyDropButton(this);
-    m_effectsFavorites->setIcon(KoIconUtils::themedIcon(QStringLiteral("favorite")));
+    m_effectsFavorites->setIcon(QIcon::fromTheme(QStringLiteral("favorite")));
     horizontalLayout->addWidget(m_effectsFavorites);
-    effectsAll->setIcon(KoIconUtils::themedIcon(QStringLiteral("show-all-effects")));
+    effectsAll->setIcon(QIcon::fromTheme(QStringLiteral("show-all-effects")));
     switch (m_mode) {
     case TransitionMode:
         effectsAll->setToolTip(i18n("Show all transitions"));
@@ -122,13 +122,13 @@ EffectsListView::EffectsListView(LISTMODE mode, QWidget *parent)
         break;
     default:
         effectsAll->setToolTip(i18n("Show all effects"));
-        effectsVideo->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-show-video")));
+        effectsVideo->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-show-video")));
         effectsVideo->setToolTip(i18n("Show video effects"));
-        effectsAudio->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-show-audio")));
+        effectsAudio->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-show-audio")));
         effectsAudio->setToolTip(i18n("Show audio effects"));
-        effectsGPU->setIcon(KoIconUtils::themedIcon(QStringLiteral("show-gpu-effects")));
+        effectsGPU->setIcon(QIcon::fromTheme(QStringLiteral("show-gpu-effects")));
         effectsGPU->setToolTip(i18n("Show GPU effects"));
-        effectsCustom->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-custom-effect")));
+        effectsCustom->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-custom-effect")));
         effectsCustom->setToolTip(i18n("Show custom effects"));
         m_effectsFavorites->setToolTip(i18n("Show favorite effects"));
         break;
@@ -198,7 +198,7 @@ void EffectsListView::refreshIcons()
         if (ic.isNull() || ic.name().isEmpty()) {
             continue;
         }
-        QIcon newIcon = KoIconUtils::themedIcon(ic.name());
+        QIcon newIcon = QIcon::fromTheme(ic.name());
         m->setIcon(newIcon);
     }
     QList<QToolButton *> allButtons = this->findChildren<QToolButton *>();
@@ -208,7 +208,7 @@ void EffectsListView::refreshIcons()
         if (ic.isNull() || ic.name().isEmpty()) {
             continue;
         }
-        QIcon newIcon = KoIconUtils::themedIcon(ic.name());
+        QIcon newIcon = QIcon::fromTheme(ic.name());
         m->setIcon(newIcon);
     }
 }

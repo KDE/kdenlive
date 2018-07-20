@@ -1,6 +1,5 @@
 set(kdenlive_SRCS
   ${kdenlive_SRCS}
-  utils/KoIconUtils.cpp
   utils/abstractservice.cpp
   utils/archiveorg.cpp
   utils/clipboardproxy.cpp

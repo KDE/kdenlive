@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "core.h"
 #include "projectclip.h"
 #include "projectitemmodel.h"
-#include "utils/KoIconUtils.h"
+
 
 #include <KLocalizedString>
 #include <QDomElement>
@@ -35,7 +35,7 @@ ProjectFolder::ProjectFolder(const QString &id, const QString &name, std::shared
 {
     m_name = name;
     m_clipStatus = StatusReady;
-    m_thumbnail = KoIconUtils::themedIcon(QStringLiteral("folder"));
+    m_thumbnail = QIcon::fromTheme(QStringLiteral("folder"));
 }
 
 std::shared_ptr<ProjectFolder> ProjectFolder::construct(const QString &id, const QString &name, std::shared_ptr<ProjectItemModel> model)

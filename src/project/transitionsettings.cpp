@@ -22,7 +22,7 @@
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "project/projectmanager.h"
-#include "utils/KoIconUtils.h"
+
 
 #include "klocalizedstring.h"
 
@@ -88,7 +88,7 @@ void TransitionSettings::refreshIcons()
         if (ic.isNull() || ic.name().isEmpty()) {
             continue;
         }
-        QIcon newIcon = KoIconUtils::themedIcon(ic.name());
+        QIcon newIcon = QIcon::fromTheme(ic.name());
         m->setIcon(newIcon);
     }
     QList<QToolButton *> allButtons = this->findChildren<QToolButton *>();
@@ -98,7 +98,7 @@ void TransitionSettings::refreshIcons()
         if (ic.isNull() || ic.name().isEmpty()) {
             continue;
         }
-        QIcon newIcon = KoIconUtils::themedIcon(ic.name());
+        QIcon newIcon = QIcon::fromTheme(ic.name());
         m->setIcon(newIcon);
     }
 }

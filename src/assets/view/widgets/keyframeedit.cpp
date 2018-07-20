@@ -20,7 +20,7 @@
 #include "core.h"
 #include "kdenlivesettings.h"
 #include "monitor/monitormanager.h"
-#include "utils/KoIconUtils.h"
+
 #include "widgets/doublewidget.h"
 #include "widgets/positionwidget.h"
 
@@ -48,13 +48,13 @@ KeyframeEdit::KeyframeEdit(std::shared_ptr<AssetParameterModel> model, QModelInd
     buttonSeek->setChecked(KdenliveSettings::keyframeseek());
     connect(buttonSeek, &QAbstractButton::toggled, this, &KeyframeEdit::slotSetSeeking);
 
-    buttonKeyframes->setIcon(KoIconUtils::themedIcon(QStringLiteral("chronometer")));
-    button_add->setIcon(KoIconUtils::themedIcon(QStringLiteral("list-add")));
+    buttonKeyframes->setIcon(QIcon::fromTheme(QStringLiteral("chronometer")));
+    button_add->setIcon(QIcon::fromTheme(QStringLiteral("list-add")));
     button_add->setToolTip(i18n("Add keyframe"));
-    button_delete->setIcon(KoIconUtils::themedIcon(QStringLiteral("list-remove")));
+    button_delete->setIcon(QIcon::fromTheme(QStringLiteral("list-remove")));
     button_delete->setToolTip(i18n("Delete keyframe"));
-    buttonResetKeyframe->setIcon(KoIconUtils::themedIcon(QStringLiteral("edit-undo")));
-    buttonSeek->setIcon(KoIconUtils::themedIcon(QStringLiteral("edit-link")));
+    buttonResetKeyframe->setIcon(QIcon::fromTheme(QStringLiteral("edit-undo")));
+    buttonSeek->setIcon(QIcon::fromTheme(QStringLiteral("edit-link")));
     connect(keyframe_list, &QTableWidget::currentCellChanged, this, &KeyframeEdit::rowClicked);
     connect(keyframe_list, &QTableWidget::cellChanged, this, &KeyframeEdit::slotGenerateParams);
 

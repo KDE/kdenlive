@@ -30,7 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "profiles/profilerepository.hpp"
 #include "project/projectmanager.h"
 #include "timecodedisplay.h"
-#include "utils/KoIconUtils.h"
+
 #include "widgets/choosecolorwidget.h"
 
 #include <KLocalizedString>
@@ -202,11 +202,11 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
     m_markerTree->setModel(controller->getMarkerModel().get());
     mBox->addWidget(m_markerTree);
     auto *bar = new QToolBar;
-    bar->addAction(KoIconUtils::themedIcon(QStringLiteral("document-new")), i18n("Add marker"), this, SLOT(slotAddMarker()));
-    bar->addAction(KoIconUtils::themedIcon(QStringLiteral("trash-empty")), i18n("Delete marker"), this, SLOT(slotDeleteMarker()));
-    bar->addAction(KoIconUtils::themedIcon(QStringLiteral("document-edit")), i18n("Edit marker"), this, SLOT(slotEditMarker()));
-    bar->addAction(KoIconUtils::themedIcon(QStringLiteral("document-save-as")), i18n("Export markers"), this, SLOT(slotSaveMarkers()));
-    bar->addAction(KoIconUtils::themedIcon(QStringLiteral("document-open")), i18n("Import markers"), this, SLOT(slotLoadMarkers()));
+    bar->addAction(QIcon::fromTheme(QStringLiteral("document-new")), i18n("Add marker"), this, SLOT(slotAddMarker()));
+    bar->addAction(QIcon::fromTheme(QStringLiteral("trash-empty")), i18n("Delete marker"), this, SLOT(slotDeleteMarker()));
+    bar->addAction(QIcon::fromTheme(QStringLiteral("document-edit")), i18n("Edit marker"), this, SLOT(slotEditMarker()));
+    bar->addAction(QIcon::fromTheme(QStringLiteral("document-save-as")), i18n("Export markers"), this, SLOT(slotSaveMarkers()));
+    bar->addAction(QIcon::fromTheme(QStringLiteral("document-open")), i18n("Import markers"), this, SLOT(slotLoadMarkers()));
     mBox->addWidget(bar);
 
     m_markersPage->setLayout(mBox);
@@ -229,9 +229,9 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
     aBox->addWidget(new QLabel(i18n("Analysis data")));
     aBox->addWidget(m_analysisTree);
     auto *bar2 = new QToolBar;
-    bar2->addAction(KoIconUtils::themedIcon(QStringLiteral("trash-empty")), i18n("Delete analysis"), this, SLOT(slotDeleteAnalysis()));
-    bar2->addAction(KoIconUtils::themedIcon(QStringLiteral("document-save-as")), i18n("Export analysis"), this, SLOT(slotSaveAnalysis()));
-    bar2->addAction(KoIconUtils::themedIcon(QStringLiteral("document-open")), i18n("Import analysis"), this, SLOT(slotLoadAnalysis()));
+    bar2->addAction(QIcon::fromTheme(QStringLiteral("trash-empty")), i18n("Delete analysis"), this, SLOT(slotDeleteAnalysis()));
+    bar2->addAction(QIcon::fromTheme(QStringLiteral("document-save-as")), i18n("Export analysis"), this, SLOT(slotSaveAnalysis()));
+    bar2->addAction(QIcon::fromTheme(QStringLiteral("document-open")), i18n("Import analysis"), this, SLOT(slotLoadAnalysis()));
     aBox->addWidget(bar2);
 
     slotFillAnalysisData();
@@ -536,15 +536,15 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
     m_tabWidget->addTab(m_markersPage, QString());
     m_tabWidget->addTab(m_metaPage, QString());
     m_tabWidget->addTab(m_analysisPage, QString());
-    m_tabWidget->setTabIcon(0, KoIconUtils::themedIcon(QStringLiteral("edit-find")));
+    m_tabWidget->setTabIcon(0, QIcon::fromTheme(QStringLiteral("edit-find")));
     m_tabWidget->setTabToolTip(0, i18n("Properties"));
-    m_tabWidget->setTabIcon(1, KoIconUtils::themedIcon(QStringLiteral("document-edit")));
+    m_tabWidget->setTabIcon(1, QIcon::fromTheme(QStringLiteral("document-edit")));
     m_tabWidget->setTabToolTip(1, i18n("Force properties"));
-    m_tabWidget->setTabIcon(2, KoIconUtils::themedIcon(QStringLiteral("bookmark-new")));
+    m_tabWidget->setTabIcon(2, QIcon::fromTheme(QStringLiteral("bookmark-new")));
     m_tabWidget->setTabToolTip(2, i18n("Markers"));
-    m_tabWidget->setTabIcon(3, KoIconUtils::themedIcon(QStringLiteral("view-grid")));
+    m_tabWidget->setTabIcon(3, QIcon::fromTheme(QStringLiteral("view-grid")));
     m_tabWidget->setTabToolTip(3, i18n("Metadata"));
-    m_tabWidget->setTabIcon(4, KoIconUtils::themedIcon(QStringLiteral("visibility")));
+    m_tabWidget->setTabIcon(4, QIcon::fromTheme(QStringLiteral("visibility")));
     m_tabWidget->setTabToolTip(4, i18n("Analysis"));
     m_tabWidget->setCurrentIndex(KdenliveSettings::properties_panel_page());
     if (m_type == ClipType::Color) {

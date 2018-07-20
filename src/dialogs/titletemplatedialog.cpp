@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "titletemplatedialog.h"
 #include "doc/kthumb.h"
 #include "kdenlivesettings.h"
-#include "utils/KoIconUtils.h"
+
 
 #include "klocalizedstring.h"
 #include <KComboBox>

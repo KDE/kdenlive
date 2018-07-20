@@ -21,7 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "effectsettings.h"
 #include "kdenlivesettings.h"
-#include "utils/KoIconUtils.h"
+
 
 #include "klocalizedstring.h"
 #include <QApplication>
@@ -78,7 +78,7 @@ EffectSettings::EffectSettings(QWidget *parent)
     auto *hbox = new QHBoxLayout;
     hbox->addWidget(checkAll);
     effectCompare = new QToolButton(this);
-    effectCompare->setIcon(KoIconUtils::themedIcon(QStringLiteral("view-split-effect")));
+    effectCompare->setIcon(QIcon::fromTheme(QStringLiteral("view-split-effect")));
     effectCompare->setToolTip(i18n("Split compare"));
     effectCompare->setCheckable(true);
     effectCompare->setChecked(false);
@@ -95,7 +95,7 @@ EffectSettings::EffectSettings(QWidget *parent)
     vbox1->addWidget(container);
     setLayout(vbox1);
 
-    // m_ui.buttonShowComments->setIcon(KoIconUtils::themedIcon(QStringLiteral("help-about")));
+    // m_ui.buttonShowComments->setIcon(QIcon::fromTheme(QStringLiteral("help-about")));
     // m_ui.buttonShowComments->setToolTip(i18n("Show additional information for the parameters"));
     // connect(m_ui.buttonShowComments, SIGNAL(clicked()), this, SLOT(slotShowComments()));
     // m_ui.labelComment->setHidden(true);

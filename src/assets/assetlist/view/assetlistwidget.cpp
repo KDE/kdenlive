@@ -50,6 +50,11 @@ void AssetListWidget::setup()
     setFocusPolicy(Qt::StrongFocus);
 }
 
+void AssetListWidget::reset()
+{
+    setSource(QUrl(QStringLiteral("qrc:/qml/assetList.qml")));
+}
+
 QString AssetListWidget::getName(const QModelIndex &index) const
 {
     return m_model->getName(m_proxyModel->mapToSource(index));

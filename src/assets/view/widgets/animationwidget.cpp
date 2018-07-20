@@ -19,7 +19,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-#include "utils/KoIconUtils.h"
+
 
 #include "kdenlive_debug.h"
 #include <KConfig>
@@ -104,17 +104,17 @@ AnimationWidget::AnimationWidget(std::shared_ptr<AssetParameterModel> model, QMo
     }
 
     // seek to previous
-    m_previous = tb->addAction(KoIconUtils::themedIcon(QStringLiteral("media-skip-backward")), i18n("Previous keyframe"), this, SLOT(slotPrevious()));
+    m_previous = tb->addAction(QIcon::fromTheme(QStringLiteral("media-skip-backward")), i18n("Previous keyframe"), this, SLOT(slotPrevious()));
 
     // Add/remove keyframe
     m_addKeyframe = new KDualAction(i18n("Add keyframe"), i18n("Remove keyframe"), this);
-    m_addKeyframe->setInactiveIcon(KoIconUtils::themedIcon(QStringLiteral("list-add")));
-    m_addKeyframe->setActiveIcon(KoIconUtils::themedIcon(QStringLiteral("list-remove")));
+    m_addKeyframe->setInactiveIcon(QIcon::fromTheme(QStringLiteral("list-add")));
+    m_addKeyframe->setActiveIcon(QIcon::fromTheme(QStringLiteral("list-remove")));
     connect(m_addKeyframe, SIGNAL(activeChangedByUser(bool)), this, SLOT(slotAddDeleteKeyframe(bool)));
     tb->addAction(m_addKeyframe);
 
     // seek to next
-    m_next = tb->addAction(KoIconUtils::themedIcon(QStringLiteral("media-skip-forward")), i18n("Next keyframe"), this, SLOT(slotNext()));
+    m_next = tb->addAction(QIcon::fromTheme(QStringLiteral("media-skip-forward")), i18n("Next keyframe"), this, SLOT(slotNext()));
 
     // Preset combo
     m_presetCombo = new QComboBox(this);
@@ -123,32 +123,32 @@ AnimationWidget::AnimationWidget(std::shared_ptr<AssetParameterModel> model, QMo
     tb->addWidget(m_presetCombo);
 
     // Keyframe type widget
-    m_selectType = new KSelectAction(KoIconUtils::themedIcon(QStringLiteral("keyframes")), i18n("Keyframe interpolation"), this);
-    QAction *discrete = new QAction(KoIconUtils::themedIcon(QStringLiteral("discrete")), i18n("Discrete"), this);
+    m_selectType = new KSelectAction(QIcon::fromTheme(QStringLiteral("keyframes")), i18n("Keyframe interpolation"), this);
+    QAction *discrete = new QAction(QIcon::fromTheme(QStringLiteral("discrete")), i18n("Discrete"), this);
     discrete->setData((int)mlt_keyframe_discrete);
     discrete->setCheckable(true);
     m_selectType->addAction(discrete);
-    QAction *linear = new QAction(KoIconUtils::themedIcon(QStringLiteral("linear")), i18n("Linear"), this);
+    QAction *linear = new QAction(QIcon::fromTheme(QStringLiteral("linear")), i18n("Linear"), this);
     linear->setData((int)mlt_keyframe_linear);
     linear->setCheckable(true);
     m_selectType->addAction(linear);
-    QAction *curve = new QAction(KoIconUtils::themedIcon(QStringLiteral("smooth")), i18n("Smooth"), this);
+    QAction *curve = new QAction(QIcon::fromTheme(QStringLiteral("smooth")), i18n("Smooth"), this);
     curve->setData((int)mlt_keyframe_smooth);
     curve->setCheckable(true);
     m_selectType->addAction(curve);
     m_selectType->setCurrentAction(linear);
     connect(m_selectType, SIGNAL(triggered(QAction *)), this, SLOT(slotEditKeyframeType(QAction *)));
 
-    KSelectAction *defaultInterp = new KSelectAction(KoIconUtils::themedIcon(QStringLiteral("keyframes")), i18n("Default interpolation"), this);
-    discrete = new QAction(KoIconUtils::themedIcon(QStringLiteral("discrete")), i18n("Discrete"), this);
+    KSelectAction *defaultInterp = new KSelectAction(QIcon::fromTheme(QStringLiteral("keyframes")), i18n("Default interpolation"), this);
+    discrete = new QAction(QIcon::fromTheme(QStringLiteral("discrete")), i18n("Discrete"), this);
     discrete->setData((int)mlt_keyframe_discrete);
     discrete->setCheckable(true);
     defaultInterp->addAction(discrete);
-    linear = new QAction(KoIconUtils::themedIcon(QStringLiteral("linear")), i18n("Linear"), this);
+    linear = new QAction(QIcon::fromTheme(QStringLiteral("linear")), i18n("Linear"), this);
     linear->setData((int)mlt_keyframe_linear);
     linear->setCheckable(true);
     defaultInterp->addAction(linear);
-    curve = new QAction(KoIconUtils::themedIcon(QStringLiteral("smooth")), i18n("Smooth"), this);
+    curve = new QAction(QIcon::fromTheme(QStringLiteral("smooth")), i18n("Smooth"), this);
     curve->setData((int)mlt_keyframe_smooth);
     curve->setCheckable(true);
     defaultInterp->addAction(curve);
@@ -180,11 +180,11 @@ AnimationWidget::AnimationWidget(std::shared_ptr<AssetParameterModel> model, QMo
     connect(removeNext, &QAction::triggered, this, &AnimationWidget::slotRemoveNext);
 
     // save preset
-    QAction *savePreset = new QAction(KoIconUtils::themedIcon(QStringLiteral("document-save")), i18n("Save preset"), this);
+    QAction *savePreset = new QAction(QIcon::fromTheme(QStringLiteral("document-save")), i18n("Save preset"), this);
     connect(savePreset, &QAction::triggered, this, &AnimationWidget::savePreset);
 
     // delete preset
-    QAction *delPreset = new QAction(KoIconUtils::themedIcon(QStringLiteral("edit-delete")), i18n("Delete preset"), this);
+    QAction *delPreset = new QAction(QIcon::fromTheme(QStringLiteral("edit-delete")), i18n("Delete preset"), this);
     connect(delPreset, &QAction::triggered, this, &AnimationWidget::deletePreset);
 
     auto *container = new QMenu;
@@ -200,7 +200,7 @@ AnimationWidget::AnimationWidget(std::shared_ptr<AssetParameterModel> model, QMo
     container->addAction(defaultInterp);
 
     auto *menuButton = new QToolButton;
-    menuButton->setIcon(KoIconUtils::themedIcon(QStringLiteral("kdenlive-menu")));
+    menuButton->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-menu")));
     menuButton->setToolTip(i18n("Options"));
     menuButton->setMenu(container);
     menuButton->setPopupMode(QToolButton::InstantPopup);
@@ -835,7 +835,7 @@ void AnimationWidget::buildRectWidget(const QString &paramTag, QModelIndex ix)
     horLayout->addWidget(m_spinWidth);
 
     // Lock ratio stuff
-    m_lockRatio = new QAction(KoIconUtils::themedIcon(QStringLiteral("link")), i18n("Lock aspect ratio"), this);
+    m_lockRatio = new QAction(QIcon::fromTheme(QStringLiteral("link")), i18n("Lock aspect ratio"), this);
     m_lockRatio->setCheckable(true);
     connect(m_lockRatio, &QAction::triggered, this, &AnimationWidget::slotLockRatio);
     auto *ratioButton = new QToolButton;
@@ -859,27 +859,27 @@ void AnimationWidget::buildRectWidget(const QString &paramTag, QModelIndex ix)
     }
 
     // Build buttons
-    m_originalSize = new QAction(KoIconUtils::themedIcon(QStringLiteral("zoom-original")), i18n("Adjust to original size"), this);
+    m_originalSize = new QAction(QIcon::fromTheme(QStringLiteral("zoom-original")), i18n("Adjust to original size"), this);
     connect(m_originalSize, &QAction::triggered, this, &AnimationWidget::slotAdjustToSource);
     m_originalSize->setCheckable(true);
-    QAction *adjustSize = new QAction(KoIconUtils::themedIcon(QStringLiteral("zoom-fit-best")), i18n("Adjust and center in frame"), this);
+    QAction *adjustSize = new QAction(QIcon::fromTheme(QStringLiteral("zoom-fit-best")), i18n("Adjust and center in frame"), this);
     connect(adjustSize, &QAction::triggered, this, &AnimationWidget::slotAdjustToFrameSize);
-    QAction *fitToWidth = new QAction(KoIconUtils::themedIcon(QStringLiteral("zoom-fit-width")), i18n("Fit to width"), this);
+    QAction *fitToWidth = new QAction(QIcon::fromTheme(QStringLiteral("zoom-fit-width")), i18n("Fit to width"), this);
     connect(fitToWidth, &QAction::triggered, this, &AnimationWidget::slotFitToWidth);
-    QAction *fitToHeight = new QAction(KoIconUtils::themedIcon(QStringLiteral("zoom-fit-height")), i18n("Fit to height"), this);
+    QAction *fitToHeight = new QAction(QIcon::fromTheme(QStringLiteral("zoom-fit-height")), i18n("Fit to height"), this);
     connect(fitToHeight, &QAction::triggered, this, &AnimationWidget::slotFitToHeight);
 
-    QAction *alignleft = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-align-left")), i18n("Align left"), this);
+    QAction *alignleft = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-align-left")), i18n("Align left"), this);
     connect(alignleft, &QAction::triggered, this, &AnimationWidget::slotMoveLeft);
-    QAction *alignhcenter = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-align-hor")), i18n("Center horizontally"), this);
+    QAction *alignhcenter = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-align-hor")), i18n("Center horizontally"), this);
     connect(alignhcenter, &QAction::triggered, this, &AnimationWidget::slotCenterH);
-    QAction *alignright = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-align-right")), i18n("Align right"), this);
+    QAction *alignright = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-align-right")), i18n("Align right"), this);
     connect(alignright, &QAction::triggered, this, &AnimationWidget::slotMoveRight);
-    QAction *aligntop = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-align-top")), i18n("Align top"), this);
+    QAction *aligntop = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-align-top")), i18n("Align top"), this);
     connect(aligntop, &QAction::triggered, this, &AnimationWidget::slotMoveTop);
-    QAction *alignvcenter = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-align-vert")), i18n("Center vertically"), this);
+    QAction *alignvcenter = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-align-vert")), i18n("Center vertically"), this);
     connect(alignvcenter, &QAction::triggered, this, &AnimationWidget::slotCenterV);
-    QAction *alignbottom = new QAction(KoIconUtils::themedIcon(QStringLiteral("kdenlive-align-bottom")), i18n("Align bottom"), this);
+    QAction *alignbottom = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-align-bottom")), i18n("Align bottom"), this);
     connect(alignbottom, &QAction::triggered, this, &AnimationWidget::slotMoveBottom);
 
     auto *alignLayout = new QHBoxLayout;
