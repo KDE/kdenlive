@@ -88,10 +88,10 @@ public:
     static QMap<QString, QStringList> m_lumaFiles;
 
     /** @brief Adds an action to the action collection and stores the name. */
-    void addAction(const QString &name, QAction *action);
+    void addAction(const QString &name, QAction *action, KActionCategory *category = nullptr);
     /** @brief Adds an action to the action collection and stores the name. */
     QAction *addAction(const QString &name, const QString &text, const QObject *receiver, const char *member, const QIcon &icon = QIcon(),
-                       const QKeySequence &shortcut = QKeySequence());
+                       const QKeySequence &shortcut = QKeySequence(), KActionCategory *category = nullptr);
 
     /**
      * @brief Adds a new dock widget to this window.
@@ -180,7 +180,7 @@ private:
     QMenu *m_effectsMenu;
     QMenu *m_transitionsMenu;
     QMenu *m_timelineContextMenu;
-    QMenu *m_timelineContextClipMenu;
+    QList <QAction *> m_timelineClipActions;
     QMenu *m_timelineContextTransitionMenu;
     KDualAction *m_useTimelineZone;
 
@@ -216,7 +216,6 @@ private:
     QAction *m_playZone;
     QAction *m_loopClip;
     QAction *m_proxyClip;
-    QActionGroup *m_clipTypeGroup;
     QString m_theme;
     KIconLoader *m_iconLoader;
     KToolBar *m_timelineToolBar;
@@ -388,7 +387,7 @@ private slots:
     void slotEditItemDuration();
     void slotClipInProjectTree();
     // void slotClipToProjectTree();
-    void slotSplitAudio();
+    void slotSplitAV();
     void slotSetAudioAlignReference();
     void slotAlignAudio();
     void slotUpdateClipType(QAction *action);

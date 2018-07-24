@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="155" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="156" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file" >
       <Action name="dvd_wizard" />
@@ -18,31 +18,11 @@
       <Action name="add_text_template_clip" />
       <Action name="add_folder" />
       <Action name="download_resource" /> 
-      <Menu name="extract_audio" ><text>Extract Audio</text>
-	  <ActionList name="audio_transcoders_list" />
-      </Menu>
-      <Menu name="clip_actions" ><text>Clip Jobs</text>
-	<ActionList name="clip_jobs" />
-      </Menu>
-      <Menu name="transcoders" ><text>Transcode</text>
-	  <ActionList name="transcoders_list" />
-      </Menu>
       <Menu name="generators" ><text>Generators</text>
       </Menu>
       <Separator />
       <Action name="bin_view_mode" />
       <Action name="stopmotion" />
-      <Separator />
-      <Action name="locate_clip" />
-      <Action name="reload_clip" />
-      <Action name="duplicate_clip" />
-      <Action name="proxy_clip" />
-      <Menu name="clip_in_timeline"><text>Clip in Timeline</text>
-	<ActionList name="timeline_occurences" />
-      </Menu>
-      <Action name="clip_properties" />
-      <Action name="edit_clip" />
-      <Action name="delete_clip" />
       <Separator />
       <Action name="project_clean" />
       <Action name="project_render" />
@@ -71,10 +51,26 @@
         <Action name="delete_all_clip_markers" />
         </Menu>
 	  <Action name="auto_transition" />
-	  <Action name="split_audio" />
-	  <Separator />
-      <Action name="clip_video_only" />
-      <Action name="clip_audio_only" />
+      <Menu name="extract_audio" ><text>Extract Audio</text>
+	  <ActionList name="audio_transcoders_list" />
+      </Menu>
+      <Menu name="clip_actions" ><text>Clip Jobs</text>
+	<ActionList name="clip_jobs" />
+      </Menu>
+      <Menu name="transcoders" ><text>Transcode</text>
+	  <ActionList name="transcoders_list" />
+      </Menu>
+      <Separator />
+      <Action name="locate_clip" />
+      <Action name="reload_clip" />
+      <Action name="duplicate_clip" />
+      <Action name="proxy_clip" />
+      <Menu name="clip_in_timeline"><text>Clip in Timeline</text>
+	<ActionList name="timeline_occurences" />
+      </Menu>
+      <Action name="clip_properties" />
+      <Action name="edit_clip" />
+      <Action name="delete_clip" />
     </Menu>
 
     <Menu name="timeline" ><text>Timeline</text>
@@ -101,14 +97,16 @@
         <Action name="unset_render_timeline_zone" />
         <Action name="clear_render_timeline_zone"/>
       </Menu>
-      <Action name="resize_timeline_clip_start" />
-      <Action name="resize_timeline_clip_end" />
-      <Menu name="current_clip" ><text>Current clip</text>
-	  <Action name="cut_timeline_clip" />
-	  <Action name="delete_timeline_clip" />
-	  <Action name="edit_item_duration" />
-          <Action name="clip_in_project_tree" />
-          <Action name="expand_timeline_clip" />
+        <Action name="resize_timeline_clip_start" />
+        <Action name="resize_timeline_clip_end" />
+        <Menu name="current_clip" ><text>Current clip</text>
+            <Action name="cut_timeline_clip" />
+            <Action name="delete_timeline_clip" />
+            <Action name="edit_item_duration" />
+            <Action name="clip_split" />
+            <Action name="clip_disable" />
+            <Action name="clip_in_project_tree" />
+            <Action name="expand_timeline_clip" />
       </Menu>
       <Menu name="guide_menu" ><text>Guides</text>
 		<Action name="add_guide" />

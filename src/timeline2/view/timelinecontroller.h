@@ -271,6 +271,7 @@ public:
 
     Q_INVOKABLE void splitAudio(int clipId);
     Q_INVOKABLE void splitVideo(int clipId);
+    bool splitAV();
 
     /* @brief Seeks to selected clip start / end
      */
@@ -394,6 +395,11 @@ public slots:
 
 private slots:
     void slotUpdateSelection(int itemId);
+    void updateClipActions();
+
+public:
+    /** @brief a list of actions that have to be enabled/disabled depending on the timeline selection */
+    QList <QAction *>clipActions;
 
 private:
     QQuickItem *m_root;

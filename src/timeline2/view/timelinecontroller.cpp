@@ -63,6 +63,7 @@ TimelineController::TimelineController(QObject *parent)
 {
     m_disablePreview = pCore->currentDoc()->getAction(QStringLiteral("disable_preview"));
     connect(m_disablePreview, &QAction::triggered, this, &TimelineController::disablePreview);
+    connect(this, &TimelineController::selectionChanged, this, &TimelineController::updateClipActions);
     m_disablePreview->setEnabled(false);
 }
 
@@ -1443,6 +1444,21 @@ void TimelineController::switchEnableState(int clipId)
     TimelineFunctions::switchEnableState(m_model, clipId);
 }
 
+bool TimelineController::splitAV()
+{
+    int cid = m_selection.selectedItems.first();
+    if (m_model->isClip(cid)) {
+        std::shared_ptr<ClipModel> clip = m_model->getClipPtr(cid);
+        if (clip->clipState() == PlaylistState::AudioOnly) {
+            return TimelineFunctions::requestSplitVideo(m_model, cid, videoTarget());
+        } else {
+            return TimelineFunctions::requestSplitAudio(m_model, cid, audioTarget());
+        }
+    }
+    pCore->displayMessage(i18n("No clip found to perform AV split operation"), InformationMessage, 500);
+    return false;
+}
+
 void TimelineController::splitAudio(int clipId)
 {
     TimelineFunctions::requestSplitAudio(m_model, clipId, audioTarget());
@@ -1654,5 +1670,45 @@ void TimelineController::editItemDuration(int id)
         } else {
             undo();
         }
+    }
+}
+
+void TimelineController::updateClipActions()
+{
+    if (m_selection.selectedItems.isEmpty()) {
+        for(QAction *act : clipActions) {
+            act->setEnabled(false);
+        }
+        return;
+    }
+    std::shared_ptr<ClipModel> clip(nullptr);
+    int item = m_selection.selectedItems.first();
+    if (m_model->isClip(item)) {
+        clip = m_model->getClipPtr(item);
+    }
+    for(QAction *act : clipActions) {
+        bool enableAction = true;
+        const QChar actionData = act->data().toChar();
+        if (actionData == QLatin1Char('G')) {
+            enableAction = m_selection.selectedItems.size() > 1;
+        } else if (actionData == QLatin1Char('U')) {
+            enableAction = m_model->m_groups->isInGroup(item) && !m_model->isInSelection(item);
+        } else if (actionData == QLatin1Char('A')) {
+            enableAction = clip && clip->clipState() == PlaylistState::AudioOnly;
+        } else if (actionData == QLatin1Char('V')) {
+            enableAction = clip && clip->clipState() == PlaylistState::VideoOnly;
+        } else if (actionData == QLatin1Char('D')) {
+            enableAction = clip && clip->clipState() == PlaylistState::Disabled;
+        } else if (actionData == QLatin1Char('E')) {
+            enableAction = clip && clip->clipState() != PlaylistState::Disabled;
+        } else if (actionData == QLatin1Char('X') || actionData == QLatin1Char('S')) {
+            enableAction = clip && clip->canBeVideo() && clip->canBeAudio();
+            if (enableAction && actionData == QLatin1Char('S')) {
+                act->setText(clip->clipState() == PlaylistState::AudioOnly ? i18n("Split video") : i18n("Split audio"));
+            }
+        } else if (actionData == QLatin1Char('C') && clip == nullptr) {
+            enableAction = false;
+        }
+        act->setEnabled(enableAction);
     }
 }
