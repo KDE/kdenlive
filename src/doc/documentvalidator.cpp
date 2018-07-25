@@ -1798,6 +1798,9 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                     if (producers.at(j).nodeName() == QLatin1String("blank")) {
                         // blank, duplicate
                         duplicate_playlist.appendChild(producers.at(j).cloneNode());
+                    } else if (producers.at(j).nodeName() != QLatin1String("entry")) {
+                        // property node, pass
+                        continue;
                     } else if (producers.at(j).toElement().attribute(QStringLiteral("producer")).endsWith(playlistName)) {
                         // This is an AV clip
                         // Check master properties
@@ -1808,6 +1811,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                             if (masterProducers.at(k).toElement().attribute(QStringLiteral("id")) == currentId) {
                                 hasVideo = EffectsList::property(masterProducers.at(k).toElement(), QStringLiteral("video_index")) != QLatin1String("-1");
                                 hasAudio = EffectsList::property(masterProducers.at(k).toElement(), QStringLiteral("audio_index")) != QLatin1String("-1");
+                                break;
                             }
                         }
                         if (!hasAudio) {
@@ -1815,12 +1819,12 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                             QDomElement duplicate = m_doc.createElement(QStringLiteral("blank"));
                             int in = producers.at(j).toElement().attribute(QStringLiteral("in")).toInt();
                             int out = producers.at(j).toElement().attribute(QStringLiteral("out")).toInt();
-                            duplicate.setAttribute(QStringLiteral("length"), QString::number(out - in));
+                            duplicate.setAttribute(QStringLiteral("length"), QString::number(out - in + 1));
                             duplicate_playlist.appendChild(duplicate);
                             continue;
                         }
                         QDomNode prod = producers.at(j).cloneNode();
-                        prod.toElement().setAttribute(QLatin1String("set.test_video"), QStringLiteral("1"));
+                        EffectsList::setProperty(prod.toElement(), QStringLiteral("set.test_video"), QStringLiteral("1"));
                         duplicate_playlist.appendChild(prod);
                         // Check if that is an audio clip on a video track
                         if (!hasVideo) {
@@ -1828,7 +1832,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                             int in = producers.at(j).toElement().attribute(QStringLiteral("in")).toInt();
                             int out = producers.at(j).toElement().attribute(QStringLiteral("out")).toInt();
                             producers.at(j).toElement().setTagName("blank");
-                            producers.at(j).toElement().setAttribute("length", QString::number(out - in));
+                            producers.at(j).toElement().setAttribute("length", QString::number(out - in + 1));
                         }
                         duplicationRequested = true;
                     } else {
@@ -1836,7 +1840,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                         QDomElement duplicate = m_doc.createElement(QStringLiteral("blank"));
                         int in = producers.at(j).toElement().attribute(QStringLiteral("in")).toInt();
                         int out = producers.at(j).toElement().attribute(QStringLiteral("out")).toInt();
-                        duplicate.setAttribute(QStringLiteral("length"), QString::number(out - in));
+                        duplicate.setAttribute(QStringLiteral("length"), QString::number(out - in + 1));
                         duplicate_playlist.appendChild(duplicate);
                     }
                 }
