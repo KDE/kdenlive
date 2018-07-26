@@ -20,13 +20,15 @@
 #include "projectsettings.h"
 
 #include "bin/bin.h"
+#include "bin/projectitemmodel.h"
+#include "bin/projectclip.h"
+#include "bin/projectfolder.h"
 #include "core.h"
 #include "dialogs/encodingprofilesdialog.h"
 #include "dialogs/profilesdialog.h"
 #include "doc/kdenlivedoc.h"
 #include "effectslist/effectslist.h"
 #include "kdenlivesettings.h"
-#include "mltcontroller/bincontroller.h"
 #include "mltcontroller/clipcontroller.h"
 #include "profiles/profilemodel.hpp"
 #include "project/dialogs/profilewidget.h"
@@ -292,14 +294,12 @@ void ProjectSettings::slotDeleteUnused()
 
 void ProjectSettings::slotUpdateFiles(bool cacheOnly)
 {
-    // Get list of current project hashes
-    QStringList hashes = pCore->binController()->getProjectHashes();
+    qDebug()<<"// UPDATING PROJECT FILES\n----------\n-----------";
     m_projectProxies.clear();
     m_projectThumbs.clear();
     if (cacheOnly) {
         return;
     }
-    QList<std::shared_ptr<ClipController>> list = pCore->binController()->getControllerList();
     files_list->clear();
 
     // List all files that are used in the project. That also means:
@@ -334,58 +334,50 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
         count++;
         new QTreeWidgetItem(images, QStringList() << file);
     }
-
-    for (int i = 0; i < list.count(); ++i) {
-        const std::shared_ptr<ClipController> &clip = list.at(i);
-        if (clip->clipType() == ClipType::Color) {
-            // ignore color clips in list, there is no real file
-            continue;
-        }
-        if (clip->clipType() == ClipType::SlideShow) {
-            const QStringList subfiles = extractSlideshowUrls(clip->clipUrl());
-            for (const QString &file : subfiles) {
-                count++;
-                new QTreeWidgetItem(slideshows, QStringList() << file);
-            }
-            continue;
-        } else if (!clip->clipUrl().isEmpty()) {
-            // allFiles.append(clip->fileURL().path());
-            switch (clip->clipType()) {
-            case ClipType::Text:
-                new QTreeWidgetItem(texts, QStringList() << clip->clipUrl());
+    QList<std::shared_ptr<ProjectClip>> clipList = pCore->projectItemModel()->getRootFolder()->childClips();
+    for (std::shared_ptr<ProjectClip> clip : clipList) {
+        switch(clip->clipType()) {
+            case ClipType::Color:
+                // ignore color clips in list, there is no real file
                 break;
+            case ClipType::SlideShow: {
+                const QStringList subfiles = extractSlideshowUrls(clip->clipUrl());
+                for (const QString &file : subfiles) {
+                    count++;
+                    new QTreeWidgetItem(slideshows, QStringList() << file);
+                }
+                break;
+            }
+            case ClipType::Text: {
+                new QTreeWidgetItem(texts, QStringList() << clip->clipUrl());
+                const QStringList imagefiles = TitleWidget::extractImageList(clip->getProducerProperty(QStringLiteral("xmldata")));
+                const QStringList fonts = TitleWidget::extractFontList(clip->getProducerProperty(QStringLiteral("xmldata")));
+                for (const QString &file : imagefiles) {
+                    new QTreeWidgetItem(images, QStringList() << file);
+                }
+                allFonts << fonts;
+                break;
+            }
             case ClipType::Audio:
                 new QTreeWidgetItem(sounds, QStringList() << clip->clipUrl());
                 break;
             case ClipType::Image:
                 new QTreeWidgetItem(images, QStringList() << clip->clipUrl());
                 break;
-            case ClipType::Playlist:
+            case ClipType::Playlist: {
                 new QTreeWidgetItem(playlists, QStringList() << clip->clipUrl());
+                const QStringList files = extractPlaylistUrls(clip->clipUrl());
+                for (const QString &file : files) {
+                    new QTreeWidgetItem(others, QStringList() << file);
+                }
                 break;
+            }
             case ClipType::Unknown:
                 new QTreeWidgetItem(others, QStringList() << clip->clipUrl());
                 break;
             default:
                 new QTreeWidgetItem(videos, QStringList() << clip->clipUrl());
                 break;
-            }
-            count++;
-        }
-        if (clip->clipType() == ClipType::Text) {
-            const QStringList imagefiles = TitleWidget::extractImageList(clip->getProducerProperty(QStringLiteral("xmldata")));
-            const QStringList fonts = TitleWidget::extractFontList(clip->getProducerProperty(QStringLiteral("xmldata")));
-            for (const QString &file : imagefiles) {
-                count++;
-                new QTreeWidgetItem(images, QStringList() << file);
-            }
-            allFonts << fonts;
-        } else if (clip->clipType() == ClipType::Playlist) {
-            const QStringList files = extractPlaylistUrls(clip->clipUrl());
-            for (const QString &file : files) {
-                count++;
-                new QTreeWidgetItem(others, QStringList() << file);
-            }
         }
     }
 
@@ -396,9 +388,9 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
     pCore->bin()->getBinStats(&used, &unUsed, &usedSize, &unUsedSize);
     allFonts.removeDuplicates();
     // Hide unused categories
-    for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
-        if (files_list->topLevelItem(i)->childCount() == 0) {
-            files_list->topLevelItem(i)->setHidden(true);
+    for (int j = 0; j < files_list->topLevelItemCount(); ++j) {
+        if (files_list->topLevelItem(j)->childCount() == 0) {
+            files_list->topLevelItem(j)->setHidden(true);
         }
     }
     files_count->setText(QString::number(count));
