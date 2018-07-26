@@ -78,16 +78,19 @@ ProfileWidget::ProfileWidget(QWidget *parent)
     m_treeView->header()->hide();
     QItemSelectionModel *selectionModel = m_treeView->selectionModel();
     connect(selectionModel, &QItemSelectionModel::currentRowChanged, this, &ProfileWidget::slotChangeSelection);
-    connect(selectionModel, &QItemSelectionModel::selectionChanged, [&](const QItemSelection &selected, const QItemSelection &deselected) {
-        QModelIndex current, old;
-        if (!selected.indexes().isEmpty()) {
-            current = selected.indexes().front();
-        }
-        if (!deselected.indexes().isEmpty()) {
-            old = deselected.indexes().front();
-        }
-        slotChangeSelection(current, old);
-    });
+    connect(selectionModel, &QItemSelectionModel::selectionChanged,
+            [&](const QItemSelection &selected, const QItemSelection &deselected){
+                QModelIndex current, old;
+                if (!selected.indexes().isEmpty()) {
+                    current = selected.indexes().front();
+                }
+                if (!deselected.indexes().isEmpty()) {
+                    old = deselected.indexes().front();
+                }
+                slotChangeSelection(current, old);
+            });
+    int treeViewFontHeight = QFontInfo(m_treeView->font()).pixelSize();
+    m_treeView->setMinimumHeight(treeViewFontHeight);
     profileSplitter->addWidget(m_treeView);
     m_treeView->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     m_descriptionPanel = new QTextEdit(this);
@@ -96,6 +99,7 @@ ProfileWidget::ProfileWidget(QWidget *parent)
     m_descriptionPanel->viewport()->setBackgroundRole(QPalette::Mid);
     m_descriptionPanel->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     m_descriptionPanel->setFrameStyle(QFrame::NoFrame);
+    m_descriptionPanel->setMinimumHeight(treeViewFontHeight);
     profileSplitter->addWidget(m_descriptionPanel);
 
     lay->addWidget(profileSplitter);
