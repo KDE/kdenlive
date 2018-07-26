@@ -18,7 +18,11 @@
  ***************************************************************************/
 
 #include "archivewidget.h"
-#include "mltcontroller/clipcontroller.h"
+#include "bin/bin.h"
+#include "bin/projectitemmodel.h"
+#include "bin/projectclip.h"
+#include "bin/projectfolder.h"
+#include "core.h"
 #include "projectsettings.h"
 #include "titler/titlewidget.h"
 
@@ -34,7 +38,7 @@
 #include <QTreeWidget>
 #include <QtConcurrent>
 
-ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc, const QList<std::shared_ptr<ClipController>> &list,
+ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc,
                              const QStringList &luma_list, QWidget *parent)
     : QDialog(parent)
     , m_requestedSize(0)
@@ -108,9 +112,8 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc
     QMap<QString, QString> imageUrls;
     QMap<QString, QString> playlistUrls;
     QMap<QString, QString> proxyUrls;
-
-    for (int i = 0; i < list.count(); ++i) {
-        const std::shared_ptr<ClipController> &clip = list.at(i);
+    QList<std::shared_ptr<ProjectClip>> clipList = pCore->projectItemModel()->getRootFolder()->childClips();
+    for (std::shared_ptr<ProjectClip> clip : clipList) {
         ClipType::ProducerType t = clip->clipType();
         QString id = clip->binId();
         if (t == ClipType::Color) {

@@ -3706,18 +3706,13 @@ void MainWindow::slotUpdateProxySettings()
 
 void MainWindow::slotArchiveProject()
 {
-    // TODO refac
-    /*
-    QList<std::shared_ptr<ClipController>> list = pCore->binController()->getControllerList();
     KdenliveDoc *doc = pCore->currentDoc();
-    pCore->binController()->saveDocumentProperties(pCore->projectManager()->currentTimeline()->documentProperties(), doc->metadata(), doc->getGuideModel());
     QDomDocument xmlDoc = doc->xmlSceneList(m_projectMonitor->sceneList(doc->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile()));
-    QScopedPointer<ArchiveWidget> d(
-        new ArchiveWidget(doc->url().fileName(), xmlDoc, list, pCore->projectManager()->currentTimeline()->projectView()->extractTransitionsLumas(), this));
+    QPointer<ArchiveWidget> d(
+        new ArchiveWidget(doc->url().fileName(), xmlDoc, getMainTimeline()->controller()->extractCompositionLumas(), this));
     if (d->exec() != 0) {
         m_messageLabel->setMessage(i18n("Archiving project"), OperationCompletedMessage);
     }
-    */
 }
 
 void MainWindow::slotDownloadResources()
