@@ -23,6 +23,8 @@
     <file alias="Track.qml">timeline2/view/qml/Track.qml</file>
     <file alias="Ruler.qml">timeline2/view/qml/Ruler.qml</file>
     <file alias="Clip.qml">timeline2/view/qml/Clip.qml</file>
+    <file alias="ClipThumbs.qml">timeline2/view/qml/ClipThumbs.qml</file>
+    <file alias="ClipAudioThumbs.qml">timeline2/view/qml/ClipAudioThumbs.qml</file>
     <file alias="KeyframeView.qml">timeline2/view/qml/KeyframeView.qml</file>
     <file alias="Composition.qml">timeline2/view/qml/Composition.qml</file>
     <file alias="ClipMenu.qml">timeline2/view/qml/ClipMenu.qml</file>

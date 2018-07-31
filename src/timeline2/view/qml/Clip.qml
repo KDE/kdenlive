@@ -33,7 +33,7 @@ Rectangle {
     property int modelStart: x
     // Used to store the current frame on move
     property int currentFrame: -1
-    property int scrollX: 0
+    property real scrollX: 0
     property int inPoint: 0
     property int outPoint: 0
     property int clipDuration: 0
@@ -66,8 +66,6 @@ Rectangle {
     property double speed: 1.0
     property color borderColor: 'black'
     property bool forceReloadThumb: false
-    property alias inSource: inThumbnail.source
-    property alias outSource: outThumbnail.source
     width : clipDuration * timeScale;
 
     signal clicked(var clip, int shiftClick)
@@ -89,7 +87,9 @@ Rectangle {
     }
 
     onInPointChanged: {
-        generateWaveform()
+        if (parentTrack.isAudio) {
+            thumbsLoader.item.generateWaveform()
+        }
     }
 
     onClipResourceChanged: {
@@ -129,19 +129,16 @@ Rectangle {
     }
 
     onForceReloadThumbChanged: {
-        if (inThumbnail.visible) {
-            clipRoot.inSource = ''
-            clipRoot.inSource = inThumbPath
-            clipRoot.outSource = ''
-            clipRoot.outSource = outThumbPath
-        }
+        // TODO: find a way to force reload of clip thumbs
     }
 
     onTimeScaleChanged: {
         x = modelStart * timeScale;
         width = clipDuration * timeScale;
         labelRect.x = scrollX > modelStart * timeScale ? scrollX - modelStart * timeScale : 0
-        generateWaveform();
+        if (parentTrack.isAudio) {
+            thumbsLoader.item.generateWaveform();
+        }
     }
     onScrollXChanged: {
         labelRect.x = scrollX > modelStart * timeScale ? scrollX - modelStart * timeScale : 0
@@ -180,17 +177,6 @@ Rectangle {
         //generateWaveform()
     }
 
-    function generateWaveform() {
-        // This is needed to make the model have the correct count.
-        // Model as a property expression is not working in all cases.
-        if (timeline.showAudioThumbnails) {
-            waveformRepeater.model = Math.ceil(waveform.innerWidth / waveform.maxWidth)
-            for (var i = 0; i < waveformRepeater.count; i++) {
-                // This looks suspicious. Why not itemAt(i) ?? code borrowed from Shotcut
-                waveformRepeater.itemAt(i).update();
-            }
-        }
-    }
     property bool variableThumbs: (isAudio || clipType == ProducerType.Color || mltService === '')
     property bool isImage: clipType == ProducerType.Image
     property string baseThumbPath: variableThumbs ? '' : 'image://thumbnail/' + binId + '/' + (isImage ? '#0' : '#')
@@ -221,7 +207,11 @@ Rectangle {
         }
     }
 
-    onAudioLevelsChanged: generateWaveform()
+    onAudioLevelsChanged: {
+        if (parentTrack.isAudio) {
+            thumbsLoader.item.generateWaveform()
+        }
+    }
     MouseArea {
         id: mouseArea
         visible: root.activeTool === 0
@@ -310,61 +300,10 @@ Rectangle {
         anchors.fill: parent
         anchors.margins:1.5
         clip: true
-        Image {
-            id: outThumbnail
-            visible: inThumbnail.visible
-            opacity: inThumbnail.opacity
-            anchors.top: container.top
-            anchors.right: container.right
-            anchors.bottom: container.bottom
-            anchors.rightMargin: Math.min(0, container.width - 2 * inThumbnail.width)
-            width: inThumbnail.width
-            fillMode: Image.PreserveAspectFit
-            asynchronous: true
-            cache: false
-            source: outThumbPath
-        }
-
-        Image {
-            id: inThumbnail
-            visible: timeline.showThumbnails && mltService != 'color' && !isAudio
-            opacity: parentTrack.isAudio || parentTrack.isHidden || clipStatus == ClipState.Disabled ? 0.2 : 1
-            anchors.left: container.left
-            anchors.bottom: container.bottom
-            anchors.top: container.top
-            width: height * 16.0/9.0
-            fillMode: Image.PreserveAspectFit
-            asynchronous: true
-            cache: false
-            source: inThumbPath
-        }
-
-        Row {
-            id: waveform
-            visible: clipStatus != ClipState.VideoOnly && parentTrack.isAudio && timeline.showAudioThumbnails  && !parentTrack.isMute
-            height: isAudio || parentTrack.isAudio || clipStatus == ClipState.AudioOnly ? container.height - 1 : (container.height - 1) / 2
-            opacity: clipStatus == ClipState.Disabled ? 0.2 : 1
-            anchors.left: container.left
-            anchors.right: container.right
-            anchors.bottom: container.bottom
-            property int maxWidth: 1000
-            property int innerWidth: clipRoot.width - clipRoot.border.width * 2
-            property int scrollEnd: ((scrollView.flickableItem.contentX + scrollView.width) / timeScale - clipRoot.modelStart) * timeScale
-            property int scrollStart: (scrollView.flickableItem.contentX / timeScale - clipRoot.modelStart) * timeScale
-
-            Repeater {
-                id: waveformRepeater
-                TimelineWaveform {
-                    width: Math.min(waveform.innerWidth, waveform.maxWidth)
-                    height: waveform.height
-                    showItem: waveform.visible && (index * waveform.maxWidth) < waveform.scrollEnd && (index * waveform.maxWidth + width) > waveform.scrollStart
-                    format: timeline.audioThumbFormat
-                    property int channels: 2
-                    inPoint: Math.round((clipRoot.inPoint + index * waveform.maxWidth / timeScale) * speed) * channels
-                    outPoint: inPoint + Math.round(width / timeScale * speed) * channels
-                    levels: audioLevels
-                }
-            }
+        Loader {
+            id: thumbsLoader
+            anchors.fill: parent
+            source: parentTrack.isAudio ? "ClipAudioThumbs.qml" : "ClipThumbs.qml"
         }
 
         Rectangle {
