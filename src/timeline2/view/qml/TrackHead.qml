@@ -204,6 +204,15 @@ Rectangle {
                 Layout.fillHeight: true
             }
             ToolButton {
+                id: thumbsButton
+                visible: !isAudio
+                implicitHeight: trackHeadRoot.iconSize
+                implicitWidth: trackHeadRoot.iconSize
+                iconName: 'view-preview'
+                onClicked: root.cycleTrackThumbs(trackId)
+                tooltip: i18n('Thumbnails type')
+            }
+            ToolButton {
                 id: muteButton
                 implicitHeight: trackHeadRoot.iconSize
                 implicitWidth: trackHeadRoot.iconSize

@@ -18,7 +18,7 @@ Row {
         // 2: will display start / end thumbs
         // container.width / thumbRow.thumbWidth will display all frames showThumbnails
         // 0: will disable thumbnails
-        model: 2 // container.width / thumbRow.thumbWidth
+        model: parentTrack.thumbsFormat == 0 ? 2 : parentTrack.thumbsFormat == 1 ? container.width / thumbRow.thumbWidth : 0
         property int startFrame: clipRoot.inPoint
         property int endFrame: clipRoot.outPoint
         property real imageWidth: container.width / thumbRepeater.count

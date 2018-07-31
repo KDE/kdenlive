@@ -157,6 +157,11 @@ Rectangle {
         }
     }
 
+    function cycleTrackThumbs(trackId) {
+        var track = Logic.getTrackById(trackId)
+        track.thumbsFormat = track.thumbsFormat < 2 ? track.thumbsFormat + 1 : 0
+    }
+
     DropArea { //Drop area for compositions
         width: root.width - headerWidth
         height: root.height - ruler.height
