@@ -157,11 +157,6 @@ Rectangle {
         }
     }
 
-    function cycleTrackThumbs(trackId) {
-        var track = Logic.getTrackById(trackId)
-        track.thumbsFormat = track.thumbsFormat < 2 ? track.thumbsFormat + 1 : 0
-    }
-
     DropArea { //Drop area for compositions
         width: root.width - headerWidth
         height: root.height - ruler.height
@@ -479,6 +474,7 @@ Rectangle {
                         model: multitrack
                         TrackHead {
                             trackName: model.name
+                            thumbsFormat: model.thumbsFormat
                             trackTag: model.trackTag
                             isDisabled: model.disabled
                             isComposite: model.composite
@@ -910,13 +906,14 @@ Rectangle {
     DelegateModel {
         id: trackDelegateModel
         model: multitrack
-        Track {
+        delegate: Track {
             model: multitrack
             rootIndex: trackDelegateModel.modelIndex(index)
             height: trackHeight
             timeScale: timeline.scaleFactor
             width: tracksContainerArea.width
             isAudio: audio
+            trackThumbsFormat: thumbsFormat
             isCurrentTrack: item === timeline.activeTrack
             trackId: item
             onClipClicked: {

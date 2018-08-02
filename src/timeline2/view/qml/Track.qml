@@ -30,7 +30,7 @@ Column{
     property bool isCurrentTrack: false
     property bool isLocked: false
     property int trackId : -42
-    property int thumbsFormat: 0
+    property int trackThumbsFormat
     height: parent.height
 
     SystemPalette { id: activePalette }

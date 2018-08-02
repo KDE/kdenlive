@@ -17,8 +17,9 @@ Row {
         // switching the model allows to have different view modes:
         // 2: will display start / end thumbs
         // container.width / thumbRow.thumbWidth will display all frames showThumbnails
+        // 1: only show first thumbnail
         // 0: will disable thumbnails
-        model: parentTrack.thumbsFormat == 0 ? 2 : parentTrack.thumbsFormat == 1 ? container.width / thumbRow.thumbWidth : 0
+        model: parentTrack.trackThumbsFormat == 0 ? 2 : parentTrack.trackThumbsFormat == 1 ? container.width / thumbRow.thumbWidth : parentTrack.trackThumbsFormat == 2 ? 1 : 0
         property int startFrame: clipRoot.inPoint
         property int endFrame: clipRoot.outPoint
         property real imageWidth: container.width / thumbRepeater.count
@@ -29,8 +30,8 @@ Row {
             asynchronous: true
             cache: false
             property int currentFrame: Math.floor(clipRoot.inPoint + Math.round((index) * width / timeline.scaleFactor)* clipRoot.speed)
-            horizontalAlignment: thumbRepeater.count == 2 ? (index == 0 ? Image.AlignLeft : Image.AlignRight) : Image.AlignHCenter
-            source: thumbRepeater.count == 2 ? (index == 0 ? clipRoot.baseThumbPath + Math.floor(clipRoot.inPoint * clipRoot.speed) : clipRoot.baseThumbPath + Math.floor(clipRoot.outPoint * clipRoot.speed)) : (currentFrame + width / timeline.scaleFactor < thumbRow.scrollStart || currentFrame > thumbRow.scrollEnd) ? '' : clipRoot.baseThumbPath + currentFrame
+            horizontalAlignment: thumbRepeater.count < 3 ? (index == 0 ? Image.AlignLeft : Image.AlignRight) : Image.AlignLeft
+            source: thumbRepeater.count < 3 ? (index == 0 ? clipRoot.baseThumbPath + Math.floor(clipRoot.inPoint * clipRoot.speed) : clipRoot.baseThumbPath + Math.floor(clipRoot.outPoint * clipRoot.speed)) : (currentFrame + width / timeline.scaleFactor < thumbRow.scrollStart || currentFrame > thumbRow.scrollEnd) ? '' : clipRoot.baseThumbPath + currentFrame
         }
     }
 }

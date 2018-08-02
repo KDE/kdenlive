@@ -36,6 +36,7 @@ Rectangle {
     property int collapsedHeight: nameEdit.height + 2
     property int iconSize: root.baseUnit * 2
     property string trackTag
+    property int thumbsFormat: 0
     border.width: 1
     border.color: Qt.rgba(activePalette.windowText.r, activePalette.windowText.g, activePalette.windowText.b, 0.1)
     signal clicked()
@@ -209,8 +210,56 @@ Rectangle {
                 implicitHeight: trackHeadRoot.iconSize
                 implicitWidth: trackHeadRoot.iconSize
                 iconName: 'view-preview'
-                onClicked: root.cycleTrackThumbs(trackId)
-                tooltip: i18n('Thumbnails type')
+                onClicked: thumbsContextMenu.popup()
+                Menu {
+                    id: thumbsContextMenu
+                    ExclusiveGroup { id: thumbStyle }
+                    MenuItem {
+                        text: "In frame"
+                        id: inFrame
+                        onTriggered:controller.setTrackProperty(trackId, "kdenlive:thumbs_format", 2)
+                        checkable: true
+                        exclusiveGroup: thumbStyle
+                    }
+                    MenuItem {
+                        text: "In / out frames"
+                        id: inOutFrame
+                        onTriggered:controller.setTrackProperty(trackId, "kdenlive:thumbs_format", 0)
+                        checkable: true
+                        checked: true
+                        exclusiveGroup: thumbStyle
+                    }
+                    MenuItem {
+                        text: "All frames"
+                        id: allFrame
+                        onTriggered:controller.setTrackProperty(trackId, "kdenlive:thumbs_format", 1)
+                        checkable: true
+                        exclusiveGroup: thumbStyle
+                    }
+                    MenuItem {
+                        text: "No thumbnails"
+                        id: noFrame
+                        onTriggered:controller.setTrackProperty(trackId, "kdenlive:thumbs_format", 3)
+                        checkable: true
+                        exclusiveGroup: thumbStyle
+                    }
+                    onAboutToShow: {
+                        switch(thumbsFormat) {
+                            case 3:
+                                noFrame.checked = true
+                                break
+                            case 2:
+                                inFrame.checked = true
+                                break
+                            case 1:
+                                allFrame.checked = true
+                                break
+                            default:
+                                inOutFrame.checked = true
+                                break
+                        }
+                    }
+                }
             }
             ToolButton {
                 id: muteButton

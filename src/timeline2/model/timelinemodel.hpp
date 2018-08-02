@@ -151,7 +151,8 @@ public:
         SpeedRole,         /// clip only
         ReloadThumbRole,   /// clip only
         ItemATrack,        /// composition only
-        ItemIdRole
+        ItemIdRole,
+        ThumbsFormatRole   /// track only
     };
 
     virtual ~TimelineModel();

@@ -73,6 +73,7 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
             int lockState = track->get_int("kdenlive:locked_track");
             Mlt::Tractor local_tractor(*track);
             ok = ok && constructTrackFromMelt(timeline, tid, local_tractor, binIdCorresp, undo, redo);
+            timeline->setTrackProperty(tid, QStringLiteral("kdenlive:thumbs_format"), track->get("kdenlive:thumbs_format"));
             if (lockState > 0) {
                 timeline->setTrackProperty(tid, QStringLiteral("kdenlive:locked_track"), QString::number(lockState));
             }
@@ -92,6 +93,7 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
             }
             int lockState = local_playlist.get_int("kdenlive:locked_track");
             ok = ok && constructTrackFromMelt(timeline, tid, local_playlist, binIdCorresp, undo, redo);
+            timeline->setTrackProperty(tid, QStringLiteral("kdenlive:thumbs_format"), local_playlist.get("kdenlive:thumbs_format"));
             if (lockState > 0) {
                 timeline->setTrackProperty(tid, QStringLiteral("kdenlive:locked_track"), QString::number(lockState));
             }
