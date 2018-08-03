@@ -20,6 +20,7 @@
  ***************************************************************************/
 
 #include "transitionlistwidget.hpp"
+#include "effects/effectlist/model/effectfilter.hpp"
 #include "../model/transitiontreemodel.hpp"
 #include "assets/assetlist/model/assetfilter.hpp"
 #include "transitions/transitionsrepository.hpp"
@@ -32,7 +33,7 @@ TransitionListWidget::TransitionListWidget(QWidget *parent)
 
     m_model = TransitionTreeModel::construct(false, this);
 
-    m_proxyModel.reset(new AssetFilter(this));
+    m_proxyModel.reset(new EffectFilter(this));
     m_proxyModel->setSourceModel(m_model.get());
     m_proxyModel->setSortRole(AssetTreeModel::NameRole);
     m_proxyModel->sort(0, Qt::AscendingOrder);
@@ -58,4 +59,18 @@ QString TransitionListWidget::getMimeType(const QString &assetId) const
         return QStringLiteral("kdenlive/composition");
     }
     return QStringLiteral("kdenlive/transition");
+}
+
+void TransitionListWidget::updateFavorite(const QModelIndex &index)
+{
+    m_proxyModel->dataChanged(index, index, QVector<int>());
+}
+
+void TransitionListWidget::setFilterType(const QString &type)
+{
+    if (type == "favorites") {
+        static_cast<EffectFilter *>(m_proxyModel.get())->setFilterType(true, EffectType::Favorites);
+    } else {
+        static_cast<EffectFilter *>(m_proxyModel.get())->setFilterType(false, EffectType::Video);
+    }
 }

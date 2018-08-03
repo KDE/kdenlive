@@ -122,6 +122,16 @@ Rectangle {
                     assetlist.setFilterType("custom")
                 }
             }
+            ToolButton {
+                id: showFavorites
+                iconName: "favorite"
+                checkable:true
+                exclusiveGroup: filterGroup
+                tooltip: i18n('Show favorite items')
+                onClicked: {
+                    assetlist.setFilterType("favorites")
+                }
+            }
             Rectangle {
                 //This is a spacer
                 Layout.fillHeight: false
@@ -229,7 +239,7 @@ Rectangle {
                 anchors.right: parent ? parent.right : undefined
                 property bool isItem : styleData.value != "root" && styleData.value != ""
                 property string mimeType : isItem ? assetlist.getMimeType(styleData.value) : ""
-                height: text.implicitHeight + 8
+                height: assetText.implicitHeight + 8
                 color: "transparent"
 
                 Drag.active: isItem ? dragArea.drag.active : false
@@ -250,11 +260,6 @@ Rectangle {
                         id: assetThumb
                         visible: assetDelegate.isItem
                         property bool isFavorite: model.favorite
-                        onIsFavoriteChanged: {
-                            // ''
-                            //cache = false
-                            //source = 'image://asseticon/' + styleData.value
-                        }
                         height: parent.height
                         width: height
                         source: 'image://asseticon/' + styleData.value
@@ -314,8 +319,6 @@ Rectangle {
                     property url thumbSource
                     onTriggered: {
                         assetlist.setFavorite(sel.currentIndex, !assetContextMenu.isItemFavorite)
-                        // Force thumb reload
-
                     }
                 }
             }
