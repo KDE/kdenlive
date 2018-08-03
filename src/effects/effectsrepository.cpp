@@ -44,6 +44,11 @@ Mlt::Properties *EffectsRepository::retrieveListFromMlt()
     return pCore->getMltRepository()->filters();
 }
 
+void EffectsRepository::parseFavorites()
+{
+    m_favorites = {QStringLiteral("sepia")};
+}
+
 Mlt::Properties *EffectsRepository::getMetadata(const QString &effectId)
 {
     return pCore->getMltRepository()->metadata(filter_type, effectId.toLatin1().data());
@@ -63,6 +68,9 @@ void EffectsRepository::parseCustomAssetFile(const QString &file_name, std::unor
         info.type = EffectType::Custom;
         QString tag = base.attribute(QStringLiteral("tag"), QString());
         QString id = base.hasAttribute(QStringLiteral("id")) ? base.attribute(QStringLiteral("id")) : tag;
+        if (m_favorites.contains(id)) {
+            info.favorite = true;
+        }
 
         QString name = base.attribute(QStringLiteral("name"), QString());
         info.name = name;
@@ -110,6 +118,9 @@ void EffectsRepository::parseCustomAssetFile(const QString &file_name, std::unor
         } else {
             result.type = EffectType::Video;
         }
+        if (m_favorites.contains(result.id)) {
+            result.favorite = true;
+        }
 
         customAssets[result.id] = result;
     }
@@ -129,10 +140,12 @@ QStringList EffectsRepository::assetDirs() const
 void EffectsRepository::parseType(QScopedPointer<Mlt::Properties> &metadata, Info &res)
 {
     res.type = EffectType::Video;
-
     Mlt::Properties tags((mlt_properties)metadata->get_data("tags"));
     if (QString(tags.get(0)) == QLatin1String("Audio")) {
         res.type = EffectType::Audio;
+    }
+    if (m_favorites.contains(res.id)) {
+        res.favorite = true;
     }
 }
 

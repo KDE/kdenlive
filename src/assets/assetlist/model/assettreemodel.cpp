@@ -54,6 +54,25 @@ QString AssetTreeModel::getName(const QModelIndex &index) const
     return item->dataColumn(AssetTreeModel::nameCol).toString();
 }
 
+bool AssetTreeModel::isFavorite(const QModelIndex &index) const
+{
+    if (!index.isValid()) {
+        return false;
+    }
+    std::shared_ptr<TreeItem> item = getItemById((int)index.internalId());
+    if (item->depth() == 1) {
+        return false;
+    }
+    auto id = item->dataColumn(AssetTreeModel::idCol).toString();
+    if (EffectsRepository::get()->exists(id)) {
+        return EffectsRepository::get()->isFavorite(id);
+    }
+    if (TransitionsRepository::get()->exists(id)) {
+        return TransitionsRepository::get()->isFavorite(id);
+    }
+    return false;
+}
+
 QString AssetTreeModel::getDescription(const QModelIndex &index) const
 {
     if (!index.isValid()) {

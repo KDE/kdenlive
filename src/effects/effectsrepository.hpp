@@ -55,6 +55,9 @@ protected:
     /* Retrieves the list of all available effects from Mlt*/
     Mlt::Properties *retrieveListFromMlt() override;
 
+    /* Retrieves the list of favorite effects */
+    void parseFavorites() override;
+
     /* @brief Retrieves additional info about effects from a custom XML file
        The resulting assets are stored in customAssets
     */

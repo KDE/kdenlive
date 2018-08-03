@@ -72,6 +72,7 @@ protected:
         double version;
         QDomElement xml;
         AssetType type;
+        bool favorite = false;
     };
 
     // Reads the blacklist file and populate appropriate structure
@@ -79,6 +80,7 @@ protected:
 
     void init();
     virtual Mlt::Properties *retrieveListFromMlt() = 0;
+    virtual void parseFavorites() = 0;
 
     /* @brief Parse some info from a mlt structure
        @param res Datastructure to fill
@@ -112,6 +114,7 @@ protected:
     std::unordered_map<QString, Info> m_assets;
 
     QSet<QString> m_blacklist;
+    QSet<QString> m_favorites;
 };
 
 #include "abstractassetsrepository.ipp"

@@ -80,19 +80,38 @@ QImage AssetIconProvider::makeIcon(const QString &effectId, const QString &effec
     QString t = QStringLiteral("#") + QString::number(hex, 16).toUpper().left(6);
     QColor col(t);
     bool isAudio = false;
+    bool isFavorite = false;
     if (m_effect) {
         isAudio = EffectsRepository::get()->getType(effectId) == EffectType::Audio;
+        isFavorite = EffectsRepository::get()->isFavorite(effectId);
     } else {
         auto type = TransitionsRepository::get()->getType(effectId);
         isAudio = (type == TransitionType::AudioComposition) || (type == TransitionType::AudioTransition);
+        isFavorite = TransitionsRepository::get()->isFavorite(effectId);
     }
-    if (isAudio) {
+    if (isAudio || isFavorite) {
         pix.fill(Qt::transparent);
     } else {
         pix.fill(col);
     }
     QPainter p(&pix);
-    if (isAudio) {
+    if (isFavorite) {
+        p.setPen(Qt::NoPen);
+        p.setBrush(col);
+        static const QPointF points[3] = {
+            QPointF(2, 23),
+            QPointF(15, 0),
+            QPointF(28, 23)
+        };
+        p.drawPolygon(points, 3);
+        static const QPointF points2[3] = {
+            QPointF(2, 8),
+            QPointF(15, 30),
+            QPointF(28, 8)
+        };
+        p.drawPolygon(points2, 3);
+        p.setPen(QPen());
+    } else if (isAudio) {
         p.setPen(Qt::NoPen);
         p.setBrush(col);
         p.drawEllipse(pix.rect());

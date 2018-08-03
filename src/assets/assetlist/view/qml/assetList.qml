@@ -257,18 +257,38 @@ Rectangle {
                         text: assetlist.getName(styleData.index)
                     }
                 }
+                Menu {
+                    id: assetContextMenu
+                    MenuItem {
+                        text: "Add to favorites"
+                        onTriggered: {
+                            console.log('Asset selected: ', styleData.value, ' Fav: ', assetlist.isFavorite(styleData.index))
+                        }
+                    }
+                }
 
                 MouseArea {
                     id: dragArea
                     anchors.fill: parent
                     hoverEnabled: true
-                    drag.target: parent
+                    acceptedButtons: Qt.LeftButton | Qt.RightButton
+                    drag.target: undefined
+                    onReleased: {
+                        drag.target = undefined
+                    }
                     onPressed: {
                         if (isItem) {
-                            parent.grabToImage(function(result) {
-                                parent.Drag.imageSource = result.url
-                            })
                             sel.setCurrentIndex(styleData.index, ItemSelectionModel.ClearAndSelect)
+                            if (mouse.button === Qt.LeftButton) {
+                                drag.target = parent
+                                parent.grabToImage(function(result) {
+                                    parent.Drag.imageSource = result.url
+                                })
+                            } else {
+                                console.log('left mouse pressed!!')
+                                drag.target = undefined
+                                assetContextMenu.popup()
+                            }
                             console.log(parent.Drag.keys)
                         } else {
                             if (treeView.isExpanded(styleData.index)) {

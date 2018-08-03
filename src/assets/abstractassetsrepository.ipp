@@ -44,6 +44,7 @@ template <typename AssetType> void AbstractAssetsRepository<AssetType>::init()
 
     // Parse effects blacklist
     parseBlackList(assetBlackListPath());
+    parseFavorites();
 
     // Retrieve the list of MLT's available assets.
     QScopedPointer<Mlt::Properties> assets(retrieveListFromMlt());
@@ -174,10 +175,10 @@ template <typename AssetType> QString AbstractAssetsRepository<AssetType>::getDe
     return m_assets.at(assetId).description;
 }
 
-template <typename AssetType> bool AbstractAssetsRepository<AssetType>::isFavorite(const QString & /*assetId*/) const
+template <typename AssetType> bool AbstractAssetsRepository<AssetType>::isFavorite(const QString & assetId) const
 {
-    // TODO
-    return true;
+    Q_ASSERT(m_assets.count(assetId) > 0);
+    return m_assets.at(assetId).favorite;
 }
 
 template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInfoFromXml(const QDomElement &currentAsset, Info &res) const

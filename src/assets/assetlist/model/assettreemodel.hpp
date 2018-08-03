@@ -39,6 +39,8 @@ public:
     QString getName(const QModelIndex &index) const;
     // Helper function to retrieve description
     QString getDescription(const QModelIndex &index) const;
+    // Helper function to retrieve if an effect is categorized as favorite
+    bool isFavorite(const QModelIndex &index) const;
     QHash<int, QByteArray> roleNames() const override;
     QVariant data(const QModelIndex &index, int role) const override;
 
