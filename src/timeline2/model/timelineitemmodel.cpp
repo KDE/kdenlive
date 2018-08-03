@@ -381,7 +381,8 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
 
 void TimelineItemModel::setTrackProperty(int trackId, const QString &name, const QString &value)
 {
-    getTrackById(trackId)->setProperty(name, value);
+    std::shared_ptr<TrackModel> track = getTrackById(trackId);
+    track->setProperty(name, value);
     QVector<int> roles;
     if (name == QLatin1String("kdenlive:track_name")) {
         roles.push_back(NameRole);
@@ -389,6 +390,9 @@ void TimelineItemModel::setTrackProperty(int trackId, const QString &name, const
         roles.push_back(IsLockedRole);
     } else if (name == QLatin1String("hide")) {
         roles.push_back(IsDisabledRole);
+        if(!track->isAudioTrack()) {
+            pCore->requestMonitorRefresh();
+        }
     } else if (name == QLatin1String("kdenlive:thumbs_format")) {
         roles.push_back(ThumbsFormatRole);
     }
