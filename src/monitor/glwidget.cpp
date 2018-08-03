@@ -22,7 +22,6 @@
 
 #include <KMessageBox>
 #include <KDeclarative/KDeclarative>
-#include <KDeclarative/KDeclarative>
 #include <kdeclarative_version.h>
 #include <QApplication>
 #include <QOpenGLFunctions_3_2_Core>

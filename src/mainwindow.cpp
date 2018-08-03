@@ -401,6 +401,7 @@ void MainWindow::init()
 
     // Create Effect Basket (dropdown list of favorites)
     m_effectBasket = new EffectBasket(m_effectList);
+    connect(m_effectList2, &EffectListWidget::reloadBasket, m_effectBasket, &EffectBasket::slotReloadBasket);
     connect(m_effectBasket, SIGNAL(addEffect(QDomElement)), this, SLOT(slotAddEffect(QDomElement)));
     auto *widgetlist = new QWidgetAction(this);
     widgetlist->setDefaultWidget(m_effectBasket);

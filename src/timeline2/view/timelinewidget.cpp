@@ -38,6 +38,7 @@
 #include "utils/clipboardproxy.hpp"
 
 #include <KDeclarative/KDeclarative>
+#include <kdeclarative_version.h>
 // #include <QUrl>
 #include <QAction>
 #include <QQmlContext>
@@ -51,6 +52,15 @@ const int TimelineWidget::comboScale[] = {1, 2, 5, 10, 25, 50, 125, 250, 500, 75
 TimelineWidget::TimelineWidget(QWidget *parent)
     : QQuickWidget(parent)
 {
+    KDeclarative::KDeclarative kdeclarative;
+    kdeclarative.setDeclarativeEngine(engine());
+#if KDECLARATIVE_VERSION >= QT_VERSION_CHECK(5, 45, 0)
+    kdeclarative.setupEngine(engine());
+    kdeclarative.setupContext();
+#else
+    kdeclarative.setupBindings();
+#endif
+
     registerTimelineItems();
     m_transitionModel = TransitionTreeModel::construct(true, this);
     m_transitionProxyModel.reset(new AssetFilter(this));
@@ -59,9 +69,6 @@ TimelineWidget::TimelineWidget(QWidget *parent)
     m_transitionProxyModel->sort(0, Qt::AscendingOrder);
     m_proxy = new TimelineController(this);
     connect(m_proxy, &TimelineController::zoneMoved, this, &TimelineWidget::zoneMoved);
-    KDeclarative::KDeclarative kdeclarative;
-    kdeclarative.setDeclarativeEngine(engine());
-    kdeclarative.setupBindings();
     setResizeMode(QQuickWidget::SizeRootObjectToView);
     m_thumbnailer = new ThumbnailProvider;
     engine()->addImageProvider(QStringLiteral("thumbnail"), m_thumbnailer);

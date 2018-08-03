@@ -48,6 +48,9 @@ public:
     /* @brief Returns true if this effect belongs to favorites */
     bool isFavorite(const QModelIndex &index) const;
 
+    /* @brief Returns true if this effect belongs to favorites */
+    void setFavorite(const QModelIndex &index, bool favorite = true);
+
     /* @brief Returns the description of the asset given its model index */
     QString getDescription(const QModelIndex &index) const;
 

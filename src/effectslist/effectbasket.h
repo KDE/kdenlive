@@ -45,8 +45,10 @@ protected:
 private:
     EffectsListView *m_effectList;
 
-private slots:
+public slots:
     void slotReloadBasket();
+
+private slots:
     void slotAddEffect(QListWidgetItem *item);
 
 signals:

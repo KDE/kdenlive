@@ -21,6 +21,7 @@
 
 #include "effectsrepository.hpp"
 #include "core.h"
+#include "kdenlivesettings.h"
 #include "xml/xml.hpp"
 #include <QDir>
 #include <QFile>
@@ -46,7 +47,20 @@ Mlt::Properties *EffectsRepository::retrieveListFromMlt()
 
 void EffectsRepository::parseFavorites()
 {
-    m_favorites = {QStringLiteral("sepia")};
+    m_favorites = KdenliveSettings::favorite_effects().toSet();
+}
+
+void EffectsRepository::setFavorite(const QString &id, bool favorite)
+{
+    Q_ASSERT(exists(id));
+    if (favorite) {
+        m_favorites << id;
+        m_assets[id].favorite = true;
+    } else {
+        m_favorites.remove(id);
+        m_assets[id].favorite = false;
+    }
+    KdenliveSettings::setFavorite_effects(QStringList::fromSet(m_favorites));
 }
 
 Mlt::Properties *EffectsRepository::getMetadata(const QString &effectId)

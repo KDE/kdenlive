@@ -220,6 +220,7 @@ Rectangle {
             Layout.fillWidth: true
             alternatingRowColors: false
             headerVisible: false
+            property var selectedAssetImage: undefined
             selection: sel
             selectionMode: SelectionMode.SingleSelection
             itemDelegate: Rectangle {
@@ -247,6 +248,7 @@ Rectangle {
                     anchors.bottomMargin: 2
                     spacing: 2
                     Image{
+                        id: assetThumb
                         visible: assetDelegate.isItem
                         height: parent.height
                         width: height
@@ -257,16 +259,6 @@ Rectangle {
                         text: assetlist.getName(styleData.index)
                     }
                 }
-                Menu {
-                    id: assetContextMenu
-                    MenuItem {
-                        text: "Add to favorites"
-                        onTriggered: {
-                            console.log('Asset selected: ', styleData.value, ' Fav: ', assetlist.isFavorite(styleData.index))
-                        }
-                    }
-                }
-
                 MouseArea {
                     id: dragArea
                     anchors.fill: parent
@@ -285,9 +277,10 @@ Rectangle {
                                     parent.Drag.imageSource = result.url
                                 })
                             } else {
-                                console.log('left mouse pressed!!')
                                 drag.target = undefined
+                                treeView.selectedAssetImage = assetThumb
                                 assetContextMenu.popup()
+                                mouse.accepted = false
                             }
                             console.log(parent.Drag.keys)
                         } else {
@@ -303,6 +296,22 @@ Rectangle {
                         if (isItem) {
                             assetlist.activate(styleData.index)
                         }
+                    }
+                }
+            }
+            Menu {
+                id: assetContextMenu
+                MenuItem {
+                    id: favMenu
+                    text: assetlist.isFavorite(sel.currentIndex) ? "Remove from favorites" : "Add to favorites"
+                    property url thumbSource
+                    onTriggered: {
+                        assetlist.setFavorite(sel.currentIndex, !assetlist.isFavorite(sel.currentIndex))
+                        // Force thumb reload
+                        thumbSource = treeView.selectedAssetImage.source
+                        treeView.selectedAssetImage.source = ''
+                        treeView.selectedAssetImage.cache = false
+                        treeView.selectedAssetImage.source = thumbSource
                     }
                 }
             }

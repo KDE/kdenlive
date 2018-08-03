@@ -945,6 +945,10 @@
       <label>List of favorite effects ids.</label>
       <default></default>
     </entry>
+    <entry name="favorite_transitions" type="StringList">
+      <label>List of favorite transitions ids.</label>
+      <default></default>
+    </entry>
     <entry name="selected_effecttab" type="Int">
       <label>Last opened tab in effects list.</label>
       <default>0</default>

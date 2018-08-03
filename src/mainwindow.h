@@ -48,6 +48,7 @@
 class AssetPanel;
 class AudioGraphSpectrum;
 class EffectStackView2;
+class EffectBasket;
 class EffectListWidget;
 class TransitionListWidget;
 class EffectStackView;
@@ -240,7 +241,7 @@ private:
     KXMLGUIClient *m_extraFactory;
     bool m_themeInitialized;
     bool m_isDarkTheme;
-    QListWidget *m_effectBasket;
+    EffectBasket *m_effectBasket;
     /** @brief Update widget style. */
     void doChangeStyle();
     void updateActionsToolTip();

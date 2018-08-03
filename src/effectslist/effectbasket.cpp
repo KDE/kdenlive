@@ -36,7 +36,6 @@ EffectBasket::EffectBasket(EffectsListView *effectList)
     setSelectionMode(QAbstractItemView::SingleSelection);
     setDragEnabled(true);
     m_effectList->creatFavoriteBasket(this);
-    connect(m_effectList, &EffectsListView::reloadBasket, this, &EffectBasket::slotReloadBasket);
     connect(this, &QListWidget::itemActivated, this, &EffectBasket::slotAddEffect);
 }
 
