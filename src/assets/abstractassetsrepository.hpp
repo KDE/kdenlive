@@ -57,9 +57,6 @@ public:
     /* @brief Return description of asset */
     QString getDescription(const QString &assetId) const;
 
-    /* @brief Check whether a given asset is favorite */
-    bool isFavorite(const QString &assetId) const;
-
     /* @brief Set an asset as favorite (or not)*/
     virtual void setFavorite(const QString & assetId, bool favorite) = 0;
 
@@ -75,7 +72,6 @@ protected:
         double version;
         QDomElement xml;
         AssetType type;
-        bool favorite = false;
     };
 
     // Reads the blacklist file and populate appropriate structure

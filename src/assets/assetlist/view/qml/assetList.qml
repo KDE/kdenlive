@@ -220,7 +220,6 @@ Rectangle {
             Layout.fillWidth: true
             alternatingRowColors: false
             headerVisible: false
-            property var selectedAssetImage: undefined
             selection: sel
             selectionMode: SelectionMode.SingleSelection
             itemDelegate: Rectangle {
@@ -250,12 +249,19 @@ Rectangle {
                     Image{
                         id: assetThumb
                         visible: assetDelegate.isItem
+                        property bool isFavorite: model.favorite
+                        onIsFavoriteChanged: {
+                            // ''
+                            //cache = false
+                            //source = 'image://asseticon/' + styleData.value
+                        }
                         height: parent.height
                         width: height
                         source: 'image://asseticon/' + styleData.value
                     }
                     Label {
-                        id: text
+                        id: assetText
+                        font.bold : assetThumb.isFavorite
                         text: assetlist.getName(styleData.index)
                     }
                 }
@@ -278,7 +284,7 @@ Rectangle {
                                 })
                             } else {
                                 drag.target = undefined
-                                treeView.selectedAssetImage = assetThumb
+                                assetContextMenu.isItemFavorite = assetThumb.isFavorite
                                 assetContextMenu.popup()
                                 mouse.accepted = false
                             }
@@ -301,17 +307,15 @@ Rectangle {
             }
             Menu {
                 id: assetContextMenu
+                property bool isItemFavorite
                 MenuItem {
                     id: favMenu
-                    text: assetlist.isFavorite(sel.currentIndex) ? "Remove from favorites" : "Add to favorites"
+                    text: assetContextMenu.isItemFavorite ? "Remove from favorites" : "Add to favorites"
                     property url thumbSource
                     onTriggered: {
-                        assetlist.setFavorite(sel.currentIndex, !assetlist.isFavorite(sel.currentIndex))
+                        assetlist.setFavorite(sel.currentIndex, !assetContextMenu.isItemFavorite)
                         // Force thumb reload
-                        thumbSource = treeView.selectedAssetImage.source
-                        treeView.selectedAssetImage.source = ''
-                        treeView.selectedAssetImage.cache = false
-                        treeView.selectedAssetImage.source = thumbSource
+
                     }
                 }
             }

@@ -18,30 +18,32 @@
  ***************************************************************************/
 
 #include "effectbasket.h"
-#include "effectslistview.h"
-#include "effectslistwidget.h"
 #include "kdenlivesettings.h"
-
+#include "effects/effectsrepository.hpp"
 #include <klocalizedstring.h>
 
-#include <QDomDocument>
 #include <QListWidget>
 #include <QMimeData>
 
-EffectBasket::EffectBasket(EffectsListView *effectList)
-    : QListWidget(effectList)
-    , m_effectList(effectList)
+EffectBasket::EffectBasket(QWidget *parent)
+    : QListWidget(parent)
 {
     setFrameStyle(QFrame::NoFrame);
     setSelectionMode(QAbstractItemView::SingleSelection);
     setDragEnabled(true);
-    m_effectList->creatFavoriteBasket(this);
+    slotReloadBasket();
     connect(this, &QListWidget::itemActivated, this, &EffectBasket::slotAddEffect);
 }
 
 void EffectBasket::slotReloadBasket()
 {
-    m_effectList->creatFavoriteBasket(this);
+    for (const QString &effectId : KdenliveSettings::favorite_effects()) {
+        if (EffectsRepository::get()->exists(effectId)) {
+            QListWidgetItem *it = new QListWidgetItem(EffectsRepository::get()->getName(effectId));
+            it->setData(Qt::UserRole, effectId);
+            addItem(it);
+        }
+    }
 }
 
 QMimeData *EffectBasket::mimeData(const QList<QListWidgetItem *> list) const
@@ -51,12 +53,9 @@ QMimeData *EffectBasket::mimeData(const QList<QListWidgetItem *> list) const
     }
     QDomDocument doc;
     QListWidgetItem *item = list.at(0);
-    int type = item->data(EffectsListWidget::TypeRole).toInt();
-    QStringList info = item->data(EffectsListWidget::IdRole).toStringList();
-    QDomElement effect = EffectsListWidget::itemEffect(type, info);
-    doc.appendChild(doc.importNode(effect, true));
+    QString effectId = item->data(Qt::UserRole).toString();
     auto *mime = new QMimeData;
-    mime->setData(QStringLiteral("kdenlive/effectslist"), doc.toString().toUtf8());
+    mime->setData(QStringLiteral("kdenlive/effect"), effectId.toUtf8());
     return mime;
 }
 
@@ -70,8 +69,8 @@ void EffectBasket::showEvent(QShowEvent *event)
 
 void EffectBasket::slotAddEffect(QListWidgetItem *item)
 {
-    int type = item->data(EffectsListWidget::TypeRole).toInt();
-    QStringList info = item->data(EffectsListWidget::IdRole).toStringList();
-    QDomElement effect = EffectsListWidget::itemEffect(type, info);
-    emit addEffect(effect);
+    QString assetId = item->data(Qt::UserRole).toString();
+    QVariantMap mimeData;
+    mimeData.insert(QStringLiteral("kdenlive/effect"), assetId);
+    emit activateAsset(mimeData);
 }

@@ -39,6 +39,7 @@ QHash<int, QByteArray> AssetTreeModel::roleNames() const
     QHash<int, QByteArray> roles;
     roles[IdRole] = "identifier";
     roles[NameRole] = "name";
+    roles[FavoriteRole] = "favorite";
     return roles;
 }
 
@@ -63,14 +64,7 @@ bool AssetTreeModel::isFavorite(const QModelIndex &index) const
     if (item->depth() == 1) {
         return false;
     }
-    auto id = item->dataColumn(AssetTreeModel::idCol).toString();
-    if (EffectsRepository::get()->exists(id)) {
-        return EffectsRepository::get()->isFavorite(id);
-    }
-    if (TransitionsRepository::get()->exists(id)) {
-        return TransitionsRepository::get()->isFavorite(id);
-    }
-    return false;
+    return item->dataColumn(AssetTreeModel::favCol).toBool();
 }
 
 void AssetTreeModel::setFavorite(const QModelIndex &index, bool favorite)
@@ -82,6 +76,7 @@ void AssetTreeModel::setFavorite(const QModelIndex &index, bool favorite)
     if (item->depth() == 1) {
         return;
     }
+    item->setData(AssetTreeModel::favCol, favorite);
     auto id = item->dataColumn(AssetTreeModel::idCol).toString();
     if (EffectsRepository::get()->exists(id)) {
         EffectsRepository::get()->setFavorite(id, favorite);
@@ -118,6 +113,9 @@ QVariant AssetTreeModel::data(const QModelIndex &index, int role) const
     std::shared_ptr<TreeItem> item = getItemById((int)index.internalId());
     if (role == IdRole) {
         return item->dataColumn(AssetTreeModel::idCol);
+    }
+    if (role == FavoriteRole) {
+        return item->dataColumn(AssetTreeModel::favCol);
     }
 
     if (role != NameRole) {

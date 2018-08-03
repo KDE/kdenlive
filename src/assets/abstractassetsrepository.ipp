@@ -175,12 +175,6 @@ template <typename AssetType> QString AbstractAssetsRepository<AssetType>::getDe
     return m_assets.at(assetId).description;
 }
 
-template <typename AssetType> bool AbstractAssetsRepository<AssetType>::isFavorite(const QString & assetId) const
-{
-    Q_ASSERT(m_assets.count(assetId) > 0);
-    return m_assets.at(assetId).favorite;
-}
-
 template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInfoFromXml(const QDomElement &currentAsset, Info &res) const
 {
     QLocale locale;

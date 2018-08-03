@@ -55,10 +55,8 @@ void TransitionsRepository::setFavorite(const QString &id, bool favorite)
     Q_ASSERT(exists(id));
     if (favorite) {
         m_favorites << id;
-        m_assets[id].favorite = true;
     } else {
         m_favorites.remove(id);
-        m_assets[id].favorite = false;
     }
     KdenliveSettings::setFavorite_transitions(QStringList::fromSet(m_favorites));
 }

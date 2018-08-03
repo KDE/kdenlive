@@ -55,10 +55,8 @@ void EffectsRepository::setFavorite(const QString &id, bool favorite)
     Q_ASSERT(exists(id));
     if (favorite) {
         m_favorites << id;
-        m_assets[id].favorite = true;
     } else {
         m_favorites.remove(id);
-        m_assets[id].favorite = false;
     }
     KdenliveSettings::setFavorite_effects(QStringList::fromSet(m_favorites));
 }
@@ -82,10 +80,6 @@ void EffectsRepository::parseCustomAssetFile(const QString &file_name, std::unor
         info.type = EffectType::Custom;
         QString tag = base.attribute(QStringLiteral("tag"), QString());
         QString id = base.hasAttribute(QStringLiteral("id")) ? base.attribute(QStringLiteral("id")) : tag;
-        if (m_favorites.contains(id)) {
-            info.favorite = true;
-        }
-
         QString name = base.attribute(QStringLiteral("name"), QString());
         info.name = name;
         info.id = id;
@@ -132,9 +126,6 @@ void EffectsRepository::parseCustomAssetFile(const QString &file_name, std::unor
         } else {
             result.type = EffectType::Video;
         }
-        if (m_favorites.contains(result.id)) {
-            result.favorite = true;
-        }
 
         customAssets[result.id] = result;
     }
@@ -157,9 +148,6 @@ void EffectsRepository::parseType(QScopedPointer<Mlt::Properties> &metadata, Inf
     Mlt::Properties tags((mlt_properties)metadata->get_data("tags"));
     if (QString(tags.get(0)) == QLatin1String("Audio")) {
         res.type = EffectType::Audio;
-    }
-    if (m_favorites.contains(res.id)) {
-        res.favorite = true;
     }
 }
 

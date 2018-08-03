@@ -47,6 +47,11 @@ EffectListWidget::EffectListWidget(QWidget *parent)
     setup();
 }
 
+void EffectListWidget::updateFavorite(const QModelIndex &index)
+{
+    m_proxyModel->dataChanged(index, index, QVector<int>());
+}
+
 EffectListWidget::~EffectListWidget()
 {
     delete m_proxy;
@@ -71,3 +76,4 @@ QString EffectListWidget::getMimeType(const QString &assetId) const
     Q_UNUSED(assetId);
     return QStringLiteral("kdenlive/effect");
 }
+

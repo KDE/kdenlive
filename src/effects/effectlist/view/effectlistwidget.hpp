@@ -43,6 +43,7 @@ public:
 
     /*@brief Return mime type used for drag and drop. It will be kdenlive/effect*/
     QString getMimeType(const QString &assetId) const override;
+    void updateFavorite(const QModelIndex &index);
 
 private:
     EffectListWidgetProxy *m_proxy;
@@ -65,7 +66,7 @@ public:
     }
     Q_INVOKABLE QString getName(const QModelIndex &index) const { return q->getName(index); }
     Q_INVOKABLE bool isFavorite(const QModelIndex &index) const { return q->isFavorite(index); }
-    Q_INVOKABLE void setFavorite(const QModelIndex &index, bool favorite) const { q->setFavorite(index, favorite); q->reloadBasket();}
+    Q_INVOKABLE void setFavorite(const QModelIndex &index, bool favorite) const { q->setFavorite(index, favorite); q->updateFavorite(index); q->reloadBasket();}
     Q_INVOKABLE QString getDescription(const QModelIndex &index) const { return q->getDescription(index); }
     Q_INVOKABLE QVariantMap getMimeData(const QString &assetId) const { return q->getMimeData(assetId); }
 

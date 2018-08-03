@@ -74,6 +74,7 @@ bool AssetListWidget::isFavorite(const QModelIndex &index) const
 void AssetListWidget::setFavorite(const QModelIndex &index, bool favorite)
 {
     return m_model->setFavorite(m_proxyModel->mapToSource(index), favorite);
+    
 }
 
 QString AssetListWidget::getDescription(const QModelIndex &index) const

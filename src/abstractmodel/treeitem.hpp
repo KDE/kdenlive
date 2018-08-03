@@ -104,6 +104,7 @@ public:
        @param column Index of the column to look-up
     */
     QVariant dataColumn(int column) const;
+    void setData(int column, const QVariant dataColumn);
 
     /* @brief Return the index of current item amongst father's children
        Returns -1 on error (eg: no parent set)

@@ -33,7 +33,7 @@ class AssetTreeModel : public AbstractTreeModel
 public:
     explicit AssetTreeModel(QObject *parent = 0);
 
-    enum { IdRole = Qt::UserRole + 1, NameRole };
+    enum { IdRole = Qt::UserRole + 1, NameRole, FavoriteRole };
 
     // Helper function to retrieve name
     QString getName(const QModelIndex &index) const;

@@ -190,6 +190,11 @@ QVariant TreeItem::dataColumn(int column) const
     return m_itemData.value(column);
 }
 
+void TreeItem::setData(int column, const QVariant dataColumn)
+{
+    m_itemData[column] = dataColumn;
+}
+
 std::weak_ptr<TreeItem> TreeItem::parentItem() const
 {
     return m_parentItem;

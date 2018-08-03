@@ -96,7 +96,7 @@ std::shared_ptr<EffectTreeModel> EffectTreeModel::construct(const QString &categ
 
         // we create the data list corresponding to this profile
         QList<QVariant> data;
-        bool isFav = EffectsRepository::get()->isFavorite(effect.first);
+        bool isFav = KdenliveSettings::favorite_effects().contains(effect.first);
         qDebug() << effect.second << effect.first << "in " << targetCategory->dataColumn(0).toString();
         data << effect.second << effect.first << QVariant::fromValue(type) << isFav;
 
