@@ -412,7 +412,7 @@ void LoadJob::processMultiStream()
         qDebug() << "Warning, something went wrong while accessing parent of bin clip";
     }
     // This helper lambda request addition of a given stream
-    auto addStream = [ this, parentId = std::move(parent) ](int vindex, int aindex, Fun &undo, Fun &redo)
+    auto addStream = [ this, parentId = std::move(parent) ](int vindex, int aindex, Fun &undo, Fun &redo, Updates &list)
     {
         auto clone = Clip::clone(m_producer);
         clone->set("video_index", vindex);
@@ -423,6 +423,7 @@ void LoadJob::processMultiStream()
     };
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
+    Updates list;
 
     if (KdenliveSettings::automultistreams()) {
         for (int i = 1; i < m_video_list.count(); ++i) {
@@ -431,7 +432,7 @@ void LoadJob::processMultiStream()
             if (i <= m_audio_list.count() - 1) {
                 aindex = m_audio_list.at(i);
             }
-            addStream(vindex, aindex, undo, redo);
+            addStream(vindex, aindex, undo, redo, list);
         }
         return;
     }
@@ -499,14 +500,15 @@ void LoadJob::processMultiStream()
                     // only check audio index if we have several audio streams
                     aindex = comboList.at(ax)->itemData(comboList.at(ax)->currentIndex()).toInt();
                 }
-                addStream(vindex, aindex, undo, redo);
+                addStream(vindex, aindex, undo, redo, list);
             }
         }
     }
+    ModelUpdater::applyUpdates(undo, redo, list);
     pCore->pushUndo(undo, redo, i18n("Add additional streams for clip"));
 }
 
-bool LoadJob::commitResult(Fun &undo, Fun &redo)
+bool LoadJob::commitResult(Fun &undo, Fun &redo, Updates &list)
 {
     qDebug() << "################### loadjob COMMIT";
     Q_ASSERT(!m_resultConsumed);
@@ -518,7 +520,7 @@ bool LoadJob::commitResult(Fun &undo, Fun &redo)
     auto m_binClip = pCore->projectItemModel()->getClipByBinID(m_clipId);
     if (!m_successful) {
         // TODO: Deleting cannot happen at this stage or we endup in a mutex lock
-        pCore->projectItemModel()->requestBinClipDeletion(m_binClip, undo, redo);
+        pCore->projectItemModel()->requestBinClipDeletion(m_binClip, undo, redo, list);
         return false;
     }
     if (m_xml.hasAttribute(QStringLiteral("_checkProfile")) && m_producer->get_int("video_index") > -1) {

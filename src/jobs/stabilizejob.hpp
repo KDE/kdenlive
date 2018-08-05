@@ -54,7 +54,7 @@ public:
     // Return the list of stabilization filters that we support
     static std::unordered_set<QString> supportedFilters();
 
-    bool commitResult(Fun &undo, Fun &redo) override;
+    bool commitResult(Fun &undo, Fun &redo, Updates &list) override;
     const QString getDescription() const override;
 
 protected:

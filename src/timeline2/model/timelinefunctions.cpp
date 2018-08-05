@@ -31,15 +31,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QDebug>
 #include <klocalizedstring.h>
 
-bool TimelineFunctions::copyClip(std::shared_ptr<TimelineItemModel> timeline, int clipId, int &newId, PlaylistState::ClipState state, Fun &undo, Fun &redo)
+bool TimelineFunctions::copyClip(std::shared_ptr<TimelineItemModel> timeline, int clipId, int &newId, PlaylistState::ClipState state, Fun &undo, Fun &redo,
+                                 Updates &list)
 {
     // Special case: slowmotion clips
     double clipSpeed = timeline->m_allClips[clipId]->getSpeed();
-    bool res = timeline->requestClipCreation(timeline->getClipBinId(clipId), newId, state, undo, redo);
+    bool res = timeline->requestClipCreation(timeline->getClipBinId(clipId), newId, state, undo, redo, list);
     timeline->m_allClips[newId]->m_endlessResize = timeline->m_allClips[clipId]->m_endlessResize;
     // Apply speed effect if necessary
     if (!qFuzzyCompare(clipSpeed, 1.0)) {
-        timeline->m_allClips[newId]->useTimewarpProducer(clipSpeed, undo, redo);
+        timeline->m_allClips[newId]->useTimewarpProducer(clipSpeed, undo, redo, list);
     }
     // copy useful timeline properties
     timeline->m_allClips[clipId]->passTimelineProperties(timeline->m_allClips[newId]);
@@ -48,8 +49,8 @@ bool TimelineFunctions::copyClip(std::shared_ptr<TimelineItemModel> timeline, in
     int init_duration = timeline->getClipPlaytime(newId);
     if (duration != init_duration) {
         int in = timeline->m_allClips[clipId]->getIn();
-        res = res && timeline->requestItemResize(newId, init_duration - in, false, true, undo, redo);
-        res = res && timeline->requestItemResize(newId, duration, true, true, undo, redo);
+        res = res && timeline->requestItemResize(newId, init_duration - in, false, true, undo, redo, list);
+        res = res && timeline->requestItemResize(newId, duration, true, true, undo, redo, list);
     }
     if (!res) {
         return false;
@@ -65,10 +66,11 @@ bool TimelineFunctions::requestMultipleClipsInsertion(std::shared_ptr<TimelineIt
 {
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
+    Updates list;
 
     for (const QString &binId : binIds) {
         int clipId;
-        if (timeline->requestClipInsertion(binId, trackId, position, clipId, logUndo, refreshView, true, undo, redo)) {
+        if (timeline->requestClipInsertion(binId, trackId, position, clipId, logUndo, refreshView, true, undo, redo, list)) {
             clipIds.append(clipId);
             position += timeline->getItemPlaytime(clipId);
         } else {
@@ -78,6 +80,7 @@ bool TimelineFunctions::requestMultipleClipsInsertion(std::shared_ptr<TimelineIt
         }
     }
 
+    ModelUpdater::applyUpdates(undo, redo, list);
     if (logUndo) {
         pCore->pushUndo(undo, redo, i18n("Insert Clips"));
     }
@@ -85,7 +88,7 @@ bool TimelineFunctions::requestMultipleClipsInsertion(std::shared_ptr<TimelineIt
     return true;
 }
 
-bool TimelineFunctions::processClipCut(std::shared_ptr<TimelineItemModel> timeline, int clipId, int position, int &newId, Fun &undo, Fun &redo)
+bool TimelineFunctions::processClipCut(std::shared_ptr<TimelineItemModel> timeline, int clipId, int position, int &newId, Fun &undo, Fun &redo, Updates &list)
 {
     int trackId = timeline->getClipTrackId(clipId);
     int trackDuration = timeline->getTrackById_const(trackId)->trackDuration();
@@ -95,10 +98,10 @@ bool TimelineFunctions::processClipCut(std::shared_ptr<TimelineItemModel> timeli
         return false;
     }
     PlaylistState::ClipState state = timeline->m_allClips[clipId]->clipState();
-    bool res = copyClip(timeline, clipId, newId, state, undo, redo);
-    res = res && timeline->requestItemResize(clipId, position - start, true, true, undo, redo);
+    bool res = copyClip(timeline, clipId, newId, state, undo, redo, list);
+    res = res && timeline->requestItemResize(clipId, position - start, true, true, undo, redo, list);
     int newDuration = timeline->getClipPlaytime(clipId);
-    res = res && timeline->requestItemResize(newId, duration - newDuration, false, true, undo, redo);
+    res = res && timeline->requestItemResize(newId, duration - newDuration, false, true, undo, redo, list);
     // parse effects
     std::shared_ptr<EffectStackModel> sourceStack = timeline->getClipEffectStackModel(clipId);
     sourceStack->cleanFadeEffects(true, undo, redo);
@@ -106,7 +109,7 @@ bool TimelineFunctions::processClipCut(std::shared_ptr<TimelineItemModel> timeli
     destStack->cleanFadeEffects(false, undo, redo);
     // The next requestclipmove does not check for duration change since we don't invalidate timeline, so check duration change now
     bool durationChanged = trackDuration != timeline->getTrackById_const(trackId)->trackDuration();
-    res = res && timeline->requestClipMove(newId, trackId, position, true, false, undo, redo);
+    res = res && timeline->requestClipMove(newId, trackId, position, true, false, undo, redo, list);
     if (durationChanged) {
         // Track length changed, check project duration
         Fun updateDuration = [timeline]() {
@@ -123,14 +126,16 @@ bool TimelineFunctions::requestClipCut(std::shared_ptr<TimelineItemModel> timeli
 {
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
-    bool result = TimelineFunctions::requestClipCut(timeline, clipId, position, undo, redo);
+    Updates list;
+    bool result = TimelineFunctions::requestClipCut(timeline, clipId, position, undo, redo, list);
+    ModelUpdater::applyUpdates(undo, redo, list);
     if (result) {
         pCore->pushUndo(undo, redo, i18n("Cut clip"));
     }
     return result;
 }
 
-bool TimelineFunctions::requestClipCut(std::shared_ptr<TimelineItemModel> timeline, int clipId, int position, Fun &undo, Fun &redo)
+bool TimelineFunctions::requestClipCut(std::shared_ptr<TimelineItemModel> timeline, int clipId, int position, Fun &undo, Fun &redo, Updates &list)
 {
     const std::unordered_set<int> clips = timeline->getGroupElements(clipId);
     int root = timeline->m_groups->getRootId(clipId);
@@ -149,14 +154,14 @@ bool TimelineFunctions::requestClipCut(std::shared_ptr<TimelineItemModel> timeli
         if (start < position && (start + duration) > position) {
             count++;
             int newId;
-            bool res = processClipCut(timeline, cid, position, newId, undo, redo);
+            bool res = processClipCut(timeline, cid, position, newId, undo, redo, list);
             if (!res) {
                 bool undone = undo();
                 Q_ASSERT(undone);
                 return false;
             }
             // splitted elements go temporarily in the same group as original ones.
-            timeline->m_groups->setInGroupOf(newId, cid, undo, redo);
+            timeline->m_groups->setInGroupOf(newId, cid, undo, redo, list);
         }
     }
     if (count > 0 && timeline->m_groups->isInGroup(clipId)) {
@@ -165,7 +170,7 @@ bool TimelineFunctions::requestClipCut(std::shared_ptr<TimelineItemModel> timeli
         auto criterion = [timeline, position](int cid) { return timeline->getClipPosition(cid) < position; };
         bool res = true;
         for (const int topId : topElements) {
-            res = res & timeline->m_groups->split(topId, criterion, undo, redo);
+            res = res & timeline->m_groups->split(topId, criterion, undo, redo, list);
         }
         if (!res) {
             bool undone = undo();
@@ -197,20 +202,22 @@ bool TimelineFunctions::requestSpacerEndOperation(std::shared_ptr<TimelineItemMo
     // Start undoable command
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
-    int res = timeline->requestClipsGroup(clips, undo, redo);
-    bool final = false;
+    Updates list;
+    int res = timeline->requestClipsGroup(clips, undo, redo, list);
+    bool isFinal = false;
     if (res > -1) {
         if (clips.size() > 1) {
-            final = timeline->requestGroupMove(clipId, res, 0, endPosition - startPosition, true, true, undo, redo);
+            isFinal = timeline->requestGroupMove(clipId, res, 0, endPosition - startPosition, true, true, undo, redo, list);
         } else {
             // only 1 clip to be moved
-            final = timeline->requestClipMove(clipId, track, endPosition, true, true, undo, redo);
+            isFinal = timeline->requestClipMove(clipId, track, endPosition, true, true, undo, redo, list);
         }
     }
-    if (final && clips.size() > 1) {
-        final = timeline->requestClipUngroup(clipId, undo, redo);
+    if (isFinal && clips.size() > 1) {
+        isFinal = timeline->requestClipUngroup(clipId, undo, redo, list);
     }
-    if (final) {
+    if (isFinal) {
+        ModelUpdater::applyUpdates(undo, redo, list);
         pCore->pushUndo(undo, redo, i18n("Insert space"));
         return true;
     }
@@ -222,14 +229,18 @@ bool TimelineFunctions::extractZone(std::shared_ptr<TimelineItemModel> timeline,
     // Start undoable command
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
+    Updates list;
     bool result = true;
     for (int trackId : tracks) {
-        result = result && TimelineFunctions::liftZone(timeline, trackId, zone, undo, redo);
+        result = result && TimelineFunctions::liftZone(timeline, trackId, zone, undo, redo, list);
     }
     if (result && !liftOnly) {
-        result = TimelineFunctions::removeSpace(timeline, -1, zone, undo, redo);
+        result = TimelineFunctions::removeSpace(timeline, -1, zone, undo, redo, list);
     }
-    pCore->pushUndo(undo, redo, liftOnly ? i18n("Lift zone") : i18n("Extract zone"));
+    if (result) {
+        ModelUpdater::applyUpdates(undo, redo, list);
+        pCore->pushUndo(undo, redo, liftOnly ? i18n("Lift zone") : i18n("Extract zone"));
+    }
     return result;
 }
 
@@ -238,9 +249,10 @@ bool TimelineFunctions::insertZone(std::shared_ptr<TimelineItemModel> timeline, 
     // Start undoable command
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
+    Updates list;
     bool result = false;
     if (overwrite) {
-        result = TimelineFunctions::liftZone(timeline, trackId, QPoint(insertFrame, insertFrame + (zone.y() - zone.x())), undo, redo);
+        result = TimelineFunctions::liftZone(timeline, trackId, QPoint(insertFrame, insertFrame + (zone.y() - zone.x())), undo, redo, list);
     } else {
         // Cut all tracks
         auto it = timeline->m_allTracks.cbegin();
@@ -253,49 +265,51 @@ bool TimelineFunctions::insertZone(std::shared_ptr<TimelineItemModel> timeline, 
             int startClipId = timeline->getClipByPosition(target_track, insertFrame);
             if (startClipId > -1) {
                 // There is a clip, cut it
-                TimelineFunctions::requestClipCut(timeline, startClipId, insertFrame, undo, redo);
+                TimelineFunctions::requestClipCut(timeline, startClipId, insertFrame, undo, redo, list);
             }
             ++it;
         }
-        result = TimelineFunctions::insertSpace(timeline, trackId, QPoint(insertFrame, insertFrame + (zone.y() - zone.x())), undo, redo);
+        result = TimelineFunctions::insertSpace(timeline, trackId, QPoint(insertFrame, insertFrame + (zone.y() - zone.x())), undo, redo, list);
     }
     if (result) {
         int newId = -1;
         QString binClipId = QString("%1/%2/%3").arg(binId).arg(zone.x()).arg(zone.y() - 1);
-        result = timeline->requestClipInsertion(binClipId, trackId, insertFrame, newId, true, true, true, undo, redo);
-        pCore->pushUndo(undo, redo, overwrite ? i18n("Overwrite zone") : i18n("Insert zone"));
+        result = timeline->requestClipInsertion(binClipId, trackId, insertFrame, newId, true, true, true, undo, redo, list);
+        if (result) {
+            ModelUpdater::applyUpdates(undo, redo, list);
+            pCore->pushUndo(undo, redo, overwrite ? i18n("Overwrite zone") : i18n("Insert zone"));
+            return true;
+        }
     }
-    if (!result){
-        undo();
-    }
-    return result;
+    undo();
+    return false;
 }
 
-bool TimelineFunctions::liftZone(std::shared_ptr<TimelineItemModel> timeline, int trackId, QPoint zone, Fun &undo, Fun &redo)
+bool TimelineFunctions::liftZone(std::shared_ptr<TimelineItemModel> timeline, int trackId, QPoint zone, Fun &undo, Fun &redo, Updates &list)
 {
     // Check if there is a clip at start point
     int startClipId = timeline->getClipByPosition(trackId, zone.x());
     if (startClipId > -1) {
         // There is a clip, cut it
         if (timeline->getClipPosition(startClipId) < zone.x()) {
-            TimelineFunctions::requestClipCut(timeline, startClipId, zone.x(), undo, redo);
+            TimelineFunctions::requestClipCut(timeline, startClipId, zone.x(), undo, redo, list);
         }
     }
     int endClipId = timeline->getClipByPosition(trackId, zone.y());
     if (endClipId > -1) {
         // There is a clip, cut it
         if (timeline->getClipPosition(endClipId) + timeline->getClipPlaytime(endClipId) > zone.y()) {
-            TimelineFunctions::requestClipCut(timeline, endClipId, zone.y(), undo, redo);
+            TimelineFunctions::requestClipCut(timeline, endClipId, zone.y(), undo, redo, list);
         }
     }
     std::unordered_set<int> clips = timeline->getItemsInRange(trackId, zone.x(), zone.y());
     for (const auto &clipId : clips) {
-        timeline->requestItemDeletion(clipId, undo, redo);
+        timeline->requestItemDeletion(clipId, undo, redo, list);
     }
     return true;
 }
 
-bool TimelineFunctions::removeSpace(std::shared_ptr<TimelineItemModel> timeline, int trackId, QPoint zone, Fun &undo, Fun &redo)
+bool TimelineFunctions::removeSpace(std::shared_ptr<TimelineItemModel> timeline, int trackId, QPoint zone, Fun &undo, Fun &redo, Updates &list)
 {
     Q_UNUSED(trackId)
 
@@ -304,11 +318,11 @@ bool TimelineFunctions::removeSpace(std::shared_ptr<TimelineItemModel> timeline,
     if (clips.size() > 0) {
         int clipId = *clips.begin();
         if (clips.size() > 1) {
-            int res = timeline->requestClipsGroup(clips, undo, redo);
+            int res = timeline->requestClipsGroup(clips, undo, redo, list);
             if (res > -1) {
-                result = timeline->requestGroupMove(clipId, res, 0, zone.x() - zone.y(), true, true, undo, redo);
+                result = timeline->requestGroupMove(clipId, res, 0, zone.x() - zone.y(), true, true, undo, redo, list);
                 if (result) {
-                    result = timeline->requestClipUngroup(clipId, undo, redo);
+                    result = timeline->requestClipUngroup(clipId, undo, redo, list);
                 }
                 if (!result) {
                     undo();
@@ -317,13 +331,13 @@ bool TimelineFunctions::removeSpace(std::shared_ptr<TimelineItemModel> timeline,
         } else {
             // only 1 clip to be moved
             int clipStart = timeline->getItemPosition(clipId);
-            result = timeline->requestClipMove(clipId, timeline->getItemTrackId(clipId), clipStart - (zone.y() - zone.x()), true, true, undo, redo);
+            result = timeline->requestClipMove(clipId, timeline->getItemTrackId(clipId), clipStart - (zone.y() - zone.x()), true, true, undo, redo, list);
         }
     }
     return result;
 }
 
-bool TimelineFunctions::insertSpace(std::shared_ptr<TimelineItemModel> timeline, int trackId, QPoint zone, Fun &undo, Fun &redo)
+bool TimelineFunctions::insertSpace(std::shared_ptr<TimelineItemModel> timeline, int trackId, QPoint zone, Fun &undo, Fun &redo, Updates &list)
 {
     Q_UNUSED(trackId)
 
@@ -332,11 +346,11 @@ bool TimelineFunctions::insertSpace(std::shared_ptr<TimelineItemModel> timeline,
     if (clips.size() > 0) {
         int clipId = *clips.begin();
         if (clips.size() > 1) {
-            int res = timeline->requestClipsGroup(clips, undo, redo);
+            int res = timeline->requestClipsGroup(clips, undo, redo, list);
             if (res > -1) {
-                result = timeline->requestGroupMove(clipId, res, 0, zone.y() - zone.x(), true, true, undo, redo);
+                result = timeline->requestGroupMove(clipId, res, 0, zone.y() - zone.x(), true, true, undo, redo, list);
                 if (result) {
-                    result = timeline->requestClipUngroup(clipId, undo, redo);
+                    result = timeline->requestClipUngroup(clipId, undo, redo, list);
                 } else {
                     pCore->displayMessage(i18n("Cannot move selected group"), ErrorMessage);
                 }
@@ -344,7 +358,7 @@ bool TimelineFunctions::insertSpace(std::shared_ptr<TimelineItemModel> timeline,
         } else {
             // only 1 clip to be moved
             int clipStart = timeline->getItemPosition(clipId);
-            result = timeline->requestClipMove(clipId, timeline->getItemTrackId(clipId), clipStart + (zone.y() - zone.x()), true, true, undo, redo);
+            result = timeline->requestClipMove(clipId, timeline->getItemTrackId(clipId), clipStart + (zone.y() - zone.x()), true, true, undo, redo, list);
         }
     }
     return result;
@@ -355,6 +369,7 @@ bool TimelineFunctions::requestItemCopy(std::shared_ptr<TimelineItemModel> timel
     Q_ASSERT(timeline->isClip(clipId) || timeline->isComposition(clipId));
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
+    Updates list;
     int deltaTrack = timeline->getTrackPosition(trackId) - timeline->getTrackPosition(timeline->getItemTrackId(clipId));
     int deltaPos = position - timeline->getItemPosition(clipId);
     std::unordered_set<int> allIds = timeline->getGroupElements(clipId);
@@ -364,7 +379,7 @@ bool TimelineFunctions::requestItemCopy(std::shared_ptr<TimelineItemModel> timel
         int newId = -1;
         if (timeline->isClip(id)) {
             PlaylistState::ClipState state = timeline->m_allClips[id]->clipState();
-            res = copyClip(timeline, id, newId, state, undo, redo);
+            res = copyClip(timeline, id, newId, state, undo, redo, list);
             res = res && (newId != -1);
         }
         int target_position = timeline->getItemPosition(id) + deltaPos;
@@ -374,12 +389,12 @@ bool TimelineFunctions::requestItemCopy(std::shared_ptr<TimelineItemModel> timel
             std::advance(it, target_track_position);
             int target_track = (*it)->getId();
             if (timeline->isClip(id)) {
-                res = res && timeline->requestClipMove(newId, target_track, target_position, true, true, undo, redo);
+                res = res && timeline->requestClipMove(newId, target_track, target_position, true, true, undo, redo, list);
             } else {
                 const QString &transitionId = timeline->m_allCompositions[id]->getAssetId();
                 QScopedPointer<Mlt::Properties> transProps(timeline->m_allCompositions[id]->properties());
                 res = res & timeline->requestCompositionInsertion(transitionId, target_track, -1, target_position,
-                                                                  timeline->m_allCompositions[id]->getPlaytime(), transProps.data(), newId, undo, redo);
+                                                                  timeline->m_allCompositions[id]->getPlaytime(), transProps.data(), newId, undo, redo, list);
             }
         } else {
             res = false;
@@ -392,12 +407,13 @@ bool TimelineFunctions::requestItemCopy(std::shared_ptr<TimelineItemModel> timel
         mapping[id] = newId;
     }
     qDebug() << "Sucessful copy, coping groups...";
-    res = timeline->m_groups->copyGroups(mapping, undo, redo);
+    res = timeline->m_groups->copyGroups(mapping, undo, redo, list);
     if (!res) {
         bool undone = undo();
         Q_ASSERT(undone);
         return false;
     }
+    ModelUpdater::applyUpdates(undo, redo, list);
     return true;
 }
 
@@ -427,19 +443,26 @@ bool TimelineFunctions::switchEnableState(std::shared_ptr<TimelineItemModel> tim
     }
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    bool result = changeClipState(timeline, clipId, state, undo, redo);
+    Updates list;
+    bool result = changeClipState(timeline, clipId, state, undo, redo, list);
     if (result) {
+        ModelUpdater::applyUpdates(undo, redo, list);
         pCore->pushUndo(undo, redo, disable ? i18n("Disable clip") : i18n("Enable clip"));
     }
     return result;
 }
 
-bool TimelineFunctions::changeClipState(std::shared_ptr<TimelineItemModel> timeline, int clipId, PlaylistState::ClipState status, Fun &undo, Fun &redo)
+bool TimelineFunctions::changeClipState(std::shared_ptr<TimelineItemModel> timeline, int clipId, PlaylistState::ClipState status, Fun &undo, Fun &redo,
+                                        Updates &list)
 {
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
-    bool result = timeline->m_allClips[clipId]->setClipState(status, local_undo, local_redo);
-    UPDATE_UNDO_REDO_NOLOCK(local_redo, local_undo, undo, redo);
+    Updates local_list;
+    bool result = timeline->m_allClips[clipId]->setClipState(status, local_undo, local_redo, local_list);
+    if (result) {
+        list.insert(list.end(), local_list.begin(), local_list.end());
+        UPDATE_UNDO_REDO_NOLOCK(local_redo, local_undo, undo, redo);
+    }
     return result;
 }
 
@@ -447,6 +470,7 @@ bool TimelineFunctions::requestSplitAudio(std::shared_ptr<TimelineItemModel> tim
 {
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
+    Updates list;
     const std::unordered_set<int> clips = timeline->getGroupElements(clipId);
     bool done = false;
     // Now clear selection so we don't mess with groups
@@ -466,7 +490,7 @@ bool TimelineFunctions::requestSplitAudio(std::shared_ptr<TimelineItemModel> tim
             return false;
         }
         int newId;
-        bool res = copyClip(timeline, cid, newId, PlaylistState::AudioOnly, undo, redo);
+        bool res = copyClip(timeline, cid, newId, PlaylistState::AudioOnly, undo, redo, list);
         if (!res) {
             bool undone = undo();
             Q_ASSERT(undone);
@@ -476,10 +500,10 @@ bool TimelineFunctions::requestSplitAudio(std::shared_ptr<TimelineItemModel> tim
         bool success = false;
         while (!success && !possibleTracks.isEmpty()) {
             int newTrack = possibleTracks.takeFirst();
-            success = timeline->requestClipMove(newId, newTrack, position, true, false, undo, redo);
+            success = timeline->requestClipMove(newId, newTrack, position, true, false, undo, redo, list);
         }
-        TimelineFunctions::changeClipState(timeline, cid, PlaylistState::VideoOnly, undo, redo);
-        success = success && timeline->m_groups->createGroupAtSameLevel(cid, std::unordered_set<int>{newId}, GroupType::AVSplit, undo, redo);
+        TimelineFunctions::changeClipState(timeline, cid, PlaylistState::VideoOnly, undo, redo, list);
+        success = success && timeline->m_groups->createGroupAtSameLevel(cid, std::unordered_set<int>{newId}, GroupType::AVSplit, undo, redo, list);
         if (!success) {
             bool undone = undo();
             Q_ASSERT(undone);
@@ -489,6 +513,7 @@ bool TimelineFunctions::requestSplitAudio(std::shared_ptr<TimelineItemModel> tim
         done = true;
     }
     if (done) {
+        ModelUpdater::applyUpdates(undo, redo, list);
         pCore->pushUndo(undo, redo, i18n("Split Audio"));
     }
     return done;
@@ -498,6 +523,7 @@ bool TimelineFunctions::requestSplitVideo(std::shared_ptr<TimelineItemModel> tim
 {
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
+    Updates list;
     const std::unordered_set<int> clips = timeline->getGroupElements(clipId);
     bool done = false;
     // Now clear selection so we don't mess with groups
@@ -516,7 +542,7 @@ bool TimelineFunctions::requestSplitVideo(std::shared_ptr<TimelineItemModel> tim
             return false;
         }
         int newId;
-        bool res = copyClip(timeline, cid, newId, PlaylistState::VideoOnly, undo, redo);
+        bool res = copyClip(timeline, cid, newId, PlaylistState::VideoOnly, undo, redo, list);
         if (!res) {
             bool undone = undo();
             Q_ASSERT(undone);
@@ -526,10 +552,10 @@ bool TimelineFunctions::requestSplitVideo(std::shared_ptr<TimelineItemModel> tim
         bool success = false;
         while (!success && !possibleTracks.isEmpty()) {
             int newTrack = possibleTracks.takeFirst();
-            success = timeline->requestClipMove(newId, newTrack, position, true, false, undo, redo);
+            success = timeline->requestClipMove(newId, newTrack, position, true, false, undo, redo, list);
         }
-        TimelineFunctions::changeClipState(timeline, cid, PlaylistState::AudioOnly, undo, redo);
-        success = success && timeline->m_groups->createGroupAtSameLevel(cid, std::unordered_set<int>{newId}, GroupType::AVSplit, undo, redo);
+        TimelineFunctions::changeClipState(timeline, cid, PlaylistState::AudioOnly, undo, redo, list);
+        success = success && timeline->m_groups->createGroupAtSameLevel(cid, std::unordered_set<int>{newId}, GroupType::AVSplit, undo, redo, list);
         if (!success) {
             bool undone = undo();
             Q_ASSERT(undone);
@@ -539,6 +565,7 @@ bool TimelineFunctions::requestSplitVideo(std::shared_ptr<TimelineItemModel> tim
         done = true;
     }
     if (done) {
+        ModelUpdater::applyUpdates(undo, redo, list);
         pCore->pushUndo(undo, redo, i18n("Split Video"));
     }
     return done;
@@ -546,8 +573,6 @@ bool TimelineFunctions::requestSplitVideo(std::shared_ptr<TimelineItemModel> tim
 
 void TimelineFunctions::setCompositionATrack(std::shared_ptr<TimelineItemModel> timeline, int cid, int aTrack)
 {
-    std::function<bool(void)> undo = []() { return true; };
-    std::function<bool(void)> redo = []() { return true; };
     std::shared_ptr<CompositionModel> compo = timeline->getCompositionPtr(cid);
     int previousATrack = compo->getATrack();
     int previousAutoTrack = compo->getForcedTrack() == -1;
@@ -558,7 +583,7 @@ void TimelineFunctions::setCompositionATrack(std::shared_ptr<TimelineItemModel> 
     }
     int start = timeline->getItemPosition(cid);
     int end = start + timeline->getItemPlaytime(cid);
-    Fun local_redo = [timeline, cid, aTrack, autoTrack, start, end]() {
+    Fun redo = [timeline, cid, aTrack, autoTrack, start, end]() {
         QScopedPointer<Mlt::Field> field(timeline->m_tractor->field());
         field->lock();
         timeline->getCompositionPtr(cid)->setForceTrack(!autoTrack);
@@ -570,7 +595,7 @@ void TimelineFunctions::setCompositionATrack(std::shared_ptr<TimelineItemModel> 
         timeline->checkRefresh(start, end);
         return true;
     };
-    Fun local_undo = [timeline, cid, previousATrack, previousAutoTrack, start, end]() {
+    Fun undo = [timeline, cid, previousATrack, previousAutoTrack, start, end]() {
         QScopedPointer<Mlt::Field> field(timeline->m_tractor->field());
         field->lock();
         timeline->getCompositionPtr(cid)->setForceTrack(!previousAutoTrack);
@@ -582,9 +607,11 @@ void TimelineFunctions::setCompositionATrack(std::shared_ptr<TimelineItemModel> 
         timeline->checkRefresh(start, end);
         return true;
     };
-    if (local_redo()) {
-        PUSH_LAMBDA(local_undo, undo);
-        PUSH_LAMBDA(local_redo, redo);
+    Updates list;
+    list.emplace_back(new ChangeUpdate(cid, timeline, {TimelineModel::ItemATrack}));
+    bool result = redo();
+    if (result) {
+        ModelUpdater::applyUpdates(undo, redo, list);
+        pCore->pushUndo(undo, redo, i18n("Change Composition Track"));
     }
-    pCore->pushUndo(undo, redo, i18n("Change Composition Track"));
 }

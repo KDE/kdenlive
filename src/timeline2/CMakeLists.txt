@@ -3,6 +3,7 @@ set(kdenlive_SRCS
   timeline2/model/clipmodel.cpp
   timeline2/model/compositionmodel.cpp
   timeline2/model/groupsmodel.cpp
+  timeline2/model/modelupdater.cpp
   timeline2/model/timelineitemmodel.cpp
   timeline2/model/timelinemodel.cpp
   timeline2/model/timelinefunctions.cpp

@@ -50,7 +50,7 @@ public:
 
     /** @brief This is to be called after the job finished.
         By design, the job should store the result of the computation but not share it with the rest of the code. This happens when we call commitResult */
-    bool commitResult(Fun &undo, Fun &redo) override;
+    bool commitResult(Fun &undo, Fun &redo, Updates &list) override;
 
 protected:
     bool computeWithFFMPEG();

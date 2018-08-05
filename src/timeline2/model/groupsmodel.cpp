@@ -82,17 +82,15 @@ Fun GroupsModel::groupItems_lambda(int gid, const std::unordered_set<int> &ids, 
             promoteToGroup(gid, type);
             std::unordered_set<int> roots;
             std::transform(ids.begin(), ids.end(), std::inserter(roots, roots.begin()), [&](int id) { return getRootId(id); });
-            auto ptr = m_parent.lock();
-            if (!ptr) Q_ASSERT(false);
             for (int id : roots) {
-                setGroup(getRootId(id), gid, type != GroupType::Selection);
+                setGroup(getRootId(id), gid);
             }
         }
         return true;
     };
 }
 
-int GroupsModel::groupItems(const std::unordered_set<int> &ids, Fun &undo, Fun &redo, GroupType type, bool force)
+int GroupsModel::groupItems(const std::unordered_set<int> &ids, Fun &undo, Fun &redo, Updates &list, GroupType type, bool force)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(type != GroupType::Leaf);
@@ -104,6 +102,15 @@ int GroupsModel::groupItems(const std::unordered_set<int> &ids, Fun &undo, Fun &
     int gid = TimelineModel::getNextId();
     auto operation = groupItems_lambda(gid, ids, type);
     if (operation()) {
+        if (type != GroupType::Selection) {
+            if (auto ptr = m_parent.lock()) {
+                for (int id : ids) {
+                    if (ptr->isClip(id) || ptr->isComposition(id)) {
+                        list.emplace_back(new ChangeUpdate(id, m_parent, {TimelineModel::GroupedRole}));
+                    }
+                }
+            }
+        }
         auto reverse = destructGroupItem_lambda(gid);
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
         return gid;
@@ -111,7 +118,7 @@ int GroupsModel::groupItems(const std::unordered_set<int> &ids, Fun &undo, Fun &
     return -1;
 }
 
-bool GroupsModel::ungroupItem(int id, Fun &undo, Fun &redo)
+bool GroupsModel::ungroupItem(int id, Fun &undo, Fun &redo, Updates &list)
 {
     QWriteLocker locker(&m_lock);
     int gid = getRootId(id);
@@ -119,8 +126,7 @@ bool GroupsModel::ungroupItem(int id, Fun &undo, Fun &redo)
         // element is not part of a group
         return false;
     }
-
-    return destructGroupItem(gid, true, undo, redo);
+    return destructGroupItem(gid, true, undo, redo, list);
 }
 
 void GroupsModel::createGroupItem(int id)
@@ -137,14 +143,8 @@ Fun GroupsModel::destructGroupItem_lambda(int id)
     QWriteLocker locker(&m_lock);
     return [this, id]() {
         removeFromGroup(id);
-        auto ptr = m_parent.lock();
-        if (!ptr) Q_ASSERT(false);
         for (int child : m_downLink[id]) {
             m_upLink[child] = -1;
-            if (ptr->isClip(child)) {
-                QModelIndex ix = ptr->makeClipIndexFromID(child);
-                ptr->dataChanged(ix, ix, {TimelineModel::GroupedRole});
-            }
         }
         m_downLink[id].clear();
         if (getType(id) != GroupType::Leaf) {
@@ -156,7 +156,7 @@ Fun GroupsModel::destructGroupItem_lambda(int id)
     };
 }
 
-bool GroupsModel::destructGroupItem(int id, bool deleteOrphan, Fun &undo, Fun &redo)
+bool GroupsModel::destructGroupItem(int id, bool deleteOrphan, Fun &undo, Fun &redo, Updates &list)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_upLink.count(id) > 0);
@@ -164,11 +164,20 @@ bool GroupsModel::destructGroupItem(int id, bool deleteOrphan, Fun &undo, Fun &r
     auto old_children = m_downLink[id];
     auto old_type = getType(id);
     auto old_parent_type = GroupType::Normal;
+    auto old_leaves = getLeaves(id);
     if (parent != -1) {
         old_parent_type = getType(parent);
     }
     auto operation = destructGroupItem_lambda(id);
     if (operation()) {
+        if (auto ptr = m_parent.lock()) {
+            for (int curId : old_leaves) {
+                if (ptr->isClip(id) || ptr->isComposition(id)) {
+                    list.emplace_back(new ChangeUpdate(curId, m_parent, {TimelineModel::GroupedRole}));
+                }
+            }
+        }
+
         auto reverse = groupItems_lambda(id, old_children, old_type, parent);
         // we may need to reset the group of the parent
         if (parent != -1) {
@@ -180,7 +189,7 @@ bool GroupsModel::destructGroupItem(int id, bool deleteOrphan, Fun &undo, Fun &r
         }
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
         if (parent != -1 && m_downLink[parent].empty() && deleteOrphan) {
-            return destructGroupItem(parent, true, undo, redo);
+            return destructGroupItem(parent, true, undo, redo, list);
         }
         return true;
     }
@@ -297,7 +306,7 @@ int GroupsModel::getDirectAncestor(int id) const
     return m_upLink.at(id);
 }
 
-void GroupsModel::setGroup(int id, int groupId, bool changeState)
+void GroupsModel::setGroup(int id, int groupId)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_upLink.count(id) > 0);
@@ -307,18 +316,6 @@ void GroupsModel::setGroup(int id, int groupId, bool changeState)
     m_upLink[id] = groupId;
     if (groupId != -1) {
         m_downLink[groupId].insert(id);
-        auto ptr = m_parent.lock();
-        if (changeState && ptr) {
-            QModelIndex ix;
-            if (ptr->isClip(id)) {
-                ix = ptr->makeClipIndexFromID(id);
-            } else if (ptr->isComposition(id)) {
-                ix = ptr->makeCompositionIndexFromID(id);
-            }
-            if (ix.isValid()) {
-                ptr->dataChanged(ix, ix, {TimelineModel::GroupedRole});
-            }
-        }
         if (getType(groupId) == GroupType::Leaf) {
             promoteToGroup(groupId, GroupType::Normal);
         }
@@ -352,7 +349,7 @@ void GroupsModel::removeFromGroup(int id)
     m_upLink[id] = -1;
 }
 
-bool GroupsModel::mergeSingleGroups(int id, Fun &undo, Fun &redo)
+bool GroupsModel::mergeSingleGroups(int id, Fun &undo, Fun &redo, Updates &list)
 {
     // The idea is as follow: we start from the leaves, and go up to the root.
     // In the process, if we find a node with only one children, we flag it for deletion
@@ -409,7 +406,7 @@ bool GroupsModel::mergeSingleGroups(int id, Fun &undo, Fun &redo)
         if (getType(gid) == GroupType::Selection) {
             continue;
         }
-        res = destructGroupItem(gid, false, undo, redo);
+        res = destructGroupItem(gid, false, undo, redo, list);
         if (!res) {
             bool undone = undo();
             Q_ASSERT(undone);
@@ -419,7 +416,7 @@ bool GroupsModel::mergeSingleGroups(int id, Fun &undo, Fun &redo)
     return true;
 }
 
-bool GroupsModel::split(int id, const std::function<bool(int)> &criterion, Fun &undo, Fun &redo)
+bool GroupsModel::split(int id, const std::function<bool(int)> &criterion, Fun &undo, Fun &redo, Updates &list)
 {
     QWriteLocker locker(&m_lock);
     if (isLeaf(id)) {
@@ -464,7 +461,7 @@ bool GroupsModel::split(int id, const std::function<bool(int)> &criterion, Fun &
     // First, we simulate deletion of elements that we have to remove from the original tree
     // A side effect of this is that empty groups will be removed
     for (const auto &leaf : to_move) {
-        destructGroupItem(leaf, true, undo, redo);
+        destructGroupItem(leaf, true, undo, redo, list);
     }
 
     // we artificially recreate the leaves
@@ -541,24 +538,24 @@ bool GroupsModel::split(int id, const std::function<bool(int)> &criterion, Fun &
             group.insert(elem < -1 ? created_id[elem] : elem);
         }
         Q_ASSERT(new_types.count(selected) != 0);
-        int gid = groupItems(group, undo, redo, new_types[selected], true);
+        int gid = groupItems(group, undo, redo, list, new_types[selected], true);
         created_id[selected] = gid;
         new_groups.erase(selected);
     }
 
     if (regroup) {
         if (m_groupIds.count(id) > 0) {
-            mergeSingleGroups(id, undo, redo);
+            mergeSingleGroups(id, undo, redo, list);
         }
         if (created_id[corresp[id]]) {
-            mergeSingleGroups(created_id[corresp[id]], undo, redo);
+            mergeSingleGroups(created_id[corresp[id]], undo, redo, list);
         }
     }
 
     return res;
 }
 
-void GroupsModel::setInGroupOf(int id, int targetId, Fun &undo, Fun &redo)
+void GroupsModel::setInGroupOf(int id, int targetId, Fun &undo, Fun &redo, Updates &list)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_upLink.count(targetId) > 0);
@@ -576,7 +573,7 @@ void GroupsModel::setInGroupOf(int id, int targetId, Fun &undo, Fun &redo)
     UPDATE_UNDO_REDO(operation, reverse, undo, redo);
 }
 
-bool GroupsModel::createGroupAtSameLevel(int id, std::unordered_set<int> to_add, GroupType type, Fun &undo, Fun &redo)
+bool GroupsModel::createGroupAtSameLevel(int id, std::unordered_set<int> to_add, GroupType type, Fun &undo, Fun &redo, Updates &list)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_upLink.count(id) > 0);
@@ -617,7 +614,7 @@ bool GroupsModel::createGroupAtSameLevel(int id, std::unordered_set<int> to_add,
     return success;
 }
 
-bool GroupsModel::processCopy(int gid, std::unordered_map<int, int> &mapping, Fun &undo, Fun &redo)
+bool GroupsModel::processCopy(int gid, std::unordered_map<int, int> &mapping, Fun &undo, Fun &redo, Updates &list)
 {
     qDebug() << "processCopy" << gid;
     if (isLeaf(gid)) {
@@ -627,7 +624,7 @@ bool GroupsModel::processCopy(int gid, std::unordered_map<int, int> &mapping, Fu
     bool ok = true;
     std::unordered_set<int> targetGroup;
     for (int child : m_downLink.at(gid)) {
-        ok = ok && processCopy(child, mapping, undo, redo);
+        ok = ok && processCopy(child, mapping, undo, redo, list);
         if (!ok) {
             break;
         }
@@ -635,7 +632,7 @@ bool GroupsModel::processCopy(int gid, std::unordered_map<int, int> &mapping, Fu
     }
     qDebug() << "processCopy" << gid << "success of child" << ok;
     if (ok && m_groupIds[gid] != GroupType::Selection) {
-        int id = groupItems(targetGroup, undo, redo);
+        int id = groupItems(targetGroup, undo, redo, list);
         qDebug() << "processCopy" << gid << "created id" << id;
         if (id != -1) {
             mapping[gid] = id;
@@ -645,13 +642,13 @@ bool GroupsModel::processCopy(int gid, std::unordered_map<int, int> &mapping, Fu
     return ok;
 }
 
-bool GroupsModel::copyGroups(std::unordered_map<int, int> &mapping, Fun &undo, Fun &redo)
+bool GroupsModel::copyGroups(std::unordered_map<int, int> &mapping, Fun &undo, Fun &redo, Updates &list)
 {
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
     // destruct old groups for the targets items
     for (const auto &corresp : mapping) {
-        ungroupItem(corresp.second, local_undo, local_redo);
+        ungroupItem(corresp.second, local_undo, local_redo, list);
     }
     std::unordered_set<int> roots;
     std::transform(mapping.begin(), mapping.end(), std::inserter(roots, roots.begin()),
@@ -660,7 +657,7 @@ bool GroupsModel::copyGroups(std::unordered_map<int, int> &mapping, Fun &undo, F
     qDebug() << "found" << roots.size() << "roots";
     for (int r : roots) {
         qDebug() << "processing copy for root " << r;
-        res = res && processCopy(r, mapping, local_undo, local_redo);
+        res = res && processCopy(r, mapping, local_undo, local_redo, list);
         if (!res) {
             bool undone = local_undo();
             Q_ASSERT(undone);
@@ -720,7 +717,7 @@ const QString GroupsModel::toJson() const
     return QString(json.toJson());
 }
 
-int GroupsModel::fromJson(const QJsonObject &o, Fun &undo, Fun &redo)
+int GroupsModel::fromJson(const QJsonObject &o, Fun &undo, Fun &redo, Updates &list)
 {
     if (!o.contains(QLatin1String("type"))) {
         return -1;
@@ -764,12 +761,12 @@ int GroupsModel::fromJson(const QJsonObject &o, Fun &undo, Fun &redo)
                 qDebug() << "Error : Expected json object while parsing groups";
                 return -1;
             }
-            ids.insert(fromJson(c.toObject(), undo, redo));
+            ids.insert(fromJson(c.toObject(), undo, redo, list));
         }
         if (ids.count(-1) > 0) {
             return -1;
         }
-        return groupItems(ids, undo, redo, type);
+        return groupItems(ids, undo, redo, list, type);
     }
     return -1;
 }
@@ -778,20 +775,24 @@ bool GroupsModel::fromJson(const QString &data)
 {
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
+    Updates list;
     auto json = QJsonDocument::fromJson(data.toUtf8());
     if (!json.isArray()) {
         qDebug() << "Error : Json file should be an array";
         return false;
     }
-    const auto list = json.array();
+    const auto jarray = json.array();
     bool ok = true;
-    for (const auto &elem : list) {
+    for (const auto &elem : jarray) {
         if (!elem.isObject()) {
             qDebug() << "Error : Expected json object while parsing groups";
             undo();
             return false;
         }
-        ok = ok && fromJson(elem.toObject(), undo, redo);
+        ok = ok && fromJson(elem.toObject(), undo, redo, list);
+        if (ok) {
+            ModelUpdater::applyUpdates(undo, redo, list);
+        }
     }
     return ok;
 }

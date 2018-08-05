@@ -106,7 +106,7 @@ bool ThumbJob::startJob()
     return m_done;
 }
 
-bool ThumbJob::commitResult(Fun &undo, Fun &redo)
+bool ThumbJob::commitResult(Fun &undo, Fun &redo, Updates &list)
 {
     Q_ASSERT(!m_resultConsumed);
     if (!m_done) {

@@ -1161,7 +1161,7 @@ QList<int> ProjectClip::timelineInstances() const
     return ids;
 }
 
-bool ProjectClip::selfSoftDelete(Fun &undo, Fun &redo)
+bool ProjectClip::selfSoftDelete(Fun &undo, Fun &redo, Updates &list)
 {
     auto toDelete = m_registeredClips; // we cannot use m_registeredClips directly, because it will be modified during loop
     for (const auto &clip : toDelete) {
@@ -1170,14 +1170,14 @@ bool ProjectClip::selfSoftDelete(Fun &undo, Fun &redo)
             continue;
         }
         if (auto timeline = clip.second.lock()) {
-            timeline->requestItemDeletion(clip.first, undo, redo);
+            timeline->requestItemDeletion(clip.first, undo, redo, list);
         } else {
             qDebug() << "Error while deleting clip: timeline unavailable";
             Q_ASSERT(false);
             return false;
         }
     }
-    return AbstractProjectItem::selfSoftDelete(undo, redo);
+    return AbstractProjectItem::selfSoftDelete(undo, redo, list);
 }
 
 bool ProjectClip::isIncludedInTimeline()

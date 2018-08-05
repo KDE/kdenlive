@@ -48,6 +48,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "projectitemmodel.h"
 #include "projectsortproxymodel.h"
 #include "projectsubclip.h"
+#include "timeline2/model/modelupdater.hpp"
 #include "titler/titlewidget.h"
 #include "ui_qtextclip_ui.h"
 #include "undohelper.hpp"
@@ -994,9 +995,11 @@ void Bin::slotDeleteClip()
     }
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
+    Updates list;
     for (const auto &item : items) {
-        m_itemModel->requestBinClipDeletion(item, undo, redo);
+        m_itemModel->requestBinClipDeletion(item, undo, redo, list);
     }
+    ModelUpdater::applyUpdates(undo, redo, list);
     pCore->pushUndo(undo, redo, i18n("Delete bin Clips"));
 }
 
@@ -1776,7 +1779,6 @@ void Bin::slotRemoveInvalidClip(const QString &id, bool replace, const QString &
     }
     emit requesteInvalidRemoval(id, clip->url(), errorMessage);
 }
-
 
 // TODO refac cleanup
 /*
@@ -2804,10 +2806,12 @@ void Bin::slotQueryRemoval(const QString &id, const QString &url, const QString 
         const QStringList ids = m_invalidClipDialog->getIds();
         Fun undo = []() { return true; };
         Fun redo = []() { return true; };
+        Updates list;
         for (const QString &i : ids) {
             auto item = m_itemModel->getClipByBinID(i);
-            m_itemModel->requestBinClipDeletion(item, undo, redo);
+            m_itemModel->requestBinClipDeletion(item, undo, redo, list);
         }
+        ModelUpdater::applyUpdates(undo, redo, list);
     }
     delete m_invalidClipDialog;
     m_invalidClipDialog = nullptr;

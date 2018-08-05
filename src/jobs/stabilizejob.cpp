@@ -118,7 +118,7 @@ int StabilizeJob::prepareJob(std::shared_ptr<JobManager> ptr, const std::vector<
     return -1;
 }
 
-bool StabilizeJob::commitResult(Fun &undo, Fun &redo)
+bool StabilizeJob::commitResult(Fun &undo, Fun &redo, Updates &list)
 {
     Q_ASSERT(!m_resultConsumed);
     if (!m_done) {

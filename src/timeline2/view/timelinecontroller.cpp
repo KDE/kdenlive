@@ -42,7 +42,6 @@
 #include "timelinewidget.h"
 #include "transitions/transitionsrepository.hpp"
 
-
 #include <KActionCollection>
 #include <QApplication>
 #include <QInputDialog>
@@ -1640,6 +1639,7 @@ void TimelineController::editItemDuration(int id)
     if (dialog->exec() == QDialog::Accepted) {
         std::function<bool(void)> undo = []() { return true; };
         std::function<bool(void)> redo = []() { return true; };
+        Updates list;
         int newPos = dialog->startPos().frames(pCore->getCurrentFps());
         int newIn = dialog->cropStart().frames(pCore->getCurrentFps());
         int newDuration = dialog->duration().frames(pCore->getCurrentFps());
@@ -1648,49 +1648,51 @@ void TimelineController::editItemDuration(int id)
             if (!isComposition) {
                 result = m_model->requestClipMove(id, trackId, newPos, true, true, undo, redo);
                 if (result && partner > -1) {
-                    result = m_model->requestClipMove(partner, m_model->getItemTrackId(partner), newPos, true, true, undo, redo);
+                    result = m_model->requestClipMove(partner, m_model->getItemTrackId(partner), newPos, true, true, undo, redo, list);
                 }
             } else {
-                result = m_model->requestCompositionMove(id, trackId, newPos, m_model->m_allCompositions[id]->getForcedTrack(), true, undo, redo);
+                result = m_model->requestCompositionMove(id, trackId, newPos, m_model->m_allCompositions[id]->getForcedTrack(), true, undo, redo, list);
             }
             if (result && newIn != in) {
-                m_model->requestItemResize(id, duration + (in - newIn), false, true, undo, redo);
+                m_model->requestItemResize(id, duration + (in - newIn), false, true, undo, redo, list);
                 if (result && partner > -1) {
-                    result = m_model->requestItemResize(partner, duration + (in - newIn), false, true, undo, redo);
+                    result = m_model->requestItemResize(partner, duration + (in - newIn), false, true, undo, redo, list);
                 }
             }
             if (newDuration != duration + (in - newIn)) {
-                result = result && m_model->requestItemResize(id, newDuration, true, true, undo, redo);
+                result = result && m_model->requestItemResize(id, newDuration, true, true, undo, redo, list);
                 if (result && partner > -1) {
-                    result = m_model->requestItemResize(partner, newDuration, false, true, undo, redo);
+                    result = m_model->requestItemResize(partner, newDuration, false, true, undo, redo, list);
                 }
             }
         } else {
             // perform resize first
             if (newIn != in) {
-                result = m_model->requestItemResize(id, duration + (in - newIn), false, true, undo, redo);
+                result = m_model->requestItemResize(id, duration + (in - newIn), false, true, undo, redo, list);
                 if (result && partner > -1) {
-                    result = m_model->requestItemResize(partner, duration + (in - newIn), false, true, undo, redo);
+                    result = m_model->requestItemResize(partner, duration + (in - newIn), false, true, undo, redo, list);
                 }
             }
             if (newDuration != duration + (in - newIn)) {
-                result = result && m_model->requestItemResize(id, newDuration, start == newPos, true, undo, redo);
+                result = result && m_model->requestItemResize(id, newDuration, start == newPos, true, undo, redo, list);
                 if (result && partner > -1) {
-                    result = m_model->requestItemResize(partner, newDuration, start == newPos, true, undo, redo);
+                    result = m_model->requestItemResize(partner, newDuration, start == newPos, true, undo, redo, list);
                 }
             }
             if (start != newPos || newIn != in) {
                 if (!isComposition) {
-                    result = result && m_model->requestClipMove(id, trackId, newPos, true, true, undo, redo);
+                    result = result && m_model->requestClipMove(id, trackId, newPos, true, true, undo, redo, list);
                     if (result && partner > -1) {
-                        result = m_model->requestClipMove(partner, m_model->getItemTrackId(partner), newPos, true, true, undo, redo);
+                        result = m_model->requestClipMove(partner, m_model->getItemTrackId(partner), newPos, true, true, undo, redo, list);
                     }
                 } else {
-                    result = result && m_model->requestCompositionMove(id, trackId, newPos, m_model->m_allCompositions[id]->getForcedTrack(), true, undo, redo);
+                    result = result &&
+                             m_model->requestCompositionMove(id, trackId, newPos, m_model->m_allCompositions[id]->getForcedTrack(), true, undo, redo, list);
                 }
             }
         }
         if (result) {
+            ModelUpdater::applyUpdates(undo, redo, list);
             pCore->pushUndo(undo, redo, i18n("Edit item"));
         } else {
             undo();
@@ -1701,7 +1703,7 @@ void TimelineController::editItemDuration(int id)
 void TimelineController::updateClipActions()
 {
     if (m_selection.selectedItems.isEmpty()) {
-        for(QAction *act : clipActions) {
+        for (QAction *act : clipActions) {
             act->setEnabled(false);
         }
         return;
@@ -1711,7 +1713,7 @@ void TimelineController::updateClipActions()
     if (m_model->isClip(item)) {
         clip = m_model->getClipPtr(item);
     }
-    for(QAction *act : clipActions) {
+    for (QAction *act : clipActions) {
         bool enableAction = true;
         const QChar actionData = act->data().toChar();
         if (actionData == QLatin1Char('G')) {

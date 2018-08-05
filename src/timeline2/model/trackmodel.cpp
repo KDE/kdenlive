@@ -139,9 +139,6 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
             ptr->m_snaps->addPoint(new_in);
             ptr->m_snaps->addPoint(new_out);
             if (updateView) {
-                int clip_index = getRowfromClip(clipId);
-                ptr->_beginInsertRows(ptr->makeTrackIndexFromID(getId()), clip_index, clip_index);
-                ptr->_endInsertRows();
                 bool audioOnly = clip->isAudioOnly();
                 if (!audioOnly && !isHidden() && !isAudioTrack()) {
                     // only refresh monitor if not an audio track and not hidden
@@ -205,7 +202,7 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
     return []() { return false; };
 }
 
-bool TrackModel::requestClipInsertion(int clipId, int position, bool updateView, bool finalMove, Fun &undo, Fun &redo)
+bool TrackModel::requestClipInsertion(int clipId, int position, bool updateView, bool finalMove, Fun &undo, Fun &redo, Updates &list)
 {
     QWriteLocker locker(&m_lock);
     if (isLocked()) {
@@ -222,11 +219,15 @@ bool TrackModel::requestClipInsertion(int clipId, int position, bool updateView,
         Fun local_redo = []() { return true; };
         bool res = true;
         if (ptr->getClipPtr(clipId)->clipState() != PlaylistState::Disabled) {
-            res = res && ptr->getClipPtr(clipId)->setClipState(isAudioTrack() ? PlaylistState::AudioOnly : PlaylistState::VideoOnly, local_undo, local_redo);
+            res = res &&
+                  ptr->getClipPtr(clipId)->setClipState(isAudioTrack() ? PlaylistState::AudioOnly : PlaylistState::VideoOnly, local_undo, local_redo, list);
         }
         auto operation = requestClipInsertion_lambda(clipId, position, updateView, finalMove);
         res = res && operation();
         if (res) {
+            if (updateView) {
+                list.emplace_back(std::make_shared<InsertUpdate>(clipId, ptr, getId(), position, true));
+            }
             auto reverse = requestClipDeletion_lambda(clipId, updateView, finalMove);
             UPDATE_UNDO_REDO(operation, reverse, local_undo, local_redo);
             UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
@@ -276,11 +277,15 @@ Fun TrackModel::requestClipDeletion_lambda(int clipId, bool updateView, bool fin
     int old_out = old_in + m_allClips[clipId]->getPlaytime();
     return [clip_position, clipId, old_in, old_out, updateView, audioOnly, finalMove, this]() {
         auto clip_loc = getClipIndexAt(clip_position);
-        if (updateView) {
-            int old_clip_index = getRowfromClip(clipId);
-            auto ptr = m_parent.lock();
-            ptr->_beginRemoveRows(ptr->makeTrackIndexFromID(getId()), old_clip_index, old_clip_index);
-            ptr->_endRemoveRows();
+        auto ptr = m_parent.lock();
+        if (updateView && ptr) {
+            if (!audioOnly && !isHidden() && !isAudioTrack()) {
+                // only refresh monitor if not an audio track and not hidden
+                ptr->checkRefresh(old_in, old_out);
+            }
+            if (!audioOnly && finalMove && !isAudioTrack()) {
+                ptr->invalidateZone(old_in, old_out);
+            }
         }
         int target_track = clip_loc.first;
         int target_clip = clip_loc.second;
@@ -295,7 +300,7 @@ Fun TrackModel::requestClipDeletion_lambda(int clipId, bool updateView, bool fin
             m_allClips.erase(clipId);
             delete prod;
             m_playlists[target_track].unlock();
-            if (auto ptr = m_parent.lock()) {
+            if (ptr) {
                 ptr->m_snaps->removePoint(old_in);
                 ptr->m_snaps->removePoint(old_out);
                 if (finalMove) {
@@ -319,7 +324,7 @@ Fun TrackModel::requestClipDeletion_lambda(int clipId, bool updateView, bool fin
     };
 }
 
-bool TrackModel::requestClipDeletion(int clipId, bool updateView, bool finalMove, Fun &undo, Fun &redo)
+bool TrackModel::requestClipDeletion(int clipId, bool updateView, bool finalMove, Fun &undo, Fun &redo, Updates &list)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_allClips.count(clipId) > 0);
@@ -331,6 +336,9 @@ bool TrackModel::requestClipDeletion(int clipId, bool updateView, bool finalMove
     qDebug() << "/// REQUESTOING CLIP DELETION_: " << updateView;
     auto operation = requestClipDeletion_lambda(clipId, updateView, finalMove);
     if (operation()) {
+        if (updateView) {
+            list.emplace_back(std::make_shared<DeleteUpdate>(clipId, m_parent, getId(), old_position, true));
+        }
         auto reverse = requestClipInsertion_lambda(clipId, old_position, updateView, finalMove);
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
         return true;
@@ -625,6 +633,33 @@ int TrackModel::getRowfromClip(int clipId) const
     return (int)std::distance(m_allClips.begin(), m_allClips.find(clipId));
 }
 
+int TrackModel::getTentativeRowfromClip(int clipId)
+{
+    READ_LOCK();
+    Q_ASSERT(m_allClips.count(clipId) == 0);
+    m_allClips[clipId] = nullptr;
+    int row = getRowfromClip(clipId);
+    m_allClips.erase(clipId);
+    return row;
+}
+
+int TrackModel::getRowfromComposition(int compoId) const
+{
+    READ_LOCK();
+    Q_ASSERT(m_allCompositions.count(compoId) > 0);
+    return (int)m_allClips.size() + (int)std::distance(m_allCompositions.begin(), m_allCompositions.find(compoId));
+}
+
+int TrackModel::getTentativeRowfromComposition(int compoId)
+{
+    READ_LOCK();
+    Q_ASSERT(m_allCompositions.count(compoId) == 0);
+    m_allCompositions[compoId] = nullptr;
+    int row = getRowfromComposition(compoId);
+    m_allCompositions.erase(compoId);
+    return row;
+}
+
 std::unordered_set<int> TrackModel::getCompositionsInRange(int position, int end)
 {
     READ_LOCK();
@@ -641,13 +676,6 @@ std::unordered_set<int> TrackModel::getCompositionsInRange(int position, int end
         }
     }
     return ids;
-}
-
-int TrackModel::getRowfromComposition(int tid) const
-{
-    READ_LOCK();
-    Q_ASSERT(m_allCompositions.count(tid) > 0);
-    return (int)m_allClips.size() + (int)std::distance(m_allCompositions.begin(), m_allCompositions.find(tid));
 }
 
 QVariant TrackModel::getProperty(const QString &name) const
@@ -875,7 +903,7 @@ Fun TrackModel::requestCompositionResize_lambda(int compoId, int in, int out)
     };
 }
 
-bool TrackModel::requestCompositionInsertion(int compoId, int position, bool updateView, Fun &undo, Fun &redo)
+bool TrackModel::requestCompositionInsertion(int compoId, int position, bool updateView, Fun &undo, Fun &redo, Updates &list)
 {
     QWriteLocker locker(&m_lock);
     if (isLocked()) {
@@ -883,6 +911,9 @@ bool TrackModel::requestCompositionInsertion(int compoId, int position, bool upd
     }
     auto operation = requestCompositionInsertion_lambda(compoId, position, updateView);
     if (operation()) {
+        if (updateView) {
+            list.emplace_back(std::make_shared<InsertUpdate>(compoId, m_parent, getId(), position, false));
+        }
         auto reverse = requestCompositionDeletion_lambda(compoId, updateView);
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
         return true;
@@ -890,7 +921,7 @@ bool TrackModel::requestCompositionInsertion(int compoId, int position, bool upd
     return false;
 }
 
-bool TrackModel::requestCompositionDeletion(int compoId, bool updateView, Fun &undo, Fun &redo)
+bool TrackModel::requestCompositionDeletion(int compoId, bool updateView, Fun &undo, Fun &redo, Updates &list)
 {
     QWriteLocker locker(&m_lock);
     if (isLocked()) {
@@ -903,6 +934,9 @@ bool TrackModel::requestCompositionDeletion(int compoId, bool updateView, Fun &u
     Q_ASSERT(m_compoPos[old_position] == compoId);
     auto operation = requestCompositionDeletion_lambda(compoId, updateView);
     if (operation()) {
+        if (updateView) {
+            list.emplace_back(std::make_shared<DeleteUpdate>(compoId, m_parent, getId(), old_position, false));
+        }
         auto reverse = requestCompositionInsertion_lambda(compoId, old_position, updateView);
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
         return true;
@@ -918,11 +952,12 @@ Fun TrackModel::requestCompositionDeletion_lambda(int compoId, bool updateView)
     int old_in = clip_position;
     int old_out = old_in + m_allCompositions[compoId]->getPlaytime();
     return [clip_position, compoId, old_in, old_out, updateView, this]() {
-        int old_clip_index = getRowfromComposition(compoId);
         auto ptr = m_parent.lock();
         if (updateView) {
-            ptr->_beginRemoveRows(ptr->makeTrackIndexFromID(getId()), old_clip_index, old_clip_index);
-            ptr->_endRemoveRows();
+            if (!isHidden() && !isAudioTrack()) {
+                // only refresh monitor if not an audio track and not hidden
+                ptr->checkRefresh(old_in, old_out);
+            }
         }
         m_allCompositions[compoId]->setCurrentTrackId(-1);
         m_allCompositions.erase(compoId);
@@ -971,9 +1006,10 @@ Fun TrackModel::requestCompositionInsertion_lambda(int compoId, int position, bo
                 int new_out = new_in + composition->getPlaytime();
                 composition->setInOut(new_in, new_out - 1);
                 if (updateView) {
-                    int composition_index = getRowfromComposition(composition->getId());
-                    ptr->_beginInsertRows(ptr->makeTrackIndexFromID(composition->getCurrentTrackId()), composition_index, composition_index);
-                    ptr->_endInsertRows();
+                    if (!isHidden() && !isAudioTrack()) {
+                        // only refresh monitor if not an audio track and not hidden
+                        ptr->checkRefresh(new_in, new_out);
+                    }
                 }
                 ptr->m_snaps->addPoint(new_in);
                 ptr->m_snaps->addPoint(new_out);

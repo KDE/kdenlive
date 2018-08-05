@@ -196,7 +196,7 @@ bool AudioThumbJob::computeWithFFMPEG()
                 if (steps != 0) {
                     channelsData[k] /= steps;
                 }
-                m_audioLevels << (int) (channelsData[k] * factor);
+                m_audioLevels << (int)(channelsData[k] * factor);
             }
             int p = 80 + (i * 20 / m_lengthInFrames);
             if (p != progress) {
@@ -308,7 +308,7 @@ bool AudioThumbJob::startJob()
     return false;
 }
 
-bool AudioThumbJob::commitResult(Fun &undo, Fun &redo)
+bool AudioThumbJob::commitResult(Fun &undo, Fun &redo, Updates &list)
 {
     Q_ASSERT(!m_resultConsumed);
     if (!m_done) {

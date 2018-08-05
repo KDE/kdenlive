@@ -264,13 +264,13 @@ std::shared_ptr<AbstractProjectItem> AbstractProjectItem::getEnclosingFolder(boo
     return std::shared_ptr<AbstractProjectItem>();
 }
 
-bool AbstractProjectItem::selfSoftDelete(Fun &undo, Fun &redo)
+bool AbstractProjectItem::selfSoftDelete(Fun &undo, Fun &redo, Updates &list)
 {
     pCore->jobManager()->slotDiscardClipJobs(clipId());
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
     for (const auto &child : m_childItems) {
-        bool res = std::static_pointer_cast<AbstractProjectItem>(child)->selfSoftDelete(local_undo, local_redo);
+        bool res = std::static_pointer_cast<AbstractProjectItem>(child)->selfSoftDelete(local_undo, local_redo, list);
         if (!res) {
             bool undone = local_undo();
             Q_ASSERT(undone);

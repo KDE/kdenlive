@@ -24,6 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define ABSTRACTPROJECTITEM_H
 
 #include "abstractmodel/treeitem.hpp"
+#include "timeline2/model/modelupdater.hpp"
 #include "undohelper.hpp"
 
 #include <QDateTime>
@@ -84,7 +85,7 @@ public:
         However, the object is NOT actually deleted, and the tree structure is preserved.
         @param Undo,Redo are the lambdas accumulating the update.
      */
-    virtual bool selfSoftDelete(Fun &undo, Fun &redo);
+    virtual bool selfSoftDelete(Fun &undo, Fun &redo, Updates &list);
 
     /** @brief Returns the clip's id. */
     const QString &clipId() const;

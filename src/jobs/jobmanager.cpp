@@ -287,6 +287,7 @@ void JobManager::slotManageFinishedJob(int id)
     }
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
+    Updates list;
     if (!ok) {
         qDebug() << " * * * ** * * *\nWARNING + + +\nJOB NOT CORRECT FINISH: " << id << "\n------------------------";
         // TODO: delete child jobs
@@ -300,19 +301,20 @@ void JobManager::slotManageFinishedJob(int id)
                     auto clipItem = std::static_pointer_cast<ProjectClip>(item);
                     if (!clipItem->isReady()) {
                         // We were trying to load a new clip, delete it
-                        pCore->projectItemModel()->requestBinClipDeletion(item, undo, redo);
+                        pCore->projectItemModel()->requestBinClipDeletion(item, undo, redo, list);
                     }
                 }
             }
         }
         updateJobCount();
+        ModelUpdater::applyUpdates(undo, redo, list);
         return;
     }
     // unlock mutex to allow further processing
     // TODO: the lock mechanism should handle this better!
     locker.unlock();
     for (const auto &j : m_jobs[id]->m_job) {
-        ok = ok && j->commitResult(undo, redo);
+        ok = ok && j->commitResult(undo, redo, list);
     }
     m_jobs[id]->m_processed = true;
     if (!ok) {
@@ -321,6 +323,7 @@ void JobManager::slotManageFinishedJob(int id)
     }
     m_jobs[id]->m_completionMutex.unlock();
     if (ok && !m_jobs[id]->m_undoString.isEmpty()) {
+        ModelUpdater::applyUpdates(undo, redo, list);
         pCore->pushUndo(undo, redo, m_jobs[id]->m_undoString);
     }
     if (m_jobsByParents.count(id) > 0) {

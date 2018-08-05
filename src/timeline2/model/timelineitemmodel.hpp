@@ -87,7 +87,6 @@ public:
      **/
     int getFirstVideoTrackIndex() const;
     const QString getTrackFullName(int tid) const;
-    void notifyChange(const QModelIndex &topleft, const QModelIndex &bottomright, bool start, bool duration, bool updateThumb) override;
     void notifyChange(const QModelIndex &topleft, const QModelIndex &bottomright, const QVector<int> &roles) override;
     void notifyChange(const QModelIndex &topleft, const QModelIndex &bottomright, int role) override;
 
@@ -103,10 +102,13 @@ public:
      */
     bool isInSelection(int cid) const;
 
-    virtual void _beginRemoveRows(const QModelIndex &, int, int) override;
     virtual void _beginInsertRows(const QModelIndex &, int, int) override;
-    virtual void _endRemoveRows() override;
+    virtual void _beginMoveRows(const QModelIndex &sourceParent, int sourceFirst, int sourceLast, const QModelIndex &destinationParent,
+                                int destinationChild) override;
+    virtual void _beginRemoveRows(const QModelIndex &, int, int) override;
     virtual void _endInsertRows() override;
+    virtual void _endMoveRows() override;
+    virtual void _endRemoveRows() override;
     virtual void _resetView() override;
 
 protected:

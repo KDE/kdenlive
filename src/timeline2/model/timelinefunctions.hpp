@@ -23,6 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define TIMELINEFUNCTIONS_H
 
 #include "definitions.h"
+#include "modelupdater.hpp"
 #include "undohelper.hpp"
 #include <memory>
 #include <unordered_set>
@@ -45,12 +46,13 @@ struct TimelineFunctions
     */
     static bool requestClipCut(std::shared_ptr<TimelineItemModel> timeline, int clipId, int position);
     /* This is the same function, except that it accumulates undo/redo */
-    static bool requestClipCut(std::shared_ptr<TimelineItemModel> timeline, int clipId, int position, Fun &undo, Fun &redo);
+    static bool requestClipCut(std::shared_ptr<TimelineItemModel> timeline, int clipId, int position, Fun &undo, Fun &redo, Updates &list);
     /* This is the same function, except that it accumulates undo/redo and do not deal with groups. Do not call directly */
-    static bool processClipCut(std::shared_ptr<TimelineItemModel> timeline, int clipId, int position, int &newId, Fun &undo, Fun &redo);
+    static bool processClipCut(std::shared_ptr<TimelineItemModel> timeline, int clipId, int position, int &newId, Fun &undo, Fun &redo, Updates &list);
 
     /* @brief Makes a perfect copy of a given clip, but do not insert it */
-    static bool copyClip(std::shared_ptr<TimelineItemModel> timeline, int clipId, int &newId, PlaylistState::ClipState state, Fun &undo, Fun &redo);
+    static bool copyClip(std::shared_ptr<TimelineItemModel> timeline, int clipId, int &newId, PlaylistState::ClipState state, Fun &undo, Fun &redo,
+                         Updates &list);
 
     /* @brief Request the addition of multiple clips to the timeline
      * If the addition of any of the clips fails, the entire operation is undone.
@@ -66,9 +68,9 @@ struct TimelineFunctions
     static int requestSpacerStartOperation(std::shared_ptr<TimelineItemModel> timeline, int trackId, int position);
     static bool requestSpacerEndOperation(std::shared_ptr<TimelineItemModel> timeline, int clipId, int startPosition, int endPosition);
     static bool extractZone(std::shared_ptr<TimelineItemModel> timeline, QVector<int> tracks, QPoint zone, bool liftOnly);
-    static bool liftZone(std::shared_ptr<TimelineItemModel> timeline, int trackId, QPoint zone, Fun &undo, Fun &redo);
-    static bool removeSpace(std::shared_ptr<TimelineItemModel> timeline, int trackId, QPoint zone, Fun &undo, Fun &redo);
-    static bool insertSpace(std::shared_ptr<TimelineItemModel> timeline, int trackId, QPoint zone, Fun &undo, Fun &redo);
+    static bool liftZone(std::shared_ptr<TimelineItemModel> timeline, int trackId, QPoint zone, Fun &undo, Fun &redo, Updates &list);
+    static bool removeSpace(std::shared_ptr<TimelineItemModel> timeline, int trackId, QPoint zone, Fun &undo, Fun &redo, Updates &list);
+    static bool insertSpace(std::shared_ptr<TimelineItemModel> timeline, int trackId, QPoint zone, Fun &undo, Fun &redo, Updates &list);
     static bool insertZone(std::shared_ptr<TimelineItemModel> timeline, int trackId, const QString &binId, int insertFrame, QPoint zone, bool overwrite);
 
     static bool requestItemCopy(std::shared_ptr<TimelineItemModel> timeline, int clipId, int trackId, int position);
@@ -84,7 +86,7 @@ struct TimelineFunctions
     static bool switchEnableState(std::shared_ptr<TimelineItemModel> timeline, int clipId);
     /* @brief change the clip state and accumulates for undo/redo
      */
-    static bool changeClipState(std::shared_ptr<TimelineItemModel> timeline, int clipId, PlaylistState::ClipState status, Fun &undo, Fun &redo);
+    static bool changeClipState(std::shared_ptr<TimelineItemModel> timeline, int clipId, PlaylistState::ClipState status, Fun &undo, Fun &redo, Updates &list);
 
     static bool requestSplitAudio(std::shared_ptr<TimelineItemModel> timeline, int clipId, int audioTarget);
     static bool requestSplitVideo(std::shared_ptr<TimelineItemModel> timeline, int clipId, int videoTarget);

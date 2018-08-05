@@ -26,6 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "abstractmodel/abstracttreemodel.hpp"
 #include "definitions.h"
+#include "timeline2/model/modelupdater.hpp"
 #include "undohelper.hpp"
 #include <QDomElement>
 #include <QIcon>
@@ -134,7 +135,7 @@ public:
        @param clip : pointer to the clip to delete
        @param undo,redo: lambdas that are updated to accumulate operation.
      */
-    bool requestBinClipDeletion(std::shared_ptr<AbstractProjectItem> clip, Fun &undo, Fun &redo);
+    bool requestBinClipDeletion(std::shared_ptr<AbstractProjectItem> clip, Fun &undo, Fun &redo, Updates &list);
 
     /* @brief Request creation of a bin folder
        @param id Id of the requested bin. If this is empty or invalid (already used, for example), it will be used as a return parameter to give the automatic

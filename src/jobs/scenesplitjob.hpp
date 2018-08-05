@@ -50,7 +50,7 @@ public:
     // Then the job is automatically put in queue. Its id is returned
     static int prepareJob(std::shared_ptr<JobManager> ptr, const std::vector<QString> &binIds, int parentId, QString undoString);
 
-    bool commitResult(Fun &undo, Fun &redo) override;
+    bool commitResult(Fun &undo, Fun &redo, Updates &list) override;
     const QString getDescription() const override;
 
 protected:

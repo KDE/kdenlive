@@ -67,7 +67,7 @@ int CompositionModel::construct(const std::weak_ptr<TimelineModel> &parent, cons
     return id;
 }
 
-bool CompositionModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool /*logUndo*/)
+bool CompositionModel::requestResize(int size, bool right, Fun &undo, Fun &redo, Updates &list, bool /*logUndo*/)
 {
     QWriteLocker locker(&m_lock);
     if (size <= 0) {
@@ -107,6 +107,15 @@ bool CompositionModel::requestResize(int size, bool right, Fun &undo, Fun &redo,
         return false;
     };
     if (operation()) {
+        // we send a list of roles to be updated
+        QVector<int> roles{TimelineModel::DurationRole};
+        if (right) {
+            roles.push_back(TimelineModel::StartRole);
+            roles.push_back(TimelineModel::InPointRole);
+        } else {
+            roles.push_back(TimelineModel::OutPointRole);
+        }
+        list.emplace_back(std::make_shared<ChangeUpdate>(getId(), m_parent, roles));
         // Now, we are in the state in which the timeline should be when we try to revert current action. So we can build the reverse action from here
         auto ptr = m_parent.lock();
         if (m_currentTrackId != -1 && ptr) {

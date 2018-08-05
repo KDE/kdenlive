@@ -123,7 +123,7 @@ void ClipModel::deregisterClipToBin()
 
 ClipModel::~ClipModel() {}
 
-bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool logUndo)
+bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, Updates &list, bool logUndo)
 {
     QWriteLocker locker(&m_lock);
     // qDebug() << "RESIZE CLIP" << m_id << "target size=" << size << "right=" << right << "endless=" << m_endlessResize << "length" <<
@@ -180,15 +180,16 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
         return false;
     };
     if (operation()) {
-        // Now, we are in the state in which the timeline should be when we try to revert current action. So we can build the reverse action from here
-        auto ptr = m_parent.lock();
-        if (m_currentTrackId != -1 && ptr) {
-            if (!right) {
-                QModelIndex ix = ptr->makeClipIndexFromID(m_id);
-                ptr->dataChanged(ix, ix, {TimelineModel::InPointRole});
-            }
-            track_reverse = ptr->getTrackById(m_currentTrackId)->requestClipResize_lambda(m_id, old_in, old_out, right);
+        // we send a list of roles to be updated
+        QVector<int> roles{TimelineModel::DurationRole};
+        if (right) {
+            roles.push_back(TimelineModel::StartRole);
+            roles.push_back(TimelineModel::InPointRole);
+        } else {
+            roles.push_back(TimelineModel::OutPointRole);
         }
+        list.emplace_back(std::make_shared<ChangeUpdate>(getId(), m_parent, roles));
+        // Now, we are in the state in which the timeline should be when we try to revert current action. So we can build the reverse action from here
         Fun reverse = [this, old_in, old_out, track_reverse]() {
             if (track_reverse()) {
                 m_producer->set_in_and_out(old_in, old_out);
@@ -302,13 +303,13 @@ bool ClipModel::removeFade(bool fromStart)
     return true;
 }
 
-bool ClipModel::adjustEffectLength(bool adjustFromEnd, int oldIn, int newIn, int oldDuration, int duration, Fun &undo, Fun &redo, bool logUndo)
+bool ClipModel::adjustEffectLength(bool adjustFromEnd, int oldIn, int newIn, int oldDuration, int duration, Fun &undo, Fun &redo, Updates &list, bool logUndo)
 {
     QWriteLocker locker(&m_lock);
     return m_effectStack->adjustStackLength(adjustFromEnd, oldIn, oldDuration, newIn, duration, undo, redo, logUndo);
 }
 
-bool ClipModel::adjustEffectLength(const QString &effectName, int duration, int originalDuration, Fun &undo, Fun &redo)
+bool ClipModel::adjustEffectLength(const QString &effectName, int duration, int originalDuration, Fun &undo, Fun &redo, Updates &list)
 {
     QWriteLocker locker(&m_lock);
     qDebug() << ".... ADJUSTING FADE LENGTH: " << duration << " / " << effectName;
@@ -371,7 +372,7 @@ void ClipModel::refreshProducerFromBin()
     refreshProducerFromBin(m_currentState);
 }
 
-bool ClipModel::useTimewarpProducer(double speed, Fun &undo, Fun &redo)
+bool ClipModel::useTimewarpProducer(double speed, Fun &undo, Fun &redo, Updates &list)
 {
     if (m_endlessResize) {
         // no timewarp for endless producers
@@ -401,8 +402,9 @@ bool ClipModel::useTimewarpProducer(double speed, Fun &undo, Fun &redo)
         };
     }
     if (operation()) {
+        list.emplace_back(new ChangeUpdate(getId(), m_parent, {TimelineModel::SpeedRole}));
         UPDATE_UNDO_REDO(operation, reverse, local_undo, local_redo);
-        bool res = requestResize(newDuration, true, local_undo, local_redo, true);
+        bool res = requestResize(newDuration, true, local_undo, local_redo, list, true);
         if (!res) {
             local_undo();
             return false;
@@ -420,10 +422,6 @@ Fun ClipModel::useTimewarpProducer_lambda(double speed)
     return [speed, this]() {
         qDebug() << "timeWarp producer" << speed;
         refreshProducerFromBin(m_currentState, speed);
-        if (auto ptr = m_parent.lock()) {
-            QModelIndex ix = ptr->makeClipIndexFromID(m_id);
-            ptr->notifyChange(ix, ix, TimelineModel::SpeedRole);
-        }
         return true;
     };
 }
@@ -502,17 +500,13 @@ Fun ClipModel::setClipState_lambda(PlaylistState::ClipState state)
                 break;
             }
             m_currentState = state;
-            if (ptr->isClip(m_id)) { // if this is false, the clip is being created. Don't update model in that case
-                QModelIndex ix = ptr->makeClipIndexFromID(m_id);
-                ptr->dataChanged(ix, ix, {TimelineModel::StatusRole});
-            }
             return true;
         }
         return false;
     };
 }
 
-bool ClipModel::setClipState(PlaylistState::ClipState state, Fun &undo, Fun &redo)
+bool ClipModel::setClipState(PlaylistState::ClipState state, Fun &undo, Fun &redo, Updates &list)
 {
     if (state == PlaylistState::VideoOnly && !canBeVideo()) {
         return false;
@@ -526,6 +520,7 @@ bool ClipModel::setClipState(PlaylistState::ClipState state, Fun &undo, Fun &red
     auto old_state = m_currentState;
     auto operation = setClipState_lambda(state);
     if (operation()) {
+        list.emplace_back(new ChangeUpdate(getId(), m_parent, {TimelineModel::StatusRole}));
         auto reverse = setClipState_lambda(old_state);
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
         return true;

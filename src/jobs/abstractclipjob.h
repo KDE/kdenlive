@@ -25,6 +25,7 @@
 #include <QProcess>
 
 #include "definitions.h"
+#include "timeline2/model/modelupdater.hpp"
 #include "undohelper.hpp"
 #include <memory>
 
@@ -74,7 +75,7 @@ public:
         By design, the job should store the result of the computation but not share it with the rest of the code. This happens when we call commitResult
         This methods return true on success
     */
-    virtual bool commitResult(Fun &undo, Fun &redo) = 0;
+    virtual bool commitResult(Fun &undo, Fun &redo, Updates &list) = 0;
 
     // brief run a given job
     static bool execute(std::shared_ptr<AbstractClipJob> job);

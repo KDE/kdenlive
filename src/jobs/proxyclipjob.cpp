@@ -307,7 +307,7 @@ void ProxyJob::processLogInfo()
     }
 }
 
-bool ProxyJob::commitResult(Fun &undo, Fun &redo)
+bool ProxyJob::commitResult(Fun &undo, Fun &redo, Updates &list)
 {
     Q_ASSERT(!m_resultConsumed);
     if (!m_done) {

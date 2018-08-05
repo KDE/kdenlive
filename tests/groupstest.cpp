@@ -44,6 +44,7 @@ TEST_CASE("Functional test of the group hierarchy", "[GroupsModel]")
     GroupsModel groups(timeline);
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
+    Updates list;
 
     for (int i = 0; i < 10; i++) {
         groups.createGroupItem(i);
@@ -187,7 +188,7 @@ TEST_CASE("Functional test of the group hierarchy", "[GroupsModel]")
         }
     }
 
-    groups.destructGroupItem(8, false, undo, redo);
+    groups.destructGroupItem(8, false, undo, redo, list);
     SECTION("Test leaf nodes 4")
     {
         std::unordered_set<int> nodes = {1, 2, 3};
@@ -250,11 +251,12 @@ TEST_CASE("Interface test of the group hierarchy", "[GroupsModel]")
 
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
+    Updates list;
 
     for (int i = 0; i < 10; i++) {
         groups.createGroupItem(i);
         // the following call shouldn't do anything, but we test that behaviour too.
-        groups.ungroupItem(i, undo, redo);
+        groups.ungroupItem(i, undo, redo, list);
         REQUIRE(groups.getRootId(i) == i);
         REQUIRE(groups.isLeaf(i));
         REQUIRE(groups.getLeaves(i).size() == 1);
@@ -263,7 +265,7 @@ TEST_CASE("Interface test of the group hierarchy", "[GroupsModel]")
     }
 
     auto g1 = std::unordered_set<int>({4, 6, 7, 9});
-    int gid1 = groups.groupItems(g1, undo, redo);
+    int gid1 = groups.groupItems(g1, undo, redo, list);
 
     SECTION("One single group")
     {
@@ -285,7 +287,7 @@ TEST_CASE("Interface test of the group hierarchy", "[GroupsModel]")
     SECTION("Twice the same group")
     {
         int old_gid1 = gid1;
-        gid1 = groups.groupItems(g1, undo, redo); // recreate the same group (will create a parent with the old group as only element)
+        gid1 = groups.groupItems(g1, undo, redo, list); // recreate the same group (will create a parent with the old group as only element)
         for (int i = 0; i < 10; i++) {
             if (g1.count(i) > 0) {
                 REQUIRE(groups.getRootId(i) == gid1);
@@ -306,7 +308,7 @@ TEST_CASE("Interface test of the group hierarchy", "[GroupsModel]")
     }
 
     auto g2 = std::unordered_set<int>({3, 5, 7});
-    int gid2 = groups.groupItems(g2, undo, redo);
+    int gid2 = groups.groupItems(g2, undo, redo, list);
     auto all_g2 = g2;
     all_g2.insert(4);
     all_g2.insert(6);
@@ -330,10 +332,10 @@ TEST_CASE("Interface test of the group hierarchy", "[GroupsModel]")
     }
 
     auto g3 = std::unordered_set<int>({0, 1});
-    int gid3 = groups.groupItems(g3, undo, redo);
+    int gid3 = groups.groupItems(g3, undo, redo, list);
 
     auto g4 = std::unordered_set<int>({0, 4});
-    int gid4 = groups.groupItems(g4, undo, redo);
+    int gid4 = groups.groupItems(g4, undo, redo, list);
     auto all_g4 = all_g2;
     for (int i : g3)
         all_g4.insert(i);
@@ -358,7 +360,7 @@ TEST_CASE("Interface test of the group hierarchy", "[GroupsModel]")
     }
 
     // the following should delete g4
-    groups.ungroupItem(3, undo, redo);
+    groups.ungroupItem(3, undo, redo, list);
 
     SECTION("Ungroup")
     {
@@ -400,36 +402,37 @@ TEST_CASE("Orphan groups deletion", "[GroupsModel]")
     GroupsModel groups(timeline);
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
+    Updates list;
 
     for (int i = 0; i < 4; i++) {
         groups.createGroupItem(i);
     }
 
     auto g1 = std::unordered_set<int>({0, 1});
-    int gid1 = groups.groupItems(g1, undo, redo);
+    int gid1 = groups.groupItems(g1, undo, redo, list);
 
     auto g2 = std::unordered_set<int>({2, 3});
-    int gid2 = groups.groupItems(g2, undo, redo);
+    int gid2 = groups.groupItems(g2, undo, redo, list);
 
     auto g3 = std::unordered_set<int>({0, 3});
-    int gid3 = groups.groupItems(g3, undo, redo);
+    int gid3 = groups.groupItems(g3, undo, redo, list);
 
     REQUIRE(groups.getLeaves(gid3) == std::unordered_set<int>({0, 1, 2, 3}));
     REQUIRE(groups.checkConsistency(false));
 
-    groups.destructGroupItem(0, true, undo, redo);
+    groups.destructGroupItem(0, true, undo, redo, list);
 
     REQUIRE(groups.getLeaves(gid3) == std::unordered_set<int>({1, 2, 3}));
     REQUIRE(groups.checkConsistency(false));
 
     SECTION("Normal deletion")
     {
-        groups.destructGroupItem(1, false, undo, redo);
+        groups.destructGroupItem(1, false, undo, redo, list);
 
         REQUIRE(groups.getLeaves(gid3) == std::unordered_set<int>({gid1, 2, 3}));
         REQUIRE(groups.checkConsistency(false));
 
-        groups.destructGroupItem(gid1, true, undo, redo);
+        groups.destructGroupItem(gid1, true, undo, redo, list);
 
         REQUIRE(groups.getLeaves(gid3) == std::unordered_set<int>({2, 3}));
         REQUIRE(groups.checkConsistency(false));
@@ -437,18 +440,18 @@ TEST_CASE("Orphan groups deletion", "[GroupsModel]")
 
     SECTION("Cascade deletion")
     {
-        groups.destructGroupItem(1, true, undo, redo);
+        groups.destructGroupItem(1, true, undo, redo, list);
 
         REQUIRE(groups.getLeaves(gid3) == std::unordered_set<int>({2, 3}));
         REQUIRE(groups.checkConsistency(false));
 
-        groups.destructGroupItem(2, true, undo, redo);
+        groups.destructGroupItem(2, true, undo, redo, list);
 
         REQUIRE(groups.getLeaves(gid3) == std::unordered_set<int>({3}));
         REQUIRE(groups.checkConsistency(false));
 
         REQUIRE(groups.m_downLink.count(gid3) > 0);
-        groups.destructGroupItem(3, true, undo, redo);
+        groups.destructGroupItem(3, true, undo, redo, list);
         REQUIRE(groups.m_downLink.count(gid3) == 0);
         REQUIRE(groups.m_downLink.size() == 0);
         REQUIRE(groups.checkConsistency(false));
@@ -576,9 +579,10 @@ TEST_CASE("Integration with timeline", "[GroupsModel]")
             // we first destroy all groups in target timeline
             Fun undo = []() { return true; };
             Fun redo = []() { return true; };
+            Updates list;
             for (int i = 0; i < 4; i++) {
                 while (timeline2->m_groups->getRootId(clips2[i]) != clips2[i]) {
-                    timeline2->m_groups->ungroupItem(clips2[i], undo, redo);
+                    timeline2->m_groups->ungroupItem(clips2[i], undo, redo, list);
                 }
             }
             // we do the export then import
@@ -924,6 +928,7 @@ TEST_CASE("Complex Functions", "[GroupsModel]")
     {
         Fun undo = []() { return true; };
         Fun redo = []() { return true; };
+        Updates list;
         REQUIRE(groups.m_upLink.size() == 0);
 
         for (int i = 0; i < 6; i++) {
@@ -947,7 +952,7 @@ TEST_CASE("Complex Functions", "[GroupsModel]")
         };
         test_tree();
 
-        REQUIRE(groups.mergeSingleGroups(1, undo, redo));
+        REQUIRE(groups.mergeSingleGroups(1, undo, redo, list));
         auto test_tree2 = [&]() {
             REQUIRE(groups.getSubtree(1) == std::unordered_set<int>({1, 2, 5}));
             REQUIRE(groups.getDirectChildren(1) == std::unordered_set<int>({2, 5}));
@@ -968,6 +973,7 @@ TEST_CASE("Complex Functions", "[GroupsModel]")
     {
         Fun undo = []() { return true; };
         Fun redo = []() { return true; };
+        Updates list;
         REQUIRE(groups.m_upLink.size() == 0);
 
         for (int i = 0; i < 3; i++) {
@@ -985,7 +991,7 @@ TEST_CASE("Complex Functions", "[GroupsModel]")
         };
         test_tree();
 
-        REQUIRE(groups.mergeSingleGroups(0, undo, redo));
+        REQUIRE(groups.mergeSingleGroups(0, undo, redo, list));
         auto test_tree2 = [&]() {
             REQUIRE(groups.getSubtree(2) == std::unordered_set<int>({2}));
             REQUIRE(groups.getDirectChildren(2) == std::unordered_set<int>({}));
@@ -1005,6 +1011,7 @@ TEST_CASE("Complex Functions", "[GroupsModel]")
     {
         Fun undo = []() { return true; };
         Fun redo = []() { return true; };
+        Updates list;
         REQUIRE(groups.m_upLink.size() == 0);
 
         for (int i = 0; i < 6; i++) {
@@ -1031,7 +1038,7 @@ TEST_CASE("Complex Functions", "[GroupsModel]")
         };
         test_tree();
 
-        REQUIRE(groups.mergeSingleGroups(2, undo, redo));
+        REQUIRE(groups.mergeSingleGroups(2, undo, redo, list));
         auto test_tree2 = [&]() {
             REQUIRE(groups.getRootId(1) == 1);
             REQUIRE(groups.getRootId(3) == 1);
@@ -1054,6 +1061,7 @@ TEST_CASE("Complex Functions", "[GroupsModel]")
     {
         Fun undo = []() { return true; };
         Fun redo = []() { return true; };
+        Updates list;
         REQUIRE(groups.m_upLink.size() == 0);
 
         // This is a dummy split criterion
@@ -1070,12 +1078,12 @@ TEST_CASE("Complex Functions", "[GroupsModel]")
         };
         test_leaf();
 
-        REQUIRE(groups.split(1, criterion, undo, redo));
+        REQUIRE(groups.split(1, criterion, undo, redo, list));
         test_leaf();
         undo();
         test_leaf();
         redo();
-        REQUIRE(groups.split(1, criterion2, undo, redo));
+        REQUIRE(groups.split(1, criterion2, undo, redo, list));
         test_leaf();
         undo();
         test_leaf();
@@ -1085,6 +1093,7 @@ TEST_CASE("Complex Functions", "[GroupsModel]")
     {
         Fun undo = []() { return true; };
         Fun redo = []() { return true; };
+        Updates list;
         REQUIRE(groups.m_upLink.size() == 0);
 
         // This is a dummy split criterion
@@ -1109,7 +1118,7 @@ TEST_CASE("Complex Functions", "[GroupsModel]")
         };
         test_tree();
 
-        REQUIRE(groups.split(0, criterion, undo, redo));
+        REQUIRE(groups.split(0, criterion, undo, redo, list));
         auto test_tree2 = [&]() {
             REQUIRE(groups.getRootId(1) == 1);
             REQUIRE(groups.getRootId(2) == 2);
@@ -1132,6 +1141,7 @@ TEST_CASE("Complex Functions", "[GroupsModel]")
     {
         Fun undo = []() { return true; };
         Fun redo = []() { return true; };
+        Updates list;
         REQUIRE(groups.m_upLink.size() == 0);
 
         // This is a dummy split criterion
@@ -1167,7 +1177,7 @@ TEST_CASE("Complex Functions", "[GroupsModel]")
         };
         test_tree();
 
-        REQUIRE(groups.split(2, criterion, undo, redo));
+        REQUIRE(groups.split(2, criterion, undo, redo, list));
         auto test_tree2 = [&]() {
             REQUIRE(groups.getRootId(6) == 3);
             REQUIRE(groups.getRootId(3) == 3);
@@ -1206,6 +1216,7 @@ TEST_CASE("Complex Functions", "[GroupsModel]")
     {
         Fun undo = []() { return true; };
         Fun redo = []() { return true; };
+        Updates list;
         REQUIRE(groups.m_upLink.size() == 0);
 
         // This is a dummy split criterion
@@ -1248,7 +1259,7 @@ TEST_CASE("Complex Functions", "[GroupsModel]")
         test_tree();
         qDebug() << " done testing";
 
-        REQUIRE(groups.split(6, criterion, undo, redo));
+        REQUIRE(groups.split(6, criterion, undo, redo, list));
         qDebug() << " done spliting";
         auto test_tree2 = [&]() {
             // REQUIRE(groups.m_upLink.size() == 6);
