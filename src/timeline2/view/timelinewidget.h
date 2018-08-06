@@ -63,6 +63,8 @@ private:
     static const int comboScale[];
     std::shared_ptr<AssetTreeModel> m_transitionModel;
     std::unique_ptr<AssetFilter> m_transitionProxyModel;
+	std::shared_ptr<AssetTreeModel> m_effectsModel;
+    std::unique_ptr<AssetFilter> m_effectsProxyModel;
 
 signals:
     void focusProjectMonitor();

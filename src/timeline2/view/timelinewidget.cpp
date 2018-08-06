@@ -22,7 +22,6 @@
 #include "timelinewidget.h"
 #include "../model/builders/meltBuilder.hpp"
 #include "assets/keyframes/model/keyframemodel.hpp"
-#include "transitions/transitionlist/model/transitionfilter.hpp"
 #include "assets/model/assetparametermodel.hpp"
 #include "core.h"
 #include "doc/docundostack.hpp"
@@ -35,7 +34,9 @@
 #include "qmltypes/thumbnailprovider.h"
 #include "timelinecontroller.h"
 #include "transitions/transitionlist/model/transitiontreemodel.hpp"
-
+#include "transitions/transitionlist/model/transitionfilter.hpp"
+#include "effects/effectlist/model/effecttreemodel.hpp"
+#include "effects/effectlist/model/effectfilter.hpp"
 #include "utils/clipboardproxy.hpp"
 
 #include <KDeclarative/KDeclarative>
@@ -63,12 +64,21 @@ TimelineWidget::TimelineWidget(QWidget *parent)
 #endif
 
     registerTimelineItems();
+    // Build transition model for context menu
     m_transitionModel = TransitionTreeModel::construct(true, this);
     m_transitionProxyModel.reset(new TransitionFilter(this));
-	static_cast<TransitionFilter *>(m_transitionProxyModel.get())->setFilterType(true, TransitionType::Favorites);
+    static_cast<TransitionFilter *>(m_transitionProxyModel.get())->setFilterType(true, TransitionType::Favorites);
     m_transitionProxyModel->setSourceModel(m_transitionModel.get());
     m_transitionProxyModel->setSortRole(AssetTreeModel::NameRole);
     m_transitionProxyModel->sort(0, Qt::AscendingOrder);
+
+    // Build effects model for context menu
+    m_effectsModel = EffectTreeModel::construct(QStringLiteral(), this);
+    m_effectsProxyModel.reset(new EffectFilter(this));
+    static_cast<EffectFilter *>(m_effectsProxyModel.get())->setFilterType(true, EffectType::Favorites);
+    m_effectsProxyModel->setSourceModel(m_effectsModel.get());
+    m_effectsProxyModel->setSortRole(AssetTreeModel::NameRole);
+    m_effectsProxyModel->sort(0, Qt::AscendingOrder);
     m_proxy = new TimelineController(this);
     connect(m_proxy, &TimelineController::zoneMoved, this, &TimelineWidget::zoneMoved);
     setResizeMode(QQuickWidget::SizeRootObjectToView);
@@ -96,6 +106,7 @@ void TimelineWidget::setModel(std::shared_ptr<TimelineItemModel> model)
     rootContext()->setContextProperty("controller", model.get());
     rootContext()->setContextProperty("timeline", m_proxy);
     rootContext()->setContextProperty("transitionModel", m_transitionProxyModel.get());
+    rootContext()->setContextProperty("effectModel", m_effectsProxyModel.get());
     rootContext()->setContextProperty("guidesModel", pCore->projectManager()->current()->getGuideModel().get());
     rootContext()->setContextProperty("clipboard", new ClipboardProxy(this));
     setSource(QUrl(QStringLiteral("qrc:/qml/timeline.qml")));

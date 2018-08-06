@@ -14,6 +14,7 @@ Rectangle {
 
     SystemPalette { id: activePalette }
     color: activePalette.window
+    property bool validMenu: false
 
     signal clipClicked()
     signal mousePosChanged(int position)
@@ -22,8 +23,13 @@ Rectangle {
         id: fontMetrics
         font.family: "Arial"
     }
-    ClipMenu {
+    Loader {
+        source: 'CheckQuickVersion.qml'
+        property bool validMenu: item.editable == false
         id: clipMenu
+        onLoaded: {
+            source = validMenu ? 'ClipMenu.qml' : 'ClipMenuOld.qml'
+        }
     }
     CompositionMenu {
         id: compositionMenu

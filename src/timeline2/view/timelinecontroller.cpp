@@ -1444,6 +1444,20 @@ void TimelineController::switchEnableState(int clipId)
     TimelineFunctions::switchEnableState(m_model, clipId);
 }
 
+void TimelineController::addCompositionToClip(const QString &assetId, int clipId)
+{
+    int position = m_model->getItemPosition(clipId);
+    int duration = m_model->getItemPlaytime(clipId);
+    int track = m_model->getItemTrackId(clipId);
+    int id;
+    m_model->requestCompositionInsertion(assetId, track, position, duration, nullptr, id, true);
+}
+
+void TimelineController::addEffectToClip(const QString &assetId, int clipId)
+{
+    m_model->addClipEffect(clipId, assetId);
+}
+
 bool TimelineController::splitAV()
 {
     int cid = m_selection.selectedItems.first();

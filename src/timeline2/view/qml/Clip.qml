@@ -237,13 +237,13 @@ Rectangle {
                 drag.target = clipRoot
             } else if (mouse.button == Qt.RightButton) {
                 drag.target = undefined
-                clipMenu.clipId = clipRoot.clipId
-                clipMenu.clipStatus = clipRoot.clipStatus
-                clipMenu.grouped = clipRoot.grouped
-                clipMenu.trackId = clipRoot.trackId
-                clipMenu.canBeAudio = clipRoot.canBeAudio
-                clipMenu.canBeVideo = clipRoot.canBeVideo
-                clipMenu.popup()
+                clipMenu.item.clipId = clipRoot.clipId
+                clipMenu.item.clipStatus = clipRoot.clipStatus
+                clipMenu.item.grouped = clipRoot.grouped
+                clipMenu.item.trackId = clipRoot.trackId
+                clipMenu.item.canBeAudio = clipRoot.canBeAudio
+                clipMenu.item.canBeVideo = clipRoot.canBeVideo
+                clipMenu.item.popup()
             }
         }
         onPositionChanged: {

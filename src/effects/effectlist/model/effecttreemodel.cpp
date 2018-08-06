@@ -49,6 +49,9 @@ std::shared_ptr<EffectTreeModel> EffectTreeModel::construct(const QString &categ
 
     QHash<QString, std::shared_ptr<TreeItem>> effectCategory; // category in which each effect should land.
 
+    std::shared_ptr<TreeItem> miscCategory = nullptr;
+    std::shared_ptr<TreeItem> audioCategory = nullptr;
+    std::shared_ptr<TreeItem> customCategory = nullptr;
     // We parse category file
     if (!categoryFile.isEmpty()) {
         QDomDocument doc;
@@ -69,12 +72,16 @@ std::shared_ptr<EffectTreeModel> EffectTreeModel::construct(const QString &categ
                 effectCategory[effect] = groupItem;
             }
         }
+        // We also create "Misc", "Audio" and "Custom" categories
+        miscCategory = self->rootItem->appendChild(QList<QVariant>{i18n("Misc"), QStringLiteral("root")});
+        audioCategory = self->rootItem->appendChild(QList<QVariant>{i18n("Audio"), QStringLiteral("root")});
+        customCategory = self->rootItem->appendChild(QList<QVariant>{i18n("Custom"), QStringLiteral("root")});
+    } else {
+        // Flat view
+        miscCategory = self->rootItem;
+        audioCategory = self->rootItem;
+        customCategory = self->rootItem;
     }
-
-    // We also create "Misc", "Audio" and "Custom" categories
-    auto miscCategory = self->rootItem->appendChild(QList<QVariant>{i18n("Misc"), QStringLiteral("root")});
-    auto audioCategory = self->rootItem->appendChild(QList<QVariant>{i18n("Audio"), QStringLiteral("root")});
-    auto customCategory = self->rootItem->appendChild(QList<QVariant>{i18n("Custom"), QStringLiteral("root")});
 
     // We parse effects
     auto allEffects = EffectsRepository::get()->getNames();

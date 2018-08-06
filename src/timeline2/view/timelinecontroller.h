@@ -264,6 +264,8 @@ public:
     /* @brief If clip is enabled, disable, otherwise enable
      */
     Q_INVOKABLE void switchEnableState(int clipId);
+    Q_INVOKABLE void addCompositionToClip(const QString &assetId, int clipId);
+    Q_INVOKABLE void addEffectToClip(const QString &assetId, int clipId);
 
     Q_INVOKABLE void requestClipCut(int clipId, int position);
 
