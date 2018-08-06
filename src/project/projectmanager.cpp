@@ -256,6 +256,7 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
             break;
         }
     }
+    pCore->window()->getMainTimeline()->controller()->clipActions.clear();
     if (!quit && !qApp->isSavingSession()) {
         m_autoSaveTimer.stop();
         if (m_project) {
