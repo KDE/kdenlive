@@ -33,7 +33,7 @@
  * Note that this class is a Singleton
  */
 
-enum class TransitionType { AudioComposition, VideoComposition, AudioTransition, VideoTransition };
+enum class TransitionType { AudioComposition, VideoComposition, AudioTransition, VideoTransition, Favorites };
 Q_DECLARE_METATYPE(TransitionType)
 
 class TransitionsRepository : public AbstractAssetsRepository<TransitionType>

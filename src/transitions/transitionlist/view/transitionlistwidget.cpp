@@ -20,9 +20,8 @@
  ***************************************************************************/
 
 #include "transitionlistwidget.hpp"
-#include "effects/effectlist/model/effectfilter.hpp"
+#include "transitions/transitionlist/model/transitionfilter.hpp"
 #include "../model/transitiontreemodel.hpp"
-#include "assets/assetlist/model/assetfilter.hpp"
 #include "transitions/transitionsrepository.hpp"
 
 #include <QQmlContext>
@@ -33,7 +32,7 @@ TransitionListWidget::TransitionListWidget(QWidget *parent)
 
     m_model = TransitionTreeModel::construct(false, this);
 
-    m_proxyModel.reset(new EffectFilter(this));
+    m_proxyModel.reset(new TransitionFilter(this));
     m_proxyModel->setSourceModel(m_model.get());
     m_proxyModel->setSortRole(AssetTreeModel::NameRole);
     m_proxyModel->sort(0, Qt::AscendingOrder);
@@ -69,8 +68,8 @@ void TransitionListWidget::updateFavorite(const QModelIndex &index)
 void TransitionListWidget::setFilterType(const QString &type)
 {
     if (type == "favorites") {
-        static_cast<EffectFilter *>(m_proxyModel.get())->setFilterType(true, EffectType::Favorites);
+        static_cast<TransitionFilter *>(m_proxyModel.get())->setFilterType(true, TransitionType::Favorites);
     } else {
-        static_cast<EffectFilter *>(m_proxyModel.get())->setFilterType(false, EffectType::Video);
+        static_cast<TransitionFilter *>(m_proxyModel.get())->setFilterType(false, TransitionType::Favorites);
     }
 }
