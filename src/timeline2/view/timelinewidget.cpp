@@ -22,6 +22,7 @@
 #include "timelinewidget.h"
 #include "../model/builders/meltBuilder.hpp"
 #include "assets/keyframes/model/keyframemodel.hpp"
+#include "transitions/transitionlist/model/transitionfilter.hpp"
 #include "assets/model/assetparametermodel.hpp"
 #include "core.h"
 #include "doc/docundostack.hpp"
@@ -63,7 +64,8 @@ TimelineWidget::TimelineWidget(QWidget *parent)
 
     registerTimelineItems();
     m_transitionModel = TransitionTreeModel::construct(true, this);
-    m_transitionProxyModel.reset(new AssetFilter(this));
+    m_transitionProxyModel.reset(new TransitionFilter(this));
+	static_cast<TransitionFilter *>(m_transitionProxyModel.get())->setFilterType(true, TransitionType::Favorites);
     m_transitionProxyModel->setSourceModel(m_transitionModel.get());
     m_transitionProxyModel->setSortRole(AssetTreeModel::NameRole);
     m_transitionProxyModel->sort(0, Qt::AscendingOrder);
