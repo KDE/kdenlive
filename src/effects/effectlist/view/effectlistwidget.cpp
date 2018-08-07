@@ -79,3 +79,8 @@ QString EffectListWidget::getMimeType(const QString &assetId) const
     return QStringLiteral("kdenlive/effect");
 }
 
+void EffectListWidget::reloadCustomEffect(const QString &path)
+{
+    static_cast<EffectTreeModel *>(m_model.get())->reloadEffect(path);
+}
+

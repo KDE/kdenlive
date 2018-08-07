@@ -41,6 +41,7 @@ signals:
     void moveEffect(const QList<int> &current_pos, int new_pos, int groupIndex, const QString &groupName);
     /** @brief An effect was saved, trigger effect list reload. */
     void reloadEffects();
+    void reloadEffect(const QString &path);
 
     void seekToPos(int);
 };

@@ -48,6 +48,7 @@ public:
     /* @brief returns a fresh instance of the given effect */
     Mlt::Filter *getEffect(const QString &effectId) const;
     void setFavorite(const QString &id, bool favorite) override;
+    QPair <QString, QString> reloadCustom(const QString &path);
 
 protected:
     // Constructor is protected because class is a Singleton

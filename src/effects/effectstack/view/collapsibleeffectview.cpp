@@ -55,10 +55,6 @@
 
 CollapsibleEffectView::CollapsibleEffectView(std::shared_ptr<EffectItemModel> effectModel, QSize frameSize, QImage icon, QWidget *parent)
     : AbstractCollapsibleWidget(parent)
-    /*    , m_effect(effect)
-        , m_itemInfo(info)
-        , m_original_effect(original_effect)
-        , m_isMovable(true)*/
     , m_view(nullptr)
     , m_model(effectModel)
     , m_regionEffect(false)
@@ -380,7 +376,29 @@ void CollapsibleEffectView::slotSaveEffect()
         }
 
     QDomDocument doc;
-    QDomElement effect = m_effect.cloneNode().toElement();
+    // Get base effect xml
+    QString effectId = m_model->getAssetId();
+    QDomElement effect = EffectsRepository::get()->getXml(effectId);
+    // Adjust param values
+    QVector<QPair<QString, QVariant>> currentValues = m_model->getAllParameters();
+    QMap <QString, QString> values;
+    QLocale locale;
+    for (const auto &param : currentValues) {
+        if (param.second.type() == QVariant::Double) {
+            values.insert(param.first, locale.toString(param.second.toDouble()));
+        } else {
+            values.insert(param.first, param.second.toString());
+        }
+    }
+    QDomNodeList params = effect.elementsByTagName("parameter");
+    for (int i = 0; i < params.count(); ++i) {
+        const QString paramName = params.item(i).toElement().attribute("name");
+        const QString paramType = params.item(i).toElement().attribute("type");
+        if (paramType == QLatin1String("fixed") || !values.contains(paramName)) {
+            continue;
+        }
+        params.item(i).toElement().setAttribute(QStringLiteral("value"), values.value(paramName));
+    }
     doc.appendChild(doc.importNode(effect, true));
     effect = doc.firstChild().toElement();
     effect.removeAttribute(QStringLiteral("kdenlive_ix"));
@@ -408,7 +426,7 @@ void CollapsibleEffectView::slotSaveEffect()
         out << doc.toString();
     }
     file.close();
-    emit reloadEffects();
+    emit reloadEffect(dir.absoluteFilePath(name + QStringLiteral(".xml")));
 }
 
 void CollapsibleEffectView::slotResetEffect()

@@ -92,6 +92,7 @@ signals:
     void doSplitBinEffect(bool);
     void seekToPos(int);
     void changeSpeed(int);
+    void reloadEffect(const QString &path);
 };
 
 #endif

@@ -34,6 +34,7 @@
 
 EffectTreeModel::EffectTreeModel(QObject *parent)
     : AssetTreeModel(parent)
+    , m_customCategory(nullptr)
 {
 }
 
@@ -51,7 +52,6 @@ std::shared_ptr<EffectTreeModel> EffectTreeModel::construct(const QString &categ
 
     std::shared_ptr<TreeItem> miscCategory = nullptr;
     std::shared_ptr<TreeItem> audioCategory = nullptr;
-    std::shared_ptr<TreeItem> customCategory = nullptr;
     // We parse category file
     if (!categoryFile.isEmpty()) {
         QDomDocument doc;
@@ -75,12 +75,12 @@ std::shared_ptr<EffectTreeModel> EffectTreeModel::construct(const QString &categ
         // We also create "Misc", "Audio" and "Custom" categories
         miscCategory = self->rootItem->appendChild(QList<QVariant>{i18n("Misc"), QStringLiteral("root")});
         audioCategory = self->rootItem->appendChild(QList<QVariant>{i18n("Audio"), QStringLiteral("root")});
-        customCategory = self->rootItem->appendChild(QList<QVariant>{i18n("Custom"), QStringLiteral("root")});
+        self->m_customCategory = self->rootItem->appendChild(QList<QVariant>{i18n("Custom"), QStringLiteral("root")});
     } else {
         // Flat view
         miscCategory = self->rootItem;
         audioCategory = self->rootItem;
-        customCategory = self->rootItem;
+        self->m_customCategory = self->rootItem;
     }
 
     // We parse effects
@@ -98,7 +98,7 @@ std::shared_ptr<EffectTreeModel> EffectTreeModel::construct(const QString &categ
         }
 
         if (type == EffectType::Custom) {
-            targetCategory = customCategory;
+            targetCategory = self->m_customCategory;
         }
 
         // we create the data list corresponding to this profile
@@ -110,4 +110,16 @@ std::shared_ptr<EffectTreeModel> EffectTreeModel::construct(const QString &categ
         targetCategory->appendChild(data);
     }
     return self;
+}
+
+void EffectTreeModel::reloadEffect(const QString &path)
+{
+    QPair <QString, QString> asset = EffectsRepository::get()->reloadCustom(path);
+    if (asset.first.isEmpty() || m_customCategory == nullptr) {
+        return;
+    }
+    QList<QVariant> data;
+    bool isFav = KdenliveSettings::favorite_effects().contains(asset.first);
+    data << asset.second << asset.first << QVariant::fromValue(EffectType::Custom) << isFav;
+    m_customCategory->appendChild(data);
 }

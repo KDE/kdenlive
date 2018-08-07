@@ -110,7 +110,6 @@ void EffectsRepository::parseCustomAssetFile(const QString &file_name, std::unor
         if (!ok) {
             continue;
         }
-
         if (customAssets.count(result.id) > 0) {
             qDebug() << "Warning: duplicate custom definition of effect" << result.id << "found. Only last one will be considered";
         }
@@ -163,4 +162,19 @@ Mlt::Filter *EffectsRepository::getEffect(const QString &effectId) const
     // We create the Mlt element from its name
     Mlt::Filter *filter = new Mlt::Filter(pCore->getCurrentProfile()->profile(), service_name.toLatin1().constData(), nullptr);
     return filter;
+}
+
+QPair <QString, QString> EffectsRepository::reloadCustom(const QString &path)
+{
+    std::unordered_map<QString, Info> customAssets;
+    parseCustomAssetFile(path, customAssets);
+    QPair <QString, QString> result;
+    //TODO: handle files with several effects
+    for (const auto &custom : customAssets) {
+        // Custom assets should override default ones
+        m_assets[custom.first] = custom.second;
+        result.first = custom.first;
+        result.second = custom.second.mltId;
+    }
+    return result;
 }

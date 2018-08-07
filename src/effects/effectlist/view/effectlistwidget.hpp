@@ -45,6 +45,9 @@ public:
     QString getMimeType(const QString &assetId) const override;
     void updateFavorite(const QModelIndex &index);
 
+public slots:
+    void reloadCustomEffect(const QString &path);
+
 private:
     EffectListWidgetProxy *m_proxy;
 

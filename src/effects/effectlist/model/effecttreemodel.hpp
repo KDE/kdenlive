@@ -36,8 +36,10 @@ protected:
 
 public:
     static std::shared_ptr<EffectTreeModel> construct(const QString &categoryFile, QObject *parent);
+    void reloadEffect(const QString &path);
 
 protected:
+    std::shared_ptr<TreeItem> m_customCategory;
 };
 
 #endif
