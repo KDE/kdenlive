@@ -194,7 +194,9 @@ Rectangle {
                 treeView.__listView.positionViewAtIndex(rowPosition(assetListModel, sel.currentIndex), ListView.Visible)
             }
             onEditingFinished: {
-                searchList.checked = false
+                if (!assetContextMenu.isDisplayed) {
+                    searchList.checked = false
+                }
             }
             Keys.onDownPressed: {
                 sel.setCurrentIndex(assetListModel.getNextChild(sel.currentIndex), ItemSelectionModel.ClearAndSelect)
@@ -313,6 +315,7 @@ Rectangle {
             Menu {
                 id: assetContextMenu
                 property bool isItemFavorite
+                property bool isDisplayed: false
                 MenuItem {
                     id: favMenu
                     text: assetContextMenu.isItemFavorite ? "Remove from favorites" : "Add to favorites"
@@ -320,6 +323,12 @@ Rectangle {
                     onTriggered: {
                         assetlist.setFavorite(sel.currentIndex, !assetContextMenu.isItemFavorite)
                     }
+                }
+                onAboutToShow: {
+                    isDisplayed = true;
+                }
+                onAboutToHide: {
+                    isDisplayed = false;
                 }
             }
 
