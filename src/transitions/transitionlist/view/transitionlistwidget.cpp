@@ -63,6 +63,8 @@ QString TransitionListWidget::getMimeType(const QString &assetId) const
 void TransitionListWidget::updateFavorite(const QModelIndex &index)
 {
     m_proxyModel->dataChanged(index, index, QVector<int>());
+    m_proxyModel->reloadFilterOnFavorite();
+    emit reloadFavorites();
 }
 
 void TransitionListWidget::setFilterType(const QString &type)

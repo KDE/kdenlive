@@ -37,6 +37,7 @@ EffectBasket::EffectBasket(QWidget *parent)
 
 void EffectBasket::slotReloadBasket()
 {
+    clear();
     for (const QString &effectId : KdenliveSettings::favorite_effects()) {
         if (EffectsRepository::get()->exists(effectId)) {
             QListWidgetItem *it = new QListWidgetItem(EffectsRepository::get()->getName(effectId));
@@ -44,6 +45,7 @@ void EffectBasket::slotReloadBasket()
             addItem(it);
         }
     }
+    sortItems();
 }
 
 QMimeData *EffectBasket::mimeData(const QList<QListWidgetItem *> list) const

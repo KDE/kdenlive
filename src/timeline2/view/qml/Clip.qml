@@ -303,7 +303,7 @@ Rectangle {
         Loader {
             id: thumbsLoader
             anchors.fill: parent
-            source: parentTrack.isAudio ? "ClipAudioThumbs.qml" : "ClipThumbs.qml"
+            source: parentTrack.isAudio ? "ClipAudioThumbs.qml" : clipType == ProducerType.Color ? "" : "ClipThumbs.qml"
         }
 
         Rectangle {

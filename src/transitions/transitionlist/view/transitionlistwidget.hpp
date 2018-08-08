@@ -46,6 +46,8 @@ public:
 private:
     TransitionListWidgetProxy *m_proxy;
 
+signals:
+    void reloadFavorites();
 };
 
 // see https://bugreports.qt.io/browse/QTBUG-57714, don't expose a QWidget as a context property

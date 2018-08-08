@@ -41,6 +41,7 @@ public:
        @param type Effect type to display
     */
     void setFilterType(bool enabled, EffectType type);
+    void reloadFilterOnFavorite() override;
 
 protected:
     bool filterType(const std::shared_ptr<TreeItem> &item) const;

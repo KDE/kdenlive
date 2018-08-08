@@ -366,6 +366,7 @@ Rectangle {
         AssetMenu {
             title: i18n('Insert a composition...')
             menuModel: transitionModel
+            isTransition: true
             onAssetSelected: {
                 var track = Logic.getTrackIdFromPos(menu.clickedY - ruler.height)
                 var frame = Math.round((menu.clickedX + scrollView.flickableItem.contentX) / timeline.scaleFactor)

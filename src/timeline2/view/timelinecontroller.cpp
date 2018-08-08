@@ -1726,3 +1726,8 @@ void TimelineController::updateClipActions()
         act->setEnabled(enableAction);
     }
 }
+
+const QString TimelineController::getAssetName(const QString &assetId, bool isTransition)
+{
+    return isTransition ? TransitionsRepository::get()->getName(assetId) : EffectsRepository::get()->getName(assetId);
+}

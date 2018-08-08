@@ -259,7 +259,7 @@ Rectangle {
                     Image{
                         id: assetThumb
                         visible: assetDelegate.isItem
-                        property bool isFavorite: model.favorite
+                        property bool isFavorite: model == undefined || model.favorite == undefined ? false : model.favorite
                         height: parent.height
                         width: height
                         source: 'image://asseticon/' + styleData.value

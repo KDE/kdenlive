@@ -26,6 +26,7 @@ import QtQml.Models 2.2
 Menu {
     id: menuRoot
     property alias menuModel: itemRepeater.model
+    property bool isTransition: false
 
     signal assetSelected(string assetId)
 
@@ -34,8 +35,8 @@ Menu {
         onObjectAdded: menuRoot.insertItem( index, object )
         onObjectRemoved: menuRoot.removeItem( object )
         delegate: MenuItem {
-            text: name
-            property string assetId: identifier
+            text: timeline.getAssetName(modelData, isTransition) //name
+            property string assetId: modelData //identifier
             onTriggered: {
                 console.log(assetId)
                 menuRoot.assetSelected(assetId)

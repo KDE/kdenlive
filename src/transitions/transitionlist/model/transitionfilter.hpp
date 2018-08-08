@@ -42,7 +42,7 @@ public:
        @param type Effect type to display
     */
     void setFilterType(bool enabled, TransitionType type);
-
+    void reloadFilterOnFavorite() override;
 protected:
     bool filterType(const std::shared_ptr<TreeItem> &item) const;
     bool applyAll(std::shared_ptr<TreeItem> item) const override;

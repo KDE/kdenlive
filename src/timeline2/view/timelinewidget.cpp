@@ -94,6 +94,26 @@ TimelineWidget::~TimelineWidget()
     delete m_proxy;
 }
 
+
+void TimelineWidget::updateEffectFavorites()
+{
+    rootContext()->setContextProperty("effectModel", sortedItems(KdenliveSettings::favorite_effects(), false));
+}
+
+void TimelineWidget::updateTransitionFavorites()
+{
+    rootContext()->setContextProperty("transitionModel", sortedItems(KdenliveSettings::favorite_transitions(), true));
+}
+
+const QStringList TimelineWidget::sortedItems(const QStringList &items, bool isTransition)
+{
+    QMap <QString, QString> sortedItems;
+    for (const QString & effect : items) {
+        sortedItems.insert(m_proxy->getAssetName(effect, isTransition), effect);
+    }
+    return sortedItems.values();
+}
+
 void TimelineWidget::setModel(std::shared_ptr<TimelineItemModel> model)
 {
     m_thumbnailer->resetProject();
@@ -105,8 +125,9 @@ void TimelineWidget::setModel(std::shared_ptr<TimelineItemModel> model)
     rootContext()->setContextProperty("multitrack", sortModel);
     rootContext()->setContextProperty("controller", model.get());
     rootContext()->setContextProperty("timeline", m_proxy);
-    rootContext()->setContextProperty("transitionModel", m_transitionProxyModel.get());
-    rootContext()->setContextProperty("effectModel", m_effectsProxyModel.get());
+    rootContext()->setContextProperty("transitionModel", sortedItems(KdenliveSettings::favorite_transitions(), true)); //m_transitionProxyModel.get());
+    //rootContext()->setContextProperty("effectModel", m_effectsProxyModel.get());
+    rootContext()->setContextProperty("effectModel", sortedItems(KdenliveSettings::favorite_effects(), false));
     rootContext()->setContextProperty("guidesModel", pCore->projectManager()->current()->getGuideModel().get());
     rootContext()->setContextProperty("clipboard", new ClipboardProxy(this));
     setSource(QUrl(QStringLiteral("qrc:/qml/timeline.qml")));

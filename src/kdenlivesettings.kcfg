@@ -943,11 +943,11 @@
     </entry>
     <entry name="favorite_effects" type="StringList">
       <label>List of favorite effects ids.</label>
-      <default></default>
+      <default>volume,lift_gamma_gain,qtblend</default>
     </entry>
     <entry name="favorite_transitions" type="StringList">
       <label>List of favorite transitions ids.</label>
-      <default></default>
+      <default>qtblend</default>
     </entry>
     <entry name="selected_effecttab" type="Int">
       <label>Last opened tab in effects list.</label>

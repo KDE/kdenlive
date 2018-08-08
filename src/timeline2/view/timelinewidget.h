@@ -56,6 +56,10 @@ protected:
 public slots:
     void slotChangeZoom(int value, bool zoomOnMouse);
     void zoneUpdated(const QPoint &zone);
+    /* @brief Favorite effects have changed, reload model for context menu */
+    void updateEffectFavorites();
+    /* @brief Favorite transitions have changed, reload model for context menu */
+    void updateTransitionFavorites();
 
 private:
     ThumbnailProvider *m_thumbnailer;
@@ -65,6 +69,8 @@ private:
     std::unique_ptr<AssetFilter> m_transitionProxyModel;
 	std::shared_ptr<AssetTreeModel> m_effectsModel;
     std::unique_ptr<AssetFilter> m_effectsProxyModel;
+    /* @brief Returns an alphabetically sorted list of favorite effects or transitions */
+    const QStringList sortedItems(const QStringList &items, bool isTransition);
 
 signals:
     void focusProjectMonitor();

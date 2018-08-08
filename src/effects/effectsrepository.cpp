@@ -22,14 +22,15 @@
 #include "effectsrepository.hpp"
 #include "core.h"
 #include "kdenlivesettings.h"
+#include "profiles/profilemodel.hpp"
 #include "xml/xml.hpp"
+
+#include <mlt++/Mlt.h>
 #include <QDir>
 #include <QFile>
 #include <QStandardPaths>
 #include <QTextStream>
-
-#include "profiles/profilemodel.hpp"
-#include <mlt++/Mlt.h>
+#include <KLocalizedString>
 
 std::unique_ptr<EffectsRepository> EffectsRepository::instance;
 std::once_flag EffectsRepository::m_onceFlag;
@@ -38,6 +39,21 @@ EffectsRepository::EffectsRepository()
     : AbstractAssetsRepository<EffectType>()
 {
     init();
+    // Check that our favorite effects are valid
+    QStringList invalidEffect;
+    for (const QString &effect : KdenliveSettings::favorite_effects()) {
+        if (!exists(effect)) {
+            invalidEffect << effect;
+        }
+    }
+    if (!invalidEffect.isEmpty()) {
+        pCore->displayMessage(i18n("Some of your favorite effects are invalid and were removed: %1", invalidEffect.join(QLatin1Char(','))), ErrorMessage);
+        QStringList newFavorites = KdenliveSettings::favorite_effects();
+        for (const QString &effect : invalidEffect) {
+            newFavorites.removeAll(effect);
+        }
+        KdenliveSettings::setFavorite_effects(newFavorites);
+    }
 }
 
 Mlt::Properties *EffectsRepository::retrieveListFromMlt()

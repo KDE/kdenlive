@@ -36,6 +36,13 @@ void TransitionFilter::setFilterType(bool enabled, TransitionType type)
     invalidateFilter();
 }
 
+void TransitionFilter::reloadFilterOnFavorite()
+{
+    if (m_type_enabled && m_type_value == TransitionType::Favorites) {
+        invalidateFilter();
+    }
+}
+
 bool TransitionFilter::filterType(const std::shared_ptr<TreeItem> &item) const
 {
     if (!m_type_enabled) {

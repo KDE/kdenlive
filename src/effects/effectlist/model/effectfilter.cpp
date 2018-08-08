@@ -37,6 +37,13 @@ void EffectFilter::setFilterType(bool enabled, EffectType type)
     invalidateFilter();
 }
 
+void EffectFilter::reloadFilterOnFavorite()
+{
+    if (m_type_enabled && m_type_value == EffectType::Favorites) {
+        invalidateFilter();
+    }
+}
+
 bool EffectFilter::filterType(const std::shared_ptr<TreeItem> &item) const
 {
     if (!m_type_enabled) {

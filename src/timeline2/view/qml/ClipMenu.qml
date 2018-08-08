@@ -94,6 +94,7 @@ Menu {
         AssetMenu {
             title: i18n('Insert a composition...')
             menuModel: transitionModel
+            isTransition: true
             onAssetSelected: {
                 timeline.addCompositionToClip(assetId, clipId)
             }

@@ -52,7 +52,7 @@ public:
     AssetType getType(const QString &assetId) const;
 
     /* @brief Return name of asset */
-    QString getName(const QString &assetId) const;
+    Q_INVOKABLE QString getName(const QString &assetId) const;
 
     /* @brief Return description of asset */
     QString getDescription(const QString &assetId) const;

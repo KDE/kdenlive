@@ -402,7 +402,7 @@ void MainWindow::init()
     // Create Effect Basket (dropdown list of favorites)
     m_effectBasket = new EffectBasket(this);
     connect(m_effectBasket, &EffectBasket::activateAsset, pCore->projectManager(), &ProjectManager::activateAsset);
-    connect(m_effectList2, &EffectListWidget::reloadBasket, m_effectBasket, &EffectBasket::slotReloadBasket);
+    connect(m_effectList2, &EffectListWidget::reloadFavorites, m_effectBasket, &EffectBasket::slotReloadBasket);
     auto *widgetlist = new QWidgetAction(this);
     widgetlist->setDefaultWidget(m_effectBasket);
     // widgetlist->setText(i18n("Favorite Effects"));
@@ -2096,6 +2096,9 @@ void MainWindow::connectDocument()
     m_normalEditTool->setChecked(true);
     connect(m_projectMonitor, &Monitor::durationChanged, this, &MainWindow::slotUpdateProjectDuration);
     pCore->monitorManager()->setDocument(project);
+    connect(m_effectList2, &EffectListWidget::reloadFavorites, getMainTimeline(), &TimelineWidget::updateEffectFavorites);
+    connect(m_transitionList2, &TransitionListWidget::reloadFavorites, getMainTimeline(), &TimelineWidget::updateTransitionFavorites);
+
     // TODO REFAC: fix
     // trackView->updateProfile(1.0);
     // Init document zone

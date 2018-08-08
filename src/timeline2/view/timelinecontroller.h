@@ -380,6 +380,7 @@ public:
     void selectCurrentItem(ObjectType type, bool select, bool addToCurrent = false);
     /** @brief Set target tracks (video, audio) */
     void setTargetTracks(QPair<int, int> targets);
+    Q_INVOKABLE const QString getAssetName(const QString &assetId, bool isTransition);
 
 public slots:
     void selectMultitrack();

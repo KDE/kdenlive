@@ -38,6 +38,20 @@ TransitionsRepository::TransitionsRepository()
     : AbstractAssetsRepository<TransitionType>()
 {
     init();
+    QStringList invalidTransition;
+    for (const QString &effect : KdenliveSettings::favorite_transitions()) {
+        if (!exists(effect)) {
+            invalidTransition << effect;
+        }
+    }
+    if (!invalidTransition.isEmpty()) {
+        pCore->displayMessage(i18n("Some of your favorite compositions are invalid and were removed: %1", invalidTransition.join(QLatin1Char(','))), ErrorMessage);
+        QStringList newFavorites = KdenliveSettings::favorite_transitions();
+        for (const QString &effect : invalidTransition) {
+            newFavorites.removeAll(effect);
+        }
+        KdenliveSettings::setFavorite_transitions(newFavorites);
+    }
 }
 
 Mlt::Properties *TransitionsRepository::retrieveListFromMlt()
