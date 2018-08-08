@@ -42,12 +42,21 @@ int CompositionModel::construct(const std::weak_ptr<TimelineModel> &parent, cons
     Mlt::Transition *transition = TransitionsRepository::get()->getTransition(transitionId);
     transition->set_in_and_out(0, 0);
     auto xml = TransitionsRepository::get()->getXml(transitionId);
+    if (sourceProperties) {
+        // Paste parameters from existing source composition
+        QDomNodeList params = xml.elementsByTagName(QStringLiteral("parameter"));
+        for (int i = 0; i < params.count(); ++i) {
+            QDomElement currentParameter = params.item(i).toElement();
+            QString paramName = currentParameter.attribute(QStringLiteral("name"));
+            QString paramValue = sourceProperties->get(paramName.toUtf8().constData());
+            if (!paramValue.isEmpty()) {
+                currentParameter.setAttribute(QStringLiteral("value"), paramValue);
+            }
+        }
+    }
     std::shared_ptr<CompositionModel> composition(new CompositionModel(parent, transition, id, xml, transitionId));
     id = composition->m_id;
-    if (sourceProperties != nullptr) {
-        Mlt::Properties transProps(composition->service()->get_properties());
-        transProps.inherit(*sourceProperties);
-    }
+
     if (auto ptr = parent.lock()) {
         ptr->registerComposition(composition);
     } else {
