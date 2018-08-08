@@ -23,6 +23,7 @@
 #include "assets/model/assetparametermodel.hpp"
 #include "assets/keyframes/model/keyframemodellist.hpp"
 #include "core.h"
+#include "monitor/monitor.h"
 
 #include <QComboBox>
 #include <QDebug>
@@ -70,6 +71,15 @@ void TransitionStackView::setModel(const std::shared_ptr<AssetParameterModel> &m
         emit seekToTransPos(pos + clipIn);
     });
     initKeyframeView(true);
+    pCore->getMonitor(m_model->monitorId)->slotShowEffectScene(needsMonitorEffectScene());
+}
+
+void TransitionStackView::unsetModel()
+{
+    if (m_model) {
+        pCore->getMonitor(m_model->monitorId)->slotShowEffectScene(MonitorSceneDefault);
+    }
+    AssetParameterView::unsetModel();
 }
 
 void TransitionStackView::updateTrack(int newTrack)
