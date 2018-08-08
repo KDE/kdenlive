@@ -380,7 +380,10 @@ public:
     void selectCurrentItem(ObjectType type, bool select, bool addToCurrent = false);
     /** @brief Set target tracks (video, audio) */
     void setTargetTracks(QPair<int, int> targets);
+    /** @brief Return asset's display name from it's id (effect or composition) */
     Q_INVOKABLE const QString getAssetName(const QString &assetId, bool isTransition);
+    /** @brief Set keyboard grabbing on current selection */
+    void grabCurrent();
 
 public slots:
     void selectMultitrack();

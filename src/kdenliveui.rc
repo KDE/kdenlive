@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="156" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="157" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file" >
       <Action name="dvd_wizard" />
@@ -108,6 +108,7 @@
             <Action name="clip_in_project_tree" />
             <Action name="expand_timeline_clip" />
       </Menu>
+      <Action name="grab_item" />
       <Menu name="guide_menu" ><text>Guides</text>
 		<Action name="add_guide" />
 		<Action name="edit_guide" />

@@ -152,7 +152,8 @@ public:
         ReloadThumbRole,   /// clip only
         ItemATrack,        /// composition only
         ItemIdRole,
-        ThumbsFormatRole   /// track only
+        ThumbsFormatRole,  /// track only
+        GrabbedRole        /// clip+composition only
     };
 
     virtual ~TimelineModel();

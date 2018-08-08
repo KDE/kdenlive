@@ -465,6 +465,8 @@ private slots:
     void updateAction();
     /** @brief Request adjust of timeline track height */
     void resetTimelineTracks();
+    /** @brief Set keyboard grabbing on current timeline item */
+    void slotGrabItem();
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

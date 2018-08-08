@@ -1731,3 +1731,20 @@ const QString TimelineController::getAssetName(const QString &assetId, bool isTr
 {
     return isTransition ? TransitionsRepository::get()->getName(assetId) : EffectsRepository::get()->getName(assetId);
 }
+
+void TimelineController::grabCurrent()
+{
+    if (m_selection.selectedItems.isEmpty()) {
+        //TODO: error displayMessage
+        return;
+    }
+    int id = m_selection.selectedItems.constFirst();
+    if (m_model->isClip(id)) {
+        std::shared_ptr<ClipModel> clip = m_model->getClipPtr(id);
+        clip->setGrab(!clip->isGrabbed());
+        QModelIndex ix = m_model->makeClipIndexFromID(id);
+        if (ix.isValid()) {
+            m_model->dataChanged(ix, ix, {TimelineItemModel::GrabbedRole});
+        }
+    }
+}

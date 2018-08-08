@@ -202,6 +202,7 @@ QHash<int, QByteArray> TimelineItemModel::roleNames() const
     roles[CanBeVideoRole] = "canBeVideo";
     roles[ReloadThumbRole] = "reloadThumb";
     roles[ThumbsFormatRole] = "thumbsFormat";
+    roles[GrabbedRole] = "isGrabbed";
     return roles;
 }
 
@@ -295,6 +296,8 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             return clip->forceThumbReload;
         case SpeedRole:
             return clip->getSpeed();
+        case GrabbedRole:
+            return clip->isGrabbed();
         default:
             break;
         }
@@ -370,6 +373,8 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
         }
         case IsCompositionRole:
             return true;
+        case GrabbedRole:
+            return compo->isGrabbed();
         default:
             break;
         }

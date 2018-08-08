@@ -26,6 +26,7 @@ MoveableItem<Service>::MoveableItem(std::weak_ptr<TimelineModel> parent, int id)
     , m_id(id == -1 ? TimelineModel::getNextId() : id)
     , m_position(-1)
     , m_currentTrackId(-1)
+    , m_grabbed(false)
     , m_lock(QReadWriteLock::Recursive)
 {
 }
@@ -88,4 +89,16 @@ template <typename Service> void MoveableItem<Service>::setInOut(int in, int out
 {
     QWriteLocker locker(&m_lock);
     service()->set_in_and_out(in, out);
+}
+
+template <typename Service> bool MoveableItem<Service>::isGrabbed() const
+{
+    READ_LOCK();
+    return m_grabbed;
+}
+
+template <typename Service> void MoveableItem<Service>::setGrab(bool grab)
+{
+    QWriteLocker locker(&m_lock);
+    m_grabbed = grab;
 }

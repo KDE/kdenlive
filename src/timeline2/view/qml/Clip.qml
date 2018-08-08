@@ -40,6 +40,7 @@ Rectangle {
     property bool isAudio: false
     property bool isComposition: false
     property bool showKeyframes: false
+    property bool isGrabbed: false
     property bool grouped: false
     property var audioLevels
     property var markers
@@ -84,6 +85,13 @@ Rectangle {
         running: false
         ColorAnimation { from: Qt.darker(getColor()); to: "#ff3300"; duration: 100 }
         ColorAnimation { from: "#ff3300"; to: Qt.darker(getColor()); duration: 100 }
+    }
+
+    onIsGrabbedChanged: {
+        if (clipRoot.isGrabbed) {
+            clipRoot.forceActiveFocus();
+            mouseArea.focus = true
+        }
     }
 
     onInPointChanged: {
@@ -148,7 +156,7 @@ Rectangle {
     color: Qt.darker(getColor())
 
     border.color: selected? 'red' : grouped ? 'yellowgreen' : borderColor
-    border.width: 1.5
+    border.width: isGrabbed ? 8 : 1.5
     Drag.active: mouseArea.drag.active
     Drag.proposedAction: Qt.MoveAction
     opacity: Drag.active? 0.5 : 1.0
@@ -235,6 +243,7 @@ Rectangle {
             }
             if (mouse.button == Qt.LeftButton) {
                 drag.target = clipRoot
+                focus = true
             } else if (mouse.button == Qt.RightButton) {
                 drag.target = undefined
                 clipMenu.item.clipId = clipRoot.clipId
@@ -245,6 +254,15 @@ Rectangle {
                 clipMenu.item.canBeVideo = clipRoot.canBeVideo
                 clipMenu.item.popup()
             }
+        }
+        Keys.onShortcutOverride: event.accepted = clipRoot.isGrabbed && (event.key === Qt.Key_Left || event.key === Qt.Key_Right)
+        Keys.onLeftPressed: {
+            console.log('left key pressed')
+            controller.requestClipMove(clipRoot.clipId, clipRoot.trackId, clipRoot.modelStart - 1, true, true, true);
+        }
+        Keys.onRightPressed: {
+            console.log('left key pressed')
+            controller.requestClipMove(clipRoot.clipId, clipRoot.trackId, clipRoot.modelStart + 1, true, true, true);
         }
         onPositionChanged: {
             if (pressed && mouse.buttons === Qt.LeftButton) {

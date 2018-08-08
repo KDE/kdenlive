@@ -1247,6 +1247,9 @@ void MainWindow::setupActions()
 
     addAction(QStringLiteral("align_playhead"), i18n("Align Playhead to Mouse Position"), this, SLOT(slotAlignPlayheadToMousePos()), QIcon(), Qt::Key_P);
 
+    addAction(QStringLiteral("grab_item"), i18n("Grab Current Item"), this, SLOT(slotGrabItem()),
+              QIcon::fromTheme(QStringLiteral("transform-move")), Qt::SHIFT + Qt::Key_G);
+
     QAction *stickTransition = new QAction(i18n("Automatic Transition"), this);
     stickTransition->setData(QStringLiteral("auto"));
     stickTransition->setCheckable(true);
@@ -4057,6 +4060,11 @@ void MainWindow::slotSwitchTimelineZone(bool active)
     getCurrentTimeline()->controller()->useRulerChanged();
     QSignalBlocker blocker(m_useTimelineZone);
     m_useTimelineZone->setActive(active);
+}
+
+void MainWindow::slotGrabItem()
+{
+    getCurrentTimeline()->controller()->grabCurrent();
 }
 
 #ifdef DEBUG_MAINW

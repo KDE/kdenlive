@@ -122,6 +122,12 @@ Column{
                 }
                 Binding {
                     target: loader.item
+                    property: "isGrabbed"
+                    value: model.isGrabbed
+                    when: loader.status == Loader.Ready
+                }
+                Binding {
+                    target: loader.item
                     property: "keyframeModel"
                     value: model.keyframeModel
                     when: loader.status == Loader.Ready

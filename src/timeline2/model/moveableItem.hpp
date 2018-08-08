@@ -77,6 +77,10 @@ public:
      */
     virtual const QString getProperty(const QString &name) const = 0;
 
+    /* Set if the item is in grab state */
+    bool isGrabbed() const;
+    void setGrab(bool grab);
+
 protected:
     /* @brief Returns a pointer to the service. It may be used but do NOT store it*/
     virtual Service *service() const = 0;
@@ -112,6 +116,7 @@ protected:
     int m_id; // this is the creation id of the item, used for book-keeping
     int m_position;
     int m_currentTrackId;
+    bool m_grabbed;
     mutable QReadWriteLock m_lock; // This is a lock that ensures safety in case of concurrent access
 };
 
