@@ -41,6 +41,7 @@ Item {
     property bool isAudio: false
     property bool isComposition: true
     property bool showKeyframes: false
+    property bool isGrabbed: false
     property var keyframeModel
     property bool grouped: false
     property int binId: 0
@@ -80,6 +81,13 @@ Item {
         x = modelStart * timeScale;
     }
 
+    onIsGrabbedChanged: {
+        if (compositionRoot.isGrabbed) {
+            compositionRoot.forceActiveFocus();
+            mouseArea.focus = true
+        }
+    }
+
     onClipDurationChanged: {
         width = clipDuration * timeScale;
     }
@@ -109,7 +117,7 @@ Item {
         height: displayHeight
         color: Qt.darker('mediumpurple')
         border.color: selected? 'red' : borderColor
-        border.width: 1.5
+        border.width: isGrabbed ? 8 : 1.5
         opacity: Drag.active? 0.5 : 1.0
         Item {
             // clipping container
@@ -185,9 +193,23 @@ Item {
             originalTrackId = compositionRoot.trackId
             startX = compositionRoot.x
             compositionRoot.forceActiveFocus();
+            focus = true
             if (!compositionRoot.selected) {
                 compositionRoot.clicked(compositionRoot, mouse.modifiers === Qt.ShiftModifier)
             }
+        }
+        Keys.onShortcutOverride: event.accepted = compositionRoot.isGrabbed && (event.key === Qt.Key_Left || event.key === Qt.Key_Right || event.key === Qt.Key_Up || event.key === Qt.Key_Down)
+        Keys.onLeftPressed: {
+            controller.requestCompositionMove(compositionRoot.clipId, compositionRoot.originalTrackId, compositionRoot.modelStart - 1, true, true)
+        }
+        Keys.onRightPressed: {
+            controller.requestCompositionMove(compositionRoot.clipId, compositionRoot.originalTrackId, compositionRoot.modelStart + 1, true, true)
+        }
+        Keys.onUpPressed: {
+            controller.requestCompositionMove(compositionRoot.clipId, controller.getNextTrackId(compositionRoot.originalTrackId), compositionRoot.modelStart, true, true)
+        }
+        Keys.onDownPressed: {
+            controller.requestCompositionMove(compositionRoot.clipId, controller.getPreviousTrackId(compositionRoot.originalTrackId), compositionRoot.modelStart, true, true)
         }
         onPositionChanged: {
             if (mouse.y < -height || (mouse.y > height && parentTrack.rootIndex.row < tracksRepeater.count - 1)) {

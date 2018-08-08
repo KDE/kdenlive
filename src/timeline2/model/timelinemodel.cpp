@@ -2359,3 +2359,33 @@ int TimelineModel::getBlankSizeNearClip(int clipId, bool after) const
     }
     return 0;
 }
+
+int TimelineModel::getPreviousTrackId(int trackId)
+{
+    READ_LOCK();
+    Q_ASSERT(isTrack(trackId));
+    auto it = m_iteratorTable.at(trackId);
+    bool audioWanted = (*it)->isAudioTrack();
+    while (it != m_allTracks.begin()) {
+        --it;
+        if (it != m_allTracks.begin() && (*it)->isAudioTrack() == audioWanted) {
+            break;
+        }
+    }
+    return it == m_allTracks.begin() ? trackId : (*it)->getId();
+}
+
+int TimelineModel::getNextTrackId(int trackId)
+{
+    READ_LOCK();
+    Q_ASSERT(isTrack(trackId));
+    auto it = m_iteratorTable.at(trackId);
+    bool audioWanted = (*it)->isAudioTrack();
+    while (it != m_allTracks.end()) {
+        ++it;
+        if (it != m_allTracks.end() && (*it)->isAudioTrack() == audioWanted) {
+            break;
+        }
+    }
+    return it == m_allTracks.end() ? trackId : (*it)->getId();
+}

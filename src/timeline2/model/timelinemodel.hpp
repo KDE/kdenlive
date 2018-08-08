@@ -241,6 +241,11 @@ public:
      */
     Q_INVOKABLE int suggestSnapPoint(int pos, int snapDistance);
 
+    /** @brief Return the previous track of same type as source trackId, or trackId if no track found */
+    Q_INVOKABLE int getPreviousTrackId(int trackId);
+    /** @brief Return the next track of same type as source trackId, or trackId if no track found */
+    Q_INVOKABLE int getNextTrackId(int trackId);
+
     /* @brief Returns the in cut position of a clip
        @param clipId Id of the clip to test
     */

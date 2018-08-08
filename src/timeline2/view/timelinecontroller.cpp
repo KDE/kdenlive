@@ -1746,5 +1746,13 @@ void TimelineController::grabCurrent()
         if (ix.isValid()) {
             m_model->dataChanged(ix, ix, {TimelineItemModel::GrabbedRole});
         }
+    } else if (m_model->isComposition(id)) {
+        std::shared_ptr<CompositionModel> clip = m_model->getCompositionPtr(id);
+        clip->setGrab(!clip->isGrabbed());
+        QModelIndex ix = m_model->makeCompositionIndexFromID(id);
+        if (ix.isValid()) {
+            m_model->dataChanged(ix, ix, {TimelineItemModel::GrabbedRole});
+        }
     }
 }
+
