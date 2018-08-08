@@ -52,7 +52,6 @@ class EffectBasket;
 class EffectListWidget;
 class TransitionListWidget;
 class EffectStackView;
-class EffectsListView;
 class KIconLoader;
 class KdenliveDoc;
 class Monitor;
@@ -149,9 +148,7 @@ private:
 
     QDockWidget *m_projectBinDock;
     QDockWidget *m_effectListDock;
-    EffectsListView *m_effectList;
     QDockWidget *m_transitionListDock;
-    EffectsListView *m_transitionList;
     TransitionListWidget *m_transitionList2;
     EffectListWidget *m_effectList2;
 
@@ -253,7 +250,7 @@ public slots:
     Q_SCRIPTABLE void setRenderingFinished(const QString &url, int status, const QString &error);
     Q_SCRIPTABLE void addProjectClip(const QString &url);
     Q_SCRIPTABLE void addTimelineClip(const QString &url);
-    Q_SCRIPTABLE void addEffect(const QString &effectName);
+    Q_SCRIPTABLE void addEffect(const QString &effectId);
     Q_SCRIPTABLE void scriptRender(const QString &url);
     Q_NOREPLY void exitApp();
 
@@ -282,7 +279,6 @@ private slots:
     void slotConnectMonitors();
     void slotUpdateMousePosition(int pos);
     void slotUpdateProjectDuration(int pos);
-    void slotAddEffect(const QDomElement &effect);
     void slotEditProjectSettings();
     void slotSwitchMarkersComments();
     void slotSwitchSnap();
@@ -337,7 +333,7 @@ private slots:
     void slotDeselectTimelineTransition();
     void slotSelectAddTimelineClip();
     void slotSelectAddTimelineTransition();
-    void slotAddVideoEffect(QAction *result);
+    void slotAddEffect(QAction *result);
     void slotAddTransition(QAction *result);
     void slotAddProjectClip(const QUrl &url, const QStringList &folderInfo);
     void slotAddProjectClipList(const QList<QUrl> &urls);

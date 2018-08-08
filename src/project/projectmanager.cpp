@@ -867,13 +867,10 @@ void ProjectManager::adjustProjectDuration()
 
 void ProjectManager::activateAsset(const QVariantMap effectData)
 {
-    if (pCore->monitorManager()->projectMonitor()->isActive()) {
-        pCore->window()->getMainTimeline()->controller()->addAsset(effectData);
+    if (effectData.contains(QStringLiteral("kdenlive/effect"))) {
+        pCore->window()->addEffect(effectData.value(QStringLiteral("kdenlive/effect")).toString());
     } else {
-        QString effect = effectData.value(QStringLiteral("kdenlive/effect")).toString();
-        QStringList effectString;
-        effectString << effect;
-        pCore->bin()->slotAddEffect(QString(), effectString);
+        pCore->window()->getMainTimeline()->controller()->addAsset(effectData);
     }
 }
 

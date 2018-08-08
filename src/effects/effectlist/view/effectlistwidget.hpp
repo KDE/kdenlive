@@ -31,6 +31,8 @@
 class EffectFilter;
 class EffectTreeModel;
 class EffectListWidgetProxy;
+class KActionCategory;
+class QMenu;
 
 class EffectListWidget : public AssetListWidget
 {
@@ -44,6 +46,7 @@ public:
     /*@brief Return mime type used for drag and drop. It will be kdenlive/effect*/
     QString getMimeType(const QString &assetId) const override;
     void updateFavorite(const QModelIndex &index);
+    void reloadEffectMenu(QMenu *effectsMenu, KActionCategory *effectActions);
 
 public slots:
     void reloadCustomEffect(const QString &path);

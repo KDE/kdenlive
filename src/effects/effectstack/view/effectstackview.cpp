@@ -329,6 +329,13 @@ ObjectId EffectStackView::stackOwner() const
     return ObjectId(ObjectType::NoItem, -1);
 }
 
+void EffectStackView::addEffect(const QString &effectId)
+{
+    if (m_model) {
+        m_model->appendEffect(effectId);
+    }
+}
+
 /*
 void EffectStackView::switchBuiltStack(bool show)
 {

@@ -61,6 +61,9 @@ public:
     void setModel(std::shared_ptr<EffectStackModel> model, const QSize frameSize);
     void unsetModel(bool reset = true);
     ObjectId stackOwner() const;
+    /** @brief Add an effect to the current stack
+     */
+    void addEffect(const QString &effectId);
 
 protected:
     void dragEnterEvent(QDragEnterEvent *event) override;

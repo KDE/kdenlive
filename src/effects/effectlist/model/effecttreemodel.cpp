@@ -30,6 +30,8 @@
 #include <array>
 #include <vector>
 
+#include <KActionCategory>
+#include <QMenu>
 #include <QDebug>
 
 EffectTreeModel::EffectTreeModel(QObject *parent)
@@ -122,4 +124,23 @@ void EffectTreeModel::reloadEffect(const QString &path)
     bool isFav = KdenliveSettings::favorite_effects().contains(asset.first);
     data << asset.second << asset.first << QVariant::fromValue(EffectType::Custom) << isFav;
     m_customCategory->appendChild(data);
+}
+
+void EffectTreeModel::reloadAssetMenu(QMenu *effectsMenu, KActionCategory *effectActions)
+{
+    for (int i = 0; i < rowCount(); i++) {
+        std::shared_ptr<TreeItem> item = rootItem->child(i);
+        if (item->childCount() > 0) {
+            QMenu *catMenu = new QMenu(item->dataColumn(nameCol).toString(), effectsMenu);
+            effectsMenu->addMenu(catMenu);
+            for (int j = 0; j < item->childCount(); j++) {
+                std::shared_ptr<TreeItem> child = item->child(j);
+                QAction *a = new QAction(child->dataColumn(nameCol).toString(), catMenu);
+                const QString id = child->dataColumn(idCol).toString();
+                a->setData(id);
+                catMenu->addAction(a);
+                effectActions->addAction("transition_" + id, a);
+            }
+        }
+    }
 }

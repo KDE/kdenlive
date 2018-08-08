@@ -27,6 +27,9 @@
 /* @brief This class represents an effect hierarchy to be displayed as a tree
  */
 class TreeItem;
+class QMenu;
+class KActionCategory;
+
 class AssetTreeModel : public AbstractTreeModel
 {
 
@@ -44,6 +47,7 @@ public:
     void setFavorite(const QModelIndex &index, bool favorite);
     QHash<int, QByteArray> roleNames() const override;
     QVariant data(const QModelIndex &index, int role) const override;
+    virtual void reloadAssetMenu(QMenu *effectsMenu, KActionCategory *effectActions) = 0;
 
     // for convenience, we store the column of each data field
     static int nameCol, idCol, favCol, typeCol;

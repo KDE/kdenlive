@@ -25,6 +25,8 @@
 #include "transitions/transitionsrepository.hpp"
 #include <KLocalizedString>
 
+#include <KActionCategory>
+#include <QMenu>
 #include <QDebug>
 
 TransitionTreeModel::TransitionTreeModel(QObject *parent)
@@ -73,4 +75,23 @@ std::shared_ptr<TransitionTreeModel> TransitionTreeModel::construct(bool flat, Q
         targetCategory->appendChild(data);
     }
     return self;
+}
+
+void TransitionTreeModel::reloadAssetMenu(QMenu *effectsMenu, KActionCategory *effectActions)
+{
+    for (int i = 0; i < rowCount(); i++) {
+        std::shared_ptr<TreeItem> item = rootItem->child(i);
+        if (item->childCount() > 0) {
+            QMenu *catMenu = new QMenu(item->dataColumn(nameCol).toString(), effectsMenu);
+            effectsMenu->addMenu(catMenu);
+            for (int j = 0; j < item->childCount(); j++) {
+                std::shared_ptr<TreeItem> child = item->child(j);
+                QAction *a = new QAction(child->dataColumn(nameCol).toString(), catMenu);
+                const QString id = child->dataColumn(idCol).toString();
+                a->setData(id);
+                catMenu->addAction(a);
+                effectActions->addAction("transition_" + id, a);
+            }
+        }
+    }
 }

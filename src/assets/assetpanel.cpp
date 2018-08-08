@@ -295,3 +295,11 @@ void AssetPanel::parameterChanged(QString name, int value)
     Q_UNUSED(name)
     emit changeSpeed(value);
 }
+
+void AssetPanel::addEffect(const QString &effectId)
+{
+    if (!m_effectStackWidget->isVisible()) {
+        return;
+    }
+    m_effectStackWidget->addEffect(effectId);
+}

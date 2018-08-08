@@ -33,7 +33,6 @@
 #include "doc/kdenlivedoc.h"
 #include "effects/effectlist/view/effectlistwidget.hpp"
 #include "effectslist/effectbasket.h"
-#include "effectslist/effectslistview.h"
 #include "effectslist/effectslistwidget.h"
 #include "effectslist/initeffects.h"
 #include "hidetitlebars.h"
@@ -149,8 +148,6 @@ static QString defaultStyle(const char *fallback = nullptr)
 MainWindow::MainWindow(QWidget *parent)
     : KXmlGuiWindow(parent)
     , m_exitCode(EXIT_SUCCESS)
-    , m_effectList(nullptr)
-    , m_transitionList(nullptr)
     , m_assetPanel(nullptr)
     , m_clipMonitor(nullptr)
     , m_projectMonitor(nullptr)
@@ -335,17 +332,12 @@ void MainWindow::init()
 
     m_effectStackDock = addDock(i18n("Properties"), QStringLiteral("effect_stack"), m_assetPanel);
 
-    m_effectList = new EffectsListView();
-
     m_effectList2 = new EffectListWidget(this);
     connect(m_effectList2, &EffectListWidget::activateAsset, pCore->projectManager(), &ProjectManager::activateAsset);
     connect(m_assetPanel, &AssetPanel::reloadEffect, m_effectList2, &EffectListWidget::reloadCustomEffect);
     m_effectListDock = addDock(i18n("Effects"), QStringLiteral("effect_list"), m_effectList2);
 
-    m_transitionList = new EffectsListView(EffectsListView::TransitionMode);
     m_transitionList2 = new TransitionListWidget(this);
-    // m_transitionListDock = addDock(i18n("Transitions"), QStringLiteral("transition_list"), m_transitionList);
-
     m_transitionListDock = addDock(i18n("Transitions"), QStringLiteral("transition_list"), m_transitionList2);
 
     // Add monitors here to keep them at the right of the window
@@ -386,11 +378,10 @@ void MainWindow::init()
     // Build effects menu
     m_effectsMenu = new QMenu(i18n("Add Effect"), this);
     m_effectActions = new KActionCategory(i18n("Effects"), actionCollection());
-    m_effectList->reloadEffectList(m_effectsMenu, m_effectActions);
+    m_effectList2->reloadEffectMenu(m_effectsMenu, m_effectActions);
 
     m_transitionsMenu = new QMenu(i18n("Add Transition"), this);
     m_transitionActions = new KActionCategory(i18n("Transitions"), actionCollection());
-    m_transitionList->reloadEffectList(m_transitionsMenu, m_transitionActions);
 
     auto *scmanager = new ScopeManager(this);
 
@@ -491,8 +482,8 @@ void MainWindow::init()
 
     // Setup and fill effects and transitions menus.
     QMenu *m = static_cast<QMenu *>(factory()->container(QStringLiteral("video_effects_menu"), this));
-    connect(m, &QMenu::triggered, this, &MainWindow::slotAddVideoEffect);
-    connect(m_effectsMenu, &QMenu::triggered, this, &MainWindow::slotAddVideoEffect);
+    connect(m, &QMenu::triggered, this, &MainWindow::slotAddEffect);
+    connect(m_effectsMenu, &QMenu::triggered, this, &MainWindow::slotAddEffect);
     connect(m_transitionsMenu, &QMenu::triggered, this, &MainWindow::slotAddTransition);
 
     m_timelineContextMenu = new QMenu(this);
@@ -514,9 +505,6 @@ void MainWindow::init()
     m_timelineContextTransitionMenu->addAction(actionCollection()->action(KStandardAction::name(KStandardAction::Copy)));
 
     m_timelineContextTransitionMenu->addAction(actionCollection()->action(QStringLiteral("auto_transition")));
-
-    connect(m_effectList, &EffectsListView::addEffect, this, &MainWindow::slotAddEffect);
-    connect(m_effectList, &EffectsListView::reloadEffects, this, &MainWindow::slotReloadEffects);
 
     slotConnectMonitors();
 
@@ -623,15 +611,9 @@ void MainWindow::slotThemeChanged(const QString &name)
     if (m_assetPanel) {
         m_assetPanel->updatePalette();
     }
-    if (m_effectList) {
-        m_effectList->updatePalette();
-    }
     if (m_effectList2) {
         // Trigger a repaint to have icons adapted
         m_effectList2->reset();
-    }
-    if (m_transitionList) {
-        m_transitionList->updatePalette();
     }
     if (m_transitionList2) {
         // Trigger a repaint to have icons adapted
@@ -676,9 +658,6 @@ void MainWindow::slotThemeChanged(const QString &name)
         }
         if (pCore->monitorManager()) {
             pCore->monitorManager()->refreshIcons();
-        }
-        if (m_effectList) {
-            m_effectList->refreshIcons();
         }
 
         for (QAction *action : actionCollection()->actions()) {
@@ -836,7 +815,7 @@ void MainWindow::saveNewToolbarConfig()
 void MainWindow::slotReloadEffects()
 {
     initEffects::parseCustomEffectsFile();
-    m_effectList->reloadEffectList(m_effectsMenu, m_effectActions);
+    m_effectList2->reloadEffectMenu(m_effectsMenu, m_effectActions);
 }
 
 void MainWindow::configureNotifications()
@@ -847,35 +826,6 @@ void MainWindow::configureNotifications()
 void MainWindow::slotFullScreen()
 {
     KToggleFullScreenAction::setFullScreen(this, actionCollection()->action(QStringLiteral("fullscreen"))->isChecked());
-}
-
-void MainWindow::slotAddEffect(const QDomElement &effect)
-{
-    Q_UNUSED(effect)
-    // TODO refac : reimplement
-    /*
-    if (effect.isNull()) {
-        qCDebug(KDENLIVE_LOG) << "--- ERROR, TRYING TO APPEND nullptr EFFECT";
-        return;
-    }
-    QDomElement effectToAdd = effect.cloneNode().toElement();
-    EFFECTMODE status = m_effectStack->effectStatus();
-    switch (status) {
-    case TIMELINE_TRACK:
-        pCore->projectManager()->currentTimeline()->projectView()->slotAddTrackEffect(effectToAdd, m_effectStack->trackIndex());
-        break;
-    case TIMELINE_CLIP:
-        pCore->projectManager()->currentTimeline()->projectView()->slotAddEffectToCurrentItem(effectToAdd);
-        break;
-    case MASTER_CLIP:
-        // TODO refac reimplement this.
-        // pCore->bin()->slotEffectDropped(QString(), effectToAdd);
-        break;
-    default:
-        // No clip selected
-        m_messageLabel->setMessage(i18n("Select a clip if you want to apply an effect"), ErrorMessage);
-    }
-    */
 }
 
 void MainWindow::slotConnectMonitors()
@@ -1920,19 +1870,6 @@ void MainWindow::addTimelineClip(const QString &url)
     }
 }
 
-void MainWindow::addEffect(const QString &effectName)
-{
-    QStringList effectInfo;
-    effectInfo << effectName << effectName;
-    const QDomElement effect = EffectsListWidget::itemEffect(5, effectInfo);
-    if (!effect.isNull()) {
-        slotAddEffect(effect);
-    } else {
-        qCDebug(KDENLIVE_LOG) << " * * *EFFECT: " << effectName << " NOT AVAILABLE";
-        exitApp();
-    }
-}
-
 void MainWindow::scriptRender(const QString &url)
 {
     slotRenderProject();
@@ -2643,45 +2580,27 @@ void MainWindow::slotAddTransition(QAction *result)
     */
 }
 
-void MainWindow::slotAddVideoEffect(QAction *result)
+void MainWindow::slotAddEffect(QAction *result)
 {
+    qDebug()<<"// EFFECTS MENU TRIGGERED: "<<result->data().toString();
     if (!result) {
         return;
     }
-    QStringList info = result->data().toStringList();
-    if (info.isEmpty() || info.size() < 3) {
-        return;
-    }
-    QDomElement effect;
-    int effectType = info.last().toInt();
-    switch (effectType) {
-    case EffectsList::EFFECT_VIDEO:
-    case EffectsList::EFFECT_GPU:
-        effect = videoEffects.getEffectByTag(info.at(0), info.at(1));
-        break;
-    case EffectsList::EFFECT_AUDIO:
-        effect = audioEffects.getEffectByTag(info.at(0), info.at(1));
-        break;
-    case EffectsList::EFFECT_CUSTOM:
-        effect = customEffects.getEffectByTag(info.at(0), info.at(1));
-        break;
-    default:
-        effect = videoEffects.getEffectByTag(info.at(0), info.at(1));
-        if (!effect.isNull()) {
-            break;
-        }
-        effect = audioEffects.getEffectByTag(info.at(0), info.at(1));
-        if (!effect.isNull()) {
-            break;
-        }
-        effect = customEffects.getEffectByTag(info.at(0), info.at(1));
-        break;
-    }
+    QString effectId = result->data().toString();
+    addEffect(effectId);
+}
 
-    if (!effect.isNull()) {
-        slotAddEffect(effect);
+void MainWindow::addEffect(const QString &effectId)
+{
+    if (m_assetPanel->effectStackOwner().first == ObjectType::TimelineClip) {
+        // Add effect to the current timeline selection
+        QVariantMap effectData;
+        effectData.insert(QStringLiteral("kdenlive/effect"), effectId);
+        pCore->window()->getMainTimeline()->controller()->addAsset(effectData);
+    } else if (m_assetPanel->effectStackOwner().first == ObjectType::TimelineTrack || m_assetPanel->effectStackOwner().first == ObjectType::BinClip) {
+        m_assetPanel->addEffect(effectId);
     } else {
-        m_messageLabel->setMessage(i18n("Cannot find effect %1 / %2", info.at(0), info.at(1)), ErrorMessage);
+        pCore->displayMessage(i18n("Select an item to add effect"), InformationMessage);
     }
 }
 

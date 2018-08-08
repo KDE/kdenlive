@@ -26,6 +26,8 @@
 
 #include <QQmlContext>
 #include <QStandardPaths>
+#include <KActionCategory>
+#include <QMenu>
 
 EffectListWidget::EffectListWidget(QWidget *parent)
     : AssetListWidget(parent)
@@ -86,3 +88,7 @@ void EffectListWidget::reloadCustomEffect(const QString &path)
     static_cast<EffectTreeModel *>(m_model.get())->reloadEffect(path);
 }
 
+void EffectListWidget::reloadEffectMenu(QMenu *effectsMenu, KActionCategory *effectActions)
+{
+    m_model->reloadAssetMenu(effectsMenu, effectActions);
+}

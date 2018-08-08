@@ -37,6 +37,7 @@ protected:
 public:
     // if flat = true, then the categories are not created
     static std::shared_ptr<TransitionTreeModel> construct(bool flat = false, QObject *parent = nullptr);
+    void reloadAssetMenu(QMenu *effectsMenu, KActionCategory *effectActions) override;
 
 protected:
 };
