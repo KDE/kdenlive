@@ -145,14 +145,14 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
         QString conditionParam = EffectsList::parameter(effect, condition);
         m_conditionParameter = !conditionParam.isEmpty();
     }
-    if (effect.attribute(QStringLiteral("id")) == QLatin1String("movit.lift_gamma_gain") || effect.attribute(QStringLiteral("id")) == QLatin1String("lift_gamma_gain")) {
+    if (effect.attribute(QStringLiteral("tag")).endsWith(QLatin1String("lift_gamma_gain"))) {
         // We use a special custom widget here
         LumaLiftGain *gainWidget = new LumaLiftGain(namenode, parent);
         m_vbox->addWidget(gainWidget);
         m_valueItems[effect.attribute(QStringLiteral("id"))] = gainWidget;
 
         connect(gainWidget, &LumaLiftGain::valueChanged, this, &ParameterContainer::slotCollectAllParameters);
-    } else if (effect.attribute(QStringLiteral("id")) == QLatin1String("avfilter.selectivecolor")) {
+    } else if (effect.attribute(QStringLiteral("tag")) == QLatin1String("avfilter.selectivecolor")) {
         SelectiveColor *cmykAdjust = new SelectiveColor(effect);
         connect(cmykAdjust, &SelectiveColor::valueChanged, this, &ParameterContainer::slotCollectAllParameters);
         m_vbox->addWidget(cmykAdjust);
@@ -603,8 +603,8 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                 button->setProperty("realName", paramName);
                 if (effect.hasAttribute(QStringLiteral("condition"))) {
                     if (m_conditionParameter) {
-                        QDomElement na = pa.firstChildElement(QStringLiteral("name"));
-                        QString conditionalName = na.attribute(QStringLiteral("conditional"));
+                        QDomElement nnode = pa.firstChildElement(QStringLiteral("name"));
+                        QString conditionalName = nnode.attribute(QStringLiteral("conditional"));
                         if (!conditionalName.isEmpty()) {
                             paramName = conditionalName;
                         }
@@ -894,7 +894,7 @@ void ParameterContainer::slotCollectAllParameters()
     const QDomElement oldparam = m_effect.cloneNode().toElement();
     //QDomElement newparam = oldparam.cloneNode().toElement();
 
-    if (m_effect.attribute(QStringLiteral("id")) == QLatin1String("movit.lift_gamma_gain") || m_effect.attribute(QStringLiteral("id")) == QLatin1String("lift_gamma_gain")) {
+    if (m_effect.attribute(QStringLiteral("tag")).endsWith(QLatin1String("lift_gamma_gain"))) {
         LumaLiftGain *gainWidget = static_cast<LumaLiftGain *>(m_valueItems.value(m_effect.attribute(QStringLiteral("id"))));
         gainWidget->updateEffect(m_effect);
         emit parameterChanged(oldparam, m_effect, m_effect.attribute(QStringLiteral("kdenlive_ix")).toInt());
