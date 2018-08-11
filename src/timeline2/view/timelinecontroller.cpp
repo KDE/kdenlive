@@ -1621,7 +1621,7 @@ void TimelineController::editItemDuration(int id)
         }
     }
     int trackId = m_model->getItemTrackId(id);
-    int maxFrame = m_model->getTrackById(trackId)->getBlankSizeNearClip(id, true);
+    int maxFrame = start + duration + m_model->getTrackById(trackId)->getBlankSizeNearClip(id, true);
     int minFrame = in - m_model->getTrackById(trackId)->getBlankSizeNearClip(id, false);
     int partner = m_model->getClipSplitPartner(id);
     QPointer<ClipDurationDialog> dialog =
@@ -1663,9 +1663,9 @@ void TimelineController::editItemDuration(int id)
                 }
             }
             if (newDuration != duration + (in - newIn)) {
-                result = result && m_model->requestItemResize(id, newDuration, false, true, undo, redo);
+                result = result && m_model->requestItemResize(id, newDuration, start == newPos, true, undo, redo);
                 if (result && partner > -1) {
-                    result = m_model->requestItemResize(partner, newDuration, false, true, undo, redo);
+                    result = m_model->requestItemResize(partner, newDuration, start == newPos, true, undo, redo);
                 }
             }
             if (start != newPos || newIn != in) {

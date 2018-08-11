@@ -269,7 +269,7 @@ Rectangle {
             controller.requestClipMove(clipRoot.clipId, controller.getPreviousTrackId(clipRoot.trackId), clipRoot.modelStart, true, true, true);
         }
         onPositionChanged: {
-            if (pressed && mouse.buttons === Qt.LeftButton) {
+            if (pressed && mouse.buttons === Qt.LeftButton && drag.target != undefined) {
                 var trackIndex = Logic.getTrackIndexFromId(clipRoot.trackId)
                 if ((mouse.y < 0 && trackIndex > 0) || (mouse.y > height && trackIndex < tracksRepeater.count - 1)) {
                     var mapped = parentTrack.mapFromItem(clipRoot, mouse.x, mouse.y).x
@@ -281,7 +281,7 @@ Rectangle {
         }
         onReleased: {
             root.stopScrolling = false
-            if (mouse.button == Qt.LeftButton) {
+            if (mouse.button == Qt.LeftButton && drag.target != undefined) {
                 var delta = clipRoot.x - startX
                 drag.target = undefined
                 cursorShape = Qt.OpenHandCursor
@@ -299,6 +299,7 @@ Rectangle {
             }
         }
         onDoubleClicked: {
+            drag.target = undefined
             if (mouse.modifiers & Qt.ShiftModifier) {
                 if (keyframeModel && showKeyframes) {
                     // Add new keyframe
@@ -311,7 +312,6 @@ Rectangle {
             } else {
                 timeline.editItemDuration(clipId)
             }
-            drag.target = undefined
         }
         onWheel: zoomByWheel(wheel)
     }
