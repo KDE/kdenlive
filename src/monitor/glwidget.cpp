@@ -671,7 +671,7 @@ bool GLWidget::checkFrameNumber(int pos, int offset)
         } else {
             m_producer->set_speed(speed);
         }
-    } else if (!qFuzzyIsNull(speed)) {
+    } else if (qFuzzyIsNull(speed)) {
         if (m_isLoopMode) {
             if (pos >= m_producer->get_int("out") - offset) {
                 m_consumer->purge();
@@ -682,9 +682,6 @@ bool GLWidget::checkFrameNumber(int pos, int offset)
             return true;
         } else {
             if (pos >= m_producer->get_int("out") - offset) {
-                m_consumer->purge();
-                m_producer->seek(m_producer->get_int("out") - offset);
-                m_producer->set_speed(0);
                 return false;
             }
             return true;
@@ -1702,9 +1699,9 @@ void GLWidget::switchPlay(bool play, double speed)
     }
     if (play) {
         double currentSpeed = m_producer->get_speed();
-        /*if (m_name == Kdenlive::ClipMonitor && m_consumer->position() == m_producer->get_out()) {
+        if (m_id == Kdenlive::ClipMonitor && m_consumer->position() == m_producer->get_out()) {
             m_producer->seek(0);
-        }*/
+        }
         if (m_consumer->get_int("real_time") != realTime()) {
             m_consumer->set("real_time", realTime());
             m_consumer->set("buffer", 25);
@@ -1722,12 +1719,13 @@ void GLWidget::switchPlay(bool play, double speed)
         }
         m_producer->set_speed(speed);
     } else {
+        m_consumer->set("refresh", 0);
+        m_producer->set_speed(0.0);
         m_consumer->set("real_time", -1);
         m_consumer->set("buffer", 0);
         m_consumer->set("prefill", 0);
-        m_producer->set_speed(0.0);
-        m_producer->seek(m_consumer->position() + 1);
         m_consumer->purge();
+        m_producer->seek(m_consumer->position() + 1);
     }
 }
 

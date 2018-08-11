@@ -1657,7 +1657,7 @@ void Monitor::onFrameDisplayed(const SharedFrame &frame)
 {
     m_monitorManager->frameDisplayed(frame);
     int position = frame.get_position();
-    if (!m_glMonitor->checkFrameNumber(position, m_id == Kdenlive::ClipMonitor ? 1 : TimelineModel::seekDuration + 1)) {
+    if (!m_glMonitor->checkFrameNumber(position, m_id == Kdenlive::ClipMonitor ? 0 : TimelineModel::seekDuration + 1)) {
         m_playAction->setActive(false);
     }
     checkDrops(m_glMonitor->droppedFrames());
