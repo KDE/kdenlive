@@ -202,6 +202,8 @@ QHash<int, QByteArray> TimelineItemModel::roleNames() const
     roles[CanBeVideoRole] = "canBeVideo";
     roles[ReloadThumbRole] = "reloadThumb";
     roles[ThumbsFormatRole] = "thumbsFormat";
+    roles[EffectNamesRole] = "effectNames";
+    roles[EffectsEnabledRole] = "isStackEnabled";
     roles[GrabbedRole] = "isGrabbed";
     return roles;
 }
@@ -334,6 +336,12 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
         case IsCompositeRole: {
             return Qt::Unchecked;
         }
+        case EffectNamesRole: {
+            return getTrackById_const(id)->effectNames();
+        }
+        case EffectsEnabledRole: {
+            return getTrackById_const(id)->stackEnabled();
+        }
         default:
             break;
         }
@@ -405,6 +413,14 @@ void TimelineItemModel::setTrackProperty(int trackId, const QString &name, const
         QModelIndex ix = makeTrackIndexFromID(trackId);
         emit dataChanged(ix, ix, roles);
     }
+}
+
+void TimelineItemModel::setTrackStackEnabled(int tid, bool enable)
+{
+    std::shared_ptr<TrackModel> track = getTrackById(tid);
+    track->setEffectStackEnabled(enable);
+    QModelIndex ix = makeTrackIndexFromID(tid);
+    emit dataChanged(ix, ix, {TimelineModel::EffectsEnabledRole});
 }
 
 QVariant TimelineItemModel::getTrackProperty(int tid, const QString &name) const

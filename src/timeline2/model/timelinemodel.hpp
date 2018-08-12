@@ -153,6 +153,8 @@ public:
         ItemATrack,        /// composition only
         ItemIdRole,
         ThumbsFormatRole,  /// track only
+        EffectNamesRole,   // track and clip only
+        EffectsEnabledRole,// track and clip only
         GrabbedRole        /// clip+composition only
     };
 

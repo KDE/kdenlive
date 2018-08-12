@@ -24,6 +24,8 @@ import QtQuick.Layouts 1.3
 Rectangle {
     id: trackHeadRoot
     property string trackName
+    property string effectNames
+    property bool isStackEnabled
     property bool isDisabled
     property bool collapsed: false
     property int isComposite
@@ -203,6 +205,13 @@ Rectangle {
                 // Spacer
                 Layout.fillWidth: true
                 Layout.fillHeight: true
+            }
+            ToolButton {
+                iconName: trackHeadRoot.isStackEnabled ? 'kdenlive-track_has_effect' : 'kdenlive-unlock'
+                visible: trackHeadRoot.effectNames != ''
+                implicitHeight: trackHeadRoot.iconSize
+                implicitWidth: trackHeadRoot.iconSize
+                onClicked: controller.setTrackStackEnabled(trackId, !isStackEnabled)
             }
             ToolButton {
                 id: thumbsButton

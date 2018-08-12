@@ -487,6 +487,8 @@ Rectangle {
                             isComposite: model.composite
                             isLocked: model.locked
                             isAudio: model.audio
+                            effectNames: model.effectNames
+                            isStackEnabled: model.isStackEnabled
                             width: headerWidth
                             height: model.trackHeight
                             selected: false

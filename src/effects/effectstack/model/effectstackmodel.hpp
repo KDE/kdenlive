@@ -118,6 +118,11 @@ public:
     /* @brief Remove a service from those managed by this stack */
     void removeService(std::shared_ptr<Mlt::Service> service);
 
+    /* @brief Returns a comma separated list of effect names */
+    const QString effectNames() const;
+
+    bool isEnabled() const;
+
 public slots:
     /* @brief Delete an effect from the stack */
     void removeEffect(std::shared_ptr<EffectItemModel> effect);

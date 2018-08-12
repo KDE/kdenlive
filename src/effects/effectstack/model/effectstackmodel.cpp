@@ -762,3 +762,17 @@ void EffectStackModel::cleanFadeEffects(bool outEffects, Fun &undo, Fun &redo)
         PUSH_LAMBDA(update, redo);
     }
 }
+
+const QString EffectStackModel::effectNames() const
+{
+    QString effects;
+    for (int i = 0; i < rootItem->childCount(); ++i) {
+        effects.append(EffectsRepository::get()->getName(std::static_pointer_cast<EffectItemModel>(rootItem->child(i))->getAssetId()));
+    }
+    return effects;
+}
+
+bool EffectStackModel::isEnabled() const
+{
+    return m_effectStackEnabled;
+}

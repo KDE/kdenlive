@@ -53,6 +53,12 @@ TrackModel::TrackModel(const std::weak_ptr<TimelineModel> &parent, int id, const
         }
         m_track->set("kdenlive:trackheight", KdenliveSettings::trackheight());
         m_effectStack = EffectStackModel::construct(m_track, {ObjectType::TimelineTrack, m_id}, ptr->m_undoStack);
+        QObject::connect(m_effectStack.get(), &EffectStackModel::dataChanged, [&](){
+            if (auto ptr2 = m_parent.lock()) {
+                QModelIndex ix = ptr2->makeTrackIndexFromID(m_id);
+                ptr2->dataChanged(ix, ix, {TimelineModel::EffectNamesRole});
+            }
+        });
     } else {
         qDebug() << "Error : construction of track failed because parent timeline is not available anymore";
         Q_ASSERT(false);
@@ -1008,6 +1014,23 @@ bool TrackModel::addEffect(const QString &effectId)
     READ_LOCK();
     m_effectStack->appendEffect(effectId);
     return true;
+}
+
+const QString TrackModel::effectNames() const
+{
+    READ_LOCK();
+    return m_effectStack->effectNames();
+}
+
+bool TrackModel::stackEnabled() const
+{
+    READ_LOCK();
+    return m_effectStack->isEnabled();
+}
+
+void TrackModel::setEffectStackEnabled(bool enable)
+{
+    m_effectStack->setEffectStackEnabled(enable);
 }
 
 int TrackModel::trackDuration()

@@ -211,6 +211,15 @@ protected:
     /* @brief Add a track effect */
     bool addEffect(const QString &effectId);
 
+    /* @brief Returns a comma separated list of effect names */
+    const QString effectNames() const;
+
+    /* @brief Returns true if effect stack is enabled */
+    bool stackEnabled() const;
+
+    /* @brief Enable / disable the track's effect stack */
+    void setEffectStackEnabled(bool enable);
+
     /* @brief This function removes the clip from the mlt object, and then insert it back in the same spot again.
      * This is used when some properties of the clip have changed, and we need this to refresh it */
     void replugClip(int clipId);
