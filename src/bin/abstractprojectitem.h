@@ -145,7 +145,7 @@ public:
      *
      * This function is necessary for interaction with ProjectItemModel.
      */
-    QVariant getData(DataType type) const;
+    virtual QVariant getData(DataType type) const;
 
     /**
      * @brief Returns the amount of different types of data this item supports.

@@ -148,6 +148,12 @@ void ProjectClip::connectEffectStack()
 {
     connect(m_effectStack.get(), &EffectStackModel::modelChanged, this, &ProjectClip::updateChildProducers);
     connect(m_effectStack.get(), &EffectStackModel::dataChanged, this, &ProjectClip::updateChildProducers);
+    connect(m_effectStack.get(), &EffectStackModel::dataChanged, [&](){
+        if (auto ptr = m_model.lock()) {
+            std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()),
+                                                                           AbstractProjectItem::IconOverlay);
+        }
+    });
     /*connect(m_effectStack.get(), &EffectStackModel::modelChanged, [&](){
         qDebug()<<"/ / / STACK CHANGED";
         updateChildProducers();
@@ -934,17 +940,15 @@ bool ProjectClip::rename(const QString &name, int column)
     return edited;
 }
 
-/*QVariant ProjectClip::getData(DataType type) const
+QVariant ProjectClip::getData(DataType type) const
 {
     switch (type) {
     case AbstractProjectItem::IconOverlay:
-        return hasEffects() ? QVariant("kdenlive-track_has_effect") : QVariant();
-        break;
+        return m_effectStack->rowCount() > 0 ? QVariant("kdenlive-track_has_effect") : QVariant();
     default:
-        break;
+        return AbstractProjectItem::getData(type);
     }
-    return AbstractProjectItem::getData(type);
-    }*/
+}
 
 void ProjectClip::slotExtractImage(const QList<int> &frames)
 {

@@ -625,12 +625,10 @@ Fun ProjectItemModel::requestRenameFolder_lambda(std::shared_ptr<AbstractProject
         if (!currentFolder) {
             return false;
         }
-        // For correct propagation of the name change, we remove folder from parent first
-        auto parent = currentFolder->parent();
-        parent->removeChild(currentFolder);
         currentFolder->setName(newName);
-        // Reinsert in parent
-        return parent->appendChild(currentFolder);
+        auto index = getIndexFromItem(currentFolder);
+        emit dataChanged(index, index, {AbstractProjectItem::DataName});
+        return true;
     };
 }
 
