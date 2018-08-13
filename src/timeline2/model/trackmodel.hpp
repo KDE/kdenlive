@@ -230,6 +230,10 @@ protected:
     std::unordered_set<int> getClipsInRange(int position, int end = -1);
     /* @brief Returns the list of the ids of the compositions that intersect the given range */
     std::unordered_set<int> getCompositionsInRange(int position, int end);
+
+    /* @brief Import effects from a service that contains some (another track) */
+    bool importEffects(std::weak_ptr<Mlt::Service> service);
+
 public slots:
     /*Delete the current track and all its associated clips */
     void slotDelete();

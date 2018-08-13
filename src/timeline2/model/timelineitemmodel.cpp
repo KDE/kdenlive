@@ -282,6 +282,8 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             return clip->getPlaytime();
         case GroupedRole:
             return (m_groups->isInGroup(id) && !isInSelection(id));
+        case EffectNamesRole:
+            return clip->effectNames();
         case InPointRole:
             return clip->getIn();
         case OutPointRole:
@@ -421,6 +423,12 @@ void TimelineItemModel::setTrackStackEnabled(int tid, bool enable)
     track->setEffectStackEnabled(enable);
     QModelIndex ix = makeTrackIndexFromID(tid);
     emit dataChanged(ix, ix, {TimelineModel::EffectsEnabledRole});
+}
+
+void TimelineItemModel::importTrackEffects(int tid, std::weak_ptr<Mlt::Service> service)
+{
+    std::shared_ptr<TrackModel> track = getTrackById(tid);
+    track->importEffects(service);
 }
 
 QVariant TimelineItemModel::getTrackProperty(int tid, const QString &name) const

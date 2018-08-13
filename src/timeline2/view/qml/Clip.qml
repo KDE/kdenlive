@@ -30,6 +30,7 @@ Rectangle {
     property string clipName: ''
     property string clipResource: ''
     property string mltService: ''
+    property string effectNames
     property int modelStart: x
     // Used to store the current frame on move
     property int currentFrame: -1
@@ -344,10 +345,34 @@ Rectangle {
                     left: labelRect.left
                     topMargin: 1
                     leftMargin: 1
-                    // + ((isAudio || !settings.timelineShowThumbnails) ? 0 : inThumbnail.width) + 1
                 }
                 color: 'white'
                 style: Text.Outline
+                styleColor: 'black'
+            }
+        }
+        Rectangle {
+            // effects
+            id: effectsRect
+            color: '#555555'
+            width: effectLabel.width + 2
+            height: effectLabel.height
+            x: labelRect.x
+            anchors.top: labelRect.bottom
+            visible: labelRect.visible && clipRoot.effectNames != ''
+            Text {
+                id: effectLabel
+                text: clipRoot.effectNames
+                font.pixelSize: root.baseUnit * 1.2
+                anchors {
+                    top: effectsRect.top
+                    left: effectsRect.left
+                    topMargin: 1
+                    leftMargin: 1
+                    // + ((isAudio || !settings.timelineShowThumbnails) ? 0 : inThumbnail.width) + 1
+                }
+                color: 'white'
+                //style: Text.Outline
                 styleColor: 'black'
             }
         }

@@ -1053,7 +1053,15 @@ bool TrackModel::isHidden() const
 {
     return m_track->get_int("hide") & 1;
 }
+
 bool TrackModel::isMute() const
 {
     return m_track->get_int("hide") & 2;
+}
+
+bool TrackModel::importEffects(std::weak_ptr<Mlt::Service> service)
+{
+    QWriteLocker locker(&m_lock);
+    m_effectStack->importEffects(service);
+    return true;
 }

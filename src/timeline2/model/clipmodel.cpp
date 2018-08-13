@@ -557,7 +557,14 @@ bool ClipModel::canBeVideo() const
 {
     return m_canBeVideo;
 }
+
 bool ClipModel::canBeAudio() const
 {
     return m_canBeAudio;
+}
+
+const QString ClipModel::effectNames() const
+{
+    READ_LOCK();
+    return m_effectStack->effectNames();
 }

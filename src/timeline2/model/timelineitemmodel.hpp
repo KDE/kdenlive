@@ -94,6 +94,9 @@ public:
     /** @brief Rebuild track compositing */
     void buildTrackCompositing(bool rebuild = false);
 
+    /** @brief Import track effects */
+    void importTrackEffects(int tid, std::weak_ptr<Mlt::Service> service);
+
     const QString groupsData();
     bool loadGroups(const QString &groupsData);
     /* @brief returns true if clip is in temporary selection group.

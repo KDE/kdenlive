@@ -98,6 +98,12 @@ Column{
                 }
                 Binding {
                     target: loader.item
+                    property: "effectNames"
+                    value: model.effectNames
+                    when: loader.status == Loader.Ready && !loader.item.isComposition
+                }
+                Binding {
+                    target: loader.item
                     property: "clipStatus"
                     value: model.clipStatus
                     when: loader.status == Loader.Ready && !loader.item.isComposition

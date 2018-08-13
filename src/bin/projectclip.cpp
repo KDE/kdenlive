@@ -944,7 +944,7 @@ QVariant ProjectClip::getData(DataType type) const
 {
     switch (type) {
     case AbstractProjectItem::IconOverlay:
-        return m_effectStack->rowCount() > 0 ? QVariant("kdenlive-track_has_effect") : QVariant();
+        return m_effectStack && m_effectStack->rowCount() > 0 ? QVariant("kdenlive-track_has_effect") : QVariant();
     default:
         return AbstractProjectItem::getData(type);
     }

@@ -207,7 +207,9 @@ Rectangle {
                 Layout.fillHeight: true
             }
             ToolButton {
-                iconName: trackHeadRoot.isStackEnabled ? 'kdenlive-track_has_effect' : 'kdenlive-unlock'
+                iconName: 'kdenlive-track_has_effect'
+                checkable: true
+                checked: trackHeadRoot.isStackEnabled
                 visible: trackHeadRoot.effectNames != ''
                 implicitHeight: trackHeadRoot.iconSize
                 implicitWidth: trackHeadRoot.iconSize

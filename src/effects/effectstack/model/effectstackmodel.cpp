@@ -30,6 +30,7 @@
 #include <stack>
 #include <utility>
 #include <vector>
+#include <profiles/profilemodel.hpp>
 
 EffectStackModel::EffectStackModel(std::weak_ptr<Mlt::Service> service, ObjectId ownerId, std::weak_ptr<DocUndoStack> undo_stack)
     : AbstractTreeModel()
@@ -554,9 +555,18 @@ void EffectStackModel::importEffects(std::weak_ptr<Mlt::Service> service, bool a
                 // don't consider internal MLT stuff
                 continue;
             }
+            const QString effectId = qstrdup(ptr->filter(i)->get("kdenlive_id"));
             // The MLT filter already exists, use it directly to create the effect
-            auto effect = EffectItemModel::construct(ptr->filter(i), shared_from_this());
-            const QString effectId = effect->getAssetId();
+            std::shared_ptr<EffectItemModel> effect;
+            if (alreadyExist) {
+                // effect is already plugged in the service
+                effect = EffectItemModel::construct(ptr->filter(i), shared_from_this());
+            } else {
+                // duplicate effect
+                Mlt::Filter *asset = EffectsRepository::get()->getEffect(effectId);
+                asset->inherit(*(ptr->filter(i)));
+                effect = EffectItemModel::construct(asset, shared_from_this());
+            }
             connect(effect.get(), &AssetParameterModel::modelChanged, this, &EffectStackModel::modelChanged);
             connect(effect.get(), &AssetParameterModel::replugEffect, this, &EffectStackModel::replugEffect, Qt::DirectConnection);
             Fun redo = addItem_lambda(effect, rootItem->getId());
@@ -765,11 +775,11 @@ void EffectStackModel::cleanFadeEffects(bool outEffects, Fun &undo, Fun &redo)
 
 const QString EffectStackModel::effectNames() const
 {
-    QString effects;
+    QStringList effects;
     for (int i = 0; i < rootItem->childCount(); ++i) {
         effects.append(EffectsRepository::get()->getName(std::static_pointer_cast<EffectItemModel>(rootItem->child(i))->getAssetId()));
     }
-    return effects;
+    return effects.join(QLatin1Char('/'));
 }
 
 bool EffectStackModel::isEnabled() const
