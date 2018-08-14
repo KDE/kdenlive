@@ -468,6 +468,7 @@ Rectangle {
             }
             Flickable {
                 // Non-slider scroll area for the track headers.
+                id: headerFlick
                 contentY: scrollView.flickableItem.contentY
                 width: headerWidth
                 height: 100
@@ -562,6 +563,15 @@ Rectangle {
                         }
                     }
                 }
+                MouseArea {
+                        width: trackHeaders.width
+                        height: trackHeaders.height
+                        acceptedButtons: Qt.NoButton
+                        onWheel: {
+                            var newScroll = Math.min(scrollView.flickableItem.contentY - wheel.angleDelta.y, height - headerFlick.height - cornerstone.height)
+                            scrollView.flickableItem.contentY = Math.max(newScroll, 0)
+                        }
+                    }
             }
         }
         MouseArea {
