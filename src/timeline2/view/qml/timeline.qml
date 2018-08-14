@@ -474,6 +474,15 @@ Rectangle {
                 height: 100
                 interactive: false
 
+                MouseArea {
+                    width: trackHeaders.width
+                    height: trackHeaders.height
+                    acceptedButtons: Qt.NoButton
+                    onWheel: {
+                        var newScroll = Math.min(scrollView.flickableItem.contentY - wheel.angleDelta.y, height - headerFlick.height - cornerstone.height)
+                        scrollView.flickableItem.contentY = Math.max(newScroll, 0)
+                    }
+                }
                 Column {
                     id: trackHeaders
                     spacing: 0
@@ -563,15 +572,6 @@ Rectangle {
                         }
                     }
                 }
-                MouseArea {
-                        width: trackHeaders.width
-                        height: trackHeaders.height
-                        acceptedButtons: Qt.NoButton
-                        onWheel: {
-                            var newScroll = Math.min(scrollView.flickableItem.contentY - wheel.angleDelta.y, height - headerFlick.height - cornerstone.height)
-                            scrollView.flickableItem.contentY = Math.max(newScroll, 0)
-                        }
-                    }
             }
         }
         MouseArea {
