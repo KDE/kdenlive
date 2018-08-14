@@ -507,8 +507,12 @@ void TimelineController::deleteTrack(int tid)
     }
     QPointer<TrackDialog> d = new TrackDialog(m_model, tid, qApp->activeWindow(), true);
     if (d->exec() == QDialog::Accepted) {
-        m_model->requestTrackDeletion(d->selectedTrackId());
+        int selectedTrackIx = d->selectedTrackId();
+        m_model->requestTrackDeletion(selectedTrackIx);
         m_model->buildTrackCompositing(true);
+        if (m_activeTrack == selectedTrackIx) {
+            setActiveTrack(m_model->getTrackIndexFromPosition(m_model->getTracksCount() - 1));
+        }
     }
 }
 

@@ -1343,6 +1343,12 @@ bool TimelineModel::requestTrackDeletion(int trackId)
     Fun redo = []() { return true; };
     bool result = requestTrackDeletion(trackId, undo, redo);
     if (result) {
+        if (m_videoTarget == trackId) {
+            m_videoTarget = -1;
+        }
+        if (m_audioTarget == trackId) {
+            m_audioTarget = -1;
+        }
         PUSH_UNDO(undo, redo, i18n("Delete Track"));
     }
     return result;
