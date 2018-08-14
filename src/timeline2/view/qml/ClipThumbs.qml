@@ -12,6 +12,11 @@ Row {
     property int thumbWidth: container.height * 16.0/9.0
     property int scrollStart: Math.max(0, scrollView.flickableItem.contentX / timeline.scaleFactor - clipRoot.modelStart)
     property int scrollEnd: scrollStart + scrollView.viewport.width / timeline.scaleFactor
+
+    function reload() {
+        clipRoot.baseThumbPath =''
+        clipRoot.baseThumbPath = clipRoot.variableThumbs ? '' : 'image://thumbnail/' + clipRoot.binId + '/' + (clipRoot.isImage ? '#0' : '#')
+    }
     Repeater {
         id: thumbRepeater
         // switching the model allows to have different view modes:

@@ -14,7 +14,7 @@ Row {
     property int scrollStart: Math.max(0, scrollView.flickableItem.contentX / timeline.scaleFactor - clipRoot.modelStart)
     property int scrollEnd: scrollStart + scrollView.viewport.width / timeline.scaleFactor
 
-    function generateWaveform() {
+    function reload() {
         // This is needed to make the model have the correct count.
         // Model as a property expression is not working in all cases.
         if (timeline.showAudioThumbnails) {

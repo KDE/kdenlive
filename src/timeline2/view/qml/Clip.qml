@@ -97,7 +97,7 @@ Rectangle {
 
     onInPointChanged: {
         if (parentTrack.isAudio) {
-            thumbsLoader.item.generateWaveform()
+            thumbsLoader.item.reload()
         }
     }
 
@@ -139,6 +139,7 @@ Rectangle {
 
     onForceReloadThumbChanged: {
         // TODO: find a way to force reload of clip thumbs
+        thumbsLoader.item.reload()
     }
 
     onTimeScaleChanged: {
@@ -146,7 +147,7 @@ Rectangle {
         width = clipDuration * timeScale;
         labelRect.x = scrollX > modelStart * timeScale ? scrollX - modelStart * timeScale : 0
         if (parentTrack.isAudio) {
-            thumbsLoader.item.generateWaveform();
+            thumbsLoader.item.reload();
         }
     }
     onScrollXChanged: {
@@ -218,7 +219,7 @@ Rectangle {
 
     onAudioLevelsChanged: {
         if (parentTrack.isAudio) {
-            thumbsLoader.item.generateWaveform()
+            thumbsLoader.item.reload()
         }
     }
     MouseArea {
