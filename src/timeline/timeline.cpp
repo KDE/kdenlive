@@ -630,7 +630,7 @@ int Timeline::fitZoom() const
 {
     int zoom = (int)((duration() + 20 / m_scale) * m_trackview->getFrameWidth() / m_trackview->width());
     int i;
-    for (i = 0; i < 13; ++i)
+    for (i = 0; i <= 14; ++i)
         if (m_ruler->comboScale[i] > zoom) {
             break;
         }

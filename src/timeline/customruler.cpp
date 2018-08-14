@@ -55,7 +55,7 @@ static int bigMarkDistance;
 
 #include "definitions.h"
 
-const int CustomRuler::comboScale[] = { 1, 2, 5, 10, 25, 50, 125, 250, 500, 750, 1500, 3000, 6000, 12000};
+const int CustomRuler::comboScale[] = { 1, 3, 6, 12, 25, 50, 100, 200, 400, 800, 1600, 3200, 6400, 12800, 25600};
 
 CustomRuler::CustomRuler(const Timecode &tc, const QList<QAction *> &rulerActions, CustomTrackView *parent) :
     QWidget(parent),
