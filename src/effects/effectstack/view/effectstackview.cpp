@@ -336,6 +336,11 @@ void EffectStackView::addEffect(const QString &effectId)
     }
 }
 
+bool EffectStackView::isEmpty() const
+{
+    return m_model == nullptr ? true : m_model->rowCount() == 0;
+}
+
 /*
 void EffectStackView::switchBuiltStack(bool show)
 {

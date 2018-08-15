@@ -116,8 +116,10 @@ void AssetPanel::showTransition(int tid, std::shared_ptr<AssetParameterModel> tr
 
 void AssetPanel::showEffectStack(const QString &itemName, std::shared_ptr<EffectStackModel> effectsModel, QSize frameSize, bool showKeyframes)
 {
+    m_splitButton->setChecked(false);
     if (effectsModel == nullptr) {
         // Item is not ready
+        m_splitButton->setVisible(false);
         clear();
         return;
     }
@@ -155,6 +157,15 @@ void AssetPanel::showEffectStack(const QString &itemName, std::shared_ptr<Effect
     }
     m_assetTitle->setText(title);
     m_splitButton->setVisible(showSplit);
+    if (showSplit) {
+        m_splitButton->setEnabled(effectsModel->rowCount() > 0);
+        QObject::connect(effectsModel.get(), &EffectStackModel::dataChanged, [&](){
+            if (m_effectStackWidget->isEmpty()) {
+                m_splitButton->setChecked(false);
+            }
+            m_splitButton->setEnabled(!m_effectStackWidget->isEmpty());
+        });
+    }
     m_timelineButton->setVisible(enableKeyframes);
     m_timelineButton->setChecked(showKeyframes);
     // Disable built stack until properly implemented

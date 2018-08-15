@@ -1860,6 +1860,7 @@ void Monitor::buildSplitEffect(Mlt::Producer *original)
     delete original;
     m_splitProducer = new Mlt::Producer(trac.get_producer());
     m_glMonitor->setProducer(m_splitProducer, isActive(), position());
+    m_glMonitor->setRulerInfo(m_controller->frameDuration(), m_controller->getMarkerModel());
     loadQmlScene(MonitorSceneSplit);
 }
 

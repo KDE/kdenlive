@@ -64,6 +64,9 @@ public:
     /** @brief Add an effect to the current stack
      */
     void addEffect(const QString &effectId);
+    /** @brief Returns true if effectstack is empty
+     */
+    bool isEmpty() const;
 
 protected:
     void dragEnterEvent(QDragEnterEvent *event) override;

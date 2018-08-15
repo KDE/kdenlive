@@ -1,6 +1,6 @@
-import QtQuick 2.0
-import QtQuick.Controls 1.3
-import QtQuick.Controls.Styles 1.3
+import QtQuick 2.4
+import QtQuick.Controls 1.4
+import QtQuick.Controls.Styles 1.4
 
 Item {
     id: root
@@ -15,6 +15,7 @@ Item {
     property int mouseRulerPos: 0
     property int splitterPos
     property point center
+    property real baseUnit: fontMetrics.font.pixelSize * 0.8
     // percentage holds splitter pos relative to the scene percentage
     property double percentage
     // realpercent holds splitter pos relative to the frame width percentage
@@ -22,9 +23,21 @@ Item {
 
     signal qmlMoveSplit()
 
+    FontMetrics {
+        id: fontMetrics
+        font.family: "Arial"
+    }
+
     percentage: 0.5
     realpercent: 0.5
     splitterPos: this.width / 2
+
+    onDurationChanged: {
+        clipMonitorRuler.updateRuler()
+    }
+    onWidthChanged: {
+        clipMonitorRuler.updateRuler()
+    }
 
     MouseArea {
         width: root.width; height: root.height
