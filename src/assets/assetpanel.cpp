@@ -35,6 +35,7 @@
 #include <KColorScheme>
 #include <KColorUtils>
 #include <KSqueezedTextLabel>
+#include <KDualAction>
 #include <QApplication>
 #include <QDebug>
 #include <QHBoxLayout>
@@ -51,8 +52,14 @@ AssetPanel::AssetPanel(QWidget *parent)
     , m_transitionWidget(new TransitionStackView(this))
     , m_effectStackWidget(new EffectStackView(this))
 {
-    QHBoxLayout *tLayout = new QHBoxLayout;
-    tLayout->addWidget(m_assetTitle);
+    QToolBar *buttonToolbar = new QToolBar(this);
+    buttonToolbar->addWidget(m_assetTitle);
+
+    // spacer
+    QWidget* empty = new QWidget();
+    empty->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::Maximum);
+    buttonToolbar->addWidget(empty);
+
     m_switchBuiltStack = new QToolButton(this);
     m_switchBuiltStack->setIcon(QIcon::fromTheme(QStringLiteral("adjustlevels")));
     m_switchBuiltStack->setToolTip(i18n("Adjust clip"));
@@ -60,26 +67,34 @@ AssetPanel::AssetPanel(QWidget *parent)
     m_switchBuiltStack->setChecked(KdenliveSettings::showbuiltstack());
     m_switchBuiltStack->setVisible(false);
     // connect(m_switchBuiltStack, &QToolButton::toggled, m_effectStackWidget, &EffectStackView::switchBuiltStack);
-    tLayout->addWidget(m_switchBuiltStack);
+    buttonToolbar->addWidget(m_switchBuiltStack);
 
-    m_splitButton = new QToolButton(this);
-    m_splitButton->setIcon(QIcon::fromTheme(QStringLiteral("view-split-left-right")));
+    m_splitButton = new KDualAction(i18n("Normal view"), i18n("Compare effect"), this);
+    m_splitButton->setActiveIcon(QIcon::fromTheme(QStringLiteral("view-right-close")));
+    m_splitButton->setInactiveIcon(QIcon::fromTheme(QStringLiteral("view-split-left-right")));
     m_splitButton->setToolTip(i18n("Compare effect"));
-    m_splitButton->setCheckable(true);
     m_splitButton->setVisible(false);
-    connect(m_splitButton, &QToolButton::toggled, this, &AssetPanel::processSplitEffect);
-    tLayout->addWidget(m_splitButton);
+    connect(m_splitButton, &KDualAction::activeChangedByUser, this, &AssetPanel::processSplitEffect);
+    buttonToolbar->addAction(m_splitButton);
 
-    m_timelineButton = new QToolButton(this);
-    m_timelineButton->setIcon(QIcon::fromTheme(QStringLiteral("adjustlevels")));
+    m_enableStackButton = new KDualAction(i18n("Effects disabled"), i18n("Effects enabled"), this);
+    m_enableStackButton->setInactiveIcon(QIcon::fromTheme(QStringLiteral("hint")));
+    m_enableStackButton->setActiveIcon(QIcon::fromTheme(QStringLiteral("visibility")));
+    connect(m_enableStackButton, &KDualAction::activeChangedByUser, this, &AssetPanel::enableStack);
+    m_enableStackButton->setVisible(false);
+    buttonToolbar->addAction(m_enableStackButton);
+
+    m_timelineButton = new KDualAction(i18n("Hide keyframes"), i18n("Display keyframes in timeline"), this);
+    m_timelineButton->setInactiveIcon(QIcon::fromTheme(QStringLiteral("adjustlevels")));
+    m_timelineButton->setActiveIcon(QIcon::fromTheme(QStringLiteral("adjustlevels")));
     m_timelineButton->setToolTip(i18n("Display keyframes in timeline"));
-    m_timelineButton->setCheckable(true);
     m_timelineButton->setVisible(false);
-    connect(m_timelineButton, &QToolButton::toggled, this, &AssetPanel::showKeyframes);
-    tLayout->addWidget(m_timelineButton);
+    connect(m_timelineButton, &KDualAction::activeChangedByUser, this, &AssetPanel::showKeyframes);
+    buttonToolbar->addAction(m_timelineButton);
 
-    m_lay->addLayout(tLayout);
+    m_lay->addWidget(buttonToolbar);
     m_lay->setContentsMargins(0, 0, 0, 0);
+    m_lay->setSpacing(0);
     QVBoxLayout *lay = new QVBoxLayout(m_container);
     lay->setContentsMargins(0, 0, 0, 0);
     lay->addWidget(m_transitionWidget);
@@ -111,15 +126,17 @@ void AssetPanel::showTransition(int tid, std::shared_ptr<AssetParameterModel> tr
     m_assetTitle->setText(i18n("%1 properties", transitionName));
     m_transitionWidget->setVisible(true);
     m_timelineButton->setVisible(true);
+    m_enableStackButton->setVisible(false);
     m_transitionWidget->setModel(transitionModel, QSize(), true);
 }
 
 void AssetPanel::showEffectStack(const QString &itemName, std::shared_ptr<EffectStackModel> effectsModel, QSize frameSize, bool showKeyframes)
 {
-    m_splitButton->setChecked(false);
+    m_splitButton->setActive(false);
     if (effectsModel == nullptr) {
         // Item is not ready
         m_splitButton->setVisible(false);
+        m_enableStackButton->setVisible(false);
         clear();
         return;
     }
@@ -157,17 +174,19 @@ void AssetPanel::showEffectStack(const QString &itemName, std::shared_ptr<Effect
     }
     m_assetTitle->setText(title);
     m_splitButton->setVisible(showSplit);
+    m_enableStackButton->setVisible(id.first != ObjectType::TimelineComposition);
+    m_enableStackButton->setActive(effectsModel->isStackEnabled());
     if (showSplit) {
         m_splitButton->setEnabled(effectsModel->rowCount() > 0);
         QObject::connect(effectsModel.get(), &EffectStackModel::dataChanged, [&](){
             if (m_effectStackWidget->isEmpty()) {
-                m_splitButton->setChecked(false);
+                m_splitButton->setActive(false);
             }
             m_splitButton->setEnabled(!m_effectStackWidget->isEmpty());
         });
     }
     m_timelineButton->setVisible(enableKeyframes);
-    m_timelineButton->setChecked(showKeyframes);
+    m_timelineButton->setActive(showKeyframes);
     // Disable built stack until properly implemented
     // m_switchBuiltStack->setVisible(true);
     m_effectStackWidget->setVisible(true);
@@ -313,4 +332,12 @@ void AssetPanel::addEffect(const QString &effectId)
         return;
     }
     m_effectStackWidget->addEffect(effectId);
+}
+
+void AssetPanel::enableStack(bool enable)
+{
+    if (!m_effectStackWidget->isVisible()) {
+        return;
+    }
+    m_effectStackWidget->enableStack(enable);
 }

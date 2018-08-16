@@ -121,7 +121,7 @@ public:
     /* @brief Returns a comma separated list of effect names */
     const QString effectNames() const;
 
-    bool isEnabled() const;
+    bool isStackEnabled() const;
 
 public slots:
     /* @brief Delete an effect from the stack */

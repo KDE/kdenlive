@@ -29,6 +29,7 @@
 #include "definitions.h"
 
 class KSqueezedTextLabel;
+class KDualAction;
 class QToolButton;
 
 /** @brief This class is the widget that provides interaction with the asset currently selected.
@@ -81,13 +82,16 @@ protected:
 
 private:
     QToolButton *m_switchBuiltStack;
-    QToolButton *m_splitButton;
-    QToolButton *m_timelineButton;
+    KDualAction *m_splitButton;
+    KDualAction *m_enableStackButton;
+    KDualAction *m_timelineButton;
 
 private slots:
     void processSplitEffect(bool enable);
     /** Displays the owner clip keyframes in timeline */
     void showKeyframes(bool enable);
+    /** Enable / disable effect stack */
+    void enableStack(bool enable);
 
 signals:
     void doSplitEffect(bool);

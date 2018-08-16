@@ -1025,7 +1025,7 @@ const QString TrackModel::effectNames() const
 bool TrackModel::stackEnabled() const
 {
     READ_LOCK();
-    return m_effectStack->isEnabled();
+    return m_effectStack->isStackEnabled();
 }
 
 void TrackModel::setEffectStackEnabled(bool enable)

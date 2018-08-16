@@ -341,6 +341,23 @@ bool EffectStackView::isEmpty() const
     return m_model == nullptr ? true : m_model->rowCount() == 0;
 }
 
+
+void EffectStackView::enableStack(bool enable)
+{
+    if (m_model) {
+        m_model->setEffectStackEnabled(enable);
+    }
+}
+
+bool EffectStackView::isStackEnabled() const
+{
+    if (m_model) {
+        return m_model->isStackEnabled();
+    }
+    return false;
+}
+
+
 /*
 void EffectStackView::switchBuiltStack(bool show)
 {

@@ -782,7 +782,7 @@ const QString EffectStackModel::effectNames() const
     return effects.join(QLatin1Char('/'));
 }
 
-bool EffectStackModel::isEnabled() const
+bool EffectStackModel::isStackEnabled() const
 {
     return m_effectStackEnabled;
 }

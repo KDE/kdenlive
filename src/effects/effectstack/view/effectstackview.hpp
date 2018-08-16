@@ -67,6 +67,10 @@ public:
     /** @brief Returns true if effectstack is empty
      */
     bool isEmpty() const;
+    /** @brief Enables / disables the stack
+     */
+    void enableStack(bool enable);
+    bool isStackEnabled() const;
 
 protected:
     void dragEnterEvent(QDragEnterEvent *event) override;
