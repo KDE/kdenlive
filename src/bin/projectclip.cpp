@@ -96,6 +96,7 @@ std::shared_ptr<ProjectClip> ProjectClip::construct(const QString &id, const QIc
 {
     std::shared_ptr<ProjectClip> self(new ProjectClip(id, thumb, model, producer));
     baseFinishConstruct(self);
+    self->m_effectStack->importEffects(producer, true);
     model->loadSubClips(id, self->getPropertiesFromPrefix(QStringLiteral("kdenlive:clipzone.")));
     return self;
 }
@@ -588,13 +589,13 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
             }
             if (state == PlaylistState::VideoOnly && !m_videoProducer) {
                 // good, we found a master video producer, and we didn't have any
-                m_videoProducer.reset(&master->parent());
+                m_videoProducer.reset(master->parent().cut());
                 m_effectStack->addService(m_videoProducer);
                 return {master, true};
             }
             if (state == PlaylistState::Disabled && !m_disabledProducer) {
                 // good, we found a master disabled producer, and we didn't have any
-                m_disabledProducer.reset(&master->parent());
+                m_disabledProducer.reset(master->parent().cut());
                 m_effectStack->addService(m_disabledProducer);
                 return {master, true};
             }
