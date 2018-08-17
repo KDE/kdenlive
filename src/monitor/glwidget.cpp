@@ -83,7 +83,6 @@ GLWidget::GLWidget(int id, QObject *parent)
     , m_openGLSync(false)
     , m_sendFrame(false)
     , m_offset(QPoint(0, 0))
-    , m_offscreenSurface(nullptr)
     , m_shareContext(nullptr)
     , m_audioWaveDisplayed(false)
     , m_fbo(nullptr)
@@ -97,6 +96,9 @@ GLWidget::GLWidget(int id, QObject *parent)
     setPersistentSceneGraph(true);
     setClearBeforeRendering(false);
     setResizeMode(QQuickView::SizeRootObjectToView);
+
+    m_offscreenSurface.setFormat(QWindow::format());
+    m_offscreenSurface.create();
 
     m_monitorProfile = new Mlt::Profile();
 
@@ -133,7 +135,6 @@ GLWidget::~GLWidget()
             delete m_frameRenderer;
         }
     }
-    delete m_offscreenSurface;
     delete m_shareContext;
     delete m_shader;
     delete m_monitorProfile;
@@ -149,12 +150,7 @@ void GLWidget::updateAudioForAnalysis()
 void GLWidget::initializeGL()
 {
     if (m_isInitialized || !isVisible() || !openglContext()) return;
-    if (!m_offscreenSurface) {
-        m_offscreenSurface = new QOffscreenSurface();
-        m_offscreenSurface->setFormat(openglContext()->format());
-        m_offscreenSurface->create();
-        openglContext()->makeCurrent(this);
-    }
+    openglContext()->makeCurrent(&m_offscreenSurface);
     initializeOpenGLFunctions();
     qCDebug(KDENLIVE_LOG) << "OpenGL vendor: " << QString::fromUtf8((const char *) glGetString(GL_VENDOR));
     qCDebug(KDENLIVE_LOG) << "OpenGL renderer: " << QString::fromUtf8((const char *) glGetString(GL_RENDERER));
@@ -201,7 +197,7 @@ void GLWidget::initializeGL()
         m_shareContext->setShareContext(openglContext());
         m_shareContext->create();
     }
-    m_frameRenderer = new FrameRenderer(openglContext(), m_offscreenSurface);
+    m_frameRenderer = new FrameRenderer(openglContext(), &m_offscreenSurface);
     m_frameRenderer->sendAudioForAnalysis = KdenliveSettings::monitor_audio();
     openglContext()->makeCurrent(this);
     //openglContext()->blockSignals(false);
@@ -637,7 +633,7 @@ void GLWidget::createThread(RenderThread **thread, thread_function_t function, v
         m_initSem.acquire();
     }
 #endif
-    (*thread) = new RenderThread(function, data, m_shareContext, m_offscreenSurface);
+    (*thread) = new RenderThread(function, data, m_shareContext, &m_offscreenSurface);
     (*thread)->start();
 }
 
