@@ -567,6 +567,9 @@ Bin::Bin(const std::shared_ptr<ProjectItemModel> &model, QWidget *parent)
 
     // Create toolbar for buttons
     m_toolbar = new QToolBar(this);
+    int size = style()->pixelMetric(QStyle::PM_SmallIconSize);
+    QSize iconSize(size, size);
+    m_toolbar->setIconSize(iconSize);
     m_toolbar->setToolButtonStyle(Qt::ToolButtonIconOnly);
     m_layout->addWidget(m_toolbar);
     m_layout->setSpacing(0);

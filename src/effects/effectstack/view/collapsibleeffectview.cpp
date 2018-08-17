@@ -70,12 +70,6 @@ CollapsibleEffectView::CollapsibleEffectView(std::shared_ptr<EffectItemModel> ef
     // m_info.fromString(effect.attribute(QStringLiteral("kdenlive_info")));
     // setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     buttonUp->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-up")));
-    QSize iconSize = buttonUp->iconSize();
-    buttonUp->setMaximumSize(iconSize);
-    buttonDown->setMaximumSize(iconSize);
-    menuButton->setMaximumSize(iconSize);
-    enabledButton->setMaximumSize(iconSize);
-    buttonDel->setMaximumSize(iconSize);
     buttonUp->setToolTip(i18n("Move effect up"));
     buttonDown->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-down")));
     buttonDown->setToolTip(i18n("Move effect down"));

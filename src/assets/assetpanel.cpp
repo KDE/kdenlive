@@ -54,6 +54,9 @@ AssetPanel::AssetPanel(QWidget *parent)
 {
     QToolBar *buttonToolbar = new QToolBar(this);
     buttonToolbar->addWidget(m_assetTitle);
+    int size = style()->pixelMetric(QStyle::PM_SmallIconSize);
+    QSize iconSize(size, size);
+    buttonToolbar->setIconSize(iconSize);
 
     // spacer
     QWidget* empty = new QWidget();

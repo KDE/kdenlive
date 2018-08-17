@@ -208,12 +208,13 @@ Rectangle {
             }
             ToolButton {
                 iconName: 'kdenlive-track_has_effect'
-                checkable: true
-                checked: trackHeadRoot.isStackEnabled
+                //checkable: true
+                //checked: trackHeadRoot.isStackEnabled
                 visible: trackHeadRoot.effectNames != ''
                 implicitHeight: trackHeadRoot.iconSize
                 implicitWidth: trackHeadRoot.iconSize
-                onClicked: controller.setTrackStackEnabled(trackId, !isStackEnabled)
+                onClicked: timeline.showTrackAsset(trackId)
+                //onClicked: controller.setTrackStackEnabled(trackId, !isStackEnabled)
             }
             ToolButton {
                 id: thumbsButton
