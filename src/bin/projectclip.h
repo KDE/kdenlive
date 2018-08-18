@@ -213,7 +213,7 @@ public:
     /** @brief Returns a cached pixmap for a frame of this clip */
     QImage findCachedThumb(int pos);
     void slotQueryIntraThumbs(const QList<int> &frames);
-    /** @brief Returns true if this producer has audio and can be splitted on timeline*/
+    /** @brief Returns true if this producer has audio and can be split on timeline*/
     bool isSplittable() const;
 
 public slots:

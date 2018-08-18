@@ -59,7 +59,7 @@ public slots:
     /** @brief Toggle the comments on or off
      */
     virtual void slotShowComment(bool){
-        qDebug()<<"DEBUG: show_comment not correctly overriden";
+        qDebug()<<"DEBUG: show_comment not correctly overridden";
     }
 
 };

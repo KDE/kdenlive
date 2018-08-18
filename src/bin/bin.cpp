@@ -63,7 +63,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QTimeLine>
 #include <QSlider>
 #include <QMenu>
-#include "kdenlive_debug.h"
 #include <QtConcurrent>
 #include <QUndoCommand>
 #include <QCryptographicHash>
@@ -2827,7 +2826,7 @@ void Bin::slotItemDropped(const QList<QUrl> &urls, const QModelIndex &parent)
 {
     QStringList folderInfo;
     if (parent.isValid()) {
-        // Check if drop occured on a folder
+        // Check if drop occurred on a folder
         AbstractProjectItem *parentItem = static_cast<AbstractProjectItem *>(parent.internalPointer());
         while (parentItem->itemType() != AbstractProjectItem::FolderItem) {
             parentItem = parentItem->parent();
@@ -2955,7 +2954,7 @@ void Bin::slotExpandUrl(const ItemInfo &info, const QString &url, QUndoCommand *
             }
         }
 
-        // First occurence of a producer, so allocate new bin clip producer ID.
+        // First occurrence of a producer, so allocate new bin clip producer ID.
         QString newId = QString::number(getFreeClipId());
         idMap.insert(originalId, newId);
         qCDebug(KDENLIVE_LOG) << "originalId: " << originalId << ", newId: " << newId;

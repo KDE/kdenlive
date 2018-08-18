@@ -51,7 +51,6 @@
 #include <QStandardPaths>
 #include <QMimeDatabase>
 #include <QDir>
-#include <QTreeWidgetItem>
 #include <QJsonObject>
 #include <QJsonArray>
 

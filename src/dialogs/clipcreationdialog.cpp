@@ -44,7 +44,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QUndoCommand>
 #include <QStandardPaths>
 #include <QPushButton>
-#include "kdenlive_debug.h"
 #include <QDialog>
 #include <QPointer>
 #include <QMimeDatabase>
