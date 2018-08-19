@@ -16,6 +16,7 @@
   <name xml:lang="en-GB">Kdenlive</name>
   <name xml:lang="es">Kdenlive</name>
   <name xml:lang="et">Kdenlive</name>
+  <name xml:lang="eu">Kdenlive</name>
   <name xml:lang="fi">Kdenlive</name>
   <name xml:lang="fr">Kdenlive</name>
   <name xml:lang="gl">Kdenlive</name>
@@ -46,6 +47,7 @@
   <summary xml:lang="en-GB">Video Editor</summary>
   <summary xml:lang="es">Editor de video</summary>
   <summary xml:lang="et">Videoredaktor</summary>
+  <summary xml:lang="eu">Bideo editorea</summary>
   <summary xml:lang="fi">Videoeditori</summary>
   <summary xml:lang="fr">Éditeur vidéo</summary>
   <summary xml:lang="gl">Editor de vídeo</summary>
@@ -76,6 +78,7 @@
     <p xml:lang="en-GB">Kdenlive is a non linear video editor. It is based on the MLT framework and accepts many audio and video formats, allows you to add effects, transitions and render into the format of your choice.</p>
     <p xml:lang="es">Kdenlive es un editor no lineal de video. Está basado en la infraestructura MLT y acepta numerosos formatos de audio y video, permitiendo agregar efectos, transiciones y procesar el video final en el formato deseado.</p>
     <p xml:lang="et">Kdenline on mittelineaarne videoredaktor. See tugineb MLT raamistikule ja võimaldab tarvitada paljusid heli- ja videovorminguid, lisada efekte ja üleminekuid ning renderdada tulemuse vajalikku vormingusse.</p>
+    <p xml:lang="eu">Kdenlive bideo editore ez-linear bat da. MLT azpiegituran oinarritua dago eta audio eta bideo formatu asko onartzen ditu, efektuak gehitzeko aukera eskaintzen dizu, trantsizioak eta zuk nahi duzun formatuan errendatzea.</p>
     <p xml:lang="fi">Kdenlive on epälineaarinen videoeditori. Se perustuu MLT-frameworkiin ja toimii monen eri ääni- ja videoformaatin kanssa. Voit lisätä efektejä ja siirtymiä, sekä renderöidä projektin haluamaasi tiedostomuotoon.</p>
     <p xml:lang="fr">Kdenlive est un éditeur vidéo non-linéaire. Il utilise le moteur MLT et accèpte de nombreux formats audio et vidéos, permet d'ajouter des effets et transitions, et exporte le rendu dans le format de votre choix.</p>
     <p xml:lang="gl">Kdenlive é un editor de vídeo non lineal. Está baseado na infraestrutura MLT e permite moitos formatos de son e vídeo, e permite engadir efectos, engadir transicións, e exportar en calquera formato.</p>
@@ -106,6 +109,7 @@
     <p xml:lang="en-GB">Features:</p>
     <p xml:lang="es">Características:</p>
     <p xml:lang="et">Omadused:</p>
+    <p xml:lang="eu">Eginbideak:</p>
     <p xml:lang="fi">Ominaisuuksia:</p>
     <p xml:lang="fr">Fonctionnalités :</p>
     <p xml:lang="gl">Funcionalidades:</p>
@@ -136,6 +140,7 @@
       <li xml:lang="en-GB">Intuitive multitrack interface.</li>
       <li xml:lang="es">Interfaz multipista intuitiva.</li>
       <li xml:lang="et">Hõlpsasti mõistetav mitme paneeliga liides</li>
+      <li xml:lang="eu">Intuiziozko aztarna-anitzeko interfazea.</li>
       <li xml:lang="fi">Selkeä moniraitainen käyttöliittymä</li>
       <li xml:lang="fr">Interface multipiste intuitive.</li>
       <li xml:lang="gl">Interface intuitiva con varias pistas.</li>
@@ -165,6 +170,7 @@
       <li xml:lang="en-GB">Many effects and transitions.</li>
       <li xml:lang="es">Muchos efectos y transiciones.</li>
       <li xml:lang="et">Palju efekte ja üleminekuid</li>
+      <li xml:lang="eu">Efektu eta trantsizio ugari.</li>
       <li xml:lang="fi">Monia erilaisia efektejä ja siirtymiä</li>
       <li xml:lang="fr">Nombreux effets et transitions.</li>
       <li xml:lang="gl">Moitos efectos e transicións.</li>
@@ -194,6 +200,7 @@
       <li xml:lang="en-GB">Colour scopes</li>
       <li xml:lang="es">Indicadores de color</li>
       <li xml:lang="et">Värviskoobid</li>
+      <li xml:lang="eu">Kolore esparruak</li>
       <li xml:lang="fi">Väriavaruuksien säätömahdollisuus</li>
       <li xml:lang="fr">Graphes des couleurs</li>
       <li xml:lang="gl">Ámbitos de cores.</li>
@@ -223,6 +230,7 @@
       <li xml:lang="en-GB">Basic DVD Wizard</li>
       <li xml:lang="es">Asistente básico de DVD</li>
       <li xml:lang="et">Lihtne DVD nõustaja</li>
+      <li xml:lang="eu">Oinarrizko DVD morroia</li>
       <li xml:lang="fi">Yksinkertainen DVD:n luonti</li>
       <li xml:lang="fr">Assistant DVD de base</li>
       <li xml:lang="gl">Asistente básico para DVD</li>
