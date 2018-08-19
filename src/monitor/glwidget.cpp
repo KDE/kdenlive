@@ -124,6 +124,9 @@ GLWidget::GLWidget(int id, QObject *parent)
     setClearBeforeRendering(false);
     setResizeMode(QQuickView::SizeRootObjectToView);
 
+    m_offscreenSurface.setFormat(QWindow::format());
+    m_offscreenSurface.create();
+
     m_monitorProfile = new Mlt::Profile();
     m_refreshTimer.setSingleShot(true);
     m_refreshTimer.setInterval(50);
@@ -186,11 +189,7 @@ void GLWidget::updateAudioForAnalysis()
 void GLWidget::initializeGL()
 {
     if (m_isInitialized || !isVisible() || (openglContext() == nullptr)) return;
-    if (!m_offscreenSurface.isValid()) {
-        m_offscreenSurface.setFormat(openglContext()->format());
-        m_offscreenSurface.create();
-        openglContext()->makeCurrent(this);
-    }
+    openglContext()->makeCurrent(&m_offscreenSurface);
     initializeOpenGLFunctions();
     qCDebug(KDENLIVE_LOG) << "OpenGL vendor: " << QString::fromUtf8((const char *)glGetString(GL_VENDOR));
     qCDebug(KDENLIVE_LOG) << "OpenGL renderer: " << QString::fromUtf8((const char *)glGetString(GL_RENDERER));
