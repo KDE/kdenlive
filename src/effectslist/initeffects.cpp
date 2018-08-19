@@ -216,7 +216,7 @@ bool initEffects::parseEffectFiles(std::unique_ptr<Mlt::Repository> &repository,
     // Parse xml transition files
     QStringList direc = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("transitions"), QStandardPaths::LocateDirectory);
     // Iterate through effects directories to parse all XML files.
-    for (more = direc.begin(); more != direc.end(); ++more) {
+    for (more = direc.end(); more > direc.begin();) { --more; // reverse order to prioritize local install
         QDir directory(*more);
         QStringList filter;
         filter << QStringLiteral("*.xml");
@@ -330,7 +330,8 @@ bool initEffects::parseEffectFiles(std::unique_ptr<Mlt::Repository> &repository,
     // Set the directories to look into for effects.
     direc = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("effects"), QStandardPaths::LocateDirectory);
     // Iterate through effects directories to parse all XML files.
-    for (more = direc.begin(); more != direc.end(); ++more) {
+    for (more = direc.end(); more > direc.begin(); ) { --more; // reverse order to prioritize local install
+        qDebug() << "Loading effects from " << *more;
         QDir directory(*more);
         QStringList filter;
         filter << QStringLiteral("*.xml");
