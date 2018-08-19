@@ -230,8 +230,9 @@ double EffectsController::getStringEval(const ProfileInfo &info, QString eval, c
         .replace(QLatin1String("%maxHeight"), QString::number(info.profileSize.height() > frameSize.y() ? info.profileSize.height() : frameSize.y()))
         .replace(QLatin1String("%width"),     QString::number(info.profileSize.width()))
         .replace(QLatin1String("%height"),    QString::number(info.profileSize.height()));
+    // Use MLT basic arithmetic parser
     Mlt::Properties p;
-    p.set("eval", eval.toLatin1().constData());
+    p.set("eval", eval.prepend(QLatin1Char('@')).toLatin1().constData());
     return p.get_double("eval");
 }
 
