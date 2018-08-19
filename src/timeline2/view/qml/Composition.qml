@@ -230,7 +230,21 @@ Item {
                 compositionRoot.dropped(compositionRoot)
             }
         }
-        onDoubleClicked: timeline.position = compositionRoot.x / timeline.scaleFactor
+        onDoubleClicked: {
+            drag.target = undefined
+            if (mouse.modifiers & Qt.ShiftModifier) {
+                if (keyframeModel && showKeyframes) {
+                    // Add new keyframe
+                    var xPos = Math.round(mouse.x  / timeline.scaleFactor)
+                    var yPos = (compositionRoot.height - mouse.y) / compositionRoot.height
+                    keyframeModel.addKeyframe(xPos + compositionRoot.inPoint, yPos)
+                } else {
+                    timeline.position = compositionRoot.x / timeline.scaleFactor
+                }
+            } else {
+                timeline.editItemDuration(clipId)
+            }
+        }
         onWheel: zoomByWheel(wheel)
 
         MouseArea {
@@ -245,10 +259,10 @@ Item {
                     compositionRoot.clicked(compositionRoot, false)
                 }
                 if (mouse.button == Qt.RightButton) {
-                    compositionMenu.clipId = compositionRoot.clipId
-                    compositionMenu.grouped = compositionRoot.grouped
-                    compositionMenu.trackId = compositionRoot.trackId
-                    compositionMenu.popup()
+                    compositionMenu.item.clipId = compositionRoot.clipId
+                    compositionMenu.item.grouped = compositionRoot.grouped
+                    compositionMenu.item.trackId = compositionRoot.trackId
+                    compositionMenu.item.popup()
                 }
             }
         }

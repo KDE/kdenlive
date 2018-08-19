@@ -1617,17 +1617,24 @@ void TimelineController::editItemDuration(int id)
     int in = 0;
     int duration = m_model->getItemPlaytime(id);
     int maxLength = -1;
+    bool isComposition = false;
     if (m_model->isClip(id)) {
         in = m_model->getClipIn(id);
         std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(getClipBinId(id));
         if (clip && clip->hasLimitedDuration()) {
             maxLength = clip->getProducerDuration();
         }
+    } else if (m_model->isComposition(id)) {
+        // nothing to do
+        isComposition = true;
+    } else {
+        pCore->displayMessage(i18n("No item to edit"), InformationMessage, 500);
+        return;
     }
     int trackId = m_model->getItemTrackId(id);
-    int maxFrame = start + duration + m_model->getTrackById(trackId)->getBlankSizeNearClip(id, true);
-    int minFrame = in - m_model->getTrackById(trackId)->getBlankSizeNearClip(id, false);
-    int partner = m_model->getClipSplitPartner(id);
+    int maxFrame = qMax(0, start + duration + (isComposition ? m_model->getTrackById(trackId)->getBlankSizeNearComposition(id, true) : m_model->getTrackById(trackId)->getBlankSizeNearClip(id, true)));
+    int minFrame = qMax(0, in - (isComposition ? m_model->getTrackById(trackId)->getBlankSizeNearComposition(id, false) : m_model->getTrackById(trackId)->getBlankSizeNearClip(id, false)));
+    int partner = isComposition ? -1 : m_model->getClipSplitPartner(id);
     QPointer<ClipDurationDialog> dialog =
         new ClipDurationDialog(id, pCore->currentDoc()->timecode(), start, minFrame, in, in + duration, maxLength, maxFrame, qApp->activeWindow());
     if (dialog->exec() == QDialog::Accepted) {
@@ -1638,7 +1645,7 @@ void TimelineController::editItemDuration(int id)
         int newDuration = dialog->duration().frames(pCore->getCurrentFps());
         bool result = true;
         if (newPos < start) {
-            if (m_model->isClip(id)) {
+            if (!isComposition) {
                 result = m_model->requestClipMove(id, trackId, newPos, true, true, undo, redo);
                 if (result && partner > -1) {
                     result = m_model->requestClipMove(partner, m_model->getItemTrackId(partner), newPos, true, true, undo, redo);
@@ -1673,7 +1680,7 @@ void TimelineController::editItemDuration(int id)
                 }
             }
             if (start != newPos || newIn != in) {
-                if (m_model->isClip(id)) {
+                if (!isComposition) {
                     result = result && m_model->requestClipMove(id, trackId, newPos, true, true, undo, redo);
                     if (result && partner > -1) {
                         result = m_model->requestClipMove(partner, m_model->getItemTrackId(partner), newPos, true, true, undo, redo);

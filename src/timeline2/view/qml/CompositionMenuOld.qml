@@ -1,5 +1,5 @@
 import QtQuick 2.6
-import QtQuick.Controls 2.2
+import QtQuick.Controls 1.4
 
 Menu {
         id: compositionMenu
@@ -25,7 +25,7 @@ Menu {
         MenuItem {
             text: i18n('Edit Duration')
             onTriggered: {
-                compositionMenu.close()
+                //compositionMenu.close()
                 timeline.editItemDuration(clipId)
             }
         }
