@@ -104,6 +104,7 @@ signals:
     void doActivateEffect(QModelIndex);
     void seekToPos(int);
     void reloadEffect(const QString &path);
+    void updateEnabledState();
 };
 
 #endif

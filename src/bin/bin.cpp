@@ -2901,7 +2901,7 @@ void Bin::setBinEffectsEnabled(bool enabled)
             return;
         }
         disableEffects->blockSignals(true);
-        disableEffects->setChecked(enabled);
+        disableEffects->setChecked(!enabled);
         disableEffects->blockSignals(false);
     }
     m_itemModel->setBinEffectsEnabled(enabled);

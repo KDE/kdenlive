@@ -161,6 +161,7 @@ signals:
     /** @brief: This signal is connected to the project clip for bin clips and activates the reload of effects on child (timeline) producers
      */
     void modelChanged();
+    void enabledStateChanged();
 };
 
 #endif

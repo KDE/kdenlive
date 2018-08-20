@@ -173,6 +173,7 @@ void EffectStackView::setModel(std::shared_ptr<EffectStackModel> model, const QS
     qDebug() << "MUTEX UNLOCK!!!!!!!!!!!! setmodel";
     loadEffects();
     connect(m_model.get(), &EffectStackModel::dataChanged, this, &EffectStackView::refresh);
+    connect(m_model.get(), &EffectStackModel::enabledStateChanged, this, &EffectStackView::updateEnabledState);
     // m_builtStack->setModel(model, stackOwner());
 }
 

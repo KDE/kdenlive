@@ -527,6 +527,7 @@ void EffectStackModel::setEffectStackEnabled(bool enabled)
     for (int i = 0; i < rootItem->childCount(); ++i) {
         std::static_pointer_cast<AbstractEffectItem>(rootItem->child(i))->setEffectStackEnabled(enabled);
     }
+    emit enabledStateChanged();
 }
 
 std::shared_ptr<AbstractEffectItem> EffectStackModel::getEffectStackRow(int row, std::shared_ptr<TreeItem> parentItem)

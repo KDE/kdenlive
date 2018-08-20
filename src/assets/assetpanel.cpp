@@ -118,6 +118,9 @@ AssetPanel::AssetPanel(QWidget *parent)
     connect(m_effectStackWidget, &EffectStackView::seekToPos, this, &AssetPanel::seekToPos);
     connect(m_effectStackWidget, &EffectStackView::reloadEffect, this, &AssetPanel::reloadEffect);
     connect(m_transitionWidget, &TransitionStackView::seekToTransPos, this, &AssetPanel::seekToPos);
+    connect(m_effectStackWidget, &EffectStackView::updateEnabledState, [this]() {
+        m_enableStackButton->setActive(m_effectStackWidget->isStackEnabled());
+    });
 }
 
 void AssetPanel::showTransition(int tid, std::shared_ptr<AssetParameterModel> transitionModel)
