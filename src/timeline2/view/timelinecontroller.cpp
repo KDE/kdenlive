@@ -1646,7 +1646,7 @@ void TimelineController::editItemDuration(int id)
         bool result = true;
         if (newPos < start) {
             if (!isComposition) {
-                result = m_model->requestClipMove(id, trackId, newPos, true, true, undo, redo);
+                result = m_model->requestClipMove(id, trackId, newPos, true, true, undo, redo, list);
                 if (result && partner > -1) {
                     result = m_model->requestClipMove(partner, m_model->getItemTrackId(partner), newPos, true, true, undo, redo, list);
                 }
