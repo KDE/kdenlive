@@ -184,7 +184,7 @@ private:
     SharedFrame m_sharedFrame;
     QMutex m_mutex;
     QPoint m_offset;
-    QOffscreenSurface *m_offscreenSurface;
+    QOffscreenSurface m_offscreenSurface;
     QOpenGLContext *m_shareContext;
     bool m_audioWaveDisplayed;
     static void on_frame_show(mlt_consumer, void *self, mlt_frame frame);

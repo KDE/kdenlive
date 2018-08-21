@@ -719,6 +719,7 @@ void AnimationWidget::slotSetDefaultInterp(QAction *action)
 void AnimationWidget::addParameter(const QDomElement &e)
 {
     // Anim properties might at some point require some more infos like profile
+    const QString paramType = e.attribute(QStringLiteral("type"));
     QString keyframes;
     if (e.hasAttribute(QStringLiteral("value"))) {
         keyframes = e.attribute(QStringLiteral("value"));
@@ -726,14 +727,17 @@ void AnimationWidget::addParameter(const QDomElement &e)
     if (keyframes.isEmpty()) {
         keyframes = getDefaultKeyframes(m_inPoint, e.attribute(QStringLiteral("default")));
         if (keyframes.contains(QLatin1Char('%'))) {
-            keyframes = EffectsController::getStringRectEval(m_monitor->profileInfo(), keyframes);
+            if (paramType == QLatin1String("animated")) {
+                keyframes = EffectsController::getStringEval(m_monitor->profileInfo(), keyframes);
+            } else if (paramType == QLatin1String("animatedrect")) {
+                keyframes = EffectsController::getStringRectEval(m_monitor->profileInfo(), keyframes);
+            }
         }
     }
     QString paramTag = e.attribute(QStringLiteral("name"));
     m_animProperties.set(paramTag.toUtf8().constData(), keyframes.toUtf8().constData());
     m_attachedToEnd = KeyframeView::checkNegatives(keyframes, m_outPoint);
     m_params.append(e.cloneNode().toElement());
-    const QString paramType = e.attribute(QStringLiteral("type"));
     if (paramType == QLatin1String("animated")) {
         // one dimension parameter
         // Required to initialize anim property
@@ -763,10 +767,13 @@ void AnimationWidget::buildSliderWidget(const QString &paramTag, const QDomEleme
 
     int index = m_params.count() - 1;
 
-    double factor = e.hasAttribute(QStringLiteral("factor")) ? locale.toDouble(e.attribute(QStringLiteral("factor"))) : 1;
+    double factor = e.hasAttribute(QStringLiteral("factor")) ?
+            EffectsController::getStringEval(m_monitor->profileInfo(), e.attribute(QStringLiteral("factor"))) : 1;
     DoubleParameterWidget *doubleparam = new DoubleParameterWidget(paramName, 0,
-            e.attribute(QStringLiteral("min")).toDouble(), e.attribute(QStringLiteral("max")).toDouble(),
-            e.attribute(QStringLiteral("default")).toDouble() * factor, comment, index, e.attribute(QStringLiteral("suffix")), e.attribute(QStringLiteral("decimals")).toInt(), true, this);
+            EffectsController::getStringEval(m_monitor->profileInfo(), e.attribute(QStringLiteral("min"))),
+            EffectsController::getStringEval(m_monitor->profileInfo(), e.attribute(QStringLiteral("max"))),
+            EffectsController::getStringEval(m_monitor->profileInfo(), e.attribute(QStringLiteral("default"))) * factor,
+            comment, index, e.attribute(QStringLiteral("suffix")), e.attribute(QStringLiteral("decimals")).toInt(), true, this);
     doubleparam->setObjectName(paramTag);
     doubleparam->factor = factor;
     connect(doubleparam, &DoubleParameterWidget::valueChanged, this, &AnimationWidget::slotAdjustKeyframeValue);

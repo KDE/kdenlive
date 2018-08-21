@@ -1146,7 +1146,7 @@ void MainWindow::setupActions()
     m_zoomOut->setShortcut(Qt::CTRL + Qt::Key_Minus);
 
     m_zoomSlider = new QSlider(Qt::Horizontal, this);
-    m_zoomSlider->setMaximum(13);
+    m_zoomSlider->setMaximum(14);
     m_zoomSlider->setPageStep(1);
     m_zoomSlider->setInvertedAppearance(true);
     m_zoomSlider->setInvertedControls(true);
@@ -2783,7 +2783,7 @@ void MainWindow::slotShowZoomSliderToolTip(int zoomlevel)
 
 void MainWindow::slotUpdateZoomSliderToolTip(int zoomlevel)
 {
-    m_zoomSlider->setToolTip(i18n("Zoom Level: %1/13", (13 - zoomlevel)));
+    m_zoomSlider->setToolTip(i18n("Zoom Level: %1/14", (14 - zoomlevel)));
 }
 
 void MainWindow::slotGotProgressInfo(const QString &message, int progress, MessageType type)
