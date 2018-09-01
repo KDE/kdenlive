@@ -281,6 +281,13 @@ void ProjectClip::reloadProducer(bool refreshOnly)
     if (refreshOnly) {
         // set a special flag to request thumbnail only
         xml.setAttribute(QStringLiteral("refreshOnly"), QStringLiteral("1"));
+    } else {
+        bin()->discardJobs(m_id, AbstractClipJob::PROXYJOB);
+        if (hasProxy()) {
+            // If we have a proxy, delete it
+            xml.setAttribute(QStringLiteral("overwriteproxy"), QStringLiteral("1"));
+            setProducerProperty(QStringLiteral("_overwriteproxy"), QStringLiteral("1"));
+        }
     }
     bin()->reloadProducer(m_id, xml);
 }
@@ -629,7 +636,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         bin()->emitItemUpdated(this);
         refreshPanel = true;
     }
-    timelineProperties << QStringLiteral("force_aspect_ratio") << QStringLiteral("video_index") << QStringLiteral("audio_index") << QStringLiteral("set.force_full_luma") << QStringLiteral("full_luma") << QStringLiteral("threads") << QStringLiteral("force_colorspace") << QStringLiteral("force_tff") << QStringLiteral("force_progressive") << QStringLiteral("force_fps");
+    timelineProperties << QStringLiteral("force_aspect_ratio") << QStringLiteral("video_index") << QStringLiteral("audio_index") << QStringLiteral("set.force_full_luma") << QStringLiteral("full_luma") << QStringLiteral("threads") << QStringLiteral("force_colorspace") << QStringLiteral("force_tff") << QStringLiteral("force_progressive") << QStringLiteral("force_fps") << QStringLiteral("autorotate");
     QStringList keys;
     keys << QStringLiteral("luma_duration") << QStringLiteral("luma_file") << QStringLiteral("fade") << QStringLiteral("ttl") << QStringLiteral("softness") << QStringLiteral("crop") << QStringLiteral("animation");
     while (i.hasNext()) {
@@ -663,10 +670,9 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         }
     } else if (properties.contains(QStringLiteral("resource")) || properties.contains(QStringLiteral("templatetext")) || properties.contains(QStringLiteral("autorotate"))) {
         // Clip resource changed, update thumbnail
+        reload = true;
         if (m_type != Color) {
-            reloadProducer();
-        } else {
-            reload = true;
+            refreshOnly = false;
         }
     }
     if (properties.contains(QStringLiteral("xmldata")) || !passProperties.isEmpty()) {

@@ -173,6 +173,8 @@ void ProxyJob::startJob()
             return;
         }
         QStringList parameters;
+        // Make sure we don't block when proxy file already exists
+        parameters << QStringLiteral("-y");
         if (m_proxyParams.contains(QStringLiteral("-noautorotate"))) {
             // The noautorotate flag must be passed before input source
             parameters << QStringLiteral("-noautorotate");
@@ -192,9 +194,6 @@ void ProxyJob::startJob()
                 }
             }
         }
-
-        // Make sure we don't block when proxy file already exists
-        parameters << QStringLiteral("-y");
         parameters << m_dest;
         m_jobProcess = new QProcess;
         m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
@@ -330,6 +329,10 @@ QHash<ProjectClip *, AbstractClipJob *> ProxyJob::prepareJob(Bin *bin, const QLi
     for (int i = 0; i < clips.count(); i++) {
         ProjectClip *item = clips.at(i);
         QString id = item->clipId();
+        QString local_params = params;
+        if (item->getProducerProperty(QStringLiteral("autorotate")) == QStringLiteral("0")) {
+            local_params.append(QStringLiteral(" -noautorotate"));
+        }
         QString path = item->getProducerProperty(QStringLiteral("kdenlive:proxy"));
         if (path.isEmpty()) {
             item->setJobStatus(AbstractClipJob::PROXYJOB, JobCrashed, -1, i18n("Failed to create proxy, empty path."));
@@ -337,12 +340,13 @@ QHash<ProjectClip *, AbstractClipJob *> ProxyJob::prepareJob(Bin *bin, const QLi
         }
         // Reset proxy path until it is really created
         item->setProducerProperty(QStringLiteral("kdenlive:proxy"), QString());
-        if (QFileInfo(path).size() > 0) {
+        if (item->getProducerIntProperty(QStringLiteral("_overwriteproxy")) == 0 && QFileInfo(path).size() > 0) {
             // Proxy already created
             item->setJobStatus(AbstractClipJob::PROXYJOB, JobDone);
             bin->gotProxy(id, path);
             continue;
         }
+        item->setProducerProperty(QStringLiteral("_overwriteproxy"), QString());
         QString sourcePath = item->url();
         if (item->clipType() == Playlist) {
             // Special case: playlists use the special 'consumer' producer to support resizing
@@ -365,7 +369,7 @@ QHash<ProjectClip *, AbstractClipJob *> ProxyJob::prepareJob(Bin *bin, const QLi
             }
         }
         qCDebug(KDENLIVE_LOG)<<" * *PROXY PATH: "<<path<<", "<<sourcePath;
-        parameters << path << sourcePath << item->getProducerProperty(QStringLiteral("_exif_orientation")) << params << QString::number(renderSize.width()) << QString::number(renderSize.height());
+        parameters << path << sourcePath << item->getProducerProperty(QStringLiteral("_exif_orientation")) << local_params << QString::number(renderSize.width()) << QString::number(renderSize.height());
         ProxyJob *job = new ProxyJob(item->clipType(), id, parameters, playlist);
         jobs.insert(item, job);
     }
