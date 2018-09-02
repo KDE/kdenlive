@@ -214,8 +214,10 @@ public:
     /** @brief Start a job of selected type for a clip  */
     void startJob(const QString &id, AbstractClipJob::JOBTYPE type);
 
-    /** @brief Discard jobs from a chosen type, use NOJOBTYPE to discard all jobs for this clip */
-    void discardJobs(const QString &id, AbstractClipJob::JOBTYPE type = AbstractClipJob::NOJOBTYPE);
+    /** @brief Discard jobs from a chosen type, use NOJOBTYPE to discard all jobs for this clip 
+     *  @returns true if a job was found and discarded
+     */
+    bool discardJobs(const QString &id, AbstractClipJob::JOBTYPE type = AbstractClipJob::NOJOBTYPE);
 
     /** @brief Check if there is a job waiting / running for this clip  */
     bool hasPendingJob(const QString &id, AbstractClipJob::JOBTYPE type);

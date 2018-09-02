@@ -282,8 +282,17 @@ void ProjectClip::reloadProducer(bool refreshOnly)
         // set a special flag to request thumbnail only
         xml.setAttribute(QStringLiteral("refreshOnly"), QStringLiteral("1"));
     } else {
-        bin()->discardJobs(m_id, AbstractClipJob::PROXYJOB);
-        if (hasProxy()) {
+        if (bin()->discardJobs(m_id, AbstractClipJob::PROXYJOB)) {
+            // A proxy job was running, reset proxy property to trigger proxy creation
+            QString path = getProducerProperty(QStringLiteral("_proxy"));
+            if (!path.isEmpty()) {
+                EffectsList::setProperty(xml, QStringLiteral("kdenlive:proxy"), path.toUtf8().constData());
+            }
+            // If we have a proxy, delete it
+            xml.setAttribute(QStringLiteral("overwriteproxy"), QStringLiteral("1"));
+            setProducerProperty(QStringLiteral("_overwriteproxy"), QStringLiteral("1"));
+        }
+        else if (hasProxy()) {
             // If we have a proxy, delete it
             xml.setAttribute(QStringLiteral("overwriteproxy"), QStringLiteral("1"));
             setProducerProperty(QStringLiteral("_overwriteproxy"), QStringLiteral("1"));

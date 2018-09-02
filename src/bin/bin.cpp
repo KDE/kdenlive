@@ -2504,9 +2504,9 @@ void Bin::refreshClipMarkers(const QString &id)
     }
 }
 
-void Bin::discardJobs(const QString &id, AbstractClipJob::JOBTYPE type)
+bool Bin::discardJobs(const QString &id, AbstractClipJob::JOBTYPE type)
 {
-    m_jobManager->discardJobs(id, type);
+    return m_jobManager->discardJobs(id, type);
 }
 
 void Bin::slotStartCutJob(const QString &id)

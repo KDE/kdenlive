@@ -194,6 +194,8 @@ void ProducerQueue::processFileProperties()
                 if (QFileInfo(path).size() <= 0 || info.xml.hasAttribute(QStringLiteral("overwriteproxy"))) {
                     // proxy is missing, re-create it
                     emit requestProxy(info.clipId);
+                    m_processingClipId.removeAll(info.clipId);
+                    continue;
                     proxyProducer = false;
                     //path = info.xml.attribute("resource");
                     path = ProjectClip::getXmlProperty(info.xml, QStringLiteral("resource"));

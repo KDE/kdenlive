@@ -81,7 +81,7 @@ QStringList JobManager::getPendingJobs(const QString &id)
     return result;
 }
 
-void JobManager::discardJobs(const QString &id, AbstractClipJob::JOBTYPE type)
+bool JobManager::discardJobs(const QString &id, AbstractClipJob::JOBTYPE type)
 {
     QMutexLocker lock(&m_jobMutex);
     bool jobFound = false;
@@ -96,6 +96,7 @@ void JobManager::discardJobs(const QString &id, AbstractClipJob::JOBTYPE type)
         emit updateJobStatus(id, type, JobAborted);
         updateJobCount();
     }
+    return jobFound;
 }
 
 bool JobManager::hasPendingJob(const QString &clipId, AbstractClipJob::JOBTYPE type)

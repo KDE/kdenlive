@@ -50,8 +50,9 @@ public:
     /** @brief Discard specific job type for a clip.
      *  @param id the clip id
      *  @param type The type of job that you want to abort, leave to NOJOBTYPE to abort all jobs
+     *  @returns true if a job was found and discarded
      */
-    void discardJobs(const QString &id, AbstractClipJob::JOBTYPE type = AbstractClipJob::NOJOBTYPE);
+    bool discardJobs(const QString &id, AbstractClipJob::JOBTYPE type = AbstractClipJob::NOJOBTYPE);
 
     /** @brief Check if there is a pending / running job a clip.
      *  @param id the clip id

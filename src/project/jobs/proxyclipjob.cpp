@@ -334,11 +334,13 @@ QHash<ProjectClip *, AbstractClipJob *> ProxyJob::prepareJob(Bin *bin, const QLi
             local_params.append(QStringLiteral(" -noautorotate"));
         }
         QString path = item->getProducerProperty(QStringLiteral("kdenlive:proxy"));
-        if (path.isEmpty()) {
+        if (path.isEmpty() || path.length() < 3) path = item->getProducerProperty(QStringLiteral("_proxy"));
+        if (path.isEmpty() || path.length() < 3) {
             item->setJobStatus(AbstractClipJob::PROXYJOB, JobCrashed, -1, i18n("Failed to create proxy, empty path."));
             continue;
         }
         // Reset proxy path until it is really created
+        item->setProducerProperty(QStringLiteral("_proxy"), path.toUtf8().constData());
         item->setProducerProperty(QStringLiteral("kdenlive:proxy"), QString());
         if (item->getProducerIntProperty(QStringLiteral("_overwriteproxy")) == 0 && QFileInfo(path).size() > 0) {
             // Proxy already created
