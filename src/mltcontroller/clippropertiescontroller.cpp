@@ -61,6 +61,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QToolBar>
 #include <QUrl>
 #include <QVBoxLayout>
+#include <QScrollArea>
 
 AnalysisTree::AnalysisTree(QWidget *parent)
     : QTreeWidget(parent)
@@ -529,8 +530,14 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         hlay->addWidget(box);
         vbox->addLayout(hlay);
     }
-    m_forcePage->setLayout(vbox);
+    QScrollArea *scroll = new QScrollArea;
+    QWidget *forceProp = new QWidget(this);
+    forceProp->setLayout(vbox);
+    scroll->setWidget(forceProp);
     vbox->addStretch(10);
+    QVBoxLayout *l2 = new QVBoxLayout;
+    l2->addWidget(scroll);
+    m_forcePage->setLayout(l2);
     m_tabWidget->addTab(m_propertiesPage, QString());
     m_tabWidget->addTab(m_forcePage, QString());
     m_tabWidget->addTab(m_markersPage, QString());
