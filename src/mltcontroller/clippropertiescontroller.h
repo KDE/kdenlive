@@ -99,7 +99,6 @@ private:
     QMap<QString, QString> m_originalProperties;
     QMap<QString, QString> m_clipProperties;
     QTreeWidget *m_propertiesTree;
-    QWidget *m_forcePage;
     QWidget *m_propertiesPage;
     QWidget *m_markersPage;
     QWidget *m_metaPage;

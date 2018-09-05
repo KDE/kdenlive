@@ -175,7 +175,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
     setLayout(lay);
     m_tabWidget->setDocumentMode(true);
     m_tabWidget->setTabPosition(QTabWidget::East);
-    m_forcePage = new QWidget(this);
+    QScrollArea *forcePage = new QScrollArea(this);
     m_propertiesPage = new QWidget(this);
     m_markersPage = new QWidget(this);
     m_metaPage = new QWidget(this);
@@ -530,16 +530,12 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         hlay->addWidget(box);
         vbox->addLayout(hlay);
     }
-    QScrollArea *scroll = new QScrollArea;
     QWidget *forceProp = new QWidget(this);
     forceProp->setLayout(vbox);
-    scroll->setWidget(forceProp);
+    forcePage->setWidget(forceProp);
     vbox->addStretch(10);
-    QVBoxLayout *l2 = new QVBoxLayout;
-    l2->addWidget(scroll);
-    m_forcePage->setLayout(l2);
     m_tabWidget->addTab(m_propertiesPage, QString());
-    m_tabWidget->addTab(m_forcePage, QString());
+    m_tabWidget->addTab(forcePage, QString());
     m_tabWidget->addTab(m_markersPage, QString());
     m_tabWidget->addTab(m_metaPage, QString());
     m_tabWidget->addTab(m_analysisPage, QString());
