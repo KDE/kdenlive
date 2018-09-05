@@ -299,7 +299,10 @@ void ProjectClip::reloadProducer(bool refreshOnly)
         pCore->jobManager()->startJob<ThumbJob>({clipId()}, loadjobId, QString(), 150, -1, true, true);
 
     } else {
-        // TODO: check if another load job is running?
+        // If another load job is running?
+        if (loadjobId > -1) {
+            pCore->jobManager()->discardJobs(clipId(), AbstractClipJob::LOADJOB);
+        }
         QDomDocument doc;
         QDomElement xml = toXml(doc);
         if (!xml.isNull()) {
@@ -816,7 +819,8 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         if (value.isEmpty() || value == QLatin1String("-")) {
             // reset proxy
             pCore->jobManager()->discardJobs(clipId(), AbstractClipJob::PROXYJOB);
-            reloadProducer();
+            reload = true;
+            refreshOnly = false;
         } else {
             // A proxy was requested, make sure to keep original url
             setProducerProperty(QStringLiteral("kdenlive:originalurl"), url());
@@ -826,7 +830,8 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
                properties.contains(QStringLiteral("autorotate"))) {
         // Clip resource changed, update thumbnail
         if (m_clipType != ClipType::Color) {
-            reloadProducer();
+            reload = true;
+            refreshOnly = false;
         } else {
             reload = true;
             updateRoles << TimelineModel::ResourceRole;
@@ -863,9 +868,17 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
     }
     if (reload) {
         // producer has changed, refresh monitor and thumbnail
-        reloadProducer(refreshOnly);
-        if (auto ptr = m_model.lock()) {
-            emit std::static_pointer_cast<ProjectItemModel>(ptr)->refreshClip(m_binId);
+        if (hasProxy()) {
+            pCore->jobManager()->discardJobs(clipId(), AbstractClipJob::PROXYJOB);
+            setProducerProperty(QStringLiteral("_overwriteproxy"), 1);
+            pCore->jobManager()->startJob<ProxyJob>({clipId()}, -1, QString());
+        } else {
+            reloadProducer(refreshOnly);
+        }
+        if (refreshOnly) {
+            if (auto ptr = m_model.lock()) {
+                emit std::static_pointer_cast<ProjectItemModel>(ptr)->refreshClip(m_binId);
+            }
         }
         if (!updateRoles.isEmpty()) {
             updateTimelineClips(updateRoles);

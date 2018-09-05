@@ -51,7 +51,7 @@ bool ProxyJob::startJob()
 {
     auto binClip = pCore->projectItemModel()->getClipByBinID(m_clipId);
     const QString dest = binClip->getProducerProperty(QStringLiteral("kdenlive:proxy"));
-    if (QFile::exists(dest) && QFileInfo(dest).size() > 0) {
+    if (binClip->getProducerIntProperty(QStringLiteral("_overwriteproxy")) == 0 && QFile::exists(dest) && QFileInfo(dest).size() > 0) {
         // Proxy clip already created
         m_done = true;
         return true;
@@ -208,7 +208,8 @@ bool ProxyJob::startJob()
             return false;
         }
         const QString proxyParams = pCore->currentDoc()->getDocumentProperty(QStringLiteral("proxyparams")).simplified();
-        if (proxyParams.contains(QStringLiteral("-noautorotate"))) {
+        bool disableAutorotate = binClip->getProducerProperty(QStringLiteral("autorotate")) == QLatin1String("0");
+        if (disableAutorotate || proxyParams.contains(QStringLiteral("-noautorotate"))) {
             // The noautorotate flag must be passed before input source
             parameters << QStringLiteral("-noautorotate");
         }
@@ -320,6 +321,7 @@ bool ProxyJob::commitResult(Fun &undo, Fun &redo, Updates &list)
     auto operation = [clipId = m_clipId]()
     {
         auto binClip = pCore->projectItemModel()->getClipByBinID(clipId);
+        binClip->setProducerProperty(QStringLiteral("_overwriteproxy"), QString());
         const QString dest = binClip->getProducerProperty(QStringLiteral("kdenlive:proxy"));
         binClip->setProducerProperty(QStringLiteral("resource"), dest);
         pCore->bin()->reloadClip(clipId);
