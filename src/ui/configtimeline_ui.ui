@@ -11,7 +11,14 @@
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="10" column="0">
+   <item row="3" column="0" colspan="2">
+    <widget class="QCheckBox" name="kcfg_autoscroll">
+     <property name="text">
+      <string>Autoscroll while playing</string>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="0">
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -28,6 +35,20 @@
     <widget class="QCheckBox" name="kcfg_verticalzoom">
      <property name="text">
       <string>Zoom using vertical drag in ruler</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0" colspan="2">
+    <widget class="QCheckBox" name="kcfg_showmarkers">
+     <property name="text">
+      <string>Display clip markers comments</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0" colspan="4">
+    <widget class="QCheckBox" name="kcfg_ffmpegaudiothumbnails">
+     <property name="text">
+      <string>Use FFmpeg for audio thumbnails (faster)</string>
      </property>
     </widget>
    </item>
@@ -68,62 +89,40 @@
      </item>
     </layout>
    </item>
-   <item row="3" column="0" colspan="2">
-    <widget class="QCheckBox" name="kcfg_autoscroll">
-     <property name="text">
-      <string>Autoscroll while playing</string>
-     </property>
-    </widget>
-   </item>
    <item row="7" column="0">
-    <layout class="QHBoxLayout" name="horizontalLayout_4">
-     <item>
-      <widget class="QLabel" name="label_2">
-       <property name="text">
-        <string>Timeline clip and transition corners</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QComboBox" name="kcfg_clipcornertype">
-       <item>
-        <property name="text">
-         <string>rounded</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>straight</string>
-        </property>
-       </item>
-      </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer_3">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-    </layout>
-   </item>
-   <item row="1" column="0" colspan="4">
-    <widget class="QCheckBox" name="kcfg_ffmpegaudiothumbnails">
-     <property name="text">
-      <string>Use FFmpeg for audio thumbnails (faster)</string>
+    <widget class="QGroupBox" name="groupBox_2">
+     <property name="title">
+      <string>Raise properties pane when selecting in timeline</string>
      </property>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QCheckBox" name="kcfg_raisepropsclips">
+        <property name="text">
+         <string>Clips</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="kcfg_raisepropstransitions">
+        <property name="text">
+         <string>Transitions</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="kcfg_raisepropstracks">
+        <property name="text">
+         <string>Tracks</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
-   <item row="2" column="0" colspan="2">
-    <widget class="QCheckBox" name="kcfg_showmarkers">
+   <item row="5" column="0">
+    <widget class="QCheckBox" name="kcfg_automatictransitions">
      <property name="text">
-      <string>Display clip markers comments</string>
+      <string>Create new transitions as automatic transitions</string>
      </property>
     </widget>
    </item>
@@ -177,43 +176,6 @@
      </layout>
     </widget>
    </item>
-   <item row="5" column="0">
-    <widget class="QCheckBox" name="kcfg_automatictransitions">
-     <property name="text">
-      <string>Create new transitions as automatic transitions</string>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="0">
-    <widget class="QGroupBox" name="groupBox_2">
-     <property name="title">
-      <string>Raise properties pane when selecting in timeline</string>
-     </property>
-     <layout class="QHBoxLayout" name="horizontalLayout">
-      <item>
-       <widget class="QCheckBox" name="kcfg_raisepropsclips">
-        <property name="text">
-         <string>Clips</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="kcfg_raisepropstransitions">
-        <property name="text">
-         <string>Transitions</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="kcfg_raisepropstracks">
-        <property name="text">
-         <string>Tracks</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
   </layout>
  </widget>
  <tabstops>
@@ -226,7 +188,6 @@
   <tabstop>kcfg_verticalzoom</tabstop>
   <tabstop>kcfg_automatictransitions</tabstop>
   <tabstop>kcfg_trackheight</tabstop>
-  <tabstop>kcfg_clipcornertype</tabstop>
  </tabstops>
  <resources/>
  <connections>
