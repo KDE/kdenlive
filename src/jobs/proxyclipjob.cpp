@@ -207,7 +207,28 @@ bool ProxyJob::startJob()
             m_done = true;
             return false;
         }
-        const QString proxyParams = pCore->currentDoc()->getDocumentProperty(QStringLiteral("proxyparams")).simplified();
+        m_jobDuration = (int) binClip->duration().seconds();
+        parameters << QStringLiteral("-y") << QStringLiteral("-v")<< QStringLiteral("quiet")<<QStringLiteral("-stats");
+        QString proxyParams = pCore->currentDoc()->getDocumentProperty(QStringLiteral("proxyparams")).simplified();
+        bool nvenc = proxyParams.contains(QStringLiteral("%nvcodec"));
+        if (nvenc) {
+            QString pix_fmt = binClip->videoCodecProperty(QStringLiteral("pix_fmt"));
+            QString codec = binClip->videoCodecProperty(QStringLiteral("name"));
+            QStringList supportedCodecs {QStringLiteral("hevc"),QStringLiteral("h264"),QStringLiteral("mjpeg"),QStringLiteral("mpeg1"),QStringLiteral("mpeg2"),QStringLiteral("mpeg4"),QStringLiteral("vc1"),QStringLiteral("vp8"),QStringLiteral("vp9")};
+            QStringList supportedPixFmts {QStringLiteral("yuv420p"),QStringLiteral("yuyv422"),QStringLiteral("rgb24"),QStringLiteral("bgr24"),QStringLiteral("yuv422p"),QStringLiteral("yuv444p"),QStringLiteral("rgb32"),QStringLiteral("yuv410p"),QStringLiteral("yuv411p")};
+            bool supported = supportedCodecs.contains(codec) && supportedPixFmts.contains(pix_fmt);
+            if (supported) {
+                // Full hardware decoding supported
+                codec.append(QStringLiteral("_cuvid"));
+                proxyParams.replace(QStringLiteral("%nvcodec"), codec);
+            } else {
+                proxyParams = proxyParams.section(QStringLiteral("-i"), 1);
+                proxyParams.replace(QStringLiteral("scale_cuda"), QStringLiteral("scale"));
+                if (!supportedPixFmts.contains(pix_fmt)) {
+                    proxyParams.prepend(QStringLiteral("-pix_fmt yuv420p"));
+                }
+            }
+        }
         bool disableAutorotate = binClip->getProducerProperty(QStringLiteral("autorotate")) == QLatin1String("0");
         if (disableAutorotate || proxyParams.contains(QStringLiteral("-noautorotate"))) {
             // The noautorotate flag must be passed before input source
@@ -230,8 +251,8 @@ bool ProxyJob::startJob()
         }
 
         // Make sure we don't block when proxy file already exists
-        parameters << QStringLiteral("-y");
         parameters << dest;
+        qDebug()<<"/// FULL PROXY PARAMS:\n"<<parameters<<"\n------";
         m_jobProcess = new QProcess;
         m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
         connect(m_jobProcess, &QProcess::readyReadStandardOutput, this, &ProxyJob::processLogInfo);
