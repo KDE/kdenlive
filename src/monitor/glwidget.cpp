@@ -1124,12 +1124,15 @@ int GLWidget::reconfigure(Mlt::Profile *profile)
             m_consumer->stop();
             delete m_consumer;
         }
-        QString audioBackend = KdenliveSettings::audiobackend();
+        QString audioBackend = (KdenliveSettings::external_display()) ? QString("decklink:%1").arg(KdenliveSettings::blackmagic_output_device()) : KdenliveSettings::audiobackend();
         if (serviceName.isEmpty() || serviceName != audioBackend) {
             m_consumer = new Mlt::FilteredConsumer(*m_monitorProfile, audioBackend.toLatin1().constData());
             if (m_consumer->is_valid()) {
                 serviceName = audioBackend;
                 setProperty("mlt_service", serviceName);
+                if (KdenliveSettings::external_display()) {
+                    m_consumer->set("terminate_on_pause", 0);
+                }
             } else {
                 // Warning, audio backend unavailable on system
                 delete m_consumer;
@@ -1224,11 +1227,13 @@ int GLWidget::reconfigure(Mlt::Profile *profile)
         // m_consumer->set("progressive", 1);
         m_consumer->set("rescale", KdenliveSettings::mltinterpolation().toUtf8().constData());
         m_consumer->set("deinterlace_method", KdenliveSettings::mltdeinterlacer().toUtf8().constData());
+        /*
 #ifdef Q_OS_WIN
         m_consumer->set("audio_buffer", 2048);
 #else
         m_consumer->set("audio_buffer", 512);
 #endif
+        */
         m_consumer->set("buffer", 25);
         m_consumer->set("prefill", 1);
         m_consumer->set("scrub_audio", 1);
@@ -1313,7 +1318,7 @@ void GLWidget::onFrameDisplayed(const SharedFrame &frame)
     m_sharedFrame = frame;
     m_sendFrame = sendFrameForAnalysis;
     m_mutex.unlock();
-    update();
+    //update();
 }
 
 void GLWidget::mouseReleaseEvent(QMouseEvent *event)
@@ -1378,6 +1383,17 @@ Mlt::Consumer *GLWidget::consumer()
 
 void GLWidget::updateGamma()
 {
+    reconfigure();
+}
+
+void GLWidget::resetConsumer(bool fullReset)
+{
+    if (fullReset && m_consumer) {
+        m_consumer->purge();
+        m_consumer->stop();
+        delete m_consumer;
+        m_consumer = nullptr;
+    }
     reconfigure();
 }
 

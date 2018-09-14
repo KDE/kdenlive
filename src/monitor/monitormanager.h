@@ -44,6 +44,8 @@ public:
     void removeMonitor(AbstractMonitor *monitor);
     Timecode timecode() const;
     void resetProfiles(const Timecode &tc);
+    /** @brief delete and rebuild consumer, for example when external display is switched */
+    void resetConsumers(bool fullReset);
     void stopActiveMonitor();
     void pauseActiveMonitor();
     AbstractMonitor *activeMonitor();

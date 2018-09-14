@@ -722,6 +722,11 @@ void ProjectManager::slotResetProfiles()
     pCore->monitorManager()->updateScopeSource();
 }
 
+void ProjectManager::slotResetConsumers(bool fullReset)
+{
+    pCore->monitorManager()->resetConsumers(fullReset);
+}
+
 void ProjectManager::slotExpandClip()
 {
     // TODO refac

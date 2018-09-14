@@ -122,6 +122,9 @@ public slots:
     /** @brief Update project and monitors profiles */
     void slotResetProfiles();
 
+    /** @brief Rebuild consumers after a property change */
+    void slotResetConsumers(bool fullReset);
+
     /** @brief Expand current timeline clip (recover clips and tracks from an MLT playlist) */
     void slotExpandClip();
 

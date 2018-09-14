@@ -1441,6 +1441,11 @@ void Monitor::resetProfile()
     m_qmlManager->setProperty(QStringLiteral("fps"), QString::number(fps, 'g', 2));
 }
 
+void Monitor::resetConsumer(bool fullReset)
+{
+    m_glMonitor->resetConsumer(fullReset);
+}
+
 /*void Monitor::saveSceneList(const QString &path, const QDomElement &info)
 {
     if (render == nullptr) return;

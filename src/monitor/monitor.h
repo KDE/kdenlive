@@ -92,6 +92,8 @@ public:
     Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *parent = nullptr);
     ~Monitor();
     void resetProfile();
+    /** @brief Rebuild consumers after a property change */
+    void resetConsumer(bool fullReset);
     void setCustomProfile(const QString &profile, const Timecode &tc);
     void setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu = nullptr, QAction *loopClip = nullptr);
     const QString sceneList(const QString &root, const QString &fullPath = QString());

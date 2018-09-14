@@ -114,10 +114,13 @@ private:
     void saveCurrentV4lProfile();
     void loadEncodingProfiles();
     void setupJogshuttleBtns(const QString &device);
-
+    /** @brief Fill a combobox with the found blackmagic devices */
+    static bool getBlackMagicDeviceList(KComboBox *devicelist, bool force = false);
+    static bool getBlackMagicOutputDeviceList(KComboBox *devicelist, bool force = false);
 signals:
     void customChanged();
     void doResetProfile();
+    void doResetConsumer(bool fullReset);
     void updateCaptureFolder();
     void updateLibraryFolder();
     // Screengrab method changed between fullsceen and region, update rec monitor

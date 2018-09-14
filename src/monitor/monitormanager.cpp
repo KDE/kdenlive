@@ -310,6 +310,18 @@ void MonitorManager::resetProfiles(const Timecode &tc)
     m_projectMonitor->resetProfile();
 }
 
+void MonitorManager::resetConsumers(bool fullReset)
+{
+    bool clipMonitorActive = m_clipMonitor->isActive();
+    m_clipMonitor->resetConsumer(fullReset);
+    m_projectMonitor->resetConsumer(fullReset);
+    if (clipMonitorActive) {
+        refreshClipMonitor();
+    } else {
+        refreshProjectMonitor();
+    }
+}
+
 void MonitorManager::slotUpdateAudioMonitoring()
 {
     if (m_clipMonitor) {

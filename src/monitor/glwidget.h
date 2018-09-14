@@ -99,6 +99,8 @@ public:
     /** @brief set to true if we want to emit a QImage of the frame for analysis */
     bool sendFrameForAnalysis;
     void updateGamma();
+    /** @brief delete and rebuild consumer, for example when external display is switched */
+    void resetConsumer(bool fullReset);
     Mlt::Profile *profile();
     void reloadProfile();
     void lockMonitor();

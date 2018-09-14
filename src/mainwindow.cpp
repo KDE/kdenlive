@@ -2111,6 +2111,7 @@ void MainWindow::slotPreferences(int page, int option)
     connect(dialog, &KConfigDialog::settingsChanged, this, &MainWindow::updateConfiguration);
     connect(dialog, &KConfigDialog::settingsChanged, this, &MainWindow::configurationChanged);
     connect(dialog, &KdenliveSettingsDialog::doResetProfile, pCore->projectManager(), &ProjectManager::slotResetProfiles);
+    connect(dialog, &KdenliveSettingsDialog::doResetConsumer, pCore->projectManager(), &ProjectManager::slotResetConsumers);
     connect(dialog, &KdenliveSettingsDialog::checkTabPosition, this, &MainWindow::slotCheckTabPosition);
     connect(dialog, &KdenliveSettingsDialog::restartKdenlive, this, &MainWindow::slotRestart);
     connect(dialog, &KdenliveSettingsDialog::updateLibraryFolder, pCore.get(), &Core::updateLibraryPath);

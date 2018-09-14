@@ -345,8 +345,8 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString> &map
     m_configSdl.kcfg_gpu_accel->setEnabled(gpuAllowed);
     m_configSdl.kcfg_gpu_accel->setToolTip(i18n("GPU processing needs MLT compiled with Movit and Rtaudio modules"));
 
-    Render::getBlackMagicDeviceList(m_configCapture.kcfg_decklink_capturedevice);
-    if (!Render::getBlackMagicOutputDeviceList(m_configSdl.kcfg_blackmagic_output_device)) {
+    getBlackMagicDeviceList(m_configCapture.kcfg_decklink_capturedevice);
+    if (!getBlackMagicOutputDeviceList(m_configSdl.kcfg_blackmagic_output_device)) {
         // No blackmagic card found
         m_configSdl.kcfg_external_display->setEnabled(false);
     }
@@ -374,6 +374,62 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString> &map
     } else {
         m_configCapture.dvgrab_info->setText(i18n("<strong><em>dvgrab</em> utility not found, please install it for firewire capture</strong>"));
     }
+}
+
+//static
+bool KdenliveSettingsDialog::getBlackMagicDeviceList(KComboBox *devicelist, bool force)
+{
+    if (!force && !KdenliveSettings::decklink_device_found()) {
+        return false;
+    }
+    Mlt::Profile profile;
+    Mlt::Producer bm(profile, "decklink");
+    int found_devices = 0;
+    if (bm.is_valid()) {
+        bm.set("list_devices", 1);
+        found_devices = bm.get_int("devices");
+    } else {
+        KdenliveSettings::setDecklink_device_found(false);
+    }
+    if (found_devices <= 0) {
+        devicelist->setEnabled(false);
+        return false;
+    }
+    KdenliveSettings::setDecklink_device_found(true);
+    for (int i = 0; i < found_devices; ++i) {
+        char *tmp = qstrdup(QStringLiteral("device.%1").arg(i).toUtf8().constData());
+        devicelist->addItem(bm.get(tmp));
+        delete[] tmp;
+    }
+    return true;
+}
+
+bool KdenliveSettingsDialog::getBlackMagicOutputDeviceList(KComboBox *devicelist, bool force)
+{
+    if (!force && !KdenliveSettings::decklink_device_found()) {
+        return false;
+    }
+    Mlt::Profile profile;
+    Mlt::Consumer bm(profile, "decklink");
+    int found_devices = 0;
+    if (bm.is_valid()) {
+        bm.set("list_devices", 1);
+        found_devices = bm.get_int("devices");
+    } else {
+        KdenliveSettings::setDecklink_device_found(false);
+    }
+    if (found_devices <= 0) {
+        devicelist->setEnabled(false);
+        return false;
+    }
+    KdenliveSettings::setDecklink_device_found(true);
+    for (int i = 0; i < found_devices; ++i) {
+        char *tmp = qstrdup(QStringLiteral("device.%1").arg(i).toUtf8().constData());
+        devicelist->addItem(bm.get(tmp));
+        delete[] tmp;
+    }
+    devicelist->addItem(QStringLiteral("test"));
+    return true;
 }
 
 void KdenliveSettingsDialog::setupJogshuttleBtns(const QString &device)
@@ -740,6 +796,8 @@ void KdenliveSettingsDialog::updateSettings()
     KdenliveSettings::setDefault_profile(m_pw->selectedProfile());
 
     bool resetProfile = false;
+    bool resetConsumer = false;
+    bool fullReset = false;
     bool updateCapturePath = false;
     bool updateLibrary = false;
 
@@ -850,13 +908,17 @@ void KdenliveSettingsDialog::updateSettings()
 
     if (m_configSdl.kcfg_external_display->isChecked() != KdenliveSettings::external_display()) {
         KdenliveSettings::setExternal_display(m_configSdl.kcfg_external_display->isChecked());
-        resetProfile = true;
+        resetConsumer = true;
+        fullReset = true;
+    } else if (KdenliveSettings::external_display() && KdenliveSettings::blackmagic_output_device() != m_configSdl.kcfg_blackmagic_output_device->currentIndex()) {
+        resetConsumer = true;
+        fullReset = true;
     }
 
     value = m_configSdl.kcfg_audio_driver->itemData(m_configSdl.kcfg_audio_driver->currentIndex()).toString();
     if (value != KdenliveSettings::audiodrivername()) {
         KdenliveSettings::setAudiodrivername(value);
-        resetProfile = true;
+        resetConsumer = true;
     }
 
     if (value == QLatin1String("alsa")) {
@@ -864,17 +926,18 @@ void KdenliveSettingsDialog::updateSettings()
         value = m_configSdl.kcfg_audio_device->itemData(m_configSdl.kcfg_audio_device->currentIndex()).toString();
         if (value != KdenliveSettings::audiodevicename()) {
             KdenliveSettings::setAudiodevicename(value);
-            resetProfile = true;
+            resetConsumer = true;
         }
     } else if (!KdenliveSettings::audiodevicename().isEmpty()) {
         KdenliveSettings::setAudiodevicename(QString());
-        resetProfile = true;
+        resetConsumer = true;
     }
 
     value = m_configSdl.kcfg_audio_backend->itemData(m_configSdl.kcfg_audio_backend->currentIndex()).toString();
     if (value != KdenliveSettings::audiobackend()) {
         KdenliveSettings::setAudiobackend(value);
-        resetProfile = true;
+        resetConsumer = true;
+        fullReset = true;
     }
 
     if (m_configSdl.kcfg_window_background->color() != KdenliveSettings::window_background()) {
@@ -884,7 +947,7 @@ void KdenliveSettingsDialog::updateSettings()
 
     if (m_configSdl.kcfg_volume->value() != KdenliveSettings::volume()) {
         KdenliveSettings::setVolume(m_configSdl.kcfg_volume->value());
-        resetProfile = true;
+        resetConsumer = true;
     }
 
     if (m_configMisc.kcfg_tabposition->currentIndex() != KdenliveSettings::tabposition()) {
@@ -943,6 +1006,9 @@ void KdenliveSettingsDialog::updateSettings()
 
     KConfigDialog::settingsChangedSlot();
     // KConfigDialog::updateSettings();
+    if (resetConsumer) {
+        emit doResetConsumer(fullReset);
+    }
     if (resetProfile) {
         emit doResetProfile();
     }
@@ -1445,8 +1511,8 @@ void KdenliveSettingsDialog::slotEditVideo4LinuxProfile()
 
 void KdenliveSettingsDialog::slotReloadBlackMagic()
 {
-    Render::getBlackMagicDeviceList(m_configCapture.kcfg_decklink_capturedevice, true);
-    if (!Render::getBlackMagicOutputDeviceList(m_configSdl.kcfg_blackmagic_output_device, true)) {
+    getBlackMagicDeviceList(m_configCapture.kcfg_decklink_capturedevice, true);
+    if (!getBlackMagicOutputDeviceList(m_configSdl.kcfg_blackmagic_output_device, true)) {
         // No blackmagic card found
         m_configSdl.kcfg_external_display->setEnabled(false);
     }
