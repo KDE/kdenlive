@@ -612,9 +612,9 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
     m_tabWidget->addTab(m_metaPage, QString());
     m_tabWidget->addTab(m_analysisPage, QString());
     m_tabWidget->setTabIcon(0, QIcon::fromTheme(QStringLiteral("edit-find")));
-    m_tabWidget->setTabToolTip(0, i18n("Properties"));
+    m_tabWidget->setTabToolTip(0, i18n("File info"));
     m_tabWidget->setTabIcon(1, QIcon::fromTheme(QStringLiteral("document-edit")));
-    m_tabWidget->setTabToolTip(1, i18n("Force properties"));
+    m_tabWidget->setTabToolTip(1, i18n("Properties"));
     m_tabWidget->setTabIcon(2, QIcon::fromTheme(QStringLiteral("bookmark-new")));
     m_tabWidget->setTabToolTip(2, i18n("Markers"));
     m_tabWidget->setTabIcon(3, QIcon::fromTheme(QStringLiteral("view-grid")));
