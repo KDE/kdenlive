@@ -117,6 +117,9 @@ signals:
     void seekToFrame(int);
     void editAnalysis(const QString &id, const QString &name, const QString &value);
     void editClip();
+    void requestProxy(bool doProxy);
+    void proxyModified(const QString &);
+    void deleteProxy();
 };
 
 #endif

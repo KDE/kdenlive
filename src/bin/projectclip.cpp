@@ -826,6 +826,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
             setProducerProperty(QStringLiteral("kdenlive:originalurl"), url());
             pCore->jobManager()->startJob<ProxyJob>({clipId()}, -1, QString());
         }
+        refreshPanel = true;
     } else if (properties.contains(QStringLiteral("resource")) || properties.contains(QStringLiteral("templatetext")) ||
                properties.contains(QStringLiteral("autorotate"))) {
         // Clip resource changed, update thumbnail
@@ -896,6 +897,25 @@ ClipPropertiesController *ProjectClip::buildProperties(QWidget *parent)
     ClipPropertiesController *panel = new ClipPropertiesController(static_cast<ClipController *>(this), parent);
     connect(this, &ProjectClip::refreshPropertiesPanel, panel, &ClipPropertiesController::slotReloadProperties);
     connect(this, &ProjectClip::refreshAnalysisPanel, panel, &ClipPropertiesController::slotFillAnalysisData);
+    connect(panel, &ClipPropertiesController::requestProxy, [this] (bool doProxy) {
+        QList<std::shared_ptr<ProjectClip>> clipList {std::static_pointer_cast<ProjectClip>(shared_from_this())};
+        pCore->currentDoc()->slotProxyCurrentItem(doProxy, clipList);
+    });
+    connect(panel, &ClipPropertiesController::deleteProxy, [this] () {
+        // Disable proxy file
+        QString proxy = getProducerProperty(QStringLiteral("kdenlive:proxy"));
+        QList<std::shared_ptr<ProjectClip>> clipList {std::static_pointer_cast<ProjectClip>(shared_from_this())};
+        pCore->currentDoc()->slotProxyCurrentItem(false, clipList);
+        // Delete it
+        bool ok;
+        QDir dir = pCore->currentDoc()->getCacheDir(CacheProxy, &ok);
+        if (ok && proxy.length() > 2) {
+            proxy = QFileInfo(proxy).fileName();
+            if (dir.exists(proxy)) {
+                dir.remove(proxy);
+            }
+        }
+    });
     return panel;
 }
 

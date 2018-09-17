@@ -62,6 +62,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QUrl>
 #include <QVBoxLayout>
 #include <QScrollArea>
+#include <QClipboard>
+#include <QDesktopServices>
 
 AnalysisTree::AnalysisTree(QWidget *parent)
     : QTreeWidget(parent)
@@ -240,6 +242,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
 
     // Force properties
     auto *vbox = new QVBoxLayout;
+    vbox->setSpacing(0);
     if (m_type == ClipType::Text || m_type == ClipType::SlideShow || m_type == ClipType::TextTemplate) {
         QPushButton *editButton = new QPushButton(i18n("Edit Clip"), this);
         connect(editButton, &QAbstractButton::clicked, this, &ClipPropertiesController::editClip);
@@ -351,6 +354,74 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         connect(spin1, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ClipPropertiesController::slotAspectValueChanged);
         connect(box, &QAbstractButton::toggled, spin1, &QWidget::setEnabled);
         connect(box, &QAbstractButton::toggled, spin2, &QWidget::setEnabled);
+        vbox->addLayout(hlay);
+
+        // Proxy
+        QString proxy = m_properties.get("kdenlive:proxy");
+        m_originalProperties.insert(QStringLiteral("kdenlive:proxy"), proxy);
+        hlay = new QHBoxLayout;
+        QGroupBox *bg = new QGroupBox(this);
+        bg->setCheckable(false);
+        bg->setFlat(true);
+        QHBoxLayout *groupLay = new QHBoxLayout;
+        groupLay->setContentsMargins(0, 0, 0, 0);
+        auto *pbox = new QCheckBox(i18n("Proxy clip"), this);
+        pbox->setObjectName(QStringLiteral("kdenlive:proxy"));
+        pbox->setChecked(proxy.length() > 2);
+        connect(pbox, &QCheckBox::toggled, [this, bg](bool toggled) {
+            emit requestProxy(toggled);
+            bg->setEnabled(toggled);
+            setToolTip(m_properties.get("kdenlive:proxy"));
+        });
+        connect(this, &ClipPropertiesController::proxyModified, [this, pbox, bg] (const QString &pxy) {
+            pbox->setChecked(pxy.length() > 2);
+            bg->setEnabled(pbox->isChecked());
+            setToolTip(pxy);
+        });
+
+        hlay->addWidget(pbox);
+        bg->setEnabled(proxy.length() > 2);
+        // Delete button
+        QToolButton *tb = new QToolButton(this);
+        tb->setIcon(QIcon::fromTheme(QStringLiteral("edit-delete")));
+        tb->setAutoRaise(true);
+        connect(tb, &QToolButton::clicked, [this, proxy](){
+            emit deleteProxy();
+        });
+        tb->setToolTip(i18n("Delete proxy file"));
+        groupLay->addWidget(tb);
+        // Folder button
+        tb = new QToolButton(this);
+        tb->setIcon(QIcon::fromTheme(QStringLiteral("document-open")));
+        tb->setAutoRaise(true);
+        connect(tb, &QToolButton::clicked, [this](){
+            QString pxy = m_properties.get("kdenlive:proxy");
+            QDesktopServices::openUrl(QUrl::fromLocalFile(QFileInfo(pxy).path()));
+        });
+        tb->setToolTip(i18n("Open folder"));
+        groupLay->addWidget(tb);
+        // Playback button
+        tb = new QToolButton(this);
+        tb->setIcon(QIcon::fromTheme(QStringLiteral("media-playback-start")));
+        tb->setAutoRaise(true);
+        connect(tb, &QToolButton::clicked, [this](){
+            QString pxy = m_properties.get("kdenlive:proxy");
+            QDesktopServices::openUrl(QUrl::fromLocalFile(pxy));
+        });
+        tb->setToolTip(i18n("Play proxy clip"));
+        groupLay->addWidget(tb);
+        // Clipboard button
+        tb = new QToolButton(this);
+        tb->setIcon(QIcon::fromTheme(QStringLiteral("edit-copy")));
+        tb->setAutoRaise(true);
+        tb->setToolTip(i18n("copy file location to clipboard"));
+        connect(tb, &QToolButton::clicked, [this](){
+            QString pxy = m_properties.get("kdenlive:proxy");
+            QGuiApplication::clipboard()->setText(pxy);
+        });
+        groupLay->addWidget(tb);
+        bg->setLayout(groupLay);
+        hlay->addWidget(bg);
         vbox->addLayout(hlay);
     }
 
@@ -529,6 +600,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         box->setChecked(!force_luma.isEmpty());
         hlay->addWidget(box);
         vbox->addLayout(hlay);
+        hlay->addStretch(10);
     }
     QWidget *forceProp = new QWidget(this);
     forceProp->setLayout(vbox);
@@ -584,6 +656,16 @@ void ClipPropertiesController::slotReloadProperties()
     case ClipType::TextTemplate:
         m_textEdit->setPlainText(m_properties.get("templatetext"));
         break;
+    case ClipType::Image:
+    case ClipType::AV:
+    case ClipType::Video: {
+        QString proxy = m_properties.get("kdenlive:proxy");
+        if (proxy != m_originalProperties.value(QStringLiteral("kdenlive:proxy"))) {
+            m_originalProperties.insert(QStringLiteral("kdenlive:proxy"), proxy);
+            emit proxyModified(proxy);
+        }
+        break;
+    }
     default:
         break;
     }
@@ -811,64 +893,63 @@ void ClipPropertiesController::fillProperties()
             snprintf(property, sizeof(property), "meta.media.%d.codec.long_name", vindex);
             QString codec = m_controller->getProducerProperty(property);
             if (!codec.isEmpty()) {
-                propertyMap.append(QStringList() << i18n("Video codec") << codec);
+                propertyMap.append({i18n("Video codec"), codec});
             }
             int width = m_controller->getProducerIntProperty(QStringLiteral("meta.media.width"));
             int height = m_controller->getProducerIntProperty(QStringLiteral("meta.media.height"));
-            propertyMap.append(QStringList() << i18n("Frame size") << QString::number(width) + QLatin1Char('x') + QString::number(height));
+            propertyMap.append({i18n("Frame size"), QString::number(width) + QLatin1Char('x') + QString::number(height)});
 
             snprintf(property, sizeof(property), "meta.media.%d.stream.frame_rate", vindex);
             QString fpsValue = m_controller->getProducerProperty(property);
             if (!fpsValue.isEmpty()) {
-                propertyMap.append(QStringList() << i18n("Frame rate") << fpsValue);
+                propertyMap.append({i18n("Frame rate"), fpsValue});
             } else {
                 int rate_den = m_controller->getProducerIntProperty(QStringLiteral("meta.media.frame_rate_den"));
                 if (rate_den > 0) {
                     double fps = (double)m_controller->getProducerIntProperty(QStringLiteral("meta.media.frame_rate_num")) / rate_den;
-                    propertyMap.append(QStringList() << i18n("Frame rate") << QString::number(fps, 'f', 2));
+                    propertyMap.append({i18n("Frame rate"), QString::number(fps, 'f', 2)});
                 }
             }
 
             snprintf(property, sizeof(property), "meta.media.%d.codec.bit_rate", vindex);
             int bitrate = m_controller->getProducerIntProperty(property) / 1000;
             if (bitrate > 0) {
-                propertyMap.append(QStringList() << i18n("Video bitrate")
-                                                 << QString::number(bitrate) + QLatin1Char(' ') + i18nc("Kilobytes per seconds", "kb/s"));
+                propertyMap.append({i18n("Video bitrate"),
+                                                 QString::number(bitrate) + QLatin1Char(' ') + i18nc("Kilobytes per seconds", "kb/s")});
             }
 
             int scan = m_controller->getProducerIntProperty(QStringLiteral("meta.media.progressive"));
-            propertyMap.append(QStringList() << i18n("Scanning") << (scan == 1 ? i18n("Progressive") : i18n("Interlaced")));
+            propertyMap.append({i18n("Scanning"), (scan == 1 ? i18n("Progressive") : i18n("Interlaced"))});
             snprintf(property, sizeof(property), "meta.media.%d.codec.sample_aspect_ratio", vindex);
             double par = m_controller->getProducerDoubleProperty(property);
             if (qFuzzyIsNull(par)) {
                 // Read media aspect ratio
                 par = m_controller->getProducerDoubleProperty(QStringLiteral("aspect_ratio"));
             }
-            propertyMap.append(QStringList() << i18n("Pixel aspect ratio") << QString::number(par, 'f', 3));
-            propertyMap.append(QStringList() << i18n("Pixel format") << m_controller->videoCodecProperty(QStringLiteral("pix_fmt")));
+            propertyMap.append({i18n("Pixel aspect ratio"), QString::number(par, 'f', 3)});
+            propertyMap.append({i18n("Pixel format"), m_controller->videoCodecProperty(QStringLiteral("pix_fmt"))});
             int colorspace = m_controller->videoCodecProperty(QStringLiteral("colorspace")).toInt();
-            propertyMap.append(QStringList() << i18n("Colorspace") << ProfileRepository::getColorspaceDescription(colorspace));
+            propertyMap.append({i18n("Colorspace"), ProfileRepository::getColorspaceDescription(colorspace)});
         }
         if (default_audio > -1) {
             char property[200];
             snprintf(property, sizeof(property), "meta.media.%d.codec.long_name", default_audio);
             QString codec = m_controller->getProducerProperty(property);
             if (!codec.isEmpty()) {
-                propertyMap.append(QStringList() << i18n("Audio codec") << codec);
+                propertyMap.append({i18n("Audio codec"), codec});
             }
             snprintf(property, sizeof(property), "meta.media.%d.codec.channels", default_audio);
             int channels = m_controller->getProducerIntProperty(property);
-            propertyMap.append(QStringList() << i18n("Audio channels") << QString::number(channels));
+            propertyMap.append({i18n("Audio channels"), QString::number(channels)});
 
             snprintf(property, sizeof(property), "meta.media.%d.codec.sample_rate", default_audio);
             int srate = m_controller->getProducerIntProperty(property);
-            propertyMap.append(QStringList() << i18n("Audio frequency") << QString::number(srate) + QLatin1Char(' ') + i18nc("Herz", "Hz"));
+            propertyMap.append({i18n("Audio frequency"), QString::number(srate) + QLatin1Char(' ') + i18nc("Herz", "Hz")});
 
             snprintf(property, sizeof(property), "meta.media.%d.codec.bit_rate", default_audio);
             int bitrate = m_controller->getProducerIntProperty(property) / 1000;
             if (bitrate > 0) {
-                propertyMap.append(QStringList() << i18n("Audio bitrate")
-                                                 << QString::number(bitrate) + QLatin1Char(' ') + i18nc("Kilobytes per seconds", "kb/s"));
+                propertyMap.append({i18n("Audio bitrate"), QString::number(bitrate) + QLatin1Char(' ') + i18nc("Kilobytes per seconds", "kb/s")});
             }
         }
     }
@@ -876,12 +957,12 @@ void ClipPropertiesController::fillProperties()
     qint64 filesize = m_controller->getProducerInt64Property(QStringLiteral("kdenlive:file_size"));
     if (filesize > 0) {
         QLocale locale(QLocale::system()); // use the user's locale for getting proper separators!
-        propertyMap.append(QStringList() << i18n("File size")
-                                         << KIO::convertSize((size_t)filesize) + QStringLiteral(" (") + locale.toString(filesize) + QLatin1Char(')'));
+        propertyMap.append({i18n("File size"), KIO::convertSize((size_t)filesize) + QStringLiteral(" (") + locale.toString(filesize) + QLatin1Char(')')});
     }
 
     for (int i = 0; i < propertyMap.count(); i++) {
-        new QTreeWidgetItem(m_propertiesTree, propertyMap.at(i));
+        QTreeWidgetItem *item = new QTreeWidgetItem(m_propertiesTree, propertyMap.at(i));
+        item->setToolTip(1, propertyMap.at(i).at(1));
     }
     m_propertiesTree->setSortingEnabled(true);
     m_propertiesTree->resizeColumnToContents(0);

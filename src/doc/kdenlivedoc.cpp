@@ -1147,6 +1147,7 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy, QList<std::shared_ptr<Proje
     QDir dir = getCacheDir(CacheProxy, &ok);
     if (!ok) {
         // Error
+        return;
     }
     QString extension = QLatin1Char('.') + getDocumentProperty(QStringLiteral("proxyextension"));
     QString params = getDocumentProperty(QStringLiteral("proxyparams"));
