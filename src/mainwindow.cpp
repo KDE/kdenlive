@@ -2021,7 +2021,14 @@ void MainWindow::connectDocument()
     connect(m_effectStack->transitionConfig(), &TransitionSettings::seekTimeline, trackView->projectView(), &CustomTrackView::seekCursorPos);
 
     connect(trackView->projectView(), SIGNAL(activateDocumentMonitor()), m_projectMonitor, SLOT(slotActivateMonitor()), Qt::DirectConnection);
-    connect(project, &KdenliveDoc::updateFps, this, &MainWindow::slotUpdateProfile, Qt::DirectConnection);
+    connect(project, &KdenliveDoc::updateFps, this,
+            [this](double changed) {
+        if (changed == 0.0) {
+            slotUpdateProfile(false);
+        } else {
+            slotUpdateProfile(true);
+        }
+    }, Qt::DirectConnection);
     connect(trackView, &Timeline::zoneMoved, this, &MainWindow::slotZoneMoved);
     trackView->projectView()->setContextMenu(m_timelineContextMenu, m_timelineContextClipMenu, m_timelineContextTransitionMenu, m_clipTypeGroup, static_cast<QMenu *>(factory()->container(QStringLiteral("marker_menu"), this)));
     if (m_renderWidget) {
@@ -3832,7 +3839,14 @@ QDockWidget *MainWindow::addDock(const QString &title, const QString &objectName
     dockWidget->setObjectName(objectName);
     dockWidget->setWidget(widget);
     addDockWidget(area, dockWidget);
-    connect(dockWidget, &QDockWidget::dockLocationChanged, this, &MainWindow::updateDockTitleBars);
+    connect(dockWidget, &QDockWidget::dockLocationChanged, this,
+            [this](Qt::DockWidgetArea dockLocationArea)  {
+        if (dockLocationArea == Qt::NoDockWidgetArea) {
+            updateDockTitleBars(false);
+        } else {
+            updateDockTitleBars(true);
+        }
+    });
     connect(dockWidget, &QDockWidget::topLevelChanged, this, &MainWindow::updateDockTitleBars);
     return dockWidget;
 }
