@@ -135,6 +135,95 @@ template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInf
             res.version = metadata->get_double("version");
             res.id = res.mltId = assetId;
             parseType(metadata, res);
+            // Create params
+            QDomDocument doc;
+            QDomElement eff = doc.createElement(QStringLiteral("effect"));
+            QString id = metadata->get("identifier");
+            eff.setAttribute(QStringLiteral("tag"), id);
+            eff.setAttribute(QStringLiteral("id"), id);
+            ////qCDebug(KDENLIVE_LOG)<<"Effect: "<<id;
+
+            Mlt::Properties param_props((mlt_properties) metadata->get_data("parameters"));
+            for (int j = 0; param_props.is_valid() && j < param_props.count(); ++j) {
+                QDomElement params = doc.createElement(QStringLiteral("parameter"));
+
+                Mlt::Properties paramdesc((mlt_properties) param_props.get_data(param_props.get_name(j)));
+                params.setAttribute(QStringLiteral("name"), paramdesc.get("identifier"));
+                if (params.attribute(QStringLiteral("name")) == QLatin1String("argument")) {
+                    // This parameter has to be given as attribute when using command line, do not show it in Kdenlive
+                    continue;
+                }
+
+                if (paramdesc.get("readonly") && !strcmp(paramdesc.get("readonly"), "yes")) {
+                    // Do not expose readonly parameters
+                    continue;
+                }
+
+                if (paramdesc.get("maximum")) {
+                    params.setAttribute(QStringLiteral("max"), paramdesc.get("maximum"));
+                }
+                if (paramdesc.get("minimum")) {
+                    params.setAttribute(QStringLiteral("min"), paramdesc.get("minimum"));
+                }
+
+                QString paramType = paramdesc.get("type");
+                if (paramType == QLatin1String("integer")) {
+                    if (params.attribute(QStringLiteral("min")) == QLatin1String("0") && params.attribute(QStringLiteral("max")) == QLatin1String("1")) {
+                        params.setAttribute(QStringLiteral("type"), QStringLiteral("bool"));
+                    } else {
+                        params.setAttribute(QStringLiteral("type"), QStringLiteral("constant"));
+                    }
+                } else if (paramType == QLatin1String("float")) {
+                    params.setAttribute(QStringLiteral("type"), QStringLiteral("constant"));
+                    // param type is float, set default decimals to 3
+                    params.setAttribute(QStringLiteral("decimals"), QStringLiteral("3"));
+                } else if (paramType == QLatin1String("boolean")) {
+                    params.setAttribute(QStringLiteral("type"), QStringLiteral("bool"));
+                } else if (paramType == QLatin1String("geometry")) {
+                    params.setAttribute(QStringLiteral("type"), QStringLiteral("geometry"));
+                } else if (paramType == QLatin1String("string")) {
+                    // string parameter are not really supported, so if we have a default value, enforce it
+                    params.setAttribute(QStringLiteral("type"), QStringLiteral("fixed"));
+                    if (paramdesc.get("default")) {
+                        QString stringDefault = paramdesc.get("default");
+                        stringDefault.remove(QLatin1Char('\''));
+                        params.setAttribute(QStringLiteral("value"), stringDefault);
+                    } else {
+                        // String parameter without default, skip it completely
+                        continue;
+                    }
+                } else {
+                    params.setAttribute(QStringLiteral("type"), paramType);
+                    if (!QString(paramdesc.get("format")).isEmpty()) {
+                        params.setAttribute(QStringLiteral("format"), paramdesc.get("format"));
+                    }
+                }
+                if (!params.hasAttribute(QStringLiteral("value"))) {
+                    if (paramdesc.get("default")) {
+                        params.setAttribute(QStringLiteral("default"), paramdesc.get("default"));
+                    }
+                    if (paramdesc.get("value")) {
+                        params.setAttribute(QStringLiteral("value"), paramdesc.get("value"));
+                    } else {
+                        params.setAttribute(QStringLiteral("value"), paramdesc.get("default"));
+                    }
+                }
+                QString paramName = paramdesc.get("title");
+                if (!paramName.isEmpty()) {
+                    QDomElement pname = doc.createElement(QStringLiteral("name"));
+                    pname.appendChild(doc.createTextNode(paramName));
+                    params.appendChild(pname);
+                }
+                if (paramdesc.get("description")) {
+                    QDomElement comment = doc.createElement(QStringLiteral("comment"));
+                    comment.appendChild(doc.createTextNode(paramdesc.get("description")));
+                    params.appendChild(comment);
+                }
+
+                eff.appendChild(params);
+            }
+            doc.appendChild(eff);
+            res.xml = eff;
             return true;
         }
     }
