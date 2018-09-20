@@ -113,6 +113,7 @@ private:
     AssetParameterView *m_view;
     std::shared_ptr<EffectItemModel> m_model;
     KDualAction *m_collapse;
+    QToolButton *m_keyframesButton;
     QList<CollapsibleEffectView *> m_subParamWidgets;
     QDomElement m_effect;
     ItemInfo m_itemInfo;

@@ -31,7 +31,7 @@
 		<name>Histogram position</name>
 	</parameter>
     </effect>
-    <effect LC_NUMERIC="C" tag="frei0r.levels" id="frei0r.levels" version="0.2">
+    <effect LC_NUMERIC="C" tag="frei0r.levels" id="frei0r.levels" version="0.2" hideKeyframes="1">
         <name>Levels</name>
         <description>Adjust levels</description>
         <author>Maksim Golovkin</author>
@@ -43,16 +43,16 @@
         <parameter type="simplekeyframe" name="Input black level" default="0" min="0" max="1000" factor="1000">
                 <name>Input black level</name>
         </parameter>
-        <parameter type="simplekeyframe" name="Input white level" default="1000" min="0" max="1000" factor="1000">
+        <parameter type="simplekeyframe" name="Input white level" default="1" min="0" max="1000" factor="1000">
                 <name>Input white level</name>
         </parameter>
-        <parameter type="simplekeyframe" name="Gamma" default="1000" min="10" max="4000" factor="4000">
+        <parameter type="simplekeyframe" name="Gamma" default="0.25" min="10" max="4000" factor="4000">
                 <name>Gamma</name>
         </parameter>
         <parameter type="simplekeyframe" name="Black output" default="0" min="0" max="1000" factor="1000">
                 <name>Black output</name>
         </parameter>
-        <parameter type="simplekeyframe" name="White output" default="1000" min="0" max="1000" factor="1000">
+        <parameter type="simplekeyframe" name="White output" default="1" min="0" max="1000" factor="1000">
                 <name>White output</name>
         </parameter>
         <parameter type="bool" name="Show histogram" default="0">

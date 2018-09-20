@@ -66,6 +66,7 @@ CollapsibleEffectView::CollapsibleEffectView(std::shared_ptr<EffectItemModel> ef
         decoframe->setObjectName(QStringLiteral("decoframegroup"));
     }
     filterWheelEvent = true;
+    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
     // decoframe->setProperty("active", true);
     // m_info.fromString(effect.attribute(QStringLiteral("kdenlive_info")));
     // setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
@@ -105,6 +106,12 @@ CollapsibleEffectView::CollapsibleEffectView(std::shared_ptr<EffectItemModel> ef
     title = new QLabel(this);
     l->insertWidget(2, title);
 
+    m_keyframesButton = new QToolButton(this);
+    m_keyframesButton->setIcon(QIcon::fromTheme(QStringLiteral("adjustcurves")));
+    m_keyframesButton->setAutoRaise(true);
+    m_keyframesButton->setCheckable(true);
+    m_keyframesButton->setToolTip(i18n("Enable Keyframes"));
+    l->insertWidget(3, m_keyframesButton);
     m_enabledButton = new KDualAction(i18n("Disable Effect"), i18n("Enable Effect"), this);
     m_enabledButton->setActiveIcon(QIcon::fromTheme(QStringLiteral("hint")));
     m_enabledButton->setInactiveIcon(QIcon::fromTheme(QStringLiteral("visibility")));
@@ -122,13 +129,32 @@ CollapsibleEffectView::CollapsibleEffectView(std::shared_ptr<EffectItemModel> ef
     title->setText(effectName);
 
     m_view = new AssetParameterView(this);
-    m_view->setModel(std::static_pointer_cast<AssetParameterModel>(effectModel), frameSize);
+    const std::shared_ptr<AssetParameterModel>effectParamModel = std::static_pointer_cast<AssetParameterModel>(effectModel);
+    m_view->setModel(effectParamModel, frameSize);
     connect(m_view, &AssetParameterView::seekToPos, this, &AbstractCollapsibleWidget::seekToPos);
     connect(this, &CollapsibleEffectView::refresh, m_view, &AssetParameterView::slotRefresh);
+    m_keyframesButton->setVisible(m_view->keyframesAllowed());
     QVBoxLayout *lay = new QVBoxLayout(widgetFrame);
-    lay->setContentsMargins(0, 0, 0, 0);
+    lay->setContentsMargins(0, 0, 0, 2);
     lay->setSpacing(0);
+    connect(m_keyframesButton, &QToolButton::toggled, [this, lay](bool toggle) {
+        m_view->toggleKeyframes(toggle);
+        // We need to switch twice to get a correct resize
+        slotSwitch(!m_model->isCollapsed());
+        slotSwitch(!m_model->isCollapsed());
+    });
     lay->addWidget(m_view);
+    if (!effectParamModel->hasMoreThanOneKeyframe()) {
+        // No keyframe or only one, allow hiding
+        bool hideByDefault = effectParamModel->data(effectParamModel->index(0, 0), AssetParameterModel::HideKeyframesFirstRole).toBool();
+        if (hideByDefault) {
+            m_view->toggleKeyframes(false);
+        } else {
+            m_keyframesButton->setChecked(true);
+        }
+    } else {
+        m_keyframesButton->setChecked(true);
+    }
 
     m_menu = new QMenu(this);
     if (effectModel->rowCount() > 0) {
@@ -178,8 +204,7 @@ CollapsibleEffectView::CollapsibleEffectView(std::shared_ptr<EffectItemModel> ef
         cb->setFocusPolicy(Qt::StrongFocus);
     }
     m_collapse->setActive(m_model->isCollapsed());
-    int height = m_collapse->isActive() ? frame->height() + 4 : frame->height() + m_view->contentHeight() + 4;
-    setFixedHeight(height);
+    slotSwitch(m_model->isCollapsed());
 }
 
 CollapsibleEffectView::~CollapsibleEffectView()
@@ -430,10 +455,10 @@ void CollapsibleEffectView::slotResetEffect()
 
 void CollapsibleEffectView::slotSwitch(bool collapse)
 {
-    int height = collapse ? frame->height() + 4 : frame->height() + m_view->contentHeight() + 4;
-    widgetFrame->setVisible(!collapse);
-    setFixedHeight(height);
-    emit switchHeight(m_model, height);
+    widgetFrame->setFixedHeight(collapse ? 0 : m_view->sizeHint().height());
+    setFixedHeight(widgetFrame->height() + frame->height() + (2*decoframe->lineWidth()));
+    //m_view->setVisible(!collapse);
+    emit switchHeight(m_model, height());
     m_model->setCollapsed(collapse);
 }
 
@@ -445,7 +470,7 @@ void CollapsibleEffectView::animationChanged(const QVariant &geom)
 void CollapsibleEffectView::animationFinished()
 {
     if (m_collapse->isActive()) {
-        widgetFrame->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Ignored);
+        widgetFrame->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
     } else {
         widgetFrame->setFixedHeight(m_view->contentHeight());
     }

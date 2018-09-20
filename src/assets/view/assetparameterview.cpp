@@ -38,8 +38,8 @@ AssetParameterView::AssetParameterView(QWidget *parent)
     , m_mainKeyframeWidget(nullptr)
 {
     m_lay = new QVBoxLayout(this);
-    m_lay->setContentsMargins(2, 2, 2, 2);
-    m_lay->setSpacing(2);
+    m_lay->setContentsMargins(0, 0, 0, 2);
+    m_lay->setSpacing(0);
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
 }
 
@@ -181,7 +181,7 @@ void AssetParameterView::refresh(const QModelIndex &topLeft, const QModelIndex &
 
 int AssetParameterView::contentHeight() const
 {
-    return m_lay->sizeHint().height();
+    return m_lay->minimumSize().height();
 }
 
 MonitorSceneType AssetParameterView::needsMonitorEffectScene() const
@@ -217,4 +217,21 @@ MonitorSceneType AssetParameterView::needsMonitorEffectScene() const
 void AssetParameterView::slotRefresh()
 {
     refresh(m_model->index(0, 0), m_model->index(m_model->rowCount() - 1, 0), {});
+}
+
+bool AssetParameterView::keyframesAllowed() const
+{
+    return m_mainKeyframeWidget != nullptr;
+}
+
+bool AssetParameterView::modelHideKeyframes() const
+{
+    return m_mainKeyframeWidget != nullptr && !m_mainKeyframeWidget->keyframesVisible();
+}
+
+void AssetParameterView::toggleKeyframes(bool enable)
+{
+    if (m_mainKeyframeWidget) {
+        m_mainKeyframeWidget->showKeyframes(enable);
+    }
 }

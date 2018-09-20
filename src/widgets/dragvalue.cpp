@@ -400,7 +400,7 @@ CustomLabel::CustomLabel(const QString &label, bool showSlider, int range, QWidg
     setFormat(QLatin1Char(' ') + label);
     setFocusPolicy(Qt::StrongFocus);
     setCursor(Qt::PointingHandCursor);
-    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
+    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     if (showSlider) {
         setRange(0, 1000);
     } else {

@@ -95,6 +95,7 @@ public:
         ParentInRole,
         ParentPositionRole,
         ParentDurationRole,
+        HideKeyframesFirstRole,
         List1Role,
         List2Role,
         Enum1Role,
@@ -150,6 +151,8 @@ public:
     /* @brief Must be called before using the keyframes of this model */
     void prepareKeyframes();
     void resetAsset(Mlt::Properties *asset);
+    /* @brief Returns true if the effect has more than one keyframe */
+    bool hasMoreThanOneKeyframe() const;
 
 protected:
     /* @brief Helper function to retrieve the type of a parameter given the string corresponding to it*/
@@ -187,6 +190,8 @@ protected:
     std::unique_ptr<Mlt::Properties> m_asset;
 
     std::shared_ptr<KeyframeModelList> m_keyframes;
+    // if true, keyframe tools will be hidden by default
+    bool m_hideKeyframesByDefault;
 
 signals:
     void modelChanged();

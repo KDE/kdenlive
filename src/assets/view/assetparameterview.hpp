@@ -60,8 +60,14 @@ public:
     /** Returns the type of monitor overlay required by this effect */
     MonitorSceneType needsMonitorEffectScene() const;
 
+    /** Returns true is the effect can use keyframes */
+    bool keyframesAllowed() const;
+    /** Returns true is the keyframes should be hidden on first opening*/
+    bool modelHideKeyframes() const;
+
 public slots:
     void slotRefresh();
+    void toggleKeyframes(bool enable);
 
 protected:
     /** @brief This is a handler for the dataChanged slot of the model.

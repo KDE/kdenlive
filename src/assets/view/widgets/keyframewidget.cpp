@@ -45,6 +45,8 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 
     m_lay = new QVBoxLayout(this);
+    m_lay->setContentsMargins(2, 2, 2, 0);
+    m_lay->setSpacing(0);
 
     bool ok = false;
     int duration = m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt(&ok);
@@ -84,20 +86,20 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     m_selectType->setCurrentAction(linear);
     connect(m_selectType, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this, &KeyframeWidget::slotEditKeyframeType);
     m_selectType->setToolBarMode(KSelectAction::ComboBoxMode);
-    QToolBar *toolbar = new QToolBar(this);
+    m_toolbar = new QToolBar(this);
 
     Monitor *monitor = pCore->getMonitor(m_model->monitorId);
     m_time = new TimecodeDisplay(monitor->timecode(), this);
     m_time->setRange(0, duration - 1);
 
-    toolbar->addWidget(m_buttonPrevious);
-    toolbar->addWidget(m_buttonAddDelete);
-    toolbar->addWidget(m_buttonNext);
-    toolbar->addAction(m_selectType);
-    toolbar->addWidget(m_time);
+    m_toolbar->addWidget(m_buttonPrevious);
+    m_toolbar->addWidget(m_buttonAddDelete);
+    m_toolbar->addWidget(m_buttonNext);
+    m_toolbar->addAction(m_selectType);
+    m_toolbar->addWidget(m_time);
 
     m_lay->addWidget(m_keyframeview);
-    m_lay->addWidget(toolbar);
+    m_lay->addWidget(m_toolbar);
     // slotSetPosition(0, false);
     monitorSeek(monitor->position());
 
@@ -346,4 +348,15 @@ MonitorSceneType KeyframeWidget::requiredScene() const
 {
     qDebug()<<"// // // RESULTING REQUIRED SCENE: "<<m_neededScene;
     return m_neededScene;
+}
+
+bool KeyframeWidget::keyframesVisible() const
+{
+    return m_keyframeview->isVisible();
+}
+
+void KeyframeWidget::showKeyframes(bool enable)
+{
+    m_toolbar->setVisible(enable);
+    m_keyframeview->setVisible(enable);
 }

@@ -33,6 +33,7 @@ class KeyframeView;
 class KeyframeModelList;
 class QVBoxLayout;
 class QToolButton;
+class QToolBar;
 class TimecodeDisplay;
 class KSelectAction;
 class KeyframeMonitorHelper;
@@ -53,6 +54,12 @@ public:
      */
     MonitorSceneType requiredScene() const;
     void updateTimecodeFormat();
+    /** @brief Show / hide keyframe related widgets
+     */
+    void showKeyframes(bool enable);
+    /** @brief Returns true if keyframes options are visible
+     */
+    bool keyframesVisible() const;
 
 public slots:
     void slotRefresh() override;
@@ -73,6 +80,7 @@ private slots:
 
 private:
     QVBoxLayout *m_lay;
+    QToolBar *m_toolbar;
     std::shared_ptr<KeyframeModelList> m_keyframes;
     KeyframeView *m_keyframeview;
     KeyframeMonitorHelper *m_monitorHelper;

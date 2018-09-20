@@ -38,6 +38,7 @@ AssetParameterModel::AssetParameterModel(Mlt::Properties *asset, const QDomEleme
 {
     Q_ASSERT(asset->is_valid());
     QDomNodeList nodeList = assetXml.elementsByTagName(QStringLiteral("parameter"));
+    m_hideKeyframesByDefault = assetXml.hasAttribute(QStringLiteral("hideKeyframes"));
 
     bool needsLocaleConversion = false;
     QChar separator, oldSeparator;
@@ -285,6 +286,8 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
         return pCore->getItemDuration(m_ownerId);
     case ParentPositionRole:
          return pCore->getItemPosition(m_ownerId);
+    case HideKeyframesFirstRole:
+        return m_hideKeyframesByDefault;
     case MinRole:
         return parseAttribute(m_ownerId, QStringLiteral("min"), element);
     case MaxRole:
@@ -532,4 +535,12 @@ std::shared_ptr<KeyframeModelList> AssetParameterModel::getKeyframeModel()
 void AssetParameterModel::resetAsset(Mlt::Properties *asset)
 {
     m_asset.reset(asset);
+}
+
+bool AssetParameterModel::hasMoreThanOneKeyframe() const
+{
+    if (m_keyframes) {
+        return (!m_keyframes->isEmpty() && !m_keyframes->singleKeyframe());
+    }
+    return false;
 }

@@ -30,7 +30,8 @@ DoubleParamWidget::DoubleParamWidget(std::shared_ptr<AssetParameterModel> model,
     , m_doubleWidget(nullptr)
 {
     m_lay = new QVBoxLayout(this);
-    m_lay->setContentsMargins(4, 0, 4, 0);
+    m_lay->setContentsMargins(0, 0, 0, 0);
+    m_lay->setSpacing(0);
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
 
