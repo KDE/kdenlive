@@ -23,7 +23,6 @@
 #define TIMELINEMODEL_H
 
 #include "definitions.h"
-#include "modelupdater.hpp"
 #include "undohelper.hpp"
 #include <QAbstractItemModel>
 #include <QReadWriteLock>
@@ -115,7 +114,6 @@ public:
     friend class GroupsModel;
     friend class TimelineController;
     friend struct TimelineFunctions;
-    friend class ModelUpdater;
 
     /// Two level model: tracks and clips on track
     enum {
@@ -223,7 +221,7 @@ public:
     /* @brief Helper function that returns true if the given ID corresponds to a track */
     bool isTrack(int id) const;
 
-    /* @brief Helper function that returns true if the given ID corresponds to a group */
+    /* @brief Helper function that returns true if the given ID corresponds to a track */
     bool isGroup(int id) const;
 
     /* @brief Given a composition Id, returns its underlying parameter model */
@@ -334,8 +332,8 @@ public:
 
     /* Same function, but accumulates undo and redo, and doesn't check
        for group*/
-    bool requestClipMove(int clipId, int trackId, int position, bool updateView, bool invalidateTimeline, Fun &undo, Fun &redo, Updates &list);
-    bool requestCompositionMove(int transid, int trackId, int compositionTrack, int position, bool updateView, Fun &undo, Fun &redo, Updates &list);
+    bool requestClipMove(int clipId, int trackId, int position, bool updateView, bool invalidateTimeline, Fun &undo, Fun &redo);
+    bool requestCompositionMove(int transid, int trackId, int compositionTrack, int position, bool updateView, Fun &undo, Fun &redo);
 
     /* @brief Given an intended move, try to suggest a more valid one
        (accounting for snaps and missing UI calls)
@@ -364,14 +362,14 @@ public:
                               bool useTargets = true);
     /* Same function, but accumulates undo and redo*/
     bool requestClipInsertion(const QString &binClipId, int trackId, int position, int &id, bool logUndo, bool refreshView, bool useTargets, Fun &undo,
-                              Fun &redo, Updates &list);
+                              Fun &redo);
     /* @brief Creates a new clip instance without inserting it.
        This action is undoable, returns true on success
        @param binClipId: Bin id of the clip to insert
        @param id: return parameter for the id of the newly created clip.
        @param state: The desired clip state (original, audio/video only).
      */
-    bool requestClipCreation(const QString &binClipId, int &id, PlaylistState::ClipState state, Fun &undo, Fun &redo, Updates &list);
+    bool requestClipCreation(const QString &binClipId, int &id, PlaylistState::ClipState state, Fun &undo, Fun &redo);
 
     /* @brief Deletes the given clip or composition from the timeline This
        action is undoable Returns true on success. If it fails, nothing is
@@ -380,7 +378,7 @@ public:
        @param logUndo if set to false, no undo object is stored */
     Q_INVOKABLE bool requestItemDeletion(int clipId, bool logUndo = true);
     /* Same function, but accumulates undo and redo*/
-    bool requestItemDeletion(int clipId, Fun &undo, Fun &redo, Updates &list);
+    bool requestItemDeletion(int clipId, Fun &undo, Fun &redo);
 
     /* @brief Move a group to a specific position
        This action is undoable
@@ -395,7 +393,7 @@ public:
        @param allowViewRefresh if false, the view will never get updated (useful for suggestMove)
     */
     bool requestGroupMove(int clipId, int groupId, int delta_track, int delta_pos, bool updateView = true, bool logUndo = true);
-    bool requestGroupMove(int clipId, int groupId, int delta_track, int delta_pos, bool updateView, bool finalMove, Fun &undo, Fun &redo, Updates &list,
+    bool requestGroupMove(int clipId, int groupId, int delta_track, int delta_pos, bool updateView, bool finalMove, Fun &undo, Fun &redo,
                           bool allowViewRefresh = true);
 
     /* @brief Deletes all clips inside the group that contains the given clip.
@@ -405,7 +403,7 @@ public:
        @param clipId is the id of the clip that triggers the group deletion
     */
     Q_INVOKABLE bool requestGroupDeletion(int clipId, bool logUndo = true);
-    bool requestGroupDeletion(int clipId, Fun &undo, Fun &redo, Updates &list);
+    bool requestGroupDeletion(int clipId, Fun &undo, Fun &redo);
 
     /* @brief Change the duration of an item (clip or composition)
        This action is undoable
@@ -420,7 +418,7 @@ public:
     Q_INVOKABLE int requestItemResize(int itemId, int size, bool right, bool logUndo = true, int snapDistance = -1, bool allowSingleResize = false);
 
     /* Same function, but accumulates undo and redo and doesn't deal with snapping*/
-    bool requestItemResize(int itemId, int size, bool right, bool logUndo, Fun &undo, Fun &redo, Updates &list);
+    bool requestItemResize(int itemId, int size, bool right, bool logUndo, Fun &undo, Fun &redo, bool blockUndo = false);
 
     /* @brief Group together a set of ids
        The ids are either a group ids or clip ids. The involved clip must already be inserted in a track
@@ -430,7 +428,7 @@ public:
        @param ids Set of ids to group
     */
     int requestClipsGroup(const std::unordered_set<int> &ids, bool logUndo = true, GroupType type = GroupType::Normal);
-    int requestClipsGroup(const std::unordered_set<int> &ids, Fun &undo, Fun &redo, Updates &list, GroupType type = GroupType::Normal);
+    int requestClipsGroup(const std::unordered_set<int> &ids, Fun &undo, Fun &redo, GroupType type = GroupType::Normal);
 
     /* @brief Destruct the topmost group containing clip
        This action is undoable
@@ -439,7 +437,7 @@ public:
     */
     bool requestClipUngroup(int id, bool logUndo = true);
     /* Same function, but accumulates undo and redo*/
-    bool requestClipUngroup(int id, Fun &undo, Fun &redo, Updates &list);
+    bool requestClipUngroup(int id, Fun &undo, Fun &redo);
 
     /* @brief Create a track at given position
        This action is undoable
@@ -449,7 +447,7 @@ public:
     */
     bool requestTrackInsertion(int pos, int &id, const QString &trackName = QString(), bool audioTrack = false);
     /* Same function, but accumulates undo and redo*/
-    bool requestTrackInsertion(int pos, int &id, const QString &trackName, bool audioTrack, Fun &undo, Fun &redo, Updates &list, bool updateView = true);
+    bool requestTrackInsertion(int pos, int &id, const QString &trackName, bool audioTrack, Fun &undo, Fun &redo, bool updateView = true);
 
     /* @brief Delete track with given id
        This also deletes all the clips contained in the track.
@@ -459,7 +457,7 @@ public:
     */
     bool requestTrackDeletion(int trackId);
     /* Same function, but accumulates undo and redo*/
-    bool requestTrackDeletion(int trackId, Fun &undo, Fun &redo, Updates &list);
+    bool requestTrackDeletion(int trackId, Fun &undo, Fun &redo);
 
     /* @brief Get project duration
        Returns the duration in frames
@@ -475,7 +473,7 @@ public:
 
     /* @brief Removes all the elements on the timeline (tracks and clips)
      */
-    bool requestReset(Fun &undo, Fun &redo, Updates &list);
+    bool requestReset(Fun &undo, Fun &redo);
     /* @brief Updates the current the pointer to the current undo_stack
        Must be called for example when the doc change
     */
@@ -524,7 +522,7 @@ public:
                                      bool logUndo = true);
     /* Same function, but accumulates undo and redo*/
     bool requestCompositionInsertion(const QString &transitionId, int trackId, int compositionTrack, int position, int length, Mlt::Properties *transProps,
-                                     int &id, Fun &undo, Fun &redo, Updates &list);
+                                     int &id, Fun &undo, Fun &redo);
 
     /* @brief This function change the global (timeline-wise) enabled state of the effects
        It disables/enables track and clip effects (recursively)
@@ -570,7 +568,7 @@ public:
     bool requestClipTimeWarp(int clipId, double speed);
     /* @brief Same function as above, but doesn't check for paired audio and accumulate undo/redo
      */
-    bool requestClipTimeWarp(int clipId, double speed, Fun &undo, Fun &redo, Updates &list);
+    bool requestClipTimeWarp(int clipId, double speed, Fun &undo, Fun &redo);
 
     void replugClip(int clipId);
 
@@ -631,14 +629,14 @@ protected:
     /* @brief unplant and the replant all the compositions in the correct order
        @param currentCompo is the id of a compo that have not yet been planted, if any. Otherwise send -1
      */
-    bool replantCompositions(int currentCompo);
+    bool replantCompositions(int currentCompo, bool updateView);
 
     /* @brief Unplant the composition with given Id */
     bool unplantComposition(int compoId);
 
     /* Same function but accumulates undo and redo, and doesn't check for group*/
-    bool requestClipDeletion(int clipId, Fun &undo, Fun &redo, Updates &list);
-    bool requestCompositionDeletion(int compositionId, Fun &undo, Fun &redo, Updates &list);
+    bool requestClipDeletion(int clipId, Fun &undo, Fun &redo);
+    bool requestCompositionDeletion(int compositionId, Fun &undo, Fun &redo);
 
     /** @brief Check tracks duration and update black track accordingly */
     void updateDuration();
@@ -718,12 +716,11 @@ protected:
 
     // what follows are some virtual function that corresponds to the QML. They are implemented in TimelineItemModel
 protected:
-    virtual void _beginInsertRows(const QModelIndex &, int, int) = 0;
-    virtual void _beginMoveRows(const QModelIndex &, int, int, const QModelIndex &, int) = 0;
     virtual void _beginRemoveRows(const QModelIndex &, int, int) = 0;
-    virtual void _endInsertRows() = 0;
-    virtual void _endMoveRows() = 0;
+    virtual void _beginInsertRows(const QModelIndex &, int, int) = 0;
     virtual void _endRemoveRows() = 0;
+    virtual void _endInsertRows() = 0;
+    virtual void notifyChange(const QModelIndex &topleft, const QModelIndex &bottomright, bool start, bool duration, bool updateThumb) = 0;
     virtual void notifyChange(const QModelIndex &topleft, const QModelIndex &bottomright, const QVector<int> &roles) = 0;
     virtual void notifyChange(const QModelIndex &topleft, const QModelIndex &bottomright, int role) = 0;
     virtual QModelIndex makeClipIndexFromID(int) const = 0;

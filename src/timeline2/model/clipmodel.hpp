@@ -90,7 +90,7 @@ public:
     /** @brief Returns the bin clip type (image, color, AV, ...) */
     ClipType::ProducerType clipType() const;
     /** @brief Sets the timeline clip status (video / audio only) */
-    bool setClipState(PlaylistState::ClipState state, Fun &undo, Fun &redo, Updates &list);
+    bool setClipState(PlaylistState::ClipState state, Fun &undo, Fun &redo);
 
 protected:
     // helper fuctions that creates the lambda
@@ -119,8 +119,8 @@ public:
 
     bool removeFade(bool fromStart);
     /** @brief Adjust effects duration. Should be called after each resize / cut operation */
-    bool adjustEffectLength(bool adjustFromEnd, int oldIn, int newIn, int oldDuration, int duration, Fun &undo, Fun &redo, Updates &list, bool logUndo);
-    bool adjustEffectLength(const QString &effectName, int duration, int originalDuration, Fun &undo, Fun &redo, Updates &list);
+    bool adjustEffectLength(bool adjustFromEnd, int oldIn, int newIn, int oldDuration, int duration, Fun &undo, Fun &redo, bool logUndo);
+    bool adjustEffectLength(const QString &effectName, int duration, int originalDuration, Fun &undo, Fun &redo);
     void passTimelineProperties(std::shared_ptr<ClipModel> other);
     KeyframeModel *getKeyframeModel();
 
@@ -145,7 +145,7 @@ protected:
        @param undo Lambda function containing the current undo stack. Will be updated with current operation
        @param redo Lambda function containing the current redo queue. Will be updated with current operation
     */
-    bool requestResize(int size, bool right, Fun &undo, Fun &redo, Updates &list, bool logUndo = true) override;
+    bool requestResize(int size, bool right, Fun &undo, Fun &redo, bool logUndo = true) override;
 
     /* @brief This function change the global (timeline-wise) enabled state of the effects
      */
@@ -162,7 +162,7 @@ protected:
     /* @brief This functions replaces the current producer with a slowmotion one
        It also resizes the producer so that set of frames contained in the clip is the same
     */
-    bool useTimewarpProducer(double speed, Fun &undo, Fun &redo, Updates &list);
+    bool useTimewarpProducer(double speed, Fun &undo, Fun &redo);
     // @brief Lambda that merely changes the speed (in and out are untouched)
     Fun useTimewarpProducer_lambda(double speed);
 

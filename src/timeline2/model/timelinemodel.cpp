@@ -375,7 +375,7 @@ int TimelineModel::getMirrorAudioTrackId(int trackId) const
     return -1;
 }
 
-bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool updateView, bool invalidateTimeline, Fun &undo, Fun &redo, Updates &list)
+bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool updateView, bool invalidateTimeline, Fun &undo, Fun &redo)
 {
     qDebug() << "// FINAL MOVE: " << invalidateTimeline << ", UPDATE VIEW: " << updateView;
     if (trackId == -1) {
@@ -384,25 +384,23 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
     Q_ASSERT(isClip(clipId));
     std::function<bool(void)> local_undo = []() { return true; };
     std::function<bool(void)> local_redo = []() { return true; };
-    Updates local_list;
     bool ok = true;
     int old_trackId = getClipTrackId(clipId);
     if (old_trackId != -1) {
-        ok = getTrackById(old_trackId)->requestClipDeletion(clipId, updateView, invalidateTimeline, local_undo, local_redo, local_list);
+        ok = getTrackById(old_trackId)->requestClipDeletion(clipId, updateView, invalidateTimeline, local_undo, local_redo);
         if (!ok) {
             bool undone = local_undo();
             Q_ASSERT(undone);
             return false;
         }
     }
-    ok = getTrackById(trackId)->requestClipInsertion(clipId, position, updateView, invalidateTimeline, local_undo, local_redo, local_list);
+    ok = getTrackById(trackId)->requestClipInsertion(clipId, position, updateView, invalidateTimeline, local_undo, local_redo);
     if (!ok) {
         // qDebug()<<"-------------\n\nINSERTION FAILED, REVERTING\n\n-------------------";
         bool undone = local_undo();
         Q_ASSERT(undone);
         return false;
     }
-    list.insert(list.end(), local_list.begin(), local_list.end());
     UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
     return true;
 }
@@ -430,15 +428,9 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
     }
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
-    Updates list;
-    bool res = requestClipMove(clipId, trackId, position, updateView, invalidateTimeline, undo, redo, list);
-    if (res) {
-        if (updateView) {
-            ModelUpdater::applyUpdates(undo, redo, list);
-        }
-        if (logUndo) {
-            PUSH_UNDO(undo, redo, i18n("Move clip"));
-        }
+    bool res = requestClipMove(clipId, trackId, position, updateView, invalidateTimeline, undo, redo);
+    if (res && logUndo) {
+        PUSH_UNDO(undo, redo, i18n("Move clip"));
     }
     return res;
 }
@@ -455,7 +447,6 @@ bool TimelineModel::requestClipMoveAttempt(int clipId, int trackId, int position
     }
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
-    Updates list;
     bool res = true;
     if (m_groups->isInGroup(clipId)) {
         // element is in a group.
@@ -465,9 +456,9 @@ bool TimelineModel::requestClipMoveAttempt(int clipId, int trackId, int position
         int track_pos2 = getTrackPosition(current_trackId);
         int delta_track = track_pos1 - track_pos2;
         int delta_pos = position - m_allClips[clipId]->getPosition();
-        res = requestGroupMove(clipId, groupId, delta_track, delta_pos, false, false, undo, redo, list, false);
+        res = requestGroupMove(clipId, groupId, delta_track, delta_pos, false, false, undo, redo, false);
     } else {
-        res = requestClipMove(clipId, trackId, position, false, false, undo, redo, list);
+        res = requestClipMove(clipId, trackId, position, false, false, undo, redo);
     }
     if (res) {
         undo();
@@ -649,8 +640,7 @@ int TimelineModel::suggestCompositionMove(int compoId, int trackId, int position
     // we check if move is possible
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    Updates list;
-    bool possible = requestCompositionMove(compoId, trackId, m_allCompositions[compoId]->getForcedTrack(), position, false, undo, redo, list);
+    bool possible = requestCompositionMove(compoId, trackId, m_allCompositions[compoId]->getForcedTrack(), position, false, undo, redo);
     qDebug() << "Original move success" << possible;
     if (possible) {
         bool undone = undo();
@@ -669,12 +659,11 @@ int TimelineModel::suggestCompositionMove(int compoId, int trackId, int position
     return position;
 }
 
-bool TimelineModel::requestClipCreation(const QString &binClipId, int &id, PlaylistState::ClipState state, Fun &undo, Fun &redo, Updates &list)
+bool TimelineModel::requestClipCreation(const QString &binClipId, int &id, PlaylistState::ClipState state, Fun &undo, Fun &redo)
 {
     qDebug() << "requestClipCreation " << binClipId;
     int clipId = TimelineModel::getNextId();
     id = clipId;
-    Updates local_list;
     Fun local_undo = deregisterClip_lambda(clipId);
     QString bid = binClipId;
     if (binClipId.contains(QLatin1Char('/'))) {
@@ -699,16 +688,15 @@ bool TimelineModel::requestClipCreation(const QString &binClipId, int &id, Playl
         int initLength = m_allClips[clipId]->getPlaytime();
         bool res = true;
         if (in != 0) {
-            res = requestItemResize(clipId, initLength - in, false, true, local_undo, local_redo, local_list);
+            res = requestItemResize(clipId, initLength - in, false, true, local_undo, local_redo);
         }
-        res = res && requestItemResize(clipId, out - in + 1, true, true, local_undo, local_redo, local_list);
+        res = res && requestItemResize(clipId, out - in + 1, true, true, local_undo, local_redo);
         if (!res) {
             bool undone = local_undo();
             Q_ASSERT(undone);
             return false;
         }
     }
-    list.insert(list.end(), local_list.begin(), local_list.end());
     UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
     return true;
 }
@@ -721,25 +709,18 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
     QWriteLocker locker(&m_lock);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    Updates list;
-    bool result = requestClipInsertion(binClipId, trackId, position, id, logUndo, refreshView, useTargets, undo, redo, list);
-    if (result) {
-        if (refreshView) {
-            ModelUpdater::applyUpdates(undo, redo, list);
-        }
-        if (logUndo) {
-            PUSH_UNDO(undo, redo, i18n("Insert Clip"));
-        }
+    bool result = requestClipInsertion(binClipId, trackId, position, id, logUndo, refreshView, useTargets, undo, redo);
+    if (result && logUndo) {
+        PUSH_UNDO(undo, redo, i18n("Insert Clip"));
     }
     return result;
 }
 
 bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, int position, int &id, bool logUndo, bool refreshView, bool useTargets,
-                                         Fun &undo, Fun &redo, Updates &list)
+                                         Fun &undo, Fun &redo)
 {
     std::function<bool(void)> local_undo = []() { return true; };
     std::function<bool(void)> local_redo = []() { return true; };
-    Updates local_list;
     qDebug() << "requestClipInsertion " << binClipId << " "
              << " " << trackId << " " << position;
     bool res = false;
@@ -757,8 +738,8 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
             trackId = m_audioTarget;
         }
         bool audioDrop = getTrackById_const(trackId)->isAudioTrack();
-        res = requestClipCreation(binClipId, id, audioDrop ? PlaylistState::AudioOnly : PlaylistState::VideoOnly, local_undo, local_redo, local_list);
-        res = res && requestClipMove(id, trackId, position, refreshView, logUndo, local_undo, local_redo, local_list);
+        res = requestClipCreation(binClipId, id, audioDrop ? PlaylistState::AudioOnly : PlaylistState::VideoOnly, local_undo, local_redo);
+        res = res && requestClipMove(id, trackId, position, refreshView, logUndo, local_undo, local_redo);
         if (m_videoTarget >= 0 && m_audioTarget == -1) {
             // No audio target defined, only extract video
             audioDrop = true;
@@ -786,23 +767,21 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
             } else {
                 std::function<bool(void)> audio_undo = []() { return true; };
                 std::function<bool(void)> audio_redo = []() { return true; };
-                Updates audio_list;
                 int newId;
-                res = requestClipCreation(binClipId, newId, PlaylistState::AudioOnly, audio_undo, audio_redo, audio_list);
+                res = requestClipCreation(binClipId, newId, PlaylistState::AudioOnly, audio_undo, audio_redo);
                 if (res) {
                     bool move = false;
                     while (!move && !possibleTracks.isEmpty()) {
                         int newTrack = possibleTracks.takeFirst();
-                        move = requestClipMove(newId, newTrack, position, true, false, audio_undo, audio_redo, audio_list);
+                        move = requestClipMove(newId, newTrack, position, true, false, audio_undo, audio_redo);
                     }
                     // use lazy evaluation to group only if move was successful
-                    res = res && move && requestClipsGroup({id, newId}, audio_undo, audio_redo, audio_list, GroupType::AVSplit);
+                    res = res && move && requestClipsGroup({id, newId}, audio_undo, audio_redo, GroupType::AVSplit);
                     if (!res || !move) {
                         pCore->displayMessage(i18n("Audio split failed: no viable track"), ErrorMessage);
                         bool undone = audio_undo();
                         Q_ASSERT(undone);
                     } else {
-                        local_list.insert(local_list.end(), audio_list.begin(), audio_list.end());
                         UPDATE_UNDO_REDO(audio_redo, audio_undo, local_undo, local_redo);
                     }
                 } else {
@@ -814,8 +793,8 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
         }
     } else {
         std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(bid);
-        res = requestClipCreation(binClipId, id, binClip->defaultState(), local_undo, local_redo, local_list);
-        res = res && requestClipMove(id, trackId, position, refreshView, logUndo, local_undo, local_redo, local_list);
+        res = requestClipCreation(binClipId, id, binClip->defaultState(), local_undo, local_redo);
+        res = res && requestClipMove(id, trackId, position, refreshView, logUndo, local_undo, local_redo);
     }
     if (!res) {
         bool undone = local_undo();
@@ -823,18 +802,17 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
         id = -1;
         return false;
     }
-    list.insert(list.end(), local_list.begin(), local_list.end());
     UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
     return true;
 }
 
-bool TimelineModel::requestItemDeletion(int clipId, Fun &undo, Fun &redo, Updates &list)
+bool TimelineModel::requestItemDeletion(int clipId, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
     if (m_groups->isInGroup(clipId)) {
-        return requestGroupDeletion(clipId, undo, redo, list);
+        return requestGroupDeletion(clipId, undo, redo);
     }
-    return requestClipDeletion(clipId, undo, redo, list);
+    return requestClipDeletion(clipId, undo, redo);
 }
 
 bool TimelineModel::requestItemDeletion(int itemId, bool logUndo)
@@ -849,35 +827,28 @@ bool TimelineModel::requestItemDeletion(int itemId, bool logUndo)
     }
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    Updates list;
     bool res = false;
     QString actionLabel;
     if (isClip(itemId)) {
         actionLabel = i18n("Delete Clip");
-        res = requestClipDeletion(itemId, undo, redo, list);
+        res = requestClipDeletion(itemId, undo, redo);
     } else {
         actionLabel = i18n("Delete Composition");
-        res = requestCompositionDeletion(itemId, undo, redo, list);
+        res = requestCompositionDeletion(itemId, undo, redo);
     }
-    if (res) {
-        ModelUpdater::applyUpdates(undo, redo, list);
-        if (logUndo) {
-            PUSH_UNDO(undo, redo, actionLabel);
-        }
+    if (res && logUndo) {
+        PUSH_UNDO(undo, redo, actionLabel);
     }
     return res;
 }
 
-bool TimelineModel::requestClipDeletion(int clipId, Fun &undo, Fun &redo, Updates &list)
+bool TimelineModel::requestClipDeletion(int clipId, Fun &undo, Fun &redo)
 {
-    Fun local_undo = []() { return true; };
-    Fun local_redo = []() { return true; };
-    Updates local_list;
     int trackId = getClipTrackId(clipId);
     if (trackId != -1) {
-        bool res = getTrackById(trackId)->requestClipDeletion(clipId, true, true, local_undo, local_redo, local_list);
+        bool res = getTrackById(trackId)->requestClipDeletion(clipId, true, true, undo, redo);
         if (!res) {
-            local_undo();
+            undo();
             return false;
         }
     }
@@ -891,25 +862,20 @@ bool TimelineModel::requestClipDeletion(int clipId, Fun &undo, Fun &redo, Update
     };
     if (operation()) {
         emit removeFromSelection(clipId);
-        list.insert(list.end(), local_list.begin(), local_list.end());
-        UPDATE_UNDO_REDO(operation, reverse, local_undo, local_redo);
-        UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
+        UPDATE_UNDO_REDO(operation, reverse, undo, redo);
         return true;
     }
-    local_undo();
+    undo();
     return false;
 }
 
-bool TimelineModel::requestCompositionDeletion(int compositionId, Fun &undo, Fun &redo, Updates &list)
+bool TimelineModel::requestCompositionDeletion(int compositionId, Fun &undo, Fun &redo)
 {
-    Fun local_undo = []() { return true; };
-    Fun local_redo = []() { return true; };
-    Updates local_list;
     int trackId = getCompositionTrackId(compositionId);
     if (trackId != -1) {
-        bool res = getTrackById(trackId)->requestCompositionDeletion(compositionId, true, local_undo, local_redo, local_list);
+        bool res = getTrackById(trackId)->requestCompositionDeletion(compositionId, true, undo, redo);
         if (!res) {
-            local_undo();
+            undo();
             return false;
         } else {
             unplantComposition(compositionId);
@@ -924,12 +890,11 @@ bool TimelineModel::requestCompositionDeletion(int compositionId, Fun &undo, Fun
         return true;
     };
     if (operation()) {
-        list.insert(list.end(), local_list.begin(), local_list.end());
-        UPDATE_UNDO_REDO(operation, reverse, local_undo, local_redo);
-        UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
+        emit removeFromSelection(compositionId);
+        UPDATE_UNDO_REDO(operation, reverse, undo, redo);
         return true;
     }
-    local_undo();
+    undo();
     return false;
 }
 
@@ -956,28 +921,18 @@ std::unordered_set<int> TimelineModel::getItemsInRange(int trackId, int start, i
 
 bool TimelineModel::requestGroupMove(int clipId, int groupId, int delta_track, int delta_pos, bool updateView, bool logUndo)
 {
-    updateView = true;
-    qDebug() << "Move group main clip" << clipId << "group" << groupId << "updateView" << updateView << "logUndo" << logUndo;
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
-    Updates list;
-    bool res = requestGroupMove(clipId, groupId, delta_track, delta_pos, updateView, logUndo, undo, redo, list);
-    if (res) {
-        if (updateView) {
-            ModelUpdater::applyUpdates(undo, redo, list);
-        }
-        if (logUndo) {
-            PUSH_UNDO(undo, redo, i18n("Move group"));
-        }
+    bool res = requestGroupMove(clipId, groupId, delta_track, delta_pos, updateView, logUndo, undo, redo);
+    if (res && logUndo) {
+        PUSH_UNDO(undo, redo, i18n("Move group"));
     }
     return res;
 }
 
 bool TimelineModel::requestGroupMove(int clipId, int groupId, int delta_track, int delta_pos, bool updateView, bool finalMove, Fun &undo, Fun &redo,
-                                     Updates &list, bool allowViewRefresh)
+                                     bool allowViewRefresh)
 {
-    qDebug() << "Move group inside clip" << clipId << "group" << groupId << "updateView" << updateView << "finalmove" << finalMove << "allowViewRefresh"
-             << allowViewRefresh;
 #ifdef LOGGING
     m_logFile << "timeline->requestGroupMove(" << clipId << "," << groupId << " ," << delta_track << ", " << delta_pos << ", "
               << (updateView ? "true" : "false") << " ); " << std::endl;
@@ -988,7 +943,6 @@ bool TimelineModel::requestGroupMove(int clipId, int groupId, int delta_track, i
     auto all_items = m_groups->getLeaves(groupId);
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
-    Updates local_list;
 
     // Sort clips. We need to delete from right to left to avoid confusing the view
     std::vector<int> sorted_clips(all_items.begin(), all_items.end());
@@ -1009,10 +963,10 @@ bool TimelineModel::requestGroupMove(int clipId, int groupId, int delta_track, i
         if (old_trackId != -1) {
             bool updateThisView = (item == clipId) ? updateView : allowViewRefresh;
             if (isClip(item)) {
-                ok = ok && getTrackById(old_trackId)->requestClipDeletion(item, updateThisView, finalMove, local_undo, local_redo, local_list);
+                ok = ok && getTrackById(old_trackId)->requestClipDeletion(item, updateThisView, finalMove, local_undo, local_redo);
                 old_position[item] = m_allClips[item]->getPosition();
             } else {
-                ok = ok && getTrackById(old_trackId)->requestCompositionDeletion(item, updateThisView, local_undo, local_redo, local_list);
+                ok = ok && getTrackById(old_trackId)->requestCompositionDeletion(item, updateThisView, local_undo, local_redo);
                 old_position[item] = m_allCompositions[item]->getPosition();
                 old_forced_track[item] = m_allCompositions[item]->getForcedTrack();
             }
@@ -1050,10 +1004,9 @@ bool TimelineModel::requestGroupMove(int clipId, int groupId, int delta_track, i
             int target_track = (*it)->getId();
             int target_position = old_position[item] + delta_pos;
             if (isClip(item)) {
-                ok = ok && requestClipMove(item, target_track, target_position, updateThisView, finalMove, local_undo, local_redo, local_list);
+                ok = ok && requestClipMove(item, target_track, target_position, updateThisView, finalMove, local_undo, local_redo);
             } else {
-                ok = ok &&
-                     requestCompositionMove(item, target_track, old_forced_track[item], target_position, updateThisView, local_undo, local_redo, local_list);
+                ok = ok && requestCompositionMove(item, target_track, old_forced_track[item], target_position, updateThisView, local_undo, local_redo);
             }
         } else {
             qDebug() << "// ABORTING; MOVE TRIED ON TRACK: " << target_track_position << "..\n..\n..";
@@ -1065,7 +1018,6 @@ bool TimelineModel::requestGroupMove(int clipId, int groupId, int delta_track, i
             return false;
         }
     }
-    list.insert(list.end(), local_list.begin(), local_list.end());
     UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
     return true;
 }
@@ -1078,18 +1030,14 @@ bool TimelineModel::requestGroupDeletion(int clipId, bool logUndo)
     QWriteLocker locker(&m_lock);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    Updates list;
-    bool res = requestGroupDeletion(clipId, undo, redo, list);
+    bool res = requestGroupDeletion(clipId, undo, redo);
     if (res && logUndo) {
-        ModelUpdater::applyUpdates(undo, redo, list);
-        if (logUndo) {
-            PUSH_UNDO(undo, redo, i18n("Remove group"));
-        }
+        PUSH_UNDO(undo, redo, i18n("Remove group"));
     }
     return res;
 }
 
-bool TimelineModel::requestGroupDeletion(int clipId, Fun &undo, Fun &redo, Updates &list)
+bool TimelineModel::requestGroupDeletion(int clipId, Fun &undo, Fun &redo)
 {
     // we do a breadth first exploration of the group tree, ungroup (delete) every inner node, and then delete all the leaves.
     std::queue<int> group_queue;
@@ -1119,7 +1067,7 @@ bool TimelineModel::requestGroupDeletion(int clipId, Fun &undo, Fun &redo, Updat
             }
         }
         if (one_child != -1) {
-            bool res = m_groups->ungroupItem(one_child, undo, redo, list);
+            bool res = m_groups->ungroupItem(one_child, undo, redo);
             if (!res) {
                 undo();
                 return false;
@@ -1127,14 +1075,14 @@ bool TimelineModel::requestGroupDeletion(int clipId, Fun &undo, Fun &redo, Updat
         }
     }
     for (int clip : all_items) {
-        bool res = requestClipDeletion(clip, undo, redo, list);
+        bool res = requestClipDeletion(clip, undo, redo);
         if (!res) {
             undo();
             return false;
         }
     }
     for (int compo : all_compositions) {
-        bool res = requestCompositionDeletion(compo, undo, redo, list);
+        bool res = requestCompositionDeletion(compo, undo, redo);
         if (!res) {
             undo();
             return false;
@@ -1160,16 +1108,15 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
     if (snapDistance > 0) {
         Fun temp_undo = []() { return true; };
         Fun temp_redo = []() { return true; };
-        Updates list;
         int proposed_size = m_snaps->proposeSize(in, out, size, right, snapDistance);
         if (proposed_size >= 0) {
             // only test move if proposed_size is valid
             bool success = false;
             if (isClip(itemId)) {
                 qDebug() << "+++MODEL REQUEST RESIZE (LOGUNDO) " << logUndo << ", SIZE: " << proposed_size;
-                success = m_allClips[itemId]->requestResize(proposed_size, right, temp_undo, temp_redo, list, false);
+                success = m_allClips[itemId]->requestResize(proposed_size, right, temp_undo, temp_redo, false);
             } else {
-                success = m_allCompositions[itemId]->requestResize(proposed_size, right, temp_undo, temp_redo, list, false);
+                success = m_allCompositions[itemId]->requestResize(proposed_size, right, temp_undo, temp_redo, false);
             }
             if (success) {
                 temp_undo(); // undo temp move
@@ -1179,7 +1126,6 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
     }
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    Updates list;
     std::unordered_set<int> all_items;
     if (!allowSingleResize && m_groups->isInGroup(itemId)) {
         int groupId = m_groups->getRootId(itemId);
@@ -1204,40 +1150,48 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
     }
     bool result = true;
     for (int id : all_items) {
-        result = result && requestItemResize(id, size, right, logUndo, undo, redo, list);
+        result = result && requestItemResize(id, size, right, logUndo, undo, redo);
     }
     if (!result) {
         bool undone = undo();
         Q_ASSERT(undone);
         return -1;
     }
-    if (result) {
-        ModelUpdater::applyUpdates(undo, redo, list);
-        if (logUndo) {
-            if (isClip(itemId)) {
-                PUSH_UNDO(undo, redo, i18n("Resize clip"));
-            } else {
-                PUSH_UNDO(undo, redo, i18n("Resize composition"));
-            }
+    if (result && logUndo) {
+        if (isClip(itemId)) {
+            PUSH_UNDO(undo, redo, i18n("Resize clip"));
+        } else {
+            PUSH_UNDO(undo, redo, i18n("Resize composition"));
         }
     }
     return result ? size : -1;
 }
 
-bool TimelineModel::requestItemResize(int itemId, int size, bool right, bool logUndo, Fun &undo, Fun &redo, Updates &list)
+bool TimelineModel::requestItemResize(int itemId, int size, bool right, bool logUndo, Fun &undo, Fun &redo, bool blockUndo)
 {
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
-    Updates local_list;
+    Fun update_model = [itemId, right, logUndo, this]() {
+        Q_ASSERT(isClip(itemId) || isComposition(itemId));
+        if (getItemTrackId(itemId) != -1) {
+            QModelIndex modelIndex = isClip(itemId) ? makeClipIndexFromID(itemId) : makeCompositionIndexFromID(itemId);
+            notifyChange(modelIndex, modelIndex, !right, true, logUndo);
+        }
+        return true;
+    };
     bool result = false;
     if (isClip(itemId)) {
-        result = m_allClips[itemId]->requestResize(size, right, local_undo, local_redo, local_list, logUndo);
+        result = m_allClips[itemId]->requestResize(size, right, local_undo, local_redo, logUndo);
     } else {
         Q_ASSERT(isComposition(itemId));
-        result = m_allCompositions[itemId]->requestResize(size, right, local_undo, local_redo, local_list);
+        result = m_allCompositions[itemId]->requestResize(size, right, local_undo, local_redo);
     }
     if (result) {
-        list.insert(list.end(), local_list.begin(), local_list.end());
+        if (!blockUndo) {
+            PUSH_LAMBDA(update_model, local_undo);
+        }
+        PUSH_LAMBDA(update_model, local_redo);
+        update_model();
         UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
     }
     return result;
@@ -1248,7 +1202,6 @@ int TimelineModel::requestClipsGroup(const std::unordered_set<int> &ids, bool lo
     QWriteLocker locker(&m_lock);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    Updates list;
     if (m_temporarySelectionGroup > -1) {
         m_groups->destructGroupItem(m_temporarySelectionGroup);
         // We don't log in undo the selection changes
@@ -1256,12 +1209,9 @@ int TimelineModel::requestClipsGroup(const std::unordered_set<int> &ids, bool lo
         // requestClipUngroup(firstChild, undo, redo);
         m_temporarySelectionGroup = -1;
     }
-    int result = requestClipsGroup(ids, undo, redo, list, type);
+    int result = requestClipsGroup(ids, undo, redo, type);
     if (type == GroupType::Selection) {
         m_temporarySelectionGroup = result;
-    }
-    if (result > -1) {
-        ModelUpdater::applyUpdates(undo, redo, list);
     }
     if (result > -1 && logUndo && type != GroupType::Selection) {
         PUSH_UNDO(undo, redo, i18n("Group clips"));
@@ -1269,7 +1219,7 @@ int TimelineModel::requestClipsGroup(const std::unordered_set<int> &ids, bool lo
     return result;
 }
 
-int TimelineModel::requestClipsGroup(const std::unordered_set<int> &ids, Fun &undo, Fun &redo, Updates &list, GroupType type)
+int TimelineModel::requestClipsGroup(const std::unordered_set<int> &ids, Fun &undo, Fun &redo, GroupType type)
 {
 #ifdef LOGGING
     std::stringstream group;
@@ -1301,7 +1251,7 @@ int TimelineModel::requestClipsGroup(const std::unordered_set<int> &ids, Fun &un
             return -1;
         }
     }
-    int groupId = m_groups->groupItems(ids, undo, redo, list, type);
+    int groupId = m_groups->groupItems(ids, undo, redo, type);
     if (type == GroupType::Selection && *(ids.begin()) == groupId) {
         // only one element selected, no group created
         return -1;
@@ -1317,7 +1267,6 @@ bool TimelineModel::requestClipUngroup(int id, bool logUndo)
     QWriteLocker locker(&m_lock);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    Updates list;
     bool result = true;
     if (id == m_temporarySelectionGroup) {
         // Ungrouping selection group, so get id of all children
@@ -1325,38 +1274,37 @@ bool TimelineModel::requestClipUngroup(int id, bool logUndo)
         // Delete selection group without undo
         Fun tmp_undo = []() { return true; };
         Fun tmp_redo = []() { return true; };
-        requestClipUngroup(id, tmp_undo, tmp_redo, list);
+        requestClipUngroup(id, tmp_undo, tmp_redo);
         m_temporarySelectionGroup = -1;
 
         // Parse children to find groups
         std::unordered_set<int> groups;
         for (int item : leaves) {
-            if (isGroup(item)) {
-                groups.insert(item);
+            if (m_groups->getLeaves(item).size() > 0) {
+                if (groups.count(item) <= 0) {
+                    leaves.insert(item);
+                }
             }
         }
         // destroy groups
-        for (int group : groups) {
-            result = requestClipUngroup(group, undo, redo, list);
+        for (int leave : leaves) {
+            result = requestClipUngroup(leave, undo, redo);
             if (!result) {
                 break;
             }
         }
     } else {
-        result = requestClipUngroup(id, undo, redo, list);
+        result = requestClipUngroup(id, undo, redo);
     }
-    if (result) {
-        ModelUpdater::applyUpdates(undo, redo, list);
-        if (logUndo) {
-            PUSH_UNDO(undo, redo, i18n("Ungroup clips"));
-        }
+    if (result && logUndo) {
+        PUSH_UNDO(undo, redo, i18n("Ungroup clips"));
     }
     return result;
 }
 
-bool TimelineModel::requestClipUngroup(int id, Fun &undo, Fun &redo, Updates &list)
+bool TimelineModel::requestClipUngroup(int id, Fun &undo, Fun &redo)
 {
-    return m_groups->ungroupItem(id, undo, redo, list);
+    return m_groups->ungroupItem(id, undo, redo);
 }
 
 bool TimelineModel::requestTrackInsertion(int position, int &id, const QString &trackName, bool audioTrack)
@@ -1367,19 +1315,15 @@ bool TimelineModel::requestTrackInsertion(int position, int &id, const QString &
     QWriteLocker locker(&m_lock);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    Updates list;
-    bool result = requestTrackInsertion(position, id, trackName, audioTrack, undo, redo, list);
+    bool result = requestTrackInsertion(position, id, trackName, audioTrack, undo, redo);
     if (result) {
-        ModelUpdater::applyUpdates(undo, redo, list);
         PUSH_UNDO(undo, redo, i18n("Insert Track"));
     }
     return result;
 }
 
-bool TimelineModel::requestTrackInsertion(int position, int &id, const QString &trackName, bool audioTrack, Fun &undo, Fun &redo, Updates &list,
-                                          bool updateView)
+bool TimelineModel::requestTrackInsertion(int position, int &id, const QString &trackName, bool audioTrack, Fun &undo, Fun &redo, bool updateView)
 {
-    Q_UNUSED(list);
     // TODO: make sure we disable overlayTrack before inserting a track
     if (position == -1) {
         position = (int)(m_allTracks.size());
@@ -1411,8 +1355,7 @@ bool TimelineModel::requestTrackDeletion(int trackId)
     QWriteLocker locker(&m_lock);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    Updates list;
-    bool result = requestTrackDeletion(trackId, undo, redo, list);
+    bool result = requestTrackDeletion(trackId, undo, redo);
     if (result) {
         if (m_videoTarget == trackId) {
             m_videoTarget = -1;
@@ -1420,13 +1363,12 @@ bool TimelineModel::requestTrackDeletion(int trackId)
         if (m_audioTarget == trackId) {
             m_audioTarget = -1;
         }
-        ModelUpdater::applyUpdates(undo, redo, list);
         PUSH_UNDO(undo, redo, i18n("Delete Track"));
     }
     return result;
 }
 
-bool TimelineModel::requestTrackDeletion(int trackId, Fun &undo, Fun &redo, Updates &list)
+bool TimelineModel::requestTrackDeletion(int trackId, Fun &undo, Fun &redo)
 {
     Q_ASSERT(isTrack(trackId));
     std::vector<int> clips_to_delete;
@@ -1435,14 +1377,13 @@ bool TimelineModel::requestTrackDeletion(int trackId, Fun &undo, Fun &redo, Upda
     }
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
-    Updates local_list;
     for (int clip : clips_to_delete) {
         bool res = true;
         while (res && m_groups->isInGroup(clip)) {
-            res = requestClipUngroup(clip, local_undo, local_redo, local_list);
+            res = requestClipUngroup(clip, local_undo, local_redo);
         }
         if (res) {
-            res = requestClipDeletion(clip, local_undo, local_redo, local_list);
+            res = requestClipDeletion(clip, local_undo, local_redo);
         }
         if (!res) {
             bool u = local_undo();
@@ -1460,7 +1401,6 @@ bool TimelineModel::requestTrackDeletion(int trackId, Fun &undo, Fun &redo, Upda
         return true;
     };
     if (operation()) {
-        list.insert(list.end(), local_list.begin(), local_list.end());
         UPDATE_UNDO_REDO(operation, reverse, local_undo, local_redo);
         UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
         return true;
@@ -1613,10 +1553,8 @@ bool TimelineModel::adjustEffectLength(int clipId, const QString &effectId, int 
     Q_ASSERT(m_allClips.count(clipId));
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    Updates list;
-    bool res = m_allClips.at(clipId)->adjustEffectLength(effectId, duration, initialDuration, undo, redo, list);
+    bool res = m_allClips.at(clipId)->adjustEffectLength(effectId, duration, initialDuration, undo, redo);
     if (res && initialDuration > 0) {
-        ModelUpdater::applyUpdates(undo, redo, list);
         PUSH_UNDO(undo, redo, i18n("Adjust Fade"));
     }
     return res;
@@ -1684,7 +1622,7 @@ Mlt::Profile *TimelineModel::getProfile()
     return m_profile;
 }
 
-bool TimelineModel::requestReset(Fun &undo, Fun &redo, Updates &list)
+bool TimelineModel::requestReset(Fun &undo, Fun &redo)
 {
     std::vector<int> all_ids;
     for (const auto &track : m_iteratorTable) {
@@ -1692,7 +1630,7 @@ bool TimelineModel::requestReset(Fun &undo, Fun &redo, Updates &list)
     }
     bool ok = true;
     for (int trackId : all_ids) {
-        ok = ok && requestTrackDeletion(trackId, undo, redo, list);
+        ok = ok && requestTrackDeletion(trackId, undo, redo);
     }
     return ok;
 }
@@ -1767,19 +1705,15 @@ bool TimelineModel::requestCompositionInsertion(const QString &transitionId, int
     QWriteLocker locker(&m_lock);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    Updates list;
-    bool result = requestCompositionInsertion(transitionId, trackId, -1, position, length, transProps, id, undo, redo, list);
-    if (result) {
-        ModelUpdater::applyUpdates(undo, redo, list);
-        if (logUndo) {
-            PUSH_UNDO(undo, redo, i18n("Insert Composition"));
-        }
+    bool result = requestCompositionInsertion(transitionId, trackId, -1, position, length, transProps, id, undo, redo);
+    if (result && logUndo) {
+        PUSH_UNDO(undo, redo, i18n("Insert Composition"));
     }
     return result;
 }
 
 bool TimelineModel::requestCompositionInsertion(const QString &transitionId, int trackId, int compositionTrack, int position, int length,
-                                                Mlt::Properties *transProps, int &id, Fun &undo, Fun &redo, Updates &list)
+                                                Mlt::Properties *transProps, int &id, Fun &undo, Fun &redo)
 {
     qDebug() << "Inserting compo track" << trackId << "pos" << position << "length" << length;
     int compositionId = TimelineModel::getNextId();
@@ -1793,11 +1727,10 @@ bool TimelineModel::requestCompositionInsertion(const QString &transitionId, int
         registerComposition(composition);
         return true;
     };
-    Updates local_list;
-    bool res = requestCompositionMove(compositionId, trackId, compositionTrack, position, true, local_undo, local_redo, local_list);
+    bool res = requestCompositionMove(compositionId, trackId, compositionTrack, position, true, local_undo, local_redo);
     qDebug() << "trying to move" << trackId << "pos" << position << "succes " << res;
     if (res) {
-        res = requestItemResize(compositionId, length, true, true, local_undo, local_redo, local_list);
+        res = requestItemResize(compositionId, length, true, true, local_undo, local_redo, true);
         qDebug() << "trying to resize" << compositionId << "length" << length << "succes " << res;
     }
     if (!res) {
@@ -1806,7 +1739,6 @@ bool TimelineModel::requestCompositionInsertion(const QString &transitionId, int
         id = -1;
         return false;
     }
-    list.insert(list.end(), local_list.begin(), local_list.end());
     UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
     return true;
 }
@@ -1883,11 +1815,10 @@ bool TimelineModel::requestCompositionMove(int compoId, int trackId, int positio
     }
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
-    Updates list;
     int min = getCompositionPosition(compoId);
     int max = min + getCompositionPlaytime(compoId);
     int tk = getCompositionTrackId(compoId);
-    bool res = requestCompositionMove(compoId, trackId, m_allCompositions[compoId]->getForcedTrack(), position, updateView, undo, redo, list);
+    bool res = requestCompositionMove(compoId, trackId, m_allCompositions[compoId]->getForcedTrack(), position, updateView, undo, redo);
     if (tk > -1) {
         min = qMin(min, getCompositionPosition(compoId));
         max = qMax(max, getCompositionPosition(compoId));
@@ -1896,17 +1827,14 @@ bool TimelineModel::requestCompositionMove(int compoId, int trackId, int positio
         max = min + getCompositionPlaytime(compoId);
     }
 
-    if (res) {
-        ModelUpdater::applyUpdates(undo, redo, list);
-        if (logUndo) {
-            PUSH_UNDO(undo, redo, i18n("Move composition"));
-            checkRefresh(min, max);
-        }
+    if (res && logUndo) {
+        PUSH_UNDO(undo, redo, i18n("Move composition"));
+        checkRefresh(min, max);
     }
     return res;
 }
 
-bool TimelineModel::requestCompositionMove(int compoId, int trackId, int compositionTrack, int position, bool updateView, Fun &undo, Fun &redo, Updates &list)
+bool TimelineModel::requestCompositionMove(int compoId, int trackId, int compositionTrack, int position, bool updateView, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(isComposition(compoId));
@@ -1925,7 +1853,6 @@ bool TimelineModel::requestCompositionMove(int compoId, int trackId, int composi
 
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
-    Updates local_list;
     bool ok = true;
     int old_trackId = getCompositionTrackId(compoId);
     if (old_trackId != -1) {
@@ -1940,7 +1867,7 @@ bool TimelineModel::requestCompositionMove(int compoId, int trackId, int composi
             int oldAtrack = m_allCompositions[compoId]->getATrack();
             delete_reverse = [this, compoId, oldAtrack, updateView]() {
                 m_allCompositions[compoId]->setATrack(oldAtrack, oldAtrack <= 0 ? -1 : getTrackIndexFromPosition(oldAtrack - 1));
-                return replantCompositions(compoId);
+                return replantCompositions(compoId, updateView);
             };
         }
         ok = delete_operation();
@@ -1948,7 +1875,7 @@ bool TimelineModel::requestCompositionMove(int compoId, int trackId, int composi
 
         if (ok) {
             UPDATE_UNDO_REDO(delete_operation, delete_reverse, local_undo, local_redo);
-            ok = getTrackById(old_trackId)->requestCompositionDeletion(compoId, updateView, local_undo, local_redo, local_list);
+            ok = getTrackById(old_trackId)->requestCompositionDeletion(compoId, updateView, local_undo, local_redo);
         }
         if (!ok) {
             qDebug() << "Move failed because of first deletion request";
@@ -1957,7 +1884,7 @@ bool TimelineModel::requestCompositionMove(int compoId, int trackId, int composi
             return false;
         }
     }
-    ok = getTrackById(trackId)->requestCompositionInsertion(compoId, position, updateView, local_undo, local_redo, local_list);
+    ok = getTrackById(trackId)->requestCompositionInsertion(compoId, position, updateView, local_undo, local_redo);
     if (!ok) qDebug() << "Move failed because of second insertion request";
     if (ok) {
         Fun insert_operation = []() { return true; };
@@ -1966,7 +1893,7 @@ bool TimelineModel::requestCompositionMove(int compoId, int trackId, int composi
             insert_operation = [this, compoId, trackId, compositionTrack, updateView]() {
                 qDebug() << "-------------- ATRACK ----------------\n" << compositionTrack << " = " << getTrackIndexFromPosition(compositionTrack);
                 m_allCompositions[compoId]->setATrack(compositionTrack, compositionTrack <= 0 ? -1 : getTrackIndexFromPosition(compositionTrack - 1));
-                return replantCompositions(compoId);
+                return replantCompositions(compoId, updateView);
             };
             insert_reverse = [this, compoId]() {
                 bool res = unplantComposition(compoId);
@@ -1985,15 +1912,11 @@ bool TimelineModel::requestCompositionMove(int compoId, int trackId, int composi
         Q_ASSERT(undone);
         return false;
     }
-    if (updateView) {
-        local_list.emplace_back(new ChangeUpdate(compoId, shared_from_this(), {TimelineModel::ItemATrack}));
-    }
-    list.insert(list.end(), local_list.begin(), local_list.end());
     UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
     return true;
 }
 
-bool TimelineModel::replantCompositions(int currentCompo)
+bool TimelineModel::replantCompositions(int currentCompo, bool updateView)
 {
     // We ensure that the compositions are planted in a decreasing order of b_track.
     // For that, there is no better option than to disconnect every composition and then reinsert everything in the correct order.
@@ -2065,6 +1988,12 @@ bool TimelineModel::replantCompositions(int currentCompo)
         field->plant_transition(*firstTr, firstTr->get_a_track(), firstTr->get_b_track());
     }
     field->unlock();
+    if (updateView) {
+        QModelIndex modelIndex = makeCompositionIndexFromID(currentCompo);
+        QVector<int> roles;
+        roles.push_back(ItemATrack);
+        notifyChange(modelIndex, modelIndex, roles);
+    }
     return true;
 }
 
@@ -2318,19 +2247,17 @@ void TimelineModel::requestClipReload(int clipId)
 {
     std::function<bool(void)> local_undo = []() { return true; };
     std::function<bool(void)> local_redo = []() { return true; };
-    Updates list;
 
     // in order to make the producer change effective, we need to unplant / replant the clip in int track
     int old_trackId = getClipTrackId(clipId);
     int oldPos = getClipPosition(clipId);
     if (old_trackId != -1) {
-        getTrackById(old_trackId)->requestClipDeletion(clipId, false, true, local_undo, local_redo, list);
+        getTrackById(old_trackId)->requestClipDeletion(clipId, false, true, local_undo, local_redo);
     }
     m_allClips[clipId]->refreshProducerFromBin();
     if (old_trackId != -1) {
-        getTrackById(old_trackId)->requestClipInsertion(clipId, oldPos, true, true, local_undo, local_redo, list);
+        getTrackById(old_trackId)->requestClipInsertion(clipId, oldPos, true, true, local_undo, local_redo);
     }
-    ModelUpdater::applyUpdates(local_undo, local_redo, list);
 }
 
 void TimelineModel::replugClip(int clipId)
@@ -2350,7 +2277,7 @@ void TimelineModel::requestClipUpdate(int clipId, const QVector<int> &roles)
     notifyChange(modelIndex, modelIndex, roles);
 }
 
-bool TimelineModel::requestClipTimeWarp(int clipId, double speed, Fun &undo, Fun &redo, Updates &list)
+bool TimelineModel::requestClipTimeWarp(int clipId, double speed, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
     if (qFuzzyCompare(speed, m_allClips[clipId]->getSpeed())) {
@@ -2358,25 +2285,23 @@ bool TimelineModel::requestClipTimeWarp(int clipId, double speed, Fun &undo, Fun
     }
     std::function<bool(void)> local_undo = []() { return true; };
     std::function<bool(void)> local_redo = []() { return true; };
-    Updates local_list;
     int oldPos = getClipPosition(clipId);
     // in order to make the producer change effective, we need to unplant / replant the clip in int track
     bool success = true;
     int trackId = getClipTrackId(clipId);
     if (trackId != -1) {
-        success = success && getTrackById(trackId)->requestClipDeletion(clipId, true, true, local_undo, local_redo, local_list);
+        success = success && getTrackById(trackId)->requestClipDeletion(clipId, true, true, local_undo, local_redo);
     }
     if (success) {
-        success = m_allClips[clipId]->useTimewarpProducer(speed, local_undo, local_redo, local_list);
+        success = m_allClips[clipId]->useTimewarpProducer(speed, local_undo, local_redo);
     }
     if (trackId != -1) {
-        success = success && getTrackById(trackId)->requestClipInsertion(clipId, oldPos, true, true, local_undo, local_redo, local_list);
+        success = success && getTrackById(trackId)->requestClipInsertion(clipId, oldPos, true, true, local_undo, local_redo);
     }
     if (!success) {
         local_undo();
         return false;
     }
-    list.insert(list.begin(), local_list.begin(), local_list.end());
     UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
     return success;
 }
@@ -2385,7 +2310,6 @@ bool TimelineModel::requestClipTimeWarp(int clipId, double speed)
 {
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    Updates list;
     // Get main clip info
     int trackId = getClipTrackId(clipId);
     bool result = true;
@@ -2393,10 +2317,10 @@ bool TimelineModel::requestClipTimeWarp(int clipId, double speed)
         // Check if clip has a split partner
         int splitId = m_groups->getSplitPartner(clipId);
         if (splitId > -1) {
-            result = requestClipTimeWarp(splitId, speed / 100.0, undo, redo, list);
+            result = requestClipTimeWarp(splitId, speed / 100.0, undo, redo);
         }
         if (result) {
-            result = requestClipTimeWarp(clipId, speed / 100.0, undo, redo, list);
+            result = requestClipTimeWarp(clipId, speed / 100.0, undo, redo);
         } else {
             pCore->displayMessage(i18n("Change speed failed"), ErrorMessage);
             undo();
@@ -2404,10 +2328,9 @@ bool TimelineModel::requestClipTimeWarp(int clipId, double speed)
         }
     } else {
         // If clip is not inserted on a track, we just change the producer
-        m_allClips[clipId]->useTimewarpProducer(speed, undo, redo, list);
+        m_allClips[clipId]->useTimewarpProducer(speed, undo, redo);
     }
     if (result) {
-        ModelUpdater::applyUpdates(undo, redo, list);
         PUSH_UNDO(undo, redo, i18n("Change clip speed"));
         return true;
     }

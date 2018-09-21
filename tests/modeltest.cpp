@@ -911,8 +911,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
 
         std::function<bool(void)> undo = []() { return true; };
         std::function<bool(void)> redo = []() { return true; };
-        Updates list;
-        REQUIRE(TimelineFunctions::copyClip(timeline, cid6, newId, PlaylistState::VideoOnly, undo, redo, list));
+        REQUIRE(TimelineFunctions::copyClip(timeline, cid6, newId, PlaylistState::VideoOnly, undo, redo));
         REQUIRE(timeline->m_allClips[cid6]->binId() == timeline->m_allClips[newId]->binId());
         // TODO check effects
     }
@@ -1018,8 +1017,7 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
             int temp;
             Fun undo = []() { return true; };
             Fun redo = []() { return true; };
-            Updates list;
-            REQUIRE_FALSE(timeline->requestClipCreation("impossible bin id", temp, PlaylistState::VideoOnly, undo, redo, list));
+            REQUIRE_FALSE(timeline->requestClipCreation("impossible bin id", temp, PlaylistState::VideoOnly, undo, redo));
         }
 
         auto state0 = [&]() {
@@ -1033,8 +1031,7 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
         {
             Fun undo = []() { return true; };
             Fun redo = []() { return true; };
-            Updates list;
-            REQUIRE(timeline->requestClipCreation(binId3, cid3, PlaylistState::VideoOnly, undo, redo, list));
+            REQUIRE(timeline->requestClipCreation(binId3, cid3, PlaylistState::VideoOnly, undo, redo));
             pCore->pushUndo(undo, redo, QString());
         }
 
@@ -1051,8 +1048,7 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
         {
             Fun undo = []() { return true; };
             Fun redo = []() { return true; };
-            Updates list;
-            REQUIRE(timeline->requestClipCreation(binId4, cid4, PlaylistState::VideoOnly, undo, redo, list));
+            REQUIRE(timeline->requestClipCreation(binId4, cid4, PlaylistState::VideoOnly, undo, redo));
             pCore->pushUndo(undo, redo, QString());
         }
 
@@ -1479,8 +1475,7 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
         {
             std::function<bool(void)> undo = []() { return true; };
             std::function<bool(void)> redo = []() { return true; };
-            Updates list;
-            REQUIRE(timeline->requestClipCreation(binId, cid6, PlaylistState::VideoOnly, undo, redo, list));
+            REQUIRE(timeline->requestClipCreation(binId, cid6, PlaylistState::VideoOnly, undo, redo));
             pCore->pushUndo(undo, redo, QString());
         }
         int l = timeline->getClipPlaytime(cid6);
@@ -1496,8 +1491,7 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
         {
             std::function<bool(void)> undo = []() { return true; };
             std::function<bool(void)> redo = []() { return true; };
-            Updates list;
-            REQUIRE(timeline->requestItemResize(cid6, l - 5, true, true, undo, redo, list));
+            REQUIRE(timeline->requestItemResize(cid6, l - 5, true, true, undo, redo, false));
             pCore->pushUndo(undo, redo, QString());
         }
         auto state2 = [&]() {
@@ -1511,8 +1505,7 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
         {
             std::function<bool(void)> undo = []() { return true; };
             std::function<bool(void)> redo = []() { return true; };
-            Updates list;
-            REQUIRE(timeline->requestClipMove(cid6, tid1, 7, true, true, undo, redo, list));
+            REQUIRE(timeline->requestClipMove(cid6, tid1, 7, true, true, undo, redo));
             pCore->pushUndo(undo, redo, QString());
         }
         auto state3 = [&]() {
@@ -1527,8 +1520,7 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
         {
             std::function<bool(void)> undo = []() { return true; };
             std::function<bool(void)> redo = []() { return true; };
-            Updates list;
-            REQUIRE(timeline->requestItemResize(cid6, l - 6, false, true, undo, redo, list));
+            REQUIRE(timeline->requestItemResize(cid6, l - 6, false, true, undo, redo, false));
             pCore->pushUndo(undo, redo, QString());
         }
         auto state4 = [&]() {

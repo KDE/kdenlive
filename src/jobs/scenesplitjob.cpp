@@ -106,7 +106,7 @@ int SceneSplitJob::prepareJob(std::shared_ptr<JobManager> ptr, const std::vector
     return ptr->startJob_noprepare<SceneSplitJob>(binIds, parentId, std::move(undoString), subclips, markersType, minInterval);
 }
 
-bool SceneSplitJob::commitResult(Fun &undo, Fun &redo, Updates &list)
+bool SceneSplitJob::commitResult(Fun &undo, Fun &redo)
 {
     Q_UNUSED(undo)
     Q_UNUSED(redo)

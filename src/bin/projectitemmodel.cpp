@@ -385,12 +385,9 @@ void ProjectItemModel::clean()
     }
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    Updates list;
     for (const auto &child : toDelete) {
-        requestBinClipDeletion(child, undo, redo, list);
+        requestBinClipDeletion(child, undo, redo);
     }
-    ModelUpdater::applyUpdates(undo, redo, list);
-
     Q_ASSERT(rootItem->childCount() == 0);
     m_nextId = 1;
     m_fileWatcher->clear();
@@ -439,14 +436,14 @@ std::shared_ptr<AbstractProjectItem> ProjectItemModel::getBinItemByIndex(const Q
     return std::static_pointer_cast<AbstractProjectItem>(getItemById((int)index.internalId()));
 }
 
-bool ProjectItemModel::requestBinClipDeletion(std::shared_ptr<AbstractProjectItem> clip, Fun &undo, Fun &redo, Updates &list)
+bool ProjectItemModel::requestBinClipDeletion(std::shared_ptr<AbstractProjectItem> clip, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(clip);
     if (!clip) return false;
     int parentId = -1;
     if (auto ptr = clip->parent()) parentId = ptr->getId();
-    clip->selfSoftDelete(undo, redo, list);
+    clip->selfSoftDelete(undo, redo);
     int id = clip->getId();
     Fun operation = removeItem_lambda(id);
     Fun reverse = addItem_lambda(clip, parentId);
@@ -663,7 +660,6 @@ bool ProjectItemModel::requestCleanup()
 {
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    Updates list;
     bool res = true;
     std::vector<std::shared_ptr<AbstractProjectItem>> to_delete;
     // Iterate to find clips that are not in timeline
@@ -676,14 +672,13 @@ bool ProjectItemModel::requestCleanup()
     // it is important to execute deletion in a separate loop, because otherwise
     // the iterators of m_allItems get messed up
     for (const auto &c : to_delete) {
-        res = requestBinClipDeletion(c, undo, redo, list);
+        res = requestBinClipDeletion(c, undo, redo);
         if (!res) {
             bool undone = undo();
             Q_ASSERT(undone);
             return false;
         }
     }
-    ModelUpdater::applyUpdates(undo, redo, list);
     pCore->pushUndo(undo, redo, i18n("Clean Project"));
     return true;
 }

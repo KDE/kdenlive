@@ -99,7 +99,7 @@ int SpeedJob::prepareJob(std::shared_ptr<JobManager> ptr, const std::vector<QStr
     return ptr->startJob<SpeedJob>(binIds, parentId, std::move(undoString), local_createFn_t(std::move(createFn)));
 }
 
-bool SpeedJob::commitResult(Fun &undo, Fun &redo, Updates &list)
+bool SpeedJob::commitResult(Fun &undo, Fun &redo)
 {
     Q_ASSERT(!m_resultConsumed);
     if (!m_done) {

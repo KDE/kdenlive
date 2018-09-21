@@ -23,7 +23,6 @@
 #define GROUPMODEL_H
 
 #include "definitions.h"
-#include "modelupdater.hpp"
 #include "undohelper.hpp"
 #include <QReadWriteLock>
 #include <memory>
@@ -52,7 +51,7 @@ public:
        @param type indicates the type of group we create
        Returns the id of the new group, or -1 on error.
     */
-    int groupItems(const std::unordered_set<int> &ids, Fun &undo, Fun &redo, Updates &list, GroupType type = GroupType::Normal, bool force = false);
+    int groupItems(const std::unordered_set<int> &ids, Fun &undo, Fun &redo, GroupType type = GroupType::Normal, bool force = false);
 
 protected:
     /* Lambda version */
@@ -66,7 +65,7 @@ public:
        @param undo Lambda function containing the current undo stack. Will be updated with current operation
        @param redo Lambda function containing the current redo queue. Will be updated with current operation
      */
-    bool ungroupItem(int id, Fun &undo, Fun &redo, Updates &list);
+    bool ungroupItem(int id, Fun &undo, Fun &redo);
 
     /* @brief Create a groupItem in the hierarchy. Initially it is not part of a group
        @param id id of the groupItem
@@ -87,14 +86,14 @@ public:
          a       b
        @param id id of the tree to consider
      */
-    bool mergeSingleGroups(int id, Fun &undo, Fun &redo, Updates &list);
+    bool mergeSingleGroups(int id, Fun &undo, Fun &redo);
 
     /* @brief Split the group tree according to a given criterion
        All the leaves satisfying the criterion are moved to the new tree, the other stay
        Both tree are subsequently simplified to avoid weird structure.
        @param id is the root of the tree
      */
-    bool split(int id, const std::function<bool(int)> &criterion, Fun &undo, Fun &redo, Updates &list);
+    bool split(int id, const std::function<bool(int)> &criterion, Fun &undo, Fun &redo);
 
     /* @brief Copy a group hierarchy.
        @param mapping describes the correspondence between the ids of the items in the source group hierarchy,
@@ -102,7 +101,7 @@ public:
        It will also be used as a return parameter, by adding the mapping between the groups of the hierarchy
        Note that if the target items should not belong to a group.
     */
-    bool copyGroups(std::unordered_map<int, int> &mapping, Fun &undo, Fun &redo, Updates &list);
+    bool copyGroups(std::unordered_map<int, int> &mapping, Fun &undo, Fun &redo);
 
     /* @brief Get the overall father of a given groupItem
        If the element has no father, it is returned as is.
@@ -121,13 +120,13 @@ public:
     bool isInGroup(int id) const;
 
     /* @brief Move element id in the same group as targetId */
-    void setInGroupOf(int id, int targetId, Fun &undo, Fun &redo, Updates &list);
+    void setInGroupOf(int id, int targetId, Fun &undo, Fun &redo);
 
     /* @brief We replace the leaf node given by id with a group that contains the leaf plus all the clips in to_add.
      * The created group type is given in parameter
      * Returns true on success
      */
-    bool createGroupAtSameLevel(int id, std::unordered_set<int> to_add, GroupType type, Fun &undo, Fun &redo, Updates &list);
+    bool createGroupAtSameLevel(int id, std::unordered_set<int> to_add, GroupType type, Fun &undo, Fun &redo);
 
     /* @brief Returns the id of all the descendant of given item (including item)
        @param id of the groupItem
@@ -180,15 +179,16 @@ protected:
        @param undo Lambda function containing the current undo stack. Will be updated with current operation
        @param redo Lambda function containing the current redo queue. Will be updated with current operation
     */
-    bool destructGroupItem(int id, bool deleteOrphan, Fun &undo, Fun &redo, Updates &list);
+    bool destructGroupItem(int id, bool deleteOrphan, Fun &undo, Fun &redo);
     /* Lambda version */
     Fun destructGroupItem_lambda(int id);
 
     /* @brief change the group of a given item
        @param id of the groupItem
        @param groupId id of the group to assign it to
+       @param changeState when false, the grouped role for item won't be updated (for selection)
     */
-    void setGroup(int id, int groupId);
+    void setGroup(int id, int groupId, bool changeState = true);
 
     /* @brief Remove an item from all the groups it belongs to.
        @param id of the groupItem
@@ -196,7 +196,7 @@ protected:
     void removeFromGroup(int id);
 
     /* @brief This is the actual recursive implementation of the copy function. */
-    bool processCopy(int gid, std::unordered_map<int, int> &mapping, Fun &undo, Fun &redo, Updates &list);
+    bool processCopy(int gid, std::unordered_map<int, int> &mapping, Fun &undo, Fun &redo);
 
     /* @brief This is the actual recursive implementation of the conversion to json */
     QJsonObject toJson(int gid) const;
@@ -204,7 +204,7 @@ protected:
     /* @brief This is the actual recursive implementation of the parsing from json
        Returns the id of the created group
     */
-    int fromJson(const QJsonObject &o, Fun &undo, Fun &redo, Updates &list);
+    int fromJson(const QJsonObject &o, Fun &undo, Fun &redo);
 
     /* @brief Transform a leaf node into a group node of given type. This implies doing the registration to the timeline */
     void promoteToGroup(int gid, GroupType type);

@@ -103,7 +103,7 @@ public:
     /** @brief Returns the clip type as defined in definitions.h */
     ClipType::ProducerType clipType() const;
 
-    bool selfSoftDelete(Fun &undo, Fun &redo, Updates &list) override;
+    bool selfSoftDelete(Fun &undo, Fun &redo) override;
 
     /** @brief Check if clip has a parent folder with id id */
     bool hasParent(const QString &id) const;

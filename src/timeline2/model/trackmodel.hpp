@@ -22,7 +22,6 @@
 #ifndef TRACKMODEL_H
 #define TRACKMODEL_H
 
-#include "modelupdater.hpp"
 #include "undohelper.hpp"
 #include <QReadWriteLock>
 #include <QSharedPointer>
@@ -55,7 +54,6 @@ public:
     friend struct TimelineFunctions;
     friend class TimelineItemModel;
     friend class TimelineModel;
-    friend class ModelUpdater;
 
 private:
     /* This constructor is private, call the static construct instead */
@@ -121,7 +119,7 @@ protected:
        @param undo Lambda function containing the current undo stack. Will be updated with current operation
        @param redo Lambda function containing the current redo queue. Will be updated with current operation
     */
-    bool requestClipInsertion(int clipId, int position, bool updateView, bool finalMove, Fun &undo, Fun &redo, Updates &list);
+    bool requestClipInsertion(int clipId, int position, bool updateView, bool finalMove, Fun &undo, Fun &redo);
     /* @brief This function returns a lambda that performs the requested operation */
     Fun requestClipInsertion_lambda(int clipId, int position, bool updateView, bool finalMove);
 
@@ -134,7 +132,7 @@ protected:
        @param undo Lambda function containing the current undo stack. Will be updated with current operation
        @param redo Lambda function containing the current redo queue. Will be updated with current operation
     */
-    bool requestClipDeletion(int clipId, bool updateView, bool finalMove, Fun &undo, Fun &redo, Updates &list);
+    bool requestClipDeletion(int clipId, bool updateView, bool finalMove, Fun &undo, Fun &redo);
     /* @brief This function returns a lambda that performs the requested operation */
     Fun requestClipDeletion_lambda(int clipId, bool updateView, bool finalMove);
 
@@ -148,11 +146,11 @@ protected:
        @param undo Lambda function containing the current undo stack. Will be updated with current operation
        @param redo Lambda function containing the current redo queue. Will be updated with current operation
     */
-    bool requestCompositionInsertion(int compoId, int position, bool updateView, Fun &undo, Fun &redo, Updates &list);
+    bool requestCompositionInsertion(int compoId, int position, bool updateView, Fun &undo, Fun &redo);
     /* @brief This function returns a lambda that performs the requested operation */
     Fun requestCompositionInsertion_lambda(int compoId, int position, bool updateView);
 
-    bool requestCompositionDeletion(int compoId, bool updateView, Fun &undo, Fun &redo, Updates &list);
+    bool requestCompositionDeletion(int compoId, bool updateView, Fun &undo, Fun &redo);
     Fun requestCompositionDeletion_lambda(int compoId, bool updateView);
     Fun requestCompositionResize_lambda(int compoId, int in, int out = -1);
 
@@ -186,18 +184,9 @@ protected:
     int getRowfromClip(int clipId) const;
 
     /*@brief This function is used only by the QAbstractItemModel
-      Given a clip ID that is not inserted yet, returns the row on which that clip would be inserted.
-    */
-    int getTentativeRowfromClip(int clipId);
-
-    /*@brief This function is used only by the QAbstractItemModel
       Given a composition ID, returns the row of the composition.
     */
     int getRowfromComposition(int compoId) const;
-    /*@brief This function is used only by the QAbstractItemModel
-      Given a composition ID that is not inserted yet, returns the row on which that composition would be inserted.
-    */
-    int getTentativeRowfromComposition(int compoId);
 
     /*@brief This is an helper function that test frame level consistancy with the MLT structures */
     bool checkConsistency();

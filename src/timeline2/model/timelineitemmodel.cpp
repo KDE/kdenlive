@@ -326,7 +326,7 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             return getTrackById_const(id)->getProperty("kdenlive:locked_track").toInt() == 1;
         case HeightRole: {
             int collapsed = getTrackById_const(id)->getProperty("kdenlive:collapsed").toInt();
-            if (collapsed > 0) {
+            if ( collapsed > 0) {
                 return collapsed;
             }
             int height = getTrackById_const(id)->getProperty("kdenlive:trackheight").toInt();
@@ -405,7 +405,7 @@ void TimelineItemModel::setTrackProperty(int trackId, const QString &name, const
         roles.push_back(IsLockedRole);
     } else if (name == QLatin1String("hide")) {
         roles.push_back(IsDisabledRole);
-        if (!track->isAudioTrack()) {
+        if(!track->isAudioTrack()) {
             pCore->requestMonitorRefresh();
         }
     } else if (name == QLatin1String("kdenlive:thumbs_format")) {
@@ -476,14 +476,27 @@ bool TimelineItemModel::isInSelection(int cid) const
     return res;
 }
 
-void TimelineItemModel::notifyChange(const QModelIndex &topleft, const QModelIndex &bottomright, const QVector<int> &roles)
+void TimelineItemModel::notifyChange(const QModelIndex &topleft, const QModelIndex &bottomright, bool start, bool duration, bool updateThumb)
 {
+    QVector<int> roles;
+    if (start) {
+        roles.push_back(TimelineModel::StartRole);
+        if (updateThumb) {
+            roles.push_back(TimelineModel::InPointRole);
+        }
+    }
+    if (duration) {
+        roles.push_back(TimelineModel::DurationRole);
+        if (updateThumb) {
+            roles.push_back(TimelineModel::OutPointRole);
+        }
+    }
     emit dataChanged(topleft, bottomright, roles);
 }
 
-void TimelineItemModel::notifyChange(const QModelIndex &topleft, const QModelIndex &bottomright, int role)
+void TimelineItemModel::notifyChange(const QModelIndex &topleft, const QModelIndex &bottomright, const QVector<int> &roles)
 {
-    emit dataChanged(topleft, bottomright, {role});
+    emit dataChanged(topleft, bottomright, roles);
 }
 
 void TimelineItemModel::buildTrackCompositing(bool rebuild)
@@ -533,10 +546,9 @@ void TimelineItemModel::buildTrackCompositing(bool rebuild)
     }
 }
 
-void TimelineItemModel::_beginMoveRows(const QModelIndex &sourceParent, int sourceFirst, int sourceLast, const QModelIndex &destinationParent,
-                                       int destinationChild)
+void TimelineItemModel::notifyChange(const QModelIndex &topleft, const QModelIndex &bottomright, int role)
 {
-    beginMoveRows(sourceParent, sourceFirst, sourceLast, destinationParent, destinationChild);
+    emit dataChanged(topleft, bottomright, {role});
 }
 
 void TimelineItemModel::_beginRemoveRows(const QModelIndex &i, int j, int k)
@@ -553,11 +565,6 @@ void TimelineItemModel::_endRemoveRows()
 {
     // qDebug()<<"FORWARDING endRemoveRows";
     endRemoveRows();
-}
-void TimelineItemModel::_endMoveRows()
-{
-    // qDebug()<<"FORWARDING endRemoveRows";
-    endMoveRows();
 }
 void TimelineItemModel::_endInsertRows()
 {
