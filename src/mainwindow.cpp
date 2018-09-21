@@ -440,7 +440,7 @@ void MainWindow::init()
     previewButtonAction->setDefaultWidget(timelinePreview);
     addAction(QStringLiteral("timeline_preview_button"), previewButtonAction);
 
-    setupGUI();
+    setupGUI(KXmlGuiWindow::ToolBar | KXmlGuiWindow::StatusBar | KXmlGuiWindow::Save | KXmlGuiWindow::Create );
     if (firstRun) {
         QScreen *current = QApplication::primaryScreen();
         if (current) {
@@ -1438,28 +1438,25 @@ void MainWindow::setupActions()
 
     QAction *sentToLibrary = addAction(QStringLiteral("send_library"), i18n("Add Timeline Selection to Library"), pCore->library(), SLOT(slotAddToLibrary()),
                                        QIcon::fromTheme(QStringLiteral("bookmark-new")));
+
+
     pCore->library()->setupActions(QList<QAction *>() << sentToLibrary);
 
     KStandardAction::showMenubar(this, SLOT(showMenuBar(bool)), actionCollection());
 
     act = KStandardAction::quit(this, SLOT(close()), actionCollection());
     //act->setIcon(QIcon::fromTheme(QStringLiteral("application-exit")));
-    // TODO: make the following connection to slotEditKeys work
-    // KStandardAction::keyBindings(this,            SLOT(slotEditKeys()),           actionCollection());
-    act = KStandardAction::preferences(this, SLOT(slotPreferences()), actionCollection());
-    //act->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
-    act = KStandardAction::configureNotifications(this, SLOT(configureNotifications()), actionCollection());
-    //act->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
-    act = KStandardAction::fullScreen(this, SLOT(slotFullScreen()), this, actionCollection());
-    //act->setIcon(QIcon::fromTheme(QStringLiteral("view-fullscreen")));
+
+    KStandardAction::keyBindings(this, SLOT(slotEditKeys()), actionCollection());
+    KStandardAction::preferences(this, SLOT(slotPreferences()), actionCollection());
+    KStandardAction::configureNotifications(this, SLOT(configureNotifications()), actionCollection());
+    KStandardAction::fullScreen(this, SLOT(slotFullScreen()), this, actionCollection());
 
     QAction *undo = KStandardAction::undo(m_commandStack, SLOT(undo()), actionCollection());
-    undo->setIcon(QIcon::fromTheme(QStringLiteral("edit-undo")));
     undo->setEnabled(false);
     connect(m_commandStack, &QUndoGroup::canUndoChanged, undo, &QAction::setEnabled);
 
     QAction *redo = KStandardAction::redo(m_commandStack, SLOT(redo()), actionCollection());
-    redo->setIcon(QIcon::fromTheme(QStringLiteral("edit-redo")));
     redo->setEnabled(false);
     connect(m_commandStack, &QUndoGroup::canRedoChanged, redo, &QAction::setEnabled);
 
