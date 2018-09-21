@@ -406,6 +406,15 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
         }
     }
     pCore->bin()->reloadMonitorIfActive(clipId());
+    if (m_videoProducer) {
+        m_videoProducer.reset(m_masterProducer->cut());
+        if (hasAudio()) {
+            // disable audio but activate video
+            m_videoProducer->set("set.test_audio", 1);
+            m_videoProducer->set("set.test_image", 0);
+        }
+    }
+    replaceInTimeline();
     return true;
 }
 
