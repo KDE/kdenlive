@@ -362,6 +362,25 @@ int TrackModel::getBlankSizeAtPos(int frame)
     return min_length;
 }
 
+int TrackModel::suggestCompositionLength(int position)
+{
+    READ_LOCK();
+    if (m_playlists[0].is_blank_at(position) && m_playlists[1].is_blank_at(position)) {
+        return -1;
+    }
+    auto clip_loc = getClipIndexAt(position);
+    int track = clip_loc.first;
+    int index = clip_loc.second;
+    int other_index; // index in the other track
+    int other_track = (track + 1) % 2;
+    int end_pos = m_playlists[track].clip_start(index) + m_playlists[track].clip_length(index);
+    other_index = m_playlists[other_track].get_clip_index_at(end_pos);
+    if (other_index < m_playlists[other_track].count()) {
+        end_pos = std::min(end_pos, m_playlists[other_track].clip_start(other_index) + m_playlists[other_track].clip_length(other_index));
+    }
+    return end_pos - position;
+}
+
 int TrackModel::getBlankSizeNearClip(int clipId, bool after)
 {
     READ_LOCK();

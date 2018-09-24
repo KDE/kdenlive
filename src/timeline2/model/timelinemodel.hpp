@@ -299,10 +299,14 @@ public:
     */
     QList<int> getLowerTracksId(int trackId, TrackType type = TrackType::AnyTrack) const;
 
-    /* @brief Returns the MLT track index of the video track just below the given trackC
+    /* @brief Returns the MLT track index of the video track just below the given track
        @param trackId Id of the track to test
     */
     int getPreviousVideoTrackPos(int trackId) const;
+    /* @brief Returns the Track id of the video track just below the given track
+       @param trackId Id of the track to test
+    */
+    int getPreviousVideoTrackIndex(int trackId) const;
 
     /* @brief Retuns the Id of the corresponding audio track. If trackId corresponds to video1, this will return audio 1 and so on */
     int getMirrorAudioTrackId(int trackId) const;

@@ -319,6 +319,20 @@ QList<int> TimelineModel::getLowerTracksId(int trackId, TrackType type) const
     return results;
 }
 
+int TimelineModel::getPreviousVideoTrackIndex(int trackId) const
+{
+    READ_LOCK();
+    Q_ASSERT(isTrack(trackId));
+    auto it = m_iteratorTable.at(trackId);
+    while (it != m_allTracks.begin()) {
+        --it;
+        if (it != m_allTracks.begin() && !(*it)->isAudioTrack()) {
+            break;
+        }
+    }
+    return it == m_allTracks.begin() ? 0 : (*it)->getId();
+}
+
 int TimelineModel::getPreviousVideoTrackPos(int trackId) const
 {
     READ_LOCK();

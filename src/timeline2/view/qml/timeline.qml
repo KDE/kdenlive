@@ -222,7 +222,7 @@ Rectangle {
                 var track = controller.getCompositionTrackId(clipBeingDroppedId)
                 // we simulate insertion at the final position so that stored undo has correct value
                 controller.requestItemDeletion(clipBeingDroppedId, false)
-                timeline.insertComposition(track, frame, clipBeingDroppedData, true)
+                timeline.insertNewComposition(track, frame, clipBeingDroppedData, true)
             }
             clearDropData()
         }

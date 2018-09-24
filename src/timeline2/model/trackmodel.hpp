@@ -165,6 +165,9 @@ protected:
     int getBlankStart(int position);
     int getBlankSizeAtPos(int frame);
 
+    /*@brief Returns the best composition duration depending on clips on the track */
+    int suggestCompositionLength(int position);
+
     /*@brief Returns the (unique) construction id of the track*/
     int getId() const;
 

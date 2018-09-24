@@ -382,10 +382,33 @@ QList<int> TimelineController::insertClips(int tid, int position, const QStringL
     return clipIds;
 }
 
+int TimelineController::insertNewComposition(int tid, int position, const QString &transitionId, bool logUndo)
+{
+    int id;
+    //int duration = pCore->currentDoc()->getFramePos(KdenliveSettings::transition_duration());
+    int duration = m_model->getTrackById_const(tid)->suggestCompositionLength(position);
+    int lowerVideoTrackId = m_model->getPreviousVideoTrackIndex(tid);
+    if (lowerVideoTrackId > 0) {
+        int duration2 = m_model->getTrackById_const(lowerVideoTrackId)->suggestCompositionLength(position);
+        if (duration2 > 0) {
+            duration = (duration > 0) ? qMin(duration, duration2) : duration2;
+        }
+    }
+    if (duration <= 4) {
+        // if suggested composition duration is lower than 4 frames, use default
+        duration = pCore->currentDoc()->getFramePos(KdenliveSettings::transition_duration());
+    }
+    if (!m_model->requestCompositionInsertion(transitionId, tid, position, duration, nullptr, id, logUndo)) {
+        id = -1;
+    }
+    return id;
+}
+
 int TimelineController::insertComposition(int tid, int position, const QString &transitionId, bool logUndo)
 {
     int id;
-    if (!m_model->requestCompositionInsertion(transitionId, tid, position, 100, nullptr, id, logUndo)) {
+    int duration = pCore->currentDoc()->getFramePos(KdenliveSettings::transition_duration());
+    if (!m_model->requestCompositionInsertion(transitionId, tid, position, duration, nullptr, id, logUndo)) {
         id = -1;
     }
     return id;
@@ -1259,7 +1282,7 @@ void TimelineController::removeSpace(int trackId, int frame, bool affectAllTrack
         trackId = m_activeTrack;
     }
     // find blank duration
-    int spaceDuration = m_model->getTrackById(trackId)->getBlankSizeAtPos(frame);
+    int spaceDuration = m_model->getTrackById_const(trackId)->getBlankSizeAtPos(frame);
     int cid = requestSpacerStartOperation(affectAllTracks ? -1 : trackId, frame);
     if (cid == -1) {
         pCore->displayMessage(i18n("No clips found to insert space"), InformationMessage, 500);
@@ -1449,11 +1472,9 @@ void TimelineController::switchEnableState(int clipId)
 
 void TimelineController::addCompositionToClip(const QString &assetId, int clipId)
 {
-    int position = m_model->getItemPosition(clipId);
-    int duration = m_model->getItemPlaytime(clipId);
-    int track = m_model->getItemTrackId(clipId);
-    int id;
-    m_model->requestCompositionInsertion(assetId, track, position, duration, nullptr, id, true);
+    int position = m_model->getClipPosition(clipId);
+    int track = m_model->getClipTrackId(clipId);
+    insertNewComposition(track, position, assetId, true);
 }
 
 void TimelineController::addEffectToClip(const QString &assetId, int clipId)
