@@ -109,12 +109,33 @@ Mlt::Tractor *TimelineController::tractor()
     return m_model->tractor();
 }
 
+void TimelineController::removeSelection(int newSelection)
+{
+    if (!m_selection.selectedItems.contains(newSelection)) {
+        return;
+    }
+    m_selection.selectedItems.removeAll(newSelection);
+    std::unordered_set<int> ids;
+    ids.insert(m_selection.selectedItems.cbegin(), m_selection.selectedItems.cend());
+    m_model->m_temporarySelectionGroup = m_model->requestClipsGroup(ids, true, GroupType::Selection);
+
+    std::unordered_set<int> newIds;
+    if (m_model->m_temporarySelectionGroup >= 0) {
+        // new items were selected, inform model to prepare for group drag
+        newIds = m_model->getGroupElements(m_selection.selectedItems.constFirst());
+    }
+    emit selectionChanged();
+    if (!m_selection.selectedItems.isEmpty())
+        emitSelectedFromSelection();
+    else
+        emit selected(nullptr);
+}
+
 void TimelineController::addSelection(int newSelection)
 {
     if (m_selection.selectedItems.contains(newSelection)) {
         return;
     }
-    std::unordered_set<int> previousSelection = getCurrentSelectionIds();
     m_selection.selectedItems << newSelection;
     std::unordered_set<int> ids;
     ids.insert(m_selection.selectedItems.cbegin(), m_selection.selectedItems.cend());
@@ -1667,7 +1688,7 @@ void TimelineController::editItemDuration(int id)
         bool result = true;
         if (newPos < start) {
             if (!isComposition) {
-                result = m_model->requestClipMove(id, trackId, newPos, true, true, undo, redo, list);
+                result = m_model->requestClipMove(id, trackId, newPos, true, true, undo, redo);
                 if (result && partner > -1) {
                     result = m_model->requestClipMove(partner, m_model->getItemTrackId(partner), newPos, true, true, undo, redo);
                 }

@@ -37,12 +37,18 @@ PreviewManager::PreviewManager(TimelineController *controller, Mlt::Tractor *tra
     , m_tractor(tractor)
     , m_previewTrack(nullptr)
     , m_overlayTrack(nullptr)
+    , m_previewProfile(new Mlt::Profile(*m_tractor->profile()))
     , m_previewTrackIndex(-1)
     , m_initialized(false)
     , m_abortPreview(false)
 {
     m_previewGatherTimer.setSingleShot(true);
     m_previewGatherTimer.setInterval(200);
+    m_previewProfile->set_width(1024);
+    int height = 1024 / m_previewProfile->dar();
+    height -= height % 4;
+    m_previewProfile->set_height(height);
+    m_previewProfile->set_explicit(1);
 }
 
 PreviewManager::~PreviewManager()
@@ -458,7 +464,8 @@ void PreviewManager::startPreviewRender()
         // Abort any rendering
         abortRendering();
         m_waitingThumbs.clear();
-        const QString sceneList = QStringLiteral("xml:") + m_cacheDir.absoluteFilePath(QStringLiteral("preview.mlt"));
+        m_abortPreview = false;
+        const QString sceneList = m_cacheDir.absoluteFilePath(QStringLiteral("preview.mlt"));
         pCore->getMonitor(Kdenlive::ProjectMonitor)->sceneList(m_cacheDir.absolutePath(), sceneList);
         // pCore->currentDoc()->saveMltPlaylist(sceneList);
         m_previewThread = QtConcurrent::run(this, &PreviewManager::doPreviewRender, sceneList);
@@ -473,8 +480,17 @@ void PreviewManager::doPreviewRender(const QString &scene)
     emit previewRender(0, QString(), 0);
     int ct = 0;
     qSort(m_dirtyChunks);
-    while (!m_dirtyChunks.isEmpty()) {
+    Mlt::Producer sourceProd(*m_previewProfile, nullptr, scene.toUtf8().constData());
+    if (!sourceProd.is_valid()) {
+        pCore->displayMessage(i18n("Preview rendering failed"), ErrorMessage);
+        return;
+    }
+    // Disable audio
+    sourceProd.set("set.test_audio", 1);
+    QMetaObject::Connection connection;
+    while (!m_dirtyChunks.isEmpty() && !m_abortPreview) {
         workingPreview = m_dirtyChunks.takeFirst().toInt();
+        qDebug()<<"** PROCFESSINF CHUMK: "<<workingPreview;
         m_controller->workingPreviewChanged();
         ct++;
         QString fileName = QStringLiteral("%1.%2").arg(workingPreview).arg(m_extension);
@@ -488,8 +504,41 @@ void PreviewManager::doPreviewRender(const QString &scene)
             emit previewRender(workingPreview, m_cacheDir.absoluteFilePath(fileName), progress);
             continue;
         }
-        // Build rendering process
-        QStringList args;
+        std::shared_ptr<Mlt::Producer> src(sourceProd.cut(workingPreview, workingPreview + chunkSize - 1));
+        Mlt::Consumer cons(*m_previewProfile, QString("avformat:%1").arg( m_cacheDir.absoluteFilePath(fileName)).toUtf8().constData());
+        for (const QString &param : m_consumerParams) {
+            if (param.contains(QLatin1Char('='))) {
+                cons.set(param.section(QLatin1Char('='), 0, 0).toUtf8().constData(), param.section(QLatin1Char('='), 1).toUtf8().constData());
+            }
+        }
+        cons.set("an", 1);
+        connection = QObject::connect(this, &PreviewManager::abortPreview, [this, &cons]() {
+            cons.purge();
+            cons.stop();
+            m_abortPreview = true;
+        });
+        cons.connect(*src);
+        cons.run();
+        QObject::disconnect( connection );
+        if (m_abortPreview) {
+            m_dirtyChunks << workingPreview;
+            qSort(m_dirtyChunks);
+            m_cacheDir.remove(fileName);
+            emit previewRender(0, QString(), 1000);
+        } else {
+            Mlt::Producer test(*m_tractor->profile(), "avformat", m_cacheDir.absoluteFilePath(fileName).toUtf8().constData());
+            if (test.is_valid()) {
+                emit previewRender(workingPreview, m_cacheDir.absoluteFilePath(fileName), progress);
+            } else {
+                // working chunk failed, re-add it to list and delete corrupt render
+                m_dirtyChunks << workingPreview;
+                qSort(m_dirtyChunks);
+                m_cacheDir.remove(fileName);
+                m_abortPreview = true;
+                emit previewRender(workingPreview, i18n("Preview rendering failed"), -1);
+            }
+        }
+        /*QStringList args;
         args << scene;
         args << QStringLiteral("in=") + QString::number(workingPreview);
         args << QStringLiteral("out=") + QString::number(workingPreview + chunkSize - 1);
@@ -518,9 +567,10 @@ void PreviewManager::doPreviewRender(const QString &scene)
         } else {
             emit previewRender(workingPreview, QString(), -1);
             break;
-        }
+        }*/
     }
-    // QFile::remove(scene);
+    sourceProd.clear();
+    QFile::remove(scene);
     workingPreview = -1;
     m_controller->workingPreviewChanged();
     m_abortPreview = false;
@@ -598,8 +648,9 @@ void PreviewManager::reloadChunks(const QVariantList chunks)
     m_tractor->lock();
     for (const auto &ix : chunks) {
         if (m_previewTrack->is_blank_at(ix.toInt())) {
-            const QString fileName = m_cacheDir.absoluteFilePath(QStringLiteral("%1.%2").arg(ix.toInt()).arg(m_extension));
-            Mlt::Producer prod(*m_tractor->profile(), nullptr, fileName.toUtf8().constData());
+            QString fileName = m_cacheDir.absoluteFilePath(QStringLiteral("%1.%2").arg(ix.toInt()).arg(m_extension));
+            fileName.prepend(QStringLiteral("avformat:"));
+            Mlt::Producer prod(*m_tractor->profile(), fileName.toUtf8().constData());
             if (prod.is_valid()) {
                 // m_ruler->updatePreview(ix, true);
                 prod.set("mlt_service", "avformat-novalidate");
@@ -628,7 +679,7 @@ void PreviewManager::gotPreviewRender(int frame, const QString &file, int progre
     }
     m_tractor->lock();
     if (m_previewTrack->is_blank_at(frame)) {
-        Mlt::Producer prod(*m_tractor->profile(), file.toUtf8().constData());
+        Mlt::Producer prod(*m_tractor->profile(), QString("avformat:%1").arg(file).toUtf8().constData());
         if (prod.is_valid()) {
             m_renderedChunks << frame;
             m_controller->renderedChunksChanged();

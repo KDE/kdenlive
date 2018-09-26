@@ -73,13 +73,18 @@ QModelIndex TimelineItemModel::index(int row, int column, const QModelIndex &par
         int clipId = getTrackById_const(trackId)->getClipByRow(row);
         if (clipId != -1) {
             result = createIndex(row, 0, quintptr(clipId));
-        } else {
+        } else if (row < getTrackClipsCount(trackId) + getTrackCompositionsCount(trackId)) {
             int compoId = getTrackById_const(trackId)->getCompositionByRow(row);
             if (compoId != -1) {
                 result = createIndex(row, 0, quintptr(compoId));
             }
+        } else {
+            // Invalid index requested
+            Q_ASSERT(false);
         }
     } else if (row < getTracksCount() && row >= 0) {
+        // Get sort order
+        row = getTracksCount() - 1 - row;
         auto it = m_allTracks.cbegin();
         std::advance(it, row);
         int trackId = (*it)->getId();
@@ -118,6 +123,8 @@ QModelIndex TimelineItemModel::makeTrackIndexFromID(int trackId) const
     Q_ASSERT(m_iteratorTable.count(trackId) > 0);
     auto it = m_iteratorTable.at(trackId);
     int ind = (int)std::distance<decltype(m_allTracks.cbegin())>(m_allTracks.begin(), it);
+    // Get sort order
+    ind = getTracksCount() - 1 - ind;
     return index(ind);
 }
 
@@ -171,6 +178,7 @@ QHash<int, QByteArray> TimelineItemModel::roleNames() const
     roles[ResourceRole] = "resource";
     roles[ServiceRole] = "mlt_service";
     roles[BinIdRole] = "binId";
+    roles[TrackIdRole] = "trackId";
     roles[IsBlankRole] = "blank";
     roles[StartRole] = "start";
     roles[DurationRole] = "duration";
@@ -223,7 +231,7 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
         if (isTrack(id)) {
             return getTrackSortValue(id, KdenliveSettings::audiotracksbelow());
         }
-        return id;
+        return QVariant();
     }
     if (isClip(id)) {
         // qDebug() << "REQUESTING DATA "<<roleNames()[role]<<index;
@@ -253,6 +261,8 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
         }
         case BinIdRole:
             return clip->binId();
+        case TrackIdRole:
+            return clip->getCurrentTrackId();
         case ServiceRole:
             return clip->getProperty("mlt_service");
             break;
@@ -360,6 +370,8 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             return false;
         case StartRole:
             return compo->getPosition();
+        case TrackIdRole:
+            return compo->getCurrentTrackId();
         case DurationRole:
             return compo->getPlaytime();
         case GroupedRole:

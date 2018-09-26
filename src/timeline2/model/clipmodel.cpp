@@ -181,13 +181,19 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
     };
     if (operation()) {
         // Now, we are in the state in which the timeline should be when we try to revert current action. So we can build the reverse action from here
-        auto ptr = m_parent.lock();
-        if (m_currentTrackId != -1 && ptr) {
+        if (m_currentTrackId != -1) {
+            QVector<int> roles{TimelineModel::DurationRole};
             if (!right) {
-                QModelIndex ix = ptr->makeClipIndexFromID(m_id);
-                ptr->dataChanged(ix, ix, {TimelineModel::InPointRole});
+                roles.push_back(TimelineModel::StartRole);                roles.push_back(TimelineModel::InPointRole);
+            } else {
+                roles.push_back(TimelineModel::OutPointRole);
             }
-            track_reverse = ptr->getTrackById(m_currentTrackId)->requestClipResize_lambda(m_id, old_in, old_out, right);
+            if (auto ptr = m_parent.lock()) {
+                QModelIndex ix = ptr->makeClipIndexFromID(m_id);
+                //TODO: integrate in undo
+                ptr->dataChanged(ix, ix, roles);
+                track_reverse = ptr->getTrackById(m_currentTrackId)->requestClipResize_lambda(m_id, old_in, old_out, right);
+            }
         }
         Fun reverse = [this, old_in, old_out, track_reverse]() {
             if (track_reverse()) {

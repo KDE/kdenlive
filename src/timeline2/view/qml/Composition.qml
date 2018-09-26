@@ -24,7 +24,7 @@ import QtQuick 2.6
 import QtQuick.Controls 2.2
 import QtQml.Models 2.2
 import QtQuick.Window 2.2
-
+import 'Timeline.js' as Logic
 
 Item {
     id: compositionRoot
@@ -87,7 +87,10 @@ Item {
             mouseArea.focus = true
         }
     }
-
+    onTrackIdChanged: {
+        compositionRoot.parentTrack = Logic.getTrackById(trackId)
+        compositionRoot.y = compositionRoot.originalTrackId == -1 || trackId == originalTrackId ? 0 : parentTrack.y - Logic.getTrackById(compositionRoot.originalTrackId).y;
+    }
     onClipDurationChanged: {
         width = clipDuration * timeScale;
     }
@@ -99,14 +102,14 @@ Item {
     onScrollXChanged: {
         labelRect.x = scrollX > modelStart * timeScale ? scrollX - modelStart * timeScale : 0
     }
-    function reparent(track) {
+/*    function reparent(track) {
         parent = track
         isAudio = track.isAudio
         parentTrack = track
         displayHeight = track.height / 2
         compositionRoot.trackId = parentTrack.trackId
     }
-
+*/
     SystemPalette { id: activePalette }
     Rectangle {
         id: displayRect
@@ -118,7 +121,7 @@ Item {
         color: Qt.darker('mediumpurple')
         border.color: selected? 'red' : borderColor
         border.width: isGrabbed ? 8 : 1.5
-        opacity: Drag.active? 0.5 : 1.0
+        opacity: dragProxyArea.drag.active ? 0.5 : 1.0
         Item {
             // clipping container
             id: container
@@ -155,8 +158,8 @@ Item {
                 outPoint: compositionRoot.clipDuration
             }
         }
-        Drag.active: mouseArea.drag.active
-        Drag.proposedAction: Qt.MoveAction
+        /*Drag.active: mouseArea.drag.active
+        Drag.proposedAction: Qt.MoveAction*/
 
     states: [
         State {
@@ -181,13 +184,9 @@ Item {
     MouseArea {
         id: mouseArea
         anchors.fill: parent
-        acceptedButtons: Qt.LeftButton
-        drag.target: compositionRoot
-        drag.axis: Drag.XAxis
-        drag.smoothed: false
-        property int startX
-
-        onPressed: {
+        acceptedButtons: Qt.RightButton
+        hoverEnabled: true
+        /*onPressed: {
             root.stopScrolling = true
             originalX = compositionRoot.x
             originalTrackId = compositionRoot.trackId
@@ -197,7 +196,7 @@ Item {
             if (!compositionRoot.selected) {
                 compositionRoot.clicked(compositionRoot, mouse.modifiers === Qt.ShiftModifier)
             }
-        }
+        }*/
         Keys.onShortcutOverride: event.accepted = compositionRoot.isGrabbed && (event.key === Qt.Key_Left || event.key === Qt.Key_Right || event.key === Qt.Key_Up || event.key === Qt.Key_Down)
         Keys.onLeftPressed: {
             controller.requestCompositionMove(compositionRoot.clipId, compositionRoot.originalTrackId, compositionRoot.modelStart - 1, true, true)
@@ -211,27 +210,29 @@ Item {
         Keys.onDownPressed: {
             controller.requestCompositionMove(compositionRoot.clipId, controller.getPreviousTrackId(compositionRoot.originalTrackId), compositionRoot.modelStart, true, true)
         }
-        onPositionChanged: {
-            if (mouse.y < -height || (mouse.y > height && parentTrack.rootIndex.row < tracksRepeater.count - 1)) {
-                var mapped = parentTrack.mapFromItem(compositionRoot, mouse.x, mouse.y).x
-                compositionRoot.draggedToTrack(compositionRoot, mapToItem(null, 0, mouse.y).y, mapped)
-            } else {
-                compositionRoot.dragged(compositionRoot, mouse)
+        cursorShape: (trimInMouseArea.drag.active || trimOutMouseArea.drag.active)? Qt.SizeHorCursor : dragProxyArea.drag.active ? Qt.ClosedHandCursor : Qt.OpenHandCursor
+
+        onPressed: {
+                root.stopScrolling = true
+                compositionRoot.forceActiveFocus();
+                /*if (!compositionRoot.selected) {
+                    compositionRoot.clicked(compositionRoot, false)
+                }*/
+                if (mouse.button == Qt.RightButton) {
+                    compositionMenu.item.clipId = compositionRoot.clipId
+                    compositionMenu.item.grouped = compositionRoot.grouped
+                    compositionMenu.item.trackId = compositionRoot.trackId
+                    compositionMenu.item.popup()
+                }
             }
+        onEntered: {
+            var itemPos = mapToItem(tracksContainerArea, 0, 0, width, height)
+            initDrag(compositionRoot, itemPos, compositionRoot.clipId, compositionRoot.modelStart, compositionRoot.trackId, true)
         }
-        onReleased: {
-            root.stopScrolling = false
-            var delta = compositionRoot.x - startX
-            if (Math.abs(delta) >= 1.0 || trackId !== originalTrackId) {
-                compositionRoot.moved(compositionRoot)
-                originalX = compositionRoot.x
-                originalTrackId = trackId
-            } else if (Math.abs(delta) >= 1.0) {
-                compositionRoot.dropped(compositionRoot)
-            }
+        onExited: {
+            endDrag()
         }
         onDoubleClicked: {
-            drag.target = undefined
             if (mouse.modifiers & Qt.ShiftModifier) {
                 if (keyframeModel && showKeyframes) {
                     // Add new keyframe
@@ -246,26 +247,6 @@ Item {
             }
         }
         onWheel: zoomByWheel(wheel)
-
-        MouseArea {
-            anchors.fill: parent
-            acceptedButtons: Qt.RightButton
-            cursorShape: (trimInMouseArea.drag.active || trimOutMouseArea.drag.active)? Qt.SizeHorCursor :
-                drag.active? Qt.ClosedHandCursor : Qt.OpenHandCursor
-            onPressed: {
-                root.stopScrolling = true
-                compositionRoot.forceActiveFocus();
-                if (!compositionRoot.selected) {
-                    compositionRoot.clicked(compositionRoot, false)
-                }
-                if (mouse.button == Qt.RightButton) {
-                    compositionMenu.item.clipId = compositionRoot.clipId
-                    compositionMenu.item.grouped = compositionRoot.grouped
-                    compositionMenu.item.trackId = compositionRoot.trackId
-                    compositionMenu.item.popup()
-                }
-            }
-        }
     }
 
     Rectangle {
@@ -279,7 +260,7 @@ Item {
         Drag.active: trimInMouseArea.drag.active
         Drag.proposedAction: Qt.MoveAction
         enabled: !compositionRoot.grouped
-        visible: root.activeTool === 0 && !mouseArea.drag.active
+        visible: root.activeTool === 0 && !dragProxyArea.drag.active
 
         MouseArea {
             id: trimInMouseArea
@@ -326,7 +307,7 @@ Item {
         Drag.active: trimOutMouseArea.drag.active
         Drag.proposedAction: Qt.MoveAction
         enabled: !compositionRoot.grouped
-        visible: root.activeTool === 0 && !mouseArea.drag.active
+        visible: root.activeTool === 0 && !dragProxyArea.drag.active
 
         MouseArea {
             id: trimOutMouseArea

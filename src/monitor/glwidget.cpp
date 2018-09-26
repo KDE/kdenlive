@@ -1401,7 +1401,7 @@ const QString GLWidget::sceneList(const QString &root, const QString &fullPath)
 {
     QString playlist;
     qCDebug(KDENLIVE_LOG) << " * * *Setting document xml root: " << root;
-    Mlt::Consumer xmlConsumer(*m_monitorProfile, fullPath.isEmpty() ? "xml:kdenlive_playlist" : fullPath.toUtf8().constData());
+    Mlt::Consumer xmlConsumer(*m_monitorProfile, "xml", fullPath.isEmpty() ? "kdenlive_playlist" : fullPath.toUtf8().constData());
     if (!root.isEmpty()) {
         xmlConsumer.set("root", root.toUtf8().constData());
     }

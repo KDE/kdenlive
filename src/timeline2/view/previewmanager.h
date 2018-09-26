@@ -32,6 +32,7 @@ class TimelineController;
 namespace Mlt {
 class Tractor;
 class Playlist;
+class Profile;
 } // namespace Mlt
 
 /**
@@ -95,6 +96,7 @@ private:
     Mlt::Tractor *m_tractor;
     Mlt::Playlist *m_previewTrack;
     Mlt::Playlist *m_overlayTrack;
+    std::shared_ptr<Mlt::Profile>m_previewProfile;
     int m_previewTrackIndex;
     /** @brief: The directory used to store the preview files. */
     QDir m_cacheDir;

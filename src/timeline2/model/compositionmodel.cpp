@@ -109,6 +109,14 @@ bool CompositionModel::requestResize(int size, bool right, Fun &undo, Fun &redo,
     if (operation()) {
         // Now, we are in the state in which the timeline should be when we try to revert current action. So we can build the reverse action from here
         auto ptr = m_parent.lock();
+        // we send a list of roles to be updated
+         QVector<int> roles{TimelineModel::DurationRole};
+        if (!right) {
+            roles.push_back(TimelineModel::StartRole);
+        }
+        QModelIndex ix = ptr->makeCompositionIndexFromID(m_id);
+        //TODO: integrate in undo
+        ptr->dataChanged(ix, ix, roles);
         if (m_currentTrackId != -1 && ptr) {
             track_reverse = ptr->getTrackById(m_currentTrackId)->requestCompositionResize_lambda(m_id, old_in, old_out);
         }
@@ -186,7 +194,9 @@ void CompositionModel::setATrack(int trackMltPosition, int trackId)
     if (a_track >= 0) {
         service()->set("a_track", trackMltPosition);
     }
-    emit compositionTrackChanged();
+    if (m_currentTrackId != -1) {
+        emit compositionTrackChanged();
+    }
 }
 
 KeyframeModel *CompositionModel::getEffectKeyframeModel()

@@ -186,12 +186,17 @@ int TimelineFunctions::requestSpacerStartOperation(std::shared_ptr<TimelineItemM
     return -1;
 }
 
-bool TimelineFunctions::requestSpacerEndOperation(std::shared_ptr<TimelineItemModel> timeline, int clipId, int startPosition, int endPosition)
+bool TimelineFunctions::requestSpacerEndOperation(std::shared_ptr<TimelineItemModel> timeline, int itemId, int startPosition, int endPosition)
 {
     // Move group back to original position
-    int track = timeline->getItemTrackId(clipId);
-    timeline->requestClipMove(clipId, track, startPosition, false, false);
-    std::unordered_set<int> clips = timeline->getGroupElements(clipId);
+    int track = timeline->getItemTrackId(itemId);
+    bool isClip = timeline->isClip(itemId);
+    if (isClip) {
+        timeline->requestClipMove(itemId, track, startPosition, false, false);
+    } else {
+        timeline->requestCompositionMove(itemId, track, startPosition, false, false);
+    }
+    std::unordered_set<int> clips = timeline->getGroupElements(itemId);
     // break group
     pCore->clearSelection();
     // Start undoable command
@@ -201,14 +206,18 @@ bool TimelineFunctions::requestSpacerEndOperation(std::shared_ptr<TimelineItemMo
     bool final = false;
     if (res > -1) {
         if (clips.size() > 1) {
-            final = timeline->requestGroupMove(clipId, res, 0, endPosition - startPosition, true, true, undo, redo);
+            final = timeline->requestGroupMove(itemId, res, 0, endPosition - startPosition, true, true, undo, redo);
         } else {
             // only 1 clip to be moved
-            final = timeline->requestClipMove(clipId, track, endPosition, true, true, undo, redo);
+            if (isClip) {
+                final = timeline->requestClipMove(itemId, track, endPosition, true, true, undo, redo);
+            } else {
+                final = timeline->requestCompositionMove(itemId, track, -1, endPosition, true, undo, redo);
+            }
         }
     }
     if (final && clips.size() > 1) {
-        final = timeline->requestClipUngroup(clipId, undo, redo);
+        final = timeline->requestClipUngroup(itemId, undo, redo);
     }
     if (final) {
         pCore->pushUndo(undo, redo, i18n("Insert space"));

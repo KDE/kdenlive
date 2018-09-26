@@ -1585,8 +1585,8 @@ void Bin::slotItemDoubleClicked(const QModelIndex &ix, const QPoint pos)
     }
     if (ix.isValid()) {
         QRect IconRect = m_itemView->visualRect(ix);
-        IconRect.setSize(m_itemView->iconSize());
-        if (!pos.isNull() && ((ix.column() == 2 && item->itemType() == AbstractProjectItem::ClipItem) || !IconRect.contains(pos))) {
+        IconRect.setWidth((double)IconRect.height() / m_itemView->iconSize().height() * m_itemView->iconSize().width());
+        if (!pos.isNull() && ((ix.column() == 2 && item->itemType() == AbstractProjectItem::ClipItem) || (!IconRect.contains(pos) && pos.y() < (IconRect.y() + IconRect.height()/2)))) {
             // User clicked outside icon, trigger rename
             m_itemView->edit(ix);
             return;

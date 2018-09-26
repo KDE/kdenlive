@@ -124,6 +124,25 @@ Rectangle {
         scrollTimer.running = false
     }
 
+    function initDrag(itemObject, itemCoord, itemId, itemPos, itemTrack, isComposition) {
+        dragProxy.x = itemCoord.x
+        dragProxy.y = itemCoord.y
+        dragProxy.width = itemCoord.width
+        dragProxy.height = itemCoord.height
+        dragProxy.masterObject = itemObject
+        dragProxy.draggedItem = itemId
+        dragProxy.sourceTrack = itemTrack
+        dragProxy.sourceFrame = itemPos
+        dragProxy.isComposition = isComposition
+    }
+    function endDrag() {
+        dragProxy.draggedItem = -1
+        dragProxy.x = 0
+        dragProxy.y = 0
+        dragProxy.width = 0
+        dragProxy.height = 0
+    }
+
     property int headerWidth: timeline.headerWidth()
     property int activeTool: 0
     property real baseUnit: fontMetrics.font.pointSize
@@ -622,6 +641,10 @@ Rectangle {
                         rubberSelect.width = 0
                         rubberSelect.height = 0
                 } else if (mouse.button & Qt.LeftButton) {
+                    if (dragProxy.draggedItem > -1) {
+                        mouse.accepted = false
+                        return
+                    }
                     if (root.activeTool === 2 && mouse.y > ruler.height) {
                         // spacer tool
                         var y = mouse.y - ruler.height
@@ -663,6 +686,10 @@ Rectangle {
                 scim = false
             }
             onPositionChanged: {
+                if (dragProxy.draggedItem > -1) {
+                    mouse.accepted = false
+                    return
+                }
                 root.mousePosChanged(Math.round((mouse.x + scrollView.flickableItem.contentX) / timeline.scaleFactor))
                 ruler.showZoneLabels = mouse.y < ruler.height
                 if ((mouse.modifiers & Qt.ShiftModifier) && mouse.buttons === Qt.LeftButton && !rubberSelect.visible) {
@@ -692,10 +719,9 @@ Rectangle {
                         timeline.position = timeline.seekPosition
                     } else if (root.activeTool === 2 && spacerGroup > -1) {
                         // Move group
-                        var track = controller.getClipTrackId(spacerGroup)
+                        var track = controller.getItemTrackId(spacerGroup)
                         var frame = Math.round((mouse.x + scrollView.flickableItem.contentX) / timeline.scaleFactor) + spacerFrame - spacerClickFrame
-                        frame = controller.suggestClipMove(spacerGroup, track, frame, root.snapping, false);
-                        controller.requestClipMove(spacerGroup, track, frame, true, false, false)
+                        frame = controller.suggestItemMove(spacerGroup, track, frame, root.snapping)
                         continuousScrolling(mouse.x + scrollView.flickableItem.contentX)
                     }
                     scim = true
@@ -726,7 +752,7 @@ Rectangle {
                     timeline.position = timeline.seekPosition
                 }
                 if (spacerGroup > -1) {
-                    var frame = controller.getClipPosition(spacerGroup)
+                    var frame = controller.getItemPosition(spacerGroup)
                     timeline.requestSpacerEndOperation(spacerGroup, spacerFrame, frame);
                     spacerClickFrame = -1
                     spacerFrame = -1
@@ -795,11 +821,124 @@ Rectangle {
                         height: Math.max(trackHeaders.height, scrollView.height - scrollView.__horizontalScrollBar.height)
                         color: activePalette.window
                         id: tracksContainerArea
+                        Rectangle {
+                            // Drag proxy, responsible for clip / composition move
+                            id: dragProxy
+                            x: 0
+                            y: 0
+                            width: 0
+                            height: 0
+                            property int draggedItem: -1
+                            property int sourceTrack
+                            property int sourceFrame
+                            property bool isComposition
+                            property var masterObject
+                            color: 'green'
+                            opacity: 0.8
+                            MouseArea {
+                                id: dragProxyArea
+                                anchors.fill: parent
+                                drag.target: parent
+                                drag.axis: Drag.XAxis
+                                drag.smoothed: false
+                                property int dragFrame
+                                property bool shiftClick: false
+                                cursorShape: pressed ? Qt.ClosedHandCursor : Qt.OpenHandCursor
+                                onPressed: {
+                                    dragFrame = -1
+                                    timeline.activeTrack = dragProxy.sourceTrack
+                                    if (mouse.modifiers & Qt.ShiftModifier) {
+                                        if (timeline.selection.indexOf(dragProxy.draggedItem) == -1) {
+                                            timeline.addSelection(dragProxy.draggedItem)
+                                        } else {
+                                            timeline.removeSelection(dragProxy.draggedItem)
+                                            endDrag()
+                                            shiftClick = true
+                                            return
+                                        }
+                                        shiftClick = true
+                                    } else {
+                                        if (timeline.selection.indexOf(dragProxy.draggedItem) == -1) {
+                                            timeline.selection = [ dragProxy.draggedItem ]
+                                        }
+                                        shiftClick = false
+                                    }
+                                    timeline.showAsset(dragProxy.draggedItem)
+                                    root.stopScrolling = true
+                                    clipBeingMovedId = dragProxy.draggedItem
+                                    if (dragProxy.draggedItem > -1) {
+                                        var tk = controller.getItemTrackId(dragProxy.draggedItem)
+                                        var x = controller.getItemPosition(dragProxy.draggedItem)
+                                        var posx = Math.round((parent.x)/ root.timeScale)
+                                        if (tk != Logic.getTrackIdFromPos(parent.y) || x != posx) {
+                                            console.log('INCORRECT DRAG, ABORTING\n!!!!!!!!!!')
+                                            dragProxy.draggedItem = -1
+                                            mouse.accepted = false
+                                        } else {
+                                            focus = true;
+                                            dragProxy.masterObject.originalX = dragProxy.masterObject.x
+                                            dragProxy.masterObject.originalTrackId = dragProxy.masterObject.trackId
+                                            dragProxy.masterObject.forceActiveFocus();
+                                            if (!dragProxy.masterObject.selected) {
+                                                dragProxy.masterObject.clicked(dragProxy.masterObject, mouse.modifiers == Qt.ShiftModifier)
+                                            }
+                                        }
+                                    } else {
+                                        mouse.accepted = false
+                                        parent.x = 0
+                                        parent.y = 0
+                                        parent.width = 0
+                                        parent.height = 0
+                                    }
+                                }
+                                onPositionChanged: {
+                                    if (!shiftClick && dragProxy.draggedItem > -1 && mouse.buttons === Qt.LeftButton) {
+                                        continuousScrolling(mouse.x + parent.x)
+                                        var mapped = tracksContainerArea.mapFromItem(dragProxy, mouse.x, mouse.y).x
+                                        root.mousePosChanged(Math.round(mapped / timeline.scaleFactor))
+                                        var posx = Math.round((parent.x)/ root.timeScale)
+                                        var posy = Math.min(Math.max(0, mouse.y + parent.y), tracksContainerArea.height)
+                                        var tId = Logic.getTrackIdFromPos(posy)
+                                        timeline.activeTrack = tId
+                                        console.log('+ + RQST ITEM MOVE: ', posx, ' TK: ', tId)
+                                        if (dragProxy.isComposition) {
+                                            dragFrame = controller.suggestCompositionMove(dragProxy.draggedItem, tId, posx, root.snapping)
+                                        } else {
+                                            dragFrame = controller.suggestClipMove(dragProxy.draggedItem, tId, posx, root.snapping)
+                                        }
+                                        var delta = dragFrame - dragProxy.sourceFrame
+                                        if (delta != 0) {
+                                            var s = timeline.timecode(Math.abs(delta))
+                                            // remove leading zeroes
+                                            if (s.substring(0, 3) === '00:')
+                                                s = s.substring(3)
+                                            s = ((delta < 0)? '-' : (delta > 0)? '+' : '') + s
+                                            bubbleHelp.show(parent.x, ruler.height, s)
+                                        } else bubbleHelp.hide()
+                                    }
+                                }
+                                onReleased: {
+                                    clipBeingMovedId = -1
+                                    if (!shiftClick && dragProxy.draggedItem > -1 && dragFrame > -1) {
+                                        var tId = controller.getItemTrackId(dragProxy.draggedItem)
+                                        if (dragProxy.isComposition) {
+                                            controller.requestCompositionMove(dragProxy.draggedItem, dragProxy.sourceTrack, dragProxy.sourceFrame, false, false, false)
+                                            controller.requestCompositionMove(dragProxy.draggedItem, tId, dragFrame , false, true, true)
+                                        } else {
+                                            controller.requestClipMove(dragProxy.draggedItem, dragProxy.sourceTrack, dragProxy.sourceFrame, false, false, false)
+                                            controller.requestClipMove(dragProxy.draggedItem, tId, dragFrame , false, true, true)
+                                        }
+                                        dragProxy.sourceFrame = dragFrame
+                                        bubbleHelp.hide()
+                                    }
+                                }
+                            }
+                        }
                         MouseArea {
                             anchors.fill: parent
                             acceptedButtons: Qt.NoButton
                             onWheel: zoomByWheel(wheel)
-                            cursorShape: tracksArea.cursorShape
+                            cursorShape: dragProxyArea.drag.active ? Qt.ClosedHandCursor : tracksArea.cursorShape
                         }
                         Column {
                             // These make the striped background for the tracks.
@@ -931,8 +1070,8 @@ Rectangle {
         id: trackDelegateModel
         model: multitrack
         delegate: Track {
-            model: multitrack
-            rootIndex: trackDelegateModel.modelIndex(index)
+            trackModel: multitrack
+            trackRootIndex: trackDelegateModel.modelIndex(index)
             height: trackHeight
             timeScale: timeline.scaleFactor
             width: tracksContainerArea.width
@@ -940,96 +1079,6 @@ Rectangle {
             trackThumbsFormat: thumbsFormat
             isCurrentTrack: item === timeline.activeTrack
             trackId: item
-            onClipClicked: {
-                timeline.activeTrack = track.trackId
-                if (shiftClick === 1) {
-                    timeline.addSelection(clip.clipId)
-                } else {
-                    timeline.selection = [ clip.clipId ]
-                }
-                timeline.showAsset(clip.clipId)
-            }
-            onClipDragged: {
-                continuousScrolling(x)
-                // Show distance moved as time in a "bubble" help.
-                var delta = Math.round((clip.x / timeline.scaleFactor) - Math.round(clip.originalX) / timeline.scaleFactor)
-                if (delta != 0) {
-                    var s = timeline.timecode(Math.abs(delta))
-                    // remove leading zeroes
-                    if (s.substring(0, 3) === '00:')
-                        s = s.substring(3)
-                    s = ((delta < 0)? '-' : (delta > 0)? '+' : '') + s
-                    bubbleHelp.show(x, mapToItem(null, x, clip.y).y, s)
-                    clipBeingMovedId = clip.clipId
-                } else bubbleHelp.hide()
-            }
-            onClipDropped: {
-                console.log(" + + + ++ + DROPPED  + + + + + + +");
-                scrollTimer.running = false
-                bubbleHelp.hide()
-                clipBeingMovedId = -1
-            }
-            onCompositionDropped: {
-                console.log(" + + + ++ + COMPOSITION DROPPED  + + + + + + +");
-                scrollTimer.running = false
-                bubbleHelp.hide()
-                clipBeingMovedId = -1
-            }
-            onClipDraggedToTrack: {
-                var y = Math.max(0, pos - ruler.height)
-                var activeTrack = Logic.getTrackIndexFromPos(y)
-                var frame = Math.max(0, Math.round(clip.x / timeScale))
-                if (activeTrack >= 0  && activeTrack < tracksRepeater.count) {
-                    var track = tracksRepeater.itemAt(activeTrack)
-                    //console.log('Dragging clip ',clip.clipId,' to track: ', activeTrack, ' - ', y)
-                    if (controller.requestClipMove(clip.clipId, track.trackId, frame, false, false, false)) {
-                        // Query the model to make sure on which track the clip is
-                        timeline.activeTrack = controller.getClipTrackId(clip.clipId)
-                        track = Logic.getTrackById(timeline.activeTrack)
-                        clip.height = track.height
-                        clip.y = track.y - Logic.getTrackById(clip.originalTrackId).y
-                        clip.trackId = track.trackId
-                        clip.currentFrame = frame
-                    } else {
-                        if (track.trackId != clip.trackId) {
-                            // check if we can move on existing track
-                            if (!controller.requestClipMove(clip.clipId, clip.trackId, frame, false, false, false)) {
-                                // Abort move
-                                clip.x = clip.currentFrame * timeScale
-                            } else {
-                                clip.x = frame * timeScale
-                                clip.currentFrame = frame
-                                var delta = Math.round((clip.x - clip.originalX) / timeline.scaleFactor)
-                                var s = timeline.timecode(Math.abs(delta))
-                                // remove leading zeroes
-                                if (s.substring(0, 3) === '00:')
-                                s = s.substring(3)
-                                s = ((delta < 0)? '-' : (delta > 0)? '+' : '') + s
-                                bubbleHelp.show(xpos, mapToItem(null, x, clip.y).y, s)
-                            }
-                        } else {
-                            // Abort move
-                            clip.x = clip.draggedX
-                        }
-                    }
-                } else {
-                    console.log('+ + + + +\nWARNING CLIP DRAGGED TO INVALID TRACK: ',activeTrack,'\n+ + + +');
-                }
-            }
-            onCompositionDraggedToTrack: {
-                var y = pos - ruler.height
-                var tk = Logic.getTrackIndexFromPos(y)
-                var frame = Math.round(composition.x / timeScale)
-                if (tk >= 0  && tk < tracksRepeater.count) {
-                    var track = tracksRepeater.itemAt(tk)
-                    timeline.activeTrack = track.trackId
-                    if (controller.requestCompositionMove(composition.clipId, track.trackId, frame, false, false)) {
-                        composition.reparent(track)
-                        composition.trackIndex = track.DelegateModel.itemsIndex
-                        composition.trackId = track.trackId
-                    }
-                }
-            }
             Rectangle {
                 anchors.right: parent.right
                 anchors.left: parent.left
@@ -1124,9 +1173,6 @@ Rectangle {
         target: timeline
         onPositionChanged: if (!stopScrolling) Logic.scrollIfNeeded()
         onFrameFormatChanged: ruler.adjustFormat()
-        /*onDragging: Logic.dragging(pos, duration)
-        onDropped: Logic.dropped()
-        onDropAccepted: Logic.acceptDrop(xml)*/
         onSelectionChanged: {
             //cornerstone.selected = timeline.isMultitrackSelected()
             var selectedTrack = timeline.selectedTrack()

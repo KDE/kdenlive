@@ -73,6 +73,9 @@ public:
 
     Q_INVOKABLE bool isMultitrackSelected() const { return m_selection.isMultitrackSelected; }
     Q_INVOKABLE int selectedTrack() const { return m_selection.selectedTrack; }
+    /** @brief Remove a clip id from current selection
+     */
+    Q_INVOKABLE void removeSelection(int newSelection);
     /** @brief Add a clip id to current selection
      */
     Q_INVOKABLE void addSelection(int newSelection);

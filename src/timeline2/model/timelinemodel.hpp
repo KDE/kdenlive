@@ -123,6 +123,7 @@ public:
         IsBlankRole,  /// clip only
         StartRole,    /// clip only
         BinIdRole,    /// clip only
+        TrackIdRole,
         MarkersRole,  /// clip only
         StatusRole,   /// clip only
         TypeRole,     /// clip only
@@ -190,13 +191,13 @@ public:
     Q_INVOKABLE int getCompositionTrackId(int compoId) const;
 
     /* @brief Convenience function that calls either of the previous ones based on item type*/
-    int getItemTrackId(int itemId) const;
+    Q_INVOKABLE int getItemTrackId(int itemId) const;
 
     Q_INVOKABLE int getCompositionPosition(int compoId) const;
     int getCompositionPlaytime(int compoId) const;
 
     /* Returns an item position, item can be clip or composition */
-    int getItemPosition(int itemId) const;
+    Q_INVOKABLE int getItemPosition(int itemId) const;
     /* Returns an item duration, item can be clip or composition */
     int getItemPlaytime(int itemId) const;
 
@@ -345,6 +346,7 @@ public:
         of the clip
        @param dontRefreshMasterClip when false, no view refresh is attempted
         */
+    Q_INVOKABLE int suggestItemMove(int itemId, int trackId, int position, int snapDistance = -1);
     Q_INVOKABLE int suggestClipMove(int clipId, int trackId, int position, int snapDistance = -1, bool allowViewUpdate = true);
     Q_INVOKABLE int suggestCompositionMove(int compoId, int trackId, int position, int snapDistance = -1);
 
