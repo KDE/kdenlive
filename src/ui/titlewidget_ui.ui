@@ -128,7 +128,7 @@
         </property>
         <property name="sizeHint" stdset="0">
          <size>
-          <width>94</width>
+          <width>82</width>
           <height>20</height>
          </size>
         </property>
@@ -287,7 +287,11 @@
       </widget>
      </item>
      <item>
-      <widget class="KComboBox" name="templateBox"/>
+      <widget class="KComboBox" name="templateBox">
+       <property name="sizeAdjustPolicy">
+        <enum>QComboBox::AdjustToContents</enum>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QDialogButtonBox" name="buttonBox">

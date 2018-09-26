@@ -132,6 +132,15 @@ Rectangle {
                     assetlist.setFilterType("favorites")
                 }
             }
+            ToolButton {
+                id: downloadTransitions
+                visible: !isEffectList
+                iconName: "edit-download"
+                tooltip: i18n('Download New Wipes...')
+                onClicked: {
+                    assetlist.downloadNewLumas()
+                }
+            }
             Rectangle {
                 //This is a spacer
                 Layout.fillHeight: false

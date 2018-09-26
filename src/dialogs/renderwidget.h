@@ -183,6 +183,7 @@ private slots:
     void slotPlayRendering(QTreeWidgetItem *item, int);
     void slotStartCurrentJob();
     void slotCopyToFavorites();
+    void slotDownloadNewRenderProfiles();
     void slotUpdateEncodeThreads(int);
     void slotUpdateRescaleHeight(int);
     void slotUpdateRescaleWidth(int);
@@ -228,6 +229,7 @@ private:
     /** @brief Create a rendering profile from MLT preset. */
     QTreeWidgetItem *loadFromMltPreset(const QString &groupName, const QString &path, const QString &profileName);
     void checkCodecs();
+    int getNewStuff(const QString &configFile);
 
 signals:
     void abortProcess(const QString &url);

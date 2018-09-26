@@ -128,6 +128,13 @@
                    </widget>
                   </item>
                   <item>
+                   <widget class="QToolButton" name="buttonDownload">
+                    <property name="text">
+                     <string>&amp;Download</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
                    <widget class="QToolButton" name="buttonSave">
                     <property name="text">
                      <string>&amp;Save</string>

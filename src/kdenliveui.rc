@@ -215,11 +215,7 @@
       <ActionList name="dock_actions" />
     </Menu>
     <Menu name="settings" >
-      <Action name="get_new_lumas" />
-      <Action name="get_new_keyboardschemes" />
-      <Action name="get_new_profiles" />
       <Action name="get_new_mlt_profiles" />
-      <Action name="get_new_titles" />
       <Action name="run_wizard" />
       <Action name="force_icon_theme" />
       <Action name="themes_menu" />

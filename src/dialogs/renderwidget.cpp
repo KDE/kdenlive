@@ -36,6 +36,7 @@
 #include <KRun>
 #include <kio_version.h>
 #include <knotifications_version.h>
+#include <kns3/downloaddialog.h>
 
 #include "kdenlive_debug.h"
 #include <QDBusConnectionInterface>
@@ -187,6 +188,7 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, QWidg
     m_view.buttonEdit->setIconSize(iconSize);
     m_view.buttonSave->setIconSize(iconSize);
     m_view.buttonFavorite->setIconSize(iconSize);
+    m_view.buttonDownload->setIconSize(iconSize);
 
     m_view.buttonDelete->setIcon(QIcon::fromTheme(QStringLiteral("trash-empty")));
     m_view.buttonDelete->setToolTip(i18n("Delete profile"));
@@ -203,6 +205,9 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, QWidg
 
     m_view.buttonFavorite->setIcon(QIcon::fromTheme(QStringLiteral("favorite")));
     m_view.buttonFavorite->setToolTip(i18n("Copy profile to favorites"));
+
+    m_view.buttonDownload->setIcon(QIcon::fromTheme(QStringLiteral("edit-download")));
+    m_view.buttonDownload->setToolTip(i18n("Download New Render Profiles..."));
 
     m_view.out_file->button()->setToolTip(i18n("Select output destination"));
     m_view.advanced_params->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 5);
@@ -289,6 +294,7 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, QWidg
     connect(m_view.buttonEdit, &QAbstractButton::clicked, this, &RenderWidget::slotEditProfile);
     connect(m_view.buttonDelete, &QAbstractButton::clicked, this, &RenderWidget::slotDeleteProfile);
     connect(m_view.buttonFavorite, &QAbstractButton::clicked, this, &RenderWidget::slotCopyToFavorites);
+    connect(m_view.buttonDownload, &QAbstractButton::clicked, this, &RenderWidget::slotDownloadNewRenderProfiles);
 
     connect(m_view.abort_job, &QAbstractButton::clicked, this, &RenderWidget::slotAbortCurrentJob);
     connect(m_view.start_job, &QAbstractButton::clicked, this, &RenderWidget::slotStartCurrentJob);
@@ -760,6 +766,29 @@ void RenderWidget::slotCopyToFavorites()
     if (saveProfile(doc.documentElement())) {
         parseProfiles(profileElement.attribute(QStringLiteral("name")));
     }
+}
+
+void RenderWidget::slotDownloadNewRenderProfiles()
+{
+    if (getNewStuff(QStringLiteral(":data/kdenlive_renderprofiles.knsrc")) > 0) {
+        reloadProfiles();
+    }
+}
+
+int RenderWidget::getNewStuff(const QString &configFile)
+{
+    KNS3::Entry::List entries;
+    QPointer<KNS3::DownloadDialog> dialog = new KNS3::DownloadDialog(configFile);
+    if (dialog->exec() != 0) {
+        entries = dialog->changedEntries();
+    }
+    for (const KNS3::Entry &entry : entries) {
+        if (entry.status() == KNS3::Entry::Installed) {
+            qCDebug(KDENLIVE_LOG) << "// Installed files: " << entry.installedFiles();
+        }
+    }
+    delete dialog;
+    return entries.size();
 }
 
 void RenderWidget::slotEditProfile()

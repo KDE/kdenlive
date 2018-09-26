@@ -1156,11 +1156,6 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("zoom_in"), m_zoomIn);
     addAction(QStringLiteral("zoom_out"), m_zoomOut);
 
-    KNS3::standardAction(i18n("Download New Wipes..."), this, SLOT(slotGetNewLumaStuff()), actionCollection(), "get_new_lumas");
-    KNS3::standardAction(i18n("Download New Keyboard Schemes..."), this, SLOT(slotGetNewKeyboardStuff()), actionCollection(), "get_new_keyboardschemes");
-    KNS3::standardAction(i18n("Download New Render Profiles..."), this, SLOT(slotGetNewRenderStuff()), actionCollection(), "get_new_profiles");
-    KNS3::standardAction(i18n("Download New Title Templates..."), this, SLOT(slotGetNewTitleStuff()), actionCollection(), "get_new_titles");
-
     addAction(QStringLiteral("run_wizard"), i18n("Run Config Wizard"), this, SLOT(slotRunWizard()), QIcon::fromTheme(QStringLiteral("tools-wizard")));
     addAction(QStringLiteral("project_settings"), i18n("Project Settings"), this, SLOT(slotEditProjectSettings()),
               QIcon::fromTheme(QStringLiteral("configure")));
@@ -2073,6 +2068,29 @@ void MainWindow::slotGuidesUpdated()
 void MainWindow::slotEditKeys()
 {
     KShortcutsDialog dialog(KShortcutsEditor::AllActions, KShortcutsEditor::LetterShortcutsAllowed, this);
+    // Find the combobox inside KShortcutsDialog for choosing keyboard scheme
+    QComboBox *schemesList = nullptr;
+    foreach (QLabel *label, dialog.findChildren<QLabel *>()) {
+        if (label->text() == i18n("Current scheme:")) {
+            schemesList = qobject_cast<QComboBox *>(label->buddy());
+            break;
+        }
+    }
+    // If scheme choosing combobox was found, find the "More Actions" button in the same
+    // dialog that provides a dropdown menu with additional actions, and add
+    // "Download New Keyboard Schemes..." button into that menu
+    if (schemesList) {
+        foreach (QPushButton *button, dialog.findChildren<QPushButton *>()) {
+            if (button->text() == i18n("More Actions")) {
+                QMenu *moreActionsMenu = button->menu();
+                moreActionsMenu->addAction(i18n("Download New Keyboard Schemes..."), this,
+                                           [this, schemesList]{slotGetNewKeyboardStuff(schemesList);});
+                break;
+            }
+        }
+    } else {
+        qWarning() << "Could not get list of schemes. Downloading new schemes is not available.";
+    }
     dialog.addCollection(actionCollection(), i18nc("general keyboard shortcuts", "General"));
     dialog.configure();
 }
@@ -2936,36 +2954,24 @@ int MainWindow::getNewStuff(const QString &configFile)
     return entries.size();
 }
 
-void MainWindow::slotGetNewTitleStuff()
-{
-    if (getNewStuff(QStringLiteral(":data/kdenlive_titles.knsrc")) > 0) {
-        // get project title path
-        QString titlePath = pCore->currentDoc()->projectDataFolder() + QStringLiteral("/titles/");
-        TitleWidget::refreshTitleTemplates(titlePath);
-    }
-}
-
-void MainWindow::slotGetNewLumaStuff()
-{
-    if (getNewStuff(QStringLiteral(":data/kdenlive_wipes.knsrc")) > 0) {
-        initEffects::refreshLumas();
-        // TODO: refresh currently displayd trans ?
-    }
-}
-
-void MainWindow::slotGetNewKeyboardStuff()
+void MainWindow::slotGetNewKeyboardStuff(QComboBox *schemesList)
 {
     if (getNewStuff(QStringLiteral(":data/kdenlive_keyboardschemes.knsrc")) > 0) {
-        // Is there something to do ?
-    }
-}
-
-void MainWindow::slotGetNewRenderStuff()
-{
-    if (getNewStuff(QStringLiteral(":data/kdenlive_renderprofiles.knsrc")) > 0)
-        if (m_renderWidget) {
-            m_renderWidget->reloadProfiles();
+        // Refresh keyboard schemes list (schemes list creation code copied from KShortcutSchemesEditor)
+        QStringList schemes;
+        schemes << QStringLiteral("Default");
+        // List files in the shortcuts subdir, each one is a scheme. See KShortcutSchemesHelper::{shortcutSchemeFileName,exportActionCollection}
+        const QStringList shortcutsDirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QCoreApplication::applicationName() + QStringLiteral("/shortcuts"), QStandardPaths::LocateDirectory);
+        qCDebug(KDENLIVE_LOG) << "shortcut scheme dirs:" << shortcutsDirs;
+        Q_FOREACH (const QString &dir, shortcutsDirs) {
+            Q_FOREACH (const QString &file, QDir(dir).entryList(QDir::Files | QDir::NoDotAndDotDot)) {
+                qCDebug(KDENLIVE_LOG) << "shortcut scheme file:" << file;
+                schemes << file;
+            }
         }
+        schemesList->clear();
+        schemesList->addItems(schemes);
+    }
 }
 
 void MainWindow::slotAutoTransition()

@@ -42,9 +42,11 @@ public:
      or kdenlive/transition*/
     QString getMimeType(const QString &assetId) const override;
     void updateFavorite(const QModelIndex &index);
+    void downloadNewLumas();
 
 private:
     TransitionListWidgetProxy *m_proxy;
+    int getNewStuff(const QString &configFile);
 
 signals:
     void reloadFavorites();
@@ -72,6 +74,7 @@ public:
 
     Q_INVOKABLE void setFilterName(const QString &pattern) { q->setFilterName(pattern); }
     Q_INVOKABLE QString getMimeType(const QString &assetId) const { return q->getMimeType(assetId); }
+    Q_INVOKABLE void downloadNewLumas() { q->downloadNewLumas(); }
     bool showDescription() const { return KdenliveSettings::showeffectinfo(); }
 
     void setShowDescription(bool show)

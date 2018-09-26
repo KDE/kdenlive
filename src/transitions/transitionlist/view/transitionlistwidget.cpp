@@ -23,8 +23,11 @@
 #include "transitions/transitionlist/model/transitionfilter.hpp"
 #include "../model/transitiontreemodel.hpp"
 #include "transitions/transitionsrepository.hpp"
+#include "effectslist/initeffects.h"
+#include "dialogs/profilesdialog.h"
 
 #include <QQmlContext>
+#include <kns3/downloaddialog.h>
 
 TransitionListWidget::TransitionListWidget(QWidget *parent)
     : AssetListWidget(parent)
@@ -73,5 +76,29 @@ void TransitionListWidget::setFilterType(const QString &type)
         static_cast<TransitionFilter *>(m_proxyModel.get())->setFilterType(true, TransitionType::Favorites);
     } else {
         static_cast<TransitionFilter *>(m_proxyModel.get())->setFilterType(false, TransitionType::Favorites);
+    }
+}
+
+int TransitionListWidget::getNewStuff(const QString &configFile)
+{
+    KNS3::Entry::List entries;
+    QPointer<KNS3::DownloadDialog> dialog = new KNS3::DownloadDialog(configFile);
+    if (dialog->exec() != 0) {
+        entries = dialog->changedEntries();
+    }
+    for (const KNS3::Entry &entry : entries) {
+        if (entry.status() == KNS3::Entry::Installed) {
+            qCDebug(KDENLIVE_LOG) << "// Installed files: " << entry.installedFiles();
+        }
+    }
+    delete dialog;
+    return entries.size();
+}
+
+void TransitionListWidget::downloadNewLumas()
+{
+    if (getNewStuff(QStringLiteral(":data/kdenlive_wipes.knsrc")) > 0) {
+        initEffects::refreshLumas();
+        // TODO: refresh currently displayd trans ?
     }
 }

@@ -371,10 +371,7 @@ private slots:
     /** @brief Select all clips in timeline. */
     void slotSelectAllTracks();
     void slotUnselectAllTracks();
-    void slotGetNewLumaStuff();
-    void slotGetNewKeyboardStuff();
-    void slotGetNewTitleStuff();
-    void slotGetNewRenderStuff();
+    void slotGetNewKeyboardStuff(QComboBox *schemesList);
     void slotAutoTransition();
     void slotRunWizard();
     void slotZoneMoved(int start, int end);

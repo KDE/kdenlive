@@ -28,6 +28,7 @@
 #include <KMessageBox>
 #include <KRecentDirs>
 #include <klocalizedstring.h>
+#include <kns3/downloaddialog.h>
 
 #include "kdenlive_debug.h"
 #include <QCryptographicHash>
@@ -67,6 +68,15 @@ const int NOEFFECT = 0;
 const int BLUREFFECT = 1;
 const int SHADOWEFFECT = 2;
 const int TYPEWRITEREFFECT = 3;
+
+void TitleWidget::refreshTemplateBoxContents()
+{
+    templateBox->clear();
+    templateBox->addItem(QString());
+    for (const TitleTemplate &t : titletemplates) {
+        templateBox->addItem(t.icon, t.name, t.file);
+    }
+}
 
 TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &projectTitlePath, Monitor *monitor, QWidget *parent)
     : QDialog(parent)
@@ -415,6 +425,12 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     m_buttonSave->setToolTip(i18n("Save As") + QLatin1Char(' ') + m_buttonSave->shortcut().toString());
     connect(m_buttonSave, SIGNAL(triggered()), this, SLOT(saveTitle()));
 
+    m_buttonDownload = m_toolbar->addAction(QIcon::fromTheme(QStringLiteral("edit-download")), i18n("Download New Title Templates..."));
+    m_buttonDownload->setCheckable(false);
+    m_buttonDownload->setShortcut(Qt::ALT + Qt::Key_D);
+    m_buttonDownload->setToolTip(i18n("Download New Title Templates...") + QLatin1Char(' ') + m_buttonDownload->shortcut().toString());
+    connect(m_buttonDownload, &QAction::triggered, this, &TitleWidget::downloadTitleTemplates);
+
     layout->addWidget(m_toolbar);
 
     // initialize graphic scene
@@ -520,11 +536,7 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
         refreshTitleTemplates(m_projectTitlePath);
     }
     // templateBox->setIconSize(QSize(60,60));
-    templateBox->clear();
-    templateBox->addItem(QString());
-    for (const TitleTemplate &t : titletemplates) {
-        templateBox->addItem(t.icon, t.name, t.file);
-    }
+    refreshTemplateBoxContents();
     lastDocumentHash = QCryptographicHash::hash(xml().toString().toLatin1(), QCryptographicHash::Md5).toHex();
 }
 
@@ -1919,6 +1931,30 @@ void TitleWidget::saveTitle(QUrl url)
             KMessageBox::error(this, i18n("Cannot write to file %1", url.toLocalFile()));
         }
     }
+}
+
+void TitleWidget::downloadTitleTemplates()
+{
+    if (getNewStuff(QStringLiteral(":data/kdenlive_titles.knsrc")) > 0) {
+        refreshTitleTemplates(m_projectTitlePath);
+        refreshTemplateBoxContents();
+    }
+}
+
+int TitleWidget::getNewStuff(const QString &configFile)
+{
+    KNS3::Entry::List entries;
+    QPointer<KNS3::DownloadDialog> dialog = new KNS3::DownloadDialog(configFile);
+    if (dialog->exec() != 0) {
+        entries = dialog->changedEntries();
+    }
+    for (const KNS3::Entry &entry : entries) {
+        if (entry.status() == KNS3::Entry::Installed) {
+            qCDebug(KDENLIVE_LOG) << "// Installed files: " << entry.installedFiles();
+        }
+    }
+    delete dialog;
+    return entries.size();
 }
 
 QDomDocument TitleWidget::xml()
