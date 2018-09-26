@@ -1149,12 +1149,16 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy, QList<std::shared_ptr<Proje
         // Error
         return;
     }
-    QString extension = QLatin1Char('.') + getDocumentProperty(QStringLiteral("proxyextension"));
-    QString params = getDocumentProperty(QStringLiteral("proxyparams"));
+    if (m_proxyExtension.isEmpty()) {
+        initProxySettings();
+    }
+    QString extension = QLatin1Char('.') + m_proxyExtension;
+    //getDocumentProperty(QStringLiteral("proxyextension"));
+    /*QString params = getDocumentProperty(QStringLiteral("proxyparams"));
     if (params.contains(QStringLiteral("-s "))) {
         QString proxySize = params.section(QStringLiteral("-s "), 1).section(QStringLiteral("x"), 0, 0);
         extension.prepend(QStringLiteral("-") + proxySize);
-    }
+    }*/
 
     // Prepare updated properties
     QMap<QString, QString> newProps;
@@ -1505,6 +1509,33 @@ void KdenliveDoc::selectPreviewProfile()
         setDocumentProperty(QStringLiteral("previewparameters"), QString());
         setDocumentProperty(QStringLiteral("previewextension"), QString());
     }
+}
+
+QString KdenliveDoc::getAutoProxyProfile()
+{
+    if (m_proxyExtension.isEmpty() || m_proxyParams.isEmpty()) {
+        initProxySettings();
+    }
+    return m_proxyParams;
+}
+
+void KdenliveDoc::initProxySettings()
+{
+    // Read preview profiles and find the best match
+    KConfig conf(QStringLiteral("encodingprofiles.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
+    KConfigGroup group(&conf, "proxy");
+    QString params;
+    QMap<QString, QString> values = group.entryMap();
+    // Select best proxy profile depending on hw encoder support
+    if (KdenliveSettings::nvencEnabled() && values.contains(QStringLiteral("MJPEG-nvenc"))) {
+        params = values.value(QStringLiteral("MJPEG-nvenc"));
+    } else if (KdenliveSettings::vaapiEnabled() && values.contains(QStringLiteral("MJPEG-vaapi"))) {
+        params = values.value(QStringLiteral("MJPEG-vaapi"));
+    } else {
+        params = values.value(QStringLiteral("MJPEG"));
+    }
+    m_proxyParams = params.section(QLatin1Char(';'), 0, 0);
+    m_proxyExtension = params.section(QLatin1Char(';'), 1);
 }
 
 void KdenliveDoc::checkPreviewStack()

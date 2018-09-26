@@ -210,6 +210,10 @@ bool ProxyJob::startJob()
         m_jobDuration = (int) binClip->duration().seconds();
         parameters << QStringLiteral("-y") << QStringLiteral("-v")<< QStringLiteral("quiet")<<QStringLiteral("-stats");
         QString proxyParams = pCore->currentDoc()->getDocumentProperty(QStringLiteral("proxyparams")).simplified();
+        if (proxyParams.isEmpty()) {
+            // Automatic setting, decide based on hw support
+            proxyParams = pCore->currentDoc()->getAutoProxyProfile();
+        }
         bool nvenc = proxyParams.contains(QStringLiteral("%nvcodec"));
         if (nvenc) {
             QString pix_fmt = binClip->videoCodecProperty(QStringLiteral("pix_fmt"));

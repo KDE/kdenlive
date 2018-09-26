@@ -1318,7 +1318,7 @@ void GLWidget::onFrameDisplayed(const SharedFrame &frame)
     m_sharedFrame = frame;
     m_sendFrame = sendFrameForAnalysis;
     m_mutex.unlock();
-    //update();
+    update();
 }
 
 void GLWidget::mouseReleaseEvent(QMouseEvent *event)

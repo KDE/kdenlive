@@ -193,6 +193,14 @@
       <label>default height for timeline preview resize.</label>
       <default>600</default>
     </entry>
+    <entry name="vaapiEnabled" type="Bool">
+      <label>Enables vaapi hw accel in encoders.</label>
+      <default>false</default>
+    </entry>
+    <entry name="nvencEnabled" type="Bool">
+      <label>Enables nvenc hw accel in encoders.</label>
+      <default>false</default>
+    </entry>
 
     </group>
 

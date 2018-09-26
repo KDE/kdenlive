@@ -50,6 +50,7 @@ public:
     void runUpdateMimeDatabase();
     void adjustSettings();
     bool isOk() const;
+    static void testHwEncoders();
 
 private:
     Ui::WizardStandard_UI m_standard;
@@ -71,6 +72,7 @@ private:
     void slotCheckPrograms();
     void checkMltComponents();
     void checkMissingCodecs();
+    void updateHwStatus();
 
 private slots:
     void slotCheckStandard();

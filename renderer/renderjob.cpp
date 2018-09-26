@@ -149,15 +149,18 @@ void RenderJob::receivedStderr()
         if (m_jobUiserver) {
             m_jobUiserver->call(QStringLiteral("setPercent"), (uint)m_progress);
             int seconds = m_startTime.secsTo(QTime::currentTime());
+            if (seconds < 0) {
+                // 1 day offset, add seconds in a day
+                seconds += 86400;
+            }
+            seconds = (int)(seconds * (100 - m_progress) / m_progress);
             if (seconds == m_seconds) {
                 return;
             }
-            if (seconds < 0) {
-                seconds += 24 * 60 * 60;
-            }
             m_jobUiserver->call(QStringLiteral("setDescriptionField"), (uint)0, QString(),
                                 tr("Remaining time: ") +
-                                    QTime(0, 0, 0).addSecs((int)(seconds * (100 - m_progress) / m_progress)).toString(QStringLiteral("hh:mm:ss")));
+                                    QTime(0, 0, 0).addSecs(seconds).toString(QStringLiteral("hh:mm:ss")));
+            //m_jobUiserver->call(QStringLiteral("setSpeed"), (frame - m_frame) / (seconds - m_seconds));
             // m_jobUiserver->call("setSpeed", (frame - m_frame) / (seconds - m_seconds));
             m_frame = frame;
             m_seconds = seconds;

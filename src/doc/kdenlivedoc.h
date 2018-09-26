@@ -157,6 +157,8 @@ public:
     const QString documentRoot() const;
     /** @brief Returns true if timeline preview settings changed*/
     bool updatePreviewSettings(const QString &profile);
+    /** @brief Returns the recommanded proxy profile parameters */
+    QString getAutoProxyProfile();
 
 private:
     QUrl m_url;
@@ -169,6 +171,12 @@ private:
 
     /** @brief Tells whether the current document has been changed after being saved. */
     bool m_modified;
+
+    /** @brief The default recommanded proxy extension */
+    QString m_proxyExtension;
+
+    /** @brief The default recommanded proxy params */
+    QString m_proxyParams;
 
     /** @brief Tells whether the current document was modified by Kdenlive on opening, and a backup should be created on save. */
     enum DOCSTATUS { CleanProject, ModifiedProject, UpgradedProject };
@@ -195,6 +203,8 @@ private:
     void loadDocumentProperties();
     /** @brief update document properties to reflect a change in the current profile */
     void updateProjectProfile(bool reloadProducers = false);
+    /** @brief initialize proxy settings based on hw status */
+    void initProxySettings();
 
 public slots:
     void slotCreateTextTemplateClip(const QString &group, const QString &groupId, QUrl path);

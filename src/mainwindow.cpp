@@ -541,6 +541,7 @@ void MainWindow::init()
 
     // Populate encoding profiles
     KConfig conf(QStringLiteral("encodingprofiles.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
+    /*KConfig conf(QStringLiteral("encodingprofiles.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
     if (KdenliveSettings::proxyparams().isEmpty() || KdenliveSettings::proxyextension().isEmpty()) {
         KConfigGroup group(&conf, "proxy");
         QMap<QString, QString> values = group.entryMap();
@@ -551,7 +552,7 @@ void MainWindow::init()
             KdenliveSettings::setProxyparams(proxystring.section(QLatin1Char(';'), 0, 0));
             KdenliveSettings::setProxyextension(proxystring.section(QLatin1Char(';'), 1, 1));
         }
-    }
+    }*/
     if (KdenliveSettings::v4l_parameters().isEmpty() || KdenliveSettings::v4l_extension().isEmpty()) {
         KConfigGroup group(&conf, "video4linux");
         QMap<QString, QString> values = group.entryMap();

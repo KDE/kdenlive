@@ -46,6 +46,9 @@
 #include <QStandardPaths>
 #include <QTimer>
 #include <QXmlStreamWriter>
+#include <QTemporaryFile>
+#include <QCheckBox>
+#include <QPushButton>
 
 // Recommended MLT version
 const int mltVersionMajor = MLT_MIN_MAJOR_VERSION;
@@ -102,6 +105,7 @@ Wizard::Wizard(bool autoClose, bool appImageCheck, QWidget *parent)
     setButtonText(QWizard::FinishButton, i18n("OK"));
 
     slotCheckMlt();
+    testHwEncoders();
     if (!m_errors.isEmpty() || !m_warnings.isEmpty() || (!m_infos.isEmpty() && !appImageCheck)) {
         QLabel *lab = new QLabel(this);
         lab->setText(i18n("Startup error or warning, check our <a href='#'>online manual</a>."));
@@ -119,6 +123,19 @@ Wizard::Wizard(bool autoClose, bool appImageCheck, QWidget *parent)
         lab->setMessageType(KMessageWidget::Positive);
         lab->setCloseButtonVisible(false);
         m_startLayout->addWidget(lab);
+        // HW accel
+        QCheckBox *cb = new QCheckBox(i18n("VAAPI hardware acceleration"), this);
+        m_startLayout->addWidget(cb);
+        cb->setChecked(KdenliveSettings::vaapiEnabled());
+        QPushButton *pb = new QPushButton(i18n("Check hardware acceleration"), this);
+        connect(pb, &QPushButton::clicked, [&, cb, pb]() {
+            testHwEncoders();
+            pb->setEnabled(false);
+            cb->setChecked(KdenliveSettings::vaapiEnabled());
+            updateHwStatus();
+            pb->setEnabled(true);
+        });
+        m_startLayout->addWidget(pb);
         setOption(QWizard::NoCancelButton, true);
         return;
     }
@@ -882,4 +899,53 @@ void Wizard::slotSaveCaptureFormat()
 void Wizard::slotUpdateDecklinkDevice(uint captureCard)
 {
     KdenliveSettings::setDecklink_capturedevice(captureCard);
+}
+
+
+void Wizard::testHwEncoders()
+{
+    QProcess hwEncoders;
+    // Testing vaapi support
+    QTemporaryFile tmp(QDir::tempPath() + "/XXXXXX.mp4");
+    if (!tmp.open()) {
+        // Something went wrong
+        return;
+    }
+    tmp.close();
+    QStringList args{"-y","-vaapi_device","/dev/dri/renderD128","-f","lavfi","-i","smptebars=duration=5:size=1280x720:rate=25","-vf","format=nv12,hwupload","-c:v","h264_vaapi","-an","-f","mp4",tmp.fileName()};
+    qDebug()<<"// FFMPEG ARGS: "<<args;
+    hwEncoders.start(KdenliveSettings::ffmpegpath(), args);
+    bool vaapiSupported = false;
+    if (hwEncoders.waitForFinished()) {
+        if (hwEncoders.exitStatus() == QProcess::CrashExit) {
+            qDebug()<<"/// ++ VAAPI NOT SUPPORTED";
+        } else {
+            if (tmp.exists() && tmp.size() > 0) {
+                qDebug()<<"/// ++ VAAPI YES SUPPORTED ::::::";
+                // vaapi support enabled
+                vaapiSupported = true;
+            } else {
+                qDebug()<<"/// ++ VAAPI FAILED ::::::";
+                // vaapi support not enabled
+            }
+        }
+    }
+    KdenliveSettings::setVaapiEnabled(vaapiSupported);
+    qDebug()<<"_____ EXIT STATUS:\n"<<hwEncoders.exitStatus();
+    // ffmpegmlt -y -vaapi_device /dev/dri/renderD128 -f lavfi -i smptebars=duration=5:size=1280x720:rate=30 -vf 'format=nv12,hwupload' -c:v h264_vaapi -an -f null /dev/null
+}
+
+
+void Wizard::updateHwStatus()
+{
+    auto *statusLabel = new KMessageWidget(this);
+    bool hwEnabled = KdenliveSettings::vaapiEnabled();
+    statusLabel->setMessageType(hwEnabled ? KMessageWidget::Positive : KMessageWidget::Information);
+    statusLabel->setWordWrap(true);
+    statusLabel->setText(KdenliveSettings::vaapiEnabled() ? i18n("VAAPI hardware encoders found and enabled") : i18n("No hardware encoders found"));
+    statusLabel->setCloseButtonVisible(false);
+    //errorLabel->setTimeout();
+    m_startLayout->addWidget(statusLabel);
+    statusLabel->animatedShow();
+    QTimer::singleShot(3000, statusLabel, &KMessageWidget::animatedHide);
 }

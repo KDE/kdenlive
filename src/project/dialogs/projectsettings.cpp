@@ -743,22 +743,37 @@ void ProjectSettings::loadProxyProfiles()
     QMapIterator<QString, QString> k(values);
     int ix = -1;
     proxy_profile->clear();
+    if (KdenliveSettings::vaapiEnabled() || KdenliveSettings::nvencEnabled()) {
+        proxy_profile->addItem(QIcon::fromTheme(QStringLiteral("speedometer")), i18n("Automatic"));
+    } else {
+        proxy_profile->addItem(i18n("Automatic"));
+    }
     while (k.hasNext()) {
         k.next();
         if (!k.key().isEmpty()) {
             QString params = k.value().section(QLatin1Char(';'), 0, 0);
             QString extension = k.value().section(QLatin1Char(';'), 1, 1);
-            if (ix == -1 && ((params == m_proxyparameters && extension == m_proxyextension) || (m_proxyparameters.isEmpty() || m_proxyextension.isEmpty()))) {
+            if (ix == -1 && ((params == m_proxyparameters && extension == m_proxyextension))) {
                 // this is the current profile
                 ix = proxy_profile->count();
             }
-            proxy_profile->addItem(k.key(), k.value());
+            if (params.contains(QLatin1String("vaapi"))) {
+                proxy_profile->addItem(KdenliveSettings::vaapiEnabled() ? QIcon::fromTheme(QStringLiteral("speedometer")) : QIcon::fromTheme(QStringLiteral("dialog-cancel")), k.key(), k.value());
+            } else if (params.contains(QLatin1String("nvenc"))) {
+                proxy_profile->addItem(KdenliveSettings::nvencEnabled() ?QIcon::fromTheme(QStringLiteral("speedometer")) : QIcon::fromTheme(QStringLiteral("dialog-cancel")), k.key(), k.value());
+            } else {
+                proxy_profile->addItem(k.key(), k.value());
+            }
         }
     }
     if (ix == -1) {
         // Current project proxy settings not found
-        ix = proxy_profile->count();
-        proxy_profile->addItem(i18n("Current Settings"), QString(m_proxyparameters + QLatin1Char(';') + m_proxyextension));
+        if (m_proxyparameters.isEmpty() && m_proxyextension.isEmpty()) {
+            ix = 0;
+        } else {
+            ix = proxy_profile->count();
+            proxy_profile->addItem(i18n("Current Settings"), QString(m_proxyparameters + QLatin1Char(';') + m_proxyextension));
+        }
     }
     proxy_profile->setCurrentIndex(ix);
     slotUpdateProxyParams();
@@ -782,7 +797,11 @@ void ProjectSettings::loadPreviewProfiles()
                 // this is the current profile
                 ix = preview_profile->count();
             }
-            preview_profile->addItem(k.key(), k.value());
+            if (params.contains(QLatin1String("nvenc"))) {
+                preview_profile->addItem(KdenliveSettings::nvencEnabled() ? QIcon::fromTheme(QStringLiteral("speedometer")) : QIcon::fromTheme(QStringLiteral("dialog-cancel")), k.key(), k.value());
+            } else {
+                preview_profile->addItem(k.key(), k.value());
+            }
         }
     }
     if (ix == -1) {
@@ -790,9 +809,17 @@ void ProjectSettings::loadPreviewProfiles()
         ix = preview_profile->count();
         if (m_previewparams.isEmpty() && m_previewextension.isEmpty()) {
             // Leave empty, will be automatically detected
-            preview_profile->addItem(i18n("Auto"));
+            if (KdenliveSettings::nvencEnabled()) {
+                preview_profile->addItem(QIcon::fromTheme(QStringLiteral("speedometer")), i18n("Automatic"));
+            } else {
+                preview_profile->addItem(i18n("Automatic"));
+            }
         } else {
-            preview_profile->addItem(i18n("Current Settings"), QString(m_previewparams + QLatin1Char(';') + m_previewextension));
+            if (m_previewparams.contains(QLatin1String("nvenc"))) {
+                preview_profile->addItem(QIcon::fromTheme(QStringLiteral("speedometer")), i18n("Current Settings"), QString(m_previewparams + QLatin1Char(';') + m_previewextension));
+            } else {
+                preview_profile->addItem(i18n("Current Settings"), QString(m_previewparams + QLatin1Char(';') + m_previewextension));
+            }
         }
     }
     preview_profile->setCurrentIndex(ix);

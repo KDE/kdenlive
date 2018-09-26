@@ -1406,6 +1406,7 @@ void KdenliveSettingsDialog::loadEncodingProfiles()
     m_configProject.kcfg_proxy_profile->clear();
     KConfigGroup group4(&conf, "proxy");
     values = group4.entryMap();
+    m_configProject.kcfg_proxy_profile->addItem(i18n("Automatic"));
     QMapIterator<QString, QString> m(values);
     while (m.hasNext()) {
         m.next();
