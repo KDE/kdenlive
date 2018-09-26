@@ -606,8 +606,8 @@ ParameterContainer::ParameterContainer(const QDomElement &effect, const ItemInfo
                 button->setProperty("realName", paramName);
                 if (effect.hasAttribute(QStringLiteral("condition"))) {
                     if (m_conditionParameter) {
-                        QDomElement na = pa.firstChildElement(QStringLiteral("name"));
-                        QString conditionalName = na.attribute(QStringLiteral("conditional"));
+                        QDomElement nnode = pa.firstChildElement(QStringLiteral("name"));
+                        QString conditionalName = nnode.attribute(QStringLiteral("conditional"));
                         if (!conditionalName.isEmpty()) {
                             paramName = conditionalName;
                         }

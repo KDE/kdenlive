@@ -76,7 +76,7 @@ void LoginDialog::slotRejected()
 /**
  * @brief LoginDialog::urlChanged
  * @param url \n
- *  If we succesfully get a Auth code in our URL we extract the code here and emit  LoginDialog::AuthCodeObtained signal
+ *  If we successfully get a Auth code in our URL we extract the code here and emit  LoginDialog::AuthCodeObtained signal
  * http://www.freesound.org/docs/api/authentication.html#oauth2-authentication
  */
 void LoginDialog::urlChanged(const QUrl &url)

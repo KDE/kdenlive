@@ -5,7 +5,7 @@ project(Kdenlive)
 
 # KDE Application Version, managed by release script
 set (KDE_APPLICATIONS_VERSION_MAJOR "18")
-set (KDE_APPLICATIONS_VERSION_MINOR "07")
+set (KDE_APPLICATIONS_VERSION_MINOR "11")
 set (KDE_APPLICATIONS_VERSION_MICRO "70")
 
 set(KDENLIVE_VERSION ${KDE_APPLICATIONS_VERSION_MAJOR}.${KDE_APPLICATIONS_VERSION_MINOR}.${KDE_APPLICATIONS_VERSION_MICRO})
@@ -21,7 +21,7 @@ if(POLICY CMP0071)
 endif()
 # Minimum versions of main dependencies.
 set(MLT_MIN_MAJOR_VERSION 6)
-set(MLT_MIN_MINOR_VERSION 6)
+set(MLT_MIN_MINOR_VERSION 10)
 set(MLT_MIN_PATCH_VERSION 0)
 set(MLT_MIN_VERSION ${MLT_MIN_MAJOR_VERSION}.${MLT_MIN_MINOR_VERSION}.${MLT_MIN_PATCH_VERSION})
 
@@ -95,7 +95,10 @@ else()
   set(KF5_ICON_COMPATIBILITY TRUE)
 endif()
 
-find_package(KF5 REQUIRED COMPONENTS Archive Bookmarks CoreAddons Config ConfigWidgets DBusAddons KIO WidgetsAddons NotifyConfig NewStuff XmlGui Notifications GuiAddons TextWidgets IconThemes Declarative Solid OPTIONAL_COMPONENTS DocTools FileMetaData Crash Purpose)
+find_package(KF5 REQUIRED COMPONENTS Archive Bookmarks CoreAddons Config ConfigWidgets
+                            DBusAddons KIO WidgetsAddons NotifyConfig NewStuff XmlGui Notifications GuiAddons TextWidgets IconThemes
+                            Declarative Solid
+                 OPTIONAL_COMPONENTS DocTools FileMetaData Crash Purpose)
 
 if (KF5FileMetaData_FOUND)
   message(STATUS "Found KF5 FileMetadata to extract file metadata")

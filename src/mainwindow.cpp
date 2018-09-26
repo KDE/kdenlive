@@ -1071,7 +1071,7 @@ void MainWindow::setupActions()
     m_zoomOut->setShortcut(Qt::CTRL + Qt::Key_Minus);
 
     m_zoomSlider = new QSlider(Qt::Horizontal, this);
-    m_zoomSlider->setMaximum(13);
+    m_zoomSlider->setMaximum(14);
     m_zoomSlider->setPageStep(1);
     m_zoomSlider->setInvertedAppearance(true);
     m_zoomSlider->setInvertedControls(true);
@@ -2002,7 +2002,14 @@ void MainWindow::connectDocument()
     connect(m_effectStack->transitionConfig(), &TransitionSettings::seekTimeline, trackView->projectView(), &CustomTrackView::seekCursorPos);
 
     connect(trackView->projectView(), SIGNAL(activateDocumentMonitor()), m_projectMonitor, SLOT(slotActivateMonitor()), Qt::DirectConnection);
-    connect(project, &KdenliveDoc::updateFps, this, &MainWindow::slotUpdateProfile, Qt::DirectConnection);
+    connect(project, &KdenliveDoc::updateFps, this,
+            [this](double changed) {
+        if (changed == 0.0) {
+            slotUpdateProfile(false);
+        } else {
+            slotUpdateProfile(true);
+        }
+    }, Qt::DirectConnection);
     connect(trackView, &Timeline::zoneMoved, this, &MainWindow::slotZoneMoved);
     trackView->projectView()->setContextMenu(m_timelineContextMenu, m_timelineClipActions, m_timelineContextTransitionMenu, m_clipTypeGroup,
     static_cast<QMenu *>(factory()->container(QStringLiteral("marker_menu"), this)));
@@ -2674,7 +2681,7 @@ void MainWindow::slotShowZoomSliderToolTip(int zoomlevel)
 
 void MainWindow::slotUpdateZoomSliderToolTip(int zoomlevel)
 {
-    m_zoomSlider->setToolTip(i18n("Zoom Level: %1/13", (13 - zoomlevel)));
+    m_zoomSlider->setToolTip(i18n("Zoom Level: %1/14", (14 - zoomlevel)));
 }
 
 void MainWindow::slotGotProgressInfo(const QString &message, int progress, MessageType type)
@@ -3713,7 +3720,14 @@ QDockWidget *MainWindow::addDock(const QString &title, const QString &objectName
     dockWidget->setObjectName(objectName);
     dockWidget->setWidget(widget);
     addDockWidget(area, dockWidget);
-    connect(dockWidget, &QDockWidget::dockLocationChanged, this, &MainWindow::updateDockTitleBars);
+    connect(dockWidget, &QDockWidget::dockLocationChanged, this,
+            [this](Qt::DockWidgetArea dockLocationArea)  {
+        if (dockLocationArea == Qt::NoDockWidgetArea) {
+            updateDockTitleBars(false);
+        } else {
+            updateDockTitleBars(true);
+        }
+    });
     connect(dockWidget, &QDockWidget::topLevelChanged, this, &MainWindow::updateDockTitleBars);
     return dockWidget;
 }

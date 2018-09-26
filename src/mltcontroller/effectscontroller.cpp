@@ -244,7 +244,7 @@ double EffectsController::getStringEval(QString eval, const QPoint &frameSize)
         .replace(QLatin1String("%width"), QString::number(pCore->getCurrentProfile()->width()))
         .replace(QLatin1String("%height"), QString::number(pCore->getCurrentProfile()->height()));
     Mlt::Properties p;
-    p.set("eval", eval.toLatin1().constData());
+    p.set("eval", eval.prepend(QLatin1Char('@')).toLatin1().constData());
     return p.get_double("eval");
 }
 

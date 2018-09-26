@@ -168,6 +168,7 @@ void MyTextItem::updateGeometry(int, int, int)
 
     QString text = toPlainText();
     m_path = QPainterPath();
+    m_path.setFillRule(Qt::WindingFill);
     if (text.isEmpty()) {
         //
     } else {

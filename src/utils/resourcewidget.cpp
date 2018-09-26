@@ -691,7 +691,7 @@ void ResourceWidget::slotSetImage(const QString &desc)
     QPixmap pic(desc);
     GifLabel->setPixmap(pic); // pass a pointer as a parameter. Display the pic in our lable
 }
-/** @brief updates the display with infomation on the seleted item. The title consists of the sounds file name and the author
+/** @brief updates the display with information on the seleted item. The title consists of the sounds file name and the author
  *
  * Called by ResourceWidget::slotUpdateCurrentSound()
  */
@@ -816,7 +816,7 @@ void ResourceWidget::slotReadyRead()
  * @brief ResourceWidget::DownloadRequestFinished
  * @param reply
  * Fires when the download of the freesound file completes.
- * If the download was successfull this saves the data from memory to the file system. Emits an ResourceWidget::addClip signal.
+ * If the download was successful this saves the data from memory to the file system. Emits an ResourceWidget::addClip signal.
  * MainWindow::slotDownloadResources() links this signal to MainWindow::slotAddProjectClip
  * If the download has failed with AuthenticationRequiredError then it requests a new access token via the refresh token method
  * and then the download process will retry.

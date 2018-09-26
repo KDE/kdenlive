@@ -899,6 +899,25 @@
        <item row="1" column="0" colspan="6">
         <layout class="QHBoxLayout" name="jobInfo"/>
        </item>
+       <item row="3" column="4">
+        <widget class="QToolButton" name="shareButton">
+         <property name="text">
+          <string>Share</string>
+         </property>
+         <property name="popupMode">
+          <enum>QToolButton::InstantPopup</enum>
+         </property>
+         <property name="toolButtonStyle">
+          <enum>Qt::ToolButtonTextBesideIcon</enum>
+         </property>
+         <property name="arrowType">
+          <enum>Qt::DownArrow</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0" colspan="6">
+        <layout class="QHBoxLayout" name="jobInfo"/>
+       </item>
       </layout>
      </widget>
      <widget class="QWidget" name="scriptsTab">

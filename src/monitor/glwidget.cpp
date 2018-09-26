@@ -1123,6 +1123,7 @@ int GLWidget::reconfigure(Mlt::Profile *profile)
             m_consumer->purge();
             m_consumer->stop();
             delete m_consumer;
+            m_consumer = nullptr;
         }
         QString audioBackend = (KdenliveSettings::external_display()) ? QString("decklink:%1").arg(KdenliveSettings::blackmagic_output_device()) : KdenliveSettings::audiobackend();
         if (serviceName.isEmpty() || serviceName != audioBackend) {

@@ -2397,7 +2397,7 @@ void Bin::slotExpandUrl(const ItemInfo &info, const QString &url, QUndoCommand *
             }
         }
 
-        // First occurence of a producer, so allocate new bin clip producer ID.
+        // First occurrence of a producer, so allocate new bin clip producer ID.
         QString newId = QString::number(getFreeClipId());
         idMap.insert(originalId, newId);
         qCDebug(KDENLIVE_LOG) << "originalId: " << originalId << ", newId: " << newId;

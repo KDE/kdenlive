@@ -36,7 +36,7 @@ public:
     /** @brief Constructor for the widgetComment
         @param name String containing the name of the parameter
         @param comment Optional string containing the comment associated to the parameter
-        @param checked Boolean indicating wether the checkbox should initially be checked
+        @param checked Boolean indicating whether the checkbox should initially be checked
         @param parent Parent widget
     */
     BoolParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent);
