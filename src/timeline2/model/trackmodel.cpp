@@ -850,7 +850,7 @@ Fun TrackModel::requestCompositionResize_lambda(int compoId, int in, int out)
     Q_ASSERT(m_compoPos.count(compo_position) > 0);
     Q_ASSERT(m_compoPos[compo_position] == compoId);
     int old_in = compo_position;
-    int old_out = old_in + m_allCompositions[compoId]->getPlaytime();
+    int old_out = old_in + m_allCompositions[compoId]->getPlaytime() - 1;
     qDebug() << "compo resize " << compoId << in << "-" << out << " / " << old_in << "-" << old_out;
     if (out == -1) {
         out = in + old_out - old_in;
@@ -859,7 +859,7 @@ Fun TrackModel::requestCompositionResize_lambda(int compoId, int in, int out)
     auto update_snaps = [compoId, old_in, old_out, this](int new_in, int new_out) {
         if (auto ptr = m_parent.lock()) {
             ptr->m_snaps->removePoint(old_in);
-            ptr->m_snaps->removePoint(old_out);
+            ptr->m_snaps->removePoint(old_out + 1);
             ptr->m_snaps->addPoint(new_in);
             ptr->m_snaps->addPoint(new_out);
             ptr->checkRefresh(old_in, old_out);
@@ -872,17 +872,22 @@ Fun TrackModel::requestCompositionResize_lambda(int compoId, int in, int out)
     };
 
     if (in == compo_position && (out == -1 || out == old_out)) {
-        return []() { return true; };
+        return []() {
+            qDebug()<<"//// NO MOVE PERFORMES\n!!!!!!!!!!!!!!!!!!!!!!!!!!";
+            return true; };
     }
 
     // temporary remove of current compo to check collisions
+    qDebug()<<"// CURRENT COMPOSITIONS ----\n"<<m_compoPos<<"\n--------------";
     m_compoPos.erase(compo_position);
     bool intersecting = hasIntersectingComposition(in, out);
     // put it back
     m_compoPos[compo_position] = compoId;
 
     if (intersecting) {
-        return []() { return false; };
+        return []() { 
+            qDebug()<<"//// FALSE MOVE PERFORMES\n!!!!!!!!!!!!!!!!!!!!!!!!!!";
+            return false; };
     }
 
     return [in, out, compoId, update_snaps, this]() {

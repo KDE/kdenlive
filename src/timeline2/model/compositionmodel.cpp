@@ -33,6 +33,7 @@ CompositionModel::CompositionModel(std::weak_ptr<TimelineModel> parent, Mlt::Tra
     : MoveableItem<Mlt::Transition>(std::move(parent), id)
     , AssetParameterModel(transition, transitionXml, transitionId, {ObjectType::TimelineComposition, m_id})
     , a_track(-1)
+    , m_duration(0)
 {
     m_compositionName = TransitionsRepository::get()->getName(transitionId);
 }
@@ -74,9 +75,9 @@ bool CompositionModel::requestResize(int size, bool right, Fun &undo, Fun &redo,
         return false;
     }
     int delta = getPlaytime() - size;
-    qDebug() << "compo request resize " << size << right << delta;
+    qDebug() << "compo request resize to " << size <<", ACTUAL SZ: "<<getPlaytime()<<", "<< right << delta;
     int in = getIn();
-    int out = getOut();
+    int out = in + getPlaytime() - 1;
     int oldDuration = out - in;
     int old_in = in, old_out = out;
     if (right) {
@@ -99,6 +100,9 @@ bool CompositionModel::requestResize(int size, bool right, Fun &undo, Fun &redo,
             qDebug() << "Error : Moving composition failed because parent timeline is not available anymore";
             Q_ASSERT(false);
         }
+    } else {
+        // Perform resize only
+        setInOut(in, out);
     }
     Fun operation = [in, out, track_operation, this]() {
         if (track_operation()) {
@@ -114,10 +118,10 @@ bool CompositionModel::requestResize(int size, bool right, Fun &undo, Fun &redo,
         if (!right) {
             roles.push_back(TimelineModel::StartRole);
         }
-        QModelIndex ix = ptr->makeCompositionIndexFromID(m_id);
-        //TODO: integrate in undo
-        ptr->dataChanged(ix, ix, roles);
         if (m_currentTrackId != -1 && ptr) {
+            QModelIndex ix = ptr->makeCompositionIndexFromID(m_id);
+            //TODO: integrate in undo
+            ptr->dataChanged(ix, ix, roles);
             track_reverse = ptr->getTrackById(m_currentTrackId)->requestCompositionResize_lambda(m_id, old_in, old_out);
         }
         Fun reverse = [old_in, old_out, track_reverse, this]() {
@@ -165,7 +169,7 @@ Mlt::Properties *CompositionModel::properties()
 int CompositionModel::getPlaytime() const
 {
     READ_LOCK();
-    return getOut() - getIn() + 1;
+    return m_duration + 1;
 }
 
 int CompositionModel::getATrack() const
@@ -226,6 +230,22 @@ const QString &CompositionModel::displayName() const
 
 void CompositionModel::setInOut(int in, int out)
 {
-    m_position = in;
     MoveableItem::setInOut(in, out);
+    m_duration = out - in;
+    setPosition(in);
+}
+
+void CompositionModel::setCurrentTrackId(int tid)
+{
+    MoveableItem::setCurrentTrackId(tid);
+}
+
+int CompositionModel::getOut() const
+{
+    return getPosition() + m_duration;
+}
+
+int CompositionModel::getIn() const
+{
+    return getPosition();
 }

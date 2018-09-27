@@ -60,8 +60,8 @@ public:
     /* @brief returns the in and out times of the item
      */
     std::pair<int, int> getInOut() const;
-    int getIn() const;
-    int getOut() const;
+    virtual int getIn() const;
+    virtual int getOut() const;
 
     friend class TrackModel;
     friend class TimelineModel;
@@ -106,7 +106,7 @@ protected:
        If you whish to actually change the track the item, use the slot in the timeline
        slot.
     */
-    void setCurrentTrackId(int tid);
+    virtual void setCurrentTrackId(int tid);
 
     /* Set in and out of service */
     virtual void setInOut(int in, int out);

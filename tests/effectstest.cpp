@@ -32,7 +32,8 @@ TEST_CASE("Effects stack", "[Effects]")
     QVector<QPair<QString, QString>> effects = EffectsRepository::get()->getNames();
     REQUIRE(!effects.isEmpty());
 
-    anEffect = effects.first().first;
+    anEffect = "qtblend";//effects.first().first;
+    //qDebug()<<"// APPENDING EFFECT: "<<anEffect;
 
     REQUIRE(!anEffect.isEmpty());
 

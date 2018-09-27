@@ -1176,7 +1176,6 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
             // only test move if proposed_size is valid
             bool success = false;
             if (isClip(itemId)) {
-                qDebug() << "+++MODEL REQUEST RESIZE (LOGUNDO) " << logUndo << ", SIZE: " << proposed_size;
                 success = m_allClips[itemId]->requestResize(proposed_size, right, temp_undo, temp_redo, false);
             } else {
                 success = m_allCompositions[itemId]->requestResize(proposed_size, right, temp_undo, temp_redo, false);
@@ -2121,10 +2120,27 @@ bool TimelineModel::checkConsistency()
             snaps[clip->getPosition() + clip->getPlaytime()] += 1;
         }
     }
+    for (const auto &cp : m_allCompositions) {
+        auto clip = (cp.second);
+        // Check parent/children link for tracks
+        if (auto ptr = clip->m_parent.lock()) {
+            if (ptr.get() != this) {
+                qDebug() << "Wrong parent for compo" << cp.first;
+                return false;
+            }
+        } else {
+            qDebug() << "NULL parent for compo" << cp.first;
+            return false;
+        }
+        if (getCompositionTrackId(cp.first) != -1) {
+            snaps[clip->getPosition()] += 1;
+            snaps[clip->getPosition() + clip->getPlaytime()] += 1;
+        }
+    }
     // Check snaps
     auto stored_snaps = m_snaps->_snaps();
     if (snaps.size() != stored_snaps.size()) {
-        qDebug() << "Wrong number of snaps";
+        qDebug() << "Wrong number of snaps: "<<snaps.size()<<" == "<<stored_snaps.size();
         return false;
     }
     for (auto i = snaps.begin(), j = stored_snaps.begin(); i != snaps.end(); ++i, ++j) {
@@ -2196,7 +2212,7 @@ bool TimelineModel::checkConsistency()
             // we iterate to try to find a matching compo
             for (int compoId : remaining_compo) {
                 if (getTrackMltIndex(getCompositionTrackId(compoId)) == currentTrack &&
-                    getTrackMltIndex(m_allCompositions[compoId]->getATrack()) == currentATrack && m_allCompositions[compoId]->getIn() == currentIn &&
+                    m_allCompositions[compoId]->getATrack() == currentATrack && m_allCompositions[compoId]->getIn() == currentIn &&
                     m_allCompositions[compoId]->getOut() == currentOut) {
                     foundId = compoId;
                     break;
@@ -2230,6 +2246,7 @@ bool TimelineModel::checkConsistency()
 
     // We check consistency of groups
     if (!m_groups->checkConsistency(true, true)) {
+        qDebug()<<"== ERROR IN GROUP CONSISTENCY";
         return false;
     }
     return true;

@@ -99,7 +99,7 @@ TEST_CASE("Composition manipulation", "[CompositionModel]")
         REQUIRE(timeline->getTrackCompositionsCount(tid1) == 1);
         REQUIRE(timeline->getTrackCompositionsCount(tid2) == 0);
 
-        pos = 1;
+        pos = 10;
         REQUIRE(timeline->requestCompositionMove(cid1, tid2, pos));
         REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->getCompositionTrackId(cid1) == tid2);
@@ -108,7 +108,7 @@ TEST_CASE("Composition manipulation", "[CompositionModel]")
         REQUIRE(timeline->getTrackCompositionsCount(tid2) == 1);
         REQUIRE(timeline->getTrackCompositionsCount(tid1) == 0);
 
-        REQUIRE(timeline->requestItemResize(cid1, 10, true));
+        REQUIRE(timeline->requestItemResize(cid1, 10, true) > -1);
         REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->getCompositionTrackId(cid1) == tid2);
         REQUIRE(timeline->getCompositionPosition(cid1) == pos);
@@ -116,7 +116,8 @@ TEST_CASE("Composition manipulation", "[CompositionModel]")
         REQUIRE(timeline->getTrackCompositionsCount(tid2) == 1);
         REQUIRE(timeline->getTrackCompositionsCount(tid1) == 0);
 
-        REQUIRE(timeline->requestItemResize(cid2, 10, true));
+        REQUIRE(timeline->requestCompositionMove(cid2, tid2, 0));
+        REQUIRE(timeline->requestItemResize(cid2, 10, true) > -1);
         REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->getCompositionPlaytime(cid2) == 10);
 
@@ -160,8 +161,8 @@ TEST_CASE("Composition manipulation", "[CompositionModel]")
     SECTION("Insert consecutive compositions")
     {
         int length = 12;
-        REQUIRE(timeline->requestItemResize(cid1, length, true));
-        REQUIRE(timeline->requestItemResize(cid2, length, true));
+        REQUIRE(timeline->requestItemResize(cid1, length, true) > -1);
+        REQUIRE(timeline->requestItemResize(cid2, length, true) > -1);
         REQUIRE(timeline->getCompositionPlaytime(cid1) == length);
         REQUIRE(timeline->getCompositionPlaytime(cid2) == length);
         REQUIRE(timeline->checkConsistency());
@@ -184,40 +185,40 @@ TEST_CASE("Composition manipulation", "[CompositionModel]")
     SECTION("Resize orphan composition")
     {
         int length = 12;
-        REQUIRE(timeline->requestItemResize(cid1, length, true));
-        REQUIRE(timeline->requestItemResize(cid2, length, true));
+        REQUIRE(timeline->requestItemResize(cid1, length, true) > -1);
+        REQUIRE(timeline->requestItemResize(cid2, length, true) > -1);
         REQUIRE(timeline->getCompositionPlaytime(cid1) == length);
         REQUIRE(timeline->getCompositionPlaytime(cid2) == length);
 
         REQUIRE(timeline->getCompositionPlaytime(cid2) == length);
-        REQUIRE(timeline->requestItemResize(cid2, 5, true));
+        REQUIRE(timeline->requestItemResize(cid2, 5, true) > -1);
         auto inOut = std::pair<int, int>{0, 4};
         REQUIRE(timeline->m_allCompositions[cid2]->getInOut() == inOut);
         REQUIRE(timeline->getCompositionPlaytime(cid2) == 5);
-        REQUIRE(timeline->requestItemResize(cid2, 10, false));
+        REQUIRE(timeline->requestItemResize(cid2, 10, false) > -1);
         REQUIRE(timeline->getCompositionPlaytime(cid2) == 10);
-        REQUIRE(timeline->requestItemResize(cid2, length + 1, true));
+        REQUIRE(timeline->requestItemResize(cid2, length + 1, true) > -1);
         REQUIRE(timeline->getCompositionPlaytime(cid2) == length + 1);
-        REQUIRE(timeline->requestItemResize(cid2, 2, false));
+        REQUIRE(timeline->requestItemResize(cid2, 2, false) > -1);
         REQUIRE(timeline->getCompositionPlaytime(cid2) == 2);
-        REQUIRE(timeline->requestItemResize(cid2, length, true));
+        REQUIRE(timeline->requestItemResize(cid2, length, true) > -1);
         REQUIRE(timeline->getCompositionPlaytime(cid2) == length);
-        REQUIRE(timeline->requestItemResize(cid2, length - 2, true));
+        REQUIRE(timeline->requestItemResize(cid2, length - 2, true) > -1);
         REQUIRE(timeline->getCompositionPlaytime(cid2) == length - 2);
-        REQUIRE(timeline->requestItemResize(cid2, length - 3, true));
+        REQUIRE(timeline->requestItemResize(cid2, length - 3, true) > -1);
         REQUIRE(timeline->getCompositionPlaytime(cid2) == length - 3);
     }
 
     SECTION("Resize inserted compositions")
     {
         int length = 12;
-        REQUIRE(timeline->requestItemResize(cid1, length, true));
-        REQUIRE(timeline->requestItemResize(cid2, length, true));
+        REQUIRE(timeline->requestItemResize(cid1, length, true) > -1);
+        REQUIRE(timeline->requestItemResize(cid2, length, true) > -1);
 
         REQUIRE(timeline->requestCompositionMove(cid1, tid1, 0));
         REQUIRE(timeline->checkConsistency());
 
-        REQUIRE(timeline->requestItemResize(cid1, 5, true));
+        REQUIRE(timeline->requestItemResize(cid1, 5, true) > -1);
         REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->getCompositionPlaytime(cid1) == 5);
         REQUIRE(timeline->getCompositionPosition(cid1) == 0);
@@ -227,15 +228,15 @@ TEST_CASE("Composition manipulation", "[CompositionModel]")
         REQUIRE(timeline->getCompositionPlaytime(cid2) == length);
         REQUIRE(timeline->getCompositionPosition(cid2) == 5);
 
-        REQUIRE_FALSE(timeline->requestItemResize(cid1, 6, true));
-        REQUIRE_FALSE(timeline->requestItemResize(cid1, 6, false));
+        REQUIRE(timeline->requestItemResize(cid1, 6, true) == -1);
+        REQUIRE(timeline->requestItemResize(cid1, 6, false) == -1);
         REQUIRE(timeline->checkConsistency());
 
-        REQUIRE(timeline->requestItemResize(cid2, length - 5, false));
+        REQUIRE(timeline->requestItemResize(cid2, length - 5, false) > -1);
         REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->getCompositionPosition(cid2) == 10);
 
-        REQUIRE(timeline->requestItemResize(cid1, 10, true));
+        REQUIRE(timeline->requestItemResize(cid1, 10, true) > -1);
         REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->getTrackCompositionsCount(tid1) == 2);
     }
@@ -243,8 +244,8 @@ TEST_CASE("Composition manipulation", "[CompositionModel]")
     SECTION("Change track of resized compositions")
     {
         int length = 12;
-        REQUIRE(timeline->requestItemResize(cid1, length, true));
-        REQUIRE(timeline->requestItemResize(cid2, length, true));
+        REQUIRE(timeline->requestItemResize(cid1, length, true) > -1);
+        REQUIRE(timeline->requestItemResize(cid2, length, true) > -1);
 
         REQUIRE(timeline->requestCompositionMove(cid2, tid1, 5));
         REQUIRE(timeline->checkConsistency());
@@ -254,7 +255,7 @@ TEST_CASE("Composition manipulation", "[CompositionModel]")
         REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->getTrackCompositionsCount(tid2) == 1);
 
-        REQUIRE(timeline->requestItemResize(cid1, 5, false));
+        REQUIRE(timeline->requestItemResize(cid1, 5, false) > -1);
         REQUIRE(timeline->checkConsistency());
 
         REQUIRE(timeline->requestCompositionMove(cid1, tid1, 0));
@@ -266,8 +267,8 @@ TEST_CASE("Composition manipulation", "[CompositionModel]")
     SECTION("Composition Move")
     {
         int length = 12;
-        REQUIRE(timeline->requestItemResize(cid1, length, true));
-        REQUIRE(timeline->requestItemResize(cid2, length, true));
+        REQUIRE(timeline->requestItemResize(cid1, length, true) > -1);
+        REQUIRE(timeline->requestItemResize(cid2, length, true) > -1);
 
         REQUIRE(timeline->requestCompositionMove(cid2, tid1, 5));
         REQUIRE(timeline->checkConsistency());
@@ -317,7 +318,7 @@ TEST_CASE("Composition manipulation", "[CompositionModel]")
         REQUIRE(timeline->getCompositionPosition(cid1) == length);
         REQUIRE(timeline->getCompositionPosition(cid2) == 0);
 
-        REQUIRE(timeline->requestItemResize(cid2, length - 5, true));
+        REQUIRE(timeline->requestItemResize(cid2, length - 5, true) > -1);
         REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->getCompositionTrackId(cid1) == tid1);
         REQUIRE(timeline->getCompositionTrackId(cid2) == tid1);
@@ -333,7 +334,7 @@ TEST_CASE("Composition manipulation", "[CompositionModel]")
         REQUIRE(timeline->getCompositionPosition(cid1) == length - 5);
         REQUIRE(timeline->getCompositionPosition(cid2) == 0);
 
-        REQUIRE(timeline->requestItemResize(cid2, length - 10, false));
+        REQUIRE(timeline->requestItemResize(cid2, length - 10, false) > -1);
         REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->getCompositionTrackId(cid1) == tid1);
         REQUIRE(timeline->getCompositionTrackId(cid2) == tid1);
@@ -359,11 +360,14 @@ TEST_CASE("Composition manipulation", "[CompositionModel]")
     SECTION("Move and resize")
     {
         int length = 12;
-        REQUIRE(timeline->requestItemResize(cid1, length, true));
-        REQUIRE(timeline->requestItemResize(cid2, length, true));
+        REQUIRE(timeline->requestCompositionMove(cid2, tid2, 0));
+        REQUIRE(timeline->requestItemResize(cid1, length, true) > -1);
+        REQUIRE(timeline->requestItemResize(cid2, length, true) > -1);
 
         REQUIRE(timeline->requestCompositionMove(cid1, tid1, 0));
-        REQUIRE(timeline->requestItemResize(cid1, length - 2, false));
+        REQUIRE(timeline->getCompositionPosition(cid1) == 0);
+        REQUIRE(timeline->requestItemResize(cid1, length - 2, false, 0) > -1);
+        REQUIRE(timeline->getCompositionPosition(cid1) == 2);
         REQUIRE(timeline->requestCompositionMove(cid1, tid1, 0));
         auto state = [&]() {
             REQUIRE(timeline->checkConsistency());
@@ -374,9 +378,9 @@ TEST_CASE("Composition manipulation", "[CompositionModel]")
         };
         state();
 
-        REQUIRE(timeline->requestItemResize(cid1, length - 4, true));
+        REQUIRE(timeline->requestItemResize(cid1, length - 4, true) > -1);
         REQUIRE(timeline->requestCompositionMove(cid2, tid1, length - 4 + 1));
-        REQUIRE(timeline->requestItemResize(cid2, length - 2, false));
+        REQUIRE(timeline->requestItemResize(cid2, length - 2, false) > -1);
         REQUIRE(timeline->requestCompositionMove(cid2, tid1, length - 4 + 1));
         auto state2 = [&]() {
             REQUIRE(timeline->checkConsistency());
@@ -389,11 +393,10 @@ TEST_CASE("Composition manipulation", "[CompositionModel]")
             REQUIRE(timeline->getCompositionPlaytime(cid2) == length - 2);
         };
         state2();
-
         // the gap between the two clips is 1 frame, we try to resize them by 2 frames
-        REQUIRE_FALSE(timeline->requestItemResize(cid1, length - 2, true));
+        REQUIRE(timeline->requestItemResize(cid1, length - 2, true) == -1);
         state2();
-        REQUIRE_FALSE(timeline->requestItemResize(cid2, length, false));
+        REQUIRE(timeline->requestItemResize(cid2, length, false) == -1);
         state2();
 
         REQUIRE(timeline->requestCompositionMove(cid2, tid1, length - 4));
@@ -410,15 +413,15 @@ TEST_CASE("Composition manipulation", "[CompositionModel]")
         state3();
 
         // Now the gap is 0 frames, the resize should still fail
-        REQUIRE_FALSE(timeline->requestItemResize(cid1, length - 2, true));
+        REQUIRE(timeline->requestItemResize(cid1, length - 2, true) == -1);
         state3();
-        REQUIRE_FALSE(timeline->requestItemResize(cid2, length, false));
+        REQUIRE(timeline->requestItemResize(cid2, length, false) == -1);
         state3();
 
         // We move cid1 out of the way
         REQUIRE(timeline->requestCompositionMove(cid1, tid2, 0));
         // now resize should work
-        REQUIRE(timeline->requestItemResize(cid1, length - 2, true));
-        REQUIRE(timeline->requestItemResize(cid2, length, false));
+        REQUIRE(timeline->requestItemResize(cid1, length - 2, true) > -1);
+        REQUIRE(timeline->requestItemResize(cid2, length, false) > -1);
     }
 }
