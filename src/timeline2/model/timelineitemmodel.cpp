@@ -84,7 +84,7 @@ QModelIndex TimelineItemModel::index(int row, int column, const QModelIndex &par
         }
     } else if (row < getTracksCount() && row >= 0) {
         // Get sort order
-        row = getTracksCount() - 1 - row;
+        //row = getTracksCount() - 1 - row;
         auto it = m_allTracks.cbegin();
         std::advance(it, row);
         int trackId = (*it)->getId();
@@ -124,7 +124,7 @@ QModelIndex TimelineItemModel::makeTrackIndexFromID(int trackId) const
     auto it = m_iteratorTable.at(trackId);
     int ind = (int)std::distance<decltype(m_allTracks.cbegin())>(m_allTracks.begin(), it);
     // Get sort order
-    ind = getTracksCount() - 1 - ind;
+    //ind = getTracksCount() - 1 - ind;
     return index(ind);
 }
 

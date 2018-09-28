@@ -118,12 +118,12 @@ const QStringList TimelineWidget::sortedItems(const QStringList &items, bool isT
 void TimelineWidget::setModel(std::shared_ptr<TimelineItemModel> model)
 {
     m_thumbnailer->resetProject();
-    /*auto sortModel = new QSortFilterProxyModel(this);
-    sortModel->setSourceModel(model.get());
-    sortModel->setSortRole(TimelineItemModel::SortRole);
-    sortModel->sort(0, Qt::DescendingOrder);*/
+    m_sortModel.reset(new QSortFilterProxyModel(this));
+    m_sortModel->setSourceModel(model.get());
+    m_sortModel->setSortRole(TimelineItemModel::SortRole);
+    m_sortModel->sort(0, Qt::DescendingOrder);
     m_proxy->setModel(model);
-    rootContext()->setContextProperty("multitrack", model.get()); //sortModel);
+    rootContext()->setContextProperty("multitrack", m_sortModel.get());
     rootContext()->setContextProperty("controller", model.get());
     rootContext()->setContextProperty("timeline", m_proxy);
     rootContext()->setContextProperty("transitionModel", sortedItems(KdenliveSettings::favorite_transitions(), true)); //m_transitionProxyModel.get());

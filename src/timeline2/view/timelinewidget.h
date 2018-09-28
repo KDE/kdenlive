@@ -31,6 +31,7 @@ class ThumbnailProvider;
 class KActionCollection;
 class AssetParameterModel;
 class TimelineController;
+class QSortFilterProxyModel;
 
 class TimelineWidget : public QQuickWidget
 {
@@ -72,6 +73,7 @@ private:
     std::unique_ptr<AssetFilter> m_transitionProxyModel;
 	std::shared_ptr<AssetTreeModel> m_effectsModel;
     std::unique_ptr<AssetFilter> m_effectsProxyModel;
+    std::unique_ptr<QSortFilterProxyModel> m_sortModel;
     /* @brief Returns an alphabetically sorted list of favorite effects or transitions */
     const QStringList sortedItems(const QStringList &items, bool isTransition);
 

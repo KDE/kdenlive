@@ -133,14 +133,14 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
             m_allClips[clip->getId()] = clip; // store clip
             // update clip position and track
             clip->setPosition(position);
-            clip->setCurrentTrackId(getId());
+            clip->setCurrentTrackId(m_id);
             int new_in = clip->getPosition();
             int new_out = new_in + clip->getPlaytime();
             ptr->m_snaps->addPoint(new_in);
             ptr->m_snaps->addPoint(new_out);
             if (updateView) {
                 int clip_index = getRowfromClip(clipId);
-                ptr->_beginInsertRows(ptr->makeTrackIndexFromID(getId()), clip_index, clip_index);
+                ptr->_beginInsertRows(ptr->makeTrackIndexFromID(m_id), clip_index, clip_index);
                 ptr->_endInsertRows();
                 bool audioOnly = clip->isAudioOnly();
                 if (!audioOnly && !isHidden() && !isAudioTrack()) {
