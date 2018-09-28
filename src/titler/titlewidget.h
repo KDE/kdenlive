@@ -341,6 +341,8 @@ private slots:
     void slotResize200();
     /** @brief Show hide guides */
     void showGuides(int state);
+    /** @brief Build guides */
+    void updateGuides(int);
 
     /** @brief Called when accepted, stores user selections for next time use.
      * @ref writeChoices */

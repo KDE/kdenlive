@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1418</width>
+    <width>1281</width>
     <height>1306</height>
    </rect>
   </property>
@@ -354,7 +354,7 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="7">
+       <item row="2" column="9">
         <spacer name="spacerBottomStack">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -367,7 +367,7 @@
          </property>
         </spacer>
        </item>
-       <item row="0" column="0" colspan="8">
+       <item row="0" column="0" colspan="10">
         <widget class="QGraphicsView" name="graphicsView">
          <property name="sizePolicy">
           <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
@@ -421,6 +421,35 @@
         <widget class="QCheckBox" name="show_guides">
          <property name="text">
           <string>Show guides</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="7">
+        <widget class="QSpinBox" name="vguides">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="toolTip">
+          <string>Vertical guides</string>
+         </property>
+         <property name="maximum">
+          <number>99</number>
+         </property>
+         <property name="value">
+          <number>3</number>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="8">
+        <widget class="QSpinBox" name="hguides">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="toolTip">
+          <string>Horizontal guides</string>
+         </property>
+         <property name="value">
+          <number>2</number>
          </property>
         </widget>
        </item>
@@ -1493,6 +1522,38 @@
     <hint type="destinationlabel">
      <x>994</x>
      <y>453</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>show_guides</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>hguides</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>488</x>
+     <y>1211</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>813</x>
+     <y>1211</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>show_guides</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>vguides</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>504</x>
+     <y>1211</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>640</x>
+     <y>1211</y>
     </hint>
    </hints>
   </connection>

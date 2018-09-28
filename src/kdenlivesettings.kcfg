@@ -985,5 +985,13 @@
         <label>Show guides in titler.</label>
         <default>false</default>
         </entry>
+        <entry name="titlerHGuides" type="Int">
+        <label>Number of horizontal guides in titler.</label>
+        <default>2</default>
+        </entry>
+        <entry name="titlerVGuides" type="Int">
+        <label>Number of vertical guides in titler.</label>
+        <default>3</default>
+        </entry>
    </group>
 </kcfg>

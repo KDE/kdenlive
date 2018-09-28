@@ -45,7 +45,7 @@
 #include <QTimer>
 #include <QToolBar>
 #include <QButtonGroup>
-
+#include <QSpinBox>
 #include <QGraphicsBlurEffect>
 #include <QGraphicsDropShadowEffect>
 #include <QGraphicsEffect>
@@ -456,48 +456,14 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     m_frameBorder->setData(-1, -1);
     graphicsView->scene()->addItem(m_frameBorder);
 
-    QGraphicsLineItem *line1 = new QGraphicsLineItem(0, m_frameHeight / 3, m_frameWidth, m_frameHeight / 3, m_frameBorder);
-    line1->setPen(framepen);
-    line1->setFlags(nullptr);
-    line1->setData(-1, -1);
-    m_guides << line1;
-    QGraphicsLineItem *line2 = new QGraphicsLineItem(0, 2 *m_frameHeight / 3, m_frameWidth, 2 * m_frameHeight / 3, m_frameBorder);
-    line2->setPen(framepen);
-    line2->setFlags(nullptr);
-    line2->setData(-1, -1);
-    m_guides << line2;
-    QGraphicsLineItem *line3 = new QGraphicsLineItem(m_frameWidth / 4, 0, m_frameWidth / 4, m_frameHeight, m_frameBorder);
-    line3->setPen(framepen);
-    line3->setFlags(nullptr);
-    line3->setData(-1, -1);
-    m_guides << line3;
-    QGraphicsLineItem *line4 = new QGraphicsLineItem(m_frameWidth / 2, 0, m_frameWidth / 2, m_frameHeight, m_frameBorder);
-    line4->setPen(framepen);
-    line4->setFlags(nullptr);
-    line4->setData(-1, -1);
-    m_guides << line4;
-    QGraphicsLineItem *line5 = new QGraphicsLineItem(3 * m_frameWidth / 4, 0, 3 * m_frameWidth / 4, m_frameHeight, m_frameBorder);
-    line5->setPen(framepen);
-    line5->setFlags(nullptr);
-    line5->setData(-1, -1);
-    m_guides << line5;
-
-    framepen.setColor(QColor(255, 0, 0, 160));
-
-    QGraphicsLineItem *line6 = new QGraphicsLineItem(0, 0, m_frameWidth, m_frameHeight, m_frameBorder);
-    line6->setPen(framepen);
-    line6->setFlags(nullptr);
-    line6->setData(-1, -1);
-    m_guides << line6;
-
-    QGraphicsLineItem *line7 = new QGraphicsLineItem(m_frameWidth, 0, 0, m_frameHeight, m_frameBorder);
-    line7->setPen(framepen);
-    line7->setFlags(nullptr);
-    line7->setData(-1, -1);
-    m_guides << line7;
-
+    // Guides
     connect(show_guides, &QCheckBox::stateChanged, this, &TitleWidget::showGuides);
     show_guides->setChecked(KdenliveSettings::titlerShowGuides());
+    hguides->setValue(KdenliveSettings::titlerHGuides());
+    vguides->setValue(KdenliveSettings::titlerVGuides());
+    connect(hguides, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &TitleWidget::updateGuides);
+    connect(vguides, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &TitleWidget::updateGuides);
+    updateGuides(0);
     showGuides(show_guides->checkState());
 
     // semi transparent safe zones
@@ -3022,4 +2988,47 @@ void TitleWidget::showGuides(int state)
         it->setVisible(state == Qt::Checked);
     }
     KdenliveSettings::setTitlerShowGuides(state == Qt::Checked);
+}
+
+void TitleWidget::updateGuides(int)
+{
+    KdenliveSettings::setTitlerHGuides(hguides->value());
+    KdenliveSettings::setTitlerVGuides(vguides->value());
+    qDeleteAll(m_guides);
+    m_guides.clear();
+    QPen framepen;
+    framepen.setColor(Qt::red);
+
+    // Guides
+    // Horizontal guides
+    int max = hguides->value();
+    for (int i = 0; i < max; i++) {
+        QGraphicsLineItem *line1 = new QGraphicsLineItem(0, (i + 1) * m_frameHeight / (max + 1), m_frameWidth, (i + 1) * m_frameHeight / (max + 1), m_frameBorder);
+        line1->setPen(framepen);
+        line1->setFlags(nullptr);
+        line1->setData(-1, -1);
+        m_guides << line1;
+    }
+    max = vguides->value();
+    for (int i = 0; i < max; i++) {
+        QGraphicsLineItem *line1 = new QGraphicsLineItem((i + 1) * m_frameWidth / (max + 1), 0, (i + 1) * m_frameWidth / (max + 1), m_frameHeight, m_frameBorder);
+        line1->setPen(framepen);
+        line1->setFlags(nullptr);
+        line1->setData(-1, -1);
+        m_guides << line1;
+    }
+
+    framepen.setColor(QColor(255, 0, 0, 160));
+
+    QGraphicsLineItem *line6 = new QGraphicsLineItem(0, 0, m_frameWidth, m_frameHeight, m_frameBorder);
+    line6->setPen(framepen);
+    line6->setFlags(nullptr);
+    line6->setData(-1, -1);
+    m_guides << line6;
+
+    QGraphicsLineItem *line7 = new QGraphicsLineItem(m_frameWidth, 0, 0, m_frameHeight, m_frameBorder);
+    line7->setPen(framepen);
+    line7->setFlags(nullptr);
+    line7->setData(-1, -1);
+    m_guides << line7;
 }
