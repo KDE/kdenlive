@@ -1659,12 +1659,13 @@ TEST_CASE("Snapping", "[Snapping]")
         REQUIRE(timeline->requestClipMove(cid2, tid2, 0));
         for (int snap = -1; snap <= 5; ++snap) {
             for (int perturb = 0; perturb <= 6; ++perturb) {
+                // snap to beginning
                 check_snap(beg, perturb, snap);
                 check_snap(beg + length, perturb, snap);
+                // snap to end
                 check_snap(beg - length2, perturb, snap);
                 check_snap(beg + length - length2, perturb, snap);
                 REQUIRE(timeline->checkConsistency());
-                REQUIRE(timeline->getClipPosition(cid2) == 0);
             }
         }
     }
@@ -1703,6 +1704,8 @@ TEST_CASE("Advanced trimming operations", "[Trimming]")
     int tid1 = TrackModel::construct(timeline);
     int tid2 = TrackModel::construct(timeline);
     int tid3 = TrackModel::construct(timeline);
+    // Add an audio track
+    int tid4 = TrackModel::construct(timeline, -1, -1, QString(), true);
     int cid2 = ClipModel::construct(timeline, binId2, -1, PlaylistState::VideoOnly);
     int cid3 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
     int cid4 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
@@ -1986,8 +1989,8 @@ TEST_CASE("Advanced trimming operations", "[Trimming]")
         };
         state();
 
-        REQUIRE(TimelineFunctions::requestSplitAudio(timeline, audio1, tid2));
-        int splitted1 = timeline->getClipByPosition(tid2, 3);
+        REQUIRE(TimelineFunctions::requestSplitAudio(timeline, audio1, tid4));
+        int splitted1 = timeline->getClipByPosition(tid4, 3);
         auto state2 = [&]() {
             REQUIRE(timeline->checkConsistency());
             REQUIRE(timeline->getClipPlaytime(audio1) == l);
@@ -1995,9 +1998,9 @@ TEST_CASE("Advanced trimming operations", "[Trimming]")
             REQUIRE(timeline->getClipPlaytime(splitted1) == l);
             REQUIRE(timeline->getClipPosition(splitted1) == 3);
             REQUIRE(timeline->getClipTrackId(audio1) == tid1);
-            REQUIRE(timeline->getClipTrackId(splitted1) == tid2);
+            REQUIRE(timeline->getClipTrackId(splitted1) == tid4);
             REQUIRE(timeline->getTrackClipsCount(tid1) == 1);
-            REQUIRE(timeline->getTrackClipsCount(tid2) == 1);
+            REQUIRE(timeline->getTrackClipsCount(tid4) == 1);
 
             REQUIRE(timeline->getGroupElements(audio1) == std::unordered_set<int>({audio1, splitted1}));
 
@@ -2018,10 +2021,11 @@ TEST_CASE("Advanced trimming operations", "[Trimming]")
         state2();
 
         // We also make sure that clips that are audio only cannot be further splitted
-        REQUIRE(timeline->requestClipMove(cid1, tid1, 30));
+        REQUIRE(timeline->requestClipMove(cid1, tid1, l + 30));
         // This is a color clip, shouldn't be splittable
         REQUIRE_FALSE(TimelineFunctions::requestSplitAudio(timeline, cid1, tid2));
-        REQUIRE_FALSE(TimelineFunctions::requestSplitAudio(timeline, splitted1, tid2));
+        // Check we cannot split audio on a video track
+        REQUIRE_FALSE(TimelineFunctions::requestSplitAudio(timeline, audio1, tid2));
     }
     SECTION("Split audio on a selection")
     {
@@ -2057,10 +2061,10 @@ TEST_CASE("Advanced trimming operations", "[Trimming]")
         };
         state();
 
-        REQUIRE(TimelineFunctions::requestSplitAudio(timeline, audio1, tid2));
-        int splitted1 = timeline->getClipByPosition(tid2, 0);
-        int splitted2 = timeline->getClipByPosition(tid2, l);
-        int splitted3 = timeline->getClipByPosition(tid2, 2 * l);
+        REQUIRE(TimelineFunctions::requestSplitAudio(timeline, audio1, tid4));
+        int splitted1 = timeline->getClipByPosition(tid4, 0);
+        int splitted2 = timeline->getClipByPosition(tid4, l);
+        int splitted3 = timeline->getClipByPosition(tid4, 2 * l);
         auto state2 = [&]() {
             REQUIRE(timeline->checkConsistency());
             REQUIRE(timeline->getClipPlaytime(audio1) == l);
@@ -2078,11 +2082,11 @@ TEST_CASE("Advanced trimming operations", "[Trimming]")
             REQUIRE(timeline->getClipTrackId(audio1) == tid1);
             REQUIRE(timeline->getClipTrackId(audio2) == tid1);
             REQUIRE(timeline->getClipTrackId(audio3) == tid1);
-            REQUIRE(timeline->getClipTrackId(splitted1) == tid2);
-            REQUIRE(timeline->getClipTrackId(splitted2) == tid2);
-            REQUIRE(timeline->getClipTrackId(splitted3) == tid2);
+            REQUIRE(timeline->getClipTrackId(splitted1) == tid4);
+            REQUIRE(timeline->getClipTrackId(splitted2) == tid4);
+            REQUIRE(timeline->getClipTrackId(splitted3) == tid4);
             REQUIRE(timeline->getTrackClipsCount(tid1) == 3);
-            REQUIRE(timeline->getTrackClipsCount(tid2) == 3);
+            REQUIRE(timeline->getTrackClipsCount(tid4) == 3);
 
             REQUIRE(timeline->getGroupElements(audio1) == std::unordered_set<int>({audio1, splitted1, audio2, audio3, splitted2, splitted3}));
 

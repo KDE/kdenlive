@@ -463,7 +463,8 @@ bool TimelineFunctions::requestSplitAudio(std::shared_ptr<TimelineItemModel> tim
     for (int cid : clips) {
         if (!timeline->getClipPtr(cid)->canBeAudio() || timeline->getClipPtr(cid)->clipState() == PlaylistState::AudioOnly) {
             // clip without audio or audio only, skip
-            continue;
+            pCore->displayMessage(i18n("One or more clips don't have audio, or are already audio"), ErrorMessage);
+            return false;
         }
         int position = timeline->getClipPosition(cid);
         int track = timeline->getClipTrackId(cid);

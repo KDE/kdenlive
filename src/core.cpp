@@ -614,7 +614,9 @@ Mlt::Profile *Core::thumbProfile()
 
 void Core::clearSelection()
 {
-    m_mainWindow->getCurrentTimeline()->controller()->clearSelection();
+    if (m_mainWindow) {
+        m_mainWindow->getCurrentTimeline()->controller()->clearSelection();
+    }
 }
 
 void Core::triggerAction(const QString &name)
