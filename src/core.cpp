@@ -143,6 +143,8 @@ void Core::initialize(const QString &mltPath)
     m_producerQueue = new ProducerQueue(m_binController);
     connect(m_producerQueue, SIGNAL(gotFileProperties(requestClipInfo, ClipController *)), m_binWidget, SLOT(slotProducerReady(requestClipInfo, ClipController *)), Qt::DirectConnection);
     connect(m_producerQueue, &ProducerQueue::replyGetImage, m_binWidget, &Bin::slotThumbnailReady);
+    connect(m_producerQueue, &ProducerQueue::requestProxy,
+            [this](const QString &id){ m_binWidget->startJob(id, AbstractClipJob::PROXYJOB);});
     connect(m_producerQueue, &ProducerQueue::removeInvalidClip, m_binWidget, &Bin::slotRemoveInvalidClip, Qt::DirectConnection);
     connect(m_producerQueue, SIGNAL(addClip(QString, QMap<QString, QString>)), m_binWidget, SLOT(slotAddUrl(QString, QMap<QString, QString>)));
     connect(m_binController, SIGNAL(createThumb(QDomElement, QString, int)), m_producerQueue, SLOT(getFileProperties(QDomElement, QString, int)));

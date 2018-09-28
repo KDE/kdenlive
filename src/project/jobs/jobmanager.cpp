@@ -81,17 +81,22 @@ QStringList JobManager::getPendingJobs(const QString &id)
     return result;
 }
 
-void JobManager::discardJobs(const QString &id, AbstractClipJob::JOBTYPE type)
+bool JobManager::discardJobs(const QString &id, AbstractClipJob::JOBTYPE type)
 {
     QMutexLocker lock(&m_jobMutex);
+    bool jobFound = false;
     for (int i = 0; i < m_jobList.count(); ++i) {
         if (m_jobList.at(i)->clipId() == id && (type == AbstractClipJob::NOJOBTYPE || m_jobList.at(i)->jobType == type)) {
             // discard this job
             m_jobList.at(i)->setStatus(JobAborted);
+            jobFound = true;
         }
     }
-    emit updateJobStatus(id, type, JobAborted);
-    updateJobCount();
+    if (jobFound) {
+        emit updateJobStatus(id, type, JobAborted);
+        updateJobCount();
+    }
+    return jobFound;
 }
 
 bool JobManager::hasPendingJob(const QString &clipId, AbstractClipJob::JOBTYPE type)

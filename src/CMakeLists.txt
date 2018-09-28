@@ -294,10 +294,13 @@ if (KF5_FILEMETADATA)
     target_link_libraries(kdenlive KF5::FileMetaData)
 endif()
 
-if (KF5Crash_FOUND)
+if (DRMINGW_FOUND)
+    add_definitions(-DUSE_DRMINGW)
+    target_link_libraries(kdenlive ${DRMINGW_LIBRARY})
+elseif (KF5Crash_FOUND)
     add_definitions(-DKF5_USE_CRASH)
     target_link_libraries(kdenlive KF5::Crash)
-endif()
+endif(DRMINGW_FOUND)
 
 target_link_libraries(kdenlive Qt5::Script Qt5::Widgets Qt5::Concurrent Qt5::Qml Qt5::Quick)
 
