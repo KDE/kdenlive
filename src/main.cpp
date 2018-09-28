@@ -27,9 +27,12 @@
 
 #include <KAboutData>
 #include <KConfigGroup>
-#ifdef KF5_USE_CRASH
-#include <KCrash>
+#ifdef USE_DRMINGW
+#   include <exchndl.h>
+#elif defined(KF5_USE_CRASH)
+#   include <KCrash>
 #endif
+
 #include <KIconLoader>
 #include <KSharedConfig>
 
@@ -152,7 +155,9 @@ int main(int argc, char *argv[])
     parser.process(app);
     aboutData.processCommandLine(&parser);
 
-#ifdef KF5_USE_CRASH
+#ifdef USE_DRMINGW
+    ExcHndlInit();
+#elif defined(KF5_USE_CRASH)
     KCrash::initialize();
 #endif
 

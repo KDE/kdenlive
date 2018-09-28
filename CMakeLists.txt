@@ -99,6 +99,9 @@ find_package(KF5 REQUIRED COMPONENTS Archive Bookmarks CoreAddons Config ConfigW
                             DBusAddons KIO WidgetsAddons NotifyConfig NewStuff XmlGui Notifications GuiAddons TextWidgets IconThemes
                             Declarative Solid
                  OPTIONAL_COMPONENTS DocTools FileMetaData Crash Purpose)
+if(WIN32)
+    find_package(DrMinGW)
+endif(WIN32)
 
 if (KF5FileMetaData_FOUND)
   message(STATUS "Found KF5 FileMetadata to extract file metadata")
