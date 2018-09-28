@@ -44,10 +44,11 @@ PreviewManager::PreviewManager(TimelineController *controller, Mlt::Tractor *tra
 {
     m_previewGatherTimer.setSingleShot(true);
     m_previewGatherTimer.setInterval(200);
-    m_previewProfile->set_width(1024);
+    // Scaling doesn't seem to improve speed, needs more testing
+    /*m_previewProfile->set_width(1024);
     int height = 1024 / m_previewProfile->dar();
     height -= height % 4;
-    m_previewProfile->set_height(height);
+    m_previewProfile->set_height(height);*/
     m_previewProfile->set_explicit(1);
 }
 
@@ -490,7 +491,6 @@ void PreviewManager::doPreviewRender(const QString &scene)
     QMetaObject::Connection connection;
     while (!m_dirtyChunks.isEmpty() && !m_abortPreview) {
         workingPreview = m_dirtyChunks.takeFirst().toInt();
-        qDebug()<<"** PROCFESSINF CHUMK: "<<workingPreview;
         m_controller->workingPreviewChanged();
         ct++;
         QString fileName = QStringLiteral("%1.%2").arg(workingPreview).arg(m_extension);

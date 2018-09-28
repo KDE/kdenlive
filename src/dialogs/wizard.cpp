@@ -105,7 +105,10 @@ Wizard::Wizard(bool autoClose, bool appImageCheck, QWidget *parent)
     setButtonText(QWizard::FinishButton, i18n("OK"));
 
     slotCheckMlt();
-    testHwEncoders();
+    if (autoClose) {
+        // This is a first run instance, check HW encoders
+        testHwEncoders();
+    }
     if (!m_errors.isEmpty() || !m_warnings.isEmpty() || (!m_infos.isEmpty() && !appImageCheck)) {
         QLabel *lab = new QLabel(this);
         lab->setText(i18n("Startup error or warning, check our <a href='#'>online manual</a>."));
@@ -127,11 +130,15 @@ Wizard::Wizard(bool autoClose, bool appImageCheck, QWidget *parent)
         QCheckBox *cb = new QCheckBox(i18n("VAAPI hardware acceleration"), this);
         m_startLayout->addWidget(cb);
         cb->setChecked(KdenliveSettings::vaapiEnabled());
+        QCheckBox *cbn = new QCheckBox(i18n("NVIDIA hardware acceleration"), this);
+        m_startLayout->addWidget(cbn);
+        cbn->setChecked(KdenliveSettings::nvencEnabled());
         QPushButton *pb = new QPushButton(i18n("Check hardware acceleration"), this);
-        connect(pb, &QPushButton::clicked, [&, cb, pb]() {
+        connect(pb, &QPushButton::clicked, [&, cb, cbn, pb]() {
             testHwEncoders();
             pb->setEnabled(false);
             cb->setChecked(KdenliveSettings::vaapiEnabled());
+            cbn->setChecked(KdenliveSettings::nvencEnabled());
             updateHwStatus();
             pb->setEnabled(true);
         });
@@ -912,6 +919,8 @@ void Wizard::testHwEncoders()
         return;
     }
     tmp.close();
+
+    // VAAPI testing
     QStringList args{"-y","-vaapi_device","/dev/dri/renderD128","-f","lavfi","-i","smptebars=duration=5:size=1280x720:rate=25","-vf","format=nv12,hwupload","-c:v","h264_vaapi","-an","-f","mp4",tmp.fileName()};
     qDebug()<<"// FFMPEG ARGS: "<<args;
     hwEncoders.start(KdenliveSettings::ffmpegpath(), args);
@@ -931,18 +940,48 @@ void Wizard::testHwEncoders()
         }
     }
     KdenliveSettings::setVaapiEnabled(vaapiSupported);
-    qDebug()<<"_____ EXIT STATUS:\n"<<hwEncoders.exitStatus();
-    // ffmpegmlt -y -vaapi_device /dev/dri/renderD128 -f lavfi -i smptebars=duration=5:size=1280x720:rate=30 -vf 'format=nv12,hwupload' -c:v h264_vaapi -an -f null /dev/null
+
+    // NVIDIA testing
+    QStringList args2{"-y","-hwaccel","cuvid","-f","lavfi","-i","smptebars=duration=5:size=1280x720:rate=25","-c:v","h264_nvenc","-an","-f","mp4",tmp.fileName()};
+    qDebug()<<"// FFMPEG ARGS: "<<args2;
+    hwEncoders.start(KdenliveSettings::ffmpegpath(), args2);
+    bool nvencSupported = false;
+    if (hwEncoders.waitForFinished()) {
+        if (hwEncoders.exitStatus() == QProcess::CrashExit) {
+            qDebug()<<"/// ++ VAAPI NOT SUPPORTED";
+        } else {
+            if (tmp.exists() && tmp.size() > 0) {
+                qDebug()<<"/// ++ NVENC YES SUPPORTED ::::::";
+                // vaapi support enabled
+                nvencSupported = true;
+            } else {
+                qDebug()<<"/// ++ NVENC FAILED ::::::";
+                // vaapi support not enabled
+            }
+        }
+    }
+    KdenliveSettings::setNvencEnabled(nvencSupported);
 }
 
 
 void Wizard::updateHwStatus()
 {
     auto *statusLabel = new KMessageWidget(this);
-    bool hwEnabled = KdenliveSettings::vaapiEnabled();
+    bool hwEnabled = KdenliveSettings::vaapiEnabled() || KdenliveSettings::nvencEnabled();
     statusLabel->setMessageType(hwEnabled ? KMessageWidget::Positive : KMessageWidget::Information);
     statusLabel->setWordWrap(true);
-    statusLabel->setText(KdenliveSettings::vaapiEnabled() ? i18n("VAAPI hardware encoders found and enabled") : i18n("No hardware encoders found"));
+    QString statusMessage;
+    if (!hwEnabled) {
+        statusMessage = i18n("No hardware encoders found.");
+    } else {
+        if (KdenliveSettings::nvencEnabled()) {
+            statusMessage += i18n("NVIDIA hardware encoders found and enabled.");
+        }
+        if (KdenliveSettings::vaapiEnabled()) {
+            statusMessage += i18n("VAAPI hardware encoders found and enabled.");
+        }
+    }
+    statusLabel->setText(statusMessage);
     statusLabel->setCloseButtonVisible(false);
     //errorLabel->setTimeout();
     m_startLayout->addWidget(statusLabel);

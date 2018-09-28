@@ -1460,6 +1460,12 @@ void KdenliveDoc::selectPreviewProfile()
     KConfig conf(QStringLiteral("encodingprofiles.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
     KConfigGroup group(&conf, "timelinepreview");
     QMap<QString, QString> values = group.entryMap();
+    if (KdenliveSettings::nvencEnabled() && values.contains(QStringLiteral("x264-nvenc"))) {
+        const QString bestMatch = values.value(QStringLiteral("x264-nvenc"));
+        setDocumentProperty(QStringLiteral("previewparameters"), bestMatch.section(QLatin1Char(';'), 0, 0));
+        setDocumentProperty(QStringLiteral("previewextension"), bestMatch.section(QLatin1Char(';'), 1, 1));
+        return;
+    }
     QMapIterator<QString, QString> i(values);
     QStringList matchingProfiles;
     QStringList fallBackProfiles;
@@ -1527,8 +1533,8 @@ void KdenliveDoc::initProxySettings()
     QString params;
     QMap<QString, QString> values = group.entryMap();
     // Select best proxy profile depending on hw encoder support
-    if (KdenliveSettings::nvencEnabled() && values.contains(QStringLiteral("MJPEG-nvenc"))) {
-        params = values.value(QStringLiteral("MJPEG-nvenc"));
+    if (KdenliveSettings::nvencEnabled() && values.contains(QStringLiteral("x264-nvenc"))) {
+        params = values.value(QStringLiteral("x264-nvenc"));
     } else if (KdenliveSettings::vaapiEnabled() && values.contains(QStringLiteral("MJPEG-vaapi"))) {
         params = values.value(QStringLiteral("MJPEG-vaapi"));
     } else {
