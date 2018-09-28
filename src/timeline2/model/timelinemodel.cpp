@@ -766,7 +766,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
     std::shared_ptr<ProjectClip> master = pCore->projectItemModel()->getClipByBinID(bid);
     type = master->clipType();
 
-    if (type == ClipType::AV) {
+    if (type == ClipType::AV || type == ClipType::Playlist) {
         if (m_audioTarget >= 0 && m_videoTarget == -1 && useTargets) {
             // If audio target is set but no video target, only insert audio
             trackId = m_audioTarget;
