@@ -1,5 +1,5 @@
 import QtQuick 2.6
-import QtQuick.Controls 2.2
+import QtQuick.Controls 1.4
 import com.enums 1.0
 
 Menu {
@@ -10,6 +10,11 @@ Menu {
         property bool grouped
         property bool canBeAudio
         property bool canBeVideo
+
+        onAboutToHide: {
+            timeline.ungrabHack()
+        }
+
         MenuItem {
             text: i18n('Copy')
             onTriggered: root.copiedClip = clipId
@@ -27,7 +32,7 @@ Menu {
         MenuItem {
             text: i18n('Edit Duration')
             onTriggered: {
-                clipMenu.close()
+                //clipMenu.close()
                 timeline.editItemDuration(clipId)
             }
         }

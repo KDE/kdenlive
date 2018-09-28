@@ -215,14 +215,14 @@ Item {
         onPressed: {
                 root.stopScrolling = true
                 compositionRoot.forceActiveFocus();
-                /*if (!compositionRoot.selected) {
-                    compositionRoot.clicked(compositionRoot, false)
-                }*/
                 if (mouse.button == Qt.RightButton) {
-                    compositionMenu.item.clipId = compositionRoot.clipId
-                    compositionMenu.item.grouped = compositionRoot.grouped
-                    compositionMenu.item.trackId = compositionRoot.trackId
-                    compositionMenu.item.popup()
+                    if (timeline.selection.indexOf(compositionRoot.clipId) == -1) {
+                        timeline.addSelection(compositionRoot.clipId, true)
+                    }
+                    compositionMenu.clipId = compositionRoot.clipId
+                    compositionMenu.grouped = compositionRoot.grouped
+                    compositionMenu.trackId = compositionRoot.trackId
+                    compositionMenu.popup()
                 }
             }
         onEntered: {

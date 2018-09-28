@@ -233,13 +233,16 @@ Rectangle {
         onPressed: {
             root.stopScrolling = true
             if (mouse.button == Qt.RightButton) {
-                clipMenu.item.clipId = clipRoot.clipId
-                clipMenu.item.clipStatus = clipRoot.clipStatus
-                clipMenu.item.grouped = clipRoot.grouped
-                clipMenu.item.trackId = clipRoot.trackId
-                clipMenu.item.canBeAudio = clipRoot.canBeAudio
-                clipMenu.item.canBeVideo = clipRoot.canBeVideo
-                clipMenu.item.popup()
+                if (timeline.selection.indexOf(clipRoot.clipId) == -1) {
+                    timeline.addSelection(clipRoot.clipId, true)
+                }
+                clipMenu.clipId = clipRoot.clipId
+                clipMenu.clipStatus = clipRoot.clipStatus
+                clipMenu.grouped = clipRoot.grouped
+                clipMenu.trackId = clipRoot.trackId
+                clipMenu.canBeAudio = clipRoot.canBeAudio
+                clipMenu.canBeVideo = clipRoot.canBeVideo
+                clipMenu.popup()
             }
         }
         Keys.onShortcutOverride: event.accepted = clipRoot.isGrabbed && (event.key === Qt.Key_Left || event.key === Qt.Key_Right || event.key === Qt.Key_Up || event.key === Qt.Key_Down)

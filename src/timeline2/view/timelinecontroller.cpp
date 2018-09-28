@@ -131,10 +131,17 @@ void TimelineController::removeSelection(int newSelection)
         emit selected(nullptr);
 }
 
-void TimelineController::addSelection(int newSelection)
+void TimelineController::addSelection(int newSelection, bool clear)
 {
     if (m_selection.selectedItems.contains(newSelection)) {
         return;
+    }
+    if (clear) {
+        if (m_model->m_temporarySelectionGroup >= 0) {
+            m_model->m_groups->destructGroupItem(m_model->m_temporarySelectionGroup);
+            m_model->m_temporarySelectionGroup = -1;
+        }
+        m_selection.selectedItems.clear();
     }
     m_selection.selectedItems << newSelection;
     std::unordered_set<int> ids;

@@ -1,5 +1,5 @@
 import QtQuick 2.6
-import QtQuick.Controls 2.2
+import QtQuick.Controls 1.4
 
 Menu {
         id: compositionMenu
@@ -7,6 +7,10 @@ Menu {
         property int clipStatus
         property int trackId
         property bool grouped
+
+        onAboutToHide: {
+            timeline.ungrabHack()
+        }
 
         function show() {
             //mergeItem.visible = timeline.mergeClipWithNext(trackIndex, index, true)
@@ -25,7 +29,7 @@ Menu {
         MenuItem {
             text: i18n('Edit Duration')
             onTriggered: {
-                compositionMenu.close()
+                //compositionMenu.close()
                 timeline.editItemDuration(clipId)
             }
         }

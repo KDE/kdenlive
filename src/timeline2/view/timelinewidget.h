@@ -61,6 +61,9 @@ public slots:
     /* @brief Favorite transitions have changed, reload model for context menu */
     void updateTransitionFavorites();
 
+private slots:
+    void slotUngrabHack();
+
 private:
     ThumbnailProvider *m_thumbnailer;
     TimelineController *m_proxy;

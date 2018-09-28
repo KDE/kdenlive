@@ -78,7 +78,7 @@ public:
     Q_INVOKABLE void removeSelection(int newSelection);
     /** @brief Add a clip id to current selection
      */
-    Q_INVOKABLE void addSelection(int newSelection);
+    Q_INVOKABLE void addSelection(int newSelection, bool clear = false);
     /** @brief Edit an item's in/out points with a dialog
      */
     Q_INVOKABLE void editItemDuration(int itemId);
@@ -479,6 +479,7 @@ signals:
     void renderedChunksChanged();
     void workingPreviewChanged();
     void useRulerChanged();
+    Q_INVOKABLE void ungrabHack();
 };
 
 #endif

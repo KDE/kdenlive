@@ -81,6 +81,7 @@ TimelineWidget::TimelineWidget(QWidget *parent)
     m_effectsProxyModel->sort(0, Qt::AscendingOrder);
     m_proxy = new TimelineController(this);
     connect(m_proxy, &TimelineController::zoneMoved, this, &TimelineWidget::zoneMoved);
+    connect(m_proxy, &TimelineController::ungrabHack, this, &TimelineWidget::slotUngrabHack);
     setResizeMode(QQuickWidget::SizeRootObjectToView);
     m_thumbnailer = new ThumbnailProvider;
     engine()->addImageProvider(QStringLiteral("thumbnail"), m_thumbnailer);
@@ -173,4 +174,13 @@ void TimelineWidget::setTool(ProjectTool tool)
 QPoint TimelineWidget::getTracksCount() const
 {
     return m_proxy->getTracksCount();
+}
+
+void TimelineWidget::slotUngrabHack()
+{
+    // Workaround bug: https://bugreports.qt.io/browse/QTBUG-59044
+    // https://phabricator.kde.org/D5515
+    if (quickWindow() && quickWindow()->mouseGrabberItem()) {
+        quickWindow()->mouseGrabberItem()->ungrabMouse();
+    }
 }

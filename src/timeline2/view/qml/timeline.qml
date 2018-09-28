@@ -23,21 +23,11 @@ Rectangle {
         id: fontMetrics
         font.family: "Arial"
     }
-    Loader {
-        source: 'CheckQuickVersion.qml'
-        property bool validMenu: item.editable == false
+    ClipMenu {
         id: clipMenu
-        onLoaded: {
-            source = validMenu ? 'ClipMenu.qml' : 'ClipMenuOld.qml'
-        }
     }
-    Loader {
-        source: 'CheckQuickVersion.qml'
-        property bool validMenu: item.editable == false
+    CompositionMenu {
         id: compositionMenu
-        onLoaded: {
-            source = validMenu ? 'CompositionMenu.qml' : 'CompositionMenuOld.qml'
-        }
     }
 
     function moveSelectedTrack(offset) {

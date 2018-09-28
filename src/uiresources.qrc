@@ -28,10 +28,7 @@
     <file alias="KeyframeView.qml">timeline2/view/qml/KeyframeView.qml</file>
     <file alias="Composition.qml">timeline2/view/qml/Composition.qml</file>
     <file alias="ClipMenu.qml">timeline2/view/qml/ClipMenu.qml</file>
-    <file alias="ClipMenuOld.qml">timeline2/view/qml/ClipMenuOld.qml</file>
-    <file alias="CheckQuickVersion.qml">timeline2/view/qml/CheckQuickVersion.qml</file>
     <file alias="CompositionMenu.qml">timeline2/view/qml/CompositionMenu.qml</file>
-    <file alias="CompositionMenuOld.qml">timeline2/view/qml/CompositionMenuOld.qml</file>
     <file alias="PulsingAnimation.qml">timeline2/view/qml/PulsingAnimation.qml</file>
     <file alias="CornerSelectionShadow.qml">timeline2/view/qml/CornerSelectionShadow.qml</file>
     <file alias="Timeline.js">timeline2/view/qml/Timeline.js</file>
