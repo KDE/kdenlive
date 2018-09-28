@@ -993,5 +993,9 @@
         <label>Number of vertical guides in titler.</label>
         <default>3</default>
         </entry>
+        <entry name="titleGuideColor" type="Color">
+        <label>color titler guides.</label>
+        <default>#ff0000</default>
+        </entry>
    </group>
 </kcfg>

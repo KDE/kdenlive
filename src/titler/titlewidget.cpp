@@ -461,6 +461,8 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     show_guides->setChecked(KdenliveSettings::titlerShowGuides());
     hguides->setValue(KdenliveSettings::titlerHGuides());
     vguides->setValue(KdenliveSettings::titlerVGuides());
+    guideColor->setColor(KdenliveSettings::titleGuideColor());
+    connect(guideColor, &KColorButton::changed, this, &TitleWidget::guideColorChanged);
     connect(hguides, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &TitleWidget::updateGuides);
     connect(vguides, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &TitleWidget::updateGuides);
     updateGuides(0);
@@ -2984,7 +2986,7 @@ const QString TitleWidget::titleSuggest()
 
 void TitleWidget::showGuides(int state)
 {
-    for(QGraphicsItem *it : m_guides) {
+    for(QGraphicsLineItem *it : m_guides) {
         it->setVisible(state == Qt::Checked);
     }
     KdenliveSettings::setTitlerShowGuides(state == Qt::Checked);
@@ -2997,7 +2999,8 @@ void TitleWidget::updateGuides(int)
     qDeleteAll(m_guides);
     m_guides.clear();
     QPen framepen;
-    framepen.setColor(Qt::red);
+    QColor gColor(KdenliveSettings::titleGuideColor());
+    framepen.setColor(gColor);
 
     // Guides
     // Horizontal guides
@@ -3018,7 +3021,8 @@ void TitleWidget::updateGuides(int)
         m_guides << line1;
     }
 
-    framepen.setColor(QColor(255, 0, 0, 160));
+    gColor.setAlpha(160);
+    framepen.setColor(gColor);
 
     QGraphicsLineItem *line6 = new QGraphicsLineItem(0, 0, m_frameWidth, m_frameHeight, m_frameBorder);
     line6->setPen(framepen);
@@ -3031,4 +3035,16 @@ void TitleWidget::updateGuides(int)
     line7->setFlags(nullptr);
     line7->setData(-1, -1);
     m_guides << line7;
+}
+
+void TitleWidget::guideColorChanged(const QColor &col)
+{
+    KdenliveSettings::setTitleGuideColor(col);
+    QColor guideCol(col);
+    for(QGraphicsLineItem *it : m_guides) {
+        int alpha = it->pen().color().alpha();
+        guideCol.setAlpha(alpha);
+        QPen framePen(guideCol);
+        it->setPen(framePen);
+    }
 }
