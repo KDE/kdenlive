@@ -222,11 +222,10 @@ void TimelineController::setScaleFactorOnMouse(double scale, bool zoomOnMouse)
 
 void TimelineController::setScaleFactor(double scale)
 {
-    /*if (m_duration * scale < width() - 160) {
-        // Don't allow scaling less than full project's width
-        scale = (width() - 160.0) / m_duration;
-    }*/
     m_scale = scale;
+    // Update mainwindow's zoom slider
+    emit updateZoom(scale);
+    // inform qml
     emit scaleFactorChanged();
 }
 

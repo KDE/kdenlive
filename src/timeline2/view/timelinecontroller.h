@@ -479,6 +479,7 @@ signals:
     void renderedChunksChanged();
     void workingPreviewChanged();
     void useRulerChanged();
+    void updateZoom(double);
     Q_INVOKABLE void ungrabHack();
 };
 

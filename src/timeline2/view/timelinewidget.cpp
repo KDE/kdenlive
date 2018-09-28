@@ -184,3 +184,13 @@ void TimelineWidget::slotUngrabHack()
         quickWindow()->mouseGrabberItem()->ungrabMouse();
     }
 }
+
+int TimelineWidget::zoomForScale(double value) const
+{
+    int scale = 100.0 / value;
+    int ix = 13;
+    while(comboScale[ix] > scale && ix > 0) {
+        ix --;
+    }
+    return ix;
+}

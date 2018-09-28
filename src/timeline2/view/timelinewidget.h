@@ -49,6 +49,8 @@ public:
     TimelineController *controller();
     void setTool(ProjectTool tool);
     QPoint getTracksCount() const;
+    /* @brief calculate zoom level for a scale */
+    int zoomForScale(double value) const;
     bool loading;
 
 protected:

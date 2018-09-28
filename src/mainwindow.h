@@ -298,6 +298,8 @@ private slots:
     void slotFitZoom();
     /** @brief Updates the zoom slider tooltip to fit @param zoomlevel. */
     void slotUpdateZoomSliderToolTip(int zoomlevel);
+    /** @brief Timeline was zoom, update slider to reflect that */
+    void updateZoomSlider(int value);
 
     /** @brief Displays the zoom slider tooltip.
      * @param zoomlevel (optional) The zoom level to show in the tooltip.

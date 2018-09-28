@@ -311,6 +311,7 @@ void MainWindow::init()
     connect(m_assetPanel, &AssetPanel::changeSpeed, this, &MainWindow::slotChangeSpeed);
     connect(m_timelineTabs, &TimelineTabs::showTransitionModel, m_assetPanel, &AssetPanel::showTransition);
     connect(m_timelineTabs, &TimelineTabs::showItemEffectStack, m_assetPanel, &AssetPanel::showEffectStack);
+    connect(m_timelineTabs, &TimelineTabs::updateZoom, this, &MainWindow::updateZoomSlider);
     connect(pCore->bin(), &Bin::requestShowEffectStack, m_assetPanel, &AssetPanel::showEffectStack);
     connect(this, &MainWindow::clearAssetPanel, m_assetPanel, &AssetPanel::clearAssetPanel);
     connect(m_assetPanel, &AssetPanel::seekToPos, [this](int pos) {
@@ -1071,7 +1072,7 @@ void MainWindow::setupActions()
     m_zoomOut->setShortcut(Qt::CTRL + Qt::Key_Minus);
 
     m_zoomSlider = new QSlider(Qt::Horizontal, this);
-    m_zoomSlider->setMaximum(14);
+    m_zoomSlider->setRange(0, 13);
     m_zoomSlider->setPageStep(1);
     m_zoomSlider->setInvertedAppearance(true);
     m_zoomSlider->setInvertedControls(true);
@@ -1081,21 +1082,6 @@ void MainWindow::setupActions()
 
     m_zoomIn = new QAction(QIcon::fromTheme(QStringLiteral("zoom-in")), i18n("Zoom In"), this);
     m_zoomIn->setShortcut(Qt::CTRL + Qt::Key_Plus);
-
-    /*actionWidget = toolbar->widgetForAction(m_buttonFitZoom);
-    actionWidget->setMaximumWidth(max);
-    actionWidget->setMaximumHeight(max - 4);
-    actionWidget->setStyleSheet(styleBorderless);
-
-    actionWidget = toolbar->widgetForAction(m_zoomIn);
-    actionWidget->setMaximumWidth(max);
-    actionWidget->setMaximumHeight(max - 4);
-    actionWidget->setStyleSheet(styleBorderless);
-
-    actionWidget = toolbar->widgetForAction(m_zoomOut);
-    actionWidget->setMaximumWidth(max);
-    actionWidget->setMaximumHeight(max - 4);
-    actionWidget->setStyleSheet(styleBorderless);*/
 
     connect(m_zoomSlider, SIGNAL(valueChanged(int)), this, SLOT(slotSetZoom(int)));
     connect(m_zoomSlider, &QAbstractSlider::sliderMoved, this, &MainWindow::slotShowZoomSliderToolTip);
@@ -2662,6 +2648,14 @@ void MainWindow::slotSetZoom(int value, bool zoomOnMouse)
     m_zoomIn->setEnabled(value > m_zoomSlider->minimum());
     slotUpdateZoomSliderToolTip(value);
 
+    m_zoomSlider->blockSignals(true);
+    m_zoomSlider->setValue(value);
+    m_zoomSlider->blockSignals(false);
+}
+
+void MainWindow::updateZoomSlider(int value)
+{
+    slotUpdateZoomSliderToolTip(value);
     m_zoomSlider->blockSignals(true);
     m_zoomSlider->setValue(value);
     m_zoomSlider->blockSignals(false);
