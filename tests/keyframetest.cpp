@@ -6,7 +6,15 @@ bool test_model_equality(std::shared_ptr<KeyframeModel> m1, std::shared_ptr<Keyf
 {
     // we cheat a bit by simply comparing the underlying map
     qDebug() << "Equality test" << m1->m_keyframeList.size() << m2->m_keyframeList.size();
-    return m1->m_keyframeList == m2->m_keyframeList;
+    QList <QVariant> model1;
+    QList <QVariant> model2;
+    for (const auto &m : m1->m_keyframeList) {
+        model1 << m.first.frames(25)<<(int)m.second.first<<m.second.second;
+    }
+    for (const auto &m : m2->m_keyframeList) {
+        model2 << m.first.frames(25)<<(int)m.second.first<<m.second.second;
+    }
+    return model1 == model2;
 }
 
 bool check_anim_identity(std::shared_ptr<KeyframeModel> m)

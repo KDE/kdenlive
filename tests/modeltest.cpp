@@ -896,8 +896,6 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         state(1);
         undoStack->redo();
         state4(1);
-
-        REQUIRE(false);
     }
 
     SECTION("Clip copy")
@@ -1138,7 +1136,8 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
         REQUIRE(timeline->getClipTrackId(cid1) == tid1);
         REQUIRE(timeline->getClipPosition(cid1) == 0);
         REQUIRE(undoStack->index() == init_index + 2);
-        CHECK_MOVE(Once);
+        // Move on same track does not trigger insert/remove row
+        CHECK_MOVE(0);
 
         undoStack->undo();
         REQUIRE(timeline->checkConsistency());
@@ -1146,7 +1145,7 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
         REQUIRE(timeline->getClipTrackId(cid1) == tid1);
         REQUIRE(timeline->getClipPosition(cid1) == 5);
         REQUIRE(undoStack->index() == init_index + 1);
-        CHECK_MOVE(Once);
+        CHECK_MOVE(0);
 
         undoStack->redo();
         REQUIRE(timeline->checkConsistency());
@@ -1154,7 +1153,7 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
         REQUIRE(timeline->getClipTrackId(cid1) == tid1);
         REQUIRE(timeline->getClipPosition(cid1) == 0);
         REQUIRE(undoStack->index() == init_index + 2);
-        CHECK_MOVE(Once);
+        CHECK_MOVE(0);
 
         undoStack->undo();
         REQUIRE(timeline->checkConsistency());
@@ -1162,7 +1161,7 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
         REQUIRE(timeline->getClipTrackId(cid1) == tid1);
         REQUIRE(timeline->getClipPosition(cid1) == 5);
         REQUIRE(undoStack->index() == init_index + 1);
-        CHECK_MOVE(Once);
+        CHECK_MOVE(0);
 
         REQUIRE(timeline->requestClipMove(cid1, tid1, 2 * length));
         REQUIRE(timeline->checkConsistency());
@@ -1170,7 +1169,7 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
         REQUIRE(timeline->getClipTrackId(cid1) == tid1);
         REQUIRE(timeline->getClipPosition(cid1) == 2 * length);
         REQUIRE(undoStack->index() == init_index + 2);
-        CHECK_MOVE(Once);
+        CHECK_MOVE(0);
 
         undoStack->undo();
         REQUIRE(timeline->checkConsistency());
@@ -1178,7 +1177,7 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
         REQUIRE(timeline->getClipTrackId(cid1) == tid1);
         REQUIRE(timeline->getClipPosition(cid1) == 5);
         REQUIRE(undoStack->index() == init_index + 1);
-        CHECK_MOVE(Once);
+        CHECK_MOVE(0);
 
         undoStack->redo();
         REQUIRE(timeline->checkConsistency());
@@ -1186,10 +1185,10 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
         REQUIRE(timeline->getClipTrackId(cid1) == tid1);
         REQUIRE(timeline->getClipPosition(cid1) == 2 * length);
         REQUIRE(undoStack->index() == init_index + 2);
-        CHECK_MOVE(Once);
+        CHECK_MOVE(0);
 
         undoStack->undo();
-        CHECK_MOVE(Once);
+        CHECK_MOVE(0);
         undoStack->undo();
         REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->getTrackClipsCount(tid1) == 0);

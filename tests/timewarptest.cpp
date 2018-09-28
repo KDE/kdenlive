@@ -27,6 +27,11 @@ TEST_CASE("Test of timewarping", "[Timewarp]")
     TimelineItemModel::finishConstruct(timeline, guideModel);
 
     RESET(timMock);
+    TimelineModel::next_id = 0;
+    undoStack->undo();
+    undoStack->redo();
+    undoStack->redo();
+    undoStack->undo();
 
     QString binId = createProducer(profile_timewarp, "red", binModel);
     QString binId2 = createProducer(profile_timewarp, "blue", binModel);
