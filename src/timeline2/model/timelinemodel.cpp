@@ -1039,14 +1039,14 @@ bool TimelineModel::requestGroupMove(int clipId, int groupId, int delta_track, i
     // Second step, reinsert clips at correct positions
     int audio_delta, video_delta;
     audio_delta = video_delta = delta_track;
-    // if the topmost group is a AVSplit, then we will apply opposite movement to audio and video
-    if (m_groups->getType(groupId) == GroupType::AVSplit) {
-        if (getTrackById(old_track_ids[clipId])->isAudioTrack()) {
-            video_delta = -delta_track;
-        } else {
-            audio_delta = -delta_track;
-        }
+
+    if (getTrackById(old_track_ids[clipId])->isAudioTrack()) {
+        // Master clip is audio, so reverse delta for video clips
+        video_delta = -delta_track;
+    } else {
+        audio_delta = -delta_track;
     }
+
     // Reverse sort. We need to insert from left to right to avoid confusing the view
     std::reverse(std::begin(sorted_clips), std::end(sorted_clips));
     for (int item : sorted_clips) {
