@@ -981,5 +981,9 @@
            <label>Name of last selected title template</label>
            <default></default>
        </entry>
+       <entry name="titlerShowGuides" type="Bool">
+        <label>Show guides in titler.</label>
+        <default>false</default>
+        </entry>
    </group>
 </kcfg>

@@ -456,6 +456,50 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     m_frameBorder->setData(-1, -1);
     graphicsView->scene()->addItem(m_frameBorder);
 
+    QGraphicsLineItem *line1 = new QGraphicsLineItem(0, m_frameHeight / 3, m_frameWidth, m_frameHeight / 3, m_frameBorder);
+    line1->setPen(framepen);
+    line1->setFlags(nullptr);
+    line1->setData(-1, -1);
+    m_guides << line1;
+    QGraphicsLineItem *line2 = new QGraphicsLineItem(0, 2 *m_frameHeight / 3, m_frameWidth, 2 * m_frameHeight / 3, m_frameBorder);
+    line2->setPen(framepen);
+    line2->setFlags(nullptr);
+    line2->setData(-1, -1);
+    m_guides << line2;
+    QGraphicsLineItem *line3 = new QGraphicsLineItem(m_frameWidth / 4, 0, m_frameWidth / 4, m_frameHeight, m_frameBorder);
+    line3->setPen(framepen);
+    line3->setFlags(nullptr);
+    line3->setData(-1, -1);
+    m_guides << line3;
+    QGraphicsLineItem *line4 = new QGraphicsLineItem(m_frameWidth / 2, 0, m_frameWidth / 2, m_frameHeight, m_frameBorder);
+    line4->setPen(framepen);
+    line4->setFlags(nullptr);
+    line4->setData(-1, -1);
+    m_guides << line4;
+    QGraphicsLineItem *line5 = new QGraphicsLineItem(3 * m_frameWidth / 4, 0, 3 * m_frameWidth / 4, m_frameHeight, m_frameBorder);
+    line5->setPen(framepen);
+    line5->setFlags(nullptr);
+    line5->setData(-1, -1);
+    m_guides << line5;
+
+    framepen.setColor(QColor(255, 0, 0, 160));
+
+    QGraphicsLineItem *line6 = new QGraphicsLineItem(0, 0, m_frameWidth, m_frameHeight, m_frameBorder);
+    line6->setPen(framepen);
+    line6->setFlags(nullptr);
+    line6->setData(-1, -1);
+    m_guides << line6;
+
+    QGraphicsLineItem *line7 = new QGraphicsLineItem(m_frameWidth, 0, 0, m_frameHeight, m_frameBorder);
+    line7->setPen(framepen);
+    line7->setFlags(nullptr);
+    line7->setData(-1, -1);
+    m_guides << line7;
+
+    connect(show_guides, &QCheckBox::stateChanged, this, &TitleWidget::showGuides);
+    show_guides->setChecked(KdenliveSettings::titlerShowGuides());
+    showGuides(show_guides->checkState());
+
     // semi transparent safe zones
     framepen.setColor(QColor(255, 0, 0, 100));
     QGraphicsRectItem *safe1 = new QGraphicsRectItem(QRectF(m_frameWidth * 0.05, m_frameHeight * 0.05, m_frameWidth * 0.9, m_frameHeight * 0.9), m_frameBorder);
@@ -2970,4 +3014,12 @@ const QString TitleWidget::titleSuggest()
         }
     }
     return title;
+}
+
+void TitleWidget::showGuides(int state)
+{
+    for(QGraphicsItem *it : m_guides) {
+        it->setVisible(state == Qt::Checked);
+    }
+    KdenliveSettings::setTitlerShowGuides(state == Qt::Checked);
 }

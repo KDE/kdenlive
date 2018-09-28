@@ -148,6 +148,7 @@ private:
     QAction *m_selectImages;
     QAction *m_unselectAll;
     QString lastDocumentHash;
+    QList <QGraphicsItem*> m_guides;
 
     // See http://doc.trolltech.com/4.5/signalsandslots.html#advanced-signals-and-slots-usage.
     QSignalMapper *m_signalMapper;
@@ -338,6 +339,8 @@ private slots:
     void slotResize50();
     void slotResize100();
     void slotResize200();
+    /** @brief Show hide guides */
+    void showGuides(int state);
 
     /** @brief Called when accepted, stores user selections for next time use.
      * @ref writeChoices */
