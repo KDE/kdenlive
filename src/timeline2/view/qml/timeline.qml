@@ -94,7 +94,7 @@ Rectangle {
     }
 
     function getMouseTrack() {
-        return Logic.getTrackIdFromPos(tracksArea.mouseY - ruler.height)
+        return Logic.getTrackIdFromPos(tracksArea.mouseY - ruler.height + scrollView.flickableItem.contentY)
     }
 
     function getTrackColor(audio, header) {
@@ -188,7 +188,7 @@ Rectangle {
             console.log("Trying to drop composition")
             if (clipBeingMovedId == -1) {
                 console.log("No clip being moved")
-                var track = Logic.getTrackIdFromPos(drag.y)
+                var track = Logic.getTrackIdFromPos(drag.y + scrollView.flickableItem.contentY)
                 var frame = Math.round((drag.x + scrollView.flickableItem.contentX) / timeline.scaleFactor)
                 droppedPosition = frame
                 if (track >= 0) {
@@ -205,7 +205,7 @@ Rectangle {
         }
         onPositionChanged: {
             if (clipBeingMovedId == -1) {
-                var track = Logic.getTrackIdFromPos(drag.y)
+                var track = Logic.getTrackIdFromPos(drag.y + scrollView.flickableItem.contentY)
                 if (track !=-1) {
                     var frame = Math.round((drag.x + scrollView.flickableItem.contentX) / timeline.scaleFactor)
                     frame = controller.suggestSnapPoint(frame, root.snapping)
@@ -268,7 +268,7 @@ Rectangle {
         onEntered: {
             if (clipBeingMovedId == -1) {
                 //var track = Logic.getTrackIdFromPos(drag.y)
-                var track = Logic.getTrackIndexFromPos(drag.y)
+                var track = Logic.getTrackIndexFromPos(drag.y + scrollView.flickableItem.contentY)
                 if (track >= 0  && track < tracksRepeater.count) {
                     var frame = Math.round((drag.x + scrollView.flickableItem.contentX) / timeline.scaleFactor)
                     droppedPosition = frame
@@ -334,7 +334,7 @@ Rectangle {
             text: i18n('Paste')
             visible: copiedClip != -1
             onTriggered: {
-                var track = Logic.getTrackIdFromPos(menu.clickedY - ruler.height)
+                var track = Logic.getTrackIdFromPos(menu.clickedY - ruler.height + scrollView.flickableItem.contentY)
                 var frame = Math.floor((menu.clickedX + scrollView.flickableItem.contentX) / timeline.scaleFactor)
                 timeline.pasteItem(copiedClip, track, frame)
             }
@@ -342,7 +342,7 @@ Rectangle {
         OLD.MenuItem {
             text: i18n('Insert Space')
             onTriggered: {
-                var track = Logic.getTrackIdFromPos(menu.clickedY - ruler.height)
+                var track = Logic.getTrackIdFromPos(menu.clickedY - ruler.height + scrollView.flickableItem.contentY)
                 var frame = Math.floor((menu.clickedX + scrollView.flickableItem.contentX) / timeline.scaleFactor)
                 timeline.insertSpace(track, frame);
             }
@@ -350,7 +350,7 @@ Rectangle {
         OLD.MenuItem {
             text: i18n('Remove Space On Active Track')
             onTriggered: {
-                var track = Logic.getTrackIdFromPos(menu.clickedY - ruler.height)
+                var track = Logic.getTrackIdFromPos(menu.clickedY - ruler.height + scrollView.flickableItem.contentY)
                 var frame = Math.floor((menu.clickedX + scrollView.flickableItem.contentX) / timeline.scaleFactor)
                 timeline.removeSpace(track, frame);
             }
@@ -358,7 +358,7 @@ Rectangle {
         OLD.MenuItem {
             text: i18n('Remove Space')
             onTriggered: {
-                var track = Logic.getTrackIdFromPos(menu.clickedY - ruler.height)
+                var track = Logic.getTrackIdFromPos(menu.clickedY - ruler.height + scrollView.flickableItem.contentY)
                 var frame = Math.floor((menu.clickedX + scrollView.flickableItem.contentX) / timeline.scaleFactor)
                 timeline.removeSpace(track, frame, true);
             }
@@ -383,7 +383,7 @@ Rectangle {
             menuModel: transitionModel
             isTransition: true
             onAssetSelected: {
-                var track = Logic.getTrackIdFromPos(menu.clickedY - ruler.height)
+                var track = Logic.getTrackIdFromPos(menu.clickedY - ruler.height + scrollView.flickableItem.contentY)
                 var frame = Math.round((menu.clickedX + scrollView.flickableItem.contentX) / timeline.scaleFactor)
                 var id = timeline.insertComposition(track, frame, assetId, true)
                 if (id == -1) {
@@ -891,7 +891,6 @@ Rectangle {
                                         var posy = Math.min(Math.max(0, mouse.y + parent.y), tracksContainerArea.height)
                                         var tId = Logic.getTrackIdFromPos(posy)
                                         timeline.activeTrack = tId
-                                        console.log('+ + RQST ITEM MOVE: ', posx, ' TK: ', tId)
                                         if (dragProxy.isComposition) {
                                             dragFrame = controller.suggestCompositionMove(dragProxy.draggedItem, tId, posx, root.snapping)
                                         } else {

@@ -414,7 +414,7 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
     }
     ok = getTrackById(trackId)->requestClipInsertion(clipId, position, localUpdateView, invalidateTimeline, local_undo, local_redo);
     if (!ok) {
-        // qDebug()<<"-------------\n\nINSERTION FAILED, REVERTING\n\n-------------------";
+        qDebug()<<"-------------\n\nINSERTION FAILED, REVERTING\n\n-------------------";
         bool undone = local_undo();
         Q_ASSERT(undone);
         return false;
