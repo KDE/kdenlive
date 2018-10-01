@@ -46,7 +46,7 @@ void TransitionStackView::setModel(const std::shared_ptr<AssetParameterModel> &m
     m_trackBox->addItem(i18n("Automatic"), -1);
     while (i.hasNext()) {
         i.next();
-        if (i.key() != aTrack.second) {
+        if (i.key() < aTrack.second) {
             m_trackBox->addItem(i.value(), i.key());
         }
     }
