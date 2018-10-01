@@ -291,7 +291,7 @@ Rectangle {
         }
         onPositionChanged: {
             if (clipBeingMovedId == -1) {
-                var track = Logic.getTrackIndexFromPos(drag.y)
+                var track = Logic.getTrackIndexFromPos(drag.y + scrollView.flickableItem.contentY)
                 if (track >= 0  && track < tracksRepeater.count) {
                     timeline.activeTrack = tracksRepeater.itemAt(track).trackId
                     var frame = Math.round((drag.x + scrollView.flickableItem.contentX) / timeline.scaleFactor)
@@ -638,7 +638,7 @@ Rectangle {
                     }
                     if (root.activeTool === 2 && mouse.y > ruler.height) {
                         // spacer tool
-                        var y = mouse.y - ruler.height
+                        var y = mouse.y - ruler.height + scrollView.flickableItem.contentY
                         var frame = (scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor
                         var track = (mouse.modifiers & Qt.ControlModifier) ? tracksRepeater.itemAt(Logic.getTrackIndexFromPos(y)).trackId : -1
                         spacerGroup = timeline.requestSpacerStartOperation(track, frame)
@@ -657,14 +657,14 @@ Rectangle {
                         timeline.position = timeline.seekPosition
                     } else if (root.activeTool === 1) {
                         // razor tool
-                        var y = mouse.y - ruler.height
+                        var y = mouse.y - ruler.height + scrollView.flickableItem.contentY
                         timeline.cutClipUnderCursor((scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor, tracksRepeater.itemAt(Logic.getTrackIndexFromPos(y)).trackId)
                     }
                 } else if (mouse.button & Qt.RightButton) {
                     menu.clickedX = mouse.x
                     menu.clickedY = mouse.y
                     if (mouse.y > ruler.height) {
-                        timeline.activeTrack = tracksRepeater.itemAt(Logic.getTrackIndexFromPos(mouse.y - ruler.height)).trackId
+                        timeline.activeTrack = tracksRepeater.itemAt(Logic.getTrackIndexFromPos(mouse.y - ruler.height + scrollView.flickableItem.contentY)).trackId
                         menu.popup()
                     } else {
                         // ruler menu
@@ -726,8 +726,9 @@ Rectangle {
             onReleased: {
                 if (rubberSelect.visible) {
                     rubberSelect.visible = false
-                    var topTrack = Logic.getTrackIndexFromPos(Math.max(0, rubberSelect.y - ruler.height))
-                    var bottomTrack = Logic.getTrackIndexFromPos(rubberSelect.y - ruler.height + rubberSelect.height)
+                    var y = rubberSelect.y - ruler.height + scrollView.flickableItem.contentY
+                    var topTrack = Logic.getTrackIndexFromPos(Math.max(0, y))
+                    var bottomTrack = Logic.getTrackIndexFromPos(y + rubberSelect.height)
                     if (bottomTrack >= topTrack) {
                         var t = []
                         for (var i = topTrack; i <= bottomTrack; i++) {
