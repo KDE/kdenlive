@@ -25,6 +25,7 @@
 #include "definitions.h"
 #include "timeline2/model/timelineitemmodel.hpp"
 #include "timelinewidget.h"
+#include "lib/audio/audioCorrelation.h"
 
 class PreviewManager;
 class QAction;
@@ -286,6 +287,8 @@ public:
 
     Q_INVOKABLE void splitAudio(int clipId);
     Q_INVOKABLE void splitVideo(int clipId);
+    Q_INVOKABLE void setAudioRef(int clipId);
+    Q_INVOKABLE void alignAudio(int clipId);
     bool splitAV();
 
     /* @brief Seeks to selected clip start / end
@@ -436,6 +439,7 @@ private:
     int m_audioTarget;
     int m_videoTarget;
     int m_activeTrack;
+    int m_audioRef;
     QPoint m_zone;
     double m_scale;
     static int m_duration;
@@ -443,6 +447,8 @@ private:
     Selection m_savedSelection;
     PreviewManager *m_timelinePreview;
     QAction *m_disablePreview;
+    std::shared_ptr<AudioCorrelation> m_audioCorrelator;
+
     void emitSelectedFromSelection();
     int getCurrentItem();
     void initializePreview();

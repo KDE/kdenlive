@@ -55,6 +55,16 @@ Menu {
             visible: !grouped && canBeVideo && clipStatus == ClipState.AudioOnly
         }
         MenuItem {
+            text: i18n('Set Audio Reference')
+            onTriggered: timeline.setAudioRef(clipId)
+            visible: canBeAudio
+        }
+        MenuItem {
+            text: i18n('Align Audio')
+            onTriggered: timeline.alignAudio(clipId)
+            visible: canBeAudio
+        }
+        MenuItem {
             text: i18n('Remove')
             onTriggered: timeline.triggerAction('delete_timeline_clip')
         }

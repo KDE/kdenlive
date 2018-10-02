@@ -13,12 +13,13 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include <QList>
 #include <mlt++/Mlt.h>
+#include <memory>
 
 class AudioStreamInfo;
 class AudioInfo
 {
 public:
-    explicit AudioInfo(Mlt::Producer *producer);
+    explicit AudioInfo(std::shared_ptr<Mlt::Producer> producer);
     ~AudioInfo();
 
     int size() const;

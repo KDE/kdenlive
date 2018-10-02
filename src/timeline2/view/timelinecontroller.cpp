@@ -41,7 +41,7 @@
 #include "timeline2/view/dialogs/trackdialog.h"
 #include "timelinewidget.h"
 #include "transitions/transitionsrepository.hpp"
-
+#include "lib/audio/audioEnvelope.h"
 
 #include <KActionCollection>
 #include <QApplication>
@@ -57,6 +57,7 @@ TimelineController::TimelineController(QObject *parent)
     , m_position(0)
     , m_seekPosition(-1)
     , m_activeTrack(0)
+    , m_audioRef(-1)
     , m_zone(-1, -1)
     , m_scale(3.0)
     , m_timelinePreview(nullptr)
@@ -287,8 +288,8 @@ void TimelineController::selectCurrentItem(ObjectType type, bool select, bool ad
 
 void TimelineController::setSelection(const QList<int> &newSelection, int trackIndex, bool isMultitrack)
 {
+    qDebug() << "Changing selection to" << newSelection << " trackIndex" << trackIndex << "isMultitrack" << isMultitrack;
     if (newSelection != selection() || trackIndex != m_selection.selectedTrack || isMultitrack != m_selection.isMultitrackSelected) {
-        qDebug() << "Changing selection to" << newSelection << " trackIndex" << trackIndex << "isMultitrack" << isMultitrack;
         std::unordered_set<int> previousSelection = getCurrentSelectionIds();
         m_selection.selectedItems = newSelection;
         m_selection.selectedTrack = trackIndex;
@@ -1533,6 +1534,52 @@ void TimelineController::splitAudio(int clipId)
 void TimelineController::splitVideo(int clipId)
 {
     TimelineFunctions::requestSplitVideo(m_model, clipId, videoTarget());
+}
+
+void TimelineController::setAudioRef(int clipId)
+{
+    m_audioRef = clipId;
+    AudioEnvelope *envelope = new AudioEnvelope(getClipBinId(clipId), clipId);
+    m_audioCorrelator.reset(new AudioCorrelation(envelope));
+    connect(m_audioCorrelator.get(), &AudioCorrelation::gotAudioAlignData, [&] (int cid, int shift) {
+        int pos = m_model->getClipPosition(m_audioRef) + shift + m_model->getClipIn(m_audioRef);
+        bool result = m_model->requestClipMove(cid, m_model->getClipTrackId(cid), pos, true, true);
+        if (!result) {
+            pCore->displayMessage(i18n("Cannot move clip to frame %1.", (pos + shift)), InformationMessage, 500);
+        }
+    });
+    connect(m_audioCorrelator.get(), &AudioCorrelation::displayMessage, pCore.get(), &Core::displayMessage);
+}
+
+void TimelineController::alignAudio(int clipId)
+{
+    // find other clip
+    if (m_audioRef == -1 || m_audioRef == clipId) {
+        pCore->displayMessage(i18n("Set audio reference before attempting to align"), InformationMessage, 500);
+        return;
+    }
+    const QString masterBinClipId = getClipBinId(m_audioRef);
+    if (m_model->m_groups->isInGroup(clipId)) {
+        std::unordered_set<int> groupIds = m_model->getGroupElements(clipId);
+        // Check that no item is grouped with our audioRef item
+        // TODO
+        clearSelection();
+    }
+    const QString otherBinId = getClipBinId(clipId);
+    if (otherBinId == masterBinClipId) {
+        // easy, same clip.
+        int newPos = m_model->getClipPosition(m_audioRef) - m_model->getClipIn(m_audioRef) + m_model->getClipIn(clipId);
+        if (newPos) {
+            bool result = m_model->requestClipMove(clipId, m_model->getClipTrackId(clipId), newPos, true, true);
+            if (!result) {
+                pCore->displayMessage(i18n("Cannot move clip to frame %1.", newPos), InformationMessage, 500);
+            }
+            return;
+        }
+    }
+    // Perform audio calculation
+    AudioEnvelope *envelope = new AudioEnvelope(getClipBinId(clipId), clipId, m_model->getClipIn(clipId),  m_model->getClipPlaytime(clipId), m_model->getClipPosition(clipId));
+    m_audioCorrelator->addChild(envelope);
 }
 
 void TimelineController::switchTrackLock(bool applyToAll)

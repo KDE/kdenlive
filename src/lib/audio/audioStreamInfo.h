@@ -13,6 +13,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include <QString>
 #include <mlt++/Mlt.h>
+#include <memory>
 
 /**
   Provides easy access to properties of an audio stream.
@@ -21,7 +22,7 @@ class AudioStreamInfo
 {
 public:
     // TODO make that access a shared ptr instead of raw
-    AudioStreamInfo(Mlt::Producer *producer, int audioStreamIndex);
+    AudioStreamInfo(std::shared_ptr<Mlt::Producer> producer, int audioStreamIndex);
     ~AudioStreamInfo();
 
     int samplingRate() const;

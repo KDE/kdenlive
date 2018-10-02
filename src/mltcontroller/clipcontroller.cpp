@@ -222,7 +222,7 @@ void ClipController::getInfoForProducer()
         m_clipType = ClipType::Unknown;
     }
     if (m_audioIndex > -1 || m_clipType == ClipType::Playlist) {
-        m_audioInfo.reset(new AudioStreamInfo(m_masterProducer.get(), m_audioIndex));
+        m_audioInfo.reset(new AudioStreamInfo(m_masterProducer, m_audioIndex));
     }
 
     if (!m_hasLimitedDuration) {

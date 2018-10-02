@@ -31,7 +31,7 @@ class AudioEnvelope : public QObject
     Q_OBJECT
 
 public:
-    explicit AudioEnvelope(const QString &url, Mlt::Producer *producer, int offset = 0, int length = 0, int track = 0, int startPos = 0);
+    explicit AudioEnvelope(const QString &binId, int clipId, int offset = 0, int length = 0, int startPos = 0);
     virtual ~AudioEnvelope();
 
     /// Returns the envelope, calculates it if necessary.
@@ -45,19 +45,19 @@ public:
 
     void dumpInfo() const;
 
-    int track() const;
+    int clipId() const;
     int startPos() const;
 
 private:
     qint64 *m_envelope;
-    Mlt::Producer *m_producer;
+    std::shared_ptr<Mlt::Producer>m_producer;
     AudioInfo *m_info;
     QFutureWatcher<void> m_watcher;
     QFuture<void> m_future;
 
     int m_offset;
     int m_length;
-    int m_track;
+    int m_clipId;
     int m_startpos;
 
     int m_envelopeSize;

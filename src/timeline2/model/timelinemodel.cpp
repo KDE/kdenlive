@@ -396,7 +396,6 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
         notifyViewOnly = true;
         update_model = [clipId, this]() {
             QModelIndex modelIndex = makeClipIndexFromID(clipId);
-            qDebug()<<"// UPDATING START POS FOR CLIP: "<<getClipPosition(clipId);
             notifyChange(modelIndex, modelIndex, {StartRole});
             return true;
         };

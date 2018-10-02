@@ -104,6 +104,7 @@ QModelIndex TimelineItemModel::makeClipIndexFromID(int clipId) const
     int trackId = m_allClips.at(clipId)->getCurrentTrackId();
     if (trackId == -1) {
         // Clip is not inserted in a track
+        qDebug()<<"/// WARNING; INVALID CLIP INDEX REQUESTED\n________________";
         return QModelIndex();
     }
     int row = getTrackById_const(trackId)->getRowfromClip(clipId);

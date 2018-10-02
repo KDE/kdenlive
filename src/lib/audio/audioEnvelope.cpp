@@ -9,7 +9,9 @@
  ***************************************************************************/
 
 #include "audioEnvelope.h"
-
+#include "bin/bin.h"
+#include "core.h"
+#include "bin/projectclip.h"
 #include "audioStreamInfo.h"
 #include "kdenlive_debug.h"
 #include <QImage>
@@ -17,36 +19,32 @@
 #include <QtConcurrent>
 #include <cmath>
 
-AudioEnvelope::AudioEnvelope(const QString &url, Mlt::Producer *producer, int offset, int length, int track, int startPos)
-    : m_envelope(nullptr)
-    , m_offset(offset)
-    , m_length(length)
-    , m_track(track)
-    , m_startpos(startPos)
-    , m_envelopeSize(producer->get_length())
-    , m_envelopeMax(0)
-    , m_envelopeMean(0)
-    , m_envelopeStdDev(0)
-    , m_envelopeStdDevCalculated(false)
-    , m_envelopeIsNormalized(false)
+AudioEnvelope::AudioEnvelope(const QString &binId, int clipId, int offset, int length, int startPos) :
+    m_envelope(nullptr),
+    m_offset(offset),
+    m_length(length),
+    m_clipId(clipId),
+    m_startpos(startPos),
+    m_envelopeMax(0),
+    m_envelopeMean(0),
+    m_envelopeStdDev(0),
+    m_envelopeStdDevCalculated(false),
+    m_envelopeIsNormalized(false)
 {
-    // make a copy of the producer to avoid audio playback issues
-    QString path = QString::fromUtf8(producer->get("resource"));
-    if (path == QLatin1String("<playlist>") || path == QLatin1String("<tractor>") || path == QLatin1String("<producer>")) {
-        path = url;
-    }
-    m_producer = new Mlt::Producer(*(producer->profile()), path.toUtf8().constData());
+    std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(binId);
+    m_envelopeSize = clip->frameDuration();
+    m_producer = clip->cloneProducer();
     connect(&m_watcher, &QFutureWatcherBase::finished, this, &AudioEnvelope::slotProcessEnveloppe);
-    if ((m_producer == nullptr) || !m_producer->is_valid()) {
-        qCDebug(KDENLIVE_LOG) << "// Cannot create envelope for producer: " << path;
+    if (!m_producer || !m_producer->is_valid()) {
+        qCDebug(KDENLIVE_LOG) << "// Cannot create envelope for producer: " << binId;
     }
     m_info = new AudioInfo(m_producer);
-
     Q_ASSERT(m_offset >= 0);
     if (m_length > 0) {
         Q_ASSERT(m_length + m_offset <= m_envelopeSize);
         m_envelopeSize = m_length;
     }
+
 }
 
 AudioEnvelope::~AudioEnvelope()
@@ -55,7 +53,6 @@ AudioEnvelope::~AudioEnvelope()
         delete[] m_envelope;
     }
     delete m_info;
-    delete m_producer;
 }
 
 const qint64 *AudioEnvelope::envelope()
@@ -121,9 +118,9 @@ void AudioEnvelope::loadEnvelope()
     qCDebug(KDENLIVE_LOG) << "Calculating the envelope (" << m_envelopeSize << " frames) took " << t.elapsed() << " ms.";
 }
 
-int AudioEnvelope::track() const
+int AudioEnvelope::clipId() const
 {
-    return m_track;
+    return m_clipId;
 }
 
 int AudioEnvelope::startPos() const

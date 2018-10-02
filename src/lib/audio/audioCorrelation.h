@@ -56,8 +56,8 @@ private slots:
     void slotAnnounceEnvelope();
 
 signals:
-    void gotAudioAlignData(int, int, int);
-    void displayMessage(const QString &, MessageType);
+    void gotAudioAlignData(int, int);
+    void displayMessage(const QString &, MessageType, int);
 };
 
 #endif // AUDIOCORRELATION_H

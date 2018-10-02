@@ -598,3 +598,5 @@ void TimelineFunctions::setCompositionATrack(std::shared_ptr<TimelineItemModel> 
     }
     pCore->pushUndo(undo, redo, i18n("Change Composition Track"));
 }
+
+
