@@ -368,6 +368,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         auto *pbox = new QCheckBox(i18n("Proxy clip"), this);
         pbox->setObjectName(QStringLiteral("kdenlive:proxy"));
         pbox->setChecked(proxy.length() > 2);
+        pbox->setEnabled(pCore->projectManager()->current()->getDocumentProperty(QStringLiteral("enableproxy")).toInt() != 0);
         connect(pbox, &QCheckBox::toggled, [this, bg](bool toggled) {
             emit requestProxy(toggled);
             bg->setEnabled(toggled);
