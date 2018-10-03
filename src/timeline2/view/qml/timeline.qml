@@ -833,6 +833,7 @@ Rectangle {
                                 drag.target: parent
                                 drag.axis: Drag.XAxis
                                 drag.smoothed: false
+                                drag.minimumX: 0
                                 property int dragFrame
                                 property bool shiftClick: false
                                 cursorShape: pressed ? Qt.ClosedHandCursor : Qt.OpenHandCursor
@@ -863,7 +864,7 @@ Rectangle {
                                         var x = controller.getItemPosition(dragProxy.draggedItem)
                                         var posx = Math.round((parent.x)/ root.timeScale)
                                         if (tk != Logic.getTrackIdFromPos(parent.y) || x != posx) {
-                                            console.log('INCORRECT DRAG, ABORTING\n!!!!!!!!!!')
+                                            console.log('INCORRECT DRAG, ABORTING: ', parent.y,' XPOS: ',x,'=',posx,'\n!!!!!!!!!!')
                                             dragProxy.draggedItem = -1
                                             mouse.accepted = false
                                         } else {
@@ -919,6 +920,7 @@ Rectangle {
                                             controller.requestClipMove(dragProxy.draggedItem, dragProxy.sourceTrack, dragProxy.sourceFrame, false, false, false)
                                             controller.requestClipMove(dragProxy.draggedItem, tId, dragFrame , false, true, true)
                                         }
+                                        dragProxy.x = controller.getItemPosition(dragProxy.draggedItem) * timeline.scaleFactor
                                         dragProxy.sourceFrame = dragFrame
                                         bubbleHelp.hide()
                                     }
