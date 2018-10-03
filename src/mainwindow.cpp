@@ -2712,6 +2712,8 @@ void MainWindow::slotClipStart()
 {
     if (m_projectMonitor->isActive()) {
         getMainTimeline()->controller()->seekCurrentClip(false);
+    } else {
+        m_clipMonitor->slotStart();
     }
 }
 
@@ -2719,6 +2721,8 @@ void MainWindow::slotClipEnd()
 {
     if (m_projectMonitor->isActive()) {
         getMainTimeline()->controller()->seekCurrentClip(true);
+    } else {
+        m_clipMonitor->slotEnd();
     }
 }
 
