@@ -13,7 +13,8 @@
 
 #include "audioInfo.h"
 #include <mlt++/Mlt.h>
-
+#include <memory>
+#include <vector>
 #include <QFutureWatcher>
 #include <QObject>
 
@@ -33,43 +34,65 @@ class AudioEnvelope : public QObject
 public:
     explicit AudioEnvelope(const QString &binId, int clipId, int offset = 0, int length = 0, int startPos = 0);
     virtual ~AudioEnvelope();
+    /**
+       Starts the asynchronous computation that computes the
+       envelope. When the computations are done, the signal
+       'envelopeReady' will be emitted.
+    */
+    void startComputeEnvelope();
 
-    /// Returns the envelope, calculates it if necessary.
-    qint64 const *envelope();
-    int envelopeSize() const;
+    /**
+       Returns whether startComputeEnvelope() has been called.
+    */
+    bool hasComputationStarted() const;
 
-    void loadEnvelope();
-    void normalizeEnvelope(bool clampTo0 = false);
+    /**
+       Returns the envelope data. Blocks until the computation of the
+       envelope is done.
+       REQUIRES: startComputeEnvelope() has been called.
+    */
+    const std::vector<qint64>& envelope();
 
     QImage drawEnvelope();
 
-    void dumpInfo() const;
+    void dumpInfo();
 
     int clipId() const;
     int startPos() const;
 
 private:
-    qint64 *m_envelope;
-    std::shared_ptr<Mlt::Producer>m_producer;
-    AudioInfo *m_info;
-    QFutureWatcher<void> m_watcher;
-    QFuture<void> m_future;
+    struct AudioSummary {
+      explicit AudioSummary(int size) : audioAmplitudes(size) {}
+      AudioSummary() {}
+      // This is the envelope data. There is one element for each
+      // frame, which contains the sum of the absolute amplitudes of
+      // the audio signal for that frame.
+      std::vector<qint64> audioAmplitudes;
+      // Maximum absolute value of the elements in 'audioAmplitudes'.
+      qint64 amplitudeMax = 0;
+    };
 
-    int m_offset;
-    int m_length;
-    int m_clipId;
-    int m_startpos;
+    /**
+       Blocks until the AudioSummary has been computed.
+       REQUIRES: startComputeEnvelope() has been called.
+    */
+    const AudioSummary& audioSummary();
 
+    /**
+     Actually computes the envelope data, synchronously.
+    */
+    AudioSummary loadAndNormalizeEnvelope() const;
+
+    std::shared_ptr<Mlt::Producer> m_producer;
+    std::unique_ptr<AudioInfo> m_info;
+    QFutureWatcher<AudioSummary> m_watcher;
+    QFuture<AudioSummary> m_audioSummary;
+
+    const int m_offset;
+    const int m_clipId;
+    const int m_startpos;
+    const int m_length;
     int m_envelopeSize;
-    qint64 m_envelopeMax;
-    qint64 m_envelopeMean;
-    qint64 m_envelopeStdDev;
-
-    bool m_envelopeStdDevCalculated;
-    bool m_envelopeIsNormalized;
-
-private slots:
-    void slotProcessEnveloppe();
 
 signals:
     void envelopeReady(AudioEnvelope *envelope);
