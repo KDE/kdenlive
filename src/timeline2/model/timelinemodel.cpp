@@ -347,6 +347,34 @@ int TimelineModel::getPreviousVideoTrackPos(int trackId) const
     return it == m_allTracks.begin() ? 0 : getTrackMltIndex((*it)->getId());
 }
 
+int TimelineModel::getMirrorVideoTrackId(int trackId) const
+{
+    READ_LOCK();
+    Q_ASSERT(isTrack(trackId));
+    auto it = m_iteratorTable.at(trackId);
+    if (!(*it)->isAudioTrack()) {
+        // we expected an audio track...
+        return -1;
+    }
+    int count = 0;
+    ++it;
+    while (it != m_allTracks.end()) {
+        if ((*it)->isAudioTrack()) {
+            count++;
+        } else {
+            if (count == 0) {
+                return (*it)->getId();
+            }
+            count--;
+        }
+        ++it;
+    }
+    if (!(*it)->isAudioTrack() && count == 0) {
+        return (*it)->getId();
+    }
+    return -1;
+}
+
 int TimelineModel::getMirrorAudioTrackId(int trackId) const
 {
     READ_LOCK();
@@ -782,10 +810,10 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
                 audioDrop = true;
             }
         }
-        if (res && (!audioDrop || !useTargets)) {
-            int target_track = m_audioTarget;
+        if (res && !useTargets) {
+            int target_track = audioDrop ? m_videoTarget : m_audioTarget;
             if (!useTargets) {
-                target_track = getMirrorAudioTrackId(trackId);
+                target_track = audioDrop ? getMirrorVideoTrackId(trackId) : getMirrorAudioTrackId(trackId);
             }
             // QList<int> possibleTracks = m_audioTarget >= 0 ? QList<int>() << m_audioTarget : getLowerTracksId(trackId, TrackType::AudioTrack);
             QList<int> possibleTracks;
@@ -795,13 +823,13 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
             }
             if (possibleTracks.isEmpty()) {
                 // No available audio track for splitting, abort
-                pCore->displayMessage(i18n("No available audio track for split operation"), ErrorMessage);
+                pCore->displayMessage(i18n("No available track for split operation"), ErrorMessage);
                 res = false;
             } else {
                 std::function<bool(void)> audio_undo = []() { return true; };
                 std::function<bool(void)> audio_redo = []() { return true; };
                 int newId;
-                res = requestClipCreation(binClipId, newId, PlaylistState::AudioOnly, audio_undo, audio_redo);
+                res = requestClipCreation(binClipId, newId, audioDrop ? PlaylistState::VideoOnly : PlaylistState::AudioOnly, audio_undo, audio_redo);
                 if (res) {
                     bool move = false;
                     while (!move && !possibleTracks.isEmpty()) {

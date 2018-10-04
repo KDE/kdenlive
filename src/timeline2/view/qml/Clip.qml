@@ -91,7 +91,7 @@ Rectangle {
     }
 
     onInPointChanged: {
-        if (parentTrack.isAudio) {
+        if (parentTrack && parentTrack.isAudio) {
             thumbsLoader.item.reload()
         }
     }
