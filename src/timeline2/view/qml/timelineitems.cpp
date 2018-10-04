@@ -91,7 +91,7 @@ public:
             path.moveTo(-1, height());
             int i = 0;
             int lastIdx = -1;
-            for (; i < width(); ++i) {
+            for (; i <= width(); ++i) {
                 int idx = m_inPoint + int(i * indicesPrPixel);
                 if (lastIdx == idx) {
                     continue;
@@ -121,7 +121,7 @@ public:
                 // Draw channel median line
                 painter->drawLine(0, y, width(), y);
                 int lastIdx = -1;
-                for (i = 0; i < width(); ++i) {
+                for (i = 0; i <= width(); ++i) {
                     int idx = m_inPoint + int(i * indicesPrPixel);
                     if (lastIdx == idx) {
                         continue;

@@ -11,8 +11,19 @@ Row {
     property int maxWidth: 1000
     property int innerWidth: clipRoot.width - clipRoot.border.width * 2
     anchors.fill: parent
-    property int scrollStart: Math.max(0, scrollView.flickableItem.contentX / timeline.scaleFactor - clipRoot.modelStart)
-    property int scrollEnd: scrollStart + scrollView.viewport.width / timeline.scaleFactor
+    property int scrollStart: scrollView.flickableItem.contentX - clipRoot.modelStart * timeline.scaleFactor
+    property int scrollEnd: scrollStart + scrollView.viewport.width
+
+    onScrollStartChanged: {
+        if (timeline.showAudioThumbnails) {
+            waveformRepeater.model = Math.ceil(waveform.innerWidth / waveform.maxWidth)
+            for (var i = 0; i < waveformRepeater.count; i++) {
+                if (!waveformRepeater.itemAt(i).showItem) {
+                    waveformRepeater.itemAt(i).update();
+                }
+            }
+        }
+    }
 
     function reload() {
         // This is needed to make the model have the correct count.
@@ -30,7 +41,7 @@ Row {
         TimelineWaveform {
             width: Math.min(waveform.innerWidth, waveform.maxWidth)
             height: waveform.height
-            showItem: waveform.visible && (index * waveform.maxWidth) < waveform.scrollEnd && (index * waveform.maxWidth + width) > waveform.scrollStart
+            showItem: waveform.visible && (index * width) < waveform.scrollEnd && (index * width + width) > waveform.scrollStart
             format: timeline.audioThumbFormat
             property int channels: 2
             inPoint: Math.round((clipRoot.inPoint + (index * waveform.maxWidth / clipRoot.timeScale)) * clipRoot.speed) * channels
