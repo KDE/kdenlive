@@ -29,14 +29,14 @@
 #include <KLocalizedString>
 #include <QGridLayout>
 
-GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QRect &rect, const QSize frameSize, bool useRatioLock, bool useOpacity,
-                               QWidget *parent)
+GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QRect &rect, double opacity, const QSize frameSize, bool useRatioLock, bool useOpacity, bool percentOpacity, QWidget *parent)
     : QWidget(parent)
     , m_min(range.first)
     , m_max(range.second)
     , m_active(false)
     , m_monitor(monitor)
     , m_opacity(nullptr)
+    , m_opacityFactor(percentOpacity ? 1. : 100.)
 {
     Q_UNUSED(useRatioLock)
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
@@ -87,7 +87,10 @@ GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QR
 
     if (useOpacity) {
         m_opacity = new DragValue(i18n("Opacity"), 100, 0, 0, 100, -1, i18n("%"), true, this);
-        connect(m_opacity, &DragValue::valueChanged, this, &GeometryWidget::slotAdjustRectKeyframeValue);
+        m_opacity->setValue(opacity * m_opacityFactor);
+        connect(m_opacity, &DragValue::valueChanged, [&]() {
+            emit valueChanged(getValue());
+        });
         horLayout2->addWidget(m_opacity);
     }
     horLayout2->addStretch(10);
@@ -396,7 +399,10 @@ void GeometryWidget::setValue(const QRect r, double opacity)
     m_spinHeight->setValue(r.height());
     if (m_opacity) {
         m_opacity->blockSignals(true);
-        m_opacity->setValue((int)(opacity * 100));
+        if (opacity < 0) {
+            opacity = 100 / m_opacityFactor;
+        }
+        m_opacity->setValue((int)(opacity * m_opacityFactor));
         m_opacity->blockSignals(false);
     }
     m_spinX->blockSignals(false);
@@ -414,7 +420,7 @@ const QString GeometryWidget::getValue() const
             .arg(m_spinY->value())
             .arg(m_spinWidth->value())
             .arg(m_spinHeight->value())
-            .arg(m_opacity->value() / 100.0);
+            .arg(m_opacity->value() / m_opacityFactor);
     }
     return QStringLiteral("%1 %2 %3 %4").arg(m_spinX->value()).arg(m_spinY->value()).arg(m_spinWidth->value()).arg(m_spinHeight->value());
 }

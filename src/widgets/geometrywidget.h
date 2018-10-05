@@ -48,7 +48,7 @@ public:
      * @param frameSize The frame size of the original source video
      * @param useRatioLock When true, width/height will keep the profile's aspect ratio on resize
      */
-    explicit GeometryWidget(Monitor *monitor, QPair<int, int> range, const QRect &rect, const QSize frameSize, bool useRatioLock, bool useOpacity,
+    explicit GeometryWidget(Monitor *monitor, QPair<int, int> range, const QRect &rect, double opacity, const QSize frameSize, bool useRatioLock, bool useOpacity, bool percentOpacity,
                             QWidget *parent = nullptr);
     void setValue(const QRect r, double opacity = 1);
     void connectMonitor(bool activate);
@@ -64,6 +64,7 @@ private:
     DragValue *m_spinHeight;
     DragValue *m_spinSize;
     DragValue *m_opacity;
+    double m_opacityFactor;
     QSize m_defaultSize;
     QSize m_sourceSize;
     QAction *m_originalSize;

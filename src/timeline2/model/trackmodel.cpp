@@ -370,6 +370,21 @@ int TrackModel::suggestCompositionLength(int position)
     if (other_index < m_playlists[other_track].count()) {
         end_pos = std::min(end_pos, m_playlists[other_track].clip_start(other_index) + m_playlists[other_track].clip_length(other_index));
     }
+    int min = -1;
+    std::unordered_set<int> existing = getCompositionsInRange(position, end_pos);
+    if (existing.size() > 0) {
+        for (int id : existing) {
+            if (min < 0) {
+                min = m_allCompositions[id]->getPosition();
+            } else {
+                min = qMin(min, m_allCompositions[id]->getPosition());
+            }
+        }
+    }
+    if (min >= 0) {
+        // An existing composition is limiting the space
+        end_pos = min;
+    }
     return end_pos - position;
 }
 

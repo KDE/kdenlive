@@ -159,7 +159,7 @@ void KeyframeWidget::slotRefreshParams()
             const QString val = m_keyframes->getInterpolatedValue(pos, w.first).toString();
             const QStringList vals = val.split(QLatin1Char(' '));
             QRect rect;
-            double opacity = 1.0;
+            double opacity = -1;
             if (vals.count() >= 4) {
                 rect = QRect(vals.at(0).toInt(), vals.at(1).toInt(), vals.at(2).toInt(), vals.at(3).toInt());
                 if (vals.count() > 4) {
@@ -257,12 +257,18 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
         QSize frameSize = pCore->getCurrentFrameSize();
         const QString value = m_keyframes->getInterpolatedValue(getPosition(), index).toString();
         QRect rect;
+        double opacity = 0;
         QStringList vals = value.split(QLatin1Char(' '));
         if (vals.count() >= 4) {
             rect = QRect(vals.at(0).toInt(), vals.at(1).toInt(), vals.at(2).toInt(), vals.at(3).toInt());
+            if (vals.count() > 4) {
+                opacity = locale.toDouble(vals.at(4));
+            }
         }
-        GeometryWidget *geomWidget = new GeometryWidget(pCore->getMonitor(m_model->monitorId), range, rect, frameSize, false,
-                                                        m_model->data(m_index, AssetParameterModel::OpacityRole).toBool(), this);
+        // qtblend uses an opacity value in the (0-1) range, while older geometry effects use (0-100)
+        bool integerOpacity = m_model->getAssetId() != QLatin1String("qtblend");
+        GeometryWidget *geomWidget = new GeometryWidget(pCore->getMonitor(m_model->monitorId), range, rect, opacity, frameSize, false,
+                                                        m_model->data(m_index, AssetParameterModel::OpacityRole).toBool(), integerOpacity, this);
         connect(geomWidget, &GeometryWidget::valueChanged,
                 [this, index](const QString v) { m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), QVariant(v), index); });
         paramWidget = geomWidget;
