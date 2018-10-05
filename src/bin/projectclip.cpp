@@ -1106,14 +1106,6 @@ const QString ProjectClip::getAudioThumbPath()
     return audioPath;
 }
 
-bool ProjectClip::isTransparent() const
-{
-    if (m_clipType == ClipType::Text) {
-        return true;
-    }
-    return m_clipType == ClipType::Image && getProducerIntProperty(QStringLiteral("kdenlive:transparency")) == 1;
-}
-
 QStringList ProjectClip::updatedAnalysisData(const QString &name, const QString &data, int offset)
 {
     if (data.isEmpty()) {

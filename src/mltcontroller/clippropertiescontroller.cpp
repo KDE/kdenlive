@@ -299,16 +299,6 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         // connect(choosecolor, SIGNAL(displayMessage(QString,int)), this, SIGNAL(displayMessage(QString,int)));
         connect(choosecolor, &ChooseColorWidget::modified, this, &ClipPropertiesController::slotColorModified);
         connect(this, static_cast<void(ClipPropertiesController::*)(const QColor&)>(&ClipPropertiesController::modified), choosecolor, &ChooseColorWidget::slotColorModified);
-    } else if (m_type == ClipType::Image) {
-        int transparency = m_properties.get_int("kdenlive:transparency");
-        m_originalProperties.insert(QStringLiteral("kdenlive:transparency"), QString::number(transparency));
-        auto *hlay = new QHBoxLayout;
-        QCheckBox *box = new QCheckBox(i18n("Transparent"), this);
-        box->setObjectName(QStringLiteral("kdenlive:transparency"));
-        box->setChecked(transparency == 1);
-        connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
-        hlay->addWidget(box);
-        vbox->addLayout(hlay);
     }
     if (m_type == ClipType::AV || m_type == ClipType::Video || m_type == ClipType::Image) {
         // Aspect ratio
@@ -689,9 +679,6 @@ void ClipPropertiesController::slotDurationChanged(int duration)
     // kdenlive_length is the default duration for image / title clips
     int kdenlive_length = m_properties.get_int("kdenlive:duration");
     int current_length = m_properties.get_int("length");
-    if (original_length == 0) {
-        m_properties.set("kdenlive:original_length", kdenlive_length > 0 ? kdenlive_length : current_length);
-    }
     if (kdenlive_length > 0) {
         // special case, image/title clips store default duration in kdenlive:duration property
         properties.insert(QStringLiteral("kdenlive:duration"), QString::number(duration));
@@ -722,8 +709,9 @@ void ClipPropertiesController::slotEnableForce(int state)
             // special case, reset original duration
             TimecodeDisplay *timePos = findChild<TimecodeDisplay *>(param + QStringLiteral("_value"));
             timePos->setValue(m_properties.get_int("kdenlive:original_length"));
-            slotDurationChanged(m_properties.get_int("kdenlive:original_length"));
+            int original = m_properties.get_int("kdenlive:original_length");
             m_properties.set("kdenlive:original_length", (char *)nullptr);
+            slotDurationChanged(original);
             return;
         }
         if (param == QLatin1String("kdenlive:transparency")) {

@@ -110,9 +110,6 @@ public:
     ClipPropertiesController *buildProperties(QWidget *parent);
     QPoint zone() const override;
 
-    /** @brief Returns true if we want to add an affine transition in timeline when dropping this clip. */
-    bool isTransparent() const;
-
     /** @brief Returns whether this clip has a url (=describes a file) or not. */
     bool hasUrl() const;
 
