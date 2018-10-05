@@ -2364,7 +2364,7 @@ void TimelineModel::requestClipReload(int clipId)
     }
     m_allClips[clipId]->refreshProducerFromBin();
     if (old_trackId != -1) {
-        getTrackById(old_trackId)->requestClipInsertion(clipId, oldPos, true, true, local_undo, local_redo);
+        getTrackById(old_trackId)->requestClipInsertion(clipId, oldPos, false, true, local_undo, local_redo);
     }
 }
 
