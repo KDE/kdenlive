@@ -219,7 +219,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGro
                     }
                     if (success) { // Let the validator handle error messages
                         qCDebug(KDENLIVE_LOG) << " // / processing file validate ok";
-                        pCore->displayMessage(i18n("Check missing clips"), InformationMessage, 500);
+                        pCore->displayMessage(i18n("Check missing clips"), InformationMessage, 300);
                         qApp->processEvents();
                         DocumentChecker d(m_url, m_document);
                         success = !d.hasErrorInClips();
@@ -233,6 +233,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGro
                                 pCore->displayMessage(i18n("Your project was modified on opening, a backup will be created on next save"), ErrorMessage);
                                 setModified(true);
                             }
+                            pCore->displayMessage(QString(), OperationCompletedMessage);
                         }
                     }
                 }
