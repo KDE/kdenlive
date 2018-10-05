@@ -62,9 +62,13 @@ Core::~Core()
     if (m_monitorManager) {
         delete m_monitorManager;
     }
-    m_binController->destroyBin();
+    if (m_binController) {
+        m_binController->destroyBin();
+    }
     // delete m_binWidget;
-    delete m_projectManager;
+    if (m_projectManager) {
+        delete m_projectManager;
+    }
 }
 
 void Core::build(const QString &MltPath)

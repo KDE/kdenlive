@@ -189,4 +189,5 @@ TEST_CASE("Marker model", "[MarkerListModel]")
         undoStack->redo();
         checkMarkerList(model, list, snaps);
     }
+    pCore->m_projectManager = nullptr;
 }

@@ -62,6 +62,8 @@ TEST_CASE("Regression")
     REQUIRE(timeline->getTrackById(2)->checkConsistency());
     undoStack->redo();
     REQUIRE(timeline->getTrackById(1)->checkConsistency());
+    binModel->clean();
+    pCore->m_projectManager = nullptr;
 }
 
 TEST_CASE("Regression2")
@@ -213,6 +215,8 @@ TEST_CASE("Regression2")
     REQUIRE(timeline->getTrackById(4)->checkConsistency());
     REQUIRE(timeline->getTrackById(6)->checkConsistency());
     undoStack->redo();
+    binModel->clean();
+    pCore->m_projectManager = nullptr;
 }
 
 /*

@@ -2,6 +2,7 @@
 #include "catch.hpp"
 
 #include "core.h"
+#include "src/mltcontroller/clipcontroller.h"
 #include <QApplication>
 #include <mlt++/MltFactory.h>
 #include <mlt++/MltRepository.h>
@@ -16,6 +17,7 @@ int main(int argc, char *argv[])
     Core::build();
 
     int result = Catch::Session().run(argc, argv);
+    ClipController::mediaUnavailable.reset();
 
     // global clean-up...
     // delete repo;

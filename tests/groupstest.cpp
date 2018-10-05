@@ -1282,4 +1282,6 @@ TEST_CASE("Complex Functions", "[GroupsModel]")
         redo();
         test_tree2();
     }
+    binModel->clean();
+    pCore->m_projectManager = nullptr;
 }

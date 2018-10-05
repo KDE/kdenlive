@@ -120,6 +120,8 @@ TEST_CASE("Basic creation/deletion of a track", "[TrackModel]")
         REQUIRE(timeline->getTracksCount() == 1);
         REQUIRE(timeline->checkConsistency());
     }
+    binModel->clean();
+    pCore->m_projectManager = nullptr;
 }
 
 TEST_CASE("Basic creation/deletion of a clip", "[ClipModel]")
@@ -165,6 +167,8 @@ TEST_CASE("Basic creation/deletion of a clip", "[ClipModel]")
     REQUIRE(timeline->requestItemDeletion(id1));
     REQUIRE(timeline->checkConsistency());
     REQUIRE(timeline->getClipsCount() == 0);
+    binModel->clean();
+    pCore->m_projectManager = nullptr;
 }
 
 TEST_CASE("Clip manipulation", "[ClipModel]")
@@ -913,6 +917,8 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         REQUIRE(timeline->m_allClips[cid6]->binId() == timeline->m_allClips[newId]->binId());
         // TODO check effects
     }
+    binModel->clean();
+    pCore->m_projectManager = nullptr;
 }
 
 TEST_CASE("Check id unicity", "[ClipModel]")
@@ -967,6 +973,8 @@ TEST_CASE("Check id unicity", "[ClipModel]")
     REQUIRE(timeline->checkConsistency());
     REQUIRE(all_ids.size() == nbr);
     REQUIRE(all_ids.size() != track_ids.size());
+    binModel->clean();
+    pCore->m_projectManager = nullptr;
 }
 
 TEST_CASE("Undo and Redo", "[ClipModel]")
@@ -1548,6 +1556,8 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
         undoStack->redo();
         state4();
     }
+    binModel->clean();
+    pCore->m_projectManager = nullptr;
 }
 
 TEST_CASE("Snapping", "[Snapping]")
@@ -1668,6 +1678,8 @@ TEST_CASE("Snapping", "[Snapping]")
             }
         }
     }
+    binModel->clean();
+    pCore->m_projectManager = nullptr;
 }
 
 TEST_CASE("Advanced trimming operations", "[Trimming]")
@@ -2117,4 +2129,6 @@ TEST_CASE("Advanced trimming operations", "[Trimming]")
         undoStack->redo();
         state2();
     }
+    binModel->clean();
+    pCore->m_projectManager = nullptr;
 }
