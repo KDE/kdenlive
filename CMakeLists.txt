@@ -50,7 +50,7 @@ SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -std=c++14")
 #SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -fsanitize=address -fno-omit-frame-pointer")
 # To be switched on when releasing.
 option(RELEASE_BUILD "Remove Git revision from program version (use for stable releases)" ON)
-option(BUILD_TESTS "Build tests" ON)
+option(BUILD_TESTS "Build tests" OFF)
 
 # Get current version.
 set(KDENLIVE_VERSION_STRING "${KDENLIVE_VERSION}")
