@@ -381,6 +381,7 @@ bool ClipModel::useTimewarpProducer(double speed, Fun &undo, Fun &redo)
 {
     if (m_endlessResize) {
         // no timewarp for endless producers
+        qDebug()<<"* ** * ERROR ON RESIZE LIMIT";
         return false;
     }
     if (qFuzzyCompare(speed, m_speed)) {
@@ -410,6 +411,7 @@ bool ClipModel::useTimewarpProducer(double speed, Fun &undo, Fun &redo)
         UPDATE_UNDO_REDO(operation, reverse, local_undo, local_redo);
         bool res = requestResize(newDuration, true, local_undo, local_redo, true);
         if (!res) {
+            qDebug()<<"* ** * ERROR ON RESIZE 1";
             local_undo();
             return false;
         }

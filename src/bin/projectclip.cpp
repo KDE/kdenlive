@@ -521,9 +521,13 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int clipId, Play
     }
     if (!warpProducer) {
         QLocale locale;
-        QString resource = QString("timewarp:%1:%2").arg(locale.toString(speed)).arg(originalProducer()->get("resource"));
-        warpProducer.reset(new Mlt::Producer(*originalProducer()->profile(), resource.toUtf8().constData()));
-        qDebug() << "new producer!";
+        QString resource(originalProducer()->get("resource"));
+        if (resource.isEmpty() || resource == QLatin1String("<producer>")) {
+            resource = m_service;
+        }
+        QString url = QString("timewarp:%1:%2").arg(locale.toString(speed)).arg(resource);
+        warpProducer.reset(new Mlt::Producer(*originalProducer()->profile(), url.toUtf8().constData()));
+        qDebug() << "new producer: "<<url;
         qDebug() << "warp LENGTH before" << warpProducer->get_length();
         int original_length = originalProducer()->get_length();
         // this is a workaround to cope with Mlt erroneous rounding

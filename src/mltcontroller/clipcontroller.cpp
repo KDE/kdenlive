@@ -218,6 +218,10 @@ void ClipController::getInfoForProducer()
         m_clipType = ClipType::WebVfx;
     } else if (m_service == QLatin1String("qtext")) {
         m_clipType = ClipType::QText;
+    } else if (m_service == QLatin1String("blipflash")) {
+        // Mostly used for testing
+        m_clipType = ClipType::AV;
+        m_hasLimitedDuration = true;
     } else {
         m_clipType = ClipType::Unknown;
     }

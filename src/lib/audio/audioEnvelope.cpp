@@ -115,7 +115,7 @@ AudioEnvelope::AudioSummary AudioEnvelope::loadAndNormalizeEnvelope() const {
     summary.amplitudeMax = 0;
     for (int i = 0; i < summary.audioAmplitudes.size(); ++i) {
       summary.audioAmplitudes[i] -= meanBeforeNormalization;
-      summary.amplitudeMax = std::max(summary.amplitudeMax, abs(summary.audioAmplitudes[i]));
+      summary.amplitudeMax = std::max(summary.amplitudeMax, qAbs(summary.audioAmplitudes[i]));
     }
     return summary;
 }
