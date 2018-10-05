@@ -138,6 +138,7 @@ bool ProxyJob::startJob()
 
         m_jobProcess = new QProcess;
         m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
+        connect(this, &ProxyJob::jobCanceled, m_jobProcess, &QProcess::kill, Qt::DirectConnection);
         connect(m_jobProcess, &QProcess::readyReadStandardOutput, this, &ProxyJob::processLogInfo);
         m_jobProcess->start(KdenliveSettings::rendererpath(), mltParameters);
         m_jobProcess->waitForFinished(-1);
@@ -260,6 +261,7 @@ bool ProxyJob::startJob()
         m_jobProcess = new QProcess;
         m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
         connect(m_jobProcess, &QProcess::readyReadStandardOutput, this, &ProxyJob::processLogInfo);
+        connect(this, &ProxyJob::jobCanceled, m_jobProcess, &QProcess::kill, Qt::DirectConnection);
         m_jobProcess->start(KdenliveSettings::ffmpegpath(), parameters, QIODevice::ReadOnly);
         m_jobProcess->waitForFinished(-1);
         result = m_jobProcess->exitStatus() == QProcess::NormalExit;

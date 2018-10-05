@@ -374,6 +374,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
             bg->setEnabled(toggled);
             setToolTip(m_properties.get("kdenlive:proxy"));
         });
+        connect(this, &ClipPropertiesController::enableProxy, pbox, &QCheckBox::setEnabled);
         connect(this, &ClipPropertiesController::proxyModified, [this, pbox, bg] (const QString &pxy) {
             pbox->setChecked(pxy.length() > 2);
             bg->setEnabled(pbox->isChecked());

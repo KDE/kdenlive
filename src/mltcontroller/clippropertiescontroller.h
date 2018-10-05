@@ -120,6 +120,7 @@ signals:
     void requestProxy(bool doProxy);
     void proxyModified(const QString &);
     void deleteProxy();
+    void enableProxy(bool);
 };
 
 #endif

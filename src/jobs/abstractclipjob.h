@@ -94,6 +94,7 @@ protected:
 signals:
     // send an int between 0 and 100 to reflect computation progress
     void jobProgress(int);
+    void jobCanceled();
 };
 
 #endif

@@ -2920,6 +2920,10 @@ void Bin::refreshProxySettings()
     QList<std::shared_ptr<ProjectClip>> clipList = m_itemModel->getRootFolder()->childClips();
     auto *masterCommand = new QUndoCommand();
     masterCommand->setText(m_doc->useProxy() ? i18n("Enable proxies") : i18n("Disable proxies"));
+    // en/disable proxy option in clip properties
+    for (QWidget *w : m_propertiesPanel->findChildren<ClipPropertiesController *>()) {
+        static_cast<ClipPropertiesController *>(w)->enableProxy(m_doc->useProxy());
+    }
     if (!m_doc->useProxy()) {
         // Disable all proxies
         m_doc->slotProxyCurrentItem(false, clipList, false, masterCommand);

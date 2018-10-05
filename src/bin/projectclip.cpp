@@ -827,9 +827,14 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         // If value is "-", that means user manually disabled proxy on this clip
         if (value.isEmpty() || value == QLatin1String("-")) {
             // reset proxy
-            pCore->jobManager()->discardJobs(clipId(), AbstractClipJob::PROXYJOB);
-            reload = true;
-            refreshOnly = false;
+            int id;
+            if (pCore->jobManager()->hasPendingJob(clipId(), AbstractClipJob::PROXYJOB, &id)) {
+                // The proxy clip is being created, abort
+                pCore->jobManager()->discardJobs(clipId(), AbstractClipJob::PROXYJOB);
+            } else {
+                reload = true;
+                refreshOnly = false;
+            }
         } else {
             // A proxy was requested, make sure to keep original url
             setProducerProperty(QStringLiteral("kdenlive:originalurl"), url());
