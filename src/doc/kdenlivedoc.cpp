@@ -219,7 +219,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGro
                     }
                     if (success) { // Let the validator handle error messages
                         qCDebug(KDENLIVE_LOG) << " // / processing file validate ok";
-                        parent->slotGotProgressInfo(i18n("Check missing clips"), 100);
+                        pCore->displayMessage(i18n("Check missing clips"), InformationMessage, 500);
                         qApp->processEvents();
                         DocumentChecker d(m_url, m_document);
                         success = !d.hasErrorInClips();

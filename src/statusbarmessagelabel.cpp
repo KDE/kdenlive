@@ -136,6 +136,9 @@ void StatusBarMessageLabel::setMessage(const QString &text, MessageType type, in
                     }
                 }
                 m_messageQueue = cleanList;
+            } else {
+                // Important error message, delete previous queue so they don't appear afterwards out of context
+                m_messageQueue.clear();
             }
 
             m_messageQueue.push_front(item);
