@@ -252,13 +252,14 @@
     </ul>
   </description>
   <releases>
-    <release date="2018-09-06" version="18.08.1"/>
+    <release date="2018-10-11" version="18.08.2"/>
   </releases>
   <url type="homepage">https://kdenlive.org/</url>
   <url type="bugtracker">https://bugs.kde.org</url>
   <url type="help">https://userbase.kde.org/Kdenlive/Manual</url>
   <screenshots>
     <screenshot type="source">
+      <caption>Kdenlive 18.08</caption>
       <image>https://cdn.kde.org/screenshots/kdenlive/screenshot-monitors.png</image>
     </screenshot>
   </screenshots>
