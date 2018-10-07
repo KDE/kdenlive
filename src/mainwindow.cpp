@@ -2850,6 +2850,8 @@ void MainWindow::slotClipStart()
         if (pCore->projectManager()->currentTimeline()) {
             pCore->projectManager()->currentTimeline()->projectView()->clipStart();
         }
+    } else {
+        m_clipMonitor->slotStart();
     }
 }
 
@@ -2859,6 +2861,8 @@ void MainWindow::slotClipEnd()
         if (pCore->projectManager()->currentTimeline()) {
             pCore->projectManager()->currentTimeline()->projectView()->clipEnd();
         }
+    } else {
+        m_clipMonitor->slotEnd();
     }
 }
 
