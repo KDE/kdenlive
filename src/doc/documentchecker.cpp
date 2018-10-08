@@ -65,6 +65,16 @@ DocumentChecker::DocumentChecker(const QUrl &url, const QDomDocument &doc)
 {
 }
 
+QMap <QString, QString> DocumentChecker::getLumaPairs() const
+{
+    QMap <QString, QString> lumaSearchPairs;
+    lumaSearchPairs.insert(QStringLiteral("luma"), QStringLiteral("resource"));
+    lumaSearchPairs.insert(QStringLiteral("movit.luma_mix"), QStringLiteral("resource"));
+    lumaSearchPairs.insert(QStringLiteral("composite"), QStringLiteral("luma"));
+    lumaSearchPairs.insert(QStringLiteral("region"), QStringLiteral("composite.luma"));
+    return lumaSearchPairs;
+}
+
 bool DocumentChecker::hasErrorInClips()
 {
     int max;
@@ -225,16 +235,16 @@ bool DocumentChecker::hasErrorInClips()
     QStringList missingLumas;
     QStringList filesToCheck;
     QString filePath;
+    QMap <QString, QString>lumaSearchPairs = getLumaPairs();
+
     QDomNodeList trans = m_doc.elementsByTagName(QStringLiteral("transition"));
     max = trans.count();
     for (int i = 0; i < max; ++i) {
         QDomElement transition = trans.at(i).toElement();
         QString service = getProperty(transition, QStringLiteral("mlt_service"));
         QString luma;
-        if (service == QLatin1String("luma")) {
-            luma = getProperty(transition, QStringLiteral("resource"));
-        } else if (service == QLatin1String("composite")) {
-            luma = getProperty(transition, QStringLiteral("luma"));
+        if (lumaSearchPairs.contains(service)) {
+            luma = getProperty(transition, lumaSearchPairs.value(service));
         }
         if (!luma.isEmpty() && !filesToCheck.contains(luma)) {
             filesToCheck.append(luma);
@@ -291,13 +301,11 @@ bool DocumentChecker::hasErrorInClips()
             QDomElement transition = trans.at(i).toElement();
             QString service = getProperty(transition, QStringLiteral("mlt_service"));
             QString luma;
-            if (service == QLatin1String("luma")) {
-                luma = getProperty(transition, QStringLiteral("resource"));
-            } else if (service == QLatin1String("composite")) {
-                luma = getProperty(transition, QStringLiteral("luma"));
+            if (lumaSearchPairs.contains(service)) {
+                luma = getProperty(transition, lumaSearchPairs.value(service));
             }
             if (!luma.isEmpty() && autoFixLuma.contains(luma)) {
-                updateProperty(transition, service == QLatin1String("luma") ? QStringLiteral("resource") : QStringLiteral("luma"), autoFixLuma.value(luma));
+                updateProperty(transition, lumaSearchPairs.value(service), autoFixLuma.value(luma));
             }
         }
     }
@@ -1011,30 +1019,28 @@ void DocumentChecker::fixClipItem(QTreeWidgetItem *child, const QDomNodeList &pr
             }
         }
     } else if (child->data(0, statusRole).toInt() == LUMAOK) {
+        QMap <QString, QString>lumaSearchPairs = getLumaPairs();
         for (int i = 0; i < trans.count(); ++i) {
             QString service = getProperty(trans.at(i).toElement(), QStringLiteral("mlt_service"));
             QString luma;
-            if (service == QLatin1String("luma")) {
-                luma = getProperty(trans.at(i).toElement(), QStringLiteral("resource"));
-            } else if (service == QLatin1String("composite")) {
-                luma = getProperty(trans.at(i).toElement(), QStringLiteral("luma"));
+            if (lumaSearchPairs.contains(service)) {
+                luma = getProperty(trans.at(i).toElement(), lumaSearchPairs.value(service));
             }
             if (!luma.isEmpty() && luma == child->data(0, idRole).toString()) {
-                updateProperty(trans.at(i).toElement(), service == QLatin1String("luma") ? QStringLiteral("resource") : QStringLiteral("luma"), child->text(1));
+                updateProperty(trans.at(i).toElement(), lumaSearchPairs.value(service), child->text(1));
                 // qCDebug(KDENLIVE_LOG) << "replace with; " << child->text(1);
             }
         }
     } else if (child->data(0, statusRole).toInt() == LUMAMISSING) {
+        QMap <QString, QString>lumaSearchPairs = getLumaPairs();
         for (int i = 0; i < trans.count(); ++i) {
             QString service = getProperty(trans.at(i).toElement(), QStringLiteral("mlt_service"));
             QString luma;
-            if (service == QLatin1String("luma")) {
-                luma = getProperty(trans.at(i).toElement(), QStringLiteral("resource"));
-            } else if (service == QLatin1String("composite")) {
-                luma = getProperty(trans.at(i).toElement(), QStringLiteral("luma"));
+            if (lumaSearchPairs.contains(service)) {
+                luma = getProperty(trans.at(i).toElement(), lumaSearchPairs.value(service));
             }
             if (!luma.isEmpty() && luma == child->data(0, idRole).toString()) {
-                updateProperty(trans.at(i).toElement(), service == QLatin1String("luma") ? QStringLiteral("resource") : QStringLiteral("luma"), QString());
+                updateProperty(trans.at(i).toElement(), lumaSearchPairs.value(service), QString());
             }
         }
     }
@@ -1101,18 +1107,17 @@ void DocumentChecker::slotDeleteSelected()
     if (!deletedLumas.isEmpty()) {
         QDomElement e;
         QDomNodeList transitions = m_doc.elementsByTagName(QStringLiteral("transition"));
+        QMap <QString, QString>lumaSearchPairs = getLumaPairs();
         for (const QString &lumaPath : deletedLumas) {
             for (int i = 0; i < transitions.count(); ++i) {
                 e = transitions.item(i).toElement();
                 QString service = EffectsList::property(e, QStringLiteral("mlt_service"));
                 QString resource;
-                if (service == QLatin1String("luma")) {
-                    resource = EffectsList::property(e, QStringLiteral("resource"));
-                } else if (service == QLatin1String("composite")) {
-                    resource = EffectsList::property(e, QStringLiteral("luma"));
+                if (lumaSearchPairs.contains(service)) {
+                    resource = getProperty(e, lumaSearchPairs.value(service));
                 }
-                if (resource == lumaPath) {
-                    EffectsList::removeProperty(e, service == QLatin1String("luma") ? QStringLiteral("resource") : QStringLiteral("luma"));
+                if (!resource.isEmpty() && resource == lumaPath) {
+                    EffectsList::removeProperty(e, lumaSearchPairs.value(service));
                 }
             }
         }
