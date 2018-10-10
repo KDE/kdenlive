@@ -414,6 +414,15 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
             m_videoProducer->set("set.test_image", 0);
         }
     }
+    for (auto &p : m_audioProducers) {
+        m_effectStack->removeService(p.second);
+    }
+    for (auto &p : m_timewarpProducers) {
+        m_effectStack->removeService(p.second);
+    }
+    // Release audio producers
+    m_audioProducers.clear();
+    m_timewarpProducers.clear();
     replaceInTimeline();
     return true;
 }
@@ -594,12 +603,12 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
         } else {
             master->parent().set("_loaded", 1);
             if (state == PlaylistState::AudioOnly) {
-                m_audioProducers[clipId] = std::shared_ptr<Mlt::Producer>(&master->parent());
+                m_audioProducers[clipId] = std::shared_ptr<Mlt::Producer>(new Mlt::Producer(&master->parent()));
                 m_effectStack->addService(m_audioProducers[clipId]);
                 return {master, true};
             }
             if (!qFuzzyIsNull(timeWarp)) {
-                m_timewarpProducers[clipId] = std::shared_ptr<Mlt::Producer>(&master->parent());
+                m_timewarpProducers[clipId] = std::shared_ptr<Mlt::Producer>(new Mlt::Producer(&master->parent()));
                 m_effectStack->addService(m_timewarpProducers[clipId]);
                 return {master, true};
             }

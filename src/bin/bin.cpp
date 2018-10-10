@@ -1654,6 +1654,10 @@ void Bin::doRefreshPanel(const QString &id)
 void Bin::showClipProperties(std::shared_ptr<ProjectClip> clip, bool forceRefresh)
 {
     if ((clip == nullptr) || !clip->isReady()) {
+        for (QWidget *w : m_propertiesPanel->findChildren<ClipPropertiesController *>()) {
+            delete w;
+        }
+        m_propertiesPanel->setProperty("clipId", QString());
         m_propertiesPanel->setEnabled(false);
         return;
     }
