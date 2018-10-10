@@ -116,7 +116,7 @@ QVariant ProjectItemModel::data(const QModelIndex &index, int role) const
         return icon;
     }
     std::shared_ptr<AbstractProjectItem> item = getBinItemByIndex(index);
-    return item->getData((AbstractProjectItem::DataType)role);
+    return item->getData(static_cast<AbstractProjectItem::DataType>(role));
 }
 
 bool ProjectItemModel::setData(const QModelIndex &index, const QVariant &value, int role)

@@ -128,7 +128,7 @@ public:
         // Current progress of the job
         JobProgress,
         // error message if job crashes (not fully implemented)
-        JobMessage,
+        JobSuccess,
         JobStatus,
         // Item status (ready or not, missing, waiting, ...)
         ClipStatus

@@ -182,18 +182,15 @@ QVariant AbstractProjectItem::getData(DataType type) const
             }
         }
         break;
-    case JobMessage:
+    case JobSuccess:
         if (itemType() == ClipItem) {
-            QString messages;
-            auto jobIds = pCore->jobManager()->getPendingJobsIds(clipId());
-            for (int job : jobIds) {
-                messages.append(pCore->jobManager()->getJobMessageForClip(job, clipId()));
+            auto jobIds = pCore->jobManager()->getFinishedJobsIds(clipId());
+            if (jobIds.size() > 0) {
+                // Check the last job status
+                data = QVariant(pCore->jobManager()->jobSucceded(jobIds[jobIds.size() - 1]));
+            } else {
+                data = QVariant(true);
             }
-            jobIds = pCore->jobManager()->getFinishedJobsIds(clipId());
-            for (int job : jobIds) {
-                messages.append(pCore->jobManager()->getJobMessageForClip(job, clipId()));
-            }
-            data = QVariant(messages);
         }
         break;
     case ClipStatus:

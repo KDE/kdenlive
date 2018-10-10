@@ -28,6 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "macros.hpp"
 #include "undohelper.hpp"
 
+#include <KMessageWidget>
 #include <QFuture>
 #include <QFutureWatcher>
 #include <QThread>
@@ -316,6 +317,16 @@ void JobManager::slotManageFinishedJob(int id)
                     }
                 }
             }
+        } else {
+            QString bid;
+            for (const auto &it : m_jobs.at(id)->m_indices) {
+                bid = it.first;
+                break;
+            }
+            QString message = getJobMessageForClip(id, bid);
+            if (!message.isEmpty()) {
+                pCore->displayBinMessage(message, KMessageWidget::Warning);
+            }
         }
         updateJobCount();
         return;
@@ -328,8 +339,17 @@ void JobManager::slotManageFinishedJob(int id)
     }
     m_jobs[id]->m_processed = true;
     if (!ok) {
-        qDebug() << "ERROR: Job " << id << " failed";
         m_jobs[id]->m_failed = true;
+        QString bid;
+        for (const auto &it : m_jobs.at(id)->m_indices) {
+            bid = it.first;
+            break;
+        }
+        qDebug() << "ERROR: Job " << id << " failed, BID: "<<bid;
+        QString message = getJobMessageForClip(id, bid);
+        if (!message.isEmpty()) {
+            pCore->displayBinMessage(message, KMessageWidget::Warning);
+        }
     }
     m_jobs[id]->m_completionMutex.unlock();
     if (ok && !m_jobs[id]->m_undoString.isEmpty()) {
@@ -367,6 +387,14 @@ JobManagerStatus JobManager::getJobStatus(int jobId) const
         return JobManagerStatus::Running;
     }
     return JobManagerStatus::Pending;
+}
+
+bool JobManager::jobSucceded(int jobId) const
+{
+    READ_LOCK();
+    Q_ASSERT(m_jobs.count(jobId) > 0);
+    auto job = m_jobs.at(jobId);
+    return !job->m_failed;
 }
 
 int JobManager::getJobProgressForClip(int jobId, const QString &binId) const

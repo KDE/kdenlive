@@ -209,23 +209,6 @@ bool MyTreeView::performDrag()
     return true;
 }
 
-BinMessageWidget::BinMessageWidget(QWidget *parent)
-    : KMessageWidget(parent)
-{
-}
-BinMessageWidget::BinMessageWidget(const QString &text, QWidget *parent)
-    : KMessageWidget(text, parent)
-{
-}
-
-bool BinMessageWidget::event(QEvent *ev)
-{
-    if (ev->type() == QEvent::Hide || ev->type() == QEvent::Close) {
-        emit messageClosing();
-    }
-    return KMessageWidget::event(ev);
-}
-
 SmallJobLabel::SmallJobLabel(QWidget *parent)
     : QPushButton(parent)
     , m_action(nullptr)
@@ -490,14 +473,10 @@ public:
                             painter->drawRect(progress);
                         }
                     }
-                    QString jobText = index.data(AbstractProjectItem::JobMessage).toString();
-                    if (!jobText.isEmpty()) {
-                        // QRectF txtBounding = painter->boundingRect(r2, Qt::AlignRight | Qt::AlignVCenter, " " + jobText + " ");
-                        painter->setPen(Qt::NoPen);
-                        painter->setBrush(option.palette.highlight());
-                        // painter->drawRoundedRect(txtBounding, 2, 2);
-                        painter->setPen(option.palette.highlightedText().color());
-                        painter->drawText(r2, Qt::AlignCenter, jobText);
+                    bool jobsucceeded = index.data(AbstractProjectItem::JobSuccess).toBool();
+                    if (!jobsucceeded) {
+                        QIcon warning = QIcon::fromTheme(QStringLiteral("process-stop"));
+                        warning.paint(painter, r2);
                     }
                 }
             } else {
@@ -711,10 +690,10 @@ Bin::Bin(const std::shared_ptr<ProjectItemModel> &model, QWidget *parent)
     m_propertiesPanel = new QScrollArea(this);
     m_propertiesPanel->setFrameShape(QFrame::NoFrame);
     // Info widget for failed jobs, other errors
-    m_infoMessage = new BinMessageWidget(this);
+    m_infoMessage = new KMessageWidget(this);
     m_layout->addWidget(m_infoMessage);
     m_infoMessage->setCloseButtonVisible(false);
-    connect(m_infoMessage, &BinMessageWidget::messageClosing, this, &Bin::slotResetInfoMessage);
+    connect(m_infoMessage, &KMessageWidget::hideAnimationFinished, this, &Bin::slotResetInfoMessage);
     // m_infoMessage->setWordWrap(true);
     m_infoMessage->hide();
     connect(this, &Bin::requesteInvalidRemoval, this, &Bin::slotQueryRemoval);
@@ -2062,16 +2041,14 @@ void Bin::doDisplayMessage(const QString &text, KMessageWidget::MessageType type
         delete a;
     }
     m_infoMessage->setText(text);
-    m_infoMessage->setWordWrap(m_infoMessage->text().length() > 35);
+    m_infoMessage->setWordWrap(text.length() > 35);
     for (QAction *action : actions) {
         m_infoMessage->addAction(action);
         connect(action, &QAction::triggered, this, &Bin::slotMessageActionTriggered);
     }
     m_infoMessage->setCloseButtonVisible(actions.isEmpty());
     m_infoMessage->setMessageType(type);
-    if (m_infoMessage->isHidden()) {
-        m_infoMessage->animatedShow();
-    }
+    m_infoMessage->animatedShow();
 }
 
 void Bin::refreshClip(const QString &id)

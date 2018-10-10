@@ -44,7 +44,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class AbstractProjectItem;
 class BinItemDelegate;
-class BinMessageWidget;
 class ClipController;
 class EffectStackModel;
 class InvalidDialog;
@@ -107,20 +106,6 @@ private:
 
 signals:
     void focusView();
-};
-
-class BinMessageWidget : public KMessageWidget
-{
-    Q_OBJECT
-public:
-    explicit BinMessageWidget(QWidget *parent = nullptr);
-    BinMessageWidget(const QString &text, QWidget *parent = nullptr);
-
-protected:
-    bool event(QEvent *ev) override;
-
-signals:
-    void messageClosing();
 };
 
 class SmallJobLabel : public QPushButton
@@ -427,7 +412,7 @@ private:
     QAction *m_discardPendingJobs;
     SmallJobLabel *m_infoLabel;
     /** @brief The info widget for failed jobs. */
-    BinMessageWidget *m_infoMessage;
+    KMessageWidget *m_infoMessage;
     QStringList m_errorLog;
     InvalidDialog *m_invalidClipDialog;
     /** @brief Set to true if widget just gained focus (means we have to update effect stack . */

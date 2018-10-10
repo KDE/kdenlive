@@ -123,6 +123,9 @@ public:
     /** @brief return the type of a given job */
     JobManagerStatus getJobStatus(int jobId) const;
 
+    /** @brief returns false if job failed */
+    bool jobSucceded(int jobId) const;
+
     /** @brief return the progress of a given job on a given clip */
     int getJobProgressForClip(int jobId, const QString &binId) const;
 
