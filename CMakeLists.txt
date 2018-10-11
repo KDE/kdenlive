@@ -135,6 +135,8 @@ if (KF5DocTools_FOUND)
 endif()
 
 install( FILES kdenlive.categories DESTINATION ${KDE_INSTALL_CONFDIR} )
+include(GNUInstallDirs)
+install( FILES AUTHORS COPYING README DESTINATION ${CMAKE_INSTALL_DOCDIR})
 
 configure_file(config-kdenlive.h.cmake config-kdenlive.h @ONLY)
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
