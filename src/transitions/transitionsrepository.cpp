@@ -111,6 +111,10 @@ void TransitionsRepository::parseCustomAssetFile(const QString &file_name, std::
             qDebug() << "Warning: duplicate custom definition of transition" << result.id << "found. Only last one will be considered";
         }
         result.xml = currentNode.toElement();
+        QString type = result.xml.attribute(QStringLiteral("type"), QString());
+        if (type == QLatin1String("hidden")) {
+            result.type = TransitionType::Hidden;
+        }
         customAssets[result.id] = result;
     }
 }

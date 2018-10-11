@@ -45,13 +45,16 @@ void TransitionFilter::reloadFilterOnFavorite()
 
 bool TransitionFilter::filterType(const std::shared_ptr<TreeItem> &item) const
 {
+    auto itemType = item->dataColumn(AssetTreeModel::typeCol).value<TransitionType>();
+    if (itemType == TransitionType::Hidden) {
+        return false;
+    }
     if (!m_type_enabled) {
         return true;
     }
     if (m_type_value == TransitionType::Favorites) {
         return item->dataColumn(AssetTreeModel::favCol).toBool();
     }
-    auto itemType = item->dataColumn(AssetTreeModel::typeCol).value<TransitionType>();
     return itemType == m_type_value;
 }
 

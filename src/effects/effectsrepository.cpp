@@ -138,6 +138,8 @@ void EffectsRepository::parseCustomAssetFile(const QString &file_name, std::unor
             result.type = EffectType::Audio;
         } else if (type == QLatin1String("custom")) {
             result.type = EffectType::Custom;
+        } else if (type == QLatin1String("hidden")) {
+            result.type = EffectType::Hidden;
         } else {
             result.type = EffectType::Video;
         }

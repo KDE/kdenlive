@@ -35,7 +35,7 @@
  * Note that this class is a Singleton
  */
 
-enum class EffectType { Video, Audio, Custom, Favorites};
+enum class EffectType { Video, Audio, Custom, Favorites, Hidden};
 Q_DECLARE_METATYPE(EffectType)
 
 class EffectsRepository : public AbstractAssetsRepository<EffectType>
