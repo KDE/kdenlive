@@ -44,7 +44,7 @@ public slots:
     /** @brief Set search string that will filter the view */
     void slotSetSearchString(const QString &str);
     /** @brief Relay datachanged signal from view's model  */
-    void slotDataChanged(const QModelIndex &ix1, const QModelIndex &ix2);
+    void slotDataChanged(const QModelIndex &ix1, const QModelIndex &ix2, const QVector<int> &roles);
 
 private slots:
     /** @brief Called when a row change is detected by selection model */

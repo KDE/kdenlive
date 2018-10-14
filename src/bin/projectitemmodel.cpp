@@ -124,7 +124,7 @@ bool ProjectItemModel::setData(const QModelIndex &index, const QVariant &value, 
     QWriteLocker locker(&m_lock);
     std::shared_ptr<AbstractProjectItem> item = getBinItemByIndex(index);
     if (item->rename(value.toString(), index.column())) {
-        emit dataChanged(index, index, QVector<int>() << role);
+        emit dataChanged(index, index, {role});
         return true;
     }
     // Item name was not changed
@@ -288,7 +288,6 @@ QMimeData *ProjectItemModel::mimeData(const QModelIndexList &indices) const
         QByteArray data;
         data.append(list.join(QLatin1Char(';')).toUtf8());
         mimeData->setData(QStringLiteral("kdenlive/producerslist"), data);
-        qDebug() << "/// CLI DURATION: " << duration;
         mimeData->setText(QString::number(duration));
     }
     return mimeData;
@@ -300,7 +299,7 @@ void ProjectItemModel::onItemUpdated(std::shared_ptr<AbstractProjectItem> item, 
     auto ptr = tItem->parentItem().lock();
     if (ptr) {
         auto index = getIndexFromItem(tItem);
-        emit dataChanged(index, index, QVector<int>() << role);
+        emit dataChanged(index, index, {role});
     }
 }
 

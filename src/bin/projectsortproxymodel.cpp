@@ -141,7 +141,7 @@ void ProjectSortProxyModel::onCurrentRowChanged(const QItemSelection &current, c
     }
 }
 
-void ProjectSortProxyModel::slotDataChanged(const QModelIndex &ix1, const QModelIndex &ix2)
+void ProjectSortProxyModel::slotDataChanged(const QModelIndex &ix1, const QModelIndex &ix2, const QVector<int> &roles)
 {
-    emit dataChanged(ix1, ix2);
+    emit dataChanged(ix1, ix2, roles);
 }

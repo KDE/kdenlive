@@ -323,9 +323,19 @@ class BinItemDelegate : public QStyledItemDelegate
 public:
     explicit BinItemDelegate(QObject *parent = nullptr)
         : QStyledItemDelegate(parent)
+        , m_editorOpen(false)
     {
+        connect(this, &QStyledItemDelegate::closeEditor, [&]() {
+            m_editorOpen = false;
+        });
     }
-
+    void setEditorData(QWidget *w, const QModelIndex &i) const override
+    {
+        if (!m_editorOpen) {
+            QStyledItemDelegate::setEditorData(w, i);
+            m_editorOpen = true;
+        }
+    }
     void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const override
     {
         if (index.column() != 0) {
@@ -498,6 +508,8 @@ public:
             QStyledItemDelegate::paint(painter, option, index);
         }
     }
+    private:
+        mutable bool m_editorOpen;
 };
 
 LineEventEater::LineEventEater(QObject *parent)
@@ -2410,9 +2422,9 @@ void Bin::slotExpandUrl(const ItemInfo &info, const QString &url, QUndoCommand *
     */
 }
 
-void Bin::slotItemEdited(const QModelIndex &ix, const QModelIndex &, const QVector<int> &)
+void Bin::slotItemEdited(const QModelIndex &ix, const QModelIndex &, const QVector<int> &roles)
 {
-    if (ix.isValid()) {
+    if (ix.isValid() && roles.contains(AbstractProjectItem::DataName)) {
         // Clip renamed
         std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(ix);
         auto clip = std::static_pointer_cast<ProjectClip>(item);
