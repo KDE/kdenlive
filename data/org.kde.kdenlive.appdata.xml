@@ -27,6 +27,7 @@
   <name xml:lang="pl">Kdenlive</name>
   <name xml:lang="pt">Kdenlive</name>
   <name xml:lang="pt-BR">Kdenlive</name>
+  <name xml:lang="ru">Kdenlive</name>
   <name xml:lang="sk">Kdenlive</name>
   <name xml:lang="sl">Kdenlive</name>
   <name xml:lang="sv">Kdenlive</name>
@@ -58,6 +59,7 @@
   <summary xml:lang="pl">Edytor wideo</summary>
   <summary xml:lang="pt">Editor de Vídeo</summary>
   <summary xml:lang="pt-BR">Editor de Vídeo</summary>
+  <summary xml:lang="ru">Видеоредактор</summary>
   <summary xml:lang="sk">Editor videa</summary>
   <summary xml:lang="sl">Urejevalnik videa</summary>
   <summary xml:lang="sv">Videoeditor</summary>
@@ -120,6 +122,7 @@
     <p xml:lang="pl">Możliwości:</p>
     <p xml:lang="pt">Funcionalidades:</p>
     <p xml:lang="pt-BR">Funcionalidades:</p>
+    <p xml:lang="ru">Возможности:</p>
     <p xml:lang="sk">Funkcie:</p>
     <p xml:lang="sl">Zmožnosti:</p>
     <p xml:lang="sv">Funktioner:</p>
@@ -265,6 +268,7 @@
       <caption xml:lang="de">Kdenlive 18.08</caption>
       <caption xml:lang="es">Kdenlive 18.08</caption>
       <caption xml:lang="nl">Kdenlive 18.08</caption>
+      <caption xml:lang="pl">Kdenlive 18.08</caption>
       <caption xml:lang="pt">Kdenlive 18.08</caption>
       <caption xml:lang="sv">Kdenlive 18.08</caption>
       <caption xml:lang="uk">Kdenlive 18.08</caption>
