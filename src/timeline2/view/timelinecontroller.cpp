@@ -1862,3 +1862,52 @@ void TimelineController::grabCurrent()
     }
 }
 
+bool TimelineController::endFakeMove(int clipId, int position, bool updateView, bool logUndo, bool invalidateTimeline)
+{
+    Q_ASSERT(m_model->m_allClips.count(clipId) > 0);
+    int trackId = m_model->m_allClips[clipId]->getFakeTrackId();
+    if (m_model->getClipPosition(clipId) == position && m_model->getClipTrackId(clipId) == trackId) {
+        qDebug()<<"* * ** END FAKE; NO MOVE RQSTED";
+        return true;
+    }
+    //TODO
+    /*if (m_groups->isInGroup(clipId)) {
+        // element is in a group.
+        int groupId = m_groups->getRootId(clipId);
+        int current_trackId = getClipTrackId(clipId);
+        int track_pos1 = getTrackPosition(trackId);
+        int track_pos2 = getTrackPosition(current_trackId);
+        int delta_track = track_pos1 - track_pos2;
+        int delta_pos = position - m_allClips[clipId]->getPosition();
+        return requestGroupMove(clipId, groupId, delta_track, delta_pos, updateView, logUndo);
+    }*/
+    qDebug()<<"//////\n//////\nENDING FAKE MNOVE: "<<trackId<<", POS: "<<position;
+    std::function<bool(void)> undo = []() { return true; };
+    std::function<bool(void)> redo = []() { return true; };
+    int duration = m_model->getClipPlaytime(clipId);
+    int currentTrack = m_model->m_allClips[clipId]->getCurrentTrackId();
+    bool res = true;
+    if (currentTrack > -1) {
+        res = res & m_model->getTrackById(currentTrack)->requestClipDeletion(clipId, updateView, invalidateTimeline, undo, redo);
+    }
+    if (m_model->m_editMode == TimelineMode::OverwriteEdit) {
+        res = res & TimelineFunctions::liftZone(m_model, trackId, QPoint(position, position + duration), undo, redo);
+    } else if (m_model->m_editMode == TimelineMode::InsertEdit) {
+        int startClipId = m_model->getClipByPosition(trackId, position);
+        if (startClipId > -1) {
+            // There is a clip, cut
+            res = res & TimelineFunctions::requestClipCut(m_model, startClipId, position, undo, redo);
+        }
+        res = res & TimelineFunctions::insertSpace(m_model, trackId, QPoint(position, position + duration), undo, redo);
+    }
+    res = res & m_model->getTrackById(trackId)->requestClipInsertion(clipId, position, updateView, invalidateTimeline, undo, redo);
+    if (res) {
+        if (logUndo) {
+            pCore->pushUndo(undo, redo, i18n("Move item"));
+        }
+    } else {
+        qDebug()<<"//// FAKE FAILED";
+        undo();
+    }
+    return res;
+}

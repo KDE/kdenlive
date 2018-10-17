@@ -53,8 +53,10 @@ Rectangle {
     property int binId: 0
     property var parentTrack
     property int trackIndex //Index in track repeater
-    property int trackId   //Id in the model
     property int clipId     //Id of the clip in the model
+    property int trackId: -1 // Id of the parent track in the model
+    property int fakeTid: -1
+    property int fakePosition: 0
     property int originalTrackId: -1
     property int originalX: x
     property int originalDuration: clipDuration
@@ -101,6 +103,9 @@ Rectangle {
             color: Qt.darker(getColor())
         }
     }
+    onZChanged: {
+        console.log('setting clip ', clipId, ' TO Z: ', z)
+    }
 
     ToolTip {
         visible: mouseArea.containsMouse && !dragProxyArea.pressed
@@ -131,11 +136,13 @@ Rectangle {
     onModelStartChanged: {
         x = modelStart * timeScale;
     }
-
-    onTrackIdChanged: {
-        console.log('WARNING CLIP TRACK ID CHANGED: ', trackId)
-        clipRoot.parentTrack = Logic.getTrackById(trackId)
-        clipRoot.y = clipRoot.originalTrackId == -1 || trackId == originalTrackId ? 0 : parentTrack.y - Logic.getTrackById(clipRoot.originalTrackId).y;
+    onFakePositionChanged: {
+        x = fakePosition * timeScale;
+    }
+    onFakeTidChanged: {
+        if (clipRoot.fakeTid > -1 && parentTrack) {
+            clipRoot.y = Logic.getTrackById(clipRoot.fakeTid).y
+        }
     }
 
     onForceReloadThumbChanged: {
@@ -412,6 +419,7 @@ Rectangle {
             PropertyChanges {
                 target: clipRoot
                 color: Qt.darker(getColor())
+                z: 0
             }
         },
         State {
@@ -419,8 +427,8 @@ Rectangle {
             when: clipRoot.selected === true
             PropertyChanges {
                 target: clipRoot
-                z: 1
                 color: getColor()
+                z: 3
             }
         }
     ]

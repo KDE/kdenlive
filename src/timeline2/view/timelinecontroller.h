@@ -289,6 +289,9 @@ public:
     Q_INVOKABLE void splitVideo(int clipId);
     Q_INVOKABLE void setAudioRef(int clipId);
     Q_INVOKABLE void alignAudio(int clipId);
+
+    Q_INVOKABLE bool endFakeMove(int clipId, int position, bool updateView, bool logUndo, bool invalidateTimeline);
+
     bool splitAV();
 
     /* @brief Seeks to selected clip start / end

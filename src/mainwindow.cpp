@@ -2739,21 +2739,13 @@ void MainWindow::slotChangeTool(QAction *action)
 
 void MainWindow::slotChangeEdit(QAction *action)
 {
-    Q_UNUSED(action)
-    // TODO refac
-    /*
-    if (!pCore->projectManager()->currentTimeline()) {
-        return;
-    }
-
+    TimelineMode::EditMode mode = TimelineMode::NormalEdit;
     if (action == m_overwriteEditTool) {
-        pCore->projectManager()->currentTimeline()->projectView()->setEditMode(TimelineMode::OverwriteEdit);
+        mode = TimelineMode::OverwriteEdit;
     } else if (action == m_insertEditTool) {
-        pCore->projectManager()->currentTimeline()->projectView()->setEditMode(TimelineMode::InsertEdit);
-    } else {
-        pCore->projectManager()->currentTimeline()->projectView()->setEditMode(TimelineMode::NormalEdit);
+        mode = TimelineMode::InsertEdit;
     }
-    */
+    getMainTimeline()->controller()->getModel()->setEditMode(mode);
 }
 
 void MainWindow::slotSetTool(ProjectTool tool)

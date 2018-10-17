@@ -29,7 +29,7 @@ Column{
     property real timeScale: 1.0
     property bool isCurrentTrack: false
     property bool isLocked: false
-    property int trackId : -42
+    property int trackInternalId : -42
     property int trackThumbsFormat
     height: parent.height
 
@@ -50,7 +50,7 @@ Column{
         id: trackModel
         delegate: Item{
             property var itemModel : model
-            z: model.isComposition ? 1 : 0
+            z: model.isComposition ? 5 : 0
             Loader {
                 id: loader
                 Binding {
@@ -61,8 +61,14 @@ Column{
                 }
                 Binding {
                     target: loader.item
-                    property: "trackId"
-                    value: model.trackId
+                    property: "fakeTid"
+                    value: model.fakeTrackId
+                    when: loader.status == Loader.Ready
+                }
+                Binding {
+                    target: loader.item
+                    property: "fakePosition"
+                    value: model.fakePosition
                     when: loader.status == Loader.Ready
                 }
                 Binding {
@@ -226,7 +232,7 @@ Column{
                         console.log('loaded composition: ', model.start, ', ID: ', model.item, ', index: ', trackRoot.DelegateModel.itemsIndex)
                         //item.aTrack = model.a_track
                     }
-                    //item.trackId= trackRoot.trackId
+                    item.trackId = model.trackId
                     //item.selected= trackRoot.selection.indexOf(item.clipId) !== -1
                     //console.log(width, height);
                 }

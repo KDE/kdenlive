@@ -44,6 +44,7 @@ ClipModel::ClipModel(std::shared_ptr<TimelineModel> parent, std::shared_ptr<Mlt:
     , forceThumbReload(false)
     , m_currentState(state)
     , m_speed(speed)
+    , m_fakeTrack(-1)
 {
     m_producer->set("kdenlive:id", binClipId.toUtf8().constData());
     m_producer->set("_kdenlive_cid", m_id);
@@ -573,4 +574,24 @@ const QString ClipModel::effectNames() const
 {
     READ_LOCK();
     return m_effectStack->effectNames();
+}
+
+int ClipModel::getFakeTrackId() const
+{
+    return m_fakeTrack;
+}
+
+void ClipModel::setFakeTrackId(int fid)
+{
+    m_fakeTrack = fid;
+}
+
+int ClipModel::getFakePosition() const
+{
+    return m_fakePosition;
+}
+
+void ClipModel::setFakePosition(int fid)
+{
+    m_fakePosition = fid;
 }

@@ -66,6 +66,7 @@ TimelineModel::TimelineModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> 
     , m_overlayTrackCount(-1)
     , m_audioTarget(-1)
     , m_videoTarget(-1)
+    , m_editMode(TimelineMode::NormalEdit)
 {
     // Create black background track
     m_blackClip->set("id", "black_track");
@@ -403,6 +404,44 @@ int TimelineModel::getMirrorAudioTrackId(int trackId) const
     return -1;
 }
 
+void TimelineModel::setEditMode(TimelineMode::EditMode mode)
+{
+    m_editMode = mode;
+}
+
+bool TimelineModel::normalEdit() const
+{
+    return m_editMode == TimelineMode::NormalEdit;
+}
+
+
+bool TimelineModel::fakeClipMove(int clipId, int trackId, int position, bool updateView, bool invalidateTimeline, Fun &undo, Fun &redo)
+{
+    Q_ASSERT(isClip(clipId));
+    m_allClips[clipId]->setFakePosition(position);
+    bool trackChanged = false;
+    if (trackId > -1) {
+        if (trackId != m_allClips[clipId]->getFakeTrackId()) {
+            PlaylistState::ClipState clipState = m_allClips[clipId]->clipState();
+            bool audioTrack = getTrackById_const(trackId)->isAudioTrack();
+            if ((audioTrack && clipState == PlaylistState::AudioOnly) || (!audioTrack && clipState == PlaylistState::VideoOnly)) {
+                m_allClips[clipId]->setFakeTrackId(trackId);
+                trackChanged = true;
+            }
+        }
+    }
+    QModelIndex modelIndex = makeClipIndexFromID(clipId);
+    if (modelIndex.isValid()) {
+        QVector <int>roles{FakePositionRole};
+        if (trackChanged) {
+            roles << FakeTrackIdRole;
+        }
+        notifyChange(modelIndex, modelIndex, roles);
+        return true;
+    }
+    return false;
+}
+
 bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool updateView, bool invalidateTimeline, Fun &undo, Fun &redo)
 {
     qDebug() << "// FINAL MOVE: " << invalidateTimeline << ", UPDATE VIEW: " << updateView;
@@ -439,7 +478,7 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
             return false;
         }
     }
-    ok = getTrackById(trackId)->requestClipInsertion(clipId, position, localUpdateView, invalidateTimeline, local_undo, local_redo);
+    ok = ok & getTrackById(trackId)->requestClipInsertion(clipId, position, localUpdateView, invalidateTimeline, local_undo, local_redo);
     if (!ok) {
         qDebug()<<"-------------\n\nINSERTION FAILED, REVERTING\n\n-------------------";
         bool undone = local_undo();
@@ -453,6 +492,37 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
     UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
     return true;
 }
+
+bool TimelineModel::requestFakeClipMove(int clipId, int trackId, int position, bool updateView, bool logUndo, bool invalidateTimeline)
+{
+#ifdef LOGGING
+    m_logFile << "timeline->requestClipMove(" << clipId << "," << trackId << " ," << position << ", " << (updateView ? "true" : "false") << ", "
+              << (logUndo ? "true" : "false") << " ); " << std::endl;
+#endif
+    QWriteLocker locker(&m_lock);
+    Q_ASSERT(m_allClips.count(clipId) > 0);
+    if (m_allClips[clipId]->getPosition() == position && getClipTrackId(clipId) == trackId) {
+        return true;
+    }
+    if (m_groups->isInGroup(clipId)) {
+        // element is in a group.
+        int groupId = m_groups->getRootId(clipId);
+        int current_trackId = getClipTrackId(clipId);
+        int track_pos1 = getTrackPosition(trackId);
+        int track_pos2 = getTrackPosition(current_trackId);
+        int delta_track = track_pos1 - track_pos2;
+        int delta_pos = position - m_allClips[clipId]->getPosition();
+        return requestGroupMove(clipId, groupId, delta_track, delta_pos, updateView, logUndo);
+    }
+    std::function<bool(void)> undo = []() { return true; };
+    std::function<bool(void)> redo = []() { return true; };
+    bool res = fakeClipMove(clipId, trackId, position, updateView, invalidateTimeline, undo, redo);
+    if (res && logUndo) {
+        PUSH_UNDO(undo, redo, i18n("Move clip"));
+    }
+    return res;
+}
+
 
 bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool updateView, bool logUndo, bool invalidateTimeline)
 {
@@ -554,14 +624,14 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int sn
             }
         }
 
-        int snapped = requestBestSnapPos(position, m_allClips[clipId]->getPlaytime(), ignored_pts, snapDistance);
+        int snapped = requestBestSnapPos(position, m_allClips[clipId]->getPlaytime(), m_editMode == TimelineMode::NormalEdit ? ignored_pts : std::vector<int>(), snapDistance);
         // qDebug() << "Starting suggestion " << clipId << position << currentPos << "snapped to " << snapped;
         if (snapped >= 0) {
             position = snapped;
         }
     }
     // we check if move is possible
-    bool possible = requestClipMove(clipId, trackId, position, true, false, false);
+    bool possible = m_editMode == TimelineMode::NormalEdit ? requestClipMove(clipId, trackId, position, true, false, false) : requestFakeClipMove(clipId, trackId, position, true, false, false);
     /*} else {
         possible = requestClipMoveAttempt(clipId, trackId, position);
     }*/
@@ -573,6 +643,7 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int sn
         // Easy
         //int currentTrackId = getClipTrackId(clipId);
         // Try same track move
+        qDebug()<<"// TESTING SAME TRACVK MOVE: "<<trackId<<" = "<<sourceTrackId;
         trackId = sourceTrackId;
         possible = requestClipMove(clipId, trackId, position, true, false, false);
         if (!possible) {
@@ -1263,6 +1334,7 @@ bool TimelineModel::requestItemResize(int itemId, int size, bool right, bool log
     Fun update_model = [itemId, right, logUndo, this]() {
         Q_ASSERT(isClip(itemId) || isComposition(itemId));
         if (getItemTrackId(itemId) != -1) {
+            qDebug()<<"++++++++++\nRESIZING ITEM: "<<itemId<<"\n+++++++";
             QModelIndex modelIndex = isClip(itemId) ? makeClipIndexFromID(itemId) : makeCompositionIndexFromID(itemId);
             notifyChange(modelIndex, modelIndex, !right, true, logUndo);
         }

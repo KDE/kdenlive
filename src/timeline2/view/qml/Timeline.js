@@ -43,7 +43,7 @@ function getTrackIndexFromPos(pos) {
 function getTrackIdFromPos(pos) {
     var index = getTrackIndexFromPos(pos);
     if (index != -1) {
-        return tracksRepeater.itemAt(index).trackId
+        return tracksRepeater.itemAt(index).trackInternalId
     }
     return -1
 }

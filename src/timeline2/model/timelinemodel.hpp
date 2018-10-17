@@ -124,6 +124,8 @@ public:
         StartRole,    /// clip only
         BinIdRole,    /// clip only
         TrackIdRole,
+        FakeTrackIdRole,
+        FakePositionRole,
         MarkersRole,  /// clip only
         StatusRole,   /// clip only
         TypeRole,     /// clip only
@@ -336,6 +338,10 @@ public:
        for group*/
     bool requestClipMove(int clipId, int trackId, int position, bool updateView, bool invalidateTimeline, Fun &undo, Fun &redo);
     bool requestCompositionMove(int transid, int trackId, int compositionTrack, int position, bool updateView, Fun &undo, Fun &redo);
+
+    /* When timeline edit mode is insert or overwrite, we fake the move (as it will overlap existing clips, and only process the real move on drop */
+    bool fakeClipMove(int clipId, int trackId, int position, bool updateView, bool invalidateTimeline, Fun &undo, Fun &redo);
+    bool requestFakeClipMove(int clipId, int trackId, int position, bool updateView, bool logUndo, bool invalidateTimeline);
 
     /* @brief Given an intended move, try to suggest a more valid one
        (accounting for snaps and missing UI calls)
@@ -557,6 +563,9 @@ public:
 
     void requestClipReload(int clipId);
     void requestClipUpdate(int clipId, const QVector<int> &roles);
+    /** @brief define current edit mode (normal, insert, overwrite */
+    void setEditMode(TimelineMode::EditMode mode);
+    Q_INVOKABLE bool normalEdit() const;
 
     /** @brief Returns the effectstack of a given clip. */
     std::shared_ptr<EffectStackModel> getClipEffectStack(int itemId);
@@ -716,6 +725,8 @@ protected:
     int m_audioTarget;
     // The preferred video target for clip insertion or -1 if not defined
     int m_videoTarget;
+    // Timeline editing mode
+    TimelineMode::EditMode m_editMode;
 
     // what follows are some virtual function that corresponds to the QML. They are implemented in TimelineItemModel
 protected:

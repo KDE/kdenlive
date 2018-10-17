@@ -180,7 +180,8 @@ QHash<int, QByteArray> TimelineItemModel::roleNames() const
     roles[ServiceRole] = "mlt_service";
     roles[BinIdRole] = "binId";
     roles[TrackIdRole] = "trackId";
-    roles[IsBlankRole] = "blank";
+    roles[FakeTrackIdRole] = "fakeTrackId";
+    roles[FakePositionRole] = "fakePosition";
     roles[StartRole] = "start";
     roles[DurationRole] = "duration";
     roles[MarkersRole] = "markers";
@@ -260,6 +261,10 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             }
             return result;
         }
+        case FakeTrackIdRole:
+            return clip->getFakeTrackId();
+        case FakePositionRole:
+            return clip->getFakePosition();
         case BinIdRole:
             return clip->binId();
         case TrackIdRole:

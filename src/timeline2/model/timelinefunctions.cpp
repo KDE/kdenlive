@@ -287,14 +287,18 @@ bool TimelineFunctions::liftZone(std::shared_ptr<TimelineItemModel> timeline, in
     if (startClipId > -1) {
         // There is a clip, cut it
         if (timeline->getClipPosition(startClipId) < zone.x()) {
+            qDebug()<<"/// CUTTING AT START: "<<zone.x()<<", ID: "<<startClipId;
             TimelineFunctions::requestClipCut(timeline, startClipId, zone.x(), undo, redo);
+            qDebug()<<"/// CUTTING AT START DONE";
         }
     }
     int endClipId = timeline->getClipByPosition(trackId, zone.y());
     if (endClipId > -1) {
         // There is a clip, cut it
         if (timeline->getClipPosition(endClipId) + timeline->getClipPlaytime(endClipId) > zone.y()) {
+            qDebug()<<"/// CUTTING AT END: "<<zone.y()<<", ID: "<<endClipId;
             TimelineFunctions::requestClipCut(timeline, endClipId, zone.y(), undo, redo);
+            qDebug()<<"/// CUTTING AT END DONE";
         }
     }
     std::unordered_set<int> clips = timeline->getItemsInRange(trackId, zone.x(), zone.y());
@@ -430,7 +434,7 @@ bool TimelineFunctions::switchEnableState(std::shared_ptr<TimelineItemModel> tim
     PlaylistState::ClipState state = PlaylistState::Disabled;
     bool disable = true;
     if (oldState == PlaylistState::Disabled) {
-        bool audio = timeline->getTrackById(timeline->getClipTrackId(clipId))->isAudioTrack();
+        bool audio = timeline->getTrackById_const(timeline->getClipTrackId(clipId))->isAudioTrack();
         state = audio ? PlaylistState::AudioOnly : PlaylistState::VideoOnly;
         disable = false;
     }

@@ -40,7 +40,7 @@ Rectangle {
             newTrack = 0;
         }
         console.log('Setting curr tk: ', newTrack, 'MAX: ',max)
-        timeline.activeTrack = tracksRepeater.itemAt(newTrack).trackId
+        timeline.activeTrack = tracksRepeater.itemAt(newTrack).trackInternalId
     }
 
     function zoomByWheel(wheel) {
@@ -272,7 +272,7 @@ Rectangle {
                 if (track >= 0  && track < tracksRepeater.count) {
                     var frame = Math.round((drag.x + scrollView.flickableItem.contentX) / timeline.scaleFactor)
                     droppedPosition = frame
-                    timeline.activeTrack = tracksRepeater.itemAt(track).trackId
+                    timeline.activeTrack = tracksRepeater.itemAt(track).trackInternalId
                     //drag.acceptProposedAction()
                     clipBeingDroppedData = drag.getDataAsString('kdenlive/producerslist')
                     console.log('dropped data: ', clipBeingDroppedData)
@@ -293,7 +293,7 @@ Rectangle {
             if (clipBeingMovedId == -1) {
                 var track = Logic.getTrackIndexFromPos(drag.y + scrollView.flickableItem.contentY)
                 if (track >= 0  && track < tracksRepeater.count) {
-                    timeline.activeTrack = tracksRepeater.itemAt(track).trackId
+                    timeline.activeTrack = tracksRepeater.itemAt(track).trackInternalId
                     var frame = Math.round((drag.x + scrollView.flickableItem.contentX) / timeline.scaleFactor)
                     frame = controller.suggestSnapPoint(frame, root.snapping)
                     if (clipBeingDroppedId >= 0){
@@ -536,8 +536,8 @@ Rectangle {
                                 root.trackHeight = root.trackHeight === 1 ? 0 : 1
                             }
                             onClicked: {
-                                timeline.activeTrack = tracksRepeater.itemAt(index).trackId
-                                console.log('track name: ',index, ' = ', model.name,'/',tracksRepeater.itemAt(index).trackId)
+                                timeline.activeTrack = tracksRepeater.itemAt(index).trackInternalId
+                                console.log('track name: ',index, ' = ', model.name,'/',tracksRepeater.itemAt(index).trackInternalId)
                                 //timeline.selectTrackHead(currentTrack)
                             }
                         }
@@ -640,7 +640,7 @@ Rectangle {
                         // spacer tool
                         var y = mouse.y - ruler.height + scrollView.flickableItem.contentY
                         var frame = (scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor
-                        var track = (mouse.modifiers & Qt.ControlModifier) ? tracksRepeater.itemAt(Logic.getTrackIndexFromPos(y)).trackId : -1
+                        var track = (mouse.modifiers & Qt.ControlModifier) ? tracksRepeater.itemAt(Logic.getTrackIndexFromPos(y)).trackInternalId : -1
                         spacerGroup = timeline.requestSpacerStartOperation(track, frame)
                         if (spacerGroup > -1) {
                             drag.axis = Drag.XAxis
@@ -658,13 +658,13 @@ Rectangle {
                     } else if (root.activeTool === 1) {
                         // razor tool
                         var y = mouse.y - ruler.height + scrollView.flickableItem.contentY
-                        timeline.cutClipUnderCursor((scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor, tracksRepeater.itemAt(Logic.getTrackIndexFromPos(y)).trackId)
+                        timeline.cutClipUnderCursor((scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor, tracksRepeater.itemAt(Logic.getTrackIndexFromPos(y)).trackInternalId)
                     }
                 } else if (mouse.button & Qt.RightButton) {
                     menu.clickedX = mouse.x
                     menu.clickedY = mouse.y
                     if (mouse.y > ruler.height) {
-                        timeline.activeTrack = tracksRepeater.itemAt(Logic.getTrackIndexFromPos(mouse.y - ruler.height + scrollView.flickableItem.contentY)).trackId
+                        timeline.activeTrack = tracksRepeater.itemAt(Logic.getTrackIndexFromPos(mouse.y - ruler.height + scrollView.flickableItem.contentY)).trackInternalId
                         menu.popup()
                     } else {
                         // ruler menu
@@ -732,7 +732,7 @@ Rectangle {
                     if (bottomTrack >= topTrack) {
                         var t = []
                         for (var i = topTrack; i <= bottomTrack; i++) {
-                            t.push(tracksRepeater.itemAt(i).trackId)
+                            t.push(tracksRepeater.itemAt(i).trackInternalId)
                         }
                         var startFrame = (scrollView.flickableItem.contentX - tracksArea.x + rubberSelect.x) / timeline.scaleFactor
                         var endFrame = (scrollView.flickableItem.contentX - tracksArea.x + rubberSelect.x + rubberSelect.width) / timeline.scaleFactor
@@ -863,7 +863,7 @@ Rectangle {
                                         var tk = controller.getItemTrackId(dragProxy.draggedItem)
                                         var x = controller.getItemPosition(dragProxy.draggedItem)
                                         var posx = Math.round((parent.x)/ root.timeScale)
-                                        if (tk != Logic.getTrackIdFromPos(parent.y) || x != posx) {
+                                        if (controller.normalEdit() && (tk != Logic.getTrackIdFromPos(parent.y) || x != posx)) {
                                             console.log('INCORRECT DRAG, ABORTING: ', parent.y,' XPOS: ',x,'=',posx,'\n!!!!!!!!!!')
                                             dragProxy.draggedItem = -1
                                             mouse.accepted = false
@@ -896,6 +896,14 @@ Rectangle {
                                         if (dragProxy.isComposition) {
                                             dragFrame = controller.suggestCompositionMove(dragProxy.draggedItem, tId, posx, root.snapping)
                                         } else {
+                                            if (!controller.normalEdit() && dragProxy.masterObject.parent != dragContainer) {
+                                                var pos = dragProxy.masterObject.mapToGlobal(dragProxy.masterObject.x, dragProxy.masterObject.y);
+                                                dragProxy.masterObject.parent = dragContainer
+                                                pos = dragProxy.masterObject.mapFromGlobal(pos.x, pos.y)
+                                                dragProxy.masterObject.x = pos.x
+                                                dragProxy.masterObject.y = pos.y
+                                                console.log('bringing item to front')
+                                            }
                                             dragFrame = controller.suggestClipMove(dragProxy.draggedItem, tId, posx, root.snapping)
                                         }
                                         var delta = dragFrame - dragProxy.sourceFrame
@@ -914,11 +922,16 @@ Rectangle {
                                     if (!shiftClick && dragProxy.draggedItem > -1 && dragFrame > -1) {
                                         var tId = controller.getItemTrackId(dragProxy.draggedItem)
                                         if (dragProxy.isComposition) {
-                                            controller.requestCompositionMove(dragProxy.draggedItem, dragProxy.sourceTrack, dragProxy.sourceFrame, false, false, false)
-                                            controller.requestCompositionMove(dragProxy.draggedItem, tId, dragFrame , false, true, true)
+                                            controller.requestCompositionMove(dragProxy.draggedItem, dragProxy.sourceTrack, dragProxy.sourceFrame, true, false, false)
+                                            controller.requestCompositionMove(dragProxy.draggedItem, tId, dragFrame , true, true, true)
                                         } else {
-                                            controller.requestClipMove(dragProxy.draggedItem, dragProxy.sourceTrack, dragProxy.sourceFrame, false, false, false)
-                                            controller.requestClipMove(dragProxy.draggedItem, tId, dragFrame , false, true, true)
+                                            if (controller.normalEdit()) {
+                                                controller.requestClipMove(dragProxy.draggedItem, dragProxy.sourceTrack, dragProxy.sourceFrame, true, false, false)
+                                                controller.requestClipMove(dragProxy.draggedItem, tId, dragFrame , true, true, true)
+                                            } else {
+                                                // Fake move, only process final move
+                                                timeline.endFakeMove(dragProxy.draggedItem, dragFrame , true, true, true)
+                                            }
                                         }
                                         dragProxy.x = controller.getItemPosition(dragProxy.draggedItem) * timeline.scaleFactor
                                         dragProxy.sourceFrame = dragFrame
@@ -945,13 +958,16 @@ Rectangle {
                                     border.width: 1
                                     border.color: Qt.rgba(activePalette.windowText.r, activePalette.windowText.g, activePalette.windowText.b, 0.1)
                                     height: model.trackHeight
-                                    color: tracksRepeater.itemAt(index) ? ((tracksRepeater.itemAt(index).trackId === timeline.activeTrack) ? Qt.tint(getTrackColor(tracksRepeater.itemAt(index).isAudio, false), selectedTrackColor) : getTrackColor(tracksRepeater.itemAt(index).isAudio, false)) : 'red'
+                                    color: tracksRepeater.itemAt(index) ? ((tracksRepeater.itemAt(index).trackInternalId === timeline.activeTrack) ? Qt.tint(getTrackColor(tracksRepeater.itemAt(index).isAudio, false), selectedTrackColor) : getTrackColor(tracksRepeater.itemAt(index).isAudio, false)) : 'red'
                                 }
                             }
                         }
                         Column {
                             id: tracksContainer
                             Repeater { id: tracksRepeater; model: trackDelegateModel }
+                            Item {
+                                id: dragContainer
+                            }
                             Repeater { id: guidesRepeater; model: guidesDelegateModel }
                         }
                         Rectangle {
@@ -1071,7 +1087,7 @@ Rectangle {
             isAudio: audio
             trackThumbsFormat: thumbsFormat
             isCurrentTrack: item === timeline.activeTrack
-            trackId: item
+            trackInternalId: item
             Rectangle {
                 anchors.right: parent.right
                 anchors.left: parent.left
