@@ -448,9 +448,31 @@ bool TimelineFunctions::switchEnableState(std::shared_ptr<TimelineItemModel> tim
 
 bool TimelineFunctions::changeClipState(std::shared_ptr<TimelineItemModel> timeline, int clipId, PlaylistState::ClipState status, Fun &undo, Fun &redo)
 {
-    Fun local_undo = []() { return true; };
-    Fun local_redo = []() { return true; };
+    int track = timeline->getClipTrackId(clipId);
+    int start = -1;
+    int end = -1;
+    if (track > -1) {
+        if (!timeline->getTrackById_const(track)->isAudioTrack()) {
+            start = timeline->getItemPosition(clipId);
+            end = start + timeline->getItemPlaytime(clipId);
+        }
+    }
+    Fun local_undo = []() {return true;};
+    Fun local_redo = []() {return true;};
+
     bool result = timeline->m_allClips[clipId]->setClipState(status, local_undo, local_redo);
+    Fun local_update = [start, end, timeline]() {
+        if (start > -1) {
+            timeline->invalidateZone(start, end);
+            timeline->checkRefresh(start, end);
+        }
+        return true;
+    };
+    if (start > -1) {
+        local_update();
+        PUSH_LAMBDA(local_update, local_redo);
+        PUSH_LAMBDA(local_update, local_undo);
+    }
     UPDATE_UNDO_REDO_NOLOCK(local_redo, local_undo, undo, redo);
     return result;
 }
