@@ -1,0 +1,81 @@
+
+----------- These first part is only required once ---------------
+
+# install docker from your package manager
+
+# get docker centos image
+
+docker pull centos:6
+
+
+# create the container and start it
+
+docker run -i -t centos:6 /bin/bash
+
+
+# install git
+
+yum -y install git
+
+
+# clone kdenlive repository
+
+cd /
+git clone git://anongit.kde.org/kdenlive.git
+
+
+# If you want to build a specific branch, now is the time, for example:
+cd kdenlive
+git checkout -b timeline2 origin/refactoring_timeline
+
+------------------------------------------------------------------
+
+# The next time you want to enter your docker container, use:
+
+docker start -a -i f7001a5ae294
+
+
+# where f7001a5ae294 is the container id, can be found using 
+
+docker ps -a
+
+------------------------------------------------------------------
+
+# Run the build scripts:
+
+. /kdenlive/packaging/appimage/05-buildall.sh
+
+
+# When the build is finished, you will have an AppImage folder:
+
+/Kdenlive/Kdenlive.AppDir
+
+
+--- Last step: packaging on the host --------------------------------------------
+
+# You need to create the AppImage from this directory. However
+# due to squashfs issues, you cannot create it from inside docker
+# so my solution is to copy this folder to the host and do the packaging job here.
+
+Open a new terminal on the host computer.
+
+# Copy the AppImage directory
+
+docker cp f7001a5ae294:/Kdenlive/Kdenlive.AppDir .
+
+# Get AppImageTool if not done yet:
+
+wget https://github.com/AppImage/AppImageKit/releases/download/9/appimagetool-x86_64.AppImage
+
+# Make it executable
+
+chmod +x appimagetool-x86_64.AppImage
+
+# Build the AppImage
+
+./appimagetool-x86_64.AppImage Kdenlive.AppDir
+
+# DONE ! You now have an AppImage called Kdenlive-x86_64.AppImage
+
+-------------------------------------------------------------------------------
+
