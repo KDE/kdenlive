@@ -62,7 +62,7 @@ TimelineWidget::TimelineWidget(QWidget *parent)
 #else
     kdeclarative.setupBindings();
 #endif
-
+    setClearColor(palette().window().color());
     registerTimelineItems();
     // Build transition model for context menu
     m_transitionModel = TransitionTreeModel::construct(true, this);
