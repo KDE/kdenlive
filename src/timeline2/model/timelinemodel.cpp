@@ -447,8 +447,16 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
         return false;
     }
     Q_ASSERT(isClip(clipId));
-    if (getTrackById_const(trackId)->trackType() != m_allClips[clipId]->clipState()) {
+    if (m_allClips[clipId]->clipState() == PlaylistState::Disabled) {
+        if (getTrackById_const(trackId)->trackType() == PlaylistState::AudioOnly && !m_allClips[clipId]->canBeAudio()) {
+            return false;
+        }
+        if (getTrackById_const(trackId)->trackType() == PlaylistState::VideoOnly && !m_allClips[clipId]->canBeVideo()) {
+            return false;
+        }
+    } else if (getTrackById_const(trackId)->trackType() != m_allClips[clipId]->clipState()) {
         // Move not allowed (audio / video mismatch)
+        qDebug()<<"// CLIP MISMATCH: "<<getTrackById_const(trackId)->trackType()<<" == "<<m_allClips[clipId]->clipState();
         return false;
     }
     std::function<bool(void)> local_undo = []() { return true; };

@@ -862,8 +862,9 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         state(1);
 
         // Switching audio and video, going to the extra track
-        REQUIRE(timeline->requestClipMove(cid7, tid5b, 2, true, true, true));
-        auto state3 = [&](int pos) {
+        REQUIRE(timeline->requestClipMove(cid7, tid5b, 2, true, true, true) == 0);
+        // This test is invalid. AV clips cannot be switched between audio and video clips anymore
+        /*auto state3 = [&](int pos) {
             REQUIRE(timeline->checkConsistency());
             REQUIRE(timeline->getTrackClipsCount(tid5b) == 1);
             REQUIRE(timeline->getTrackClipsCount(tid6b) == 1);
@@ -880,11 +881,11 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         undoStack->redo();
         state3(2);
         undoStack->undo();
-        state(1);
+        state(1);*/
 
         // Switching audio and video, switching tracks in place
-        REQUIRE(timeline->requestClipMove(cid6, tid6, 1, true, true, true));
-        auto state4 = [&](int pos) {
+        REQUIRE(timeline->requestClipMove(cid6, tid6, 1, true, true, true) == 0);
+        /*auto state4 = [&](int pos) {
             REQUIRE(timeline->checkConsistency());
             REQUIRE(timeline->getTrackClipsCount(tid5) == 1);
             REQUIRE(timeline->getTrackClipsCount(tid6) == 1);
@@ -899,7 +900,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         undoStack->undo();
         state(1);
         undoStack->redo();
-        state4(1);
+        state4(1);*/
     }
 
     SECTION("Clip copy")

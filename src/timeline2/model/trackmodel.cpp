@@ -213,9 +213,11 @@ bool TrackModel::requestClipInsertion(int clipId, int position, bool updateView,
     }
     if (auto ptr = m_parent.lock()) {
         if (isAudioTrack() && !ptr->getClipPtr(clipId)->canBeAudio()) {
+            qDebug()<<"// ATTEMPTING TO INSERT NON AUDIO CLIP ON AUDIO TRACK";
             return false;
         }
         if (!isAudioTrack() && !ptr->getClipPtr(clipId)->canBeVideo()) {
+            qDebug()<<"// ATTEMPTING TO INSERT NON VIDEO CLIP ON VIDEO TRACK";
             return false;
         }
         Fun local_undo = []() { return true; };
