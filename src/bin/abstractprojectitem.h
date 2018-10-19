@@ -131,7 +131,8 @@ public:
         JobSuccess,
         JobStatus,
         // Item status (ready or not, missing, waiting, ...)
-        ClipStatus
+        ClipStatus,
+        ClipType
     };
 
     enum CLIPSTATUS { StatusReady = 0, StatusMissing, StatusWaiting, StatusDeleting };
@@ -186,6 +187,7 @@ public:
         Note that this function does not account for children, use TreeItem::accumulate if you want to get that information as well.
     */
     virtual bool isIncludedInTimeline() { return false; }
+    virtual ClipType::ProducerType clipType() const = 0;
 
 signals:
     void childAdded(AbstractProjectItem *child);

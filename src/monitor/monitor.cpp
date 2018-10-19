@@ -813,6 +813,13 @@ void Monitor::slotStartDrag()
     auto *drag = new QDrag(this);
     auto *mimeData = new QMimeData;
 
+    // Get drag state
+    QQuickItem *root = m_glMonitor->rootObject();
+    int dragType = 0;
+    if (root) {
+        dragType = root->property("dragType").toInt();
+        root->setProperty("dragType", 0);
+    }
     QByteArray prodData;
     QPoint p = m_glMonitor->getControllerProxy()->zone();
     if (p.x() == -1 || p.y() == -1) {
@@ -823,6 +830,18 @@ void Monitor::slotStartDrag()
         list.append(QString::number(p.x()));
         list.append(QString::number(p.y() - 1));
         prodData.append(list.join(QLatin1Char('/')).toUtf8());
+    }
+    switch (dragType) {
+        case 1:
+            // Audio only drag
+            prodData.prepend('A');
+            break;
+        case 2:
+            // Audio only drag
+            prodData.prepend('V');
+            break;
+        default:
+            break;
     }
     mimeData->setData(QStringLiteral("kdenlive/producerslist"), prodData);
     drag->setMimeData(mimeData);

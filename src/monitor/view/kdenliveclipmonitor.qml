@@ -34,6 +34,7 @@ Item {
     property int overlayType: controller.overlayType
     property color overlayColor: 'cyan'
     property bool isClipMonitor: true
+    property int dragType: 0
 
     FontMetrics {
         id: fontMetrics
@@ -203,6 +204,46 @@ Item {
                     }
                 }
                 font.pixelSize: root.baseUnit
+            }
+        }
+        MouseArea {
+            id: dragOverArea
+            hoverEnabled: true
+            acceptedButtons: Qt.LeftButton
+            x: 0
+            width: 2 * audioDragButton.width
+            height: 2.5 * audioDragButton.height
+            y: parent.height - height
+            propagateComposedEvents: true
+            onPressed: {
+                // First found child is the Column
+                var clickedChild = childAt(mouseX,mouseY).childAt(mouseX,mouseY)
+                if (clickedChild == audioDragButton) {
+                    dragType = 1
+                } else if (clickedChild == videoDragButton) {
+                    dragType = 2
+                } else {
+                    dragType = 0
+                }
+                mouse.accepted = false
+            }
+            Column {
+            ToolButton {
+                id: audioDragButton
+                iconName: "audio-volume-medium"
+                tooltip: "Audio only drag"
+                x: 10
+                enabled: false
+                visible: dragOverArea.containsMouse
+            }
+            ToolButton {
+                id: videoDragButton
+                iconName: "kdenlive-show-video"
+                tooltip: "Video only drag"
+                x: 10
+                enabled: false
+                visible: dragOverArea.containsMouse
+            }
             }
         }
     }

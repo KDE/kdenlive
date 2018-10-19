@@ -434,8 +434,7 @@ bool TimelineFunctions::switchEnableState(std::shared_ptr<TimelineItemModel> tim
     PlaylistState::ClipState state = PlaylistState::Disabled;
     bool disable = true;
     if (oldState == PlaylistState::Disabled) {
-        bool audio = timeline->getTrackById_const(timeline->getClipTrackId(clipId))->isAudioTrack();
-        state = audio ? PlaylistState::AudioOnly : PlaylistState::VideoOnly;
+        state = timeline->getTrackById_const(timeline->getClipTrackId(clipId))->trackType();
         disable = false;
     }
     Fun undo = []() { return true; };

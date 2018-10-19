@@ -148,6 +148,9 @@ QVariant AbstractProjectItem::getData(DataType type) const
     case ItemTypeRole:
         data = QVariant(m_itemType);
         break;
+    case ClipType:
+        data = clipType();
+        break;
     case JobType:
         if (itemType() == ClipItem) {
             auto jobIds = pCore->jobManager()->getPendingJobsIds(clipId());

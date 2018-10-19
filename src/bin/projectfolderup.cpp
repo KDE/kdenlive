@@ -77,3 +77,9 @@ bool ProjectFolderUp::rename(const QString &, int)
 {
     return false;
 }
+
+ClipType::ProducerType ProjectFolderUp::clipType() const
+{
+    return ClipType::Unknown;
+}
+

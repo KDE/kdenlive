@@ -78,6 +78,7 @@ protected:
     void focusInEvent(QFocusEvent *event) override;
 signals:
     void focusView();
+    void updateDragMode(ClipType::ProducerType type);
 };
 
 class MyTreeView : public QTreeView
@@ -100,12 +101,14 @@ protected slots:
 
 private:
     QPoint m_startPos;
+    PlaylistState::ClipState m_dragType;
     bool m_editing;
     bool performDrag();
     bool isEditing() const;
 
 signals:
     void focusView();
+    void updateDragMode(PlaylistState::ClipState type);
 };
 
 class SmallJobLabel : public QPushButton

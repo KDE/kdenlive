@@ -54,6 +54,7 @@ ProjectItemModel::ProjectItemModel(QObject *parent)
     , m_fileWatcher(new FileWatcher())
     , m_nextId(1)
     , m_blankThumb()
+    , m_dragType(PlaylistState::Disabled)
 {
     QPixmap pix(QSize(160, 90));
     pix.fill(Qt::lightGray);
@@ -274,7 +275,21 @@ QMimeData *ProjectItemModel::mimeData(const QModelIndexList &indices) const
         std::shared_ptr<AbstractProjectItem> item = getBinItemByIndex(ix);
         AbstractProjectItem::PROJECTITEMTYPE type = item->itemType();
         if (type == AbstractProjectItem::ClipItem) {
-            list << item->clipId();
+            ClipType::ProducerType cType = item->clipType();
+            QString dragId = item->clipId();
+            if ((cType == ClipType::AV || cType == ClipType::Playlist)) {
+                switch (m_dragType) {
+                    case PlaylistState::AudioOnly:
+                        dragId.prepend(QLatin1Char('A'));
+                        break;
+                    case PlaylistState::VideoOnly:
+                        dragId.prepend(QLatin1Char('V'));
+                        break;
+                    default:
+                        break;
+                }
+            }
+            list << dragId;
             duration += (std::static_pointer_cast<ProjectClip>(item))->frameDuration();
         } else if (type == AbstractProjectItem::SubClipItem) {
             QPoint p = item->zone();
@@ -594,13 +609,17 @@ bool ProjectItemModel::requestAddBinSubClip(QString &id, int in, int out, const 
         id = QString::number(getFreeClipId());
     }
     Q_ASSERT(!id.isEmpty() && isIdFree(id));
-    auto clip = getClipByBinID(parentId);
+    QString subId = parentId;
+    if (subId.startsWith(QLatin1Char('A')) || subId.startsWith(QLatin1Char('V'))) {
+        subId.remove(0, 1);
+    }
+    auto clip = getClipByBinID(subId);
     Q_ASSERT(clip->itemType() == AbstractProjectItem::ClipItem);
     auto tc = pCore->currentDoc()->timecode().getDisplayTimecodeFromFrames(in, KdenliveSettings::frametimecode());
     std::shared_ptr<ProjectSubClip> new_clip = ProjectSubClip::construct(id, clip, std::static_pointer_cast<ProjectItemModel>(shared_from_this()), in, out, tc, zoneName);
-    bool res = addItem(new_clip, parentId, undo, redo);
+    bool res = addItem(new_clip, subId, undo, redo);
     if (res) {
-        int parentJob = pCore->jobManager()->getBlockingJobId(parentId, AbstractClipJob::LOADJOB);
+        int parentJob = pCore->jobManager()->getBlockingJobId(subId, AbstractClipJob::LOADJOB);
         pCore->jobManager()->startJob<ThumbJob>({id}, parentJob, QString(), 150, -1, true);
     }
     return res;
@@ -881,4 +900,9 @@ void ProjectItemModel::updateWatcher(std::shared_ptr<ProjectClip> clipItem)
         m_fileWatcher->removeFile(clipItem->clipId());
         m_fileWatcher->addFile(clipItem->clipId(), clipItem->clipUrl());
     }
+}
+
+void ProjectItemModel::setDragType(PlaylistState::ClipState type)
+{
+    m_dragType = type;
 }

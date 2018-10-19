@@ -590,7 +590,7 @@ void GLWidget::wheelEvent(QWheelEvent *event)
         slotZoom(event->delta() > 0);
         return;
     }
-    emit mouseSeek(-event->delta(), (uint)event->modifiers());
+    emit mouseSeek(event->delta(), (uint)event->modifiers());
     event->accept();
 }
 

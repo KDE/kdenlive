@@ -153,3 +153,8 @@ bool ProjectFolder::rename(const QString &name, int column)
     Q_ASSERT(false);
     return false;
 }
+
+ClipType::ProducerType ProjectFolder::clipType() const
+{
+    return ClipType::Unknown;
+}

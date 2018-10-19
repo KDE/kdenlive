@@ -22,6 +22,7 @@
 #ifndef TRACKMODEL_H
 #define TRACKMODEL_H
 
+#include "definitions.h"
 #include "undohelper.hpp"
 #include <QReadWriteLock>
 #include <QSharedPointer>
@@ -87,6 +88,9 @@ public:
     /* @brief Returns true if track is an audio track
      */
     bool isAudioTrack() const;
+    /* @brief Returns the track type (audio / video)
+     */
+    PlaylistState::ClipState trackType() const;
     /* @brief Returns true if track is disabled
      */
     bool isHidden() const;

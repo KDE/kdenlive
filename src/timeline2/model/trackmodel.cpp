@@ -1088,6 +1088,11 @@ bool TrackModel::isAudioTrack() const
     return m_track->get_int("kdenlive:audio_track") == 1;
 }
 
+PlaylistState::ClipState TrackModel::trackType() const
+{
+    return (m_track->get_int("kdenlive:audio_track") == 1 ? PlaylistState::AudioOnly : PlaylistState::VideoOnly);
+}
+
 bool TrackModel::isHidden() const
 {
     return m_track->get_int("hide") & 1;

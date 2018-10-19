@@ -216,6 +216,7 @@ public slots:
 
     /** @brief Check whether a given id is currently used or not*/
     bool isIdFree(const QString &id) const;
+    void setDragType(PlaylistState::ClipState type);
 
 private:
     /** @brief Return reference to column specific data */
@@ -228,8 +229,8 @@ private:
     std::unique_ptr<FileWatcher> m_fileWatcher;
 
     int m_nextId;
-
     QIcon m_blankThumb;
+    PlaylistState::ClipState m_dragType;
 signals:
     // thumbs of the given clip were modified, request update of the monitor if need be
     void refreshAudioThumbs(const QString &id);

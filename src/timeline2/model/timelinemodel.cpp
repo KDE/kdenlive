@@ -422,9 +422,7 @@ bool TimelineModel::fakeClipMove(int clipId, int trackId, int position, bool upd
     bool trackChanged = false;
     if (trackId > -1) {
         if (trackId != m_allClips[clipId]->getFakeTrackId()) {
-            PlaylistState::ClipState clipState = m_allClips[clipId]->clipState();
-            bool audioTrack = getTrackById_const(trackId)->isAudioTrack();
-            if ((audioTrack && clipState == PlaylistState::AudioOnly) || (!audioTrack && clipState == PlaylistState::VideoOnly)) {
+            if (getTrackById_const(trackId)->trackType() == m_allClips[clipId]->clipState()) {
                 m_allClips[clipId]->setFakeTrackId(trackId);
                 trackChanged = true;
             }
@@ -449,6 +447,10 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
         return false;
     }
     Q_ASSERT(isClip(clipId));
+    if (getTrackById_const(trackId)->trackType() != m_allClips[clipId]->clipState()) {
+        // Move not allowed (audio / video mismatch)
+        return false;
+    }
     std::function<bool(void)> local_undo = []() { return true; };
     std::function<bool(void)> local_redo = []() { return true; };
     bool ok = true;
@@ -858,19 +860,28 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
     bool res = false;
     ClipType::ProducerType type = ClipType::Unknown;
     QString bid = binClipId.section(QLatin1Char('/'), 0, 0);
+    // dropType indicates if we want a normal drop (disabled), audio only or video only drop
+    PlaylistState::ClipState dropType = PlaylistState::Disabled;
+    if (bid.startsWith(QLatin1Char('A'))) {
+        dropType = PlaylistState::AudioOnly;
+        bid = bid.remove(0, 1);
+    } else if (bid.startsWith(QLatin1Char('V'))) {
+        dropType = PlaylistState::VideoOnly;
+        bid = bid.remove(0, 1);
+    }
     if (!pCore->projectItemModel()->hasClip(bid)) {
         return false;
     }
     std::shared_ptr<ProjectClip> master = pCore->projectItemModel()->getClipByBinID(bid);
     type = master->clipType();
 
-    if (type == ClipType::AV || type == ClipType::Playlist) {
+    if (dropType == PlaylistState::Disabled && (type == ClipType::AV || type == ClipType::Playlist)) {
         if (m_audioTarget >= 0 && m_videoTarget == -1 && useTargets) {
             // If audio target is set but no video target, only insert audio
             trackId = m_audioTarget;
         }
         bool audioDrop = getTrackById_const(trackId)->isAudioTrack();
-        res = requestClipCreation(binClipId, id, audioDrop ? PlaylistState::AudioOnly : PlaylistState::VideoOnly, local_undo, local_redo);
+        res = requestClipCreation(binClipId, id, getTrackById_const(trackId)->trackType(), local_undo, local_redo);
         res = res && requestClipMove(id, trackId, position, refreshView, logUndo, local_undo, local_redo);
         if (m_videoTarget >= 0 && m_audioTarget == -1) {
             // No audio target defined, only extract video
@@ -925,7 +936,17 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
         }
     } else {
         std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(bid);
-        res = requestClipCreation(binClipId, id, binClip->defaultState(), local_undo, local_redo);
+        if (dropType == PlaylistState::Disabled) {
+            dropType = getTrackById_const(trackId)->trackType();
+        } else if (dropType != getTrackById_const(trackId)->trackType()) {
+            qDebug()<<"// INCORRECT DRAG, ABORTING";
+            return false;
+        }
+        QString normalisedBinId = binClipId;
+        if (normalisedBinId.startsWith(QLatin1Char('A')) || normalisedBinId.startsWith(QLatin1Char('V'))) {
+            normalisedBinId.remove(0, 1);
+        }
+        res = requestClipCreation(normalisedBinId, id, dropType, local_undo, local_redo);
         res = res && requestClipMove(id, trackId, position, refreshView, logUndo, local_undo, local_redo);
     }
     if (!res) {

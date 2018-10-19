@@ -162,3 +162,8 @@ std::shared_ptr<ProjectClip> ProjectSubClip::getMasterClip() const
 {
     return m_masterClip;
 }
+
+ClipType::ProducerType ProjectSubClip::clipType() const
+{
+    return m_masterClip->clipType();
+}

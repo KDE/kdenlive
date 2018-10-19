@@ -73,6 +73,7 @@ public:
     QDomElement toXml(QDomDocument &document, bool includeMeta = false) override;
     QString getToolTip() const override;
     bool rename(const QString &name, int column) override;
+    ClipType::ProducerType clipType() const override;
 
 private:
     Bin *m_bin;

@@ -82,6 +82,7 @@ public:
     bool rename(const QString &name, int column) override;
     /** @brief Returns a list of all children and sub-children clips. */
     QList<std::shared_ptr<ProjectClip>> childClips();
+    ClipType::ProducerType clipType() const override;
 };
 
 #endif
