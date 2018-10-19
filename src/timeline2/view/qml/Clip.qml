@@ -103,10 +103,6 @@ Rectangle {
             color: Qt.darker(getColor())
         }
     }
-    onZChanged: {
-        console.log('setting clip ', clipId, ' TO Z: ', z)
-    }
-
     ToolTip {
         visible: mouseArea.containsMouse && !dragProxyArea.pressed
         font.pixelSize: root.baseUnit
@@ -141,6 +137,13 @@ Rectangle {
     }
     onFakeTidChanged: {
         if (clipRoot.fakeTid > -1 && parentTrack) {
+            if (clipRoot.parent != dragContainer) {
+                var pos = clipRoot.mapToGlobal(clipRoot.x, clipRoot.y);
+                clipRoot.parent = dragContainer
+                pos = clipRoot.mapFromGlobal(pos.x, pos.y)
+                clipRoot.x = pos.x
+                clipRoot.y = pos.y
+            }
             clipRoot.y = Logic.getTrackById(clipRoot.fakeTid).y
         }
     }
