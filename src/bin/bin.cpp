@@ -310,7 +310,18 @@ class BinItemDelegate: public QStyledItemDelegate
 {
 public:
     explicit BinItemDelegate(QObject *parent = nullptr): QStyledItemDelegate(parent)
+    , m_editorOpen(false)
     {
+        connect(this, &QStyledItemDelegate::closeEditor, [&]() {
+            m_editorOpen = false;
+        });
+    }
+    void setEditorData(QWidget *w, const QModelIndex &i) const override
+    {
+        if (!m_editorOpen) {
+            QStyledItemDelegate::setEditorData(w, i);
+            m_editorOpen = true;
+        }
     }
 
     void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const Q_DECL_OVERRIDE
@@ -488,6 +499,8 @@ public:
             QStyledItemDelegate::paint(painter, option, index);
         }
     }
+private:
+    mutable bool m_editorOpen;
 };
 
 LineEventEater::LineEventEater(QObject *parent) : QObject(parent)
