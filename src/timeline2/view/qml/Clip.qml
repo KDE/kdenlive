@@ -31,7 +31,7 @@ Rectangle {
     property string clipResource: ''
     property string mltService: ''
     property string effectNames
-    property int modelStart: x
+    property int modelStart
     // Used to store the current frame on move
     property int currentFrame: -1
     property real scrollX: 0
@@ -71,19 +71,12 @@ Rectangle {
     property color borderColor: 'black'
     property bool forceReloadThumb: false
     width : clipDuration * timeScale;
+    opacity: dragProxyArea.drag.active && dragProxy.draggedItem == clipId ? 0.8 : 1.0
 
     signal trimmingIn(var clip, real newDuration, var mouse, bool shiftTrim)
     signal trimmedIn(var clip, bool shiftTrim)
     signal trimmingOut(var clip, real newDuration, var mouse, bool shiftTrim)
     signal trimmedOut(var clip, bool shiftTrim)
-
-    SequentialAnimation on color {
-        id: flashclip
-        loops: 2
-        running: false
-        ColorAnimation { from: Qt.darker(getColor()); to: "#ff3300"; duration: 100 }
-        ColorAnimation { from: "#ff3300"; to: Qt.darker(getColor()); duration: 100 }
-    }
 
     onIsGrabbedChanged: {
         if (clipRoot.isGrabbed) {
@@ -170,9 +163,6 @@ Rectangle {
 
     border.color: selected? 'red' : grouped ? 'yellowgreen' : borderColor
     border.width: isGrabbed ? 8 : 1.5
-    Drag.active: mouseArea.drag.active
-    Drag.proposedAction: Qt.MoveAction
-    opacity: Drag.active? 0.5 : 1.0
 
     function getColor() {
         if (clipStatus == ClipState.Disabled) {

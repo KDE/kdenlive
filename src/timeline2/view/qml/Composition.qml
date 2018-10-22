@@ -32,7 +32,7 @@ Item {
     property string clipName: ''
     property string clipResource: ''
     property string mltService: ''
-    property int modelStart: x
+    property int modelStart
     property int displayHeight: 0
     property var parentTrack: trackRoot
     property int inPoint: 0
@@ -121,7 +121,7 @@ Item {
         color: Qt.darker('mediumpurple')
         border.color: selected? 'red' : borderColor
         border.width: isGrabbed ? 8 : 1.5
-        opacity: dragProxyArea.drag.active ? 0.5 : 1.0
+        opacity: dragProxyArea.drag.active && dragProxy.draggedItem == clipId ? 0.5 : 1.0
         Item {
             // clipping container
             id: container
