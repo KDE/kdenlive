@@ -9,7 +9,7 @@ the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 */
 
-#include "mlt_config.h"
+//#include "mlt_config.h"
 #include "mltconnection.h"
 #include "kdenlivesettings.h"
 #include "core.h"
@@ -41,30 +41,19 @@ MltConnection::MltConnection(const QString &mltPath)
 void MltConnection::locateMeltAndProfilesPath(const QString &mltPath)
 {
     QString profilePath = mltPath;
-    if (!KdenliveSettings::mltpath().isEmpty() && QFile::exists(KdenliveSettings::mltpath())) {
-        return;
-    }
     if (profilePath.isEmpty() || !QFile::exists(profilePath)) profilePath = qgetenv("MLT_PROFILES_PATH");
     if (profilePath.isEmpty() || !QFile::exists(profilePath)) profilePath = qgetenv("MLT_DATA") + QStringLiteral("/profiles/");
     if (profilePath.isEmpty() || !QFile::exists(profilePath)) profilePath = qgetenv("MLT_PREFIX") + QStringLiteral("/share/mlt/profiles/");
-#ifdef Q_OS_WIN
-    if (profilePath.isEmpty() || !QFile::exists(profilePath)) profilePath = qApp->applicationDirPath() + QStringLiteral("/share/mlt/profiles/");
-#else
-    if (profilePath.isEmpty() || !QFile::exists(profilePath)) profilePath = KdenliveSettings::mltpath();
-    // build-time definition
-    if ((profilePath.isEmpty() || !QFile::exists(profilePath)) && !QStringLiteral(MLT_DATADIR).isEmpty()) profilePath = QStringLiteral(MLT_DATADIR) + QStringLiteral("/profiles/");
-#endif
+    if (profilePath.isEmpty() || !QFile::exists(profilePath)) profilePath = qApp->applicationDirPath() + QStringLiteral("/../share/mlt/profiles/");
     KdenliveSettings::setMltpath(profilePath);
 
 #ifdef Q_OS_WIN
-    QString meltPath = QDir::cleanPath(profilePath + QStringLiteral("../../../melt.exe"));
+    QString meltPath = QDir::cleanPath(profilePath + QStringLiteral("../../../bin/melt.exe"));
 #else
     QString meltPath = QDir::cleanPath(profilePath + QStringLiteral("../../../bin/melt"));
-    if (!QFile::exists(meltPath)) meltPath = qgetenv("MLT_PREFIX") + QStringLiteral("/bin/melt");
-    if (!QFile::exists(meltPath)) meltPath = KdenliveSettings::rendererpath();
-    if (!QFile::exists(meltPath)) meltPath = QStandardPaths::findExecutable("melt");
-    if (!QFile::exists(meltPath)) meltPath = QStringLiteral(MLT_MELTBIN);
 #endif
+    if (!QFile::exists(meltPath)) meltPath = qgetenv("MLT_PREFIX") + QStringLiteral("/bin/melt");
+    if (!QFile::exists(meltPath)) meltPath = QStandardPaths::findExecutable("melt");
     KdenliveSettings::setRendererpath(meltPath);
 
     if (meltPath.isEmpty()) {

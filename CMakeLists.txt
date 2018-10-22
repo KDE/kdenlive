@@ -118,7 +118,11 @@ set_package_properties(MLT PROPERTIES
                 TYPE RUNTIME
                 PURPOSE "Required to do video processing")
 
-set(MLT_PREFIX ${MLT_ROOT_DIR})
+if(NOT WIN32)
+    set(MLT_PREFIX ${MLT_ROOT_DIR})
+else()
+    set(MLT_PREFIX "..")
+endif()
 
 add_subdirectory(data)
 if(KF5DocTools_FOUND)

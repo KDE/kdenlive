@@ -57,6 +57,9 @@ int main(int argc, char *argv[])
     qt_qhash_seed.store(0);
 #endif
 
+    // Init application
+    QApplication app(argc, argv);
+
     QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
     QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts, true);
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
@@ -67,8 +70,6 @@ int main(int argc, char *argv[])
     qputenv("KDE_FORK_SLAVES", "1");
 #endif
 
-    // Init application
-    QApplication app(argc, argv);
     app.setApplicationName(QStringLiteral("kdenlive"));
     app.setOrganizationDomain(QStringLiteral("kde.org"));
     app.setWindowIcon(QIcon(QStringLiteral(":/pics/kdenlive.png")));
