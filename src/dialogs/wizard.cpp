@@ -942,15 +942,21 @@ void Wizard::testHwEncoders()
     KdenliveSettings::setVaapiEnabled(vaapiSupported);
 
     // NVIDIA testing
-    QStringList args2{"-y","-hwaccel","cuvid","-f","lavfi","-i","smptebars=duration=5:size=1280x720:rate=25","-c:v","h264_nvenc","-an","-f","mp4",tmp.fileName()};
+    QTemporaryFile tmp2(QDir::tempPath() + "/XXXXXX.mp4");
+    if (!tmp2.open()) {
+        // Something went wrong
+        return;
+    }
+    tmp2.close();
+    QStringList args2{"-y","-hwaccel","cuvid","-f","lavfi","-i","smptebars=duration=5:size=1280x720:rate=25","-c:v","h264_nvenc","-an","-f","mp4",tmp2.fileName()};
     qDebug()<<"// FFMPEG ARGS: "<<args2;
     hwEncoders.start(KdenliveSettings::ffmpegpath(), args2);
     bool nvencSupported = false;
     if (hwEncoders.waitForFinished()) {
         if (hwEncoders.exitStatus() == QProcess::CrashExit) {
-            qDebug()<<"/// ++ VAAPI NOT SUPPORTED";
+            qDebug()<<"/// ++ NVENC NOT SUPPORTED";
         } else {
-            if (tmp.exists() && tmp.size() > 0) {
+            if (tmp2.exists() && tmp2.size() > 0) {
                 qDebug()<<"/// ++ NVENC YES SUPPORTED ::::::";
                 // vaapi support enabled
                 nvencSupported = true;

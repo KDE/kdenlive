@@ -453,21 +453,6 @@
       <default>0</default>
     </entry>
 
-    <entry name="firewireformat" type="Int">
-      <label>Default firewire capture format.</label>
-      <default>0</default>
-    </entry>
-
-    <entry name="firewireautosplit" type="Bool">
-      <label>Create new capture file on scene cut.</label>
-      <default>false</default>
-    </entry>
-
-    <entry name="firewiretimestamp" type="Bool">
-      <label>Add record time to captured file name.</label>
-      <default>false</default>
-    </entry>
-
     <entry name="detectedv4ldevices" type="UInt">
       <label>Detected v4l devices.</label>
       <default>0</default>
@@ -583,31 +568,16 @@
       <default>false</default>
     </entry>
 
-    <entry name="dvgrab_path" type="String">
-      <label>Path for the dvgrab binary.</label>
-      <default></default>
-    </entry>
-
-    <entry name="dvgrabfilename" type="String">
-      <label>Default name for dvgrab capture.</label>
-      <default>capture</default>
-    </entry>
-
-    <entry name="dvgrabextra" type="String">
-      <label>Additional dvgrab parameters.</label>
-      <default></default>
-    </entry>
-
     <entry name="decklink_device_found" type="Bool">
       <label>Enable Blackmagic decklink support.</label>
-      <default>true</default>
+      <default>false</default>
     </entry>
-    
+
     <entry name="decklink_capturedevice" type="UInt">
       <label>default HDMI capture device.</label>
       <default>0</default>
     </entry>
-    
+
     <entry name="decklink_profile" type="Int">
       <label>default HDMI encoding profile.</label>
       <default>0</default>

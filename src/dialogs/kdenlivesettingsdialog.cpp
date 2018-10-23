@@ -252,14 +252,6 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString> &map
     slotUpdateGrabRegionStatus();
     loadTranscodeProfiles();
 
-    // HACK: check dvgrab version, because only dvgrab >= 3.3 supports
-    //   --timestamp option without bug
-
-    if (KdenliveSettings::dvgrab_path().isEmpty() || !QFile::exists(KdenliveSettings::dvgrab_path())) {
-        QString dvgrabpath = QStandardPaths::findExecutable(QStringLiteral("dvgrab"));
-        KdenliveSettings::setDvgrab_path(dvgrabpath);
-    }
-
     // decklink profile
     QAction *act = new QAction(QIcon::fromTheme(QStringLiteral("configure")), i18n("Configure profiles"), this);
     act->setData(4);
@@ -349,30 +341,6 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString> &map
     if (!getBlackMagicOutputDeviceList(m_configSdl.kcfg_blackmagic_output_device)) {
         // No blackmagic card found
         m_configSdl.kcfg_external_display->setEnabled(false);
-    }
-
-    if (!KdenliveSettings::dvgrab_path().isEmpty()) {
-        double dvgrabVersion = 0;
-        auto *versionCheck = new QProcess;
-        versionCheck->setProcessChannelMode(QProcess::MergedChannels);
-        versionCheck->start(QStringLiteral("dvgrab"), QStringList() << QStringLiteral("--version"));
-        if (versionCheck->waitForFinished()) {
-            QString version = QString(versionCheck->readAll()).simplified();
-            if (version.contains(QLatin1Char(' '))) {
-                version = version.section(QLatin1Char(' '), -1);
-            }
-            dvgrabVersion = version.toDouble();
-
-            // qCDebug(KDENLIVE_LOG) << "// FOUND DVGRAB VERSION: " << dvgrabVersion;
-        }
-        delete versionCheck;
-        if (dvgrabVersion < 3.3) {
-            KdenliveSettings::setFirewiretimestamp(false);
-            m_configCapture.kcfg_firewiretimestamp->setEnabled(false);
-        }
-        m_configCapture.dvgrab_info->setText(i18n("dvgrab version %1 at %2", dvgrabVersion, KdenliveSettings::dvgrab_path()));
-    } else {
-        m_configCapture.dvgrab_info->setText(i18n("<strong><em>dvgrab</em> utility not found, please install it for firewire capture</strong>"));
     }
 }
 
@@ -832,16 +800,6 @@ void KdenliveSettingsDialog::updateSettings()
         if (!KdenliveSettings::librarytodefaultfolder()) {
             updateLibrary = true;
         }
-    }
-
-    if (m_configCapture.kcfg_dvgrabfilename->text() != KdenliveSettings::dvgrabfilename()) {
-        KdenliveSettings::setDvgrabfilename(m_configCapture.kcfg_dvgrabfilename->text());
-        updateCapturePath = true;
-    }
-
-    if (m_configCapture.kcfg_firewireformat->currentIndex() != KdenliveSettings::firewireformat()) {
-        KdenliveSettings::setFirewireformat(m_configCapture.kcfg_firewireformat->currentIndex());
-        updateCapturePath = true;
     }
 
     if (m_configCapture.kcfg_v4l_format->currentIndex() != (int)KdenliveSettings::v4l_format()) {
