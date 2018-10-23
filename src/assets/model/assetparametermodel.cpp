@@ -70,7 +70,6 @@ AssetParameterModel::AssetParameterModel(Mlt::Properties *asset, const QDomEleme
                 }
             }
         }
-
         // Parse the basic attributes of the parameter
         QString name = currentParameter.attribute(QStringLiteral("name"));
         QString type = currentParameter.attribute(QStringLiteral("type"));

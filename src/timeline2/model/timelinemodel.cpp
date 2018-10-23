@@ -683,7 +683,7 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int sn
 
     // First pass, sort clips by track and keep only the first / last depending on move direction
     for (int current_clipId : all_items) {
-        int clipTrack = getClipTrackId(current_clipId);
+        int clipTrack = getItemTrackId(current_clipId);
         if (clipTrack == -1) {
             continue;
         }
@@ -2138,7 +2138,7 @@ bool TimelineModel::requestCompositionMove(int compoId, int trackId, int composi
     int old_trackId = getCompositionTrackId(compoId);
     bool notifyViewOnly = false;
     Fun update_model = []() { return true; };
-    if (old_trackId == trackId) {
+    if (updateView && old_trackId == trackId) {
         // Move on same track, only send view update
         updateView = false;
         notifyViewOnly = true;
