@@ -171,6 +171,8 @@ void EffectStackModel::copyEffect(std::shared_ptr<AbstractEffectItem> sourceItem
     }
     bool res = redo();
     if (res && logUndo) {
+        QModelIndex ix = getIndexFromItem(effect);
+        emit dataChanged(ix, ix, QVector<int>());
         QString effectName = EffectsRepository::get()->getName(effectId);
         PUSH_UNDO(undo, redo, i18n("copy effect %1", effectName));
     }

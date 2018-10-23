@@ -57,6 +57,12 @@ ClipModel::ClipModel(std::shared_ptr<TimelineModel> parent, std::shared_ptr<Mlt:
     } else {
         m_endlessResize = false;
     }
+    QObject::connect(m_effectStack.get(), &EffectStackModel::dataChanged, [&](){
+        if (auto ptr = m_parent.lock()) {
+            QModelIndex ix = ptr->makeClipIndexFromID(m_id);
+            ptr->dataChanged(ix, ix, {TimelineModel::EffectNamesRole});
+        }
+    });
 }
 
 int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QString &binClipId, int id, PlaylistState::ClipState state)
