@@ -2567,12 +2567,17 @@ void TimelineModel::requestClipReload(int clipId)
     // in order to make the producer change effective, we need to unplant / replant the clip in int track
     int old_trackId = getClipTrackId(clipId);
     int oldPos = getClipPosition(clipId);
+    int oldOut = getClipIn(clipId) + getClipPlaytime(clipId);
+
+    // Check if clip out is longer than actual producer duration (if user forced duration)
+    std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(getClipBinId(clipId));
+    bool refreshView = oldOut > binClip->frameDuration();
     if (old_trackId != -1) {
-        getTrackById(old_trackId)->requestClipDeletion(clipId, false, true, local_undo, local_redo);
+        getTrackById(old_trackId)->requestClipDeletion(clipId, refreshView, true, local_undo, local_redo);
     }
     m_allClips[clipId]->refreshProducerFromBin();
     if (old_trackId != -1) {
-        getTrackById(old_trackId)->requestClipInsertion(clipId, oldPos, false, true, local_undo, local_redo);
+        getTrackById(old_trackId)->requestClipInsertion(clipId, oldPos, refreshView, true, local_undo, local_redo);
     }
 }
 
