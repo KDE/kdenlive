@@ -11,6 +11,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "projectmanager.h"
 #include "bin/bin.h"
 #include "bin/projectitemmodel.h"
+#include "utils/thumbnailcache.hpp"
 #include "core.h"
 #include "doc/kdenlivedoc.h"
 #include "jobs/jobmanager.h"
@@ -291,7 +292,8 @@ bool ProjectManager::saveFileAs(const QString &outputFileName)
     }
     QUrl url = QUrl::fromLocalFile(outputFileName);
     // Save timeline thumbnails
-    // m_trackView->projectView()->saveThumbnails();
+    QStringList thumbKeys = pCore->window()->getMainTimeline()->controller()->getThumbKeys();
+    ThumbnailCache::get()->saveCachedThumbs(thumbKeys);
     m_project->setUrl(url);
     // setting up autosave file in ~/.kde/data/stalefiles/kdenlive/
     // saved under file name

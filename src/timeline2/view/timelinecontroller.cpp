@@ -2031,3 +2031,15 @@ bool TimelineController::endFakeGroupMove(int clipId, int groupId, int delta_tra
     return true;
 }
 
+QStringList TimelineController::getThumbKeys()
+{
+    QStringList result;
+    for (auto clp : m_model->m_allClips) {
+        const QString binId = getClipBinId(clp.first);
+        std::shared_ptr<ProjectClip> binClip = pCore->bin()->getBinClip(binId);
+        result << binClip->hash() + QLatin1Char('#') + QString::number(clp.second->getIn()) + QStringLiteral(".png");
+        result << binClip->hash() + QLatin1Char('#') + QString::number(clp.second->getOut()) + QStringLiteral(".png");
+    }
+    result.removeDuplicates();
+    return result;
+}

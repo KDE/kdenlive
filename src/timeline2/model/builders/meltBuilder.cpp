@@ -31,14 +31,14 @@
 #include "kdenlivesettings.h"
 
 #include <KLocalizedString>
-#include <QMessageBox>
+#include <KMessageBox>
 #include <QDebug>
 #include <QSet>
 #include <mlt++/MltPlaylist.h>
 #include <mlt++/MltProducer.h>
 #include <mlt++/MltTransition.h>
 
-static QString m_errorMessage;
+static QStringList m_errorMessage;
 
 bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, int tid, Mlt::Tractor &track,
                             const std::unordered_map<QString, QString> &binIdCorresp, Fun &undo, Fun &redo);
@@ -140,9 +140,9 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
             ok = timeline->requestCompositionInsertion(id, timeline->getTrackIndexFromPosition(t->get_b_track() - 1), t->get_a_track(), t->get_in(),
                                                        t->get_length(), &transProps, compoId, undo, redo);
             if (!ok) {
-                qDebug() << "ERROR : failed to insert composition in track " << t->get_b_track() << ", position" << t->get_in();
-                timeline->requestItemDeletion(compoId, false);
-                m_errorMessage.append(i18n("Invalid composition found on track %1 at %2.\n", t->get_b_track(), t->get_in()));
+                qDebug() << "ERROR : failed to insert composition in track " << t->get_b_track() << ", position" << t->get_in()<<", ID: "<<id<<", MLT ID: "<<t->get("id");
+                //timeline->requestItemDeletion(compoId, false);
+                m_errorMessage <<i18n("Invalid composition %1 found on track %2 at %3.", t->get("id"), t->get_b_track(), t->get_in());
                 continue;
             }
             qDebug() << "Inserted composition in track " << t->get_b_track() << ", position" << t->get_in() << "/" << t->get_out();
@@ -159,7 +159,7 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
         return false;
     }
     if (!m_errorMessage.isEmpty()) {
-        QMessageBox::warning(qApp->activeWindow(), i18n("Project problems"), m_errorMessage, QMessageBox::Close);
+        KMessageBox::sorry(qApp->activeWindow(), m_errorMessage.join("\n"), i18n("Problems found in your project file"));
     }
     return true;
 }
@@ -281,7 +281,7 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
             if (!ok && cid > -1) {
                 qDebug() << "ERROR : failed to insert clip in track" << tid << "position" << position;
                 timeline->requestItemDeletion(cid, false);
-                m_errorMessage.append(i18n("Invalid clip found on track %1 at %2.\n", track.get("id"), position));
+                m_errorMessage << i18n("Invalid clip %1 found on track %2 at %3.", clip->parent().get("id"), track.get("id"), position);
                 break;
             }
             qDebug() << "Inserted clip in track" << tid << "at " << position;

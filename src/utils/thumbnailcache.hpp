@@ -70,6 +70,9 @@ public:
     /* @brief Removes all the thumbnails for a given clip */
     void invalidateThumbsForClip(const QString &binId);
 
+    /* @brief Save all cached thumbs to disk */
+    void saveCachedThumbs(QStringList keys);
+
 protected:
     // Constructor is protected because class is a Singleton
     ThumbnailCache();

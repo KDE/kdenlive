@@ -162,6 +162,24 @@ void ThumbnailCache::storeThumbnail(const QString &binId, int pos, const QImage 
     }
 }
 
+void ThumbnailCache::saveCachedThumbs(QStringList keys)
+{
+    bool ok;
+    QDir thumbFolder = getDir(&ok);
+    if (!ok) {
+        return;
+    }
+    for (const QString &key : keys) {
+        if (!thumbFolder.exists(key) && m_volatileCache->contains(key)) {
+            QImage img = m_volatileCache->get(key);
+            if (!img.save(thumbFolder.absoluteFilePath(key))) {
+                qDebug()<<"// Error writing thumbnails to "<<thumbFolder.absolutePath();
+                break;
+            }
+        }
+    }
+}
+
 void ThumbnailCache::invalidateThumbsForClip(const QString &binId)
 {
     QMutexLocker locker(&m_mutex);

@@ -405,6 +405,8 @@ public:
     Q_INVOKABLE const QString getAssetName(const QString &assetId, bool isTransition);
     /** @brief Set keyboard grabbing on current selection */
     void grabCurrent();
+    /** @brief Returns keys for all used thumbnails */
+    QStringList getThumbKeys();
 
 public slots:
     void selectMultitrack();
