@@ -116,7 +116,8 @@ public:
     void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const override
     {
         if (index.column() != 0) {
-            return QStyledItemDelegate::updateEditorGeometry(editor, option, index);
+            QStyledItemDelegate::updateEditorGeometry(editor, option, index);
+            return;
         }
         QStyleOptionViewItem opt = option;
         initStyleOption(&opt, index);
@@ -139,6 +140,7 @@ public:
         QFontMetricsF fm(ft);
         QRect r2 = fm.boundingRect(r1, Qt::AlignLeft | Qt::AlignTop, index.data(AbstractProjectItem::DataName).toString()).toRect();
         editor->setGeometry(r2);
+        QStyledItemDelegate::updateEditorGeometry(editor, option, index);
     }
 
     QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override
@@ -186,7 +188,7 @@ public:
             // QRect r = QStyle::alignedRect(opt.direction, Qt::AlignVCenter | Qt::AlignLeft, opt.decorationSize, r1);
 
             style->drawPrimitive(QStyle::PE_PanelItemViewItem, &opt, painter, opt.widget);
-            if ((option.state & static_cast<int>((QStyle::State_Selected) != 0)) != 0) {
+            if ((option.state & static_cast<int>(QStyle::State_Selected)) != 0) {
                 painter->setPen(option.palette.highlightedText().color());
             } else {
                 painter->setPen(option.palette.text().color());
