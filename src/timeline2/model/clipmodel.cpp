@@ -60,7 +60,7 @@ ClipModel::ClipModel(std::shared_ptr<TimelineModel> parent, std::shared_ptr<Mlt:
     QObject::connect(m_effectStack.get(), &EffectStackModel::dataChanged, [&](){
         if (auto ptr = m_parent.lock()) {
             QModelIndex ix = ptr->makeClipIndexFromID(m_id);
-            ptr->dataChanged(ix, ix, {TimelineModel::EffectNamesRole});
+            ptr->dataChanged(ix, ix, {TimelineModel::EffectNamesRole,TimelineModel::FadeInRole,TimelineModel::FadeOutRole});
         }
     });
 }
@@ -211,7 +211,7 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
         };
         qDebug() << "// ADJUSTING EFFECT LENGTH, LOGUNDO " << logUndo << ", " << old_in << "/" << inPoint << ", " << m_producer->get_playtime();
         if (logUndo) {
-            // adjustEffectLength(right, old_in, inPoint, oldDuration, m_producer->get_playtime(), reverse, operation, logUndo);
+            adjustEffectLength(right, old_in, inPoint, old_out - old_in, m_producer->get_playtime(), reverse, operation, logUndo);
         }
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
         return true;

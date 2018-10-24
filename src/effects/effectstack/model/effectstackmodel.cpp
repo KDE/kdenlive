@@ -768,6 +768,7 @@ void EffectStackModel::cleanFadeEffects(bool outEffects, Fun &undo, Fun &redo)
     if (!toDelete.empty()) {
         Fun update = [this]() {
             // TODO: only update if effect is fade or keyframe
+            emit dataChanged(QModelIndex(), QModelIndex(), QVector<int>());
             pCore->updateItemKeyframes(m_ownerId);
             return true;
         };
