@@ -32,14 +32,6 @@
 #include "kdenlivesettings.h"
 #include "mltcontroller/bincontroller.h"
 
-#ifndef GL_UNPACK_ROW_LENGTH
-# ifdef GL_UNPACK_ROW_LENGTH_EXT
-#  define GL_UNPACK_ROW_LENGTH GL_UNPACK_ROW_LENGTH_EXT
-# else
-#  error GL_UNPACK_ROW_LENGTH undefined
-# endif
-#endif
-
 #ifdef QT_NO_DEBUG
 #define check_error(fn) {}
 #else
@@ -58,7 +50,7 @@ static ClientWaitSync_fp ClientWaitSync = nullptr;
 using namespace Mlt;
 
 GLWidget::GLWidget(int id, QObject *parent)
-    : QQuickView((QWindow *) parent)
+    : QQuickView((QWindow*) parent)
     , sendFrameForAnalysis(false)
     , m_id(id)
     , m_shader(nullptr)
@@ -324,6 +316,9 @@ static void uploadTextures(QOpenGLContext *context, const SharedFrame &frame, GL
     const uint8_t *image = frame.get_image();
     QOpenGLFunctions *f = context->functions();
 
+    // The planes of pixel data may not be a multiple of the default 4 bytes.
+    f->glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
     // Upload each plane of YUV to a texture.
     if (texture[0]) {
         f->glDeleteTextures(3, texture);
@@ -395,14 +390,14 @@ void GLWidget::paintGL()
     int width = this->width() * devicePixelRatio();
     int height = this->height() * devicePixelRatio();
 
-    f->glDisable(GL_BLEND);
-    f->glDisable(GL_DEPTH_TEST);
-    f->glDepthMask(GL_FALSE);
-    f->glViewport(0, 0, width, height);
+    glDisable(GL_BLEND);
+    glDisable(GL_DEPTH_TEST);
+    glDepthMask(GL_FALSE);
+    glViewport(0, 0, width, height);
     check_error(f);
     QColor color(KdenliveSettings::window_background());
-    f->glClearColor(color.redF(), color.greenF(), color.blueF(), color.alphaF());
-    f->glClear(GL_COLOR_BUFFER_BIT);
+    glClearColor(color.redF(), color.greenF(), color.blueF(), color.alphaF());
+    glClear(GL_COLOR_BUFFER_BIT);
     check_error(f);
 
     if (!(m_glslManager || openglContext()->supportsThreadedOpenGL())) {
@@ -418,8 +413,8 @@ void GLWidget::paintGL()
     // Bind textures.
     for (int i = 0; i < 3; ++i) {
         if (m_texture[i]) {
-            f->glActiveTexture(GL_TEXTURE0 + i);
-            f->glBindTexture(GL_TEXTURE_2D, m_texture[i]);
+            glActiveTexture(GL_TEXTURE0 + i);
+            glBindTexture(GL_TEXTURE_2D, m_texture[i]);
             check_error(f);
         }
     }
@@ -477,7 +472,7 @@ void GLWidget::paintGL()
     check_error(f);
 
     // Render
-    f->glDrawArrays(GL_TRIANGLE_STRIP, 0, vertices.size());
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, vertices.size());
     check_error(f);
 
     if (m_sendFrame && m_analyseSem.tryAcquire(1)) {
@@ -492,13 +487,13 @@ void GLWidget::paintGL()
             m_fbo = new QOpenGLFramebufferObject(fullWidth, fullHeight, fmt); //GL_TEXTURE_2D);
         }
         m_fbo->bind();
-        f->glViewport(0, 0, fullWidth, fullHeight);
+        glViewport(0, 0, fullWidth, fullHeight);
 
         QMatrix4x4 projection2;
         projection2.scale(2.0f / width, 2.0f / height);
         m_shader->setUniformValue(m_projectionLocation, projection2);
 
-        f->glDrawArrays(GL_TRIANGLE_STRIP, 0, vertices.size());
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, vertices.size());
         check_error(f);
         m_fbo->release();
         emit analyseFrame(m_fbo->toImage());
@@ -510,12 +505,12 @@ void GLWidget::paintGL()
     m_shader->release();
     for (int i = 0; i < 3; ++i) {
         if (m_texture[i]) {
-            f->glActiveTexture(GL_TEXTURE0 + i);
-            f->glBindTexture(GL_TEXTURE_2D, 0);
+            glActiveTexture(GL_TEXTURE0 + i);
+            glBindTexture(GL_TEXTURE_2D, 0);
             check_error(f);
         }
     }
-    f->glActiveTexture(GL_TEXTURE0);
+    glActiveTexture(GL_TEXTURE0);
     check_error(f);
 }
 
@@ -893,11 +888,6 @@ int GLWidget::reconfigureMulti(const QString &params, const QString &path, Mlt::
         m_consumer->set("0.volume", (double)volume / 100);
 
         if (serviceName.startsWith(QLatin1String("sdl"))) {
-#ifdef Q_OS_WIN
-            m_consumer->set("0.audio_buffer", 2048);
-#else
-            m_consumer->set("0.audio_buffer", 512);
-#endif
             QString audioDevice = KdenliveSettings::audiodevicename();
             if (!audioDevice.isEmpty()) {
                 m_consumer->set("audio_device", audioDevice.toUtf8().constData());
