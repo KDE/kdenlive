@@ -449,6 +449,10 @@ std::shared_ptr<Mlt::Producer> ProjectClip::thumbProducer()
         m_thumbsProducer->attach(converter);
     } else {
         m_thumbsProducer = cloneProducer(pCore->thumbProfile());
+        Mlt::Filter scaler(*pCore->thumbProfile(), "swscale");
+        Mlt::Filter converter(*pCore->thumbProfile(), "avcolor_space");
+        m_thumbsProducer->attach(scaler);
+        m_thumbsProducer->attach(converter);
     }
     return m_thumbsProducer;
 }

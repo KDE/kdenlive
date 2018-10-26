@@ -365,13 +365,13 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         connect(pbox, &QCheckBox::stateChanged, [this, bg](int state) {
             emit requestProxy(state == Qt::Checked);
             bg->setEnabled(state == Qt::Checked);
-            setToolTip(m_properties.get("kdenlive:proxy"));
+            bg->setToolTip(m_properties.get("kdenlive:proxy"));
         });
         connect(this, &ClipPropertiesController::enableProxy, pbox, &QCheckBox::setEnabled);
         connect(this, &ClipPropertiesController::proxyModified, [this, pbox, bg] (const QString &pxy) {
             pbox->setChecked(pxy.length() > 2);
             bg->setEnabled(pbox->isChecked());
-            setToolTip(pxy);
+            bg->setToolTip(pxy);
         });
 
         hlay->addWidget(pbox);

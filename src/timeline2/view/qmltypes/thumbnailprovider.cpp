@@ -57,8 +57,10 @@ QImage ThumbnailProvider::requestImage(const QString &id, QSize *size, const QSi
         std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(binId);
         if (binClip) {
             std::shared_ptr<Mlt::Producer> prod = binClip->thumbProducer();
-            result = makeThumbnail(prod, frameNumber, requestedSize);
-            ThumbnailCache::get()->storeThumbnail(binId, frameNumber, result, false);
+            if (prod && prod->is_valid()) {
+                result = makeThumbnail(prod, frameNumber, requestedSize);
+                ThumbnailCache::get()->storeThumbnail(binId, frameNumber, result, false);
+            }
         }
 
         /*if (m_producers.contains(binId.toInt())) {
