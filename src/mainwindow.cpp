@@ -851,7 +851,7 @@ void MainWindow::removeSplitOverlay()
     getMainTimeline()->controller()->removeSplitOverlay();
 }
 
-void MainWindow::addAction(const QString &name, QAction *action, KActionCategory *category)
+void MainWindow::addAction(const QString &name, QAction *action, const QKeySequence &shortcut, KActionCategory *category)
 {
     m_actionNames.append(name);
     if (category) {
@@ -859,7 +859,7 @@ void MainWindow::addAction(const QString &name, QAction *action, KActionCategory
     } else {
         actionCollection()->addAction(name, action);
     }
-    actionCollection()->setDefaultShortcut(action, action->shortcut()); // Fix warning about setDefaultShortcut
+    actionCollection()->setDefaultShortcut(action, shortcut);
 }
 
 QAction *MainWindow::addAction(const QString &name, const QString &text, const QObject *receiver, const char *member, const QIcon &icon,
@@ -869,10 +869,7 @@ QAction *MainWindow::addAction(const QString &name, const QString &text, const Q
     if (!icon.isNull()) {
         action->setIcon(icon);
     }
-    if (!shortcut.isEmpty()) {
-        action->setShortcut(shortcut);
-    }
-    addAction(name, action, category);
+    addAction(name, action, shortcut, category);
     connect(action, SIGNAL(triggered(bool)), receiver, member);
 
     return action;
@@ -1315,19 +1312,17 @@ void MainWindow::setupActions()
     act = addAction(QStringLiteral("cut_timeline_clip"), i18n("Cut Clip"), this, SLOT(slotCutTimelineClip()), QIcon::fromTheme(QStringLiteral("edit-cut")),
               Qt::SHIFT + Qt::Key_R, clipActionCategory);
     act->setEnabled(false);
+
     act = addAction(QStringLiteral("delete_timeline_clip"), i18n("Delete Selected Item"), this, SLOT(slotDeleteItem()),
               QIcon::fromTheme(QStringLiteral("edit-delete")), Qt::Key_Delete, clipActionCategory);
-    act->setEnabled(false);
 
     QAction *resizeStart = new QAction(QIcon(), i18n("Resize Item Start"), this);
-    addAction(QStringLiteral("resize_timeline_clip_start"), resizeStart, clipActionCategory);
-    resizeStart->setShortcut(Qt::Key_1);
+    addAction(QStringLiteral("resize_timeline_clip_start"), resizeStart, Qt::Key_1, clipActionCategory);
     resizeStart->setEnabled(false);
     connect(resizeStart, &QAction::triggered, this, &MainWindow::slotResizeItemStart);
 
     QAction *resizeEnd = new QAction(QIcon(), i18n("Resize Item End"), this);
-    addAction(QStringLiteral("resize_timeline_clip_end"), resizeEnd, clipActionCategory);
-    resizeEnd->setShortcut(Qt::Key_2);
+    addAction(QStringLiteral("resize_timeline_clip_end"), resizeEnd, Qt::Key_2, clipActionCategory);
     resizeEnd->setEnabled(false);
     connect(resizeEnd, &QAction::triggered, this, &MainWindow::slotResizeItemEnd);
 
