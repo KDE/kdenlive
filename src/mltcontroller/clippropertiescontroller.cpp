@@ -362,9 +362,9 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         pbox->setObjectName(QStringLiteral("kdenlive:proxy"));
         pbox->setChecked(proxy.length() > 2);
         pbox->setEnabled(pCore->projectManager()->current()->getDocumentProperty(QStringLiteral("enableproxy")).toInt() != 0);
-        connect(pbox, &QCheckBox::toggled, [this, bg](bool toggled) {
-            emit requestProxy(toggled);
-            bg->setEnabled(toggled);
+        connect(pbox, &QCheckBox::stateChanged, [this, bg](int state) {
+            emit requestProxy(state == Qt::Checked);
+            bg->setEnabled(state == Qt::Checked);
             setToolTip(m_properties.get("kdenlive:proxy"));
         });
         connect(this, &ClipPropertiesController::enableProxy, pbox, &QCheckBox::setEnabled);
@@ -664,6 +664,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
     QWidget *forceProp = new QWidget(this);
     forceProp->setLayout(vbox);
     forcePage->setWidget(forceProp);
+    forcePage->setWidgetResizable(true);
     vbox->addStretch(10);
     m_tabWidget->addTab(m_propertiesPage, QString());
     m_tabWidget->addTab(forcePage, QString());
