@@ -51,8 +51,24 @@ ThemeManager::ThemeManager(QObject* parent)
     const auto scheme(currentSchemeName());
 
     auto selectionMenu = manager->createSchemeSelectionMenu(scheme, this);
+    QMenu *themesMenu = selectionMenu->menu();
+    // Check for duplicates
+    QList<QAction *> actions = themesMenu->actions();
+    QStringList existing;
+    QList <QAction *> duplicates;
+    for (QAction *ac : actions) {
+        if (existing.contains(ac->text())) {
+            duplicates << ac;
+        } else {
+            existing << ac->text();
+        }
+    }
+    for (QAction *ac : duplicates) {
+        themesMenu->removeAction(ac);
+    }
+    qDeleteAll(duplicates);
 
-    connect(selectionMenu->menu(), &QMenu::triggered,
+    connect(themesMenu, &QMenu::triggered,
             [this, manager](QAction *action) {
                 QModelIndex schemeIndex = manager->indexForScheme(KLocalizedString::removeAcceleratorMarker(action->text()));
                 const QString path = manager->model()->data(schemeIndex, Qt::UserRole).toString();
@@ -60,10 +76,9 @@ ThemeManager::ThemeManager(QObject* parent)
             });
 
 
-
     manager->activateScheme(manager->indexForScheme(scheme));
 
-    setMenu(selectionMenu->menu());
+    setMenu(themesMenu);
     menu()->setIcon(QIcon::fromTheme(QStringLiteral("preferences-desktop-color")));
     menu()->setTitle(i18n("&Color Theme"));
 }
