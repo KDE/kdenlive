@@ -266,6 +266,7 @@ Rectangle {
             var itemPos = mapToItem(tracksContainerArea, 0, 0, width, height)
             initDrag(clipRoot, itemPos, clipRoot.clipId, clipRoot.modelStart, clipRoot.trackId, false)
         }
+
         onExited: {
             endDrag()
         }

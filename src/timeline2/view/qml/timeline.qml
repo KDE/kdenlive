@@ -870,11 +870,36 @@ Rectangle {
                                         var tk = controller.getItemTrackId(dragProxy.draggedItem)
                                         var x = controller.getItemPosition(dragProxy.draggedItem)
                                         var posx = Math.round((parent.x)/ root.timeScale)
+                                        var clickAccepted = true
                                         if (controller.normalEdit() && (tk != Logic.getTrackIdFromPos(parent.y) || x != posx)) {
-                                            console.log('INCORRECT DRAG, ABORTING: ', parent.y,' XPOS: ',x,'=',posx,'\n!!!!!!!!!!')
-                                            dragProxy.draggedItem = -1
-                                            mouse.accepted = false
-                                        } else {
+                                            console.log('INCORRECT DRAG, Trying to recover item: ', parent.y,' XPOS: ',x,'=',posx,'\n!!!!!!!!!!')
+                                            // Try to find correct item
+                                            var track = Logic.getTrackById(tk)
+                                            var container = track.children[0].children[0].children[0]
+                                            var tentativeClip = container.childAt(mouseX + parent.x, 5)
+                                            if (tentativeClip && tentativeClip.clipId) {
+                                                clickAccepted = true
+                                                dragProxy.draggedItem = tentativeClip.clipId
+                                                dragProxy.x = tentativeClip.x
+                                                dragProxy.y = tentativeClip.y
+                                                dragProxy.width = tentativeClip.width
+                                                dragProxy.height = tentativeClip.height
+                                                dragProxy.masterObject = tentativeClip
+                                                dragProxy.sourceTrack = tk
+                                                dragProxy.sourceFrame = tentativeClip.modelStart
+                                                dragProxy.isComposition = tentativeClip.isComposition
+                                            } else {
+                                                clickAccepted = false
+                                                mouse.accepted = false
+                                                dragProxy.draggedItem = -1
+                                                dragProxy.masterObject = undefined
+                                                parent.x = 0
+                                                parent.y = 0
+                                                parent.width = 0
+                                                parent.height = 0
+                                            }
+                                        }
+                                        if (clickAccepted && dragProxy.draggedItem != -1) {
                                             focus = true;
                                             dragProxy.masterObject.originalX = dragProxy.masterObject.x
                                             dragProxy.masterObject.originalTrackId = dragProxy.masterObject.trackId
@@ -1095,7 +1120,7 @@ Rectangle {
             trackThumbsFormat: thumbsFormat
             isCurrentTrack: item === timeline.activeTrack
             trackInternalId: item
-            Rectangle {
+            /*Rectangle {
                 anchors.right: parent.right
                 anchors.left: parent.left
                 height: parent.height
@@ -1112,7 +1137,7 @@ Rectangle {
                         trackHeaderRepeater.itemAt(index).pulseLockButton()
                     }
                 }
-            }
+            }*/
         }
     }
 
