@@ -64,7 +64,7 @@ public:
     /* @brief Returns the object type / id of effectstack owner */
     ObjectId effectStackOwner();
     /* @brief Add an effect to the current stack owner */
-    void addEffect(const QString &effectId);
+    bool addEffect(const QString &effectId);
 
 public slots:
     /** @brief Clear panel if displaying itemId */

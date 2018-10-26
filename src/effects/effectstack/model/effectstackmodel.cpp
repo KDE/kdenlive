@@ -205,10 +205,20 @@ bool EffectStackModel::copyEffect(std::shared_ptr<AbstractEffectItem> sourceItem
     return res;
 }
 
-void EffectStackModel::appendEffect(const QString &effectId, bool makeCurrent)
+bool EffectStackModel::appendEffect(const QString &effectId, bool makeCurrent)
 {
     QWriteLocker locker(&m_lock);
     auto effect = EffectItemModel::construct(effectId, shared_from_this());
+    PlaylistState::ClipState state = pCore->getItemState(m_ownerId);
+    if (effect->isAudio()) {
+        if (state == PlaylistState::VideoOnly) {
+            // Cannot add effect to this clip
+            return false;
+        }
+    } else if (state == PlaylistState::AudioOnly) {
+        // Cannot add effect to this clip
+        return false;
+    }
     Fun undo = removeItem_lambda(effect->getId());
     // TODO the parent should probably not always be the root
     Fun redo = addItem_lambda(effect, rootItem->getId());
@@ -258,6 +268,7 @@ void EffectStackModel::appendEffect(const QString &effectId, bool makeCurrent)
             }
         }
     }
+    return res;
 }
 
 bool EffectStackModel::adjustStackLength(bool adjustFromEnd, int oldIn, int oldDuration, int newIn, int duration, Fun &undo, Fun &redo, bool logUndo)

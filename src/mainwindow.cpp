@@ -2611,7 +2611,9 @@ void MainWindow::addEffect(const QString &effectId)
         effectData.insert(QStringLiteral("kdenlive/effect"), effectId);
         pCore->window()->getMainTimeline()->controller()->addAsset(effectData);
     } else if (m_assetPanel->effectStackOwner().first == ObjectType::TimelineTrack || m_assetPanel->effectStackOwner().first == ObjectType::BinClip) {
-        m_assetPanel->addEffect(effectId);
+        if (!m_assetPanel->addEffect(effectId)) {
+            pCore->displayMessage(i18n("Cannot add effect to clip"), InformationMessage);
+        }
     } else {
         pCore->displayMessage(i18n("Select an item to add effect"), InformationMessage);
     }

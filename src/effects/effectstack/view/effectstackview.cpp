@@ -142,15 +142,23 @@ void EffectStackView::dropEvent(QDropEvent *event)
         }
         m_model->moveEffect(row, m_model->getEffectStackRow(oldRow));
     } else {
+        bool added = false;
         if (row < m_model->rowCount()) {
-            m_model->appendEffect(effectId);
-            m_model->moveEffect(row, m_model->getEffectStackRow(m_model->rowCount() - 1));
-        } else {
-            m_model->appendEffect(effectId);
-            std::shared_ptr<AbstractEffectItem> item = m_model->getEffectStackRow(m_model->rowCount() - 1);
-            if (item) {
-                slotActivateEffect(std::static_pointer_cast<EffectItemModel>(item));
+            if (m_model->appendEffect(effectId)) {
+                added = true;
+                m_model->moveEffect(row, m_model->getEffectStackRow(m_model->rowCount() - 1));
             }
+        } else {
+            if (m_model->appendEffect(effectId)) {
+                added = true;
+                std::shared_ptr<AbstractEffectItem> item = m_model->getEffectStackRow(m_model->rowCount() - 1);
+                if (item) {
+                    slotActivateEffect(std::static_pointer_cast<EffectItemModel>(item));
+                }
+            }
+        }
+        if (!added) {
+            pCore->displayMessage(i18n("Cannot add effect to clip"), InformationMessage);
         }
     }
 }
@@ -330,11 +338,12 @@ ObjectId EffectStackView::stackOwner() const
     return ObjectId(ObjectType::NoItem, -1);
 }
 
-void EffectStackView::addEffect(const QString &effectId)
+bool EffectStackView::addEffect(const QString &effectId)
 {
     if (m_model) {
-        m_model->appendEffect(effectId);
+        return m_model->appendEffect(effectId);
     }
+    return false;
 }
 
 bool EffectStackView::isEmpty() const

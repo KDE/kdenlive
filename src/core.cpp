@@ -400,6 +400,28 @@ int Core::getItemIn(const ObjectId &id)
     return 0;
 }
 
+PlaylistState::ClipState Core::getItemState(const ObjectId &id)
+{
+    if (!m_guiConstructed) return PlaylistState::Disabled;
+    switch (id.first) {
+    case ObjectType::TimelineClip:
+        if (m_mainWindow->getCurrentTimeline()->controller()->getModel()->isClip(id.second)) {
+            return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getClipState(id.second);
+        }
+        break;
+    case ObjectType::TimelineComposition:
+        return PlaylistState::Disabled;
+        break;
+    case ObjectType::BinClip:
+        return m_binWidget->getClipState(id.second);
+        break;
+    default:
+        qDebug() << "ERROR: unhandled object type";
+        break;
+    }
+    return PlaylistState::Disabled;
+}
+
 int Core::getItemDuration(const ObjectId &id)
 {
     if (!m_guiConstructed) return 0;

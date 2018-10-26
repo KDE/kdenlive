@@ -332,12 +332,12 @@ void AssetPanel::parameterChanged(QString name, int value)
     emit changeSpeed(value);
 }
 
-void AssetPanel::addEffect(const QString &effectId)
+bool AssetPanel::addEffect(const QString &effectId)
 {
     if (!m_effectStackWidget->isVisible()) {
-        return;
+        return false;
     }
-    m_effectStackWidget->addEffect(effectId);
+    return m_effectStackWidget->addEffect(effectId);
 }
 
 void AssetPanel::enableStack(bool enable)

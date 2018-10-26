@@ -63,7 +63,7 @@ public:
     ObjectId stackOwner() const;
     /** @brief Add an effect to the current stack
      */
-    void addEffect(const QString &effectId);
+    bool addEffect(const QString &effectId);
     /** @brief Returns true if effectstack is empty
      */
     bool isEmpty() const;

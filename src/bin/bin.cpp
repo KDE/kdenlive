@@ -3165,6 +3165,15 @@ int Bin::getClipDuration(int itemId) const
     return clip->frameDuration();
 }
 
+PlaylistState::ClipState Bin::getClipState(int itemId) const
+{
+    std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(QString::number(itemId));
+    Q_ASSERT(clip != nullptr);
+    bool audio = clip->hasAudio();
+    bool video = clip->hasVideo();
+    return audio ? (video ? PlaylistState::Disabled : PlaylistState::AudioOnly) : PlaylistState::VideoOnly;
+}
+
 QString Bin::getCurrentFolder()
 {
     // Check parent item
