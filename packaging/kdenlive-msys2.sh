@@ -89,11 +89,11 @@ function configure_make {
 
 if pacman -Suy ; then
     # MSYS tools
-    pacman -Sy --needed git automake1.16
+    pacman -Sy --needed tar git automake1.16
     # MINGW packages
     TOOLS="make cmake ninja pkg-config libtool" # ruby
     DEPS="gcc drmingw gavl opencv dlfcn SDL2 exiv2 libexif vid.stab ffmpeg gtk2 qt5 fftw ladspa-sdk eigen3 extra-cmake-modules"
-    KF5=(karchive kconfig kcoreaddons kdbusaddons kguiaddons \
+    KF5=(breeze-icons karchive kconfig kcoreaddons kdbusaddons kguiaddons \
          ki18n kitemviews kwidgetsaddons kcompletion kwindowsystem \
          kcrash kjobwidgets kauth kcodecs kconfigwidgets kiconthemes \
          solid sonnet attica kservice kglobalaccel ktextwidgets \
@@ -121,7 +121,10 @@ for FRAMEWORK in knotifyconfig purpose ; do
         #-DECM_MKSPECS_INSTALL_DIR=$MINGW_PREFIX/share/qt5/mkspecs/modules \
         #-DECM_DIR=$MINGW_PREFIX/share/ECM \
 done
-
+mkdir -p $MINGW_PREFIX/bin/data/color-schemes
+cd $MINGW_PREFIX/bin/data/color-schemes
+wget https://cgit.kde.org/breeze.git/plain/colors/{Breeze,BreezeDark,BreezeHighContrast,BreezeLight}.colors
+wget https://cgit.kde.org/plasma-desktop.git/plain/kcms/colors/schemes/{Honeycomb,Norway,ObsidianCoast,Oxygen,OxygenCold,Steel,WontonSoup,Zion,ZionReversed}.colors
 #### BUILD MULTIMEDIA DEPS
 
 if false ; then # Still Failing
