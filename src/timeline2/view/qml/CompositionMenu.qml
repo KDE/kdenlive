@@ -45,9 +45,4 @@ Menu {
         MenuSeparator {
             visible: true
         }
-        MenuItem {
-            visible: true
-            text: i18n('Split At Playhead (S)')
-            onTriggered: timeline.triggerAction('cut_timeline_clip')
-        }
     }

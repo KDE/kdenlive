@@ -334,6 +334,9 @@ Rectangle {
         id: menu
         property int clickedX
         property int clickedY
+        onAboutToHide: {
+            timeline.ungrabHack()
+        }
         OLD.MenuItem {
             text: i18n('Paste')
             visible: copiedClip != -1
