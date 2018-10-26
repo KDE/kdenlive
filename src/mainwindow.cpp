@@ -2116,7 +2116,7 @@ void MainWindow::slotPreferences(int page, int option)
         actions[action_text] = action_name;
     }
 
-    auto *dialog = new KdenliveSettingsDialog(actions, m_gpuAllowed, this);
+    KdenliveSettingsDialog *dialog = new KdenliveSettingsDialog(actions, m_gpuAllowed, this);
     connect(dialog, &KConfigDialog::settingsChanged, this, &MainWindow::updateConfiguration);
     connect(dialog, &KConfigDialog::settingsChanged, this, &MainWindow::configurationChanged);
     connect(dialog, &KdenliveSettingsDialog::doResetProfile, pCore->projectManager(), &ProjectManager::slotResetProfiles);

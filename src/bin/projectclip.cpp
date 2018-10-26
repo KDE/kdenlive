@@ -804,8 +804,6 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
     bool refreshAnalysis = false;
     bool reload = false;
     bool refreshOnly = true;
-    // Some properties also need to be passed to track producers
-    QStringList timelineProperties;
     if (properties.contains(QStringLiteral("templatetext"))) {
         m_description = properties.value(QStringLiteral("templatetext"));
         if (auto ptr = m_model.lock())
@@ -813,13 +811,10 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
                                                                            AbstractProjectItem::ClipStatus);
         refreshPanel = true;
     }
-    timelineProperties << QStringLiteral("force_aspect_ratio") << QStringLiteral("video_index") << QStringLiteral("audio_index")
-                       << QStringLiteral("set.force_full_luma") << QStringLiteral("full_luma") << QStringLiteral("threads")
-                       << QStringLiteral("force_colorspace") << QStringLiteral("force_tff") << QStringLiteral("force_progressive")
-                       << QStringLiteral("force_fps");
-    QStringList keys;
-    keys << QStringLiteral("luma_duration") << QStringLiteral("luma_file") << QStringLiteral("fade") << QStringLiteral("ttl") << QStringLiteral("softness")
-         << QStringLiteral("crop") << QStringLiteral("animation");
+    // Some properties also need to be passed to track producers
+    QStringList timelineProperties {QStringLiteral("force_aspect_ratio"),QStringLiteral("video_index"), QStringLiteral("audio_index"),QStringLiteral("set.force_full_luma"),QStringLiteral("full_luma"),QStringLiteral("threads"),QStringLiteral("force_colorspace"),QStringLiteral("force_tff"),QStringLiteral("force_progressive"),QStringLiteral("force_fps"),QStringLiteral("video_index"),QStringLiteral("audio_index")};
+    QStringList forceReloadProperties{QStringLiteral("set.test_image"),QStringLiteral("set.test_audio"),QStringLiteral("autorotate"),QStringLiteral("templatetext"),QStringLiteral("resource")};
+    QStringList keys {QStringLiteral("luma_duration"),QStringLiteral("luma_file"),QStringLiteral("fade"),QStringLiteral("ttl"),QStringLiteral("softness"),QStringLiteral("crop"),QStringLiteral("animation")};
     QVector<int> updateRoles;
     while (i.hasNext()) {
         i.next();
@@ -854,18 +849,23 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
             pCore->jobManager()->startJob<ProxyJob>({clipId()}, -1, QString());
         }
         refreshPanel = true;
-    } else if (properties.contains(QStringLiteral("resource")) || properties.contains(QStringLiteral("templatetext")) ||
-               properties.contains(QStringLiteral("autorotate"))) {
-        // Clip resource changed, update thumbnail
-        if (m_clipType != ClipType::Color) {
-            reload = true;
-            refreshOnly = false;
-        } else {
-            reload = true;
-            updateRoles << TimelineModel::ResourceRole;
+    } else if (!reload) {
+        const QList <QString>propKeys = properties.keys();
+        for (const QString &k : propKeys) {
+            if (forceReloadProperties.contains(k)) {
+                if (m_clipType != ClipType::Color) {
+                    reload = true;
+                    refreshOnly = false;
+                } else {
+                    // Clip resource changed, update thumbnail
+                    reload = true;
+                    updateRoles << TimelineModel::ResourceRole;
+                }
+                break;
+            }
         }
     }
-    if (properties.contains(QStringLiteral("xmldata")) || !passProperties.isEmpty()) {
+    if (!reload && (properties.contains(QStringLiteral("xmldata")) || !passProperties.isEmpty())) {
         reload = true;
     }
     if (refreshAnalysis) {

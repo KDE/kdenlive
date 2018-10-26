@@ -34,6 +34,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "widgets/choosecolorwidget.h"
 
 #include <KLocalizedString>
+#include <KDualAction>
 
 #ifdef KF5_USE_FILEMETADATA
 #include <KFileMetaData/ExtractionResult>
@@ -52,6 +53,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QFileDialog>
 #include <QFontDatabase>
 #include <QHBoxLayout>
+#include <QComboBox>
 #include <QLabel>
 #include <QMimeData>
 #include <QMimeDatabase>
@@ -168,6 +170,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
     , m_textEdit(nullptr)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     auto *lay = new QVBoxLayout;
     lay->setContentsMargins(0, 0, 0, 0);
     m_clipLabel = new QLabel(controller->clipName());
@@ -518,40 +521,104 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         vbox->addLayout(hlay);
 
         // Video index
-        QString vix = m_properties.get("video_index");
-        m_originalProperties.insert(QStringLiteral("video_index"), vix);
-        hlay = new QHBoxLayout;
-        hlay->addWidget(new QLabel(i18n("Video index")));
-        spinI = new QSpinBox(this);
-        spinI->setMaximum(m_clipProperties.value(QStringLiteral("video_max")).toInt());
-        spinI->setObjectName(QStringLiteral("video_index_value"));
-        if (vix.isEmpty()) {
-            spinI->setValue(0);
-        } else {
-            spinI->setValue(vix.toInt());
+        if (!m_videoStreams.isEmpty()) {
+            QString vix = m_properties.get("video_index");
+            m_originalProperties.insert(QStringLiteral("video_index"), vix);
+            hlay = new QHBoxLayout;
+
+            KDualAction *ac = new KDualAction(i18n("Disable video"), i18n("Enable video"), this);
+            ac->setInactiveIcon(QIcon::fromTheme(QStringLiteral("kdenlive-show-video")));
+            ac->setActiveIcon(QIcon::fromTheme(QStringLiteral("kdenlive-hide-video")));
+            QToolButton *tbv = new QToolButton(this);
+            tbv->setToolButtonStyle(Qt::ToolButtonIconOnly);
+            tbv->setDefaultAction(ac);
+            tbv->setAutoRaise(true);
+            hlay->addWidget(tbv);
+            hlay->addWidget(new QLabel(i18n("Video stream")));
+            QComboBox *videoStream = new QComboBox(this);
+            int ix = 1;
+            for (int stream : m_videoStreams) {
+                videoStream->addItem(i18n("Video stream %1", ix), stream);
+                ix++;
+            }
+            if (!vix.isEmpty() && vix.toInt() > -1) {
+                videoStream->setCurrentIndex(videoStream->findData(QVariant(vix)));
+            }
+            ac->setActive(vix.toInt() == -1);
+            videoStream->setEnabled(vix.toInt() > -1);
+            connect(ac, &KDualAction::activeChanged , [this, ac, videoStream](bool activated){
+                QMap<QString, QString> properties;
+                int vix = -1;
+                if (activated) {
+                    videoStream->setEnabled(false);
+                } else {
+                    videoStream->setEnabled(true);
+                    vix = videoStream->currentData().toInt();
+                }
+                properties.insert(QStringLiteral("video_index"), QString::number(vix));
+                properties.insert(QStringLiteral("set.test_image"), vix > -1 ? QStringLiteral("0") : QStringLiteral("1"));
+                emit updateClipProperties(m_id, m_originalProperties, properties);
+                m_originalProperties = properties;
+            });
+            QObject::connect(videoStream, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [this, videoStream](){
+                QMap<QString, QString> properties;
+                properties.insert(QStringLiteral("video_index"), QString::number(videoStream->currentData().toInt()));
+                emit updateClipProperties(m_id, m_originalProperties, properties);
+                m_originalProperties = properties;
+            });
+            hlay->addWidget(videoStream);
+            vbox->addLayout(hlay);
         }
-        connect(spinI, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this,
-                static_cast<void (ClipPropertiesController::*)(int)>(&ClipPropertiesController::slotValueChanged));
-        hlay->addWidget(spinI);
-        vbox->addLayout(hlay);
 
         // Audio index
-        QString aix = m_properties.get("audio_index");
-        m_originalProperties.insert(QStringLiteral("audio_index"), aix);
-        hlay = new QHBoxLayout;
-        hlay->addWidget(new QLabel(i18n("Audio index")));
-        spinI = new QSpinBox(this);
-        spinI->setMaximum(m_clipProperties.value(QStringLiteral("audio_max")).toInt());
-        spinI->setObjectName(QStringLiteral("audio_index_value"));
-        if (aix.isEmpty()) {
-            spinI->setValue(0);
-        } else {
-            spinI->setValue(aix.toInt());
+        if (!m_audioStreams.isEmpty()) {
+            QString vix = m_properties.get("audio_index");
+            m_originalProperties.insert(QStringLiteral("audio_index"), vix);
+            hlay = new QHBoxLayout;
+
+            KDualAction *ac = new KDualAction(i18n("Disable audio"), i18n("Enable audio"), this);
+            ac->setInactiveIcon(QIcon::fromTheme(QStringLiteral("kdenlive-show-audio")));
+            ac->setActiveIcon(QIcon::fromTheme(QStringLiteral("kdenlive-hide-audio")));
+            QToolButton *tbv = new QToolButton(this);
+            tbv->setToolButtonStyle(Qt::ToolButtonIconOnly);
+            tbv->setDefaultAction(ac);
+            tbv->setAutoRaise(true);
+            hlay->addWidget(tbv);
+            hlay->addWidget(new QLabel(i18n("Audio stream")));
+            QComboBox *audioStream = new QComboBox(this);
+            int ix = 1;
+            for (int stream : m_audioStreams) {
+                audioStream->addItem(i18n("Audio stream %1", ix), stream);
+                ix++;
+            }
+            if (!vix.isEmpty() && vix.toInt() > -1) {
+                audioStream->setCurrentIndex(audioStream->findData(QVariant(vix)));
+            }
+            ac->setActive(vix.toInt() == -1);
+            audioStream->setEnabled(vix.toInt() > -1);
+            connect(ac, &KDualAction::activeChanged, [this, ac, audioStream](bool activated){
+                QMap<QString, QString> properties;
+                int vix = -1;
+                if (activated) {
+                    audioStream->setEnabled(false);
+                } else {
+                    audioStream->setEnabled(true);
+                    vix = audioStream->currentData().toInt();
+                }
+                properties.insert(QStringLiteral("audio_index"), QString::number(vix));
+                properties.insert(QStringLiteral("set.test_audio"), vix > -1 ? QStringLiteral("0") : QStringLiteral("1"));
+                emit updateClipProperties(m_id, m_originalProperties, properties);
+                m_originalProperties = properties;
+            });
+            QObject::connect(audioStream, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [this, audioStream](){
+                QMap<QString, QString> properties;
+                properties.insert(QStringLiteral("audio_index"), QString::number(audioStream->currentData().toInt()));
+                emit updateClipProperties(m_id, m_originalProperties, properties);
+                m_originalProperties = properties;
+            });
+            hlay->addWidget(audioStream);
+            vbox->addLayout(hlay);
         }
-        connect(spinI, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this,
-                static_cast<void (ClipPropertiesController::*)(int)>(&ClipPropertiesController::slotValueChanged));
-        hlay->addWidget(spinI);
-        vbox->addLayout(hlay);
 
         // Colorspace
         hlay = new QHBoxLayout;
@@ -857,25 +924,23 @@ void ClipPropertiesController::fillProperties()
     }
     if (m_type == ClipType::AV || m_type == ClipType::Video || m_type == ClipType::Audio) {
         int vindex = m_controller->getProducerIntProperty(QStringLiteral("video_index"));
-        int video_max = 0;
         int default_audio = m_controller->getProducerIntProperty(QStringLiteral("audio_index"));
-        int audio_max = 0;
 
         // Find maximum stream index values
+        m_videoStreams.clear();
+        m_audioStreams.clear();
         for (int ix = 0; ix < m_controller->getProducerIntProperty(QStringLiteral("meta.media.nb_streams")); ++ix) {
             char property[200];
             snprintf(property, sizeof(property), "meta.media.%d.stream.type", ix);
             QString type = m_controller->getProducerProperty(property);
             if (type == QLatin1String("video")) {
-                video_max = ix;
+                m_videoStreams << ix;
             } else if (type == QLatin1String("audio")) {
-                audio_max = ix;
+                m_audioStreams << ix;
             }
         }
         m_clipProperties.insert(QStringLiteral("default_video"), QString::number(vindex));
-        m_clipProperties.insert(QStringLiteral("video_max"), QString::number(video_max));
         m_clipProperties.insert(QStringLiteral("default_audio"), QString::number(default_audio));
-        m_clipProperties.insert(QStringLiteral("audio_max"), QString::number(audio_max));
 
         if (vindex > -1) {
             // We have a video stream
