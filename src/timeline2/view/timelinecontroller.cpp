@@ -714,8 +714,15 @@ void TimelineController::addAsset(const QVariantMap data)
                 }
             }
         }
+        bool foundMatch = false;
         for (int id : effectSelection) {
-            m_model->addClipEffect(id, effect);
+            if (m_model->addClipEffect(id, effect, false)) {
+                foundMatch = true;
+            }
+        }
+        if (!foundMatch) {
+            QString effectName = EffectsRepository::get()->getName(effect);
+            pCore->displayMessage(i18n("Cannot add effect %1 to selected clip", effectName), InformationMessage, 500);
         }
     } else {
         pCore->displayMessage(i18n("Select a clip to apply an effect"), InformationMessage, 500);
@@ -1691,14 +1698,28 @@ void TimelineController::selectCurrentTrack()
     setSelection(ids);
 }
 
-void TimelineController::pasteEffects(int targetId, int sourceId)
+void TimelineController::pasteEffects(int targetId)
 {
+    QVariant returnedValue;
+    QMetaObject::invokeMethod(m_root, "getCopiedItemId", Q_RETURN_ARG(QVariant, returnedValue));
+    int sourceId = returnedValue.toInt();
+    if (targetId == -1 && !m_selection.selectedItems.isEmpty()) {
+        targetId = m_selection.selectedItems.constFirst();
+    }
     if (!m_model->isClip(targetId) || !m_model->isClip(sourceId)) {
         return;
     }
+    std::function<bool(void)> undo = []() { return true; };
+    std::function<bool(void)> redo = []() { return true; };
     std::shared_ptr<EffectStackModel> sourceStack = m_model->getClipEffectStackModel(sourceId);
     std::shared_ptr<EffectStackModel> destStack = m_model->getClipEffectStackModel(targetId);
-    destStack->importEffects(sourceStack);
+    bool result = destStack->importEffects(sourceStack, m_model->m_allClips[targetId]->clipState(), undo, redo);
+    if (result) {
+        pCore->pushUndo(undo, redo, i18n("Paste effects"));
+    } else {
+        pCore->displayMessage(i18n("Cannot paste effect on selected clip"), InformationMessage, 500);
+        undo();
+    }
 }
 
 double TimelineController::fps() const

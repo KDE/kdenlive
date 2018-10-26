@@ -852,7 +852,7 @@ void ClipController::addEffect(const QString &effectId)
 
 bool ClipController::copyEffect(std::shared_ptr<EffectStackModel> stackModel, int rowId)
 {
-    m_effectStack->copyEffect(stackModel->getEffectStackRow(rowId));
+    m_effectStack->copyEffect(stackModel->getEffectStackRow(rowId), !m_hasAudio ? PlaylistState::VideoOnly : !m_hasVideo ? PlaylistState::AudioOnly : PlaylistState::Disabled);
     return true;
 }
 

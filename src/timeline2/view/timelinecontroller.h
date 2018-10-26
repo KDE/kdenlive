@@ -298,7 +298,7 @@ public:
 
     /* @brief Seeks to selected clip start / end
      */
-    Q_INVOKABLE void pasteEffects(int targetId, int sourceId);
+    Q_INVOKABLE void pasteEffects(int targetId = -1);
     Q_INVOKABLE double fps() const;
 
     void switchTrackLock(bool applyToAll = false);

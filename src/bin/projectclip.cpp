@@ -96,7 +96,7 @@ std::shared_ptr<ProjectClip> ProjectClip::construct(const QString &id, const QIc
 {
     std::shared_ptr<ProjectClip> self(new ProjectClip(id, thumb, model, producer));
     baseFinishConstruct(self);
-    self->m_effectStack->importEffects(producer, true);
+    self->m_effectStack->importEffects(producer, PlaylistState::Disabled, true);
     model->loadSubClips(id, self->getPropertiesFromPrefix(QStringLiteral("kdenlive:clipzone.")));
     return self;
 }

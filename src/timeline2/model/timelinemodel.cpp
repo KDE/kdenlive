@@ -21,6 +21,7 @@
 
 #include "timelinemodel.hpp"
 #include "assets/model/assetparametermodel.hpp"
+#include "effects/effectsrepository.hpp"
 #include "bin/projectclip.h"
 #include "bin/projectitemmodel.h"
 #include "clipmodel.hpp"
@@ -195,8 +196,15 @@ int TimelineModel::getClipIn(int clipId) const
     READ_LOCK();
     Q_ASSERT(m_allClips.count(clipId) > 0);
     const auto clip = m_allClips.at(clipId);
-    int pos = clip->getIn();
-    return pos;
+    return clip->getIn();
+}
+
+PlaylistState::ClipState TimelineModel::getClipState(int clipId) const
+{
+    READ_LOCK();
+    Q_ASSERT(m_allClips.count(clipId) > 0);
+    const auto clip = m_allClips.at(clipId);
+    return clip->clipState();
 }
 
 const QString TimelineModel::getClipBinId(int clipId) const
@@ -1799,10 +1807,15 @@ std::shared_ptr<ClipModel> TimelineModel::getClipPtr(int clipId) const
     return m_allClips.at(clipId);
 }
 
-bool TimelineModel::addClipEffect(int clipId, const QString &effectId)
+bool TimelineModel::addClipEffect(int clipId, const QString &effectId, bool notify)
 {
     Q_ASSERT(m_allClips.count(clipId) > 0);
-    return m_allClips.at(clipId)->addEffect(effectId);
+    bool result = m_allClips.at(clipId)->addEffect(effectId);
+    if (!result && notify) {
+        QString effectName = EffectsRepository::get()->getName(effectId);
+        pCore->displayMessage(i18n("Cannot add effect %1 to selected clip", effectName), InformationMessage, 500);
+    }
+    return result;
 }
 
 bool TimelineModel::removeFade(int clipId, bool fromStart)

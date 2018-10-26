@@ -1108,6 +1108,6 @@ bool TrackModel::isMute() const
 bool TrackModel::importEffects(std::weak_ptr<Mlt::Service> service)
 {
     QWriteLocker locker(&m_lock);
-    m_effectStack->importEffects(service);
+    m_effectStack->importEffects(service, trackType());
     return true;
 }

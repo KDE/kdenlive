@@ -108,8 +108,8 @@ int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QSt
     }
     auto result = binClip->giveMasterAndGetTimelineProducer(id, producer, state);
     std::shared_ptr<ClipModel> clip(new ClipModel(parent, result.first, binClipId, id, state, speed));
-    clip->m_effectStack->importEffects(producer, result.second);
     clip->setClipState_lambda(state)();
+    clip->m_effectStack->importEffects(producer, state, result.second);
     parent->registerClip(clip);
     return id;
 }
@@ -292,21 +292,21 @@ bool ClipModel::addEffect(const QString &effectId)
 bool ClipModel::copyEffect(std::shared_ptr<EffectStackModel> stackModel, int rowId)
 {
     QWriteLocker locker(&m_lock);
-    m_effectStack->copyEffect(stackModel->getEffectStackRow(rowId));
+    m_effectStack->copyEffect(stackModel->getEffectStackRow(rowId), m_currentState);
     return true;
 }
 
 bool ClipModel::importEffects(std::shared_ptr<EffectStackModel> stackModel)
 {
     QWriteLocker locker(&m_lock);
-    m_effectStack->importEffects(stackModel);
+    m_effectStack->importEffects(stackModel, m_currentState);
     return true;
 }
 
 bool ClipModel::importEffects(std::weak_ptr<Mlt::Service> service)
 {
     QWriteLocker locker(&m_lock);
-    m_effectStack->importEffects(service);
+    m_effectStack->importEffects(service, m_currentState);
     return true;
 }
 

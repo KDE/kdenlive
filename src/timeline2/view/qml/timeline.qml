@@ -93,6 +93,10 @@ Rectangle {
         return (scrollView.flickableItem.contentX + tracksArea.mouseX) / timeline.scaleFactor
     }
 
+    function getCopiedItemId() {
+        return copiedClip
+    }
+
     function getMouseTrack() {
         return Logic.getTrackIdFromPos(tracksArea.mouseY - ruler.height + scrollView.flickableItem.contentY)
     }

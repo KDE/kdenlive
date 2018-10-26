@@ -63,15 +63,17 @@ public:
     /* @brief Copy an existing effect and append it at the bottom of the stack
        @param logUndo: if true, an undo/redo is created
      */
-    void copyEffect(std::shared_ptr<AbstractEffectItem> sourceItem, bool logUndo = true);
+    bool copyEffect(std::shared_ptr<AbstractEffectItem> sourceItem, PlaylistState::ClipState state, bool logUndo = true);
+    bool copyEffect(std::shared_ptr<AbstractEffectItem> sourceItem, PlaylistState::ClipState state, Fun &undo, Fun &redo);
     /* @brief Import all effects from the given effect stack
      */
-    void importEffects(std::shared_ptr<EffectStackModel> sourceStack);
+    bool importEffects(std::shared_ptr<EffectStackModel> sourceStack, PlaylistState::ClipState state);
     /* @brief Import all effects attached to a given service
        @param alreadyExist: if true, the effect should be already attached to the service owned by this effectstack (it means we are in the process of loading).
        In that case, we need to build the stack but not replant the effects
      */
-    void importEffects(std::weak_ptr<Mlt::Service> service, bool alreadyExist = false);
+    bool importEffects(std::shared_ptr<EffectStackModel> sourceStack, PlaylistState::ClipState state, Fun &undo, Fun &redo);
+    void importEffects(std::weak_ptr<Mlt::Service> service, PlaylistState::ClipState state, bool alreadyExist = false);
     bool removeFade(bool fromStart);
 
     /* @brief This function change the global (timeline-wise) enabled state of the effects

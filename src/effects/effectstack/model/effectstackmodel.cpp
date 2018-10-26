@@ -146,12 +146,34 @@ void EffectStackModel::removeEffect(std::shared_ptr<EffectItemModel> effect)
     }
 }
 
-void EffectStackModel::copyEffect(std::shared_ptr<AbstractEffectItem> sourceItem, bool logUndo)
+bool EffectStackModel::copyEffect(std::shared_ptr<AbstractEffectItem> sourceItem, PlaylistState::ClipState state, bool logUndo)
+{
+    std::function<bool(void)> undo = []() { return true; };
+    std::function<bool(void)> redo = []() { return true; };
+    bool result = copyEffect(sourceItem, state, undo, redo);
+    if (result && logUndo) {
+        std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(sourceItem);
+        QString effectName = EffectsRepository::get()->getName(sourceEffect->getAssetId());
+        PUSH_UNDO(undo, redo, i18n("copy effect %1", effectName));
+    }
+    return result;
+}
+
+bool EffectStackModel::copyEffect(std::shared_ptr<AbstractEffectItem> sourceItem, PlaylistState::ClipState state, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
     if (sourceItem->childCount() > 0) {
         // TODO: group
-        return;
+        return false;
+    }
+    bool audioEffect = sourceItem->isAudio();
+    if (audioEffect) {
+        if (state == PlaylistState::VideoOnly) {
+            // This effect cannot be used
+            return false;
+        }
+    } else if (state == PlaylistState::AudioOnly) {
+        return false;
     }
     std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(sourceItem);
     const QString effectId = sourceEffect->getAssetId();
@@ -159,9 +181,9 @@ void EffectStackModel::copyEffect(std::shared_ptr<AbstractEffectItem> sourceItem
     effect->setParameters(sourceEffect->getAllParameters());
     effect->filter().set("in", sourceEffect->filter().get_int("in"));
     effect->filter().set("out", sourceEffect->filter().get_int("out"));
-    Fun undo = removeItem_lambda(effect->getId());
+    Fun local_undo = removeItem_lambda(effect->getId());
     // TODO the parent should probably not always be the root
-    Fun redo = addItem_lambda(effect, rootItem->getId());
+    Fun local_redo = addItem_lambda(effect, rootItem->getId());
     connect(effect.get(), &AssetParameterModel::modelChanged, this, &EffectStackModel::modelChanged);
     connect(effect.get(), &AssetParameterModel::replugEffect, this, &EffectStackModel::replugEffect, Qt::DirectConnection);
     if (effectId == QLatin1String("fadein") || effectId == QLatin1String("fade_from_black")) {
@@ -169,13 +191,18 @@ void EffectStackModel::copyEffect(std::shared_ptr<AbstractEffectItem> sourceItem
     } else if (effectId == QLatin1String("fadeout") || effectId == QLatin1String("fade_to_black")) {
         fadeOuts.insert(effect->getId());
     }
-    bool res = redo();
-    if (res && logUndo) {
-        QModelIndex ix = getIndexFromItem(effect);
-        emit dataChanged(ix, ix, QVector<int>());
-        QString effectName = EffectsRepository::get()->getName(effectId);
-        PUSH_UNDO(undo, redo, i18n("copy effect %1", effectName));
+    bool res = local_redo();
+    if (res) {
+        Fun update = [this]() {
+            emit dataChanged(QModelIndex(), QModelIndex(), QVector<int>());
+            return true;
+        };
+        update();
+        PUSH_LAMBDA(update, local_redo);
+        PUSH_LAMBDA(update, local_undo);
+        UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
     }
+    return res;
 }
 
 void EffectStackModel::appendEffect(const QString &effectId, bool makeCurrent)
@@ -537,18 +564,42 @@ std::shared_ptr<AbstractEffectItem> EffectStackModel::getEffectStackRow(int row,
     return std::static_pointer_cast<AbstractEffectItem>(parentItem ? rootItem->child(row) : rootItem->child(row));
 }
 
-void EffectStackModel::importEffects(std::shared_ptr<EffectStackModel> sourceStack)
+bool EffectStackModel::importEffects(std::shared_ptr<EffectStackModel> sourceStack, PlaylistState::ClipState state)
 {
     QWriteLocker locker(&m_lock);
     // TODO: manage fades, keyframes if clips don't have same size / in point
+    bool found = false;
     for (int i = 0; i < sourceStack->rowCount(); i++) {
         auto item = sourceStack->getEffectStackRow(i);
-        copyEffect(item, false);
+        //NO undo. this should only be used on project opening
+        if (copyEffect(item, state, false)) {
+            found = true;
+        }
     }
-    modelChanged();
+    if (found) {
+        modelChanged();
+    }
+    return found;
 }
 
-void EffectStackModel::importEffects(std::weak_ptr<Mlt::Service> service, bool alreadyExist)
+bool EffectStackModel::importEffects(std::shared_ptr<EffectStackModel> sourceStack, PlaylistState::ClipState state, Fun &undo, Fun &redo)
+{
+    QWriteLocker locker(&m_lock);
+    // TODO: manage fades, keyframes if clips don't have same size / in point
+    bool found = false;
+    for (int i = 0; i < sourceStack->rowCount(); i++) {
+        auto item = sourceStack->getEffectStackRow(i);
+        if (copyEffect(item, state, undo, redo)) {
+            found = true;
+        }
+    }
+    if (found) {
+        modelChanged();
+    }
+    return found;
+}
+
+void EffectStackModel::importEffects(std::weak_ptr<Mlt::Service> service, PlaylistState::ClipState state, bool alreadyExist)
 {
     QWriteLocker locker(&m_lock);
     m_loadingExisting = alreadyExist;
@@ -569,6 +620,15 @@ void EffectStackModel::importEffects(std::weak_ptr<Mlt::Service> service, bool a
                 Mlt::Filter *asset = EffectsRepository::get()->getEffect(effectId);
                 asset->inherit(*(ptr->filter(i)));
                 effect = EffectItemModel::construct(asset, shared_from_this());
+            }
+            if (effect->isAudio()) {
+                if (state == PlaylistState::VideoOnly) {
+                    // Don't import effect
+                    continue;
+                }
+            } else if (state == PlaylistState::AudioOnly) {
+                // Don't import effect
+                continue;
             }
             connect(effect.get(), &AssetParameterModel::modelChanged, this, &EffectStackModel::modelChanged);
             connect(effect.get(), &AssetParameterModel::replugEffect, this, &EffectStackModel::replugEffect, Qt::DirectConnection);

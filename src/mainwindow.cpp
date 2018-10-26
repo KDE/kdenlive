@@ -2781,12 +2781,7 @@ void MainWindow::slotPaste()
 
 void MainWindow::slotPasteEffects()
 {
-    // TODO refac
-    /*
-    if (pCore->projectManager()->currentTimeline()) {
-        pCore->projectManager()->currentTimeline()->projectView()->pasteClipEffects();
-    }
-    */
+    getMainTimeline()->controller()->pasteEffects();
 }
 
 void MainWindow::slotClipInTimeline(const QString &clipId, QList<int> ids)

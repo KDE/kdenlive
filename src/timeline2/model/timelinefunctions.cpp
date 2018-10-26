@@ -56,7 +56,7 @@ bool TimelineFunctions::copyClip(std::shared_ptr<TimelineItemModel> timeline, in
     }
     std::shared_ptr<EffectStackModel> sourceStack = timeline->getClipEffectStackModel(clipId);
     std::shared_ptr<EffectStackModel> destStack = timeline->getClipEffectStackModel(newId);
-    destStack->importEffects(sourceStack);
+    destStack->importEffects(sourceStack, state);
     return res;
 }
 

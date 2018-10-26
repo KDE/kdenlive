@@ -236,7 +236,7 @@ public:
        @param clipId Id of the clip to test
     */
     Q_INVOKABLE int getClipPosition(int clipId) const;
-    Q_INVOKABLE bool addClipEffect(int clipId, const QString &effectId);
+    Q_INVOKABLE bool addClipEffect(int clipId, const QString &effectId, bool notify = true);
     Q_INVOKABLE bool addTrackEffect(int trackId, const QString &effectId);
     bool removeFade(int clipId, bool fromStart);
     Q_INVOKABLE bool copyClipEffect(int clipId, const QString &sourceId);
@@ -255,6 +255,10 @@ public:
        @param clipId Id of the clip to test
     */
     int getClipIn(int clipId) const;
+
+    /* @brief Returns the clip state (audio/video only)
+    */
+    PlaylistState::ClipState getClipState(int clipId) const;
 
     /* @brief Returns the bin id of the clip master
        @param clipId Id of the clip to test
