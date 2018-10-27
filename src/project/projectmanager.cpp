@@ -195,30 +195,9 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
                                        &openBackup, pCore->window());
     doc->m_autosave = new KAutoSaveFile(startFile, doc);
     pCore->bin()->setDocument(doc);
-    // TODO REFAC: Delete this
-    /*QList<QAction *> rulerActions;
-    rulerActions << pCore->window()->actionCollection()->action(QStringLiteral("set_render_timeline_zone"));
-    rulerActions << pCore->window()->actionCollection()->action(QStringLiteral("unset_render_timeline_zone"));
-    m_trackView = new Timeline(doc, pCore->window()->kdenliveCategoryMap.value(QStringLiteral("timeline"))->actions(), rulerActions, &ok, pCore->window());
-    // Set default target tracks to upper audio / lower video tracks
-    m_trackView->audioTarget = projectTracks.y() > 0 ? projectTracks.y() : -1;
-    m_trackView->videoTarget = projectTracks.x() > 0 ? projectTracks.y() + 1 : -1;
-    connect(m_trackView->projectView(), SIGNAL(importPlaylistClips(ItemInfo, QString, QUndoCommand *)), pCore->bin(), SLOT(slotExpandUrl(ItemInfo, QString,
-    QUndoCommand *)), Qt::DirectConnection);
-
-    m_trackView->loadTimeline();
-    pCore->window()->m_timelineArea->addTab(m_trackView, QIcon::fromTheme(QStringLiteral("kdenlive")), doc->description());*/
-    // END of things to delete
     m_project = doc;
     pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
     updateTimeline(0);
-    /*if (!ok) {
-        // MLT is broken
-        //pCore->window()->m_timelineArea->setEnabled(false);
-        //pCore->window()->m_projectList->setEnabled(false);
-        pCore->window()->slotPreferences(6);
-        return;
-    }*/
     pCore->window()->connectDocument();
     bool disabled = m_project->getDocumentProperty(QStringLiteral("disabletimelineeffects")) == QLatin1String("1");
     QAction *disableEffects = pCore->window()->actionCollection()->action(QStringLiteral("disable_timeline_effects"));
@@ -560,8 +539,8 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     // Set default target tracks to upper audio / lower video tracks
     m_project = doc;
 
-    pCore->window()->connectDocument();
     updateTimeline(m_project->getDocumentProperty(QStringLiteral("position")).toInt());
+    pCore->window()->connectDocument();
     QDateTime documentDate = QFileInfo(m_project->url().toLocalFile()).lastModified();
     pCore->window()->getMainTimeline()->controller()->loadPreview(m_project->getDocumentProperty(QStringLiteral("previewchunks")),
                                                                   m_project->getDocumentProperty(QStringLiteral("dirtypreviewchunks")), documentDate,

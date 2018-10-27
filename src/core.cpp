@@ -191,11 +191,11 @@ void Core::initGUI(const QUrl &Url)
 
     m_mainWindow->init();
     projectManager()->init(Url, QString());
-    QTimer::singleShot(0, pCore->projectManager(), &ProjectManager::slotLoadOnOpen);
     if (qApp->isSessionRestored()) {
         // NOTE: we are restoring only one window, because Kdenlive only uses one MainWindow
         m_mainWindow->restore(1, false);
     }
+    QMetaObject::invokeMethod(pCore->projectManager(), "slotLoadOnOpen", Qt::QueuedConnection);
     m_mainWindow->show();
 }
 
@@ -311,7 +311,7 @@ bool Core::setCurrentProfile(const QString &profilePath)
         m_thumbProfile.reset();
         // inform render widget
         m_mainWindow->updateRenderWidgetProfile();
-        if (m_guiConstructed) {
+        if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->controller()->getModel()) {
             m_mainWindow->getCurrentTimeline()->controller()->getModel()->updateProfile(&getCurrentProfile()->profile());
         }
         return true;
