@@ -69,7 +69,7 @@ struct TimelineFunctions
     static bool liftZone(std::shared_ptr<TimelineItemModel> timeline, int trackId, QPoint zone, Fun &undo, Fun &redo);
     static bool removeSpace(std::shared_ptr<TimelineItemModel> timeline, int trackId, QPoint zone, Fun &undo, Fun &redo);
     static bool insertSpace(std::shared_ptr<TimelineItemModel> timeline, int trackId, QPoint zone, Fun &undo, Fun &redo);
-    static bool insertZone(std::shared_ptr<TimelineItemModel> timeline, int trackId, const QString &binId, int insertFrame, QPoint zone, bool overwrite);
+    static bool insertZone(std::shared_ptr<TimelineItemModel> timeline, QList<int> trackIds, const QString &binId, int insertFrame, QPoint zone, bool overwrite);
 
     static bool requestItemCopy(std::shared_ptr<TimelineItemModel> timeline, int clipId, int trackId, int position);
     static void showClipKeyframes(std::shared_ptr<TimelineItemModel> timeline, int clipId, bool value);

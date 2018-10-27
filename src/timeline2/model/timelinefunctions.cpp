@@ -242,14 +242,18 @@ bool TimelineFunctions::extractZone(std::shared_ptr<TimelineItemModel> timeline,
     return result;
 }
 
-bool TimelineFunctions::insertZone(std::shared_ptr<TimelineItemModel> timeline, int trackId, const QString &binId, int insertFrame, QPoint zone, bool overwrite)
+bool TimelineFunctions::insertZone(std::shared_ptr<TimelineItemModel> timeline, QList<int> trackIds, const QString &binId, int insertFrame, QPoint zone, bool overwrite)
 {
     // Start undoable command
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
     bool result = false;
+    int trackId = trackIds.takeFirst();
     if (overwrite) {
         result = TimelineFunctions::liftZone(timeline, trackId, QPoint(insertFrame, insertFrame + (zone.y() - zone.x())), undo, redo);
+        if (!trackIds.isEmpty()) {
+            result = result && TimelineFunctions::liftZone(timeline, trackIds.takeFirst(), QPoint(insertFrame, insertFrame + (zone.y() - zone.x())), undo, redo);
+        }
     } else {
         // Cut all tracks
         auto it = timeline->m_allTracks.cbegin();
@@ -272,7 +276,9 @@ bool TimelineFunctions::insertZone(std::shared_ptr<TimelineItemModel> timeline, 
         int newId = -1;
         QString binClipId = QString("%1/%2/%3").arg(binId).arg(zone.x()).arg(zone.y() - 1);
         result = timeline->requestClipInsertion(binClipId, trackId, insertFrame, newId, true, true, true, undo, redo);
-        pCore->pushUndo(undo, redo, overwrite ? i18n("Overwrite zone") : i18n("Insert zone"));
+        if (result) {
+            pCore->pushUndo(undo, redo, overwrite ? i18n("Overwrite zone") : i18n("Insert zone"));
+        }
     }
     if (!result){
         undo();

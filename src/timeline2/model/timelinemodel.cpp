@@ -888,6 +888,9 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
     }
     std::shared_ptr<ProjectClip> master = pCore->projectItemModel()->getClipByBinID(bid);
     type = master->clipType();
+    if (useTargets && m_audioTarget == -1 && m_videoTarget == -1) {
+        useTargets = false;
+    }
 
     if (dropType == PlaylistState::Disabled && (type == ClipType::AV || type == ClipType::Playlist)) {
         if (m_audioTarget >= 0 && m_videoTarget == -1 && useTargets) {
@@ -897,24 +900,15 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
         bool audioDrop = getTrackById_const(trackId)->isAudioTrack();
         res = requestClipCreation(binClipId, id, getTrackById_const(trackId)->trackType(), local_undo, local_redo);
         res = res && requestClipMove(id, trackId, position, refreshView, logUndo, local_undo, local_redo);
-        if (m_videoTarget >= 0 && m_audioTarget == -1) {
-            // No audio target defined, only extract video
-            audioDrop = true;
-        } else if (m_audioTarget >= 0) {
-            if (getTrackById_const(m_audioTarget)->isLocked()) {
-                // Audio target locked, only extract video
-                audioDrop = true;
-            }
-        }
-        if (res && !useTargets) {
-            int target_track = audioDrop ? m_videoTarget : m_audioTarget;
+        int target_track = audioDrop ? m_videoTarget : m_audioTarget;
+        if (res && (!useTargets || target_track > -1)) {
             if (!useTargets) {
                 target_track = audioDrop ? getMirrorVideoTrackId(trackId) : getMirrorAudioTrackId(trackId);
             }
             // QList<int> possibleTracks = m_audioTarget >= 0 ? QList<int>() << m_audioTarget : getLowerTracksId(trackId, TrackType::AudioTrack);
             QList<int> possibleTracks;
             qDebug() << "CREATING SPLIT " << target_track << " usetargets" << useTargets;
-            if (target_track >= 0) {
+            if (target_track >= 0 && !getTrackById_const(target_track)->isLocked()) {
                 possibleTracks << target_track;
             }
             if (possibleTracks.isEmpty()) {

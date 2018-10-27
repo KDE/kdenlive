@@ -1453,19 +1453,22 @@ void TimelineController::extract(int clipId)
 int TimelineController::insertZone(const QString &binId, QPoint zone, bool overwrite)
 {
     std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(binId);
-    int targetTrack = -1;
-    if (audioTarget() == -1 && videoTarget() == -1) {
+    int aTrack = -1;
+    int vTrack = -1;
+    if (clip->hasAudio()) {
+        aTrack = audioTarget();
+    }
+    if (clip->hasVideo()) {
+        vTrack = videoTarget();
+    }
+    if (aTrack == -1 && vTrack == -1) {
         // No target tracks defined, use active track
-        targetTrack = m_activeTrack;
-    } else if (clip->clipType() == ClipType::Audio) {
-        // Audio clip, only allowed on audio track
-        targetTrack = audioTarget();
-    } else {
-        // Video clip
-        targetTrack = videoTarget();
-        if (targetTrack == -1 && clip->hasAudio()) {
-            // No video target defined, switch to audio if available
-            targetTrack = audioTarget();
+        if (m_model->getTrackById_const(m_activeTrack)->isAudioTrack()) {
+            aTrack = m_activeTrack;
+            vTrack = m_model->getMirrorVideoTrackId(aTrack);
+        } else {
+            vTrack = m_activeTrack;
+            aTrack = m_model->getMirrorAudioTrackId(vTrack);
         }
     }
     int insertPoint;
@@ -1479,8 +1482,14 @@ int TimelineController::insertZone(const QString &binId, QPoint zone, bool overw
         insertPoint = timelinePosition();
         sourceZone = zone;
     }
-    return TimelineFunctions::insertZone(m_model, targetTrack, binId, insertPoint, sourceZone, overwrite) ? insertPoint + (sourceZone.y() - sourceZone.x())
-                                                                                                          : -1;
+    QList <int> target_tracks;
+    if (vTrack > -1) {
+        target_tracks << vTrack;
+    }
+    if (aTrack > -1) {
+        target_tracks << aTrack;
+    }
+    return TimelineFunctions::insertZone(m_model, target_tracks, binId, insertPoint, sourceZone, overwrite) ? insertPoint + (sourceZone.y() - sourceZone.x()) : -1;
 }
 
 void TimelineController::updateClip(int clipId, QVector<int> roles)
