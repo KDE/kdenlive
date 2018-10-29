@@ -49,6 +49,9 @@
 
 int main(int argc, char *argv[])
 {
+#ifdef USE_DRMINGW
+    ExcHndlInit();
+#endif
     // Force QDomDocument to use a deterministic XML attribute order
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
     qSetGlobalQHashSeed(0);
@@ -64,6 +67,10 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts, true);
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
     QCoreApplication::setAttribute(Qt::AA_X11InitThreads);
+#endif
+
+#ifdef KF5_USE_CRASH
+    KCrash::initialize();
 #endif
 
 #ifdef Q_OS_WIN
@@ -150,12 +157,6 @@ int main(int argc, char *argv[])
     // Parse command line
     parser.process(app);
     aboutData.processCommandLine(&parser);
-
-#ifdef USE_DRMINGW
-    ExcHndlInit();
-#elif defined(KF5_USE_CRASH)
-    KCrash::initialize();
-#endif
 
     QString clipsToLoad = parser.value(QStringLiteral("i"));
     QString mltPath = parser.value(QStringLiteral("mlt-path"));
