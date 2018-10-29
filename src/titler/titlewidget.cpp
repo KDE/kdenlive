@@ -88,6 +88,7 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     , m_projectTitlePath(projectTitlePath)
     , m_tc(tc)
     , m_fps(monitor->fps())
+    , m_guides(QList <QGraphicsLineItem*>())
 {
     setupUi(this);
     setMinimumSize(200, 200);
@@ -1885,8 +1886,10 @@ void TitleWidget::loadTitle(QUrl url)
         items.removeAll(m_frameBorder);
         items.removeAll(m_frameBackground);
         items.removeAll(m_frameImage);
+        // make sure we don't delete the guides
+        int guideType = m_guides.isEmpty() ? -1 : m_guides.at(0)->type();
         for (int i = 0; i < items.size(); ++i) {
-            if (items.at(i)->zValue() > -1000) {
+            if (items.at(i)->zValue() > -1000 && (guideType == -1 || items.at(i)->type() != guideType)) {
                 delete items.at(i);
             }
         }
@@ -2996,8 +2999,10 @@ void TitleWidget::updateGuides(int)
 {
     KdenliveSettings::setTitlerHGuides(hguides->value());
     KdenliveSettings::setTitlerVGuides(vguides->value());
-    qDeleteAll(m_guides);
-    m_guides.clear();
+    if (!m_guides.isEmpty()) {
+        qDeleteAll(m_guides);
+        m_guides.clear();
+    }
     QPen framepen;
     QColor gColor(KdenliveSettings::titleGuideColor());
     framepen.setColor(gColor);
