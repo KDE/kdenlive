@@ -246,8 +246,9 @@ bool LoadJob::startJob()
     }
     m_resource = Xml::getXmlProperty(m_xml, QStringLiteral("resource"));
     ClipType::ProducerType type = static_cast<ClipType::ProducerType>(m_xml.attribute(QStringLiteral("type")).toInt());
+    QString service = Xml::getXmlProperty(m_xml, QStringLiteral("mlt_service"));
     if (type == ClipType::Unknown) {
-        type = getTypeForService(Xml::getXmlProperty(m_xml, QStringLiteral("mlt_service")), m_resource);
+        type = getTypeForService(service, m_resource);
     }
     switch (type) {
     case ClipType::Color:
@@ -265,7 +266,12 @@ bool LoadJob::startJob()
         break;
     case ClipType::SlideShow:
     default:
-        m_producer = std::make_shared<Mlt::Producer>(pCore->getCurrentProfile()->profile(), nullptr, m_resource.toUtf8().constData());
+        if (!service.isEmpty()) {
+            service.append(QChar(':'));
+            m_producer = loadResource(m_resource, service);
+        } else {
+            m_producer = std::make_shared<Mlt::Producer>(pCore->getCurrentProfile()->profile(), nullptr, m_resource.toUtf8().constData());
+        }
         break;
     }
     if (!m_producer || m_producer->is_blank() || !m_producer->is_valid()) {

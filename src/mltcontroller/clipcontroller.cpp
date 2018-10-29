@@ -305,18 +305,20 @@ void ClipController::updateProducer(const std::shared_ptr<Mlt::Producer> &produc
     } else {
         m_usesProxy = false;
     }
-    passProperties.pass_list(*m_properties, getPassPropertiesList(m_usesProxy));
+    // This is necessary as some properties like set.test_audio are reset on producer creation
+    const char *passList = getPassPropertiesList(m_usesProxy);
+    passProperties.pass_list(*m_properties, passList);
     delete m_properties;
     *m_masterProducer = producer.get();
     checkAudioVideo();
     m_properties = new Mlt::Properties(m_masterProducer->get_properties());
     // Pass properties from previous producer
-    m_properties->pass_list(passProperties, getPassPropertiesList(m_usesProxy));
-    m_producerLock.unlock();
+    m_properties->pass_list(passProperties, passList);
     if (!m_masterProducer->is_valid()) {
         qCDebug(KDENLIVE_LOG) << "// WARNING, USING INVALID PRODUCER";
     } else {
         m_effectStack->resetService(m_masterProducer);
+        emitProducerChanged(m_controllerBinId, producer);
         // URL and name shoule not be updated otherwise when proxying a clip we cannot find back the original url
         /*m_url = QUrl::fromLocalFile(m_masterProducer->get("resource"));
         if (m_url.isValid()) {
@@ -324,6 +326,7 @@ void ClipController::updateProducer(const std::shared_ptr<Mlt::Producer> &produc
         }
         */
     }
+    m_producerLock.unlock();
     qDebug() << "// replace finished: " << binId() << " : " << m_masterProducer->get("resource");
 }
 
