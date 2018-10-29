@@ -76,6 +76,8 @@ public:
     virtual std::shared_ptr<ProjectClip> clipAt(int ix) = 0;
     /** @brief Recursively disable/enable bin effects. */
     virtual void setBinEffectsEnabled(bool enabled) = 0;
+    /** @brief Returns true if item has both audio and video enabled. */
+    virtual bool hasAudioAndVideo() const = 0;
 
     /** @brief This function executes what should be done when the item is deleted
         but without deleting effectively.
@@ -132,7 +134,8 @@ public:
         JobStatus,
         // Item status (ready or not, missing, waiting, ...)
         ClipStatus,
-        ClipType
+        ClipType,
+        ClipHasAudioAndVideo
     };
 
     enum CLIPSTATUS { StatusReady = 0, StatusMissing, StatusWaiting, StatusDeleting };

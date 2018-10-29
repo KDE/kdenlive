@@ -167,3 +167,8 @@ ClipType::ProducerType ProjectSubClip::clipType() const
 {
     return m_masterClip->clipType();
 }
+
+bool ProjectSubClip::hasAudioAndVideo() const
+{
+    return m_masterClip->hasAudioAndVideo();
+}

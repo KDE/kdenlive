@@ -83,6 +83,8 @@ public:
     /** @brief Returns a list of all children and sub-children clips. */
     QList<std::shared_ptr<ProjectClip>> childClips();
     ClipType::ProducerType clipType() const override;
+    /** @brief Returns true if item has both audio and video enabled. */
+    bool hasAudioAndVideo() const override;
 };
 
 #endif

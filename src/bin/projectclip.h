@@ -105,8 +105,15 @@ public:
 
     bool selfSoftDelete(Fun &undo, Fun &redo) override;
 
+    /** @brief Returns true if item has both audio and video enabled. */
+    bool hasAudioAndVideo() const override;
+
     /** @brief Check if clip has a parent folder with id id */
     bool hasParent(const QString &id) const;
+
+    /** @brief Returns true is the clip can have the requested state */
+    bool isCompatible(PlaylistState::ClipState state) const;
+
     ClipPropertiesController *buildProperties(QWidget *parent);
     QPoint zone() const override;
 

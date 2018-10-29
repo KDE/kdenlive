@@ -229,7 +229,8 @@ public:
 
                     // Add audio/video icons for selective drag
                     int cType = index.data(AbstractProjectItem::ClipType).toInt();
-                    if ((cType == ClipType::AV || cType == ClipType::Playlist) && (opt.state & QStyle::State_MouseOver)) {
+                    bool hasAudioAndVideo = index.data(AbstractProjectItem::ClipHasAudioAndVideo).toBool();
+                    if (hasAudioAndVideo && (cType == ClipType::AV || cType == ClipType::Playlist) && (opt.state & QStyle::State_MouseOver)) {
                         bounding.moveLeft(bounding.right() + (2 * textMargin));
                         bounding.adjust(0, textMargin, 0, -textMargin);
                         QIcon aDrag = QIcon::fromTheme(QStringLiteral("audio-volume-medium"));

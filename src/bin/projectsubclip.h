@@ -78,6 +78,8 @@ public:
     QPoint zone() const override;
     QString getToolTip() const override;
     bool rename(const QString &name, int column) override;
+    /** @brief Returns true if item has both audio and video enabled. */
+    bool hasAudioAndVideo() const override;
 
     /** @brief returns a pointer to the parent clip */
     std::shared_ptr<ProjectClip> getMasterClip() const;

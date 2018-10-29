@@ -158,3 +158,8 @@ ClipType::ProducerType ProjectFolder::clipType() const
 {
     return ClipType::Unknown;
 }
+
+bool ProjectFolder::hasAudioAndVideo() const
+{
+    return false;
+}

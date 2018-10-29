@@ -151,6 +151,9 @@ QVariant AbstractProjectItem::getData(DataType type) const
     case ClipType:
         data = clipType();
         break;
+    case ClipHasAudioAndVideo:
+        data = hasAudioAndVideo();
+        break;
     case JobType:
         if (itemType() == ClipItem) {
             auto jobIds = pCore->jobManager()->getPendingJobsIds(clipId());

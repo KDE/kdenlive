@@ -83,3 +83,7 @@ ClipType::ProducerType ProjectFolderUp::clipType() const
     return ClipType::Unknown;
 }
 
+bool ProjectFolderUp::hasAudioAndVideo() const
+{
+    return false;
+}

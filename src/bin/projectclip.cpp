@@ -347,6 +347,23 @@ void ProjectClip::setThumbnail(const QImage &img)
     }
 }
 
+bool ProjectClip::hasAudioAndVideo() const
+{
+    return hasAudio() && hasVideo() && m_masterProducer->get_int("set.test_image") == 0  && m_masterProducer->get_int("set.test_audio") == 0;
+}
+
+bool ProjectClip::isCompatible(PlaylistState::ClipState state) const
+{
+    switch (state) {
+        case PlaylistState::AudioOnly:
+            return hasAudio() && (m_masterProducer->get_int("set.test_audio") == 0);
+        case PlaylistState::VideoOnly:
+            return hasVideo() && (m_masterProducer->get_int("set.test_image") == 0);
+        default:
+            return true;
+    }
+}
+
 QPixmap ProjectClip::thumbnail(int width, int height)
 {
     return m_thumbnail.pixmap(width, height);

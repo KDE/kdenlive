@@ -74,6 +74,8 @@ public:
     QString getToolTip() const override;
     bool rename(const QString &name, int column) override;
     ClipType::ProducerType clipType() const override;
+    /** @brief Returns true if item has both audio and video enabled. */
+    bool hasAudioAndVideo() const override;
 
 private:
     Bin *m_bin;

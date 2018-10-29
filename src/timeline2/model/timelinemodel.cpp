@@ -810,9 +810,6 @@ int TimelineModel::suggestCompositionMove(int compoId, int trackId, int position
 bool TimelineModel::requestClipCreation(const QString &binClipId, int &id, PlaylistState::ClipState state, Fun &undo, Fun &redo)
 {
     qDebug() << "requestClipCreation " << binClipId;
-    int clipId = TimelineModel::getNextId();
-    id = clipId;
-    Fun local_undo = deregisterClip_lambda(clipId);
     QString bid = binClipId;
     if (binClipId.contains(QLatin1Char('/'))) {
         bid = binClipId.section(QLatin1Char('/'), 0, 0);
@@ -820,6 +817,13 @@ bool TimelineModel::requestClipCreation(const QString &binClipId, int &id, Playl
     if (!pCore->projectItemModel()->hasClip(bid)) {
         return false;
     }
+    std::shared_ptr<ProjectClip> master = pCore->projectItemModel()->getClipByBinID(bid);
+    if (!master->isCompatible(state)) {
+        return false;
+    }
+    int clipId = TimelineModel::getNextId();
+    id = clipId;
+    Fun local_undo = deregisterClip_lambda(clipId);
     ClipModel::construct(shared_from_this(), bid, clipId, state);
     auto clip = m_allClips[clipId];
     Fun local_redo = [clip, this, state]() {
@@ -901,7 +905,8 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
         res = requestClipCreation(binClipId, id, getTrackById_const(trackId)->trackType(), local_undo, local_redo);
         res = res && requestClipMove(id, trackId, position, refreshView, logUndo, local_undo, local_redo);
         int target_track = audioDrop ? m_videoTarget : m_audioTarget;
-        if (res && (!useTargets || target_track > -1)) {
+        qDebug()<<"CLIP HAS A+V: "<<master->hasAudioAndVideo();
+        if (res && (!useTargets || target_track > -1) && master->hasAudioAndVideo()) {
             if (!useTargets) {
                 target_track = audioDrop ? getMirrorVideoTrackId(trackId) : getMirrorAudioTrackId(trackId);
             }
