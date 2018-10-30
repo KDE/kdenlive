@@ -99,7 +99,7 @@ The rest:
                 - works with MLT filters that use mlt_geometry for keyframe support (includes all frei0r filters)
                 - same attributes as "keyframe"
             - "geometry":
-                - a rectangle: postion + dimension + additional value
+                - a rectangle: position + dimension + additional value
                 - works with MLT filters using mlt_geometry
                 - the rect can be edited on the project monitor
                 - additional attributes:

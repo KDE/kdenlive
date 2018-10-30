@@ -73,7 +73,7 @@ private:
 
     /** @brief Returns the list of cubic Bézier points that form the spline at position @param keyframe.
      * The points are brought from the range [0, 1] into project resolution space.
-     * This function does not do any interpolation and therfore will only return a list when a keyframe at the given postion exists.
+     * This function does not do any interpolation and therefore will only return a list when a keyframe at the given position exists.
      * Set @param keyframe to -1 if only one keyframe currently exists. */
     QList<BPoint> getPoints(int keyframe);
 

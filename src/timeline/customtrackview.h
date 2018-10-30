@@ -401,7 +401,7 @@ public slots:
     void slotAddEffect(ClipItem *clip, const QDomElement &effect, int track = -1);
     void slotImportClipKeyframes(GraphicsRectItem type, const ItemInfo &info, const QDomElement &xml, QMap<QString, QString> keyframes = QMap<QString, QString>());
 
-    /** @brief Move playhead to mouse curser position if defined key is pressed */
+    /** @brief Move playhead to mouse cursor position if defined key is pressed */
     void slotAlignPlayheadToMousePos();
 
     void slotInfoProcessingFinished();

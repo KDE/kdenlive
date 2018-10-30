@@ -495,7 +495,7 @@ void CustomTrackView::slotCheckPositionScrolling()
 
 void CustomTrackView::slotAlignPlayheadToMousePos()
 {
-    /* get curser point ref in screen coord */
+    /* get cursor point ref in screen coord */
     QPoint ps = QCursor::pos();
     /* get xPos in scene coord */
     int mappedXPos = qMax((int)(mapToScene(mapFromGlobal(ps)).x() + 0.5), 0);
@@ -2752,7 +2752,7 @@ void CustomTrackView::cutClip(const ItemInfo &info, const GenTime &cutTime, bool
         }
         if (execute) {
             if (!m_timeline->track(info.track)->cut(cutTime.seconds())) {
-                // Error cuting clip in playlist
+                // Error cutting clip in playlist
                 qCDebug(KDENLIVE_LOG) << "/// ERROR CUTTING CLIP PLAYLIST!!";
                 return;
             }

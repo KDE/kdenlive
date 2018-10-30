@@ -38,7 +38,7 @@
       <Action name="duplicate_clip" />
       <Action name="proxy_clip" />
       <Menu name="clip_in_timeline"><text>Clip in Timeline</text>
-	<ActionList name="timeline_occurences" />
+	<ActionList name="timeline_occurrences" />
       </Menu>
       <Action name="clip_properties" />
       <Action name="edit_clip" />

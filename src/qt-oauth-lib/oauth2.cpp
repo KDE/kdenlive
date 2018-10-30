@@ -212,7 +212,7 @@ void OAuth2::RequestAccessCode(bool pIsReRequest, const QString &pCode)
  * @brief OAuth2::serviceRequestFinished -  Fires when we finish downloading the access token.
  * This is the slot that is notified when OAuth2::SlotAuthCodeObtained  has finished downloading the access token.
  * It parses the result to extract out the access_token, refresh_token and expires_in values. If it
- * extracts the access token sucessfully if fires the  OAuth2::accessTokenReceived signal
+ * extracts the access token successfully if fires the  OAuth2::accessTokenReceived signal
  * which is picked up by ResourceWidget::slotAccessTokenReceived
 
  * @param reply

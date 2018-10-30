@@ -39,7 +39,7 @@ class HeaderTrack;
  * When one adds, deletes, moves and resizes clips on the track,
  * it corresponds to playlist operations, simple or elaborate.
  * The Track class handles the edit time to MLT frame & index
- * correspondance, and builds complex operations on top of basic
+ * correspondence, and builds complex operations on top of basic
  * commands.
  */
 
@@ -87,7 +87,7 @@ public:
     /** @brief The track header widget */
     HeaderTrack *trackHeader;
 
-    /** @brief convertion utility function
+    /** @brief conversion utility function
      * @param time (in seconds)
      * @return frame number */
     int frame(qreal t);

@@ -696,7 +696,7 @@ bool Timeline::isLastClip(const ItemInfo &info)
 void Timeline::setTrackInfo(int ix, const TrackInfo &info)
 {
     if (ix < 0 || ix > m_tracks.count()) {
-        qCWarning(KDENLIVE_LOG) << "Set Track effect outisde of range";
+        qCWarning(KDENLIVE_LOG) << "Set Track effect outside of range";
         return;
     }
     Track *tk = track(ix);
@@ -725,7 +725,7 @@ void Timeline::lockTrack(int ix, bool lock)
 {
     Track *tk = track(ix);
     if (tk == nullptr) {
-        qCWarning(KDENLIVE_LOG) << "Set Track effect outisde of range: " << ix;
+        qCWarning(KDENLIVE_LOG) << "Set Track effect outside of range: " << ix;
         return;
     }
     tk->lockTrack(lock);
@@ -735,7 +735,7 @@ bool Timeline::isTrackLocked(int ix)
 {
     Track *tk = track(ix);
     if (tk == nullptr) {
-        qCWarning(KDENLIVE_LOG) << "Set Track effect outisde of range: " << ix;
+        qCWarning(KDENLIVE_LOG) << "Set Track effect outside of range: " << ix;
         return false;
     }
     int locked = tk->getIntProperty(QStringLiteral("kdenlive:locked_track"));
@@ -792,7 +792,7 @@ void Timeline::doSwitchTrackVideo(int ix, bool hide)
 {
     Track *tk = track(ix);
     if (tk == nullptr) {
-        qCWarning(KDENLIVE_LOG) << "Set Track effect outisde of range: " << ix;
+        qCWarning(KDENLIVE_LOG) << "Set Track effect outside of range: " << ix;
         return;
     }
     int state = tk->state();
@@ -843,7 +843,7 @@ void Timeline::doSwitchTrackAudio(int ix, bool mute)
 {
     Track *tk = track(ix);
     if (tk == nullptr) {
-        qCWarning(KDENLIVE_LOG) << "Set Track effect outisde of range: " << ix;
+        qCWarning(KDENLIVE_LOG) << "Set Track effect outside of range: " << ix;
         return;
     }
     int state = tk->state();
@@ -1429,7 +1429,7 @@ bool Timeline::moveClip(int startTrack, qreal startPos, int endTrack, qreal endP
 void Timeline::addTrackEffect(int trackIndex, QDomElement effect, bool addToPlaylist)
 {
     if (trackIndex < 0 || trackIndex >= m_tracks.count()) {
-        qCWarning(KDENLIVE_LOG) << "Set Track effect outisde of range";
+        qCWarning(KDENLIVE_LOG) << "Set Track effect outside of range";
         return;
     }
     Track *sourceTrack = track(trackIndex);
@@ -1486,7 +1486,7 @@ void Timeline::addTrackEffect(int trackIndex, QDomElement effect, bool addToPlay
 bool Timeline::removeTrackEffect(int trackIndex, int effectIndex, const QDomElement &effect)
 {
     if (trackIndex < 0 || trackIndex >= m_tracks.count()) {
-        qCWarning(KDENLIVE_LOG) << "Set Track effect outisde of range";
+        qCWarning(KDENLIVE_LOG) << "Set Track effect outside of range";
         return false;
     }
     int toRemove = effect.attribute(QStringLiteral("kdenlive_ix")).toInt();
@@ -1511,7 +1511,7 @@ bool Timeline::removeTrackEffect(int trackIndex, int effectIndex, const QDomElem
 void Timeline::setTrackEffect(int trackIndex, int effectIndex, QDomElement effect, bool updateTrack)
 {
     if (trackIndex < 0 || trackIndex >= m_tracks.count()) {
-        qCWarning(KDENLIVE_LOG) << "Set Track effect outisde of range";
+        qCWarning(KDENLIVE_LOG) << "Set Track effect outside of range";
         return;
     }
     Track *sourceTrack = track(trackIndex);
@@ -1531,7 +1531,7 @@ void Timeline::setTrackEffect(int trackIndex, int effectIndex, QDomElement effec
 bool Timeline::enableTrackEffects(int trackIndex, const QList<int> &effectIndexes, bool disable)
 {
     if (trackIndex < 0 || trackIndex >= m_tracks.count()) {
-        qCWarning(KDENLIVE_LOG) << "Set Track effect outisde of range";
+        qCWarning(KDENLIVE_LOG) << "Set Track effect outside of range";
         return false;
     }
     Track *sourceTrack = track(trackIndex);
@@ -1556,7 +1556,7 @@ bool Timeline::enableTrackEffects(int trackIndex, const QList<int> &effectIndexe
 const EffectsList Timeline::getTrackEffects(int trackIndex)
 {
     if (trackIndex < 0 || trackIndex >= m_tracks.count()) {
-        qCWarning(KDENLIVE_LOG) << "Set Track effect outisde of range";
+        qCWarning(KDENLIVE_LOG) << "Set Track effect outside of range";
         return EffectsList();
     }
     Track *sourceTrack = track(trackIndex);
@@ -1566,7 +1566,7 @@ const EffectsList Timeline::getTrackEffects(int trackIndex)
 QDomElement Timeline::getTrackEffect(int trackIndex, int effectIndex)
 {
     if (trackIndex < 0 || trackIndex >= m_tracks.count()) {
-        qCWarning(KDENLIVE_LOG) << "Set Track effect outisde of range";
+        qCWarning(KDENLIVE_LOG) << "Set Track effect outside of range";
         return QDomElement();
     }
     Track *sourceTrack = track(trackIndex);
@@ -1580,7 +1580,7 @@ QDomElement Timeline::getTrackEffect(int trackIndex, int effectIndex)
 int Timeline::hasTrackEffect(int trackIndex, const QString &tag, const QString &id)
 {
     if (trackIndex < 0 || trackIndex >= m_tracks.count()) {
-        qCWarning(KDENLIVE_LOG) << "Set Track effect outisde of range";
+        qCWarning(KDENLIVE_LOG) << "Set Track effect outside of range";
         return -1;
     }
     Track *sourceTrack = track(trackIndex);
@@ -1618,7 +1618,7 @@ QPoint Timeline::getTracksCount()
 int Timeline::getTrackSpaceLength(int trackIndex, int pos, bool fromBlankStart)
 {
     if (trackIndex < 0 || trackIndex >= m_tracks.count()) {
-        qCWarning(KDENLIVE_LOG) << "Set Track effect outisde of range";
+        qCWarning(KDENLIVE_LOG) << "Set Track effect outside of range";
         return 0;
     }
     return track(trackIndex)->getBlankLength(pos, fromBlankStart);

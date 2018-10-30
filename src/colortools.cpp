@@ -83,7 +83,7 @@ QImage ColorTools::yuvColorWheel(const QSize &size, int Y, float scaling, bool m
                 db *= dmax;
             }
 
-            // Avoid overflows (which would generate intersting patterns).
+            // Avoid overflows (which would generate intersecting patterns).
             // Note that not all possible (y,u,v) values with u,v \in [-1,1]
             // have a correct RGB representation, therefore some RGB values
             // may exceed {0,...,255}.
@@ -295,7 +295,7 @@ QImage ColorTools::yPbPrColorWheel(const QSize &size, int Y, float scaling, bool
             dg = Y - 87.75 * dpB - 182.1 * dpR;
             db = Y + 451.86 * dpB;
 
-            // Avoid overflows (which would generate intersting patterns).
+            // Avoid overflows (which would generate intersecting patterns).
             // Note that not all possible (y,u,v) values with u,v \in [-1,1]
             // have a correct RGB representation, therefore some RGB values
             // may exceed {0,...,255}.

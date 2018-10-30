@@ -182,7 +182,7 @@ public:
     /** @brief Returns true if audio thumbnails for this clip are cached */
     bool audioThumbCreated;
     Mlt::Profile *profile();
-    /** @brief When replacing a producer, it is important that we keep some properties, for exemple force_ stuff and url for proxies
+    /** @brief When replacing a producer, it is important that we keep some properties, for example force_ stuff and url for proxies
      * this method returns a list of properties that we want to keep when replacing a producer . */
     static const char *getPassPropertiesList(bool passLength = true);
     /** @brief Disable all Kdenlive effects on this clip */

@@ -19,7 +19,7 @@
 /*
 
  Timecode calculation code for reference
- If we ever use Quicktime timecode with 50.94 Drop frame, keep in mind that there is a bug inthe Quicktime code
+ If we ever use Quicktime timecode with 50.94 Drop frame, keep in mind that there is a bug in the Quicktime code
 
 //CONVERT A FRAME NUMBER TO DROP FRAME TIMECODE
 //Code by David Heidelberger, adapted from Andrew Duncan

@@ -51,7 +51,7 @@ class LoginDialog;
  \details It contains a QWebView object to display the freesound web page. I did try using a QTextBrowser
  for this purpose but it responds to the URL that is used to connect with
  "No document for https://www.freesound.org/apiv2/oauth2/authorize/?client_id=3duhagdr874c&redirect_uri=https://www.freesound.org/home/app_permissions/permission_granted/&response_type=code"
- The use of QWebView adds a dependancy on the KF5WebKit to kdenlive. Need install libkf5webkit5-dev package on ubuntu
+ The use of QWebView adds a dependency on the KF5WebKit to kdenlive. Need install libkf5webkit5-dev package on ubuntu
  */
 class LoginDialog : public QDialog
 {
@@ -71,7 +71,7 @@ signals:
      */
     void authCodeObtained();
     /**
-     * @brief accessDenied -signal emmited if freesound denies access - eg bad password or user has denied access to Kdenlive app.
+     * @brief accessDenied -signal emitted if freesound denies access - eg bad password or user has denied access to Kdenlive app.
      */
     void accessDenied();
     /**
@@ -79,7 +79,7 @@ signals:
      */
     void canceled();
     /**
-     * @brief useHQPreview - signal emmited when user clicks the "use HQ preview" button in the logon dialog
+     * @brief useHQPreview - signal emitted when user clicks the "use HQ preview" button in the logon dialog
      */
     void useHQPreview();
 

@@ -63,7 +63,7 @@ private slots:
     void slotUpdateDurationFormat(int ix);
     void slotGenerateThumbs();
     void slotSetPixmap(const KFileItem &fileItem, const QPixmap &pix);
-    /** @brief Display correct widget depenging on user choice (MIME type or pattern method). */
+    /** @brief Display correct widget depending on user choice (MIME type or pattern method). */
     void slotMethodChanged(bool active);
 
 private:

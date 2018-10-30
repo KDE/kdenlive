@@ -2421,7 +2421,7 @@ void Bin::slotUpdateJobStatus(const QString &id, int jobType, int status, const 
 
 void Bin::doDisplayMessage(const QString &text, KMessageWidget::MessageType type, const QList<QAction *> &actions)
 {
-    // Remove axisting actions if any
+    // Remove existing actions if any
     QList<QAction *> acts = m_infoMessage->actions();
     while (!acts.isEmpty()) {
         QAction *a = acts.takeFirst();

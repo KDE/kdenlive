@@ -76,7 +76,7 @@ private:
     void fixClipItem(QTreeWidgetItem *child, const QDomNodeList &producers, const QDomNodeList &trans);
     void fixSourceClipItem(QTreeWidgetItem *child, const QDomNodeList &producers);
     void fixProxyClip(const QString &id, const QString &oldUrl, const QString &newUrl, const QDomNodeList &producers);
-    /** @brief Returns list of transitions containg luma files */
+    /** @brief Returns list of transitions containing luma files */
     QMap <QString, QString> getLumaPairs() const;
 };
 

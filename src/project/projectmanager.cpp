@@ -431,7 +431,7 @@ bool ProjectManager::checkForBackupFile(const QUrl &url, bool newFile)
     QList<KAutoSaveFile *> staleFiles = KAutoSaveFile::staleFiles(autosaveUrl);
     KAutoSaveFile *orphanedFile = nullptr;
     // Check if we can have a lock on one of the file,
-    // meaning it is not handled by any Kdenlive instancce
+    // meaning it is not handled by any Kdenlive instance
     if (!staleFiles.isEmpty()) {
         foreach (KAutoSaveFile *stale, staleFiles) {
             if (stale->open(QIODevice::QIODevice::ReadWrite)) {

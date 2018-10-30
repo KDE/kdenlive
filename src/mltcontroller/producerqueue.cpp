@@ -735,7 +735,7 @@ void ProducerQueue::processFileProperties()
                     }
                     QImage img = KThumb::getFrame(frame, fullWidth, info.imageHeight, forceThumbScale);
                     if (frameNumber == -1) {
-                        // No user specipied frame, look for best one
+                        // No user specified frame, look for best one
                         int variance = KThumb::imageVariance(img);
                         if (variance < 6) {
                             // Thumbnail is not interesting (for example all black, seek to fetch better thumb

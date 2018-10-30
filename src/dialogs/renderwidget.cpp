@@ -1292,7 +1292,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut,
         renderArgs.append(QStringLiteral(" real_time=-%1").arg(KdenliveSettings::mltthreads()));
 
         // Check if the rendering profile is different from project profile,
-        // in which case we need to use the producer_comsumer from MLT
+        // in which case we need to use the producer_consumer from MLT
         QString subsize;
         if (std.startsWith(QLatin1String("s="))) {
             subsize = std.section(QLatin1Char(' '), 0, 0).toLower();

@@ -70,7 +70,7 @@ public:
      * @param Url (optional) file to open
      * @param clipsToLoad (optional) a comma separated list of clips to import in project
      *
-     * If Url is present, it will be opened, otherwhise, if openlastproject is
+     * If Url is present, it will be opened, otherwise, if openlastproject is
      * set, latest project will be opened. If no file is open after trying this,
      * a default new file will be created. */
     void init(const QString &MltPath, const QUrl &Url, const QString &clipsToLoad);
@@ -316,7 +316,7 @@ private slots:
     void slotDeleteAllClipMarkers();
     void slotEditClipMarker();
 
-    /** @brief Adds marker or auide at the current position without showing the marker dialog.
+    /** @brief Adds marker or guide at the current position without showing the marker dialog.
      *
      * Adds a marker if clip monitor is active, otherwise a guide.
      * The comment is set to the current position (therefore not dialog).
@@ -436,7 +436,7 @@ private slots:
 
     /** @brief Process keyframe data sent from a clip to effect / transition stack. */
     void slotProcessImportKeyframes(GraphicsRectItem type, const QString& tag, const QString& keyframes);
-    /** @brief Move playhead to mouse curser position if defined key is pressed */
+    /** @brief Move playhead to mouse cursor position if defined key is pressed */
     void slotAlignPlayheadToMousePos();
 
     void slotThemeChanged(const QString &);

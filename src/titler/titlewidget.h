@@ -54,7 +54,7 @@ public:
 
 /*! \class TitleWidget
     \brief Title creation dialog
-    Instances of TitleWidget classes are instansiated by KdenliveDoc::slotCreateTextClip ()
+    Instances of TitleWidget classes are instantiated by KdenliveDoc::slotCreateTextClip ()
 */
 class TitleWidget : public QDialog, public Ui::TitleWidget_UI
 {
@@ -269,7 +269,7 @@ private slots:
      * Left selected: Value = l
      * Right selected: Value = r
      *
-     * To calculate between the two coorindate systems:
+     * To calculate between the two coordinate systems:
      * l = m_frameWidth - w - r
      * r = m_frameWidth - w - l
      */

@@ -72,7 +72,7 @@ public:
     static QString getColorspaceDescription(int colorspace);
 
     /** @brief Get the colorspace code (defined by MLT) from a descriptive text
-     *  @param desctiption A string description as defined in getColorspaceDescription(int colorspace)
+     *  @param description A string description as defined in getColorspaceDescription(int colorspace)
      *  @return The int code */
     static int getColorspaceFromDescription(const QString &description);
 

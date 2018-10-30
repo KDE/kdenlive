@@ -87,7 +87,7 @@ public:
 
     /**
      * @brief Removes a child item and notifies the bin model about it (before and after).
-     * @param child project which sould be removed from the child list
+     * @param child project which should be removed from the child list
      *
      * This function is called when a child's parent is changed through setParent
      */

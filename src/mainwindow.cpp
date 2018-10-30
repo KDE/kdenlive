@@ -2964,9 +2964,9 @@ void MainWindow::slotClipInTimeline(const QString &clipId)
             actionList.insert(j, a);
         }
         QList<QAction *> list = inTimelineMenu->actions();
-        unplugActionList(QStringLiteral("timeline_occurences"));
+        unplugActionList(QStringLiteral("timeline_occurrences"));
         qDeleteAll(list);
-        plugActionList(QStringLiteral("timeline_occurences"), actionList);
+        plugActionList(QStringLiteral("timeline_occurrences"), actionList);
 
         if (actionList.isEmpty()) {
             inTimelineMenu->setEnabled(false);

@@ -238,7 +238,7 @@ void ParameterPlotter::replot(const QString &name)
 
 void ParameterPlotter::mousePressEvent(QMouseEvent *event)
 {
-    //topPadding and other padding can be wrong and this (i hope) will be correctet in newer kde versions
+    //topPadding and other padding can be wrong and this (i hope) will be corrected in newer kde versions
     QPoint inPlot = event->pos() - QPoint(leftPadding(), topPadding());
     QList<KPlotPoint *> list =   pointsUnderPoint(inPlot);
     if (event->button() == Qt::LeftButton) {

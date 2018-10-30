@@ -59,7 +59,7 @@ public:
      * @param Url (optional) file to open
      * @param clipsToLoad (optional) a comma separated list of clips to import in project
      *
-     * If Url is present, it will be opened, otherwhise, if openlastproject is
+     * If Url is present, it will be opened, otherwise, if openlastproject is
      * set, latest project will be opened. If no file is open after trying this,
      * a default new file will be created. */
     static void build(const QString &MltPath = QString(), const QUrl &Url = QUrl(), const QString &clipsToLoad = QString());

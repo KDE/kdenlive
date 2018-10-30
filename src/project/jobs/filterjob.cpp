@@ -143,7 +143,7 @@ QHash<ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(const QList<Projec
         consumerParams.insert(QStringLiteral("all"), QStringLiteral("1"));
         consumerParams.insert(QStringLiteral("terminate_on_pause"), QStringLiteral("1"));
         consumerParams.insert(QStringLiteral("real_time"), QStringLiteral("-1"));
-        // We just want to find scene change, set all mathods to the fastests
+        // We just want to find scene change, set all methods to the fastest
         consumerParams.insert(QStringLiteral("rescale"), QStringLiteral("nearest"));
         consumerParams.insert(QStringLiteral("deinterlace_method"), QStringLiteral("onefield"));
         consumerParams.insert(QStringLiteral("top_field_first"), QStringLiteral("-1"));

@@ -212,7 +212,7 @@ void GLWidget::resizeGL(int width, int height)
     double this_aspect = (double) width / height;
     double video_aspect = m_monitorProfile->dar();
 
-    // Special case optimisation to negate odd effect of sample aspect ratio
+    // Special case optimization to negate odd effect of sample aspect ratio
     // not corresponding exactly with image resolution.
     if ((int)(this_aspect * 1000) == (int)(video_aspect * 1000)) {
         w = width;

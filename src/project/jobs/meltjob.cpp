@@ -120,7 +120,7 @@ void MeltJob::startJob()
     if (qAbs(m_profile->fps() - fps) > 0.01 || producerProfile) {
         // Reload producer
         delete producer;
-        // Force same fps as projec profile or the resulting .mlt will not load in our project
+        // Force same fps as project profile or the resulting .mlt will not load in our project
         m_profile->set_frame_rate(fps_num, fps_den);
         producer = new Mlt::Producer(*m_profile,  m_url.toUtf8().constData());
     }
