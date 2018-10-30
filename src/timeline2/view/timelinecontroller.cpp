@@ -588,6 +588,7 @@ void TimelineController::groupSelection()
         clips.insert(id);
     }
     m_model->requestClipsGroup(clips);
+    emit selectionChanged();
 }
 
 void TimelineController::unGroupSelection(int cid)
@@ -861,6 +862,17 @@ void TimelineController::selectItems(QVariantList arg, int startFrame, int endFr
     std::unordered_set<int> newIds;
     if (m_model->m_temporarySelectionGroup >= 0) {
         newIds = m_model->getGroupElements(m_selection.selectedItems.constFirst());
+        for (int child : newIds) {
+            QModelIndex ix;
+            if (m_model->isClip(child)) {
+                ix = m_model->makeClipIndexFromID(child);
+            } else if (m_model->isComposition(child)) {
+                ix = m_model->makeCompositionIndexFromID(child);
+            }
+            if (ix.isValid()) {
+                m_model->dataChanged(ix, ix, {TimelineModel::GroupedRole});
+            }
+        }
     }
     emit selectionChanged();
 }
@@ -1840,9 +1852,9 @@ void TimelineController::updateClipActions()
         bool enableAction = true;
         const QChar actionData = act->data().toChar();
         if (actionData == QLatin1Char('G')) {
-            enableAction = m_selection.selectedItems.size() > 1;
+            enableAction = m_model->isInMultiSelection(item);
         } else if (actionData == QLatin1Char('U')) {
-            enableAction = m_model->m_groups->isInGroup(item) && !m_model->isInSelection(item);
+            enableAction = m_model->m_groups->isInGroup(item) && !m_model->isInMultiSelection(item);
         } else if (actionData == QLatin1Char('A')) {
             enableAction = clip && clip->clipState() == PlaylistState::AudioOnly;
         } else if (actionData == QLatin1Char('V')) {
@@ -2072,4 +2084,9 @@ QStringList TimelineController::getThumbKeys()
     }
     result.removeDuplicates();
     return result;
+}
+
+bool TimelineController::isInSelection(int itemId)
+{
+    return m_model->isInMultiSelection(itemId);
 }

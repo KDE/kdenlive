@@ -10,9 +10,13 @@ Menu {
         property bool grouped
         property bool canBeAudio
         property bool canBeVideo
+        property bool canBeGrouped: timeline.isInSelection(clipId)
 
         onAboutToHide: {
             timeline.ungrabHack()
+        }
+        onAboutToShow: {
+            canBeGrouped = timeline.isInSelection(clipId)
         }
 
         MenuItem {
@@ -20,7 +24,7 @@ Menu {
             onTriggered: root.copiedClip = clipId
         }
         MenuItem {
-            visible: !grouped && timeline.selection.length > 1
+            visible: canBeGrouped
             text: i18n('Group')
             onTriggered: timeline.triggerAction('group_clip')
         }

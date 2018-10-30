@@ -297,7 +297,7 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
         case DurationRole:
             return clip->getPlaytime();
         case GroupedRole:
-            return (m_groups->isInGroup(id) && !isInSelection(id));
+            return (m_groups->isInGroup(id) && !isInMultiSelection(id));
         case EffectNamesRole:
             return clip->effectNames();
         case InPointRole:
@@ -485,12 +485,12 @@ bool TimelineItemModel::loadGroups(const QString &groupsData)
     return m_groups->fromJson(groupsData);
 }
 
-bool TimelineItemModel::isInSelection(int cid) const
+bool TimelineItemModel::isInMultiSelection(int cid) const
 {
-    if (m_temporarySelectionGroup == -1 || !m_groups->isInGroup(cid)) {
+    if (m_temporarySelectionGroup == -1) {
         return false;
     }
-    bool res = (m_groups->getRootId(cid) == m_temporarySelectionGroup);
+    bool res = (m_groups->getRootId(cid) == m_temporarySelectionGroup) && (m_groups->getDirectChildren(m_temporarySelectionGroup).size() != 1);
     return res;
 }
 

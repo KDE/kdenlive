@@ -141,8 +141,13 @@ Fun GroupsModel::destructGroupItem_lambda(int id)
         if (!ptr) Q_ASSERT(false);
         for (int child : m_downLink[id]) {
             m_upLink[child] = -1;
+            QModelIndex ix;
             if (ptr->isClip(child)) {
-                QModelIndex ix = ptr->makeClipIndexFromID(child);
+                ix = ptr->makeClipIndexFromID(child);
+            } else if (ptr->isComposition(child)) {
+                ix = ptr->makeCompositionIndexFromID(child);
+            }
+            if (ix.isValid()) {
                 ptr->dataChanged(ix, ix, {TimelineModel::GroupedRole});
             }
         }

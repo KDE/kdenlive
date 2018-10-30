@@ -101,7 +101,7 @@ public:
     bool loadGroups(const QString &groupsData);
     /* @brief returns true if clip is in temporary selection group.
      */
-    bool isInSelection(int cid) const;
+    bool isInMultiSelection(int cid) const;
 
     virtual void _beginRemoveRows(const QModelIndex &, int, int) override;
     virtual void _beginInsertRows(const QModelIndex &, int, int) override;
