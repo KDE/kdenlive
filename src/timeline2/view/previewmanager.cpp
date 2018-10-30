@@ -262,7 +262,7 @@ bool PreviewManager::loadParams()
 void PreviewManager::invalidatePreviews(const QVariantList chunks)
 {
     QMutexLocker lock(&m_previewMutex);
-    bool timer = false;
+    bool timer = KdenliveSettings::autopreview();
     if (m_previewTimer.isActive()) {
         m_previewTimer.stop();
         timer = true;

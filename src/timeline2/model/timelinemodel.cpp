@@ -479,9 +479,13 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
         // Move on same track, simply inform the view
         localUpdateView = false;
         notifyViewOnly = true;
-        update_model = [clipId, this]() {
+        update_model = [clipId, this, invalidateTimeline]() {
             QModelIndex modelIndex = makeClipIndexFromID(clipId);
             notifyChange(modelIndex, modelIndex, {StartRole});
+            if (invalidateTimeline) {
+                int in = getClipPosition(clipId);
+                emit invalidateZone(in, in + getClipPlaytime(clipId));
+            }
             return true;
         };
     }

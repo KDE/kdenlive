@@ -3804,14 +3804,10 @@ void MainWindow::updateDockTitleBars(bool isTopLevel)
 
 void MainWindow::slotToggleAutoPreview(bool enable)
 {
-    Q_UNUSED(enable)
-    // TODO refac
-    /*
     KdenliveSettings::setAutopreview(enable);
-    if (enable && pCore->projectManager()->currentTimeline()) {
-        pCore->projectManager()->currentTimeline()->startPreviewRender();
+    if (enable && getMainTimeline()) {
+        getMainTimeline()->controller()->startPreviewRender();
     }
-    */
 }
 
 void MainWindow::configureToolbars()
