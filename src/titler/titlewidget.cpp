@@ -467,7 +467,6 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     connect(hguides, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &TitleWidget::updateGuides);
     connect(vguides, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &TitleWidget::updateGuides);
     updateGuides(0);
-    showGuides(show_guides->checkState());
 
     // semi transparent safe zones
     framepen.setColor(QColor(255, 0, 0, 100));
@@ -1882,14 +1881,15 @@ void TitleWidget::loadTitle(QUrl url)
         url = QFileDialog::getOpenFileUrl(this, i18n("Load Title"), QUrl::fromLocalFile(m_projectTitlePath), i18n("Kdenlive title (*.kdenlivetitle)"));
     }
     if (url.isValid()) {
+        // make sure we don't delete the guides
+        qDeleteAll(m_guides);
+        m_guides.clear();
         QList<QGraphicsItem *> items = m_scene->items();
         items.removeAll(m_frameBorder);
         items.removeAll(m_frameBackground);
         items.removeAll(m_frameImage);
-        // make sure we don't delete the guides
-        int guideType = m_guides.isEmpty() ? -1 : m_guides.at(0)->type();
         for (int i = 0; i < items.size(); ++i) {
-            if (items.at(i)->zValue() > -1000 && (guideType == -1 || items.at(i)->type() != guideType)) {
+            if (items.at(i)->zValue() > -1000) {
                 delete items.at(i);
             }
         }
@@ -1899,6 +1899,7 @@ void TitleWidget::loadTitle(QUrl url)
         doc.setContent(&file, false);
         file.close();
         setXml(doc);
+        updateGuides(0);
     }
 }
 
@@ -3010,11 +3011,13 @@ void TitleWidget::updateGuides(int)
     // Guides
     // Horizontal guides
     int max = hguides->value();
+    bool guideVisible = show_guides->checkState() == Qt::Checked;
     for (int i = 0; i < max; i++) {
         QGraphicsLineItem *line1 = new QGraphicsLineItem(0, (i + 1) * m_frameHeight / (max + 1), m_frameWidth, (i + 1) * m_frameHeight / (max + 1), m_frameBorder);
         line1->setPen(framepen);
         line1->setFlags(nullptr);
         line1->setData(-1, -1);
+        line1->setVisible(guideVisible);
         m_guides << line1;
     }
     max = vguides->value();
@@ -3023,6 +3026,7 @@ void TitleWidget::updateGuides(int)
         line1->setPen(framepen);
         line1->setFlags(nullptr);
         line1->setData(-1, -1);
+        line1->setVisible(guideVisible);
         m_guides << line1;
     }
 
@@ -3033,12 +3037,14 @@ void TitleWidget::updateGuides(int)
     line6->setPen(framepen);
     line6->setFlags(nullptr);
     line6->setData(-1, -1);
+    line6->setVisible(guideVisible);
     m_guides << line6;
 
     QGraphicsLineItem *line7 = new QGraphicsLineItem(m_frameWidth, 0, 0, m_frameHeight, m_frameBorder);
     line7->setPen(framepen);
     line7->setFlags(nullptr);
     line7->setData(-1, -1);
+    line7->setVisible(guideVisible);
     m_guides << line7;
 }
 
