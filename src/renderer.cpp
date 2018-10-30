@@ -743,6 +743,7 @@ void Render::switchPlay(bool play, double speed)
     QMutexLocker locker(&m_mutex);
     requestedSeekPosition = SEEK_INACTIVE;
     if (!m_mltProducer || !m_mltConsumer || !m_isActive) {
+	qWarning("no producer/consumer!");
         return;
     }
     if (m_isZoneMode) {
@@ -753,31 +754,15 @@ void Render::switchPlay(bool play, double speed)
         if (m_name == Kdenlive::ClipMonitor && m_mltConsumer->position() == m_mltProducer->get_out() && speed > 0) {
             m_mltProducer->seek(0);
         }
-        if (m_mltConsumer->get_int("real_time") != m_qmlView->realTime()) {
-            m_mltConsumer->set("real_time", m_qmlView->realTime());
-            m_mltConsumer->set("buffer", 25);
-            m_mltConsumer->set("prefill", 1);
-            // Changes to real_time require a consumer restart if running.
-            if (!m_mltConsumer->is_stopped()) {
-                m_mltConsumer->stop();
-            }
-        }
-        if (currentSpeed == 0) {
-            m_mltConsumer->start();
-            m_isRefreshing = true;
-            m_mltConsumer->set("refresh", 1);
-        } else {
-            m_mltProducer->seek(m_mltConsumer->position() + 1);
-            m_mltConsumer->purge();
-        }
         m_mltProducer->set_speed(speed);
+	m_mltConsumer->start();
+	m_isRefreshing = true;
+	m_mltConsumer->set("refresh", 1);
     } else {
-        m_mltConsumer->set("real_time", -1);
-        m_mltConsumer->set("buffer", 0);
-        m_mltConsumer->set("prefill", 0);
-        m_mltProducer->set_speed(0.0);
+        m_mltProducer->set_speed(0);
         m_mltProducer->seek(m_mltConsumer->position() + 1);
         m_mltConsumer->purge();
+	m_mltConsumer->start();
     }
 }
 
