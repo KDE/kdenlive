@@ -47,7 +47,6 @@ Rectangle {
         flashLock.restart();
     }
 
-    SystemPalette { id: activePalette }
     color: selected ? selectedTrackColor : getTrackColor(isAudio, true)
     //border.color: selected? 'red' : 'transparent'
     //border.width: selected? 1 : 0

@@ -629,7 +629,7 @@ void MainWindow::slotThemeChanged(const QString &name)
     }
     if (m_timelineTabs) {
         m_timelineTabs->setPalette(plt);
-        getMainTimeline()->controller()->getModel()->_resetView();
+        getMainTimeline()->controller()->resetView();
     }
     if (m_audioSpectrum) {
         m_audioSpectrum->refreshPixmap();

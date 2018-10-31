@@ -362,6 +362,14 @@ void TimelineController::selectMultitrack()
     // emit selected(m_model.tractor());
 }
 
+void TimelineController::resetView()
+{
+    m_model->_resetView();
+    if (m_root) {
+        QMetaObject::invokeMethod(m_root, "updatePalette");
+    }
+}
+
 bool TimelineController::snap()
 {
     return KdenliveSettings::snaptopoints();

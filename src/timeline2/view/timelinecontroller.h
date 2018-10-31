@@ -412,6 +412,7 @@ public:
 
 public slots:
     void selectMultitrack();
+    void resetView();
     Q_INVOKABLE void setSeekPosition(int position);
     Q_INVOKABLE void setAudioTarget(int track);
     Q_INVOKABLE void setVideoTarget(int track);

@@ -110,7 +110,6 @@ Item {
         compositionRoot.trackId = parentTrack.trackId
     }
 */
-    SystemPalette { id: activePalette }
     Rectangle {
         id: displayRect
         anchors.top: compositionRoot.top

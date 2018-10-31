@@ -30,15 +30,27 @@ private:
 
 class TimelinePlayhead : public QQuickPaintedItem
 {
+    Q_OBJECT
+    Q_PROPERTY(QColor fillColor MEMBER m_color NOTIFY colorChanged)
+
+public:
+    TimelinePlayhead()
+    {
+        connect(this, SIGNAL(colorChanged(QColor)), this, SLOT(update()));
+    }
+
     void paint(QPainter *painter) override
     {
         QPainterPath path;
         path.moveTo(width(), 0);
         path.lineTo(width() / 2.0, height());
         path.lineTo(0, 0);
-        QPalette p;
-        painter->fillPath(path, p.color(QPalette::WindowText));
+        painter->fillPath(path, m_color);
     }
+signals:
+    void colorChanged(const QColor&);
+private:
+    QColor m_color;
 };
 
 class TimelineWaveform : public QQuickPaintedItem

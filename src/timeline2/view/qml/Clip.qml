@@ -158,7 +158,6 @@ Rectangle {
         labelRect.x = scrollX > modelStart * timeScale ? scrollX - modelStart * timeScale : 0
     }
 
-    SystemPalette { id: activePalette }
     color: Qt.darker(getColor())
 
     border.color: selected? 'red' : grouped ? 'yellowgreen' : borderColor

@@ -1756,6 +1756,10 @@ void Monitor::setPalette(const QPalette &p)
         QIcon newIcon = QIcon::fromTheme(ic.name());
         m->setIcon(newIcon);
     }
+    QQuickItem *root = m_glMonitor->rootObject();
+    if (root) {
+        QMetaObject::invokeMethod(root, "updatePalette");
+    }
     m_audioMeterWidget->refreshPixmap();
 }
 

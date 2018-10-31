@@ -34,7 +34,6 @@ Rectangle {
     property int labelMod: 1
     property bool useTimelineRuler : timeline.useRuler
     property bool showZoneLabels: false
-    SystemPalette { id: activePalette }
 
     function adjustStepSize() {
         if (timeline.scaleFactor > 19) {
@@ -53,9 +52,15 @@ Rectangle {
     function adjustFormat() {
         rulerRoot.labelSize = fontMetrics.tightBoundingRect(timeline.timecode(36000)).width
         adjustStepSize()
+        repaintRuler()
     }
 
-    color: activePalette.window
+    function repaintRuler() {
+        // Enforce repaint
+        tickRepeater.model = 0
+        tickRepeater.model = scrollView.width / rulerRoot.tickSpacing + 2
+    }
+    color: root.color
     clip: true
 
     // Timeline preview stuff

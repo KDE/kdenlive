@@ -51,6 +51,10 @@ Item {
         clipMonitorRuler.updateRuler()
     }
 
+    function updatePalette() {
+        clipMonitorRuler.forceRepaint()
+    }
+
     function switchOverlay() {
         if (controller.overlayType >= 5) {
             controller.overlayType = 0

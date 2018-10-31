@@ -33,8 +33,6 @@ Column{
     property int trackThumbsFormat
     height: parent.height
 
-    SystemPalette { id: activePalette }
-
     /*function redrawWaveforms() {
         for (var i = 0; i < repeater.count; i++)
             repeater.itemAt(i).generateWaveform()

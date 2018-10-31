@@ -13,7 +13,14 @@ Rectangle {
         id: zoneToolTipTimer
         interval: 3000; running: false;
     }
-
+    function forceRepaint()
+    {
+        ruler.color = activePalette.window
+        // Enforce repaint
+        rulerTicks.model = 0
+        rulerTicks.model = ruler.width / frameSize + 2
+        playhead.fillColor = activePalette.windowText
+    }
 
     function updateRuler()
     {
@@ -31,6 +38,7 @@ Rectangle {
 
     // frame ticks
     Repeater {
+        id: rulerTicks
         model: ruler.width / frameSize + 2
         Rectangle {
             property int realPos: index
@@ -215,6 +223,7 @@ Rectangle {
         height: ruler.height * 0.5
         width: ruler.height * 1
         anchors.top: ruler.top
+        fillColor: activePalette.windowText
         x: controller.position * root.timeScale - (width / 2)
     }
 }

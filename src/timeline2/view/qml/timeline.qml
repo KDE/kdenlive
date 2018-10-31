@@ -30,6 +30,13 @@ Rectangle {
         id: compositionMenu
     }
 
+    function updatePalette() {
+        root.color = activePalette.window
+        cursor.color = activePalette.text
+        playhead.fillColor = activePalette.windowText
+        ruler.repaintRuler()
+    }
+
     function moveSelectedTrack(offset) {
         var cTrack = Logic.getTrackIndexFromId(timeline.activeTrack)
         var newTrack = cTrack + offset
@@ -802,6 +809,7 @@ Rectangle {
                             visible: timeline.position > -1
                             height: baseUnit
                             width: baseUnit * 1.5
+                            fillColor: activePalette.windowText
                             anchors.bottom: parent.bottom
                             x: timeline.position * timeline.scaleFactor - (width / 2)
                         }
@@ -816,10 +824,10 @@ Rectangle {
                     flickableItem.interactive: false
                     clip: true
                     Rectangle {
+                        id: tracksContainerArea
                         width: Math.max(scrollView.width - scrollView.__verticalScrollBar.width, timeline.fullDuration * timeScale)
                         height: Math.max(trackHeaders.height, scrollView.height - scrollView.__horizontalScrollBar.height)
-                        color: activePalette.window
-                        id: tracksContainerArea
+                        color: root.color
                         Rectangle {
                             // Drag proxy, responsible for clip / composition move
                             id: dragProxy
@@ -1046,7 +1054,7 @@ Rectangle {
     Rectangle {
         id: bubbleHelp
         property alias text: bubbleHelpLabel.text
-        color: activePalette.window //application.toolTipBaseColor
+        color: root.color //application.toolTipBaseColor
         width: bubbleHelpLabel.width + 8
         height: bubbleHelpLabel.height + 8
         radius: 4
