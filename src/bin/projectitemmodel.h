@@ -193,6 +193,9 @@ public:
     /** @brief Set the status of the clip to "waiting". This happens when the corresponding file has changed*/
     void setClipWaiting(const QString &binId);
 
+    /** @brief Number of clips in the bin playlist */
+    int clipsCount() const;
+
 protected:
     /* @brief Register the existence of a new element
      */

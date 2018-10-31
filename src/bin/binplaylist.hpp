@@ -72,6 +72,9 @@ public:
     /** @brief Retrieve a list of proxy/original urls */
     QMap<QString, QString> getProxies(const QString &root);
 
+    /** @brief The number of clips in the Bin Playlist */
+    int count() const;
+
     // id of the mlt object
     static QString binPlaylistId;
 

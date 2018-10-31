@@ -906,3 +906,8 @@ void ProjectItemModel::setDragType(PlaylistState::ClipState type)
 {
     m_dragType = type;
 }
+
+int ProjectItemModel::clipsCount() const
+{
+    return m_binPlaylist->count();
+}

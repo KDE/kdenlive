@@ -546,7 +546,7 @@ bool LoadJob::commitResult(Fun &undo, Fun &redo)
     };
     bool ok = operation();
     if (ok) {
-        if (pCore->projectItemModel()->clipsCount() == 2) {
+        if (pCore->projectItemModel()->clipsCount() == 1) {
             // Always select first added clip
             pCore->selectBinClip(m_clipId);
         }

@@ -185,3 +185,8 @@ QMap<QString, QString> BinPlaylist::getProxies(const QString &root)
     }
     return proxies;
 }
+
+int BinPlaylist::count() const
+{
+    return m_binPlaylist->count();
+}
