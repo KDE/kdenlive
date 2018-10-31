@@ -95,7 +95,10 @@ private:
     Timecode m_tc;
     QString m_id;
     ClipType::ProducerType m_type;
+    /** @brief: the properties of the active producer (can be a proxy) */
     Mlt::Properties m_properties;
+    /** @brief: the properties of the original source producer (cannot be a proxy) */
+    Mlt::Properties m_sourceProperties;
     QMap<QString, QString> m_originalProperties;
     QMap<QString, QString> m_clipProperties;
     QList<int> m_videoStreams;

@@ -170,6 +170,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
     , m_properties(controller->properties())
     , m_textEdit(nullptr)
 {
+    m_controller->mirrorOriginalProperties(m_sourceProperties);
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     auto *lay = new QVBoxLayout;
@@ -367,10 +368,10 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         bool hasProxy = proxy.length() > 2;
         if (hasProxy) {
             bg->setToolTip(proxy);
-            bool proxyReady = (QFileInfo(proxy).fileName() == QFileInfo(m_properties.get("kdenlive:originalurl")).fileName());
+            bool proxyReady = (QFileInfo(proxy).fileName() == QFileInfo(m_properties.get("resource")).fileName());
             if (proxyReady) {
                 pbox->setCheckState(Qt::Checked);
-                lab->setText(m_controller->getProducerProperty(QString("meta.media.%1.codec.name").arg(m_controller->getProducerIntProperty(QStringLiteral("video_index")))));
+                lab->setText(m_properties.get(QString("meta.media.%1.codec.name").arg(m_properties.get_int("video_index")).toUtf8().constData()));
             } else {
                 pbox->setCheckState(Qt::PartiallyChecked);
             }
@@ -379,7 +380,6 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         }
         pbox->setEnabled(pCore->projectManager()->current()->getDocumentProperty(QStringLiteral("enableproxy")).toInt() != 0);
         connect(pbox, &QCheckBox::stateChanged, [this, pbox, bg](int state) {
-            qDebug()<<"GOT PROXY STATE: "<<state<<"\nVVVVVVVVVVVVVVVVVVVVVVVVVVVV";
             emit requestProxy(state == Qt::PartiallyChecked);
             if (state == Qt::Checked) {
                 QSignalBlocker bk(pbox);
@@ -393,7 +393,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
             pbox->setCheckState(hasProxy ? Qt::Checked : Qt::Unchecked);
             bg->setEnabled(pbox->isChecked());
             bg->setToolTip(pxy);
-            lab->setText(hasProxy ? m_controller->getProducerProperty(QString("meta.media.%1.codec.name").arg(m_controller->getProducerIntProperty(QStringLiteral("video_index")))) : QString());
+            lab->setText(hasProxy ? m_properties.get(QString("meta.media.%1.codec.name").arg(m_properties.get_int("video_index")).toUtf8().constData()) : QString());
         });
         hlay->addWidget(pbox);
         bg->setEnabled(pbox->checkState() == Qt::Checked);
@@ -544,7 +544,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
 
         // Video index
         if (!m_videoStreams.isEmpty()) {
-            QString vix = m_properties.get("video_index");
+            QString vix = m_sourceProperties.get("video_index");
             m_originalProperties.insert(QStringLiteral("video_index"), vix);
             hlay = new QHBoxLayout;
 
@@ -568,6 +568,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
             }
             ac->setActive(vix.toInt() == -1);
             videoStream->setEnabled(vix.toInt() > -1);
+            videoStream->setVisible(m_videoStreams.size() > 1);
             connect(ac, &KDualAction::activeChanged , [this, ac, videoStream](bool activated){
                 QMap<QString, QString> properties;
                 int vix = -1;
@@ -594,7 +595,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
 
         // Audio index
         if (!m_audioStreams.isEmpty()) {
-            QString vix = m_properties.get("audio_index");
+            QString vix = m_sourceProperties.get("audio_index");
             m_originalProperties.insert(QStringLiteral("audio_index"), vix);
             hlay = new QHBoxLayout;
 
@@ -618,6 +619,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
             }
             ac->setActive(vix.toInt() == -1);
             audioStream->setEnabled(vix.toInt() > -1);
+            audioStream->setVisible(m_audioStreams.size() > 1);
             connect(ac, &KDualAction::activeChanged, [this, ac, audioStream](bool activated){
                 QMap<QString, QString> properties;
                 int vix = -1;
@@ -841,7 +843,7 @@ void ClipPropertiesController::slotEnableForce(int state)
                 return;
             }
             properties.insert(param, QString::number(combo->currentData().toInt()));
-        } else if (param == QLatin1String("kdenlive:transparency") || param == QLatin1String("set.force_full_luma")) {
+        } else if (param == QLatin1String("set.force_full_luma")) {
             properties.insert(param, QStringLiteral("1"));
         } else if (param == QLatin1String("autorotate")) {
             properties.insert(QStringLiteral("autorotate"), QStringLiteral("0"));
@@ -941,21 +943,21 @@ void ClipPropertiesController::fillProperties()
 
     // Get MLT's metadata
     if (m_type == ClipType::Image) {
-        int width = m_controller->getProducerIntProperty(QStringLiteral("meta.media.width"));
-        int height = m_controller->getProducerIntProperty(QStringLiteral("meta.media.height"));
+        int width = m_sourceProperties.get_int("meta.media.width");
+        int height = m_sourceProperties.get_int("meta.media.height");
         propertyMap.append(QStringList() << i18n("Image size") << QString::number(width) + QLatin1Char('x') + QString::number(height));
     }
     if (m_type == ClipType::AV || m_type == ClipType::Video || m_type == ClipType::Audio) {
-        int vindex = m_controller->getProducerIntProperty(QStringLiteral("video_index"));
-        int default_audio = m_controller->getProducerIntProperty(QStringLiteral("audio_index"));
+        int vindex = m_sourceProperties.get_int("video_index");
+        int default_audio = m_sourceProperties.get_int("audio_index");
 
         // Find maximum stream index values
         m_videoStreams.clear();
         m_audioStreams.clear();
-        for (int ix = 0; ix < m_controller->getProducerIntProperty(QStringLiteral("meta.media.nb_streams")); ++ix) {
+        for (int ix = 0; ix < m_sourceProperties.get_int("meta.media.nb_streams"); ++ix) {
             char property[200];
             snprintf(property, sizeof(property), "meta.media.%d.stream.type", ix);
-            QString type = m_controller->getProducerProperty(property);
+            QString type = m_sourceProperties.get(property);
             if (type == QLatin1String("video")) {
                 m_videoStreams << ix;
             } else if (type == QLatin1String("audio")) {
@@ -967,72 +969,75 @@ void ClipPropertiesController::fillProperties()
 
         if (vindex > -1) {
             // We have a video stream
-            char property[200];
-            snprintf(property, sizeof(property), "meta.media.%d.codec.long_name", vindex);
-            QString codec = m_controller->getProducerProperty(property);
+            QString codecInfo = QString("meta.media.%1.codec.").arg(vindex);
+            QString streamInfo = QString("meta.media.%1.stream.").arg(vindex);
+            QString property = codecInfo + QStringLiteral("long_name");
+            QString codec = m_sourceProperties.get(property.toUtf8().constData());
             if (!codec.isEmpty()) {
                 propertyMap.append({i18n("Video codec"), codec});
             }
-            int width = m_controller->getProducerIntProperty(QStringLiteral("meta.media.width"));
-            int height = m_controller->getProducerIntProperty(QStringLiteral("meta.media.height"));
+            int width = m_sourceProperties.get_int("meta.media.width");
+            int height = m_sourceProperties.get_int("meta.media.height");
             propertyMap.append({i18n("Frame size"), QString::number(width) + QLatin1Char('x') + QString::number(height)});
 
-            snprintf(property, sizeof(property), "meta.media.%d.stream.frame_rate", vindex);
-            QString fpsValue = m_controller->getProducerProperty(property);
+            property = streamInfo + QStringLiteral("frame_rate");
+            QString fpsValue = m_sourceProperties.get(property.toUtf8().constData());
             if (!fpsValue.isEmpty()) {
                 propertyMap.append({i18n("Frame rate"), fpsValue});
             } else {
-                int rate_den = m_controller->getProducerIntProperty(QStringLiteral("meta.media.frame_rate_den"));
+                int rate_den = m_sourceProperties.get_int("meta.media.frame_rate_den");
                 if (rate_den > 0) {
-                    double fps = (double)m_controller->getProducerIntProperty(QStringLiteral("meta.media.frame_rate_num")) / rate_den;
+                    double fps = ((double)m_sourceProperties.get_int("meta.media.frame_rate_num")) / rate_den;
                     propertyMap.append({i18n("Frame rate"), QString::number(fps, 'f', 2)});
                 }
             }
-
-            snprintf(property, sizeof(property), "meta.media.%d.codec.bit_rate", vindex);
-            int bitrate = m_controller->getProducerIntProperty(property) / 1000;
+            property = codecInfo + QStringLiteral("bit_rate");
+            int bitrate = m_sourceProperties.get_int(property.toUtf8().constData()) / 1000;
             if (bitrate > 0) {
                 propertyMap.append({i18n("Video bitrate"),
                                                  QString::number(bitrate) + QLatin1Char(' ') + i18nc("Kilobytes per seconds", "kb/s")});
             }
 
-            int scan = m_controller->getProducerIntProperty(QStringLiteral("meta.media.progressive"));
+            int scan = m_sourceProperties.get_int("meta.media.progressive");
             propertyMap.append({i18n("Scanning"), (scan == 1 ? i18n("Progressive") : i18n("Interlaced"))});
-            snprintf(property, sizeof(property), "meta.media.%d.codec.sample_aspect_ratio", vindex);
-            double par = m_controller->getProducerDoubleProperty(property);
+
+            property = codecInfo + QStringLiteral("sample_aspect_ratio");
+            double par = m_sourceProperties.get_double(property.toUtf8().constData());
             if (qFuzzyIsNull(par)) {
                 // Read media aspect ratio
-                par = m_controller->getProducerDoubleProperty(QStringLiteral("aspect_ratio"));
+                par = m_sourceProperties.get_double("aspect_ratio");
             }
             propertyMap.append({i18n("Pixel aspect ratio"), QString::number(par, 'f', 3)});
-            propertyMap.append({i18n("Pixel format"), m_controller->videoCodecProperty(QStringLiteral("pix_fmt"))});
-            int colorspace = m_controller->videoCodecProperty(QStringLiteral("colorspace")).toInt();
+            property = codecInfo + QStringLiteral("pix_fmt");
+            propertyMap.append({i18n("Pixel format"), m_sourceProperties.get(property.toUtf8().constData())});
+            property = codecInfo + QStringLiteral("colorspace");
+            int colorspace = m_sourceProperties.get_int(property.toUtf8().constData());
             propertyMap.append({i18n("Colorspace"), ProfileRepository::getColorspaceDescription(colorspace)});
         }
         if (default_audio > -1) {
-            char property[200];
-            snprintf(property, sizeof(property), "meta.media.%d.codec.long_name", default_audio);
-            QString codec = m_controller->getProducerProperty(property);
+            QString codecInfo = QString("meta.media.%1.codec.").arg(default_audio);
+            QString property = codecInfo + QStringLiteral("long_name");
+            QString codec = m_sourceProperties.get(property.toUtf8().constData());
             if (!codec.isEmpty()) {
                 propertyMap.append({i18n("Audio codec"), codec});
             }
-            snprintf(property, sizeof(property), "meta.media.%d.codec.channels", default_audio);
-            int channels = m_controller->getProducerIntProperty(property);
+            property = codecInfo + QStringLiteral("channels");
+            int channels = m_sourceProperties.get_int(property.toUtf8().constData());
             propertyMap.append({i18n("Audio channels"), QString::number(channels)});
 
-            snprintf(property, sizeof(property), "meta.media.%d.codec.sample_rate", default_audio);
-            int srate = m_controller->getProducerIntProperty(property);
+            property = codecInfo + QStringLiteral("sample_rate");
+            int srate = m_sourceProperties.get_int(property.toUtf8().constData());
             propertyMap.append({i18n("Audio frequency"), QString::number(srate) + QLatin1Char(' ') + i18nc("Herz", "Hz")});
 
-            snprintf(property, sizeof(property), "meta.media.%d.codec.bit_rate", default_audio);
-            int bitrate = m_controller->getProducerIntProperty(property) / 1000;
+            property = codecInfo + QStringLiteral("bit_rate");
+            int bitrate = m_sourceProperties.get_int(property.toUtf8().constData()) / 1000;
             if (bitrate > 0) {
                 propertyMap.append({i18n("Audio bitrate"), QString::number(bitrate) + QLatin1Char(' ') + i18nc("Kilobytes per seconds", "kb/s")});
             }
         }
     }
 
-    qint64 filesize = m_controller->getProducerInt64Property(QStringLiteral("kdenlive:file_size"));
+    qint64 filesize = m_sourceProperties.get_int64("kdenlive:file_size");
     if (filesize > 0) {
         QLocale locale(QLocale::system()); // use the user's locale for getting proper separators!
         propertyMap.append({i18n("File size"), KIO::convertSize((size_t)filesize) + QStringLiteral(" (") + locale.toString(filesize) + QLatin1Char(')')});

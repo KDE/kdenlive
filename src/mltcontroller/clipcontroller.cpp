@@ -658,6 +658,23 @@ Mlt::Properties &ClipController::properties()
     return *m_properties;
 }
 
+void ClipController::mirrorOriginalProperties(Mlt::Properties &props)
+{
+    if (m_usesProxy && QFileInfo(m_properties->get("resource")).fileName() == QFileInfo(m_properties->get("kdenlive:proxy")).fileName()) {
+        // We have a proxy clip, load original source producer
+        std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(pCore->getCurrentProfile()->profile(), nullptr, m_path.toUtf8().constData());
+        // Get frame to make sure we retrieve all original props
+        std::shared_ptr<Mlt::Frame> fr(prod->get_frame());
+        if (!prod->is_valid()) {
+            return;
+        }
+        Mlt::Properties sourceProps(prod->get_properties());
+        props.inherit(sourceProps);
+    } else {
+        props.inherit(*m_properties);
+    }
+}
+
 void ClipController::addEffect(QDomElement &xml)
 {
     Q_UNUSED(xml)
