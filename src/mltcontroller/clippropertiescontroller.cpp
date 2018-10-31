@@ -167,7 +167,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
     , m_tc(Timecode(Timecode::HH_MM_SS_HH, pCore->getCurrentFps()))
     , m_id(controller->binId())
     , m_type(controller->clipType())
-    , m_properties(controller->properties())
+    , m_properties(new Mlt::Properties(controller->properties()))
     , m_textEdit(nullptr)
 {
     m_controller->mirrorOriginalProperties(m_sourceProperties);
@@ -255,20 +255,20 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
     }
     if (m_type == ClipType::Color || m_type == ClipType::Image || m_type == ClipType::AV || m_type == ClipType::Video || m_type == ClipType::TextTemplate) {
         // Edit duration widget
-        m_originalProperties.insert(QStringLiteral("out"), m_properties.get("out"));
-        int kdenlive_length = m_properties.get_int("kdenlive:duration");
+        m_originalProperties.insert(QStringLiteral("out"), m_properties->get("out"));
+        int kdenlive_length = m_properties->get_int("kdenlive:duration");
         if (kdenlive_length > 0) {
             m_originalProperties.insert(QStringLiteral("kdenlive:duration"), QString::number(kdenlive_length));
         }
-        m_originalProperties.insert(QStringLiteral("length"), m_properties.get("length"));
+        m_originalProperties.insert(QStringLiteral("length"), m_properties->get("length"));
         auto *hlay = new QHBoxLayout;
         QCheckBox *box = new QCheckBox(i18n("Duration"), this);
         box->setObjectName(QStringLiteral("force_duration"));
         hlay->addWidget(box);
         auto *timePos = new TimecodeDisplay(m_tc, this);
         timePos->setObjectName(QStringLiteral("force_duration_value"));
-        timePos->setValue(kdenlive_length > 0 ? kdenlive_length : m_properties.get_int("length"));
-        int original_length = m_properties.get_int("kdenlive:original_length");
+        timePos->setValue(kdenlive_length > 0 ? kdenlive_length : m_properties->get_int("length"));
+        int original_length = m_properties->get_int("kdenlive:original_length");
         if (original_length > 0) {
             box->setChecked(true);
         } else {
@@ -285,7 +285,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
     }
     if (m_type == ClipType::TextTemplate) {
         // Edit text widget
-        QString currentText = m_properties.get("templatetext");
+        QString currentText = m_properties->get("templatetext");
         m_originalProperties.insert(QStringLiteral("templatetext"), currentText);
         m_textEdit = new QTextEdit(this);
         m_textEdit->setAcceptRichText(false);
@@ -297,8 +297,8 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         connect(button, &QPushButton::clicked, this, &ClipPropertiesController::slotTextChanged);
     } else if (m_type == ClipType::Color) {
         // Edit color widget
-        m_originalProperties.insert(QStringLiteral("resource"), m_properties.get("resource"));
-        mlt_color color = m_properties.get_color("resource");
+        m_originalProperties.insert(QStringLiteral("resource"), m_properties->get("resource"));
+        mlt_color color = m_properties->get_color("resource");
         ChooseColorWidget *choosecolor = new ChooseColorWidget(i18n("Color"), QColor::fromRgb(color.r, color.g, color.b).name(), "", false, this);
         vbox->addWidget(choosecolor);
         // connect(choosecolor, SIGNAL(displayMessage(QString,int)), this, SIGNAL(displayMessage(QString,int)));
@@ -307,8 +307,8 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
     }
     if (m_type == ClipType::AV || m_type == ClipType::Video || m_type == ClipType::Image) {
         // Aspect ratio
-        int force_ar_num = m_properties.get_int("force_aspect_num");
-        int force_ar_den = m_properties.get_int("force_aspect_den");
+        int force_ar_num = m_properties->get_int("force_aspect_num");
+        int force_ar_den = m_properties->get_int("force_aspect_den");
         m_originalProperties.insert(QStringLiteral("force_aspect_den"), (force_ar_den == 0) ? QString() : QString::number(force_ar_den));
         m_originalProperties.insert(QStringLiteral("force_aspect_num"), (force_ar_num == 0) ? QString() : QString::number(force_ar_num));
         auto *hlay = new QHBoxLayout;
@@ -328,8 +328,8 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         hlay->addWidget(spin2);
         if (force_ar_num == 0) {
             // use current ratio
-            int num = m_properties.get_int("meta.media.sample_aspect_num");
-            int den = m_properties.get_int("meta.media.sample_aspect_den");
+            int num = m_properties->get_int("meta.media.sample_aspect_num");
+            int den = m_properties->get_int("meta.media.sample_aspect_den");
             if (den == 0) {
                 num = 1;
                 den = 1;
@@ -352,7 +352,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         vbox->addLayout(hlay);
 
         // Proxy
-        QString proxy = m_properties.get("kdenlive:proxy");
+        QString proxy = m_properties->get("kdenlive:proxy");
         m_originalProperties.insert(QStringLiteral("kdenlive:proxy"), proxy);
         hlay = new QHBoxLayout;
         QGroupBox *bg = new QGroupBox(this);
@@ -368,10 +368,10 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         bool hasProxy = proxy.length() > 2;
         if (hasProxy) {
             bg->setToolTip(proxy);
-            bool proxyReady = (QFileInfo(proxy).fileName() == QFileInfo(m_properties.get("resource")).fileName());
+            bool proxyReady = (QFileInfo(proxy).fileName() == QFileInfo(m_properties->get("resource")).fileName());
             if (proxyReady) {
                 pbox->setCheckState(Qt::Checked);
-                lab->setText(m_properties.get(QString("meta.media.%1.codec.name").arg(m_properties.get_int("video_index")).toUtf8().constData()));
+                lab->setText(m_properties->get(QString("meta.media.%1.codec.name").arg(m_properties->get_int("video_index")).toUtf8().constData()));
             } else {
                 pbox->setCheckState(Qt::PartiallyChecked);
             }
@@ -393,7 +393,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
             pbox->setCheckState(hasProxy ? Qt::Checked : Qt::Unchecked);
             bg->setEnabled(pbox->isChecked());
             bg->setToolTip(pxy);
-            lab->setText(hasProxy ? m_properties.get(QString("meta.media.%1.codec.name").arg(m_properties.get_int("video_index")).toUtf8().constData()) : QString());
+            lab->setText(hasProxy ? m_properties->get(QString("meta.media.%1.codec.name").arg(m_properties->get_int("video_index")).toUtf8().constData()) : QString());
         });
         hlay->addWidget(pbox);
         bg->setEnabled(pbox->checkState() == Qt::Checked);
@@ -420,19 +420,19 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
 
         QAction *ac = new QAction(QIcon::fromTheme(QStringLiteral("document-open")), i18n("Open folder"), this);
         connect(ac, &QAction::triggered, [this](){
-            QString pxy = m_properties.get("kdenlive:proxy");
+            QString pxy = m_properties->get("kdenlive:proxy");
             QDesktopServices::openUrl(QUrl::fromLocalFile(QFileInfo(pxy).path()));
         });
         pMenu->addAction(ac);
         ac = new QAction(QIcon::fromTheme(QStringLiteral("media-playback-start")), i18n("Play proxy clip"), this);
         connect(ac, &QAction::triggered, [this](){
-            QString pxy = m_properties.get("kdenlive:proxy");
+            QString pxy = m_properties->get("kdenlive:proxy");
             QDesktopServices::openUrl(QUrl::fromLocalFile(pxy));
         });
         pMenu->addAction(ac);
         ac = new QAction(QIcon::fromTheme(QStringLiteral("edit-copy")), i18n("Copy file location to clipboard"), this);
         connect(ac, &QAction::triggered, [this](){
-            QString pxy = m_properties.get("kdenlive:proxy");
+            QString pxy = m_properties->get("kdenlive:proxy");
             QGuiApplication::clipboard()->setText(pxy);
         });
         pMenu->addAction(ac);
@@ -446,7 +446,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         QLocale locale;
 
         // Fps
-        QString force_fps = m_properties.get("force_fps");
+        QString force_fps = m_properties->get("force_fps");
         m_originalProperties.insert(QStringLiteral("force_fps"), force_fps.isEmpty() ? QStringLiteral("-") : force_fps);
         auto *hlay = new QHBoxLayout;
         QCheckBox *box = new QCheckBox(i18n("Frame rate"), this);
@@ -470,7 +470,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         vbox->addLayout(hlay);
 
         // Scanning
-        QString force_prog = m_properties.get("force_progressive");
+        QString force_prog = m_properties->get("force_progressive");
         m_originalProperties.insert(QStringLiteral("force_progressive"), force_prog.isEmpty() ? QStringLiteral("-") : force_prog);
         hlay = new QHBoxLayout;
         box = new QCheckBox(i18n("Scanning"), this);
@@ -492,7 +492,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         vbox->addLayout(hlay);
 
         // Field order
-        QString force_tff = m_properties.get("force_tff");
+        QString force_tff = m_properties->get("force_tff");
         m_originalProperties.insert(QStringLiteral("force_tff"), force_tff.isEmpty() ? QStringLiteral("-") : force_tff);
         hlay = new QHBoxLayout;
         box = new QCheckBox(i18n("Field order"), this);
@@ -514,7 +514,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         vbox->addLayout(hlay);
 
         // Autorotate
-        QString autorotate = m_properties.get("autorotate");
+        QString autorotate = m_properties->get("autorotate");
         m_originalProperties.insert(QStringLiteral("autorotate"), autorotate);
         hlay = new QHBoxLayout;
         box = new QCheckBox(i18n("Disable autorotate"), this);
@@ -525,7 +525,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         vbox->addLayout(hlay);
 
         // Decoding threads
-        QString threads = m_properties.get("threads");
+        QString threads = m_properties->get("threads");
         m_originalProperties.insert(QStringLiteral("threads"), threads);
         hlay = new QHBoxLayout;
         hlay->addWidget(new QLabel(i18n("Threads")));
@@ -654,7 +654,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         combo->addItem(ProfileRepository::getColorspaceDescription(601), 601);
         combo->addItem(ProfileRepository::getColorspaceDescription(709), 709);
         combo->addItem(ProfileRepository::getColorspaceDescription(240), 240);
-        int force_colorspace = m_properties.get_int("force_colorspace");
+        int force_colorspace = m_properties->get_int("force_colorspace");
         m_originalProperties.insert(QStringLiteral("force_colorspace"), force_colorspace == 0 ? QStringLiteral("-") : QString::number(force_colorspace));
         int colorspace = controller->videoCodecProperty(QStringLiteral("colorspace")).toInt();
         if (force_colorspace > 0) {
@@ -674,7 +674,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         vbox->addLayout(hlay);
 
         // Full luma
-        QString force_luma = m_properties.get("set.force_full_luma");
+        QString force_luma = m_properties->get("set.force_full_luma");
         m_originalProperties.insert(QStringLiteral("set.force_full_luma"), force_luma);
         hlay = new QHBoxLayout;
         box = new QCheckBox(i18n("Full luma range"), this);
@@ -727,23 +727,24 @@ void ClipPropertiesController::slotRefreshTimeCode()
 void ClipPropertiesController::slotReloadProperties()
 {
     mlt_color color;
-    m_clipLabel->setText(m_properties.get("kdenlive:clipname"));
+    m_properties.reset(new Mlt::Properties(m_controller->properties()));
+    m_clipLabel->setText(m_properties->get("kdenlive:clipname"));
     switch (m_type) {
     case ClipType::Color:
-        m_originalProperties.insert(QStringLiteral("resource"), m_properties.get("resource"));
-        m_originalProperties.insert(QStringLiteral("out"), m_properties.get("out"));
-        m_originalProperties.insert(QStringLiteral("length"), m_properties.get("length"));
-        emit modified(m_properties.get_int("length"));
-        color = m_properties.get_color("resource");
+        m_originalProperties.insert(QStringLiteral("resource"), m_properties->get("resource"));
+        m_originalProperties.insert(QStringLiteral("out"), m_properties->get("out"));
+        m_originalProperties.insert(QStringLiteral("length"), m_properties->get("length"));
+        emit modified(m_properties->get_int("length"));
+        color = m_properties->get_color("resource");
         emit modified(QColor::fromRgb(color.r, color.g, color.b));
         break;
     case ClipType::TextTemplate:
-        m_textEdit->setPlainText(m_properties.get("templatetext"));
+        m_textEdit->setPlainText(m_properties->get("templatetext"));
         break;
     case ClipType::Image:
     case ClipType::AV:
     case ClipType::Video: {
-        QString proxy = m_properties.get("kdenlive:proxy");
+        QString proxy = m_properties->get("kdenlive:proxy");
         if (proxy != m_originalProperties.value(QStringLiteral("kdenlive:proxy"))) {
             m_originalProperties.insert(QStringLiteral("kdenlive:proxy"), proxy);
             emit proxyModified(proxy);
@@ -760,17 +761,17 @@ void ClipPropertiesController::slotColorModified(const QColor &newcolor)
     QMap<QString, QString> properties;
     properties.insert(QStringLiteral("resource"), newcolor.name(QColor::HexArgb));
     QMap<QString, QString> oldProperties;
-    oldProperties.insert(QStringLiteral("resource"), m_properties.get("resource"));
+    oldProperties.insert(QStringLiteral("resource"), m_properties->get("resource"));
     emit updateClipProperties(m_id, oldProperties, properties);
 }
 
 void ClipPropertiesController::slotDurationChanged(int duration)
 {
     QMap<QString, QString> properties;
-    int original_length = m_properties.get_int("kdenlive:original_length");
+    int original_length = m_properties->get_int("kdenlive:original_length");
     // kdenlive_length is the default duration for image / title clips
-    int kdenlive_length = m_properties.get_int("kdenlive:duration");
-    int current_length = m_properties.get_int("length");
+    int kdenlive_length = m_properties->get_int("kdenlive:duration");
+    int current_length = m_properties->get_int("length");
     if (kdenlive_length > 0) {
         // special case, image/title clips store default duration in kdenlive:duration property
         properties.insert(QStringLiteral("kdenlive:duration"), QString::number(duration));
@@ -800,9 +801,9 @@ void ClipPropertiesController::slotEnableForce(int state)
         if (param == QLatin1String("force_duration")) {
             // special case, reset original duration
             TimecodeDisplay *timePos = findChild<TimecodeDisplay *>(param + QStringLiteral("_value"));
-            timePos->setValue(m_properties.get_int("kdenlive:original_length"));
-            int original = m_properties.get_int("kdenlive:original_length");
-            m_properties.set("kdenlive:original_length", (char *)nullptr);
+            timePos->setValue(m_properties->get_int("kdenlive:original_length"));
+            int original = m_properties->get_int("kdenlive:original_length");
+            m_properties->set("kdenlive:original_length", (char *)nullptr);
             slotDurationChanged(original);
             return;
         }
@@ -820,10 +821,10 @@ void ClipPropertiesController::slotEnableForce(int state)
     } else {
         // A force property was set
         if (param == QLatin1String("force_duration")) {
-            int original_length = m_properties.get_int("kdenlive:original_length");
+            int original_length = m_properties->get_int("kdenlive:original_length");
             if (original_length == 0) {
-                int kdenlive_duration = m_properties.get_int("kdenlive:duration");
-                m_properties.set("kdenlive:original_length", kdenlive_duration > 0 ? kdenlive_duration : m_properties.get_int("length"));
+                int kdenlive_duration = m_properties->get_int("kdenlive:duration");
+                m_properties->set("kdenlive:original_length", kdenlive_duration > 0 ? kdenlive_duration : m_properties->get_int("length"));
             }
         } else if (param == QLatin1String("force_fps")) {
             QDoubleSpinBox *spin = findChild<QDoubleSpinBox *>(param + QStringLiteral("_value"));
@@ -1150,7 +1151,7 @@ void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
     int exifUsed = m_controller->getProducerIntProperty(QStringLiteral("kdenlive:exiftool"));
     if (exifUsed == 1) {
         Mlt::Properties subProperties;
-        subProperties.pass_values(m_properties, "kdenlive:meta.exiftool.");
+        subProperties.pass_values(*m_properties, "kdenlive:meta.exiftool.");
         if (subProperties.count() > 0) {
             QTreeWidgetItem *exif = new QTreeWidgetItem(tree, QStringList() << i18n("Exif") << QString());
             exif->setExpanded(true);
@@ -1229,7 +1230,7 @@ void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
     int magic = m_controller->getProducerIntProperty(QStringLiteral("kdenlive:magiclantern"));
     if (magic == 1) {
         Mlt::Properties subProperties;
-        subProperties.pass_values(m_properties, "kdenlive:meta.magiclantern.");
+        subProperties.pass_values(*m_properties, "kdenlive:meta.magiclantern.");
         QTreeWidgetItem *magicL = nullptr;
         for (int i = 0; i < subProperties.count(); i++) {
             if (!magicL) {
@@ -1281,7 +1282,7 @@ void ClipPropertiesController::slotFillAnalysisData()
 {
     m_analysisTree->clear();
     Mlt::Properties subProperties;
-    subProperties.pass_values(m_properties, "kdenlive:clipanalysis.");
+    subProperties.pass_values(*m_properties, "kdenlive:clipanalysis.");
     if (subProperties.count() > 0) {
         for (int i = 0; i < subProperties.count(); i++) {
             new QTreeWidgetItem(m_analysisTree, QStringList() << subProperties.get_name(i) << subProperties.get(i));
