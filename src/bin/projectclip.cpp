@@ -440,6 +440,7 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
     // Release audio producers
     m_audioProducers.clear();
     m_timewarpProducers.clear();
+    emit refreshPropertiesPanel();
     replaceInTimeline();
     return true;
 }
@@ -869,7 +870,6 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
             setProducerProperty(QStringLiteral("kdenlive:originalurl"), url());
             pCore->jobManager()->startJob<ProxyJob>({clipId()}, -1, QString());
         }
-        refreshPanel = true;
     } else if (!reload) {
         const QList <QString>propKeys = properties.keys();
         for (const QString &k : propKeys) {
@@ -880,6 +880,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
                 } else {
                     // Clip resource changed, update thumbnail
                     reload = true;
+                    refreshPanel = true;
                     updateRoles << TimelineModel::ResourceRole;
                 }
                 break;

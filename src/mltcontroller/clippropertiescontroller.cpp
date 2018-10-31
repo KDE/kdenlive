@@ -61,6 +61,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QProcess>
 #include <QTextEdit>
 #include <QToolBar>
+#include <QMenu>
 #include <QUrl>
 #include <QVBoxLayout>
 #include <QScrollArea>
@@ -359,23 +360,46 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         QHBoxLayout *groupLay = new QHBoxLayout;
         groupLay->setContentsMargins(0, 0, 0, 0);
         auto *pbox = new QCheckBox(i18n("Proxy clip"), this);
+        pbox->setTristate(true);
+        // Proxy codec label
+        QLabel *lab = new QLabel(this);
         pbox->setObjectName(QStringLiteral("kdenlive:proxy"));
-        pbox->setChecked(proxy.length() > 2);
+        bool hasProxy = proxy.length() > 2;
+        if (hasProxy) {
+            bg->setToolTip(proxy);
+            bool proxyReady = (QFileInfo(proxy).fileName() == QFileInfo(m_properties.get("kdenlive:originalurl")).fileName());
+            if (proxyReady) {
+                pbox->setCheckState(Qt::Checked);
+                lab->setText(m_controller->getProducerProperty(QString("meta.media.%1.codec.name").arg(m_controller->getProducerIntProperty(QStringLiteral("video_index")))));
+            } else {
+                pbox->setCheckState(Qt::PartiallyChecked);
+            }
+        } else {
+            pbox->setCheckState(Qt::Unchecked);
+        }
         pbox->setEnabled(pCore->projectManager()->current()->getDocumentProperty(QStringLiteral("enableproxy")).toInt() != 0);
-        connect(pbox, &QCheckBox::stateChanged, [this, bg](int state) {
-            emit requestProxy(state == Qt::Checked);
-            bg->setEnabled(state == Qt::Checked);
-            bg->setToolTip(m_properties.get("kdenlive:proxy"));
+        connect(pbox, &QCheckBox::stateChanged, [this, pbox, bg](int state) {
+            qDebug()<<"GOT PROXY STATE: "<<state<<"\nVVVVVVVVVVVVVVVVVVVVVVVVVVVV";
+            emit requestProxy(state == Qt::PartiallyChecked);
+            if (state == Qt::Checked) {
+                QSignalBlocker bk(pbox);
+                pbox->setCheckState(Qt::Unchecked);
+            }
         });
         connect(this, &ClipPropertiesController::enableProxy, pbox, &QCheckBox::setEnabled);
-        connect(this, &ClipPropertiesController::proxyModified, [this, pbox, bg] (const QString &pxy) {
-            pbox->setChecked(pxy.length() > 2);
+        connect(this, &ClipPropertiesController::proxyModified, [this, pbox, bg, lab] (const QString &pxy) {
+            bool hasProxy = pxy.length() > 2;
+            QSignalBlocker bk(pbox);
+            pbox->setCheckState(hasProxy ? Qt::Checked : Qt::Unchecked);
             bg->setEnabled(pbox->isChecked());
             bg->setToolTip(pxy);
+            lab->setText(hasProxy ? m_controller->getProducerProperty(QString("meta.media.%1.codec.name").arg(m_controller->getProducerIntProperty(QStringLiteral("video_index")))) : QString());
         });
-
         hlay->addWidget(pbox);
-        bg->setEnabled(proxy.length() > 2);
+        bg->setEnabled(pbox->checkState() == Qt::Checked);
+
+        groupLay->addWidget(lab);
+
         // Delete button
         QToolButton *tb = new QToolButton(this);
         tb->setIcon(QIcon::fromTheme(QStringLiteral("edit-delete")));
@@ -387,33 +411,31 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         groupLay->addWidget(tb);
         // Folder button
         tb = new QToolButton(this);
-        tb->setIcon(QIcon::fromTheme(QStringLiteral("document-open")));
+        QMenu *pMenu = new QMenu(this);
+        tb->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-menu")));
+        tb->setToolTip(i18n("Proxy options"));
+        tb->setMenu(pMenu);
         tb->setAutoRaise(true);
-        connect(tb, &QToolButton::clicked, [this](){
+        tb->setPopupMode(QToolButton::InstantPopup);
+
+        QAction *ac = new QAction(QIcon::fromTheme(QStringLiteral("document-open")), i18n("Open folder"), this);
+        connect(ac, &QAction::triggered, [this](){
             QString pxy = m_properties.get("kdenlive:proxy");
             QDesktopServices::openUrl(QUrl::fromLocalFile(QFileInfo(pxy).path()));
         });
-        tb->setToolTip(i18n("Open folder"));
-        groupLay->addWidget(tb);
-        // Playback button
-        tb = new QToolButton(this);
-        tb->setIcon(QIcon::fromTheme(QStringLiteral("media-playback-start")));
-        tb->setAutoRaise(true);
-        connect(tb, &QToolButton::clicked, [this](){
+        pMenu->addAction(ac);
+        ac = new QAction(QIcon::fromTheme(QStringLiteral("media-playback-start")), i18n("Play proxy clip"), this);
+        connect(ac, &QAction::triggered, [this](){
             QString pxy = m_properties.get("kdenlive:proxy");
             QDesktopServices::openUrl(QUrl::fromLocalFile(pxy));
         });
-        tb->setToolTip(i18n("Play proxy clip"));
-        groupLay->addWidget(tb);
-        // Clipboard button
-        tb = new QToolButton(this);
-        tb->setIcon(QIcon::fromTheme(QStringLiteral("edit-copy")));
-        tb->setAutoRaise(true);
-        tb->setToolTip(i18n("copy file location to clipboard"));
-        connect(tb, &QToolButton::clicked, [this](){
+        pMenu->addAction(ac);
+        ac = new QAction(QIcon::fromTheme(QStringLiteral("edit-copy")), i18n("Copy file location to clipboard"), this);
+        connect(ac, &QAction::triggered, [this](){
             QString pxy = m_properties.get("kdenlive:proxy");
             QGuiApplication::clipboard()->setText(pxy);
         });
+        pMenu->addAction(ac);
         groupLay->addWidget(tb);
         bg->setLayout(groupLay);
         hlay->addWidget(bg);
