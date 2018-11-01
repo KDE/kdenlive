@@ -3002,6 +3002,9 @@ void Bin::rebuildProxies()
     for (std::shared_ptr<ProjectClip> clp : clipList) {
         if (clp->hasProxy()) {
             toProxy << clp;
+            // Abort all pending jobs
+            pCore->jobManager()->discardJobs(clp->clipId(), AbstractClipJob::PROXYJOB);
+            clp->deleteProxy();
         }
     }
     if (toProxy.isEmpty()) {

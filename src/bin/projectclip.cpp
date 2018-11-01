@@ -950,22 +950,25 @@ ClipPropertiesController *ProjectClip::buildProperties(QWidget *parent)
         QList<std::shared_ptr<ProjectClip>> clipList {std::static_pointer_cast<ProjectClip>(shared_from_this())};
         pCore->currentDoc()->slotProxyCurrentItem(doProxy, clipList);
     });
-    connect(panel, &ClipPropertiesController::deleteProxy, [this] () {
-        // Disable proxy file
-        QString proxy = getProducerProperty(QStringLiteral("kdenlive:proxy"));
-        QList<std::shared_ptr<ProjectClip>> clipList {std::static_pointer_cast<ProjectClip>(shared_from_this())};
-        pCore->currentDoc()->slotProxyCurrentItem(false, clipList);
-        // Delete it
-        bool ok;
-        QDir dir = pCore->currentDoc()->getCacheDir(CacheProxy, &ok);
-        if (ok && proxy.length() > 2) {
-            proxy = QFileInfo(proxy).fileName();
-            if (dir.exists(proxy)) {
-                dir.remove(proxy);
-            }
-        }
-    });
+    connect(panel, &ClipPropertiesController::deleteProxy, this, &ProjectClip::deleteProxy);
     return panel;
+}
+
+void ProjectClip::deleteProxy()
+{
+    // Disable proxy file
+    QString proxy = getProducerProperty(QStringLiteral("kdenlive:proxy"));
+    QList<std::shared_ptr<ProjectClip>> clipList {std::static_pointer_cast<ProjectClip>(shared_from_this())};
+    pCore->currentDoc()->slotProxyCurrentItem(false, clipList);
+    // Delete
+    bool ok;
+    QDir dir = pCore->currentDoc()->getCacheDir(CacheProxy, &ok);
+    if (ok && proxy.length() > 2) {
+        proxy = QFileInfo(proxy).fileName();
+        if (dir.exists(proxy)) {
+            dir.remove(proxy);
+        }
+    }
 }
 
 void ProjectClip::updateParent(std::shared_ptr<TreeItem> parent)

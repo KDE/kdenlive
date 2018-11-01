@@ -1662,7 +1662,6 @@ void MainWindow::slotEditProjectSettings()
             if (pCore->projectItemModel()->clipsCount() > 0 &&
                 KMessageBox::questionYesNo(this, i18n("You have changed the proxy parameters. Do you want to recreate all proxy clips for this project?")) ==
                     KMessageBox::Yes) {
-                // TODO: rebuild all proxies
                 pCore->bin()->rebuildProxies();
             }
         }

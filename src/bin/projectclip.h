@@ -244,6 +244,8 @@ public slots:
     void updateAudioThumbnail(QVariantList audioLevels);
     /** @brief Extract image thumbnails for timeline. */
     void slotExtractImage(const QList<int> &frames);
+    /** @brief Delete the proxy file */
+    void deleteProxy();
 
 private:
     /** @brief Generate and store file hash if not available. */
