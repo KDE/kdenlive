@@ -50,15 +50,15 @@ void MltConnection::locateMeltAndProfilesPath(const QString &mltPath)
     if (profilePath.isEmpty() || !QFile::exists(profilePath)) profilePath = KdenliveSettings::mltpath();
 #endif
     //try to automatically guess MLT path if installed with the same prefix as kdenlive with default data path
-    if (profilePath.isEmpty() || !QFile::exists(profilePath)) profilePath = qApp->applicationDirPath() + QStringLiteral("/../share/mlt/profiles/");
+    if (profilePath.isEmpty() || !QFile::exists(profilePath)) profilePath = QDir::cleanPath(qApp->applicationDirPath() + QStringLiteral("/../share/mlt/profiles/"));
     //fallback to build-time definition
     if ((profilePath.isEmpty() || !QFile::exists(profilePath)) && !QStringLiteral(MLT_DATADIR).isEmpty()) profilePath = QStringLiteral(MLT_DATADIR) + QStringLiteral("/profiles/");
     KdenliveSettings::setMltpath(profilePath);
 
 #ifdef Q_OS_WIN
-    const QStringLiteral exeSuffix(".exe");
+    QString exeSuffix = ".exe";
 #else
-    const QStringLiteral exeSuffix();
+    QString exeSuffix = "";
 #endif
     QString meltPath = qgetenv("MLT_PREFIX") + QStringLiteral("/bin/melt") + exeSuffix;
     if (!QFile::exists(meltPath)) meltPath = QDir::cleanPath(profilePath + QStringLiteral("../../../bin/melt") + exeSuffix);
