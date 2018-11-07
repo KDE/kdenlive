@@ -424,6 +424,8 @@ public slots:
     void invalidateClip(int cid);
     void invalidateZone(int in, int out);
     void checkDuration();
+    /** @brief Dis / enable multi track view. */
+    void slotMultitrackView(bool enable);
 
 private slots:
     void slotUpdateSelection(int itemId);

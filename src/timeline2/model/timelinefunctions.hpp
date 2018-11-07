@@ -89,6 +89,7 @@ struct TimelineFunctions
     static bool requestSplitAudio(std::shared_ptr<TimelineItemModel> timeline, int clipId, int audioTarget);
     static bool requestSplitVideo(std::shared_ptr<TimelineItemModel> timeline, int clipId, int videoTarget);
     static void setCompositionATrack(std::shared_ptr<TimelineItemModel> timeline, int cid, int aTrack);
+    static void enableMultitrackView(std::shared_ptr<TimelineItemModel> timeline, bool enable);
 };
 
 #endif

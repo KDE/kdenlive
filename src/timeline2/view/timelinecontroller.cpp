@@ -197,7 +197,7 @@ QMap<int, QString> TimelineController::getTrackNames(bool videoOnly)
 {
     QMap<int, QString> names;
     for (const auto &track : m_model->m_iteratorTable) {
-        if (videoOnly && m_model->getTrackById(track.first)->getProperty(QStringLiteral("kdenlive:audio_track")).toInt() == 1) {
+        if (videoOnly && m_model->getTrackById_const(track.first)->isAudioTrack()) {
             continue;
         }
         QString trackName = m_model->getTrackFullName(track.first);
@@ -1397,7 +1397,6 @@ void TimelineController::changeItemSpeed(int clipId, double speed)
 void TimelineController::switchCompositing(int mode)
 {
     // m_model->m_tractor->lock();
-    qDebug() << "//// SWITCH COMPO: " << mode;
     QScopedPointer<Mlt::Service> service(m_model->m_tractor->field());
     Mlt::Field *field = m_model->m_tractor->field();
     field->lock();
@@ -2097,4 +2096,9 @@ QStringList TimelineController::getThumbKeys()
 bool TimelineController::isInSelection(int itemId)
 {
     return m_model->isInMultiSelection(itemId);
+}
+
+void TimelineController::slotMultitrackView(bool enable)
+{
+    TimelineFunctions::enableMultitrackView(m_model, enable);
 }

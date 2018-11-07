@@ -630,4 +630,156 @@ void TimelineFunctions::setCompositionATrack(std::shared_ptr<TimelineItemModel> 
     pCore->pushUndo(undo, redo, i18n("Change Composition Track"));
 }
 
-
+void TimelineFunctions::enableMultitrackView(std::shared_ptr<TimelineItemModel> timeline, bool enable)
+{
+    QList <int> videoTracks;
+    for (const auto &track : timeline->m_iteratorTable) {
+        if (timeline->getTrackById_const(track.first)->isAudioTrack() || timeline->getTrackById_const(track.first)->isHidden()) {
+            continue;
+        }
+        videoTracks << track.first;
+    }
+    if (videoTracks.size() < 2) {
+        pCore->displayMessage(i18n("Cannot enable multitrack view on a single track"), InformationMessage);
+    }
+    // First, dis/enable track compositing
+    QScopedPointer<Mlt::Service> service(timeline->m_tractor->field());
+    Mlt::Field *field = timeline->m_tractor->field();
+    field->lock();
+    while ((service != nullptr) && service->is_valid()) {
+        if (service->type() == transition_type) {
+            Mlt::Transition t((mlt_transition)service->get_service());
+            QString serviceName = t.get("mlt_service");
+            int added = t.get_int("internal_added");
+            if (added == 237 && serviceName != QLatin1String("mix")) {
+                // remove all compositing transitions
+                t.set("disable", enable ? "1" : nullptr);
+            } else if (!enable && added == 200) {
+                field->disconnect_service(t);
+            }
+        }
+        service.reset(service->producer());
+    }
+    if (enable) {
+        for (int i = 0; i < videoTracks.size(); ++i) {
+            Mlt::Transition transition(*timeline->m_tractor->profile(), "composite");
+            transition.set("mlt_service", "composite");
+            transition.set("a_track", 0);
+            transition.set("b_track", timeline->getTrackMltIndex(videoTracks.at(i)));
+            transition.set("distort", 0);
+            transition.set("aligned", 0);
+            // 200 is an arbitrary number so we can easily remove these transition later
+            transition.set("internal_added", 200);
+            QString geometry;
+            switch (i) {
+                case 0:
+                    switch (videoTracks.size()) {
+                        case 2:
+                            geometry = QStringLiteral("0 0 50% 100%");
+                            break;
+                        case 3:
+                            geometry = QStringLiteral("0 0 33% 100%");
+                            break;
+                        case 4:
+                            geometry = QStringLiteral("0 0 50% 50%");
+                            break;
+                        case 5:
+                        case 6:
+                            geometry = QStringLiteral("0 0 33% 50%");
+                            break;
+                        default:
+                            geometry = QStringLiteral("0 0 33% 33%");
+                            break;
+                    }
+                    break;
+                case 1:
+                    switch (videoTracks.size()) {
+                        case 2:
+                            geometry = QStringLiteral("50% 0 50% 100%");
+                            break;
+                        case 3:
+                            geometry = QStringLiteral("33% 0 33% 100%");
+                            break;
+                        case 4:
+                            geometry = QStringLiteral("50% 0 50% 50%");
+                            break;
+                        case 5:
+                        case 6:
+                            geometry = QStringLiteral("33% 0 33% 50%");
+                            break;
+                        default:
+                            geometry = QStringLiteral("33% 0 33% 33%");
+                            break;
+                    }
+                    break;
+                case 2:
+                    switch (videoTracks.size()) {
+                        case 3:
+                            geometry = QStringLiteral("66% 0 33% 100%");
+                            break;
+                        case 4:
+                            geometry = QStringLiteral("0 50% 50% 50%");
+                            break;
+                        case 5:
+                        case 6:
+                            geometry = QStringLiteral("66% 0 33% 50%");
+                            break;
+                        default:
+                            geometry = QStringLiteral("66% 0 33% 33%");
+                            break;
+                    }
+                    break;
+                case 3:
+                    switch (videoTracks.size()) {
+                        case 4:
+                            geometry = QStringLiteral("50% 50% 50% 50%");
+                            break;
+                        case 5:
+                        case 6:
+                            geometry = QStringLiteral("0 50% 33% 50%");
+                            break;
+                        default:
+                            geometry = QStringLiteral("0 33% 33% 33%");
+                            break;
+                    }
+                    break;
+                case 4:
+                    switch (videoTracks.size()) {
+                        case 5:
+                        case 6:
+                            geometry = QStringLiteral("33% 50% 33% 50%");
+                            break;
+                        default:
+                            geometry = QStringLiteral("33% 33% 33% 33%");
+                            break;
+                    }
+                    break;
+                case 5:
+                    switch (videoTracks.size()) {
+                        case 6:
+                            geometry = QStringLiteral("66% 50% 33% 50%");
+                            break;
+                        default:
+                            geometry = QStringLiteral("66% 33% 33% 33%");
+                            break;
+                    }
+                    break;
+                case 6:
+                    geometry = QStringLiteral("0 66% 33% 33%");
+                    break;
+                case 7:
+                    geometry = QStringLiteral("33% 66% 33% 33%");
+                    break;
+                default:
+                    geometry = QStringLiteral("66% 66% 33% 33%");
+                    break;
+            }
+            // Add transition to track:
+            transition.set("geometry", geometry.toUtf8().constData());
+            transition.set("always_active", 1);
+            field->plant_transition(transition, 0, timeline->getTrackMltIndex(videoTracks.at(i)));
+        }
+    }
+    field->unlock();
+    timeline->requestMonitorRefresh();
+}
