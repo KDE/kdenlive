@@ -24,6 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "compositionmodel.hpp"
 #include "core.h"
 #include "effects/effectstack/model/effectstackmodel.hpp"
+#include "transitions/transitionsrepository.hpp"
 #include "groupsmodel.hpp"
 #include "timelineitemmodel.hpp"
 #include "trackmodel.hpp"
@@ -797,6 +798,8 @@ void TimelineFunctions::saveTimelineSelection(std::shared_ptr<TimelineItemModel>
         // TODO: warn and ask for overwrite / rename
     }
     int offset = -1;
+    int lowerAudioTrack = -1;
+    int lowerVideoTrack = -1;
     QString fullPath = targetDir.absoluteFilePath(name + QStringLiteral(".mlt"));
     // Build a copy of selected tracks.
     QMap <int, int> sourceTracks;
@@ -815,12 +818,37 @@ void TimelineFunctions::saveTimelineSelection(std::shared_ptr<TimelineItemModel>
     Mlt::Tractor newTractor(*timeline->m_tractor->profile());
     QScopedPointer<Mlt::Field>field(newTractor.field());
     int ix = 0;
+    QString composite = TransitionsRepository::get()->getCompositingTransition();
     QMapIterator<int, int> i(sourceTracks);
     while (i.hasNext()) {
         i.next();
         QScopedPointer<Mlt::Playlist> newTrackPlaylist(new Mlt::Playlist(*newTractor.profile()));
+        newTractor.set_track(*newTrackPlaylist, ix);
+        //QScopedPointer<Mlt::Producer> trackProducer(newTractor.track(ix));
         int trackId = i.value();
         std::shared_ptr<TrackModel> track = timeline->getTrackById_const(trackId);
+        bool isAudio = track->isAudioTrack();
+        if (isAudio) {
+            newTrackPlaylist->set("hide", 1);
+            if (lowerAudioTrack < 0) {
+                lowerAudioTrack = ix;
+            }
+        } else {
+            newTrackPlaylist->set("hide", 2);
+            if (lowerVideoTrack < 0) {
+                lowerVideoTrack = ix;
+            }
+        }
+        if ((isAudio && ix > lowerAudioTrack) || (!isAudio && ix > lowerVideoTrack)) {
+            // add track compositing / mix
+            Mlt::Transition t(*newTractor.profile(), isAudio ? "mix" : composite.toUtf8().constData());
+            if (isAudio) {
+                t.set("sum", 1);
+            }
+            t.set("always_active", 1);
+            t.set("internal_added", 237);
+            field->plant_transition(t, isAudio ? lowerAudioTrack : lowerVideoTrack, ix);
+        }
         for (int itemId : selection) {
             if (timeline->getItemTrackId(itemId) == trackId) {
                 // Copy clip on the destination track
@@ -837,7 +865,6 @@ void TimelineFunctions::saveTimelineSelection(std::shared_ptr<TimelineItemModel>
                 }
             }
         }
-        newTractor.set_track(*newTrackPlaylist, ix);
         ix++;
     }
     Mlt::Consumer xmlConsumer(*newTractor.profile(), ("xml:" + fullPath).toUtf8().constData());

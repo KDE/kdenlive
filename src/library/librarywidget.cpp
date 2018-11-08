@@ -262,21 +262,6 @@ void LibraryWidget::slotAddToLibrary()
         return;
     }
     emit saveTimelineSelection(m_directory);
-    /*
-    if (!m_manager->hasSelection()) {
-        showMessage(i18n("Select clips in timeline for the Library"));
-        return;
-    }
-    bool ok;
-    QString name = QInputDialog::getText(this, i18n("Add Clip to Library"), i18n("Enter a name for the clip in Library"), QLineEdit::Normal, QString(), &ok);
-    if (name.isEmpty() || !ok) {
-        return;
-    }
-    if (m_directory.exists(name + QStringLiteral(".mlt"))) {
-        // TODO: warn and ask for overwrite / rename
-    }
-    QString fullPath = m_directory.absoluteFilePath(name + QStringLiteral(".mlt"));
-    m_manager->slotSaveSelection(fullPath);*/
 }
 
 void LibraryWidget::showMessage(const QString &text, KMessageWidget::MessageType type)
