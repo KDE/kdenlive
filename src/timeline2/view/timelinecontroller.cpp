@@ -1848,6 +1848,7 @@ void TimelineController::updateClipActions()
         for(QAction *act : clipActions) {
             act->setEnabled(false);
         }
+        emit timelineClipSelected(false);
         return;
     }
     std::shared_ptr<ClipModel> clip(nullptr);
@@ -1880,6 +1881,7 @@ void TimelineController::updateClipActions()
         }
         act->setEnabled(enableAction);
     }
+    emit timelineClipSelected(clip != nullptr);
 }
 
 const QString TimelineController::getAssetName(const QString &assetId, bool isTransition)
@@ -2101,4 +2103,9 @@ bool TimelineController::isInSelection(int itemId)
 void TimelineController::slotMultitrackView(bool enable)
 {
     TimelineFunctions::enableMultitrackView(m_model, enable);
+}
+
+void TimelineController::saveTimelineSelection(QDir targetDir)
+{
+    TimelineFunctions::saveTimelineSelection(m_model, m_selection.selectedItems, targetDir);
 }

@@ -28,6 +28,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "timelineitemmodel.hpp"
 #include "trackmodel.hpp"
 
+#include <QInputDialog>
+#include <QApplication>
 #include <QDebug>
 #include <klocalizedstring.h>
 
@@ -782,4 +784,64 @@ void TimelineFunctions::enableMultitrackView(std::shared_ptr<TimelineItemModel> 
     }
     field->unlock();
     timeline->requestMonitorRefresh();
+}
+
+void TimelineFunctions::saveTimelineSelection(std::shared_ptr<TimelineItemModel> timeline, QList <int> selection, QDir targetDir)
+{
+    bool ok;
+    QString name = QInputDialog::getText(qApp->activeWindow(), i18n("Add Clip to Library"), i18n("Enter a name for the clip in Library"), QLineEdit::Normal, QString(), &ok);
+    if (name.isEmpty() || !ok) {
+        return;
+    }
+    if (targetDir.exists(name + QStringLiteral(".mlt"))) {
+        // TODO: warn and ask for overwrite / rename
+    }
+    int offset = -1;
+    QString fullPath = targetDir.absoluteFilePath(name + QStringLiteral(".mlt"));
+    // Build a copy of selected tracks.
+    QMap <int, int> sourceTracks;
+    for (int i : selection) {
+        int sourceTrack = timeline->getItemTrackId(i);
+        int clipPos = timeline->getItemPosition(i);
+        if (offset < 0 || clipPos < offset) {
+            offset = clipPos;
+        }
+        int trackPos = timeline->getTrackMltIndex(sourceTrack);
+        if (!sourceTracks.contains(trackPos)) {
+            sourceTracks.insert(trackPos, sourceTrack);
+        }
+    }
+    // Build target timeline
+    Mlt::Tractor newTractor(*timeline->m_tractor->profile());
+    QScopedPointer<Mlt::Field>field(newTractor.field());
+    int ix = 0;
+    QMapIterator<int, int> i(sourceTracks);
+    while (i.hasNext()) {
+        i.next();
+        QScopedPointer<Mlt::Playlist> newTrackPlaylist(new Mlt::Playlist(*newTractor.profile()));
+        int trackId = i.value();
+        std::shared_ptr<TrackModel> track = timeline->getTrackById_const(trackId);
+        for (int itemId : selection) {
+            if (timeline->getItemTrackId(itemId) == trackId) {
+                // Copy clip on the destination track
+                if (timeline->isClip(itemId)) {
+                    int clip_position = timeline->m_allClips[itemId]->getPosition();
+                    auto clip_loc = track->getClipIndexAt(clip_position);
+                    int target_track = clip_loc.first;
+                    int target_clip = clip_loc.second;
+                    QSharedPointer<Mlt::Producer> clip = track->getClipProducer(target_clip);
+                    newTrackPlaylist->insert_at(clip_position - offset, clip.data());
+                } else {
+                    // Composition
+                    // TODO
+                }
+            }
+        }
+        newTractor.set_track(*newTrackPlaylist, ix);
+        ix++;
+    }
+    Mlt::Consumer xmlConsumer(*newTractor.profile(), ("xml:" + fullPath).toUtf8().constData());
+    xmlConsumer.set("terminate_on_pause", 1);
+    xmlConsumer.connect(newTractor);
+    xmlConsumer.run();
 }

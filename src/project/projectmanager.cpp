@@ -307,20 +307,6 @@ void ProjectManager::saveRecentFiles()
     config->sync();
 }
 
-void ProjectManager::slotSaveSelection(const QString &path)
-{
-    Q_UNUSED(path)
-    // TODO refac : look at this
-    // m_trackView->projectView()->exportTimelineSelection(path);
-}
-
-bool ProjectManager::hasSelection() const
-{
-    return false;
-    // TODO refac : look at this
-    // return m_trackView->projectView()->hasSelection();
-}
-
 bool ProjectManager::saveFileAs()
 {
     QFileDialog fd(pCore->window());

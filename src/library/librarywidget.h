@@ -209,6 +209,8 @@ private:
 signals:
     void addProjectClips(const QList<QUrl> &);
     void thumbReady(const QString &, const QString &);
+    void enableAddSelection(bool);
+    void saveTimelineSelection(QDir);
 };
 
 #endif

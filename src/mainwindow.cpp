@@ -1415,6 +1415,7 @@ void MainWindow::setupActions()
 
     QAction *sentToLibrary = addAction(QStringLiteral("send_library"), i18n("Add Timeline Selection to Library"), pCore->library(), SLOT(slotAddToLibrary()),
                                        QIcon::fromTheme(QStringLiteral("bookmark-new")));
+    sentToLibrary->setEnabled(false);
 
 
     pCore->library()->setupActions(QList<QAction *>() << sentToLibrary);
@@ -1904,6 +1905,8 @@ void MainWindow::connectDocument()
     KdenliveSettings::setProject_fps(pCore->getCurrentFps());
     m_projectMonitor->slotLoadClipZone(project->zone());
     connect(m_projectMonitor, &Monitor::multitrackView, getMainTimeline()->controller(), &TimelineController::slotMultitrackView);
+    connect(getMainTimeline()->controller(), &TimelineController::timelineClipSelected, pCore->library(), &LibraryWidget::enableAddSelection);
+    connect(pCore->library(), &LibraryWidget::saveTimelineSelection, getMainTimeline()->controller(), &TimelineController::saveTimelineSelection);
 
     // TODO REFAC: reconnect to new timeline
     /*

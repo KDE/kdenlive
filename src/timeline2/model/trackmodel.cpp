@@ -611,6 +611,19 @@ int TrackModel::getClipByPosition(int position)
     return prod->get_int("_kdenlive_cid");
 }
 
+QSharedPointer<Mlt::Producer> TrackModel::getClipProducer(int clipId)
+{
+    READ_LOCK();
+    QSharedPointer<Mlt::Producer> prod(nullptr);
+    if (m_playlists[0].count() > 0) {
+        prod = QSharedPointer<Mlt::Producer>(m_playlists[0].get_clip(clipId));
+    }
+    if ((!prod || prod->is_blank()) && m_playlists[1].count() > 0) {
+        prod = QSharedPointer<Mlt::Producer>(m_playlists[1].get_clip(clipId));
+    }
+    return prod;
+}
+
 int TrackModel::getCompositionByPosition(int position)
 {
     READ_LOCK();

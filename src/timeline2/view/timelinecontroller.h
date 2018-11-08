@@ -426,6 +426,8 @@ public slots:
     void checkDuration();
     /** @brief Dis / enable multi track view. */
     void slotMultitrackView(bool enable);
+    /** @brief Save timeline selcted clips to target folder. */
+    void saveTimelineSelection(QDir targetDir);
 
 private slots:
     void slotUpdateSelection(int itemId);
@@ -498,6 +500,9 @@ signals:
     void workingPreviewChanged();
     void useRulerChanged();
     void updateZoom(double);
+    /* @brief emitted when timeline selection changes, true if a clip is selected
+     */
+    void timelineClipSelected(bool);
     Q_INVOKABLE void ungrabHack();
 };
 

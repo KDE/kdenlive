@@ -23,7 +23,7 @@
 #include "doc/kthumb.h"
 #include "kdenlivesettings.h"
 #include "project/projectmanager.h"
-
+#include "core.h"
 
 #include <QAction>
 #include <QDropEvent>
@@ -243,6 +243,7 @@ void LibraryWidget::setupActions(const QList<QAction *> &list)
     for (QAction *action : list) {
         m_toolBar->addAction(action);
         menuList << action;
+        connect(this, &LibraryWidget::enableAddSelection, action, &QAction::setEnabled);
     }
 
     // Create spacer
@@ -260,6 +261,8 @@ void LibraryWidget::slotAddToLibrary()
     if (!isEnabled()) {
         return;
     }
+    emit saveTimelineSelection(m_directory);
+    /*
     if (!m_manager->hasSelection()) {
         showMessage(i18n("Select clips in timeline for the Library"));
         return;
@@ -273,7 +276,7 @@ void LibraryWidget::slotAddToLibrary()
         // TODO: warn and ask for overwrite / rename
     }
     QString fullPath = m_directory.absoluteFilePath(name + QStringLiteral(".mlt"));
-    m_manager->slotSaveSelection(fullPath);
+    m_manager->slotSaveSelection(fullPath);*/
 }
 
 void LibraryWidget::showMessage(const QString &text, KMessageWidget::MessageType type)

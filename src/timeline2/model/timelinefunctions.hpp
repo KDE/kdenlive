@@ -27,6 +27,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <memory>
 #include <unordered_set>
 
+#include <QDir>
+
 /**
  * @namespace TimelineFunction
  * @brief This namespace contains a list of static methods for advanced timeline editing features
@@ -90,6 +92,7 @@ struct TimelineFunctions
     static bool requestSplitVideo(std::shared_ptr<TimelineItemModel> timeline, int clipId, int videoTarget);
     static void setCompositionATrack(std::shared_ptr<TimelineItemModel> timeline, int cid, int aTrack);
     static void enableMultitrackView(std::shared_ptr<TimelineItemModel> timeline, bool enable);
+    static void saveTimelineSelection(std::shared_ptr<TimelineItemModel> timeline, QList <int> selection, QDir targetDir);
 };
 
 #endif

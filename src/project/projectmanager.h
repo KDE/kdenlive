@@ -61,8 +61,6 @@ public:
     void prepareSave();
     /** @brief Disable all bin effects in current project */
     void disableBinEffects(bool disable);
-    /** @brief Returns true if there is a selected item in timeline */
-    bool hasSelection() const;
     /** @brief Returns current project's xml scene */
     QString projectSceneList(const QString &outputFolder);
     /** @brief returns a default hd profile depending on timezone*/
@@ -98,8 +96,6 @@ public slots:
     /** @brief Shows a save file dialog for saving the project.
      * @return Whether the file was saved. */
     bool saveFileAs();
-    /** @brief Saves current timeline selection to an MLT playlist. */
-    void slotSaveSelection(const QString &path = QString());
 
     /** @brief Set properties to match outputFileName and save the document.
      * Creates an autosave version of the output file too, at
