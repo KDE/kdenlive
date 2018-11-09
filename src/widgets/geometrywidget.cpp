@@ -87,7 +87,7 @@ GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QR
 
     if (useOpacity) {
         m_opacity = new DragValue(i18n("Opacity"), 100, 0, 0, 100, -1, i18n("%"), true, this);
-        m_opacity->setValue(opacity * m_opacityFactor);
+        m_opacity->setValue((int) (opacity * m_opacityFactor));
         connect(m_opacity, &DragValue::valueChanged, [&]() {
             emit valueChanged(getValue());
         });
@@ -402,7 +402,7 @@ void GeometryWidget::setValue(const QRect r, double opacity)
         if (opacity < 0) {
             opacity = 100 / m_opacityFactor;
         }
-        m_opacity->setValue((int)(opacity * m_opacityFactor));
+        m_opacity->setValue((int)(opacity * m_opacityFactor + 0.5));
         m_opacity->blockSignals(false);
     }
     m_spinX->blockSignals(false);
@@ -415,12 +415,13 @@ void GeometryWidget::setValue(const QRect r, double opacity)
 const QString GeometryWidget::getValue() const
 {
     if (m_opacity) {
+        QLocale locale;
         return QStringLiteral("%1 %2 %3 %4 %5")
             .arg(m_spinX->value())
             .arg(m_spinY->value())
             .arg(m_spinWidth->value())
             .arg(m_spinHeight->value())
-            .arg(m_opacity->value() / m_opacityFactor);
+            .arg(locale.toString(m_opacity->value() / m_opacityFactor));
     }
     return QStringLiteral("%1 %2 %3 %4").arg(m_spinX->value()).arg(m_spinY->value()).arg(m_spinWidth->value()).arg(m_spinHeight->value());
 }

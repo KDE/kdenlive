@@ -182,6 +182,7 @@ bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, double newVal, Fun
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
     qDebug() << getAnimProperty();
+    //TODO: use the new Animation::key_set_frame to move a keyframe
     bool res = removeKeyframe(oldPos, local_undo, local_redo);
     qDebug() << "Move keyframe finished deletion:" << res;
     qDebug() << getAnimProperty();
@@ -677,6 +678,7 @@ void KeyframeModel::parseAnimProperty(const QString &prop)
     Fun redo = []() { return true; };
 
     Mlt::Properties mlt_prop;
+    QLocale locale;
     mlt_prop.set("key", prop.toUtf8().constData());
     // This is a fake query to force the animation to be parsed
     (void)mlt_prop.anim_get_int("key", 0, 0);
@@ -696,7 +698,7 @@ void KeyframeModel::parseAnimProperty(const QString &prop)
         switch (m_paramType) {
         case ParamType::AnimatedRect: {
             mlt_rect rect = mlt_prop.anim_get_rect("key", frame);
-            value = QVariant(QStringLiteral("%1 %2 %3 %4 %5").arg(rect.x).arg(rect.y).arg(rect.w).arg(rect.h).arg(rect.o));
+            value = QVariant(QStringLiteral("%1 %2 %3 %4 %5").arg(rect.x).arg(rect.y).arg(rect.w).arg(rect.h).arg(locale.toString(rect.o)));
             break;
         }
         default:
@@ -819,7 +821,7 @@ QVariant KeyframeModel::getInterpolatedValue(const GenTime &pos) const
                       convertToMltType(next->second.first));
         }
         mlt_rect rect = prop.anim_get_rect("keyframe", p);
-        const QString res = QStringLiteral("%1 %2 %3 %4 %5").arg((int)rect.x).arg((int)rect.y).arg((int)rect.w).arg((int)rect.h).arg(rect.o);
+        const QString res = QStringLiteral("%1 %2 %3 %4 %5").arg((int)rect.x).arg((int)rect.y).arg((int)rect.w).arg((int)rect.h).arg(locale.toString(rect.o));
         return QVariant(res);
     } else if (m_paramType == ParamType::Roto_spline) {
         // interpolate
