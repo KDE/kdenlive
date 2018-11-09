@@ -1831,6 +1831,9 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                         // blank, duplicate
                         duplicate_playlist.appendChild(producers.at(j).cloneNode());
                         pos += producers.at(j).toElement().attribute(QStringLiteral("length")).toInt();
+                    } else if (producers.at(j).nodeName() == QLatin1String("filter")) {
+                        // effect, duplicate
+                        duplicate_playlist.appendChild(producers.at(j).cloneNode());
                     } else if (producers.at(j).nodeName() != QLatin1String("entry")) {
                         // property node, pass
                         continue;
