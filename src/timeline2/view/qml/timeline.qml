@@ -605,6 +605,8 @@ Rectangle {
         }
         MouseArea {
             id: tracksArea
+            property real clickX
+            property real clickY
             width: root.width - headerWidth
             height: root.height
             Keys.onDownPressed: {
@@ -615,7 +617,7 @@ Rectangle {
             }
             // This provides continuous scrubbing and scimming at the left/right edges.
             hoverEnabled: true
-            acceptedButtons: Qt.RightButton | Qt.LeftButton
+            acceptedButtons: Qt.RightButton | Qt.LeftButton | Qt.MidButton
             cursorShape: tracksArea.mouseY < ruler.height || root.activeTool === 0 ? Qt.ArrowCursor : root.activeTool === 1 ? Qt.IBeamCursor : Qt.SplitHCursor
             onWheel: {
                 if (wheel.modifiers & Qt.AltModifier) {
@@ -637,6 +639,11 @@ Rectangle {
             }
             onPressed: {
                 focus = true
+                if (mouse.buttons === Qt.MidButton) {
+                    clickX = mouseX
+                    clickY = mouseY
+                    return
+                }
                 if (mouse.modifiers & Qt.ShiftModifier) {
                         // rubber selection
                         rubberSelect.x = mouse.x + tracksArea.x
@@ -691,6 +698,15 @@ Rectangle {
                 scim = false
             }
             onPositionChanged: {
+                if (mouse.buttons === Qt.MidButton && pressed) {
+                    var newScroll = Math.min(scrollView.flickableItem.contentX - (mouseX - clickX), timeline.fullDuration * root.timeScale - (scrollView.width - scrollView.__verticalScrollBar.width))
+                    var vertScroll = Math.min(scrollView.flickableItem.contentY - (mouseY - clickY), height - headerFlick.height - cornerstone.height)
+                    scrollView.flickableItem.contentX = Math.max(newScroll, 0)
+                    scrollView.flickableItem.contentY = Math.max(vertScroll, 0)
+                    clickX = mouseX
+                    clickY = mouseY
+                    return
+                }
                 if (dragProxy.draggedItem > -1) {
                     mouse.accepted = false
                     return
