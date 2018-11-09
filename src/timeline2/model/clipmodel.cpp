@@ -23,17 +23,13 @@
 #include "bin/projectitemmodel.h"
 #include "core.h"
 #include "effects/effectstack/model/effectstackmodel.hpp"
+#include <effects/effectsrepository.hpp>
 #include "macros.hpp"
 #include "timelinemodel.hpp"
 #include "trackmodel.hpp"
 #include <QDebug>
 #include <mlt++/MltProducer.h>
 #include <utility>
-
-// this can be deleted
-#include "bin/model/markerlistmodel.hpp"
-#include "gentime.h"
-#include <effects/effectsrepository.hpp>
 
 ClipModel::ClipModel(std::shared_ptr<TimelineModel> parent, std::shared_ptr<Mlt::Producer> prod, const QString &binClipId, int id,
                      PlaylistState::ClipState state, double speed)

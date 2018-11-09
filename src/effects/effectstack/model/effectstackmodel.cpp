@@ -837,14 +837,20 @@ void EffectStackModel::cleanFadeEffects(bool outEffects, Fun &undo, Fun &redo)
         }
     }
     if (!toDelete.empty()) {
-        Fun update = [this]() {
-            // TODO: only update if effect is fade or keyframe
+        Fun updateRedo = [this, toDelete, outEffects]() {
+            for (int id : toDelete) {
+                if (outEffects) {
+                    fadeOuts.erase(id);
+                } else {
+                    fadeIns.erase(id);
+                }
+            }
             emit dataChanged(QModelIndex(), QModelIndex(), QVector<int>());
             pCore->updateItemKeyframes(m_ownerId);
             return true;
         };
-        update();
-        PUSH_LAMBDA(update, redo);
+        updateRedo();
+        PUSH_LAMBDA(updateRedo, redo);
     }
 }
 
