@@ -657,7 +657,7 @@ Rectangle {
             }
             onPressed: {
                 focus = true
-                if (mouse.buttons === Qt.MidButton) {
+                if (mouse.buttons === Qt.MidButton || (root.activeTool == 0 && mouse.modifiers & Qt.ControlModifier)) {
                     clickX = mouseX
                     clickY = mouseY
                     return
@@ -716,7 +716,7 @@ Rectangle {
                 scim = false
             }
             onPositionChanged: {
-                if (mouse.buttons === Qt.MidButton && pressed) {
+                if (pressed && ((mouse.buttons === Qt.MidButton) || (mouse.buttons === Qt.LeftButton && root.activeTool == 0 && mouse.modifiers & Qt.ControlModifier))) {
                     var newScroll = Math.min(scrollView.flickableItem.contentX - (mouseX - clickX), timeline.fullDuration * root.timeScale - (scrollView.width - scrollView.__verticalScrollBar.width))
                     var vertScroll = Math.min(scrollView.flickableItem.contentY - (mouseY - clickY), height - headerFlick.height - cornerstone.height)
                     scrollView.flickableItem.contentX = Math.max(newScroll, 0)
@@ -887,6 +887,10 @@ Rectangle {
                                 property bool shiftClick: false
                                 cursorShape: pressed ? Qt.ClosedHandCursor : Qt.OpenHandCursor
                                 onPressed: {
+                                    if (mouse.modifiers & Qt.ControlModifier) {
+                                        mouse.accepted = false
+                                        return
+                                    }
                                     dragFrame = -1
                                     timeline.activeTrack = dragProxy.sourceTrack
                                     if (mouse.modifiers & Qt.ShiftModifier) {
