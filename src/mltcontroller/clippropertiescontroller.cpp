@@ -388,12 +388,12 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         });
         connect(this, &ClipPropertiesController::enableProxy, pbox, &QCheckBox::setEnabled);
         connect(this, &ClipPropertiesController::proxyModified, [this, pbox, bg, lab] (const QString &pxy) {
-            bool hasProxy = pxy.length() > 2;
+            bool hasProxyClip = pxy.length() > 2;
             QSignalBlocker bk(pbox);
-            pbox->setCheckState(hasProxy ? Qt::Checked : Qt::Unchecked);
+            pbox->setCheckState(hasProxyClip ? Qt::Checked : Qt::Unchecked);
             bg->setEnabled(pbox->isChecked());
             bg->setToolTip(pxy);
-            lab->setText(hasProxy ? m_properties->get(QString("meta.media.%1.codec.name").arg(m_properties->get_int("video_index")).toUtf8().constData()) : QString());
+            lab->setText(hasProxyClip ? m_properties->get(QString("meta.media.%1.codec.name").arg(m_properties->get_int("video_index")).toUtf8().constData()) : QString());
         });
         hlay->addWidget(pbox);
         bg->setEnabled(pbox->checkState() == Qt::Checked);
@@ -571,15 +571,15 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
             videoStream->setVisible(m_videoStreams.size() > 1);
             connect(ac, &KDualAction::activeChanged , [this, ac, videoStream](bool activated){
                 QMap<QString, QString> properties;
-                int vix = -1;
+                int vindx = -1;
                 if (activated) {
                     videoStream->setEnabled(false);
                 } else {
                     videoStream->setEnabled(true);
-                    vix = videoStream->currentData().toInt();
+                    vindx = videoStream->currentData().toInt();
                 }
-                properties.insert(QStringLiteral("video_index"), QString::number(vix));
-                properties.insert(QStringLiteral("set.test_image"), vix > -1 ? QStringLiteral("0") : QStringLiteral("1"));
+                properties.insert(QStringLiteral("video_index"), QString::number(vindx));
+                properties.insert(QStringLiteral("set.test_image"), vindx > -1 ? QStringLiteral("0") : QStringLiteral("1"));
                 emit updateClipProperties(m_id, m_originalProperties, properties);
                 m_originalProperties = properties;
             });
@@ -622,15 +622,15 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
             audioStream->setVisible(m_audioStreams.size() > 1);
             connect(ac, &KDualAction::activeChanged, [this, ac, audioStream](bool activated){
                 QMap<QString, QString> properties;
-                int vix = -1;
+                int vindx = -1;
                 if (activated) {
                     audioStream->setEnabled(false);
                 } else {
                     audioStream->setEnabled(true);
-                    vix = audioStream->currentData().toInt();
+                    vindx = audioStream->currentData().toInt();
                 }
-                properties.insert(QStringLiteral("audio_index"), QString::number(vix));
-                properties.insert(QStringLiteral("set.test_audio"), vix > -1 ? QStringLiteral("0") : QStringLiteral("1"));
+                properties.insert(QStringLiteral("audio_index"), QString::number(vindx));
+                properties.insert(QStringLiteral("set.test_audio"), vindx > -1 ? QStringLiteral("0") : QStringLiteral("1"));
                 emit updateClipProperties(m_id, m_originalProperties, properties);
                 m_originalProperties = properties;
             });

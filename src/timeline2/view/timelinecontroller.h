@@ -24,11 +24,14 @@
 
 #include "definitions.h"
 #include "timeline2/model/timelineitemmodel.hpp"
-#include "timelinewidget.h"
 #include "lib/audio/audioCorrelation.h"
+
+#include <KActionCollection>
+#include <QDir>
 
 class PreviewManager;
 class QAction;
+class QQuickItem;
 
 // see https://bugreports.qt.io/browse/QTBUG-57714, don't expose a QWidget as a context property
 class TimelineController : public QObject
@@ -98,7 +101,7 @@ public:
     /* @brief set current timeline's zoom factor
      */
     void setScaleFactorOnMouse(double scale, bool zoomOnMouse);
-    Q_INVOKABLE void setScaleFactor(double scale);
+    void setScaleFactor(double scale);
     /* @brief Returns the project's duration (tractor)
      */
     Q_INVOKABLE int duration() const;
@@ -428,6 +431,8 @@ public slots:
     void slotMultitrackView(bool enable);
     /** @brief Save timeline selcted clips to target folder. */
     void saveTimelineSelection(QDir targetDir);
+    /** @brief Restore timeline scroll pos on open. */
+    void setScrollPos(int pos);
 
 private slots:
     void slotUpdateSelection(int itemId);

@@ -1069,7 +1069,7 @@ void MainWindow::setupActions()
     m_zoomOut->setShortcut(Qt::CTRL + Qt::Key_Minus);
 
     m_zoomSlider = new QSlider(Qt::Horizontal, this);
-    m_zoomSlider->setRange(0, 13);
+    m_zoomSlider->setRange(0, 20);
     m_zoomSlider->setPageStep(1);
     m_zoomSlider->setInvertedAppearance(true);
     m_zoomSlider->setInvertedControls(true);
@@ -2643,21 +2643,20 @@ void MainWindow::slotSetZoom(int value, bool zoomOnMouse)
 {
     value = qBound(m_zoomSlider->minimum(), value, m_zoomSlider->maximum());
     m_timelineTabs->changeZoom(value, zoomOnMouse);
-    m_zoomOut->setEnabled(value < m_zoomSlider->maximum());
-    m_zoomIn->setEnabled(value > m_zoomSlider->minimum());
-    slotUpdateZoomSliderToolTip(value);
-
-    m_zoomSlider->blockSignals(true);
-    m_zoomSlider->setValue(value);
-    m_zoomSlider->blockSignals(false);
+    updateZoomSlider(value);
 }
 
 void MainWindow::updateZoomSlider(int value)
 {
     slotUpdateZoomSliderToolTip(value);
-    m_zoomSlider->blockSignals(true);
+    KdenliveDoc *project = pCore->currentDoc();
+    if (project) {
+        project->setZoom(value);
+    }
+    m_zoomOut->setEnabled(value < m_zoomSlider->maximum());
+    m_zoomIn->setEnabled(value > m_zoomSlider->minimum());
+    QSignalBlocker blocker(m_zoomSlider);
     m_zoomSlider->setValue(value);
-    m_zoomSlider->blockSignals(false);
 }
 
 void MainWindow::slotShowZoomSliderToolTip(int zoomlevel)
@@ -2674,7 +2673,8 @@ void MainWindow::slotShowZoomSliderToolTip(int zoomlevel)
 
 void MainWindow::slotUpdateZoomSliderToolTip(int zoomlevel)
 {
-    m_zoomSlider->setToolTip(i18n("Zoom Level: %1/14", (14 - zoomlevel)));
+    int max = m_zoomSlider->maximum() + 1;
+    m_zoomSlider->setToolTip(i18n("Zoom Level: %1/%2", max - zoomlevel, max));
 }
 
 void MainWindow::slotGotProgressInfo(const QString &message, int progress, MessageType type)

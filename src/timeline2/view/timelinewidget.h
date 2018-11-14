@@ -81,14 +81,6 @@ private:
 
 signals:
     void focusProjectMonitor();
-    /* @brief Requests a zoom in for timeline
-       @param zoomOnMouse is set to true if we want to center zoom on mouse, otherwise we center on timeline cursor position
-     */
-    void zoomIn(bool zoomOnMouse);
-    /* @brief Requests a zoom out for timeline
-       @param zoomOnMouse is set to true if we want to center zoom on mouse, otherwise we center on timeline cursor position
-     */
-    void zoomOut(bool zoomOnMouse);
     void zoneMoved(const QPoint &zone);
 };
 

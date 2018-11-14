@@ -49,7 +49,7 @@
 #include <QSortFilterProxyModel>
 #include <utility>
 
-const int TimelineWidget::comboScale[] = {1, 2, 5, 10, 25, 50, 125, 250, 500, 750, 1500, 3000, 6000, 12000};
+const int TimelineWidget::comboScale[] = {1, 2, 4, 8, 15, 30, 50, 75, 100, 150, 200, 300, 500, 800, 1000, 1500, 2000, 3000, 6000, 15000, 30000};
 
 TimelineWidget::TimelineWidget(QWidget *parent)
     : QQuickWidget(parent)
@@ -133,6 +133,8 @@ void TimelineWidget::setModel(std::shared_ptr<TimelineItemModel> model)
     rootContext()->setContextProperty("clipboard", new ClipboardProxy(this));
     setSource(QUrl(QStringLiteral("qrc:/qml/timeline.qml")));
     connect(rootObject(), SIGNAL(mousePosChanged(int)), pCore->window(), SLOT(slotUpdateMousePosition(int)));
+    connect(rootObject(), SIGNAL(zoomIn(bool)), pCore->window(), SLOT(slotZoomIn(bool)));
+    connect(rootObject(), SIGNAL(zoomOut(bool)), pCore->window(), SLOT(slotZoomOut(bool)));
     m_proxy->setRoot(rootObject());
     setVisible(true);
     loading = false;
@@ -148,7 +150,8 @@ void TimelineWidget::mousePressEvent(QMouseEvent *event)
 
 void TimelineWidget::slotChangeZoom(int value, bool zoomOnMouse)
 {
-    m_proxy->setScaleFactorOnMouse(100.0 / comboScale[value], zoomOnMouse);
+    double pixelScale = QFontMetrics(font()).maxWidth() * 2;
+    m_proxy->setScaleFactorOnMouse(pixelScale / comboScale[value], zoomOnMouse);
 }
 
 Mlt::Tractor *TimelineWidget::tractor()

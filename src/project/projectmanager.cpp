@@ -132,7 +132,6 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
     QPoint projectTracks(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks());
     pCore->monitorManager()->resetDisplay();
     QString documentId = QString::number(QDateTime::currentMSecsSinceEpoch());
-    documentProperties.insert(QStringLiteral("decimalPoint"), QLocale().decimalPoint());
     documentProperties.insert(QStringLiteral("documentid"), documentId);
     if (!showProjectSettings) {
         if (!closeCurrentDocument()) {
@@ -191,6 +190,7 @@ void ProjectManager::newFile(bool showProjectSettings, bool force)
     }
     bool openBackup;
     m_notesPlugin->clear();
+    documentProperties.insert(QStringLiteral("decimalPoint"), QLocale().decimalPoint());
     KdenliveDoc *doc = new KdenliveDoc(QUrl(), projectFolder, pCore->window()->m_commandStack, profileName, documentProperties, documentMetadata, projectTracks,
                                        &openBackup, pCore->window());
     doc->m_autosave = new KAutoSaveFile(startFile, doc);
@@ -249,6 +249,27 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
         }
         pCore->monitorManager()->setDocument(m_project);
     }
+/*  // Make sure to reset locale to system's default
+    QString requestedLocale = QLocale::system().name();
+    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+    if (env.contains(QStringLiteral("LC_NUMERIC"))) {
+        requestedLocale = env.value(QStringLiteral("LC_NUMERIC"));
+    }
+    qDebug()<<"//////////// RESETTING LOCALE TO: "<<requestedLocale;
+
+#ifdef Q_OS_MAC
+    setlocale(LC_NUMERIC_MASK, requestedLocale.toUtf8().constData());
+#elif defined(Q_OS_WIN)
+    std::locale::global(std::locale(requestedLocale.toUtf8().constData()));
+#else
+    QLocale newLocale(requestedLocale);
+    char *separator = localeconv()->decimal_point;
+    if (QString::fromUtf8(separator) != QString(newLocale.decimalPoint())) {
+        pCore->displayBinMessage(i18n("There is a locale conflict on your system, project might get corrupt"), KMessageWidget::Warning);
+    }
+    setlocale(LC_NUMERIC, requestedLocale.toUtf8().constData());
+#endif
+    QLocale::setDefault(newLocale);*/
     return true;
 }
 
@@ -799,7 +820,7 @@ void ProjectManager::slotMoveFinished(KJob *job)
     }
 }
 
-void ProjectManager::updateTimeline(int pos)
+void ProjectManager::updateTimeline(int pos, int scrollPos)
 {
     pCore->jobManager()->slotCancelJobs();
     /*qDebug() << "Loading xml"<<m_project->getProjectXml().constData();
@@ -825,6 +846,7 @@ void ProjectManager::updateTimeline(int pos)
     pCore->monitorManager()->projectMonitor()->adjustRulerSize(m_mainTimelineModel->duration() - 1, m_project->getGuideModel());
     pCore->window()->getMainTimeline()->controller()->setZone(m_project->zone());
     pCore->window()->getMainTimeline()->controller()->setTargetTracks(m_project->targetTracks());
+    pCore->window()->getMainTimeline()->controller()->setScrollPos(m_project->getDocumentProperty(QStringLiteral("scrollPos")).toInt());
     int activeTrackPosition = m_project->getDocumentProperty(QStringLiteral("activeTrack")).toInt();
     if (activeTrackPosition > -1) {
         pCore->window()->getMainTimeline()->controller()->setActiveTrack(m_mainTimelineModel->getTrackIndexFromPosition(activeTrackPosition));

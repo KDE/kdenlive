@@ -18,6 +18,8 @@ Rectangle {
 
     signal clipClicked()
     signal mousePosChanged(int position)
+    signal zoomIn(bool onMouse)
+    signal zoomOut(bool onMouse)
 
     FontMetrics {
         id: fontMetrics
@@ -59,7 +61,11 @@ Rectangle {
             }
         } else if (wheel.modifiers & Qt.ControlModifier) {
             zoomOnMouse = getMousePos();
-            timeline.setScaleFactor(Math.max(0.005, timeline.scaleFactor * (1.0 + wheel.angleDelta.y / 600)));
+            if (wheel.angleDelta.y > 0) {
+                root.zoomIn(true);
+            } else {
+                root.zoomOut(true);
+            }
         } else {
             var newScroll = Math.min(scrollView.flickableItem.contentX - wheel.angleDelta.y, timeline.fullDuration * root.timeScale - (scrollView.width - scrollView.__verticalScrollBar.width))
             scrollView.flickableItem.contentX = Math.max(newScroll, 0)
@@ -98,6 +104,14 @@ Rectangle {
 
     function getMousePos() {
         return (scrollView.flickableItem.contentX + tracksArea.mouseX) / timeline.scaleFactor
+    }
+
+    function getScrollPos() {
+        return scrollView.flickableItem.contentX
+    }
+
+    function setScrollPos(pos) {
+        return scrollView.flickableItem.contentX = pos
     }
 
     function getCopiedItemId() {

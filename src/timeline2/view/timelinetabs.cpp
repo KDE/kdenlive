@@ -63,8 +63,6 @@ void TimelineTabs::connectTimeline(TimelineWidget *timeline)
     connect(timeline->controller(), &TimelineController::seeked, pCore->monitorManager()->projectMonitor(), &Monitor::requestSeek, Qt::DirectConnection);
     connect(pCore->monitorManager()->projectMonitor(), &Monitor::seekPosition, timeline->controller(), &TimelineController::onSeeked, Qt::DirectConnection);
     connect(timeline, &TimelineWidget::focusProjectMonitor, pCore->monitorManager(), &MonitorManager::focusProjectMonitor);
-    connect(timeline, &TimelineWidget::zoomIn, pCore->window(), &MainWindow::slotZoomIn);
-    connect(timeline, &TimelineWidget::zoomOut, pCore->window(), &MainWindow::slotZoomOut);
     connect(timeline->controller(), &TimelineController::durationChanged, pCore->projectManager(), &ProjectManager::adjustProjectDuration);
 
     connect(this, &TimelineTabs::audioThumbFormatChanged, timeline->controller(), &TimelineController::audioThumbFormatChanged);
@@ -84,8 +82,6 @@ void TimelineTabs::disconnectTimeline(TimelineWidget *timeline)
     disconnect(timeline->controller(), &TimelineController::seeked, pCore->monitorManager()->projectMonitor(), &Monitor::requestSeek);
     disconnect(pCore->monitorManager()->projectMonitor(), &Monitor::seekPosition, timeline->controller(), &TimelineController::onSeeked);
     disconnect(timeline, &TimelineWidget::focusProjectMonitor, pCore->monitorManager(), &MonitorManager::focusProjectMonitor);
-    disconnect(timeline, &TimelineWidget::zoomIn, pCore->window(), &MainWindow::slotZoomIn);
-    disconnect(timeline, &TimelineWidget::zoomOut, pCore->window(), &MainWindow::slotZoomOut);
     disconnect(timeline->controller(), &TimelineController::durationChanged, pCore->projectManager(), &ProjectManager::adjustProjectDuration);
 
     disconnect(this, &TimelineTabs::audioThumbFormatChanged, timeline->controller(), &TimelineController::audioThumbFormatChanged);

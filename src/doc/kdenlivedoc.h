@@ -92,7 +92,7 @@ public:
     QString projectTempFolder() const;
     /** @brief Returns the folder used to store project data files (titles, etc). */
     QString projectDataFolder() const;
-    void setZoom(int horizontal, int vertical);
+    void setZoom(int horizontal, int vertical = -1);
     QPoint zoom() const;
     double dar() const;
     /** @brief Returns the project file xml. */

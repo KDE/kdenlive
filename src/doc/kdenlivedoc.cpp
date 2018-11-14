@@ -93,7 +93,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGro
     // connect(m_commandStack, SIGNAL(cleanChanged(bool)), this, SLOT(setModified(bool)));
 
     // init default document properties
-    m_documentProperties[QStringLiteral("zoom")] = QLatin1Char('7');
+    m_documentProperties[QStringLiteral("zoom")] = QLatin1Char('8');
     m_documentProperties[QStringLiteral("verticalzoom")] = QLatin1Char('1');
     m_documentProperties[QStringLiteral("zonein")] = QLatin1Char('0');
     m_documentProperties[QStringLiteral("zoneout")] = QStringLiteral("-1");
@@ -441,7 +441,9 @@ void KdenliveDoc::slotAutoSave(const QString &scene)
 void KdenliveDoc::setZoom(int horizontal, int vertical)
 {
     m_documentProperties[QStringLiteral("zoom")] = QString::number(horizontal);
-    m_documentProperties[QStringLiteral("verticalzoom")] = QString::number(vertical);
+    if (vertical > -1) {
+        m_documentProperties[QStringLiteral("verticalzoom")] = QString::number(vertical);
+    }
 }
 
 QPoint KdenliveDoc::zoom() const

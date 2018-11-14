@@ -39,9 +39,9 @@
 #include "timeline2/model/trackmodel.hpp"
 #include "timeline2/view/dialogs/clipdurationdialog.h"
 #include "timeline2/view/dialogs/trackdialog.h"
-#include "timelinewidget.h"
 #include "transitions/transitionsrepository.hpp"
 #include "lib/audio/audioEnvelope.h"
+#include "effects/effectsrepository.hpp"
 
 #include <KActionCollection>
 #include <QApplication>
@@ -59,7 +59,7 @@ TimelineController::TimelineController(QObject *parent)
     , m_activeTrack(0)
     , m_audioRef(-1)
     , m_zone(-1, -1)
-    , m_scale(3.0)
+    , m_scale( QFontMetrics(QApplication::font()).maxWidth() / 250)
     , m_timelinePreview(nullptr)
 {
     m_disablePreview = pCore->currentDoc()->getAction(QStringLiteral("disable_preview"));
@@ -353,6 +353,13 @@ QList<int> TimelineController::selection() const
 {
     if (!m_root) return QList<int>();
     return m_selection.selectedItems;
+}
+
+void TimelineController::setScrollPos(int pos)
+{
+    if (pos > 0 && m_root) {
+        QMetaObject::invokeMethod(m_root, "setScrollPos", Qt::QueuedConnection, Q_ARG(QVariant, pos));
+    }
 }
 
 void TimelineController::selectMultitrack()
@@ -1294,6 +1301,10 @@ QMap<QString, QString> TimelineController::documentProperties()
     props.insert(QStringLiteral("videoTarget"), QString::number(videoTarget));
     props.insert(QStringLiteral("activeTrack"), QString::number(activeTrack));
     props.insert(QStringLiteral("position"), QString::number(timelinePosition()));
+    QVariant returnedValue;
+    QMetaObject::invokeMethod(m_root, "getScrollPos", Q_RETURN_ARG(QVariant, returnedValue));
+    int scrollPos = returnedValue.toInt();
+    props.insert(QStringLiteral("scrollPos"), QString::number(scrollPos));
     props.insert(QStringLiteral("zonein"), QString::number(m_zone.x()));
     props.insert(QStringLiteral("zoneout"), QString::number(m_zone.y()));
     if (m_timelinePreview) {
