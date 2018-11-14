@@ -1065,9 +1065,6 @@ void MainWindow::setupActions()
 
     m_buttonFitZoom->setCheckable(false);
 
-    m_zoomOut = new QAction(QIcon::fromTheme(QStringLiteral("zoom-out")), i18n("Zoom Out"), this);
-    m_zoomOut->setShortcut(Qt::CTRL + Qt::Key_Minus);
-
     m_zoomSlider = new QSlider(Qt::Horizontal, this);
     m_zoomSlider->setRange(0, 20);
     m_zoomSlider->setPageStep(1);
@@ -1077,14 +1074,12 @@ void MainWindow::setupActions()
     m_zoomSlider->setMaximumWidth(150);
     m_zoomSlider->setMinimumWidth(100);
 
-    m_zoomIn = new QAction(QIcon::fromTheme(QStringLiteral("zoom-in")), i18n("Zoom In"), this);
-    m_zoomIn->setShortcut(Qt::CTRL + Qt::Key_Plus);
+    m_zoomIn = KStandardAction::zoomIn(this, SLOT(slotZoomIn()), actionCollection());
+    m_zoomOut = KStandardAction::zoomOut(this, SLOT(slotZoomOut()), actionCollection());
 
     connect(m_zoomSlider, SIGNAL(valueChanged(int)), this, SLOT(slotSetZoom(int)));
     connect(m_zoomSlider, &QAbstractSlider::sliderMoved, this, &MainWindow::slotShowZoomSliderToolTip);
     connect(m_buttonFitZoom, &QAction::triggered, this, &MainWindow::slotFitZoom);
-    connect(m_zoomIn, &QAction::triggered, this, &MainWindow::slotZoomIn);
-    connect(m_zoomOut, &QAction::triggered, this, &MainWindow::slotZoomOut);
 
     m_trimLabel = new QLabel(QStringLiteral(" "), this);
     m_trimLabel->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
@@ -1136,8 +1131,6 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("show_markers"), m_buttonShowMarkers);
     addAction(QStringLiteral("snap"), m_buttonSnap);
     addAction(QStringLiteral("zoom_fit"), m_buttonFitZoom);
-    addAction(QStringLiteral("zoom_in"), m_zoomIn);
-    addAction(QStringLiteral("zoom_out"), m_zoomOut);
 
     addAction(QStringLiteral("run_wizard"), i18n("Run Config Wizard"), this, SLOT(slotRunWizard()), QIcon::fromTheme(QStringLiteral("tools-wizard")));
     addAction(QStringLiteral("project_settings"), i18n("Project Settings"), this, SLOT(slotEditProjectSettings()),
