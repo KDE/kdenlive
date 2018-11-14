@@ -60,7 +60,6 @@ Rectangle {
                 timeline.triggerAction('monitor_seek_snap_forward')
             }
         } else if (wheel.modifiers & Qt.ControlModifier) {
-            zoomOnMouse = getMousePos();
             if (wheel.angleDelta.y > 0) {
                 root.zoomIn(true);
             } else {
@@ -70,6 +69,7 @@ Rectangle {
             var newScroll = Math.min(scrollView.flickableItem.contentX - wheel.angleDelta.y, timeline.fullDuration * root.timeScale - (scrollView.width - scrollView.__verticalScrollBar.width))
             scrollView.flickableItem.contentX = Math.max(newScroll, 0)
         }
+        wheel.accepted = true
     }
 
     function continuousScrolling(x) {
@@ -141,9 +141,9 @@ Rectangle {
     }
 
     function initDrag(itemObject, itemCoord, itemId, itemPos, itemTrack, isComposition) {
-        dragProxy.x = itemCoord.x
+        dragProxy.x = itemObject.modelStart * timeScale
         dragProxy.y = itemCoord.y
-        dragProxy.width = itemCoord.width
+        dragProxy.width = itemObject.clipDuration * timeScale
         dragProxy.height = itemCoord.height
         dragProxy.masterObject = itemObject
         dragProxy.draggedItem = itemId
@@ -192,6 +192,10 @@ Rectangle {
         }
         root.snapping = timeline.snap ? 10 / Math.sqrt(root.timeScale) : -1
         ruler.adjustStepSize()
+        if (dragProxy.draggedItem > -1 && dragProxy.masterObject) {
+            // update dragged item pos
+            dragProxy.masterObject.updateDrag()
+        }
     }
 
     onViewActiveTrackChanged: {

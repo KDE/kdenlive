@@ -110,6 +110,11 @@ Item {
         compositionRoot.trackId = parentTrack.trackId
     }
 */
+    function updateDrag() {
+        var itemPos = mapToItem(tracksContainerArea, 0, displayRect.y, displayRect.width, displayRect.height)
+        initDrag(compositionRoot, itemPos, compositionRoot.clipId, compositionRoot.modelStart, compositionRoot.trackId, true)
+    }
+
     Rectangle {
         id: displayRect
         anchors.top: compositionRoot.top

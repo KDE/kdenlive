@@ -163,6 +163,11 @@ Rectangle {
     border.color: selected? 'red' : grouped ? 'yellowgreen' : borderColor
     border.width: isGrabbed ? 8 : 1.5
 
+    function updateDrag() {
+        var itemPos = mapToItem(tracksContainerArea, 0, 0, clipRoot.width, clipRoot.height)
+        initDrag(clipRoot, itemPos, clipRoot.clipId, clipRoot.modelStart, clipRoot.trackId, false)
+    }
+
     function getColor() {
         if (clipStatus == ClipState.Disabled) {
             return 'grey'
