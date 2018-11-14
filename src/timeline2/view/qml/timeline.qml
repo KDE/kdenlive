@@ -725,7 +725,7 @@ Rectangle {
                     mouse.accepted = false
                     return
                 }
-                root.mousePosChanged(Math.round((mouse.x + scrollView.flickableItem.contentX) / timeline.scaleFactor))
+                root.mousePosChanged(Math.max(0, Math.round((mouse.x + scrollView.flickableItem.contentX) / timeline.scaleFactor)))
                 ruler.showZoneLabels = mouse.y < ruler.height
                 if ((mouse.modifiers & Qt.ShiftModifier) && mouse.buttons === Qt.LeftButton && !rubberSelect.visible) {
                     // rubber selection
@@ -750,7 +750,7 @@ Rectangle {
                     }
                 } else if (mouse.buttons === Qt.LeftButton) {
                     if (root.activeTool === 0 || mouse.y < ruler.height) {
-                        timeline.seekPosition = Math.min((scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor, timeline.fullDuration - 1)
+                        timeline.seekPosition = Math.max(0, Math.min((scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor, timeline.fullDuration - 1))
                         timeline.position = timeline.seekPosition
                     } else if (root.activeTool === 2 && spacerGroup > -1) {
                         // Move group
