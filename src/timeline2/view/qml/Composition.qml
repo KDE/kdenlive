@@ -290,6 +290,9 @@ Item {
             onPositionChanged: {
                 if (mouse.buttons === Qt.LeftButton) {
                     var delta = Math.round((trimIn.x) / timeScale)
+                    if (delta < -modelStart) {
+                        delta = -modelStart
+                    }
                     if (delta !== 0) {
                         var newDuration = compositionRoot.clipDuration - delta
                         compositionRoot.trimmingIn(compositionRoot, newDuration, mouse)

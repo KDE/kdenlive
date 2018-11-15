@@ -669,6 +669,9 @@ Rectangle {
                 if (mouse.buttons === Qt.LeftButton) {
                     var delta = Math.round((trimIn.x) / timeScale)
                     if (delta !== 0) {
+                        if (delta < -modelStart) {
+                            delta = -modelStart
+                        }
                         var newDuration =  clipDuration - delta
                         sizeChanged = true
                         clipRoot.trimmingIn(clipRoot, newDuration, mouse, shiftTrim)
