@@ -23,7 +23,6 @@
 #include "abstractmonitor.h"
 #include "bin/model/markerlistmodel.hpp"
 #include "definitions.h"
-#include "effectslist/effectslist.h"
 #include "gentime.h"
 #include "scopes/sharedframe.h"
 #include "timecodedisplay.h"

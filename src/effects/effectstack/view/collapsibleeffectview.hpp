@@ -23,7 +23,7 @@
 #define COLLAPSIBLEEFFECTVIEW_H
 
 #include "abstractcollapsiblewidget.h"
-#include "mltcontroller/effectscontroller.h"
+#include "definitions.h"
 #include "timecode.h"
 
 #include <QDomElement>

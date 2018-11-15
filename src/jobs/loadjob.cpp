@@ -185,8 +185,8 @@ void LoadJob::checkProfile()
 
 void LoadJob::processSlideShow()
 {
-    int ttl = EffectsList::property(m_xml, QStringLiteral("ttl")).toInt();
-    QString anim = EffectsList::property(m_xml, QStringLiteral("animation"));
+    int ttl = Xml::getXmlProperty(m_xml, QStringLiteral("ttl")).toInt();
+    QString anim = Xml::getXmlProperty(m_xml, QStringLiteral("animation"));
     if (!anim.isEmpty()) {
         auto *filter = new Mlt::Filter(pCore->getCurrentProfile()->profile(), "affine");
         if ((filter != nullptr) && filter->is_valid()) {
@@ -205,7 +205,7 @@ void LoadJob::processSlideShow()
             }
         }
     }
-    QString fade = EffectsList::property(m_xml, QStringLiteral("fade"));
+    QString fade = Xml::getXmlProperty(m_xml, QStringLiteral("fade"));
     if (fade == QLatin1String("1")) {
         // user wants a fade effect to slideshow
         auto *filter = new Mlt::Filter(pCore->getCurrentProfile()->profile(), "luma");
@@ -213,14 +213,14 @@ void LoadJob::processSlideShow()
             if (ttl != 0) {
                 filter->set("cycle", ttl);
             }
-            QString luma_duration = EffectsList::property(m_xml, QStringLiteral("luma_duration"));
-            QString luma_file = EffectsList::property(m_xml, QStringLiteral("luma_file"));
+            QString luma_duration = Xml::getXmlProperty(m_xml, QStringLiteral("luma_duration"));
+            QString luma_file = Xml::getXmlProperty(m_xml, QStringLiteral("luma_file"));
             if (!luma_duration.isEmpty()) {
                 filter->set("duration", luma_duration.toInt());
             }
             if (!luma_file.isEmpty()) {
                 filter->set("luma.resource", luma_file.toUtf8().constData());
-                QString softness = EffectsList::property(m_xml, QStringLiteral("softness"));
+                QString softness = Xml::getXmlProperty(m_xml, QStringLiteral("softness"));
                 if (!softness.isEmpty()) {
                     int soft = softness.toInt();
                     filter->set("luma.softness", (double)soft / 100.0);
@@ -229,7 +229,7 @@ void LoadJob::processSlideShow()
             m_producer->attach(*filter);
         }
     }
-    QString crop = EffectsList::property(m_xml, QStringLiteral("crop"));
+    QString crop = Xml::getXmlProperty(m_xml, QStringLiteral("crop"));
     if (crop == QLatin1String("1")) {
         // user wants to center crop the slides
         auto *filter = new Mlt::Filter(pCore->getCurrentProfile()->profile(), "crop");

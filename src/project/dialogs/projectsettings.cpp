@@ -24,10 +24,10 @@
 #include "bin/projectclip.h"
 #include "bin/projectfolder.h"
 #include "core.h"
+#include "xml/xml.hpp"
 #include "dialogs/encodingprofilesdialog.h"
 #include "dialogs/profilesdialog.h"
 #include "doc/kdenlivedoc.h"
-#include "effectslist/effectslist.h"
 #include "kdenlivesettings.h"
 #include "mltcontroller/clipcontroller.h"
 #include "profiles/profilemodel.hpp"
@@ -558,11 +558,11 @@ QStringList ProjectSettings::extractPlaylistUrls(const QString &path)
     QDomNodeList files = doc.elementsByTagName(QStringLiteral("producer"));
     for (int i = 0; i < files.count(); ++i) {
         QDomElement e = files.at(i).toElement();
-        QString type = EffectsList::property(e, QStringLiteral("mlt_service"));
+        QString type = Xml::getXmlProperty(e, QStringLiteral("mlt_service"));
         if (type != QLatin1String("colour")) {
-            QString url = EffectsList::property(e, QStringLiteral("resource"));
+            QString url = Xml::getXmlProperty(e, QStringLiteral("resource"));
             if (type == QLatin1String("timewarp")) {
-                url = EffectsList::property(e, QStringLiteral("warp_resource"));
+                url = Xml::getXmlProperty(e, QStringLiteral("warp_resource"));
             } else if (type == QLatin1String("framebuffer")) {
                 url = url.section(QLatin1Char('?'), 0, 0);
             }
@@ -588,7 +588,7 @@ QStringList ProjectSettings::extractPlaylistUrls(const QString &path)
     files = doc.elementsByTagName(QStringLiteral("transition"));
     for (int i = 0; i < files.count(); ++i) {
         QDomElement e = files.at(i).toElement();
-        QString url = EffectsList::property(e, QStringLiteral("resource"));
+        QString url = Xml::getXmlProperty(e, QStringLiteral("resource"));
         if (!url.isEmpty()) {
             if (QFileInfo(url).isRelative()) {
                 url.prepend(root);

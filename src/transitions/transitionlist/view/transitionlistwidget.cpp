@@ -23,8 +23,8 @@
 #include "transitions/transitionlist/model/transitionfilter.hpp"
 #include "../model/transitiontreemodel.hpp"
 #include "transitions/transitionsrepository.hpp"
-#include "effectslist/initeffects.h"
 #include "dialogs/profilesdialog.h"
+#include "mainwindow.h"
 
 #include <QQmlContext>
 #include <kns3/downloaddialog.h>
@@ -98,7 +98,7 @@ int TransitionListWidget::getNewStuff(const QString &configFile)
 void TransitionListWidget::downloadNewLumas()
 {
     if (getNewStuff(QStringLiteral(":data/kdenlive_wipes.knsrc")) > 0) {
-        initEffects::refreshLumas();
+        MainWindow::refreshLumas();
         // TODO: refresh currently displayd trans ?
     }
 }

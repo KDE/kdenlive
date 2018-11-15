@@ -25,17 +25,16 @@
 #include "bin/model/markerlistmodel.hpp"
 #include "bin/projectclip.h"
 #include "core.h"
+#include "effects/effectsrepository.hpp"
 #include "dialogs/profilesdialog.h"
 #include "documentchecker.h"
 #include "documentvalidator.h"
 #include "docundostack.hpp"
-#include "effectslist/initeffects.h"
 #include "jobs/jobmanager.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "mltcontroller/bincontroller.h"
 #include "mltcontroller/clipcontroller.h"
-#include "mltcontroller/effectscontroller.h"
 #include "profiles/profilemodel.hpp"
 #include "profiles/profilerepository.hpp"
 #include "project/projectcommands.h"
@@ -133,7 +132,10 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGro
         systemLocale.setNumberOptions(QLocale::OmitGroupSeparator);
         QLocale::setDefault(systemLocale);
         // locale conversion might need to be redone
-        initEffects::parseEffectFiles(pCore->getMltRepository(), QString::fromLatin1(setlocale(LC_NUMERIC, nullptr)));
+        ///TODO: how to reset repositories...
+        //EffectsRepository::get()->init();
+        //TransitionsRepository::get()->init();
+        //initEffects::parseEffectFiles(pCore->getMltRepository(), QString::fromLatin1(setlocale(LC_NUMERIC, nullptr)));
     }
     *openBackup = false;
     if (url.isValid()) {
@@ -318,7 +320,6 @@ QDomDocument KdenliveDoc::createEmptyDocument(int videotracks, int audiotracks)
         audioTrack.isLocked = false;
         //audioTrack.trackName = i18n("Audio %1", audiotracks - i);
         audioTrack.duration = 0;
-        audioTrack.effectsList = EffectsList(true);
         tracks.append(audioTrack);
     }
     for (int i = 0; i < videotracks; ++i) {
@@ -329,7 +330,6 @@ QDomDocument KdenliveDoc::createEmptyDocument(int videotracks, int audiotracks)
         videoTrack.isLocked = false;
         //videoTrack.trackName = i18n("Video %1", i + 1);
         videoTrack.duration = 0;
-        videoTrack.effectsList = EffectsList(true);
         tracks.append(videoTrack);
     }
     return createEmptyDocument(tracks);
@@ -521,10 +521,10 @@ QDomDocument KdenliveDoc::xmlSceneList(const QString &scene)
         }
     }
     // TODO: find a way to process this before rendering MLT scenelist to xml
-    QDomDocument customeffects = initEffects::getUsedCustomEffects(effectIds);
+    /*QDomDocument customeffects = initEffects::getUsedCustomEffects(effectIds);
     if (!customeffects.documentElement().childNodes().isEmpty()) {
-        EffectsList::setProperty(mainPlaylist, QStringLiteral("kdenlive:customeffects"), customeffects.toString());
-    }
+        Xml::setXmlProperty(mainPlaylist, QStringLiteral("kdenlive:customeffects"), customeffects.toString());
+    }*/
     // addedXml.appendChild(sceneList.importNode(customeffects.documentElement(), true));
 
     // TODO: move metadata to previous step in saving process
@@ -893,19 +893,21 @@ void KdenliveDoc::saveCustomEffects(const QDomNodeList &customeffects)
     QDomElement e;
     QStringList importedEffects;
     int maxchild = customeffects.count();
+    QStringList newPaths;
     for (int i = 0; i < maxchild; ++i) {
         e = customeffects.at(i).toElement();
         const QString id = e.attribute(QStringLiteral("id"));
         const QString tag = e.attribute(QStringLiteral("tag"));
         if (!id.isEmpty()) {
             // Check if effect exists or save it
-            if (MainWindow::customEffects.hasEffect(tag, id) == -1) {
+            if (EffectsRepository::get()->exists(id)) {
                 QDomDocument doc;
                 doc.appendChild(doc.importNode(e, true));
                 QString path = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects");
                 path += id + QStringLiteral(".xml");
                 if (!QFile::exists(path)) {
                     importedEffects << id;
+                    newPaths << path;
                     QFile file(path);
                     if (file.open(QFile::WriteOnly | QFile::Truncate)) {
                         QTextStream out(&file);
@@ -919,7 +921,7 @@ void KdenliveDoc::saveCustomEffects(const QDomNodeList &customeffects)
         KMessageBox::informationList(QApplication::activeWindow(), i18n("The following effects were imported from the project:"), importedEffects);
     }
     if (!importedEffects.isEmpty()) {
-        emit reloadEffects();
+        emit reloadEffects(newPaths);
     }
 }
 

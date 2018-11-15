@@ -20,13 +20,13 @@
 #ifndef DEFINITIONS_H
 #define DEFINITIONS_H
 
-#include "effectslist/effectslist.h"
 #include "gentime.h"
 
 #include "kdenlive_debug.h"
 
 #include <QHash>
 #include <QPersistentModelIndex>
+#include <QDomElement>
 #include <QString>
 #include <cassert>
 #include <memory>
@@ -144,7 +144,7 @@ public:
     bool isBlind;
     bool isLocked;
     int duration;
-    EffectsList effectsList;
+    /*EffectsList effectsList;
     TrackInfo()
         : type(VideoTrack)
         , isMute(0)
@@ -153,7 +153,7 @@ public:
         , duration(0)
         , effectsList(true)
     {
-    }
+    }*/
 };
 
 struct requestClipInfo

@@ -36,7 +36,6 @@
 
 #include "definitions.h"
 #include "gentime.h"
-#include "mltcontroller/effectscontroller.h"
 #include "timecode.h"
 
 class MainWindow;
@@ -244,7 +243,7 @@ signals:
     /** @brief Trigger the autosave timer start */
     void startAutoSave();
     /** @brief Current doc created effects, reload list */
-    void reloadEffects();
+    void reloadEffects(const QStringList &paths);
     /** @brief Fps was changed, update timeline (changed = 1 means no change) */
     void updateFps(double changed);
     /** @brief If a command is pushed when we are in the middle of undo stack, invalidate further undo history */

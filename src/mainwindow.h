@@ -39,7 +39,6 @@
 #include "bin/bin.h"
 #include "definitions.h"
 #include "dvdwizard/dvdwizard.h"
-#include "effectslist/effectslist.h"
 #include "gentime.h"
 #include "kdenlive_debug.h"
 #include "kdenlivecore_export.h"
@@ -78,11 +77,6 @@ public:
     void init();
     virtual ~MainWindow();
 
-    static EffectsList videoEffects;
-    static EffectsList audioEffects;
-    static EffectsList customEffects;
-    static EffectsList transitions;
-
     /** @brief Cache for luma files thumbnails. */
     static QMap<QString, QImage> m_lumacache;
     static QMap<QString, QStringList> m_lumaFiles;
@@ -116,8 +110,10 @@ public:
     /** @brief Returns a ptr to the main timeline widget of the project */
     TimelineWidget *getMainTimeline() const;
 
-    /* @brief Returns a pointer to the current timeline */
+    /** @brief Returns a pointer to the current timeline */
     TimelineWidget *getCurrentTimeline() const;
+    /** @brief Reload luma files */
+    static void refreshLumas();
 
 protected:
     /** @brief Closes the window.
@@ -245,7 +241,7 @@ private:
 
 public slots:
     void slotGotProgressInfo(const QString &message, int progress, MessageType type = DefaultMessage);
-    void slotReloadEffects();
+    void slotReloadEffects(const QStringList &paths);
     Q_SCRIPTABLE void setRenderingProgress(const QString &url, int progress);
     Q_SCRIPTABLE void setRenderingFinished(const QString &url, int status, const QString &error);
     Q_SCRIPTABLE void addProjectClip(const QString &url);

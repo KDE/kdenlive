@@ -36,7 +36,6 @@
 
 #include "definitions.h"
 #include "gentime.h"
-#include "mltcontroller/effectscontroller.h"
 #include "monitor/abstractmonitor.h"
 #include <mlt/framework/mlt_types.h>
 

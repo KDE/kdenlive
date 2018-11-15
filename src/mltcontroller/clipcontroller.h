@@ -164,7 +164,6 @@ public:
     void addEffect(QDomElement &xml);
     bool copyEffect(std::shared_ptr<EffectStackModel> stackModel, int rowId);
     void removeEffect(int effectIndex, bool delayRefresh = false);
-    EffectsList effectList();
     /** @brief Enable/disable an effect. */
     void changeEffectState(const QList<int> &indexes, bool disable);
     void updateEffect(const QDomElement &e, int ix);
@@ -185,8 +184,6 @@ public:
     static const char *getPassPropertiesList(bool passLength = true);
     /** @brief Disable all Kdenlive effects on this clip */
     void setBinEffectsEnabled(bool enabled);
-    /** @brief Create a Kdenlive EffectList xml data from an MLT service */
-    static EffectsList xmlEffectList(Mlt::Profile *profile, Mlt::Service &service);
     /** @brief Returns the number of Kdenlive added effects for this bin clip */
     int effectsCount();
     /** @brief Move an effect in stack for this bin clip */

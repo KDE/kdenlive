@@ -23,6 +23,7 @@
 #include "bin/projectclip.h"
 #include "bin/projectfolder.h"
 #include "core.h"
+#include "xml/xml.hpp"
 #include "projectsettings.h"
 #include "titler/titlewidget.h"
 
@@ -767,7 +768,7 @@ bool ArchiveWidget::processProjectFile()
         if (e.isNull()) {
             continue;
         }
-        QString src = EffectsList::property(e, QStringLiteral("resource"));
+        QString src = Xml::getXmlProperty(e, QStringLiteral("resource"));
         if (!src.isEmpty()) {
             if (QFileInfo(src).isRelative()) {
                 src.prepend(root);
@@ -775,10 +776,10 @@ bool ArchiveWidget::processProjectFile()
             QUrl srcUrl = QUrl::fromLocalFile(src);
             QUrl dest = m_replacementList.value(srcUrl);
             if (!dest.isEmpty()) {
-                EffectsList::setProperty(e, QStringLiteral("resource"), dest.toLocalFile());
+                Xml::setXmlProperty(e, QStringLiteral("resource"), dest.toLocalFile());
             }
         }
-        src = EffectsList::property(e, QStringLiteral("xmldata"));
+        src = Xml::getXmlProperty(e, QStringLiteral("xmldata"));
         bool found = false;
         if (!src.isEmpty() && (src.contains(QLatin1String("QGraphicsPixmapItem")) || src.contains(QLatin1String("QGraphicsSvgItem")))) {
             // Title with images, replace paths
@@ -799,7 +800,7 @@ bool ArchiveWidget::processProjectFile()
             }
             if (found) {
                 // replace content
-                EffectsList::setProperty(e, QStringLiteral("xmldata"), titleXML.toString());
+                Xml::setXmlProperty(e, QStringLiteral("xmldata"), titleXML.toString());
             }
         }
     }
@@ -813,11 +814,11 @@ bool ArchiveWidget::processProjectFile()
             continue;
         }
         attribute = QStringLiteral("resource");
-        QString src = EffectsList::property(e, attribute);
+        QString src = Xml::getXmlProperty(e, attribute);
         if (src.isEmpty()) {
             attribute = QStringLiteral("luma");
         }
-        src = EffectsList::property(e, attribute);
+        src = Xml::getXmlProperty(e, attribute);
         if (!src.isEmpty()) {
             if (QFileInfo(src).isRelative()) {
                 src.prepend(root);
@@ -825,7 +826,7 @@ bool ArchiveWidget::processProjectFile()
             QUrl srcUrl = QUrl::fromLocalFile(src);
             QUrl dest = m_replacementList.value(srcUrl);
             if (!dest.isEmpty()) {
-                EffectsList::setProperty(e, attribute, dest.toLocalFile());
+                Xml::setXmlProperty(e, attribute, dest.toLocalFile());
             }
         }
     }

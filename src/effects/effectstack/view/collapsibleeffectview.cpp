@@ -25,9 +25,7 @@
 #include "dialogs/clipcreationdialog.h"
 #include "effects/effectsrepository.hpp"
 #include "effects/effectstack/model/effectitemmodel.hpp"
-#include "effectslist/effectslist.h"
 #include "kdenlivesettings.h"
-#include "mltcontroller/effectscontroller.h"
 #include "monitor/monitor.h"
 
 
@@ -121,7 +119,7 @@ CollapsibleEffectView::CollapsibleEffectView(std::shared_ptr<EffectItemModel> ef
     connect(m_groupAction, &QAction::triggered, this, &CollapsibleEffectView::slotCreateGroup);
 
     if (m_regionEffect) {
-        effectName.append(':' + QUrl(EffectsList::parameter(m_effect, QStringLiteral("resource"))).fileName());
+        effectName.append(':' + QUrl(Xml::getXmlParameter(m_effect, QStringLiteral("resource"))).fileName());
     }
 
     // Color thumb

@@ -26,7 +26,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "doc/kdenlivedoc.h"
 #include "effects/effectstack/model/effectstackmodel.hpp"
 #include "lib/audio/audioStreamInfo.h"
-#include "mltcontroller/effectscontroller.h"
 #include "profiles/profilemodel.hpp"
 
 #include "core.h"
@@ -719,11 +718,6 @@ void ClipController::removeEffect(int effectIndex, bool delayRefresh){
     */
 }
 
-EffectsList ClipController::effectList()
-{
-    return xmlEffectList(m_masterProducer->profile(), m_masterProducer->parent());
-}
-
 void ClipController::moveEffect(int oldPos, int newPos)
 {
     Q_UNUSED(oldPos)
@@ -749,33 +743,6 @@ int ClipController::effectsCount()
         }
     }
     return count;
-}
-
-// static
-EffectsList ClipController::xmlEffectList(Mlt::Profile *profile, Mlt::Service &service)
-{
-    Q_UNUSED(profile)
-    Q_UNUSED(service)
-    EffectsList effList(true);
-    // TODO refac : rewrite this
-    /*
-    for (int ix = 0; ix < service.filter_count(); ++ix) {
-        QScopedPointer<Mlt::Filter> effect(service.filter(ix));
-        QDomElement clipeffect = Timeline::getEffectByTag(effect->get("tag"), effect->get("kdenlive_id"));
-        QDomElement currenteffect = clipeffect.cloneNode().toElement();
-        // recover effect parameters
-        QDomNodeList params = currenteffect.elementsByTagName(QStringLiteral("parameter"));
-        if (effect->get_int("disable") == 1) {
-            currenteffect.setAttribute(QStringLiteral("disable"), 1);
-        }
-        for (int i = 0; i < params.count(); ++i) {
-            QDomElement param = params.item(i).toElement();
-            Timeline::setParam(param, effect->get(param.attribute(QStringLiteral("name")).toUtf8().constData()));
-        }
-        effList.append(currenteffect);
-    }
-    */
-    return effList;
 }
 
 void ClipController::changeEffectState(const QList<int> &indexes, bool disable)

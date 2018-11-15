@@ -21,10 +21,12 @@
 
 #include "core.h"
 #include "definitions.h"
-#include "effectslist/initeffects.h"
 #include "mainwindow.h"
 #include "mltcontroller/bincontroller.h"
 #include "bin/binplaylist.hpp"
+#include "effects/effectsrepository.hpp"
+#include "transitions/transitionsrepository.hpp"
+#include "xml/xml.hpp"
 
 #include "kdenlive_debug.h"
 #include <KMessageBox>
@@ -157,6 +159,7 @@ bool DocumentValidator::validate(const double currentVersion)
 // Make sure Qt locale and C++ locale have the same numeric separator, might not be the case
 // With some locales since C++ and Qt use a different database for locales
 // localeconv()->decimal_point does not give reliable results on Windows
+
 #ifndef Q_OS_WIN
         char *separator = localeconv()->decimal_point;
         if (QString::fromUtf8(separator) != QString(documentLocale.decimalPoint())) {
@@ -173,6 +176,7 @@ bool DocumentValidator::validate(const double currentVersion)
             }
         }
 #endif
+
     }
     documentLocale.setNumberOptions(QLocale::OmitGroupSeparator);
     if (documentLocale.decimalPoint() != QLocale().decimalPoint()) {
@@ -192,17 +196,19 @@ bool DocumentValidator::validate(const double currentVersion)
                                     documentLocale.decimalPoint(), QLocale().decimalPoint()));
         }
 // locale conversion might need to be redone
-#ifndef Q_OS_MAC
+//TODO reload repositories
+/*#ifndef Q_OS_MAC
         initEffects::parseEffectFiles(pCore->getMltRepository(), QString::fromLatin1(setlocale(LC_NUMERIC, nullptr)));
 #else
         initEffects::parseEffectFiles(pCore->getMltRepository(), QString::fromLatin1(setlocale(LC_NUMERIC_MASK, nullptr)));
 #endif
+*/
     }
     double version = -1;
     if (kdenliveDoc.isNull() || !kdenliveDoc.hasAttribute(QStringLiteral("version"))) {
         // Newer Kdenlive document version
         QDomElement main = mlt.firstChildElement(QStringLiteral("playlist"));
-        version = EffectsList::property(main, QStringLiteral("kdenlive:docproperties.version")).toDouble();
+        version = Xml::getXmlProperty(main, QStringLiteral("kdenlive:docproperties.version")).toDouble();
     } else {
         bool ok;
         version = documentLocale.toDouble(kdenliveDoc.attribute(QStringLiteral("version")), &ok);
@@ -1047,22 +1053,22 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         QDomNodeList effectNodes = m_doc.elementsByTagName(QStringLiteral("filter"));
         for (int i = 0; i < effectNodes.count(); ++i) {
             QDomElement effect = effectNodes.at(i).toElement();
-            if (EffectsList::property(effect, QStringLiteral("mlt_service")) == QLatin1String("ladspa")) {
+            if (Xml::getXmlProperty(effect, QStringLiteral("mlt_service")) == QLatin1String("ladspa")) {
                 // Needs to be converted
-                QStringList info = getInfoFromEffectName(EffectsList::property(effect, QStringLiteral("kdenlive_id")));
+                QStringList info = getInfoFromEffectName(Xml::getXmlProperty(effect, QStringLiteral("kdenlive_id")));
                 if (info.isEmpty()) {
                     continue;
                 }
                 // info contains the correct ladspa.id from kdenlive effect name, and a list of parameter's old and new names
-                EffectsList::setProperty(effect, QStringLiteral("kdenlive_id"), info.at(0));
-                EffectsList::setProperty(effect, QStringLiteral("tag"), info.at(0));
-                EffectsList::setProperty(effect, QStringLiteral("mlt_service"), info.at(0));
-                EffectsList::removeProperty(effect, QStringLiteral("src"));
+                Xml::setXmlProperty(effect, QStringLiteral("kdenlive_id"), info.at(0));
+                Xml::setXmlProperty(effect, QStringLiteral("tag"), info.at(0));
+                Xml::setXmlProperty(effect, QStringLiteral("mlt_service"), info.at(0));
+                Xml::removeXmlProperty(effect, QStringLiteral("src"));
                 for (int j = 1; j < info.size(); ++j) {
-                    QString value = EffectsList::property(effect, info.at(j).section(QLatin1Char('='), 0, 0));
+                    QString value = Xml::getXmlProperty(effect, info.at(j).section(QLatin1Char('='), 0, 0));
                     if (!value.isEmpty()) {
                         // update parameter name
-                        EffectsList::renameProperty(effect, info.at(j).section(QLatin1Char('='), 0, 0), info.at(j).section(QLatin1Char('='), 1, 1));
+                        Xml::renameXmlProperty(effect, info.at(j).section(QLatin1Char('='), 0, 0), info.at(j).section(QLatin1Char('='), 1, 1));
                     }
                 }
             }
@@ -1075,8 +1081,8 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         int max = producers.count();
         for (int i = 0; i < max; ++i) {
             QDomElement prod = producers.at(i).toElement();
-            if (EffectsList::property(prod, QStringLiteral("mlt_service")) == QLatin1String("avformat-novalidate")) {
-                EffectsList::setProperty(prod, QStringLiteral("mlt_service"), QStringLiteral("avformat"));
+            if (Xml::getXmlProperty(prod, QStringLiteral("mlt_service")) == QLatin1String("avformat-novalidate")) {
+                Xml::setXmlProperty(prod, QStringLiteral("mlt_service"), QStringLiteral("avformat"));
             }
         }
 
@@ -1111,7 +1117,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         for (int i = 0; i < max; ++i) {
             QDomElement trans = transitions.at(i).toElement();
             int out = trans.attribute(QStringLiteral("out")).toInt() - trans.attribute(QStringLiteral("in")).toInt();
-            QString geom = EffectsList::property(trans, QStringLiteral("geometry"));
+            QString geom = Xml::getXmlProperty(trans, QStringLiteral("geometry"));
             Mlt::Geometry *g = new Mlt::Geometry(geom.toUtf8().data(), out, profileWidth, profileHeight);
             Mlt::GeometryItem item;
             if (g->next_key(&item, out) == 0) {
@@ -1120,7 +1126,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                     item.frame(out);
                     g->insert(item);
                     g->remove(out + 1);
-                    EffectsList::setProperty(trans, QStringLiteral("geometry"), QString::fromLatin1(g->serialise()));
+                    Xml::setXmlProperty(trans, QStringLiteral("geometry"), QString::fromLatin1(g->serialise()));
                 }
             }
             delete g;
@@ -1279,8 +1285,8 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 // Make sure we didn't create a duplicate
                 if (ids.contains(id)) {
                     // we have a duplicate, check if this needs to be a track producer
-                    QString service = EffectsList::property(prod, QStringLiteral("mlt_service"));
-                    int a_ix = EffectsList::property(prod, QStringLiteral("audio_index")).toInt();
+                    QString service = Xml::getXmlProperty(prod, QStringLiteral("mlt_service"));
+                    int a_ix = Xml::getXmlProperty(prod, QStringLiteral("audio_index")).toInt();
                     if (service == QLatin1String("xml") || service == QLatin1String("consumer") ||
                         (service.contains(QStringLiteral("avformat")) && a_ix != -1)) {
                         // This should be a track producer, rename
@@ -1307,7 +1313,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 QDomElement entry = m_doc.createElement(QStringLiteral("entry"));
                 entry.setAttribute(QStringLiteral("producer"), id);
                 main_playlist.appendChild(entry);
-                QString service = EffectsList::property(prod, QStringLiteral("mlt_service"));
+                QString service = Xml::getXmlProperty(prod, QStringLiteral("mlt_service"));
                 if (service == QLatin1String("kdenlivetitle")) {
                     fixTitleProducerLocale(prod);
                 }
@@ -1324,9 +1330,9 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 QDomElement originalProd = prod.cloneNode().toElement();
                 originalProd.setAttribute(QStringLiteral("id"), prodId);
                 if (id.endsWith(QLatin1String("_audio"))) {
-                    EffectsList::removeProperty(originalProd, QStringLiteral("video_index"));
+                    Xml::removeXmlProperty(originalProd, QStringLiteral("video_index"));
                 } else if (id.endsWith(QLatin1String("_video"))) {
-                    EffectsList::removeProperty(originalProd, QStringLiteral("audio_index"));
+                    Xml::removeXmlProperty(originalProd, QStringLiteral("audio_index"));
                 }
                 QDomElement source = m_source_producers.value(prodId);
                 QDomElement entry = m_doc.createElement(QStringLiteral("entry"));
@@ -1350,7 +1356,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 // Clip was not in timeline, create it
                 QDomElement originalProd = prod.cloneNode().toElement();
                 originalProd.setTagName(QStringLiteral("producer"));
-                EffectsList::setProperty(originalProd, QStringLiteral("resource"), originalProd.attribute(QStringLiteral("resource")));
+                Xml::setXmlProperty(originalProd, QStringLiteral("resource"), originalProd.attribute(QStringLiteral("resource")));
                 updateProducerInfo(originalProd, prod);
                 originalProd.removeAttribute(QStringLiteral("proxy"));
                 originalProd.removeAttribute(QStringLiteral("type"));
@@ -1385,8 +1391,8 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                     mltService = QStringLiteral("avformat");
                     break;
                 }
-                EffectsList::setProperty(originalProd, QStringLiteral("mlt_service"), mltService);
-                EffectsList::setProperty(originalProd, QStringLiteral("mlt_type"), QStringLiteral("producer"));
+                Xml::setXmlProperty(originalProd, QStringLiteral("mlt_service"), mltService);
+                Xml::setXmlProperty(originalProd, QStringLiteral("mlt_type"), QStringLiteral("producer"));
                 QDomElement entry = m_doc.createElement(QStringLiteral("entry"));
                 entry.setAttribute(QStringLiteral("in"), QStringLiteral("0"));
                 entry.setAttribute(QStringLiteral("out"), QString::number(prod.attribute(QStringLiteral("duration")).toInt() - 1));
@@ -1489,12 +1495,12 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             if (!trackPlaylist.isNull()) {
                 QDomElement kdenliveTrack = old_tracks.at(i).toElement();
                 if (kdenliveTrack.attribute(QStringLiteral("type")) == QLatin1String("audio")) {
-                    EffectsList::setProperty(trackPlaylist, QStringLiteral("kdenlive:audio_track"), QStringLiteral("1"));
+                    Xml::setXmlProperty(trackPlaylist, QStringLiteral("kdenlive:audio_track"), QStringLiteral("1"));
                 }
                 if (kdenliveTrack.attribute(QStringLiteral("locked")) == QLatin1String("1")) {
-                    EffectsList::setProperty(trackPlaylist, QStringLiteral("kdenlive:locked_track"), QStringLiteral("1"));
+                    Xml::setXmlProperty(trackPlaylist, QStringLiteral("kdenlive:locked_track"), QStringLiteral("1"));
                 }
-                EffectsList::setProperty(trackPlaylist, QStringLiteral("kdenlive:track_name"), kdenliveTrack.attribute(QStringLiteral("trackname")));
+                Xml::setXmlProperty(trackPlaylist, QStringLiteral("kdenlive:track_name"), kdenliveTrack.attribute(QStringLiteral("trackname")));
             }
         }
         // Find bin playlist
@@ -1511,7 +1517,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         if (!notesList.isEmpty()) {
             QDomElement notes_elem = notesList.at(0).toElement();
             QString notes = notes_elem.firstChild().nodeValue();
-            EffectsList::setProperty(playlist, QStringLiteral("kdenlive:documentnotes"), notes);
+            Xml::setXmlProperty(playlist, QStringLiteral("kdenlive:documentnotes"), notes);
         }
         // Migrate clip groups
         QDomNodeList groupElement = m_doc.elementsByTagName(QStringLiteral("groups"));
@@ -1519,7 +1525,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             QDomElement groups = groupElement.at(0).toElement();
             QDomDocument d2;
             d2.importNode(groups, true);
-            EffectsList::setProperty(playlist, QStringLiteral("kdenlive:clipgroups"), d2.toString());
+            Xml::setXmlProperty(playlist, QStringLiteral("kdenlive:clipgroups"), d2.toString());
         }
         // Migrate custom effects
         QDomNodeList effectsElement = m_doc.elementsByTagName(QStringLiteral("customeffects"));
@@ -1527,11 +1533,11 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             QDomElement effects = effectsElement.at(0).toElement();
             QDomDocument d2;
             d2.importNode(effects, true);
-            EffectsList::setProperty(playlist, QStringLiteral("kdenlive:customeffects"), d2.toString());
+            Xml::setXmlProperty(playlist, QStringLiteral("kdenlive:customeffects"), d2.toString());
         }
-        EffectsList::setProperty(playlist, QStringLiteral("kdenlive:docproperties.version"), QString::number(currentVersion));
+        Xml::setXmlProperty(playlist, QStringLiteral("kdenlive:docproperties.version"), QString::number(currentVersion));
         if (!infoXml.isNull()) {
-            EffectsList::setProperty(playlist, QStringLiteral("kdenlive:docproperties.projectfolder"), infoXml.attribute(QStringLiteral("projectfolder")));
+            Xml::setXmlProperty(playlist, QStringLiteral("kdenlive:docproperties.projectfolder"), infoXml.attribute(QStringLiteral("projectfolder")));
         }
 
         // Remove deprecated Kdenlive extra info from xml doc before sending it to MLT
@@ -1547,23 +1553,23 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         QDomElement trans;
         for (int i = 0; i < transitionList.count(); i++) {
             trans = transitionList.at(i).toElement();
-            QString id = EffectsList::property(trans, QStringLiteral("kdenlive_id"));
+            QString id = Xml::getXmlProperty(trans, QStringLiteral("kdenlive_id"));
             if (id == QLatin1String("luma")) {
-                EffectsList::setProperty(trans, QStringLiteral("kdenlive_id"), QStringLiteral("wipe"));
-                EffectsList::setProperty(trans, QStringLiteral("mlt_service"), QStringLiteral("composite"));
-                bool reverse = EffectsList::property(trans, QStringLiteral("reverse")).toInt() != 0;
-                EffectsList::setProperty(trans, QStringLiteral("luma_invert"), EffectsList::property(trans, QStringLiteral("invert")));
-                EffectsList::setProperty(trans, QStringLiteral("luma"), EffectsList::property(trans, QStringLiteral("resource")));
-                EffectsList::removeProperty(trans, QStringLiteral("invert"));
-                EffectsList::removeProperty(trans, QStringLiteral("reverse"));
-                EffectsList::removeProperty(trans, QStringLiteral("resource"));
+                Xml::setXmlProperty(trans, QStringLiteral("kdenlive_id"), QStringLiteral("wipe"));
+                Xml::setXmlProperty(trans, QStringLiteral("mlt_service"), QStringLiteral("composite"));
+                bool reverse = Xml::getXmlProperty(trans, QStringLiteral("reverse")).toInt() != 0;
+                Xml::setXmlProperty(trans, QStringLiteral("luma_invert"), Xml::getXmlProperty(trans, QStringLiteral("invert")));
+                Xml::setXmlProperty(trans, QStringLiteral("luma"), Xml::getXmlProperty(trans, QStringLiteral("resource")));
+                Xml::removeXmlProperty(trans, QStringLiteral("invert"));
+                Xml::removeXmlProperty(trans, QStringLiteral("reverse"));
+                Xml::removeXmlProperty(trans, QStringLiteral("resource"));
                 if (reverse) {
-                    EffectsList::setProperty(trans, QStringLiteral("geometry"), QStringLiteral("0%/0%:100%x100%:100;-1=0%/0%:100%x100%:0"));
+                    Xml::setXmlProperty(trans, QStringLiteral("geometry"), QStringLiteral("0%/0%:100%x100%:100;-1=0%/0%:100%x100%:0"));
                 } else {
-                    EffectsList::setProperty(trans, QStringLiteral("geometry"), QStringLiteral("0%/0%:100%x100%:0;-1=0%/0%:100%x100%:100"));
+                    Xml::setXmlProperty(trans, QStringLiteral("geometry"), QStringLiteral("0%/0%:100%x100%:0;-1=0%/0%:100%x100%:100"));
                 }
-                EffectsList::setProperty(trans, QStringLiteral("aligned"), QStringLiteral("0"));
-                EffectsList::setProperty(trans, QStringLiteral("fill"), QStringLiteral("1"));
+                Xml::setXmlProperty(trans, QStringLiteral("aligned"), QStringLiteral("0"));
+                Xml::setXmlProperty(trans, QStringLiteral("fill"), QStringLiteral("1"));
             }
         }
     }
@@ -1584,7 +1590,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             QStringList parsedIds;
             for (int j = 0; j < effects.count(); j++) {
                 QDomElement eff = effects.at(j).toElement();
-                QString id = EffectsList::property(eff, QStringLiteral("kdenlive_id"));
+                QString id = Xml::getXmlProperty(eff, QStringLiteral("kdenlive_id"));
                 if (keyframeFilterToConvert.contains(id) && !parsedIds.contains(id)) {
                     parsedIds << id;
                     QMap<int, double> values;
@@ -1592,11 +1598,11 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                     int offset = eff.attribute(QStringLiteral("in")).toInt();
                     int out = eff.attribute(QStringLiteral("out")).toInt();
                     convertKeyframeEffect(eff, conversionParams, values, offset);
-                    EffectsList::removeProperty(eff, conversionParams.at(0));
-                    EffectsList::removeProperty(eff, conversionParams.at(1));
+                    Xml::removeXmlProperty(eff, conversionParams.at(0));
+                    Xml::removeXmlProperty(eff, conversionParams.at(1));
                     for (int k = j + 1; k < effects.count(); k++) {
                         QDomElement subEffect = effects.at(k).toElement();
-                        QString subId = EffectsList::property(subEffect, QStringLiteral("kdenlive_id"));
+                        QString subId = Xml::getXmlProperty(subEffect, QStringLiteral("kdenlive_id"));
                         if (subId == id) {
                             convertKeyframeEffect(subEffect, conversionParams, values, offset);
                             out = subEffect.attribute(QStringLiteral("out")).toInt();
@@ -1625,8 +1631,8 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                             parsedValues << QString::number(l.key()) + QLatin1Char('=') + locale.toString(l.value());
                         }
                     }
-                    EffectsList::setProperty(eff, conversionParams.at(2), parsedValues.join(QLatin1Char(';')));
-                    // EffectsList::setProperty(eff, QStringLiteral("kdenlive:sync_in_out"), QStringLiteral("1"));
+                    Xml::setXmlProperty(eff, conversionParams.at(2), parsedValues.join(QLatin1Char(';')));
+                    // Xml::setXmlProperty(eff, QStringLiteral("kdenlive:sync_in_out"), QStringLiteral("1"));
                     eff.setAttribute(QStringLiteral("out"), out);
                 }
             }
@@ -1642,18 +1648,18 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             QDomElement prod = producers.at(i).toElement();
             QString id = prod.attribute(QStringLiteral("id"));
             if (id.startsWith(QLatin1String("slowmotion"))) {
-                QString service = EffectsList::property(prod, QStringLiteral("mlt_service"));
+                QString service = Xml::getXmlProperty(prod, QStringLiteral("mlt_service"));
                 if (service == QLatin1String("framebuffer")) {
                     // convert to new timewarp producer
                     prod.setAttribute(QStringLiteral("id"), id + QStringLiteral(":1"));
                     slowmoIds << id;
-                    EffectsList::setProperty(prod, QStringLiteral("mlt_service"), QStringLiteral("timewarp"));
-                    QString resource = EffectsList::property(prod, QStringLiteral("resource"));
-                    EffectsList::setProperty(prod, QStringLiteral("warp_resource"), resource.section(QLatin1Char('?'), 0, 0));
-                    EffectsList::setProperty(prod, QStringLiteral("warp_speed"), resource.section(QLatin1Char('?'), 1).section(QLatin1Char(':'), 0, 0));
-                    EffectsList::setProperty(prod, QStringLiteral("resource"),
+                    Xml::setXmlProperty(prod, QStringLiteral("mlt_service"), QStringLiteral("timewarp"));
+                    QString resource = Xml::getXmlProperty(prod, QStringLiteral("resource"));
+                    Xml::setXmlProperty(prod, QStringLiteral("warp_resource"), resource.section(QLatin1Char('?'), 0, 0));
+                    Xml::setXmlProperty(prod, QStringLiteral("warp_speed"), resource.section(QLatin1Char('?'), 1).section(QLatin1Char(':'), 0, 0));
+                    Xml::setXmlProperty(prod, QStringLiteral("resource"),
                                              resource.section(QLatin1Char('?'), 1) + QLatin1Char(':') + resource.section(QLatin1Char('?'), 0, 0));
-                    EffectsList::setProperty(prod, QStringLiteral("audio_index"), QStringLiteral("-1"));
+                    Xml::setXmlProperty(prod, QStringLiteral("audio_index"), QStringLiteral("-1"));
                 }
             }
         }
@@ -1681,7 +1687,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             }
             QString id = prod.attribute(QStringLiteral("id")).section(QLatin1Char('_'), 0, 0);
             if (id == QLatin1String("black")) {
-                EffectsList::setProperty(prod, QStringLiteral("set.test_audio"), QStringLiteral("0"));
+                Xml::setXmlProperty(prod, QStringLiteral("set.test_audio"), QStringLiteral("0"));
                 break;
             }
         }
@@ -1732,7 +1738,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         }
         if (!guidesList.isEmpty()) {
             QJsonDocument json(guidesList);
-            EffectsList::setProperty(main_playlist, QStringLiteral("kdenlive:docproperties.guides"), json.toJson());
+            Xml::setXmlProperty(main_playlist, QStringLiteral("kdenlive:docproperties.guides"), json.toJson());
         }
 
         // Update producers
@@ -1743,19 +1749,19 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             if (prod.isNull()) continue;
             // Move to new kdenlive:id format
             const QString id = prod.attribute(QStringLiteral("id")).section(QLatin1Char('_'), 0, 0);
-            EffectsList::setProperty(prod, QStringLiteral("kdenlive:id"), id);
+            Xml::setXmlProperty(prod, QStringLiteral("kdenlive:id"), id);
             if (markersList.contains(id)) {
                 QJsonDocument json(markersList.value(id));
-                EffectsList::setProperty(prod, QStringLiteral("kdenlive:markers"), json.toJson());
+                Xml::setXmlProperty(prod, QStringLiteral("kdenlive:markers"), json.toJson());
             }
 
             // Check image sequences with buggy begin frame number
-            const QString service = EffectsList::property(prod, QStringLiteral("mlt_service"));
+            const QString service = Xml::getXmlProperty(prod, QStringLiteral("mlt_service"));
             if (service == QLatin1String("pixbuf") || service == QLatin1String("qimage")) {
-                QString resource = EffectsList::property(prod, QStringLiteral("resource"));
+                QString resource = Xml::getXmlProperty(prod, QStringLiteral("resource"));
                 if (resource.contains(QStringLiteral("?begin:"))) {
                     resource.replace(QStringLiteral("?begin:"), QStringLiteral("?begin="));
-                    EffectsList::setProperty(prod, QStringLiteral("resource"), resource);
+                    Xml::setXmlProperty(prod, QStringLiteral("resource"), resource);
                 }
             }
         }
@@ -1783,7 +1789,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             if (playlists.at(i).toElement().attribute(QStringLiteral("id")) == QLatin1String("main bin")) {
                 playlists.at(i).toElement().setAttribute(QStringLiteral("id"), BinPlaylist::binPlaylistId);
                 mainplaylist = playlists.at(i);
-                QString oldGroups = EffectsList::property(mainplaylist.toElement(), QStringLiteral("kdenlive:clipgroups"));
+                QString oldGroups = Xml::getXmlProperty(mainplaylist.toElement(), QStringLiteral("kdenlive:clipgroups"));
                 QDomDocument groupsDoc;
                 groupsDoc.setContent(oldGroups);
                 QDomNodeList groups = groupsDoc.elementsByTagName(QStringLiteral("group"));
@@ -1805,7 +1811,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                     newGroups.push_back(currentGroup);
                 }
             } else {
-                if (EffectsList::property(playlists.at(i).toElement(), QStringLiteral("kdenlive:audio_track")) == QLatin1String("1")) {
+                if (Xml::getXmlProperty(playlists.at(i).toElement(), QStringLiteral("kdenlive:audio_track")) == QLatin1String("1")) {
                     // Audio track, no need to process
                     continue;
                 }
@@ -1847,8 +1853,8 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                         int out = producers.at(j).toElement().attribute(QStringLiteral("out")).toInt();
                         for (int k = 0; k < masterProducers.count(); k++) {
                             if (masterProducers.at(k).toElement().attribute(QStringLiteral("id")) == currentId) {
-                                hasVideo = EffectsList::property(masterProducers.at(k).toElement(), QStringLiteral("video_index")) != QLatin1String("-1");
-                                hasAudio = EffectsList::property(masterProducers.at(k).toElement(), QStringLiteral("audio_index")) != QLatin1String("-1");
+                                hasVideo = Xml::getXmlProperty(masterProducers.at(k).toElement(), QStringLiteral("video_index")) != QLatin1String("-1");
+                                hasAudio = Xml::getXmlProperty(masterProducers.at(k).toElement(), QStringLiteral("audio_index")) != QLatin1String("-1");
                                 break;
                             }
                         }
@@ -1861,7 +1867,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                             continue;
                         }
                         QDomNode prod = producers.at(j).cloneNode();
-                        EffectsList::setProperty(prod.toElement(), QStringLiteral("set.test_video"), QStringLiteral("1"));
+                        Xml::setXmlProperty(prod.toElement(), QStringLiteral("set.test_video"), QStringLiteral("1"));
                         duplicate_playlist.appendChild(prod);
                         // Check if that is an audio clip on a video track
                         if (!hasVideo) {
@@ -1918,17 +1924,17 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             int max = transitions.count();
             for (int i = 0; i < max; ++i) {
                 QDomElement t = transitions.at(i).toElement();
-                if (EffectsList::property(t, QStringLiteral("internal_added")).toInt() > 0) {
+                if (Xml::getXmlProperty(t, QStringLiteral("internal_added")).toInt() > 0) {
                     // internal transitions will be rebuilt, no need to correct
                     continue;
                 }
-                int a_track = EffectsList::property(t, QStringLiteral("a_track")).toInt();
-                int b_track = EffectsList::property(t, QStringLiteral("b_track")).toInt();
+                int a_track = Xml::getXmlProperty(t, QStringLiteral("a_track")).toInt();
+                int b_track = Xml::getXmlProperty(t, QStringLiteral("b_track")).toInt();
                 if (a_track > 0) {
-                    EffectsList::setProperty(t, QStringLiteral("a_track"), QString::number(a_track + trackOffset));
+                    Xml::setXmlProperty(t, QStringLiteral("a_track"), QString::number(a_track + trackOffset));
                 }
                 if (b_track > 0) {
-                    EffectsList::setProperty(t, QStringLiteral("b_track"), QString::number(b_track + trackOffset));
+                    Xml::setXmlProperty(t, QStringLiteral("b_track"), QString::number(b_track + trackOffset));
                 }
             }
         }
@@ -1941,7 +1947,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             const QString trackId = QString("%1:").arg(tracks.at(i).toElement().attribute(QStringLiteral("producer")));
             groupsData.replace(trackId, QString("%1:").arg(i - 1));
         }
-        EffectsList::setProperty(mainplaylist.toElement(), QStringLiteral("kdenlive:docproperties.groups"), groupsData);
+        Xml::setXmlProperty(mainplaylist.toElement(), QStringLiteral("kdenlive:docproperties.groups"), groupsData);
     }
 
     m_modified = true;
@@ -1952,8 +1958,8 @@ void DocumentValidator::convertKeyframeEffect(const QDomElement &effect, const Q
 {
     QLocale locale;
     int in = effect.attribute(QStringLiteral("in")).toInt() - offset;
-    values.insert(in, locale.toDouble(EffectsList::property(effect, params.at(0))));
-    QString endValue = EffectsList::property(effect, params.at(1));
+    values.insert(in, locale.toDouble(Xml::getXmlProperty(effect, params.at(0))));
+    QString endValue = Xml::getXmlProperty(effect, params.at(1));
     if (!endValue.isEmpty()) {
         int out = effect.attribute(QStringLiteral("out")).toInt() - offset;
         values.insert(out, locale.toDouble(endValue));
@@ -1964,23 +1970,23 @@ void DocumentValidator::updateProducerInfo(const QDomElement &prod, const QDomEl
 {
     QString pxy = source.attribute(QStringLiteral("proxy"));
     if (pxy.length() > 1) {
-        EffectsList::setProperty(prod, QStringLiteral("kdenlive:proxy"), pxy);
-        EffectsList::setProperty(prod, QStringLiteral("kdenlive:originalurl"), source.attribute(QStringLiteral("resource")));
+        Xml::setXmlProperty(prod, QStringLiteral("kdenlive:proxy"), pxy);
+        Xml::setXmlProperty(prod, QStringLiteral("kdenlive:originalurl"), source.attribute(QStringLiteral("resource")));
     }
     if (source.hasAttribute(QStringLiteral("file_hash"))) {
-        EffectsList::setProperty(prod, QStringLiteral("kdenlive:file_hash"), source.attribute(QStringLiteral("file_hash")));
+        Xml::setXmlProperty(prod, QStringLiteral("kdenlive:file_hash"), source.attribute(QStringLiteral("file_hash")));
     }
     if (source.hasAttribute(QStringLiteral("file_size"))) {
-        EffectsList::setProperty(prod, QStringLiteral("kdenlive:file_size"), source.attribute(QStringLiteral("file_size")));
+        Xml::setXmlProperty(prod, QStringLiteral("kdenlive:file_size"), source.attribute(QStringLiteral("file_size")));
     }
     if (source.hasAttribute(QStringLiteral("name"))) {
-        EffectsList::setProperty(prod, QStringLiteral("kdenlive:clipname"), source.attribute(QStringLiteral("name")));
+        Xml::setXmlProperty(prod, QStringLiteral("kdenlive:clipname"), source.attribute(QStringLiteral("name")));
     }
     if (source.hasAttribute(QStringLiteral("zone_out"))) {
-        EffectsList::setProperty(prod, QStringLiteral("kdenlive:zone_out"), source.attribute(QStringLiteral("zone_out")));
+        Xml::setXmlProperty(prod, QStringLiteral("kdenlive:zone_out"), source.attribute(QStringLiteral("zone_out")));
     }
     if (source.hasAttribute(QStringLiteral("zone_in"))) {
-        EffectsList::setProperty(prod, QStringLiteral("kdenlive:zone_in"), source.attribute(QStringLiteral("zone_in")));
+        Xml::setXmlProperty(prod, QStringLiteral("kdenlive:zone_in"), source.attribute(QStringLiteral("zone_in")));
     }
     if (source.hasAttribute(QStringLiteral("cutzones"))) {
         QString zoneData = source.attribute(QStringLiteral("cutzones"));
@@ -1991,7 +1997,7 @@ void DocumentValidator::updateProducerInfo(const QDomElement &prod, const QDomEl
             if (zoneName.isEmpty()) {
                 zoneName = i18n("Zone %1", ct++);
             }
-            EffectsList::setProperty(prod, QStringLiteral("kdenlive:clipzone.") + zoneName,
+            Xml::setXmlProperty(prod, QStringLiteral("kdenlive:clipzone.") + zoneName,
                                      data.section(QLatin1Char('-'), 0, 0) + QLatin1Char(';') + data.section(QLatin1Char('-'), 1, 1));
         }
     }
@@ -2097,14 +2103,12 @@ bool DocumentValidator::checkMovit()
     // Try to convert Movit filters to their non GPU equivalent
     QStringList convertedFilters;
     QStringList discardedFilters;
-    int ix = MainWindow::videoEffects.hasEffect(QStringLiteral("frei0r.colgate"), QStringLiteral("frei0r.colgate"));
-    bool hasWB = ix > -1;
-    ix = MainWindow::videoEffects.hasEffect(QStringLiteral("frei0r.IIRblur"), QStringLiteral("frei0r.IIRblur"));
-    bool hasBlur = ix > -1;
+    bool hasWB = EffectsRepository::get()->exists(QStringLiteral("frei0r.colgate"));
+    bool hasBlur = EffectsRepository::get()->exists(QStringLiteral("frei0r.IIRblur"));
     QString compositeTrans;
-    if (MainWindow::transitions.hasTransition(QStringLiteral("qtblend"))) {
+    if (TransitionsRepository::get()->exists(QStringLiteral("qtblend"))) {
         compositeTrans = QStringLiteral("qtblend");
-    } else if (MainWindow::transitions.hasTransition(QStringLiteral("frei0r.cairoblend"))) {
+    } else if (TransitionsRepository::get()->exists(QStringLiteral("frei0r.cairoblend"))) {
         compositeTrans = QStringLiteral("frei0r.cairoblend");
     }
 
@@ -2120,37 +2124,37 @@ bool DocumentValidator::checkMovit()
         if (filterId == QLatin1String("movit.white_balance") && hasWB) {
             // Convert to frei0r.colgate
             filt.setAttribute(QStringLiteral("id"), QStringLiteral("frei0r.colgate"));
-            EffectsList::setProperty(filt, QStringLiteral("kdenlive_id"), QStringLiteral("frei0r.colgate"));
-            EffectsList::setProperty(filt, QStringLiteral("tag"), QStringLiteral("frei0r.colgate"));
-            EffectsList::setProperty(filt, QStringLiteral("mlt_service"), QStringLiteral("frei0r.colgate"));
-            EffectsList::renameProperty(filt, QStringLiteral("neutral_color"), QStringLiteral("Neutral Color"));
-            QString value = EffectsList::property(filt, QStringLiteral("color_temperature"));
+            Xml::setXmlProperty(filt, QStringLiteral("kdenlive_id"), QStringLiteral("frei0r.colgate"));
+            Xml::setXmlProperty(filt, QStringLiteral("tag"), QStringLiteral("frei0r.colgate"));
+            Xml::setXmlProperty(filt, QStringLiteral("mlt_service"), QStringLiteral("frei0r.colgate"));
+            Xml::renameXmlProperty(filt, QStringLiteral("neutral_color"), QStringLiteral("Neutral Color"));
+            QString value = Xml::getXmlProperty(filt, QStringLiteral("color_temperature"));
             value = factorizeGeomValue(value, 15000.0);
-            EffectsList::setProperty(filt, QStringLiteral("color_temperature"), value);
-            EffectsList::renameProperty(filt, QStringLiteral("color_temperature"), QStringLiteral("Color Temperature"));
+            Xml::setXmlProperty(filt, QStringLiteral("color_temperature"), value);
+            Xml::renameXmlProperty(filt, QStringLiteral("color_temperature"), QStringLiteral("Color Temperature"));
             convertedFilters << filterId;
             continue;
         }
         if (filterId == QLatin1String("movit.blur") && hasBlur) {
             // Convert to frei0r.IIRblur
             filt.setAttribute(QStringLiteral("id"), QStringLiteral("frei0r.IIRblur"));
-            EffectsList::setProperty(filt, QStringLiteral("kdenlive_id"), QStringLiteral("frei0r.IIRblur"));
-            EffectsList::setProperty(filt, QStringLiteral("tag"), QStringLiteral("frei0r.IIRblur"));
-            EffectsList::setProperty(filt, QStringLiteral("mlt_service"), QStringLiteral("frei0r.IIRblur"));
-            EffectsList::renameProperty(filt, QStringLiteral("radius"), QStringLiteral("Amount"));
-            QString value = EffectsList::property(filt, QStringLiteral("Amount"));
+            Xml::setXmlProperty(filt, QStringLiteral("kdenlive_id"), QStringLiteral("frei0r.IIRblur"));
+            Xml::setXmlProperty(filt, QStringLiteral("tag"), QStringLiteral("frei0r.IIRblur"));
+            Xml::setXmlProperty(filt, QStringLiteral("mlt_service"), QStringLiteral("frei0r.IIRblur"));
+            Xml::renameXmlProperty(filt, QStringLiteral("radius"), QStringLiteral("Amount"));
+            QString value = Xml::getXmlProperty(filt, QStringLiteral("Amount"));
             value = factorizeGeomValue(value, 14.0);
-            EffectsList::setProperty(filt, QStringLiteral("Amount"), value);
+            Xml::setXmlProperty(filt, QStringLiteral("Amount"), value);
             convertedFilters << filterId;
             continue;
         }
         if (filterId == QLatin1String("movit.mirror")) {
             // Convert to MLT's mirror
             filt.setAttribute(QStringLiteral("id"), QStringLiteral("mirror"));
-            EffectsList::setProperty(filt, QStringLiteral("kdenlive_id"), QStringLiteral("mirror"));
-            EffectsList::setProperty(filt, QStringLiteral("tag"), QStringLiteral("mirror"));
-            EffectsList::setProperty(filt, QStringLiteral("mlt_service"), QStringLiteral("mirror"));
-            EffectsList::setProperty(filt, QStringLiteral("mirror"), QStringLiteral("flip"));
+            Xml::setXmlProperty(filt, QStringLiteral("kdenlive_id"), QStringLiteral("mirror"));
+            Xml::setXmlProperty(filt, QStringLiteral("tag"), QStringLiteral("mirror"));
+            Xml::setXmlProperty(filt, QStringLiteral("mlt_service"), QStringLiteral("mirror"));
+            Xml::setXmlProperty(filt, QStringLiteral("mirror"), QStringLiteral("flip"));
             convertedFilters << filterId;
             continue;
         }
@@ -2165,13 +2169,13 @@ bool DocumentValidator::checkMovit()
     max = transitions.count();
     for (int i = 0; i < max; ++i) {
         QDomElement t = transitions.at(i).toElement();
-        QString transId = EffectsList::property(t, QStringLiteral("mlt_service"));
+        QString transId = Xml::getXmlProperty(t, QStringLiteral("mlt_service"));
         if (!transId.startsWith(QLatin1String("movit."))) {
             continue;
         }
         if (transId == QLatin1String("movit.overlay") && !compositeTrans.isEmpty()) {
             // Convert to frei0r.cairoblend
-            EffectsList::setProperty(t, QStringLiteral("mlt_service"), compositeTrans);
+            Xml::setXmlProperty(t, QStringLiteral("mlt_service"), compositeTrans);
             convertedFilters << transId;
             continue;
         }
@@ -2251,18 +2255,18 @@ void DocumentValidator::checkOrphanedProducers()
             continue;
         }
         if (!binProducers.contains(id)) {
-            QString binId = EffectsList::property(prod, QStringLiteral("kdenlive:binid"));
+            QString binId = Xml::getXmlProperty(prod, QStringLiteral("kdenlive:binid"));
             if (!binId.isEmpty() && binProducers.contains(binId)) {
                 continue;
             }
             qCWarning(KDENLIVE_LOG) << " ///////// WARNING, FOUND UNKNOWN PRODUDER: " << id << " ----------------";
             // This producer is unknown to Bin
-            QString service = EffectsList::property(prod, QStringLiteral("mlt_service"));
+            QString service = Xml::getXmlProperty(prod, QStringLiteral("mlt_service"));
             QString distinctiveTag(QStringLiteral("resource"));
             if (service == QLatin1String("kdenlivetitle")) {
                 distinctiveTag = QStringLiteral("xmldata");
             }
-            QString orphanValue = EffectsList::property(prod, distinctiveTag);
+            QString orphanValue = Xml::getXmlProperty(prod, distinctiveTag);
             for (int j = 0; j < max; j++) {
                 // Search for a similar producer
                 QDomElement binProd = producers.at(j).toElement();
@@ -2270,12 +2274,12 @@ void DocumentValidator::checkOrphanedProducers()
                 if (service != QLatin1String("timewarp") && (binId.startsWith(QLatin1String("slowmotion")) || !binProducers.contains(binId))) {
                     continue;
                 }
-                QString binService = EffectsList::property(binProd, QStringLiteral("mlt_service"));
+                QString binService = Xml::getXmlProperty(binProd, QStringLiteral("mlt_service"));
                 qCDebug(KDENLIVE_LOG) << " / /LKNG FOR: " << service << " / " << orphanValue << ", checking: " << binProd.attribute(QStringLiteral("id"));
                 if (service != binService) {
                     continue;
                 }
-                QString binValue = EffectsList::property(binProd, distinctiveTag);
+                QString binValue = Xml::getXmlProperty(binProd, distinctiveTag);
                 if (binValue == orphanValue) {
                     // Found probable source producer, replace
                     frag.appendChild(prod);
@@ -2314,7 +2318,7 @@ void DocumentValidator::checkOrphanedProducers()
 
 void DocumentValidator::fixTitleProducerLocale(QDomElement &producer)
 {
-    QString data = EffectsList::property(producer, QStringLiteral("xmldata"));
+    QString data = Xml::getXmlProperty(producer, QStringLiteral("xmldata"));
     QDomDocument doc;
     doc.setContent(data);
     QDomNodeList nodes = doc.elementsByTagName(QStringLiteral("position"));
@@ -2355,6 +2359,6 @@ void DocumentValidator::fixTitleProducerLocale(QDomElement &producer)
         }
     }
     if (fixed) {
-        EffectsList::setProperty(producer, QStringLiteral("xmldata"), doc.toString());
+        Xml::setXmlProperty(producer, QStringLiteral("xmldata"), doc.toString());
     }
 }

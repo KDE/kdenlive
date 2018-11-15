@@ -33,8 +33,6 @@
 #include "doc/kdenlivedoc.h"
 #include "effects/effectlist/view/effectlistwidget.hpp"
 #include "effectslist/effectbasket.h"
-#include "effectslist/effectslistwidget.h"
-#include "effectslist/initeffects.h"
 #include "hidetitlebars.h"
 #include "jobs/jobmanager.h"
 #include "jobs/scenesplitjob.hpp"
@@ -67,7 +65,6 @@
 #include "utils/resourcewidget.h"
 #include "utils/thememanager.h"
 
-#include "effectslist/effectslistwidget.h"
 #include "profiles/profilerepository.hpp"
 #include "widgets/progressbutton.h"
 #include <config-kdenlive.h>
@@ -122,11 +119,6 @@ static const char version[] = KDENLIVE_VERSION;
 namespace Mlt {
 class Producer;
 }
-
-EffectsList MainWindow::videoEffects;
-EffectsList MainWindow::audioEffects;
-EffectsList MainWindow::customEffects;
-EffectsList MainWindow::transitions;
 
 QMap<QString, QImage> MainWindow::m_lumacache;
 QMap<QString, QStringList> MainWindow::m_lumaFiles;
@@ -228,7 +220,8 @@ void MainWindow::init()
         KdenliveSettings::setDefault_profile(QStringLiteral("atsc_1080p_25"));
     }
 
-    m_gpuAllowed = initEffects::parseEffectFiles(pCore->getMltRepository());
+    m_gpuAllowed = EffectsRepository::get()->exists(QStringLiteral("glsl.manager"));
+    // initEffects::parseEffectFiles(pCore->getMltRepository());
     // initEffects::parseCustomEffectsFile();
 
     m_shortcutRemoveFocus = new QShortcut(QKeySequence(QStringLiteral("Esc")), this);
@@ -814,9 +807,11 @@ void MainWindow::saveNewToolbarConfig()
     }
 }
 
-void MainWindow::slotReloadEffects()
+void MainWindow::slotReloadEffects(const QStringList &paths)
 {
-    initEffects::parseCustomEffectsFile();
+    for (const QString p : paths) {
+        EffectsRepository::get()->reloadCustom(p);
+    }
     m_effectList2->reloadEffectMenu(m_effectsMenu, m_effectActions);
 }
 
@@ -1526,20 +1521,12 @@ void MainWindow::setupActions()
     // Setup effects and transitions actions.
     KActionCategory *transitionActions = new KActionCategory(i18n("Transitions"), actionCollection());
     // m_transitions = new QAction*[transitions.count()];
-    for (int i = 0; i < transitions.count(); ++i) {
-        QStringList effectInfo = transitions.effectIdInfo(i);
-        if (effectInfo.isEmpty()) {
-            continue;
-        }
-        auto *transAction = new QAction(effectInfo.at(0), this);
-        transAction->setData(effectInfo);
+    auto allTransitions = TransitionsRepository::get()->getNames();
+    for (const auto &transition : allTransitions) {
+        auto *transAction = new QAction(transition.first, this);
+        transAction->setData(transition.second);
         transAction->setIconVisibleInMenu(false);
-        m_transitions << transAction;
-        QString id = effectInfo.at(2);
-        if (id.isEmpty()) {
-            id = effectInfo.at(1);
-        }
-        transitionActions->addAction("transition_" + id, transAction);
+        transitionActions->addAction("transition_" + transition.second, transAction);
     }
 
     // monitor actions
@@ -3390,8 +3377,8 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
         QString prefix;
         for (int n = 0; n < producers.length(); ++n) {
             QDomElement e = producers.item(n).toElement();
-            producerResource = EffectsList::property(e, QStringLiteral("resource"));
-            producerService = EffectsList::property(e, QStringLiteral("mlt_service"));
+            producerResource = Xml::getXmlProperty(e, QStringLiteral("resource"));
+            producerService = Xml::getXmlProperty(e, QStringLiteral("mlt_service"));
             if (producerResource.isEmpty() || producerService == QLatin1String("color")) {
                 continue;
             }
@@ -3415,14 +3402,14 @@ void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QS
                 }
                 if (proxies.contains(producerResource)) {
                     QString replacementResource = proxies.value(producerResource);
-                    EffectsList::setProperty(e, QStringLiteral("resource"), prefix + replacementResource + suffix);
+                    Xml::setXmlProperty(e, QStringLiteral("resource"), prefix + replacementResource + suffix);
                     if (producerService == QLatin1String("timewarp")) {
-                        EffectsList::setProperty(e, QStringLiteral("warp_resource"), replacementResource);
+                        Xml::setXmlProperty(e, QStringLiteral("warp_resource"), replacementResource);
                     }
                     // We need to delete the "aspect_ratio" property because proxy clips
                     // sometimes have different ratio than original clips
-                    EffectsList::removeProperty(e, QStringLiteral("aspect_ratio"));
-                    EffectsList::removeMetaProperties(e);
+                    Xml::removeXmlProperty(e, QStringLiteral("aspect_ratio"));
+                    Xml::removeMetaProperties(e);
                 }
             }
         }
@@ -4057,6 +4044,33 @@ void MainWindow::slotSwitchTimelineZone(bool active)
 void MainWindow::slotGrabItem()
 {
     getCurrentTimeline()->controller()->grabCurrent();
+}
+
+// static
+void MainWindow::refreshLumas()
+{
+    // Check for Kdenlive installed luma files, add empty string at start for no luma
+    QStringList imagefiles;
+    QStringList fileFilters;
+    MainWindow::m_lumaFiles.clear();
+    fileFilters << QStringLiteral("*.png") << QStringLiteral("*.pgm");
+    QStringList customLumas = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("lumas"), QStandardPaths::LocateDirectory);
+    customLumas.append(QString(mlt_environment("MLT_DATA")) + QStringLiteral("/lumas"));
+    for (const QString &folder : customLumas) {
+        QDir topDir(folder);
+        QStringList folders = topDir.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
+        for (const QString &f : folders) {
+            QDir dir(topDir.absoluteFilePath(f));
+            QStringList filesnames = dir.entryList(fileFilters, QDir::Files);
+            if (MainWindow::m_lumaFiles.contains(f)) {
+                imagefiles = MainWindow::m_lumaFiles.value(f);
+            }
+            for (const QString &fname : filesnames) {
+                imagefiles.append(dir.absoluteFilePath(fname));
+            }
+            MainWindow::m_lumaFiles.insert(f, imagefiles);
+        }
+    }
 }
 
 #ifdef DEBUG_MAINW

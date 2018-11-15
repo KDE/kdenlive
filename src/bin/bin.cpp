@@ -28,6 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "doc/documentchecker.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
+#include "xml/xml.hpp"
 #include "effects/effectstack/model/effectstackmodel.hpp"
 #include "jobs/jobmanager.h"
 #include "jobs/loadjob.hpp"
@@ -1114,16 +1115,16 @@ void Bin::slotDuplicateClip()
             QDomDocument doc;
             QDomElement xml = currentItem->toXml(doc);
             if (!xml.isNull()) {
-                QString currentName = EffectsList::property(xml, QStringLiteral("kdenlive:clipname"));
+                QString currentName = Xml::getXmlProperty(xml, QStringLiteral("kdenlive:clipname"));
                 if (currentName.isEmpty()) {
-                    QUrl url = QUrl::fromLocalFile(EffectsList::property(xml, QStringLiteral("resource")));
+                    QUrl url = QUrl::fromLocalFile(Xml::getXmlProperty(xml, QStringLiteral("resource")));
                     if (url.isValid()) {
                         currentName = url.fileName();
                     }
                 }
                 if (!currentName.isEmpty()) {
                     currentName.append(i18nc("append to clip name to indicate a copied idem", " (copy)"));
-                    EffectsList::setProperty(xml, QStringLiteral("kdenlive:clipname"), currentName);
+                    Xml::setXmlProperty(xml, QStringLiteral("kdenlive:clipname"), currentName);
                 }
                 QString id;
                 m_itemModel->requestAddBinClip(id, xml, item->parent()->clipId(), i18n("Duplicate clip"));
@@ -1174,7 +1175,7 @@ void Bin::createClip(const QDomElement &xml)
     if (!parentFolder) {
         parentFolder = m_itemModel->getRootFolder();
     }
-    QString path = EffectsList::property(xml, QStringLiteral("resource"));
+    QString path = Xml::getXmlProperty(xml, QStringLiteral("resource"));
     if (path.endsWith(QStringLiteral(".mlt")) || path.endsWith(QStringLiteral(".kdenlive"))) {
         QFile f(path);
         QDomDocument doc;
@@ -2220,7 +2221,6 @@ void Bin::doMoveFolder(const QString &id, const QString &newParentId)
     std::shared_ptr<ProjectFolder> newParent = m_itemModel->getFolderByBinId(newParentId);
     currentParent->removeChild(currentItem);
     currentItem->changeParent(newParent);
-    emit storeFolder(id, newParent->clipId(), currentParent->clipId(), currentItem->name());
 }
 
 void Bin::droppedUrls(const QList<QUrl> &urls, const QStringList &folderInfo)
@@ -2321,18 +2321,18 @@ void Bin::slotExpandUrl(const ItemInfo &info, const QString &url, QUndoCommand *
         // title clips, nor color clips. Also not sure about image sequences.
         // So we use mlt service-specific hashes to identify duplicate producers.
         QString hash;
-        QString mltService = EffectsList::property(prod, QStringLiteral("mlt_service"));
+        QString mltService = Xml::getXmlProperty(prod, QStringLiteral("mlt_service"));
         if (mltService == QLatin1String("pixbuf") || mltService == QLatin1String("qimage") || mltService == QLatin1String("kdenlivetitle") ||
             mltService == QLatin1String("color") || mltService == QLatin1String("colour")) {
-            hash = mltService + QLatin1Char(':') + EffectsList::property(prod, QStringLiteral("kdenlive:clipname")) + QLatin1Char(':') +
-                   EffectsList::property(prod, QStringLiteral("kdenlive:folderid")) + QLatin1Char(':');
+            hash = mltService + QLatin1Char(':') + Xml::getXmlProperty(prod, QStringLiteral("kdenlive:clipname")) + QLatin1Char(':') +
+                   Xml::getXmlProperty(prod, QStringLiteral("kdenlive:folderid")) + QLatin1Char(':');
             if (mltService == QLatin1String("kdenlivetitle")) {
                 // Calculate hash based on title contents.
                 hash.append(
-                    QString(QCryptographicHash::hash(EffectsList::property(prod, QStringLiteral("xmldata")).toUtf8(), QCryptographicHash::Md5).toHex()));
+                    QString(QCryptographicHash::hash(Xml::getXmlProperty(prod, QStringLiteral("xmldata")).toUtf8(), QCryptographicHash::Md5).toHex()));
             } else if (mltService == QLatin1String("pixbuf") || mltService == QLatin1String("qimage") || mltService == QLatin1String("color") ||
                        mltService == QLatin1String("colour")) {
-                hash.append(EffectsList::property(prod, QStringLiteral("resource")));
+                hash.append(Xml::getXmlProperty(prod, QStringLiteral("resource")));
             }
 
             QString singletonId = hashToIdMap.value(hash, QString());
@@ -2368,7 +2368,7 @@ void Bin::slotExpandUrl(const ItemInfo &info, const QString &url, QUndoCommand *
             ) {
             // Make sure to correctly resolve relative resource paths based on
             // the playlist's root, not on this project's root
-            QString resource = EffectsList::property(clone, QStringLiteral("resource"));
+            QString resource = Xml::getXmlProperty(clone, QStringLiteral("resource"));
             if (QFileInfo(resource).isRelative()) {
                 QFileInfo rootedResource(mltRoot, resource);
                 qCDebug(KDENLIVE_LOG) << "fixed resource path for producer, newId:" << newId << "resource:" << rootedResource.absoluteFilePath();
@@ -2953,7 +2953,7 @@ void Bin::reloadAllProducers()
         QDomElement xml = clip->toXml(doc);
         // Make sure we reload clip length
         xml.removeAttribute(QStringLiteral("out"));
-        EffectsList::removeProperty(xml, QStringLiteral("length"));
+        Xml::removeXmlProperty(xml, QStringLiteral("length"));
         if (!xml.isNull()) {
             clip->setClipStatus(AbstractProjectItem::StatusWaiting);
             clip->discardAudioThumb();

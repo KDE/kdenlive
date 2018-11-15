@@ -59,6 +59,7 @@ QString getTagContentByAttribute(const QDomElement &element, const QString &tagN
    That is, to match something like <elem><property name="foo">bar</property></elem>, pass propertyName = foo, and this will return bar
 */
 QString getXmlProperty(const QDomElement &element, const QString &propertyName, const QString &defaultReturn = QString());
+QString getXmlParameter(const QDomElement &element, const QString &propertyName, const QString &defaultReturn = QString());
 
 /* @brief Add properties to the given xml element
    For each element (n, v) in the properties map, it creates a sub element of the form : <property name="n">v</property>
@@ -67,6 +68,16 @@ QString getXmlProperty(const QDomElement &element, const QString &propertyName, 
  */
 void addXmlProperties(QDomElement &producer, const std::unordered_map<QString, QString> &properties);
 void addXmlProperties(QDomElement &producer, const QMap<QString, QString> &properties);
+/* @brief Edit or add a property
+ */
+void setXmlProperty(QDomElement element, const QString &propertyName, const QString &value);
+/* @brief Remove a property
+ */
+void removeXmlProperty(QDomElement effect, const QString &name);
+void removeMetaProperties(QDomElement producer);
+
+void renameXmlProperty(const QDomElement &effect, const QString &oldName, const QString &newName);
+
 } // namespace Xml
 
 #endif

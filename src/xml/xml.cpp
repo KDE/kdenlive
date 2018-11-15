@@ -107,3 +107,68 @@ QString Xml::getXmlProperty(const QDomElement &element, const QString &propertyN
 {
     return Xml::getTagContentByAttribute(element, QStringLiteral("property"), QStringLiteral("name"), propertyName, defaultReturn, false);
 }
+
+QString Xml::getXmlParameter(const QDomElement &element, const QString &propertyName, const QString &defaultReturn)
+{
+    return Xml::getTagContentByAttribute(element, QStringLiteral("parameter"), QStringLiteral("name"), propertyName, defaultReturn, false);
+}
+
+void Xml::setXmlProperty(QDomElement element, const QString &propertyName, const QString &value)
+{
+    QDomNodeList params = element.elementsByTagName(QStringLiteral("property"));
+    // Update property if it already exists
+    bool found = false;
+    for (int i = 0; i < params.count(); ++i) {
+        QDomElement e = params.item(i).toElement();
+        if (e.attribute(QStringLiteral("name")) == propertyName) {
+            e.firstChild().setNodeValue(value);
+            found = true;
+            break;
+        }
+    }
+    if (!found) {
+        // create property
+        QMap <QString, QString>map;
+        map.insert(propertyName, value);
+        addXmlProperties(element, map);
+    }
+}
+
+void Xml::removeXmlProperty(QDomElement effect, const QString &name)
+{
+    QDomNodeList params = effect.elementsByTagName(QStringLiteral("property"));
+    for (int i = 0; i < params.count(); ++i) {
+        QDomElement e = params.item(i).toElement();
+        if (e.attribute(QStringLiteral("name")) == name) {
+            effect.removeChild(params.item(i));
+            break;
+        }
+    }
+}
+
+void Xml::renameXmlProperty(const QDomElement &effect, const QString &oldName, const QString &newName)
+{
+    QDomNodeList params = effect.elementsByTagName(QStringLiteral("property"));
+    // Update property if it already exists
+    for (int i = 0; i < params.count(); ++i) {
+        QDomElement e = params.item(i).toElement();
+        if (e.attribute(QStringLiteral("name")) == oldName) {
+            e.setAttribute(QStringLiteral("name"), newName);
+            break;
+        }
+    }
+}
+
+void Xml::removeMetaProperties(QDomElement producer)
+{
+    QDomNodeList params = producer.elementsByTagName(QStringLiteral("property"));
+    for (int i = 0; i < params.count(); ++i) {
+        QDomElement e = params.item(i).toElement();
+        if (e.attribute(QStringLiteral("name")).startsWith(QLatin1String("meta"))) {
+            producer.removeChild(params.item(i));
+            --i;
+        }
+    }
+}
+
+
