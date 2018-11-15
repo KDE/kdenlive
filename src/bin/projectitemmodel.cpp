@@ -644,6 +644,7 @@ Fun ProjectItemModel::requestRenameFolder_lambda(std::shared_ptr<AbstractProject
             return false;
         }
         currentFolder->setName(newName);
+        m_binPlaylist->manageBinFolderRename(currentFolder);
         auto index = getIndexFromItem(currentFolder);
         emit dataChanged(index, index, {AbstractProjectItem::DataName});
         return true;

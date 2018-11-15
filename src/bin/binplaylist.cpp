@@ -190,3 +190,16 @@ int BinPlaylist::count() const
 {
     return m_binPlaylist->count();
 }
+
+void BinPlaylist::manageBinFolderRename(const std::shared_ptr<AbstractProjectItem> &binElem)
+{
+    QString id = binElem->clipId();
+    if (binElem->itemType() != AbstractProjectItem::FolderItem) {
+        qDebug()<<"// ITEM IS NOT A FOLDER; ABORT RENAME";
+    }
+    // When a folder is inserted, we have to store its path into the properties
+    if (binElem->parent()) {
+        QString propertyName = "kdenlive:folder." + binElem->parent()->clipId() + QLatin1Char('.') + id;
+        m_binPlaylist->set(propertyName.toUtf8().constData(), binElem->name().toUtf8().constData());
+    }
+}
