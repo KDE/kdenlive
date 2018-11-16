@@ -1,65 +1,18 @@
-# Script to build Qt for digiKam bundle.
-#
-# Copyright (c) 2015-2017, Gilles Caulier, <caulier dot gilles at gmail dot com>
-#
-# Redistribution and use is allowed according to the terms of the BSD license.
-# For details see the accompanying COPYING-CMAKE-SCRIPTS file.
-#
+# qtquickcontrols and qtwebchannel are required by qtwebengine
+# "WebRTC" is required by "Pepper Plugins" is required by "Printing and PDF"
+# don't use -I and -L switches as they will cause explicit link to
+# OpenSSL instead of BoringSSL in QWebEngine
+ExternalProject_Add(
+  ext_qt
+  DOWNLOAD_DIR ${EXT_DOWNLOAD_DIR}
+  URL https://download.qt.io/official_releases/qt/5.11/5.11.2/single/qt-everywhere-src-5.11.2.tar.xz
+  URL_MD5 152a8ade9c11fe33ff5bc95310a1bb64
 
-SET(EXTPREFIX_qt "${EXTPREFIX}")
+  PATCH_COMMAND ${PATCH_COMMAND} -p1 -i ${CMAKE_CURRENT_SOURCE_DIR}/qsql_mysql.diff
 
-ExternalProject_Add(ext_qt
-    DOWNLOAD_DIR ${EXTERNALS_DOWNLOAD_DIR}
-    URL https://download.qt.io/official_releases/qt/5.9/5.9.4/single/qt-everywhere-opensource-src-5.9.4.tar.xz
-    URL_MD5 d95f6ecb491e731c2fca622ccc7b6bbd
-    CONFIGURE_COMMAND <SOURCE_DIR>/configure
-                  -prefix ${EXTPREFIX_qt}
-                  -opensource
-                  -confirm-license
-                  -nomake examples
-                  -sql-sqlite
-                  -fontconfig
-                  -openssl
-                  -optimized-qmake
-                  -no-mtdev
-                  -no-journald
-                  -no-syslog
-                  -no-tslib
-                  -no-directfb
-                  -no-linuxfb
-                  -no-libproxy
-                  -no-pch
-                  -no-compile-examples
-                  -qt-zlib
-                  -qt-pcre
-                  -qt-harfbuzz
-                  -qt-xcb
-                  -qt-xkbcommon-x11
-                  -skip qt3d
-                  -skip qtactiveqt
-                  -skip qtandroidextras
-                  -skip qtcanvas3d
-                  -skip qtcharts
-                  -skip qtconnectivity
-                  -skip qtdatavis3d
-                  -skip qtdoc
-                  -skip qtgamepad
-                  -skip qtlocation
-                  -skip qtmultimedia
-                  -skip qtpurchasing
-                  -skip qtremoteobjects
-                  -skip qtserialport
-                  -skip qtscxml
-                  -skip qtsensors
-                  -skip qtspeech
-                  -skip qttranslations
-                  -skip qtvirtualkeyboard
-                  -skip qtwayland
-                  -skip qtwebsockets
-                  -skip qtwebchannel
-                  -skip qtwebengine
+  CONFIGURE_COMMAND <SOURCE_DIR>/configure -prefix ${EXT_INSTALL_DIR} -opensource -confirm-license -verbose -nomake examples -nomake tests -nomake tools ICU_LIBDIR="${EXT_INSTALL_DIR}/lib" ICU_INCDIR="${EXT_INSTALL_DIR}/include" OPENSSL_LIBDIR="${EXT_INSTALL_DIR}/openssl/lib" OPENSSL_INCDIR="${EXT_INSTALL_DIR}/openssl/include" -openssl-linked -skip qt3d -skip qtactiveqt -skip qtcanvas3d -skip qtconnectivity -skip qtenginio -skip qtgraphicaleffects -skip qtlocation -skip qtwayland -skip qtandroidextras -skip qtserialport -skip qtdatavis3d -skip qtvirtualkeyboard -skip qtspeech -skip qtsensors -skip qtgamepad -skip qtscxml -skip qtremoteobjects -skip qtxmlpatterns -skip qtcharts -skip qtdatavis3d -skip qtgamepad -skip qtpurchasing -skip qtscxml -skip qtserialbus -skip qtspeech -skip qtvirtualkeyboard -skip qtdoc -skip qtmacextras -skip qtwinextras -skip qtwebglplugin -skip qtwebsockets -skip qtwebview -skip qtmultimedia -skip qtnetworkauth -skip qtimageformats -system-webengine-icu
 
-    UPDATE_COMMAND ""
-    BUILD_IN_SOURCE 1
-    ALWAYS 0
+  BUILD_COMMAND $(MAKE)
+  INSTALL_COMMAND $(MAKE) install
+  DEPENDS ext_xslt ext_mysql ext_sqlite ext_postgresql ext_pcre2
 )
