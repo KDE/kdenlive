@@ -178,6 +178,9 @@ public:
     /* @brief returns the track index (id) from its position */
     int getTrackIndexFromPosition(int pos) const;
 
+    /* @brief returns the track index (id) from its position */
+    bool isAudioTrack(int trackId) const;
+
     /* @brief returns the number of clips */
     int getClipsCount() const;
 

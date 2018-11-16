@@ -484,11 +484,17 @@ Rectangle {
         id: headerMenu
         OLD.MenuItem {
             text: i18n('Add Track')
-            onTriggered: timeline.addTrack(timeline.activeTrack);
+            onTriggered: {
+                timeline.addTrack(timeline.activeTrack)
+                timeline.ungrabHack()
+            }
         }
         OLD.MenuItem {
             text: i18n('Delete Track')
-            onTriggered: timeline.deleteTrack(timeline.activeTrack);
+            onTriggered: {
+                timeline.deleteTrack(timeline.activeTrack)
+                timeline.ungrabHack()
+            }
         }
     }
 

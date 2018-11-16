@@ -28,6 +28,7 @@ TrackDialog::TrackDialog(std::shared_ptr<TimelineItemModel> model, int trackInde
     , m_audioCount(1)
     , m_videoCount(1)
 {
+    setWindowTitle(deleteMode ? i18n("Delete Track") : i18n("Add Track"));
     // setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     QIcon videoIcon = QIcon::fromTheme(QStringLiteral("kdenlive-show-video"));
     QIcon audioIcon = QIcon::fromTheme(QStringLiteral("kdenlive-show-audio"));
@@ -35,7 +36,7 @@ TrackDialog::TrackDialog(std::shared_ptr<TimelineItemModel> model, int trackInde
     QStringList existingTrackNames;
     for (int i = model->getTracksCount() - 1; i >= 0; i--) {
         int tid = model->getTrackIndexFromPosition(i);
-        bool audioTrack = model->getTrackProperty(tid, QStringLiteral("kdenlive:audio_track")) == QLatin1String("1");
+        bool audioTrack = model->isAudioTrack(tid);
         if (audioTrack) {
             m_audioCount++;
         } else {
@@ -50,6 +51,9 @@ TrackDialog::TrackDialog(std::shared_ptr<TimelineItemModel> model, int trackInde
     if (trackIndex > -1) {
         int ix = comboTracks->findData(trackIndex);
         comboTracks->setCurrentIndex(ix);
+        if (model->isAudioTrack(trackIndex)) {
+            audio_track->setChecked(true);
+        }
     }
     trackIndex--;
     if (deleteMode) {

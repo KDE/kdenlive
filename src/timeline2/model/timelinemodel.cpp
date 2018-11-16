@@ -2131,6 +2131,14 @@ bool TimelineModel::requestCompositionMove(int compoId, int trackId, int positio
     return res;
 }
 
+bool TimelineModel::isAudioTrack(int trackId) const
+{
+    READ_LOCK();
+    Q_ASSERT(isTrack(trackId));
+    auto it = m_iteratorTable.at(trackId);
+    return (*it)->isAudioTrack();
+}
+
 bool TimelineModel::requestCompositionMove(int compoId, int trackId, int compositionTrack, int position, bool updateView, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
