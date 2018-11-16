@@ -873,7 +873,6 @@ void MainWindow::setupActions()
 {
     // create edit mode buttons
     m_normalEditTool = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-normal-edit")), i18n("Normal mode"), this);
-    m_normalEditTool->setShortcut(i18nc("Normal editing", "n"));
     m_normalEditTool->setCheckable(true);
     m_normalEditTool->setChecked(true);
 
@@ -896,10 +895,9 @@ void MainWindow::setupActions()
     m_useTimelineZone = new KDualAction(i18n("Don't Use Timeline Zone for Insert"), i18n("Use Timeline Zone for Insert"), this);
     m_useTimelineZone->setActiveIcon(QIcon::fromTheme(QStringLiteral("timeline-use-zone-on")));
     m_useTimelineZone->setInactiveIcon(QIcon::fromTheme(QStringLiteral("timeline-use-zone-off")));
-    m_useTimelineZone->setShortcut(Qt::Key_G);
     m_useTimelineZone->setAutoToggle(true);
     connect(m_useTimelineZone, &KDualAction::activeChangedByUser, this, &MainWindow::slotSwitchTimelineZone);
-    addAction(QStringLiteral("use_timeline_zone_in_edit"), m_useTimelineZone);
+    addAction(QStringLiteral("use_timeline_zone_in_edit"), m_useTimelineZone, Qt::Key_G);
 
     m_compositeAction = new KSelectAction(QIcon::fromTheme(QStringLiteral("composite-track-off")), i18n("Track compositing"), this);
     m_compositeAction->setToolTip(i18n("Track compositing"));
@@ -974,19 +972,16 @@ void MainWindow::setupActions()
 
     // create tools buttons
     m_buttonSelectTool = new QAction(QIcon::fromTheme(QStringLiteral("cursor-arrow")), i18n("Selection tool"), this);
-    m_buttonSelectTool->setShortcut(i18nc("Selection tool shortcut", "s"));
     // toolbar->addAction(m_buttonSelectTool);
     m_buttonSelectTool->setCheckable(true);
     m_buttonSelectTool->setChecked(true);
 
     m_buttonRazorTool = new QAction(QIcon::fromTheme(QStringLiteral("edit-cut")), i18n("Razor tool"), this);
-    m_buttonRazorTool->setShortcut(i18nc("Razor tool shortcut", "x"));
     // toolbar->addAction(m_buttonRazorTool);
     m_buttonRazorTool->setCheckable(true);
     m_buttonRazorTool->setChecked(false);
 
     m_buttonSpacerTool = new QAction(QIcon::fromTheme(QStringLiteral("distribute-horizontal-x")), i18n("Spacer tool"), this);
-    m_buttonSpacerTool->setShortcut(i18nc("Spacer tool shortcut", "m"));
     // toolbar->addAction(m_buttonSpacerTool);
     m_buttonSpacerTool->setCheckable(true);
     m_buttonSpacerTool->setChecked(false);
@@ -1115,9 +1110,9 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("normal_mode"), m_normalEditTool);
     addAction(QStringLiteral("overwrite_mode"), m_overwriteEditTool);
     addAction(QStringLiteral("insert_mode"), m_insertEditTool);
-    addAction(QStringLiteral("select_tool"), m_buttonSelectTool);
-    addAction(QStringLiteral("razor_tool"), m_buttonRazorTool);
-    addAction(QStringLiteral("spacer_tool"), m_buttonSpacerTool);
+    addAction(QStringLiteral("select_tool"), m_buttonSelectTool, Qt::Key_S);
+    addAction(QStringLiteral("razor_tool"), m_buttonRazorTool, Qt::Key_X);
+    addAction(QStringLiteral("spacer_tool"), m_buttonSpacerTool, Qt::Key_M);
 
     addAction(QStringLiteral("automatic_transition"), m_buttonAutomaticTransition);
     addAction(QStringLiteral("show_video_thumbs"), m_buttonVideoThumbs);
