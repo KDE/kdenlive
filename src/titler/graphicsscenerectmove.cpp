@@ -214,10 +214,17 @@ void MyTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
     } else {
         painter->setRenderHint(QPainter::Antialiasing);
         int outline = data(TitleDocument::OutlineWidth).toInt();
+        QString gradientData = data(TitleDocument::Gradient).toString();
         QTextCursor cursor(document());
         cursor.select(QTextCursor::Document);
-        QColor fontcolor = cursor.charFormat().foreground().color();
-        painter->fillPath(m_path, QBrush(fontcolor));
+        QBrush paintBrush;
+        if (gradientData.isEmpty()) {
+            paintBrush = QBrush(cursor.charFormat().foreground().color());
+        } else {
+            QRectF rect = boundingRect();
+            paintBrush = QBrush(GradientWidget::gradientFromString(gradientData, rect.width(), rect.height()));
+        }
+        painter->fillPath(m_path, paintBrush);
         if (outline > 0) {
             QVariant variant = data(TitleDocument::OutlineColor);
             QColor outlineColor = variant.value<QColor>();
