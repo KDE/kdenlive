@@ -10,7 +10,6 @@
 
 #include "abstractgfxscopewidget.h"
 #include "monitor/monitormanager.h"
-#include "renderer.h"
 
 #include <QMouseEvent>
 

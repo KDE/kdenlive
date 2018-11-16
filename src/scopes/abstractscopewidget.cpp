@@ -11,7 +11,6 @@
 #include "abstractscopewidget.h"
 
 #include "monitor/monitor.h"
-#include "renderer.h"
 
 #include <QColor>
 #include <QMenu>

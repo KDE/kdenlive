@@ -11,7 +11,6 @@
 #include "abstractaudioscopewidget.h"
 
 #include "monitor/monitor.h"
-#include "renderer.h"
 
 // Uncomment for debugging
 //#define DEBUG_AASW

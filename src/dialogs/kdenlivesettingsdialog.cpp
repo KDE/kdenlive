@@ -27,7 +27,6 @@
 #include "profiles/profilerepository.hpp"
 #include "profilesdialog.h"
 #include "project/dialogs/profilewidget.h"
-#include "renderer.h"
 
 
 #ifdef USE_V4L

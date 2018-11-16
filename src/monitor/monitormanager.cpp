@@ -23,7 +23,6 @@
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "mltcontroller/bincontroller.h"
-#include "renderer.h"
 
 
 #include <mlt++/Mlt.h>

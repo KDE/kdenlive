@@ -60,6 +60,21 @@ class TimelineTabs;
 class TimelineWidget;
 class Transition;
 
+class MltErrorEvent : public QEvent
+{
+public:
+    explicit MltErrorEvent(const QString &message)
+        : QEvent(QEvent::User)
+        , m_message(message)
+    {
+    }
+
+    QString message() const { return m_message; }
+
+private:
+    QString m_message;
+};
+
 class /*KDENLIVECORE_EXPORT*/ MainWindow : public KXmlGuiWindow
 {
     Q_OBJECT

@@ -38,7 +38,6 @@
 #include "profiles/profilemodel.hpp"
 #include "profiles/profilerepository.hpp"
 #include "project/projectcommands.h"
-#include "renderer.h"
 #include "titler/titlewidget.h"
 #include "transitions/transitionsrepository.hpp"
 

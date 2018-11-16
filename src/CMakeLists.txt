@@ -134,7 +134,7 @@ list(APPEND kdenlive_SRCS
     gentime.cpp
     doc/kthumb.cpp
     mainwindow.cpp
-    renderer.cpp
+#    renderer.cpp
     statusbarmessagelabel.cpp
     timecode.cpp
     timecodedisplay.cpp

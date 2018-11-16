@@ -54,7 +54,6 @@
 #include "project/dialogs/projectsettings.h"
 #include "project/projectcommands.h"
 #include "project/projectmanager.h"
-#include "renderer.h"
 #include "scopes/scopemanager.h"
 #include "timeline2/view/timelinecontroller.h"
 #include "timeline2/view/timelinetabs.hpp"
