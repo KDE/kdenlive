@@ -77,6 +77,10 @@ void TransitionStackView::setModel(const std::shared_ptr<AssetParameterModel> &m
 void TransitionStackView::unsetModel()
 {
     if (m_model) {
+        auto kfr = m_model->getKeyframeModel();
+        if (kfr) {
+            disconnect(kfr.get(), &KeyframeModelList::modelChanged, this, &AssetParameterView::slotRefresh);
+        }
         pCore->getMonitor(m_model->monitorId)->slotShowEffectScene(MonitorSceneDefault);
     }
     AssetParameterView::unsetModel();
