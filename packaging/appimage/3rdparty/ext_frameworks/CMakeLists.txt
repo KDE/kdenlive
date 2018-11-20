@@ -234,6 +234,33 @@ ExternalProject_Add(
 )
 
 ExternalProject_Add(
+  ext_attica
+  DOWNLOAD_DIR ${EXT_DOWNLOAD_DIR}
+  URL http://download.kde.org/stable/frameworks/5.51/attica-5.51.0.zip
+  URL_MD5 2915e774c50d0f09f4365897922fb0b0
+  CMAKE_ARGS ${CMAKE_GLOBAL_PROFILE}
+  DEPENDS ext_kwindowsystem ext_kconfig ext_kcodecs ext_kcoreaddons ext_phonon
+)
+
+ExternalProject_Add(
+  ext_knewstuff
+  DOWNLOAD_DIR ${EXT_DOWNLOAD_DIR}
+  URL http://download.kde.org/stable/frameworks/5.51/knewstuff-5.51.0.zip
+  URL_MD5 d5fcff457dc70b2de16488b2f1ba8e7b
+  CMAKE_ARGS ${CMAKE_GLOBAL_PROFILE}
+  DEPENDS ext_kwindowsystem ext_kconfig ext_kcodecs ext_kcoreaddons ext_phonon ext_attica
+)
+
+ExternalProject_Add(
+  ext_knotifyconfig
+  DOWNLOAD_DIR ${EXT_DOWNLOAD_DIR}
+  URL http://download.kde.org/stable/frameworks/5.51/knotifyconfig-5.51.0.zip
+  URL_MD5 a1a8c6331858aab8ded199ec0b9795f4
+  CMAKE_ARGS ${CMAKE_GLOBAL_PROFILE}
+  DEPENDS ext_kwindowsystem ext_kconfig ext_kcodecs ext_kcoreaddons ext_phonon ext_knewstuff
+)
+
+ExternalProject_Add(
   ext_kpackage
   DOWNLOAD_DIR ${EXT_DOWNLOAD_DIR}
   URL http://download.kde.org/stable/frameworks/5.51/kpackage-5.51.0.zip
@@ -359,3 +386,31 @@ ExternalProject_Add(
   CMAKE_ARGS ${CMAKE_GLOBAL_PROFILE}
   DEPENDS ext_kitemviews
 )
+
+ExternalProject_Add(
+  ext_kpurpose
+  DOWNLOAD_DIR ${EXT_DOWNLOAD_DIR}
+  URL http://download.kde.org/stable/frameworks/5.51/purpose-5.51.0.zip
+  URL_MD5 0d3323f67ed6b360e2cd77167278489b
+  CMAKE_ARGS ${CMAKE_GLOBAL_PROFILE}
+  DEPENDS ext_kxmlgui
+)
+
+ExternalProject_Add(
+  ext_kfilemetadata
+  DOWNLOAD_DIR ${EXT_DOWNLOAD_DIR}
+  URL http://download.kde.org/stable/frameworks/5.51/kfilemetadata-5.51.0.zip
+  URL_MD5 9946d31383ea759ffedcd6528bfdec92
+  CMAKE_ARGS ${CMAKE_GLOBAL_PROFILE}
+  DEPENDS ext_kguiaddons
+)
+
+ExternalProject_Add(
+  ext_kdoctools
+  DOWNLOAD_DIR ${EXT_DOWNLOAD_DIR}
+  URL http://download.kde.org/stable/frameworks/5.51/kdoctools-5.51.0.zip
+  URL_MD5 696f5f8f4eb7e3e3b2cedca18ea6331f
+  CMAKE_ARGS ${CMAKE_GLOBAL_PROFILE}
+  DEPENDS ext_kcoreaddons
+)
+

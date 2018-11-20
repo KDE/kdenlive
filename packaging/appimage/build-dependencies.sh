@@ -8,13 +8,15 @@ set -x
 
 # Make sure the base dependencies are installed
 apt-get -y install build-essential perl python git '^libxcb.*-dev' libx11-xcb-dev \
-	libglu1-mesa-dev libxrender-dev libxi-dev flex bison gperf libicu-dev libxslt-dev ruby
+	libglu1-mesa-dev libxrender-dev libxi-dev flex bison gperf libicu-dev ruby
 apt-get -y install cmake3 wget tar bzip2 xz-utils libtool libfile-which-perl automake gcc-4.8 patch \
 	g++-4.8 zlib1g-dev libglib2.0-dev libc6-dev libeigen3-dev libssl-dev \
 	libcppunit-dev libstdc++-4.8-dev libfreetype6-dev libfontconfig1-dev liblcms2-dev \
 	mesa-common-dev libaio-dev lzma liblzma-dev\
 	libpulse-dev libsox-dev liblist-moreutils-perl libxml-parser-perl \
 	libjack-dev autopoint language-pack-en-base
+
+apt-get -y install libpixman-1-dev docbook-xml docbook-xsl libattr1-dev
 
 # Read in our parameters
 #export BUILD_PREFIX=$1
@@ -67,13 +69,16 @@ cd $BUILD_PREFIX/deps-build/
 cmake $KDENLIVE_SOURCES/packaging/appimage/3rdparty -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_PREFIX -DEXT_INSTALL_DIR=$DEPS_INSTALL_PREFIX -DEXT_DOWNLOAD_DIR=$DOWNLOADS_DIR
 
 # Now start building everything we need, in the appropriate order
+
 cmake --build . --target ext_iconv
 cmake --build . --target ext_lzma
 cmake --build . --target ext_xml
 cmake --build . --target ext_gettext
 cmake --build . --target ext_xslt
 cmake --build . --target ext_png
-# cmake --build . --target ext_jpeg #this causes build failures in Qt 5.10
+
+  # cmake --build . --target ext_jpeg #this causes build failures in Qt 5.10
+
 cmake --build . --target ext_qt
 cmake --build . --target ext_boost
 cmake --build . --target ext_gpgme
@@ -85,4 +90,20 @@ cmake --build . --target ext_yasm
 cmake --build . --target ext_alsa
 cmake --build . --target ext_sdl2
 
+cmake --build . --target ext_fftw3
 
+# ladspa expects fft3w.pc pkgconfig files
+cp /build/deps/usr/lib/pkgconfig/fftwf.pc /build/deps/usr/lib/pkgconfig/fftw3f.pc
+
+cmake --build . --target ext_ladspa
+
+cmake --build . --target ext_x264
+cmake --build . --target ext_x265
+cmake --build . --target ext_libvpx
+cmake --build . --target ext_ffmpeg
+cmake --build . --target ext_cairo
+cmake --build . --target ext_harfbuzz
+cmake --build . --target ext_pango
+cmake --build . --target ext_gdkpixbuf
+cmake --build . --target ext_gtk+
+cmake --build . --target ext_mlt
