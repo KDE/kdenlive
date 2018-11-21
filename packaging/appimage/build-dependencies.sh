@@ -7,6 +7,7 @@ set -e
 set -x
 
 # Make sure the base dependencies are installed
+apt-get update
 apt-get -y install build-essential perl python git '^libxcb.*-dev' libx11-xcb-dev \
 	libglu1-mesa-dev libxrender-dev libxi-dev flex bison gperf libicu-dev ruby
 apt-get -y install cmake3 wget tar bzip2 xz-utils libtool libfile-which-perl automake gcc-4.8 patch \
