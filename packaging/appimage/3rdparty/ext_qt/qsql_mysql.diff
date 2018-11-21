@@ -1,0 +1,63 @@
+diff -ruN qt-everywhere-src-5.11.2.orig/qtbase/src/plugins/sqldrivers/mysql/qsql_mysql.cpp qt-everywhere-src-5.11.2/qtbase/src/plugins/sqldrivers/mysql/qsql_mysql.cpp
+--- qt-everywhere-src-5.11.2.orig/qtbase/src/plugins/sqldrivers/mysql/qsql_mysql.cpp	2018-09-13 06:25:10.000000000 +0200
++++ qt-everywhere-src-5.11.2/qtbase/src/plugins/sqldrivers/mysql/qsql_mysql.cpp	2018-10-09 16:50:41.225559140 +0200
+@@ -74,6 +74,14 @@
+ #  define Q_CLIENT_MULTI_STATEMENTS 0
+ #endif
+ 
++// MYSQL 8.0.1 no longer uses the my_bool type:
++// https://dev.mysql.com/doc/relnotes/mysql/8.0/en/news-8-0-1.html
++#if MYSQL_VERSION_ID >= 80001
++typedef bool mysql_bool;
++#else
++typedef my_bool mysql_bool;
++#endif
++
+ QT_BEGIN_NAMESPACE
+ 
+ class QMYSQLDriverPrivate : public QSqlDriverPrivate
+@@ -232,7 +240,7 @@
+               myField(0), type(QVariant::Invalid)
+         {}
+         char *outField;
+-        my_bool nullIndicator;
++        mysql_bool nullIndicator;
+         ulong bufLength;
+         MYSQL_FIELD *myField;
+         QVariant::Type type;
+@@ -984,7 +992,7 @@
+     MYSQL_BIND* currBind;
+     QVector<MYSQL_TIME *> timeVector;
+     QVector<QByteArray> stringVector;
+-    QVector<my_bool> nullVector;
++    QVector<mysql_bool> nullVector;
+ 
+     const QVector<QVariant> values = boundValues();
+ 
+@@ -1005,7 +1013,7 @@
+ 
+             currBind = &d->outBinds[i];
+ 
+-            nullVector[i] = static_cast<my_bool>(val.isNull());
++            nullVector[i] = static_cast<mysql_bool>(val.isNull());
+             currBind->is_null = &nullVector[i];
+             currBind->length = 0;
+             currBind->is_unsigned = 0;
+@@ -1102,7 +1110,7 @@
+     d->rowsAffected = mysql_stmt_affected_rows(d->stmt);
+ 
+     if (isSelect()) {
+-        my_bool update_max_length = true;
++        mysql_bool update_max_length = true;
+ 
+         r = mysql_stmt_bind_result(d->stmt, d->inBinds);
+         if (r != 0) {
+@@ -1313,7 +1321,7 @@
+     QString sslCAPath;
+     QString sslCipher;
+ #if MYSQL_VERSION_ID >= 50000
+-    my_bool reconnect=false;
++    mysql_bool reconnect=false;
+     uint connectTimeout = 0;
+     uint readTimeout = 0;
+     uint writeTimeout = 0;

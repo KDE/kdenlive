@@ -1,0 +1,12 @@
+ExternalProject_Add(
+  ext_x264
+  DOWNLOAD_DIR ${EXT_DOWNLOAD_DIR}
+  GIT_REPOSITORY https://salsa.debian.org/multimedia-team/x264.git
+  GIT_TAG a80f462685e753d21430ad64f923b2f9c4024d96  
+
+  CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=${EXT_INSTALL_DIR} ${AT_HOST} ${AT_SHARED_ONLY}
+  BUILD_ALWAYS TRUE
+  BUILD_COMMAND $(MAKE) clean
+  COMMAND $(MAKE)
+  INSTALL_COMMAND $(MAKE) install
+)
