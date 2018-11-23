@@ -91,6 +91,9 @@ public:
     const QString &displayName() const;
     Mlt::Properties *properties();
 
+    /* @brief Returns an XML representation of the clip with its effects */
+    QDomElement toXml(QDomDocument &document);
+
 protected:
     Mlt::Transition *service() const override;
     void setInOut(int in, int out) override;

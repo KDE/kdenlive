@@ -249,3 +249,24 @@ int CompositionModel::getIn() const
 {
     return getPosition();
 }
+
+QDomElement CompositionModel::toXml(QDomDocument &document)
+{
+    QDomElement container = document.createElement(QStringLiteral("composition"));
+    container.setAttribute(QStringLiteral("id"), m_id);
+    container.setAttribute(QStringLiteral("composition"), m_assetId);
+    container.setAttribute(QStringLiteral("in"), getIn());
+    container.setAttribute(QStringLiteral("out"), getOut());
+    container.setAttribute(QStringLiteral("position"), getPosition());
+    container.setAttribute(QStringLiteral("track"), getCurrentTrackId());
+    container.setAttribute(QStringLiteral("a_track"), getATrack());
+    QScopedPointer<Mlt::Properties> props(properties());
+    for (int i = 0; i < props->count(); i++) {
+        QString name = props->get_name(i);
+        if (name.startsWith(QLatin1Char('_'))) {
+            continue;
+        }
+        Xml::setXmlProperty(container, name, props->get(i));
+    }
+    return container;
+}

@@ -513,7 +513,7 @@ void TimelineController::copyItem()
                 }
                 std::unordered_set<int> selection = m_model->getGroupElements(id);
                 for (int j : selection) {
-                    if (m_model->isClip(j) && !extraClips.contains(j)) {
+                    if (!extraClips.contains(j)) {
                         extraClips << j;
                     }
                 }
@@ -529,11 +529,13 @@ void TimelineController::copyItem()
         QDomElement container = m_copiedItems.createElement(QStringLiteral("list"));
         m_copiedItems.appendChild(container);
         for (int id : extraClips) {
+            if (offset == -1 || m_model->getItemPosition(id) < offset) {
+                offset = m_model->getItemPosition(id);
+            }
             if (m_model->isClip(id)) {
-                if (offset == -1 || m_model->getClipPosition(id) < offset) {
-                    offset = m_model->getClipPosition(id);
-                }
                 container.appendChild(m_model->m_allClips[id]->toXml(m_copiedItems));
+            } else if (m_model->isComposition(id)) {
+                container.appendChild(m_model->m_allCompositions[id]->toXml(m_copiedItems));
             }
         }
         container.setAttribute(QStringLiteral("offset"), offset);
@@ -569,6 +571,7 @@ bool TimelineController::pasteItem(int clipId, int tid, int position)
         position = timelinePosition();
     }
     QDomNodeList clips = m_copiedItems.documentElement().elementsByTagName(QStringLiteral("clip"));
+    QDomNodeList compositions = m_copiedItems.documentElement().elementsByTagName(QStringLiteral("composition"));
     int offset = m_copiedItems.documentElement().attribute(QStringLiteral("offset")).toInt();
     int masterTrack = m_copiedItems.documentElement().attribute(QStringLiteral("masterTrack")).toInt();
     int trackOffset = TimelineFunctions::getTrackOffset(m_model, masterTrack, tid);
@@ -588,6 +591,21 @@ bool TimelineController::pasteItem(int clipId, int tid, int position)
         }
         tracksMap.insert(trackId, TimelineFunctions::getOffsetTrackId(m_model, trackId, trackOffset, masterIsAudio));
     }
+    for (int i = 0; i < compositions.count(); i++) {
+        QDomElement prod = compositions.at(i).toElement();
+        int trackId = prod.attribute(QStringLiteral("track")).toInt();
+        if (!tracksMap.contains(trackId)) {
+            tracksMap.insert(trackId, TimelineFunctions::getOffsetTrackId(m_model, trackId, trackOffset, masterIsAudio));
+        }
+        int atrackId = prod.attribute(QStringLiteral("a_track")).toInt();
+        if (atrackId == 0) {
+            continue;
+        }
+        atrackId = m_model->getTrackIndexFromPosition(atrackId);
+        if (!tracksMap.contains(atrackId)) {
+            tracksMap.insert(atrackId, TimelineFunctions::getOffsetTrackId(m_model, atrackId, trackOffset, masterIsAudio));
+        }
+    }
 
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
@@ -599,7 +617,6 @@ bool TimelineController::pasteItem(int clipId, int tid, int position)
         int in = prod.attribute(QStringLiteral("in")).toInt();
         int out = prod.attribute(QStringLiteral("out")).toInt();
         int trackId = prod.attribute(QStringLiteral("track")).toInt();
-        int mltTrackIndex = m_model->getTrackMltIndex(trackId);
         int pos = prod.attribute(QStringLiteral("position")).toInt() - offset;
         int newId;
         res = m_model->requestClipCreation(originalId, newId, m_model->getTrackById_const(trackId)->trackType(), undo, redo);
@@ -611,6 +628,27 @@ bool TimelineController::pasteItem(int clipId, int tid, int position)
             std::shared_ptr<EffectStackModel> destStack = m_model->getClipEffectStackModel(newId);
             destStack->fromXml(prod.firstChildElement(QStringLiteral("effects")), undo, redo);
         }
+    }
+
+    // Compositions
+    for (int i = 0; res && i < compositions.count(); i++) {
+        QDomElement prod = compositions.at(i).toElement();
+        QString originalId = prod.attribute(QStringLiteral("composition"));
+        int in = prod.attribute(QStringLiteral("in")).toInt();
+        int out = prod.attribute(QStringLiteral("out")).toInt();
+        int trackId = prod.attribute(QStringLiteral("track")).toInt();
+        int aTrackId = prod.attribute(QStringLiteral("a_track")).toInt();
+        if (aTrackId > 0) {
+            aTrackId = tracksMap.value(m_model->getTrackIndexFromPosition(aTrackId));
+        }
+        int pos = prod.attribute(QStringLiteral("position")).toInt() - offset;
+        int newId;
+        Mlt::Properties transProps;
+        QDomNodeList props = prod.elementsByTagName(QStringLiteral("property"));
+        for (int j = 0; j < props.count(); j++) {
+            transProps.set(props.at(j).toElement().attribute(QStringLiteral("name")).toUtf8().constData(), props.at(j).toElement().text().toUtf8().constData());
+        }
+        res = m_model->requestCompositionInsertion(originalId, tracksMap.value(trackId), aTrackId, position + pos, out - in, &transProps, newId, undo, redo);
     }
     if (!res) {
         undo();
