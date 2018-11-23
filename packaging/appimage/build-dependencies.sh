@@ -7,29 +7,30 @@ set -e
 set -x
 
 # Make sure the base dependencies are installed
-apt-get update
-apt-get -y install build-essential perl python git '^libxcb.*-dev' libx11-xcb-dev \
-	libglu1-mesa-dev libxrender-dev libxi-dev flex bison gperf libicu-dev ruby
-apt-get -y install cmake3 wget tar bzip2 xz-utils libtool libfile-which-perl automake gcc-4.8 patch \
-	g++-4.8 zlib1g-dev libglib2.0-dev libc6-dev libeigen3-dev libssl-dev \
-	libcppunit-dev libstdc++-4.8-dev libfreetype6-dev libfontconfig1-dev liblcms2-dev \
-	mesa-common-dev libaio-dev lzma liblzma-dev\
-	libpulse-dev libsox-dev liblist-moreutils-perl libxml-parser-perl \
-	libjack-dev autopoint language-pack-en-base
+#apt-get update
+#apt-get -y install build-essential perl python git '^libxcb.*-dev' libx11-xcb-dev \
+#	libglu1-mesa-dev libxrender-dev libxi-dev flex bison gperf libicu-dev ruby
+#apt-get -y install cmake3 wget tar bzip2 xz-utils libtool libfile-which-perl automake gcc-4.8 patch \
+#	g++-4.8 zlib1g-dev libglib2.0-dev libc6-dev libeigen3-dev libssl-dev \
+#	libcppunit-dev libstdc++-4.8-dev libfreetype6-dev libfontconfig1-dev liblcms2-dev \
+#	mesa-common-dev libaio-dev lzma liblzma-dev\
+#	libpulse-dev libsox-dev liblist-moreutils-perl libxml-parser-perl \
+#	libjack-dev autopoint language-pack-en-base
 
-apt-get -y install libpixman-1-dev docbook-xml docbook-xsl libattr1-dev
+#apt-get -y install libpixman-1-dev docbook-xml docbook-xsl libattr1-dev
+apt-get -y install liblist-moreutils-perl libtool libpixman-1-dev
 
 # Read in our parameters
-#export BUILD_PREFIX=$1
-#export KDENLIVE_SOURCES=$2
-export BUILD_PREFIX=/build
-export KDENLIVE_SOURCES=/kdenlive
-export DEPS_INSTALL_PREFIX=/external
+export BUILD_PREFIX=$1
+export KDENLIVE_SOURCES=$2
 
 # qjsonparser, used to add metadata to the plugins needs to work in a en_US.UTF-8 environment.
 # That's not always the case, so make sure it is
 export LC_ALL=en_US.UTF-8
 export LANG=en_us.UTF-8
+
+export CC=/usr/bin/gcc-6
+export CXX=/usr/bin/g++-6
 
 # We want to use $prefix/deps/usr/ for all our dependencies
 export DEPS_INSTALL_PREFIX=$BUILD_PREFIX/deps/usr
@@ -100,7 +101,16 @@ cmake --build . --target ext_ladspa
 
 cmake --build . --target ext_x264
 cmake --build . --target ext_x265
+
+# libvpx does not compile with this gcc6 version
+export CC=/usr/bin/gcc
+export CXX=/usr/bin/g++
+
 cmake --build . --target ext_libvpx
+
+export CC=/usr/bin/gcc-6
+export CXX=/usr/bin/g++-6
+
 cmake --build . --target ext_ffmpeg
 cmake --build . --target ext_cairo
 cmake --build . --target ext_harfbuzz
