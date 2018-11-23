@@ -660,7 +660,12 @@ void Monitor::slotSetZoneStart()
 void Monitor::slotSetZoneEnd(bool discardLastFrame)
 {
     Q_UNUSED(discardLastFrame);
-    int pos = m_glMonitor->getCurrentPos() + 1;
+    int pos = m_glMonitor->getCurrentPos();
+    if (m_controller) {
+        if (pos < m_controller->frameDuration() - 1) {
+            pos++;
+        }
+    } else pos++;
     m_glMonitor->getControllerProxy()->setZoneOut(pos);
     if (m_controller) {
         m_controller->setZone(m_glMonitor->getControllerProxy()->zone());
@@ -1149,22 +1154,11 @@ void Monitor::slotRewind(double speed)
     slotActivateMonitor();
     if (qFuzzyIsNull(speed)) {
         double currentspeed = m_glMonitor->playSpeed();
-        if (currentspeed >= 0) {
+        if (currentspeed > -1) {
             speed = -1;
-        } else
-            switch ((int)currentspeed) {
-            case -1:
-                speed = -2;
-                break;
-            case -2:
-                speed = -3;
-                break;
-            case -3:
-                speed = -5;
-                break;
-            default:
-                speed = -8;
-            }
+        } else {
+            speed = currentspeed * 1.5;
+        }
     }
     m_glMonitor->switchPlay(true, speed);
     m_playAction->setActive(true);
@@ -1175,22 +1169,11 @@ void Monitor::slotForward(double speed)
     slotActivateMonitor();
     if (qFuzzyIsNull(speed)) {
         double currentspeed = m_glMonitor->playSpeed();
-        if (currentspeed <= 0) {
+        if (currentspeed < 1) {
             speed = 1;
-        } else
-            switch ((int)currentspeed) {
-            case 1:
-                speed = 2;
-                break;
-            case 2:
-                speed = 3;
-                break;
-            case 3:
-                speed = 5;
-                break;
-            default:
-                speed = 8;
-            }
+        } else {
+            speed = currentspeed * 1.2;
+        }
     }
     m_glMonitor->switchPlay(true, speed);
     m_playAction->setActive(true);
