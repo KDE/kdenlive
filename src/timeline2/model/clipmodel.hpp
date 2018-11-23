@@ -100,6 +100,9 @@ public:
     int getFakePosition() const;
     void setFakePosition(int fid);
 
+    /* @brief Returns an XML representation of the clip with its effects */
+    QDomElement toXml(QDomDocument &document);
+
 protected:
     // helper fuctions that creates the lambda
     Fun setClipState_lambda(PlaylistState::ClipState state);

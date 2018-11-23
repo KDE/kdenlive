@@ -486,8 +486,63 @@ void TimelineController::slotUpdateSelection(int itemId)
 void TimelineController::copyItem()
 {
     int clipId = -1;
+    int masterTrack = -1;
     if (!m_selection.selectedItems.isEmpty()) {
         clipId = m_selection.selectedItems.first();
+        // Check grouped clips
+        QList <int> extraClips = m_selection.selectedItems;
+        masterTrack = m_model->getItemTrackId(m_selection.selectedItems.first());
+        std::unordered_set<int> groupRoots;
+        for (int id : m_selection.selectedItems) {
+            if (m_model->m_groups->isInGroup(id)) {
+                int gid = m_model->m_groups->getRootId(id);
+                qDebug()<<" * ** ITEM "<<id<<" IS IN GROUP: "<<gid;
+                if (gid != m_model->m_temporarySelectionGroup) {
+                    qDebug()<<" * ** TRYING TO INSERT GP: "<<gid;
+                    if (groupRoots.find(gid) == groupRoots.end()) {
+                        groupRoots.insert(gid);
+                    }
+                } else {
+                    qDebug()<<" * ** TRYING TO INSERT SELECTION CHILD";
+                    std::unordered_set<int> selection = m_model->m_groups->getDirectChildren(gid);
+                    for (int j : selection) {
+                        if (groupRoots.find(j) == groupRoots.end()) {
+                            groupRoots.insert(j);
+                        }
+                    }
+                }
+                std::unordered_set<int> selection = m_model->getGroupElements(id);
+                for (int j : selection) {
+                    if (m_model->isClip(j) && !extraClips.contains(j)) {
+                        extraClips << j;
+                    }
+                }
+            }
+        }
+        qDebug()<<"==============\n GROUP ROOTS: ";
+        for (int gp : groupRoots) {
+            qDebug()<<"GROUP: "<<gp;
+        }
+        qDebug()<<"\n=======";
+        m_copiedItems.clear();
+        int offset = -1;
+        QDomElement container = m_copiedItems.createElement(QStringLiteral("list"));
+        m_copiedItems.appendChild(container);
+        for (int id : extraClips) {
+            if (m_model->isClip(id)) {
+                if (offset == -1 || m_model->getClipPosition(id) < offset) {
+                    offset = m_model->getClipPosition(id);
+                }
+                container.appendChild(m_model->m_allClips[id]->toXml(m_copiedItems));
+            }
+        }
+        container.setAttribute(QStringLiteral("offset"), offset);
+        container.setAttribute(QStringLiteral("masterTrack"), masterTrack);
+        QDomElement grp = m_copiedItems.createElement(QStringLiteral("groups"));
+        container.appendChild(grp);
+        grp.appendChild(m_copiedItems.createTextNode(m_model->m_groups->toJson(groupRoots)));
+        //TODO: groups
+        qDebug()<<" / // / PASTED DOC: \n\n"<<m_copiedItems.toString()<<"\n\n------------";
     } else {
         return;
     }
@@ -513,8 +568,60 @@ bool TimelineController::pasteItem(int clipId, int tid, int position)
     if (position == -1) {
         position = timelinePosition();
     }
-    qDebug() << "PASTING CLIP: " << clipId << ", " << tid << ", " << position;
-    return TimelineFunctions::requestItemCopy(m_model, clipId, tid, position);
+    QDomNodeList clips = m_copiedItems.documentElement().elementsByTagName(QStringLiteral("clip"));
+    int offset = m_copiedItems.documentElement().attribute(QStringLiteral("offset")).toInt();
+    int masterTrack = m_copiedItems.documentElement().attribute(QStringLiteral("masterTrack")).toInt();
+    int trackOffset = TimelineFunctions::getTrackOffset(m_model, masterTrack, tid);
+    bool masterIsAudio = m_model->isAudioTrack(masterTrack);
+    // find paste tracks
+    QMap <int, int> tracksMap;
+    for (int i = 0; i < clips.count(); i++) {
+        QDomElement prod = clips.at(i).toElement();
+        int trackId = prod.attribute(QStringLiteral("track")).toInt();
+        if (tracksMap.contains(trackId)) {
+            // Track already processed, skip
+            continue;
+        }
+        if (trackOffset == 0) {
+            tracksMap.insert(trackId, trackId);
+            continue;
+        }
+        tracksMap.insert(trackId, TimelineFunctions::getOffsetTrackId(m_model, trackId, trackOffset, masterIsAudio));
+    }
+
+    std::function<bool(void)> undo = []() { return true; };
+    std::function<bool(void)> redo = []() { return true; };
+    bool res = true;
+    QMap <int, int> correspondingIds;
+    for (int i = 0; res && i < clips.count(); i++) {
+        QDomElement prod = clips.at(i).toElement();
+        QString originalId = prod.attribute(QStringLiteral("binid"));
+        int in = prod.attribute(QStringLiteral("in")).toInt();
+        int out = prod.attribute(QStringLiteral("out")).toInt();
+        int trackId = prod.attribute(QStringLiteral("track")).toInt();
+        int mltTrackIndex = m_model->getTrackMltIndex(trackId);
+        int pos = prod.attribute(QStringLiteral("position")).toInt() - offset;
+        int newId;
+        res = m_model->requestClipCreation(originalId, newId, m_model->getTrackById_const(trackId)->trackType(), undo, redo);
+        m_model->m_allClips[newId]->setInOut(in, out);
+        correspondingIds.insert(prod.attribute(QStringLiteral("id")).toInt(), newId);
+        res = res & m_model->getTrackById(tracksMap.value(trackId))->requestClipInsertion(newId, position + pos, true, true, undo, redo);
+        // paste effects
+        if (res) {
+            std::shared_ptr<EffectStackModel> destStack = m_model->getClipEffectStackModel(newId);
+            destStack->fromXml(prod.firstChildElement(QStringLiteral("effects")), undo, redo);
+        }
+    }
+    if (!res) {
+        undo();
+        return false;
+    }
+    const QString groupsData = m_copiedItems.documentElement().firstChildElement(QStringLiteral("groups")).text();
+    qDebug()<<"************** GRP DATA ********\n"<<groupsData<<"\n******";
+    m_model->m_groups->fromJsonWithOffset(groupsData, tracksMap, position - offset);
+    pCore->pushUndo(undo, redo, i18n("Paste clips"));
+    return true;
+    //return TimelineFunctions::requestItemCopy(m_model, clipId, tid, position);
     return false;
 }
 

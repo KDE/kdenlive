@@ -384,6 +384,14 @@ int TimelineModel::getMirrorVideoTrackId(int trackId) const
     return -1;
 }
 
+int TimelineModel::getMirrorTrackId(int trackId) const
+{
+    if (isAudioTrack(trackId)) {
+        return getMirrorVideoTrackId(trackId);
+    }
+    return getMirrorAudioTrackId(trackId);
+}
+
 int TimelineModel::getMirrorAudioTrackId(int trackId) const
 {
     READ_LOCK();

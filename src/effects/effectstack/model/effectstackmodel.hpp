@@ -125,6 +125,11 @@ public:
 
     bool isStackEnabled() const;
 
+    /* @brief Returns an XML representation of the effect stack with all parameters */
+    QDomElement toXml(QDomDocument &document);
+    /* @brief Load an effect stack from an XML representation */
+    void fromXml(const QDomElement &effectsXml, Fun &undo, Fun &redo);
+
 public slots:
     /* @brief Delete an effect from the stack */
     void removeEffect(std::shared_ptr<EffectItemModel> effect);

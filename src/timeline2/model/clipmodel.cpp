@@ -599,3 +599,16 @@ void ClipModel::setFakePosition(int fid)
 {
     m_fakePosition = fid;
 }
+
+QDomElement ClipModel::toXml(QDomDocument &document)
+{
+    QDomElement container = document.createElement(QStringLiteral("clip"));
+    container.setAttribute(QStringLiteral("binid"), m_binClipId);
+    container.setAttribute(QStringLiteral("id"), m_id);
+    container.setAttribute(QStringLiteral("in"), getIn());
+    container.setAttribute(QStringLiteral("out"), getOut());
+    container.setAttribute(QStringLiteral("position"), getPosition());
+    container.setAttribute(QStringLiteral("track"), getCurrentTrackId());
+    container.appendChild(m_effectStack->toXml(document));
+    return container;
+}

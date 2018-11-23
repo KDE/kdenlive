@@ -159,6 +159,73 @@ bool EffectStackModel::copyEffect(std::shared_ptr<AbstractEffectItem> sourceItem
     return result;
 }
 
+QDomElement EffectStackModel::toXml(QDomDocument &document)
+{
+     QDomElement container = document.createElement(QStringLiteral("effects"));
+     for (int i = 0; i < rootItem->childCount(); ++i) {
+        std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
+        QDomElement sub = document.createElement(QStringLiteral("effect"));
+        sub.setAttribute(QStringLiteral("id"), sourceEffect->getAssetId());
+        sub.setAttribute(QStringLiteral("in"), sourceEffect->filter().get_int("in"));
+        sub.setAttribute(QStringLiteral("out"), sourceEffect->filter().get_int("out"));
+        QVector <QPair<QString,QVariant> > params = sourceEffect->getAllParameters();
+        QLocale locale;
+        for (auto param : params) {
+            if (param.second.type() == QVariant::Double) {
+                Xml::setXmlProperty(sub, param.first, locale.toString(param.second.toDouble()));
+            } else {
+                Xml::setXmlProperty(sub, param.first, param.second.toString());
+            }
+        }
+        container.appendChild(sub);
+     }
+     return container;
+}
+
+void EffectStackModel::fromXml(const QDomElement &effectsXml, Fun &undo, Fun &redo)
+{
+    QDomNodeList nodeList = effectsXml.elementsByTagName(QStringLiteral("effect"));
+    for (int i = 0; i < nodeList.count(); ++i) {
+        QDomElement node = nodeList.item(i).toElement();
+        const QString effectId = node.attribute(QStringLiteral("id"));
+        auto effect = EffectItemModel::construct(effectId, shared_from_this());
+        int in = node.attribute(QStringLiteral("in")).toInt();
+        int out = node.attribute(QStringLiteral("out")).toInt();
+        if (out > 0) {
+            effect->filter().set("in", in);
+            effect->filter().set("out", out);
+        }
+        QVector<QPair<QString, QVariant>> parameters;
+        QDomNodeList params = node.elementsByTagName(QStringLiteral("property"));
+        for (int j = 0; j < params.count(); j++) {
+            QDomElement pnode = params.item(j).toElement();
+            parameters.append(QPair<QString, QVariant>(pnode.attribute(QStringLiteral("name")), QVariant(pnode.text())));
+        }
+        effect->setParameters(parameters);
+        Fun local_undo = removeItem_lambda(effect->getId());
+        // TODO the parent should probably not always be the root
+        Fun local_redo = addItem_lambda(effect, rootItem->getId());
+        connect(effect.get(), &AssetParameterModel::modelChanged, this, &EffectStackModel::modelChanged);
+        connect(effect.get(), &AssetParameterModel::replugEffect, this, &EffectStackModel::replugEffect, Qt::DirectConnection);
+        if (effectId == QLatin1String("fadein") || effectId == QLatin1String("fade_from_black")) {
+            fadeIns.insert(effect->getId());
+        } else if (effectId == QLatin1String("fadeout") || effectId == QLatin1String("fade_to_black")) {
+            fadeOuts.insert(effect->getId());
+        }
+        local_redo();
+        UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
+    }
+    if (true) {
+        Fun update = [this]() {
+            emit dataChanged(QModelIndex(), QModelIndex(), QVector<int>());
+            return true;
+        };
+        update();
+        PUSH_LAMBDA(update, redo);
+        PUSH_LAMBDA(update, undo);
+    }
+}
+
 bool EffectStackModel::copyEffect(std::shared_ptr<AbstractEffectItem> sourceItem, PlaylistState::ClipState state, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);

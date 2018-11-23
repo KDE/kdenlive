@@ -93,6 +93,12 @@ struct TimelineFunctions
     static void setCompositionATrack(std::shared_ptr<TimelineItemModel> timeline, int cid, int aTrack);
     static void enableMultitrackView(std::shared_ptr<TimelineItemModel> timeline, bool enable);
     static void saveTimelineSelection(std::shared_ptr<TimelineItemModel> timeline, QList <int> selection, QDir targetDir);
+    /** @brief returns the number of same type tracks between 2 tracks
+     */
+    static int getTrackOffset(std::shared_ptr<TimelineItemModel> timeline, int startTrack, int destTrack);
+    /** @brief returns an offset track id
+     */
+    static int getOffsetTrackId(std::shared_ptr<TimelineItemModel> timeline, int startTrack, int offset, bool audioOffset);
 };
 
 #endif

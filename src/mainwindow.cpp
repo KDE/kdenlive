@@ -480,7 +480,6 @@ void MainWindow::init()
     connect(m_transitionsMenu, &QMenu::triggered, this, &MainWindow::slotAddTransition);
 
     m_timelineContextMenu = new QMenu(this);
-    m_timelineContextTransitionMenu = new QMenu(this);
 
     m_timelineContextMenu->addAction(actionCollection()->action(QStringLiteral("insert_space")));
     m_timelineContextMenu->addAction(actionCollection()->action(QStringLiteral("delete_space")));
@@ -493,11 +492,6 @@ void MainWindow::init()
     m_timelineClipActions->addSeparator();
     m_timelineClipActions->addMenu(m_transitionsMenu);
     m_timelineClipActions->addMenu(m_effectsMenu);*/
-
-    m_timelineContextTransitionMenu->addAction(actionCollection()->action(QStringLiteral("delete_timeline_clip")));
-    m_timelineContextTransitionMenu->addAction(actionCollection()->action(KStandardAction::name(KStandardAction::Copy)));
-
-    m_timelineContextTransitionMenu->addAction(actionCollection()->action(QStringLiteral("auto_transition")));
 
     slotConnectMonitors();
 

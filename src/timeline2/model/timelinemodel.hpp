@@ -319,6 +319,7 @@ public:
     /* @brief Retuns the Id of the corresponding audio track. If trackId corresponds to video1, this will return audio 1 and so on */
     int getMirrorAudioTrackId(int trackId) const;
     int getMirrorVideoTrackId(int trackId) const;
+    int getMirrorTrackId(int trackId) const;
 
     /* @brief Move a clip to a specific position
        This action is undoable

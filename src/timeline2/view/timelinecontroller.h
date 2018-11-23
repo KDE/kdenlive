@@ -473,6 +473,7 @@ private:
     void initializePreview();
     // Get a list of currently selected items, including clips grouped with selection
     std::unordered_set<int> getCurrentSelectionIds() const;
+    QDomDocument m_copiedItems;
 
 signals:
     void selected(Mlt::Producer *producer);

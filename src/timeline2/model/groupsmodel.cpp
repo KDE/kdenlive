@@ -725,6 +725,16 @@ const QString GroupsModel::toJson() const
     return QString(json.toJson());
 }
 
+const QString GroupsModel::toJson(std::unordered_set<int> roots) const
+{
+    QJsonArray list;
+    for (int r : roots) {
+        if (getType(r) != GroupType::Selection) list.push_back(toJson(r));
+    }
+    QJsonDocument json(list);
+    return QString(json.toJson());
+}
+
 int GroupsModel::fromJson(const QJsonObject &o, Fun &undo, Fun &redo)
 {
     if (!o.contains(QLatin1String("type"))) {
@@ -797,6 +807,61 @@ bool GroupsModel::fromJson(const QString &data)
             return false;
         }
         ok = ok && fromJson(elem.toObject(), undo, redo);
+    }
+    return ok;
+}
+
+bool GroupsModel::fromJsonWithOffset(const QString &data, QMap<int, int> trackMap, int offset)
+{
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    auto json = QJsonDocument::fromJson(data.toUtf8());
+    if (!json.isArray()) {
+        qDebug() << "Error : Json file should be an array";
+        return false;
+    }
+    auto list = json.array();
+    bool ok = true;
+    qDebug()<<"* * *READY TO LOAD JSON DATA";
+    for (auto elem : list) {
+        qDebug()<<"* * *LOADING GROUP + + + + + + ++  + + +";
+        if (!elem.isObject()) {
+            qDebug() << "Error : Expected json object while parsing groups";
+            undo();
+            return false;
+        }
+        QJsonObject obj = elem.toObject();
+        auto value = obj.value(QLatin1String("children"));
+        if (!value.isArray()) {
+            qDebug() << "Error : Expected json array of children while parsing groups";
+            continue;
+        }
+        QJsonArray updatedNodes;
+        auto children = value.toArray();
+        std::unordered_set<int> ids;
+        for (auto c : children) {
+            if (!c.isObject()) {
+                continue;
+            }
+            QJsonObject child = c.toObject();
+            if (child.contains(QLatin1String("data"))) {
+            if (auto ptr = m_parent.lock()) {
+                QString data = child.value(QLatin1String("data")).toString();
+                int trackId = ptr->getTrackIndexFromPosition(data.section(":", 0, 0).toInt());
+                int pos = data.section(":", 1, 1).toInt();
+                qDebug()<<"// ORIGINAL GROUP DATA: "<<trackId<<" / "<<pos;
+                trackId = ptr->getTrackMltIndex(trackMap.value(trackId)) - 1;
+                pos += offset;
+                child.insert(QLatin1String("data"), QJsonValue(QString("%1:%2").arg(trackId).arg(pos)));
+                qDebug()<<"// UPDATING GROUP DATA: "<<trackId<<" / "<<pos;
+            }
+            updatedNodes.append(QJsonValue(child));
+            }
+        }
+        qDebug()<<"* ** * UPDATED JSON NODES: "<<updatedNodes;
+        obj.insert(QLatin1String("children"), QJsonValue(updatedNodes));
+        qDebug()<<"* ** * UPDATED JSON NODES: "<<obj;
+        ok = ok && fromJson(obj, undo, redo);
     }
     return ok;
 }

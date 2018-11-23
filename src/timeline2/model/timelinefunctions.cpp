@@ -872,3 +872,46 @@ void TimelineFunctions::saveTimelineSelection(std::shared_ptr<TimelineItemModel>
     xmlConsumer.connect(newTractor);
     xmlConsumer.run();
 }
+
+int TimelineFunctions::getTrackOffset(std::shared_ptr<TimelineItemModel> timeline, int startTrack, int destTrack)
+{
+    qDebug()<<"+++++++\nGET TRACK OFFSET: "<<startTrack<<" - "<<destTrack;
+    int masterTrackMltIndex = timeline->getTrackMltIndex(startTrack);
+    int destTrackMltIndex = timeline->getTrackMltIndex(destTrack);
+    int offset = 0;
+    qDebug()<<"+++++++\nGET TRACK MLT: "<<masterTrackMltIndex<<" - "<<destTrackMltIndex;
+    if (masterTrackMltIndex == destTrackMltIndex) {
+        return offset;
+    }
+    int step = masterTrackMltIndex > destTrackMltIndex ? - 1 : 1;
+    bool isAudio = timeline->isAudioTrack(startTrack);
+    int track = masterTrackMltIndex;
+    while (track != destTrackMltIndex) {
+        track += step;
+        qDebug()<<"+ + +TRSTING TRACK: "<<track;
+        int trackId = timeline->getTrackIndexFromPosition(track - 1);
+        if (isAudio == timeline->isAudioTrack(trackId)) {
+            offset ++;
+        }
+    }
+    return offset;
+}
+
+int TimelineFunctions::getOffsetTrackId(std::shared_ptr<TimelineItemModel> timeline, int startTrack, int offset, bool audioOffset)
+{
+    int masterTrackMltIndex = timeline->getTrackMltIndex(startTrack);
+    bool isAudio = timeline->isAudioTrack(startTrack);
+    if (isAudio != audioOffset) {
+        offset = -offset;
+    }
+    qDebug()<<"* ** * MASTER INDEX: "<<masterTrackMltIndex<<", OFFSET: "<<offset;
+    while (offset != 0) {
+        masterTrackMltIndex += offset > 0 ? 1 : -1;
+        qDebug()<<"#### TESTING TRACK: "<<masterTrackMltIndex;
+        int trackId = timeline->getTrackIndexFromPosition(masterTrackMltIndex - 1);
+        if (timeline->isAudioTrack(trackId) == isAudio) {
+            offset += offset > 0 ? -1 : 1;
+        }
+    }
+    return timeline->getTrackIndexFromPosition(masterTrackMltIndex -1);
+}
