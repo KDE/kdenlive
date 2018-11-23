@@ -290,7 +290,6 @@ void TimelineController::setSelection(const QList<int> &newSelection, int trackI
 {
     qDebug() << "Changing selection to" << newSelection << " trackIndex" << trackIndex << "isMultitrack" << isMultitrack;
     if (newSelection != selection() || trackIndex != m_selection.selectedTrack || isMultitrack != m_selection.isMultitrackSelected) {
-        std::unordered_set<int> previousSelection = getCurrentSelectionIds();
         m_selection.selectedItems = newSelection;
         m_selection.selectedTrack = trackIndex;
         m_selection.isMultitrackSelected = isMultitrack;
