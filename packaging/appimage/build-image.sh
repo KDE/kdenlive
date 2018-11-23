@@ -5,12 +5,8 @@ set -e
 set -x
 
 # Read in our parameters
-#export BUILD_PREFIX=$1
-#export KDENLIVE_SOURCES=$2
-export BUILD_PREFIX=/build
-export KDENLIVE_SOURCES=/kdenlive
-export DEPS_INSTALL_PREFIX=/external
-export PKG_CONFIG_PATH=/build/deps/usr/lib/pkgconfig 
+export BUILD_PREFIX=$1
+export KDENLIVE_SOURCES=$2
 
 # Save some frequently referenced locations in variables for ease of use / updating
 export APPDIR=$BUILD_PREFIX/kdenlive.appdir
@@ -130,7 +126,7 @@ chmod +x $APPDIR/AppRun
 
 # Step 5: Find out what version of Kdenlive we built and give the Appimage a proper name
 cd $BUILD_PREFIX/kdenlive-build
-KDENLIVE_VERSION=$(grep "Kdenlive VERSION" CMakeLists.txt | cut -d '"' -f 2)
+KDENLIVE_VERSION=$(grep "KDENLIVE_VERSION" config-kdenlive.h | cut -d '"' -f 2)
 
 # Also find out the revision of Git we built
 # Then use that to generate a combined name we'll distribute
