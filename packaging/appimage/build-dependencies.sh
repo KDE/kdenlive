@@ -118,3 +118,11 @@ cmake --build . --target ext_pango
 cmake --build . --target ext_gdkpixbuf
 cmake --build . --target ext_gtk+
 cmake --build . --target ext_mlt
+
+cmake --build . --target ext_kbookmarks
+cmake --build . --target ext_kxmlgui
+cmake --build . --target ext_kconfigwidgets
+cmake --build . --target ext_knotifyconfig
+cmake --build . --target ext_knewstuff
+cmake --build . --target ext_kdeclarative
+cmake --build . --target ext_kcrash

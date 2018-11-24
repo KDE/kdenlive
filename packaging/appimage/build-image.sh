@@ -56,7 +56,7 @@ cp -r $DEPS_INSTALL_PREFIX/lib/mlt  $APPDIR/usr/lib
 cp -r $DEPS_INSTALL_PREFIX/bin/melt  $APPDIR/usr/bin
 
 cp $(ldconfig -p | grep libGL.so.1 | cut -d ">" -f 2 | xargs) $APPDIR/usr/lib/
-cp $(ldconfig -p | grep libGLU.so.1 | cut -d ">" -f 2 | xargs) $APPDIR/usr/lib/
+#cp $(ldconfig -p | grep libGLU.so.1 | cut -d ">" -f 2 | xargs) $APPDIR/usr/lib/
 
 # Step 2: Relocate x64 binaries from the architecture specific directory as required for Appimages
 #mv $APPDIR/usr/lib/x86_64-linux-gnu/*  $APPDIR/usr/lib

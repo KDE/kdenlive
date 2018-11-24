@@ -17,6 +17,11 @@ export LANG=en_us.UTF-8
 export DEPS_INSTALL_PREFIX=$BUILD_PREFIX/deps/usr/
 export DOWNLOADS_DIR=$BUILD_PREFIX/downloads/
 
+# Use newer gcc
+export CC=/usr/bin/gcc-6
+export CXX=/usr/bin/g++-6
+
+
 # Setup variables needed to help everything find what we build
 export LD_LIBRARY_PATH=$DEPS_INSTALL_PREFIX/lib:$DEPS_INSTALL_PREFIX/openssl/lib:$LD_LIBRARY_PATH
 export PATH=$DEPS_INSTALL_PREFIX/bin:$DEPS_INSTALL_PREFIX/openssl/bin:$PATH
