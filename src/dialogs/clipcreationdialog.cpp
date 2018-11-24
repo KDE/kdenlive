@@ -382,13 +382,14 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QString &par
         KWindowConfig::restoreWindowSize(handle, conf->group("FileDialogSize"));
         dlg->resize(handle->size());
     }
-    if (dlg->exec() == QDialog::Accepted) {
+    int result = dlg->exec();
+    if (result == QDialog::Accepted) {
         KdenliveSettings::setAutoimagesequence(b->isChecked());
         list = fileWidget->selectedUrls();
         if (!list.isEmpty()) {
             KRecentDirs::add(QStringLiteral(":KdenliveClipFolder"), list.constFirst().adjusted(QUrl::RemoveFilename).toLocalFile());
         }
-        if (b->isChecked() && list.count() >= 1) {
+        if (KdenliveSettings::autoimagesequence() && list.count() >= 1) {
             // Check for image sequence
             const QUrl &url = list.at(0);
             QString fileName = url.fileName().section(QLatin1Char('.'), 0, -2);
@@ -402,7 +403,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QString &par
                     int count = patternlist.count();
                     if (count > 1) {
                         // get image sequence base name
-                        while (fileName.at(fileName.size() - 1).isDigit()) {
+                        while (fileName.size() > 0 && fileName.at(fileName.size() - 1).isDigit()) {
                             fileName.chop(1);
                         }
                         QString duration = doc->timecode().reformatSeparators(KdenliveSettings::sequence_duration());
