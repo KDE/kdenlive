@@ -56,12 +56,21 @@ cp -r $DEPS_INSTALL_PREFIX/lib/mlt  $APPDIR/usr/lib
 cp -r $DEPS_INSTALL_PREFIX/bin/melt  $APPDIR/usr/bin
 cp -r $DEPS_INSTALL_PREFIX/plugins/kf5  $APPDIR/usr/plugins
 
+mkdir -p $APPDIR/usr/libexec
+
+cp -r $DEPS_INSTALL_PREFIX/lib/x86_64-linux-gnu/libexec/kf5/*  $APPDIR/usr/libexec/
+
 cp $(ldconfig -p | grep libGL.so.1 | cut -d ">" -f 2 | xargs) $APPDIR/usr/lib/
 #cp $(ldconfig -p | grep libGLU.so.1 | cut -d ">" -f 2 | xargs) $APPDIR/usr/lib/
 
+rm $APPDIR/usr/lib/libGL.so.1
+
 # Step 2: Relocate x64 binaries from the architecture specific directory as required for Appimages
-#mv $APPDIR/usr/lib/x86_64-linux-gnu/*  $APPDIR/usr/lib
-#rm -rf $APPDIR/usr/lib/x86_64-linux-gnu/
+
+if [ -d $APPDIR/usr/lib/x86_64-linux-gnu/ ] ; then
+    mv $APPDIR/usr/lib/x86_64-linux-gnu/*  $APPDIR/usr/lib
+    rm -rf $APPDIR/usr/lib/x86_64-linux-gnu/
+fi
 
 # Step 3: Update the rpath in the various plugins we have to make sure they'll be loadable in an Appimage context
 #for lib in $PLUGINS/*.so*; do
@@ -90,7 +99,7 @@ linuxdeployqt $APPDIR/usr/share/applications/org.kde.kdenlive.desktop \
   -verbose=2 \
   -bundle-non-qt-libs \
   -extra-plugins=$APPDIR/usr/lib/mlt,$APPDIR/usr/plugins \
-  -exclude-libs=libnss3.so,libnssutil3.so
+  -exclude-libs=libnss3.so,libnssutil3.so,libGL.so.1
 
 #  -appimage \
 
