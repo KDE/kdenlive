@@ -83,7 +83,7 @@ cmake --build . --target ext_png
 
   # cmake --build . --target ext_jpeg #this causes build failures in Qt 5.10
 
-cmake --build . --target ext_qt
+cmake --build . --target ext_qt2
 cmake --build . --target ext_boost
 cmake --build . --target ext_gpgme
 cmake --build . --target ext_frameworks
@@ -119,6 +119,7 @@ cmake --build . --target ext_harfbuzz
 cmake --build . --target ext_pango
 cmake --build . --target ext_gdkpixbuf
 cmake --build . --target ext_gtk+
+cmake --build . --target ext_frei0r
 cmake --build . --target ext_mlt
 
 cmake --build . --target ext_kbookmarks
