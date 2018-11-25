@@ -893,10 +893,14 @@ void DocumentChecker::fixProxyClip(const QString &id, const QString &oldUrl, con
     QDomNodeList properties;
     for (int i = 0; i < producers.count(); ++i) {
         e = producers.item(i).toElement();
-        QString sourceId = e.attribute(QStringLiteral("id"));
-        QString parentId = sourceId.section(QLatin1Char('_'), 0, 0);
-        if (parentId.startsWith(QLatin1String("slowmotion"))) {
-            parentId = parentId.section(QLatin1Char(':'), 1, 1);
+        QString parentId = Xml::getXmlProperty(e, QStringLiteral("kdenlive:id"));
+        if (parentId.isEmpty()) {
+            // This is probably an old project file
+            QString sourceId = e.attribute(QStringLiteral("id"));
+            parentId = sourceId.section(QLatin1Char('_'), 0, 0);
+            if (parentId.startsWith(QLatin1String("slowmotion"))) {
+                parentId = parentId.section(QLatin1Char(':'), 1, 1);
+            }
         }
         if (parentId == id) {
             // Fix clip
@@ -908,7 +912,7 @@ void DocumentChecker::fixProxyClip(const QString &id, const QString &oldUrl, con
             if (resource == oldUrl) {
                 Xml::setXmlProperty(e, QStringLiteral("resource"), newUrl);
             }
-            if (sourceId == id) {
+            if (!Xml::getXmlProperty(e, QStringLiteral("kdenlive:proxy")).isEmpty()) {
                 // Only set originalurl on master producer
                 Xml::setXmlProperty(e, QStringLiteral("kdenlive:proxy"), newUrl);
             }
@@ -925,10 +929,14 @@ void DocumentChecker::fixSourceClipItem(QTreeWidgetItem *child, const QDomNodeLi
         QString id = child->data(0, idRole).toString();
         for (int i = 0; i < producers.count(); ++i) {
             e = producers.item(i).toElement();
-            QString sourceId = e.attribute(QStringLiteral("id"));
-            QString parentId = sourceId.section(QLatin1Char('_'), 0, 0);
-            if (parentId.startsWith(QLatin1String("slowmotion"))) {
-                parentId = parentId.section(QLatin1Char(':'), 1, 1);
+            QString parentId = Xml::getXmlProperty(e, QStringLiteral("kdenlive:id"));
+            if (parentId.isEmpty()) {
+                // This is probably an old project file
+                QString sourceId = e.attribute(QStringLiteral("id"));
+                parentId = sourceId.section(QLatin1Char('_'), 0, 0);
+                if (parentId.startsWith(QLatin1String("slowmotion"))) {
+                    parentId = parentId.section(QLatin1Char(':'), 1, 1);
+                }
             }
             if (parentId == id) {
                 // Fix clip
@@ -937,7 +945,7 @@ void DocumentChecker::fixSourceClipItem(QTreeWidgetItem *child, const QDomNodeLi
                 if (resource.contains(QRegExp(QStringLiteral("\\?[0-9]+\\.[0-9]+(&amp;strobe=[0-9]+)?$")))) {
                     fixedResource.append(QLatin1Char('?') + resource.section(QLatin1Char('?'), -1));
                 }
-                if (sourceId == id) {
+                if (!Xml::getXmlProperty(e, QStringLiteral("kdenlive:originalurl")).isEmpty()) {
                     // Only set originalurl on master producer
                     Xml::setXmlProperty(e, QStringLiteral("kdenlive:originalurl"), fixedResource);
                 }
@@ -962,7 +970,16 @@ void DocumentChecker::fixClipItem(QTreeWidgetItem *child, const QDomNodeList &pr
             // edit images embedded in titles
             for (int i = 0; i < producers.count(); ++i) {
                 e = producers.item(i).toElement();
-                if (e.attribute(QStringLiteral("id")).section(QLatin1Char('_'), 0, 0) == id) {
+                QString parentId = Xml::getXmlProperty(e, QStringLiteral("kdenlive:id"));
+                if (parentId.isEmpty()) {
+                    // This is probably an old project file
+                    QString sourceId = e.attribute(QStringLiteral("id"));
+                    parentId = sourceId.section(QLatin1Char('_'), 0, 0);
+                    if (parentId.startsWith(QLatin1String("slowmotion"))) {
+                        parentId = parentId.section(QLatin1Char(':'), 1, 1);
+                    }
+                }
+                if (parentId == id) {
                     // Fix clip
                     properties = e.childNodes();
                     for (int j = 0; j < properties.count(); ++j) {
