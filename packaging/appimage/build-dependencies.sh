@@ -18,7 +18,9 @@ set -x
 #	libjack-dev autopoint language-pack-en-base
 
 #apt-get -y install libpixman-1-dev docbook-xml docbook-xsl libattr1-dev
-apt-get -y install liblist-moreutils-perl libtool libpixman-1-dev
+
+# Extra dependencies for KDE AppImage Base
+#apt-get -y install liblist-moreutils-perl libtool libpixman-1-dev
 
 # Read in our parameters
 export BUILD_PREFIX=$1
