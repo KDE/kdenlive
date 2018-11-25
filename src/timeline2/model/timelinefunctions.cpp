@@ -858,7 +858,7 @@ void TimelineFunctions::saveTimelineSelection(std::shared_ptr<TimelineItemModel>
                     int target_track = clip_loc.first;
                     int target_clip = clip_loc.second;
                     QSharedPointer<Mlt::Producer> clip = track->getClipProducer(target_clip);
-                    newTrackPlaylist->insert_at(clip_position - offset, clip.data());
+                    newTrackPlaylist->insert_at(clip_position - offset, clip.data(), 1);
                 } else {
                     // Composition
                     // TODO
