@@ -128,4 +128,5 @@ cmake --build . --target ext_kconfigwidgets
 cmake --build . --target ext_knotifyconfig
 cmake --build . --target ext_knewstuff
 cmake --build . --target ext_kdeclarative
+cmake --build . --target ext_breezeicons
 cmake --build . --target ext_kcrash

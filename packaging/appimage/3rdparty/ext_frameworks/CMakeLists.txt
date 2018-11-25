@@ -387,3 +387,12 @@ ExternalProject_Add(
   CMAKE_ARGS ${CMAKE_GLOBAL_PROFILE}
   DEPENDS ext_kitemviews
 )
+
+ExternalProject_Add(
+  ext_breezeicons
+  DOWNLOAD_DIR ${EXT_DOWNLOAD_DIR}
+  URL http://download.kde.org/stable/frameworks/5.51/breeze-icons-5.51.0.zip
+  URL_MD5 a926d8fdb4847509b5855c55d1f75acf
+  CMAKE_ARGS ${CMAKE_GLOBAL_PROFILE}
+  DEPENDS ext_kxmlgui
+)

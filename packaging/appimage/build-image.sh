@@ -53,7 +53,10 @@ cp -r $DEPS_INSTALL_PREFIX/translations $APPDIR/usr/
 cp -r $DEPS_INSTALL_PREFIX/openssl/lib/*  $APPDIR/usr/lib
 cp -r $DEPS_INSTALL_PREFIX/share/mlt  $APPDIR/usr/share
 cp -r $DEPS_INSTALL_PREFIX/lib/mlt  $APPDIR/usr/lib
+cp -r $DEPS_INSTALL_PREFIX/lib/frei0r-1  $APPDIR/usr/lib
 cp -r $DEPS_INSTALL_PREFIX/bin/melt  $APPDIR/usr/bin
+cp -r $DEPS_INSTALL_PREFIX/bin/ffmpeg  $APPDIR/usr/bin
+cp -r $DEPS_INSTALL_PREFIX/bin/ffplay  $APPDIR/usr/bin
 cp -r $DEPS_INSTALL_PREFIX/plugins/kf5  $APPDIR/usr/plugins
 
 mkdir -p $APPDIR/usr/libexec
@@ -91,6 +94,8 @@ fi
 # mv $PLUGINS/* $APPIMAGEPLUGINS
 
 # Step 5: Build the image!!!
+linuxdeployqt $APPDIR/usr/bin/ffmpeg
+linuxdeployqt $APPDIR/usr/bin/ffplay
 linuxdeployqt $APPDIR/usr/bin/melt
 
 linuxdeployqt $APPDIR/usr/share/applications/org.kde.kdenlive.desktop \
