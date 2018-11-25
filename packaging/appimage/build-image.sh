@@ -54,6 +54,7 @@ cp -r $DEPS_INSTALL_PREFIX/openssl/lib/*  $APPDIR/usr/lib
 cp -r $DEPS_INSTALL_PREFIX/share/mlt  $APPDIR/usr/share
 cp -r $DEPS_INSTALL_PREFIX/lib/mlt  $APPDIR/usr/lib
 cp -r $DEPS_INSTALL_PREFIX/bin/melt  $APPDIR/usr/bin
+cp -r $DEPS_INSTALL_PREFIX/plugins/kf5  $APPDIR/usr/plugins
 
 cp $(ldconfig -p | grep libGL.so.1 | cut -d ">" -f 2 | xargs) $APPDIR/usr/lib/
 #cp $(ldconfig -p | grep libGLU.so.1 | cut -d ">" -f 2 | xargs) $APPDIR/usr/lib/
@@ -88,7 +89,7 @@ linuxdeployqt $APPDIR/usr/share/applications/org.kde.kdenlive.desktop \
   -qmldir=$DEPS_INSTALL_PREFIX/qml \
   -verbose=2 \
   -bundle-non-qt-libs \
-  -extra-plugins=$APPDIR/usr/lib/mlt \
+  -extra-plugins=$APPDIR/usr/lib/mlt,$APPDIR/usr/plugins \
   -exclude-libs=libnss3.so,libnssutil3.so
 
 #  -appimage \

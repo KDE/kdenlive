@@ -13,8 +13,16 @@ export KDENLIVE_SOURCES=$2
 export LC_ALL=en_US.UTF-8
 export LANG=en_us.UTF-8
 
+export APPDIR=$BUILD_PREFIX/kdenlive.appdir
+export PLUGINS=$APPDIR/usr/lib/plugins/
+export APPIMAGEPLUGINS=$APPDIR/usr/plugins/
+
+mkdir -p $APPDIR
+mkdir -p $APPDIR/usr/share/kdenlive
+mkdir -p $APPDIR/usr/lib
+
 # We want to use $prefix/deps/usr/ for all our dependencies
-export DEPS_INSTALL_PREFIX=$BUILD_PREFIX/deps/usr/
+export DEPS_INSTALL_PREFIX=$BUILD_PREFIX/kdenlive.appdir/usr/
 export DOWNLOADS_DIR=$BUILD_PREFIX/downloads/
 
 # Use newer gcc
@@ -33,18 +41,30 @@ if [ ! -d $BUILD_PREFIX/kdenlive-build/ ] ; then
     mkdir -p $BUILD_PREFIX/kdenlive-build/
 fi
 
+# When using git master to build refactoring_timeline:
+
+# Switch to our build directory as we're basically ready to start building...
+cd $BUILD_PREFIX/deps-build/
+
+mkdir -p $BUILD_PREFIX/kdenlive.appdir/usr
+
+# Configure the dependencies for building
+cmake $KDENLIVE_SOURCES/packaging/appimage/3rdparty -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_PREFIX -DEXT_INSTALL_DIR=$DEPS_INSTALL_PREFIX -DEXT_DOWNLOAD_DIR=$DOWNLOADS_DIR
+
+cmake --build . --target ext_kdenlive
+
 # Now switch to it
-cd $BUILD_PREFIX/kdenlive-build/
+#cd $BUILD_PREFIX/kdenlive-build/
 
 # Determine how many CPUs we have
-CPU_COUNT=`grep processor /proc/cpuinfo | wc -l`
+#CPU_COUNT=`grep processor /proc/cpuinfo | wc -l`
 
 # Configure Kdenlive
-cmake $KDENLIVE_SOURCES \
-    -DCMAKE_INSTALL_PREFIX:PATH=$BUILD_PREFIX/kdenlive.appdir/usr \
-    -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-    -DBUILD_TESTING=FALSE \
-    -DBUILD_TESTS=FALSE
+#cmake $KDENLIVE_SOURCES \
+#    -DCMAKE_INSTALL_PREFIX:PATH=$BUILD_PREFIX/kdenlive.appdir/usr \
+#    -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+#    -DBUILD_TESTING=FALSE \
+#    -DBUILD_TESTS=FALSE
 
 # Build and Install Kdenlive (ready for the next phase)
-make -j$CPU_COUNT install
+#make -j$CPU_COUNT install
