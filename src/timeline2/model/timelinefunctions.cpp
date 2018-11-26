@@ -820,12 +820,14 @@ void TimelineFunctions::saveTimelineSelection(std::shared_ptr<TimelineItemModel>
     int ix = 0;
     QString composite = TransitionsRepository::get()->getCompositingTransition();
     QMapIterator<int, int> i(sourceTracks);
+    QList<Mlt::Transition *> compositions;
     while (i.hasNext()) {
         i.next();
         QScopedPointer<Mlt::Playlist> newTrackPlaylist(new Mlt::Playlist(*newTractor.profile()));
         newTractor.set_track(*newTrackPlaylist, ix);
         //QScopedPointer<Mlt::Producer> trackProducer(newTractor.track(ix));
         int trackId = i.value();
+        sourceTracks.insert(timeline->getTrackMltIndex(trackId), ix);
         std::shared_ptr<TrackModel> track = timeline->getTrackById_const(trackId);
         bool isAudio = track->isAudioTrack();
         if (isAudio) {
@@ -839,6 +841,59 @@ void TimelineFunctions::saveTimelineSelection(std::shared_ptr<TimelineItemModel>
                 lowerVideoTrack = ix;
             }
         }
+        for (int itemId : selection) {
+            if (timeline->getItemTrackId(itemId) == trackId) {
+                // Copy clip on the destination track
+                if (timeline->isClip(itemId)) {
+                    int clip_position = timeline->m_allClips[itemId]->getPosition();
+                    auto clip_loc = track->getClipIndexAt(clip_position);
+                    int target_clip = clip_loc.second;
+                    QSharedPointer<Mlt::Producer> clip = track->getClipProducer(target_clip);
+                    newTrackPlaylist->insert_at(clip_position - offset, clip.data(), 1);
+                } else if (timeline->isComposition(itemId)) {
+                    // Composition
+                    Mlt::Transition *t = new Mlt::Transition(*timeline->m_allCompositions[itemId].get());
+                    QString id(t->get("kdenlive_id"));
+                    QString internal(t->get("internal_added"));
+                    if (internal.isEmpty()) {
+                        compositions << t;
+                        if (id.isEmpty()) {
+                            qDebug() << "// Warning, this should not happen, transition without id: " << t->get("id") << " = " << t->get("mlt_service");
+                            t->set("kdenlive_id", t->get("mlt_service"));
+                        }
+                    }
+                }
+            }
+        }
+        ix++;
+    }
+    // Sort compositions and insert
+    if (!compositions.isEmpty()) {
+        std::sort(compositions.begin(), compositions.end(), [](Mlt::Transition *a, Mlt::Transition *b) { return a->get_b_track() < b->get_b_track(); });
+        while (!compositions.isEmpty()) {
+            QScopedPointer<Mlt::Transition> t(compositions.takeFirst());
+            if (sourceTracks.contains(t->get_a_track()) && sourceTracks.contains(t->get_b_track())) {
+                Mlt::Transition newComposition(*newTractor.profile(), t->get("mlt_service"));
+                Mlt::Properties sourceProps(t->get_properties());
+                newComposition.inherit(sourceProps);
+                QString id(t->get("kdenlive_id"));
+                int in = qMax(0, t->get_in() - offset);
+                int out = t->get_out() - offset;
+                newComposition.set_in_and_out(in, out);
+                int a_track = sourceTracks.value(t->get_a_track());
+                int b_track = sourceTracks.value(t->get_b_track());
+                field->plant_transition(newComposition, a_track, b_track);
+            }
+        }
+    }
+    // Track compositing
+    i.toFront();
+    ix = 0;
+    while (i.hasNext()) {
+        i.next();
+        int trackId = i.value();
+        std::shared_ptr<TrackModel> track = timeline->getTrackById_const(trackId);
+        bool isAudio = track->isAudioTrack();
         if ((isAudio && ix > lowerAudioTrack) || (!isAudio && ix > lowerVideoTrack)) {
             // add track compositing / mix
             Mlt::Transition t(*newTractor.profile(), isAudio ? "mix" : composite.toUtf8().constData());
@@ -848,22 +903,6 @@ void TimelineFunctions::saveTimelineSelection(std::shared_ptr<TimelineItemModel>
             t.set("always_active", 1);
             t.set("internal_added", 237);
             field->plant_transition(t, isAudio ? lowerAudioTrack : lowerVideoTrack, ix);
-        }
-        for (int itemId : selection) {
-            if (timeline->getItemTrackId(itemId) == trackId) {
-                // Copy clip on the destination track
-                if (timeline->isClip(itemId)) {
-                    int clip_position = timeline->m_allClips[itemId]->getPosition();
-                    auto clip_loc = track->getClipIndexAt(clip_position);
-                    int target_track = clip_loc.first;
-                    int target_clip = clip_loc.second;
-                    QSharedPointer<Mlt::Producer> clip = track->getClipProducer(target_clip);
-                    newTrackPlaylist->insert_at(clip_position - offset, clip.data(), 1);
-                } else {
-                    // Composition
-                    // TODO
-                }
-            }
         }
         ix++;
     }

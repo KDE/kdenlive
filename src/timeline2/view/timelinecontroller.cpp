@@ -91,8 +91,8 @@ void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
 
 void TimelineController::setTargetTracks(QPair<int, int> targets)
 {
-    setVideoTarget(targets.first >= 0 ? m_model->getTrackIndexFromPosition(targets.first) : -1);
-    setAudioTarget(targets.second >= 0 ? m_model->getTrackIndexFromPosition(targets.second) : -1);
+    setVideoTarget(targets.first >= 0 && targets.first < m_model->getTracksCount() ? m_model->getTrackIndexFromPosition(targets.first) : -1);
+    setAudioTarget(targets.second >= 0 && targets.second < m_model->getTracksCount() ? m_model->getTrackIndexFromPosition(targets.second) : -1);
 }
 
 std::shared_ptr<TimelineItemModel> TimelineController::getModel() const
