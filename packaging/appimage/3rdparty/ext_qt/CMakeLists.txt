@@ -28,5 +28,5 @@ ExternalProject_Add(
 
   BUILD_COMMAND $(MAKE)
   INSTALL_COMMAND $(MAKE) install
-  DEPENDS ext_qt
+  DEPENDS ext_xslt ext_mysql ext_sqlite ext_postgresql ext_pcre2
 )
