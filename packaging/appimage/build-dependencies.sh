@@ -97,7 +97,7 @@ cmake --build . --target ext_sdl2
 cmake --build . --target ext_fftw3
 
 # ladspa expects fft3w.pc pkgconfig files
-cp $DEPS_INSTALL_PREFIX/lib/pkgconfig/fftwf.pc /build/deps/usr/lib/pkgconfig/fftw3f.pc
+cp $DEPS_INSTALL_PREFIX/lib/pkgconfig/fftwf.pc $DEPS_INSTALL_PREFIX/lib/pkgconfig/fftw3f.pc
 
 cmake --build . --target ext_ladspa
 
