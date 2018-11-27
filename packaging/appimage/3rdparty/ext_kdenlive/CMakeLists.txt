@@ -9,5 +9,4 @@ ExternalProject_Add(
     -DBUILD_TESTING=FALSE
     -DBUILD_TESTS=FALSE
 
-  DEPENDS ext_mlt
 )

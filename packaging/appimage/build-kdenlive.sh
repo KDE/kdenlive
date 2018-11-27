@@ -44,6 +44,7 @@ fi
 # When using git master to build refactoring_timeline:
 
 # Switch to our build directory as we're basically ready to start building...
+mkdir -p $BUILD_PREFIX/deps-build/
 cd $BUILD_PREFIX/deps-build/
 
 mkdir -p $BUILD_PREFIX/kdenlive.appdir/usr
