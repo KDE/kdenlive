@@ -48,8 +48,17 @@ fi
 # Step 1: Copy over all the resources provided by dependencies that we need
 cp -r $DEPS_INSTALL_PREFIX/share/locale $APPDIR/usr/share/kdenlive
 cp -r $DEPS_INSTALL_PREFIX/share/kf5 $APPDIR/usr/share
-cp -r $DEPS_INSTALL_PREFIX/share/color-schemes $APPDIR/usr/share
 cp -r $DEPS_INSTALL_PREFIX/share/mime $APPDIR/usr/share
+
+if [ -d $DEPS_INSTALL_PREFIX/share/color-schemes ] ; then
+    cp -r $DEPS_INSTALL_PREFIX/share/color-schemes $APPDIR/usr/share
+fi
+
+if [ -d $DEPS_INSTALL_PREFIX/share/icons/breeze ] ; then
+    cp -r $DEPS_INSTALL_PREFIX/share/icons/breeze $APPDIR/usr/share/icons
+    cp -r $DEPS_INSTALL_PREFIX/share/icons/breeze-dark $APPDIR/usr/share/icons
+fi
+
 cp -r $DEPS_INSTALL_PREFIX/translations $APPDIR/usr/
 cp -r $DEPS_INSTALL_PREFIX/openssl/lib/*  $APPDIR/usr/lib
 cp -r $DEPS_INSTALL_PREFIX/share/mlt  $APPDIR/usr/share
@@ -69,6 +78,7 @@ cp $(ldconfig -p | grep libGL.so.1 | cut -d ">" -f 2 | xargs) $APPDIR/usr/lib/
 #cp $(ldconfig -p | grep libGLU.so.1 | cut -d ">" -f 2 | xargs) $APPDIR/usr/lib/
 
 rm $APPDIR/usr/lib/libGL.so.1
+rm $APPDIR/usr/lib/libxcb*
 
 # Step 2: Relocate x64 binaries from the architecture specific directory as required for Appimages
 
