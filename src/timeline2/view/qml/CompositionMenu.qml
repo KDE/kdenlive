@@ -36,7 +36,10 @@ Menu {
         MenuItem {
             visible: true
             text: i18n('Copy')
-            onTriggered: root.copiedClip = clipId
+            onTriggered: {
+                root.copiedClip = clipId
+                timeline.copyItem()
+            }
         }
         MenuItem {
             text: i18n('Remove')

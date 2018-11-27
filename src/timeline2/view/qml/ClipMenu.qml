@@ -21,7 +21,10 @@ Menu {
 
         MenuItem {
             text: i18n('Copy')
-            onTriggered: root.copiedClip = clipId
+            onTriggered: {
+                root.copiedClip = clipId
+                timeline.copyItem()
+            }
         }
         MenuItem {
             visible: canBeGrouped

@@ -158,7 +158,7 @@ public:
      */
     Q_INVOKABLE bool ungroupClips(int clipId);
     Q_INVOKABLE void copyItem();
-    Q_INVOKABLE bool pasteItem(int clipId = -1, int tid = -1, int position = -1);
+    Q_INVOKABLE bool pasteItem();
     /* @brief Request inserting a new composition in timeline (dragged from compositions list)
        @param tid is the destination track
        @param position is the timeline position

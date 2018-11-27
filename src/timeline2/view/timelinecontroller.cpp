@@ -550,19 +550,10 @@ void TimelineController::copyItem()
     m_root->setProperty("copiedClip", clipId);
 }
 
-bool TimelineController::pasteItem(int clipId, int tid, int position)
+bool TimelineController::pasteItem()
 {
-    // TODO: copy multiple clips / groups
-    if (clipId == -1) {
-        clipId = m_root->property("copiedClip").toInt();
-        if (clipId == -1) {
-            return -1;
-        }
-    }
-    if (tid == -1 && position == -1) {
-        tid = getMouseTrack();
-        position = getMousePos();
-    }
+    int tid = getMouseTrack();
+    int position = getMousePos();
     if (tid == -1) {
         tid = m_activeTrack;
     }
@@ -658,8 +649,6 @@ bool TimelineController::pasteItem(int clipId, int tid, int position)
     m_model->m_groups->fromJsonWithOffset(groupsData, tracksMap, position - offset);
     pCore->pushUndo(undo, redo, i18n("Paste clips"));
     return true;
-    //return TimelineFunctions::requestItemCopy(m_model, clipId, tid, position);
-    return false;
 }
 
 void TimelineController::triggerAction(const QString &name)
