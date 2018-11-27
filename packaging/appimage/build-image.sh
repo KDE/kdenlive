@@ -48,6 +48,7 @@ fi
 # Step 1: Copy over all the resources provided by dependencies that we need
 cp -r $DEPS_INSTALL_PREFIX/share/locale $APPDIR/usr/share/kdenlive
 cp -r $DEPS_INSTALL_PREFIX/share/kf5 $APPDIR/usr/share
+cp -r $DEPS_INSTALL_PREFIX/share/color-schemes $APPDIR/usr/share
 cp -r $DEPS_INSTALL_PREFIX/share/mime $APPDIR/usr/share
 cp -r $DEPS_INSTALL_PREFIX/translations $APPDIR/usr/
 cp -r $DEPS_INSTALL_PREFIX/openssl/lib/*  $APPDIR/usr/lib
@@ -57,6 +58,7 @@ cp -r $DEPS_INSTALL_PREFIX/lib/frei0r-1  $APPDIR/usr/lib
 cp -r $DEPS_INSTALL_PREFIX/bin/melt  $APPDIR/usr/bin
 cp -r $DEPS_INSTALL_PREFIX/bin/ffmpeg  $APPDIR/usr/bin
 cp -r $DEPS_INSTALL_PREFIX/bin/ffplay  $APPDIR/usr/bin
+cp -r $DEPS_INSTALL_PREFIX/bin/ffprobe  $APPDIR/usr/bin
 cp -r $DEPS_INSTALL_PREFIX/plugins/kf5  $APPDIR/usr/plugins
 
 mkdir -p $APPDIR/usr/libexec
@@ -96,6 +98,7 @@ fi
 # Step 5: Build the image!!!
 linuxdeployqt $APPDIR/usr/bin/ffmpeg
 linuxdeployqt $APPDIR/usr/bin/ffplay
+linuxdeployqt $APPDIR/usr/bin/ffprobe
 linuxdeployqt $APPDIR/usr/bin/melt
 
 linuxdeployqt $APPDIR/usr/share/applications/org.kde.kdenlive.desktop \

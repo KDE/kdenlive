@@ -95,9 +95,11 @@ cmake --build . --target ext_alsa
 cmake --build . --target ext_sdl2
 
 cmake --build . --target ext_fftw3
+cmake --build . --target ext_fftw3f
 
 # ladspa expects fft3w.pc pkgconfig files
 cp $DEPS_INSTALL_PREFIX/lib/pkgconfig/fftwf.pc $DEPS_INSTALL_PREFIX/lib/pkgconfig/fftw3f.pc
+cp $DEPS_INSTALL_PREFIX/lib/pkgconfig/fftw.pc $DEPS_INSTALL_PREFIX/lib/pkgconfig/fftw3.pc
 
 cmake --build . --target ext_ladspa
 
@@ -130,3 +132,4 @@ cmake --build . --target ext_knewstuff
 cmake --build . --target ext_kdeclarative
 cmake --build . --target ext_breezeicons
 cmake --build . --target ext_kcrash
+cmake --build . --target ext_breeze
