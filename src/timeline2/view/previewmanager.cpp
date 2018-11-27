@@ -512,12 +512,14 @@ void PreviewManager::doPreviewRender(const QString &scene)
             }
         }
         cons.set("an", 1);
+        cons.connect(*src);
         connection = QObject::connect(this, &PreviewManager::abortPreview, [this, &cons]() {
             cons.purge();
-            cons.stop();
+            if (!cons.is_stopped()) {
+                cons.stop();
+            }
             m_abortPreview = true;
         });
-        cons.connect(*src);
         cons.run();
         QObject::disconnect( connection );
         if (m_abortPreview) {
