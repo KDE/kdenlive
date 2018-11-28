@@ -41,6 +41,11 @@ if [ ! -d $BUILD_PREFIX/kdenlive-build/ ] ; then
     mkdir -p $BUILD_PREFIX/kdenlive-build/
 fi
 
+# Make sure our downloads directory exists
+if [ ! -d $DOWNLOADS_DIR ] ; then
+    mkdir -p $DOWNLOADS_DIR
+fi
+
 # When using git master to build refactoring_timeline:
 
 # Switch to our build directory as we're basically ready to start building...
