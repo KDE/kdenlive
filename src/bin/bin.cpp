@@ -32,6 +32,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "effects/effectstack/model/effectstackmodel.hpp"
 #include "jobs/jobmanager.h"
 #include "jobs/loadjob.hpp"
+#include "jobs/thumbjob.hpp"
+#include "jobs/audiothumbjob.hpp"
 #include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
@@ -2900,8 +2902,11 @@ void Bin::reloadAllProducers()
         if (!xml.isNull()) {
             clip->setClipStatus(AbstractProjectItem::StatusWaiting);
             clip->discardAudioThumb();
+            pCore->jobManager()->slotDiscardClipJobs(clip->clipId());
             // We need to set a temporary id before all outdated producers are replaced;
-            pCore->jobManager()->startJob<LoadJob>({clip->AbstractProjectItem::clipId()}, -1, QString(), xml);
+            int jobId = pCore->jobManager()->startJob<LoadJob>({clip->clipId()}, -1, QString(), xml);
+            pCore->jobManager()->startJob<ThumbJob>({clip->clipId()}, jobId, QString(), 150, -1, true, true);
+            pCore->jobManager()->startJob<AudioThumbJob>({clip->clipId()}, jobId, QString());
         }
     }
 }
