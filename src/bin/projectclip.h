@@ -214,6 +214,8 @@ public:
                                                                                      PlaylistState::ClipState state);
 
     std::shared_ptr<Mlt::Producer> cloneProducer(Mlt::Profile *destProfile = nullptr);
+    static std::shared_ptr<Mlt::Producer> cloneProducer(std::shared_ptr<Mlt::Producer> producer);
+    std::shared_ptr<Mlt::Producer> softClone(const char *list);
     void updateTimelineClips(QVector<int> roles);
 
 protected:

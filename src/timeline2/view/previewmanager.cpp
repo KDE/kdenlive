@@ -37,7 +37,7 @@ PreviewManager::PreviewManager(TimelineController *controller, Mlt::Tractor *tra
     , m_tractor(tractor)
     , m_previewTrack(nullptr)
     , m_overlayTrack(nullptr)
-    , m_previewProfile(new Mlt::Profile(*m_tractor->profile()))
+    , m_previewProfile(new Mlt::Profile())
     , m_previewTrackIndex(-1)
     , m_initialized(false)
     , m_abortPreview(false)
@@ -45,10 +45,13 @@ PreviewManager::PreviewManager(TimelineController *controller, Mlt::Tractor *tra
     m_previewGatherTimer.setSingleShot(true);
     m_previewGatherTimer.setInterval(200);
     // Scaling doesn't seem to improve speed, needs more testing
-    /*m_previewProfile->set_width(1024);
-    int height = 1024 / m_previewProfile->dar();
+    double dar = m_tractor->profile()->dar();
+    m_previewProfile->set_width(1024);
+    int height = 1024 / dar;
     height -= height % 4;
-    m_previewProfile->set_height(height);*/
+    m_previewProfile->set_height(height);
+    m_previewProfile->set_frame_rate(m_tractor->profile()->frame_rate_num(), m_tractor->profile()->frame_rate_den());
+    m_previewProfile->set_colorspace(m_tractor->profile()->colorspace());
     m_previewProfile->set_explicit(1);
 }
 
@@ -66,7 +69,9 @@ PreviewManager::~PreviewManager()
             }
         }
     }
+    delete m_overlayTrack;
     delete m_previewTrack;
+    //m_previewProfile.reset();
 }
 
 bool PreviewManager::initialize()

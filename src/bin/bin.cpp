@@ -779,7 +779,6 @@ QDockWidget *Bin::clipPropertiesDock()
 void Bin::abortOperations()
 {
     blockSignals(true);
-    abortAudioThumbs();
     if (m_propertiesPanel) {
         for (QWidget *w : m_propertiesPanel->findChildren<ClipPropertiesController *>()) {
             delete w;
@@ -788,62 +787,6 @@ void Bin::abortOperations()
     delete m_itemView;
     m_itemView = nullptr;
     blockSignals(false);
-}
-
-void Bin::abortAudioThumbs()
-{
-    // TODO refac
-    /*
-    if (!m_audioThumbsThread.isRunning()) {
-        return;
-    }
-    if (!m_processingAudioThumb.isEmpty()) {
-        std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(m_processingAudioThumb);
-        if (clip) {
-            clip->abortAudioThumbs();
-        }
-    }
-    m_audioThumbMutex.lock();
-    for (const QString &id : m_audioThumbsList) {
-        std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(id);
-        if (clip) {
-            clip->setJobStatus(AbstractClipJob::THUMBJOB, JobDone, 0);
-        }
-    }
-    m_audioThumbsList.clear();
-    m_audioThumbMutex.unlock();
-    m_audioThumbsThread.waitForFinished();
-    */
-}
-
-void Bin::slotCreateAudioThumbs()
-{
-    // TODO refac
-    /*
-    int max = m_audioThumbsList.count();
-    int count = 0;
-    m_processedAudio = 0;
-    while (!m_audioThumbsList.isEmpty()) {
-        m_audioThumbMutex.lock();
-        max = qMax(max, m_audioThumbsList.count());
-        m_processingAudioThumb = m_audioThumbsList.takeFirst();
-        count++;
-        m_audioThumbMutex.unlock();
-        std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(m_processingAudioThumb);
-        if (clip) {
-            clip->slotCreateAudioThumbs();
-            m_processedAudio += (int)clip->duration().ms();
-        } else {
-            qDebug() << "// Trying to create audio thumbs for unknown clip: " << m_processingAudioThumb;
-        }
-    }
-    m_audioThumbMutex.lock();
-    m_processingAudioThumb.clear();
-    m_processedAudio = 0;
-    m_audioDuration = 0;
-    m_audioThumbMutex.unlock();
-    emitMessage(i18n("Audio thumbnails done"), 100, OperationCompletedMessage);
-    */
 }
 
 bool Bin::eventFilter(QObject *obj, QEvent *event)

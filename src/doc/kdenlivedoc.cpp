@@ -24,6 +24,7 @@
 #include "bin/clipcreator.hpp"
 #include "bin/model/markerlistmodel.hpp"
 #include "bin/projectclip.h"
+#include "bin/projectitemmodel.h"
 #include "core.h"
 #include "effects/effectsrepository.hpp"
 #include "dialogs/profilesdialog.h"
@@ -33,7 +34,6 @@
 #include "jobs/jobmanager.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
-#include "mltcontroller/bincontroller.h"
 #include "mltcontroller/clipcontroller.h"
 #include "profiles/profilemodel.hpp"
 #include "profiles/profilerepository.hpp"
@@ -643,23 +643,25 @@ void KdenliveDoc::setProjectFolder(const QUrl &url)
 void KdenliveDoc::moveProjectData(const QString & /*src*/, const QString &dest)
 {
     // Move proxies
-    QList<std::shared_ptr<ClipController>> list = pCore->binController()->getControllerList();
+
     QList<QUrl> cacheUrls;
-    for (int i = 0; i < list.count(); ++i) {
-        const std::shared_ptr<ClipController> &clip = list.at(i);
-        if (clip->clipType() == ClipType::Text) {
+    auto binClips = pCore->projectItemModel()->getAllClipIds();
+    // First step: all clips referenced by the bin model exist and are inserted
+    for (const auto &binClip : binClips) {
+        auto projClip = pCore->projectItemModel()->getClipByBinID(binClip);
+        if (projClip->clipType() == ClipType::Text) {
             // the image for title clip must be moved
-            QUrl oldUrl = QUrl::fromLocalFile(clip->clipUrl());
+            QUrl oldUrl = QUrl::fromLocalFile(projClip->clipUrl());
             if (!oldUrl.isEmpty()) {
                 QUrl newUrl = QUrl::fromLocalFile(dest + QStringLiteral("/titles/") + oldUrl.fileName());
                 KIO::Job *job = KIO::copy(oldUrl, newUrl);
                 if (job->exec()) {
-                    clip->setProducerProperty(QStringLiteral("resource"), newUrl.toLocalFile());
+                    projClip->setProducerProperty(QStringLiteral("resource"), newUrl.toLocalFile());
                 }
             }
             continue;
         }
-        QString proxy = clip->getProducerProperty(QStringLiteral("kdenlive:proxy"));
+        QString proxy = projClip->getProducerProperty(QStringLiteral("kdenlive:proxy"));
         if (proxy.length() > 2 && QFile::exists(proxy)) {
             QUrl pUrl = QUrl::fromLocalFile(proxy);
             if (!cacheUrls.contains(pUrl)) {
@@ -1180,7 +1182,7 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy, QList<std::shared_ptr<Proje
              t == ClipType::SlideShow) &&
             item->isReady()) {
             if ((doProxy && !force && item->hasProxy()) ||
-                (!doProxy && !item->hasProxy() && pCore->binController()->hasClip(item->AbstractProjectItem::clipId()))) {
+                (!doProxy && !item->hasProxy() && pCore->projectItemModel()->hasClip(item->AbstractProjectItem::clipId()))) {
                 continue;
             }
 
@@ -1199,7 +1201,7 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy, QList<std::shared_ptr<Proje
                     // Revert to picture aspect ratio
                     newProps.insert(QStringLiteral("aspect_ratio"), QStringLiteral("1"));
                 }
-                if (!pCore->binController()->hasClip(item->AbstractProjectItem::clipId())) {
+                if (!pCore->projectItemModel()->hasClip(item->AbstractProjectItem::clipId())) {
                     // Force clip reload
                     newProps.insert(QStringLiteral("resource"), item->url());
                 }
@@ -1302,7 +1304,6 @@ void KdenliveDoc::loadDocumentProperties()
 
 void KdenliveDoc::updateProjectProfile(bool reloadProducers)
 {
-    pCore->bin()->abortAudioThumbs();
     pCore->jobManager()->slotCancelJobs();
     double fps = pCore->getCurrentFps();
     double fpsChanged = m_timecode.fps() / fps;

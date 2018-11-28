@@ -19,7 +19,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "library/librarywidget.h"
 #include "mainwindow.h"
 #include "mltconnection.h"
-#include "mltcontroller/bincontroller.h"
+#include "mltcontroller/clipcontroller.h"
 #include "monitor/monitormanager.h"
 #include "profiles/profilemodel.hpp"
 #include "profiles/profilerepository.hpp"
@@ -61,9 +61,6 @@ Core::~Core()
 {
     if (m_monitorManager) {
         delete m_monitorManager;
-    }
-    if (m_binController) {
-        m_binController->destroyBin();
     }
     // delete m_binWidget;
     if (m_projectManager) {
@@ -163,17 +160,9 @@ void Core::initGUI(const QUrl &Url)
 
     m_projectManager = new ProjectManager(this);
     m_binWidget = new Bin(m_projectItemModel);
-    m_binController = std::make_shared<BinController>();
     m_library = new LibraryWidget(m_projectManager);
     connect(m_library, SIGNAL(addProjectClips(QList<QUrl>)), m_binWidget, SLOT(droppedUrls(QList<QUrl>)));
     connect(this, &Core::updateLibraryPath, m_library, &LibraryWidget::slotUpdateLibraryPath);
-    connect(m_binWidget, &Bin::storeFolder, m_binController.get(), &BinController::slotStoreFolder);
-    // connect(m_binController.get(), &BinController::slotProducerReady, m_binWidget, &Bin::slotProducerReady, Qt::DirectConnection);
-    // connect(m_binController.get(), &BinController::prepareTimelineReplacement, m_binWidget, &Bin::prepareTimelineReplacement, Qt::DirectConnection);
-
-    // connect(m_binController.get(), &BinController::requestAudioThumb, m_binWidget, &Bin::slotCreateAudioThumb);
-    connect(m_binController.get(), &BinController::abortAudioThumbs, m_binWidget, &Bin::abortAudioThumbs);
-    connect(m_binController.get(), &BinController::setDocumentNotes, m_projectManager, &ProjectManager::setDocumentNotes);
     m_monitorManager = new MonitorManager(this);
     // Producer queue, creating MLT::Producers on request
     /*
@@ -228,11 +217,6 @@ Monitor *Core::getMonitor(int id)
         return m_monitorManager->clipMonitor();
     }
     return m_monitorManager->projectMonitor();
-}
-
-std::shared_ptr<BinController> Core::binController()
-{
-    return m_binController;
 }
 
 Bin *Core::bin()

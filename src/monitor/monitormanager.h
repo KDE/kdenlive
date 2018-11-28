@@ -26,7 +26,6 @@
 #include <QDir>
 
 class KdenliveDoc;
-class BinController;
 class KDualAction;
 
 namespace Mlt {
@@ -61,7 +60,6 @@ public:
     void setDocument(KdenliveDoc *doc);
     /** @brief Change an MLT consumer property for both monitors. */
     void setConsumerProperty(const QString &name, const QString &value);
-    BinController *binController();
     /** @brief Return a mainwindow action from its id name. */
     QAction *getAction(const QString &name);
     Monitor *clipMonitor();

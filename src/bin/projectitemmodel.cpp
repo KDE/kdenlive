@@ -714,6 +714,20 @@ std::vector<QString> ProjectItemModel::getAllClipIds() const
     return result;
 }
 
+QStringList ProjectItemModel::getClipByUrl(const QFileInfo &url) const
+{
+    QStringList result;
+    for (const auto &clip : m_allItems) {
+        auto c = std::static_pointer_cast<AbstractProjectItem>(clip.second.lock());
+        if (c->itemType() == AbstractProjectItem::ClipItem) {
+            if (QFileInfo(std::static_pointer_cast<ProjectClip>(c)->clipUrl()) == url) {
+                result << c->clipId();
+            }
+        }
+    }
+    return result;
+}
+
 bool ProjectItemModel::loadFolders(Mlt::Properties &folders)
 {
     // At this point, we expect the folders properties to have a name of the form "x.y" where x is the id of the parent folder and y the id of the child.

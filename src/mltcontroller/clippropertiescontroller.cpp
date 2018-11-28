@@ -21,7 +21,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "clippropertiescontroller.h"
 #include "bin/model/markerlistmodel.hpp"
-#include "bincontroller.h"
 #include "clipcontroller.h"
 #include "core.h"
 #include "dialogs/profilesdialog.h"

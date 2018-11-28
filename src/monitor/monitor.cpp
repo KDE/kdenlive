@@ -28,8 +28,6 @@
 #include "kdenlivesettings.h"
 #include "lib/audio/audioStreamInfo.h"
 #include "mainwindow.h"
-#include "mltcontroller/bincontroller.h"
-#include "mltcontroller/clip.h"
 #include "mltcontroller/clipcontroller.h"
 #include "project/projectmanager.h"
 #include "qmlmanager.h"
@@ -361,6 +359,8 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
 
 Monitor::~Monitor()
 {
+    delete m_splitEffect;
+    delete m_splitProducer;
     delete m_audioMeterWidget;
     delete m_glMonitor;
     delete m_videoWidget;
@@ -1822,6 +1822,7 @@ void Monitor::slotSwitchCompare(bool enable)
     if (enable) {
         if (m_qmlManager->sceneType() == MonitorSceneSplit) {
             // Split scene is already active
+            qDebug()<<" . . . .. ALREADY ACTIVE";
             return;
         }
         buildSplitEffect(m_controller->masterProducer());
@@ -1838,7 +1839,6 @@ void Monitor::slotSwitchCompare(bool enable)
 
 void Monitor::buildSplitEffect(Mlt::Producer *original)
 {
-    qDebug() << "// BUILDING SPLIT EFFECT!!!";
     m_splitEffect = new Mlt::Filter(*profile(), "frei0r.alphagrad");
     if ((m_splitEffect != nullptr) && m_splitEffect->is_valid()) {
         m_splitEffect->set("0", 0.5);    // 0 is the Clip left parameter
@@ -1857,17 +1857,28 @@ void Monitor::buildSplitEffect(Mlt::Producer *original)
         return;
     }
     Mlt::Tractor trac(*profile());
-    // TODO: remove usage of Clip class
-    Clip clp(*original);
-    Mlt::Producer *clone = clp.clone();
-    Clip clp2(*clone);
-    clp2.deleteEffects();
+    std::shared_ptr<Mlt::Producer> clone = ProjectClip::cloneProducer(std::make_shared<Mlt::Producer>(original));
+    // Delete all effects
+    int ct = 0;
+    Mlt::Filter *filter = clone->filter(ct);
+    while (filter != nullptr) {
+        QString ix = QString::fromLatin1(filter->get("kdenlive_id"));
+        if (!ix.isEmpty()) {
+            if (clone->detach(*filter) == 0) {
+            } else {
+                ct++;
+            }
+        } else {
+            ct++;
+        }
+        delete filter;
+        filter = clone->filter(ct);
+    }
     trac.set_track(*original, 0);
-    trac.set_track(*clone, 1);
-    clone->attach(*m_splitEffect);
+    trac.set_track(*clone.get(), 1);
+    clone.get()->attach(*m_splitEffect);
     t.set("always_active", 1);
     trac.plant_transition(t, 0, 1);
-    delete clone;
     delete original;
     m_splitProducer = new Mlt::Producer(trac.get_producer());
     m_glMonitor->setProducer(m_splitProducer, isActive(), position());

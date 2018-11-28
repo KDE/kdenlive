@@ -22,7 +22,6 @@
 #include "core.h"
 #include "definitions.h"
 #include "mainwindow.h"
-#include "mltcontroller/bincontroller.h"
 #include "bin/binplaylist.hpp"
 #include "effects/effectsrepository.hpp"
 #include "transitions/transitionsrepository.hpp"

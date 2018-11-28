@@ -29,7 +29,6 @@
 #include "kdenlivesettings.h"
 #include "klocalizedstring.h"
 #include "macros.hpp"
-#include "mltcontroller/clip.h"
 #include "profiles/profilemodel.hpp"
 #include "project/dialogs/slideshowclip.h"
 #include "xml/xml.hpp"
@@ -420,7 +419,7 @@ void LoadJob::processMultiStream()
     // This helper lambda request addition of a given stream
     auto addStream = [ this, parentId = std::move(parent) ](int vindex, int aindex, Fun &undo, Fun &redo)
     {
-        auto clone = Clip::clone(m_producer);
+        auto clone = ProjectClip::cloneProducer(m_producer);
         clone->set("video_index", vindex);
         clone->set("audio_index", aindex);
         QString id;

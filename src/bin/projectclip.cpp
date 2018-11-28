@@ -32,7 +32,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "jobs/thumbjob.hpp"
 #include "kdenlivesettings.h"
 #include "lib/audio/audioStreamInfo.h"
-#include "mltcontroller/clip.h"
 #include "mltcontroller/clipcontroller.h"
 #include "mltcontroller/clippropertiescontroller.h"
 #include "model/markerlistmodel.hpp"
@@ -459,8 +458,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::thumbProducer()
     }
     if (KdenliveSettings::gpu_accel()) {
         // TODO: when the original producer changes, we must reload this thumb producer
-        Clip clip(*prod.get());
-        m_thumbsProducer = std::make_shared<Mlt::Producer>(clip.softClone(ClipController::getPassPropertiesList()));
+        m_thumbsProducer = softClone(ClipController::getPassPropertiesList());
         Mlt::Filter scaler(*prod->profile(), "swscale");
         Mlt::Filter converter(*prod->profile(), "avcolor_space");
         m_thumbsProducer->attach(scaler);
@@ -724,6 +722,44 @@ std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(Mlt::Profile *destProf
         prod->set("mlt_service", "avformat-novalidate");
     }
     return prod;
+}
+
+std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(std::shared_ptr<Mlt::Producer> producer)
+{
+    Mlt::Consumer c(*producer->profile(), "xml", "string");
+    Mlt::Service s(producer->get_service());
+    int ignore = s.get_int("ignore_points");
+    if (ignore) {
+        s.set("ignore_points", 0);
+    }
+    c.connect(s);
+    c.set("time_format", "frames");
+    c.set("no_meta", 1);
+    c.set("no_root", 1);
+    c.set("no_profile", 1);
+    c.set("root", "/");
+    c.set("store", "kdenlive");
+    c.start();
+    if (ignore) {
+        s.set("ignore_points", ignore);
+    }
+    const QByteArray clipXml = c.get("string");
+    std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(*producer->profile(), "xml-string", clipXml.constData()));
+    if (strcmp(prod->get("mlt_service"), "avformat") == 0) {
+        prod->set("mlt_service", "avformat-novalidate");
+    }
+    return prod;
+}
+
+std::shared_ptr<Mlt::Producer> ProjectClip::softClone(const char *list)
+{
+    QString service = QString::fromLatin1(m_masterProducer->get("mlt_service"));
+    QString resource = QString::fromLatin1(m_masterProducer->get("resource"));
+    std::shared_ptr<Mlt::Producer> clone(new Mlt::Producer(*m_masterProducer->profile(), service.toUtf8().constData(), resource.toUtf8().constData()));
+    Mlt::Properties original(m_masterProducer->get_properties());
+    Mlt::Properties cloneProps(clone->get_properties());
+    cloneProps.pass_list(original, list);
+    return clone;
 }
 
 bool ProjectClip::isReady() const

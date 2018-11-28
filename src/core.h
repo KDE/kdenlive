@@ -20,7 +20,6 @@ the Free Software Foundation, either version 3 of the License, or
 #include <memory>
 
 class Bin;
-class BinController;
 class DocUndoStack;
 class EffectStackModel;
 class JobManager;
@@ -88,8 +87,6 @@ public:
     KdenliveDoc *currentDoc();
     /** @brief Returns a pointer to the monitor manager. */
     MonitorManager *monitorManager();
-    /** @brief Returns a pointer to the project bin controller. */
-    std::shared_ptr<BinController> binController();
     /** @brief Returns a pointer to the view of the project bin. */
     Bin *bin();
     /** @brief Select a clip in the Bin from its id. */
@@ -185,7 +182,6 @@ private:
     MainWindow *m_mainWindow;
     ProjectManager *m_projectManager;
     MonitorManager *m_monitorManager;
-    std::shared_ptr<BinController> m_binController;
     std::shared_ptr<ProjectItemModel> m_projectItemModel;
     std::shared_ptr<JobManager> m_jobManager;
     Bin *m_binWidget;

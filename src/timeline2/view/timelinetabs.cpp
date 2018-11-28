@@ -90,4 +90,5 @@ void TimelineTabs::disconnectTimeline(TimelineWidget *timeline)
     disconnect(this, &TimelineTabs::changeZoom, timeline, &TimelineWidget::slotChangeZoom);
     disconnect(timeline->controller(), &TimelineController::showTransitionModel, this, &TimelineTabs::showTransitionModel);
     disconnect(timeline->controller(), &TimelineController::showItemEffectStack, this, &TimelineTabs::showItemEffectStack);
+    delete timeline;
 }

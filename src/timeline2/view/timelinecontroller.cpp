@@ -1232,13 +1232,13 @@ bool TimelineController::createSplitOverlay(Mlt::Filter *filter)
     std::shared_ptr<Mlt::Producer> binProd(binClip->masterProducer()->cut(clip->getIn(), clip->getOut()));
 
     // Get copy of timeline producer
-    Mlt::Producer *clipProducer = new Mlt::Producer(*clip);
+    std::shared_ptr<Mlt::Producer> clipProducer(new Mlt::Producer(*clip));
 
     // Built tractor and compositing
     Mlt::Tractor trac(*m_model->m_tractor->profile());
     Mlt::Playlist play(*m_model->m_tractor->profile());
     Mlt::Playlist play2(*m_model->m_tractor->profile());
-    play.append(*clipProducer);
+    play.append(*clipProducer.get());
     play2.append(*binProd);
     trac.set_track(play, 0);
     trac.set_track(play2, 1);

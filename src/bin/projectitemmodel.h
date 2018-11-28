@@ -30,6 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QDomElement>
 #include <QIcon>
 #include <QReadWriteLock>
+#include <QFileInfo>
 #include <QSize>
 
 class AbstractProjectItem;
@@ -65,6 +66,9 @@ public:
 
     /** @brief Returns a clip from the hierarchy, given its id */
     std::shared_ptr<ProjectClip> getClipByBinID(const QString &binId);
+
+    /** @brief Returns a list of clips using the given url */
+    QStringList getClipByUrl(const QFileInfo &url) const;
 
     /** @brief Helper to check whether a clip with a given id exists */
     bool hasClip(const QString &binId);

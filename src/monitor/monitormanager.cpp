@@ -22,7 +22,6 @@
 #include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
-#include "mltcontroller/bincontroller.h"
 
 
 #include <mlt++/Mlt.h>
@@ -363,12 +362,6 @@ QString MonitorManager::getProjectFolder() const
         return QString();
     }
     return m_document->projectDataFolder() + QDir::separator();
-}
-
-BinController *MonitorManager::binController()
-{
-    // REFACTORING TODO delete this function
-    return pCore->binController().get();
 }
 
 void MonitorManager::setupActions()

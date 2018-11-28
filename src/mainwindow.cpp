@@ -43,7 +43,6 @@
 #include "library/librarywidget.h"
 #include "mainwindowadaptor.h"
 #include "mltconnection.h"
-#include "mltcontroller/bincontroller.h"
 #include "mltcontroller/clipcontroller.h"
 #include "monitor/monitor.h"
 #include "monitor/monitormanager.h"
@@ -824,8 +823,8 @@ void MainWindow::slotConnectMonitors()
     // SLOT(slotDeleteProjectClips(QStringList,QMap<QString,QString>)));
     connect(m_clipMonitor, &Monitor::refreshClipThumbnail, pCore->bin(), &Bin::slotRefreshClipThumbnail);
     connect(m_projectMonitor, &Monitor::requestFrameForAnalysis, this, &MainWindow::slotMonitorRequestRenderFrame);
-    connect(m_projectMonitor, &Monitor::createSplitOverlay, this, &MainWindow::createSplitOverlay);
-    connect(m_projectMonitor, &Monitor::removeSplitOverlay, this, &MainWindow::removeSplitOverlay);
+    connect(m_projectMonitor, &Monitor::createSplitOverlay, this, &MainWindow::createSplitOverlay, Qt::DirectConnection);
+    connect(m_projectMonitor, &Monitor::removeSplitOverlay, this, &MainWindow::removeSplitOverlay, Qt::DirectConnection);
 }
 
 void MainWindow::createSplitOverlay(Mlt::Filter *filter)
@@ -1794,7 +1793,7 @@ void MainWindow::setRenderingFinished(const QString &url, int status, const QStr
 void MainWindow::addProjectClip(const QString &url)
 {
     if (pCore->currentDoc()) {
-        QStringList ids = pCore->binController()->getBinIdsByResource(QFileInfo(url));
+        QStringList ids = pCore->projectItemModel()->getClipByUrl(QFileInfo(url));
         if (!ids.isEmpty()) {
             // Clip is already in project bin, abort
             return;
@@ -1807,7 +1806,7 @@ void MainWindow::addProjectClip(const QString &url)
 void MainWindow::addTimelineClip(const QString &url)
 {
     if (pCore->currentDoc()) {
-        QStringList ids = pCore->binController()->getBinIdsByResource(QFileInfo(url));
+        QStringList ids = pCore->projectItemModel()->getClipByUrl(QFileInfo(url));
         if (!ids.isEmpty()) {
             pCore->selectBinClip(ids.constFirst());
             slotInsertClipInsert();

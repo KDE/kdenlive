@@ -302,7 +302,6 @@ private slots:
     void slotGotFocus();
     /** @brief Rename a Bin Item. */
     void slotRenameItem();
-    void slotCreateAudioThumbs();
     void doRefreshPanel(const QString &id);
     /** @brief Send audio thumb data to monitor for display. */
     void slotSendAudioThumb(const QString &id);
@@ -348,7 +347,6 @@ public slots:
      **/
     void slotGetCurrentProjectImage(const QString &clipId, bool request);
     void slotExpandUrl(const ItemInfo &info, const QString &url, QUndoCommand *command);
-    void abortAudioThumbs();
     /** @brief Abort all ongoing operations to prepare close. */
     void abortOperations();
     void doDisplayMessage(const QString &text, KMessageWidget::MessageType type, const QList<QAction *> &actions = QList<QAction *>());
