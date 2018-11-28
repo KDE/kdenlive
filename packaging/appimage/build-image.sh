@@ -83,7 +83,7 @@ rm $APPDIR/usr/lib/libxcb*
 # Step 2: Relocate x64 binaries from the architecture specific directory as required for Appimages
 
 if [ -d $APPDIR/usr/lib/x86_64-linux-gnu/ ] ; then
-    mv $APPDIR/usr/lib/x86_64-linux-gnu/*  $APPDIR/usr/lib
+    mv $APPDIR/usr/lib/x86_64-linux-gnu/plugins/*  $APPDIR/usr/lib/plugins
     rm -rf $APPDIR/usr/lib/x86_64-linux-gnu/
 fi
 
