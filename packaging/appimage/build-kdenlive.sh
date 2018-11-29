@@ -22,7 +22,7 @@ mkdir -p $APPDIR/usr/share/kdenlive
 mkdir -p $APPDIR/usr/lib
 
 # We want to use $prefix/deps/usr/ for all our dependencies
-export DEPS_INSTALL_PREFIX=$BUILD_PREFIX/kdenlive.appdir/usr/
+export DEPS_INSTALL_PREFIX=$BUILD_PREFIX/deps/usr/
 export DOWNLOADS_DIR=$BUILD_PREFIX/downloads/
 
 # Use newer gcc
@@ -55,7 +55,7 @@ cd $BUILD_PREFIX/deps-build/
 mkdir -p $BUILD_PREFIX/kdenlive.appdir/usr
 
 # Configure the dependencies for building
-cmake $KDENLIVE_SOURCES/packaging/appimage/3rdparty -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_PREFIX -DEXT_INSTALL_DIR=$DEPS_INSTALL_PREFIX -DEXT_DOWNLOAD_DIR=$DOWNLOADS_DIR
+cmake $KDENLIVE_SOURCES/packaging/appimage/3rdparty -DCMAKE_INSTALL_PREFIX=$BUILD_PREFIX/kdenlive.appdir/usr/ -DEXT_INSTALL_DIR=$DEPS_INSTALL_PREFIX -DEXT_DOWNLOAD_DIR=$DOWNLOADS_DIR
 
 cmake --build . --target ext_kdenlive
 
