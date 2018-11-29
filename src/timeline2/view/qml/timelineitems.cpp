@@ -101,9 +101,10 @@ public:
             // Draw merged channels
             QPainterPath path;
             path.moveTo(-1, height());
-            int i = 0;
+            double i = 0;
+            double increment = qMax(1., 1 / indicesPrPixel);
             int lastIdx = -1;
-            for (; i <= width(); ++i) {
+            for (; i <= width(); i += increment) {
                 int idx = m_inPoint + int(i * indicesPrPixel);
                 if (lastIdx == idx) {
                     continue;

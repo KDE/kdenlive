@@ -8,32 +8,33 @@ Row {
     id: waveform
     visible: clipStatus != ClipState.VideoOnly && parentTrack.isAudio && timeline.showAudioThumbnails  && !parentTrack.isMute
     opacity: clipStatus == ClipState.Disabled ? 0.2 : 1
-    property int maxWidth: 1000
+    property int maxWidth: 1500
     property int innerWidth: clipRoot.width - clipRoot.border.width * 2
     anchors.fill: parent
     property int scrollStart: scrollView.flickableItem.contentX - clipRoot.modelStart * timeline.scaleFactor
     property int scrollEnd: scrollStart + scrollView.viewport.width
+    property int scrollMin: scrollView.flickableItem.contentX / timeline.scaleFactor
+    property int scrollMax: scrollMin + scrollView.viewport.width / timeline.scaleFactor
 
     onScrollStartChanged: {
-        if (timeline.showAudioThumbnails) {
-            waveformRepeater.model = Math.ceil(waveform.innerWidth / waveform.maxWidth)
-            for (var i = 0; i < waveformRepeater.count; i++) {
-                if (!waveformRepeater.itemAt(i).showItem) {
-                    waveformRepeater.itemAt(i).update();
-                }
-            }
-        }
+        reload()
     }
 
     function reload() {
         // This is needed to make the model have the correct count.
         // Model as a property expression is not working in all cases.
-        if (timeline.showAudioThumbnails) {
+            if (!timeline.showAudioThumbnails || (waveform.scrollMin > clipRoot.modelStart + clipRoot.clipDuration) || (clipRoot.modelStart > waveform.scrollMax)) {
+                return;
+            }
+            //var t0 = new Date();
             waveformRepeater.model = Math.ceil(waveform.innerWidth / waveform.maxWidth)
-            for (var i = 0; i < waveformRepeater.count; i++) {
+            var firstWaveRepeater = Math.max(0, Math.floor((waveform.scrollMin - clipRoot.modelStart) / (waveform.maxWidth / timeline.scaleFactor)))
+            var lastWaveRepeater = Math.min(waveformRepeater.count - 1, firstWaveRepeater + Math.ceil((waveform.scrollMax - waveform.scrollMin) / (waveform.maxWidth / timeline.scaleFactor)))
+            for (var i = firstWaveRepeater; i <= lastWaveRepeater; i++) {
                 waveformRepeater.itemAt(i).update();
             }
-        }
+            /*var t1 = new Date();
+            console.log("Took: " + (t1.valueOf() - t0.valueOf()) + " millisecs for " + waveformRepeater.count + " iterations");*/
     }
 
     Repeater {
