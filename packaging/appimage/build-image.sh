@@ -78,11 +78,13 @@ cp $(ldconfig -p | grep libGL.so.1 | cut -d ">" -f 2 | xargs) $APPDIR/usr/lib/
 #cp $(ldconfig -p | grep libGLU.so.1 | cut -d ">" -f 2 | xargs) $APPDIR/usr/lib/
 
 rm $APPDIR/usr/lib/libGL.so.1
-rm $APPDIR/usr/lib/libxcb*
+
+# libxcb should be removed but does not seem present on binary-factory
+#rm $APPDIR/usr/lib/libxcb*
 
 # Step 2: Relocate x64 binaries from the architecture specific directory as required for Appimages
 
-if [ -d $APPDIR/usr/lib/x86_64-linux-gnu/ ] ; then
+if [ -d $APPDIR/usr/lib/x86_64-linux-gnu/plugins ] ; then
     mv $APPDIR/usr/lib/x86_64-linux-gnu/plugins/*  $APPDIR/usr/lib/plugins
     rm -rf $APPDIR/usr/lib/x86_64-linux-gnu/
 fi
