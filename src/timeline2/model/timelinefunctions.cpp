@@ -949,8 +949,10 @@ int TimelineFunctions::getOffsetTrackId(std::shared_ptr<TimelineItemModel> timel
         qDebug()<<"#### TESTING TRACK: "<<masterTrackMltIndex;
         if (masterTrackMltIndex < 0) {
             masterTrackMltIndex = 0;
+            break;
         } else if (masterTrackMltIndex > (int)timeline->m_allTracks.size() ) {
             masterTrackMltIndex = timeline->m_allTracks.size();
+            break;
         }
         int trackId = timeline->getTrackIndexFromPosition(masterTrackMltIndex - 1);
         if (timeline->isAudioTrack(trackId) == isAudio) {
