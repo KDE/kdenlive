@@ -296,8 +296,10 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             return clip->getPosition();
         case DurationRole:
             return clip->getPlaytime();
-        case GroupedRole:
-            return (m_groups->isInGroup(id) && !isInMultiSelection(id));
+        case GroupedRole: {
+            int parentId = m_groups->getDirectAncestor(id);
+            return parentId != -1 && parentId != m_temporarySelectionGroup;
+        }
         case EffectNamesRole:
             return clip->effectNames();
         case InPointRole:

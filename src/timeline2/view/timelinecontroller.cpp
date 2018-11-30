@@ -757,14 +757,14 @@ void TimelineController::unGroupSelection(int cid)
             }
         }
     }
-    if (cid > -1) {
-        if (m_model->m_groups->isInGroup(cid)) {
-            cid = m_model->m_groups->getRootId(cid);
-        }
-        m_model->requestClipUngroup(cid);
-    }
     if (m_model->m_temporarySelectionGroup >= 0) {
         m_model->requestClipUngroup(m_model->m_temporarySelectionGroup, false);
+    }
+    if (cid > -1) {
+        cid = m_model->m_groups->getDirectAncestor(cid);
+        if (cid > -1) {
+            m_model->requestClipUngroup(cid);
+        }
     }
     m_selection.selectedItems.clear();
     emit selectionChanged();
