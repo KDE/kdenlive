@@ -155,7 +155,7 @@ EOF
 chmod +x $APPDIR/AppRun
 
 # Step 5: Find out what version of Kdenlive we built and give the Appimage a proper name
-cd $BUILD_PREFIX/kdenlive-build
+cd $BUILD_PREFIX/deps-build/ext_kdenlive/ext_kdenlive-prefix/src/ext_kdenlive-build/
 KDENLIVE_VERSION=$(grep "KDENLIVE_VERSION" config-kdenlive.h | cut -d '"' -f 2)
 
 # Also find out the revision of Git we built
