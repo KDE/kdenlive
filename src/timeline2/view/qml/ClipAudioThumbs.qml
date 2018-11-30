@@ -42,9 +42,9 @@ Row {
         TimelineWaveform {
             width: Math.min(waveform.innerWidth, waveform.maxWidth)
             height: waveform.height
+            channels: clipRoot.audioChannels
             showItem: waveform.visible && (index * width) < waveform.scrollEnd && (index * width + width) > waveform.scrollStart
             format: timeline.audioThumbFormat
-            property int channels: 2
             inPoint: Math.round((clipRoot.inPoint + (index * waveform.maxWidth / clipRoot.timeScale)) * clipRoot.speed) * channels
             outPoint: inPoint + Math.round(width / clipRoot.timeScale * clipRoot.speed) * channels
             levels: clipRoot.audioLevels

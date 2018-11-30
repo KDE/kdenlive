@@ -39,6 +39,7 @@ Rectangle {
     property int outPoint: 0
     property int clipDuration: 0
     property bool isAudio: false
+    property int audioChannels
     property bool isComposition: false
     property bool showKeyframes: false
     property bool isGrabbed: false

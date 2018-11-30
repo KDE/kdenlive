@@ -59,6 +59,7 @@ class TimelineWaveform : public QQuickPaintedItem
     Q_PROPERTY(QVariant levels MEMBER m_audioLevels NOTIFY propertyChanged)
     Q_PROPERTY(QColor fillColor MEMBER m_color NOTIFY propertyChanged)
     Q_PROPERTY(int inPoint MEMBER m_inPoint NOTIFY inPointChanged)
+    Q_PROPERTY(int channels MEMBER m_channels NOTIFY audioChannelsChanged)
     Q_PROPERTY(int outPoint MEMBER m_outPoint NOTIFY outPointChanged)
     Q_PROPERTY(bool format MEMBER m_format NOTIFY propertyChanged)
     Q_PROPERTY(bool showItem MEMBER m_showItem)
@@ -111,25 +112,28 @@ public:
                 }
                 lastIdx = idx;
                 if (idx + 1 >= data.length()) break;
-                qreal level = qMax(data.at(idx).toReal(), data.at(idx + 1).toReal()) / 256;
+                double level = data.at(idx).toDouble() / 256;
+                for (int j = 1; j < m_channels; j++) {
+                    level = qMax(level, data.at(idx + j).toDouble() / 256);
+                }
                 path.lineTo(i, height() - level * height());
             }
             path.lineTo(i, height());
             painter->drawPath(path);
         } else {
             // Fill gradient
-            m_gradient.setFinalStop(0, height() / 4);
+            int channelHeight = height() / (2 * m_channels);
+            m_gradient.setFinalStop(0, channelHeight);
             painter->setBrush(m_gradient);
 
             // Draw separate channels
             QMap<int, QPainterPath> positiveChannelPaths;
             QMap<int, QPainterPath> negativeChannelPaths;
             // TODO: get channels count
-            int channels = 2;
             double i = 0;
             double increment = qMax(1., 1 / indicesPrPixel);
-            for (int channel = 0; channel < channels; channel++) {
-                int y = height() - (2 * channel + 1) * height() / 4;
+            for (int channel = 0; channel < m_channels; channel++) {
+                int y = height() - (2 * channel + 1) * channelHeight;
                 positiveChannelPaths[channel].moveTo(-1, y);
                 negativeChannelPaths[channel].moveTo(-1, y);
                 // Draw channel median line
@@ -143,12 +147,12 @@ public:
                     lastIdx = idx;
                     if (idx + channel >= data.length()) break;
                     qreal level = data.at(idx + channel).toReal() / 256;
-                    positiveChannelPaths[channel].lineTo(i, y - level * height() / 4);
-                    negativeChannelPaths[channel].lineTo(i, y + level * height() / 4);
+                    positiveChannelPaths[channel].lineTo(i, y - level * channelHeight);
+                    negativeChannelPaths[channel].lineTo(i, y + level * channelHeight);
                 }
             }
-            for (int channel = 0; channel < channels; channel++) {
-                int y = height() - (2 * channel + 1) * height() / 4;
+            for (int channel = 0; channel < m_channels; channel++) {
+                int y = height() - (2 * channel + 1) * channelHeight;
                 positiveChannelPaths[channel].lineTo(i, y);
                 negativeChannelPaths[channel].lineTo(i, y);
                 painter->drawPath(positiveChannelPaths.value(channel));
@@ -161,6 +165,7 @@ signals:
     void propertyChanged();
     void inPointChanged();
     void outPointChanged();
+    void audioChannelsChanged();
 
 private:
     QVariant m_audioLevels;
@@ -170,6 +175,7 @@ private:
     bool m_format;
     QLinearGradient m_gradient;
     bool m_showItem;
+    int m_channels;
 };
 
 void registerTimelineItems()

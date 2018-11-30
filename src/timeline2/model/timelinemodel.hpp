@@ -143,6 +143,7 @@ public:
         SortRole,
         ShowKeyframesRole,
         AudioLevelsRole,   /// clip only
+        AudioChannelsRole, /// clip only
         IsCompositeRole,   /// track only
         IsLockedRole,      /// track only
         HeightRole,        /// track only

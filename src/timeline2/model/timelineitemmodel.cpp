@@ -196,6 +196,7 @@ QHash<int, QByteArray> TimelineItemModel::roleNames() const
     roles[IsDisabledRole] = "disabled";
     roles[IsAudioRole] = "audio";
     roles[AudioLevelsRole] = "audioLevels";
+    roles[AudioChannelsRole] = "audioChannels";
     roles[IsCompositeRole] = "composite";
     roles[IsLockedRole] = "locked";
     roles[FadeInRole] = "fadeIn";
@@ -274,6 +275,8 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             break;
         case AudioLevelsRole:
             return clip->getAudioWaveform();
+        case AudioChannelsRole:
+            return clip->audioChannels();
         case HasAudio:
             return clip->audioEnabled();
         case IsAudioRole:

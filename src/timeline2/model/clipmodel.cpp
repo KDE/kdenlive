@@ -460,6 +460,12 @@ std::shared_ptr<MarkerListModel> ClipModel::getMarkerModel() const
     return pCore->projectItemModel()->getClipByBinID(m_binClipId)->getMarkerModel();
 }
 
+int ClipModel::audioChannels() const
+{
+    READ_LOCK();
+    return pCore->projectItemModel()->getClipByBinID(m_binClipId)->audioChannels();
+}
+
 int ClipModel::fadeIn() const
 {
     return m_effectStack->getFadePosition(true);

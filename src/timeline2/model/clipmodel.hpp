@@ -180,6 +180,9 @@ protected:
     /** @brief Returns the marker model associated with this clip */
     std::shared_ptr<MarkerListModel> getMarkerModel() const;
 
+    /** @brief Returns the number of audio channels for this clip */
+    int audioChannels() const;
+
     bool audioEnabled() const;
     bool isAudioOnly() const;
     double getSpeed() const;

@@ -225,6 +225,7 @@ Column{
                         item.canBeAudio = model.canBeAudio
                         item.canBeVideo = model.canBeVideo
                         item.clipType = model.clipType
+                        item.audioChannels = model.audioChannels
                         //item.binId= model.binId
                     } else {
                         console.log('loaded composition: ', model.start, ', ID: ', model.item, ', index: ', trackRoot.DelegateModel.itemsIndex)
