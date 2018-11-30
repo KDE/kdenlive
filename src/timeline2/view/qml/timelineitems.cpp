@@ -126,7 +126,8 @@ public:
             QMap<int, QPainterPath> negativeChannelPaths;
             // TODO: get channels count
             int channels = 2;
-            int i = 0;
+            double i = 0;
+            double increment = qMax(1., 1 / indicesPrPixel);
             for (int channel = 0; channel < channels; channel++) {
                 int y = height() - (2 * channel + 1) * height() / 4;
                 positiveChannelPaths[channel].moveTo(-1, y);
@@ -134,7 +135,7 @@ public:
                 // Draw channel median line
                 painter->drawLine(0, y, width(), y);
                 int lastIdx = -1;
-                for (i = 0; i <= width(); ++i) {
+                for (i = 0; i <= width(); i += increment) {
                     int idx = m_inPoint + int(i * indicesPrPixel);
                     if (lastIdx == idx) {
                         continue;
