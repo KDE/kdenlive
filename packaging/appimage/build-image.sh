@@ -77,11 +77,6 @@ cp -r $DEPS_INSTALL_PREFIX/lib/x86_64-linux-gnu/libexec/kf5/*  $APPDIR/usr/libex
 cp $(ldconfig -p | grep libGL.so.1 | cut -d ">" -f 2 | xargs) $APPDIR/usr/lib/
 #cp $(ldconfig -p | grep libGLU.so.1 | cut -d ">" -f 2 | xargs) $APPDIR/usr/lib/
 
-rm $APPDIR/usr/lib/libGL.so.1
-
-# libxcb should be removed but does not seem present on binary-factory
-#rm $APPDIR/usr/lib/libxcb*
-
 # Step 2: Relocate x64 binaries from the architecture specific directory as required for Appimages
 
 if [ -d $APPDIR/usr/lib/x86_64-linux-gnu/plugins ] ; then
@@ -122,6 +117,11 @@ linuxdeployqt $APPDIR/usr/share/applications/org.kde.kdenlive.desktop \
   -exclude-libs=libnss3.so,libnssutil3.so,libGL.so.1
 
 #  -appimage \
+
+rm $APPDIR/usr/lib/libGL.so.1
+
+# libxcb should be removed
+rm $APPDIR/usr/lib/libxcb*
 
 rm  $APPDIR/AppRun
 

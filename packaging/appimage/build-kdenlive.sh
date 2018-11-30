@@ -20,6 +20,7 @@ export APPIMAGEPLUGINS=$APPDIR/usr/plugins/
 mkdir -p $APPDIR
 mkdir -p $APPDIR/usr/share/kdenlive
 mkdir -p $APPDIR/usr/lib
+mkdir -p $APPDIR/usr/bin
 
 # We want to use $prefix/deps/usr/ for all our dependencies
 export DEPS_INSTALL_PREFIX=$BUILD_PREFIX/deps/usr/
@@ -55,7 +56,7 @@ cd $BUILD_PREFIX/deps-build/
 mkdir -p $BUILD_PREFIX/kdenlive.appdir/usr
 
 # Configure the dependencies for building
-cmake $KDENLIVE_SOURCES/packaging/appimage/3rdparty -DCMAKE_INSTALL_PREFIX=$BUILD_PREFIX/kdenlive.appdir/usr/ -DEXT_INSTALL_DIR=$DEPS_INSTALL_PREFIX -DEXT_DOWNLOAD_DIR=$DOWNLOADS_DIR
+cmake $KDENLIVE_SOURCES/packaging/appimage/3rdparty -DCMAKE_INSTALL_PREFIX=$BUILD_PREFIX/kdenlive.appdir/usr/ -DEXT_INSTALL_DIR=$DEPS_INSTALL_PREFIX -DEXT_DOWNLOAD_DIR=$DOWNLOADS_DIR -DKDENLIVE_INSTALL_DIR=$BUILD_PREFIX/kdenlive.appdir/usr/
 
 cmake --build . --target ext_kdenlive
 
