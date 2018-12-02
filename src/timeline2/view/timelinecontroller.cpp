@@ -763,11 +763,22 @@ void TimelineController::unGroupSelection(int cid)
             }
         }
     }
-    if (m_model->m_temporarySelectionGroup >= 0) {
+    int tmpGroup = m_model->m_temporarySelectionGroup;
+    if (tmpGroup >= 0) {
         m_model->requestClipUngroup(m_model->m_temporarySelectionGroup, false);
     }
     if (cid > -1) {
-        cid = m_model->m_groups->getDirectAncestor(cid);
+        if (cid != tmpGroup) {
+            cid = m_model->m_groups->getDirectAncestor(cid);
+        } else {
+            cid = -1;
+            for (int id : m_selection.selectedItems) {
+                if (m_model->m_groups->getRootId(id)) {
+                    cid = id;
+                    break;
+                }
+            }
+        }
         if (cid > -1) {
             m_model->requestClipUngroup(cid);
         }
