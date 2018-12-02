@@ -1718,30 +1718,14 @@ void GLWidget::switchPlay(bool play, double speed)
         if (m_id == Kdenlive::ClipMonitor && m_consumer->position() == m_producer->get_out()) {
             m_producer->seek(0);
         }
-        if (m_consumer->get_int("real_time") != realTime()) {
-            m_consumer->set("real_time", realTime());
-            m_consumer->set("buffer", 25);
-            m_consumer->set("prefill", 1);
-            // Changes to real_time require a consumer restart if running.
-            if (!m_consumer->is_stopped()) {
-                m_consumer->stop();
-            }
-        }
-        if (qFuzzyIsNull(currentSpeed)) {
-            m_consumer->start();
-            m_consumer->set("refresh", 1);
-        } else {
-            m_consumer->purge();
-        }
         m_producer->set_speed(speed);
+        m_consumer->start();
+        m_consumer->set("refresh", 1);
     } else {
-        m_consumer->set("refresh", 0);
-        m_producer->set_speed(0.0);
-        m_consumer->set("real_time", -1);
-        m_consumer->set("buffer", 0);
-        m_consumer->set("prefill", 0);
-        m_consumer->purge();
+        m_producer->set_speed(0);
         m_producer->seek(m_consumer->position() + 1);
+        m_consumer->purge();
+        m_consumer->start();
     }
 }
 
