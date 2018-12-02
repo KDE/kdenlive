@@ -72,6 +72,7 @@ void TransitionStackView::setModel(const std::shared_ptr<AssetParameterModel> &m
     });
     initKeyframeView(true);
     pCore->getMonitor(m_model->monitorId)->slotShowEffectScene(needsMonitorEffectScene());
+    slotRefresh();
 }
 
 void TransitionStackView::unsetModel()

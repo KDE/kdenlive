@@ -126,6 +126,11 @@ AssetPanel::AssetPanel(QWidget *parent)
 void AssetPanel::showTransition(int tid, std::shared_ptr<AssetParameterModel> transitionModel)
 {
     Q_UNUSED(tid)
+    ObjectId id = transitionModel->getOwnerId();
+    if (m_transitionWidget->stackOwner() == id) {
+        // already on this effect stack, do nothing
+        return;
+    }
     clear();
     QString transitionId = transitionModel->getAssetId();
     QString transitionName = TransitionsRepository::get()->getName(transitionId);
