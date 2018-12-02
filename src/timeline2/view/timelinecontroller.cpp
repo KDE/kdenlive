@@ -118,7 +118,13 @@ void TimelineController::removeSelection(int newSelection)
     m_selection.selectedItems.removeAll(newSelection);
     std::unordered_set<int> ids;
     ids.insert(m_selection.selectedItems.cbegin(), m_selection.selectedItems.cend());
-    m_model->m_temporarySelectionGroup = m_model->requestClipsGroup(ids, true, GroupType::Selection);
+    if (ids.size() > 1) {
+        m_model->m_temporarySelectionGroup = m_model->requestClipsGroup(ids, true,
+                                                                        GroupType::Selection);
+    } else if (m_model->m_temporarySelectionGroup > -1) {
+        m_model->m_groups->destructGroupItem(m_model->m_temporarySelectionGroup);
+        m_model->m_temporarySelectionGroup = -1;
+    }
 
     std::unordered_set<int> newIds;
     if (m_model->m_temporarySelectionGroup >= 0) {
