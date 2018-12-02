@@ -102,6 +102,9 @@ fi
 
 # mv $PLUGINS/* $APPIMAGEPLUGINS
 
+# copy icon
+cp $APPDIR/usr/share/icons/breeze/apps/48/kdenlive.svg $APPDIR
+
 # Step 5: Build the image!!!
 linuxdeployqt $APPDIR/usr/bin/ffmpeg
 linuxdeployqt $APPDIR/usr/bin/ffplay
