@@ -125,7 +125,9 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGro
         j.next();
         m_documentMetadata[j.key()] = j.value();
     }
-    if (QLocale().decimalPoint() != QLocale::system().decimalPoint()) {
+    /*if (QLocale().decimalPoint() != QLocale::system().decimalPoint()) {
+        qDebug()<<"* * ** AARCH DOCUMENT  PROBLEM;";
+        exit(1);
         setlocale(LC_NUMERIC, "");
         QLocale systemLocale = QLocale::system();
         systemLocale.setNumberOptions(QLocale::OmitGroupSeparator);
@@ -135,7 +137,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGro
         //EffectsRepository::get()->init();
         //TransitionsRepository::get()->init();
         //initEffects::parseEffectFiles(pCore->getMltRepository(), QString::fromLatin1(setlocale(LC_NUMERIC, nullptr)));
-    }
+    }*/
     *openBackup = false;
     if (url.isValid()) {
         QFile file(url.toLocalFile());
