@@ -23,7 +23,7 @@ Row {
     function reload() {
         // This is needed to make the model have the correct count.
         // Model as a property expression is not working in all cases.
-            if (!timeline.showAudioThumbnails || (waveform.scrollMin > clipRoot.modelStart + clipRoot.clipDuration) || (clipRoot.modelStart > waveform.scrollMax)) {
+            if (!timeline.showAudioThumbnails || (waveform.scrollMin > clipRoot.modelStart + clipRoot.clipDuration) || (clipRoot.modelStart > waveform.scrollMax) || clipRoot.audioLevels == '') {
                 return;
             }
             //var t0 = new Date();
