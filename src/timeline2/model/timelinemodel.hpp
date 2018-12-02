@@ -346,7 +346,7 @@ public:
     /* Same function, but accumulates undo and redo, and doesn't check
        for group*/
     bool requestClipMove(int clipId, int trackId, int position, bool updateView, bool invalidateTimeline, Fun &undo, Fun &redo);
-    bool requestCompositionMove(int transid, int trackId, int compositionTrack, int position, bool updateView, Fun &undo, Fun &redo);
+    bool requestCompositionMove(int transid, int trackId, int compositionTrack, int position, bool updateView, bool finalMove, Fun &undo, Fun &redo);
 
     /* When timeline edit mode is insert or overwrite, we fake the move (as it will overlap existing clips, and only process the real move on drop */
     bool fakeClipMove(int clipId, int trackId, int position, bool updateView, bool invalidateTimeline, Fun &undo, Fun &redo);
@@ -543,7 +543,7 @@ public:
                                      bool logUndo = true);
     /* Same function, but accumulates undo and redo*/
     bool requestCompositionInsertion(const QString &transitionId, int trackId, int compositionTrack, int position, int length, Mlt::Properties *transProps,
-                                     int &id, Fun &undo, Fun &redo);
+                                     int &id, Fun &undo, Fun &redo, bool finalMove = false);
 
     /* @brief This function change the global (timeline-wise) enabled state of the effects
        It disables/enables track and clip effects (recursively)

@@ -215,7 +215,7 @@ bool TimelineFunctions::requestSpacerEndOperation(std::shared_ptr<TimelineItemMo
             if (isClip) {
                 final = timeline->requestClipMove(itemId, track, endPosition, true, true, undo, redo);
             } else {
-                final = timeline->requestCompositionMove(itemId, track, -1, endPosition, true, undo, redo);
+                final = timeline->requestCompositionMove(itemId, track, -1, endPosition, true, true, undo, redo);
             }
         }
     }

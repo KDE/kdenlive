@@ -150,13 +150,13 @@ protected:
        @param undo Lambda function containing the current undo stack. Will be updated with current operation
        @param redo Lambda function containing the current redo queue. Will be updated with current operation
     */
-    bool requestCompositionInsertion(int compoId, int position, bool updateView, Fun &undo, Fun &redo);
+    bool requestCompositionInsertion(int compoId, int position, bool updateView, bool finalMove, Fun &undo, Fun &redo);
     /* @brief This function returns a lambda that performs the requested operation */
-    Fun requestCompositionInsertion_lambda(int compoId, int position, bool updateView);
+    Fun requestCompositionInsertion_lambda(int compoId, int position, bool updateView, bool finalMove = false);
 
-    bool requestCompositionDeletion(int compoId, bool updateView, Fun &undo, Fun &redo);
-    Fun requestCompositionDeletion_lambda(int compoId, bool updateView);
-    Fun requestCompositionResize_lambda(int compoId, int in, int out = -1);
+    bool requestCompositionDeletion(int compoId, bool updateView, bool finalMove, Fun &undo, Fun &redo);
+    Fun requestCompositionDeletion_lambda(int compoId, bool updateView, bool finalMove = false);
+    Fun requestCompositionResize_lambda(int compoId, int in, int out = -1, bool logUndo = false);
 
     /* @brief Returns the size of the blank before or after the given clip
        @param clipId is the id of the clip

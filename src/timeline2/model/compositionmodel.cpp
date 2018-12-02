@@ -68,7 +68,7 @@ int CompositionModel::construct(const std::weak_ptr<TimelineModel> &parent, cons
     return id;
 }
 
-bool CompositionModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool /*logUndo*/)
+bool CompositionModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool logUndo)
 {
     QWriteLocker locker(&m_lock);
     if (size <= 0) {
@@ -95,7 +95,7 @@ bool CompositionModel::requestResize(int size, bool right, Fun &undo, Fun &redo,
     std::function<bool(void)> track_reverse = []() { return true; };
     if (m_currentTrackId != -1) {
         if (auto ptr = m_parent.lock()) {
-            track_operation = ptr->getTrackById(m_currentTrackId)->requestCompositionResize_lambda(m_id, in, out);
+            track_operation = ptr->getTrackById(m_currentTrackId)->requestCompositionResize_lambda(m_id, in, out, logUndo);
         } else {
             qDebug() << "Error : Moving composition failed because parent timeline is not available anymore";
             Q_ASSERT(false);
@@ -122,7 +122,7 @@ bool CompositionModel::requestResize(int size, bool right, Fun &undo, Fun &redo,
             QModelIndex ix = ptr->makeCompositionIndexFromID(m_id);
             //TODO: integrate in undo
             ptr->dataChanged(ix, ix, roles);
-            track_reverse = ptr->getTrackById(m_currentTrackId)->requestCompositionResize_lambda(m_id, old_in, old_out);
+            track_reverse = ptr->getTrackById(m_currentTrackId)->requestCompositionResize_lambda(m_id, old_in, old_out, logUndo);
         }
         Fun reverse = [old_in, old_out, track_reverse, this]() {
             if (track_reverse()) {

@@ -1051,7 +1051,7 @@ bool TimelineModel::requestCompositionDeletion(int compositionId, Fun &undo, Fun
 {
     int trackId = getCompositionTrackId(compositionId);
     if (trackId != -1) {
-        bool res = getTrackById(trackId)->requestCompositionDeletion(compositionId, true, undo, redo);
+        bool res = getTrackById(trackId)->requestCompositionDeletion(compositionId, true, true, undo, redo);
         if (!res) {
             undo();
             return false;
@@ -1317,7 +1317,7 @@ bool TimelineModel::requestGroupMove(int clipId, int groupId, int delta_track, i
             if (isClip(item)) {
                 ok = ok && requestClipMove(item, target_track, target_position, updateThisView, finalMove, local_undo, local_redo);
             } else {
-                ok = ok && requestCompositionMove(item, target_track, old_forced_track[item], target_position, updateThisView, local_undo, local_redo);
+                ok = ok && requestCompositionMove(item, target_track, old_forced_track[item], target_position, updateThisView, finalMove, local_undo, local_redo);
             }
         } else {
             qDebug() << "// ABORTING; MOVE TRIED ON TRACK: " << target_track_position << "..\n..\n..";
@@ -1500,7 +1500,7 @@ bool TimelineModel::requestItemResize(int itemId, int size, bool right, bool log
         result = m_allClips[itemId]->requestResize(size, right, local_undo, local_redo, logUndo);
     } else {
         Q_ASSERT(isComposition(itemId));
-        result = m_allCompositions[itemId]->requestResize(size, right, local_undo, local_redo);
+        result = m_allCompositions[itemId]->requestResize(size, right, local_undo, local_redo, logUndo);
     }
     if (result) {
         if (!blockUndo) {
@@ -2009,7 +2009,7 @@ bool TimelineModel::requestCompositionInsertion(const QString &transitionId, int
     QWriteLocker locker(&m_lock);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    bool result = requestCompositionInsertion(transitionId, trackId, -1, position, length, transProps, id, undo, redo);
+    bool result = requestCompositionInsertion(transitionId, trackId, -1, position, length, transProps, id, undo, redo, logUndo);
     if (result && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Insert Composition"));
     }
@@ -2017,7 +2017,7 @@ bool TimelineModel::requestCompositionInsertion(const QString &transitionId, int
 }
 
 bool TimelineModel::requestCompositionInsertion(const QString &transitionId, int trackId, int compositionTrack, int position, int length,
-                                                Mlt::Properties *transProps, int &id, Fun &undo, Fun &redo)
+                                                Mlt::Properties *transProps, int &id, Fun &undo, Fun &redo, bool finalMove)
 {
     qDebug() << "Inserting compo track" << trackId << "pos" << position << "length" << length;
     int compositionId = TimelineModel::getNextId();
@@ -2031,7 +2031,7 @@ bool TimelineModel::requestCompositionInsertion(const QString &transitionId, int
         registerComposition(composition);
         return true;
     };
-    bool res = requestCompositionMove(compositionId, trackId, compositionTrack, position, true, local_undo, local_redo);
+    bool res = requestCompositionMove(compositionId, trackId, compositionTrack, position, true, finalMove, local_undo, local_redo);
     qDebug() << "trying to move" << trackId << "pos" << position << "succes " << res;
     if (res) {
         res = requestItemResize(compositionId, length, true, true, local_undo, local_redo, true);
@@ -2123,7 +2123,7 @@ bool TimelineModel::requestCompositionMove(int compoId, int trackId, int positio
     int min = getCompositionPosition(compoId);
     int max = min + getCompositionPlaytime(compoId);
     int tk = getCompositionTrackId(compoId);
-    bool res = requestCompositionMove(compoId, trackId, m_allCompositions[compoId]->getForcedTrack(), position, updateView, undo, redo);
+    bool res = requestCompositionMove(compoId, trackId, m_allCompositions[compoId]->getForcedTrack(), position, updateView, logUndo, undo, redo);
     if (tk > -1) {
         min = qMin(min, getCompositionPosition(compoId));
         max = qMax(max, getCompositionPosition(compoId));
@@ -2147,7 +2147,7 @@ bool TimelineModel::isAudioTrack(int trackId) const
     return (*it)->isAudioTrack();
 }
 
-bool TimelineModel::requestCompositionMove(int compoId, int trackId, int compositionTrack, int position, bool updateView, Fun &undo, Fun &redo)
+bool TimelineModel::requestCompositionMove(int compoId, int trackId, int compositionTrack, int position, bool updateView, bool finalMove, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(isComposition(compoId));
@@ -2174,7 +2174,7 @@ bool TimelineModel::requestCompositionMove(int compoId, int trackId, int composi
         // Move on same track, only send view update
         updateView = false;
         notifyViewOnly = true;
-        update_model = [compoId, this]() {
+        update_model = [compoId, finalMove, this]() {
             QModelIndex modelIndex = makeCompositionIndexFromID(compoId);
             notifyChange(modelIndex, modelIndex, {StartRole});
             return true;
@@ -2203,7 +2203,7 @@ bool TimelineModel::requestCompositionMove(int compoId, int trackId, int composi
                 PUSH_LAMBDA(update_model, local_undo);
             }
             UPDATE_UNDO_REDO(delete_operation, delete_reverse, local_undo, local_redo);
-            ok = getTrackById(old_trackId)->requestCompositionDeletion(compoId, updateView, local_undo, local_redo);
+            ok = getTrackById(old_trackId)->requestCompositionDeletion(compoId, updateView, finalMove, local_undo, local_redo);
         }
         if (!ok) {
             qDebug() << "Move failed because of first deletion request";
@@ -2212,7 +2212,7 @@ bool TimelineModel::requestCompositionMove(int compoId, int trackId, int composi
             return false;
         }
     }
-    ok = getTrackById(trackId)->requestCompositionInsertion(compoId, position, updateView, local_undo, local_redo);
+    ok = getTrackById(trackId)->requestCompositionInsertion(compoId, position, updateView, finalMove, local_undo, local_redo);
     if (!ok) qDebug() << "Move failed because of second insertion request";
     if (ok) {
         Fun insert_operation = []() { return true; };

@@ -424,7 +424,7 @@ public slots:
     void addEffectToCurrentClip(const QStringList &effectData);
     /** @brief Dis / enable timeline preview. */
     void disablePreview(bool disable);
-    void invalidateClip(int cid);
+    void invalidateItem(int cid);
     void invalidateZone(int in, int out);
     void checkDuration();
     /** @brief Dis / enable multi track view. */

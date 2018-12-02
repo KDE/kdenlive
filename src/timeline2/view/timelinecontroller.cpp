@@ -1492,9 +1492,9 @@ void TimelineController::removeSpace(int trackId, int frame, bool affectAllTrack
     requestSpacerEndOperation(cid, start, start - spaceDuration);
 }
 
-void TimelineController::invalidateClip(int cid)
+void TimelineController::invalidateItem(int cid)
 {
-    if (!m_timelinePreview) {
+    if (!m_timelinePreview || m_model->getItemTrackId(cid) == -1  ) {
         return;
     }
     int start = m_model->getItemPosition(cid);
@@ -1939,7 +1939,7 @@ void TimelineController::editItemDuration(int id)
                     result = m_model->requestClipMove(partner, m_model->getItemTrackId(partner), newPos, true, true, undo, redo);
                 }
             } else {
-                result = m_model->requestCompositionMove(id, trackId, newPos, m_model->m_allCompositions[id]->getForcedTrack(), true, undo, redo);
+                result = m_model->requestCompositionMove(id, trackId, newPos, m_model->m_allCompositions[id]->getForcedTrack(), true, true, undo, redo);
             }
             if (result && newIn != in) {
                 m_model->requestItemResize(id, duration + (in - newIn), false, true, undo, redo);
@@ -1974,7 +1974,7 @@ void TimelineController::editItemDuration(int id)
                         result = m_model->requestClipMove(partner, m_model->getItemTrackId(partner), newPos, true, true, undo, redo);
                     }
                 } else {
-                    result = result && m_model->requestCompositionMove(id, trackId, newPos, m_model->m_allCompositions[id]->getForcedTrack(), true, undo, redo);
+                    result = result && m_model->requestCompositionMove(id, trackId, newPos, m_model->m_allCompositions[id]->getForcedTrack(), true, true, undo, redo);
                 }
             }
         }

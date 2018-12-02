@@ -873,7 +873,7 @@ int TrackModel::getBlankEnd(int position)
     return end;
 }
 
-Fun TrackModel::requestCompositionResize_lambda(int compoId, int in, int out)
+Fun TrackModel::requestCompositionResize_lambda(int compoId, int in, int out, bool logUndo)
 {
     QWriteLocker locker(&m_lock);
     int compo_position = m_allCompositions[compoId]->getPosition();
@@ -886,7 +886,7 @@ Fun TrackModel::requestCompositionResize_lambda(int compoId, int in, int out)
         out = in + old_out - old_in;
     }
 
-    auto update_snaps = [compoId, old_in, old_out, this](int new_in, int new_out) {
+    auto update_snaps = [compoId, old_in, old_out, logUndo, this](int new_in, int new_out) {
         if (auto ptr = m_parent.lock()) {
             ptr->m_snaps->removePoint(old_in);
             ptr->m_snaps->removePoint(old_out + 1);
@@ -894,6 +894,10 @@ Fun TrackModel::requestCompositionResize_lambda(int compoId, int in, int out)
             ptr->m_snaps->addPoint(new_out);
             ptr->checkRefresh(old_in, old_out);
             ptr->checkRefresh(new_in, new_out);
+            if (logUndo) {
+                ptr->invalidateZone(old_in, old_out);
+                ptr->invalidateZone(new_in, new_out);
+            }
             // ptr->adjustAssetRange(compoId, new_in, new_out);
         } else {
             qDebug() << "Error : Composition resize failed because parent timeline is not available anymore";
@@ -929,22 +933,22 @@ Fun TrackModel::requestCompositionResize_lambda(int compoId, int in, int out)
     };
 }
 
-bool TrackModel::requestCompositionInsertion(int compoId, int position, bool updateView, Fun &undo, Fun &redo)
+bool TrackModel::requestCompositionInsertion(int compoId, int position, bool updateView, bool finalMove, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
     if (isLocked()) {
         return false;
     }
-    auto operation = requestCompositionInsertion_lambda(compoId, position, updateView);
+    auto operation = requestCompositionInsertion_lambda(compoId, position, updateView, finalMove);
     if (operation()) {
-        auto reverse = requestCompositionDeletion_lambda(compoId, updateView);
+        auto reverse = requestCompositionDeletion_lambda(compoId, updateView, finalMove);
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
         return true;
     }
     return false;
 }
 
-bool TrackModel::requestCompositionDeletion(int compoId, bool updateView, Fun &undo, Fun &redo)
+bool TrackModel::requestCompositionDeletion(int compoId, bool updateView, bool finalMove, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
     if (isLocked()) {
@@ -955,23 +959,23 @@ bool TrackModel::requestCompositionDeletion(int compoId, bool updateView, Fun &u
     int old_position = old_composition->getPosition();
     Q_ASSERT(m_compoPos.count(old_position) > 0);
     Q_ASSERT(m_compoPos[old_position] == compoId);
-    auto operation = requestCompositionDeletion_lambda(compoId, updateView);
+    auto operation = requestCompositionDeletion_lambda(compoId, updateView, finalMove);
     if (operation()) {
-        auto reverse = requestCompositionInsertion_lambda(compoId, old_position, updateView);
+        auto reverse = requestCompositionInsertion_lambda(compoId, old_position, updateView, finalMove);
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
         return true;
     }
     return false;
 }
 
-Fun TrackModel::requestCompositionDeletion_lambda(int compoId, bool updateView)
+Fun TrackModel::requestCompositionDeletion_lambda(int compoId, bool updateView, bool finalMove)
 {
     QWriteLocker locker(&m_lock);
     // Find index of clip
     int clip_position = m_allCompositions[compoId]->getPosition();
     int old_in = clip_position;
     int old_out = old_in + m_allCompositions[compoId]->getPlaytime();
-    return [clip_position, compoId, old_in, old_out, updateView, this]() {
+    return [clip_position, compoId, old_in, old_out, updateView, finalMove, this]() {
         int old_clip_index = getRowfromComposition(compoId);
         auto ptr = m_parent.lock();
         if (updateView) {
@@ -983,6 +987,9 @@ Fun TrackModel::requestCompositionDeletion_lambda(int compoId, bool updateView)
         m_compoPos.erase(old_in);
         ptr->m_snaps->removePoint(old_in);
         ptr->m_snaps->removePoint(old_out);
+        if (finalMove) {
+            ptr->invalidateZone(old_in, old_out);
+        }
         return true;
     };
 }
@@ -1005,7 +1012,7 @@ int TrackModel::getCompositionsCount() const
     return (int)m_allCompositions.size();
 }
 
-Fun TrackModel::requestCompositionInsertion_lambda(int compoId, int position, bool updateView)
+Fun TrackModel::requestCompositionInsertion_lambda(int compoId, int position, bool updateView, bool finalMove)
 {
     QWriteLocker locker(&m_lock);
     bool intersecting = true;
@@ -1015,7 +1022,7 @@ Fun TrackModel::requestCompositionInsertion_lambda(int compoId, int position, bo
         qDebug() << "Error : Composition Insertion failed because timeline is not available anymore";
     }
     if (!intersecting) {
-        return [compoId, this, position, updateView]() {
+        return [compoId, this, position, updateView, finalMove]() {
             if (auto ptr = m_parent.lock()) {
                 std::shared_ptr<CompositionModel> composition = ptr->getCompositionPtr(compoId);
                 m_allCompositions[composition->getId()] = composition; // store clip
@@ -1032,6 +1039,9 @@ Fun TrackModel::requestCompositionInsertion_lambda(int compoId, int position, bo
                 ptr->m_snaps->addPoint(new_in);
                 ptr->m_snaps->addPoint(new_out);
                 m_compoPos[new_in] = composition->getId();
+                if (finalMove) {
+                    ptr->invalidateZone(new_in, new_out);
+                }
                 return true;
             }
             qDebug() << "Error : Composition Insertion failed because timeline is not available anymore";
