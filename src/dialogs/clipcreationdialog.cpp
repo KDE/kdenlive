@@ -567,7 +567,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QStringList 
                         delete fileWidget;
                         delete dlg;
                         // get image sequence base name
-                        while (fileName.at(fileName.size() - 1).isDigit()) {
+                        while (fileName.size() > 0 && fileName.at(fileName.size() - 1).isDigit()) {
                             fileName.chop(1);
                         }
                         QDomDocument xml;
