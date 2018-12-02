@@ -138,6 +138,7 @@ Rectangle {
         droppedPosition = -1
         droppedTrack = -1
         scrollTimer.running = false
+        scrollTimer.stop()
     }
 
     function initDrag(itemObject, itemCoord, itemId, itemPos, itemTrack, isComposition) {
@@ -1292,7 +1293,7 @@ Rectangle {
             var delta = backwards? -10 : 10
             if (item) item.x += delta
             scrollView.flickableItem.contentX += delta
-            if (scrollView.flickableItem.contentX <= 0)
+            if (scrollView.flickableItem.contentX <= 0 || clipBeingMovedId == -1)
                 stop()
         }
     }
