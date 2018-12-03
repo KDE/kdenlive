@@ -1024,7 +1024,7 @@ Rectangle {
                                 onDoubleClicked: {
                                     if (dragProxy.masterObject.keyframeModel) {
                                         var newVal = (dragProxy.masterObject.height - mouseY) / dragProxy.masterObject.height
-                                        var newPos = Math.round(mouseX / timeScale)
+                                        var newPos = Math.round(mouseX / timeScale) + dragProxy.masterObject.inPoint
                                         dragProxy.masterObject.keyframeModel.addKeyframe(newPos, newVal)
                                     }
                                 }
