@@ -47,8 +47,8 @@
          <property name="frameShadow">
           <enum>QFrame::Raised</enum>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout2">
-          <item>
+         <layout class="QGridLayout" name="gridLayout_2">
+          <item row="0" column="0">
            <layout class="QHBoxLayout" name="outfileGroup">
             <item>
              <widget class="QLabel" name="outfileLabel">
@@ -58,11 +58,11 @@
              </widget>
             </item>
             <item>
-             <widget class="KUrlRequester" name="out_file"/>
+             <widget class="KUrlRequester" name="out_file" native="true"/>
             </item>
            </layout>
           </item>
-          <item>
+          <item row="1" column="0">
            <widget class="QFrame" name="formatGroup">
             <property name="frameShape">
              <enum>QFrame::StyledPanel</enum>
@@ -178,7 +178,7 @@
             </layout>
            </widget>
           </item>
-          <item>
+          <item row="2" column="0">
            <layout class="QHBoxLayout" name="sizeGroup">
             <item>
              <widget class="QLabel" name="qualityLabel">
@@ -242,7 +242,7 @@
             </item>
            </layout>
           </item>
-          <item>
+          <item row="3" column="0">
            <layout class="QHBoxLayout" name="zoneGroup">
             <item>
              <widget class="QRadioButton" name="render_full">
@@ -326,17 +326,34 @@
             </item>
            </layout>
           </item>
-          <item>
-           <widget class="QCheckBox" name="options">
-            <property name="text">
-             <string>More options</string>
-            </property>
-           </widget>
+          <item row="4" column="0">
+           <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <item>
+             <widget class="QCheckBox" name="options">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>More options</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="parallel_process">
+              <property name="text">
+               <string>Parallel processing</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
-          <item>
+          <item row="5" column="0">
            <layout class="QHBoxLayout" name="info"/>
           </item>
-          <item>
+          <item row="6" column="0">
            <widget class="QGroupBox" name="errorBox">
             <property name="title">
              <string/>
@@ -365,7 +382,7 @@
             </layout>
            </widget>
           </item>
-          <item>
+          <item row="7" column="0">
            <layout class="QHBoxLayout" name="targetGroup">
             <item>
              <widget class="QPushButton" name="buttonRender">

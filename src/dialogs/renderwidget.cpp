@@ -375,6 +375,10 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, QWidg
 #else
     m_view.shareButton->setEnabled(false);
 #endif
+    m_view.parallel_process->setChecked(KdenliveSettings::parallelrender());
+    connect(m_view.parallel_process, &QCheckBox::stateChanged, [this] (int state) {
+        KdenliveSettings::setParallelrender(state == Qt::Checked);
+    });
     refreshView();
     focusFirstVisibleItem();
     adjustSize();
@@ -1329,11 +1333,18 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
             renderArgs.append(QStringLiteral(" an=1 "));
         }
 
+        int threadCount = QThread::idealThreadCount();
+        if (threadCount > 2 && m_view.parallel_process->isChecked()) {
+            threadCount = qMin(threadCount - 1, 4);
+        } else {
+            threadCount = 1;
+        }
+
         // Set the thread counts
         if (!renderArgs.contains(QStringLiteral("threads="))) {
             renderArgs.append(QStringLiteral(" threads=%1").arg(KdenliveSettings::encodethreads()));
         }
-        renderArgs.append(QStringLiteral(" real_time=-%1").arg(KdenliveSettings::mltthreads()));
+        renderArgs.append(QStringLiteral(" real_time=-%1").arg(threadCount));
 
         // Check if the rendering profile is different from project profile,
         // in which case we need to use the producer_comsumer from MLT
