@@ -235,6 +235,28 @@ void KeyframeModelList::resizeKeyframes(int oldIn, int oldOut, int in, int out, 
 {
     bool ok;
     bool ok2;
+    if (oldIn != in) {
+        GenTime old_in(oldIn, pCore->getCurrentFps());
+        GenTime new_in(in, pCore->getCurrentFps());
+        Keyframe kf = getKeyframe(old_in, &ok);
+        KeyframeType type = kf.second;
+        getKeyframe(new_in, &ok2);
+        // Check keyframes after last position
+        QList <GenTime>positions;
+        if (ok && !ok2) {
+            positions << old_in;
+        }
+        //qDebug()<<"/// \n\nKEYS TO DELETE: "<<positions<<"\n------------------------";
+        if (ok && !ok2) {
+            for (const auto &param : m_parameters) {
+                QVariant value = param.second->getInterpolatedValue(new_in);
+                param.second->addKeyframe(new_in, type, value, true, undo, redo);
+                for (auto frame : positions) {
+                    param.second->removeKeyframe(frame, undo, redo);
+                }
+            }
+        }
+    }
     if (oldOut != out) {
         GenTime old_out(oldOut, pCore->getCurrentFps());
         GenTime new_out(out, pCore->getCurrentFps());
@@ -255,13 +277,13 @@ void KeyframeModelList::resizeKeyframes(int oldIn, int oldOut, int in, int out, 
             toDel = getNextKeyframe(toDel.first, &ok3);
         }
         //qDebug()<<"/// \n\nKEYS TO DELETE: "<<positions<<"\n------------------------";
-        for (const auto &param : m_parameters) {
-            if (ok && !ok2) {
+        if (ok && !ok2) {
+            for (const auto &param : m_parameters) {
                 QVariant value = param.second->getInterpolatedValue(new_out);
                 param.second->addKeyframe(new_out, type, value, true, undo, redo);
-            }
-            for (auto frame : positions) {
-                param.second->removeKeyframe(frame, undo, redo);
+                for (auto frame : positions) {
+                    param.second->removeKeyframe(frame, undo, redo);
+                }
             }
         }
     }
