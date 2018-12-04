@@ -16,7 +16,8 @@ export APPIMAGEPLUGINS=$APPDIR/usr/plugins/
 mkdir -p $APPDIR
 mkdir -p $APPDIR/usr/share/kdenlive
 mkdir -p $APPDIR/usr/lib
-
+mkdir -p $PLUGINS
+mkdir -p $APPDIR/usr/plugins
 
 # qjsonparser, used to add metadata to the plugins needs to work in a en_US.UTF-8 environment.
 # That's not always the case, so make sure it is
