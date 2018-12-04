@@ -59,7 +59,7 @@ Rectangle
             } else {
                 var oldFrame = activeFrame
                 activeFrame += 1
-                keyframeModel.moveKeyframe(oldFrame + inPoint, activeFrame, true)
+                keyframeModel.moveKeyframe(oldFrame, activeFrame, true)
             }
             event.accepted = true
         }
