@@ -60,7 +60,7 @@ protected:
     TransitionsRepository();
 
     /* Retrieves the list of all available effects from Mlt*/
-    Mlt::Properties *retrieveListFromMlt() override;
+    Mlt::Properties *retrieveListFromMlt() const override;
 
     /* Retrieves the list of favorite effects */
     void parseFavorites() override;

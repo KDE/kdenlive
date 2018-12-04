@@ -78,7 +78,7 @@ protected:
     void parseBlackList(const QString &path);
 
     void init();
-    virtual Mlt::Properties *retrieveListFromMlt() = 0;
+    virtual Mlt::Properties *retrieveListFromMlt() const = 0;
     virtual void parseFavorites() = 0;
 
     /* @brief Parse some info from a mlt structure

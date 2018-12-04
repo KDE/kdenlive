@@ -51,7 +51,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
     m_model->prepareKeyframes();
     const QString paramTag = model->getAssetId();
     connect(m_model.get(), &AssetParameterModel::dataChanged, this, &AssetParameterView::refresh);
-    if (paramTag == QStringLiteral("lift_gamma_gain")) {
+    if (paramTag.endsWith(QStringLiteral("lift_gamma_gain"))) {
         // Special case, the colorwheel widget manages several parameters
         QModelIndex index = model->index(0, 0);
         auto w = AbstractParamWidget::construct(model, index, frameSize, this);

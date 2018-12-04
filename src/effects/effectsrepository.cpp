@@ -56,7 +56,7 @@ EffectsRepository::EffectsRepository()
     }
 }
 
-Mlt::Properties *EffectsRepository::retrieveListFromMlt()
+Mlt::Properties *EffectsRepository::retrieveListFromMlt() const
 {
     return pCore->getMltRepository()->filters();
 }
@@ -180,6 +180,19 @@ Mlt::Filter *EffectsRepository::getEffect(const QString &effectId) const
     // We create the Mlt element from its name
     Mlt::Filter *filter = new Mlt::Filter(pCore->getCurrentProfile()->profile(), service_name.toLatin1().constData(), nullptr);
     return filter;
+}
+
+bool EffectsRepository::hasInternalEffect(const QString &effectId) const
+{
+    // Retrieve the list of MLT's available assets.
+    QScopedPointer<Mlt::Properties> assets(retrieveListFromMlt());
+    int max = assets->count();
+    for (int i = 0; i < max; ++i) {
+        if (assets->get_name(i) == effectId) {
+            return true;
+        }
+    }
+    return false;
 }
 
 QPair <QString, QString> EffectsRepository::reloadCustom(const QString &path)

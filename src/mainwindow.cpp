@@ -218,9 +218,7 @@ void MainWindow::init()
         KdenliveSettings::setDefault_profile(QStringLiteral("atsc_1080p_25"));
     }
 
-    m_gpuAllowed = EffectsRepository::get()->exists(QStringLiteral("glsl.manager"));
-    // initEffects::parseEffectFiles(pCore->getMltRepository());
-    // initEffects::parseCustomEffectsFile();
+    m_gpuAllowed = EffectsRepository::get()->hasInternalEffect(QStringLiteral("glsl.manager"));
 
     m_shortcutRemoveFocus = new QShortcut(QKeySequence(QStringLiteral("Esc")), this);
     connect(m_shortcutRemoveFocus, &QShortcut::activated, this, &MainWindow::slotRemoveFocus);

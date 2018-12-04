@@ -54,7 +54,7 @@ TransitionsRepository::TransitionsRepository()
     }
 }
 
-Mlt::Properties *TransitionsRepository::retrieveListFromMlt()
+Mlt::Properties *TransitionsRepository::retrieveListFromMlt() const
 {
     return pCore->getMltRepository()->transitions();
 }

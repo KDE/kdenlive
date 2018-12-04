@@ -47,6 +47,8 @@ public:
 
     /* @brief returns a fresh instance of the given effect */
     Mlt::Filter *getEffect(const QString &effectId) const;
+    /* @brief returns true if an effect exists in MLT (bypasses the blacklist/metadata parsing) */
+    bool hasInternalEffect(const QString &effectId) const;
     void setFavorite(const QString &id, bool favorite) override;
     QPair <QString, QString> reloadCustom(const QString &path);
 
@@ -55,7 +57,7 @@ protected:
     EffectsRepository();
 
     /* Retrieves the list of all available effects from Mlt*/
-    Mlt::Properties *retrieveListFromMlt() override;
+    Mlt::Properties *retrieveListFromMlt() const override;
 
     /* Retrieves the list of favorite effects */
     void parseFavorites() override;
