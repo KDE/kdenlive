@@ -205,6 +205,7 @@ void EffectStackModel::fromXml(const QDomElement &effectsXml, Fun &undo, Fun &re
         Fun local_undo = removeItem_lambda(effect->getId());
         // TODO the parent should probably not always be the root
         Fun local_redo = addItem_lambda(effect, rootItem->getId());
+        effect->prepareKeyframes();
         connect(effect.get(), &AssetParameterModel::modelChanged, this, &EffectStackModel::modelChanged);
         connect(effect.get(), &AssetParameterModel::replugEffect, this, &EffectStackModel::replugEffect, Qt::DirectConnection);
         if (effectId == QLatin1String("fadein") || effectId == QLatin1String("fade_from_black")) {
@@ -251,6 +252,7 @@ bool EffectStackModel::copyEffect(std::shared_ptr<AbstractEffectItem> sourceItem
     Fun local_undo = removeItem_lambda(effect->getId());
     // TODO the parent should probably not always be the root
     Fun local_redo = addItem_lambda(effect, rootItem->getId());
+    effect->prepareKeyframes();
     connect(effect.get(), &AssetParameterModel::modelChanged, this, &EffectStackModel::modelChanged);
     connect(effect.get(), &AssetParameterModel::replugEffect, this, &EffectStackModel::replugEffect, Qt::DirectConnection);
     if (effectId == QLatin1String("fadein") || effectId == QLatin1String("fade_from_black")) {
@@ -289,6 +291,7 @@ bool EffectStackModel::appendEffect(const QString &effectId, bool makeCurrent)
     Fun undo = removeItem_lambda(effect->getId());
     // TODO the parent should probably not always be the root
     Fun redo = addItem_lambda(effect, rootItem->getId());
+    effect->prepareKeyframes();
     connect(effect.get(), &AssetParameterModel::modelChanged, this, &EffectStackModel::modelChanged);
     connect(effect.get(), &AssetParameterModel::replugEffect, this, &EffectStackModel::replugEffect, Qt::DirectConnection);
     int currentActive = getActiveEffect();
@@ -443,6 +446,8 @@ bool EffectStackModel::adjustStackLength(bool adjustFromEnd, int oldIn, int oldD
                 refresh();
                 PUSH_LAMBDA(refresh, redo);
                 PUSH_LAMBDA(refresh, undo);
+            } else {
+                qDebug()<<"// NULL Keyframes---------";
             }
         }
     }
@@ -711,6 +716,7 @@ void EffectStackModel::importEffects(std::weak_ptr<Mlt::Service> service, Playli
             connect(effect.get(), &AssetParameterModel::modelChanged, this, &EffectStackModel::modelChanged);
             connect(effect.get(), &AssetParameterModel::replugEffect, this, &EffectStackModel::replugEffect, Qt::DirectConnection);
             Fun redo = addItem_lambda(effect, rootItem->getId());
+            effect->prepareKeyframes();
             if (redo()) {
                 if (effectId == QLatin1String("fadein") || effectId == QLatin1String("fade_from_black")) {
                     fadeIns.insert(effect->getId());

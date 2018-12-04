@@ -101,12 +101,12 @@ bool TimelineFunctions::processClipCut(std::shared_ptr<TimelineItemModel> timeli
     bool res = copyClip(timeline, clipId, newId, state, undo, redo);
     res = res && timeline->requestItemResize(clipId, position - start, true, true, undo, redo);
     int newDuration = timeline->getClipPlaytime(clipId);
-    res = res && timeline->requestItemResize(newId, duration - newDuration, false, true, undo, redo);
     // parse effects
     std::shared_ptr<EffectStackModel> sourceStack = timeline->getClipEffectStackModel(clipId);
     sourceStack->cleanFadeEffects(true, undo, redo);
     std::shared_ptr<EffectStackModel> destStack = timeline->getClipEffectStackModel(newId);
     destStack->cleanFadeEffects(false, undo, redo);
+    res = res && timeline->requestItemResize(newId, duration - newDuration, false, true, undo, redo);
     // The next requestclipmove does not check for duration change since we don't invalidate timeline, so check duration change now
     bool durationChanged = trackDuration != timeline->getTrackById_const(trackId)->trackDuration();
     res = res && timeline->requestClipMove(newId, trackId, position, true, false, undo, redo);

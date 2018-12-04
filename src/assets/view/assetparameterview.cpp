@@ -48,7 +48,6 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
     unsetModel();
     QMutexLocker lock(&m_lock);
     m_model = model;
-    m_model->prepareKeyframes();
     const QString paramTag = model->getAssetId();
     connect(m_model.get(), &AssetParameterModel::dataChanged, this, &AssetParameterView::refresh);
     if (paramTag.endsWith(QStringLiteral("lift_gamma_gain"))) {

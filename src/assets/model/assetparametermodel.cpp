@@ -35,6 +35,7 @@ AssetParameterModel::AssetParameterModel(Mlt::Properties *asset, const QDomEleme
     , m_assetId(assetId)
     , m_ownerId(ownerId)
     , m_asset(asset)
+    , m_keyframes(nullptr)
 {
     Q_ASSERT(asset->is_valid());
     QDomNodeList nodeList = assetXml.elementsByTagName(QStringLiteral("parameter"));
