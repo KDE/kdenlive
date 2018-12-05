@@ -115,6 +115,8 @@ private:
     QFuture<void> m_previewThread;
     /** @brief: After an undo/redo, if we have preview history, use it. */
     void reloadChunks(const QVariantList chunks);
+    /** @brief: A chunk failed to render, abort. */
+    void corruptedChunk(int workingPreview, const QString &fileName);
 
 private slots:
     /** @brief: To avoid filling the hard drive, remove preview undo history after 5 steps. */

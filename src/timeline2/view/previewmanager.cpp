@@ -50,8 +50,11 @@ PreviewManager::PreviewManager(TimelineController *controller, Mlt::Tractor *tra
     int height = 1024 / dar;
     height -= height % 4;
     m_previewProfile->set_height(height);
+    m_previewProfile->set_sample_aspect(1, 1);
+    m_previewProfile->set_display_aspect(m_tractor->profile()->display_aspect_num(), m_tractor->profile()->display_aspect_den());
     m_previewProfile->set_frame_rate(m_tractor->profile()->frame_rate_num(), m_tractor->profile()->frame_rate_den());
     m_previewProfile->set_colorspace(m_tractor->profile()->colorspace());
+    m_previewProfile->set_progressive(m_tractor->profile()->progressive());
     m_previewProfile->set_explicit(1);
 }
 
@@ -533,17 +536,7 @@ void PreviewManager::doPreviewRender(const QString &scene)
             m_cacheDir.remove(fileName);
             emit previewRender(0, QString(), 1000);
         } else {
-            Mlt::Producer test(*m_tractor->profile(), "avformat", m_cacheDir.absoluteFilePath(fileName).toUtf8().constData());
-            if (test.is_valid()) {
-                emit previewRender(workingPreview, m_cacheDir.absoluteFilePath(fileName), progress);
-            } else {
-                // working chunk failed, re-add it to list and delete corrupt render
-                m_dirtyChunks << workingPreview;
-                qSort(m_dirtyChunks);
-                m_cacheDir.remove(fileName);
-                m_abortPreview = true;
-                emit previewRender(workingPreview, i18n("Preview rendering failed"), -1);
-            }
+            emit previewRender(workingPreview, m_cacheDir.absoluteFilePath(fileName), progress);
         }
         /*QStringList args;
         args << scene;
@@ -695,6 +688,7 @@ void PreviewManager::gotPreviewRender(int frame, const QString &file, int progre
             m_previewTrack->insert_at(frame, &prod, 1);
         } else {
             qCDebug(KDENLIVE_LOG) << "* * * INVALID PROD: " << file;
+            corruptedChunk(frame, file);
         }
     } else {
         qCDebug(KDENLIVE_LOG) << "* * * NON EMPTY PROD: " << frame;
@@ -703,6 +697,17 @@ void PreviewManager::gotPreviewRender(int frame, const QString &file, int progre
     m_tractor->unlock();
     pCore->currentDoc()->previewProgress(progress);
     pCore->currentDoc()->setModified(true);
+}
+
+void PreviewManager::corruptedChunk(int frame, const QString &fileName)
+{
+    m_abortPreview = true;
+    emit abortPreview();
+    m_previewThread.waitForFinished();
+    m_cacheDir.remove(fileName);
+    m_dirtyChunks << frame;
+    qSort(m_dirtyChunks);
+    emit previewRender(frame, i18n("Preview rendering failed"), -1);
 }
 
 int PreviewManager::setOverlayTrack(Mlt::Playlist *overlay)
