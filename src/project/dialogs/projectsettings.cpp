@@ -426,8 +426,8 @@ void ProjectSettings::accept()
     if (!params.isEmpty()) {
         if (params.section(QLatin1Char(';'), 0, 0) != m_previewparams || params.section(QLatin1Char(';'), 1, 1) != m_previewextension ||
             m_resizePreview != resize_preview->isChecked() || m_previewHeight != preview_height->value()) {
-            // Timeline preview settings changed, warn
-            if (KMessageBox::warningContinueCancel(this,
+            // Timeline preview settings changed, warn if there are existing previews
+            if (pCore->hasTimelinePreview() && KMessageBox::warningContinueCancel(this,
                                                    i18n("You changed the timeline preview profile. This will remove all existing timeline previews for "
                                                         "this project.\n Are you sure you want to proceed?"),
                                                    i18n("Confirm profile change")) == KMessageBox::Cancel) {

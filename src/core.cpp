@@ -470,6 +470,14 @@ void Core::refreshProjectItem(const ObjectId &id)
     }
 }
 
+bool Core::hasTimelinePreview() const
+{
+    if (!m_guiConstructed) {
+        return false;
+    }
+    return m_mainWindow->getCurrentTimeline()->controller()->renderedChunks().size() > 0;
+}
+
 KdenliveDoc *Core::currentDoc()
 {
     return m_projectManager->current();

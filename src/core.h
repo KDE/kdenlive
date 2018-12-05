@@ -171,6 +171,8 @@ public:
     void clearSelection();
     /** @brief Returns the current project duration */
     int projectDuration() const;
+    /** @brief Returns true if current project has some rendered timeline preview  */
+    bool hasTimelinePreview() const;
 
 private:
     explicit Core();

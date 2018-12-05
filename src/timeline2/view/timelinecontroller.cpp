@@ -1293,7 +1293,13 @@ void TimelineController::removeSplitOverlay()
 
 void TimelineController::addPreviewRange(bool add)
 {
-    if (m_timelinePreview && !m_zone.isNull()) {
+    if (m_zone.isNull()) {
+        return;
+    }
+    if (!m_timelinePreview) {
+        initializePreview();
+    }
+    if (m_timelinePreview) {
         m_timelinePreview->addPreviewRange(m_zone, add);
     }
 }
