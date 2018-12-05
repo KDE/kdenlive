@@ -243,8 +243,13 @@ void KeyframeModelList::resizeKeyframes(int oldIn, int oldOut, int in, int out, 
         getKeyframe(new_in, &ok2);
         // Check keyframes after last position
         QList <GenTime>positions;
-        if (ok && !ok2) {
+        if (ok && !ok2 && oldIn != 0) {
             positions << old_in;
+        } else if (in == 0 && ok && ok2) {
+            // We moved start to 0. As the 0 keyframe is always here, simply remove old position
+            for (const auto &param : m_parameters) {
+                param.second->removeKeyframe(old_in, undo, redo);
+            }
         }
         //qDebug()<<"/// \n\nKEYS TO DELETE: "<<positions<<"\n------------------------";
         if (ok && !ok2) {
