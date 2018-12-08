@@ -241,6 +241,11 @@ private slots:
     void refresh();
 
 protected:
+    bool acquireSharedFrameTextures();
+    void bindShaderProgram();
+    void releaseSharedFrameTextures();
+
+protected:
     void resizeEvent(QResizeEvent *event) override;
     void mousePressEvent(QMouseEvent *) override;
     void mouseMoveEvent(QMouseEvent *) override;

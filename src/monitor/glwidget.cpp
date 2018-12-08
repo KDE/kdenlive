@@ -138,17 +138,20 @@ GLWidget::GLWidget(int id, QObject *parent)
 
     if (KdenliveSettings::gpu_accel()) {
         m_glslManager = new Mlt::Filter(*m_monitorProfile, "glsl.manager");
+
+        if (!m_glslManager->is_valid()) {
+            delete m_glslManager;
+            m_glslManager = nullptr;
+            KdenliveSettings::setGpu_accel(false);
+            // Need to destroy MLT global reference to prevent filters from trying to use GPU.
+            mlt_properties_set_data(mlt_global_properties(), "glslManager", nullptr, 0, nullptr, nullptr);
+            emit gpuNotSupported();
+        }
     }
-    if (((m_glslManager != nullptr) && !m_glslManager->is_valid())) {
-        delete m_glslManager;
-        m_glslManager = nullptr;
-        KdenliveSettings::setGpu_accel(false);
-        // Need to destroy MLT global reference to prevent filters from trying to use GPU.
-        mlt_properties_set_data(mlt_global_properties(), "glslManager", nullptr, 0, nullptr, nullptr);
-        emit gpuNotSupported();
-    }
+
     connect(this, &QQuickWindow::sceneGraphInitialized, this, &GLWidget::initializeGL, Qt::DirectConnection);
     connect(this, &QQuickWindow::beforeRendering, this, &GLWidget::paintGL, Qt::DirectConnection);
+
     registerTimelineItems();
     m_proxy = new MonitorProxy(this);
     connect(m_proxy, &MonitorProxy::seekRequestChanged, this, &GLWidget::requestSeek);
@@ -225,12 +228,12 @@ void GLWidget::initializeGL()
     }
 #endif
 
-    openglContext()->doneCurrent();
     if (m_glslManager) {
         // Create a context sharing with this context for the RenderThread context.
         // This is needed because openglContext() is active in another thread
         // at the time that RenderThread is created.
         // See this Qt bug for more info: https://bugreports.qt.io/browse/QTBUG-44677
+        // TODO: QTBUG-44677 is closed. still applicable?
         m_shareContext = new QOpenGLContext;
         m_shareContext->setFormat(openglContext()->format());
         m_shareContext->setShareContext(openglContext());
@@ -238,6 +241,7 @@ void GLWidget::initializeGL()
     }
     m_frameRenderer = new FrameRenderer(openglContext(), &m_offscreenSurface);
     m_frameRenderer->sendAudioForAnalysis = KdenliveSettings::monitor_audio();
+
     openglContext()->makeCurrent(this);
     // openglContext()->blockSignals(false);
     connect(m_frameRenderer, &FrameRenderer::frameDisplayed, this, &GLWidget::frameDisplayed, Qt::QueuedConnection);
@@ -422,27 +426,12 @@ void GLWidget::releaseAnalyse()
     m_analyseSem.release();
 }
 
-void GLWidget::paintGL()
-{
-    QOpenGLFunctions *f = openglContext()->functions();
-    int width = this->width() * devicePixelRatio();
-    int height = this->height() * devicePixelRatio();
-
-    f->glDisable(GL_BLEND);
-    f->glDisable(GL_DEPTH_TEST);
-    f->glDepthMask(GL_FALSE);
-    f->glViewport(0, (m_rulerHeight * devicePixelRatio() * 0.5 + 0.5), width, height);
-    check_error(f);
-    QColor color(KdenliveSettings::window_background());
-    glClearColor(color.redF(), color.greenF(), color.blueF(), color.alphaF());
-    glClear(GL_COLOR_BUFFER_BIT);
-    check_error(f);
-
+bool GLWidget::acquireSharedFrameTextures() {
     if (!((m_glslManager != nullptr) || openglContext()->supportsThreadedOpenGL())) {
         m_mutex.lock();
         if (!m_sharedFrame.is_valid()) {
             m_mutex.unlock();
-            return;
+            return false;
         }
         uploadTextures(openglContext(), m_sharedFrame, m_texture);
         m_mutex.unlock();
@@ -455,8 +444,50 @@ void GLWidget::paintGL()
 
     if (!m_texture[0]) {
         if (m_glslManager) m_mutex.unlock();
-        return;
+        return false;
     }
+
+    return true;
+}
+
+void GLWidget::bindShaderProgram() {
+    m_shader->bind();
+
+    if (m_glslManager) {
+        m_shader->setUniformValue(m_textureLocation[0], 0);
+    } else {
+        m_shader->setUniformValue(m_textureLocation[0], 0);
+        m_shader->setUniformValue(m_textureLocation[1], 1);
+        m_shader->setUniformValue(m_textureLocation[2], 2);
+        m_shader->setUniformValue(m_colorspaceLocation, m_monitorProfile->colorspace());
+    }
+}
+
+void GLWidget::releaseSharedFrameTextures() {
+    if (m_glslManager) {
+        glFinish();
+        m_mutex.unlock();
+    }
+}
+
+void GLWidget::paintGL()
+{
+    QOpenGLFunctions *f = openglContext()->functions();
+    int width = this->width() * devicePixelRatio();
+    int height = this->height() * devicePixelRatio();
+
+    f->glDisable(GL_BLEND);
+    f->glDisable(GL_DEPTH_TEST);
+    f->glDepthMask(GL_FALSE);
+    f->glViewport(0, (m_rulerHeight * devicePixelRatio() * 0.5 + 0.5), width, height);
+    check_error(f);
+    QColor color(KdenliveSettings::window_background());
+    f->glClearColor(color.redF(), color.greenF(), color.blueF(), color.alphaF());
+    f->glClear(GL_COLOR_BUFFER_BIT);
+    check_error(f);
+
+    if (!acquireSharedFrameTextures())
+        return;
 
     // Bind textures.
     for (uint i = 0; i < 3; ++i) {
@@ -466,16 +497,8 @@ void GLWidget::paintGL()
             check_error(f);
         }
     }
-    // Init shader program.
-    m_shader->bind();
-    if (m_glslManager) {
-        m_shader->setUniformValue(m_textureLocation[0], 0);
-    } else {
-        m_shader->setUniformValue(m_textureLocation[0], 0);
-        m_shader->setUniformValue(m_textureLocation[1], 1);
-        m_shader->setUniformValue(m_textureLocation[2], 2);
-        m_shader->setUniformValue(m_colorspaceLocation, m_monitorProfile->colorspace());
-    }
+
+    bindShaderProgram();
     check_error(f);
 
     // Setup an orthographic projection.
@@ -558,11 +581,9 @@ void GLWidget::paintGL()
     }
     glActiveTexture(GL_TEXTURE0);
     check_error(f);
-    if (m_glslManager) {
-        glFinish();
-        check_error(f);
-        m_mutex.unlock();
-    }
+
+    releaseSharedFrameTextures();
+    check_error(f);
 }
 
 void GLWidget::slotZoom(bool zoomIn)
