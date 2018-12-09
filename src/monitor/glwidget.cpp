@@ -359,7 +359,9 @@ void GLWidget::createYUVTextureProjectFragmentProg()
     m_colorspaceLocation = m_shader->uniformLocation("colorspace");
 }
 
-static void uploadTextures(QOpenGLContext *context, const SharedFrame &frame, GLuint texture[])
+static void uploadTextures(QOpenGLContext *context,
+                           const SharedFrame &frame,
+                           GLuint texture[])
 {
     int width = frame.get_image_width();
     int height = frame.get_image_height();
@@ -430,22 +432,20 @@ void GLWidget::releaseAnalyse()
 
 bool GLWidget::acquireSharedFrameTextures() {
     if ((m_glslManager == nullptr) && !openglContext()->supportsThreadedOpenGL()) {
-        m_mutex.lock();
+        QMutexLocker locker(&m_contextSharedAccess);
         if (!m_sharedFrame.is_valid()) {
-            m_mutex.unlock();
             return false;
         }
         uploadTextures(openglContext(), m_sharedFrame, m_texture);
-        m_mutex.unlock();
     } else if (m_glslManager) {
-        m_mutex.lock();
+        m_contextSharedAccess.lock();
         if (m_sharedFrame.is_valid()) {
             m_texture[0] = *((const GLuint *)m_sharedFrame.get_image());
         }
     }
 
     if (!m_texture[0]) {
-        if (m_glslManager) m_mutex.unlock();
+        if (m_glslManager) m_contextSharedAccess.unlock();
         return false;
     }
 
@@ -468,7 +468,7 @@ void GLWidget::bindShaderProgram() {
 void GLWidget::releaseSharedFrameTextures() {
     if (m_glslManager) {
         glFinish();
-        m_mutex.unlock();
+        m_contextSharedAccess.unlock();
     }
 }
 
@@ -678,7 +678,7 @@ QString GLWidget::frameToTime(int frames) const
 void GLWidget::refresh()
 {
     m_refreshTimer.stop();
-    QMutexLocker locker(&m_mutex);
+    QMutexLocker locker(&m_mltMutex);
     if (m_consumer->is_stopped()) {
         m_consumer->start();
     }
@@ -1345,10 +1345,10 @@ void GLWidget::setZoom(float zoom)
 
 void GLWidget::onFrameDisplayed(const SharedFrame &frame)
 {
-    m_mutex.lock();
+    m_contextSharedAccess.lock();
     m_sharedFrame = frame;
     m_sendFrame = sendFrameForAnalysis;
-    m_mutex.unlock();
+    m_contextSharedAccess.unlock();
     update();
 }
 
@@ -1737,7 +1737,6 @@ void GLWidget::refreshSceneLayout()
 
 void GLWidget::switchPlay(bool play, double speed)
 {
-    // QMutexLocker locker(&m_mutex);
     m_proxy->setSeekPosition(-1);
     if ((m_producer == nullptr) || (m_consumer == nullptr)) {
         return;
@@ -1855,7 +1854,8 @@ void GLWidget::stop()
 {
     m_refreshTimer.stop();
     m_proxy->setSeekPosition(-1);
-    QMutexLocker locker(&m_mutex);
+    // why this lock?
+    QMutexLocker locker(&m_mltMutex);
     if (m_producer) {
         if (m_isZoneMode) {
             resetZoneMode();
@@ -1880,7 +1880,8 @@ double GLWidget::playSpeed() const
 
 void GLWidget::setDropFrames(bool drop)
 {
-    QMutexLocker locker(&m_mutex);
+    // why this lock?
+    QMutexLocker locker(&m_mltMutex);
     if (m_consumer) {
         int dropFrames = realTime();
         if (!drop) {
@@ -1926,7 +1927,7 @@ int GLWidget::duration() const
 
 void GLWidget::setConsumerProperty(const QString &name, const QString &value)
 {
-    QMutexLocker locker(&m_mutex);
+    QMutexLocker locker(&m_mltMutex);
     if (m_consumer) {
         m_consumer->set(name.toUtf8().constData(), value.toUtf8().constData());
         if (m_consumer->start() == -1) {

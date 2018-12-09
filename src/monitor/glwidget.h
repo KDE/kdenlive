@@ -189,10 +189,12 @@ signals:
 
 protected:
     Mlt::Filter *m_glslManager;
+    // TODO: MTL has lock/unlock of individual nodes. Use those.
+    // keeping this for refactoring ease.
+    QMutex m_mltMutex;
     Mlt::Consumer *m_consumer;
     Mlt::Producer *m_producer;
     Mlt::Profile *m_monitorProfile;
-    QMutex m_mutex;
     int m_id;
     int m_rulerHeight;
 
@@ -220,14 +222,10 @@ private:
     int m_textureLocation[3];
     QTimer m_refreshTimer;
     float m_zoom;
-    bool m_openGLSync;
     bool m_sendFrame;
     bool m_isZoneMode;
     bool m_isLoopMode;
-    SharedFrame m_sharedFrame;
     QPoint m_offset;
-    QOffscreenSurface m_offscreenSurface;
-    QOpenGLContext *m_shareContext;
     bool m_audioWaveDisplayed;
     MonitorProxy *m_proxy;
     QScopedPointer<Mlt::Producer> m_blackClip;
@@ -251,6 +249,13 @@ private slots:
     void refresh();
 
 protected:
+    QMutex m_contextSharedAccess;
+    QOffscreenSurface m_offscreenSurface;
+    SharedFrame m_sharedFrame;
+    QOpenGLContext *m_shareContext;
+
+    bool m_openGLSync;
+
     bool acquireSharedFrameTextures();
     void bindShaderProgram();
     void createGPUAccelFragmentProg();
