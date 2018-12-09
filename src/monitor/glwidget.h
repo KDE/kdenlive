@@ -74,6 +74,7 @@ public:
     friend class MonitorController;
     friend class Monitor;
     friend class MonitorProxy;
+    using ClientWaitSync_fp = GLenum (*)(GLsync, GLbitfield, GLuint64);
 
     GLWidget(int id, QObject *parent = nullptr);
     ~GLWidget();
@@ -256,8 +257,6 @@ protected:
     SharedFrame m_sharedFrame;
     QOpenGLContext *m_shareContext;
 
-    bool m_openGLSync;
-
     bool acquireSharedFrameTextures();
     void bindShaderProgram();
     void createGPUAccelFragmentProg();
@@ -265,6 +264,22 @@ protected:
     void createYUVTextureProjectFragmentProg();
     void disableGPUAccel();
     void releaseSharedFrameTextures();
+
+    // pipeline A - YUV gl texture w/o GPU filter acceleration
+    // pipeline B - YUV gl texture multithreaded w/o GPU filter acceleration
+    // pipeline A & B
+    // pipeline C - RGB gl texture multithreaded w/ GPU filter acceleration and no sync
+    // pipeline D - RGB gl texture multithreaded w/ GPU filter acceleration and sync
+    bool m_openGLSync;
+
+    // pipeline C & D
+    bool initGPUAccel();
+    bool initGPUAccelSync();
+    bool onlyGLESGPUAccel() const;
+
+    // pipeline A & B & C & D
+    // not null iff D
+    ClientWaitSync_fp m_ClientWaitSync;
 
 protected:
     void resizeEvent(QResizeEvent *event) override;
@@ -294,7 +309,9 @@ class FrameRenderer : public QThread
 {
     Q_OBJECT
 public:
-    explicit FrameRenderer(QOpenGLContext *shareContext, QSurface *surface);
+    explicit FrameRenderer(QOpenGLContext *shareContext,
+                           QSurface *surface,
+                           GLWidget::ClientWaitSync_fp clientWaitSync);
     ~FrameRenderer();
     QSemaphore *semaphore() { return &m_semaphore; }
     QOpenGLContext *context() const { return m_context; }
@@ -315,6 +332,7 @@ private:
     SharedFrame m_displayFrame;
     QOpenGLContext *m_context;
     QSurface *m_surface;
+    GLWidget::ClientWaitSync_fp m_ClientWaitSync;
 
 public:
     GLuint m_renderTexture[3];

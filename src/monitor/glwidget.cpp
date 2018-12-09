@@ -65,11 +65,6 @@
 #define GL_TIMEOUT_IGNORED 0xFFFFFFFFFFFFFFFFull
 #endif
 
-#ifndef Q_OS_WIN
-using ClientWaitSync_fp = GLenum (*)(GLsync, GLbitfield, GLuint64);
-static ClientWaitSync_fp ClientWaitSync = nullptr;
-#endif
-
 using namespace Mlt;
 
 GLWidget::GLWidget(int id, QObject *parent)
@@ -96,7 +91,6 @@ GLWidget::GLWidget(int id, QObject *parent)
     , m_texCoordLocation(0)
     , m_colorspaceLocation(0)
     , m_zoom(1.0f)
-    , m_openGLSync(false)
     , m_sendFrame(false)
     , m_isZoneMode(false)
     , m_isLoopMode(false)
@@ -104,6 +98,8 @@ GLWidget::GLWidget(int id, QObject *parent)
     , m_shareContext(nullptr)
     , m_audioWaveDisplayed(false)
     , m_fbo(nullptr)
+    , m_openGLSync(false)
+    , m_ClientWaitSync(nullptr)
 {
     KDeclarative::KDeclarative kdeclarative;
     kdeclarative.setDeclarativeEngine(engine());
@@ -136,14 +132,8 @@ GLWidget::GLWidget(int id, QObject *parent)
     connect(&m_refreshTimer, &QTimer::timeout, this, &GLWidget::refresh);
     m_producer = &*m_blackClip;
 
-    // C & D
-    if (KdenliveSettings::gpu_accel()) {
-        m_glslManager = new Mlt::Filter(*m_monitorProfile, "glsl.manager");
-
-        // fallback to A || B
-        if (!m_glslManager->is_valid()) {
-            disableGPUAccel();
-        }
+    if (!initGPUAccel()) {
+        disableGPUAccel();
     }
 
     connect(this, &QQuickWindow::sceneGraphInitialized, this, &GLWidget::initializeGL, Qt::DirectConnection);
@@ -201,32 +191,13 @@ void GLWidget::initializeGL()
     qCDebug(KDENLIVE_LOG) << "OpenGL OpenGLES: " << openglContext()->isOpenGLES();
 
     // C & D
-    if ((m_glslManager != nullptr) && openglContext()->isOpenGLES()) {
-        // fallback on A || B
+    if (onlyGLESGPUAccel()) {
         disableGPUAccel();
     }
 
     createShader();
 
-#if !defined(Q_OS_WIN)
-    // getProcAddress is not working for me on Windows.
-    // C & D
-    if (KdenliveSettings::gpu_accel()) {
-        m_openGLSync = false;
-        // D
-        if ((m_glslManager != nullptr) && openglContext()->hasExtension("GL_ARB_sync")) {
-            ClientWaitSync = (ClientWaitSync_fp)openglContext()->getProcAddress("glClientWaitSync");
-            if (ClientWaitSync) {
-                m_openGLSync = true;
-            } else {
-                qCDebug(KDENLIVE_LOG) << "  / / // NO GL SYNC, ERROR";
-                // fallback on A || B
-                // TODO: fallback on A || B || C?
-                disableGPUAccel();
-            }
-        }
-    }
-#endif
+    m_openGLSync = initGPUAccelSync();
 
     // C & D
     if (m_glslManager) {
@@ -240,7 +211,11 @@ void GLWidget::initializeGL()
         m_shareContext->setShareContext(openglContext());
         m_shareContext->create();
     }
-    m_frameRenderer = new FrameRenderer(openglContext(), &m_offscreenSurface);
+
+    m_frameRenderer = new FrameRenderer(openglContext(),
+                                        &m_offscreenSurface,
+                                        m_ClientWaitSync);
+
     m_frameRenderer->sendAudioForAnalysis = KdenliveSettings::monitor_audio();
 
     openglContext()->makeCurrent(this);
@@ -490,6 +465,13 @@ void GLWidget::releaseSharedFrameTextures() {
     }
 }
 
+bool GLWidget::initGPUAccel() {
+    if (!KdenliveSettings::gpu_accel()) return false;
+
+    m_glslManager = new Mlt::Filter(*m_monitorProfile, "glsl.manager");
+    return m_glslManager->is_valid();
+}
+
 // C & D
 // TODO: insure safe, idempotent on all pipelines.
 void GLWidget::disableGPUAccel() {
@@ -500,6 +482,35 @@ void GLWidget::disableGPUAccel() {
     mlt_properties_set_data(mlt_global_properties(), "glslManager", nullptr, 0, nullptr, nullptr);
     emit gpuNotSupported();
 }
+
+bool GLWidget::onlyGLESGPUAccel() const {
+    return (m_glslManager != nullptr) && openglContext()->isOpenGLES();
+}
+
+#if defined(Q_OS_WIN)
+bool GLWidget::initGPUAccelSync() {
+    // no-op
+    // TODO: getProcAddress is not working on Windows?
+    return false;
+}
+#else
+bool GLWidget::initGPUAccelSync() {
+    if (!KdenliveSettings::gpu_accel()) return false;
+    if (m_glslManager == nullptr) return false;
+    if (!openglContext()->hasExtension("GL_ARB_sync")) return false;
+
+    m_ClientWaitSync = (ClientWaitSync_fp)openglContext()->getProcAddress("glClientWaitSync");
+    if (m_ClientWaitSync) {
+        return true;
+    } else {
+        qCDebug(KDENLIVE_LOG) << "  / / // NO GL SYNC, ERROR";
+        // fallback on A || B
+        // TODO: fallback on A || B || C?
+        disableGPUAccel();
+        return false;
+    }
+}
+#endif
 
 void GLWidget::paintGL()
 {
@@ -1566,11 +1577,14 @@ void RenderThread::run()
     }
 }
 
-FrameRenderer::FrameRenderer(QOpenGLContext *shareContext, QSurface *surface)
+FrameRenderer::FrameRenderer(QOpenGLContext *shareContext,
+                             QSurface *surface,
+                             GLWidget::ClientWaitSync_fp clientWaitSync)
     : QThread(nullptr)
     , m_semaphore(3)
     , m_context(nullptr)
     , m_surface(surface)
+    , m_ClientWaitSync(clientWaitSync)
     , m_gl32(nullptr)
     , sendAudioForAnalysis(false)
 {
@@ -1650,8 +1664,9 @@ void FrameRenderer::showGLFrame(Mlt::Frame frame)
                 check_error(m_context->functions());
             }
 #else
-            if (ClientWaitSync) {
-                ClientWaitSync(sync, 0, GL_TIMEOUT_IGNORED);
+            // D
+            if (m_ClientWaitSync) {
+                m_ClientWaitSync(sync, 0, GL_TIMEOUT_IGNORED);
                 check_error(m_context->functions());
             }
 #endif // Q_OS_WIN
