@@ -233,6 +233,8 @@ private:
     void refreshSceneLayout();
     void resetZoneMode();
 
+    /* GPU acceleration OpenGL context management.
+     */
 private slots:
     void resizeGL(int width, int height);
     void updateTexture(GLuint yName, GLuint uName, GLuint vName);
@@ -244,6 +246,7 @@ protected:
     bool acquireSharedFrameTextures();
     void bindShaderProgram();
     void releaseSharedFrameTextures();
+    void disableGPUAccel();
 
 protected:
     void resizeEvent(QResizeEvent *event) override;

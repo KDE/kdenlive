@@ -140,12 +140,7 @@ GLWidget::GLWidget(int id, QObject *parent)
         m_glslManager = new Mlt::Filter(*m_monitorProfile, "glsl.manager");
 
         if (!m_glslManager->is_valid()) {
-            delete m_glslManager;
-            m_glslManager = nullptr;
-            KdenliveSettings::setGpu_accel(false);
-            // Need to destroy MLT global reference to prevent filters from trying to use GPU.
-            mlt_properties_set_data(mlt_global_properties(), "glslManager", nullptr, 0, nullptr, nullptr);
-            emit gpuNotSupported();
+            disableGPUAccel();
         }
     }
 
@@ -192,8 +187,10 @@ void GLWidget::updateAudioForAnalysis()
 void GLWidget::initializeGL()
 {
     if (m_isInitialized || !isVisible() || (openglContext() == nullptr)) return;
+
     openglContext()->makeCurrent(&m_offscreenSurface);
     initializeOpenGLFunctions();
+
     qCDebug(KDENLIVE_LOG) << "OpenGL vendor: " << QString::fromUtf8((const char *)glGetString(GL_VENDOR));
     qCDebug(KDENLIVE_LOG) << "OpenGL renderer: " << QString::fromUtf8((const char *)glGetString(GL_RENDERER));
     qCDebug(KDENLIVE_LOG) << "OpenGL Threaded: " << openglContext()->supportsThreadedOpenGL();
@@ -201,13 +198,9 @@ void GLWidget::initializeGL()
     qCDebug(KDENLIVE_LOG) << "OpenGL OpenGLES: " << openglContext()->isOpenGLES();
 
     if ((m_glslManager != nullptr) && openglContext()->isOpenGLES()) {
-        delete m_glslManager;
-        m_glslManager = nullptr;
-        KdenliveSettings::setGpu_accel(false);
-        // Need to destroy MLT global reference to prevent filters from trying to use GPU.
-        mlt_properties_set_data(mlt_global_properties(), "glslManager", nullptr, 0, nullptr, nullptr);
-        emit gpuNotSupported();
+        disableGPUAccel();
     }
+
     createShader();
 
 #if !defined(Q_OS_WIN)
@@ -220,9 +213,7 @@ void GLWidget::initializeGL()
                 m_openGLSync = true;
             } else {
                 qCDebug(KDENLIVE_LOG) << "  / / // NO GL SYNC, ERROR";
-                emit gpuNotSupported();
-                delete m_glslManager;
-                m_glslManager = nullptr;
+                disableGPUAccel();
             }
         }
     }
@@ -468,6 +459,15 @@ void GLWidget::releaseSharedFrameTextures() {
         glFinish();
         m_mutex.unlock();
     }
+}
+
+void GLWidget::disableGPUAccel() {
+    delete m_glslManager;
+    m_glslManager = nullptr;
+    KdenliveSettings::setGpu_accel(false);
+    // Need to destroy MLT global reference to prevent filters from trying to use GPU.
+    mlt_properties_set_data(mlt_global_properties(), "glslManager", nullptr, 0, nullptr, nullptr);
+    emit gpuNotSupported();
 }
 
 void GLWidget::paintGL()
@@ -822,11 +822,7 @@ void GLWidget::startGlsl()
         // clearFrameRenderer();
         m_glslManager->fire_event("init glsl");
         if (m_glslManager->get_int("glsl_supported") == 0) {
-            delete m_glslManager;
-            m_glslManager = nullptr;
-            // Need to destroy MLT global reference to prevent filters from trying to use GPU.
-            mlt_properties_set_data(mlt_global_properties(), "glslManager", nullptr, 0, nullptr, nullptr);
-            emit gpuNotSupported();
+            disableGPUAccel();
         } else {
             emit started();
         }
