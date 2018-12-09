@@ -54,6 +54,14 @@ class MonitorProxy;
 
 typedef void *(*thread_function_t)(void *);
 
+/*
+ * Consumes from mlt configured with a render pipeline of type:
+ *
+ *    - A. YUV gl texture w/o GPU filter acceleration
+ *    - B. YUV gl texture multithreaded w/o GPU filter acceleration
+ *    - C. RGB gl texture multithreaded w/ GPU filter acceleration and no sync
+ *    - D. RGB gl texture multithreaded w/ GPU filter acceleration and sync
+ */
 class GLWidget : public QQuickView, protected QOpenGLFunctions
 {
     Q_OBJECT
@@ -233,7 +241,7 @@ private:
     void refreshSceneLayout();
     void resetZoneMode();
 
-    /* GPU acceleration OpenGL context management.
+    /* OpenGL context management. Interfaces to MLT according to the configured render pipeline.
      */
 private slots:
     void resizeGL(int width, int height);
@@ -245,15 +253,17 @@ private slots:
 protected:
     bool acquireSharedFrameTextures();
     void bindShaderProgram();
-    void releaseSharedFrameTextures();
+    void createGPUAccelFragmentProg();
+    void createShader();
+    void createYUVTextureProjectFragmentProg();
     void disableGPUAccel();
+    void releaseSharedFrameTextures();
 
 protected:
     void resizeEvent(QResizeEvent *event) override;
     void mousePressEvent(QMouseEvent *) override;
     void mouseMoveEvent(QMouseEvent *) override;
     void keyPressEvent(QKeyEvent *event) override;
-    void createShader();
 };
 
 class RenderThread : public QThread

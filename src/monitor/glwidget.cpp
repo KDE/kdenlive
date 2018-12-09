@@ -292,6 +292,17 @@ void GLWidget::resizeEvent(QResizeEvent *event)
     QQuickView::resizeEvent(event);
 }
 
+void GLWidget::createGPUAccelFragmentProg()
+{
+    m_shader->addShaderFromSourceCode(QOpenGLShader::Fragment, "uniform sampler2D tex;"
+                                                               "varying highp vec2 coordinates;"
+                                                               "void main(void) {"
+                                                               "  gl_FragColor = texture2D(tex, coordinates);"
+                                                               "}");
+    m_shader->link();
+    m_textureLocation[0] = m_shader->uniformLocation("tex");
+}
+
 void GLWidget::createShader()
 {
     m_shader = new QOpenGLShaderProgram;
@@ -305,47 +316,47 @@ void GLWidget::createShader()
                                                              "  coordinates = texCoord;"
                                                              "}");
     if (m_glslManager) {
-        m_shader->addShaderFromSourceCode(QOpenGLShader::Fragment, "uniform sampler2D tex;"
-                                                                   "varying highp vec2 coordinates;"
-                                                                   "void main(void) {"
-                                                                   "  gl_FragColor = texture2D(tex, coordinates);"
-                                                                   "}");
-        m_shader->link();
-        m_textureLocation[0] = m_shader->uniformLocation("tex");
+        createGPUAccelFragmentProg();
     } else {
-        m_shader->addShaderFromSourceCode(QOpenGLShader::Fragment,
-                                          "uniform sampler2D Ytex, Utex, Vtex;"
-                                          "uniform lowp int colorspace;"
-                                          "varying highp vec2 coordinates;"
-                                          "void main(void) {"
-                                          "  mediump vec3 texel;"
-                                          "  texel.r = texture2D(Ytex, coordinates).r - 0.0625;" // Y
-                                          "  texel.g = texture2D(Utex, coordinates).r - 0.5;"    // U
-                                          "  texel.b = texture2D(Vtex, coordinates).r - 0.5;"    // V
-                                          "  mediump mat3 coefficients;"
-                                          "  if (colorspace == 601) {"
-                                          "    coefficients = mat3("
-                                          "      1.1643,  1.1643,  1.1643," // column 1
-                                          "      0.0,    -0.39173, 2.017,"  // column 2
-                                          "      1.5958, -0.8129,  0.0);"   // column 3
-                                          "  } else {"                      // ITU-R 709
-                                          "    coefficients = mat3("
-                                          "      1.1643, 1.1643, 1.1643," // column 1
-                                          "      0.0,   -0.213,  2.112,"  // column 2
-                                          "      1.793, -0.533,  0.0);"   // column 3
-                                          "  }"
-                                          "  gl_FragColor = vec4(coefficients * texel, 1.0);"
-                                          "}");
-        m_shader->link();
-        m_textureLocation[0] = m_shader->uniformLocation("Ytex");
-        m_textureLocation[1] = m_shader->uniformLocation("Utex");
-        m_textureLocation[2] = m_shader->uniformLocation("Vtex");
-        m_colorspaceLocation = m_shader->uniformLocation("colorspace");
+        createYUVTextureProjectFragmentProg();
     }
+
     m_projectionLocation = m_shader->uniformLocation("projection");
     m_modelViewLocation = m_shader->uniformLocation("modelView");
     m_vertexLocation = m_shader->attributeLocation("vertex");
     m_texCoordLocation = m_shader->attributeLocation("texCoord");
+}
+
+void GLWidget::createYUVTextureProjectFragmentProg()
+{
+    m_shader->addShaderFromSourceCode(QOpenGLShader::Fragment,
+                                        "uniform sampler2D Ytex, Utex, Vtex;"
+                                        "uniform lowp int colorspace;"
+                                        "varying highp vec2 coordinates;"
+                                        "void main(void) {"
+                                        "  mediump vec3 texel;"
+                                        "  texel.r = texture2D(Ytex, coordinates).r - 0.0625;" // Y
+                                        "  texel.g = texture2D(Utex, coordinates).r - 0.5;"    // U
+                                        "  texel.b = texture2D(Vtex, coordinates).r - 0.5;"    // V
+                                        "  mediump mat3 coefficients;"
+                                        "  if (colorspace == 601) {"
+                                        "    coefficients = mat3("
+                                        "      1.1643,  1.1643,  1.1643," // column 1
+                                        "      0.0,    -0.39173, 2.017,"  // column 2
+                                        "      1.5958, -0.8129,  0.0);"   // column 3
+                                        "  } else {"                      // ITU-R 709
+                                        "    coefficients = mat3("
+                                        "      1.1643, 1.1643, 1.1643," // column 1
+                                        "      0.0,   -0.213,  2.112,"  // column 2
+                                        "      1.793, -0.533,  0.0);"   // column 3
+                                        "  }"
+                                        "  gl_FragColor = vec4(coefficients * texel, 1.0);"
+                                        "}");
+    m_shader->link();
+    m_textureLocation[0] = m_shader->uniformLocation("Ytex");
+    m_textureLocation[1] = m_shader->uniformLocation("Utex");
+    m_textureLocation[2] = m_shader->uniformLocation("Vtex");
+    m_colorspaceLocation = m_shader->uniformLocation("colorspace");
 }
 
 static void uploadTextures(QOpenGLContext *context, const SharedFrame &frame, GLuint texture[])
@@ -418,7 +429,7 @@ void GLWidget::releaseAnalyse()
 }
 
 bool GLWidget::acquireSharedFrameTextures() {
-    if (!((m_glslManager != nullptr) || openglContext()->supportsThreadedOpenGL())) {
+    if ((m_glslManager == nullptr) && !openglContext()->supportsThreadedOpenGL()) {
         m_mutex.lock();
         if (!m_sharedFrame.is_valid()) {
             m_mutex.unlock();
