@@ -54,13 +54,14 @@ class MonitorProxy;
 
 typedef void *(*thread_function_t)(void *);
 
-/*
- * Consumes from mlt configured with a render pipeline of type:
+/* QQuickView that renders an .
  *
- *    - A. YUV gl texture w/o GPU filter acceleration
- *    - B. YUV gl texture multithreaded w/o GPU filter acceleration
- *    - C. RGB gl texture multithreaded w/ GPU filter acceleration and no sync
- *    - D. RGB gl texture multithreaded w/ GPU filter acceleration and sync
+ * Creates an MLT consumer and renders a GL view from the consumer. This pipeline is one of:
+ *
+ *    A. YUV gl texture w/o GPU filter acceleration
+ *    B. YUV gl texture multithreaded w/o GPU filter acceleration
+ *    C. RGB gl texture multithreaded w/ GPU filter acceleration and no sync
+ *    D. RGB gl texture multithreaded w/ GPU filter acceleration and sync
  */
 class GLWidget : public QQuickView, protected QOpenGLFunctions
 {
@@ -82,6 +83,7 @@ public:
     void startGlsl();
     void stopGlsl();
     void clear();
+    // TODO: currently unused
     int reconfigureMulti(const QString &params, const QString &path, Mlt::Profile *profile);
     void stopCapture();
     int reconfigure(Mlt::Profile *profile = nullptr);

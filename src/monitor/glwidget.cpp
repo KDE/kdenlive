@@ -136,9 +136,11 @@ GLWidget::GLWidget(int id, QObject *parent)
     connect(&m_refreshTimer, &QTimer::timeout, this, &GLWidget::refresh);
     m_producer = &*m_blackClip;
 
+    // C & D
     if (KdenliveSettings::gpu_accel()) {
         m_glslManager = new Mlt::Filter(*m_monitorProfile, "glsl.manager");
 
+        // fallback to A || B
         if (!m_glslManager->is_valid()) {
             disableGPUAccel();
         }
@@ -155,6 +157,7 @@ GLWidget::GLWidget(int id, QObject *parent)
 
 GLWidget::~GLWidget()
 {
+    // C & D
     delete m_glslManager;
     delete m_threadStartEvent;
     delete m_threadStopEvent;
@@ -197,7 +200,9 @@ void GLWidget::initializeGL()
     qCDebug(KDENLIVE_LOG) << "OpenGL ARG_SYNC: " << openglContext()->hasExtension("GL_ARB_sync");
     qCDebug(KDENLIVE_LOG) << "OpenGL OpenGLES: " << openglContext()->isOpenGLES();
 
+    // C & D
     if ((m_glslManager != nullptr) && openglContext()->isOpenGLES()) {
+        // fallback on A || B
         disableGPUAccel();
     }
 
@@ -205,20 +210,25 @@ void GLWidget::initializeGL()
 
 #if !defined(Q_OS_WIN)
     // getProcAddress is not working for me on Windows.
+    // C & D
     if (KdenliveSettings::gpu_accel()) {
         m_openGLSync = false;
+        // D
         if ((m_glslManager != nullptr) && openglContext()->hasExtension("GL_ARB_sync")) {
             ClientWaitSync = (ClientWaitSync_fp)openglContext()->getProcAddress("glClientWaitSync");
             if (ClientWaitSync) {
                 m_openGLSync = true;
             } else {
                 qCDebug(KDENLIVE_LOG) << "  / / // NO GL SYNC, ERROR";
+                // fallback on A || B
+                // TODO: fallback on A || B || C?
                 disableGPUAccel();
             }
         }
     }
 #endif
 
+    // C & D
     if (m_glslManager) {
         // Create a context sharing with this context for the RenderThread context.
         // This is needed because openglContext() is active in another thread
@@ -315,9 +325,11 @@ void GLWidget::createShader()
                                                              "  gl_Position = projection * modelView * vertex;"
                                                              "  coordinates = texCoord;"
                                                              "}");
+    // C & D
     if (m_glslManager) {
         createGPUAccelFragmentProg();
     } else {
+        // A & B
         createYUVTextureProjectFragmentProg();
     }
 
@@ -431,6 +443,7 @@ void GLWidget::releaseAnalyse()
 }
 
 bool GLWidget::acquireSharedFrameTextures() {
+    // A
     if ((m_glslManager == nullptr) && !openglContext()->supportsThreadedOpenGL()) {
         QMutexLocker locker(&m_contextSharedAccess);
         if (!m_sharedFrame.is_valid()) {
@@ -438,6 +451,7 @@ bool GLWidget::acquireSharedFrameTextures() {
         }
         uploadTextures(openglContext(), m_sharedFrame, m_texture);
     } else if (m_glslManager) {
+        // C & D
         m_contextSharedAccess.lock();
         if (m_sharedFrame.is_valid()) {
             m_texture[0] = *((const GLuint *)m_sharedFrame.get_image());
@@ -445,6 +459,7 @@ bool GLWidget::acquireSharedFrameTextures() {
     }
 
     if (!m_texture[0]) {
+        // C & D
         if (m_glslManager) m_contextSharedAccess.unlock();
         return false;
     }
@@ -455,9 +470,11 @@ bool GLWidget::acquireSharedFrameTextures() {
 void GLWidget::bindShaderProgram() {
     m_shader->bind();
 
+    // C & D
     if (m_glslManager) {
         m_shader->setUniformValue(m_textureLocation[0], 0);
     } else {
+        // A & B
         m_shader->setUniformValue(m_textureLocation[0], 0);
         m_shader->setUniformValue(m_textureLocation[1], 1);
         m_shader->setUniformValue(m_textureLocation[2], 2);
@@ -466,12 +483,15 @@ void GLWidget::bindShaderProgram() {
 }
 
 void GLWidget::releaseSharedFrameTextures() {
+    // C & D
     if (m_glslManager) {
         glFinish();
         m_contextSharedAccess.unlock();
     }
 }
 
+// C & D
+// TODO: insure safe, idempotent on all pipelines.
 void GLWidget::disableGPUAccel() {
     delete m_glslManager;
     m_glslManager = nullptr;
@@ -829,6 +849,7 @@ static void onThreadJoin(mlt_properties owner, GLWidget *self, RenderThread *thr
 
 void GLWidget::startGlsl()
 {
+    // C & D
     if (m_glslManager) {
         // clearFrameRenderer();
         m_glslManager->fire_event("init glsl");
@@ -862,6 +883,7 @@ void GLWidget::stopGlsl()
         m_consumer->purge();
     }
 
+    // C & D
     // TODO This is commented out for now because it is causing crashes.
     // Technically, this should be the correct thing to do, but it appears
     // some changes have created regression (see shotcut)
@@ -907,6 +929,7 @@ int GLWidget::setProducer(Mlt::Producer *producer, bool isActive, int position)
         }
         m_producer = &*m_blackClip;
     }
+    // redundant check. postcondition of above is m_producer != null
     if (m_producer) {
         m_producer->set_speed(0);
         if (m_consumer) {
@@ -1122,13 +1145,17 @@ int GLWidget::reconfigureMulti(const QString &params, const QString &path, Mlt::
         }
         // Connect the producer to the consumer - tell it to "run" later
         delete m_displayEvent;
+        // C & D
         if (m_glslManager) {
+            // D
             if (m_openGLSync) {
                 m_displayEvent = m_consumer->listen("consumer-frame-show", this, (mlt_listener)on_gl_frame_show);
             } else {
+                // C
                 m_displayEvent = m_consumer->listen("consumer-frame-show", this, (mlt_listener)on_gl_nosync_frame_show);
             }
         } else {
+            // A & B
             m_displayEvent = m_consumer->listen("consumer-frame-show", this, (mlt_listener)on_frame_show);
         }
         m_consumer->connect(*m_producer);
@@ -1219,6 +1246,7 @@ int GLWidget::reconfigure(Mlt::Profile *profile)
             dropFrames = -dropFrames;
         }
         m_consumer->set("real_time", dropFrames);
+        // C & D
         if (m_glslManager) {
             if (!m_threadStartEvent) {
                 m_threadStartEvent = m_consumer->listen("consumer-thread-started", this, (mlt_listener)onThreadStarted);
@@ -1230,13 +1258,16 @@ int GLWidget::reconfigure(Mlt::Profile *profile)
                 m_consumer->set("mlt_image_format", "glsl");
             }
         } else {
+            // A & B
             m_consumer->set("mlt_image_format", "yuv422");
         }
 
         delete m_displayEvent;
+        // C & D
         if (m_glslManager) {
             m_displayEvent = m_consumer->listen("consumer-frame-show", this, (mlt_listener)on_gl_frame_show);
         } else {
+            // A & B
             m_displayEvent = m_consumer->listen("consumer-frame-show", this, (mlt_listener)on_frame_show);
         }
 
@@ -1401,6 +1432,7 @@ void GLWidget::setOffsetY(int y, int max)
 
 int GLWidget::realTime() const
 {
+    // C & D
     if (m_glslManager) {
         return 1;
     }
