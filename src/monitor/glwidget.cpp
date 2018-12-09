@@ -1669,49 +1669,52 @@ void FrameRenderer::cleanup()
 
 void GLWidget::setAudioThumb(int channels, const QVariantList &audioCache)
 {
-    if (rootObject()) {
-        QmlAudioThumb *audioThumbDisplay = rootObject()->findChild<QmlAudioThumb *>(QStringLiteral("audiothumb"));
-        if (audioThumbDisplay) {
-            QImage img(width(), height() / 6, QImage::Format_ARGB32_Premultiplied);
-            img.fill(Qt::transparent);
-            if (!audioCache.isEmpty() && channels > 0) {
-                int audioLevelCount = audioCache.count() - 1;
-                // simplified audio
-                QPainter painter(&img);
-                QRectF mappedRect(0, 0, img.width(), img.height());
-                int channelHeight = mappedRect.height();
-                double value;
-                double scale = (double)width() / (audioLevelCount / channels);
-                if (scale < 1) {
-                    painter.setPen(QColor(80, 80, 150, 200));
-                    for (int i = 0; i < img.width(); i++) {
-                        int framePos = i / scale;
-                        value = audioCache.at(qMin(framePos * channels, audioLevelCount)).toDouble() / 256;
-                        for (int channel = 1; channel < channels; channel++) {
-                            value = qMax(value, audioCache.at(qMin(framePos * channels + channel, audioLevelCount)).toDouble() / 256);
-                        }
-                        painter.drawLine(i, mappedRect.bottom() - (value * channelHeight), i, mappedRect.bottom());
-                    }
-                } else {
-                    QPainterPath positiveChannelPath;
-                    positiveChannelPath.moveTo(0, mappedRect.bottom());
-                    for (int i = 0; i < audioLevelCount / channels; i++) {
-                        value = audioCache.at(qMin(i * channels, audioLevelCount)).toDouble() / 256;
-                        for (int channel = 1; channel < channels; channel++) {
-                            value = qMax(value, audioCache.at(qMin(i * channels + channel, audioLevelCount)).toDouble() / 256);
-                        }
-                        positiveChannelPath.lineTo(i * scale, mappedRect.bottom() - (value * channelHeight));
-                    }
-                    positiveChannelPath.lineTo(mappedRect.right(), mappedRect.bottom());
-                    painter.setPen(Qt::NoPen);
-                    painter.setBrush(QBrush(QColor(80, 80, 150, 200)));
-                    painter.drawPath(positiveChannelPath);
+    if (!rootObject()) return;
+
+    QmlAudioThumb *audioThumbDisplay = rootObject()->findChild<QmlAudioThumb *>(QStringLiteral("audiothumb"));
+
+    if (!audioThumbDisplay) return;
+
+    QImage img(width(), height() / 6, QImage::Format_ARGB32_Premultiplied);
+    img.fill(Qt::transparent);
+
+    if (!audioCache.isEmpty() && channels > 0) {
+        int audioLevelCount = audioCache.count() - 1;
+        // simplified audio
+        QPainter painter(&img);
+        QRectF mappedRect(0, 0, img.width(), img.height());
+        int channelHeight = mappedRect.height();
+        double value;
+        double scale = (double)width() / (audioLevelCount / channels);
+        if (scale < 1) {
+            painter.setPen(QColor(80, 80, 150, 200));
+            for (int i = 0; i < img.width(); i++) {
+                int framePos = i / scale;
+                value = audioCache.at(qMin(framePos * channels, audioLevelCount)).toDouble() / 256;
+                for (int channel = 1; channel < channels; channel++) {
+                    value = qMax(value, audioCache.at(qMin(framePos * channels + channel, audioLevelCount)).toDouble() / 256);
                 }
-                painter.end();
+                painter.drawLine(i, mappedRect.bottom() - (value * channelHeight), i, mappedRect.bottom());
             }
-            audioThumbDisplay->setImage(img);
+        } else {
+            QPainterPath positiveChannelPath;
+            positiveChannelPath.moveTo(0, mappedRect.bottom());
+            for (int i = 0; i < audioLevelCount / channels; i++) {
+                value = audioCache.at(qMin(i * channels, audioLevelCount)).toDouble() / 256;
+                for (int channel = 1; channel < channels; channel++) {
+                    value = qMax(value, audioCache.at(qMin(i * channels + channel, audioLevelCount)).toDouble() / 256);
+                }
+                positiveChannelPath.lineTo(i * scale, mappedRect.bottom() - (value * channelHeight));
+            }
+            positiveChannelPath.lineTo(mappedRect.right(), mappedRect.bottom());
+            painter.setPen(Qt::NoPen);
+            painter.setBrush(QBrush(QColor(80, 80, 150, 200)));
+            painter.drawPath(positiveChannelPath);
         }
+        painter.end();
     }
+
+    audioThumbDisplay->setImage(img);
 }
 
 void GLWidget::refreshSceneLayout()
