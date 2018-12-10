@@ -101,8 +101,6 @@ cmake --build . --target ext_fftw3f
 cp $DEPS_INSTALL_PREFIX/lib/pkgconfig/fftwf.pc $DEPS_INSTALL_PREFIX/lib/pkgconfig/fftw3f.pc
 cp $DEPS_INSTALL_PREFIX/lib/pkgconfig/fftw.pc $DEPS_INSTALL_PREFIX/lib/pkgconfig/fftw3.pc
 
-cmake --build . --target ext_ladspa
-
 cmake --build . --target ext_x264
 cmake --build . --target ext_x265
 
@@ -116,12 +114,16 @@ export CC=/usr/bin/gcc-6
 export CXX=/usr/bin/g++-6
 
 cmake --build . --target ext_ffmpeg
+cmake --build . --target ext_sox
+cmake --build . --target ext_jack
+cmake --build . --target ext_ladspa
 cmake --build . --target ext_cairo
 cmake --build . --target ext_harfbuzz
 cmake --build . --target ext_pango
 cmake --build . --target ext_gdkpixbuf
 cmake --build . --target ext_gtk+
 cmake --build . --target ext_frei0r
+cmake --build . --target ext_vidstab
 cmake --build . --target ext_mlt
 
 cmake --build . --target ext_kbookmarks

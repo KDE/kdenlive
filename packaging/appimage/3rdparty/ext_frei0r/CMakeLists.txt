@@ -4,5 +4,4 @@ ExternalProject_Add(
   GIT_REPOSITORY https://github.com/dyne/frei0r.git
 
   CMAKE_ARGS ${CMAKE_GLOBAL_PROFILE} -DWITHOUT_OPENCV:BOOL=ON
-  DEPENDS ext_ffmpeg
 )
