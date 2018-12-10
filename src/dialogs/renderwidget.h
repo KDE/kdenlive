@@ -119,13 +119,13 @@ class RenderWidget : public QDialog
     Q_OBJECT
 
 public:
-    explicit RenderWidget(const QString &projectfolder, bool enableProxy, QWidget *parent = nullptr);
+    explicit RenderWidget(bool enableProxy, QWidget *parent = nullptr);
     virtual ~RenderWidget();
     void setGuides(const QList<CommentedTime> &guidesList, double duration);
     void focusFirstVisibleItem(const QString &profile = QString());
     void setRenderJob(const QString &dest, int progress = 0);
     void setRenderStatus(const QString &dest, int status, const QString &error);
-    void setDocumentPath(const QString &path);
+    void updateDocumentPath();
     void reloadProfiles();
     void setRenderProfile(const QMap<QString, QString> &props);
     int waitingJobsCount() const;
@@ -151,7 +151,7 @@ protected:
     void keyPressEvent(QKeyEvent *e) override;
 
 public slots:
-    void slotExport(bool scriptExport, int zoneIn, int zoneOut, const QMap<QString, QString> &metadata, const QList<QString> &playlistPaths,
+    Q_DECL_DEPRECATED void slotExport(bool scriptExport, int zoneIn, int zoneOut, const QMap<QString, QString> &metadata, const QList<QString> &playlistPaths,
                     const QList<QString> &trackNames, const QString &scriptPath, bool exportAudio);
     void slotAbortCurrentJob();
     void slotPrepareExport(bool scriptExport = false, const QString &scriptPath = QString());
@@ -230,6 +230,8 @@ private:
     QTreeWidgetItem *loadFromMltPreset(const QString &groupName, const QString &path, const QString &profileName);
     void checkCodecs();
     int getNewStuff(const QString &configFile);
+    void prepareRendering(bool delayedRendering, const QString &chapterFile);
+    void generateRenderFiles(QDomDocument doc, const QString &playlistPath, int in, int out);
 
 signals:
     void abortProcess(const QString &url);
@@ -237,7 +239,6 @@ signals:
     /** Send the info about rendering that will be saved in the document:
     (profile destination, profile name and url of rendered file */
     void selectedRenderProfile(const QMap<QString, QString> &renderProps);
-    void prepareRenderingData(bool scriptExport, bool zoneOnly, const QString &chapterFile, const QString scriptPath);
     void shutdown();
 };
 

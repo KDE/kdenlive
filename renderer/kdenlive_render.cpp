@@ -23,8 +23,10 @@
 #include <QFileInfo>
 #include <QString>
 #include <QStringList>
+#include <QDomDocument>
 #include <QUrl>
 #include <stdio.h>
+#include "framework/mlt_version.h"
 
 int main(int argc, char **argv)
 {
@@ -32,7 +34,40 @@ int main(int argc, char **argv)
     QStringList args = app.arguments();
     QStringList preargs;
     QString locale;
-    if (args.count() >= 7) {
+    if (args.count() >= 4) {
+        // Remove program name
+        args.removeFirst();
+        QString render = args.at(0);
+        args.removeFirst();
+        QString playlist = args.at(0);
+        args.removeFirst();
+        QString target = args.at(0);
+        args.removeFirst();
+        int pid = 0;
+        if (args.count() > 0 && args.at(0).startsWith(QLatin1String("-pid:"))) {
+            pid = args.at(0).section(QLatin1Char(':'), 1).toInt();
+            args.removeFirst();
+        }
+        int in = -1;
+        int out = -1;
+        if (LIBMLT_VERSION_INT < 396544) {
+            // older MLT version, does not support consumer in/out, so read it manually
+            QFile f(playlist);
+            QDomDocument doc;
+            doc.setContent(&f, false);
+            f.close();
+            QDomElement consumer = doc.documentElement().firstChildElement(QStringLiteral("consumer"));
+            if (!consumer.isNull()) {
+                in = consumer.attribute("in").toInt();
+                out = consumer.attribute("out").toInt();
+            }
+        }
+        RenderJob *rJob = new RenderJob(render, playlist, target, pid, in, out);
+        rJob->start();
+        app.exec();
+    }
+    else if (args.count() >= 7) {
+        // Deprecated
         int pid = 0;
         int in = -1;
         int out = -1;

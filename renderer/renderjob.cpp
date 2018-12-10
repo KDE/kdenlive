@@ -32,6 +32,46 @@ public:
     static void msleep(unsigned long msecs) { QThread::msleep(msecs); }
 };
 
+
+RenderJob::RenderJob(const QString &render, const QString &scenelist, const QString &target, int pid, int in, int out)
+    : QObject()
+    , m_scenelist(scenelist)
+    , m_dest(target)
+    , m_progress(0)
+    , m_prog(render)
+    , m_player()
+    , m_jobUiserver(nullptr)
+    , m_kdenliveinterface(nullptr)
+    , m_usekuiserver(true)
+    , m_logfile(scenelist + QStringLiteral(".txt"))
+    , m_erase(scenelist.startsWith(QDir::tempPath()))
+    , m_seconds(0)
+    , m_frame(0)
+    , m_pid(pid)
+    , m_dualpass(false)
+{
+    m_renderProcess = new QProcess;
+    m_renderProcess->setReadChannel(QProcess::StandardError);
+    connect(m_renderProcess, &QProcess::stateChanged, this, &RenderJob::slotCheckProcess);
+
+    // Disable VDPAU so that rendering will work even if there is a Kdenlive instance using VDPAU
+    qputenv("MLT_NO_VDPAU", "1");
+    m_args << "-progress" << scenelist;
+    if (in != -1) {
+        m_args << QStringLiteral("in=") + QString::number(in);
+    }
+    if (out != -1) {
+        m_args << QStringLiteral("out=") + QString::number(out);
+    }
+
+    // Create a log of every render process.
+    if (!m_logfile.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        qWarning() << "Unable to log to " << m_logfile.fileName();
+    } else {
+        m_logstream.setDevice(&m_logfile);
+    }
+}
+
 RenderJob::RenderJob(bool erase, bool usekuiserver, int pid, const QString &renderer, const QString &profile, const QString &rendermodule,
                      const QString &player, const QString &scenelist, const QString &dest, const QStringList &preargs, const QStringList &args, int in, int out)
     : QObject()
@@ -207,17 +247,20 @@ void RenderJob::start()
             }
         }
     }
-    initKdenliveDbusInterface();
+    if (m_pid > -1) {
+        initKdenliveDbusInterface();
+    }
 
     // Make sure the destination directory is writable
-    QFileInfo checkDestination(QFileInfo(m_dest).absolutePath());
+    /*QFileInfo checkDestination(QFileInfo(m_dest).absolutePath());
     if (!checkDestination.isWritable()) {
         slotIsOver(QProcess::NormalExit, false);
-    }
+    }*/
 
     // Because of the logging, we connect to stderr in all cases.
     connect(m_renderProcess, &QProcess::readyReadStandardError, this, &RenderJob::receivedStderr);
     m_renderProcess->start(m_prog, m_args);
+    qDebug()<< "Started render process: " << m_prog << ' ' << m_args.join(QLatin1Char(' '));
     m_logstream << "Started render process: " << m_prog << ' ' << m_args.join(QLatin1Char(' ')) << endl;
 }
 

@@ -1448,12 +1448,6 @@ void Monitor::resetConsumer(bool fullReset)
     m_glMonitor->resetConsumer(fullReset);
 }
 
-/*void Monitor::saveSceneList(const QString &path, const QDomElement &info)
-{
-    if (render == nullptr) return;
-    render->saveSceneList(path, info);
-}*/
-
 const QString Monitor::sceneList(const QString &root, const QString &fullPath)
 {
     return m_glMonitor->sceneList(root, fullPath);

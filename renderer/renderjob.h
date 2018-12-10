@@ -33,7 +33,8 @@ class RenderJob : public QObject
     Q_OBJECT
 
 public:
-    RenderJob(bool erase, bool usekuiserver, int pid, const QString &renderer, const QString &profile, const QString &rendermodule, const QString &player,
+    RenderJob(const QString &render, const QString &scenelist, const QString &target, int pid = -1, int in = -1, int out = -1);
+    Q_DECL_DEPRECATED RenderJob(bool erase, bool usekuiserver, int pid, const QString &renderer, const QString &profile, const QString &rendermodule, const QString &player,
               const QString &scenelist, const QString &dest, const QStringList &preargs, const QStringList &args, int in = -1, int out = -1);
     ~RenderJob();
     void setLocale(const QString &locale);

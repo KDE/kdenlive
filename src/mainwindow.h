@@ -404,7 +404,6 @@ private slots:
     /** @brief Archive project: creates a copy of the project file with all clips in a new folder. */
     void slotArchiveProject();
     void slotSetDocumentRenderProfile(const QMap<QString, QString> &props);
-    void slotPrepareRendering(bool scriptExport, bool zoneOnly, const QString &chapterFile, QString scriptPath = QString());
 
     /** @brief Switches between displaying frames or timecode.
      * @param ix 0 = display timecode, 1 = display frames. */

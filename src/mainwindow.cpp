@@ -1607,7 +1607,7 @@ void MainWindow::slotEditProjectSettings()
         // project->setProjectFolder(w->selectedFolder());
         bool modified = false;
         if (m_renderWidget) {
-            m_renderWidget->setDocumentPath(project->projectDataFolder());
+            m_renderWidget->updateDocumentPath();
         }
         if (KdenliveSettings::videothumbnails() != w->enableVideoThumbs()) {
             slotSwitchVideoThumbs();
@@ -1737,16 +1737,15 @@ void MainWindow::slotRenderProject()
     if (!m_renderWidget) {
         QString projectfolder = project ? project->projectDataFolder() + QDir::separator() : KdenliveSettings::defaultprojectfolder();
         if (project) {
-            m_renderWidget = new RenderWidget(projectfolder, project->useProxy(), this);
+            m_renderWidget = new RenderWidget(project->useProxy(), this);
             connect(m_renderWidget, &RenderWidget::shutdown, this, &MainWindow::slotShutdown);
             connect(m_renderWidget, &RenderWidget::selectedRenderProfile, this, &MainWindow::slotSetDocumentRenderProfile);
-            connect(m_renderWidget, &RenderWidget::prepareRenderingData, this, &MainWindow::slotPrepareRendering);
             connect(m_renderWidget, &RenderWidget::abortProcess, this, &MainWindow::abortRenderJob);
             connect(m_renderWidget, &RenderWidget::openDvdWizard, this, &MainWindow::slotDvdWizard);
             connect(this, &MainWindow::updateRenderWidgetProfile, m_renderWidget, &RenderWidget::adjustViewToProfile);
             double projectDuration = GenTime(getMainTimeline()->controller()->duration(), pCore->getCurrentFps()).ms() / 1000;
             m_renderWidget->setGuides(project->getGuideModel()->getAllMarkers(), projectDuration);
-            m_renderWidget->setDocumentPath(project->projectDataFolder());
+            m_renderWidget->updateDocumentPath();
             m_renderWidget->setRenderProfile(project->getRenderProperties());
         }
         if (m_compositeAction->currentAction()) {
@@ -1972,7 +1971,7 @@ void MainWindow::connectDocument()
     if (m_renderWidget) {
         slotCheckRenderStatus();
         // m_renderWidget->setGuides(pCore->projectManager()->currentTimeline()->projectView()->guidesData(), project->projectDuration());
-        m_renderWidget->setDocumentPath(project->projectDataFolder());
+        m_renderWidget->updateDocumentPath();
         m_renderWidget->setRenderProfile(project->getRenderProperties());
     }
     m_zoomSlider->setValue(project->zoom().x());
@@ -3222,255 +3221,6 @@ void MainWindow::slotSetDocumentRenderProfile(const QMap<QString, QString> &prop
     if (modified) {
         project->setModified();
     }
-}
-
-void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QString &chapterFile, QString scriptPath)
-{
-    KdenliveDoc *project = pCore->currentDoc();
-
-    if (m_renderWidget == nullptr) {
-        return;
-    }
-    QString playlistPath;
-    QString mltSuffix(QStringLiteral(".mlt"));
-    QList<QString> playlistPaths;
-    QList<QString> trackNames;
-    int tracksCount = 1;
-    bool stemExport = m_renderWidget->isStemAudioExportEnabled();
-
-    if (scriptExport) {
-        // QString scriptsFolder = project->projectFolder().path(QUrl::AddTrailingSlash) + "scripts/";
-        if (scriptPath.isEmpty()) {
-            QString path = m_renderWidget->getFreeScriptName(project->url());
-            QPointer<KUrlRequesterDialog> getUrl = new KUrlRequesterDialog(QUrl::fromLocalFile(path), i18n("Create Render Script"), this);
-            getUrl->urlRequester()->setMode(KFile::File);
-            if (getUrl->exec() == QDialog::Rejected) {
-                delete getUrl;
-                return;
-            }
-            scriptPath = getUrl->selectedUrl().toLocalFile();
-            delete getUrl;
-        }
-        QFile f(scriptPath);
-        if (f.exists()) {
-            if (KMessageBox::warningYesNo(this, i18n("Script file already exists. Do you want to overwrite it?")) != KMessageBox::Yes) {
-                return;
-            }
-        }
-        playlistPath = scriptPath;
-    } else {
-        QTemporaryFile temp(QDir::tempPath() + QStringLiteral("/kdenlive_rendering_XXXXXX.mlt"));
-        temp.setAutoRemove(false);
-        temp.open();
-        playlistPath = temp.fileName();
-    }
-    int in = 0;
-    int out;
-    if (zoneOnly) {
-        in = getMainTimeline()->controller()->zoneIn();
-        out = getMainTimeline()->controller()->zoneOut() - 1;
-    } else {
-        out = getMainTimeline()->controller()->duration() - 2;
-    }
-
-    QString playlistContent = pCore->projectManager()->projectSceneList(project->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile());
-    if (!chapterFile.isEmpty()) {
-        QDomDocument doc;
-        QDomElement chapters = doc.createElement(QStringLiteral("chapters"));
-        chapters.setAttribute(QStringLiteral("fps"), pCore->getCurrentFps());
-        doc.appendChild(chapters);
-        const QList<CommentedTime> guidesList = project->getGuideModel()->getAllMarkers();
-        for (int i = 0; i < guidesList.count(); i++) {
-            CommentedTime c = guidesList.at(i);
-            int time = c.time().frames(pCore->getCurrentFps());
-            if (time >= in && time < out) {
-                if (zoneOnly) {
-                    time = time - in;
-                }
-            }
-            QDomElement chapter = doc.createElement(QStringLiteral("chapter"));
-            chapters.appendChild(chapter);
-            chapter.setAttribute(QStringLiteral("title"), c.comment());
-            chapter.setAttribute(QStringLiteral("time"), time);
-        }
-        if (!chapters.childNodes().isEmpty()) {
-            if (!project->getGuideModel()->hasMarker(out)) {
-                // Always insert a guide in pos 0
-                QDomElement chapter = doc.createElement(QStringLiteral("chapter"));
-                chapters.insertBefore(chapter, QDomNode());
-                chapter.setAttribute(QStringLiteral("title"), i18nc("the first in a list of chapters", "Start"));
-                chapter.setAttribute(QStringLiteral("time"), QStringLiteral("0"));
-            }
-            // save chapters file
-            QFile file(chapterFile);
-            if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-                qCWarning(KDENLIVE_LOG) << "//////  ERROR writing DVD CHAPTER file: " << chapterFile;
-            } else {
-                file.write(doc.toString().toUtf8());
-                if (file.error() != QFile::NoError) {
-                    qCWarning(KDENLIVE_LOG) << "//////  ERROR writing DVD CHAPTER file: " << chapterFile;
-                }
-                file.close();
-            }
-        }
-    }
-
-    // check if audio export is selected
-    bool exportAudio;
-    if (m_renderWidget->automaticAudioExport()) {
-        // TODO check if projact contains audio
-        // exportAudio = pCore->projectManager()->currentTimeline()->checkProjectAudio();
-        exportAudio = true;
-    } else {
-        exportAudio = m_renderWidget->selectedAudioExport();
-    }
-
-    // Set playlist audio volume to 100%
-    QDomDocument doc;
-    doc.setContent(playlistContent);
-    QDomElement tractor = doc.documentElement().firstChildElement(QStringLiteral("tractor"));
-    if (!tractor.isNull()) {
-        QDomNodeList props = tractor.elementsByTagName(QStringLiteral("property"));
-        for (int i = 0; i < props.count(); ++i) {
-            if (props.at(i).toElement().attribute(QStringLiteral("name")) == QLatin1String("meta.volume")) {
-                props.at(i).firstChild().setNodeValue(QStringLiteral("1"));
-                break;
-            }
-        }
-    }
-
-    // Add autoclose to playlists.
-    QDomNodeList playlists = doc.elementsByTagName(QStringLiteral("playlist"));
-    for (int i = 0; i < playlists.length(); ++i) {
-        playlists.item(i).toElement().setAttribute(QStringLiteral("autoclose"), 1);
-    }
-
-    // Do we want proxy rendering
-    if (project->useProxy() && !m_renderWidget->proxyRendering()) {
-        QString root = doc.documentElement().attribute(QStringLiteral("root"));
-        if (!root.isEmpty() && !root.endsWith(QLatin1Char('/'))) {
-            root.append(QLatin1Char('/'));
-        }
-
-        // replace proxy clips with originals
-        QMap<QString, QString> proxies = pCore->projectItemModel()->getProxies(pCore->currentDoc()->documentRoot());
-
-        QDomNodeList producers = doc.elementsByTagName(QStringLiteral("producer"));
-        QString producerResource;
-        QString producerService;
-        QString suffix;
-        QString prefix;
-        for (int n = 0; n < producers.length(); ++n) {
-            QDomElement e = producers.item(n).toElement();
-            producerResource = Xml::getXmlProperty(e, QStringLiteral("resource"));
-            producerService = Xml::getXmlProperty(e, QStringLiteral("mlt_service"));
-            if (producerResource.isEmpty() || producerService == QLatin1String("color")) {
-                continue;
-            }
-            if (producerService == QLatin1String("timewarp")) {
-                // slowmotion producer
-                prefix = producerResource.section(QLatin1Char(':'), 0, 0) + QLatin1Char(':');
-                producerResource = producerResource.section(QLatin1Char(':'), 1);
-            } else {
-                prefix.clear();
-            }
-            if (producerService == QLatin1String("framebuffer")) {
-                // slowmotion producer
-                suffix = QLatin1Char('?') + producerResource.section(QLatin1Char('?'), 1);
-                producerResource = producerResource.section(QLatin1Char('?'), 0, 0);
-            } else {
-                suffix.clear();
-            }
-            if (!producerResource.isEmpty()) {
-                if (QFileInfo(producerResource).isRelative()) {
-                    producerResource.prepend(root);
-                }
-                if (proxies.contains(producerResource)) {
-                    QString replacementResource = proxies.value(producerResource);
-                    Xml::setXmlProperty(e, QStringLiteral("resource"), prefix + replacementResource + suffix);
-                    if (producerService == QLatin1String("timewarp")) {
-                        Xml::setXmlProperty(e, QStringLiteral("warp_resource"), replacementResource);
-                    }
-                    // We need to delete the "aspect_ratio" property because proxy clips
-                    // sometimes have different ratio than original clips
-                    Xml::removeXmlProperty(e, QStringLiteral("aspect_ratio"));
-                    Xml::removeMetaProperties(e);
-                }
-            }
-        }
-    }
-
-    QList<QDomDocument> docList;
-
-    // check which audio tracks have to be exported
-    if (stemExport) {
-        // TODO refac
-        /*
-        //TODO port to new timeline model
-        Timeline *ct = pCore->projectManager()->currentTimeline();
-        int allTracksCount = ct->tracksCount();
-
-        // reset tracks count (tracks to be rendered)
-        tracksCount = 0;
-        // begin with track 1 (track zero is a hidden black track)
-        for (int i = 1; i < allTracksCount; i++) {
-            Track *track = ct->track(i);
-            // add only tracks to render list that are not muted and have audio
-            if ((track != nullptr) && !track->info().isMute && track->hasAudio()) {
-                QDomDocument docCopy = doc.cloneNode(true).toDocument();
-                QString trackName = track->info().trackName;
-
-                // save track name
-                trackNames << trackName;
-                qCDebug(KDENLIVE_LOG) << "Track-Name: " << trackName;
-
-                // create stem export doc content
-                QDomNodeList tracks = docCopy.elementsByTagName(QStringLiteral("track"));
-                for (int j = 0; j < allTracksCount; j++) {
-                    if (j != i) {
-                        // mute other tracks
-                        tracks.at(j).toElement().setAttribute(QStringLiteral("hide"), QStringLiteral("both"));
-                    }
-                }
-                docList << docCopy;
-                tracksCount++;
-            }
-        }
-        */
-    } else {
-        docList << doc;
-    }
-
-    // create full playlistPaths
-    for (int i = 0; i < tracksCount; i++) {
-        QString plPath(playlistPath);
-
-        // add track number to path name
-        if (stemExport) {
-            plPath = plPath + QLatin1Char('_') + QString(trackNames.at(i)).replace(QLatin1Char(' '), QLatin1Char('_'));
-        }
-        // add mlt suffix
-        if (!plPath.endsWith(mltSuffix)) {
-            plPath += mltSuffix;
-        }
-        playlistPaths << plPath;
-        qCDebug(KDENLIVE_LOG) << "playlistPath: " << plPath << endl;
-
-        // Do save scenelist
-        QFile file(plPath);
-        if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-            m_messageLabel->setMessage(i18n("Cannot write to file %1", plPath), ErrorMessage);
-            return;
-        }
-        file.write(docList.at(i).toString().toUtf8());
-        if (file.error() != QFile::NoError) {
-            m_messageLabel->setMessage(i18n("Cannot write to file %1", plPath), ErrorMessage);
-            file.close();
-            return;
-        }
-        file.close();
-    }
-    m_renderWidget->slotExport(scriptExport, in, out, project->metadata(), playlistPaths, trackNames, scriptPath, exportAudio);
 }
 
 void MainWindow::slotUpdateTimecodeFormat(int ix)

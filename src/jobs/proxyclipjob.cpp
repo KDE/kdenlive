@@ -29,6 +29,7 @@
 #include "macros.hpp"
 
 #include <QProcess>
+#include <QThread>
 #include <QTemporaryFile>
 
 #include <klocalizedstring.h>
@@ -127,8 +128,14 @@ bool ProxyJob::startJob()
             }
             mltParameters << t;
         }
-
-        mltParameters.append(QStringLiteral("real_time=-%1").arg(KdenliveSettings::mltthreads()));
+        int threadCount = QThread::idealThreadCount();
+        if (threadCount > 2) {
+            threadCount = qMin(threadCount - 1, 4);
+        } else {
+            threadCount = 1;
+        }
+        mltParameters.append(QStringLiteral("real_time=-%1").arg(threadCount));
+        mltParameters.append(QStringLiteral("threads=%1").arg(threadCount));
 
         // TODO: currently, when rendering an xml file through melt, the display ration is lost, so we enforce it manualy
         mltParameters << QStringLiteral("aspect=") + QLocale().toString(display_ratio);

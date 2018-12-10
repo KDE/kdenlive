@@ -769,6 +769,7 @@ Bin::~Bin()
     blockSignals(true);
     m_proxyModel->selectionModel()->blockSignals(true);
     setEnabled(false);
+    m_propertiesPanel = nullptr;
     abortOperations();
     m_itemModel->clean();
 }

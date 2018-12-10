@@ -28,6 +28,7 @@
 #include <KLocalizedString>
 #include <QProcess>
 #include <QStandardPaths>
+#include <QScopedPointer>
 #include <QtConcurrent>
 
 PreviewManager::PreviewManager(TimelineController *controller, Mlt::Tractor *tractor)
@@ -37,7 +38,7 @@ PreviewManager::PreviewManager(TimelineController *controller, Mlt::Tractor *tra
     , m_tractor(tractor)
     , m_previewTrack(nullptr)
     , m_overlayTrack(nullptr)
-    , m_previewProfile(new Mlt::Profile())
+    , m_previewProfile(m_tractor->profile())
     , m_previewTrackIndex(-1)
     , m_initialized(false)
     , m_abortPreview(false)
@@ -45,7 +46,7 @@ PreviewManager::PreviewManager(TimelineController *controller, Mlt::Tractor *tra
     m_previewGatherTimer.setSingleShot(true);
     m_previewGatherTimer.setInterval(200);
     // Scaling doesn't seem to improve speed, needs more testing
-    double dar = m_tractor->profile()->dar();
+    /*double dar = m_tractor->profile()->dar();
     m_previewProfile->set_width(1024);
     int height = 1024 / dar;
     height -= height % 4;
@@ -54,7 +55,7 @@ PreviewManager::PreviewManager(TimelineController *controller, Mlt::Tractor *tra
     m_previewProfile->set_display_aspect(m_tractor->profile()->display_aspect_num(), m_tractor->profile()->display_aspect_den());
     m_previewProfile->set_frame_rate(m_tractor->profile()->frame_rate_num(), m_tractor->profile()->frame_rate_den());
     m_previewProfile->set_colorspace(m_tractor->profile()->colorspace());
-    m_previewProfile->set_progressive(m_tractor->profile()->progressive());
+    m_previewProfile->set_progressive(m_tractor->profile()->progressive());*/
     m_previewProfile->set_explicit(1);
 }
 
@@ -74,7 +75,7 @@ PreviewManager::~PreviewManager()
     }
     delete m_overlayTrack;
     delete m_previewTrack;
-    //m_previewProfile.reset();
+    m_previewProfile.reset();
 }
 
 bool PreviewManager::initialize()
@@ -129,7 +130,7 @@ bool PreviewManager::buildPreviewTrack()
     }
     // Create overlay track
     qDebug() << "/// BUILDING PREVIEW TRACK\n----------------------\n----------------__";
-    m_previewTrack = new Mlt::Playlist(*m_tractor->profile());
+    m_previewTrack = new Mlt::Playlist(*m_previewProfile);
     m_tractor->lock();
     reconnectTrack();
     m_tractor->unlock();
@@ -496,6 +497,12 @@ void PreviewManager::doPreviewRender(const QString &scene)
     }
     // Disable audio
     sourceProd.set("set.test_audio", 1);
+    int threadCount = QThread::idealThreadCount();
+    if (threadCount > 2) {
+        threadCount = qMin(threadCount - 1, 4);
+    } else {
+        threadCount = 1;
+    }
     QMetaObject::Connection connection;
     while (!m_dirtyChunks.isEmpty() && !m_abortPreview) {
         workingPreview = m_dirtyChunks.takeFirst().toInt();
@@ -520,8 +527,10 @@ void PreviewManager::doPreviewRender(const QString &scene)
             }
         }
         cons.set("an", 1);
+        cons.set("threads", threadCount);
+        cons.set("real_time", -threadCount);
         cons.connect(*src);
-        connection = QObject::connect(this, &PreviewManager::abortPreview, [this, &cons]() {
+        connection = QObject::connect(this, &PreviewManager::abortPreview, [this, &cons ]() {
             cons.purge();
             if (!cons.is_stopped()) {
                 cons.stop();
@@ -650,7 +659,7 @@ void PreviewManager::reloadChunks(const QVariantList chunks)
         if (m_previewTrack->is_blank_at(ix.toInt())) {
             QString fileName = m_cacheDir.absoluteFilePath(QStringLiteral("%1.%2").arg(ix.toInt()).arg(m_extension));
             fileName.prepend(QStringLiteral("avformat:"));
-            Mlt::Producer prod(*m_tractor->profile(), fileName.toUtf8().constData());
+            Mlt::Producer prod(*m_previewProfile, fileName.toUtf8().constData());
             if (prod.is_valid()) {
                 // m_ruler->updatePreview(ix, true);
                 prod.set("mlt_service", "avformat-novalidate");
@@ -679,12 +688,12 @@ void PreviewManager::gotPreviewRender(int frame, const QString &file, int progre
     }
     m_tractor->lock();
     if (m_previewTrack->is_blank_at(frame)) {
-        Mlt::Producer prod(*m_tractor->profile(), QString("avformat:%1").arg(file).toUtf8().constData());
+        Mlt::Producer prod(*m_previewProfile, QString("avformat:%1").arg(file).toUtf8().constData());
         if (prod.is_valid()) {
             m_renderedChunks << frame;
             m_controller->renderedChunksChanged();
-            // m_ruler->updatePreview(frame, true, true);
             prod.set("mlt_service", "avformat-novalidate");
+            qDebug()<<"|||| PLUGGING PREVIEW CHUNK AT: "<<frame;
             m_previewTrack->insert_at(frame, &prod, 1);
         } else {
             qCDebug(KDENLIVE_LOG) << "* * * INVALID PROD: " << file;

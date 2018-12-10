@@ -24,6 +24,11 @@
 #include "profiles/profilemodel.hpp"
 #include "profiles/profilerepository.hpp"
 #include "timecode.h"
+#include "monitor/monitor.h"
+#include "project/projectmanager.h"
+#include "bin/projectitemmodel.h"
+#include "doc/kdenlivedoc.h"
+#include "xml/xml.hpp"
 #include "ui_saveprofile_ui.h"
 
 
@@ -42,6 +47,7 @@
 #include <QDBusConnectionInterface>
 #include <QDir>
 #include <QDomDocument>
+#include <QTemporaryFile>
 #include <QHeaderView>
 #include <QInputDialog>
 #include <QKeyEvent>
@@ -55,6 +61,7 @@
 #include <QJsonArray>
 #include <qglobal.h>
 #include <qstring.h>
+#include <QFileIconProvider>
 
 #ifdef KF5_USE_PURPOSE
 #include <Purpose/AlternativesModel>
@@ -94,28 +101,6 @@ const int ScriptRenderType = QTreeWidgetItem::UserType;
 
 // Running job status
 enum JOBSTATUS { WAITINGJOB = 0, STARTINGJOB, RUNNINGJOB, FINISHEDJOB, FAILEDJOB, ABORTEDJOB };
-
-#ifdef Q_OS_WIN
-const QLatin1String ScriptFormat(".bat");
-QString ScriptSetVar(const QString name, const QString value)
-{
-    return QString("set ") + name + "=" + value;
-}
-QString ScriptGetVar(const QString varName)
-{
-    return QString('%') + varName + '%';
-}
-#else
-const QLatin1String ScriptFormat(".sh");
-QString ScriptSetVar(const QString &name, const QString &value)
-{
-    return name + "=\"" + value + '\"';
-}
-QString ScriptGetVar(const QString &varName)
-{
-    return QString('$') + varName;
-}
-#endif
 
 static QStringList acodecsList;
 static QStringList vcodecsList;
@@ -174,9 +159,8 @@ const QString RenderJobItem::metadata() const
     return m_data;
 }
 
-RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, QWidget *parent)
+RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     : QDialog(parent)
-    , m_projectFolder(projectfolder)
     , m_blockProcessing(false)
 {
     m_view.setupUi(this);
@@ -341,7 +325,7 @@ RenderWidget::RenderWidget(const QString &projectfolder, bool enableProxy, QWidg
     header->resizeSection(0, size + 4);
     header->setSectionResizeMode(1, QHeaderView::Interactive);
 
-    m_view.scripts_list->setHeaderLabels(QStringList() << QString() << i18n("Script Files"));
+    m_view.scripts_list->setHeaderLabels(QStringList() << QString() << i18n("Stored Playlists"));
     m_scriptsDelegate = new RenderViewDelegate(this);
     m_view.scripts_list->setItemDelegate(m_scriptsDelegate);
     header = m_view.scripts_list->header();
@@ -449,14 +433,13 @@ void RenderWidget::showInfoPanel()
     }
 }
 
-void RenderWidget::setDocumentPath(const QString &path)
+void RenderWidget::updateDocumentPath()
 {
-    if (m_view.out_file->url().adjusted(QUrl::RemoveFilename).toLocalFile() ==
-        QUrl::fromLocalFile(m_projectFolder).adjusted(QUrl::RemoveFilename).toLocalFile()) {
-        const QString fileName = m_view.out_file->url().fileName();
-        m_view.out_file->setUrl(QUrl::fromLocalFile(QDir(path).absoluteFilePath(fileName)));
+    if (m_view.out_file->url().isEmpty()) {
+        return;
     }
-    m_projectFolder = QUrl::fromLocalFile(path).adjusted(QUrl::NormalizePathSegments | QUrl::StripTrailingSlash).toLocalFile() + QDir::separator();
+    const QString fileName = m_view.out_file->url().fileName();
+    m_view.out_file->setUrl(QUrl::fromLocalFile(QDir(pCore->currentDoc()->projectDataFolder()).absoluteFilePath(fileName)));
     parseScriptFiles();
 }
 
@@ -1073,12 +1056,19 @@ void RenderWidget::focusFirstVisibleItem(const QString &profile)
     updateButtons();
 }
 
-void RenderWidget::slotPrepareExport(bool scriptExport, const QString &scriptPath)
+void RenderWidget::slotPrepareExport(bool delayedRendering, const QString &scriptPath)
 {
     if (!QFile::exists(KdenliveSettings::rendererpath())) {
         KMessageBox::sorry(this, i18n("Cannot find the melt program required for rendering (part of Mlt)"));
         return;
     }
+
+    if (QFile::exists(m_view.out_file->url().toLocalFile())) {
+        if (KMessageBox::warningYesNo(this, i18n("Output file already exists. Do you want to overwrite it?")) != KMessageBox::Yes) {
+            return;
+        }
+    }
+
     QString chapterFile;
     if (m_view.create_chapter->isChecked()) {
         chapterFile = m_view.out_file->url().toLocalFile() + QStringLiteral(".dvdchapter");
@@ -1092,12 +1082,529 @@ void RenderWidget::slotPrepareExport(bool scriptExport, const QString &scriptPat
         return;
     }
 
-    emit prepareRenderingData(scriptExport, m_view.render_zone->isChecked(), chapterFile, scriptPath);
+    prepareRendering(delayedRendering, chapterFile);
+}
+
+void RenderWidget::prepareRendering(bool delayedRendering, const QString &chapterFile)
+{
+    KdenliveDoc *project = pCore->currentDoc();
+    QString playlistPath;
+    QString mltSuffix(QStringLiteral(".mlt"));
+    QList<QString> playlistPaths;
+    QList<QString> trackNames;
+    int tracksCount = 1;
+    bool stemExport = isStemAudioExportEnabled();
+    QString renderName;
+
+    if (delayedRendering) {
+        bool ok;
+        renderName = QFileInfo(pCore->currentDoc()->url().toLocalFile()).fileName();
+        if (renderName.isEmpty()) {
+            renderName = i18n("export") + QStringLiteral(".mlt");
+        }
+        QDir projectFolder(pCore->currentDoc()->projectDataFolder());
+        projectFolder.mkpath(QStringLiteral("kdenlive-renderqueue"));
+        projectFolder.cd(QStringLiteral("kdenlive-renderqueue"));
+        if (projectFolder.exists(renderName)) {
+            int ix = 1;
+            while (projectFolder.exists(renderName)) {
+                if (renderName.contains(QLatin1Char('-'))) {
+                    renderName = renderName.section(QLatin1Char('-'), 0, -2);
+                } else {
+                    renderName = renderName.section(QLatin1Char('.'), 0, -2);
+                }
+                renderName.append(QString("-%1.mlt").arg(ix));
+                ix++;
+            }
+        }
+        renderName = renderName.section(QLatin1Char('.'), 0, -2);
+        renderName = QInputDialog::getText(this, i18n("Delayed rendering"),
+                                                           i18n("Select a name for this rendering."),
+                                                           QLineEdit::Normal, renderName, &ok);
+        if (!ok) {
+            return;
+        }
+        if (!renderName.endsWith(QStringLiteral(".mlt"))) {
+            renderName.append(QStringLiteral(".mlt"));
+        }
+        if (projectFolder.exists(renderName)) {
+            if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", renderName)) ==
+            KMessageBox::No) {
+                return;
+            }
+        }
+        playlistPath = projectFolder.absoluteFilePath(renderName);
+    } else {
+        QTemporaryFile tmp(QDir::tempPath() + "/kdenlive-XXXXXX.mlt");
+        if (!tmp.open()) {
+            // Something went wrong
+            return;
+        }
+        tmp.close();
+        playlistPath = tmp.fileName();
+    }
+    int in = 0;
+    int out;
+    Monitor *pMon = pCore->getMonitor(Kdenlive::ProjectMonitor);
+    bool zoneOnly = m_view.render_zone->isChecked();
+    if (zoneOnly) {
+        in = pMon->getZoneStart();
+        out = pMon->getZoneEnd() - 1;
+    } else {
+        out = pCore->projectDuration() - 2;
+    }
+
+    QString playlistContent = pCore->projectManager()->projectSceneList(project->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile());
+    if (!chapterFile.isEmpty()) {
+        QDomDocument doc;
+        QDomElement chapters = doc.createElement(QStringLiteral("chapters"));
+        chapters.setAttribute(QStringLiteral("fps"), pCore->getCurrentFps());
+        doc.appendChild(chapters);
+        const QList<CommentedTime> guidesList = project->getGuideModel()->getAllMarkers();
+        for (int i = 0; i < guidesList.count(); i++) {
+            CommentedTime c = guidesList.at(i);
+            int time = c.time().frames(pCore->getCurrentFps());
+            if (time >= in && time < out) {
+                if (zoneOnly) {
+                    time = time - in;
+                }
+            }
+            QDomElement chapter = doc.createElement(QStringLiteral("chapter"));
+            chapters.appendChild(chapter);
+            chapter.setAttribute(QStringLiteral("title"), c.comment());
+            chapter.setAttribute(QStringLiteral("time"), time);
+        }
+        if (!chapters.childNodes().isEmpty()) {
+            if (!project->getGuideModel()->hasMarker(out)) {
+                // Always insert a guide in pos 0
+                QDomElement chapter = doc.createElement(QStringLiteral("chapter"));
+                chapters.insertBefore(chapter, QDomNode());
+                chapter.setAttribute(QStringLiteral("title"), i18nc("the first in a list of chapters", "Start"));
+                chapter.setAttribute(QStringLiteral("time"), QStringLiteral("0"));
+            }
+            // save chapters file
+            QFile file(chapterFile);
+            if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+                qCWarning(KDENLIVE_LOG) << "//////  ERROR writing DVD CHAPTER file: " << chapterFile;
+            } else {
+                file.write(doc.toString().toUtf8());
+                if (file.error() != QFile::NoError) {
+                    qCWarning(KDENLIVE_LOG) << "//////  ERROR writing DVD CHAPTER file: " << chapterFile;
+                }
+                file.close();
+            }
+        }
+    }
+
+    // Set playlist audio volume to 100%
+    QDomDocument doc;
+    doc.setContent(playlistContent);
+    QDomElement tractor = doc.documentElement().firstChildElement(QStringLiteral("tractor"));
+    if (!tractor.isNull()) {
+        QDomNodeList props = tractor.elementsByTagName(QStringLiteral("property"));
+        for (int i = 0; i < props.count(); ++i) {
+            if (props.at(i).toElement().attribute(QStringLiteral("name")) == QLatin1String("meta.volume")) {
+                props.at(i).firstChild().setNodeValue(QStringLiteral("1"));
+                break;
+            }
+        }
+    }
+
+    // Add autoclose to playlists.
+    QDomNodeList playlists = doc.elementsByTagName(QStringLiteral("playlist"));
+    for (int i = 0; i < playlists.length(); ++i) {
+        playlists.item(i).toElement().setAttribute(QStringLiteral("autoclose"), 1);
+    }
+
+    // Do we want proxy rendering
+    if (project->useProxy() && !proxyRendering()) {
+        QString root = doc.documentElement().attribute(QStringLiteral("root"));
+        if (!root.isEmpty() && !root.endsWith(QLatin1Char('/'))) {
+            root.append(QLatin1Char('/'));
+        }
+
+        // replace proxy clips with originals
+        QMap<QString, QString> proxies = pCore->projectItemModel()->getProxies(pCore->currentDoc()->documentRoot());
+
+        QDomNodeList producers = doc.elementsByTagName(QStringLiteral("producer"));
+        QString producerResource;
+        QString producerService;
+        QString suffix;
+        QString prefix;
+        for (int n = 0; n < producers.length(); ++n) {
+            QDomElement e = producers.item(n).toElement();
+            producerResource = Xml::getXmlProperty(e, QStringLiteral("resource"));
+            producerService = Xml::getXmlProperty(e, QStringLiteral("mlt_service"));
+            if (producerResource.isEmpty() || producerService == QLatin1String("color")) {
+                continue;
+            }
+            if (producerService == QLatin1String("timewarp")) {
+                // slowmotion producer
+                prefix = producerResource.section(QLatin1Char(':'), 0, 0) + QLatin1Char(':');
+                producerResource = producerResource.section(QLatin1Char(':'), 1);
+            } else {
+                prefix.clear();
+            }
+            if (producerService == QLatin1String("framebuffer")) {
+                // slowmotion producer
+                suffix = QLatin1Char('?') + producerResource.section(QLatin1Char('?'), 1);
+                producerResource = producerResource.section(QLatin1Char('?'), 0, 0);
+            } else {
+                suffix.clear();
+            }
+            if (!producerResource.isEmpty()) {
+                if (QFileInfo(producerResource).isRelative()) {
+                    producerResource.prepend(root);
+                }
+                if (proxies.contains(producerResource)) {
+                    QString replacementResource = proxies.value(producerResource);
+                    Xml::setXmlProperty(e, QStringLiteral("resource"), prefix + replacementResource + suffix);
+                    if (producerService == QLatin1String("timewarp")) {
+                        Xml::setXmlProperty(e, QStringLiteral("warp_resource"), replacementResource);
+                    }
+                    // We need to delete the "aspect_ratio" property because proxy clips
+                    // sometimes have different ratio than original clips
+                    Xml::removeXmlProperty(e, QStringLiteral("aspect_ratio"));
+                    Xml::removeMetaProperties(e);
+                }
+            }
+        }
+    }
+    generateRenderFiles(doc, playlistPath, in, out);
+}
+
+
+
+void RenderWidget::generateRenderFiles(QDomDocument doc, const QString &playlistPath, int in, int out)
+{
+    QDomDocument clone;
+    KdenliveDoc *project = pCore->currentDoc();
+    int passes = m_view.checkTwoPass->isChecked() ? 2 : 1;
+    QString renderArgs = m_view.advanced_params->toPlainText().simplified();
+    QDomElement consumer = doc.createElement(QStringLiteral("consumer"));
+    QDomNodeList profiles = doc.elementsByTagName(QStringLiteral("profile"));
+    if (profiles.isEmpty()) {
+        doc.documentElement().insertAfter(consumer, doc.documentElement());
+    } else {
+        doc.documentElement().insertAfter(consumer, profiles.at(profiles.length() - 1));
+    }
+
+    // Check for fps change
+    double forcedfps = 0;
+    if (renderArgs.startsWith(QLatin1String("r="))) {
+        QString sub = renderArgs.section(QLatin1Char(' '), 0, 0).toLower();
+        sub = sub.section(QLatin1Char('='), 1, 1);
+        forcedfps = sub.toDouble();
+    } else if (renderArgs.contains(QStringLiteral(" r="))) {
+        QString sub = renderArgs.section(QStringLiteral(" r="), 1, 1);
+        sub = sub.section(QLatin1Char(' '), 0, 0).toLower();
+        forcedfps = sub.toDouble();
+    } else if (renderArgs.contains(QStringLiteral("mlt_profile="))) {
+        QString sub = renderArgs.section(QStringLiteral("mlt_profile="), 1, 1);
+        sub = sub.section(QLatin1Char(' '), 0, 0).toLower();
+        forcedfps = ProfileRepository::get()->getProfile(sub)->fps();
+    }
+
+    bool resizeProfile = false;
+    std::unique_ptr<ProfileModel> &profile = pCore->getCurrentProfile();
+    if (renderArgs.contains(QLatin1String("%dv_standard"))) {
+        QString dvstd;
+        if (fmod((double)profile->frame_rate_num() / profile->frame_rate_den(), 30.01) > 27) {
+            dvstd = QStringLiteral("ntsc");
+            if (!(profile->frame_rate_num() == 30000 && profile->frame_rate_den() == 1001)) {
+                forcedfps = 30000.0 / 1001;
+            }
+            if (!(profile->width() == 720 && profile->height() == 480)) {
+                resizeProfile = true;
+            }
+        } else {
+            dvstd = QStringLiteral("pal");
+            if (!(profile->frame_rate_num() == 25 && profile->frame_rate_den() == 1)) {
+                forcedfps = 25;
+            }
+            if (!(profile->width() == 720 && profile->height() == 576)) {
+                resizeProfile = true;
+            }
+        }
+        if ((double)profile->display_aspect_num() / profile->display_aspect_den() > 1.5) {
+            dvstd += QLatin1String("_wide");
+        }
+        renderArgs.replace(QLatin1String("%dv_standard"), dvstd);
+    }
+
+    QStringList args = renderArgs.split(QLatin1Char(' '));
+    for (auto &param : args) {
+        if (param.contains(QLatin1Char('='))) {
+            QString paramValue = param.section(QLatin1Char('='), 1);
+            if (paramValue.startsWith(QLatin1Char('%'))) {
+                if (paramValue.startsWith(QStringLiteral("%bitrate")) || paramValue == QStringLiteral("%quality")) {
+                    if (paramValue.contains("+'k'"))
+                        paramValue = QString::number(m_view.video->value()) + 'k';
+                    else
+                        paramValue = QString::number(m_view.video->value());
+                }
+                if (paramValue.startsWith(QStringLiteral("%audiobitrate")) || paramValue == QStringLiteral("%audioquality")) {
+                    if (paramValue.contains("+'k'"))
+                        paramValue = QString::number(m_view.audio->value()) + 'k';
+                    else
+                        paramValue = QString::number(m_view.audio->value());
+                }
+                if (paramValue == QStringLiteral("%dar"))
+                    paramValue = '@' + QString::number(profile->display_aspect_num()) + QLatin1Char('/') + QString::number(profile->display_aspect_den());
+                if (paramValue == QStringLiteral("%passes")) paramValue = QString::number(static_cast<int>(m_view.checkTwoPass->isChecked()) + 1);
+            }
+            consumer.setAttribute(param.section(QLatin1Char('='), 0, 0), paramValue);
+        }
+    }
+
+    // Check for movit
+    if (KdenliveSettings::gpu_accel()) {
+        consumer.setAttribute(QStringLiteral("glsl."), 1);
+    }
+
+    // in/out points
+    if (m_view.render_guide->isChecked()) {
+        double fps = profile->fps();
+        double guideStart = m_view.guide_start->itemData(m_view.guide_start->currentIndex()).toDouble();
+        double guideEnd = m_view.guide_end->itemData(m_view.guide_end->currentIndex()).toDouble();
+        consumer.setAttribute(QStringLiteral("in"), (int)GenTime(guideStart).frames(fps));
+        consumer.setAttribute(QStringLiteral("out"), (int)GenTime(guideEnd).frames(fps));
+    } else {
+        consumer.setAttribute(QStringLiteral("in"), in);
+        consumer.setAttribute(QStringLiteral("out"), out);
+    }
+
+    // Check if the rendering profile is different from project profile,
+        // in which case we need to use the producer_comsumer from MLT
+        QString subsize;
+        if (renderArgs.startsWith(QLatin1String("s="))) {
+            subsize = renderArgs.section(QLatin1Char(' '), 0, 0).toLower();
+            subsize = subsize.section(QLatin1Char('='), 1, 1);
+        } else if (renderArgs.contains(QStringLiteral(" s="))) {
+            subsize = renderArgs.section(QStringLiteral(" s="), 1, 1);
+            subsize = subsize.section(QLatin1Char(' '), 0, 0).toLower();
+        } else if (m_view.rescale->isChecked() && m_view.rescale->isEnabled()) {
+            subsize = QStringLiteral("%1x%2").arg(m_view.rescale_width->value()).arg(m_view.rescale_height->value());
+        }
+        if (!subsize.isEmpty()) {
+            consumer.setAttribute(QStringLiteral("s"), subsize);
+        }
+
+        // Check if we need to embed the playlist into the producer consumer
+        // That is required if PAR != 1
+        if (profile->sample_aspect_num() != profile->sample_aspect_den() && subsize.isEmpty()) {
+            resizeProfile = true;
+        }
+
+    // Project metadata
+    if (m_view.export_meta->isChecked()) {
+        QMap <QString, QString> metadata = project->metadata();
+        QMap<QString, QString>::const_iterator i = metadata.constBegin();
+        while (i != metadata.constEnd()) {
+            consumer.setAttribute(i.key(), QString(QUrl::toPercentEncoding(i.value())));
+            ++i;
+        }
+    }
+
+    // Adjust scanning
+    if (m_view.scanning_list->currentIndex() == 1) {
+        consumer.setAttribute(QStringLiteral("progressive"), 1);
+    } else if (m_view.scanning_list->currentIndex() == 2) {
+        consumer.setAttribute(QStringLiteral("progressive"), 0);
+    }
+
+    // check if audio export is selected
+    bool exportAudio;
+    if (automaticAudioExport()) {
+        // TODO check if projact contains audio
+        // exportAudio = pCore->projectManager()->currentTimeline()->checkProjectAudio();
+        exportAudio = true;
+    } else {
+        exportAudio = selectedAudioExport();
+    }
+
+    // disable audio if requested
+    if (!exportAudio) {
+        consumer.setAttribute(QStringLiteral("an"), 1);
+    }
+
+    int threadCount = QThread::idealThreadCount();
+    if (threadCount > 2 && m_view.parallel_process->isChecked()) {
+        threadCount = qMin(threadCount - 1, 4);
+    } else {
+        threadCount = 1;
+    }
+
+    // Set the thread counts
+    if (!renderArgs.contains(QStringLiteral("threads="))) {
+        consumer.setAttribute(QStringLiteral("threads"), KdenliveSettings::encodethreads());
+    }
+    consumer.setAttribute(QStringLiteral("real_time"), -threadCount);
+
+        // check which audio tracks have to be exported
+    /*if (stemExport) {
+        // TODO refac
+        //TODO port to new timeline model
+        Timeline *ct = pCore->projectManager()->currentTimeline();
+        int allTracksCount = ct->tracksCount();
+
+        // reset tracks count (tracks to be rendered)
+        tracksCount = 0;
+        // begin with track 1 (track zero is a hidden black track)
+        for (int i = 1; i < allTracksCount; i++) {
+            Track *track = ct->track(i);
+            // add only tracks to render list that are not muted and have audio
+            if ((track != nullptr) && !track->info().isMute && track->hasAudio()) {
+                QDomDocument docCopy = doc.cloneNode(true).toDocument();
+                QString trackName = track->info().trackName;
+
+                // save track name
+                trackNames << trackName;
+                qCDebug(KDENLIVE_LOG) << "Track-Name: " << trackName;
+
+                // create stem export doc content
+                QDomNodeList tracks = docCopy.elementsByTagName(QStringLiteral("track"));
+                for (int j = 0; j < allTracksCount; j++) {
+                    if (j != i) {
+                        // mute other tracks
+                        tracks.at(j).toElement().setAttribute(QStringLiteral("hide"), QStringLiteral("both"));
+                    }
+                }
+                docList << docCopy;
+                tracksCount++;
+            }
+        }
+    }*/
+
+    if (m_view.checkTwoPass->isChecked()) {
+        // We will generate 2 files, one for each pass.
+        clone = doc.cloneNode(true).toDocument();
+    }
+    QString renderedFile = m_view.out_file->url().toLocalFile();
+    for (int i = 0; i < passes; i++) {
+        // Append consumer settings
+        QDomDocument final = i > 0 ? clone : doc;
+        QDomNodeList cons = final.elementsByTagName(QStringLiteral("consumer"));
+        QDomElement myConsumer = cons.at(0).toElement();
+        QString mytarget = renderedFile;
+        QString playlistName = playlistPath;
+        myConsumer.setAttribute(QStringLiteral("mlt_service"), QStringLiteral("avformat"));
+        if (passes == 2) {
+            playlistName = playlistName.section(QLatin1Char('.'), 0, -2) + QString("-pass%1").arg(i+1) + playlistName.section(QLatin1Char('.'), -1);
+        }
+        myConsumer.setAttribute(QStringLiteral("target"), mytarget);
+
+        // Prepare rendering args
+        int pass = passes == 2 ? i + 1 : 0;
+        if (renderArgs.contains(QStringLiteral("libx265"))) {
+            if (pass == 1 || pass == 2) {
+                QString x265params = myConsumer.attribute("x265-params");
+                x265params = QString("pass=%1:stats=%2:%3")
+                .arg(pass).arg(mytarget.replace(":", "\\:") + "_2pass.log").arg(x265params);
+                myConsumer.setAttribute("x265-params", x265params);
+            }
+        } else {
+            if (pass == 1 || pass == 2) {
+                myConsumer.setAttribute("pass", pass);
+                myConsumer.setAttribute("passlogfile", mytarget + "_2pass.log");
+            } if (pass == 1) {
+                myConsumer.setAttribute("fastfirstpass", 1);
+                myConsumer.removeAttribute("acodec");
+                myConsumer.setAttribute("an", 1);
+            } else {
+                myConsumer.removeAttribute("fastfirstpass");
+            }
+        }
+        QFile file(playlistName);
+        if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+            pCore->displayMessage(i18n("Cannot write to file %1", playlistName), ErrorMessage);
+            return;
+        }
+        file.write(final.toString().toUtf8());
+        if (file.error() != QFile::NoError) {
+            pCore->displayMessage(i18n("Cannot write to file %1", playlistName), ErrorMessage);
+            file.close();
+            return;
+        }
+        file.close();
+    }
+
+    // Create job
+    RenderJobItem *renderItem = nullptr;
+    QList<QTreeWidgetItem *> existing = m_view.running_jobs->findItems(renderedFile, Qt::MatchExactly, 1);
+    if (!existing.isEmpty()) {
+        renderItem = static_cast<RenderJobItem *>(existing.at(0));
+        if (renderItem->status() == RUNNINGJOB || renderItem->status() == WAITINGJOB || renderItem->status() == STARTINGJOB) {
+            KMessageBox::information(this,
+                                         i18n("There is already a job writing file:<br /><b>%1</b><br />Abort the job if you want to overwrite it...", renderedFile),
+                                         i18n("Already running"));
+            return;
+        }
+        if (renderItem->type() != DirectRenderType) {
+            delete renderItem;
+            renderItem = nullptr;
+        } else {
+            renderItem->setData(1, ProgressRole, 0);
+            renderItem->setStatus(WAITINGJOB);
+            renderItem->setIcon(0, QIcon::fromTheme(QStringLiteral("media-playback-pause")));
+            renderItem->setData(1, Qt::UserRole, i18n("Waiting..."));
+            renderItem->setData(1, ParametersRole, renderedFile);
+        }
+    }
+    if (!renderItem) {
+        renderItem = new RenderJobItem(m_view.running_jobs, QStringList() << QString() << renderedFile);
+    }
+    renderItem->setData(1, TimeRole, QDateTime::currentDateTime());
+    QStringList argsJob = {KdenliveSettings::rendererpath(),playlistPath,renderedFile,QStringLiteral("-pid:%1").arg(QCoreApplication::applicationPid())};
+    renderItem->setData(1, ParametersRole, argsJob);
+    qDebug()<<"* CREATED JOB WITH ARGS: "<<argsJob;
+    if (!exportAudio) {
+        renderItem->setData(1, ExtraInfoRole, i18n("Video without audio track"));
+    } else {
+        renderItem->setData(1, ExtraInfoRole, QString());
+    }
+
+    m_view.running_jobs->setCurrentItem(renderItem);
+    m_view.tabWidget->setCurrentIndex(1);
+    // check render status
+    checkRenderStatus();
+
+    // create full playlistPaths
+    /*for (int i = 0; i < tracksCount; i++) {
+        QString plPath(playlistPath);
+
+        // add track number to path name
+        if (stemExport) {
+            plPath = plPath + QLatin1Char('_') + QString(trackNames.at(i)).replace(QLatin1Char(' '), QLatin1Char('_'));
+        }
+        // add mlt suffix
+        if (!plPath.endsWith(mltSuffix)) {
+            plPath += mltSuffix;
+        }
+        playlistPaths << plPath;
+        qCDebug(KDENLIVE_LOG) << "playlistPath: " << plPath << endl;
+
+        // Do save scenelist
+        QFile file(plPath);
+        if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+            pCore->displayMessage(i18n("Cannot write to file %1", plPath), ErrorMessage);
+            return;
+        }
+        file.write(docList.at(i).toString().toUtf8());
+        if (file.error() != QFile::NoError) {
+            pCore->displayMessage(i18n("Cannot write to file %1", plPath), ErrorMessage);
+            file.close();
+            return;
+        }
+        file.close();
+    }*/
+    //slotExport(delayedRendering, in, out, project->metadata(), playlistPaths, trackNames, renderName, exportAudio);
 }
 
 void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const QMap<QString, QString> &metadata, const QList<QString> &playlistPaths,
                               const QList<QString> &trackNames, const QString &scriptPath, bool exportAudio)
 {
+    // DEPRECATED
     QTreeWidgetItem *item = m_view.formats->currentItem();
     if (!item) {
         return;
@@ -1158,20 +1665,6 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
         }
 
         // Generate script file
-        if (scriptExport && stemIdx == 0) {
-            // Generate script file
-            if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-                KMessageBox::error(this, i18n("Cannot write to file %1", scriptPath));
-                return;
-            }
-            QTextStream outStream(&file);
-#ifndef Q_OS_WIN
-            outStream << "#! /bin/sh" << '\n' << '\n';
-#endif
-            outStream << ScriptSetVar("RENDERER", m_renderer) << '\n';
-            outStream << ScriptSetVar("MELT", KdenliveSettings::rendererpath()) << "\n\n";
-        }
-
         QStringList overlayargs;
         if (m_view.tc_overlay->isChecked()) {
             QString filterFile = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("metadata.properties"));
@@ -1271,12 +1764,6 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
 
         if (!overlayargs.isEmpty()) {
             render_process_args << "preargs=" + overlayargs.join(QLatin1Char(' '));
-        }
-
-        if (scriptExport) {
-            render_process_args << ScriptGetVar("MELT");
-        } else {
-            render_process_args << KdenliveSettings::rendererpath();
         }
 
         render_process_args << profile->path() << item->data(0, RenderRole).toString();
@@ -1395,7 +1882,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
             }
         }
 
-        if (resizeProfile && !KdenliveSettings::gpu_accel()) {
+        /*if (resizeProfile && !KdenliveSettings::gpu_accel()) {
             render_process_args << "consumer:" + (scriptExport ? ScriptGetVar("SOURCE_" + QString::number(stemIdx))
                                                                : QUrl::fromLocalFile(playlistPaths.at(stemIdx)).toEncoded());
         } else {
@@ -1403,7 +1890,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
                                                  : QUrl::fromLocalFile(playlistPaths.at(stemIdx)).toEncoded());
         }
 
-        render_process_args << (scriptExport ? ScriptGetVar("TARGET_" + QString::number(stemIdx)) : QUrl::fromLocalFile(dest).toEncoded());
+        render_process_args << (scriptExport ? ScriptGetVar("TARGET_" + QString::number(stemIdx)) : QUrl::fromLocalFile(dest).toEncoded());*/
         if (KdenliveSettings::gpu_accel()) {
             render_process_args << QStringLiteral("glsl.=1");
         }
@@ -1413,10 +1900,10 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
             QTextStream outStream(&file);
             QString stemIdxStr(QString::number(stemIdx));
 
-            outStream << ScriptSetVar("SOURCE_" + stemIdxStr, QUrl::fromLocalFile(playlistPaths.at(stemIdx)).toEncoded()) << '\n';
+            /*outStream << ScriptSetVar("SOURCE_" + stemIdxStr, QUrl::fromLocalFile(playlistPaths.at(stemIdx)).toEncoded()) << '\n';
             outStream << ScriptSetVar("TARGET_" + stemIdxStr, QUrl::fromLocalFile(dest).toEncoded()) << '\n';
             outStream << ScriptSetVar("PARAMETERS_" + stemIdxStr, render_process_args.join(QLatin1Char(' '))) << '\n';
-            outStream << ScriptGetVar("RENDERER") + " " + ScriptGetVar("PARAMETERS_" + stemIdxStr) << "\n";
+            outStream << ScriptGetVar("RENDERER") + " " + ScriptGetVar("PARAMETERS_" + stemIdxStr) << "\n";*/
 
             if (stemIdx == (stemCount - 1)) {
                 if (file.error() != QFile::NoError) {
@@ -1566,18 +2053,10 @@ void RenderWidget::checkRenderStatus()
 
 void RenderWidget::startRendering(RenderJobItem *item)
 {
-    if (item->type() == DirectRenderType) {
-        // Normal render process
-        if (!QProcess::startDetached(m_renderer, item->data(1, ParametersRole).toStringList())) {
+    if (!QProcess::startDetached(m_renderer, item->data(1, ParametersRole).toStringList())) {
             item->setStatus(FAILEDJOB);
-        } else {
-            KNotification::event(QStringLiteral("RenderStarted"), i18n("Rendering <i>%1</i> started", item->text(1)), QPixmap(), this);
-        }
-    } else if (item->type() == ScriptRenderType) {
-        // Script item
-        if (!QProcess::startDetached(QLatin1Char('"') + item->data(1, ParametersRole).toString() + QLatin1Char('"'))) {
-            item->setStatus(FAILEDJOB);
-        }
+    } else {
+        KNotification::event(QStringLiteral("RenderStarted"), i18n("Rendering <i>%1</i> started", item->text(1)), QPixmap(), this);
     }
 }
 
@@ -1721,7 +2200,7 @@ void RenderWidget::refreshView()
 QUrl RenderWidget::filenameWithExtension(QUrl url, const QString &extension)
 {
     if (!url.isValid()) {
-        url = QUrl::fromLocalFile(m_projectFolder);
+        url = QUrl::fromLocalFile(pCore->currentDoc()->projectDataFolder() + QDir::separator());
     }
     QString directory = url.adjusted(QUrl::RemoveFilename).toLocalFile();
     QString filename = url.fileName();
@@ -2417,51 +2896,32 @@ void RenderWidget::slotCLeanUpJobs()
 void RenderWidget::parseScriptFiles()
 {
     QStringList scriptsFilter;
-    scriptsFilter << QLatin1Char('*') + ScriptFormat;
+    scriptsFilter << QStringLiteral("*.mlt");
     m_view.scripts_list->clear();
 
     QTreeWidgetItem *item;
     // List the project scripts
-    QDir directory(m_projectFolder + QStringLiteral("scripts/"));
-    QStringList scriptFiles = directory.entryList(scriptsFilter, QDir::Files);
+    QDir projectFolder(pCore->currentDoc()->projectDataFolder());
+    projectFolder.mkpath(QStringLiteral("kdenlive-renderqueue"));
+    projectFolder.cd(QStringLiteral("kdenlive-renderqueue"));
+    QStringList scriptFiles = projectFolder.entryList(scriptsFilter, QDir::Files);
     for (int i = 0; i < scriptFiles.size(); ++i) {
-        QUrl scriptpath = QUrl::fromLocalFile(directory.absoluteFilePath(scriptFiles.at(i)));
-        QString target;
-        QString renderer;
-        QString melt;
-        QFile file(scriptpath.toLocalFile());
-        if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-            QTextStream stream(&file);
-            while (!stream.atEnd()) {
-                QString line = stream.readLine();
-                if (line.contains(QLatin1String("TARGET_0="))) {
-                    target = line.section(QStringLiteral("TARGET_0="), 1);
-                    target = target.section(QLatin1Char('"'), 0, 0, QString::SectionSkipEmpty);
-                } else if (line.contains(QLatin1String("RENDERER="))) {
-                    renderer = line.section(QStringLiteral("RENDERER="), 1);
-                    renderer = renderer.section(QLatin1Char('"'), 0, 0, QString::SectionSkipEmpty);
-                } else if (line.contains(QLatin1String("MELT="))) {
-                    melt = line.section(QStringLiteral("MELT="), 1);
-                    melt = melt.section(QLatin1Char('"'), 0, 0, QString::SectionSkipEmpty);
-                }
-            }
-            file.close();
+        QUrl scriptpath = QUrl::fromLocalFile(projectFolder.absoluteFilePath(scriptFiles.at(i)));
+        QFile f(scriptpath.toLocalFile());
+        QDomDocument doc;
+        doc.setContent(&f, false);
+        f.close();
+        QDomElement consumer = doc.documentElement().firstChildElement(QStringLiteral("consumer"));
+        if (consumer.isNull()) {
+            continue;
         }
+        QString target = consumer.attribute(QStringLiteral("target"));
         if (target.isEmpty()) {
             continue;
         }
         item = new QTreeWidgetItem(m_view.scripts_list, QStringList() << QString() << scriptpath.fileName());
-        if (!renderer.isEmpty() && renderer.contains(QLatin1Char('/')) && !QFile::exists(renderer)) {
-            item->setIcon(0, QIcon::fromTheme(QStringLiteral("dialog-cancel")));
-            item->setToolTip(1, i18n("Script contains wrong command: %1", renderer));
-            item->setData(0, Qt::UserRole, '1');
-        } else if (!melt.isEmpty() && melt.contains(QLatin1Char('/')) && !QFile::exists(melt)) {
-            item->setIcon(0, QIcon::fromTheme(QStringLiteral("dialog-cancel")));
-            item->setToolTip(1, i18n("Script contains wrong command: %1", melt));
-            item->setData(0, Qt::UserRole, '1');
-        } else {
-            item->setIcon(0, QIcon::fromTheme(QStringLiteral("application-x-executable-script")));
-        }
+        auto icon = QFileIconProvider().icon(QFileInfo(f));
+        item->setIcon(0, icon.isNull() ? QIcon::fromTheme(QStringLiteral("application-x-executable-script")) : icon);
         item->setSizeHint(0, QSize(m_view.scripts_list->columnWidth(0), fontMetrics().height() * 2));
         item->setData(1, Qt::UserRole, QUrl(QUrl::fromEncoded(target.toUtf8())).url(QUrl::PreferLocalFile));
         item->setData(1, Qt::UserRole + 1, scriptpath.toLocalFile());
@@ -2496,6 +2956,11 @@ void RenderWidget::slotStartScript()
     RenderJobItem *item = static_cast<RenderJobItem *>(m_view.scripts_list->currentItem());
     if (item) {
         QString destination = item->data(1, Qt::UserRole).toString();
+        if (QFile::exists(destination)) {
+            if (KMessageBox::warningYesNo(this, i18n("Output file already exists. Do you want to overwrite it?")) != KMessageBox::Yes) {
+                return;
+            }
+        }
         QString path = item->data(1, Qt::UserRole + 1).toString();
         // Insert new job in queue
         RenderJobItem *renderItem = nullptr;
@@ -2508,20 +2973,19 @@ void RenderWidget::slotStartScript()
                     i18n("Already running"));
                 return;
             }
-            if (renderItem->type() != ScriptRenderType) {
-                delete renderItem;
-                renderItem = nullptr;
-            }
+            delete renderItem;
+            renderItem = nullptr;
         }
         if (!renderItem) {
-            renderItem = new RenderJobItem(m_view.running_jobs, QStringList() << QString() << destination, ScriptRenderType);
+            renderItem = new RenderJobItem(m_view.running_jobs, QStringList() << QString() << destination, DirectRenderType);
         }
         renderItem->setData(1, ProgressRole, 0);
         renderItem->setStatus(WAITINGJOB);
         renderItem->setIcon(0, QIcon::fromTheme(QStringLiteral("media-playback-pause")));
         renderItem->setData(1, Qt::UserRole, i18n("Waiting..."));
         renderItem->setData(1, TimeRole, QDateTime::currentDateTime());
-        renderItem->setData(1, ParametersRole, path);
+        QStringList argsJob = {KdenliveSettings::rendererpath(),path,destination,QStringLiteral("-pid:%1").arg(QCoreApplication::applicationPid())};
+        renderItem->setData(1, ParametersRole, argsJob);
         checkRenderStatus();
         m_view.tabWidget->setCurrentIndex(1);
     }
@@ -2533,7 +2997,6 @@ void RenderWidget::slotDeleteScript()
     if (item) {
         QString path = item->data(1, Qt::UserRole + 1).toString();
         bool success = true;
-        success &= static_cast<int>(QFile::remove(path + QStringLiteral(".mlt")));
         success &= static_cast<int>(QFile::remove(path));
         if (!success) {
             qCWarning(KDENLIVE_LOG) << "// Error removing script or playlist: " << path << ", " << path << ".mlt";
@@ -2633,7 +3096,18 @@ void RenderWidget::setRenderProfile(const QMap<QString, QString> &props)
 bool RenderWidget::startWaitingRenderJobs()
 {
     m_blockProcessing = true;
-    QString autoscriptFile = getFreeScriptName(QUrl(), QStringLiteral("auto"));
+#ifdef Q_OS_WIN
+    const QLatin1String ScriptFormat(".bat");
+#else
+    const QLatin1String ScriptFormat(".sh");
+#endif
+    QTemporaryFile tmp(QDir::tempPath() + QStringLiteral("/kdenlive-XXXXXX") + ScriptFormat);
+    if (!tmp.open()) {
+        // Something went wrong
+        return false;
+    }
+    tmp.close();
+    QString autoscriptFile = tmp.fileName();
     QFile file(autoscriptFile);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         qCWarning(KDENLIVE_LOG) << "//////  ERROR writing to file: " << autoscriptFile;
@@ -2652,9 +3126,6 @@ bool RenderWidget::startWaitingRenderJobs()
                 // Add render process for item
                 const QString params = item->data(1, ParametersRole).toStringList().join(QLatin1Char(' '));
                 outStream << '\"' << m_renderer << "\" " << params << '\n';
-            } else if (item->type() == ScriptRenderType) {
-                // Script item
-                outStream << item->data(1, ParametersRole).toString() << '\n';
             }
         }
         item = static_cast<RenderJobItem *>(m_view.running_jobs->itemBelow(item));
@@ -2675,26 +3146,6 @@ bool RenderWidget::startWaitingRenderJobs()
     QFile::setPermissions(autoscriptFile, file.permissions() | QFile::ExeUser);
     QProcess::startDetached(autoscriptFile, QStringList());
     return true;
-}
-
-QString RenderWidget::getFreeScriptName(const QUrl &projectName, const QString &prefix)
-{
-    int ix = 0;
-    QString scriptsFolder = m_projectFolder + QStringLiteral("scripts/");
-    QDir dir(m_projectFolder);
-    dir.mkdir(QStringLiteral("scripts"));
-    QString path;
-    QString fileName;
-    if (projectName.isEmpty()) {
-        fileName = i18n("script");
-    } else {
-        fileName = projectName.fileName().section(QLatin1Char('.'), 0, -2) + QLatin1Char('_');
-    }
-    while (path.isEmpty() || QFile::exists(path)) {
-        ++ix;
-        path = scriptsFolder + prefix + fileName + QString::number(ix).rightJustified(3, '0', false) + ScriptFormat;
-    }
-    return path;
 }
 
 void RenderWidget::slotPlayRendering(QTreeWidgetItem *item, int)
