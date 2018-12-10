@@ -512,6 +512,7 @@ bool GLWidget::initGPUAccelSync() {
 }
 #endif
 
+
 void GLWidget::paintGL()
 {
     QOpenGLFunctions *f = openglContext()->functions();
@@ -1591,6 +1592,7 @@ FrameRenderer::FrameRenderer(QOpenGLContext *shareContext,
     Q_ASSERT(shareContext);
     m_renderTexture[0] = m_renderTexture[1] = m_renderTexture[2] = 0;
     m_displayTexture[0] = m_displayTexture[1] = m_displayTexture[2] = 0;
+    // B & C & D
     if (KdenliveSettings::gpu_accel() || shareContext->supportsThreadedOpenGL()) {
         m_context = new QOpenGLContext;
         m_context->setFormat(shareContext->format());
@@ -1649,28 +1651,7 @@ void FrameRenderer::showGLFrame(Mlt::Frame frame)
         mlt_image_format format = mlt_image_glsl_texture;
         frame.get_image(format, width, height);
         m_context->makeCurrent(m_surface);
-        GLsync sync = (GLsync)frame.get_data("movit.convert.fence");
-        if (sync) {
-#ifdef Q_OS_WIN
-            // On Windows, use QOpenGLFunctions_3_2_Core instead of getProcAddress.
-            if (!m_gl32) {
-                m_gl32 = m_context->versionFunctions<QOpenGLFunctions_3_2_Core>();
-                if (m_gl32) {
-                    m_gl32->initializeOpenGLFunctions();
-                }
-            }
-            if (m_gl32) {
-                m_gl32->glClientWaitSync(sync, 0, GL_TIMEOUT_IGNORED);
-                check_error(m_context->functions());
-            }
-#else
-            // D
-            if (m_ClientWaitSync) {
-                m_ClientWaitSync(sync, 0, GL_TIMEOUT_IGNORED);
-                check_error(m_context->functions());
-            }
-#endif // Q_OS_WIN
-        }
+        pipelineSyncToFrame(frame);
 
         m_context->functions()->glFinish();
         m_context->doneCurrent();
@@ -1719,6 +1700,33 @@ void FrameRenderer::cleanup()
         m_renderTexture[0] = m_renderTexture[1] = m_renderTexture[2] = 0;
         m_displayTexture[0] = m_displayTexture[1] = m_displayTexture[2] = 0;
     }
+}
+
+// D
+void FrameRenderer::pipelineSyncToFrame(Mlt::Frame& frame)
+{
+    GLsync sync = (GLsync)frame.get_data("movit.convert.fence");
+    if (! sync) return;
+
+#ifdef Q_OS_WIN
+    // On Windows, use QOpenGLFunctions_3_2_Core instead of getProcAddress.
+    // TODO: move to initialization of m_ClientWaitSync
+    if (!m_gl32) {
+        m_gl32 = m_context->versionFunctions<QOpenGLFunctions_3_2_Core>();
+        if (m_gl32) {
+            m_gl32->initializeOpenGLFunctions();
+        }
+    }
+    if (m_gl32) {
+        m_gl32->glClientWaitSync(sync, 0, GL_TIMEOUT_IGNORED);
+        check_error(m_context->functions());
+    }
+#else
+    if (m_ClientWaitSync) {
+        m_ClientWaitSync(sync, 0, GL_TIMEOUT_IGNORED);
+        check_error(m_context->functions());
+    }
+#endif // Q_OS_WIN
 }
 
 void GLWidget::setAudioThumb(int channels, const QVariantList &audioCache)

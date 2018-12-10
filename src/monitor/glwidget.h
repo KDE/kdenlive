@@ -267,14 +267,13 @@ protected:
 
     // pipeline A - YUV gl texture w/o GPU filter acceleration
     // pipeline B - YUV gl texture multithreaded w/o GPU filter acceleration
-    // pipeline A & B
     // pipeline C - RGB gl texture multithreaded w/ GPU filter acceleration and no sync
     // pipeline D - RGB gl texture multithreaded w/ GPU filter acceleration and sync
     bool m_openGLSync;
+    bool initGPUAccelSync();
 
     // pipeline C & D
     bool initGPUAccel();
-    bool initGPUAccelSync();
     bool onlyGLESGPUAccel() const;
 
     // pipeline A & B & C & D
@@ -333,6 +332,8 @@ private:
     QOpenGLContext *m_context;
     QSurface *m_surface;
     GLWidget::ClientWaitSync_fp m_ClientWaitSync;
+
+    void pipelineSyncToFrame(Mlt::Frame&);
 
 public:
     GLuint m_renderTexture[3];
