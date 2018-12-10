@@ -601,6 +601,7 @@ Rectangle {
                             cursorShape: Qt.SizeHorCursor
                             drag.target: parent
                             drag.axis: Drag.XAxis
+                            drag.minimumX: 2 * baseUnit
                             property double startX
                             property double originalX
                             drag.smoothed: false
