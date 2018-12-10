@@ -1563,9 +1563,12 @@ RenderThread::RenderThread(thread_function_t function, void *data, QOpenGLContex
 
 RenderThread::~RenderThread()
 {
-    // delete m_context;
+    // would otherwise leak if RenderThread is allocated with a context but not run.
+    // safe post-run
+    delete m_context;
 }
 
+// TODO: missing some exception handling?
 void RenderThread::run()
 {
     if (m_context) {
@@ -1575,6 +1578,7 @@ void RenderThread::run()
     if (m_context) {
         m_context->doneCurrent();
         delete m_context;
+        m_context = nullptr;
     }
 }
 
