@@ -87,7 +87,6 @@ Menu {
             visible: true
             text: i18n('Change Speed')
             onTriggered: {
-                clipMenu.close()
                 timeline.changeItemSpeed(clipId, -1)
             }
         }
