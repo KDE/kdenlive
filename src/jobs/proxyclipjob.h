@@ -48,7 +48,6 @@ private:
     bool m_isFfmpegJob;
     QProcess *m_jobProcess;
     bool m_done;
-    QString m_buffer;
 };
 
 #endif

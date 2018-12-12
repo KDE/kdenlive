@@ -52,7 +52,8 @@ bool ProxyJob::startJob()
 {
     auto binClip = pCore->projectItemModel()->getClipByBinID(m_clipId);
     const QString dest = binClip->getProducerProperty(QStringLiteral("kdenlive:proxy"));
-    if (binClip->getProducerIntProperty(QStringLiteral("_overwriteproxy")) == 0 && QFile::exists(dest) && QFileInfo(dest).size() > 0) {
+    QFileInfo fInfo(dest);
+    if (binClip->getProducerIntProperty(QStringLiteral("_overwriteproxy")) == 0 && fInfo.exists() && fInfo.size() > 0) {
         // Proxy clip already created
         m_done = true;
         return true;
@@ -144,9 +145,9 @@ bool ProxyJob::startJob()
         mltParameters << QStringLiteral("progress=1");
 
         m_jobProcess = new QProcess;
-        m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
+        //m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
         connect(this, &ProxyJob::jobCanceled, m_jobProcess, &QProcess::kill, Qt::DirectConnection);
-        connect(m_jobProcess, &QProcess::readyReadStandardOutput, this, &ProxyJob::processLogInfo);
+        connect(m_jobProcess, &QProcess::readyReadStandardError, this, &ProxyJob::processLogInfo);
         m_jobProcess->start(KdenliveSettings::rendererpath(), mltParameters);
         m_jobProcess->waitForFinished(-1);
         result = m_jobProcess->exitStatus() == QProcess::NormalExit;
@@ -216,7 +217,9 @@ bool ProxyJob::startJob()
             return false;
         }
         m_jobDuration = (int) binClip->duration().seconds();
-        parameters << QStringLiteral("-y") << QStringLiteral("-v")<< QStringLiteral("quiet")<<QStringLiteral("-stats");
+        parameters << QStringLiteral("-y") << QStringLiteral("-stats");
+        // Only output error data
+        parameters << QStringLiteral("-v")<< QStringLiteral("error");
         QString proxyParams = pCore->currentDoc()->getDocumentProperty(QStringLiteral("proxyparams")).simplified();
         if (proxyParams.isEmpty()) {
             // Automatic setting, decide based on hw support
@@ -264,10 +267,10 @@ bool ProxyJob::startJob()
 
         // Make sure we don't block when proxy file already exists
         parameters << dest;
-        qDebug()<<"/// FULL PROXY PARAMS:\n"<<parameters<<"\n------";
+        //qDebug()<<"/// FULL PROXY PARAMS:\n"<<parameters<<"\n------";
         m_jobProcess = new QProcess;
-        m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
-        connect(m_jobProcess, &QProcess::readyReadStandardOutput, this, &ProxyJob::processLogInfo);
+        //m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
+        connect(m_jobProcess, &QProcess::readyReadStandardError, this, &ProxyJob::processLogInfo);
         connect(this, &ProxyJob::jobCanceled, m_jobProcess, &QProcess::kill, Qt::DirectConnection);
         m_jobProcess->start(KdenliveSettings::ffmpegpath(), parameters, QIODevice::ReadOnly);
         m_jobProcess->waitForFinished(-1);
@@ -295,15 +298,8 @@ bool ProxyJob::startJob()
 
 void ProxyJob::processLogInfo()
 {
-    m_buffer.append(QString::fromUtf8(m_jobProcess->readAllStandardOutput()));
-    // reading data from process sometimes returns half a line. To get a correct parsing
-    // we need to store it in a buffer and cut the lines manually
-    int lineFeed = m_buffer.lastIndexOf(QRegExp("[\n\r]"));
-    if (lineFeed == -1) {
-        return;
-    }
-    const QString buffer = m_buffer.left(lineFeed);
-    m_buffer.remove(0, lineFeed + 1);
+    const QString buffer = QString::fromUtf8(m_jobProcess->readAllStandardError());
+    m_logDetails.append(buffer);
     int progress;
     if (m_isFfmpegJob) {
         // Parse FFmpeg output

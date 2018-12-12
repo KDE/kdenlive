@@ -520,6 +520,11 @@ void Core::displayBinMessage(const QString &text, int type, const QList<QAction 
     m_binWidget->doDisplayMessage(text, (KMessageWidget::MessageType)type, actions);
 }
 
+void Core::displayBinLogMessage(const QString &text, int type, const QString &logInfo)
+{
+    m_binWidget->doDisplayMessage(text, (KMessageWidget::MessageType)type, logInfo);
+}
+
 void Core::clearAssetPanel(int itemId)
 {
     if (m_guiConstructed) m_mainWindow->clearAssetPanel(itemId);

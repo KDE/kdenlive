@@ -1956,7 +1956,7 @@ void Bin::slotUpdateJobStatus(const QString &id, int jobType, int status, const 
 
 void Bin::doDisplayMessage(const QString &text, KMessageWidget::MessageType type, const QList<QAction *> &actions)
 {
-    // Remove axisting actions if any
+    // Remove existing actions if any
     QList<QAction *> acts = m_infoMessage->actions();
     while (!acts.isEmpty()) {
         QAction *a = acts.takeFirst();
@@ -1973,6 +1973,29 @@ void Bin::doDisplayMessage(const QString &text, KMessageWidget::MessageType type
     m_infoMessage->setMessageType(type);
     m_infoMessage->animatedShow();
 }
+
+void Bin::doDisplayMessage(const QString &text, KMessageWidget::MessageType type, const QString &logInfo)
+{
+    // Remove existing actions if any
+    QList<QAction *> acts = m_infoMessage->actions();
+    while (!acts.isEmpty()) {
+        QAction *a = acts.takeFirst();
+        m_infoMessage->removeAction(a);
+        delete a;
+    }
+    m_infoMessage->setText(text);
+    m_infoMessage->setWordWrap(text.length() > 35);
+    QAction *ac = new QAction(i18n("Show log"), this);
+    m_infoMessage->addAction(ac);
+    connect(ac, &QAction::triggered, [this, logInfo](bool) {
+        KMessageBox::sorry(this, logInfo, i18n("Detailed log"));
+        slotMessageActionTriggered();
+    });
+    m_infoMessage->setCloseButtonVisible(false);
+    m_infoMessage->setMessageType(type);
+    m_infoMessage->animatedShow();
+}
+
 
 void Bin::refreshClip(const QString &id)
 {

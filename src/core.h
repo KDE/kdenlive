@@ -199,6 +199,7 @@ public slots:
     void triggerAction(const QString &name);
     /** @brief display a user info/warning message in the project bin */
     void displayBinMessage(const QString &text, int type, const QList<QAction *> &actions = QList<QAction *>());
+    void displayBinLogMessage(const QString &text, int type, const QString &logInfo);
 
 signals:
     void coreIsReady();

@@ -1203,10 +1203,8 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy, QList<std::shared_ptr<Proje
                     // Revert to picture aspect ratio
                     newProps.insert(QStringLiteral("aspect_ratio"), QStringLiteral("1"));
                 }
-                if (!pCore->projectItemModel()->hasClip(item->AbstractProjectItem::clipId())) {
-                    // Force clip reload
-                    newProps.insert(QStringLiteral("resource"), item->url());
-                }
+                // Reset to original url
+                newProps.insert(QStringLiteral("resource"), item->url());
             }
             new EditClipCommand(pCore->bin(), item->AbstractProjectItem::clipId(), oldProps, newProps, true, masterCommand);
         } else {

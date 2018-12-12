@@ -129,8 +129,8 @@ public:
     /** @brief return the progress of a given job on a given clip */
     int getJobProgressForClip(int jobId, const QString &binId) const;
 
-    /** @brief return the message of a given job on a given clip */
-    QString getJobMessageForClip(int jobId, const QString &binId) const;
+    /** @brief return the message of a given job on a given clip (message, detailed log)*/
+    QPair<QString, QString> getJobMessageForClip(int jobId, const QString &binId) const;
 
     // Mandatory overloads
     QVariant data(const QModelIndex &index, int role) const override;

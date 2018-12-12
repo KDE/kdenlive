@@ -323,9 +323,13 @@ void JobManager::slotManageFinishedJob(int id)
                 bid = it.first;
                 break;
             }
-            QString message = getJobMessageForClip(id, bid);
-            if (!message.isEmpty()) {
-                pCore->displayBinMessage(message, KMessageWidget::Warning);
+            QPair <QString, QString> message = getJobMessageForClip(id, bid);
+            if (!message.first.isEmpty()) {
+                if (!message.second.isEmpty()) {
+                    pCore->displayBinLogMessage(message.first, KMessageWidget::Warning, message.second);
+                } else {
+                    pCore->displayBinMessage(message.first, KMessageWidget::Warning);
+                }
             }
         }
         updateJobCount();
@@ -346,9 +350,13 @@ void JobManager::slotManageFinishedJob(int id)
             break;
         }
         qDebug() << "ERROR: Job " << id << " failed, BID: "<<bid;
-        QString message = getJobMessageForClip(id, bid);
-        if (!message.isEmpty()) {
-            pCore->displayBinMessage(message, KMessageWidget::Warning);
+        QPair <QString, QString> message = getJobMessageForClip(id, bid);
+        if (!message.first.isEmpty()) {
+            if (!message.second.isEmpty()) {
+                pCore->displayBinLogMessage(message.first, KMessageWidget::Warning, message.second);
+            } else {
+                pCore->displayBinMessage(message.first, KMessageWidget::Warning);
+            }
         }
     }
     m_jobs[id]->m_completionMutex.unlock();
@@ -407,14 +415,14 @@ int JobManager::getJobProgressForClip(int jobId, const QString &binId) const
     return job->m_progress[ind];
 }
 
-QString JobManager::getJobMessageForClip(int jobId, const QString &binId) const
+QPair<QString, QString> JobManager::getJobMessageForClip(int jobId, const QString &binId) const
 {
     READ_LOCK();
     Q_ASSERT(m_jobs.count(jobId) > 0);
     auto job = m_jobs.at(jobId);
     Q_ASSERT(job->m_indices.count(binId) > 0);
     size_t ind = job->m_indices.at(binId);
-    return job->m_job[ind]->getErrorMessage();
+    return {job->m_job[ind]->getErrorMessage(), job->m_job[ind]->getLogDetails()};
 }
 
 QVariant JobManager::data(const QModelIndex &index, int role) const
