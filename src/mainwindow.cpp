@@ -1345,10 +1345,6 @@ void MainWindow::setupActions()
     timelineActions->addAction(QStringLiteral("delete_track"), deleteTrack);
     deleteTrack->setData("delete_track");
 
-    QAction *configTracks = new QAction(QIcon::fromTheme(QStringLiteral("configure")), i18n("Configure Tracks"), this);
-    connect(configTracks, &QAction::triggered, this, &MainWindow::slotConfigTrack);
-    timelineActions->addAction(QStringLiteral("config_tracks"), configTracks);
-
     QAction *selectTrack = new QAction(QIcon(), i18n("Select All in Current Track"), this);
     connect(selectTrack, &QAction::triggered, this, &MainWindow::slotSelectTrack);
     timelineActions->addAction(QStringLiteral("select_track"), selectTrack);
@@ -2352,12 +2348,6 @@ void MainWindow::slotInsertTrack()
 }
 
 void MainWindow::slotDeleteTrack()
-{
-    pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
-    getMainTimeline()->controller()->addTrack(-1);
-}
-
-void MainWindow::slotConfigTrack()
 {
     pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
     getMainTimeline()->controller()->deleteTrack(-1);

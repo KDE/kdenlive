@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="157" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="158" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file" >
       <Action name="dvd_wizard" />
@@ -126,8 +126,7 @@
       <Action name="send_library" />
       <Menu name="timeline_tracks" ><text>Tracks</text>
         <Action name="insert_track" />
-	<Action name="delete_track" />
-	<Action name="config_tracks" />
+        <Action name="delete_track" />
 	<Separator />
 	<Action name="select_track" />
 	<Action name="select_all_tracks" />

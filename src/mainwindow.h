@@ -376,8 +376,6 @@ private slots:
     void configureNotifications();
     void slotInsertTrack();
     void slotDeleteTrack();
-    /** @brief Shows the configure tracks dialog and updates transitions afterwards. */
-    void slotConfigTrack();
     /** @brief Select all clips in active track. */
     void slotSelectTrack();
     /** @brief Select all clips in timeline. */
