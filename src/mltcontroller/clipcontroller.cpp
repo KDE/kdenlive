@@ -670,6 +670,18 @@ void ClipController::mirrorOriginalProperties(Mlt::Properties &props)
         Mlt::Properties sourceProps(prod->get_properties());
         props.inherit(sourceProps);
     } else {
+        if (m_clipType == ClipType::AV || m_clipType == ClipType::Video || m_clipType == ClipType::Audio) {
+            // Make sure that a frame / image was fetched to initialize all meta properties
+            QString progressive = m_properties->get("meta.media.progressive");
+            if (progressive.isEmpty()) {
+                // Fetch a frame to initialize required properties
+                std::shared_ptr<Mlt::Frame> fr(m_masterProducer->get_frame());
+                mlt_image_format format = mlt_image_rgb24;
+                int width = 0;
+                int height = 0;
+                const uchar *image = fr->get_image(format, width, height);
+            }
+        }
         props.inherit(*m_properties);
     }
 }
