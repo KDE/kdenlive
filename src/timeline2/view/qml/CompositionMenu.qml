@@ -29,7 +29,6 @@ Menu {
         MenuItem {
             text: i18n('Edit Duration')
             onTriggered: {
-                //compositionMenu.close()
                 timeline.editItemDuration(clipId)
             }
         }
