@@ -540,13 +540,7 @@
              </widget>
             </item>
             <item>
-             <widget class="KComboBox" name="scanning_list">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
+             <widget class="QComboBox" name="scanning_list">
               <item>
                <property name="text">
                 <string>Auto</string>
@@ -560,6 +554,27 @@
               <item>
                <property name="text">
                 <string>Force Interlaced</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label">
+              <property name="text">
+               <string>Field</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QComboBox" name="field_order">
+              <item>
+               <property name="text">
+                <string>Bottom Field First</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Top Field First</string>
                </property>
               </item>
              </widget>

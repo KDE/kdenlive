@@ -231,7 +231,7 @@ private:
     void checkCodecs();
     int getNewStuff(const QString &configFile);
     void prepareRendering(bool delayedRendering, const QString &chapterFile);
-    void generateRenderFiles(QDomDocument doc, const QString &playlistPath, int in, int out);
+    void generateRenderFiles(QDomDocument doc, const QString &playlistPath, int in, int out, bool delayedRendering);
 
 signals:
     void abortProcess(const QString &url);

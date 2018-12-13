@@ -87,6 +87,7 @@ enum {
     AudioBitratesRole,
     DefaultAudioBitrateRole,
     SpeedsRole,
+    FieldRole,
     ErrorRole
 };
 
@@ -95,9 +96,6 @@ const int ParametersRole = Qt::UserRole + 1;
 const int TimeRole = Qt::UserRole + 2;
 const int ProgressRole = Qt::UserRole + 3;
 const int ExtraInfoRole = Qt::UserRole + 5;
-
-const int DirectRenderType = QTreeWidgetItem::Type;
-const int ScriptRenderType = QTreeWidgetItem::UserType;
 
 // Running job status
 enum JOBSTATUS { WAITINGJOB = 0, STARTINGJOB, RUNNINGJOB, FINISHEDJOB, FAILEDJOB, ABORTEDJOB };
@@ -362,6 +360,10 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     m_view.parallel_process->setChecked(KdenliveSettings::parallelrender());
     connect(m_view.parallel_process, &QCheckBox::stateChanged, [this] (int state) {
         KdenliveSettings::setParallelrender(state == Qt::Checked);
+    });
+    m_view.field_order->setEnabled(false);
+    connect(m_view.scanning_list, QOverload<int>::of(&QComboBox::currentIndexChanged), [this] (int index) {
+        m_view.field_order->setEnabled(index == 2);
     });
     refreshView();
     focusFirstVisibleItem();
@@ -1270,12 +1272,12 @@ void RenderWidget::prepareRendering(bool delayedRendering, const QString &chapte
             }
         }
     }
-    generateRenderFiles(doc, playlistPath, in, out);
+    generateRenderFiles(doc, playlistPath, in, out, delayedRendering);
 }
 
 
 
-void RenderWidget::generateRenderFiles(QDomDocument doc, const QString &playlistPath, int in, int out)
+void RenderWidget::generateRenderFiles(QDomDocument doc, const QString &playlistPath, int in, int out, bool delayedRendering)
 {
     QDomDocument clone;
     KdenliveDoc *project = pCore->currentDoc();
@@ -1409,8 +1411,11 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, const QString &playlist
     // Adjust scanning
     if (m_view.scanning_list->currentIndex() == 1) {
         consumer.setAttribute(QStringLiteral("progressive"), 1);
-    } else if (m_view.scanning_list->currentIndex() == 2) {
+    } else {
+        // Interlaced rendering
         consumer.setAttribute(QStringLiteral("progressive"), 0);
+        // Adjust field order
+        consumer.setAttribute(QStringLiteral("top_field_first"), m_view.field_order->currentIndex());
     }
 
     // check if audio export is selected
@@ -1489,7 +1494,7 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, const QString &playlist
         QString mytarget = renderedFile;
         QString playlistName = playlistPath;
         myConsumer.setAttribute(QStringLiteral("mlt_service"), QStringLiteral("avformat"));
-        if (passes == 2) {
+        if (passes == 2 && i == 1) {
             playlistName = playlistName.section(QLatin1Char('.'), 0, -2) + QString("-pass%1").arg(i+1) + playlistName.section(QLatin1Char('.'), -1);
         }
         myConsumer.setAttribute(QStringLiteral("target"), mytarget);
@@ -1540,7 +1545,7 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, const QString &playlist
                                          i18n("Already running"));
             return;
         }
-        if (renderItem->type() != DirectRenderType) {
+        if (delayedRendering) {
             delete renderItem;
             renderItem = nullptr;
         } else {
@@ -1548,8 +1553,13 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, const QString &playlist
             renderItem->setStatus(WAITINGJOB);
             renderItem->setIcon(0, QIcon::fromTheme(QStringLiteral("media-playback-pause")));
             renderItem->setData(1, Qt::UserRole, i18n("Waiting..."));
-            renderItem->setData(1, ParametersRole, renderedFile);
+            QStringList argsJob = {KdenliveSettings::rendererpath(),playlistPath,renderedFile,QStringLiteral("-pid:%1").arg(QCoreApplication::applicationPid())};
+            renderItem->setData(1, ParametersRole, argsJob);
         }
+    }
+    if (delayedRendering) {
+        parseScriptFiles();
+        return;
     }
     if (!renderItem) {
         renderItem = new RenderJobItem(m_view.running_jobs, QStringList() << QString() << renderedFile);
@@ -1931,6 +1941,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
         renderProps.insert(QStringLiteral("renderstartguide"), QString::number(m_view.guide_start->currentIndex()));
         renderProps.insert(QStringLiteral("renderendguide"), QString::number(m_view.guide_end->currentIndex()));
         renderProps.insert(QStringLiteral("renderscanning"), QString::number(m_view.scanning_list->currentIndex()));
+        renderProps.insert(QStringLiteral("renderfield"), QString::number(m_view.field_order->currentIndex()));
         int export_audio = 0;
         if (m_view.export_audio->checkState() == Qt::Checked) {
             export_audio = 2;
@@ -1964,7 +1975,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
                                          i18n("Already running"));
                 return;
             }
-            if (renderItem->type() != DirectRenderType) {
+            /*if (renderItem->type() != DirectRenderType) {
                 delete renderItem;
                 renderItem = nullptr;
             } else {
@@ -1973,7 +1984,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
                 renderItem->setIcon(0, QIcon::fromTheme(QStringLiteral("media-playback-pause")));
                 renderItem->setData(1, Qt::UserRole, i18n("Waiting..."));
                 renderItem->setData(1, ParametersRole, dest);
-            }
+            }*/
         }
         if (!renderItem) {
             renderItem = new RenderJobItem(m_view.running_jobs, QStringList() << QString() << dest);
@@ -2352,6 +2363,9 @@ void RenderWidget::refreshParams()
     } else {
         m_view.speed->setEnabled(false);
     }
+    if (!item->data(0, FieldRole).isNull()) {
+        m_view.field_order->setCurrentIndex(item->data(0, FieldRole).toInt());
+    }
     adjustSpeed(m_view.speed->value());
     m_view.checkTwoPass->setEnabled(params.contains(QStringLiteral("passes")));
 
@@ -2628,6 +2642,9 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
             }
             if (profile.hasAttribute(QStringLiteral("url"))) {
                 childitem->setData(0, ExtraRole, profile.attribute(QStringLiteral("url")));
+            }
+            if (profile.hasAttribute(QStringLiteral("top_field_first"))) {
+                childitem->setData(0, FieldRole, profile.attribute(QStringLiteral("top_field_first")));
             }
             if (editable) {
                 childitem->setData(0, EditableRole, exportFile);
@@ -2977,7 +2994,7 @@ void RenderWidget::slotStartScript()
             renderItem = nullptr;
         }
         if (!renderItem) {
-            renderItem = new RenderJobItem(m_view.running_jobs, QStringList() << QString() << destination, DirectRenderType);
+            renderItem = new RenderJobItem(m_view.running_jobs, QStringList() << QString() << destination);
         }
         renderItem->setData(1, ProgressRole, 0);
         renderItem->setStatus(WAITINGJOB);
@@ -3018,6 +3035,7 @@ void RenderWidget::slotHideLog()
 void RenderWidget::setRenderProfile(const QMap<QString, QString> &props)
 {
     m_view.scanning_list->setCurrentIndex(props.value(QStringLiteral("renderscanning")).toInt());
+    m_view.field_order->setCurrentIndex(props.value(QStringLiteral("renderfield")).toInt());
     int exportAudio = props.value(QStringLiteral("renderexportaudio")).toInt();
     switch (exportAudio) {
     case 1:
@@ -3122,11 +3140,9 @@ bool RenderWidget::startWaitingRenderJobs()
     RenderJobItem *item = static_cast<RenderJobItem *>(m_view.running_jobs->topLevelItem(0));
     while (item != nullptr) {
         if (item->status() == WAITINGJOB) {
-            if (item->type() == DirectRenderType) {
-                // Add render process for item
-                const QString params = item->data(1, ParametersRole).toStringList().join(QLatin1Char(' '));
-                outStream << '\"' << m_renderer << "\" " << params << '\n';
-            }
+            // Add render process for item
+            const QString params = item->data(1, ParametersRole).toStringList().join(QLatin1Char(' '));
+            outStream << '\"' << m_renderer << "\" " << params << '\n';
         }
         item = static_cast<RenderJobItem *>(m_view.running_jobs->itemBelow(item));
     }
