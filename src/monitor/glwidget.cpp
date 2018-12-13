@@ -1270,7 +1270,7 @@ Mlt::Profile *GLWidget::profile()
 void GLWidget::reloadProfile()
 {
     auto &profile = pCore->getCurrentProfile();
-    m_monitorProfile->get_profile()->description = qstrdup(profile->description().toUtf8().constData());
+    m_monitorProfile->get_profile()->description = strdup(profile->description().toUtf8().constData());
     m_monitorProfile->set_colorspace(profile->colorspace());
     m_monitorProfile->set_frame_rate(profile->frame_rate_num(), profile->frame_rate_den());
     m_monitorProfile->set_height(profile->height());
