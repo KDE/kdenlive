@@ -61,6 +61,7 @@ public:
        @param type is the type of the keyframe.
      */
     bool addKeyframe(GenTime pos, KeyframeType type);
+    bool addKeyframe(int frame, double val);
 
     /* @brief Removes the keyframe at the given position. */
     bool removeKeyframe(GenTime pos);
@@ -81,6 +82,7 @@ public:
     */
     bool updateKeyframe(GenTime pos, QVariant value, const QPersistentModelIndex &index);
     bool updateKeyframeType(GenTime pos, int type, const QPersistentModelIndex &index);
+    bool updateKeyframe(GenTime oldPos, GenTime pos, double normalizedVal, bool logUndo = true);
     KeyframeType keyframeType(GenTime pos) const;
     /* @brief Returns a keyframe data at given pos
        ok is a return parameter, set to true if everything went good

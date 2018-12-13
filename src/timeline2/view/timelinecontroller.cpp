@@ -2276,3 +2276,28 @@ void TimelineController::saveTimelineSelection(QDir targetDir)
 {
     TimelineFunctions::saveTimelineSelection(m_model, m_selection.selectedItems, targetDir);
 }
+
+void TimelineController::addClipEffectKeyframe(int cid, int frame, double val)
+{
+    if (m_model->isClip(cid)) {
+        std::shared_ptr<EffectStackModel> destStack = m_model->getClipEffectStackModel(cid);
+        destStack->addEffectKeyFrame(frame, val);
+    }
+}
+
+void TimelineController::removeClipEffectKeyframe(int cid, int frame)
+{
+    if (m_model->isClip(cid)) {
+        std::shared_ptr<EffectStackModel> destStack = m_model->getClipEffectStackModel(cid);
+        destStack->removeKeyFrame(frame);
+    }
+}
+
+void TimelineController::updateClipEffectKeyframe(int cid, int oldFrame, int newFrame, double normalizedValue)
+{
+    if (m_model->isClip(cid)) {
+        std::shared_ptr<EffectStackModel> destStack = m_model->getClipEffectStackModel(cid);
+        destStack->updateKeyFrame(oldFrame, newFrame, normalizedValue);
+    }
+}
+

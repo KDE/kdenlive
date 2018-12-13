@@ -62,23 +62,23 @@ public:
     enum { TypeRole = Qt::UserRole + 1, PosRole, FrameRole, ValueRole, NormalizedValueRole };
     friend class KeyframeModelList;
 
+protected:
+    /** @brief These methods should ONLY be called by keyframemodellist to ensure synchronisation
+     *  with keyframes from other parameters */
     /* @brief Adds a keyframe at the given position. If there is already one then we update it.
        @param pos defines the position of the keyframe, relative to the clip
        @param type is the type of the keyframe.
      */
     bool addKeyframe(GenTime pos, KeyframeType type, QVariant value);
-    Q_INVOKABLE bool addKeyframe(int frame, double normalizedValue);
-
-protected:
+    bool addKeyframe(int frame, double normalizedValue);
     /* @brief Same function but accumulates undo/redo
        @param notify: if true, send a signal to model
      */
     bool addKeyframe(GenTime pos, KeyframeType type, QVariant value, bool notify, Fun &undo, Fun &redo);
 
-public:
     /* @brief Removes the keyframe at the given position. */
-    Q_INVOKABLE bool removeKeyframe(int frame);
-    Q_INVOKABLE bool moveKeyframe(int oldPos, int pos, double newVal);
+    bool removeKeyframe(int frame);
+    bool moveKeyframe(int oldPos, int pos, double newVal);
     bool removeKeyframe(GenTime pos);
     /* @brief Delete all the keyframes of the model */
     bool removeAllKeyframes();
@@ -145,6 +145,8 @@ public:
     /* @brief Return the interpolated value at given pos */
     QVariant getInterpolatedValue(int pos) const;
     QVariant getInterpolatedValue(const GenTime &pos) const;
+    /* @brief Return the real value from a normalized one */
+    QVariant getNormalizedValue(double newVal) const;
 
     // Mandatory overloads
     Q_INVOKABLE QVariant data(const QModelIndex &index, int role) const override;

@@ -940,3 +940,54 @@ bool EffectStackModel::isStackEnabled() const
 {
     return m_effectStackEnabled;
 }
+
+
+bool EffectStackModel::addEffectKeyFrame(int frame, double normalisedVal)
+{
+    if (rootItem->childCount() == 0) return false;
+    int ix = 0;
+    auto ptr = m_services.front().lock();
+    if (ptr) {
+        ix = ptr->get_int("kdenlive:activeeffect");
+    }
+    if (ix < 0) {
+        return false;
+    }
+    std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(rootItem->child(ix));
+    std::shared_ptr<KeyframeModelList> listModel = sourceEffect->getKeyframeModel();
+    return listModel->addKeyframe(frame, normalisedVal);
+}
+
+bool EffectStackModel::removeKeyFrame(int frame)
+{
+    if (rootItem->childCount() == 0) return false;
+    int ix = 0;
+    auto ptr = m_services.front().lock();
+    if (ptr) {
+        ix = ptr->get_int("kdenlive:activeeffect");
+    }
+    if (ix < 0) {
+        return false;
+    }
+    std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(rootItem->child(ix));
+    std::shared_ptr<KeyframeModelList> listModel = sourceEffect->getKeyframeModel();
+    return listModel->removeKeyframe(GenTime(frame, pCore->getCurrentFps()));
+}
+
+bool EffectStackModel::updateKeyFrame(int oldFrame, int newFrame, double normalisedVal)
+{
+    if (rootItem->childCount() == 0) return false;
+    int ix = 0;
+    auto ptr = m_services.front().lock();
+    if (ptr) {
+        ix = ptr->get_int("kdenlive:activeeffect");
+    }
+    if (ix < 0) {
+        return false;
+    }
+    std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(rootItem->child(ix));
+    std::shared_ptr<KeyframeModelList> listModel = sourceEffect->getKeyframeModel();
+    return listModel->updateKeyframe(GenTime(oldFrame, pCore->getCurrentFps()), GenTime(newFrame, pCore->getCurrentFps()), normalisedVal);
+}
+
+

@@ -761,6 +761,30 @@ QVariant KeyframeModel::getInterpolatedValue(int p) const
     return getInterpolatedValue(pos);
 }
 
+QVariant KeyframeModel::getNormalizedValue(double newVal) const
+{
+    if (auto ptr = m_model.lock()) {
+        double min = ptr->data(m_index, AssetParameterModel::MinRole).toDouble();
+        double max = ptr->data(m_index, AssetParameterModel::MaxRole).toDouble();
+        double factor = ptr->data(m_index, AssetParameterModel::FactorRole).toDouble();
+        double norm = ptr->data(m_index, AssetParameterModel::DefaultRole).toDouble();
+        int logRole = ptr->data(m_index, AssetParameterModel::ScaleRole).toInt();
+        double realValue;
+        if (logRole == -1) {
+            // Logarythmic scale for lower than norm values
+            if (newVal >= 0.5) {
+                realValue = norm + (2 * (newVal - 0.5) * (max / factor - norm));
+            } else {
+                realValue = norm - pow(2 * (0.5 - newVal), 10.0 / 6) * (norm - min / factor);
+            }
+        } else {
+            realValue = (newVal * (max - min) + min) / factor;
+        }
+        return QVariant(realValue);
+    }
+    return QVariant();
+}
+
 QVariant KeyframeModel::getInterpolatedValue(const GenTime &pos) const
 {
     if (m_keyframeList.count(pos) > 0) {

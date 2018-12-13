@@ -87,6 +87,25 @@ bool KeyframeModelList::addKeyframe(GenTime pos, KeyframeType type)
     return applyOperation(op, update ? i18n("Change keyframe type") : i18n("Add keyframe"));
 }
 
+bool KeyframeModelList::addKeyframe(int frame, double val)
+{
+    QWriteLocker locker(&m_lock);
+    GenTime pos(frame, pCore->getCurrentFps());
+    Q_ASSERT(m_parameters.size() > 0);
+    KeyframeType type = keyframeType(GenTime());
+    bool update = (m_parameters.begin()->second->hasKeyframe(pos) > 0);
+    auto op = [this, pos, frame, type, val](std::shared_ptr<KeyframeModel> param, Fun &undo, Fun &redo) {
+        QVariant value;
+        if (m_parameters.begin()->second == param) {
+            value = param->getNormalizedValue(val);
+        } else {
+            value = param->getInterpolatedValue(pos);
+        }
+        return param->addKeyframe(pos, type, value, true, undo, redo);
+    };
+    return applyOperation(op, update ? i18n("Change keyframe type") : i18n("Add keyframe"));
+}
+
 bool KeyframeModelList::removeKeyframe(GenTime pos)
 {
     QWriteLocker locker(&m_lock);
@@ -108,6 +127,22 @@ bool KeyframeModelList::moveKeyframe(GenTime oldPos, GenTime pos, bool logUndo)
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_parameters.size() > 0);
     auto op = [oldPos, pos](std::shared_ptr<KeyframeModel> param, Fun &undo, Fun &redo) { return param->moveKeyframe(oldPos, pos, -1, undo, redo); };
+    return applyOperation(op, logUndo ? i18n("Move keyframe") : QString());
+}
+
+bool KeyframeModelList::updateKeyframe(GenTime oldPos, GenTime pos, double normalizedVal, bool logUndo)
+{
+    QWriteLocker locker(&m_lock);
+    Q_ASSERT(m_parameters.size() > 0);
+    auto op = [this, oldPos, pos, normalizedVal](std::shared_ptr<KeyframeModel> param, Fun &undo, Fun &redo) {
+        double value;
+        if (m_parameters.begin()->second == param) {
+            value = normalizedVal;
+        } else {
+            value = -1;
+        }
+        return param->moveKeyframe(oldPos, pos, value, undo, redo);
+    };
     return applyOperation(op, logUndo ? i18n("Move keyframe") : QString());
 }
 

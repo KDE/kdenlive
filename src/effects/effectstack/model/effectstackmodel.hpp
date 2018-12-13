@@ -108,6 +108,12 @@ public:
     Q_INVOKABLE double getFilterParam(const QString &effectId, const QString &paramName);
     /** get the active effect's keyframe model */
     Q_INVOKABLE KeyframeModel *getEffectKeyframeModel();
+    /** Add a keyframe in all model parameters */
+    bool addEffectKeyFrame(int frame, double normalisedVal);
+    /** Remove a keyframe in all model parameters */
+    bool removeKeyFrame(int frame);
+    /** Update a keyframe in all model parameters (with value updated only in first parameter)*/
+    bool updateKeyFrame(int oldFrame, int newFrame, double normalisedVal);
     /** Remove unwanted fade effects, mostly after a cut operation */
     void cleanFadeEffects(bool outEffects, Fun &undo, Fun &redo);
 
