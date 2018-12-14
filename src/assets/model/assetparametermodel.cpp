@@ -217,9 +217,15 @@ void AssetParameterModel::setParameter(const QString &name, const QString &value
         }
     }
     // Update timeline view if necessary
-    pCore->updateItemModel(m_ownerId, m_assetId);
-    pCore->refreshProjectItem(m_ownerId);
-    pCore->invalidateItem(m_ownerId);
+    if (m_ownerId.first == ObjectType::NoItem) {
+        // Used for generator clips
+        if (!update)
+            emit modelChanged();
+    } else {
+        pCore->updateItemModel(m_ownerId, m_assetId);
+        pCore->refreshProjectItem(m_ownerId);
+        pCore->invalidateItem(m_ownerId);
+    }
 }
 
 void AssetParameterModel::setParameter(const QString &name, double &value)

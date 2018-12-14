@@ -20,6 +20,8 @@
 #ifndef GENERATORS_H
 #define GENERATORS_H
 
+#include "assets/model/assetparametermodel.hpp"
+#include "assets/view/assetparameterview.hpp"
 #include <QDialog>
 #include <QDomElement>
 #include <QMenu>
@@ -60,11 +62,13 @@ private:
     Mlt::Producer *m_producer;
     TimecodeDisplay *m_timePos;
     ParameterContainer *m_container;
+    AssetParameterView *m_view;
+    std::shared_ptr<AssetParameterModel> m_assetModel;
     QLabel *m_preview;
     QPixmap m_pixmap;
 
 private slots:
-    void updateProducer(const QDomElement &old = QDomElement(), const QDomElement &effect = QDomElement(), int ix = 0);
+    void updateProducer();
     void updateDuration(int duration);
 };
 

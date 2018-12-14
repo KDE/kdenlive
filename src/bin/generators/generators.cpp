@@ -21,6 +21,8 @@
 #include "doc/kthumb.h"
 #include "kdenlivesettings.h"
 #include "monitor/monitor.h"
+#include "assets/abstractassetsrepository.hpp"
+#include "effects/effectsrepository.hpp"
 
 #include <QDialogButtonBox>
 #include <QDir>
@@ -72,14 +74,18 @@ Generators::Generators(Monitor *monitor, const QString &path, QWidget *parent)
         lay->addLayout(hlay);
         QWidget *frameWidget = new QWidget;
         lay->addWidget(frameWidget);
-        ItemInfo info;
-        // TODO refac look after this
-        /*
-        EffectMetaInfo metaInfo;
-        metaInfo.monitor = monitor;
-        m_container = new ParameterContainer(base, info, &metaInfo, frameWidget);
-        connect(m_container, &ParameterContainer::parameterChanged, this, &Generators::updateProducer);
-        */
+
+        m_view = new AssetParameterView(frameWidget);
+        lay->addWidget(m_view);
+        QString tag = base.attribute(QStringLiteral("tag"), QString());
+        QString id = base.hasAttribute(QStringLiteral("id")) ? base.attribute(QStringLiteral("id")) : tag;
+
+        m_assetModel = std::shared_ptr<AssetParameterModel> (new AssetParameterModel(m_producer, base, tag, {ObjectType::NoItem, -1}));
+        m_view->setModel(m_assetModel, QSize(1920,1080), false);
+        connect(m_assetModel.get(), &AssetParameterModel::modelChanged, [this]() {
+            updateProducer();
+        });
+
         lay->addStretch(10);
         QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
         connect(buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
@@ -89,15 +95,8 @@ Generators::Generators(Monitor *monitor, const QString &path, QWidget *parent)
     }
 }
 
-void Generators::updateProducer(const QDomElement &, const QDomElement &effect, int)
+void Generators::updateProducer()
 {
-    QDomNodeList params = effect.elementsByTagName(QStringLiteral("parameter"));
-    for (int i = 0; i < params.count(); ++i) {
-        QDomElement pa = params.item(i).toElement();
-        QString paramName = pa.attribute(QStringLiteral("name"));
-        QString paramValue = pa.attribute(QStringLiteral("value"));
-        m_producer->set(paramName.toUtf8().constData(), paramValue.toUtf8().constData());
-    }
     int w = m_pixmap.width();
     int h = m_pixmap.height();
     m_pixmap = QPixmap::fromImage(KThumb::getFrame(m_producer, 0, w, h));
@@ -112,7 +111,6 @@ void Generators::resizeEvent(QResizeEvent *event)
 
 Generators::~Generators()
 {
-    delete m_producer;
     delete m_timePos;
 }
 
