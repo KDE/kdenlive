@@ -556,10 +556,10 @@ bool ClipController::hasAudio() const
 void ClipController::checkAudioVideo()
 {
     m_masterProducer->seek(0);
-    if (m_masterProducer->get_int("_placeholder") == 1) {
+    if (m_masterProducer->get_int("_placeholder") == 1 || m_masterProducer->get("text") == QLatin1String("INVALID")) {
         // This is a placeholder file, try to guess from its properties
         QString orig_service = m_masterProducer->get("kdenlive:orig_service");
-        if (orig_service.startsWith(QStringLiteral("avformat"))) {
+        if (orig_service.startsWith(QStringLiteral("avformat")) || (m_masterProducer->get_int("audio_index") + m_masterProducer->get_int("video_index") > 0)) {
             m_hasAudio = m_masterProducer->get_int("audio_index") >= 0;
             m_hasVideo = m_masterProducer->get_int("video_index") >= 0;
         } else {
