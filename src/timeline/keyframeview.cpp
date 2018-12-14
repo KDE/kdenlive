@@ -376,7 +376,6 @@ QString KeyframeView::getSingleAnimation(int ix, int in, int out, int offset, in
     m_keyProperties.set("kdenlive_import", "");
     int newduration = out - in + offset;
     m_keyProperties.anim_get_double("kdenlive_import", 0, newduration);
-    Mlt::Animation anim = m_keyProperties.get_animation("kdenlive_import");
     double factor = (max - min) / (maximas.y() - maximas.x());
     mlt_rect rect = m_keyProperties.anim_get_rect(m_inTimeline.toUtf8().constData(), in, duration);
     double value;
@@ -449,6 +448,7 @@ QString KeyframeView::getSingleAnimation(int ix, int in, int out, int offset, in
             next = m_keyAnim.next_key(next + 1);
         }
     }
+    Mlt::Animation anim = m_keyProperties.get_animation("kdenlive_import");
     QString result = anim.serialize_cut();
     m_keyProperties.set("kdenlive_import", (char *) nullptr);
     return result;
@@ -461,7 +461,6 @@ QString KeyframeView::getOffsetAnimation(int in, int out, int offset, int limitK
     int pWidth = profile.profileSize.width();
     int pHeight = profile.profileSize.height();
     m_keyProperties.anim_get_double("kdenlive_import", 0, newduration);
-    Mlt::Animation anim = m_keyProperties.get_animation("kdenlive_import");
     mlt_keyframe_type kftype = (limitKeyframes > 0 && allowAnimation) ? mlt_keyframe_smooth : mlt_keyframe_linear;
     mlt_rect rect = m_keyProperties.anim_get_rect(m_inTimeline.toUtf8().constData(), in, duration);
     rect.x = (int) rect.x;
@@ -506,6 +505,7 @@ QString KeyframeView::getOffsetAnimation(int in, int out, int offset, int limitK
             m_keyProperties.anim_set("kdenlive_import", rect, offset + pos - in, newduration, kftype);
         }
     }
+    Mlt::Animation anim = m_keyProperties.get_animation("kdenlive_import");
     QString result = anim.serialize_cut();
     m_keyProperties.set("kdenlive_import", (char *) nullptr);
     return result;
