@@ -1485,6 +1485,7 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, const QString &playlist
         // We will generate 2 files, one for each pass.
         clone = doc.cloneNode(true).toDocument();
     }
+    QStringList playlists;
     QString renderedFile = m_view.out_file->url().toLocalFile();
     for (int i = 0; i < passes; i++) {
         // Append consumer settings
@@ -1495,8 +1496,9 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, const QString &playlist
         QString playlistName = playlistPath;
         myConsumer.setAttribute(QStringLiteral("mlt_service"), QStringLiteral("avformat"));
         if (passes == 2 && i == 1) {
-            playlistName = playlistName.section(QLatin1Char('.'), 0, -2) + QString("-pass%1").arg(i+1) + playlistName.section(QLatin1Char('.'), -1);
+            playlistName = playlistName.section(QLatin1Char('.'), 0, -2) + QString("-pass%1.").arg(i+1) + playlistName.section(QLatin1Char('.'), -1);
         }
+        playlists << playlistName;
         myConsumer.setAttribute(QStringLiteral("target"), mytarget);
 
         // Prepare rendering args
@@ -1545,7 +1547,7 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, const QString &playlist
                                          i18n("Already running"));
             return;
         }
-        if (delayedRendering) {
+        if (delayedRendering || playlists.size() > 1) {
             delete renderItem;
             renderItem = nullptr;
         } else {
@@ -1555,26 +1557,38 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, const QString &playlist
             renderItem->setData(1, Qt::UserRole, i18n("Waiting..."));
             QStringList argsJob = {KdenliveSettings::rendererpath(),playlistPath,renderedFile,QStringLiteral("-pid:%1").arg(QCoreApplication::applicationPid())};
             renderItem->setData(1, ParametersRole, argsJob);
+            renderItem->setData(1, TimeRole, QDateTime::currentDateTime());
+            if (!exportAudio) {
+                renderItem->setData(1, ExtraInfoRole, i18n("Video without audio track"));
+            } else {
+                renderItem->setData(1, ExtraInfoRole, QString());
+            }
+            m_view.running_jobs->setCurrentItem(renderItem);
+            m_view.tabWidget->setCurrentIndex(1);
+            checkRenderStatus();
+            return;
         }
     }
     if (delayedRendering) {
         parseScriptFiles();
         return;
     }
-    if (!renderItem) {
+    QList <RenderJobItem *> jobList;
+    for (const QString &pl : playlists) {
         renderItem = new RenderJobItem(m_view.running_jobs, QStringList() << QString() << renderedFile);
-    }
-    renderItem->setData(1, TimeRole, QDateTime::currentDateTime());
-    QStringList argsJob = {KdenliveSettings::rendererpath(),playlistPath,renderedFile,QStringLiteral("-pid:%1").arg(QCoreApplication::applicationPid())};
-    renderItem->setData(1, ParametersRole, argsJob);
-    qDebug()<<"* CREATED JOB WITH ARGS: "<<argsJob;
-    if (!exportAudio) {
-        renderItem->setData(1, ExtraInfoRole, i18n("Video without audio track"));
-    } else {
-        renderItem->setData(1, ExtraInfoRole, QString());
+        renderItem->setData(1, TimeRole, QDateTime::currentDateTime());
+        QStringList argsJob = {KdenliveSettings::rendererpath(),pl,renderedFile,QStringLiteral("-pid:%1").arg(QCoreApplication::applicationPid())};
+        renderItem->setData(1, ParametersRole, argsJob);
+        qDebug()<<"* CREATED JOB WITH ARGS: "<<argsJob;
+        if (!exportAudio) {
+            renderItem->setData(1, ExtraInfoRole, i18n("Video without audio track"));
+        } else {
+            renderItem->setData(1, ExtraInfoRole, QString());
+        }
+        jobList << renderItem;
     }
 
-    m_view.running_jobs->setCurrentItem(renderItem);
+    m_view.running_jobs->setCurrentItem(jobList.at(0));
     m_view.tabWidget->setCurrentIndex(1);
     // check render status
     checkRenderStatus();
@@ -2052,6 +2066,22 @@ void RenderWidget::checkRenderStatus()
             item->setData(1, TimeRole, QDateTime::currentDateTime());
             waitingJob = true;
             startRendering(item);
+            // Check for 2 pass encoding
+            QStringList jobData = item->data(1, ParametersRole).toStringList();
+            if (jobData.size() > 2 && jobData.at(1).endsWith(QStringLiteral("-pass2.mlt"))) {
+                // Find and remove 1st pass job
+                QTreeWidgetItem *above = m_view.running_jobs->itemAbove(item);
+                QString firstPassName = jobData.at(1).section(QLatin1Char('-'), 0, -2) + QStringLiteral(".mlt");
+                while (above) {
+                    QStringList aboveData = above->data(1, ParametersRole).toStringList();
+                    qDebug()<<"// GOT  JOB: "<<aboveData.at(1);
+                    if (aboveData.size() > 2 && aboveData.at(1) == firstPassName) {
+                        delete above;
+                        break;
+                    }
+                    above = m_view.running_jobs->itemAbove(above);
+                }
+            }
             item->setStatus(STARTINGJOB);
             break;
         }
@@ -2367,7 +2397,9 @@ void RenderWidget::refreshParams()
         m_view.field_order->setCurrentIndex(item->data(0, FieldRole).toInt());
     }
     adjustSpeed(m_view.speed->value());
-    m_view.checkTwoPass->setEnabled(params.contains(QStringLiteral("passes")));
+    bool passes = params.contains(QStringLiteral("passes")); 
+    m_view.checkTwoPass->setEnabled(passes);
+    m_view.checkTwoPass->setChecked(passes && params.contains(QStringLiteral("passes=2")));
 
     m_view.encoder_threads->setEnabled(!params.contains(QStringLiteral("threads=")));
 
