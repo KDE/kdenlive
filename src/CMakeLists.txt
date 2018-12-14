@@ -1,19 +1,4 @@
 add_definitions(${Qt5Gui_DEFINITIONS})
-if(${Qt5Gui_OPENGL_IMPLEMENTATION} STREQUAL "GL")
-    find_package(OpenGL REQUIRED)
-    set_package_properties(OpenGL PROPERTIES
-        DESCRIPTION "the OpenGL library"
-        URL ""
-        TYPE RUNTIME
-        PURPOSE "")
-else()
-    find_package(OpenGLES REQUIRED)
-    set_package_properties(OpenGLES PROPERTIES
-        DESCRIPTION "the OpenGLES library"
-        URL ""
-        TYPE RUNTIME
-        PURPOSE "")
-endif()
 
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -pedantic -Wextra")
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wcast-qual -Wcast-align -Wfloat-equal -Wpointer-arith")
