@@ -184,6 +184,7 @@ void KeyframeWidget::slotSetPosition(int pos, bool update)
         m_time->setValue(pos);
         m_keyframeview->slotSetPosition(pos, true);
     }
+    m_buttonAddDelete->setEnabled(pos > 0);
     slotRefreshParams();
 
     if (update) {

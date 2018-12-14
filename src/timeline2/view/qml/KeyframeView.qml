@@ -67,12 +67,12 @@ Rectangle
             keyframeContainer.focus = false
             event.accepted = true
         }
-        if (event.key == Qt.Key_Plus) {
+        if ((event.key == Qt.Key_Plus) && !(event.modifiers & Qt.ControlModifier)) {
             var newVal = Math.min(keyframes.itemAt(activeIndex).value / parent.height + .05, 1)
             keyframeModel.updateKeyframe(activeFrame, newVal)
             event.accepted = true
         }
-        else if (event.key == Qt.Key_Minus) {
+        else if ((event.key == Qt.Key_Minus) && !(event.modifiers & Qt.ControlModifier)) {
             var newVal = Math.max(keyframes.itemAt(activeIndex).value / parent.height - .05, 0)
             keyframeModel.updateKeyframe(activeFrame, newVal)
             event.accepted = true
@@ -113,7 +113,7 @@ Rectangle
                 onReleased: {
                     root.stopScrolling = false
                     var newPos = Math.round(parent.x / timeScale) + inPoint
-                    if (newPos != frame) {
+                    if (frame != inPoint && newPos != frame) {
                         if (mouse.modifiers & Qt.ShiftModifier) {
                             // offset all subsequent keyframes
                             keyframeModel.offsetKeyframes(frame, newPos, true)
@@ -123,7 +123,7 @@ Rectangle
                     }
                 }
                 onPositionChanged: {
-                    if (mouse.buttons === Qt.LeftButton) {
+                    if (mouse.buttons === Qt.LeftButton && frame != inPoint) {
                         var newPos = Math.round(parent.x / timeScale)
                         parent.x = newPos * timeScale
                         keyframecanvas.requestPaint()
@@ -153,19 +153,39 @@ Rectangle
                     }
                     onReleased: {
                         root.stopScrolling = false
-                        var newPos = Math.round((keyframe.x + parent.x + root.baseUnit / 2) / timeScale) + inPoint
+                        var newPos = frame == inPoint ? inPoint : Math.round((keyframe.x + parent.x + root.baseUnit / 2) / timeScale) + inPoint
+                        if (newPos == frame && keyframe.value == keyframe.height - parent.y - root.baseUnit / 2) {
+                            var pos = clipRoot.modelStart + frame - inPoint
+                            if (timeline.position != pos) {
+                                timeline.seekPosition = pos
+                                timeline.position = timeline.seekPosition
+                            }
+                            return
+                        }
                         var newVal = (keyframeContainer.height - (parent.y + mouse.y)) / keyframeContainer.height
-                        if (newVal > 1.5 || newVal < -0.5) {
+                        if (frame != inPoint && (newVal > 1.5 || newVal < -0.5)) {
                             timeline.removeClipEffectKeyframe(clipRoot.clipId, frame);
-                        } else if (frame != newPos) {
-                            newVal = newVal < 0 ? 0 : newVal > 1 ? 1 : newVal
+                        } else {
+                            if (newVal < 0) {
+                                newVal = 0;
+                                parent.y = keyframes.height - (root.baseUnit / 2)
+                                keyframecanvas.requestPaint()
+                            } else if (newVal > 1) {
+                                newVal = 1;
+                                parent.y = - (root.baseUnit / 2)
+                                keyframecanvas.requestPaint()
+                            }
                             timeline.updateClipEffectKeyframe(clipRoot.clipId, frame, newPos, newVal)
                         }
                     }
                     onPositionChanged: {
                         if (mouse.buttons === Qt.LeftButton) {
-                            var newPos = Math.round(parent.x / timeScale)
-                            parent.x = newPos * timeScale
+                            if (frame == inPoint) {
+                                parent.x = - root.baseUnit / 2
+                            } else {
+                                var newPos = Math.round(parent.x / timeScale)
+                                parent.x = newPos * timeScale
+                            }
                             keyframecanvas.requestPaint()
                         }
                     }
