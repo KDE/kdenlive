@@ -351,7 +351,6 @@ bool KeyframeModel::updateKeyframeType(GenTime pos, int type, Fun &undo, Fun &re
     KeyframeType oldType = m_keyframeList[pos].first;
     KeyframeType newType = convertFromMltType((mlt_keyframe_type)type);
     QVariant value = m_keyframeList[pos].second;
-
     // Check if keyframe is different
     if (m_paramType == ParamType::KeyframeParam) {
         if (oldType == newType) return true;
@@ -880,7 +879,7 @@ void KeyframeModel::sendModification()
         QString data;
         if (m_paramType == ParamType::KeyframeParam || m_paramType == ParamType::AnimatedRect || m_paramType == ParamType::Roto_spline) {
             data = getAnimProperty();
-            ptr->setParameter(name, data);
+            ptr->setParameter(name, data, false);
         } else {
             Q_ASSERT(false); // Not implemented, TODO
         }

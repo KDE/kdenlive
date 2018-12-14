@@ -135,7 +135,7 @@ void KeyframeWidget::monitorSeek(int pos)
     m_buttonAddDelete->setEnabled(isInRange);
     connectMonitor(isInRange);
     int framePos = qBound(in, pos, out) - in;
-    if (isInRange) {
+    if (isInRange && framePos != m_time->getValue()) {
         slotSetPosition(framePos, false);
     }
 }

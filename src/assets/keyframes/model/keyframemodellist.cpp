@@ -175,7 +175,11 @@ bool KeyframeModelList::updateKeyframeType(GenTime pos, int type, const QPersist
         Keyframe kf = m_parameters.begin()->second->getNextKeyframe(GenTime(-1), &ok);
         pos = kf.first;
     }
-    bool res = m_parameters.at(index)->updateKeyframeType(pos, type, undo, redo);
+    // Update kf type in all parameters
+    bool res = true;
+    for (const auto &param : m_parameters) {
+        res = res && param.second->updateKeyframeType(pos, type, undo, redo);
+    }
     if (res) {
         PUSH_UNDO(undo, redo, i18n("Update keyframe"));
     }
