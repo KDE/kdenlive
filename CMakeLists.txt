@@ -4,8 +4,8 @@ project(Kdenlive)
 # stable release. An additional number can be used for bugfix-only releases.
 
 # KDE Application Version, managed by release script
-set (KDE_APPLICATIONS_VERSION_MAJOR "18")
-set (KDE_APPLICATIONS_VERSION_MINOR "11")
+set (KDE_APPLICATIONS_VERSION_MAJOR "19")
+set (KDE_APPLICATIONS_VERSION_MINOR "03")
 set (KDE_APPLICATIONS_VERSION_MICRO "70")
 
 set(KDENLIVE_VERSION ${KDE_APPLICATIONS_VERSION_MAJOR}.${KDE_APPLICATIONS_VERSION_MINOR}.${KDE_APPLICATIONS_VERSION_MICRO})
@@ -125,7 +125,11 @@ set_package_properties(MLT PROPERTIES
                 TYPE RUNTIME
                 PURPOSE "Required to do video processing")
 
-set(MLT_PREFIX ${MLT_ROOT_DIR})
+if(NOT WIN32)
+    set(MLT_PREFIX ${MLT_ROOT_DIR})
+else()
+    set(MLT_PREFIX "..")
+endif()
 
 add_subdirectory(data)
 if(KF5DocTools_FOUND)
@@ -169,6 +173,8 @@ if (KF5DocTools_FOUND)
 endif()
 
 install( FILES kdenlive.categories DESTINATION ${KDE_INSTALL_CONFDIR} )
+include(GNUInstallDirs)
+install( FILES AUTHORS COPYING README DESTINATION ${CMAKE_INSTALL_DOCDIR})
 
 configure_file(config-kdenlive.h.cmake config-kdenlive.h @ONLY)
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)

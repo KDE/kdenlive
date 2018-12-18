@@ -221,8 +221,8 @@ void KeyframeImport::resizeEvent(QResizeEvent *ev)
 
 void KeyframeImport::updateDataDisplay()
 {
-    QString data = m_dataCombo->currentData().toString();
-    m_maximas = m_keyframeView->loadKeyframes(data);
+    QString frameData = m_dataCombo->currentData().toString();
+    m_maximas = m_keyframeView->loadKeyframes(frameData);
     double wDist = m_maximas.at(2).y() - m_maximas.at(2).x();
     double hDist = m_maximas.at(3).y() - m_maximas.at(3).x();
     if (wDist == 0 && hDist == 0) {

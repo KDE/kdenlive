@@ -146,7 +146,7 @@ signals:
     void addEffect(const QDomElement &);
     /** @brief Monitor activated, refresh overlay options actions */
     void updateOverlayInfos(int, int);
-    /** @brief info is available for audio spectum widget */
+    /** @brief info is available for audio spectrum widget */
     void frameDisplayed(const SharedFrame &);
 };
 

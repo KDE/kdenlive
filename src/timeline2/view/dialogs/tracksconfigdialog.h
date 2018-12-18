@@ -59,7 +59,7 @@ public:
     /** @brief Returns the new list of tracks created from the table. */
     const QList<TrackInfo> tracksList();
 
-    /** @brief A list of tracks, which sould be deleted. */
+    /** @brief A list of tracks, which should be deleted. */
     QList<int> deletedTracks() const;
 
 private slots:

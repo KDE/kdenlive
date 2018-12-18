@@ -16,8 +16,8 @@
 <!-- TRANS:ROLES_OF_TRANSLATORS -->
     </authorgroup>
 <legalnotice>&FDLNotice;</legalnotice>
-<date>2011-06-17</date>
-    <releaseinfo>0.8.2</releaseinfo>
+<date>2018-10-27</date>
+    <releaseinfo>Applications 18.12</releaseinfo>
 <abstract>
 <para></para>
     </abstract>
@@ -27,16 +27,17 @@
 <keyword>video</keyword>
 </keywordset>
 </bookinfo>
-<!--userbase <timestamp>2011-06-17T15:39:59Z</timestamp>-->
+<!--userbase <timestamp>2018-10-27T11:21:38Z</timestamp>-->
 
 <!--userbase-content-->
-<chapter id="creating-a-new-project"><title>Creating a new project</title> 
+<chapter id="quick-start"><title>Quick Start</title> 
+<sect1 id="creating-a-new-project"><title>Creating a new project</title> 
 <para>
 <screenshot>
 <screeninfo></screeninfo>
   <mediaobject>
     <imageobject>
-      <imagedata fileref="Kdenlive_Quickstart-Folder-Structure.png" format="PNG"/>
+      <imagedata fileref="kdenlive_quickstart-folder-structure.png" format="PNG"/>
     </imageobject>
     <textobject>
       <phrase>Kdenlive directory structure</phrase>
@@ -45,16 +46,20 @@
       <para>Kdenlive directory structure</para>
     </caption>
   </mediaobject>
-</screenshot></para>
-<para>The first step is creating a new (empty) folder for our new project. I will call it <filename>quickstart-tutorial/</filename> in this tutorial. Then get some sample video clips, or download them from here:<ulink url="http://granjow.net/uploads/kdenlive/manual/kdenlive-tutorial-videos-2011-avi.tar.bz2">kdenlive-tutorial-videos-2011-avi.tar.bz2</ulink> (7 MB)<footnote><para>If you prefer Theora (which you probably don’t since Ogg Video usually causes problems), you can alternatively download <ulink url="http://granjow.net/uploads/kdenlive/manual/kdenlive-tutorial-videos-2011-ogv.tar.bz2">kdenlive-tutorial-videos-2011-ogv.tar.bz2</ulink>.</para></footnote>, and extract them to &eg; a <filename>quickstart-tutorial/Videos/</filename> subfolder inside the project folder.</para>
-<para>The image on the left shows the suggested directory structure: Each project has its own directory, with video files in the <filename>Videos</filename> subdirectory, audio files in the <filename>Audio</filename> directory, &etc; (<ulink url="http://userbase.kde.org/Special:myLanguage/Kdenlive/Manual/Projects_and_Files#File_Structure">read more</ulink>)</para>
-<para>(The tutorial from now on assumes that you use the sample videos provided, but it works with any.)</para>
+</screenshot>
+</para>
+<para>The first step is creating a new (empty) folder for our new project. I will call it <filename>quickstart-tutorial/</filename> in this tutorial. Then get some sample video clips, or download them from here:<ulink url="http://granjow.net/uploads/kdenlive/manual/kdenlive-tutorial-videos-2011-avi.tar.bz2">kdenlive-tutorial-videos-2011-avi.tar.bz2</ulink> (7 MB)<footnote><para>If you prefer Theora (which you probably don’t since Ogg Video usually causes problems), you can alternatively download <ulink url="http://granjow.net/uploads/kdenlive/manual/kdenlive-tutorial-videos-2011-ogv.tar.bz2">kdenlive-tutorial-videos-2011-ogv.tar.bz2</ulink>.</para></footnote>, and extract them to &eg; a <filename>quickstart-tutorial/Videos/</filename> subfolder inside the project folder.
+</para>
+<para>The image on the left shows the suggested directory structure: Each project has its own directory, with video files in the <filename>Videos</filename> subdirectory, audio files in the <filename>Audio</filename> directory, &etc; (<ulink url="http://userbase.kde.org/Special:myLanguage/Kdenlive/Manual/Projects_and_Files#File_Structure">read more</ulink>)
+</para>
+<para>(The tutorial from now on assumes that you use the sample videos provided, but it works with any.)
+</para>
 <para>
 <screenshot>
 <screeninfo></screeninfo>
   <mediaobject>
     <imageobject>
-      <imagedata fileref="Kdenlive_Quickstart-New-Project.png" format="PNG"/>
+      <imagedata fileref="kdenlive_quickstart-new-project.png" format="PNG"/>
     </imageobject>
     <textobject>
       <phrase>New Project dialog</phrase>
@@ -63,17 +68,20 @@
       <para>New Project dialog</para>
     </caption>
   </mediaobject>
-</screenshot></para>
-<para>Open <application>Kdenlive</application> and create a new project (<menuchoice><guimenu>File</guimenu><guimenuitem>New</guimenuitem></menuchoice>).</para>
-<para>Choose the previously created project folder (<filename>quickstart-tutorial/</filename>) and select an appropriate project profile. The video files provided above are 720p, 23.98 fps.<footnote><para><ulink url="http://en.wikipedia.org/wiki/720p">720</ulink> is the video height, p stands for <ulink url="http://en.wikipedia.org/wiki/Progressive_scan">progressive scan</ulink> in contrast to <ulink url="http://en.wikipedia.org/wiki/Interlaced_video">interlaced video</ulink>, and the fps number denotes the number of full frames per second.</para></footnote> If you are using your own files and don’t know which one to use, <application>Kdenlive</application> will suggest an appropriate one when the first clip is added, so you can leave the field on whatever it is.</para>
-</chapter>
-<chapter id="adding-clips"><title>Adding clips</title> 
+</screenshot>
+</para>
+<para>Open &kdenlive; and create a new project (<menuchoice><guimenu>File</guimenu><guimenuitem>New</guimenuitem></menuchoice>).
+</para>
+<para>Choose the previously created project folder (<filename>quickstart-tutorial/</filename>) and select an appropriate project profile. The video files provided above are 720p, 23.98 fps.<footnote><para><ulink url="http://en.wikipedia.org/wiki/720p">720</ulink> is the video height, p stands for <ulink url="http://en.wikipedia.org/wiki/Progressive_scan">progressive scan</ulink> in contrast to <ulink url="http://en.wikipedia.org/wiki/Interlaced_video">interlaced video</ulink>, and the fps number denotes the number of full frames per second.</para></footnote> If you are using your own files and don’t know which one to use, &kdenlive; will suggest an appropriate one when the first clip is added <footnote><para>Provided Configure Kdenlive Settings under <ulink url="http://userbase.kde.org/Special:myLanguage/Kdenlive/Manual/Settings_Menu/Configure_Kdenlive#Misc">Misc</ulink> is set to <emphasis>Check if first added clip matches project profile</emphasis></para></footnote> , so you can leave the field on whatever it is.
+</para>
+</sect1>
+<sect1 id="adding-clips"><title>Adding clips</title> 
 <para>
 <screenshot>
 <screeninfo></screeninfo>
   <mediaobject>
     <imageobject>
-      <imagedata fileref="Kdenlive_Quickstart-Add-Clips.png" format="PNG"/>
+      <imagedata fileref="kdenlive_quickstart-add-clips.png" format="PNG"/>
     </imageobject>
     <textobject>
       <phrase>Project Tree: Adding video clips</phrase>
@@ -82,30 +90,34 @@
       <para>Project Tree: Adding video clips</para>
     </caption>
   </mediaobject>
-</screenshot></para>
-<para>Now that the project is ready, let’s start adding some clips (&ie; the ones you downloaded). This works via the <emphasis>Project Tree widget</emphasis>; a click on the <guilabel>Add Clip</guilabel> icon directly opens the file dialog, a click on the small arrow shows a list of additional clip types that can be added as well. Video clips, audio clips, images, and other <application>Kdenlive</application> projects can be added via the default <guilabel>Add Clip</guilabel> dialog.</para>
+</screenshot>
+</para>
+<para>Now that the project is ready, let’s start adding some clips (&ie; the ones you downloaded). This works via the <emphasis>Project Tree widget</emphasis>; a click on the <guilabel>Add Clip</guilabel> icon <inlinemediaobject> <imageobject> <imagedata fileref="Icon-add-clip.png" format="PNG"/> </imageobject> </inlinemediaobject> directly opens the file dialog, a click on the small arrow shows a list of additional clip types that can be added as well. Video clips, audio clips, images, and other &kdenlive; projects can be added via the default <guilabel>Add Clip</guilabel> dialog.
+</para>
 <para>
 <screenshot>
 <screeninfo></screeninfo>
   <mediaobject>
     <imageobject>
-      <imagedata fileref="Kdenlive_Quickstart-Mainwindow.png" format="PNG"/>
+      <imagedata fileref="kdenlive_quickstart-mainwindow.png" format="PNG"/>
     </imageobject>
     <textobject>
-      <phrase>Kdenlive 0.8 window with the tutorial files</phrase>
+      <phrase>Kdenlive 16.08 window with the tutorial files</phrase>
     </textobject>
     <caption>
-      <para>Kdenlive 0.8 window with the tutorial files</para>
+      <para>Kdenlive 16.08 window with the tutorial files</para>
     </caption>
   </mediaobject>
-</screenshot></para>
-<para>After loading the clips, <application>Kdenlive</application> will look similar to this. On the top left there is the already known project tree. Right of it are the monitors that show video; The clip monitor displays video from the original clips, the project monitor shows how the output video will look, with all effects, transitions, &etc; applied. The third, also very important, item is the timeline (below the monitors): This is the place where the video clips will be edited. There are two different types of tracks, Video and Audio. Video tracks can contain any kind of clip, audio tracks as well – but when dropping a video file to the audio track, only the audio will be used.</para>
+</screenshot>
+</para>
+<para>After loading the clips, &kdenlive; will look similar to this. On the top left there is the already known project tree. Right of it are the monitors that show video; The clip monitor displays video from the original clips, the project monitor shows how the output video will look, with all effects, transitions, &etc; applied. The third, also very important, item is the timeline (below the monitors): This is the place where the video clips will be edited. There are two different types of tracks, Video and Audio. Video tracks can contain any kind of clip, audio tracks as well – but when dropping a video file to the audio track, only the audio will be used.
+</para>
 <para>
 <screenshot>
 <screeninfo></screeninfo>
   <mediaobject>
     <imageobject>
-      <imagedata fileref="Kdenlive_Quickstart-Save-Project.png" format="PNG"/>
+      <imagedata fileref="kdenlive_quickstart-save-project.png" format="PNG"/>
     </imageobject>
     <textobject>
       <phrase>Saving a Kdenlive project</phrase>
@@ -114,17 +126,22 @@
       <para>Saving a Kdenlive project</para>
     </caption>
   </mediaobject>
-</screenshot></para>
-<para>Let’s save the work via <menuchoice><guimenu>File</guimenu><guimenuitem>Save</guimenuitem></menuchoice>. This saves our project, &ie; where we placed the clips on the timeline, which effects we applied, and so on. It can <emphasis>not</emphasis> be played.<footnote><para>To be correct, it <emphasis>can</emphasis> be played using <varname>melt yourproject.kdenlive</varname>, but this is not the way you would want to present your final video since it is (most likely) too slow. Additionally, it only works if melt is installed.</para></footnote> The process of creating the final video is called <emphasis>Rendering</emphasis>.</para>
-</chapter>
-<chapter id="timeline"><title>Timeline</title> 
-<para>Now comes the actual editing. Project clips are combined to the final result on the timeline.  They get there by drag and drop: Drag some Napoli (assuming you are using the files provided above, as in the rest of this quick start tutorial; If not, please make sure your screen is waterproof, and perhaps tomatoproof), and drop it onto the first track in the timeline.</para>
+</screenshot>
+</para>
+<para>Let’s save the work via <menuchoice><guimenu>File</guimenu><guimenuitem>Save</guimenuitem></menuchoice>. This saves our project, &ie; where we placed the clips on the timeline, which effects we applied, and so on. It can <emphasis>not</emphasis> be played.<footnote><para>To be correct, it <emphasis>can</emphasis> be played using <varname>melt yourproject.kdenlive</varname>, but this is not the way you would want to present your final video since it is (most likely) too slow. Additionally, it only works if melt is installed.</para></footnote> The process of creating the final video is called <emphasis>Rendering</emphasis>.
+</para>
+</sect1>
+<sect1 id="timeline"><title>Timeline</title> 
+<para>See also <link linkend="timeline">Timeline section of the manual</link>
+</para>
+<para>Now comes the actual editing. Project clips are combined to the final result on the timeline.  They get there by drag and drop: Drag some Napoli (assuming you are using the files provided above, as in the rest of this quick start tutorial; If not, please make sure your screen is waterproof, and perhaps tomatoproof) from the project tree, and drop it onto the first track in the timeline.
+</para>
 <para>
 <screenshot>
 <screeninfo></screeninfo>
   <mediaobject>
     <imageobject>
-      <imagedata fileref="Kdenlive_Quickstart-Timeline-Clips.png" format="PNG"/>
+      <imagedata fileref="kdenlive_quickstart-timeline-clips.png" format="PNG"/>
     </imageobject>
     <textobject>
       <phrase>First clips in the timeline</phrase>
@@ -133,14 +150,16 @@
       <para>First clips in the timeline</para>
     </caption>
   </mediaobject>
-</screenshot></para>
-<para>Since some cutlery is needed as well, drop the spoon on the first track as well. Then drag the Napoli to the beginning of the timeline (otherwise the rendered video would start with some seconds of plain black), and the Spoon right after the Napoli, such that it looks like in the image on the left. (Where I have zoomed in with <keycombo>&Ctrl;<keycap>Wheel</keycap></keycombo>.)</para>
+</screenshot>
+</para>
+<para>Since some cutlery is needed as well, grab the spoon clip and drop it on the first track as well. Then drag the Napoli to the beginning of the timeline (otherwise the rendered video would start with some seconds of plain black), and the Spoon right after the Napoli, such that it looks like in the image on the left. (Where I have zoomed in with <keycombo>&Ctrl;<keycap>Wheel</keycap></keycombo>.)
+</para>
 <para>
 <screenshot>
 <screeninfo></screeninfo>
   <mediaobject>
     <imageobject>
-      <imagedata fileref="Kdenlive_Quickstart-TimelineCursor.png" format="PNG"/>
+      <imagedata fileref="kdenlive_quickstart-timelinecursor.png" format="PNG"/>
     </imageobject>
     <textobject>
       <phrase>Timeline cursor</phrase>
@@ -149,14 +168,16 @@
       <para>Timeline cursor</para>
     </caption>
   </mediaobject>
-</screenshot></para>
-<para>The result can already be previewed by pressing <keycap>Space</keycap> (or the <guilabel>Play</guilabel> button in the project monitor). You will see the Napoli directly followed by a Spoon. If the timeline cursor is not at the beginning, the project monitor will start playing somewhere in the middle; you can move it by dragging it either on the timeline ruler or in the project monitor. If you prefer keyboard shortcuts, <keycombo>&Ctrl;<keycap>Home</keycap></keycombo> does the same for the monitor that is activated. (Select the <guilabel>Project Monitor</guilabel> if it is not selected yet before using the shortcut.)</para>
+</screenshot>
+</para>
+<para>The result can already be previewed by pressing <keycap>Space</keycap> (or the <guilabel>Play</guilabel> button in the project monitor). You will see the Napoli directly followed by a Spoon. If the timeline cursor is not at the beginning, the project monitor will start playing somewhere in the middle; you can move it by dragging it either on the timeline ruler or in the project monitor. If you prefer keyboard shortcuts, <keycombo>&Ctrl;<keycap>Home</keycap></keycombo> does the same for the monitor that is activated. (Select the <guilabel>Project Monitor</guilabel> if it is not selected yet before using the shortcut.)
+</para>
 <para>
 <screenshot>
 <screeninfo></screeninfo>
   <mediaobject>
     <imageobject>
-      <imagedata fileref="Kdenlive_Quickstart-Resize-Marker.png" format="PNG"/>
+      <imagedata fileref="kdenlive_quickstart-resize-marker.png" format="PNG"/>
     </imageobject>
     <textobject>
       <phrase>Resize marker</phrase>
@@ -165,14 +186,16 @@
       <para>Resize marker</para>
     </caption>
   </mediaobject>
-</screenshot></para>
-<para>Since after eating comes playing, there is a Billard clip. Add it to the timeline as well. The first 1.5 seconds nothing happens in the clip, so it should perhaps be <guilabel>cut</guilabel> to avoid the video becoming boring. An easy way<footnote><para>Writing it this way suggests that there are several ways of cutting a clip. This is in fact true.</para></footnote> for this is to move the timeline cursor to the desired position (&ie; the position where you want to cut the video), then drag the left border of the clip when the resize marker appears. It will snap in at the timeline cursor when you move close enough.</para>
+</screenshot>
+</para>
+<para>Since after eating comes playing, there is a Billiards clip. Add it to the timeline as well. For the first 1.5 seconds nothing happens in the clip, so it should perhaps be <guilabel>cut</guilabel> to avoid the video becoming boring. An easy way<footnote><para>Writing it this way suggests that there are several ways of cutting a clip. This is in fact true.</para></footnote> for this is to move the timeline cursor to the desired position (&ie; the position where you want to cut the video), then drag the left border of the clip when the resize marker appears. It will snap in at the timeline cursor when you move close enough.
+</para>
 <para>
 <screenshot>
 <screeninfo></screeninfo>
   <mediaobject>
     <imageobject>
-      <imagedata fileref="Kdenlive_Quickstart-Overlap-Clips.png" format="PNG"/>
+      <imagedata fileref="kdenlive_quickstart-overlap-clips.png" format="PNG"/>
     </imageobject>
     <textobject>
       <phrase>Overlapping clips</phrase>
@@ -181,15 +204,18 @@
       <para>Overlapping clips</para>
     </caption>
   </mediaobject>
-</screenshot></para>
-<para>To add a <emphasis>transition</emphasis> between eating (the Spoon) and playing billard, the two clips need to overlap. To be precise: the second clip should be above or below the first one and end some frames after the second one begins. Zooming in until the ticks for simple frames appear helps there; it also makes it easy to always have the same transition duration, like five frames in this case.</para>
-<para>You can zoom in by either using the <guilabel>zoom slider</guilabel> at the bottom of the <application>Kdenlive</application> window, or with <keycombo>&Ctrl;<keycap>Mousewheel</keycap></keycombo>. <application>Kdenlive</application> will zoom to the timeline cursor, so first set it to the position which you want to see enlarged, then zoom in.</para>
+</screenshot>
+</para>
+<para>To add a <emphasis>transition</emphasis> between eating (the Spoon) and playing billiards, the two clips need to overlap. To be precise: the second clip should be above or below the first one and end some frames after the second one begins. Zooming in until the ticks for single frames appear helps here; it also makes it easy to always have the same transition duration, five frames in this case.
+</para>
+<para>You can zoom in by either using the <guilabel>zoom slider</guilabel> at the bottom of the &kdenlive; window, or with <keycombo>&Ctrl;<keycap>Mousewheel</keycap></keycombo>. &kdenlive; will zoom to the timeline cursor, so first set it to the position which you want to see enlarged, then zoom in.
+</para>
 <para>
 <screenshot>
 <screeninfo></screeninfo>
   <mediaobject>
     <imageobject>
-      <imagedata fileref="Kdenlive-Quickstart-Add-Transition.png" format="PNG"/>
+      <imagedata fileref="kdenlive-quickstart-add-transition.png" format="PNG"/>
     </imageobject>
     <textobject>
       <phrase>Transition marker</phrase>
@@ -198,64 +224,67 @@
       <para>Transition marker</para>
     </caption>
   </mediaobject>
-</screenshot></para>
-<para>Now that the clips overlap, the transition can be added. This is done either by right-clicking on the upper clip and choosing <guilabel>Add Transition</guilabel> or, easier, by clicking the lower right corner of the Spoon clip. The latter by default adds a dissolve transition, which is in this case the best idea anyway since the Spoon is not required for playing anyway.</para>
-<para>The dissolve transitions fades the first clip into the second one.</para>
+</screenshot>
+</para>
+<para>Now that the clips overlap, the transition can be added. This is done either by right-clicking on the upper clip and choosing <guilabel>Add Transition</guilabel> or, easier, by clicking the green triangle that appears when you hover the mouse over the lower right corner of the Spoon clip. The latter, by default, adds a dissolve transition, which is in this case the best idea anyway since the Spoon is not required for playing.
+</para>
+<para>The dissolve transitions fades the first clip into the second one. See also <ulink url="http://userbase.kde.org/Special:myLanguage/Kdenlive/Manual/Transitions">Transition section of the manual</ulink>.
+</para>
 <para>
 <screenshot>
 <screeninfo></screeninfo>
   <mediaobject>
     <imageobject>
-      <imagedata fileref="Kdenlive-Quickstart-Add-Last-Clip.png" format="PNG"/>
+      <imagedata fileref="kdenlive-quickstart-add-last-clip.png" format="PNG"/>
     </imageobject>
     <textobject>
       <phrase></phrase>
     </textobject>
-    <caption>
-      <para></para>
-    </caption>
   </mediaobject>
-</screenshot></para>
-<para>Let’s add the last clip, the Piano, now, and again apply a dissolve transition. When adding it on the first track of the timeline, you need to click on the new clip’s lower left edge to add the transition to the previous clip.</para>
-<sect1 id="effects"><title>Effects</title> 
+</screenshot>
+</para>
+<para>Let’s now add the last clip, the Piano, and again apply a dissolve transition. When adding it on the first track of the timeline, you need to click on the new clip’s lower left edge to add the transition to the previous clip.
+</para>
+<sect2 id="effects"><title>Effects</title> 
 <para>
 <screenshot>
 <screeninfo></screeninfo>
   <mediaobject>
     <imageobject>
-      <imagedata fileref="Kdenlive_Quickstart-Add-Effect.png" format="PNG"/>
+      <imagedata fileref="kdenlive_quickstart-add-effect.png" format="PNG"/>
     </imageobject>
     <textobject>
-      <phrase>Effects</phrase>
+      <phrase>Effect List</phrase>
     </textobject>
     <caption>
-      <para>Effects</para>
+      <para>Effect List</para>
     </caption>
   </mediaobject>
-</screenshot></para>
-<para>The Piano can be colourized by adding an <emphasis>effect</emphasis> to it.  Select the piano clip, then double-click the <guilabel>RGB Adjustment</guilabel> effect in the <guilabel>Effects</guilabel>. If it is not visible, you can get it via <menuchoice><guimenu>View</guimenu><guimenuitem>Effects</guimenuitem></menuchoice>.</para>
+</screenshot>
+</para>
+<para>The Piano can be colourized by adding an <emphasis>effect</emphasis> to it.  Select the piano clip, then double-click the <guilabel>RGB Adjustment</guilabel> effect in the <guilabel>Effect List</guilabel>. If it is not visible, you can get it via <menuchoice><guimenu>View</guimenu><guimenuitem>Effect List</guimenuitem></menuchoice>.
+</para>
 <para>
 <screenshot>
 <screeninfo></screeninfo>
   <mediaobject>
     <imageobject>
-      <imagedata fileref="Kdenlive_Quickstart-Effect-Flag.png" format="PNG"/>
+      <imagedata fileref="kdenlive_quickstart-effect-flag.png" format="PNG"/>
     </imageobject>
     <textobject>
       <phrase></phrase>
     </textobject>
-    <caption>
-      <para></para>
-    </caption>
   </mediaobject>
-</screenshot></para>
-<para>Once the effect has been added, its name will be added to the timeline clip. It will also be shown in the <guilabel>Effect Stack</guilabel> widget.</para>
+</screenshot>
+</para>
+<para>Once the effect has been added, its name will be added to the timeline clip. It will also be shown in the <guilabel>Effect Stack</guilabel> widget.
+</para>
 <para>
 <screenshot>
 <screeninfo></screeninfo>
   <mediaobject>
     <imageobject>
-      <imagedata fileref="Kdenlive-Quickstart-EffectStack.png" format="PNG"/>
+      <imagedata fileref="kdenlive-quickstart-effectstack.png" format="PNG"/>
     </imageobject>
     <textobject>
       <phrase>Effect Stack with RGB adjustment</phrase>
@@ -264,17 +293,22 @@
       <para>Effect Stack with RGB adjustment</para>
     </caption>
   </mediaobject>
-</screenshot></para>
-<para>To get a warm yellow-orange tone on the image, fitting the comfortable evening, blue needs to be reduced and red and green improved.</para>
-<para>The values in the effect stack widget can be changed by using the slider (middle mouse button resets it to the default value), or by entering a value directly by double-clicking the number right to the slider.</para>
-<para>Effects can also be added with the <guilabel>Add new effect</guilabel> icon (framed in the image on the left) in the <guilabel>Effect Stack</guilabel>; It always refers to the timeline clip that is currently selected. By unchecking the checkbox they are temporarily disabled (the settings remain though), this is &eg; useful for effects that require a lot of computing power, so they can be disabled when editing and enabled again for rendering.</para>
-<para>For some effects, like the one used there, it is possible to add keyframes. The framed watch icon indicates this. Keyframes are used for changing effect parameters over time. In our clip this allows us to fade the piano’s colour from a warm evening colour to a cold night colour.</para>
+</screenshot>
+</para>
+<para>To get a warm yellow-orange tone on the image, fitting the comfortable evening, blue needs to be reduced and red and green improved.
+</para>
+<para>The values in the effect stack widget can be changed by using the slider (middle mouse button resets it to the default value), or by entering a value directly by double-clicking the number to the right of the slider.
+</para>
+<para>Effects can also be added with the <guilabel>Add new effect</guilabel> icon (framed in the image on the left) in the <guilabel>Effect Stack</guilabel>; It always refers to the timeline clip that is currently selected. By unchecking the checkbox they are temporarily disabled (the settings remain though), this is &eg; useful for effects that require a lot of computing power, so they can be disabled when editing and enabled again for rendering.
+</para>
+<para>For some effects, like the one used there, it is possible to add keyframes. The framed watch icon indicates this. Keyframes are used for changing effect parameters over time. In our clip this allows us to fade the piano’s colour from a warm evening colour to a cold night colour.
+</para>
 <para>
 <screenshot>
 <screeninfo></screeninfo>
   <mediaobject>
     <imageobject>
-      <imagedata fileref="Kdenlive_Quickstart-Keyframes.png" format="PNG"/>
+      <imagedata fileref="kdenlive_quickstart-keyframes.png" format="PNG"/>
     </imageobject>
     <textobject>
       <phrase>Keyframes for effects</phrase>
@@ -283,19 +317,26 @@
       <para>Keyframes for effects</para>
     </caption>
   </mediaobject>
-</screenshot></para>
-<para>After clicking the <guilabel>keyframe</guilabel> icon (the clock icon framed in the previous image), the Effect Stack widget will re-arrange. By default there will be two keyframes, one at the beginning of the timeline clip and one at the end. Move the timeline cursor to the end of the timeline clip, such that the project monitor actually shows the new colours when changing the parameters of the keyframe at the end.</para>
-<para>Make sure the last keyframe is selected in the Effect Stack’s list. Then you are ready to flood the piano with a deep blue.</para>
-<para>Moving the timeline cursor to the beginning of the project and playing it (with <keycap>Space</keycap>, or the <guilabel>Play</guilabel> button in the <guilabel>Project Monitor</guilabel>), the piano should now change the colour as desired.</para>
-<para>Keyframing was the hardest part of this tutorial. If you managed to do it, you will master <guilabel>Kdenlive</guilabel> easily!</para>
-</sect1>
-<sect1 id="music"><title>Music</title> 
+</screenshot>
+</para>
+<para>After clicking the <guilabel>keyframe</guilabel> icon (the clock icon framed in the previous image), the Effect Stack widget will re-arrange. By default there will be two keyframes, one at the beginning of the timeline clip and one at the end. Move the timeline cursor to the end of the timeline clip, such that the project monitor actually shows the new colours when changing the parameters of the keyframe at the end.
+</para>
+<para>Make sure the last keyframe is selected in the Effect Stack’s list. Then you are ready to flood the piano with a deep blue.
+</para>
+<para>Moving the timeline cursor to the beginning of the project and playing it (with <keycap>Space</keycap>, or the <guilabel>Play</guilabel> button in the <guilabel>Project Monitor</guilabel>), the piano should now change the colour as desired.
+</para>
+<para>Keyframing was the hardest part of this tutorial. If you managed to do it, you will master &kdenlive; easily!
+</para>
+<para>See also <link linkend="effects">Effects section of the manual</link>.
+</para>
+</sect2>
+<sect2 id="music"><title>Music</title> 
 <para>
 <screenshot>
 <screeninfo></screeninfo>
   <mediaobject>
     <imageobject>
-      <imagedata fileref="Kdenlive_Quickstart-Fadeout.png" format="PNG"/>
+      <imagedata fileref="kdenlive_quickstart-fadeout.png" format="PNG"/>
     </imageobject>
     <textobject>
       <phrase>Audio fadeout</phrase>
@@ -304,18 +345,21 @@
       <para>Audio fadeout</para>
     </caption>
   </mediaobject>
-</screenshot></para>
-<para>Since the clips do not provide any audio, let’s search for some nice piece of music, on your local collection or on web pages like <ulink url="http://www.jamendo.com">Jamendo</ulink>. The audio clip should, after adding it, go to an audio track on the timeline.</para>
-<para>The audio clip can be resized on the timeline the same way as video clips are. The cursor will snap in at the end of the project automatically. To add a fade out effect at the end of the audio clip (except if you found a file with exactly the right length) you can hover the top right (or left) edge of the timeline clip and drag the green disc to the position where fading out should start.<footnote><para>This green disc is a shorthand for adding the effect <menuchoice><guimenu>Fade</guimenu><guimenuitem>Fade out</guimenuitem></menuchoice>. Both ways lead to the same result.</para></footnote></para>
+</screenshot>
+</para>
+<para>Since the clips do not provide any audio, let’s search for some nice piece of music, from your local collection or on web pages like <ulink url="http://www.jamendo.com">Jamendo</ulink>. The audio clip should, after adding it, be dragged to an audio track on the timeline.
+</para>
+<para>The audio clip can be resized on the timeline the same way as video clips are. The cursor will snap in at the end of the project automatically. To add a fade out effect at the end of the audio clip (except if you found a file with exactly the right length) you can hover the top right (or left) edge of the timeline clip and drag the green disc to the position where fading out should start.<footnote><para>This green disc is a shorthand for adding the effect <menuchoice><guimenu>Fade</guimenu><guimenuitem>Fade out</guimenuitem></menuchoice>. Both ways lead to the same result.</para></footnote>
+</para>
+</sect2>
 </sect1>
-</chapter>
-<chapter id="rendering"><title>Rendering</title> 
+<sect1 id="rendering"><title>Rendering</title> 
 <para>
 <screenshot>
 <screeninfo></screeninfo>
   <mediaobject>
     <imageobject>
-      <imagedata fileref="Kdenlive_Quickstart-Renderer.png" format="PNG"/>
+      <imagedata fileref="kdenlive_quickstart-renderer.png" format="PNG"/>
     </imageobject>
     <textobject>
       <phrase>Rendering dialog</phrase>
@@ -324,14 +368,16 @@
       <para>Rendering dialog</para>
     </caption>
   </mediaobject>
-</screenshot></para>
-<para>A few minutes left, and the project is finished! Click the Render button (or go to <menuchoice><guimenu>Project</guimenu><guimenuitem>Render</guimenuitem></menuchoice>, or press <keycombo>&Ctrl;&Enter;</keycombo>) to get the dialog shown on the left. Select the desired output file for our new video with all effects and transitions, choose MPEG4 (works nearly everywhere) and a bitrate of 2000k (the higher the bitrate, the larger the output file and the better the quality – but since the bitrate for the input clips was 2000k already, using a higher one would not improve quality and is therefore unnecessary), and press the <emphasis>Render to File</emphasis> button.</para>
+</screenshot>
+</para>
+<para>A few minutes left, and the project is finished! Click the Render button (or go to <menuchoice><guimenu>Project</guimenu><guimenuitem>Render</guimenuitem></menuchoice>, or press <keycombo>&Ctrl;&Enter;</keycombo>) to get the dialog shown on the left. Select the desired output file for our new video with all effects and transitions, choose MPEG4 (works nearly everywhere) and a bitrate of 2000k (the higher the bitrate, the larger the output file and the better the quality – but since the bitrate for the input clips was 2000k already, using a higher one would not improve quality and is therefore unnecessary), and press the <guilabel>Render to File</guilabel> button.
+</para>
 <para>
 <screenshot>
 <screeninfo></screeninfo>
   <mediaobject>
     <imageobject>
-      <imagedata fileref="Kdenlive_Quickstart-Rendering.png" format="PNG"/>
+      <imagedata fileref="kdenlive_quickstart-rendering.png" format="PNG"/>
     </imageobject>
     <textobject>
       <phrase>Rendering progress</phrase>
@@ -340,8 +386,31 @@
       <para>Rendering progress</para>
     </caption>
   </mediaobject>
-</screenshot></para>
-<para>After some seconds rendering will be finished, and your first <application>Kdenlive</application> project completed. Congratulations!</para>
+</screenshot>
+</para>
+<para>After some seconds rendering will be finished, and your first &kdenlive; project completed. Congratulations!
+</para>
+<screenshot>
+<screeninfo></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-rendering.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase>Rendering progress</phrase>
+    </textobject>
+    <caption>
+      <para>Rendering progress</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</sect1>
+<sect1>
+<title>Complete manual</title> 
+<para>Further documentation for the current version of &kdenlive; can be found in <ulink url="http://userbase.kde.org/Special:myLanguage/Kdenlive/Manual">the full manual</ulink>.
+</para>
+</sect1>
+
 </chapter>
 
 <!--userbase-content-->

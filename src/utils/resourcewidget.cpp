@@ -115,7 +115,7 @@ ResourceWidget::ResourceWidget(const QString &folder, QWidget *parent)
     m_currentService->slotStartSearch(QStringLiteral("dummy"), 0); // Run a dummy search to initialise the search.
     // for reasons I (ttguy) can not fathom the first search that gets run fails
     // with The file or folder http://www.freesound.org/apiv2/search/t<blah blay> does not exist.
-    // but subsequent identicle search will work. With this kludge in place we do not have to click the search button
+    // but subsequent identical search will work. With this kludge in place we do not have to click the search button
     // twice to get search to run
     slotChangeService();
     loadConfig();
@@ -425,7 +425,7 @@ void ResourceWidget::slotSaveItem(const QString &originalUrl)
  * @param saveUrl destination url
  * Called by ResourceWidget::slotSaveItem() for non freesound downloads. Called by ResourceWidget::slotFreesoundUseHQPreview()
  * when user chooses to use HQ preview file from freesound
- * Starts a file copy job to download the file. When file finishes dowloading slotGotFile will be called
+ * Starts a file copy job to download the file. When file finishes downloading slotGotFile will be called
  */
 void ResourceWidget::DoFileDownload(const QUrl &srcUrl, const QUrl &saveUrl)
 {
@@ -779,7 +779,7 @@ void ResourceWidget::slotAccessTokenReceived(const QString &sAccessToken)
 /**
  * @brief ResourceWidget::GetSaveFileNameAndPathS
  * @param path -  starting path where dialog will open on
- * @param ext - file exension filter to have in play on the dialog
+ * @param ext - file extension filter to have in play on the dialog
  * @return  QString of the chosen path
  * Prompts user to choose a file name and path as to where to save a file.
  * Returns a QString of the path and file name or empty string if user  cancels
@@ -821,7 +821,7 @@ void ResourceWidget::slotReadyRead()
  * If the download has failed with AuthenticationRequiredError then it requests a new access token via the refresh token method
  * and then the download process will retry.
  * If the download fails for other reasons this reports an error and clears out the access token from memory.
- * If the user requests the file import again it will request a login to free sound again and the download might suceed on this second try
+ * If the user requests the file import again it will request a login to free sound again and the download might succeed on this second try
  */
 void ResourceWidget::DownloadRequestFinished(QNetworkReply *reply)
 {

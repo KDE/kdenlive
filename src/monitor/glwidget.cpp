@@ -258,7 +258,7 @@ void GLWidget::resizeGL(int width, int height)
     double this_aspect = (double)width / height;
     double video_aspect = m_monitorProfile->dar();
 
-    // Special case optimisation to negate odd effect of sample aspect ratio
+    // Special case optimization to negate odd effect of sample aspect ratio
     // not corresponding exactly with image resolution.
     if ((int)(this_aspect * 1000) == (int)(video_aspect * 1000)) {
         w = width;
@@ -361,6 +361,9 @@ static void uploadTextures(QOpenGLContext *context, const SharedFrame &frame, GL
     const uint8_t *image = frame.get_image();
     QOpenGLFunctions *f = context->functions();
 
+    // The planes of pixel data may not be a multiple of the default 4 bytes.
+    f->glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
     // Upload each plane of YUV to a texture.
     if (texture[0] != 0u) {
         f->glDeleteTextures(3, texture);
@@ -432,8 +435,8 @@ void GLWidget::paintGL()
     f->glViewport(0, (m_rulerHeight * devicePixelRatio() * 0.5 + 0.5), width, height);
     check_error(f);
     QColor color(KdenliveSettings::window_background());
-    f->glClearColor(color.redF(), color.greenF(), color.blueF(), color.alphaF());
-    f->glClear(GL_COLOR_BUFFER_BIT);
+    glClearColor(color.redF(), color.greenF(), color.blueF(), color.alphaF());
+    glClear(GL_COLOR_BUFFER_BIT);
     check_error(f);
 
     if (!((m_glslManager != nullptr) || openglContext()->supportsThreadedOpenGL())) {
@@ -516,7 +519,7 @@ void GLWidget::paintGL()
     check_error(f);
 
     // Render
-    f->glDrawArrays(GL_TRIANGLE_STRIP, 0, vertices.size());
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, vertices.size());
     check_error(f);
 
     if (m_sendFrame && m_analyseSem.tryAcquire(1)) {
@@ -531,13 +534,13 @@ void GLWidget::paintGL()
             m_fbo = new QOpenGLFramebufferObject(fullWidth, fullHeight, fmt); // GL_TEXTURE_2D);
         }
         m_fbo->bind();
-        f->glViewport(0, 0, fullWidth, fullHeight);
+        glViewport(0, 0, fullWidth, fullHeight);
 
         QMatrix4x4 projection2;
         projection2.scale(2.0f / (float)width, 2.0f / (float)height);
         m_shader->setUniformValue(m_projectionLocation, projection2);
 
-        f->glDrawArrays(GL_TRIANGLE_STRIP, 0, vertices.size());
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, vertices.size());
         check_error(f);
         m_fbo->release();
         emit analyseFrame(m_fbo->toImage());
@@ -554,7 +557,7 @@ void GLWidget::paintGL()
             check_error(f);
         }
     }
-    f->glActiveTexture(GL_TEXTURE0);
+    glActiveTexture(GL_TEXTURE0);
     check_error(f);
     if (m_glslManager) {
         glFinish();

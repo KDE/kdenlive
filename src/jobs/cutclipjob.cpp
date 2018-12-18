@@ -323,7 +323,7 @@ QHash<ProjectClip *, AbstractClipJob *> CutClipJob::prepareCutClipJob(double fps
     dest = ui.file_url->url().toLocalFile();
     bool acceptPath = dest != source;
     if (acceptPath && QFileInfo(dest).size() > 0) {
-        // destination file olready exists, overwrite?
+        // destination file already exists, overwrite?
         acceptPath = false;
     }
     while (!acceptPath) {

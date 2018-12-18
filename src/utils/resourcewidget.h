@@ -38,9 +38,9 @@ class OAuth2;
 /**
   \brief This is the window that appears from Project>Online Resources
 
- * In the Online Resources window the user can choose from different online resouces such as Freesound Audio Library, Archive.org Video
+ * In the Online Resources window the user can choose from different online resources such as Freesound Audio Library, Archive.org Video
  * Library and Open clip Art Graphic Library.
- * Depending on which of these is selected  the resourcewidget will instansiate a FreeSound, ArchiveOrg or OpenClipArt
+ * Depending on which of these is selected  the resourcewidget will instantiate a FreeSound, ArchiveOrg or OpenClipArt
  * class that will deal with the searching and parsing of the results for the different on line resource libraries
 
   */

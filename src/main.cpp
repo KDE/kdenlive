@@ -52,6 +52,9 @@
 
 int main(int argc, char *argv[])
 {
+#ifdef USE_DRMINGW
+    ExcHndlInit();
+#endif
     // Force QDomDocument to use a deterministic XML attribute order
     qSetGlobalQHashSeed(0);
     QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
@@ -60,12 +63,16 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_X11InitThreads);
 #endif
 
-#ifdef Q_OS_WIN
-    qputenv("KDE_FORK_SLAVES", "1");
+#ifdef KF5_USE_CRASH
+    KCrash::initialize();
 #endif
 
-    // Init application
-    QApplication app(argc, argv);
+#ifdef Q_OS_WIN
+    qputenv("KDE_FORK_SLAVES", "1");
+    QString path = qApp->applicationDirPath() + QLatin1Char(';') + qgetenv("PATH");
+    qputenv("PATH", path.toUtf8().constData());
+#endif
+
     app.setApplicationName(QStringLiteral("kdenlive"));
     app.setOrganizationDomain(QStringLiteral("kde.org"));
     app.setWindowIcon(QIcon(QStringLiteral(":/pics/kdenlive.png")));

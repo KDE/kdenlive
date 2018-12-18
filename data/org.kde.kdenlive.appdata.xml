@@ -5,7 +5,6 @@
   <project_license>GPL-2.0+</project_license>
   <name>Kdenlive</name>
   <name xml:lang="ar">كدينلايڤ</name>
-  <name xml:lang="ast">Kdenlive</name>
   <name xml:lang="bs">Kdenlive</name>
   <name xml:lang="ca">Kdenlive</name>
   <name xml:lang="ca-valencia">Kdenlive</name>
@@ -27,6 +26,7 @@
   <name xml:lang="pl">Kdenlive</name>
   <name xml:lang="pt">Kdenlive</name>
   <name xml:lang="pt-BR">Kdenlive</name>
+  <name xml:lang="ru">Kdenlive</name>
   <name xml:lang="sk">Kdenlive</name>
   <name xml:lang="sl">Kdenlive</name>
   <name xml:lang="sv">Kdenlive</name>
@@ -58,6 +58,7 @@
   <summary xml:lang="pl">Edytor wideo</summary>
   <summary xml:lang="pt">Editor de Vídeo</summary>
   <summary xml:lang="pt-BR">Editor de Vídeo</summary>
+  <summary xml:lang="ru">Видеоредактор</summary>
   <summary xml:lang="sk">Editor videa</summary>
   <summary xml:lang="sl">Urejevalnik videa</summary>
   <summary xml:lang="sv">Videoeditor</summary>
@@ -120,6 +121,7 @@
     <p xml:lang="pl">Możliwości:</p>
     <p xml:lang="pt">Funcionalidades:</p>
     <p xml:lang="pt-BR">Funcionalidades:</p>
+    <p xml:lang="ru">Возможности:</p>
     <p xml:lang="sk">Funkcie:</p>
     <p xml:lang="sl">Zmožnosti:</p>
     <p xml:lang="sv">Funktioner:</p>
@@ -252,11 +254,12 @@
     </ul>
   </description>
   <releases>
-    <release date="2018-09-06" version="18.08.1"/>
+    <release date="2018-10-11" version="18.08.2"/>
   </releases>
   <url type="homepage">https://kdenlive.org/</url>
   <url type="bugtracker">https://bugs.kde.org</url>
   <url type="help">https://userbase.kde.org/Kdenlive/Manual</url>
+  <url type="donation">https://www.kde.org/community/donations/?app=kdenlive&amp;source=appdata</url>
   <screenshots>
     <screenshot type="source">
       <caption>Kdenlive 18.08</caption>

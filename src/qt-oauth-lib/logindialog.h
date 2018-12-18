@@ -71,7 +71,7 @@ signals:
      */
     void authCodeObtained();
     /**
-     * @brief accessDenied -signal emmited if freesound denies access - eg bad password or user has denied access to Kdenlive app.
+     * @brief accessDenied -signal emitted if freesound denies access - eg bad password or user has denied access to Kdenlive app.
      */
     void accessDenied();
     /**
@@ -79,7 +79,7 @@ signals:
      */
     void canceled();
     /**
-     * @brief useHQPreview - signal emmited when user clicks the "use HQ preview" button in the logon dialog
+     * @brief useHQPreview - signal emitted when user clicks the "use HQ preview" button in the logon dialog
      */
     void useHQPreview();
 

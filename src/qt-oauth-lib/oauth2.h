@@ -53,7 +53,7 @@ class LoginDialog;
 
 /**
   \brief This object does oAuth2 authentication on the freesound web site. \n
-Instansiated by ResourceWidget constructor. \n
+Instantiated by ResourceWidget constructor. \n
 Freesounds OAuth2 authentication API is documented here http://www.freesound.org/docs/api/authentication.html#oauth2-authentication
   */
 class OAuth2 : public QObject
