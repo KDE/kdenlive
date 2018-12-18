@@ -73,6 +73,7 @@ int main(int argc, char *argv[])
     qputenv("PATH", path.toUtf8().constData());
 #endif
 
+    QApplication app(argc, argv);
     app.setApplicationName(QStringLiteral("kdenlive"));
     app.setOrganizationDomain(QStringLiteral("kde.org"));
     app.setWindowIcon(QIcon(QStringLiteral(":/pics/kdenlive.png")));
