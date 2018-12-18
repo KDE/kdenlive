@@ -75,6 +75,8 @@ int main(int argc, char *argv[])
 
 #ifdef Q_OS_WIN
     qputenv("KDE_FORK_SLAVES", "1");
+    QString path = qApp->applicationDirPath() + QLatin1Char(';') + qgetenv("PATH");
+    qputenv("PATH", path.toUtf8().constData());
 #endif
 
     app.setApplicationName(QStringLiteral("kdenlive"));
