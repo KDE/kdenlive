@@ -21,6 +21,7 @@
 
 #include "keyframemodellist.hpp"
 #include "assets/model/assetparametermodel.hpp"
+#include "assets/model/assetcommand.hpp"
 #include "core.h"
 #include "doc/docundostack.hpp"
 #include "keyframemodel.hpp"
@@ -148,6 +149,16 @@ bool KeyframeModelList::updateKeyframe(GenTime oldPos, GenTime pos, double norma
 
 bool KeyframeModelList::updateKeyframe(GenTime pos, QVariant value, const QPersistentModelIndex &index)
 {
+    if (singleKeyframe()) {
+        bool ok = false;
+        Keyframe kf = m_parameters.begin()->second->getNextKeyframe(GenTime(-1), &ok);
+        pos = kf.first;
+    }
+    if (auto ptr = m_model.lock()) {
+        AssetKeyframeCommand *command = new AssetKeyframeCommand(ptr, index, value, pos);
+        pCore->pushUndo(command);
+    }
+    return true;
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_parameters.count(index) > 0);
     Fun undo = []() { return true; };
@@ -255,6 +266,14 @@ void KeyframeModelList::refresh()
     }
 }
 
+void KeyframeModelList::reset()
+{
+    QWriteLocker locker(&m_lock);
+    for (const auto &param : m_parameters) {
+        param.second->reset();
+    }
+}
+
 QVariant KeyframeModelList::getInterpolatedValue(int pos, const QPersistentModelIndex &index) const
 {
     READ_LOCK();
@@ -266,6 +285,14 @@ KeyframeModel *KeyframeModelList::getKeyModel()
 {
     if (m_parameters.size() > 0) {
         return m_parameters.begin()->second.get();
+    }
+    return nullptr;
+}
+
+KeyframeModel *KeyframeModelList::getKeyModel(const QPersistentModelIndex &index)
+{
+    if (m_parameters.size() > 0) {
+        return m_parameters.at(index).get();
     }
     return nullptr;
 }

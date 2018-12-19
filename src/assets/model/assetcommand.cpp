@@ -21,6 +21,7 @@
 
 #include "assetcommand.hpp"
 #include "effects/effectsrepository.hpp"
+#include "assets/keyframes/model/keyframemodellist.hpp"
 #include "transitions/transitionsrepository.hpp"
 #include <memory>
 
@@ -75,3 +76,51 @@ bool AssetCommand::mergeWith(const QUndoCommand *other)
     m_stamp = static_cast<const AssetCommand *>(other)->m_stamp;
     return true;
 }
+
+AssetKeyframeCommand::AssetKeyframeCommand(std::shared_ptr<AssetParameterModel> model, const QModelIndex &index, const QVariant &value, GenTime pos, QUndoCommand *parent)
+    : QUndoCommand(parent)
+    , m_model(model)
+    , m_index(index)
+    , m_value(value)
+    , m_pos(pos)
+    , m_updateView(false)
+    , m_stamp(QTime::currentTime())
+{
+    const QString id = model->getAssetId();
+    if (EffectsRepository::get()->exists(id)) {
+        setText(i18n("Edit %1 keyframe", EffectsRepository::get()->getName(id)));
+    } else if (TransitionsRepository::get()->exists(id)) {
+        setText(i18n("Edit %1 keyframe", TransitionsRepository::get()->getName(id)));
+    }
+    m_oldValue = m_model->getKeyframeModel()->getKeyModel(m_index)->getInterpolatedValue(m_pos);
+}
+
+void AssetKeyframeCommand::undo()
+{
+    m_model->getKeyframeModel()->getKeyModel(m_index)->directUpdateKeyframe(m_pos, m_oldValue);
+}
+// virtual
+void AssetKeyframeCommand::redo()
+{
+    m_model->getKeyframeModel()->getKeyModel(m_index)->directUpdateKeyframe(m_pos, m_value);
+    m_updateView = true;
+}
+
+// virtual
+int AssetKeyframeCommand::id() const
+{
+    return 2;
+}
+// virtual
+bool AssetKeyframeCommand::mergeWith(const QUndoCommand *other)
+{
+    if (other->id() != id() || static_cast<const AssetKeyframeCommand *>(other)->m_index != m_index ||
+        m_stamp.msecsTo(static_cast<const AssetKeyframeCommand *>(other)->m_stamp) > 1000) {
+        return false;
+    }
+    m_value = static_cast<const AssetKeyframeCommand *>(other)->m_value;
+    m_stamp = static_cast<const AssetKeyframeCommand *>(other)->m_stamp;
+    return true;
+}
+
+

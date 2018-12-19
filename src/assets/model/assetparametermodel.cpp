@@ -176,7 +176,7 @@ void AssetParameterModel::setParameter(const QString &name, const QString &value
     Q_ASSERT(m_asset->is_valid());
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
-
+    qDebug()<<"// PROCESSING PARAM CHANGE!!! ";
     bool conversionSuccess;
     double doubleValue = locale.toDouble(value, &conversionSuccess);
     if (conversionSuccess) {
@@ -208,12 +208,13 @@ void AssetParameterModel::setParameter(const QString &name, const QString &value
             // these effects don't understand param change and need to be rebuild
             emit replugEffect(shared_from_this());
         } else {
-            emit modelChanged();
+            qDebug()<<"// SENDING DATA CHANGE....";
             if (paramIndex.isValid()) {
-                emit dataChanged(paramIndex, paramIndex, {});
+                emit dataChanged(paramIndex, paramIndex);
             } else {
-                emit dataChanged(index(0, 0), index(m_rows.count() - 1, 0), {});
+                emit dataChanged(index(0, 0), index(m_rows.count(), 0));
             }
+            emit modelChanged();
         }
     }
     // Update timeline view if necessary

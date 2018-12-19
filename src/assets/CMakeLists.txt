@@ -24,7 +24,7 @@ set(kdenlive_SRCS
   assets/view/widgets/colorwheel.cpp
   assets/view/widgets/slidewidget.cpp
   assets/view/widgets/lumaliftgainparam.cpp
-#  assets/view/widgets/keyframeedit.cpp
+  assets/view/widgets/keyframeimport.cpp
   assets/view/widgets/keyframewidget.cpp
   assets/view/widgets/listparamwidget.cpp
   assets/view/widgets/geometryeditwidget.cpp

@@ -86,11 +86,16 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
 
 void AssetParameterView::resetValues()
 {
-    auto type = m_model->data(m_model->index(0, 0), AssetParameterModel::TypeRole).value<ParamType>();
     for (int i = 0; i < m_model->rowCount(); ++i) {
         QModelIndex index = m_model->index(i, 0);
         QString name = m_model->data(index, AssetParameterModel::NameRole).toString();
+        ParamType type = m_model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
         QString defaultValue = m_model->data(index, AssetParameterModel::DefaultRole).toString();
+        if (type == ParamType::KeyframeParam || type == ParamType::AnimatedRect) {
+            if (!defaultValue.contains(QLatin1Char('='))) {
+                defaultValue.prepend(QStringLiteral("%1=").arg(m_model->data(index, AssetParameterModel::ParentInRole).toInt()));
+            }
+        }
         m_model->setParameter(name, defaultValue);
         if (m_mainKeyframeWidget) {
             // Handles additionnal params like rotation so only refresh initial param at the end
@@ -105,7 +110,7 @@ void AssetParameterView::resetValues()
         }
     }
     if (m_mainKeyframeWidget) {
-        m_mainKeyframeWidget->slotRefresh();
+        m_mainKeyframeWidget->resetKeyframes();
     }
 }
 

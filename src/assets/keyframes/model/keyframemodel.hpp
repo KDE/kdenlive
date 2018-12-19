@@ -61,6 +61,7 @@ public:
 
     enum { TypeRole = Qt::UserRole + 1, PosRole, FrameRole, ValueRole, NormalizedValueRole };
     friend class KeyframeModelList;
+    friend class KeyframeWidget;
 
 protected:
     /** @brief These methods should ONLY be called by keyframemodellist to ensure synchronisation
@@ -82,11 +83,11 @@ protected:
     bool removeKeyframe(GenTime pos);
     /* @brief Delete all the keyframes of the model */
     bool removeAllKeyframes();
-    bool removeAllKeyframes(Fun &undo, Fun &redo);
+    bool removeAllKeyframes(Fun &undo, Fun &redo, bool notify = true);
 
 protected:
     /* @brief Same function but accumulates undo/redo */
-    bool removeKeyframe(GenTime pos, Fun &undo, Fun &redo);
+    bool removeKeyframe(GenTime pos, Fun &undo, Fun &redo, bool notify = true);
 
 public:
     /* @brief moves a keyframe
@@ -107,6 +108,11 @@ public:
     bool updateKeyframe(GenTime pos, QVariant value);
     bool updateKeyframeType(GenTime pos, int type, Fun &undo, Fun &redo);
     bool updateKeyframe(GenTime pos, QVariant value, Fun &undo, Fun &redo);
+    /* @brief updates the value of a keyframe, without any management of undo/redo
+       @param pos is the position of the keyframe
+       @param value is the new value of the param
+    */
+    bool directUpdateKeyframe(GenTime pos, QVariant value);
 
     /* @brief Returns a keyframe data at given pos
        ok is a return parameter, set to true if everything went good
@@ -141,6 +147,8 @@ public:
 
     /* @brief Read the value from the model and update itself accordingly */
     void refresh();
+    /* @brief Reset all values to their default */
+    void reset();
 
     /* @brief Return the interpolated value at given pos */
     QVariant getInterpolatedValue(int pos) const;
@@ -152,6 +160,8 @@ public:
     Q_INVOKABLE QVariant data(const QModelIndex &index, int role) const override;
     QHash<int, QByteArray> roleNames() const override;
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+    static QList<QPoint> getRanges(const QString &animData);
+    static std::shared_ptr<Mlt::Properties> getAnimation(const QString &animData);
 
 protected:
     /** @brief Helper function that generate a lambda to change type / value of given keyframe */
@@ -178,7 +188,9 @@ protected:
     QString getAnimProperty() const;
     QString getRotoProperty() const;
 
-    /* @brief this function does the opposite: given a MLT representation of an animation, build the corresponding model */
+    /* @brief this function clears all existing keyframes, and reloads its data from the string passed */
+    void resetAnimProperty(const QString &prop);
+    /* @brief this function does the opposite of getAnimProperty: given a MLT representation of an animation, build the corresponding model */
     void parseAnimProperty(const QString &prop);
     void parseRotoProperty(const QString &prop);
 

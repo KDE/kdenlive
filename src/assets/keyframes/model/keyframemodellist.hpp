@@ -123,8 +123,12 @@ public:
        @param index is the index of the queried parameter. */
     QVariant getInterpolatedValue(int pos, const QPersistentModelIndex &index) const;
 
+    /* @brief Load keyframes from the current parameter value. */
     void refresh();
+    /* @brief Reset all keyframes and add a default one */
+    void reset();
     Q_INVOKABLE KeyframeModel *getKeyModel();
+    KeyframeModel *getKeyModel(const QPersistentModelIndex &index);
     /** @brief Returns parent asset owner id*/
     ObjectId getOwnerId() const;
 

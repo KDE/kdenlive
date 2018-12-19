@@ -60,6 +60,7 @@ public:
     /** @brief Returns true if keyframes options are visible
      */
     bool keyframesVisible() const;
+    void resetKeyframes();
 
 public slots:
     void slotRefresh() override;
@@ -77,6 +78,8 @@ private slots:
     void monitorSeek(int pos);
     void slotEditKeyframeType(QAction *action);
     void slotUpdateKeyframesFromMonitor(QPersistentModelIndex index, const QVariant &res);
+    void slotCopyKeyframes();
+    void slotImportKeyframes();
 
 private:
     QVBoxLayout *m_lay;
@@ -95,6 +98,7 @@ private:
 
 signals:
     void addIndex(QPersistentModelIndex ix);
+    void setKeyframes(const QString &);
 };
 
 #endif

@@ -23,6 +23,8 @@
 #include "assets/keyframes/model/corners/cornershelper.hpp"
 #include "assets/keyframes/view/keyframeview.hpp"
 #include "assets/model/assetparametermodel.hpp"
+#include "assets/model/assetcommand.hpp"
+#include "assets/view/widgets/keyframeimport.h"
 #include "core.h"
 #include "monitor/monitor.h"
 #include "timecode.h"
@@ -33,7 +35,14 @@
 
 #include <KSelectAction>
 #include <QToolButton>
+#include <QApplication>
+#include <QClipboard>
 #include <QVBoxLayout>
+#include <QMenu>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QPointer>
 #include <klocalizedstring.h>
 
 KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
@@ -96,6 +105,23 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     m_toolbar->addWidget(m_buttonAddDelete);
     m_toolbar->addWidget(m_buttonNext);
     m_toolbar->addAction(m_selectType);
+
+    // copy/paste keyframes from clipboard
+    QAction *copy = new QAction(i18n("Copy keyframes to clipboard"), this);
+    connect(copy, &QAction::triggered, this, &KeyframeWidget::slotCopyKeyframes);
+    QAction *paste = new QAction(i18n("Import keyframes from clipboard"), this);
+    connect(paste, &QAction::triggered, this, &KeyframeWidget::slotImportKeyframes);
+    auto *container = new QMenu(this);
+    container->addAction(copy);
+    container->addAction(paste);
+
+    // Menu toolbutton
+    auto *menuButton = new QToolButton(this);
+    menuButton->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-menu")));
+    menuButton->setToolTip(i18n("Options"));
+    menuButton->setMenu(container);
+    menuButton->setPopupMode(QToolButton::InstantPopup);
+    m_toolbar->addWidget(menuButton);
     m_toolbar->addWidget(m_time);
 
     m_lay->addWidget(m_keyframeview);
@@ -234,6 +260,22 @@ void KeyframeWidget::slotRefresh()
     Q_ASSERT(ok);
     // refresh keyframes
     m_keyframes->refresh();
+    //m_model->dataChanged(QModelIndex(), QModelIndex());
+    //->getKeyframeModel()->getKeyModel(m_index)->dataChanged(QModelIndex(), QModelIndex());
+    m_keyframeview->setDuration(duration);
+    m_time->setRange(0, duration - 1);
+    slotRefreshParams();
+}
+
+void KeyframeWidget::resetKeyframes()
+{
+    // update duration
+    bool ok = false;
+    int duration = m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt(&ok);
+    Q_ASSERT(ok);
+    // reset keyframes
+    m_keyframes->reset();
+    //m_model->dataChanged(QModelIndex(), QModelIndex());
     m_keyframeview->setDuration(duration);
     m_time->setRange(0, duration - 1);
     slotRefreshParams();
@@ -366,4 +408,74 @@ void KeyframeWidget::showKeyframes(bool enable)
 {
     m_toolbar->setVisible(enable);
     m_keyframeview->setVisible(enable);
+}
+
+void KeyframeWidget::slotCopyKeyframes()
+{
+    QJsonArray list;
+    for (const auto &w : m_parameters) {
+        int type = m_model->data(w.first, AssetParameterModel::TypeRole).toInt();
+        QString name = m_model->data(w.first, Qt::DisplayRole).toString();
+        QString value = m_model->data(w.first, AssetParameterModel::ValueRole).toString();
+        double min = m_model->data(w.first, AssetParameterModel::MinRole).toDouble();
+        double max = m_model->data(w.first, AssetParameterModel::MaxRole).toDouble();
+        double factor = m_model->data(w.first, AssetParameterModel::FactorRole).toDouble();
+        if (factor > 0) {
+            min /= factor;
+            max /= factor;
+        }
+        QJsonObject currentParam;
+        currentParam.insert(QLatin1String("name"), QJsonValue(name));
+        currentParam.insert(QLatin1String("value"), QJsonValue(value));
+        currentParam.insert(QLatin1String("type"), QJsonValue(type));
+        currentParam.insert(QLatin1String("min"), QJsonValue(min));
+        currentParam.insert(QLatin1String("max"), QJsonValue(max));
+        list.push_back(currentParam);
+    }
+    if (list.isEmpty()) {
+        return;
+    }
+    QClipboard *clipboard = QApplication::clipboard();
+    QJsonDocument json(list);
+    clipboard->setText(QString(json.toJson()));
+}
+
+void KeyframeWidget::slotImportKeyframes()
+{
+    QClipboard *clipboard = QApplication::clipboard();
+    QString values = clipboard->text();
+
+    int inPos = m_model->data(m_index, AssetParameterModel::ParentInRole).toInt();
+    int outPos = inPos + m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt();
+    QList <QPersistentModelIndex>indexes;
+    for (const auto &w : m_parameters) {
+        indexes << w.first;
+    }
+    QPointer<KeyframeImport>import = new KeyframeImport(inPos, outPos, values, m_model, indexes, this);
+    if (import->exec() != QDialog::Accepted) {
+        delete import;
+        return;
+    }
+    QString keyframeData = import->selectedData();
+    QString tag = import->selectedTarget();
+    qDebug()<<"// CHECKING FOR TARGET PARAM: "<<tag;
+    //m_model->setParameter(tag, keyframeData, true);
+    /*for (const auto &w : m_parameters) {
+        qDebug()<<"// GOT PARAM: "<<m_model->data(w.first, AssetParameterModel::NameRole).toString();
+        if (tag == m_model->data(w.first, AssetParameterModel::NameRole).toString()) {
+            qDebug()<<"// PASSING DTAT: "<<keyframeData;
+            m_model->getKeyframeModel()->getKeyModel()->parseAnimProperty(keyframeData);
+            m_model->getKeyframeModel()->getKeyModel()->modelChanged();
+            break;
+        }
+    }*/
+    AssetCommand *command = new AssetCommand(m_model, m_index, keyframeData);
+    pCore->pushUndo(command);
+    /*m_model->getKeyframeModel()->getKeyModel()->dataChanged(QModelIndex(), QModelIndex());
+    m_model->modelChanged();
+    qDebug()<<"//// UPDATING KEYFRAMES CORE---------";
+    pCore->updateItemKeyframes(m_model->getOwnerId());*/
+    qDebug()<<"//// UPDATING KEYFRAMES CORE . ..  .DONE ---------";
+    //emit importKeyframes(type, tag, keyframeData);
+    delete import;
 }

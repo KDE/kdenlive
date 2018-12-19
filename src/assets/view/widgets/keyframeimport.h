@@ -24,31 +24,36 @@
 
 #include <QDialog>
 #include <QLabel>
+#include <QDoubleSpinBox>
 
+#include "assets/model/assetparametermodel.hpp"
 #include "definitions.h"
 #include "timecode.h"
 
 class PositionWidget;
+class QComboBox;
 class QCheckBox;
 class QSpinBox;
 class KeyframeView;
+
+namespace Mlt {
+    class Properties;
+}
 
 class KeyframeImport : public QDialog
 {
     Q_OBJECT
 public:
-    explicit KeyframeImport(const ItemInfo &srcInfo, const ItemInfo &dstInfo, const QMap<QString, QString> &data, const Timecode &tc, const QDomElement &xml,
-                            QWidget *parent = nullptr);
+    explicit KeyframeImport(int in, int out, const QString &animData, std::shared_ptr<AssetParameterModel> model, QList <QPersistentModelIndex>indexes, QWidget *parent = nullptr);
     virtual ~KeyframeImport();
     QString selectedData() const;
     QString selectedTarget() const;
 
 private:
-    QDomElement m_xml;
+    std::shared_ptr<AssetParameterModel> m_model;
     bool m_supportsAnim;
     QComboBox *m_dataCombo;
     QLabel *m_previewLabel;
-    KeyframeView *m_keyframeView;
     PositionWidget *m_inPoint;
     PositionWidget *m_outPoint;
     PositionWidget *m_offsetPoint;
@@ -66,6 +71,7 @@ private:
     QMap<QString, QString> m_geometryTargets;
     /** @brief Contains the 1 dimensional target parameter names / tag **/
     QMap<QString, QString> m_simpleTargets;
+    void drawKeyFrameChannels(QPixmap &pix, int in, int out, int limitKeyframes, const QColor &textColor);
 
 protected:
     void resizeEvent(QResizeEvent *ev) override;

@@ -46,4 +46,24 @@ private:
     QTime m_stamp;
 };
 
+class AssetKeyframeCommand : public QUndoCommand
+{
+public:
+    AssetKeyframeCommand(std::shared_ptr<AssetParameterModel> model, const QModelIndex &index, const QVariant &value, GenTime pos, QUndoCommand *parent = nullptr);
+    void undo() override;
+    void redo() override;
+    int id() const override;
+    bool mergeWith(const QUndoCommand *other) override;
+
+private:
+    std::shared_ptr<AssetParameterModel> m_model;
+    QPersistentModelIndex m_index;
+    QVariant m_value;
+    QVariant m_oldValue;
+    GenTime m_pos;
+    bool m_updateView;
+    QTime m_stamp;
+};
+
+
 #endif
