@@ -115,7 +115,7 @@ void ThemeManager::setCurrentTheme(const QString &filename)
     if (!d->themeMenuAction || !d->themeMenuActionGroup) {
         return;
     }
-    QString name = d->themeMap.key(filename, d->defaultThemeName);
+    QString name = d->themeMap.key(filename);
     // In the case of AppImage, the path to the color scheme can be invalid
     // on each start as filesystem is mounted with a random path, so check that and correct
     if (name.isEmpty()) {
@@ -124,7 +124,11 @@ void ThemeManager::setCurrentTheme(const QString &filename)
             i.next();
             if (QFileInfo(i.value()).fileName() == QFileInfo(filename).fileName()) {
                 name = i.key();
+                break;
             }
+        }
+        if (name.isEmpty()) {
+            name = d->defaultThemeName;
         }
     }
     bool themeFound = false;
