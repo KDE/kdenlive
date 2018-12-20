@@ -63,9 +63,6 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_X11InitThreads);
 #endif
 
-#ifdef KF5_USE_CRASH
-    KCrash::initialize();
-#endif
 
 #ifdef Q_OS_WIN
     qputenv("KDE_FORK_SLAVES", "1");
