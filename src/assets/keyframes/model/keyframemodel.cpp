@@ -137,7 +137,7 @@ bool KeyframeModel::removeKeyframe(GenTime pos, Fun &undo, Fun &redo, bool notif
     Q_ASSERT(m_keyframeList.count(pos) > 0);
     KeyframeType oldType = m_keyframeList[pos].first;
     QVariant oldValue = m_keyframeList[pos].second;
-    Fun local_undo = addKeyframe_lambda(pos, oldType, oldValue, true);
+    Fun local_undo = addKeyframe_lambda(pos, oldType, oldValue, notify);
     Fun local_redo = deleteKeyframe_lambda(pos, notify);
     qDebug() << "before2" << getAnimProperty();
     if (local_redo()) {
@@ -574,15 +574,36 @@ bool KeyframeModel::hasKeyframe(const GenTime &pos) const
     return m_keyframeList.count(pos) > 0;
 }
 
-bool KeyframeModel::removeAllKeyframes(Fun &undo, Fun &redo, bool notify)
+bool KeyframeModel::removeAllKeyframes(Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
     std::vector<GenTime> all_pos;
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
+    int kfrCount = m_keyframeList.size() - 1;
+    // we trigger only one global remove/insertrow event
+    Fun update_redo_start = [this, kfrCount]() {
+        beginRemoveRows(QModelIndex(), 1, kfrCount);
+        return true;
+    };
+    Fun update_redo_end = [this]() {
+        endRemoveRows();
+        return true;
+    };
+    Fun update_undo_start = [this, kfrCount]() {
+        beginInsertRows(QModelIndex(), 1, kfrCount);
+        return true;
+    };
+    Fun update_undo_end = [this]() {
+        endInsertRows();
+        return true;
+    };
+    PUSH_LAMBDA(update_redo_start, local_redo);
+    PUSH_LAMBDA(update_undo_start, local_undo);
     for (const auto &m : m_keyframeList) {
         all_pos.push_back(m.first);
     }
+    update_redo_start();
     bool res = true;
     bool first = true;
     for (const auto &p : all_pos) {
@@ -590,13 +611,16 @@ bool KeyframeModel::removeAllKeyframes(Fun &undo, Fun &redo, bool notify)
             first = false;
             continue;
         }
-        res = removeKeyframe(p, local_undo, local_redo, notify);
+        res = removeKeyframe(p, local_undo, local_redo, false);
         if (!res) {
             bool undone = local_undo();
             Q_ASSERT(undone);
             return false;
         }
     }
+    update_redo_end();
+    PUSH_LAMBDA(update_redo_end, local_redo);
+    PUSH_LAMBDA(update_undo_end, local_undo);
     UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
     return true;
 }
@@ -724,9 +748,7 @@ void KeyframeModel::resetAnimProperty(const QString &prop)
 
     // Delete all existing keyframes
     disconnect(this, &KeyframeModel::modelChanged, this, &KeyframeModel::sendModification);
-    beginRemoveRows(QModelIndex(), 1, m_keyframeList.size() - 1);
-    removeAllKeyframes(undo, redo, false);
-    endRemoveRows();
+    removeAllKeyframes(undo, redo);
 
     Mlt::Properties mlt_prop;
     QLocale locale;

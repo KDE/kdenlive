@@ -83,7 +83,7 @@ protected:
     bool removeKeyframe(GenTime pos);
     /* @brief Delete all the keyframes of the model */
     bool removeAllKeyframes();
-    bool removeAllKeyframes(Fun &undo, Fun &redo, bool notify = true);
+    bool removeAllKeyframes(Fun &undo, Fun &redo);
 
 protected:
     /* @brief Same function but accumulates undo/redo */
