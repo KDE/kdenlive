@@ -3,6 +3,7 @@ set(QT_USE_QTDBUS 1)
 
 include_directories(
     ${MLT_INCLUDE_DIR}
+    ${MLTPP_INCLUDE_DIR}
 )
 
 set(kdenlive_render_SRCS
