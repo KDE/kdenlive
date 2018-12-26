@@ -14,7 +14,7 @@ Rectangle {
     border.width: 1
 
     function setZoom(zoom) {
-        zoomSlider.value = Math.sqrt(32*zoom*zoom/3+4*zoom-(2/3))
+        zoomSlider.value = Math.sqrt(Math.pow(2,5)*zoom*zoom/3+Math.pow(2,2)*zoom-(2/3))
     }
 
     Column {
