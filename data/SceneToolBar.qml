@@ -14,15 +14,7 @@ Rectangle {
     border.width: 1
 
     function setZoom(zoom) {
-        if (zoom >= 1) {
-            zoomSlider.value = zoom + 2
-        } else if (zoom == 0.5) {
-            zoomSlider.value = 2
-        } else if (zoom == 0.25) {
-            zoomSlider.value = 1
-        } else if (zoom == 0.125) {
-            zoomSlider.value = 0
-        }
+        zoomSlider.value = Math.sqrt(32*zoom*zoom/3+4*zoom-(2/3))
     }
 
     Column {
