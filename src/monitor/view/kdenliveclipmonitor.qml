@@ -156,12 +156,12 @@ Item {
 
             Text {
                 id: timecode
+                font: fixedFont
                 objectName: "timecode"
                 color: "white"
                 style: Text.Outline; 
                 styleColor: "black"
                 text: controller.toTimecode(controller.position)
-                font.pixelSize: root.baseUnit
                 visible: root.showTimecode
                 anchors {
                     right: parent.right
@@ -171,13 +171,13 @@ Item {
             }
             Text {
                 id: fpsdropped
+                font: fixedFont
                 objectName: "fpsdropped"
                 color: root.dropped ? "red" : "white"
                 style: Text.Outline;
                 styleColor: "black"
                 text: root.fps + "fps"
                 visible: root.showFps
-                font.pixelSize: root.baseUnit
                 anchors {
                     right: timecode.visible ? timecode.left : parent.right
                     bottom: parent.bottom
@@ -186,6 +186,7 @@ Item {
             }
             TextField {
                 id: marker
+                font: fixedFont
                 objectName: "markertext"
                 activeFocusOnPress: true
                 onEditingFinished: {
@@ -207,7 +208,6 @@ Item {
                         width: marker.width
                     }
                 }
-                font.pixelSize: root.baseUnit
             }
         }
         MouseArea {

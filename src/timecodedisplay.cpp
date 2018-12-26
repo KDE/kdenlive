@@ -53,7 +53,7 @@ TimecodeDisplay::TimecodeDisplay(const Timecode &t, QWidget *parent)
     , m_maximum(-1)
     , m_value(0)
 {
-    QFont ft = QFontDatabase::systemFont(QFontDatabase::FixedFont);
+    const QFont ft = QFontDatabase::systemFont(QFontDatabase::FixedFont);
     lineEdit()->setFont(ft);
     setFont(ft);
     lineEdit()->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
