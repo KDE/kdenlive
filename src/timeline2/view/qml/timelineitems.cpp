@@ -94,7 +94,6 @@ public:
         QPen pen = painter->pen();
         pen.setWidthF(0.5);
         pen.setColor(Qt::black);
-
         if (!KdenliveSettings::displayallchannels()) {
             m_gradient.setFinalStop(0, height());
             painter->setBrush(m_gradient);
@@ -111,7 +110,7 @@ public:
                     continue;
                 }
                 lastIdx = idx;
-                if (idx + 1 >= data.length()) break;
+                if (idx + m_channels >= data.length()) break;
                 double level = data.at(idx).toDouble() / 256;
                 for (int j = 1; j < m_channels; j++) {
                     level = qMax(level, data.at(idx + j).toDouble() / 256);
