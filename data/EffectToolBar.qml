@@ -13,8 +13,13 @@ Rectangle {
     border.color : Qt.rgba(0, 0, 0, 0.3)
     border.width: 1
 
-    function setZoom(zoom) {
-        zoomSlider.value = Math.sqrt(Math.pow(2,5)*zoom*zoom/3+4*zoom-(2/3))
+    function setZoom(zoom) {        
+        if (zoom >= 1) {
+            zoomSlider.value = zoom + 2
+        }
+        else if(zoom > 0){
+            zoomSlider.value = Math.sqrt(Math.pow(2,5)*zoom*zoom/3+4*zoom-(2/3))
+        }
     }
 
     Column {
