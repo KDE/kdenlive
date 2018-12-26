@@ -20,8 +20,9 @@
 #include "previewmanager.h"
 #include "core.h"
 #include "doc/docundostack.hpp"
-#include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
+#include "doc/kdenlivedoc.h"
+#include "profiles/profilemodel.hpp"
 #include "monitor/monitor.h"
 #include "timeline2/view/timelinecontroller.h"
 
@@ -38,25 +39,26 @@ PreviewManager::PreviewManager(TimelineController *controller, Mlt::Tractor *tra
     , m_tractor(tractor)
     , m_previewTrack(nullptr)
     , m_overlayTrack(nullptr)
-    , m_previewProfile(m_tractor->profile())
     , m_previewTrackIndex(-1)
     , m_initialized(false)
-    , m_abortPreview(false)
 {
     m_previewGatherTimer.setSingleShot(true);
     m_previewGatherTimer.setInterval(200);
-    // Scaling doesn't seem to improve speed, needs more testing
-    /*double dar = m_tractor->profile()->dar();
-    m_previewProfile->set_width(1024);
-    int height = 1024 / dar;
-    height -= height % 4;
-    m_previewProfile->set_height(height);
-    m_previewProfile->set_sample_aspect(1, 1);
-    m_previewProfile->set_display_aspect(m_tractor->profile()->display_aspect_num(), m_tractor->profile()->display_aspect_den());
-    m_previewProfile->set_frame_rate(m_tractor->profile()->frame_rate_num(), m_tractor->profile()->frame_rate_den());
-    m_previewProfile->set_colorspace(m_tractor->profile()->colorspace());
-    m_previewProfile->set_progressive(m_tractor->profile()->progressive());*/
-    m_previewProfile->set_explicit(1);
+
+    // Find path for Kdenlive renderer
+#ifdef Q_OS_WIN
+    m_renderer = QCoreApplication::applicationDirPath() + QStringLiteral("/kdenlive_render.exe");
+#else
+    m_renderer = QCoreApplication::applicationDirPath() + QStringLiteral("/kdenlive_render");
+#endif
+    if (!QFile::exists(m_renderer)) {
+        m_renderer = QStandardPaths::findExecutable(QStringLiteral("kdenlive_render"));
+        if (m_renderer.isEmpty()) {
+            m_renderer = QStringLiteral("kdenlive_render");
+        }
+    }
+    connect(this, &PreviewManager::abortPreview, &m_previewProcess, &QProcess::kill, Qt::DirectConnection);
+    connect(&m_previewProcess, &QProcess::readyReadStandardError, this, &PreviewManager::receivedStderr);
 }
 
 PreviewManager::~PreviewManager()
@@ -75,7 +77,6 @@ PreviewManager::~PreviewManager()
     }
     delete m_overlayTrack;
     delete m_previewTrack;
-    m_previewProfile.reset();
 }
 
 bool PreviewManager::initialize()
@@ -117,7 +118,7 @@ bool PreviewManager::initialize()
     m_previewTimer.setSingleShot(true);
     m_previewTimer.setInterval(3000);
     connect(&m_previewTimer, &QTimer::timeout, this, &PreviewManager::startPreviewRender);
-    connect(this, &PreviewManager::previewRender, this, &PreviewManager::gotPreviewRender);
+    connect(this, &PreviewManager::previewRender, this, &PreviewManager::gotPreviewRender, Qt::DirectConnection);
     connect(&m_previewGatherTimer, &QTimer::timeout, this, &PreviewManager::slotProcessDirtyChunks);
     m_initialized = true;
     return true;
@@ -130,7 +131,7 @@ bool PreviewManager::buildPreviewTrack()
     }
     // Create overlay track
     qDebug() << "/// BUILDING PREVIEW TRACK\n----------------------\n----------------__";
-    m_previewTrack = new Mlt::Playlist(*m_previewProfile);
+    m_previewTrack = new Mlt::Playlist(pCore->getCurrentProfile()->profile());
     m_tractor->lock();
     reconnectTrack();
     m_tractor->unlock();
@@ -252,7 +253,7 @@ bool PreviewManager::loadParams()
     // Remove the r= and s= parameter (forcing framerate / frame size) as it causes rendering failure.
     // These parameters should be provided by MLT's profile
     for (int i = 0; i < m_consumerParams.count(); i++) {
-        if (m_consumerParams.at(i).startsWith(QStringLiteral("r=")) || m_consumerParams.at(i).startsWith(QStringLiteral("s="))) {
+        if (m_consumerParams.at(i).startsWith(QStringLiteral("r=")) /*|| m_consumerParams.at(i).startsWith(QStringLiteral("s="))*/) {
             m_consumerParams.removeAt(i);
             i--;
         }
@@ -376,7 +377,7 @@ void PreviewManager::doCleanupOldPreviews()
 void PreviewManager::clearPreviewRange()
 {
     m_previewGatherTimer.stop();
-    abortPreview();
+    abortRendering();
     m_tractor->lock();
     bool hasPreview = m_previewTrack != nullptr;
     for (const auto &ix : m_renderedChunks) {
@@ -422,14 +423,14 @@ void PreviewManager::addPreviewRange(const QPoint zone, bool add)
     if (add) {
         qDebug() << "CHUNKS CHANGED: " << m_dirtyChunks;
         m_controller->dirtyChunksChanged();
-        if (!m_previewThread.isRunning() && KdenliveSettings::autopreview()) {
+        if (m_previewProcess.state() == QProcess::NotRunning && KdenliveSettings::autopreview()) {
             m_previewTimer.start();
         }
     } else {
         // Remove processed chunks
-        bool isRendering = m_previewThread.isRunning();
+        bool isRendering = m_previewProcess.state() != QProcess::NotRunning;
         m_previewGatherTimer.stop();
-        abortPreview();
+        abortRendering();
         m_tractor->lock();
         bool hasPreview = m_previewTrack != nullptr;
         for (int ix : toRemove) {
@@ -455,14 +456,14 @@ void PreviewManager::addPreviewRange(const QPoint zone, bool add)
 
 void PreviewManager::abortRendering()
 {
-    if (!m_previewThread.isRunning()) {
+    if (m_previewProcess.state() == QProcess::NotRunning) {
         return;
     }
-    m_abortPreview = true;
+    qDebug()<<"/// ABORTING RENDEIGN 1\nRRRRRRRRRR";
     emit abortPreview();
-    m_previewThread.waitForFinished();
+    m_previewProcess.waitForFinished();
     // Re-init time estimation
-    emit previewRender(0, QString(), 0);
+    emit previewRender(-1, QString(), 1000);
 }
 
 void PreviewManager::startPreviewRender()
@@ -474,115 +475,81 @@ void PreviewManager::startPreviewRender()
         // Abort any rendering
         abortRendering();
         m_waitingThumbs.clear();
-        m_abortPreview = false;
+        // clear log
+        m_errorLog.clear();
         const QString sceneList = m_cacheDir.absoluteFilePath(QStringLiteral("preview.mlt"));
         pCore->getMonitor(Kdenlive::ProjectMonitor)->sceneList(m_cacheDir.absolutePath(), sceneList);
-        // pCore->currentDoc()->saveMltPlaylist(sceneList);
-        m_previewThread = QtConcurrent::run(this, &PreviewManager::doPreviewRender, sceneList);
+        pCore->currentDoc()->saveMltPlaylist(sceneList);
+        m_previewTimer.stop();
+        doPreviewRender(sceneList);
+    }
+}
+
+void PreviewManager::receivedStderr()
+{
+    QStringList resultList = QString::fromLocal8Bit(m_previewProcess.readAllStandardError()).split(QLatin1Char('\n'));
+    for (auto &result : resultList) {
+        qDebug()<<"GOT PROCESS RESULT: "<<result;
+        if (result.startsWith(QLatin1String("START:"))) {
+            workingPreview = result.section(QLatin1String("START:"), 1).simplified().toInt();
+            qDebug()<<"// GOT START INFO: "<<workingPreview;
+            m_controller->workingPreviewChanged();
+        } else if (result.startsWith(QLatin1String("DONE:"))) {
+            int chunk = result.section(QLatin1String("DONE:"), 1).simplified().toInt();
+            m_processedChunks ++;
+            QString fileName = QStringLiteral("%1.%2").arg(chunk).arg(m_extension);
+            qDebug()<<"---------------\nJOB PROGRRESS: "<<m_chunksToRender<<", "<<m_processedChunks<<" = "<<(100 * m_processedChunks / m_chunksToRender);
+            emit previewRender(chunk, m_cacheDir.absoluteFilePath(fileName), 1000 * m_processedChunks / m_chunksToRender);
+        } else {
+            m_errorLog.append(result);
+        }
     }
 }
 
 void PreviewManager::doPreviewRender(const QString &scene)
 {
-    int progress;
-    int chunkSize = KdenliveSettings::timelinechunks();
     // initialize progress bar
-    emit previewRender(0, QString(), 0);
-    int ct = 0;
     qSort(m_dirtyChunks);
-    Mlt::Producer sourceProd(*m_previewProfile, nullptr, scene.toUtf8().constData());
-    if (!sourceProd.is_valid()) {
-        pCore->displayMessage(i18n("Preview rendering failed"), ErrorMessage);
+    if (m_dirtyChunks.isEmpty()) {
         return;
     }
-    // Disable audio
-    sourceProd.set("set.test_audio", 1);
-    int threadCount = QThread::idealThreadCount();
-    if (threadCount > 2) {
-        threadCount = qMin(threadCount - 1, 4);
-    } else {
-        threadCount = 1;
+
+    if (m_previewProcess.state() != QProcess::NotRunning) {
+        m_previewProcess.kill();
+        m_previewProcess.waitForFinished();
     }
-    QMetaObject::Connection connection;
-    while (!m_dirtyChunks.isEmpty() && !m_abortPreview) {
-        workingPreview = m_dirtyChunks.takeFirst().toInt();
-        m_controller->workingPreviewChanged();
-        ct++;
-        QString fileName = QStringLiteral("%1.%2").arg(workingPreview).arg(m_extension);
-        if (m_dirtyChunks.isEmpty()) {
-            progress = 1000;
-        } else {
-            progress = (double)(ct) / (ct + m_dirtyChunks.count()) * 1000;
-        }
-        if (m_cacheDir.exists(fileName)) {
-            // This chunk already exists
-            emit previewRender(workingPreview, m_cacheDir.absoluteFilePath(fileName), progress);
-            continue;
-        }
-        std::shared_ptr<Mlt::Producer> src(sourceProd.cut(workingPreview, workingPreview + chunkSize - 1));
-        Mlt::Consumer cons(*m_previewProfile, QString("avformat:%1").arg( m_cacheDir.absoluteFilePath(fileName)).toUtf8().constData());
-        for (const QString &param : m_consumerParams) {
-            if (param.contains(QLatin1Char('='))) {
-                cons.set(param.section(QLatin1Char('='), 0, 0).toUtf8().constData(), param.section(QLatin1Char('='), 1).toUtf8().constData());
-            }
-        }
-        cons.set("an", 1);
-        cons.set("threads", threadCount);
-        cons.set("real_time", -threadCount);
-        cons.connect(*src);
-        connection = QObject::connect(this, &PreviewManager::abortPreview, [this, &cons ]() {
-            cons.purge();
-            if (!cons.is_stopped()) {
-                cons.stop();
-            }
-            m_abortPreview = true;
-        });
-        cons.run();
-        QObject::disconnect( connection );
-        if (m_abortPreview) {
-            m_dirtyChunks << workingPreview;
-            qSort(m_dirtyChunks);
-            m_cacheDir.remove(fileName);
-            emit previewRender(0, QString(), 1000);
-        } else {
-            emit previewRender(workingPreview, m_cacheDir.absoluteFilePath(fileName), progress);
-        }
-        /*QStringList args;
-        args << scene;
-        args << QStringLiteral("in=") + QString::number(workingPreview);
-        args << QStringLiteral("out=") + QString::number(workingPreview + chunkSize - 1);
-        args << QStringLiteral("-consumer") << QStringLiteral("avformat:") + m_cacheDir.absoluteFilePath(fileName);
-        args << m_consumerParams;
-        QProcess previewProcess;
-        connect(this, &PreviewManager::abortPreview, &previewProcess, &QProcess::kill, Qt::DirectConnection);
-        previewProcess.start(KdenliveSettings::rendererpath(), args);
-        if (previewProcess.waitForStarted()) {
-            previewProcess.waitForFinished(-1);
-            if (previewProcess.exitStatus() != QProcess::NormalExit || previewProcess.exitCode() != 0) {
-                // Something went wrong
-                if (m_abortPreview) {
-                    emit previewRender(0, QString(), 1000);
-                } else {
-                    emit previewRender(workingPreview, previewProcess.readAllStandardError(), -1);
+    QStringList chunks;
+    for (QVariant &frame : m_dirtyChunks) {
+        chunks << frame.toString();
+    }
+    m_chunksToRender = m_dirtyChunks.count();
+    m_processedChunks = 0;
+    int chunkSize = KdenliveSettings::timelinechunks();
+    QStringList args {KdenliveSettings::rendererpath(), scene, m_cacheDir.absolutePath(), QStringLiteral("-split"), chunks.join(QLatin1Char(',')), QString::number(chunkSize - 1), m_extension, m_consumerParams.join(QLatin1Char(' '))};
+    qDebug()<<" -  - -STARTING PREVIEW JOBS: "<<args;
+    pCore->currentDoc()->previewProgress(0);
+    m_previewProcess.start(m_renderer, args);
+    QObject::connect(&m_previewProcess, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), [this, scene](int, QProcess::ExitStatus status) {
+        qDebug()<<"// PROCESS IS FINISHED!!!";
+        QFile::remove(scene);
+        if (status == QProcess::QProcess::CrashExit) {
+            qDebug()<<"// PROCESS IS CRASHED!!!!!!";
+            pCore->currentDoc()->previewProgress(-1);
+            if (workingPreview >= 0) {
+                const QString fileName = QStringLiteral("%1.%2").arg(workingPreview).arg(m_extension);
+                if (m_cacheDir.exists(fileName)) {
+                    m_cacheDir.remove(fileName);
                 }
-                // working chunk failed, re-add it to list
-                m_dirtyChunks << workingPreview;
-                qSort(m_dirtyChunks);
-                QFile::remove(m_cacheDir.absoluteFilePath(fileName));
-                break;
-            } else {
-                emit previewRender(workingPreview, m_cacheDir.absoluteFilePath(fileName), progress);
             }
         } else {
-            emit previewRender(workingPreview, QString(), -1);
-            break;
-        }*/
+            pCore->currentDoc()->previewProgress(1000);
+        }
+        workingPreview = -1;
+        m_controller->workingPreviewChanged();
+    });
+    if (m_previewProcess.waitForStarted()) {
+        qDebug()<<" -  - -STARTING PREVIEW JOBS . . . STARTED";
     }
-    sourceProd.clear();
-    QFile::remove(scene);
-    workingPreview = -1;
-    m_controller->workingPreviewChanged();
-    m_abortPreview = false;
 }
 
 void PreviewManager::slotProcessDirtyChunks()
@@ -623,7 +590,7 @@ void PreviewManager::invalidatePreview(int startFrame, int endFrame)
 
     qSort(m_renderedChunks);
     m_previewGatherTimer.stop();
-    abortPreview();
+    abortRendering();
     m_tractor->lock();
     bool hasPreview = m_previewTrack != nullptr;
     bool chunksChanged = false;
@@ -659,7 +626,7 @@ void PreviewManager::reloadChunks(const QVariantList chunks)
         if (m_previewTrack->is_blank_at(ix.toInt())) {
             QString fileName = m_cacheDir.absoluteFilePath(QStringLiteral("%1.%2").arg(ix.toInt()).arg(m_extension));
             fileName.prepend(QStringLiteral("avformat:"));
-            Mlt::Producer prod(*m_previewProfile, fileName.toUtf8().constData());
+            Mlt::Producer prod(pCore->getCurrentProfile()->profile(), fileName.toUtf8().constData());
             if (prod.is_valid()) {
                 // m_ruler->updatePreview(ix, true);
                 prod.set("mlt_service", "avformat-novalidate");
@@ -676,6 +643,10 @@ void PreviewManager::gotPreviewRender(int frame, const QString &file, int progre
     if (m_previewTrack == nullptr) {
         return;
     }
+    if (frame < 0) {
+        pCore->currentDoc()->previewProgress(1000);
+        return;
+    }
     if (file.isEmpty() || progress < 0) {
         pCore->currentDoc()->previewProgress(progress);
         if (progress < 0) {
@@ -686,15 +657,20 @@ void PreviewManager::gotPreviewRender(int frame, const QString &file, int progre
         }
         return;
     }
-    m_tractor->lock();
     if (m_previewTrack->is_blank_at(frame)) {
-        Mlt::Producer prod(*m_previewProfile, QString("avformat:%1").arg(file).toUtf8().constData());
+        Mlt::Producer prod(pCore->getCurrentProfile()->profile(), QString("avformat:%1").arg(file).toUtf8().constData());
         if (prod.is_valid()) {
+            m_dirtyChunks.removeAll(frame);
             m_renderedChunks << frame;
             m_controller->renderedChunksChanged();
             prod.set("mlt_service", "avformat-novalidate");
             qDebug()<<"|||| PLUGGING PREVIEW CHUNK AT: "<<frame;
+            m_tractor->lock();
             m_previewTrack->insert_at(frame, &prod, 1);
+            m_previewTrack->consolidate_blanks();
+            m_tractor->unlock();
+            pCore->currentDoc()->previewProgress(progress);
+            pCore->currentDoc()->setModified(true);
         } else {
             qCDebug(KDENLIVE_LOG) << "* * * INVALID PROD: " << file;
             corruptedChunk(frame, file);
@@ -702,21 +678,20 @@ void PreviewManager::gotPreviewRender(int frame, const QString &file, int progre
     } else {
         qCDebug(KDENLIVE_LOG) << "* * * NON EMPTY PROD: " << frame;
     }
-    m_previewTrack->consolidate_blanks();
-    m_tractor->unlock();
-    pCore->currentDoc()->previewProgress(progress);
-    pCore->currentDoc()->setModified(true);
 }
 
 void PreviewManager::corruptedChunk(int frame, const QString &fileName)
 {
-    m_abortPreview = true;
     emit abortPreview();
-    m_previewThread.waitForFinished();
+    m_previewProcess.waitForFinished();
+    if (workingPreview >= 0) {
+        workingPreview = -1;
+        m_controller->workingPreviewChanged();
+    }
+    emit previewRender(0, m_errorLog, -1);
     m_cacheDir.remove(fileName);
     m_dirtyChunks << frame;
     qSort(m_dirtyChunks);
-    emit previewRender(frame, i18n("Preview rendering failed"), -1);
 }
 
 int PreviewManager::setOverlayTrack(Mlt::Playlist *overlay)

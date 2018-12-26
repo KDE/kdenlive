@@ -26,12 +26,14 @@
 #include <QFuture>
 #include <QMutex>
 #include <QTimer>
+#include <QProcess>
 
 class TimelineController;
 
 namespace Mlt {
 class Tractor;
 class Playlist;
+class Producer;
 class Profile;
 } // namespace Mlt
 
@@ -96,8 +98,11 @@ private:
     Mlt::Tractor *m_tractor;
     Mlt::Playlist *m_previewTrack;
     Mlt::Playlist *m_overlayTrack;
-    std::shared_ptr<Mlt::Profile>m_previewProfile;
     int m_previewTrackIndex;
+    /** @brief: The kdenlive renderer app. */
+    QString m_renderer;
+    /** @brief: The kdenlive timeline preview process. */
+    QProcess m_previewProcess;
     /** @brief: The directory used to store the preview files. */
     QDir m_cacheDir;
     /** @brief: The directory used to store undo history of preview files (child of m_cacheDir). */
@@ -110,9 +115,14 @@ private:
     /** @brief: Since some timeline operations generate several invalidate calls, use a timer to get them all. */
     QTimer m_previewGatherTimer;
     bool m_initialized;
-    bool m_abortPreview;
     QList<int> m_waitingThumbs;
     QFuture<void> m_previewThread;
+    /** @brief: The count of chunks to process - to calculate job progress */
+    int m_chunksToRender;
+    /** @brief: The count of already processed chunks - to calculate job progress */
+    int m_processedChunks;
+    /** @brief: The render process output, useful in case of failure */
+    QString m_errorLog;
     /** @brief: After an undo/redo, if we have preview history, use it. */
     void reloadChunks(const QVariantList chunks);
     /** @brief: A chunk failed to render, abort. */
@@ -122,11 +132,13 @@ private slots:
     /** @brief: To avoid filling the hard drive, remove preview undo history after 5 steps. */
     void doCleanupOldPreviews();
     /** @brief: Start the real rendering process. */
-    void doPreviewRender(const QString &scene);
+    void doPreviewRender(const QString &scene); //std::shared_ptr<Mlt::Producer> sourceProd);
     /** @brief: If user does an undo, then makes a new timeline operation, delete undo history of more recent stack . */
     void slotRemoveInvalidUndo(int ix);
     /** @brief: When the timer collecting invalid zones is done, process. */
     void slotProcessDirtyChunks();
+    /** @brief: Process preview rendering output. */
+    void receivedStderr();
 
 public slots:
     /** @brief: Prepare and start rendering. */

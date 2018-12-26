@@ -61,7 +61,7 @@ void ProgressButton::setProgress(int progress)
     QString remaining;
     if (m_timer.isValid() && progress > 0) {
         // calculate remaining time
-        qint64 ms = m_timer.elapsed() * (m_max / progress - 1);
+        qint64 ms = m_timer.elapsed() * (m_max - progress) / progress;
         if (ms < 60000)
         // xgettext:no-c-format
         {
@@ -91,10 +91,13 @@ void ProgressButton::setProgress(int progress)
         m_remainingTime.clear();
         m_timer.invalidate();
     }
-    m_progress = prog;
-    if (remaining != m_remainingTime) {
+    if (remaining != m_remainingTime || m_progress != prog ) {
+        m_progress = prog;
         m_remainingTime = remaining;
         update();
+    } else {
+        m_progress = prog;
+        m_remainingTime = remaining;
     }
 }
 

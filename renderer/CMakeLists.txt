@@ -13,7 +13,9 @@ set(kdenlive_render_SRCS
 add_executable(kdenlive_render ${kdenlive_render_SRCS})
 ecm_mark_nongui_executable(kdenlive_render)
 
-target_link_libraries(kdenlive_render Qt5::Core Qt5::DBus Qt5::Xml)
+target_link_libraries(kdenlive_render Qt5::Core Qt5::DBus Qt5::Xml
+    ${MLT_LIBRARIES}
+    ${MLTPP_LIBRARIES})
 
 
 install(TARGETS kdenlive_render DESTINATION ${BIN_INSTALL_DIR})

@@ -25,8 +25,10 @@
 #include <QStringList>
 #include <QDomDocument>
 #include <QUrl>
+#include <QDir>
 #include <stdio.h>
 #include "framework/mlt_version.h"
+#include "mlt++/Mlt.h"
 
 int main(int argc, char **argv)
 {
@@ -37,16 +39,69 @@ int main(int argc, char **argv)
     if (args.count() >= 4) {
         // Remove program name
         args.removeFirst();
+        // renderer path (melt)
         QString render = args.at(0);
         args.removeFirst();
+        // Source playlist path
         QString playlist = args.at(0);
         args.removeFirst();
+        // target - where to save result
         QString target = args.at(0);
         args.removeFirst();
         int pid = 0;
+        // pid to send back progress
         if (args.count() > 0 && args.at(0).startsWith(QLatin1String("-pid:"))) {
             pid = args.at(0).section(QLatin1Char(':'), 1).toInt();
             args.removeFirst();
+        }
+        // Do we want a split render
+        if (args.count() > 0 && args.at(0) == QLatin1String("-split")) {
+            args.removeFirst();
+            // chunks to render
+            QStringList chunks = args.at(0).split(QLatin1Char(','), QString::SkipEmptyParts);
+            args.removeFirst();
+            // chunk size in frames
+            int chunkSize = args.at(0).toInt();
+            args.removeFirst();
+            // rendered file extension
+            QString extension = args.at(0);
+            args.removeFirst();
+            // avformat consumer params
+            QStringList consumerParams = args.at(0).split(QLatin1Char(' '), QString::SkipEmptyParts);
+            args.removeFirst();
+            QDir baseFolder(target);
+            Mlt::Factory::init();
+            Mlt::Profile profile;
+            Mlt::Producer prod(profile, nullptr, playlist.toUtf8().constData());
+            if (!prod.is_valid()) {
+                fprintf(stderr, "INVALID playlist: %s \n", playlist.toUtf8().constData());
+            }
+            for (const QString frame : chunks) {
+                fprintf(stderr, "START:%d \n", frame.toInt());
+                QString fileName = QStringLiteral("%1.%2").arg(frame).arg(extension);
+                if (baseFolder.exists(fileName)) {
+                    // Don't overwrite an existing file
+                    fprintf(stderr, "DONE:%d \n", frame.toInt());
+                    continue;
+                }
+                QScopedPointer<Mlt::Producer> playlst(prod.cut(frame.toInt(), frame.toInt() + chunkSize));
+                QScopedPointer<Mlt::Consumer> cons(new Mlt::Consumer(profile, QString("avformat:%1").arg(baseFolder.absoluteFilePath(fileName)).toUtf8().constData()));
+                for (const QString &param : consumerParams) {
+                    if (param.contains(QLatin1Char('='))) {
+                        cons->set(param.section(QLatin1Char('='), 0, 0).toUtf8().constData(),   param.section(QLatin1Char('='), 1).toUtf8().constData());
+                    }
+                }
+                cons->set("terminate_on_pause", 1);
+                cons->connect(*playlst);
+                playlst.reset();
+                cons->run();
+                cons->stop();
+                cons->purge();
+                fprintf(stderr, "DONE:%d \n", frame.toInt());
+            }
+            //Mlt::Factory::close();
+            fprintf(stderr, "+ + + RENDERING FINSHED + + + \n");
+            return 0;
         }
         int in = -1;
         int out = -1;
@@ -65,114 +120,6 @@ int main(int argc, char **argv)
         RenderJob *rJob = new RenderJob(render, playlist, target, pid, in, out);
         rJob->start();
         app.exec();
-    }
-    else if (args.count() >= 7) {
-        // Deprecated
-        int pid = 0;
-        int in = -1;
-        int out = -1;
-        // Remove program name
-        args.removeFirst();
-
-        bool erase = false;
-        if (args.at(0) == QLatin1String("-erase")) {
-            erase = true;
-            args.removeFirst();
-        }
-        bool usekuiserver = false;
-        if (args.at(0) == QLatin1String("-kuiserver")) {
-            usekuiserver = true;
-            args.removeFirst();
-        }
-        if (args.at(0).startsWith(QLatin1String("-pid:"))) {
-            pid = args.at(0).section(QLatin1Char(':'), 1).toInt();
-            args.removeFirst();
-        }
-
-        if (args.at(0).startsWith(QLatin1String("-locale:"))) {
-            locale = args.at(0).section(QLatin1Char(':'), 1);
-            args.removeFirst();
-        }
-        if (args.at(0).startsWith(QLatin1String("in="))) {
-            in = args.takeFirst().section(QLatin1Char('='), -1).toInt();
-        }
-        if (args.at(0).startsWith(QLatin1String("out="))) {
-            out = args.takeFirst().section(QLatin1Char('='), -1).toInt();
-        }
-        if (args.at(0).startsWith(QLatin1String("preargs="))) {
-            preargs = args.takeFirst().section(QLatin1Char('='), 1).split(QLatin1Char(' '), QString::SkipEmptyParts);
-        }
-
-        QString render = args.takeFirst();
-        QString profile = args.takeFirst();
-        QString rendermodule = args.takeFirst();
-        QString player = args.takeFirst();
-        QString srcString = args.takeFirst();
-        QUrl srcurl;
-        if (srcString.startsWith(QLatin1String("consumer:"))) {
-            srcurl = QUrl::fromEncoded(srcString.section(QLatin1Char(':'), 1).toUtf8().constData());
-        } else {
-            srcurl = QUrl::fromEncoded(srcString.toUtf8().constData());
-        }
-        QString src = srcurl.toLocalFile();
-        // The QUrl path() strips the consumer: protocol, so re-add it if necessary
-        if (srcString.startsWith(QStringLiteral("consumer:"))) {
-            src.prepend(QLatin1String("consumer:"));
-        }
-        QString dest = QFileInfo(QUrl::fromEncoded(args.takeFirst().toUtf8()).toLocalFile()).absoluteFilePath();
-        bool dualpass = false;
-        bool doerase;
-        QString vpre;
-
-        int vprepos = args.indexOf(QRegExp(QLatin1String("vpre=.*")));
-        if (vprepos >= 0) {
-            vpre = args.at(vprepos);
-        }
-        QStringList vprelist = vpre.remove(QStringLiteral("vpre=")).split(QLatin1Char(','));
-        if (!vprelist.isEmpty()) {
-            args.replaceInStrings(QRegExp(QLatin1String("^vpre=.*")), QStringLiteral("vpre=%1").arg(vprelist.at(0)));
-        }
-
-        if (args.contains(QStringLiteral("pass=2"))) {
-            // dual pass encoding
-            dualpass = true;
-            doerase = false;
-            args.replace(args.indexOf(QStringLiteral("pass=2")), QStringLiteral("pass=1"));
-            if (args.contains(QStringLiteral("vcodec=libx264"))) {
-                args << QStringLiteral("passlogfile=%1").arg(dest + QStringLiteral(".log"));
-            }
-        } else {
-            args.removeAll(QStringLiteral("pass=1"));
-            doerase = erase;
-        }
-
-        // Decode metadata
-        for (int i = 0; i < args.count(); ++i) {
-            if (args.at(i).startsWith(QLatin1String("meta.attr"))) {
-                QString data = args.at(i);
-                args.replace(i, data.section(QLatin1Char('='), 0, 0) + QStringLiteral("=\"") +
-                                    QUrl::fromPercentEncoding(data.section(QLatin1Char('='), 1).toUtf8()) + QLatin1Char('\"'));
-            }
-        }
-
-        qDebug() << "//STARTING RENDERING: " << erase << ',' << usekuiserver << ',' << render << ',' << profile << ',' << rendermodule << ',' << player << ','
-                 << src << ',' << dest << ',' << preargs << ',' << args << ',' << in << ',' << out;
-        auto *job = new RenderJob(doerase, usekuiserver, pid, render, profile, rendermodule, player, src, dest, preargs, args, in, out);
-        if (!locale.isEmpty()) {
-            job->setLocale(locale);
-        }
-        job->start();
-        RenderJob *dualjob = nullptr;
-        if (dualpass) {
-            if (vprelist.size() > 1) {
-                args.replaceInStrings(QRegExp(QLatin1String("^vpre=.*")), QStringLiteral("vpre=%1").arg(vprelist.at(1)));
-            }
-            args.replace(args.indexOf(QStringLiteral("pass=1")), QStringLiteral("pass=2"));
-            dualjob = new RenderJob(erase, usekuiserver, pid, render, profile, rendermodule, player, src, dest, preargs, args, in, out);
-            QObject::connect(job, &RenderJob::renderingFinished, dualjob, &RenderJob::start);
-        }
-        app.exec();
-        delete dualjob;
     } else {
         fprintf(stderr,
                 "Kdenlive video renderer for MLT.\nUsage: "

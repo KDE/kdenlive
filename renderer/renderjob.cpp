@@ -72,57 +72,6 @@ RenderJob::RenderJob(const QString &render, const QString &scenelist, const QStr
     }
 }
 
-RenderJob::RenderJob(bool erase, bool usekuiserver, int pid, const QString &renderer, const QString &profile, const QString &rendermodule,
-                     const QString &player, const QString &scenelist, const QString &dest, const QStringList &preargs, const QStringList &args, int in, int out)
-    : QObject()
-    , m_scenelist(scenelist)
-    , m_dest(dest)
-    , m_progress(0)
-    , m_prog(renderer)
-    , m_player(player)
-    , m_jobUiserver(nullptr)
-    , m_kdenliveinterface(nullptr)
-    , m_usekuiserver(usekuiserver)
-    , m_logfile(dest + QStringLiteral(".txt"))
-    , m_erase(erase)
-    , m_seconds(0)
-    , m_frame(0)
-    , m_pid(pid)
-    , m_dualpass(false)
-{
-    m_renderProcess = new QProcess;
-    m_renderProcess->setReadChannel(QProcess::StandardError);
-    connect(m_renderProcess, &QProcess::stateChanged, this, &RenderJob::slotCheckProcess);
-
-    // Disable VDPAU so that rendering will work even if there is a Kdenlive instance using VDPAU
-    qputenv("MLT_NO_VDPAU", "1");
-
-    m_args << scenelist;
-    if (in != -1) {
-        m_args << QStringLiteral("in=") + QString::number(in);
-    }
-    if (out != -1) {
-        m_args << QStringLiteral("out=") + QString::number(out);
-    }
-
-    m_args << preargs;
-    if (scenelist.startsWith(QLatin1String("consumer:"))) {
-        // Use MLT's producer_consumer, safer to pass profile in an explicit way
-        m_args << QStringLiteral("profile=") + profile;
-    }
-    m_args << QStringLiteral("-profile") << profile;
-    m_args << QStringLiteral("-consumer") << rendermodule + QLatin1Char(':') + m_dest << QStringLiteral("progress=1") << args;
-
-    m_dualpass = args.contains(QStringLiteral("pass=1"));
-
-    // Create a log of every render process.
-    if (!m_logfile.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        qWarning() << "Unable to log to " << m_logfile.fileName();
-    } else {
-        m_logstream.setDevice(&m_logfile);
-    }
-}
-
 RenderJob::~RenderJob()
 {
     delete m_renderProcess;
