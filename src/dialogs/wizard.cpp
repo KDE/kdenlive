@@ -593,40 +593,50 @@ void Wizard::slotCheckPrograms()
 
     // Check first in same folder as melt exec
     const QStringList mltpath = QStringList() << QFileInfo(KdenliveSettings::rendererpath()).canonicalPath();
-    QString exepath = QStandardPaths::findExecutable(QStringLiteral("ffmpeg%1").arg(FFMPEG_SUFFIX), mltpath);
-    if (exepath.isEmpty()) {
-        exepath = QStandardPaths::findExecutable(QStringLiteral("ffmpeg%1").arg(FFMPEG_SUFFIX));
-    }
-    QString playpath = QStandardPaths::findExecutable(QStringLiteral("ffplay%1").arg(FFMPEG_SUFFIX), mltpath);
-    if (playpath.isEmpty()) {
-        playpath = QStandardPaths::findExecutable(QStringLiteral("ffplay%1").arg(FFMPEG_SUFFIX));
-    }
-    QString probepath = QStandardPaths::findExecutable(QStringLiteral("ffprobe%1").arg(FFMPEG_SUFFIX), mltpath);
-    if (probepath.isEmpty()) {
-        probepath = QStandardPaths::findExecutable(QStringLiteral("ffprobe%1").arg(FFMPEG_SUFFIX));
-    }
-    if (exepath.isEmpty()) {
-        // Check for libav version
-        exepath = QStandardPaths::findExecutable(QStringLiteral("avconv"));
+    QString exepath;
+    if (KdenliveSettings::ffmpegpath().isEmpty() || !QFileInfo::exists(KdenliveSettings::ffmpegpath())) {
+        exepath = QStandardPaths::findExecutable(QStringLiteral("ffmpeg%1").arg(FFMPEG_SUFFIX), mltpath);
         if (exepath.isEmpty()) {
-            m_warnings.append(i18n("<li>Missing app: <b>ffmpeg</b><br/>required for proxy clips and transcoding</li>"));
-            allIsOk = false;
+            exepath = QStandardPaths::findExecutable(QStringLiteral("ffmpeg%1").arg(FFMPEG_SUFFIX));
+        }
+        if (exepath.isEmpty()) {
+            // Check for libav version
+            exepath = QStandardPaths::findExecutable(QStringLiteral("avconv"));
+            if (exepath.isEmpty()) {
+                m_warnings.append(i18n("<li>Missing app: <b>ffmpeg</b><br/>required for proxy clips and transcoding</li>"));
+                allIsOk = false;
+            }
         }
     }
-    if (playpath.isEmpty()) {
-        // Check for libav version
-        playpath = QStandardPaths::findExecutable(QStringLiteral("avplay"));
+    QString playpath;
+    if (KdenliveSettings::ffplaypath().isEmpty() || !QFileInfo::exists(KdenliveSettings::ffplaypath())) {
+        playpath = QStandardPaths::findExecutable(QStringLiteral("ffplay%1").arg(FFMPEG_SUFFIX), mltpath);
         if (playpath.isEmpty()) {
-            m_infos.append(i18n("<li>Missing app: <b>ffplay</b><br/>recommended for some preview jobs</li>"));
+            playpath = QStandardPaths::findExecutable(QStringLiteral("ffplay%1").arg(FFMPEG_SUFFIX));
+        }
+        if (playpath.isEmpty()) {
+            // Check for libav version
+            playpath = QStandardPaths::findExecutable(QStringLiteral("avplay"));
+            if (playpath.isEmpty()) {
+                m_infos.append(i18n("<li>Missing app: <b>ffplay</b><br/>recommended for some preview jobs</li>"));
+            }
         }
     }
-    if (probepath.isEmpty()) {
-        // Check for libav version
-        probepath = QStandardPaths::findExecutable(QStringLiteral("avprobe"));
+    QString probepath;
+    if (KdenliveSettings::ffprobepath().isEmpty() || !QFileInfo::exists(KdenliveSettings::ffprobepath())) {
+        probepath = QStandardPaths::findExecutable(QStringLiteral("ffprobe%1").arg(FFMPEG_SUFFIX), mltpath);
         if (probepath.isEmpty()) {
-            m_infos.append(i18n("<li>Missing app: <b>ffprobe</b><br/>recommended for extra clip analysis</li>"));
+            probepath = QStandardPaths::findExecutable(QStringLiteral("ffprobe%1").arg(FFMPEG_SUFFIX));
+        }
+        if (probepath.isEmpty()) {
+            // Check for libav version
+            probepath = QStandardPaths::findExecutable(QStringLiteral("avprobe"));
+            if (probepath.isEmpty()) {
+                m_infos.append(i18n("<li>Missing app: <b>ffprobe</b><br/>recommended for extra clip analysis</li>"));
+            }
         }
     }
+
     if (!exepath.isEmpty()) {
         KdenliveSettings::setFfmpegpath(exepath);
     }
