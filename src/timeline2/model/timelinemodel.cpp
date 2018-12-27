@@ -1425,7 +1425,7 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
         Fun temp_undo = []() { return true; };
         Fun temp_redo = []() { return true; };
         int proposed_size = m_snaps->proposeSize(in, out, size, right, snapDistance);
-        if (proposed_size >= 0) {
+        if (proposed_size > 0) {
             // only test move if proposed_size is valid
             bool success = false;
             if (isClip(itemId)) {
