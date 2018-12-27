@@ -19,15 +19,18 @@ Menu {
         MenuItem {
             visible: !grouped && timeline.selection.length > 1
             text: i18n('Group')
+            iconName: 'object-group'
             onTriggered: timeline.groupSelection()
         }
         MenuItem {
             visible: grouped
             text: i18n('Ungroup')
+            iconName: 'object-ungroup'
             onTriggered: timeline.unGroupSelection(clipId)
         }
         MenuItem {
             text: i18n('Edit Duration')
+            iconName: 'measure'
             onTriggered: {
                 timeline.editItemDuration(clipId)
             }
@@ -35,6 +38,7 @@ Menu {
         MenuItem {
             visible: true
             text: i18n('Copy')
+            iconName: 'edit-copy'
             onTriggered: {
                 root.copiedClip = clipId
                 timeline.copyItem()
@@ -42,6 +46,7 @@ Menu {
         }
         MenuItem {
             text: i18n('Remove')
+            iconName: 'edit-delete'
             onTriggered: timeline.triggerAction('delete_timeline_clip')
         }
         MenuSeparator {

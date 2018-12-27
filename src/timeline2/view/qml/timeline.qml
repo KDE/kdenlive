@@ -365,6 +365,7 @@ Rectangle {
         }
         OLD.MenuItem {
             text: i18n('Paste')
+            iconName: 'edit-paste'
             visible: copiedClip != -1
             onTriggered: {
                 timeline.pasteItem()
