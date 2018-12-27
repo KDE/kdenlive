@@ -115,13 +115,34 @@ void ThemeManager::setCurrentTheme(const QString &filename)
     if (!d->themeMenuAction || !d->themeMenuActionGroup) {
         return;
     }
-    QString name = d->themeMap.key(filename, d->defaultThemeName);
+    QString name = d->themeMap.key(filename);
+    // In the case of AppImage, the path to the color scheme can be invalid
+    // on each start as filesystem is mounted with a random path, so check that and correct
+    if (name.isEmpty()) {
+        QMapIterator<QString, QString> i(d->themeMap);
+        while (i.hasNext()) {
+            i.next();
+            if (QFileInfo(i.value()).fileName() == QFileInfo(filename).fileName()) {
+                name = i.key();
+                break;
+            }
+        }
+        if (name.isEmpty()) {
+            name = d->defaultThemeName;
+        }
+    }
+    bool themeFound = false;
     const QList<QAction *> list = d->themeMenuActionGroup->actions();
     for (QAction *const action : list) {
         if (action->text().remove('&') == name) {
             action->setChecked(true);
+            themeFound = true;
+            break;
             //slotChangePalette();
         }
+    }
+    if (!themeFound && filename != d->defaultThemeName) {
+        setCurrentTheme(d->defaultThemeName);
     }
 }
 
@@ -138,7 +159,6 @@ void ThemeManager::slotChangePalette()
     QString filename = d->themeMap.value(theme);
 
     //qCDebug(KDENLIVE_LOG) << theme << " :: " << filename;
-
     emit signalThemeChanged(filename);
 }
 

@@ -674,12 +674,11 @@ void MainWindow::init(const QString &MltPath, const QUrl &Url, const QString &cl
 void MainWindow::slotThemeChanged(const QString &theme)
 {
     disconnect(this, &MainWindow::reloadTheme, this, &MainWindow::slotReloadTheme);
+    KdenliveSettings::setColortheme(theme);
     KSharedConfigPtr config = KSharedConfig::openConfig(theme);
     setPalette(KColorScheme::createApplicationPalette(config));
     qApp->setPalette(palette());
     QPalette plt = palette();
-
-    KdenliveSettings::setColortheme(theme);
     if (m_effectStack) {
         m_effectStack->updatePalette();
         m_effectStack->transitionConfig()->updatePalette();
