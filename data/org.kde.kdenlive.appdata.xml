@@ -19,6 +19,7 @@
   <name xml:lang="fi">Kdenlive</name>
   <name xml:lang="fr">Kdenlive</name>
   <name xml:lang="gl">Kdenlive</name>
+  <name xml:lang="id">Kdenlive</name>
   <name xml:lang="it">Kdenlive</name>
   <name xml:lang="ko">Kdenlive</name>
   <name xml:lang="nl">Kdenlive</name>
@@ -51,6 +52,7 @@
   <summary xml:lang="fi">Videoeditori</summary>
   <summary xml:lang="fr">Éditeur vidéo</summary>
   <summary xml:lang="gl">Editor de vídeo</summary>
+  <summary xml:lang="id">Editor Video</summary>
   <summary xml:lang="it">Editor video</summary>
   <summary xml:lang="ko">동영상 편집기</summary>
   <summary xml:lang="nl">Videobewerker</summary>
@@ -83,6 +85,7 @@
     <p xml:lang="fi">Kdenlive on epälineaarinen videoeditori. Se perustuu MLT-frameworkiin ja toimii monen eri ääni- ja videoformaatin kanssa. Voit lisätä efektejä ja siirtymiä, sekä renderöidä projektin haluamaasi tiedostomuotoon.</p>
     <p xml:lang="fr">Kdenlive est un éditeur vidéo non-linéaire. Il utilise le moteur MLT et accèpte de nombreux formats audio et vidéos, permet d'ajouter des effets et transitions, et exporte le rendu dans le format de votre choix.</p>
     <p xml:lang="gl">Kdenlive é un editor de vídeo non lineal. Está baseado na infraestrutura MLT e permite moitos formatos de son e vídeo, e permite engadir efectos, engadir transicións, e exportar en calquera formato.</p>
+    <p xml:lang="id">Kdenlive adalah sebuah editor video non linier. Ia berdasarkan pada MLT framework dan menerima berbagai format audio dan video, yang memungkinkan kamu untuk menambahkan efek, transisi, dan render ke dalam format yang kamu pilih.</p>
     <p xml:lang="it">Kdenlive è un editor video non lineare. È basato sull'infrastruttura MLT e accetta numerosi formati audio e video, consente di aggiungere effetti, transizioni e produrre il formato che si desidera.</p>
     <p xml:lang="ko">Kdenlive는 비선형 동영상 편집기입니다. MLT 프레임워크를 사용하며 여러 음악 및 동영상 형식을 지원하고, 효과 및 트랜지션을 추가할 수 있으며, 원하는 형식으로 렌더링할 수 있습니다.</p>
     <p xml:lang="nl">Kdenlive is een niet lineaire videobewerker. Het is gebaseerd op het MLT-framework en accepteert vele audio- en video-formaten, biedt de mogelijkheid effecten en overgangen toe te voegen en om te zetten naar het formaat van uw keuze.</p>
@@ -114,6 +117,7 @@
     <p xml:lang="fi">Ominaisuuksia:</p>
     <p xml:lang="fr">Fonctionnalités :</p>
     <p xml:lang="gl">Funcionalidades:</p>
+    <p xml:lang="id">Fitur:</p>
     <p xml:lang="it">Funzionalità:</p>
     <p xml:lang="ko">기능:</p>
     <p xml:lang="nl">Mogelijkheden:</p>
@@ -146,6 +150,7 @@
       <li xml:lang="fi">Selkeä moniraitainen käyttöliittymä</li>
       <li xml:lang="fr">Interface multipiste intuitive.</li>
       <li xml:lang="gl">Interface intuitiva con varias pistas.</li>
+      <li xml:lang="id">Antarmuka multitrack yang intuitif.</li>
       <li xml:lang="it">Interfaccia multitraccia intuitiva.</li>
       <li xml:lang="ko">사용하기 편한 다중 트랙 인터페이스.</li>
       <li xml:lang="nl">Intuïtief interface met meerdere tracks.</li>
@@ -176,6 +181,7 @@
       <li xml:lang="fi">Monia erilaisia efektejä ja siirtymiä</li>
       <li xml:lang="fr">Nombreux effets et transitions.</li>
       <li xml:lang="gl">Moitos efectos e transicións.</li>
+      <li xml:lang="id">Banyak efek dan transisi.</li>
       <li xml:lang="it">Numerosi effetti e transizioni.</li>
       <li xml:lang="ko">다양한 효과와 트랜지션.</li>
       <li xml:lang="nl">Veel effecten en overgangen.</li>
@@ -206,6 +212,7 @@
       <li xml:lang="fi">Väriavaruuksien säätömahdollisuus</li>
       <li xml:lang="fr">Graphes des couleurs</li>
       <li xml:lang="gl">Ámbitos de cores.</li>
+      <li xml:lang="id">Cakupan warna</li>
       <li xml:lang="it">Diagrammi di colore</li>
       <li xml:lang="ko">색상 범위</li>
       <li xml:lang="nl">Kleurreeksen</li>
@@ -236,6 +243,7 @@
       <li xml:lang="fi">Yksinkertainen DVD:n luonti</li>
       <li xml:lang="fr">Assistant DVD de base</li>
       <li xml:lang="gl">Asistente básico para DVD</li>
+      <li xml:lang="id">Dasar Asisten DVD</li>
       <li xml:lang="it">Procedura guidata di base DVD</li>
       <li xml:lang="ko">기본 DVD 마법사</li>
       <li xml:lang="nl">Basis dvd-assistent</li>
@@ -254,7 +262,7 @@
     </ul>
   </description>
   <releases>
-    <release date="2018-10-11" version="18.08.2"/>
+    <release date="2018-12-13" version="18.12.0"/>
   </releases>
   <url type="homepage">https://kdenlive.org/</url>
   <url type="bugtracker">https://bugs.kde.org</url>
@@ -263,6 +271,25 @@
   <screenshots>
     <screenshot type="source">
       <caption>Kdenlive 18.08</caption>
+      <caption xml:lang="ca">Kdenlive 18.08</caption>
+      <caption xml:lang="ca-valencia">Kdenlive 18.08</caption>
+      <caption xml:lang="de">Kdenlive 18.08</caption>
+      <caption xml:lang="en-GB">Kdenlive 18.08</caption>
+      <caption xml:lang="es">Kdenlive 18.08</caption>
+      <caption xml:lang="fi">Kdenlive 18.08</caption>
+      <caption xml:lang="fr">Kdenlive 18.08</caption>
+      <caption xml:lang="gl">Kdenlive 18.08</caption>
+      <caption xml:lang="id">Kdenlive 18.08</caption>
+      <caption xml:lang="it">Kdenlive 18.08</caption>
+      <caption xml:lang="nl">Kdenlive 18.08</caption>
+      <caption xml:lang="pl">Kdenlive 18.08</caption>
+      <caption xml:lang="pt">Kdenlive 18.08</caption>
+      <caption xml:lang="pt-BR">Kdenlive 18.08</caption>
+      <caption xml:lang="sv">Kdenlive 18.08</caption>
+      <caption xml:lang="uk">Kdenlive 18.08</caption>
+      <caption xml:lang="x-test">xxKdenlive 18.08xx</caption>
+      <caption xml:lang="zh-CN">Kdenlive 18.08</caption>
+      <caption xml:lang="zh-TW">Kdenlive 18.08</caption>
       <image>https://cdn.kde.org/screenshots/kdenlive/screenshot-monitors.png</image>
     </screenshot>
   </screenshots>
