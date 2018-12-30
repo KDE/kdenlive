@@ -65,7 +65,7 @@ public:
     }
     Q_INVOKABLE QString getName(const QModelIndex &index) const { return q->getName(index); }
     Q_INVOKABLE bool isFavorite(const QModelIndex &index) const { return q->isFavorite(index); }
-    Q_INVOKABLE void setFavorite(const QModelIndex &index, bool favorite) const { q->setFavorite(index, favorite); q->updateFavorite(index); }
+    Q_INVOKABLE void setFavorite(const QModelIndex &index, bool favorite) const { q->setFavorite(index, favorite, false); q->updateFavorite(index); }
     Q_INVOKABLE void setFilterType(const QString &type) { q->setFilterType(type); }
     Q_INVOKABLE QString getDescription(const QModelIndex &index) const { return q->getDescription(index); }
     Q_INVOKABLE QVariantMap getMimeData(const QString &assetId) const { return q->getMimeData(assetId); }

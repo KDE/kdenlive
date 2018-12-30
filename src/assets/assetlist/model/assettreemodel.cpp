@@ -67,21 +67,25 @@ bool AssetTreeModel::isFavorite(const QModelIndex &index) const
     return item->dataColumn(AssetTreeModel::favCol).toBool();
 }
 
-void AssetTreeModel::setFavorite(const QModelIndex &index, bool favorite)
+void AssetTreeModel::setFavorite(const QModelIndex &index, bool favorite, bool isEffect)
 {
     if (!index.isValid()) {
         return;
     }
     std::shared_ptr<TreeItem> item = getItemById((int)index.internalId());
-    if (item->depth() == 1) {
+    if (isEffect && item->depth() == 1) {
         return;
     }
     item->setData(AssetTreeModel::favCol, favorite);
     auto id = item->dataColumn(AssetTreeModel::idCol).toString();
-    if (EffectsRepository::get()->exists(id)) {
-        EffectsRepository::get()->setFavorite(id, favorite);
-    } else if (TransitionsRepository::get()->exists(id)) {
-        TransitionsRepository::get()->setFavorite(id, favorite);
+    if (isEffect) {
+        if (EffectsRepository::get()->exists(id)) {
+            EffectsRepository::get()->setFavorite(id, favorite);
+        }
+    } else {
+        if (TransitionsRepository::get()->exists(id)) {
+            TransitionsRepository::get()->setFavorite(id, favorite);
+        }
     }
 }
 
