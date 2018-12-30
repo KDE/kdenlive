@@ -360,7 +360,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QString &par
     f->setLayout(l);
     QString clipFolder = KRecentDirs::dir(QStringLiteral(":KdenliveClipFolder"));
     if (clipFolder.isEmpty()) {
-        clipFolder = QDir::homePath();
+        clipFolder = QStandardPaths::writableLocation(QStandardPaths::MoviesLocation);
     }
     QScopedPointer<QDialog> dlg(new QDialog((QWidget *)doc->parent()));
     QScopedPointer<KFileWidget> fileWidget(new KFileWidget(QUrl::fromLocalFile(clipFolder), dlg.data()));
