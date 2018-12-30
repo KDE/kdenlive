@@ -800,15 +800,32 @@ bool EffectStackModel::checkConsistency()
             return false;
         }
         if (ptr->filter_count() != (int)allFilters.size()) {
-            qDebug() << "ERROR: Wrong filter count";
-            return false;
+            // MLT inserts some default normalizer filters that are not managed by Kdenlive, which explains  why the filter count is not equal
+            int kdenliveFilterCount = 0;
+            for (int i = 0; i < ptr->filter_count(); i++) {
+                std::shared_ptr<Mlt::Filter> filt(ptr->filter(i));
+                if (filt->get("kdenlive_id") != NULL) {
+                    kdenliveFilterCount++;
+                }
+                //qDebug() << "FILTER: "<<i<<" : "<<ptr->filter(i)->get("mlt_service");
+            }
+            if (kdenliveFilterCount != (int)allFilters.size()) {
+                qDebug() << "ERROR: Wrong filter count: "<<kdenliveFilterCount<<" = "<<allFilters.size();
+                return false;
+            }
         }
 
+        int ct = 0;
         for (uint i = 0; i < allFilters.size(); ++i) {
-            auto mltFilter = ptr->filter((int)i)->get_filter();
+            while (ptr->filter(ct)->get("kdenlive_id") == NULL && ct < ptr->filter_count()) {
+                ct++;
+            }
+            auto mltFilter = ptr->filter(ct)->get_filter();
+            ct++;
             auto currentFilter = allFilters[i]->filter().get_filter();
             if (mltFilter != currentFilter) {
-                qDebug() << "ERROR: filter " << i << "differ";
+                ct--;
+                qDebug() << "ERROR: filter " << i << "differ: "<<ct<<", "<<allFilters[i]->filter().get("mlt_service")<<" = "<<ptr->filter(ct)->get("mlt_service");
                 return false;
             }
         }
