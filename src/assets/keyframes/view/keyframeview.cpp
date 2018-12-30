@@ -28,10 +28,10 @@
 #include <KColorScheme>
 #include <QFontDatabase>
 
-KeyframeView::KeyframeView(std::shared_ptr<KeyframeModelList> model, QWidget *parent)
+KeyframeView::KeyframeView(std::shared_ptr<KeyframeModelList> model, int duration, QWidget *parent)
     : QWidget(parent)
     , m_model(model)
-    , m_duration(1)
+    , m_duration(duration)
     , m_position(0)
     , m_currentKeyframe(-1)
     , m_currentKeyframeOriginal(-1)

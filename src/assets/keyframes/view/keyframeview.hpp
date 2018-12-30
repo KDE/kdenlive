@@ -32,7 +32,7 @@ class KeyframeView : public QWidget
     Q_OBJECT
 
 public:
-    explicit KeyframeView(std::shared_ptr<KeyframeModelList> model, QWidget *parent = nullptr);
+    explicit KeyframeView(std::shared_ptr<KeyframeModelList> model, int duration, QWidget *parent = nullptr);
     void setDuration(int dur);
 
 public slots:

@@ -47,7 +47,6 @@
 
 KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
     : AbstractParamWidget(model, index, parent)
-    , m_keyframes(model->getKeyframeModel())
     , m_monitorHelper(nullptr)
     , m_neededScene(MonitorSceneType::MonitorSceneDefault)
 {
@@ -60,8 +59,9 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     bool ok = false;
     int duration = m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt(&ok);
     Q_ASSERT(ok);
-    m_keyframeview = new KeyframeView(m_keyframes, this);
-    m_keyframeview->setDuration(duration);
+    m_model->prepareKeyframes();
+    m_keyframes = m_model->getKeyframeModel();
+    m_keyframeview = new KeyframeView(m_keyframes, duration, this);
 
     m_buttonAddDelete = new QToolButton(this);
     m_buttonAddDelete->setAutoRaise(true);
