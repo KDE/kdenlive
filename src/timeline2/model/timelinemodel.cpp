@@ -366,7 +366,9 @@ int TimelineModel::getMirrorVideoTrackId(int trackId) const
         return -1;
     }
     int count = 0;
-    ++it;
+    if (it != m_allTracks.end()) {
+        ++it;
+    }
     while (it != m_allTracks.end()) {
         if ((*it)->isAudioTrack()) {
             count++;
@@ -378,7 +380,7 @@ int TimelineModel::getMirrorVideoTrackId(int trackId) const
         }
         ++it;
     }
-    if (!(*it)->isAudioTrack() && count == 0) {
+    if (it != m_allTracks.end() && !(*it)->isAudioTrack() && count == 0) {
         return (*it)->getId();
     }
     return -1;
@@ -402,7 +404,9 @@ int TimelineModel::getMirrorAudioTrackId(int trackId) const
         return -1;
     }
     int count = 0;
-    --it;
+    if (it != m_allTracks.begin()) {
+        --it;
+    }
     while (it != m_allTracks.begin()) {
         if (!(*it)->isAudioTrack()) {
             count++;
@@ -414,7 +418,7 @@ int TimelineModel::getMirrorAudioTrackId(int trackId) const
         }
         --it;
     }
-    if ((*it)->isAudioTrack() && count == 0) {
+    if (it != m_allTracks.begin() && (*it)->isAudioTrack() && count == 0) {
         return (*it)->getId();
     }
     return -1;
