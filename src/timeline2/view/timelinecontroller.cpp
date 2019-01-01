@@ -703,6 +703,7 @@ void TimelineController::addTrack(int tid)
         int newTid;
         m_model->requestTrackInsertion(d->selectedTrackPosition(), newTid, d->trackName(), d->addAudioTrack());
         m_model->buildTrackCompositing(true);
+        m_model->_resetView();
     }
 }
 
