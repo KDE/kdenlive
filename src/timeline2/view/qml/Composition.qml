@@ -114,80 +114,14 @@ Item {
         var itemPos = mapToItem(tracksContainerArea, 0, displayRect.y, displayRect.width, displayRect.height)
         initDrag(compositionRoot, itemPos, compositionRoot.clipId, compositionRoot.modelStart, compositionRoot.trackId, true)
     }
-
-    Rectangle {
-        id: displayRect
+    MouseArea {
+        id: mouseArea
         anchors.top: compositionRoot.top
         anchors.right: compositionRoot.right
         anchors.left: compositionRoot.left
         anchors.topMargin: displayHeight
         height: displayHeight
-        color: Qt.darker('mediumpurple')
-        border.color: selected? 'red' : borderColor
-        border.width: isGrabbed ? 8 : 1.5
-        opacity: dragProxyArea.drag.active && dragProxy.draggedItem == clipId ? 0.5 : 1.0
-        Item {
-            // clipping container
-            id: container
-            anchors.fill: displayRect
-            anchors.margins:1.5
-            clip: true
-
-            Rectangle {
-                // text background
-                id: labelRect
-                color: compositionRoot.aTrack >= 0 ? 'yellow' : 'lightgray'
-                opacity: 0.7
-                anchors.top: container.top
-                width: label.width + 2
-                height: label.height
-                Text {
-                    id: label
-                    text: clipName + (compositionRoot.aTrack >= 0 ? ' > ' + timeline.getTrackNameFromMltIndex(compositionRoot.aTrack) : '')
-                    font.pixelSize: root.baseUnit
-                    anchors {
-                        top: labelRect.top
-                        left: labelRect.left
-                        topMargin: 1
-                        leftMargin: 1
-                    }
-                    color: 'black'
-                }
-            }
-            KeyframeView {
-                id: effectRow
-                visible: compositionRoot.showKeyframes && keyframeModel
-                selected: compositionRoot.selected
-                inPoint: 0
-                outPoint: compositionRoot.clipDuration
-            }
-        }
-        /*Drag.active: mouseArea.drag.active
-        Drag.proposedAction: Qt.MoveAction*/
-
-    states: [
-        State {
-            name: 'normal'
-            when: !compositionRoot.selected
-            PropertyChanges {
-                target: compositionRoot
-                z: 0
-            }
-        },
-        State {
-            name: 'selected'
-            when: compositionRoot.selected
-            PropertyChanges {
-                target: compositionRoot
-                z: 1
-                color: 'mediumpurple'
-            }
-        }
-    ]
-
-    MouseArea {
-        id: mouseArea
-        anchors.fill: parent
+        //anchors.fill: parent
         acceptedButtons: Qt.RightButton
         hoverEnabled: true
         /*onPressed: {
@@ -252,6 +186,77 @@ Item {
         }
         onWheel: zoomByWheel(wheel)
     }
+
+    Rectangle {
+        id: displayRect
+        anchors.top: compositionRoot.top
+        anchors.right: compositionRoot.right
+        anchors.left: compositionRoot.left
+        anchors.topMargin: displayHeight
+        height: displayHeight
+        color: Qt.darker('mediumpurple')
+        border.color: selected? 'red' : borderColor
+        border.width: isGrabbed ? 8 : 1.5
+        opacity: dragProxyArea.drag.active && dragProxy.draggedItem == clipId ? 0.5 : 1.0
+        Item {
+            // clipping container
+            id: container
+            anchors.fill: displayRect
+            anchors.margins:1.5
+            clip: true
+
+            Rectangle {
+                // text background
+                id: labelRect
+                color: compositionRoot.aTrack >= 0 ? 'yellow' : 'lightgray'
+                opacity: 0.7
+                anchors.top: container.top
+                width: label.width + 2
+                height: label.height
+                Text {
+                    id: label
+                    text: clipName + (compositionRoot.aTrack >= 0 ? ' > ' + timeline.getTrackNameFromMltIndex(compositionRoot.aTrack) : '')
+                    font.pixelSize: root.baseUnit
+                    anchors {
+                        top: labelRect.top
+                        left: labelRect.left
+                        topMargin: 1
+                        leftMargin: 1
+                    }
+                    color: 'black'
+                }
+            }
+            KeyframeView {
+                id: effectRow
+                visible: compositionRoot.showKeyframes && compositionRoot.keyframeModel
+                selected: compositionRoot.selected
+                inPoint: 0
+                outPoint: compositionRoot.clipDuration
+                masterObject: compositionRoot
+            }
+        }
+        /*Drag.active: mouseArea.drag.active
+        Drag.proposedAction: Qt.MoveAction*/
+
+    states: [
+        State {
+            name: 'normal'
+            when: !compositionRoot.selected
+            PropertyChanges {
+                target: compositionRoot
+                z: 0
+            }
+        },
+        State {
+            name: 'selected'
+            when: compositionRoot.selected
+            PropertyChanges {
+                target: compositionRoot
+                z: 1
+                color: 'mediumpurple'
+            }
+        }
+    ]
 
     Rectangle {
         id: trimIn

@@ -393,6 +393,7 @@ Rectangle {
             selected: clipRoot.selected
             inPoint: clipRoot.inPoint
             outPoint: clipRoot.outPoint
+            masterObject: clipRoot
         }
     }
 

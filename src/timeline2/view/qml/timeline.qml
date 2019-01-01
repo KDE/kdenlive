@@ -1025,9 +1025,9 @@ Rectangle {
                                 }
                                 onDoubleClicked: {
                                     if (dragProxy.masterObject.keyframeModel) {
-                                        var newVal = (dragProxy.masterObject.height - mouseY) / dragProxy.masterObject.height
+                                        var newVal = (dragProxy.height - mouseY) / dragProxy.height
                                         var newPos = Math.round(mouseX / timeScale) + dragProxy.masterObject.inPoint
-                                        timeline.addClipEffectKeyframe(dragProxy.draggedItem, newPos, newVal)
+                                        timeline.addEffectKeyframe(dragProxy.draggedItem, newPos, newVal)
                                     }
                                 }
                             }

@@ -27,13 +27,14 @@ Rectangle
 {
     property alias kfrCount : keyframes.count
     anchors.fill: parent
-    color: Qt.rgba(1,1,1, 0.6)
+    color: Qt.rgba(1,1,0.8, 0.3)
     id: keyframeContainer
     property int activeFrame
     property int activeIndex
     property int inPoint
     property int outPoint
     property bool selected
+    property var masterObject
 
     onKfrCountChanged: {
         keyframecanvas.requestPaint()
@@ -155,7 +156,7 @@ Rectangle
                         root.stopScrolling = false
                         var newPos = frame == inPoint ? inPoint : Math.round((keyframe.x + parent.x + root.baseUnit / 2) / timeScale) + inPoint
                         if (newPos == frame && keyframe.value == keyframe.height - parent.y - root.baseUnit / 2) {
-                            var pos = clipRoot.modelStart + frame - inPoint
+                            var pos = masterObject.modelStart + frame - inPoint
                             if (timeline.position != pos) {
                                 timeline.seekPosition = pos
                                 timeline.position = timeline.seekPosition
@@ -164,7 +165,7 @@ Rectangle
                         }
                         var newVal = (keyframeContainer.height - (parent.y + mouse.y)) / keyframeContainer.height
                         if (frame != inPoint && (newVal > 1.5 || newVal < -0.5)) {
-                            timeline.removeClipEffectKeyframe(clipRoot.clipId, frame);
+                            timeline.removeEffectKeyframe(masterObject.clipId, frame);
                         } else {
                             if (newVal < 0) {
                                 newVal = 0;
@@ -175,7 +176,7 @@ Rectangle
                                 parent.y = - (root.baseUnit / 2)
                                 keyframecanvas.requestPaint()
                             }
-                            timeline.updateClipEffectKeyframe(clipRoot.clipId, frame, newPos, newVal)
+                            timeline.updateEffectKeyframe(masterObject.clipId, frame, newPos, newVal)
                         }
                     }
                     onPositionChanged: {
@@ -190,7 +191,7 @@ Rectangle
                         }
                     }
                     onDoubleClicked: {
-                        timeline.removeClipEffectKeyframe(clipRoot.clipId, frame);
+                        timeline.removeEffectKeyframe(masterObject.clipId, frame);
                     }
                 }
             }

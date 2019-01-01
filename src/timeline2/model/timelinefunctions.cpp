@@ -427,14 +427,14 @@ void TimelineFunctions::showClipKeyframes(std::shared_ptr<TimelineItemModel> tim
 {
     timeline->m_allClips[clipId]->setShowKeyframes(value);
     QModelIndex modelIndex = timeline->makeClipIndexFromID(clipId);
-    timeline->dataChanged(modelIndex, modelIndex, {TimelineModel::KeyframesRole});
+    timeline->dataChanged(modelIndex, modelIndex, {TimelineModel::ShowKeyframesRole});
 }
 
 void TimelineFunctions::showCompositionKeyframes(std::shared_ptr<TimelineItemModel> timeline, int compoId, bool value)
 {
     timeline->m_allCompositions[compoId]->setShowKeyframes(value);
     QModelIndex modelIndex = timeline->makeCompositionIndexFromID(compoId);
-    timeline->dataChanged(modelIndex, modelIndex, {TimelineModel::KeyframesRole});
+    timeline->dataChanged(modelIndex, modelIndex, {TimelineModel::ShowKeyframesRole});
 }
 
 bool TimelineFunctions::switchEnableState(std::shared_ptr<TimelineItemModel> timeline, int clipId)

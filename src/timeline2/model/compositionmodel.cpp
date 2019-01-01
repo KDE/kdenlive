@@ -134,7 +134,9 @@ bool CompositionModel::requestResize(int size, bool right, Fun &undo, Fun &redo,
         auto kfr = getKeyframeModel();
         if (kfr) {
             // Adjust keyframe length
-            kfr->resizeKeyframes(0, oldDuration, 0, out, undo, redo);
+            if (oldDuration > 0) {
+                kfr->resizeKeyframes(0, oldDuration, 0, out - in, undo, redo);
+            }
             Fun refresh = [kfr, this]() {
                 kfr->modelChanged();
                 return true;
@@ -205,6 +207,7 @@ void CompositionModel::setATrack(int trackMltPosition, int trackId)
 
 KeyframeModel *CompositionModel::getEffectKeyframeModel()
 {
+    prepareKeyframes();
     if (getKeyframeModel()) {
         return getKeyframeModel()->getKeyModel();
     }

@@ -29,6 +29,7 @@
 #include "dialogs/spacerdialog.h"
 #include "doc/kdenlivedoc.h"
 #include "effects/effectstack/model/effectstackmodel.hpp"
+#include "assets/keyframes/model/keyframemodellist.hpp"
 #include "kdenlivesettings.h"
 #include "previewmanager.h"
 #include "project/projectmanager.h"
@@ -2277,27 +2278,36 @@ void TimelineController::saveTimelineSelection(QDir targetDir)
     TimelineFunctions::saveTimelineSelection(m_model, m_selection.selectedItems, targetDir);
 }
 
-void TimelineController::addClipEffectKeyframe(int cid, int frame, double val)
+void TimelineController::addEffectKeyframe(int cid, int frame, double val)
 {
     if (m_model->isClip(cid)) {
         std::shared_ptr<EffectStackModel> destStack = m_model->getClipEffectStackModel(cid);
         destStack->addEffectKeyFrame(frame, val);
+    } else if (m_model->isComposition(cid)) {
+        std::shared_ptr<KeyframeModelList> listModel = m_model->m_allCompositions[cid]->getKeyframeModel();
+        listModel->addKeyframe(frame, val);
     }
 }
 
-void TimelineController::removeClipEffectKeyframe(int cid, int frame)
+void TimelineController::removeEffectKeyframe(int cid, int frame)
 {
     if (m_model->isClip(cid)) {
         std::shared_ptr<EffectStackModel> destStack = m_model->getClipEffectStackModel(cid);
         destStack->removeKeyFrame(frame);
+    } else if (m_model->isComposition(cid)) {
+        std::shared_ptr<KeyframeModelList> listModel = m_model->m_allCompositions[cid]->getKeyframeModel();
+        listModel->removeKeyframe(GenTime(frame, pCore->getCurrentFps()));
     }
 }
 
-void TimelineController::updateClipEffectKeyframe(int cid, int oldFrame, int newFrame, double normalizedValue)
+void TimelineController::updateEffectKeyframe(int cid, int oldFrame, int newFrame, double normalizedValue)
 {
     if (m_model->isClip(cid)) {
         std::shared_ptr<EffectStackModel> destStack = m_model->getClipEffectStackModel(cid);
         destStack->updateKeyFrame(oldFrame, newFrame, normalizedValue);
+    } else if (m_model->isComposition(cid)) {
+        std::shared_ptr<KeyframeModelList> listModel = m_model->m_allCompositions[cid]->getKeyframeModel();
+        listModel->updateKeyframe(GenTime(oldFrame, pCore->getCurrentFps()), GenTime(newFrame, pCore->getCurrentFps()), normalizedValue);
     }
 }
 

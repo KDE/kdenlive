@@ -305,9 +305,9 @@ public:
      */
     Q_INVOKABLE void pasteEffects(int targetId = -1);
     Q_INVOKABLE double fps() const;
-    Q_INVOKABLE void addClipEffectKeyframe(int cid, int frame, double val);
-    Q_INVOKABLE void removeClipEffectKeyframe(int cid, int frame);
-    Q_INVOKABLE void updateClipEffectKeyframe(int cid, int oldFrame, int newFrame, double normalizedValue);
+    Q_INVOKABLE void addEffectKeyframe(int cid, int frame, double val);
+    Q_INVOKABLE void removeEffectKeyframe(int cid, int frame);
+    Q_INVOKABLE void updateEffectKeyframe(int cid, int oldFrame, int newFrame, double normalizedValue);
 
     void switchTrackLock(bool applyToAll = false);
     void switchTargetTrack();
