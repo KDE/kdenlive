@@ -1,26 +1,24 @@
+![](data/pics/kdenlive-logo.png)
+
 # About Kdenlive
 
-Kdenlive (https://kdenlive.org) is a Free and Open Source video editing application, based on MLT Framework and KDE Frameworks 5. It is distributed under the GNU General Public Licence Version 2.
+[Kdenlive](https://kdenlive.org) is a Free and Open Source video editing application, based on MLT Framework and KDE Frameworks 5. It is distributed under the GNU General Public Licence Version 2.
 
 # Builing from source
 
-Instructions to build Kdenlive are available on the KDE wiki : https://community.kde.org/Kdenlive/Development
+[Instructions to build Kdenlive](https://community.kde.org/Kdenlive/Development) are available on the KDE wiki.
 
 # Contributing to Kdenlive
 
-Please note that Kdenlive's Github repo is just a mirror: see https://community.kde.org/Infrastructure/Github_Mirror for detailed explanations on how to submit patches.
+Please note that Kdenlive's Github repo is just a mirror: see [the detailed explanations on how to submit patches](https://community.kde.org/Infrastructure/Github_Mirror).
 
 We welcome all feedback and offers for help!
 
 * Talk about us!
-* Report bugs you encounter (if not already done) on:
-  https://bugs.kde.org
-* Help other users on forum and bug tracker:
-  http://forum.kde.org/viewforum.php?f=262
-* Help to fill the manual at:
-  http://userbase.kde.org/Kdenlive
-* Complete and check application and documentation translation:
-  http://l10n.kde.org
+* [Report bugs](https://bugs.kde.org) you encounter (if not already done)
+* Help other users [on the forum](http://forum.kde.org/viewforum.php?f=262) and bug tracker
+* [Help to fill the manual](http://userbase.kde.org/Kdenlive)
+* Complete and check [application and documentation translation](http://l10n.kde.org)
 * Prepare video tutorials (intro, special tricks...) in your language
   and send us a link to add in homepage or doc
 * Detail improvement suggestions
