@@ -41,13 +41,7 @@ cd $BUILD_PREFIX
 # Now we can get the process started!
 #
 
-# Step 0: place the translations where ki18n and Qt look for them
-if [ -d $APPDIR/usr/share/locale ] ; then
-    mv $APPDIR/usr/share/locale $APPDIR/usr/share/kdenlive
-fi
-
 # Step 1: Copy over all the resources provided by dependencies that we need
-cp -r $DEPS_INSTALL_PREFIX/share/locale $APPDIR/usr/share/kdenlive
 cp -r $DEPS_INSTALL_PREFIX/share/kf5 $APPDIR/usr/share
 cp -r $DEPS_INSTALL_PREFIX/share/mime $APPDIR/usr/share
 
@@ -122,7 +116,9 @@ linuxdeployqt $APPDIR/usr/share/applications/org.kde.kdenlive.desktop \
 
 #  -appimage \
 
-rm $APPDIR/usr/lib/libGL.so.1
+rm $APPDIR/usr/lib/libGL.so.1 || true
+rm $APPDIR/usr/lib/libasound.so.2 || true
+
 
 # libxcb should be removed
 rm $APPDIR/usr/lib/libxcb*
@@ -164,7 +160,8 @@ KDENLIVE_VERSION=$(grep "KDENLIVE_VERSION" config-kdenlive.h | cut -d '"' -f 2)
 
 # Also find out the revision of Git we built
 # Then use that to generate a combined name we'll distribute
-cd $KDENLIVE_SOURCES
+#cd $KDENLIVE_SOURCES
+cd $BUILD_PREFIX/deps-build/ext_kdenlive/ext_kdenlive-prefix/src/ext_kdenlive/
 if [[ -d .git ]]; then
 	GIT_REVISION=$(git rev-parse --short HEAD)
 	VERSION=$KDENLIVE_VERSION-$GIT_REVISION

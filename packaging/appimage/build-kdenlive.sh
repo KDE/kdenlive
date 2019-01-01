@@ -26,9 +26,12 @@ mkdir -p $APPDIR/usr/bin
 export DEPS_INSTALL_PREFIX=$BUILD_PREFIX/deps/usr/
 export DOWNLOADS_DIR=$BUILD_PREFIX/downloads/
 
+# Copy existing translations
+cp -r $DEPS_INSTALL_PREFIX/share/locale $APPDIR/usr/share/
+
 # Use newer gcc
-export CC=/usr/bin/gcc-6
-export CXX=/usr/bin/g++-6
+#export CC=/usr/bin/gcc-6
+#export CXX=/usr/bin/g++-6
 
 
 # Setup variables needed to help everything find what we build
@@ -57,6 +60,16 @@ mkdir -p $BUILD_PREFIX/kdenlive.appdir/usr
 
 # Configure the dependencies for building
 cmake $KDENLIVE_SOURCES/packaging/appimage/3rdparty -DCMAKE_INSTALL_PREFIX=$BUILD_PREFIX/kdenlive.appdir/usr/ -DEXT_INSTALL_DIR=$DEPS_INSTALL_PREFIX -DEXT_DOWNLOAD_DIR=$DOWNLOADS_DIR -DKDENLIVE_INSTALL_DIR=$BUILD_PREFIX/kdenlive.appdir/usr/
+
+#download translations
+#mkdir -p $BUILD_PREFIX/deps-build/ext_kdenlive/ext_kdenlive-prefix/src/ext_kdenlive-build/
+#cp $KDENLIVE_SOURCES/packaging/appimage/fetch_l10n_po.rb $BUILD_PREFIX/deps-build/ext_kdenlive/ext_kdenlive-prefix/src/ext_kdenlive-build/
+#cp $KDENLIVE_SOURCES/packaging/appimage/subdirs $BUILD_PREFIX/deps-build/ext_kdenlive/ext_kdenlive-prefix/src/ext_kdenlive-build/
+#cd $BUILD_PREFIX/deps-build/ext_kdenlive/ext_kdenlive-prefix/src/ext_kdenlive-build/
+#ruby fetch_l10n_po.rb --enable-kdenlive
+
+#cd $BUILD_PREFIX/deps-build/
+
 
 cmake --build . --target ext_kdenlive
 

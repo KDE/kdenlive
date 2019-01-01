@@ -31,8 +31,8 @@ export KDENLIVE_SOURCES=$2
 export LC_ALL=en_US.UTF-8
 export LANG=en_us.UTF-8
 
-export CC=/usr/bin/gcc-6
-export CXX=/usr/bin/g++-6
+#export CC=/usr/bin/gcc-6
+#export CXX=/usr/bin/g++-6
 
 # We want to use $prefix/deps/usr/ for all our dependencies
 export DEPS_INSTALL_PREFIX=$BUILD_PREFIX/deps/usr
@@ -105,13 +105,13 @@ cmake --build . --target ext_x264
 cmake --build . --target ext_x265
 
 # libvpx does not compile with this gcc6 version
-export CC=/usr/bin/gcc
-export CXX=/usr/bin/g++
+#export CC=/usr/bin/gcc
+#export CXX=/usr/bin/g++
 
 cmake --build . --target ext_libvpx
 
-export CC=/usr/bin/gcc-6
-export CXX=/usr/bin/g++-6
+#export CC=/usr/bin/gcc-6
+#export CXX=/usr/bin/g++-6
 
 cmake --build . --target ext_ffmpeg
 cmake --build . --target ext_sox
@@ -122,6 +122,7 @@ cmake --build . --target ext_harfbuzz
 cmake --build . --target ext_pango
 cmake --build . --target ext_gdkpixbuf
 cmake --build . --target ext_gtk+
+cmake --build . --target ext_gavl
 cmake --build . --target ext_frei0r
 cmake --build . --target ext_vidstab
 cmake --build . --target ext_mlt
@@ -135,3 +136,4 @@ cmake --build . --target ext_kdeclarative
 cmake --build . --target ext_breezeicons
 cmake --build . --target ext_kcrash
 cmake --build . --target ext_breeze
+cmake --build . --target ext_ruby
