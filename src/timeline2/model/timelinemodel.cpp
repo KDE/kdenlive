@@ -380,7 +380,7 @@ int TimelineModel::getMirrorVideoTrackId(int trackId) const
         }
         ++it;
     }
-    if (it != m_allTracks.end() && !(*it)->isAudioTrack() && count == 0) {
+    if (!(*it)->isAudioTrack() && count == 0) {
         return (*it)->getId();
     }
     return -1;
@@ -418,7 +418,7 @@ int TimelineModel::getMirrorAudioTrackId(int trackId) const
         }
         --it;
     }
-    if (it != m_allTracks.begin() && (*it)->isAudioTrack() && count == 0) {
+    if ((*it)->isAudioTrack() && count == 0) {
         return (*it)->getId();
     }
     return -1;
