@@ -43,8 +43,6 @@ public:
     bool useProxy() const;
     bool generateProxy() const;
     int proxyMinSize() const;
-    bool resizePreview() const;
-    int previewHeight() const;
     bool generateImageProxy() const;
     int proxyImageMinSize() const;
     int proxyImageSize() const;
@@ -55,7 +53,6 @@ public:
     static QStringList extractSlideshowUrls(const QString &url);
     const QString selectedPreview() const;
     const QString storageFolder() const;
-    bool resizePreviewChanged() const;
 
 public slots:
     void accept() override;
@@ -97,8 +94,6 @@ private:
     QString m_previewextension;
     /** @brief Fill the proxy profiles combobox. */
     void loadPreviewProfiles();
-    bool m_resizePreview;
-    int m_previewHeight;
 
 signals:
     /** @brief User deleted proxies, so disable them in project. */

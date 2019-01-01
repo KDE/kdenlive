@@ -105,8 +105,6 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGro
     m_documentProperties[QStringLiteral("generateimageproxy")] = QString::number((int)KdenliveSettings::generateimageproxy());
     m_documentProperties[QStringLiteral("proxyimageminsize")] = QString::number(KdenliveSettings::proxyimageminsize());
     m_documentProperties[QStringLiteral("proxyimagesize")] = QString::number(KdenliveSettings::proxyimagesize());
-    m_documentProperties[QStringLiteral("resizepreview")] = QString::number((int)KdenliveSettings::resizepreview());
-    m_documentProperties[QStringLiteral("previewheight")] = QString::number(KdenliveSettings::previewheight());
     m_documentProperties[QStringLiteral("videoTarget")] = QString::number(tracks.y());
     m_documentProperties[QStringLiteral("audioTarget")] = QString::number(tracks.y() - 1);
     m_documentProperties[QStringLiteral("activeTrack")] = QString::number(tracks.y());

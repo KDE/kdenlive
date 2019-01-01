@@ -184,20 +184,11 @@
       <default></default>
     </entry>
 
-    <entry name="resizepreview" type="Bool">
-      <label>Resize timeline preview to smaller size for faster rendering.</label>
-      <default>false</default>
-    </entry>
-
     <entry name="parallelrender" type="Bool">
       <label>Enable parallel processing for rendering.</label>
       <default>true</default>
     </entry>
 
-    <entry name="previewheight" type="Int">
-      <label>default height for timeline preview resize.</label>
-      <default>600</default>
-    </entry>
     <entry name="vaapiEnabled" type="Bool">
       <label>Enables vaapi hw accel in encoders.</label>
       <default>false</default>

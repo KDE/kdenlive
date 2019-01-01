@@ -1643,21 +1643,9 @@ void MainWindow::slotEditProjectSettings()
             modified = true;
             project->setDocumentProperty(QStringLiteral("proxyimageminsize"), QString::number(w->proxyImageMinSize()));
         }
-        if (project->getDocumentProperty(QStringLiteral("resizepreview")) != QString::number(w->resizePreview())) {
-            modified = true;
-            project->setDocumentProperty(QStringLiteral("resizepreview"), QString::number(w->resizePreview()));
-        }
-        if (project->getDocumentProperty(QStringLiteral("previewheight")) != QString::number(w->previewHeight())) {
-            modified = true;
-            project->setDocumentProperty(QStringLiteral("previewheight"), QString::number(w->previewHeight()));
-        }
         if (project->getDocumentProperty(QStringLiteral("proxyimagesize")) != QString::number(w->proxyImageSize())) {
             modified = true;
             project->setDocumentProperty(QStringLiteral("proxyimagesize"), QString::number(w->proxyImageSize()));
-        }
-        if (w->resizePreviewChanged() || project->updatePreviewSettings(w->selectedPreview())) {
-            // preview setting changed, reset cache and update
-            getMainTimeline()->controller()->resetPreview();
         }
         if (QString::number((int)w->useProxy()) != project->getDocumentProperty(QStringLiteral("enableproxy"))) {
             project->setDocumentProperty(QStringLiteral("enableproxy"), QString::number((int)w->useProxy()));

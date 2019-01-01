@@ -92,7 +92,6 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
     connect(generate_imageproxy, &QAbstractButton::toggled, proxy_imageminsize, &QWidget::setEnabled);
     connect(generate_imageproxy, &QAbstractButton::toggled, image_label, &QWidget::setEnabled);
     connect(generate_imageproxy, &QAbstractButton::toggled, proxy_imagesize, &QWidget::setEnabled);
-    connect(resize_preview, &QAbstractButton::toggled, preview_height, &QWidget::setEnabled);
 
     QString currentProf;
     if (doc) {
@@ -100,9 +99,6 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
         enable_proxy->setChecked(doc->getDocumentProperty(QStringLiteral("enableproxy")).toInt() != 0);
         generate_proxy->setChecked(doc->getDocumentProperty(QStringLiteral("generateproxy")).toInt() != 0);
         proxy_minsize->setValue(doc->getDocumentProperty(QStringLiteral("proxyminsize")).toInt());
-        preview_height->setValue(doc->getDocumentProperty(QStringLiteral("previewheight")).toInt());
-        resize_preview->setChecked(doc->getDocumentProperty(QStringLiteral("resizepreview")).toInt() != 0);
-        preview_height->setEnabled(resize_preview->isChecked());
         m_proxyparameters = doc->getDocumentProperty(QStringLiteral("proxyparams"));
         generate_imageproxy->setChecked(doc->getDocumentProperty(QStringLiteral("generateimageproxy")).toInt() != 0);
         proxy_imageminsize->setValue(doc->getDocumentProperty(QStringLiteral("proxyimageminsize")).toInt());
@@ -124,8 +120,6 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
         enable_proxy->setChecked(KdenliveSettings::enableproxy());
         generate_proxy->setChecked(KdenliveSettings::generateproxy());
         proxy_minsize->setValue(KdenliveSettings::proxyminsize());
-        resize_preview->setChecked(KdenliveSettings::resizepreview());
-        preview_height->setValue(KdenliveSettings::previewheight());
         m_proxyparameters = KdenliveSettings::proxyparams();
         generate_imageproxy->setChecked(KdenliveSettings::generateimageproxy());
         proxy_imageminsize->setValue(KdenliveSettings::proxyimageminsize());
@@ -135,8 +129,6 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
         custom_folder->setChecked(KdenliveSettings::customprojectfolder());
         project_folder->setUrl(QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
     }
-    m_resizePreview = resize_preview->isChecked();
-    m_previewHeight = preview_height->value();
     // Select profile
     m_pw->loadProfile(currentProf);
 
@@ -411,10 +403,6 @@ const QString ProjectSettings::selectedPreview() const
     return preview_profile->itemData(preview_profile->currentIndex()).toString();
 }
 
-bool ProjectSettings::resizePreviewChanged() const
-{
-    return m_resizePreview != resize_preview->isChecked() || m_previewHeight != preview_height->value();
-}
 
 void ProjectSettings::accept()
 {
@@ -424,8 +412,7 @@ void ProjectSettings::accept()
     }
     QString params = preview_profile->itemData(preview_profile->currentIndex()).toString();
     if (!params.isEmpty()) {
-        if (params.section(QLatin1Char(';'), 0, 0) != m_previewparams || params.section(QLatin1Char(';'), 1, 1) != m_previewextension ||
-            m_resizePreview != resize_preview->isChecked() || m_previewHeight != preview_height->value()) {
+        if (params.section(QLatin1Char(';'), 0, 0) != m_previewparams || params.section(QLatin1Char(';'), 1, 1) != m_previewextension) {
             // Timeline preview settings changed, warn if there are existing previews
             if (pCore->hasTimelinePreview() && KMessageBox::warningContinueCancel(this,
                                                    i18n("You changed the timeline preview profile. This will remove all existing timeline previews for "
@@ -525,16 +512,6 @@ QString ProjectSettings::proxyExtension() const
 {
     QString params = proxy_profile->itemData(proxy_profile->currentIndex()).toString();
     return params.section(QLatin1Char(';'), 1, 1);
-}
-
-int ProjectSettings::previewHeight() const
-{
-    return preview_height->value();
-}
-
-bool ProjectSettings::resizePreview() const
-{
-    return resize_preview->isChecked();
 }
 
 // static
