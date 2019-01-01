@@ -89,10 +89,15 @@ public:
         : QStyledItemDelegate(parent)
         , m_editorOpen(false)
         , dragType(PlaylistState::Disabled)
+        , m_dar(1.778)
     {
         connect(this, &QStyledItemDelegate::closeEditor, [&]() {
             m_editorOpen = false;
         });
+    }
+    void setDar(double dar)
+    {
+        m_dar = dar;
     }
     void setEditorData(QWidget *w, const QModelIndex &i) const override
     {
@@ -201,13 +206,13 @@ public:
             font.setBold(true);
             painter->setFont(font);
             if (type == AbstractProjectItem::ClipItem || type == AbstractProjectItem::SubClipItem) {
-                double factor = (double)opt.decorationSize.height() / r1.height();
+                int maxWidth = r1.height() * m_dar;
                 int decoWidth = 2 * textMargin;
-                if (factor > 0) {
-                    r.setWidth(opt.decorationSize.width() / factor);
+                if (maxWidth > 0 && opt.decorationSize.height() > 0) {
+                    r.setWidth(r1.height() * opt.decorationSize.width() / opt.decorationSize.height());
                     // Draw thumbnail
                     opt.icon.paint(painter, r);
-                    decoWidth += r.width();
+                    decoWidth += maxWidth;
                 }
                 int mid = (int)((r1.height() / 2));
                 r1.adjust(decoWidth, 0, 0, -mid);
@@ -290,10 +295,10 @@ public:
                 }
             } else {
                 // Folder or Folder Up items
-                double factor = (double)opt.decorationSize.height() / r1.height();
                 int decoWidth = 2 * textMargin;
-                if (factor > 0) {
-                    r.setWidth(opt.decorationSize.width() / factor);
+                int maxWidth = r1.height() * m_dar;
+                if (maxWidth > 0 && opt.decorationSize.height() > 0) {
+                    r.setWidth(r1.height() * opt.decorationSize.width() / opt.decorationSize.height());
                     // Draw thumbnail
                     opt.icon.paint(painter, r);
                     decoWidth += r.width();
@@ -311,6 +316,7 @@ public:
         mutable bool m_editorOpen;
         mutable QRect m_audioDragRect;
         mutable QRect m_videoDragRect;
+        double m_dar;
     public:
         PlaylistState::ClipState dragType;
 };
@@ -1374,6 +1380,7 @@ void Bin::slotInitView(QAction *action)
     QPixmap pix(zoom);
     pix.fill(Qt::lightGray);
     m_blankThumb.addPixmap(pix);
+    m_binTreeViewDelegate->setDar(pCore->getCurrentDar());
     m_itemView->setModel(m_proxyModel);
     m_itemView->setSelectionModel(m_proxyModel->selectionModel());
     m_layout->insertWidget(1, m_itemView);
