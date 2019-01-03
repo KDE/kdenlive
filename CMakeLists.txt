@@ -78,7 +78,7 @@ include(CheckIncludeFiles)
 check_include_files(malloc.h HAVE_MALLOC_H)
 check_include_files(pthread.h HAVE_PTHREAD_H)
 
-find_package(Qt5 REQUIRED COMPONENTS Core DBus Widgets Script Svg Quick Concurrent)
+find_package(Qt5 REQUIRED COMPONENTS Core DBus Widgets Svg Quick Concurrent)
 find_package(Qt5 OPTIONAL_COMPONENTS WebKitWidgets QUIET)
 
 find_package(KF5 5.23.0 OPTIONAL_COMPONENTS XmlGui QUIET)

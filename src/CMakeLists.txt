@@ -63,12 +63,6 @@ set_package_properties(OpenGL PROPERTIES
     TYPE RUNTIME
     PURPOSE "")
 
-set_package_properties(QtScript PROPERTIES
-    DESCRIPTION   "Qt module providing core scripting facilities"
-    URL "http://qt.nokia.com/products/qt"
-    TYPE RUNTIME
-    PURPOSE "")
-
 #if(APPLE)
 #  macro_log_feature(SDL_FOUND
 #    "SDL"
@@ -292,7 +286,7 @@ elseif (KF5Crash_FOUND)
     target_link_libraries(kdenlive KF5::Crash)
 endif(DRMINGW_FOUND)
 
-target_link_libraries(kdenlive Qt5::Script Qt5::Widgets Qt5::Concurrent Qt5::Qml Qt5::Quick)
+target_link_libraries(kdenlive Qt5::Widgets Qt5::Concurrent Qt5::Qml Qt5::Quick)
 
 if (KF5_PURPOSE)
     add_definitions(-DKF5_USE_PURPOSE)
