@@ -13,7 +13,7 @@
   <group list="volume,normalise,gain,ladspa.1049,ladspa.1048,ladspa.1413,mute">
     <text>Audio correction</text>
   </group>
-  <group list="audiobalance,audiopan,gain,swapchannels,ladspa.1406,channelcopy">
+  <group list="audiobalance,audiopan,swapchannels,ladspa.1406,channelcopy">
     <text>Audio channels</text>
   </group>
   <group list="audiowave,audiospectrum,frei0r.pr0be,frei0r.pr0file,frei0r.rgbparade,frei0r.timeout,frei0r.vectorscope">
