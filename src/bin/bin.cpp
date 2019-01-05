@@ -133,12 +133,11 @@ public:
         QStyle *style = opt.widget ? opt.widget->style() : QApplication::style();
         const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
         int type = index.data(AbstractProjectItem::ItemTypeRole).toInt();
-        double factor = (double)opt.decorationSize.height() / r1.height();
         int decoWidth = 2 * textMargin;
-        int mid = 0;
-        if (factor > 0) {
-            decoWidth += opt.decorationSize.width() / factor;
+        if (opt.decorationSize.height() > 0) {
+            decoWidth += r1.height() * m_dar;
         }
+        int mid = 0;
         if (type == AbstractProjectItem::ClipItem || type == AbstractProjectItem::SubClipItem) {
             mid = (int)((r1.height() / 2));
         }
@@ -148,7 +147,6 @@ public:
         QFontMetricsF fm(ft);
         QRect r2 = fm.boundingRect(r1, Qt::AlignLeft | Qt::AlignTop, index.data(AbstractProjectItem::DataName).toString()).toRect();
         editor->setGeometry(r2);
-        QStyledItemDelegate::updateEditorGeometry(editor, option, index);
     }
 
     QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override
