@@ -130,10 +130,8 @@ public:
         QStyleOptionViewItem opt = option;
         initStyleOption(&opt, index);
         QRect r1 = option.rect;
-        QStyle *style = opt.widget ? opt.widget->style() : QApplication::style();
-        const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
         int type = index.data(AbstractProjectItem::ItemTypeRole).toInt();
-        int decoWidth = 2 * textMargin;
+        int decoWidth = 0;
         if (opt.decorationSize.height() > 0) {
             decoWidth += r1.height() * m_dar;
         }
@@ -204,13 +202,13 @@ public:
             font.setBold(true);
             painter->setFont(font);
             if (type == AbstractProjectItem::ClipItem || type == AbstractProjectItem::SubClipItem) {
-                int maxWidth = r1.height() * m_dar;
-                int decoWidth = 2 * textMargin;
-                if (maxWidth > 0 && opt.decorationSize.height() > 0) {
-                    r.setWidth(r1.height() * opt.decorationSize.width() / opt.decorationSize.height());
-                    // Draw thumbnail
-                    opt.icon.paint(painter, r);
-                    decoWidth += maxWidth;
+                int decoWidth = 0;
+                if (opt.decorationSize.height() > 0) {
+                    r.setWidth(opt.decorationSize.width());
+                    QPixmap pix = opt.icon.pixmap(r.size());
+                    // Draw icon
+                    painter->drawPixmap(r.topLeft() + QPoint(0, (r.height() - pix.height()) / 2), pix);
+                    decoWidth += r.height() * m_dar;
                 }
                 int mid = (int)((r1.height() / 2));
                 r1.adjust(decoWidth, 0, 0, -mid);
@@ -293,13 +291,13 @@ public:
                 }
             } else {
                 // Folder or Folder Up items
-                int decoWidth = 2 * textMargin;
-                int maxWidth = r1.height() * m_dar;
-                if (maxWidth > 0 && opt.decorationSize.height() > 0) {
-                    r.setWidth(r1.height() * opt.decorationSize.width() / opt.decorationSize.height());
-                    // Draw thumbnail
-                    opt.icon.paint(painter, r);
-                    decoWidth += r.width();
+                int decoWidth = 0;
+                if (opt.decorationSize.height() > 0) {
+                    r.setWidth(opt.decorationSize.width());
+                    QPixmap pix = opt.icon.pixmap(r.size());
+                    // Draw icon
+                    painter->drawPixmap(r.topLeft() + QPoint(0, (r.height() - pix.height()) / 2), pix);
+                    decoWidth += r.height() * m_dar;
                 }
                 r1.adjust(decoWidth, 0, 0, 0);
                 QRectF bounding;

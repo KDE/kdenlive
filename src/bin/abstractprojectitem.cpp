@@ -100,7 +100,7 @@ const QString &AbstractProjectItem::clipId() const
 
 QPixmap AbstractProjectItem::roundedPixmap(const QPixmap &source)
 {
-    QPixmap pix(source.width(), source.height());
+    QPixmap pix(source.size());
     pix.fill(Qt::transparent);
     QPainter p(&pix);
     p.setRenderHint(QPainter::Antialiasing, true);

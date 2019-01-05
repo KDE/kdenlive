@@ -455,15 +455,11 @@ std::shared_ptr<Mlt::Producer> ProjectClip::thumbProducer()
     if (KdenliveSettings::gpu_accel()) {
         // TODO: when the original producer changes, we must reload this thumb producer
         m_thumbsProducer = softClone(ClipController::getPassPropertiesList());
-        Mlt::Filter scaler(*prod->profile(), "swscale");
         Mlt::Filter converter(*prod->profile(), "avcolor_space");
-        m_thumbsProducer->attach(scaler);
         m_thumbsProducer->attach(converter);
     } else {
         m_thumbsProducer = cloneProducer(pCore->thumbProfile());
-        Mlt::Filter scaler(*pCore->thumbProfile(), "swscale");
         Mlt::Filter converter(*pCore->thumbProfile(), "avcolor_space");
-        m_thumbsProducer->attach(scaler);
         m_thumbsProducer->attach(converter);
     }
     return m_thumbsProducer;

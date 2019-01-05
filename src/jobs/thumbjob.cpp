@@ -100,7 +100,7 @@ bool ThumbJob::startJob()
     frame->set("top_field_first", -1);
     frame->set("rescale.interp", "nearest");
     if ((frame != nullptr) && frame->is_valid()) {
-        m_result = KThumb::getFrame(frame.data(), m_fullWidth, m_imageHeight, true);
+        m_result = KThumb::getFrame(frame.data(), m_fullWidth, m_imageHeight, false);
         m_done = true;
     }
     return m_done;
