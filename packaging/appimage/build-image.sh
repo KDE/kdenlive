@@ -101,10 +101,10 @@ fi
 cp $APPDIR/usr/share/icons/breeze/apps/48/kdenlive.svg $APPDIR
 
 # Step 5: Build the image!!!
-linuxdeployqt $APPDIR/usr/bin/ffmpeg
-linuxdeployqt $APPDIR/usr/bin/ffplay
-linuxdeployqt $APPDIR/usr/bin/ffprobe
-linuxdeployqt $APPDIR/usr/bin/melt
+#linuxdeployqt $APPDIR/usr/bin/ffmpeg
+#linuxdeployqt $APPDIR/usr/bin/ffplay
+#linuxdeployqt $APPDIR/usr/bin/ffprobe
+#linuxdeployqt $APPDIR/usr/bin/melt
 
 linuxdeployqt $APPDIR/usr/share/applications/org.kde.kdenlive.desktop \
   -executable=$APPDIR/usr/bin/kdenlive \
