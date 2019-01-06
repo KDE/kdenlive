@@ -78,6 +78,7 @@ Rectangle
             keyframeModel.updateKeyframe(activeFrame, newVal)
             event.accepted = true
         }
+        event.accepted = false
     }
     Repeater {
         id: keyframes
@@ -164,19 +165,33 @@ Rectangle
                             return
                         }
                         var newVal = (keyframeContainer.height - (parent.y + mouse.y)) / keyframeContainer.height
-                        if (frame != inPoint && (newVal > 1.5 || newVal < -0.5)) {
-                            timeline.removeEffectKeyframe(masterObject.clipId, frame);
+                        if (newVal > 1.5 || newVal < -0.5) {
+                            if (frame != inPoint) {
+                                timeline.removeEffectKeyframe(masterObject.clipId, frame);
+                            } else {
+                                if (newVal < 0) {
+                                    newVal = 0;
+                                    parent.y = keyframeContainer.height - (root.baseUnit / 2)
+                                    keyframecanvas.requestPaint()
+                                } else if (newVal > 1) {
+                                    newVal = 1;
+                                    parent.y = - (root.baseUnit / 2)
+                                    keyframecanvas.requestPaint()
+                                }
+                                timeline.updateEffectKeyframe(masterObject.clipId, frame, frame, newVal)
+                            }
                         } else {
                             if (newVal < 0) {
                                 newVal = 0;
-                                parent.y = keyframes.height - (root.baseUnit / 2)
+                                parent.y = keyframeContainer.height - (root.baseUnit / 2)
                                 keyframecanvas.requestPaint()
                             } else if (newVal > 1) {
                                 newVal = 1;
                                 parent.y = - (root.baseUnit / 2)
                                 keyframecanvas.requestPaint()
                             }
-                            timeline.updateEffectKeyframe(masterObject.clipId, frame, newPos, newVal)
+                            console.log('upodating kfr: ' + frame + ' to ' + newVal + ', VAL: ' + newVal)
+                            timeline.updateEffectKeyframe(masterObject.clipId, frame, frame == inPoint ? frame : newPos, newVal)
                         }
                     }
                     onPositionChanged: {

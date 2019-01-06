@@ -175,6 +175,28 @@ bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, double newVal, Fun
     qDebug() << "starting to move keyframe" << oldPos.frames(pCore->getCurrentFps()) << pos.frames(pCore->getCurrentFps());
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_keyframeList.count(oldPos) > 0);
+    if (oldPos == pos) {
+        double realValue;
+        // Calculate real value from normalized
+        if (auto ptr = m_model.lock()) {
+            double min = ptr->data(m_index, AssetParameterModel::MinRole).toDouble();
+            double max = ptr->data(m_index, AssetParameterModel::MaxRole).toDouble();
+            double factor = ptr->data(m_index, AssetParameterModel::FactorRole).toDouble();
+            double norm = ptr->data(m_index, AssetParameterModel::DefaultRole).toDouble();
+            int logRole = ptr->data(m_index, AssetParameterModel::ScaleRole).toInt();
+            if (logRole == -1) {
+                // Logarythmic scale for lower than norm values
+                if (newVal >= 0.5) {
+                    realValue = norm + (2 * (newVal - 0.5) * (max / factor - norm));
+                } else {
+                    realValue = norm - pow(2 * (0.5 - newVal), 10.0 / 6) * (norm - min / factor);
+                }
+            } else {
+                realValue = (newVal * (max - min) + min) / factor;
+            }
+        }
+        return updateKeyframe(pos, realValue);
+    }
     KeyframeType oldType = m_keyframeList[oldPos].first;
     QVariant oldValue = m_keyframeList[oldPos].second;
     if (oldPos != pos && hasKeyframe(pos)) return false;

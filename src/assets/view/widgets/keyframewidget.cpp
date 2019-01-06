@@ -157,7 +157,7 @@ void KeyframeWidget::monitorSeek(int pos)
 {
     int in = pCore->getItemPosition(m_model->getOwnerId());
     int out = in + pCore->getItemDuration(m_model->getOwnerId());
-    bool isInRange = pos >= in && pos < out;
+    bool isInRange = pos > in && pos < out;
     m_buttonAddDelete->setEnabled(isInRange);
     connectMonitor(isInRange);
     int framePos = qBound(in, pos, out) - in;
