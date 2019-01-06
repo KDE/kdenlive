@@ -1875,7 +1875,8 @@ void TitleWidget::itemRight()
 void TitleWidget::loadTitle(QUrl url)
 {
     if (!url.isValid()) {
-        url = QFileDialog::getOpenFileUrl(this, i18n("Load Title"), QUrl::fromLocalFile(m_projectTitlePath), i18n("Kdenlive title (*.kdenlivetitle)"));
+        QString startFolder = KRecentDirs::dir(QStringLiteral(":KdenliveProjectsTitles"));
+        url = QFileDialog::getOpenFileUrl(this, i18n("Load Title"), QUrl::fromLocalFile(startFolder.isEmpty() ? m_projectTitlePath : startFolder), i18n("Kdenlive title (*.kdenlivetitle)"));
     }
     if (url.isValid()) {
         QList<QGraphicsItem *> items = m_scene->items();
@@ -1893,6 +1894,8 @@ void TitleWidget::loadTitle(QUrl url)
         doc.setContent(&file, false);
         file.close();
         setXml(doc);
+        m_projectTitlePath = QFileInfo(file).dir().absolutePath();
+        KRecentDirs::add(QStringLiteral(":KdenliveProjectsTitles"), m_projectTitlePath);
     }
 }
 
