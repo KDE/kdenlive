@@ -1878,7 +1878,8 @@ void TitleWidget::itemRight()
 void TitleWidget::loadTitle(QUrl url)
 {
     if (!url.isValid()) {
-        url = QFileDialog::getOpenFileUrl(this, i18n("Load Title"), QUrl::fromLocalFile(m_projectTitlePath), i18n("Kdenlive title (*.kdenlivetitle)"));
+        QString startFolder = KRecentDirs::dir(QStringLiteral(":KdenliveProjectsTitles"));
+        url = QFileDialog::getOpenFileUrl(this, i18n("Load Title"), QUrl::fromLocalFile(startFolder.isEmpty() ? m_projectTitlePath : startFolder), i18n("Kdenlive title (*.kdenlivetitle)"));
     }
     if (url.isValid()) {
         // make sure we don't delete the guides
@@ -1900,6 +1901,8 @@ void TitleWidget::loadTitle(QUrl url)
         file.close();
         setXml(doc);
         updateGuides(0);
+        m_projectTitlePath = QFileInfo(file).dir().absolutePath();
+        KRecentDirs::add(QStringLiteral(":KdenliveProjectsTitles"), m_projectTitlePath);
     }
 }
 
