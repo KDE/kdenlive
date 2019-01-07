@@ -110,7 +110,7 @@ int main(int argc, char *argv[])
                          i18n("Kdenlive"), KDENLIVE_VERSION,
                          i18n("An open source video editor."),
                          KAboutLicense::GPL,
-                         i18n("Copyright © 2007–2017 Kdenlive authors"),
+                         i18n("Copyright © 2007–2019 Kdenlive authors"),
                          i18n("Please report bugs to http://bugs.kde.org"),
                          QStringLiteral("https://kdenlive.org"));
     aboutData.addAuthor(i18n("Jean-Baptiste Mardelle"), i18n("MLT and KDE SC 4 / KF5 port, main developer and maintainer"), QStringLiteral("jb@kdenlive.org"));
