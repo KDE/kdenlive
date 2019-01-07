@@ -3094,3 +3094,17 @@ QString Bin::getCurrentFolder()
     }
     return parentFolder->clipId();
 }
+
+void Bin::adjustProjectProfileToItem()
+{
+    QModelIndex current = m_proxyModel->selectionModel()->currentIndex();
+    if (current.isValid()) {
+        // User clicked in the icon, open clip properties
+        std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(current));
+        auto clip = std::static_pointer_cast<ProjectClip>(item);
+        if (clip) {
+            QDomDocument doc;
+            LoadJob::checkProfile(clip->clipId(), clip->toXml(doc, false), clip->originalProducer());
+        }
+    }
+}

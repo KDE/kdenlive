@@ -141,15 +141,15 @@ std::shared_ptr<Mlt::Producer> LoadJob::loadPlaylist(QString &resource)
     return std::make_shared<Mlt::Producer>(pCore->getCurrentProfile()->profile(), nullptr, resource.toUtf8().constData());
 }
 
-void LoadJob::checkProfile()
+void LoadJob::checkProfile(const QString clipId, QDomElement xml, std::shared_ptr<Mlt::Producer> producer)
 {
     // Check if clip profile matches
-    QString service = m_producer->get("mlt_service");
+    QString service = producer->get("mlt_service");
     // Check for image producer
     if (service == QLatin1String("qimage") || service == QLatin1String("pixbuf")) {
         // This is an image, create profile from image size
-        int width = m_producer->get_int("meta.media.width");
-        int height = m_producer->get_int("meta.media.height");
+        int width = producer->get_int("meta.media.width");
+        int height = producer->get_int("meta.media.height");
         if (width > 100 && height > 100) {
             std::unique_ptr<ProfileParam> projectProfile(new ProfileParam(pCore->getCurrentProfile().get()));
             projectProfile->m_width = width;
@@ -159,14 +159,14 @@ void LoadJob::checkProfile()
             projectProfile->m_display_aspect_num = width;
             projectProfile->m_display_aspect_den = height;
             projectProfile->m_description.clear();
-            pCore->currentDoc()->switchProfile(projectProfile, m_clipId, m_xml);
+            pCore->currentDoc()->switchProfile(projectProfile, clipId, xml);
         } else {
             // Very small image, we probably don't want to use this as profile
         }
     } else if (service.contains(QStringLiteral("avformat"))) {
         std::unique_ptr<Mlt::Profile> blankProfile(new Mlt::Profile());
         blankProfile->set_explicit(0);
-        blankProfile->from_producer(*m_producer);
+        blankProfile->from_producer(*producer);
         std::unique_ptr<ProfileParam> clipProfile(new ProfileParam(blankProfile.get()));
         std::unique_ptr<ProfileParam> projectProfile(new ProfileParam(pCore->getCurrentProfile().get()));
         clipProfile->adjustWidth();
@@ -177,7 +177,7 @@ void LoadJob::checkProfile()
             }
         } else {
             // Profiles do not match, propose profile adjustment
-            pCore->currentDoc()->switchProfile(clipProfile, m_clipId, m_xml);
+            pCore->currentDoc()->switchProfile(clipProfile, clipId, xml);
         }
     }
 }
@@ -527,7 +527,7 @@ bool LoadJob::commitResult(Fun &undo, Fun &redo)
         return false;
     }
     if (m_xml.hasAttribute(QStringLiteral("_checkProfile")) && m_producer->get_int("video_index") > -1) {
-        checkProfile();
+        checkProfile(m_clipId, m_xml, m_producer);
     }
     if (m_video_list.size() > 1) {
         processMultiStream();

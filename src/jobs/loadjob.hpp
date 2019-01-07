@@ -53,15 +53,15 @@ public:
         By design, the job should store the result of the computation but not share it with the rest of the code. This happens when we call commitResult */
     bool commitResult(Fun &undo, Fun &redo) override;
 
+    // Do some checks on the profile
+    static void checkProfile(const QString clipId, QDomElement xml, std::shared_ptr<Mlt::Producer> producer);
+
 protected:
     // helper to load some kind of resources such as color. This will modify resource if needs be (for eg., in the case of color, it will prepend "color:" if
     // needed)
     static std::shared_ptr<Mlt::Producer> loadResource(QString &resource, const QString &type);
 
     std::shared_ptr<Mlt::Producer> loadPlaylist(QString &resource);
-
-    // Do some checks on the profile
-    void checkProfile();
 
     // Create the required filter for a slideshow
     void processSlideShow();

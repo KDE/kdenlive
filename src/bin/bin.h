@@ -363,6 +363,8 @@ public slots:
     int getClipDuration(int itemId) const;
     /** @brief Returns the state of a given clip: AudioOnly, VideoOnly, Disabled (Disabled means it has audio and video capabilities */
     PlaylistState::ClipState getClipState(int itemId) const;
+    /** @brief Adjust project profile to current clip. */
+    void adjustProjectProfileToItem();
 
 protected:
     /* This function is called whenever an item is selected to propagate signals
