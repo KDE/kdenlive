@@ -1578,10 +1578,14 @@ void Bin::slotItemDoubleClicked(const QModelIndex &ix, const QPoint pos)
             return;
         }
     } else {
-        if (item->childCount() > 0) {
-            QTreeView *view = static_cast<QTreeView *>(m_itemView);
-            view->setExpanded(ix, !view->isExpanded(ix));
-            return;
+        if (ix.column() == 0 && item->childCount() > 0) {
+            QRect IconRect = m_itemView->visualRect(ix);
+            IconRect.setWidth((double)IconRect.height() / m_itemView->iconSize().height() * m_itemView->iconSize().width());
+            if (!pos.isNull() && (IconRect.contains(pos) || pos.y() > (IconRect.y() + IconRect.height()/2))) {
+                QTreeView *view = static_cast<QTreeView *>(m_itemView);
+                view->setExpanded(ix, !view->isExpanded(ix));
+                return;
+            }
         }
     }
     if (ix.isValid()) {
