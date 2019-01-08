@@ -204,11 +204,12 @@ public:
             if (type == AbstractProjectItem::ClipItem || type == AbstractProjectItem::SubClipItem) {
                 int decoWidth = 0;
                 if (opt.decorationSize.height() > 0) {
-                    r.setWidth(opt.decorationSize.width());
-                    QPixmap pix = opt.icon.pixmap(r.size());
+                    r.setWidth(r.height() * m_dar);
+                    QPixmap pix = opt.icon.pixmap(opt.icon.actualSize(r.size()));
                     // Draw icon
-                    painter->drawPixmap(r.topLeft() + QPoint(0, (r.height() - pix.height()) / 2), pix);
-                    decoWidth += r.height() * m_dar;
+                    decoWidth += r.width() + textMargin;
+                    r.setWidth(r.height() * pix.width() / pix.height());
+                    painter->drawPixmap(r, pix, QRect(0, 0, pix.width(), pix.height()));
                 }
                 int mid = (int)((r1.height() / 2));
                 r1.adjust(decoWidth, 0, 0, -mid);
@@ -293,11 +294,12 @@ public:
                 // Folder or Folder Up items
                 int decoWidth = 0;
                 if (opt.decorationSize.height() > 0) {
-                    r.setWidth(opt.decorationSize.width());
-                    QPixmap pix = opt.icon.pixmap(r.size());
+                    r.setWidth(r.height() * m_dar);
+                    QPixmap pix = opt.icon.pixmap(opt.icon.actualSize(r.size()));
                     // Draw icon
-                    painter->drawPixmap(r.topLeft() + QPoint(0, (r.height() - pix.height()) / 2), pix);
-                    decoWidth += r.height() * m_dar;
+                    decoWidth += r.width() + textMargin;
+                    r.setWidth(r.height() * pix.width() / pix.height());
+                    painter->drawPixmap(r, pix, QRect(0, 0, pix.width(), pix.height()));
                 }
                 r1.adjust(decoWidth, 0, 0, 0);
                 QRectF bounding;
