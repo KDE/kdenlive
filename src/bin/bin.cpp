@@ -395,23 +395,6 @@ void MyTreeView::editorDestroyed(QObject *editor)
     setEditing(false);
 }
 
-void MyTreeView::keyPressEvent(QKeyEvent *event)
-{
-    if (isEditing()) {
-        QTreeView::keyPressEvent(event);
-        return;
-    }
-    QModelIndex currentIndex = this->currentIndex();
-    if (event->key() == Qt::Key_Return && currentIndex.isValid()) {
-        if (this->isExpanded(currentIndex)) {
-            this->collapse(currentIndex);
-        } else {
-            this->expand(currentIndex);
-        }
-    }
-    QTreeView::keyPressEvent(event);
-}
-
 bool MyTreeView::isEditing() const
 {
     return state() == QAbstractItemView::EditingState;

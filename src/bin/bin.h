@@ -93,7 +93,6 @@ protected:
     void mousePressEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
     void focusInEvent(QFocusEvent *event) override;
-    void keyPressEvent(QKeyEvent *event) override;
 
 protected slots:
     void closeEditor(QWidget *editor, QAbstractItemDelegate::EndEditHint hint) override;

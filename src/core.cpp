@@ -159,8 +159,8 @@ void Core::initGUI(const QUrl &Url)
     }
 
     m_projectManager = new ProjectManager(this);
-    m_binWidget = new Bin(m_projectItemModel);
-    m_library = new LibraryWidget(m_projectManager);
+    m_binWidget = new Bin(m_projectItemModel, m_mainWindow);
+    m_library = new LibraryWidget(m_projectManager, m_mainWindow);
     connect(m_library, SIGNAL(addProjectClips(QList<QUrl>)), m_binWidget, SLOT(droppedUrls(QList<QUrl>)));
     connect(this, &Core::updateLibraryPath, m_library, &LibraryWidget::slotUpdateLibraryPath);
     m_monitorManager = new MonitorManager(this);
