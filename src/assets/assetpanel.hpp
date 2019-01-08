@@ -70,6 +70,7 @@ public slots:
     /** @brief Clear panel if displaying itemId */
     void clearAssetPanel(int itemId);
     void parameterChanged(QString name, int value);
+    void deleteCurrentEffect();
 
 protected:
     /** @brief Return the stylesheet used to display the panel (based on current palette). */

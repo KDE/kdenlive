@@ -135,6 +135,8 @@ public:
     QDomElement toXml(QDomDocument &document);
     /* @brief Load an effect stack from an XML representation */
     void fromXml(const QDomElement &effectsXml, Fun &undo, Fun &redo);
+    /* @brief Delete active effect from stack */
+    void removeCurrentEffect();
 
 public slots:
     /* @brief Delete an effect from the stack */

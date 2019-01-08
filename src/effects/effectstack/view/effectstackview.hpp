@@ -105,6 +105,7 @@ signals:
     void seekToPos(int);
     void reloadEffect(const QString &path);
     void updateEnabledState();
+    void removeCurrentEffect();
 };
 
 #endif

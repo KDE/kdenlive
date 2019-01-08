@@ -85,6 +85,21 @@ void EffectStackModel::removeService(std::shared_ptr<Mlt::Service> service)
     }
 }
 
+void EffectStackModel::removeCurrentEffect()
+{
+    int ix = 0;
+    if (auto ptr = m_services.front().lock()) {
+        ix = ptr->get_int("kdenlive:activeeffect");
+    }
+    if (ix < 0) {
+        return;
+    }
+    std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(ix));
+    if (effect) {
+        removeEffect(effect);
+    }
+}
+
 void EffectStackModel::removeEffect(std::shared_ptr<EffectItemModel> effect)
 {
     QWriteLocker locker(&m_lock);

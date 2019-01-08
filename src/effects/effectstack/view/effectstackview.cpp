@@ -182,6 +182,7 @@ void EffectStackView::setModel(std::shared_ptr<EffectStackModel> model, const QS
     loadEffects();
     connect(m_model.get(), &EffectStackModel::dataChanged, this, &EffectStackView::refresh);
     connect(m_model.get(), &EffectStackModel::enabledStateChanged, this, &EffectStackView::updateEnabledState);
+    connect(this, &EffectStackView::removeCurrentEffect, m_model.get(), &EffectStackModel::removeCurrentEffect);
     // m_builtStack->setModel(model, stackOwner());
 }
 
@@ -319,6 +320,7 @@ void EffectStackView::unsetModel(bool reset)
         ObjectId item = m_model->getOwnerId();
         id = item.first == ObjectType::BinClip ? Kdenlive::ClipMonitor : Kdenlive::ProjectMonitor;
         disconnect(m_model.get(), &EffectStackModel::dataChanged, this, &EffectStackView::refresh);
+        disconnect(this, &EffectStackView::removeCurrentEffect, m_model.get(), &EffectStackModel::removeCurrentEffect);
     }
     if (reset) {
         QMutexLocker lock(&m_mutex);

@@ -352,3 +352,10 @@ void AssetPanel::enableStack(bool enable)
     }
     m_effectStackWidget->enableStack(enable);
 }
+
+void AssetPanel::deleteCurrentEffect()
+{
+    if (m_effectStackWidget->isVisible()) {
+        m_effectStackWidget->removeCurrentEffect();
+    }
+}

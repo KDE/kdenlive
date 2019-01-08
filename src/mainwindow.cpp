@@ -2158,8 +2158,7 @@ void MainWindow::slotDeleteItem()
         QWidget *widget = QApplication::focusWidget();
         while ((widget != nullptr) && widget != this) {
             if (widget == m_effectStackDock) {
-                // TODO refac: reimplement
-                // m_effectStack->deleteCurrentEffect();
+                m_assetPanel->deleteCurrentEffect();
                 return;
             }
             widget = widget->parentWidget();

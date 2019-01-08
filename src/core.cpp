@@ -585,11 +585,8 @@ void Core::invalidateItem(ObjectId itemId)
     if (!m_mainWindow || m_mainWindow->getCurrentTimeline()->loading) return;
     switch (itemId.first) {
     case ObjectType::TimelineClip:
-        m_mainWindow->getCurrentTimeline()->controller()->invalidateItem(itemId.second);
     case ObjectType::TimelineComposition:
-        if (m_mainWindow->getCurrentTimeline()->controller()->getModel()->isComposition(itemId.second)) {
-            m_mainWindow->getCurrentTimeline()->controller()->invalidateItem(itemId.second);
-        }
+        m_mainWindow->getCurrentTimeline()->controller()->invalidateItem(itemId.second);
         break;
     case ObjectType::TimelineTrack:
         // TODO: invalidate all clips in track
