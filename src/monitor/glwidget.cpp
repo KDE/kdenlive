@@ -245,7 +245,6 @@ void GLWidget::initializeGL()
     connect(m_frameRenderer, &FrameRenderer::frameDisplayed, this, &GLWidget::onFrameDisplayed, Qt::QueuedConnection);
 
     connect(m_frameRenderer, &FrameRenderer::audioSamplesSignal, this, &GLWidget::audioSamplesSignal, Qt::QueuedConnection);
-    connect(this, &GLWidget::textureUpdated, this, &GLWidget::update, Qt::QueuedConnection);
     m_initSem.release();
     m_isInitialized = true;
     reconfigure();
@@ -1434,7 +1433,6 @@ void GLWidget::updateTexture(GLuint yName, GLuint uName, GLuint vName)
     m_texture[1] = uName;
     m_texture[2] = vName;
     m_sendFrame = sendFrameForAnalysis;
-    emit textureUpdated();
     // update();
 }
 
