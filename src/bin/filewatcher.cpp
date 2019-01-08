@@ -81,12 +81,10 @@ void FileWatcher::slotUrlModified(const QString &path)
 
 void FileWatcher::slotUrlMissing(const QString &path)
 {
-	Q_UNUSED(path)
     // TODO handle missing clips by replacing producer with an invalid producer
-    // const QStringList ids = m_occurences.value(path);
-    /*for (const QString &id :  ids) {
-        emit missingClip(id);
-    }*/
+    for (const QString &id : m_occurences[path]) {
+        emit binClipMissing(id);
+    }
 }
 
 void FileWatcher::slotProcessModifiedUrls()

@@ -61,6 +61,7 @@ ProjectItemModel::ProjectItemModel(QObject *parent)
     m_blankThumb.addPixmap(pix);
     connect(m_fileWatcher.get(), &FileWatcher::binClipModified, this, &ProjectItemModel::reloadClip);
     connect(m_fileWatcher.get(), &FileWatcher::binClipWaiting, this, &ProjectItemModel::setClipWaiting);
+    connect(m_fileWatcher.get(), &FileWatcher::binClipMissing, this, &ProjectItemModel::setClipInvalid);
 }
 
 std::shared_ptr<ProjectItemModel> ProjectItemModel::construct(QObject *parent)
@@ -486,7 +487,7 @@ void ProjectItemModel::deregisterItem(int id, TreeItem *item)
     AbstractTreeModel::deregisterItem(id, item);
     if (clip->itemType() == AbstractProjectItem::ClipItem) {
         auto clipItem = static_cast<ProjectClip *>(clip);
-        m_fileWatcher->addFile(clipItem->clipId(), clipItem->clipUrl());
+        m_fileWatcher->removeFile(clipItem->clipId());
     }
 }
 
@@ -905,6 +906,15 @@ void ProjectItemModel::setClipWaiting(const QString &binId)
     std::shared_ptr<ProjectClip> clip = getClipByBinID(binId);
     if (clip) {
         clip->setClipStatus(AbstractProjectItem::StatusWaiting);
+    }
+}
+
+void ProjectItemModel::setClipInvalid(const QString &binId)
+{
+    std::shared_ptr<ProjectClip> clip = getClipByBinID(binId);
+    if (clip) {
+        clip->setClipStatus(AbstractProjectItem::StatusMissing);
+        //TODO: set producer as blank invalid
     }
 }
 

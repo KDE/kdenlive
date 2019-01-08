@@ -52,6 +52,7 @@ signals:
     void binClipModified(const QString &binId);
     /** @brief Same signal than binClipModified, but triggers immediately. Can be useful to refresh UI without actually reloading the file (yet)*/
     void binClipWaiting(const QString &binId);
+    void binClipMissing(const QString &binId);
 
 private slots:
     void slotUrlModified(const QString &path);
