@@ -49,6 +49,7 @@
 #include <QGraphicsBlurEffect>
 #include <QGraphicsDropShadowEffect>
 #include <QGraphicsEffect>
+#include <QPainter>
 
 QByteArray fileToByteArray(const QString &filename)
 {
@@ -536,6 +537,9 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QGraphicsRectItem *start
                     QPixmap pix;
                     if (base64.isEmpty()) {
                         pix.load(url);
+                        if (pix.isNull()) {
+                            pix = createInvalidPixmap(url);
+                        }
                     } else {
                         pix.loadFromData(QByteArray::fromBase64(base64.toLatin1()));
                     }
@@ -552,7 +556,9 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QGraphicsRectItem *start
                     QString base64 = itemNode.namedItem(QStringLiteral("content")).attributes().namedItem(QStringLiteral("base64")).nodeValue();
                     QGraphicsSvgItem *rec = nullptr;
                     if (base64.isEmpty()) {
-                        rec = new MySvgItem(url);
+                        if (QFile::exists(url)) {
+                            rec = new MySvgItem(url);
+                        }
                     } else {
                         rec = new MySvgItem();
                         QSvgRenderer *renderer = new QSvgRenderer(QByteArray::fromBase64(base64.toLatin1()), rec);
@@ -567,6 +573,13 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QGraphicsRectItem *start
                             rec->setData(Qt::UserRole + 1, base64);
                         }
                         gitem = rec;
+                    } else {
+                        QPixmap pix = createInvalidPixmap(url);
+                        auto *rec2 = new MyPixmapItem(pix);
+                        m_scene->addItem(rec2);
+                        rec2->setShapeMode(QGraphicsPixmapItem::BoundingRectShape);
+                        rec2->setData(Qt::UserRole, url);
+                        gitem = rec2;
                     }
                 }
             }
@@ -633,6 +646,24 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QGraphicsRectItem *start
     }
     return maxZValue;
 }
+
+QPixmap TitleDocument::createInvalidPixmap(const QString &url)
+{
+    int missingHeight = m_height / 10;
+    QPixmap pix(missingHeight, missingHeight);
+    QIcon icon = QIcon::fromTheme(QStringLiteral("messagebox_warning"));
+    pix.fill(QColor(255, 0, 0, 50));
+    QPainter ptr(&pix);
+    icon.paint(&ptr, 0, 0, missingHeight/2, missingHeight/2);
+    QPen pen(Qt::red);
+    pen.setWidth(3);
+    ptr.setPen(pen);
+    ptr.drawText(QRectF(2, 2, missingHeight - 4, missingHeight - 4), Qt::AlignHCenter | Qt::AlignBottom, QFileInfo(url).fileName());
+    ptr.drawRect(2, 1, missingHeight - 4, missingHeight - 4);
+    ptr.end();
+    return pix;
+}
+
 
 QString TitleDocument::colorToString(const QColor &c)
 {

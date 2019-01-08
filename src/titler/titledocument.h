@@ -61,6 +61,7 @@ private:
     QTransform stringToTransform(const QString &);
     QList<QVariant> stringToList(const QString &);
     int base64ToUrl(QGraphicsItem *item, QDomElement &content, bool embed);
+    QPixmap createInvalidPixmap(const QString &url);
 };
 
 #endif
