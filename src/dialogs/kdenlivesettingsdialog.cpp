@@ -70,9 +70,6 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString> &map
     m_page1 = addPage(p1, i18n("Misc"));
     m_page1->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
 
-    // Hide avformat-novalidate trick, causes crash (bug #2205 and #2206)
-    m_configMisc.kcfg_projectloading_avformatnovalidate->setVisible(false);
-
     m_configMisc.kcfg_use_exiftool->setEnabled(!QStandardPaths::findExecutable(QStringLiteral("exiftool")).isEmpty());
 
     QWidget *p8 = new QWidget;

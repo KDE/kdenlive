@@ -28,7 +28,7 @@
 #include <QSignalMapper>
 
 class Monitor;
-
+class KMessageWidget;
 class TitleTemplate
 {
 public:
@@ -118,6 +118,7 @@ private:
     int m_count;
     /** @brief Dialog for entering Unicode characters in text fields. */
     UnicodeDialog *m_unicodeDialog;
+    KMessageWidget *m_missingMessage;
 
     /** @brief Project path for storing title documents. */
     QString m_projectTitlePath;
@@ -369,6 +370,8 @@ private slots:
     void templateIndexChanged(int);
     void slotEditGradient();
     void slotUpdateShadow();
+    /** @brief Remove missing items from the scene. */
+    void deleteMissingItems();
 
 signals:
     void requestBackgroundFrame(const QString &clipId, bool request);

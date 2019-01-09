@@ -45,6 +45,8 @@ public:
     int frameHeight() const;
     /** \brief Extract embedded images in project titles folder. */
     static const QString extractBase64Image(const QString &titlePath, const QString &data);
+    /** \brief The number of missing elements in this title. */
+    int invalidCount() const;
 
     enum ItemOrigin { OriginXLeft = 0, OriginYTop = 1 };
     enum AxisPosition { AxisDefault = 0, AxisInverted = 1 };
@@ -52,6 +54,7 @@ public:
 private:
     QGraphicsScene *m_scene;
     QString m_projectPath;
+    int m_missingElements;
     int m_width;
     int m_height;
     QString colorToString(const QColor &);

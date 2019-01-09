@@ -68,6 +68,7 @@ TitleDocument::TitleDocument()
     m_scene = nullptr;
     m_width = 0;
     m_height = 0;
+    m_missingElements = 0;
 }
 
 void TitleDocument::setScene(QGraphicsScene *_scene, int width, int height)
@@ -365,6 +366,7 @@ bool TitleDocument::saveDocument(const QUrl &url, QGraphicsRectItem *startv, QGr
 int TitleDocument::loadFromXml(const QDomDocument &doc, QGraphicsRectItem *startv, QGraphicsRectItem *endv, int *duration, const QString &projectpath)
 {
     m_projectPath = projectpath;
+    m_missingElements = 0;
     QDomNodeList titles = doc.elementsByTagName(QStringLiteral("kdenlivetitle"));
     // TODO: Check if the opened title size is equal to project size, otherwise warn user and rescale
     if (doc.documentElement().hasAttribute(QStringLiteral("width")) && doc.documentElement().hasAttribute(QStringLiteral("height"))) {
@@ -535,15 +537,21 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QGraphicsRectItem *start
                     QString url = itemNode.namedItem(QStringLiteral("content")).attributes().namedItem(QStringLiteral("url")).nodeValue();
                     QString base64 = itemNode.namedItem(QStringLiteral("content")).attributes().namedItem(QStringLiteral("base64")).nodeValue();
                     QPixmap pix;
+                    bool missing = false;
                     if (base64.isEmpty()) {
                         pix.load(url);
                         if (pix.isNull()) {
                             pix = createInvalidPixmap(url);
+                            m_missingElements++;
+                            missing = true;
                         }
                     } else {
                         pix.loadFromData(QByteArray::fromBase64(base64.toLatin1()));
                     }
                     auto *rec = new MyPixmapItem(pix);
+                    if (missing) {
+                        rec->setData(Qt::UserRole + 2, 1);
+                    }
                     m_scene->addItem(rec);
                     rec->setShapeMode(QGraphicsPixmapItem::BoundingRectShape);
                     rec->setData(Qt::UserRole, url);
@@ -575,7 +583,9 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QGraphicsRectItem *start
                         gitem = rec;
                     } else {
                         QPixmap pix = createInvalidPixmap(url);
+                        m_missingElements++;
                         auto *rec2 = new MyPixmapItem(pix);
+                        rec2->setData(Qt::UserRole + 2, 1);
                         m_scene->addItem(rec2);
                         rec2->setShapeMode(QGraphicsPixmapItem::BoundingRectShape);
                         rec2->setData(Qt::UserRole, url);
@@ -645,6 +655,11 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QGraphicsRectItem *start
         }
     }
     return maxZValue;
+}
+
+int TitleDocument::invalidCount() const
+{
+    return m_missingElements;
 }
 
 QPixmap TitleDocument::createInvalidPixmap(const QString &url)

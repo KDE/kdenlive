@@ -29,6 +29,7 @@
 #include <KRecentDirs>
 #include <klocalizedstring.h>
 #include <kns3/downloaddialog.h>
+#include <KMessageWidget>
 
 #include "kdenlive_debug.h"
 #include <QCryptographicHash>
@@ -84,6 +85,7 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     , m_startViewport(nullptr)
     , m_endViewport(nullptr)
     , m_count(0)
+    , m_missingMessage(nullptr)
     , m_unicodeDialog(new UnicodeDialog(UnicodeDialog::InputHex))
     , m_projectTitlePath(projectTitlePath)
     , m_tc(tc)
@@ -1993,8 +1995,24 @@ void TitleWidget::setXml(const QDomDocument &doc, const QString &id)
 {
     m_clipId = id;
     int duration;
+    if (m_missingMessage) {
+        delete m_missingMessage;
+        m_missingMessage = nullptr;
+    }
     m_count = m_titledocument.loadFromXml(doc, m_startViewport, m_endViewport, &duration, m_projectTitlePath);
     adjustFrameSize();
+    if (m_titledocument.invalidCount() > 0) {
+        m_missingMessage = new KMessageWidget(this);
+        m_missingMessage->setCloseButtonVisible(true);
+        m_missingMessage->setWordWrap(true);
+        m_missingMessage->setMessageType(KMessageWidget::Warning);
+        m_missingMessage->setText(i18n("This title has %1 missing elements", m_titledocument.invalidCount()));
+        QAction *action = new QAction(i18n("Delete missing elements"));
+        m_missingMessage->addAction(action);
+        connect(action, &QAction::triggered, this, &TitleWidget::deleteMissingItems);
+        messageLayout->addWidget(m_missingMessage);
+        m_missingMessage->animatedShow();
+    }
     title_duration->setText(m_tc.getTimecode(GenTime(duration, m_fps)));
     /*if (doc.documentElement().hasAttribute("out")) {
     GenTime duration = GenTime(doc.documentElement().attribute("out").toDouble() / 1000.0);
@@ -2067,6 +2085,29 @@ void TitleWidget::slotAccepted()
         slotAnimEnd(false);
     }
     writeChoices();
+}
+
+void TitleWidget::deleteMissingItems()
+{
+    m_missingMessage->animatedHide();
+    QList<QGraphicsItem *> items = graphicsView->scene()->items();
+    QList<QGraphicsItem *> toDelete;
+    for (int i = 0; i < items.count(); ++i) {
+        if (items.at(i)->data(Qt::UserRole + 2).toInt() == 1) {
+            // We found a missing item
+            toDelete << items.at(i);
+        }
+    }
+    if (toDelete.size() != m_titledocument.invalidCount()) {
+        qDebug()<<"/// WARNING, INCOHERENT MISSING ELEMENTS in title: "<<toDelete.size()<<" != "<<m_titledocument.invalidCount();
+    }
+    while (!toDelete.isEmpty()) {
+        QGraphicsItem *item = toDelete.takeFirst();
+        if (m_scene) {
+            m_scene->removeItem(item);
+        }
+    }
+    m_missingMessage->deleteLater();
 }
 
 void TitleWidget::writeChoices()
