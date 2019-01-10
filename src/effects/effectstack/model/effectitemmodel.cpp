@@ -27,8 +27,8 @@
 #include <utility>
 
 EffectItemModel::EffectItemModel(const QList<QVariant> &data, Mlt::Properties *effect, const QDomElement &xml, const QString &effectId,
-                                 const std::shared_ptr<AbstractTreeModel> &stack)
-    : AbstractEffectItem(EffectItemType::Effect, data, stack)
+                                 const std::shared_ptr<AbstractTreeModel> &stack, bool isEnabled)
+    : AbstractEffectItem(EffectItemType::Effect, data, stack, false, isEnabled)
     , AssetParameterModel(effect, xml, effectId, std::static_pointer_cast<EffectStackModel>(stack)->getOwnerId())
 {
 }
@@ -45,7 +45,7 @@ std::shared_ptr<EffectItemModel> EffectItemModel::construct(const QString &effec
     QList<QVariant> data;
     data << EffectsRepository::get()->getName(effectId) << effectId;
 
-    std::shared_ptr<EffectItemModel> self(new EffectItemModel(data, effect, xml, effectId, std::move(stack)));
+    std::shared_ptr<EffectItemModel> self(new EffectItemModel(data, effect, xml, effectId, std::move(stack), true));
 
     baseFinishConstruct(self);
     return self;
@@ -71,10 +71,8 @@ std::shared_ptr<EffectItemModel> EffectItemModel::construct(Mlt::Properties *eff
     QList<QVariant> data;
     data << EffectsRepository::get()->getName(effectId) << effectId;
 
-    std::shared_ptr<EffectItemModel> self(new EffectItemModel(data, effect, xml, effectId, std::move(stack)));
-
+    std::shared_ptr<EffectItemModel> self(new EffectItemModel(data, effect, xml, effectId, std::move(stack), effect->get_int("disable") == 0));
     baseFinishConstruct(self);
-
     return self;
 }
 

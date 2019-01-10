@@ -60,7 +60,7 @@ public:
 
 protected:
     EffectItemModel(const QList<QVariant> &data, Mlt::Properties *effect, const QDomElement &xml, const QString &effectId,
-                    const std::shared_ptr<AbstractTreeModel> &stack);
+                    const std::shared_ptr<AbstractTreeModel> &stack, bool isEnabled = true);
 
     void updateEnable() override;
 };
