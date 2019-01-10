@@ -372,6 +372,8 @@ private slots:
     void slotUpdateShadow();
     /** @brief Remove missing items from the scene. */
     void deleteMissingItems();
+    /** @brief List missing items from the scene. */
+    void showMissingItems();
 
 signals:
     void requestBackgroundFrame(const QString &clipId, bool request);

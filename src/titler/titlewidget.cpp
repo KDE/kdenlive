@@ -2007,7 +2007,10 @@ void TitleWidget::setXml(const QDomDocument &doc, const QString &id)
         m_missingMessage->setWordWrap(true);
         m_missingMessage->setMessageType(KMessageWidget::Warning);
         m_missingMessage->setText(i18n("This title has %1 missing elements", m_titledocument.invalidCount()));
-        QAction *action = new QAction(i18n("Delete missing elements"));
+        QAction *action = new QAction(i18n("Details"));
+        m_missingMessage->addAction(action);
+        connect(action, &QAction::triggered, this, &TitleWidget::showMissingItems);
+        action = new QAction(i18n("Delete missing elements"));
         m_missingMessage->addAction(action);
         connect(action, &QAction::triggered, this, &TitleWidget::deleteMissingItems);
         messageLayout->addWidget(m_missingMessage);
@@ -2108,6 +2111,20 @@ void TitleWidget::deleteMissingItems()
         }
     }
     m_missingMessage->deleteLater();
+}
+
+void TitleWidget::showMissingItems()
+{
+    QList<QGraphicsItem *> items = graphicsView->scene()->items();
+    QStringList missingUrls;
+    for (int i = 0; i < items.count(); ++i) {
+        if (items.at(i)->data(Qt::UserRole + 2).toInt() == 1) {
+            // We found a missing item
+            missingUrls<<items.at(i)->data(Qt::UserRole).toString();
+        }
+    }
+    missingUrls.removeDuplicates();
+    KMessageBox::informationList(QApplication::activeWindow(), i18n("The following files are missing: "), missingUrls);
 }
 
 void TitleWidget::writeChoices()
