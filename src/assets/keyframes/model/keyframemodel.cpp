@@ -78,7 +78,7 @@ bool KeyframeModel::addKeyframe(GenTime pos, KeyframeType type, QVariant value, 
         local_undo = updateKeyframe_lambda(pos, oldType, oldValue, notify);
         local_redo = updateKeyframe_lambda(pos, type, value, notify);
     } else {
-        qDebug() << "True addittion";
+        qDebug() << "True addition";
         local_redo = addKeyframe_lambda(pos, type, value, notify);
         local_undo = deleteKeyframe_lambda(pos, notify);
     }

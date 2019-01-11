@@ -135,7 +135,7 @@ Rectangle
             Rectangle {
                 id: keyframeVal
                 x: - root.baseUnit / 2
-                y: parent.height - keyframe.value - root.baseUnit / 2
+                y: keyframeContainer.height - keyframe.value - root.baseUnit / 2
                 width: root.baseUnit
                 height: width
                 radius: width / 2
@@ -171,26 +171,17 @@ Rectangle
                             } else {
                                 if (newVal < 0) {
                                     newVal = 0;
-                                    parent.y = keyframeContainer.height - (root.baseUnit / 2)
-                                    keyframecanvas.requestPaint()
                                 } else if (newVal > 1) {
                                     newVal = 1;
-                                    parent.y = - (root.baseUnit / 2)
-                                    keyframecanvas.requestPaint()
                                 }
                                 timeline.updateEffectKeyframe(masterObject.clipId, frame, frame, newVal)
                             }
                         } else {
                             if (newVal < 0) {
                                 newVal = 0;
-                                parent.y = keyframeContainer.height - (root.baseUnit / 2)
-                                keyframecanvas.requestPaint()
                             } else if (newVal > 1) {
                                 newVal = 1;
-                                parent.y = - (root.baseUnit / 2)
-                                keyframecanvas.requestPaint()
                             }
-                            console.log('upodating kfr: ' + frame + ' to ' + newVal + ', VAL: ' + newVal)
                             timeline.updateEffectKeyframe(masterObject.clipId, frame, frame == inPoint ? frame : newPos, newVal)
                         }
                     }
