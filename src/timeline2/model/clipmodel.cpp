@@ -110,14 +110,14 @@ int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QSt
     return id;
 }
 
-void ClipModel::registerClipToBin()
+void ClipModel::registerClipToBin(std::shared_ptr <Mlt::Producer> service, bool registerProducer)
 {
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
     if (!binClip) {
         qDebug() << "Error : Bin clip for id: " << m_binClipId << " NOT AVAILABLE!!!";
     }
     qDebug() << "REGISTRATION " << m_id << "ptr count" << m_parent.use_count();
-    binClip->registerTimelineClip(m_parent, m_id);
+    binClip->registerService(m_parent, m_id, service, registerProducer);
 }
 
 void ClipModel::deregisterClipToBin()
@@ -257,6 +257,12 @@ Mlt::Producer *ClipModel::service() const
 {
     READ_LOCK();
     return m_producer.get();
+}
+
+std::shared_ptr<Mlt::Producer> ClipModel::getProducer()
+{
+    READ_LOCK();
+    return m_producer;
 }
 
 int ClipModel::getPlaytime() const

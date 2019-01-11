@@ -176,7 +176,7 @@ void AssetParameterModel::setParameter(const QString &name, const QString &value
     Q_ASSERT(m_asset->is_valid());
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
-    qDebug()<<"// PROCESSING PARAM CHANGE!!! ";
+    qDebug()<<"// PROCESSING PARAM CHANGE: "<<name;
     bool conversionSuccess;
     double doubleValue = locale.toDouble(value, &conversionSuccess);
     if (conversionSuccess) {
@@ -212,11 +212,13 @@ void AssetParameterModel::setParameter(const QString &name, const QString &value
             if (paramIndex.isValid()) {
                 emit dataChanged(paramIndex, paramIndex);
             } else {
-                emit dataChanged(index(0, 0), index(m_rows.count(), 0));
+                QModelIndex ix = index(m_rows.indexOf(name), 0);
+                emit dataChanged(ix, ix);
             }
             emit modelChanged();
         }
     }
+    emit updateChildren(name);
     // Update timeline view if necessary
     if (m_ownerId.first == ObjectType::NoItem) {
         // Used for generator clips

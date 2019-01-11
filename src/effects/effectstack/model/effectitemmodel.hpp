@@ -46,9 +46,12 @@ public:
     /* @brief This function plants the effect into the given service in last position
      */
     void plant(const std::weak_ptr<Mlt::Service> &service) override;
+    void plantClone(const std::weak_ptr<Mlt::Service> &service) override;
+    void loadClone(const std::weak_ptr<Mlt::Service> &service);
     /* @brief This function unplants (removes) the effect from the given service
      */
     void unplant(const std::weak_ptr<Mlt::Service> &service) override;
+    void unplantClone(const std::weak_ptr<Mlt::Service> &service) override;
 
     Mlt::Filter &filter() const;
 
@@ -57,12 +60,14 @@ public:
 
     void setCollapsed(bool collapsed);
     bool isCollapsed();
+    bool isValid() const;
 
 protected:
-    EffectItemModel(const QList<QVariant> &data, Mlt::Properties *effect, const QDomElement &xml, const QString &effectId,
+    EffectItemModel(const QList<QVariant> &effectData, Mlt::Properties *effect, const QDomElement &xml, const QString &effectId,
                     const std::shared_ptr<AbstractTreeModel> &stack, bool isEnabled = true);
-
+    QMap <int, std::shared_ptr<EffectItemModel> > m_childEffects;
     void updateEnable() override;
+    int m_childId;
 };
 
 #endif

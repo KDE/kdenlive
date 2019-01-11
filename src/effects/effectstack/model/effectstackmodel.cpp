@@ -40,7 +40,7 @@ EffectStackModel::EffectStackModel(std::weak_ptr<Mlt::Service> service, ObjectId
     , m_loadingExisting(false)
     , m_lock(QReadWriteLock::Recursive)
 {
-    m_services.emplace_back(std::move(service));
+    m_masterService = std::move(service);
 }
 
 std::shared_ptr<EffectStackModel> EffectStackModel::construct(std::weak_ptr<Mlt::Service> service, ObjectId ownerId, std::weak_ptr<DocUndoStack> undo_stack)
@@ -53,42 +53,54 @@ std::shared_ptr<EffectStackModel> EffectStackModel::construct(std::weak_ptr<Mlt:
 void EffectStackModel::resetService(std::weak_ptr<Mlt::Service> service)
 {
     QWriteLocker locker(&m_lock);
-    m_services.clear();
-    m_services.emplace_back(std::move(service));
+    m_masterService = std::move(service);
+    m_childServices.clear();
     // replant all effects in new service
     for (int i = 0; i < rootItem->childCount(); ++i) {
-        for (const auto &s : m_services) {
-            std::static_pointer_cast<EffectItemModel>(rootItem->child(i))->plant(s);
-        }
+        std::static_pointer_cast<EffectItemModel>(rootItem->child(i))->plant(m_masterService);
     }
 }
 
 void EffectStackModel::addService(std::weak_ptr<Mlt::Service> service)
 {
     QWriteLocker locker(&m_lock);
-    m_services.emplace_back(std::move(service));
+    m_childServices.emplace_back(std::move(service));
     for (int i = 0; i < rootItem->childCount(); ++i) {
-        std::static_pointer_cast<EffectItemModel>(rootItem->child(i))->plant(m_services.back());
+        std::static_pointer_cast<EffectItemModel>(rootItem->child(i))->plantClone(m_childServices.back());
     }
 }
+
+void EffectStackModel::loadService(std::weak_ptr<Mlt::Service> service)
+{
+    QWriteLocker locker(&m_lock);
+    m_childServices.emplace_back(std::move(service));
+    for (int i = 0; i < rootItem->childCount(); ++i) {
+        std::static_pointer_cast<EffectItemModel>(rootItem->child(i))->loadClone(m_childServices.back());
+    }
+}
+
 void EffectStackModel::removeService(std::shared_ptr<Mlt::Service> service)
 {
     QWriteLocker locker(&m_lock);
     std::vector<int> to_delete;
-    for (int i = int(m_services.size()) - 1; i >= 0; --i) {
-        if (service.get() == m_services[uint(i)].lock().get()) {
+    for (int i = int(m_childServices.size()) - 1; i >= 0; --i) {
+        auto ptr = m_childServices[uint(i)].lock();
+        if (service->get_int("_childid") == ptr->get_int("_childid")) {
+            for (int j = 0; j < rootItem->childCount(); ++j) {
+                std::static_pointer_cast<EffectItemModel>(rootItem->child(j))->unplantClone(ptr);
+            }
             to_delete.push_back(i);
         }
     }
     for (int i : to_delete) {
-        m_services.erase(m_services.begin() + i);
+        m_childServices.erase(m_childServices.begin() + i);
     }
 }
 
 void EffectStackModel::removeCurrentEffect()
 {
     int ix = 0;
-    if (auto ptr = m_services.front().lock()) {
+    if (auto ptr = m_masterService.lock()) {
         ix = ptr->get_int("kdenlive:activeeffect");
     }
     if (ix < 0) {
@@ -108,13 +120,11 @@ void EffectStackModel::removeEffect(std::shared_ptr<EffectItemModel> effect)
     if (auto ptr = effect->parentItem().lock()) parentId = ptr->getId();
     int current = 0;
     bool currentChanged = false;
-    for (const auto &service : m_services) {
-        if (auto srv = service.lock()) {
-            current = srv->get_int("kdenlive:activeeffect");
-            if (current >= rootItem->childCount() - 1) {
-                currentChanged = true;
-                srv->set("kdenlive:activeeffect", --current);
-            }
+    if (auto srv = m_masterService.lock()) {
+        current = srv->get_int("kdenlive:activeeffect");
+        if (current >= rootItem->childCount() - 1) {
+            currentChanged = true;
+            srv->set("kdenlive:activeeffect", --current);
         }
     }
     int currentRow = effect->row();
@@ -154,9 +164,21 @@ void EffectStackModel::removeEffect(std::shared_ptr<EffectItemModel> effect)
             pCore->updateItemKeyframes(m_ownerId);
             return true;
         };
+        Fun update2 = [this, current, currentChanged, inFades, outFades]() {
+            // Required to build the effect view
+            emit dataChanged(QModelIndex(), QModelIndex(), QVector<int>());
+            // TODO: only update if effect is fade or keyframe
+            if (inFades < 0) {
+                pCore->updateItemModel(m_ownerId, QStringLiteral("fadein"));
+            } else if (outFades < 0) {
+                pCore->updateItemModel(m_ownerId, QStringLiteral("fadeout"));
+            }
+            pCore->updateItemKeyframes(m_ownerId);
+            return true;
+        };
         update();
         PUSH_LAMBDA(update, redo);
-        PUSH_LAMBDA(update, undo);
+        PUSH_LAMBDA(update2, undo);
         PUSH_UNDO(undo, redo, i18n("Delete effect %1", effectName));
     }
 }
@@ -311,11 +333,8 @@ bool EffectStackModel::appendEffect(const QString &effectId, bool makeCurrent)
     connect(effect.get(), &AssetParameterModel::replugEffect, this, &EffectStackModel::replugEffect, Qt::DirectConnection);
     int currentActive = getActiveEffect();
     if (makeCurrent) {
-        for (const auto &service : m_services) {
-            auto srvPtr = service.lock();
-            if (srvPtr) {
-                srvPtr->set("kdenlive:activeeffect", rowCount());
-            }
+        if (auto srvPtr = m_masterService.lock()) {
+            srvPtr->set("kdenlive:activeeffect", rowCount());
         }
     }
     bool res = redo();
@@ -346,11 +365,8 @@ bool EffectStackModel::appendEffect(const QString &effectId, bool makeCurrent)
         PUSH_LAMBDA(update, undo);
         PUSH_UNDO(undo, redo, i18n("Add effect %1", effectName));
     } else if (makeCurrent) {
-        for (const auto &service : m_services) {
-            auto srvPtr = service.lock();
-            if (srvPtr) {
-                srvPtr->set("kdenlive:activeeffect", currentActive);
-            }
+        if (auto srvPtr = m_masterService.lock()) {
+            srvPtr->set("kdenlive:activeeffect", currentActive);
         }
     }
     return res;
@@ -483,7 +499,7 @@ bool EffectStackModel::adjustFadeLength(int duration, bool fromStart, bool audio
             }
         }
         QList<QModelIndex> indexes;
-        auto ptr = m_services.front().lock();
+        auto ptr = m_masterService.lock();
         int in = 0;
         if (ptr) {
             in = ptr->get_int("in");
@@ -513,7 +529,7 @@ bool EffectStackModel::adjustFadeLength(int duration, bool fromStart, bool audio
             }
         }
         int in = 0;
-        auto ptr = m_services.front().lock();
+        auto ptr = m_masterService.lock();
         if (ptr) {
             in = ptr->get_int("in");
         }
@@ -610,10 +626,11 @@ void EffectStackModel::registerItem(const std::shared_ptr<TreeItem> &item)
     if (!item->isRoot()) {
         auto effectItem = std::static_pointer_cast<AbstractEffectItem>(item);
         if (!m_loadingExisting) {
-            qDebug() << "$$$$$$$$$$$$$$$$$$$$$ Planting effect in " << m_services.size();
-            for (const auto &service : m_services) {
+            qDebug() << "$$$$$$$$$$$$$$$$$$$$$ Planting effect in " << m_childServices.size();
+            effectItem->plant(m_masterService);
+            for (const auto &service : m_childServices) {
                 qDebug() << "$$$$$$$$$$$$$$$$$$$$$ Planting effect in " << (void *)service.lock().get();
-                effectItem->plant(service);
+                effectItem->plantClone(service);
             }
         }
         effectItem->setEffectStackEnabled(m_effectStackEnabled);
@@ -634,8 +651,9 @@ void EffectStackModel::deregisterItem(int id, TreeItem *item)
     QWriteLocker locker(&m_lock);
     if (!item->isRoot()) {
         auto effectItem = static_cast<AbstractEffectItem *>(item);
-        for (const auto &service : m_services) {
-            effectItem->unplant(service);
+        effectItem->unplant(m_masterService);
+        for (const auto &service : m_childServices) {
+            effectItem->unplantClone(service);
         }
         if (!effectItem->isAudio()) {
             pCore->refreshProjectItem(m_ownerId);
@@ -748,11 +766,8 @@ void EffectStackModel::importEffects(std::weak_ptr<Mlt::Service> service, Playli
 void EffectStackModel::setActiveEffect(int ix)
 {
     QWriteLocker locker(&m_lock);
-    for (const auto &service : m_services) {
-        auto ptr = service.lock();
-        if (ptr) {
-            ptr->set("kdenlive:activeeffect", ix);
-        }
+    if (auto ptr = m_masterService.lock()) {
+        ptr->set("kdenlive:activeeffect", ix);
     }
     pCore->updateItemKeyframes(m_ownerId);
 }
@@ -760,8 +775,7 @@ void EffectStackModel::setActiveEffect(int ix)
 int EffectStackModel::getActiveEffect() const
 {
     QWriteLocker locker(&m_lock);
-    auto ptr = m_services.front().lock();
-    if (ptr) {
+    if (auto ptr = m_masterService.lock()) {
         return ptr->get_int("kdenlive:activeeffect");
     }
     return 0;
@@ -808,7 +822,7 @@ bool EffectStackModel::checkConsistency()
         }
     }
 
-    for (const auto &service : m_services) {
+    for (const auto &service : m_childServices) {
         auto ptr = service.lock();
         if (!ptr) {
             qDebug() << "ERROR: unavailable service";
@@ -891,8 +905,7 @@ KeyframeModel *EffectStackModel::getEffectKeyframeModel()
 {
     if (rootItem->childCount() == 0) return nullptr;
     int ix = 0;
-    auto ptr = m_services.front().lock();
-    if (ptr) {
+    if (auto ptr = m_masterService.lock()) {
         ix = ptr->get_int("kdenlive:activeeffect");
     }
     if (ix < 0) {
@@ -914,8 +927,9 @@ void EffectStackModel::replugEffect(std::shared_ptr<AssetParameterModel> asset)
     int count = rowCount();
     for (int ix = oldRow; ix < count; ix++) {
         auto item = std::static_pointer_cast<EffectItemModel>(rootItem->child(ix));
-        for (const auto &service : m_services) {
-            item->unplant(service);
+        item->unplant(m_masterService);
+        for (const auto &service : m_childServices) {
+            item->unplantClone(service);
         }
     }
     Mlt::Properties *effect = EffectsRepository::get()->getEffect(effectItem->getAssetId());
@@ -923,8 +937,9 @@ void EffectStackModel::replugEffect(std::shared_ptr<AssetParameterModel> asset)
     effectItem->resetAsset(effect);
     for (int ix = oldRow; ix < count; ix++) {
         auto item = std::static_pointer_cast<EffectItemModel>(rootItem->child(ix));
-        for (const auto &service : m_services) {
-            item->plant(service);
+        item->unplant(m_masterService);
+        for (const auto &service : m_childServices) {
+            item->plantClone(service);
         }
     }
 }
@@ -978,8 +993,7 @@ bool EffectStackModel::addEffectKeyFrame(int frame, double normalisedVal)
 {
     if (rootItem->childCount() == 0) return false;
     int ix = 0;
-    auto ptr = m_services.front().lock();
-    if (ptr) {
+    if (auto ptr = m_masterService.lock()) {
         ix = ptr->get_int("kdenlive:activeeffect");
     }
     if (ix < 0) {
@@ -994,8 +1008,7 @@ bool EffectStackModel::removeKeyFrame(int frame)
 {
     if (rootItem->childCount() == 0) return false;
     int ix = 0;
-    auto ptr = m_services.front().lock();
-    if (ptr) {
+    if (auto ptr = m_masterService.lock()) {
         ix = ptr->get_int("kdenlive:activeeffect");
     }
     if (ix < 0) {
@@ -1010,8 +1023,7 @@ bool EffectStackModel::updateKeyFrame(int oldFrame, int newFrame, double normali
 {
     if (rootItem->childCount() == 0) return false;
     int ix = 0;
-    auto ptr = m_services.front().lock();
-    if (ptr) {
+    if (auto ptr = m_masterService.lock()) {
         ix = ptr->get_int("kdenlive:activeeffect");
     }
     if (ix < 0) {

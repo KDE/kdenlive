@@ -842,10 +842,10 @@ bool TimelineModel::requestClipCreation(const QString &binClipId, int &id, Playl
     Fun local_undo = deregisterClip_lambda(clipId);
     ClipModel::construct(shared_from_this(), bid, clipId, state);
     auto clip = m_allClips[clipId];
-    Fun local_redo = [clip, this, state]() {
+    Fun local_redo = [clip, this, state, clipId]() {
         // We capture a shared_ptr to the clip, which means that as long as this undo object lives, the clip object is not deleted. To insert it back it is
         // sufficient to register it.
-        registerClip(clip);
+        registerClip(clip, true);
         clip->refreshProducerFromBin(state);
         return true;
     };
@@ -1039,7 +1039,7 @@ bool TimelineModel::requestClipDeletion(int clipId, Fun &undo, Fun &redo)
     Fun reverse = [this, clip]() {
         // We capture a shared_ptr to the clip, which means that as long as this undo object lives, the clip object is not deleted. To insert it back it is
         // sufficient to register it.
-        registerClip(clip);
+        registerClip(clip, true);
         return true;
     };
     if (operation()) {
@@ -1741,13 +1741,13 @@ void TimelineModel::registerTrack(std::shared_ptr<TrackModel> track, int pos, bo
     }
 }
 
-void TimelineModel::registerClip(const std::shared_ptr<ClipModel> &clip)
+void TimelineModel::registerClip(const std::shared_ptr<ClipModel> &clip, bool registerProducer)
 {
     int id = clip->getId();
     qDebug() << " // /REQUEST TL CLP REGSTR: " << id << "\n--------\nCLIPS COUNT: " << m_allClips.size();
     Q_ASSERT(m_allClips.count(id) == 0);
     m_allClips[id] = clip;
-    clip->registerClipToBin();
+    clip->registerClipToBin(clip->getProducer(), registerProducer);
     m_groups->createGroupItem(id);
     clip->setTimelineEffectsEnabled(m_timelineEffectsEnabled);
 }

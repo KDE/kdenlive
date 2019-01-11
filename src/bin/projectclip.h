@@ -213,7 +213,7 @@ public:
     std::pair<std::shared_ptr<Mlt::Producer>, bool> giveMasterAndGetTimelineProducer(int clipId, std::shared_ptr<Mlt::Producer> master,
                                                                                      PlaylistState::ClipState state);
 
-    std::shared_ptr<Mlt::Producer> cloneProducer(Mlt::Profile *destProfile = nullptr);
+    std::shared_ptr<Mlt::Producer> cloneProducer(Mlt::Profile *destProfile = nullptr, bool removeEffects = false);
     static std::shared_ptr<Mlt::Producer> cloneProducer(std::shared_ptr<Mlt::Producer> producer);
     std::shared_ptr<Mlt::Producer> softClone(const char *list);
     void updateTimelineClips(QVector<int> roles);
@@ -225,6 +225,7 @@ protected:
         @param clipId id of the inserted clip
      */
     void registerTimelineClip(std::weak_ptr<TimelineModel> timeline, int clipId);
+    void registerService(std::weak_ptr<TimelineModel> timeline, int clipId, std::shared_ptr <Mlt::Producer> service, bool forceRegister = false);
 
     /* @brief update the producer to reflect new parent folder */
     void updateParent(std::shared_ptr<TreeItem> parent) override;

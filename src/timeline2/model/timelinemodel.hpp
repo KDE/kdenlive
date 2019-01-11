@@ -607,7 +607,7 @@ protected:
 
     /* @brief Register a new clip. This is a call-back meant to be called from ClipModel
      */
-    void registerClip(const std::shared_ptr<ClipModel> &clip);
+    void registerClip(const std::shared_ptr<ClipModel> &clip, bool registerProducer = false);
 
     /* @brief Register a new composition. This is a call-back meant to be called from CompositionModel
      */

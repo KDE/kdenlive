@@ -43,9 +43,11 @@ public:
     /* @brief This function plants the effect into the given service in last position
      */
     void plant(const std::weak_ptr<Mlt::Service> &service) override;
+    void plantClone(const std::weak_ptr<Mlt::Service> &service) override;
     /* @brief This function unplants (removes) the effect from the given service
      */
     void unplant(const std::weak_ptr<Mlt::Service> &service) override;
+    void unplantClone(const std::weak_ptr<Mlt::Service> &service) override;
 
 protected:
     EffectGroupModel(const QList<QVariant> &data, const QString &name, const std::shared_ptr<AbstractTreeModel> &stack, bool isRoot = false);

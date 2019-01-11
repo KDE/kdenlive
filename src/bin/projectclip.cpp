@@ -458,7 +458,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::thumbProducer()
         Mlt::Filter converter(*prod->profile(), "avcolor_space");
         m_thumbsProducer->attach(converter);
     } else {
-        m_thumbsProducer = cloneProducer(pCore->thumbProfile());
+        m_thumbsProducer = cloneProducer(pCore->thumbProfile(), true);
         Mlt::Filter converter(*pCore->thumbProfile(), "avcolor_space");
         m_thumbsProducer->attach(converter);
     }
@@ -487,7 +487,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int clipId, Play
         if (state == PlaylistState::AudioOnly) {
             // We need to get an audio producer, if none exists
             if (m_audioProducers.count(clipId) == 0) {
-                m_audioProducers[clipId] = cloneProducer(&pCore->getCurrentProfile()->profile());
+                m_audioProducers[clipId] = cloneProducer(&pCore->getCurrentProfile()->profile(), true);
                 m_audioProducers[clipId]->set("set.test_audio", 0);
                 m_audioProducers[clipId]->set("set.test_image", 1);
                 m_effectStack->addService(m_audioProducers[clipId]);
@@ -502,7 +502,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int clipId, Play
             // we return the video producer
             // We need to get an audio producer, if none exists
             if (m_videoProducers.count(clipId) == 0) {
-                m_videoProducers[clipId] = cloneProducer(&pCore->getCurrentProfile()->profile());
+                m_videoProducers[clipId] = cloneProducer(&pCore->getCurrentProfile()->profile(), true);
                 m_videoProducers[clipId]->set("set.test_audio", 1);
                 m_videoProducers[clipId]->set("set.test_image", 0);
                 m_effectStack->addService(m_videoProducers[clipId]);
@@ -608,24 +608,24 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
             master->parent().set("_loaded", 1);
             if (state == PlaylistState::AudioOnly) {
                 m_audioProducers[clipId] = std::shared_ptr<Mlt::Producer>(new Mlt::Producer(&master->parent()));
-                m_effectStack->addService(m_audioProducers[clipId]);
+                m_effectStack->loadService(m_audioProducers[clipId]);
                 return {master, true};
             }
             if (timeWarp) {
                 m_timewarpProducers[clipId] = std::shared_ptr<Mlt::Producer>(new Mlt::Producer(&master->parent()));
-                m_effectStack->addService(m_timewarpProducers[clipId]);
+                m_effectStack->loadService(m_timewarpProducers[clipId]);
                 return {master, true};
             }
             if (state == PlaylistState::VideoOnly) {
                 // good, we found a master video producer, and we didn't have any
                 m_videoProducers[clipId] = std::shared_ptr<Mlt::Producer>(new Mlt::Producer(&master->parent()));
-                m_effectStack->addService(m_videoProducers[clipId]);
+                m_effectStack->loadService(m_videoProducers[clipId]);
                 return {master, true};
             }
             if (state == PlaylistState::Disabled && !m_disabledProducer) {
                 // good, we found a master disabled producer, and we didn't have any
                 m_disabledProducer.reset(master->parent().cut());
-                m_effectStack->addService(m_disabledProducer);
+                m_effectStack->loadService(m_disabledProducer);
                 return {master, true};
             }
             qDebug() << "Warning: weird, we found a clip whose master is not loaded but we already have a master";
@@ -681,7 +681,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::timelineProducer(PlaylistState::Clip
     return std::shared_ptr<Mlt::Producer>(normalProd->cut());
 }*/
 
-std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(Mlt::Profile *destProfile)
+std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(Mlt::Profile *destProfile, bool removeEffects)
 {
     Mlt::Consumer c(*m_masterProducer->profile(), "xml", "string");
     Mlt::Service s(m_masterProducer->get_service());
@@ -705,6 +705,26 @@ std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(Mlt::Profile *destProf
     if (strcmp(prod->get("mlt_service"), "avformat") == 0) {
         prod->set("mlt_service", "avformat-novalidate");
     }
+    if (removeEffects) {
+        int ct = 0;
+        Mlt::Filter *filter = prod->filter(ct);
+        while (filter) {
+            qDebug()<<"// EFFECT "<<ct<<" : "<<filter->get("mlt_service");
+            QString ix = QString::fromLatin1(filter->get("kdenlive_id"));
+            if (!ix.isEmpty()) {
+                qDebug()<<"/ + + DELTING";
+                if (prod->detach(*filter) == 0) {
+                } else {
+                    ct++;
+                }
+            } else {
+                ct++;
+            }
+            delete filter;
+            filter = prod->filter(ct);
+        }
+    }
+    prod->set("id", (char*)nullptr);
     return prod;
 }
 
@@ -1234,6 +1254,24 @@ void ProjectClip::setBinEffectsEnabled(bool enabled)
     ClipController::setBinEffectsEnabled(enabled);
 }
 
+void ProjectClip::registerService(std::weak_ptr<TimelineModel> timeline, int clipId, std::shared_ptr <Mlt::Producer> service, bool forceRegister)
+{
+    if (!service->is_cut() || forceRegister) {
+        int hasAudio = service->get_int("set.test_audio") == 0;
+        int hasVideo = service->get_int("set.test_image") == 0;
+        if (hasVideo && m_videoProducers.count(clipId) == 0) {
+            // This is an undo producer, register it!
+            m_videoProducers[clipId] = service;
+            m_effectStack->addService(m_videoProducers[clipId]);
+        } else if (hasAudio && m_audioProducers.count(clipId) == 0) {
+            // This is an undo producer, register it!
+            m_audioProducers[clipId] = service;
+            m_effectStack->addService(m_audioProducers[clipId]);
+        }
+    }
+    registerTimelineClip(timeline, clipId);
+}
+
 void ProjectClip::registerTimelineClip(std::weak_ptr<TimelineModel> timeline, int clipId)
 {
     Q_ASSERT(m_registeredClips.count(clipId) == 0);
@@ -1244,8 +1282,17 @@ void ProjectClip::registerTimelineClip(std::weak_ptr<TimelineModel> timeline, in
 
 void ProjectClip::deregisterTimelineClip(int clipId)
 {
+    qDebug()<<" ** * DEREGISTERING TIMELINE CLIP: "<<clipId;
     Q_ASSERT(m_registeredClips.count(clipId) > 0);
     m_registeredClips.erase(clipId);
+    if (m_videoProducers.count(clipId) > 0) {
+        m_effectStack->removeService(m_videoProducers[clipId]);
+        m_videoProducers.erase(clipId);
+    }
+    if (m_audioProducers.count(clipId) > 0) {
+        m_effectStack->removeService(m_audioProducers[clipId]);
+        m_audioProducers.erase(clipId);
+    }
     setRefCount((uint)m_registeredClips.size());
 }
 

@@ -56,9 +56,11 @@ public:
     /* @brief This function plants the effect into the given service in last position
      */
     virtual void plant(const std::weak_ptr<Mlt::Service> &service) = 0;
+    virtual void plantClone(const std::weak_ptr<Mlt::Service> &service) = 0;
     /* @brief This function unplants (removes) the effect from the given service
      */
     virtual void unplant(const std::weak_ptr<Mlt::Service> &service) = 0;
+    virtual void unplantClone(const std::weak_ptr<Mlt::Service> &service) = 0;
 
 protected:
     /* @brief Toogles the mlt effect according to the current activation state*/

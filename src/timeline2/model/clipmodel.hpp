@@ -118,7 +118,7 @@ public:
     /** @brief Returns the bin clip's id */
     const QString &binId() const;
 
-    void registerClipToBin();
+    void registerClipToBin(std::shared_ptr <Mlt::Producer> service, bool registerProducer);
     void deregisterClipToBin();
 
     bool addEffect(const QString &effectId);
@@ -189,6 +189,7 @@ protected:
 
 protected:
     std::shared_ptr<Mlt::Producer> m_producer;
+    std::shared_ptr<Mlt::Producer> getProducer();
 
     std::shared_ptr<EffectStackModel> m_effectStack;
 

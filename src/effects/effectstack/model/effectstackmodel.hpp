@@ -122,6 +122,8 @@ public:
 
     /* @brief Append a new service to be managed by this stack */
     void addService(std::weak_ptr<Mlt::Service> service);
+    /* @brief Append an existing service to be managed by this stack (on document load)*/
+    void loadService(std::weak_ptr<Mlt::Service> service);
 
     /* @brief Remove a service from those managed by this stack */
     void removeService(std::shared_ptr<Mlt::Service> service);
@@ -152,7 +154,8 @@ protected:
     /* @brief This is a convenience function that helps check if the tree is in a valid state */
     bool checkConsistency() override;
 
-    std::vector<std::weak_ptr<Mlt::Service>> m_services;
+    std::weak_ptr<Mlt::Service> m_masterService;
+    std::vector<std::weak_ptr<Mlt::Service>> m_childServices;
     bool m_effectStackEnabled;
     ObjectId m_ownerId;
 

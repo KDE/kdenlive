@@ -26,11 +26,23 @@
 #include "effectstackmodel.hpp"
 #include <utility>
 
-EffectItemModel::EffectItemModel(const QList<QVariant> &data, Mlt::Properties *effect, const QDomElement &xml, const QString &effectId,
+EffectItemModel::EffectItemModel(const QList<QVariant> &effectData, Mlt::Properties *effect, const QDomElement &xml, const QString &effectId,
                                  const std::shared_ptr<AbstractTreeModel> &stack, bool isEnabled)
-    : AbstractEffectItem(EffectItemType::Effect, data, stack, false, isEnabled)
+    : AbstractEffectItem(EffectItemType::Effect, effectData, stack, false, isEnabled)
     , AssetParameterModel(effect, xml, effectId, std::static_pointer_cast<EffectStackModel>(stack)->getOwnerId())
+    , m_childId(0)
 {
+    connect(this, &AssetParameterModel::updateChildren, [&](const QString &name) {
+        if (m_childEffects.size() == 0) {
+            return;
+        }
+        qDebug()<<"* * *SETTING EFFECT PARAM: "<<name<<" = "<<m_asset->get(name.toUtf8().constData());
+        QMapIterator<int, std::shared_ptr<EffectItemModel> > i(m_childEffects);
+        while (i.hasNext()) {
+            i.next();
+            i.value()->filter().set(name.toUtf8().constData(), m_asset->get(name.toUtf8().constData()));
+        }
+    });
 }
 
 // static
@@ -87,6 +99,57 @@ void EffectItemModel::plant(const std::weak_ptr<Mlt::Service> &service)
     }
 }
 
+void EffectItemModel::loadClone(const std::weak_ptr<Mlt::Service> &service)
+{
+    if (auto ptr = service.lock()) {
+        const QString effectId = getAssetId();
+        std::shared_ptr<EffectItemModel> effect = nullptr;
+        for (int i = 0; i < ptr->filter_count(); i++) {
+            std::shared_ptr<Mlt::Filter> filt(ptr->filter(i));
+            QString effName = filt->get("kdenlive_id");
+            if (effName == effectId && filt->get_int("_kdenlive_processed") == 0) {
+                if (auto ptr2 = m_model.lock()) {
+                    effect = EffectItemModel::construct(ptr->filter(i), ptr2);
+                    int childId = ptr->get_int("_childid");
+                    if (childId == 0) {
+                        childId = m_childId++;
+                        ptr->set("_childid", childId);
+                    }
+                    m_childEffects.insert(childId, effect);
+                }
+                break;
+            }
+            filt->set("_kdenlive_processed", 1);
+        }
+        return;
+    }
+    qDebug() << "Error : Cannot plant effect because parent service is not available anymore";
+    Q_ASSERT(false);
+}
+
+void EffectItemModel::plantClone(const std::weak_ptr<Mlt::Service> &service)
+{
+    if (auto ptr = service.lock()) {
+        const QString effectId = getAssetId();
+        std::shared_ptr<EffectItemModel> effect = nullptr;
+        if (auto ptr2 = m_model.lock()) {
+            effect = EffectItemModel::construct(effectId, ptr2);
+            effect->setParameters(getAllParameters());
+            int childId = ptr->get_int("_childid");
+            if (childId == 0) {
+                childId = m_childId++;
+                ptr->set("_childid", childId);
+            }
+            m_childEffects.insert(childId, effect);
+            int ret = ptr->attach(effect->filter());
+            Q_ASSERT(ret == 0);
+            return;
+        }
+    }
+    qDebug() << "Error : Cannot plant effect because parent service is not available anymore";
+    Q_ASSERT(false);
+}
+
 void EffectItemModel::unplant(const std::weak_ptr<Mlt::Service> &service)
 {
     if (auto ptr = service.lock()) {
@@ -98,9 +161,34 @@ void EffectItemModel::unplant(const std::weak_ptr<Mlt::Service> &service)
     }
 }
 
+void EffectItemModel::unplantClone(const std::weak_ptr<Mlt::Service> &service)
+{
+    if (m_childEffects.size() == 0) {
+        return;
+    }
+    if (auto ptr = service.lock()) {
+        int ret = ptr->detach(filter());
+        Q_ASSERT(ret == 0);
+        int childId = ptr->get_int("_childid");
+        auto effect = m_childEffects.take(childId);
+        if (effect && effect->isValid()) {
+            ptr->detach(effect->filter());
+            effect.reset();
+        }
+    } else {
+        qDebug() << "Error : Cannot plant effect because parent service is not available anymore";
+        Q_ASSERT(false);
+    }
+}
+
 Mlt::Filter &EffectItemModel::filter() const
 {
     return *static_cast<Mlt::Filter *>(m_asset.get());
+}
+
+bool EffectItemModel::isValid() const
+{
+    return m_asset && m_asset->is_valid();
 }
 
 void EffectItemModel::updateEnable()
@@ -114,6 +202,8 @@ void EffectItemModel::updateEnable()
         qDebug() << "Error, unable to send update to deleted model";
         Q_ASSERT(false);
     }
+    // Update timeline child producers
+    AssetParameterModel::updateChildren(QStringLiteral("disable"));
 }
 
 void EffectItemModel::setCollapsed(bool collapsed)
