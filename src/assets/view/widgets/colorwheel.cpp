@@ -173,7 +173,7 @@ void ColorWheel::mousePressEvent(QMouseEvent *event)
             changeColor(colorForPoint(m_lastPoint));
         } else {
             NegQColor c;
-            c = NegQColor::fromRgbF(m_defaultValue/m_sizeFactor, m_defaultValue/m_sizeFactor, m_defaultValue/m_sizeFactor);
+            c = NegQColor::fromHsvF(m_color.hueF(), m_color.saturationF(), m_defaultValue/m_sizeFactor);
             changeColor(c);
         }
     }
