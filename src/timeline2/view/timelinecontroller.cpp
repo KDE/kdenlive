@@ -1139,7 +1139,7 @@ int TimelineController::getMouseTrack()
 void TimelineController::refreshItem(int id)
 {
     int in = m_model->getItemPosition(id);
-    if (in > m_position) {
+    if (in > m_position || m_model->m_allClips[id]->isAudioOnly()) {
         return;
     }
     if (m_position <= in + m_model->getItemPlaytime(id)) {
