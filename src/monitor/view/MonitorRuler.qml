@@ -86,8 +86,33 @@ Rectangle {
             color: activePalette.highlightedText
         }
     }
-
+    TimelinePlayhead {
+        id: playhead
+        visible: controller.position > -1
+        height: ruler.height * 0.5
+        width: ruler.height * 1
+        opacity: 0.8
+        anchors.top: ruler.top
+        fillColor: activePalette.windowText
+        x: controller.position * root.timeScale - (width / 2)
+    }
     // monitor zone
+    Rectangle {
+        x: controller.zoneIn * root.timeScale
+        anchors.bottom: parent.bottom
+        anchors.top: parent.top
+        width: 1
+        color: activePalette.highlight
+        visible: rulerMouseArea.containsMouse || trimInMouseArea.containsMouse || trimInMouseArea.pressed || trimOutMouseArea.containsMouse
+    }
+    Rectangle {
+        x: controller.zoneOut * root.timeScale
+        anchors.bottom: parent.bottom
+        anchors.top: parent.top
+        width: 1
+        color: activePalette.highlight
+        visible: rulerMouseArea.containsMouse || trimOutMouseArea.containsMouse || trimOutMouseArea.pressed || trimInMouseArea.containsMouse
+    }
     Rectangle {
         id: zone
         visible: controller.zoneOut > controller.zoneIn
@@ -102,10 +127,10 @@ Rectangle {
     }
     Rectangle {
         id: trimIn
-        x: zone.x
+        x: zone.x - root.baseUnit / 3
         y: zone.y
         height: zone.height
-        width: 5
+        width: root.baseUnit * .8
         color: 'lawngreen'
         opacity: trimInMouseArea.containsMouse || trimInMouseArea.drag.active ? 0.5 : 0
         Drag.active: trimInMouseArea.drag.active
@@ -129,10 +154,10 @@ Rectangle {
     }
     Rectangle {
         id: trimOut
-        x: zone.x + zone.width - width
+        width: root.baseUnit * .8
+        x: zone.x + zone.width - (width * .7)
         y: zone.y
         height: zone.height
-        width: 5
         color: 'darkred'
         opacity: trimOutMouseArea.containsMouse || trimOutMouseArea.drag.active ? 0.5 : 0
         Drag.active: trimOutMouseArea.drag.active
@@ -215,15 +240,5 @@ Rectangle {
         opacity: 0.5
         x: controller.seekPosition * root.timeScale
         y: 0
-    }
-
-    TimelinePlayhead {
-        id: playhead
-        visible: controller.position > -1
-        height: ruler.height * 0.5
-        width: ruler.height * 1
-        anchors.top: ruler.top
-        fillColor: activePalette.windowText
-        x: controller.position * root.timeScale - (width / 2)
     }
 }
