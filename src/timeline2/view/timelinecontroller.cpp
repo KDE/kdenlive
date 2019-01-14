@@ -617,6 +617,11 @@ bool TimelineController::pasteItem()
         int pos = prod.attribute(QStringLiteral("position")).toInt() - offset;
         int newId;
         res = m_model->requestClipCreation(originalId, newId, m_model->getTrackById_const(trackId)->trackType(), undo, redo);
+        if(m_model->m_allClips[newId]->m_endlessResize) {
+            out = out - in;
+            in = 0;
+            m_model->m_allClips[newId]->m_producer->set("length", out + 1);
+        }
         m_model->m_allClips[newId]->setInOut(in, out);
         correspondingIds.insert(prod.attribute(QStringLiteral("id")).toInt(), newId);
         res = res & m_model->getTrackById(tracksMap.value(trackId))->requestClipInsertion(newId, position + pos, true, true, undo, redo);
