@@ -54,6 +54,15 @@ class MonitorProxy;
 
 typedef void *(*thread_function_t)(void *);
 
+/* QQuickView that renders an .
+ *
+ * Creates an MLT consumer and renders a GL view from the consumer. This pipeline is one of:
+ *
+ *    A. YUV gl texture w/o GPU filter acceleration
+ *    B. YUV gl texture multithreaded w/o GPU filter acceleration
+ *    C. RGB gl texture multithreaded w/ GPU filter acceleration and no sync
+ *    D. RGB gl texture multithreaded w/ GPU filter acceleration and sync
+ */
 class GLWidget : public QQuickView, protected QOpenGLFunctions
 {
     Q_OBJECT
@@ -65,6 +74,7 @@ public:
     friend class MonitorController;
     friend class Monitor;
     friend class MonitorProxy;
+    using ClientWaitSync_fp = GLenum (*)(GLsync, GLbitfield, GLuint64);
 
     GLWidget(int id, QObject *parent = nullptr);
     ~GLWidget();
@@ -74,6 +84,7 @@ public:
     void startGlsl();
     void stopGlsl();
     void clear();
+    // TODO: currently unused
     int reconfigureMulti(const QString &params, const QString &path, Mlt::Profile *profile);
     void stopCapture();
     int reconfigure(Mlt::Profile *profile = nullptr);
@@ -181,10 +192,12 @@ signals:
 
 protected:
     Mlt::Filter *m_glslManager;
+    // TODO: MTL has lock/unlock of individual nodes. Use those.
+    // keeping this for refactoring ease.
+    QMutex m_mltMutex;
     Mlt::Consumer *m_consumer;
     Mlt::Producer *m_producer;
     Mlt::Profile *m_monitorProfile;
-    QMutex m_mutex;
     int m_id;
     int m_rulerHeight;
 
@@ -212,14 +225,10 @@ private:
     int m_textureLocation[3];
     QTimer m_refreshTimer;
     float m_zoom;
-    bool m_openGLSync;
     bool m_sendFrame;
     bool m_isZoneMode;
     bool m_isLoopMode;
-    SharedFrame m_sharedFrame;
     QPoint m_offset;
-    QOffscreenSurface m_offscreenSurface;
-    QOpenGLContext *m_shareContext;
     bool m_audioWaveDisplayed;
     MonitorProxy *m_proxy;
     QScopedPointer<Mlt::Producer> m_blackClip;
@@ -233,6 +242,8 @@ private:
     void refreshSceneLayout();
     void resetZoneMode();
 
+    /* OpenGL context management. Interfaces to MLT according to the configured render pipeline.
+     */
 private slots:
     void resizeGL(int width, int height);
     void updateTexture(GLuint yName, GLuint uName, GLuint vName);
@@ -241,11 +252,39 @@ private slots:
     void refresh();
 
 protected:
+    QMutex m_contextSharedAccess;
+    QOffscreenSurface m_offscreenSurface;
+    SharedFrame m_sharedFrame;
+    QOpenGLContext *m_shareContext;
+
+    bool acquireSharedFrameTextures();
+    void bindShaderProgram();
+    void createGPUAccelFragmentProg();
+    void createShader();
+    void createYUVTextureProjectFragmentProg();
+    void disableGPUAccel();
+    void releaseSharedFrameTextures();
+
+    // pipeline A - YUV gl texture w/o GPU filter acceleration
+    // pipeline B - YUV gl texture multithreaded w/o GPU filter acceleration
+    // pipeline C - RGB gl texture multithreaded w/ GPU filter acceleration and no sync
+    // pipeline D - RGB gl texture multithreaded w/ GPU filter acceleration and sync
+    bool m_openGLSync;
+    bool initGPUAccelSync();
+
+    // pipeline C & D
+    bool initGPUAccel();
+    bool onlyGLESGPUAccel() const;
+
+    // pipeline A & B & C & D
+    // not null iff D
+    ClientWaitSync_fp m_ClientWaitSync;
+
+protected:
     void resizeEvent(QResizeEvent *event) override;
     void mousePressEvent(QMouseEvent *) override;
     void mouseMoveEvent(QMouseEvent *) override;
     void keyPressEvent(QKeyEvent *event) override;
-    void createShader();
 };
 
 class RenderThread : public QThread
@@ -269,7 +308,9 @@ class FrameRenderer : public QThread
 {
     Q_OBJECT
 public:
-    explicit FrameRenderer(QOpenGLContext *shareContext, QSurface *surface);
+    explicit FrameRenderer(QOpenGLContext *shareContext,
+                           QSurface *surface,
+                           GLWidget::ClientWaitSync_fp clientWaitSync);
     ~FrameRenderer();
     QSemaphore *semaphore() { return &m_semaphore; }
     QOpenGLContext *context() const { return m_context; }
@@ -290,6 +331,9 @@ private:
     SharedFrame m_displayFrame;
     QOpenGLContext *m_context;
     QSurface *m_surface;
+    GLWidget::ClientWaitSync_fp m_ClientWaitSync;
+
+    void pipelineSyncToFrame(Mlt::Frame&);
 
 public:
     GLuint m_renderTexture[3];

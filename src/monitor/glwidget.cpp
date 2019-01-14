@@ -65,11 +65,6 @@
 #define GL_TIMEOUT_IGNORED 0xFFFFFFFFFFFFFFFFull
 #endif
 
-#ifndef Q_OS_WIN
-using ClientWaitSync_fp = GLenum (*)(GLsync, GLbitfield, GLuint64);
-static ClientWaitSync_fp ClientWaitSync = nullptr;
-#endif
-
 using namespace Mlt;
 
 GLWidget::GLWidget(int id, QObject *parent)
@@ -96,7 +91,6 @@ GLWidget::GLWidget(int id, QObject *parent)
     , m_texCoordLocation(0)
     , m_colorspaceLocation(0)
     , m_zoom(1.0f)
-    , m_openGLSync(false)
     , m_sendFrame(false)
     , m_isZoneMode(false)
     , m_isLoopMode(false)
@@ -104,6 +98,8 @@ GLWidget::GLWidget(int id, QObject *parent)
     , m_shareContext(nullptr)
     , m_audioWaveDisplayed(false)
     , m_fbo(nullptr)
+    , m_openGLSync(false)
+    , m_ClientWaitSync(nullptr)
 {
     KDeclarative::KDeclarative kdeclarative;
     kdeclarative.setDeclarativeEngine(engine());
@@ -136,19 +132,13 @@ GLWidget::GLWidget(int id, QObject *parent)
     connect(&m_refreshTimer, &QTimer::timeout, this, &GLWidget::refresh);
     m_producer = &*m_blackClip;
 
-    if (KdenliveSettings::gpu_accel()) {
-        m_glslManager = new Mlt::Filter(*m_monitorProfile, "glsl.manager");
+    if (!initGPUAccel()) {
+        disableGPUAccel();
     }
-    if (((m_glslManager != nullptr) && !m_glslManager->is_valid())) {
-        delete m_glslManager;
-        m_glslManager = nullptr;
-        KdenliveSettings::setGpu_accel(false);
-        // Need to destroy MLT global reference to prevent filters from trying to use GPU.
-        mlt_properties_set_data(mlt_global_properties(), "glslManager", nullptr, 0, nullptr, nullptr);
-        emit gpuNotSupported();
-    }
+
     connect(this, &QQuickWindow::sceneGraphInitialized, this, &GLWidget::initializeGL, Qt::DirectConnection);
     connect(this, &QQuickWindow::beforeRendering, this, &GLWidget::paintGL, Qt::DirectConnection);
+
     registerTimelineItems();
     m_proxy = new MonitorProxy(this);
     connect(m_proxy, &MonitorProxy::seekRequestChanged, this, &GLWidget::requestSeek);
@@ -157,6 +147,7 @@ GLWidget::GLWidget(int id, QObject *parent)
 
 GLWidget::~GLWidget()
 {
+    // C & D
     delete m_glslManager;
     delete m_threadStartEvent;
     delete m_threadStopEvent;
@@ -189,55 +180,44 @@ void GLWidget::updateAudioForAnalysis()
 void GLWidget::initializeGL()
 {
     if (m_isInitialized || !isVisible() || (openglContext() == nullptr)) return;
+
     openglContext()->makeCurrent(&m_offscreenSurface);
     initializeOpenGLFunctions();
+
     qCDebug(KDENLIVE_LOG) << "OpenGL vendor: " << QString::fromUtf8((const char *)glGetString(GL_VENDOR));
     qCDebug(KDENLIVE_LOG) << "OpenGL renderer: " << QString::fromUtf8((const char *)glGetString(GL_RENDERER));
     qCDebug(KDENLIVE_LOG) << "OpenGL Threaded: " << openglContext()->supportsThreadedOpenGL();
     qCDebug(KDENLIVE_LOG) << "OpenGL ARG_SYNC: " << openglContext()->hasExtension("GL_ARB_sync");
     qCDebug(KDENLIVE_LOG) << "OpenGL OpenGLES: " << openglContext()->isOpenGLES();
 
-    if ((m_glslManager != nullptr) && openglContext()->isOpenGLES()) {
-        delete m_glslManager;
-        m_glslManager = nullptr;
-        KdenliveSettings::setGpu_accel(false);
-        // Need to destroy MLT global reference to prevent filters from trying to use GPU.
-        mlt_properties_set_data(mlt_global_properties(), "glslManager", nullptr, 0, nullptr, nullptr);
-        emit gpuNotSupported();
+    // C & D
+    if (onlyGLESGPUAccel()) {
+        disableGPUAccel();
     }
+
     createShader();
 
-#if !defined(Q_OS_WIN)
-    // getProcAddress is not working for me on Windows.
-    if (KdenliveSettings::gpu_accel()) {
-        m_openGLSync = false;
-        if ((m_glslManager != nullptr) && openglContext()->hasExtension("GL_ARB_sync")) {
-            ClientWaitSync = (ClientWaitSync_fp)openglContext()->getProcAddress("glClientWaitSync");
-            if (ClientWaitSync) {
-                m_openGLSync = true;
-            } else {
-                qCDebug(KDENLIVE_LOG) << "  / / // NO GL SYNC, ERROR";
-                emit gpuNotSupported();
-                delete m_glslManager;
-                m_glslManager = nullptr;
-            }
-        }
-    }
-#endif
+    m_openGLSync = initGPUAccelSync();
 
-    openglContext()->doneCurrent();
+    // C & D
     if (m_glslManager) {
         // Create a context sharing with this context for the RenderThread context.
         // This is needed because openglContext() is active in another thread
         // at the time that RenderThread is created.
         // See this Qt bug for more info: https://bugreports.qt.io/browse/QTBUG-44677
+        // TODO: QTBUG-44677 is closed. still applicable?
         m_shareContext = new QOpenGLContext;
         m_shareContext->setFormat(openglContext()->format());
         m_shareContext->setShareContext(openglContext());
         m_shareContext->create();
     }
-    m_frameRenderer = new FrameRenderer(openglContext(), &m_offscreenSurface);
+
+    m_frameRenderer = new FrameRenderer(openglContext(),
+                                        &m_offscreenSurface,
+                                        m_ClientWaitSync);
+
     m_frameRenderer->sendAudioForAnalysis = KdenliveSettings::monitor_audio();
+
     openglContext()->makeCurrent(this);
     // openglContext()->blockSignals(false);
     connect(m_frameRenderer, &FrameRenderer::frameDisplayed, this, &GLWidget::frameDisplayed, Qt::QueuedConnection);
@@ -297,6 +277,17 @@ void GLWidget::resizeEvent(QResizeEvent *event)
     QQuickView::resizeEvent(event);
 }
 
+void GLWidget::createGPUAccelFragmentProg()
+{
+    m_shader->addShaderFromSourceCode(QOpenGLShader::Fragment, "uniform sampler2D tex;"
+                                                               "varying highp vec2 coordinates;"
+                                                               "void main(void) {"
+                                                               "  gl_FragColor = texture2D(tex, coordinates);"
+                                                               "}");
+    m_shader->link();
+    m_textureLocation[0] = m_shader->uniformLocation("tex");
+}
+
 void GLWidget::createShader()
 {
     m_shader = new QOpenGLShaderProgram;
@@ -309,51 +300,55 @@ void GLWidget::createShader()
                                                              "  gl_Position = projection * modelView * vertex;"
                                                              "  coordinates = texCoord;"
                                                              "}");
+    // C & D
     if (m_glslManager) {
-        m_shader->addShaderFromSourceCode(QOpenGLShader::Fragment, "uniform sampler2D tex;"
-                                                                   "varying highp vec2 coordinates;"
-                                                                   "void main(void) {"
-                                                                   "  gl_FragColor = texture2D(tex, coordinates);"
-                                                                   "}");
-        m_shader->link();
-        m_textureLocation[0] = m_shader->uniformLocation("tex");
+        createGPUAccelFragmentProg();
     } else {
-        m_shader->addShaderFromSourceCode(QOpenGLShader::Fragment,
-                                          "uniform sampler2D Ytex, Utex, Vtex;"
-                                          "uniform lowp int colorspace;"
-                                          "varying highp vec2 coordinates;"
-                                          "void main(void) {"
-                                          "  mediump vec3 texel;"
-                                          "  texel.r = texture2D(Ytex, coordinates).r - 0.0625;" // Y
-                                          "  texel.g = texture2D(Utex, coordinates).r - 0.5;"    // U
-                                          "  texel.b = texture2D(Vtex, coordinates).r - 0.5;"    // V
-                                          "  mediump mat3 coefficients;"
-                                          "  if (colorspace == 601) {"
-                                          "    coefficients = mat3("
-                                          "      1.1643,  1.1643,  1.1643," // column 1
-                                          "      0.0,    -0.39173, 2.017,"  // column 2
-                                          "      1.5958, -0.8129,  0.0);"   // column 3
-                                          "  } else {"                      // ITU-R 709
-                                          "    coefficients = mat3("
-                                          "      1.1643, 1.1643, 1.1643," // column 1
-                                          "      0.0,   -0.213,  2.112,"  // column 2
-                                          "      1.793, -0.533,  0.0);"   // column 3
-                                          "  }"
-                                          "  gl_FragColor = vec4(coefficients * texel, 1.0);"
-                                          "}");
-        m_shader->link();
-        m_textureLocation[0] = m_shader->uniformLocation("Ytex");
-        m_textureLocation[1] = m_shader->uniformLocation("Utex");
-        m_textureLocation[2] = m_shader->uniformLocation("Vtex");
-        m_colorspaceLocation = m_shader->uniformLocation("colorspace");
+        // A & B
+        createYUVTextureProjectFragmentProg();
     }
+
     m_projectionLocation = m_shader->uniformLocation("projection");
     m_modelViewLocation = m_shader->uniformLocation("modelView");
     m_vertexLocation = m_shader->attributeLocation("vertex");
     m_texCoordLocation = m_shader->attributeLocation("texCoord");
 }
 
-static void uploadTextures(QOpenGLContext *context, const SharedFrame &frame, GLuint texture[])
+void GLWidget::createYUVTextureProjectFragmentProg()
+{
+    m_shader->addShaderFromSourceCode(QOpenGLShader::Fragment,
+                                        "uniform sampler2D Ytex, Utex, Vtex;"
+                                        "uniform lowp int colorspace;"
+                                        "varying highp vec2 coordinates;"
+                                        "void main(void) {"
+                                        "  mediump vec3 texel;"
+                                        "  texel.r = texture2D(Ytex, coordinates).r - 0.0625;" // Y
+                                        "  texel.g = texture2D(Utex, coordinates).r - 0.5;"    // U
+                                        "  texel.b = texture2D(Vtex, coordinates).r - 0.5;"    // V
+                                        "  mediump mat3 coefficients;"
+                                        "  if (colorspace == 601) {"
+                                        "    coefficients = mat3("
+                                        "      1.1643,  1.1643,  1.1643," // column 1
+                                        "      0.0,    -0.39173, 2.017,"  // column 2
+                                        "      1.5958, -0.8129,  0.0);"   // column 3
+                                        "  } else {"                      // ITU-R 709
+                                        "    coefficients = mat3("
+                                        "      1.1643, 1.1643, 1.1643," // column 1
+                                        "      0.0,   -0.213,  2.112,"  // column 2
+                                        "      1.793, -0.533,  0.0);"   // column 3
+                                        "  }"
+                                        "  gl_FragColor = vec4(coefficients * texel, 1.0);"
+                                        "}");
+    m_shader->link();
+    m_textureLocation[0] = m_shader->uniformLocation("Ytex");
+    m_textureLocation[1] = m_shader->uniformLocation("Utex");
+    m_textureLocation[2] = m_shader->uniformLocation("Vtex");
+    m_colorspaceLocation = m_shader->uniformLocation("colorspace");
+}
+
+static void uploadTextures(QOpenGLContext *context,
+                           const SharedFrame &frame,
+                           GLuint texture[])
 {
     int width = frame.get_image_width();
     int height = frame.get_image_height();
@@ -422,6 +417,102 @@ void GLWidget::releaseAnalyse()
     m_analyseSem.release();
 }
 
+bool GLWidget::acquireSharedFrameTextures() {
+    // A
+    if ((m_glslManager == nullptr) && !openglContext()->supportsThreadedOpenGL()) {
+        QMutexLocker locker(&m_contextSharedAccess);
+        if (!m_sharedFrame.is_valid()) {
+            return false;
+        }
+        uploadTextures(openglContext(), m_sharedFrame, m_texture);
+    } else if (m_glslManager) {
+        // C & D
+        m_contextSharedAccess.lock();
+        if (m_sharedFrame.is_valid()) {
+            m_texture[0] = *((const GLuint *)m_sharedFrame.get_image());
+        }
+    }
+
+    if (!m_texture[0]) {
+        // C & D
+        if (m_glslManager) m_contextSharedAccess.unlock();
+        return false;
+    }
+
+    return true;
+}
+
+void GLWidget::bindShaderProgram() {
+    m_shader->bind();
+
+    // C & D
+    if (m_glslManager) {
+        m_shader->setUniformValue(m_textureLocation[0], 0);
+    } else {
+        // A & B
+        m_shader->setUniformValue(m_textureLocation[0], 0);
+        m_shader->setUniformValue(m_textureLocation[1], 1);
+        m_shader->setUniformValue(m_textureLocation[2], 2);
+        m_shader->setUniformValue(m_colorspaceLocation, m_monitorProfile->colorspace());
+    }
+}
+
+void GLWidget::releaseSharedFrameTextures() {
+    // C & D
+    if (m_glslManager) {
+        glFinish();
+        m_contextSharedAccess.unlock();
+    }
+}
+
+bool GLWidget::initGPUAccel() {
+    if (!KdenliveSettings::gpu_accel()) return false;
+
+    m_glslManager = new Mlt::Filter(*m_monitorProfile, "glsl.manager");
+    return m_glslManager->is_valid();
+}
+
+// C & D
+// TODO: insure safe, idempotent on all pipelines.
+void GLWidget::disableGPUAccel() {
+    delete m_glslManager;
+    m_glslManager = nullptr;
+    KdenliveSettings::setGpu_accel(false);
+    // Need to destroy MLT global reference to prevent filters from trying to use GPU.
+    mlt_properties_set_data(mlt_global_properties(), "glslManager", nullptr, 0, nullptr, nullptr);
+    emit gpuNotSupported();
+}
+
+bool GLWidget::onlyGLESGPUAccel() const {
+    return (m_glslManager != nullptr) && openglContext()->isOpenGLES();
+}
+
+#if defined(Q_OS_WIN)
+bool GLWidget::initGPUAccelSync() {
+    // no-op
+    // TODO: getProcAddress is not working on Windows?
+    return false;
+}
+#else
+bool GLWidget::initGPUAccelSync() {
+    if (!KdenliveSettings::gpu_accel()) return false;
+    if (m_glslManager == nullptr) return false;
+    if (!openglContext()->hasExtension("GL_ARB_sync")) return false;
+
+    m_ClientWaitSync = (ClientWaitSync_fp)openglContext()->getProcAddress("glClientWaitSync");
+    if (m_ClientWaitSync) {
+        return true;
+    } else {
+        qCDebug(KDENLIVE_LOG) << "  / / // NO GL SYNC, ERROR";
+        // fallback on A || B
+        // TODO: fallback on A || B || C?
+        disableGPUAccel();
+        return false;
+    }
+}
+#endif
+
+
 void GLWidget::paintGL()
 {
     QOpenGLFunctions *f = openglContext()->functions();
@@ -434,29 +525,12 @@ void GLWidget::paintGL()
     f->glViewport(0, (m_rulerHeight * devicePixelRatio() * 0.5 + 0.5), width, height);
     check_error(f);
     QColor color(KdenliveSettings::window_background());
-    glClearColor(color.redF(), color.greenF(), color.blueF(), color.alphaF());
-    glClear(GL_COLOR_BUFFER_BIT);
+    f->glClearColor(color.redF(), color.greenF(), color.blueF(), color.alphaF());
+    f->glClear(GL_COLOR_BUFFER_BIT);
     check_error(f);
 
-    if (!((m_glslManager != nullptr) || openglContext()->supportsThreadedOpenGL())) {
-        m_mutex.lock();
-        if (!m_sharedFrame.is_valid()) {
-            m_mutex.unlock();
-            return;
-        }
-        uploadTextures(openglContext(), m_sharedFrame, m_texture);
-        m_mutex.unlock();
-    } else if (m_glslManager) {
-        m_mutex.lock();
-        if (m_sharedFrame.is_valid()) {
-            m_texture[0] = *((const GLuint *)m_sharedFrame.get_image());
-        }
-    }
-
-    if (!m_texture[0]) {
-        if (m_glslManager) m_mutex.unlock();
+    if (!acquireSharedFrameTextures())
         return;
-    }
 
     // Bind textures.
     for (uint i = 0; i < 3; ++i) {
@@ -466,16 +540,8 @@ void GLWidget::paintGL()
             check_error(f);
         }
     }
-    // Init shader program.
-    m_shader->bind();
-    if (m_glslManager) {
-        m_shader->setUniformValue(m_textureLocation[0], 0);
-    } else {
-        m_shader->setUniformValue(m_textureLocation[0], 0);
-        m_shader->setUniformValue(m_textureLocation[1], 1);
-        m_shader->setUniformValue(m_textureLocation[2], 2);
-        m_shader->setUniformValue(m_colorspaceLocation, m_monitorProfile->colorspace());
-    }
+
+    bindShaderProgram();
     check_error(f);
 
     // Setup an orthographic projection.
@@ -558,11 +624,9 @@ void GLWidget::paintGL()
     }
     glActiveTexture(GL_TEXTURE0);
     check_error(f);
-    if (m_glslManager) {
-        glFinish();
-        check_error(f);
-        m_mutex.unlock();
-    }
+
+    releaseSharedFrameTextures();
+    check_error(f);
 }
 
 void GLWidget::slotZoom(bool zoomIn)
@@ -646,7 +710,7 @@ QString GLWidget::frameToTime(int frames) const
 void GLWidget::refresh()
 {
     m_refreshTimer.stop();
-    QMutexLocker locker(&m_mutex);
+    QMutexLocker locker(&m_mltMutex);
     if (m_consumer->is_stopped()) {
         m_consumer->start();
     }
@@ -797,15 +861,12 @@ static void onThreadJoin(mlt_properties owner, GLWidget *self, RenderThread *thr
 
 void GLWidget::startGlsl()
 {
+    // C & D
     if (m_glslManager) {
         // clearFrameRenderer();
         m_glslManager->fire_event("init glsl");
         if (m_glslManager->get_int("glsl_supported") == 0) {
-            delete m_glslManager;
-            m_glslManager = nullptr;
-            // Need to destroy MLT global reference to prevent filters from trying to use GPU.
-            mlt_properties_set_data(mlt_global_properties(), "glslManager", nullptr, 0, nullptr, nullptr);
-            emit gpuNotSupported();
+            disableGPUAccel();
         } else {
             emit started();
         }
@@ -834,6 +895,7 @@ void GLWidget::stopGlsl()
         m_consumer->purge();
     }
 
+    // C & D
     // TODO This is commented out for now because it is causing crashes.
     // Technically, this should be the correct thing to do, but it appears
     // some changes have created regression (see shotcut)
@@ -879,6 +941,7 @@ int GLWidget::setProducer(Mlt::Producer *producer, bool isActive, int position)
         }
         m_producer = &*m_blackClip;
     }
+    // redundant check. postcondition of above is m_producer != null
     if (m_producer) {
         m_producer->set_speed(0);
         if (m_consumer) {
@@ -1094,13 +1157,17 @@ int GLWidget::reconfigureMulti(const QString &params, const QString &path, Mlt::
         }
         // Connect the producer to the consumer - tell it to "run" later
         delete m_displayEvent;
+        // C & D
         if (m_glslManager) {
+            // D
             if (m_openGLSync) {
                 m_displayEvent = m_consumer->listen("consumer-frame-show", this, (mlt_listener)on_gl_frame_show);
             } else {
+                // C
                 m_displayEvent = m_consumer->listen("consumer-frame-show", this, (mlt_listener)on_gl_nosync_frame_show);
             }
         } else {
+            // A & B
             m_displayEvent = m_consumer->listen("consumer-frame-show", this, (mlt_listener)on_frame_show);
         }
         m_consumer->connect(*m_producer);
@@ -1191,6 +1258,7 @@ int GLWidget::reconfigure(Mlt::Profile *profile)
             dropFrames = -dropFrames;
         }
         m_consumer->set("real_time", dropFrames);
+        // C & D
         if (m_glslManager) {
             if (!m_threadStartEvent) {
                 m_threadStartEvent = m_consumer->listen("consumer-thread-started", this, (mlt_listener)onThreadStarted);
@@ -1202,13 +1270,16 @@ int GLWidget::reconfigure(Mlt::Profile *profile)
                 m_consumer->set("mlt_image_format", "glsl");
             }
         } else {
+            // A & B
             m_consumer->set("mlt_image_format", "yuv422");
         }
 
         delete m_displayEvent;
+        // C & D
         if (m_glslManager) {
             m_displayEvent = m_consumer->listen("consumer-frame-show", this, (mlt_listener)on_gl_frame_show);
         } else {
+            // A & B
             m_displayEvent = m_consumer->listen("consumer-frame-show", this, (mlt_listener)on_frame_show);
         }
 
@@ -1270,7 +1341,7 @@ Mlt::Profile *GLWidget::profile()
 void GLWidget::reloadProfile()
 {
     auto &profile = pCore->getCurrentProfile();
-    m_monitorProfile->get_profile()->description = qstrdup(profile->description().toUtf8().constData());
+    m_monitorProfile->get_profile()->description = strdup(profile->description().toUtf8().constData());
     m_monitorProfile->set_colorspace(profile->colorspace());
     m_monitorProfile->set_frame_rate(profile->frame_rate_num(), profile->frame_rate_den());
     m_monitorProfile->set_height(profile->height());
@@ -1317,10 +1388,10 @@ void GLWidget::setZoom(float zoom)
 
 void GLWidget::onFrameDisplayed(const SharedFrame &frame)
 {
-    m_mutex.lock();
+    m_contextSharedAccess.lock();
     m_sharedFrame = frame;
     m_sendFrame = sendFrameForAnalysis;
-    m_mutex.unlock();
+    m_contextSharedAccess.unlock();
     update();
 }
 
@@ -1373,6 +1444,7 @@ void GLWidget::setOffsetY(int y, int max)
 
 int GLWidget::realTime() const
 {
+    // C & D
     if (m_glslManager) {
         return 1;
     }
@@ -1491,9 +1563,12 @@ RenderThread::RenderThread(thread_function_t function, void *data, QOpenGLContex
 
 RenderThread::~RenderThread()
 {
-    // delete m_context;
+    // would otherwise leak if RenderThread is allocated with a context but not run.
+    // safe post-run
+    delete m_context;
 }
 
+// TODO: missing some exception handling?
 void RenderThread::run()
 {
     if (m_context) {
@@ -1503,20 +1578,25 @@ void RenderThread::run()
     if (m_context) {
         m_context->doneCurrent();
         delete m_context;
+        m_context = nullptr;
     }
 }
 
-FrameRenderer::FrameRenderer(QOpenGLContext *shareContext, QSurface *surface)
+FrameRenderer::FrameRenderer(QOpenGLContext *shareContext,
+                             QSurface *surface,
+                             GLWidget::ClientWaitSync_fp clientWaitSync)
     : QThread(nullptr)
     , m_semaphore(3)
     , m_context(nullptr)
     , m_surface(surface)
+    , m_ClientWaitSync(clientWaitSync)
     , m_gl32(nullptr)
     , sendAudioForAnalysis(false)
 {
     Q_ASSERT(shareContext);
     m_renderTexture[0] = m_renderTexture[1] = m_renderTexture[2] = 0;
     m_displayTexture[0] = m_displayTexture[1] = m_displayTexture[2] = 0;
+    // B & C & D
     if (KdenliveSettings::gpu_accel() || shareContext->supportsThreadedOpenGL()) {
         m_context = new QOpenGLContext;
         m_context->setFormat(shareContext->format());
@@ -1575,27 +1655,7 @@ void FrameRenderer::showGLFrame(Mlt::Frame frame)
         mlt_image_format format = mlt_image_glsl_texture;
         frame.get_image(format, width, height);
         m_context->makeCurrent(m_surface);
-        GLsync sync = (GLsync)frame.get_data("movit.convert.fence");
-        if (sync) {
-#ifdef Q_OS_WIN
-            // On Windows, use QOpenGLFunctions_3_2_Core instead of getProcAddress.
-            if (!m_gl32) {
-                m_gl32 = m_context->versionFunctions<QOpenGLFunctions_3_2_Core>();
-                if (m_gl32) {
-                    m_gl32->initializeOpenGLFunctions();
-                }
-            }
-            if (m_gl32) {
-                m_gl32->glClientWaitSync(sync, 0, GL_TIMEOUT_IGNORED);
-                check_error(m_context->functions());
-            }
-#else
-            if (ClientWaitSync) {
-                ClientWaitSync(sync, 0, GL_TIMEOUT_IGNORED);
-                check_error(m_context->functions());
-            }
-#endif // Q_OS_WIN
-        }
+        pipelineSyncToFrame(frame);
 
         m_context->functions()->glFinish();
         m_context->doneCurrent();
@@ -1646,51 +1706,81 @@ void FrameRenderer::cleanup()
     }
 }
 
-void GLWidget::setAudioThumb(int channels, const QVariantList &audioCache)
+// D
+void FrameRenderer::pipelineSyncToFrame(Mlt::Frame& frame)
 {
-    if (rootObject()) {
-        QmlAudioThumb *audioThumbDisplay = rootObject()->findChild<QmlAudioThumb *>(QStringLiteral("audiothumb"));
-        if (audioThumbDisplay) {
-            QImage img(width(), height() / 6, QImage::Format_ARGB32_Premultiplied);
-            img.fill(Qt::transparent);
-            if (!audioCache.isEmpty() && channels > 0) {
-                int audioLevelCount = audioCache.count() - 1;
-                // simplified audio
-                QPainter painter(&img);
-                QRectF mappedRect(0, 0, img.width(), img.height());
-                int channelHeight = mappedRect.height();
-                double value;
-                double scale = (double)width() / (audioLevelCount / channels);
-                if (scale < 1) {
-                    painter.setPen(QColor(80, 80, 150, 200));
-                    for (int i = 0; i < img.width(); i++) {
-                        int framePos = i / scale;
-                        value = audioCache.at(qMin(framePos * channels, audioLevelCount)).toDouble() / 256;
-                        for (int channel = 1; channel < channels; channel++) {
-                            value = qMax(value, audioCache.at(qMin(framePos * channels + channel, audioLevelCount)).toDouble() / 256);
-                        }
-                        painter.drawLine(i, mappedRect.bottom() - (value * channelHeight), i, mappedRect.bottom());
-                    }
-                } else {
-                    QPainterPath positiveChannelPath;
-                    positiveChannelPath.moveTo(0, mappedRect.bottom());
-                    for (int i = 0; i < audioLevelCount / channels; i++) {
-                        value = audioCache.at(qMin(i * channels, audioLevelCount)).toDouble() / 256;
-                        for (int channel = 1; channel < channels; channel++) {
-                            value = qMax(value, audioCache.at(qMin(i * channels + channel, audioLevelCount)).toDouble() / 256);
-                        }
-                        positiveChannelPath.lineTo(i * scale, mappedRect.bottom() - (value * channelHeight));
-                    }
-                    positiveChannelPath.lineTo(mappedRect.right(), mappedRect.bottom());
-                    painter.setPen(Qt::NoPen);
-                    painter.setBrush(QBrush(QColor(80, 80, 150, 200)));
-                    painter.drawPath(positiveChannelPath);
-                }
-                painter.end();
-            }
-            audioThumbDisplay->setImage(img);
+    GLsync sync = (GLsync)frame.get_data("movit.convert.fence");
+    if (! sync) return;
+
+#ifdef Q_OS_WIN
+    // On Windows, use QOpenGLFunctions_3_2_Core instead of getProcAddress.
+    // TODO: move to initialization of m_ClientWaitSync
+    if (!m_gl32) {
+        m_gl32 = m_context->versionFunctions<QOpenGLFunctions_3_2_Core>();
+        if (m_gl32) {
+            m_gl32->initializeOpenGLFunctions();
         }
     }
+    if (m_gl32) {
+        m_gl32->glClientWaitSync(sync, 0, GL_TIMEOUT_IGNORED);
+        check_error(m_context->functions());
+    }
+#else
+    if (m_ClientWaitSync) {
+        m_ClientWaitSync(sync, 0, GL_TIMEOUT_IGNORED);
+        check_error(m_context->functions());
+    }
+#endif // Q_OS_WIN
+}
+
+void GLWidget::setAudioThumb(int channels, const QVariantList &audioCache)
+{
+    if (!rootObject()) return;
+
+    QmlAudioThumb *audioThumbDisplay = rootObject()->findChild<QmlAudioThumb *>(QStringLiteral("audiothumb"));
+
+    if (!audioThumbDisplay) return;
+
+    QImage img(width(), height() / 6, QImage::Format_ARGB32_Premultiplied);
+    img.fill(Qt::transparent);
+
+    if (!audioCache.isEmpty() && channels > 0) {
+        int audioLevelCount = audioCache.count() - 1;
+        // simplified audio
+        QPainter painter(&img);
+        QRectF mappedRect(0, 0, img.width(), img.height());
+        int channelHeight = mappedRect.height();
+        double value;
+        double scale = (double)width() / (audioLevelCount / channels);
+        if (scale < 1) {
+            painter.setPen(QColor(80, 80, 150, 200));
+            for (int i = 0; i < img.width(); i++) {
+                int framePos = i / scale;
+                value = audioCache.at(qMin(framePos * channels, audioLevelCount)).toDouble() / 256;
+                for (int channel = 1; channel < channels; channel++) {
+                    value = qMax(value, audioCache.at(qMin(framePos * channels + channel, audioLevelCount)).toDouble() / 256);
+                }
+                painter.drawLine(i, mappedRect.bottom() - (value * channelHeight), i, mappedRect.bottom());
+            }
+        } else {
+            QPainterPath positiveChannelPath;
+            positiveChannelPath.moveTo(0, mappedRect.bottom());
+            for (int i = 0; i < audioLevelCount / channels; i++) {
+                value = audioCache.at(qMin(i * channels, audioLevelCount)).toDouble() / 256;
+                for (int channel = 1; channel < channels; channel++) {
+                    value = qMax(value, audioCache.at(qMin(i * channels + channel, audioLevelCount)).toDouble() / 256);
+                }
+                positiveChannelPath.lineTo(i * scale, mappedRect.bottom() - (value * channelHeight));
+            }
+            positiveChannelPath.lineTo(mappedRect.right(), mappedRect.bottom());
+            painter.setPen(Qt::NoPen);
+            painter.setBrush(QBrush(QColor(80, 80, 150, 200)));
+            painter.drawPath(positiveChannelPath);
+        }
+        painter.end();
+    }
+
+    audioThumbDisplay->setImage(img);
 }
 
 void GLWidget::refreshSceneLayout()
@@ -1706,7 +1796,6 @@ void GLWidget::refreshSceneLayout()
 
 void GLWidget::switchPlay(bool play, double speed)
 {
-    // QMutexLocker locker(&m_mutex);
     m_proxy->setSeekPosition(-1);
     if ((m_producer == nullptr) || (m_consumer == nullptr)) {
         return;
@@ -1824,7 +1913,8 @@ void GLWidget::stop()
 {
     m_refreshTimer.stop();
     m_proxy->setSeekPosition(-1);
-    QMutexLocker locker(&m_mutex);
+    // why this lock?
+    QMutexLocker locker(&m_mltMutex);
     if (m_producer) {
         if (m_isZoneMode) {
             resetZoneMode();
@@ -1849,7 +1939,8 @@ double GLWidget::playSpeed() const
 
 void GLWidget::setDropFrames(bool drop)
 {
-    QMutexLocker locker(&m_mutex);
+    // why this lock?
+    QMutexLocker locker(&m_mltMutex);
     if (m_consumer) {
         int dropFrames = realTime();
         if (!drop) {
@@ -1895,7 +1986,7 @@ int GLWidget::duration() const
 
 void GLWidget::setConsumerProperty(const QString &name, const QString &value)
 {
-    QMutexLocker locker(&m_mutex);
+    QMutexLocker locker(&m_mltMutex);
     if (m_consumer) {
         m_consumer->set(name.toUtf8().constData(), value.toUtf8().constData());
         if (m_consumer->start() == -1) {
