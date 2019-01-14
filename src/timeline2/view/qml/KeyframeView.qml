@@ -105,8 +105,8 @@ Rectangle
             MouseArea {
                 id: kfMouseArea
                 anchors.fill: parent
-                anchors.leftMargin: -2
-                anchors.rightMargin: -2
+                anchors.leftMargin: - root.baseUnit/3
+                anchors.rightMargin: - root.baseUnit/3
                 hoverEnabled: true
                 cursorShape: Qt.SizeHorCursor
                 drag.target: parent
