@@ -44,7 +44,9 @@
 #include <QThread>
 #include <QAction>
 #include <QTimer>
-
+#include <QSize>
+#include <QGuiApplication>
+#include <QScreen>
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -338,6 +340,21 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString> &map
         // No blackmagic card found
         m_configSdl.kcfg_external_display->setEnabled(false);
     }
+
+    //Config dialog size
+    KSharedConfigPtr config = KSharedConfig::openConfig();
+    KConfigGroup settingsGroup(config, "settings");
+    QSize optimalSize;
+
+    if(!settingsGroup.exists() || !settingsGroup.hasKey("dialogSize")){
+        const QSize screenSize = (QGuiApplication::primaryScreen()->availableSize()*0.9);
+        const QSize targetSize = QSize(1024, 700);
+        optimalSize = targetSize.boundedTo(screenSize);
+    }
+    else {
+        optimalSize = settingsGroup.readEntry("dialogSize",  QVariant(size())).toSize();
+    }
+    resize(optimalSize);
 }
 
 //static
@@ -970,6 +987,11 @@ void KdenliveSettingsDialog::updateSettings()
         emit restartKdenlive();
     }
     emit checkTabPosition();
+
+    //remembering Config dialog size
+    KSharedConfigPtr config = KSharedConfig::openConfig();
+    KConfigGroup settingsGroup(config, "settings");
+    settingsGroup.writeEntry("dialogSize", QVariant(size()));
 }
 
 void KdenliveSettingsDialog::slotCheckAlsaDriver()
