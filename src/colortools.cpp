@@ -18,6 +18,15 @@
 #include "kdenlive_debug.h"
 #endif
 
+namespace {
+    double preventOverflow(double value) 
+    {
+        return value < 0 ? 0
+             : value > 255 ? 255
+             : value;
+    }
+}
+
 ColorTools::ColorTools(QObject *parent)
     : QObject(parent)
 {
@@ -34,7 +43,7 @@ QImage ColorTools::yuvColorWheel(const QSize &size, int Y, float scaling, bool m
         wheel.fill(qRgba(0, 0, 0, 0));
     }
 
-    double dr, dg, db, dv, dmax;
+    double dr, dg, db, dv;
     double ru, rv, rr;
     const int w = size.width();
     const int h = size.height();
@@ -69,14 +78,7 @@ QImage ColorTools::yuvColorWheel(const QSize &size, int Y, float scaling, bool m
 
             if (modifiedVersion) {
                 // Scale the RGB values down, or up, to max 255
-                dmax = fabs(dr);
-                if (fabs(dg) > dmax) {
-                    dmax = fabs(dg);
-                }
-                if (fabs(db) > dmax) {
-                    dmax = fabs(db);
-                }
-                dmax = 255 / dmax;
+                const double dmax = 255 / std::max({fabs(dr), fabs(dg), fabs(db)});
 
                 dr *= dmax;
                 dg *= dmax;
@@ -87,24 +89,9 @@ QImage ColorTools::yuvColorWheel(const QSize &size, int Y, float scaling, bool m
             // Note that not all possible (y,u,v) values with u,v \in [-1,1]
             // have a correct RGB representation, therefore some RGB values
             // may exceed {0,...,255}.
-            if (dr < 0) {
-                dr = 0;
-            }
-            if (dg < 0) {
-                dg = 0;
-            }
-            if (db < 0) {
-                db = 0;
-            }
-            if (dr > 255) {
-                dr = 255;
-            }
-            if (dg > 255) {
-                dg = 255;
-            }
-            if (db > 255) {
-                db = 255;
-            }
+            dr = preventOverflow(dr);
+            dg = preventOverflow(dg);
+            db = preventOverflow(db);
 
             wheel.setPixel(u, (h - v - 1), qRgba(dr, dg, db, 255));
         }
@@ -136,27 +123,9 @@ QImage ColorTools::yuvVerticalPlane(const QSize &size, int angle, float scaling)
             Y = (double)255 * y / h;
 
             // See yuv2rgb, yuvColorWheel
-            dr = Y + 290.8 * dv;
-            dg = Y - 100.6 * du - 148 * dv;
-            db = Y + 517.2 * du;
-            if (dr < 0) {
-                dr = 0;
-            }
-            if (dg < 0) {
-                dg = 0;
-            }
-            if (db < 0) {
-                db = 0;
-            }
-            if (dr > 255) {
-                dr = 255;
-            }
-            if (dg > 255) {
-                dg = 255;
-            }
-            if (db > 255) {
-                db = 255;
-            }
+            dr = preventOverflow(Y + 290.8 * dv);
+            dg = preventOverflow(Y - 100.6 * du - 148 * dv);
+            db = preventOverflow(Y + 517.2 * du);
 
             plane.setPixel(uv, (h - y - 1), qRgba(dr, dg, db, 255));
         }
@@ -287,32 +256,9 @@ QImage ColorTools::yPbPrColorWheel(const QSize &size, int Y, float scaling, bool
             }
 
             // Calculate the RGB values from YPbPr
-            dr = Y + 357.5 * dpR;
-            dg = Y - 87.75 * dpB - 182.1 * dpR;
-            db = Y + 451.86 * dpB;
-
-            // Avoid overflows (which would generate intersecting patterns).
-            // Note that not all possible (y,u,v) values with u,v \in [-1,1]
-            // have a correct RGB representation, therefore some RGB values
-            // may exceed {0,...,255}.
-            if (dr < 0) {
-                dr = 0;
-            }
-            if (dg < 0) {
-                dg = 0;
-            }
-            if (db < 0) {
-                db = 0;
-            }
-            if (dr > 255) {
-                dr = 255;
-            }
-            if (dg > 255) {
-                dg = 255;
-            }
-            if (db > 255) {
-                db = 255;
-            }
+            dr = preventOverflow(Y + 357.5 * dpR);
+            dg = preventOverflow(Y - 87.75 * dpB - 182.1 * dpR);
+            db = preventOverflow(Y + 451.86 * dpB);
 
             wheel.setPixel(b, (h - r - 1), qRgba(dr, dg, db, 255));
         }

@@ -170,8 +170,8 @@ void MainWindow::init()
     QStringList availableStyles = QStyleFactory::keys();
     if (KdenliveSettings::widgetstyle().isEmpty()) {
         // First run
-        QStringList incompatibleStyles;
-        incompatibleStyles << QStringLiteral("GTK+") << QStringLiteral("windowsvista") << QStringLiteral("windowsxp");
+        QStringList incompatibleStyles = {QStringLiteral("GTK+"), QStringLiteral("windowsvista"), QStringLiteral("windowsxp")};
+
         if (incompatibleStyles.contains(desktopStyle, Qt::CaseInsensitive)) {
             if (availableStyles.contains(QStringLiteral("breeze"), Qt::CaseInsensitive)) {
                 // Auto switch to Breeze theme
@@ -432,8 +432,7 @@ void MainWindow::init()
 
     setupGUI(KXmlGuiWindow::ToolBar | KXmlGuiWindow::StatusBar | KXmlGuiWindow::Save | KXmlGuiWindow::Create);
     if (firstRun) {
-        QScreen *current = QApplication::primaryScreen();
-        if (current) {
+        if (QScreen *current = QApplication::primaryScreen()) {
             if (current->availableSize().height() < 1000) {
                 resize(current->availableSize());
             } else {
@@ -1488,15 +1487,17 @@ void MainWindow::setupActions()
 
     addAction(QStringLiteral("add_project_note"), i18n("Add Project Note"), pCore->projectManager(), SLOT(slotAddProjectNote()), QIcon::fromTheme(QStringLiteral("bookmark")));
 
-    QHash<QString, QAction *> actions;
-    actions.insert(QStringLiteral("locate"), locateClip);
-    actions.insert(QStringLiteral("reload"), reloadClip);
-    actions.insert(QStringLiteral("duplicate"), duplicateClip);
-    actions.insert(QStringLiteral("proxy"), proxyClip);
-    actions.insert(QStringLiteral("properties"), clipProperties);
-    actions.insert(QStringLiteral("open"), openClip);
-    actions.insert(QStringLiteral("delete"), deleteClip);
-    actions.insert(QStringLiteral("folder"), addFolder);
+    QHash<QString, QAction *> actions({
+        { QStringLiteral("locate"), locateClip },
+        { QStringLiteral("reload"), reloadClip },
+        { QStringLiteral("duplicate"), duplicateClip },
+        { QStringLiteral("proxy"), proxyClip },
+        { QStringLiteral("properties"), clipProperties },
+        { QStringLiteral("open"), openClip },
+        { QStringLiteral("delete"), deleteClip },
+        { QStringLiteral("folder"), addFolder }
+    });
+
     pCore->bin()->setupMenu(addClips, addClip, actions);
 
     // Setup effects and transitions actions.
