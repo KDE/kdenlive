@@ -485,6 +485,9 @@ Rectangle {
     }
     OLD.Menu {
         id: headerMenu
+        property int trackId: -1
+        property int thumbsFormat: 0
+        property bool audioTrack: false
         OLD.MenuItem {
             text: i18n('Add Track')
             onTriggered: {
@@ -498,6 +501,56 @@ Rectangle {
                 timeline.deleteTrack(timeline.activeTrack)
                 timeline.ungrabHack()
             }
+        }
+        OLD.Menu {
+            title: i18n('Track thumbnails')
+            visible: !headerMenu.audioTrack
+                    OLD.ExclusiveGroup { id: thumbStyle }
+                    OLD.MenuItem {
+                        text: "In frame"
+                        id: inFrame
+                        onTriggered:controller.setTrackProperty(headerMenu.trackId, "kdenlive:thumbs_format", 2)
+                        checkable: true
+                        exclusiveGroup: thumbStyle
+                    }
+                    OLD.MenuItem {
+                        text: "In / out frames"
+                        id: inOutFrame
+                        onTriggered:controller.setTrackProperty(headerMenu.trackId, "kdenlive:thumbs_format", 0)
+                        checkable: true
+                        checked: true
+                        exclusiveGroup: thumbStyle
+                    }
+                    OLD.MenuItem {
+                        text: "All frames"
+                        id: allFrame
+                        onTriggered:controller.setTrackProperty(headerMenu.trackId, "kdenlive:thumbs_format", 1)
+                        checkable: true
+                        exclusiveGroup: thumbStyle
+                    }
+                    OLD.MenuItem {
+                        text: "No thumbnails"
+                        id: noFrame
+                        onTriggered:controller.setTrackProperty(headerMenu.trackId, "kdenlive:thumbs_format", 3)
+                        checkable: true
+                        exclusiveGroup: thumbStyle
+                    }
+                onAboutToShow: {
+                        switch(headerMenu.thumbsFormat) {
+                            case 3:
+                                noFrame.checked = true
+                                break
+                            case 2:
+                                inFrame.checked = true
+                                break
+                            case 1:
+                                allFrame.checked = true
+                                break
+                            default:
+                                inOutFrame.checked = true
+                                break
+                        }
+                }
         }
     }
 

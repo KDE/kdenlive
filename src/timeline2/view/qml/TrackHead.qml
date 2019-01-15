@@ -92,6 +92,9 @@ Rectangle {
         onPressed: {
             parent.clicked()
             if (mouse.button == Qt.RightButton) {
+                headerMenu.trackId = trackId
+                headerMenu.thumbsFormat = thumbsFormat
+                headerMenu.audioTrack = trackHeadRoot.isAudio
                 headerMenu.popup()
             }
         }
@@ -206,70 +209,15 @@ Rectangle {
                 Layout.fillHeight: true
             }
             ToolButton {
-                iconName: 'kdenlive-track_has_effect'
-                //checkable: true
-                //checked: trackHeadRoot.isStackEnabled
-                visible: trackHeadRoot.effectNames != ''
+                iconName: 'tools-wizard'
+                checkable: true
+                enabled: trackHeadRoot.effectNames != ''
+                checked: enabled && trackHeadRoot.isStackEnabled
                 implicitHeight: trackHeadRoot.iconSize
                 implicitWidth: trackHeadRoot.iconSize
-                onClicked: timeline.showTrackAsset(trackId)
-                //onClicked: controller.setTrackStackEnabled(trackId, !isStackEnabled)
-            }
-            ToolButton {
-                id: thumbsButton
-                visible: !isAudio
-                implicitHeight: trackHeadRoot.iconSize
-                implicitWidth: trackHeadRoot.iconSize
-                iconName: 'view-preview'
-                onClicked: thumbsContextMenu.popup()
-                Menu {
-                    id: thumbsContextMenu
-                    ExclusiveGroup { id: thumbStyle }
-                    MenuItem {
-                        text: "In frame"
-                        id: inFrame
-                        onTriggered:controller.setTrackProperty(trackId, "kdenlive:thumbs_format", 2)
-                        checkable: true
-                        exclusiveGroup: thumbStyle
-                    }
-                    MenuItem {
-                        text: "In / out frames"
-                        id: inOutFrame
-                        onTriggered:controller.setTrackProperty(trackId, "kdenlive:thumbs_format", 0)
-                        checkable: true
-                        checked: true
-                        exclusiveGroup: thumbStyle
-                    }
-                    MenuItem {
-                        text: "All frames"
-                        id: allFrame
-                        onTriggered:controller.setTrackProperty(trackId, "kdenlive:thumbs_format", 1)
-                        checkable: true
-                        exclusiveGroup: thumbStyle
-                    }
-                    MenuItem {
-                        text: "No thumbnails"
-                        id: noFrame
-                        onTriggered:controller.setTrackProperty(trackId, "kdenlive:thumbs_format", 3)
-                        checkable: true
-                        exclusiveGroup: thumbStyle
-                    }
-                    onAboutToShow: {
-                        switch(thumbsFormat) {
-                            case 3:
-                                noFrame.checked = true
-                                break
-                            case 2:
-                                inFrame.checked = true
-                                break
-                            case 1:
-                                allFrame.checked = true
-                                break
-                            default:
-                                inOutFrame.checked = true
-                                break
-                        }
-                    }
+                onClicked: {
+                    timeline.showTrackAsset(trackId)
+                    controller.setTrackStackEnabled(trackId, !isStackEnabled)
                 }
             }
             ToolButton {
