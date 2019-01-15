@@ -15,6 +15,7 @@ Rectangle {
     SystemPalette { id: activePalette }
     color: activePalette.window
     property bool validMenu: false
+    property color textColor: activePalette.text
 
     signal clipClicked()
     signal mousePosChanged(int position)
@@ -34,7 +35,7 @@ Rectangle {
 
     function updatePalette() {
         root.color = activePalette.window
-        cursor.color = activePalette.text
+        root.textColor = activePalette.text
         playhead.fillColor = activePalette.windowText
         ruler.repaintRuler()
     }
@@ -166,7 +167,9 @@ Rectangle {
     property color selectedTrackColor: Qt.rgba(activePalette.highlight.r, activePalette.highlight.g, activePalette.highlight.b, 0.4)
     property bool stopScrolling: false
     property int duration: timeline.duration
-    property color shotcutBlue: Qt.rgba(23/255, 92/255, 118/255, 1.0)
+    property color audioColor: timeline.audioColor
+    property color videoColor: timeline.videoColor
+    property color neutralColor: timeline.neutralColor
     property int clipBeingDroppedId: -1
     property string clipBeingDroppedData
     property int droppedPosition: -1
@@ -1065,7 +1068,7 @@ Rectangle {
                         Rectangle {
                             id: cursor
                             visible: timeline.position > -1
-                            color: activePalette.text
+                            color: root.textColor
                             width: Math.max(1, 1 * timeline.scaleFactor)
                             opacity: (width > 2) ? 0.5 : 1
                             height: parent.height

@@ -48,6 +48,7 @@ Row {
             inPoint: Math.round((clipRoot.inPoint + (index * waveform.maxWidth / clipRoot.timeScale)) * clipRoot.speed) * channels
             outPoint: inPoint + Math.round(width / clipRoot.timeScale * clipRoot.speed) * channels
             levels: clipRoot.audioLevels
+            fillColor: activePalette.text
         }
     }
 }

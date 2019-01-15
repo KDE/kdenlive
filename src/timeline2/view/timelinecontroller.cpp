@@ -45,6 +45,7 @@
 #include "effects/effectsrepository.hpp"
 
 #include <KActionCollection>
+#include <KColorScheme>
 #include <QApplication>
 #include <QInputDialog>
 #include <QQuickItem>
@@ -381,6 +382,7 @@ void TimelineController::resetView()
     if (m_root) {
         QMetaObject::invokeMethod(m_root, "updatePalette");
     }
+    emit colorsChanged();
 }
 
 bool TimelineController::snap()
@@ -2315,5 +2317,24 @@ void TimelineController::updateEffectKeyframe(int cid, int oldFrame, int newFram
         std::shared_ptr<KeyframeModelList> listModel = m_model->m_allCompositions[cid]->getKeyframeModel();
         listModel->updateKeyframe(GenTime(oldFrame, pCore->getCurrentFps()), GenTime(newFrame, pCore->getCurrentFps()), normalizedValue);
     }
+}
+
+QColor TimelineController::videoColor() const
+{
+    KColorScheme scheme(QApplication::palette().currentColorGroup(), KColorScheme::View);
+    return scheme.background(KColorScheme::LinkBackground).color();
+}
+
+
+QColor TimelineController::audioColor() const
+{
+    KColorScheme scheme(QApplication::palette().currentColorGroup(), KColorScheme::View);
+    return scheme.background(KColorScheme::NegativeBackground).color();
+}
+
+QColor TimelineController::neutralColor() const
+{
+    KColorScheme scheme(QApplication::palette().currentColorGroup(), KColorScheme::View);
+    return scheme.background(KColorScheme::VisitedBackground).color();
 }
 

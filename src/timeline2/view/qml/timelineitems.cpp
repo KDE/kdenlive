@@ -75,13 +75,13 @@ public:
         setTextureSize(QSize(width(), height()));
         connect(this, SIGNAL(propertyChanged()), this, SLOT(update()));
         // Fill gradient
-        m_gradient.setStart(0, 0);
+        /*m_gradient.setStart(0, 0);
         m_gradient.setFinalStop(0, height());
         m_gradient.setColorAt(1, QColor(129, 233, 139));
         m_gradient.setColorAt(0.4, QColor(129, 233, 139));
         m_gradient.setColorAt(0.2, QColor(233, 215, 129));
         m_gradient.setColorAt(0.1, QColor(255, 0, 0));
-        m_gradient.setSpread(QGradient::ReflectSpread);
+        m_gradient.setSpread(QGradient::ReflectSpread);*/
     }
 
     void paint(QPainter *painter) override
@@ -95,8 +95,9 @@ public:
         pen.setWidthF(0.5);
         pen.setColor(Qt::black);
         if (!KdenliveSettings::displayallchannels()) {
-            m_gradient.setFinalStop(0, height());
-            painter->setBrush(m_gradient);
+            //m_gradient.setFinalStop(0, height());
+            //painter->setBrush(m_gradient);
+            painter->setBrush(m_color);
 
             // Draw merged channels
             QPainterPath path;
@@ -122,8 +123,9 @@ public:
         } else {
             // Fill gradient
             int channelHeight = height() / (2 * m_channels);
-            m_gradient.setFinalStop(0, channelHeight);
-            painter->setBrush(m_gradient);
+            //m_gradient.setFinalStop(0, channelHeight);
+            //painter->setBrush(m_gradient);
+            painter->setBrush(m_color);
 
             // Draw separate channels
             QMap<int, QPainterPath> positiveChannelPaths;

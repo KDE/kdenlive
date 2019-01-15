@@ -64,6 +64,7 @@ Rectangle {
     property int lastValidDuration: clipDuration
     property int draggedX: x
     property bool selected: false
+    property bool isLocked: parentTrack && parentTrack.isLocked == true
     property bool hasAudio
     property bool canBeAudio
     property bool canBeVideo
@@ -159,9 +160,7 @@ Rectangle {
         labelRect.x = scrollX > modelStart * timeScale ? scrollX - modelStart * timeScale : 0
     }
 
-    color: Qt.darker(getColor())
-
-    border.color: selected? 'red' : grouped ? 'yellowgreen' : borderColor
+    border.color: selected? activePalette.highlight : grouped ? activePalette.midlight : borderColor
     border.width: isGrabbed ? 8 : 1.5
 
     function updateDrag() {
@@ -180,7 +179,7 @@ Rectangle {
             }
             return '#' + color.substring(color.length - 8, color.length - 2)
         }
-        return isAudio? '#445f5a' : '#416e8c'
+        return isAudio? root.audioColor : root.videoColor
     }
 
 /*    function reparent(track) {
@@ -399,11 +398,21 @@ Rectangle {
 
     states: [
         State {
+            name: 'locked'
+            when: isLocked
+            PropertyChanges {
+                target: clipRoot
+                color: root.neutralColor
+                opacity: 0.8
+                z: 0
+            }
+        },
+        State {
             name: 'normal'
             when: clipRoot.selected === false
             PropertyChanges {
                 target: clipRoot
-                color: Qt.darker(getColor())
+                color: getColor()
                 z: 0
             }
         },
@@ -412,7 +421,7 @@ Rectangle {
             when: clipRoot.selected === true
             PropertyChanges {
                 target: clipRoot
-                color: getColor()
+                color: Qt.lighter(getColor(), 1.5)
                 z: 3
             }
         }
