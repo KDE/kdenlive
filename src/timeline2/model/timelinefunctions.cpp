@@ -927,10 +927,10 @@ int TimelineFunctions::getTrackOffset(std::shared_ptr<TimelineItemModel> timelin
     int track = masterTrackMltIndex;
     while (track != destTrackMltIndex) {
         track += step;
-        qDebug()<<"+ + +TRSTING TRACK: "<<track;
+        qDebug()<<"+ + +TESTING TRACK: "<<track;
         int trackId = timeline->getTrackIndexFromPosition(track - 1);
         if (isAudio == timeline->isAudioTrack(trackId)) {
-            offset ++;
+            offset += step;
         }
     }
     return offset;
