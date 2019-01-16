@@ -629,7 +629,7 @@ void EffectStackModel::registerItem(const std::shared_ptr<TreeItem> &item)
             qDebug() << "$$$$$$$$$$$$$$$$$$$$$ Planting effect in " << m_childServices.size();
             effectItem->plant(m_masterService);
             for (const auto &service : m_childServices) {
-                qDebug() << "$$$$$$$$$$$$$$$$$$$$$ Planting effect in " << (void *)service.lock().get();
+                qDebug() << "$$$$$$$$$$$$$$$$$$$$$ Planting CLONE effect in " << (void *)service.lock().get();
                 effectItem->plantClone(service);
             }
         }
@@ -849,14 +849,21 @@ bool EffectStackModel::checkConsistency()
             while (ptr->filter(ct)->get("kdenlive_id") == NULL && ct < ptr->filter_count()) {
                 ct++;
             }
-            auto mltFilter = ptr->filter(ct)->get_filter();
-            ct++;
-            auto currentFilter = allFilters[i]->filter().get_filter();
-            if (mltFilter != currentFilter) {
-                ct--;
-                qDebug() << "ERROR: filter " << i << "differ: "<<ct<<", "<<allFilters[i]->filter().get("mlt_service")<<" = "<<ptr->filter(ct)->get("mlt_service");
+            auto mltFilter = ptr->filter(ct);
+            auto currentFilter = allFilters[i]->filter();
+            if (QString(currentFilter.get("mlt_service")) != QLatin1String(mltFilter->get("mlt_service"))) {
+                qDebug() << "ERROR: filter " << i << "differ: "<<ct<<", "<<currentFilter.get("mlt_service")<<" = "<<mltFilter->get("mlt_service");
                 return false;
             }
+            QVector <QPair<QString,QVariant> > params = allFilters[i]->getAllParameters();
+            for(auto val : params) {
+                // Check parameters values
+                if (val.second != QVariant(mltFilter->get(val.first.toUtf8().constData()))) {
+                    qDebug() << "ERROR: filter " << i << "PARAMETER MISMATCH: "<<val.first<<" = "<<val.second<<" != "<<mltFilter->get(val.first.toUtf8().constData());
+                    return false;
+                }
+            }
+            ct++;
         }
     }
 

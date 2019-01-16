@@ -65,18 +65,17 @@ TEST_CASE("Effects stack", "[Effects]")
     QVector<QPair<QString, QString>> effects = EffectsRepository::get()->getNames();
     REQUIRE(!effects.isEmpty());
 
-    anEffect = effects.first().first;
-    //qDebug()<<"// APPENDING EFFECT: "<<anEffect;
+    anEffect = QStringLiteral("sepia"); //effects.first().first;
 
     REQUIRE(!anEffect.isEmpty());
 
     SECTION("Create and delete effects")
     {
-        model->appendEffect(anEffect);
+        REQUIRE(model->appendEffect(anEffect));
         REQUIRE(model->checkConsistency());
         REQUIRE(model->rowCount() == 1);
 
-        model->appendEffect(anEffect);
+        REQUIRE(model->appendEffect(anEffect));
         REQUIRE(model->checkConsistency());
         REQUIRE(model->rowCount() == 2);
 
