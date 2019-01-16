@@ -1422,8 +1422,8 @@ void KdenliveDoc::switchProfile(std::unique_ptr<ProfileParam> &profile, const QS
                                          .arg(profile->m_width)
                                          .arg(profile->m_height)
                                          .arg(QString::number((double)profile->m_frame_rate_num / profile->m_frame_rate_den, 'f', 2));
-            ProfileRepository::get()->saveProfile(profile.get());
-            pCore->setCurrentProfile(profile->m_path);
+            QString profilePath = ProfileRepository::get()->saveProfile(profile.get());
+            pCore->setCurrentProfile(profilePath);
             updateProjectProfile(true);
             emit docModified(true);
         }

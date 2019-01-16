@@ -72,8 +72,9 @@ public:
     QVector<double> getAllFps() const;
 
     /** @brief Saves given profile as custom one. If the path is left empty, it will be set to the standard custom_profile directory
+     *  @returns The path of the saved folder
      */
-    void saveProfile(ProfileInfo *profile, QString profilePath = QString());
+    const QString saveProfile(ProfileInfo *profile, QString profilePath = QString());
 
     /** @brief Delete a (custom) profile*/
     bool deleteProfile(const QString &path);

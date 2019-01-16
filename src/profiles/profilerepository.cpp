@@ -166,7 +166,7 @@ QString ProfileRepository::findMatchingProfile(ProfileInfo *profile) const
     return QString();
 }
 
-void ProfileRepository::saveProfile(ProfileInfo *profile, QString profilePath)
+const QString ProfileRepository::saveProfile(ProfileInfo *profile, QString profilePath)
 {
     if (profilePath.isEmpty()) {
         int i = 0;
@@ -184,7 +184,7 @@ void ProfileRepository::saveProfile(ProfileInfo *profile, QString profilePath)
     QFile file(profilePath);
     if (!file.open(QIODevice::WriteOnly)) {
         KMessageBox::sorry(nullptr, i18n("Cannot open file %1", profilePath));
-        return;
+        return QString();
     }
     QTextStream out(&file);
     out << "description=" << profile->description() << '\n'
@@ -200,9 +200,11 @@ void ProfileRepository::saveProfile(ProfileInfo *profile, QString profilePath)
         << "colorspace=" << profile->colorspace() << '\n';
     if (file.error() != QFile::NoError) {
         KMessageBox::error(nullptr, i18n("Cannot write to file %1", profilePath));
+        profilePath.clear();
     }
     file.close();
-    refresh(true);
+    refresh(false);
+    return profilePath;
 }
 
 bool ProfileRepository::deleteProfile(const QString &path)
