@@ -38,12 +38,9 @@ bool TimelineFunctions::copyClip(std::shared_ptr<TimelineItemModel> timeline, in
 {
     // Special case: slowmotion clips
     double clipSpeed = timeline->m_allClips[clipId]->getSpeed();
-    bool res = timeline->requestClipCreation(timeline->getClipBinId(clipId), newId, state, undo, redo);
+    bool res = timeline->requestClipCreation(timeline->getClipBinId(clipId), newId, state, clipSpeed, undo, redo);
     timeline->m_allClips[newId]->m_endlessResize = timeline->m_allClips[clipId]->m_endlessResize;
-    // Apply speed effect if necessary
-    if (!qFuzzyCompare(clipSpeed, 1.0)) {
-        timeline->m_allClips[newId]->useTimewarpProducer(clipSpeed, undo, redo);
-    }
+
     // copy useful timeline properties
     timeline->m_allClips[clipId]->passTimelineProperties(timeline->m_allClips[newId]);
 

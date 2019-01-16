@@ -609,6 +609,7 @@ bool TimelineController::pasteItem()
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
     bool res = true;
+    QLocale locale;
     QMap <int, int> correspondingIds;
     for (int i = 0; res && i < clips.count(); i++) {
         QDomElement prod = clips.at(i).toElement();
@@ -617,8 +618,9 @@ bool TimelineController::pasteItem()
         int out = prod.attribute(QStringLiteral("out")).toInt();
         int trackId = prod.attribute(QStringLiteral("track")).toInt();
         int pos = prod.attribute(QStringLiteral("position")).toInt() - offset;
+        double speed = locale.toDouble(prod.attribute(QStringLiteral("speed")));
         int newId;
-        res = m_model->requestClipCreation(originalId, newId, m_model->getTrackById_const(trackId)->trackType(), undo, redo);
+        res = m_model->requestClipCreation(originalId, newId, m_model->getTrackById_const(trackId)->trackType(), speed, undo, redo);
         if(m_model->m_allClips[newId]->m_endlessResize) {
             out = out - in;
             in = 0;

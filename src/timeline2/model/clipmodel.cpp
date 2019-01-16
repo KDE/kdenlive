@@ -63,7 +63,7 @@ ClipModel::ClipModel(std::shared_ptr<TimelineModel> parent, std::shared_ptr<Mlt:
     });
 }
 
-int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QString &binClipId, int id, PlaylistState::ClipState state)
+int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QString &binClipId, int id, PlaylistState::ClipState state, double speed)
 {
     id = (id == -1 ? TimelineModel::getNextId() : id);
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(binClipId);
@@ -74,8 +74,8 @@ int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QSt
     videoAudio.second = videoAudio.second && binClip->hasAudio();
     state = stateFromBool(videoAudio);
 
-    std::shared_ptr<Mlt::Producer> cutProducer = binClip->getTimelineProducer(id, state, 1.);
-    std::shared_ptr<ClipModel> clip(new ClipModel(parent, cutProducer, binClipId, id, state));
+    std::shared_ptr<Mlt::Producer> cutProducer = binClip->getTimelineProducer(id, state, speed);
+    std::shared_ptr<ClipModel> clip(new ClipModel(parent, cutProducer, binClipId, id, state, speed));
     clip->setClipState_lambda(state)();
     parent->registerClip(clip);
     return id;
@@ -99,8 +99,8 @@ int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QSt
     state = stateFromBool(videoAudio);
 
     double speed = 1.0;
-    if (QString::fromUtf8(producer->get("mlt_service")) == QLatin1String("timewarp")) {
-        speed = producer->get_double("warp_speed");
+    if (QString::fromUtf8(producer->parent().get("mlt_service")) == QLatin1String("timewarp")) {
+        speed = producer->parent().get_double("warp_speed");
     }
     auto result = binClip->giveMasterAndGetTimelineProducer(id, producer, state);
     std::shared_ptr<ClipModel> clip(new ClipModel(parent, result.first, binClipId, id, state, speed));
@@ -621,6 +621,7 @@ QDomElement ClipModel::toXml(QDomDocument &document)
     container.setAttribute(QStringLiteral("out"), getOut());
     container.setAttribute(QStringLiteral("position"), getPosition());
     container.setAttribute(QStringLiteral("track"), getCurrentTrackId());
+    container.setAttribute(QStringLiteral("speed"), m_speed);
     container.appendChild(m_effectStack->toXml(document));
     return container;
 }

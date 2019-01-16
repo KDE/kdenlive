@@ -756,6 +756,9 @@ Bin::Bin(const std::shared_ptr<ProjectItemModel> &model, QWidget *parent)
     m_headerInfo = QByteArray::fromBase64(KdenliveSettings::treeviewheaders().toLatin1());
     m_propertiesPanel = new QScrollArea(this);
     m_propertiesPanel->setFrameShape(QFrame::NoFrame);
+    // Insert listview
+    m_itemView = new MyTreeView(this);
+    m_layout->addWidget(m_itemView);
     // Info widget for failed jobs, other errors
     m_infoMessage = new KMessageWidget(this);
     m_layout->addWidget(m_infoMessage);
