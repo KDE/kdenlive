@@ -27,6 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "effects/effectstack/model/effectstackmodel.hpp"
 #include "lib/audio/audioStreamInfo.h"
 #include "profiles/profilemodel.hpp"
+#include "kdenlivesettings.h"
 
 #include "core.h"
 #include "kdenlive_debug.h"
@@ -675,11 +676,16 @@ void ClipController::mirrorOriginalProperties(Mlt::Properties &props)
             QString progressive = m_properties->get("meta.media.progressive");
             if (progressive.isEmpty()) {
                 // Fetch a frame to initialize required properties
-                std::shared_ptr<Mlt::Frame> fr(m_masterProducer->get_frame());
-                mlt_image_format format = mlt_image_rgb24;
+                QScopedPointer<Mlt::Producer> tmpProd(nullptr);
+                if (KdenliveSettings::gpu_accel()) {
+                    QString service = m_masterProducer->get("mlt_service");
+                    tmpProd.reset(new Mlt::Producer(pCore->getCurrentProfile()->profile(), service.toUtf8().constData(), m_masterProducer->get("resource")));
+                }
+                std::shared_ptr<Mlt::Frame> fr(tmpProd ? tmpProd->get_frame() : m_masterProducer->get_frame());
+                mlt_image_format format = mlt_image_none;
                 int width = 0;
                 int height = 0;
-                const uchar *image = fr->get_image(format, width, height);
+                fr->get_image(format, width, height);
             }
         }
         props.inherit(*m_properties);
