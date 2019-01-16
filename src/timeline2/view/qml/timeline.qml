@@ -126,7 +126,7 @@ Rectangle {
     function getTrackColor(audio, header) {
         var col = activePalette.alternateBase
         if (audio) {
-            col = Qt.tint(col, "#1000cc00")
+            col = Qt.tint(col, "#06FF00CC")
         }
         if (header) {
             col = Qt.darker(col, 1.05)
@@ -164,7 +164,8 @@ Rectangle {
     property int headerWidth: timeline.headerWidth()
     property int activeTool: 0
     property real baseUnit: fontMetrics.font.pointSize
-    property color selectedTrackColor: Qt.rgba(activePalette.highlight.r, activePalette.highlight.g, activePalette.highlight.b, 0.4)
+    property color selectedTrackColor: Qt.rgba(activePalette.highlight.r, activePalette.highlight.g, activePalette.highlight.b, 0.2)
+    property color frameColor: Qt.rgba(activePalette.shadow.r, activePalette.shadow.g, activePalette.shadow.b, 0.3)
     property bool stopScrolling: false
     property int duration: timeline.duration
     property color audioColor: timeline.audioColor
@@ -1104,7 +1105,7 @@ Rectangle {
                                 delegate: Rectangle {
                                     width: tracksContainerArea.width
                                     border.width: 1
-                                    border.color: Qt.rgba(activePalette.windowText.r, activePalette.windowText.g, activePalette.windowText.b, 0.1)
+                                    border.color: root.frameColor
                                     height: model.trackHeight
                                     color: tracksRepeater.itemAt(index) ? ((tracksRepeater.itemAt(index).trackInternalId === timeline.activeTrack) ? Qt.tint(getTrackColor(tracksRepeater.itemAt(index).isAudio, false), selectedTrackColor) : getTrackColor(tracksRepeater.itemAt(index).isAudio, false)) : 'red'
                                 }

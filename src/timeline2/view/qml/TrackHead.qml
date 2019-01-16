@@ -40,7 +40,7 @@ Rectangle {
     property string trackTag
     property int thumbsFormat: 0
     border.width: 1
-    border.color: Qt.rgba(activePalette.windowText.r, activePalette.windowText.g, activePalette.windowText.b, 0.1)
+    border.color: root.frameColor
     signal clicked()
 
     function pulseLockButton() {

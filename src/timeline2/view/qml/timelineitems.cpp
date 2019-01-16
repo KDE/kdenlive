@@ -91,9 +91,8 @@ public:
         if (data.isEmpty()) return;
 
         const qreal indicesPrPixel = qreal(m_outPoint - m_inPoint) / width();
-        QPen pen = painter->pen();
-        pen.setWidthF(0.5);
-        pen.setColor(Qt::black);
+        painter->setPen(Qt::NoPen);
+        painter->setOpacity(0.5);
         if (!KdenliveSettings::displayallchannels()) {
             //m_gradient.setFinalStop(0, height());
             //painter->setBrush(m_gradient);
