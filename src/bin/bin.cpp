@@ -1080,6 +1080,7 @@ void Bin::slotDuplicateClip()
                 }
                 QString id;
                 m_itemModel->requestAddBinClip(id, xml, item->parent()->clipId(), i18n("Duplicate clip"));
+                selectClipById(id);
             }
         }
     }
