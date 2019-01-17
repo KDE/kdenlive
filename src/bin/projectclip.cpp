@@ -476,7 +476,6 @@ void ProjectClip::createDisabledMasterProducer()
 }
 std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int clipId, PlaylistState::ClipState state, double speed)
 {
-    qDebug() << "producer request"<<clipId<<speed;
     if (qFuzzyCompare(speed, 1.0)) {
         // we are requesting a normal speed producer
         // We can first cleen the speed producers we have for the current id
@@ -606,14 +605,14 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
             return {master, true};
         } else {
             master->parent().set("_loaded", 1);
-            if (state == PlaylistState::AudioOnly) {
-                m_audioProducers[clipId] = std::shared_ptr<Mlt::Producer>(new Mlt::Producer(&master->parent()));
-                m_effectStack->loadService(m_audioProducers[clipId]);
-                return {master, true};
-            }
             if (timeWarp) {
                 m_timewarpProducers[clipId] = std::shared_ptr<Mlt::Producer>(new Mlt::Producer(&master->parent()));
                 m_effectStack->loadService(m_timewarpProducers[clipId]);
+                return {master, true};
+            }
+            if (state == PlaylistState::AudioOnly) {
+                m_audioProducers[clipId] = std::shared_ptr<Mlt::Producer>(new Mlt::Producer(&master->parent()));
+                m_effectStack->loadService(m_audioProducers[clipId]);
                 return {master, true};
             }
             if (state == PlaylistState::VideoOnly) {
