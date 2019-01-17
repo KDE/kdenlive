@@ -394,11 +394,13 @@ PlaylistState::ClipState Core::getItemState(const ObjectId &id)
         }
         break;
     case ObjectType::TimelineComposition:
-        return PlaylistState::Disabled;
+        return PlaylistState::VideoOnly;
         break;
     case ObjectType::BinClip:
         return m_binWidget->getClipState(id.second);
         break;
+    case ObjectType::TimelineTrack:
+        return m_mainWindow->getCurrentTimeline()->controller()->getModel()->isAudioTrack(id.second) ? PlaylistState::AudioOnly : PlaylistState::VideoOnly;
     default:
         qDebug() << "ERROR: unhandled object type";
         break;

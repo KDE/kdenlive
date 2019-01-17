@@ -1076,8 +1076,7 @@ bool TrackModel::hasIntersectingComposition(int in, int out) const
 bool TrackModel::addEffect(const QString &effectId)
 {
     READ_LOCK();
-    m_effectStack->appendEffect(effectId);
-    return true;
+    return m_effectStack->appendEffect(effectId);
 }
 
 const QString TrackModel::effectNames() const
@@ -1133,4 +1132,10 @@ bool TrackModel::importEffects(std::weak_ptr<Mlt::Service> service)
     QWriteLocker locker(&m_lock);
     m_effectStack->importEffects(service, trackType());
     return true;
+}
+
+bool TrackModel::copyEffect(std::shared_ptr<EffectStackModel> stackModel, int rowId)
+{
+    QWriteLocker locker(&m_lock);
+    return m_effectStack->copyEffect(stackModel->getEffectStackRow(rowId), isAudioTrack() ? PlaylistState::AudioOnly : PlaylistState::VideoOnly);
 }

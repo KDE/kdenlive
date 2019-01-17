@@ -244,6 +244,7 @@ public:
     Q_INVOKABLE bool addTrackEffect(int trackId, const QString &effectId);
     bool removeFade(int clipId, bool fromStart);
     Q_INVOKABLE bool copyClipEffect(int clipId, const QString &sourceId);
+    Q_INVOKABLE bool copyTrackEffect(int trackId, const QString &sourceId);
     bool adjustEffectLength(int clipId, const QString &effectId, int duration, int initialDuration);
 
     /* @brief Returns the closest snap point within snapDistance

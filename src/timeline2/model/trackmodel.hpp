@@ -241,6 +241,8 @@ protected:
 
     /* @brief Import effects from a service that contains some (another track) */
     bool importEffects(std::weak_ptr<Mlt::Service> service);
+    /* @brief Copy effects from anoter effect stack */
+    bool copyEffect(std::shared_ptr<EffectStackModel> stackModel, int rowId);
 
 public slots:
     /*Delete the current track and all its associated clips */

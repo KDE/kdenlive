@@ -1813,7 +1813,27 @@ const std::shared_ptr<TrackModel> TimelineModel::getTrackById_const(int trackId)
 bool TimelineModel::addTrackEffect(int trackId, const QString &effectId)
 {
     Q_ASSERT(m_iteratorTable.count(trackId) > 0);
-    return (*m_iteratorTable.at(trackId))->addEffect(effectId);
+    if ((*m_iteratorTable.at(trackId))->addEffect(effectId) == false) {
+        QString effectName = EffectsRepository::get()->getName(effectId);
+        pCore->displayMessage(i18n("Cannot add effect %1 to selected track", effectName), InformationMessage, 500);
+        return false;
+    }
+    return true;
+}
+
+bool TimelineModel::copyTrackEffect(int trackId, const QString &sourceId)
+{
+    QStringList source = sourceId.split(QLatin1Char('-'));
+    Q_ASSERT(m_iteratorTable.count(trackId) > 0 && source.count() == 3);
+    int itemType = source.at(0).toInt();
+    int itemId = source.at(1).toInt();
+    int itemRow = source.at(2).toInt();
+    std::shared_ptr<EffectStackModel> effectStack = pCore->getItemEffectStack(itemType, itemId);
+    if ((*m_iteratorTable.at(trackId))->copyEffect(effectStack, itemRow) == false) {
+        pCore->displayMessage(i18n("Cannot paste effect to selected track"), InformationMessage, 500);
+        return false;
+    }
+    return true;
 }
 
 std::shared_ptr<ClipModel> TimelineModel::getClipPtr(int clipId) const
