@@ -91,13 +91,9 @@ public:
         if (data.isEmpty()) return;
 
         const qreal indicesPrPixel = qreal(m_outPoint - m_inPoint) / width();
-        painter->setPen(Qt::NoPen);
-        painter->setOpacity(0.5);
+        painter->setPen(m_color);
+        painter->setBrush(m_color);
         if (!KdenliveSettings::displayallchannels()) {
-            //m_gradient.setFinalStop(0, height());
-            //painter->setBrush(m_gradient);
-            painter->setBrush(m_color);
-
             // Draw merged channels
             QPainterPath path;
             path.moveTo(-1, height());
@@ -122,14 +118,10 @@ public:
         } else {
             // Fill gradient
             int channelHeight = height() / (2 * m_channels);
-            //m_gradient.setFinalStop(0, channelHeight);
-            //painter->setBrush(m_gradient);
-            painter->setBrush(m_color);
 
             // Draw separate channels
             QMap<int, QPainterPath> positiveChannelPaths;
             QMap<int, QPainterPath> negativeChannelPaths;
-            // TODO: get channels count
             double i = 0;
             double increment = qMax(1., 1 / indicesPrPixel);
             for (int channel = 0; channel < m_channels; channel++) {
