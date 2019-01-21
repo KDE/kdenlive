@@ -1,4 +1,3 @@
-
 /***************************************************************************
  *   Copyright (C) 2017 by Nicolas Carion                                  *
  *   This file is part of Kdenlive. See www.kdenlive.org.                  *
@@ -21,6 +20,7 @@
  ***************************************************************************/
 #include "effectstackmodel.hpp"
 #include "assets/keyframes/model/keyframemodellist.hpp"
+#include "timeline2/model/timelinemodel.hpp"
 #include "core.h"
 #include "doc/docundostack.hpp"
 #include "effectgroupmodel.hpp"
@@ -114,6 +114,7 @@ void EffectStackModel::removeCurrentEffect()
 
 void EffectStackModel::removeEffect(std::shared_ptr<EffectItemModel> effect)
 {
+    qDebug()<<"* * ** REMOVING EFFECT FROM STACK!!!\n!!!!!!!!!";
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_allItems.count(effect->getId()) > 0);
     int parentId = -1;
@@ -143,36 +144,42 @@ void EffectStackModel::removeEffect(std::shared_ptr<EffectItemModel> effect)
         inFades = int(fadeIns.size()) - inFades;
         outFades = int(fadeOuts.size()) - outFades;
         QString effectName = EffectsRepository::get()->getName(effect->getAssetId());
-        Fun update = [this, current, currentChanged, inFades, outFades]() {
+        Fun update = [this, current, inFades, outFades]() {
             // Required to build the effect view
-            if (currentChanged) {
-                if (current < 0 || rowCount() == 0) {
-                    // Stack is now empty
-                    emit dataChanged(QModelIndex(), QModelIndex(), QVector<int>());
-                } else {
-                    std::shared_ptr<EffectItemModel> effectItem = std::static_pointer_cast<EffectItemModel>(rootItem->child(current));
-                    QModelIndex ix = getIndexFromItem(effectItem);
-                    emit dataChanged(ix, ix, QVector<int>());
+            if (current < 0 || rowCount() == 0) {
+                // Stack is now empty
+                emit dataChanged(QModelIndex(), QModelIndex(), {});
+            } else {
+                QVector<int> roles = {TimelineModel::EffectNamesRole};
+                if (inFades < 0) {
+                    roles << TimelineModel::FadeInRole;
                 }
+                if (outFades < 0) {
+                    roles << TimelineModel::FadeOutRole;
+                }
+                qDebug()<<"// EMITTING UNDO DATA CHANGE: "<<roles;
+                emit dataChanged(QModelIndex(), QModelIndex(), roles);
             }
             // TODO: only update if effect is fade or keyframe
-            if (inFades < 0) {
+            /*if (inFades < 0) {
                 pCore->updateItemModel(m_ownerId, QStringLiteral("fadein"));
             } else if (outFades < 0) {
                 pCore->updateItemModel(m_ownerId, QStringLiteral("fadeout"));
-            }
+            }*/
             pCore->updateItemKeyframes(m_ownerId);
             return true;
         };
-        Fun update2 = [this, current, currentChanged, inFades, outFades]() {
+        Fun update2 = [this, inFades, outFades]() {
             // Required to build the effect view
-            emit dataChanged(QModelIndex(), QModelIndex(), QVector<int>());
+            QVector<int> roles = {TimelineModel::EffectNamesRole};
             // TODO: only update if effect is fade or keyframe
             if (inFades < 0) {
-                pCore->updateItemModel(m_ownerId, QStringLiteral("fadein"));
+                roles << TimelineModel::FadeInRole;
             } else if (outFades < 0) {
-                pCore->updateItemModel(m_ownerId, QStringLiteral("fadeout"));
+                roles << TimelineModel::FadeOutRole;
             }
+            qDebug()<<"// EMITTING REDO DATA CHANGE: "<<roles;
+            emit dataChanged(QModelIndex(), QModelIndex(), roles);
             pCore->updateItemKeyframes(m_ownerId);
             return true;
         };
@@ -180,6 +187,8 @@ void EffectStackModel::removeEffect(std::shared_ptr<EffectItemModel> effect)
         PUSH_LAMBDA(update, redo);
         PUSH_LAMBDA(update2, undo);
         PUSH_UNDO(undo, redo, i18n("Delete effect %1", effectName));
+    } else {
+        qDebug()<<"..........FAILED EFFECT DELETION";
     }
 }
 
@@ -255,7 +264,7 @@ void EffectStackModel::fromXml(const QDomElement &effectsXml, Fun &undo, Fun &re
     }
     if (true) {
         Fun update = [this]() {
-            emit dataChanged(QModelIndex(), QModelIndex(), QVector<int>());
+            emit dataChanged(QModelIndex(), QModelIndex(), {});
             return true;
         };
         update();
@@ -292,15 +301,18 @@ bool EffectStackModel::copyEffect(std::shared_ptr<AbstractEffectItem> sourceItem
     effect->prepareKeyframes();
     connect(effect.get(), &AssetParameterModel::modelChanged, this, &EffectStackModel::modelChanged);
     connect(effect.get(), &AssetParameterModel::replugEffect, this, &EffectStackModel::replugEffect, Qt::DirectConnection);
+    QVector<int> roles = {TimelineModel::EffectNamesRole};
     if (effectId == QLatin1String("fadein") || effectId == QLatin1String("fade_from_black")) {
         fadeIns.insert(effect->getId());
+        roles << TimelineModel::FadeInRole;
     } else if (effectId == QLatin1String("fadeout") || effectId == QLatin1String("fade_to_black")) {
         fadeOuts.insert(effect->getId());
+        roles << TimelineModel::FadeOutRole;
     }
     bool res = local_redo();
     if (res) {
-        Fun update = [this]() {
-            emit dataChanged(QModelIndex(), QModelIndex(), QVector<int>());
+        Fun update = [this, roles]() {
+            emit dataChanged(QModelIndex(), QModelIndex(), roles);
             return true;
         };
         update();
@@ -342,22 +354,21 @@ bool EffectStackModel::appendEffect(const QString &effectId, bool makeCurrent)
         int inFades = 0;
         int outFades = 0;
         if (effectId == QLatin1String("fadein") || effectId == QLatin1String("fade_from_black")) {
-            fadeIns.insert(effect->getId());
             inFades++;
         } else if (effectId == QLatin1String("fadeout") || effectId == QLatin1String("fade_to_black")) {
-            fadeOuts.insert(effect->getId());
             outFades++;
         }
         QString effectName = EffectsRepository::get()->getName(effectId);
         Fun update = [this, inFades, outFades]() {
             // TODO: only update if effect is fade or keyframe
+            QVector<int> roles = {TimelineModel::EffectNamesRole};
             if (inFades > 0) {
-                pCore->updateItemModel(m_ownerId, QStringLiteral("fadein"));
+                roles << TimelineModel::FadeInRole;
             } else if (outFades > 0) {
-                pCore->updateItemModel(m_ownerId, QStringLiteral("fadeout"));
+                roles << TimelineModel::FadeOutRole;
             }
             pCore->updateItemKeyframes(m_ownerId);
-            emit dataChanged(QModelIndex(), QModelIndex(), QVector<int>());
+            emit dataChanged(QModelIndex(), QModelIndex(), roles);
             return true;
         };
         update();
@@ -545,7 +556,6 @@ bool EffectStackModel::adjustFadeLength(int duration, bool fromStart, bool audio
             }
         }
         if (!indexes.isEmpty()) {
-            qDebug() << "// UPDATING DATA INDEXES 2!!!";
             emit dataChanged(indexes.first(), indexes.last(), QVector<int>());
             pCore->updateItemModel(m_ownerId, QStringLiteral("fadeout"));
         }
@@ -607,7 +617,7 @@ void EffectStackModel::moveEffect(int destRow, std::shared_ptr<AbstractEffectIte
     bool res = redo();
     if (res) {
         Fun update = [this]() {
-            this->dataChanged(QModelIndex(), QModelIndex(), {});
+            this->dataChanged(QModelIndex(), QModelIndex(), {TimelineModel::EffectNamesRole});
             return true;
         };
         update();
@@ -624,7 +634,7 @@ void EffectStackModel::registerItem(const std::shared_ptr<TreeItem> &item)
     qDebug() << "$$$$$$$$$$$$$$$$$$$$$ Planting effect";
     QModelIndex ix;
     if (!item->isRoot()) {
-        auto effectItem = std::static_pointer_cast<AbstractEffectItem>(item);
+        auto effectItem = std::static_pointer_cast<EffectItemModel>(item);
         if (!m_loadingExisting) {
             qDebug() << "$$$$$$$$$$$$$$$$$$$$$ Planting effect in " << m_childServices.size();
             effectItem->plant(m_masterService);
@@ -634,18 +644,21 @@ void EffectStackModel::registerItem(const std::shared_ptr<TreeItem> &item)
             }
         }
         effectItem->setEffectStackEnabled(m_effectStackEnabled);
+        const QString &effectId = effectItem->getAssetId();
+        if (effectId == QLatin1String("fadein") || effectId == QLatin1String("fade_from_black")) {
+            fadeIns.insert(effectItem->getId());
+        } else if (effectId == QLatin1String("fadeout") || effectId == QLatin1String("fade_to_black")) {
+            fadeOuts.insert(effectItem->getId());
+        }
         ix = getIndexFromItem(effectItem);
         if (!effectItem->isAudio() && !m_loadingExisting) {
             pCore->refreshProjectItem(m_ownerId);
             pCore->invalidateItem(m_ownerId);
         }
-    }
-    AbstractTreeModel::registerItem(item);
-    if (ix.isValid()) {
-        // Required to build the effect view
-        emit dataChanged(ix, ix, QVector<int>());
+        AbstractTreeModel::registerItem(item);
     }
 }
+
 void EffectStackModel::deregisterItem(int id, TreeItem *item)
 {
     QWriteLocker locker(&m_lock);
@@ -672,6 +685,7 @@ void EffectStackModel::setEffectStackEnabled(bool enabled)
     for (int i = 0; i < rootItem->childCount(); ++i) {
         std::static_pointer_cast<AbstractEffectItem>(rootItem->child(i))->setEffectStackEnabled(enabled);
     }
+    emit dataChanged(QModelIndex(), QModelIndex(), {TimelineModel::EffectsEnabledRole});
     emit enabledStateChanged();
 }
 
@@ -972,7 +986,9 @@ void EffectStackModel::cleanFadeEffects(bool outEffects, Fun &undo, Fun &redo)
                     fadeIns.erase(id);
                 }
             }
-            emit dataChanged(QModelIndex(), QModelIndex(), QVector<int>());
+            QVector<int> roles = {TimelineModel::EffectNamesRole};
+            roles << (outEffects ? TimelineModel::FadeOutRole : TimelineModel::FadeInRole);
+            emit dataChanged(QModelIndex(), QModelIndex(), roles);
             pCore->updateItemKeyframes(m_ownerId);
             return true;
         };

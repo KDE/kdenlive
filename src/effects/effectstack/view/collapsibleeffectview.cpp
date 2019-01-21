@@ -114,6 +114,7 @@ CollapsibleEffectView::CollapsibleEffectView(std::shared_ptr<EffectItemModel> ef
     m_enabledButton->setActiveIcon(QIcon::fromTheme(QStringLiteral("hint")));
     m_enabledButton->setInactiveIcon(QIcon::fromTheme(QStringLiteral("visibility")));
     enabledButton->setDefaultAction(m_enabledButton);
+    connect(m_model.get(), &AssetParameterModel::enabledChange, m_enabledButton, &KDualAction::setActive);
 
     m_groupAction = new QAction(QIcon::fromTheme(QStringLiteral("folder-new")), i18n("Create Group"), this);
     connect(m_groupAction, &QAction::triggered, this, &CollapsibleEffectView::slotCreateGroup);

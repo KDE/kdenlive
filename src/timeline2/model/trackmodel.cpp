@@ -53,10 +53,10 @@ TrackModel::TrackModel(const std::weak_ptr<TimelineModel> &parent, int id, const
         }
         m_track->set("kdenlive:trackheight", KdenliveSettings::trackheight());
         m_effectStack = EffectStackModel::construct(m_track, {ObjectType::TimelineTrack, m_id}, ptr->m_undoStack);
-        QObject::connect(m_effectStack.get(), &EffectStackModel::dataChanged, [&](){
+        QObject::connect(m_effectStack.get(), &EffectStackModel::dataChanged, [&](const QModelIndex&, const QModelIndex&, QVector<int> roles){
             if (auto ptr2 = m_parent.lock()) {
                 QModelIndex ix = ptr2->makeTrackIndexFromID(m_id);
-                ptr2->dataChanged(ix, ix, {TimelineModel::EffectNamesRole});
+                ptr2->dataChanged(ix, ix, roles);
             }
         });
     } else {

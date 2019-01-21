@@ -198,6 +198,7 @@ void EffectItemModel::updateEnable()
     if (auto ptr = m_model.lock()) {
         QModelIndex index = ptr->getIndexFromId(m_id);
         emit dataChanged(index, index, QVector<int>());
+        emit enabledChange(!isEnabled());
     } else {
         qDebug() << "Error, unable to send update to deleted model";
         Q_ASSERT(false);

@@ -53,11 +53,13 @@ ClipModel::ClipModel(std::shared_ptr<TimelineModel> parent, std::shared_ptr<Mlt:
     } else {
         m_endlessResize = false;
     }
-    QObject::connect(m_effectStack.get(), &EffectStackModel::dataChanged, [&](){
+    QObject::connect(m_effectStack.get(), &EffectStackModel::dataChanged, [&](const QModelIndex&, const QModelIndex&, QVector<int> roles){
+        qDebug()<<"// GOT CLIP STACK DATA CHANGE: "<<roles;
         if (m_currentTrackId != -1) {
             if (auto ptr = m_parent.lock()) {
                 QModelIndex ix = ptr->makeClipIndexFromID(m_id);
-                ptr->dataChanged(ix, ix, {TimelineModel::EffectNamesRole,TimelineModel::FadeInRole,TimelineModel::FadeOutRole});
+                qDebug()<<"// GOT CLIP STACK DATA CHANGE DONE: "<<ix<<" = "<<roles;
+                ptr->dataChanged(ix, ix, roles);
             }
         }
     });
