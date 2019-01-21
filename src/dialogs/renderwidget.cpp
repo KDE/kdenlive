@@ -1409,13 +1409,19 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, const QString &playlist
     }
 
     // Adjust scanning
-    if (m_view.scanning_list->currentIndex() == 1) {
-        consumer.setAttribute(QStringLiteral("progressive"), 1);
-    } else {
-        // Interlaced rendering
-        consumer.setAttribute(QStringLiteral("progressive"), 0);
-        // Adjust field order
-        consumer.setAttribute(QStringLiteral("top_field_first"), m_view.field_order->currentIndex());
+    switch (m_view.scanning_list->currentIndex()) {
+        case 1:
+            consumer.setAttribute(QStringLiteral("progressive"), 1);
+            break;
+        case 2:
+            // Interlaced rendering
+            consumer.setAttribute(QStringLiteral("progressive"), 0);
+            // Adjust field order
+            consumer.setAttribute(QStringLiteral("top_field_first"), m_view.field_order->currentIndex());
+            break;
+        default:
+            // leave as is
+            break;
     }
 
     // check if audio export is selected
