@@ -655,8 +655,8 @@ void EffectStackModel::registerItem(const std::shared_ptr<TreeItem> &item)
             pCore->refreshProjectItem(m_ownerId);
             pCore->invalidateItem(m_ownerId);
         }
-        AbstractTreeModel::registerItem(item);
     }
+    AbstractTreeModel::registerItem(item);
 }
 
 void EffectStackModel::deregisterItem(int id, TreeItem *item)
