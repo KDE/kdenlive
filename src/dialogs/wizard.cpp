@@ -400,6 +400,7 @@ void Wizard::checkMltComponents()
         delete filters;
         if (!hasFrei0r) {
             // Frei0r effects not found
+            qDebug()<<"Missing Frei0r module";
             m_warnings.append(
                 i18n("<li>Missing package: <b>Frei0r</b> effects (frei0r-plugins)<br/>provides many effects and transitions. Install recommended</li>"));
         }
@@ -417,6 +418,7 @@ void Wizard::checkMltComponents()
         }
         if (!hasBreeze) {
             // Breeze icons not found
+            qDebug()<<"Missing Breeze icons";
             m_warnings.append(
                 i18n("<li>Missing package: <b>Breeze</b> icons (breeze-icon-theme)<br/>provides many icons used in Kdenlive. Install recommended</li>"));
         }
@@ -452,6 +454,7 @@ void Wizard::checkMltComponents()
             consumer = new Mlt::Consumer(p, "avformat");
         }
         if (consumer == nullptr || !consumer->is_valid()) {
+            qDebug()<<"Missing AVFORMAT MLT module";
             m_warnings.append(i18n("<li>Missing MLT module: <b>avformat</b> (FFmpeg)<br/>required for audio/video</li>"));
             m_brokenModule = true;
         } else {
@@ -473,12 +476,14 @@ void Wizard::checkMltComponents()
 
         // Image module
         if (!producersItemList.contains(QStringLiteral("qimage")) && !producersItemList.contains(QStringLiteral("pixbuf"))) {
+            qDebug()<<"Missing image MLT module";
             m_warnings.append(i18n("<li>Missing MLT module: <b>qimage</b> or <b>pixbuf</b><br/>required for images and titles</li>"));
             m_brokenModule = true;
         }
 
         // Titler module
         if (!producersItemList.contains(QStringLiteral("kdenlivetitle"))) {
+            qDebug()<<"Missing TITLER MLT module";
             m_warnings.append(i18n("<li>Missing MLT module: <b>kdenlivetitle</b><br/>required to create titles</li>"));
             KdenliveSettings::setHastitleproducer(false);
             m_brokenModule = true;
@@ -599,6 +604,7 @@ void Wizard::slotCheckPrograms()
         if (exepath.isEmpty()) {
             exepath = QStandardPaths::findExecutable(QStringLiteral("ffmpeg%1").arg(FFMPEG_SUFFIX));
         }
+        qDebug()<<"Unable to find FFMpeg binary...";
         if (exepath.isEmpty()) {
             // Check for libav version
             exepath = QStandardPaths::findExecutable(QStringLiteral("avconv"));
