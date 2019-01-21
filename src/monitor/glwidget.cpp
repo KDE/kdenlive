@@ -720,12 +720,8 @@ void GLWidget::refresh()
 bool GLWidget::checkFrameNumber(int pos, int offset)
 {
     emit consumerPosition(pos);
-    // TODO: cleanup and move logic to proper proxy class
-    bool seekStoped = false;
-    m_proxy->setPosition(pos, &seekStoped);
-    emit seekPosition(m_proxy->seekOrCurrentPosition());
-    if (seekStoped) {
-        return true;
+    if (!m_proxy->setPosition(pos)) {
+        emit seekPosition(m_proxy->seekOrCurrentPosition());
     }
     const double speed = m_producer->get_speed();
     if (m_proxy->seeking()) {
@@ -993,9 +989,7 @@ int GLWidget::setProducer(Mlt::Producer *producer, bool isActive, int position)
     if (isActive) {
         startConsumer();
     }
-    // emit durationChanged(m_producer->get_length() - 1, m_producer->get_in());
-    bool ok;
-    m_proxy->setPosition(m_producer->position(), &ok);
+    m_proxy->setPosition(m_producer->position());
     return error;
 }
 

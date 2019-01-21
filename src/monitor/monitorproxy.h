@@ -58,7 +58,10 @@ public:
     /** brief: Returns seek position or consumer position when not seeking
      * */
     int seekOrCurrentPosition() const;
-    void setPosition(int pos, bool *seekStopped);
+    /** brief: update position and end seeking if we reached the requested seek position.
+     *  returns true if the position was unchanged, false otherwise
+     * */
+    bool setPosition(int pos);
     void setMarkerComment(const QString &comment);
     void setSeekPosition(int pos);
     void pauseAndSeek(int pos);

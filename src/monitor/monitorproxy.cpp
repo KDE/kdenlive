@@ -54,7 +54,7 @@ bool MonitorProxy::seeking() const
     return m_seekPosition != SEEK_INACTIVE;
 }
 
-int MonitorProxy::position() const 
+int MonitorProxy::position() const
 {
     return m_position;
 }
@@ -96,17 +96,19 @@ int MonitorProxy::seekOrCurrentPosition() const
     return m_seekPosition == SEEK_INACTIVE ? m_position : m_seekPosition;
 }
 
-void MonitorProxy::setPosition(int pos, bool *seekStopped)
+bool MonitorProxy::setPosition(int pos)
 {
-    m_position = pos;
-    if (m_seekPosition == m_position) {
+    if (m_seekPosition == pos) {
+        m_position = pos;
         m_seekPosition = SEEK_INACTIVE;
         emit seekPositionChanged();
-        *seekStopped = true;
+    } else if (m_position == pos) {
+        return true;
     } else {
-        *seekStopped = false;
+        m_position = pos;
     }
     emit positionChanged();
+    return false;
 }
 
 void MonitorProxy::setMarkerComment(const QString &comment)
