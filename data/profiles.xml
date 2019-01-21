@@ -13,7 +13,7 @@
   <profile name="MPEG-2" extension="mpg"
    qualities="3,15" defaultquality="5"
    audioqualities="3,7" defaultaudioquality="3"
-   args="qscale=%quality aq=%audioquality"
+   args="properties=MPEG-2 qscale=%quality aq=%audioquality"
    speeds="subq=5 cmp=2 subcmp=2 trellis=1 bf=2;subq=3 cmp=1 subcmp=1 trellis=1 bf=2;subq=1"/>
  </group>
  <group name="Ultra-High Definition (4K)" renderer="avformat" type="av">
@@ -32,7 +32,7 @@
   <profile name="VOB (DVD)" extension="vob"
    qualities="5,15" defaultquality="5"
    audiobitrates="192,128" defaultaudiobitrate="160"
-   args="properties=dv_%dv_standard/DVD -profile dv_%dv_standard f=dvd vcodec=mpeg2video acodec=ac3 qscale=%quality ab=%audiobitrate+'k'"
+   args="properties=dv_%dv_standard/DVD mlt_profile=dv_%dv_standard f=dvd vcodec=mpeg2video acodec=ac3 qscale=%quality ab=%audiobitrate+'k'"
    speeds="subq=5 cmp=2 subcmp=2 trellis=1 bf=2;subq=3 cmp=1 subcmp=1 trellis=1 bf=2;subq=1"/>
   <profile name="Flash" extension="flv"
    qualities="5,15" defaultquality="5"
