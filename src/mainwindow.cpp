@@ -1182,7 +1182,7 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("switch_trim"), i18n("Trim Mode"), this, SLOT(slotSwitchTrimMode()), QIcon::fromTheme(QStringLiteral("cursor-arrow")));
     // disable shortcut until fully working, Qt::CTRL + Qt::Key_T);
 
-    addAction(QStringLiteral("insert_project_tree"), i18n("Insert Zone in Project Bin"), this, SLOT(slotInsertZoneToTree()), QIcon::fromTheme(QStringLiteral("document-new")) , Qt::CTRL + Qt::Key_I);
+    addAction(QStringLiteral("insert_project_tree"), i18n("Insert Zone in Project Bin"), this, SLOT(slotInsertZoneToTree()), QIcon::fromTheme(QStringLiteral("kdenlive-add-clip")) , Qt::CTRL + Qt::Key_I);
 
     addAction(QStringLiteral("monitor_seek_snap_backward"), i18n("Go to Previous Snap Point"), this, SLOT(slotSnapRewind()),
               QIcon::fromTheme(QStringLiteral("media-seek-backward")), Qt::ALT + Qt::Key_Left);
