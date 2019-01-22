@@ -17,7 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include "bin/projectitemmodel.h"
 #include "monitor.h"
 #include "bin/bin.h"
 #include "bin/projectclip.h"
@@ -37,7 +36,6 @@
 #include "scopes/monitoraudiolevel.h"
 #include "timeline2/model/snapmodel.hpp"
 #include "transitions/transitionsrepository.hpp"
-
 
 #include "klocalizedstring.h"
 #include <KDualAction>
@@ -210,6 +208,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
         connect(m_recManager, &RecManager::addClipToProject, this, &Monitor::addClipToProject);
 
         m_toolbar->addAction(manager->getAction(QStringLiteral("insert_project_tree")));
+        m_toolbar->setToolTip(i18n("Insert Zone to Project Bin"));
         m_toolbar->addSeparator();
     }
 
