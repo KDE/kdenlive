@@ -63,7 +63,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
             auto type = model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
             if (m_mainKeyframeWidget &&
                 (type == ParamType::Geometry || type == ParamType::Animated || type == ParamType::RestrictedAnim || type == ParamType::KeyframeParam)) {
-                // Keyframe widget can have some extra params that should'nt build a new widget
+                // Keyframe widget can have some extra params that shouldn't build a new widget
                 qDebug() << "// FOUND ADDED PARAM";
                 m_mainKeyframeWidget->addParameter(index);
             } else {
@@ -98,7 +98,7 @@ void AssetParameterView::resetValues()
         }
         m_model->setParameter(name, defaultValue);
         if (m_mainKeyframeWidget) {
-            // Handles additionnal params like rotation so only refresh initial param at the end
+            // Handles additional params like rotation so only refresh initial param at the end
         } else if (type == ParamType::ColorWheel) {
             if (i == m_model->rowCount() - 1) {
                 // Special case, the ColorWheel widget handles several params, so only refresh once when all parameters were set.

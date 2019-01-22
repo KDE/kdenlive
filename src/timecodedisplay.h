@@ -70,7 +70,7 @@ public:
     /** @brief Returns the current input as a GenTime object. */
     GenTime gentime() const;
 
-    /** @brief Returs the widget's timecode object. */
+    /** @brief Returns the widget's timecode object. */
     Timecode timecode() const;
 
     /** @brief Sets value's format to frames or HH:MM:SS:FF according to @param frametimecode.

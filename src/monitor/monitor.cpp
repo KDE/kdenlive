@@ -1197,7 +1197,7 @@ void Monitor::slotForwardOneFrame(int diff)
 void Monitor::seekCursor(int pos)
 {
     Q_UNUSED(pos)
-    // Deprecated shoud not be used, instead requestSeek
+    // Deprecated should not be used, instead requestSeek
     /*if (m_ruler->slotNewValue(pos)) {
         m_timePos->setValue(pos);
         checkOverlay(pos);

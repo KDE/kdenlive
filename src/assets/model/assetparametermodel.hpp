@@ -196,7 +196,7 @@ protected:
 signals:
     void modelChanged();
     /** @brief inform child effects (in case of bin effect with timeline producers)
-     *  that a change occured and a param update is needed **/
+     *  that a change occurred and a param update is needed **/
     void updateChildren(const QString &name);
     void compositionTrackChanged();
     void replugEffect(std::shared_ptr<AssetParameterModel> asset);

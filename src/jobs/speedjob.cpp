@@ -85,7 +85,7 @@ int SpeedJob::prepareJob(std::shared_ptr<JobManager> ptr, const std::vector<QStr
         QString mltfile = QFileInfo(binClip->url()).absoluteFilePath() + QStringLiteral(".mlt");
         destinations[binId] = mltfile;
     }
-    // Now we have to create the jobs objects. This is trickier than usual, since the parameters are differents for each job (each clip has its own
+    // Now we have to create the jobs objects. This is trickier than usual, since the parameters are different for each job (each clip has its own
     // destination). We have to construct a lambda that does that.
 
     auto createFn = [ dest = std::move(destinations), fSpeed = speed / 100.0 ](const QString &id)

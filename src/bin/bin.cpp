@@ -2228,7 +2228,7 @@ void Bin::slotItemDropped(const QList<QUrl> &urls, const QModelIndex &parent)
 {
     QString parentFolder = m_itemModel->getRootFolder()->clipId();
     if (parent.isValid()) {
-        // Check if drop occured on a folder
+        // Check if drop occurred on a folder
         std::shared_ptr<AbstractProjectItem> parentItem = m_itemModel->getBinItemByIndex(parent);
         while (parentItem->itemType() != AbstractProjectItem::FolderItem) {
             parentItem = parentItem->parent();

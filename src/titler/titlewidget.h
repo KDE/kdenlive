@@ -296,7 +296,7 @@ private slots:
     void slotChanged();
 
     /**
-     * Reacts to changes of widht/height/x/y QSpinBox values.
+     * Reacts to changes of width/height/x/y QSpinBox values.
      * @brief Updates width, height, and position of the selected items.
      * @param valueType of type ValueType
      */

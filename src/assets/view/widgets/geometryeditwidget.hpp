@@ -49,7 +49,7 @@ public slots:
      */
     void slotRefresh() override;
 
-    /** @brief intialize qml overlay
+    /** @brief initialize qml overlay
      */
     void slotInitMonitor(bool active) override;
 

@@ -86,7 +86,7 @@ OAuth2::OAuth2(QWidget *parent)
 /**
  * @brief OAuth2::getClientID - returns QString of the "clientID"
  * @return QString of the "clientID" which is a string that identifies the Kdenlive
- * applicaiton to the freesound website when the request for authentication is made
+ * application to the freesound website when the request for authentication is made
  */
 QString OAuth2::getClientID() const
 {
@@ -95,7 +95,7 @@ QString OAuth2::getClientID() const
 /**
  * @brief OAuth2::getClientSecret - returns QString of the "client secret"
  * @return - QString of the "client secret" which is another string that identifies the Kdenlive
- * applicaiton to the freesound website when the application asks for an access token
+ * application to the freesound website when the application asks for an access token
  */
 QString OAuth2::getClientSecret() const
 {

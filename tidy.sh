@@ -26,17 +26,17 @@ do
     fi
 done;
 
-echo "Formating source files"
+echo "Formatting source files"
 parallel -j 8 clang-format -i -style=file {} :::: to_process
-echo "Formating header files"
+echo "Formatting header files"
 parallel -j 8 clang-format -i -style=file {} :::: headers
 
 echo "Linting"
 parallel -j 8 clang-tidy -fix -config="" {} :::: to_process
 
-echo "Reformating source files"
+echo "Reformatting source files"
 parallel -j 8 clang-format -i -style=file {} :::: to_process
-echo "Reformating header files"
+echo "Reformatting header files"
 parallel -j 8 clang-format -i -style=file {} :::: headers
 
 rm file_list

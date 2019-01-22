@@ -156,7 +156,7 @@ public:
     const QString documentRoot() const;
     /** @brief Returns true if timeline preview settings changed*/
     bool updatePreviewSettings(const QString &profile);
-    /** @brief Returns the recommanded proxy profile parameters */
+    /** @brief Returns the recommended proxy profile parameters */
     QString getAutoProxyProfile();
 
 private:
@@ -171,10 +171,10 @@ private:
     /** @brief Tells whether the current document has been changed after being saved. */
     bool m_modified;
 
-    /** @brief The default recommanded proxy extension */
+    /** @brief The default recommended proxy extension */
     QString m_proxyExtension;
 
-    /** @brief The default recommanded proxy params */
+    /** @brief The default recommended proxy params */
     QString m_proxyParams;
 
     /** @brief Tells whether the current document was modified by Kdenlive on opening, and a backup should be created on save. */
@@ -210,7 +210,7 @@ public slots:
 
     /** @brief Sets the document as modified or up to date.
      * @description  If crash recovery is turned on, a timer calls KdenliveDoc::slotAutoSave() \n
-     * Emits docModified conected to MainWindow::slotUpdateDocumentState \n
+     * Emits docModified connected to MainWindow::slotUpdateDocumentState \n
      * @param mod (optional) true if the document has to be saved */
     void setModified(bool mod = true);
     void slotProxyCurrentItem(bool doProxy, QList<std::shared_ptr<ProjectClip>> clipList = QList<std::shared_ptr<ProjectClip>>(), bool force = false,

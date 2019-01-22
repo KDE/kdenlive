@@ -737,7 +737,7 @@ bool ProjectItemModel::loadFolders(Mlt::Properties &folders)
 
     std::unordered_map<int, std::vector<int>> downLinks; // key are parents, value are children
     std::unordered_map<int, int> upLinks;                // key are children, value are parent
-    std::unordered_map<int, QString> newIds;             // we store the correspondance to the new ids
+    std::unordered_map<int, QString> newIds;             // we store the correspondence to the new ids
     std::unordered_map<int, QString> folderNames;
     newIds[-1] = getRootFolder()->clipId();
 

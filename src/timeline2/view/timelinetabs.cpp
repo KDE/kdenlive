@@ -38,7 +38,7 @@ TimelineTabs::TimelineTabs(QWidget *parent)
     addTab(m_mainTimeline, i18n("Main timeline"));
     connectTimeline(m_mainTimeline);
 
-    // Resize to 0 the size of the close button of the main timeline, so that the user cannnot close it.
+    // Resize to 0 the size of the close button of the main timeline, so that the user cannot close it.
     if (tabBar()->tabButton(0, QTabBar::RightSide) != nullptr) {
         tabBar()->tabButton(0, QTabBar::RightSide)->resize(0, 0);
     }

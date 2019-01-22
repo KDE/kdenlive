@@ -48,7 +48,7 @@ export LD_LIBRARY_PATH=/usr/lib64/:/usr/lib:/app/usr/lib:$QTDIR/lib/:/opt/python
 #export LD_LIBRARY_PATH=/usr/lib64/:/usr/lib:/app/usr/lib:$QTDIR/lib/:$LD_LIBRARY_PATH
 
 # Workaround for: On CentOS 6, .pc files in /usr/lib/pkgconfig are not recognized
-# However, this is where .pc files get installed when bulding libraries... (FIXME)
+# However, this is where .pc files get installed when building libraries... (FIXME)
 # I found this by comparing the output of librevenge's "make install" command
 # between Ubuntu and CentOS 6
 

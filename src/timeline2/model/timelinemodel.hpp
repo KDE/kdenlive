@@ -89,7 +89,7 @@ class TrackModel;
    Here the order of these sub-rows is unrelated to the chronological order of the clips,
    but correspond to their Id order. For example, if you have three clips, with ids 12, 45 and 150, they will receive row index 0,1 and 2.
    This is because the order actually doesn't matter since the clips are rendered based on their positions rather than their row order.
-   The id order has been choosed because it is consistant with a valid ordering of the clips.
+   The id order has been chosen because it is consistent with a valid ordering of the clips.
    The columns are never used, so the data is always in column 0
 
    An ModelIndex in the ItemModel consists of a row number, a column number, and a parent index. In our case, tracks have always an empty parent, and the clip
@@ -318,7 +318,7 @@ public:
     */
     int getPreviousVideoTrackIndex(int trackId) const;
 
-    /* @brief Retuns the Id of the corresponding audio track. If trackId corresponds to video1, this will return audio 1 and so on */
+    /* @brief Returns the Id of the corresponding audio track. If trackId corresponds to video1, this will return audio 1 and so on */
     int getMirrorAudioTrackId(int trackId) const;
     int getMirrorVideoTrackId(int trackId) const;
     int getMirrorTrackId(int trackId) const;
@@ -588,7 +588,7 @@ public:
      @param clipId id of the target clip
     @param speed: speed in percentage. 100 corresponds to original speed, 50 to half the speed
     This functions create an undo object and also apply the effect to the corresponding audio if there is any.
-    Returns true on success, false otherwise (and nothing is modifed)
+    Returns true on success, false otherwise (and nothing is modified)
     */
     bool requestClipTimeWarp(int clipId, double speed);
     /* @brief Same function as above, but doesn't check for paired audio and accumulate undo/redo

@@ -150,7 +150,7 @@ protected:
     void deregisterSelf();
 
     /* @brief Reflect update of the parent ptr (for example set the correct depth)
-       This is meant to be overriden in derived classes
+       This is meant to be overridden in derived classes
        @param ptr is the pointer to the new parent
     */
     virtual void updateParent(std::shared_ptr<TreeItem> parent);

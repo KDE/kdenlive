@@ -43,7 +43,7 @@ void DraggableLabel::mousePressEvent(QMouseEvent *ev)
 
 void DraggableLabel::mouseReleaseEvent(QMouseEvent *ev)
 {
-    // Don't call mouserelease in cas of drag because label might be deleted by a drop
+    // Don't call mouserelease in case of drag because label might be deleted by a drop
     if (!m_dragStarted)
         QLabel::mouseReleaseEvent(ev);
     else

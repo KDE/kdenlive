@@ -907,7 +907,7 @@ Fun TrackModel::requestCompositionResize_lambda(int compoId, int in, int out, bo
 
     if (in == compo_position && (out == -1 || out == old_out)) {
         return []() {
-            qDebug()<<"//// NO MOVE PERFORMES\n!!!!!!!!!!!!!!!!!!!!!!!!!!";
+            qDebug()<<"//// NO MOVE PERFORMED\n!!!!!!!!!!!!!!!!!!!!!!!!!!";
             return true; };
     }
 
@@ -920,7 +920,7 @@ Fun TrackModel::requestCompositionResize_lambda(int compoId, int in, int out, bo
 
     if (intersecting) {
         return []() { 
-            qDebug()<<"//// FALSE MOVE PERFORMES\n!!!!!!!!!!!!!!!!!!!!!!!!!!";
+            qDebug()<<"//// FALSE MOVE PERFORMED\n!!!!!!!!!!!!!!!!!!!!!!!!!!";
             return false; };
     }
 

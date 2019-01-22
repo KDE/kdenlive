@@ -45,8 +45,8 @@ public:
         used as a hash in the cache */
     static const QString cfgSignature(const int size);
 
-    /** Calculates the Fourier Tranformation of the input audio frame.
-        The resulting values will be given in relative dezibel: The maximum power is 0 dB, lower powers have
+    /** Calculates the Fourier Transformation of the input audio frame.
+        The resulting values will be given in relative decibel: The maximum power is 0 dB, lower powers have
         negative dB values.
         * audioFrame: Interleaved format with #numChannels channels
         * freqSpectrum: Array pointer to write the data into

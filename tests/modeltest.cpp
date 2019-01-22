@@ -1019,7 +1019,7 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
 
     SECTION("requestCreateClip")
     {
-        // an invalid clip id shouln't get created
+        // an invalid clip id shouldn't get created
         {
             int temp;
             Fun undo = []() { return true; };

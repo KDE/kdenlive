@@ -260,7 +260,7 @@ public:
        @param isMultitrack is true if we want to select the whole tractor (currently unused)
      */
     void setSelection(const QList<int> &selection = QList<int>(), int trackIndex = -1, bool isMultitrack = false);
-    /* @brief Get the list of currenly selected clip id's
+    /* @brief Get the list of currently selected clip id's
      */
     QList<int> selection() const;
 
@@ -342,10 +342,10 @@ public:
     /* @brief Returns a list of all luma files used in the project
      */
     QStringList extractCompositionLumas() const;
-    /* @brief Get the frame where mouse is positionned
+    /* @brief Get the frame where mouse is positioned
      */
     int getMousePos();
-    /* @brief Get the frame where mouse is positionned
+    /* @brief Get the frame where mouse is positioned
      */
     int getMouseTrack();
     /* @brief Returns a map of track ids/track names
@@ -438,7 +438,7 @@ public slots:
     void checkDuration();
     /** @brief Dis / enable multi track view. */
     void slotMultitrackView(bool enable);
-    /** @brief Save timeline selcted clips to target folder. */
+    /** @brief Save timeline selected clips to target folder. */
     void saveTimelineSelection(QDir targetDir);
     /** @brief Restore timeline scroll pos on open. */
     void setScrollPos(int pos);

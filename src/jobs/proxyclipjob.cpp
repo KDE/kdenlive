@@ -138,7 +138,7 @@ bool ProxyJob::startJob()
         mltParameters.append(QStringLiteral("real_time=-%1").arg(threadCount));
         mltParameters.append(QStringLiteral("threads=%1").arg(threadCount));
 
-        // TODO: currently, when rendering an xml file through melt, the display ration is lost, so we enforce it manualy
+        // TODO: currently, when rendering an xml file through melt, the display ration is lost, so we enforce it manually
         mltParameters << QStringLiteral("aspect=") + QLocale().toString(display_ratio);
 
         // Ask for progress reporting

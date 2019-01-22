@@ -48,7 +48,7 @@ class EffectStackModel : public AbstractTreeModel
     Q_OBJECT
 
 public:
-    /* @brief Constructs an effect stack and returns a shared ptr to the constucted object
+    /* @brief Constructs an effect stack and returns a shared ptr to the constructed object
        @param service is the mlt object on which we will plant the effects
        @param ownerId is some information about the actual object to which the effects are applied
     */

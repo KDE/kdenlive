@@ -2056,10 +2056,10 @@ bool TimelineModel::requestCompositionInsertion(const QString &transitionId, int
         return true;
     };
     bool res = requestCompositionMove(compositionId, trackId, compositionTrack, position, true, finalMove, local_undo, local_redo);
-    qDebug() << "trying to move" << trackId << "pos" << position << "succes " << res;
+    qDebug() << "trying to move" << trackId << "pos" << position << "success " << res;
     if (res) {
         res = requestItemResize(compositionId, length, true, true, local_undo, local_redo, true);
-        qDebug() << "trying to resize" << compositionId << "length" << length << "succes " << res;
+        qDebug() << "trying to resize" << compositionId << "length" << length << "success " << res;
     }
     if (!res) {
         bool undone = local_undo();
@@ -2386,7 +2386,7 @@ bool TimelineModel::checkConsistency()
         }
         // check consistency of track
         if (!track->checkConsistency()) {
-            qDebug() << "Constistency check failed for track" << tck.first;
+            qDebug() << "Consistency check failed for track" << tck.first;
             return false;
         }
     }

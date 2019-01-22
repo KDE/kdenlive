@@ -85,7 +85,7 @@ void FreeSound::slotShowResults(KJob *job)
     if (job->error() != 0) {
         qCDebug(KDENLIVE_LOG) << job->errorString();
     } else {
-        m_listWidget->blockSignals(true); // stop the listWidget from emiting signals.Ie clicking on the list while we are busy here will do nothing
+        m_listWidget->blockSignals(true); // stop the listWidget from emitting signals.Ie clicking on the list while we are busy here will do nothing
         KIO::StoredTransferJob *storedQueryJob = static_cast<KIO::StoredTransferJob *>(job);
 
         QJsonParseError jsonError;

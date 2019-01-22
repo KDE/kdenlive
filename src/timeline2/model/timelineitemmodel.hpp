@@ -34,7 +34,7 @@
    Here the order of these sub-rows is unrelated to the chronological order of the clips,
    but correspond to their Id order. For example, if you have three clips, with ids 12, 45 and 150, they will receive row index 0,1 and 2.
    This is because the order actually doesn't matter since the clips are rendered based on their positions rather than their row order.
-   The id order has been choosed because it is consistant with a valid ordering of the clips.
+   The id order has been chosen because it is consistent with a valid ordering of the clips.
    The columns are never used, so the data is always in column 0
 
    An ModelIndex in the ItemModel consists of a row number, a column number, and a parent index. In our case, tracks have always an empty parent, and the clip
@@ -110,7 +110,7 @@ public:
     virtual void _resetView() override;
 
 protected:
-    // This is an helper function that finishes a constuction of a freshly created TimelineItemModel
+    // This is an helper function that finishes a construction of a freshly created TimelineItemModel
     static void finishConstruct(std::shared_ptr<TimelineItemModel> ptr, std::shared_ptr<MarkerListModel> guideModel);
 };
 #endif

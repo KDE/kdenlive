@@ -30,11 +30,11 @@ public:
     /**
       @param mainTrackEnvelope Envelope of the reference track. Its
                                actual computation will be started in
-                               this contructor
+                               this constructor
                                (i.e. mainTrackEnvelope->StartComputeEnvelope()
                                will be called). The computation of the
                                envelop must not be started when passed
-                               to this contructor
+                               to this constructor
                                (i.e. mainTrackEnvelope->HasComputationStarted()
                                must return false).
     */

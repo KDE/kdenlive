@@ -319,7 +319,7 @@ void ClipController::updateProducer(const std::shared_ptr<Mlt::Producer> &produc
     } else {
         m_effectStack->resetService(m_masterProducer);
         emitProducerChanged(m_controllerBinId, producer);
-        // URL and name shoule not be updated otherwise when proxying a clip we cannot find back the original url
+        // URL and name should not be updated otherwise when proxying a clip we cannot find back the original url
         /*m_url = QUrl::fromLocalFile(m_masterProducer->get("resource"));
         if (m_url.isValid()) {
             m_name = m_url.fileName();

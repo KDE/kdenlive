@@ -70,7 +70,7 @@ public:
     /**
      * @brief Init the GUI part of the app and show the main window
      * @param Url (optional) file to open
-     * If Url is present, it will be opened, otherwhise, if openlastproject is
+     * If Url is present, it will be opened, otherwise, if openlastproject is
      * set, latest project will be opened. If no file is open after trying this,
      * a default new file will be created. */
     void initGUI(const QUrl &Url);

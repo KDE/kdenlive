@@ -57,7 +57,7 @@ struct Job_t
     QString m_undoString;
     int m_id;
     bool m_processed = false; // flag that we set to true when we are done with this job
-    bool m_failed = false;    // flag that we set to true when a problem occured
+    bool m_failed = false;    // flag that we set to true when a problem occurred
 };
 
 class AudioThumbJob;

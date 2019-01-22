@@ -104,7 +104,7 @@ public:
     QDomElement toXml(QDomDocument &document);
 
 protected:
-    // helper fuctions that creates the lambda
+    // helper functions that creates the lambda
     Fun setClipState_lambda(PlaylistState::ClipState state);
 
 public:

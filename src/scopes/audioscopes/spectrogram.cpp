@@ -329,7 +329,7 @@ QImage Spectrogram::renderAudioScope(uint, const audioShortVector &audioFrame, c
             FFTTools::WindowType windowType = (FFTTools::WindowType)ui->windowFunction->itemData(ui->windowFunction->currentIndex()).toInt();
             m_fftTools.fftNormalized(audioFrame, 0, num_channels, freqSpectrum, windowType, fftWindow, 0);
 
-            // This methid might be called also when a simple refresh is required.
+            // This method might be called also when a simple refresh is required.
             // In this case there is no data to append to the history. Only append new data.
             QVector<float> spectrumVector(fftWindow / 2);
             memcpy(spectrumVector.data(), &freqSpectrum[0], fftWindow / 2 * sizeof(float));

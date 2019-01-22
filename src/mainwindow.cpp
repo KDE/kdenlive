@@ -1674,7 +1674,7 @@ void MainWindow::slotEditProjectSettings()
                                project->projectTempFolder(), newProjectFolder));
             }
             if (answer == KMessageBox::Continue) {
-                // Proceeed with move
+                // Proceed with move
                 QString documentId = QDir::cleanPath(project->getDocumentProperty(QStringLiteral("documentid")));
                 bool ok;
                 documentId.toLongLong(&ok, 10);
@@ -2246,7 +2246,7 @@ void MainWindow::slotDeleteAllClipMarkers()
     }
     bool ok = clip->getMarkerModel()->removeAllMarkers();
     if (!ok) {
-        m_messageLabel->setMessage(i18n("An error occured while deleting markers"), ErrorMessage);
+        m_messageLabel->setMessage(i18n("An error occurred while deleting markers"), ErrorMessage);
         return;
     }
 }

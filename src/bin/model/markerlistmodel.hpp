@@ -58,7 +58,7 @@ public:
 
     enum { CommentRole = Qt::UserRole + 1, PosRole, FrameRole, ColorRole, TypeRole };
 
-    /* @brief Adds a marker at the given position. If there is already one, the comment will be overriden
+    /* @brief Adds a marker at the given position. If there is already one, the comment will be overridden
        @param pos defines the position of the marker, relative to the clip
        @param comment is the text associated with the marker
        @param type is the type (color) associated with the marker. If -1 is passed, then the value is pulled from kdenlive's defaults
@@ -129,9 +129,9 @@ public:
 
 public slots:
     /* @brief Imports a list of markers from json data
-   The data should be formated as follows:
+   The data should be formatted as follows:
    [{"pos":0.2, "comment":"marker 1", "type":1}, {...}, ...]
-   return true on succes and logs undo object
+   return true on success and logs undo object
    @param ignoreConflicts: if set to false, it aborts if the data contains a marker with same position but different comment and/or type. If set to true,
    such markers are overridden silently
    @param pushUndo: if true, create an undo object

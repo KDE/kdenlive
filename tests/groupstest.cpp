@@ -547,7 +547,7 @@ TEST_CASE("Integration with timeline", "[GroupsModel]")
                 if (found != -1) {
                     return clips[found];
                 } else {
-                    qDebug() << "ERROR: did not find correspondance for group" << gid;
+                    qDebug() << "ERROR: did not find correspondence for group" << gid;
                 }
             } else {
                 // we find correspondances of all the children
@@ -1249,7 +1249,7 @@ TEST_CASE("Complex Functions", "[GroupsModel]")
         qDebug() << " done testing";
 
         REQUIRE(groups.split(6, criterion, undo, redo));
-        qDebug() << " done spliting";
+        qDebug() << " done splitting";
         auto test_tree2 = [&]() {
             // REQUIRE(groups.m_upLink.size() == 6);
             int r1 = groups.getRootId(0);

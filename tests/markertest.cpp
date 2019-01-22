@@ -40,7 +40,7 @@ void checkMarkerList(std::shared_ptr<MarkerListModel> model, const std::vector<M
         REQUIRE(std::get<2>(list[i]) == model->data(model->index(i), MarkerListModel::TypeRole).toInt());
         REQUIRE(MarkerListModel::markerTypes[std::get<2>(list[i])] == model->data(model->index(i), MarkerListModel::ColorRole).value<QColor>());
 
-        // check for marker existance
+        // check for marker existence
         int frame = std::get<0>(list[i]).frames(fps);
         REQUIRE(model->hasMarker(frame));
 

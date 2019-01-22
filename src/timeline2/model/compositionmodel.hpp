@@ -63,7 +63,7 @@ public:
      */
     int getPlaytime() const override;
 
-    /* @brief Returns the id of the second track involved in the composition (a_track in mlt's vocabulary, the b_track beeing the track where the composition is
+    /* @brief Returns the id of the second track involved in the composition (a_track in mlt's vocabulary, the b_track being the track where the composition is
        inserted)
      */
     int getATrack() const;

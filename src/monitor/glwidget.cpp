@@ -1105,7 +1105,7 @@ int GLWidget::reconfigureMulti(const QString &params, const QString &path, Mlt::
         }
     }
     if (m_consumer->is_valid()) {
-        // buid sub consumers
+        // build sub consumers
         // m_consumer->set("mlt_image_format", "yuv422");
         reloadProfile();
         int volume = KdenliveSettings::volume();

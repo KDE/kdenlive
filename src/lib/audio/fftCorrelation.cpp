@@ -117,7 +117,7 @@ void FFTCorrelation::convolve(const float *left, const int leftSize, const float
         correlatedFFT[i].i = leftFFT[i].r * rightFFT[i].i + leftFFT[i].i * rightFFT[i].r;
     }
 
-    // Inverse fourier tranformation to get the convolved data.
+    // Inverse fourier transformation to get the convolved data.
     // Insert one element at the beginning to obtain the same result
     // that we also get with the nested for loop correlation.
     *out_convolved = 0;

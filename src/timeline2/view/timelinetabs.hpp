@@ -25,7 +25,7 @@
 #include <QTabWidget>
 #include <memory>
 
-/* @brief This is a class that extends QTabWidget to provide additional functionnality related to timeline tabs
+/* @brief This is a class that extends QTabWidget to provide additional functionality related to timeline tabs
  */
 
 class TimelineWidget;

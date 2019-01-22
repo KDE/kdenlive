@@ -192,7 +192,7 @@ protected:
     */
     int getRowfromComposition(int compoId) const;
 
-    /*@brief This is an helper function that test frame level consistancy with the MLT structures */
+    /*@brief This is an helper function that test frame level consistency with the MLT structures */
     bool checkConsistency();
 
     /* @brief Returns true if we have a composition intersecting with the range [in,out]*/

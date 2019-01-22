@@ -31,7 +31,7 @@
 
 class TimelineItemModel;
 
-/* @brief This class represents the group hiearchy. This is basically a tree structure
+/* @brief This class represents the group hierarchy. This is basically a tree structure
    In this class, we consider that a groupItem is either a clip or a group
 */
 

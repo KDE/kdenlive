@@ -1675,7 +1675,7 @@ int TimelineController::insertZone(const QString &binId, QPoint zone, bool overw
         insertPoint = m_zone.x();
         sourceZone = QPoint(zone.x(), zone.x() + m_zone.y() - m_zone.x());
     } else {
-        // Use curent timeline pos and clip zone for in/out
+        // Use current timeline pos and clip zone for in/out
         insertPoint = timelinePosition();
         sourceZone = zone;
     }

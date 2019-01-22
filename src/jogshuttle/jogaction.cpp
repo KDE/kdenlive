@@ -70,7 +70,7 @@ void JogShuttleAction::slotShuttlePos(int shuttle_pos)
 void JogShuttleAction::slotButton(int button_id)
 {
     if (button_id >= m_actionMap.size() || m_actionMap[button_id].isEmpty()) {
-        // TODO(fleury): Shoudl this go to the status bar to inform the user ?
+        // TODO(fleury): Should this go to the status bar to inform the user ?
         // qCDebug(KDENLIVE_LOG) << "No action applied for button: " << button_id;
         return;
     }

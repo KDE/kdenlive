@@ -106,7 +106,7 @@ void Core::build(const QString &MltPath)
     ClipController::mediaUnavailable->set("length", 99999999);
 
     m_self->m_projectItemModel = ProjectItemModel::construct();
-    // Job manger must be created before bin to correctly connect
+    // Job manager must be created before bin to correctly connect
     m_self->m_jobManager.reset(new JobManager(m_self.get()));
 }
 

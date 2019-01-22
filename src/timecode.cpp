@@ -72,7 +72,7 @@ int timeBase = round(framerate); //We don’t need the exact framerate anymore, 
 
 int hourFrames = timeBase*60*60; //Number of frames per hour (non-drop)
 int minuteFrames = timeBase*60; //Number of frames per minute (non-drop)
-int totalMinutes = (60*hours) + minutes; //Total number of minuts
+int totalMinutes = (60*hours) + minutes; //Total number of minutes
 int frameNumber = ((hourFrames * hours) + (minuteFrames * minutes) + (timeBase * seconds) + frames) - (dropFrames * (totalMinutes - (totalMinutes \ 10)));
 return frameNumber;
 

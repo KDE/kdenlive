@@ -65,13 +65,13 @@ signals:
 public slots:
     /** @brief Toggle the comments on or off
      */
-    virtual void slotShowComment(bool) { qDebug() << "DEBUG: show_comment not correctly overriden"; }
+    virtual void slotShowComment(bool) { qDebug() << "DEBUG: show_comment not correctly overridden"; }
 
     /** @brief refresh the properties to reflect changes in the model
      */
     virtual void slotRefresh() = 0;
 
-    /** @brief intialize qml keyframe view after creating it
+    /** @brief initialize qml keyframe view after creating it
      */
     virtual void slotInitMonitor(bool /*active*/) {}
 

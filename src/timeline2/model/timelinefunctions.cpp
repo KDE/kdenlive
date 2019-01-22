@@ -160,7 +160,7 @@ bool TimelineFunctions::requestClipCut(std::shared_ptr<TimelineItemModel> timeli
         }
     }
     if (count > 0 && timeline->m_groups->isInGroup(clipId)) {
-        // we now split the group hiearchy.
+        // we now split the group hierarchy.
         // As a splitting criterion, we compare start point with split position
         auto criterion = [timeline, position](int cid) { return timeline->getClipPosition(cid) < position; };
         bool res = true;
@@ -410,7 +410,7 @@ bool TimelineFunctions::requestItemCopy(std::shared_ptr<TimelineItemModel> timel
         }
         mapping[id] = newId;
     }
-    qDebug() << "Sucessful copy, coping groups...";
+    qDebug() << "Successful copy, coping groups...";
     res = timeline->m_groups->copyGroups(mapping, undo, redo);
     if (!res) {
         bool undone = undo();

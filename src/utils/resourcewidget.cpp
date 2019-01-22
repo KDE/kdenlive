@@ -514,7 +514,7 @@ void ResourceWidget::slotOpenUrl(const QString &url)
     new KRun(QUrl(url), this);
 }
 /**
- * @brief ResourceWidget::slotChangeService - fires when user changes what online resource they want to search agains via the dropdown list
+ * @brief ResourceWidget::slotChangeService - fires when user changes what online resource they want to search against via the dropdown list
 
   Also fires when widget first opens
 */
@@ -689,9 +689,9 @@ void ResourceWidget::slotSetMetadata(const QString &metadata)
 void ResourceWidget::slotSetImage(const QString &desc)
 {
     QPixmap pic(desc);
-    GifLabel->setPixmap(pic); // pass a pointer as a parameter. Display the pic in our lable
+    GifLabel->setPixmap(pic); // pass a pointer as a parameter. Display the pic in our label
 }
-/** @brief updates the display with information on the seleted item. The title consists of the sounds file name and the author
+/** @brief updates the display with information on the selected item. The title consists of the sounds file name and the author
  *
  * Called by ResourceWidget::slotUpdateCurrentSound()
  */

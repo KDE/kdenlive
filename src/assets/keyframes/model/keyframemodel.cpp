@@ -310,7 +310,7 @@ bool KeyframeModel::updateKeyframe(GenTime pos, QVariant value, Fun &undo, Fun &
     Q_ASSERT(m_keyframeList.count(pos) > 0);
     KeyframeType type = m_keyframeList[pos].first;
     QVariant oldValue = m_keyframeList[pos].second;
-    // Chek if keyframe is different
+    // Check if keyframe is different
     if (m_paramType == ParamType::KeyframeParam) {
         if (qFuzzyCompare(oldValue.toDouble(), value.toDouble())) return true;
     }
@@ -399,7 +399,7 @@ Fun KeyframeModel::updateKeyframe_lambda(GenTime pos, KeyframeType type, QVarian
 {
     QWriteLocker locker(&m_lock);
     return [this, pos, type, value, notify]() {
-        qDebug() << "udpate lambda" << pos.frames(pCore->getCurrentFps()) << value << notify;
+        qDebug() << "update lambda" << pos.frames(pCore->getCurrentFps()) << value << notify;
         Q_ASSERT(m_keyframeList.count(pos) > 0);
         int row = static_cast<int>(std::distance(m_keyframeList.begin(), m_keyframeList.find(pos)));
         m_keyframeList[pos].first = type;

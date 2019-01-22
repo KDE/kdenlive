@@ -73,7 +73,7 @@ ClipStabilize::ClipStabilize(const std::vector<QString> &binIds, const QString &
                           << QStringLiteral("maxangle,type,double,value,-1,min,-1,max,3.14,decimals,2,tooltip,max angle to rotate (in rad)")
                           << QStringLiteral("crop,type,bool,value,0,min,0,max,1,tooltip,0 = keep border  1 = black background")
                           << QStringLiteral("zoom,type,int,value,0,min,-500,max,500,tooltip,additional zoom during transform")
-                          << QStringLiteral("optzoom,type,bool,value,1,min,0,max,1,tooltip,use optimal zoom (calulated from transforms)")
+                          << QStringLiteral("optzoom,type,bool,value,1,min,0,max,1,tooltip,use optimal zoom (calculated from transforms)")
                           << QStringLiteral("sharpen,type,double,value,0.8,min,0,max,1,decimals,1,tooltip,sharpen transformed image")
                           << QStringLiteral("tripod,type,position,value,0,min,0,max,100000,tooltip,reference frame"));
 
@@ -91,7 +91,7 @@ ClipStabilize::ClipStabilize(const std::vector<QString> &binIds, const QString &
         QHash<QString, QString> val = hi.value();
         if (val[QStringLiteral("type")] == QLatin1String("int") || val[QStringLiteral("type")] == QLatin1String("double")) {
             DoubleWidget *dbl = new DoubleWidget(hi.key() /*name*/, val[QStringLiteral("value")].toDouble(), val[QStringLiteral("min")].toDouble(),
-                                                 val[QStringLiteral("max")].toDouble(), val[QStringLiteral("value")].toDouble(), 
+                                                 val[QStringLiteral("max")].toDouble(), val[QStringLiteral("value")].toDouble(),
                                                  1,
                                                  /*default*/
                                                  QString(),                                                                      /*comment*/
