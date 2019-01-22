@@ -924,7 +924,8 @@ Rectangle {
                     Rectangle {
                         id: tracksContainerArea
                         width: Math.max(scrollView.width - scrollView.__verticalScrollBar.width, timeline.fullDuration * timeScale)
-                        height: Math.max(trackHeaders.height, scrollView.height - scrollView.__horizontalScrollBar.height)
+                        height: trackHeaders.height
+                        //Math.max(trackHeaders.height, scrollView.contentHeight - scrollView.__horizontalScrollBar.height)
                         color: root.color
                         Rectangle {
                             // Drag proxy, responsible for clip / composition move
@@ -1237,24 +1238,7 @@ Rectangle {
             trackThumbsFormat: thumbsFormat
             isCurrentTrack: item === timeline.activeTrack
             trackInternalId: item
-            /*Rectangle {
-                anchors.right: parent.right
-                anchors.left: parent.left
-                height: parent.height
-                //source: "qrc:///pics/kdenlive-lock.svgz"
-                //fillMode: Image.Tile
-                opacity: parent.isLocked
-                color: '#33ff3300'
-                visible: opacity
-                Behavior on opacity { NumberAnimation {} }
-                MouseArea {
-                    anchors.fill: parent
-                    onPressed: {
-                        mouse.accepted = true;
-                        trackHeaderRepeater.itemAt(index).pulseLockButton()
-                    }
-                }
-            }*/
+            z: tracksRepeater.count - index
         }
     }
 

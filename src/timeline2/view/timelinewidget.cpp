@@ -122,6 +122,7 @@ void TimelineWidget::setModel(std::shared_ptr<TimelineItemModel> model)
     m_sortModel->setSourceModel(model.get());
     m_sortModel->setSortRole(TimelineItemModel::SortRole);
     m_sortModel->sort(0, Qt::DescendingOrder);
+
     m_proxy->setModel(model);
     rootContext()->setContextProperty("multitrack", m_sortModel.get());
     rootContext()->setContextProperty("controller", model.get());

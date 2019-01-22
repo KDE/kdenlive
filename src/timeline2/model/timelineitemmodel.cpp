@@ -365,6 +365,9 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
         case EffectsEnabledRole: {
             return getTrackById_const(id)->stackEnabled();
         }
+        case IsCompositionRole: {
+            return false;
+        }
         default:
             break;
         }

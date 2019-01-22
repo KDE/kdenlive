@@ -116,12 +116,7 @@ Item {
     }
     MouseArea {
         id: mouseArea
-        anchors.top: compositionRoot.top
-        anchors.right: compositionRoot.right
-        anchors.left: compositionRoot.left
-        anchors.topMargin: displayHeight
-        height: displayHeight
-        //anchors.fill: parent
+        anchors.fill: displayRect
         acceptedButtons: Qt.RightButton
         hoverEnabled: true
         /*onPressed: {
