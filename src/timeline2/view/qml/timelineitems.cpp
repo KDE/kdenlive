@@ -91,7 +91,10 @@ public:
         if (data.isEmpty()) return;
 
         const qreal indicesPrPixel = qreal(m_outPoint - m_inPoint) / width();
-        painter->setPen(m_color);
+        QPen pen = painter->pen();
+        pen.setColor(m_color);
+        pen.setWidthF(0.5);
+        painter->setPen(pen);
         painter->setBrush(m_color);
         if (!KdenliveSettings::displayallchannels()) {
             // Draw merged channels
@@ -117,19 +120,28 @@ public:
             painter->drawPath(path);
         } else {
             // Fill gradient
-            int channelHeight = height() / (2 * m_channels);
+            double channelHeight = height() / (2 * m_channels);
 
             // Draw separate channels
             QMap<int, QPainterPath> positiveChannelPaths;
             QMap<int, QPainterPath> negativeChannelPaths;
             double i = 0;
             double increment = qMax(1., 1 / indicesPrPixel);
+            QLineF midLine(0, 0, width(), 0);
+            QRectF bgRect(0, 0, width(), 2 * channelHeight);
             for (int channel = 0; channel < m_channels; channel++) {
-                int y = height() - (2 * channel + 1) * channelHeight;
+                double y = height() - (2 * channel * channelHeight) - channelHeight;
                 positiveChannelPaths[channel].moveTo(-1, y);
                 negativeChannelPaths[channel].moveTo(-1, y);
+                painter->setOpacity(0.2);
+                if (channel % 2 == 0) {
+                    // Add dark background on odd channels
+                    bgRect.moveTo(0, y - channelHeight);
+                    painter->fillRect(bgRect, Qt::black);
+                }
                 // Draw channel median line
-                painter->drawLine(0, y, width(), y);
+                midLine.translate(0, y);
+                painter->drawLine(midLine);
                 int lastIdx = -1;
                 for (i = 0; i <= width(); i += increment) {
                     int idx = m_inPoint + int(i * indicesPrPixel);
@@ -142,9 +154,7 @@ public:
                     positiveChannelPaths[channel].lineTo(i, y - level * channelHeight);
                     negativeChannelPaths[channel].lineTo(i, y + level * channelHeight);
                 }
-            }
-            for (int channel = 0; channel < m_channels; channel++) {
-                int y = height() - (2 * channel + 1) * channelHeight;
+                painter->setOpacity(1);
                 positiveChannelPaths[channel].lineTo(i, y);
                 negativeChannelPaths[channel].lineTo(i, y);
                 painter->drawPath(positiveChannelPaths.value(channel));
