@@ -249,7 +249,6 @@ private slots:
     void slotSetVolume(int volume);
     void slotEditMarker();
     void slotExtractCurrentZone();
-    void slotInsertZoneToProjectBin();
     void onFrameDisplayed(const SharedFrame &frame);
     void slotStartDrag();
     void setZoom();

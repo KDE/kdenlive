@@ -209,9 +209,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
         connect(m_recManager, &RecManager::warningMessage, this, &Monitor::warningMessage);
         connect(m_recManager, &RecManager::addClipToProject, this, &Monitor::addClipToProject);
 
-        QAction *insertAction = new QAction(QIcon::fromTheme(QStringLiteral("document-new")), i18n("Insert Zone to Project Bin"), this);
-        connect(insertAction, &QAction::triggered, this, &Monitor::slotInsertZoneToProjectBin);
-        m_toolbar->addAction(insertAction);
+        m_toolbar->addAction(manager->getAction(QStringLiteral("insert_project_tree")));
         m_toolbar->addSeparator();
     }
 
@@ -1420,16 +1418,6 @@ void Monitor::slotSaveZone()
     // render->saveZone(pCore->currentDoc()->projectDataFolder(), m_ruler->zone());
 }
 
-void Monitor::slotInsertZoneToProjectBin()
-{
-    if (!isActive() || currentController() == nullptr) {
-        return;
-    }
-
-    QPoint info = getZoneInfo();
-    QString id;
-    pCore->projectItemModel()->requestAddBinSubClip(id, info.x(), info.y(), QString(), activeClipId());
-}
 void Monitor::setCustomProfile(const QString &profile, const Timecode &tc)
 {
     // TODO or deprecate
