@@ -418,7 +418,6 @@ private slots:
     void slotSetMonitorGamma(int gamma);
     void slotCheckRenderStatus();
     void slotInsertZoneToTree();
-    void slotInsertZoneToTimeline();
 
     /** @brief The monitor informs that it needs (or not) to have frames sent by the renderer. */
     void slotMonitorRequestRenderFrame(bool request);

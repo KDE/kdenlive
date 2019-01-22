@@ -37,7 +37,6 @@
 #include "timeline2/model/snapmodel.hpp"
 #include "transitions/transitionsrepository.hpp"
 
-
 #include "klocalizedstring.h"
 #include <KDualAction>
 #include <KFileWidget>
@@ -207,6 +206,10 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
         m_recManager = new RecManager(this);
         connect(m_recManager, &RecManager::warningMessage, this, &Monitor::warningMessage);
         connect(m_recManager, &RecManager::addClipToProject, this, &Monitor::addClipToProject);
+
+        m_toolbar->addAction(manager->getAction(QStringLiteral("insert_project_tree")));
+        m_toolbar->setToolTip(i18n("Insert Zone to Project Bin"));
+        m_toolbar->addSeparator();
     }
 
     if (id != Kdenlive::DvdMonitor) {
