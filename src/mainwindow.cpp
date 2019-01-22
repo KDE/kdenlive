@@ -1182,7 +1182,7 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("switch_trim"), i18n("Trim Mode"), this, SLOT(slotSwitchTrimMode()), QIcon::fromTheme(QStringLiteral("cursor-arrow")));
     // disable shortcut until fully working, Qt::CTRL + Qt::Key_T);
 
-    addAction(QStringLiteral("insert_project_tree"), i18n("Insert Zone in Project Bin"), this, SLOT(slotInsertZoneToTree()), QIcon(), Qt::CTRL + Qt::Key_I);
+    addAction(QStringLiteral("insert_project_tree"), i18n("Insert Zone in Project Bin"), this, SLOT(slotInsertZoneToTree()), QIcon::fromTheme(QStringLiteral("document-new")) , Qt::CTRL + Qt::Key_I);
 
     addAction(QStringLiteral("monitor_seek_snap_backward"), i18n("Go to Previous Snap Point"), this, SLOT(slotSnapRewind()),
               QIcon::fromTheme(QStringLiteral("media-seek-backward")), Qt::ALT + Qt::Key_Left);
@@ -3272,18 +3272,6 @@ void MainWindow::slotInsertZoneToTree()
     QPoint info = m_clipMonitor->getZoneInfo();
     QString id;
     pCore->projectItemModel()->requestAddBinSubClip(id, info.x(), info.y(), QString(), m_clipMonitor->activeClipId());
-}
-
-void MainWindow::slotInsertZoneToTimeline()
-{
-    QPoint info = m_clipMonitor->getZoneInfo();
-    QString clipData = QString("%1#%2#%3").arg(m_clipMonitor->activeClipId()).arg(info.x()).arg(info.y());
-    int cid = getMainTimeline()->controller()->insertClip(-1, -1, clipData, true, true, true);
-    if (cid == -1) {
-        pCore->displayMessage(i18n("Cannot insert clip at requested position"), InformationMessage);
-    } else {
-        getMainTimeline()->controller()->seekToClip(cid, true);
-    }
 }
 
 void MainWindow::slotMonitorRequestRenderFrame(bool request)
