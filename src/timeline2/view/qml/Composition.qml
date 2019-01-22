@@ -187,8 +187,8 @@ Item {
         anchors.top: compositionRoot.top
         anchors.right: compositionRoot.right
         anchors.left: compositionRoot.left
-        anchors.topMargin: displayHeight
-        height: displayHeight
+        anchors.topMargin: displayHeight * 1.2
+        height: displayHeight * 1.3
         color: Qt.darker('mediumpurple')
         border.color: selected? 'red' : borderColor
         border.width: isGrabbed ? 8 : 1.5

@@ -152,6 +152,7 @@ Rectangle {
         dragProxy.sourceTrack = itemTrack
         dragProxy.sourceFrame = itemPos
         dragProxy.isComposition = isComposition
+        dragProxy.verticalOffset = isComposition ? itemObject.displayHeight : 0
     }
     function endDrag() {
         dragProxy.draggedItem = -1
@@ -159,6 +160,7 @@ Rectangle {
         dragProxy.y = 0
         dragProxy.width = 0
         dragProxy.height = 0
+        dragProxy.verticalOffset = 0
     }
 
     property int headerWidth: timeline.headerWidth()
@@ -938,6 +940,7 @@ Rectangle {
                             property int sourceTrack
                             property int sourceFrame
                             property bool isComposition
+                            property int verticalOffset
                             property var masterObject
                             color: 'green'
                             opacity: 0.8
@@ -1033,7 +1036,7 @@ Rectangle {
                                         var mapped = tracksContainerArea.mapFromItem(dragProxy, mouse.x, mouse.y).x
                                         root.mousePosChanged(Math.round(mapped / timeline.scaleFactor))
                                         var posx = Math.round((parent.x)/ root.timeScale)
-                                        var posy = Math.min(Math.max(0, mouse.y + parent.y), tracksContainerArea.height)
+                                        var posy = Math.min(Math.max(0, mouse.y + parent.y - dragProxy.verticalOffset), tracksContainerArea.height)
                                         var tId = Logic.getTrackIdFromPos(posy)
                                         timeline.activeTrack = tId
                                         if (dragProxy.isComposition) {
