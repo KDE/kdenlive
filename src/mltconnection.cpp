@@ -89,8 +89,11 @@ void MltConnection::locateMeltAndProfilesPath(const QString &mltPath)
     QString exeSuffix = "";
 #endif
     QString meltPath;
-    if (qEnvironmentVariableIsSet("MLT_PREFIX"))
+    if (qEnvironmentVariableIsSet("MLT_PREFIX")) {
         meltPath = qgetenv("MLT_PREFIX") + QStringLiteral("/bin/melt") + exeSuffix;
+    } else {
+        meltPath = KdenliveSettings::rendererpath();
+    }
     if (!QFile::exists(meltPath)) {
         meltPath = QDir::cleanPath(profilePath + QStringLiteral("/../../../bin/melt")) + exeSuffix;
     }
