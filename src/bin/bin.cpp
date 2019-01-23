@@ -995,7 +995,12 @@ void Bin::slotReloadClip()
             continue;
         }
         std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
-        auto currentItem = std::static_pointer_cast<ProjectClip>(item);
+        std::shared_ptr<ProjectClip> currentItem = nullptr;
+        if (item->itemType() == AbstractProjectItem::ClipItem) {
+            currentItem = std::static_pointer_cast<ProjectClip>(item);
+        } else if (item->itemType() == AbstractProjectItem::SubClipItem) {
+            currentItem = std::static_pointer_cast<ProjectSubClip>(item)->getMasterClip();
+        }
         if (currentItem) {
             emit openClip(std::shared_ptr<ProjectClip>());
             if (currentItem->clipType() == ClipType::Playlist) {
@@ -1037,7 +1042,12 @@ void Bin::slotLocateClip()
             continue;
         }
         std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
-        auto currentItem = std::static_pointer_cast<ProjectClip>(item);
+        std::shared_ptr<ProjectClip> currentItem = nullptr;
+        if (item->itemType() == AbstractProjectItem::ClipItem) {
+            currentItem = std::static_pointer_cast<ProjectClip>(item);
+        } else if (item->itemType() == AbstractProjectItem::SubClipItem) {
+            currentItem = std::static_pointer_cast<ProjectSubClip>(item)->getMasterClip();
+        }
         if (currentItem) {
             QUrl url = QUrl::fromLocalFile(currentItem->url()).adjusted(QUrl::RemoveFilename);
             bool exists = QFile(url.toLocalFile()).exists();
@@ -1062,26 +1072,34 @@ void Bin::slotDuplicateClip()
             continue;
         }
         std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
-        auto currentItem = std::static_pointer_cast<ProjectClip>(item);
-        if (currentItem) {
-            QDomDocument doc;
-            QDomElement xml = currentItem->toXml(doc);
-            if (!xml.isNull()) {
-                QString currentName = Xml::getXmlProperty(xml, QStringLiteral("kdenlive:clipname"));
-                if (currentName.isEmpty()) {
-                    QUrl url = QUrl::fromLocalFile(Xml::getXmlProperty(xml, QStringLiteral("resource")));
-                    if (url.isValid()) {
-                        currentName = url.fileName();
+        if (item->itemType() == AbstractProjectItem::ClipItem) {
+            auto currentItem = std::static_pointer_cast<ProjectClip>(item);
+            if (currentItem) {
+                QDomDocument doc;
+                QDomElement xml = currentItem->toXml(doc);
+                if (!xml.isNull()) {
+                    QString currentName = Xml::getXmlProperty(xml, QStringLiteral("kdenlive:clipname"));
+                    if (currentName.isEmpty()) {
+                        QUrl url = QUrl::fromLocalFile(Xml::getXmlProperty(xml, QStringLiteral("resource")));
+                        if (url.isValid()) {
+                            currentName = url.fileName();
+                        }
                     }
+                    if (!currentName.isEmpty()) {
+                        currentName.append(i18nc("append to clip name to indicate a copied idem", " (copy)"));
+                        Xml::setXmlProperty(xml, QStringLiteral("kdenlive:clipname"), currentName);
+                    }
+                    QString id;
+                    m_itemModel->requestAddBinClip(id, xml, item->parent()->clipId(), i18n("Duplicate clip"));
+                    selectClipById(id);
                 }
-                if (!currentName.isEmpty()) {
-                    currentName.append(i18nc("append to clip name to indicate a copied idem", " (copy)"));
-                    Xml::setXmlProperty(xml, QStringLiteral("kdenlive:clipname"), currentName);
-                }
-                QString id;
-                m_itemModel->requestAddBinClip(id, xml, item->parent()->clipId(), i18n("Duplicate clip"));
-                selectClipById(id);
             }
+        } else if (item->itemType() == AbstractProjectItem::SubClipItem) {
+            auto currentItem = std::static_pointer_cast<ProjectSubClip>(item);
+            QString id;
+            QPoint clipZone = currentItem->zone();
+            m_itemModel->requestAddBinSubClip(id, clipZone.x(), clipZone.y(), QString(), currentItem->getMasterClip()->clipId());
+            selectClipById(id);
         }
     }
 }
@@ -1452,6 +1470,7 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
     ClipType::ProducerType type = ClipType::Unknown;
     bool isFolder = false;
     bool isImported = false;
+    AbstractProjectItem::PROJECTITEMTYPE itemType;
     QString clipService;
     QString audioCodec;
     if (m_itemView) {
@@ -1459,11 +1478,10 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
         if (idx.isValid()) {
             // User right clicked on a clip
             std::shared_ptr<AbstractProjectItem> currentItem = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(idx));
+            itemType = currentItem->itemType();
             if (currentItem) {
                 enableClipActions = true;
-                if (currentItem->itemType() == AbstractProjectItem::FolderItem) {
-                    isFolder = true;
-                } else {
+                if (itemType == AbstractProjectItem::ClipItem) {
                     auto clip = std::static_pointer_cast<ProjectClip>(currentItem);
                     if (clip) {
                         m_proxyAction->blockSignals(true);
@@ -1508,6 +1526,7 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
                         }
                     }
                     m_proxyAction->blockSignals(false);
+                } else if (itemType == AbstractProjectItem::SubClipItem) {
                 }
             }
         }
@@ -1521,19 +1540,19 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
     m_editAction->setVisible(!isFolder);
     m_clipsActionsMenu->setEnabled(enableClipActions);
     m_extractAudioAction->setEnabled(enableClipActions);
-    m_openAction->setVisible(!isFolder);
-    m_reloadAction->setVisible(!isFolder);
-    m_duplicateAction->setVisible(!isFolder);
-    m_inTimelineAction->setVisible(!isFolder);
+    m_openAction->setVisible(itemType != AbstractProjectItem::FolderItem);
+    m_reloadAction->setVisible(itemType != AbstractProjectItem::FolderItem);
+    m_duplicateAction->setVisible(itemType != AbstractProjectItem::FolderItem);
+    m_inTimelineAction->setVisible(itemType != AbstractProjectItem::FolderItem);
     if (m_transcodeAction) {
         m_transcodeAction->setEnabled(enableClipActions);
-        m_transcodeAction->menuAction()->setVisible(!isFolder && clipService.contains(QStringLiteral("avformat")));
+        m_transcodeAction->menuAction()->setVisible(itemType != AbstractProjectItem::FolderItem && clipService.contains(QStringLiteral("avformat")));
     }
     m_clipsActionsMenu->menuAction()->setVisible(
-        !isFolder &&
+        itemType != AbstractProjectItem::FolderItem &&
         (clipService.contains(QStringLiteral("avformat")) || clipService.contains(QStringLiteral("xml")) || clipService.contains(QStringLiteral("consumer"))));
     m_extractAudioAction->menuAction()->setVisible(!isFolder && !audioCodec.isEmpty());
-    m_locateAction->setVisible(!isFolder && (isImported));
+    m_locateAction->setVisible(itemType != AbstractProjectItem::FolderItem && (isImported));
 
     // Show menu
     event->setAccepted(true);
@@ -1632,9 +1651,14 @@ void Bin::slotSwitchClipProperties()
     if (current.isValid()) {
         // User clicked in the icon, open clip properties
         std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(current));
-        auto clip = std::static_pointer_cast<ProjectClip>(item);
-        if (clip) {
-            slotSwitchClipProperties(clip);
+        std::shared_ptr<ProjectClip> currentItem = nullptr;
+        if (item->itemType() == AbstractProjectItem::ClipItem) {
+            currentItem = std::static_pointer_cast<ProjectClip>(item);
+        } else if (item->itemType() == AbstractProjectItem::SubClipItem) {
+            currentItem = std::static_pointer_cast<ProjectSubClip>(item)->getMasterClip();
+        }
+        if (currentItem) {
+            slotSwitchClipProperties(currentItem);
             return;
         }
     }
