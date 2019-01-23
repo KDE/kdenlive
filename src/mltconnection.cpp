@@ -102,7 +102,7 @@ void MltConnection::locateMeltAndProfilesPath(const QString &mltPath)
     }
     KdenliveSettings::setRendererpath(meltPath);
 
-    if (meltPath.isEmpty()) {
+    if (meltPath.isEmpty() && !qEnvironmentVariableIsSet("MLT_TESTS")) {
         // Cannot find the MLT melt renderer, ask for location
         QScopedPointer<KUrlRequesterDialog> getUrl(
             new KUrlRequesterDialog(QUrl(), i18n("Cannot find the melt program required for rendering (part of MLT)"), pCore->window()));
