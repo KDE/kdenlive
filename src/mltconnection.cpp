@@ -96,9 +96,9 @@ void MltConnection::locateMeltAndProfilesPath(const QString &mltPath)
     }
     if (!QFile::exists(meltPath)) {
         meltPath = QDir::cleanPath(profilePath + QStringLiteral("/../../../bin/melt")) + exeSuffix;
-    }
-    if (!QFile::exists(meltPath)) {
-        meltPath = QStandardPaths::findExecutable("melt");
+        if (!QFile::exists(meltPath)) {
+            meltPath = QStandardPaths::findExecutable("melt");
+        }
     }
     KdenliveSettings::setRendererpath(meltPath);
 
