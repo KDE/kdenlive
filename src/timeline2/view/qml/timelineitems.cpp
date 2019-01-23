@@ -7,6 +7,8 @@
 #include <QPalette>
 #include <QQuickPaintedItem>
 
+const QStringList chanelNames {"L","R","C","LFE","BL","BR"};
+
 class TimelineTriangle : public QQuickPaintedItem
 {
     Q_OBJECT
@@ -63,6 +65,7 @@ class TimelineWaveform : public QQuickPaintedItem
     Q_PROPERTY(int outPoint MEMBER m_outPoint NOTIFY outPointChanged)
     Q_PROPERTY(bool format MEMBER m_format NOTIFY propertyChanged)
     Q_PROPERTY(bool showItem MEMBER m_showItem)
+    Q_PROPERTY(bool isFirstChunk MEMBER m_firstChunk)
 
 public:
     TimelineWaveform()
@@ -89,8 +92,8 @@ public:
         if (!m_showItem) return;
         QVariantList data = m_audioLevels.toList();
         if (data.isEmpty()) return;
-
         const qreal indicesPrPixel = qreal(m_outPoint - m_inPoint) / width();
+        painter->setRenderHint(QPainter::Antialiasing, false);
         QPen pen = painter->pen();
         pen.setColor(m_color);
         pen.setWidthF(0.5);
@@ -119,15 +122,15 @@ public:
             path.lineTo(i, height());
             painter->drawPath(path);
         } else {
-            // Fill gradient
             double channelHeight = height() / (2 * m_channels);
-
+            QFont font = painter->font();
+            font.setPixelSize(channelHeight - 1);
+            painter->setFont(font);
             // Draw separate channels
             QMap<int, QPainterPath> positiveChannelPaths;
             QMap<int, QPainterPath> negativeChannelPaths;
             double i = 0;
             double increment = qMax(1., 1 / indicesPrPixel);
-            QLineF midLine(0, 0, width(), 0);
             QRectF bgRect(0, 0, width(), 2 * channelHeight);
             for (int channel = 0; channel < m_channels; channel++) {
                 double y = height() - (2 * channel * channelHeight) - channelHeight;
@@ -140,9 +143,9 @@ public:
                     painter->fillRect(bgRect, Qt::black);
                 }
                 // Draw channel median line
-                midLine.translate(0, y);
-                painter->drawLine(midLine);
+                painter->drawLine(QLineF(0., y, width(), y));
                 int lastIdx = -1;
+                painter->setOpacity(1);
                 for (i = 0; i <= width(); i += increment) {
                     int idx = m_inPoint + int(i * indicesPrPixel);
                     if (lastIdx == idx) {
@@ -150,11 +153,13 @@ public:
                     }
                     lastIdx = idx;
                     if (idx + channel >= data.length()) break;
-                    qreal level = data.at(idx + channel).toReal() / 256;
-                    positiveChannelPaths[channel].lineTo(i, y - level * channelHeight);
-                    negativeChannelPaths[channel].lineTo(i, y + level * channelHeight);
+                    qreal level = data.at(idx + channel).toReal() * channelHeight / 256;
+                    positiveChannelPaths[channel].lineTo(i, y - level);
+                    negativeChannelPaths[channel].lineTo(i, y + level);
                 }
-                painter->setOpacity(1);
+                if (m_firstChunk && m_channels < 7) {
+                    painter->drawText(2, y + channelHeight, chanelNames[channel]);
+                }
                 positiveChannelPaths[channel].lineTo(i, y);
                 negativeChannelPaths[channel].lineTo(i, y);
                 painter->drawPath(positiveChannelPaths.value(channel));
@@ -178,6 +183,7 @@ private:
     QLinearGradient m_gradient;
     bool m_showItem;
     int m_channels;
+    bool m_firstChunk;
 };
 
 void registerTimelineItems()

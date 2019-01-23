@@ -43,6 +43,7 @@ Row {
             width: Math.min(waveform.innerWidth, waveform.maxWidth)
             height: waveform.height
             channels: clipRoot.audioChannels
+            isFirstChunk: index == 0
             showItem: waveform.visible && (index * width) < waveform.scrollEnd && (index * width + width) > waveform.scrollStart
             format: timeline.audioThumbFormat
             inPoint: Math.round((clipRoot.inPoint + (index * waveform.maxWidth / clipRoot.timeScale)) * clipRoot.speed) * channels
