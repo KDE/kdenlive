@@ -15,6 +15,7 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
     app.setApplicationName(QStringLiteral("kdenlive"));
     std::unique_ptr<Mlt::Repository> repo(Mlt::Factory::init(nullptr));
+    qputenv("MLT_TESTS", QByteArray("1"));
     Core::build();
     // if Kdenlive is not installed, ensure we have one keyframable effect
     EffectsRepository::get()->reloadCustom(QFileInfo("../data/effects/audiobalance.xml").absoluteFilePath());
