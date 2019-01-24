@@ -144,8 +144,6 @@ void ColorPickerWidget::mousePressEvent(QMouseEvent *event)
         m_grabRectFrame->setGeometry(m_grabRect);
         m_grabRectFrame->show();
     }
-
-    QWidget::mousePressEvent(event);
 }
 
 void ColorPickerWidget::mouseReleaseEvent(QMouseEvent *event)
@@ -178,7 +176,6 @@ void ColorPickerWidget::mouseMoveEvent(QMouseEvent *event)
         m_grabRect.setHeight(event->globalY() - m_grabRect.y());
         m_grabRectFrame->setGeometry(m_grabRect.normalized());
     }
-    QWidget::mouseMoveEvent(event);
 }
 
 void ColorPickerWidget::slotSetupEventFilter()

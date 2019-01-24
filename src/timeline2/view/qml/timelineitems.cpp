@@ -157,7 +157,7 @@ public:
                     positiveChannelPaths[channel].lineTo(i, y - level);
                     negativeChannelPaths[channel].lineTo(i, y + level);
                 }
-                if (m_firstChunk && m_channels < 7) {
+                if (m_firstChunk && m_channels > 1 && m_channels < 7) {
                     painter->drawText(2, y + channelHeight, chanelNames[channel]);
                 }
                 positiveChannelPaths[channel].lineTo(i, y);
