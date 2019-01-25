@@ -132,7 +132,7 @@ template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInf
             res.description = metadata->get("description");
             res.author = metadata->get("creator");
             res.version_str = metadata->get("version");
-            res.version = metadata->get_double("version");
+            res.version = ceil(100 * metadata->get_double("version"));
             res.id = res.mltId = assetId;
             parseType(metadata, res);
             // Create params
@@ -290,7 +290,7 @@ template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInf
     // Check if there is a maximal version set
     if (currentAsset.hasAttribute(QStringLiteral("version"))) {
         // a specific version of the filter is required
-        if (locale.toDouble(currentAsset.attribute(QStringLiteral("version"))) > m_assets.at(tag).version) {
+        if (m_assets.at(tag).version < (int)(100 * currentAsset.attribute(QStringLiteral("version")).toDouble())) {
             return false;
         }
     }

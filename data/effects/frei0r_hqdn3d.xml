@@ -3,13 +3,11 @@
         <name>Denoiser</name>
         <description>High quality 3D denoiser</description>
         <author>Marko Cebokli, Daniel Moreno</author>
-        
-        <parameter type="simplekeyframe" name="Spatial" default="40" min="0" max="1000" factor="1000">
+        <parameter type="simplekeyframe" name="Spatial" default="0.004" min="0" max="1000" factor="1000">
             <name>Spatial</name>
             <comment>Amount of spatial filtering</comment>
         </parameter>
-        
-        <parameter type="simplekeyframe" name="Temporal" default="60" min="0" max="1000" factor="1000">
+        <parameter type="simplekeyframe" name="Temporal" default="0.006" min="0" max="1000" factor="1000">
             <name>Temporal</name>
             <comment>Amount of temporal filtering</comment>
         </parameter>

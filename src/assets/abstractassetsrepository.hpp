@@ -69,7 +69,7 @@ protected:
         QString id;    // identifier of the asset
         QString mltId; //"tag" of the asset, that is the name of the mlt service
         QString name, description, author, version_str;
-        double version;
+        int version;
         QDomElement xml;
         AssetType type;
     };
