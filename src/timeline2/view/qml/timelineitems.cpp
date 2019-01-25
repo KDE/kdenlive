@@ -58,7 +58,7 @@ private:
 class TimelineWaveform : public QQuickPaintedItem
 {
     Q_OBJECT
-    Q_PROPERTY(QVariant levels MEMBER m_audioLevels NOTIFY propertyChanged)
+    Q_PROPERTY(QList<QVariant> levels MEMBER m_audioLevels NOTIFY propertyChanged)
     Q_PROPERTY(QColor fillColor MEMBER m_color NOTIFY propertyChanged)
     Q_PROPERTY(int inPoint MEMBER m_inPoint NOTIFY inPointChanged)
     Q_PROPERTY(int channels MEMBER m_channels NOTIFY audioChannelsChanged)
@@ -71,33 +71,21 @@ public:
     TimelineWaveform()
     {
         setAntialiasing(false);
-        setClip(true);
+        //setClip(true);
         setEnabled(false);
         setRenderTarget(QQuickPaintedItem::FramebufferObject);
         setMipmap(true);
         setTextureSize(QSize(width(), height()));
         connect(this, SIGNAL(propertyChanged()), this, SLOT(update()));
-        // Fill gradient
-        /*m_gradient.setStart(0, 0);
-        m_gradient.setFinalStop(0, height());
-        m_gradient.setColorAt(1, QColor(129, 233, 139));
-        m_gradient.setColorAt(0.4, QColor(129, 233, 139));
-        m_gradient.setColorAt(0.2, QColor(233, 215, 129));
-        m_gradient.setColorAt(0.1, QColor(255, 0, 0));
-        m_gradient.setSpread(QGradient::ReflectSpread);*/
     }
 
     void paint(QPainter *painter) override
     {
-        if (!m_showItem) return;
-        QVariantList data = m_audioLevels.toList();
-        if (data.isEmpty()) return;
+        if (!m_showItem || m_audioLevels.isEmpty()) return;
         const qreal indicesPrPixel = qreal(m_outPoint - m_inPoint) / width();
-        painter->setRenderHint(QPainter::Antialiasing, false);
         QPen pen = painter->pen();
         pen.setColor(m_color);
-        pen.setWidthF(0.5);
-        painter->setPen(pen);
+        pen.setWidthF(0);
         painter->setBrush(m_color);
         if (!KdenliveSettings::displayallchannels()) {
             // Draw merged channels
@@ -112,10 +100,10 @@ public:
                     continue;
                 }
                 lastIdx = idx;
-                if (idx + m_channels >= data.length()) break;
-                double level = data.at(idx).toDouble() / 256;
+                if (idx + m_channels >= m_audioLevels.length()) break;
+                double level = m_audioLevels.at(idx).toDouble() / 256;
                 for (int j = 1; j < m_channels; j++) {
-                    level = qMax(level, data.at(idx + j).toDouble() / 256);
+                    level = qMax(level, m_audioLevels.at(idx + j).toDouble() / 256);
                 }
                 path.lineTo(i, height() - level * height());
             }
@@ -143,17 +131,18 @@ public:
                     painter->fillRect(bgRect, Qt::black);
                 }
                 // Draw channel median line
+                painter->setPen(pen);
                 painter->drawLine(QLineF(0., y, width(), y));
-                int lastIdx = -1;
                 painter->setOpacity(1);
+                int lastIdx = -1;
                 for (i = 0; i <= width(); i += increment) {
                     int idx = m_inPoint + int(i * indicesPrPixel);
                     if (lastIdx == idx) {
                         continue;
                     }
                     lastIdx = idx;
-                    if (idx + channel >= data.length()) break;
-                    qreal level = data.at(idx + channel).toReal() * channelHeight / 256;
+                    if (idx + channel >= m_audioLevels.length()) break;
+                    qreal level = m_audioLevels.at(idx + channel).toReal() * channelHeight / 256;
                     positiveChannelPaths[channel].lineTo(i, y - level);
                     negativeChannelPaths[channel].lineTo(i, y + level);
                 }
@@ -162,6 +151,7 @@ public:
                 }
                 positiveChannelPaths[channel].lineTo(i, y);
                 negativeChannelPaths[channel].lineTo(i, y);
+                painter->setPen(Qt::NoPen);
                 painter->drawPath(positiveChannelPaths.value(channel));
                 painter->drawPath(negativeChannelPaths.value(channel));
             }
@@ -175,7 +165,7 @@ signals:
     void audioChannelsChanged();
 
 private:
-    QVariant m_audioLevels;
+    QList<QVariant> m_audioLevels;
     int m_inPoint;
     int m_outPoint;
     QColor m_color;
