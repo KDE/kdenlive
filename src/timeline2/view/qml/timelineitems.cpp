@@ -1,10 +1,31 @@
+/*
+Based on Shotcut, Copyright (c) 2015-2016 Meltytech, LLC
+Copyright (C) 2019  Jean-Baptiste Mardelle <jb@kdenlive.org>
+This file is part of Kdenlive. See www.kdenlive.org.
 
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation; either version 2 of
+the License or (at your option) version 3 or any later version
+accepted by the membership of KDE e.V. (or its successor approved
+by the membership of KDE e.V.), which shall act as a proxy
+defined in Section 14 of version 3 of the license.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
 #include "kdenlivesettings.h"
 #include <QPainter>
 #include <QPainterPath>
 #include <QPalette>
 #include <QQuickPaintedItem>
+#include <math.h>
 
 const QStringList chanelNames {"L","R","C","LFE","BL","BR"};
 
@@ -133,7 +154,7 @@ public:
                 painter->setOpacity(1);
                 int lastIdx = -1;
                 for (i = 0; i <= width(); i += increment) {
-                    int idx = m_inPoint + int(i * indicesPrPixel);
+                    int idx = m_inPoint + ceil(i * indicesPrPixel);
                     if (lastIdx == idx) {
                         continue;
                     }
@@ -148,9 +169,7 @@ public:
                 channelPaths[channel].lineTo(i, y);
                 painter->setPen(Qt::NoPen);
                 painter->drawPath(channelPaths.value(channel));
-                QTransform tr;
-                tr.scale(1, -1);
-                tr.translate(0, -2 * y);
+                QTransform tr(1, 0, 0, -1, 0, 2 * y);
                 painter->drawPath(tr.map(channelPaths.value(channel)));
             }
         }
