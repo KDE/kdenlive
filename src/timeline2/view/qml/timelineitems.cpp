@@ -1,7 +1,6 @@
 
 
 #include "kdenlivesettings.h"
-#include <QLinearGradient>
 #include <QPainter>
 #include <QPainterPath>
 #include <QPalette>
@@ -115,15 +114,13 @@ public:
             font.setPixelSize(channelHeight - 1);
             painter->setFont(font);
             // Draw separate channels
-            QMap<int, QPainterPath> positiveChannelPaths;
-            QMap<int, QPainterPath> negativeChannelPaths;
             double i = 0;
             double increment = qMax(1., 1 / indicesPrPixel);
             QRectF bgRect(0, 0, width(), 2 * channelHeight);
+            QVector<QPainterPath> channelPaths(m_channels);
             for (int channel = 0; channel < m_channels; channel++) {
                 double y = height() - (2 * channel * channelHeight) - channelHeight;
-                positiveChannelPaths[channel].moveTo(-1, y);
-                negativeChannelPaths[channel].moveTo(-1, y);
+                channelPaths[channel].moveTo(-1, y);
                 painter->setOpacity(0.2);
                 if (channel % 2 == 0) {
                     // Add dark background on odd channels
@@ -143,17 +140,18 @@ public:
                     lastIdx = idx;
                     if (idx + channel >= m_audioLevels.length()) break;
                     qreal level = m_audioLevels.at(idx + channel).toReal() * channelHeight / 256;
-                    positiveChannelPaths[channel].lineTo(i, y - level);
-                    negativeChannelPaths[channel].lineTo(i, y + level);
+                    channelPaths[channel].lineTo(i, y - level);
                 }
                 if (m_firstChunk && m_channels > 1 && m_channels < 7) {
                     painter->drawText(2, y + channelHeight, chanelNames[channel]);
                 }
-                positiveChannelPaths[channel].lineTo(i, y);
-                negativeChannelPaths[channel].lineTo(i, y);
+                channelPaths[channel].lineTo(i, y);
                 painter->setPen(Qt::NoPen);
-                painter->drawPath(positiveChannelPaths.value(channel));
-                painter->drawPath(negativeChannelPaths.value(channel));
+                painter->drawPath(channelPaths.value(channel));
+                QTransform tr;
+                tr.scale(1, -1);
+                tr.translate(0, -2 * y);
+                painter->drawPath(tr.map(channelPaths.value(channel)));
             }
         }
     }
@@ -170,7 +168,6 @@ private:
     int m_outPoint;
     QColor m_color;
     bool m_format;
-    QLinearGradient m_gradient;
     bool m_showItem;
     int m_channels;
     bool m_firstChunk;

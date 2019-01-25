@@ -18,7 +18,7 @@ Row {
 
     Timer {
         id: waveTimer
-        interval: 30; running: false; repeat: false
+        interval: 5; running: false; repeat: false
         onTriggered: processReload()
     }
 
