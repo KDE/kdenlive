@@ -1088,3 +1088,54 @@ std::shared_ptr<Mlt::Properties> KeyframeModel::getAnimation(const QString &anim
     (void)mlt_prop->anim_get_rect("key", 0, 0);
     return mlt_prop;
 }
+
+bool KeyframeModel::removeNextKeyframes(GenTime pos, Fun &undo, Fun &redo)
+{
+    QWriteLocker locker(&m_lock);
+    std::vector<GenTime> all_pos;
+    Fun local_undo = []() { return true; };
+    Fun local_redo = []() { return true; };
+    int firstPos = 0;
+    for (const auto &m : m_keyframeList) {
+        if (m.first <= pos) {
+            firstPos++;
+            continue;
+        }
+        all_pos.push_back(m.first);
+    }
+    int kfrCount = (int)all_pos.size();
+    // we trigger only one global remove/insertrow event
+    Fun update_redo_start = [this, firstPos, kfrCount]() {
+        beginRemoveRows(QModelIndex(), firstPos, kfrCount);
+        return true;
+    };
+    Fun update_redo_end = [this]() {
+        endRemoveRows();
+        return true;
+    };
+    Fun update_undo_start = [this, firstPos, kfrCount]() {
+        beginInsertRows(QModelIndex(), firstPos, kfrCount);
+        return true;
+    };
+    Fun update_undo_end = [this]() {
+        endInsertRows();
+        return true;
+    };
+    PUSH_LAMBDA(update_redo_start, local_redo);
+    PUSH_LAMBDA(update_undo_start, local_undo);
+    update_redo_start();
+    bool res = true;
+    for (const auto &p : all_pos) {
+        res = removeKeyframe(p, local_undo, local_redo, false);
+        if (!res) {
+            bool undone = local_undo();
+            Q_ASSERT(undone);
+            return false;
+        }
+    }
+    update_redo_end();
+    PUSH_LAMBDA(update_redo_end, local_redo);
+    PUSH_LAMBDA(update_undo_end, local_undo);
+    UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
+    return true;
+}

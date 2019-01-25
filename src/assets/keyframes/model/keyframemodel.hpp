@@ -42,7 +42,7 @@ class EffectItemModel;
    We store them in a sorted fashion using a std::map
  */
 
-enum class KeyframeType { Linear = 0, Discrete, Curve };
+enum class KeyframeType { Linear = mlt_keyframe_linear, Discrete = mlt_keyframe_discrete, Curve = mlt_keyframe_smooth };
 Q_DECLARE_METATYPE(KeyframeType)
 using Keyframe = std::pair<GenTime, KeyframeType>;
 
@@ -84,6 +84,7 @@ protected:
     /* @brief Delete all the keyframes of the model */
     bool removeAllKeyframes();
     bool removeAllKeyframes(Fun &undo, Fun &redo);
+    bool removeNextKeyframes(GenTime pos, Fun &undo, Fun &redo);
 
 protected:
     /* @brief Same function but accumulates undo/redo */

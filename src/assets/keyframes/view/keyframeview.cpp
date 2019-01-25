@@ -37,7 +37,6 @@ KeyframeView::KeyframeView(std::shared_ptr<KeyframeModelList> model, int duratio
     , m_currentKeyframeOriginal(-1)
     , m_hoverKeyframe(-1)
     , m_scale(1)
-    , m_currentType(KeyframeType::Linear)
 {
     setMouseTracking(true);
     setMinimumSize(QSize(150, 20));
@@ -88,7 +87,7 @@ void KeyframeView::slotAddKeyframe(int pos)
         pos = m_position;
     }
     int offset = pCore->getItemIn(m_model->getOwnerId());
-    m_model->addKeyframe(GenTime(pos + offset, pCore->getCurrentFps()), m_currentType);
+    m_model->addKeyframe(GenTime(pos + offset, pCore->getCurrentFps()), (KeyframeType) KdenliveSettings::defaultkeyframeinterp());
 }
 
 void KeyframeView::slotAddRemove()
@@ -256,7 +255,7 @@ void KeyframeView::mouseDoubleClickEvent(QMouseEvent *event)
         }
 
         // add new keyframe
-        m_model->addKeyframe(position, m_currentType);
+        m_model->addKeyframe(position, (KeyframeType) KdenliveSettings::defaultkeyframeinterp());
     } else {
         QWidget::mouseDoubleClickEvent(event);
     }

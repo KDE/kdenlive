@@ -67,6 +67,8 @@ public:
     bool removeKeyframe(GenTime pos);
     /* @brief Delete all the keyframes of the model (except first) */
     bool removeAllKeyframes();
+    /* @brief Delete all the keyframes after a certain position (except first) */
+    bool removeNextKeyframes(GenTime pos);
 
     /* @brief moves a keyframe
        @param oldPos is the old position of the keyframe

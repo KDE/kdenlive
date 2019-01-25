@@ -26,6 +26,7 @@
 #include "doc/docundostack.hpp"
 #include "keyframemodel.hpp"
 #include "klocalizedstring.h"
+#include <kdenlivesettings.h>
 #include "macros.hpp"
 
 #include <QDebug>
@@ -93,16 +94,15 @@ bool KeyframeModelList::addKeyframe(int frame, double val)
     QWriteLocker locker(&m_lock);
     GenTime pos(frame, pCore->getCurrentFps());
     Q_ASSERT(m_parameters.size() > 0);
-    KeyframeType type = keyframeType(GenTime());
     bool update = (m_parameters.begin()->second->hasKeyframe(pos) > 0);
-    auto op = [this, pos, frame, type, val](std::shared_ptr<KeyframeModel> param, Fun &undo, Fun &redo) {
+    auto op = [this, pos, frame, val](std::shared_ptr<KeyframeModel> param, Fun &undo, Fun &redo) {
         QVariant value;
         if (m_parameters.begin()->second == param) {
             value = param->getNormalizedValue(val);
         } else {
             value = param->getInterpolatedValue(pos);
         }
-        return param->addKeyframe(pos, type, value, true, undo, redo);
+        return param->addKeyframe(pos, (KeyframeType)KdenliveSettings::defaultkeyframeinterp(), value, true, undo, redo);
     };
     return applyOperation(op, update ? i18n("Change keyframe type") : i18n("Add keyframe"));
 }
@@ -121,6 +121,14 @@ bool KeyframeModelList::removeAllKeyframes()
     Q_ASSERT(m_parameters.size() > 0);
     auto op = [](std::shared_ptr<KeyframeModel> param, Fun &undo, Fun &redo) { return param->removeAllKeyframes(undo, redo); };
     return applyOperation(op, i18n("Delete all keyframes"));
+}
+
+bool KeyframeModelList::removeNextKeyframes(GenTime pos)
+{
+    QWriteLocker locker(&m_lock);
+    Q_ASSERT(m_parameters.size() > 0);
+    auto op = [pos](std::shared_ptr<KeyframeModel> param, Fun &undo, Fun &redo) { return param->removeNextKeyframes(pos, undo, redo); };
+    return applyOperation(op, i18n("Delete keyframes"));
 }
 
 bool KeyframeModelList::moveKeyframe(GenTime oldPos, GenTime pos, bool logUndo)

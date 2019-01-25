@@ -75,7 +75,6 @@ private:
     int m_lineHeight;
     double m_scale;
     int m_size;
-    KeyframeType m_currentType;
 
     QColor m_colSelected;
     QColor m_colKeyframe;

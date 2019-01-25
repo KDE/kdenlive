@@ -29,6 +29,7 @@
 #include "monitor/monitor.h"
 #include "timecode.h"
 #include "timecodedisplay.h"
+#include "kdenlivesettings.h"
 
 #include "widgets/doublewidget.h"
 #include "widgets/geometrywidget.h"
@@ -111,9 +112,40 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     connect(copy, &QAction::triggered, this, &KeyframeWidget::slotCopyKeyframes);
     QAction *paste = new QAction(i18n("Import keyframes from clipboard"), this);
     connect(paste, &QAction::triggered, this, &KeyframeWidget::slotImportKeyframes);
+    QAction *removeNext = new QAction(i18n("Remove all keyframes after cursor"), this);
+    connect(removeNext, &QAction::triggered, this, &KeyframeWidget::slotRemoveNextKeyframes);
+    KSelectAction *kfType = new KSelectAction(i18n("Default keyframe type"), this);
+    QAction *discrete2 = new QAction(QIcon::fromTheme(QStringLiteral("discrete")), i18n("Discrete"), this);
+    discrete2->setData((int)mlt_keyframe_discrete);
+    discrete2->setCheckable(true);
+    kfType->addAction(discrete2);
+    QAction *linear2 = new QAction(QIcon::fromTheme(QStringLiteral("linear")), i18n("Linear"), this);
+    linear2->setData((int)mlt_keyframe_linear);
+    linear2->setCheckable(true);
+    kfType->addAction(linear2);
+    QAction *curve2 = new QAction(QIcon::fromTheme(QStringLiteral("smooth")), i18n("Smooth"), this);
+    curve2->setData((int)mlt_keyframe_smooth);
+    curve2->setCheckable(true);
+    kfType->addAction(curve2);
+    switch (KdenliveSettings::defaultkeyframeinterp()) {
+    case mlt_keyframe_discrete:
+        kfType->setCurrentAction(discrete2);
+        break;
+    case mlt_keyframe_smooth:
+        kfType->setCurrentAction(curve2);
+        break;
+    default:
+        kfType->setCurrentAction(linear2);
+        break;
+    }
+    connect(kfType, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), [&](QAction *ac) {
+        KdenliveSettings::setDefaultkeyframeinterp(ac->data().toInt());
+    });
     auto *container = new QMenu(this);
     container->addAction(copy);
     container->addAction(paste);
+    container->addAction(kfType);
+    container->addAction(removeNext);
 
     // Menu toolbutton
     auto *menuButton = new QToolButton(this);
@@ -176,7 +208,14 @@ void KeyframeWidget::slotRefreshParams()
 {
     int pos = getPosition();
     KeyframeType keyType = m_keyframes->keyframeType(GenTime(pos, pCore->getCurrentFps()));
-    m_selectType->setCurrentItem((int)keyType);
+    int i = 0;
+    while (auto ac = m_selectType->action(i)) {
+        if (ac->data().toInt() == (int) keyType) {
+            m_selectType->setCurrentItem(i);
+            break;
+        }
+        i++;
+    }
     for (const auto &w : m_parameters) {
         ParamType type = m_model->data(w.first, AssetParameterModel::TypeRole).value<ParamType>();
         if (type == ParamType::KeyframeParam) {
@@ -478,4 +517,10 @@ void KeyframeWidget::slotImportKeyframes()
     qDebug()<<"//// UPDATING KEYFRAMES CORE . ..  .DONE ---------";
     //emit importKeyframes(type, tag, keyframeData);
     delete import;
+}
+
+
+void KeyframeWidget::slotRemoveNextKeyframes()
+{
+    m_keyframes->removeNextKeyframes(GenTime(m_time->getValue(), pCore->getCurrentFps()));
 }

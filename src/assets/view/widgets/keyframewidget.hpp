@@ -80,6 +80,7 @@ private slots:
     void slotUpdateKeyframesFromMonitor(QPersistentModelIndex index, const QVariant &res);
     void slotCopyKeyframes();
     void slotImportKeyframes();
+    void slotRemoveNextKeyframes();
 
 private:
     QVBoxLayout *m_lay;

@@ -139,8 +139,8 @@ Rectangle
                 width: root.baseUnit
                 height: width
                 radius: width / 2
-                color: Qt.rgba(1,0,0, 0.4)
-                border.color: keyframeContainer.activeFrame == keyframe.frame ? 'black' : kf1MouseArea.containsMouse ? 'blue' : 'transparent'
+                color: keyframeContainer.activeFrame == keyframe.frame ? 'red' : kf1MouseArea.containsMouse || kf1MouseArea.pressed ? root.textColor : root.videoColor
+                border.color: kf1MouseArea.containsMouse || kf1MouseArea.pressed ? activePalette.highlight : root.textColor
                 MouseArea {
                     id: kf1MouseArea
                     anchors.fill: parent
@@ -232,9 +232,9 @@ Rectangle
             var ypos
             for(var i = 0; i < keyframes.count; i++)
             {
-                var type = keyframes.itemAt(i).frameType
+                var type = i > 0 ? keyframes.itemAt(i-1).frameType : keyframes.itemAt(i).frameType
                 xpos = keyframes.itemAt(i).tmpPos
-                if (type == 1) {
+                if (type == 0) {
                     // discrete
                     paths.push(compline.createObject(keyframecanvas, {"x": xpos, "y": ypos} ))
                 }
