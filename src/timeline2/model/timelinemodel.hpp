@@ -120,7 +120,6 @@ public:
         NameRole = Qt::UserRole + 1,
         ResourceRole, /// clip only
         ServiceRole,  /// clip only
-        IsBlankRole,  /// clip only
         StartRole,    /// clip only
         BinIdRole,    /// clip only
         TrackIdRole,
@@ -150,7 +149,6 @@ public:
         TrackTagRole,      /// track only
         FadeInRole,        /// clip only
         FadeOutRole,       /// clip only
-        IsCompositionRole, /// clip only
         FileHashRole,      /// clip only
         SpeedRole,         /// clip only
         ReloadThumbRole,   /// clip only

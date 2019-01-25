@@ -18,11 +18,12 @@
 
 import QtQuick 2.6
 import QtQml.Models 2.2
+import com.enums 1.0
 
 Column{
     id: trackRoot
     property alias trackModel: trackModel.model
-    property alias trackRootIndex: trackModel.rootIndex
+    property alias rootIndex : trackModel.rootIndex
     property bool isAudio
     property bool isMute
     property bool isHidden
@@ -31,6 +32,7 @@ Column{
     property bool isLocked: false
     property int trackInternalId : -42
     property int trackThumbsFormat
+    property var itemType: 0
     height: parent.height
 
     /*function redrawWaveforms() {
@@ -42,194 +44,203 @@ Column{
         return repeater.itemAt(index)
     }
 
+    function isClip(type) {
+        return type != ProducerType.Composition && type != ProducerType.Track;
+    }
+
     width: clipRow.width
 
     DelegateModel {
         id: trackModel
-        delegate: Item{
+        delegate: Item {
             property var itemModel : model
-            z: model.isComposition ? 5 : 0
+            z: model.clipType == ProducerType.Composition ? 5 : 0
             Loader {
                 id: loader
                 Binding {
                     target: loader.item
                     property: "timeScale"
                     value: trackRoot.timeScale
-                    when: loader.status == Loader.Ready
+                    when: loader.status == Loader.Ready && loader.item
                 }
                 Binding {
                     target: loader.item
                     property: "fakeTid"
                     value: model.fakeTrackId
-                    when: loader.status == Loader.Ready
+                    when: loader.status == Loader.Ready && loader.item
                 }
                 Binding {
                     target: loader.item
                     property: "fakePosition"
                     value: model.fakePosition
-                    when: loader.status == Loader.Ready
+                    when: loader.status == Loader.Ready && loader.item
                 }
                 Binding {
                     target: loader.item
                     property: "selected"
-                    value: root.timelineSelection.indexOf(loader.item.clipId) !== -1
-                    when: loader.status == Loader.Ready
+                    value: loader.item ? root.timelineSelection.indexOf(loader.item.clipId) !== -1 : false
+                    when: loader.status == Loader.Ready && model.clipType != ProducerType.Track
                 }
                 Binding {
                     target: loader.item
                     property: "mltService"
                     value: model.mlt_service
-                    when: loader.status == Loader.Ready
+                    when: loader.status == Loader.Ready && loader.item
                 }
                 Binding {
                     target: loader.item
                     property: "modelStart"
                     value: model.start
-                    when: loader.status == Loader.Ready
+                    when: loader.status == Loader.Ready && loader.item
                 }
                 Binding {
                     target: loader.item
                     property: "scrollX"
                     value: scrollView.flickableItem.contentX
-                    when: loader.status == Loader.Ready
+                    when: loader.status == Loader.Ready && loader.item
                 }
                 Binding {
                     target: loader.item
                     property: "fadeIn"
                     value: model.fadeIn
-                    when: loader.status == Loader.Ready && !loader.item.isComposition
+                    when: loader.status == Loader.Ready && isClip(model.clipType)
                 }
                 Binding {
                     target: loader.item
                     property: "effectNames"
                     value: model.effectNames
-                    when: loader.status == Loader.Ready && !loader.item.isComposition
+                    when: loader.status == Loader.Ready && isClip(model.clipType)
                 }
                 Binding {
                     target: loader.item
                     property: "clipStatus"
                     value: model.clipStatus
-                    when: loader.status == Loader.Ready && !loader.item.isComposition
+                    when: loader.status == Loader.Ready && isClip(model.clipType)
                 }
                 Binding {
                     target: loader.item
                     property: "fadeOut"
                     value: model.fadeOut
-                    when: loader.status == Loader.Ready && !loader.item.isComposition
+                    when: loader.status == Loader.Ready && isClip(model.clipType)
                 }
                 Binding {
                     target: loader.item
                     property: "audioLevels"
                     value: model.audioLevels
-                    when: loader.status == Loader.Ready && !loader.item.isComposition
+                    when: loader.status == Loader.Ready && isClip(model.clipType)
                 }
                 Binding {
                     target: loader.item
                     property: "showKeyframes"
                     value: model.showKeyframes
-                    when: loader.status == Loader.Ready
+                    when: loader.status == Loader.Ready && loader.item
                 }
                 Binding {
                     target: loader.item
                     property: "isGrabbed"
                     value: model.isGrabbed
-                    when: loader.status == Loader.Ready
+                    when: loader.status == Loader.Ready && loader.item
                 }
                 Binding {
                     target: loader.item
                     property: "keyframeModel"
                     value: model.keyframeModel
-                    when: loader.status == Loader.Ready
+                    when: loader.status == Loader.Ready && loader.item
                 }
                 Binding {
                     target: loader.item
                     property: "aTrack"
                     value: model.a_track
-                    when: loader.status == Loader.Ready && loader.item.isComposition
+                    when: loader.status == Loader.Ready && loader.item.clipType == ProducerType.Composition
                 }
                 Binding {
                     target: loader.item
                     property: "trackHeight"
                     value: root.trackHeight
-                    when: loader.status == Loader.Ready && loader.item.isComposition
+                    when: loader.status == Loader.Ready && loader.item.clipType == ProducerType.Composition
                 }
                 Binding {
                     target: loader.item
                     property: "clipDuration"
                     value: model.duration
-                    when: loader.status == Loader.Ready
+                    when: loader.status == Loader.Ready && loader.item
                 }
                 Binding {
                     target: loader.item
                     property: "inPoint"
                     value: model.in
-                    when: loader.status == Loader.Ready
+                    when: loader.status == Loader.Ready && loader.item
                 }
                 Binding {
                     target: loader.item
                     property: "outPoint"
                     value: model.out
-                    when: loader.status == Loader.Ready
+                    when: loader.status == Loader.Ready && loader.item
                 }
                 Binding {
                     target: loader.item
                     property: "grouped"
                     value: model.grouped
-                    when: loader.status == Loader.Ready
+                    when: loader.status == Loader.Ready && loader.item
                 }
                 Binding {
                     target: loader.item
                     property: "clipName"
                     value: model.name
-                    when: loader.status == Loader.Ready
+                    when: loader.status == Loader.Ready && loader.item
                 }
                 Binding {
                     target: loader.item
                     property: "clipResource"
                     value: model.resource
-                    when: loader.status == Loader.Ready && !loader.item.isComposition
+                    when: loader.status == Loader.Ready && isClip(model.clipType)
                 }
                 Binding {
                     target: loader.item
                     property: "speed"
                     value: model.speed
-                    when: loader.status == Loader.Ready && !loader.item.isComposition
+                    when: loader.status == Loader.Ready && isClip(model.clipType)
                 }
                 Binding {
                     target: loader.item
                     property: "forceReloadThumb"
                     value: model.reloadThumb
-                    when: loader.status == Loader.Ready && !loader.item.isComposition
+                    when: loader.status == Loader.Ready && isClip(model.clipType)
                 }
                 Binding {
                     target: loader.item
                     property: "binId"
                     value: model.binId
-                    when: loader.status == Loader.Ready && !loader.item.isComposition
+                    when: loader.status == Loader.Ready && isClip(model.clipType)
                 }
                 sourceComponent: {
-                    if (model.isComposition) {
+                    if (isClip(model.clipType)) {
+                        return clipDelegate
+                    } else if (model.clipType == ProducerType.Composition) {
                         return compositionDelegate
                     } else {
-                        return clipDelegate
+                        // Track
+                        return undefined
                     }
                 }
                 onLoaded: {
                     item.clipId= model.item
                     item.parentTrack = trackRoot
-                    if (loader.item.isComposition === false) {
+                    if (isClip(model.clipType)) {
                         console.log('loaded clip: ', model.start, ', ID: ', model.item, ', index: ', trackRoot.DelegateModel.itemsIndex,', TYPE:', model.clipType)
                         item.isAudio= model.audio
                         item.markers= model.markers
                         item.hasAudio = model.hasAudio
                         item.canBeAudio = model.canBeAudio
                         item.canBeVideo = model.canBeVideo
-                        item.clipType = model.clipType
+                        item.itemType = model.clipType
                         item.audioChannels = model.audioChannels
                         //item.binId= model.binId
-                    } else {
+                    } else if (model.clipType == ProducerType.Composition) {
                         console.log('loaded composition: ', model.start, ', ID: ', model.item, ', index: ', trackRoot.DelegateModel.itemsIndex)
                         //item.aTrack = model.a_track
+                    } else {
+                        console.log('loaded unwanted element: ', model.item, ', index: ', trackRoot.DelegateModel.itemsIndex)
                     }
                     item.trackId = model.trackId
                     //item.selected= trackRoot.selection.indexOf(item.clipId) !== -1

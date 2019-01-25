@@ -235,6 +235,7 @@ public:
     Q_INVOKABLE void selectItems(QVariantList arg, int startFrame, int endFrame, bool addToSelect);
     /* @brief Returns true is item is selected as well as other items */
     Q_INVOKABLE bool isInSelection(int itemId);
+    Q_INVOKABLE bool exists(int itemId);
 
     Q_INVOKABLE int headerWidth() const;
     Q_INVOKABLE void setHeaderWidth(int width);

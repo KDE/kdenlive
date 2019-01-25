@@ -955,6 +955,7 @@ Rectangle {
                                 property bool shiftClick: false
                                 cursorShape: pressed ? Qt.ClosedHandCursor : Qt.OpenHandCursor
                                 onPressed: {
+                                    console.log('+++++++++++++++++++ DRAG CLICKED +++++++++++++')
                                     if (mouse.modifiers & Qt.ControlModifier) {
                                         mouse.accepted = false
                                         return
@@ -963,10 +964,12 @@ Rectangle {
                                     timeline.activeTrack = dragProxy.sourceTrack
                                     if (mouse.modifiers & Qt.ShiftModifier) {
                                         if (timeline.selection.indexOf(dragProxy.draggedItem) == -1) {
+                                            console.log('ADD SELECTION: ', dragProxy.draggedItem)
                                             timeline.addSelection(dragProxy.draggedItem)
                                         } else {
+                                            console.log('REMOVE SELECTION: ', dragProxy.draggedItem)
                                             timeline.removeSelection(dragProxy.draggedItem)
-                                            endDrag()
+                                            //endDrag()
                                             shiftClick = true
                                             return
                                         }
@@ -1018,9 +1021,6 @@ Rectangle {
                                             dragProxy.masterObject.originalX = dragProxy.masterObject.x
                                             dragProxy.masterObject.originalTrackId = dragProxy.masterObject.trackId
                                             dragProxy.masterObject.forceActiveFocus();
-                                            if (!dragProxy.masterObject.selected) {
-                                                dragProxy.masterObject.clicked(dragProxy.masterObject, mouse.modifiers == Qt.ShiftModifier)
-                                            }
                                         }
                                     } else {
                                         mouse.accepted = false
@@ -1233,7 +1233,7 @@ Rectangle {
         model: multitrack
         delegate: Track {
             trackModel: multitrack
-            trackRootIndex: trackDelegateModel.modelIndex(index)
+            rootIndex: trackDelegateModel.modelIndex(index)
             height: trackHeight
             timeScale: timeline.scaleFactor
             width: tracksContainerArea.width
@@ -1320,7 +1320,7 @@ Rectangle {
         onFrameFormatChanged: ruler.adjustFormat()
         onSelectionChanged: {
             //cornerstone.selected = timeline.isMultitrackSelected()
-            if (dragProxy.draggedItem > -1 && timeline.selection.indexOf(dragProxy.draggedItem) == -1) {
+            if (dragProxy.draggedItem > -1 && !timeline.exists(dragProxy.draggedItem)) {
                 endDrag()
             }
             var selectedTrack = timeline.selectedTrack()

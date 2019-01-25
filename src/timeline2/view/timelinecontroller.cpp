@@ -2278,6 +2278,11 @@ bool TimelineController::isInSelection(int itemId)
     return m_model->isInMultiSelection(itemId);
 }
 
+bool TimelineController::exists(int itemId)
+{
+    return m_model->isClip(itemId) || m_model->isComposition(itemId);
+}
+
 void TimelineController::slotMultitrackView(bool enable)
 {
     TimelineFunctions::enableMultitrackView(m_model, enable);

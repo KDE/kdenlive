@@ -40,7 +40,6 @@ Rectangle {
     property int clipDuration: 0
     property bool isAudio: false
     property int audioChannels
-    property bool isComposition: false
     property bool showKeyframes: false
     property bool isGrabbed: false
     property bool grouped: false
@@ -48,7 +47,7 @@ Rectangle {
     property var markers
     property var keyframeModel
     property var clipStatus: 0
-    property var clipType: 0
+    property var itemType: 0
     property int fadeIn: 0
     property int fadeOut: 0
     property int binId: 0
@@ -94,7 +93,7 @@ Rectangle {
     }
 
     onClipResourceChanged: {
-        if (clipType == ProducerType.Color) {
+        if (itemType == ProducerType.Color) {
             color: Qt.darker(getColor())
         }
     }
@@ -172,7 +171,7 @@ Rectangle {
         if (clipStatus == ClipState.Disabled) {
             return 'grey'
         }
-        if (clipType == ProducerType.Color) {
+        if (itemType == ProducerType.Color) {
             var color = clipResource.substring(clipResource.length - 9)
             if (color[0] == '#') {
                 return color
@@ -192,8 +191,8 @@ Rectangle {
         //generateWaveform()
     }
 */
-    property bool variableThumbs: (isAudio || clipType == ProducerType.Color || mltService === '')
-    property bool isImage: clipType == ProducerType.Image
+    property bool variableThumbs: (isAudio || itemType == ProducerType.Color || mltService === '')
+    property bool isImage: itemType == ProducerType.Image
     property string baseThumbPath: variableThumbs ? '' : 'image://thumbnail/' + binId + '/' + (isImage ? '#0' : '#')
     property string inThumbPath: (variableThumbs || isImage ) ? baseThumbPath : baseThumbPath + Math.floor(inPoint * speed)
     property string outThumbPath: (variableThumbs || isImage ) ? baseThumbPath : baseThumbPath + Math.floor(outPoint * speed)
@@ -286,7 +285,7 @@ Rectangle {
         Loader {
             id: thumbsLoader
             anchors.fill: parent
-            source: parentTrack.isAudio ? "ClipAudioThumbs.qml" : clipType == ProducerType.Color ? "" : "ClipThumbs.qml"
+            source: parentTrack.isAudio ? "ClipAudioThumbs.qml" : itemType == ProducerType.Color ? "" : "ClipThumbs.qml"
         }
 
         Rectangle {

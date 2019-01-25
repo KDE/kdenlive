@@ -201,7 +201,6 @@ QHash<int, QByteArray> TimelineItemModel::roleNames() const
     roles[IsLockedRole] = "locked";
     roles[FadeInRole] = "fadeIn";
     roles[FadeOutRole] = "fadeOut";
-    roles[IsCompositionRole] = "isComposition";
     roles[FileHashRole] = "hash";
     roles[SpeedRole] = "speed";
     roles[HeightRole] = "trackHeight";
@@ -309,8 +308,6 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             return clip->getIn();
         case OutPointRole:
             return clip->getOut();
-        case IsCompositionRole:
-            return false;
         case ShowKeyframesRole:
             return clip->showKeyframes();
         case FadeInRole:
@@ -333,6 +330,8 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
         case Qt::DisplayRole: {
             return getTrackById_const(id)->getProperty("kdenlive:track_name").toString();
         }
+        case TypeRole:
+            return QVariant::fromValue(ClipType::ProducerType::Track);
         case DurationRole:
             // qDebug() << "DATA yielding duration" << m_tractor->get_playtime();
             return getTrackById_const(id)->trackDuration();
@@ -365,9 +364,6 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
         case EffectsEnabledRole: {
             return getTrackById_const(id)->stackEnabled();
         }
-        case IsCompositionRole: {
-            return false;
-        }
         default:
             break;
         }
@@ -380,8 +376,8 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
         case ServiceRole:
             return compo->displayName();
             break;
-        case IsBlankRole: // probably useless
-            return false;
+        case TypeRole:
+            return QVariant::fromValue(ClipType::ProducerType::Composition);
         case StartRole:
             return compo->getPosition();
         case TrackIdRole:
@@ -407,8 +403,6 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             QVariantList markersList;
             return markersList;
         }
-        case IsCompositionRole:
-            return true;
         case GrabbedRole:
             return compo->isGrabbed();
         default:

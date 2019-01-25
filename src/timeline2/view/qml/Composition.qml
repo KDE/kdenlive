@@ -39,8 +39,8 @@ Item {
     property int outPoint: 0
     property int clipDuration: 0
     property bool isAudio: false
-    property bool isComposition: true
     property bool showKeyframes: false
+    property var itemType: 0
     property bool isGrabbed: false
     property var keyframeModel
     property bool grouped: false
@@ -61,7 +61,6 @@ Item {
     property color color: displayRect.color
     property color borderColor: 'black'
 
-    signal clicked(var clip, int shiftClick)
     signal moved(var clip)
     signal dragged(var clip, var mouse)
     signal dropped(var clip)
